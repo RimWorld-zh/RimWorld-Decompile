@@ -1,0 +1,161 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using UnityEngine;
+using Verse;
+
+namespace RimWorld
+{
+	public class PawnGroupKindWorker_Trader : PawnGroupKindWorker
+	{
+		public override float MinPointsToGenerateAnything(PawnGroupMaker groupMaker)
+		{
+			return 0f;
+		}
+
+		public override bool CanGenerateFrom(PawnGroupMakerParms parms, PawnGroupMaker groupMaker)
+		{
+			return base.CanGenerateFrom(parms, groupMaker) && groupMaker.traders.Any<PawnGenOption>() && (parms.tile == -1 || groupMaker.carriers.Any((PawnGenOption x) => Find.WorldGrid[parms.tile].biome.IsPackAnimalAllowed(x.kind.race)));
+		}
+
+		protected override void GeneratePawns(PawnGroupMakerParms parms, PawnGroupMaker groupMaker, List<Pawn> outPawns, bool errorOnZeroResults = true)
+		{
+			if (!this.CanGenerateFrom(parms, groupMaker))
+			{
+				if (errorOnZeroResults)
+				{
+					Log.Error("Cannot generate trader caravan for " + parms.faction + ".");
+				}
+				return;
+			}
+			if (!parms.faction.def.caravanTraderKinds.Any<TraderKindDef>())
+			{
+				Log.Error("Cannot generate trader caravan for " + parms.faction + " because it has no trader kinds.");
+				return;
+			}
+			PawnGenOption pawnGenOption = groupMaker.traders.FirstOrDefault((PawnGenOption x) => !x.kind.trader);
+			if (pawnGenOption != null)
+			{
+				Log.Error(string.Concat(new object[]
+				{
+					"Cannot generate arriving trader caravan for ",
+					parms.faction,
+					" because there is a pawn kind (",
+					pawnGenOption.kind.LabelCap,
+					") who is not a trader but is in a traders list."
+				}));
+				return;
+			}
+			PawnGenOption pawnGenOption2 = groupMaker.carriers.FirstOrDefault((PawnGenOption x) => !x.kind.RaceProps.packAnimal);
+			if (pawnGenOption2 != null)
+			{
+				Log.Error(string.Concat(new object[]
+				{
+					"Cannot generate arriving trader caravan for ",
+					parms.faction,
+					" because there is a pawn kind (",
+					pawnGenOption2.kind.LabelCap,
+					") who is not a carrier but is in a carriers list."
+				}));
+				return;
+			}
+			TraderKindDef arg_18A_0;
+			if (parms.traderKind != null)
+			{
+				arg_18A_0 = parms.traderKind;
+			}
+			else
+			{
+				arg_18A_0 = parms.faction.def.caravanTraderKinds.RandomElementByWeight((TraderKindDef traderDef) => traderDef.commonality);
+			}
+			TraderKindDef traderKindDef = arg_18A_0;
+			Pawn pawn = this.GenerateTrader(parms, groupMaker, traderKindDef);
+			outPawns.Add(pawn);
+			ItemCollectionGeneratorParams parms2 = default(ItemCollectionGeneratorParams);
+			parms2.traderDef = traderKindDef;
+			parms2.forTile = parms.tile;
+			parms2.forFaction = parms.faction;
+			List<Thing> wares = ItemCollectionGeneratorDefOf.TraderStock.Worker.Generate(parms2).InRandomOrder(null).ToList<Thing>();
+			foreach (Pawn current in this.GetSlavesAndAnimalsFromWares(parms, pawn, wares))
+			{
+				outPawns.Add(current);
+			}
+			this.GenerateCarriers(parms, groupMaker, pawn, wares, outPawns);
+			this.GenerateGuards(parms, groupMaker, pawn, wares, outPawns);
+		}
+
+		private Pawn GenerateTrader(PawnGroupMakerParms parms, PawnGroupMaker groupMaker, TraderKindDef traderKind)
+		{
+			int tile = parms.tile;
+			PawnGenerationRequest request = new PawnGenerationRequest(groupMaker.traders.RandomElementByWeight((PawnGenOption x) => (float)x.selectionWeight).kind, parms.faction, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, parms.inhabitants, false, null, null, null, null, null, null);
+			Pawn pawn = PawnGenerator.GeneratePawn(request);
+			pawn.mindState.wantsToTradeWithColony = true;
+			PawnComponentsUtility.AddAndRemoveDynamicComponents(pawn, true);
+			pawn.trader.traderKind = traderKind;
+			parms.points -= pawn.kindDef.combatPower;
+			return pawn;
+		}
+
+		private void GenerateCarriers(PawnGroupMakerParms parms, PawnGroupMaker groupMaker, Pawn trader, List<Thing> wares, List<Pawn> outPawns)
+		{
+			List<Thing> list = (from x in wares
+			where !(x is Pawn)
+			select x).ToList<Thing>();
+			int i = 0;
+			int num = Mathf.CeilToInt((float)list.Count / 8f);
+			PawnKindDef kind = (from x in groupMaker.carriers
+			where parms.tile == -1 || Find.WorldGrid[parms.tile].biome.IsPackAnimalAllowed(x.kind.race)
+			select x).RandomElementByWeight((PawnGenOption x) => (float)x.selectionWeight).kind;
+			List<Pawn> list2 = new List<Pawn>();
+			for (int j = 0; j < num; j++)
+			{
+				int tile = parms.tile;
+				PawnGenerationRequest request = new PawnGenerationRequest(kind, parms.faction, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, parms.inhabitants, false, null, null, null, null, null, null);
+				Pawn pawn = PawnGenerator.GeneratePawn(request);
+				if (i < list.Count)
+				{
+					pawn.inventory.innerContainer.TryAdd(list[i], true);
+					i++;
+				}
+				list2.Add(pawn);
+				outPawns.Add(pawn);
+			}
+			while (i < list.Count)
+			{
+				list2.RandomElement<Pawn>().inventory.innerContainer.TryAdd(list[i], true);
+				i++;
+			}
+		}
+
+		[DebuggerHidden]
+		private IEnumerable<Pawn> GetSlavesAndAnimalsFromWares(PawnGroupMakerParms parms, Pawn trader, List<Thing> wares)
+		{
+			PawnGroupKindWorker_Trader.<GetSlavesAndAnimalsFromWares>c__IteratorC7 <GetSlavesAndAnimalsFromWares>c__IteratorC = new PawnGroupKindWorker_Trader.<GetSlavesAndAnimalsFromWares>c__IteratorC7();
+			<GetSlavesAndAnimalsFromWares>c__IteratorC.wares = wares;
+			<GetSlavesAndAnimalsFromWares>c__IteratorC.parms = parms;
+			<GetSlavesAndAnimalsFromWares>c__IteratorC.<$>wares = wares;
+			<GetSlavesAndAnimalsFromWares>c__IteratorC.<$>parms = parms;
+			PawnGroupKindWorker_Trader.<GetSlavesAndAnimalsFromWares>c__IteratorC7 expr_23 = <GetSlavesAndAnimalsFromWares>c__IteratorC;
+			expr_23.$PC = -2;
+			return expr_23;
+		}
+
+		private void GenerateGuards(PawnGroupMakerParms parms, PawnGroupMaker groupMaker, Pawn trader, List<Thing> wares, List<Pawn> outPawns)
+		{
+			if (!groupMaker.guards.Any<PawnGenOption>())
+			{
+				return;
+			}
+			float points = parms.points;
+			foreach (PawnGenOption current in PawnGroupMakerUtility.ChoosePawnGenOptionsByPoints(points, groupMaker.guards, parms))
+			{
+				int tile = parms.tile;
+				bool inhabitants = parms.inhabitants;
+				PawnGenerationRequest request = new PawnGenerationRequest(current.kind, parms.faction, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, true, 1f, false, true, true, inhabitants, false, null, null, null, null, null, null);
+				Pawn item = PawnGenerator.GeneratePawn(request);
+				outPawns.Add(item);
+			}
+		}
+	}
+}
