@@ -147,6 +147,24 @@ namespace Verse.AI
 
 		public void StartJob(Job newJob, JobCondition lastJobEndCondition = JobCondition.None, ThinkNode jobGiver = null, bool resumeCurJobAfterwards = false, bool cancelBusyStances = true, ThinkTreeDef thinkTree = null, JobTag? tag = null)
 		{
+			if (!Find.TickManager.Paused || this.lastJobGivenAtFrame == RealTime.frameCount)
+			{
+				this.jobsGivenThisTick++;
+			}
+			this.lastJobGivenAtFrame = RealTime.frameCount;
+			if (this.jobsGivenThisTick > 10)
+			{
+				this.jobsGivenThisTick = 0;
+				this.StartErrorRecoverJob(string.Concat(new object[]
+				{
+					this.pawn,
+					" started 10 jobs in one tick. newJob=",
+					newJob,
+					" jobGiver=",
+					jobGiver
+				}));
+				return;
+			}
 			PawnPosture posture = this.pawn.GetPosture();
 			LayingDownState layingDown = (this.pawn.jobs == null || this.pawn.jobs.curDriver == null) ? LayingDownState.NotLaying : this.pawn.jobs.curDriver.layingDown;
 			if (this.debugLog)
@@ -341,17 +359,6 @@ namespace Verse.AI
 			}
 			ThinkTreeDef thinkTreeDef;
 			ThinkResult result = this.DetermineNextJob(out thinkTreeDef);
-			if (!Find.TickManager.Paused || this.lastJobGivenAtFrame == RealTime.frameCount)
-			{
-				this.jobsGivenThisTick++;
-			}
-			this.lastJobGivenAtFrame = RealTime.frameCount;
-			if (this.jobsGivenThisTick > 10)
-			{
-				this.jobsGivenThisTick = 0;
-				this.StartErrorRecoverJob(this.pawn + " started 10 jobs in one tick. thinkResult=" + result.ToString());
-				return;
-			}
 			if (result.IsValid)
 			{
 				this.CheckLeaveJoinableLordBecauseJobIssued(result);
@@ -432,7 +439,7 @@ namespace Verse.AI
 			return ThinkResult.NoJob;
 		}
 
-		private void StartErrorRecoverJob(string message)
+		public void StartErrorRecoverJob(string message)
 		{
 			string text = message + " lastJobGiver=" + this.pawn.mindState.lastJobGiver;
 			if (this.curJob != null)
@@ -448,7 +455,7 @@ namespace Verse.AI
 			{
 				this.EndCurrentJob(JobCondition.Errored, false);
 			}
-			this.StartJob(new Job(JobDefOf.Wait, 300, false), JobCondition.None, null, false, true, null, null);
+			this.StartJob(new Job(JobDefOf.Wait, 150, false), JobCondition.None, null, false, true, null, null);
 		}
 
 		private void CheckLeaveJoinableLordBecauseJobIssued(ThinkResult result)

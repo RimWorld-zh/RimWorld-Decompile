@@ -8,7 +8,7 @@ namespace RimWorld
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			ThoughtState result = base.CurrentStateInternal(p);
-			if (result.Active && p.GetRoom(RegionType.Set_Passable).Role == RoomRoleDefOf.PrisonCell)
+			if (result.Active && p.IsPrisoner && p.GetRoom(RegionType.Set_Passable).Role == RoomRoleDefOf.PrisonCell)
 			{
 				return result;
 			}

@@ -132,6 +132,7 @@ namespace RimWorld.Planet
 							caravanRequest.rewards.Remove(thing2);
 							CaravanInventoryUtility.GiveThing(caravan, thing2);
 						}
+						caravanRequest.Disable();
 					}, false, null));
 				}
 			};

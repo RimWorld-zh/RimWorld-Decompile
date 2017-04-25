@@ -48,5 +48,7 @@ namespace RimWorld
 		public static TraitDef TooSmart;
 
 		public static TraitDef Prosthophobe;
+
+		public static TraitDef NaturalMood;
 	}
 }

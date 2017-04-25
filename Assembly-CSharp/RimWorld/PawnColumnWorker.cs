@@ -7,6 +7,10 @@ namespace RimWorld
 {
 	public abstract class PawnColumnWorker
 	{
+		private const int DefaultCellHeight = 30;
+
+		private const int DefaultHeaderHeight = 30;
+
 		public PawnColumnDef def;
 
 		public abstract void DoHeader(Rect rect, List<Pawn> pawns);
@@ -26,6 +30,16 @@ namespace RimWorld
 		}
 
 		public abstract int GetMinHeaderWidth(List<Pawn> pawns);
+
+		public virtual int GetHeight(Pawn pawn)
+		{
+			return 30;
+		}
+
+		public virtual int GetHeaderHeight(List<Pawn> pawns)
+		{
+			return 30;
+		}
 
 		public int GetMinWidth(List<Pawn> pawns)
 		{

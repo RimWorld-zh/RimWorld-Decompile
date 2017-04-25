@@ -83,10 +83,11 @@ namespace Verse
 			if (this.verbs == null)
 			{
 				this.verbs = new List<Verb>();
-				for (int i = 0; i < this.directOwner.VerbProperties.Count; i++)
+				List<VerbProperties> verbProperties = this.directOwner.VerbProperties;
+				for (int i = 0; i < verbProperties.Count; i++)
 				{
-					VerbProperties verbProperties = this.directOwner.VerbProperties[i];
-					Verb verb = (Verb)Activator.CreateInstance(verbProperties.verbClass);
+					VerbProperties verbProperties2 = verbProperties[i];
+					Verb verb = (Verb)Activator.CreateInstance(verbProperties2.verbClass);
 					verb.loadID = Find.World.uniqueIDsManager.GetNextVerbID();
 					this.verbs.Add(verb);
 				}
@@ -101,6 +102,14 @@ namespace Verse
 				return;
 			}
 			List<VerbProperties> verbProperties = this.directOwner.VerbProperties;
+			if (this.verbs.Count != verbProperties.Count)
+			{
+				Log.Error("Verbs count is not equal to verb props count.");
+				while (this.verbs.Count > verbProperties.Count)
+				{
+					this.verbs.RemoveLast<Verb>();
+				}
+			}
 			for (int i = 0; i < this.verbs.Count; i++)
 			{
 				Verb verb = this.verbs[i];

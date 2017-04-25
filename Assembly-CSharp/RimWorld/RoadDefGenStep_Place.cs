@@ -21,13 +21,21 @@ namespace RimWorld
 				{
 					Log.ErrorOnce("Proximity spacing used for road terrain placement; not yet supported", 60936625);
 				}
-				TerrainDef terrainDef = this.place as TerrainDef;
-				if (terrainDef == TerrainDefOf.FlagstoneSandstone)
+				TerrainDef terrainDef = map.terrainGrid.TerrainAt(position);
+				if (terrainDef.HasTag("Road") && !terrainDef.Removable)
 				{
-					terrainDef = rockDef;
+					map.terrainGrid.SetTerrain(position, TerrainDefOf.Gravel);
 				}
-				map.terrainGrid.SetTerrain(position, terrainDef);
-				map.roadInfo.roadEdgeTiles.Add(position);
+				TerrainDef terrainDef2 = this.place as TerrainDef;
+				if (terrainDef2 == TerrainDefOf.FlagstoneSandstone)
+				{
+					terrainDef2 = rockDef;
+				}
+				map.terrainGrid.SetTerrain(position, terrainDef2);
+				if (position.OnEdge(map))
+				{
+					map.roadInfo.roadEdgeTiles.Add(position);
+				}
 			}
 			else if (this.place is ThingDef)
 			{

@@ -56,6 +56,11 @@ namespace RimWorld
 				{
 					return transferableOneWay;
 				}
+				transferableOneWay = this.Transferables.Find((TransferableOneWay x) => x.ThingDef == toHaul.def);
+				if (transferableOneWay != null)
+				{
+					return transferableOneWay;
+				}
 				throw new InvalidOperationException("Could not find any matching transferable.");
 			}
 		}

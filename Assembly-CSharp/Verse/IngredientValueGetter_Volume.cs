@@ -16,7 +16,7 @@ namespace Verse
 
 		public override string BillRequirementsDescription(RecipeDef r, IngredientCount ing)
 		{
-			if (ing.filter.AllowedThingDefs.Any((ThingDef td) => td.smallVolume && !r.GetPremultipliedSmallIngredients().Contains(td)))
+			if (!ing.filter.AllowedThingDefs.Any((ThingDef td) => td.smallVolume) || ing.filter.AllowedThingDefs.Any((ThingDef td) => td.smallVolume && !r.GetPremultipliedSmallIngredients().Contains(td)))
 			{
 				return "BillRequires".Translate(new object[]
 				{

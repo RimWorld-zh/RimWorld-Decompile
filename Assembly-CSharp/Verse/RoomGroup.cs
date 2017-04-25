@@ -69,7 +69,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.AnyRoomTouchesMapEdge || this.OpenRoofCount > Mathf.CeilToInt((float)this.CellCount * 0.25f);
+				return this.AnyRoomTouchesMapEdge || this.OpenRoofCount >= Mathf.CeilToInt((float)this.CellCount * 0.25f);
 			}
 		}
 

@@ -134,6 +134,10 @@ namespace Verse.AI
 				{
 					return;
 				}
+				if (curJob.count <= 0)
+				{
+					return;
+				}
 				if (actor.carryTracker.CarriedThing == null)
 				{
 					Log.Error("JumpToAlsoCollectTargetInQueue run on " + actor + " who is not carrying something.");

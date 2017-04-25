@@ -51,6 +51,11 @@ namespace RimWorld.Planet
 			return this.rewards;
 		}
 
+		public void Disable()
+		{
+			this.expiration = -1;
+		}
+
 		public override void PostExposeData()
 		{
 			base.PostExposeData();

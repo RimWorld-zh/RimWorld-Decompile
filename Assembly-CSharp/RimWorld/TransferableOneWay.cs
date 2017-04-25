@@ -20,7 +20,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.AnyThing.def;
+				return (!this.HasAnyThing) ? null : this.AnyThing.def;
 			}
 		}
 

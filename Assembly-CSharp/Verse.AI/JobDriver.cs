@@ -279,16 +279,15 @@ namespace Verse.AI
 			}
 			catch (Exception ex)
 			{
-				Log.Error(string.Concat(new object[]
+				this.pawn.jobs.StartErrorRecoverJob(string.Concat(new object[]
 				{
 					"Exception in SetupToils (pawn=",
 					this.pawn,
 					", job=",
 					this.CurJob,
 					"): ",
-					ex.ToString()
+					ex
 				}));
-				this.EndJobWith(JobCondition.Errored);
 			}
 		}
 
@@ -364,7 +363,7 @@ namespace Verse.AI
 			}
 			catch (Exception ex)
 			{
-				Log.Error(string.Concat(new object[]
+				this.pawn.jobs.StartErrorRecoverJob(string.Concat(new object[]
 				{
 					"Exception in Tick (pawn=",
 					this.pawn,
@@ -373,9 +372,8 @@ namespace Verse.AI
 					", CurToil=",
 					this.curToilIndex,
 					"): ",
-					ex.ToString()
+					ex
 				}));
-				this.EndJobWith(JobCondition.Errored);
 			}
 		}
 
@@ -443,16 +441,15 @@ namespace Verse.AI
 						}
 						catch (Exception ex)
 						{
-							Log.Error(string.Concat(new object[]
+							this.pawn.jobs.StartErrorRecoverJob(string.Concat(new object[]
 							{
 								"JobDriver threw exception in initAction. Pawn=",
 								this.pawn,
 								", Job=",
 								this.CurJob,
 								", Exception: ",
-								ex.ToString()
+								ex
 							}));
-							this.EndJobWith(JobCondition.Errored);
 							return;
 						}
 					}
