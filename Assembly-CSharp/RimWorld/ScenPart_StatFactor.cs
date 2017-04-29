@@ -85,8 +85,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<StatDef> RandomizableStats()
 		{
-			ScenPart_StatFactor.<RandomizableStats>c__Iterator11D <RandomizableStats>c__Iterator11D = new ScenPart_StatFactor.<RandomizableStats>c__Iterator11D();
-			ScenPart_StatFactor.<RandomizableStats>c__Iterator11D expr_07 = <RandomizableStats>c__Iterator11D;
+			ScenPart_StatFactor.<RandomizableStats>c__Iterator11E <RandomizableStats>c__Iterator11E = new ScenPart_StatFactor.<RandomizableStats>c__Iterator11E();
+			ScenPart_StatFactor.<RandomizableStats>c__Iterator11E expr_07 = <RandomizableStats>c__Iterator11E;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

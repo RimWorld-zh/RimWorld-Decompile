@@ -85,12 +85,19 @@ namespace Verse
 		{
 			get
 			{
+				GenDraw.TargetSquareMatSingle.color = GenDraw.CurTargetingColor;
+				return GenDraw.TargetSquareMatSingle;
+			}
+		}
+
+		public static Color CurTargetingColor
+		{
+			get
+			{
 				float num = (float)Math.Sin((double)(Time.time * 8f));
 				num *= 0.2f;
 				num += 0.8f;
-				Color color = new Color(1f, num, num);
-				GenDraw.TargetSquareMatSingle.color = color;
-				return GenDraw.TargetSquareMatSingle;
+				return new Color(1f, num, num);
 			}
 		}
 

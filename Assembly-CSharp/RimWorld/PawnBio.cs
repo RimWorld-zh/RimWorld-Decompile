@@ -64,9 +64,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors()
 		{
-			PawnBio.<ConfigErrors>c__IteratorDE <ConfigErrors>c__IteratorDE = new PawnBio.<ConfigErrors>c__IteratorDE();
-			<ConfigErrors>c__IteratorDE.<>f__this = this;
-			PawnBio.<ConfigErrors>c__IteratorDE expr_0E = <ConfigErrors>c__IteratorDE;
+			PawnBio.<ConfigErrors>c__IteratorDF <ConfigErrors>c__IteratorDF = new PawnBio.<ConfigErrors>c__IteratorDF();
+			<ConfigErrors>c__IteratorDF.<>f__this = this;
+			PawnBio.<ConfigErrors>c__IteratorDF expr_0E = <ConfigErrors>c__IteratorDF;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

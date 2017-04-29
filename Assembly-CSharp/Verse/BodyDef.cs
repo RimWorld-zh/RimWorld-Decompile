@@ -33,11 +33,11 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<BodyPartRecord> GetPartsWithTag(string tag)
 		{
-			BodyDef.<GetPartsWithTag>c__Iterator1BC <GetPartsWithTag>c__Iterator1BC = new BodyDef.<GetPartsWithTag>c__Iterator1BC();
-			<GetPartsWithTag>c__Iterator1BC.tag = tag;
-			<GetPartsWithTag>c__Iterator1BC.<$>tag = tag;
-			<GetPartsWithTag>c__Iterator1BC.<>f__this = this;
-			BodyDef.<GetPartsWithTag>c__Iterator1BC expr_1C = <GetPartsWithTag>c__Iterator1BC;
+			BodyDef.<GetPartsWithTag>c__Iterator1BD <GetPartsWithTag>c__Iterator1BD = new BodyDef.<GetPartsWithTag>c__Iterator1BD();
+			<GetPartsWithTag>c__Iterator1BD.tag = tag;
+			<GetPartsWithTag>c__Iterator1BD.<$>tag = tag;
+			<GetPartsWithTag>c__Iterator1BD.<>f__this = this;
+			BodyDef.<GetPartsWithTag>c__Iterator1BD expr_1C = <GetPartsWithTag>c__Iterator1BD;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}
@@ -75,9 +75,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			BodyDef.<ConfigErrors>c__Iterator1BD <ConfigErrors>c__Iterator1BD = new BodyDef.<ConfigErrors>c__Iterator1BD();
-			<ConfigErrors>c__Iterator1BD.<>f__this = this;
-			BodyDef.<ConfigErrors>c__Iterator1BD expr_0E = <ConfigErrors>c__Iterator1BD;
+			BodyDef.<ConfigErrors>c__Iterator1BE <ConfigErrors>c__Iterator1BE = new BodyDef.<ConfigErrors>c__Iterator1BE();
+			<ConfigErrors>c__Iterator1BE.<>f__this = this;
+			BodyDef.<ConfigErrors>c__Iterator1BE expr_0E = <ConfigErrors>c__Iterator1BE;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

@@ -33,12 +33,12 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan, Site site)
 		{
-			SiteCoreWorker.<GetFloatMenuOptions>c__Iterator94 <GetFloatMenuOptions>c__Iterator = new SiteCoreWorker.<GetFloatMenuOptions>c__Iterator94();
+			SiteCoreWorker.<GetFloatMenuOptions>c__Iterator95 <GetFloatMenuOptions>c__Iterator = new SiteCoreWorker.<GetFloatMenuOptions>c__Iterator95();
 			<GetFloatMenuOptions>c__Iterator.site = site;
 			<GetFloatMenuOptions>c__Iterator.caravan = caravan;
 			<GetFloatMenuOptions>c__Iterator.<$>site = site;
 			<GetFloatMenuOptions>c__Iterator.<$>caravan = caravan;
-			SiteCoreWorker.<GetFloatMenuOptions>c__Iterator94 expr_23 = <GetFloatMenuOptions>c__Iterator;
+			SiteCoreWorker.<GetFloatMenuOptions>c__Iterator95 expr_23 = <GetFloatMenuOptions>c__Iterator;
 			expr_23.$PC = -2;
 			return expr_23;
 		}

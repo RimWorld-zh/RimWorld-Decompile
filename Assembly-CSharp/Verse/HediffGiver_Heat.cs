@@ -49,7 +49,7 @@ namespace Verse
 			FloatRange floatRange = pawn.ComfortableTemperatureRange();
 			FloatRange floatRange2 = pawn.SafeTemperatureRange();
 			HediffSet hediffSet = pawn.health.hediffSet;
-			Hediff firstHediffOfDef = hediffSet.GetFirstHediffOfDef(this.hediff);
+			Hediff firstHediffOfDef = hediffSet.GetFirstHediffOfDef(this.hediff, false);
 			if (ambientTemperature > floatRange2.max)
 			{
 				float num = ambientTemperature - floatRange2.max;

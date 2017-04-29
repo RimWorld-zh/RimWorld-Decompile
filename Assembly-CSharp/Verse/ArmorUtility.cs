@@ -9,11 +9,11 @@ namespace Verse
 		public static int GetPostArmorDamage(Pawn pawn, int amountInt, BodyPartRecord part, DamageDef damageDef)
 		{
 			float num = (float)amountInt;
-			if (damageDef.armorCategory == DamageArmorCategory.IgnoreArmor)
+			if (damageDef.armorCategory == null)
 			{
 				return amountInt;
 			}
-			StatDef stat = damageDef.armorCategory.DeflectionStat();
+			StatDef deflectionStat = damageDef.armorCategory.deflectionStat;
 			if (pawn.apparel != null)
 			{
 				List<Apparel> wornApparel = pawn.apparel.WornApparel;
@@ -22,7 +22,7 @@ namespace Verse
 					Apparel apparel = wornApparel[i];
 					if (apparel.def.apparel.CoversBodyPart(part))
 					{
-						ArmorUtility.ApplyArmor(ref num, apparel.GetStatValue(stat, true), apparel, damageDef);
+						ArmorUtility.ApplyArmor(ref num, apparel.GetStatValue(deflectionStat, true), apparel, damageDef);
 						if (num < 0.001f)
 						{
 							return 0;
@@ -30,7 +30,7 @@ namespace Verse
 					}
 				}
 			}
-			ArmorUtility.ApplyArmor(ref num, pawn.GetStatValue(stat, true), null, damageDef);
+			ArmorUtility.ApplyArmor(ref num, pawn.GetStatValue(deflectionStat, true), null, damageDef);
 			return GenMath.RoundRandom(num);
 		}
 

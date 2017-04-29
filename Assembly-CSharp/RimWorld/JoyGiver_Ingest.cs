@@ -56,7 +56,7 @@ namespace RimWorld
 			}
 			if (t.Spawned)
 			{
-				if (!pawn.CanReserve(t, 1, -1, ReservationLayer.Default, false))
+				if (!pawn.CanReserve(t, 1, -1, null, false))
 				{
 					return false;
 				}

@@ -99,11 +99,11 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<Thing> ThingsAt(IntVec3 c)
 		{
-			ThingGrid.<ThingsAt>c__Iterator1EF <ThingsAt>c__Iterator1EF = new ThingGrid.<ThingsAt>c__Iterator1EF();
-			<ThingsAt>c__Iterator1EF.c = c;
-			<ThingsAt>c__Iterator1EF.<$>c = c;
-			<ThingsAt>c__Iterator1EF.<>f__this = this;
-			ThingGrid.<ThingsAt>c__Iterator1EF expr_1C = <ThingsAt>c__Iterator1EF;
+			ThingGrid.<ThingsAt>c__Iterator1F0 <ThingsAt>c__Iterator1F = new ThingGrid.<ThingsAt>c__Iterator1F0();
+			<ThingsAt>c__Iterator1F.c = c;
+			<ThingsAt>c__Iterator1F.<$>c = c;
+			<ThingsAt>c__Iterator1F.<>f__this = this;
+			ThingGrid.<ThingsAt>c__Iterator1F0 expr_1C = <ThingsAt>c__Iterator1F;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

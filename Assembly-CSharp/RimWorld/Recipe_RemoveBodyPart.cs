@@ -12,10 +12,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<BodyPartRecord> GetPartsToApplyOn(Pawn pawn, RecipeDef recipe)
 		{
-			Recipe_RemoveBodyPart.<GetPartsToApplyOn>c__IteratorC3 <GetPartsToApplyOn>c__IteratorC = new Recipe_RemoveBodyPart.<GetPartsToApplyOn>c__IteratorC3();
+			Recipe_RemoveBodyPart.<GetPartsToApplyOn>c__IteratorC4 <GetPartsToApplyOn>c__IteratorC = new Recipe_RemoveBodyPart.<GetPartsToApplyOn>c__IteratorC4();
 			<GetPartsToApplyOn>c__IteratorC.pawn = pawn;
 			<GetPartsToApplyOn>c__IteratorC.<$>pawn = pawn;
-			Recipe_RemoveBodyPart.<GetPartsToApplyOn>c__IteratorC3 expr_15 = <GetPartsToApplyOn>c__IteratorC;
+			Recipe_RemoveBodyPart.<GetPartsToApplyOn>c__IteratorC4 expr_15 = <GetPartsToApplyOn>c__IteratorC;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

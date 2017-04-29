@@ -53,10 +53,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<ThingDef> AllowedStuffsFor(ThingDef td)
 		{
-			GenStuff.<AllowedStuffsFor>c__Iterator1A2 <AllowedStuffsFor>c__Iterator1A = new GenStuff.<AllowedStuffsFor>c__Iterator1A2();
+			GenStuff.<AllowedStuffsFor>c__Iterator1A3 <AllowedStuffsFor>c__Iterator1A = new GenStuff.<AllowedStuffsFor>c__Iterator1A3();
 			<AllowedStuffsFor>c__Iterator1A.td = td;
 			<AllowedStuffsFor>c__Iterator1A.<$>td = td;
-			GenStuff.<AllowedStuffsFor>c__Iterator1A2 expr_15 = <AllowedStuffsFor>c__Iterator1A;
+			GenStuff.<AllowedStuffsFor>c__Iterator1A3 expr_15 = <AllowedStuffsFor>c__Iterator1A;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

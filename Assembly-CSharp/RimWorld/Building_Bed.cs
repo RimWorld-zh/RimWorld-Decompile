@@ -116,9 +116,9 @@ namespace RimWorld
 		{
 			get
 			{
-				Building_Bed.<>c__Iterator151 <>c__Iterator = new Building_Bed.<>c__Iterator151();
+				Building_Bed.<>c__Iterator152 <>c__Iterator = new Building_Bed.<>c__Iterator152();
 				<>c__Iterator.<>f__this = this;
-				Building_Bed.<>c__Iterator151 expr_0E = <>c__Iterator;
+				Building_Bed.<>c__Iterator152 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -292,9 +292,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_Bed.<GetGizmos>c__Iterator152 <GetGizmos>c__Iterator = new Building_Bed.<GetGizmos>c__Iterator152();
+			Building_Bed.<GetGizmos>c__Iterator153 <GetGizmos>c__Iterator = new Building_Bed.<GetGizmos>c__Iterator153();
 			<GetGizmos>c__Iterator.<>f__this = this;
-			Building_Bed.<GetGizmos>c__Iterator152 expr_0E = <GetGizmos>c__Iterator;
+			Building_Bed.<GetGizmos>c__Iterator153 expr_0E = <GetGizmos>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -451,11 +451,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn myPawn)
 		{
-			Building_Bed.<GetFloatMenuOptions>c__Iterator153 <GetFloatMenuOptions>c__Iterator = new Building_Bed.<GetFloatMenuOptions>c__Iterator153();
+			Building_Bed.<GetFloatMenuOptions>c__Iterator154 <GetFloatMenuOptions>c__Iterator = new Building_Bed.<GetFloatMenuOptions>c__Iterator154();
 			<GetFloatMenuOptions>c__Iterator.myPawn = myPawn;
 			<GetFloatMenuOptions>c__Iterator.<$>myPawn = myPawn;
 			<GetFloatMenuOptions>c__Iterator.<>f__this = this;
-			Building_Bed.<GetFloatMenuOptions>c__Iterator153 expr_1C = <GetFloatMenuOptions>c__Iterator;
+			Building_Bed.<GetFloatMenuOptions>c__Iterator154 expr_1C = <GetFloatMenuOptions>c__Iterator;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

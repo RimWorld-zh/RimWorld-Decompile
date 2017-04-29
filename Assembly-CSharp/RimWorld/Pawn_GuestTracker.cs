@@ -14,7 +14,7 @@ namespace RimWorld
 
 		private bool getsFoodInt = true;
 
-		public PrisonerInteractionMode interactionMode;
+		public PrisonerInteractionModeDef interactionMode = PrisonerInteractionModeDefOf.NoInteraction;
 
 		private Faction hostFactionInt;
 
@@ -57,7 +57,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.GetsFood && this.interactionMode != PrisonerInteractionMode.Execution && (this.interactionMode != PrisonerInteractionMode.Release || this.pawn.Downed);
+				return this.GetsFood && this.interactionMode != PrisonerInteractionModeDefOf.Execution && (this.interactionMode != PrisonerInteractionModeDefOf.Release || this.pawn.Downed);
 			}
 		}
 
@@ -147,7 +147,7 @@ namespace RimWorld
 			Scribe_References.Look<Faction>(ref this.hostFactionInt, "hostFaction", false);
 			Scribe_Values.Look<bool>(ref this.isPrisonerInt, "prisoner", false, false);
 			Scribe_Values.Look<bool>(ref this.getsFoodInt, "getsFood", false, false);
-			Scribe_Values.Look<PrisonerInteractionMode>(ref this.interactionMode, "interactionMode", PrisonerInteractionMode.NoInteraction, false);
+			Scribe_Defs.Look<PrisonerInteractionModeDef>(ref this.interactionMode, "interactionMode");
 			Scribe_Values.Look<bool>(ref this.released, "released", false, false);
 			Scribe_Values.Look<int>(ref this.ticksWhenAllowedToEscapeAgain, "ticksWhenAllowedToEscapeAgain", 0, false);
 			Scribe_Values.Look<IntVec3>(ref this.spotToWaitInsteadOfEscaping, "spotToWaitInsteadOfEscaping", default(IntVec3), false);

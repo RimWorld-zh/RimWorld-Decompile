@@ -72,13 +72,13 @@ namespace Verse
 		[DebuggerHidden]
 		private IEnumerable<KeyBindingDef> ConflictingBindings(KeyBindingDef keyDef, KeyCode code)
 		{
-			KeyPrefsData.<ConflictingBindings>c__Iterator24C <ConflictingBindings>c__Iterator24C = new KeyPrefsData.<ConflictingBindings>c__Iterator24C();
-			<ConflictingBindings>c__Iterator24C.keyDef = keyDef;
-			<ConflictingBindings>c__Iterator24C.code = code;
-			<ConflictingBindings>c__Iterator24C.<$>keyDef = keyDef;
-			<ConflictingBindings>c__Iterator24C.<$>code = code;
-			<ConflictingBindings>c__Iterator24C.<>f__this = this;
-			KeyPrefsData.<ConflictingBindings>c__Iterator24C expr_2A = <ConflictingBindings>c__Iterator24C;
+			KeyPrefsData.<ConflictingBindings>c__Iterator24D <ConflictingBindings>c__Iterator24D = new KeyPrefsData.<ConflictingBindings>c__Iterator24D();
+			<ConflictingBindings>c__Iterator24D.keyDef = keyDef;
+			<ConflictingBindings>c__Iterator24D.code = code;
+			<ConflictingBindings>c__Iterator24D.<$>keyDef = keyDef;
+			<ConflictingBindings>c__Iterator24D.<$>code = code;
+			<ConflictingBindings>c__Iterator24D.<>f__this = this;
+			KeyPrefsData.<ConflictingBindings>c__Iterator24D expr_2A = <ConflictingBindings>c__Iterator24D;
 			expr_2A.$PC = -2;
 			return expr_2A;
 		}

@@ -29,7 +29,6 @@ namespace RimWorld.Planet
 		public void GeneratePaths(LayerSubMesh subMesh, int tileID, List<WorldLayer_Paths.OutputDirection> nodes, Color32 color, bool allowSmoothTransition)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
-			Tile tile = worldGrid[tileID];
 			worldGrid.GetTileVertices(tileID, this.tmpVerts);
 			worldGrid.GetTileNeighbors(tileID, this.tmpNeighbors);
 			if (nodes.Count == 1 && this.pointyEnds)

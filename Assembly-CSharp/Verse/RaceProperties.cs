@@ -10,7 +10,7 @@ namespace Verse
 	{
 		public Intelligence intelligence;
 
-		public FleshType fleshType;
+		private FleshTypeDef fleshType;
 
 		private ThingDef bloodDef;
 
@@ -72,7 +72,7 @@ namespace Verse
 
 		public List<string> trainableTags;
 
-		public TrainableIntelligence trainableIntelligence = TrainableIntelligence.Intermediate;
+		private TrainableIntelligenceDef trainableIntelligence;
 
 		private RulePackDef nameGenerator;
 
@@ -231,11 +231,23 @@ namespace Verse
 			}
 		}
 
+		public FleshTypeDef FleshType
+		{
+			get
+			{
+				if (this.fleshType != null)
+				{
+					return this.fleshType;
+				}
+				return FleshTypeDefOf.Normal;
+			}
+		}
+
 		public bool IsMechanoid
 		{
 			get
 			{
-				return this.fleshType == FleshType.Mechanoid;
+				return this.FleshType == FleshTypeDefOf.Mechanoid;
 			}
 		}
 
@@ -243,7 +255,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.fleshType != FleshType.Mechanoid;
+				return this.FleshType != FleshTypeDefOf.Mechanoid;
 			}
 		}
 
@@ -260,6 +272,18 @@ namespace Verse
 					return ThingDefOf.FilthBlood;
 				}
 				return null;
+			}
+		}
+
+		public TrainableIntelligenceDef TrainableIntelligence
+		{
+			get
+			{
+				if (this.trainableIntelligence == null)
+				{
+					return TrainableIntelligenceDefOf.Intermediate;
+				}
+				return this.trainableIntelligence;
 			}
 		}
 
@@ -315,9 +339,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors()
 		{
-			RaceProperties.<ConfigErrors>c__Iterator1C3 <ConfigErrors>c__Iterator1C = new RaceProperties.<ConfigErrors>c__Iterator1C3();
+			RaceProperties.<ConfigErrors>c__Iterator1C4 <ConfigErrors>c__Iterator1C = new RaceProperties.<ConfigErrors>c__Iterator1C4();
 			<ConfigErrors>c__Iterator1C.<>f__this = this;
-			RaceProperties.<ConfigErrors>c__Iterator1C3 expr_0E = <ConfigErrors>c__Iterator1C;
+			RaceProperties.<ConfigErrors>c__Iterator1C4 expr_0E = <ConfigErrors>c__Iterator1C;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -325,11 +349,11 @@ namespace Verse
 		[DebuggerHidden]
 		internal IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
-			RaceProperties.<SpecialDisplayStats>c__Iterator1C4 <SpecialDisplayStats>c__Iterator1C = new RaceProperties.<SpecialDisplayStats>c__Iterator1C4();
+			RaceProperties.<SpecialDisplayStats>c__Iterator1C5 <SpecialDisplayStats>c__Iterator1C = new RaceProperties.<SpecialDisplayStats>c__Iterator1C5();
 			<SpecialDisplayStats>c__Iterator1C.parentDef = parentDef;
 			<SpecialDisplayStats>c__Iterator1C.<$>parentDef = parentDef;
 			<SpecialDisplayStats>c__Iterator1C.<>f__this = this;
-			RaceProperties.<SpecialDisplayStats>c__Iterator1C4 expr_1C = <SpecialDisplayStats>c__Iterator1C;
+			RaceProperties.<SpecialDisplayStats>c__Iterator1C5 expr_1C = <SpecialDisplayStats>c__Iterator1C;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

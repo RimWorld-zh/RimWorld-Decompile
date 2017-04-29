@@ -14,9 +14,9 @@ namespace RimWorld
 		{
 			get
 			{
-				TraitSet.<>c__IteratorEB <>c__IteratorEB = new TraitSet.<>c__IteratorEB();
-				<>c__IteratorEB.<>f__this = this;
-				TraitSet.<>c__IteratorEB expr_0E = <>c__IteratorEB;
+				TraitSet.<>c__IteratorEC <>c__IteratorEC = new TraitSet.<>c__IteratorEC();
+				<>c__IteratorEC.<>f__this = this;
+				TraitSet.<>c__IteratorEC expr_0E = <>c__IteratorEC;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

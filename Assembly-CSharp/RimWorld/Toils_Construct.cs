@@ -28,7 +28,7 @@ namespace RimWorld
 						}
 						if (thing is Frame)
 						{
-							actor.Reserve(thing, 1, -1, ReservationLayer.Default);
+							actor.Reserve(thing, 1, -1, null);
 						}
 					}
 					if (flag2)

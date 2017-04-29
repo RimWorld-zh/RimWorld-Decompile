@@ -64,7 +64,7 @@ namespace RimWorld
 
 		protected virtual bool CanInteractWith(Pawn pawn, Thing t, bool inBed)
 		{
-			if (!pawn.CanReserve(t, this.def.jobDef.joyMaxParticipants, -1, ReservationLayer.Default, false))
+			if (!pawn.CanReserve(t, this.def.jobDef.joyMaxParticipants, -1, null, false))
 			{
 				return false;
 			}

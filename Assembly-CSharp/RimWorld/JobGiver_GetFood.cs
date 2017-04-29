@@ -51,7 +51,7 @@ namespace RimWorld
 			}
 			else
 			{
-				Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Malnutrition);
+				Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Malnutrition, false);
 				flag = (firstHediffOfDef != null && firstHediffOfDef.Severity > 0.4f);
 			}
 			bool desperate = pawn.needs.food.CurCategory == HungerCategory.Starving;

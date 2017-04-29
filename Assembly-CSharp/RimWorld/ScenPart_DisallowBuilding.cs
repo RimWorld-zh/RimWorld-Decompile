@@ -26,11 +26,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
-			ScenPart_DisallowBuilding.<GetSummaryListEntries>c__Iterator115 <GetSummaryListEntries>c__Iterator = new ScenPart_DisallowBuilding.<GetSummaryListEntries>c__Iterator115();
+			ScenPart_DisallowBuilding.<GetSummaryListEntries>c__Iterator116 <GetSummaryListEntries>c__Iterator = new ScenPart_DisallowBuilding.<GetSummaryListEntries>c__Iterator116();
 			<GetSummaryListEntries>c__Iterator.tag = tag;
 			<GetSummaryListEntries>c__Iterator.<$>tag = tag;
 			<GetSummaryListEntries>c__Iterator.<>f__this = this;
-			ScenPart_DisallowBuilding.<GetSummaryListEntries>c__Iterator115 expr_1C = <GetSummaryListEntries>c__Iterator;
+			ScenPart_DisallowBuilding.<GetSummaryListEntries>c__Iterator116 expr_1C = <GetSummaryListEntries>c__Iterator;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}
@@ -82,8 +82,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<ThingDef> RandomizableBuildingDefs()
 		{
-			ScenPart_DisallowBuilding.<RandomizableBuildingDefs>c__Iterator116 <RandomizableBuildingDefs>c__Iterator = new ScenPart_DisallowBuilding.<RandomizableBuildingDefs>c__Iterator116();
-			ScenPart_DisallowBuilding.<RandomizableBuildingDefs>c__Iterator116 expr_07 = <RandomizableBuildingDefs>c__Iterator;
+			ScenPart_DisallowBuilding.<RandomizableBuildingDefs>c__Iterator117 <RandomizableBuildingDefs>c__Iterator = new ScenPart_DisallowBuilding.<RandomizableBuildingDefs>c__Iterator117();
+			ScenPart_DisallowBuilding.<RandomizableBuildingDefs>c__Iterator117 expr_07 = <RandomizableBuildingDefs>c__Iterator;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

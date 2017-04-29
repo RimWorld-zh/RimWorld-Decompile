@@ -142,10 +142,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<Pawn> SpawnedMasteredPawns(Pawn master)
 		{
-			PawnUtility.<SpawnedMasteredPawns>c__IteratorC9 <SpawnedMasteredPawns>c__IteratorC = new PawnUtility.<SpawnedMasteredPawns>c__IteratorC9();
-			<SpawnedMasteredPawns>c__IteratorC.master = master;
-			<SpawnedMasteredPawns>c__IteratorC.<$>master = master;
-			PawnUtility.<SpawnedMasteredPawns>c__IteratorC9 expr_15 = <SpawnedMasteredPawns>c__IteratorC;
+			PawnUtility.<SpawnedMasteredPawns>c__IteratorCA <SpawnedMasteredPawns>c__IteratorCA = new PawnUtility.<SpawnedMasteredPawns>c__IteratorCA();
+			<SpawnedMasteredPawns>c__IteratorCA.master = master;
+			<SpawnedMasteredPawns>c__IteratorCA.<$>master = master;
+			PawnUtility.<SpawnedMasteredPawns>c__IteratorCA expr_15 = <SpawnedMasteredPawns>c__IteratorCA;
 			expr_15.$PC = -2;
 			return expr_15;
 		}
@@ -174,6 +174,10 @@ namespace RimWorld
 
 		public static void ForceWait(Pawn pawn, int ticks, Thing faceTarget = null, bool maintainPosture = false)
 		{
+			if (ticks <= 0)
+			{
+				Log.ErrorOnce("Forcing a wait for zero ticks", 47045639);
+			}
 			Job job = new Job((!maintainPosture) ? JobDefOf.Wait : JobDefOf.WaitMaintainPosture, faceTarget);
 			job.expiryInterval = ticks;
 			pawn.jobs.StartJob(job, JobCondition.InterruptForced, null, true, true, null, null);

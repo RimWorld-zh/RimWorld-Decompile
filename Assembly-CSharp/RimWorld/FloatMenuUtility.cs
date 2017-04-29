@@ -130,7 +130,7 @@ namespace RimWorld
 			{
 				return option;
 			}
-			if (pawn != null && !pawn.CanReserve(target, 1, -1, ReservationLayer.Default, false) && pawn.CanReserve(target, 1, -1, ReservationLayer.Default, true))
+			if (pawn != null && !pawn.CanReserve(target, 1, -1, null, false) && pawn.CanReserve(target, 1, -1, null, true))
 			{
 				Pawn pawn2 = pawn.Map.reservationManager.FirstReserverOf(target, pawn.Faction, true);
 				option.Label = option.Label + " (" + reservedText.Translate(new object[]

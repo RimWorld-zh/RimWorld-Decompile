@@ -11,17 +11,6 @@ namespace RimWorld
 		{
 			get
 			{
-				PawnsFinder.<>c__IteratorCA <>c__IteratorCA = new PawnsFinder.<>c__IteratorCA();
-				PawnsFinder.<>c__IteratorCA expr_07 = <>c__IteratorCA;
-				expr_07.$PC = -2;
-				return expr_07;
-			}
-		}
-
-		public static IEnumerable<Pawn> AllMapsAndWorld_Alive
-		{
-			get
-			{
 				PawnsFinder.<>c__IteratorCB <>c__IteratorCB = new PawnsFinder.<>c__IteratorCB();
 				PawnsFinder.<>c__IteratorCB expr_07 = <>c__IteratorCB;
 				expr_07.$PC = -2;
@@ -29,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMaps
+		public static IEnumerable<Pawn> AllMapsAndWorld_Alive
 		{
 			get
 			{
@@ -40,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMaps_Spawned
+		public static IEnumerable<Pawn> AllMaps
 		{
 			get
 			{
@@ -51,7 +40,7 @@ namespace RimWorld
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods
+		public static IEnumerable<Pawn> AllMaps_Spawned
 		{
 			get
 			{
@@ -62,7 +51,7 @@ namespace RimWorld
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Colonists
+		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods
 		{
 			get
 			{
@@ -73,7 +62,7 @@ namespace RimWorld
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_FreeColonists
+		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Colonists
 		{
 			get
 			{
@@ -84,7 +73,7 @@ namespace RimWorld
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_PrisonersOfColony
+		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_FreeColonists
 		{
 			get
 			{
@@ -95,7 +84,7 @@ namespace RimWorld
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMaps_PrisonersOfColonySpawned
+		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_PrisonersOfColony
 		{
 			get
 			{
@@ -106,7 +95,7 @@ namespace RimWorld
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMaps_PrisonersOfColony
+		public static IEnumerable<Pawn> AllMaps_PrisonersOfColonySpawned
 		{
 			get
 			{
@@ -117,7 +106,7 @@ namespace RimWorld
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMaps_FreeColonists
+		public static IEnumerable<Pawn> AllMaps_PrisonersOfColony
 		{
 			get
 			{
@@ -128,7 +117,7 @@ namespace RimWorld
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMaps_FreeColonistsSpawned
+		public static IEnumerable<Pawn> AllMaps_FreeColonists
 		{
 			get
 			{
@@ -139,7 +128,7 @@ namespace RimWorld
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMaps_FreeColonistsAndPrisonersSpawned
+		public static IEnumerable<Pawn> AllMaps_FreeColonistsSpawned
 		{
 			get
 			{
@@ -150,7 +139,7 @@ namespace RimWorld
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMaps_FreeColonistsAndPrisoners
+		public static IEnumerable<Pawn> AllMaps_FreeColonistsAndPrisonersSpawned
 		{
 			get
 			{
@@ -161,13 +150,24 @@ namespace RimWorld
 			}
 		}
 
+		public static IEnumerable<Pawn> AllMaps_FreeColonistsAndPrisoners
+		{
+			get
+			{
+				PawnsFinder.<>c__IteratorD8 <>c__IteratorD = new PawnsFinder.<>c__IteratorD8();
+				PawnsFinder.<>c__IteratorD8 expr_07 = <>c__IteratorD;
+				expr_07.$PC = -2;
+				return expr_07;
+			}
+		}
+
 		[DebuggerHidden]
 		public static IEnumerable<Pawn> AllMaps_SpawnedPawnsInFaction(Faction faction)
 		{
-			PawnsFinder.<AllMaps_SpawnedPawnsInFaction>c__IteratorD8 <AllMaps_SpawnedPawnsInFaction>c__IteratorD = new PawnsFinder.<AllMaps_SpawnedPawnsInFaction>c__IteratorD8();
+			PawnsFinder.<AllMaps_SpawnedPawnsInFaction>c__IteratorD9 <AllMaps_SpawnedPawnsInFaction>c__IteratorD = new PawnsFinder.<AllMaps_SpawnedPawnsInFaction>c__IteratorD9();
 			<AllMaps_SpawnedPawnsInFaction>c__IteratorD.faction = faction;
 			<AllMaps_SpawnedPawnsInFaction>c__IteratorD.<$>faction = faction;
-			PawnsFinder.<AllMaps_SpawnedPawnsInFaction>c__IteratorD8 expr_15 = <AllMaps_SpawnedPawnsInFaction>c__IteratorD;
+			PawnsFinder.<AllMaps_SpawnedPawnsInFaction>c__IteratorD9 expr_15 = <AllMaps_SpawnedPawnsInFaction>c__IteratorD;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

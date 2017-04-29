@@ -49,11 +49,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			CompProperties_Drug.<ConfigErrors>c__Iterator7A <ConfigErrors>c__Iterator7A = new CompProperties_Drug.<ConfigErrors>c__Iterator7A();
-			<ConfigErrors>c__Iterator7A.parentDef = parentDef;
-			<ConfigErrors>c__Iterator7A.<$>parentDef = parentDef;
-			<ConfigErrors>c__Iterator7A.<>f__this = this;
-			CompProperties_Drug.<ConfigErrors>c__Iterator7A expr_1C = <ConfigErrors>c__Iterator7A;
+			CompProperties_Drug.<ConfigErrors>c__Iterator7B <ConfigErrors>c__Iterator7B = new CompProperties_Drug.<ConfigErrors>c__Iterator7B();
+			<ConfigErrors>c__Iterator7B.parentDef = parentDef;
+			<ConfigErrors>c__Iterator7B.<$>parentDef = parentDef;
+			<ConfigErrors>c__Iterator7B.<>f__this = this;
+			CompProperties_Drug.<ConfigErrors>c__Iterator7B expr_1C = <ConfigErrors>c__Iterator7B;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}
@@ -61,9 +61,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			CompProperties_Drug.<SpecialDisplayStats>c__Iterator7B <SpecialDisplayStats>c__Iterator7B = new CompProperties_Drug.<SpecialDisplayStats>c__Iterator7B();
-			<SpecialDisplayStats>c__Iterator7B.<>f__this = this;
-			CompProperties_Drug.<SpecialDisplayStats>c__Iterator7B expr_0E = <SpecialDisplayStats>c__Iterator7B;
+			CompProperties_Drug.<SpecialDisplayStats>c__Iterator7C <SpecialDisplayStats>c__Iterator7C = new CompProperties_Drug.<SpecialDisplayStats>c__Iterator7C();
+			<SpecialDisplayStats>c__Iterator7C.<>f__this = this;
+			CompProperties_Drug.<SpecialDisplayStats>c__Iterator7C expr_0E = <SpecialDisplayStats>c__Iterator7C;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

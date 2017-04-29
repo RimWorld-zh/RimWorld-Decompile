@@ -121,12 +121,12 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<IntVec3> PointsOnLineOfSight(IntVec3 start, IntVec3 end)
 		{
-			GenSight.<PointsOnLineOfSight>c__Iterator245 <PointsOnLineOfSight>c__Iterator = new GenSight.<PointsOnLineOfSight>c__Iterator245();
+			GenSight.<PointsOnLineOfSight>c__Iterator246 <PointsOnLineOfSight>c__Iterator = new GenSight.<PointsOnLineOfSight>c__Iterator246();
 			<PointsOnLineOfSight>c__Iterator.start = start;
 			<PointsOnLineOfSight>c__Iterator.end = end;
 			<PointsOnLineOfSight>c__Iterator.<$>start = start;
 			<PointsOnLineOfSight>c__Iterator.<$>end = end;
-			GenSight.<PointsOnLineOfSight>c__Iterator245 expr_23 = <PointsOnLineOfSight>c__Iterator;
+			GenSight.<PointsOnLineOfSight>c__Iterator246 expr_23 = <PointsOnLineOfSight>c__Iterator;
 			expr_23.$PC = -2;
 			return expr_23;
 		}

@@ -1,6 +1,7 @@
 using RimWorld;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
@@ -215,6 +216,22 @@ namespace Verse
 					});
 				}
 			}
+			this.listing.Gap(12f);
+			this.listing.Label("UI", -1f);
+			base.DebugAction("Pawn column", delegate
+			{
+				List<DebugMenuOption> list = new List<DebugMenuOption>();
+				List<PawnColumnDef> allDefsListForReading = DefDatabase<PawnColumnDef>.AllDefsListForReading;
+				for (int k = 0; k < allDefsListForReading.Count; k++)
+				{
+					PawnColumnDef localDef = allDefsListForReading[k];
+					list.Add(new DebugMenuOption(localDef.defName, DebugMenuOptionMode.Action, delegate
+					{
+						Find.WindowStack.Add(new Dialog_PawnTableTest(localDef));
+					}));
+				}
+				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+			});
 		}
 
 		private static void LogSolidBackstoriesWithSpawnCategory(string spawnCategory)

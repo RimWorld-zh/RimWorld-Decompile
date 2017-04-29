@@ -255,9 +255,9 @@ namespace RimWorld
 			Find.WindowStack.Add(new Dialog_MessageBox(text, null, null, null, null, null, false));
 		}
 
-		public virtual BillStoreMode GetStoreMode()
+		public virtual BillStoreModeDef GetStoreMode()
 		{
-			return BillStoreMode.BestStockpile;
+			return BillStoreModeDefOf.BestStockpile;
 		}
 
 		public string GetUniqueLoadID()

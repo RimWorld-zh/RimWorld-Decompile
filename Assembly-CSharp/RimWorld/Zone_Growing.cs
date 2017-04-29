@@ -94,9 +94,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Zone_Growing.<GetGizmos>c__IteratorBA <GetGizmos>c__IteratorBA = new Zone_Growing.<GetGizmos>c__IteratorBA();
-			<GetGizmos>c__IteratorBA.<>f__this = this;
-			Zone_Growing.<GetGizmos>c__IteratorBA expr_0E = <GetGizmos>c__IteratorBA;
+			Zone_Growing.<GetGizmos>c__IteratorBB <GetGizmos>c__IteratorBB = new Zone_Growing.<GetGizmos>c__IteratorBB();
+			<GetGizmos>c__IteratorBB.<>f__this = this;
+			Zone_Growing.<GetGizmos>c__IteratorBB expr_0E = <GetGizmos>c__IteratorBB;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

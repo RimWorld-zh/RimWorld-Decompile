@@ -80,9 +80,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<Building_AncientCryptosleepCasket> UnopenedCasketsInGroup()
 		{
-			Building_AncientCryptosleepCasket.<UnopenedCasketsInGroup>c__Iterator150 <UnopenedCasketsInGroup>c__Iterator = new Building_AncientCryptosleepCasket.<UnopenedCasketsInGroup>c__Iterator150();
+			Building_AncientCryptosleepCasket.<UnopenedCasketsInGroup>c__Iterator151 <UnopenedCasketsInGroup>c__Iterator = new Building_AncientCryptosleepCasket.<UnopenedCasketsInGroup>c__Iterator151();
 			<UnopenedCasketsInGroup>c__Iterator.<>f__this = this;
-			Building_AncientCryptosleepCasket.<UnopenedCasketsInGroup>c__Iterator150 expr_0E = <UnopenedCasketsInGroup>c__Iterator;
+			Building_AncientCryptosleepCasket.<UnopenedCasketsInGroup>c__Iterator151 expr_0E = <UnopenedCasketsInGroup>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

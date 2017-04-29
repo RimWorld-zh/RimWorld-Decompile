@@ -15,11 +15,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
-			WorldObjectCompProperties_DefeatAllEnemiesQuest.<ConfigErrors>c__Iterator87 <ConfigErrors>c__Iterator = new WorldObjectCompProperties_DefeatAllEnemiesQuest.<ConfigErrors>c__Iterator87();
+			WorldObjectCompProperties_DefeatAllEnemiesQuest.<ConfigErrors>c__Iterator88 <ConfigErrors>c__Iterator = new WorldObjectCompProperties_DefeatAllEnemiesQuest.<ConfigErrors>c__Iterator88();
 			<ConfigErrors>c__Iterator.parentDef = parentDef;
 			<ConfigErrors>c__Iterator.<$>parentDef = parentDef;
 			<ConfigErrors>c__Iterator.<>f__this = this;
-			WorldObjectCompProperties_DefeatAllEnemiesQuest.<ConfigErrors>c__Iterator87 expr_1C = <ConfigErrors>c__Iterator;
+			WorldObjectCompProperties_DefeatAllEnemiesQuest.<ConfigErrors>c__Iterator88 expr_1C = <ConfigErrors>c__Iterator;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

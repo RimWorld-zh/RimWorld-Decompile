@@ -90,7 +90,7 @@ namespace RimWorld
 				}
 				return false;
 			}
-			if (!firstFiance.CanReserve(cell, 1, -1, ReservationLayer.Default, false) || !secondFiance.CanReserve(cell, 1, -1, ReservationLayer.Default, false))
+			if (!firstFiance.CanReserve(cell, 1, -1, null, false) || !secondFiance.CanReserve(cell, 1, -1, null, false))
 			{
 				if (outFailReason != null)
 				{

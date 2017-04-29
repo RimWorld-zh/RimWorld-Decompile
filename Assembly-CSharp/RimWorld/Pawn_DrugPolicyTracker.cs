@@ -192,7 +192,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			Hediff firstHediffOfDef = this.pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.DrugOverdose);
+			Hediff firstHediffOfDef = this.pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.DrugOverdose, false);
 			if (firstHediffOfDef != null && firstHediffOfDef.Severity > 0.5f && this.CanCauseOverdose(ingestible))
 			{
 				int num = this.LastTicksWhenTakenDrugWhichCanCauseOverdose();

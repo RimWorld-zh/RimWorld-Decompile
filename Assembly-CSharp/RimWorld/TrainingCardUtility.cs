@@ -18,7 +18,7 @@ namespace RimWorld
 		public static void DrawTrainingCard(Rect rect, Pawn pawn)
 		{
 			GUI.BeginGroup(rect);
-			string label = "TrainableIntelligence".Translate() + ": " + pawn.RaceProps.trainableIntelligence.GetLabel();
+			string label = "TrainableIntelligence".Translate() + ": " + pawn.RaceProps.TrainableIntelligence.GetLabel();
 			Widgets.Label(new Rect(0f, 0f, rect.width, 25f), label);
 			if (pawn.training.IsCompleted(TrainableDefOf.Obedience))
 			{

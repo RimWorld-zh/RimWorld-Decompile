@@ -131,15 +131,15 @@ namespace RimWorld
 			IntVec3 clickCell = IntVec3.FromVector3(clickPos);
 			foreach (LocalTargetInfo current in GenUI.TargetsAt(clickPos, TargetingParameters.ForAttackHostile(), true))
 			{
-				FloatMenuMakerMap.<AddDraftedOrders>c__AnonStorey429 <AddDraftedOrders>c__AnonStorey = new FloatMenuMakerMap.<AddDraftedOrders>c__AnonStorey429();
-				<AddDraftedOrders>c__AnonStorey.attackTarg = current;
+				FloatMenuMakerMap.<AddDraftedOrders>c__AnonStorey42B <AddDraftedOrders>c__AnonStorey42B = new FloatMenuMakerMap.<AddDraftedOrders>c__AnonStorey42B();
+				<AddDraftedOrders>c__AnonStorey42B.attackTarg = current;
 				if (pawn.equipment.Primary != null && !pawn.equipment.PrimaryEq.PrimaryVerb.verbProps.MeleeRange)
 				{
 					string str;
-					Action rangedAct = FloatMenuUtility.GetRangedAttackAction(pawn, <AddDraftedOrders>c__AnonStorey.attackTarg, out str);
+					Action rangedAct = FloatMenuUtility.GetRangedAttackAction(pawn, <AddDraftedOrders>c__AnonStorey42B.attackTarg, out str);
 					string text = "FireAt".Translate(new object[]
 					{
-						<AddDraftedOrders>c__AnonStorey.attackTarg.Thing.Label
+						<AddDraftedOrders>c__AnonStorey42B.attackTarg.Thing.Label
 					});
 					FloatMenuOption floatMenuOption = new FloatMenuOption(MenuOptionPriority.High);
 					if (rangedAct == null)
@@ -151,7 +151,7 @@ namespace RimWorld
 						floatMenuOption.autoTakeable = true;
 						floatMenuOption.action = delegate
 						{
-							MoteMaker.MakeStaticMote(<AddDraftedOrders>c__AnonStorey.attackTarg.Thing.DrawPos, <AddDraftedOrders>c__AnonStorey.attackTarg.Thing.Map, ThingDefOf.Mote_FeedbackAttack, 1f);
+							MoteMaker.MakeStaticMote(<AddDraftedOrders>c__AnonStorey42B.attackTarg.Thing.DrawPos, <AddDraftedOrders>c__AnonStorey42B.attackTarg.Thing.Map, ThingDefOf.Mote_FeedbackAttack, 1f);
 							rangedAct();
 						};
 					}
@@ -159,25 +159,25 @@ namespace RimWorld
 					opts.Add(floatMenuOption);
 				}
 				string str2;
-				Action meleeAct = FloatMenuUtility.GetMeleeAttackAction(pawn, <AddDraftedOrders>c__AnonStorey.attackTarg, out str2);
-				Pawn pawn2 = <AddDraftedOrders>c__AnonStorey.attackTarg.Thing as Pawn;
+				Action meleeAct = FloatMenuUtility.GetMeleeAttackAction(pawn, <AddDraftedOrders>c__AnonStorey42B.attackTarg, out str2);
+				Pawn pawn2 = <AddDraftedOrders>c__AnonStorey42B.attackTarg.Thing as Pawn;
 				string text2;
 				if (pawn2 != null && pawn2.Downed)
 				{
 					text2 = "MeleeAttackToDeath".Translate(new object[]
 					{
-						<AddDraftedOrders>c__AnonStorey.attackTarg.Thing.Label
+						<AddDraftedOrders>c__AnonStorey42B.attackTarg.Thing.Label
 					});
 				}
 				else
 				{
 					text2 = "MeleeAttack".Translate(new object[]
 					{
-						<AddDraftedOrders>c__AnonStorey.attackTarg.Thing.Label
+						<AddDraftedOrders>c__AnonStorey42B.attackTarg.Thing.Label
 					});
 				}
-				MenuOptionPriority priority = (!<AddDraftedOrders>c__AnonStorey.attackTarg.HasThing || !pawn.HostileTo(<AddDraftedOrders>c__AnonStorey.attackTarg.Thing)) ? MenuOptionPriority.VeryLow : MenuOptionPriority.AttackEnemy;
-				Thing thing = <AddDraftedOrders>c__AnonStorey.attackTarg.Thing;
+				MenuOptionPriority priority = (!<AddDraftedOrders>c__AnonStorey42B.attackTarg.HasThing || !pawn.HostileTo(<AddDraftedOrders>c__AnonStorey42B.attackTarg.Thing)) ? MenuOptionPriority.VeryLow : MenuOptionPriority.AttackEnemy;
+				Thing thing = <AddDraftedOrders>c__AnonStorey42B.attackTarg.Thing;
 				FloatMenuOption floatMenuOption2 = new FloatMenuOption(string.Empty, null, priority, null, thing, 0f, null, null);
 				if (meleeAct == null)
 				{
@@ -187,7 +187,7 @@ namespace RimWorld
 				{
 					floatMenuOption2.action = delegate
 					{
-						MoteMaker.MakeStaticMote(<AddDraftedOrders>c__AnonStorey.attackTarg.Thing.DrawPos, <AddDraftedOrders>c__AnonStorey.attackTarg.Thing.Map, ThingDefOf.Mote_FeedbackAttack, 1f);
+						MoteMaker.MakeStaticMote(<AddDraftedOrders>c__AnonStorey42B.attackTarg.Thing.DrawPos, <AddDraftedOrders>c__AnonStorey42B.attackTarg.Thing.Map, ThingDefOf.Mote_FeedbackAttack, 1f);
 						meleeAct();
 					};
 				}
@@ -285,7 +285,7 @@ namespace RimWorld
 				foreach (LocalTargetInfo current2 in GenUI.TargetsAt(clickPos, TargetingParameters.ForRescue(pawn), true))
 				{
 					Pawn victim = (Pawn)current2.Thing;
-					if (!victim.InBed() && pawn.CanReserveAndReach(victim, PathEndMode.OnCell, Danger.Deadly, 1, -1, ReservationLayer.Default, false))
+					if (!victim.InBed() && pawn.CanReserveAndReach(victim, PathEndMode.OnCell, Danger.Deadly, 1, -1, null, false))
 					{
 						if ((victim.Faction == Faction.OfPlayer && victim.MentalStateDef == null) || (victim.Faction != Faction.OfPlayer && victim.MentalStateDef == null && !victim.IsPrisonerOfColony && (victim.Faction == null || !victim.Faction.HostileTo(Faction.OfPlayer))))
 						{
@@ -342,7 +342,7 @@ namespace RimWorld
 				{
 					LocalTargetInfo localTargetInfo = current3;
 					Pawn victim = (Pawn)localTargetInfo.Thing;
-					if (victim.Downed && pawn.CanReserveAndReach(victim, PathEndMode.OnCell, Danger.Deadly, 1, -1, ReservationLayer.Default, false) && Building_CryptosleepCasket.FindCryptosleepCasketFor(victim, pawn) != null)
+					if (victim.Downed && pawn.CanReserveAndReach(victim, PathEndMode.OnCell, Danger.Deadly, 1, -1, null, false) && Building_CryptosleepCasket.FindCryptosleepCasketFor(victim, pawn) != null)
 					{
 						string label = "CarryToCryptosleepCasket".Translate(new object[]
 						{

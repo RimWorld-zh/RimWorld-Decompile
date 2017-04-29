@@ -68,7 +68,7 @@ namespace Verse.AI
 				return false;
 			}
 			Profiler.EndSample();
-			if (!p.CanReserve(t, 1, -1, ReservationLayer.Default, forced))
+			if (!p.CanReserve(t, 1, -1, null, forced))
 			{
 				return false;
 			}
@@ -166,7 +166,7 @@ namespace Verse.AI
 		public static bool CanHaulAside(Pawn p, Thing t, out IntVec3 storeCell)
 		{
 			storeCell = IntVec3.Invalid;
-			return t.def.EverHaulable && !t.IsBurning() && p.CanReserveAndReach(t, PathEndMode.ClosestTouch, p.NormalMaxDanger(), 1, -1, ReservationLayer.Default, false) && HaulAIUtility.TryFindSpotToPlaceHaulableCloseTo(t, p, t.PositionHeld, out storeCell);
+			return t.def.EverHaulable && !t.IsBurning() && p.CanReserveAndReach(t, PathEndMode.ClosestTouch, p.NormalMaxDanger(), 1, -1, null, false) && HaulAIUtility.TryFindSpotToPlaceHaulableCloseTo(t, p, t.PositionHeld, out storeCell);
 		}
 
 		public static Job HaulAsideJobFor(Pawn p, Thing t)
@@ -222,7 +222,7 @@ namespace Verse.AI
 
 		private static bool HaulablePlaceValidator(Thing haulable, Pawn worker, IntVec3 c)
 		{
-			if (!worker.CanReserveAndReach(c, PathEndMode.OnCell, worker.NormalMaxDanger(), 1, -1, ReservationLayer.Default, false))
+			if (!worker.CanReserveAndReach(c, PathEndMode.OnCell, worker.NormalMaxDanger(), 1, -1, null, false))
 			{
 				return false;
 			}

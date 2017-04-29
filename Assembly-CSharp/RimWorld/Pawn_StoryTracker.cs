@@ -65,9 +65,9 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn_StoryTracker.<>c__IteratorDC <>c__IteratorDC = new Pawn_StoryTracker.<>c__IteratorDC();
-				<>c__IteratorDC.<>f__this = this;
-				Pawn_StoryTracker.<>c__IteratorDC expr_0E = <>c__IteratorDC;
+				Pawn_StoryTracker.<>c__IteratorDD <>c__IteratorDD = new Pawn_StoryTracker.<>c__IteratorDD();
+				<>c__IteratorDD.<>f__this = this;
+				Pawn_StoryTracker.<>c__IteratorDD expr_0E = <>c__IteratorDD;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -138,9 +138,9 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn_StoryTracker.<>c__IteratorDD <>c__IteratorDD = new Pawn_StoryTracker.<>c__IteratorDD();
-				<>c__IteratorDD.<>f__this = this;
-				Pawn_StoryTracker.<>c__IteratorDD expr_0E = <>c__IteratorDD;
+				Pawn_StoryTracker.<>c__IteratorDE <>c__IteratorDE = new Pawn_StoryTracker.<>c__IteratorDE();
+				<>c__IteratorDE.<>f__this = this;
+				Pawn_StoryTracker.<>c__IteratorDE expr_0E = <>c__IteratorDE;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

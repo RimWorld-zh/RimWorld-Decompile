@@ -205,9 +205,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<ThoughtDef> GetPermaThoughts()
 		{
-			Trait.<GetPermaThoughts>c__IteratorE9 <GetPermaThoughts>c__IteratorE = new Trait.<GetPermaThoughts>c__IteratorE9();
-			<GetPermaThoughts>c__IteratorE.<>f__this = this;
-			Trait.<GetPermaThoughts>c__IteratorE9 expr_0E = <GetPermaThoughts>c__IteratorE;
+			Trait.<GetPermaThoughts>c__IteratorEA <GetPermaThoughts>c__IteratorEA = new Trait.<GetPermaThoughts>c__IteratorEA();
+			<GetPermaThoughts>c__IteratorEA.<>f__this = this;
+			Trait.<GetPermaThoughts>c__IteratorEA expr_0E = <GetPermaThoughts>c__IteratorEA;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -220,9 +220,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerable<WorkTypeDef> GetDisabledWorkTypes()
 		{
-			Trait.<GetDisabledWorkTypes>c__IteratorEA <GetDisabledWorkTypes>c__IteratorEA = new Trait.<GetDisabledWorkTypes>c__IteratorEA();
-			<GetDisabledWorkTypes>c__IteratorEA.<>f__this = this;
-			Trait.<GetDisabledWorkTypes>c__IteratorEA expr_0E = <GetDisabledWorkTypes>c__IteratorEA;
+			Trait.<GetDisabledWorkTypes>c__IteratorEB <GetDisabledWorkTypes>c__IteratorEB = new Trait.<GetDisabledWorkTypes>c__IteratorEB();
+			<GetDisabledWorkTypes>c__IteratorEB.<>f__this = this;
+			Trait.<GetDisabledWorkTypes>c__IteratorEB expr_0E = <GetDisabledWorkTypes>c__IteratorEB;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

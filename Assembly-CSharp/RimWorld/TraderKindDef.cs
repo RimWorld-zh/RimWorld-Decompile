@@ -25,9 +25,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			TraderKindDef.<ConfigErrors>c__Iterator9A <ConfigErrors>c__Iterator9A = new TraderKindDef.<ConfigErrors>c__Iterator9A();
-			<ConfigErrors>c__Iterator9A.<>f__this = this;
-			TraderKindDef.<ConfigErrors>c__Iterator9A expr_0E = <ConfigErrors>c__Iterator9A;
+			TraderKindDef.<ConfigErrors>c__Iterator9B <ConfigErrors>c__Iterator9B = new TraderKindDef.<ConfigErrors>c__Iterator9B();
+			<ConfigErrors>c__Iterator9B.<>f__this = this;
+			TraderKindDef.<ConfigErrors>c__Iterator9B expr_0E = <ConfigErrors>c__Iterator9B;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

@@ -46,6 +46,14 @@ namespace RimWorld.Planet
 			}
 		}
 
+		public override bool TransportPodsCanLandAndGenerateMap
+		{
+			get
+			{
+				return this.core.transportPodsCanLandAndGenerateMap;
+			}
+		}
+
 		public bool KnownDanger
 		{
 			get
@@ -99,9 +107,9 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				Site.<>c__Iterator108 <>c__Iterator = new Site.<>c__Iterator108();
+				Site.<>c__Iterator109 <>c__Iterator = new Site.<>c__Iterator109();
 				<>c__Iterator.<>f__this = this;
-				Site.<>c__Iterator108 expr_0E = <>c__Iterator;
+				Site.<>c__Iterator109 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -152,11 +160,11 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			Site.<GetFloatMenuOptions>c__Iterator109 <GetFloatMenuOptions>c__Iterator = new Site.<GetFloatMenuOptions>c__Iterator109();
-			<GetFloatMenuOptions>c__Iterator.caravan = caravan;
-			<GetFloatMenuOptions>c__Iterator.<$>caravan = caravan;
-			<GetFloatMenuOptions>c__Iterator.<>f__this = this;
-			Site.<GetFloatMenuOptions>c__Iterator109 expr_1C = <GetFloatMenuOptions>c__Iterator;
+			Site.<GetFloatMenuOptions>c__Iterator10A <GetFloatMenuOptions>c__Iterator10A = new Site.<GetFloatMenuOptions>c__Iterator10A();
+			<GetFloatMenuOptions>c__Iterator10A.caravan = caravan;
+			<GetFloatMenuOptions>c__Iterator10A.<$>caravan = caravan;
+			<GetFloatMenuOptions>c__Iterator10A.<>f__this = this;
+			Site.<GetFloatMenuOptions>c__Iterator10A expr_1C = <GetFloatMenuOptions>c__Iterator10A;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}
@@ -164,9 +172,9 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Site.<GetGizmos>c__Iterator10A <GetGizmos>c__Iterator10A = new Site.<GetGizmos>c__Iterator10A();
-			<GetGizmos>c__Iterator10A.<>f__this = this;
-			Site.<GetGizmos>c__Iterator10A expr_0E = <GetGizmos>c__Iterator10A;
+			Site.<GetGizmos>c__Iterator10B <GetGizmos>c__Iterator10B = new Site.<GetGizmos>c__Iterator10B();
+			<GetGizmos>c__Iterator10B.<>f__this = this;
+			Site.<GetGizmos>c__Iterator10B expr_0E = <GetGizmos>c__Iterator10B;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

@@ -229,11 +229,11 @@ namespace Verse
 		[DebuggerHidden]
 		private IEnumerable<int> PointsNearMouse(Rect screenRect)
 		{
-			EditWindow_CurveEditor.<PointsNearMouse>c__Iterator22A <PointsNearMouse>c__Iterator22A = new EditWindow_CurveEditor.<PointsNearMouse>c__Iterator22A();
-			<PointsNearMouse>c__Iterator22A.screenRect = screenRect;
-			<PointsNearMouse>c__Iterator22A.<$>screenRect = screenRect;
-			<PointsNearMouse>c__Iterator22A.<>f__this = this;
-			EditWindow_CurveEditor.<PointsNearMouse>c__Iterator22A expr_1C = <PointsNearMouse>c__Iterator22A;
+			EditWindow_CurveEditor.<PointsNearMouse>c__Iterator22B <PointsNearMouse>c__Iterator22B = new EditWindow_CurveEditor.<PointsNearMouse>c__Iterator22B();
+			<PointsNearMouse>c__Iterator22B.screenRect = screenRect;
+			<PointsNearMouse>c__Iterator22B.<$>screenRect = screenRect;
+			<PointsNearMouse>c__Iterator22B.<>f__this = this;
+			EditWindow_CurveEditor.<PointsNearMouse>c__Iterator22B expr_1C = <PointsNearMouse>c__Iterator22B;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

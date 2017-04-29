@@ -13,9 +13,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public virtual IEnumerable<Rule> GetRules(string prefix)
 		{
-			TaleData.<GetRules>c__Iterator128 <GetRules>c__Iterator = new TaleData.<GetRules>c__Iterator128();
+			TaleData.<GetRules>c__Iterator129 <GetRules>c__Iterator = new TaleData.<GetRules>c__Iterator129();
 			<GetRules>c__Iterator.<>f__this = this;
-			TaleData.<GetRules>c__Iterator128 expr_0E = <GetRules>c__Iterator;
+			TaleData.<GetRules>c__Iterator129 expr_0E = <GetRules>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -23,9 +23,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public virtual IEnumerable<Rule> GetRules()
 		{
-			TaleData.<GetRules>c__Iterator129 <GetRules>c__Iterator = new TaleData.<GetRules>c__Iterator129();
-			<GetRules>c__Iterator.<>f__this = this;
-			TaleData.<GetRules>c__Iterator129 expr_0E = <GetRules>c__Iterator;
+			TaleData.<GetRules>c__Iterator12A <GetRules>c__Iterator12A = new TaleData.<GetRules>c__Iterator12A();
+			<GetRules>c__Iterator12A.<>f__this = this;
+			TaleData.<GetRules>c__Iterator12A expr_0E = <GetRules>c__Iterator12A;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

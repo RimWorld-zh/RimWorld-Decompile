@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -55,21 +55,19 @@ namespace RimWorld
 				Rect position = rect5.ContractedBy(10f);
 				GUI.BeginGroup(position);
 				Rect rect6 = new Rect(0f, 0f, position.width, 30f);
-				using (IEnumerator enumerator = Enum.GetValues(typeof(PrisonerInteractionMode)).GetEnumerator())
+				foreach (PrisonerInteractionModeDef current in from pim in DefDatabase<PrisonerInteractionModeDef>.AllDefs
+				orderby pim.listOrder
+				select pim)
 				{
-					while (enumerator.MoveNext())
+					if (Widgets.RadioButtonLabeled(rect6, current.GetLabel(), base.SelPawn.guest.interactionMode == current))
 					{
-						PrisonerInteractionMode prisonerInteractionMode = (PrisonerInteractionMode)((byte)enumerator.Current);
-						if (Widgets.RadioButtonLabeled(rect6, prisonerInteractionMode.GetLabel(), base.SelPawn.guest.interactionMode == prisonerInteractionMode))
+						base.SelPawn.guest.interactionMode = current;
+						if (current == PrisonerInteractionModeDefOf.Execution && base.SelPawn.MapHeld != null && !this.ColonyHasAnyWardenCapableOfViolence(base.SelPawn.MapHeld))
 						{
-							base.SelPawn.guest.interactionMode = prisonerInteractionMode;
-							if (prisonerInteractionMode == PrisonerInteractionMode.Execution && base.SelPawn.MapHeld != null && !this.ColonyHasAnyWardenCapableOfViolence(base.SelPawn.MapHeld))
-							{
-								Messages.Message("MessageCantDoExecutionBecauseNoWardenCapableOfViolence".Translate(), base.SelPawn, MessageSound.SeriousAlert);
-							}
+							Messages.Message("MessageCantDoExecutionBecauseNoWardenCapableOfViolence".Translate(), base.SelPawn, MessageSound.SeriousAlert);
 						}
-						rect6.y += 28f;
 					}
+					rect6.y += 28f;
 				}
 				GUI.EndGroup();
 			}

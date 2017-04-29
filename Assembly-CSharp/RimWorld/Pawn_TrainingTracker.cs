@@ -93,7 +93,7 @@ namespace RimWorld
 					this.pawn.LabelCapNoCount
 				}));
 			}
-			if (this.pawn.RaceProps.trainableIntelligence < td.requiredTrainableIntelligence)
+			if (this.pawn.RaceProps.TrainableIntelligence.intelligenceOrder < td.requiredTrainableIntelligence.intelligenceOrder)
 			{
 				visible = true;
 				return new AcceptanceReport("CannotTrainNotSmartEnough".Translate(new object[]

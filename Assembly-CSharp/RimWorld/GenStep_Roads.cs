@@ -48,7 +48,7 @@ namespace RimWorld
 
 		public override void Generate(Map map)
 		{
-			GenStep_Roads.<Generate>c__AnonStorey307 <Generate>c__AnonStorey = new GenStep_Roads.<Generate>c__AnonStorey307();
+			GenStep_Roads.<Generate>c__AnonStorey308 <Generate>c__AnonStorey = new GenStep_Roads.<Generate>c__AnonStorey308();
 			<Generate>c__AnonStorey.neededRoads = this.CalculateNeededRoads(map);
 			if (<Generate>c__AnonStorey.neededRoads.Count == 0)
 			{

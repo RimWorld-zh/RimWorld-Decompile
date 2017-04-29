@@ -9,7 +9,7 @@ namespace Verse.AI
 
 		private LocalTargetInfo target;
 
-		private ReservationLayer layer;
+		private ReservationLayerDef layer;
 
 		private int maxPawns;
 
@@ -31,7 +31,7 @@ namespace Verse.AI
 			}
 		}
 
-		public ReservationLayer Layer
+		public ReservationLayerDef Layer
 		{
 			get
 			{
@@ -67,7 +67,7 @@ namespace Verse.AI
 		{
 		}
 
-		public Reservation(Pawn claimant, int maxPawns, int stackCount, LocalTargetInfo target, ReservationLayer layer)
+		public Reservation(Pawn claimant, int maxPawns, int stackCount, LocalTargetInfo target, ReservationLayerDef layer)
 		{
 			this.claimant = claimant;
 			this.maxPawns = maxPawns;
@@ -82,7 +82,7 @@ namespace Verse.AI
 			Scribe_TargetInfo.Look(ref this.target, "target");
 			Scribe_Values.Look<int>(ref this.maxPawns, "maxPawns", 0, false);
 			Scribe_Values.Look<int>(ref this.stackCount, "stackCount", 0, false);
-			Scribe_Values.Look<ReservationLayer>(ref this.layer, "layer", ReservationLayer.Default, false);
+			Scribe_Values.Look<ReservationLayerDef>(ref this.layer, "layer", null, false);
 		}
 
 		public override string ToString()

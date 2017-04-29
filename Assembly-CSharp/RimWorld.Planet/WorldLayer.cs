@@ -133,9 +133,9 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public virtual IEnumerable Regenerate()
 		{
-			WorldLayer.<Regenerate>c__IteratorED <Regenerate>c__IteratorED = new WorldLayer.<Regenerate>c__IteratorED();
-			<Regenerate>c__IteratorED.<>f__this = this;
-			WorldLayer.<Regenerate>c__IteratorED expr_0E = <Regenerate>c__IteratorED;
+			WorldLayer.<Regenerate>c__IteratorEE <Regenerate>c__IteratorEE = new WorldLayer.<Regenerate>c__IteratorEE();
+			<Regenerate>c__IteratorEE.<>f__this = this;
+			WorldLayer.<Regenerate>c__IteratorEE expr_0E = <Regenerate>c__IteratorEE;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

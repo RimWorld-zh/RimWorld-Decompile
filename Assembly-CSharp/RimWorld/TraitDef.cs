@@ -50,9 +50,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			TraitDef.<ConfigErrors>c__Iterator9C <ConfigErrors>c__Iterator9C = new TraitDef.<ConfigErrors>c__Iterator9C();
-			<ConfigErrors>c__Iterator9C.<>f__this = this;
-			TraitDef.<ConfigErrors>c__Iterator9C expr_0E = <ConfigErrors>c__Iterator9C;
+			TraitDef.<ConfigErrors>c__Iterator9D <ConfigErrors>c__Iterator9D = new TraitDef.<ConfigErrors>c__Iterator9D();
+			<ConfigErrors>c__Iterator9D.<>f__this = this;
+			TraitDef.<ConfigErrors>c__Iterator9D expr_0E = <ConfigErrors>c__Iterator9D;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

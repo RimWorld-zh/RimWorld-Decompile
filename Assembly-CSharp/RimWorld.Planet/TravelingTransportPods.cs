@@ -116,9 +116,9 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				TravelingTransportPods.<>c__Iterator10B <>c__Iterator10B = new TravelingTransportPods.<>c__Iterator10B();
-				<>c__Iterator10B.<>f__this = this;
-				TravelingTransportPods.<>c__Iterator10B expr_0E = <>c__Iterator10B;
+				TravelingTransportPods.<>c__Iterator10C <>c__Iterator10C = new TravelingTransportPods.<>c__Iterator10C();
+				<>c__Iterator10C.<>f__this = this;
+				TravelingTransportPods.<>c__Iterator10C expr_0E = <>c__Iterator10C;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -232,19 +232,19 @@ namespace RimWorld.Planet
 			}
 			else
 			{
-				Settlement settlement = Find.WorldObjects.SettlementAt(this.destinationTile);
-				if (settlement != null && settlement.Attackable && this.attackOnArrival)
+				MapParent mapParent = Find.WorldObjects.MapParentAt(this.destinationTile);
+				if (mapParent != null && mapParent.TransportPodsCanLandAndGenerateMap && this.attackOnArrival)
 				{
 					LongEventHandler.QueueLongEvent(delegate
 					{
-						Map orGenerateMap = GetOrGenerateMapUtility.GetOrGenerateMap(settlement.Tile, null);
+						Map orGenerateMap = GetOrGenerateMapUtility.GetOrGenerateMap(mapParent.Tile, null);
 						string extraMessagePart = null;
-						if (!settlement.Faction.HostileTo(Faction.OfPlayer))
+						if (mapParent.Faction != null && !mapParent.Faction.HostileTo(Faction.OfPlayer))
 						{
-							settlement.Faction.SetHostileTo(Faction.OfPlayer, true);
+							mapParent.Faction.SetHostileTo(Faction.OfPlayer, true);
 							extraMessagePart = "MessageTransportPodsArrived_BecameHostile".Translate(new object[]
 							{
-								settlement.Faction.Name
+								mapParent.Faction.Name
 							}).CapitalizeFirst();
 						}
 						Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
@@ -304,12 +304,13 @@ namespace RimWorld.Planet
 			for (int i = 0; i < this.pods.Count; i++)
 			{
 				ThingOwner innerContainer = this.pods[i].innerContainer;
-				for (int j = 0; j < innerContainer.Count; j++)
+				for (int j = innerContainer.Count - 1; j >= 0; j--)
 				{
 					Pawn pawn = innerContainer[j] as Pawn;
 					if (pawn != null)
 					{
 						TravelingTransportPods.tmpPawns.Add(pawn);
+						innerContainer.Remove(pawn);
 					}
 				}
 			}
@@ -325,13 +326,16 @@ namespace RimWorld.Planet
 				TravelingTransportPods.tmpContainedThings.AddRange(this.pods[k].innerContainer);
 				for (int l = 0; l < TravelingTransportPods.tmpContainedThings.Count; l++)
 				{
-					if (!(TravelingTransportPods.tmpContainedThings[l] is Pawn))
+					this.pods[k].innerContainer.Remove(TravelingTransportPods.tmpContainedThings[l]);
+					Pawn pawn2 = CaravanInventoryUtility.FindPawnToMoveInventoryTo(TravelingTransportPods.tmpContainedThings[l], TravelingTransportPods.tmpPawns, null, null);
+					bool flag = false;
+					if (pawn2 != null)
 					{
-						Pawn pawn2 = CaravanInventoryUtility.FindPawnToMoveInventoryTo(TravelingTransportPods.tmpContainedThings[l], TravelingTransportPods.tmpPawns, null, null);
-						if (pawn2 != null)
-						{
-							pawn2.inventory.innerContainer.TryAdd(TravelingTransportPods.tmpContainedThings[l], true);
-						}
+						flag = pawn2.inventory.innerContainer.TryAdd(TravelingTransportPods.tmpContainedThings[l], true);
+					}
+					if (!flag)
+					{
+						TravelingTransportPods.tmpContainedThings[l].Destroy(DestroyMode.Vanish);
 					}
 				}
 			}
@@ -350,6 +354,7 @@ namespace RimWorld.Planet
 				TravelingTransportPods.tmpContainedThings.AddRange(this.pods[i].innerContainer);
 				for (int j = 0; j < TravelingTransportPods.tmpContainedThings.Count; j++)
 				{
+					this.pods[i].innerContainer.Remove(TravelingTransportPods.tmpContainedThings[j]);
 					Pawn pawn = TravelingTransportPods.tmpContainedThings[j] as Pawn;
 					if (pawn != null)
 					{
@@ -358,9 +363,14 @@ namespace RimWorld.Planet
 					else
 					{
 						Pawn pawn2 = CaravanInventoryUtility.FindPawnToMoveInventoryTo(TravelingTransportPods.tmpContainedThings[j], caravan.PawnsListForReading, null, null);
+						bool flag = false;
 						if (pawn2 != null)
 						{
-							pawn2.inventory.innerContainer.TryAdd(TravelingTransportPods.tmpContainedThings[j], true);
+							flag = pawn2.inventory.innerContainer.TryAdd(TravelingTransportPods.tmpContainedThings[j], true);
+						}
+						if (!flag)
+						{
+							TravelingTransportPods.tmpContainedThings[j].Destroy(DestroyMode.Vanish);
 						}
 					}
 				}

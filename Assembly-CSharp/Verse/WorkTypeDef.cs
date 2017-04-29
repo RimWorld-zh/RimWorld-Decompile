@@ -38,9 +38,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			WorkTypeDef.<ConfigErrors>c__Iterator1E3 <ConfigErrors>c__Iterator1E = new WorkTypeDef.<ConfigErrors>c__Iterator1E3();
+			WorkTypeDef.<ConfigErrors>c__Iterator1E4 <ConfigErrors>c__Iterator1E = new WorkTypeDef.<ConfigErrors>c__Iterator1E4();
 			<ConfigErrors>c__Iterator1E.<>f__this = this;
-			WorkTypeDef.<ConfigErrors>c__Iterator1E3 expr_0E = <ConfigErrors>c__Iterator1E;
+			WorkTypeDef.<ConfigErrors>c__Iterator1E4 expr_0E = <ConfigErrors>c__Iterator1E;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

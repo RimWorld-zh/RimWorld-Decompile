@@ -123,9 +123,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerable<FiringIncident> MakeIncidentsForInterval()
 		{
-			Storyteller.<MakeIncidentsForInterval>c__IteratorA3 <MakeIncidentsForInterval>c__IteratorA = new Storyteller.<MakeIncidentsForInterval>c__IteratorA3();
+			Storyteller.<MakeIncidentsForInterval>c__IteratorA4 <MakeIncidentsForInterval>c__IteratorA = new Storyteller.<MakeIncidentsForInterval>c__IteratorA4();
 			<MakeIncidentsForInterval>c__IteratorA.<>f__this = this;
-			Storyteller.<MakeIncidentsForInterval>c__IteratorA3 expr_0E = <MakeIncidentsForInterval>c__IteratorA;
+			Storyteller.<MakeIncidentsForInterval>c__IteratorA4 expr_0E = <MakeIncidentsForInterval>c__IteratorA;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

@@ -281,6 +281,7 @@ namespace Verse
 			{
 				this.ticksGameInt += 250;
 			}
+			Shader.SetGlobalFloat(ShaderPropertyIDs.GameSeconds, this.TicksGame.TicksToSeconds());
 			Profiler.BeginSample("tickListNormal");
 			this.tickListNormal.Tick();
 			Profiler.EndSample();

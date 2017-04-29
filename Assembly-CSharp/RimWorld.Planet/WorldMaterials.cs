@@ -55,6 +55,8 @@ namespace RimWorld.Planet
 
 		public static readonly Material VertexColor;
 
+		private static readonly Material TargetSquareMatSingle;
+
 		private static int NumMatsPerMode;
 
 		public static Material OverlayModeMatOcean;
@@ -75,29 +77,39 @@ namespace RimWorld.Planet
 
 		private static readonly Color[] RainfallSpectrum;
 
+		public static Material CurTargetingMat
+		{
+			get
+			{
+				WorldMaterials.TargetSquareMatSingle.color = GenDraw.CurTargetingColor;
+				return WorldMaterials.TargetSquareMatSingle;
+			}
+		}
+
 		static WorldMaterials()
 		{
-			WorldMaterials.WorldTerrain = MatLoader.LoadMat("World/WorldTerrain", -1);
-			WorldMaterials.WorldIce = MatLoader.LoadMat("World/WorldTerrain", 3540);
-			WorldMaterials.WorldOcean = MatLoader.LoadMat("World/WorldOcean", 3520);
-			WorldMaterials.UngeneratedPlanetParts = MatLoader.LoadMat("World/UngeneratedPlanetParts", -1);
-			WorldMaterials.Rivers = MatLoader.LoadMat("World/Rivers", 3515);
-			WorldMaterials.RiversBorder = MatLoader.LoadMat("World/RiversBorder", 3510);
-			WorldMaterials.Roads = MatLoader.LoadMat("World/Roads", 3530);
-			WorldMaterials.WorldObjectRenderQueue = 3540;
+			WorldMaterials.WorldTerrain = MatLoader.LoadMat("World/WorldTerrain", 3500);
+			WorldMaterials.WorldIce = MatLoader.LoadMat("World/WorldIce", 3500);
+			WorldMaterials.WorldOcean = MatLoader.LoadMat("World/WorldOcean", 3500);
+			WorldMaterials.UngeneratedPlanetParts = MatLoader.LoadMat("World/UngeneratedPlanetParts", 3500);
+			WorldMaterials.Rivers = MatLoader.LoadMat("World/Rivers", 3530);
+			WorldMaterials.RiversBorder = MatLoader.LoadMat("World/RiversBorder", 3520);
+			WorldMaterials.Roads = MatLoader.LoadMat("World/Roads", 3540);
+			WorldMaterials.WorldObjectRenderQueue = 3550;
 			WorldMaterials.DynamicObjectRenderQueue = 3600;
 			WorldMaterials.WorldLineRenderQueue = 3590;
-			WorldMaterials.MouseTile = MaterialPool.MatFrom("World/MouseTile", ShaderDatabase.WorldOverlayAdditive, 3550);
-			WorldMaterials.SelectedTile = MaterialPool.MatFrom("World/SelectedTile", ShaderDatabase.WorldOverlayAdditive, 3550);
-			WorldMaterials.CurrentMapTile = MaterialPool.MatFrom("World/CurrentMapTile", ShaderDatabase.WorldOverlayTransparent, 3550);
+			WorldMaterials.MouseTile = MaterialPool.MatFrom("World/MouseTile", ShaderDatabase.WorldOverlayAdditive, 3560);
+			WorldMaterials.SelectedTile = MaterialPool.MatFrom("World/SelectedTile", ShaderDatabase.WorldOverlayAdditive, 3560);
+			WorldMaterials.CurrentMapTile = MaterialPool.MatFrom("World/CurrentMapTile", ShaderDatabase.WorldOverlayTransparent, 3560);
 			WorldMaterials.Stars = MatLoader.LoadMat("World/Stars", -1);
 			WorldMaterials.Sun = MatLoader.LoadMat("World/Sun", -1);
 			WorldMaterials.PlanetGlow = MatLoader.LoadMat("World/PlanetGlow", -1);
-			WorldMaterials.SmallHills = MaterialPool.MatFrom("World/Hills/SmallHills", ShaderDatabase.WorldOverlayTransparentLit, 3500);
-			WorldMaterials.LargeHills = MaterialPool.MatFrom("World/Hills/LargeHills", ShaderDatabase.WorldOverlayTransparentLit, 3500);
-			WorldMaterials.Mountains = MaterialPool.MatFrom("World/Hills/Mountains", ShaderDatabase.WorldOverlayTransparentLit, 3500);
-			WorldMaterials.ImpassableMountains = MaterialPool.MatFrom("World/Hills/Impassable", ShaderDatabase.WorldOverlayTransparentLit, 3500);
+			WorldMaterials.SmallHills = MaterialPool.MatFrom("World/Hills/SmallHills", ShaderDatabase.WorldOverlayTransparentLit, 3510);
+			WorldMaterials.LargeHills = MaterialPool.MatFrom("World/Hills/LargeHills", ShaderDatabase.WorldOverlayTransparentLit, 3510);
+			WorldMaterials.Mountains = MaterialPool.MatFrom("World/Hills/Mountains", ShaderDatabase.WorldOverlayTransparentLit, 3510);
+			WorldMaterials.ImpassableMountains = MaterialPool.MatFrom("World/Hills/Impassable", ShaderDatabase.WorldOverlayTransparentLit, 3510);
 			WorldMaterials.VertexColor = MatLoader.LoadMat("World/WorldVertexColor", -1);
+			WorldMaterials.TargetSquareMatSingle = MaterialPool.MatFrom("UI/Overlays/TargetHighlight_Square", ShaderDatabase.Transparent, 3560);
 			WorldMaterials.NumMatsPerMode = 50;
 			WorldMaterials.OverlayModeMatOcean = SolidColorMaterials.NewSolidColorMaterial(new Color(0.09f, 0.18f, 0.2f), ShaderDatabase.Transparent);
 			WorldMaterials.FertilitySpectrum = new Color[]

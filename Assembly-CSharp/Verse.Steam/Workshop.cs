@@ -299,8 +299,8 @@ namespace Verse.Steam
 		[DebuggerHidden]
 		internal static IEnumerable<PublishedFileId_t> AllSubscribedItems()
 		{
-			Workshop.<AllSubscribedItems>c__Iterator24D <AllSubscribedItems>c__Iterator24D = new Workshop.<AllSubscribedItems>c__Iterator24D();
-			Workshop.<AllSubscribedItems>c__Iterator24D expr_07 = <AllSubscribedItems>c__Iterator24D;
+			Workshop.<AllSubscribedItems>c__Iterator24E <AllSubscribedItems>c__Iterator24E = new Workshop.<AllSubscribedItems>c__Iterator24E();
+			Workshop.<AllSubscribedItems>c__Iterator24E expr_07 = <AllSubscribedItems>c__Iterator24E;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

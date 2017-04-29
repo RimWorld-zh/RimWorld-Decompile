@@ -114,7 +114,7 @@ namespace Verse
 
 		private void SetSunShadowVector(Vector2 vec)
 		{
-			MatBases.SunShadow.SetVector("_CastVect", new Vector4(vec.x, 0f, vec.y, 0f));
+			Shader.SetGlobalVector(ShaderPropertyIDs.MapSunLightDirection, new Vector4(vec.x, 0f, vec.y, GenCelestial.CurShadowStrength(this.map)));
 		}
 
 		private SkyTarget CurrentSkyTarget()

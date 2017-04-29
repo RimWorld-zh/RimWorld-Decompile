@@ -11,12 +11,12 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<Thing> TryMakeForStock(ThingDef thingDef, int count)
 		{
-			StockGeneratorUtility.<TryMakeForStock>c__Iterator172 <TryMakeForStock>c__Iterator = new StockGeneratorUtility.<TryMakeForStock>c__Iterator172();
+			StockGeneratorUtility.<TryMakeForStock>c__Iterator173 <TryMakeForStock>c__Iterator = new StockGeneratorUtility.<TryMakeForStock>c__Iterator173();
 			<TryMakeForStock>c__Iterator.thingDef = thingDef;
 			<TryMakeForStock>c__Iterator.count = count;
 			<TryMakeForStock>c__Iterator.<$>thingDef = thingDef;
 			<TryMakeForStock>c__Iterator.<$>count = count;
-			StockGeneratorUtility.<TryMakeForStock>c__Iterator172 expr_23 = <TryMakeForStock>c__Iterator;
+			StockGeneratorUtility.<TryMakeForStock>c__Iterator173 expr_23 = <TryMakeForStock>c__Iterator;
 			expr_23.$PC = -2;
 			return expr_23;
 		}

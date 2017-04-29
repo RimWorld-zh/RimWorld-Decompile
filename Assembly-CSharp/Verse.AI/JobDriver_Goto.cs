@@ -10,9 +10,9 @@ namespace Verse.AI
 		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_Goto.<MakeNewToils>c__Iterator1AA <MakeNewToils>c__Iterator1AA = new JobDriver_Goto.<MakeNewToils>c__Iterator1AA();
-			<MakeNewToils>c__Iterator1AA.<>f__this = this;
-			JobDriver_Goto.<MakeNewToils>c__Iterator1AA expr_0E = <MakeNewToils>c__Iterator1AA;
+			JobDriver_Goto.<MakeNewToils>c__Iterator1AB <MakeNewToils>c__Iterator1AB = new JobDriver_Goto.<MakeNewToils>c__Iterator1AB();
+			<MakeNewToils>c__Iterator1AB.<>f__this = this;
+			JobDriver_Goto.<MakeNewToils>c__Iterator1AB expr_0E = <MakeNewToils>c__Iterator1AB;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

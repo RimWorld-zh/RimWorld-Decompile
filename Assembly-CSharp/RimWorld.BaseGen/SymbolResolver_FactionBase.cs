@@ -12,8 +12,8 @@ namespace RimWorld.BaseGen
 
 		public override void Resolve(ResolveParams rp)
 		{
-			SymbolResolver_FactionBase.<Resolve>c__AnonStorey2FC <Resolve>c__AnonStorey2FC = new SymbolResolver_FactionBase.<Resolve>c__AnonStorey2FC();
-			<Resolve>c__AnonStorey2FC.map = BaseGen.globalSettings.map;
+			SymbolResolver_FactionBase.<Resolve>c__AnonStorey2FD <Resolve>c__AnonStorey2FD = new SymbolResolver_FactionBase.<Resolve>c__AnonStorey2FD();
+			<Resolve>c__AnonStorey2FD.map = BaseGen.globalSettings.map;
 			Faction faction = rp.faction ?? Find.FactionManager.RandomEnemyFaction(false, false, true);
 			int num = 0;
 			int? edgeDefenseWidth = rp.edgeDefenseWidth;
@@ -27,14 +27,14 @@ namespace RimWorld.BaseGen
 			}
 			float num2 = (float)rp.rect.Area / 144f * 0.17f;
 			BaseGen.globalSettings.minEmptyNodes = ((num2 >= 1f) ? GenMath.RoundRandom(num2) : 0);
-			Lord singlePawnLord = rp.singlePawnLord ?? LordMaker.MakeNewLord(faction, new LordJob_DefendBase(faction, rp.rect.CenterCell), <Resolve>c__AnonStorey2FC.map, null);
+			Lord singlePawnLord = rp.singlePawnLord ?? LordMaker.MakeNewLord(faction, new LordJob_DefendBase(faction, rp.rect.CenterCell), <Resolve>c__AnonStorey2FD.map, null);
 			TraverseParms traverseParms = TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false);
 			ResolveParams resolveParams = rp;
 			resolveParams.rect = rp.rect;
 			resolveParams.faction = faction;
 			resolveParams.singlePawnLord = singlePawnLord;
 			resolveParams.pawnGroupKindDef = (rp.pawnGroupKindDef ?? PawnGroupKindDefOf.FactionBase);
-			resolveParams.singlePawnSpawnCellExtraPredicate = (rp.singlePawnSpawnCellExtraPredicate ?? ((IntVec3 x) => <Resolve>c__AnonStorey2FC.map.reachability.CanReachMapEdge(x, traverseParms)));
+			resolveParams.singlePawnSpawnCellExtraPredicate = (rp.singlePawnSpawnCellExtraPredicate ?? ((IntVec3 x) => <Resolve>c__AnonStorey2FD.map.reachability.CanReachMapEdge(x, traverseParms)));
 			if (resolveParams.pawnGroupMakerParams == null)
 			{
 				float num3 = (!faction.def.techLevel.IsNeolithicOrWorse()) ? SymbolResolver_FactionBase.NonNeolithicPawnsPoints.RandomInRange : SymbolResolver_FactionBase.NeolithicPawnsPoints.RandomInRange;
@@ -44,7 +44,7 @@ namespace RimWorld.BaseGen
 					num3 *= rp.factionBasePawnGroupPointsFactor.Value;
 				}
 				resolveParams.pawnGroupMakerParams = new PawnGroupMakerParms();
-				resolveParams.pawnGroupMakerParams.tile = <Resolve>c__AnonStorey2FC.map.Tile;
+				resolveParams.pawnGroupMakerParams.tile = <Resolve>c__AnonStorey2FD.map.Tile;
 				resolveParams.pawnGroupMakerParams.faction = faction;
 				resolveParams.pawnGroupMakerParams.points = num3;
 				resolveParams.pawnGroupMakerParams.inhabitants = true;

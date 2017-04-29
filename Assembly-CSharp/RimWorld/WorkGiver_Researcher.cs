@@ -39,7 +39,7 @@ namespace RimWorld
 				return false;
 			}
 			Building_ResearchBench building_ResearchBench = t as Building_ResearchBench;
-			return building_ResearchBench != null && currentProj.CanBeResearchedAt(building_ResearchBench, false) && pawn.CanReserve(t, 1, -1, ReservationLayer.Default, forced);
+			return building_ResearchBench != null && currentProj.CanBeResearchedAt(building_ResearchBench, false) && pawn.CanReserve(t, 1, -1, null, forced);
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

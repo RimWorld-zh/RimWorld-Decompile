@@ -12,7 +12,8 @@ namespace Verse
 		{
 			Hard,
 			Fade,
-			FadeRough
+			FadeRough,
+			Water
 		}
 
 		[NoTranslate]
@@ -94,12 +95,19 @@ namespace Verse
 				case TerrainDef.TerrainEdgeType.FadeRough:
 					shader = ShaderDatabase.TerrainFadeRough;
 					break;
+				case TerrainDef.TerrainEdgeType.Water:
+					shader = ShaderDatabase.TerrainWater;
+					break;
 				}
 				this.graphic = GraphicDatabase.Get<Graphic_Terrain>(this.texturePath, shader, Vector2.one, this.color);
 				this.graphic.MatSingle.renderQueue = 2000 + this.renderPrecedence;
 				if (shader == ShaderDatabase.TerrainFadeRough)
 				{
 					this.graphic.MatSingle.SetTexture("_AlphaAddTex", TexUI.AlphaAddTex);
+				}
+				if (shader == ShaderDatabase.TerrainWater)
+				{
+					this.graphic.MatSingle.SetTexture("_RippleTex", TexUI.RippleTex);
 				}
 			});
 			base.PostLoad();
@@ -108,9 +116,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			TerrainDef.<ConfigErrors>c__Iterator1D8 <ConfigErrors>c__Iterator1D = new TerrainDef.<ConfigErrors>c__Iterator1D8();
+			TerrainDef.<ConfigErrors>c__Iterator1D9 <ConfigErrors>c__Iterator1D = new TerrainDef.<ConfigErrors>c__Iterator1D9();
 			<ConfigErrors>c__Iterator1D.<>f__this = this;
-			TerrainDef.<ConfigErrors>c__Iterator1D8 expr_0E = <ConfigErrors>c__Iterator1D;
+			TerrainDef.<ConfigErrors>c__Iterator1D9 expr_0E = <ConfigErrors>c__Iterator1D;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

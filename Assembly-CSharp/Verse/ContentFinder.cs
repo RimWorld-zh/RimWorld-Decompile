@@ -53,10 +53,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<T> GetAllInFolder(string folderPath)
 		{
-			ContentFinder<T>.<GetAllInFolder>c__Iterator206 <GetAllInFolder>c__Iterator = new ContentFinder<T>.<GetAllInFolder>c__Iterator206();
+			ContentFinder<T>.<GetAllInFolder>c__Iterator207 <GetAllInFolder>c__Iterator = new ContentFinder<T>.<GetAllInFolder>c__Iterator207();
 			<GetAllInFolder>c__Iterator.folderPath = folderPath;
 			<GetAllInFolder>c__Iterator.<$>folderPath = folderPath;
-			ContentFinder<T>.<GetAllInFolder>c__Iterator206 expr_15 = <GetAllInFolder>c__Iterator;
+			ContentFinder<T>.<GetAllInFolder>c__Iterator207 expr_15 = <GetAllInFolder>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

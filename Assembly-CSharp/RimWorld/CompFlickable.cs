@@ -114,9 +114,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompFlickable.<CompGetGizmosExtra>c__IteratorB3 <CompGetGizmosExtra>c__IteratorB = new CompFlickable.<CompGetGizmosExtra>c__IteratorB3();
+			CompFlickable.<CompGetGizmosExtra>c__IteratorB4 <CompGetGizmosExtra>c__IteratorB = new CompFlickable.<CompGetGizmosExtra>c__IteratorB4();
 			<CompGetGizmosExtra>c__IteratorB.<>f__this = this;
-			CompFlickable.<CompGetGizmosExtra>c__IteratorB3 expr_0E = <CompGetGizmosExtra>c__IteratorB;
+			CompFlickable.<CompGetGizmosExtra>c__IteratorB4 expr_0E = <CompGetGizmosExtra>c__IteratorB;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

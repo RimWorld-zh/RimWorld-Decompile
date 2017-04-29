@@ -20,9 +20,9 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn_TraderTracker.<>c__IteratorE3 <>c__IteratorE = new Pawn_TraderTracker.<>c__IteratorE3();
+				Pawn_TraderTracker.<>c__IteratorE4 <>c__IteratorE = new Pawn_TraderTracker.<>c__IteratorE4();
 				<>c__IteratorE.<>f__this = this;
-				Pawn_TraderTracker.<>c__IteratorE3 expr_0E = <>c__IteratorE;
+				Pawn_TraderTracker.<>c__IteratorE4 expr_0E = <>c__IteratorE;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -70,9 +70,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
-			Pawn_TraderTracker.<ColonyThingsWillingToBuy>c__IteratorE4 <ColonyThingsWillingToBuy>c__IteratorE = new Pawn_TraderTracker.<ColonyThingsWillingToBuy>c__IteratorE4();
+			Pawn_TraderTracker.<ColonyThingsWillingToBuy>c__IteratorE5 <ColonyThingsWillingToBuy>c__IteratorE = new Pawn_TraderTracker.<ColonyThingsWillingToBuy>c__IteratorE5();
 			<ColonyThingsWillingToBuy>c__IteratorE.<>f__this = this;
-			Pawn_TraderTracker.<ColonyThingsWillingToBuy>c__IteratorE4 expr_0E = <ColonyThingsWillingToBuy>c__IteratorE;
+			Pawn_TraderTracker.<ColonyThingsWillingToBuy>c__IteratorE5 expr_0E = <ColonyThingsWillingToBuy>c__IteratorE;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

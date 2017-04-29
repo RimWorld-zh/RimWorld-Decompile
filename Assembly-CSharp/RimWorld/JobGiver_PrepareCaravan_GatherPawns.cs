@@ -45,7 +45,7 @@ namespace RimWorld
 									float num2 = (float)pawn.Position.DistanceToSquared(pawn3.Position);
 									if (pawn2 == null || num2 < num)
 									{
-										if (pawn.CanReserveAndReach(pawn3, PathEndMode.Touch, Danger.Deadly, 1, -1, ReservationLayer.Default, false))
+										if (pawn.CanReserveAndReach(pawn3, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false))
 										{
 											pawn2 = pawn3;
 											num = num2;

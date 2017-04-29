@@ -129,7 +129,10 @@ namespace Verse
 				loadID,
 				" of type ",
 				typeof(T),
-				". Was it compressed away, destroyed, had no ID number, or not saved/loaded right?"
+				". Was it compressed away, destroyed, had no ID number, or not saved/loaded right? curParent=",
+				Scribe.loader.curParent.ToStringSafe<IExposable>(),
+				" curPathRelToParent=",
+				Scribe.loader.curPathRelToParent
 			}));
 			return default(T);
 		}

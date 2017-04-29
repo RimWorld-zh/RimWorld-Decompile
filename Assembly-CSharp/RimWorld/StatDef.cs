@@ -82,9 +82,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			StatDef.<ConfigErrors>c__Iterator95 <ConfigErrors>c__Iterator = new StatDef.<ConfigErrors>c__Iterator95();
+			StatDef.<ConfigErrors>c__Iterator96 <ConfigErrors>c__Iterator = new StatDef.<ConfigErrors>c__Iterator96();
 			<ConfigErrors>c__Iterator.<>f__this = this;
-			StatDef.<ConfigErrors>c__Iterator95 expr_0E = <ConfigErrors>c__Iterator;
+			StatDef.<ConfigErrors>c__Iterator96 expr_0E = <ConfigErrors>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

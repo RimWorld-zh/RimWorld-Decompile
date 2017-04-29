@@ -35,7 +35,7 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerator GetEnumerator()
 		{
-			IncidentQueue.<GetEnumerator>c__IteratorA2 <GetEnumerator>c__IteratorA = new IncidentQueue.<GetEnumerator>c__IteratorA2();
+			IncidentQueue.<GetEnumerator>c__IteratorA3 <GetEnumerator>c__IteratorA = new IncidentQueue.<GetEnumerator>c__IteratorA3();
 			<GetEnumerator>c__IteratorA.<>f__this = this;
 			return <GetEnumerator>c__IteratorA;
 		}

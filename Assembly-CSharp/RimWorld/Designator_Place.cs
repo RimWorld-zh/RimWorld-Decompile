@@ -33,7 +33,6 @@ namespace RimWorld
 			if (thingDef != null && thingDef.rotatable)
 			{
 				Rect winRect = new Rect(leftX, bottomY - 90f, 200f, 90f);
-				this.HandleRotationShortcuts();
 				Find.WindowStack.ImmediateWindow(73095, winRect, WindowLayer.GameUI, delegate
 				{
 					RotationDirection rotationDirection = RotationDirection.None;
@@ -62,6 +61,16 @@ namespace RimWorld
 					Text.Anchor = TextAnchor.UpperLeft;
 					Text.Font = GameFont.Small;
 				}, true, false, 1f);
+			}
+		}
+
+		public override void SelectedProcessInput(Event ev)
+		{
+			base.SelectedProcessInput(ev);
+			ThingDef thingDef = this.PlacingDef as ThingDef;
+			if (thingDef != null && thingDef.rotatable)
+			{
+				this.HandleRotationShortcuts();
 			}
 		}
 

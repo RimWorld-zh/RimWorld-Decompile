@@ -19,7 +19,7 @@ namespace Verse.AI
 
 		public static bool CanUseItemForWork(Pawn p, Thing item)
 		{
-			return !item.IsForbidden(p) && p.CanReserveAndReach(item, PathEndMode.ClosestTouch, p.NormalMaxDanger(), 1, -1, ReservationLayer.Default, false);
+			return !item.IsForbidden(p) && p.CanReserveAndReach(item, PathEndMode.ClosestTouch, p.NormalMaxDanger(), 1, -1, null, false);
 		}
 
 		public static bool CanBeArrested(this Pawn pawn)

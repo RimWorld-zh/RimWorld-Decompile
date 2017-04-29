@@ -13,12 +13,12 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<PawnRelationDef> GetRelations(this Pawn me, Pawn other)
 		{
-			PawnRelationUtility.<GetRelations>c__IteratorD9 <GetRelations>c__IteratorD = new PawnRelationUtility.<GetRelations>c__IteratorD9();
-			<GetRelations>c__IteratorD.me = me;
-			<GetRelations>c__IteratorD.other = other;
-			<GetRelations>c__IteratorD.<$>me = me;
-			<GetRelations>c__IteratorD.<$>other = other;
-			PawnRelationUtility.<GetRelations>c__IteratorD9 expr_23 = <GetRelations>c__IteratorD;
+			PawnRelationUtility.<GetRelations>c__IteratorDA <GetRelations>c__IteratorDA = new PawnRelationUtility.<GetRelations>c__IteratorDA();
+			<GetRelations>c__IteratorDA.me = me;
+			<GetRelations>c__IteratorDA.other = other;
+			<GetRelations>c__IteratorDA.<$>me = me;
+			<GetRelations>c__IteratorDA.<$>other = other;
+			PawnRelationUtility.<GetRelations>c__IteratorDA expr_23 = <GetRelations>c__IteratorDA;
 			expr_23.$PC = -2;
 			return expr_23;
 		}

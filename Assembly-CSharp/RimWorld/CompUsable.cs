@@ -28,18 +28,18 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn myPawn)
 		{
-			CompUsable.<CompFloatMenuOptions>c__Iterator166 <CompFloatMenuOptions>c__Iterator = new CompUsable.<CompFloatMenuOptions>c__Iterator166();
+			CompUsable.<CompFloatMenuOptions>c__Iterator167 <CompFloatMenuOptions>c__Iterator = new CompUsable.<CompFloatMenuOptions>c__Iterator167();
 			<CompFloatMenuOptions>c__Iterator.myPawn = myPawn;
 			<CompFloatMenuOptions>c__Iterator.<$>myPawn = myPawn;
 			<CompFloatMenuOptions>c__Iterator.<>f__this = this;
-			CompUsable.<CompFloatMenuOptions>c__Iterator166 expr_1C = <CompFloatMenuOptions>c__Iterator;
+			CompUsable.<CompFloatMenuOptions>c__Iterator167 expr_1C = <CompFloatMenuOptions>c__Iterator;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}
 
 		public void TryStartUseJob(Pawn user)
 		{
-			if (!user.CanReserveAndReach(this.parent, PathEndMode.Touch, Danger.Deadly, 1, -1, ReservationLayer.Default, false))
+			if (!user.CanReserveAndReach(this.parent, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false))
 			{
 				return;
 			}

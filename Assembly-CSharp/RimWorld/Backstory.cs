@@ -48,9 +48,9 @@ namespace RimWorld
 		{
 			get
 			{
-				Backstory.<>c__IteratorDA <>c__IteratorDA = new Backstory.<>c__IteratorDA();
-				<>c__IteratorDA.<>f__this = this;
-				Backstory.<>c__IteratorDA expr_0E = <>c__IteratorDA;
+				Backstory.<>c__IteratorDB <>c__IteratorDB = new Backstory.<>c__IteratorDB();
+				<>c__IteratorDB.<>f__this = this;
+				Backstory.<>c__IteratorDB expr_0E = <>c__IteratorDB;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -189,11 +189,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors(bool ignoreNoSpawnCategories)
 		{
-			Backstory.<ConfigErrors>c__IteratorDB <ConfigErrors>c__IteratorDB = new Backstory.<ConfigErrors>c__IteratorDB();
-			<ConfigErrors>c__IteratorDB.ignoreNoSpawnCategories = ignoreNoSpawnCategories;
-			<ConfigErrors>c__IteratorDB.<$>ignoreNoSpawnCategories = ignoreNoSpawnCategories;
-			<ConfigErrors>c__IteratorDB.<>f__this = this;
-			Backstory.<ConfigErrors>c__IteratorDB expr_1C = <ConfigErrors>c__IteratorDB;
+			Backstory.<ConfigErrors>c__IteratorDC <ConfigErrors>c__IteratorDC = new Backstory.<ConfigErrors>c__IteratorDC();
+			<ConfigErrors>c__IteratorDC.ignoreNoSpawnCategories = ignoreNoSpawnCategories;
+			<ConfigErrors>c__IteratorDC.<$>ignoreNoSpawnCategories = ignoreNoSpawnCategories;
+			<ConfigErrors>c__IteratorDC.<>f__this = this;
+			Backstory.<ConfigErrors>c__IteratorDC expr_1C = <ConfigErrors>c__IteratorDC;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

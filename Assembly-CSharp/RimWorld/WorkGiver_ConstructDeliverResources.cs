@@ -26,12 +26,12 @@ namespace RimWorld
 
 		private static bool ResourceValidator(Pawn pawn, ThingCountClass need, Thing th)
 		{
-			return th.def == need.thingDef && !th.IsForbidden(pawn) && pawn.CanReserve(th, 1, -1, ReservationLayer.Default, false);
+			return th.def == need.thingDef && !th.IsForbidden(pawn) && pawn.CanReserve(th, 1, -1, null, false);
 		}
 
 		protected Job ResourceDeliverJobFor(Pawn pawn, IConstructible c)
 		{
-			WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2A6 <ResourceDeliverJobFor>c__AnonStorey2A = new WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2A6();
+			WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2A7 <ResourceDeliverJobFor>c__AnonStorey2A = new WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2A7();
 			<ResourceDeliverJobFor>c__AnonStorey2A.pawn = pawn;
 			Blueprint_Install blueprint_Install = c as Blueprint_Install;
 			if (blueprint_Install != null)
@@ -43,16 +43,16 @@ namespace RimWorld
 			int count = list.Count;
 			for (int i = 0; i < count; i++)
 			{
-				WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2A7 <ResourceDeliverJobFor>c__AnonStorey2A2 = new WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2A7();
-				<ResourceDeliverJobFor>c__AnonStorey2A2.<>f__ref$678 = <ResourceDeliverJobFor>c__AnonStorey2A;
+				WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2A8 <ResourceDeliverJobFor>c__AnonStorey2A2 = new WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2A8();
+				<ResourceDeliverJobFor>c__AnonStorey2A2.<>f__ref$679 = <ResourceDeliverJobFor>c__AnonStorey2A;
 				<ResourceDeliverJobFor>c__AnonStorey2A2.need = list[i];
 				if (!<ResourceDeliverJobFor>c__AnonStorey2A.pawn.Map.itemAvailability.ThingsAvailableAnywhere(<ResourceDeliverJobFor>c__AnonStorey2A2.need, <ResourceDeliverJobFor>c__AnonStorey2A.pawn))
 				{
 					flag = true;
 					break;
 				}
-				WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2A7 arg_EC_0 = <ResourceDeliverJobFor>c__AnonStorey2A2;
-				Predicate<Thing> validator = (Thing r) => WorkGiver_ConstructDeliverResources.ResourceValidator(<ResourceDeliverJobFor>c__AnonStorey2A2.<>f__ref$678.pawn, <ResourceDeliverJobFor>c__AnonStorey2A2.need, r);
+				WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2A8 arg_EC_0 = <ResourceDeliverJobFor>c__AnonStorey2A2;
+				Predicate<Thing> validator = (Thing r) => WorkGiver_ConstructDeliverResources.ResourceValidator(<ResourceDeliverJobFor>c__AnonStorey2A2.<>f__ref$679.pawn, <ResourceDeliverJobFor>c__AnonStorey2A2.need, r);
 				arg_EC_0.foundRes = GenClosest.ClosestThingReachable(<ResourceDeliverJobFor>c__AnonStorey2A.pawn.Position, <ResourceDeliverJobFor>c__AnonStorey2A.pawn.Map, ThingRequest.ForDef(<ResourceDeliverJobFor>c__AnonStorey2A2.need.thingDef), PathEndMode.ClosestTouch, TraverseParms.For(<ResourceDeliverJobFor>c__AnonStorey2A.pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, -1, false, RegionType.Set_Passable);
 				if (<ResourceDeliverJobFor>c__AnonStorey2A2.foundRes != null)
 				{
@@ -152,7 +152,7 @@ namespace RimWorld
 		private Job InstallJob(Pawn pawn, Blueprint_Install install)
 		{
 			Thing miniToInstallOrBuildingToReinstall = install.MiniToInstallOrBuildingToReinstall;
-			if (miniToInstallOrBuildingToReinstall.IsForbidden(pawn) || !pawn.CanReserveAndReach(miniToInstallOrBuildingToReinstall, PathEndMode.OnCell, pawn.NormalMaxDanger(), 1, -1, ReservationLayer.Default, false))
+			if (miniToInstallOrBuildingToReinstall.IsForbidden(pawn) || !pawn.CanReserveAndReach(miniToInstallOrBuildingToReinstall, PathEndMode.OnCell, pawn.NormalMaxDanger(), 1, -1, null, false))
 			{
 				return null;
 			}

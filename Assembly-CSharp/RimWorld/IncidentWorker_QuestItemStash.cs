@@ -163,7 +163,7 @@ namespace RimWorld
 			{
 				return "ItemStashSitePart_Outpost";
 			}
-			if (sitePart == SitePartDefOf.Outpost)
+			if (sitePart == SitePartDefOf.Turrets)
 			{
 				return "ItemStashSitePart_Turrets";
 			}

@@ -33,7 +33,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (!pawn.CanReserve(t, 1, -1, ReservationLayer.Default, forced))
+			if (!pawn.CanReserve(t, 1, -1, null, forced))
 			{
 				return false;
 			}

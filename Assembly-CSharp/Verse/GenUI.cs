@@ -215,14 +215,14 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<LocalTargetInfo> TargetsAt(Vector3 clickPos, TargetingParameters clickParams, bool thingsOnly = false)
 		{
-			GenUI.<TargetsAt>c__Iterator22B <TargetsAt>c__Iterator22B = new GenUI.<TargetsAt>c__Iterator22B();
-			<TargetsAt>c__Iterator22B.clickPos = clickPos;
-			<TargetsAt>c__Iterator22B.clickParams = clickParams;
-			<TargetsAt>c__Iterator22B.thingsOnly = thingsOnly;
-			<TargetsAt>c__Iterator22B.<$>clickPos = clickPos;
-			<TargetsAt>c__Iterator22B.<$>clickParams = clickParams;
-			<TargetsAt>c__Iterator22B.<$>thingsOnly = thingsOnly;
-			GenUI.<TargetsAt>c__Iterator22B expr_31 = <TargetsAt>c__Iterator22B;
+			GenUI.<TargetsAt>c__Iterator22C <TargetsAt>c__Iterator22C = new GenUI.<TargetsAt>c__Iterator22C();
+			<TargetsAt>c__Iterator22C.clickPos = clickPos;
+			<TargetsAt>c__Iterator22C.clickParams = clickParams;
+			<TargetsAt>c__Iterator22C.thingsOnly = thingsOnly;
+			<TargetsAt>c__Iterator22C.<$>clickPos = clickPos;
+			<TargetsAt>c__Iterator22C.<$>clickParams = clickParams;
+			<TargetsAt>c__Iterator22C.<$>thingsOnly = thingsOnly;
+			GenUI.<TargetsAt>c__Iterator22C expr_31 = <TargetsAt>c__Iterator22C;
 			expr_31.$PC = -2;
 			return expr_31;
 		}

@@ -14,14 +14,14 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<Pawn> GeneratePawns(PawnGroupKindDef groupKind, PawnGroupMakerParms parms, bool warnOnZeroResults = true)
 		{
-			PawnGroupMakerUtility.<GeneratePawns>c__IteratorC8 <GeneratePawns>c__IteratorC = new PawnGroupMakerUtility.<GeneratePawns>c__IteratorC8();
+			PawnGroupMakerUtility.<GeneratePawns>c__IteratorC9 <GeneratePawns>c__IteratorC = new PawnGroupMakerUtility.<GeneratePawns>c__IteratorC9();
 			<GeneratePawns>c__IteratorC.groupKind = groupKind;
 			<GeneratePawns>c__IteratorC.parms = parms;
 			<GeneratePawns>c__IteratorC.warnOnZeroResults = warnOnZeroResults;
 			<GeneratePawns>c__IteratorC.<$>groupKind = groupKind;
 			<GeneratePawns>c__IteratorC.<$>parms = parms;
 			<GeneratePawns>c__IteratorC.<$>warnOnZeroResults = warnOnZeroResults;
-			PawnGroupMakerUtility.<GeneratePawns>c__IteratorC8 expr_31 = <GeneratePawns>c__IteratorC;
+			PawnGroupMakerUtility.<GeneratePawns>c__IteratorC9 expr_31 = <GeneratePawns>c__IteratorC;
 			expr_31.$PC = -2;
 			return expr_31;
 		}

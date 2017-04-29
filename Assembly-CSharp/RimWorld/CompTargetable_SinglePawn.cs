@@ -28,10 +28,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Thing> GetTargets(Thing targetChosenByPlayer = null)
 		{
-			CompTargetable_SinglePawn.<GetTargets>c__Iterator170 <GetTargets>c__Iterator = new CompTargetable_SinglePawn.<GetTargets>c__Iterator170();
+			CompTargetable_SinglePawn.<GetTargets>c__Iterator171 <GetTargets>c__Iterator = new CompTargetable_SinglePawn.<GetTargets>c__Iterator171();
 			<GetTargets>c__Iterator.targetChosenByPlayer = targetChosenByPlayer;
 			<GetTargets>c__Iterator.<$>targetChosenByPlayer = targetChosenByPlayer;
-			CompTargetable_SinglePawn.<GetTargets>c__Iterator170 expr_15 = <GetTargets>c__Iterator;
+			CompTargetable_SinglePawn.<GetTargets>c__Iterator171 expr_15 = <GetTargets>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

@@ -52,7 +52,7 @@ namespace RimWorld.Planet
 						string text = null;
 						for (int l = 0; l < pawnsListForReading.Count; l++)
 						{
-							Hediff firstHediffOfDef = pawnsListForReading[l].health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Malnutrition);
+							Hediff firstHediffOfDef = pawnsListForReading[l].health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Malnutrition, false);
 							if (firstHediffOfDef != null && (text == null || firstHediffOfDef.CurStageIndex > num))
 							{
 								num = firstHediffOfDef.CurStageIndex;

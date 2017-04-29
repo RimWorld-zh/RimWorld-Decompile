@@ -35,7 +35,15 @@ namespace RimWorld
 
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c)
 		{
-			return pawn.Map.designationManager.DesignationAt(c, this.DesDef) != null && pawn.CanReserveAndReach(c, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, ReservationLayer.Floor, false);
+			if (pawn.Map.designationManager.DesignationAt(c, this.DesDef) != null)
+			{
+				ReservationLayerDef floor = ReservationLayerDefOf.Floor;
+				if (pawn.CanReserveAndReach(c, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, floor, false))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }

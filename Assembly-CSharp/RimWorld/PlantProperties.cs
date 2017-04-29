@@ -170,9 +170,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors()
 		{
-			PlantProperties.<ConfigErrors>c__Iterator82 <ConfigErrors>c__Iterator = new PlantProperties.<ConfigErrors>c__Iterator82();
+			PlantProperties.<ConfigErrors>c__Iterator83 <ConfigErrors>c__Iterator = new PlantProperties.<ConfigErrors>c__Iterator83();
 			<ConfigErrors>c__Iterator.<>f__this = this;
-			PlantProperties.<ConfigErrors>c__Iterator82 expr_0E = <ConfigErrors>c__Iterator;
+			PlantProperties.<ConfigErrors>c__Iterator83 expr_0E = <ConfigErrors>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -180,9 +180,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		internal IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			PlantProperties.<SpecialDisplayStats>c__Iterator83 <SpecialDisplayStats>c__Iterator = new PlantProperties.<SpecialDisplayStats>c__Iterator83();
+			PlantProperties.<SpecialDisplayStats>c__Iterator84 <SpecialDisplayStats>c__Iterator = new PlantProperties.<SpecialDisplayStats>c__Iterator84();
 			<SpecialDisplayStats>c__Iterator.<>f__this = this;
-			PlantProperties.<SpecialDisplayStats>c__Iterator83 expr_0E = <SpecialDisplayStats>c__Iterator;
+			PlantProperties.<SpecialDisplayStats>c__Iterator84 expr_0E = <SpecialDisplayStats>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

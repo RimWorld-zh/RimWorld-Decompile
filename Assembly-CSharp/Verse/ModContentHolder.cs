@@ -66,11 +66,11 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<T> GetAllUnderPath(string pathRoot)
 		{
-			ModContentHolder<T>.<GetAllUnderPath>c__Iterator207 <GetAllUnderPath>c__Iterator = new ModContentHolder<T>.<GetAllUnderPath>c__Iterator207();
+			ModContentHolder<T>.<GetAllUnderPath>c__Iterator208 <GetAllUnderPath>c__Iterator = new ModContentHolder<T>.<GetAllUnderPath>c__Iterator208();
 			<GetAllUnderPath>c__Iterator.pathRoot = pathRoot;
 			<GetAllUnderPath>c__Iterator.<$>pathRoot = pathRoot;
 			<GetAllUnderPath>c__Iterator.<>f__this = this;
-			ModContentHolder<T>.<GetAllUnderPath>c__Iterator207 expr_1C = <GetAllUnderPath>c__Iterator;
+			ModContentHolder<T>.<GetAllUnderPath>c__Iterator208 expr_1C = <GetAllUnderPath>c__Iterator;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

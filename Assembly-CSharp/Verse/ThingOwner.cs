@@ -220,7 +220,12 @@ namespace Verse
 						if (num > 0)
 						{
 							Thing other = item.SplitOff(num);
+							int stackCount = t2.stackCount;
 							t2.TryAbsorbStack(other, true);
+							if (t2.stackCount > stackCount)
+							{
+								base.NotifyAddedAndMergedWith(t2, t2.stackCount - stackCount);
+							}
 							if (item.Destroyed || item.stackCount == 0)
 							{
 								return true;
@@ -501,7 +506,7 @@ namespace Verse
 		[DebuggerHidden]
 		IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
 		{
-			ThingOwner.GetEnumerator>c__Iterator226 getEnumerator>c__Iterator = new ThingOwner.GetEnumerator>c__Iterator226();
+			ThingOwner.GetEnumerator>c__Iterator227 getEnumerator>c__Iterator = new ThingOwner.GetEnumerator>c__Iterator227();
 			getEnumerator>c__Iterator.<>f__this = this;
 			return getEnumerator>c__Iterator;
 		}
@@ -509,7 +514,7 @@ namespace Verse
 		[DebuggerHidden]
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			ThingOwner.GetEnumerator>c__Iterator227 getEnumerator>c__Iterator = new ThingOwner.GetEnumerator>c__Iterator227();
+			ThingOwner.GetEnumerator>c__Iterator228 getEnumerator>c__Iterator = new ThingOwner.GetEnumerator>c__Iterator228();
 			getEnumerator>c__Iterator.<>f__this = this;
 			return getEnumerator>c__Iterator;
 		}
@@ -943,6 +948,15 @@ namespace Verse
 				compTransporter.Notify_ThingAdded(item);
 			}
 			this.NotifyColonistBarIfColonistCorpse(item);
+		}
+
+		protected void NotifyAddedAndMergedWith(Thing item, int mergedCount)
+		{
+			CompTransporter compTransporter = this.owner as CompTransporter;
+			if (compTransporter != null)
+			{
+				compTransporter.Notify_ThingAddedAndMergedWith(item, mergedCount);
+			}
 		}
 
 		protected void NotifyRemoved(Thing item)

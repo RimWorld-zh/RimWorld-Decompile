@@ -36,9 +36,9 @@ namespace Verse
 		{
 			get
 			{
-				RegionGrid.<>c__Iterator1FA <>c__Iterator1FA = new RegionGrid.<>c__Iterator1FA();
-				<>c__Iterator1FA.<>f__this = this;
-				RegionGrid.<>c__Iterator1FA expr_0E = <>c__Iterator1FA;
+				RegionGrid.<>c__Iterator1FB <>c__Iterator1FB = new RegionGrid.<>c__Iterator1FB();
+				<>c__Iterator1FB.<>f__this = this;
+				RegionGrid.<>c__Iterator1FB expr_0E = <>c__Iterator1FB;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -48,9 +48,9 @@ namespace Verse
 		{
 			get
 			{
-				RegionGrid.<>c__Iterator1FB <>c__Iterator1FB = new RegionGrid.<>c__Iterator1FB();
-				<>c__Iterator1FB.<>f__this = this;
-				RegionGrid.<>c__Iterator1FB expr_0E = <>c__Iterator1FB;
+				RegionGrid.<>c__Iterator1FC <>c__Iterator1FC = new RegionGrid.<>c__Iterator1FC();
+				<>c__Iterator1FC.<>f__this = this;
+				RegionGrid.<>c__Iterator1FC expr_0E = <>c__Iterator1FC;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

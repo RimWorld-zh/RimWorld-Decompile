@@ -122,7 +122,7 @@ namespace RimWorld
 				}
 				if (globalTargetInfo.IsValid)
 				{
-					WorldRendererUtility.DrawQuadTangentialToPlanet(pos, 0.8f * Find.WorldGrid.averageTileSize, 0.018f, GenDraw.CurTargetingMat, false, false, null);
+					WorldRendererUtility.DrawQuadTangentialToPlanet(pos, 0.8f * Find.WorldGrid.averageTileSize, 0.018f, WorldMaterials.CurTargetingMat, false, false, null);
 				}
 				if (this.onUpdate != null)
 				{

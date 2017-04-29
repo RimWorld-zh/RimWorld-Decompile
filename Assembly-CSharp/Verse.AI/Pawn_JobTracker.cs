@@ -26,11 +26,17 @@ namespace Verse.AI
 
 		private int jobsGivenThisTick;
 
+		private string jobsGivenThisTickTextual = string.Empty;
+
 		private int lastJobGivenAtFrame = -1;
 
 		private List<int> jobsGivenRecentTicks = new List<int>(10);
 
+		private List<string> jobsGivenRecentTicksTextual = new List<string>(10);
+
 		public bool debugLog;
+
+		private bool startingErrorRecoverJob;
 
 		private int lastDamageCheckTick = -99999;
 
@@ -65,6 +71,7 @@ namespace Verse.AI
 		public virtual void JobTrackerTick()
 		{
 			this.jobsGivenThisTick = 0;
+			this.jobsGivenThisTickTextual = string.Empty;
 			if (this.pawn.IsHashIntervalTick(30))
 			{
 				ThinkResult thinkResult = this.DetermineNextConstantThinkTreeJob();
@@ -117,11 +124,13 @@ namespace Verse.AI
 		{
 			Profiler.BeginSample("FinalizeTick");
 			this.jobsGivenRecentTicks.Add(this.jobsGivenThisTick);
+			this.jobsGivenRecentTicksTextual.Add(this.jobsGivenThisTickTextual);
 			if (this.jobsGivenRecentTicks.Count > 0)
 			{
 				while (this.jobsGivenRecentTicks.Count > 10)
 				{
 					this.jobsGivenRecentTicks.RemoveAt(0);
+					this.jobsGivenRecentTicksTextual.RemoveAt(0);
 				}
 				int num = 0;
 				for (int i = 0; i < this.jobsGivenRecentTicks.Count; i++)
@@ -130,7 +139,9 @@ namespace Verse.AI
 				}
 				if (num >= 10)
 				{
+					string text = GenText.ToCommaList(this.jobsGivenRecentTicksTextual, true);
 					this.jobsGivenRecentTicks.Clear();
+					this.jobsGivenRecentTicksTextual.Clear();
 					this.StartErrorRecoverJob(string.Concat(new object[]
 					{
 						this.pawn,
@@ -138,7 +149,8 @@ namespace Verse.AI
 						10,
 						" jobs in ",
 						10,
-						" ticks."
+						" ticks. List: ",
+						text
 					}));
 				}
 			}
@@ -150,18 +162,23 @@ namespace Verse.AI
 			if (!Find.TickManager.Paused || this.lastJobGivenAtFrame == RealTime.frameCount)
 			{
 				this.jobsGivenThisTick++;
+				this.jobsGivenThisTickTextual = this.jobsGivenThisTickTextual + "(" + newJob.ToString() + ") ";
 			}
 			this.lastJobGivenAtFrame = RealTime.frameCount;
 			if (this.jobsGivenThisTick > 10)
 			{
+				string text = this.jobsGivenThisTickTextual;
 				this.jobsGivenThisTick = 0;
+				this.jobsGivenThisTickTextual = string.Empty;
 				this.StartErrorRecoverJob(string.Concat(new object[]
 				{
 					this.pawn,
 					" started 10 jobs in one tick. newJob=",
 					newJob,
 					" jobGiver=",
-					jobGiver
+					jobGiver,
+					" jobList=",
+					text
 				}));
 				return;
 			}
@@ -253,13 +270,13 @@ namespace Verse.AI
 			}
 			Job job = this.curJob;
 			this.CleanupCurrentJob(condition, true, true);
-			if (condition == JobCondition.ErroredPather || condition == JobCondition.Errored)
-			{
-				this.StartJob(new Job(JobDefOf.Wait, 250, false), JobCondition.None, null, false, true, null, null);
-				return;
-			}
 			if (startNewJob)
 			{
+				if (condition == JobCondition.ErroredPather || condition == JobCondition.Errored)
+				{
+					this.StartJob(new Job(JobDefOf.Wait, 250, false), JobCondition.None, null, false, true, null, null);
+					return;
+				}
 				if (condition == JobCondition.Succeeded && job != null && job.def != JobDefOf.WaitMaintainPosture && !this.pawn.pather.Moving)
 				{
 					this.StartJob(new Job(JobDefOf.WaitMaintainPosture, 1, false), JobCondition.None, null, false, false, null, null);
@@ -455,7 +472,22 @@ namespace Verse.AI
 			{
 				this.EndCurrentJob(JobCondition.Errored, false);
 			}
-			this.StartJob(new Job(JobDefOf.Wait, 150, false), JobCondition.None, null, false, true, null, null);
+			if (this.startingErrorRecoverJob)
+			{
+				Log.Error("An error occurred while starting an error recover job. We have to stop now to avoid infinite loops. This means that the pawn is now jobless which can cause further bugs. pawn=" + this.pawn.ToStringSafe<Pawn>());
+			}
+			else
+			{
+				this.startingErrorRecoverJob = true;
+				try
+				{
+					this.StartJob(new Job(JobDefOf.Wait, 150, false), JobCondition.None, null, false, true, null, null);
+				}
+				finally
+				{
+					this.startingErrorRecoverJob = false;
+				}
+			}
 		}
 
 		private void CheckLeaveJoinableLordBecauseJobIssued(ThinkResult result)

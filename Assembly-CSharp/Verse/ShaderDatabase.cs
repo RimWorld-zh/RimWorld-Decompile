@@ -30,6 +30,8 @@ namespace Verse
 
 		public static readonly Shader TerrainFadeRough = ShaderDatabase.LoadShader("Map/TerrainFadeRough");
 
+		public static readonly Shader TerrainWater = ShaderDatabase.LoadShader("Map/TerrainWater");
+
 		public static readonly Shader WorldTerrain = ShaderDatabase.LoadShader("World/WorldTerrain");
 
 		public static readonly Shader WorldOcean = ShaderDatabase.LoadShader("World/WorldOcean");

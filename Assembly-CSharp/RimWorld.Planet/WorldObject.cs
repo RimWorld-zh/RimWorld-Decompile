@@ -357,9 +357,9 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public virtual IEnumerable<Gizmo> GetGizmos()
 		{
-			WorldObject.<GetGizmos>c__IteratorFB <GetGizmos>c__IteratorFB = new WorldObject.<GetGizmos>c__IteratorFB();
-			<GetGizmos>c__IteratorFB.<>f__this = this;
-			WorldObject.<GetGizmos>c__IteratorFB expr_0E = <GetGizmos>c__IteratorFB;
+			WorldObject.<GetGizmos>c__IteratorFC <GetGizmos>c__IteratorFC = new WorldObject.<GetGizmos>c__IteratorFC();
+			<GetGizmos>c__IteratorFC.<>f__this = this;
+			WorldObject.<GetGizmos>c__IteratorFC expr_0E = <GetGizmos>c__IteratorFC;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -367,11 +367,11 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public virtual IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			WorldObject.<GetFloatMenuOptions>c__IteratorFC <GetFloatMenuOptions>c__IteratorFC = new WorldObject.<GetFloatMenuOptions>c__IteratorFC();
-			<GetFloatMenuOptions>c__IteratorFC.caravan = caravan;
-			<GetFloatMenuOptions>c__IteratorFC.<$>caravan = caravan;
-			<GetFloatMenuOptions>c__IteratorFC.<>f__this = this;
-			WorldObject.<GetFloatMenuOptions>c__IteratorFC expr_1C = <GetFloatMenuOptions>c__IteratorFC;
+			WorldObject.<GetFloatMenuOptions>c__IteratorFD <GetFloatMenuOptions>c__IteratorFD = new WorldObject.<GetFloatMenuOptions>c__IteratorFD();
+			<GetFloatMenuOptions>c__IteratorFD.caravan = caravan;
+			<GetFloatMenuOptions>c__IteratorFD.<$>caravan = caravan;
+			<GetFloatMenuOptions>c__IteratorFD.<>f__this = this;
+			WorldObject.<GetFloatMenuOptions>c__IteratorFD expr_1C = <GetFloatMenuOptions>c__IteratorFD;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

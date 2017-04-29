@@ -616,7 +616,7 @@ namespace Verse
 			CaravanRequestComp caravanRequestComp = new CaravanRequestComp();
 			for (int i = 0; i < 100; i++)
 			{
-				IncidentWorker_CaravanRequest.GenerateCaravanRequest(caravanRequestComp);
+				(IncidentDefOf.CaravanRequest.Worker as IncidentWorker_CaravanRequest).GenerateCaravanRequest(caravanRequestComp, Find.AnyPlayerHomeMap.Tile);
 				stringBuilder.AppendLine(string.Format("  {0} (reward: {1})", GenLabel.ThingLabel(caravanRequestComp.requestThingDef, null, caravanRequestComp.requestCount), caravanRequestComp.rewards[0].Label, ThingDefOf.Silver.label));
 			}
 			Log.Message(stringBuilder.ToString());

@@ -55,8 +55,8 @@ namespace Verse
 		[DebuggerHidden]
 		public virtual IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			Def.<SpecialDisplayStats>c__Iterator89 <SpecialDisplayStats>c__Iterator = new Def.<SpecialDisplayStats>c__Iterator89();
-			Def.<SpecialDisplayStats>c__Iterator89 expr_07 = <SpecialDisplayStats>c__Iterator;
+			Def.<SpecialDisplayStats>c__Iterator8A <SpecialDisplayStats>c__Iterator8A = new Def.<SpecialDisplayStats>c__Iterator8A();
+			Def.<SpecialDisplayStats>c__Iterator8A expr_07 = <SpecialDisplayStats>c__Iterator8A;
 			expr_07.$PC = -2;
 			return expr_07;
 		}
@@ -64,9 +64,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			Def.<ConfigErrors>c__Iterator8A <ConfigErrors>c__Iterator8A = new Def.<ConfigErrors>c__Iterator8A();
-			<ConfigErrors>c__Iterator8A.<>f__this = this;
-			Def.<ConfigErrors>c__Iterator8A expr_0E = <ConfigErrors>c__Iterator8A;
+			Def.<ConfigErrors>c__Iterator8B <ConfigErrors>c__Iterator8B = new Def.<ConfigErrors>c__Iterator8B();
+			<ConfigErrors>c__Iterator8B.<>f__this = this;
+			Def.<ConfigErrors>c__Iterator8B expr_0E = <ConfigErrors>c__Iterator8B;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

@@ -12,8 +12,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<Scenario> AllScenarios()
 		{
-			ScenarioLister.<AllScenarios>c__Iterator125 <AllScenarios>c__Iterator = new ScenarioLister.<AllScenarios>c__Iterator125();
-			ScenarioLister.<AllScenarios>c__Iterator125 expr_07 = <AllScenarios>c__Iterator;
+			ScenarioLister.<AllScenarios>c__Iterator126 <AllScenarios>c__Iterator = new ScenarioLister.<AllScenarios>c__Iterator126();
+			ScenarioLister.<AllScenarios>c__Iterator126 expr_07 = <AllScenarios>c__Iterator;
 			expr_07.$PC = -2;
 			return expr_07;
 		}
@@ -21,10 +21,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<Scenario> ScenariosInCategory(ScenarioCategory cat)
 		{
-			ScenarioLister.<ScenariosInCategory>c__Iterator126 <ScenariosInCategory>c__Iterator = new ScenarioLister.<ScenariosInCategory>c__Iterator126();
+			ScenarioLister.<ScenariosInCategory>c__Iterator127 <ScenariosInCategory>c__Iterator = new ScenarioLister.<ScenariosInCategory>c__Iterator127();
 			<ScenariosInCategory>c__Iterator.cat = cat;
 			<ScenariosInCategory>c__Iterator.<$>cat = cat;
-			ScenarioLister.<ScenariosInCategory>c__Iterator126 expr_15 = <ScenariosInCategory>c__Iterator;
+			ScenarioLister.<ScenariosInCategory>c__Iterator127 expr_15 = <ScenariosInCategory>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

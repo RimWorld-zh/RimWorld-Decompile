@@ -91,9 +91,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_TrapRearmable.<GetGizmos>c__Iterator145 <GetGizmos>c__Iterator = new Building_TrapRearmable.<GetGizmos>c__Iterator145();
+			Building_TrapRearmable.<GetGizmos>c__Iterator146 <GetGizmos>c__Iterator = new Building_TrapRearmable.<GetGizmos>c__Iterator146();
 			<GetGizmos>c__Iterator.<>f__this = this;
-			Building_TrapRearmable.<GetGizmos>c__Iterator145 expr_0E = <GetGizmos>c__Iterator;
+			Building_TrapRearmable.<GetGizmos>c__Iterator146 expr_0E = <GetGizmos>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

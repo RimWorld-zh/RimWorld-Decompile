@@ -99,9 +99,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		internal IEnumerable<Gizmo> GetGizmos()
 		{
-			Pawn_DraftController.<GetGizmos>c__IteratorE0 <GetGizmos>c__IteratorE = new Pawn_DraftController.<GetGizmos>c__IteratorE0();
+			Pawn_DraftController.<GetGizmos>c__IteratorE1 <GetGizmos>c__IteratorE = new Pawn_DraftController.<GetGizmos>c__IteratorE1();
 			<GetGizmos>c__IteratorE.<>f__this = this;
-			Pawn_DraftController.<GetGizmos>c__IteratorE0 expr_0E = <GetGizmos>c__IteratorE;
+			Pawn_DraftController.<GetGizmos>c__IteratorE1 expr_0E = <GetGizmos>c__IteratorE;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

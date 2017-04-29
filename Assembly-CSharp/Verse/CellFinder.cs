@@ -595,14 +595,14 @@ namespace Verse
 		[DebuggerHidden]
 		private static IEnumerable<IntVec3> GetAdjacentCells(IntVec3 x, float radius, Pawn pawn)
 		{
-			CellFinder.<GetAdjacentCells>c__Iterator235 <GetAdjacentCells>c__Iterator = new CellFinder.<GetAdjacentCells>c__Iterator235();
+			CellFinder.<GetAdjacentCells>c__Iterator236 <GetAdjacentCells>c__Iterator = new CellFinder.<GetAdjacentCells>c__Iterator236();
 			<GetAdjacentCells>c__Iterator.x = x;
 			<GetAdjacentCells>c__Iterator.pawn = pawn;
 			<GetAdjacentCells>c__Iterator.radius = radius;
 			<GetAdjacentCells>c__Iterator.<$>x = x;
 			<GetAdjacentCells>c__Iterator.<$>pawn = pawn;
 			<GetAdjacentCells>c__Iterator.<$>radius = radius;
-			CellFinder.<GetAdjacentCells>c__Iterator235 expr_31 = <GetAdjacentCells>c__Iterator;
+			CellFinder.<GetAdjacentCells>c__Iterator236 expr_31 = <GetAdjacentCells>c__Iterator;
 			expr_31.$PC = -2;
 			return expr_31;
 		}

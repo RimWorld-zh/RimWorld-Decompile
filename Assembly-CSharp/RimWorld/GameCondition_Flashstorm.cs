@@ -99,11 +99,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<IntVec3> GetPotentiallyAffectedCells(IntVec2 center)
 		{
-			GameCondition_Flashstorm.<GetPotentiallyAffectedCells>c__IteratorA1 <GetPotentiallyAffectedCells>c__IteratorA = new GameCondition_Flashstorm.<GetPotentiallyAffectedCells>c__IteratorA1();
+			GameCondition_Flashstorm.<GetPotentiallyAffectedCells>c__IteratorA2 <GetPotentiallyAffectedCells>c__IteratorA = new GameCondition_Flashstorm.<GetPotentiallyAffectedCells>c__IteratorA2();
 			<GetPotentiallyAffectedCells>c__IteratorA.center = center;
 			<GetPotentiallyAffectedCells>c__IteratorA.<$>center = center;
 			<GetPotentiallyAffectedCells>c__IteratorA.<>f__this = this;
-			GameCondition_Flashstorm.<GetPotentiallyAffectedCells>c__IteratorA1 expr_1C = <GetPotentiallyAffectedCells>c__IteratorA;
+			GameCondition_Flashstorm.<GetPotentiallyAffectedCells>c__IteratorA2 expr_1C = <GetPotentiallyAffectedCells>c__IteratorA;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

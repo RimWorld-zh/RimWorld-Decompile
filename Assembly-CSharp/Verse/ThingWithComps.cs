@@ -71,9 +71,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<T> GetComps<T>() where T : ThingComp
 		{
-			ThingWithComps.<GetComps>c__Iterator13C<T> <GetComps>c__Iterator13C = new ThingWithComps.<GetComps>c__Iterator13C<T>();
-			<GetComps>c__Iterator13C.<>f__this = this;
-			ThingWithComps.<GetComps>c__Iterator13C<T> expr_0E = <GetComps>c__Iterator13C;
+			ThingWithComps.<GetComps>c__Iterator13D<T> <GetComps>c__Iterator13D = new ThingWithComps.<GetComps>c__Iterator13D<T>();
+			<GetComps>c__Iterator13D.<>f__this = this;
+			ThingWithComps.<GetComps>c__Iterator13D<T> expr_0E = <GetComps>c__Iterator13D;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -241,9 +241,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			ThingWithComps.<GetGizmos>c__Iterator13D <GetGizmos>c__Iterator13D = new ThingWithComps.<GetGizmos>c__Iterator13D();
-			<GetGizmos>c__Iterator13D.<>f__this = this;
-			ThingWithComps.<GetGizmos>c__Iterator13D expr_0E = <GetGizmos>c__Iterator13D;
+			ThingWithComps.<GetGizmos>c__Iterator13E <GetGizmos>c__Iterator13E = new ThingWithComps.<GetGizmos>c__Iterator13E();
+			<GetGizmos>c__Iterator13E.<>f__this = this;
+			ThingWithComps.<GetGizmos>c__Iterator13E expr_0E = <GetGizmos>c__Iterator13E;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -342,11 +342,11 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn selPawn)
 		{
-			ThingWithComps.<GetFloatMenuOptions>c__Iterator13E <GetFloatMenuOptions>c__Iterator13E = new ThingWithComps.<GetFloatMenuOptions>c__Iterator13E();
-			<GetFloatMenuOptions>c__Iterator13E.selPawn = selPawn;
-			<GetFloatMenuOptions>c__Iterator13E.<$>selPawn = selPawn;
-			<GetFloatMenuOptions>c__Iterator13E.<>f__this = this;
-			ThingWithComps.<GetFloatMenuOptions>c__Iterator13E expr_1C = <GetFloatMenuOptions>c__Iterator13E;
+			ThingWithComps.<GetFloatMenuOptions>c__Iterator13F <GetFloatMenuOptions>c__Iterator13F = new ThingWithComps.<GetFloatMenuOptions>c__Iterator13F();
+			<GetFloatMenuOptions>c__Iterator13F.selPawn = selPawn;
+			<GetFloatMenuOptions>c__Iterator13F.<$>selPawn = selPawn;
+			<GetFloatMenuOptions>c__Iterator13F.<>f__this = this;
+			ThingWithComps.<GetFloatMenuOptions>c__Iterator13F expr_1C = <GetFloatMenuOptions>c__Iterator13F;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

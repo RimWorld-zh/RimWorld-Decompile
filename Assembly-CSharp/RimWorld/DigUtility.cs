@@ -36,7 +36,7 @@ namespace RimWorld
 
 		private static Job MeleeOrWaitJob(Pawn pawn, Thing blocker, IntVec3 cellBeforeBlocker)
 		{
-			if (!pawn.CanReserve(blocker, 1, -1, ReservationLayer.Default, false))
+			if (!pawn.CanReserve(blocker, 1, -1, null, false))
 			{
 				return new Job(JobDefOf.Goto, CellFinder.RandomClosewalkCellNear(cellBeforeBlocker, pawn.Map, 10, null), 500, true);
 			}
@@ -50,7 +50,7 @@ namespace RimWorld
 
 		private static Job MineOrWaitJob(Pawn pawn, Thing blocker, IntVec3 cellBeforeBlocker)
 		{
-			if (!pawn.CanReserve(blocker, 1, -1, ReservationLayer.Default, false))
+			if (!pawn.CanReserve(blocker, 1, -1, null, false))
 			{
 				return new Job(JobDefOf.Goto, CellFinder.RandomClosewalkCellNear(cellBeforeBlocker, pawn.Map, 10, null), 500, true);
 			}

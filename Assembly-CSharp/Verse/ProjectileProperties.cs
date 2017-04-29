@@ -37,9 +37,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors(ThingDef parent)
 		{
-			ProjectileProperties.<ConfigErrors>c__Iterator1C2 <ConfigErrors>c__Iterator1C = new ProjectileProperties.<ConfigErrors>c__Iterator1C2();
+			ProjectileProperties.<ConfigErrors>c__Iterator1C3 <ConfigErrors>c__Iterator1C = new ProjectileProperties.<ConfigErrors>c__Iterator1C3();
 			<ConfigErrors>c__Iterator1C.<>f__this = this;
-			ProjectileProperties.<ConfigErrors>c__Iterator1C2 expr_0E = <ConfigErrors>c__Iterator1C;
+			ProjectileProperties.<ConfigErrors>c__Iterator1C3 expr_0E = <ConfigErrors>c__Iterator1C;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

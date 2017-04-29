@@ -41,9 +41,9 @@ namespace RimWorld
 		{
 			get
 			{
-				SlotGroupManager.<>c__Iterator14C <>c__Iterator14C = new SlotGroupManager.<>c__Iterator14C();
-				<>c__Iterator14C.<>f__this = this;
-				SlotGroupManager.<>c__Iterator14C expr_0E = <>c__Iterator14C;
+				SlotGroupManager.<>c__Iterator14D <>c__Iterator14D = new SlotGroupManager.<>c__Iterator14D();
+				<>c__Iterator14D.<>f__this = this;
+				SlotGroupManager.<>c__Iterator14D expr_0E = <>c__Iterator14D;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

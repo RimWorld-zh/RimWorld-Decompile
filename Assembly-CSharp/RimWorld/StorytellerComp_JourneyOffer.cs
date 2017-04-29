@@ -20,11 +20,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			StorytellerComp_JourneyOffer.<MakeIntervalIncidents>c__IteratorAA <MakeIntervalIncidents>c__IteratorAA = new StorytellerComp_JourneyOffer.<MakeIntervalIncidents>c__IteratorAA();
-			<MakeIntervalIncidents>c__IteratorAA.target = target;
-			<MakeIntervalIncidents>c__IteratorAA.<$>target = target;
-			<MakeIntervalIncidents>c__IteratorAA.<>f__this = this;
-			StorytellerComp_JourneyOffer.<MakeIntervalIncidents>c__IteratorAA expr_1C = <MakeIntervalIncidents>c__IteratorAA;
+			StorytellerComp_JourneyOffer.<MakeIntervalIncidents>c__IteratorAB <MakeIntervalIncidents>c__IteratorAB = new StorytellerComp_JourneyOffer.<MakeIntervalIncidents>c__IteratorAB();
+			<MakeIntervalIncidents>c__IteratorAB.target = target;
+			<MakeIntervalIncidents>c__IteratorAB.<$>target = target;
+			<MakeIntervalIncidents>c__IteratorAB.<>f__this = this;
+			StorytellerComp_JourneyOffer.<MakeIntervalIncidents>c__IteratorAB expr_1C = <MakeIntervalIncidents>c__IteratorAB;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

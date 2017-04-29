@@ -233,6 +233,10 @@ namespace Verse
 		{
 		}
 
+		public virtual void SelectedProcessInput(Event ev)
+		{
+		}
+
 		public virtual void Rotate(RotationDirection rotDir)
 		{
 		}

@@ -61,7 +61,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (!pawn.CanReserve(building, 1, -1, ReservationLayer.Default, forced))
+			if (!pawn.CanReserve(building, 1, -1, null, forced))
 			{
 				return false;
 			}

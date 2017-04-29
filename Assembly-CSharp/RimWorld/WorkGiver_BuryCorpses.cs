@@ -52,7 +52,7 @@ namespace RimWorld
 
 		private Building_Grave FindBestGrave(Pawn p, Corpse corpse)
 		{
-			Predicate<Thing> predicate = (Thing m) => !m.IsForbidden(p) && p.CanReserve(m, 1, -1, ReservationLayer.Default, false) && ((Building_Grave)m).Accepts(corpse);
+			Predicate<Thing> predicate = (Thing m) => !m.IsForbidden(p) && p.CanReserve(m, 1, -1, null, false) && ((Building_Grave)m).Accepts(corpse);
 			if (corpse.InnerPawn.ownership != null && corpse.InnerPawn.ownership.AssignedGrave != null)
 			{
 				Building_Grave assignedGrave = corpse.InnerPawn.ownership.AssignedGrave;

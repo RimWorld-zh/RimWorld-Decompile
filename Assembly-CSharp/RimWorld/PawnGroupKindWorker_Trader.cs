@@ -131,12 +131,12 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<Pawn> GetSlavesAndAnimalsFromWares(PawnGroupMakerParms parms, Pawn trader, List<Thing> wares)
 		{
-			PawnGroupKindWorker_Trader.<GetSlavesAndAnimalsFromWares>c__IteratorC7 <GetSlavesAndAnimalsFromWares>c__IteratorC = new PawnGroupKindWorker_Trader.<GetSlavesAndAnimalsFromWares>c__IteratorC7();
+			PawnGroupKindWorker_Trader.<GetSlavesAndAnimalsFromWares>c__IteratorC8 <GetSlavesAndAnimalsFromWares>c__IteratorC = new PawnGroupKindWorker_Trader.<GetSlavesAndAnimalsFromWares>c__IteratorC8();
 			<GetSlavesAndAnimalsFromWares>c__IteratorC.wares = wares;
 			<GetSlavesAndAnimalsFromWares>c__IteratorC.parms = parms;
 			<GetSlavesAndAnimalsFromWares>c__IteratorC.<$>wares = wares;
 			<GetSlavesAndAnimalsFromWares>c__IteratorC.<$>parms = parms;
-			PawnGroupKindWorker_Trader.<GetSlavesAndAnimalsFromWares>c__IteratorC7 expr_23 = <GetSlavesAndAnimalsFromWares>c__IteratorC;
+			PawnGroupKindWorker_Trader.<GetSlavesAndAnimalsFromWares>c__IteratorC8 expr_23 = <GetSlavesAndAnimalsFromWares>c__IteratorC;
 			expr_23.$PC = -2;
 			return expr_23;
 		}

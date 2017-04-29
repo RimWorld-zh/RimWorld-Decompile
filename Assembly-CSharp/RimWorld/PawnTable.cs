@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -7,9 +8,9 @@ namespace RimWorld
 {
 	public class PawnTable
 	{
-		private string table;
+		private Func<IEnumerable<Pawn>> pawnsGetter;
 
-		private IEnumerable<Pawn> pawns;
+		private List<PawnColumnDef> columns;
 
 		private int minTableWidth;
 
@@ -25,25 +26,51 @@ namespace RimWorld
 
 		private bool dirty;
 
-		private List<bool> columnAtMaxWidth = new List<bool>();
+		private List<bool> columnAtMaxWidth;
+
+		private List<bool> columnAtOptimalWidth;
 
 		private Vector2 scrollPosition;
 
+		private PawnColumnDef sortByColumn;
+
+		private bool sortDescending;
+
 		private Vector2 cachedSize;
 
-		private List<Pawn> cachedPawns = new List<Pawn>();
+		private List<Pawn> cachedPawns;
 
-		private List<float> cachedColumnWidths = new List<float>();
+		private List<float> cachedColumnWidths;
 
-		private List<float> cachedRowHeights = new List<float>();
-
-		private List<PawnColumnDef> cachedColumns = new List<PawnColumnDef>();
-
-		private List<PawnColumnDef> cachedColumnsInWidthPriorityOrder = new List<PawnColumnDef>();
+		private List<float> cachedRowHeights;
 
 		private float cachedHeaderHeight;
 
 		private float cachedHeightNoScrollbar;
+
+		public List<PawnColumnDef> ColumnsListForReading
+		{
+			get
+			{
+				return this.columns;
+			}
+		}
+
+		public PawnColumnDef SortingBy
+		{
+			get
+			{
+				return this.sortByColumn;
+			}
+		}
+
+		public bool SortingDescending
+		{
+			get
+			{
+				return this.SortingBy != null && this.sortDescending;
+			}
+		}
 
 		public Vector2 Size
 		{
@@ -63,23 +90,57 @@ namespace RimWorld
 			}
 		}
 
-		public PawnTable(string table, IEnumerable<Pawn> pawns, int minTableWidth, int maxTableWidth, int minTableHeight, int maxTableHeight)
+		public float HeaderHeight
 		{
-			this.table = table;
-			this.pawns = pawns;
-			this.minTableWidth = minTableWidth;
-			this.maxTableWidth = maxTableWidth;
-			this.minTableHeight = minTableHeight;
-			this.maxTableHeight = maxTableHeight;
+			get
+			{
+				this.RecacheIfDirty();
+				return this.cachedHeaderHeight;
+			}
+		}
+
+		public List<Pawn> PawnsListForReading
+		{
+			get
+			{
+				this.RecacheIfDirty();
+				return this.cachedPawns;
+			}
+		}
+
+		public PawnTable(PawnTableDef table, Func<IEnumerable<Pawn>> pawnsGetter, int minTableWidth, int maxTableWidth, int minTableHeight, int maxTableHeight) : this(table.columns, pawnsGetter, minTableWidth, maxTableWidth, minTableHeight, maxTableHeight)
+		{
+		}
+
+		public PawnTable(IEnumerable<PawnColumnDef> columns, Func<IEnumerable<Pawn>> pawnsGetter, int minTableWidth, int maxTableWidth, int minTableHeight, int maxTableHeight)
+		{
+			this.columnAtMaxWidth = new List<bool>();
+			this.columnAtOptimalWidth = new List<bool>();
+			this.cachedPawns = new List<Pawn>();
+			this.cachedColumnWidths = new List<float>();
+			this.cachedRowHeights = new List<float>();
+			base..ctor();
+			this.columns = columns.ToList<PawnColumnDef>();
+			this.pawnsGetter = pawnsGetter;
+			this.SetMinMaxSize(minTableWidth, maxTableWidth, minTableHeight, maxTableHeight);
 			this.SetDirty();
 		}
 
-		public PawnTable(string table, IEnumerable<Pawn> pawns, Vector2 size)
+		public PawnTable(PawnTableDef table, Func<IEnumerable<Pawn>> pawnsGetter, Vector2 size) : this(table.columns, pawnsGetter, size)
 		{
-			this.table = table;
-			this.pawns = pawns;
-			this.fixedSize = size;
-			this.hasFixedSize = true;
+		}
+
+		public PawnTable(IEnumerable<PawnColumnDef> columns, Func<IEnumerable<Pawn>> pawnsGetter, Vector2 size)
+		{
+			this.columnAtMaxWidth = new List<bool>();
+			this.columnAtOptimalWidth = new List<bool>();
+			this.cachedPawns = new List<Pawn>();
+			this.cachedColumnWidths = new List<float>();
+			this.cachedRowHeights = new List<float>();
+			base..ctor();
+			this.columns = columns.ToList<PawnColumnDef>();
+			this.pawnsGetter = pawnsGetter;
+			this.SetFixedSize(this.fixedSize);
 			this.SetDirty();
 		}
 
@@ -90,45 +151,63 @@ namespace RimWorld
 				return;
 			}
 			this.RecacheIfDirty();
-			int num = 0;
-			for (int i = 0; i < this.cachedColumns.Count; i++)
+			float num = this.cachedSize.x - 16f;
+			int num2 = 0;
+			for (int i = 0; i < this.columns.Count; i++)
 			{
-				int num2;
-				if (i == this.cachedColumns.Count - 1)
+				int num3;
+				if (i == this.columns.Count - 1)
 				{
-					num2 = (int)(this.cachedSize.x - (float)num);
+					num3 = (int)(num - (float)num2);
 				}
 				else
 				{
-					num2 = (int)this.cachedColumnWidths[i];
+					num3 = (int)this.cachedColumnWidths[i];
 				}
-				Rect rect = new Rect((float)((int)position.x + num), (float)((int)position.y), (float)num2, (float)((int)this.cachedHeaderHeight));
-				this.cachedColumns[i].Worker.DoHeader(rect, this.cachedPawns);
-				num += num2;
+				Rect rect = new Rect((float)((int)position.x + num2), (float)((int)position.y), (float)num3, (float)((int)this.cachedHeaderHeight));
+				this.columns[i].Worker.DoHeader(rect, this);
+				num2 += num3;
 			}
 			Rect outRect = new Rect((float)((int)position.x), (float)((int)position.y + (int)this.cachedHeaderHeight), (float)((int)this.cachedSize.x), (float)((int)this.cachedSize.y - (int)this.cachedHeaderHeight));
-			Rect viewRect = new Rect(0f, 0f, outRect.width, (float)((int)this.cachedHeightNoScrollbar));
+			Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, (float)((int)this.cachedHeightNoScrollbar - (int)this.cachedHeaderHeight));
 			Widgets.BeginScrollView(outRect, ref this.scrollPosition, viewRect);
-			int num3 = 0;
+			int num4 = 0;
 			for (int j = 0; j < this.cachedPawns.Count; j++)
 			{
-				num = 0;
-				for (int k = 0; k < this.cachedColumns.Count; k++)
+				num2 = 0;
+				if ((float)num4 - this.scrollPosition.y + (float)((int)this.cachedRowHeights[j]) >= 0f && (float)num4 - this.scrollPosition.y <= outRect.height)
 				{
-					int num4;
-					if (k == this.cachedColumns.Count - 1)
+					GUI.color = new Color(1f, 1f, 1f, 0.2f);
+					Widgets.DrawLineHorizontal(0f, (float)num4, viewRect.width);
+					GUI.color = Color.white;
+					Rect rect2 = new Rect(0f, (float)num4, viewRect.width, (float)((int)this.cachedRowHeights[j]));
+					if (Mouse.IsOver(rect2))
 					{
-						num4 = (int)(this.cachedSize.x - (float)num);
+						GUI.DrawTexture(rect2, TexUI.HighlightTex);
 					}
-					else
+					for (int k = 0; k < this.columns.Count; k++)
 					{
-						num4 = (int)this.cachedColumnWidths[k];
+						int num5;
+						if (k == this.columns.Count - 1)
+						{
+							num5 = (int)(num - (float)num2);
+						}
+						else
+						{
+							num5 = (int)this.cachedColumnWidths[k];
+						}
+						Rect rect3 = new Rect((float)num2, (float)num4, (float)num5, (float)((int)this.cachedRowHeights[j]));
+						this.columns[k].Worker.DoCell(rect3, this.cachedPawns[j], this);
+						num2 += num5;
 					}
-					Rect rect2 = new Rect((float)num, (float)num3, (float)num4, (float)((int)this.cachedRowHeights[k]));
-					this.cachedColumns[k].Worker.DoCell(rect2, this.cachedPawns[j]);
-					num += num4;
+					if (this.cachedPawns[j].Downed)
+					{
+						GUI.color = new Color(1f, 0f, 0f, 0.5f);
+						Widgets.DrawLineHorizontal(0f, rect2.center.y, viewRect.width);
+						GUI.color = Color.white;
+					}
 				}
-				num3 += (int)this.cachedRowHeights[j];
+				num4 += (int)this.cachedRowHeights[j];
 			}
 			Widgets.EndScrollView();
 		}
@@ -136,6 +215,30 @@ namespace RimWorld
 		public void SetDirty()
 		{
 			this.dirty = true;
+		}
+
+		public void SetMinMaxSize(int minTableWidth, int maxTableWidth, int minTableHeight, int maxTableHeight)
+		{
+			this.minTableWidth = minTableWidth;
+			this.maxTableWidth = maxTableWidth;
+			this.minTableHeight = minTableHeight;
+			this.maxTableHeight = maxTableHeight;
+			this.hasFixedSize = false;
+			this.SetDirty();
+		}
+
+		public void SetFixedSize(Vector2 size)
+		{
+			this.fixedSize = size;
+			this.hasFixedSize = true;
+			this.SetDirty();
+		}
+
+		public void SortBy(PawnColumnDef column, bool descending)
+		{
+			this.sortByColumn = column;
+			this.sortDescending = descending;
+			this.SetDirty();
 		}
 
 		private void RecacheIfDirty()
@@ -146,122 +249,156 @@ namespace RimWorld
 			}
 			this.dirty = false;
 			this.RecachePawns();
-			this.RecacheColumns();
-			this.RecacheColumnWidths();
 			this.RecacheRowHeights();
 			this.cachedHeaderHeight = this.CalculateHeaderHeight();
 			this.cachedHeightNoScrollbar = this.CalculateTotalRequiredHeight();
 			this.RecacheSize();
+			this.RecacheColumnWidths();
 		}
 
 		private void RecachePawns()
 		{
-			this.cachedPawns.AddRange(this.pawns);
-		}
-
-		private void RecacheColumns()
-		{
-			this.cachedColumns.Clear();
-			List<PawnColumnDef> allDefsListForReading = DefDatabase<PawnColumnDef>.AllDefsListForReading;
-			for (int i = 0; i < allDefsListForReading.Count; i++)
+			this.cachedPawns.Clear();
+			this.cachedPawns.AddRange(this.pawnsGetter());
+			if (this.sortByColumn != null)
 			{
-				if (allDefsListForReading[i].tables.Contains(this.table))
+				if (this.sortDescending)
 				{
-					this.cachedColumns.Add(allDefsListForReading[i]);
+					this.cachedPawns.Sort(delegate(Pawn a, Pawn b)
+					{
+						int num = this.sortByColumn.Worker.Compare(b, a);
+						if (num == 0)
+						{
+							return b.Label.CompareTo(a.Label);
+						}
+						return num;
+					});
+				}
+				else
+				{
+					this.cachedPawns.Sort(delegate(Pawn a, Pawn b)
+					{
+						int num = this.sortByColumn.Worker.Compare(a, b);
+						if (num == 0)
+						{
+							return a.Label.CompareTo(b.Label);
+						}
+						return num;
+					});
 				}
 			}
-			this.cachedColumns.SortBy((PawnColumnDef x) => x.order);
 		}
 
 		private void RecacheColumnWidths()
 		{
-			this.cachedColumnWidths.Clear();
-			float num = 0f;
+			float num = this.cachedSize.x - 16f;
 			float num2 = 0f;
-			for (int i = 0; i < this.cachedColumns.Count; i++)
-			{
-				float minWidth = this.GetMinWidth(this.cachedColumns[i]);
-				this.cachedColumnWidths.Add(minWidth);
-				num += minWidth;
-				num2 += this.GetOptimalWidth(this.cachedColumns[i]);
-			}
-			if (num == this.cachedSize.x)
+			this.RecacheColumnWidths_StartWithMinWidths(out num2);
+			if (num2 == num)
 			{
 				return;
 			}
-			if (num > this.cachedSize.x)
+			if (num2 > num)
 			{
-				float num3 = num - this.cachedSize.x;
-				for (int j = 0; j < this.cachedColumnWidths.Count; j++)
-				{
-					List<float> list;
-					List<float> expr_AB = list = this.cachedColumnWidths;
-					int index;
-					int expr_B0 = index = j;
-					float num4 = list[index];
-					expr_AB[expr_B0] = num4 - num3 * this.GetOptimalWidth(this.cachedColumns[j]) / num2;
-				}
-				return;
+				this.SubtractProportionally(num2 - num, num2);
 			}
-			this.cachedColumnsInWidthPriorityOrder.Clear();
-			this.cachedColumnsInWidthPriorityOrder.AddRange(this.cachedColumns);
-			this.cachedColumnsInWidthPriorityOrder.SortByDescending((PawnColumnDef x) => x.widthPriority);
-			for (int k = 0; k < this.cachedColumnsInWidthPriorityOrder.Count; k++)
+			else
 			{
-				float a = this.GetOptimalWidth(this.cachedColumnsInWidthPriorityOrder[k]) - this.GetMinWidth(this.cachedColumnsInWidthPriorityOrder[k]);
-				float num5 = Mathf.Min(a, this.cachedSize.x - num);
-				List<float> list2;
-				List<float> expr_188 = list2 = this.cachedColumnWidths;
-				int index;
-				int expr_1A3 = index = this.cachedColumns.IndexOf(this.cachedColumnsInWidthPriorityOrder[k]);
-				float num4 = list2[index];
-				expr_188[expr_1A3] = num4 + num5;
-				num += num5;
-				if (num >= this.cachedSize.x)
+				bool flag;
+				this.RecacheColumnWidths_DistributeUntilOptimal(num, ref num2, out flag);
+				if (flag)
 				{
 					return;
 				}
+				this.RecacheColumnWidths_DistributeAboveOptimal(num, ref num2);
 			}
-			float num6 = this.cachedSize.x - num;
-			int num7 = 0;
+		}
+
+		private void RecacheColumnWidths_StartWithMinWidths(out float minWidthsSum)
+		{
+			minWidthsSum = 0f;
+			this.cachedColumnWidths.Clear();
+			for (int i = 0; i < this.columns.Count; i++)
+			{
+				float minWidth = this.GetMinWidth(this.columns[i]);
+				this.cachedColumnWidths.Add(minWidth);
+				minWidthsSum += minWidth;
+			}
+		}
+
+		private void RecacheColumnWidths_DistributeUntilOptimal(float totalAvailableSpaceForColumns, ref float usedWidth, out bool noMoreFreeSpace)
+		{
+			this.columnAtOptimalWidth.Clear();
+			for (int i = 0; i < this.columns.Count; i++)
+			{
+				this.columnAtOptimalWidth.Add(this.cachedColumnWidths[i] >= this.GetOptimalWidth(this.columns[i]));
+			}
+			int num = 0;
 			while (true)
 			{
-				num7++;
-				if (num7 >= 10000)
+				num++;
+				if (num >= 10000)
 				{
 					break;
 				}
-				float num8 = num6;
-				bool flag = false;
-				for (int l = 0; l < this.cachedColumnWidths.Count; l++)
+				float num2 = -3.40282347E+38f;
+				for (int j = 0; j < this.columns.Count; j++)
 				{
-					if (!this.columnAtMaxWidth[l])
+					if (!this.columnAtOptimalWidth[j])
 					{
-						float num9 = num6 * this.GetOptimalWidth(this.cachedColumns[l]) / num2;
-						float num10 = this.GetMaxWidth(this.cachedColumns[l]) - this.cachedColumnWidths[l];
-						if (num9 >= num10)
+						num2 = Mathf.Max(num2, (float)this.columns[j].widthPriority);
+					}
+				}
+				float num3 = 0f;
+				for (int k = 0; k < this.cachedColumnWidths.Count; k++)
+				{
+					if (!this.columnAtOptimalWidth[k])
+					{
+						if ((float)this.columns[k].widthPriority == num2)
 						{
-							num9 = num10;
-							this.columnAtMaxWidth[l] = true;
-						}
-						else
-						{
-							flag = true;
-						}
-						if (num9 > 0f)
-						{
-							List<float> list3;
-							List<float> expr_2B5 = list3 = this.cachedColumnWidths;
-							int index;
-							int expr_2BA = index = l;
-							float num4 = list3[index];
-							expr_2B5[expr_2BA] = num4 + num9;
-							num8 -= num9;
+							num3 += this.GetOptimalWidth(this.columns[k]);
 						}
 					}
 				}
-				num6 = num8;
-				if (num6 <= 0f)
+				float num4 = totalAvailableSpaceForColumns - usedWidth;
+				bool flag = false;
+				bool flag2 = false;
+				for (int l = 0; l < this.cachedColumnWidths.Count; l++)
+				{
+					if (!this.columnAtOptimalWidth[l])
+					{
+						if ((float)this.columns[l].widthPriority != num2)
+						{
+							flag = true;
+						}
+						else
+						{
+							float num5 = num4 * this.GetOptimalWidth(this.columns[l]) / num3;
+							float num6 = this.GetOptimalWidth(this.columns[l]) - this.cachedColumnWidths[l];
+							if (num5 >= num6)
+							{
+								num5 = num6;
+								this.columnAtOptimalWidth[l] = true;
+								flag2 = true;
+							}
+							else
+							{
+								flag = true;
+							}
+							if (num5 > 0f)
+							{
+								List<float> list;
+								List<float> expr_1FC = list = this.cachedColumnWidths;
+								int index;
+								int expr_201 = index = l;
+								float num7 = list[index];
+								expr_1FC[expr_201] = num7 + num5;
+								usedWidth += num5;
+							}
+						}
+					}
+				}
+				if (usedWidth >= totalAvailableSpaceForColumns - 0.1f)
 				{
 					goto Block_13;
 				}
@@ -269,24 +406,87 @@ namespace RimWorld
 				{
 					goto Block_14;
 				}
-				num2 = 0f;
-				for (int m = 0; m < this.cachedColumnWidths.Count; m++)
+				if (!flag2)
 				{
-					if (!this.columnAtMaxWidth[m])
-					{
-						num2 += this.GetOptimalWidth(this.cachedColumns[m]);
-					}
-				}
-				if (num2 <= 0f)
-				{
-					return;
+					goto Block_15;
 				}
 			}
 			Log.Error("Too many iterations.");
+			goto IL_26B;
 			Block_13:
-			return;
+			noMoreFreeSpace = true;
 			Block_14:
-			this.DistributeRemainingWidthProportionallyAboveMax(num6);
+			Block_15:
+			IL_26B:
+			noMoreFreeSpace = false;
+		}
+
+		private void RecacheColumnWidths_DistributeAboveOptimal(float totalAvailableSpaceForColumns, ref float usedWidth)
+		{
+			this.columnAtMaxWidth.Clear();
+			for (int i = 0; i < this.columns.Count; i++)
+			{
+				this.columnAtMaxWidth.Add(this.cachedColumnWidths[i] >= this.GetMaxWidth(this.columns[i]));
+			}
+			int num = 0;
+			while (true)
+			{
+				num++;
+				if (num >= 10000)
+				{
+					break;
+				}
+				float num2 = 0f;
+				for (int j = 0; j < this.columns.Count; j++)
+				{
+					if (!this.columnAtMaxWidth[j])
+					{
+						num2 += Mathf.Max(this.GetOptimalWidth(this.columns[j]), 1f);
+					}
+				}
+				float num3 = totalAvailableSpaceForColumns - usedWidth;
+				bool flag = false;
+				for (int k = 0; k < this.columns.Count; k++)
+				{
+					if (!this.columnAtMaxWidth[k])
+					{
+						float num4 = num3 * Mathf.Max(this.GetOptimalWidth(this.columns[k]), 1f) / num2;
+						float num5 = this.GetMaxWidth(this.columns[k]) - this.cachedColumnWidths[k];
+						if (num4 >= num5)
+						{
+							num4 = num5;
+							this.columnAtMaxWidth[k] = true;
+						}
+						else
+						{
+							flag = true;
+						}
+						if (num4 > 0f)
+						{
+							List<float> list;
+							List<float> expr_16B = list = this.cachedColumnWidths;
+							int index;
+							int expr_170 = index = k;
+							float num6 = list[index];
+							expr_16B[expr_170] = num6 + num4;
+							usedWidth += num4;
+						}
+					}
+				}
+				if (usedWidth >= totalAvailableSpaceForColumns - 0.1f)
+				{
+					goto Block_9;
+				}
+				if (!flag)
+				{
+					goto Block_10;
+				}
+			}
+			Log.Error("Too many iterations.");
+			Block_9:
+			return;
+			Block_10:
+			this.DistributeRemainingWidthProportionallyAboveMax(totalAvailableSpaceForColumns - usedWidth);
 		}
 
 		private void RecacheRowHeights()
@@ -307,11 +507,14 @@ namespace RimWorld
 			else
 			{
 				float num = 0f;
-				for (int i = 0; i < this.cachedColumns.Count; i++)
+				for (int i = 0; i < this.columns.Count; i++)
 				{
-					num += this.GetOptimalWidth(this.cachedColumns[i]);
+					if (!this.columns[i].ignoreWhenCalculatingOptimalTableSize)
+					{
+						num += this.GetOptimalWidth(this.columns[i]);
+					}
 				}
-				float num2 = Mathf.Clamp(num, (float)this.minTableWidth, (float)this.maxTableWidth);
+				float num2 = Mathf.Clamp(num + 16f, (float)this.minTableWidth, (float)this.maxTableWidth);
 				float num3 = Mathf.Clamp(this.cachedHeightNoScrollbar, (float)this.minTableHeight, (float)this.maxTableHeight);
 				num2 = Mathf.Min(num2, (float)UI.screenWidth);
 				num3 = Mathf.Min(num3, (float)UI.screenHeight);
@@ -319,59 +522,70 @@ namespace RimWorld
 			}
 		}
 
+		private void SubtractProportionally(float toSubtract, float totalUsedWidth)
+		{
+			for (int i = 0; i < this.cachedColumnWidths.Count; i++)
+			{
+				List<float> list;
+				List<float> expr_0D = list = this.cachedColumnWidths;
+				int index;
+				int expr_10 = index = i;
+				float num = list[index];
+				expr_0D[expr_10] = num - toSubtract * this.cachedColumnWidths[i] / totalUsedWidth;
+			}
+		}
+
 		private void DistributeRemainingWidthProportionallyAboveMax(float toDistribute)
 		{
 			float num = 0f;
-			for (int i = 0; i < this.cachedColumns.Count; i++)
+			for (int i = 0; i < this.columns.Count; i++)
 			{
-				num += this.GetOptimalWidth(this.cachedColumns[i]);
+				num += Mathf.Max(this.GetOptimalWidth(this.columns[i]), 1f);
 			}
-			for (int j = 0; j < this.cachedColumns.Count; j++)
+			for (int j = 0; j < this.columns.Count; j++)
 			{
 				List<float> list;
-				List<float> expr_44 = list = this.cachedColumnWidths;
+				List<float> expr_4E = list = this.cachedColumnWidths;
 				int index;
-				int expr_47 = index = j;
+				int expr_51 = index = j;
 				float num2 = list[index];
-				expr_44[expr_47] = num2 + toDistribute * this.GetOptimalWidth(this.cachedColumns[j]) / num;
+				expr_4E[expr_51] = num2 + toDistribute * Mathf.Max(this.GetOptimalWidth(this.columns[j]), 1f) / num;
 			}
 		}
 
 		private float GetOptimalWidth(PawnColumnDef column)
 		{
-			return Mathf.Max((float)column.Worker.GetOptimalWidth(this.cachedPawns), 0f);
+			return Mathf.Max((float)column.Worker.GetOptimalWidth(this), 0f);
 		}
 
 		private float GetMinWidth(PawnColumnDef column)
 		{
-			return Mathf.Max((float)column.Worker.GetMinWidth(this.cachedPawns), 0f);
+			return Mathf.Max((float)column.Worker.GetMinWidth(this), 0f);
 		}
 
 		private float GetMaxWidth(PawnColumnDef column)
 		{
-			return Mathf.Max((float)column.Worker.GetMaxWidth(this.cachedPawns), 0f);
+			return Mathf.Max((float)column.Worker.GetMaxWidth(this), 0f);
 		}
 
 		private float CalculateRowHeight(Pawn pawn)
 		{
 			float num = 0f;
-			int num2 = 0;
-			if (num2 >= this.cachedColumns.Count)
+			for (int i = 0; i < this.columns.Count; i++)
 			{
-				return num;
+				num = Mathf.Max(num, (float)this.columns[i].Worker.GetMinCellHeight(pawn));
 			}
-			return Mathf.Max(num, (float)this.cachedColumns[num2].Worker.GetHeight(pawn));
+			return num;
 		}
 
 		private float CalculateHeaderHeight()
 		{
 			float num = 0f;
-			int num2 = 0;
-			if (num2 >= this.cachedColumns.Count)
+			for (int i = 0; i < this.columns.Count; i++)
 			{
-				return num;
+				num = Mathf.Max(num, (float)this.columns[i].Worker.GetMinHeaderHeight(this));
 			}
-			return Mathf.Max(num, (float)this.cachedColumns[num2].Worker.GetHeaderHeight(this.cachedPawns));
+			return num;
 		}
 
 		private float CalculateTotalRequiredHeight()

@@ -131,7 +131,7 @@ namespace RimWorld
 
 		public bool isTrap;
 
-		public DamageArmorCategory trapDamageCategory;
+		public DamageArmorCategoryDef trapDamageCategory;
 
 		public GraphicData trapUnarmedGraphicData;
 
@@ -195,11 +195,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors(ThingDef parent)
 		{
-			BuildingProperties.<ConfigErrors>c__Iterator76 <ConfigErrors>c__Iterator = new BuildingProperties.<ConfigErrors>c__Iterator76();
+			BuildingProperties.<ConfigErrors>c__Iterator77 <ConfigErrors>c__Iterator = new BuildingProperties.<ConfigErrors>c__Iterator77();
 			<ConfigErrors>c__Iterator.parent = parent;
 			<ConfigErrors>c__Iterator.<$>parent = parent;
 			<ConfigErrors>c__Iterator.<>f__this = this;
-			BuildingProperties.<ConfigErrors>c__Iterator76 expr_1C = <ConfigErrors>c__Iterator;
+			BuildingProperties.<ConfigErrors>c__Iterator77 expr_1C = <ConfigErrors>c__Iterator;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

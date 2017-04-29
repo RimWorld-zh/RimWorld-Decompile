@@ -47,7 +47,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (t.IsForbidden(pawn) || !pawn.CanReserveAndReach(t, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, ReservationLayer.Default, forced))
+			if (t.IsForbidden(pawn) || !pawn.CanReserveAndReach(t, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, null, forced))
 			{
 				return false;
 			}
@@ -79,7 +79,7 @@ namespace RimWorld
 		private Thing FindBestFuel(Pawn pawn, Thing refuelable)
 		{
 			ThingFilter filter = refuelable.TryGetComp<CompRefuelable>().Props.fuelFilter;
-			Predicate<Thing> predicate = (Thing x) => !x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, ReservationLayer.Default, false) && filter.Allows(x);
+			Predicate<Thing> predicate = (Thing x) => !x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false) && filter.Allows(x);
 			Predicate<Thing> validator = predicate;
 			return GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, filter.BestThingRequest, PathEndMode.ClosestTouch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, -1, false, RegionType.Set_Passable);
 		}

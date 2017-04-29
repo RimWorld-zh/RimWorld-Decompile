@@ -338,10 +338,12 @@
     <Compile Include="RimWorld\BeautyCategory.cs" />
     <Compile Include="RimWorld\BeautyUtility.cs" />
     <Compile Include="RimWorld\Bill.cs" />
-    <Compile Include="RimWorld\BillRepeatMode.cs" />
+    <Compile Include="RimWorld\BillRepeatModeDef.cs" />
+    <Compile Include="RimWorld\BillRepeatModeDefOf.cs" />
     <Compile Include="RimWorld\BillRepeatModeUtility.cs" />
     <Compile Include="RimWorld\BillStack.cs" />
-    <Compile Include="RimWorld\BillStoreMode.cs" />
+    <Compile Include="RimWorld\BillStoreModeDef.cs" />
+    <Compile Include="RimWorld\BillStoreModeDefOf.cs" />
     <Compile Include="RimWorld\BillUtility.cs" />
     <Compile Include="RimWorld\Bill_Medical.cs" />
     <Compile Include="RimWorld\Bill_Production.cs" />
@@ -536,6 +538,7 @@
     <Compile Include="RimWorld\CopyPasteUI.cs" />
     <Compile Include="RimWorld\CostListCalculator.cs" />
     <Compile Include="RimWorld\CreditsAssembler.cs" />
+    <Compile Include="RimWorld\DamageArmorCategoryDefOf.cs" />
     <Compile Include="RimWorld\DamageDefOf.cs" />
     <Compile Include="RimWorld\DamageWatcher.cs" />
     <Compile Include="RimWorld\DangerWatcher.cs" />
@@ -673,7 +676,8 @@
     <Compile Include="RimWorld\FireUtility.cs" />
     <Compile Include="RimWorld\FireWatcher.cs" />
     <Compile Include="RimWorld\FiringIncident.cs" />
-    <Compile Include="RimWorld\FleshType.cs" />
+    <Compile Include="RimWorld\FleshTypeDef.cs" />
+    <Compile Include="RimWorld\FleshTypeDefOf.cs" />
     <Compile Include="RimWorld\FlickUtility.cs" />
     <Compile Include="RimWorld\FloatMenuMakerMap.cs" />
     <Compile Include="RimWorld\FloatMenuUtility.cs" />
@@ -1219,7 +1223,7 @@
     <Compile Include="RimWorld\MainTabWindow_History.cs" />
     <Compile Include="RimWorld\MainTabWindow_Inspect.cs" />
     <Compile Include="RimWorld\MainTabWindow_Menu.cs" />
-    <Compile Include="RimWorld\MainTabWindow_PawnList.cs" />
+    <Compile Include="RimWorld\MainTabWindow_PawnTable.cs" />
     <Compile Include="RimWorld\MainTabWindow_Research.cs" />
     <Compile Include="RimWorld\MainTabWindow_Restrict.cs" />
     <Compile Include="RimWorld\MainTabWindow_Work.cs" />
@@ -1317,6 +1321,29 @@
     <Compile Include="RimWorld\PawnCapacityWorker_Talking.cs" />
     <Compile Include="RimWorld\PawnColumnDef.cs" />
     <Compile Include="RimWorld\PawnColumnWorker.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_AllowedArea.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_AllowedAreaWide.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_Checkbox.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_CopyPaste.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_CopyPasteTimetable.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_CopyPasteWorkPriorities.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_DrugPolicy.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_FollowDrafted.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_FollowFieldwork.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_Gap.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_Gender.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_HostilityResponse.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_Icon.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_Label.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_LifeStage.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_Master.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_Outfit.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_Pregnant.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_RemainingSpace.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_Slaughter.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_Timetable.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_Trainable.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_WorkPriorities.cs" />
     <Compile Include="RimWorld\PawnComponentsUtility.cs" />
     <Compile Include="RimWorld\PawnDiedOrDownedThoughtsKind.cs" />
     <Compile Include="RimWorld\PawnDiedOrDownedThoughtsUtility.cs" />
@@ -1380,6 +1407,8 @@
     <Compile Include="RimWorld\PawnSkinColors.cs" />
     <Compile Include="RimWorld\PawnsToGather.cs" />
     <Compile Include="RimWorld\PawnTable.cs" />
+    <Compile Include="RimWorld\PawnTableDef.cs" />
+    <Compile Include="RimWorld\PawnTableDefOf.cs" />
     <Compile Include="RimWorld\PawnTechHediffsGenerator.cs" />
     <Compile Include="RimWorld\PawnUtility.cs" />
     <Compile Include="RimWorld\PawnWeaponGenerator.cs" />
@@ -1450,7 +1479,8 @@
     <Compile Include="RimWorld\PriceTypeUtlity.cs" />
     <Compile Include="RimWorld\PriceUtility.cs" />
     <Compile Include="RimWorld\PrisonBreakUtility.cs" />
-    <Compile Include="RimWorld\PrisonerInteractionMode.cs" />
+    <Compile Include="RimWorld\PrisonerInteractionModeDef.cs" />
+    <Compile Include="RimWorld\PrisonerInteractionModeDefOf.cs" />
     <Compile Include="RimWorld\PrisonerInteractionModeUtility.cs" />
     <Compile Include="RimWorld\Projectile_DoomsdayRocket.cs" />
     <Compile Include="RimWorld\PsychicDroneLevel.cs" />
@@ -1503,6 +1533,7 @@
     <Compile Include="RimWorld\ResearchProjectDefOf.cs" />
     <Compile Include="RimWorld\ResearchTabDef.cs" />
     <Compile Include="RimWorld\ResearchTabDefOf.cs" />
+    <Compile Include="RimWorld\ReservationLayerDefOf.cs" />
     <Compile Include="RimWorld\ResolutionUtility.cs" />
     <Compile Include="RimWorld\ResourceCounter.cs" />
     <Compile Include="RimWorld\ResourceReadout.cs" />
@@ -1798,6 +1829,7 @@
     <Compile Include="RimWorld\ThingDefGenerator_Corpses.cs" />
     <Compile Include="RimWorld\ThingDefGenerator_Leather.cs" />
     <Compile Include="RimWorld\ThingDefGenerator_Meat.cs" />
+    <Compile Include="RimWorld\ThingDefGenerator_TrainablePawnColumns.cs" />
     <Compile Include="RimWorld\ThingDefOf.cs" />
     <Compile Include="RimWorld\ThingSelectionUtility.cs" />
     <Compile Include="RimWorld\ThingStuffPair.cs" />
@@ -1929,6 +1961,7 @@
     <Compile Include="RimWorld\Thought_WantToSleepWithSpouseOrLover.cs" />
     <Compile Include="RimWorld\TimeAssignmentDef.cs" />
     <Compile Include="RimWorld\TimeAssignmentDefOf.cs" />
+    <Compile Include="RimWorld\TimeAssignmentSelector.cs" />
     <Compile Include="RimWorld\TimeControls.cs" />
     <Compile Include="RimWorld\TimetableUtility.cs" />
     <Compile Include="RimWorld\Toils_Bed.cs" />
@@ -1952,6 +1985,7 @@
     <Compile Include="RimWorld\TradeUtility.cs" />
     <Compile Include="RimWorld\TrainableDef.cs" />
     <Compile Include="RimWorld\TrainableDefOf.cs" />
+    <Compile Include="RimWorld\TrainableIntelligenceDefOf.cs" />
     <Compile Include="RimWorld\TrainableUtility.cs" />
     <Compile Include="RimWorld\TrainingCardUtility.cs" />
     <Compile Include="RimWorld\Trait.cs" />
@@ -2269,7 +2303,6 @@
     <Compile Include="Verse.AI\RegionCostCalculator.cs" />
     <Compile Include="Verse.AI\RegionCostCalculatorWrapper.cs" />
     <Compile Include="Verse.AI\Reservation.cs" />
-    <Compile Include="Verse.AI\ReservationLayer.cs" />
     <Compile Include="Verse.AI\ReservationManager.cs" />
     <Compile Include="Verse.AI\ReservationUtility.cs" />
     <Compile Include="Verse.AI\TargetIndex.cs" />
@@ -2387,6 +2420,7 @@
     <Compile Include="Verse.Sound\DebugSoundEventsLog.cs" />
     <Compile Include="Verse.Sound\EchoFilterProperty.cs" />
     <Compile Include="Verse.Sound\HighPassFilterProperty.cs" />
+    <Compile Include="Verse.Sound\ImpactSoundTypeDef.cs" />
     <Compile Include="Verse.Sound\ISizeReporter.cs" />
     <Compile Include="Verse.Sound\LowPassFilterProperty.cs" />
     <Compile Include="Verse.Sound\MaintenanceType.cs" />
@@ -2560,8 +2594,7 @@
     <Compile Include="Verse\CurveMark.cs" />
     <Compile Include="Verse\CurvePoint.cs" />
     <Compile Include="Verse\CustomCursor.cs" />
-    <Compile Include="Verse\DamageArmorCategory.cs" />
-    <Compile Include="Verse\DamageArmorCategoryUtility.cs" />
+    <Compile Include="Verse\DamageArmorCategoryDef.cs" />
     <Compile Include="Verse\DamageDef.cs" />
     <Compile Include="Verse\DamageDefAdditionalHediff.cs" />
     <Compile Include="Verse\DamagedMatPool.cs" />
@@ -2636,6 +2669,7 @@
     <Compile Include="Verse\Dialog_NodeTree.cs" />
     <Compile Include="Verse\Dialog_OptionLister.cs" />
     <Compile Include="Verse\Dialog_PackageSelector.cs" />
+    <Compile Include="Verse\Dialog_PawnTableTest.cs" />
     <Compile Include="Verse\Dialog_Rename.cs" />
     <Compile Include="Verse\Dialog_RenameArea.cs" />
     <Compile Include="Verse\Dialog_RenamePackage.cs" />
@@ -2869,7 +2903,6 @@
     <Compile Include="Verse\ImmediateWindow.cs" />
     <Compile Include="Verse\ImmunityHandler.cs" />
     <Compile Include="Verse\ImmunityRecord.cs" />
-    <Compile Include="Verse\ImpactSoundType.cs" />
     <Compile Include="Verse\IngredientCount.cs" />
     <Compile Include="Verse\IngredientValueGetter.cs" />
     <Compile Include="Verse\IngredientValueGetter_Nutrition.cs" />
@@ -3128,6 +3161,7 @@
     <Compile Include="Verse\ReorderDirection.cs" />
     <Compile Include="Verse\ResearchMod.cs" />
     <Compile Include="Verse\ResearchProjectDef.cs" />
+    <Compile Include="Verse\ReservationLayerDef.cs" />
     <Compile Include="Verse\ResourceCountPriority.cs" />
     <Compile Include="Verse\ReverseDesignatorDatabase.cs" />
     <Compile Include="Verse\RoadInfo.cs" />
@@ -3320,7 +3354,7 @@
     <Compile Include="Verse\ToStringNumberSense.cs" />
     <Compile Include="Verse\ToStringStyle.cs" />
     <Compile Include="Verse\Tradeability.cs" />
-    <Compile Include="Verse\TrainableIntelligence.cs" />
+    <Compile Include="Verse\TrainableIntelligenceDef.cs" />
     <Compile Include="Verse\TrainableIntelligenceExtension.cs" />
     <Compile Include="Verse\Translator.cs" />
     <Compile Include="Verse\Traversability.cs" />

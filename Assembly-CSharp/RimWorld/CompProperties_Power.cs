@@ -24,11 +24,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			CompProperties_Power.<ConfigErrors>c__Iterator79 <ConfigErrors>c__Iterator = new CompProperties_Power.<ConfigErrors>c__Iterator79();
-			<ConfigErrors>c__Iterator.parentDef = parentDef;
-			<ConfigErrors>c__Iterator.<$>parentDef = parentDef;
-			<ConfigErrors>c__Iterator.<>f__this = this;
-			CompProperties_Power.<ConfigErrors>c__Iterator79 expr_1C = <ConfigErrors>c__Iterator;
+			CompProperties_Power.<ConfigErrors>c__Iterator7A <ConfigErrors>c__Iterator7A = new CompProperties_Power.<ConfigErrors>c__Iterator7A();
+			<ConfigErrors>c__Iterator7A.parentDef = parentDef;
+			<ConfigErrors>c__Iterator7A.<$>parentDef = parentDef;
+			<ConfigErrors>c__Iterator7A.<>f__this = this;
+			CompProperties_Power.<ConfigErrors>c__Iterator7A expr_1C = <ConfigErrors>c__Iterator7A;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

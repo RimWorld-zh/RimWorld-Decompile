@@ -21,9 +21,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<Thing> GenerateThings()
 		{
-			PawnInventoryOption.<GenerateThings>c__Iterator1CC <GenerateThings>c__Iterator1CC = new PawnInventoryOption.<GenerateThings>c__Iterator1CC();
-			<GenerateThings>c__Iterator1CC.<>f__this = this;
-			PawnInventoryOption.<GenerateThings>c__Iterator1CC expr_0E = <GenerateThings>c__Iterator1CC;
+			PawnInventoryOption.<GenerateThings>c__Iterator1CD <GenerateThings>c__Iterator1CD = new PawnInventoryOption.<GenerateThings>c__Iterator1CD();
+			<GenerateThings>c__Iterator1CD.<>f__this = this;
+			PawnInventoryOption.<GenerateThings>c__Iterator1CD expr_0E = <GenerateThings>c__Iterator1CD;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

@@ -35,8 +35,8 @@ namespace RimWorld.Planet
 			Vector3 v = -GenCelestial.CurSunPositionInWorldSpace();
 			bool usePlanetDayNightSystem = Find.PlaySettings.usePlanetDayNightSystem;
 			float value = (!usePlanetDayNightSystem) ? 0f : 1f;
-			Shader.SetGlobalVector(ShaderPropertyIDs.SunLightDirection, v);
-			Shader.SetGlobalFloat(ShaderPropertyIDs.SunLightEnabled, value);
+			Shader.SetGlobalVector(ShaderPropertyIDs.PlanetSunLightDirection, v);
+			Shader.SetGlobalFloat(ShaderPropertyIDs.PlanetSunLightEnabled, value);
 			WorldMaterials.PlanetGlow.SetFloat(ShaderPropertyIDs.PlanetRadius, 100f);
 			WorldMaterials.PlanetGlow.SetFloat(ShaderPropertyIDs.GlowRadius, 8f);
 		}

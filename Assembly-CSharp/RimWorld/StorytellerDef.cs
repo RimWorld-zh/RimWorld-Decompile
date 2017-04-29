@@ -66,9 +66,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			StorytellerDef.<ConfigErrors>c__Iterator96 <ConfigErrors>c__Iterator = new StorytellerDef.<ConfigErrors>c__Iterator96();
+			StorytellerDef.<ConfigErrors>c__Iterator97 <ConfigErrors>c__Iterator = new StorytellerDef.<ConfigErrors>c__Iterator97();
 			<ConfigErrors>c__Iterator.<>f__this = this;
-			StorytellerDef.<ConfigErrors>c__Iterator96 expr_0E = <ConfigErrors>c__Iterator;
+			StorytellerDef.<ConfigErrors>c__Iterator97 expr_0E = <ConfigErrors>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

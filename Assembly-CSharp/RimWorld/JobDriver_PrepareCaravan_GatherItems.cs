@@ -45,18 +45,19 @@ namespace RimWorld
 		{
 			get
 			{
+				List<TransferableOneWay> transferables = this.Transferables;
 				Thing toHaul = this.ToHaul;
-				TransferableOneWay transferableOneWay = this.Transferables.Find((TransferableOneWay x) => x.things.Contains(toHaul));
+				TransferableOneWay transferableOneWay = transferables.Find((TransferableOneWay x) => x.things.Contains(toHaul));
 				if (transferableOneWay != null)
 				{
 					return transferableOneWay;
 				}
-				transferableOneWay = TransferableUtility.TransferableMatching<TransferableOneWay>(toHaul, this.Transferables);
+				transferableOneWay = TransferableUtility.TransferableMatching<TransferableOneWay>(toHaul, transferables);
 				if (transferableOneWay != null)
 				{
 					return transferableOneWay;
 				}
-				transferableOneWay = this.Transferables.Find((TransferableOneWay x) => x.ThingDef == toHaul.def);
+				transferableOneWay = transferables.Find((TransferableOneWay x) => x.ThingDef == toHaul.def);
 				if (transferableOneWay != null)
 				{
 					return transferableOneWay;

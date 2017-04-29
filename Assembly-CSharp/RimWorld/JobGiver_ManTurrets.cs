@@ -32,7 +32,7 @@ namespace RimWorld
 						break;
 					}
 				}
-				return flag && pawn.CanReserve(t, 1, -1, ReservationLayer.Default, false) && JobDriver_ManTurret.FindAmmoForTurret(pawn, t) != null;
+				return flag && pawn.CanReserve(t, 1, -1, null, false) && JobDriver_ManTurret.FindAmmoForTurret(pawn, t) != null;
 			};
 			Thing thing = GenClosest.ClosestThingReachable(this.GetRoot(pawn), pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.BuildingArtificial), PathEndMode.InteractionCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), this.maxDistFromPoint, validator, null, -1, false, RegionType.Set_Passable);
 			if (thing != null)

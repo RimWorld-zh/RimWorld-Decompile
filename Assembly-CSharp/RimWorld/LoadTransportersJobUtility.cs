@@ -13,7 +13,7 @@ namespace RimWorld
 
 		public static bool HasJobOnTransporter(Pawn pawn, CompTransporter transporter)
 		{
-			return !transporter.parent.IsForbidden(pawn) && transporter.AnythingLeftToLoad && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) && pawn.CanReserveAndReach(transporter.parent, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, ReservationLayer.Default, false) && LoadTransportersJobUtility.FindThingToLoad(pawn, transporter) != null;
+			return !transporter.parent.IsForbidden(pawn) && transporter.AnythingLeftToLoad && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) && pawn.CanReserveAndReach(transporter.parent, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, null, false) && LoadTransportersJobUtility.FindThingToLoad(pawn, transporter) != null;
 		}
 
 		public static Job JobOnTransporter(Pawn p, CompTransporter transporter)
@@ -48,14 +48,14 @@ namespace RimWorld
 			{
 				return null;
 			}
-			Predicate<Thing> validator = (Thing x) => LoadTransportersJobUtility.neededThings.Contains(x) && p.CanReserve(x, 1, -1, ReservationLayer.Default, false);
+			Predicate<Thing> validator = (Thing x) => LoadTransportersJobUtility.neededThings.Contains(x) && p.CanReserve(x, 1, -1, null, false);
 			Thing thing = GenClosest.ClosestThingReachable(p.Position, p.Map, ThingRequest.ForGroup(ThingRequestGroup.HaulableEver), PathEndMode.Touch, TraverseParms.For(p, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, -1, false, RegionType.Set_Passable);
 			if (thing == null)
 			{
 				foreach (Thing current in LoadTransportersJobUtility.neededThings)
 				{
 					Pawn pawn = current as Pawn;
-					if (pawn != null && (!pawn.IsColonist || pawn.Downed) && p.CanReserveAndReach(pawn, PathEndMode.Touch, Danger.Deadly, 1, -1, ReservationLayer.Default, false))
+					if (pawn != null && (!pawn.IsColonist || pawn.Downed) && p.CanReserveAndReach(pawn, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false))
 					{
 						return pawn;
 					}

@@ -110,9 +110,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			Pawn_PlayerSettings.<GetGizmos>c__IteratorE5 <GetGizmos>c__IteratorE = new Pawn_PlayerSettings.<GetGizmos>c__IteratorE5();
+			Pawn_PlayerSettings.<GetGizmos>c__IteratorE6 <GetGizmos>c__IteratorE = new Pawn_PlayerSettings.<GetGizmos>c__IteratorE6();
 			<GetGizmos>c__IteratorE.<>f__this = this;
-			Pawn_PlayerSettings.<GetGizmos>c__IteratorE5 expr_0E = <GetGizmos>c__IteratorE;
+			Pawn_PlayerSettings.<GetGizmos>c__IteratorE6 expr_0E = <GetGizmos>c__IteratorE;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

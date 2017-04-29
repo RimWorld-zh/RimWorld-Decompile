@@ -50,7 +50,7 @@ namespace Verse.AI
 			}
 		}
 
-		public bool CanReserve(Pawn claimant, LocalTargetInfo target, int maxPawns = 1, int stackCount = -1, ReservationLayer layer = ReservationLayer.Default, bool ignoreOtherReservations = false)
+		public bool CanReserve(Pawn claimant, LocalTargetInfo target, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null, bool ignoreOtherReservations = false)
 		{
 			if (claimant == null)
 			{
@@ -126,7 +126,7 @@ namespace Verse.AI
 			return true;
 		}
 
-		public bool Reserve(Pawn claimant, LocalTargetInfo target, int maxPawns = 1, int stackCount = -1, ReservationLayer layer = ReservationLayer.Default)
+		public bool Reserve(Pawn claimant, LocalTargetInfo target, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null)
 		{
 			if (maxPawns > 1 && stackCount == -1)
 			{
@@ -343,7 +343,7 @@ namespace Verse.AI
 			}
 		}
 
-		private void LogCouldNotReserveError(Pawn claimant, LocalTargetInfo target, int maxPawns, int stackCount, ReservationLayer layer)
+		private void LogCouldNotReserveError(Pawn claimant, LocalTargetInfo target, int maxPawns, int stackCount, ReservationLayerDef layer)
 		{
 			Job curJob = claimant.CurJob;
 			string text = "null";

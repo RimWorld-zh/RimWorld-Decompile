@@ -19,13 +19,13 @@ namespace RimWorld
 
 		public bool defaultTrainable;
 
-		public TrainableIntelligence requiredTrainableIntelligence = TrainableIntelligence.Simple;
+		public TrainableIntelligenceDef requiredTrainableIntelligence;
 
 		public int steps = 1;
 
 		public float listPriority;
 
-		private string icon;
+		public string icon;
 
 		[Unsaved]
 		public int indent;
@@ -64,9 +64,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			TrainableDef.<ConfigErrors>c__Iterator9B <ConfigErrors>c__Iterator9B = new TrainableDef.<ConfigErrors>c__Iterator9B();
-			<ConfigErrors>c__Iterator9B.<>f__this = this;
-			TrainableDef.<ConfigErrors>c__Iterator9B expr_0E = <ConfigErrors>c__Iterator9B;
+			TrainableDef.<ConfigErrors>c__Iterator9C <ConfigErrors>c__Iterator9C = new TrainableDef.<ConfigErrors>c__Iterator9C();
+			<ConfigErrors>c__Iterator9C.<>f__this = this;
+			TrainableDef.<ConfigErrors>c__Iterator9C expr_0E = <ConfigErrors>c__Iterator9C;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

@@ -24,7 +24,7 @@ namespace RimWorld
 
 		public static bool CanVisit(Pawn pawn, Pawn sick, JoyCategory maxPatientJoy)
 		{
-			return sick.IsColonist && !sick.Dead && pawn != sick && sick.InBed() && sick.Awake() && !sick.IsForbidden(pawn) && sick.needs.joy != null && sick.needs.joy.CurCategory <= maxPatientJoy && InteractionUtility.CanReceiveInteraction(sick) && !sick.needs.food.Starving && sick.needs.rest.CurLevel > 0.33f && pawn.CanReserveAndReach(sick, PathEndMode.InteractionCell, Danger.None, 1, -1, ReservationLayer.Default, false) && !SickPawnVisitUtility.AboutToRecover(sick);
+			return sick.IsColonist && !sick.Dead && pawn != sick && sick.InBed() && sick.Awake() && !sick.IsForbidden(pawn) && sick.needs.joy != null && sick.needs.joy.CurCategory <= maxPatientJoy && InteractionUtility.CanReceiveInteraction(sick) && !sick.needs.food.Starving && sick.needs.rest.CurLevel > 0.33f && pawn.CanReserveAndReach(sick, PathEndMode.InteractionCell, Danger.None, 1, -1, null, false) && !SickPawnVisitUtility.AboutToRecover(sick);
 		}
 
 		public static Thing FindChair(Pawn forPawn, Pawn nearPawn)
@@ -43,7 +43,7 @@ namespace RimWorld
 				{
 					return false;
 				}
-				if (!forPawn.CanReserve(x, 1, -1, ReservationLayer.Default, false))
+				if (!forPawn.CanReserve(x, 1, -1, null, false))
 				{
 					return false;
 				}

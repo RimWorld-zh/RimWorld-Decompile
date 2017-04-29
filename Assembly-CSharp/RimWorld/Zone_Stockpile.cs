@@ -86,8 +86,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<InspectTabBase> GetInspectTabs()
 		{
-			Zone_Stockpile.<GetInspectTabs>c__IteratorBB <GetInspectTabs>c__IteratorBB = new Zone_Stockpile.<GetInspectTabs>c__IteratorBB();
-			Zone_Stockpile.<GetInspectTabs>c__IteratorBB expr_07 = <GetInspectTabs>c__IteratorBB;
+			Zone_Stockpile.<GetInspectTabs>c__IteratorBC <GetInspectTabs>c__IteratorBC = new Zone_Stockpile.<GetInspectTabs>c__IteratorBC();
+			Zone_Stockpile.<GetInspectTabs>c__IteratorBC expr_07 = <GetInspectTabs>c__IteratorBC;
 			expr_07.$PC = -2;
 			return expr_07;
 		}
@@ -95,9 +95,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Zone_Stockpile.<GetGizmos>c__IteratorBC <GetGizmos>c__IteratorBC = new Zone_Stockpile.<GetGizmos>c__IteratorBC();
-			<GetGizmos>c__IteratorBC.<>f__this = this;
-			Zone_Stockpile.<GetGizmos>c__IteratorBC expr_0E = <GetGizmos>c__IteratorBC;
+			Zone_Stockpile.<GetGizmos>c__IteratorBD <GetGizmos>c__IteratorBD = new Zone_Stockpile.<GetGizmos>c__IteratorBD();
+			<GetGizmos>c__IteratorBD.<>f__this = this;
+			Zone_Stockpile.<GetGizmos>c__IteratorBD expr_0E = <GetGizmos>c__IteratorBD;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -110,9 +110,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerable<IntVec3> AllSlotCells()
 		{
-			Zone_Stockpile.<AllSlotCells>c__IteratorBD <AllSlotCells>c__IteratorBD = new Zone_Stockpile.<AllSlotCells>c__IteratorBD();
-			<AllSlotCells>c__IteratorBD.<>f__this = this;
-			Zone_Stockpile.<AllSlotCells>c__IteratorBD expr_0E = <AllSlotCells>c__IteratorBD;
+			Zone_Stockpile.<AllSlotCells>c__IteratorBE <AllSlotCells>c__IteratorBE = new Zone_Stockpile.<AllSlotCells>c__IteratorBE();
+			<AllSlotCells>c__IteratorBE.<>f__this = this;
+			Zone_Stockpile.<AllSlotCells>c__IteratorBE expr_0E = <AllSlotCells>c__IteratorBE;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

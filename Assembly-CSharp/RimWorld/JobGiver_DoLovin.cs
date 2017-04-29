@@ -21,7 +21,7 @@ namespace RimWorld
 			{
 				return null;
 			}
-			if (!pawn.CanReserve(partnerInMyBed, 1, -1, ReservationLayer.Default, false) || !partnerInMyBed.CanReserve(pawn, 1, -1, ReservationLayer.Default, false))
+			if (!pawn.CanReserve(partnerInMyBed, 1, -1, null, false) || !partnerInMyBed.CanReserve(pawn, 1, -1, null, false))
 			{
 				return null;
 			}

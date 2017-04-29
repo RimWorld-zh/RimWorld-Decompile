@@ -67,12 +67,7 @@ namespace Verse
 			{
 				ModContentPack modContentPack2 = LoadedModManager.runningMods[j];
 				DeepProfiler.Start("Loading " + modContentPack2);
-				List<PatchOperation> list = new List<PatchOperation>();
-				for (int k = j + 1; k < LoadedModManager.runningMods.Count; k++)
-				{
-					list.AddRange(LoadedModManager.runningMods[k].Patches);
-				}
-				modContentPack2.LoadDefs(list);
+				modContentPack2.LoadDefs(LoadedModManager.runningMods.SelectMany((ModContentPack rm) => rm.Patches));
 				DeepProfiler.End();
 			}
 			foreach (ModContentPack current2 in LoadedModManager.runningMods)

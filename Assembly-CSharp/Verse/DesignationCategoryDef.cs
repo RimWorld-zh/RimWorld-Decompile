@@ -26,9 +26,9 @@ namespace Verse
 		{
 			get
 			{
-				DesignationCategoryDef.<>c__Iterator1C5 <>c__Iterator1C = new DesignationCategoryDef.<>c__Iterator1C5();
+				DesignationCategoryDef.<>c__Iterator1C6 <>c__Iterator1C = new DesignationCategoryDef.<>c__Iterator1C6();
 				<>c__Iterator1C.<>f__this = this;
-				DesignationCategoryDef.<>c__Iterator1C5 expr_0E = <>c__Iterator1C;
+				DesignationCategoryDef.<>c__Iterator1C6 expr_0E = <>c__Iterator1C;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

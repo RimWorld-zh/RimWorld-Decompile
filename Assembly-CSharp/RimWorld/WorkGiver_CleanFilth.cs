@@ -45,7 +45,7 @@ namespace RimWorld
 				return false;
 			}
 			Filth filth = t as Filth;
-			return filth != null && filth.Map.areaManager.Home[filth.Position] && pawn.CanReserveAndReach(t, PathEndMode.ClosestTouch, pawn.NormalMaxDanger(), 1, -1, ReservationLayer.Default, forced) && filth.TicksSinceThickened >= this.MinTicksSinceThickened;
+			return filth != null && filth.Map.areaManager.Home[filth.Position] && pawn.CanReserveAndReach(t, PathEndMode.ClosestTouch, pawn.NormalMaxDanger(), 1, -1, null, forced) && filth.TicksSinceThickened >= this.MinTicksSinceThickened;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

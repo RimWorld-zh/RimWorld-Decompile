@@ -25,7 +25,7 @@ namespace RimWorld
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Building_FermentingBarrel building_FermentingBarrel = t as Building_FermentingBarrel;
-			return building_FermentingBarrel != null && building_FermentingBarrel.Fermented && !t.IsBurning() && !t.IsForbidden(pawn) && pawn.CanReserveAndReach(t, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, ReservationLayer.Default, forced);
+			return building_FermentingBarrel != null && building_FermentingBarrel.Fermented && !t.IsBurning() && !t.IsForbidden(pawn) && pawn.CanReserveAndReach(t, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, null, forced);
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

@@ -60,8 +60,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<DamageDef> PossibleDamageDefs()
 		{
-			ScenPart_OnPawnDeathExplode.<PossibleDamageDefs>c__Iterator114 <PossibleDamageDefs>c__Iterator = new ScenPart_OnPawnDeathExplode.<PossibleDamageDefs>c__Iterator114();
-			ScenPart_OnPawnDeathExplode.<PossibleDamageDefs>c__Iterator114 expr_07 = <PossibleDamageDefs>c__Iterator;
+			ScenPart_OnPawnDeathExplode.<PossibleDamageDefs>c__Iterator115 <PossibleDamageDefs>c__Iterator = new ScenPart_OnPawnDeathExplode.<PossibleDamageDefs>c__Iterator115();
+			ScenPart_OnPawnDeathExplode.<PossibleDamageDefs>c__Iterator115 expr_07 = <PossibleDamageDefs>c__Iterator;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

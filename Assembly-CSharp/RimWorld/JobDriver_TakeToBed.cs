@@ -45,7 +45,7 @@ namespace RimWorld
 				if (this.Takee.guest.released)
 				{
 					this.Takee.guest.released = false;
-					this.Takee.guest.interactionMode = PrisonerInteractionMode.NoInteraction;
+					this.Takee.guest.interactionMode = PrisonerInteractionModeDefOf.NoInteraction;
 				}
 				if (!this.Takee.IsPrisonerOfColony)
 				{

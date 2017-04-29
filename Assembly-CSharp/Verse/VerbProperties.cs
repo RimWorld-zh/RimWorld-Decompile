@@ -24,7 +24,7 @@ namespace Verse
 
 		public VerbCategory category = VerbCategory.Nonnative;
 
-		public Type verbClass;
+		public Type verbClass = typeof(Verb);
 
 		public string label;
 

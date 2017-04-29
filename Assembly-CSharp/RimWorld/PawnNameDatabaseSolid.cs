@@ -38,8 +38,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<NameTriple> AllNames()
 		{
-			PawnNameDatabaseSolid.<AllNames>c__IteratorDF <AllNames>c__IteratorDF = new PawnNameDatabaseSolid.<AllNames>c__IteratorDF();
-			PawnNameDatabaseSolid.<AllNames>c__IteratorDF expr_07 = <AllNames>c__IteratorDF;
+			PawnNameDatabaseSolid.<AllNames>c__IteratorE0 <AllNames>c__IteratorE = new PawnNameDatabaseSolid.<AllNames>c__IteratorE0();
+			PawnNameDatabaseSolid.<AllNames>c__IteratorE0 expr_07 = <AllNames>c__IteratorE;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

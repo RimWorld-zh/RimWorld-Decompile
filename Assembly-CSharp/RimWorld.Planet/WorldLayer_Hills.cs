@@ -22,9 +22,9 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public override IEnumerable Regenerate()
 		{
-			WorldLayer_Hills.<Regenerate>c__IteratorF0 <Regenerate>c__IteratorF = new WorldLayer_Hills.<Regenerate>c__IteratorF0();
+			WorldLayer_Hills.<Regenerate>c__IteratorF1 <Regenerate>c__IteratorF = new WorldLayer_Hills.<Regenerate>c__IteratorF1();
 			<Regenerate>c__IteratorF.<>f__this = this;
-			WorldLayer_Hills.<Regenerate>c__IteratorF0 expr_0E = <Regenerate>c__IteratorF;
+			WorldLayer_Hills.<Regenerate>c__IteratorF1 expr_0E = <Regenerate>c__IteratorF;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

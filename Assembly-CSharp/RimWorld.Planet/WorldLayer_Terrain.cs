@@ -17,9 +17,9 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public override IEnumerable Regenerate()
 		{
-			WorldLayer_Terrain.<Regenerate>c__IteratorF5 <Regenerate>c__IteratorF = new WorldLayer_Terrain.<Regenerate>c__IteratorF5();
+			WorldLayer_Terrain.<Regenerate>c__IteratorF6 <Regenerate>c__IteratorF = new WorldLayer_Terrain.<Regenerate>c__IteratorF6();
 			<Regenerate>c__IteratorF.<>f__this = this;
-			WorldLayer_Terrain.<Regenerate>c__IteratorF5 expr_0E = <Regenerate>c__IteratorF;
+			WorldLayer_Terrain.<Regenerate>c__IteratorF6 expr_0E = <Regenerate>c__IteratorF;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -42,9 +42,9 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		private IEnumerable RegenerateMeshColliders()
 		{
-			WorldLayer_Terrain.<RegenerateMeshColliders>c__IteratorF6 <RegenerateMeshColliders>c__IteratorF = new WorldLayer_Terrain.<RegenerateMeshColliders>c__IteratorF6();
+			WorldLayer_Terrain.<RegenerateMeshColliders>c__IteratorF7 <RegenerateMeshColliders>c__IteratorF = new WorldLayer_Terrain.<RegenerateMeshColliders>c__IteratorF7();
 			<RegenerateMeshColliders>c__IteratorF.<>f__this = this;
-			WorldLayer_Terrain.<RegenerateMeshColliders>c__IteratorF6 expr_0E = <RegenerateMeshColliders>c__IteratorF;
+			WorldLayer_Terrain.<RegenerateMeshColliders>c__IteratorF7 expr_0E = <RegenerateMeshColliders>c__IteratorF;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -52,9 +52,9 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		private IEnumerable CalculateInterpolatedVerticesParams()
 		{
-			WorldLayer_Terrain.<CalculateInterpolatedVerticesParams>c__IteratorF7 <CalculateInterpolatedVerticesParams>c__IteratorF = new WorldLayer_Terrain.<CalculateInterpolatedVerticesParams>c__IteratorF7();
+			WorldLayer_Terrain.<CalculateInterpolatedVerticesParams>c__IteratorF8 <CalculateInterpolatedVerticesParams>c__IteratorF = new WorldLayer_Terrain.<CalculateInterpolatedVerticesParams>c__IteratorF8();
 			<CalculateInterpolatedVerticesParams>c__IteratorF.<>f__this = this;
-			WorldLayer_Terrain.<CalculateInterpolatedVerticesParams>c__IteratorF7 expr_0E = <CalculateInterpolatedVerticesParams>c__IteratorF;
+			WorldLayer_Terrain.<CalculateInterpolatedVerticesParams>c__IteratorF8 expr_0E = <CalculateInterpolatedVerticesParams>c__IteratorF;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

@@ -51,7 +51,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		private const int SearchLimit = 300000;
+		private const int SearchLimit = 500000;
 
 		private const float BestRoadDiscount = 0.5f;
 
@@ -158,7 +158,7 @@ namespace RimWorld.Planet
 						{
 							return this.FinalizedPath(tile);
 						}
-						if (num > 300000)
+						if (num > 500000)
 						{
 							Log.Warning(string.Concat(new object[]
 							{
@@ -168,7 +168,7 @@ namespace RimWorld.Planet
 								" to ",
 								destTile,
 								" hit search limit of ",
-								300000,
+								500000,
 								" tiles."
 							}));
 							return WorldPath.NotFound;

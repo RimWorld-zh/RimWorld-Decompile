@@ -26,11 +26,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn myPawn)
 		{
-			Building_CryptosleepCasket.<GetFloatMenuOptions>c__Iterator14E <GetFloatMenuOptions>c__Iterator14E = new Building_CryptosleepCasket.<GetFloatMenuOptions>c__Iterator14E();
-			<GetFloatMenuOptions>c__Iterator14E.myPawn = myPawn;
-			<GetFloatMenuOptions>c__Iterator14E.<$>myPawn = myPawn;
-			<GetFloatMenuOptions>c__Iterator14E.<>f__this = this;
-			Building_CryptosleepCasket.<GetFloatMenuOptions>c__Iterator14E expr_1C = <GetFloatMenuOptions>c__Iterator14E;
+			Building_CryptosleepCasket.<GetFloatMenuOptions>c__Iterator14F <GetFloatMenuOptions>c__Iterator14F = new Building_CryptosleepCasket.<GetFloatMenuOptions>c__Iterator14F();
+			<GetFloatMenuOptions>c__Iterator14F.myPawn = myPawn;
+			<GetFloatMenuOptions>c__Iterator14F.<$>myPawn = myPawn;
+			<GetFloatMenuOptions>c__Iterator14F.<>f__this = this;
+			Building_CryptosleepCasket.<GetFloatMenuOptions>c__Iterator14F expr_1C = <GetFloatMenuOptions>c__Iterator14F;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}
@@ -38,9 +38,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_CryptosleepCasket.<GetGizmos>c__Iterator14F <GetGizmos>c__Iterator14F = new Building_CryptosleepCasket.<GetGizmos>c__Iterator14F();
-			<GetGizmos>c__Iterator14F.<>f__this = this;
-			Building_CryptosleepCasket.<GetGizmos>c__Iterator14F expr_0E = <GetGizmos>c__Iterator14F;
+			Building_CryptosleepCasket.<GetGizmos>c__Iterator150 <GetGizmos>c__Iterator = new Building_CryptosleepCasket.<GetGizmos>c__Iterator150();
+			<GetGizmos>c__Iterator.<>f__this = this;
+			Building_CryptosleepCasket.<GetGizmos>c__Iterator150 expr_0E = <GetGizmos>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -72,7 +72,7 @@ namespace RimWorld
 			select def;
 			foreach (ThingDef current in enumerable)
 			{
-				Predicate<Thing> validator = (Thing x) => !((Building_CryptosleepCasket)x).HasAnyContents && traveler.CanReserve(x, 1, -1, ReservationLayer.Default, false);
+				Predicate<Thing> validator = (Thing x) => !((Building_CryptosleepCasket)x).HasAnyContents && traveler.CanReserve(x, 1, -1, null, false);
 				Building_CryptosleepCasket building_CryptosleepCasket = (Building_CryptosleepCasket)GenClosest.ClosestThingReachable(p.Position, p.Map, ThingRequest.ForDef(current), PathEndMode.InteractionCell, TraverseParms.For(traveler, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, -1, false, RegionType.Set_Passable);
 				if (building_CryptosleepCasket != null)
 				{

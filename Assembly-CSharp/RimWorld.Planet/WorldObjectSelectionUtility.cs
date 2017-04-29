@@ -11,10 +11,10 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public static IEnumerable<WorldObject> MultiSelectableWorldObjectsInScreenRectDistinct(Rect rect)
 		{
-			WorldObjectSelectionUtility.<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator19D <MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator19D = new WorldObjectSelectionUtility.<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator19D();
-			<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator19D.rect = rect;
-			<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator19D.<$>rect = rect;
-			WorldObjectSelectionUtility.<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator19D expr_15 = <MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator19D;
+			WorldObjectSelectionUtility.<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator19E <MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator19E = new WorldObjectSelectionUtility.<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator19E();
+			<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator19E.rect = rect;
+			<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator19E.<$>rect = rect;
+			WorldObjectSelectionUtility.<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator19E expr_15 = <MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator19E;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

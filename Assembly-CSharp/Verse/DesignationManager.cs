@@ -133,11 +133,11 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<Designation> AllDesignationsOn(Thing t)
 		{
-			DesignationManager.<AllDesignationsOn>c__Iterator1EB <AllDesignationsOn>c__Iterator1EB = new DesignationManager.<AllDesignationsOn>c__Iterator1EB();
-			<AllDesignationsOn>c__Iterator1EB.t = t;
-			<AllDesignationsOn>c__Iterator1EB.<$>t = t;
-			<AllDesignationsOn>c__Iterator1EB.<>f__this = this;
-			DesignationManager.<AllDesignationsOn>c__Iterator1EB expr_1C = <AllDesignationsOn>c__Iterator1EB;
+			DesignationManager.<AllDesignationsOn>c__Iterator1EC <AllDesignationsOn>c__Iterator1EC = new DesignationManager.<AllDesignationsOn>c__Iterator1EC();
+			<AllDesignationsOn>c__Iterator1EC.t = t;
+			<AllDesignationsOn>c__Iterator1EC.<$>t = t;
+			<AllDesignationsOn>c__Iterator1EC.<>f__this = this;
+			DesignationManager.<AllDesignationsOn>c__Iterator1EC expr_1C = <AllDesignationsOn>c__Iterator1EC;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}
@@ -145,11 +145,11 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<Designation> AllDesignationsAt(IntVec3 c)
 		{
-			DesignationManager.<AllDesignationsAt>c__Iterator1EC <AllDesignationsAt>c__Iterator1EC = new DesignationManager.<AllDesignationsAt>c__Iterator1EC();
-			<AllDesignationsAt>c__Iterator1EC.c = c;
-			<AllDesignationsAt>c__Iterator1EC.<$>c = c;
-			<AllDesignationsAt>c__Iterator1EC.<>f__this = this;
-			DesignationManager.<AllDesignationsAt>c__Iterator1EC expr_1C = <AllDesignationsAt>c__Iterator1EC;
+			DesignationManager.<AllDesignationsAt>c__Iterator1ED <AllDesignationsAt>c__Iterator1ED = new DesignationManager.<AllDesignationsAt>c__Iterator1ED();
+			<AllDesignationsAt>c__Iterator1ED.c = c;
+			<AllDesignationsAt>c__Iterator1ED.<$>c = c;
+			<AllDesignationsAt>c__Iterator1ED.<>f__this = this;
+			DesignationManager.<AllDesignationsAt>c__Iterator1ED expr_1C = <AllDesignationsAt>c__Iterator1ED;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}
@@ -157,11 +157,11 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<Designation> DesignationsOfDef(DesignationDef def)
 		{
-			DesignationManager.<DesignationsOfDef>c__Iterator1ED <DesignationsOfDef>c__Iterator1ED = new DesignationManager.<DesignationsOfDef>c__Iterator1ED();
-			<DesignationsOfDef>c__Iterator1ED.def = def;
-			<DesignationsOfDef>c__Iterator1ED.<$>def = def;
-			<DesignationsOfDef>c__Iterator1ED.<>f__this = this;
-			DesignationManager.<DesignationsOfDef>c__Iterator1ED expr_1C = <DesignationsOfDef>c__Iterator1ED;
+			DesignationManager.<DesignationsOfDef>c__Iterator1EE <DesignationsOfDef>c__Iterator1EE = new DesignationManager.<DesignationsOfDef>c__Iterator1EE();
+			<DesignationsOfDef>c__Iterator1EE.def = def;
+			<DesignationsOfDef>c__Iterator1EE.<$>def = def;
+			<DesignationsOfDef>c__Iterator1EE.<>f__this = this;
+			DesignationManager.<DesignationsOfDef>c__Iterator1EE expr_1C = <DesignationsOfDef>c__Iterator1EE;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

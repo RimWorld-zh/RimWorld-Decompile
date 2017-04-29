@@ -60,12 +60,12 @@ namespace RimWorld
 				}
 				if (p != null)
 				{
-					if (!p.CanReserveAndReach(x, PathEndMode.OnCell, Danger.Some, 1, -1, ReservationLayer.Default, false))
+					if (!p.CanReserveAndReach(x, PathEndMode.OnCell, Danger.Some, 1, -1, null, false))
 					{
 						return false;
 					}
 					Building edifice = x.GetEdifice(map);
-					if (edifice != null && edifice.def.category == ThingCategory.Building && edifice.def.building.isSittable && !p.CanReserve(edifice, 1, -1, ReservationLayer.Default, false))
+					if (edifice != null && edifice.def.category == ThingCategory.Building && edifice.def.building.isSittable && !p.CanReserve(edifice, 1, -1, null, false))
 					{
 						return false;
 					}

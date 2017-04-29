@@ -24,8 +24,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		public virtual IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
-			IngestionOutcomeDoer.<SpecialDisplayStats>c__Iterator7F <SpecialDisplayStats>c__Iterator7F = new IngestionOutcomeDoer.<SpecialDisplayStats>c__Iterator7F();
-			IngestionOutcomeDoer.<SpecialDisplayStats>c__Iterator7F expr_07 = <SpecialDisplayStats>c__Iterator7F;
+			IngestionOutcomeDoer.<SpecialDisplayStats>c__Iterator80 <SpecialDisplayStats>c__Iterator = new IngestionOutcomeDoer.<SpecialDisplayStats>c__Iterator80();
+			IngestionOutcomeDoer.<SpecialDisplayStats>c__Iterator80 expr_07 = <SpecialDisplayStats>c__Iterator;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

@@ -1002,7 +1002,7 @@ namespace RimWorld
 				{
 					return false;
 				}
-				if (!organizer.CanReserveAndReach(cell, PathEndMode.OnCell, Danger.None, 1, -1, ReservationLayer.Default, false))
+				if (!organizer.CanReserveAndReach(cell, PathEndMode.OnCell, Danger.None, 1, -1, null, false))
 				{
 					return false;
 				}

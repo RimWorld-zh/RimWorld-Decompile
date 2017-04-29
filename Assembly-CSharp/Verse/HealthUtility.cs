@@ -331,7 +331,7 @@ namespace Verse
 			{
 				return;
 			}
-			Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(hdDef);
+			Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(hdDef, false);
 			if (hediff != null)
 			{
 				hediff.Severity += sevOffset;
@@ -355,7 +355,7 @@ namespace Verse
 
 		public static int TicksUntilDeathDueToBloodLoss(Pawn pawn)
 		{
-			Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss);
+			Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss, false);
 			if (firstHediffOfDef == null)
 			{
 				return 2147483647;

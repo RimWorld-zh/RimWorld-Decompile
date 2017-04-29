@@ -62,9 +62,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<Command> GetVerbsCommands(KeyCode hotKey = KeyCode.None)
 		{
-			VerbTracker.<GetVerbsCommands>c__Iterator24F <GetVerbsCommands>c__Iterator24F = new VerbTracker.<GetVerbsCommands>c__Iterator24F();
-			<GetVerbsCommands>c__Iterator24F.<>f__this = this;
-			VerbTracker.<GetVerbsCommands>c__Iterator24F expr_0E = <GetVerbsCommands>c__Iterator24F;
+			VerbTracker.<GetVerbsCommands>c__Iterator250 <GetVerbsCommands>c__Iterator = new VerbTracker.<GetVerbsCommands>c__Iterator250();
+			<GetVerbsCommands>c__Iterator.<>f__this = this;
+			VerbTracker.<GetVerbsCommands>c__Iterator250 expr_0E = <GetVerbsCommands>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -86,10 +86,23 @@ namespace Verse
 				List<VerbProperties> verbProperties = this.directOwner.VerbProperties;
 				for (int i = 0; i < verbProperties.Count; i++)
 				{
-					VerbProperties verbProperties2 = verbProperties[i];
-					Verb verb = (Verb)Activator.CreateInstance(verbProperties2.verbClass);
-					verb.loadID = Find.World.uniqueIDsManager.GetNextVerbID();
-					this.verbs.Add(verb);
+					try
+					{
+						VerbProperties verbProperties2 = verbProperties[i];
+						Verb verb = (Verb)Activator.CreateInstance(verbProperties2.verbClass);
+						verb.loadID = Find.World.uniqueIDsManager.GetNextVerbID();
+						this.verbs.Add(verb);
+					}
+					catch (Exception ex)
+					{
+						Log.Error(string.Concat(new object[]
+						{
+							"Could not instantiate Verb (directOwner=",
+							this.directOwner.ToStringSafe<IVerbOwner>(),
+							"): ",
+							ex
+						}));
+					}
 				}
 				this.UpdateVerbsLinksAndProps();
 			}

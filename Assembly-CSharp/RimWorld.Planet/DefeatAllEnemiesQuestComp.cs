@@ -76,6 +76,7 @@ namespace RimWorld.Planet
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
+			Scribe_Values.Look<bool>(ref this.active, "active", false, false);
 			Scribe_Values.Look<float>(ref this.relationsImprovement, "relationsImprovement", 0f, false);
 			Scribe_References.Look<Faction>(ref this.requestingFaction, "requestingFaction", false);
 			Scribe_Deep.Look<ThingOwner>(ref this.rewards, "rewards", new object[]

@@ -13,12 +13,12 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<LoadableXmlAsset> XmlAssetsInModFolder(ModContentPack mod, string folderPath)
 		{
-			DirectXmlLoader.<XmlAssetsInModFolder>c__Iterator21C <XmlAssetsInModFolder>c__Iterator21C = new DirectXmlLoader.<XmlAssetsInModFolder>c__Iterator21C();
-			<XmlAssetsInModFolder>c__Iterator21C.mod = mod;
-			<XmlAssetsInModFolder>c__Iterator21C.folderPath = folderPath;
-			<XmlAssetsInModFolder>c__Iterator21C.<$>mod = mod;
-			<XmlAssetsInModFolder>c__Iterator21C.<$>folderPath = folderPath;
-			DirectXmlLoader.<XmlAssetsInModFolder>c__Iterator21C expr_23 = <XmlAssetsInModFolder>c__Iterator21C;
+			DirectXmlLoader.<XmlAssetsInModFolder>c__Iterator21D <XmlAssetsInModFolder>c__Iterator21D = new DirectXmlLoader.<XmlAssetsInModFolder>c__Iterator21D();
+			<XmlAssetsInModFolder>c__Iterator21D.mod = mod;
+			<XmlAssetsInModFolder>c__Iterator21D.folderPath = folderPath;
+			<XmlAssetsInModFolder>c__Iterator21D.<$>mod = mod;
+			<XmlAssetsInModFolder>c__Iterator21D.<$>folderPath = folderPath;
+			DirectXmlLoader.<XmlAssetsInModFolder>c__Iterator21D expr_23 = <XmlAssetsInModFolder>c__Iterator21D;
 			expr_23.$PC = -2;
 			return expr_23;
 		}
@@ -26,10 +26,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<T> LoadXmlDataInResourcesFolder<T>(string folderPath) where T : new()
 		{
-			DirectXmlLoader.<LoadXmlDataInResourcesFolder>c__Iterator21D<T> <LoadXmlDataInResourcesFolder>c__Iterator21D = new DirectXmlLoader.<LoadXmlDataInResourcesFolder>c__Iterator21D<T>();
-			<LoadXmlDataInResourcesFolder>c__Iterator21D.folderPath = folderPath;
-			<LoadXmlDataInResourcesFolder>c__Iterator21D.<$>folderPath = folderPath;
-			DirectXmlLoader.<LoadXmlDataInResourcesFolder>c__Iterator21D<T> expr_15 = <LoadXmlDataInResourcesFolder>c__Iterator21D;
+			DirectXmlLoader.<LoadXmlDataInResourcesFolder>c__Iterator21E<T> <LoadXmlDataInResourcesFolder>c__Iterator21E = new DirectXmlLoader.<LoadXmlDataInResourcesFolder>c__Iterator21E<T>();
+			<LoadXmlDataInResourcesFolder>c__Iterator21E.folderPath = folderPath;
+			<LoadXmlDataInResourcesFolder>c__Iterator21E.<$>folderPath = folderPath;
+			DirectXmlLoader.<LoadXmlDataInResourcesFolder>c__Iterator21E<T> expr_15 = <LoadXmlDataInResourcesFolder>c__Iterator21E;
 			expr_15.$PC = -2;
 			return expr_15;
 		}
@@ -68,10 +68,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<Def> AllDefsFromAsset(LoadableXmlAsset asset)
 		{
-			DirectXmlLoader.<AllDefsFromAsset>c__Iterator21E <AllDefsFromAsset>c__Iterator21E = new DirectXmlLoader.<AllDefsFromAsset>c__Iterator21E();
-			<AllDefsFromAsset>c__Iterator21E.asset = asset;
-			<AllDefsFromAsset>c__Iterator21E.<$>asset = asset;
-			DirectXmlLoader.<AllDefsFromAsset>c__Iterator21E expr_15 = <AllDefsFromAsset>c__Iterator21E;
+			DirectXmlLoader.<AllDefsFromAsset>c__Iterator21F <AllDefsFromAsset>c__Iterator21F = new DirectXmlLoader.<AllDefsFromAsset>c__Iterator21F();
+			<AllDefsFromAsset>c__Iterator21F.asset = asset;
+			<AllDefsFromAsset>c__Iterator21F.<$>asset = asset;
+			DirectXmlLoader.<AllDefsFromAsset>c__Iterator21F expr_15 = <AllDefsFromAsset>c__Iterator21F;
 			expr_15.$PC = -2;
 			return expr_15;
 		}
@@ -79,10 +79,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<T> AllGameItemsFromAsset<T>(LoadableXmlAsset asset) where T : new()
 		{
-			DirectXmlLoader.<AllGameItemsFromAsset>c__Iterator21F<T> <AllGameItemsFromAsset>c__Iterator21F = new DirectXmlLoader.<AllGameItemsFromAsset>c__Iterator21F<T>();
-			<AllGameItemsFromAsset>c__Iterator21F.asset = asset;
-			<AllGameItemsFromAsset>c__Iterator21F.<$>asset = asset;
-			DirectXmlLoader.<AllGameItemsFromAsset>c__Iterator21F<T> expr_15 = <AllGameItemsFromAsset>c__Iterator21F;
+			DirectXmlLoader.<AllGameItemsFromAsset>c__Iterator220<T> <AllGameItemsFromAsset>c__Iterator = new DirectXmlLoader.<AllGameItemsFromAsset>c__Iterator220<T>();
+			<AllGameItemsFromAsset>c__Iterator.asset = asset;
+			<AllGameItemsFromAsset>c__Iterator.<$>asset = asset;
+			DirectXmlLoader.<AllGameItemsFromAsset>c__Iterator220<T> expr_15 = <AllGameItemsFromAsset>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

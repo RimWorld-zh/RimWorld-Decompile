@@ -35,7 +35,7 @@ namespace RimWorld
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
-			return pawn2 != null && pawn2.RaceProps.Animal && pawn.CanReserve(t, 1, -1, ReservationLayer.Default, forced) && pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Hunt) != null;
+			return pawn2 != null && pawn2.RaceProps.Animal && pawn.CanReserve(t, 1, -1, null, forced) && pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Hunt) != null;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

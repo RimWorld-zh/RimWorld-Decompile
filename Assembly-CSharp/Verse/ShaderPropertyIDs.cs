@@ -6,13 +6,17 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class ShaderPropertyIDs
 	{
-		private static readonly string SunLightDirectionName = "_PlanetSunLightDirection";
+		private static readonly string PlanetSunLightDirectionName = "_PlanetSunLightDirection";
 
-		private static readonly string SunLightEnabledName = "_PlanetSunLightEnabled";
+		private static readonly string PlanetSunLightEnabledName = "_PlanetSunLightEnabled";
 
 		private static readonly string PlanetRadiusName = "_PlanetRadius";
 
+		private static readonly string MapSunLightDirectionName = "_CastVect";
+
 		private static readonly string GlowRadiusName = "_GlowRadius";
+
+		private static readonly string GameSecondsName = "_GameSeconds";
 
 		private static readonly string ColorName = "_Color";
 
@@ -20,13 +24,17 @@ namespace Verse
 
 		private static readonly string MaskTexName = "_MaskTex";
 
-		public static int SunLightDirection = Shader.PropertyToID(ShaderPropertyIDs.SunLightDirectionName);
+		public static int PlanetSunLightDirection = Shader.PropertyToID(ShaderPropertyIDs.PlanetSunLightDirectionName);
 
-		public static int SunLightEnabled = Shader.PropertyToID(ShaderPropertyIDs.SunLightEnabledName);
+		public static int PlanetSunLightEnabled = Shader.PropertyToID(ShaderPropertyIDs.PlanetSunLightEnabledName);
 
 		public static int PlanetRadius = Shader.PropertyToID(ShaderPropertyIDs.PlanetRadiusName);
 
+		public static int MapSunLightDirection = Shader.PropertyToID(ShaderPropertyIDs.MapSunLightDirectionName);
+
 		public static int GlowRadius = Shader.PropertyToID(ShaderPropertyIDs.GlowRadiusName);
+
+		public static int GameSeconds = Shader.PropertyToID(ShaderPropertyIDs.GameSecondsName);
 
 		public static int Color = Shader.PropertyToID(ShaderPropertyIDs.ColorName);
 

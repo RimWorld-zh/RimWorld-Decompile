@@ -57,8 +57,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		public virtual IEnumerable<Gizmo> GetWornGizmos()
 		{
-			Apparel.<GetWornGizmos>c__Iterator15D <GetWornGizmos>c__Iterator15D = new Apparel.<GetWornGizmos>c__Iterator15D();
-			Apparel.<GetWornGizmos>c__Iterator15D expr_07 = <GetWornGizmos>c__Iterator15D;
+			Apparel.<GetWornGizmos>c__Iterator15E <GetWornGizmos>c__Iterator15E = new Apparel.<GetWornGizmos>c__Iterator15E();
+			Apparel.<GetWornGizmos>c__Iterator15E expr_07 = <GetWornGizmos>c__Iterator15E;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

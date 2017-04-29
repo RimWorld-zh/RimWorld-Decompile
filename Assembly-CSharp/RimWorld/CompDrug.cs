@@ -51,7 +51,7 @@ namespace RimWorld
 						need.CurLevel += needLevelOffset;
 					}
 				}
-				Hediff firstHediffOfDef = ingester.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.DrugOverdose);
+				Hediff firstHediffOfDef = ingester.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.DrugOverdose, false);
 				float num2 = (firstHediffOfDef == null) ? 0f : firstHediffOfDef.Severity;
 				if (num2 < 0.9f && Rand.Value < this.Props.largeOverdoseChance)
 				{

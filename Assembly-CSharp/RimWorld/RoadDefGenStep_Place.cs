@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
@@ -9,8 +8,6 @@ namespace RimWorld
 		public BuildableDef place;
 
 		public int proximitySpacing;
-
-		private List<BuildableDef> placeAsList;
 
 		public override void Place(Map map, IntVec3 position, TerrainDef rockDef)
 		{

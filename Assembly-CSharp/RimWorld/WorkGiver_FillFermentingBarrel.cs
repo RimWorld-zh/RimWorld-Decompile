@@ -46,7 +46,7 @@ namespace RimWorld
 				JobFailReason.Is(WorkGiver_FillFermentingBarrel.TemperatureTrans);
 				return false;
 			}
-			if (t.IsForbidden(pawn) || !pawn.CanReserveAndReach(t, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, ReservationLayer.Default, forced))
+			if (t.IsForbidden(pawn) || !pawn.CanReserveAndReach(t, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, null, forced))
 			{
 				return false;
 			}
@@ -74,7 +74,7 @@ namespace RimWorld
 
 		private Thing FindWort(Pawn pawn, Building_FermentingBarrel barrel)
 		{
-			Predicate<Thing> predicate = (Thing x) => !x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, ReservationLayer.Default, false);
+			Predicate<Thing> predicate = (Thing x) => !x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false);
 			Predicate<Thing> validator = predicate;
 			return GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(ThingDefOf.Wort), PathEndMode.ClosestTouch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, -1, false, RegionType.Set_Passable);
 		}

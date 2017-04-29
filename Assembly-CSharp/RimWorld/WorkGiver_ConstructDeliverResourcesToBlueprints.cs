@@ -32,7 +32,7 @@ namespace RimWorld
 			{
 				if (thing.def.category == ThingCategory.Plant)
 				{
-					if (pawn.CanReserveAndReach(thing, PathEndMode.ClosestTouch, pawn.NormalMaxDanger(), 1, -1, ReservationLayer.Default, false))
+					if (pawn.CanReserveAndReach(thing, PathEndMode.ClosestTouch, pawn.NormalMaxDanger(), 1, -1, null, false))
 					{
 						return new Job(JobDefOf.CutPlant, thing);
 					}
@@ -111,7 +111,7 @@ namespace RimWorld
 					break;
 				}
 			}
-			if (thing2 == null || !pawn.CanReserve(thing2, 1, -1, ReservationLayer.Default, false))
+			if (thing2 == null || !pawn.CanReserve(thing2, 1, -1, null, false))
 			{
 				return null;
 			}
@@ -127,7 +127,8 @@ namespace RimWorld
 			{
 				return null;
 			}
-			if (!pawn.CanReserve(blue.Position, 1, -1, ReservationLayer.Floor, false))
+			ReservationLayerDef floor = ReservationLayerDefOf.Floor;
+			if (!pawn.CanReserve(blue.Position, 1, -1, floor, false))
 			{
 				return null;
 			}

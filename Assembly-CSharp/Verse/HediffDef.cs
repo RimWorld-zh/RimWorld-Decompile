@@ -111,9 +111,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			HediffDef.<ConfigErrors>c__Iterator1C7 <ConfigErrors>c__Iterator1C = new HediffDef.<ConfigErrors>c__Iterator1C7();
+			HediffDef.<ConfigErrors>c__Iterator1C8 <ConfigErrors>c__Iterator1C = new HediffDef.<ConfigErrors>c__Iterator1C8();
 			<ConfigErrors>c__Iterator1C.<>f__this = this;
-			HediffDef.<ConfigErrors>c__Iterator1C7 expr_0E = <ConfigErrors>c__Iterator1C;
+			HediffDef.<ConfigErrors>c__Iterator1C8 expr_0E = <ConfigErrors>c__Iterator1C;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -121,9 +121,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			HediffDef.<SpecialDisplayStats>c__Iterator1C8 <SpecialDisplayStats>c__Iterator1C = new HediffDef.<SpecialDisplayStats>c__Iterator1C8();
+			HediffDef.<SpecialDisplayStats>c__Iterator1C9 <SpecialDisplayStats>c__Iterator1C = new HediffDef.<SpecialDisplayStats>c__Iterator1C9();
 			<SpecialDisplayStats>c__Iterator1C.<>f__this = this;
-			HediffDef.<SpecialDisplayStats>c__Iterator1C8 expr_0E = <SpecialDisplayStats>c__Iterator1C;
+			HediffDef.<SpecialDisplayStats>c__Iterator1C9 expr_0E = <SpecialDisplayStats>c__Iterator1C;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

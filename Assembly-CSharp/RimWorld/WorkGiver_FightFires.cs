@@ -67,7 +67,7 @@ namespace RimWorld
 					return false;
 				}
 			}
-			return ((pawn.Position - fire.Position).LengthHorizontalSquared <= 225 || pawn.CanReserve(fire, 1, -1, ReservationLayer.Default, forced)) && !WorkGiver_FightFires.FireIsBeingHandled(fire, pawn);
+			return ((pawn.Position - fire.Position).LengthHorizontalSquared <= 225 || pawn.CanReserve(fire, 1, -1, null, forced)) && !WorkGiver_FightFires.FireIsBeingHandled(fire, pawn);
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

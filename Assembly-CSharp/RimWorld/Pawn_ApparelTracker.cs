@@ -40,9 +40,9 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn_ApparelTracker.<>c__IteratorE1 <>c__IteratorE = new Pawn_ApparelTracker.<>c__IteratorE1();
+				Pawn_ApparelTracker.<>c__IteratorE2 <>c__IteratorE = new Pawn_ApparelTracker.<>c__IteratorE2();
 				<>c__IteratorE.<>f__this = this;
-				Pawn_ApparelTracker.<>c__IteratorE1 expr_0E = <>c__IteratorE;
+				Pawn_ApparelTracker.<>c__IteratorE2 expr_0E = <>c__IteratorE;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -338,9 +338,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			Pawn_ApparelTracker.<GetGizmos>c__IteratorE2 <GetGizmos>c__IteratorE = new Pawn_ApparelTracker.<GetGizmos>c__IteratorE2();
+			Pawn_ApparelTracker.<GetGizmos>c__IteratorE3 <GetGizmos>c__IteratorE = new Pawn_ApparelTracker.<GetGizmos>c__IteratorE3();
 			<GetGizmos>c__IteratorE.<>f__this = this;
-			Pawn_ApparelTracker.<GetGizmos>c__IteratorE2 expr_0E = <GetGizmos>c__IteratorE;
+			Pawn_ApparelTracker.<GetGizmos>c__IteratorE3 expr_0E = <GetGizmos>c__IteratorE;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

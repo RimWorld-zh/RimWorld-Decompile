@@ -46,6 +46,23 @@ namespace RimWorld.Planet
 			return result;
 		}
 
+		public static int EstimatedTicksToArrive(int from, int to, Caravan caravan)
+		{
+			int result;
+			using (WorldPath worldPath = Find.WorldPathFinder.FindPath(from, to, caravan, null))
+			{
+				if (worldPath == WorldPath.NotFound)
+				{
+					result = 0;
+				}
+				else
+				{
+					result = CaravanArrivalTimeEstimator.EstimatedTicksToArrive(from, to, worldPath, 0f, CaravanTicksPerMoveUtility.GetTicksPerMove(caravan), Find.TickManager.TicksAbs);
+				}
+			}
+			return result;
+		}
+
 		public static int EstimatedTicksToArrive(int from, int to, WorldPath path, float nextTileCostLeft, int caravanTicksPerMove, int curTicksAbs)
 		{
 			int num = 0;

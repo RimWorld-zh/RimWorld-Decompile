@@ -205,7 +205,7 @@ namespace RimWorld
 			}
 			if (carrier != null)
 			{
-				if (!carrier.CanReserve(c, 1, -1, ReservationLayer.Default, false))
+				if (!carrier.CanReserve(c, 1, -1, null, false))
 				{
 					return false;
 				}

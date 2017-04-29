@@ -25,11 +25,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
-			ScenPart_StartingThing_Defined.<GetSummaryListEntries>c__Iterator121 <GetSummaryListEntries>c__Iterator = new ScenPart_StartingThing_Defined.<GetSummaryListEntries>c__Iterator121();
+			ScenPart_StartingThing_Defined.<GetSummaryListEntries>c__Iterator122 <GetSummaryListEntries>c__Iterator = new ScenPart_StartingThing_Defined.<GetSummaryListEntries>c__Iterator122();
 			<GetSummaryListEntries>c__Iterator.tag = tag;
 			<GetSummaryListEntries>c__Iterator.<$>tag = tag;
 			<GetSummaryListEntries>c__Iterator.<>f__this = this;
-			ScenPart_StartingThing_Defined.<GetSummaryListEntries>c__Iterator121 expr_1C = <GetSummaryListEntries>c__Iterator;
+			ScenPart_StartingThing_Defined.<GetSummaryListEntries>c__Iterator122 expr_1C = <GetSummaryListEntries>c__Iterator;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}
@@ -37,9 +37,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Thing> PlayerStartingThings()
 		{
-			ScenPart_StartingThing_Defined.<PlayerStartingThings>c__Iterator122 <PlayerStartingThings>c__Iterator = new ScenPart_StartingThing_Defined.<PlayerStartingThings>c__Iterator122();
+			ScenPart_StartingThing_Defined.<PlayerStartingThings>c__Iterator123 <PlayerStartingThings>c__Iterator = new ScenPart_StartingThing_Defined.<PlayerStartingThings>c__Iterator123();
 			<PlayerStartingThings>c__Iterator.<>f__this = this;
-			ScenPart_StartingThing_Defined.<PlayerStartingThings>c__Iterator122 expr_0E = <PlayerStartingThings>c__Iterator;
+			ScenPart_StartingThing_Defined.<PlayerStartingThings>c__Iterator123 expr_0E = <PlayerStartingThings>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

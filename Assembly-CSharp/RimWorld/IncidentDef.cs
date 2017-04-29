@@ -141,9 +141,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			IncidentDef.<ConfigErrors>c__Iterator8E <ConfigErrors>c__Iterator8E = new IncidentDef.<ConfigErrors>c__Iterator8E();
-			<ConfigErrors>c__Iterator8E.<>f__this = this;
-			IncidentDef.<ConfigErrors>c__Iterator8E expr_0E = <ConfigErrors>c__Iterator8E;
+			IncidentDef.<ConfigErrors>c__Iterator8F <ConfigErrors>c__Iterator8F = new IncidentDef.<ConfigErrors>c__Iterator8F();
+			<ConfigErrors>c__Iterator8F.<>f__this = this;
+			IncidentDef.<ConfigErrors>c__Iterator8F expr_0E = <ConfigErrors>c__Iterator8F;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

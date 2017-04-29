@@ -64,9 +64,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			WeatherDef.<ConfigErrors>c__Iterator1E1 <ConfigErrors>c__Iterator1E = new WeatherDef.<ConfigErrors>c__Iterator1E1();
+			WeatherDef.<ConfigErrors>c__Iterator1E2 <ConfigErrors>c__Iterator1E = new WeatherDef.<ConfigErrors>c__Iterator1E2();
 			<ConfigErrors>c__Iterator1E.<>f__this = this;
-			WeatherDef.<ConfigErrors>c__Iterator1E1 expr_0E = <ConfigErrors>c__Iterator1E;
+			WeatherDef.<ConfigErrors>c__Iterator1E2 expr_0E = <ConfigErrors>c__Iterator1E;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

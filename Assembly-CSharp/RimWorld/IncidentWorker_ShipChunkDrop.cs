@@ -60,17 +60,17 @@ namespace RimWorld
 
 		private void SpawnChunk(IntVec3 pos, Map map)
 		{
-			IncidentWorker_ShipChunkDrop.<SpawnChunk>c__AnonStorey2DC <SpawnChunk>c__AnonStorey2DC = new IncidentWorker_ShipChunkDrop.<SpawnChunk>c__AnonStorey2DC();
-			<SpawnChunk>c__AnonStorey2DC.map = map;
-			<SpawnChunk>c__AnonStorey2DC.cr = CellRect.SingleCell(pos);
-			IncidentWorker_ShipChunkDrop.<SpawnChunk>c__AnonStorey2DC expr_1F_cp_0 = <SpawnChunk>c__AnonStorey2DC;
+			IncidentWorker_ShipChunkDrop.<SpawnChunk>c__AnonStorey2DD <SpawnChunk>c__AnonStorey2DD = new IncidentWorker_ShipChunkDrop.<SpawnChunk>c__AnonStorey2DD();
+			<SpawnChunk>c__AnonStorey2DD.map = map;
+			<SpawnChunk>c__AnonStorey2DD.cr = CellRect.SingleCell(pos);
+			IncidentWorker_ShipChunkDrop.<SpawnChunk>c__AnonStorey2DD expr_1F_cp_0 = <SpawnChunk>c__AnonStorey2DD;
 			expr_1F_cp_0.cr.Width = expr_1F_cp_0.cr.Width + 1;
-			IncidentWorker_ShipChunkDrop.<SpawnChunk>c__AnonStorey2DC expr_32_cp_0 = <SpawnChunk>c__AnonStorey2DC;
+			IncidentWorker_ShipChunkDrop.<SpawnChunk>c__AnonStorey2DD expr_32_cp_0 = <SpawnChunk>c__AnonStorey2DD;
 			expr_32_cp_0.cr.Height = expr_32_cp_0.cr.Height + 1;
-			RoofCollapserImmediate.DropRoofInCells(from c in <SpawnChunk>c__AnonStorey2DC.cr.ExpandedBy(1).ClipInsideMap(<SpawnChunk>c__AnonStorey2DC.map).Cells
-			where <SpawnChunk>c__AnonStorey2DC.cr.Contains(c) || !<SpawnChunk>c__AnonStorey2DC.map.thingGrid.CellContains(c, ThingCategory.Pawn)
-			select c, <SpawnChunk>c__AnonStorey2DC.map);
-			GenSpawn.Spawn(ThingDefOf.ShipChunk, pos, <SpawnChunk>c__AnonStorey2DC.map);
+			RoofCollapserImmediate.DropRoofInCells(from c in <SpawnChunk>c__AnonStorey2DD.cr.ExpandedBy(1).ClipInsideMap(<SpawnChunk>c__AnonStorey2DD.map).Cells
+			where <SpawnChunk>c__AnonStorey2DD.cr.Contains(c) || !<SpawnChunk>c__AnonStorey2DD.map.thingGrid.CellContains(c, ThingCategory.Pawn)
+			select c, <SpawnChunk>c__AnonStorey2DD.map);
+			GenSpawn.Spawn(ThingDefOf.ShipChunk, pos, <SpawnChunk>c__AnonStorey2DD.map);
 		}
 	}
 }

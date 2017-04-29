@@ -19,8 +19,8 @@ namespace RimWorld
 		{
 			get
 			{
-				ExternalHistoryUtility.<>c__IteratorA0 <>c__IteratorA = new ExternalHistoryUtility.<>c__IteratorA0();
-				ExternalHistoryUtility.<>c__IteratorA0 expr_07 = <>c__IteratorA;
+				ExternalHistoryUtility.<>c__IteratorA1 <>c__IteratorA = new ExternalHistoryUtility.<>c__IteratorA1();
+				ExternalHistoryUtility.<>c__IteratorA1 expr_07 = <>c__IteratorA;
 				expr_07.$PC = -2;
 				return expr_07;
 			}

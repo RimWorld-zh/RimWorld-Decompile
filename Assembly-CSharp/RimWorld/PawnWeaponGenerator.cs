@@ -95,12 +95,8 @@ namespace RimWorld
 				{
 					return false;
 				}
-				DamageArmorCategory armorCategory = thing.Verbs[0].meleeDamageDef.armorCategory;
-				if (armorCategory == DamageArmorCategory.Sharp && stuff.GetStatValueAbstract(StatDefOf.SharpDamageMultiplier, null) < 0.7f)
-				{
-					return true;
-				}
-				if (armorCategory == DamageArmorCategory.Blunt && stuff.GetStatValueAbstract(StatDefOf.BluntDamageMultiplier, null) < 0.7f)
+				DamageArmorCategoryDef armorCategory = thing.Verbs[0].meleeDamageDef.armorCategory;
+				if (armorCategory != null && armorCategory.multStat != null && stuff.GetStatValueAbstract(armorCategory.multStat, null) < 0.7f)
 				{
 					return true;
 				}

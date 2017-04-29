@@ -84,10 +84,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		private static IEnumerable<CompPower> PotentialConnectorsForTransmitter(CompPower b)
 		{
-			PowerConnectionMaker.<PotentialConnectorsForTransmitter>c__IteratorB5 <PotentialConnectorsForTransmitter>c__IteratorB = new PowerConnectionMaker.<PotentialConnectorsForTransmitter>c__IteratorB5();
+			PowerConnectionMaker.<PotentialConnectorsForTransmitter>c__IteratorB6 <PotentialConnectorsForTransmitter>c__IteratorB = new PowerConnectionMaker.<PotentialConnectorsForTransmitter>c__IteratorB6();
 			<PotentialConnectorsForTransmitter>c__IteratorB.b = b;
 			<PotentialConnectorsForTransmitter>c__IteratorB.<$>b = b;
-			PowerConnectionMaker.<PotentialConnectorsForTransmitter>c__IteratorB5 expr_15 = <PotentialConnectorsForTransmitter>c__IteratorB;
+			PowerConnectionMaker.<PotentialConnectorsForTransmitter>c__IteratorB6 expr_15 = <PotentialConnectorsForTransmitter>c__IteratorB;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

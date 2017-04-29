@@ -72,9 +72,9 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		private IEnumerable RegenerateDirtyLayersNow_Async()
 		{
-			WorldRenderer.<RegenerateDirtyLayersNow_Async>c__IteratorFA <RegenerateDirtyLayersNow_Async>c__IteratorFA = new WorldRenderer.<RegenerateDirtyLayersNow_Async>c__IteratorFA();
-			<RegenerateDirtyLayersNow_Async>c__IteratorFA.<>f__this = this;
-			WorldRenderer.<RegenerateDirtyLayersNow_Async>c__IteratorFA expr_0E = <RegenerateDirtyLayersNow_Async>c__IteratorFA;
+			WorldRenderer.<RegenerateDirtyLayersNow_Async>c__IteratorFB <RegenerateDirtyLayersNow_Async>c__IteratorFB = new WorldRenderer.<RegenerateDirtyLayersNow_Async>c__IteratorFB();
+			<RegenerateDirtyLayersNow_Async>c__IteratorFB.<>f__this = this;
+			WorldRenderer.<RegenerateDirtyLayersNow_Async>c__IteratorFB expr_0E = <RegenerateDirtyLayersNow_Async>c__IteratorFB;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

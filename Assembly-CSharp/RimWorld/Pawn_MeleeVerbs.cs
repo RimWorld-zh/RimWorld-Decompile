@@ -142,6 +142,10 @@ namespace RimWorld
 
 		public void ExposeData()
 		{
+			if (Scribe.mode == LoadSaveMode.Saving && this.curMeleeVerb != null && !this.curMeleeVerb.IsStillUsableBy(this.pawn))
+			{
+				this.curMeleeVerb = null;
+			}
 			Scribe_References.Look<Verb>(ref this.curMeleeVerb, "curMeleeVerb", false);
 			Scribe_Values.Look<int>(ref this.curMeleeVerbUpdateTick, "curMeleeVerbUpdateTick", 0, false);
 		}

@@ -30,7 +30,7 @@ namespace RimWorld
 
 		protected virtual bool CanInteractWithAnimal(Pawn pawn, Pawn animal)
 		{
-			if (!pawn.CanReserve(animal, 1, -1, ReservationLayer.Default, false))
+			if (!pawn.CanReserve(animal, 1, -1, null, false))
 			{
 				return false;
 			}

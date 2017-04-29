@@ -93,8 +93,8 @@ namespace Verse
 		[DebuggerHidden]
 		public virtual IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			ThingComp.<CompGetGizmosExtra>c__IteratorAF <CompGetGizmosExtra>c__IteratorAF = new ThingComp.<CompGetGizmosExtra>c__IteratorAF();
-			ThingComp.<CompGetGizmosExtra>c__IteratorAF expr_07 = <CompGetGizmosExtra>c__IteratorAF;
+			ThingComp.<CompGetGizmosExtra>c__IteratorB0 <CompGetGizmosExtra>c__IteratorB = new ThingComp.<CompGetGizmosExtra>c__IteratorB0();
+			ThingComp.<CompGetGizmosExtra>c__IteratorB0 expr_07 = <CompGetGizmosExtra>c__IteratorB;
 			expr_07.$PC = -2;
 			return expr_07;
 		}
@@ -117,8 +117,8 @@ namespace Verse
 		[DebuggerHidden]
 		public virtual IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn selPawn)
 		{
-			ThingComp.<CompFloatMenuOptions>c__IteratorB0 <CompFloatMenuOptions>c__IteratorB = new ThingComp.<CompFloatMenuOptions>c__IteratorB0();
-			ThingComp.<CompFloatMenuOptions>c__IteratorB0 expr_07 = <CompFloatMenuOptions>c__IteratorB;
+			ThingComp.<CompFloatMenuOptions>c__IteratorB1 <CompFloatMenuOptions>c__IteratorB = new ThingComp.<CompFloatMenuOptions>c__IteratorB1();
+			ThingComp.<CompFloatMenuOptions>c__IteratorB1 expr_07 = <CompFloatMenuOptions>c__IteratorB;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

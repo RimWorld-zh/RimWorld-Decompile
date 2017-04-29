@@ -116,7 +116,7 @@ namespace Verse.AI
 					curJob.count -= num3;
 				}
 				curJob.SetTarget(haulableInd, actor.carryTracker.CarriedThing);
-				actor.Reserve(actor.carryTracker.CarriedThing, 1, -1, ReservationLayer.Default);
+				actor.Reserve(actor.carryTracker.CarriedThing, 1, -1, null);
 				actor.records.Increment(RecordDefOf.ThingsHauled);
 			};
 			return toil;
@@ -182,7 +182,7 @@ namespace Verse.AI
 				{
 					return;
 				}
-				Predicate<Thing> validator = (Thing t) => t.Spawned && t.def == actor.carryTracker.CarriedThing.def && t.CanStackWith(actor.carryTracker.CarriedThing) && !t.IsForbidden(actor) && (takeFromValidStorage || !t.IsInValidStorage()) && (storeCellInd == TargetIndex.None || curJob.GetTarget(storeCellInd).Cell.IsValidStorageFor(actor.Map, t)) && actor.CanReserve(t, 1, -1, ReservationLayer.Default, false) && (extraValidator == null || extraValidator(t));
+				Predicate<Thing> validator = (Thing t) => t.Spawned && t.def == actor.carryTracker.CarriedThing.def && t.CanStackWith(actor.carryTracker.CarriedThing) && !t.IsForbidden(actor) && (takeFromValidStorage || !t.IsInValidStorage()) && (storeCellInd == TargetIndex.None || curJob.GetTarget(storeCellInd).Cell.IsValidStorageFor(actor.Map, t)) && actor.CanReserve(t, 1, -1, null, false) && (extraValidator == null || extraValidator(t));
 				Thing thing = GenClosest.ClosestThingReachable(actor.Position, actor.Map, ThingRequest.ForGroup(ThingRequestGroup.HaulableAlways), PathEndMode.ClosestTouch, TraverseParms.For(actor, Danger.Deadly, TraverseMode.ByPawn, false), 8f, validator, null, -1, false, RegionType.Set_Passable);
 				if (thing != null)
 				{
@@ -278,9 +278,9 @@ namespace Verse.AI
 						IntVec3 c;
 						if (nextToilOnPlaceFailOrIncomplete != null && StoreUtility.TryFindBestBetterStoreCellFor(actor.carryTracker.CarriedThing, actor, actor.Map, StoragePriority.Unstored, actor.Faction, out c, true))
 						{
-							if (actor.CanReserve(c, 1, -1, ReservationLayer.Default, false))
+							if (actor.CanReserve(c, 1, -1, null, false))
 							{
-								actor.Reserve(c, 1, -1, ReservationLayer.Default);
+								actor.Reserve(c, 1, -1, null);
 							}
 							actor.CurJob.SetTarget(cellInd, c);
 							actor.jobs.curDriver.JumpToToil(nextToilOnPlaceFailOrIncomplete);

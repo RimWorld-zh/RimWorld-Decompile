@@ -18,7 +18,7 @@ namespace RimWorld
 				if (bill_Production != null)
 				{
 					num2++;
-					if (bill_Production.repeatMode == BillRepeatMode.RepeatCount)
+					if (bill_Production.repeatMode == BillRepeatModeDefOf.RepeatCount)
 					{
 						num2 += bill_Production.repeatCount;
 					}
@@ -43,9 +43,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<Thing> ThingsToSelect()
 		{
-			Instruction_AddBill.<ThingsToSelect>c__Iterator19C <ThingsToSelect>c__Iterator19C = new Instruction_AddBill.<ThingsToSelect>c__Iterator19C();
-			<ThingsToSelect>c__Iterator19C.<>f__this = this;
-			Instruction_AddBill.<ThingsToSelect>c__Iterator19C expr_0E = <ThingsToSelect>c__Iterator19C;
+			Instruction_AddBill.<ThingsToSelect>c__Iterator19D <ThingsToSelect>c__Iterator19D = new Instruction_AddBill.<ThingsToSelect>c__Iterator19D();
+			<ThingsToSelect>c__Iterator19D.<>f__this = this;
+			Instruction_AddBill.<ThingsToSelect>c__Iterator19D expr_0E = <ThingsToSelect>c__Iterator19D;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

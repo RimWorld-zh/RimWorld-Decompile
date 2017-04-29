@@ -65,13 +65,13 @@ namespace RimWorld
 
 		private static void GiveDrugsIfAddicted(Pawn p)
 		{
-			PawnInventoryGenerator.<GiveDrugsIfAddicted>c__AnonStorey32F <GiveDrugsIfAddicted>c__AnonStorey32F = new PawnInventoryGenerator.<GiveDrugsIfAddicted>c__AnonStorey32F();
-			<GiveDrugsIfAddicted>c__AnonStorey32F.p = p;
-			if (!<GiveDrugsIfAddicted>c__AnonStorey32F.p.RaceProps.Humanlike)
+			PawnInventoryGenerator.<GiveDrugsIfAddicted>c__AnonStorey330 <GiveDrugsIfAddicted>c__AnonStorey = new PawnInventoryGenerator.<GiveDrugsIfAddicted>c__AnonStorey330();
+			<GiveDrugsIfAddicted>c__AnonStorey.p = p;
+			if (!<GiveDrugsIfAddicted>c__AnonStorey.p.RaceProps.Humanlike)
 			{
 				return;
 			}
-			IEnumerable<Hediff_Addiction> hediffs = <GiveDrugsIfAddicted>c__AnonStorey32F.p.health.hediffSet.GetHediffs<Hediff_Addiction>();
+			IEnumerable<Hediff_Addiction> hediffs = <GiveDrugsIfAddicted>c__AnonStorey.p.health.hediffSet.GetHediffs<Hediff_Addiction>();
 			foreach (Hediff_Addiction addiction in hediffs)
 			{
 				IEnumerable<ThingDef> source = DefDatabase<ThingDef>.AllDefsListForReading.Where(delegate(ThingDef x)
@@ -80,7 +80,7 @@ namespace RimWorld
 					{
 						return false;
 					}
-					if (<GiveDrugsIfAddicted>c__AnonStorey32F.p.Faction != null && x.techLevel > <GiveDrugsIfAddicted>c__AnonStorey32F.p.Faction.def.techLevel)
+					if (<GiveDrugsIfAddicted>c__AnonStorey.p.Faction != null && x.techLevel > <GiveDrugsIfAddicted>c__AnonStorey.p.Faction.def.techLevel)
 					{
 						return false;
 					}
@@ -93,7 +93,7 @@ namespace RimWorld
 					int stackCount = Rand.RangeInclusive(2, 5);
 					Thing thing = ThingMaker.MakeThing(def, null);
 					thing.stackCount = stackCount;
-					<GiveDrugsIfAddicted>c__AnonStorey32F.p.inventory.TryAddItemNotForSale(thing);
+					<GiveDrugsIfAddicted>c__AnonStorey.p.inventory.TryAddItemNotForSale(thing);
 				}
 			}
 		}

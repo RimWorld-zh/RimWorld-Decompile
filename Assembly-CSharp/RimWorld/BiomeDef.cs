@@ -111,9 +111,9 @@ namespace RimWorld
 		{
 			get
 			{
-				BiomeDef.<>c__Iterator8B <>c__Iterator8B = new BiomeDef.<>c__Iterator8B();
-				<>c__Iterator8B.<>f__this = this;
-				BiomeDef.<>c__Iterator8B expr_0E = <>c__Iterator8B;
+				BiomeDef.<>c__Iterator8C <>c__Iterator8C = new BiomeDef.<>c__Iterator8C();
+				<>c__Iterator8C.<>f__this = this;
+				BiomeDef.<>c__Iterator8C expr_0E = <>c__Iterator8C;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -123,9 +123,9 @@ namespace RimWorld
 		{
 			get
 			{
-				BiomeDef.<>c__Iterator8C <>c__Iterator8C = new BiomeDef.<>c__Iterator8C();
-				<>c__Iterator8C.<>f__this = this;
-				BiomeDef.<>c__Iterator8C expr_0E = <>c__Iterator8C;
+				BiomeDef.<>c__Iterator8D <>c__Iterator8D = new BiomeDef.<>c__Iterator8D();
+				<>c__Iterator8D.<>f__this = this;
+				BiomeDef.<>c__Iterator8D expr_0E = <>c__Iterator8D;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

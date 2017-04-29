@@ -66,7 +66,7 @@ namespace RimWorld
 				{
 					return false;
 				}
-				if (!pawn.CanReserve(drug, 1, -1, ReservationLayer.Default, false))
+				if (!pawn.CanReserve(drug, 1, -1, null, false))
 				{
 					return false;
 				}

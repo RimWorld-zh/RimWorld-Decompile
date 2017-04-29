@@ -13,7 +13,7 @@ namespace RimWorld
 				return null;
 			}
 			Pawn pawn2 = (Pawn)t;
-			if (pawn2.guest.interactionMode != PrisonerInteractionMode.Release || pawn2.Downed || !pawn2.Awake())
+			if (pawn2.guest.interactionMode != PrisonerInteractionModeDefOf.Release || pawn2.Downed || !pawn2.Awake())
 			{
 				return null;
 			}

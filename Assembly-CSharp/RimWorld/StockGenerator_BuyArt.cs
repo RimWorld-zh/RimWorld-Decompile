@@ -10,8 +10,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
-			StockGenerator_BuyArt.<GenerateThings>c__Iterator173 <GenerateThings>c__Iterator = new StockGenerator_BuyArt.<GenerateThings>c__Iterator173();
-			StockGenerator_BuyArt.<GenerateThings>c__Iterator173 expr_07 = <GenerateThings>c__Iterator;
+			StockGenerator_BuyArt.<GenerateThings>c__Iterator174 <GenerateThings>c__Iterator = new StockGenerator_BuyArt.<GenerateThings>c__Iterator174();
+			StockGenerator_BuyArt.<GenerateThings>c__Iterator174 expr_07 = <GenerateThings>c__Iterator;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

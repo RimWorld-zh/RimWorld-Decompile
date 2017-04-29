@@ -40,7 +40,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (!traveler.CanReserveAndReach(building_Bed, PathEndMode.OnCell, Danger.Some, building_Bed.SleepingSlotsCount, -1, ReservationLayer.Default, false))
+			if (!traveler.CanReserveAndReach(building_Bed, PathEndMode.OnCell, Danger.Some, building_Bed.SleepingSlotsCount, -1, null, false))
 			{
 				return false;
 			}

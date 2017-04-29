@@ -29,9 +29,9 @@ namespace RimWorld
 		{
 			get
 			{
-				SlotGroup.<>c__Iterator14A <>c__Iterator14A = new SlotGroup.<>c__Iterator14A();
-				<>c__Iterator14A.<>f__this = this;
-				SlotGroup.<>c__Iterator14A expr_0E = <>c__Iterator14A;
+				SlotGroup.<>c__Iterator14B <>c__Iterator14B = new SlotGroup.<>c__Iterator14B();
+				<>c__Iterator14B.<>f__this = this;
+				SlotGroup.<>c__Iterator14B expr_0E = <>c__Iterator14B;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -54,9 +54,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerator<IntVec3> GetEnumerator()
 		{
-			SlotGroup.<GetEnumerator>c__Iterator14B <GetEnumerator>c__Iterator14B = new SlotGroup.<GetEnumerator>c__Iterator14B();
-			<GetEnumerator>c__Iterator14B.<>f__this = this;
-			return <GetEnumerator>c__Iterator14B;
+			SlotGroup.<GetEnumerator>c__Iterator14C <GetEnumerator>c__Iterator14C = new SlotGroup.<GetEnumerator>c__Iterator14C();
+			<GetEnumerator>c__Iterator14C.<>f__this = this;
+			return <GetEnumerator>c__Iterator14C;
 		}
 
 		public void Notify_AddedCell(IntVec3 c)

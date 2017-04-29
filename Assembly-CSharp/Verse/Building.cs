@@ -224,9 +224,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building.<GetGizmos>c__Iterator13F <GetGizmos>c__Iterator13F = new Building.<GetGizmos>c__Iterator13F();
-			<GetGizmos>c__Iterator13F.<>f__this = this;
-			Building.<GetGizmos>c__Iterator13F expr_0E = <GetGizmos>c__Iterator13F;
+			Building.<GetGizmos>c__Iterator140 <GetGizmos>c__Iterator = new Building.<GetGizmos>c__Iterator140();
+			<GetGizmos>c__Iterator.<>f__this = this;
+			Building.<GetGizmos>c__Iterator140 expr_0E = <GetGizmos>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

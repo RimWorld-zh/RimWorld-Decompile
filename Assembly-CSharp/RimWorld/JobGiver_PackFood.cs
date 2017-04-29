@@ -34,7 +34,7 @@ namespace RimWorld
 			}
 			Thing thing2 = GenClosest.ClosestThing_Regionwise_ReachablePrioritized(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.FoodSourceNotPlantOrTree), PathEndMode.ClosestTouch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 20f, delegate(Thing t)
 			{
-				if (t.def.category != ThingCategory.Item || t.def.ingestible == null || t.def.ingestible.nutrition < 0.3f || t.IsForbidden(pawn) || t is Corpse || !pawn.CanReserve(t, 1, -1, ReservationLayer.Default, false) || !t.IsSociallyProper(pawn) || !pawn.RaceProps.CanEverEat(t))
+				if (t.def.category != ThingCategory.Item || t.def.ingestible == null || t.def.ingestible.nutrition < 0.3f || t.IsForbidden(pawn) || t is Corpse || !pawn.CanReserve(t, 1, -1, null, false) || !t.IsSociallyProper(pawn) || !pawn.RaceProps.CanEverEat(t))
 				{
 					return false;
 				}

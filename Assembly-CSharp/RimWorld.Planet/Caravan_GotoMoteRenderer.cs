@@ -19,7 +19,7 @@ namespace RimWorld.Planet
 
 		private static Material cachedMaterial;
 
-		public static readonly Material FeedbackGoto = MaterialPool.MatFrom("Things/Mote/FeedbackGoto", ShaderDatabase.WorldOverlayTransparent);
+		public static readonly Material FeedbackGoto = MaterialPool.MatFrom("Things/Mote/FeedbackGoto", ShaderDatabase.WorldOverlayTransparent, WorldMaterials.DynamicObjectRenderQueue);
 
 		public void RenderMote()
 		{
@@ -30,7 +30,7 @@ namespace RimWorld.Planet
 			}
 			if (Caravan_GotoMoteRenderer.cachedMaterial == null)
 			{
-				Caravan_GotoMoteRenderer.cachedMaterial = MaterialPool.MatFrom((Texture2D)Caravan_GotoMoteRenderer.FeedbackGoto.mainTexture, Caravan_GotoMoteRenderer.FeedbackGoto.shader, Color.white);
+				Caravan_GotoMoteRenderer.cachedMaterial = MaterialPool.MatFrom((Texture2D)Caravan_GotoMoteRenderer.FeedbackGoto.mainTexture, Caravan_GotoMoteRenderer.FeedbackGoto.shader, Color.white, WorldMaterials.DynamicObjectRenderQueue);
 			}
 			WorldGrid worldGrid = Find.WorldGrid;
 			Vector3 tileCenter = worldGrid.GetTileCenter(this.tile);

@@ -319,11 +319,11 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public IEnumerable<WorldObject> ObjectsAt(int tileID)
 		{
-			WorldObjectsHolder.<ObjectsAt>c__Iterator10E <ObjectsAt>c__Iterator10E = new WorldObjectsHolder.<ObjectsAt>c__Iterator10E();
-			<ObjectsAt>c__Iterator10E.tileID = tileID;
-			<ObjectsAt>c__Iterator10E.<$>tileID = tileID;
-			<ObjectsAt>c__Iterator10E.<>f__this = this;
-			WorldObjectsHolder.<ObjectsAt>c__Iterator10E expr_1C = <ObjectsAt>c__Iterator10E;
+			WorldObjectsHolder.<ObjectsAt>c__Iterator10F <ObjectsAt>c__Iterator10F = new WorldObjectsHolder.<ObjectsAt>c__Iterator10F();
+			<ObjectsAt>c__Iterator10F.tileID = tileID;
+			<ObjectsAt>c__Iterator10F.<$>tileID = tileID;
+			<ObjectsAt>c__Iterator10F.<>f__this = this;
+			WorldObjectsHolder.<ObjectsAt>c__Iterator10F expr_1C = <ObjectsAt>c__Iterator10F;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

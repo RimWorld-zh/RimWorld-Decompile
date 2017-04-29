@@ -77,9 +77,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			ScenPart_PlayerFaction.<ConfigErrors>c__Iterator11A <ConfigErrors>c__Iterator11A = new ScenPart_PlayerFaction.<ConfigErrors>c__Iterator11A();
-			<ConfigErrors>c__Iterator11A.<>f__this = this;
-			ScenPart_PlayerFaction.<ConfigErrors>c__Iterator11A expr_0E = <ConfigErrors>c__Iterator11A;
+			ScenPart_PlayerFaction.<ConfigErrors>c__Iterator11B <ConfigErrors>c__Iterator11B = new ScenPart_PlayerFaction.<ConfigErrors>c__Iterator11B();
+			<ConfigErrors>c__Iterator11B.<>f__this = this;
+			ScenPart_PlayerFaction.<ConfigErrors>c__Iterator11B expr_0E = <ConfigErrors>c__Iterator11B;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

@@ -46,7 +46,7 @@ namespace RimWorld
 			{
 				return null;
 			}
-			if (!pawn.CanReserve(thing.Position, 1, -1, ReservationLayer.Default, false))
+			if (!pawn.CanReserve(thing.Position, 1, -1, null, false))
 			{
 				return null;
 			}
@@ -71,7 +71,7 @@ namespace RimWorld
 		public static Job HopperFillFoodJob(Pawn pawn, ISlotGroupParent hopperSgp)
 		{
 			Building building = hopperSgp as Building;
-			if (!pawn.CanReserveAndReach(building.Position, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, ReservationLayer.Default, false))
+			if (!pawn.CanReserveAndReach(building.Position, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, null, false))
 			{
 				return null;
 			}

@@ -15,7 +15,7 @@ namespace RimWorld
 				if (!c.IsForbidden(pawn))
 				{
 					Building edifice = c.GetEdifice(pawn.Map);
-					if (edifice != null && edifice.def.building.isSittable && pawn.CanReserve(edifice, 1, -1, ReservationLayer.Default, false))
+					if (edifice != null && edifice.def.building.isSittable && pawn.CanReserve(edifice, 1, -1, null, false))
 					{
 						thing = edifice;
 						break;

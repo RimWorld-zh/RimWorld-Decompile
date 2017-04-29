@@ -59,10 +59,18 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				MapParent.<>c__Iterator100 <>c__Iterator = new MapParent.<>c__Iterator100();
-				MapParent.<>c__Iterator100 expr_07 = <>c__Iterator;
+				MapParent.<>c__Iterator101 <>c__Iterator = new MapParent.<>c__Iterator101();
+				MapParent.<>c__Iterator101 expr_07 = <>c__Iterator;
 				expr_07.$PC = -2;
 				return expr_07;
+			}
+		}
+
+		public virtual bool TransportPodsCanLandAndGenerateMap
+		{
+			get
+			{
+				return false;
 			}
 		}
 
@@ -148,9 +156,9 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			MapParent.<GetGizmos>c__Iterator101 <GetGizmos>c__Iterator = new MapParent.<GetGizmos>c__Iterator101();
+			MapParent.<GetGizmos>c__Iterator102 <GetGizmos>c__Iterator = new MapParent.<GetGizmos>c__Iterator102();
 			<GetGizmos>c__Iterator.<>f__this = this;
-			MapParent.<GetGizmos>c__Iterator101 expr_0E = <GetGizmos>c__Iterator;
+			MapParent.<GetGizmos>c__Iterator102 expr_0E = <GetGizmos>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -158,11 +166,11 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			MapParent.<GetFloatMenuOptions>c__Iterator102 <GetFloatMenuOptions>c__Iterator = new MapParent.<GetFloatMenuOptions>c__Iterator102();
+			MapParent.<GetFloatMenuOptions>c__Iterator103 <GetFloatMenuOptions>c__Iterator = new MapParent.<GetFloatMenuOptions>c__Iterator103();
 			<GetFloatMenuOptions>c__Iterator.caravan = caravan;
 			<GetFloatMenuOptions>c__Iterator.<$>caravan = caravan;
 			<GetFloatMenuOptions>c__Iterator.<>f__this = this;
-			MapParent.<GetFloatMenuOptions>c__Iterator102 expr_1C = <GetFloatMenuOptions>c__Iterator;
+			MapParent.<GetFloatMenuOptions>c__Iterator103 expr_1C = <GetFloatMenuOptions>c__Iterator;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

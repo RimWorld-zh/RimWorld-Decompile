@@ -83,7 +83,7 @@ namespace RimWorld
 					{
 						return false;
 					}
-					if (!actor.CanReserve(t, 1, -1, ReservationLayer.Default, false))
+					if (!actor.CanReserve(t, 1, -1, null, false))
 					{
 						return false;
 					}
@@ -128,7 +128,7 @@ namespace RimWorld
 				if (thing != null)
 				{
 					intVec = thing.Position;
-					actor.Reserve(thing, 1, -1, ReservationLayer.Default);
+					actor.Reserve(thing, 1, -1, null);
 				}
 				actor.Map.pawnDestinationManager.ReserveDestinationFor(actor, intVec);
 				actor.pather.StartPath(intVec, PathEndMode.OnCell);

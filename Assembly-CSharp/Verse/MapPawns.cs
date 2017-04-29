@@ -24,9 +24,9 @@ namespace Verse
 		{
 			get
 			{
-				MapPawns.<>c__Iterator1F2 <>c__Iterator1F = new MapPawns.<>c__Iterator1F2();
+				MapPawns.<>c__Iterator1F3 <>c__Iterator1F = new MapPawns.<>c__Iterator1F3();
 				<>c__Iterator1F.<>f__this = this;
-				MapPawns.<>c__Iterator1F2 expr_0E = <>c__Iterator1F;
+				MapPawns.<>c__Iterator1F3 expr_0E = <>c__Iterator1F;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -36,9 +36,9 @@ namespace Verse
 		{
 			get
 			{
-				MapPawns.<>c__Iterator1F3 <>c__Iterator1F = new MapPawns.<>c__Iterator1F3();
+				MapPawns.<>c__Iterator1F4 <>c__Iterator1F = new MapPawns.<>c__Iterator1F4();
 				<>c__Iterator1F.<>f__this = this;
-				MapPawns.<>c__Iterator1F3 expr_0E = <>c__Iterator1F;
+				MapPawns.<>c__Iterator1F4 expr_0E = <>c__Iterator1F;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -421,10 +421,10 @@ namespace Verse
 				WindowStack windowStack = Find.WindowStack;
 				for (int i = 0; i < windowStack.Count; i++)
 				{
-					MainTabWindow_PawnList mainTabWindow_PawnList = windowStack[i] as MainTabWindow_PawnList;
-					if (mainTabWindow_PawnList != null)
+					MainTabWindow_PawnTable mainTabWindow_PawnTable = windowStack[i] as MainTabWindow_PawnTable;
+					if (mainTabWindow_PawnTable != null)
 					{
-						mainTabWindow_PawnList.Notify_PawnsChanged();
+						mainTabWindow_PawnTable.Notify_PawnsChanged();
 					}
 				}
 			}

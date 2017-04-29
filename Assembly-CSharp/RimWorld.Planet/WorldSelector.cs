@@ -294,10 +294,10 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public static IEnumerable<WorldObject> SelectableObjectsAt(int tileID)
 		{
-			WorldSelector.<SelectableObjectsAt>c__Iterator19E <SelectableObjectsAt>c__Iterator19E = new WorldSelector.<SelectableObjectsAt>c__Iterator19E();
-			<SelectableObjectsAt>c__Iterator19E.tileID = tileID;
-			<SelectableObjectsAt>c__Iterator19E.<$>tileID = tileID;
-			WorldSelector.<SelectableObjectsAt>c__Iterator19E expr_15 = <SelectableObjectsAt>c__Iterator19E;
+			WorldSelector.<SelectableObjectsAt>c__Iterator19F <SelectableObjectsAt>c__Iterator19F = new WorldSelector.<SelectableObjectsAt>c__Iterator19F();
+			<SelectableObjectsAt>c__Iterator19F.tileID = tileID;
+			<SelectableObjectsAt>c__Iterator19F.<$>tileID = tileID;
+			WorldSelector.<SelectableObjectsAt>c__Iterator19F expr_15 = <SelectableObjectsAt>c__Iterator19F;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

@@ -8,6 +8,12 @@ namespace RimWorld
 {
 	public class IncidentWorker_CaravanRequest : IncidentWorker
 	{
+		public IntRange offerDuration = new IntRange(10, 30);
+
+		public float travelBufferMultiple = 0.1f;
+
+		public float travelBufferAbsolute = 1f;
+
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
 			return IncidentWorker_CaravanRequest.RandomNearbyTradeableSettlement(((Map)target).Tile) != null && base.CanFireNowSub(target);
@@ -15,13 +21,13 @@ namespace RimWorld
 
 		public override bool TryExecute(IncidentParms parms)
 		{
-			Settlement settlement = IncidentWorker_CaravanRequest.RandomNearbyTradeableSettlement(((Map)parms.target).Tile);
+			Settlement settlement = IncidentWorker_CaravanRequest.RandomNearbyTradeableSettlement(parms.target.Tile);
 			if (settlement == null)
 			{
 				return false;
 			}
 			CaravanRequestComp component = settlement.GetComponent<CaravanRequestComp>();
-			if (!IncidentWorker_CaravanRequest.GenerateCaravanRequest(component))
+			if (!this.GenerateCaravanRequest(component, parms.target.Tile))
 			{
 				return false;
 			}
@@ -30,13 +36,18 @@ namespace RimWorld
 				settlement.Label,
 				GenLabel.ThingLabel(component.requestThingDef, null, component.requestCount).CapitalizeFirst(),
 				component.rewards[0].LabelCap,
-				(component.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F1")
+				(component.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F0")
 			}), LetterType.Good, settlement, null);
 			return true;
 		}
 
-		public static bool GenerateCaravanRequest(CaravanRequestComp target)
+		public bool GenerateCaravanRequest(CaravanRequestComp target, int tileFrom)
 		{
+			int num = this.RandomOfferDuration(tileFrom, target.parent.Tile);
+			if (num < 1)
+			{
+				return false;
+			}
 			target.requestThingDef = IncidentWorker_CaravanRequest.RandomRequestedThingDef();
 			if (target.requestThingDef == null)
 			{
@@ -46,7 +57,6 @@ namespace RimWorld
 			target.requestCount = IncidentWorker_CaravanRequest.RandomRequestCount(target.requestThingDef);
 			target.rewards.ClearAndDestroyContents(DestroyMode.Vanish);
 			target.rewards.TryAdd(IncidentWorker_CaravanRequest.GenerateRewardFor(target.requestThingDef, target.requestCount, target.parent.Faction), true);
-			int num = IncidentWorker_CaravanRequest.RandomOfferDuration();
 			target.expiration = Find.TickManager.TicksGame + num;
 			return true;
 		}
@@ -105,9 +115,18 @@ namespace RimWorld
 			return ItemCollectionGeneratorDefOf.CaravanRequestRewards.Worker.Generate(parms)[0];
 		}
 
-		private static int RandomOfferDuration()
+		private int RandomOfferDuration(int tileIdFrom, int tileIdTo)
 		{
-			return 60000 * Rand.Range(10, 30);
+			int num = this.offerDuration.RandomInRange;
+			int num2 = CaravanArrivalTimeEstimator.EstimatedTicksToArrive(tileIdFrom, tileIdTo, null);
+			float num3 = (float)num2 / 60000f;
+			int b = Mathf.CeilToInt(Mathf.Max(num3 + this.travelBufferAbsolute, num3 * (1f + this.travelBufferMultiple)));
+			num = Mathf.Max(num, b);
+			if (num > this.offerDuration.max)
+			{
+				return -1;
+			}
+			return 60000 * num;
 		}
 	}
 }

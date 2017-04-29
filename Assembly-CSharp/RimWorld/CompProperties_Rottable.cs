@@ -47,11 +47,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			CompProperties_Rottable.<ConfigErrors>c__Iterator7C <ConfigErrors>c__Iterator7C = new CompProperties_Rottable.<ConfigErrors>c__Iterator7C();
-			<ConfigErrors>c__Iterator7C.parentDef = parentDef;
-			<ConfigErrors>c__Iterator7C.<$>parentDef = parentDef;
-			<ConfigErrors>c__Iterator7C.<>f__this = this;
-			CompProperties_Rottable.<ConfigErrors>c__Iterator7C expr_1C = <ConfigErrors>c__Iterator7C;
+			CompProperties_Rottable.<ConfigErrors>c__Iterator7D <ConfigErrors>c__Iterator7D = new CompProperties_Rottable.<ConfigErrors>c__Iterator7D();
+			<ConfigErrors>c__Iterator7D.parentDef = parentDef;
+			<ConfigErrors>c__Iterator7D.<$>parentDef = parentDef;
+			<ConfigErrors>c__Iterator7D.<>f__this = this;
+			CompProperties_Rottable.<ConfigErrors>c__Iterator7D expr_1C = <ConfigErrors>c__Iterator7D;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

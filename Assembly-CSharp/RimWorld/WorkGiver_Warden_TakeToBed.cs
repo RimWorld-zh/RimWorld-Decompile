@@ -28,7 +28,7 @@ namespace RimWorld
 
 		private Job TakeToPreferredBedJob(Pawn prisoner, Pawn warden)
 		{
-			if (prisoner.Downed || !warden.CanReserve(prisoner, 1, -1, ReservationLayer.Default, false))
+			if (prisoner.Downed || !warden.CanReserve(prisoner, 1, -1, null, false))
 			{
 				return null;
 			}
@@ -46,7 +46,7 @@ namespace RimWorld
 
 		private Job TakeDownedToBedJob(Pawn prisoner, Pawn warden)
 		{
-			if (!prisoner.Downed || !HealthAIUtility.ShouldSeekMedicalRestUrgent(prisoner) || prisoner.InBed() || !warden.CanReserve(prisoner, 1, -1, ReservationLayer.Default, false))
+			if (!prisoner.Downed || !HealthAIUtility.ShouldSeekMedicalRestUrgent(prisoner) || prisoner.InBed() || !warden.CanReserve(prisoner, 1, -1, null, false))
 			{
 				return null;
 			}

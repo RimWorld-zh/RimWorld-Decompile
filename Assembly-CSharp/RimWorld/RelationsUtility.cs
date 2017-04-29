@@ -34,7 +34,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (animal.RaceProps.trainableIntelligence < TrainableIntelligence.Intermediate)
+			if (animal.RaceProps.TrainableIntelligence.intelligenceOrder < TrainableIntelligenceDefOf.Intermediate.intelligenceOrder)
 			{
 				return false;
 			}

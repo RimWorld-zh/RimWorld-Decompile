@@ -31,8 +31,8 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public virtual IEnumerable<Gizmo> GetGizmos()
 		{
-			WorldObjectComp.<GetGizmos>c__Iterator10C <GetGizmos>c__Iterator10C = new WorldObjectComp.<GetGizmos>c__Iterator10C();
-			WorldObjectComp.<GetGizmos>c__Iterator10C expr_07 = <GetGizmos>c__Iterator10C;
+			WorldObjectComp.<GetGizmos>c__Iterator10D <GetGizmos>c__Iterator10D = new WorldObjectComp.<GetGizmos>c__Iterator10D();
+			WorldObjectComp.<GetGizmos>c__Iterator10D expr_07 = <GetGizmos>c__Iterator10D;
 			expr_07.$PC = -2;
 			return expr_07;
 		}
@@ -40,8 +40,8 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public virtual IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			WorldObjectComp.<GetFloatMenuOptions>c__Iterator10D <GetFloatMenuOptions>c__Iterator10D = new WorldObjectComp.<GetFloatMenuOptions>c__Iterator10D();
-			WorldObjectComp.<GetFloatMenuOptions>c__Iterator10D expr_07 = <GetFloatMenuOptions>c__Iterator10D;
+			WorldObjectComp.<GetFloatMenuOptions>c__Iterator10E <GetFloatMenuOptions>c__Iterator10E = new WorldObjectComp.<GetFloatMenuOptions>c__Iterator10E();
+			WorldObjectComp.<GetFloatMenuOptions>c__Iterator10E expr_07 = <GetFloatMenuOptions>c__Iterator10E;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

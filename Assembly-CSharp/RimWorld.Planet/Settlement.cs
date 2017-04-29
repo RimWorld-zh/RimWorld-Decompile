@@ -43,6 +43,14 @@ namespace RimWorld.Planet
 			}
 		}
 
+		public override bool TransportPodsCanLandAndGenerateMap
+		{
+			get
+			{
+				return this.Attackable;
+			}
+		}
+
 		public TraderKindDef TraderKind
 		{
 			get
@@ -190,9 +198,9 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Settlement.<GetGizmos>c__Iterator104 <GetGizmos>c__Iterator = new Settlement.<GetGizmos>c__Iterator104();
+			Settlement.<GetGizmos>c__Iterator105 <GetGizmos>c__Iterator = new Settlement.<GetGizmos>c__Iterator105();
 			<GetGizmos>c__Iterator.<>f__this = this;
-			Settlement.<GetGizmos>c__Iterator104 expr_0E = <GetGizmos>c__Iterator;
+			Settlement.<GetGizmos>c__Iterator105 expr_0E = <GetGizmos>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -200,11 +208,11 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			Settlement.<GetFloatMenuOptions>c__Iterator105 <GetFloatMenuOptions>c__Iterator = new Settlement.<GetFloatMenuOptions>c__Iterator105();
+			Settlement.<GetFloatMenuOptions>c__Iterator106 <GetFloatMenuOptions>c__Iterator = new Settlement.<GetFloatMenuOptions>c__Iterator106();
 			<GetFloatMenuOptions>c__Iterator.caravan = caravan;
 			<GetFloatMenuOptions>c__Iterator.<$>caravan = caravan;
 			<GetFloatMenuOptions>c__Iterator.<>f__this = this;
-			Settlement.<GetFloatMenuOptions>c__Iterator105 expr_1C = <GetFloatMenuOptions>c__Iterator;
+			Settlement.<GetFloatMenuOptions>c__Iterator106 expr_1C = <GetFloatMenuOptions>c__Iterator;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

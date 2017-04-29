@@ -71,9 +71,9 @@ namespace Verse
 		{
 			get
 			{
-				Zone.<>c__IteratorB7 <>c__IteratorB = new Zone.<>c__IteratorB7();
+				Zone.<>c__IteratorB8 <>c__IteratorB = new Zone.<>c__IteratorB8();
 				<>c__IteratorB.<>f__this = this;
-				Zone.<>c__IteratorB7 expr_0E = <>c__IteratorB;
+				Zone.<>c__IteratorB8 expr_0E = <>c__IteratorB;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -127,7 +127,7 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerator<IntVec3> GetEnumerator()
 		{
-			Zone.<GetEnumerator>c__IteratorB6 <GetEnumerator>c__IteratorB = new Zone.<GetEnumerator>c__IteratorB6();
+			Zone.<GetEnumerator>c__IteratorB7 <GetEnumerator>c__IteratorB = new Zone.<GetEnumerator>c__IteratorB7();
 			<GetEnumerator>c__IteratorB.<>f__this = this;
 			return <GetEnumerator>c__IteratorB;
 		}
@@ -235,8 +235,8 @@ namespace Verse
 		[DebuggerHidden]
 		public virtual IEnumerable<InspectTabBase> GetInspectTabs()
 		{
-			Zone.<GetInspectTabs>c__IteratorB8 <GetInspectTabs>c__IteratorB = new Zone.<GetInspectTabs>c__IteratorB8();
-			Zone.<GetInspectTabs>c__IteratorB8 expr_07 = <GetInspectTabs>c__IteratorB;
+			Zone.<GetInspectTabs>c__IteratorB9 <GetInspectTabs>c__IteratorB = new Zone.<GetInspectTabs>c__IteratorB9();
+			Zone.<GetInspectTabs>c__IteratorB9 expr_07 = <GetInspectTabs>c__IteratorB;
 			expr_07.$PC = -2;
 			return expr_07;
 		}
@@ -244,9 +244,9 @@ namespace Verse
 		[DebuggerHidden]
 		public virtual IEnumerable<Gizmo> GetGizmos()
 		{
-			Zone.<GetGizmos>c__IteratorB9 <GetGizmos>c__IteratorB = new Zone.<GetGizmos>c__IteratorB9();
-			<GetGizmos>c__IteratorB.<>f__this = this;
-			Zone.<GetGizmos>c__IteratorB9 expr_0E = <GetGizmos>c__IteratorB;
+			Zone.<GetGizmos>c__IteratorBA <GetGizmos>c__IteratorBA = new Zone.<GetGizmos>c__IteratorBA();
+			<GetGizmos>c__IteratorBA.<>f__this = this;
+			Zone.<GetGizmos>c__IteratorBA expr_0E = <GetGizmos>c__IteratorBA;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

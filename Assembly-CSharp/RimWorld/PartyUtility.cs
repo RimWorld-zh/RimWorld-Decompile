@@ -110,7 +110,7 @@ namespace RimWorld
 		public static bool TryFindRandomCellInPartyArea(Pawn pawn, out IntVec3 result)
 		{
 			IntVec3 cell = pawn.mindState.duty.focus.Cell;
-			Predicate<IntVec3> validator = (IntVec3 x) => x.Standable(pawn.Map) && !x.IsForbidden(pawn) && pawn.CanReserveAndReach(x, PathEndMode.OnCell, Danger.None, 1, -1, ReservationLayer.Default, false);
+			Predicate<IntVec3> validator = (IntVec3 x) => x.Standable(pawn.Map) && !x.IsForbidden(pawn) && pawn.CanReserveAndReach(x, PathEndMode.OnCell, Danger.None, 1, -1, null, false);
 			if (PartyUtility.UseWholeRoomAsPartyArea(cell, pawn.Map))
 			{
 				Room room = cell.GetRoom(pawn.Map, RegionType.Set_Passable);

@@ -149,10 +149,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<ThingDef> ValidPlantTypesForGrowers(List<IPlantToGrowSettable> sel)
 		{
-			GenPlant.<ValidPlantTypesForGrowers>c__Iterator1A1 <ValidPlantTypesForGrowers>c__Iterator1A = new GenPlant.<ValidPlantTypesForGrowers>c__Iterator1A1();
+			GenPlant.<ValidPlantTypesForGrowers>c__Iterator1A2 <ValidPlantTypesForGrowers>c__Iterator1A = new GenPlant.<ValidPlantTypesForGrowers>c__Iterator1A2();
 			<ValidPlantTypesForGrowers>c__Iterator1A.sel = sel;
 			<ValidPlantTypesForGrowers>c__Iterator1A.<$>sel = sel;
-			GenPlant.<ValidPlantTypesForGrowers>c__Iterator1A1 expr_15 = <ValidPlantTypesForGrowers>c__Iterator1A;
+			GenPlant.<ValidPlantTypesForGrowers>c__Iterator1A2 expr_15 = <ValidPlantTypesForGrowers>c__Iterator1A;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

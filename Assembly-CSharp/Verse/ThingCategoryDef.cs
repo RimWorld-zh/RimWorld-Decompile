@@ -32,18 +32,6 @@ namespace Verse
 		{
 			get
 			{
-				ThingCategoryDef.<>c__Iterator1D9 <>c__Iterator1D = new ThingCategoryDef.<>c__Iterator1D9();
-				<>c__Iterator1D.<>f__this = this;
-				ThingCategoryDef.<>c__Iterator1D9 expr_0E = <>c__Iterator1D;
-				expr_0E.$PC = -2;
-				return expr_0E;
-			}
-		}
-
-		public IEnumerable<ThingCategoryDef> ThisAndChildCategoryDefs
-		{
-			get
-			{
 				ThingCategoryDef.<>c__Iterator1DA <>c__Iterator1DA = new ThingCategoryDef.<>c__Iterator1DA();
 				<>c__Iterator1DA.<>f__this = this;
 				ThingCategoryDef.<>c__Iterator1DA expr_0E = <>c__Iterator1DA;
@@ -52,7 +40,7 @@ namespace Verse
 			}
 		}
 
-		public IEnumerable<ThingDef> DescendantThingDefs
+		public IEnumerable<ThingCategoryDef> ThisAndChildCategoryDefs
 		{
 			get
 			{
@@ -64,7 +52,7 @@ namespace Verse
 			}
 		}
 
-		public IEnumerable<SpecialThingFilterDef> DescendantSpecialThingFilterDefs
+		public IEnumerable<ThingDef> DescendantThingDefs
 		{
 			get
 			{
@@ -76,13 +64,25 @@ namespace Verse
 			}
 		}
 
-		public IEnumerable<SpecialThingFilterDef> ParentsSpecialThingFilterDefs
+		public IEnumerable<SpecialThingFilterDef> DescendantSpecialThingFilterDefs
 		{
 			get
 			{
 				ThingCategoryDef.<>c__Iterator1DD <>c__Iterator1DD = new ThingCategoryDef.<>c__Iterator1DD();
 				<>c__Iterator1DD.<>f__this = this;
 				ThingCategoryDef.<>c__Iterator1DD expr_0E = <>c__Iterator1DD;
+				expr_0E.$PC = -2;
+				return expr_0E;
+			}
+		}
+
+		public IEnumerable<SpecialThingFilterDef> ParentsSpecialThingFilterDefs
+		{
+			get
+			{
+				ThingCategoryDef.<>c__Iterator1DE <>c__Iterator1DE = new ThingCategoryDef.<>c__Iterator1DE();
+				<>c__Iterator1DE.<>f__this = this;
+				ThingCategoryDef.<>c__Iterator1DE expr_0E = <>c__Iterator1DE;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

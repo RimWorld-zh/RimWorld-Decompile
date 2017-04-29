@@ -23,12 +23,12 @@ namespace RimWorld
 		[DebuggerHidden]
 		private static IEnumerable<HediffGiver_Birthday> RandomHediffsToGainOnBirthday(ThingDef raceDef, int age)
 		{
-			AgeInjuryUtility.<RandomHediffsToGainOnBirthday>c__IteratorC5 <RandomHediffsToGainOnBirthday>c__IteratorC = new AgeInjuryUtility.<RandomHediffsToGainOnBirthday>c__IteratorC5();
+			AgeInjuryUtility.<RandomHediffsToGainOnBirthday>c__IteratorC6 <RandomHediffsToGainOnBirthday>c__IteratorC = new AgeInjuryUtility.<RandomHediffsToGainOnBirthday>c__IteratorC6();
 			<RandomHediffsToGainOnBirthday>c__IteratorC.raceDef = raceDef;
 			<RandomHediffsToGainOnBirthday>c__IteratorC.age = age;
 			<RandomHediffsToGainOnBirthday>c__IteratorC.<$>raceDef = raceDef;
 			<RandomHediffsToGainOnBirthday>c__IteratorC.<$>age = age;
-			AgeInjuryUtility.<RandomHediffsToGainOnBirthday>c__IteratorC5 expr_23 = <RandomHediffsToGainOnBirthday>c__IteratorC;
+			AgeInjuryUtility.<RandomHediffsToGainOnBirthday>c__IteratorC6 expr_23 = <RandomHediffsToGainOnBirthday>c__IteratorC;
 			expr_23.$PC = -2;
 			return expr_23;
 		}

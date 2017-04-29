@@ -17,7 +17,7 @@ namespace RimWorld
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c)
 		{
 			Plant plant = c.GetPlant(pawn.Map);
-			return plant != null && !plant.IsForbidden(pawn) && plant.def.plant.Harvestable && plant.LifeStage == PlantLifeStage.Mature && pawn.CanReserve(plant, 1, -1, ReservationLayer.Default, false);
+			return plant != null && !plant.IsForbidden(pawn) && plant.def.plant.Harvestable && plant.LifeStage == PlantLifeStage.Mature && pawn.CanReserve(plant, 1, -1, null, false);
 		}
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 c)

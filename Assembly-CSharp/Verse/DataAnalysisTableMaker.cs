@@ -10,34 +10,80 @@ namespace Verse
 	{
 		public static void DoTable_AnimalGrowthEconomy()
 		{
+			Func<ThingDef, float> gestDays = delegate(ThingDef d)
+			{
+				if (d.HasComp(typeof(CompEggLayer)))
+				{
+					CompProperties_EggLayer compProperties = d.GetCompProperties<CompProperties_EggLayer>();
+					return compProperties.eggLayIntervalDays / compProperties.eggCountRange.Average;
+				}
+				return d.race.gestationPeriodDays;
+			};
+			Func<ThingDef, float> nutritionToGestate = delegate(ThingDef d)
+			{
+				float num = 0f;
+				LifeStageAge lifeStageAge = d.race.lifeStageAges[d.race.lifeStageAges.Count - 1];
+				return num + gestDays(d) * lifeStageAge.def.hungerRateFactor * d.race.baseHungerRate;
+			};
+			Func<ThingDef, float> babyMeatNut = delegate(ThingDef d)
+			{
+				LifeStageAge lifeStageAge = d.race.lifeStageAges[0];
+				return d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05f * lifeStageAge.def.bodySizeFactor;
+			};
+			Func<ThingDef, float> babyMeatNutPerInput = (ThingDef d) => babyMeatNut(d) / nutritionToGestate(d);
 			Func<ThingDef, float> nutritionToAdulthood = delegate(ThingDef d)
 			{
 				float num = 0f;
+				num += nutritionToGestate(d);
 				for (int i = 1; i < d.race.lifeStageAges.Count; i++)
 				{
-					num += d.race.lifeStageAges[i].def.hungerRateFactor * (d.race.lifeStageAges[i].minAge - d.race.lifeStageAges[i - 1].minAge) * d.race.baseHungerRate * 60f;
+					LifeStageAge lifeStageAge = d.race.lifeStageAges[i];
+					float num2 = lifeStageAge.minAge - d.race.lifeStageAges[i - 1].minAge;
+					float num3 = num2 * 60f;
+					num += num3 * lifeStageAge.def.hungerRateFactor * d.race.baseHungerRate;
 				}
 				return num;
 			};
-			Func<ThingDef, float> meatPerInput = (ThingDef d) => d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05f / nutritionToAdulthood(d);
-			Func<ThingDef, float> meatPerDay = (ThingDef d) => d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05f / (d.race.lifeStageAges[d.race.lifeStageAges.Count - 1].minAge * 60f);
-			IEnumerable<ThingDef> arg_23A_0 = from d in DefDatabase<ThingDef>.AllDefs
+			Func<ThingDef, float> adultMeatNutPerInput = (ThingDef d) => d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05f / nutritionToAdulthood(d);
+			Func<ThingDef, float> bestMeatPerInput = delegate(ThingDef d)
+			{
+				float a = babyMeatNutPerInput(d);
+				float b = adultMeatNutPerInput(d);
+				return Mathf.Max(a, b);
+			};
+			Func<ThingDef, string> eggNut = delegate(ThingDef d)
+			{
+				CompProperties_EggLayer compProperties = d.GetCompProperties<CompProperties_EggLayer>();
+				if (compProperties == null)
+				{
+					return string.Empty;
+				}
+				return compProperties.eggFertilizedDef.ingestible.nutrition.ToString("F2");
+			};
+			IEnumerable<ThingDef> arg_37D_0 = from d in DefDatabase<ThingDef>.AllDefs
 			where d.category == ThingCategory.Pawn && d.race.IsFlesh
-			orderby meatPerInput(d) descending
+			orderby bestMeatPerInput(d) descending
 			select d;
-			TableDataGetter<ThingDef>[] expr_9D = new TableDataGetter<ThingDef>[11];
-			expr_9D[0] = new TableDataGetter<ThingDef>("animal", (ThingDef d) => d.defName);
-			expr_9D[1] = new TableDataGetter<ThingDef>("age Juv", (ThingDef d) => d.race.lifeStageAges[1].minAge.ToString("F2"));
-			expr_9D[2] = new TableDataGetter<ThingDef>("age Adult", (ThingDef d) => d.race.lifeStageAges[d.race.lifeStageAges.Count - 1].minAge.ToString("F2"));
-			expr_9D[3] = new TableDataGetter<ThingDef>("bodySize", (ThingDef d) => d.race.baseBodySize.ToString("F2"));
-			expr_9D[4] = new TableDataGetter<ThingDef>("hungerRate", (ThingDef d) => d.race.baseHungerRate.ToString("F2"));
-			expr_9D[5] = new TableDataGetter<ThingDef>("meat amount", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.MeatAmount, null).ToString("F0"));
-			expr_9D[6] = new TableDataGetter<ThingDef>("meat nutrition", (ThingDef d) => (d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05f).ToString("F2"));
-			expr_9D[7] = new TableDataGetter<ThingDef>("nutrition to adulthood", (ThingDef d) => nutritionToAdulthood(d).ToString("F1"));
-			expr_9D[8] = new TableDataGetter<ThingDef>("meat nutrition per input nutrition", (ThingDef d) => meatPerInput(d).ToString("F3"));
-			expr_9D[9] = new TableDataGetter<ThingDef>("meat per day", (ThingDef d) => meatPerDay(d).ToString("F3"));
-			expr_9D[10] = new TableDataGetter<ThingDef>("eats plants", (ThingDef d) => ((d.race.foodType & FoodTypeFlags.Plant) == FoodTypeFlags.None) ? string.Empty : "Y");
-			DebugTables.MakeTablesDialog<ThingDef>(arg_23A_0, expr_9D);
+			TableDataGetter<ThingDef>[] expr_108 = new TableDataGetter<ThingDef>[18];
+			expr_108[0] = new TableDataGetter<ThingDef>("animal", (ThingDef d) => d.defName);
+			expr_108[1] = new TableDataGetter<ThingDef>("hungerRate", (ThingDef d) => d.race.baseHungerRate.ToString("F2"));
+			expr_108[2] = new TableDataGetter<ThingDef>("gestDays", (ThingDef d) => gestDays(d).ToString("F2"));
+			expr_108[3] = new TableDataGetter<ThingDef>("herbiv", (ThingDef d) => ((d.race.foodType & FoodTypeFlags.Plant) == FoodTypeFlags.None) ? string.Empty : "Y");
+			expr_108[4] = new TableDataGetter<ThingDef>("eggs", (ThingDef d) => (!d.HasComp(typeof(CompEggLayer))) ? string.Empty : d.GetCompProperties<CompProperties_EggLayer>().eggCountRange.ToString());
+			expr_108[5] = new TableDataGetter<ThingDef>("|", (ThingDef d) => "|");
+			expr_108[6] = new TableDataGetter<ThingDef>("bodySize", (ThingDef d) => d.race.baseBodySize.ToString("F2"));
+			expr_108[7] = new TableDataGetter<ThingDef>("age Adult", (ThingDef d) => d.race.lifeStageAges[d.race.lifeStageAges.Count - 1].minAge.ToString("F2"));
+			expr_108[8] = new TableDataGetter<ThingDef>("nutrition to adulthood", (ThingDef d) => nutritionToAdulthood(d).ToString("F2"));
+			expr_108[9] = new TableDataGetter<ThingDef>("adult meat-nut", (ThingDef d) => (d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05f).ToString("F2"));
+			expr_108[10] = new TableDataGetter<ThingDef>("adult meat-nut / input-nut", (ThingDef d) => adultMeatNutPerInput(d).ToString("F3"));
+			expr_108[11] = new TableDataGetter<ThingDef>("|", (ThingDef d) => "|");
+			expr_108[12] = new TableDataGetter<ThingDef>("baby size", (ThingDef d) => (d.race.lifeStageAges[0].def.bodySizeFactor * d.race.baseBodySize).ToString("F2"));
+			expr_108[13] = new TableDataGetter<ThingDef>("nutrition to gestate", (ThingDef d) => nutritionToGestate(d).ToString("F2"));
+			expr_108[14] = new TableDataGetter<ThingDef>("egg nut", (ThingDef d) => eggNut(d));
+			expr_108[15] = new TableDataGetter<ThingDef>("baby meat-nut", (ThingDef d) => babyMeatNut(d).ToString("F2"));
+			expr_108[16] = new TableDataGetter<ThingDef>("baby meat-nut / input-nut", (ThingDef d) => babyMeatNutPerInput(d).ToString("F2"));
+			expr_108[17] = new TableDataGetter<ThingDef>("baby wins", (ThingDef d) => (babyMeatNutPerInput(d) <= adultMeatNutPerInput(d)) ? string.Empty : "B");
+			DebugTables.MakeTablesDialog<ThingDef>(arg_37D_0, expr_108);
 		}
 
 		public static void DoTable_CropEconomy()
@@ -241,21 +287,25 @@ namespace Verse
 			{
 				float num = 18f;
 				num += pointsGuess(d) * 2.7f;
-				switch (d.RaceProps.trainableIntelligence)
+				if (d.RaceProps.TrainableIntelligence == TrainableIntelligenceDefOf.None)
 				{
-				case TrainableIntelligence.None:
 					num *= 0.5f;
-					break;
-				case TrainableIntelligence.Simple:
+				}
+				else if (d.RaceProps.TrainableIntelligence == TrainableIntelligenceDefOf.Simple)
+				{
 					num *= 0.8f;
-					break;
-				case TrainableIntelligence.Intermediate:
-					break;
-				case TrainableIntelligence.Advanced:
+				}
+				else if (d.RaceProps.TrainableIntelligence == TrainableIntelligenceDefOf.Intermediate)
+				{
+					num = num;
+				}
+				else
+				{
+					if (d.RaceProps.TrainableIntelligence != TrainableIntelligenceDefOf.Advanced)
+					{
+						throw new InvalidOperationException();
+					}
 					num += 250f;
-					break;
-				default:
-					throw new InvalidOperationException();
 				}
 				num += d.RaceProps.baseBodySize * 80f;
 				if (d.race.HasComp(typeof(CompMilkable)))
@@ -289,7 +339,7 @@ namespace Verse
 			expr_7B[9] = new TableDataGetter<PawnKindDef>("melee dps", (PawnKindDef d) => dps(d).ToString("F2"));
 			expr_7B[10] = new TableDataGetter<PawnKindDef>("wildness", (PawnKindDef d) => d.RaceProps.wildness.ToStringPercent());
 			expr_7B[11] = new TableDataGetter<PawnKindDef>("life expec.", (PawnKindDef d) => d.RaceProps.lifeExpectancy.ToString("F1"));
-			expr_7B[12] = new TableDataGetter<PawnKindDef>("train-int", (PawnKindDef d) => d.RaceProps.trainableIntelligence.GetLabel());
+			expr_7B[12] = new TableDataGetter<PawnKindDef>("train-int", (PawnKindDef d) => d.RaceProps.TrainableIntelligence.GetLabel());
 			expr_7B[13] = new TableDataGetter<PawnKindDef>("temps", (PawnKindDef d) => d.race.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null).ToString("F0") + ".." + d.race.GetStatValueAbstract(StatDefOf.ComfyTemperatureMax, null).ToString("F0"));
 			expr_7B[14] = new TableDataGetter<PawnKindDef>("mateMtb", (PawnKindDef d) => d.RaceProps.mateMtbHours.ToStringEmptyZero("F0"));
 			expr_7B[15] = new TableDataGetter<PawnKindDef>("nuzzMtb", (PawnKindDef d) => d.RaceProps.nuzzleMtbHours.ToStringEmptyZero("F0"));

@@ -7,6 +7,8 @@ namespace RimWorld
 	{
 		public Type workerClass = typeof(SiteCoreWorker);
 
+		public bool transportPodsCanLandAndGenerateMap = true;
+
 		[Unsaved]
 		private SiteCoreWorker workerInt;
 

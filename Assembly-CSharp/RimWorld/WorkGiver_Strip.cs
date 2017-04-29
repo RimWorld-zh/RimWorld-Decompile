@@ -29,7 +29,7 @@ namespace RimWorld
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			return t.Map.designationManager.DesignationOn(t, DesignationDefOf.Strip) != null && pawn.CanReserve(t, 1, -1, ReservationLayer.Default, forced) && StrippableUtility.CanBeStrippedByColony(t);
+			return t.Map.designationManager.DesignationOn(t, DesignationDefOf.Strip) != null && pawn.CanReserve(t, 1, -1, null, forced) && StrippableUtility.CanBeStrippedByColony(t);
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

@@ -11,9 +11,9 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public override IEnumerable Regenerate()
 		{
-			WorldLayer_WorldObjects.<Regenerate>c__IteratorF9 <Regenerate>c__IteratorF = new WorldLayer_WorldObjects.<Regenerate>c__IteratorF9();
-			<Regenerate>c__IteratorF.<>f__this = this;
-			WorldLayer_WorldObjects.<Regenerate>c__IteratorF9 expr_0E = <Regenerate>c__IteratorF;
+			WorldLayer_WorldObjects.<Regenerate>c__IteratorFA <Regenerate>c__IteratorFA = new WorldLayer_WorldObjects.<Regenerate>c__IteratorFA();
+			<Regenerate>c__IteratorFA.<>f__this = this;
+			WorldLayer_WorldObjects.<Regenerate>c__IteratorFA expr_0E = <Regenerate>c__IteratorFA;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

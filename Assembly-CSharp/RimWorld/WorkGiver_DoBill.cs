@@ -150,7 +150,7 @@ namespace RimWorld
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
 			IBillGiver billGiver = thing as IBillGiver;
-			if (billGiver == null || !this.ThingIsUsableBillGiver(thing) || !billGiver.CurrentlyUsable() || !billGiver.BillStack.AnyShouldDoNow || !pawn.CanReserve(thing, 1, -1, ReservationLayer.Default, forced) || thing.IsBurning() || thing.IsForbidden(pawn))
+			if (billGiver == null || !this.ThingIsUsableBillGiver(thing) || !billGiver.CurrentlyUsable() || !billGiver.BillStack.AnyShouldDoNow || !pawn.CanReserve(thing, 1, -1, null, forced) || thing.IsBurning() || thing.IsForbidden(pawn))
 			{
 				return null;
 			}
@@ -164,7 +164,7 @@ namespace RimWorld
 
 		private static UnfinishedThing ClosestUnfinishedThingForBill(Pawn pawn, Bill_ProductionWithUft bill)
 		{
-			Predicate<Thing> predicate = (Thing t) => !t.IsForbidden(pawn) && ((UnfinishedThing)t).Recipe == bill.recipe && ((UnfinishedThing)t).Creator == pawn && ((UnfinishedThing)t).ingredients.TrueForAll((Thing x) => bill.ingredientFilter.Allows(x.def)) && pawn.CanReserve(t, 1, -1, ReservationLayer.Default, false);
+			Predicate<Thing> predicate = (Thing t) => !t.IsForbidden(pawn) && ((UnfinishedThing)t).Recipe == bill.recipe && ((UnfinishedThing)t).Creator == pawn && ((UnfinishedThing)t).ingredients.TrueForAll((Thing x) => bill.ingredientFilter.Allows(x.def)) && pawn.CanReserve(t, 1, -1, null, false);
 			Predicate<Thing> validator = predicate;
 			return (UnfinishedThing)GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(bill.recipe.unfinishedThingDef), PathEndMode.InteractionCell, TraverseParms.For(pawn, pawn.NormalMaxDanger(), TraverseMode.ByPawn, false), 9999f, validator, null, -1, false, RegionType.Set_Passable);
 		}
@@ -229,7 +229,7 @@ namespace RimWorld
 									{
 										if (bill_ProductionWithUft.BoundUft != null)
 										{
-											if (bill_ProductionWithUft.BoundWorker != pawn || !pawn.CanReserveAndReach(bill_ProductionWithUft.BoundUft, PathEndMode.Touch, Danger.Deadly, 1, -1, ReservationLayer.Default, false) || bill_ProductionWithUft.BoundUft.IsForbidden(pawn))
+											if (bill_ProductionWithUft.BoundWorker != pawn || !pawn.CanReserveAndReach(bill_ProductionWithUft.BoundUft, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false) || bill_ProductionWithUft.BoundUft.IsForbidden(pawn))
 											{
 												goto IL_18A;
 											}
@@ -350,7 +350,7 @@ namespace RimWorld
 			WorkGiver_DoBill.relevantThings.Clear();
 			WorkGiver_DoBill.processedThings.Clear();
 			bool foundAll = false;
-			Predicate<Thing> baseValidator = (Thing t) => t.Spawned && !t.IsForbidden(pawn) && (float)(t.Position - billGiver.Position).LengthHorizontalSquared < bill.ingredientSearchRadius * bill.ingredientSearchRadius && bill.recipe.fixedIngredientFilter.Allows(t) && bill.ingredientFilter.Allows(t) && bill.recipe.ingredients.Any((IngredientCount ingNeed) => ingNeed.filter.Allows(t)) && pawn.CanReserve(t, 1, -1, ReservationLayer.Default, false);
+			Predicate<Thing> baseValidator = (Thing t) => t.Spawned && !t.IsForbidden(pawn) && (float)(t.Position - billGiver.Position).LengthHorizontalSquared < bill.ingredientSearchRadius * bill.ingredientSearchRadius && bill.recipe.fixedIngredientFilter.Allows(t) && bill.ingredientFilter.Allows(t) && bill.recipe.ingredients.Any((IngredientCount ingNeed) => ingNeed.filter.Allows(t)) && pawn.CanReserve(t, 1, -1, null, false);
 			bool billGiverIsPawn = billGiver is Pawn;
 			if (billGiverIsPawn)
 			{

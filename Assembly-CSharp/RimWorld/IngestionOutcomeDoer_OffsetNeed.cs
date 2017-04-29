@@ -32,9 +32,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
-			IngestionOutcomeDoer_OffsetNeed.<SpecialDisplayStats>c__Iterator81 <SpecialDisplayStats>c__Iterator = new IngestionOutcomeDoer_OffsetNeed.<SpecialDisplayStats>c__Iterator81();
+			IngestionOutcomeDoer_OffsetNeed.<SpecialDisplayStats>c__Iterator82 <SpecialDisplayStats>c__Iterator = new IngestionOutcomeDoer_OffsetNeed.<SpecialDisplayStats>c__Iterator82();
 			<SpecialDisplayStats>c__Iterator.<>f__this = this;
-			IngestionOutcomeDoer_OffsetNeed.<SpecialDisplayStats>c__Iterator81 expr_0E = <SpecialDisplayStats>c__Iterator;
+			IngestionOutcomeDoer_OffsetNeed.<SpecialDisplayStats>c__Iterator82 expr_0E = <SpecialDisplayStats>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

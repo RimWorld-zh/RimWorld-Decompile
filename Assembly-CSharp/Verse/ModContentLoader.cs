@@ -66,10 +66,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<LoadedContentItem<T>> LoadAllForMod(ModContentPack mod)
 		{
-			ModContentLoader<T>.<LoadAllForMod>c__Iterator208 <LoadAllForMod>c__Iterator = new ModContentLoader<T>.<LoadAllForMod>c__Iterator208();
+			ModContentLoader<T>.<LoadAllForMod>c__Iterator209 <LoadAllForMod>c__Iterator = new ModContentLoader<T>.<LoadAllForMod>c__Iterator209();
 			<LoadAllForMod>c__Iterator.mod = mod;
 			<LoadAllForMod>c__Iterator.<$>mod = mod;
-			ModContentLoader<T>.<LoadAllForMod>c__Iterator208 expr_15 = <LoadAllForMod>c__Iterator;
+			ModContentLoader<T>.<LoadAllForMod>c__Iterator209 expr_15 = <LoadAllForMod>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

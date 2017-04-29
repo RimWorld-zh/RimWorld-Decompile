@@ -16,12 +16,12 @@ namespace Verse.AI.Group
 					Pawn pawn = lord.ownedPawns[i];
 					if (pawn.Spawned && !pawn.Dead && !pawn.Downed)
 					{
-						Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Heatstroke);
+						Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Heatstroke, false);
 						if (firstHediffOfDef != null && firstHediffOfDef.Severity > this.temperatureHediffThreshold)
 						{
 							return true;
 						}
-						Hediff firstHediffOfDef2 = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Hypothermia);
+						Hediff firstHediffOfDef2 = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Hypothermia, false);
 						if (firstHediffOfDef2 != null && firstHediffOfDef2.Severity > this.temperatureHediffThreshold)
 						{
 							return true;

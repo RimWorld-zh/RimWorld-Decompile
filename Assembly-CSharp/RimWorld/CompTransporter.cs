@@ -155,9 +155,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompTransporter.<CompGetGizmosExtra>c__Iterator16C <CompGetGizmosExtra>c__Iterator16C = new CompTransporter.<CompGetGizmosExtra>c__Iterator16C();
-			<CompGetGizmosExtra>c__Iterator16C.<>f__this = this;
-			CompTransporter.<CompGetGizmosExtra>c__Iterator16C expr_0E = <CompGetGizmosExtra>c__Iterator16C;
+			CompTransporter.<CompGetGizmosExtra>c__Iterator16D <CompGetGizmosExtra>c__Iterator16D = new CompTransporter.<CompGetGizmosExtra>c__Iterator16D();
+			<CompGetGizmosExtra>c__Iterator16D.<>f__this = this;
+			CompTransporter.<CompGetGizmosExtra>c__Iterator16D expr_0E = <CompGetGizmosExtra>c__Iterator16D;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -195,7 +195,12 @@ namespace RimWorld
 
 		public void Notify_ThingAdded(Thing t)
 		{
-			this.SubtractFromToLoadList(t);
+			this.SubtractFromToLoadList(t, t.stackCount);
+		}
+
+		public void Notify_ThingAddedAndMergedWith(Thing t, int mergedCount)
+		{
+			this.SubtractFromToLoadList(t, mergedCount);
 		}
 
 		public bool CancelLoad()
@@ -242,7 +247,7 @@ namespace RimWorld
 			}
 		}
 
-		private void SubtractFromToLoadList(Thing t)
+		private void SubtractFromToLoadList(Thing t, int count)
 		{
 			if (this.leftToLoad == null)
 			{
@@ -251,9 +256,13 @@ namespace RimWorld
 			TransferableOneWay transferableOneWay = TransferableUtility.TransferableMatching<TransferableOneWay>(t, this.leftToLoad);
 			if (transferableOneWay == null)
 			{
-				return;
+				transferableOneWay = this.leftToLoad.Find((TransferableOneWay x) => x.ThingDef == t.def);
+				if (transferableOneWay == null)
+				{
+					return;
+				}
 			}
-			transferableOneWay.AdjustBy(-t.stackCount);
+			transferableOneWay.AdjustBy(-count);
 			if (transferableOneWay.CountToTransfer <= 0)
 			{
 				this.leftToLoad.Remove(transferableOneWay);

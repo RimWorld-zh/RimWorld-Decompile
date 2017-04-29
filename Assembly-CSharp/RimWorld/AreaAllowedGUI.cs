@@ -68,6 +68,7 @@ namespace RimWorld
 					SoundDefOf.DesignateDragStandardChanged.PlayOneShotOnCamera(null);
 				}
 			}
+			Text.Anchor = TextAnchor.UpperLeft;
 			TooltipHandler.TipRegion(rect, text);
 		}
 	}

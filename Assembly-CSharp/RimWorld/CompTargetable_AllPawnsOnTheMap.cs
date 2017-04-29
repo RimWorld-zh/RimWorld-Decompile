@@ -28,9 +28,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Thing> GetTargets(Thing targetChosenByPlayer = null)
 		{
-			CompTargetable_AllPawnsOnTheMap.<GetTargets>c__Iterator16F <GetTargets>c__Iterator16F = new CompTargetable_AllPawnsOnTheMap.<GetTargets>c__Iterator16F();
-			<GetTargets>c__Iterator16F.<>f__this = this;
-			CompTargetable_AllPawnsOnTheMap.<GetTargets>c__Iterator16F expr_0E = <GetTargets>c__Iterator16F;
+			CompTargetable_AllPawnsOnTheMap.<GetTargets>c__Iterator170 <GetTargets>c__Iterator = new CompTargetable_AllPawnsOnTheMap.<GetTargets>c__Iterator170();
+			<GetTargets>c__Iterator.<>f__this = this;
+			CompTargetable_AllPawnsOnTheMap.<GetTargets>c__Iterator170 expr_0E = <GetTargets>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

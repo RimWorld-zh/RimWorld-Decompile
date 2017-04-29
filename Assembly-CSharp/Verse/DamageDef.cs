@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Verse.Sound;
 
 namespace Verse
 {
@@ -21,9 +22,9 @@ namespace Verse
 		[MustTranslate]
 		public string deathMessage = "{0} has been killed.";
 
-		public ImpactSoundType impactSoundType;
+		public ImpactSoundTypeDef impactSoundType;
 
-		public DamageArmorCategory armorCategory;
+		public DamageArmorCategoryDef armorCategory;
 
 		public bool spreadOut;
 

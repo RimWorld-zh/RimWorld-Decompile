@@ -43,9 +43,9 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn_RelationsTracker.<>c__IteratorE6 <>c__IteratorE = new Pawn_RelationsTracker.<>c__IteratorE6();
+				Pawn_RelationsTracker.<>c__IteratorE7 <>c__IteratorE = new Pawn_RelationsTracker.<>c__IteratorE7();
 				<>c__IteratorE.<>f__this = this;
-				Pawn_RelationsTracker.<>c__IteratorE6 expr_0E = <>c__IteratorE;
+				Pawn_RelationsTracker.<>c__IteratorE7 expr_0E = <>c__IteratorE;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -71,9 +71,9 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn_RelationsTracker.<>c__IteratorE7 <>c__IteratorE = new Pawn_RelationsTracker.<>c__IteratorE7();
+				Pawn_RelationsTracker.<>c__IteratorE8 <>c__IteratorE = new Pawn_RelationsTracker.<>c__IteratorE8();
 				<>c__IteratorE.<>f__this = this;
-				Pawn_RelationsTracker.<>c__IteratorE7 expr_0E = <>c__IteratorE;
+				Pawn_RelationsTracker.<>c__IteratorE8 expr_0E = <>c__IteratorE;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -83,9 +83,9 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn_RelationsTracker.<>c__IteratorE8 <>c__IteratorE = new Pawn_RelationsTracker.<>c__IteratorE8();
+				Pawn_RelationsTracker.<>c__IteratorE9 <>c__IteratorE = new Pawn_RelationsTracker.<>c__IteratorE9();
 				<>c__IteratorE.<>f__this = this;
-				Pawn_RelationsTracker.<>c__IteratorE8 expr_0E = <>c__IteratorE;
+				Pawn_RelationsTracker.<>c__IteratorE9 expr_0E = <>c__IteratorE;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

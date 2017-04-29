@@ -89,7 +89,7 @@ namespace RimWorld
 					return false;
 				}
 			}
-			return p.CanReserveAndReach(t, PathEndMode.Touch, p.NormalMaxDanger(), 1, -1, ReservationLayer.Default, false) && !t.IsBurning();
+			return p.CanReserveAndReach(t, PathEndMode.Touch, p.NormalMaxDanger(), 1, -1, null, false) && !t.IsBurning();
 		}
 
 		public static int AmountNeededByOf(IConstructible c, ThingDef resDef)

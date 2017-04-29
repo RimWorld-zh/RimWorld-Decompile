@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -89,22 +88,20 @@ namespace RimWorld
 			if (listing_Standard.ButtonText(label, null))
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				using (IEnumerator enumerator = Enum.GetValues(typeof(BillStoreMode)).GetEnumerator())
+				foreach (BillStoreModeDef current in from bsm in DefDatabase<BillStoreModeDef>.AllDefs
+				orderby bsm.listOrder
+				select bsm)
 				{
-					while (enumerator.MoveNext())
+					BillStoreModeDef smLocal = current;
+					list.Add(new FloatMenuOption(("BillStoreMode_" + current).Translate(), delegate
 					{
-						BillStoreMode billStoreMode = (BillStoreMode)((byte)enumerator.Current);
-						BillStoreMode smLocal = billStoreMode;
-						list.Add(new FloatMenuOption(("BillStoreMode_" + billStoreMode).Translate(), delegate
-						{
-							this.bill.storeMode = smLocal;
-						}, MenuOptionPriority.Default, null, null, 0f, null, null));
-					}
+						this.bill.storeMode = smLocal;
+					}, MenuOptionPriority.Default, null, null, 0f, null, null));
 				}
 				Find.WindowStack.Add(new FloatMenu(list));
 			}
 			listing_Standard.Gap(12f);
-			if (this.bill.repeatMode == BillRepeatMode.RepeatCount)
+			if (this.bill.repeatMode == BillRepeatModeDefOf.RepeatCount)
 			{
 				listing_Standard.Label("RepeatCount".Translate(new object[]
 				{
@@ -114,7 +111,7 @@ namespace RimWorld
 				listing_Standard.IntAdjuster(ref this.bill.repeatCount, 1, 0);
 				listing_Standard.IntAdjuster(ref this.bill.repeatCount, 25, 0);
 			}
-			else if (this.bill.repeatMode == BillRepeatMode.TargetCount)
+			else if (this.bill.repeatMode == BillRepeatModeDefOf.TargetCount)
 			{
 				string text = "CurrentlyHave".Translate() + ": ";
 				text += this.bill.recipe.WorkerCounter.CountProducts(this.bill);
@@ -156,7 +153,7 @@ namespace RimWorld
 				}), -1f);
 				listing_Standard.IntRange(ref this.bill.allowedSkillRange, 0, 20);
 			}
-			if (this.bill.repeatMode == BillRepeatMode.TargetCount)
+			if (this.bill.repeatMode == BillRepeatModeDefOf.TargetCount)
 			{
 				listing_Standard.Gap(12f);
 				listing_Standard.CheckboxLabeled("PauseWhenSatisfied".Translate(), ref this.bill.pauseWhenSatisfied, null);

@@ -894,9 +894,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			ThingDef.<ConfigErrors>c__Iterator1DE <ConfigErrors>c__Iterator1DE = new ThingDef.<ConfigErrors>c__Iterator1DE();
-			<ConfigErrors>c__Iterator1DE.<>f__this = this;
-			ThingDef.<ConfigErrors>c__Iterator1DE expr_0E = <ConfigErrors>c__Iterator1DE;
+			ThingDef.<ConfigErrors>c__Iterator1DF <ConfigErrors>c__Iterator1DF = new ThingDef.<ConfigErrors>c__Iterator1DF();
+			<ConfigErrors>c__Iterator1DF.<>f__this = this;
+			ThingDef.<ConfigErrors>c__Iterator1DF expr_0E = <ConfigErrors>c__Iterator1DF;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -925,9 +925,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			ThingDef.<SpecialDisplayStats>c__Iterator1DF <SpecialDisplayStats>c__Iterator1DF = new ThingDef.<SpecialDisplayStats>c__Iterator1DF();
-			<SpecialDisplayStats>c__Iterator1DF.<>f__this = this;
-			ThingDef.<SpecialDisplayStats>c__Iterator1DF expr_0E = <SpecialDisplayStats>c__Iterator1DF;
+			ThingDef.<SpecialDisplayStats>c__Iterator1E0 <SpecialDisplayStats>c__Iterator1E = new ThingDef.<SpecialDisplayStats>c__Iterator1E0();
+			<SpecialDisplayStats>c__Iterator1E.<>f__this = this;
+			ThingDef.<SpecialDisplayStats>c__Iterator1E0 expr_0E = <SpecialDisplayStats>c__Iterator1E;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

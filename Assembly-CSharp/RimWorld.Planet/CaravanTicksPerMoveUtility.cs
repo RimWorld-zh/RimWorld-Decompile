@@ -15,6 +15,10 @@ namespace RimWorld.Planet
 
 		public static int GetTicksPerMove(Caravan caravan)
 		{
+			if (caravan == null)
+			{
+				return 3100;
+			}
 			return CaravanTicksPerMoveUtility.GetTicksPerMove(caravan.PawnsListForReading);
 		}
 

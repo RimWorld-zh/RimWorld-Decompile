@@ -89,9 +89,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			PawnRelationDef.<ConfigErrors>c__Iterator91 <ConfigErrors>c__Iterator = new PawnRelationDef.<ConfigErrors>c__Iterator91();
+			PawnRelationDef.<ConfigErrors>c__Iterator92 <ConfigErrors>c__Iterator = new PawnRelationDef.<ConfigErrors>c__Iterator92();
 			<ConfigErrors>c__Iterator.<>f__this = this;
-			PawnRelationDef.<ConfigErrors>c__Iterator91 expr_0E = <ConfigErrors>c__Iterator;
+			PawnRelationDef.<ConfigErrors>c__Iterator92 expr_0E = <ConfigErrors>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

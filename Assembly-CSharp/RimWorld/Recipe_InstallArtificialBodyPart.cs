@@ -10,12 +10,12 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<BodyPartRecord> GetPartsToApplyOn(Pawn pawn, RecipeDef recipe)
 		{
-			Recipe_InstallArtificialBodyPart.<GetPartsToApplyOn>c__IteratorBF <GetPartsToApplyOn>c__IteratorBF = new Recipe_InstallArtificialBodyPart.<GetPartsToApplyOn>c__IteratorBF();
-			<GetPartsToApplyOn>c__IteratorBF.recipe = recipe;
-			<GetPartsToApplyOn>c__IteratorBF.pawn = pawn;
-			<GetPartsToApplyOn>c__IteratorBF.<$>recipe = recipe;
-			<GetPartsToApplyOn>c__IteratorBF.<$>pawn = pawn;
-			Recipe_InstallArtificialBodyPart.<GetPartsToApplyOn>c__IteratorBF expr_23 = <GetPartsToApplyOn>c__IteratorBF;
+			Recipe_InstallArtificialBodyPart.<GetPartsToApplyOn>c__IteratorC0 <GetPartsToApplyOn>c__IteratorC = new Recipe_InstallArtificialBodyPart.<GetPartsToApplyOn>c__IteratorC0();
+			<GetPartsToApplyOn>c__IteratorC.recipe = recipe;
+			<GetPartsToApplyOn>c__IteratorC.pawn = pawn;
+			<GetPartsToApplyOn>c__IteratorC.<$>recipe = recipe;
+			<GetPartsToApplyOn>c__IteratorC.<$>pawn = pawn;
+			Recipe_InstallArtificialBodyPart.<GetPartsToApplyOn>c__IteratorC0 expr_23 = <GetPartsToApplyOn>c__IteratorC;
 			expr_23.$PC = -2;
 			return expr_23;
 		}

@@ -20,7 +20,7 @@ namespace RimWorld
 
 		public static Thing FindAmmoForTurret(Pawn pawn, Thing gun)
 		{
-			Predicate<Thing> validator = (Thing t) => !t.IsForbidden(pawn) && pawn.CanReserve(t, 10, 1, ReservationLayer.Default, false);
+			Predicate<Thing> validator = (Thing t) => !t.IsForbidden(pawn) && pawn.CanReserve(t, 10, 1, null, false);
 			return GenClosest.ClosestThingReachable(gun.Position, gun.Map, ThingRequest.ForDef(gun.def.building.turretShellDef), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 40f, validator, null, -1, false, RegionType.Set_Passable);
 		}
 

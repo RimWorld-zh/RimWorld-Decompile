@@ -223,9 +223,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompLaunchable.<CompGetGizmosExtra>c__Iterator164 <CompGetGizmosExtra>c__Iterator = new CompLaunchable.<CompGetGizmosExtra>c__Iterator164();
+			CompLaunchable.<CompGetGizmosExtra>c__Iterator165 <CompGetGizmosExtra>c__Iterator = new CompLaunchable.<CompGetGizmosExtra>c__Iterator165();
 			<CompGetGizmosExtra>c__Iterator.<>f__this = this;
-			CompLaunchable.<CompGetGizmosExtra>c__Iterator164 expr_0E = <CompGetGizmosExtra>c__Iterator;
+			CompLaunchable.<CompGetGizmosExtra>c__Iterator165 expr_0E = <CompGetGizmosExtra>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -323,11 +323,11 @@ namespace RimWorld
 				return true;
 			}
 			bool flag;
-			if (target.WorldObject is Settlement)
+			if (mapParent != null)
 			{
-				Settlement settlement = (Settlement)target.WorldObject;
+				Settlement settlement = mapParent as Settlement;
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				if (settlement.Visitable)
+				if (settlement != null && settlement.Visitable)
 				{
 					list.Add(new FloatMenuOption("VisitSettlement".Translate(new object[]
 					{
@@ -342,7 +342,7 @@ namespace RimWorld
 						CameraJumper.TryHideWorld();
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));
 				}
-				if (settlement.Attackable)
+				if (mapParent.TransportPodsCanLandAndGenerateMap)
 				{
 					list.Add(new FloatMenuOption("DropAtEdge".Translate(), delegate
 					{

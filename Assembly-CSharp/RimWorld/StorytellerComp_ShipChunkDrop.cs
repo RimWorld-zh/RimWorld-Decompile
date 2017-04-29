@@ -26,11 +26,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			StorytellerComp_ShipChunkDrop.<MakeIntervalIncidents>c__IteratorAC <MakeIntervalIncidents>c__IteratorAC = new StorytellerComp_ShipChunkDrop.<MakeIntervalIncidents>c__IteratorAC();
-			<MakeIntervalIncidents>c__IteratorAC.target = target;
-			<MakeIntervalIncidents>c__IteratorAC.<$>target = target;
-			<MakeIntervalIncidents>c__IteratorAC.<>f__this = this;
-			StorytellerComp_ShipChunkDrop.<MakeIntervalIncidents>c__IteratorAC expr_1C = <MakeIntervalIncidents>c__IteratorAC;
+			StorytellerComp_ShipChunkDrop.<MakeIntervalIncidents>c__IteratorAD <MakeIntervalIncidents>c__IteratorAD = new StorytellerComp_ShipChunkDrop.<MakeIntervalIncidents>c__IteratorAD();
+			<MakeIntervalIncidents>c__IteratorAD.target = target;
+			<MakeIntervalIncidents>c__IteratorAD.<$>target = target;
+			<MakeIntervalIncidents>c__IteratorAD.<>f__this = this;
+			StorytellerComp_ShipChunkDrop.<MakeIntervalIncidents>c__IteratorAD expr_1C = <MakeIntervalIncidents>c__IteratorAD;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

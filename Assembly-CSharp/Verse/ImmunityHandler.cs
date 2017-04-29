@@ -69,7 +69,7 @@ namespace Verse
 			for (int j = 0; j < this.immunityList.Count; j++)
 			{
 				ImmunityRecord immunityRecord = this.immunityList[j];
-				Hediff firstHediffOfDef = this.pawn.health.hediffSet.GetFirstHediffOfDef(immunityRecord.hediffDef);
+				Hediff firstHediffOfDef = this.pawn.health.hediffSet.GetFirstHediffOfDef(immunityRecord.hediffDef, false);
 				immunityRecord.ImmunityTick(this.pawn, firstHediffOfDef != null, firstHediffOfDef);
 				if (this.AnyHediffMakesFullyImmuneTo(immunityRecord.hediffDef))
 				{

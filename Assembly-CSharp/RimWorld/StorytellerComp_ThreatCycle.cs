@@ -27,11 +27,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			StorytellerComp_ThreatCycle.<MakeIntervalIncidents>c__IteratorAE <MakeIntervalIncidents>c__IteratorAE = new StorytellerComp_ThreatCycle.<MakeIntervalIncidents>c__IteratorAE();
-			<MakeIntervalIncidents>c__IteratorAE.target = target;
-			<MakeIntervalIncidents>c__IteratorAE.<$>target = target;
-			<MakeIntervalIncidents>c__IteratorAE.<>f__this = this;
-			StorytellerComp_ThreatCycle.<MakeIntervalIncidents>c__IteratorAE expr_1C = <MakeIntervalIncidents>c__IteratorAE;
+			StorytellerComp_ThreatCycle.<MakeIntervalIncidents>c__IteratorAF <MakeIntervalIncidents>c__IteratorAF = new StorytellerComp_ThreatCycle.<MakeIntervalIncidents>c__IteratorAF();
+			<MakeIntervalIncidents>c__IteratorAF.target = target;
+			<MakeIntervalIncidents>c__IteratorAF.<$>target = target;
+			<MakeIntervalIncidents>c__IteratorAF.<>f__this = this;
+			StorytellerComp_ThreatCycle.<MakeIntervalIncidents>c__IteratorAF expr_1C = <MakeIntervalIncidents>c__IteratorAF;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

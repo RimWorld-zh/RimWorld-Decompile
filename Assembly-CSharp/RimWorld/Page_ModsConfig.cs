@@ -54,8 +54,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<ModMetaData> ModsInListOrder()
 		{
-			Page_ModsConfig.<ModsInListOrder>c__Iterator196 <ModsInListOrder>c__Iterator = new Page_ModsConfig.<ModsInListOrder>c__Iterator196();
-			Page_ModsConfig.<ModsInListOrder>c__Iterator196 expr_07 = <ModsInListOrder>c__Iterator;
+			Page_ModsConfig.<ModsInListOrder>c__Iterator197 <ModsInListOrder>c__Iterator = new Page_ModsConfig.<ModsInListOrder>c__Iterator197();
+			Page_ModsConfig.<ModsInListOrder>c__Iterator197 expr_07 = <ModsInListOrder>c__Iterator;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

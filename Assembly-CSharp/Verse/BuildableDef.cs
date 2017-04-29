@@ -169,9 +169,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			BuildableDef.<ConfigErrors>c__Iterator1BF <ConfigErrors>c__Iterator1BF = new BuildableDef.<ConfigErrors>c__Iterator1BF();
-			<ConfigErrors>c__Iterator1BF.<>f__this = this;
-			BuildableDef.<ConfigErrors>c__Iterator1BF expr_0E = <ConfigErrors>c__Iterator1BF;
+			BuildableDef.<ConfigErrors>c__Iterator1C0 <ConfigErrors>c__Iterator1C = new BuildableDef.<ConfigErrors>c__Iterator1C0();
+			<ConfigErrors>c__Iterator1C.<>f__this = this;
+			BuildableDef.<ConfigErrors>c__Iterator1C0 expr_0E = <ConfigErrors>c__Iterator1C;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

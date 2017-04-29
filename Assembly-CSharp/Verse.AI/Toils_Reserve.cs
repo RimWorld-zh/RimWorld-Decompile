@@ -5,7 +5,7 @@ namespace Verse.AI
 {
 	public static class Toils_Reserve
 	{
-		public static Toil Reserve(TargetIndex ind, int maxPawns = 1, int stackCount = -1, ReservationLayer layer = ReservationLayer.Default)
+		public static Toil Reserve(TargetIndex ind, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null)
 		{
 			Toil toil = new Toil();
 			toil.initAction = delegate
@@ -20,7 +20,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		public static Toil ReserveQueue(TargetIndex ind, int maxPawns = 1, int stackCount = -1, ReservationLayer layer = ReservationLayer.Default)
+		public static Toil ReserveQueue(TargetIndex ind, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null)
 		{
 			Toil toil = new Toil();
 			toil.initAction = delegate

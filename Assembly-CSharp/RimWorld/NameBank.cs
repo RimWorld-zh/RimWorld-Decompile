@@ -19,9 +19,9 @@ namespace RimWorld
 		{
 			get
 			{
-				NameBank.<>c__IteratorC6 <>c__IteratorC = new NameBank.<>c__IteratorC6();
+				NameBank.<>c__IteratorC7 <>c__IteratorC = new NameBank.<>c__IteratorC7();
 				<>c__IteratorC.<>f__this = this;
-				NameBank.<>c__IteratorC6 expr_0E = <>c__IteratorC;
+				NameBank.<>c__IteratorC7 expr_0E = <>c__IteratorC;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

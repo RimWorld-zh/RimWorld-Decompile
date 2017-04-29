@@ -8,13 +8,13 @@ namespace RimWorld
 {
 	public class Bill_Production : Bill, IExposable
 	{
-		public BillRepeatMode repeatMode;
+		public BillRepeatModeDef repeatMode = BillRepeatModeDefOf.RepeatCount;
 
 		public int repeatCount = 1;
 
 		public int targetCount = 10;
 
-		public BillStoreMode storeMode = BillStoreMode.BestStockpile;
+		public BillStoreModeDef storeMode = BillStoreModeDefOf.BestStockpile;
 
 		public bool pauseWhenSatisfied;
 
@@ -46,15 +46,15 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.repeatMode == BillRepeatMode.Forever)
+				if (this.repeatMode == BillRepeatModeDefOf.Forever)
 				{
 					return "Forever".Translate();
 				}
-				if (this.repeatMode == BillRepeatMode.RepeatCount)
+				if (this.repeatMode == BillRepeatModeDefOf.RepeatCount)
 				{
 					return this.repeatCount.ToString() + "x";
 				}
-				if (this.repeatMode == BillRepeatMode.TargetCount)
+				if (this.repeatMode == BillRepeatModeDefOf.TargetCount)
 				{
 					return this.recipe.WorkerCounter.CountProducts(this).ToString() + "/" + this.targetCount.ToString();
 				}
@@ -75,21 +75,29 @@ namespace RimWorld
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.repeatCount, "repeatCount", 0, false);
 			Scribe_Values.Look<int>(ref this.targetCount, "targetCount", 0, false);
-			Scribe_Values.Look<BillRepeatMode>(ref this.repeatMode, "repeatMode", BillRepeatMode.RepeatCount, false);
-			Scribe_Values.Look<BillStoreMode>(ref this.storeMode, "storeMode", BillStoreMode.DropOnFloor, false);
+			Scribe_Defs.Look<BillRepeatModeDef>(ref this.repeatMode, "repeatMode");
+			Scribe_Defs.Look<BillStoreModeDef>(ref this.storeMode, "storeMode");
 			Scribe_Values.Look<bool>(ref this.pauseWhenSatisfied, "pauseWhenSatisfied", false, false);
 			Scribe_Values.Look<int>(ref this.unpauseWhenYouHave, "unpauseWhenYouHave", 0, false);
 			Scribe_Values.Look<bool>(ref this.paused, "paused", false, false);
+			if (this.repeatMode == null)
+			{
+				this.repeatMode = BillRepeatModeDefOf.RepeatCount;
+			}
+			if (this.storeMode == null)
+			{
+				this.storeMode = BillStoreModeDefOf.BestStockpile;
+			}
 		}
 
-		public override BillStoreMode GetStoreMode()
+		public override BillStoreModeDef GetStoreMode()
 		{
 			return this.storeMode;
 		}
 
 		public override bool ShouldDoNow()
 		{
-			if (this.repeatMode != BillRepeatMode.TargetCount)
+			if (this.repeatMode != BillRepeatModeDefOf.TargetCount)
 			{
 				this.paused = false;
 			}
@@ -97,15 +105,15 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (this.repeatMode == BillRepeatMode.Forever)
+			if (this.repeatMode == BillRepeatModeDefOf.Forever)
 			{
 				return true;
 			}
-			if (this.repeatMode == BillRepeatMode.RepeatCount)
+			if (this.repeatMode == BillRepeatModeDefOf.RepeatCount)
 			{
 				return this.repeatCount > 0;
 			}
-			if (this.repeatMode == BillRepeatMode.TargetCount)
+			if (this.repeatMode == BillRepeatModeDefOf.TargetCount)
 			{
 				int num = this.recipe.WorkerCounter.CountProducts(this);
 				if (this.pauseWhenSatisfied && num >= this.targetCount)
@@ -123,7 +131,7 @@ namespace RimWorld
 
 		public override void Notify_IterationCompleted(Pawn billDoer, List<Thing> ingredients)
 		{
-			if (this.repeatMode == BillRepeatMode.RepeatCount)
+			if (this.repeatMode == BillRepeatModeDefOf.RepeatCount)
 			{
 				if (this.repeatCount > 0)
 				{
@@ -156,46 +164,46 @@ namespace RimWorld
 			}
 			if (widgetRow.ButtonIcon(TexButton.Plus, null))
 			{
-				if (this.repeatMode == BillRepeatMode.Forever)
+				if (this.repeatMode == BillRepeatModeDefOf.Forever)
 				{
-					this.repeatMode = BillRepeatMode.RepeatCount;
+					this.repeatMode = BillRepeatModeDefOf.RepeatCount;
 					this.repeatCount = 1;
 				}
-				else if (this.repeatMode == BillRepeatMode.TargetCount)
+				else if (this.repeatMode == BillRepeatModeDefOf.TargetCount)
 				{
 					int num = this.recipe.targetCountAdjustment * UIUtility.CalculateAdjustmentMultiplier();
 					this.targetCount += num;
 					this.unpauseWhenYouHave += num;
 				}
-				else if (this.repeatMode == BillRepeatMode.RepeatCount)
+				else if (this.repeatMode == BillRepeatModeDefOf.RepeatCount)
 				{
 					this.repeatCount += UIUtility.CalculateAdjustmentMultiplier();
 				}
 				SoundDefOf.AmountIncrement.PlayOneShotOnCamera(null);
-				if (TutorSystem.TutorialMode && this.repeatMode == BillRepeatMode.RepeatCount)
+				if (TutorSystem.TutorialMode && this.repeatMode == BillRepeatModeDefOf.RepeatCount)
 				{
 					TutorSystem.Notify_Event(this.recipe.defName + "-RepeatCountSetTo-" + this.repeatCount);
 				}
 			}
 			if (widgetRow.ButtonIcon(TexButton.Minus, null))
 			{
-				if (this.repeatMode == BillRepeatMode.Forever)
+				if (this.repeatMode == BillRepeatModeDefOf.Forever)
 				{
-					this.repeatMode = BillRepeatMode.RepeatCount;
+					this.repeatMode = BillRepeatModeDefOf.RepeatCount;
 					this.repeatCount = 1;
 				}
-				else if (this.repeatMode == BillRepeatMode.TargetCount)
+				else if (this.repeatMode == BillRepeatModeDefOf.TargetCount)
 				{
 					int num2 = this.recipe.targetCountAdjustment * UIUtility.CalculateAdjustmentMultiplier();
 					this.targetCount = Mathf.Max(0, this.targetCount - num2);
 					this.unpauseWhenYouHave = Mathf.Max(0, this.unpauseWhenYouHave - num2);
 				}
-				else if (this.repeatMode == BillRepeatMode.RepeatCount)
+				else if (this.repeatMode == BillRepeatModeDefOf.RepeatCount)
 				{
 					this.repeatCount = Mathf.Max(0, this.repeatCount - UIUtility.CalculateAdjustmentMultiplier());
 				}
 				SoundDefOf.AmountDecrement.PlayOneShotOnCamera(null);
-				if (TutorSystem.TutorialMode && this.repeatMode == BillRepeatMode.RepeatCount)
+				if (TutorSystem.TutorialMode && this.repeatMode == BillRepeatModeDefOf.RepeatCount)
 				{
 					TutorSystem.Notify_Event(this.recipe.defName + "-RepeatCountSetTo-" + this.repeatCount);
 				}
@@ -204,7 +212,7 @@ namespace RimWorld
 
 		private bool CanUnpause()
 		{
-			return this.repeatMode == BillRepeatMode.TargetCount && this.paused && this.pauseWhenSatisfied && this.recipe.WorkerCounter.CountProducts(this) < this.targetCount;
+			return this.repeatMode == BillRepeatModeDefOf.TargetCount && this.paused && this.pauseWhenSatisfied && this.recipe.WorkerCounter.CountProducts(this) < this.targetCount;
 		}
 
 		public override void DoStatusLineInterface(Rect rect)

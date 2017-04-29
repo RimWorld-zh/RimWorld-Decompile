@@ -135,7 +135,7 @@ namespace RimWorld
 							{
 								if (ApparelUtility.HasPartsToWear(pawn, apparel.def))
 								{
-									if (pawn.CanReserveAndReach(apparel, PathEndMode.OnCell, pawn.NormalMaxDanger(), 1, -1, ReservationLayer.Default, false))
+									if (pawn.CanReserveAndReach(apparel, PathEndMode.OnCell, pawn.NormalMaxDanger(), 1, -1, null, false))
 									{
 										thing = apparel;
 										num = num2;

@@ -226,9 +226,9 @@ namespace Verse
 		{
 			get
 			{
-				Map.<>c__Iterator1F5 <>c__Iterator1F = new Map.<>c__Iterator1F5();
+				Map.<>c__Iterator1F6 <>c__Iterator1F = new Map.<>c__Iterator1F6();
 				<>c__Iterator1F.<>f__this = this;
-				Map.<>c__Iterator1F5 expr_0E = <>c__Iterator1F;
+				Map.<>c__Iterator1F6 expr_0E = <>c__Iterator1F;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -309,7 +309,7 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerator<IntVec3> GetEnumerator()
 		{
-			Map.<GetEnumerator>c__Iterator1F6 <GetEnumerator>c__Iterator1F = new Map.<GetEnumerator>c__Iterator1F6();
+			Map.<GetEnumerator>c__Iterator1F7 <GetEnumerator>c__Iterator1F = new Map.<GetEnumerator>c__Iterator1F7();
 			<GetEnumerator>c__Iterator1F.<>f__this = this;
 			return <GetEnumerator>c__Iterator1F;
 		}

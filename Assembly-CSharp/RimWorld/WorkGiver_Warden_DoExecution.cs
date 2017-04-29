@@ -28,7 +28,7 @@ namespace RimWorld
 				return null;
 			}
 			Pawn pawn2 = (Pawn)t;
-			if (pawn2.guest.interactionMode != PrisonerInteractionMode.Execution || !pawn.CanReserve(t, 1, -1, ReservationLayer.Default, false))
+			if (pawn2.guest.interactionMode != PrisonerInteractionModeDefOf.Execution || !pawn.CanReserve(t, 1, -1, null, false))
 			{
 				return null;
 			}

@@ -45,7 +45,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (!pawn.CanReserveAndReach(t, PathEndMode.ClosestTouch, Danger.Deadly, 1, -1, ReservationLayer.Default, forced))
+			if (!pawn.CanReserveAndReach(t, PathEndMode.ClosestTouch, Danger.Deadly, 1, -1, null, forced))
 			{
 				return false;
 			}

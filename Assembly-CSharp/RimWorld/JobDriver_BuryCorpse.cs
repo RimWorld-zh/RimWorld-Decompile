@@ -28,6 +28,11 @@ namespace RimWorld
 			}
 		}
 
+		public JobDriver_BuryCorpse()
+		{
+			this.rotateToFace = TargetIndex.B;
+		}
+
 		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{

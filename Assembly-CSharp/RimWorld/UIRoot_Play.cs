@@ -60,6 +60,12 @@ namespace RimWorld
 			Profiler.BeginSample("HandleMapClicks()");
 			this.mapUI.HandleMapClicks();
 			Profiler.EndSample();
+			Profiler.BeginSample("SelectedDesignator.SelectedProcessInput()");
+			if (Find.DesignatorManager.SelectedDesignator != null)
+			{
+				Find.DesignatorManager.SelectedDesignator.SelectedProcessInput(Event.current);
+			}
+			Profiler.EndSample();
 			Profiler.BeginSample("DebugToolsOnGUI()");
 			DebugTools.DebugToolsOnGUI();
 			Profiler.EndSample();

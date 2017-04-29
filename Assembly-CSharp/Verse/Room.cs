@@ -222,18 +222,6 @@ namespace Verse
 		{
 			get
 			{
-				Room.<>c__Iterator1FD <>c__Iterator1FD = new Room.<>c__Iterator1FD();
-				<>c__Iterator1FD.<>f__this = this;
-				Room.<>c__Iterator1FD expr_0E = <>c__Iterator1FD;
-				expr_0E.$PC = -2;
-				return expr_0E;
-			}
-		}
-
-		public IEnumerable<IntVec3> BorderCells
-		{
-			get
-			{
 				Room.<>c__Iterator1FE <>c__Iterator1FE = new Room.<>c__Iterator1FE();
 				<>c__Iterator1FE.<>f__this = this;
 				Room.<>c__Iterator1FE expr_0E = <>c__Iterator1FE;
@@ -242,7 +230,7 @@ namespace Verse
 			}
 		}
 
-		public IEnumerable<Pawn> Owners
+		public IEnumerable<IntVec3> BorderCells
 		{
 			get
 			{
@@ -254,13 +242,25 @@ namespace Verse
 			}
 		}
 
-		public IEnumerable<Building_Bed> ContainedBeds
+		public IEnumerable<Pawn> Owners
 		{
 			get
 			{
 				Room.<>c__Iterator200 <>c__Iterator = new Room.<>c__Iterator200();
 				<>c__Iterator.<>f__this = this;
 				Room.<>c__Iterator200 expr_0E = <>c__Iterator;
+				expr_0E.$PC = -2;
+				return expr_0E;
+			}
+		}
+
+		public IEnumerable<Building_Bed> ContainedBeds
+		{
+			get
+			{
+				Room.<>c__Iterator201 <>c__Iterator = new Room.<>c__Iterator201();
+				<>c__Iterator.<>f__this = this;
+				Room.<>c__Iterator201 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

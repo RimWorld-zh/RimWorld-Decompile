@@ -71,9 +71,9 @@ namespace Verse
 		{
 			get
 			{
-				Pawn_EquipmentTracker.<>c__Iterator216 <>c__Iterator = new Pawn_EquipmentTracker.<>c__Iterator216();
+				Pawn_EquipmentTracker.<>c__Iterator217 <>c__Iterator = new Pawn_EquipmentTracker.<>c__Iterator217();
 				<>c__Iterator.<>f__this = this;
-				Pawn_EquipmentTracker.<>c__Iterator216 expr_0E = <>c__Iterator;
+				Pawn_EquipmentTracker.<>c__Iterator217 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -251,9 +251,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			Pawn_EquipmentTracker.<GetGizmos>c__Iterator217 <GetGizmos>c__Iterator = new Pawn_EquipmentTracker.<GetGizmos>c__Iterator217();
+			Pawn_EquipmentTracker.<GetGizmos>c__Iterator218 <GetGizmos>c__Iterator = new Pawn_EquipmentTracker.<GetGizmos>c__Iterator218();
 			<GetGizmos>c__Iterator.<>f__this = this;
-			Pawn_EquipmentTracker.<GetGizmos>c__Iterator217 expr_0E = <GetGizmos>c__Iterator;
+			Pawn_EquipmentTracker.<GetGizmos>c__Iterator218 expr_0E = <GetGizmos>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

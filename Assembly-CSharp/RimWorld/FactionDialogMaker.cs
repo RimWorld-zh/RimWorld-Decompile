@@ -95,8 +95,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		private static IEnumerable<DiaOption> DebugOptions()
 		{
-			FactionDialogMaker.<DebugOptions>c__IteratorEC <DebugOptions>c__IteratorEC = new FactionDialogMaker.<DebugOptions>c__IteratorEC();
-			FactionDialogMaker.<DebugOptions>c__IteratorEC expr_07 = <DebugOptions>c__IteratorEC;
+			FactionDialogMaker.<DebugOptions>c__IteratorED <DebugOptions>c__IteratorED = new FactionDialogMaker.<DebugOptions>c__IteratorED();
+			FactionDialogMaker.<DebugOptions>c__IteratorED expr_07 = <DebugOptions>c__IteratorED;
 			expr_07.$PC = -2;
 			return expr_07;
 		}
