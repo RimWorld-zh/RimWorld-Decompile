@@ -101,7 +101,7 @@ namespace Verse
 				}
 				this.graphic = GraphicDatabase.Get<Graphic_Terrain>(this.texturePath, shader, Vector2.one, this.color);
 				this.graphic.MatSingle.renderQueue = 2000 + this.renderPrecedence;
-				if (shader == ShaderDatabase.TerrainFadeRough)
+				if (shader == ShaderDatabase.TerrainFadeRough || shader == ShaderDatabase.TerrainWater)
 				{
 					this.graphic.MatSingle.SetTexture("_AlphaAddTex", TexUI.AlphaAddTex);
 				}

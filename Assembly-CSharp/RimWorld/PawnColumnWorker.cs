@@ -64,10 +64,13 @@ namespace RimWorld
 			{
 				Rect interactableHeaderRect = this.GetInteractableHeaderRect(rect, table);
 				Widgets.DrawHighlightIfMouseover(interactableHeaderRect);
-				string headerTip = this.GetHeaderTip(table);
-				if (!headerTip.NullOrEmpty())
+				if (interactableHeaderRect.Contains(Event.current.mousePosition))
 				{
-					TooltipHandler.TipRegion(interactableHeaderRect, headerTip);
+					string headerTip = this.GetHeaderTip(table);
+					if (!headerTip.NullOrEmpty())
+					{
+						TooltipHandler.TipRegion(interactableHeaderRect, headerTip);
+					}
 				}
 				if (Widgets.ButtonInvisible(interactableHeaderRect, false))
 				{
@@ -138,11 +141,16 @@ namespace RimWorld
 
 		protected virtual void HeaderClicked(Rect headerRect, PawnTable table)
 		{
-			if (this.def.sortable && Event.current.button == 0 && !Event.current.shift)
+			if (this.def.sortable && !Event.current.shift)
 			{
-				if (table.SortingBy == this.def)
+				if (Event.current.button == 0)
 				{
-					if (table.SortingDescending)
+					if (table.SortingBy != this.def)
+					{
+						table.SortBy(this.def, false);
+						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+					}
+					else if (table.SortingDescending)
 					{
 						table.SortBy(null, false);
 						SoundDefOf.TickLow.PlayOneShotOnCamera(null);
@@ -153,15 +161,28 @@ namespace RimWorld
 						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 					}
 				}
-				else
+				else if (Event.current.button == 1)
 				{
-					table.SortBy(this.def, false);
-					SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+					if (table.SortingBy != this.def)
+					{
+						table.SortBy(this.def, true);
+						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+					}
+					else if (table.SortingDescending)
+					{
+						table.SortBy(this.def, false);
+						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+					}
+					else
+					{
+						table.SortBy(null, false);
+						SoundDefOf.TickLow.PlayOneShotOnCamera(null);
+					}
 				}
 			}
 		}
 
-		protected string GetHeaderTip(PawnTable table)
+		protected virtual string GetHeaderTip(PawnTable table)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			if (!this.def.headerTip.NullOrEmpty())

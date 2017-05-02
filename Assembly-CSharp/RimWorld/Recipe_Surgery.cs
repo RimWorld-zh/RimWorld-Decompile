@@ -13,7 +13,7 @@ namespace RimWorld
 		protected bool CheckSurgeryFail(Pawn surgeon, Pawn patient, List<Thing> ingredients, BodyPartRecord part)
 		{
 			float num = 1f;
-			num *= surgeon.GetStatValue((!patient.RaceProps.IsMechanoid) ? StatDefOf.MechanoidOperationSuccessChance : StatDefOf.MedicalSurgerySuccessChance, true);
+			num *= surgeon.GetStatValue((!patient.RaceProps.IsMechanoid) ? StatDefOf.MedicalSurgerySuccessChance : StatDefOf.MechanoidOperationSuccessChance, true);
 			Room room = surgeon.GetRoom(RegionType.Set_Passable);
 			if (room != null && !patient.RaceProps.IsMechanoid)
 			{

@@ -67,17 +67,10 @@ namespace Verse.AI
 			toil.initAction = delegate
 			{
 				Pawn actor = toil.GetActor();
-				if (actor.carryTracker.CarriedThing != null)
+				if (actor.carryTracker.CarriedThing != null && !actor.carryTracker.innerContainer.TryTransferToContainer(actor.carryTracker.CarriedThing, actor.inventory.innerContainer))
 				{
-					if (actor.inventory.innerContainer.TryAdd(actor.carryTracker.CarriedThing, true))
-					{
-						actor.carryTracker.innerContainer.Clear();
-					}
-					else
-					{
-						Thing thing;
-						actor.carryTracker.TryDropCarriedThing(actor.Position, actor.carryTracker.CarriedThing.stackCount, ThingPlaceMode.Near, out thing, null);
-					}
+					Thing thing;
+					actor.carryTracker.TryDropCarriedThing(actor.Position, actor.carryTracker.CarriedThing.stackCount, ThingPlaceMode.Near, out thing, null);
 				}
 			};
 			return toil;

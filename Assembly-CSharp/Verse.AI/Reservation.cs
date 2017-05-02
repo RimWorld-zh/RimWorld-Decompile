@@ -82,7 +82,7 @@ namespace Verse.AI
 			Scribe_TargetInfo.Look(ref this.target, "target");
 			Scribe_Values.Look<int>(ref this.maxPawns, "maxPawns", 0, false);
 			Scribe_Values.Look<int>(ref this.stackCount, "stackCount", 0, false);
-			Scribe_Values.Look<ReservationLayerDef>(ref this.layer, "layer", null, false);
+			Scribe_Defs.Look<ReservationLayerDef>(ref this.layer, "layer");
 		}
 
 		public override string ToString()

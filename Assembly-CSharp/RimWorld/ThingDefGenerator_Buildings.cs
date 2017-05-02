@@ -21,8 +21,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<ThingDef> ImpliedBlueprintAndFrameDefs()
 		{
-			ThingDefGenerator_Buildings.<ImpliedBlueprintAndFrameDefs>c__Iterator71 <ImpliedBlueprintAndFrameDefs>c__Iterator = new ThingDefGenerator_Buildings.<ImpliedBlueprintAndFrameDefs>c__Iterator71();
-			ThingDefGenerator_Buildings.<ImpliedBlueprintAndFrameDefs>c__Iterator71 expr_07 = <ImpliedBlueprintAndFrameDefs>c__Iterator;
+			ThingDefGenerator_Buildings.<ImpliedBlueprintAndFrameDefs>c__Iterator72 <ImpliedBlueprintAndFrameDefs>c__Iterator = new ThingDefGenerator_Buildings.<ImpliedBlueprintAndFrameDefs>c__Iterator72();
+			ThingDefGenerator_Buildings.<ImpliedBlueprintAndFrameDefs>c__Iterator72 expr_07 = <ImpliedBlueprintAndFrameDefs>c__Iterator;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

@@ -10,8 +10,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<TerrainDef> ImpliedTerrainDefs()
 		{
-			TerrainDefGenerator_Stone.<ImpliedTerrainDefs>c__Iterator70 <ImpliedTerrainDefs>c__Iterator = new TerrainDefGenerator_Stone.<ImpliedTerrainDefs>c__Iterator70();
-			TerrainDefGenerator_Stone.<ImpliedTerrainDefs>c__Iterator70 expr_07 = <ImpliedTerrainDefs>c__Iterator;
+			TerrainDefGenerator_Stone.<ImpliedTerrainDefs>c__Iterator71 <ImpliedTerrainDefs>c__Iterator = new TerrainDefGenerator_Stone.<ImpliedTerrainDefs>c__Iterator71();
+			TerrainDefGenerator_Stone.<ImpliedTerrainDefs>c__Iterator71 expr_07 = <ImpliedTerrainDefs>c__Iterator;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

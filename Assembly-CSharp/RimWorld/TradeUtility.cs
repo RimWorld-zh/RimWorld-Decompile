@@ -92,10 +92,13 @@ namespace RimWorld
 					break;
 				}
 				int num = Math.Min(debt, thing.stackCount);
-				Thing thing2 = thing.SplitOff(num);
 				if (trader != null)
 				{
-					trader.AddToStock(thing2, TradeSession.playerNegotiator);
+					trader.GiveSoldThingToTrader(thing, num, TradeSession.playerNegotiator);
+				}
+				else
+				{
+					thing.SplitOff(num).Destroy(DestroyMode.Vanish);
 				}
 				debt -= num;
 			}

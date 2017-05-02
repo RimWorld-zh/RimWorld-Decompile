@@ -85,7 +85,7 @@ namespace RimWorld
 				stringBuilder.Append(current.thingDef.LabelCap + ": 0 / " + current.count);
 				flag = false;
 			}
-			return stringBuilder.ToString();
+			return stringBuilder.ToString().Trim();
 		}
 	}
 }

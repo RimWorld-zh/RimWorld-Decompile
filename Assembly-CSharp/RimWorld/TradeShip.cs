@@ -163,6 +163,10 @@ namespace RimWorld
 			});
 			Scribe_Collections.Look<Pawn>(ref this.soldPrisoners, "soldPrisoners", LookMode.Reference, new object[0]);
 			Scribe_Values.Look<int>(ref this.randomPriceFactorSeed, "randomPriceFactorSeed", 0, false);
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			{
+				this.soldPrisoners.RemoveAll((Pawn x) => x == null);
+			}
 		}
 
 		public override void TryOpenComms(Pawn negotiator)
@@ -205,20 +209,20 @@ namespace RimWorld
 			return 0;
 		}
 
-		public void AddToStock(Thing thing, Pawn playerNegotiator)
+		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
+			Thing thing = toGive.SplitOff(countToGive);
+			thing.PreTraded(TradeAction.PlayerSells, playerNegotiator, this);
 			Thing thing2 = TradeUtility.ThingFromStockToMergeWith(this, thing);
 			if (thing2 != null)
 			{
-				thing2.stackCount += thing.stackCount;
-				thing.Destroy(DestroyMode.Vanish);
+				if (!thing2.TryAbsorbStack(thing, false))
+				{
+					thing.Destroy(DestroyMode.Vanish);
+				}
 			}
 			else
 			{
-				if (thing.Spawned)
-				{
-					thing.DeSpawn();
-				}
 				Pawn pawn = thing as Pawn;
 				if (pawn != null && pawn.RaceProps.Humanlike)
 				{
@@ -228,25 +232,16 @@ namespace RimWorld
 			}
 		}
 
-		public void GiveSoldThingToPlayer(Thing toGive, Thing originalThingFromStock, Pawn playerNegotiator)
+		public void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
-			if (toGive == originalThingFromStock)
+			Thing thing = toGive.SplitOff(countToGive);
+			thing.PreTraded(TradeAction.PlayerBuys, playerNegotiator, this);
+			Pawn pawn = thing as Pawn;
+			if (pawn != null)
 			{
-				if (!this.things.Contains(originalThingFromStock))
-				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Tried to remove ",
-						originalThingFromStock,
-						" from trader ",
-						this.name,
-						" who didn't have it."
-					}));
-					return;
-				}
-				this.things.Remove(originalThingFromStock);
+				this.soldPrisoners.Remove(pawn);
 			}
-			TradeUtility.SpawnDropPod(DropCellFinder.TradeDropSpot(base.Map), base.Map, toGive);
+			TradeUtility.SpawnDropPod(DropCellFinder.TradeDropSpot(base.Map), base.Map, thing);
 		}
 
 		public bool IsPawnPurchasedAsPrisoner(Pawn pawn)

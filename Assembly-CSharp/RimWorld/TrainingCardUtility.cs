@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -115,7 +114,7 @@ namespace RimWorld
 				if (wanted != flag2)
 				{
 					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.AnimalTraining, KnowledgeAmount.Total);
-					TrainingCardUtility.SetWantedRecursive(td, pawn, wanted);
+					pawn.training.SetWantedRecursive(td, wanted);
 				}
 			}
 			if (doTooltip)
@@ -149,31 +148,6 @@ namespace RimWorld
 				}
 				return text;
 			}, (int)(rect.y * 612f + rect.x));
-		}
-
-		private static void SetWantedRecursive(TrainableDef td, Pawn pawn, bool checkOn)
-		{
-			pawn.training.SetWanted(td, checkOn);
-			if (checkOn)
-			{
-				if (td.prerequisites != null)
-				{
-					for (int i = 0; i < td.prerequisites.Count; i++)
-					{
-						TrainingCardUtility.SetWantedRecursive(td.prerequisites[i], pawn, true);
-					}
-				}
-			}
-			else
-			{
-				IEnumerable<TrainableDef> enumerable = from t in DefDatabase<TrainableDef>.AllDefsListForReading
-				where t.prerequisites != null && t.prerequisites.Contains(td)
-				select t;
-				foreach (TrainableDef current in enumerable)
-				{
-					TrainingCardUtility.SetWantedRecursive(current, pawn, false);
-				}
-			}
 		}
 	}
 }

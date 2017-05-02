@@ -176,7 +176,6 @@ namespace Verse
 				ResearchProjectDef.GenerateNonOverlappingCoordinates();
 				WorkGiver_FixBrokenDownBuilding.CacheTranslations();
 				ItemCollectionGeneratorUtility.Reset();
-				PawnColumnWorker_WorkPriorities.Reset();
 				BaseGen.Reset();
 			}
 			finally

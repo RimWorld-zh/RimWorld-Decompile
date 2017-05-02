@@ -64,12 +64,12 @@ namespace RimWorld
 			{
 				return job;
 			}
-			Job job2 = this.RemoveExistingFloorJob(pawn, blueprint);
+			Job job2 = base.RemoveExistingFloorJob(pawn, blueprint);
 			if (job2 != null)
 			{
 				return job2;
 			}
-			Job job3 = base.ResourceDeliverJobFor(pawn, blueprint);
+			Job job3 = base.ResourceDeliverJobFor(pawn, blueprint, true);
 			if (job3 != null)
 			{
 				return job3;
@@ -121,23 +121,6 @@ namespace RimWorld
 			};
 		}
 
-		private Job RemoveExistingFloorJob(Pawn pawn, Blueprint blue)
-		{
-			if (!WorkGiver_ConstructDeliverResourcesToBlueprints.ShouldRemoveExistingFloorFirst(pawn, blue))
-			{
-				return null;
-			}
-			ReservationLayerDef floor = ReservationLayerDefOf.Floor;
-			if (!pawn.CanReserve(blue.Position, 1, -1, floor, false))
-			{
-				return null;
-			}
-			return new Job(JobDefOf.RemoveFloor, blue.Position)
-			{
-				ignoreDesignations = true
-			};
-		}
-
 		private Job NoCostFrameMakeJobFor(Pawn pawn, IConstructible c)
 		{
 			if (c is Blueprint_Install)
@@ -152,11 +135,6 @@ namespace RimWorld
 				};
 			}
 			return null;
-		}
-
-		public static bool ShouldRemoveExistingFloorFirst(Pawn pawn, Blueprint blue)
-		{
-			return blue.def.entityDefToBuild is TerrainDef && pawn.Map.terrainGrid.CanRemoveTopLayerAt(blue.Position);
 		}
 	}
 }

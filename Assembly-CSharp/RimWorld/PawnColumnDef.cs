@@ -24,6 +24,10 @@ namespace RimWorld
 
 		public int gap;
 
+		public WorkTypeDef workType;
+
+		public bool moveWorkTypeLabelDown;
+
 		public int widthPriority;
 
 		[Unsaved]

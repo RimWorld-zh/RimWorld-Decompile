@@ -271,7 +271,7 @@ namespace RimWorld
 			int i;
 			for (i = 0; i < this.transferables.Count; i++)
 			{
-				TransferableUtility.Transfer(this.transferables[i].things, this.transferables[i].CountToTransfer, delegate(Thing splitPiece, Thing originalThing)
+				TransferableUtility.Transfer(this.transferables[i].things, this.transferables[i].CountToTransfer, delegate(Thing splitPiece, IThingHolder originalThing)
 				{
 					this.transporters[i % this.transporters.Count].GetDirectlyHeldThings().TryAdd(splitPiece, true);
 				});

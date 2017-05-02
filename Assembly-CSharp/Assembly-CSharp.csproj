@@ -1320,6 +1320,7 @@
     <Compile Include="RimWorld\PawnCapacityWorker_Sight.cs" />
     <Compile Include="RimWorld\PawnCapacityWorker_Talking.cs" />
     <Compile Include="RimWorld\PawnColumnDef.cs" />
+    <Compile Include="RimWorld\PawnColumnDefgenerator.cs" />
     <Compile Include="RimWorld\PawnColumnWorker.cs" />
     <Compile Include="RimWorld\PawnColumnWorker_AllowedArea.cs" />
     <Compile Include="RimWorld\PawnColumnWorker_AllowedAreaWide.cs" />
@@ -1343,7 +1344,7 @@
     <Compile Include="RimWorld\PawnColumnWorker_Slaughter.cs" />
     <Compile Include="RimWorld\PawnColumnWorker_Timetable.cs" />
     <Compile Include="RimWorld\PawnColumnWorker_Trainable.cs" />
-    <Compile Include="RimWorld\PawnColumnWorker_WorkPriorities.cs" />
+    <Compile Include="RimWorld\PawnColumnWorker_WorkPriority.cs" />
     <Compile Include="RimWorld\PawnComponentsUtility.cs" />
     <Compile Include="RimWorld\PawnDiedOrDownedThoughtsKind.cs" />
     <Compile Include="RimWorld\PawnDiedOrDownedThoughtsUtility.cs" />
@@ -1829,7 +1830,6 @@
     <Compile Include="RimWorld\ThingDefGenerator_Corpses.cs" />
     <Compile Include="RimWorld\ThingDefGenerator_Leather.cs" />
     <Compile Include="RimWorld\ThingDefGenerator_Meat.cs" />
-    <Compile Include="RimWorld\ThingDefGenerator_TrainablePawnColumns.cs" />
     <Compile Include="RimWorld\ThingDefOf.cs" />
     <Compile Include="RimWorld\ThingSelectionUtility.cs" />
     <Compile Include="RimWorld\ThingStuffPair.cs" />

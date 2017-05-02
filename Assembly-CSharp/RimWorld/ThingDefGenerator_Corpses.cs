@@ -18,8 +18,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<ThingDef> ImpliedCorpseDefs()
 		{
-			ThingDefGenerator_Corpses.<ImpliedCorpseDefs>c__Iterator72 <ImpliedCorpseDefs>c__Iterator = new ThingDefGenerator_Corpses.<ImpliedCorpseDefs>c__Iterator72();
-			ThingDefGenerator_Corpses.<ImpliedCorpseDefs>c__Iterator72 expr_07 = <ImpliedCorpseDefs>c__Iterator;
+			ThingDefGenerator_Corpses.<ImpliedCorpseDefs>c__Iterator73 <ImpliedCorpseDefs>c__Iterator = new ThingDefGenerator_Corpses.<ImpliedCorpseDefs>c__Iterator73();
+			ThingDefGenerator_Corpses.<ImpliedCorpseDefs>c__Iterator73 expr_07 = <ImpliedCorpseDefs>c__Iterator;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

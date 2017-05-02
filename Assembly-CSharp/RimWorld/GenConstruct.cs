@@ -232,7 +232,7 @@ namespace RimWorld
 				}
 				if (map.designationManager.DesignationAt(center, DesignationDefOf.SmoothFloor) != null)
 				{
-					return new AcceptanceReport("BeingSmoothed".Translate());
+					return new AcceptanceReport("SpaceBeingSmoothed".Translate());
 				}
 			}
 			if (!GenConstruct.CanBuildOnTerrain(entDef, center, map, rot, thingToIgnore))

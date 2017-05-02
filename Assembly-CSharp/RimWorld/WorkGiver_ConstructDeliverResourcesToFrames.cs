@@ -29,7 +29,7 @@ namespace RimWorld
 			{
 				return null;
 			}
-			return base.ResourceDeliverJobFor(pawn, frame);
+			return base.ResourceDeliverJobFor(pawn, frame, true);
 		}
 	}
 }

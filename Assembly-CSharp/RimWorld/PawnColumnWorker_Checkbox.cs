@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace RimWorld
 {
@@ -81,5 +83,44 @@ namespace RimWorld
 		protected abstract bool GetValue(Pawn pawn);
 
 		protected abstract void SetValue(Pawn pawn, bool value);
+
+		protected override void HeaderClicked(Rect headerRect, PawnTable table)
+		{
+			base.HeaderClicked(headerRect, table);
+			if (Event.current.shift)
+			{
+				List<Pawn> pawnsListForReading = table.PawnsListForReading;
+				for (int i = 0; i < pawnsListForReading.Count; i++)
+				{
+					if (this.HasCheckbox(pawnsListForReading[i]))
+					{
+						if (Event.current.button == 0)
+						{
+							if (!this.GetValue(pawnsListForReading[i]))
+							{
+								this.SetValue(pawnsListForReading[i], true);
+							}
+						}
+						else if (Event.current.button == 1 && this.GetValue(pawnsListForReading[i]))
+						{
+							this.SetValue(pawnsListForReading[i], false);
+						}
+					}
+				}
+				if (Event.current.button == 0)
+				{
+					SoundDefOf.CheckboxTurnedOn.PlayOneShotOnCamera(null);
+				}
+				else if (Event.current.button == 1)
+				{
+					SoundDefOf.CheckboxTurnedOff.PlayOneShotOnCamera(null);
+				}
+			}
+		}
+
+		protected override string GetHeaderTip(PawnTable table)
+		{
+			return base.GetHeaderTip(table) + "\n" + "CheckboxShiftClickTip".Translate();
+		}
 	}
 }

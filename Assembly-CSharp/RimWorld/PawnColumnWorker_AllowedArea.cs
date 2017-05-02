@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace RimWorld
 {
@@ -66,6 +68,43 @@ namespace RimWorld
 			}
 			Area areaRestriction = pawn.playerSettings.AreaRestriction;
 			return (areaRestriction == null) ? -2147483647 : areaRestriction.ID;
+		}
+
+		protected override void HeaderClicked(Rect headerRect, PawnTable table)
+		{
+			base.HeaderClicked(headerRect, table);
+			if (Event.current.shift && Find.VisibleMap != null)
+			{
+				List<Pawn> pawnsListForReading = table.PawnsListForReading;
+				for (int i = 0; i < pawnsListForReading.Count; i++)
+				{
+					if (pawnsListForReading[i].Faction != Faction.OfPlayer)
+					{
+						return;
+					}
+					if (Event.current.button == 0)
+					{
+						pawnsListForReading[i].playerSettings.AreaRestriction = Find.VisibleMap.areaManager.Home;
+					}
+					else if (Event.current.button == 1)
+					{
+						pawnsListForReading[i].playerSettings.AreaRestriction = null;
+					}
+				}
+				if (Event.current.button == 0)
+				{
+					SoundDefOf.CheckboxTurnedOn.PlayOneShotOnCamera(null);
+				}
+				else if (Event.current.button == 1)
+				{
+					SoundDefOf.CheckboxTurnedOff.PlayOneShotOnCamera(null);
+				}
+			}
+		}
+
+		protected override string GetHeaderTip(PawnTable table)
+		{
+			return base.GetHeaderTip(table) + "\n" + "AllowedAreaShiftClickTip".Translate();
 		}
 	}
 }

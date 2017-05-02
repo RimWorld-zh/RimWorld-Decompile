@@ -9,7 +9,7 @@ namespace RimWorld
 	{
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		public static void Transfer(List<Thing> things, int count, Action<Thing, Thing> transferred)
+		public static void Transfer(List<Thing> things, int count, Action<Thing, IThingHolder> transferred)
 		{
 			if (count <= 0)
 			{
@@ -22,16 +22,20 @@ namespace RimWorld
 			{
 				Thing thing = TransferableUtility.tmpThings[i];
 				int num2 = Mathf.Min(num, thing.stackCount);
-				Thing thing2 = thing.SplitOff(num2);
-				num -= num2;
-				if (thing2 == thing)
+				if (num2 > 0)
 				{
-					things.Remove(thing);
-				}
-				transferred(thing2, thing);
-				if (num <= 0)
-				{
-					break;
+					IThingHolder parentHolder = thing.ParentHolder;
+					Thing thing2 = thing.SplitOff(num2);
+					num -= num2;
+					if (thing2 == thing)
+					{
+						things.Remove(thing);
+					}
+					transferred(thing2, parentHolder);
+					if (num <= 0)
+					{
+						break;
+					}
 				}
 			}
 			TransferableUtility.tmpThings.Clear();
@@ -54,15 +58,18 @@ namespace RimWorld
 			{
 				Thing thing = TransferableUtility.tmpThings[i];
 				int num2 = Mathf.Min(num, thing.stackCount);
-				num -= num2;
-				if (removeIfTakingEntireThing && num2 >= thing.stackCount)
+				if (num2 > 0)
 				{
-					things.Remove(thing);
-				}
-				transfer(thing, num2);
-				if (num <= 0)
-				{
-					break;
+					num -= num2;
+					if (removeIfTakingEntireThing && num2 >= thing.stackCount)
+					{
+						things.Remove(thing);
+					}
+					transfer(thing, num2);
+					if (num <= 0)
+					{
+						break;
+					}
 				}
 			}
 			TransferableUtility.tmpThings.Clear();

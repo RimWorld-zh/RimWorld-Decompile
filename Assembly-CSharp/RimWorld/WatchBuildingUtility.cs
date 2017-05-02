@@ -131,6 +131,10 @@ namespace RimWorld
 		private static CellRect GetWatchCellRect(ThingDef def, IntVec3 center, Rot4 rot, int watchRot)
 		{
 			Rot4 a = new Rot4(watchRot);
+			if (def.building == null)
+			{
+				def = (def.entityDefToBuild as ThingDef);
+			}
 			CellRect result;
 			if (a.IsHorizontal)
 			{

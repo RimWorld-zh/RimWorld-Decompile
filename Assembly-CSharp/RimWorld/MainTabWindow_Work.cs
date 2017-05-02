@@ -7,11 +7,21 @@ namespace RimWorld
 {
 	public class MainTabWindow_Work : MainTabWindow_PawnTable
 	{
+		private const int SpaceBetweenPriorityArrowsAndWorkLabels = 40;
+
 		protected override PawnTableDef PawnTableDef
 		{
 			get
 			{
 				return PawnTableDefOf.Work;
+			}
+		}
+
+		protected override float ExtraTopSpace
+		{
+			get
+			{
+				return 40f;
 			}
 		}
 
@@ -29,6 +39,16 @@ namespace RimWorld
 				return;
 			}
 			this.DoManualPrioritiesCheckbox();
+			GUI.color = new Color(1f, 1f, 1f, 0.5f);
+			Text.Anchor = TextAnchor.UpperCenter;
+			Text.Font = GameFont.Tiny;
+			Rect rect2 = new Rect(370f, rect.y + 5f, 160f, 30f);
+			Widgets.Label(rect2, "<= " + "HigherPriority".Translate());
+			Rect rect3 = new Rect(630f, rect.y + 5f, 160f, 30f);
+			Widgets.Label(rect3, "LowerPriority".Translate() + " =>");
+			GUI.color = Color.white;
+			Text.Font = GameFont.Small;
+			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
 		private void DoManualPrioritiesCheckbox()

@@ -137,53 +137,53 @@ namespace RimWorld.Planet
 			return expr_15;
 		}
 
-		public virtual void AddToStock(Thing thing, Pawn playerNegotiator)
+		public virtual void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			Caravan caravan = playerNegotiator.GetCaravan();
-			Pawn pawn = thing as Pawn;
+			Thing thing = toGive.SplitOff(countToGive);
+			thing.PreTraded(TradeAction.PlayerSells, playerNegotiator, this.settlement);
+			Pawn pawn = toGive as Pawn;
 			if (pawn != null)
 			{
 				CaravanInventoryUtility.MoveAllInventoryToSomeoneElse(pawn, caravan.PawnsListForReading, null);
-				caravan.RemovePawn(pawn);
 				if (pawn.RaceProps.Humanlike)
 				{
 					Find.WorldPawns.DiscardIfUnimportant(pawn);
 					return;
 				}
-			}
-			else
-			{
-				Pawn ownerOf = CaravanInventoryUtility.GetOwnerOf(caravan, thing);
-				if (ownerOf != null)
+				if (!this.stock.TryAdd(pawn, false))
 				{
-					ownerOf.inventory.innerContainer.Remove(thing);
+					pawn.Destroy(DestroyMode.Vanish);
 				}
 			}
-			this.stock.TryAdd(thing, false);
+			else if (!this.stock.TryAdd(thing, false))
+			{
+				thing.Destroy(DestroyMode.Vanish);
+			}
 		}
 
-		public virtual void GiveSoldThingToPlayer(Thing toGive, Thing originalThingFromStock, Pawn playerNegotiator)
+		public virtual void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
-			if (toGive == originalThingFromStock)
-			{
-				this.stock.Remove(originalThingFromStock);
-			}
 			Caravan caravan = playerNegotiator.GetCaravan();
-			Pawn pawn = toGive as Pawn;
+			Thing thing = toGive.SplitOff(countToGive);
+			thing.PreTraded(TradeAction.PlayerBuys, playerNegotiator, this.settlement);
+			Pawn pawn = thing as Pawn;
 			if (pawn != null)
 			{
 				caravan.AddPawn(pawn, true);
 			}
 			else
 			{
-				Pawn pawn2 = CaravanInventoryUtility.FindPawnToMoveInventoryTo(toGive, caravan.PawnsListForReading, null, null);
-				if (pawn2 != null)
-				{
-					pawn2.inventory.innerContainer.TryAdd(toGive, true);
-				}
-				else
+				Pawn pawn2 = CaravanInventoryUtility.FindPawnToMoveInventoryTo(thing, caravan.PawnsListForReading, null, null);
+				if (pawn2 == null)
 				{
 					Log.Error("Could not find any pawn to give sold thing to.");
+					thing.Destroy(DestroyMode.Vanish);
+				}
+				else if (!pawn2.inventory.innerContainer.TryAdd(thing, true))
+				{
+					Log.Error("Could not add sold thing to inventory.");
+					thing.Destroy(DestroyMode.Vanish);
 				}
 			}
 		}

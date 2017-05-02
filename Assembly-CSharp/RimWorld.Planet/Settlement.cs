@@ -128,14 +128,14 @@ namespace RimWorld.Planet
 			return this.trader.ColonyThingsWillingToBuy(playerNegotiator);
 		}
 
-		public void AddToStock(Thing thing, Pawn playerNegotiator)
+		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
-			this.trader.AddToStock(thing, playerNegotiator);
+			this.trader.GiveSoldThingToTrader(toGive, countToGive, playerNegotiator);
 		}
 
-		public void GiveSoldThingToPlayer(Thing toGive, Thing originalThingFromStock, Pawn playerNegotiator)
+		public void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
-			this.trader.GiveSoldThingToPlayer(toGive, originalThingFromStock, playerNegotiator);
+			this.trader.GiveSoldThingToPlayer(toGive, countToGive, playerNegotiator);
 		}
 
 		public bool IsPawnPurchasedAsPrisoner(Pawn pawn)

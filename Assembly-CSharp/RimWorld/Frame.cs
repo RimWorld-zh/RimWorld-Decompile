@@ -191,9 +191,10 @@ namespace RimWorld
 				SoundDefOf.BuildingComplete.PlayOneShot(new TargetInfo(base.Position, map, false));
 			}
 			ThingDef thingDef = this.def.entityDefToBuild as ThingDef;
+			Thing thing = null;
 			if (thingDef != null)
 			{
-				Thing thing = ThingMaker.MakeThing(thingDef, base.Stuff);
+				thing = ThingMaker.MakeThing(thingDef, base.Stuff);
 				thing.SetFactionDirect(base.Faction);
 				CompQuality compQuality = thing.TryGetComp<CompQuality>();
 				if (compQuality != null)
@@ -217,7 +218,7 @@ namespace RimWorld
 			{
 				map.terrainGrid.SetTerrain(base.Position, (TerrainDef)this.def.entityDefToBuild);
 			}
-			if (thingDef != null && (thingDef.passability == Traversability.Impassable || thingDef.Fillage == FillCategory.Full))
+			if (thingDef != null && (thingDef.passability == Traversability.Impassable || thingDef.Fillage == FillCategory.Full) && (thing == null || !(thing is Building_Door)))
 			{
 				foreach (IntVec3 current in GenAdj.CellsOccupiedBy(base.Position, base.Rotation, this.def.Size))
 				{

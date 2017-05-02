@@ -26,7 +26,7 @@ namespace RimWorld
 				current3.PostLoad();
 				DefDatabase<RecipeDef>.Add(current3);
 			}
-			foreach (PawnColumnDef current4 in ThingDefGenerator_TrainablePawnColumns.ImpliedTrainablePawnColumnDefs())
+			foreach (PawnColumnDef current4 in PawnColumnDefgenerator.ImpliedPawnColumnDefs())
 			{
 				current4.PostLoad();
 				DefDatabase<PawnColumnDef>.Add(current4);

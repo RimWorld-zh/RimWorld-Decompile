@@ -43,9 +43,9 @@ namespace RimWorld
 
 		IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator);
 
-		void AddToStock(Thing thing, Pawn playerNegotiator);
+		void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator);
 
-		void GiveSoldThingToPlayer(Thing toGive, Thing originalThingFromStock, Pawn playerNegotiator);
+		void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator);
 
 		bool IsPawnPurchasedAsPrisoner(Pawn pawn);
 	}

@@ -173,6 +173,7 @@ namespace Verse
 				}
 				if (this.Spawned)
 				{
+					this.DirtyMapMesh(this.Map);
 					RegionListersUpdater.DeregisterInRegions(this, this.Map);
 					this.Map.thingGrid.Deregister(this, false);
 				}
@@ -181,6 +182,7 @@ namespace Verse
 				{
 					this.Map.thingGrid.Register(this);
 					RegionListersUpdater.RegisterInRegions(this, this.Map);
+					this.DirtyMapMesh(this.Map);
 				}
 			}
 		}
@@ -562,58 +564,50 @@ namespace Verse
 			}
 			this.mapIndexOrState = (sbyte)num;
 			RegionListersUpdater.RegisterInRegions(this, map);
-			if (!this.Map.spawnedThings.TryAdd(this, false))
+			if (!map.spawnedThings.TryAdd(this, false))
 			{
 				Log.Error("Couldn't add thing " + this + " to spawned things.");
 			}
-			this.Map.listerThings.Add(this);
+			map.listerThings.Add(this);
 			map.thingGrid.Register(this);
 			if (Find.TickManager != null)
 			{
 				Find.TickManager.RegisterAllTickabilityFor(this);
 			}
-			if (this.def.drawerType != DrawerType.RealtimeOnly)
-			{
-				CellRect.CellRectIterator iterator = this.OccupiedRect().GetIterator();
-				while (!iterator.Done())
-				{
-					this.Map.mapDrawer.MapMeshDirty(iterator.Current, MapMeshFlag.Things);
-					iterator.MoveNext();
-				}
-			}
+			this.DirtyMapMesh(map);
 			if (this.def.drawerType != DrawerType.MapMeshOnly)
 			{
-				this.Map.dynamicDrawManager.RegisterDrawable(this);
+				map.dynamicDrawManager.RegisterDrawable(this);
 			}
-			this.Map.tooltipGiverList.Notify_ThingSpawned(this);
+			map.tooltipGiverList.Notify_ThingSpawned(this);
 			if (this.def.graphicData != null && this.def.graphicData.Linked)
 			{
-				this.Map.linkGrid.Notify_LinkerCreatedOrDestroyed(this);
-				this.Map.mapDrawer.MapMeshDirty(this.Position, MapMeshFlag.Things, true, false);
+				map.linkGrid.Notify_LinkerCreatedOrDestroyed(this);
+				map.mapDrawer.MapMeshDirty(this.Position, MapMeshFlag.Things, true, false);
 			}
 			if (!this.def.CanOverlapZones)
 			{
-				this.Map.zoneManager.Notify_NoZoneOverlapThingSpawned(this);
+				map.zoneManager.Notify_NoZoneOverlapThingSpawned(this);
 			}
 			if (this.def.affectsRegions)
 			{
-				this.Map.regionDirtyer.Notify_ThingAffectingRegionsSpawned(this);
+				map.regionDirtyer.Notify_ThingAffectingRegionsSpawned(this);
 			}
 			if (this.def.pathCost != 0 || this.def.passability == Traversability.Impassable)
 			{
-				this.Map.pathGrid.RecalculatePerceivedPathCostUnderThing(this);
+				map.pathGrid.RecalculatePerceivedPathCostUnderThing(this);
 			}
 			if (this.def.passability == Traversability.Impassable)
 			{
-				this.Map.reachability.ClearCache();
+				map.reachability.ClearCache();
 			}
-			this.Map.coverGrid.Register(this);
+			map.coverGrid.Register(this);
 			if (this.def.category == ThingCategory.Item)
 			{
-				this.Map.listerHaulables.Notify_Spawned(this);
+				map.listerHaulables.Notify_Spawned(this);
 			}
-			this.Map.attackTargetsCache.Notify_ThingSpawned(this);
-			Region validRegionAt_NoRebuild = this.Map.regionGrid.GetValidRegionAt_NoRebuild(this.Position);
+			map.attackTargetsCache.Notify_ThingSpawned(this);
+			Region validRegionAt_NoRebuild = map.regionGrid.GetValidRegionAt_NoRebuild(this.Position);
 			Room room = (validRegionAt_NoRebuild != null) ? validRegionAt_NoRebuild.Room : null;
 			if (room != null)
 			{
@@ -659,17 +653,7 @@ namespace Verse
 				map.mapDrawer.MapMeshDirty(this.Position, MapMeshFlag.Things, true, false);
 			}
 			Find.Selector.Deselect(this);
-			if (this.def.drawerType != DrawerType.RealtimeOnly)
-			{
-				CellRect cellRect = this.OccupiedRect();
-				for (int i = cellRect.minZ; i <= cellRect.maxZ; i++)
-				{
-					for (int j = cellRect.minX; j <= cellRect.maxX; j++)
-					{
-						map.mapDrawer.MapMeshDirty(new IntVec3(j, 0, i), MapMeshFlag.Things);
-					}
-				}
-			}
+			this.DirtyMapMesh(map);
 			if (this.def.drawerType != DrawerType.MapMeshOnly)
 			{
 				map.dynamicDrawManager.DeRegisterDrawable(this);
@@ -867,6 +851,19 @@ namespace Verse
 		public virtual void Print(SectionLayer layer)
 		{
 			this.Graphic.Print(layer, this);
+		}
+
+		public void DirtyMapMesh(Map map)
+		{
+			if (this.def.drawerType != DrawerType.RealtimeOnly)
+			{
+				CellRect.CellRectIterator iterator = this.OccupiedRect().GetIterator();
+				while (!iterator.Done())
+				{
+					map.mapDrawer.MapMeshDirty(iterator.Current, MapMeshFlag.Things);
+					iterator.MoveNext();
+				}
+			}
 		}
 
 		public virtual void DrawGUIOverlay()

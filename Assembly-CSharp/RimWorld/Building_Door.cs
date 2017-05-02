@@ -191,6 +191,10 @@ namespace RimWorld
 			base.SpawnSetup(map, respawningAfterLoad);
 			this.powerComp = base.GetComp<CompPowerTrader>();
 			this.ClearReachabilityCache(map);
+			if (this.BlockedOpenMomentary)
+			{
+				this.DoorOpen(60);
+			}
 		}
 
 		public override void DeSpawn()

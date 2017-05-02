@@ -61,18 +61,7 @@ namespace RimWorld
 				List<Pawn> list = this.thingsColony.Take(-base.CountToTransfer).Cast<Pawn>().ToList<Pawn>();
 				for (int i = 0; i < list.Count; i++)
 				{
-					Pawn pawn = list[i];
-					pawn.PreTraded(TradeAction.PlayerSells, TradeSession.playerNegotiator, TradeSession.trader);
-					TradeSession.trader.AddToStock(pawn, TradeSession.playerNegotiator);
-					if (pawn.RaceProps.Humanlike)
-					{
-						foreach (Pawn current in from x in PawnsFinder.AllMapsCaravansAndTravelingTransportPods
-						where x.IsColonist || x.IsPrisonerOfColony
-						select x)
-						{
-							current.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.KnowPrisonerSold, null);
-						}
-					}
+					TradeSession.trader.GiveSoldThingToTrader(list[i], 1, TradeSession.playerNegotiator);
 				}
 			}
 			else if (base.ActionToDo == TradeAction.PlayerBuys)
@@ -80,13 +69,12 @@ namespace RimWorld
 				List<Pawn> list2 = this.thingsTrader.Take(base.CountToTransfer).Cast<Pawn>().ToList<Pawn>();
 				for (int j = 0; j < list2.Count; j++)
 				{
-					Pawn pawn2 = list2[j];
-					bool flag = TradeSession.trader.IsPawnPurchasedAsPrisoner(pawn2);
-					TradeSession.trader.GiveSoldThingToPlayer(pawn2, pawn2, TradeSession.playerNegotiator);
-					pawn2.PreTraded(TradeAction.PlayerBuys, TradeSession.playerNegotiator, TradeSession.trader);
+					Pawn pawn = list2[j];
+					bool flag = TradeSession.trader.IsPawnPurchasedAsPrisoner(pawn);
+					TradeSession.trader.GiveSoldThingToPlayer(pawn, 1, TradeSession.playerNegotiator);
 					if (flag)
 					{
-						TradeUtility.MakePrisonerOfColony(pawn2);
+						TradeUtility.MakePrisonerOfColony(pawn);
 					}
 				}
 			}

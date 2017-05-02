@@ -19,8 +19,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<ThingDef> ImpliedLeatherDefs()
 		{
-			ThingDefGenerator_Leather.<ImpliedLeatherDefs>c__Iterator73 <ImpliedLeatherDefs>c__Iterator = new ThingDefGenerator_Leather.<ImpliedLeatherDefs>c__Iterator73();
-			ThingDefGenerator_Leather.<ImpliedLeatherDefs>c__Iterator73 expr_07 = <ImpliedLeatherDefs>c__Iterator;
+			ThingDefGenerator_Leather.<ImpliedLeatherDefs>c__Iterator74 <ImpliedLeatherDefs>c__Iterator = new ThingDefGenerator_Leather.<ImpliedLeatherDefs>c__Iterator74();
+			ThingDefGenerator_Leather.<ImpliedLeatherDefs>c__Iterator74 expr_07 = <ImpliedLeatherDefs>c__Iterator;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

@@ -493,24 +493,22 @@ namespace RimWorld
 		{
 			if (this.ActionToDo == TradeAction.PlayerSells)
 			{
-				TransferableUtility.Transfer(this.thingsColony, -base.CountToTransfer, delegate(Thing splitPiece, Thing originalThing)
+				TransferableUtility.TransferNoSplit(this.thingsColony, -base.CountToTransfer, delegate(Thing thing, int countToTransfer)
 				{
-					splitPiece.PreTraded(TradeAction.PlayerSells, TradeSession.playerNegotiator, TradeSession.trader);
-					TradeSession.trader.AddToStock(splitPiece, TradeSession.playerNegotiator);
-				});
+					TradeSession.trader.GiveSoldThingToTrader(thing, countToTransfer, TradeSession.playerNegotiator);
+				}, true, true);
 			}
 			else if (this.ActionToDo == TradeAction.PlayerBuys)
 			{
-				TransferableUtility.Transfer(this.thingsTrader, base.CountToTransfer, delegate(Thing splitPiece, Thing originalThing)
+				TransferableUtility.TransferNoSplit(this.thingsTrader, base.CountToTransfer, delegate(Thing thing, int countToTransfer)
 				{
-					splitPiece.PreTraded(TradeAction.PlayerBuys, TradeSession.playerNegotiator, TradeSession.trader);
-					TradeSession.trader.GiveSoldThingToPlayer(splitPiece, originalThing, TradeSession.playerNegotiator);
-					this.CheckTeachOpportunity(splitPiece);
-				});
+					this.CheckTeachOpportunity(thing, countToTransfer);
+					TradeSession.trader.GiveSoldThingToPlayer(thing, countToTransfer, TradeSession.playerNegotiator);
+				}, true, true);
 			}
 		}
 
-		private void CheckTeachOpportunity(Thing boughtThing)
+		private void CheckTeachOpportunity(Thing boughtThing, int boughtCount)
 		{
 			Building building = boughtThing as Building;
 			if (building == null)

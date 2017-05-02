@@ -227,7 +227,14 @@ namespace Verse
 					FieldInfo fieldNamed = this.GetFieldNamed(obj.GetType(), text);
 					if (fieldNamed == null)
 					{
-						throw new InvalidOperationException("Field " + text + " does not exist.");
+						throw new InvalidOperationException(string.Concat(new object[]
+						{
+							"Field ",
+							text,
+							" does not exist in type ",
+							obj.GetType(),
+							"."
+						}));
 					}
 					if (fieldNamed.HasAttribute<NoTranslateAttribute>())
 					{
