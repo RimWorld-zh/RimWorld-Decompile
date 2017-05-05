@@ -198,7 +198,7 @@ namespace Verse
 						if (apparel != null)
 						{
 							stringBuilder.AppendLine(apparel.LabelCap);
-							stringBuilder.AppendLine("   raw: " + JobGiver_OptimizeApparel.ApparelScoreRaw(apparel).ToString("F2"));
+							stringBuilder.AppendLine("   raw: " + JobGiver_OptimizeApparel.ApparelScoreRaw(null, apparel).ToString("F2"));
 							Pawn pawn = Find.Selector.SingleSelectedThing as Pawn;
 							if (pawn != null)
 							{
@@ -283,7 +283,7 @@ namespace Verse
 							Apparel apparel2 = current8 as Apparel;
 							if (apparel2 != null)
 							{
-								stringBuilder.AppendLine(apparel2.Label + ": " + JobGiver_OptimizeApparel.ApparelScoreRaw(apparel2).ToString("F2"));
+								stringBuilder.AppendLine(apparel2.Label + ": " + JobGiver_OptimizeApparel.ApparelScoreRaw(null, apparel2).ToString("F2"));
 							}
 						}
 					}

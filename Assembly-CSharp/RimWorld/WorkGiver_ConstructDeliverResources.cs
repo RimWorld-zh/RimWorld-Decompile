@@ -31,12 +31,12 @@ namespace RimWorld
 
 		protected Job ResourceDeliverJobFor(Pawn pawn, IConstructible c, bool canRemoveExistingFloorUnderNearbyNeeders = true)
 		{
-			WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2A7 <ResourceDeliverJobFor>c__AnonStorey2A = new WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2A7();
-			<ResourceDeliverJobFor>c__AnonStorey2A.pawn = pawn;
+			WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2AA <ResourceDeliverJobFor>c__AnonStorey2AA = new WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2AA();
+			<ResourceDeliverJobFor>c__AnonStorey2AA.pawn = pawn;
 			Blueprint_Install blueprint_Install = c as Blueprint_Install;
 			if (blueprint_Install != null)
 			{
-				return this.InstallJob(<ResourceDeliverJobFor>c__AnonStorey2A.pawn, blueprint_Install);
+				return this.InstallJob(<ResourceDeliverJobFor>c__AnonStorey2AA.pawn, blueprint_Install);
 			}
 			bool flag = false;
 			List<ThingCountClass> list = c.MaterialsNeeded();
@@ -44,30 +44,30 @@ namespace RimWorld
 			int i = 0;
 			while (i < count)
 			{
-				WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2A8 <ResourceDeliverJobFor>c__AnonStorey2A2 = new WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2A8();
-				<ResourceDeliverJobFor>c__AnonStorey2A2.<>f__ref$679 = <ResourceDeliverJobFor>c__AnonStorey2A;
-				<ResourceDeliverJobFor>c__AnonStorey2A2.need = list[i];
-				if (!<ResourceDeliverJobFor>c__AnonStorey2A.pawn.Map.itemAvailability.ThingsAvailableAnywhere(<ResourceDeliverJobFor>c__AnonStorey2A2.need, <ResourceDeliverJobFor>c__AnonStorey2A.pawn))
+				WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2AB <ResourceDeliverJobFor>c__AnonStorey2AB = new WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2AB();
+				<ResourceDeliverJobFor>c__AnonStorey2AB.<>f__ref$682 = <ResourceDeliverJobFor>c__AnonStorey2AA;
+				<ResourceDeliverJobFor>c__AnonStorey2AB.need = list[i];
+				if (!<ResourceDeliverJobFor>c__AnonStorey2AA.pawn.Map.itemAvailability.ThingsAvailableAnywhere(<ResourceDeliverJobFor>c__AnonStorey2AB.need, <ResourceDeliverJobFor>c__AnonStorey2AA.pawn))
 				{
 					flag = true;
 					break;
 				}
-				WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2A8 arg_EC_0 = <ResourceDeliverJobFor>c__AnonStorey2A2;
-				Predicate<Thing> validator = (Thing r) => WorkGiver_ConstructDeliverResources.ResourceValidator(<ResourceDeliverJobFor>c__AnonStorey2A2.<>f__ref$679.pawn, <ResourceDeliverJobFor>c__AnonStorey2A2.need, r);
-				arg_EC_0.foundRes = GenClosest.ClosestThingReachable(<ResourceDeliverJobFor>c__AnonStorey2A.pawn.Position, <ResourceDeliverJobFor>c__AnonStorey2A.pawn.Map, ThingRequest.ForDef(<ResourceDeliverJobFor>c__AnonStorey2A2.need.thingDef), PathEndMode.ClosestTouch, TraverseParms.For(<ResourceDeliverJobFor>c__AnonStorey2A.pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, -1, false, RegionType.Set_Passable);
-				if (<ResourceDeliverJobFor>c__AnonStorey2A2.foundRes != null)
+				WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2AB arg_EC_0 = <ResourceDeliverJobFor>c__AnonStorey2AB;
+				Predicate<Thing> validator = (Thing r) => WorkGiver_ConstructDeliverResources.ResourceValidator(<ResourceDeliverJobFor>c__AnonStorey2AB.<>f__ref$682.pawn, <ResourceDeliverJobFor>c__AnonStorey2AB.need, r);
+				arg_EC_0.foundRes = GenClosest.ClosestThingReachable(<ResourceDeliverJobFor>c__AnonStorey2AA.pawn.Position, <ResourceDeliverJobFor>c__AnonStorey2AA.pawn.Map, ThingRequest.ForDef(<ResourceDeliverJobFor>c__AnonStorey2AB.need.thingDef), PathEndMode.ClosestTouch, TraverseParms.For(<ResourceDeliverJobFor>c__AnonStorey2AA.pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, -1, false, RegionType.Set_Passable);
+				if (<ResourceDeliverJobFor>c__AnonStorey2AB.foundRes != null)
 				{
 					int resTotalAvailable;
-					this.FindAvailableNearbyResources(<ResourceDeliverJobFor>c__AnonStorey2A2.foundRes, <ResourceDeliverJobFor>c__AnonStorey2A.pawn, out resTotalAvailable);
+					this.FindAvailableNearbyResources(<ResourceDeliverJobFor>c__AnonStorey2AB.foundRes, <ResourceDeliverJobFor>c__AnonStorey2AA.pawn, out resTotalAvailable);
 					int num;
 					Job job;
-					HashSet<Thing> hashSet = this.FindNearbyNeeders(<ResourceDeliverJobFor>c__AnonStorey2A.pawn, <ResourceDeliverJobFor>c__AnonStorey2A2.need, c, resTotalAvailable, canRemoveExistingFloorUnderNearbyNeeders, out num, out job);
+					HashSet<Thing> hashSet = this.FindNearbyNeeders(<ResourceDeliverJobFor>c__AnonStorey2AA.pawn, <ResourceDeliverJobFor>c__AnonStorey2AB.need, c, resTotalAvailable, canRemoveExistingFloorUnderNearbyNeeders, out num, out job);
 					if (job != null)
 					{
 						return job;
 					}
 					hashSet.Add((Thing)c);
-					Thing thing = hashSet.MinBy((Thing nee) => IntVec3Utility.ManhattanDistanceFlat(<ResourceDeliverJobFor>c__AnonStorey2A2.foundRes.Position, nee.Position));
+					Thing thing = hashSet.MinBy((Thing nee) => IntVec3Utility.ManhattanDistanceFlat(<ResourceDeliverJobFor>c__AnonStorey2AB.foundRes.Position, nee.Position));
 					hashSet.Remove(thing);
 					int num2 = 0;
 					int j = 0;
@@ -78,9 +78,9 @@ namespace RimWorld
 					}
 					while (num2 < num && j < WorkGiver_ConstructDeliverResources.resourcesAvailable.Count);
 					WorkGiver_ConstructDeliverResources.resourcesAvailable.RemoveRange(j, WorkGiver_ConstructDeliverResources.resourcesAvailable.Count - j);
-					WorkGiver_ConstructDeliverResources.resourcesAvailable.Remove(<ResourceDeliverJobFor>c__AnonStorey2A2.foundRes);
+					WorkGiver_ConstructDeliverResources.resourcesAvailable.Remove(<ResourceDeliverJobFor>c__AnonStorey2AB.foundRes);
 					Job job2 = new Job(JobDefOf.HaulToContainer);
-					job2.targetA = <ResourceDeliverJobFor>c__AnonStorey2A2.foundRes;
+					job2.targetA = <ResourceDeliverJobFor>c__AnonStorey2AB.foundRes;
 					job2.targetQueueA = new List<LocalTargetInfo>();
 					for (j = 0; j < WorkGiver_ConstructDeliverResources.resourcesAvailable.Count; j++)
 					{
@@ -191,7 +191,7 @@ namespace RimWorld
 
 		private bool IsNewValidNearbyNeeder(Thing t, HashSet<Thing> nearbyNeeders, IConstructible constructible, Pawn pawn)
 		{
-			return t is IConstructible && t != constructible && !(t is Blueprint_Install) && t.Faction == pawn.Faction && !t.IsForbidden(pawn) && !nearbyNeeders.Contains(t) && GenConstruct.CanConstruct(t, pawn);
+			return t is IConstructible && t != constructible && !(t is Blueprint_Install) && t.Faction == pawn.Faction && !t.IsForbidden(pawn) && !nearbyNeeders.Contains(t) && GenConstruct.CanConstruct(t, pawn, false);
 		}
 
 		private static bool ShouldRemoveExistingFloorFirst(Pawn pawn, Blueprint blue)

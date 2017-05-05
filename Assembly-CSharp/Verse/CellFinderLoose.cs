@@ -195,10 +195,9 @@ namespace Verse
 					return result;
 				}
 			}
-			Log.Error("Found no good central spot. Choosing randomly.");
-			Log.Message(string.Concat(new object[]
+			Log.Error(string.Concat(new object[]
 			{
-				" numStand=",
+				"Found no good central spot. Choosing randomly. numStand=",
 				debug_numStand,
 				", numRoom=",
 				debug_numRoom,

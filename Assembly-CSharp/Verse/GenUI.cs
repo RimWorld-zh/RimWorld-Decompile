@@ -9,8 +9,6 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class GenUI
 	{
-		public const float SPad = 8f;
-
 		public const float Pad = 10f;
 
 		public const float GapTiny = 4f;
@@ -215,14 +213,14 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<LocalTargetInfo> TargetsAt(Vector3 clickPos, TargetingParameters clickParams, bool thingsOnly = false)
 		{
-			GenUI.<TargetsAt>c__Iterator22C <TargetsAt>c__Iterator22C = new GenUI.<TargetsAt>c__Iterator22C();
-			<TargetsAt>c__Iterator22C.clickPos = clickPos;
-			<TargetsAt>c__Iterator22C.clickParams = clickParams;
-			<TargetsAt>c__Iterator22C.thingsOnly = thingsOnly;
-			<TargetsAt>c__Iterator22C.<$>clickPos = clickPos;
-			<TargetsAt>c__Iterator22C.<$>clickParams = clickParams;
-			<TargetsAt>c__Iterator22C.<$>thingsOnly = thingsOnly;
-			GenUI.<TargetsAt>c__Iterator22C expr_31 = <TargetsAt>c__Iterator22C;
+			GenUI.<TargetsAt>c__Iterator22F <TargetsAt>c__Iterator22F = new GenUI.<TargetsAt>c__Iterator22F();
+			<TargetsAt>c__Iterator22F.clickPos = clickPos;
+			<TargetsAt>c__Iterator22F.clickParams = clickParams;
+			<TargetsAt>c__Iterator22F.thingsOnly = thingsOnly;
+			<TargetsAt>c__Iterator22F.<$>clickPos = clickPos;
+			<TargetsAt>c__Iterator22F.<$>clickParams = clickParams;
+			<TargetsAt>c__Iterator22F.<$>thingsOnly = thingsOnly;
+			GenUI.<TargetsAt>c__Iterator22F expr_31 = <TargetsAt>c__Iterator22F;
 			expr_31.$PC = -2;
 			return expr_31;
 		}
@@ -306,6 +304,23 @@ namespace Verse
 				return 0;
 			}
 			return -1;
+		}
+
+		public static int CurrentAdjustmentMultiplier()
+		{
+			if (KeyBindingDefOf.ModifierIncrement10x.IsDownEvent && KeyBindingDefOf.ModifierIncrement100x.IsDownEvent)
+			{
+				return 1000;
+			}
+			if (KeyBindingDefOf.ModifierIncrement100x.IsDownEvent)
+			{
+				return 100;
+			}
+			if (KeyBindingDefOf.ModifierIncrement10x.IsDownEvent)
+			{
+				return 10;
+			}
+			return 1;
 		}
 
 		public static Rect GetInnerRect(this Rect rect)

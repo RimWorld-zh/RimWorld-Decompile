@@ -21,8 +21,8 @@ namespace Verse
 		{
 			get
 			{
-				ModsConfig.<>c__Iterator20A <>c__Iterator20A = new ModsConfig.<>c__Iterator20A();
-				ModsConfig.<>c__Iterator20A expr_07 = <>c__Iterator20A;
+				ModsConfig.<>c__Iterator20D <>c__Iterator20D = new ModsConfig.<>c__Iterator20D();
+				ModsConfig.<>c__Iterator20D expr_07 = <>c__Iterator20D;
 				expr_07.$PC = -2;
 				return expr_07;
 			}

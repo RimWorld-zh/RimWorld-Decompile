@@ -107,7 +107,7 @@ namespace RimWorld
 			bool flag;
 			if (thing.holdingOwner != null)
 			{
-				thing.holdingOwner.TryTransferToContainer(thing, this.innerContainer, thing.stackCount);
+				thing.holdingOwner.TryTransferToContainer(thing, this.innerContainer, thing.stackCount, true);
 				flag = true;
 			}
 			else

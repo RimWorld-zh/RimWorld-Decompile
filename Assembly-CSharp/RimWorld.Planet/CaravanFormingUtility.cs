@@ -16,7 +16,7 @@ namespace RimWorld.Planet
 		public static void FormAndCreateCaravan(IEnumerable<Pawn> pawns, Faction faction, int exitFromTile, int directionTile)
 		{
 			Caravan o = CaravanExitMapUtility.ExitMapAndCreateCaravan(pawns, faction, exitFromTile, directionTile);
-			Find.LetterStack.ReceiveLetter("LetterLabelFormedCaravan".Translate(), "LetterFormedCaravan".Translate(), LetterType.Good, o, null);
+			Find.LetterStack.ReceiveLetter("LetterLabelFormedCaravan".Translate(), "LetterFormedCaravan".Translate(), LetterDefOf.Good, o, null);
 		}
 
 		public static void StartFormingCaravan(List<Pawn> pawns, Faction faction, List<TransferableOneWay> transferables, IntVec3 meetingPoint, IntVec3 exitSpot, int startingTile)

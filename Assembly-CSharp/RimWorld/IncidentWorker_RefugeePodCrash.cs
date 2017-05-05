@@ -20,7 +20,7 @@ namespace RimWorld
 			string label = "LetterLabelRefugeePodCrash".Translate();
 			string text = "RefugeePodCrash".Translate();
 			PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref label, pawn);
-			Find.LetterStack.ReceiveLetter(label, text, LetterType.BadNonUrgent, new TargetInfo(intVec, map, false), null);
+			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.BadNonUrgent, new TargetInfo(intVec, map, false), null);
 			DropPodUtility.MakeDropPodAt(intVec, map, new ActiveDropPodInfo
 			{
 				SingleContainedThing = pawn,

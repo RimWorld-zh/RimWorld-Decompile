@@ -88,7 +88,7 @@ namespace RimWorld
 			{
 				Vector2 initialSize = base.InitialSize;
 				float b = (float)(UI.screenHeight - 35);
-				float b2 = 52f + DefDatabase<ResearchTabDef>.AllDefs.Max((ResearchTabDef tab) => this.ViewSize(tab).y) + 50f + 10f + 10f;
+				float b2 = this.Margin + 10f + 32f + 10f + DefDatabase<ResearchTabDef>.AllDefs.Max((ResearchTabDef tab) => this.ViewSize(tab).y) + 10f + 10f + this.Margin;
 				float a = Mathf.Max(initialSize.y, b2);
 				initialSize.y = Mathf.Min(a, b);
 				return initialSize;
@@ -97,14 +97,22 @@ namespace RimWorld
 
 		private Vector2 ViewSize(ResearchTabDef tab)
 		{
-			IEnumerable<ResearchProjectDef> source = from d in DefDatabase<ResearchProjectDef>.AllDefs
-			where d.tab == tab
-			select d;
-			if (!source.Any<ResearchProjectDef>())
+			List<ResearchProjectDef> allDefsListForReading = DefDatabase<ResearchProjectDef>.AllDefsListForReading;
+			float num = 0f;
+			float num2 = 0f;
+			Text.Font = GameFont.Small;
+			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
-				return Vector2.zero;
+				ResearchProjectDef researchProjectDef = allDefsListForReading[i];
+				if (researchProjectDef.tab == tab)
+				{
+					Rect rect = new Rect(0f, 0f, 140f, 0f);
+					Widgets.LabelCacheHeight(ref rect, this.GetLabel(researchProjectDef), false, false);
+					num = Mathf.Max(num, this.PosX(researchProjectDef) + 140f);
+					num2 = Mathf.Max(num2, this.PosY(researchProjectDef) + rect.height);
+				}
 			}
-			return new Vector2(source.Max((ResearchProjectDef d) => this.PosX(d)) + 140f + 10f + 40f, source.Max((ResearchProjectDef d) => this.PosY(d)) + 50f + 10f);
+			return new Vector2(num + 20f, num2 + 20f);
 		}
 
 		public override void PreOpen()
@@ -309,99 +317,104 @@ namespace RimWorld
 			Widgets.ScrollHorizontal(outRect, ref this.rightScrollPosition, rect, 20f);
 			Widgets.BeginScrollView(outRect, ref this.rightScrollPosition, rect);
 			GUI.BeginGroup(position);
+			List<ResearchProjectDef> allDefsListForReading = DefDatabase<ResearchProjectDef>.AllDefsListForReading;
 			for (int i = 0; i < 2; i++)
 			{
-				foreach (ResearchProjectDef current2 in from d in DefDatabase<ResearchProjectDef>.AllDefs
-				where d.tab == this.CurTab
-				select d)
+				for (int j = 0; j < allDefsListForReading.Count; j++)
 				{
-					start.x = this.PosX(current2);
-					start.y = this.PosY(current2) + 25f;
-					for (int j = 0; j < current2.prerequisites.CountAllowNull<ResearchProjectDef>(); j++)
+					ResearchProjectDef researchProjectDef = allDefsListForReading[j];
+					if (researchProjectDef.tab == this.CurTab)
 					{
-						ResearchProjectDef researchProjectDef = current2.prerequisites[j];
-						if (researchProjectDef != null && researchProjectDef.tab == this.CurTab)
+						start.x = this.PosX(researchProjectDef);
+						start.y = this.PosY(researchProjectDef) + 25f;
+						for (int k = 0; k < researchProjectDef.prerequisites.CountAllowNull<ResearchProjectDef>(); k++)
 						{
-							end.x = this.PosX(researchProjectDef) + 140f;
-							end.y = this.PosY(researchProjectDef) + 25f;
-							if (this.selectedProject == current2 || this.selectedProject == researchProjectDef)
+							ResearchProjectDef researchProjectDef2 = researchProjectDef.prerequisites[k];
+							if (researchProjectDef2 != null && researchProjectDef2.tab == this.CurTab)
 							{
-								if (i == 1)
+								end.x = this.PosX(researchProjectDef2) + 140f;
+								end.y = this.PosY(researchProjectDef2) + 25f;
+								if (this.selectedProject == researchProjectDef || this.selectedProject == researchProjectDef2)
 								{
-									Widgets.DrawLine(start, end, TexUI.HighlightLineResearchColor, 4f);
+									if (i == 1)
+									{
+										Widgets.DrawLine(start, end, TexUI.HighlightLineResearchColor, 4f);
+									}
 								}
-							}
-							else if (i == 0)
-							{
-								Widgets.DrawLine(start, end, TexUI.DefaultLineResearchColor, 2f);
+								else if (i == 0)
+								{
+									Widgets.DrawLine(start, end, TexUI.DefaultLineResearchColor, 2f);
+								}
 							}
 						}
 					}
 				}
 			}
-			foreach (ResearchProjectDef current3 in from d in DefDatabase<ResearchProjectDef>.AllDefs
-			where d.tab == this.CurTab
-			select d)
+			for (int l = 0; l < allDefsListForReading.Count; l++)
 			{
-				Rect source = new Rect(this.PosX(current3), this.PosY(current3), 140f, 50f);
-				string label = current3.LabelCap + "\n(" + current3.CostApparent.ToString("F0") + ")";
-				Rect rect2 = new Rect(source);
-				Color textColor = Widgets.NormalOptionColor;
-				Color color = default(Color);
-				Color borderColor = default(Color);
-				bool flag = !current3.IsFinished && !current3.CanStartNow;
-				if (current3 == Find.ResearchManager.currentProj)
+				ResearchProjectDef researchProjectDef3 = allDefsListForReading[l];
+				if (researchProjectDef3.tab == this.CurTab)
 				{
-					color = TexUI.ActiveResearchColor;
-				}
-				else if (current3.IsFinished)
-				{
-					color = TexUI.FinishedResearchColor;
-				}
-				else if (flag)
-				{
-					color = TexUI.LockedResearchColor;
-				}
-				else if (current3.CanStartNow)
-				{
-					color = TexUI.AvailResearchColor;
-				}
-				if (this.selectedProject == current3)
-				{
-					color += TexUI.HighlightBgResearchColor;
-					borderColor = TexUI.HighlightBorderResearchColor;
-				}
-				else
-				{
-					borderColor = TexUI.DefaultBorderResearchColor;
-				}
-				if (flag)
-				{
-					textColor = MainTabWindow_Research.ProjectWithMissingPrerequisiteLabelColor;
-				}
-				for (int k = 0; k < current3.prerequisites.CountAllowNull<ResearchProjectDef>(); k++)
-				{
-					ResearchProjectDef researchProjectDef2 = current3.prerequisites[k];
-					if (researchProjectDef2 != null && this.selectedProject == researchProjectDef2)
+					Rect source = new Rect(this.PosX(researchProjectDef3), this.PosY(researchProjectDef3), 140f, 50f);
+					string label = this.GetLabel(researchProjectDef3);
+					Rect rect2 = new Rect(source);
+					Color textColor = Widgets.NormalOptionColor;
+					Color color = default(Color);
+					Color borderColor = default(Color);
+					bool flag = !researchProjectDef3.IsFinished && !researchProjectDef3.CanStartNow;
+					if (researchProjectDef3 == Find.ResearchManager.currentProj)
 					{
-						borderColor = TexUI.HighlightLineResearchColor;
+						color = TexUI.ActiveResearchColor;
 					}
-				}
-				if (this.requiredByThisFound)
-				{
-					for (int l = 0; l < current3.requiredByThis.CountAllowNull<ResearchProjectDef>(); l++)
+					else if (researchProjectDef3.IsFinished)
 					{
-						ResearchProjectDef researchProjectDef3 = current3.requiredByThis[l];
-						if (this.selectedProject == researchProjectDef3)
+						color = TexUI.FinishedResearchColor;
+					}
+					else if (flag)
+					{
+						color = TexUI.LockedResearchColor;
+					}
+					else if (researchProjectDef3.CanStartNow)
+					{
+						color = TexUI.AvailResearchColor;
+					}
+					if (this.selectedProject == researchProjectDef3)
+					{
+						color += TexUI.HighlightBgResearchColor;
+						borderColor = TexUI.HighlightBorderResearchColor;
+					}
+					else
+					{
+						borderColor = TexUI.DefaultBorderResearchColor;
+					}
+					if (flag)
+					{
+						textColor = MainTabWindow_Research.ProjectWithMissingPrerequisiteLabelColor;
+					}
+					for (int m = 0; m < researchProjectDef3.prerequisites.CountAllowNull<ResearchProjectDef>(); m++)
+					{
+						ResearchProjectDef researchProjectDef4 = researchProjectDef3.prerequisites[m];
+						if (researchProjectDef4 != null && this.selectedProject == researchProjectDef4)
 						{
 							borderColor = TexUI.HighlightLineResearchColor;
 						}
 					}
-				}
-				if (Widgets.CustomButtonText(ref rect2, label, color, textColor, borderColor, true, 1, true, true))
-				{
-					SoundDefOf.Click.PlayOneShotOnCamera(null);
-					this.selectedProject = current3;
+					if (this.requiredByThisFound)
+					{
+						for (int n = 0; n < researchProjectDef3.requiredByThis.CountAllowNull<ResearchProjectDef>(); n++)
+						{
+							ResearchProjectDef researchProjectDef5 = researchProjectDef3.requiredByThis[n];
+							if (this.selectedProject == researchProjectDef5)
+							{
+								borderColor = TexUI.HighlightLineResearchColor;
+							}
+						}
+					}
+					if (Widgets.CustomButtonText(ref rect2, label, color, textColor, borderColor, true, 1, true, true))
+					{
+						SoundDefOf.Click.PlayOneShotOnCamera(null);
+						this.selectedProject = researchProjectDef3;
+					}
 				}
 			}
 			GUI.EndGroup();
@@ -467,6 +480,11 @@ namespace RimWorld
 			}
 			GUI.color = Color.white;
 			return rect.yMin - yMin;
+		}
+
+		private string GetLabel(ResearchProjectDef r)
+		{
+			return r.LabelCap + "\n(" + r.CostApparent.ToString("F0") + ")";
 		}
 
 		private void SetPrerequisiteStatusColor(bool present, ResearchProjectDef project)

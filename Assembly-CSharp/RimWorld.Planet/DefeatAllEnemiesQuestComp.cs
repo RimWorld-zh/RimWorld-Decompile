@@ -36,7 +36,7 @@ namespace RimWorld.Planet
 			this.requestingFaction = requestingFaction;
 			this.relationsImprovement = relationsImprovement;
 			this.rewards.ClearAndDestroyContents(DestroyMode.Vanish);
-			this.rewards.TryAddRange(rewards);
+			this.rewards.TryAddRange(rewards, true);
 		}
 
 		public void StopQuest()
@@ -97,7 +97,7 @@ namespace RimWorld.Planet
 			{
 				this.requestingFaction.Name,
 				this.relationsImprovement.ToString("F0")
-			}), LetterType.Good, new GlobalTargetInfo(intVec, map, false), null);
+			}), LetterDefOf.Good, new GlobalTargetInfo(intVec, map, false), null);
 		}
 
 		public void GetChildHolders(List<IThingHolder> outChildren)

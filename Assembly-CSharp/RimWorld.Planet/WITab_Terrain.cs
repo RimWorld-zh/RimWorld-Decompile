@@ -38,6 +38,7 @@ namespace RimWorld.Planet
 			listing_Standard.Begin(rect3);
 			Tile selTile = base.SelTile;
 			int selTileID = base.SelTileID;
+			float y = Find.WorldGrid.LongLatOf(selTileID).y;
 			listing_Standard.Label(selTile.biome.description, -1f);
 			listing_Standard.Gap(8f);
 			listing_Standard.GapLine(12f);
@@ -57,12 +58,12 @@ namespace RimWorld.Planet
 			}
 			if (!Find.World.Impassable(selTileID))
 			{
-				int num = (int)(1f / (ThingDefOf.Human.GetStatValueAbstract(StatDefOf.MoveSpeed, null) / 60f) * 190f);
+				int num = 2500;
 				int numTicks = Mathf.Min(num + WorldPathGrid.CalculatedCostAt(selTileID, false, -1f), 120000);
 				listing_Standard.LabelDouble("MovementTimeNow".Translate(), numTicks.ToStringTicksToPeriod(true, false, true));
-				int numTicks2 = Mathf.Min(num + WorldPathGrid.CalculatedCostAt(selTileID, false, 0.5f), 120000);
+				int numTicks2 = Mathf.Min(num + WorldPathGrid.CalculatedCostAt(selTileID, false, Season.Summer.GetMiddleYearPct(y)), 120000);
 				listing_Standard.LabelDouble("MovementTimeSummer".Translate(), numTicks2.ToStringTicksToPeriod(true, false, true));
-				int numTicks3 = Mathf.Min(num + WorldPathGrid.CalculatedCostAt(selTileID, false, 0f), 120000);
+				int numTicks3 = Mathf.Min(num + WorldPathGrid.CalculatedCostAt(selTileID, false, Season.Winter.GetMiddleYearPct(y)), 120000);
 				listing_Standard.LabelDouble("MovementTimeWinter".Translate(), numTicks3.ToStringTicksToPeriod(true, false, true));
 			}
 			if (selTile.biome.canBuildBase)
@@ -73,7 +74,6 @@ namespace RimWorld.Planet
 			listing_Standard.LabelDouble("Elevation".Translate(), selTile.elevation.ToString("F0") + "m");
 			listing_Standard.GapLine(12f);
 			listing_Standard.LabelDouble("AvgTemp".Translate(), selTile.temperature.ToStringTemperature("F1"));
-			float y = Find.WorldGrid.LongLatOf(selTileID).y;
 			float celsiusTemp = GenTemperature.AverageTemperatureAtTileForTwelfth(selTileID, Season.Winter.GetMiddleTwelfth(y));
 			listing_Standard.LabelDouble("AvgWinterTemp".Translate(), celsiusTemp.ToStringTemperature("F1"));
 			float celsiusTemp2 = GenTemperature.AverageTemperatureAtTileForTwelfth(selTileID, Season.Summer.GetMiddleTwelfth(y));

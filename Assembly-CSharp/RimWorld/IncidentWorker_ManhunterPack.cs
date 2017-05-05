@@ -35,10 +35,10 @@ namespace RimWorld
 				pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.ManhunterPermanent, null, false, false, null);
 				pawn.mindState.exitMapAfterTick = Find.TickManager.TicksGame + Rand.Range(60000, 135000);
 			}
-			Find.LetterStack.ReceiveLetter(new Letter("LetterLabelManhunterPackArrived".Translate(), "ManhunterPackArrived".Translate(new object[]
+			Find.LetterStack.ReceiveLetter("LetterLabelManhunterPackArrived".Translate(), "ManhunterPackArrived".Translate(new object[]
 			{
 				pawnKindDef.label
-			}), LetterType.BadUrgent, list[0]), null);
+			}), LetterDefOf.BadUrgent, list[0], null);
 			Find.TickManager.slower.SignalForceNormalSpeedShort();
 			LessonAutoActivator.TeachOpportunity(ConceptDefOf.ForbiddingDoors, OpportunityType.Critical);
 			LessonAutoActivator.TeachOpportunity(ConceptDefOf.AllowedAreas, OpportunityType.Important);

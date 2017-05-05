@@ -247,7 +247,7 @@ namespace RimWorld.Planet
 									Find.LetterStack.ReceiveLetter("LetterLabelPawnsLostDueToMapCountdown".Translate(), "LetterPawnsLostDueToMapCountdown".Translate(new object[]
 									{
 										stringBuilder.ToString().TrimEndNewlines()
-									}), LetterType.BadNonUrgent, new GlobalTargetInfo(base.Tile), null);
+									}), LetterDefOf.BadNonUrgent, new GlobalTargetInfo(base.Tile), null);
 								}
 								MapParent.tmpPawns.Clear();
 							}

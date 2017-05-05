@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
@@ -70,7 +71,19 @@ namespace RimWorld
 				return false;
 			}
 			Plant plant = c.GetPlant(map);
-			return plant == null || plant.def.plant.growDays <= 10f;
+			if (plant != null && plant.def.plant.growDays > 10f)
+			{
+				return false;
+			}
+			List<Thing> thingList = c.GetThingList(map);
+			for (int i = 0; i < thingList.Count; i++)
+			{
+				if (thingList[i].def == ThingDefOf.PlantAmbrosia)
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 	}
 }

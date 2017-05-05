@@ -207,7 +207,7 @@ namespace Verse
 			if (Widgets.ButtonText(rect, "-" + countChange, true, false, true))
 			{
 				SoundDefOf.AmountDecrement.PlayOneShotOnCamera(null);
-				val -= countChange * UIUtility.CalculateAdjustmentMultiplier();
+				val -= countChange * GenUI.CurrentAdjustmentMultiplier();
 				if (val < min)
 				{
 					val = min;
@@ -217,7 +217,7 @@ namespace Verse
 			if (Widgets.ButtonText(rect, "+" + countChange, true, false, true))
 			{
 				SoundDefOf.AmountIncrement.PlayOneShotOnCamera(null);
-				val += countChange * UIUtility.CalculateAdjustmentMultiplier();
+				val += countChange * GenUI.CurrentAdjustmentMultiplier();
 				if (val < min)
 				{
 					val = min;

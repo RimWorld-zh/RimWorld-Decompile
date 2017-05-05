@@ -178,6 +178,41 @@ namespace RimWorld
 			return (T)((object)null);
 		}
 
+		public static TransferableOneWay TransferableMatchingDesperate(Thing thing, List<TransferableOneWay> transferables)
+		{
+			if (thing == null || transferables == null)
+			{
+				return null;
+			}
+			for (int i = 0; i < transferables.Count; i++)
+			{
+				TransferableOneWay transferableOneWay = transferables[i];
+				if (transferableOneWay.HasAnyThing)
+				{
+					if (transferableOneWay.things.Contains(thing))
+					{
+						return transferableOneWay;
+					}
+					if (TransferableUtility.TransferAsOne(thing, transferableOneWay.AnyThing))
+					{
+						return transferableOneWay;
+					}
+				}
+			}
+			for (int j = 0; j < transferables.Count; j++)
+			{
+				TransferableOneWay transferableOneWay2 = transferables[j];
+				if (transferableOneWay2.HasAnyThing)
+				{
+					if (transferableOneWay2.ThingDef == thing.def)
+					{
+						return transferableOneWay2;
+					}
+				}
+			}
+			return null;
+		}
+
 		public static List<Pawn> GetPawnsFromTransferables(List<TransferableOneWay> transferables)
 		{
 			List<Pawn> list = new List<Pawn>();

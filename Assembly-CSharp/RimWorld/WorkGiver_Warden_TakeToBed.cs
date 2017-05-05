@@ -32,6 +32,10 @@ namespace RimWorld
 			{
 				return null;
 			}
+			if (RestUtility.FindBedFor(prisoner, prisoner, true, true) != null)
+			{
+				return null;
+			}
 			Room room = prisoner.GetRoom(RegionType.Set_Passable);
 			Building_Bed building_Bed = RestUtility.FindBedFor(prisoner, warden, true, false);
 			if (building_Bed != null && building_Bed.GetRoom(RegionType.Set_Passable) != room)

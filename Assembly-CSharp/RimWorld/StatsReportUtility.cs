@@ -55,12 +55,12 @@ namespace RimWorld
 		[DebuggerHidden]
 		private static IEnumerable<StatDrawEntry> StatsToDraw(Def def, ThingDef stuff)
 		{
-			StatsReportUtility.<StatsToDraw>c__Iterator195 <StatsToDraw>c__Iterator = new StatsReportUtility.<StatsToDraw>c__Iterator195();
+			StatsReportUtility.<StatsToDraw>c__Iterator196 <StatsToDraw>c__Iterator = new StatsReportUtility.<StatsToDraw>c__Iterator196();
 			<StatsToDraw>c__Iterator.def = def;
 			<StatsToDraw>c__Iterator.stuff = stuff;
 			<StatsToDraw>c__Iterator.<$>def = def;
 			<StatsToDraw>c__Iterator.<$>stuff = stuff;
-			StatsReportUtility.<StatsToDraw>c__Iterator195 expr_23 = <StatsToDraw>c__Iterator;
+			StatsReportUtility.<StatsToDraw>c__Iterator196 expr_23 = <StatsToDraw>c__Iterator;
 			expr_23.$PC = -2;
 			return expr_23;
 		}
@@ -68,10 +68,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		private static IEnumerable<StatDrawEntry> StatsToDraw(Thing thing)
 		{
-			StatsReportUtility.<StatsToDraw>c__Iterator196 <StatsToDraw>c__Iterator = new StatsReportUtility.<StatsToDraw>c__Iterator196();
+			StatsReportUtility.<StatsToDraw>c__Iterator197 <StatsToDraw>c__Iterator = new StatsReportUtility.<StatsToDraw>c__Iterator197();
 			<StatsToDraw>c__Iterator.thing = thing;
 			<StatsToDraw>c__Iterator.<$>thing = thing;
-			StatsReportUtility.<StatsToDraw>c__Iterator196 expr_15 = <StatsToDraw>c__Iterator;
+			StatsReportUtility.<StatsToDraw>c__Iterator197 expr_15 = <StatsToDraw>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

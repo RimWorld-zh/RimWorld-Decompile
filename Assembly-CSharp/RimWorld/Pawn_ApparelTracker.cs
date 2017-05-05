@@ -319,6 +319,22 @@ namespace RimWorld
 			}
 		}
 
+		public Apparel FirstApparelOnBodyPartGroup(BodyPartGroupDef g)
+		{
+			for (int i = 0; i < this.wornApparel.Count; i++)
+			{
+				Apparel apparel = this.wornApparel[i];
+				for (int j = 0; j < apparel.def.apparel.bodyPartGroups.Count; j++)
+				{
+					if (apparel.def.apparel.bodyPartGroups[j] == BodyPartGroupDefOf.Torso)
+					{
+						return apparel;
+					}
+				}
+			}
+			return null;
+		}
+
 		public bool BodyPartGroupIsCovered(BodyPartGroupDef bp)
 		{
 			for (int i = 0; i < this.wornApparel.Count; i++)

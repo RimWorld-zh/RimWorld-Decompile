@@ -75,11 +75,11 @@ namespace Verse
 				{
 					enumerable = enumerable.Concat(extraGenStepDefs);
 				}
+				map.areaManager.AddStartingAreas();
 				DeepProfiler.Start("Generate contents into map");
 				MapGenerator.GenerateContentsIntoMap(enumerable, map);
 				DeepProfiler.End();
 				Find.Scenario.PostMapGenerate(map);
-				map.areaManager.AddStartingAreas();
 				DeepProfiler.Start("Finalize map init");
 				map.FinalizeInit();
 				DeepProfiler.End();

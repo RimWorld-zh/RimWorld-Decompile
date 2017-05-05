@@ -84,12 +84,19 @@ namespace Verse
 				return;
 			}
 			ProfilerThreadCheck.BeginSample("RebuildDirtyRegionsAndRooms");
-			ProfilerThreadCheck.BeginSample("Regenerate new regions from dirty cells");
-			this.RegenerateNewRegionsFromDirtyCells();
-			ProfilerThreadCheck.EndSample();
-			ProfilerThreadCheck.BeginSample("Create or update rooms");
-			this.CreateOrUpdateRooms();
-			ProfilerThreadCheck.EndSample();
+			try
+			{
+				ProfilerThreadCheck.BeginSample("Regenerate new regions from dirty cells");
+				this.RegenerateNewRegionsFromDirtyCells();
+				ProfilerThreadCheck.EndSample();
+				ProfilerThreadCheck.BeginSample("Create or update rooms");
+				this.CreateOrUpdateRooms();
+				ProfilerThreadCheck.EndSample();
+			}
+			catch (Exception arg)
+			{
+				Log.Error("Exception while rebuilding dirty regions: " + arg);
+			}
 			this.newRegions.Clear();
 			this.map.regionDirtyer.SetAllClean();
 			this.initialized = true;
@@ -326,6 +333,17 @@ namespace Verse
 				if (this.map.temperatureCache.TryGetAverageCachedRoomGroupTemp(roomGroup, out temperature))
 				{
 					roomGroup.Temperature = temperature;
+				}
+			}
+			foreach (Room current3 in this.reusedOldRooms)
+			{
+				RoomGroup group = current3.Group;
+				if (group != null)
+				{
+					if (!this.reusedOldRoomGroups.Contains(group) && !this.newRoomGroups.Contains(group))
+					{
+						group.Notify_RoomGroupShapeChanged();
+					}
 				}
 			}
 		}

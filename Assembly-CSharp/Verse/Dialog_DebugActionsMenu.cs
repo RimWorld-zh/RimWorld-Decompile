@@ -166,7 +166,7 @@ namespace Verse
 					{
 						parms.faction = localFac;
 						List<DebugMenuOption> list2 = new List<DebugMenuOption>();
-						foreach (float num in this.PointsOptions())
+						foreach (float num in Dialog_DebugActionsMenu.PointsOptions())
 						{
 							float localPoints = num;
 							list2.Add(new DebugMenuOption(num + " points", DebugMenuOptionMode.Action, delegate
@@ -1373,6 +1373,20 @@ namespace Verse
 					this.DustPuffFrom(p);
 				}
 			});
+			base.DebugToolMapForPawns("Tool: Train animal", delegate(Pawn p)
+			{
+				if (p.RaceProps.Animal && p.Faction == Faction.OfPlayer && p.training != null)
+				{
+					foreach (TrainableDef current in DefDatabase<TrainableDef>.AllDefs)
+					{
+						while (!p.training.IsCompleted(current))
+						{
+							p.training.Train(current, null);
+						}
+					}
+					this.DustPuffFrom(p);
+				}
+			});
 			base.DebugToolMapForPawns("Tool: Name animal by nuzzling", delegate(Pawn p)
 			{
 				if ((p.Name == null || p.Name.Numerical) && p.RaceProps.Animal)
@@ -2008,7 +2022,6 @@ namespace Verse
 			Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C1 <DoExecuteIncidentWithDebugAction>c__AnonStorey5C = new Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C1();
 			<DoExecuteIncidentWithDebugAction>c__AnonStorey5C.target = target;
 			<DoExecuteIncidentWithDebugAction>c__AnonStorey5C.altTarget = altTarget;
-			<DoExecuteIncidentWithDebugAction>c__AnonStorey5C.<>f__this = this;
 			base.DebugAction("Execute incident with...", delegate
 			{
 				List<DebugMenuOption> list = new List<DebugMenuOption>();
@@ -2045,7 +2058,7 @@ namespace Verse
 					{
 						IncidentParms parms = StorytellerUtility.DefaultParmsNow(Find.Storyteller.def, <DoExecuteIncidentWithDebugAction>c__AnonStorey5C2.localDef.category, <DoExecuteIncidentWithDebugAction>c__AnonStorey5C2.thisIncidentTarget);
 						List<DebugMenuOption> list2 = new List<DebugMenuOption>();
-						foreach (float num in <DoExecuteIncidentWithDebugAction>c__AnonStorey5C2.<>f__ref$1473.<>f__this.PointsOptions())
+						foreach (float num in Dialog_DebugActionsMenu.PointsOptions())
 						{
 							float localPoints = num;
 							list2.Add(new DebugMenuOption(num + " points", DebugMenuOptionMode.Action, delegate
@@ -2151,10 +2164,10 @@ namespace Verse
 		}
 
 		[DebuggerHidden]
-		private IEnumerable<float> PointsOptions()
+		public static IEnumerable<float> PointsOptions()
 		{
-			Dialog_DebugActionsMenu.<PointsOptions>c__Iterator22A <PointsOptions>c__Iterator22A = new Dialog_DebugActionsMenu.<PointsOptions>c__Iterator22A();
-			Dialog_DebugActionsMenu.<PointsOptions>c__Iterator22A expr_07 = <PointsOptions>c__Iterator22A;
+			Dialog_DebugActionsMenu.<PointsOptions>c__Iterator22D <PointsOptions>c__Iterator22D = new Dialog_DebugActionsMenu.<PointsOptions>c__Iterator22D();
+			Dialog_DebugActionsMenu.<PointsOptions>c__Iterator22D expr_07 = <PointsOptions>c__Iterator22D;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

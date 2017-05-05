@@ -84,7 +84,7 @@ namespace RimWorld
 					animalDef.label
 				});
 			}
-			Find.LetterStack.ReceiveLetter(label, text, LetterType.BadUrgent, pawn, null);
+			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.BadUrgent, pawn, null);
 			SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(map);
 			if (map == Find.VisibleMap)
 			{

@@ -59,19 +59,14 @@ namespace RimWorld
 			{
 				return;
 			}
-			if (this.def.building.mineableYieldWasteable && Rand.Value > yieldChance)
+			int num = this.def.building.mineableYield;
+			if (this.def.building.mineableYieldWasteable)
 			{
-				if (moteOnWaste)
-				{
-					MoteMaker.ThrowText(this.DrawPos, map, "TextMote_YieldWasted".Translate(), 3.65f);
-				}
+				num = Mathf.Max(1, GenMath.RoundRandom((float)num * this.yieldPct));
 			}
-			else
-			{
-				Thing thing = ThingMaker.MakeThing(this.def.building.mineableThing, null);
-				thing.stackCount = this.def.building.mineableYield;
-				GenSpawn.Spawn(thing, base.Position, map);
-			}
+			Thing thing = ThingMaker.MakeThing(this.def.building.mineableThing, null);
+			thing.stackCount = num;
+			GenSpawn.Spawn(thing, base.Position, map);
 		}
 	}
 }

@@ -18,7 +18,7 @@ namespace RimWorld
 
 		protected abstract string GetLetterText(IncidentParms parms, List<Pawn> pawns);
 
-		protected abstract LetterType GetLetterType();
+		protected abstract LetterDef GetLetterDef();
 
 		protected abstract string GetRelatedPawnsInfoLetterText(IncidentParms parms);
 
@@ -140,8 +140,8 @@ namespace RimWorld
 			string letterLabel = this.GetLetterLabel(parms);
 			string letterText = this.GetLetterText(parms, list);
 			PawnRelationUtility.Notify_PawnsSeenByPlayer(list, ref letterLabel, ref letterText, this.GetRelatedPawnsInfoLetterText(parms), true);
-			Find.LetterStack.ReceiveLetter(letterLabel, letterText, this.GetLetterType(), target, stringBuilder.ToString());
-			if (this.GetLetterType() == LetterType.BadUrgent)
+			Find.LetterStack.ReceiveLetter(letterLabel, letterText, this.GetLetterDef(), target, stringBuilder.ToString());
+			if (this.GetLetterDef() == LetterDefOf.BadUrgent)
 			{
 				TaleRecorder.RecordTale(TaleDefOf.RaidArrived, new object[0]);
 			}

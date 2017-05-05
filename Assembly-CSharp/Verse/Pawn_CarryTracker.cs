@@ -103,7 +103,7 @@ namespace Verse
 				Log.Error("Dead/downed pawn " + this.pawn + " tried to start carry item.");
 				return 0;
 			}
-			int num = this.innerContainer.TryAdd(item, count);
+			int num = this.innerContainer.TryAdd(item, count, true);
 			if (num > 0)
 			{
 				item.def.soundPickup.PlayOneShot(new TargetInfo(item.Position, this.pawn.Map, false));

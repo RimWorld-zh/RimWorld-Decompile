@@ -25,7 +25,7 @@ namespace RimWorld
 			{
 				return null;
 			}
-			if (!GenConstruct.CanConstruct(frame, pawn))
+			if (!GenConstruct.CanConstruct(frame, pawn, forced))
 			{
 				return null;
 			}

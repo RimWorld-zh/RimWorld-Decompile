@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -9,6 +8,8 @@ namespace RimWorld
 {
 	public static class FoodUtility
 	{
+		private static HashSet<Thing> filtered = new HashSet<Thing>();
+
 		private static readonly SimpleCurve FoodOptimalityEffectFromMoodCurve = new SimpleCurve
 		{
 			{
@@ -43,6 +44,7 @@ namespace RimWorld
 		{
 			Profiler.BeginSample("TryFindBestFoodSourceFor");
 			bool flag = getter.RaceProps.ToolUser && getter.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation);
+			bool allowDrug = !eater.IsTeetotaler();
 			Thing thing = null;
 			if (canUseInventory)
 			{
@@ -70,12 +72,12 @@ namespace RimWorld
 				}
 			}
 			bool allowPlant = getter == eater;
-			Thing thing2 = FoodUtility.BestFoodSourceOnMap(getter, eater, desperate, FoodPreferability.MealLavish, allowPlant, true, allowCorpse, true, canRefillDispenser, allowForbidden, allowSociallyImproper);
+			Thing thing2 = FoodUtility.BestFoodSourceOnMap(getter, eater, desperate, FoodPreferability.MealLavish, allowPlant, allowDrug, allowCorpse, true, canRefillDispenser, allowForbidden, allowSociallyImproper);
 			if (thing == null && thing2 == null)
 			{
 				if (canUseInventory && flag)
 				{
-					thing = FoodUtility.BestFoodInInventory(getter, null, FoodPreferability.DesperateOnly, FoodPreferability.MealLavish, 0f, false);
+					thing = FoodUtility.BestFoodInInventory(getter, null, FoodPreferability.DesperateOnly, FoodPreferability.MealLavish, 0f, allowDrug);
 					if (thing != null)
 					{
 						Profiler.EndSample();
@@ -257,20 +259,19 @@ namespace RimWorld
 				{
 					searchRegionsMax = 100;
 				}
-				HashSet<Thing> filtered = new HashSet<Thing>();
-				foreach (Pawn current in from t in GenRadial.RadialDistinctThingsAround(getter.Position, getter.Map, 2f, true)
-				select t as Pawn into t
-				where t != null && t != getter && t.RaceProps.Animal
-				select t)
+				FoodUtility.filtered.Clear();
+				foreach (Thing current in GenRadial.RadialDistinctThingsAround(getter.Position, getter.Map, 2f, true))
 				{
-					if (current.CurJob != null && current.CurJob.def == JobDefOf.Ingest && current.CurJob.targetA.HasThing)
+					Pawn pawn = current as Pawn;
+					if (pawn != null && pawn != getter && pawn.RaceProps.Animal && pawn.CurJob != null && pawn.CurJob.def == JobDefOf.Ingest && pawn.CurJob.GetTarget(TargetIndex.A).HasThing)
 					{
-						filtered.Add(current.CurJob.targetA.Thing);
+						FoodUtility.filtered.Add(pawn.CurJob.GetTarget(TargetIndex.A).Thing);
 					}
 				}
-				Predicate<Thing> predicate = (Thing t) => !filtered.Contains(t) && foodValidator(t) && t.def.ingestible.preferability > FoodPreferability.DesperateOnly && !t.IsNotFresh();
+				Predicate<Thing> predicate = (Thing t) => !FoodUtility.filtered.Contains(t) && foodValidator(t) && t.def.ingestible.preferability > FoodPreferability.DesperateOnly && !t.IsNotFresh();
 				Predicate<Thing> validator = predicate;
 				thing = GenClosest.ClosestThingReachable(getter.Position, getter.Map, thingRequest, PathEndMode.ClosestTouch, TraverseParms.For(getter, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, searchRegionsMax, false, RegionType.Set_Passable);
+				FoodUtility.filtered.Clear();
 				if (thing == null)
 				{
 					desperate = true;

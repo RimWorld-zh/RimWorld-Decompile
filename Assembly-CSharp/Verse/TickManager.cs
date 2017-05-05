@@ -389,18 +389,28 @@ namespace Verse
 				Log.Error(ex9.ToString());
 			}
 			Profiler.EndSample();
-			Profiler.BeginSample("Autosaver.AutosaverTick()");
+			Profiler.BeginSample("GameComponentTick()");
+			GameComponentUtility.GameComponentTick();
+			Profiler.EndSample();
+			Profiler.BeginSample("LetterStack.LetterStackTick()");
 			try
 			{
-				Find.Autosaver.AutosaverTick();
+				Find.LetterStack.LetterStackTick();
 			}
 			catch (Exception ex10)
 			{
 				Log.Error(ex10.ToString());
 			}
 			Profiler.EndSample();
-			Profiler.BeginSample("GameComponentTick()");
-			GameComponentUtility.GameComponentTick();
+			Profiler.BeginSample("Autosaver.AutosaverTick()");
+			try
+			{
+				Find.Autosaver.AutosaverTick();
+			}
+			catch (Exception ex11)
+			{
+				Log.Error(ex11.ToString());
+			}
 			Profiler.EndSample();
 			Debug.developerConsoleVisible = false;
 		}

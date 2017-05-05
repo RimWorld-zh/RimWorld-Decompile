@@ -239,7 +239,7 @@ namespace RimWorld
 			Find.LetterStack.ReceiveLetter("LetterLabelPrisonBreak".Translate(), "LetterPrisonBreak".Translate(new object[]
 			{
 				stringBuilder.ToString().TrimEndNewlines()
-			}), LetterType.BadUrgent, PrisonBreakUtility.allEscapingPrisoners[0], null);
+			}), LetterDefOf.BadUrgent, PrisonBreakUtility.allEscapingPrisoners[0], null);
 		}
 	}
 }

@@ -62,7 +62,7 @@ namespace RimWorld.Planet
 				{
 					return CaravanTicksPerMoveUtility.GetTicksPerMove(caravanPawns);
 				}
-				return 3100;
+				return 2500;
 			}
 		}
 

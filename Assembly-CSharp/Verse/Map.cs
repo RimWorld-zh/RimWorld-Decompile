@@ -226,9 +226,9 @@ namespace Verse
 		{
 			get
 			{
-				Map.<>c__Iterator1F6 <>c__Iterator1F = new Map.<>c__Iterator1F6();
+				Map.<>c__Iterator1F9 <>c__Iterator1F = new Map.<>c__Iterator1F9();
 				<>c__Iterator1F.<>f__this = this;
-				Map.<>c__Iterator1F6 expr_0E = <>c__Iterator1F;
+				Map.<>c__Iterator1F9 expr_0E = <>c__Iterator1F;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -309,9 +309,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerator<IntVec3> GetEnumerator()
 		{
-			Map.<GetEnumerator>c__Iterator1F7 <GetEnumerator>c__Iterator1F = new Map.<GetEnumerator>c__Iterator1F7();
-			<GetEnumerator>c__Iterator1F.<>f__this = this;
-			return <GetEnumerator>c__Iterator1F;
+			Map.<GetEnumerator>c__Iterator1FA <GetEnumerator>c__Iterator1FA = new Map.<GetEnumerator>c__Iterator1FA();
+			<GetEnumerator>c__Iterator1FA.<>f__this = this;
+			return <GetEnumerator>c__Iterator1FA;
 		}
 
 		public void ConstructComponents()
@@ -855,10 +855,10 @@ namespace Verse
 				DoorsDebugDrawer.DrawDebug();
 				Profiler.EndSample();
 				Profiler.BeginSample("mapDrawer.DrawMapMesh");
-				this.mapDrawer.DrawMapMesh();
+				this.mapDrawer.DrawMapMesh(SectionLayerPhaseDefOf.Main);
 				Profiler.EndSample();
 				Profiler.BeginSample("drawManager.DrawDynamicThings");
-				this.dynamicDrawManager.DrawDynamicThings();
+				this.dynamicDrawManager.DrawDynamicThings(DrawTargetDefOf.Main);
 				Profiler.EndSample();
 				Profiler.BeginSample("GameConditionManagerDraw");
 				this.gameConditionManager.GameConditionManagerDraw();
@@ -889,6 +889,30 @@ namespace Verse
 			Profiler.BeginSample("MapComponentUpdate()");
 			MapComponentUtility.MapComponentUpdate(this);
 			Profiler.EndSample();
+		}
+
+		public void GenerateWaterMap()
+		{
+			GL.PushMatrix();
+			GL.LoadIdentity();
+			GL.LoadProjectionMatrix(Matrix4x4.identity);
+			GL.modelview = Matrix4x4.identity;
+			try
+			{
+				RenderTexture waterLight = GlobalRenderTexture.WaterLight;
+				Graphics.SetRenderTarget(waterLight);
+				GL.Clear(false, true, Color.black);
+				this.mapDrawer.DrawMapMesh(SectionLayerPhaseDefOf.WaterGeneration);
+				Profiler.BeginSample("drawManager.DrawDynamicThings");
+				this.dynamicDrawManager.DrawDynamicThings(DrawTargetDefOf.WaterHeight);
+				Profiler.EndSample();
+				Shader.SetGlobalTexture("_WaterOutputTex", waterLight);
+			}
+			finally
+			{
+				Graphics.SetRenderTarget(null);
+				GL.PopMatrix();
+			}
 		}
 
 		public T GetComponent<T>() where T : MapComponent

@@ -89,11 +89,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<Pawn> HuntablesInCell(IntVec3 c)
 		{
-			Designator_Hunt.<HuntablesInCell>c__Iterator18C <HuntablesInCell>c__Iterator18C = new Designator_Hunt.<HuntablesInCell>c__Iterator18C();
-			<HuntablesInCell>c__Iterator18C.c = c;
-			<HuntablesInCell>c__Iterator18C.<$>c = c;
-			<HuntablesInCell>c__Iterator18C.<>f__this = this;
-			Designator_Hunt.<HuntablesInCell>c__Iterator18C expr_1C = <HuntablesInCell>c__Iterator18C;
+			Designator_Hunt.<HuntablesInCell>c__Iterator18D <HuntablesInCell>c__Iterator18D = new Designator_Hunt.<HuntablesInCell>c__Iterator18D();
+			<HuntablesInCell>c__Iterator18D.c = c;
+			<HuntablesInCell>c__Iterator18D.<$>c = c;
+			<HuntablesInCell>c__Iterator18D.<>f__this = this;
+			Designator_Hunt.<HuntablesInCell>c__Iterator18D expr_1C = <HuntablesInCell>c__Iterator18D;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

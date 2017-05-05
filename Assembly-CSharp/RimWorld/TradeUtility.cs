@@ -26,10 +26,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<Thing> AllLaunchableThings(Map map)
 		{
-			TradeUtility.<AllLaunchableThings>c__Iterator180 <AllLaunchableThings>c__Iterator = new TradeUtility.<AllLaunchableThings>c__Iterator180();
+			TradeUtility.<AllLaunchableThings>c__Iterator181 <AllLaunchableThings>c__Iterator = new TradeUtility.<AllLaunchableThings>c__Iterator181();
 			<AllLaunchableThings>c__Iterator.map = map;
 			<AllLaunchableThings>c__Iterator.<$>map = map;
-			TradeUtility.<AllLaunchableThings>c__Iterator180 expr_15 = <AllLaunchableThings>c__Iterator;
+			TradeUtility.<AllLaunchableThings>c__Iterator181 expr_15 = <AllLaunchableThings>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}
@@ -37,10 +37,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<Pawn> AllSellableColonyPawns(Map map)
 		{
-			TradeUtility.<AllSellableColonyPawns>c__Iterator181 <AllSellableColonyPawns>c__Iterator = new TradeUtility.<AllSellableColonyPawns>c__Iterator181();
+			TradeUtility.<AllSellableColonyPawns>c__Iterator182 <AllSellableColonyPawns>c__Iterator = new TradeUtility.<AllSellableColonyPawns>c__Iterator182();
 			<AllSellableColonyPawns>c__Iterator.map = map;
 			<AllSellableColonyPawns>c__Iterator.<$>map = map;
-			TradeUtility.<AllSellableColonyPawns>c__Iterator181 expr_15 = <AllSellableColonyPawns>c__Iterator;
+			TradeUtility.<AllSellableColonyPawns>c__Iterator182 expr_15 = <AllSellableColonyPawns>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

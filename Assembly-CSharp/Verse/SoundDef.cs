@@ -99,9 +99,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			SoundDef.<ConfigErrors>c__Iterator1D7 <ConfigErrors>c__Iterator1D = new SoundDef.<ConfigErrors>c__Iterator1D7();
-			<ConfigErrors>c__Iterator1D.<>f__this = this;
-			SoundDef.<ConfigErrors>c__Iterator1D7 expr_0E = <ConfigErrors>c__Iterator1D;
+			SoundDef.<ConfigErrors>c__Iterator1DA <ConfigErrors>c__Iterator1DA = new SoundDef.<ConfigErrors>c__Iterator1DA();
+			<ConfigErrors>c__Iterator1DA.<>f__this = this;
+			SoundDef.<ConfigErrors>c__Iterator1DA expr_0E = <ConfigErrors>c__Iterator1DA;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

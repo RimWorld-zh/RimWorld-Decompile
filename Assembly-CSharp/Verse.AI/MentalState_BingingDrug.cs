@@ -47,7 +47,7 @@ namespace Verse.AI
 						reason
 					});
 				}
-				Find.LetterStack.ReceiveLetter(label, text, LetterType.BadNonUrgent, this.pawn, null);
+				Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.BadNonUrgent, this.pawn, null);
 			}
 		}
 

@@ -65,9 +65,9 @@ namespace Verse
 		{
 			get
 			{
-				Region.<>c__Iterator1F8 <>c__Iterator1F = new Region.<>c__Iterator1F8();
-				<>c__Iterator1F.<>f__this = this;
-				Region.<>c__Iterator1F8 expr_0E = <>c__Iterator1F;
+				Region.<>c__Iterator1FB <>c__Iterator1FB = new Region.<>c__Iterator1FB();
+				<>c__Iterator1FB.<>f__this = this;
+				Region.<>c__Iterator1FB expr_0E = <>c__Iterator1FB;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -89,9 +89,9 @@ namespace Verse
 		{
 			get
 			{
-				Region.<>c__Iterator1F9 <>c__Iterator1F = new Region.<>c__Iterator1F9();
-				<>c__Iterator1F.<>f__this = this;
-				Region.<>c__Iterator1F9 expr_0E = <>c__Iterator1F;
+				Region.<>c__Iterator1FC <>c__Iterator1FC = new Region.<>c__Iterator1FC();
+				<>c__Iterator1FC.<>f__this = this;
+				Region.<>c__Iterator1FC expr_0E = <>c__Iterator1FC;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -101,9 +101,9 @@ namespace Verse
 		{
 			get
 			{
-				Region.<>c__Iterator1FA <>c__Iterator1FA = new Region.<>c__Iterator1FA();
-				<>c__Iterator1FA.<>f__this = this;
-				Region.<>c__Iterator1FA expr_0E = <>c__Iterator1FA;
+				Region.<>c__Iterator1FD <>c__Iterator1FD = new Region.<>c__Iterator1FD();
+				<>c__Iterator1FD.<>f__this = this;
+				Region.<>c__Iterator1FD expr_0E = <>c__Iterator1FD;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

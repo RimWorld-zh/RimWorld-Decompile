@@ -13,7 +13,7 @@ namespace RimWorld
 
 		private bool draftedInt;
 
-		private bool allowFiringInt = true;
+		private bool fireAtWillInt = true;
 
 		private AutoUndrafter autoUndrafter;
 
@@ -30,7 +30,7 @@ namespace RimWorld
 					return;
 				}
 				this.pawn.mindState.priorityWork.ClearPrioritizedWorkAndJobQueue();
-				this.allowFiringInt = true;
+				this.fireAtWillInt = true;
 				this.draftedInt = value;
 				if (!value && this.pawn.Spawned)
 				{
@@ -59,16 +59,16 @@ namespace RimWorld
 			}
 		}
 
-		public bool AllowFiring
+		public bool FireAtWill
 		{
 			get
 			{
-				return this.allowFiringInt;
+				return this.fireAtWillInt;
 			}
 			set
 			{
-				this.allowFiringInt = value;
-				if (!this.allowFiringInt && this.pawn.stances.curStance is Stance_Warmup)
+				this.fireAtWillInt = value;
+				if (!this.fireAtWillInt && this.pawn.stances.curStance is Stance_Warmup)
 				{
 					this.pawn.stances.CancelBusyStanceSoft();
 				}
@@ -84,7 +84,7 @@ namespace RimWorld
 		public void ExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.draftedInt, "drafted", false, false);
-			Scribe_Values.Look<bool>(ref this.allowFiringInt, "allowFiring", true, false);
+			Scribe_Values.Look<bool>(ref this.fireAtWillInt, "fireAtWill", true, false);
 			Scribe_Deep.Look<AutoUndrafter>(ref this.autoUndrafter, "autoUndrafter", new object[]
 			{
 				this.pawn
@@ -108,7 +108,7 @@ namespace RimWorld
 
 		internal void Notify_PrimaryWeaponChanged()
 		{
-			this.allowFiringInt = true;
+			this.fireAtWillInt = true;
 		}
 	}
 }

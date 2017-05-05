@@ -107,11 +107,11 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<Building> AllBuildingsColonistOfDef(ThingDef def)
 		{
-			ListerBuildings.<AllBuildingsColonistOfDef>c__Iterator1F1 <AllBuildingsColonistOfDef>c__Iterator1F = new ListerBuildings.<AllBuildingsColonistOfDef>c__Iterator1F1();
+			ListerBuildings.<AllBuildingsColonistOfDef>c__Iterator1F4 <AllBuildingsColonistOfDef>c__Iterator1F = new ListerBuildings.<AllBuildingsColonistOfDef>c__Iterator1F4();
 			<AllBuildingsColonistOfDef>c__Iterator1F.def = def;
 			<AllBuildingsColonistOfDef>c__Iterator1F.<$>def = def;
 			<AllBuildingsColonistOfDef>c__Iterator1F.<>f__this = this;
-			ListerBuildings.<AllBuildingsColonistOfDef>c__Iterator1F1 expr_1C = <AllBuildingsColonistOfDef>c__Iterator1F;
+			ListerBuildings.<AllBuildingsColonistOfDef>c__Iterator1F4 expr_1C = <AllBuildingsColonistOfDef>c__Iterator1F;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}
@@ -119,9 +119,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<T> AllBuildingsColonistOfClass<T>() where T : Building
 		{
-			ListerBuildings.<AllBuildingsColonistOfClass>c__Iterator1F2<T> <AllBuildingsColonistOfClass>c__Iterator1F = new ListerBuildings.<AllBuildingsColonistOfClass>c__Iterator1F2<T>();
+			ListerBuildings.<AllBuildingsColonistOfClass>c__Iterator1F5<T> <AllBuildingsColonistOfClass>c__Iterator1F = new ListerBuildings.<AllBuildingsColonistOfClass>c__Iterator1F5<T>();
 			<AllBuildingsColonistOfClass>c__Iterator1F.<>f__this = this;
-			ListerBuildings.<AllBuildingsColonistOfClass>c__Iterator1F2<T> expr_0E = <AllBuildingsColonistOfClass>c__Iterator1F;
+			ListerBuildings.<AllBuildingsColonistOfClass>c__Iterator1F5<T> expr_0E = <AllBuildingsColonistOfClass>c__Iterator1F;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

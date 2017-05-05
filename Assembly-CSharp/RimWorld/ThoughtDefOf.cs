@@ -115,6 +115,12 @@ namespace RimWorld
 
 		public static ThoughtDef Naked;
 
+		public static ThoughtDef DeadMansApparel;
+
+		public static ThoughtDef HumanLeatherApparelSad;
+
+		public static ThoughtDef HumanLeatherApparelHappy;
+
 		public static ThoughtDef Chitchat;
 
 		public static ThoughtDef PawnWithGoodOpinionDied;

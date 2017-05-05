@@ -139,7 +139,7 @@ namespace Verse
 			return item is T && base.CanAcceptAnyOf(item, canMergeWithExistingStacks);
 		}
 
-		public override int TryAdd(Thing item, int count)
+		public override int TryAdd(Thing item, int count, bool canMergeWithExistingStacks = true)
 		{
 			if (item == null)
 			{
@@ -155,14 +155,18 @@ namespace Verse
 			{
 				return 0;
 			}
-			if (!this.CanAcceptAnyOf(item, true))
+			if (!this.CanAcceptAnyOf(item, canMergeWithExistingStacks))
 			{
 				return 0;
 			}
 			int stackCount = item.stackCount;
 			int num = Mathf.Min(stackCount, count);
 			Thing thing = item.SplitOff(num);
-			if (this.TryAdd((T)((object)thing), true))
+			if (this.Contains(thing))
+			{
+				this.Remove(thing);
+			}
+			if (this.TryAdd((T)((object)thing), canMergeWithExistingStacks))
 			{
 				return num;
 			}
@@ -172,6 +176,7 @@ namespace Verse
 				item.TryAbsorbStack(thing, false);
 				return result;
 			}
+			this.TryAdd(thing, false);
 			return stackCount - item.stackCount;
 		}
 
@@ -189,15 +194,15 @@ namespace Verse
 			}
 			if (this.Contains(item))
 			{
-				Log.Warning("Tried to add " + item + " to ThingOwner but this item is already here.");
+				Log.Warning("Tried to add " + item.ToStringSafe<Thing>() + " to ThingOwner but this item is already here.");
 				return false;
 			}
 			if (item.holdingOwner != null)
 			{
-				Log.Warning(string.Concat(new object[]
+				Log.Warning(string.Concat(new string[]
 				{
 					"Tried to add ",
-					item,
+					item.ToStringSafe<Thing>(),
 					" to ThingOwner but this thing is already in another container. owner=",
 					this.owner.ToStringSafe<IThingHolder>(),
 					", other container owner=",
@@ -244,12 +249,12 @@ namespace Verse
 			return true;
 		}
 
-		public new void TryAddRange(IEnumerable<T> things)
+		public new void TryAddRange(IEnumerable<T> things, bool canMergeWithExistingStacks = true)
 		{
 			ThingOwner thingOwner = things as ThingOwner;
 			if (thingOwner != null)
 			{
-				thingOwner.TryTransferAllToContainer(this);
+				thingOwner.TryTransferAllToContainer(this, canMergeWithExistingStacks);
 			}
 			else
 			{
@@ -258,14 +263,14 @@ namespace Verse
 				{
 					for (int i = 0; i < list.Count; i++)
 					{
-						this.TryAdd(list[i], true);
+						this.TryAdd(list[i], canMergeWithExistingStacks);
 					}
 				}
 				else
 				{
 					foreach (T current in things)
 					{
-						this.TryAdd(current, true);
+						this.TryAdd(current, canMergeWithExistingStacks);
 					}
 				}
 			}
@@ -316,10 +321,10 @@ namespace Verse
 			return this.innerList[index];
 		}
 
-		public bool TryTransferToContainer(Thing item, ThingOwner otherContainer, int stackCount, out T resultingTransferredItem)
+		public bool TryTransferToContainer(Thing item, ThingOwner otherContainer, int stackCount, out T resultingTransferredItem, bool canMergeWithExistingStacks = true)
 		{
 			Thing thing;
-			bool result = base.TryTransferToContainer(item, otherContainer, stackCount, out thing);
+			bool result = base.TryTransferToContainer(item, otherContainer, stackCount, out thing, canMergeWithExistingStacks);
 			resultingTransferredItem = (T)((object)thing);
 			return result;
 		}
@@ -377,7 +382,7 @@ namespace Verse
 			return result;
 		}
 	}
-	public abstract class ThingOwner : IEnumerable, IEnumerable<Thing>, ICollection<Thing>, IList<Thing>, IExposable
+	public abstract class ThingOwner : IEnumerable<Thing>, IEnumerable, ICollection<Thing>, IList<Thing>, IExposable
 	{
 		protected IThingHolder owner;
 
@@ -506,17 +511,17 @@ namespace Verse
 		[DebuggerHidden]
 		IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
 		{
-			ThingOwner.GetEnumerator>c__Iterator227 getEnumerator>c__Iterator = new ThingOwner.GetEnumerator>c__Iterator227();
-			getEnumerator>c__Iterator.<>f__this = this;
-			return getEnumerator>c__Iterator;
+			ThingOwner.GetEnumerator>c__Iterator22A getEnumerator>c__Iterator22A = new ThingOwner.GetEnumerator>c__Iterator22A();
+			getEnumerator>c__Iterator22A.<>f__this = this;
+			return getEnumerator>c__Iterator22A;
 		}
 
 		[DebuggerHidden]
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			ThingOwner.GetEnumerator>c__Iterator228 getEnumerator>c__Iterator = new ThingOwner.GetEnumerator>c__Iterator228();
-			getEnumerator>c__Iterator.<>f__this = this;
-			return getEnumerator>c__Iterator;
+			ThingOwner.GetEnumerator>c__Iterator22B getEnumerator>c__Iterator22B = new ThingOwner.GetEnumerator>c__Iterator22B();
+			getEnumerator>c__Iterator22B.<>f__this = this;
+			return getEnumerator>c__Iterator22B;
 		}
 
 		public virtual void ExposeData()
@@ -616,7 +621,7 @@ namespace Verse
 			return true;
 		}
 
-		public abstract int TryAdd(Thing item, int count);
+		public abstract int TryAdd(Thing item, int count, bool canMergeWithExistingStacks = true);
 
 		public abstract bool TryAdd(Thing item, bool canMergeWithExistingStacks = true);
 
@@ -640,12 +645,12 @@ namespace Verse
 			this.Remove(this.GetAt(index));
 		}
 
-		public void TryAddRange(IEnumerable<Thing> things)
+		public void TryAddRange(IEnumerable<Thing> things, bool canMergeWithExistingStacks = true)
 		{
 			ThingOwner thingOwner = things as ThingOwner;
 			if (thingOwner != null)
 			{
-				thingOwner.TryTransferAllToContainer(this);
+				thingOwner.TryTransferAllToContainer(this, canMergeWithExistingStacks);
 			}
 			else
 			{
@@ -654,14 +659,14 @@ namespace Verse
 				{
 					for (int i = 0; i < list.Count; i++)
 					{
-						this.TryAdd(list[i], true);
+						this.TryAdd(list[i], canMergeWithExistingStacks);
 					}
 				}
 				else
 				{
 					foreach (Thing current in things)
 					{
-						this.TryAdd(current, true);
+						this.TryAdd(current, canMergeWithExistingStacks);
 					}
 				}
 			}
@@ -681,18 +686,18 @@ namespace Verse
 			return num;
 		}
 
-		public bool TryTransferToContainer(Thing item, ThingOwner otherContainer)
+		public bool TryTransferToContainer(Thing item, ThingOwner otherContainer, bool canMergeWithExistingStacks = true)
 		{
-			return this.TryTransferToContainer(item, otherContainer, item.stackCount);
+			return this.TryTransferToContainer(item, otherContainer, item.stackCount, canMergeWithExistingStacks);
 		}
 
-		public bool TryTransferToContainer(Thing item, ThingOwner otherContainer, int count)
+		public bool TryTransferToContainer(Thing item, ThingOwner otherContainer, int count, bool canMergeWithExistingStacks = true)
 		{
 			Thing thing;
-			return this.TryTransferToContainer(item, otherContainer, count, out thing);
+			return this.TryTransferToContainer(item, otherContainer, count, out thing, canMergeWithExistingStacks);
 		}
 
-		public bool TryTransferToContainer(Thing item, ThingOwner otherContainer, int count, out Thing resultingTransferredItem)
+		public bool TryTransferToContainer(Thing item, ThingOwner otherContainer, int count, out Thing resultingTransferredItem, bool canMergeWithExistingStacks = true)
 		{
 			if (!this.Contains(item))
 			{
@@ -700,7 +705,7 @@ namespace Verse
 				resultingTransferredItem = null;
 				return false;
 			}
-			if (!otherContainer.CanAcceptAnyOf(item, true))
+			if (!otherContainer.CanAcceptAnyOf(item, canMergeWithExistingStacks))
 			{
 				resultingTransferredItem = null;
 				return false;
@@ -715,7 +720,7 @@ namespace Verse
 			{
 				this.Remove(thing);
 			}
-			bool flag = otherContainer.TryAdd(thing, true);
+			bool flag = otherContainer.TryAdd(thing, canMergeWithExistingStacks);
 			if (flag)
 			{
 				resultingTransferredItem = thing;
@@ -730,7 +735,7 @@ namespace Verse
 					}
 					else
 					{
-						this.TryAdd(thing, true);
+						this.TryAdd(thing, false);
 					}
 				}
 				resultingTransferredItem = null;
@@ -738,11 +743,11 @@ namespace Verse
 			return flag;
 		}
 
-		public void TryTransferAllToContainer(ThingOwner other)
+		public void TryTransferAllToContainer(ThingOwner other, bool canMergeWithExistingStacks = true)
 		{
 			for (int i = this.Count - 1; i >= 0; i--)
 			{
-				this.TryTransferToContainer(this.GetAt(i), other);
+				this.TryTransferToContainer(this.GetAt(i), other, canMergeWithExistingStacks);
 			}
 		}
 
@@ -760,7 +765,7 @@ namespace Verse
 					"Tried to get ",
 					count,
 					" of ",
-					thing,
+					thing.ToStringSafe<Thing>(),
 					" while only having ",
 					thing.stackCount
 				}));
@@ -946,6 +951,11 @@ namespace Verse
 			if (compTransporter != null)
 			{
 				compTransporter.Notify_ThingAdded(item);
+			}
+			Caravan caravan = this.owner as Caravan;
+			if (caravan != null)
+			{
+				caravan.Notify_PawnAdded((Pawn)item);
 			}
 			this.NotifyColonistBarIfColonistCorpse(item);
 		}

@@ -12,6 +12,8 @@ namespace RimWorld
 
 		private const float AIPersonaCoreConsiderChance = 0.25f;
 
+		private const int FeeDemandTimeoutTicks = 60000;
+
 		private static readonly IntRange TimeoutDaysRange = new IntRange(10, 30);
 
 		private static readonly IntRange ThingsCountRange = new IntRange(5, 9);
@@ -78,73 +80,56 @@ namespace RimWorld
 			{
 				return false;
 			}
-			SitePartDef sitePart;
-			if (!SiteMaker.TryFindNewRandomSitePartFor(SiteCoreDefOf.ItemStash, null, this.PossibleSiteParts, null, out sitePart, true, null))
+			SitePartDef sitePartDef;
+			if (!SiteMaker.TryFindNewRandomSitePartFor(SiteCoreDefOf.ItemStash, null, this.PossibleSiteParts, null, out sitePartDef, true, null))
 			{
 				return false;
 			}
-			IEnumerable<SitePartDef> arg_7C_0;
-			if (sitePart != null)
+			IEnumerable<SitePartDef> arg_57_0;
+			if (sitePartDef != null)
 			{
-				IEnumerable<SitePartDef> enumerable = Gen.YieldSingle<SitePartDef>(sitePart);
-				arg_7C_0 = enumerable;
+				IEnumerable<SitePartDef> enumerable = Gen.YieldSingle<SitePartDef>(sitePartDef);
+				arg_57_0 = enumerable;
 			}
 			else
 			{
-				arg_7C_0 = null;
+				arg_57_0 = null;
 			}
-			IEnumerable<SitePartDef> parts = arg_7C_0;
+			IEnumerable<SitePartDef> parts = arg_57_0;
 			Faction siteFaction;
 			if (!SiteMaker.TryFindRandomFactionFor(SiteCoreDefOf.ItemStash, parts, out siteFaction, true, null))
 			{
 				return false;
 			}
-			int days = IncidentWorker_QuestItemStash.TimeoutDaysRange.RandomInRange;
-			List<Thing> items = this.GenerateItems(siteFaction);
-			string letterText = this.GetLetterText(faction, items, days, this.GetSitePartInfoKey(sitePart));
+			int randomInRange = IncidentWorker_QuestItemStash.TimeoutDaysRange.RandomInRange;
+			List<Thing> list = this.GenerateItems(siteFaction);
+			string letterText = this.GetLetterText(faction, list, randomInRange, this.GetSitePartInfoKey(sitePartDef));
 			if (Rand.Chance(this.FeeDemandChance(faction)))
 			{
 				Map map = TradeUtility.PlayerHomeMapWithMostLaunchableSilver();
-				int fee = IncidentWorker_QuestItemStash.FeeRange.RandomInRange;
-				DiaNode diaNode = new DiaNode(letterText + "\n\n" + "ItemStashQuestFeeDemand".Translate(new object[]
+				int randomInRange2 = IncidentWorker_QuestItemStash.FeeRange.RandomInRange;
+				string text = letterText + "\n\n" + "ItemStashQuestFeeDemand".Translate(new object[]
 				{
 					faction.leader.LabelShort,
-					fee
-				}).CapitalizeFirst());
-				DiaOption diaOption = new DiaOption("ItemStashQuest_Accept".Translate());
-				diaOption.action = delegate
-				{
-					Site o2 = this.CreateSite(tile, sitePart, days, siteFaction, items);
-					CameraJumper.TryJumpAndSelect(o2);
-					TradeUtility.LaunchSilver(map, fee);
-				};
-				diaOption.resolveTree = true;
-				if (map == null || !TradeUtility.ColonyHasEnoughSilver(map, fee))
-				{
-					diaOption.Disable("NeedSilverLaunchable".Translate(new object[]
-					{
-						fee
-					}));
-				}
-				diaNode.options.Add(diaOption);
-				DiaOption diaOption2 = new DiaOption("ItemStashQuest_Reject".Translate());
-				diaOption2.action = delegate
-				{
-					for (int i = 0; i < items.Count; i++)
-					{
-						items[i].Destroy(DestroyMode.Vanish);
-					}
-				};
-				diaOption2.resolveTree = true;
-				diaNode.options.Add(diaOption2);
-				Dialog_NodeTree dialog_NodeTree = new Dialog_NodeTree(diaNode, true, true, "ItemStashQuestTitle".Translate());
-				dialog_NodeTree.closeOnEscapeKey = false;
-				Find.WindowStack.Add(dialog_NodeTree);
+					randomInRange2
+				}).CapitalizeFirst();
+				ChoiceLetter_ItemStashFeeDemand choiceLetter_ItemStashFeeDemand = (ChoiceLetter_ItemStashFeeDemand)LetterMaker.MakeLetter(this.def.letterLabel, text, LetterDefOf.ItemStashFeeDemand);
+				choiceLetter_ItemStashFeeDemand.title = "ItemStashQuestTitle".Translate();
+				choiceLetter_ItemStashFeeDemand.radioMode = true;
+				choiceLetter_ItemStashFeeDemand.map = map;
+				choiceLetter_ItemStashFeeDemand.fee = randomInRange2;
+				choiceLetter_ItemStashFeeDemand.siteDaysTimeout = randomInRange;
+				choiceLetter_ItemStashFeeDemand.items.TryAddRange(list, false);
+				choiceLetter_ItemStashFeeDemand.siteFaction = siteFaction;
+				choiceLetter_ItemStashFeeDemand.sitePart = sitePartDef;
+				choiceLetter_ItemStashFeeDemand.alliedFaction = faction;
+				choiceLetter_ItemStashFeeDemand.StartTimeout(60000);
+				Find.LetterStack.ReceiveLetter(choiceLetter_ItemStashFeeDemand, null);
 			}
 			else
 			{
-				Site o = this.CreateSite(tile, sitePart, days, siteFaction, items);
-				Find.LetterStack.ReceiveLetter(this.def.letterLabel, letterText, this.def.letterType, o, null);
+				Site o = IncidentWorker_QuestItemStash.CreateSite(tile, sitePartDef, randomInRange, siteFaction, list);
+				Find.LetterStack.ReceiveLetter(this.def.letterLabel, letterText, this.def.letterDef, o, null);
 			}
 			return true;
 		}
@@ -204,7 +189,7 @@ namespace RimWorld
 			this.possibleItemCollectionGenerators.Add(new Pair<ItemCollectionGeneratorDef, ItemCollectionGeneratorParams>(ItemCollectionGeneratorDefOf.Apparel, second3));
 		}
 
-		private Site CreateSite(int tile, SitePartDef sitePart, int days, Faction siteFaction, List<Thing> items)
+		public static Site CreateSite(int tile, SitePartDef sitePart, int days, Faction siteFaction, IList<Thing> items)
 		{
 			Site site = (Site)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Site);
 			site.Tile = tile;
@@ -215,7 +200,7 @@ namespace RimWorld
 			}
 			site.SetFaction(siteFaction);
 			site.GetComponent<TimeoutComp>().StartTimeout(days * 60000);
-			site.GetComponent<ItemStashContentsComp>().contents.TryAddRange(items);
+			site.GetComponent<ItemStashContentsComp>().contents.TryAddRange(items, false);
 			Find.WorldObjects.Add(site);
 			return site;
 		}

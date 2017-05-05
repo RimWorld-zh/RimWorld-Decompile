@@ -1,6 +1,7 @@
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -170,6 +171,7 @@ namespace RimWorld
 			{
 				site.Tile = tile;
 				Find.WorldObjects.Add(site);
+				Find.LetterStack.ReceiveLetter("LetterLabelFoundPreciousLump".Translate(), "LetterFoundPreciousLump".Translate(), LetterDefOf.Good, site, null);
 			}
 		}
 
@@ -222,6 +224,16 @@ namespace RimWorld
 				});
 			}
 			return null;
+		}
+
+		[DebuggerHidden]
+		public override IEnumerable<Gizmo> CompGetGizmosExtra()
+		{
+			CompLongRangeMineralScanner.<CompGetGizmosExtra>c__Iterator166 <CompGetGizmosExtra>c__Iterator = new CompLongRangeMineralScanner.<CompGetGizmosExtra>c__Iterator166();
+			<CompGetGizmosExtra>c__Iterator.<>f__this = this;
+			CompLongRangeMineralScanner.<CompGetGizmosExtra>c__Iterator166 expr_0E = <CompGetGizmosExtra>c__Iterator;
+			expr_0E.$PC = -2;
+			return expr_0E;
 		}
 	}
 }

@@ -26,6 +26,10 @@ namespace RimWorld
 
 		public static TerrainDef WaterMovingShallow;
 
+		public static TerrainDef WaterOceanDeep;
+
+		public static TerrainDef WaterOceanShallow;
+
 		public static TerrainDef PavedTile;
 
 		public static TerrainDef WoodPlankFloor;

@@ -463,7 +463,8 @@ namespace RimWorld
 			IntVec3 intVec;
 			if (!CellFinderLoose.TryGetRandomCellWith(validator, map, 1000, out intVec))
 			{
-				Log.Message(string.Concat(new object[]
+				intVec = CellFinder.RandomCell(map);
+				Log.Warning(string.Concat(new object[]
 				{
 					"RandomAnimalSpawnCell_MapGen failed: numStand=",
 					numStand,
@@ -476,7 +477,6 @@ namespace RimWorld
 					". Returning ",
 					intVec
 				}));
-				Log.Message("RandomAnimalSpawnCell_MapGen failed");
 			}
 			return intVec;
 		}

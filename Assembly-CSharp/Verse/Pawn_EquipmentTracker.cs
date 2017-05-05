@@ -71,9 +71,9 @@ namespace Verse
 		{
 			get
 			{
-				Pawn_EquipmentTracker.<>c__Iterator217 <>c__Iterator = new Pawn_EquipmentTracker.<>c__Iterator217();
-				<>c__Iterator.<>f__this = this;
-				Pawn_EquipmentTracker.<>c__Iterator217 expr_0E = <>c__Iterator;
+				Pawn_EquipmentTracker.<>c__Iterator21A <>c__Iterator21A = new Pawn_EquipmentTracker.<>c__Iterator21A();
+				<>c__Iterator21A.<>f__this = this;
+				Pawn_EquipmentTracker.<>c__Iterator21A expr_0E = <>c__Iterator21A;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -189,7 +189,7 @@ namespace Verse
 
 		public bool TryTransferEquipmentToContainer(ThingWithComps eq, ThingOwner container)
 		{
-			return this.equipment.TryTransferToContainer(eq, container);
+			return this.equipment.TryTransferToContainer(eq, container, true);
 		}
 
 		public void DestroyEquipment(ThingWithComps eq)
@@ -251,9 +251,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			Pawn_EquipmentTracker.<GetGizmos>c__Iterator218 <GetGizmos>c__Iterator = new Pawn_EquipmentTracker.<GetGizmos>c__Iterator218();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			Pawn_EquipmentTracker.<GetGizmos>c__Iterator218 expr_0E = <GetGizmos>c__Iterator;
+			Pawn_EquipmentTracker.<GetGizmos>c__Iterator21B <GetGizmos>c__Iterator21B = new Pawn_EquipmentTracker.<GetGizmos>c__Iterator21B();
+			<GetGizmos>c__Iterator21B.<>f__this = this;
+			Pawn_EquipmentTracker.<GetGizmos>c__Iterator21B expr_0E = <GetGizmos>c__Iterator21B;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

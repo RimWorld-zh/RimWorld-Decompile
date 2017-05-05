@@ -77,9 +77,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			WorkGiverDef.<ConfigErrors>c__Iterator1E3 <ConfigErrors>c__Iterator1E = new WorkGiverDef.<ConfigErrors>c__Iterator1E3();
+			WorkGiverDef.<ConfigErrors>c__Iterator1E6 <ConfigErrors>c__Iterator1E = new WorkGiverDef.<ConfigErrors>c__Iterator1E6();
 			<ConfigErrors>c__Iterator1E.<>f__this = this;
-			WorkGiverDef.<ConfigErrors>c__Iterator1E3 expr_0E = <ConfigErrors>c__Iterator1E;
+			WorkGiverDef.<ConfigErrors>c__Iterator1E6 expr_0E = <ConfigErrors>c__Iterator1E;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

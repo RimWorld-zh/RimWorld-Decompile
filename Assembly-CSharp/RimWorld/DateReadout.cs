@@ -97,7 +97,7 @@ namespace RimWorld
 				15,
 				season.Label(),
 				15,
-				GenDate.Quadrum((long)GenTicks.TicksAbs, location.x)
+				GenDate.Quadrum((long)GenTicks.TicksAbs, location.x).Label()
 			}), 86423));
 		}
 	}

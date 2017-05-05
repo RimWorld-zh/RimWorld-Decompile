@@ -107,7 +107,7 @@ namespace RimWorld
 			{
 				TransferablePositiveCountDirection positiveCountDirection = trad.PositiveCountDirection;
 				int num = (positiveCountDirection != TransferablePositiveCountDirection.Source) ? -1 : 1;
-				int num2 = UIUtility.CalculateAdjustmentMultiplier();
+				int num2 = GenUI.CurrentAdjustmentMultiplier();
 				bool flag4 = trad.GetRange() == 1;
 				if (trad.CanAdjustBy(num * num2).Accepted)
 				{

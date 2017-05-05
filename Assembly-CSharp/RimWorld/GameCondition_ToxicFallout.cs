@@ -114,10 +114,7 @@ namespace RimWorld
 
 		public override SkyTarget? SkyTarget()
 		{
-			return new SkyTarget?(new SkyTarget(this.ToxicFalloutColors)
-			{
-				glow = 0.85f
-			});
+			return new SkyTarget?(new SkyTarget(0.85f, this.ToxicFalloutColors, 1f, 1f));
 		}
 
 		public override float AnimalDensityFactor()

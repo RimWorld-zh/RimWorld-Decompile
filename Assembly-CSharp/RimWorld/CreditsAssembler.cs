@@ -10,8 +10,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<CreditsEntry> AllCredits()
 		{
-			CreditsAssembler.<AllCredits>c__Iterator198 <AllCredits>c__Iterator = new CreditsAssembler.<AllCredits>c__Iterator198();
-			CreditsAssembler.<AllCredits>c__Iterator198 expr_07 = <AllCredits>c__Iterator;
+			CreditsAssembler.<AllCredits>c__Iterator199 <AllCredits>c__Iterator = new CreditsAssembler.<AllCredits>c__Iterator199();
+			CreditsAssembler.<AllCredits>c__Iterator199 expr_07 = <AllCredits>c__Iterator;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

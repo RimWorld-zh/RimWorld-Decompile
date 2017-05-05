@@ -83,7 +83,7 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerator<CurvePoint> GetEnumerator()
 		{
-			SimpleCurve.<GetEnumerator>c__Iterator234 <GetEnumerator>c__Iterator = new SimpleCurve.<GetEnumerator>c__Iterator234();
+			SimpleCurve.<GetEnumerator>c__Iterator238 <GetEnumerator>c__Iterator = new SimpleCurve.<GetEnumerator>c__Iterator238();
 			<GetEnumerator>c__Iterator.<>f__this = this;
 			return <GetEnumerator>c__Iterator;
 		}
@@ -189,11 +189,11 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors(string prefix)
 		{
-			SimpleCurve.<ConfigErrors>c__Iterator235 <ConfigErrors>c__Iterator = new SimpleCurve.<ConfigErrors>c__Iterator235();
+			SimpleCurve.<ConfigErrors>c__Iterator239 <ConfigErrors>c__Iterator = new SimpleCurve.<ConfigErrors>c__Iterator239();
 			<ConfigErrors>c__Iterator.prefix = prefix;
 			<ConfigErrors>c__Iterator.<$>prefix = prefix;
 			<ConfigErrors>c__Iterator.<>f__this = this;
-			SimpleCurve.<ConfigErrors>c__Iterator235 expr_1C = <ConfigErrors>c__Iterator;
+			SimpleCurve.<ConfigErrors>c__Iterator239 expr_1C = <ConfigErrors>c__Iterator;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

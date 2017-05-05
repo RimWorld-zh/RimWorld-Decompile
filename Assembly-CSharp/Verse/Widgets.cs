@@ -353,7 +353,7 @@ namespace Verse
 			rect.height = height;
 			if (renderLabel)
 			{
-				GUI.Label(rect, label, Text.CurFontStyle);
+				Widgets.Label(rect, label);
 			}
 		}
 
@@ -1632,8 +1632,8 @@ namespace Verse
 			if (Event.current.type == EventType.ScrollWheel && Mouse.IsOver(outRect))
 			{
 				scrollPosition.x += Event.current.delta.y * ScrollWheelSpeed;
-				float num = 1f;
-				float num2 = viewRect.width - outRect.width - 1f;
+				float num = 0f;
+				float num2 = viewRect.width - outRect.width + 16f;
 				if (scrollPosition.x < num)
 				{
 					scrollPosition.x = num;

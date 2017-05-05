@@ -8,8 +8,6 @@ namespace RimWorld.Planet
 {
 	public class Site : MapParent
 	{
-		private const int ForceExitAndRemoveMapCountdownHours = 60;
-
 		public string customLabel;
 
 		public SiteCoreDef core;
@@ -190,7 +188,7 @@ namespace RimWorld.Planet
 				return;
 			}
 			this.startedCountdown = true;
-			int num = 150000;
+			int num = Mathf.RoundToInt(this.core.forceExitAndRemoveMapCountdownDurationDays * 60000f);
 			string text = (!this.anyEnemiesInitially) ? "MessageSiteCountdownBecauseNoEnemiesInitially".Translate(new object[]
 			{
 				MapParent.GetForceExitAndRemoveMapCountdownTimeLeftString(num)

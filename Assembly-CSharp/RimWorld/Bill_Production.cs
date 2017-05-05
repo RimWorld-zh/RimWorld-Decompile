@@ -171,13 +171,13 @@ namespace RimWorld
 				}
 				else if (this.repeatMode == BillRepeatModeDefOf.TargetCount)
 				{
-					int num = this.recipe.targetCountAdjustment * UIUtility.CalculateAdjustmentMultiplier();
+					int num = this.recipe.targetCountAdjustment * GenUI.CurrentAdjustmentMultiplier();
 					this.targetCount += num;
 					this.unpauseWhenYouHave += num;
 				}
 				else if (this.repeatMode == BillRepeatModeDefOf.RepeatCount)
 				{
-					this.repeatCount += UIUtility.CalculateAdjustmentMultiplier();
+					this.repeatCount += GenUI.CurrentAdjustmentMultiplier();
 				}
 				SoundDefOf.AmountIncrement.PlayOneShotOnCamera(null);
 				if (TutorSystem.TutorialMode && this.repeatMode == BillRepeatModeDefOf.RepeatCount)
@@ -194,13 +194,13 @@ namespace RimWorld
 				}
 				else if (this.repeatMode == BillRepeatModeDefOf.TargetCount)
 				{
-					int num2 = this.recipe.targetCountAdjustment * UIUtility.CalculateAdjustmentMultiplier();
+					int num2 = this.recipe.targetCountAdjustment * GenUI.CurrentAdjustmentMultiplier();
 					this.targetCount = Mathf.Max(0, this.targetCount - num2);
 					this.unpauseWhenYouHave = Mathf.Max(0, this.unpauseWhenYouHave - num2);
 				}
 				else if (this.repeatMode == BillRepeatModeDefOf.RepeatCount)
 				{
-					this.repeatCount = Mathf.Max(0, this.repeatCount - UIUtility.CalculateAdjustmentMultiplier());
+					this.repeatCount = Mathf.Max(0, this.repeatCount - GenUI.CurrentAdjustmentMultiplier());
 				}
 				SoundDefOf.AmountDecrement.PlayOneShotOnCamera(null);
 				if (TutorSystem.TutorialMode && this.repeatMode == BillRepeatModeDefOf.RepeatCount)

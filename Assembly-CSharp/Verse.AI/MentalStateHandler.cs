@@ -113,7 +113,7 @@ namespace Verse.AI
 						reason
 					});
 				}
-				Find.LetterStack.ReceiveLetter(label, text, stateDef.beginLetterType, this.pawn, null);
+				Find.LetterStack.ReceiveLetter(label, text, stateDef.beginLetterDef, this.pawn, null);
 			}
 			if (stateDef.IsExtreme && this.pawn.IsPlayerControlledCaravanMember())
 			{

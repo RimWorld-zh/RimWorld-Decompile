@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 
 		private string nameInt;
 
-		private ThingOwner<Pawn> pawns;
+		public ThingOwner<Pawn> pawns;
 
 		public bool autoJoinable;
 
@@ -452,18 +452,6 @@ namespace RimWorld.Planet
 				}));
 				return;
 			}
-			if (this.pawns.Contains(p))
-			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Tried to add ",
-					p,
-					" to ",
-					this,
-					", but this pawn is already here."
-				}));
-				return;
-			}
 			if (this.pawns.TryAdd(p, true))
 			{
 				Pawn pawn = p.carryTracker.CarriedThing as Pawn;
@@ -476,9 +464,6 @@ namespace RimWorld.Planet
 						Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Decide);
 					}
 				}
-				Find.ColonistBar.MarkColonistsDirty();
-				this.RecacheImmobilizedNow();
-				this.RecacheDaysWorthOfFood();
 			}
 			else
 			{
@@ -652,7 +637,7 @@ namespace RimWorld.Planet
 				this.RemovePawn(member);
 				if (base.Faction == Faction.OfPlayer)
 				{
-					Find.LetterStack.ReceiveLetter("LetterLabelAllCaravanColonistsDied".Translate(), "LetterAllCaravanColonistsDied".Translate(), LetterType.BadNonUrgent, new GlobalTargetInfo(base.Tile), null);
+					Find.LetterStack.ReceiveLetter("LetterLabelAllCaravanColonistsDied".Translate(), "LetterAllCaravanColonistsDied".Translate(), LetterDefOf.BadNonUrgent, new GlobalTargetInfo(base.Tile), null);
 				}
 				this.RemoveAllPawnsAndDiscardIfUnimportant();
 				Find.WorldObjects.Remove(this);
@@ -677,6 +662,13 @@ namespace RimWorld.Planet
 		}
 
 		public void Notify_PawnRemoved(Pawn p)
+		{
+			Find.ColonistBar.MarkColonistsDirty();
+			this.RecacheImmobilizedNow();
+			this.RecacheDaysWorthOfFood();
+		}
+
+		public void Notify_PawnAdded(Pawn p)
 		{
 			Find.ColonistBar.MarkColonistsDirty();
 			this.RecacheImmobilizedNow();

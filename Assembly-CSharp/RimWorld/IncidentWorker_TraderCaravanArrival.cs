@@ -64,7 +64,7 @@ namespace RimWorld
 				traderKindDef.label
 			}).CapitalizeFirst();
 			PawnRelationUtility.Notify_PawnsSeenByPlayer(list, ref label, ref text, "LetterRelatedPawnsNeutralGroup".Translate(), true);
-			Find.LetterStack.ReceiveLetter(label, text, LetterType.Good, list[0], null);
+			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.Good, list[0], null);
 			IntVec3 chillSpot;
 			RCellFinder.TryFindRandomSpotJustOutsideColony(list[0], out chillSpot);
 			LordJob_TradeWithColony lordJob = new LordJob_TradeWithColony(parms.faction, chillSpot);

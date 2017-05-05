@@ -34,7 +34,7 @@ namespace RimWorld.Planet
 					factionBase.Faction.Name
 				}));
 			}
-			Find.LetterStack.ReceiveLetter("LetterLabelFactionBaseDefeated".Translate(), stringBuilder.ToString(), LetterType.Good, new GlobalTargetInfo(factionBase.Tile), null);
+			Find.LetterStack.ReceiveLetter("LetterLabelFactionBaseDefeated".Translate(), stringBuilder.ToString(), LetterDefOf.Good, new GlobalTargetInfo(factionBase.Tile), null);
 			DestroyedFactionBase destroyedFactionBase = (DestroyedFactionBase)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.DestroyedFactionBase);
 			destroyedFactionBase.Tile = factionBase.Tile;
 			Find.WorldObjects.Add(destroyedFactionBase);

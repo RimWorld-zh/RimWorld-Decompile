@@ -12,9 +12,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
-			StockGenerator_MultiDef.<GenerateThings>c__Iterator179 <GenerateThings>c__Iterator = new StockGenerator_MultiDef.<GenerateThings>c__Iterator179();
-			<GenerateThings>c__Iterator.<>f__this = this;
-			StockGenerator_MultiDef.<GenerateThings>c__Iterator179 expr_0E = <GenerateThings>c__Iterator;
+			StockGenerator_MultiDef.<GenerateThings>c__Iterator17A <GenerateThings>c__Iterator17A = new StockGenerator_MultiDef.<GenerateThings>c__Iterator17A();
+			<GenerateThings>c__Iterator17A.<>f__this = this;
+			StockGenerator_MultiDef.<GenerateThings>c__Iterator17A expr_0E = <GenerateThings>c__Iterator17A;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

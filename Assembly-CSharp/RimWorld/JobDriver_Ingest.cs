@@ -11,7 +11,7 @@ namespace RimWorld
 	{
 		public const float EatCorpseBodyPartsUntilFoodLevelPct = 0.9f;
 
-		private const TargetIndex IngestibleSourceInd = TargetIndex.A;
+		public const TargetIndex IngestibleSourceInd = TargetIndex.A;
 
 		private const TargetIndex TableCellInd = TargetIndex.B;
 

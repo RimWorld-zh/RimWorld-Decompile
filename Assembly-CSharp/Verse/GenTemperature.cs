@@ -132,7 +132,7 @@ namespace Verse
 		public static float OffsetFromSeasonCycle(int absTick, int tile)
 		{
 			float num = (float)(absTick / 60000 % 60) / 60f;
-			float f = 6.28318548f * num;
+			float f = 6.28318548f * (num - Season.Winter.GetMiddleTwelfth(0f).GetBeginningYearPct());
 			return Mathf.Cos(f) * -GenTemperature.SeasonalShiftAmplitudeAt(tile);
 		}
 

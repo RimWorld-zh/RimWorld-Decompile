@@ -222,9 +222,9 @@ namespace Verse
 		{
 			get
 			{
-				Room.<>c__Iterator1FE <>c__Iterator1FE = new Room.<>c__Iterator1FE();
-				<>c__Iterator1FE.<>f__this = this;
-				Room.<>c__Iterator1FE expr_0E = <>c__Iterator1FE;
+				Room.<>c__Iterator201 <>c__Iterator = new Room.<>c__Iterator201();
+				<>c__Iterator.<>f__this = this;
+				Room.<>c__Iterator201 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -234,9 +234,9 @@ namespace Verse
 		{
 			get
 			{
-				Room.<>c__Iterator1FF <>c__Iterator1FF = new Room.<>c__Iterator1FF();
-				<>c__Iterator1FF.<>f__this = this;
-				Room.<>c__Iterator1FF expr_0E = <>c__Iterator1FF;
+				Room.<>c__Iterator202 <>c__Iterator = new Room.<>c__Iterator202();
+				<>c__Iterator.<>f__this = this;
+				Room.<>c__Iterator202 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -246,9 +246,9 @@ namespace Verse
 		{
 			get
 			{
-				Room.<>c__Iterator200 <>c__Iterator = new Room.<>c__Iterator200();
+				Room.<>c__Iterator203 <>c__Iterator = new Room.<>c__Iterator203();
 				<>c__Iterator.<>f__this = this;
-				Room.<>c__Iterator200 expr_0E = <>c__Iterator;
+				Room.<>c__Iterator203 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -258,9 +258,9 @@ namespace Verse
 		{
 			get
 			{
-				Room.<>c__Iterator201 <>c__Iterator = new Room.<>c__Iterator201();
+				Room.<>c__Iterator204 <>c__Iterator = new Room.<>c__Iterator204();
 				<>c__Iterator.<>f__this = this;
-				Room.<>c__Iterator201 expr_0E = <>c__Iterator;
+				Room.<>c__Iterator204 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

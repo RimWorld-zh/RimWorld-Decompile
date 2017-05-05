@@ -187,12 +187,12 @@ namespace RimWorld
 		{
 			bool flag = false;
 			string label;
-			LetterType type;
+			LetterDef textLetterDef;
 			Pawn t;
 			if ((initiator.GetSpouse() != null && !initiator.GetSpouse().Dead) || (recipient.GetSpouse() != null && !recipient.GetSpouse().Dead))
 			{
 				label = "LetterLabelAffair".Translate();
-				type = LetterType.BadNonUrgent;
+				textLetterDef = LetterDefOf.BadNonUrgent;
 				if (initiator.GetSpouse() != null && !initiator.GetSpouse().Dead)
 				{
 					t = initiator;
@@ -206,7 +206,7 @@ namespace RimWorld
 			else
 			{
 				label = "LetterLabelNewLovers".Translate();
-				type = LetterType.Good;
+				textLetterDef = LetterDefOf.Good;
 				t = initiator;
 			}
 			StringBuilder stringBuilder = new StringBuilder();
@@ -267,7 +267,7 @@ namespace RimWorld
 					}));
 				}
 			}
-			Find.LetterStack.ReceiveLetter(label, stringBuilder.ToString().TrimEndNewlines(), type, t, null);
+			Find.LetterStack.ReceiveLetter(label, stringBuilder.ToString().TrimEndNewlines(), textLetterDef, t, null);
 		}
 	}
 }

@@ -32,9 +32,9 @@ namespace Verse
 		{
 			get
 			{
-				ThingCategoryDef.<>c__Iterator1DA <>c__Iterator1DA = new ThingCategoryDef.<>c__Iterator1DA();
-				<>c__Iterator1DA.<>f__this = this;
-				ThingCategoryDef.<>c__Iterator1DA expr_0E = <>c__Iterator1DA;
+				ThingCategoryDef.<>c__Iterator1DD <>c__Iterator1DD = new ThingCategoryDef.<>c__Iterator1DD();
+				<>c__Iterator1DD.<>f__this = this;
+				ThingCategoryDef.<>c__Iterator1DD expr_0E = <>c__Iterator1DD;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -44,9 +44,9 @@ namespace Verse
 		{
 			get
 			{
-				ThingCategoryDef.<>c__Iterator1DB <>c__Iterator1DB = new ThingCategoryDef.<>c__Iterator1DB();
-				<>c__Iterator1DB.<>f__this = this;
-				ThingCategoryDef.<>c__Iterator1DB expr_0E = <>c__Iterator1DB;
+				ThingCategoryDef.<>c__Iterator1DE <>c__Iterator1DE = new ThingCategoryDef.<>c__Iterator1DE();
+				<>c__Iterator1DE.<>f__this = this;
+				ThingCategoryDef.<>c__Iterator1DE expr_0E = <>c__Iterator1DE;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -56,9 +56,9 @@ namespace Verse
 		{
 			get
 			{
-				ThingCategoryDef.<>c__Iterator1DC <>c__Iterator1DC = new ThingCategoryDef.<>c__Iterator1DC();
-				<>c__Iterator1DC.<>f__this = this;
-				ThingCategoryDef.<>c__Iterator1DC expr_0E = <>c__Iterator1DC;
+				ThingCategoryDef.<>c__Iterator1DF <>c__Iterator1DF = new ThingCategoryDef.<>c__Iterator1DF();
+				<>c__Iterator1DF.<>f__this = this;
+				ThingCategoryDef.<>c__Iterator1DF expr_0E = <>c__Iterator1DF;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -68,9 +68,9 @@ namespace Verse
 		{
 			get
 			{
-				ThingCategoryDef.<>c__Iterator1DD <>c__Iterator1DD = new ThingCategoryDef.<>c__Iterator1DD();
-				<>c__Iterator1DD.<>f__this = this;
-				ThingCategoryDef.<>c__Iterator1DD expr_0E = <>c__Iterator1DD;
+				ThingCategoryDef.<>c__Iterator1E0 <>c__Iterator1E = new ThingCategoryDef.<>c__Iterator1E0();
+				<>c__Iterator1E.<>f__this = this;
+				ThingCategoryDef.<>c__Iterator1E0 expr_0E = <>c__Iterator1E;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -80,9 +80,9 @@ namespace Verse
 		{
 			get
 			{
-				ThingCategoryDef.<>c__Iterator1DE <>c__Iterator1DE = new ThingCategoryDef.<>c__Iterator1DE();
-				<>c__Iterator1DE.<>f__this = this;
-				ThingCategoryDef.<>c__Iterator1DE expr_0E = <>c__Iterator1DE;
+				ThingCategoryDef.<>c__Iterator1E1 <>c__Iterator1E = new ThingCategoryDef.<>c__Iterator1E1();
+				<>c__Iterator1E.<>f__this = this;
+				ThingCategoryDef.<>c__Iterator1E1 expr_0E = <>c__Iterator1E;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

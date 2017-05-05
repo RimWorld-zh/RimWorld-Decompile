@@ -25,7 +25,7 @@ namespace RimWorld
 				{
 					if (GenDate.YearsPassed == 0 && season == Season.Summer && this.AnyPlayerHomeAvgTempIsLowInWinter())
 					{
-						Find.LetterStack.ReceiveLetter(new Letter("LetterLabelFirstSummerWarning".Translate(), "FirstSummerWarning".Translate(), LetterType.Good), null);
+						Find.LetterStack.ReceiveLetter("LetterLabelFirstSummerWarning".Translate(), "FirstSummerWarning".Translate(), LetterDefOf.Good, null);
 					}
 					else if (GenDate.DaysPassed > 5)
 					{

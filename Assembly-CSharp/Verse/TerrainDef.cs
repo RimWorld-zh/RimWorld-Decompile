@@ -21,6 +21,11 @@ namespace Verse
 
 		public TerrainDef.TerrainEdgeType edgeType;
 
+		[NoTranslate]
+		public string waterDepthShader;
+
+		public List<ShaderParameter> waterDepthShaderParameters;
+
 		public int renderPrecedence;
 
 		public List<TerrainAffordance> affordances = new List<TerrainAffordance>();
@@ -31,6 +36,8 @@ namespace Verse
 		public string scatterType;
 
 		public bool takeFootprints;
+
+		public bool takeSplashes;
 
 		public bool avoidWander;
 
@@ -44,6 +51,7 @@ namespace Verse
 
 		public TerrainDef driesTo;
 
+		[NoTranslate]
 		public List<string> tags;
 
 		public TerrainDef burnedDef;
@@ -53,6 +61,9 @@ namespace Verse
 		public bool acceptTerrainSourceFilth;
 
 		public bool acceptFilth = true;
+
+		[Unsaved]
+		public Material waterDepthMaterial;
 
 		public override Color IconDrawColor
 		{
@@ -99,15 +110,23 @@ namespace Verse
 					shader = ShaderDatabase.TerrainWater;
 					break;
 				}
-				this.graphic = GraphicDatabase.Get<Graphic_Terrain>(this.texturePath, shader, Vector2.one, this.color);
-				this.graphic.MatSingle.renderQueue = 2000 + this.renderPrecedence;
+				this.graphic = GraphicDatabase.Get<Graphic_Terrain>(this.texturePath, shader, Vector2.one, this.color, 2000 + this.renderPrecedence);
 				if (shader == ShaderDatabase.TerrainFadeRough || shader == ShaderDatabase.TerrainWater)
 				{
-					this.graphic.MatSingle.SetTexture("_AlphaAddTex", TexUI.AlphaAddTex);
+					this.graphic.MatSingle.SetTexture("_AlphaAddTex", TexGame.AlphaAddTex);
 				}
-				if (shader == ShaderDatabase.TerrainWater)
+				if (!this.waterDepthShader.NullOrEmpty())
 				{
-					this.graphic.MatSingle.SetTexture("_RippleTex", TexUI.RippleTex);
+					this.waterDepthMaterial = new Material(ShaderDatabase.LoadShader(this.waterDepthShader));
+					this.waterDepthMaterial.renderQueue = 2000 + this.renderPrecedence;
+					this.waterDepthMaterial.SetTexture("_AlphaAddTex", TexGame.AlphaAddTex);
+					if (this.waterDepthShaderParameters != null)
+					{
+						for (int i = 0; i < this.waterDepthShaderParameters.Count; i++)
+						{
+							this.waterDepthMaterial.SetFloat(this.waterDepthShaderParameters[i].name, this.waterDepthShaderParameters[i].value);
+						}
+					}
 				}
 			});
 			base.PostLoad();
@@ -116,9 +135,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			TerrainDef.<ConfigErrors>c__Iterator1D9 <ConfigErrors>c__Iterator1D = new TerrainDef.<ConfigErrors>c__Iterator1D9();
-			<ConfigErrors>c__Iterator1D.<>f__this = this;
-			TerrainDef.<ConfigErrors>c__Iterator1D9 expr_0E = <ConfigErrors>c__Iterator1D;
+			TerrainDef.<ConfigErrors>c__Iterator1DC <ConfigErrors>c__Iterator1DC = new TerrainDef.<ConfigErrors>c__Iterator1DC();
+			<ConfigErrors>c__Iterator1DC.<>f__this = this;
+			TerrainDef.<ConfigErrors>c__Iterator1DC expr_0E = <ConfigErrors>c__Iterator1DC;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

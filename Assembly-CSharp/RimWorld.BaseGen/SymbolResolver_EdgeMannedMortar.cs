@@ -45,7 +45,8 @@ namespace RimWorld.BaseGen
 		private bool TryFindRandomInnerRectTouchingEdge(CellRect rect, out CellRect mortarRect)
 		{
 			Map map = BaseGen.globalSettings.map;
-			return rect.TryFindRandomInnerRectTouchingEdge(new IntVec2(3, 3), out mortarRect, (CellRect x) => x.Cells.All((IntVec3 y) => y.Standable(map) && y.GetEdifice(map) == null));
+			IntVec2 size = new IntVec2(3, 3);
+			return rect.TryFindRandomInnerRectTouchingEdge(size, out mortarRect, (CellRect x) => x.Cells.All((IntVec3 y) => y.Standable(map) && y.GetEdifice(map) == null) && GenConstruct.TerrainCanSupport(x, map, ThingDefOf.Turret_MortarBomb)) || rect.TryFindRandomInnerRectTouchingEdge(size, out mortarRect, (CellRect x) => x.Cells.All((IntVec3 y) => y.Standable(map) && y.GetEdifice(map) == null));
 		}
 	}
 }

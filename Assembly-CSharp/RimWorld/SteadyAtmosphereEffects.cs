@@ -244,7 +244,7 @@ namespace RimWorld
 					Find.LetterStack.ReceiveLetter("LetterLabelShortCircuit".Translate(), "ShortCircuitRain".Translate(new object[]
 					{
 						building.Label
-					}), LetterType.BadUrgent, new TargetInfo(building.Position, building.Map, false), null);
+					}), LetterDefOf.BadUrgent, new TargetInfo(building.Position, building.Map, false), null);
 				}
 			}
 		}

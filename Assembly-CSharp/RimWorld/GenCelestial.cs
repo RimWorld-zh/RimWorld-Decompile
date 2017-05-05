@@ -42,7 +42,7 @@ namespace RimWorld
 		public static Vector2 CurShadowVector(Map map)
 		{
 			float num = GenLocalDate.DayPercent(map);
-			bool flag = GenCelestial.CurCelestialSunGlow(map) > 0.6f;
+			bool flag = GenCelestial.IsDaytime(GenCelestial.CurCelestialSunGlow(map));
 			float t;
 			float num2;
 			float num3;
@@ -74,6 +74,11 @@ namespace RimWorld
 		{
 			int ticksAbsForSunPosInWorldSpace = GenCelestial.TicksAbsForSunPosInWorldSpace;
 			return GenCelestial.SunPositionUnmodified((float)GenDate.DayOfYear((long)ticksAbsForSunPosInWorldSpace, 0f), GenDate.DayPercent((long)ticksAbsForSunPosInWorldSpace, 0f), new Vector3(0f, 0f, -1f));
+		}
+
+		public static bool IsDaytime(float glow)
+		{
+			return glow > 0.6f;
 		}
 
 		private static Vector3 SunPosition(float latitude, int dayOfYear, float dayPercent)

@@ -55,8 +55,6 @@ namespace Verse
 
 		public bool leaveResourcesWhenKilled;
 
-		public float resourcesFractionWhenDeconstructed = 0.75f;
-
 		public ThingDef slagDef;
 
 		public bool isFrame;
@@ -894,9 +892,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			ThingDef.<ConfigErrors>c__Iterator1DF <ConfigErrors>c__Iterator1DF = new ThingDef.<ConfigErrors>c__Iterator1DF();
-			<ConfigErrors>c__Iterator1DF.<>f__this = this;
-			ThingDef.<ConfigErrors>c__Iterator1DF expr_0E = <ConfigErrors>c__Iterator1DF;
+			ThingDef.<ConfigErrors>c__Iterator1E2 <ConfigErrors>c__Iterator1E = new ThingDef.<ConfigErrors>c__Iterator1E2();
+			<ConfigErrors>c__Iterator1E.<>f__this = this;
+			ThingDef.<ConfigErrors>c__Iterator1E2 expr_0E = <ConfigErrors>c__Iterator1E;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -925,9 +923,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			ThingDef.<SpecialDisplayStats>c__Iterator1E0 <SpecialDisplayStats>c__Iterator1E = new ThingDef.<SpecialDisplayStats>c__Iterator1E0();
+			ThingDef.<SpecialDisplayStats>c__Iterator1E3 <SpecialDisplayStats>c__Iterator1E = new ThingDef.<SpecialDisplayStats>c__Iterator1E3();
 			<SpecialDisplayStats>c__Iterator1E.<>f__this = this;
-			ThingDef.<SpecialDisplayStats>c__Iterator1E0 expr_0E = <SpecialDisplayStats>c__Iterator1E;
+			ThingDef.<SpecialDisplayStats>c__Iterator1E3 expr_0E = <SpecialDisplayStats>c__Iterator1E;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

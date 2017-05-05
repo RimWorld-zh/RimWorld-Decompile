@@ -33,7 +33,7 @@ namespace RimWorld
 		public TerrainDef TerrainAt(IntVec3 loc)
 		{
 			float value = this.generator.GetValue(loc);
-			if (value < this.surfaceLevel - 3f && this.shallowizer.GetValue(loc) > 0.2f)
+			if (value < this.surfaceLevel - 2f && this.shallowizer.GetValue(loc) > 0.2f)
 			{
 				return TerrainDefOf.WaterMovingDeep;
 			}

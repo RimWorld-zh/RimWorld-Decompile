@@ -379,8 +379,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<object> SelectableObjectsUnderMouse()
 		{
-			Selector.<SelectableObjectsUnderMouse>c__Iterator19B <SelectableObjectsUnderMouse>c__Iterator19B = new Selector.<SelectableObjectsUnderMouse>c__Iterator19B();
-			Selector.<SelectableObjectsUnderMouse>c__Iterator19B expr_07 = <SelectableObjectsUnderMouse>c__Iterator19B;
+			Selector.<SelectableObjectsUnderMouse>c__Iterator19E <SelectableObjectsUnderMouse>c__Iterator19E = new Selector.<SelectableObjectsUnderMouse>c__Iterator19E();
+			Selector.<SelectableObjectsUnderMouse>c__Iterator19E expr_07 = <SelectableObjectsUnderMouse>c__Iterator19E;
 			expr_07.$PC = -2;
 			return expr_07;
 		}
@@ -388,12 +388,12 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<object> SelectableObjectsAt(IntVec3 c, Map map)
 		{
-			Selector.<SelectableObjectsAt>c__Iterator19C <SelectableObjectsAt>c__Iterator19C = new Selector.<SelectableObjectsAt>c__Iterator19C();
-			<SelectableObjectsAt>c__Iterator19C.c = c;
-			<SelectableObjectsAt>c__Iterator19C.map = map;
-			<SelectableObjectsAt>c__Iterator19C.<$>c = c;
-			<SelectableObjectsAt>c__Iterator19C.<$>map = map;
-			Selector.<SelectableObjectsAt>c__Iterator19C expr_23 = <SelectableObjectsAt>c__Iterator19C;
+			Selector.<SelectableObjectsAt>c__Iterator19F <SelectableObjectsAt>c__Iterator19F = new Selector.<SelectableObjectsAt>c__Iterator19F();
+			<SelectableObjectsAt>c__Iterator19F.c = c;
+			<SelectableObjectsAt>c__Iterator19F.map = map;
+			<SelectableObjectsAt>c__Iterator19F.<$>c = c;
+			<SelectableObjectsAt>c__Iterator19F.<$>map = map;
+			Selector.<SelectableObjectsAt>c__Iterator19F expr_23 = <SelectableObjectsAt>c__Iterator19F;
 			expr_23.$PC = -2;
 			return expr_23;
 		}

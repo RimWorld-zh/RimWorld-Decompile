@@ -67,8 +67,9 @@ namespace Verse
 		{
 			if (this.letter != null)
 			{
-				this.letter.text = string.Format(this.letter.text, p.NameStringShort).AdjustedFor(p);
-				Find.LetterStack.ReceiveLetter(this.letter, null);
+				ChoiceLetter choiceLetter = (ChoiceLetter)this.letter;
+				choiceLetter.text = string.Format(choiceLetter.text, p.NameStringShort).AdjustedFor(p);
+				Find.LetterStack.ReceiveLetter(choiceLetter, null);
 			}
 			if (!base.Destroyed)
 			{

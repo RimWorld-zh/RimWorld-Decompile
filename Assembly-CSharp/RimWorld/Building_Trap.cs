@@ -85,14 +85,13 @@ namespace RimWorld
 				this.Spring(p);
 				if (p.Faction == Faction.OfPlayer || p.HostFaction == Faction.OfPlayer)
 				{
-					Letter let = new Letter("LetterFriendlyTrapSprungLabel".Translate(new object[]
+					Find.LetterStack.ReceiveLetter("LetterFriendlyTrapSprungLabel".Translate(new object[]
 					{
 						p.NameStringShort
 					}), "LetterFriendlyTrapSprung".Translate(new object[]
 					{
 						p.NameStringShort
-					}), LetterType.BadNonUrgent, new TargetInfo(base.Position, base.Map, false));
-					Find.LetterStack.ReceiveLetter(let, null);
+					}), LetterDefOf.BadNonUrgent, new TargetInfo(base.Position, base.Map, false), null);
 				}
 			}
 		}

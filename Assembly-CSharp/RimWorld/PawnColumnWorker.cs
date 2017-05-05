@@ -147,36 +147,36 @@ namespace RimWorld
 				{
 					if (table.SortingBy != this.def)
 					{
-						table.SortBy(this.def, false);
+						table.SortBy(this.def, true);
 						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 					}
 					else if (table.SortingDescending)
 					{
-						table.SortBy(null, false);
-						SoundDefOf.TickLow.PlayOneShotOnCamera(null);
+						table.SortBy(this.def, false);
+						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 					}
 					else
 					{
-						table.SortBy(this.def, true);
-						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+						table.SortBy(null, false);
+						SoundDefOf.TickLow.PlayOneShotOnCamera(null);
 					}
 				}
 				else if (Event.current.button == 1)
 				{
 					if (table.SortingBy != this.def)
 					{
-						table.SortBy(this.def, true);
+						table.SortBy(this.def, false);
 						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 					}
 					else if (table.SortingDescending)
 					{
-						table.SortBy(this.def, false);
-						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+						table.SortBy(null, false);
+						SoundDefOf.TickLow.PlayOneShotOnCamera(null);
 					}
 					else
 					{
-						table.SortBy(null, false);
-						SoundDefOf.TickLow.PlayOneShotOnCamera(null);
+						table.SortBy(this.def, true);
+						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 					}
 				}
 			}

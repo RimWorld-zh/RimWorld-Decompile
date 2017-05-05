@@ -7,8 +7,6 @@ namespace Verse
 {
 	public class AreaManager : IExposable
 	{
-		private const int StartingAreaCount = 1;
-
 		private const int MaxAllowedAreasPerMode = 5;
 
 		public Map map;
@@ -62,16 +60,13 @@ namespace Verse
 
 		public void AddStartingAreas()
 		{
-			for (int i = 0; i < 1; i++)
-			{
-				this.areas.Add(new Area_Home(this));
-				this.areas.Add(new Area_BuildRoof(this));
-				this.areas.Add(new Area_NoRoof(this));
-				this.areas.Add(new Area_SnowClear(this));
-				Area_Allowed area_Allowed;
-				this.TryMakeNewAllowed(AllowedAreaMode.Humanlike, out area_Allowed);
-				this.TryMakeNewAllowed(AllowedAreaMode.Animal, out area_Allowed);
-			}
+			this.areas.Add(new Area_Home(this));
+			this.areas.Add(new Area_BuildRoof(this));
+			this.areas.Add(new Area_NoRoof(this));
+			this.areas.Add(new Area_SnowClear(this));
+			Area_Allowed area_Allowed;
+			this.TryMakeNewAllowed(AllowedAreaMode.Humanlike, out area_Allowed);
+			this.TryMakeNewAllowed(AllowedAreaMode.Animal, out area_Allowed);
 		}
 
 		public void ExposeData()

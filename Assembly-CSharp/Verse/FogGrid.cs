@@ -153,11 +153,11 @@ namespace Verse
 			{
 				if (floodUnfogResult.mechanoidFound)
 				{
-					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealedWithMechanoids".Translate(), LetterType.BadUrgent, new TargetInfo(c, this.map, false), null);
+					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealedWithMechanoids".Translate(), LetterDefOf.BadUrgent, new TargetInfo(c, this.map, false), null);
 				}
 				else
 				{
-					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealed".Translate(), LetterType.Good, new TargetInfo(c, this.map, false), null);
+					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealed".Translate(), LetterDefOf.Good, new TargetInfo(c, this.map, false), null);
 				}
 			}
 		}

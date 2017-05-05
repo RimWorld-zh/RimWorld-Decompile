@@ -142,25 +142,16 @@ namespace RimWorld.BaseGen
 				foreach (IntVec3 current in rect.Cells.InRandomOrder(null))
 				{
 					CellRect rect2 = GenAdj.OccupiedRect(current, rot, thingDef.size);
-					if (rect2.FullyContainedWithin(rect))
+					if (rect2.FullyContainedWithin(rect) && !BaseGenUtility.AnyDoorCardinalAdjacentTo(rect2, map) && !this.AnyNonStandableCellOrAnyBuildingInside(rect2) && GenConstruct.TerrainCanSupport(rect2, map, thingDef))
 					{
-						if (!BaseGenUtility.AnyDoorCardinalAdjacentTo(rect2, map))
-						{
-							if (!this.AnyNonStandableCellOrAnyBuildingInside(rect2))
-							{
-								IntVec3 result = current;
-								return result;
-							}
-						}
+						IntVec3 result = current;
+						return result;
 					}
 				}
-			}
-			foreach (IntVec3 current2 in rect.Cells.InRandomOrder(null))
-			{
-				CellRect rect3 = GenAdj.OccupiedRect(current2, rot, thingDef.size);
-				if (rect3.FullyContainedWithin(rect))
+				foreach (IntVec3 current2 in rect.Cells.InRandomOrder(null))
 				{
-					if (!this.AnyNonStandableCellOrAnyBuildingInside(rect3))
+					CellRect rect3 = GenAdj.OccupiedRect(current2, rot, thingDef.size);
+					if (rect3.FullyContainedWithin(rect) && !BaseGenUtility.AnyDoorCardinalAdjacentTo(rect3, map) && !this.AnyNonStandableCellOrAnyBuildingInside(rect3))
 					{
 						IntVec3 result = current2;
 						return result;
@@ -169,9 +160,18 @@ namespace RimWorld.BaseGen
 			}
 			foreach (IntVec3 current3 in rect.Cells.InRandomOrder(null))
 			{
-				if (GenAdj.OccupiedRect(current3, rot, thingDef.size).FullyContainedWithin(rect))
+				CellRect rect4 = GenAdj.OccupiedRect(current3, rot, thingDef.size);
+				if (rect4.FullyContainedWithin(rect) && !this.AnyNonStandableCellOrAnyBuildingInside(rect4))
 				{
 					IntVec3 result = current3;
+					return result;
+				}
+			}
+			foreach (IntVec3 current4 in rect.Cells.InRandomOrder(null))
+			{
+				if (GenAdj.OccupiedRect(current4, rot, thingDef.size).FullyContainedWithin(rect))
+				{
+					IntVec3 result = current4;
 					return result;
 				}
 			}

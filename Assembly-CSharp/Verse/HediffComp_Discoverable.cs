@@ -90,7 +90,7 @@ namespace Verse
 				}
 				if (base.Pawn.RaceProps.Humanlike)
 				{
-					Find.LetterStack.ReceiveLetter(label, text, LetterType.BadNonUrgent, base.Pawn, null);
+					Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.BadNonUrgent, base.Pawn, null);
 				}
 				else
 				{

@@ -112,9 +112,9 @@ namespace Verse
 		{
 			get
 			{
-				Corpse.<>c__Iterator223 <>c__Iterator = new Corpse.<>c__Iterator223();
+				Corpse.<>c__Iterator226 <>c__Iterator = new Corpse.<>c__Iterator226();
 				<>c__Iterator.<>f__this = this;
-				Corpse.<>c__Iterator223 expr_0E = <>c__Iterator;
+				Corpse.<>c__Iterator226 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -132,9 +132,9 @@ namespace Verse
 		{
 			get
 			{
-				Corpse.<>c__Iterator224 <>c__Iterator = new Corpse.<>c__Iterator224();
+				Corpse.<>c__Iterator227 <>c__Iterator = new Corpse.<>c__Iterator227();
 				<>c__Iterator.<>f__this = this;
-				Corpse.<>c__Iterator224 expr_0E = <>c__Iterator;
+				Corpse.<>c__Iterator227 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -305,13 +305,13 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<Thing> ButcherProducts(Pawn butcher, float efficiency)
 		{
-			Corpse.<ButcherProducts>c__Iterator225 <ButcherProducts>c__Iterator = new Corpse.<ButcherProducts>c__Iterator225();
+			Corpse.<ButcherProducts>c__Iterator228 <ButcherProducts>c__Iterator = new Corpse.<ButcherProducts>c__Iterator228();
 			<ButcherProducts>c__Iterator.butcher = butcher;
 			<ButcherProducts>c__Iterator.efficiency = efficiency;
 			<ButcherProducts>c__Iterator.<$>butcher = butcher;
 			<ButcherProducts>c__Iterator.<$>efficiency = efficiency;
 			<ButcherProducts>c__Iterator.<>f__this = this;
-			Corpse.<ButcherProducts>c__Iterator225 expr_2A = <ButcherProducts>c__Iterator;
+			Corpse.<ButcherProducts>c__Iterator228 expr_2A = <ButcherProducts>c__Iterator;
 			expr_2A.$PC = -2;
 			return expr_2A;
 		}

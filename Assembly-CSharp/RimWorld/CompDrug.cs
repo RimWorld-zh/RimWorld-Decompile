@@ -37,7 +37,7 @@ namespace RimWorld
 						{
 							ingester.LabelShort,
 							this.Props.chemical.label
-						}).AdjustedFor(ingester).CapitalizeFirst(), LetterType.BadNonUrgent, ingester, null);
+						}).AdjustedFor(ingester).CapitalizeFirst(), LetterDefOf.BadNonUrgent, ingester, null);
 					}
 					AddictionUtility.CheckDrugAddictionTeachOpportunity(ingester);
 				}
@@ -77,7 +77,7 @@ namespace RimWorld
 			}
 			if (this.Props.isCombatEnhancingDrug && !ingester.Dead)
 			{
-				ingester.mindState.lastTakeCombatEnancingDrugTick = Find.TickManager.TicksGame;
+				ingester.mindState.lastTakeCombatEnhancingDrugTick = Find.TickManager.TicksGame;
 			}
 			if (ingester.drugs != null)
 			{

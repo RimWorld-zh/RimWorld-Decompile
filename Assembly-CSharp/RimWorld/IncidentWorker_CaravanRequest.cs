@@ -37,7 +37,7 @@ namespace RimWorld
 				GenLabel.ThingLabel(component.requestThingDef, null, component.requestCount).CapitalizeFirst(),
 				component.rewards[0].LabelCap,
 				(component.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F0")
-			}), LetterType.Good, settlement, null);
+			}), LetterDefOf.Good, settlement, null);
 			return true;
 		}
 

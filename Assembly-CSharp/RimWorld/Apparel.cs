@@ -68,6 +68,10 @@ namespace RimWorld
 			string text = base.GetInspectString();
 			if (this.WornByCorpse)
 			{
+				if (text.Length > 0)
+				{
+					text += "\n";
+				}
 				text += "WasWornByCorpse".Translate();
 			}
 			return text;

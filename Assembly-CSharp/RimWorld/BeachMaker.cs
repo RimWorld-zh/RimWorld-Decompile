@@ -64,11 +64,11 @@ namespace RimWorld
 			float value = BeachMaker.beachNoise.GetValue(loc);
 			if (value < 0.1f)
 			{
-				return TerrainDefOf.WaterDeep;
+				return TerrainDefOf.WaterOceanDeep;
 			}
 			if (value < 0.45f)
 			{
-				return TerrainDefOf.WaterShallow;
+				return TerrainDefOf.WaterOceanShallow;
 			}
 			if (value < 1f)
 			{

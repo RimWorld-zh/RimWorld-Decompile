@@ -51,7 +51,7 @@ namespace RimWorld
 					PawnRelationUtility.Notify_PawnsSeenByPlayer(metCaravan.Goods.OfType<Pawn>(), ref empty, ref empty2, "LetterRelatedPawnsTradingWithOtherCaravan".Translate(), false);
 					if (!empty2.NullOrEmpty())
 					{
-						Find.LetterStack.ReceiveLetter(empty, empty2, LetterType.Good, new GlobalTargetInfo(caravan.Tile), null);
+						Find.LetterStack.ReceiveLetter(empty, empty2, LetterDefOf.Good, new GlobalTargetInfo(caravan.Tile), null);
 					}
 				};
 				diaNode.options.Add(diaOption);

@@ -188,6 +188,22 @@ namespace Verse
 			this.MyCamera.farClipPlane = 71.5f;
 		}
 
+		public void OnPreRender()
+		{
+			if (LongEventHandler.ShouldWaitForEvent)
+			{
+				return;
+			}
+			if (Find.VisibleMap == null)
+			{
+				return;
+			}
+			if (!WorldRendererUtility.WorldRenderedNow)
+			{
+				Find.VisibleMap.GenerateWaterMap();
+			}
+		}
+
 		public void OnPreCull()
 		{
 			if (LongEventHandler.ShouldWaitForEvent)

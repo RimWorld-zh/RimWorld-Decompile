@@ -55,9 +55,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<Thing> ThingsToSpawnAfterLoad()
 		{
-			MapFileCompressor.<ThingsToSpawnAfterLoad>c__Iterator1EB <ThingsToSpawnAfterLoad>c__Iterator1EB = new MapFileCompressor.<ThingsToSpawnAfterLoad>c__Iterator1EB();
-			<ThingsToSpawnAfterLoad>c__Iterator1EB.<>f__this = this;
-			MapFileCompressor.<ThingsToSpawnAfterLoad>c__Iterator1EB expr_0E = <ThingsToSpawnAfterLoad>c__Iterator1EB;
+			MapFileCompressor.<ThingsToSpawnAfterLoad>c__Iterator1EE <ThingsToSpawnAfterLoad>c__Iterator1EE = new MapFileCompressor.<ThingsToSpawnAfterLoad>c__Iterator1EE();
+			<ThingsToSpawnAfterLoad>c__Iterator1EE.<>f__this = this;
+			MapFileCompressor.<ThingsToSpawnAfterLoad>c__Iterator1EE expr_0E = <ThingsToSpawnAfterLoad>c__Iterator1EE;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

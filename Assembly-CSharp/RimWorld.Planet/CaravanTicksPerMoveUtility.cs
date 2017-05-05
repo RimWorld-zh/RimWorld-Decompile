@@ -11,13 +11,13 @@ namespace RimWorld.Planet
 
 		public const float CellToTilesConversionRatio = 190f;
 
-		public const int DefaultTicksPerMove = 3100;
+		public const int DefaultTicksPerMove = 2500;
 
 		public static int GetTicksPerMove(Caravan caravan)
 		{
 			if (caravan == null)
 			{
-				return 3100;
+				return 2500;
 			}
 			return CaravanTicksPerMoveUtility.GetTicksPerMove(caravan.PawnsListForReading);
 		}
@@ -35,7 +35,7 @@ namespace RimWorld.Planet
 				num *= 190f;
 				return Mathf.Max(Mathf.RoundToInt(num), 1);
 			}
-			return 3100;
+			return 2500;
 		}
 	}
 }

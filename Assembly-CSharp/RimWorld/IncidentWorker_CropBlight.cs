@@ -32,7 +32,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			Find.LetterStack.ReceiveLetter("LetterLabelCropBlight".Translate(), "CropBlight".Translate(), LetterType.BadNonUrgent, null);
+			Find.LetterStack.ReceiveLetter("LetterLabelCropBlight".Translate(), "CropBlight".Translate(), LetterDefOf.BadNonUrgent, null);
 			return true;
 		}
 	}

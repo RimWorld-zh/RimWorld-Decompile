@@ -84,7 +84,7 @@ namespace RimWorld
 				}), "LetterBuildingBrokenDown".Translate(new object[]
 				{
 					this.parent.LabelShort
-				}), LetterType.BadNonUrgent, this.parent, null);
+				}), LetterDefOf.BadNonUrgent, this.parent, null);
 			}
 		}
 

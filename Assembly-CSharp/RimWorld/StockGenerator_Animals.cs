@@ -45,11 +45,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
-			StockGenerator_Animals.<GenerateThings>c__Iterator17D <GenerateThings>c__Iterator17D = new StockGenerator_Animals.<GenerateThings>c__Iterator17D();
-			<GenerateThings>c__Iterator17D.forTile = forTile;
-			<GenerateThings>c__Iterator17D.<$>forTile = forTile;
-			<GenerateThings>c__Iterator17D.<>f__this = this;
-			StockGenerator_Animals.<GenerateThings>c__Iterator17D expr_1C = <GenerateThings>c__Iterator17D;
+			StockGenerator_Animals.<GenerateThings>c__Iterator17E <GenerateThings>c__Iterator17E = new StockGenerator_Animals.<GenerateThings>c__Iterator17E();
+			<GenerateThings>c__Iterator17E.forTile = forTile;
+			<GenerateThings>c__Iterator17E.<$>forTile = forTile;
+			<GenerateThings>c__Iterator17E.<>f__this = this;
+			StockGenerator_Animals.<GenerateThings>c__Iterator17E expr_1C = <GenerateThings>c__Iterator17E;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

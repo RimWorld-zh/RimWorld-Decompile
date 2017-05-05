@@ -49,7 +49,7 @@ namespace Verse
 		[MustTranslate]
 		public string beginLetterLabel;
 
-		public LetterType beginLetterType = LetterType.BadUrgent;
+		public LetterDef beginLetterDef;
 
 		public Color nameColor = Color.green;
 
@@ -98,12 +98,21 @@ namespace Verse
 			}
 		}
 
+		public override void ResolveReferences()
+		{
+			base.ResolveReferences();
+			if (this.beginLetterDef == null)
+			{
+				this.beginLetterDef = LetterDefOf.BadUrgent;
+			}
+		}
+
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			MentalStateDef.<ConfigErrors>c__Iterator1CC <ConfigErrors>c__Iterator1CC = new MentalStateDef.<ConfigErrors>c__Iterator1CC();
-			<ConfigErrors>c__Iterator1CC.<>f__this = this;
-			MentalStateDef.<ConfigErrors>c__Iterator1CC expr_0E = <ConfigErrors>c__Iterator1CC;
+			MentalStateDef.<ConfigErrors>c__Iterator1CF <ConfigErrors>c__Iterator1CF = new MentalStateDef.<ConfigErrors>c__Iterator1CF();
+			<ConfigErrors>c__Iterator1CF.<>f__this = this;
+			MentalStateDef.<ConfigErrors>c__Iterator1CF expr_0E = <ConfigErrors>c__Iterator1CF;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

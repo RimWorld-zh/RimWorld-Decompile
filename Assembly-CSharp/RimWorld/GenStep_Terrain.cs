@@ -55,7 +55,7 @@ namespace RimWorld
 				return GenStep_RocksFromGrid.RockDefAt(c).naturalTerrain;
 			}
 			TerrainDef terrainDef2 = BeachMaker.BeachTerrainAt(c, map.Biome);
-			if (terrainDef2 == TerrainDefOf.WaterDeep)
+			if (terrainDef2 == TerrainDefOf.WaterOceanDeep)
 			{
 				return terrainDef2;
 			}

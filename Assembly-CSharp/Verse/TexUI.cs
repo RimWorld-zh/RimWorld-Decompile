@@ -24,10 +24,6 @@ namespace Verse
 
 		public static readonly Texture2D RotRightTex = ContentFinder<Texture2D>.Get("UI/Widgets/RotRight", true);
 
-		public static readonly Texture2D AlphaAddTex = ContentFinder<Texture2D>.Get("Other/RoughAlphaAdd", true);
-
-		public static readonly Texture2D RippleTex = ContentFinder<Texture2D>.Get("Other/Ripples", true);
-
 		public static readonly Texture2D GrayBg;
 
 		public static readonly Color AvailResearchColor;

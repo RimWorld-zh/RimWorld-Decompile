@@ -6,6 +6,8 @@ namespace RimWorld
 {
 	public class IncidentWorker_RansomDemand : IncidentWorker
 	{
+		private const int TimeoutTicks = 60000;
+
 		private static List<Pawn> candidates = new List<Pawn>();
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
@@ -16,60 +18,30 @@ namespace RimWorld
 		public override bool TryExecute(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			Pawn colonist = this.RandomKidnappedColonist();
-			if (colonist == null)
+			Pawn pawn = this.RandomKidnappedColonist();
+			if (pawn == null)
 			{
 				return false;
 			}
-			Faction faction = this.FactionWhichKidnapped(colonist);
-			int fee = this.RandomFee(colonist);
-			string text = "RansomDemand".Translate(new object[]
+			Faction faction = this.FactionWhichKidnapped(pawn);
+			int num = this.RandomFee(pawn);
+			ChoiceLetter_RansomDemand choiceLetter_RansomDemand = (ChoiceLetter_RansomDemand)LetterMaker.MakeLetter(this.def.letterLabel, "RansomDemand".Translate(new object[]
 			{
-				colonist.LabelShort,
+				pawn.LabelShort,
 				faction.Name,
-				fee
-			}).AdjustedFor(colonist);
-			DiaNode diaNode = new DiaNode(text);
-			DiaOption diaOption = new DiaOption("RansomDemand_Accept".Translate());
-			diaOption.action = delegate
-			{
-				faction.kidnapped.RemoveKidnappedPawn(colonist);
-				Find.WorldPawns.RemovePawn(colonist);
-				IntVec3 intVec;
-				if (faction.def.techLevel < TechLevel.Spacer)
-				{
-					if (!CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => c.Standable(map) && map.reachability.CanReachColony(c), map, CellFinder.EdgeRoadChance_Friendly, out intVec) && !CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => c.Standable(map), map, CellFinder.EdgeRoadChance_Friendly, out intVec))
-					{
-						Log.Warning("Could not find any edge cell.");
-						intVec = DropCellFinder.TradeDropSpot(map);
-					}
-					GenSpawn.Spawn(colonist, intVec, map);
-				}
-				else
-				{
-					intVec = DropCellFinder.TradeDropSpot(map);
-					TradeUtility.SpawnDropPod(intVec, map, colonist);
-				}
-				CameraJumper.TryJump(intVec, map);
-				TradeUtility.LaunchSilver(map, fee);
-			};
-			diaOption.resolveTree = true;
-			if (!TradeUtility.ColonyHasEnoughSilver(map, fee))
-			{
-				diaOption.Disable("NeedSilverLaunchable".Translate(new object[]
-				{
-					fee.ToString()
-				}));
-			}
-			diaNode.options.Add(diaOption);
-			DiaOption diaOption2 = new DiaOption("RansomDemand_Reject".Translate());
-			diaOption2.resolveTree = true;
-			diaNode.options.Add(diaOption2);
-			string title = "RansomDemandTitle".Translate(new object[]
+				num
+			}).AdjustedFor(pawn), this.def.letterDef);
+			choiceLetter_RansomDemand.title = "RansomDemandTitle".Translate(new object[]
 			{
 				map.info.parent.Label
 			});
-			Find.WindowStack.Add(new Dialog_NodeTree(diaNode, true, true, title));
+			choiceLetter_RansomDemand.radioMode = true;
+			choiceLetter_RansomDemand.kidnapped = pawn;
+			choiceLetter_RansomDemand.faction = faction;
+			choiceLetter_RansomDemand.map = map;
+			choiceLetter_RansomDemand.fee = num;
+			choiceLetter_RansomDemand.StartTimeout(60000);
+			Find.LetterStack.ReceiveLetter(choiceLetter_RansomDemand, null);
 			return true;
 		}
 
@@ -86,6 +58,15 @@ namespace RimWorld
 					{
 						IncidentWorker_RansomDemand.candidates.Add(kidnappedPawnsListForReading[j]);
 					}
+				}
+			}
+			List<Letter> lettersListForReading = Find.LetterStack.LettersListForReading;
+			for (int k = 0; k < lettersListForReading.Count; k++)
+			{
+				ChoiceLetter_RansomDemand choiceLetter_RansomDemand = lettersListForReading[k] as ChoiceLetter_RansomDemand;
+				if (choiceLetter_RansomDemand != null)
+				{
+					IncidentWorker_RansomDemand.candidates.Remove(choiceLetter_RansomDemand.kidnapped);
 				}
 			}
 			Pawn result;

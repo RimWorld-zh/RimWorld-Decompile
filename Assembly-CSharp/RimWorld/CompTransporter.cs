@@ -155,9 +155,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompTransporter.<CompGetGizmosExtra>c__Iterator16D <CompGetGizmosExtra>c__Iterator16D = new CompTransporter.<CompGetGizmosExtra>c__Iterator16D();
-			<CompGetGizmosExtra>c__Iterator16D.<>f__this = this;
-			CompTransporter.<CompGetGizmosExtra>c__Iterator16D expr_0E = <CompGetGizmosExtra>c__Iterator16D;
+			CompTransporter.<CompGetGizmosExtra>c__Iterator16E <CompGetGizmosExtra>c__Iterator16E = new CompTransporter.<CompGetGizmosExtra>c__Iterator16E();
+			<CompGetGizmosExtra>c__Iterator16E.<>f__this = this;
+			CompTransporter.<CompGetGizmosExtra>c__Iterator16E expr_0E = <CompGetGizmosExtra>c__Iterator16E;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -253,14 +253,10 @@ namespace RimWorld
 			{
 				return;
 			}
-			TransferableOneWay transferableOneWay = TransferableUtility.TransferableMatching<TransferableOneWay>(t, this.leftToLoad);
+			TransferableOneWay transferableOneWay = TransferableUtility.TransferableMatchingDesperate(t, this.leftToLoad);
 			if (transferableOneWay == null)
 			{
-				transferableOneWay = this.leftToLoad.Find((TransferableOneWay x) => x.ThingDef == t.def);
-				if (transferableOneWay == null)
-				{
-					return;
-				}
+				return;
 			}
 			transferableOneWay.AdjustBy(-count);
 			if (transferableOneWay.CountToTransfer <= 0)

@@ -174,9 +174,9 @@ namespace Verse
 		{
 			get
 			{
-				RecipeDef.<>c__Iterator1CF <>c__Iterator1CF = new RecipeDef.<>c__Iterator1CF();
-				<>c__Iterator1CF.<>f__this = this;
-				RecipeDef.<>c__Iterator1CF expr_0E = <>c__Iterator1CF;
+				RecipeDef.<>c__Iterator1D2 <>c__Iterator1D = new RecipeDef.<>c__Iterator1D2();
+				<>c__Iterator1D.<>f__this = this;
+				RecipeDef.<>c__Iterator1D2 expr_0E = <>c__Iterator1D;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -202,13 +202,13 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<ThingDef> PotentiallyMissingIngredients(Pawn billDoer, Map map)
 		{
-			RecipeDef.<PotentiallyMissingIngredients>c__Iterator1D0 <PotentiallyMissingIngredients>c__Iterator1D = new RecipeDef.<PotentiallyMissingIngredients>c__Iterator1D0();
+			RecipeDef.<PotentiallyMissingIngredients>c__Iterator1D3 <PotentiallyMissingIngredients>c__Iterator1D = new RecipeDef.<PotentiallyMissingIngredients>c__Iterator1D3();
 			<PotentiallyMissingIngredients>c__Iterator1D.map = map;
 			<PotentiallyMissingIngredients>c__Iterator1D.billDoer = billDoer;
 			<PotentiallyMissingIngredients>c__Iterator1D.<$>map = map;
 			<PotentiallyMissingIngredients>c__Iterator1D.<$>billDoer = billDoer;
 			<PotentiallyMissingIngredients>c__Iterator1D.<>f__this = this;
-			RecipeDef.<PotentiallyMissingIngredients>c__Iterator1D0 expr_2A = <PotentiallyMissingIngredients>c__Iterator1D;
+			RecipeDef.<PotentiallyMissingIngredients>c__Iterator1D3 expr_2A = <PotentiallyMissingIngredients>c__Iterator1D;
 			expr_2A.$PC = -2;
 			return expr_2A;
 		}
@@ -232,9 +232,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			RecipeDef.<ConfigErrors>c__Iterator1D1 <ConfigErrors>c__Iterator1D = new RecipeDef.<ConfigErrors>c__Iterator1D1();
+			RecipeDef.<ConfigErrors>c__Iterator1D4 <ConfigErrors>c__Iterator1D = new RecipeDef.<ConfigErrors>c__Iterator1D4();
 			<ConfigErrors>c__Iterator1D.<>f__this = this;
-			RecipeDef.<ConfigErrors>c__Iterator1D1 expr_0E = <ConfigErrors>c__Iterator1D;
+			RecipeDef.<ConfigErrors>c__Iterator1D4 expr_0E = <ConfigErrors>c__Iterator1D;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

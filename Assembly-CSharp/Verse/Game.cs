@@ -427,8 +427,8 @@ namespace Verse
 			Profiler.BeginSample("tickManager.TickManagerUpdate()");
 			this.tickManager.TickManagerUpdate();
 			Profiler.EndSample();
-			Profiler.BeginSample("letterStack.LettersUpdate()");
-			this.letterStack.LettersUpdate();
+			Profiler.BeginSample("letterStack.LetterStackUpdate()");
+			this.letterStack.LetterStackUpdate();
 			Profiler.EndSample();
 			Profiler.BeginSample("World.WorldUpdate()");
 			this.World.WorldUpdate();

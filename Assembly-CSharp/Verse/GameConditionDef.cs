@@ -33,9 +33,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			GameConditionDef.<ConfigErrors>c__Iterator1C7 <ConfigErrors>c__Iterator1C = new GameConditionDef.<ConfigErrors>c__Iterator1C7();
-			<ConfigErrors>c__Iterator1C.<>f__this = this;
-			GameConditionDef.<ConfigErrors>c__Iterator1C7 expr_0E = <ConfigErrors>c__Iterator1C;
+			GameConditionDef.<ConfigErrors>c__Iterator1CA <ConfigErrors>c__Iterator1CA = new GameConditionDef.<ConfigErrors>c__Iterator1CA();
+			<ConfigErrors>c__Iterator1CA.<>f__this = this;
+			GameConditionDef.<ConfigErrors>c__Iterator1CA expr_0E = <ConfigErrors>c__Iterator1CA;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

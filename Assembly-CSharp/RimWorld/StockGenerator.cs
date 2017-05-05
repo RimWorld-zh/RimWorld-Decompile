@@ -29,8 +29,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		public virtual IEnumerable<string> ConfigErrors(TraderKindDef parentDef)
 		{
-			StockGenerator.<ConfigErrors>c__Iterator172 <ConfigErrors>c__Iterator = new StockGenerator.<ConfigErrors>c__Iterator172();
-			StockGenerator.<ConfigErrors>c__Iterator172 expr_07 = <ConfigErrors>c__Iterator;
+			StockGenerator.<ConfigErrors>c__Iterator173 <ConfigErrors>c__Iterator = new StockGenerator.<ConfigErrors>c__Iterator173();
+			StockGenerator.<ConfigErrors>c__Iterator173 expr_07 = <ConfigErrors>c__Iterator;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

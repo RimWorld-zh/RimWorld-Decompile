@@ -182,18 +182,19 @@ namespace RimWorld
 						{
 							if (Find.PlaySettings.useWorkPriorities)
 							{
-								if (Event.current.button == 0)
+								int priority = pawn.workSettings.GetPriority(this.def.workType);
+								if (Event.current.button == 0 && priority != 1)
 								{
-									int num = pawn.workSettings.GetPriority(this.def.workType) - 1;
+									int num = priority - 1;
 									if (num < 0)
 									{
 										num = 4;
 									}
 									pawn.workSettings.SetPriority(this.def.workType, num);
 								}
-								if (Event.current.button == 1)
+								if (Event.current.button == 1 && priority != 0)
 								{
-									int num2 = pawn.workSettings.GetPriority(this.def.workType) + 1;
+									int num2 = priority + 1;
 									if (num2 > 4)
 									{
 										num2 = 0;

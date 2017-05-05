@@ -68,7 +68,7 @@ namespace RimWorld.Planet
 					PawnRelationUtility.Notify_PawnsSeenByPlayer(settlement.Goods.OfType<Pawn>(), ref empty, ref empty2, "LetterRelatedPawnsTradingWithSettlement".Translate(), false);
 					if (!empty2.NullOrEmpty())
 					{
-						Find.LetterStack.ReceiveLetter(empty, empty2, LetterType.Good, settlement, null);
+						Find.LetterStack.ReceiveLetter(empty, empty2, LetterDefOf.Good, settlement, null);
 					}
 				}
 			};

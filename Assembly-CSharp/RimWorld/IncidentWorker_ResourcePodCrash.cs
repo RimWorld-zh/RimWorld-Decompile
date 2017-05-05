@@ -74,7 +74,7 @@ namespace RimWorld
 			while (list.Count < 7 && num > thingDef.BaseMarketValue);
 			IntVec3 intVec = DropCellFinder.RandomDropSpot(map);
 			DropPodUtility.DropThingsNear(intVec, map, list, 110, false, true, true);
-			Find.LetterStack.ReceiveLetter("LetterLabelCargoPodCrash".Translate(), "CargoPodCrash".Translate(), LetterType.Good, new TargetInfo(intVec, map, false), null);
+			Find.LetterStack.ReceiveLetter("LetterLabelCargoPodCrash".Translate(), "CargoPodCrash".Translate(), LetterDefOf.Good, new TargetInfo(intVec, map, false), null);
 			return true;
 		}
 

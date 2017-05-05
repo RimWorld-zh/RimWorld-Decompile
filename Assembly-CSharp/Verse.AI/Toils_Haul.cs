@@ -374,7 +374,7 @@ namespace Verse.AI
 							}
 						}
 					}
-					actor.carryTracker.innerContainer.TryTransferToContainer(actor.carryTracker.CarriedThing, thingOwner, num);
+					actor.carryTracker.innerContainer.TryTransferToContainer(actor.carryTracker.CarriedThing, thingOwner, num, true);
 				}
 				else if (curJob.GetTarget(containerInd).Thing.def.Minifiable)
 				{
@@ -403,7 +403,7 @@ namespace Verse.AI
 				{
 					Thing primaryTarget = curJob.GetTarget(primaryTargetInd).Thing;
 					bool hasSpareItems = actor.carryTracker.CarriedThing.stackCount > GenConstruct.AmountNeededByOf((IConstructible)primaryTarget, actor.carryTracker.CarriedThing.def);
-					Predicate<Thing> validator = (Thing th) => GenConstruct.CanConstruct(th, actor) && ((IConstructible)th).MaterialsNeeded().Any((ThingCountClass need) => need.thingDef == actor.carryTracker.CarriedThing.def) && (th == primaryTarget || hasSpareItems);
+					Predicate<Thing> validator = (Thing th) => GenConstruct.CanConstruct(th, actor, false) && ((IConstructible)th).MaterialsNeeded().Any((ThingCountClass need) => need.thingDef == actor.carryTracker.CarriedThing.def) && (th == primaryTarget || hasSpareItems);
 					Thing nextTarget = GenClosest.ClosestThing_Global_Reachable(actor.Position, actor.Map, from targ in curJob.targetQueueB
 					select targ.Thing, PathEndMode.Touch, TraverseParms.For(actor, Danger.Deadly, TraverseMode.ByPawn, false), 99999f, validator, null);
 					if (nextTarget != null)
@@ -437,7 +437,7 @@ namespace Verse.AI
 				}
 				else
 				{
-					actor.inventory.GetDirectlyHeldThings().TryAdd(thing, num);
+					actor.inventory.GetDirectlyHeldThings().TryAdd(thing, num, true);
 					if (thing.def.ingestible != null && thing.def.ingestible.preferability <= FoodPreferability.RawTasty)
 					{
 						actor.mindState.lastInventoryRawFoodUseTick = Find.TickManager.TicksGame;

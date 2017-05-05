@@ -40,7 +40,7 @@ namespace RimWorld
 			}).CapitalizeFirst(), "LetterFarmAnimalsWanderIn".Translate(new object[]
 			{
 				pawnKindDef.label
-			}), LetterType.Good, new TargetInfo(intVec, map, false), null);
+			}), LetterDefOf.Good, new TargetInfo(intVec, map, false), null);
 			return true;
 		}
 	}

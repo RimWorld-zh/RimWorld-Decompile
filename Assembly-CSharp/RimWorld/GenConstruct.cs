@@ -78,7 +78,7 @@ namespace RimWorld
 			return null;
 		}
 
-		public static bool CanConstruct(Thing t, Pawn p)
+		public static bool CanConstruct(Thing t, Pawn p, bool forced = false)
 		{
 			Blueprint blueprint = t as Blueprint;
 			if (blueprint != null)
@@ -89,7 +89,7 @@ namespace RimWorld
 					return false;
 				}
 			}
-			return p.CanReserveAndReach(t, PathEndMode.Touch, p.NormalMaxDanger(), 1, -1, null, false) && !t.IsBurning();
+			return p.CanReserveAndReach(t, PathEndMode.Touch, (!forced) ? p.NormalMaxDanger() : Danger.Deadly, 1, -1, null, forced) && !t.IsBurning();
 		}
 
 		public static int AmountNeededByOf(IConstructible c, ThingDef resDef)
@@ -360,6 +360,20 @@ namespace RimWorld
 				}
 			}
 			return (t.def.IsEdifice() && thingDef.IsEdifice()) || (t.def.category == ThingCategory.Pawn || (t.def.category == ThingCategory.Item && blue.def.entityDefToBuild.passability == Traversability.Impassable)) || (t.def.Fillage >= FillCategory.Partial && thingDef != null && thingDef.Fillage >= FillCategory.Partial);
+		}
+
+		public static bool TerrainCanSupport(CellRect rect, Map map, ThingDef thing)
+		{
+			CellRect.CellRectIterator iterator = rect.GetIterator();
+			while (!iterator.Done())
+			{
+				if (!iterator.Current.SupportsStructureType(map, thing.terrainAffordanceNeeded))
+				{
+					return false;
+				}
+				iterator.MoveNext();
+			}
+			return true;
 		}
 	}
 }

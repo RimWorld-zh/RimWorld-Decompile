@@ -11,10 +11,10 @@ namespace Verse
 		[DebuggerHidden]
 		private static IEnumerable<XElement> BackstoryTranslationElements(LoadedLanguage lang)
 		{
-			BackstoryTranslationUtility.<BackstoryTranslationElements>c__Iterator1E6 <BackstoryTranslationElements>c__Iterator1E = new BackstoryTranslationUtility.<BackstoryTranslationElements>c__Iterator1E6();
+			BackstoryTranslationUtility.<BackstoryTranslationElements>c__Iterator1E9 <BackstoryTranslationElements>c__Iterator1E = new BackstoryTranslationUtility.<BackstoryTranslationElements>c__Iterator1E9();
 			<BackstoryTranslationElements>c__Iterator1E.lang = lang;
 			<BackstoryTranslationElements>c__Iterator1E.<$>lang = lang;
-			BackstoryTranslationUtility.<BackstoryTranslationElements>c__Iterator1E6 expr_15 = <BackstoryTranslationElements>c__Iterator1E;
+			BackstoryTranslationUtility.<BackstoryTranslationElements>c__Iterator1E9 expr_15 = <BackstoryTranslationElements>c__Iterator1E;
 			expr_15.$PC = -2;
 			return expr_15;
 		}
@@ -73,10 +73,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<string> MissingBackstoryTranslations(LoadedLanguage lang)
 		{
-			BackstoryTranslationUtility.<MissingBackstoryTranslations>c__Iterator1E7 <MissingBackstoryTranslations>c__Iterator1E = new BackstoryTranslationUtility.<MissingBackstoryTranslations>c__Iterator1E7();
-			<MissingBackstoryTranslations>c__Iterator1E.lang = lang;
-			<MissingBackstoryTranslations>c__Iterator1E.<$>lang = lang;
-			BackstoryTranslationUtility.<MissingBackstoryTranslations>c__Iterator1E7 expr_15 = <MissingBackstoryTranslations>c__Iterator1E;
+			BackstoryTranslationUtility.<MissingBackstoryTranslations>c__Iterator1EA <MissingBackstoryTranslations>c__Iterator1EA = new BackstoryTranslationUtility.<MissingBackstoryTranslations>c__Iterator1EA();
+			<MissingBackstoryTranslations>c__Iterator1EA.lang = lang;
+			<MissingBackstoryTranslations>c__Iterator1EA.<$>lang = lang;
+			BackstoryTranslationUtility.<MissingBackstoryTranslations>c__Iterator1EA expr_15 = <MissingBackstoryTranslations>c__Iterator1EA;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

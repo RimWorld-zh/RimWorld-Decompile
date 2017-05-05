@@ -158,10 +158,6 @@ namespace RimWorld
 					Building_Bed building_Bed2 = (Building_Bed)GenClosest.ClosestThingReachable(sleeper.Position, sleeper.Map, ThingRequest.ForDef(thingDef), PathEndMode.OnCell, TraverseParms.For(traveler, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, -1, false, RegionType.Set_Passable);
 					if (building_Bed2 != null)
 					{
-						if (sleeper.ownership != null)
-						{
-							sleeper.ownership.UnclaimBed();
-						}
 						return building_Bed2;
 					}
 				}

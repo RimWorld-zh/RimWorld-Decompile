@@ -693,7 +693,7 @@ namespace RimWorld
 				}
 			}
 			TargetInfo target = (mapBeforeDeath == null) ? TargetInfo.Invalid : new TargetInfo(this.pawn.Position, mapBeforeDeath, false);
-			Find.LetterStack.ReceiveLetter("LetterLabelBondedAnimalDied".Translate(), str.CapitalizeFirst(), LetterType.BadNonUrgent, target, null);
+			Find.LetterStack.ReceiveLetter("LetterLabelBondedAnimalDied".Translate(), str.CapitalizeFirst(), LetterDefOf.BadNonUrgent, target, null);
 		}
 
 		private void AffectBondedAnimalsOnMyDeath()

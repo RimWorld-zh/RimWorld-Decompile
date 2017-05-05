@@ -80,7 +80,7 @@ namespace Verse.AI
 
 		public bool nextMoveOrderIsWait;
 
-		public int lastTakeCombatEnancingDrugTick = -99999;
+		public int lastTakeCombatEnhancingDrugTick = -99999;
 
 		public int lastHarmTick = -99999;
 
@@ -175,7 +175,7 @@ namespace Verse.AI
 			this.lastInventoryRawFoodUseTick = 0;
 			this.priorityWork.Clear();
 			this.nextMoveOrderIsWait = true;
-			this.lastTakeCombatEnancingDrugTick = -99999;
+			this.lastTakeCombatEnhancingDrugTick = -99999;
 			this.lastHarmTick = -99999;
 			this.anyCloseHostilesRecently = false;
 		}
@@ -215,7 +215,7 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.canLovinTick, "canLovinTick", -99999, false);
 			Scribe_Values.Look<int>(ref this.canSleepTick, "canSleepTick", -99999, false);
 			Scribe_Values.Look<bool>(ref this.nextMoveOrderIsWait, "nextMoveOrderIsWait", true, false);
-			Scribe_Values.Look<int>(ref this.lastTakeCombatEnancingDrugTick, "lastTakeCombatEnancingDrugTick", -99999, false);
+			Scribe_Values.Look<int>(ref this.lastTakeCombatEnhancingDrugTick, "lastTakeCombatEnhancingDrugTick", -99999, false);
 			Scribe_Values.Look<int>(ref this.lastHarmTick, "lastHarmTick", -99999, false);
 			Scribe_Values.Look<bool>(ref this.anyCloseHostilesRecently, "anyCloseHostilesRecently", false, false);
 			Scribe_Deep.Look<PawnDuty>(ref this.duty, "duty", new object[0]);
@@ -272,9 +272,9 @@ namespace Verse.AI
 		[DebuggerHidden]
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			Pawn_MindState.<GetGizmos>c__Iterator1B7 <GetGizmos>c__Iterator1B = new Pawn_MindState.<GetGizmos>c__Iterator1B7();
-			<GetGizmos>c__Iterator1B.<>f__this = this;
-			Pawn_MindState.<GetGizmos>c__Iterator1B7 expr_0E = <GetGizmos>c__Iterator1B;
+			Pawn_MindState.<GetGizmos>c__Iterator1BA <GetGizmos>c__Iterator1BA = new Pawn_MindState.<GetGizmos>c__Iterator1BA();
+			<GetGizmos>c__Iterator1BA.<>f__this = this;
+			Pawn_MindState.<GetGizmos>c__Iterator1BA expr_0E = <GetGizmos>c__Iterator1BA;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -307,7 +307,7 @@ namespace Verse.AI
 				{
 					this.lastDisturbanceTick = Find.TickManager.TicksGame;
 				}
-				if (!this.mentalStateHandler.InMentalState && this.pawn.RaceProps.Animal && dinfo.Instigator != null && !this.pawn.IsFighting() && !this.pawn.Downed && !this.pawn.Dead)
+				if (dinfo.Instigator != null && Pawn_MindState.CanStartFleeingBecauseOfPawnAction(this.pawn))
 				{
 					this.StartFleeingBecauseOfPawnAction(dinfo.Instigator);
 				}
@@ -351,12 +351,12 @@ namespace Verse.AI
 		[DebuggerHidden]
 		private IEnumerable<Pawn> GetPackmates(Pawn pawn, float radius)
 		{
-			Pawn_MindState.<GetPackmates>c__Iterator1B8 <GetPackmates>c__Iterator1B = new Pawn_MindState.<GetPackmates>c__Iterator1B8();
-			<GetPackmates>c__Iterator1B.pawn = pawn;
-			<GetPackmates>c__Iterator1B.radius = radius;
-			<GetPackmates>c__Iterator1B.<$>pawn = pawn;
-			<GetPackmates>c__Iterator1B.<$>radius = radius;
-			Pawn_MindState.<GetPackmates>c__Iterator1B8 expr_23 = <GetPackmates>c__Iterator1B;
+			Pawn_MindState.<GetPackmates>c__Iterator1BB <GetPackmates>c__Iterator1BB = new Pawn_MindState.<GetPackmates>c__Iterator1BB();
+			<GetPackmates>c__Iterator1BB.pawn = pawn;
+			<GetPackmates>c__Iterator1BB.radius = radius;
+			<GetPackmates>c__Iterator1BB.<$>pawn = pawn;
+			<GetPackmates>c__Iterator1BB.<$>radius = radius;
+			Pawn_MindState.<GetPackmates>c__Iterator1BB expr_23 = <GetPackmates>c__Iterator1BB;
 			expr_23.$PC = -2;
 			return expr_23;
 		}
@@ -371,7 +371,7 @@ namespace Verse.AI
 			{
 				this.pawn.Label
 			});
-			GlobalTargetInfo letterLookTarget = this.pawn;
+			GlobalTargetInfo lookTarget = this.pawn;
 			if (Rand.Value < 0.5f)
 			{
 				int num = 1;
@@ -384,7 +384,7 @@ namespace Verse.AI
 				}
 				if (num > 1)
 				{
-					letterLookTarget = new TargetInfo(this.pawn.Position, this.pawn.Map, false);
+					lookTarget = new TargetInfo(this.pawn.Position, this.pawn.Map, false);
 					text += "\n\n";
 					text += ((!"AnimalManhunterOthers".CanTranslate()) ? "AnimalManhunterFromDamageOthers".Translate(new object[]
 					{
@@ -402,7 +402,12 @@ namespace Verse.AI
 			{
 				this.pawn.Label
 			}).CapitalizeFirst();
-			Find.LetterStack.ReceiveLetter(label, text, LetterType.BadNonUrgent, letterLookTarget, null);
+			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.BadNonUrgent, lookTarget, null);
+		}
+
+		private static bool CanStartFleeingBecauseOfPawnAction(Pawn p)
+		{
+			return p.RaceProps.Animal && !p.InMentalState && !p.IsFighting() && !p.Downed && !p.Dead && !ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(p);
 		}
 
 		private void StartFleeingBecauseOfPawnAction(Thing instigator)
@@ -420,7 +425,7 @@ namespace Verse.AI
 			{
 				foreach (Pawn current in this.GetPackmates(this.pawn, 24f))
 				{
-					if (!current.InMentalState && !current.IsFighting() && !current.Downed && !current.Dead)
+					if (Pawn_MindState.CanStartFleeingBecauseOfPawnAction(current))
 					{
 						IntVec3 fleeDest2 = CellFinderLoose.GetFleeDest(this.pawn, threats, this.pawn.Position.DistanceTo(instigator.Position) + 14f);
 						if (fleeDest2.IsValid)

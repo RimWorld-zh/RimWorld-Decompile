@@ -122,10 +122,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<IntVec3> CellsOccupiedBy(Thing t)
 		{
-			GenAdj.<CellsOccupiedBy>c__Iterator239 <CellsOccupiedBy>c__Iterator = new GenAdj.<CellsOccupiedBy>c__Iterator239();
-			<CellsOccupiedBy>c__Iterator.t = t;
-			<CellsOccupiedBy>c__Iterator.<$>t = t;
-			GenAdj.<CellsOccupiedBy>c__Iterator239 expr_15 = <CellsOccupiedBy>c__Iterator;
+			GenAdj.<CellsOccupiedBy>c__Iterator23D <CellsOccupiedBy>c__Iterator23D = new GenAdj.<CellsOccupiedBy>c__Iterator23D();
+			<CellsOccupiedBy>c__Iterator23D.t = t;
+			<CellsOccupiedBy>c__Iterator23D.<$>t = t;
+			GenAdj.<CellsOccupiedBy>c__Iterator23D expr_15 = <CellsOccupiedBy>c__Iterator23D;
 			expr_15.$PC = -2;
 			return expr_15;
 		}
@@ -133,14 +133,14 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<IntVec3> CellsOccupiedBy(IntVec3 center, Rot4 rotation, IntVec2 size)
 		{
-			GenAdj.<CellsOccupiedBy>c__Iterator23A <CellsOccupiedBy>c__Iterator23A = new GenAdj.<CellsOccupiedBy>c__Iterator23A();
-			<CellsOccupiedBy>c__Iterator23A.center = center;
-			<CellsOccupiedBy>c__Iterator23A.size = size;
-			<CellsOccupiedBy>c__Iterator23A.rotation = rotation;
-			<CellsOccupiedBy>c__Iterator23A.<$>center = center;
-			<CellsOccupiedBy>c__Iterator23A.<$>size = size;
-			<CellsOccupiedBy>c__Iterator23A.<$>rotation = rotation;
-			GenAdj.<CellsOccupiedBy>c__Iterator23A expr_31 = <CellsOccupiedBy>c__Iterator23A;
+			GenAdj.<CellsOccupiedBy>c__Iterator23E <CellsOccupiedBy>c__Iterator23E = new GenAdj.<CellsOccupiedBy>c__Iterator23E();
+			<CellsOccupiedBy>c__Iterator23E.center = center;
+			<CellsOccupiedBy>c__Iterator23E.size = size;
+			<CellsOccupiedBy>c__Iterator23E.rotation = rotation;
+			<CellsOccupiedBy>c__Iterator23E.<$>center = center;
+			<CellsOccupiedBy>c__Iterator23E.<$>size = size;
+			<CellsOccupiedBy>c__Iterator23E.<$>rotation = rotation;
+			GenAdj.<CellsOccupiedBy>c__Iterator23E expr_31 = <CellsOccupiedBy>c__Iterator23E;
 			expr_31.$PC = -2;
 			return expr_31;
 		}
@@ -148,10 +148,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<IntVec3> CellsAdjacent8Way(TargetInfo pack)
 		{
-			GenAdj.<CellsAdjacent8Way>c__Iterator23B <CellsAdjacent8Way>c__Iterator23B = new GenAdj.<CellsAdjacent8Way>c__Iterator23B();
-			<CellsAdjacent8Way>c__Iterator23B.pack = pack;
-			<CellsAdjacent8Way>c__Iterator23B.<$>pack = pack;
-			GenAdj.<CellsAdjacent8Way>c__Iterator23B expr_15 = <CellsAdjacent8Way>c__Iterator23B;
+			GenAdj.<CellsAdjacent8Way>c__Iterator23F <CellsAdjacent8Way>c__Iterator23F = new GenAdj.<CellsAdjacent8Way>c__Iterator23F();
+			<CellsAdjacent8Way>c__Iterator23F.pack = pack;
+			<CellsAdjacent8Way>c__Iterator23F.<$>pack = pack;
+			GenAdj.<CellsAdjacent8Way>c__Iterator23F expr_15 = <CellsAdjacent8Way>c__Iterator23F;
 			expr_15.$PC = -2;
 			return expr_15;
 		}
@@ -164,14 +164,14 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<IntVec3> CellsAdjacent8Way(IntVec3 thingCenter, Rot4 thingRot, IntVec2 thingSize)
 		{
-			GenAdj.<CellsAdjacent8Way>c__Iterator23C <CellsAdjacent8Way>c__Iterator23C = new GenAdj.<CellsAdjacent8Way>c__Iterator23C();
-			<CellsAdjacent8Way>c__Iterator23C.thingCenter = thingCenter;
-			<CellsAdjacent8Way>c__Iterator23C.thingSize = thingSize;
-			<CellsAdjacent8Way>c__Iterator23C.thingRot = thingRot;
-			<CellsAdjacent8Way>c__Iterator23C.<$>thingCenter = thingCenter;
-			<CellsAdjacent8Way>c__Iterator23C.<$>thingSize = thingSize;
-			<CellsAdjacent8Way>c__Iterator23C.<$>thingRot = thingRot;
-			GenAdj.<CellsAdjacent8Way>c__Iterator23C expr_31 = <CellsAdjacent8Way>c__Iterator23C;
+			GenAdj.<CellsAdjacent8Way>c__Iterator240 <CellsAdjacent8Way>c__Iterator = new GenAdj.<CellsAdjacent8Way>c__Iterator240();
+			<CellsAdjacent8Way>c__Iterator.thingCenter = thingCenter;
+			<CellsAdjacent8Way>c__Iterator.thingSize = thingSize;
+			<CellsAdjacent8Way>c__Iterator.thingRot = thingRot;
+			<CellsAdjacent8Way>c__Iterator.<$>thingCenter = thingCenter;
+			<CellsAdjacent8Way>c__Iterator.<$>thingSize = thingSize;
+			<CellsAdjacent8Way>c__Iterator.<$>thingRot = thingRot;
+			GenAdj.<CellsAdjacent8Way>c__Iterator240 expr_31 = <CellsAdjacent8Way>c__Iterator;
 			expr_31.$PC = -2;
 			return expr_31;
 		}
@@ -184,14 +184,14 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<IntVec3> CellsAdjacentCardinal(IntVec3 center, Rot4 rot, IntVec2 size)
 		{
-			GenAdj.<CellsAdjacentCardinal>c__Iterator23D <CellsAdjacentCardinal>c__Iterator23D = new GenAdj.<CellsAdjacentCardinal>c__Iterator23D();
-			<CellsAdjacentCardinal>c__Iterator23D.center = center;
-			<CellsAdjacentCardinal>c__Iterator23D.size = size;
-			<CellsAdjacentCardinal>c__Iterator23D.rot = rot;
-			<CellsAdjacentCardinal>c__Iterator23D.<$>center = center;
-			<CellsAdjacentCardinal>c__Iterator23D.<$>size = size;
-			<CellsAdjacentCardinal>c__Iterator23D.<$>rot = rot;
-			GenAdj.<CellsAdjacentCardinal>c__Iterator23D expr_31 = <CellsAdjacentCardinal>c__Iterator23D;
+			GenAdj.<CellsAdjacentCardinal>c__Iterator241 <CellsAdjacentCardinal>c__Iterator = new GenAdj.<CellsAdjacentCardinal>c__Iterator241();
+			<CellsAdjacentCardinal>c__Iterator.center = center;
+			<CellsAdjacentCardinal>c__Iterator.size = size;
+			<CellsAdjacentCardinal>c__Iterator.rot = rot;
+			<CellsAdjacentCardinal>c__Iterator.<$>center = center;
+			<CellsAdjacentCardinal>c__Iterator.<$>size = size;
+			<CellsAdjacentCardinal>c__Iterator.<$>rot = rot;
+			GenAdj.<CellsAdjacentCardinal>c__Iterator241 expr_31 = <CellsAdjacentCardinal>c__Iterator;
 			expr_31.$PC = -2;
 			return expr_31;
 		}
@@ -199,16 +199,16 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<IntVec3> CellsAdjacentAlongEdge(IntVec3 thingCent, Rot4 thingRot, IntVec2 thingSize, LinkDirections dir)
 		{
-			GenAdj.<CellsAdjacentAlongEdge>c__Iterator23E <CellsAdjacentAlongEdge>c__Iterator23E = new GenAdj.<CellsAdjacentAlongEdge>c__Iterator23E();
-			<CellsAdjacentAlongEdge>c__Iterator23E.thingCent = thingCent;
-			<CellsAdjacentAlongEdge>c__Iterator23E.thingSize = thingSize;
-			<CellsAdjacentAlongEdge>c__Iterator23E.thingRot = thingRot;
-			<CellsAdjacentAlongEdge>c__Iterator23E.dir = dir;
-			<CellsAdjacentAlongEdge>c__Iterator23E.<$>thingCent = thingCent;
-			<CellsAdjacentAlongEdge>c__Iterator23E.<$>thingSize = thingSize;
-			<CellsAdjacentAlongEdge>c__Iterator23E.<$>thingRot = thingRot;
-			<CellsAdjacentAlongEdge>c__Iterator23E.<$>dir = dir;
-			GenAdj.<CellsAdjacentAlongEdge>c__Iterator23E expr_3F = <CellsAdjacentAlongEdge>c__Iterator23E;
+			GenAdj.<CellsAdjacentAlongEdge>c__Iterator242 <CellsAdjacentAlongEdge>c__Iterator = new GenAdj.<CellsAdjacentAlongEdge>c__Iterator242();
+			<CellsAdjacentAlongEdge>c__Iterator.thingCent = thingCent;
+			<CellsAdjacentAlongEdge>c__Iterator.thingSize = thingSize;
+			<CellsAdjacentAlongEdge>c__Iterator.thingRot = thingRot;
+			<CellsAdjacentAlongEdge>c__Iterator.dir = dir;
+			<CellsAdjacentAlongEdge>c__Iterator.<$>thingCent = thingCent;
+			<CellsAdjacentAlongEdge>c__Iterator.<$>thingSize = thingSize;
+			<CellsAdjacentAlongEdge>c__Iterator.<$>thingRot = thingRot;
+			<CellsAdjacentAlongEdge>c__Iterator.<$>dir = dir;
+			GenAdj.<CellsAdjacentAlongEdge>c__Iterator242 expr_3F = <CellsAdjacentAlongEdge>c__Iterator;
 			expr_3F.$PC = -2;
 			return expr_3F;
 		}
@@ -216,10 +216,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<IntVec3> CellsAdjacent8WayAndInside(this Thing thing)
 		{
-			GenAdj.<CellsAdjacent8WayAndInside>c__Iterator23F <CellsAdjacent8WayAndInside>c__Iterator23F = new GenAdj.<CellsAdjacent8WayAndInside>c__Iterator23F();
-			<CellsAdjacent8WayAndInside>c__Iterator23F.thing = thing;
-			<CellsAdjacent8WayAndInside>c__Iterator23F.<$>thing = thing;
-			GenAdj.<CellsAdjacent8WayAndInside>c__Iterator23F expr_15 = <CellsAdjacent8WayAndInside>c__Iterator23F;
+			GenAdj.<CellsAdjacent8WayAndInside>c__Iterator243 <CellsAdjacent8WayAndInside>c__Iterator = new GenAdj.<CellsAdjacent8WayAndInside>c__Iterator243();
+			<CellsAdjacent8WayAndInside>c__Iterator.thing = thing;
+			<CellsAdjacent8WayAndInside>c__Iterator.<$>thing = thing;
+			GenAdj.<CellsAdjacent8WayAndInside>c__Iterator243 expr_15 = <CellsAdjacent8WayAndInside>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

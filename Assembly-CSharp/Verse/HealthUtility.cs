@@ -256,7 +256,7 @@ namespace Verse
 		{
 			HediffSet hediffSet = p.health.hediffSet;
 			int num = 0;
-			while (!p.Dead && num < 100 && HealthUtility.HittablePartsViolence(hediffSet).Any<BodyPartRecord>())
+			while (!p.Dead && num < 200 && HealthUtility.HittablePartsViolence(hediffSet).Any<BodyPartRecord>())
 			{
 				num++;
 				BodyPartRecord bodyPartRecord = HealthUtility.HittablePartsViolence(hediffSet).RandomElementByWeight((BodyPartRecord x) => x.coverageAbs);

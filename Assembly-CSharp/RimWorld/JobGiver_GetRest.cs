@@ -116,8 +116,22 @@ namespace RimWorld
 			{
 				return new Job(JobDefOf.LayDown, building_Bed);
 			}
-			IntVec3 c = CellFinder.RandomClosewalkCellNearNotForbidden(pawn.Position, pawn.Map, 4, pawn);
-			return new Job(JobDefOf.LayDown, c);
+			return new Job(JobDefOf.LayDown, this.FindGroundSleepSpotFor(pawn));
+		}
+
+		private IntVec3 FindGroundSleepSpotFor(Pawn pawn)
+		{
+			Map map = pawn.Map;
+			for (int i = 0; i < 2; i++)
+			{
+				int radius = (i != 0) ? 12 : 4;
+				IntVec3 result;
+				if (CellFinder.TryRandomClosewalkCellNear(pawn.Position, map, radius, out result, (IntVec3 x) => !x.IsForbidden(pawn) && !x.GetTerrain(map).avoidWander))
+				{
+					return result;
+				}
+			}
+			return CellFinder.RandomClosewalkCellNearNotForbidden(pawn.Position, map, 4, pawn);
 		}
 	}
 }

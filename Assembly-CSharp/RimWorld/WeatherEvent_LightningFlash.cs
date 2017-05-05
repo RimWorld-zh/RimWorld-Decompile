@@ -35,10 +35,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return new SkyTarget(WeatherEvent_LightningFlash.LightningFlashColors)
-				{
-					glow = 1f
-				};
+				return new SkyTarget(1f, WeatherEvent_LightningFlash.LightningFlashColors, 1f, 1f);
 			}
 		}
 

@@ -64,11 +64,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<Thing> RearmablesInCell(IntVec3 c)
 		{
-			Designator_RearmTrap.<RearmablesInCell>c__Iterator18E <RearmablesInCell>c__Iterator18E = new Designator_RearmTrap.<RearmablesInCell>c__Iterator18E();
-			<RearmablesInCell>c__Iterator18E.c = c;
-			<RearmablesInCell>c__Iterator18E.<$>c = c;
-			<RearmablesInCell>c__Iterator18E.<>f__this = this;
-			Designator_RearmTrap.<RearmablesInCell>c__Iterator18E expr_1C = <RearmablesInCell>c__Iterator18E;
+			Designator_RearmTrap.<RearmablesInCell>c__Iterator18F <RearmablesInCell>c__Iterator18F = new Designator_RearmTrap.<RearmablesInCell>c__Iterator18F();
+			<RearmablesInCell>c__Iterator18F.c = c;
+			<RearmablesInCell>c__Iterator18F.<$>c = c;
+			<RearmablesInCell>c__Iterator18F.<>f__this = this;
+			Designator_RearmTrap.<RearmablesInCell>c__Iterator18F expr_1C = <RearmablesInCell>c__Iterator18F;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

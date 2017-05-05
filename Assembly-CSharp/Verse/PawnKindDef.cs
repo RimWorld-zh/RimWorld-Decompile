@@ -111,9 +111,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			PawnKindDef.<ConfigErrors>c__Iterator1CE <ConfigErrors>c__Iterator1CE = new PawnKindDef.<ConfigErrors>c__Iterator1CE();
-			<ConfigErrors>c__Iterator1CE.<>f__this = this;
-			PawnKindDef.<ConfigErrors>c__Iterator1CE expr_0E = <ConfigErrors>c__Iterator1CE;
+			PawnKindDef.<ConfigErrors>c__Iterator1D1 <ConfigErrors>c__Iterator1D = new PawnKindDef.<ConfigErrors>c__Iterator1D1();
+			<ConfigErrors>c__Iterator1D.<>f__this = this;
+			PawnKindDef.<ConfigErrors>c__Iterator1D1 expr_0E = <ConfigErrors>c__Iterator1D;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

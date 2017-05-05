@@ -25,7 +25,7 @@ namespace RimWorld
 					{
 						tradeShip.name,
 						tradeShip.def.label
-					}), LetterType.Good, null);
+					}), LetterDefOf.Good, null);
 				}
 				map.passingShipManager.AddShip(tradeShip);
 				tradeShip.GenerateThings();

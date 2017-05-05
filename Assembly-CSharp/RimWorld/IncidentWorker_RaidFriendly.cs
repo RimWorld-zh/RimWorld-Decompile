@@ -111,9 +111,9 @@ namespace RimWorld
 			return text;
 		}
 
-		protected override LetterType GetLetterType()
+		protected override LetterDef GetLetterDef()
 		{
-			return LetterType.BadNonUrgent;
+			return LetterDefOf.BadNonUrgent;
 		}
 
 		protected override string GetRelatedPawnsInfoLetterText(IncidentParms parms)

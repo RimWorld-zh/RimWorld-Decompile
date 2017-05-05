@@ -102,7 +102,7 @@ namespace RimWorld
 			}
 			this.droneLevel += 1;
 			string text = "LetterPsychicDroneLevelIncreased".Translate();
-			Find.LetterStack.ReceiveLetter("LetterLabelPsychicDroneLevelIncreased".Translate(), text, LetterType.BadNonUrgent, null);
+			Find.LetterStack.ReceiveLetter("LetterLabelPsychicDroneLevelIncreased".Translate(), text, LetterDefOf.BadNonUrgent, null);
 			SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(base.Map);
 		}
 

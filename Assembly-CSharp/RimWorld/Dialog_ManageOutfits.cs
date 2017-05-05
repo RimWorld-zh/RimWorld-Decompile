@@ -136,8 +136,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<SpecialThingFilterDef> HiddenSpecialThingFilters()
 		{
-			Dialog_ManageOutfits.<HiddenSpecialThingFilters>c__Iterator192 <HiddenSpecialThingFilters>c__Iterator = new Dialog_ManageOutfits.<HiddenSpecialThingFilters>c__Iterator192();
-			Dialog_ManageOutfits.<HiddenSpecialThingFilters>c__Iterator192 expr_07 = <HiddenSpecialThingFilters>c__Iterator;
+			Dialog_ManageOutfits.<HiddenSpecialThingFilters>c__Iterator193 <HiddenSpecialThingFilters>c__Iterator = new Dialog_ManageOutfits.<HiddenSpecialThingFilters>c__Iterator193();
+			Dialog_ManageOutfits.<HiddenSpecialThingFilters>c__Iterator193 expr_07 = <HiddenSpecialThingFilters>c__Iterator;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

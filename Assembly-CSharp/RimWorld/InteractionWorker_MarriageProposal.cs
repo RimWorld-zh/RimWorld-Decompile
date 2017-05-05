@@ -90,11 +90,11 @@ namespace RimWorld
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			string label;
-			LetterType type;
+			LetterDef textLetterDef;
 			if (accepted)
 			{
 				label = "LetterLabelAcceptedProposal".Translate();
-				type = LetterType.Good;
+				textLetterDef = LetterDefOf.Good;
 				stringBuilder.AppendLine("LetterAcceptedProposal".Translate(new object[]
 				{
 					initiator,
@@ -104,7 +104,7 @@ namespace RimWorld
 			else
 			{
 				label = "LetterLabelRejectedProposal".Translate();
-				type = LetterType.BadNonUrgent;
+				textLetterDef = LetterDefOf.BadNonUrgent;
 				stringBuilder.AppendLine("LetterRejectedProposal".Translate(new object[]
 				{
 					initiator,
@@ -120,7 +120,7 @@ namespace RimWorld
 					}));
 				}
 			}
-			Find.LetterStack.ReceiveLetter(label, stringBuilder.ToString().TrimEndNewlines(), type, initiator, null);
+			Find.LetterStack.ReceiveLetter(label, stringBuilder.ToString().TrimEndNewlines(), textLetterDef, initiator, null);
 		}
 	}
 }

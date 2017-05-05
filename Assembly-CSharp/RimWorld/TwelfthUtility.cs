@@ -109,6 +109,11 @@ namespace RimWorld
 			return (twelfth + 1) % Twelfth.Undefined;
 		}
 
+		public static float GetBeginningYearPct(this Twelfth twelfth)
+		{
+			return (float)twelfth / 12f;
+		}
+
 		public static Twelfth FindStartingWarmTwelfth(int tile)
 		{
 			Twelfth twelfth = GenTemperature.EarliestTwelfthInAverageTemperatureRange(tile, 16f, 9999f);

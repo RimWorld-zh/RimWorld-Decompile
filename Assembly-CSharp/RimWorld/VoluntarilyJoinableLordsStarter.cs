@@ -54,7 +54,7 @@ namespace RimWorld
 			Find.LetterStack.ReceiveLetter("LetterLabelNewParty".Translate(), "LetterNewParty".Translate(new object[]
 			{
 				pawn.LabelShort
-			}), LetterType.Good, new TargetInfo(intVec, this.map, false), null);
+			}), LetterDefOf.Good, new TargetInfo(intVec, this.map, false), null);
 			this.lastLordStartTick = Find.TickManager.TicksGame;
 			this.startPartyASAP = false;
 			return true;

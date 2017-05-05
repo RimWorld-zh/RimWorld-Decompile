@@ -39,7 +39,7 @@ namespace RimWorld
 		[MustTranslate]
 		public string letterLabel;
 
-		public LetterType letterType;
+		public LetterDef letterDef;
 
 		public GameConditionDef gameCondition;
 

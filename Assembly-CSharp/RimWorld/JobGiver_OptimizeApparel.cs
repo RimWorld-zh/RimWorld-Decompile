@@ -166,7 +166,7 @@ namespace RimWorld
 			{
 				return -1000f;
 			}
-			float num = JobGiver_OptimizeApparel.ApparelScoreRaw(ap);
+			float num = JobGiver_OptimizeApparel.ApparelScoreRaw(pawn, ap);
 			List<Apparel> wornApparel = pawn.apparel.WornApparel;
 			bool flag = false;
 			for (int i = 0; i < wornApparel.Count; i++)
@@ -177,7 +177,7 @@ namespace RimWorld
 					{
 						return -1000f;
 					}
-					num -= JobGiver_OptimizeApparel.ApparelScoreRaw(wornApparel[i]);
+					num -= JobGiver_OptimizeApparel.ApparelScoreRaw(pawn, wornApparel[i]);
 					flag = true;
 				}
 			}
@@ -188,7 +188,7 @@ namespace RimWorld
 			return num;
 		}
 
-		public static float ApparelScoreRaw(Apparel ap)
+		public static float ApparelScoreRaw(Pawn pawn, Apparel ap)
 		{
 			float num = 0.1f;
 			float num2 = ap.GetStatValue(StatDefOf.ArmorRating_Sharp, true) + ap.GetStatValue(StatDefOf.ArmorRating_Blunt, true);
@@ -206,12 +206,27 @@ namespace RimWorld
 				num3 *= JobGiver_OptimizeApparel.InsulationColdScoreFactorCurve_NeedWarm.Evaluate(statValue);
 			}
 			num *= num3;
-			if (ap.WornByCorpse)
+			if (ap.WornByCorpse && (pawn == null || ThoughtUtility.CanGetThought(pawn, ThoughtDefOf.DeadMansApparel)))
 			{
 				num -= 0.5f;
 				if (num > 0f)
 				{
 					num *= 0.1f;
+				}
+			}
+			if (ap.Stuff == ThingDefOf.Human.race.leatherDef)
+			{
+				if (pawn == null || ThoughtUtility.CanGetThought(pawn, ThoughtDefOf.HumanLeatherApparelSad))
+				{
+					num -= 0.5f;
+					if (num > 0f)
+					{
+						num *= 0.1f;
+					}
+				}
+				if (pawn != null && ThoughtUtility.CanGetThought(pawn, ThoughtDefOf.HumanLeatherApparelHappy))
+				{
+					num += 0.12f;
 				}
 			}
 			return num;

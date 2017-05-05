@@ -295,7 +295,15 @@ namespace Verse
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append(base.GetInspectString());
-			stringBuilder.Append(this.InspectStringPartsFromComps());
+			string text = this.InspectStringPartsFromComps();
+			if (!text.NullOrEmpty())
+			{
+				if (stringBuilder.Length > 0)
+				{
+					stringBuilder.AppendLine();
+				}
+				stringBuilder.Append(text);
+			}
 			return stringBuilder.ToString();
 		}
 

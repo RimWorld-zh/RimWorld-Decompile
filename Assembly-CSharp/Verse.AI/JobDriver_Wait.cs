@@ -25,9 +25,9 @@ namespace Verse.AI
 		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_Wait.<MakeNewToils>c__Iterator1AD <MakeNewToils>c__Iterator1AD = new JobDriver_Wait.<MakeNewToils>c__Iterator1AD();
-			<MakeNewToils>c__Iterator1AD.<>f__this = this;
-			JobDriver_Wait.<MakeNewToils>c__Iterator1AD expr_0E = <MakeNewToils>c__Iterator1AD;
+			JobDriver_Wait.<MakeNewToils>c__Iterator1B0 <MakeNewToils>c__Iterator1B = new JobDriver_Wait.<MakeNewToils>c__Iterator1B0();
+			<MakeNewToils>c__Iterator1B.<>f__this = this;
+			JobDriver_Wait.<MakeNewToils>c__Iterator1B0 expr_0E = <MakeNewToils>c__Iterator1B;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -88,7 +88,7 @@ namespace Verse.AI
 					this.pawn.natives.TryBeatFire(fire);
 					return;
 				}
-				if (flag && this.pawn.Faction != null && this.pawn.jobs.curJob.def == JobDefOf.WaitCombat && (this.pawn.drafter == null || this.pawn.drafter.AllowFiring))
+				if (flag && this.pawn.Faction != null && this.pawn.jobs.curJob.def == JobDefOf.WaitCombat && (this.pawn.drafter == null || this.pawn.drafter.FireAtWill))
 				{
 					bool allowManualCastWeapons = !this.pawn.IsColonist;
 					Verb verb = this.pawn.TryGetAttackVerb(allowManualCastWeapons);

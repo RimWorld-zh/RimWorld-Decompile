@@ -93,7 +93,7 @@ namespace RimWorld
 			{
 				Log.Error("Sending standard incident letter with no label or text.");
 			}
-			Find.LetterStack.ReceiveLetter(this.def.letterLabel, this.def.letterText, this.def.letterType, null);
+			Find.LetterStack.ReceiveLetter(this.def.letterLabel, this.def.letterText, this.def.letterDef, null);
 		}
 
 		protected void SendStandardLetter(GlobalTargetInfo target, params string[] textArgs)
@@ -103,7 +103,7 @@ namespace RimWorld
 				Log.Error("Sending standard incident letter with no label or text.");
 			}
 			string text = string.Format(this.def.letterText, textArgs).CapitalizeFirst();
-			Find.LetterStack.ReceiveLetter(this.def.letterLabel, text, this.def.letterType, target, null);
+			Find.LetterStack.ReceiveLetter(this.def.letterLabel, text, this.def.letterDef, target, null);
 		}
 	}
 }

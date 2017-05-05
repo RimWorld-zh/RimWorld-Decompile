@@ -124,7 +124,6 @@ namespace RimWorld
 		{
 			base.DeSpawn();
 			this.ResetCurrentTarget();
-			this.burstCooldownTicksLeft = 0;
 		}
 
 		public override void ExposeData()
@@ -351,7 +350,7 @@ namespace RimWorld
 			{
 				stringBuilder.AppendLine("MinimumRange".Translate() + ": " + this.GunCompEq.PrimaryVerb.verbProps.minRange.ToString("F0"));
 			}
-			if (this.burstCooldownTicksLeft > 0)
+			if (base.Spawned && this.burstCooldownTicksLeft > 0)
 			{
 				stringBuilder.AppendLine("CanFireIn".Translate() + ": " + this.burstCooldownTicksLeft.TicksToSecondsString());
 			}

@@ -430,7 +430,7 @@ namespace RimWorld
 				dropPodLeaving.attackOnArrival = attackOnArrival;
 				ThingOwner directlyHeldThings = compTransporter.GetDirectlyHeldThings();
 				dropPodLeaving.Contents = new ActiveDropPodInfo();
-				dropPodLeaving.Contents.innerContainer.TryAddRange(directlyHeldThings);
+				dropPodLeaving.Contents.innerContainer.TryAddRange(directlyHeldThings, true);
 				directlyHeldThings.Clear();
 				compTransporter.CleanUpLoadingVars(map);
 				compTransporter.parent.Destroy(DestroyMode.Vanish);

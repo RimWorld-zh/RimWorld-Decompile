@@ -79,7 +79,10 @@ namespace Verse
 			if (this.disabled)
 			{
 				textColor = this.DisabledOptionColor;
-				text = text + " (" + this.disabledReason + ")";
+				if (this.disabledReason != null)
+				{
+					text = text + " (" + this.disabledReason + ")";
+				}
 			}
 			rect.height = Text.CalcHeight(text, rect.width);
 			if (Widgets.ButtonText(rect, text, false, false, textColor, active && !this.disabled))

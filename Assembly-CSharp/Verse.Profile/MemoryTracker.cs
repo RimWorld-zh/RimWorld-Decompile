@@ -347,16 +347,16 @@ namespace Verse.Profile
 		[DebuggerHidden]
 		private static IEnumerable<MemoryTracker.ChildReference> GetAllReferencedClassesFromClassOrStruct(object current, IEnumerable<FieldInfo> fields, object parent, string currentPath)
 		{
-			MemoryTracker.<GetAllReferencedClassesFromClassOrStruct>c__Iterator219 <GetAllReferencedClassesFromClassOrStruct>c__Iterator = new MemoryTracker.<GetAllReferencedClassesFromClassOrStruct>c__Iterator219();
-			<GetAllReferencedClassesFromClassOrStruct>c__Iterator.fields = fields;
-			<GetAllReferencedClassesFromClassOrStruct>c__Iterator.current = current;
-			<GetAllReferencedClassesFromClassOrStruct>c__Iterator.parent = parent;
-			<GetAllReferencedClassesFromClassOrStruct>c__Iterator.currentPath = currentPath;
-			<GetAllReferencedClassesFromClassOrStruct>c__Iterator.<$>fields = fields;
-			<GetAllReferencedClassesFromClassOrStruct>c__Iterator.<$>current = current;
-			<GetAllReferencedClassesFromClassOrStruct>c__Iterator.<$>parent = parent;
-			<GetAllReferencedClassesFromClassOrStruct>c__Iterator.<$>currentPath = currentPath;
-			MemoryTracker.<GetAllReferencedClassesFromClassOrStruct>c__Iterator219 expr_3F = <GetAllReferencedClassesFromClassOrStruct>c__Iterator;
+			MemoryTracker.<GetAllReferencedClassesFromClassOrStruct>c__Iterator21C <GetAllReferencedClassesFromClassOrStruct>c__Iterator21C = new MemoryTracker.<GetAllReferencedClassesFromClassOrStruct>c__Iterator21C();
+			<GetAllReferencedClassesFromClassOrStruct>c__Iterator21C.fields = fields;
+			<GetAllReferencedClassesFromClassOrStruct>c__Iterator21C.current = current;
+			<GetAllReferencedClassesFromClassOrStruct>c__Iterator21C.parent = parent;
+			<GetAllReferencedClassesFromClassOrStruct>c__Iterator21C.currentPath = currentPath;
+			<GetAllReferencedClassesFromClassOrStruct>c__Iterator21C.<$>fields = fields;
+			<GetAllReferencedClassesFromClassOrStruct>c__Iterator21C.<$>current = current;
+			<GetAllReferencedClassesFromClassOrStruct>c__Iterator21C.<$>parent = parent;
+			<GetAllReferencedClassesFromClassOrStruct>c__Iterator21C.<$>currentPath = currentPath;
+			MemoryTracker.<GetAllReferencedClassesFromClassOrStruct>c__Iterator21C expr_3F = <GetAllReferencedClassesFromClassOrStruct>c__Iterator21C;
 			expr_3F.$PC = -2;
 			return expr_3F;
 		}
@@ -364,14 +364,14 @@ namespace Verse.Profile
 		[DebuggerHidden]
 		private static IEnumerable<MemoryTracker.ChildReference> DistillChildReferencesFromObject(object current, object parent, string currentPath)
 		{
-			MemoryTracker.<DistillChildReferencesFromObject>c__Iterator21A <DistillChildReferencesFromObject>c__Iterator21A = new MemoryTracker.<DistillChildReferencesFromObject>c__Iterator21A();
-			<DistillChildReferencesFromObject>c__Iterator21A.current = current;
-			<DistillChildReferencesFromObject>c__Iterator21A.currentPath = currentPath;
-			<DistillChildReferencesFromObject>c__Iterator21A.parent = parent;
-			<DistillChildReferencesFromObject>c__Iterator21A.<$>current = current;
-			<DistillChildReferencesFromObject>c__Iterator21A.<$>currentPath = currentPath;
-			<DistillChildReferencesFromObject>c__Iterator21A.<$>parent = parent;
-			MemoryTracker.<DistillChildReferencesFromObject>c__Iterator21A expr_31 = <DistillChildReferencesFromObject>c__Iterator21A;
+			MemoryTracker.<DistillChildReferencesFromObject>c__Iterator21D <DistillChildReferencesFromObject>c__Iterator21D = new MemoryTracker.<DistillChildReferencesFromObject>c__Iterator21D();
+			<DistillChildReferencesFromObject>c__Iterator21D.current = current;
+			<DistillChildReferencesFromObject>c__Iterator21D.currentPath = currentPath;
+			<DistillChildReferencesFromObject>c__Iterator21D.parent = parent;
+			<DistillChildReferencesFromObject>c__Iterator21D.<$>current = current;
+			<DistillChildReferencesFromObject>c__Iterator21D.<$>currentPath = currentPath;
+			<DistillChildReferencesFromObject>c__Iterator21D.<$>parent = parent;
+			MemoryTracker.<DistillChildReferencesFromObject>c__Iterator21D expr_31 = <DistillChildReferencesFromObject>c__Iterator21D;
 			expr_31.$PC = -2;
 			return expr_31;
 		}
@@ -379,12 +379,12 @@ namespace Verse.Profile
 		[DebuggerHidden]
 		private static IEnumerable<FieldInfo> GetFieldsFromHierarchy(Type type, BindingFlags bindingFlags)
 		{
-			MemoryTracker.<GetFieldsFromHierarchy>c__Iterator21B <GetFieldsFromHierarchy>c__Iterator21B = new MemoryTracker.<GetFieldsFromHierarchy>c__Iterator21B();
-			<GetFieldsFromHierarchy>c__Iterator21B.type = type;
-			<GetFieldsFromHierarchy>c__Iterator21B.bindingFlags = bindingFlags;
-			<GetFieldsFromHierarchy>c__Iterator21B.<$>type = type;
-			<GetFieldsFromHierarchy>c__Iterator21B.<$>bindingFlags = bindingFlags;
-			MemoryTracker.<GetFieldsFromHierarchy>c__Iterator21B expr_23 = <GetFieldsFromHierarchy>c__Iterator21B;
+			MemoryTracker.<GetFieldsFromHierarchy>c__Iterator21E <GetFieldsFromHierarchy>c__Iterator21E = new MemoryTracker.<GetFieldsFromHierarchy>c__Iterator21E();
+			<GetFieldsFromHierarchy>c__Iterator21E.type = type;
+			<GetFieldsFromHierarchy>c__Iterator21E.bindingFlags = bindingFlags;
+			<GetFieldsFromHierarchy>c__Iterator21E.<$>type = type;
+			<GetFieldsFromHierarchy>c__Iterator21E.<$>bindingFlags = bindingFlags;
+			MemoryTracker.<GetFieldsFromHierarchy>c__Iterator21E expr_23 = <GetFieldsFromHierarchy>c__Iterator21E;
 			expr_23.$PC = -2;
 			return expr_23;
 		}
@@ -392,12 +392,12 @@ namespace Verse.Profile
 		[DebuggerHidden]
 		private static IEnumerable<FieldInfo> GetFields(Type type, BindingFlags bindingFlags)
 		{
-			MemoryTracker.<GetFields>c__Iterator21C <GetFields>c__Iterator21C = new MemoryTracker.<GetFields>c__Iterator21C();
-			<GetFields>c__Iterator21C.type = type;
-			<GetFields>c__Iterator21C.bindingFlags = bindingFlags;
-			<GetFields>c__Iterator21C.<$>type = type;
-			<GetFields>c__Iterator21C.<$>bindingFlags = bindingFlags;
-			MemoryTracker.<GetFields>c__Iterator21C expr_23 = <GetFields>c__Iterator21C;
+			MemoryTracker.<GetFields>c__Iterator21F <GetFields>c__Iterator21F = new MemoryTracker.<GetFields>c__Iterator21F();
+			<GetFields>c__Iterator21F.type = type;
+			<GetFields>c__Iterator21F.bindingFlags = bindingFlags;
+			<GetFields>c__Iterator21F.<$>type = type;
+			<GetFields>c__Iterator21F.<$>bindingFlags = bindingFlags;
+			MemoryTracker.<GetFields>c__Iterator21F expr_23 = <GetFields>c__Iterator21F;
 			expr_23.$PC = -2;
 			return expr_23;
 		}

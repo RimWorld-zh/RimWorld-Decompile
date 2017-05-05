@@ -56,6 +56,8 @@ namespace Verse
 					this.SetSunShadowVector(GenCelestial.CurShadowVector(this.map));
 					color2 = Color.Lerp(Color.white, color2, GenCelestial.CurShadowStrength(this.map));
 				}
+				Shader.SetGlobalFloat("_LightsourceShineSizeReduction", 20f * (1f / curSky.lightsourceShineSize));
+				Shader.SetGlobalFloat("_LightsourceShineIntensity", curSky.lightsourceShineIntensity);
 				MatBases.SunShadow.color = color2;
 				this.UpdateOverlays(curSky);
 			}

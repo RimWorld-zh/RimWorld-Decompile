@@ -83,7 +83,7 @@ namespace RimWorld
 						return job;
 					}
 				}
-				thing = FoodUtility.BestFoodSourceOnMap(pawn, pawn, desperate, FoodPreferability.MealLavish, false, false, false, false, false, false, false);
+				thing = FoodUtility.BestFoodSourceOnMap(pawn, pawn, desperate, FoodPreferability.MealLavish, false, !pawn.IsTeetotaler(), false, false, false, false, false);
 				if (thing == null)
 				{
 					return null;

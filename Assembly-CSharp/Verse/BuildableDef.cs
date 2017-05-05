@@ -38,6 +38,8 @@ namespace Verse
 
 		public Rot4 defaultPlacingRot = Rot4.North;
 
+		public float resourcesFractionWhenDeconstructed = 0.75f;
+
 		[Unsaved]
 		public ThingDef blueprintDef;
 
@@ -169,9 +171,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			BuildableDef.<ConfigErrors>c__Iterator1C0 <ConfigErrors>c__Iterator1C = new BuildableDef.<ConfigErrors>c__Iterator1C0();
+			BuildableDef.<ConfigErrors>c__Iterator1C3 <ConfigErrors>c__Iterator1C = new BuildableDef.<ConfigErrors>c__Iterator1C3();
 			<ConfigErrors>c__Iterator1C.<>f__this = this;
-			BuildableDef.<ConfigErrors>c__Iterator1C0 expr_0E = <ConfigErrors>c__Iterator1C;
+			BuildableDef.<ConfigErrors>c__Iterator1C3 expr_0E = <ConfigErrors>c__Iterator1C;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

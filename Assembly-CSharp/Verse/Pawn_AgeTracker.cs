@@ -327,7 +327,7 @@ namespace Verse
 					this.AgeBiologicalYears,
 					stringBuilder
 				}).AdjustedFor(this.pawn);
-				Find.LetterStack.ReceiveLetter(new Letter("LetterLabelBirthday".Translate(), text, LetterType.BadNonUrgent, this.pawn), null);
+				Find.LetterStack.ReceiveLetter("LetterLabelBirthday".Translate(), text, LetterDefOf.BadNonUrgent, this.pawn, null);
 			}
 		}
 

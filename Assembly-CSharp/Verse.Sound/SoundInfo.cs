@@ -35,9 +35,9 @@ namespace Verse.Sound
 		{
 			get
 			{
-				SoundInfo.<>c__Iterator222 <>c__Iterator = new SoundInfo.<>c__Iterator222();
+				SoundInfo.<>c__Iterator225 <>c__Iterator = new SoundInfo.<>c__Iterator225();
 				<>c__Iterator.<>f__this = this;
-				SoundInfo.<>c__Iterator222 expr_13 = <>c__Iterator;
+				SoundInfo.<>c__Iterator225 expr_13 = <>c__Iterator;
 				expr_13.$PC = -2;
 				return expr_13;
 			}

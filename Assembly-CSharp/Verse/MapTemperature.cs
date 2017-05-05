@@ -113,16 +113,16 @@ namespace Verse
 			stringBuilder.AppendLine("Seasonal shift: " + GenTemperature.SeasonalShiftAmplitudeAt(this.map.Tile));
 			stringBuilder.AppendLine("Equatorial distance: " + Find.WorldGrid.DistanceFromEquatorNormalized(this.map.Tile));
 			stringBuilder.AppendLine();
-			stringBuilder.AppendLine("Day  Lo   Hi   AvgDailyTemp RandomDailyVariation");
-			for (int k = 0; k < 180; k++)
+			stringBuilder.AppendLine("Day  Lo   Hi   OffsetFromSeason RandomDailyVariation");
+			for (int k = 0; k < 60; k++)
 			{
 				int absTick2 = (int)((float)(k * 60000) + 15000f);
-				int num3 = (int)((float)(k * 60000) + 45000f);
+				int absTick3 = (int)((float)(k * 60000) + 45000f);
 				stringBuilder.Append(k.ToString().PadRight(8));
 				stringBuilder.Append(Find.World.tileTemperatures.OutdoorTemperatureAt(this.map.Tile, absTick2).ToString("F2").PadRight(11));
-				stringBuilder.Append(Find.World.tileTemperatures.OutdoorTemperatureAt(this.map.Tile, num3).ToString("F2").PadRight(11));
-				stringBuilder.Append(GenTemperature.OffsetFromSeasonCycle(this.map.Tile, num3).ToString("F2").PadRight(11));
-				stringBuilder.Append(Find.World.tileTemperatures.OffsetFromDailyRandomVariation(this.map.Tile, num3).ToString("F2"));
+				stringBuilder.Append(Find.World.tileTemperatures.OutdoorTemperatureAt(this.map.Tile, absTick3).ToString("F2").PadRight(11));
+				stringBuilder.Append(GenTemperature.OffsetFromSeasonCycle(absTick3, this.map.Tile).ToString("F2").PadRight(11));
+				stringBuilder.Append(Find.World.tileTemperatures.OffsetFromDailyRandomVariation(this.map.Tile, absTick3).ToString("F2"));
 				stringBuilder.AppendLine();
 			}
 			Log.Message(stringBuilder.ToString());

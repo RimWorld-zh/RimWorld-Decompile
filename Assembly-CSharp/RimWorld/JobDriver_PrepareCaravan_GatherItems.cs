@@ -45,19 +45,7 @@ namespace RimWorld
 		{
 			get
 			{
-				List<TransferableOneWay> transferables = this.Transferables;
-				Thing toHaul = this.ToHaul;
-				TransferableOneWay transferableOneWay = transferables.Find((TransferableOneWay x) => x.things.Contains(toHaul));
-				if (transferableOneWay != null)
-				{
-					return transferableOneWay;
-				}
-				transferableOneWay = TransferableUtility.TransferableMatching<TransferableOneWay>(toHaul, transferables);
-				if (transferableOneWay != null)
-				{
-					return transferableOneWay;
-				}
-				transferableOneWay = transferables.Find((TransferableOneWay x) => x.ThingDef == toHaul.def);
+				TransferableOneWay transferableOneWay = TransferableUtility.TransferableMatchingDesperate(this.ToHaul, this.Transferables);
 				if (transferableOneWay != null)
 				{
 					return transferableOneWay;
@@ -166,7 +154,7 @@ namespace RimWorld
 					Pawn_CarryTracker carryTracker = this.pawn.carryTracker;
 					Thing carriedThing = carryTracker.CarriedThing;
 					this.Transferable.AdjustTo(Mathf.Max(this.Transferable.CountToTransfer - carriedThing.stackCount, 0));
-					carryTracker.innerContainer.TryTransferToContainer(carriedThing, this.Carrier.inventory.innerContainer, carriedThing.stackCount);
+					carryTracker.innerContainer.TryTransferToContainer(carriedThing, this.Carrier.inventory.innerContainer, carriedThing.stackCount, true);
 				}
 			};
 		}

@@ -60,16 +60,10 @@ namespace RimWorld
 					thingDef.stackLimit
 				});
 				this.parent.Map.deepResourceGrid.SetAt(c, thingDef, num - num2);
-				if (Rand.Value > yieldPct)
-				{
-					MoteMaker.ThrowText(this.parent.DrawPos, this.parent.Map, "TextMote_YieldWasted".Translate(), 3.65f);
-				}
-				else
-				{
-					Thing thing = ThingMaker.MakeThing(thingDef, null);
-					thing.stackCount = num2;
-					GenPlace.TryPlaceThing(thing, this.parent.InteractionCell, this.parent.Map, ThingPlaceMode.Near, null);
-				}
+				int stackCount = Mathf.Max(1, GenMath.RoundRandom((float)num2 * yieldPct));
+				Thing thing = ThingMaker.MakeThing(thingDef, null);
+				thing.stackCount = stackCount;
+				GenPlace.TryPlaceThing(thing, this.parent.InteractionCell, this.parent.Map, ThingPlaceMode.Near, null);
 			}
 			else
 			{

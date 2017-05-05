@@ -20,7 +20,7 @@ namespace RimWorld
 		{
 			Thing thing = LoadTransportersJobUtility.FindThingToLoad(p, transporter);
 			Job job = new Job(JobDefOf.HaulToContainer, thing, transporter.parent);
-			int countToTransfer = TransferableUtility.TransferableMatching<TransferableOneWay>(thing, transporter.leftToLoad).CountToTransfer;
+			int countToTransfer = TransferableUtility.TransferableMatchingDesperate(thing, transporter.leftToLoad).CountToTransfer;
 			job.count = Mathf.Min(countToTransfer, thing.stackCount);
 			job.ignoreForbidden = true;
 			return job;

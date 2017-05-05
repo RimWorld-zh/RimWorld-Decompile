@@ -202,6 +202,8 @@ namespace RimWorld
 
 		public static ThingDef CaravanPackingSpot;
 
+		public static ThingDef Turret_MortarBomb;
+
 		public static ThingDef Turret_MortarEMP;
 
 		public static ThingDef PlantPot;
@@ -303,6 +305,8 @@ namespace RimWorld
 		public static ThingDef Mote_LightningGlow;
 
 		public static ThingDef Mote_Stun;
+
+		public static ThingDef Mote_WaterSplash;
 
 		public static ThingDef Gas_Smoke;
 	}

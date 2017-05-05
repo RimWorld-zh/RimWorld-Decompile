@@ -403,7 +403,7 @@ namespace RimWorld
 					Find.LetterStack.ReceiveLetter("LetterLabelRelationsChangeBad".Translate(), "RelationsBrokenDown".Translate(new object[]
 					{
 						this.name
-					}), LetterType.BadNonUrgent, null);
+					}), LetterDefOf.BadNonUrgent, null);
 				}
 			}
 			if (this.HostileTo(other) && this.GoodwillWith(other) > 0f)
@@ -414,7 +414,7 @@ namespace RimWorld
 					Find.LetterStack.ReceiveLetter("LetterLabelRelationsChangeGood".Translate(), "RelationsWarmed".Translate(new object[]
 					{
 						this.name
-					}), LetterType.BadNonUrgent, null);
+					}), LetterDefOf.BadNonUrgent, null);
 				}
 			}
 			return true;
@@ -540,7 +540,7 @@ namespace RimWorld
 			{
 				member,
 				this.name
-			}), LetterType.BadNonUrgent, member, null);
+			}), LetterDefOf.BadNonUrgent, member, null);
 		}
 
 		public void Notify_MemberDied(Pawn member, DamageInfo? dinfo, bool wasWorldPawn)
@@ -598,7 +598,7 @@ namespace RimWorld
 				this.name,
 				this.leader.Name.ToStringFull,
 				this.def.leaderTitle
-			}).CapitalizeFirst(), LetterType.Good, null);
+			}).CapitalizeFirst(), LetterDefOf.Good, null);
 		}
 
 		public void Notify_LeaderLost()
@@ -615,7 +615,7 @@ namespace RimWorld
 				this.name,
 				this.leader.Name.ToStringFull,
 				this.def.leaderTitle
-			}).CapitalizeFirst(), LetterType.Good, null);
+			}).CapitalizeFirst(), LetterDefOf.Good, null);
 		}
 
 		public void GenerateNewLeader()

@@ -127,7 +127,7 @@ namespace RimWorld.Planet
 			Vector3 normalized = grid.GetTileCenter(destTile).normalized;
 			int[] pathGrid = world.pathGrid.pathGrid;
 			int num = 0;
-			int num2 = (caravan == null) ? 3100 : caravan.TicksPerMove;
+			int num2 = (caravan == null) ? 2500 : caravan.TicksPerMove;
 			int num3 = this.CalculateHeuristicStrength(startTile, destTile);
 			this.statusOpenValue += 2;
 			this.statusClosedValue += 2;
@@ -362,7 +362,7 @@ namespace RimWorld.Planet
 
 		public static int StandardPathCost(int curTile, int neigh, Caravan caravan)
 		{
-			int num = (caravan == null) ? 3100 : caravan.TicksPerMove;
+			int num = (caravan == null) ? 2500 : caravan.TicksPerMove;
 			num += Find.World.pathGrid.pathGrid[neigh];
 			return (int)((float)num * Find.WorldGrid.GetRoadMovementMultiplierFast(curTile, neigh));
 		}

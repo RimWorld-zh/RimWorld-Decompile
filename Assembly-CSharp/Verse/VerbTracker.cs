@@ -62,9 +62,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<Command> GetVerbsCommands(KeyCode hotKey = KeyCode.None)
 		{
-			VerbTracker.<GetVerbsCommands>c__Iterator250 <GetVerbsCommands>c__Iterator = new VerbTracker.<GetVerbsCommands>c__Iterator250();
+			VerbTracker.<GetVerbsCommands>c__Iterator254 <GetVerbsCommands>c__Iterator = new VerbTracker.<GetVerbsCommands>c__Iterator254();
 			<GetVerbsCommands>c__Iterator.<>f__this = this;
-			VerbTracker.<GetVerbsCommands>c__Iterator250 expr_0E = <GetVerbsCommands>c__Iterator;
+			VerbTracker.<GetVerbsCommands>c__Iterator254 expr_0E = <GetVerbsCommands>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

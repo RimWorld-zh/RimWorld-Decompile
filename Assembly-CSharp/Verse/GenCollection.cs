@@ -16,12 +16,12 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<T> InRandomOrder<T>(this IEnumerable<T> source, IList<T> workingList = null)
 		{
-			GenCollection.<InRandomOrder>c__Iterator240<T> <InRandomOrder>c__Iterator = new GenCollection.<InRandomOrder>c__Iterator240<T>();
+			GenCollection.<InRandomOrder>c__Iterator244<T> <InRandomOrder>c__Iterator = new GenCollection.<InRandomOrder>c__Iterator244<T>();
 			<InRandomOrder>c__Iterator.source = source;
 			<InRandomOrder>c__Iterator.workingList = workingList;
 			<InRandomOrder>c__Iterator.<$>source = source;
 			<InRandomOrder>c__Iterator.<$>workingList = workingList;
-			GenCollection.<InRandomOrder>c__Iterator240<T> expr_23 = <InRandomOrder>c__Iterator;
+			GenCollection.<InRandomOrder>c__Iterator244<T> expr_23 = <InRandomOrder>c__Iterator;
 			expr_23.$PC = -2;
 			return expr_23;
 		}

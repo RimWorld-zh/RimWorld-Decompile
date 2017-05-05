@@ -23,9 +23,9 @@ namespace Verse
 		{
 			get
 			{
-				EdgeSpan.<>c__Iterator1FD <>c__Iterator1FD = new EdgeSpan.<>c__Iterator1FD();
-				<>c__Iterator1FD.<>f__this = this;
-				EdgeSpan.<>c__Iterator1FD expr_13 = <>c__Iterator1FD;
+				EdgeSpan.<>c__Iterator200 <>c__Iterator = new EdgeSpan.<>c__Iterator200();
+				<>c__Iterator.<>f__this = this;
+				EdgeSpan.<>c__Iterator200 expr_13 = <>c__Iterator;
 				expr_13.$PC = -2;
 				return expr_13;
 			}

@@ -27,9 +27,9 @@ namespace Verse
 		{
 			get
 			{
-				TreeNode_ThingCategory.<>c__Iterator22D <>c__Iterator22D = new TreeNode_ThingCategory.<>c__Iterator22D();
-				<>c__Iterator22D.<>f__this = this;
-				TreeNode_ThingCategory.<>c__Iterator22D expr_0E = <>c__Iterator22D;
+				TreeNode_ThingCategory.<>c__Iterator231 <>c__Iterator = new TreeNode_ThingCategory.<>c__Iterator231();
+				<>c__Iterator.<>f__this = this;
+				TreeNode_ThingCategory.<>c__Iterator231 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -39,9 +39,9 @@ namespace Verse
 		{
 			get
 			{
-				TreeNode_ThingCategory.<>c__Iterator22E <>c__Iterator22E = new TreeNode_ThingCategory.<>c__Iterator22E();
-				<>c__Iterator22E.<>f__this = this;
-				TreeNode_ThingCategory.<>c__Iterator22E expr_0E = <>c__Iterator22E;
+				TreeNode_ThingCategory.<>c__Iterator232 <>c__Iterator = new TreeNode_ThingCategory.<>c__Iterator232();
+				<>c__Iterator.<>f__this = this;
+				TreeNode_ThingCategory.<>c__Iterator232 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

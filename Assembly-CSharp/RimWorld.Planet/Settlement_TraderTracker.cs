@@ -262,7 +262,7 @@ namespace RimWorld.Planet
 				parms.traderDef = this.TraderKind;
 				parms.forTile = this.settlement.Tile;
 				parms.forFaction = this.settlement.Faction;
-				this.stock.TryAddRange(ItemCollectionGeneratorDefOf.TraderStock.Worker.Generate(parms));
+				this.stock.TryAddRange(ItemCollectionGeneratorDefOf.TraderStock.Worker.Generate(parms), true);
 			}
 			for (int i = 0; i < this.stock.Count; i++)
 			{

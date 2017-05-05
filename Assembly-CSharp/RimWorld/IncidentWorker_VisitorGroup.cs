@@ -64,7 +64,7 @@ namespace RimWorld
 				});
 			}
 			PawnRelationUtility.Notify_PawnsSeenByPlayer(list, ref label, ref text3, "LetterRelatedPawnsNeutralGroup".Translate(), true);
-			Find.LetterStack.ReceiveLetter(label, text3, LetterType.Good, list[0], null);
+			Find.LetterStack.ReceiveLetter(label, text3, LetterDefOf.Good, list[0], null);
 			return true;
 		}
 

@@ -32,7 +32,7 @@ namespace RimWorld
 			{
 				if (thing.def.category == ThingCategory.Plant)
 				{
-					if (pawn.CanReserveAndReach(thing, PathEndMode.ClosestTouch, pawn.NormalMaxDanger(), 1, -1, null, false))
+					if (pawn.CanReserveAndReach(thing, PathEndMode.ClosestTouch, pawn.NormalMaxDanger(), 1, -1, null, forced))
 					{
 						return new Job(JobDefOf.CutPlant, thing);
 					}
@@ -55,7 +55,7 @@ namespace RimWorld
 				}
 				return null;
 			}
-			if (!GenConstruct.CanConstruct(blueprint, pawn))
+			if (!GenConstruct.CanConstruct(blueprint, pawn, forced))
 			{
 				return null;
 			}

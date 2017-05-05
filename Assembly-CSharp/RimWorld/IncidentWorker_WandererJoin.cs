@@ -31,7 +31,7 @@ namespace RimWorld
 			text = text.AdjustedFor(pawn);
 			string label = "LetterLabelWandererJoin".Translate();
 			PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref label, pawn);
-			Find.LetterStack.ReceiveLetter(label, text, LetterType.Good, pawn, null);
+			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.Good, pawn, null);
 			return true;
 		}
 	}

@@ -21,9 +21,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<Pawn> AffectedPawns()
 		{
-			Alert_Thought.<AffectedPawns>c__Iterator188 <AffectedPawns>c__Iterator = new Alert_Thought.<AffectedPawns>c__Iterator188();
+			Alert_Thought.<AffectedPawns>c__Iterator189 <AffectedPawns>c__Iterator = new Alert_Thought.<AffectedPawns>c__Iterator189();
 			<AffectedPawns>c__Iterator.<>f__this = this;
-			Alert_Thought.<AffectedPawns>c__Iterator188 expr_0E = <AffectedPawns>c__Iterator;
+			Alert_Thought.<AffectedPawns>c__Iterator189 expr_0E = <AffectedPawns>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

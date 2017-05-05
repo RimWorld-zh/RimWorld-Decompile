@@ -48,6 +48,8 @@ namespace RimWorld
 
 		public string leaderTitle = "leader";
 
+		public float maxPawnOptionCostFactor = 1f;
+
 		public int requiredCountAtGameStart;
 
 		public int maxCountAtGameStart = 9999;

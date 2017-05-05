@@ -152,7 +152,7 @@ namespace RimWorld
 				{
 					Find.CameraDriver.shaker.DoShake(1f);
 				}
-				Find.LetterStack.ReceiveLetter(this.def.letterLabel, this.def.letterText, this.def.letterType, new TargetInfo(cell, map, false), null);
+				base.SendStandardLetter(new TargetInfo(cell, map, false), new string[0]);
 			}
 			return num > 0;
 		}

@@ -1,7 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{21565697-BC9F-4306-A793-DF056B904996}</ProjectGuid>
+    <ProjectGuid>{97475EA0-A1E2-4A8E-808A-A27686217E25}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
@@ -24,6 +24,16 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
   </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="UnityEngine" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System" />
+    <Reference Include="Assembly-CSharp-firstpass" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="NAudio" />
+    <Reference Include="NVorbis" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="NVorbis.NAudioSupport\VorbisWaveReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -421,6 +431,8 @@
     <Compile Include="RimWorld\ChemicalDef.cs" />
     <Compile Include="RimWorld\ChemicalDefOf.cs" />
     <Compile Include="RimWorld\ChildRelationUtility.cs" />
+    <Compile Include="RimWorld\ChoiceLetter_ItemStashFeeDemand.cs" />
+    <Compile Include="RimWorld\ChoiceLetter_RansomDemand.cs" />
     <Compile Include="RimWorld\CollectionsMassCalculator.cs" />
     <Compile Include="RimWorld\ColonistBar.cs" />
     <Compile Include="RimWorld\ColonistBarColonistDrawer.cs" />
@@ -637,6 +649,7 @@
     <Compile Include="RimWorld\DirectPawnRelation.cs" />
     <Compile Include="RimWorld\DoorsDebugDrawer.cs" />
     <Compile Include="RimWorld\DragBox.cs" />
+    <Compile Include="RimWorld\DrawTargetDefOf.cs" />
     <Compile Include="RimWorld\DropCellFinder.cs" />
     <Compile Include="RimWorld\DropPodAnimationUtility.cs" />
     <Compile Include="RimWorld\DropPodIncoming.cs" />
@@ -1145,6 +1158,7 @@
     <Compile Include="RimWorld\LessonAutoActivator.cs" />
     <Compile Include="RimWorld\Lesson_Instruction.cs" />
     <Compile Include="RimWorld\Lesson_Note.cs" />
+    <Compile Include="RimWorld\LetterDefOf.cs" />
     <Compile Include="RimWorld\LifeStageDef.cs" />
     <Compile Include="RimWorld\LightningBoltMeshMaker.cs" />
     <Compile Include="RimWorld\LightningBoltMeshPool.cs" />
@@ -1630,6 +1644,7 @@
     <Compile Include="RimWorld\Screen_Credits.cs" />
     <Compile Include="RimWorld\Season.cs" />
     <Compile Include="RimWorld\SeasonUtility.cs" />
+    <Compile Include="RimWorld\SectionLayerPhaseDefOf.cs" />
     <Compile Include="RimWorld\SectionLayer_ThingsPowerGrid.cs" />
     <Compile Include="RimWorld\SeedTargFindMode.cs" />
     <Compile Include="RimWorld\SelectionDrawer.cs" />
@@ -2029,7 +2044,6 @@
     <Compile Include="RimWorld\Twelfth.cs" />
     <Compile Include="RimWorld\TwelfthUtility.cs" />
     <Compile Include="RimWorld\UIRoot_Play.cs" />
-    <Compile Include="RimWorld\UIUtility.cs" />
     <Compile Include="RimWorld\UI_BackgroundMain.cs" />
     <Compile Include="RimWorld\UniqueIDsManager.cs" />
     <Compile Include="RimWorld\VerbDefsHardcodedNative.cs" />
@@ -2543,6 +2557,7 @@
     <Compile Include="Verse\CellRect.cs" />
     <Compile Include="Verse\CellRenderer.cs" />
     <Compile Include="Verse\CheckJobOverrideOnDamageMode.cs" />
+    <Compile Include="Verse\ChoiceLetter.cs" />
     <Compile Include="Verse\ClamorType.cs" />
     <Compile Include="Verse\ColorGenerator.cs" />
     <Compile Include="Verse\ColorGenerator_Options.cs" />
@@ -2695,6 +2710,7 @@
     <Compile Include="Verse\DragSliderCallback.cs" />
     <Compile Include="Verse\DragSliderManager.cs" />
     <Compile Include="Verse\DrawerType.cs" />
+    <Compile Include="Verse\DrawTargetDef.cs" />
     <Compile Include="Verse\DynamicDrawManager.cs" />
     <Compile Include="Verse\EdgeSpan.cs" />
     <Compile Include="Verse\EdificeGrid.cs" />
@@ -2807,6 +2823,7 @@
     <Compile Include="Verse\GizmoGridDrawer.cs" />
     <Compile Include="Verse\GizmoResult.cs" />
     <Compile Include="Verse\GizmoState.cs" />
+    <Compile Include="Verse\GlobalRenderTexture.cs" />
     <Compile Include="Verse\GlowFlooder.cs" />
     <Compile Include="Verse\GlowGrid.cs" />
     <Compile Include="Verse\Graphic.cs" />
@@ -2826,6 +2843,7 @@
     <Compile Include="Verse\Graphic_Linked.cs" />
     <Compile Include="Verse\Graphic_LinkedCornerFiller.cs" />
     <Compile Include="Verse\Graphic_Mote.cs" />
+    <Compile Include="Verse\Graphic_MoteSplash.cs" />
     <Compile Include="Verse\Graphic_Multi.cs" />
     <Compile Include="Verse\Graphic_Random.cs" />
     <Compile Include="Verse\Graphic_RandomRotated.cs" />
@@ -2939,9 +2957,10 @@
     <Compile Include="Verse\LayerLoader.cs" />
     <Compile Include="Verse\LayerSubMesh.cs" />
     <Compile Include="Verse\Letter.cs" />
-    <Compile Include="Verse\LetterColors.cs" />
+    <Compile Include="Verse\LetterDef.cs" />
+    <Compile Include="Verse\LetterMaker.cs" />
     <Compile Include="Verse\LetterStack.cs" />
-    <Compile Include="Verse\LetterType.cs" />
+    <Compile Include="Verse\LetterWithTimeout.cs" />
     <Compile Include="Verse\LifeStageAge.cs" />
     <Compile Include="Verse\LifeStageUtility.cs" />
     <Compile Include="Verse\LinkDirections.cs" />
@@ -3037,6 +3056,7 @@
     <Compile Include="Verse\MoteDualAttached.cs" />
     <Compile Include="Verse\MoteProperties.cs" />
     <Compile Include="Verse\MoteSpawnLocType.cs" />
+    <Compile Include="Verse\MoteSplash.cs" />
     <Compile Include="Verse\MoteText.cs" />
     <Compile Include="Verse\MoteThrown.cs" />
     <Compile Include="Verse\MoteThrownAttached.cs" />
@@ -3214,6 +3234,7 @@
     <Compile Include="Verse\Section.cs" />
     <Compile Include="Verse\SectionLayer.cs" />
     <Compile Include="Verse\SectionLayerGeometryMaker_Solid.cs" />
+    <Compile Include="Verse\SectionLayerPhaseDef.cs" />
     <Compile Include="Verse\SectionLayer_BuildingsDamage.cs" />
     <Compile Include="Verse\SectionLayer_EdgeShadows.cs" />
     <Compile Include="Verse\SectionLayer_FogOfWar.cs" />
@@ -3225,8 +3246,10 @@
     <Compile Include="Verse\SectionLayer_TerrainScatter.cs" />
     <Compile Include="Verse\SectionLayer_Things.cs" />
     <Compile Include="Verse\SectionLayer_ThingsGeneral.cs" />
+    <Compile Include="Verse\SectionLayer_Watergen.cs" />
     <Compile Include="Verse\SectionLayer_Zones.cs" />
     <Compile Include="Verse\ShaderDatabase.cs" />
+    <Compile Include="Verse\ShaderParameter.cs" />
     <Compile Include="Verse\ShaderPropertyIDs.cs" />
     <Compile Include="Verse\ShaderType.cs" />
     <Compile Include="Verse\ShaderUtility.cs" />
@@ -3266,6 +3289,7 @@
     <Compile Include="Verse\Stance_Cooldown.cs" />
     <Compile Include="Verse\Stance_Mobile.cs" />
     <Compile Include="Verse\Stance_Warmup.cs" />
+    <Compile Include="Verse\StandardLetter.cs" />
     <Compile Include="Verse\StartingPawnUtility.cs" />
     <Compile Include="Verse\StaticConstructorOnStartup.cs" />
     <Compile Include="Verse\StaticConstructorOnStartupUtility.cs" />
@@ -3306,6 +3330,7 @@
     <Compile Include="Verse\TerrainDef.cs" />
     <Compile Include="Verse\TerrainGrid.cs" />
     <Compile Include="Verse\TexButton.cs" />
+    <Compile Include="Verse\TexGame.cs" />
     <Compile Include="Verse\Text.cs" />
     <Compile Include="Verse\TextureAndColor.cs" />
     <Compile Include="Verse\TexUI.cs" />
@@ -3408,28 +3433,6 @@
     <Compile Include="Verse\ZoneColorUtility.cs" />
     <Compile Include="Verse\ZoneMaker.cs" />
     <Compile Include="Verse\ZoneManager.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\..\..\..\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio">
-      <HintPath>..\..\..\..\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\NAudio.dll</HintPath>
-    </Reference>
-    <Reference Include="NVorbis">
-      <HintPath>..\..\..\..\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\NVorbis.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-      <HintPath>..\..\..\..\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\System.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq">
-      <HintPath>..\..\..\..\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\System.Xml.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\UnityEngine.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

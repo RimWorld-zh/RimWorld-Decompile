@@ -147,7 +147,7 @@ namespace RimWorld
 						recruiter,
 						recruitee,
 						recruitChance.ToStringPercent()
-					}), LetterType.Good, recruitee, null);
+					}), LetterDefOf.Good, recruitee, null);
 				}
 				TaleRecorder.RecordTale(TaleDefOf.Recruited, new object[]
 				{

@@ -21,7 +21,7 @@ namespace RimWorld
 				Pawn newThing = PawnGenerator.GeneratePawn(alphabeaver, null);
 				GenSpawn.Spawn(newThing, loc, map);
 			}
-			Find.LetterStack.ReceiveLetter("LetterLabelBeaversArrived".Translate(), "BeaversArrived".Translate(), LetterType.BadNonUrgent, new TargetInfo(intVec, map, false), null);
+			Find.LetterStack.ReceiveLetter("LetterLabelBeaversArrived".Translate(), "BeaversArrived".Translate(), LetterDefOf.BadNonUrgent, new TargetInfo(intVec, map, false), null);
 			return true;
 		}
 	}

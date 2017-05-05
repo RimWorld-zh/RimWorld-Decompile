@@ -49,7 +49,7 @@ namespace RimWorld
 			}).CapitalizeFirst(), "LetterThrumboPasses".Translate(new object[]
 			{
 				thrumbo.label
-			}), LetterType.Good, pawn, null);
+			}), LetterDefOf.Good, pawn, null);
 			return true;
 		}
 	}

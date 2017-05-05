@@ -120,11 +120,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<Pawn> TameablesInCell(IntVec3 c)
 		{
-			Designator_Tame.<TameablesInCell>c__Iterator191 <TameablesInCell>c__Iterator = new Designator_Tame.<TameablesInCell>c__Iterator191();
+			Designator_Tame.<TameablesInCell>c__Iterator192 <TameablesInCell>c__Iterator = new Designator_Tame.<TameablesInCell>c__Iterator192();
 			<TameablesInCell>c__Iterator.c = c;
 			<TameablesInCell>c__Iterator.<$>c = c;
 			<TameablesInCell>c__Iterator.<>f__this = this;
-			Designator_Tame.<TameablesInCell>c__Iterator191 expr_1C = <TameablesInCell>c__Iterator;
+			Designator_Tame.<TameablesInCell>c__Iterator192 expr_1C = <TameablesInCell>c__Iterator;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

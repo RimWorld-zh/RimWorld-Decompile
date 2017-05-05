@@ -95,7 +95,7 @@ namespace RimWorld
 				stringBuilder.AppendLine();
 				stringBuilder.Append("ShortCircuitWasHuge".Translate());
 			}
-			Find.LetterStack.ReceiveLetter("LetterLabelShortCircuit".Translate(), stringBuilder.ToString(), LetterType.BadNonUrgent, new TargetInfo(parent.Position, map, false), null);
+			Find.LetterStack.ReceiveLetter("LetterLabelShortCircuit".Translate(), stringBuilder.ToString(), LetterDefOf.BadNonUrgent, new TargetInfo(parent.Position, map, false), null);
 			return true;
 		}
 

@@ -14,8 +14,6 @@ namespace RimWorld
 
 		public const float LeaveFraction_DeconstructDefault = 0.75f;
 
-		private const float LeaveFraction_DeconstructFloor = 0.75f;
-
 		private const float LeaveFraction_FailConstruction = 0.5f;
 
 		private static List<IntVec3> tmpCellsCandidates = new List<IntVec3>();
@@ -62,7 +60,7 @@ namespace RimWorld
 						int num = GenLeaving.GetBuildingResourcesLeaveCalculator(diedThing, mode)(frame.resourceContainer[l].stackCount);
 						if (num > 0)
 						{
-							thingOwner.TryAdd(frame.resourceContainer[l], num);
+							thingOwner.TryAdd(frame.resourceContainer[l], num, true);
 						}
 					}
 				}
@@ -131,7 +129,7 @@ namespace RimWorld
 			for (int i = 0; i < list.Count; i++)
 			{
 				ThingCountClass thingCountClass = list[i];
-				int num = GenMath.RoundRandom((float)thingCountClass.count * 0.75f);
+				int num = GenMath.RoundRandom((float)thingCountClass.count * terrain.resourcesFractionWhenDeconstructed);
 				if (num > 0)
 				{
 					Thing thing = ThingMaker.MakeThing(thingCountClass.thingDef, null);

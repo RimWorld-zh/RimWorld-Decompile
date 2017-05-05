@@ -14,10 +14,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<string> LaunchFailReasons(Building rootBuilding)
 		{
-			ShipUtility.<LaunchFailReasons>c__Iterator16F <LaunchFailReasons>c__Iterator16F = new ShipUtility.<LaunchFailReasons>c__Iterator16F();
-			<LaunchFailReasons>c__Iterator16F.rootBuilding = rootBuilding;
-			<LaunchFailReasons>c__Iterator16F.<$>rootBuilding = rootBuilding;
-			ShipUtility.<LaunchFailReasons>c__Iterator16F expr_15 = <LaunchFailReasons>c__Iterator16F;
+			ShipUtility.<LaunchFailReasons>c__Iterator170 <LaunchFailReasons>c__Iterator = new ShipUtility.<LaunchFailReasons>c__Iterator170();
+			<LaunchFailReasons>c__Iterator.rootBuilding = rootBuilding;
+			<LaunchFailReasons>c__Iterator.<$>rootBuilding = rootBuilding;
+			ShipUtility.<LaunchFailReasons>c__Iterator170 expr_15 = <LaunchFailReasons>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

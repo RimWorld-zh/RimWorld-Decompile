@@ -388,6 +388,14 @@ namespace Verse
 			}
 		}
 
+		public virtual DrawTargetDef DrawLayer
+		{
+			get
+			{
+				return DrawTargetDefOf.Main;
+			}
+		}
+
 		public virtual IntVec3 InteractionCell
 		{
 			get
@@ -828,9 +836,16 @@ namespace Verse
 			Scribe_Defs.Look<ThingDef>(ref this.stuffInt, "stuff");
 			string facID = (this.factionInt == null) ? "null" : this.factionInt.GetUniqueLoadID();
 			Scribe_Values.Look<string>(ref facID, "faction", "null", false);
-			if (Scribe.mode == LoadSaveMode.LoadingVars)
+			if (Scribe.mode == LoadSaveMode.LoadingVars || Scribe.mode == LoadSaveMode.ResolvingCrossRefs || Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.factionInt = Find.FactionManager.AllFactions.FirstOrDefault((Faction fa) => fa.GetUniqueLoadID() == facID);
+				if (facID == "null")
+				{
+					this.factionInt = null;
+				}
+				else if (Find.World != null && Find.FactionManager != null)
+				{
+					this.factionInt = Find.FactionManager.AllFactions.FirstOrDefault((Faction fa) => fa.GetUniqueLoadID() == facID);
+				}
 			}
 		}
 

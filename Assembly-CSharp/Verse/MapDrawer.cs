@@ -135,7 +135,7 @@ namespace Verse
 			return true;
 		}
 
-		public void DrawMapMesh()
+		public void DrawMapMesh(SectionLayerPhaseDef phase)
 		{
 			CellRect currentViewRect = Find.CameraDriver.CurrentViewRect;
 			currentViewRect.minX -= 17;
@@ -147,7 +147,7 @@ namespace Verse
 			{
 				IntVec3 current = iterator.Current;
 				Section section = this.sections[current.x, current.z];
-				section.DrawSection(!currentViewRect.Contains(section.botLeft));
+				section.DrawSection(phase, !currentViewRect.Contains(section.botLeft));
 				iterator.MoveNext();
 			}
 			Profiler.EndSample();
