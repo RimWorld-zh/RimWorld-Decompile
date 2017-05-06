@@ -89,12 +89,14 @@ namespace Verse
 		public void DebugLogTemps()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
+			float num = (Find.VisibleMap == null) ? 0f : Find.WorldGrid.LongLatOf(Find.VisibleMap.Tile).y;
+			stringBuilder.AppendLine("Latitude " + num);
 			stringBuilder.AppendLine("-----Temperature for each hour this day------");
 			stringBuilder.AppendLine("Hour    Temp    SunEffect");
-			int num = Find.TickManager.TicksAbs - Find.TickManager.TicksAbs % 60000;
+			int num2 = Find.TickManager.TicksAbs - Find.TickManager.TicksAbs % 60000;
 			for (int i = 0; i < 24; i++)
 			{
-				int absTick = num + i * 2500;
+				int absTick = num2 + i * 2500;
 				stringBuilder.Append(i.ToString().PadRight(5));
 				stringBuilder.Append(Find.World.tileTemperatures.OutdoorTemperatureAt(this.map.Tile, absTick).ToString("F2").PadRight(8));
 				stringBuilder.Append(GenTemperature.OffsetFromSunCycle(absTick, this.map.Tile).ToString("F2"));
@@ -104,8 +106,18 @@ namespace Verse
 			stringBuilder.AppendLine("-----Temperature for each twelfth this year------");
 			for (int j = 0; j < 12; j++)
 			{
-				float num2 = Find.World.tileTemperatures.AverageTemperatureForTwelfth(this.map.Tile, (Twelfth)j);
-				stringBuilder.AppendLine(((Twelfth)j).ToString() + " " + num2.ToString("F2"));
+				Twelfth twelfth = (Twelfth)j;
+				float num3 = Find.World.tileTemperatures.AverageTemperatureForTwelfth(this.map.Tile, twelfth);
+				stringBuilder.AppendLine(string.Concat(new object[]
+				{
+					twelfth.GetQuadrum(),
+					"/",
+					twelfth.GetSeason(num),
+					" - ",
+					twelfth.ToString(),
+					" ",
+					num3.ToString("F2")
+				}));
 			}
 			stringBuilder.AppendLine();
 			stringBuilder.AppendLine("-----Temperature for each day this year------");

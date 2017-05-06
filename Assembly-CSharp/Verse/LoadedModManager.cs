@@ -126,12 +126,22 @@ namespace Verse
 
 		public static T ReadModSettings<T>(string modIdentifier, string modHandleName) where T : ModSettings, new()
 		{
-			return DirectXmlLoader.ItemFromXmlFile<T>(LoadedModManager.GetSettingsFilename(modIdentifier, modHandleName), false);
+			T t = (T)((object)null);
+			Scribe.loader.InitLoading(LoadedModManager.GetSettingsFilename(modIdentifier, modHandleName));
+			Scribe_Deep.Look<T>(ref t, "ModSettings", new object[0]);
+			Scribe.loader.FinalizeLoading();
+			if (t == null)
+			{
+				t = Activator.CreateInstance<T>();
+			}
+			return t;
 		}
 
 		public static void WriteModSettings(string modIdentifier, string modHandleName, ModSettings settings)
 		{
-			DirectXmlSaver.SaveDataObject(settings, LoadedModManager.GetSettingsFilename(modIdentifier, modHandleName));
+			Scribe.saver.InitSaving(LoadedModManager.GetSettingsFilename(modIdentifier, modHandleName), "SettingsBlock");
+			Scribe_Deep.Look<ModSettings>(ref settings, "ModSettings", new object[0]);
+			Scribe.saver.FinalizeSaving();
 		}
 	}
 }

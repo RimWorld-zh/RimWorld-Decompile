@@ -10,7 +10,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return Quadrum.Decembary;
+				return Quadrum.Aprimay;
 			}
 		}
 
@@ -18,13 +18,13 @@ namespace RimWorld
 		{
 			switch (quadrum)
 			{
-			case Quadrum.Decembary:
-				return Twelfth.First;
 			case Quadrum.Aprimay:
-				return Twelfth.Fourth;
+				return Twelfth.First;
 			case Quadrum.Jugust:
-				return Twelfth.Seventh;
+				return Twelfth.Fourth;
 			case Quadrum.Septober:
+				return Twelfth.Seventh;
+			case Quadrum.Decembary:
 				return Twelfth.Tenth;
 			default:
 				return Twelfth.Undefined;
@@ -35,17 +35,23 @@ namespace RimWorld
 		{
 			switch (quadrum)
 			{
-			case Quadrum.Decembary:
-				return "QuadrumDecembary".Translate();
 			case Quadrum.Aprimay:
 				return "QuadrumAprimay".Translate();
 			case Quadrum.Jugust:
 				return "QuadrumJugust".Translate();
 			case Quadrum.Septober:
 				return "QuadrumSeptober".Translate();
+			case Quadrum.Decembary:
+				return "QuadrumDecembary".Translate();
 			default:
 				return "Unknown quadrum";
 			}
+		}
+
+		public static Season GetSeason(this Quadrum q, float latitude)
+		{
+			Twelfth firstTwelfth = q.GetFirstTwelfth();
+			return firstTwelfth.GetSeason(latitude);
 		}
 
 		public static string QuadrumsRangeLabel(List<Twelfth> twelfths)

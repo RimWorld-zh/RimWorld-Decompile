@@ -1,6 +1,7 @@
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using Verse;
 
@@ -91,14 +92,24 @@ namespace RimWorld
 			Widgets.Label(rect, DateReadout.dateString);
 			Text.Anchor = TextAnchor.UpperLeft;
 			GUI.EndGroup();
-			TooltipHandler.TipRegion(dateRect, new TipSignal(() => "DateReadoutTip".Translate(new object[]
+			TooltipHandler.TipRegion(dateRect, new TipSignal(delegate
 			{
-				GenDate.DaysPassed,
-				15,
-				season.Label(),
-				15,
-				GenDate.Quadrum((long)GenTicks.TicksAbs, location.x).Label()
-			}), 86423));
+				StringBuilder stringBuilder = new StringBuilder();
+				for (int i = 0; i < 4; i++)
+				{
+					Quadrum quadrum = (Quadrum)i;
+					stringBuilder.AppendLine(quadrum.Label() + " - " + quadrum.GetSeason(location.y));
+				}
+				return "DateReadoutTip".Translate(new object[]
+				{
+					GenDate.DaysPassed,
+					15,
+					season.LabelCap(),
+					15,
+					GenDate.Quadrum((long)GenTicks.TicksAbs, location.x).Label(),
+					stringBuilder.ToString()
+				});
+			}, 86423));
 		}
 	}
 }

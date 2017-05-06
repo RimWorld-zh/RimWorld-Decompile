@@ -76,29 +76,29 @@ namespace RimWorld
 			switch (twelfth)
 			{
 			case Twelfth.First:
-				return Quadrum.Decembary;
+				return Quadrum.Aprimay;
 			case Twelfth.Second:
-				return Quadrum.Decembary;
+				return Quadrum.Aprimay;
 			case Twelfth.Third:
-				return Quadrum.Decembary;
+				return Quadrum.Aprimay;
 			case Twelfth.Fourth:
-				return Quadrum.Aprimay;
+				return Quadrum.Jugust;
 			case Twelfth.Fifth:
-				return Quadrum.Aprimay;
+				return Quadrum.Jugust;
 			case Twelfth.Sixth:
-				return Quadrum.Aprimay;
+				return Quadrum.Jugust;
 			case Twelfth.Seventh:
-				return Quadrum.Jugust;
+				return Quadrum.Septober;
 			case Twelfth.Eighth:
-				return Quadrum.Jugust;
+				return Quadrum.Septober;
 			case Twelfth.Ninth:
-				return Quadrum.Jugust;
+				return Quadrum.Septober;
 			case Twelfth.Tenth:
-				return Quadrum.Septober;
+				return Quadrum.Decembary;
 			case Twelfth.Eleventh:
-				return Quadrum.Septober;
+				return Quadrum.Decembary;
 			case Twelfth.Twelfth:
-				return Quadrum.Septober;
+				return Quadrum.Decembary;
 			default:
 				return Quadrum.Undefined;
 			}
