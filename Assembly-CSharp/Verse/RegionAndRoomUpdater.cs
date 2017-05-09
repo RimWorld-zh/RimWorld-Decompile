@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Verse
 {
@@ -138,8 +139,8 @@ namespace Verse
 			ProfilerThreadCheck.BeginSample("Process " + num + " new region groups");
 			this.CreateOrAttachToExistingRooms(num);
 			ProfilerThreadCheck.EndSample();
-			ProfilerThreadCheck.BeginSample("Combine new rooms into contiguous groups");
-			int num2 = this.CombineNewRoomsIntoContiguousGroups();
+			ProfilerThreadCheck.BeginSample("Combine new and reused rooms into contiguous groups");
+			int num2 = this.CombineNewAndReusedRoomsIntoContiguousGroups();
 			ProfilerThreadCheck.EndSample();
 			ProfilerThreadCheck.BeginSample("Process " + num2 + " new room groups");
 			this.CreateOrAttachToExistingRoomGroups(num2);
@@ -219,25 +220,29 @@ namespace Verse
 			}
 		}
 
-		private int CombineNewRoomsIntoContiguousGroups()
+		private int CombineNewAndReusedRoomsIntoContiguousGroups()
 		{
 			int num = 0;
-			for (int i = 0; i < this.newRooms.Count; i++)
+			foreach (Room current in this.reusedOldRooms)
 			{
-				if (this.newRooms[i].newRoomGroupIndex < 0)
+				current.newOrReusedRoomGroupIndex = -1;
+			}
+			foreach (Room current2 in this.reusedOldRooms.Concat(this.newRooms))
+			{
+				if (current2.newOrReusedRoomGroupIndex < 0)
 				{
 					this.tmpRoomStack.Clear();
-					this.tmpRoomStack.Push(this.newRooms[i]);
-					this.newRooms[i].newRoomGroupIndex = num;
+					this.tmpRoomStack.Push(current2);
+					current2.newOrReusedRoomGroupIndex = num;
 					while (this.tmpRoomStack.Count != 0)
 					{
 						Room room = this.tmpRoomStack.Pop();
-						foreach (Room current in room.Neighbors)
+						foreach (Room current3 in room.Neighbors)
 						{
-							if (current.newRoomGroupIndex < 0 && this.ShouldBeInTheSameRoomGroup(room, current))
+							if (current3.newOrReusedRoomGroupIndex < 0 && this.ShouldBeInTheSameRoomGroup(room, current3))
 							{
-								current.newRoomGroupIndex = num;
-								this.tmpRoomStack.Push(current);
+								current3.newOrReusedRoomGroupIndex = num;
+								this.tmpRoomStack.Push(current3);
 							}
 						}
 					}
@@ -254,9 +259,16 @@ namespace Verse
 			{
 				ProfilerThreadCheck.BeginSample("Remake currentRoomGroup list");
 				this.currentRoomGroup.Clear();
+				foreach (Room current in this.reusedOldRooms)
+				{
+					if (current.newOrReusedRoomGroupIndex == i)
+					{
+						this.currentRoomGroup.Add(current);
+					}
+				}
 				for (int j = 0; j < this.newRooms.Count; j++)
 				{
-					if (this.newRooms[j].newRoomGroupIndex == i)
+					if (this.newRooms[j].newOrReusedRoomGroupIndex == i)
 					{
 						this.currentRoomGroup.Add(this.newRooms[j]);
 					}
@@ -270,45 +282,47 @@ namespace Verse
 				if (roomGroup == null)
 				{
 					RoomGroup roomGroup2 = RoomGroup.MakeNew(this.map);
-					for (int k = 0; k < this.currentRoomGroup.Count; k++)
-					{
-						this.currentRoomGroup[k].Group = roomGroup2;
-					}
+					this.FloodAndSetRoomGroups(this.currentRoomGroup[0], roomGroup2);
 					this.newRoomGroups.Add(roomGroup2);
 				}
 				else if (!flag)
 				{
-					for (int l = 0; l < this.currentRoomGroup.Count; l++)
+					for (int k = 0; k < this.currentRoomGroup.Count; k++)
 					{
-						this.currentRoomGroup[l].Group = roomGroup;
+						this.currentRoomGroup[k].Group = roomGroup;
 					}
 					this.reusedOldRoomGroups.Add(roomGroup);
 				}
 				else
 				{
-					this.tmpRoomStack.Clear();
-					this.tmpRoomStack.Push(this.currentRoomGroup[0]);
-					this.tmpVisitedRooms.Clear();
-					this.tmpVisitedRooms.Add(this.currentRoomGroup[0]);
-					while (this.tmpRoomStack.Count != 0)
-					{
-						Room room = this.tmpRoomStack.Pop();
-						room.Group = roomGroup;
-						foreach (Room current in room.Neighbors)
-						{
-							if (!this.tmpVisitedRooms.Contains(current) && this.ShouldBeInTheSameRoomGroup(room, current))
-							{
-								this.tmpRoomStack.Push(current);
-								this.tmpVisitedRooms.Add(current);
-							}
-						}
-					}
-					this.tmpVisitedRooms.Clear();
-					this.tmpRoomStack.Clear();
+					this.FloodAndSetRoomGroups(this.currentRoomGroup[0], roomGroup);
 					this.reusedOldRoomGroups.Add(roomGroup);
 				}
 				ProfilerThreadCheck.EndSample();
 			}
+		}
+
+		private void FloodAndSetRoomGroups(Room start, RoomGroup roomGroup)
+		{
+			this.tmpRoomStack.Clear();
+			this.tmpRoomStack.Push(start);
+			this.tmpVisitedRooms.Clear();
+			this.tmpVisitedRooms.Add(start);
+			while (this.tmpRoomStack.Count != 0)
+			{
+				Room room = this.tmpRoomStack.Pop();
+				room.Group = roomGroup;
+				foreach (Room current in room.Neighbors)
+				{
+					if (!this.tmpVisitedRooms.Contains(current) && this.ShouldBeInTheSameRoomGroup(room, current))
+					{
+						this.tmpRoomStack.Push(current);
+						this.tmpVisitedRooms.Add(current);
+					}
+				}
+			}
+			this.tmpVisitedRooms.Clear();
+			this.tmpRoomStack.Clear();
 		}
 
 		private void NotifyAffectedRoomsAndRoomGroupsAndUpdateTemperature()
@@ -333,17 +347,6 @@ namespace Verse
 				if (this.map.temperatureCache.TryGetAverageCachedRoomGroupTemp(roomGroup, out temperature))
 				{
 					roomGroup.Temperature = temperature;
-				}
-			}
-			foreach (Room current3 in this.reusedOldRooms)
-			{
-				RoomGroup group = current3.Group;
-				if (group != null)
-				{
-					if (!this.reusedOldRoomGroups.Contains(group) && !this.newRoomGroups.Contains(group))
-					{
-						group.Notify_RoomGroupShapeChanged();
-					}
 				}
 			}
 		}

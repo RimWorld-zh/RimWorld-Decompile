@@ -49,9 +49,9 @@ namespace RimWorld
 			}
 		}
 
-		private static bool CaresAboutForbidden(Pawn pawn, bool cellTarget)
+		public static bool CaresAboutForbidden(Pawn pawn, bool cellTarget)
 		{
-			return !pawn.InMentalState && pawn.HostFaction == null && (!cellTarget || !ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(pawn));
+			return pawn.HostFaction == null && !pawn.InMentalState && (!cellTarget || !ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(pawn));
 		}
 
 		public static bool InAllowedArea(this IntVec3 c, Pawn forPawn)
@@ -92,7 +92,7 @@ namespace RimWorld
 
 		public static bool IsForbidden(this IntVec3 c, Pawn pawn)
 		{
-			return ForbidUtility.CaresAboutForbidden(pawn, true) && (!c.InAllowedArea(pawn) || (pawn.mindState.maxDistToSquadFlag > 0f && c.DistanceTo(pawn.DutyLocation()) > pawn.mindState.maxDistToSquadFlag));
+			return ForbidUtility.CaresAboutForbidden(pawn, true) && (!c.InAllowedArea(pawn) || (pawn.mindState.maxDistToSquadFlag > 0f && !c.InHorDistOf(pawn.DutyLocation(), pawn.mindState.maxDistToSquadFlag)));
 		}
 
 		public static bool IsForbiddenEntirely(this Region r, Pawn pawn)

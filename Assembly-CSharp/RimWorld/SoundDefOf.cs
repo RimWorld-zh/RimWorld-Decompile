@@ -234,6 +234,8 @@ namespace RimWorld
 
 		public static SoundDef ArtilleryShellLoaded;
 
+		public static SoundDef TechMedicineUsed;
+
 		public static SoundDef GameStartSting;
 
 		public static SoundDef PlanetkillerImpact;

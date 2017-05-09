@@ -7,6 +7,11 @@ namespace Verse.AI
 	{
 		public static TargetInfo ResolvePathMode(Pawn pawn, TargetInfo dest, ref PathEndMode peMode)
 		{
+			if (dest.HasThing && !dest.Thing.Spawned)
+			{
+				peMode = PathEndMode.Touch;
+				return dest;
+			}
 			if (peMode == PathEndMode.InteractionCell)
 			{
 				if (!dest.HasThing)

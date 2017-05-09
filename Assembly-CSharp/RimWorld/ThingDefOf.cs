@@ -248,9 +248,9 @@ namespace RimWorld
 
 		public static ThingDef Apparel_Tuque;
 
-		public static ThingDef Mote_ShotFlash;
-
 		public static ThingDef Mote_Text;
+
+		public static ThingDef Mote_ShotFlash;
 
 		public static ThingDef Mote_DustPuff;
 

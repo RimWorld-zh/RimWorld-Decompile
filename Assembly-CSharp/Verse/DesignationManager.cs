@@ -55,7 +55,10 @@ namespace Verse
 		{
 			for (int i = 0; i < this.allDesignations.Count; i++)
 			{
-				this.allDesignations[i].DesignationDraw();
+				if (!this.allDesignations[i].target.HasThing || this.allDesignations[i].target.Thing.Map == this.map)
+				{
+					this.allDesignations[i].DesignationDraw();
+				}
 			}
 		}
 
@@ -78,7 +81,11 @@ namespace Verse
 			this.allDesignations.Add(newDes);
 			newDes.designationManager = this;
 			newDes.Notify_Added();
-			MoteMaker.ThrowMetaPuffs(newDes.target.ToTargetInfo(this.map));
+			Map map = (!newDes.target.HasThing) ? this.map : newDes.target.Thing.Map;
+			if (map != null)
+			{
+				MoteMaker.ThrowMetaPuffs(newDes.target.ToTargetInfo(map));
+			}
 		}
 
 		public Designation DesignationOn(Thing t)
@@ -122,7 +129,7 @@ namespace Verse
 			for (int i = 0; i < this.allDesignations.Count; i++)
 			{
 				Designation designation = this.allDesignations[i];
-				if (designation.def == def && designation.target.Cell == c)
+				if (designation.def == def && (!designation.target.HasThing || designation.target.Thing.Map == this.map) && designation.target.Cell == c)
 				{
 					return designation;
 				}
@@ -155,13 +162,13 @@ namespace Verse
 		}
 
 		[DebuggerHidden]
-		public IEnumerable<Designation> DesignationsOfDef(DesignationDef def)
+		public IEnumerable<Designation> SpawnedDesignationsOfDef(DesignationDef def)
 		{
-			DesignationManager.<DesignationsOfDef>c__Iterator1F1 <DesignationsOfDef>c__Iterator1F = new DesignationManager.<DesignationsOfDef>c__Iterator1F1();
-			<DesignationsOfDef>c__Iterator1F.def = def;
-			<DesignationsOfDef>c__Iterator1F.<$>def = def;
-			<DesignationsOfDef>c__Iterator1F.<>f__this = this;
-			DesignationManager.<DesignationsOfDef>c__Iterator1F1 expr_1C = <DesignationsOfDef>c__Iterator1F;
+			DesignationManager.<SpawnedDesignationsOfDef>c__Iterator1F1 <SpawnedDesignationsOfDef>c__Iterator1F = new DesignationManager.<SpawnedDesignationsOfDef>c__Iterator1F1();
+			<SpawnedDesignationsOfDef>c__Iterator1F.def = def;
+			<SpawnedDesignationsOfDef>c__Iterator1F.<$>def = def;
+			<SpawnedDesignationsOfDef>c__Iterator1F.<>f__this = this;
+			DesignationManager.<SpawnedDesignationsOfDef>c__Iterator1F1 expr_1C = <SpawnedDesignationsOfDef>c__Iterator1F;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

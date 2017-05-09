@@ -12,9 +12,9 @@ namespace RimWorld
 	{
 		private const float WealthBase = 2000f;
 
-		private const float PointsPer1000Wealth = 11f;
+		private const float PointsPer1000Wealth = 10f;
 
-		private const float PointsPerColonist = 40f;
+		private const float PointsPerColonist = 37f;
 
 		private const float MinMaxSquadCost = 50f;
 
@@ -43,18 +43,18 @@ namespace RimWorld
 				{
 					num = 0f;
 				}
-				float num2 = num / 1000f * 11f;
+				float num2 = num / 1000f * 10f;
 				float num3 = 0f;
 				if (map != null)
 				{
-					num3 = (float)map.mapPawns.FreeColonistsCount * 40f;
+					num3 = (float)map.mapPawns.FreeColonistsCount * 37f;
 				}
 				else
 				{
 					Caravan caravan = target as Caravan;
 					if (caravan != null)
 					{
-						num3 = (float)caravan.PawnsListForReading.Count((Pawn x) => x.IsColonist && x.HostFaction == null) * 40f;
+						num3 = (float)caravan.PawnsListForReading.Count((Pawn x) => x.IsColonist && x.HostFaction == null) * 37f;
 					}
 				}
 				incidentParms.points = num2 + num3;

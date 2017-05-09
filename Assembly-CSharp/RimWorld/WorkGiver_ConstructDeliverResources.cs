@@ -52,9 +52,9 @@ namespace RimWorld
 					flag = true;
 					break;
 				}
-				WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2AB arg_EC_0 = <ResourceDeliverJobFor>c__AnonStorey2AB;
+				WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2AB arg_ED_0 = <ResourceDeliverJobFor>c__AnonStorey2AB;
 				Predicate<Thing> validator = (Thing r) => WorkGiver_ConstructDeliverResources.ResourceValidator(<ResourceDeliverJobFor>c__AnonStorey2AB.<>f__ref$682.pawn, <ResourceDeliverJobFor>c__AnonStorey2AB.need, r);
-				arg_EC_0.foundRes = GenClosest.ClosestThingReachable(<ResourceDeliverJobFor>c__AnonStorey2AA.pawn.Position, <ResourceDeliverJobFor>c__AnonStorey2AA.pawn.Map, ThingRequest.ForDef(<ResourceDeliverJobFor>c__AnonStorey2AB.need.thingDef), PathEndMode.ClosestTouch, TraverseParms.For(<ResourceDeliverJobFor>c__AnonStorey2AA.pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, -1, false, RegionType.Set_Passable);
+				arg_ED_0.foundRes = GenClosest.ClosestThingReachable(<ResourceDeliverJobFor>c__AnonStorey2AA.pawn.Position, <ResourceDeliverJobFor>c__AnonStorey2AA.pawn.Map, ThingRequest.ForDef(<ResourceDeliverJobFor>c__AnonStorey2AB.need.thingDef), PathEndMode.ClosestTouch, TraverseParms.For(<ResourceDeliverJobFor>c__AnonStorey2AA.pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, -1, false, RegionType.Set_Passable, false);
 				if (<ResourceDeliverJobFor>c__AnonStorey2AB.foundRes != null)
 				{
 					int resTotalAvailable;

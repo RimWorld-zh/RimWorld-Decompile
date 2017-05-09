@@ -136,32 +136,30 @@ namespace Verse
 
 		public static Map GetRootMap(IThingHolder holder)
 		{
-			Map result = null;
 			while (holder != null)
 			{
 				Map map = holder as Map;
 				if (map != null)
 				{
-					result = map;
+					return map;
 				}
 				holder = holder.ParentHolder;
 			}
-			return result;
+			return null;
 		}
 
 		public static int GetRootTile(IThingHolder holder)
 		{
-			int result = -1;
 			while (holder != null)
 			{
 				WorldObject worldObject = holder as WorldObject;
 				if (worldObject != null && worldObject.Tile >= 0)
 				{
-					result = worldObject.Tile;
+					return worldObject.Tile;
 				}
 				holder = holder.ParentHolder;
 			}
-			return result;
+			return -1;
 		}
 
 		public static bool IsEnclosingContainer(this IThingHolder holder)

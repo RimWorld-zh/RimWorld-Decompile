@@ -664,6 +664,53 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(arg_146_0, expr_3A);
 		}
 
+		public static void DoTable_ShootingAccuracy()
+		{
+			StatDef stat = StatDefOf.ShootingAccuracy;
+			Func<int, float, int, float> accAtDistance = delegate(int level, float dist, int traitDegree)
+			{
+				float num = 1f;
+				foreach (SkillNeed current in stat.skillNeedFactors)
+				{
+					SkillNeed_Direct skillNeed_Direct = current as SkillNeed_Direct;
+					num *= skillNeed_Direct.factorsPerLevel[level];
+				}
+				if (traitDegree != 0)
+				{
+					float value = TraitDef.Named("ShootingAccuracy").DataAtDegree(traitDegree).statOffsets.First((StatModifier so) => so.stat == stat).value;
+					num += value;
+				}
+				num = stat.postProcessCurve.Evaluate(num);
+				return Mathf.Pow(num, dist);
+			};
+			List<int> list = new List<int>();
+			for (int i = 0; i <= 20; i++)
+			{
+				list.Add(i);
+			}
+			IEnumerable<int> arg_249_0 = list;
+			TableDataGetter<int>[] expr_4B = new TableDataGetter<int>[18];
+			expr_4B[0] = new TableDataGetter<int>("No trait skill", (int lev) => lev.ToString());
+			expr_4B[1] = new TableDataGetter<int>("acc at 1", (int lev) => accAtDistance(lev, 1f, 0).ToStringPercent("F2"));
+			expr_4B[2] = new TableDataGetter<int>("acc at 10", (int lev) => accAtDistance(lev, 10f, 0).ToStringPercent("F2"));
+			expr_4B[3] = new TableDataGetter<int>("acc at 20", (int lev) => accAtDistance(lev, 20f, 0).ToStringPercent("F2"));
+			expr_4B[4] = new TableDataGetter<int>("acc at 30", (int lev) => accAtDistance(lev, 30f, 0).ToStringPercent("F2"));
+			expr_4B[5] = new TableDataGetter<int>("acc at 50", (int lev) => accAtDistance(lev, 50f, 0).ToStringPercent("F2"));
+			expr_4B[6] = new TableDataGetter<int>("Careful shooter skill", (int lev) => lev.ToString());
+			expr_4B[7] = new TableDataGetter<int>("acc at 1", (int lev) => accAtDistance(lev, 1f, 1).ToStringPercent("F2"));
+			expr_4B[8] = new TableDataGetter<int>("acc at 10", (int lev) => accAtDistance(lev, 10f, 1).ToStringPercent("F2"));
+			expr_4B[9] = new TableDataGetter<int>("acc at 20", (int lev) => accAtDistance(lev, 20f, 1).ToStringPercent("F2"));
+			expr_4B[10] = new TableDataGetter<int>("acc at 30", (int lev) => accAtDistance(lev, 30f, 1).ToStringPercent("F2"));
+			expr_4B[11] = new TableDataGetter<int>("acc at 50", (int lev) => accAtDistance(lev, 50f, 1).ToStringPercent("F2"));
+			expr_4B[12] = new TableDataGetter<int>("Trigger-happy skill", (int lev) => lev.ToString());
+			expr_4B[13] = new TableDataGetter<int>("acc at 1", (int lev) => accAtDistance(lev, 1f, -1).ToStringPercent("F2"));
+			expr_4B[14] = new TableDataGetter<int>("acc at 10", (int lev) => accAtDistance(lev, 10f, -1).ToStringPercent("F2"));
+			expr_4B[15] = new TableDataGetter<int>("acc at 20", (int lev) => accAtDistance(lev, 20f, -1).ToStringPercent("F2"));
+			expr_4B[16] = new TableDataGetter<int>("acc at 30", (int lev) => accAtDistance(lev, 30f, -1).ToStringPercent("F2"));
+			expr_4B[17] = new TableDataGetter<int>("acc at 50", (int lev) => accAtDistance(lev, 50f, -1).ToStringPercent("F2"));
+			DebugTables.MakeTablesDialog<int>(arg_249_0, expr_4B);
+		}
+
 		public static void DoTable_MiscIncidentChances()
 		{
 			List<StorytellerComp> storytellerComps = Find.Storyteller.storytellerComps;

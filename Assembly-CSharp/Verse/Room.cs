@@ -36,7 +36,7 @@ namespace Verse
 
 		private RoomRoleDef role;
 
-		public int newRoomGroupIndex = -1;
+		public int newOrReusedRoomGroupIndex = -1;
 
 		private static int nextRoomID;
 

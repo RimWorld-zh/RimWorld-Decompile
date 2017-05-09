@@ -7,6 +7,8 @@ namespace RimWorld
 {
 	public class WeatherDecider : IExposable
 	{
+		private const int FirstWeatherDuration = 10000;
+
 		private Map map;
 
 		private int curWeatherDuration = 10000;
@@ -99,7 +101,7 @@ namespace RimWorld
 					float num = weatherCommonalityRecord.commonality;
 					if (this.map.fireWatcher.LargeFireDangerPresent && weather.rainRate > 0.1f)
 					{
-						num *= 15f;
+						num *= 20f;
 					}
 					if (weatherCommonalityRecord.weather.commonalityRainfallFactor != null)
 					{

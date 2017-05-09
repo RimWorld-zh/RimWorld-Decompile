@@ -102,6 +102,10 @@ namespace Verse
 				num *= this.infectionChanceFactorFromTendRoom;
 				num *= Mathf.Clamp(1f - hediffComp_TendDuration.tendQuality, 0.05f, 1f);
 			}
+			if (base.Pawn.Faction == Faction.OfPlayer)
+			{
+				num *= Find.Storyteller.difficulty.playerPawnInfectionChanceFactor;
+			}
 			if (Rand.Value < num)
 			{
 				this.ticksUntilInfect = -4;

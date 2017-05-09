@@ -70,38 +70,41 @@ namespace Verse
 				return 0f;
 			}
 			float num = capacity.Worker.CalculateCapacityLevel(diffSet, impactors);
-			float num2 = 99999f;
-			float num3 = 1f;
-			for (int i = 0; i < diffSet.hediffs.Count; i++)
+			if (num > 0f && capacity.minValue <= 0f)
 			{
-				Hediff hediff = diffSet.hediffs[i];
-				List<PawnCapacityModifier> capMods = hediff.CapMods;
-				if (capMods != null)
+				float num2 = 99999f;
+				float num3 = 1f;
+				for (int i = 0; i < diffSet.hediffs.Count; i++)
 				{
-					for (int j = 0; j < capMods.Count; j++)
+					Hediff hediff = diffSet.hediffs[i];
+					List<PawnCapacityModifier> capMods = hediff.CapMods;
+					if (capMods != null)
 					{
-						PawnCapacityModifier pawnCapacityModifier = capMods[j];
-						if (pawnCapacityModifier.capacity == capacity)
+						for (int j = 0; j < capMods.Count; j++)
 						{
-							num += pawnCapacityModifier.offset;
-							num3 *= pawnCapacityModifier.postFactor;
-							if (pawnCapacityModifier.setMax < num2)
+							PawnCapacityModifier pawnCapacityModifier = capMods[j];
+							if (pawnCapacityModifier.capacity == capacity)
 							{
-								num2 = pawnCapacityModifier.setMax;
-							}
-							if (impactors != null)
-							{
-								impactors.Add(new PawnCapacityUtility.CapacityImpactorHediff
+								num += pawnCapacityModifier.offset;
+								num3 *= pawnCapacityModifier.postFactor;
+								if (pawnCapacityModifier.setMax < num2)
 								{
-									hediff = hediff
-								});
+									num2 = pawnCapacityModifier.setMax;
+								}
+								if (impactors != null)
+								{
+									impactors.Add(new PawnCapacityUtility.CapacityImpactorHediff
+									{
+										hediff = hediff
+									});
+								}
 							}
 						}
 					}
 				}
+				num *= num3;
+				num = Mathf.Min(num, num2);
 			}
-			num *= num3;
-			num = Mathf.Min(num, num2);
 			num = Mathf.Max(num, capacity.minValue);
 			return GenMath.RoundedHundredth(num);
 		}

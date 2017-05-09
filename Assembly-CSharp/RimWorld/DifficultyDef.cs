@@ -24,5 +24,7 @@ namespace RimWorld
 		public float diseaseIntervalFactor = 1f;
 
 		public float enemyReproductionRateFactor = 1f;
+
+		public float playerPawnInfectionChanceFactor = 1f;
 	}
 }

@@ -66,7 +66,7 @@ namespace Verse.AI
 
 		public const int Cost_OutsideAllowedArea = 600;
 
-		private const int Cost_PawnCollision = 800;
+		private const int Cost_PawnCollision = 100;
 
 		private const float NonRegionBasedHeuristicStrengthAnimal = 1.1f;
 
@@ -380,18 +380,18 @@ namespace Verse.AI
 									if (!flag)
 									{
 										this.DebugFlash(intVec, 0.22f, "walk");
-										goto IL_D93;
+										goto IL_D90;
 									}
 									flag6 = true;
 									num17 += 60;
 									Building building = edificeGrid[intVec];
 									if (building == null)
 									{
-										goto IL_D93;
+										goto IL_D90;
 									}
 									if (!PathFinder.IsDestroyable(building))
 									{
-										goto IL_D93;
+										goto IL_D90;
 									}
 									num17 += (int)((float)building.HitPoints * 0.1f);
 								}
@@ -405,7 +405,7 @@ namespace Verse.AI
 											if (!flag || !flag2)
 											{
 												this.DebugFlash(new IntVec3((int)num12, 0, (int)(num13 - 1)), 0.9f, "corn");
-												goto IL_D93;
+												goto IL_D90;
 											}
 											num17 += 60;
 										}
@@ -414,7 +414,7 @@ namespace Verse.AI
 											if (!flag || !flag2)
 											{
 												this.DebugFlash(new IntVec3((int)(num12 + 1), 0, (int)num13), 0.9f, "corn");
-												goto IL_D93;
+												goto IL_D90;
 											}
 											num17 += 60;
 										}
@@ -425,7 +425,7 @@ namespace Verse.AI
 											if (!flag || !flag2)
 											{
 												this.DebugFlash(new IntVec3((int)num12, 0, (int)(num13 + 1)), 0.9f, "corn");
-												goto IL_D93;
+												goto IL_D90;
 											}
 											num17 += 60;
 										}
@@ -434,7 +434,7 @@ namespace Verse.AI
 											if (!flag || !flag2)
 											{
 												this.DebugFlash(new IntVec3((int)(num12 + 1), 0, (int)num13), 0.9f, "corn");
-												goto IL_D93;
+												goto IL_D90;
 											}
 											num17 += 60;
 										}
@@ -445,7 +445,7 @@ namespace Verse.AI
 											if (!flag || !flag2)
 											{
 												this.DebugFlash(new IntVec3((int)num12, 0, (int)(num13 + 1)), 0.9f, "corn");
-												goto IL_D93;
+												goto IL_D90;
 											}
 											num17 += 60;
 										}
@@ -454,7 +454,7 @@ namespace Verse.AI
 											if (!flag || !flag2)
 											{
 												this.DebugFlash(new IntVec3((int)(num12 - 1), 0, (int)num13), 0.9f, "corn");
-												goto IL_D93;
+												goto IL_D90;
 											}
 											num17 += 60;
 										}
@@ -465,7 +465,7 @@ namespace Verse.AI
 											if (!flag || !flag2)
 											{
 												this.DebugFlash(new IntVec3((int)num12, 0, (int)(num13 - 1)), 0.9f, "corn");
-												goto IL_D93;
+												goto IL_D90;
 											}
 											num17 += 60;
 										}
@@ -474,7 +474,7 @@ namespace Verse.AI
 											if (!flag || !flag2)
 											{
 												this.DebugFlash(new IntVec3((int)(num12 - 1), 0, (int)num13), 0.9f, "corn");
-												goto IL_D93;
+												goto IL_D90;
 											}
 											num17 += 60;
 										}
@@ -497,7 +497,7 @@ namespace Verse.AI
 								}
 								if (flag4 && PawnUtility.AnyPawnBlockingPathAt(intVec, pawn, false, false))
 								{
-									num18 += 800;
+									num18 += 100;
 								}
 								Building building2 = this.edificeGrid[this.cellIndices.CellToIndex((int)num14, (int)num15)];
 								if (building2 != null)
@@ -507,7 +507,7 @@ namespace Verse.AI
 									if (buildingCost == 2147483647)
 									{
 										this.PfProfilerEndSample();
-										goto IL_D93;
+										goto IL_D90;
 									}
 									num18 += buildingCost;
 									this.PfProfilerEndSample();
@@ -523,7 +523,7 @@ namespace Verse.AI
 									}
 									if (this.calcGrid[num16].knownCost <= num19 + num20)
 									{
-										goto IL_D93;
+										goto IL_D90;
 									}
 								}
 								if (status != this.statusClosedValue && status != this.statusOpenValue)
@@ -548,7 +548,7 @@ namespace Verse.AI
 								this.calcGrid[num16].costNodeCost = num23;
 								this.openList.Push(new PathFinder.CostNode(num16, num23));
 							}
-							IL_D93:;
+							IL_D90:;
 						}
 						this.PfProfilerEndSample();
 						num3++;

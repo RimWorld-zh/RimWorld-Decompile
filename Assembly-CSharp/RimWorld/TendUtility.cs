@@ -68,7 +68,7 @@ namespace RimWorld
 			{
 				if ((patient.Spawned || (doctor != null && doctor.Spawned)) && num > ThingDefOf.Medicine.GetStatValueAbstract(StatDefOf.MedicalPotency, null))
 				{
-					SoundDef.Named("TechMedicineUsed").PlayOneShot(new TargetInfo(patient.Position, patient.Map, false));
+					SoundDefOf.TechMedicineUsed.PlayOneShot(new TargetInfo(patient.Position, patient.Map, false));
 				}
 				if (medicine.stackCount > 1)
 				{

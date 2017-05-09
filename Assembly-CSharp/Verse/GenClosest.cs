@@ -1,3 +1,4 @@
+using RimWorld;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace Verse
 			return thingReq.group == ThingRequestGroup.Nothing || (customGlobalSearchSet == null && !thingReq.IsUndefined && map.listerThings.ThingsMatching(thingReq).Count == 0);
 		}
 
-		public static Thing ClosestThingReachable(IntVec3 root, Map map, ThingRequest thingReq, PathEndMode peMode, TraverseParms traverseParams, float maxDistance = 9999f, Predicate<Thing> validator = null, IEnumerable<Thing> customGlobalSearchSet = null, int searchRegionsMax = -1, bool forceGlobalSearch = false, RegionType traversableRegionTypes = RegionType.Set_Passable)
+		public static Thing ClosestThingReachable(IntVec3 root, Map map, ThingRequest thingReq, PathEndMode peMode, TraverseParms traverseParams, float maxDistance = 9999f, Predicate<Thing> validator = null, IEnumerable<Thing> customGlobalSearchSet = null, int searchRegionsMax = -1, bool forceGlobalSearch = false, RegionType traversableRegionTypes = RegionType.Set_Passable, bool ignoreEntirelyForbiddenRegions = false)
 		{
 			ProfilerThreadCheck.BeginSample("ClosestThingReachable");
 			if (searchRegionsMax > 0 && customGlobalSearchSet != null && !forceGlobalSearch)
@@ -46,7 +47,7 @@ namespace Verse
 			if (!thingReq.IsUndefined)
 			{
 				int maxRegions = (searchRegionsMax <= 0) ? 30 : searchRegionsMax;
-				thing = GenClosest.RegionwiseBFSWorker(root, map, thingReq, peMode, traverseParams, validator, null, 0, maxRegions, maxDistance, traversableRegionTypes);
+				thing = GenClosest.RegionwiseBFSWorker(root, map, thingReq, peMode, traverseParams, validator, null, 0, maxRegions, maxDistance, traversableRegionTypes, ignoreEntirelyForbiddenRegions);
 			}
 			if (thing == null && (searchRegionsMax < 0 || forceGlobalSearch))
 			{
@@ -76,13 +77,13 @@ namespace Verse
 			Thing result = null;
 			if (!thingReq.IsUndefined)
 			{
-				result = GenClosest.RegionwiseBFSWorker(root, map, thingReq, peMode, traverseParams, validator, priorityGetter, minRegions, maxRegions, maxDistance, RegionType.Set_Passable);
+				result = GenClosest.RegionwiseBFSWorker(root, map, thingReq, peMode, traverseParams, validator, priorityGetter, minRegions, maxRegions, maxDistance, RegionType.Set_Passable, false);
 			}
 			ProfilerThreadCheck.EndSample();
 			return result;
 		}
 
-		public static Thing RegionwiseBFSWorker(IntVec3 root, Map map, ThingRequest req, PathEndMode peMode, TraverseParms traverseParams, Predicate<Thing> validator, Func<Thing, float> priorityGetter, int minRegions, int maxRegions, float maxDistance, RegionType traversableRegionTypes = RegionType.Set_Passable)
+		public static Thing RegionwiseBFSWorker(IntVec3 root, Map map, ThingRequest req, PathEndMode peMode, TraverseParms traverseParams, Predicate<Thing> validator, Func<Thing, float> priorityGetter, int minRegions, int maxRegions, float maxDistance, RegionType traversableRegionTypes = RegionType.Set_Passable, bool ignoreEntirelyForbiddenRegions = false)
 		{
 			if (traverseParams.mode == TraverseMode.PassAllDestroyableThings)
 			{
@@ -108,21 +109,24 @@ namespace Verse
 				{
 					return false;
 				}
-				List<Thing> list = r.ListerThings.ThingsMatching(req);
-				for (int i = 0; i < list.Count; i++)
+				if (!ignoreEntirelyForbiddenRegions || !r.IsForbiddenEntirely(traverseParams.pawn))
 				{
-					Thing thing = list[i];
-					if (ReachabilityWithinRegion.ThingFromRegionListerReachable(thing, r, peMode, traverseParams.pawn))
+					List<Thing> list = r.ListerThings.ThingsMatching(req);
+					for (int i = 0; i < list.Count; i++)
 					{
-						float num = (priorityGetter == null) ? 0f : priorityGetter(thing);
-						if (num >= bestPrio)
+						Thing thing = list[i];
+						if (ReachabilityWithinRegion.ThingFromRegionListerReachable(thing, r, peMode, traverseParams.pawn))
 						{
-							float num2 = (float)(thing.Position - root).LengthHorizontalSquared;
-							if ((num > bestPrio || num2 < closestDistSquared) && num2 < maxDistSquared && (validator == null || validator(thing)))
+							float num = (priorityGetter == null) ? 0f : priorityGetter(thing);
+							if (num >= bestPrio)
 							{
-								closestThing = thing;
-								closestDistSquared = num2;
-								bestPrio = num;
+								float num2 = (float)(thing.Position - root).LengthHorizontalSquared;
+								if ((num > bestPrio || num2 < closestDistSquared) && num2 < maxDistSquared && (validator == null || validator(thing)))
+								{
+									closestThing = thing;
+									closestDistSquared = num2;
+									bestPrio = num;
+								}
 							}
 						}
 					}

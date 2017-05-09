@@ -165,6 +165,7 @@ namespace RimWorld
 				stringBuilder.AppendLine("   Wealth: " + Find.VisibleMap.wealthWatcher.WealthTotal);
 				stringBuilder.AppendLine("   DaysSinceSeriousDamage: " + Find.VisibleMap.damageWatcher.DaysSinceSeriousDamage.ToString("F1"));
 				stringBuilder.AppendLine("   LastThreatBigQueueTick: " + Find.VisibleMap.storyState.LastThreatBigTick.ToStringTicksToPeriod(true, false, true));
+				stringBuilder.AppendLine("   FireDanger: " + Find.VisibleMap.fireWatcher.FireDanger.ToString("F2"));
 			}
 			stringBuilder.AppendLine();
 			stringBuilder.AppendLine("Incident targets:");

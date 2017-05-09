@@ -100,12 +100,12 @@ namespace RimWorld
 			{
 				Pawn innerPawn = ((Corpse)x).InnerPawn;
 				return innerPawn.Faction == p.Faction && innerPawn.GetTraderCaravanRole() == TraderCaravanRole.Carrier;
-			}, null, 15, false, RegionType.Set_Passable);
+			}, null, 15, false, RegionType.Set_Passable, false);
 			Thing thing2 = GenClosest.ClosestThingReachable(p.Position, p.Map, ThingRequest.ForGroup(ThingRequestGroup.Pawn), PathEndMode.ClosestTouch, TraverseParms.For(p, Danger.Deadly, TraverseMode.ByPawn, false), 20f, delegate(Thing x)
 			{
 				Pawn pawn = (Pawn)x;
 				return pawn.Downed && pawn.Faction == p.Faction && pawn.GetTraderCaravanRole() == TraderCaravanRole.Carrier;
-			}, null, 15, false, RegionType.Set_Passable);
+			}, null, 15, false, RegionType.Set_Passable, false);
 			Thing thing3 = null;
 			if (closestCarrier != null)
 			{

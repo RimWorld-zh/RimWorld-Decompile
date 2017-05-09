@@ -9,6 +9,22 @@ namespace RimWorld
 	{
 		private float rotProgressInt;
 
+		private CompProperties_Rottable PropsRot
+		{
+			get
+			{
+				return (CompProperties_Rottable)this.props;
+			}
+		}
+
+		public float RotProgressPct
+		{
+			get
+			{
+				return this.RotProgress / (float)this.PropsRot.TicksToRotStart;
+			}
+		}
+
 		public float RotProgress
 		{
 			get
@@ -23,14 +39,6 @@ namespace RimWorld
 				{
 					this.StageChanged();
 				}
-			}
-		}
-
-		private CompProperties_Rottable PropsRot
-		{
-			get
-			{
-				return (CompProperties_Rottable)this.props;
 			}
 		}
 

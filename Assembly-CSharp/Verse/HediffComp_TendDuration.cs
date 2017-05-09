@@ -187,7 +187,10 @@ namespace Verse
 			{
 				string text = string.Concat(new string[]
 				{
-					this.parent.LabelCap,
+					"TextMote_Tended".Translate(new object[]
+					{
+						this.parent.Label
+					}).CapitalizeFirst(),
 					"\n",
 					"Quality".Translate(),
 					" ",

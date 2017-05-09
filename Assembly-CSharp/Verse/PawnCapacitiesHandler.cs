@@ -77,13 +77,9 @@ namespace Verse
 			{
 				this.cachedCapacityLevels = new DefMap<PawnCapacityDef, PawnCapacitiesHandler.CacheElement>();
 			}
-			foreach (PawnCapacitiesHandler.CacheElement current in this.cachedCapacityLevels.Values())
+			for (int i = 0; i < this.cachedCapacityLevels.Count; i++)
 			{
-				current.status = PawnCapacitiesHandler.CacheStatus.Uncached;
-			}
-			foreach (PawnCapacityDef current2 in DefDatabase<PawnCapacityDef>.AllDefsListForReading)
-			{
-				this.GetLevel(current2);
+				this.cachedCapacityLevels[i].status = PawnCapacitiesHandler.CacheStatus.Uncached;
 			}
 		}
 	}

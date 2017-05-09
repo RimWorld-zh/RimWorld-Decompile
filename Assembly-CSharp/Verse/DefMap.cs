@@ -72,10 +72,5 @@ namespace Verse
 				this.values[i] = val;
 			}
 		}
-
-		public IEnumerable<V> Values()
-		{
-			return this.values;
-		}
 	}
 }

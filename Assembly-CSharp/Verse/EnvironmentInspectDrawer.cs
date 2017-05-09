@@ -59,56 +59,56 @@ namespace Verse
 
 		private static void DrawInfoWindow()
 		{
-			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CD <DrawInfoWindow>c__AnonStorey5CD = new EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CD();
-			<DrawInfoWindow>c__AnonStorey5CD.room = UI.MouseCell().GetRoom(Find.VisibleMap, RegionType.Set_All);
-			<DrawInfoWindow>c__AnonStorey5CD.roomValid = (<DrawInfoWindow>c__AnonStorey5CD.room != null && <DrawInfoWindow>c__AnonStorey5CD.room.Role != RoomRoleDefOf.None);
+			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CE <DrawInfoWindow>c__AnonStorey5CE = new EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CE();
+			<DrawInfoWindow>c__AnonStorey5CE.room = UI.MouseCell().GetRoom(Find.VisibleMap, RegionType.Set_All);
+			<DrawInfoWindow>c__AnonStorey5CE.roomValid = (<DrawInfoWindow>c__AnonStorey5CE.room != null && <DrawInfoWindow>c__AnonStorey5CE.room.Role != RoomRoleDefOf.None);
 			Text.Font = GameFont.Small;
-			<DrawInfoWindow>c__AnonStorey5CD.windowRect = new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 416f, 36f);
-			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CD expr_8A_cp_0 = <DrawInfoWindow>c__AnonStorey5CD;
+			<DrawInfoWindow>c__AnonStorey5CE.windowRect = new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 416f, 36f);
+			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CE expr_8A_cp_0 = <DrawInfoWindow>c__AnonStorey5CE;
 			expr_8A_cp_0.windowRect.height = expr_8A_cp_0.windowRect.height + 25f;
-			if (<DrawInfoWindow>c__AnonStorey5CD.roomValid)
+			if (<DrawInfoWindow>c__AnonStorey5CE.roomValid)
 			{
-				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CD expr_AC_cp_0 = <DrawInfoWindow>c__AnonStorey5CD;
+				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CE expr_AC_cp_0 = <DrawInfoWindow>c__AnonStorey5CE;
 				expr_AC_cp_0.windowRect.height = expr_AC_cp_0.windowRect.height + 13f;
-				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CD expr_C3_cp_0 = <DrawInfoWindow>c__AnonStorey5CD;
+				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CE expr_C3_cp_0 = <DrawInfoWindow>c__AnonStorey5CE;
 				expr_C3_cp_0.windowRect.height = expr_C3_cp_0.windowRect.height + 23f;
-				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CD expr_DA_cp_0 = <DrawInfoWindow>c__AnonStorey5CD;
+				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CE expr_DA_cp_0 = <DrawInfoWindow>c__AnonStorey5CE;
 				expr_DA_cp_0.windowRect.height = expr_DA_cp_0.windowRect.height + (float)EnvironmentInspectDrawer.DisplayedRoomStatsCount * 25f;
 			}
-			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CD expr_F8_cp_0 = <DrawInfoWindow>c__AnonStorey5CD;
+			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CE expr_F8_cp_0 = <DrawInfoWindow>c__AnonStorey5CE;
 			expr_F8_cp_0.windowRect.x = expr_F8_cp_0.windowRect.x + 26f;
-			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CD expr_10F_cp_0 = <DrawInfoWindow>c__AnonStorey5CD;
+			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CE expr_10F_cp_0 = <DrawInfoWindow>c__AnonStorey5CE;
 			expr_10F_cp_0.windowRect.y = expr_10F_cp_0.windowRect.y + 26f;
-			if (<DrawInfoWindow>c__AnonStorey5CD.windowRect.xMax > (float)UI.screenWidth)
+			if (<DrawInfoWindow>c__AnonStorey5CE.windowRect.xMax > (float)UI.screenWidth)
 			{
-				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CD expr_13C_cp_0 = <DrawInfoWindow>c__AnonStorey5CD;
-				expr_13C_cp_0.windowRect.x = expr_13C_cp_0.windowRect.x - (<DrawInfoWindow>c__AnonStorey5CD.windowRect.width + 52f);
+				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CE expr_13C_cp_0 = <DrawInfoWindow>c__AnonStorey5CE;
+				expr_13C_cp_0.windowRect.x = expr_13C_cp_0.windowRect.x - (<DrawInfoWindow>c__AnonStorey5CE.windowRect.width + 52f);
 			}
-			if (<DrawInfoWindow>c__AnonStorey5CD.windowRect.yMax > (float)UI.screenHeight)
+			if (<DrawInfoWindow>c__AnonStorey5CE.windowRect.yMax > (float)UI.screenHeight)
 			{
-				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CD expr_175_cp_0 = <DrawInfoWindow>c__AnonStorey5CD;
-				expr_175_cp_0.windowRect.y = expr_175_cp_0.windowRect.y - (<DrawInfoWindow>c__AnonStorey5CD.windowRect.height + 52f);
+				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5CE expr_175_cp_0 = <DrawInfoWindow>c__AnonStorey5CE;
+				expr_175_cp_0.windowRect.y = expr_175_cp_0.windowRect.y - (<DrawInfoWindow>c__AnonStorey5CE.windowRect.height + 52f);
 			}
-			Find.WindowStack.ImmediateWindow(74975, <DrawInfoWindow>c__AnonStorey5CD.windowRect, WindowLayer.Super, delegate
+			Find.WindowStack.ImmediateWindow(74975, <DrawInfoWindow>c__AnonStorey5CE.windowRect, WindowLayer.Super, delegate
 			{
 				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.InspectRoomStats, KnowledgeAmount.FrameDisplayed);
 				Text.Font = GameFont.Small;
 				float num = 18f;
 				float beauty = BeautyUtility.AverageBeautyPerceptible(UI.MouseCell(), Find.VisibleMap);
-				Rect rect = new Rect(18f, num, <DrawInfoWindow>c__AnonStorey5CD.windowRect.width - 36f, 100f);
+				Rect rect = new Rect(18f, num, <DrawInfoWindow>c__AnonStorey5CE.windowRect.width - 36f, 100f);
 				GUI.color = BeautyDrawer.BeautyColor(beauty, 40f);
 				Widgets.Label(rect, "BeautyHere".Translate() + ": " + beauty.ToString("F1"));
 				num += 25f;
-				if (<DrawInfoWindow>c__AnonStorey5CD.roomValid)
+				if (<DrawInfoWindow>c__AnonStorey5CE.roomValid)
 				{
 					num += 5f;
 					GUI.color = new Color(1f, 1f, 1f, 0.4f);
-					Widgets.DrawLineHorizontal(18f, num, <DrawInfoWindow>c__AnonStorey5CD.windowRect.width - 36f);
+					Widgets.DrawLineHorizontal(18f, num, <DrawInfoWindow>c__AnonStorey5CE.windowRect.width - 36f);
 					GUI.color = Color.white;
 					num += 8f;
-					Rect rect2 = new Rect(18f, num, <DrawInfoWindow>c__AnonStorey5CD.windowRect.width - 36f, 100f);
+					Rect rect2 = new Rect(18f, num, <DrawInfoWindow>c__AnonStorey5CE.windowRect.width - 36f, 100f);
 					GUI.color = Color.white;
-					Widgets.Label(rect2, EnvironmentInspectDrawer.GetRoomRoleLabel(<DrawInfoWindow>c__AnonStorey5CD.room));
+					Widgets.Label(rect2, EnvironmentInspectDrawer.GetRoomRoleLabel(<DrawInfoWindow>c__AnonStorey5CE.room));
 					num += 25f;
 					Text.WordWrap = false;
 					for (int i = 0; i < DefDatabase<RoomStatDef>.AllDefsListForReading.Count; i++)
@@ -116,9 +116,9 @@ namespace Verse
 						RoomStatDef roomStatDef = DefDatabase<RoomStatDef>.AllDefsListForReading[i];
 						if (!roomStatDef.isHidden || DebugViewSettings.showAllRoomStats)
 						{
-							float stat = <DrawInfoWindow>c__AnonStorey5CD.room.GetStat(roomStatDef);
+							float stat = <DrawInfoWindow>c__AnonStorey5CE.room.GetStat(roomStatDef);
 							RoomStatScoreStage scoreStage = roomStatDef.GetScoreStage(stat);
-							if (<DrawInfoWindow>c__AnonStorey5CD.room.Role.IsStatRelated(roomStatDef))
+							if (<DrawInfoWindow>c__AnonStorey5CE.room.Role.IsStatRelated(roomStatDef))
 							{
 								GUI.color = EnvironmentInspectDrawer.RelatedStatColor;
 							}

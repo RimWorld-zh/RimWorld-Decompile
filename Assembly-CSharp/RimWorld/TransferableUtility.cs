@@ -93,15 +93,15 @@ namespace RimWorld
 			CompRottable compRottable = a.TryGetComp<CompRottable>();
 			if (compRottable != null)
 			{
-				num = compRottable.RotProgress;
+				num = compRottable.RotProgressPct;
 			}
 			float num2 = -1f;
 			CompRottable compRottable2 = b.TryGetComp<CompRottable>();
 			if (compRottable2 != null)
 			{
-				num2 = compRottable2.RotProgress;
+				num2 = compRottable2.RotProgressPct;
 			}
-			if (Mathf.Abs(num - num2) > 0.01f)
+			if (Mathf.Abs(num - num2) > 0.1f)
 			{
 				return false;
 			}
