@@ -403,42 +403,17 @@ namespace RimWorld.Planet
 
 		private Pawn CurrentWearerOf(Thing t)
 		{
-			List<Pawn> pawns = this.Pawns;
-			for (int i = 0; i < pawns.Count; i++)
+			IThingHolder parentHolder = t.ParentHolder;
+			if (parentHolder is Pawn_EquipmentTracker || parentHolder is Pawn_ApparelTracker)
 			{
-				Pawn pawn = pawns[i];
-				if (pawn.equipment != null && pawn.equipment.Contains(t))
-				{
-					return pawn;
-				}
-				if (pawn.apparel != null && pawn.apparel.Contains(t))
-				{
-					return pawn;
-				}
+				return (Pawn)parentHolder.ParentHolder;
 			}
 			return null;
 		}
 
 		private bool TryRemoveFromCurrentWearer(Thing t)
 		{
-			Pawn pawn = this.CurrentWearerOf(t);
-			if (pawn == null)
-			{
-				return false;
-			}
-			Apparel apparel = t as Apparel;
-			ThingWithComps thingWithComps = t as ThingWithComps;
-			if (apparel != null && pawn.apparel != null && pawn.apparel.WornApparel.Contains(apparel))
-			{
-				pawn.apparel.Remove(apparel);
-				return true;
-			}
-			if (thingWithComps != null && pawn.equipment != null && pawn.equipment.AllEquipmentListForReading.Contains(thingWithComps))
-			{
-				pawn.equipment.Remove(thingWithComps);
-				return true;
-			}
-			return false;
+			return this.CurrentWearerOf(t) != null && t.holdingOwner.Remove(t);
 		}
 
 		private void MoveDraggedItemToInventory()
@@ -483,17 +458,7 @@ namespace RimWorld.Planet
 					return;
 				}
 			}
-			if (!this.TryRemoveFromCurrentWearer(this.draggedItem))
-			{
-				Pawn ownerOf = CaravanInventoryUtility.GetOwnerOf(base.SelCaravan, this.draggedItem);
-				if (ownerOf == null)
-				{
-					Log.Warning("Could not remove dragged item from its source.");
-					this.draggedItem = null;
-					return;
-				}
-				ownerOf.inventory.innerContainer.Remove(this.draggedItem);
-			}
+			this.draggedItem.holdingOwner.Remove(this.draggedItem);
 			Apparel apparel = this.draggedItem as Apparel;
 			ThingWithComps thingWithComps = this.draggedItem as ThingWithComps;
 			if (apparel != null && p.apparel != null)
@@ -504,6 +469,7 @@ namespace RimWorld.Planet
 				{
 					if (!ApparelUtility.CanWearTogether(apparel.def, WITab_Caravan_Gear.tmpExistingApparel[i].def))
 					{
+						p.apparel.Remove(WITab_Caravan_Gear.tmpExistingApparel[i]);
 						Pawn pawn = CaravanInventoryUtility.FindPawnToMoveInventoryTo(WITab_Caravan_Gear.tmpExistingApparel[i], this.Pawns, null, null);
 						if (pawn != null)
 						{
@@ -512,6 +478,7 @@ namespace RimWorld.Planet
 						else
 						{
 							Log.Warning("Could not find any pawn to move " + WITab_Caravan_Gear.tmpExistingApparel[i] + " to.");
+							WITab_Caravan_Gear.tmpExistingApparel[i].Destroy(DestroyMode.Vanish);
 						}
 					}
 				}
@@ -536,6 +503,7 @@ namespace RimWorld.Planet
 					else
 					{
 						Log.Warning("Could not find any pawn to move " + WITab_Caravan_Gear.tmpExistingEquipment[j] + " to.");
+						WITab_Caravan_Gear.tmpExistingEquipment[j].Destroy(DestroyMode.Vanish);
 					}
 				}
 				p.equipment.AddEquipment(thingWithComps);

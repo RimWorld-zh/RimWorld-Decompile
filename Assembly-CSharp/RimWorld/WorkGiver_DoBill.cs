@@ -164,7 +164,7 @@ namespace RimWorld
 
 		private static UnfinishedThing ClosestUnfinishedThingForBill(Pawn pawn, Bill_ProductionWithUft bill)
 		{
-			Predicate<Thing> predicate = (Thing t) => !t.IsForbidden(pawn) && ((UnfinishedThing)t).Recipe == bill.recipe && ((UnfinishedThing)t).Creator == pawn && ((UnfinishedThing)t).ingredients.TrueForAll((Thing x) => bill.ingredientFilter.Allows(x.def)) && pawn.CanReserve(t, 1, -1, null, false);
+			Predicate<Thing> predicate = (Thing t) => !t.IsForbidden(pawn) && ((UnfinishedThing)t).Recipe == bill.recipe && ((UnfinishedThing)t).Creator == pawn && ((UnfinishedThing)t).ingredients.TrueForAll((Thing x) => bill.IsFixedOrAllowedIngredient(x.def)) && pawn.CanReserve(t, 1, -1, null, false);
 			Predicate<Thing> validator = predicate;
 			return (UnfinishedThing)GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(bill.recipe.unfinishedThingDef), PathEndMode.InteractionCell, TraverseParms.For(pawn, pawn.NormalMaxDanger(), TraverseMode.ByPawn, false), 9999f, validator, null, -1, false, RegionType.Set_Passable, false);
 		}
@@ -350,7 +350,7 @@ namespace RimWorld
 			WorkGiver_DoBill.relevantThings.Clear();
 			WorkGiver_DoBill.processedThings.Clear();
 			bool foundAll = false;
-			Predicate<Thing> baseValidator = (Thing t) => t.Spawned && !t.IsForbidden(pawn) && (float)(t.Position - billGiver.Position).LengthHorizontalSquared < bill.ingredientSearchRadius * bill.ingredientSearchRadius && bill.recipe.fixedIngredientFilter.Allows(t) && bill.ingredientFilter.Allows(t) && bill.recipe.ingredients.Any((IngredientCount ingNeed) => ingNeed.filter.Allows(t)) && pawn.CanReserve(t, 1, -1, null, false);
+			Predicate<Thing> baseValidator = (Thing t) => t.Spawned && !t.IsForbidden(pawn) && (float)(t.Position - billGiver.Position).LengthHorizontalSquared < bill.ingredientSearchRadius * bill.ingredientSearchRadius && bill.IsFixedOrAllowedIngredient(t) && bill.recipe.ingredients.Any((IngredientCount ingNeed) => ingNeed.filter.Allows(t)) && pawn.CanReserve(t, 1, -1, null, false);
 			bool billGiverIsPawn = billGiver is Pawn;
 			if (billGiverIsPawn)
 			{
@@ -464,7 +464,7 @@ namespace RimWorld
 				if (!bill.recipe.productHasIngredientStuff || i != 0)
 				{
 					IngredientCount ingredientCount = bill.recipe.ingredients[i];
-					if (ingredientCount.filter.AllowedDefCount == 1)
+					if (ingredientCount.IsFixedIngredient)
 					{
 						ingredientsOrdered.Add(ingredientCount);
 					}
@@ -506,30 +506,33 @@ namespace RimWorld
 					{
 						if (ingredientCount.filter.Allows(WorkGiver_DoBill.availableCounts.GetDef(j)))
 						{
-							for (int k = 0; k < availableThings.Count; k++)
+							if (ingredientCount.IsFixedIngredient || bill.ingredientFilter.Allows(WorkGiver_DoBill.availableCounts.GetDef(j)))
 							{
-								if (availableThings[k].def == WorkGiver_DoBill.availableCounts.GetDef(j))
+								for (int k = 0; k < availableThings.Count; k++)
 								{
-									int num2 = availableThings[k].stackCount - ThingAmount.CountUsed(chosen, availableThings[k]);
-									if (num2 > 0)
+									if (availableThings[k].def == WorkGiver_DoBill.availableCounts.GetDef(j))
 									{
-										int num3 = Mathf.Min(Mathf.FloorToInt(num), num2);
-										ThingAmount.AddToList(chosen, availableThings[k], num3);
-										num -= (float)num3;
-										if (num < 0.001f)
+										int num2 = availableThings[k].stackCount - ThingAmount.CountUsed(chosen, availableThings[k]);
+										if (num2 > 0)
 										{
-											flag = true;
-											float num4 = WorkGiver_DoBill.availableCounts.GetCount(j);
-											num4 -= (float)ingredientCount.CountRequiredOfFor(WorkGiver_DoBill.availableCounts.GetDef(j), bill.recipe);
-											WorkGiver_DoBill.availableCounts.SetCount(j, num4);
-											break;
+											int num3 = Mathf.Min(Mathf.FloorToInt(num), num2);
+											ThingAmount.AddToList(chosen, availableThings[k], num3);
+											num -= (float)num3;
+											if (num < 0.001f)
+											{
+												flag = true;
+												float num4 = WorkGiver_DoBill.availableCounts.GetCount(j);
+												num4 -= (float)ingredientCount.CountRequiredOfFor(WorkGiver_DoBill.availableCounts.GetDef(j), bill.recipe);
+												WorkGiver_DoBill.availableCounts.SetCount(j, num4);
+												break;
+											}
 										}
 									}
 								}
-							}
-							if (flag)
-							{
-								break;
+								if (flag)
+								{
+									break;
+								}
 							}
 						}
 					}
@@ -554,13 +557,16 @@ namespace RimWorld
 					Thing thing = availableThings[j];
 					if (ingredientCount.filter.Allows(thing))
 					{
-						float num2 = bill.recipe.IngredientValueGetter.ValuePerUnitOf(thing.def);
-						int num3 = Mathf.Min(Mathf.CeilToInt(num / num2), thing.stackCount);
-						ThingAmount.AddToList(chosen, thing, num3);
-						num -= (float)num3 * num2;
-						if (num <= 0.0001f)
+						if (ingredientCount.IsFixedIngredient || bill.ingredientFilter.Allows(thing))
 						{
-							break;
+							float num2 = bill.recipe.IngredientValueGetter.ValuePerUnitOf(thing.def);
+							int num3 = Mathf.Min(Mathf.CeilToInt(num / num2), thing.stackCount);
+							ThingAmount.AddToList(chosen, thing, num3);
+							num -= (float)num3 * num2;
+							if (num <= 0.0001f)
+							{
+								break;
+							}
 						}
 					}
 				}

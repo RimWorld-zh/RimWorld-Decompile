@@ -206,12 +206,31 @@ namespace Verse
 
 		public static Twelfth EarliestTwelfthInAverageTemperatureRange(int tile, float minTemp, float maxTemp)
 		{
-			for (int i = 0; i < 12; i++)
+			int i = 0;
+			while (i < 12)
 			{
 				float num = GenTemperature.AverageTemperatureAtTileForTwelfth(tile, (Twelfth)i);
 				if (num >= minTemp && num <= maxTemp)
 				{
+					if (i != 0)
+					{
+						return (Twelfth)i;
+					}
+					Twelfth twelfth = (Twelfth)i;
+					for (int j = 0; j < 12; j++)
+					{
+						float num2 = GenTemperature.AverageTemperatureAtTileForTwelfth(tile, twelfth.PreviousTwelfth());
+						if (num2 < minTemp || num2 > maxTemp)
+						{
+							return twelfth;
+						}
+						twelfth = twelfth.PreviousTwelfth();
+					}
 					return (Twelfth)i;
+				}
+				else
+				{
+					i++;
 				}
 			}
 			return Twelfth.Undefined;

@@ -45,12 +45,6 @@ namespace RimWorld
 			this.UpdateBuilding(b);
 		}
 
-		internal void Notify_BuildingFactionChanged(Building b)
-		{
-			this.Notify_BuildingDeSpawned(b);
-			this.Notify_BuildingSpawned(b);
-		}
-
 		private void UpdateBuilding(Building b)
 		{
 			if (b.Faction == null || !b.def.building.repairable)

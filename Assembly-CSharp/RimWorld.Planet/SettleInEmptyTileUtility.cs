@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Text;
 using Verse;
 using Verse.Sound;
 
@@ -8,6 +8,8 @@ namespace RimWorld.Planet
 	public static class SettleInEmptyTileUtility
 	{
 		private const int MinStartingLocCellsCount = 600;
+
+		private static StringBuilder tmpSettleFailReason = new StringBuilder();
 
 		public static void Settle(Caravan caravan)
 		{
@@ -43,41 +45,20 @@ namespace RimWorld.Planet
 				SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 				SettleInEmptyTileUtility.Settle(caravan);
 			};
-			if (Find.WorldObjects.AnyFactionBaseOrDestroyedFactionBaseAtOrAdjacent(caravan.Tile))
+			SettleInEmptyTileUtility.tmpSettleFailReason.Length = 0;
+			if (!TileFinder.IsValidTileForNewSettlement(caravan.Tile, SettleInEmptyTileUtility.tmpSettleFailReason))
 			{
-				command_Settle.Disable("CommandSettleFailFactionBaseAdjacent".Translate());
+				command_Settle.Disable(SettleInEmptyTileUtility.tmpSettleFailReason.ToString());
 			}
-			else
+			else if (SettleUtility.PlayerHomesCountLimitReached)
 			{
-				bool flag = false;
-				List<WorldObject> allWorldObjects = Find.WorldObjects.AllWorldObjects;
-				for (int i = 0; i < allWorldObjects.Count; i++)
+				if (Prefs.MaxNumberOfPlayerHomes > 1)
 				{
-					WorldObject worldObject = allWorldObjects[i];
-					if (worldObject.Tile == caravan.Tile && worldObject != caravan)
-					{
-						flag = true;
-						break;
-					}
+					command_Settle.Disable("CommandSettleFailReachedMaximumNumberOfBases".Translate());
 				}
-				if (flag)
+				else
 				{
-					command_Settle.Disable("CommandSettleFailOtherWorldObjectsHere".Translate());
-				}
-				else if (SettleUtility.PlayerHomesCountLimitReached)
-				{
-					if (Prefs.MaxNumberOfPlayerHomes > 1)
-					{
-						command_Settle.Disable("CommandSettleFailReachedMaximumNumberOfBases".Translate());
-					}
-					else
-					{
-						command_Settle.Disable("CommandSettleFailAlreadyHaveBase".Translate());
-					}
-				}
-				else if (!Find.WorldGrid[caravan.Tile].biome.implemented)
-				{
-					command_Settle.Disable("CommandSettleFailBiomeNotImplemented".Translate());
+					command_Settle.Disable("CommandSettleFailAlreadyHaveBase".Translate());
 				}
 			}
 			return command_Settle;

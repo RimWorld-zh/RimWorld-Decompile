@@ -19,6 +19,8 @@ namespace RimWorld
 
 		private static Season dateStringSeason;
 
+		private static Quadrum dateStringQuadrum;
+
 		private static int dateStringYear;
 
 		private static readonly List<string> fastHourStrings;
@@ -27,6 +29,7 @@ namespace RimWorld
 		{
 			DateReadout.dateStringDay = -1;
 			DateReadout.dateStringSeason = Season.Undefined;
+			DateReadout.dateStringQuadrum = Quadrum.Undefined;
 			DateReadout.dateStringYear = -1;
 			DateReadout.fastHourStrings = new List<string>();
 			DateReadout.Reset();
@@ -37,6 +40,7 @@ namespace RimWorld
 			DateReadout.dateString = null;
 			DateReadout.dateStringDay = -1;
 			DateReadout.dateStringSeason = Season.Undefined;
+			DateReadout.dateStringQuadrum = Quadrum.Undefined;
 			DateReadout.dateStringYear = -1;
 			DateReadout.fastHourStrings.Clear();
 			for (int i = 0; i < 24; i++)
@@ -67,12 +71,14 @@ namespace RimWorld
 			int index = GenDate.HourInteger((long)Find.TickManager.TicksAbs, location.x);
 			int num = GenDate.DayOfTwelfth((long)Find.TickManager.TicksAbs, location.x);
 			Season season = GenDate.Season((long)Find.TickManager.TicksAbs, location);
+			Quadrum quadrum = GenDate.Quadrum((long)Find.TickManager.TicksAbs, location.x);
 			int num2 = GenDate.Year((long)Find.TickManager.TicksAbs, location.x);
-			if (num != DateReadout.dateStringDay || season != DateReadout.dateStringSeason || num2 != DateReadout.dateStringYear)
+			if (num != DateReadout.dateStringDay || season != DateReadout.dateStringSeason || quadrum != DateReadout.dateStringQuadrum || num2 != DateReadout.dateStringYear)
 			{
 				DateReadout.dateString = GenDate.DateReadoutStringAt((long)Find.TickManager.TicksAbs, location);
 				DateReadout.dateStringDay = num;
 				DateReadout.dateStringSeason = season;
+				DateReadout.dateStringQuadrum = quadrum;
 				DateReadout.dateStringYear = num2;
 			}
 			Text.Font = GameFont.Small;
@@ -97,8 +103,8 @@ namespace RimWorld
 				StringBuilder stringBuilder = new StringBuilder();
 				for (int i = 0; i < 4; i++)
 				{
-					Quadrum quadrum = (Quadrum)i;
-					stringBuilder.AppendLine(quadrum.Label() + " - " + quadrum.GetSeason(location.y));
+					Quadrum quadrum2 = (Quadrum)i;
+					stringBuilder.AppendLine(quadrum2.Label() + " - " + quadrum2.GetSeason(location.y));
 				}
 				return "DateReadoutTip".Translate(new object[]
 				{

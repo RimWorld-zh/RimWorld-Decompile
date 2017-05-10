@@ -436,7 +436,7 @@ namespace Verse.AI
 
 		private void SetupMoveIntoNextCell()
 		{
-			if (this.curPath.NodesLeftCount < 2)
+			if (this.curPath.NodesLeftCount <= 1)
 			{
 				Log.Error(string.Concat(new object[]
 				{
@@ -583,6 +583,10 @@ namespace Verse.AI
 		private bool NeedNewPath()
 		{
 			if (this.curPath == null || !this.curPath.Found || this.curPath.NodesLeftCount == 0)
+			{
+				return true;
+			}
+			if (this.destination.HasThing && this.destination.Thing.Map != this.pawn.Map)
 			{
 				return true;
 			}

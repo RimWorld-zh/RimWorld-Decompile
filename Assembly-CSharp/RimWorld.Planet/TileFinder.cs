@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Verse;
 
 namespace RimWorld.Planet
@@ -34,23 +35,86 @@ namespace RimWorld.Planet
 					return tile.biome.factionBaseSelectionWeight;
 				}, out num))
 				{
-					if (!Find.WorldObjects.AnySettlementAt(num))
+					if (TileFinder.IsValidTileForNewSettlement(num, null))
 					{
-						if (!Find.WorldObjects.AnyFactionBaseOrDestroyedFactionBaseAtOrAdjacent(num))
-						{
-							if (Current.Game.FindMap(num) == null)
-							{
-								if (!Find.WorldObjects.AnyMapParentAt(num))
-								{
-									return num;
-								}
-							}
-						}
+						return num;
 					}
 				}
 			}
 			Log.Error("Failed to find faction base tile for " + faction);
 			return 0;
+		}
+
+		public static bool IsValidTileForNewSettlement(int tile, StringBuilder reason = null)
+		{
+			Tile tile2 = Find.WorldGrid[tile];
+			if (!tile2.biome.canBuildBase)
+			{
+				if (reason != null)
+				{
+					reason.Append("CannotLandBiome".Translate(new object[]
+					{
+						tile2.biome.label
+					}));
+				}
+				return false;
+			}
+			if (!tile2.biome.implemented)
+			{
+				if (reason != null)
+				{
+					reason.Append("BiomeNotImplemented".Translate() + ": " + tile2.biome.label);
+				}
+				return false;
+			}
+			if (tile2.hilliness == Hilliness.Impassable)
+			{
+				if (reason != null)
+				{
+					reason.Append("CannotLandImpassableMountains".Translate());
+				}
+				return false;
+			}
+			Settlement settlement = Find.WorldObjects.SettlementAt(tile);
+			if (settlement != null)
+			{
+				if (reason != null)
+				{
+					if (settlement.Faction == null)
+					{
+						reason.Append("TileOccupied".Translate());
+					}
+					else if (settlement.Faction == Faction.OfPlayer)
+					{
+						reason.Append("YourBaseAlreadyThere".Translate());
+					}
+					else
+					{
+						reason.Append("BaseAlreadyThere".Translate(new object[]
+						{
+							settlement.Faction.Name
+						}));
+					}
+				}
+				return false;
+			}
+			if (Find.WorldObjects.AnySettlementAtOrAdjacent(tile))
+			{
+				if (reason != null)
+				{
+					reason.Append("FactionBaseAdjacent".Translate());
+				}
+				return false;
+			}
+			if (Find.WorldObjects.AnyMapParentAt(tile) || Current.Game.FindMap(tile) != null)
+			{
+				if (reason != null)
+				{
+					reason.Append("TileOccupied".Translate());
+				}
+				return false;
+			}
+			return true;
 		}
 
 		public static bool TryFindPassableTileWithTraversalDistance(int rootTile, int minDist, int maxDist, out int result, Predicate<int> validator = null, bool ignoreFirstTilePassability = false)
@@ -82,6 +146,13 @@ namespace RimWorld.Planet
 		{
 			Map map;
 			if ((from x in Find.Maps
+			where x.IsPlayerHome && x.mapPawns.FreeColonistsSpawnedCount != 0
+			select x).TryRandomElement(out map))
+			{
+				tile = map.Tile;
+				return true;
+			}
+			if ((from x in Find.Maps
 			where x.IsPlayerHome
 			select x).TryRandomElement(out map))
 			{
@@ -108,7 +179,7 @@ namespace RimWorld.Planet
 				tile = -1;
 				return false;
 			}
-			return TileFinder.TryFindPassableTileWithTraversalDistance(rootTile, 8, 30, out tile, (int x) => !Find.WorldObjects.AnyWorldObjectAt(x), false);
+			return TileFinder.TryFindPassableTileWithTraversalDistance(rootTile, 8, 30, out tile, (int x) => !Find.WorldObjects.AnyWorldObjectAt(x) && TileFinder.IsValidTileForNewSettlement(x, null), false);
 		}
 	}
 }

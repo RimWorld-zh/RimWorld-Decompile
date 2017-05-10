@@ -104,8 +104,26 @@ namespace RimWorld
 			}
 		}
 
+		public static Twelfth PreviousTwelfth(this Twelfth twelfth)
+		{
+			if (twelfth == Twelfth.Undefined)
+			{
+				return Twelfth.Undefined;
+			}
+			int num = (int)(twelfth - Twelfth.Second);
+			if (num == -1)
+			{
+				num = 11;
+			}
+			return (Twelfth)num;
+		}
+
 		public static Twelfth NextTwelfth(this Twelfth twelfth)
 		{
+			if (twelfth == Twelfth.Undefined)
+			{
+				return Twelfth.Undefined;
+			}
 			return (twelfth + 1) % Twelfth.Undefined;
 		}
 

@@ -35,7 +35,7 @@ namespace RimWorld
 		public void DestroyMined(Pawn pawn)
 		{
 			Map map = base.Map;
-			this.Destroy(DestroyMode.Vanish);
+			base.Destroy(DestroyMode.KillFinalize);
 			this.TrySpawnYield(map, this.yieldPct, true);
 		}
 

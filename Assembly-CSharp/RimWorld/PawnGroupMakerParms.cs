@@ -16,8 +16,6 @@ namespace RimWorld
 
 		public bool generateFightersOnly;
 
-		public bool generateMeleeOnly;
-
 		public RaidStrategyDef raidStrategy;
 
 		public bool forceOneIncap;
@@ -38,8 +36,6 @@ namespace RimWorld
 				this.traderKind,
 				", generateFightersOnly=",
 				this.generateFightersOnly,
-				", generateMeleeOnly=",
-				this.generateMeleeOnly,
 				", raidStrategy=",
 				this.raidStrategy,
 				", forceOneIncap=",

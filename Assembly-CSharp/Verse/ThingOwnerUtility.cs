@@ -281,6 +281,11 @@ namespace Verse
 				temperature = 14f;
 				return true;
 			}
+			if (holder is Settlement_TraderTracker || holder is TradeShip)
+			{
+				temperature = 14f;
+				return true;
+			}
 			temperature = 21f;
 			return false;
 		}

@@ -33,11 +33,11 @@ namespace RimWorld.Planet
 
 		public static Pawn GetOwnerOf(Caravan caravan, Thing item)
 		{
-			List<Pawn> pawnsListForReading = caravan.PawnsListForReading;
-			for (int i = 0; i < pawnsListForReading.Count; i++)
+			IThingHolder parentHolder = item.ParentHolder;
+			if (parentHolder is Pawn_InventoryTracker)
 			{
-				Pawn pawn = pawnsListForReading[i];
-				if (pawn.inventory.innerContainer.Contains(item))
+				Pawn pawn = (Pawn)parentHolder.ParentHolder;
+				if (caravan.ContainsPawn(pawn))
 				{
 					return pawn;
 				}

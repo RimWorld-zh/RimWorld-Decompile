@@ -164,16 +164,7 @@ namespace RimWorld
 				}
 			}
 			listing_Standard.End();
-			List<ThingDef> list2 = new List<ThingDef>();
-			for (int i = 0; i < this.bill.recipe.ingredients.Count; i++)
-			{
-				IngredientCount ingredientCount = this.bill.recipe.ingredients[i];
-				if (!ingredientCount.filter.AllowedThingDefs.Skip(1).Any<ThingDef>())
-				{
-					list2.Add(ingredientCount.filter.AllowedThingDefs.First<ThingDef>());
-				}
-			}
-			ThingFilterUI.DoThingFilterConfigWindow(rect4, ref this.scrollPosition, this.bill.ingredientFilter, this.bill.recipe.fixedIngredientFilter, 4, list2, this.bill.recipe.forceHiddenSpecialFilters, this.bill.recipe.GetPremultipliedSmallIngredients());
+			ThingFilterUI.DoThingFilterConfigWindow(rect4, ref this.scrollPosition, this.bill.ingredientFilter, this.bill.recipe.fixedIngredientFilter, 4, null, this.bill.recipe.forceHiddenSpecialFilters, this.bill.recipe.GetPremultipliedSmallIngredients());
 			StringBuilder stringBuilder = new StringBuilder();
 			if (this.bill.recipe.description != null)
 			{
@@ -182,12 +173,12 @@ namespace RimWorld
 			}
 			stringBuilder.AppendLine("WorkAmount".Translate() + ": " + this.bill.recipe.WorkAmountTotal(null).ToStringWorkAmount());
 			stringBuilder.AppendLine();
-			for (int j = 0; j < this.bill.recipe.ingredients.Count; j++)
+			for (int i = 0; i < this.bill.recipe.ingredients.Count; i++)
 			{
-				IngredientCount ingredientCount2 = this.bill.recipe.ingredients[j];
-				if (!ingredientCount2.filter.Summary.NullOrEmpty())
+				IngredientCount ingredientCount = this.bill.recipe.ingredients[i];
+				if (!ingredientCount.filter.Summary.NullOrEmpty())
 				{
-					stringBuilder.AppendLine(this.bill.recipe.IngredientValueGetter.BillRequirementsDescription(this.bill.recipe, ingredientCount2));
+					stringBuilder.AppendLine(this.bill.recipe.IngredientValueGetter.BillRequirementsDescription(this.bill.recipe, ingredientCount));
 				}
 			}
 			stringBuilder.AppendLine();

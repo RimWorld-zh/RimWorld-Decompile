@@ -449,19 +449,12 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		public bool AnyFactionBaseOrDestroyedFactionBaseAtOrAdjacent(int tile)
+		public bool AnySettlementAtOrAdjacent(int tile)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
-			for (int i = 0; i < this.factionBases.Count; i++)
+			for (int i = 0; i < this.settlements.Count; i++)
 			{
-				if (worldGrid.IsNeighborOrSame(this.factionBases[i].Tile, tile))
-				{
-					return true;
-				}
-			}
-			for (int j = 0; j < this.destroyedFactionBases.Count; j++)
-			{
-				if (worldGrid.IsNeighborOrSame(this.destroyedFactionBases[j].Tile, tile))
+				if (worldGrid.IsNeighborOrSame(this.settlements[i].Tile, tile))
 				{
 					return true;
 				}

@@ -14,7 +14,6 @@ namespace RimWorld
 				faction = parms.faction,
 				traderKind = parms.traderKind,
 				generateFightersOnly = parms.generateFightersOnly,
-				generateMeleeOnly = parms.generateMeleeOnly,
 				raidStrategy = parms.raidStrategy,
 				forceOneIncap = parms.raidForceOneIncap
 			};

@@ -215,13 +215,9 @@ namespace Verse
 
 		public bool IsIngredient(ThingDef th)
 		{
-			if (!this.fixedIngredientFilter.Allows(th))
-			{
-				return false;
-			}
 			for (int i = 0; i < this.ingredients.Count; i++)
 			{
-				if (this.ingredients[i].filter.Allows(th))
+				if (this.ingredients[i].filter.Allows(th) && (this.ingredients[i].IsFixedIngredient || this.fixedIngredientFilter.Allows(th)))
 				{
 					return true;
 				}

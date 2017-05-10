@@ -179,10 +179,16 @@ namespace Verse
 
 		public override void SetFaction(Faction newFaction, Pawn recruiter = null)
 		{
+			if (base.Spawned)
+			{
+				base.Map.listerBuildingsRepairable.Notify_BuildingDeSpawned(this);
+				base.Map.listerBuildings.Remove(this);
+			}
 			base.SetFaction(newFaction, recruiter);
 			if (base.Spawned)
 			{
-				base.Map.listerBuildingsRepairable.Notify_BuildingFactionChanged(this);
+				base.Map.listerBuildingsRepairable.Notify_BuildingSpawned(this);
+				base.Map.listerBuildings.Add(this);
 			}
 		}
 

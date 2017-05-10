@@ -441,6 +441,7 @@ namespace RimWorld
 					moneyLeft -= pair.Price;
 				}
 			}
+			int specialSeed = Rand.Int;
 			while (Rand.Value >= 0.1f)
 			{
 				Predicate<ThingStuffPair> predicate = delegate(ThingStuffPair pa)
@@ -484,7 +485,7 @@ namespace RimWorld
 							return false;
 						}
 					}
-					return pa.thing.generateAllowChance >= 1f || Rand.ValueSeeded(pawn.thingIDNumber ^ 64128343) <= pa.thing.generateAllowChance;
+					return pa.thing.generateAllowChance >= 1f || Rand.ValueSeeded(specialSeed ^ (int)pa.thing.index ^ 64128343) <= pa.thing.generateAllowChance;
 				};
 				for (int j = 0; j < PawnApparelGenerator.allApparelPairs.Count; j++)
 				{

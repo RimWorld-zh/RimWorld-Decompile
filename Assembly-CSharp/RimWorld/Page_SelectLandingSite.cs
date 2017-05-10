@@ -1,5 +1,6 @@
 using RimWorld.Planet;
 using System;
+using System.Text;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -99,45 +100,13 @@ namespace RimWorld
 				Messages.Message("MustSelectLandingSite".Translate(), MessageSound.RejectInput);
 				return false;
 			}
+			StringBuilder stringBuilder = new StringBuilder();
+			if (!TileFinder.IsValidTileForNewSettlement(selectedTile, stringBuilder))
+			{
+				Messages.Message(stringBuilder.ToString(), MessageSound.RejectInput);
+				return false;
+			}
 			Tile tile = Find.WorldGrid[selectedTile];
-			if (!tile.biome.canBuildBase)
-			{
-				Messages.Message("CannotLandBiome".Translate(new object[]
-				{
-					tile.biome.label
-				}), MessageSound.RejectInput);
-				return false;
-			}
-			if (!tile.biome.implemented)
-			{
-				Messages.Message("BiomeNotImplemented".Translate() + ": " + tile.biome.label, MessageSound.RejectInput);
-				return false;
-			}
-			if (tile.hilliness == Hilliness.Impassable)
-			{
-				Messages.Message("CannotLandImpassableMountains".Translate(), MessageSound.RejectInput);
-				return false;
-			}
-			Settlement settlement = Find.WorldObjects.SettlementAt(selectedTile);
-			if (settlement != null)
-			{
-				string text = (settlement.Faction == null) ? string.Empty : settlement.Faction.Name;
-				Messages.Message("BaseAlreadyThere".Translate(new object[]
-				{
-					text
-				}), MessageSound.RejectInput);
-				return false;
-			}
-			if (Find.WorldObjects.AnyFactionBaseOrDestroyedFactionBaseAtOrAdjacent(selectedTile))
-			{
-				Messages.Message("FactionBaseAdjacent".Translate(), MessageSound.RejectInput);
-				return false;
-			}
-			if (Find.WorldObjects.AnyMapParentAt(selectedTile))
-			{
-				Messages.Message("TileOccupied".Translate(), MessageSound.RejectInput);
-				return false;
-			}
 			return TutorSystem.AllowAction("ChooseBiome-" + tile.biome.defName + "-" + tile.hilliness.ToString());
 		}
 

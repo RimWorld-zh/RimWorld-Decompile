@@ -39,7 +39,7 @@ namespace RimWorld
 			{
 				int num = GenLocalDate.HourOfDay(pawn) / 3;
 				int specialSeed = b.GetHashCode() * 612361 ^ pawn.GetHashCode() * 391 ^ num * 734273247;
-				if (Rand.ValueSeeded(specialSeed) > 0.008f)
+				if (!Rand.ChanceSeeded(0.008f, specialSeed))
 				{
 					return false;
 				}

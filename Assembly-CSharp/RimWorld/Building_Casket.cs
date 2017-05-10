@@ -79,18 +79,18 @@ namespace RimWorld
 
 		public override bool ClaimableBy(Faction fac)
 		{
-			if (this.innerContainer.Count == 0)
+			if (this.innerContainer.Any)
 			{
-				return true;
-			}
-			for (int i = 0; i < this.innerContainer.Count; i++)
-			{
-				if (this.innerContainer[i].Faction == fac)
+				for (int i = 0; i < this.innerContainer.Count; i++)
 				{
-					return true;
+					if (this.innerContainer[i].Faction == fac)
+					{
+						return true;
+					}
 				}
+				return false;
 			}
-			return false;
+			return base.ClaimableBy(fac);
 		}
 
 		public virtual bool Accepts(Thing thing)
@@ -159,7 +159,7 @@ namespace RimWorld
 
 		public override string GetInspectString()
 		{
-			string inspectString = base.GetInspectString();
+			string text = base.GetInspectString();
 			string str;
 			if (!this.contentsKnown)
 			{
@@ -169,7 +169,11 @@ namespace RimWorld
 			{
 				str = this.innerContainer.ContentsString;
 			}
-			return inspectString + "CasketContains".Translate() + ": " + str;
+			if (!text.NullOrEmpty())
+			{
+				text += "\n";
+			}
+			return text + "CasketContains".Translate() + ": " + str;
 		}
 
 		virtual IThingHolder get_ParentHolder()

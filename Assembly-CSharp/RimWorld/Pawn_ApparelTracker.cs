@@ -205,8 +205,6 @@ namespace RimWorld
 				}));
 			}
 			this.wornApparel.TryAdd(newApparel, false);
-			this.SortWornApparelIntoDrawOrder();
-			this.ApparelChanged();
 		}
 
 		public void Remove(Apparel ap)
@@ -368,6 +366,12 @@ namespace RimWorld
 				this.pawn.Drawer.renderer.graphics.ResolveApparelGraphics();
 				PortraitsCache.SetDirty(this.pawn);
 			});
+		}
+
+		public void Notify_ApparelAdded(Apparel apparel)
+		{
+			this.SortWornApparelIntoDrawOrder();
+			this.ApparelChanged();
 		}
 
 		public void Notify_ApparelRemoved(Apparel apparel)

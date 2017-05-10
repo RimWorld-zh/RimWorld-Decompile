@@ -443,6 +443,14 @@ namespace Verse
 				}
 				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 			});
+			base.DebugAction("Increment time 1 day", delegate
+			{
+				Find.TickManager.DebugSetTicksGame(Find.TickManager.TicksGame + 60000);
+			});
+			base.DebugAction("Increment time 1 season", delegate
+			{
+				Find.TickManager.DebugSetTicksGame(Find.TickManager.TicksGame + 900000);
+			});
 		}
 
 		private void DoListingItems_MapTools()

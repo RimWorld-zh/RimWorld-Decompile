@@ -107,13 +107,6 @@ namespace RimWorld
 						{
 							if (!parms.generateFightersOnly || pawnGenOption.kind.isFighter)
 							{
-								if (parms.generateMeleeOnly)
-								{
-									if (pawnGenOption.kind.weaponTags.Any((string tag) => tag != "Melee"))
-									{
-										goto IL_118;
-									}
-								}
 								if (parms.raidStrategy == null || parms.raidStrategy.Worker.CanUsePawnGenOption(pawnGenOption, list2))
 								{
 									if (!flag || !pawnGenOption.kind.factionLeader)
@@ -124,7 +117,6 @@ namespace RimWorld
 							}
 						}
 					}
-					IL_118:;
 				}
 				if (list.Count == 0)
 				{
@@ -214,10 +206,6 @@ namespace RimWorld
 							PawnGroupMakerUtility.MaxAllowedPawnGenOptionCost(fac, points, RaidStrategyDefOf.ImmediateAttack),
 							")"
 						}));
-						if (pawnGroupMakerParms.generateMeleeOnly)
-						{
-							sb.AppendLine("[Generate melee only]");
-						}
 						float num = 0f;
 						foreach (Pawn current in PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, pawnGroupMakerParms, false))
 						{

@@ -670,15 +670,15 @@ namespace Verse
 			Func<int, float, int, float> accAtDistance = delegate(int level, float dist, int traitDegree)
 			{
 				float num = 1f;
-				foreach (SkillNeed current in stat.skillNeedFactors)
-				{
-					SkillNeed_Direct skillNeed_Direct = current as SkillNeed_Direct;
-					num *= skillNeed_Direct.factorsPerLevel[level];
-				}
 				if (traitDegree != 0)
 				{
 					float value = TraitDef.Named("ShootingAccuracy").DataAtDegree(traitDegree).statOffsets.First((StatModifier so) => so.stat == stat).value;
 					num += value;
+				}
+				foreach (SkillNeed current in stat.skillNeedFactors)
+				{
+					SkillNeed_Direct skillNeed_Direct = current as SkillNeed_Direct;
+					num *= skillNeed_Direct.factorsPerLevel[level];
 				}
 				num = stat.postProcessCurve.Evaluate(num);
 				return Mathf.Pow(num, dist);

@@ -957,6 +957,11 @@ namespace Verse
 			{
 				caravan.Notify_PawnAdded((Pawn)item);
 			}
+			Pawn_ApparelTracker pawn_ApparelTracker = this.owner as Pawn_ApparelTracker;
+			if (pawn_ApparelTracker != null)
+			{
+				pawn_ApparelTracker.Notify_ApparelAdded((Apparel)item);
+			}
 			this.NotifyColonistBarIfColonistCorpse(item);
 		}
 

@@ -21,8 +21,6 @@ namespace RimWorld
 
 		public bool generateFightersOnly;
 
-		public bool generateMeleeOnly;
-
 		public RaidStrategyDef raidStrategy;
 
 		public PawnsArriveMode raidArrivalMode;
@@ -81,17 +79,6 @@ namespace RimWorld
 					text2,
 					"generateFightersOnly=",
 					this.generateFightersOnly,
-					" "
-				});
-			}
-			if (this.generateMeleeOnly)
-			{
-				string text2 = text;
-				text = string.Concat(new object[]
-				{
-					text2,
-					"generateMeleeOnly=",
-					this.generateMeleeOnly,
 					" "
 				});
 			}

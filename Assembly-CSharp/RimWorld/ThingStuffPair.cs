@@ -95,6 +95,10 @@ namespace RimWorld
 
 		public override string ToString()
 		{
+			if (this.thing == null)
+			{
+				return "(null)";
+			}
 			string text;
 			if (this.stuff == null)
 			{

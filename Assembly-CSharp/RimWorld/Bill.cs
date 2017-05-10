@@ -244,6 +244,32 @@ namespace RimWorld
 			return rect;
 		}
 
+		public bool IsFixedOrAllowedIngredient(Thing thing)
+		{
+			for (int i = 0; i < this.recipe.ingredients.Count; i++)
+			{
+				IngredientCount ingredientCount = this.recipe.ingredients[i];
+				if (ingredientCount.IsFixedIngredient && ingredientCount.filter.Allows(thing))
+				{
+					return true;
+				}
+			}
+			return this.recipe.fixedIngredientFilter.Allows(thing) && this.ingredientFilter.Allows(thing);
+		}
+
+		public bool IsFixedOrAllowedIngredient(ThingDef def)
+		{
+			for (int i = 0; i < this.recipe.ingredients.Count; i++)
+			{
+				IngredientCount ingredientCount = this.recipe.ingredients[i];
+				if (ingredientCount.IsFixedIngredient && ingredientCount.filter.Allows(def))
+				{
+					return true;
+				}
+			}
+			return this.recipe.fixedIngredientFilter.Allows(def) && this.ingredientFilter.Allows(def);
+		}
+
 		public static void CreateNoPawnsWithSkillDialog(RecipeDef recipe)
 		{
 			string text = "RecipeRequiresSkills".Translate(new object[]

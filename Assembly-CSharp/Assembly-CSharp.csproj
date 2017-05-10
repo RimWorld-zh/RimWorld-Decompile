@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{21565697-BC9F-4306-A793-DF056B904996}</ProjectGuid>
+    <ProjectGuid>{8EF1BBB4-A18A-4B64-B581-3E19C4D7B030}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
@@ -3426,38 +3426,38 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\..\..\..\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>D:\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Posix">
-      <HintPath>..\..\..\..\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\Mono.Posix.dll</HintPath>
+      <HintPath>D:\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\Mono.Posix.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Security">
-      <HintPath>..\..\..\..\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\Mono.Security.dll</HintPath>
+      <HintPath>D:\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\Mono.Security.dll</HintPath>
     </Reference>
     <Reference Include="NAudio">
-      <HintPath>..\..\..\..\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\NAudio.dll</HintPath>
+      <HintPath>D:\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="NVorbis">
-      <HintPath>..\..\..\..\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\NVorbis.dll</HintPath>
+      <HintPath>D:\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\NVorbis.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
-      <HintPath>..\..\..\..\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\System.Core.dll</HintPath>
+      <HintPath>D:\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\System.Core.dll</HintPath>
     </Reference>
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
-      <HintPath>..\..\..\..\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\System.Xml.Linq.dll</HintPath>
+      <HintPath>D:\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\System.Xml.Linq.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>D:\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
-      <HintPath>..\..\..\..\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\UnityEngine.Networking.dll</HintPath>
+      <HintPath>D:\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\UnityEngine.Networking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\..\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>D:\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
