@@ -182,9 +182,9 @@ namespace Verse.Sound
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			SubSoundDef.<ConfigErrors>c__Iterator1DB <ConfigErrors>c__Iterator1DB = new SubSoundDef.<ConfigErrors>c__Iterator1DB();
-			<ConfigErrors>c__Iterator1DB.<>f__this = this;
-			SubSoundDef.<ConfigErrors>c__Iterator1DB expr_0E = <ConfigErrors>c__Iterator1DB;
+			SubSoundDef.<ConfigErrors>c__Iterator1DD <ConfigErrors>c__Iterator1DD = new SubSoundDef.<ConfigErrors>c__Iterator1DD();
+			<ConfigErrors>c__Iterator1DD.<>f__this = this;
+			SubSoundDef.<ConfigErrors>c__Iterator1DD expr_0E = <ConfigErrors>c__Iterator1DD;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

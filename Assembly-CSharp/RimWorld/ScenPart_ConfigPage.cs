@@ -10,9 +10,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Page> GetConfigPages()
 		{
-			ScenPart_ConfigPage.<GetConfigPages>c__Iterator11F <GetConfigPages>c__Iterator11F = new ScenPart_ConfigPage.<GetConfigPages>c__Iterator11F();
-			<GetConfigPages>c__Iterator11F.<>f__this = this;
-			ScenPart_ConfigPage.<GetConfigPages>c__Iterator11F expr_0E = <GetConfigPages>c__Iterator11F;
+			ScenPart_ConfigPage.<GetConfigPages>c__Iterator120 <GetConfigPages>c__Iterator = new ScenPart_ConfigPage.<GetConfigPages>c__Iterator120();
+			<GetConfigPages>c__Iterator.<>f__this = this;
+			ScenPart_ConfigPage.<GetConfigPages>c__Iterator120 expr_0E = <GetConfigPages>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

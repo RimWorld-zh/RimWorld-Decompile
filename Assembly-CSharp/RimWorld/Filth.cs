@@ -63,6 +63,7 @@ namespace RimWorld
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.thickness, "thickness", 1, false);
+			Scribe_Values.Look<int>(ref this.growTick, "growTick", 0, false);
 			if (Scribe.mode != LoadSaveMode.Saving || this.sources != null)
 			{
 				Scribe_Collections.Look<string>(ref this.sources, "sources", LookMode.Value, new object[0]);
@@ -72,10 +73,13 @@ namespace RimWorld
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
-			this.growTick = Find.TickManager.TicksGame;
 			if (Current.ProgramState == ProgramState.Playing)
 			{
 				base.Map.listerFilthInHomeArea.Notify_FilthSpawned(this);
+			}
+			if (!respawningAfterLoad)
+			{
+				this.growTick = Find.TickManager.TicksGame;
 			}
 			if (!base.Map.terrainGrid.TerrainAt(base.Position).acceptFilth)
 			{

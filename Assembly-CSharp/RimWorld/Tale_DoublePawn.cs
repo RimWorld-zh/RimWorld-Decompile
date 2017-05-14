@@ -80,9 +80,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
-			Tale_DoublePawn.<SpecialTextGenerationRules>c__Iterator131 <SpecialTextGenerationRules>c__Iterator = new Tale_DoublePawn.<SpecialTextGenerationRules>c__Iterator131();
+			Tale_DoublePawn.<SpecialTextGenerationRules>c__Iterator132 <SpecialTextGenerationRules>c__Iterator = new Tale_DoublePawn.<SpecialTextGenerationRules>c__Iterator132();
 			<SpecialTextGenerationRules>c__Iterator.<>f__this = this;
-			Tale_DoublePawn.<SpecialTextGenerationRules>c__Iterator131 expr_0E = <SpecialTextGenerationRules>c__Iterator;
+			Tale_DoublePawn.<SpecialTextGenerationRules>c__Iterator132 expr_0E = <SpecialTextGenerationRules>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

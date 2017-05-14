@@ -93,7 +93,7 @@ namespace Verse
 			Rect rect3 = new Rect(0f, num, selectorInner.width, selectorInner.height - num);
 			Rect rect4 = new Rect(0f, 0f, rect3.width - 16f, this.viewHeight);
 			Widgets.DrawMenuSection(rect3, true);
-			Widgets.BeginScrollView(rect3, ref this.scrollPosition, rect4);
+			Widgets.BeginScrollView(rect3, ref this.scrollPosition, rect4, true);
 			Rect rect5 = rect4.ContractedBy(4f);
 			rect5.height = 9999f;
 			Listing_Standard listing_Standard = new Listing_Standard();
@@ -111,14 +111,14 @@ namespace Verse
 				}
 				else
 				{
-					EditWindow_PackageEditor<TNewDef>.<DoWindowContents>c__AnonStorey5CC <DoWindowContents>c__AnonStorey5CC = new EditWindow_PackageEditor<TNewDef>.<DoWindowContents>c__AnonStorey5CC();
-					<DoWindowContents>c__AnonStorey5CC.<>f__this = this;
-					<DoWindowContents>c__AnonStorey5CC.deletingDef = null;
+					EditWindow_PackageEditor<TNewDef>.<DoWindowContents>c__AnonStorey5CF <DoWindowContents>c__AnonStorey5CF = new EditWindow_PackageEditor<TNewDef>.<DoWindowContents>c__AnonStorey5CF();
+					<DoWindowContents>c__AnonStorey5CF.<>f__this = this;
+					<DoWindowContents>c__AnonStorey5CF.deletingDef = null;
 					foreach (Def def in this.curPackage)
 					{
 						if (listing_Standard.SelectableDef(def.defName, false, delegate
 						{
-							<DoWindowContents>c__AnonStorey5CC.deletingDef = def;
+							<DoWindowContents>c__AnonStorey5CF.deletingDef = def;
 						}))
 						{
 							bool flag = false;
@@ -137,11 +137,11 @@ namespace Verse
 							}
 						}
 					}
-					if (<DoWindowContents>c__AnonStorey5CC.deletingDef != null)
+					if (<DoWindowContents>c__AnonStorey5CF.deletingDef != null)
 					{
-						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("Really delete Def " + <DoWindowContents>c__AnonStorey5CC.deletingDef.defName + "?", delegate
+						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("Really delete Def " + <DoWindowContents>c__AnonStorey5CF.deletingDef.defName + "?", delegate
 						{
-							<DoWindowContents>c__AnonStorey5CC.<>f__this.curPackage.RemoveDef(<DoWindowContents>c__AnonStorey5CC.deletingDef);
+							<DoWindowContents>c__AnonStorey5CF.<>f__this.curPackage.RemoveDef(<DoWindowContents>c__AnonStorey5CF.deletingDef);
 						}, true, null));
 					}
 				}

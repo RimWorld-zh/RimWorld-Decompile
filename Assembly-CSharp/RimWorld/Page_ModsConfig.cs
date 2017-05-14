@@ -54,8 +54,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<ModMetaData> ModsInListOrder()
 		{
-			Page_ModsConfig.<ModsInListOrder>c__Iterator198 <ModsInListOrder>c__Iterator = new Page_ModsConfig.<ModsInListOrder>c__Iterator198();
-			Page_ModsConfig.<ModsInListOrder>c__Iterator198 expr_07 = <ModsInListOrder>c__Iterator;
+			Page_ModsConfig.<ModsInListOrder>c__Iterator19A <ModsInListOrder>c__Iterator19A = new Page_ModsConfig.<ModsInListOrder>c__Iterator19A();
+			Page_ModsConfig.<ModsInListOrder>c__Iterator19A expr_07 = <ModsInListOrder>c__Iterator19A;
 			expr_07.$PC = -2;
 			return expr_07;
 		}
@@ -83,7 +83,7 @@ namespace RimWorld
 			Widgets.DrawMenuSection(rect4, true);
 			float height = (float)(ModLister.AllInstalledMods.Count<ModMetaData>() * 34 + 300);
 			Rect rect5 = new Rect(0f, 0f, rect4.width - 16f, height);
-			Widgets.BeginScrollView(rect4, ref this.modListScrollPosition, rect5);
+			Widgets.BeginScrollView(rect4, ref this.modListScrollPosition, rect5, true);
 			Rect rect6 = rect5.ContractedBy(4f);
 			Listing_Standard listing_Standard = new Listing_Standard();
 			listing_Standard.ColumnWidth = rect6.width;
@@ -187,7 +187,7 @@ namespace RimWorld
 				Rect outRect = new Rect(0f, num5, position.width, position.height - num5 - 40f);
 				float width = outRect.width - 16f;
 				Rect rect11 = new Rect(0f, 0f, width, Text.CalcHeight(this.selectedMod.Description, width));
-				Widgets.BeginScrollView(outRect, ref this.modDescriptionScrollPosition, rect11);
+				Widgets.BeginScrollView(outRect, ref this.modDescriptionScrollPosition, rect11, true);
 				Widgets.Label(rect11, this.selectedMod.Description);
 				Widgets.EndScrollView();
 				if (Prefs.DevMode && SteamManager.Initialized && this.selectedMod.CanToUploadToWorkshop())

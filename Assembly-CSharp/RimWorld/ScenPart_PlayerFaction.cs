@@ -56,17 +56,17 @@ namespace RimWorld
 		public override void PostWorldGenerate()
 		{
 			Find.GameInitData.playerFaction = FactionGenerator.NewGeneratedFaction(this.factionDef);
+			Find.FactionManager.Add(Find.GameInitData.playerFaction);
+			FactionGenerator.EnsureRequiredEnemies(Find.GameInitData.playerFaction);
 		}
 
 		public override void PreMapGenerate()
 		{
-			Find.FactionManager.Add(Find.GameInitData.playerFaction);
 			FactionBase factionBase = (FactionBase)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);
 			factionBase.SetFaction(Find.GameInitData.playerFaction);
 			factionBase.Tile = Find.GameInitData.startingTile;
 			factionBase.Name = FactionBaseNameGenerator.GenerateFactionBaseName(factionBase);
 			Find.WorldObjects.Add(factionBase);
-			FactionGenerator.EnsureRequiredEnemies(Find.GameInitData.playerFaction);
 		}
 
 		public override void PostGameStart()
@@ -77,9 +77,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			ScenPart_PlayerFaction.<ConfigErrors>c__Iterator11B <ConfigErrors>c__Iterator11B = new ScenPart_PlayerFaction.<ConfigErrors>c__Iterator11B();
-			<ConfigErrors>c__Iterator11B.<>f__this = this;
-			ScenPart_PlayerFaction.<ConfigErrors>c__Iterator11B expr_0E = <ConfigErrors>c__Iterator11B;
+			ScenPart_PlayerFaction.<ConfigErrors>c__Iterator11C <ConfigErrors>c__Iterator11C = new ScenPart_PlayerFaction.<ConfigErrors>c__Iterator11C();
+			<ConfigErrors>c__Iterator11C.<>f__this = this;
+			ScenPart_PlayerFaction.<ConfigErrors>c__Iterator11C expr_0E = <ConfigErrors>c__Iterator11C;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

@@ -35,8 +35,11 @@ namespace RimWorld
 			if (this.OpenTab != null && this.OpenTab != MainButtonDefOf.Inspect && Event.current.type == EventType.MouseDown && Event.current.button != 2)
 			{
 				this.EscapeCurrentTab(true);
-				Find.Selector.ClearSelection();
-				Find.WorldSelector.ClearSelection();
+				if (Event.current.button == 0)
+				{
+					Find.Selector.ClearSelection();
+					Find.WorldSelector.ClearSelection();
+				}
 			}
 		}
 

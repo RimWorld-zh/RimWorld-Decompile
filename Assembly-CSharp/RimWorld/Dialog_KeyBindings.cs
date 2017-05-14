@@ -75,7 +75,7 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 			Rect outRect = new Rect(0f, rect.height, position.width, position.height - rect.height);
 			Rect rect2 = new Rect(0f, 0f, outRect.width - 16f, this.contentHeight);
-			Widgets.BeginScrollView(outRect, ref this.scrollPosition, rect2);
+			Widgets.BeginScrollView(outRect, ref this.scrollPosition, rect2, true);
 			float num3 = 0f;
 			KeyBindingCategoryDef keyBindingCategoryDef = null;
 			Dialog_KeyBindings.keyBindingsWorkingList.Clear();

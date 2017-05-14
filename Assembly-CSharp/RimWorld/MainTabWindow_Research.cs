@@ -170,7 +170,7 @@ namespace RimWorld
 			{
 				Rect outRect = new Rect(0f, 0f, position.width, 500f);
 				Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, this.leftScrollViewHeight);
-				Widgets.BeginScrollView(outRect, ref this.leftScrollPosition, viewRect);
+				Widgets.BeginScrollView(outRect, ref this.leftScrollPosition, viewRect, true);
 				float num = 0f;
 				Text.Font = GameFont.Medium;
 				GenUI.SetLabelAlign(TextAnchor.MiddleLeft);
@@ -315,7 +315,7 @@ namespace RimWorld
 			Vector2 start = default(Vector2);
 			Vector2 end = default(Vector2);
 			Widgets.ScrollHorizontal(outRect, ref this.rightScrollPosition, rect, 20f);
-			Widgets.BeginScrollView(outRect, ref this.rightScrollPosition, rect);
+			Widgets.BeginScrollView(outRect, ref this.rightScrollPosition, rect, true);
 			GUI.BeginGroup(position);
 			List<ResearchProjectDef> allDefsListForReading = DefDatabase<ResearchProjectDef>.AllDefsListForReading;
 			for (int i = 0; i < 2; i++)

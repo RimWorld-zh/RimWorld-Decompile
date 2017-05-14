@@ -356,8 +356,8 @@ namespace Verse
 		{
 			get
 			{
-				Thing.<>c__Iterator138 <>c__Iterator = new Thing.<>c__Iterator138();
-				Thing.<>c__Iterator138 expr_07 = <>c__Iterator;
+				Thing.<>c__Iterator139 <>c__Iterator = new Thing.<>c__Iterator139();
+				Thing.<>c__Iterator139 expr_07 = <>c__Iterator;
 				expr_07.$PC = -2;
 				return expr_07;
 			}
@@ -933,8 +933,8 @@ namespace Verse
 		[DebuggerHidden]
 		public virtual IEnumerable<Gizmo> GetGizmos()
 		{
-			Thing.<GetGizmos>c__Iterator139 <GetGizmos>c__Iterator = new Thing.<GetGizmos>c__Iterator139();
-			Thing.<GetGizmos>c__Iterator139 expr_07 = <GetGizmos>c__Iterator;
+			Thing.<GetGizmos>c__Iterator13A <GetGizmos>c__Iterator13A = new Thing.<GetGizmos>c__Iterator13A();
+			Thing.<GetGizmos>c__Iterator13A expr_07 = <GetGizmos>c__Iterator13A;
 			expr_07.$PC = -2;
 			return expr_07;
 		}
@@ -942,8 +942,8 @@ namespace Verse
 		[DebuggerHidden]
 		public virtual IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn selPawn)
 		{
-			Thing.<GetFloatMenuOptions>c__Iterator13A <GetFloatMenuOptions>c__Iterator13A = new Thing.<GetFloatMenuOptions>c__Iterator13A();
-			Thing.<GetFloatMenuOptions>c__Iterator13A expr_07 = <GetFloatMenuOptions>c__Iterator13A;
+			Thing.<GetFloatMenuOptions>c__Iterator13B <GetFloatMenuOptions>c__Iterator13B = new Thing.<GetFloatMenuOptions>c__Iterator13B();
+			Thing.<GetFloatMenuOptions>c__Iterator13B expr_07 = <GetFloatMenuOptions>c__Iterator13B;
 			expr_07.$PC = -2;
 			return expr_07;
 		}
@@ -1183,11 +1183,11 @@ namespace Verse
 		[DebuggerHidden]
 		public virtual IEnumerable<Thing> ButcherProducts(Pawn butcher, float efficiency)
 		{
-			Thing.<ButcherProducts>c__Iterator13B <ButcherProducts>c__Iterator13B = new Thing.<ButcherProducts>c__Iterator13B();
-			<ButcherProducts>c__Iterator13B.efficiency = efficiency;
-			<ButcherProducts>c__Iterator13B.<$>efficiency = efficiency;
-			<ButcherProducts>c__Iterator13B.<>f__this = this;
-			Thing.<ButcherProducts>c__Iterator13B expr_1C = <ButcherProducts>c__Iterator13B;
+			Thing.<ButcherProducts>c__Iterator13C <ButcherProducts>c__Iterator13C = new Thing.<ButcherProducts>c__Iterator13C();
+			<ButcherProducts>c__Iterator13C.efficiency = efficiency;
+			<ButcherProducts>c__Iterator13C.<$>efficiency = efficiency;
+			<ButcherProducts>c__Iterator13C.<>f__this = this;
+			Thing.<ButcherProducts>c__Iterator13C expr_1C = <ButcherProducts>c__Iterator13C;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}
@@ -1195,9 +1195,9 @@ namespace Verse
 		[DebuggerHidden]
 		public virtual IEnumerable<Thing> SmeltProducts(float efficiency)
 		{
-			Thing.<SmeltProducts>c__Iterator13C <SmeltProducts>c__Iterator13C = new Thing.<SmeltProducts>c__Iterator13C();
-			<SmeltProducts>c__Iterator13C.<>f__this = this;
-			Thing.<SmeltProducts>c__Iterator13C expr_0E = <SmeltProducts>c__Iterator13C;
+			Thing.<SmeltProducts>c__Iterator13D <SmeltProducts>c__Iterator13D = new Thing.<SmeltProducts>c__Iterator13D();
+			<SmeltProducts>c__Iterator13D.<>f__this = this;
+			Thing.<SmeltProducts>c__Iterator13D expr_0E = <SmeltProducts>c__Iterator13D;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

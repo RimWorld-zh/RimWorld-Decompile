@@ -78,9 +78,9 @@ namespace RimWorld
 		{
 			get
 			{
-				Building_Grave.<>c__Iterator157 <>c__Iterator = new Building_Grave.<>c__Iterator157();
+				Building_Grave.<>c__Iterator158 <>c__Iterator = new Building_Grave.<>c__Iterator158();
 				<>c__Iterator.<>f__this = this;
-				Building_Grave.<>c__Iterator157 expr_0E = <>c__Iterator;
+				Building_Grave.<>c__Iterator158 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -133,12 +133,6 @@ namespace RimWorld
 			{
 				this.storageSettings.CopyFrom(this.def.building.defaultStorageSettings);
 			}
-		}
-
-		public override void TickRare()
-		{
-			base.TickRare();
-			this.innerContainer.ThingOwnerTickRare(true);
 		}
 
 		public override void ExposeData()
@@ -220,9 +214,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_Grave.<GetGizmos>c__Iterator158 <GetGizmos>c__Iterator = new Building_Grave.<GetGizmos>c__Iterator158();
+			Building_Grave.<GetGizmos>c__Iterator159 <GetGizmos>c__Iterator = new Building_Grave.<GetGizmos>c__Iterator159();
 			<GetGizmos>c__Iterator.<>f__this = this;
-			Building_Grave.<GetGizmos>c__Iterator158 expr_0E = <GetGizmos>c__Iterator;
+			Building_Grave.<GetGizmos>c__Iterator159 expr_0E = <GetGizmos>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

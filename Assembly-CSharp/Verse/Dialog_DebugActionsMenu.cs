@@ -1975,7 +1975,7 @@ namespace Verse
 
 		private void DoExecuteIncidentDebugAction(IIncidentTarget target, IIncidentTarget altTarget)
 		{
-			Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C0 <DoExecuteIncidentDebugAction>c__AnonStorey5C = new Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C0();
+			Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C3 <DoExecuteIncidentDebugAction>c__AnonStorey5C = new Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C3();
 			<DoExecuteIncidentDebugAction>c__AnonStorey5C.target = target;
 			<DoExecuteIncidentDebugAction>c__AnonStorey5C.altTarget = altTarget;
 			base.DebugAction("Execute incident...", delegate
@@ -1986,9 +1986,9 @@ namespace Verse
 				orderby !d.TargetAllowed(<DoExecuteIncidentDebugAction>c__AnonStorey5C.target), d.defName
 				select d)
 				{
-					Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C0.<DoExecuteIncidentDebugAction>c__AnonStorey5C1 <DoExecuteIncidentDebugAction>c__AnonStorey5C2 = new Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C0.<DoExecuteIncidentDebugAction>c__AnonStorey5C1();
-					<DoExecuteIncidentDebugAction>c__AnonStorey5C2.<>f__ref$1472 = <DoExecuteIncidentDebugAction>c__AnonStorey5C;
-					Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C0.<DoExecuteIncidentDebugAction>c__AnonStorey5C1 arg_98_0 = <DoExecuteIncidentDebugAction>c__AnonStorey5C2;
+					Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C3.<DoExecuteIncidentDebugAction>c__AnonStorey5C4 <DoExecuteIncidentDebugAction>c__AnonStorey5C2 = new Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C3.<DoExecuteIncidentDebugAction>c__AnonStorey5C4();
+					<DoExecuteIncidentDebugAction>c__AnonStorey5C2.<>f__ref$1475 = <DoExecuteIncidentDebugAction>c__AnonStorey5C;
+					Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C3.<DoExecuteIncidentDebugAction>c__AnonStorey5C4 arg_98_0 = <DoExecuteIncidentDebugAction>c__AnonStorey5C2;
 					IIncidentTarget arg_98_1;
 					if (current.TargetAllowed(<DoExecuteIncidentDebugAction>c__AnonStorey5C.target))
 					{
@@ -2027,7 +2027,7 @@ namespace Verse
 
 		private void DoExecuteIncidentWithDebugAction(IIncidentTarget target, IIncidentTarget altTarget)
 		{
-			Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C2 <DoExecuteIncidentWithDebugAction>c__AnonStorey5C = new Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C2();
+			Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C5 <DoExecuteIncidentWithDebugAction>c__AnonStorey5C = new Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C5();
 			<DoExecuteIncidentWithDebugAction>c__AnonStorey5C.target = target;
 			<DoExecuteIncidentWithDebugAction>c__AnonStorey5C.altTarget = altTarget;
 			base.DebugAction("Execute incident with...", delegate
@@ -2038,9 +2038,9 @@ namespace Verse
 				orderby !d.TargetAllowed(<DoExecuteIncidentWithDebugAction>c__AnonStorey5C.target), d.defName
 				select d)
 				{
-					Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C2.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C3 <DoExecuteIncidentWithDebugAction>c__AnonStorey5C2 = new Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C2.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C3();
-					<DoExecuteIncidentWithDebugAction>c__AnonStorey5C2.<>f__ref$1474 = <DoExecuteIncidentWithDebugAction>c__AnonStorey5C;
-					Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C2.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C3 arg_98_0 = <DoExecuteIncidentWithDebugAction>c__AnonStorey5C2;
+					Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C5.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C6 <DoExecuteIncidentWithDebugAction>c__AnonStorey5C2 = new Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C5.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C6();
+					<DoExecuteIncidentWithDebugAction>c__AnonStorey5C2.<>f__ref$1477 = <DoExecuteIncidentWithDebugAction>c__AnonStorey5C;
+					Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C5.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C6 arg_98_0 = <DoExecuteIncidentWithDebugAction>c__AnonStorey5C2;
 					IIncidentTarget arg_98_1;
 					if (current.TargetAllowed(<DoExecuteIncidentWithDebugAction>c__AnonStorey5C.target))
 					{
@@ -2174,8 +2174,8 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<float> PointsOptions()
 		{
-			Dialog_DebugActionsMenu.<PointsOptions>c__Iterator22D <PointsOptions>c__Iterator22D = new Dialog_DebugActionsMenu.<PointsOptions>c__Iterator22D();
-			Dialog_DebugActionsMenu.<PointsOptions>c__Iterator22D expr_07 = <PointsOptions>c__Iterator22D;
+			Dialog_DebugActionsMenu.<PointsOptions>c__Iterator22F <PointsOptions>c__Iterator22F = new Dialog_DebugActionsMenu.<PointsOptions>c__Iterator22F();
+			Dialog_DebugActionsMenu.<PointsOptions>c__Iterator22F expr_07 = <PointsOptions>c__Iterator22F;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

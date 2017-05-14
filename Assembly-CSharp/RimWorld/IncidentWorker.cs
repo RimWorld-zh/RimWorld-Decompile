@@ -1,6 +1,7 @@
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Verse;
 
 namespace RimWorld
@@ -24,6 +25,10 @@ namespace RimWorld
 				return false;
 			}
 			if (GenDate.DaysPassed < this.def.earliestDay)
+			{
+				return false;
+			}
+			if (PawnsFinder.AllMapsCaravansAndTravelingTransportPods_FreeColonists.Count<Pawn>() < this.def.minPopulation)
 			{
 				return false;
 			}

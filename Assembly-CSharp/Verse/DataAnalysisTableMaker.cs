@@ -8,6 +8,25 @@ namespace Verse
 {
 	internal static class DataAnalysisTableMaker
 	{
+		public static void DoTable_WoolEconomy()
+		{
+			IEnumerable<ThingDef> arg_129_0 = from d in DefDatabase<ThingDef>.AllDefs
+			where d.category == ThingCategory.Pawn && d.race.IsFlesh && d.GetCompProperties<CompProperties_Shearable>() != null
+			select d;
+			TableDataGetter<ThingDef>[] expr_2D = new TableDataGetter<ThingDef>[6];
+			expr_2D[0] = new TableDataGetter<ThingDef>("animal", (ThingDef d) => d.defName);
+			expr_2D[1] = new TableDataGetter<ThingDef>("woolDef", (ThingDef d) => d.GetCompProperties<CompProperties_Shearable>().woolDef.defName);
+			expr_2D[2] = new TableDataGetter<ThingDef>("woolAmount", (ThingDef d) => d.GetCompProperties<CompProperties_Shearable>().woolAmount.ToString());
+			expr_2D[3] = new TableDataGetter<ThingDef>("woolValue", (ThingDef d) => d.GetCompProperties<CompProperties_Shearable>().woolDef.BaseMarketValue.ToString("F2"));
+			expr_2D[4] = new TableDataGetter<ThingDef>("shear interval", (ThingDef d) => d.GetCompProperties<CompProperties_Shearable>().shearIntervalDays.ToString("F1"));
+			expr_2D[5] = new TableDataGetter<ThingDef>("value per year", delegate(ThingDef d)
+			{
+				CompProperties_Shearable compProperties = d.GetCompProperties<CompProperties_Shearable>();
+				return (compProperties.woolDef.BaseMarketValue / ((float)compProperties.shearIntervalDays / 60f)).ToString("F0");
+			});
+			DebugTables.MakeTablesDialog<ThingDef>(arg_129_0, expr_2D);
+		}
+
 		public static void DoTable_AnimalGrowthEconomy()
 		{
 			Func<ThingDef, float> gestDays = delegate(ThingDef d)
@@ -358,6 +377,56 @@ namespace Verse
 			where (float)v.meleeDamageBaseAmount > 0.001f
 			select v;
 			return list.AverageWeighted((VerbProperties v) => v.BaseSelectionWeight, (VerbProperties v) => (float)v.meleeDamageBaseAmount / (v.defaultCooldownTime + v.warmupTime));
+		}
+
+		public static void DoTable_RacesFoodConsumption()
+		{
+			Func<ThingDef, int, string> lsName = delegate(ThingDef d, int lsIndex)
+			{
+				if (d.race.lifeStageAges.Count <= lsIndex)
+				{
+					return string.Empty;
+				}
+				LifeStageDef def = d.race.lifeStageAges[lsIndex].def;
+				return def.defName;
+			};
+			Func<ThingDef, int, string> maxFood = delegate(ThingDef d, int lsIndex)
+			{
+				if (d.race.lifeStageAges.Count <= lsIndex)
+				{
+					return string.Empty;
+				}
+				LifeStageDef def = d.race.lifeStageAges[lsIndex].def;
+				return (d.race.baseBodySize * def.bodySizeFactor * def.foodMaxFactor).ToString("F2");
+			};
+			Func<ThingDef, int, string> hungerRate = delegate(ThingDef d, int lsIndex)
+			{
+				if (d.race.lifeStageAges.Count <= lsIndex)
+				{
+					return string.Empty;
+				}
+				LifeStageDef def = d.race.lifeStageAges[lsIndex].def;
+				return (d.race.baseHungerRate * def.hungerRateFactor).ToString("F2");
+			};
+			IEnumerable<ThingDef> arg_219_0 = from d in DefDatabase<ThingDef>.AllDefs
+			where d.race != null && d.race.EatsFood
+			orderby d.race.baseHungerRate descending
+			select d;
+			TableDataGetter<ThingDef>[] expr_BF = new TableDataGetter<ThingDef>[13];
+			expr_BF[0] = new TableDataGetter<ThingDef>("defName", (ThingDef d) => d.defName);
+			expr_BF[1] = new TableDataGetter<ThingDef>("Lifestage 0", (ThingDef d) => lsName(d, 0));
+			expr_BF[2] = new TableDataGetter<ThingDef>("maxFood", (ThingDef d) => maxFood(d, 0));
+			expr_BF[3] = new TableDataGetter<ThingDef>("hungerRate", (ThingDef d) => hungerRate(d, 0));
+			expr_BF[4] = new TableDataGetter<ThingDef>("Lifestage 1", (ThingDef d) => lsName(d, 1));
+			expr_BF[5] = new TableDataGetter<ThingDef>("maxFood", (ThingDef d) => maxFood(d, 1));
+			expr_BF[6] = new TableDataGetter<ThingDef>("hungerRate", (ThingDef d) => hungerRate(d, 1));
+			expr_BF[7] = new TableDataGetter<ThingDef>("Lifestage 2", (ThingDef d) => lsName(d, 2));
+			expr_BF[8] = new TableDataGetter<ThingDef>("maxFood", (ThingDef d) => maxFood(d, 2));
+			expr_BF[9] = new TableDataGetter<ThingDef>("hungerRate", (ThingDef d) => hungerRate(d, 2));
+			expr_BF[10] = new TableDataGetter<ThingDef>("Lifestage 3", (ThingDef d) => lsName(d, 3));
+			expr_BF[11] = new TableDataGetter<ThingDef>("maxFood", (ThingDef d) => maxFood(d, 3));
+			expr_BF[12] = new TableDataGetter<ThingDef>("hungerRate", (ThingDef d) => hungerRate(d, 3));
+			DebugTables.MakeTablesDialog<ThingDef>(arg_219_0, expr_BF);
 		}
 
 		public static void DoTable_PlantsBasics()
@@ -825,7 +894,7 @@ namespace Verse
 		public static void DoTable_MedicalPotencyPerMedicine()
 		{
 			List<float> list = new List<float>();
-			list.Add(0.2f);
+			list.Add(0.3f);
 			list.AddRange(from d in DefDatabase<ThingDef>.AllDefs
 			where typeof(Medicine).IsAssignableFrom(d.thingClass)
 			select d.GetStatValueAbstract(StatDefOf.MedicalPotency, null));

@@ -20,13 +20,15 @@ namespace RimWorld
 
 		public Faction alliedFaction;
 
+		public bool sitePartsKnown;
+
 		protected override IEnumerable<DiaOption> Choices
 		{
 			get
 			{
-				ChoiceLetter_ItemStashFeeDemand.<>c__Iterator19A <>c__Iterator19A = new ChoiceLetter_ItemStashFeeDemand.<>c__Iterator19A();
-				<>c__Iterator19A.<>f__this = this;
-				ChoiceLetter_ItemStashFeeDemand.<>c__Iterator19A expr_0E = <>c__Iterator19A;
+				ChoiceLetter_ItemStashFeeDemand.<>c__Iterator19C <>c__Iterator19C = new ChoiceLetter_ItemStashFeeDemand.<>c__Iterator19C();
+				<>c__Iterator19C.<>f__this = this;
+				ChoiceLetter_ItemStashFeeDemand.<>c__Iterator19C expr_0E = <>c__Iterator19C;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -58,6 +60,7 @@ namespace RimWorld
 			Scribe_References.Look<Faction>(ref this.siteFaction, "siteFaction", false);
 			Scribe_Defs.Look<SitePartDef>(ref this.sitePart, "sitePart");
 			Scribe_References.Look<Faction>(ref this.alliedFaction, "alliedFaction", false);
+			Scribe_Values.Look<bool>(ref this.sitePartsKnown, "sitePartsKnown", false, false);
 		}
 
 		public override void Removed()

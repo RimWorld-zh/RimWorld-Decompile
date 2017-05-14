@@ -303,9 +303,9 @@ namespace Verse
 		{
 			get
 			{
-				Pawn.<>c__Iterator215 <>c__Iterator = new Pawn.<>c__Iterator215();
+				Pawn.<>c__Iterator217 <>c__Iterator = new Pawn.<>c__Iterator217();
 				<>c__Iterator.<>f__this = this;
-				Pawn.<>c__Iterator215 expr_0E = <>c__Iterator;
+				Pawn.<>c__Iterator217 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -624,9 +624,9 @@ namespace Verse
 		{
 			get
 			{
-				Pawn.<>c__Iterator219 <>c__Iterator = new Pawn.<>c__Iterator219();
-				<>c__Iterator.<>f__this = this;
-				Pawn.<>c__Iterator219 expr_0E = <>c__Iterator;
+				Pawn.<>c__Iterator21B <>c__Iterator21B = new Pawn.<>c__Iterator21B();
+				<>c__Iterator21B.<>f__this = this;
+				Pawn.<>c__Iterator21B expr_0E = <>c__Iterator21B;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -878,12 +878,15 @@ namespace Verse
 		public override void TickRare()
 		{
 			base.TickRare();
-			if (this.apparel != null)
+			if (!ThingOwnerUtility.ContentsFrozen(base.ParentHolder))
 			{
-				this.apparel.ApparelTrackerTickRare();
+				if (this.apparel != null)
+				{
+					this.apparel.ApparelTrackerTickRare();
+				}
+				this.inventory.InventoryTrackerTickRare();
 			}
-			this.inventory.InventoryTrackerTickRare();
-			if (this.RaceProps.IsFlesh && !this.Dead && base.Map != null)
+			if (base.Spawned && this.RaceProps.IsFlesh)
 			{
 				GenTemperature.PushHeat(this, 0.3f * this.BodySize * 4.16666651f);
 			}
@@ -891,7 +894,7 @@ namespace Verse
 
 		public override void Tick()
 		{
-			if (DebugSettings.noAnimals && this.RaceProps.Animal)
+			if (DebugSettings.noAnimals && base.Spawned && this.RaceProps.Animal)
 			{
 				this.Destroy(DestroyMode.Vanish);
 				return;
@@ -901,81 +904,90 @@ namespace Verse
 			{
 				this.TickRare();
 			}
-			if (base.Spawned)
+			if (!ThingOwnerUtility.ContentsFrozen(base.ParentHolder))
 			{
-				this.pather.PatherTick();
-			}
-			if (base.Spawned)
-			{
-				this.stances.StanceTrackerTick();
-				this.verbTracker.VerbsTick();
-				this.natives.NativeVerbsTick();
-			}
-			if (base.Spawned)
-			{
-				Profiler.BeginSample("jobs");
-				this.jobs.JobTrackerTick();
+				if (base.Spawned)
+				{
+					this.pather.PatherTick();
+				}
+				if (base.Spawned)
+				{
+					this.stances.StanceTrackerTick();
+					this.verbTracker.VerbsTick();
+					this.natives.NativeVerbsTick();
+				}
+				if (base.Spawned)
+				{
+					Profiler.BeginSample("jobs");
+					this.jobs.JobTrackerTick();
+					Profiler.EndSample();
+				}
+				if (base.Spawned)
+				{
+					Profiler.BeginSample("Drawer");
+					this.Drawer.DrawTrackerTick();
+					Profiler.EndSample();
+				}
+				Profiler.BeginSample("health");
+				this.health.HealthTick();
 				Profiler.EndSample();
+				if (!this.Dead)
+				{
+					Profiler.BeginSample("mindState");
+					this.mindState.MindStateTick();
+					Profiler.EndSample();
+					this.carryTracker.CarryHandsTick();
+				}
 			}
-			if (base.Spawned)
-			{
-				Profiler.BeginSample("Drawer");
-				this.Drawer.DrawTrackerTick();
-				Profiler.EndSample();
-			}
-			Profiler.BeginSample("health");
-			this.health.HealthTick();
-			Profiler.EndSample();
 			if (!this.Dead)
 			{
-				Profiler.BeginSample("mindState");
-				this.mindState.MindStateTick();
-				Profiler.EndSample();
-				this.carryTracker.CarryHandsTick();
 				this.needs.NeedsTrackerTick();
 			}
-			if (this.equipment != null)
+			if (!ThingOwnerUtility.ContentsFrozen(base.ParentHolder))
 			{
-				Profiler.BeginSample("equipment");
-				this.equipment.EquipmentTrackerTick();
-				Profiler.EndSample();
+				if (this.equipment != null)
+				{
+					Profiler.BeginSample("equipment");
+					this.equipment.EquipmentTrackerTick();
+					Profiler.EndSample();
+				}
+				if (this.apparel != null)
+				{
+					this.apparel.ApparelTrackerTick();
+				}
+				if (this.interactions != null)
+				{
+					Profiler.BeginSample("interactions");
+					this.interactions.InteractionsTrackerTick();
+					Profiler.EndSample();
+				}
+				if (this.caller != null)
+				{
+					this.caller.CallTrackerTick();
+				}
+				if (this.skills != null)
+				{
+					this.skills.SkillsTick();
+				}
+				if (this.inventory != null)
+				{
+					this.inventory.InventoryTrackerTick();
+				}
+				if (this.drafter != null)
+				{
+					this.drafter.DraftControllerTick();
+				}
+				if (this.relations != null)
+				{
+					this.relations.SocialTrackerTick();
+				}
+				if (this.RaceProps.Humanlike)
+				{
+					this.guest.GuestTrackerTick();
+				}
+				this.ageTracker.AgeTick();
+				this.records.RecordsTick();
 			}
-			if (this.apparel != null)
-			{
-				this.apparel.ApparelTrackerTick();
-			}
-			if (this.interactions != null)
-			{
-				Profiler.BeginSample("interactions");
-				this.interactions.InteractionsTrackerTick();
-				Profiler.EndSample();
-			}
-			if (this.caller != null)
-			{
-				this.caller.CallTrackerTick();
-			}
-			if (this.skills != null)
-			{
-				this.skills.SkillsTick();
-			}
-			if (this.inventory != null)
-			{
-				this.inventory.InventoryTrackerTick();
-			}
-			if (this.drafter != null)
-			{
-				this.drafter.DraftControllerTick();
-			}
-			if (this.relations != null)
-			{
-				this.relations.SocialTrackerTick();
-			}
-			if (this.RaceProps.Humanlike)
-			{
-				this.guest.GuestTrackerTick();
-			}
-			this.ageTracker.AgeTick();
-			this.records.RecordsTick();
 		}
 
 		public void Notify_Teleported(bool endCurrentJob = true)
@@ -1720,13 +1732,13 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<Thing> ButcherProducts(Pawn butcher, float efficiency)
 		{
-			Pawn.<ButcherProducts>c__Iterator216 <ButcherProducts>c__Iterator = new Pawn.<ButcherProducts>c__Iterator216();
+			Pawn.<ButcherProducts>c__Iterator218 <ButcherProducts>c__Iterator = new Pawn.<ButcherProducts>c__Iterator218();
 			<ButcherProducts>c__Iterator.butcher = butcher;
 			<ButcherProducts>c__Iterator.efficiency = efficiency;
 			<ButcherProducts>c__Iterator.<$>butcher = butcher;
 			<ButcherProducts>c__Iterator.<$>efficiency = efficiency;
 			<ButcherProducts>c__Iterator.<>f__this = this;
-			Pawn.<ButcherProducts>c__Iterator216 expr_2A = <ButcherProducts>c__Iterator;
+			Pawn.<ButcherProducts>c__Iterator218 expr_2A = <ButcherProducts>c__Iterator;
 			expr_2A.$PC = -2;
 			return expr_2A;
 		}
@@ -1813,9 +1825,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Pawn.<GetGizmos>c__Iterator217 <GetGizmos>c__Iterator = new Pawn.<GetGizmos>c__Iterator217();
+			Pawn.<GetGizmos>c__Iterator219 <GetGizmos>c__Iterator = new Pawn.<GetGizmos>c__Iterator219();
 			<GetGizmos>c__Iterator.<>f__this = this;
-			Pawn.<GetGizmos>c__Iterator217 expr_0E = <GetGizmos>c__Iterator;
+			Pawn.<GetGizmos>c__Iterator219 expr_0E = <GetGizmos>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -1823,8 +1835,8 @@ namespace Verse
 		[DebuggerHidden]
 		public virtual IEnumerable<FloatMenuOption> GetExtraFloatMenuOptionsFor(IntVec3 sq)
 		{
-			Pawn.<GetExtraFloatMenuOptionsFor>c__Iterator218 <GetExtraFloatMenuOptionsFor>c__Iterator = new Pawn.<GetExtraFloatMenuOptionsFor>c__Iterator218();
-			Pawn.<GetExtraFloatMenuOptionsFor>c__Iterator218 expr_07 = <GetExtraFloatMenuOptionsFor>c__Iterator;
+			Pawn.<GetExtraFloatMenuOptionsFor>c__Iterator21A <GetExtraFloatMenuOptionsFor>c__Iterator21A = new Pawn.<GetExtraFloatMenuOptionsFor>c__Iterator21A();
+			Pawn.<GetExtraFloatMenuOptionsFor>c__Iterator21A expr_07 = <GetExtraFloatMenuOptionsFor>c__Iterator21A;
 			expr_07.$PC = -2;
 			return expr_07;
 		}
@@ -1877,11 +1889,6 @@ namespace Verse
 				CaravanInventoryUtility.MoveAllInventoryToSomeoneElse(this, caravan.PawnsListForReading, null);
 				if (this.apparel != null)
 				{
-					List<Apparel> wornApparel = this.apparel.WornApparel;
-					for (int i = 0; i < wornApparel.Count; i++)
-					{
-						wornApparel[i].Notify_Stripped(this);
-					}
 					CaravanInventoryUtility.MoveAllApparelToSomeonesInventory(this, caravan.PawnsListForReading);
 				}
 				if (this.equipment != null)

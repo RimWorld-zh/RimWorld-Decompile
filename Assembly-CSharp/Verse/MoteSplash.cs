@@ -8,9 +8,15 @@ namespace Verse
 	{
 		public const float VelocityFootstep = 1.5f;
 
+		public const float SizeFootstep = 2f;
+
 		public const float VelocityGunfire = 4f;
 
+		public const float SizeGunfire = 1f;
+
 		public const float VelocityExplosion = 20f;
+
+		public const float SizeExplosion = 6f;
 
 		private float targetSize;
 

@@ -1,6 +1,5 @@
 using RimWorld;
 using System;
-using UnityEngine;
 
 namespace Verse
 {
@@ -17,6 +16,18 @@ namespace Verse
 		private int ticksUntilInfect = -1;
 
 		private float infectionChanceFactorFromTendRoom = 1f;
+
+		private static readonly SimpleCurve InfectionChanceFactorFromTendQualityCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0.85f),
+				true
+			},
+			{
+				new CurvePoint(1f, 0.05f),
+				true
+			}
+		};
 
 		public HediffCompProperties_Infecter Props
 		{
@@ -100,7 +111,7 @@ namespace Verse
 			if (hediffComp_TendDuration != null && hediffComp_TendDuration.IsTended)
 			{
 				num *= this.infectionChanceFactorFromTendRoom;
-				num *= Mathf.Clamp(1f - hediffComp_TendDuration.tendQuality, 0.05f, 1f);
+				num *= HediffComp_Infecter.InfectionChanceFactorFromTendQualityCurve.Evaluate(hediffComp_TendDuration.tendQuality);
 			}
 			if (base.Pawn.Faction == Faction.OfPlayer)
 			{
@@ -123,11 +134,10 @@ namespace Verse
 			{
 				return string.Concat(new object[]
 				{
-					"infection may appear after: ",
+					"infection may appear in: ",
 					this.ticksUntilInfect,
-					" ticks (infectionChanceFactorFromTendRoom: ",
-					this.infectionChanceFactorFromTendRoom.ToString(),
-					")"
+					" ticks\ninfectChnceFactorFromTendRoom: ",
+					this.infectionChanceFactorFromTendRoom.ToStringPercent()
 				});
 			}
 			if (this.ticksUntilInfect == -4)

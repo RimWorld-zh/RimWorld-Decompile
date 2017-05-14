@@ -75,7 +75,7 @@ namespace RimWorld
 				{
 					return false;
 				}
-				if (pawn.Map.reservationManager.IsReserved(c2, pawn.Faction))
+				if (pawn.Map.reservationManager.IsReservedByAnyoneWhoseReservationsRespects(c2, pawn))
 				{
 					return false;
 				}

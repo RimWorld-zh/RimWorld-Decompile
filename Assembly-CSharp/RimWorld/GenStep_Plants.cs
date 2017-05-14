@@ -20,7 +20,7 @@ namespace RimWorld
 
 		public override void Generate(Map map)
 		{
-			GenStep_Plants.<Generate>c__AnonStorey313 <Generate>c__AnonStorey = new GenStep_Plants.<Generate>c__AnonStorey313();
+			GenStep_Plants.<Generate>c__AnonStorey315 <Generate>c__AnonStorey = new GenStep_Plants.<Generate>c__AnonStorey315();
 			<Generate>c__AnonStorey.map = map;
 			<Generate>c__AnonStorey.map.regionAndRoomUpdater.Enabled = false;
 			List<ThingDef> list = <Generate>c__AnonStorey.map.Biome.AllWildPlants.ToList<ThingDef>();

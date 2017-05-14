@@ -250,7 +250,7 @@ namespace RimWorld.Planet
 				float x = rect.width - 48f;
 				if (singleSelectedObject != null)
 				{
-					Widgets.InfoCardButton(x, 0f, singleSelectedObject.def);
+					Widgets.InfoCardButton(x, 0f, singleSelectedObject);
 				}
 				else
 				{

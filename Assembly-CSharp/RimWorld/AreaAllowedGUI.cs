@@ -40,6 +40,7 @@ namespace RimWorld
 				}
 			}
 			Text.WordWrap = true;
+			Text.Font = GameFont.Small;
 		}
 
 		private static void DoAreaSelector(Rect rect, Pawn p, Area area)

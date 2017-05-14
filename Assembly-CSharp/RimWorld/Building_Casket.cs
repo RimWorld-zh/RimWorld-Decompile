@@ -49,6 +49,18 @@ namespace RimWorld
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
+		public override void TickRare()
+		{
+			base.TickRare();
+			this.innerContainer.ThingOwnerTickRare(true);
+		}
+
+		public override void Tick()
+		{
+			base.Tick();
+			this.innerContainer.ThingOwnerTick(true);
+		}
+
 		public virtual void Open()
 		{
 			if (!this.HasAnyContents)

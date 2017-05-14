@@ -45,11 +45,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
-			ScenPart_IncidentBase.<GetSummaryListEntries>c__Iterator118 <GetSummaryListEntries>c__Iterator = new ScenPart_IncidentBase.<GetSummaryListEntries>c__Iterator118();
+			ScenPart_IncidentBase.<GetSummaryListEntries>c__Iterator119 <GetSummaryListEntries>c__Iterator = new ScenPart_IncidentBase.<GetSummaryListEntries>c__Iterator119();
 			<GetSummaryListEntries>c__Iterator.tag = tag;
 			<GetSummaryListEntries>c__Iterator.<$>tag = tag;
 			<GetSummaryListEntries>c__Iterator.<>f__this = this;
-			ScenPart_IncidentBase.<GetSummaryListEntries>c__Iterator118 expr_1C = <GetSummaryListEntries>c__Iterator;
+			ScenPart_IncidentBase.<GetSummaryListEntries>c__Iterator119 expr_1C = <GetSummaryListEntries>c__Iterator;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

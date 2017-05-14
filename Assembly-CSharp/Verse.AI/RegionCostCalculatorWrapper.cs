@@ -40,7 +40,7 @@ namespace Verse.AI
 			this.regionCostCalculator = new RegionCostCalculator(map);
 		}
 
-		public void Init(IntVec3 start, CellRect end, TraverseParms traverseParms, int moveTicksCardinal, int moveTicksDiagonal, ByteGrid avoidGrid, Area allowedArea, List<int> disallowedCorners)
+		public void Init(CellRect end, TraverseParms traverseParms, int moveTicksCardinal, int moveTicksDiagonal, ByteGrid avoidGrid, Area allowedArea, List<int> disallowedCorners)
 		{
 			this.moveTicksCardinal = moveTicksCardinal;
 			this.moveTicksDiagonal = moveTicksDiagonal;
@@ -86,7 +86,7 @@ namespace Verse.AI
 			this.regionCostCalculator.Init(end, this.destRegions, traverseParms, moveTicksCardinal, moveTicksDiagonal, avoidGrid, allowedArea);
 		}
 
-		public int GetPathCostToRegion(int cellIndex)
+		public int GetPathCostFromDestToRegion(int cellIndex)
 		{
 			Region region = this.regionGrid[cellIndex];
 			IntVec3 cell = this.map.cellIndices.IndexToCell(cellIndex);

@@ -40,7 +40,7 @@ namespace RimWorld
 			outRect.yMax -= 40f;
 			outRect.width -= 16f;
 			Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, (float)this.assignable.AssigningCandidates.Count<Pawn>() * 35f + 100f);
-			Widgets.BeginScrollView(outRect, ref this.scrollPosition, viewRect);
+			Widgets.BeginScrollView(outRect, ref this.scrollPosition, viewRect, true);
 			float num = 0f;
 			bool flag = false;
 			foreach (Pawn current in this.assignable.AssignedPawns)

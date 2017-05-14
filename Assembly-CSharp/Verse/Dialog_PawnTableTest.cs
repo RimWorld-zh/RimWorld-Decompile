@@ -58,6 +58,7 @@ namespace Verse
 				this.pawnTableMax.SetMinMaxSize(Mathf.Min(this.singleColumn.Worker.GetMaxWidth(this.pawnTableMax) + 16, (int)inRect.width), Mathf.Min(this.singleColumn.Worker.GetMaxWidth(this.pawnTableMax) + 16, (int)inRect.width), 0, num);
 			}
 			int num2 = 0;
+			Text.Font = GameFont.Small;
 			GUI.color = Color.gray;
 			Widgets.Label(new Rect(0f, (float)num2, inRect.width, 30f), "Min size");
 			GUI.color = Color.white;

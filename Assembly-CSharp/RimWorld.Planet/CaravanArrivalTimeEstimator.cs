@@ -73,14 +73,14 @@ namespace RimWorld.Planet
 			int num6 = 0;
 			int num7 = 0;
 			int num8;
-			if (CaravanRestUtility.RestingNowAt(from))
+			if (CaravanRestUtility.WouldBeRestingAt(from, (long)curTicksAbs))
 			{
-				num += CaravanRestUtility.LeftRestTicksAt(from);
+				num += CaravanRestUtility.LeftRestTicksAt(from, (long)curTicksAbs);
 				num8 = num5;
 			}
 			else
 			{
-				num8 = CaravanRestUtility.LeftNonRestTicksAt(from);
+				num8 = CaravanRestUtility.LeftNonRestTicksAt(from, (long)curTicksAbs);
 			}
 			while (true)
 			{

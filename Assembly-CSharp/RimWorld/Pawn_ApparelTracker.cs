@@ -221,7 +221,6 @@ namespace RimWorld
 		{
 			if (this.wornApparel.TryDrop(ap, pos, this.pawn.MapHeld, ThingPlaceMode.Near, out resultingAp, null))
 			{
-				ap.Notify_Stripped(this.pawn);
 				if (resultingAp != null)
 				{
 					resultingAp.SetForbidden(forbid, false);
@@ -267,6 +266,10 @@ namespace RimWorld
 						this.wornApparel[i].TakeDamage(new DamageInfo(dinfo.Value.Def, amount, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
 					}
 				}
+			}
+			for (int j = 0; j < this.wornApparel.Count; j++)
+			{
+				this.wornApparel[j].Notify_PawnKilled();
 			}
 		}
 

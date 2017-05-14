@@ -28,9 +28,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
-			Tale_SinglePawnAndDef.<SpecialTextGenerationRules>c__Iterator135 <SpecialTextGenerationRules>c__Iterator = new Tale_SinglePawnAndDef.<SpecialTextGenerationRules>c__Iterator135();
+			Tale_SinglePawnAndDef.<SpecialTextGenerationRules>c__Iterator136 <SpecialTextGenerationRules>c__Iterator = new Tale_SinglePawnAndDef.<SpecialTextGenerationRules>c__Iterator136();
 			<SpecialTextGenerationRules>c__Iterator.<>f__this = this;
-			Tale_SinglePawnAndDef.<SpecialTextGenerationRules>c__Iterator135 expr_0E = <SpecialTextGenerationRules>c__Iterator;
+			Tale_SinglePawnAndDef.<SpecialTextGenerationRules>c__Iterator136 expr_0E = <SpecialTextGenerationRules>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

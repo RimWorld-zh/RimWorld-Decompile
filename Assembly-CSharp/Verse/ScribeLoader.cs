@@ -132,12 +132,16 @@ namespace Verse
 		{
 			if (this.curXmlParent != null)
 			{
-				XmlElement xmlElement = this.curXmlParent[nodeName];
-				if (xmlElement == null)
+				XmlNode xmlNode = this.curXmlParent[nodeName];
+				if (xmlNode == null && char.IsDigit(nodeName[0]))
+				{
+					xmlNode = this.curXmlParent.ChildNodes[int.Parse(nodeName)];
+				}
+				if (xmlNode == null)
 				{
 					return false;
 				}
-				this.curXmlParent = xmlElement;
+				this.curXmlParent = xmlNode;
 			}
 			this.curPathRelToParent = this.curPathRelToParent + '/' + nodeName;
 			return true;

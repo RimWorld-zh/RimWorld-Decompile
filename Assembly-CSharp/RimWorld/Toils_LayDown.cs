@@ -57,7 +57,7 @@ namespace RimWorld
 				actor.GainComfortFromCellIfPossible();
 				if (!curDriver.asleep)
 				{
-					if (canSleep && actor.needs.rest.CurLevel < 0.75f)
+					if (canSleep && actor.needs.rest.CurLevel < RestUtility.FallAsleepMaxLevel(actor))
 					{
 						curDriver.asleep = true;
 					}
@@ -124,7 +124,7 @@ namespace RimWorld
 			{
 				Pawn actor = layDown.actor;
 				JobDriver curDriver = actor.jobs.curDriver;
-				if (!actor.mindState.awokeVoluntarily && curDriver.asleep && !actor.Dead && actor.needs.rest != null && actor.needs.rest.CurLevel < 0.75f && actor.needs.mood != null)
+				if (!actor.mindState.awokeVoluntarily && curDriver.asleep && !actor.Dead && actor.needs.rest != null && actor.needs.rest.CurLevel < RestUtility.FallAsleepMaxLevel(actor) && actor.needs.mood != null)
 				{
 					actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleepDisturbed, null);
 				}

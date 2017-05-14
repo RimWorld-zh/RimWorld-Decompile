@@ -251,6 +251,10 @@ namespace Verse
 
 		public new void TryAddRange(IEnumerable<T> things, bool canMergeWithExistingStacks = true)
 		{
+			if (things == this)
+			{
+				return;
+			}
 			ThingOwner thingOwner = things as ThingOwner;
 			if (thingOwner != null)
 			{
@@ -511,17 +515,17 @@ namespace Verse
 		[DebuggerHidden]
 		IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
 		{
-			ThingOwner.GetEnumerator>c__Iterator22A getEnumerator>c__Iterator22A = new ThingOwner.GetEnumerator>c__Iterator22A();
-			getEnumerator>c__Iterator22A.<>f__this = this;
-			return getEnumerator>c__Iterator22A;
+			ThingOwner.GetEnumerator>c__Iterator22C getEnumerator>c__Iterator22C = new ThingOwner.GetEnumerator>c__Iterator22C();
+			getEnumerator>c__Iterator22C.<>f__this = this;
+			return getEnumerator>c__Iterator22C;
 		}
 
 		[DebuggerHidden]
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			ThingOwner.GetEnumerator>c__Iterator22B getEnumerator>c__Iterator22B = new ThingOwner.GetEnumerator>c__Iterator22B();
-			getEnumerator>c__Iterator22B.<>f__this = this;
-			return getEnumerator>c__Iterator22B;
+			ThingOwner.GetEnumerator>c__Iterator22D getEnumerator>c__Iterator22D = new ThingOwner.GetEnumerator>c__Iterator22D();
+			getEnumerator>c__Iterator22D.<>f__this = this;
+			return getEnumerator>c__Iterator22D;
 		}
 
 		public virtual void ExposeData()
@@ -552,6 +556,22 @@ namespace Verse
 			{
 				Thing at = this.GetAt(i);
 				if (at.def.tickerType == TickerType.Rare)
+				{
+					at.TickRare();
+					if (at.Destroyed && removeIfDestroyed)
+					{
+						this.Remove(at);
+					}
+				}
+			}
+		}
+
+		public void ThingOwnerTickLong(bool removeIfDestroyed = true)
+		{
+			for (int i = this.Count - 1; i >= 0; i--)
+			{
+				Thing at = this.GetAt(i);
+				if (at.def.tickerType == TickerType.Long)
 				{
 					at.TickRare();
 					if (at.Destroyed && removeIfDestroyed)
@@ -647,6 +667,10 @@ namespace Verse
 
 		public void TryAddRange(IEnumerable<Thing> things, bool canMergeWithExistingStacks = true)
 		{
+			if (things == this)
+			{
+				return;
+			}
 			ThingOwner thingOwner = things as ThingOwner;
 			if (thingOwner != null)
 			{
@@ -704,6 +728,11 @@ namespace Verse
 				Log.Error("Can't transfer item " + item + " because it's not here.");
 				resultingTransferredItem = null;
 				return false;
+			}
+			if (otherContainer == this)
+			{
+				resultingTransferredItem = item;
+				return true;
 			}
 			if (!otherContainer.CanAcceptAnyOf(item, canMergeWithExistingStacks))
 			{
@@ -961,6 +990,11 @@ namespace Verse
 			if (pawn_ApparelTracker != null)
 			{
 				pawn_ApparelTracker.Notify_ApparelAdded((Apparel)item);
+			}
+			Pawn_EquipmentTracker pawn_EquipmentTracker = this.owner as Pawn_EquipmentTracker;
+			if (pawn_EquipmentTracker != null)
+			{
+				pawn_EquipmentTracker.Notify_EquipmentAdded((ThingWithComps)item);
 			}
 			this.NotifyColonistBarIfColonistCorpse(item);
 		}

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -290,6 +291,11 @@ namespace RimWorld
 				return lord.CurLordToil.CustomWakeThreshold.Value;
 			}
 			return 1f;
+		}
+
+		public static float FallAsleepMaxLevel(Pawn p)
+		{
+			return Mathf.Min(0.75f, RestUtility.WakeThreshold(p) - 0.01f);
 		}
 	}
 }

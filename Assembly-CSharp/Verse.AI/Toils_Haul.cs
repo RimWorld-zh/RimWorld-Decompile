@@ -106,7 +106,7 @@ namespace Verse.AI
 						}
 						curJob.countQueue.Insert(0, num4);
 					}
-					else if (actor.Map.reservationManager.IsReserved(thing, actor.Faction))
+					else if (actor.Map.reservationManager.ReservedBy(thing, actor))
 					{
 						actor.Map.reservationManager.Release(thing, actor);
 					}

@@ -121,9 +121,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
-			TradeShip.<ColonyThingsWillingToBuy>c__Iterator180 <ColonyThingsWillingToBuy>c__Iterator = new TradeShip.<ColonyThingsWillingToBuy>c__Iterator180();
+			TradeShip.<ColonyThingsWillingToBuy>c__Iterator181 <ColonyThingsWillingToBuy>c__Iterator = new TradeShip.<ColonyThingsWillingToBuy>c__Iterator181();
 			<ColonyThingsWillingToBuy>c__Iterator.<>f__this = this;
-			TradeShip.<ColonyThingsWillingToBuy>c__Iterator180 expr_0E = <ColonyThingsWillingToBuy>c__Iterator;
+			TradeShip.<ColonyThingsWillingToBuy>c__Iterator181 expr_0E = <ColonyThingsWillingToBuy>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

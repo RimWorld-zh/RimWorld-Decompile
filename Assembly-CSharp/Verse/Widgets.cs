@@ -1,4 +1,5 @@
 using RimWorld;
+using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -370,7 +371,7 @@ namespace Verse
 		public static void LabelScrollable(Rect rect, string label, ref Vector2 scrollbarPosition)
 		{
 			Rect rect2 = new Rect(0f, 0f, rect.width - 16f, Mathf.Max(Text.CalcHeight(label, rect.width) + 10f, rect.height));
-			Widgets.BeginScrollView(rect, ref scrollbarPosition, rect2);
+			Widgets.BeginScrollView(rect, ref scrollbarPosition, rect2, true);
 			Widgets.Label(rect2, label);
 			Widgets.EndScrollView();
 		}
@@ -769,7 +770,7 @@ namespace Verse
 		public static string TextAreaScrollable(Rect rect, string text, ref Vector2 scrollbarPosition, bool readOnly = false)
 		{
 			Rect rect2 = new Rect(0f, 0f, rect.width - 16f, Mathf.Max(Text.CalcHeight(text, rect.width) + 10f, rect.height));
-			Widgets.BeginScrollView(rect, ref scrollbarPosition, rect2);
+			Widgets.BeginScrollView(rect, ref scrollbarPosition, rect2, true);
 			string result = Widgets.TextArea(rect2, text, readOnly);
 			Widgets.EndScrollView();
 			return result;
@@ -1646,10 +1647,18 @@ namespace Verse
 			}
 		}
 
-		public static void BeginScrollView(Rect outRect, ref Vector2 scrollPosition, Rect viewRect)
+		public static void BeginScrollView(Rect outRect, ref Vector2 scrollPosition, Rect viewRect, bool showScrollbars = true)
 		{
 			Vector2 vector = scrollPosition;
-			Vector2 vector2 = GUI.BeginScrollView(outRect, scrollPosition, viewRect);
+			Vector2 vector2;
+			if (showScrollbars)
+			{
+				vector2 = GUI.BeginScrollView(outRect, scrollPosition, viewRect);
+			}
+			else
+			{
+				vector2 = GUI.BeginScrollView(outRect, scrollPosition, viewRect, GUIStyle.none, GUIStyle.none);
+			}
 			Vector2 vector3;
 			if (Event.current.type == EventType.MouseDown)
 			{
@@ -1733,6 +1742,16 @@ namespace Verse
 			if (Widgets.InfoCardButtonWorker(x, y))
 			{
 				Find.WindowStack.Add(new Dialog_InfoCard(thingDef, stuffDef));
+				return true;
+			}
+			return false;
+		}
+
+		public static bool InfoCardButton(float x, float y, WorldObject worldObject)
+		{
+			if (Widgets.InfoCardButtonWorker(x, y))
+			{
+				Find.WindowStack.Add(new Dialog_InfoCard(worldObject));
 				return true;
 			}
 			return false;

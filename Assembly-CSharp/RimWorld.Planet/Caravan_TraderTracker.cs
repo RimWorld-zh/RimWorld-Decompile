@@ -33,9 +33,9 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				Caravan_TraderTracker.<>c__IteratorFF <>c__IteratorFF = new Caravan_TraderTracker.<>c__IteratorFF();
-				<>c__IteratorFF.<>f__this = this;
-				Caravan_TraderTracker.<>c__IteratorFF expr_0E = <>c__IteratorFF;
+				Caravan_TraderTracker.<>c__Iterator100 <>c__Iterator = new Caravan_TraderTracker.<>c__Iterator100();
+				<>c__Iterator.<>f__this = this;
+				Caravan_TraderTracker.<>c__Iterator100 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -82,10 +82,10 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
-			Caravan_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator100 <ColonyThingsWillingToBuy>c__Iterator = new Caravan_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator100();
+			Caravan_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator101 <ColonyThingsWillingToBuy>c__Iterator = new Caravan_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator101();
 			<ColonyThingsWillingToBuy>c__Iterator.playerNegotiator = playerNegotiator;
 			<ColonyThingsWillingToBuy>c__Iterator.<$>playerNegotiator = playerNegotiator;
-			Caravan_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator100 expr_15 = <ColonyThingsWillingToBuy>c__Iterator;
+			Caravan_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator101 expr_15 = <ColonyThingsWillingToBuy>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

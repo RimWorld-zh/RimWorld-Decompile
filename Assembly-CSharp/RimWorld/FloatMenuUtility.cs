@@ -132,11 +132,18 @@ namespace RimWorld
 			}
 			if (pawn != null && !pawn.CanReserve(target, 1, -1, null, false) && pawn.CanReserve(target, 1, -1, null, true))
 			{
-				Pawn pawn2 = pawn.Map.reservationManager.FirstReserverOf(target, pawn.Faction, true);
-				option.Label = option.Label + " (" + reservedText.Translate(new object[]
+				Pawn pawn2 = pawn.Map.reservationManager.FirstReserverWhoseReservationsRespects(target, pawn);
+				if (pawn2 == null)
 				{
-					pawn2.LabelShort
-				}) + ")";
+					pawn2 = pawn.Map.physicalInteractionReservationManager.FirstReserverOf(target);
+				}
+				if (pawn2 != null)
+				{
+					option.Label = option.Label + " (" + reservedText.Translate(new object[]
+					{
+						pawn2.LabelShort
+					}) + ")";
+				}
 			}
 			return option;
 		}

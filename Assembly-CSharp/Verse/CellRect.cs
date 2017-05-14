@@ -207,9 +207,9 @@ namespace Verse
 		{
 			get
 			{
-				CellRect.<>c__Iterator233 <>c__Iterator = new CellRect.<>c__Iterator233();
+				CellRect.<>c__Iterator235 <>c__Iterator = new CellRect.<>c__Iterator235();
 				<>c__Iterator.<>f__this = this;
-				CellRect.<>c__Iterator233 expr_13 = <>c__Iterator;
+				CellRect.<>c__Iterator235 expr_13 = <>c__Iterator;
 				expr_13.$PC = -2;
 				return expr_13;
 			}
@@ -219,9 +219,9 @@ namespace Verse
 		{
 			get
 			{
-				CellRect.<>c__Iterator234 <>c__Iterator = new CellRect.<>c__Iterator234();
+				CellRect.<>c__Iterator236 <>c__Iterator = new CellRect.<>c__Iterator236();
 				<>c__Iterator.<>f__this = this;
-				CellRect.<>c__Iterator234 expr_13 = <>c__Iterator;
+				CellRect.<>c__Iterator236 expr_13 = <>c__Iterator;
 				expr_13.$PC = -2;
 				return expr_13;
 			}
@@ -231,9 +231,9 @@ namespace Verse
 		{
 			get
 			{
-				CellRect.<>c__Iterator235 <>c__Iterator = new CellRect.<>c__Iterator235();
+				CellRect.<>c__Iterator237 <>c__Iterator = new CellRect.<>c__Iterator237();
 				<>c__Iterator.<>f__this = this;
-				CellRect.<>c__Iterator235 expr_13 = <>c__Iterator;
+				CellRect.<>c__Iterator237 expr_13 = <>c__Iterator;
 				expr_13.$PC = -2;
 				return expr_13;
 			}
@@ -463,11 +463,11 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<IntVec3> GetEdgeCells(Rot4 dir)
 		{
-			CellRect.<GetEdgeCells>c__Iterator236 <GetEdgeCells>c__Iterator = new CellRect.<GetEdgeCells>c__Iterator236();
+			CellRect.<GetEdgeCells>c__Iterator238 <GetEdgeCells>c__Iterator = new CellRect.<GetEdgeCells>c__Iterator238();
 			<GetEdgeCells>c__Iterator.dir = dir;
 			<GetEdgeCells>c__Iterator.<$>dir = dir;
 			<GetEdgeCells>c__Iterator.<>f__this = this;
-			CellRect.<GetEdgeCells>c__Iterator236 expr_21 = <GetEdgeCells>c__Iterator;
+			CellRect.<GetEdgeCells>c__Iterator238 expr_21 = <GetEdgeCells>c__Iterator;
 			expr_21.$PC = -2;
 			return expr_21;
 		}

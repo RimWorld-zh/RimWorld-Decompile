@@ -32,9 +32,9 @@ namespace RimWorld
 		{
 			get
 			{
-				CompAffectedByFacilities.<>c__Iterator161 <>c__Iterator = new CompAffectedByFacilities.<>c__Iterator161();
+				CompAffectedByFacilities.<>c__Iterator162 <>c__Iterator = new CompAffectedByFacilities.<>c__Iterator162();
 				<>c__Iterator.<>f__this = this;
-				CompAffectedByFacilities.<>c__Iterator161 expr_0E = <>c__Iterator;
+				CompAffectedByFacilities.<>c__Iterator162 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -284,7 +284,7 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<Thing> PotentialThingsToLinkTo(ThingDef myDef, IntVec3 myPos, Rot4 myRot, Map map)
 		{
-			CompAffectedByFacilities.<PotentialThingsToLinkTo>c__Iterator162 <PotentialThingsToLinkTo>c__Iterator = new CompAffectedByFacilities.<PotentialThingsToLinkTo>c__Iterator162();
+			CompAffectedByFacilities.<PotentialThingsToLinkTo>c__Iterator163 <PotentialThingsToLinkTo>c__Iterator = new CompAffectedByFacilities.<PotentialThingsToLinkTo>c__Iterator163();
 			<PotentialThingsToLinkTo>c__Iterator.myDef = myDef;
 			<PotentialThingsToLinkTo>c__Iterator.map = map;
 			<PotentialThingsToLinkTo>c__Iterator.myPos = myPos;
@@ -293,7 +293,7 @@ namespace RimWorld
 			<PotentialThingsToLinkTo>c__Iterator.<$>map = map;
 			<PotentialThingsToLinkTo>c__Iterator.<$>myPos = myPos;
 			<PotentialThingsToLinkTo>c__Iterator.<$>myRot = myRot;
-			CompAffectedByFacilities.<PotentialThingsToLinkTo>c__Iterator162 expr_3F = <PotentialThingsToLinkTo>c__Iterator;
+			CompAffectedByFacilities.<PotentialThingsToLinkTo>c__Iterator163 expr_3F = <PotentialThingsToLinkTo>c__Iterator;
 			expr_3F.$PC = -2;
 			return expr_3F;
 		}

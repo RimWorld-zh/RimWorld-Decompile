@@ -82,7 +82,7 @@ namespace RimWorld
 			GUI.color = Color.white;
 			Rect outRect = new Rect(0f, 0f, position.width, position.height);
 			Rect viewRect = new Rect(0f, 0f, position.width - 16f, this.scrollViewHeight);
-			Widgets.BeginScrollView(outRect, ref this.scrollPosition, viewRect);
+			Widgets.BeginScrollView(outRect, ref this.scrollPosition, viewRect, true);
 			float num = 0f;
 			this.TryDrawMassInfo(ref num, viewRect.width);
 			this.TryDrawComfyTemperatureRange(ref num, viewRect.width);

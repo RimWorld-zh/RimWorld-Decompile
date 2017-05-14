@@ -82,7 +82,7 @@ namespace RimWorld
 					{
 						throw new NotImplementedException();
 					}
-					if (curLevel < 0.75f)
+					if (curLevel < RestUtility.FallAsleepMaxLevel(pawn))
 					{
 						return 8f;
 					}

@@ -230,16 +230,16 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building.<GetGizmos>c__Iterator140 <GetGizmos>c__Iterator = new Building.<GetGizmos>c__Iterator140();
+			Building.<GetGizmos>c__Iterator141 <GetGizmos>c__Iterator = new Building.<GetGizmos>c__Iterator141();
 			<GetGizmos>c__Iterator.<>f__this = this;
-			Building.<GetGizmos>c__Iterator140 expr_0E = <GetGizmos>c__Iterator;
+			Building.<GetGizmos>c__Iterator141 expr_0E = <GetGizmos>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
 
 		public virtual bool ClaimableBy(Faction by)
 		{
-			if (this.def.building.isNaturalRock || !this.def.building.claimable)
+			if (this.def.building.isNaturalRock || !this.def.Claimable)
 			{
 				return false;
 			}

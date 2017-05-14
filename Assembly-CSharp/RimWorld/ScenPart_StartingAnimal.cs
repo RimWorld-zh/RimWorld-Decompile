@@ -97,11 +97,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
-			ScenPart_StartingAnimal.<GetSummaryListEntries>c__Iterator11C <GetSummaryListEntries>c__Iterator11C = new ScenPart_StartingAnimal.<GetSummaryListEntries>c__Iterator11C();
-			<GetSummaryListEntries>c__Iterator11C.tag = tag;
-			<GetSummaryListEntries>c__Iterator11C.<$>tag = tag;
-			<GetSummaryListEntries>c__Iterator11C.<>f__this = this;
-			ScenPart_StartingAnimal.<GetSummaryListEntries>c__Iterator11C expr_1C = <GetSummaryListEntries>c__Iterator11C;
+			ScenPart_StartingAnimal.<GetSummaryListEntries>c__Iterator11D <GetSummaryListEntries>c__Iterator11D = new ScenPart_StartingAnimal.<GetSummaryListEntries>c__Iterator11D();
+			<GetSummaryListEntries>c__Iterator11D.tag = tag;
+			<GetSummaryListEntries>c__Iterator11D.<$>tag = tag;
+			<GetSummaryListEntries>c__Iterator11D.<>f__this = this;
+			ScenPart_StartingAnimal.<GetSummaryListEntries>c__Iterator11D expr_1C = <GetSummaryListEntries>c__Iterator11D;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}
@@ -134,9 +134,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Thing> PlayerStartingThings()
 		{
-			ScenPart_StartingAnimal.<PlayerStartingThings>c__Iterator11D <PlayerStartingThings>c__Iterator11D = new ScenPart_StartingAnimal.<PlayerStartingThings>c__Iterator11D();
-			<PlayerStartingThings>c__Iterator11D.<>f__this = this;
-			ScenPart_StartingAnimal.<PlayerStartingThings>c__Iterator11D expr_0E = <PlayerStartingThings>c__Iterator11D;
+			ScenPart_StartingAnimal.<PlayerStartingThings>c__Iterator11E <PlayerStartingThings>c__Iterator11E = new ScenPart_StartingAnimal.<PlayerStartingThings>c__Iterator11E();
+			<PlayerStartingThings>c__Iterator11E.<>f__this = this;
+			ScenPart_StartingAnimal.<PlayerStartingThings>c__Iterator11E expr_0E = <PlayerStartingThings>c__Iterator11E;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

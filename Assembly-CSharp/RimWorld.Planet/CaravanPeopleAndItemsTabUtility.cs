@@ -60,7 +60,7 @@ namespace RimWorld.Planet
 			Rect rect = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
 			Rect viewRect = new Rect(0f, 0f, rect.width - 16f, scrollViewHeight);
 			bool listingUsesAbandonSpecificCountButtons = CaravanPeopleAndItemsTabUtility.AnyItemOrEmpty(things);
-			Widgets.BeginScrollView(rect, ref scrollPosition, viewRect);
+			Widgets.BeginScrollView(rect, ref scrollPosition, viewRect, true);
 			float num = 0f;
 			bool flag = false;
 			for (int i = 0; i < things.Count; i++)

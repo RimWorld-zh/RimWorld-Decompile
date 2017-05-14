@@ -540,7 +540,6 @@ namespace RimWorld
 						}
 						if (apparel != null && innerPawn.apparel != null && innerPawn.apparel.WornApparel.Contains(apparel))
 						{
-							apparel.Notify_Stripped(innerPawn);
 							innerPawn.apparel.Remove(apparel);
 						}
 						if (thingWithComps != null && innerPawn.equipment != null && innerPawn.equipment.AllEquipmentListForReading.Contains(thingWithComps))

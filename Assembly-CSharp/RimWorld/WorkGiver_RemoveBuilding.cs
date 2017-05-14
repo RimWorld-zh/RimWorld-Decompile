@@ -40,7 +40,7 @@ namespace RimWorld
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			if (t.def.CanHaveFaction)
+			if (t.def.Claimable)
 			{
 				if (t.Faction != pawn.Faction)
 				{

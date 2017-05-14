@@ -50,7 +50,7 @@ namespace Verse
 			Rect outRect = inRect.AtZero();
 			outRect.yMin += 16f;
 			Rect rect2 = new Rect(0f, 0f, outRect.width - 16f, this.viewHeight);
-			Widgets.BeginScrollView(outRect, ref this.scrollPosition, rect2);
+			Widgets.BeginScrollView(outRect, ref this.scrollPosition, rect2, true);
 			Listing_TreeDefs listing_TreeDefs = new Listing_TreeDefs(this.labelColumnWidth);
 			listing_TreeDefs.Begin(rect2);
 			TreeNode_Editor node = EditTreeNodeDatabase.RootOf(this.def);

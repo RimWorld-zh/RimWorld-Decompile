@@ -392,7 +392,8 @@ namespace RimWorld
 			{
 				return false;
 			}
-			float value = this.GoodwillWith(other) + goodwillChange;
+			float num = this.GoodwillWith(other);
+			float value = num + goodwillChange;
 			FactionRelation factionRelation = this.RelationWith(other, false);
 			factionRelation.goodwill = Mathf.Clamp(value, -100f, 100f);
 			if (!this.HostileTo(other) && this.GoodwillWith(other) < -80f)
@@ -417,7 +418,7 @@ namespace RimWorld
 					}), LetterDefOf.BadNonUrgent, null);
 				}
 			}
-			return true;
+			return this.def.appreciative && (goodwillChange > 0f || factionRelation.goodwill != num);
 		}
 
 		public void SetHostileTo(Faction other, bool hostile)
@@ -560,7 +561,7 @@ namespace RimWorld
 						Messages.Message("MessageFactionPawnCrushed".Translate(new object[]
 						{
 							this.Name,
-							num
+							Mathf.RoundToInt(num)
 						}), member, MessageSound.SeriousAlert);
 					}
 				}
@@ -573,7 +574,7 @@ namespace RimWorld
 						{
 							this.Name,
 							member.NameStringShort,
-							num2
+							Mathf.RoundToInt(num2)
 						}), member, MessageSound.SeriousAlert);
 					}
 				}

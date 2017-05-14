@@ -17,6 +17,11 @@ namespace Verse
 
 		public int clusterSize = 1;
 
+		public float terrainValidationRadius;
+
+		[NoTranslate]
+		private List<string> terrainValidationDisallowed;
+
 		[Unsaved]
 		private IntVec3 clusterCenter;
 
@@ -152,8 +157,34 @@ namespace Verse
 
 		protected override bool CanScatterAt(IntVec3 loc, Map map)
 		{
+			if (!base.CanScatterAt(loc, map))
+			{
+				return false;
+			}
 			Rot4 rot;
-			return base.CanScatterAt(loc, map) && this.TryGetRandomValidRotation(loc, map, out rot);
+			if (!this.TryGetRandomValidRotation(loc, map, out rot))
+			{
+				return false;
+			}
+			if (this.terrainValidationRadius > 0f)
+			{
+				foreach (IntVec3 current in GenRadial.RadialCellsAround(loc, this.terrainValidationRadius, true))
+				{
+					if (current.InBounds(map))
+					{
+						TerrainDef terrain = current.GetTerrain(map);
+						for (int i = 0; i < this.terrainValidationDisallowed.Count; i++)
+						{
+							if (terrain.HasTag(this.terrainValidationDisallowed[i]))
+							{
+								return false;
+							}
+						}
+					}
+				}
+				return true;
+			}
+			return true;
 		}
 
 		private bool TryGetRandomValidRotation(IntVec3 loc, Map map, out Rot4 rot)

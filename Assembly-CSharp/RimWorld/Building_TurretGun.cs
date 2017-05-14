@@ -69,7 +69,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.MannedByColonist;
+				return (base.Faction == Faction.OfPlayer || this.MannedByColonist) && !this.MannedByNonColonist;
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.Faction == Faction.OfPlayer || this.MannedByColonist;
+				return (base.Faction == Faction.OfPlayer || this.MannedByColonist) && !this.MannedByNonColonist;
 			}
 		}
 
@@ -105,6 +105,14 @@ namespace RimWorld
 			get
 			{
 				return this.mannableComp != null && this.mannableComp.ManningPawn != null && this.mannableComp.ManningPawn.Faction == Faction.OfPlayer;
+			}
+		}
+
+		private bool MannedByNonColonist
+		{
+			get
+			{
+				return this.mannableComp != null && this.mannableComp.ManningPawn != null && this.mannableComp.ManningPawn.Faction != Faction.OfPlayer;
 			}
 		}
 
@@ -412,9 +420,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_TurretGun.<GetGizmos>c__Iterator147 <GetGizmos>c__Iterator = new Building_TurretGun.<GetGizmos>c__Iterator147();
+			Building_TurretGun.<GetGizmos>c__Iterator148 <GetGizmos>c__Iterator = new Building_TurretGun.<GetGizmos>c__Iterator148();
 			<GetGizmos>c__Iterator.<>f__this = this;
-			Building_TurretGun.<GetGizmos>c__Iterator147 expr_0E = <GetGizmos>c__Iterator;
+			Building_TurretGun.<GetGizmos>c__Iterator148 expr_0E = <GetGizmos>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

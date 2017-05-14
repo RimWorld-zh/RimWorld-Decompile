@@ -91,7 +91,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.def.freezeWhileSleeping && !this.pawn.Awake()) || !this.IsPawnInteractableOrVisible;
+				return ThingOwnerUtility.ContentsFrozen(this.pawn.ParentHolder) || (this.def.freezeWhileSleeping && !this.pawn.Awake()) || !this.IsPawnInteractableOrVisible;
 			}
 		}
 
@@ -99,7 +99,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.pawn.Spawned || this.pawn.SpawnedOrAnyParentSpawned || this.pawn.IsCaravanMember() || PawnUtility.IsTravelingInTransportPodWorldObject(this.pawn);
+				return this.pawn.SpawnedOrAnyParentSpawned || this.pawn.IsCaravanMember() || PawnUtility.IsTravelingInTransportPodWorldObject(this.pawn);
 			}
 		}
 

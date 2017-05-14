@@ -113,7 +113,7 @@ namespace Verse
 			Rect outRect = new Rect(0f, 0f, rect.width, rect.height - this.optTotalHeight);
 			float width = rect.width - 16f;
 			Rect rect2 = new Rect(0f, 0f, width, Text.CalcHeight(this.curNode.text, width));
-			Widgets.BeginScrollView(outRect, ref this.scrollPosition, rect2);
+			Widgets.BeginScrollView(outRect, ref this.scrollPosition, rect2, true);
 			Widgets.Label(rect2, this.curNode.text);
 			Widgets.EndScrollView();
 			float num = rect.height - this.optTotalHeight;

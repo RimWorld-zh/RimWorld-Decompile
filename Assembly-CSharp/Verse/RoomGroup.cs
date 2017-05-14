@@ -77,9 +77,9 @@ namespace Verse
 		{
 			get
 			{
-				RoomGroup.<>c__Iterator205 <>c__Iterator = new RoomGroup.<>c__Iterator205();
+				RoomGroup.<>c__Iterator207 <>c__Iterator = new RoomGroup.<>c__Iterator207();
 				<>c__Iterator.<>f__this = this;
-				RoomGroup.<>c__Iterator205 expr_0E = <>c__Iterator;
+				RoomGroup.<>c__Iterator207 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -105,9 +105,9 @@ namespace Verse
 		{
 			get
 			{
-				RoomGroup.<>c__Iterator206 <>c__Iterator = new RoomGroup.<>c__Iterator206();
+				RoomGroup.<>c__Iterator208 <>c__Iterator = new RoomGroup.<>c__Iterator208();
 				<>c__Iterator.<>f__this = this;
-				RoomGroup.<>c__Iterator206 expr_0E = <>c__Iterator;
+				RoomGroup.<>c__Iterator208 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

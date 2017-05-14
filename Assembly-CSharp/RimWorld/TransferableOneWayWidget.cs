@@ -220,7 +220,7 @@ namespace RimWorld
 				float num2 = 6f;
 				float availableMass = (this.availableMassGetter == null) ? 3.40282347E+38f : this.availableMassGetter();
 				Rect viewRect = new Rect(0f, 0f, mainRect.width - 16f, num);
-				Widgets.BeginScrollView(mainRect, ref this.scrollPosition, viewRect);
+				Widgets.BeginScrollView(mainRect, ref this.scrollPosition, viewRect, true);
 				float num3 = this.scrollPosition.y - 30f;
 				float num4 = this.scrollPosition.y + mainRect.height;
 				for (int j = 0; j < this.sections.Count; j++)

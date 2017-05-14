@@ -50,10 +50,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<Thing> MultiSelectableThingsInScreenRectDistinct(Rect rect)
 		{
-			ThingSelectionUtility.<MultiSelectableThingsInScreenRectDistinct>c__Iterator19C <MultiSelectableThingsInScreenRectDistinct>c__Iterator19C = new ThingSelectionUtility.<MultiSelectableThingsInScreenRectDistinct>c__Iterator19C();
-			<MultiSelectableThingsInScreenRectDistinct>c__Iterator19C.rect = rect;
-			<MultiSelectableThingsInScreenRectDistinct>c__Iterator19C.<$>rect = rect;
-			ThingSelectionUtility.<MultiSelectableThingsInScreenRectDistinct>c__Iterator19C expr_15 = <MultiSelectableThingsInScreenRectDistinct>c__Iterator19C;
+			ThingSelectionUtility.<MultiSelectableThingsInScreenRectDistinct>c__Iterator19E <MultiSelectableThingsInScreenRectDistinct>c__Iterator19E = new ThingSelectionUtility.<MultiSelectableThingsInScreenRectDistinct>c__Iterator19E();
+			<MultiSelectableThingsInScreenRectDistinct>c__Iterator19E.rect = rect;
+			<MultiSelectableThingsInScreenRectDistinct>c__Iterator19E.<$>rect = rect;
+			ThingSelectionUtility.<MultiSelectableThingsInScreenRectDistinct>c__Iterator19E expr_15 = <MultiSelectableThingsInScreenRectDistinct>c__Iterator19E;
 			expr_15.$PC = -2;
 			return expr_15;
 		}
@@ -61,10 +61,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<Zone> MultiSelectableZonesInScreenRectDistinct(Rect rect)
 		{
-			ThingSelectionUtility.<MultiSelectableZonesInScreenRectDistinct>c__Iterator19D <MultiSelectableZonesInScreenRectDistinct>c__Iterator19D = new ThingSelectionUtility.<MultiSelectableZonesInScreenRectDistinct>c__Iterator19D();
-			<MultiSelectableZonesInScreenRectDistinct>c__Iterator19D.rect = rect;
-			<MultiSelectableZonesInScreenRectDistinct>c__Iterator19D.<$>rect = rect;
-			ThingSelectionUtility.<MultiSelectableZonesInScreenRectDistinct>c__Iterator19D expr_15 = <MultiSelectableZonesInScreenRectDistinct>c__Iterator19D;
+			ThingSelectionUtility.<MultiSelectableZonesInScreenRectDistinct>c__Iterator19F <MultiSelectableZonesInScreenRectDistinct>c__Iterator19F = new ThingSelectionUtility.<MultiSelectableZonesInScreenRectDistinct>c__Iterator19F();
+			<MultiSelectableZonesInScreenRectDistinct>c__Iterator19F.rect = rect;
+			<MultiSelectableZonesInScreenRectDistinct>c__Iterator19F.<$>rect = rect;
+			ThingSelectionUtility.<MultiSelectableZonesInScreenRectDistinct>c__Iterator19F expr_15 = <MultiSelectableZonesInScreenRectDistinct>c__Iterator19F;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

@@ -9,10 +9,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<string> GraphicNamesInFolder(string folderPath)
 		{
-			GraphicDatabaseUtility.<GraphicNamesInFolder>c__Iterator229 <GraphicNamesInFolder>c__Iterator = new GraphicDatabaseUtility.<GraphicNamesInFolder>c__Iterator229();
-			<GraphicNamesInFolder>c__Iterator.folderPath = folderPath;
-			<GraphicNamesInFolder>c__Iterator.<$>folderPath = folderPath;
-			GraphicDatabaseUtility.<GraphicNamesInFolder>c__Iterator229 expr_15 = <GraphicNamesInFolder>c__Iterator;
+			GraphicDatabaseUtility.<GraphicNamesInFolder>c__Iterator22B <GraphicNamesInFolder>c__Iterator22B = new GraphicDatabaseUtility.<GraphicNamesInFolder>c__Iterator22B();
+			<GraphicNamesInFolder>c__Iterator22B.folderPath = folderPath;
+			<GraphicNamesInFolder>c__Iterator22B.<$>folderPath = folderPath;
+			GraphicDatabaseUtility.<GraphicNamesInFolder>c__Iterator22B expr_15 = <GraphicNamesInFolder>c__Iterator22B;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

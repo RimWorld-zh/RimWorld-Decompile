@@ -224,23 +224,33 @@ namespace Verse.AI
 
 		public bool IsReserved(LocalTargetInfo target, Faction faction)
 		{
-			return this.FirstReserverOf(target, faction, true) != null;
+			int count = this.reservations.Count;
+			for (int i = 0; i < count; i++)
+			{
+				Reservation reservation = this.reservations[i];
+				if (reservation.Target == target && reservation.Claimant.Faction == faction)
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
-		public Pawn FirstReserverOf(LocalTargetInfo target, Faction faction, bool includePhysicalInteractions = true)
+		public bool IsReservedByAnyoneWhoseReservationsRespects(LocalTargetInfo target, Pawn claimant)
+		{
+			return this.FirstReserverWhoseReservationsRespects(target, claimant) != null;
+		}
+
+		public Pawn FirstReserverWhoseReservationsRespects(LocalTargetInfo target, Pawn claimant)
 		{
 			int count = this.reservations.Count;
 			for (int i = 0; i < count; i++)
 			{
 				Reservation reservation = this.reservations[i];
-				if (reservation.Target == target && reservation.Faction == faction)
+				if (reservation.Target == target && ReservationManager.RespectsReservationsOf(claimant, reservation.Claimant))
 				{
 					return reservation.Claimant;
 				}
-			}
-			if (includePhysicalInteractions)
-			{
-				return this.map.physicalInteractionReservationManager.FirstReserverOf(target);
 			}
 			return null;
 		}
@@ -267,6 +277,10 @@ namespace Verse.AI
 
 		private static bool RespectsReservationsOf(Pawn newClaimant, Pawn oldClaimant)
 		{
+			if (newClaimant == oldClaimant)
+			{
+				return true;
+			}
 			if (newClaimant.Faction == null || oldClaimant.Faction == null)
 			{
 				return false;
@@ -356,7 +370,7 @@ namespace Verse.AI
 					num = claimant.jobs.curDriver.CurToilIndex;
 				}
 			}
-			Pawn pawn = this.FirstReserverOf(target, claimant.Faction, true);
+			Pawn pawn = this.FirstReserverWhoseReservationsRespects(target, claimant);
 			string text2 = "null";
 			int num2 = -1;
 			if (pawn != null)

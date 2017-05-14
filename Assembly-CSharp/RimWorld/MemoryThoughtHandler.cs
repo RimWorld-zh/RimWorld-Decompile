@@ -30,7 +30,7 @@ namespace RimWorld
 			Scribe_Collections.Look<Thought_Memory>(ref this.memories, "memories", LookMode.Deep, new object[0]);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				for (int i = this.memories.Count - 1; i > 0; i--)
+				for (int i = this.memories.Count - 1; i >= 0; i--)
 				{
 					if (this.memories[i].def == null)
 					{

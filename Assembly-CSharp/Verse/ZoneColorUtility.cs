@@ -60,8 +60,8 @@ namespace Verse
 		[DebuggerHidden]
 		private static IEnumerable<Color> GrowingZoneColors()
 		{
-			ZoneColorUtility.<GrowingZoneColors>c__Iterator208 <GrowingZoneColors>c__Iterator = new ZoneColorUtility.<GrowingZoneColors>c__Iterator208();
-			ZoneColorUtility.<GrowingZoneColors>c__Iterator208 expr_07 = <GrowingZoneColors>c__Iterator;
+			ZoneColorUtility.<GrowingZoneColors>c__Iterator20A <GrowingZoneColors>c__Iterator20A = new ZoneColorUtility.<GrowingZoneColors>c__Iterator20A();
+			ZoneColorUtility.<GrowingZoneColors>c__Iterator20A expr_07 = <GrowingZoneColors>c__Iterator20A;
 			expr_07.$PC = -2;
 			return expr_07;
 		}
@@ -69,8 +69,8 @@ namespace Verse
 		[DebuggerHidden]
 		private static IEnumerable<Color> StorageZoneColors()
 		{
-			ZoneColorUtility.<StorageZoneColors>c__Iterator209 <StorageZoneColors>c__Iterator = new ZoneColorUtility.<StorageZoneColors>c__Iterator209();
-			ZoneColorUtility.<StorageZoneColors>c__Iterator209 expr_07 = <StorageZoneColors>c__Iterator;
+			ZoneColorUtility.<StorageZoneColors>c__Iterator20B <StorageZoneColors>c__Iterator20B = new ZoneColorUtility.<StorageZoneColors>c__Iterator20B();
+			ZoneColorUtility.<StorageZoneColors>c__Iterator20B expr_07 = <StorageZoneColors>c__Iterator20B;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

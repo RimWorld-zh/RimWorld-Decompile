@@ -11,6 +11,14 @@ namespace RimWorld
 
 		private static Texture2D SolidCategoryBG = SolidColorMaterials.NewSolidColorTexture(new Color(0.1f, 0.1f, 0.1f, 0.6f));
 
+		protected override float LabelWidth
+		{
+			get
+			{
+				return base.ColumnWidth;
+			}
+		}
+
 		public Listing_ResourceReadout(Map map)
 		{
 			this.map = map;

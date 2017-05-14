@@ -65,7 +65,7 @@ namespace RimWorld
 
 		public override void DesignateThing(Thing t)
 		{
-			if (t.def.CanHaveFaction && t.Faction != Faction.OfPlayer)
+			if (t.def.Claimable && t.Faction != Faction.OfPlayer)
 			{
 				t.SetFaction(Faction.OfPlayer, null);
 			}

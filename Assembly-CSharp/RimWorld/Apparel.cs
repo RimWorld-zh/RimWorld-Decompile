@@ -26,9 +26,9 @@ namespace RimWorld
 			}
 		}
 
-		public void Notify_Stripped(Pawn pawn)
+		public void Notify_PawnKilled()
 		{
-			if (pawn.Dead && this.def.apparel.careIfWornByCorpse)
+			if (this.def.apparel.careIfWornByCorpse)
 			{
 				this.wornByCorpseInt = true;
 			}
@@ -57,8 +57,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		public virtual IEnumerable<Gizmo> GetWornGizmos()
 		{
-			Apparel.<GetWornGizmos>c__Iterator15E <GetWornGizmos>c__Iterator15E = new Apparel.<GetWornGizmos>c__Iterator15E();
-			Apparel.<GetWornGizmos>c__Iterator15E expr_07 = <GetWornGizmos>c__Iterator15E;
+			Apparel.<GetWornGizmos>c__Iterator15F <GetWornGizmos>c__Iterator15F = new Apparel.<GetWornGizmos>c__Iterator15F();
+			Apparel.<GetWornGizmos>c__Iterator15F expr_07 = <GetWornGizmos>c__Iterator15F;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

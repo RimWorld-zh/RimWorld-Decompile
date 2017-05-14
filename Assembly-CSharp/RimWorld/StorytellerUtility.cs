@@ -14,7 +14,7 @@ namespace RimWorld
 
 		private const float PointsPer1000Wealth = 10f;
 
-		private const float PointsPerColonist = 37f;
+		private const float PointsPerColonist = 42f;
 
 		private const float MinMaxSquadCost = 50f;
 
@@ -47,14 +47,14 @@ namespace RimWorld
 				float num3 = 0f;
 				if (map != null)
 				{
-					num3 = (float)map.mapPawns.FreeColonistsCount * 37f;
+					num3 = (float)map.mapPawns.FreeColonistsCount * 42f;
 				}
 				else
 				{
 					Caravan caravan = target as Caravan;
 					if (caravan != null)
 					{
-						num3 = (float)caravan.PawnsListForReading.Count((Pawn x) => x.IsColonist && x.HostFaction == null) * 37f;
+						num3 = (float)caravan.PawnsListForReading.Count((Pawn x) => x.IsColonist && x.HostFaction == null) * 42f;
 					}
 				}
 				incidentParms.points = num2 + num3;

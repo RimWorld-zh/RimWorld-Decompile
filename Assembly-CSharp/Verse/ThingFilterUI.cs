@@ -37,7 +37,7 @@ namespace Verse
 			Text.Font = GameFont.Small;
 			rect.yMin = rect2.yMax;
 			Rect viewRect = new Rect(0f, 0f, rect.width - 16f, ThingFilterUI.viewHeight);
-			Widgets.BeginScrollView(rect, ref scrollPosition, viewRect);
+			Widgets.BeginScrollView(rect, ref scrollPosition, viewRect, true);
 			float num2 = 2f;
 			ThingFilterUI.DrawHitPointsFilterConfig(ref num2, viewRect.width, filter);
 			ThingFilterUI.DrawQualityFilterConfig(ref num2, viewRect.width, filter);

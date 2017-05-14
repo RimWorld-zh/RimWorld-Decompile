@@ -224,10 +224,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<string> LinesFromString(string text)
 		{
-			GenText.<LinesFromString>c__Iterator24E <LinesFromString>c__Iterator24E = new GenText.<LinesFromString>c__Iterator24E();
-			<LinesFromString>c__Iterator24E.text = text;
-			<LinesFromString>c__Iterator24E.<$>text = text;
-			GenText.<LinesFromString>c__Iterator24E expr_15 = <LinesFromString>c__Iterator24E;
+			GenText.<LinesFromString>c__Iterator250 <LinesFromString>c__Iterator = new GenText.<LinesFromString>c__Iterator250();
+			<LinesFromString>c__Iterator.text = text;
+			<LinesFromString>c__Iterator.<$>text = text;
+			GenText.<LinesFromString>c__Iterator250 expr_15 = <LinesFromString>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

@@ -254,13 +254,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		private IEnumerable<WorldObject> SelectableObjectsUnderMouse()
+		public IEnumerable<WorldObject> SelectableObjectsUnderMouse()
 		{
 			bool flag;
 			return this.SelectableObjectsUnderMouse(out flag, out flag);
 		}
 
-		private IEnumerable<WorldObject> SelectableObjectsUnderMouse(out bool clickedDirectlyOnCaravan, out bool usedColonistBar)
+		public IEnumerable<WorldObject> SelectableObjectsUnderMouse(out bool clickedDirectlyOnCaravan, out bool usedColonistBar)
 		{
 			Vector2 mousePositionOnUIInverted = UI.MousePositionOnUIInverted;
 			if (Current.ProgramState == ProgramState.Playing)
@@ -294,10 +294,10 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public static IEnumerable<WorldObject> SelectableObjectsAt(int tileID)
 		{
-			WorldSelector.<SelectableObjectsAt>c__Iterator1A2 <SelectableObjectsAt>c__Iterator1A = new WorldSelector.<SelectableObjectsAt>c__Iterator1A2();
+			WorldSelector.<SelectableObjectsAt>c__Iterator1A4 <SelectableObjectsAt>c__Iterator1A = new WorldSelector.<SelectableObjectsAt>c__Iterator1A4();
 			<SelectableObjectsAt>c__Iterator1A.tileID = tileID;
 			<SelectableObjectsAt>c__Iterator1A.<$>tileID = tileID;
-			WorldSelector.<SelectableObjectsAt>c__Iterator1A2 expr_15 = <SelectableObjectsAt>c__Iterator1A;
+			WorldSelector.<SelectableObjectsAt>c__Iterator1A4 expr_15 = <SelectableObjectsAt>c__Iterator1A;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

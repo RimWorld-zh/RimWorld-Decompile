@@ -24,7 +24,7 @@ namespace RimWorld
 				MoteMaker.MakeStaticMote(this.ExactPosition, map, ThingDefOf.Mote_ShotHit_Dirt, 1f);
 				if (base.Position.GetTerrain(map).takeSplashes)
 				{
-					MoteMaker.MakeWaterSplash(this.ExactPosition, map, Mathf.Sqrt((float)this.def.projectile.damageAmountBase) / 4f, 4f);
+					MoteMaker.MakeWaterSplash(this.ExactPosition, map, Mathf.Sqrt((float)this.def.projectile.damageAmountBase) * 1f, 4f);
 				}
 			}
 		}

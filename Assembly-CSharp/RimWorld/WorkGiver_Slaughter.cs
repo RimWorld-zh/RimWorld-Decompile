@@ -39,6 +39,10 @@ namespace RimWorld
 			{
 				return false;
 			}
+			if (pawn.Faction != t.Faction)
+			{
+				return false;
+			}
 			if (pawn2.InAggroMentalState)
 			{
 				return false;

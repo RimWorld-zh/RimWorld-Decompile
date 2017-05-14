@@ -59,9 +59,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Blueprint_Build.<GetGizmos>c__Iterator142 <GetGizmos>c__Iterator = new Blueprint_Build.<GetGizmos>c__Iterator142();
+			Blueprint_Build.<GetGizmos>c__Iterator143 <GetGizmos>c__Iterator = new Blueprint_Build.<GetGizmos>c__Iterator143();
 			<GetGizmos>c__Iterator.<>f__this = this;
-			Blueprint_Build.<GetGizmos>c__Iterator142 expr_0E = <GetGizmos>c__Iterator;
+			Blueprint_Build.<GetGizmos>c__Iterator143 expr_0E = <GetGizmos>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

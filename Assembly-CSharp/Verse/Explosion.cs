@@ -71,7 +71,7 @@ namespace Verse
 			}
 			this.damType.Worker.ExplosionStart(this, this.cellsToAffect);
 			this.PlayExplosionSound(explosionSound);
-			MoteMaker.MakeWaterSplash(this.position.ToVector3Shifted(), this.Map, this.radius * 4f, 20f);
+			MoteMaker.MakeWaterSplash(this.position.ToVector3Shifted(), this.Map, this.radius * 6f, 20f);
 			this.cellsToAffect.Sort((IntVec3 a, IntVec3 b) => this.GetCellAffectTick(b).CompareTo(this.GetCellAffectTick(a)));
 		}
 

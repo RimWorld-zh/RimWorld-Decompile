@@ -153,6 +153,10 @@ namespace Verse
 				Log.Error("Verb " + this.GetUniqueLoadID() + " needs caster to work (possibly lost during saving/loading).");
 				return false;
 			}
+			if (!this.caster.Spawned)
+			{
+				return false;
+			}
 			if (this.state == VerbState.Bursting || !this.CanHitTarget(castTarg))
 			{
 				return false;
@@ -194,10 +198,17 @@ namespace Verse
 		{
 			if (this.state == VerbState.Bursting)
 			{
-				this.ticksToNextBurstShot--;
-				if (this.ticksToNextBurstShot <= 0)
+				if (!this.caster.Spawned)
 				{
-					this.TryCastNextBurstShot();
+					this.Reset();
+				}
+				else
+				{
+					this.ticksToNextBurstShot--;
+					if (this.ticksToNextBurstShot <= 0)
+					{
+						this.TryCastNextBurstShot();
+					}
 				}
 			}
 		}
@@ -265,6 +276,11 @@ namespace Verse
 		protected abstract bool TryCastShot();
 
 		public void Notify_PickedUp()
+		{
+			this.Reset();
+		}
+
+		public virtual void Reset()
 		{
 			this.state = VerbState.Idle;
 			this.currentTarget = null;

@@ -71,9 +71,9 @@ namespace Verse
 		{
 			get
 			{
-				Pawn_EquipmentTracker.<>c__Iterator21A <>c__Iterator21A = new Pawn_EquipmentTracker.<>c__Iterator21A();
-				<>c__Iterator21A.<>f__this = this;
-				Pawn_EquipmentTracker.<>c__Iterator21A expr_0E = <>c__Iterator21A;
+				Pawn_EquipmentTracker.<>c__Iterator21C <>c__Iterator21C = new Pawn_EquipmentTracker.<>c__Iterator21C();
+				<>c__Iterator21C.<>f__this = this;
+				Pawn_EquipmentTracker.<>c__Iterator21C expr_0E = <>c__Iterator21C;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -241,19 +241,14 @@ namespace Verse
 				return;
 			}
 			this.equipment.TryAdd(newEq, true);
-			foreach (Verb current in newEq.GetComp<CompEquippable>().AllVerbs)
-			{
-				current.caster = this.pawn;
-				current.Notify_PickedUp();
-			}
 		}
 
 		[DebuggerHidden]
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			Pawn_EquipmentTracker.<GetGizmos>c__Iterator21B <GetGizmos>c__Iterator21B = new Pawn_EquipmentTracker.<GetGizmos>c__Iterator21B();
-			<GetGizmos>c__Iterator21B.<>f__this = this;
-			Pawn_EquipmentTracker.<GetGizmos>c__Iterator21B expr_0E = <GetGizmos>c__Iterator21B;
+			Pawn_EquipmentTracker.<GetGizmos>c__Iterator21D <GetGizmos>c__Iterator21D = new Pawn_EquipmentTracker.<GetGizmos>c__Iterator21D();
+			<GetGizmos>c__Iterator21D.<>f__this = this;
+			Pawn_EquipmentTracker.<GetGizmos>c__Iterator21D expr_0E = <GetGizmos>c__Iterator21D;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -341,6 +336,15 @@ namespace Verse
 				}
 			};
 			return command_Target;
+		}
+
+		public void Notify_EquipmentAdded(ThingWithComps eq)
+		{
+			foreach (Verb current in eq.GetComp<CompEquippable>().AllVerbs)
+			{
+				current.caster = this.pawn;
+				current.Notify_PickedUp();
+			}
 		}
 
 		public void Notify_EquipmentRemoved(ThingWithComps eq)

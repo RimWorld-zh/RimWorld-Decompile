@@ -17,9 +17,9 @@ namespace RimWorld
 
 		public const float ThreshVeryTired = 0.14f;
 
-		public const float FallAsleepMaxLevel = 0.75f;
+		public const float DefaultFallAsleepMaxLevel = 0.75f;
 
-		public const float NaturalWakeThreshold = 1f;
+		public const float DefaultNaturalWakeThreshold = 1f;
 
 		public const float CanWakeThreshold = 0.2f;
 

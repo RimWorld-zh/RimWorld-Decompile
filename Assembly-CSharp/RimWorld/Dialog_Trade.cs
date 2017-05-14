@@ -331,7 +331,7 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 			float height = 6f + (float)this.cachedTradeables.Count * 30f;
 			Rect viewRect = new Rect(0f, 0f, mainRect.width - 16f, height);
-			Widgets.BeginScrollView(mainRect, ref this.scrollPosition, viewRect);
+			Widgets.BeginScrollView(mainRect, ref this.scrollPosition, viewRect, true);
 			float num = 6f;
 			float num2 = this.scrollPosition.y - 30f;
 			float num3 = this.scrollPosition.y + mainRect.height;

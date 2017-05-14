@@ -47,9 +47,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Rule> GetRules()
 		{
-			TaleData_Surroundings.<GetRules>c__Iterator12C <GetRules>c__Iterator12C = new TaleData_Surroundings.<GetRules>c__Iterator12C();
-			<GetRules>c__Iterator12C.<>f__this = this;
-			TaleData_Surroundings.<GetRules>c__Iterator12C expr_0E = <GetRules>c__Iterator12C;
+			TaleData_Surroundings.<GetRules>c__Iterator12D <GetRules>c__Iterator12D = new TaleData_Surroundings.<GetRules>c__Iterator12D();
+			<GetRules>c__Iterator12D.<>f__this = this;
+			TaleData_Surroundings.<GetRules>c__Iterator12D expr_0E = <GetRules>c__Iterator12D;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

@@ -238,6 +238,10 @@ namespace Verse.AI
 			{
 				return false;
 			}
+			if (c.ContainsStaticFire(worker.Map))
+			{
+				return false;
+			}
 			if (haulable != null && haulable.def.BlockPlanting)
 			{
 				Zone zone = worker.Map.zoneManager.ZoneAt(c);

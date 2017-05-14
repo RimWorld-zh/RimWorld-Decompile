@@ -256,9 +256,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Hive.<GetGizmos>c__Iterator15F <GetGizmos>c__Iterator15F = new Hive.<GetGizmos>c__Iterator15F();
-			<GetGizmos>c__Iterator15F.<>f__this = this;
-			Hive.<GetGizmos>c__Iterator15F expr_0E = <GetGizmos>c__Iterator15F;
+			Hive.<GetGizmos>c__Iterator160 <GetGizmos>c__Iterator = new Hive.<GetGizmos>c__Iterator160();
+			<GetGizmos>c__Iterator.<>f__this = this;
+			Hive.<GetGizmos>c__Iterator160 expr_0E = <GetGizmos>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

@@ -301,7 +301,7 @@ namespace Verse
 			if (usingScrollbar)
 			{
 				rect.width -= 10f;
-				Widgets.BeginScrollView(rect, ref this.scrollPosition, new Rect(0f, 0f, this.TotalWidth - 16f, this.TotalViewHeight));
+				Widgets.BeginScrollView(rect, ref this.scrollPosition, new Rect(0f, 0f, this.TotalWidth - 16f, this.TotalViewHeight), true);
 			}
 			foreach (FloatMenuOption current in from op in this.options
 			orderby op.Priority descending

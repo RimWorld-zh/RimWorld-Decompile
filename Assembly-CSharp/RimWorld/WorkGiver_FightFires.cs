@@ -81,7 +81,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			Pawn pawn = f.Map.reservationManager.FirstReserverOf(f, potentialHandler.Faction, true);
+			Pawn pawn = f.Map.reservationManager.FirstReserverWhoseReservationsRespects(f, potentialHandler);
 			return pawn != null && pawn.Position.InHorDistOf(f.Position, 5f);
 		}
 	}

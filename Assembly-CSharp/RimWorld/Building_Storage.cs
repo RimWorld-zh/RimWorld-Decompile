@@ -50,9 +50,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public virtual IEnumerable<IntVec3> AllSlotCells()
 		{
-			Building_Storage.<AllSlotCells>c__Iterator149 <AllSlotCells>c__Iterator = new Building_Storage.<AllSlotCells>c__Iterator149();
-			<AllSlotCells>c__Iterator.<>f__this = this;
-			Building_Storage.<AllSlotCells>c__Iterator149 expr_0E = <AllSlotCells>c__Iterator;
+			Building_Storage.<AllSlotCells>c__Iterator14A <AllSlotCells>c__Iterator14A = new Building_Storage.<AllSlotCells>c__Iterator14A();
+			<AllSlotCells>c__Iterator14A.<>f__this = this;
+			Building_Storage.<AllSlotCells>c__Iterator14A expr_0E = <AllSlotCells>c__Iterator14A;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -119,9 +119,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_Storage.<GetGizmos>c__Iterator14A <GetGizmos>c__Iterator14A = new Building_Storage.<GetGizmos>c__Iterator14A();
-			<GetGizmos>c__Iterator14A.<>f__this = this;
-			Building_Storage.<GetGizmos>c__Iterator14A expr_0E = <GetGizmos>c__Iterator14A;
+			Building_Storage.<GetGizmos>c__Iterator14B <GetGizmos>c__Iterator14B = new Building_Storage.<GetGizmos>c__Iterator14B();
+			<GetGizmos>c__Iterator14B.<>f__this = this;
+			Building_Storage.<GetGizmos>c__Iterator14B expr_0E = <GetGizmos>c__Iterator14B;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

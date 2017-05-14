@@ -50,8 +50,12 @@ namespace RimWorld
 						return result;
 					}
 					IntVec3 randomCell = CellFinder.RandomRegionNear(loc.GetRegion(pawn.Map, RegionType.Set_Passable), 9, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), null, null, RegionType.Set_Passable).RandomCell;
-					Job job = new Job(JobDefOf.Goto, randomCell);
-					result = job;
+					if (randomCell == pawn.Position)
+					{
+						result = new Job(JobDefOf.Wait, 30, false);
+						return result;
+					}
+					result = new Job(JobDefOf.Goto, randomCell);
 					return result;
 				}
 			}

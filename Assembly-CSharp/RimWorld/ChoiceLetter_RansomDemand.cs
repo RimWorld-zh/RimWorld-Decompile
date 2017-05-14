@@ -18,9 +18,9 @@ namespace RimWorld
 		{
 			get
 			{
-				ChoiceLetter_RansomDemand.<>c__Iterator19B <>c__Iterator19B = new ChoiceLetter_RansomDemand.<>c__Iterator19B();
-				<>c__Iterator19B.<>f__this = this;
-				ChoiceLetter_RansomDemand.<>c__Iterator19B expr_0E = <>c__Iterator19B;
+				ChoiceLetter_RansomDemand.<>c__Iterator19D <>c__Iterator19D = new ChoiceLetter_RansomDemand.<>c__Iterator19D();
+				<>c__Iterator19D.<>f__this = this;
+				ChoiceLetter_RansomDemand.<>c__Iterator19D expr_0E = <>c__Iterator19D;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

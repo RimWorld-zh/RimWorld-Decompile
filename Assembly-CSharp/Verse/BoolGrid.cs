@@ -25,9 +25,9 @@ namespace Verse
 		{
 			get
 			{
-				BoolGrid.<>c__Iterator1F2 <>c__Iterator1F = new BoolGrid.<>c__Iterator1F2();
+				BoolGrid.<>c__Iterator1F4 <>c__Iterator1F = new BoolGrid.<>c__Iterator1F4();
 				<>c__Iterator1F.<>f__this = this;
-				BoolGrid.<>c__Iterator1F2 expr_0E = <>c__Iterator1F;
+				BoolGrid.<>c__Iterator1F4 expr_0E = <>c__Iterator1F;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

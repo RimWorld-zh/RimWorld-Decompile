@@ -142,9 +142,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerable<Rule> GetTextGenerationRules()
 		{
-			Tale.<GetTextGenerationRules>c__Iterator12F <GetTextGenerationRules>c__Iterator12F = new Tale.<GetTextGenerationRules>c__Iterator12F();
-			<GetTextGenerationRules>c__Iterator12F.<>f__this = this;
-			Tale.<GetTextGenerationRules>c__Iterator12F expr_0E = <GetTextGenerationRules>c__Iterator12F;
+			Tale.<GetTextGenerationRules>c__Iterator130 <GetTextGenerationRules>c__Iterator = new Tale.<GetTextGenerationRules>c__Iterator130();
+			<GetTextGenerationRules>c__Iterator.<>f__this = this;
+			Tale.<GetTextGenerationRules>c__Iterator130 expr_0E = <GetTextGenerationRules>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -152,8 +152,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		protected virtual IEnumerable<Rule> SpecialTextGenerationRules()
 		{
-			Tale.<SpecialTextGenerationRules>c__Iterator130 <SpecialTextGenerationRules>c__Iterator = new Tale.<SpecialTextGenerationRules>c__Iterator130();
-			Tale.<SpecialTextGenerationRules>c__Iterator130 expr_07 = <SpecialTextGenerationRules>c__Iterator;
+			Tale.<SpecialTextGenerationRules>c__Iterator131 <SpecialTextGenerationRules>c__Iterator = new Tale.<SpecialTextGenerationRules>c__Iterator131();
+			Tale.<SpecialTextGenerationRules>c__Iterator131 expr_07 = <SpecialTextGenerationRules>c__Iterator;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

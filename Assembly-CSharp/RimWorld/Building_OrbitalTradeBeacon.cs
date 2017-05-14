@@ -23,9 +23,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_OrbitalTradeBeacon.<GetGizmos>c__Iterator159 <GetGizmos>c__Iterator = new Building_OrbitalTradeBeacon.<GetGizmos>c__Iterator159();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			Building_OrbitalTradeBeacon.<GetGizmos>c__Iterator159 expr_0E = <GetGizmos>c__Iterator;
+			Building_OrbitalTradeBeacon.<GetGizmos>c__Iterator15A <GetGizmos>c__Iterator15A = new Building_OrbitalTradeBeacon.<GetGizmos>c__Iterator15A();
+			<GetGizmos>c__Iterator15A.<>f__this = this;
+			Building_OrbitalTradeBeacon.<GetGizmos>c__Iterator15A expr_0E = <GetGizmos>c__Iterator15A;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -60,17 +60,17 @@ namespace RimWorld
 					}
 				}
 				return false;
-			}, 12, RegionType.Set_Passable);
+			}, 13, RegionType.Set_Passable);
 			return Building_OrbitalTradeBeacon.tradeableCells;
 		}
 
 		[DebuggerHidden]
 		public static IEnumerable<Building_OrbitalTradeBeacon> AllPowered(Map map)
 		{
-			Building_OrbitalTradeBeacon.<AllPowered>c__Iterator15A <AllPowered>c__Iterator15A = new Building_OrbitalTradeBeacon.<AllPowered>c__Iterator15A();
-			<AllPowered>c__Iterator15A.map = map;
-			<AllPowered>c__Iterator15A.<$>map = map;
-			Building_OrbitalTradeBeacon.<AllPowered>c__Iterator15A expr_15 = <AllPowered>c__Iterator15A;
+			Building_OrbitalTradeBeacon.<AllPowered>c__Iterator15B <AllPowered>c__Iterator15B = new Building_OrbitalTradeBeacon.<AllPowered>c__Iterator15B();
+			<AllPowered>c__Iterator15B.map = map;
+			<AllPowered>c__Iterator15B.<$>map = map;
+			Building_OrbitalTradeBeacon.<AllPowered>c__Iterator15B expr_15 = <AllPowered>c__Iterator15B;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

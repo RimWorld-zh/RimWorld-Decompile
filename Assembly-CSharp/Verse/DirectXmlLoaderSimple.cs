@@ -10,10 +10,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<KeyValuePair<string, string>> ValuesFromXmlFile(FileInfo file)
 		{
-			DirectXmlLoaderSimple.<ValuesFromXmlFile>c__Iterator224 <ValuesFromXmlFile>c__Iterator = new DirectXmlLoaderSimple.<ValuesFromXmlFile>c__Iterator224();
+			DirectXmlLoaderSimple.<ValuesFromXmlFile>c__Iterator226 <ValuesFromXmlFile>c__Iterator = new DirectXmlLoaderSimple.<ValuesFromXmlFile>c__Iterator226();
 			<ValuesFromXmlFile>c__Iterator.file = file;
 			<ValuesFromXmlFile>c__Iterator.<$>file = file;
-			DirectXmlLoaderSimple.<ValuesFromXmlFile>c__Iterator224 expr_15 = <ValuesFromXmlFile>c__Iterator;
+			DirectXmlLoaderSimple.<ValuesFromXmlFile>c__Iterator226 expr_15 = <ValuesFromXmlFile>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

@@ -104,7 +104,7 @@ namespace RimWorld
 				for (int i = 0; i < 4; i++)
 				{
 					Quadrum quadrum2 = (Quadrum)i;
-					stringBuilder.AppendLine(quadrum2.Label() + " - " + quadrum2.GetSeason(location.y));
+					stringBuilder.AppendLine(quadrum2.Label() + " - " + quadrum2.GetSeason(location.y).LabelCap());
 				}
 				return "DateReadoutTip".Translate(new object[]
 				{

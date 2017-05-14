@@ -345,6 +345,7 @@ namespace Verse.AI
 				return;
 			}
 			this.CleanupCurrentJob(JobCondition.InterruptForced, true, true);
+			this.jobQueue.Clear();
 		}
 
 		private void TryFindAndStartJob()

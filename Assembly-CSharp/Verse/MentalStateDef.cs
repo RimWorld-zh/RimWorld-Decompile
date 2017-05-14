@@ -110,9 +110,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			MentalStateDef.<ConfigErrors>c__Iterator1CF <ConfigErrors>c__Iterator1CF = new MentalStateDef.<ConfigErrors>c__Iterator1CF();
-			<ConfigErrors>c__Iterator1CF.<>f__this = this;
-			MentalStateDef.<ConfigErrors>c__Iterator1CF expr_0E = <ConfigErrors>c__Iterator1CF;
+			MentalStateDef.<ConfigErrors>c__Iterator1D1 <ConfigErrors>c__Iterator1D = new MentalStateDef.<ConfigErrors>c__Iterator1D1();
+			<ConfigErrors>c__Iterator1D.<>f__this = this;
+			MentalStateDef.<ConfigErrors>c__Iterator1D1 expr_0E = <ConfigErrors>c__Iterator1D;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

@@ -229,9 +229,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompLongRangeMineralScanner.<CompGetGizmosExtra>c__Iterator166 <CompGetGizmosExtra>c__Iterator = new CompLongRangeMineralScanner.<CompGetGizmosExtra>c__Iterator166();
+			CompLongRangeMineralScanner.<CompGetGizmosExtra>c__Iterator167 <CompGetGizmosExtra>c__Iterator = new CompLongRangeMineralScanner.<CompGetGizmosExtra>c__Iterator167();
 			<CompGetGizmosExtra>c__Iterator.<>f__this = this;
-			CompLongRangeMineralScanner.<CompGetGizmosExtra>c__Iterator166 expr_0E = <CompGetGizmosExtra>c__Iterator;
+			CompLongRangeMineralScanner.<CompGetGizmosExtra>c__Iterator167 expr_0E = <CompGetGizmosExtra>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

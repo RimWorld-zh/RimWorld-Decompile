@@ -28,11 +28,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn myPawn)
 		{
-			CompUsable.<CompFloatMenuOptions>c__Iterator168 <CompFloatMenuOptions>c__Iterator = new CompUsable.<CompFloatMenuOptions>c__Iterator168();
+			CompUsable.<CompFloatMenuOptions>c__Iterator169 <CompFloatMenuOptions>c__Iterator = new CompUsable.<CompFloatMenuOptions>c__Iterator169();
 			<CompFloatMenuOptions>c__Iterator.myPawn = myPawn;
 			<CompFloatMenuOptions>c__Iterator.<$>myPawn = myPawn;
 			<CompFloatMenuOptions>c__Iterator.<>f__this = this;
-			CompUsable.<CompFloatMenuOptions>c__Iterator168 expr_1C = <CompFloatMenuOptions>c__Iterator;
+			CompUsable.<CompFloatMenuOptions>c__Iterator169 expr_1C = <CompFloatMenuOptions>c__Iterator;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

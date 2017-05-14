@@ -127,9 +127,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompTerrainPump.<CompGetGizmosExtra>c__Iterator16D <CompGetGizmosExtra>c__Iterator16D = new CompTerrainPump.<CompGetGizmosExtra>c__Iterator16D();
-			<CompGetGizmosExtra>c__Iterator16D.<>f__this = this;
-			CompTerrainPump.<CompGetGizmosExtra>c__Iterator16D expr_0E = <CompGetGizmosExtra>c__Iterator16D;
+			CompTerrainPump.<CompGetGizmosExtra>c__Iterator16E <CompGetGizmosExtra>c__Iterator16E = new CompTerrainPump.<CompGetGizmosExtra>c__Iterator16E();
+			<CompGetGizmosExtra>c__Iterator16E.<>f__this = this;
+			CompTerrainPump.<CompGetGizmosExtra>c__Iterator16E expr_0E = <CompGetGizmosExtra>c__Iterator16E;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

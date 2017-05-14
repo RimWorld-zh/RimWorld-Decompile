@@ -129,10 +129,10 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public virtual IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
-			Settlement_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator107 <ColonyThingsWillingToBuy>c__Iterator = new Settlement_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator107();
+			Settlement_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator108 <ColonyThingsWillingToBuy>c__Iterator = new Settlement_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator108();
 			<ColonyThingsWillingToBuy>c__Iterator.playerNegotiator = playerNegotiator;
 			<ColonyThingsWillingToBuy>c__Iterator.<$>playerNegotiator = playerNegotiator;
-			Settlement_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator107 expr_15 = <ColonyThingsWillingToBuy>c__Iterator;
+			Settlement_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator108 expr_15 = <ColonyThingsWillingToBuy>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

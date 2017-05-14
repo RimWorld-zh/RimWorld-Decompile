@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 			Rect outRect = new Rect(0f, 0f, Storyteller.PortraitSizeTiny.x + 16f, rect.height);
 			Rect viewRect = new Rect(0f, 0f, Storyteller.PortraitSizeTiny.x, (float)DefDatabase<StorytellerDef>.AllDefs.Count<StorytellerDef>() * (Storyteller.PortraitSizeTiny.y + 10f));
-			Widgets.BeginScrollView(outRect, ref StorytellerUI.scrollPosition, viewRect);
+			Widgets.BeginScrollView(outRect, ref StorytellerUI.scrollPosition, viewRect, true);
 			Rect rect2 = new Rect(0f, 0f, Storyteller.PortraitSizeTiny.x, Storyteller.PortraitSizeTiny.y);
 			foreach (StorytellerDef current in from tel in DefDatabase<StorytellerDef>.AllDefs
 			orderby tel.listOrder

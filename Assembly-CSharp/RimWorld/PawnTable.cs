@@ -170,7 +170,7 @@ namespace RimWorld
 			}
 			Rect outRect = new Rect((float)((int)position.x), (float)((int)position.y + (int)this.cachedHeaderHeight), (float)((int)this.cachedSize.x), (float)((int)this.cachedSize.y - (int)this.cachedHeaderHeight));
 			Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, (float)((int)this.cachedHeightNoScrollbar - (int)this.cachedHeaderHeight));
-			Widgets.BeginScrollView(outRect, ref this.scrollPosition, viewRect);
+			Widgets.BeginScrollView(outRect, ref this.scrollPosition, viewRect, true);
 			int num4 = 0;
 			for (int j = 0; j < this.cachedPawns.Count; j++)
 			{

@@ -595,14 +595,14 @@ namespace Verse
 		[DebuggerHidden]
 		private static IEnumerable<IntVec3> GetAdjacentCells(IntVec3 x, float radius, Pawn pawn)
 		{
-			CellFinder.<GetAdjacentCells>c__Iterator23A <GetAdjacentCells>c__Iterator23A = new CellFinder.<GetAdjacentCells>c__Iterator23A();
-			<GetAdjacentCells>c__Iterator23A.x = x;
-			<GetAdjacentCells>c__Iterator23A.pawn = pawn;
-			<GetAdjacentCells>c__Iterator23A.radius = radius;
-			<GetAdjacentCells>c__Iterator23A.<$>x = x;
-			<GetAdjacentCells>c__Iterator23A.<$>pawn = pawn;
-			<GetAdjacentCells>c__Iterator23A.<$>radius = radius;
-			CellFinder.<GetAdjacentCells>c__Iterator23A expr_31 = <GetAdjacentCells>c__Iterator23A;
+			CellFinder.<GetAdjacentCells>c__Iterator23C <GetAdjacentCells>c__Iterator23C = new CellFinder.<GetAdjacentCells>c__Iterator23C();
+			<GetAdjacentCells>c__Iterator23C.x = x;
+			<GetAdjacentCells>c__Iterator23C.pawn = pawn;
+			<GetAdjacentCells>c__Iterator23C.radius = radius;
+			<GetAdjacentCells>c__Iterator23C.<$>x = x;
+			<GetAdjacentCells>c__Iterator23C.<$>pawn = pawn;
+			<GetAdjacentCells>c__Iterator23C.<$>radius = radius;
+			CellFinder.<GetAdjacentCells>c__Iterator23C expr_31 = <GetAdjacentCells>c__Iterator23C;
 			expr_31.$PC = -2;
 			return expr_31;
 		}

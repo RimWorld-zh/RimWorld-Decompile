@@ -181,7 +181,7 @@ namespace Verse
 		private void DoMessagesListing(Rect listingRect)
 		{
 			Rect viewRect = new Rect(0f, 0f, listingRect.width - 16f, this.listingViewHeight + 100f);
-			Widgets.BeginScrollView(listingRect, ref EditWindow_Log.messagesScrollPosition, viewRect);
+			Widgets.BeginScrollView(listingRect, ref EditWindow_Log.messagesScrollPosition, viewRect, true);
 			float width = viewRect.width - 28f;
 			Text.Font = GameFont.Tiny;
 			float num = 0f;

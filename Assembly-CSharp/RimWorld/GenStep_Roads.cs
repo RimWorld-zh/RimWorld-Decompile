@@ -48,9 +48,9 @@ namespace RimWorld
 
 		public override void Generate(Map map)
 		{
-			GenStep_Roads.<Generate>c__AnonStorey308 <Generate>c__AnonStorey = new GenStep_Roads.<Generate>c__AnonStorey308();
-			<Generate>c__AnonStorey.neededRoads = this.CalculateNeededRoads(map);
-			if (<Generate>c__AnonStorey.neededRoads.Count == 0)
+			GenStep_Roads.<Generate>c__AnonStorey30A <Generate>c__AnonStorey30A = new GenStep_Roads.<Generate>c__AnonStorey30A();
+			<Generate>c__AnonStorey30A.neededRoads = this.CalculateNeededRoads(map);
+			if (<Generate>c__AnonStorey30A.neededRoads.Count == 0)
 			{
 				return;
 			}
@@ -61,14 +61,14 @@ namespace RimWorld
 			TerrainDef rockDef = BaseGenUtility.RegionalRockTerrainDef(map.Tile, false);
 			IntVec3 intVec = CellFinderLoose.TryFindCentralCell(map, 3, 10, null);
 			RoadDef bestRoadType = (from rd in DefDatabase<RoadDef>.AllDefs
-			where <Generate>c__AnonStorey.neededRoads.Count((GenStep_Roads.NeededRoad nr) => nr.road == rd) >= 2
+			where <Generate>c__AnonStorey30A.neededRoads.Count((GenStep_Roads.NeededRoad nr) => nr.road == rd) >= 2
 			select rd).MaxByWithFallback((RoadDef rd) => rd.priority, null);
 			if (bestRoadType != null)
 			{
-				GenStep_Roads.NeededRoad neededRoad = <Generate>c__AnonStorey.neededRoads[<Generate>c__AnonStorey.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType)];
-				<Generate>c__AnonStorey.neededRoads.RemoveAt(<Generate>c__AnonStorey.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType));
-				GenStep_Roads.NeededRoad neededRoad2 = <Generate>c__AnonStorey.neededRoads[<Generate>c__AnonStorey.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType)];
-				<Generate>c__AnonStorey.neededRoads.RemoveAt(<Generate>c__AnonStorey.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType));
+				GenStep_Roads.NeededRoad neededRoad = <Generate>c__AnonStorey30A.neededRoads[<Generate>c__AnonStorey30A.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType)];
+				<Generate>c__AnonStorey30A.neededRoads.RemoveAt(<Generate>c__AnonStorey30A.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType));
+				GenStep_Roads.NeededRoad neededRoad2 = <Generate>c__AnonStorey30A.neededRoads[<Generate>c__AnonStorey30A.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType)];
+				<Generate>c__AnonStorey30A.neededRoads.RemoveAt(<Generate>c__AnonStorey30A.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType));
 				RoadPathingDef pathingMode = neededRoad.road.pathingMode;
 				IntVec3 intVec2 = this.FindRoadExitCell(map, neededRoad.angle, intVec, ref pathingMode);
 				IntVec3 end = this.FindRoadExitCell(map, neededRoad2.angle, intVec2, ref pathingMode);
@@ -79,7 +79,7 @@ namespace RimWorld
 					roadDef = bestRoadType
 				});
 			}
-			foreach (GenStep_Roads.NeededRoad current in <Generate>c__AnonStorey.neededRoads)
+			foreach (GenStep_Roads.NeededRoad current in <Generate>c__AnonStorey30A.neededRoads)
 			{
 				RoadPathingDef pathingMode2 = current.road.pathingMode;
 				IntVec3 intVec3 = this.FindRoadExitCell(map, current.angle, intVec, ref pathingMode2);
@@ -146,8 +146,14 @@ namespace RimWorld
 		{
 			Predicate<IntVec3> tileValidator = delegate(IntVec3 pos)
 			{
-				TerrainDef terrain = pos.GetTerrain(map);
-				return terrain != TerrainDefOf.WaterShallow && terrain != TerrainDefOf.WaterMovingShallow && terrain != TerrainDefOf.WaterDeep && terrain != TerrainDefOf.WaterMovingDeep;
+				foreach (IntVec3 current in GenRadial.RadialCellsAround(pos, 8f, true))
+				{
+					if (current.InBounds(map) && current.GetTerrain(map).HasTag("Water"))
+					{
+						return false;
+					}
+				}
+				return true;
 			};
 			float validAngleSpan2;
 			for (validAngleSpan2 = 10f; validAngleSpan2 < 90f; validAngleSpan2 += 10f)
@@ -227,20 +233,40 @@ namespace RimWorld
 			{
 				list.Add(GenMath.BezierCubicEvaluate((float)i / (float)num, bcc));
 			}
+			int num2 = 0;
+			for (int j = pathStartIndex; j <= pathEndIndex; j++)
+			{
+				if (j > 0 && j <= path.Count && path[j].InBounds(map) && path[j].GetTerrain(map).HasTag("Water"))
+				{
+					num2++;
+				}
+			}
 			if (pathing == RoadPathingDefOf.Avoid && pathStartIndex + 1 < pathEndIndex)
 			{
-				for (int j = 0; j < list.Count; j++)
+				for (int k = 0; k < list.Count; k++)
 				{
-					IntVec3 intVec = list[j].ToIntVec3();
+					IntVec3 intVec = list[k].ToIntVec3();
 					bool flag = intVec.InBounds(map) && intVec.Impassable(map);
-					int num2 = 0;
-					while (num2 < GenAdj.CardinalDirections.Length && !flag)
+					int num3 = 0;
+					int num4 = 0;
+					while (num4 < GenAdj.CardinalDirections.Length && !flag)
 					{
-						IntVec3 c = intVec + GenAdj.CardinalDirections[num2];
-						flag |= (c.InBounds(map) && c.Impassable(map));
-						num2++;
+						IntVec3 c = intVec + GenAdj.CardinalDirections[num4];
+						if (c.InBounds(map))
+						{
+							flag |= c.Impassable(map);
+							if (c.GetTerrain(map).HasTag("Water"))
+							{
+								num3++;
+							}
+							if (flag)
+							{
+								break;
+							}
+						}
+						num4++;
 					}
-					if (flag)
+					if (flag || (float)num3 > (float)num2 * 1.5f + 2f)
 					{
 						this.DrawCurveSegment(distance, path, pathStartIndex, (pathStartIndex + pathEndIndex) / 2, pathing, map, centerpointIndex, ref centerpoint);
 						this.DrawCurveSegment(distance, path, (pathStartIndex + pathEndIndex) / 2, pathEndIndex, pathing, map, centerpointIndex, ref centerpoint);
@@ -248,9 +274,9 @@ namespace RimWorld
 					}
 				}
 			}
-			for (int k = 0; k < list.Count; k++)
+			for (int l = 0; l < list.Count; l++)
 			{
-				this.FillDistanceField(distance, list[k].x, list[k].z, GenMath.LerpDouble(0f, (float)(list.Count - 1), (float)pathStartIndex, (float)pathEndIndex, (float)k), 10f);
+				this.FillDistanceField(distance, list[l].x, list[l].z, GenMath.LerpDouble(0f, (float)(list.Count - 1), (float)pathStartIndex, (float)pathEndIndex, (float)l), 10f);
 			}
 			if (centerpointIndex >= pathStartIndex && centerpointIndex < pathEndIndex)
 			{

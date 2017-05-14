@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -62,7 +63,7 @@ namespace RimWorld.Planet
 				{
 					return CaravanTicksPerMoveUtility.GetTicksPerMove(caravanPawns);
 				}
-				return 2500;
+				return 3000;
 			}
 		}
 
@@ -157,8 +158,8 @@ namespace RimWorld.Planet
 
 		public void WorldRoutePlannerOnGUI()
 		{
-			WorldRoutePlanner.<WorldRoutePlannerOnGUI>c__AnonStorey479 <WorldRoutePlannerOnGUI>c__AnonStorey = new WorldRoutePlanner.<WorldRoutePlannerOnGUI>c__AnonStorey479();
-			<WorldRoutePlannerOnGUI>c__AnonStorey.<>f__this = this;
+			WorldRoutePlanner.<WorldRoutePlannerOnGUI>c__AnonStorey47B <WorldRoutePlannerOnGUI>c__AnonStorey47B = new WorldRoutePlanner.<WorldRoutePlannerOnGUI>c__AnonStorey47B();
+			<WorldRoutePlannerOnGUI>c__AnonStorey47B.<>f__this = this;
 			if (!this.active)
 			{
 				return;
@@ -180,7 +181,8 @@ namespace RimWorld.Planet
 			GenUI.DrawMouseAttachment(WorldRoutePlanner.MouseAttachment);
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 1)
 			{
-				int tile = GenWorld.MouseTile(true);
+				Caravan caravan = Find.WorldSelector.SelectableObjectsUnderMouse().FirstOrDefault<WorldObject>() as Caravan;
+				int tile = (caravan == null) ? GenWorld.MouseTile(true) : caravan.Tile;
 				if (tile >= 0)
 				{
 					RoutePlannerWaypoint waypoint = this.MostRecentWaypointAt(tile);
@@ -211,15 +213,15 @@ namespace RimWorld.Planet
 					Event.current.Use();
 				}
 			}
-			<WorldRoutePlannerOnGUI>c__AnonStorey.rect = new Rect(((float)UI.screenWidth - WorldRoutePlanner.BottomWindowSize.x) / 2f, (float)UI.screenHeight - WorldRoutePlanner.BottomWindowSize.y - 45f, WorldRoutePlanner.BottomWindowSize.x, WorldRoutePlanner.BottomWindowSize.y);
+			<WorldRoutePlannerOnGUI>c__AnonStorey47B.rect = new Rect(((float)UI.screenWidth - WorldRoutePlanner.BottomWindowSize.x) / 2f, (float)UI.screenHeight - WorldRoutePlanner.BottomWindowSize.y - 45f, WorldRoutePlanner.BottomWindowSize.x, WorldRoutePlanner.BottomWindowSize.y);
 			if (Current.ProgramState == ProgramState.Entry)
 			{
-				WorldRoutePlanner.<WorldRoutePlannerOnGUI>c__AnonStorey479 expr_21F_cp_0 = <WorldRoutePlannerOnGUI>c__AnonStorey;
-				expr_21F_cp_0.rect.y = expr_21F_cp_0.rect.y - 22f;
+				WorldRoutePlanner.<WorldRoutePlannerOnGUI>c__AnonStorey47B expr_24E_cp_0 = <WorldRoutePlannerOnGUI>c__AnonStorey47B;
+				expr_24E_cp_0.rect.y = expr_24E_cp_0.rect.y - 22f;
 			}
-			Find.WindowStack.ImmediateWindow(1373514241, <WorldRoutePlannerOnGUI>c__AnonStorey.rect, WindowLayer.Dialog, delegate
+			Find.WindowStack.ImmediateWindow(1373514241, <WorldRoutePlannerOnGUI>c__AnonStorey47B.rect, WindowLayer.Dialog, delegate
 			{
-				if (!<WorldRoutePlannerOnGUI>c__AnonStorey.<>f__this.active)
+				if (!<WorldRoutePlannerOnGUI>c__AnonStorey47B.<>f__this.active)
 				{
 					return;
 				}
@@ -227,46 +229,46 @@ namespace RimWorld.Planet
 				Text.Anchor = TextAnchor.UpperCenter;
 				Text.Font = GameFont.Small;
 				float num = 6f;
-				if (<WorldRoutePlannerOnGUI>c__AnonStorey.<>f__this.waypoints.Count >= 2)
+				if (<WorldRoutePlannerOnGUI>c__AnonStorey47B.<>f__this.waypoints.Count >= 2)
 				{
-					Widgets.Label(new Rect(0f, num, <WorldRoutePlannerOnGUI>c__AnonStorey.rect.width, 25f), "RoutePlannerEstTimeToFinalDest".Translate(new object[]
+					Widgets.Label(new Rect(0f, num, <WorldRoutePlannerOnGUI>c__AnonStorey47B.rect.width, 25f), "RoutePlannerEstTimeToFinalDest".Translate(new object[]
 					{
-						<WorldRoutePlannerOnGUI>c__AnonStorey.<>f__this.GetTicksToWaypoint(<WorldRoutePlannerOnGUI>c__AnonStorey.<>f__this.waypoints.Count - 1).ToStringTicksToDays("0.#")
+						<WorldRoutePlannerOnGUI>c__AnonStorey47B.<>f__this.GetTicksToWaypoint(<WorldRoutePlannerOnGUI>c__AnonStorey47B.<>f__this.waypoints.Count - 1).ToStringTicksToDays("0.#")
 					}));
 				}
-				else if (<WorldRoutePlannerOnGUI>c__AnonStorey.<>f__this.cantRemoveFirstWaypoint)
+				else if (<WorldRoutePlannerOnGUI>c__AnonStorey47B.<>f__this.cantRemoveFirstWaypoint)
 				{
-					Widgets.Label(new Rect(0f, num, <WorldRoutePlannerOnGUI>c__AnonStorey.rect.width, 25f), "RoutePlannerAddOneOrMoreWaypoints".Translate());
+					Widgets.Label(new Rect(0f, num, <WorldRoutePlannerOnGUI>c__AnonStorey47B.rect.width, 25f), "RoutePlannerAddOneOrMoreWaypoints".Translate());
 				}
 				else
 				{
-					Widgets.Label(new Rect(0f, num, <WorldRoutePlannerOnGUI>c__AnonStorey.rect.width, 25f), "RoutePlannerAddTwoOrMoreWaypoints".Translate());
+					Widgets.Label(new Rect(0f, num, <WorldRoutePlannerOnGUI>c__AnonStorey47B.rect.width, 25f), "RoutePlannerAddTwoOrMoreWaypoints".Translate());
 				}
 				num += 20f;
-				if (<WorldRoutePlannerOnGUI>c__AnonStorey.<>f__this.CaravanPawns.NullOrEmpty<Pawn>())
+				if (<WorldRoutePlannerOnGUI>c__AnonStorey47B.<>f__this.CaravanPawns.NullOrEmpty<Pawn>())
 				{
 					GUI.color = new Color(0.8f, 0.6f, 0.6f);
-					Widgets.Label(new Rect(0f, num, <WorldRoutePlannerOnGUI>c__AnonStorey.rect.width, 25f), "RoutePlannerUsingAverageTicksPerMoveWarning".Translate());
+					Widgets.Label(new Rect(0f, num, <WorldRoutePlannerOnGUI>c__AnonStorey47B.rect.width, 25f), "RoutePlannerUsingAverageTicksPerMoveWarning".Translate());
 				}
-				else if (<WorldRoutePlannerOnGUI>c__AnonStorey.<>f__this.currentFormCaravanDialog == null && <WorldRoutePlannerOnGUI>c__AnonStorey.<>f__this.CaravanAtTheFirstWaypoint != null)
+				else if (<WorldRoutePlannerOnGUI>c__AnonStorey47B.<>f__this.currentFormCaravanDialog == null && <WorldRoutePlannerOnGUI>c__AnonStorey47B.<>f__this.CaravanAtTheFirstWaypoint != null)
 				{
 					GUI.color = Color.gray;
-					Widgets.Label(new Rect(0f, num, <WorldRoutePlannerOnGUI>c__AnonStorey.rect.width, 25f), "RoutePlannerUsingTicksPerMoveOfCaravan".Translate(new object[]
+					Widgets.Label(new Rect(0f, num, <WorldRoutePlannerOnGUI>c__AnonStorey47B.rect.width, 25f), "RoutePlannerUsingTicksPerMoveOfCaravan".Translate(new object[]
 					{
-						<WorldRoutePlannerOnGUI>c__AnonStorey.<>f__this.CaravanAtTheFirstWaypoint.LabelCap
+						<WorldRoutePlannerOnGUI>c__AnonStorey47B.<>f__this.CaravanAtTheFirstWaypoint.LabelCap
 					}));
 				}
 				num += 20f;
 				GUI.color = Color.gray;
-				Widgets.Label(new Rect(0f, num, <WorldRoutePlannerOnGUI>c__AnonStorey.rect.width, 25f), "RoutePlannerPressRMBToAddAndRemoveWaypoints".Translate());
+				Widgets.Label(new Rect(0f, num, <WorldRoutePlannerOnGUI>c__AnonStorey47B.rect.width, 25f), "RoutePlannerPressRMBToAddAndRemoveWaypoints".Translate());
 				num += 20f;
-				if (<WorldRoutePlannerOnGUI>c__AnonStorey.<>f__this.currentFormCaravanDialog != null)
+				if (<WorldRoutePlannerOnGUI>c__AnonStorey47B.<>f__this.currentFormCaravanDialog != null)
 				{
-					Widgets.Label(new Rect(0f, num, <WorldRoutePlannerOnGUI>c__AnonStorey.rect.width, 25f), "RoutePlannerPressEscapeToReturnToCaravanFormationDialog".Translate());
+					Widgets.Label(new Rect(0f, num, <WorldRoutePlannerOnGUI>c__AnonStorey47B.rect.width, 25f), "RoutePlannerPressEscapeToReturnToCaravanFormationDialog".Translate());
 				}
 				else
 				{
-					Widgets.Label(new Rect(0f, num, <WorldRoutePlannerOnGUI>c__AnonStorey.rect.width, 25f), "RoutePlannerPressEscapeToExit".Translate());
+					Widgets.Label(new Rect(0f, num, <WorldRoutePlannerOnGUI>c__AnonStorey47B.rect.width, 25f), "RoutePlannerPressEscapeToExit".Translate());
 				}
 				num += 20f;
 				GUI.color = Color.white;

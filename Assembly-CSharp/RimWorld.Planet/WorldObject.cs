@@ -175,6 +175,17 @@ namespace RimWorld.Planet
 			}
 		}
 
+		public virtual IEnumerable<StatDrawEntry> SpecialDisplayStats
+		{
+			get
+			{
+				WorldObject.<>c__IteratorFC <>c__IteratorFC = new WorldObject.<>c__IteratorFC();
+				WorldObject.<>c__IteratorFC expr_07 = <>c__IteratorFC;
+				expr_07.$PC = -2;
+				return expr_07;
+			}
+		}
+
 		public virtual void ExposeData()
 		{
 			Scribe_Defs.Look<WorldObjectDef>(ref this.def, "def");
@@ -357,9 +368,9 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public virtual IEnumerable<Gizmo> GetGizmos()
 		{
-			WorldObject.<GetGizmos>c__IteratorFC <GetGizmos>c__IteratorFC = new WorldObject.<GetGizmos>c__IteratorFC();
-			<GetGizmos>c__IteratorFC.<>f__this = this;
-			WorldObject.<GetGizmos>c__IteratorFC expr_0E = <GetGizmos>c__IteratorFC;
+			WorldObject.<GetGizmos>c__IteratorFD <GetGizmos>c__IteratorFD = new WorldObject.<GetGizmos>c__IteratorFD();
+			<GetGizmos>c__IteratorFD.<>f__this = this;
+			WorldObject.<GetGizmos>c__IteratorFD expr_0E = <GetGizmos>c__IteratorFD;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -367,11 +378,11 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public virtual IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			WorldObject.<GetFloatMenuOptions>c__IteratorFD <GetFloatMenuOptions>c__IteratorFD = new WorldObject.<GetFloatMenuOptions>c__IteratorFD();
-			<GetFloatMenuOptions>c__IteratorFD.caravan = caravan;
-			<GetFloatMenuOptions>c__IteratorFD.<$>caravan = caravan;
-			<GetFloatMenuOptions>c__IteratorFD.<>f__this = this;
-			WorldObject.<GetFloatMenuOptions>c__IteratorFD expr_1C = <GetFloatMenuOptions>c__IteratorFD;
+			WorldObject.<GetFloatMenuOptions>c__IteratorFE <GetFloatMenuOptions>c__IteratorFE = new WorldObject.<GetFloatMenuOptions>c__IteratorFE();
+			<GetFloatMenuOptions>c__IteratorFE.caravan = caravan;
+			<GetFloatMenuOptions>c__IteratorFE.<$>caravan = caravan;
+			<GetFloatMenuOptions>c__IteratorFE.<>f__this = this;
+			WorldObject.<GetFloatMenuOptions>c__IteratorFE expr_1C = <GetFloatMenuOptions>c__IteratorFE;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}
@@ -406,6 +417,26 @@ namespace RimWorld.Planet
 		public string GetUniqueLoadID()
 		{
 			return "WorldObject_" + this.ID;
+		}
+
+		public virtual string GetDescription()
+		{
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.Append(this.def.description);
+			for (int i = 0; i < this.comps.Count; i++)
+			{
+				string descriptionPart = this.comps[i].GetDescriptionPart();
+				if (!descriptionPart.NullOrEmpty())
+				{
+					if (stringBuilder.Length > 0)
+					{
+						stringBuilder.AppendLine();
+						stringBuilder.AppendLine();
+					}
+					stringBuilder.Append(descriptionPart);
+				}
+			}
+			return stringBuilder.ToString();
 		}
 	}
 }

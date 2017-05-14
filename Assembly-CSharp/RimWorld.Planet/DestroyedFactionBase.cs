@@ -21,9 +21,9 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			DestroyedFactionBase.<GetGizmos>c__Iterator104 <GetGizmos>c__Iterator = new DestroyedFactionBase.<GetGizmos>c__Iterator104();
+			DestroyedFactionBase.<GetGizmos>c__Iterator105 <GetGizmos>c__Iterator = new DestroyedFactionBase.<GetGizmos>c__Iterator105();
 			<GetGizmos>c__Iterator.<>f__this = this;
-			DestroyedFactionBase.<GetGizmos>c__Iterator104 expr_0E = <GetGizmos>c__Iterator;
+			DestroyedFactionBase.<GetGizmos>c__Iterator105 expr_0E = <GetGizmos>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

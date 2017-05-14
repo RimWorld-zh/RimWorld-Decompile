@@ -111,14 +111,14 @@ namespace RimWorld
 		[DebuggerHidden]
 		private static IEnumerable<ScenPart> RandomScenPartsOfCategory(Scenario scen, ScenPartCategory cat, int count)
 		{
-			ScenarioMaker.<RandomScenPartsOfCategory>c__Iterator128 <RandomScenPartsOfCategory>c__Iterator = new ScenarioMaker.<RandomScenPartsOfCategory>c__Iterator128();
+			ScenarioMaker.<RandomScenPartsOfCategory>c__Iterator129 <RandomScenPartsOfCategory>c__Iterator = new ScenarioMaker.<RandomScenPartsOfCategory>c__Iterator129();
 			<RandomScenPartsOfCategory>c__Iterator.count = count;
 			<RandomScenPartsOfCategory>c__Iterator.scen = scen;
 			<RandomScenPartsOfCategory>c__Iterator.cat = cat;
 			<RandomScenPartsOfCategory>c__Iterator.<$>count = count;
 			<RandomScenPartsOfCategory>c__Iterator.<$>scen = scen;
 			<RandomScenPartsOfCategory>c__Iterator.<$>cat = cat;
-			ScenarioMaker.<RandomScenPartsOfCategory>c__Iterator128 expr_31 = <RandomScenPartsOfCategory>c__Iterator;
+			ScenarioMaker.<RandomScenPartsOfCategory>c__Iterator129 expr_31 = <RandomScenPartsOfCategory>c__Iterator;
 			expr_31.$PC = -2;
 			return expr_31;
 		}

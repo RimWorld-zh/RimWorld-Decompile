@@ -76,7 +76,7 @@ namespace Verse
 					Log.Error("IngestibleNow on Corpse while Bugged.");
 					return false;
 				}
-				return base.IngestibleNow && this.InnerPawn.RaceProps.IsFlesh && this.GetRotStage() != RotStage.Dessicated;
+				return base.IngestibleNow && this.InnerPawn.RaceProps.IsFlesh && this.GetRotStage() == RotStage.Fresh;
 			}
 		}
 
@@ -112,9 +112,9 @@ namespace Verse
 		{
 			get
 			{
-				Corpse.<>c__Iterator226 <>c__Iterator = new Corpse.<>c__Iterator226();
+				Corpse.<>c__Iterator228 <>c__Iterator = new Corpse.<>c__Iterator228();
 				<>c__Iterator.<>f__this = this;
-				Corpse.<>c__Iterator226 expr_0E = <>c__Iterator;
+				Corpse.<>c__Iterator228 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -132,9 +132,9 @@ namespace Verse
 		{
 			get
 			{
-				Corpse.<>c__Iterator227 <>c__Iterator = new Corpse.<>c__Iterator227();
+				Corpse.<>c__Iterator229 <>c__Iterator = new Corpse.<>c__Iterator229();
 				<>c__Iterator.<>f__this = this;
-				Corpse.<>c__Iterator227 expr_0E = <>c__Iterator;
+				Corpse.<>c__Iterator229 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -305,13 +305,13 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<Thing> ButcherProducts(Pawn butcher, float efficiency)
 		{
-			Corpse.<ButcherProducts>c__Iterator228 <ButcherProducts>c__Iterator = new Corpse.<ButcherProducts>c__Iterator228();
-			<ButcherProducts>c__Iterator.butcher = butcher;
-			<ButcherProducts>c__Iterator.efficiency = efficiency;
-			<ButcherProducts>c__Iterator.<$>butcher = butcher;
-			<ButcherProducts>c__Iterator.<$>efficiency = efficiency;
-			<ButcherProducts>c__Iterator.<>f__this = this;
-			Corpse.<ButcherProducts>c__Iterator228 expr_2A = <ButcherProducts>c__Iterator;
+			Corpse.<ButcherProducts>c__Iterator22A <ButcherProducts>c__Iterator22A = new Corpse.<ButcherProducts>c__Iterator22A();
+			<ButcherProducts>c__Iterator22A.butcher = butcher;
+			<ButcherProducts>c__Iterator22A.efficiency = efficiency;
+			<ButcherProducts>c__Iterator22A.<$>butcher = butcher;
+			<ButcherProducts>c__Iterator22A.<$>efficiency = efficiency;
+			<ButcherProducts>c__Iterator22A.<>f__this = this;
+			Corpse.<ButcherProducts>c__Iterator22A expr_2A = <ButcherProducts>c__Iterator22A;
 			expr_2A.$PC = -2;
 			return expr_2A;
 		}
@@ -375,7 +375,7 @@ namespace Verse
 			StringBuilder stringBuilder = new StringBuilder();
 			if (this.InnerPawn.Faction != null)
 			{
-				stringBuilder.AppendLine("Faction".Translate() + ": " + this.InnerPawn.Faction);
+				stringBuilder.AppendLine("Faction".Translate() + ": " + this.InnerPawn.Faction.Name);
 			}
 			stringBuilder.AppendLine("DeadTime".Translate(new object[]
 			{

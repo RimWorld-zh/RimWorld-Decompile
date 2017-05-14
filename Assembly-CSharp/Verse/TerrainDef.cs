@@ -135,9 +135,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			TerrainDef.<ConfigErrors>c__Iterator1DC <ConfigErrors>c__Iterator1DC = new TerrainDef.<ConfigErrors>c__Iterator1DC();
-			<ConfigErrors>c__Iterator1DC.<>f__this = this;
-			TerrainDef.<ConfigErrors>c__Iterator1DC expr_0E = <ConfigErrors>c__Iterator1DC;
+			TerrainDef.<ConfigErrors>c__Iterator1DE <ConfigErrors>c__Iterator1DE = new TerrainDef.<ConfigErrors>c__Iterator1DE();
+			<ConfigErrors>c__Iterator1DE.<>f__this = this;
+			TerrainDef.<ConfigErrors>c__Iterator1DE expr_0E = <ConfigErrors>c__Iterator1DE;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

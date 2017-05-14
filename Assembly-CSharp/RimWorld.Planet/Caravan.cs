@@ -613,9 +613,9 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Caravan.<GetGizmos>c__IteratorFE <GetGizmos>c__IteratorFE = new Caravan.<GetGizmos>c__IteratorFE();
-			<GetGizmos>c__IteratorFE.<>f__this = this;
-			Caravan.<GetGizmos>c__IteratorFE expr_0E = <GetGizmos>c__IteratorFE;
+			Caravan.<GetGizmos>c__IteratorFF <GetGizmos>c__IteratorFF = new Caravan.<GetGizmos>c__IteratorFF();
+			<GetGizmos>c__IteratorFF.<>f__this = this;
+			Caravan.<GetGizmos>c__IteratorFF expr_0E = <GetGizmos>c__IteratorFF;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

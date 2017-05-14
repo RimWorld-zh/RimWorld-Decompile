@@ -1711,6 +1711,7 @@
     <Compile Include="RimWorld\StatPart_Quality.cs" />
     <Compile Include="RimWorld\StatPart_Rest.cs" />
     <Compile Include="RimWorld\StatPart_RoomStat.cs" />
+    <Compile Include="RimWorld\StatPart_UnfinishedThingIngredientsMass.cs" />
     <Compile Include="RimWorld\StatPart_WorkTableOutdoors.cs" />
     <Compile Include="RimWorld\StatPart_WorkTableTemperature.cs" />
     <Compile Include="RimWorld\StatPart_WorkTableUnpowered.cs" />
@@ -3428,7 +3429,8 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>D:\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Posix">
+    <Reference Include="Mono.Posix, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\Game\Steam\steamapps\common\RimWorld\RimWorldWin_Data\Managed\Mono.Posix.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Security">

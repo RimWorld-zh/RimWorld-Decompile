@@ -1,3 +1,4 @@
+using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,9 +34,9 @@ namespace RimWorld
 				StatsReportUtility.cachedDrawEntries.AddRange(from r in StatsReportUtility.StatsToDraw(def, stuff)
 				where r.ShouldDisplay
 				select r);
-				StatsReportUtility.FinalizeCachedDrawEntries(StatsReportUtility.cachedDrawEntries, def);
+				StatsReportUtility.FinalizeCachedDrawEntries(StatsReportUtility.cachedDrawEntries);
 			}
-			StatsReportUtility.DrawStatsWorker(rect, null);
+			StatsReportUtility.DrawStatsWorker(rect, null, null);
 		}
 
 		public static void DrawStatsReport(Rect rect, Thing thing)
@@ -47,20 +48,34 @@ namespace RimWorld
 				where r.ShouldDisplay
 				select r);
 				StatsReportUtility.cachedDrawEntries.RemoveAll((StatDrawEntry de) => de.stat != null && !de.stat.showNonAbstract);
-				StatsReportUtility.FinalizeCachedDrawEntries(StatsReportUtility.cachedDrawEntries, thing.def);
+				StatsReportUtility.FinalizeCachedDrawEntries(StatsReportUtility.cachedDrawEntries);
 			}
-			StatsReportUtility.DrawStatsWorker(rect, thing);
+			StatsReportUtility.DrawStatsWorker(rect, thing, null);
+		}
+
+		public static void DrawStatsReport(Rect rect, WorldObject worldObject)
+		{
+			if (StatsReportUtility.cachedDrawEntries.NullOrEmpty<StatDrawEntry>())
+			{
+				StatsReportUtility.cachedDrawEntries.AddRange(worldObject.def.SpecialDisplayStats());
+				StatsReportUtility.cachedDrawEntries.AddRange(from r in StatsReportUtility.StatsToDraw(worldObject)
+				where r.ShouldDisplay
+				select r);
+				StatsReportUtility.cachedDrawEntries.RemoveAll((StatDrawEntry de) => de.stat != null && !de.stat.showNonAbstract);
+				StatsReportUtility.FinalizeCachedDrawEntries(StatsReportUtility.cachedDrawEntries);
+			}
+			StatsReportUtility.DrawStatsWorker(rect, null, worldObject);
 		}
 
 		[DebuggerHidden]
 		private static IEnumerable<StatDrawEntry> StatsToDraw(Def def, ThingDef stuff)
 		{
-			StatsReportUtility.<StatsToDraw>c__Iterator196 <StatsToDraw>c__Iterator = new StatsReportUtility.<StatsToDraw>c__Iterator196();
+			StatsReportUtility.<StatsToDraw>c__Iterator197 <StatsToDraw>c__Iterator = new StatsReportUtility.<StatsToDraw>c__Iterator197();
 			<StatsToDraw>c__Iterator.def = def;
 			<StatsToDraw>c__Iterator.stuff = stuff;
 			<StatsToDraw>c__Iterator.<$>def = def;
 			<StatsToDraw>c__Iterator.<$>stuff = stuff;
-			StatsReportUtility.<StatsToDraw>c__Iterator196 expr_23 = <StatsToDraw>c__Iterator;
+			StatsReportUtility.<StatsToDraw>c__Iterator197 expr_23 = <StatsToDraw>c__Iterator;
 			expr_23.$PC = -2;
 			return expr_23;
 		}
@@ -68,15 +83,26 @@ namespace RimWorld
 		[DebuggerHidden]
 		private static IEnumerable<StatDrawEntry> StatsToDraw(Thing thing)
 		{
-			StatsReportUtility.<StatsToDraw>c__Iterator197 <StatsToDraw>c__Iterator = new StatsReportUtility.<StatsToDraw>c__Iterator197();
+			StatsReportUtility.<StatsToDraw>c__Iterator198 <StatsToDraw>c__Iterator = new StatsReportUtility.<StatsToDraw>c__Iterator198();
 			<StatsToDraw>c__Iterator.thing = thing;
 			<StatsToDraw>c__Iterator.<$>thing = thing;
-			StatsReportUtility.<StatsToDraw>c__Iterator197 expr_15 = <StatsToDraw>c__Iterator;
+			StatsReportUtility.<StatsToDraw>c__Iterator198 expr_15 = <StatsToDraw>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}
 
-		private static void FinalizeCachedDrawEntries(IEnumerable<StatDrawEntry> original, Def def)
+		[DebuggerHidden]
+		private static IEnumerable<StatDrawEntry> StatsToDraw(WorldObject worldObject)
+		{
+			StatsReportUtility.<StatsToDraw>c__Iterator199 <StatsToDraw>c__Iterator = new StatsReportUtility.<StatsToDraw>c__Iterator199();
+			<StatsToDraw>c__Iterator.worldObject = worldObject;
+			<StatsToDraw>c__Iterator.<$>worldObject = worldObject;
+			StatsReportUtility.<StatsToDraw>c__Iterator199 expr_15 = <StatsToDraw>c__Iterator;
+			expr_15.$PC = -2;
+			return expr_15;
+		}
+
+		private static void FinalizeCachedDrawEntries(IEnumerable<StatDrawEntry> original)
 		{
 			StatsReportUtility.cachedDrawEntries = (from sd in original
 			orderby sd.category.displayOrder, sd.DisplayPriorityWithinCategory descending, sd.LabelCap
@@ -103,6 +129,14 @@ namespace RimWorld
 			};
 		}
 
+		private static StatDrawEntry DescriptionEntry(WorldObject worldObject)
+		{
+			return new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), string.Empty, 99999)
+			{
+				overrideReportText = worldObject.GetDescription()
+			};
+		}
+
 		private static StatDrawEntry QualityEntry(Thing t)
 		{
 			QualityCategory cat;
@@ -125,7 +159,7 @@ namespace RimWorld
 			}
 		}
 
-		private static void DrawStatsWorker(Rect rect, Thing optionalThing)
+		private static void DrawStatsWorker(Rect rect, Thing optionalThing, WorldObject optionalWorldObject)
 		{
 			Rect outRect = new Rect(rect);
 			outRect.width *= 0.5f;
@@ -134,7 +168,7 @@ namespace RimWorld
 			rect2.width = rect.xMax - rect2.x;
 			Text.Font = GameFont.Small;
 			Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, StatsReportUtility.listHeight);
-			Widgets.BeginScrollView(outRect, ref StatsReportUtility.scrollPosition, viewRect);
+			Widgets.BeginScrollView(outRect, ref StatsReportUtility.scrollPosition, viewRect, true);
 			float num = 0f;
 			string b = null;
 			foreach (StatDrawEntry ent in StatsReportUtility.cachedDrawEntries)

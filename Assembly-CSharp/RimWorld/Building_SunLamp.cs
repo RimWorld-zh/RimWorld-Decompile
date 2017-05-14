@@ -19,9 +19,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_SunLamp.<GetGizmos>c__Iterator15D <GetGizmos>c__Iterator15D = new Building_SunLamp.<GetGizmos>c__Iterator15D();
-			<GetGizmos>c__Iterator15D.<>f__this = this;
-			Building_SunLamp.<GetGizmos>c__Iterator15D expr_0E = <GetGizmos>c__Iterator15D;
+			Building_SunLamp.<GetGizmos>c__Iterator15E <GetGizmos>c__Iterator15E = new Building_SunLamp.<GetGizmos>c__Iterator15E();
+			<GetGizmos>c__Iterator15E.<>f__this = this;
+			Building_SunLamp.<GetGizmos>c__Iterator15E expr_0E = <GetGizmos>c__Iterator15E;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

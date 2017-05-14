@@ -613,11 +613,19 @@ namespace Verse
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("Caravan request sample:");
-			CaravanRequestComp caravanRequestComp = new CaravanRequestComp();
+			Map visibleMap = Find.VisibleMap;
+			IncidentWorker_CaravanRequest incidentWorker_CaravanRequest = (IncidentWorker_CaravanRequest)IncidentDefOf.CaravanRequest.Worker;
 			for (int i = 0; i < 100; i++)
 			{
-				(IncidentDefOf.CaravanRequest.Worker as IncidentWorker_CaravanRequest).GenerateCaravanRequest(caravanRequestComp, Find.AnyPlayerHomeMap.Tile);
-				stringBuilder.AppendLine(string.Format("  {0} (reward: {1})", GenLabel.ThingLabel(caravanRequestComp.requestThingDef, null, caravanRequestComp.requestCount), caravanRequestComp.rewards[0].Label, ThingDefOf.Silver.label));
+				Settlement settlement = IncidentWorker_CaravanRequest.RandomNearbyTradeableSettlement(visibleMap.Tile);
+				if (settlement == null)
+				{
+					break;
+				}
+				CaravanRequestComp component = settlement.GetComponent<CaravanRequestComp>();
+				incidentWorker_CaravanRequest.GenerateCaravanRequest(component, visibleMap);
+				stringBuilder.AppendLine(string.Format("  {0} -> {1}", GenLabel.ThingLabel(component.requestThingDef, null, component.requestCount), component.rewards[0].Label, ThingDefOf.Silver.label));
+				settlement.GetComponent<CaravanRequestComp>().Disable();
 			}
 			Log.Message(stringBuilder.ToString());
 		}

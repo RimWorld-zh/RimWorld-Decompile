@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 using Verse;
 
@@ -13,6 +15,8 @@ namespace RimWorld.Planet
 		public SiteCoreDef core;
 
 		public List<SitePartDef> parts = new List<SitePartDef>();
+
+		public bool writeSiteParts;
 
 		private bool startedCountdown;
 
@@ -56,7 +60,21 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return this.LeadingSiteDef.knownDanger;
+				if (this.LeadingSiteDef.knownDanger)
+				{
+					return true;
+				}
+				if (this.writeSiteParts)
+				{
+					for (int i = 0; i < this.parts.Count; i++)
+					{
+						if (this.parts[i].knownDanger)
+						{
+							return true;
+						}
+					}
+				}
+				return false;
 			}
 		}
 
@@ -105,9 +123,9 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				Site.<>c__Iterator109 <>c__Iterator = new Site.<>c__Iterator109();
-				<>c__Iterator.<>f__this = this;
-				Site.<>c__Iterator109 expr_0E = <>c__Iterator;
+				Site.<>c__Iterator10A <>c__Iterator10A = new Site.<>c__Iterator10A();
+				<>c__Iterator10A.<>f__this = this;
+				Site.<>c__Iterator10A expr_0E = <>c__Iterator10A;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -121,6 +139,7 @@ namespace RimWorld.Planet
 			Scribe_Collections.Look<SitePartDef>(ref this.parts, "parts", LookMode.Def, new object[0]);
 			Scribe_Values.Look<bool>(ref this.startedCountdown, "startedCountdown", false, false);
 			Scribe_Values.Look<bool>(ref this.anyEnemiesInitially, "anyEnemiesInitially", false, false);
+			Scribe_Values.Look<bool>(ref this.writeSiteParts, "writeSiteParts", false, false);
 		}
 
 		public override void Tick()
@@ -158,11 +177,11 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			Site.<GetFloatMenuOptions>c__Iterator10A <GetFloatMenuOptions>c__Iterator10A = new Site.<GetFloatMenuOptions>c__Iterator10A();
-			<GetFloatMenuOptions>c__Iterator10A.caravan = caravan;
-			<GetFloatMenuOptions>c__Iterator10A.<$>caravan = caravan;
-			<GetFloatMenuOptions>c__Iterator10A.<>f__this = this;
-			Site.<GetFloatMenuOptions>c__Iterator10A expr_1C = <GetFloatMenuOptions>c__Iterator10A;
+			Site.<GetFloatMenuOptions>c__Iterator10B <GetFloatMenuOptions>c__Iterator10B = new Site.<GetFloatMenuOptions>c__Iterator10B();
+			<GetFloatMenuOptions>c__Iterator10B.caravan = caravan;
+			<GetFloatMenuOptions>c__Iterator10B.<$>caravan = caravan;
+			<GetFloatMenuOptions>c__Iterator10B.<>f__this = this;
+			Site.<GetFloatMenuOptions>c__Iterator10B expr_1C = <GetFloatMenuOptions>c__Iterator10B;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}
@@ -170,9 +189,9 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Site.<GetGizmos>c__Iterator10B <GetGizmos>c__Iterator10B = new Site.<GetGizmos>c__Iterator10B();
-			<GetGizmos>c__Iterator10B.<>f__this = this;
-			Site.<GetGizmos>c__Iterator10B expr_0E = <GetGizmos>c__Iterator10B;
+			Site.<GetGizmos>c__Iterator10C <GetGizmos>c__Iterator10C = new Site.<GetGizmos>c__Iterator10C();
+			<GetGizmos>c__Iterator10C.<>f__this = this;
+			Site.<GetGizmos>c__Iterator10C expr_0E = <GetGizmos>c__Iterator10C;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -198,6 +217,55 @@ namespace RimWorld.Planet
 			});
 			Messages.Message(text, this, MessageSound.Benefit);
 			base.StartForceExitAndRemoveMapCountdown(num);
+		}
+
+		public override string GetInspectString()
+		{
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.Append(base.GetInspectString());
+			if (this.writeSiteParts)
+			{
+				if (stringBuilder.Length != 0)
+				{
+					stringBuilder.AppendLine();
+				}
+				if (this.parts.Count == 0)
+				{
+					stringBuilder.Append("KnownSiteThreatsNone".Translate());
+				}
+				else if (this.parts.Count == 1)
+				{
+					stringBuilder.Append("KnownSiteThreat".Translate(new object[]
+					{
+						this.parts[0].LabelCap
+					}));
+				}
+				else
+				{
+					StringBuilder arg_D9_0 = stringBuilder;
+					string arg_D4_0 = "KnownSiteThreats";
+					object[] expr_A3 = new object[1];
+					expr_A3[0] = GenText.ToCommaList(from x in this.parts
+					select x.LabelCap, true);
+					arg_D9_0.Append(arg_D4_0.Translate(expr_A3));
+				}
+			}
+			return stringBuilder.ToString();
+		}
+
+		public override string GetDescription()
+		{
+			string text = this.LeadingSiteDef.description;
+			string description = base.GetDescription();
+			if (!description.NullOrEmpty())
+			{
+				if (!text.NullOrEmpty())
+				{
+					text += "\n\n";
+				}
+				text += description;
+			}
+			return text;
 		}
 	}
 }

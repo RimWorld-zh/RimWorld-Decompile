@@ -116,9 +116,9 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				TravelingTransportPods.<>c__Iterator10C <>c__Iterator10C = new TravelingTransportPods.<>c__Iterator10C();
-				<>c__Iterator10C.<>f__this = this;
-				TravelingTransportPods.<>c__Iterator10C expr_0E = <>c__Iterator10C;
+				TravelingTransportPods.<>c__Iterator10D <>c__Iterator10D = new TravelingTransportPods.<>c__Iterator10D();
+				<>c__Iterator10D.<>f__this = this;
+				TravelingTransportPods.<>c__Iterator10D expr_0E = <>c__Iterator10D;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

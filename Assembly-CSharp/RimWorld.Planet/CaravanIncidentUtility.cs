@@ -23,7 +23,7 @@ namespace RimWorld.Planet
 
 		private const float MinEnemyPoints = 45f;
 
-		private static readonly FloatRange EnemyPointsPerCaravanPawnsScoreRange = new FloatRange(35f, 90f);
+		private static readonly FloatRange EnemyPointsPerCaravanPawnsScoreRange = new FloatRange(10f, 60f);
 
 		public static float CalculateIncidentPoints(IEnumerable<Pawn> playerPawns)
 		{

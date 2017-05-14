@@ -81,11 +81,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<Pawn> SlaughterablesInCell(IntVec3 c)
 		{
-			Designator_Slaughter.<SlaughterablesInCell>c__Iterator190 <SlaughterablesInCell>c__Iterator = new Designator_Slaughter.<SlaughterablesInCell>c__Iterator190();
+			Designator_Slaughter.<SlaughterablesInCell>c__Iterator191 <SlaughterablesInCell>c__Iterator = new Designator_Slaughter.<SlaughterablesInCell>c__Iterator191();
 			<SlaughterablesInCell>c__Iterator.c = c;
 			<SlaughterablesInCell>c__Iterator.<$>c = c;
 			<SlaughterablesInCell>c__Iterator.<>f__this = this;
-			Designator_Slaughter.<SlaughterablesInCell>c__Iterator190 expr_1C = <SlaughterablesInCell>c__Iterator;
+			Designator_Slaughter.<SlaughterablesInCell>c__Iterator191 expr_1C = <SlaughterablesInCell>c__Iterator;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

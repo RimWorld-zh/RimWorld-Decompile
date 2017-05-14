@@ -26,11 +26,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn myPawn)
 		{
-			Building_CryptosleepCasket.<GetFloatMenuOptions>c__Iterator14F <GetFloatMenuOptions>c__Iterator14F = new Building_CryptosleepCasket.<GetFloatMenuOptions>c__Iterator14F();
-			<GetFloatMenuOptions>c__Iterator14F.myPawn = myPawn;
-			<GetFloatMenuOptions>c__Iterator14F.<$>myPawn = myPawn;
-			<GetFloatMenuOptions>c__Iterator14F.<>f__this = this;
-			Building_CryptosleepCasket.<GetFloatMenuOptions>c__Iterator14F expr_1C = <GetFloatMenuOptions>c__Iterator14F;
+			Building_CryptosleepCasket.<GetFloatMenuOptions>c__Iterator150 <GetFloatMenuOptions>c__Iterator = new Building_CryptosleepCasket.<GetFloatMenuOptions>c__Iterator150();
+			<GetFloatMenuOptions>c__Iterator.myPawn = myPawn;
+			<GetFloatMenuOptions>c__Iterator.<$>myPawn = myPawn;
+			<GetFloatMenuOptions>c__Iterator.<>f__this = this;
+			Building_CryptosleepCasket.<GetFloatMenuOptions>c__Iterator150 expr_1C = <GetFloatMenuOptions>c__Iterator;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}
@@ -38,9 +38,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_CryptosleepCasket.<GetGizmos>c__Iterator150 <GetGizmos>c__Iterator = new Building_CryptosleepCasket.<GetGizmos>c__Iterator150();
+			Building_CryptosleepCasket.<GetGizmos>c__Iterator151 <GetGizmos>c__Iterator = new Building_CryptosleepCasket.<GetGizmos>c__Iterator151();
 			<GetGizmos>c__Iterator.<>f__this = this;
-			Building_CryptosleepCasket.<GetGizmos>c__Iterator150 expr_0E = <GetGizmos>c__Iterator;
+			Building_CryptosleepCasket.<GetGizmos>c__Iterator151 expr_0E = <GetGizmos>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

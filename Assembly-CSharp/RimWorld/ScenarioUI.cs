@@ -20,7 +20,7 @@ namespace RimWorld
 			float width = rect.width - 16f;
 			float height = 30f + Text.CalcHeight(fullInformationText, width) + 100f;
 			Rect viewRect = new Rect(0f, 0f, width, height);
-			Widgets.BeginScrollView(rect, ref infoScrollPosition, viewRect);
+			Widgets.BeginScrollView(rect, ref infoScrollPosition, viewRect, true);
 			Text.Font = GameFont.Medium;
 			Rect rect2 = new Rect(0f, 0f, viewRect.width, 30f);
 			Widgets.Label(rect2, scen.name);
@@ -39,7 +39,7 @@ namespace RimWorld
 				return;
 			}
 			Rect viewRect = new Rect(0f, 0f, rect.width - 16f, ScenarioUI.editViewHeight);
-			Widgets.BeginScrollView(rect, ref infoScrollPosition, viewRect);
+			Widgets.BeginScrollView(rect, ref infoScrollPosition, viewRect, true);
 			Rect rect2 = new Rect(0f, 0f, viewRect.width, 99999f);
 			Listing_ScenEdit listing_ScenEdit = new Listing_ScenEdit(scen);
 			listing_ScenEdit.ColumnWidth = rect2.width;

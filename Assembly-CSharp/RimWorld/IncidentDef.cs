@@ -19,6 +19,8 @@ namespace RimWorld
 
 		public int earliestDay;
 
+		public int minPopulation;
+
 		public float minRefireDays;
 
 		public int minDifficulty;

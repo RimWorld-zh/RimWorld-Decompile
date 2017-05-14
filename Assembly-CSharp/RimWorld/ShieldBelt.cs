@@ -97,9 +97,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetWornGizmos()
 		{
-			ShieldBelt.<GetWornGizmos>c__Iterator160 <GetWornGizmos>c__Iterator = new ShieldBelt.<GetWornGizmos>c__Iterator160();
+			ShieldBelt.<GetWornGizmos>c__Iterator161 <GetWornGizmos>c__Iterator = new ShieldBelt.<GetWornGizmos>c__Iterator161();
 			<GetWornGizmos>c__Iterator.<>f__this = this;
-			ShieldBelt.<GetWornGizmos>c__Iterator160 expr_0E = <GetWornGizmos>c__Iterator;
+			ShieldBelt.<GetWornGizmos>c__Iterator161 expr_0E = <GetWornGizmos>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

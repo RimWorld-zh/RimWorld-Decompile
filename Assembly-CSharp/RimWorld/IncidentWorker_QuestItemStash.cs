@@ -103,7 +103,8 @@ namespace RimWorld
 			}
 			int randomInRange = IncidentWorker_QuestItemStash.TimeoutDaysRange.RandomInRange;
 			List<Thing> list = this.GenerateItems(siteFaction);
-			string letterText = this.GetLetterText(faction, list, randomInRange, this.GetSitePartInfoKey(sitePartDef));
+			bool sitePartsKnown = Rand.Chance(0.5f);
+			string letterText = this.GetLetterText(faction, list, randomInRange, sitePartDef, sitePartsKnown);
 			if (Rand.Chance(this.FeeDemandChance(faction)))
 			{
 				Map map = TradeUtility.PlayerHomeMapWithMostLaunchableSilver();
@@ -123,12 +124,13 @@ namespace RimWorld
 				choiceLetter_ItemStashFeeDemand.siteFaction = siteFaction;
 				choiceLetter_ItemStashFeeDemand.sitePart = sitePartDef;
 				choiceLetter_ItemStashFeeDemand.alliedFaction = faction;
+				choiceLetter_ItemStashFeeDemand.sitePartsKnown = true;
 				choiceLetter_ItemStashFeeDemand.StartTimeout(60000);
 				Find.LetterStack.ReceiveLetter(choiceLetter_ItemStashFeeDemand, null);
 			}
 			else
 			{
-				Site o = IncidentWorker_QuestItemStash.CreateSite(tile, sitePartDef, randomInRange, siteFaction, list);
+				Site o = IncidentWorker_QuestItemStash.CreateSite(tile, sitePartDef, randomInRange, siteFaction, list, sitePartsKnown);
 				Find.LetterStack.ReceiveLetter(this.def.letterLabel, letterText, this.def.letterDef, o, null);
 			}
 			return true;
@@ -189,11 +191,12 @@ namespace RimWorld
 			this.possibleItemCollectionGenerators.Add(new Pair<ItemCollectionGeneratorDef, ItemCollectionGeneratorParams>(ItemCollectionGeneratorDefOf.Apparel, second3));
 		}
 
-		public static Site CreateSite(int tile, SitePartDef sitePart, int days, Faction siteFaction, IList<Thing> items)
+		public static Site CreateSite(int tile, SitePartDef sitePart, int days, Faction siteFaction, IList<Thing> items, bool sitePartsKnown)
 		{
 			Site site = (Site)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Site);
 			site.Tile = tile;
 			site.core = SiteCoreDefOf.ItemStash;
+			site.writeSiteParts = sitePartsKnown;
 			if (sitePart != null)
 			{
 				site.parts.Add(sitePart);
@@ -205,12 +208,12 @@ namespace RimWorld
 			return site;
 		}
 
-		private string GetLetterText(Faction alliedFaction, List<Thing> items, int days, string sitePartTextKey)
+		private string GetLetterText(Faction alliedFaction, List<Thing> items, int days, SitePartDef sitePart, bool sitePartsKnown)
 		{
 			string text;
-			if (Rand.Chance(0.5f))
+			if (sitePartsKnown)
 			{
-				text = sitePartTextKey.Translate(new object[]
+				text = this.GetSitePartInfoKey(sitePart).Translate(new object[]
 				{
 					alliedFaction.leader.LabelShort
 				}).CapitalizeFirst();

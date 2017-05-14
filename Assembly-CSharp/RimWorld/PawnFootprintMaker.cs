@@ -10,6 +10,8 @@ namespace RimWorld
 
 		private const float LeftRightOffsetDist = 0.17f;
 
+		private const float FootprintSplashSize = 2f;
+
 		private Pawn pawn;
 
 		private Vector3 lastFootprintPlacePos;
@@ -42,7 +44,7 @@ namespace RimWorld
 			TerrainDef terrain = vector.ToIntVec3().GetTerrain(this.pawn.Map);
 			if (vector.ToIntVec3().GetTerrain(this.pawn.Map).takeSplashes)
 			{
-				MoteMaker.MakeWaterSplash(vector, this.pawn.Map, Mathf.Sqrt(this.pawn.BodySize), 1.5f);
+				MoteMaker.MakeWaterSplash(vector, this.pawn.Map, Mathf.Sqrt(this.pawn.BodySize) * 2f, 1.5f);
 			}
 			if (this.pawn.RaceProps.makesFootprints && terrain.takeFootprints && this.pawn.Map.snowGrid.GetDepth(this.pawn.Position) >= 0.4f)
 			{

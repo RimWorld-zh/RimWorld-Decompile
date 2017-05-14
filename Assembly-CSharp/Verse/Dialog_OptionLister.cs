@@ -60,7 +60,7 @@ namespace Verse
 				num = outRect.height;
 			}
 			Rect rect = new Rect(0f, 0f, outRect.width - 16f, num);
-			Widgets.BeginScrollView(outRect, ref this.scrollPosition, rect);
+			Widgets.BeginScrollView(outRect, ref this.scrollPosition, rect, true);
 			this.listing = new Listing_Standard();
 			this.listing.ColumnWidth = (rect.width - 51f) / 4f;
 			this.listing.Begin(rect);

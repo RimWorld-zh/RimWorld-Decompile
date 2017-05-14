@@ -111,7 +111,7 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 			PawnNeedsUIUtility.GetThoughtGroupsInDisplayOrder(pawn.needs.mood, NeedsCardUtility.thoughtGroupsPresent);
 			float height = (float)NeedsCardUtility.thoughtGroupsPresent.Count * 24f;
-			Widgets.BeginScrollView(listingRect, ref thoughtScrollPosition, new Rect(0f, 0f, listingRect.width - 16f, height));
+			Widgets.BeginScrollView(listingRect, ref thoughtScrollPosition, new Rect(0f, 0f, listingRect.width - 16f, height), true);
 			Text.Anchor = TextAnchor.MiddleLeft;
 			float num = 0f;
 			for (int i = 0; i < NeedsCardUtility.thoughtGroupsPresent.Count; i++)

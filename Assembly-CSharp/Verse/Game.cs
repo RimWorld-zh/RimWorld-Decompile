@@ -178,11 +178,7 @@ namespace Verse
 
 		public Game()
 		{
-			foreach (Type current in typeof(GameComponent).AllSubclassesNonAbstract())
-			{
-				GameComponent item = (GameComponent)Activator.CreateInstance(current);
-				this.components.Add(item);
-			}
+			this.FillComponents();
 		}
 
 		public void AddMap(Map map)
@@ -264,6 +260,23 @@ namespace Verse
 			Scribe_Deep.Look<Tutor>(ref this.tutor, "tutor", new object[0]);
 			Scribe_Deep.Look<DateNotifier>(ref this.dateNotifier, "dateNotifier", new object[0]);
 			Scribe_Collections.Look<GameComponent>(ref this.components, "components", LookMode.Deep, new object[0]);
+			this.FillComponents();
+		}
+
+		private void FillComponents()
+		{
+			this.components.RemoveAll((GameComponent component) => component == null);
+			foreach (Type current in typeof(GameComponent).AllSubclassesNonAbstract())
+			{
+				if (this.GetComponent(current) == null)
+				{
+					GameComponent item = (GameComponent)Activator.CreateInstance(current, new object[]
+					{
+						this
+					});
+					this.components.Add(item);
+				}
+			}
 		}
 
 		public void InitNewGame()
@@ -460,6 +473,18 @@ namespace Verse
 				}
 			}
 			return (T)((object)null);
+		}
+
+		public GameComponent GetComponent(Type type)
+		{
+			for (int i = 0; i < this.components.Count; i++)
+			{
+				if (type.IsAssignableFrom(this.components[i].GetType()))
+				{
+					return this.components[i];
+				}
+			}
+			return null;
 		}
 
 		public void FinalizeInit()

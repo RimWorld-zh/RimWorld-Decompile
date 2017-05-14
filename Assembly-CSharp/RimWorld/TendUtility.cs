@@ -8,9 +8,11 @@ namespace RimWorld
 {
 	public static class TendUtility
 	{
-		public const float NoMedicinePotency = 0.2f;
+		public const float NoMedicinePotency = 0.3f;
 
-		public const float SelfTendPenalty = 0.7f;
+		public const float NoDoctorTendQuality = 0.75f;
+
+		public const float SelfTendQualityFactor = 0.7f;
 
 		private const float ChanceToDevelopBondRelationOnTended = 0.004f;
 
@@ -29,17 +31,21 @@ namespace RimWorld
 				Log.Warning("Tried to use destroyed medicine.");
 				medicine = null;
 			}
-			float num = (medicine == null) ? 0.2f : medicine.def.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
-			float num2 = 0.7f;
+			float num = (medicine == null) ? 0.3f : medicine.def.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
+			float num2;
+			if (doctor != null)
+			{
+				num2 = doctor.GetStatValue(StatDefOf.MedicalTendQuality, true);
+			}
+			else
+			{
+				num2 = 0.75f;
+			}
 			num2 *= num;
 			Building_Bed building_Bed = patient.CurrentBed();
 			if (building_Bed != null)
 			{
 				num2 += building_Bed.GetStatValue(StatDefOf.MedicalTendQualityOffset, true);
-			}
-			if (doctor != null)
-			{
-				num2 *= doctor.GetStatValue(StatDefOf.MedicalTendQuality, true);
 			}
 			if (doctor == patient)
 			{

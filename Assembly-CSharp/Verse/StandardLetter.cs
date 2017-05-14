@@ -9,9 +9,9 @@ namespace Verse
 		{
 			get
 			{
-				StandardLetter.<>c__Iterator230 <>c__Iterator = new StandardLetter.<>c__Iterator230();
+				StandardLetter.<>c__Iterator232 <>c__Iterator = new StandardLetter.<>c__Iterator232();
 				<>c__Iterator.<>f__this = this;
-				StandardLetter.<>c__Iterator230 expr_0E = <>c__Iterator;
+				StandardLetter.<>c__Iterator232 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

@@ -52,9 +52,9 @@ namespace RimWorld
 		{
 			get
 			{
-				Scenario.<>c__Iterator124 <>c__Iterator = new Scenario.<>c__Iterator124();
+				Scenario.<>c__Iterator125 <>c__Iterator = new Scenario.<>c__Iterator125();
 				<>c__Iterator.<>f__this = this;
-				Scenario.<>c__Iterator124 expr_0E = <>c__Iterator;
+				Scenario.<>c__Iterator125 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -89,9 +89,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors()
 		{
-			Scenario.<ConfigErrors>c__Iterator125 <ConfigErrors>c__Iterator = new Scenario.<ConfigErrors>c__Iterator125();
+			Scenario.<ConfigErrors>c__Iterator126 <ConfigErrors>c__Iterator = new Scenario.<ConfigErrors>c__Iterator126();
 			<ConfigErrors>c__Iterator.<>f__this = this;
-			Scenario.<ConfigErrors>c__Iterator125 expr_0E = <ConfigErrors>c__Iterator;
+			Scenario.<ConfigErrors>c__Iterator126 expr_0E = <ConfigErrors>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

@@ -73,8 +73,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		protected override IEnumerable<IncidentDef> RandomizableIncidents()
 		{
-			ScenPart_CreateIncident.<RandomizableIncidents>c__Iterator119 <RandomizableIncidents>c__Iterator = new ScenPart_CreateIncident.<RandomizableIncidents>c__Iterator119();
-			ScenPart_CreateIncident.<RandomizableIncidents>c__Iterator119 expr_07 = <RandomizableIncidents>c__Iterator;
+			ScenPart_CreateIncident.<RandomizableIncidents>c__Iterator11A <RandomizableIncidents>c__Iterator11A = new ScenPart_CreateIncident.<RandomizableIncidents>c__Iterator11A();
+			ScenPart_CreateIncident.<RandomizableIncidents>c__Iterator11A expr_07 = <RandomizableIncidents>c__Iterator11A;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

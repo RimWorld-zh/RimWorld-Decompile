@@ -523,6 +523,14 @@ namespace Verse
 			}
 		}
 
+		public bool Claimable
+		{
+			get
+			{
+				return this.building != null && this.building.claimable;
+			}
+		}
+
 		public ThingCategoryDef FirstThingCategory
 		{
 			get
@@ -892,9 +900,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			ThingDef.<ConfigErrors>c__Iterator1E2 <ConfigErrors>c__Iterator1E = new ThingDef.<ConfigErrors>c__Iterator1E2();
+			ThingDef.<ConfigErrors>c__Iterator1E4 <ConfigErrors>c__Iterator1E = new ThingDef.<ConfigErrors>c__Iterator1E4();
 			<ConfigErrors>c__Iterator1E.<>f__this = this;
-			ThingDef.<ConfigErrors>c__Iterator1E2 expr_0E = <ConfigErrors>c__Iterator1E;
+			ThingDef.<ConfigErrors>c__Iterator1E4 expr_0E = <ConfigErrors>c__Iterator1E;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -923,9 +931,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			ThingDef.<SpecialDisplayStats>c__Iterator1E3 <SpecialDisplayStats>c__Iterator1E = new ThingDef.<SpecialDisplayStats>c__Iterator1E3();
+			ThingDef.<SpecialDisplayStats>c__Iterator1E5 <SpecialDisplayStats>c__Iterator1E = new ThingDef.<SpecialDisplayStats>c__Iterator1E5();
 			<SpecialDisplayStats>c__Iterator1E.<>f__this = this;
-			ThingDef.<SpecialDisplayStats>c__Iterator1E3 expr_0E = <SpecialDisplayStats>c__Iterator1E;
+			ThingDef.<SpecialDisplayStats>c__Iterator1E5 expr_0E = <SpecialDisplayStats>c__Iterator1E;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

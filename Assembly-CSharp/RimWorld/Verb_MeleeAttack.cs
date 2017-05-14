@@ -85,11 +85,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<DamageInfo> DamageInfosToApply(LocalTargetInfo target)
 		{
-			Verb_MeleeAttack.<DamageInfosToApply>c__Iterator1AC <DamageInfosToApply>c__Iterator1AC = new Verb_MeleeAttack.<DamageInfosToApply>c__Iterator1AC();
-			<DamageInfosToApply>c__Iterator1AC.target = target;
-			<DamageInfosToApply>c__Iterator1AC.<$>target = target;
-			<DamageInfosToApply>c__Iterator1AC.<>f__this = this;
-			Verb_MeleeAttack.<DamageInfosToApply>c__Iterator1AC expr_1C = <DamageInfosToApply>c__Iterator1AC;
+			Verb_MeleeAttack.<DamageInfosToApply>c__Iterator1AE <DamageInfosToApply>c__Iterator1AE = new Verb_MeleeAttack.<DamageInfosToApply>c__Iterator1AE();
+			<DamageInfosToApply>c__Iterator1AE.target = target;
+			<DamageInfosToApply>c__Iterator1AE.<$>target = target;
+			<DamageInfosToApply>c__Iterator1AE.<>f__this = this;
+			Verb_MeleeAttack.<DamageInfosToApply>c__Iterator1AE expr_1C = <DamageInfosToApply>c__Iterator1AE;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

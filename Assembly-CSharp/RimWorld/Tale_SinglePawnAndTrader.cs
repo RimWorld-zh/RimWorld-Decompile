@@ -33,9 +33,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
-			Tale_SinglePawnAndTrader.<SpecialTextGenerationRules>c__Iterator137 <SpecialTextGenerationRules>c__Iterator = new Tale_SinglePawnAndTrader.<SpecialTextGenerationRules>c__Iterator137();
+			Tale_SinglePawnAndTrader.<SpecialTextGenerationRules>c__Iterator138 <SpecialTextGenerationRules>c__Iterator = new Tale_SinglePawnAndTrader.<SpecialTextGenerationRules>c__Iterator138();
 			<SpecialTextGenerationRules>c__Iterator.<>f__this = this;
-			Tale_SinglePawnAndTrader.<SpecialTextGenerationRules>c__Iterator137 expr_0E = <SpecialTextGenerationRules>c__Iterator;
+			Tale_SinglePawnAndTrader.<SpecialTextGenerationRules>c__Iterator138 expr_0E = <SpecialTextGenerationRules>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

@@ -17,7 +17,7 @@ namespace RimWorld
 		{
 			Text.Font = GameFont.Small;
 			Rect rect2 = new Rect(0f, 0f, rect.width - 16f, RecordsCardUtility.listHeight);
-			Widgets.BeginScrollView(rect, ref RecordsCardUtility.scrollPosition, rect2);
+			Widgets.BeginScrollView(rect, ref RecordsCardUtility.scrollPosition, rect2, true);
 			Rect leftRect = rect2;
 			leftRect.width *= 0.5f;
 			Rect rightRect = rect2;

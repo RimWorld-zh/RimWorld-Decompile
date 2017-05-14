@@ -50,9 +50,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompTempControl.<CompGetGizmosExtra>c__Iterator16C <CompGetGizmosExtra>c__Iterator16C = new CompTempControl.<CompGetGizmosExtra>c__Iterator16C();
-			<CompGetGizmosExtra>c__Iterator16C.<>f__this = this;
-			CompTempControl.<CompGetGizmosExtra>c__Iterator16C expr_0E = <CompGetGizmosExtra>c__Iterator16C;
+			CompTempControl.<CompGetGizmosExtra>c__Iterator16D <CompGetGizmosExtra>c__Iterator16D = new CompTempControl.<CompGetGizmosExtra>c__Iterator16D();
+			<CompGetGizmosExtra>c__Iterator16D.<>f__this = this;
+			CompTempControl.<CompGetGizmosExtra>c__Iterator16D expr_0E = <CompGetGizmosExtra>c__Iterator16D;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

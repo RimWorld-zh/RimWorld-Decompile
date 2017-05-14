@@ -73,11 +73,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<Thing> OpenablesInCell(IntVec3 c)
 		{
-			Designator_Open.<OpenablesInCell>c__Iterator18E <OpenablesInCell>c__Iterator18E = new Designator_Open.<OpenablesInCell>c__Iterator18E();
-			<OpenablesInCell>c__Iterator18E.c = c;
-			<OpenablesInCell>c__Iterator18E.<$>c = c;
-			<OpenablesInCell>c__Iterator18E.<>f__this = this;
-			Designator_Open.<OpenablesInCell>c__Iterator18E expr_1C = <OpenablesInCell>c__Iterator18E;
+			Designator_Open.<OpenablesInCell>c__Iterator18F <OpenablesInCell>c__Iterator18F = new Designator_Open.<OpenablesInCell>c__Iterator18F();
+			<OpenablesInCell>c__Iterator18F.c = c;
+			<OpenablesInCell>c__Iterator18F.<$>c = c;
+			<OpenablesInCell>c__Iterator18F.<>f__this = this;
+			Designator_Open.<OpenablesInCell>c__Iterator18F expr_1C = <OpenablesInCell>c__Iterator18F;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

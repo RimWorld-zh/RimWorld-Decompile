@@ -36,30 +36,40 @@ namespace RimWorld
 
 		private static Job MeleeOrWaitJob(Pawn pawn, Thing blocker, IntVec3 cellBeforeBlocker)
 		{
-			if (!pawn.CanReserve(blocker, 1, -1, null, false))
+			if (pawn.CanReserve(blocker, 1, -1, null, false))
 			{
-				return new Job(JobDefOf.Goto, CellFinder.RandomClosewalkCellNear(cellBeforeBlocker, pawn.Map, 10, null), 500, true);
+				return new Job(JobDefOf.AttackMelee, blocker)
+				{
+					ignoreDesignations = true,
+					expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange,
+					checkOverrideOnExpire = true
+				};
 			}
-			return new Job(JobDefOf.AttackMelee, blocker)
+			IntVec3 intVec = CellFinder.RandomClosewalkCellNear(cellBeforeBlocker, pawn.Map, 10, null);
+			if (intVec == pawn.Position)
 			{
-				ignoreDesignations = true,
-				expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange,
-				checkOverrideOnExpire = true
-			};
+				return new Job(JobDefOf.Wait, 20, true);
+			}
+			return new Job(JobDefOf.Goto, intVec, 500, true);
 		}
 
 		private static Job MineOrWaitJob(Pawn pawn, Thing blocker, IntVec3 cellBeforeBlocker)
 		{
-			if (!pawn.CanReserve(blocker, 1, -1, null, false))
+			if (pawn.CanReserve(blocker, 1, -1, null, false))
 			{
-				return new Job(JobDefOf.Goto, CellFinder.RandomClosewalkCellNear(cellBeforeBlocker, pawn.Map, 10, null), 500, true);
+				return new Job(JobDefOf.Mine, blocker)
+				{
+					ignoreDesignations = true,
+					expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange,
+					checkOverrideOnExpire = true
+				};
 			}
-			return new Job(JobDefOf.Mine, blocker)
+			IntVec3 intVec = CellFinder.RandomClosewalkCellNear(cellBeforeBlocker, pawn.Map, 10, null);
+			if (intVec == pawn.Position)
 			{
-				ignoreDesignations = true,
-				expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange,
-				checkOverrideOnExpire = true
-			};
+				return new Job(JobDefOf.Wait, 20, true);
+			}
+			return new Job(JobDefOf.Goto, intVec, 500, true);
 		}
 	}
 }

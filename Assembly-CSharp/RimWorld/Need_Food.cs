@@ -95,7 +95,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.pawn.BodySize;
+				return this.pawn.BodySize * this.pawn.ageTracker.CurLifeStage.foodMaxFactor;
 			}
 		}
 

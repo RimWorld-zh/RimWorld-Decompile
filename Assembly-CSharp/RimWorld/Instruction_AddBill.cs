@@ -43,9 +43,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<Thing> ThingsToSelect()
 		{
-			Instruction_AddBill.<ThingsToSelect>c__Iterator1A0 <ThingsToSelect>c__Iterator1A = new Instruction_AddBill.<ThingsToSelect>c__Iterator1A0();
+			Instruction_AddBill.<ThingsToSelect>c__Iterator1A2 <ThingsToSelect>c__Iterator1A = new Instruction_AddBill.<ThingsToSelect>c__Iterator1A2();
 			<ThingsToSelect>c__Iterator1A.<>f__this = this;
-			Instruction_AddBill.<ThingsToSelect>c__Iterator1A0 expr_0E = <ThingsToSelect>c__Iterator1A;
+			Instruction_AddBill.<ThingsToSelect>c__Iterator1A2 expr_0E = <ThingsToSelect>c__Iterator1A;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

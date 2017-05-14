@@ -33,10 +33,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<Gizmo> CopyPasteGizmosFor(StorageSettings s)
 		{
-			StorageSettingsClipboard.<CopyPasteGizmosFor>c__Iterator14E <CopyPasteGizmosFor>c__Iterator14E = new StorageSettingsClipboard.<CopyPasteGizmosFor>c__Iterator14E();
-			<CopyPasteGizmosFor>c__Iterator14E.s = s;
-			<CopyPasteGizmosFor>c__Iterator14E.<$>s = s;
-			StorageSettingsClipboard.<CopyPasteGizmosFor>c__Iterator14E expr_15 = <CopyPasteGizmosFor>c__Iterator14E;
+			StorageSettingsClipboard.<CopyPasteGizmosFor>c__Iterator14F <CopyPasteGizmosFor>c__Iterator14F = new StorageSettingsClipboard.<CopyPasteGizmosFor>c__Iterator14F();
+			<CopyPasteGizmosFor>c__Iterator14F.s = s;
+			<CopyPasteGizmosFor>c__Iterator14F.<$>s = s;
+			StorageSettingsClipboard.<CopyPasteGizmosFor>c__Iterator14F expr_15 = <CopyPasteGizmosFor>c__Iterator14F;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

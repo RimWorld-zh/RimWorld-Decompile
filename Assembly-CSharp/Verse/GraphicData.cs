@@ -119,11 +119,11 @@ namespace Verse
 		[DebuggerHidden]
 		internal IEnumerable<string> ConfigErrors(ThingDef thingDef)
 		{
-			GraphicData.<ConfigErrors>c__Iterator1C4 <ConfigErrors>c__Iterator1C = new GraphicData.<ConfigErrors>c__Iterator1C4();
+			GraphicData.<ConfigErrors>c__Iterator1C6 <ConfigErrors>c__Iterator1C = new GraphicData.<ConfigErrors>c__Iterator1C6();
 			<ConfigErrors>c__Iterator1C.thingDef = thingDef;
 			<ConfigErrors>c__Iterator1C.<$>thingDef = thingDef;
 			<ConfigErrors>c__Iterator1C.<>f__this = this;
-			GraphicData.<ConfigErrors>c__Iterator1C4 expr_1C = <ConfigErrors>c__Iterator1C;
+			GraphicData.<ConfigErrors>c__Iterator1C6 expr_1C = <ConfigErrors>c__Iterator1C;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

@@ -76,9 +76,11 @@ namespace Verse
 			}
 			if (logVersionConflictWarning && (mode == ScribeMetaHeaderUtility.ScribeHeaderMode.Map || !UnityData.isEditor) && !ScribeMetaHeaderUtility.VersionsMatch())
 			{
-				Log.Warning(string.Concat(new string[]
+				Log.Warning(string.Concat(new object[]
 				{
-					"Loaded file is from version ",
+					"Loaded file (",
+					mode,
+					") is from version ",
 					ScribeMetaHeaderUtility.loadedGameVersion,
 					", we are running version ",
 					VersionControl.CurrentVersionStringWithRev,

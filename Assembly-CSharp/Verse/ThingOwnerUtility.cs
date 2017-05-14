@@ -269,6 +269,11 @@ namespace Verse
 			return !(holder is Corpse) && !(holder is MinifiedThing);
 		}
 
+		public static bool ContentsFrozen(IThingHolder holder)
+		{
+			return holder is Building_CryptosleepCasket;
+		}
+
 		public static bool TryGetFixedTemperature(IThingHolder holder, out float temperature)
 		{
 			if (holder is Pawn_InventoryTracker)

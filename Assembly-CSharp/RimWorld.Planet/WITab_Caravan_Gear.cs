@@ -101,7 +101,7 @@ namespace RimWorld.Planet
 			Rect rect = new Rect(0f, 0f, this.leftPaneWidth, this.size.y).ContractedBy(10f);
 			Rect rect2 = new Rect(0f, 0f, rect.width - 16f, this.leftPaneScrollViewHeight);
 			float num = 0f;
-			Widgets.BeginScrollView(rect, ref this.leftPaneScrollPosition, rect2);
+			Widgets.BeginScrollView(rect, ref this.leftPaneScrollPosition, rect2, true);
 			this.DoPawnRows(ref num, rect2, rect);
 			if (Event.current.type == EventType.Layout)
 			{
@@ -125,7 +125,7 @@ namespace RimWorld.Planet
 				}
 			}
 			float num = 0f;
-			Widgets.BeginScrollView(rect, ref this.rightPaneScrollPosition, rect2);
+			Widgets.BeginScrollView(rect, ref this.rightPaneScrollPosition, rect2, true);
 			this.DoInventoryRows(ref num, rect2, rect);
 			if (Event.current.type == EventType.Layout)
 			{
@@ -411,24 +411,13 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		private bool TryRemoveFromCurrentWearer(Thing t)
-		{
-			return this.CurrentWearerOf(t) != null && t.holdingOwner.Remove(t);
-		}
-
 		private void MoveDraggedItemToInventory()
 		{
 			this.droppedDraggedItem = false;
-			if (!this.TryRemoveFromCurrentWearer(this.draggedItem))
-			{
-				Log.Warning("Could not remove dragged item from its source.");
-				this.draggedItem = null;
-				return;
-			}
 			Pawn pawn = CaravanInventoryUtility.FindPawnToMoveInventoryTo(this.draggedItem, this.Pawns, null, null);
 			if (pawn != null)
 			{
-				pawn.inventory.innerContainer.TryAdd(this.draggedItem, true);
+				this.draggedItem.holdingOwner.TryTransferToContainer(this.draggedItem, pawn.inventory.innerContainer, 1, true);
 			}
 			else
 			{
@@ -458,7 +447,6 @@ namespace RimWorld.Planet
 					return;
 				}
 			}
-			this.draggedItem.holdingOwner.Remove(this.draggedItem);
 			Apparel apparel = this.draggedItem as Apparel;
 			ThingWithComps thingWithComps = this.draggedItem as ThingWithComps;
 			if (apparel != null && p.apparel != null)
@@ -482,7 +470,7 @@ namespace RimWorld.Planet
 						}
 					}
 				}
-				p.apparel.Wear(apparel, false);
+				p.apparel.Wear((Apparel)apparel.SplitOff(1), false);
 				if (p.outfits != null)
 				{
 					p.outfits.forcedHandler.SetForced(apparel, true);
@@ -506,7 +494,7 @@ namespace RimWorld.Planet
 						WITab_Caravan_Gear.tmpExistingEquipment[j].Destroy(DestroyMode.Vanish);
 					}
 				}
-				p.equipment.AddEquipment(thingWithComps);
+				p.equipment.AddEquipment((ThingWithComps)thingWithComps.SplitOff(1));
 			}
 			else
 			{

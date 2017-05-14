@@ -108,10 +108,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<T> GetAllSelectedItems<T>(this Enum value)
 		{
-			Gen.<GetAllSelectedItems>c__Iterator23B<T> <GetAllSelectedItems>c__Iterator23B = new Gen.<GetAllSelectedItems>c__Iterator23B<T>();
-			<GetAllSelectedItems>c__Iterator23B.value = value;
-			<GetAllSelectedItems>c__Iterator23B.<$>value = value;
-			Gen.<GetAllSelectedItems>c__Iterator23B<T> expr_15 = <GetAllSelectedItems>c__Iterator23B;
+			Gen.<GetAllSelectedItems>c__Iterator23D<T> <GetAllSelectedItems>c__Iterator23D = new Gen.<GetAllSelectedItems>c__Iterator23D<T>();
+			<GetAllSelectedItems>c__Iterator23D.value = value;
+			<GetAllSelectedItems>c__Iterator23D.<$>value = value;
+			Gen.<GetAllSelectedItems>c__Iterator23D<T> expr_15 = <GetAllSelectedItems>c__Iterator23D;
 			expr_15.$PC = -2;
 			return expr_15;
 		}
@@ -119,10 +119,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<T> YieldSingle<T>(T val)
 		{
-			Gen.<YieldSingle>c__Iterator23C<T> <YieldSingle>c__Iterator23C = new Gen.<YieldSingle>c__Iterator23C<T>();
-			<YieldSingle>c__Iterator23C.val = val;
-			<YieldSingle>c__Iterator23C.<$>val = val;
-			Gen.<YieldSingle>c__Iterator23C<T> expr_15 = <YieldSingle>c__Iterator23C;
+			Gen.<YieldSingle>c__Iterator23E<T> <YieldSingle>c__Iterator23E = new Gen.<YieldSingle>c__Iterator23E<T>();
+			<YieldSingle>c__Iterator23E.val = val;
+			<YieldSingle>c__Iterator23E.<$>val = val;
+			Gen.<YieldSingle>c__Iterator23E<T> expr_15 = <YieldSingle>c__Iterator23E;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

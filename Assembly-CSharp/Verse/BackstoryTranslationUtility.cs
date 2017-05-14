@@ -11,10 +11,10 @@ namespace Verse
 		[DebuggerHidden]
 		private static IEnumerable<XElement> BackstoryTranslationElements(LoadedLanguage lang)
 		{
-			BackstoryTranslationUtility.<BackstoryTranslationElements>c__Iterator1E9 <BackstoryTranslationElements>c__Iterator1E = new BackstoryTranslationUtility.<BackstoryTranslationElements>c__Iterator1E9();
-			<BackstoryTranslationElements>c__Iterator1E.lang = lang;
-			<BackstoryTranslationElements>c__Iterator1E.<$>lang = lang;
-			BackstoryTranslationUtility.<BackstoryTranslationElements>c__Iterator1E9 expr_15 = <BackstoryTranslationElements>c__Iterator1E;
+			BackstoryTranslationUtility.<BackstoryTranslationElements>c__Iterator1EB <BackstoryTranslationElements>c__Iterator1EB = new BackstoryTranslationUtility.<BackstoryTranslationElements>c__Iterator1EB();
+			<BackstoryTranslationElements>c__Iterator1EB.lang = lang;
+			<BackstoryTranslationElements>c__Iterator1EB.<$>lang = lang;
+			BackstoryTranslationUtility.<BackstoryTranslationElements>c__Iterator1EB expr_15 = <BackstoryTranslationElements>c__Iterator1EB;
 			expr_15.$PC = -2;
 			return expr_15;
 		}
@@ -73,10 +73,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<string> MissingBackstoryTranslations(LoadedLanguage lang)
 		{
-			BackstoryTranslationUtility.<MissingBackstoryTranslations>c__Iterator1EA <MissingBackstoryTranslations>c__Iterator1EA = new BackstoryTranslationUtility.<MissingBackstoryTranslations>c__Iterator1EA();
-			<MissingBackstoryTranslations>c__Iterator1EA.lang = lang;
-			<MissingBackstoryTranslations>c__Iterator1EA.<$>lang = lang;
-			BackstoryTranslationUtility.<MissingBackstoryTranslations>c__Iterator1EA expr_15 = <MissingBackstoryTranslations>c__Iterator1EA;
+			BackstoryTranslationUtility.<MissingBackstoryTranslations>c__Iterator1EC <MissingBackstoryTranslations>c__Iterator1EC = new BackstoryTranslationUtility.<MissingBackstoryTranslations>c__Iterator1EC();
+			<MissingBackstoryTranslations>c__Iterator1EC.lang = lang;
+			<MissingBackstoryTranslations>c__Iterator1EC.<$>lang = lang;
+			BackstoryTranslationUtility.<MissingBackstoryTranslations>c__Iterator1EC expr_15 = <MissingBackstoryTranslations>c__Iterator1EC;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

@@ -72,7 +72,7 @@ namespace RimWorld
 		{
 			rect.xMax += 2f;
 			Rect rect2 = new Rect(0f, 0f, rect.width - 16f - 2f, this.totalScenarioListHeight + 250f);
-			Widgets.BeginScrollView(rect, ref this.scenariosScrollPosition, rect2);
+			Widgets.BeginScrollView(rect, ref this.scenariosScrollPosition, rect2, true);
 			Rect rect3 = rect2.AtZero();
 			rect3.height = 999999f;
 			Listing_Standard listing_Standard = new Listing_Standard();

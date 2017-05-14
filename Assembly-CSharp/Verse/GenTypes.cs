@@ -23,8 +23,8 @@ namespace Verse
 		{
 			get
 			{
-				GenTypes.<>c__Iterator24B <>c__Iterator24B = new GenTypes.<>c__Iterator24B();
-				GenTypes.<>c__Iterator24B expr_07 = <>c__Iterator24B;
+				GenTypes.<>c__Iterator24D <>c__Iterator24D = new GenTypes.<>c__Iterator24D();
+				GenTypes.<>c__Iterator24D expr_07 = <>c__Iterator24D;
 				expr_07.$PC = -2;
 				return expr_07;
 			}
@@ -34,8 +34,8 @@ namespace Verse
 		{
 			get
 			{
-				GenTypes.<>c__Iterator24C <>c__Iterator24C = new GenTypes.<>c__Iterator24C();
-				GenTypes.<>c__Iterator24C expr_07 = <>c__Iterator24C;
+				GenTypes.<>c__Iterator24E <>c__Iterator24E = new GenTypes.<>c__Iterator24E();
+				GenTypes.<>c__Iterator24E expr_07 = <>c__Iterator24E;
 				expr_07.$PC = -2;
 				return expr_07;
 			}
@@ -72,10 +72,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<Type> InstantiableDescendantsAndSelf(this Type baseType)
 		{
-			GenTypes.<InstantiableDescendantsAndSelf>c__Iterator24D <InstantiableDescendantsAndSelf>c__Iterator24D = new GenTypes.<InstantiableDescendantsAndSelf>c__Iterator24D();
-			<InstantiableDescendantsAndSelf>c__Iterator24D.baseType = baseType;
-			<InstantiableDescendantsAndSelf>c__Iterator24D.<$>baseType = baseType;
-			GenTypes.<InstantiableDescendantsAndSelf>c__Iterator24D expr_15 = <InstantiableDescendantsAndSelf>c__Iterator24D;
+			GenTypes.<InstantiableDescendantsAndSelf>c__Iterator24F <InstantiableDescendantsAndSelf>c__Iterator24F = new GenTypes.<InstantiableDescendantsAndSelf>c__Iterator24F();
+			<InstantiableDescendantsAndSelf>c__Iterator24F.baseType = baseType;
+			<InstantiableDescendantsAndSelf>c__Iterator24F.<$>baseType = baseType;
+			GenTypes.<InstantiableDescendantsAndSelf>c__Iterator24F expr_15 = <InstantiableDescendantsAndSelf>c__Iterator24F;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

@@ -31,7 +31,7 @@ namespace RimWorld
 			GUI.color = Color.white;
 			Rect outRect = new Rect(0f, 50f, position.width, position.height - 50f);
 			Rect rect = new Rect(0f, 0f, position.width - 16f, scrollViewHeight);
-			Widgets.BeginScrollView(outRect, ref scrollPosition, rect);
+			Widgets.BeginScrollView(outRect, ref scrollPosition, rect, true);
 			float num = 0f;
 			foreach (Faction current in Find.FactionManager.AllFactionsInViewOrder)
 			{

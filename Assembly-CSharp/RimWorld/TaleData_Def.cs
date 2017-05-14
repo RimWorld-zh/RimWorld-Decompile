@@ -32,11 +32,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<Rule> GetRules(string prefix)
 		{
-			TaleData_Def.<GetRules>c__Iterator12B <GetRules>c__Iterator12B = new TaleData_Def.<GetRules>c__Iterator12B();
-			<GetRules>c__Iterator12B.prefix = prefix;
-			<GetRules>c__Iterator12B.<$>prefix = prefix;
-			<GetRules>c__Iterator12B.<>f__this = this;
-			TaleData_Def.<GetRules>c__Iterator12B expr_1C = <GetRules>c__Iterator12B;
+			TaleData_Def.<GetRules>c__Iterator12C <GetRules>c__Iterator12C = new TaleData_Def.<GetRules>c__Iterator12C();
+			<GetRules>c__Iterator12C.prefix = prefix;
+			<GetRules>c__Iterator12C.<$>prefix = prefix;
+			<GetRules>c__Iterator12C.<>f__this = this;
+			TaleData_Def.<GetRules>c__Iterator12C expr_1C = <GetRules>c__Iterator12C;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

@@ -171,13 +171,13 @@ namespace Verse
 				switch (this.ResolvedDietCategory)
 				{
 				case DietCategory.NeverEats:
-					return 0.5f;
+					return 0.3f;
 				case DietCategory.Herbivorous:
-					return 0.65f;
+					return 0.45f;
 				case DietCategory.Dendrovorous:
-					return 0.65f;
+					return 0.45f;
 				case DietCategory.Ovivorous:
-					return 0.5f;
+					return 0.4f;
 				case DietCategory.Omnivorous:
 					return 0.3f;
 				case DietCategory.Carnivorous:
@@ -339,9 +339,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors()
 		{
-			RaceProperties.<ConfigErrors>c__Iterator1C7 <ConfigErrors>c__Iterator1C = new RaceProperties.<ConfigErrors>c__Iterator1C7();
+			RaceProperties.<ConfigErrors>c__Iterator1C9 <ConfigErrors>c__Iterator1C = new RaceProperties.<ConfigErrors>c__Iterator1C9();
 			<ConfigErrors>c__Iterator1C.<>f__this = this;
-			RaceProperties.<ConfigErrors>c__Iterator1C7 expr_0E = <ConfigErrors>c__Iterator1C;
+			RaceProperties.<ConfigErrors>c__Iterator1C9 expr_0E = <ConfigErrors>c__Iterator1C;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -349,11 +349,11 @@ namespace Verse
 		[DebuggerHidden]
 		internal IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
-			RaceProperties.<SpecialDisplayStats>c__Iterator1C8 <SpecialDisplayStats>c__Iterator1C = new RaceProperties.<SpecialDisplayStats>c__Iterator1C8();
-			<SpecialDisplayStats>c__Iterator1C.parentDef = parentDef;
-			<SpecialDisplayStats>c__Iterator1C.<$>parentDef = parentDef;
-			<SpecialDisplayStats>c__Iterator1C.<>f__this = this;
-			RaceProperties.<SpecialDisplayStats>c__Iterator1C8 expr_1C = <SpecialDisplayStats>c__Iterator1C;
+			RaceProperties.<SpecialDisplayStats>c__Iterator1CA <SpecialDisplayStats>c__Iterator1CA = new RaceProperties.<SpecialDisplayStats>c__Iterator1CA();
+			<SpecialDisplayStats>c__Iterator1CA.parentDef = parentDef;
+			<SpecialDisplayStats>c__Iterator1CA.<$>parentDef = parentDef;
+			<SpecialDisplayStats>c__Iterator1CA.<>f__this = this;
+			RaceProperties.<SpecialDisplayStats>c__Iterator1CA expr_1C = <SpecialDisplayStats>c__Iterator1CA;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}
