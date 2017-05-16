@@ -24,9 +24,9 @@ namespace Verse
 		{
 			get
 			{
-				MapPawns.<>c__Iterator1F8 <>c__Iterator1F = new MapPawns.<>c__Iterator1F8();
-				<>c__Iterator1F.<>f__this = this;
-				MapPawns.<>c__Iterator1F8 expr_0E = <>c__Iterator1F;
+				MapPawns.<>c__Iterator1FA <>c__Iterator1FA = new MapPawns.<>c__Iterator1FA();
+				<>c__Iterator1FA.<>f__this = this;
+				MapPawns.<>c__Iterator1FA expr_0E = <>c__Iterator1FA;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -36,9 +36,9 @@ namespace Verse
 		{
 			get
 			{
-				MapPawns.<>c__Iterator1F9 <>c__Iterator1F = new MapPawns.<>c__Iterator1F9();
-				<>c__Iterator1F.<>f__this = this;
-				MapPawns.<>c__Iterator1F9 expr_0E = <>c__Iterator1F;
+				MapPawns.<>c__Iterator1FB <>c__Iterator1FB = new MapPawns.<>c__Iterator1FB();
+				<>c__Iterator1FB.<>f__this = this;
+				MapPawns.<>c__Iterator1FB expr_0E = <>c__Iterator1FB;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

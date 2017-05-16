@@ -84,16 +84,6 @@ namespace Verse.AI
 
 		private RegionCostCalculatorWrapper regionCostCalculator;
 
-		private int mapSizePowTwo;
-
-		private ushort gridSizeX;
-
-		private ushort gridSizeZ;
-
-		private ushort gridSizeXMinus1;
-
-		private ushort gridSizeZLog2;
-
 		private int mapSizeX;
 
 		private int mapSizeZ;
@@ -177,20 +167,23 @@ namespace Verse.AI
 			{
 				new CurvePoint(15000f, 5.5f),
 				true
+			},
+			{
+				new CurvePoint(25000f, 30f),
+				true
+			},
+			{
+				new CurvePoint(35000f, 100f),
+				true
 			}
 		};
 
 		public PathFinder(Map map)
 		{
 			this.map = map;
-			this.mapSizePowTwo = map.info.PowerOfTwoOverMapSize;
-			this.gridSizeX = (ushort)this.mapSizePowTwo;
-			this.gridSizeZ = (ushort)this.mapSizePowTwo;
-			this.gridSizeXMinus1 = this.gridSizeX - 1;
-			this.gridSizeZLog2 = (ushort)Math.Log((double)this.gridSizeZ, 2.0);
 			this.mapSizeX = map.Size.x;
 			this.mapSizeZ = map.Size.z;
-			this.calcGrid = new PathFinder.PathFinderNodeFast[(int)(this.gridSizeX * this.gridSizeZ)];
+			this.calcGrid = new PathFinder.PathFinderNodeFast[this.mapSizeX * this.mapSizeZ];
 			this.openList = new FastPriorityQueue<PathFinder.CostNode>(new PathFinder.CostNodeComparer());
 			this.regionCostCalculator = new RegionCostCalculatorWrapper(map);
 		}
@@ -739,7 +732,7 @@ namespace Verse.AI
 				while (this.openList.Count > 0)
 				{
 					int index = this.openList.Pop().index;
-					IntVec3 c = new IntVec3(index & (int)this.gridSizeXMinus1, 0, index >> (int)this.gridSizeZLog2);
+					IntVec3 c = new IntVec3(index % this.mapSizeX, 0, index / this.mapSizeX);
 					this.map.debugDrawer.FlashCell(c, 0f, "open");
 				}
 			}

@@ -40,10 +40,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<string> LinesFromFile(string filePath)
 		{
-			GenFile.<LinesFromFile>c__Iterator247 <LinesFromFile>c__Iterator = new GenFile.<LinesFromFile>c__Iterator247();
+			GenFile.<LinesFromFile>c__Iterator249 <LinesFromFile>c__Iterator = new GenFile.<LinesFromFile>c__Iterator249();
 			<LinesFromFile>c__Iterator.filePath = filePath;
 			<LinesFromFile>c__Iterator.<$>filePath = filePath;
-			GenFile.<LinesFromFile>c__Iterator247 expr_15 = <LinesFromFile>c__Iterator;
+			GenFile.<LinesFromFile>c__Iterator249 expr_15 = <LinesFromFile>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

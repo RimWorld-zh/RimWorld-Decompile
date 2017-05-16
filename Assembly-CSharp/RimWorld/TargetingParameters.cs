@@ -92,7 +92,7 @@ namespace RimWorld
 			}
 			if (this.canTargetBuildings && targ.Thing.def.category == ThingCategory.Building)
 			{
-				return (!this.onlyTargetThingsAffectingRegions || targ.Thing.def.affectsRegions) && (this.onlyTargetFactions == null || this.onlyTargetFactions.Contains(targ.Thing.Faction));
+				return (!this.onlyTargetThingsAffectingRegions || targ.Thing.def.AffectsRegions) && (this.onlyTargetFactions == null || this.onlyTargetFactions.Contains(targ.Thing.Faction));
 			}
 			return this.canTargetItems && (!this.mapObjectTargetsMustBeAutoAttackable || targ.Thing.def.isAutoAttackableMapObject);
 		}

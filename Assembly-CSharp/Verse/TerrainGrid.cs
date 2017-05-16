@@ -96,10 +96,13 @@ namespace Verse
 		private void DoTerrainChangedEffects(IntVec3 c)
 		{
 			this.map.mapDrawer.MapMeshDirty(c, MapMeshFlag.Terrain, true, false);
-			Plant plant = c.GetPlant(this.map);
-			if (plant != null && this.map.fertilityGrid.FertilityAt(c) < plant.def.plant.fertilityMin)
+			List<Thing> thingList = c.GetThingList(this.map);
+			for (int i = thingList.Count - 1; i >= 0; i--)
 			{
-				plant.Destroy(DestroyMode.Vanish);
+				if (thingList[i].def.category == ThingCategory.Plant && this.map.fertilityGrid.FertilityAt(c) < thingList[i].def.plant.fertilityMin)
+				{
+					thingList[i].Destroy(DestroyMode.Vanish);
+				}
 			}
 			this.map.pathGrid.RecalculatePerceivedPathCostAt(c);
 			Region regionAt_NoRebuild_InvalidAllowed = this.map.regionGrid.GetRegionAt_NoRebuild_InvalidAllowed(c);

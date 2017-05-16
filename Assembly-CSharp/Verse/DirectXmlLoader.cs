@@ -13,12 +13,12 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<LoadableXmlAsset> XmlAssetsInModFolder(ModContentPack mod, string folderPath)
 		{
-			DirectXmlLoader.<XmlAssetsInModFolder>c__Iterator222 <XmlAssetsInModFolder>c__Iterator = new DirectXmlLoader.<XmlAssetsInModFolder>c__Iterator222();
+			DirectXmlLoader.<XmlAssetsInModFolder>c__Iterator224 <XmlAssetsInModFolder>c__Iterator = new DirectXmlLoader.<XmlAssetsInModFolder>c__Iterator224();
 			<XmlAssetsInModFolder>c__Iterator.mod = mod;
 			<XmlAssetsInModFolder>c__Iterator.folderPath = folderPath;
 			<XmlAssetsInModFolder>c__Iterator.<$>mod = mod;
 			<XmlAssetsInModFolder>c__Iterator.<$>folderPath = folderPath;
-			DirectXmlLoader.<XmlAssetsInModFolder>c__Iterator222 expr_23 = <XmlAssetsInModFolder>c__Iterator;
+			DirectXmlLoader.<XmlAssetsInModFolder>c__Iterator224 expr_23 = <XmlAssetsInModFolder>c__Iterator;
 			expr_23.$PC = -2;
 			return expr_23;
 		}
@@ -26,10 +26,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<T> LoadXmlDataInResourcesFolder<T>(string folderPath) where T : new()
 		{
-			DirectXmlLoader.<LoadXmlDataInResourcesFolder>c__Iterator223<T> <LoadXmlDataInResourcesFolder>c__Iterator = new DirectXmlLoader.<LoadXmlDataInResourcesFolder>c__Iterator223<T>();
+			DirectXmlLoader.<LoadXmlDataInResourcesFolder>c__Iterator225<T> <LoadXmlDataInResourcesFolder>c__Iterator = new DirectXmlLoader.<LoadXmlDataInResourcesFolder>c__Iterator225<T>();
 			<LoadXmlDataInResourcesFolder>c__Iterator.folderPath = folderPath;
 			<LoadXmlDataInResourcesFolder>c__Iterator.<$>folderPath = folderPath;
-			DirectXmlLoader.<LoadXmlDataInResourcesFolder>c__Iterator223<T> expr_15 = <LoadXmlDataInResourcesFolder>c__Iterator;
+			DirectXmlLoader.<LoadXmlDataInResourcesFolder>c__Iterator225<T> expr_15 = <LoadXmlDataInResourcesFolder>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}
@@ -68,10 +68,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<Def> AllDefsFromAsset(LoadableXmlAsset asset)
 		{
-			DirectXmlLoader.<AllDefsFromAsset>c__Iterator224 <AllDefsFromAsset>c__Iterator = new DirectXmlLoader.<AllDefsFromAsset>c__Iterator224();
+			DirectXmlLoader.<AllDefsFromAsset>c__Iterator226 <AllDefsFromAsset>c__Iterator = new DirectXmlLoader.<AllDefsFromAsset>c__Iterator226();
 			<AllDefsFromAsset>c__Iterator.asset = asset;
 			<AllDefsFromAsset>c__Iterator.<$>asset = asset;
-			DirectXmlLoader.<AllDefsFromAsset>c__Iterator224 expr_15 = <AllDefsFromAsset>c__Iterator;
+			DirectXmlLoader.<AllDefsFromAsset>c__Iterator226 expr_15 = <AllDefsFromAsset>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}
@@ -79,10 +79,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<T> AllGameItemsFromAsset<T>(LoadableXmlAsset asset) where T : new()
 		{
-			DirectXmlLoader.<AllGameItemsFromAsset>c__Iterator225<T> <AllGameItemsFromAsset>c__Iterator = new DirectXmlLoader.<AllGameItemsFromAsset>c__Iterator225<T>();
+			DirectXmlLoader.<AllGameItemsFromAsset>c__Iterator227<T> <AllGameItemsFromAsset>c__Iterator = new DirectXmlLoader.<AllGameItemsFromAsset>c__Iterator227<T>();
 			<AllGameItemsFromAsset>c__Iterator.asset = asset;
 			<AllGameItemsFromAsset>c__Iterator.<$>asset = asset;
-			DirectXmlLoader.<AllGameItemsFromAsset>c__Iterator225<T> expr_15 = <AllGameItemsFromAsset>c__Iterator;
+			DirectXmlLoader.<AllGameItemsFromAsset>c__Iterator227<T> expr_15 = <AllGameItemsFromAsset>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

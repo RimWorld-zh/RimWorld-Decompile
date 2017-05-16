@@ -188,11 +188,6 @@ namespace RimWorld.Planet
 			}
 		}
 
-		public bool IsPawnPurchasedAsPrisoner(Pawn pawn)
-		{
-			return false;
-		}
-
 		public virtual void TraderTrackerTick()
 		{
 			if (this.stock != null)

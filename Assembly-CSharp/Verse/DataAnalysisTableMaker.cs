@@ -8,6 +8,21 @@ namespace Verse
 {
 	internal static class DataAnalysisTableMaker
 	{
+		public static void DoTable_PopulationIntent()
+		{
+			Find.Storyteller.intenderPopulation.DoTable_PopulationIntents();
+		}
+
+		public static void DoTable_PopAdjRecruitDifficulty()
+		{
+			PawnUtility.DoTable_PopIntentRecruitDifficulty();
+		}
+
+		public static void DoTable_ManhunterResults()
+		{
+			ManhunterPackIncidentUtility.DoTable_ManhunterResults();
+		}
+
 		public static void DoTable_WoolEconomy()
 		{
 			IEnumerable<ThingDef> arg_129_0 = from d in DefDatabase<ThingDef>.AllDefs

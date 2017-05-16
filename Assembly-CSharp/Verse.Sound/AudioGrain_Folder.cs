@@ -12,9 +12,9 @@ namespace Verse.Sound
 		[DebuggerHidden]
 		public override IEnumerable<ResolvedGrain> GetResolvedGrains()
 		{
-			AudioGrain_Folder.<GetResolvedGrains>c__Iterator1DA <GetResolvedGrains>c__Iterator1DA = new AudioGrain_Folder.<GetResolvedGrains>c__Iterator1DA();
-			<GetResolvedGrains>c__Iterator1DA.<>f__this = this;
-			AudioGrain_Folder.<GetResolvedGrains>c__Iterator1DA expr_0E = <GetResolvedGrains>c__Iterator1DA;
+			AudioGrain_Folder.<GetResolvedGrains>c__Iterator1DC <GetResolvedGrains>c__Iterator1DC = new AudioGrain_Folder.<GetResolvedGrains>c__Iterator1DC();
+			<GetResolvedGrains>c__Iterator1DC.<>f__this = this;
+			AudioGrain_Folder.<GetResolvedGrains>c__Iterator1DC expr_0E = <GetResolvedGrains>c__Iterator1DC;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

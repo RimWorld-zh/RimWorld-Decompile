@@ -76,7 +76,7 @@ namespace RimWorld
 			{
 				throw new InvalidOperationException();
 			}
-			if (part.depth == BodyPartDepth.Inside)
+			if (part.depth == BodyPartDepth.Inside || part.def.useDestroyedOutLabel)
 			{
 				return "RemoveOrgan".Translate();
 			}

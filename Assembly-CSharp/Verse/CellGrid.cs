@@ -15,7 +15,7 @@ namespace Verse
 			get
 			{
 				int num = CellIndicesUtility.CellToIndex(c, this.mapSizeX);
-				return CellIndicesUtility.IndexToCell(this.grid[num], this.mapSizeX, this.mapSizeZ);
+				return CellIndicesUtility.IndexToCell(this.grid[num], this.mapSizeX);
 			}
 			set
 			{
@@ -28,7 +28,7 @@ namespace Verse
 		{
 			get
 			{
-				return CellIndicesUtility.IndexToCell(this.grid[index], this.mapSizeX, this.mapSizeZ);
+				return CellIndicesUtility.IndexToCell(this.grid[index], this.mapSizeX);
 			}
 			set
 			{
@@ -41,7 +41,7 @@ namespace Verse
 			get
 			{
 				int num = CellIndicesUtility.CellToIndex(x, z, this.mapSizeX);
-				return CellIndicesUtility.IndexToCell(this.grid[num], this.mapSizeX, this.mapSizeZ);
+				return CellIndicesUtility.IndexToCell(this.grid[num], this.mapSizeX);
 			}
 			set
 			{

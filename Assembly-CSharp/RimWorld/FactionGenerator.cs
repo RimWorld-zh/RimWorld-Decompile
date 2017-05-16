@@ -54,7 +54,7 @@ namespace RimWorld
 
 		public static void EnsureRequiredEnemies(Faction player)
 		{
-			FactionGenerator.<EnsureRequiredEnemies>c__AnonStorey364 <EnsureRequiredEnemies>c__AnonStorey = new FactionGenerator.<EnsureRequiredEnemies>c__AnonStorey364();
+			FactionGenerator.<EnsureRequiredEnemies>c__AnonStorey366 <EnsureRequiredEnemies>c__AnonStorey = new FactionGenerator.<EnsureRequiredEnemies>c__AnonStorey366();
 			<EnsureRequiredEnemies>c__AnonStorey.player = player;
 			foreach (FactionDef facDef in DefDatabase<FactionDef>.AllDefs)
 			{
@@ -65,6 +65,7 @@ namespace RimWorld
 					select f).RandomElement<Faction>();
 					float goodwillChange = -(faction.GoodwillWith(<EnsureRequiredEnemies>c__AnonStorey.player) + 100f) * Rand.Range(0.8f, 0.9f);
 					faction.AffectGoodwillWith(<EnsureRequiredEnemies>c__AnonStorey.player, goodwillChange);
+					faction.SetHostileTo(<EnsureRequiredEnemies>c__AnonStorey.player, true);
 				}
 			}
 		}

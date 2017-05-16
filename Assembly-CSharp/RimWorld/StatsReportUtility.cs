@@ -70,12 +70,12 @@ namespace RimWorld
 		[DebuggerHidden]
 		private static IEnumerable<StatDrawEntry> StatsToDraw(Def def, ThingDef stuff)
 		{
-			StatsReportUtility.<StatsToDraw>c__Iterator197 <StatsToDraw>c__Iterator = new StatsReportUtility.<StatsToDraw>c__Iterator197();
+			StatsReportUtility.<StatsToDraw>c__Iterator199 <StatsToDraw>c__Iterator = new StatsReportUtility.<StatsToDraw>c__Iterator199();
 			<StatsToDraw>c__Iterator.def = def;
 			<StatsToDraw>c__Iterator.stuff = stuff;
 			<StatsToDraw>c__Iterator.<$>def = def;
 			<StatsToDraw>c__Iterator.<$>stuff = stuff;
-			StatsReportUtility.<StatsToDraw>c__Iterator197 expr_23 = <StatsToDraw>c__Iterator;
+			StatsReportUtility.<StatsToDraw>c__Iterator199 expr_23 = <StatsToDraw>c__Iterator;
 			expr_23.$PC = -2;
 			return expr_23;
 		}
@@ -83,10 +83,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		private static IEnumerable<StatDrawEntry> StatsToDraw(Thing thing)
 		{
-			StatsReportUtility.<StatsToDraw>c__Iterator198 <StatsToDraw>c__Iterator = new StatsReportUtility.<StatsToDraw>c__Iterator198();
-			<StatsToDraw>c__Iterator.thing = thing;
-			<StatsToDraw>c__Iterator.<$>thing = thing;
-			StatsReportUtility.<StatsToDraw>c__Iterator198 expr_15 = <StatsToDraw>c__Iterator;
+			StatsReportUtility.<StatsToDraw>c__Iterator19A <StatsToDraw>c__Iterator19A = new StatsReportUtility.<StatsToDraw>c__Iterator19A();
+			<StatsToDraw>c__Iterator19A.thing = thing;
+			<StatsToDraw>c__Iterator19A.<$>thing = thing;
+			StatsReportUtility.<StatsToDraw>c__Iterator19A expr_15 = <StatsToDraw>c__Iterator19A;
 			expr_15.$PC = -2;
 			return expr_15;
 		}
@@ -94,10 +94,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		private static IEnumerable<StatDrawEntry> StatsToDraw(WorldObject worldObject)
 		{
-			StatsReportUtility.<StatsToDraw>c__Iterator199 <StatsToDraw>c__Iterator = new StatsReportUtility.<StatsToDraw>c__Iterator199();
-			<StatsToDraw>c__Iterator.worldObject = worldObject;
-			<StatsToDraw>c__Iterator.<$>worldObject = worldObject;
-			StatsReportUtility.<StatsToDraw>c__Iterator199 expr_15 = <StatsToDraw>c__Iterator;
+			StatsReportUtility.<StatsToDraw>c__Iterator19B <StatsToDraw>c__Iterator19B = new StatsReportUtility.<StatsToDraw>c__Iterator19B();
+			<StatsToDraw>c__Iterator19B.worldObject = worldObject;
+			<StatsToDraw>c__Iterator19B.<$>worldObject = worldObject;
+			StatsReportUtility.<StatsToDraw>c__Iterator19B expr_15 = <StatsToDraw>c__Iterator19B;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

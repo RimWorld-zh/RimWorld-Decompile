@@ -56,6 +56,18 @@ namespace RimWorld
 			}
 		}
 
+		public IEnumerable<WorkGiverDef> DisabledWorkGivers
+		{
+			get
+			{
+				Backstory.<>c__IteratorDC <>c__IteratorDC = new Backstory.<>c__IteratorDC();
+				<>c__IteratorDC.<>f__this = this;
+				Backstory.<>c__IteratorDC expr_0E = <>c__IteratorDC;
+				expr_0E.$PC = -2;
+				return expr_0E;
+			}
+		}
+
 		public string Title
 		{
 			get
@@ -120,16 +132,33 @@ namespace RimWorld
 					stringBuilder.AppendLine(skillDef.skillLabel + ":   " + this.skillGainsResolved[skillDef].ToString("+##;-##"));
 				}
 			}
+			stringBuilder.AppendLine();
 			foreach (WorkTypeDef current in this.DisabledWorkTypes)
 			{
 				stringBuilder.AppendLine(current.gerundLabel + " " + "DisabledLower".Translate());
 			}
-			return stringBuilder.ToString();
+			foreach (WorkGiverDef current2 in this.DisabledWorkGivers)
+			{
+				stringBuilder.AppendLine(string.Concat(new string[]
+				{
+					current2.workType.gerundLabel,
+					" -> ",
+					current2.label,
+					" ",
+					"DisabledLower".Translate()
+				}));
+			}
+			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		private bool AllowsWorkType(WorkTypeDef workDef)
+		private bool AllowsWorkType(WorkTypeDef workType)
 		{
-			return (this.workDisables & workDef.workTags) == WorkTags.None;
+			return (this.workDisables & workType.workTags) == WorkTags.None;
+		}
+
+		private bool AllowsWorkGiver(WorkGiverDef workGiver)
+		{
+			return (this.workDisables & workGiver.workTags) == WorkTags.None;
 		}
 
 		internal void AddForcedTrait(TraitDef traitDef, int degree = 0)
@@ -189,11 +218,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors(bool ignoreNoSpawnCategories)
 		{
-			Backstory.<ConfigErrors>c__IteratorDC <ConfigErrors>c__IteratorDC = new Backstory.<ConfigErrors>c__IteratorDC();
-			<ConfigErrors>c__IteratorDC.ignoreNoSpawnCategories = ignoreNoSpawnCategories;
-			<ConfigErrors>c__IteratorDC.<$>ignoreNoSpawnCategories = ignoreNoSpawnCategories;
-			<ConfigErrors>c__IteratorDC.<>f__this = this;
-			Backstory.<ConfigErrors>c__IteratorDC expr_1C = <ConfigErrors>c__IteratorDC;
+			Backstory.<ConfigErrors>c__IteratorDD <ConfigErrors>c__IteratorDD = new Backstory.<ConfigErrors>c__IteratorDD();
+			<ConfigErrors>c__IteratorDD.ignoreNoSpawnCategories = ignoreNoSpawnCategories;
+			<ConfigErrors>c__IteratorDD.<$>ignoreNoSpawnCategories = ignoreNoSpawnCategories;
+			<ConfigErrors>c__IteratorDD.<>f__this = this;
+			Backstory.<ConfigErrors>c__IteratorDD expr_1C = <ConfigErrors>c__IteratorDD;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

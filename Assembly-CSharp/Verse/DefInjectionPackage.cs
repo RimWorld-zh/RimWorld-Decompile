@@ -367,9 +367,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<string> MissingInjections()
 		{
-			DefInjectionPackage.<MissingInjections>c__Iterator1ED <MissingInjections>c__Iterator1ED = new DefInjectionPackage.<MissingInjections>c__Iterator1ED();
-			<MissingInjections>c__Iterator1ED.<>f__this = this;
-			DefInjectionPackage.<MissingInjections>c__Iterator1ED expr_0E = <MissingInjections>c__Iterator1ED;
+			DefInjectionPackage.<MissingInjections>c__Iterator1EF <MissingInjections>c__Iterator1EF = new DefInjectionPackage.<MissingInjections>c__Iterator1EF();
+			<MissingInjections>c__Iterator1EF.<>f__this = this;
+			DefInjectionPackage.<MissingInjections>c__Iterator1EF expr_0E = <MissingInjections>c__Iterator1EF;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -377,11 +377,11 @@ namespace Verse
 		[DebuggerHidden]
 		private IEnumerable<string> MissingInjectionsFromDef(Def def)
 		{
-			DefInjectionPackage.<MissingInjectionsFromDef>c__Iterator1EE <MissingInjectionsFromDef>c__Iterator1EE = new DefInjectionPackage.<MissingInjectionsFromDef>c__Iterator1EE();
-			<MissingInjectionsFromDef>c__Iterator1EE.def = def;
-			<MissingInjectionsFromDef>c__Iterator1EE.<$>def = def;
-			<MissingInjectionsFromDef>c__Iterator1EE.<>f__this = this;
-			DefInjectionPackage.<MissingInjectionsFromDef>c__Iterator1EE expr_1C = <MissingInjectionsFromDef>c__Iterator1EE;
+			DefInjectionPackage.<MissingInjectionsFromDef>c__Iterator1F0 <MissingInjectionsFromDef>c__Iterator1F = new DefInjectionPackage.<MissingInjectionsFromDef>c__Iterator1F0();
+			<MissingInjectionsFromDef>c__Iterator1F.def = def;
+			<MissingInjectionsFromDef>c__Iterator1F.<$>def = def;
+			<MissingInjectionsFromDef>c__Iterator1F.<>f__this = this;
+			DefInjectionPackage.<MissingInjectionsFromDef>c__Iterator1F0 expr_1C = <MissingInjectionsFromDef>c__Iterator1F;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

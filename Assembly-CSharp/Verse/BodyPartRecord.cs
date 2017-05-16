@@ -55,11 +55,11 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<BodyPartRecord> GetChildParts(string tag)
 		{
-			BodyPartRecord.<GetChildParts>c__Iterator1C0 <GetChildParts>c__Iterator1C = new BodyPartRecord.<GetChildParts>c__Iterator1C0();
+			BodyPartRecord.<GetChildParts>c__Iterator1C2 <GetChildParts>c__Iterator1C = new BodyPartRecord.<GetChildParts>c__Iterator1C2();
 			<GetChildParts>c__Iterator1C.tag = tag;
 			<GetChildParts>c__Iterator1C.<$>tag = tag;
 			<GetChildParts>c__Iterator1C.<>f__this = this;
-			BodyPartRecord.<GetChildParts>c__Iterator1C0 expr_1C = <GetChildParts>c__Iterator1C;
+			BodyPartRecord.<GetChildParts>c__Iterator1C2 expr_1C = <GetChildParts>c__Iterator1C;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}
@@ -72,11 +72,11 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<BodyPartRecord> GetConnectedParts(string tag)
 		{
-			BodyPartRecord.<GetConnectedParts>c__Iterator1C1 <GetConnectedParts>c__Iterator1C = new BodyPartRecord.<GetConnectedParts>c__Iterator1C1();
+			BodyPartRecord.<GetConnectedParts>c__Iterator1C3 <GetConnectedParts>c__Iterator1C = new BodyPartRecord.<GetConnectedParts>c__Iterator1C3();
 			<GetConnectedParts>c__Iterator1C.tag = tag;
 			<GetConnectedParts>c__Iterator1C.<$>tag = tag;
 			<GetConnectedParts>c__Iterator1C.<>f__this = this;
-			BodyPartRecord.<GetConnectedParts>c__Iterator1C1 expr_1C = <GetConnectedParts>c__Iterator1C;
+			BodyPartRecord.<GetConnectedParts>c__Iterator1C3 expr_1C = <GetConnectedParts>c__Iterator1C;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

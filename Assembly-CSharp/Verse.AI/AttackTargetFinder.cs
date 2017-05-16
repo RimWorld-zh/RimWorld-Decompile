@@ -147,12 +147,12 @@ namespace Verse.AI
 				innerValidator = ((IAttackTarget t) => oldValidator(t) && t.Thing.Position.InHorDistOf(searcherPawn.mindState.duty.focus.Cell, searcherPawn.mindState.duty.radius));
 			}
 			int searchRegionsMax = (maxDist <= 800f) ? 40 : -1;
-			IntVec3 arg_3C0_0 = searcherThing.Position;
-			Map arg_3C0_1 = searcherThing.Map;
-			ThingRequest arg_3C0_2 = ThingRequest.ForGroup(ThingRequestGroup.AttackTarget);
-			PathEndMode arg_3C0_3 = PathEndMode.Touch;
+			IntVec3 arg_3C1_0 = searcherThing.Position;
+			Map arg_3C1_1 = searcherThing.Map;
+			ThingRequest arg_3C1_2 = ThingRequest.ForGroup(ThingRequestGroup.AttackTarget);
+			PathEndMode arg_3C1_3 = PathEndMode.Touch;
 			bool canBash2 = canBash;
-			IAttackTarget attackTarget = (IAttackTarget)GenClosest.ClosestThingReachable(arg_3C0_0, arg_3C0_1, arg_3C0_2, arg_3C0_3, TraverseParms.For(searcherPawn, Danger.Deadly, TraverseMode.ByPawn, canBash2), maxDist, (Thing x) => innerValidator((IAttackTarget)x), null, searchRegionsMax, false, RegionType.Set_Passable, false);
+			IAttackTarget attackTarget = (IAttackTarget)GenClosest.ClosestThingReachable(arg_3C1_0, arg_3C1_1, arg_3C1_2, arg_3C1_3, TraverseParms.For(searcherPawn, Danger.Deadly, TraverseMode.ByPawn, canBash2), maxDist, (Thing x) => innerValidator((IAttackTarget)x), null, 0, searchRegionsMax, false, RegionType.Set_Passable, false);
 			if (attackTarget != null && PawnUtility.ShouldCollideWithPawns(searcherPawn))
 			{
 				IAttackTarget attackTarget2 = AttackTargetFinder.FindBestReachableMeleeTarget(innerValidator, searcherPawn, maxDist, canBash);

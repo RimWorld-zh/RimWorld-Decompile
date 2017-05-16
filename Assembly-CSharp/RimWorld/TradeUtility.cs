@@ -26,10 +26,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<Thing> AllLaunchableThings(Map map)
 		{
-			TradeUtility.<AllLaunchableThings>c__Iterator182 <AllLaunchableThings>c__Iterator = new TradeUtility.<AllLaunchableThings>c__Iterator182();
+			TradeUtility.<AllLaunchableThings>c__Iterator183 <AllLaunchableThings>c__Iterator = new TradeUtility.<AllLaunchableThings>c__Iterator183();
 			<AllLaunchableThings>c__Iterator.map = map;
 			<AllLaunchableThings>c__Iterator.<$>map = map;
-			TradeUtility.<AllLaunchableThings>c__Iterator182 expr_15 = <AllLaunchableThings>c__Iterator;
+			TradeUtility.<AllLaunchableThings>c__Iterator183 expr_15 = <AllLaunchableThings>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}
@@ -37,10 +37,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		public static IEnumerable<Pawn> AllSellableColonyPawns(Map map)
 		{
-			TradeUtility.<AllSellableColonyPawns>c__Iterator183 <AllSellableColonyPawns>c__Iterator = new TradeUtility.<AllSellableColonyPawns>c__Iterator183();
+			TradeUtility.<AllSellableColonyPawns>c__Iterator184 <AllSellableColonyPawns>c__Iterator = new TradeUtility.<AllSellableColonyPawns>c__Iterator184();
 			<AllSellableColonyPawns>c__Iterator.map = map;
 			<AllSellableColonyPawns>c__Iterator.<$>map = map;
-			TradeUtility.<AllSellableColonyPawns>c__Iterator183 expr_15 = <AllSellableColonyPawns>c__Iterator;
+			TradeUtility.<AllSellableColonyPawns>c__Iterator184 expr_15 = <AllSellableColonyPawns>c__Iterator;
 			expr_15.$PC = -2;
 			return expr_15;
 		}
@@ -123,16 +123,6 @@ namespace RimWorld
 			return (from t in TradeUtility.AllLaunchableThings(map)
 			where t.def == ThingDefOf.Silver
 			select t).Sum((Thing t) => t.stackCount) >= fee;
-		}
-
-		public static void MakePrisonerOfColony(Pawn pawn)
-		{
-			if (pawn.Faction != null)
-			{
-				pawn.SetFaction(null, null);
-			}
-			pawn.guest.SetGuestStatus(Faction.OfPlayer, true);
-			pawn.health.AddHediff(HediffMaker.MakeHediff(HediffDefOf.Anesthetic, pawn, null), null, null);
 		}
 
 		public static void CheckInteractWithTradersTeachOpportunity(Pawn pawn)

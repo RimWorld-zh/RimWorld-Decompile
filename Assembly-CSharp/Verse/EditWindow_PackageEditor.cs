@@ -111,14 +111,14 @@ namespace Verse
 				}
 				else
 				{
-					EditWindow_PackageEditor<TNewDef>.<DoWindowContents>c__AnonStorey5CF <DoWindowContents>c__AnonStorey5CF = new EditWindow_PackageEditor<TNewDef>.<DoWindowContents>c__AnonStorey5CF();
-					<DoWindowContents>c__AnonStorey5CF.<>f__this = this;
-					<DoWindowContents>c__AnonStorey5CF.deletingDef = null;
+					EditWindow_PackageEditor<TNewDef>.<DoWindowContents>c__AnonStorey5D4 <DoWindowContents>c__AnonStorey5D = new EditWindow_PackageEditor<TNewDef>.<DoWindowContents>c__AnonStorey5D4();
+					<DoWindowContents>c__AnonStorey5D.<>f__this = this;
+					<DoWindowContents>c__AnonStorey5D.deletingDef = null;
 					foreach (Def def in this.curPackage)
 					{
 						if (listing_Standard.SelectableDef(def.defName, false, delegate
 						{
-							<DoWindowContents>c__AnonStorey5CF.deletingDef = def;
+							<DoWindowContents>c__AnonStorey5D.deletingDef = def;
 						}))
 						{
 							bool flag = false;
@@ -137,11 +137,11 @@ namespace Verse
 							}
 						}
 					}
-					if (<DoWindowContents>c__AnonStorey5CF.deletingDef != null)
+					if (<DoWindowContents>c__AnonStorey5D.deletingDef != null)
 					{
-						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("Really delete Def " + <DoWindowContents>c__AnonStorey5CF.deletingDef.defName + "?", delegate
+						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("Really delete Def " + <DoWindowContents>c__AnonStorey5D.deletingDef.defName + "?", delegate
 						{
-							<DoWindowContents>c__AnonStorey5CF.<>f__this.curPackage.RemoveDef(<DoWindowContents>c__AnonStorey5CF.deletingDef);
+							<DoWindowContents>c__AnonStorey5D.<>f__this.curPackage.RemoveDef(<DoWindowContents>c__AnonStorey5D.deletingDef);
 						}, true, null));
 					}
 				}

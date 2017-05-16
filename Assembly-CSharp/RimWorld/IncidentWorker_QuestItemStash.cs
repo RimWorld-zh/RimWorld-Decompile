@@ -18,9 +18,9 @@ namespace RimWorld
 
 		private static readonly IntRange ThingsCountRange = new IntRange(5, 9);
 
-		private static readonly FloatRange TotalMarketValueRange = new FloatRange(2500f, 3200f);
+		private static readonly FloatRange TotalMarketValueRange = new FloatRange(2000f, 3000f);
 
-		private static readonly IntRange FeeRange = new IntRange(100, 750);
+		private static readonly IntRange FeeRange = new IntRange(50, 500);
 
 		private static readonly IntRange NeurotrainersCountRange = new IntRange(3, 5);
 
@@ -124,7 +124,7 @@ namespace RimWorld
 				choiceLetter_ItemStashFeeDemand.siteFaction = siteFaction;
 				choiceLetter_ItemStashFeeDemand.sitePart = sitePartDef;
 				choiceLetter_ItemStashFeeDemand.alliedFaction = faction;
-				choiceLetter_ItemStashFeeDemand.sitePartsKnown = true;
+				choiceLetter_ItemStashFeeDemand.sitePartsKnown = sitePartsKnown;
 				choiceLetter_ItemStashFeeDemand.StartTimeout(60000);
 				Find.LetterStack.ReceiveLetter(choiceLetter_ItemStashFeeDemand, null);
 			}

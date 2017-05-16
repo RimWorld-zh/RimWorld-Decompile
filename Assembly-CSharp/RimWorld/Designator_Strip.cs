@@ -67,11 +67,11 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<Thing> StrippablesInCell(IntVec3 c)
 		{
-			Designator_Strip.<StrippablesInCell>c__Iterator192 <StrippablesInCell>c__Iterator = new Designator_Strip.<StrippablesInCell>c__Iterator192();
+			Designator_Strip.<StrippablesInCell>c__Iterator193 <StrippablesInCell>c__Iterator = new Designator_Strip.<StrippablesInCell>c__Iterator193();
 			<StrippablesInCell>c__Iterator.c = c;
 			<StrippablesInCell>c__Iterator.<$>c = c;
 			<StrippablesInCell>c__Iterator.<>f__this = this;
-			Designator_Strip.<StrippablesInCell>c__Iterator192 expr_1C = <StrippablesInCell>c__Iterator;
+			Designator_Strip.<StrippablesInCell>c__Iterator193 expr_1C = <StrippablesInCell>c__Iterator;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

@@ -31,8 +31,8 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<Type> AllDefTypesWithDatabases()
 		{
-			GenDefDatabase.<AllDefTypesWithDatabases>c__Iterator1BF <AllDefTypesWithDatabases>c__Iterator1BF = new GenDefDatabase.<AllDefTypesWithDatabases>c__Iterator1BF();
-			GenDefDatabase.<AllDefTypesWithDatabases>c__Iterator1BF expr_07 = <AllDefTypesWithDatabases>c__Iterator1BF;
+			GenDefDatabase.<AllDefTypesWithDatabases>c__Iterator1C1 <AllDefTypesWithDatabases>c__Iterator1C = new GenDefDatabase.<AllDefTypesWithDatabases>c__Iterator1C1();
+			GenDefDatabase.<AllDefTypesWithDatabases>c__Iterator1C1 expr_07 = <AllDefTypesWithDatabases>c__Iterator1C;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

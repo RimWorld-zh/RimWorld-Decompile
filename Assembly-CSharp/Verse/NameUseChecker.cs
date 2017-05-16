@@ -10,8 +10,8 @@ namespace Verse
 		{
 			get
 			{
-				NameUseChecker.<>c__Iterator1FA <>c__Iterator1FA = new NameUseChecker.<>c__Iterator1FA();
-				NameUseChecker.<>c__Iterator1FA expr_07 = <>c__Iterator1FA;
+				NameUseChecker.<>c__Iterator1FC <>c__Iterator1FC = new NameUseChecker.<>c__Iterator1FC();
+				NameUseChecker.<>c__Iterator1FC expr_07 = <>c__Iterator1FC;
 				expr_07.$PC = -2;
 				return expr_07;
 			}

@@ -9,8 +9,8 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<KeyBindingCategoryDef> ImpliedKeyBindingCategoryDefs()
 		{
-			KeyBindingDefGenerator.<ImpliedKeyBindingCategoryDefs>c__Iterator251 <ImpliedKeyBindingCategoryDefs>c__Iterator = new KeyBindingDefGenerator.<ImpliedKeyBindingCategoryDefs>c__Iterator251();
-			KeyBindingDefGenerator.<ImpliedKeyBindingCategoryDefs>c__Iterator251 expr_07 = <ImpliedKeyBindingCategoryDefs>c__Iterator;
+			KeyBindingDefGenerator.<ImpliedKeyBindingCategoryDefs>c__Iterator253 <ImpliedKeyBindingCategoryDefs>c__Iterator = new KeyBindingDefGenerator.<ImpliedKeyBindingCategoryDefs>c__Iterator253();
+			KeyBindingDefGenerator.<ImpliedKeyBindingCategoryDefs>c__Iterator253 expr_07 = <ImpliedKeyBindingCategoryDefs>c__Iterator;
 			expr_07.$PC = -2;
 			return expr_07;
 		}
@@ -18,8 +18,8 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<KeyBindingDef> ImpliedKeyBindingDefs()
 		{
-			KeyBindingDefGenerator.<ImpliedKeyBindingDefs>c__Iterator252 <ImpliedKeyBindingDefs>c__Iterator = new KeyBindingDefGenerator.<ImpliedKeyBindingDefs>c__Iterator252();
-			KeyBindingDefGenerator.<ImpliedKeyBindingDefs>c__Iterator252 expr_07 = <ImpliedKeyBindingDefs>c__Iterator;
+			KeyBindingDefGenerator.<ImpliedKeyBindingDefs>c__Iterator254 <ImpliedKeyBindingDefs>c__Iterator = new KeyBindingDefGenerator.<ImpliedKeyBindingDefs>c__Iterator254();
+			KeyBindingDefGenerator.<ImpliedKeyBindingDefs>c__Iterator254 expr_07 = <ImpliedKeyBindingDefs>c__Iterator;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

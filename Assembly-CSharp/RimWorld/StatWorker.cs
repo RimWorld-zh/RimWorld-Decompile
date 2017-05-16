@@ -493,12 +493,12 @@ namespace RimWorld
 		[DebuggerHidden]
 		private static IEnumerable<Thing> RelevantGear(Pawn pawn, StatDef stat)
 		{
-			StatWorker.<RelevantGear>c__Iterator1AD <RelevantGear>c__Iterator1AD = new StatWorker.<RelevantGear>c__Iterator1AD();
-			<RelevantGear>c__Iterator1AD.pawn = pawn;
-			<RelevantGear>c__Iterator1AD.stat = stat;
-			<RelevantGear>c__Iterator1AD.<$>pawn = pawn;
-			<RelevantGear>c__Iterator1AD.<$>stat = stat;
-			StatWorker.<RelevantGear>c__Iterator1AD expr_23 = <RelevantGear>c__Iterator1AD;
+			StatWorker.<RelevantGear>c__Iterator1AF <RelevantGear>c__Iterator1AF = new StatWorker.<RelevantGear>c__Iterator1AF();
+			<RelevantGear>c__Iterator1AF.pawn = pawn;
+			<RelevantGear>c__Iterator1AF.stat = stat;
+			<RelevantGear>c__Iterator1AF.<$>pawn = pawn;
+			<RelevantGear>c__Iterator1AF.<$>stat = stat;
+			StatWorker.<RelevantGear>c__Iterator1AF expr_23 = <RelevantGear>c__Iterator1AF;
 			expr_23.$PC = -2;
 			return expr_23;
 		}

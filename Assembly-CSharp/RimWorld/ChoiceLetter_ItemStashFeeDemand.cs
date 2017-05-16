@@ -26,9 +26,9 @@ namespace RimWorld
 		{
 			get
 			{
-				ChoiceLetter_ItemStashFeeDemand.<>c__Iterator19C <>c__Iterator19C = new ChoiceLetter_ItemStashFeeDemand.<>c__Iterator19C();
-				<>c__Iterator19C.<>f__this = this;
-				ChoiceLetter_ItemStashFeeDemand.<>c__Iterator19C expr_0E = <>c__Iterator19C;
+				ChoiceLetter_ItemStashFeeDemand.<>c__Iterator19E <>c__Iterator19E = new ChoiceLetter_ItemStashFeeDemand.<>c__Iterator19E();
+				<>c__Iterator19E.<>f__this = this;
+				ChoiceLetter_ItemStashFeeDemand.<>c__Iterator19E expr_0E = <>c__Iterator19E;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

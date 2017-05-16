@@ -69,13 +69,7 @@ namespace RimWorld
 				List<Pawn> list2 = this.thingsTrader.Take(base.CountToTransfer).Cast<Pawn>().ToList<Pawn>();
 				for (int j = 0; j < list2.Count; j++)
 				{
-					Pawn pawn = list2[j];
-					bool flag = TradeSession.trader.IsPawnPurchasedAsPrisoner(pawn);
-					TradeSession.trader.GiveSoldThingToPlayer(pawn, 1, TradeSession.playerNegotiator);
-					if (flag)
-					{
-						TradeUtility.MakePrisonerOfColony(pawn);
-					}
+					TradeSession.trader.GiveSoldThingToPlayer(list2[j], 1, TradeSession.playerNegotiator);
 				}
 			}
 		}

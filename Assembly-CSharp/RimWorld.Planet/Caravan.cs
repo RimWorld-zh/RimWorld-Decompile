@@ -351,11 +351,6 @@ namespace RimWorld.Planet
 			this.trader.GiveSoldThingToPlayer(toGive, countToGive, playerNegotiator);
 		}
 
-		public bool IsPawnPurchasedAsPrisoner(Pawn pawn)
-		{
-			return this.trader.IsPawnPurchasedAsPrisoner(pawn);
-		}
-
 		public override void ExposeData()
 		{
 			base.ExposeData();

@@ -339,9 +339,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors()
 		{
-			RaceProperties.<ConfigErrors>c__Iterator1C9 <ConfigErrors>c__Iterator1C = new RaceProperties.<ConfigErrors>c__Iterator1C9();
-			<ConfigErrors>c__Iterator1C.<>f__this = this;
-			RaceProperties.<ConfigErrors>c__Iterator1C9 expr_0E = <ConfigErrors>c__Iterator1C;
+			RaceProperties.<ConfigErrors>c__Iterator1CB <ConfigErrors>c__Iterator1CB = new RaceProperties.<ConfigErrors>c__Iterator1CB();
+			<ConfigErrors>c__Iterator1CB.<>f__this = this;
+			RaceProperties.<ConfigErrors>c__Iterator1CB expr_0E = <ConfigErrors>c__Iterator1CB;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -349,11 +349,11 @@ namespace Verse
 		[DebuggerHidden]
 		internal IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
-			RaceProperties.<SpecialDisplayStats>c__Iterator1CA <SpecialDisplayStats>c__Iterator1CA = new RaceProperties.<SpecialDisplayStats>c__Iterator1CA();
-			<SpecialDisplayStats>c__Iterator1CA.parentDef = parentDef;
-			<SpecialDisplayStats>c__Iterator1CA.<$>parentDef = parentDef;
-			<SpecialDisplayStats>c__Iterator1CA.<>f__this = this;
-			RaceProperties.<SpecialDisplayStats>c__Iterator1CA expr_1C = <SpecialDisplayStats>c__Iterator1CA;
+			RaceProperties.<SpecialDisplayStats>c__Iterator1CC <SpecialDisplayStats>c__Iterator1CC = new RaceProperties.<SpecialDisplayStats>c__Iterator1CC();
+			<SpecialDisplayStats>c__Iterator1CC.parentDef = parentDef;
+			<SpecialDisplayStats>c__Iterator1CC.<$>parentDef = parentDef;
+			<SpecialDisplayStats>c__Iterator1CC.<>f__this = this;
+			RaceProperties.<SpecialDisplayStats>c__Iterator1CC expr_1C = <SpecialDisplayStats>c__Iterator1CC;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

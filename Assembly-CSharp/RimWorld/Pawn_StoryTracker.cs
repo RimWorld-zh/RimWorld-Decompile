@@ -65,9 +65,9 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn_StoryTracker.<>c__IteratorDD <>c__IteratorDD = new Pawn_StoryTracker.<>c__IteratorDD();
-				<>c__IteratorDD.<>f__this = this;
-				Pawn_StoryTracker.<>c__IteratorDD expr_0E = <>c__IteratorDD;
+				Pawn_StoryTracker.<>c__IteratorDE <>c__IteratorDE = new Pawn_StoryTracker.<>c__IteratorDE();
+				<>c__IteratorDE.<>f__this = this;
+				Pawn_StoryTracker.<>c__IteratorDE expr_0E = <>c__IteratorDE;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -122,27 +122,19 @@ namespace RimWorld
 			get
 			{
 				WorkTags workTags = WorkTags.None;
-				foreach (Backstory current in this.AllBackstories)
+				if (this.childhood != null)
 				{
-					workTags |= current.workDisables;
+					workTags |= this.childhood.workDisables;
 				}
-				foreach (Trait current2 in this.traits.allTraits)
+				if (this.adulthood != null)
 				{
-					workTags |= current2.def.disabledWorkTags;
+					workTags |= this.adulthood.workDisables;
+				}
+				for (int i = 0; i < this.traits.allTraits.Count; i++)
+				{
+					workTags |= this.traits.allTraits[i].def.disabledWorkTags;
 				}
 				return workTags;
-			}
-		}
-
-		public IEnumerable<WorkTags> DisabledWorkTags
-		{
-			get
-			{
-				Pawn_StoryTracker.<>c__IteratorDE <>c__IteratorDE = new Pawn_StoryTracker.<>c__IteratorDE();
-				<>c__IteratorDE.<>f__this = this;
-				Pawn_StoryTracker.<>c__IteratorDE expr_0E = <>c__IteratorDE;
-				expr_0E.$PC = -2;
-				return expr_0E;
 			}
 		}
 

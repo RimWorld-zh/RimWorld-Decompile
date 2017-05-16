@@ -55,7 +55,11 @@ namespace RimWorld
 			{
 				return new Job(JobDefOf.AttackMelee, thing);
 			}
-			return new Job(JobDefOf.AttackStatic, thing);
+			return new Job(JobDefOf.AttackStatic, thing)
+			{
+				maxNumStaticAttacks = 2,
+				expiryInterval = 1800
+			};
 		}
 
 		private Job TryGetFleeJob(Pawn pawn)

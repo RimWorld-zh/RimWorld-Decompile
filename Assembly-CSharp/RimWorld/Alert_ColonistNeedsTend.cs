@@ -12,8 +12,8 @@ namespace RimWorld
 		{
 			get
 			{
-				Alert_ColonistNeedsTend.<>c__Iterator188 <>c__Iterator = new Alert_ColonistNeedsTend.<>c__Iterator188();
-				Alert_ColonistNeedsTend.<>c__Iterator188 expr_07 = <>c__Iterator;
+				Alert_ColonistNeedsTend.<>c__Iterator189 <>c__Iterator = new Alert_ColonistNeedsTend.<>c__Iterator189();
+				Alert_ColonistNeedsTend.<>c__Iterator189 expr_07 = <>c__Iterator;
 				expr_07.$PC = -2;
 				return expr_07;
 			}

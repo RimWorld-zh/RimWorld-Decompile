@@ -337,7 +337,7 @@ namespace RimWorld
 		{
 			if (t.def.category == ThingCategory.Plant)
 			{
-				return t.def.plant.harvestWork > 200f;
+				return t.def.plant.harvestWork >= 200f;
 			}
 			if (blue.def.entityDefToBuild is TerrainDef || blue.def.entityDefToBuild.passability == Traversability.Standable)
 			{

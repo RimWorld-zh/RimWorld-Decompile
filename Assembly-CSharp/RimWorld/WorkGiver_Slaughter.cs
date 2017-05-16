@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using Verse;
 using Verse.AI;
 
@@ -51,7 +50,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (pawn.story != null && pawn.story.DisabledWorkTags.Contains(WorkTags.Violent))
+			if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 			{
 				JobFailReason.Is("IsIncapableOfViolenceShort".Translate());
 				return false;

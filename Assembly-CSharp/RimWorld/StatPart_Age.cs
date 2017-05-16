@@ -45,9 +45,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			StatPart_Age.<ConfigErrors>c__Iterator1AB <ConfigErrors>c__Iterator1AB = new StatPart_Age.<ConfigErrors>c__Iterator1AB();
-			<ConfigErrors>c__Iterator1AB.<>f__this = this;
-			StatPart_Age.<ConfigErrors>c__Iterator1AB expr_0E = <ConfigErrors>c__Iterator1AB;
+			StatPart_Age.<ConfigErrors>c__Iterator1AD <ConfigErrors>c__Iterator1AD = new StatPart_Age.<ConfigErrors>c__Iterator1AD();
+			<ConfigErrors>c__Iterator1AD.<>f__this = this;
+			StatPart_Age.<ConfigErrors>c__Iterator1AD expr_0E = <ConfigErrors>c__Iterator1AD;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

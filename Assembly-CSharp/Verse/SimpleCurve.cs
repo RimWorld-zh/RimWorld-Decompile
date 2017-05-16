@@ -83,9 +83,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerator<CurvePoint> GetEnumerator()
 		{
-			SimpleCurve.<GetEnumerator>c__Iterator23A <GetEnumerator>c__Iterator23A = new SimpleCurve.<GetEnumerator>c__Iterator23A();
-			<GetEnumerator>c__Iterator23A.<>f__this = this;
-			return <GetEnumerator>c__Iterator23A;
+			SimpleCurve.<GetEnumerator>c__Iterator23C <GetEnumerator>c__Iterator23C = new SimpleCurve.<GetEnumerator>c__Iterator23C();
+			<GetEnumerator>c__Iterator23C.<>f__this = this;
+			return <GetEnumerator>c__Iterator23C;
 		}
 
 		public void SetPoints(IEnumerable<CurvePoint> newPoints)
@@ -189,11 +189,11 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors(string prefix)
 		{
-			SimpleCurve.<ConfigErrors>c__Iterator23B <ConfigErrors>c__Iterator23B = new SimpleCurve.<ConfigErrors>c__Iterator23B();
-			<ConfigErrors>c__Iterator23B.prefix = prefix;
-			<ConfigErrors>c__Iterator23B.<$>prefix = prefix;
-			<ConfigErrors>c__Iterator23B.<>f__this = this;
-			SimpleCurve.<ConfigErrors>c__Iterator23B expr_1C = <ConfigErrors>c__Iterator23B;
+			SimpleCurve.<ConfigErrors>c__Iterator23D <ConfigErrors>c__Iterator23D = new SimpleCurve.<ConfigErrors>c__Iterator23D();
+			<ConfigErrors>c__Iterator23D.prefix = prefix;
+			<ConfigErrors>c__Iterator23D.<$>prefix = prefix;
+			<ConfigErrors>c__Iterator23D.<>f__this = this;
+			SimpleCurve.<ConfigErrors>c__Iterator23D expr_1C = <ConfigErrors>c__Iterator23D;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

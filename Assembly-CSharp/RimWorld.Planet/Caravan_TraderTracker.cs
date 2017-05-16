@@ -161,10 +161,5 @@ namespace RimWorld.Planet
 				}
 			}
 		}
-
-		public bool IsPawnPurchasedAsPrisoner(Pawn pawn)
-		{
-			return this.soldPrisoners.Contains(pawn);
-		}
 	}
 }

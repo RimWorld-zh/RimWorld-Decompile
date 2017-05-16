@@ -12,8 +12,8 @@ namespace RimWorld
 		{
 			get
 			{
-				BreakRiskAlertUtility.<>c__Iterator18B <>c__Iterator18B = new BreakRiskAlertUtility.<>c__Iterator18B();
-				BreakRiskAlertUtility.<>c__Iterator18B expr_07 = <>c__Iterator18B;
+				BreakRiskAlertUtility.<>c__Iterator18C <>c__Iterator18C = new BreakRiskAlertUtility.<>c__Iterator18C();
+				BreakRiskAlertUtility.<>c__Iterator18C expr_07 = <>c__Iterator18C;
 				expr_07.$PC = -2;
 				return expr_07;
 			}
@@ -23,8 +23,8 @@ namespace RimWorld
 		{
 			get
 			{
-				BreakRiskAlertUtility.<>c__Iterator18C <>c__Iterator18C = new BreakRiskAlertUtility.<>c__Iterator18C();
-				BreakRiskAlertUtility.<>c__Iterator18C expr_07 = <>c__Iterator18C;
+				BreakRiskAlertUtility.<>c__Iterator18D <>c__Iterator18D = new BreakRiskAlertUtility.<>c__Iterator18D();
+				BreakRiskAlertUtility.<>c__Iterator18D expr_07 = <>c__Iterator18D;
 				expr_07.$PC = -2;
 				return expr_07;
 			}
@@ -34,8 +34,8 @@ namespace RimWorld
 		{
 			get
 			{
-				BreakRiskAlertUtility.<>c__Iterator18D <>c__Iterator18D = new BreakRiskAlertUtility.<>c__Iterator18D();
-				BreakRiskAlertUtility.<>c__Iterator18D expr_07 = <>c__Iterator18D;
+				BreakRiskAlertUtility.<>c__Iterator18E <>c__Iterator18E = new BreakRiskAlertUtility.<>c__Iterator18E();
+				BreakRiskAlertUtility.<>c__Iterator18E expr_07 = <>c__Iterator18E;
 				expr_07.$PC = -2;
 				return expr_07;
 			}

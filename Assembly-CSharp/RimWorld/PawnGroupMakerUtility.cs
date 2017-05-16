@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -207,7 +208,9 @@ namespace RimWorld
 							")"
 						}));
 						float num = 0f;
-						foreach (Pawn current in PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, pawnGroupMakerParms, false))
+						foreach (Pawn current in from pa in PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, pawnGroupMakerParms, false)
+						orderby pa.kindDef.combatPower
+						select pa)
 						{
 							string text;
 							if (current.equipment.Primary != null)

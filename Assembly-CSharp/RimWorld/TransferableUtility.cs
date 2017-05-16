@@ -193,10 +193,6 @@ namespace RimWorld
 					{
 						return transferableOneWay;
 					}
-					if (TransferableUtility.TransferAsOne(thing, transferableOneWay.AnyThing))
-					{
-						return transferableOneWay;
-					}
 				}
 			}
 			for (int j = 0; j < transferables.Count; j++)
@@ -204,9 +200,20 @@ namespace RimWorld
 				TransferableOneWay transferableOneWay2 = transferables[j];
 				if (transferableOneWay2.HasAnyThing)
 				{
-					if (transferableOneWay2.ThingDef == thing.def)
+					if (TransferableUtility.TransferAsOne(thing, transferableOneWay2.AnyThing))
 					{
 						return transferableOneWay2;
+					}
+				}
+			}
+			for (int k = 0; k < transferables.Count; k++)
+			{
+				TransferableOneWay transferableOneWay3 = transferables[k];
+				if (transferableOneWay3.HasAnyThing)
+				{
+					if (transferableOneWay3.ThingDef == thing.def)
+					{
+						return transferableOneWay3;
 					}
 				}
 			}

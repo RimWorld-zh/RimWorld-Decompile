@@ -1975,7 +1975,7 @@ namespace Verse
 
 		private void DoExecuteIncidentDebugAction(IIncidentTarget target, IIncidentTarget altTarget)
 		{
-			Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C3 <DoExecuteIncidentDebugAction>c__AnonStorey5C = new Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C3();
+			Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C8 <DoExecuteIncidentDebugAction>c__AnonStorey5C = new Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C8();
 			<DoExecuteIncidentDebugAction>c__AnonStorey5C.target = target;
 			<DoExecuteIncidentDebugAction>c__AnonStorey5C.altTarget = altTarget;
 			base.DebugAction("Execute incident...", delegate
@@ -1986,9 +1986,9 @@ namespace Verse
 				orderby !d.TargetAllowed(<DoExecuteIncidentDebugAction>c__AnonStorey5C.target), d.defName
 				select d)
 				{
-					Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C3.<DoExecuteIncidentDebugAction>c__AnonStorey5C4 <DoExecuteIncidentDebugAction>c__AnonStorey5C2 = new Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C3.<DoExecuteIncidentDebugAction>c__AnonStorey5C4();
-					<DoExecuteIncidentDebugAction>c__AnonStorey5C2.<>f__ref$1475 = <DoExecuteIncidentDebugAction>c__AnonStorey5C;
-					Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C3.<DoExecuteIncidentDebugAction>c__AnonStorey5C4 arg_98_0 = <DoExecuteIncidentDebugAction>c__AnonStorey5C2;
+					Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C8.<DoExecuteIncidentDebugAction>c__AnonStorey5C9 <DoExecuteIncidentDebugAction>c__AnonStorey5C2 = new Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C8.<DoExecuteIncidentDebugAction>c__AnonStorey5C9();
+					<DoExecuteIncidentDebugAction>c__AnonStorey5C2.<>f__ref$1480 = <DoExecuteIncidentDebugAction>c__AnonStorey5C;
+					Dialog_DebugActionsMenu.<DoExecuteIncidentDebugAction>c__AnonStorey5C8.<DoExecuteIncidentDebugAction>c__AnonStorey5C9 arg_98_0 = <DoExecuteIncidentDebugAction>c__AnonStorey5C2;
 					IIncidentTarget arg_98_1;
 					if (current.TargetAllowed(<DoExecuteIncidentDebugAction>c__AnonStorey5C.target))
 					{
@@ -2027,44 +2027,44 @@ namespace Verse
 
 		private void DoExecuteIncidentWithDebugAction(IIncidentTarget target, IIncidentTarget altTarget)
 		{
-			Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C5 <DoExecuteIncidentWithDebugAction>c__AnonStorey5C = new Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C5();
-			<DoExecuteIncidentWithDebugAction>c__AnonStorey5C.target = target;
-			<DoExecuteIncidentWithDebugAction>c__AnonStorey5C.altTarget = altTarget;
+			Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5CA <DoExecuteIncidentWithDebugAction>c__AnonStorey5CA = new Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5CA();
+			<DoExecuteIncidentWithDebugAction>c__AnonStorey5CA.target = target;
+			<DoExecuteIncidentWithDebugAction>c__AnonStorey5CA.altTarget = altTarget;
 			base.DebugAction("Execute incident with...", delegate
 			{
 				List<DebugMenuOption> list = new List<DebugMenuOption>();
 				foreach (IncidentDef current in from d in DefDatabase<IncidentDef>.AllDefs
-				where (d.TargetAllowed(<DoExecuteIncidentWithDebugAction>c__AnonStorey5C.target) || (<DoExecuteIncidentWithDebugAction>c__AnonStorey5C.altTarget != null && d.TargetAllowed(<DoExecuteIncidentWithDebugAction>c__AnonStorey5C.altTarget))) && d.pointsScaleable
-				orderby !d.TargetAllowed(<DoExecuteIncidentWithDebugAction>c__AnonStorey5C.target), d.defName
+				where (d.TargetAllowed(<DoExecuteIncidentWithDebugAction>c__AnonStorey5CA.target) || (<DoExecuteIncidentWithDebugAction>c__AnonStorey5CA.altTarget != null && d.TargetAllowed(<DoExecuteIncidentWithDebugAction>c__AnonStorey5CA.altTarget))) && d.pointsScaleable
+				orderby !d.TargetAllowed(<DoExecuteIncidentWithDebugAction>c__AnonStorey5CA.target), d.defName
 				select d)
 				{
-					Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C5.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C6 <DoExecuteIncidentWithDebugAction>c__AnonStorey5C2 = new Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C5.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C6();
-					<DoExecuteIncidentWithDebugAction>c__AnonStorey5C2.<>f__ref$1477 = <DoExecuteIncidentWithDebugAction>c__AnonStorey5C;
-					Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C5.<DoExecuteIncidentWithDebugAction>c__AnonStorey5C6 arg_98_0 = <DoExecuteIncidentWithDebugAction>c__AnonStorey5C2;
+					Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5CA.<DoExecuteIncidentWithDebugAction>c__AnonStorey5CB <DoExecuteIncidentWithDebugAction>c__AnonStorey5CB = new Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5CA.<DoExecuteIncidentWithDebugAction>c__AnonStorey5CB();
+					<DoExecuteIncidentWithDebugAction>c__AnonStorey5CB.<>f__ref$1482 = <DoExecuteIncidentWithDebugAction>c__AnonStorey5CA;
+					Dialog_DebugActionsMenu.<DoExecuteIncidentWithDebugAction>c__AnonStorey5CA.<DoExecuteIncidentWithDebugAction>c__AnonStorey5CB arg_98_0 = <DoExecuteIncidentWithDebugAction>c__AnonStorey5CB;
 					IIncidentTarget arg_98_1;
-					if (current.TargetAllowed(<DoExecuteIncidentWithDebugAction>c__AnonStorey5C.target))
+					if (current.TargetAllowed(<DoExecuteIncidentWithDebugAction>c__AnonStorey5CA.target))
 					{
-						IIncidentTarget target2 = <DoExecuteIncidentWithDebugAction>c__AnonStorey5C.target;
+						IIncidentTarget target2 = <DoExecuteIncidentWithDebugAction>c__AnonStorey5CA.target;
 						arg_98_1 = target2;
 					}
 					else
 					{
-						arg_98_1 = <DoExecuteIncidentWithDebugAction>c__AnonStorey5C.altTarget;
+						arg_98_1 = <DoExecuteIncidentWithDebugAction>c__AnonStorey5CA.altTarget;
 					}
 					arg_98_0.thisIncidentTarget = arg_98_1;
-					<DoExecuteIncidentWithDebugAction>c__AnonStorey5C2.localDef = current;
-					string text = <DoExecuteIncidentWithDebugAction>c__AnonStorey5C2.localDef.defName;
-					if (!<DoExecuteIncidentWithDebugAction>c__AnonStorey5C2.localDef.Worker.CanFireNow(<DoExecuteIncidentWithDebugAction>c__AnonStorey5C2.thisIncidentTarget))
+					<DoExecuteIncidentWithDebugAction>c__AnonStorey5CB.localDef = current;
+					string text = <DoExecuteIncidentWithDebugAction>c__AnonStorey5CB.localDef.defName;
+					if (!<DoExecuteIncidentWithDebugAction>c__AnonStorey5CB.localDef.Worker.CanFireNow(<DoExecuteIncidentWithDebugAction>c__AnonStorey5CB.thisIncidentTarget))
 					{
 						text += " [NO]";
 					}
-					if (<DoExecuteIncidentWithDebugAction>c__AnonStorey5C2.thisIncidentTarget == <DoExecuteIncidentWithDebugAction>c__AnonStorey5C.altTarget)
+					if (<DoExecuteIncidentWithDebugAction>c__AnonStorey5CB.thisIncidentTarget == <DoExecuteIncidentWithDebugAction>c__AnonStorey5CA.altTarget)
 					{
-						text = text + " (" + <DoExecuteIncidentWithDebugAction>c__AnonStorey5C.altTarget.GetType().Name.Truncate(52f, null) + ")";
+						text = text + " (" + <DoExecuteIncidentWithDebugAction>c__AnonStorey5CA.altTarget.GetType().Name.Truncate(52f, null) + ")";
 					}
 					list.Add(new DebugMenuOption(text, DebugMenuOptionMode.Action, delegate
 					{
-						IncidentParms parms = StorytellerUtility.DefaultParmsNow(Find.Storyteller.def, <DoExecuteIncidentWithDebugAction>c__AnonStorey5C2.localDef.category, <DoExecuteIncidentWithDebugAction>c__AnonStorey5C2.thisIncidentTarget);
+						IncidentParms parms = StorytellerUtility.DefaultParmsNow(Find.Storyteller.def, <DoExecuteIncidentWithDebugAction>c__AnonStorey5CB.localDef.category, <DoExecuteIncidentWithDebugAction>c__AnonStorey5CB.thisIncidentTarget);
 						List<DebugMenuOption> list2 = new List<DebugMenuOption>();
 						foreach (float num in Dialog_DebugActionsMenu.PointsOptions())
 						{
@@ -2072,7 +2072,7 @@ namespace Verse
 							list2.Add(new DebugMenuOption(num + " points", DebugMenuOptionMode.Action, delegate
 							{
 								parms.points = localPoints;
-								<DoExecuteIncidentWithDebugAction>c__AnonStorey5C2.localDef.Worker.TryExecute(parms);
+								<DoExecuteIncidentWithDebugAction>c__AnonStorey5CB.localDef.Worker.TryExecute(parms);
 							}));
 						}
 						Find.WindowStack.Add(new Dialog_DebugOptionListLister(list2));
@@ -2174,8 +2174,8 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<float> PointsOptions()
 		{
-			Dialog_DebugActionsMenu.<PointsOptions>c__Iterator22F <PointsOptions>c__Iterator22F = new Dialog_DebugActionsMenu.<PointsOptions>c__Iterator22F();
-			Dialog_DebugActionsMenu.<PointsOptions>c__Iterator22F expr_07 = <PointsOptions>c__Iterator22F;
+			Dialog_DebugActionsMenu.<PointsOptions>c__Iterator231 <PointsOptions>c__Iterator = new Dialog_DebugActionsMenu.<PointsOptions>c__Iterator231();
+			Dialog_DebugActionsMenu.<PointsOptions>c__Iterator231 expr_07 = <PointsOptions>c__Iterator;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

@@ -255,6 +255,14 @@ namespace Verse
 			}
 		}
 
+		public bool IsFreeColonist
+		{
+			get
+			{
+				return this.IsColonist && this.HostFaction == null;
+			}
+		}
+
 		public Faction HostFaction
 		{
 			get
@@ -303,9 +311,9 @@ namespace Verse
 		{
 			get
 			{
-				Pawn.<>c__Iterator217 <>c__Iterator = new Pawn.<>c__Iterator217();
+				Pawn.<>c__Iterator219 <>c__Iterator = new Pawn.<>c__Iterator219();
 				<>c__Iterator.<>f__this = this;
-				Pawn.<>c__Iterator217 expr_0E = <>c__Iterator;
+				Pawn.<>c__Iterator219 expr_0E = <>c__Iterator;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -624,9 +632,9 @@ namespace Verse
 		{
 			get
 			{
-				Pawn.<>c__Iterator21B <>c__Iterator21B = new Pawn.<>c__Iterator21B();
-				<>c__Iterator21B.<>f__this = this;
-				Pawn.<>c__Iterator21B expr_0E = <>c__Iterator21B;
+				Pawn.<>c__Iterator21D <>c__Iterator21D = new Pawn.<>c__Iterator21D();
+				<>c__Iterator21D.<>f__this = this;
+				Pawn.<>c__Iterator21D expr_0E = <>c__Iterator21D;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -1732,13 +1740,13 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<Thing> ButcherProducts(Pawn butcher, float efficiency)
 		{
-			Pawn.<ButcherProducts>c__Iterator218 <ButcherProducts>c__Iterator = new Pawn.<ButcherProducts>c__Iterator218();
-			<ButcherProducts>c__Iterator.butcher = butcher;
-			<ButcherProducts>c__Iterator.efficiency = efficiency;
-			<ButcherProducts>c__Iterator.<$>butcher = butcher;
-			<ButcherProducts>c__Iterator.<$>efficiency = efficiency;
-			<ButcherProducts>c__Iterator.<>f__this = this;
-			Pawn.<ButcherProducts>c__Iterator218 expr_2A = <ButcherProducts>c__Iterator;
+			Pawn.<ButcherProducts>c__Iterator21A <ButcherProducts>c__Iterator21A = new Pawn.<ButcherProducts>c__Iterator21A();
+			<ButcherProducts>c__Iterator21A.butcher = butcher;
+			<ButcherProducts>c__Iterator21A.efficiency = efficiency;
+			<ButcherProducts>c__Iterator21A.<$>butcher = butcher;
+			<ButcherProducts>c__Iterator21A.<$>efficiency = efficiency;
+			<ButcherProducts>c__Iterator21A.<>f__this = this;
+			Pawn.<ButcherProducts>c__Iterator21A expr_2A = <ButcherProducts>c__Iterator21A;
 			expr_2A.$PC = -2;
 			return expr_2A;
 		}
@@ -1825,9 +1833,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Pawn.<GetGizmos>c__Iterator219 <GetGizmos>c__Iterator = new Pawn.<GetGizmos>c__Iterator219();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			Pawn.<GetGizmos>c__Iterator219 expr_0E = <GetGizmos>c__Iterator;
+			Pawn.<GetGizmos>c__Iterator21B <GetGizmos>c__Iterator21B = new Pawn.<GetGizmos>c__Iterator21B();
+			<GetGizmos>c__Iterator21B.<>f__this = this;
+			Pawn.<GetGizmos>c__Iterator21B expr_0E = <GetGizmos>c__Iterator21B;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -1835,8 +1843,8 @@ namespace Verse
 		[DebuggerHidden]
 		public virtual IEnumerable<FloatMenuOption> GetExtraFloatMenuOptionsFor(IntVec3 sq)
 		{
-			Pawn.<GetExtraFloatMenuOptionsFor>c__Iterator21A <GetExtraFloatMenuOptionsFor>c__Iterator21A = new Pawn.<GetExtraFloatMenuOptionsFor>c__Iterator21A();
-			Pawn.<GetExtraFloatMenuOptionsFor>c__Iterator21A expr_07 = <GetExtraFloatMenuOptionsFor>c__Iterator21A;
+			Pawn.<GetExtraFloatMenuOptionsFor>c__Iterator21C <GetExtraFloatMenuOptionsFor>c__Iterator21C = new Pawn.<GetExtraFloatMenuOptionsFor>c__Iterator21C();
+			Pawn.<GetExtraFloatMenuOptionsFor>c__Iterator21C expr_07 = <GetExtraFloatMenuOptionsFor>c__Iterator21C;
 			expr_07.$PC = -2;
 			return expr_07;
 		}
@@ -1927,11 +1935,6 @@ namespace Verse
 		public void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			this.trader.GiveSoldThingToPlayer(toGive, countToGive, playerNegotiator);
-		}
-
-		public bool IsPawnPurchasedAsPrisoner(Pawn pawn)
-		{
-			return this.trader.IsPawnPurchasedAsPrisoner(pawn);
 		}
 
 		public void HearClamor(Pawn source, ClamorType type)

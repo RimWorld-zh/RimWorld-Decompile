@@ -191,12 +191,12 @@ namespace RimWorld
 		[DebuggerHidden]
 		private static IEnumerable<IGrouping<BodyPartRecord, Hediff>> VisibleHediffGroupsInOrder(Pawn pawn, bool showBloodLoss)
 		{
-			HealthCardUtility.<VisibleHediffGroupsInOrder>c__Iterator195 <VisibleHediffGroupsInOrder>c__Iterator = new HealthCardUtility.<VisibleHediffGroupsInOrder>c__Iterator195();
+			HealthCardUtility.<VisibleHediffGroupsInOrder>c__Iterator197 <VisibleHediffGroupsInOrder>c__Iterator = new HealthCardUtility.<VisibleHediffGroupsInOrder>c__Iterator197();
 			<VisibleHediffGroupsInOrder>c__Iterator.pawn = pawn;
 			<VisibleHediffGroupsInOrder>c__Iterator.showBloodLoss = showBloodLoss;
 			<VisibleHediffGroupsInOrder>c__Iterator.<$>pawn = pawn;
 			<VisibleHediffGroupsInOrder>c__Iterator.<$>showBloodLoss = showBloodLoss;
-			HealthCardUtility.<VisibleHediffGroupsInOrder>c__Iterator195 expr_23 = <VisibleHediffGroupsInOrder>c__Iterator;
+			HealthCardUtility.<VisibleHediffGroupsInOrder>c__Iterator197 expr_23 = <VisibleHediffGroupsInOrder>c__Iterator;
 			expr_23.$PC = -2;
 			return expr_23;
 		}
@@ -213,12 +213,12 @@ namespace RimWorld
 		[DebuggerHidden]
 		private static IEnumerable<Hediff> VisibleHediffs(Pawn pawn, bool showBloodLoss)
 		{
-			HealthCardUtility.<VisibleHediffs>c__Iterator196 <VisibleHediffs>c__Iterator = new HealthCardUtility.<VisibleHediffs>c__Iterator196();
+			HealthCardUtility.<VisibleHediffs>c__Iterator198 <VisibleHediffs>c__Iterator = new HealthCardUtility.<VisibleHediffs>c__Iterator198();
 			<VisibleHediffs>c__Iterator.pawn = pawn;
 			<VisibleHediffs>c__Iterator.showBloodLoss = showBloodLoss;
 			<VisibleHediffs>c__Iterator.<$>pawn = pawn;
 			<VisibleHediffs>c__Iterator.<$>showBloodLoss = showBloodLoss;
-			HealthCardUtility.<VisibleHediffs>c__Iterator196 expr_23 = <VisibleHediffs>c__Iterator;
+			HealthCardUtility.<VisibleHediffs>c__Iterator198 expr_23 = <VisibleHediffs>c__Iterator;
 			expr_23.$PC = -2;
 			return expr_23;
 		}

@@ -8,7 +8,13 @@ namespace Verse.AI
 		public static bool IsCornerTouchAllowed(int cornerX, int cornerZ, int adjCardinal1X, int adjCardinal1Z, int adjCardinal2X, int adjCardinal2Z, Map map)
 		{
 			Building building = map.edificeGrid[new IntVec3(cornerX, 0, cornerZ)];
-			return (building != null && building.def.holdsRoof) || (map.pathGrid.Walkable(new IntVec3(adjCardinal1X, 0, adjCardinal1Z)) || map.pathGrid.Walkable(new IntVec3(adjCardinal2X, 0, adjCardinal2Z)));
+			return (building != null && TouchPathEndModeUtility.MakesOccupiedCellsAlwaysReachableDiagonally(building.def)) || (map.pathGrid.Walkable(new IntVec3(adjCardinal1X, 0, adjCardinal1Z)) || map.pathGrid.Walkable(new IntVec3(adjCardinal2X, 0, adjCardinal2Z)));
+		}
+
+		public static bool MakesOccupiedCellsAlwaysReachableDiagonally(ThingDef def)
+		{
+			ThingDef thingDef = (!def.IsFrame) ? def : (def.entityDefToBuild as ThingDef);
+			return thingDef != null && thingDef.category == ThingCategory.Building && thingDef.holdsRoof && !thingDef.building.isNaturalRock;
 		}
 
 		public static bool IsAdjacentCornerAndNotAllowed(IntVec3 cell, IntVec3 BL, IntVec3 TL, IntVec3 TR, IntVec3 BR, Map map)

@@ -279,7 +279,7 @@ namespace RimWorld
 
 		public static string QuadrumDateStringAt(long absTicks, float longitude)
 		{
-			int num = GenDate.DayOfSeason(absTicks, longitude) + 1;
+			int num = GenDate.DayOfQuadrum(absTicks, longitude) + 1;
 			string text = Find.ActiveLanguageWorker.OrdinalNumber(num);
 			return "SeasonFullDate".Translate(new object[]
 			{

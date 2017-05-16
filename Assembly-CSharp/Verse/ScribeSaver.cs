@@ -24,7 +24,7 @@ namespace Verse
 			try
 			{
 				Scribe.mode = LoadSaveMode.Saving;
-				this.saveStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, 4096, FileOptions.WriteThrough);
+				this.saveStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
 				XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
 				xmlWriterSettings.Indent = true;
 				xmlWriterSettings.IndentChars = "\t";

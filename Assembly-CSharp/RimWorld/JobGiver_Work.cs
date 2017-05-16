@@ -104,7 +104,8 @@ namespace RimWorld
 								else
 								{
 									Predicate<Thing> validator = predicate;
-									thing = GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, scanner.PotentialWorkThingRequest, scanner.PathEndMode, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, enumerable, scanner.LocalRegionsToScanFirst, enumerable != null, RegionType.Set_Passable, false);
+									bool forceGlobalSearch = enumerable != null;
+									thing = GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, scanner.PotentialWorkThingRequest, scanner.PathEndMode, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, enumerable, 0, scanner.LocalRegionsToScanFirst, forceGlobalSearch, RegionType.Set_Passable, false);
 								}
 								if (thing != null)
 								{
@@ -199,7 +200,7 @@ namespace RimWorld
 
 		private bool PawnCanUseWorkGiver(Pawn pawn, WorkGiver giver)
 		{
-			return (giver.def.canBeDoneByNonColonists || pawn.IsColonist) && giver.MissingRequiredCapacity(pawn) == null && !giver.ShouldSkip(pawn);
+			return !giver.ShouldSkip(pawn) && (giver.def.canBeDoneByNonColonists || pawn.IsColonist) && (pawn.story == null || !pawn.story.WorkTagIsDisabled(giver.def.workTags)) && giver.MissingRequiredCapacity(pawn) == null;
 		}
 
 		private Job GiverTryGiveJobPrioritized(Pawn pawn, WorkGiver giver, IntVec3 cell)

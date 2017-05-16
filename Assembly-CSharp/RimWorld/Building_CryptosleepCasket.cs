@@ -65,15 +65,28 @@ namespace RimWorld
 			base.EjectContents();
 		}
 
-		public static Building_CryptosleepCasket FindCryptosleepCasketFor(Pawn p, Pawn traveler)
+		public static Building_CryptosleepCasket FindCryptosleepCasketFor(Pawn p, Pawn traveler, bool ignoreOtherReservations = false)
 		{
 			IEnumerable<ThingDef> enumerable = from def in DefDatabase<ThingDef>.AllDefs
 			where typeof(Building_CryptosleepCasket).IsAssignableFrom(def.thingClass)
 			select def;
 			foreach (ThingDef current in enumerable)
 			{
-				Predicate<Thing> validator = (Thing x) => !((Building_CryptosleepCasket)x).HasAnyContents && traveler.CanReserve(x, 1, -1, null, false);
-				Building_CryptosleepCasket building_CryptosleepCasket = (Building_CryptosleepCasket)GenClosest.ClosestThingReachable(p.Position, p.Map, ThingRequest.ForDef(current), PathEndMode.InteractionCell, TraverseParms.For(traveler, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, -1, false, RegionType.Set_Passable, false);
+				Predicate<Thing> validator = delegate(Thing x)
+				{
+					bool arg_2F_0;
+					if (!((Building_CryptosleepCasket)x).HasAnyContents)
+					{
+						bool ignoreOtherReservations2 = ignoreOtherReservations;
+						arg_2F_0 = traveler.CanReserve(x, 1, -1, null, ignoreOtherReservations2);
+					}
+					else
+					{
+						arg_2F_0 = false;
+					}
+					return arg_2F_0;
+				};
+				Building_CryptosleepCasket building_CryptosleepCasket = (Building_CryptosleepCasket)GenClosest.ClosestThingReachable(p.Position, p.Map, ThingRequest.ForDef(current), PathEndMode.InteractionCell, TraverseParms.For(traveler, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
 				if (building_CryptosleepCasket != null)
 				{
 					return building_CryptosleepCasket;

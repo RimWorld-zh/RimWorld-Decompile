@@ -45,12 +45,12 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<GridSaveUtility.LoadedGridShort> LoadedUShortGrid(string compressedString, Map map)
 		{
-			GridSaveUtility.<LoadedUShortGrid>c__Iterator209 <LoadedUShortGrid>c__Iterator = new GridSaveUtility.<LoadedUShortGrid>c__Iterator209();
-			<LoadedUShortGrid>c__Iterator.compressedString = compressedString;
-			<LoadedUShortGrid>c__Iterator.map = map;
-			<LoadedUShortGrid>c__Iterator.<$>compressedString = compressedString;
-			<LoadedUShortGrid>c__Iterator.<$>map = map;
-			GridSaveUtility.<LoadedUShortGrid>c__Iterator209 expr_23 = <LoadedUShortGrid>c__Iterator;
+			GridSaveUtility.<LoadedUShortGrid>c__Iterator20B <LoadedUShortGrid>c__Iterator20B = new GridSaveUtility.<LoadedUShortGrid>c__Iterator20B();
+			<LoadedUShortGrid>c__Iterator20B.compressedString = compressedString;
+			<LoadedUShortGrid>c__Iterator20B.map = map;
+			<LoadedUShortGrid>c__Iterator20B.<$>compressedString = compressedString;
+			<LoadedUShortGrid>c__Iterator20B.<$>map = map;
+			GridSaveUtility.<LoadedUShortGrid>c__Iterator20B expr_23 = <LoadedUShortGrid>c__Iterator20B;
 			expr_23.$PC = -2;
 			return expr_23;
 		}

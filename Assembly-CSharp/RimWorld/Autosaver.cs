@@ -86,8 +86,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		private IEnumerable<string> AutoSaveNames()
 		{
-			Autosaver.<AutoSaveNames>c__Iterator1A5 <AutoSaveNames>c__Iterator1A = new Autosaver.<AutoSaveNames>c__Iterator1A5();
-			Autosaver.<AutoSaveNames>c__Iterator1A5 expr_07 = <AutoSaveNames>c__Iterator1A;
+			Autosaver.<AutoSaveNames>c__Iterator1A7 <AutoSaveNames>c__Iterator1A = new Autosaver.<AutoSaveNames>c__Iterator1A7();
+			Autosaver.<AutoSaveNames>c__Iterator1A7 expr_07 = <AutoSaveNames>c__Iterator1A;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

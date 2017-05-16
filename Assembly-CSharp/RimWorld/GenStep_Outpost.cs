@@ -33,7 +33,7 @@ namespace RimWorld
 			resolveParams.edgeDefenseWidth = new int?(2);
 			resolveParams.edgeDefenseTurretsCount = new int?(Rand.RangeInclusive(0, 1));
 			resolveParams.edgeDefenseMortarsCount = new int?(0);
-			resolveParams.factionBasePawnGroupPointsFactor = new float?(0.5f);
+			resolveParams.factionBasePawnGroupPointsFactor = new float?(0.4f);
 			BaseGen.globalSettings.map = map;
 			BaseGen.globalSettings.minBuildings = 1;
 			BaseGen.globalSettings.minBarracks = 1;

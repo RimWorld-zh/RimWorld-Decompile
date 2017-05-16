@@ -153,11 +153,6 @@ namespace RimWorld
 			}
 		}
 
-		public bool IsPawnPurchasedAsPrisoner(Pawn pawn)
-		{
-			return this.soldPrisoners.Contains(pawn);
-		}
-
 		private void AddPawnToStock(Pawn newPawn)
 		{
 			if (!newPawn.Spawned)

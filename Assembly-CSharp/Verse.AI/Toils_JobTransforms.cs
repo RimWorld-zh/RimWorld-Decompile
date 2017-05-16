@@ -48,10 +48,10 @@ namespace Verse.AI
 		[DebuggerHidden]
 		private static IEnumerable<IntVec3> IngredientPlaceCellsInOrder(IBillGiver billGiver)
 		{
-			Toils_JobTransforms.<IngredientPlaceCellsInOrder>c__Iterator1BA <IngredientPlaceCellsInOrder>c__Iterator1BA = new Toils_JobTransforms.<IngredientPlaceCellsInOrder>c__Iterator1BA();
-			<IngredientPlaceCellsInOrder>c__Iterator1BA.billGiver = billGiver;
-			<IngredientPlaceCellsInOrder>c__Iterator1BA.<$>billGiver = billGiver;
-			Toils_JobTransforms.<IngredientPlaceCellsInOrder>c__Iterator1BA expr_15 = <IngredientPlaceCellsInOrder>c__Iterator1BA;
+			Toils_JobTransforms.<IngredientPlaceCellsInOrder>c__Iterator1BC <IngredientPlaceCellsInOrder>c__Iterator1BC = new Toils_JobTransforms.<IngredientPlaceCellsInOrder>c__Iterator1BC();
+			<IngredientPlaceCellsInOrder>c__Iterator1BC.billGiver = billGiver;
+			<IngredientPlaceCellsInOrder>c__Iterator1BC.<$>billGiver = billGiver;
+			Toils_JobTransforms.<IngredientPlaceCellsInOrder>c__Iterator1BC expr_15 = <IngredientPlaceCellsInOrder>c__Iterator1BC;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

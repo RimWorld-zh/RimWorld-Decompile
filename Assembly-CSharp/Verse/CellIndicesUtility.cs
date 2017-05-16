@@ -14,7 +14,7 @@ namespace Verse
 			return z * mapSizeX + x;
 		}
 
-		public static IntVec3 IndexToCell(int ind, int mapSizeX, int mapSizeZ)
+		public static IntVec3 IndexToCell(int ind, int mapSizeX)
 		{
 			int newX = ind % mapSizeX;
 			int newZ = ind / mapSizeX;

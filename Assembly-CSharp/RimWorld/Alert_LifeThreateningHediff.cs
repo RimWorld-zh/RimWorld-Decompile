@@ -12,8 +12,8 @@ namespace RimWorld
 		{
 			get
 			{
-				Alert_LifeThreateningHediff.<>c__Iterator186 <>c__Iterator = new Alert_LifeThreateningHediff.<>c__Iterator186();
-				Alert_LifeThreateningHediff.<>c__Iterator186 expr_07 = <>c__Iterator;
+				Alert_LifeThreateningHediff.<>c__Iterator187 <>c__Iterator = new Alert_LifeThreateningHediff.<>c__Iterator187();
+				Alert_LifeThreateningHediff.<>c__Iterator187 expr_07 = <>c__Iterator;
 				expr_07.$PC = -2;
 				return expr_07;
 			}

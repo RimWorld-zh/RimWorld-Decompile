@@ -113,9 +113,9 @@ namespace Verse
 		{
 			get
 			{
-				MentalBreaker.<>c__Iterator1BB <>c__Iterator1BB = new MentalBreaker.<>c__Iterator1BB();
-				<>c__Iterator1BB.<>f__this = this;
-				MentalBreaker.<>c__Iterator1BB expr_0E = <>c__Iterator1BB;
+				MentalBreaker.<>c__Iterator1BD <>c__Iterator1BD = new MentalBreaker.<>c__Iterator1BD();
+				<>c__Iterator1BD.<>f__this = this;
+				MentalBreaker.<>c__Iterator1BD expr_0E = <>c__Iterator1BD;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

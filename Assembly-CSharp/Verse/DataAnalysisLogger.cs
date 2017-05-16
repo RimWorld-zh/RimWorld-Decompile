@@ -6,11 +6,206 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Verse.AI;
+using Verse.Profile;
+using Verse.Steam;
 
 namespace Verse
 {
 	internal static class DataAnalysisLogger
 	{
+		public static void DoLog_QualityGenData()
+		{
+			QualityUtility.LogGenerationData();
+		}
+
+		public static void DoLog_SongSelectionInfo()
+		{
+			Find.MusicManagerPlay.LogSongSelectionData();
+		}
+
+		public static void DoLog_PlantData()
+		{
+			GenPlant.LogPlantData();
+		}
+
+		public static void DoLog_AgeInjuries()
+		{
+			AgeInjuryUtility.LogOldInjuryCalculations();
+		}
+
+		public static void DoLog_PawnGroupsMade()
+		{
+			PawnGroupMakerUtility.LogPawnGroupsMade();
+		}
+
+		public static void DoLog_AllGraphicsInDatabase()
+		{
+			GraphicDatabase.DebugLogAllGraphics();
+		}
+
+		public static void DoLog_RandTests()
+		{
+			Rand.LogRandTests();
+		}
+
+		public static void DoLog_SteamWorkshopWtatus()
+		{
+			Workshop.LogStatus();
+		}
+
+		public static void DoLog_MathPerf()
+		{
+			GenMath.LogTestMathPerf();
+		}
+
+		public static void DoLog_MeshPoolStats()
+		{
+			MeshPool.LogStats();
+		}
+
+		public static void DoLog_Lords()
+		{
+			Find.VisibleMap.lordManager.LogLords();
+		}
+
+		public static void DoLog_PodContentsTest()
+		{
+			IncidentWorker_ResourcePodCrash.DebugLogPodContentsChoices();
+		}
+
+		public static void DoLog_PodContentsPossible()
+		{
+			IncidentWorker_ResourcePodCrash.DebugLogPossiblePodContentsDefs();
+		}
+
+		public static void DoLog_PathCostIgnoreRepeaters()
+		{
+			PathGrid.LogPathCostIgnoreRepeaters();
+		}
+
+		public static void DoLog_AnimalStockGen()
+		{
+			StockGenerator_Animals.LogStockGeneration();
+		}
+
+		public static void DoLog_ObjectsLoaded()
+		{
+			MemoryTracker.LogObjectsLoaded();
+		}
+
+		public static void DoLog_ObjectHoldPaths()
+		{
+			MemoryTracker.LogObjectHoldPaths();
+		}
+
+		public static void DoLog_ListSolidBackstories()
+		{
+			IEnumerable<string> enumerable = SolidBioDatabase.allBios.SelectMany((PawnBio bio) => bio.adulthood.spawnCategories).Distinct<string>();
+			List<FloatMenuOption> list = new List<FloatMenuOption>();
+			foreach (string current in enumerable)
+			{
+				string catInner = current;
+				FloatMenuOption item = new FloatMenuOption(catInner, delegate
+				{
+					IEnumerable<PawnBio> enumerable2 = from b in SolidBioDatabase.allBios
+					where b.adulthood.spawnCategories.Contains(catInner)
+					select b;
+					StringBuilder stringBuilder = new StringBuilder();
+					stringBuilder.AppendLine(string.Concat(new object[]
+					{
+						"Backstories with category: ",
+						catInner,
+						" (",
+						enumerable2.Count<PawnBio>(),
+						")"
+					}));
+					foreach (PawnBio current2 in enumerable2)
+					{
+						stringBuilder.AppendLine(current2.ToString());
+					}
+					Log.Message(stringBuilder.ToString());
+				}, MenuOptionPriority.Default, null, null, 0f, null, null);
+				list.Add(item);
+			}
+			Find.WindowStack.Add(new FloatMenu(list));
+		}
+
+		public static void DoLog_KeyStrings()
+		{
+			StringBuilder stringBuilder = new StringBuilder();
+			using (IEnumerator enumerator = Enum.GetValues(typeof(KeyCode)).GetEnumerator())
+			{
+				while (enumerator.MoveNext())
+				{
+					KeyCode keyCode = (KeyCode)((int)enumerator.Current);
+					stringBuilder.AppendLine(keyCode.ToString() + " - " + keyCode.ToStringReadable());
+				}
+			}
+			Log.Message(stringBuilder.ToString());
+		}
+
+		public static void DoLog_PawnKindGear()
+		{
+			IOrderedEnumerable<PawnKindDef> orderedEnumerable = from k in DefDatabase<PawnKindDef>.AllDefs
+			where k.RaceProps.Humanlike
+			orderby k.combatPower
+			select k;
+			List<FloatMenuOption> list = new List<FloatMenuOption>();
+			foreach (PawnKindDef current in orderedEnumerable)
+			{
+				Faction fac = FactionUtility.DefaultFactionFrom(current.defaultFactionType);
+				PawnKindDef kind = current;
+				FloatMenuOption item = new FloatMenuOption(string.Concat(new object[]
+				{
+					kind.defName,
+					"(",
+					kind.combatPower,
+					", $",
+					kind.weaponMoney,
+					")"
+				}), delegate
+				{
+					DefMap<ThingDef, int> weapons = new DefMap<ThingDef, int>();
+					for (int i = 0; i < 500; i++)
+					{
+						Pawn pawn = PawnGenerator.GeneratePawn(kind, fac);
+						if (pawn.equipment.Primary != null)
+						{
+							DefMap<ThingDef, int> weapons2;
+							DefMap<ThingDef, int> expr_4B = weapons2 = weapons;
+							ThingDef def;
+							ThingDef expr_5E = def = pawn.equipment.Primary.def;
+							int num = weapons2[def];
+							expr_4B[expr_5E] = num + 1;
+						}
+						pawn.Destroy(DestroyMode.Vanish);
+					}
+					StringBuilder stringBuilder = new StringBuilder();
+					stringBuilder.AppendLine(string.Concat(new object[]
+					{
+						"Weapons spawned from ",
+						500,
+						"x ",
+						kind.defName
+					}));
+					foreach (ThingDef current2 in from t in DefDatabase<ThingDef>.AllDefs
+					orderby weapons[t] descending
+					select t)
+					{
+						int num2 = weapons[current2];
+						if (num2 > 0)
+						{
+							stringBuilder.AppendLine("  " + current2.defName + "    " + ((float)num2 / 500f).ToStringPercent());
+						}
+					}
+					Log.Message(stringBuilder.ToString().TrimEndNewlines());
+				}, MenuOptionPriority.Default, null, null, 0f, null, null);
+				list.Add(item);
+			}
+			Find.WindowStack.Add(new FloatMenu(list));
+		}
+
 		public static void DoLog_RecipeSkills()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

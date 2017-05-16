@@ -8,8 +8,6 @@ namespace Verse
 {
 	public class Pawn_AgeTracker : IExposable
 	{
-		private const float BornAtLatitude = 0f;
-
 		private const float BornAtLongitude = 0f;
 
 		private Pawn pawn;
@@ -115,11 +113,11 @@ namespace Verse
 			}
 		}
 
-		public Season BirthSeason
+		public Quadrum BirthQuadrum
 		{
 			get
 			{
-				return GenDate.Season(this.birthAbsTicksInt, 0f, 0f);
+				return GenDate.Quadrum(this.birthAbsTicksInt, 0f);
 			}
 		}
 
@@ -160,7 +158,7 @@ namespace Verse
 				string text = "FullDate".Translate(new object[]
 				{
 					Find.ActiveLanguageWorker.OrdinalNumber(this.BirthDayOfSeasonZeroBased + 1),
-					this.BirthSeason.Label(),
+					this.BirthQuadrum.Label(),
 					this.BirthYear
 				});
 				string text2 = string.Concat(new string[]

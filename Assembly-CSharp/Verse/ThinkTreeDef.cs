@@ -28,9 +28,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			ThinkTreeDef.<ConfigErrors>c__Iterator1E6 <ConfigErrors>c__Iterator1E = new ThinkTreeDef.<ConfigErrors>c__Iterator1E6();
+			ThinkTreeDef.<ConfigErrors>c__Iterator1E8 <ConfigErrors>c__Iterator1E = new ThinkTreeDef.<ConfigErrors>c__Iterator1E8();
 			<ConfigErrors>c__Iterator1E.<>f__this = this;
-			ThinkTreeDef.<ConfigErrors>c__Iterator1E6 expr_0E = <ConfigErrors>c__Iterator1E;
+			ThinkTreeDef.<ConfigErrors>c__Iterator1E8 expr_0E = <ConfigErrors>c__Iterator1E;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

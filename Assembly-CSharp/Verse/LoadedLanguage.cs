@@ -52,9 +52,9 @@ namespace Verse
 		{
 			get
 			{
-				LoadedLanguage.<>c__Iterator1EF <>c__Iterator1EF = new LoadedLanguage.<>c__Iterator1EF();
-				<>c__Iterator1EF.<>f__this = this;
-				LoadedLanguage.<>c__Iterator1EF expr_0E = <>c__Iterator1EF;
+				LoadedLanguage.<>c__Iterator1F1 <>c__Iterator1F = new LoadedLanguage.<>c__Iterator1F1();
+				<>c__Iterator1F.<>f__this = this;
+				LoadedLanguage.<>c__Iterator1F1 expr_0E = <>c__Iterator1F;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

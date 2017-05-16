@@ -11,10 +11,10 @@ namespace RimWorld.Planet
 		[DebuggerHidden]
 		public static IEnumerable<WorldObject> MultiSelectableWorldObjectsInScreenRectDistinct(Rect rect)
 		{
-			WorldObjectSelectionUtility.<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A3 <MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A = new WorldObjectSelectionUtility.<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A3();
+			WorldObjectSelectionUtility.<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A5 <MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A = new WorldObjectSelectionUtility.<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A5();
 			<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A.rect = rect;
 			<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A.<$>rect = rect;
-			WorldObjectSelectionUtility.<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A3 expr_15 = <MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A;
+			WorldObjectSelectionUtility.<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A5 expr_15 = <MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

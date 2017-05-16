@@ -10,16 +10,16 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<Thing> MakeRecipeProducts(RecipeDef recipeDef, Pawn worker, List<Thing> ingredients, Thing dominantIngredient)
 		{
-			GenRecipe.<MakeRecipeProducts>c__Iterator24B <MakeRecipeProducts>c__Iterator24B = new GenRecipe.<MakeRecipeProducts>c__Iterator24B();
-			<MakeRecipeProducts>c__Iterator24B.recipeDef = recipeDef;
-			<MakeRecipeProducts>c__Iterator24B.worker = worker;
-			<MakeRecipeProducts>c__Iterator24B.dominantIngredient = dominantIngredient;
-			<MakeRecipeProducts>c__Iterator24B.ingredients = ingredients;
-			<MakeRecipeProducts>c__Iterator24B.<$>recipeDef = recipeDef;
-			<MakeRecipeProducts>c__Iterator24B.<$>worker = worker;
-			<MakeRecipeProducts>c__Iterator24B.<$>dominantIngredient = dominantIngredient;
-			<MakeRecipeProducts>c__Iterator24B.<$>ingredients = ingredients;
-			GenRecipe.<MakeRecipeProducts>c__Iterator24B expr_3F = <MakeRecipeProducts>c__Iterator24B;
+			GenRecipe.<MakeRecipeProducts>c__Iterator24D <MakeRecipeProducts>c__Iterator24D = new GenRecipe.<MakeRecipeProducts>c__Iterator24D();
+			<MakeRecipeProducts>c__Iterator24D.recipeDef = recipeDef;
+			<MakeRecipeProducts>c__Iterator24D.worker = worker;
+			<MakeRecipeProducts>c__Iterator24D.dominantIngredient = dominantIngredient;
+			<MakeRecipeProducts>c__Iterator24D.ingredients = ingredients;
+			<MakeRecipeProducts>c__Iterator24D.<$>recipeDef = recipeDef;
+			<MakeRecipeProducts>c__Iterator24D.<$>worker = worker;
+			<MakeRecipeProducts>c__Iterator24D.<$>dominantIngredient = dominantIngredient;
+			<MakeRecipeProducts>c__Iterator24D.<$>ingredients = ingredients;
+			GenRecipe.<MakeRecipeProducts>c__Iterator24D expr_3F = <MakeRecipeProducts>c__Iterator24D;
 			expr_3F.$PC = -2;
 			return expr_3F;
 		}

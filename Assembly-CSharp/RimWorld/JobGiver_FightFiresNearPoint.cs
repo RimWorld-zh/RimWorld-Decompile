@@ -23,7 +23,7 @@ namespace RimWorld
 				Pawn pawn2 = ((AttachableThing)t).parent as Pawn;
 				return pawn2 == null && pawn.CanReserve(t, 1, -1, null, false) && !pawn.story.WorkTagIsDisabled(WorkTags.Firefighting);
 			};
-			Thing thing = GenClosest.ClosestThingReachable(pawn.GetLord().CurLordToil.FlagLoc, pawn.Map, ThingRequest.ForDef(ThingDefOf.Fire), PathEndMode.Touch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), this.maxDistFromPoint, validator, null, -1, false, RegionType.Set_Passable, false);
+			Thing thing = GenClosest.ClosestThingReachable(pawn.GetLord().CurLordToil.FlagLoc, pawn.Map, ThingRequest.ForDef(ThingDefOf.Fire), PathEndMode.Touch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), this.maxDistFromPoint, validator, null, 0, -1, false, RegionType.Set_Passable, false);
 			if (thing != null)
 			{
 				return new Job(JobDefOf.BeatFire, thing);

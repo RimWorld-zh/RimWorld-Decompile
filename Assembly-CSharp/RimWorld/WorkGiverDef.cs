@@ -12,6 +12,8 @@ namespace RimWorld
 
 		public WorkTypeDef workType;
 
+		public WorkTags workTags;
+
 		public int priorityInType;
 
 		[MustTranslate]
@@ -77,9 +79,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			WorkGiverDef.<ConfigErrors>c__Iterator1E8 <ConfigErrors>c__Iterator1E = new WorkGiverDef.<ConfigErrors>c__Iterator1E8();
-			<ConfigErrors>c__Iterator1E.<>f__this = this;
-			WorkGiverDef.<ConfigErrors>c__Iterator1E8 expr_0E = <ConfigErrors>c__Iterator1E;
+			WorkGiverDef.<ConfigErrors>c__Iterator1EA <ConfigErrors>c__Iterator1EA = new WorkGiverDef.<ConfigErrors>c__Iterator1EA();
+			<ConfigErrors>c__Iterator1EA.<>f__this = this;
+			WorkGiverDef.<ConfigErrors>c__Iterator1EA expr_0E = <ConfigErrors>c__Iterator1EA;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

@@ -24,11 +24,14 @@ namespace RimWorld
 				{
 					if (plant.def.plant.growDays <= 15f)
 					{
-						if ((plant.LifeStage == PlantLifeStage.Growing || plant.LifeStage == PlantLifeStage.Mature) && Rand.Value < 0.8f)
+						if (plant.sown)
 						{
-							flag = true;
-							cell = plant.Position;
-							plant.CropBlighted();
+							if ((plant.LifeStage == PlantLifeStage.Growing || plant.LifeStage == PlantLifeStage.Mature) && Rand.Value < 0.8f)
+							{
+								flag = true;
+								cell = plant.Position;
+								plant.CropBlighted();
+							}
 						}
 					}
 				}

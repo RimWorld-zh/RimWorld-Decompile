@@ -10,7 +10,7 @@ namespace RimWorld
 	{
 		private const float RelationsImprovement = 8f;
 
-		private static readonly IntRange RewardMarketValueRange = new IntRange(1800, 3200);
+		private static readonly IntRange RewardMarketValueRange = new IntRange(2000, 3000);
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{

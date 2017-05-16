@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
+using Verse.AI;
 
 namespace Verse
 {
@@ -559,6 +560,22 @@ namespace Verse
 			}
 		}
 
+		public bool AffectsRegions
+		{
+			get
+			{
+				return this.passability == Traversability.Impassable || this.IsDoor;
+			}
+		}
+
+		public bool AffectsReachability
+		{
+			get
+			{
+				return this.AffectsRegions || TouchPathEndModeUtility.MakesOccupiedCellsAlwaysReachableDiagonally(this);
+			}
+		}
+
 		public bool IsApparel
 		{
 			get
@@ -843,10 +860,6 @@ namespace Verse
 					}
 				}
 			}
-			if (this.passability == Traversability.Impassable || this.IsDoor)
-			{
-				this.affectsRegions = true;
-			}
 			if (this.building != null)
 			{
 				this.building.PostLoadSpecial(this);
@@ -900,9 +913,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			ThingDef.<ConfigErrors>c__Iterator1E4 <ConfigErrors>c__Iterator1E = new ThingDef.<ConfigErrors>c__Iterator1E4();
+			ThingDef.<ConfigErrors>c__Iterator1E6 <ConfigErrors>c__Iterator1E = new ThingDef.<ConfigErrors>c__Iterator1E6();
 			<ConfigErrors>c__Iterator1E.<>f__this = this;
-			ThingDef.<ConfigErrors>c__Iterator1E4 expr_0E = <ConfigErrors>c__Iterator1E;
+			ThingDef.<ConfigErrors>c__Iterator1E6 expr_0E = <ConfigErrors>c__Iterator1E;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -931,9 +944,9 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			ThingDef.<SpecialDisplayStats>c__Iterator1E5 <SpecialDisplayStats>c__Iterator1E = new ThingDef.<SpecialDisplayStats>c__Iterator1E5();
+			ThingDef.<SpecialDisplayStats>c__Iterator1E7 <SpecialDisplayStats>c__Iterator1E = new ThingDef.<SpecialDisplayStats>c__Iterator1E7();
 			<SpecialDisplayStats>c__Iterator1E.<>f__this = this;
-			ThingDef.<SpecialDisplayStats>c__Iterator1E5 expr_0E = <SpecialDisplayStats>c__Iterator1E;
+			ThingDef.<SpecialDisplayStats>c__Iterator1E7 expr_0E = <SpecialDisplayStats>c__Iterator1E;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

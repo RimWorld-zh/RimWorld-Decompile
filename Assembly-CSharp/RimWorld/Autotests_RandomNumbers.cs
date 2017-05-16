@@ -47,10 +47,10 @@ namespace RimWorld
 		[DebuggerHidden]
 		private static IEnumerable<float> RandomFloats(int count)
 		{
-			Autotests_RandomNumbers.<RandomFloats>c__Iterator1A6 <RandomFloats>c__Iterator1A = new Autotests_RandomNumbers.<RandomFloats>c__Iterator1A6();
+			Autotests_RandomNumbers.<RandomFloats>c__Iterator1A8 <RandomFloats>c__Iterator1A = new Autotests_RandomNumbers.<RandomFloats>c__Iterator1A8();
 			<RandomFloats>c__Iterator1A.count = count;
 			<RandomFloats>c__Iterator1A.<$>count = count;
-			Autotests_RandomNumbers.<RandomFloats>c__Iterator1A6 expr_15 = <RandomFloats>c__Iterator1A;
+			Autotests_RandomNumbers.<RandomFloats>c__Iterator1A8 expr_15 = <RandomFloats>c__Iterator1A;
 			expr_15.$PC = -2;
 			return expr_15;
 		}

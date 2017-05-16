@@ -206,13 +206,17 @@ namespace Verse
 				{
 					for (int j = 0; j < documentElement.ChildNodes.Count; j++)
 					{
-						if (documentElement.ChildNodes[j].Name != "Operation")
+						XmlNode xmlNode = documentElement.ChildNodes[j];
+						if (xmlNode.NodeType == XmlNodeType.Element)
 						{
-							Log.Error(string.Format("Unexpected element in patch XML; got {0}, expected 'Operation'", documentElement.ChildNodes[j].Name));
-						}
-						else
-						{
-							this.patches.Add(DirectXmlToObject.ObjectFromXml<PatchOperation>(documentElement.ChildNodes[j], false));
+							if (xmlNode.Name != "Operation")
+							{
+								Log.Error(string.Format("Unexpected element in patch XML; got {0}, expected 'Operation'", documentElement.ChildNodes[j].Name));
+							}
+							else
+							{
+								this.patches.Add(DirectXmlToObject.ObjectFromXml<PatchOperation>(xmlNode, false));
+							}
 						}
 					}
 				}

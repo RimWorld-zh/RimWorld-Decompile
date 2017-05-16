@@ -515,17 +515,17 @@ namespace Verse
 		[DebuggerHidden]
 		IEnumerator<Thing> IEnumerable<Thing>.GetEnumerator()
 		{
-			ThingOwner.GetEnumerator>c__Iterator22C getEnumerator>c__Iterator22C = new ThingOwner.GetEnumerator>c__Iterator22C();
-			getEnumerator>c__Iterator22C.<>f__this = this;
-			return getEnumerator>c__Iterator22C;
+			ThingOwner.GetEnumerator>c__Iterator22E getEnumerator>c__Iterator22E = new ThingOwner.GetEnumerator>c__Iterator22E();
+			getEnumerator>c__Iterator22E.<>f__this = this;
+			return getEnumerator>c__Iterator22E;
 		}
 
 		[DebuggerHidden]
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			ThingOwner.GetEnumerator>c__Iterator22D getEnumerator>c__Iterator22D = new ThingOwner.GetEnumerator>c__Iterator22D();
-			getEnumerator>c__Iterator22D.<>f__this = this;
-			return getEnumerator>c__Iterator22D;
+			ThingOwner.GetEnumerator>c__Iterator22F getEnumerator>c__Iterator22F = new ThingOwner.GetEnumerator>c__Iterator22F();
+			getEnumerator>c__Iterator22F.<>f__this = this;
+			return getEnumerator>c__Iterator22F;
 		}
 
 		public virtual void ExposeData()

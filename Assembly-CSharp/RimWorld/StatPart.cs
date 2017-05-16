@@ -17,8 +17,8 @@ namespace RimWorld
 		[DebuggerHidden]
 		public virtual IEnumerable<string> ConfigErrors()
 		{
-			StatPart.<ConfigErrors>c__Iterator1AA <ConfigErrors>c__Iterator1AA = new StatPart.<ConfigErrors>c__Iterator1AA();
-			StatPart.<ConfigErrors>c__Iterator1AA expr_07 = <ConfigErrors>c__Iterator1AA;
+			StatPart.<ConfigErrors>c__Iterator1AC <ConfigErrors>c__Iterator1AC = new StatPart.<ConfigErrors>c__Iterator1AC();
+			StatPart.<ConfigErrors>c__Iterator1AC expr_07 = <ConfigErrors>c__Iterator1AC;
 			expr_07.$PC = -2;
 			return expr_07;
 		}

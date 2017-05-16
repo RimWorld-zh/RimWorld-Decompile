@@ -272,9 +272,9 @@ namespace Verse.AI
 		[DebuggerHidden]
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			Pawn_MindState.<GetGizmos>c__Iterator1BC <GetGizmos>c__Iterator1BC = new Pawn_MindState.<GetGizmos>c__Iterator1BC();
-			<GetGizmos>c__Iterator1BC.<>f__this = this;
-			Pawn_MindState.<GetGizmos>c__Iterator1BC expr_0E = <GetGizmos>c__Iterator1BC;
+			Pawn_MindState.<GetGizmos>c__Iterator1BE <GetGizmos>c__Iterator1BE = new Pawn_MindState.<GetGizmos>c__Iterator1BE();
+			<GetGizmos>c__Iterator1BE.<>f__this = this;
+			Pawn_MindState.<GetGizmos>c__Iterator1BE expr_0E = <GetGizmos>c__Iterator1BE;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -351,12 +351,12 @@ namespace Verse.AI
 		[DebuggerHidden]
 		private IEnumerable<Pawn> GetPackmates(Pawn pawn, float radius)
 		{
-			Pawn_MindState.<GetPackmates>c__Iterator1BD <GetPackmates>c__Iterator1BD = new Pawn_MindState.<GetPackmates>c__Iterator1BD();
-			<GetPackmates>c__Iterator1BD.pawn = pawn;
-			<GetPackmates>c__Iterator1BD.radius = radius;
-			<GetPackmates>c__Iterator1BD.<$>pawn = pawn;
-			<GetPackmates>c__Iterator1BD.<$>radius = radius;
-			Pawn_MindState.<GetPackmates>c__Iterator1BD expr_23 = <GetPackmates>c__Iterator1BD;
+			Pawn_MindState.<GetPackmates>c__Iterator1BF <GetPackmates>c__Iterator1BF = new Pawn_MindState.<GetPackmates>c__Iterator1BF();
+			<GetPackmates>c__Iterator1BF.pawn = pawn;
+			<GetPackmates>c__Iterator1BF.radius = radius;
+			<GetPackmates>c__Iterator1BF.<$>pawn = pawn;
+			<GetPackmates>c__Iterator1BF.<$>radius = radius;
+			Pawn_MindState.<GetPackmates>c__Iterator1BF expr_23 = <GetPackmates>c__Iterator1BF;
 			expr_23.$PC = -2;
 			return expr_23;
 		}

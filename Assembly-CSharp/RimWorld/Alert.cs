@@ -120,7 +120,7 @@ namespace RimWorld
 
 		public void DrawInfoPane()
 		{
-			Alert.<DrawInfoPane>c__AnonStorey3E7 <DrawInfoPane>c__AnonStorey3E = new Alert.<DrawInfoPane>c__AnonStorey3E7();
+			Alert.<DrawInfoPane>c__AnonStorey3E9 <DrawInfoPane>c__AnonStorey3E = new Alert.<DrawInfoPane>c__AnonStorey3E9();
 			Text.Font = GameFont.Small;
 			Text.Anchor = TextAnchor.UpperLeft;
 			<DrawInfoPane>c__AnonStorey3E.expString = this.GetExplanation();
@@ -133,7 +133,7 @@ namespace RimWorld
 			<DrawInfoPane>c__AnonStorey3E.infoRect = new Rect((float)UI.screenWidth - 154f - 330f - 8f, Mathf.Max(Mathf.Min(Event.current.mousePosition.y, (float)UI.screenHeight - num), 0f), 330f, num);
 			if (<DrawInfoPane>c__AnonStorey3E.infoRect.yMax > (float)UI.screenHeight)
 			{
-				Alert.<DrawInfoPane>c__AnonStorey3E7 expr_E2_cp_0 = <DrawInfoPane>c__AnonStorey3E;
+				Alert.<DrawInfoPane>c__AnonStorey3E9 expr_E2_cp_0 = <DrawInfoPane>c__AnonStorey3E;
 				expr_E2_cp_0.infoRect.y = expr_E2_cp_0.infoRect.y - ((float)UI.screenHeight - <DrawInfoPane>c__AnonStorey3E.infoRect.yMax);
 			}
 			if (<DrawInfoPane>c__AnonStorey3E.infoRect.y < 0f)

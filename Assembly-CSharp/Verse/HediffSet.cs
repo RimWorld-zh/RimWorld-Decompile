@@ -187,9 +187,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<T> GetHediffs<T>() where T : Hediff
 		{
-			HediffSet.<GetHediffs>c__Iterator210<T> <GetHediffs>c__Iterator = new HediffSet.<GetHediffs>c__Iterator210<T>();
+			HediffSet.<GetHediffs>c__Iterator212<T> <GetHediffs>c__Iterator = new HediffSet.<GetHediffs>c__Iterator212<T>();
 			<GetHediffs>c__Iterator.<>f__this = this;
-			HediffSet.<GetHediffs>c__Iterator210<T> expr_0E = <GetHediffs>c__Iterator;
+			HediffSet.<GetHediffs>c__Iterator212<T> expr_0E = <GetHediffs>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -286,9 +286,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<Verb> GetHediffsVerbs()
 		{
-			HediffSet.<GetHediffsVerbs>c__Iterator211 <GetHediffsVerbs>c__Iterator = new HediffSet.<GetHediffsVerbs>c__Iterator211();
+			HediffSet.<GetHediffsVerbs>c__Iterator213 <GetHediffsVerbs>c__Iterator = new HediffSet.<GetHediffsVerbs>c__Iterator213();
 			<GetHediffsVerbs>c__Iterator.<>f__this = this;
-			HediffSet.<GetHediffsVerbs>c__Iterator211 expr_0E = <GetHediffsVerbs>c__Iterator;
+			HediffSet.<GetHediffsVerbs>c__Iterator213 expr_0E = <GetHediffsVerbs>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -296,9 +296,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<Hediff> GetHediffsTendable()
 		{
-			HediffSet.<GetHediffsTendable>c__Iterator212 <GetHediffsTendable>c__Iterator = new HediffSet.<GetHediffsTendable>c__Iterator212();
+			HediffSet.<GetHediffsTendable>c__Iterator214 <GetHediffsTendable>c__Iterator = new HediffSet.<GetHediffsTendable>c__Iterator214();
 			<GetHediffsTendable>c__Iterator.<>f__this = this;
-			HediffSet.<GetHediffsTendable>c__Iterator212 expr_0E = <GetHediffsTendable>c__Iterator;
+			HediffSet.<GetHediffsTendable>c__Iterator214 expr_0E = <GetHediffsTendable>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -321,9 +321,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<Hediff_Injury> GetInjuriesTendable()
 		{
-			HediffSet.<GetInjuriesTendable>c__Iterator213 <GetInjuriesTendable>c__Iterator = new HediffSet.<GetInjuriesTendable>c__Iterator213();
+			HediffSet.<GetInjuriesTendable>c__Iterator215 <GetInjuriesTendable>c__Iterator = new HediffSet.<GetInjuriesTendable>c__Iterator215();
 			<GetInjuriesTendable>c__Iterator.<>f__this = this;
-			HediffSet.<GetInjuriesTendable>c__Iterator213 expr_0E = <GetInjuriesTendable>c__Iterator;
+			HediffSet.<GetInjuriesTendable>c__Iterator215 expr_0E = <GetInjuriesTendable>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -389,9 +389,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<BodyPartRecord> GetNaturallyHealingInjuredParts()
 		{
-			HediffSet.<GetNaturallyHealingInjuredParts>c__Iterator214 <GetNaturallyHealingInjuredParts>c__Iterator = new HediffSet.<GetNaturallyHealingInjuredParts>c__Iterator214();
+			HediffSet.<GetNaturallyHealingInjuredParts>c__Iterator216 <GetNaturallyHealingInjuredParts>c__Iterator = new HediffSet.<GetNaturallyHealingInjuredParts>c__Iterator216();
 			<GetNaturallyHealingInjuredParts>c__Iterator.<>f__this = this;
-			HediffSet.<GetNaturallyHealingInjuredParts>c__Iterator214 expr_0E = <GetNaturallyHealingInjuredParts>c__Iterator;
+			HediffSet.<GetNaturallyHealingInjuredParts>c__Iterator216 expr_0E = <GetNaturallyHealingInjuredParts>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -408,13 +408,13 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<BodyPartRecord> GetNotMissingParts(BodyPartHeight height = BodyPartHeight.Undefined, BodyPartDepth depth = BodyPartDepth.Undefined)
 		{
-			HediffSet.<GetNotMissingParts>c__Iterator215 <GetNotMissingParts>c__Iterator = new HediffSet.<GetNotMissingParts>c__Iterator215();
+			HediffSet.<GetNotMissingParts>c__Iterator217 <GetNotMissingParts>c__Iterator = new HediffSet.<GetNotMissingParts>c__Iterator217();
 			<GetNotMissingParts>c__Iterator.height = height;
 			<GetNotMissingParts>c__Iterator.depth = depth;
 			<GetNotMissingParts>c__Iterator.<$>height = height;
 			<GetNotMissingParts>c__Iterator.<$>depth = depth;
 			<GetNotMissingParts>c__Iterator.<>f__this = this;
-			HediffSet.<GetNotMissingParts>c__Iterator215 expr_2A = <GetNotMissingParts>c__Iterator;
+			HediffSet.<GetNotMissingParts>c__Iterator217 expr_2A = <GetNotMissingParts>c__Iterator;
 			expr_2A.$PC = -2;
 			return expr_2A;
 		}
@@ -565,9 +565,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<Hediff> GetTendableNonInjuryNonMissingPartHediffs()
 		{
-			HediffSet.<GetTendableNonInjuryNonMissingPartHediffs>c__Iterator216 <GetTendableNonInjuryNonMissingPartHediffs>c__Iterator = new HediffSet.<GetTendableNonInjuryNonMissingPartHediffs>c__Iterator216();
+			HediffSet.<GetTendableNonInjuryNonMissingPartHediffs>c__Iterator218 <GetTendableNonInjuryNonMissingPartHediffs>c__Iterator = new HediffSet.<GetTendableNonInjuryNonMissingPartHediffs>c__Iterator218();
 			<GetTendableNonInjuryNonMissingPartHediffs>c__Iterator.<>f__this = this;
-			HediffSet.<GetTendableNonInjuryNonMissingPartHediffs>c__Iterator216 expr_0E = <GetTendableNonInjuryNonMissingPartHediffs>c__Iterator;
+			HediffSet.<GetTendableNonInjuryNonMissingPartHediffs>c__Iterator218 expr_0E = <GetTendableNonInjuryNonMissingPartHediffs>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

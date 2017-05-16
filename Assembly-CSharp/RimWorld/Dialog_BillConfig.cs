@@ -188,8 +188,11 @@ namespace RimWorld
 				stringBuilder.AppendLine(text4);
 				stringBuilder.AppendLine();
 			}
-			stringBuilder.AppendLine("MinimumSkills".Translate());
-			stringBuilder.AppendLine(this.bill.recipe.MinSkillString);
+			if (!this.bill.recipe.skillRequirements.NullOrEmpty<SkillRequirement>())
+			{
+				stringBuilder.AppendLine("MinimumSkills".Translate());
+				stringBuilder.AppendLine(this.bill.recipe.MinSkillString);
+			}
 			Text.Font = GameFont.Small;
 			string text5 = stringBuilder.ToString();
 			if (Text.CalcHeight(text5, rect2.width) > rect2.height)

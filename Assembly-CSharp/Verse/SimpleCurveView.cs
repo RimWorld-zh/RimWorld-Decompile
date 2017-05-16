@@ -19,9 +19,9 @@ namespace Verse
 		{
 			get
 			{
-				SimpleCurveView.<>c__Iterator239 <>c__Iterator = new SimpleCurveView.<>c__Iterator239();
-				<>c__Iterator.<>f__this = this;
-				SimpleCurveView.<>c__Iterator239 expr_0E = <>c__Iterator;
+				SimpleCurveView.<>c__Iterator23B <>c__Iterator23B = new SimpleCurveView.<>c__Iterator23B();
+				<>c__Iterator23B.<>f__this = this;
+				SimpleCurveView.<>c__Iterator23B expr_0E = <>c__Iterator23B;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}

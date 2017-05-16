@@ -49,7 +49,7 @@ namespace RimWorld
 
 		public float lifespanFraction = 6f;
 
-		public float growMinGlow = 0.5f;
+		public float growMinGlow = 0.51f;
 
 		public float growOptimalGlow = 1f;
 

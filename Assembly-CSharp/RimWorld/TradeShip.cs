@@ -50,14 +50,6 @@ namespace RimWorld
 			}
 		}
 
-		public IEnumerable<Thing> Goods
-		{
-			get
-			{
-				return this.things;
-			}
-		}
-
 		public int RandomPriceFactorSeed
 		{
 			get
@@ -98,6 +90,18 @@ namespace RimWorld
 			}
 		}
 
+		public IEnumerable<Thing> Goods
+		{
+			get
+			{
+				TradeShip.<>c__Iterator181 <>c__Iterator = new TradeShip.<>c__Iterator181();
+				<>c__Iterator.<>f__this = this;
+				TradeShip.<>c__Iterator181 expr_0E = <>c__Iterator;
+				expr_0E.$PC = -2;
+				return expr_0E;
+			}
+		}
+
 		public TradeShip()
 		{
 		}
@@ -121,9 +125,9 @@ namespace RimWorld
 		[DebuggerHidden]
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
-			TradeShip.<ColonyThingsWillingToBuy>c__Iterator181 <ColonyThingsWillingToBuy>c__Iterator = new TradeShip.<ColonyThingsWillingToBuy>c__Iterator181();
+			TradeShip.<ColonyThingsWillingToBuy>c__Iterator182 <ColonyThingsWillingToBuy>c__Iterator = new TradeShip.<ColonyThingsWillingToBuy>c__Iterator182();
 			<ColonyThingsWillingToBuy>c__Iterator.<>f__this = this;
-			TradeShip.<ColonyThingsWillingToBuy>c__Iterator181 expr_0E = <ColonyThingsWillingToBuy>c__Iterator;
+			TradeShip.<ColonyThingsWillingToBuy>c__Iterator182 expr_0E = <ColonyThingsWillingToBuy>c__Iterator;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -242,11 +246,6 @@ namespace RimWorld
 				this.soldPrisoners.Remove(pawn);
 			}
 			TradeUtility.SpawnDropPod(DropCellFinder.TradeDropSpot(base.Map), base.Map, thing);
-		}
-
-		public bool IsPawnPurchasedAsPrisoner(Pawn pawn)
-		{
-			return this.soldPrisoners.Contains(pawn);
 		}
 
 		private Thing HeldThingMatching(ThingDef thingDef, ThingDef stuffDef)

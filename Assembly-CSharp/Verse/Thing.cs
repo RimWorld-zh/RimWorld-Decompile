@@ -173,6 +173,10 @@ namespace Verse
 				}
 				if (this.Spawned)
 				{
+					if (this.def.AffectsRegions)
+					{
+						Log.Warning("Changed position of a spawned thing which affects regions. This is not supported.");
+					}
 					this.DirtyMapMesh(this.Map);
 					RegionListersUpdater.DeregisterInRegions(this, this.Map);
 					this.Map.thingGrid.Deregister(this, false);
@@ -183,6 +187,10 @@ namespace Verse
 					this.Map.thingGrid.Register(this);
 					RegionListersUpdater.RegisterInRegions(this, this.Map);
 					this.DirtyMapMesh(this.Map);
+					if (this.def.AffectsReachability)
+					{
+						this.Map.reachability.ClearCache();
+					}
 				}
 			}
 		}
@@ -218,6 +226,10 @@ namespace Verse
 				}
 				if (this.Spawned)
 				{
+					if (this.def.AffectsRegions)
+					{
+						Log.Warning("Changed rotation of a spawned thing which affects regions. This is not supported.");
+					}
 					RegionListersUpdater.DeregisterInRegions(this, this.Map);
 					this.Map.thingGrid.Deregister(this, false);
 				}
@@ -226,6 +238,10 @@ namespace Verse
 				{
 					this.Map.thingGrid.Register(this);
 					RegionListersUpdater.RegisterInRegions(this, this.Map);
+					if (this.def.AffectsReachability)
+					{
+						this.Map.reachability.ClearCache();
+					}
 				}
 			}
 		}
@@ -597,7 +613,7 @@ namespace Verse
 			{
 				map.zoneManager.Notify_NoZoneOverlapThingSpawned(this);
 			}
-			if (this.def.affectsRegions)
+			if (this.def.AffectsRegions)
 			{
 				map.regionDirtyer.Notify_ThingAffectingRegionsSpawned(this);
 			}
@@ -605,7 +621,7 @@ namespace Verse
 			{
 				map.pathGrid.RecalculatePerceivedPathCostUnderThing(this);
 			}
-			if (this.def.passability == Traversability.Impassable)
+			if (this.def.AffectsReachability)
 			{
 				map.reachability.ClearCache();
 			}
@@ -672,7 +688,7 @@ namespace Verse
 			{
 				room.Notify_ContainedThingSpawnedOrDespawned(this);
 			}
-			if (this.def.affectsRegions)
+			if (this.def.AffectsRegions)
 			{
 				map.regionDirtyer.Notify_ThingAffectingRegionsDespawned(this);
 			}
@@ -680,7 +696,7 @@ namespace Verse
 			{
 				map.pathGrid.RecalculatePerceivedPathCostUnderThing(this);
 			}
-			if (this.def.passability == Traversability.Impassable)
+			if (this.def.AffectsReachability)
 			{
 				map.reachability.ClearCache();
 			}

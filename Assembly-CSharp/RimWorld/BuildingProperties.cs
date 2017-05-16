@@ -46,6 +46,8 @@ namespace RimWorld
 
 		public bool canPlaceOverWall;
 
+		public bool allowAutoroof = true;
+
 		public bool preventDeterioration;
 
 		public bool isMealSource;

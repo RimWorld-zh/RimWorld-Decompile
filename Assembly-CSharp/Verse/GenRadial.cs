@@ -169,10 +169,10 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<IntVec3> RadialPatternInRadius(float radius)
 		{
-			GenRadial.<RadialPatternInRadius>c__Iterator248 <RadialPatternInRadius>c__Iterator = new GenRadial.<RadialPatternInRadius>c__Iterator248();
-			<RadialPatternInRadius>c__Iterator.radius = radius;
-			<RadialPatternInRadius>c__Iterator.<$>radius = radius;
-			GenRadial.<RadialPatternInRadius>c__Iterator248 expr_15 = <RadialPatternInRadius>c__Iterator;
+			GenRadial.<RadialPatternInRadius>c__Iterator24A <RadialPatternInRadius>c__Iterator24A = new GenRadial.<RadialPatternInRadius>c__Iterator24A();
+			<RadialPatternInRadius>c__Iterator24A.radius = radius;
+			<RadialPatternInRadius>c__Iterator24A.<$>radius = radius;
+			GenRadial.<RadialPatternInRadius>c__Iterator24A expr_15 = <RadialPatternInRadius>c__Iterator24A;
 			expr_15.$PC = -2;
 			return expr_15;
 		}
@@ -180,14 +180,14 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<IntVec3> RadialCellsAround(IntVec3 center, float radius, bool useCenter)
 		{
-			GenRadial.<RadialCellsAround>c__Iterator249 <RadialCellsAround>c__Iterator = new GenRadial.<RadialCellsAround>c__Iterator249();
-			<RadialCellsAround>c__Iterator.radius = radius;
-			<RadialCellsAround>c__Iterator.useCenter = useCenter;
-			<RadialCellsAround>c__Iterator.center = center;
-			<RadialCellsAround>c__Iterator.<$>radius = radius;
-			<RadialCellsAround>c__Iterator.<$>useCenter = useCenter;
-			<RadialCellsAround>c__Iterator.<$>center = center;
-			GenRadial.<RadialCellsAround>c__Iterator249 expr_31 = <RadialCellsAround>c__Iterator;
+			GenRadial.<RadialCellsAround>c__Iterator24B <RadialCellsAround>c__Iterator24B = new GenRadial.<RadialCellsAround>c__Iterator24B();
+			<RadialCellsAround>c__Iterator24B.radius = radius;
+			<RadialCellsAround>c__Iterator24B.useCenter = useCenter;
+			<RadialCellsAround>c__Iterator24B.center = center;
+			<RadialCellsAround>c__Iterator24B.<$>radius = radius;
+			<RadialCellsAround>c__Iterator24B.<$>useCenter = useCenter;
+			<RadialCellsAround>c__Iterator24B.<$>center = center;
+			GenRadial.<RadialCellsAround>c__Iterator24B expr_31 = <RadialCellsAround>c__Iterator24B;
 			expr_31.$PC = -2;
 			return expr_31;
 		}
@@ -195,16 +195,16 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<Thing> RadialDistinctThingsAround(IntVec3 center, Map map, float radius, bool useCenter)
 		{
-			GenRadial.<RadialDistinctThingsAround>c__Iterator24A <RadialDistinctThingsAround>c__Iterator24A = new GenRadial.<RadialDistinctThingsAround>c__Iterator24A();
-			<RadialDistinctThingsAround>c__Iterator24A.radius = radius;
-			<RadialDistinctThingsAround>c__Iterator24A.useCenter = useCenter;
-			<RadialDistinctThingsAround>c__Iterator24A.center = center;
-			<RadialDistinctThingsAround>c__Iterator24A.map = map;
-			<RadialDistinctThingsAround>c__Iterator24A.<$>radius = radius;
-			<RadialDistinctThingsAround>c__Iterator24A.<$>useCenter = useCenter;
-			<RadialDistinctThingsAround>c__Iterator24A.<$>center = center;
-			<RadialDistinctThingsAround>c__Iterator24A.<$>map = map;
-			GenRadial.<RadialDistinctThingsAround>c__Iterator24A expr_3F = <RadialDistinctThingsAround>c__Iterator24A;
+			GenRadial.<RadialDistinctThingsAround>c__Iterator24C <RadialDistinctThingsAround>c__Iterator24C = new GenRadial.<RadialDistinctThingsAround>c__Iterator24C();
+			<RadialDistinctThingsAround>c__Iterator24C.radius = radius;
+			<RadialDistinctThingsAround>c__Iterator24C.useCenter = useCenter;
+			<RadialDistinctThingsAround>c__Iterator24C.center = center;
+			<RadialDistinctThingsAround>c__Iterator24C.map = map;
+			<RadialDistinctThingsAround>c__Iterator24C.<$>radius = radius;
+			<RadialDistinctThingsAround>c__Iterator24C.<$>useCenter = useCenter;
+			<RadialDistinctThingsAround>c__Iterator24C.<$>center = center;
+			<RadialDistinctThingsAround>c__Iterator24C.<$>map = map;
+			GenRadial.<RadialDistinctThingsAround>c__Iterator24C expr_3F = <RadialDistinctThingsAround>c__Iterator24C;
 			expr_3F.$PC = -2;
 			return expr_3F;
 		}

@@ -89,10 +89,10 @@ namespace RimWorld
 			if (Widgets.ButtonText(rect4, this.planetCoverage.ToStringPercent(), true, false, true))
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				float[] planetCoverages = Page_CreateWorldParams.PlanetCoverages;
-				for (int i = 0; i < planetCoverages.Length; i++)
+				float[] array = (!Prefs.DevMode) ? Page_CreateWorldParams.PlanetCoverages : Page_CreateWorldParams.PlanetCoveragesDev;
+				for (int i = 0; i < array.Length; i++)
 				{
-					float coverage = planetCoverages[i];
+					float coverage = array[i];
 					string text = coverage.ToStringPercent();
 					if (coverage <= 0.1f)
 					{

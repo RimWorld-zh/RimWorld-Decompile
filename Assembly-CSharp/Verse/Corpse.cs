@@ -112,9 +112,9 @@ namespace Verse
 		{
 			get
 			{
-				Corpse.<>c__Iterator228 <>c__Iterator = new Corpse.<>c__Iterator228();
-				<>c__Iterator.<>f__this = this;
-				Corpse.<>c__Iterator228 expr_0E = <>c__Iterator;
+				Corpse.<>c__Iterator22A <>c__Iterator22A = new Corpse.<>c__Iterator22A();
+				<>c__Iterator22A.<>f__this = this;
+				Corpse.<>c__Iterator22A expr_0E = <>c__Iterator22A;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -132,9 +132,9 @@ namespace Verse
 		{
 			get
 			{
-				Corpse.<>c__Iterator229 <>c__Iterator = new Corpse.<>c__Iterator229();
-				<>c__Iterator.<>f__this = this;
-				Corpse.<>c__Iterator229 expr_0E = <>c__Iterator;
+				Corpse.<>c__Iterator22B <>c__Iterator22B = new Corpse.<>c__Iterator22B();
+				<>c__Iterator22B.<>f__this = this;
+				Corpse.<>c__Iterator22B expr_0E = <>c__Iterator22B;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -305,13 +305,13 @@ namespace Verse
 		[DebuggerHidden]
 		public override IEnumerable<Thing> ButcherProducts(Pawn butcher, float efficiency)
 		{
-			Corpse.<ButcherProducts>c__Iterator22A <ButcherProducts>c__Iterator22A = new Corpse.<ButcherProducts>c__Iterator22A();
-			<ButcherProducts>c__Iterator22A.butcher = butcher;
-			<ButcherProducts>c__Iterator22A.efficiency = efficiency;
-			<ButcherProducts>c__Iterator22A.<$>butcher = butcher;
-			<ButcherProducts>c__Iterator22A.<$>efficiency = efficiency;
-			<ButcherProducts>c__Iterator22A.<>f__this = this;
-			Corpse.<ButcherProducts>c__Iterator22A expr_2A = <ButcherProducts>c__Iterator22A;
+			Corpse.<ButcherProducts>c__Iterator22C <ButcherProducts>c__Iterator22C = new Corpse.<ButcherProducts>c__Iterator22C();
+			<ButcherProducts>c__Iterator22C.butcher = butcher;
+			<ButcherProducts>c__Iterator22C.efficiency = efficiency;
+			<ButcherProducts>c__Iterator22C.<$>butcher = butcher;
+			<ButcherProducts>c__Iterator22C.<$>efficiency = efficiency;
+			<ButcherProducts>c__Iterator22C.<>f__this = this;
+			Corpse.<ButcherProducts>c__Iterator22C expr_2A = <ButcherProducts>c__Iterator22C;
 			expr_2A.$PC = -2;
 			return expr_2A;
 		}

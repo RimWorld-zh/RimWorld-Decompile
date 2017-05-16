@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -141,13 +142,14 @@ namespace RimWorld
 			num += 30f;
 			Text.Font = GameFont.Small;
 			StringBuilder stringBuilder = new StringBuilder();
-			List<WorkTags> list = pawn.story.DisabledWorkTags.ToList<WorkTags>();
-			if (list.Count == 0)
+			WorkTags combinedDisabledWorkTags = pawn.story.CombinedDisabledWorkTags;
+			if (combinedDisabledWorkTags == WorkTags.None)
 			{
 				stringBuilder.Append("(" + "NoneLower".Translate() + "), ");
 			}
 			else
 			{
+				List<WorkTags> list = CharacterCardUtility.WorkTagsFrom(combinedDisabledWorkTags).ToList<WorkTags>();
 				bool flag2 = true;
 				foreach (WorkTags current in list)
 				{
@@ -211,6 +213,17 @@ namespace RimWorld
 			{
 				name = text;
 			}
+		}
+
+		[DebuggerHidden]
+		private static IEnumerable<WorkTags> WorkTagsFrom(WorkTags tags)
+		{
+			CharacterCardUtility.<WorkTagsFrom>c__Iterator196 <WorkTagsFrom>c__Iterator = new CharacterCardUtility.<WorkTagsFrom>c__Iterator196();
+			<WorkTagsFrom>c__Iterator.tags = tags;
+			<WorkTagsFrom>c__Iterator.<$>tags = tags;
+			CharacterCardUtility.<WorkTagsFrom>c__Iterator196 expr_15 = <WorkTagsFrom>c__Iterator;
+			expr_15.$PC = -2;
+			return expr_15;
 		}
 	}
 }

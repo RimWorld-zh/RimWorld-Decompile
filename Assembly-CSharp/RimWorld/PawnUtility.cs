@@ -568,8 +568,11 @@ namespace RimWorld
 			Rand.Seed = pawn.HashOffset();
 			num += Rand.Range(-0.2f, 0.2f);
 			Rand.PopState();
-			int num2 = Mathf.Abs((int)(pawn.Faction.def.techLevel - recruiterFaction.def.techLevel));
-			num += (float)num2 * 0.15f;
+			if (pawn.Faction != null)
+			{
+				int num2 = Mathf.Abs((int)(pawn.Faction.def.techLevel - recruiterFaction.def.techLevel));
+				num += (float)num2 * 0.15f;
+			}
 			if (withPopIntent)
 			{
 				float popIntent = (Current.ProgramState != ProgramState.Playing) ? 1f : Find.Storyteller.intenderPopulation.PopulationIntent;

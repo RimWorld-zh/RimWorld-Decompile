@@ -71,9 +71,9 @@ namespace Verse
 		{
 			get
 			{
-				Pawn_EquipmentTracker.<>c__Iterator21C <>c__Iterator21C = new Pawn_EquipmentTracker.<>c__Iterator21C();
-				<>c__Iterator21C.<>f__this = this;
-				Pawn_EquipmentTracker.<>c__Iterator21C expr_0E = <>c__Iterator21C;
+				Pawn_EquipmentTracker.<>c__Iterator21E <>c__Iterator21E = new Pawn_EquipmentTracker.<>c__Iterator21E();
+				<>c__Iterator21E.<>f__this = this;
+				Pawn_EquipmentTracker.<>c__Iterator21E expr_0E = <>c__Iterator21E;
 				expr_0E.$PC = -2;
 				return expr_0E;
 			}
@@ -246,9 +246,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			Pawn_EquipmentTracker.<GetGizmos>c__Iterator21D <GetGizmos>c__Iterator21D = new Pawn_EquipmentTracker.<GetGizmos>c__Iterator21D();
-			<GetGizmos>c__Iterator21D.<>f__this = this;
-			Pawn_EquipmentTracker.<GetGizmos>c__Iterator21D expr_0E = <GetGizmos>c__Iterator21D;
+			Pawn_EquipmentTracker.<GetGizmos>c__Iterator21F <GetGizmos>c__Iterator21F = new Pawn_EquipmentTracker.<GetGizmos>c__Iterator21F();
+			<GetGizmos>c__Iterator21F.<>f__this = this;
+			Pawn_EquipmentTracker.<GetGizmos>c__Iterator21F expr_0E = <GetGizmos>c__Iterator21F;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}
@@ -259,7 +259,7 @@ namespace Verse
 			{
 				return false;
 			}
-			if (this.pawn.story != null && this.pawn.story.DisabledWorkTags.Contains(WorkTags.Violent))
+			if (this.pawn.story != null && this.pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 			{
 				return false;
 			}

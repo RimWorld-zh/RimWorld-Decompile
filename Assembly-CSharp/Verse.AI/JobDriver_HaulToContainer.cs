@@ -41,9 +41,9 @@ namespace Verse.AI
 		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_HaulToContainer.<MakeNewToils>c__Iterator1B9 <MakeNewToils>c__Iterator1B = new JobDriver_HaulToContainer.<MakeNewToils>c__Iterator1B9();
-			<MakeNewToils>c__Iterator1B.<>f__this = this;
-			JobDriver_HaulToContainer.<MakeNewToils>c__Iterator1B9 expr_0E = <MakeNewToils>c__Iterator1B;
+			JobDriver_HaulToContainer.<MakeNewToils>c__Iterator1BB <MakeNewToils>c__Iterator1BB = new JobDriver_HaulToContainer.<MakeNewToils>c__Iterator1BB();
+			<MakeNewToils>c__Iterator1BB.<>f__this = this;
+			JobDriver_HaulToContainer.<MakeNewToils>c__Iterator1BB expr_0E = <MakeNewToils>c__Iterator1BB;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

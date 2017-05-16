@@ -213,14 +213,14 @@ namespace Verse
 		[DebuggerHidden]
 		public static IEnumerable<LocalTargetInfo> TargetsAt(Vector3 clickPos, TargetingParameters clickParams, bool thingsOnly = false)
 		{
-			GenUI.<TargetsAt>c__Iterator231 <TargetsAt>c__Iterator = new GenUI.<TargetsAt>c__Iterator231();
+			GenUI.<TargetsAt>c__Iterator233 <TargetsAt>c__Iterator = new GenUI.<TargetsAt>c__Iterator233();
 			<TargetsAt>c__Iterator.clickPos = clickPos;
 			<TargetsAt>c__Iterator.clickParams = clickParams;
 			<TargetsAt>c__Iterator.thingsOnly = thingsOnly;
 			<TargetsAt>c__Iterator.<$>clickPos = clickPos;
 			<TargetsAt>c__Iterator.<$>clickParams = clickParams;
 			<TargetsAt>c__Iterator.<$>thingsOnly = thingsOnly;
-			GenUI.<TargetsAt>c__Iterator231 expr_31 = <TargetsAt>c__Iterator;
+			GenUI.<TargetsAt>c__Iterator233 expr_31 = <TargetsAt>c__Iterator;
 			expr_31.$PC = -2;
 			return expr_31;
 		}

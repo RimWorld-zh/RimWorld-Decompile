@@ -31,12 +31,12 @@ namespace RimWorld
 
 		protected Job ResourceDeliverJobFor(Pawn pawn, IConstructible c, bool canRemoveExistingFloorUnderNearbyNeeders = true)
 		{
-			WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2AC <ResourceDeliverJobFor>c__AnonStorey2AC = new WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2AC();
-			<ResourceDeliverJobFor>c__AnonStorey2AC.pawn = pawn;
+			WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2AE <ResourceDeliverJobFor>c__AnonStorey2AE = new WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2AE();
+			<ResourceDeliverJobFor>c__AnonStorey2AE.pawn = pawn;
 			Blueprint_Install blueprint_Install = c as Blueprint_Install;
 			if (blueprint_Install != null)
 			{
-				return this.InstallJob(<ResourceDeliverJobFor>c__AnonStorey2AC.pawn, blueprint_Install);
+				return this.InstallJob(<ResourceDeliverJobFor>c__AnonStorey2AE.pawn, blueprint_Install);
 			}
 			bool flag = false;
 			List<ThingCountClass> list = c.MaterialsNeeded();
@@ -44,30 +44,30 @@ namespace RimWorld
 			int i = 0;
 			while (i < count)
 			{
-				WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2AD <ResourceDeliverJobFor>c__AnonStorey2AD = new WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2AD();
-				<ResourceDeliverJobFor>c__AnonStorey2AD.<>f__ref$684 = <ResourceDeliverJobFor>c__AnonStorey2AC;
-				<ResourceDeliverJobFor>c__AnonStorey2AD.need = list[i];
-				if (!<ResourceDeliverJobFor>c__AnonStorey2AC.pawn.Map.itemAvailability.ThingsAvailableAnywhere(<ResourceDeliverJobFor>c__AnonStorey2AD.need, <ResourceDeliverJobFor>c__AnonStorey2AC.pawn))
+				WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2AF <ResourceDeliverJobFor>c__AnonStorey2AF = new WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2AF();
+				<ResourceDeliverJobFor>c__AnonStorey2AF.<>f__ref$686 = <ResourceDeliverJobFor>c__AnonStorey2AE;
+				<ResourceDeliverJobFor>c__AnonStorey2AF.need = list[i];
+				if (!<ResourceDeliverJobFor>c__AnonStorey2AE.pawn.Map.itemAvailability.ThingsAvailableAnywhere(<ResourceDeliverJobFor>c__AnonStorey2AF.need, <ResourceDeliverJobFor>c__AnonStorey2AE.pawn))
 				{
 					flag = true;
 					break;
 				}
-				WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2AD arg_ED_0 = <ResourceDeliverJobFor>c__AnonStorey2AD;
-				Predicate<Thing> validator = (Thing r) => WorkGiver_ConstructDeliverResources.ResourceValidator(<ResourceDeliverJobFor>c__AnonStorey2AD.<>f__ref$684.pawn, <ResourceDeliverJobFor>c__AnonStorey2AD.need, r);
-				arg_ED_0.foundRes = GenClosest.ClosestThingReachable(<ResourceDeliverJobFor>c__AnonStorey2AC.pawn.Position, <ResourceDeliverJobFor>c__AnonStorey2AC.pawn.Map, ThingRequest.ForDef(<ResourceDeliverJobFor>c__AnonStorey2AD.need.thingDef), PathEndMode.ClosestTouch, TraverseParms.For(<ResourceDeliverJobFor>c__AnonStorey2AC.pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, -1, false, RegionType.Set_Passable, false);
-				if (<ResourceDeliverJobFor>c__AnonStorey2AD.foundRes != null)
+				WorkGiver_ConstructDeliverResources.<ResourceDeliverJobFor>c__AnonStorey2AF arg_EE_0 = <ResourceDeliverJobFor>c__AnonStorey2AF;
+				Predicate<Thing> validator = (Thing r) => WorkGiver_ConstructDeliverResources.ResourceValidator(<ResourceDeliverJobFor>c__AnonStorey2AF.<>f__ref$686.pawn, <ResourceDeliverJobFor>c__AnonStorey2AF.need, r);
+				arg_EE_0.foundRes = GenClosest.ClosestThingReachable(<ResourceDeliverJobFor>c__AnonStorey2AE.pawn.Position, <ResourceDeliverJobFor>c__AnonStorey2AE.pawn.Map, ThingRequest.ForDef(<ResourceDeliverJobFor>c__AnonStorey2AF.need.thingDef), PathEndMode.ClosestTouch, TraverseParms.For(<ResourceDeliverJobFor>c__AnonStorey2AE.pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
+				if (<ResourceDeliverJobFor>c__AnonStorey2AF.foundRes != null)
 				{
 					int resTotalAvailable;
-					this.FindAvailableNearbyResources(<ResourceDeliverJobFor>c__AnonStorey2AD.foundRes, <ResourceDeliverJobFor>c__AnonStorey2AC.pawn, out resTotalAvailable);
+					this.FindAvailableNearbyResources(<ResourceDeliverJobFor>c__AnonStorey2AF.foundRes, <ResourceDeliverJobFor>c__AnonStorey2AE.pawn, out resTotalAvailable);
 					int num;
 					Job job;
-					HashSet<Thing> hashSet = this.FindNearbyNeeders(<ResourceDeliverJobFor>c__AnonStorey2AC.pawn, <ResourceDeliverJobFor>c__AnonStorey2AD.need, c, resTotalAvailable, canRemoveExistingFloorUnderNearbyNeeders, out num, out job);
+					HashSet<Thing> hashSet = this.FindNearbyNeeders(<ResourceDeliverJobFor>c__AnonStorey2AE.pawn, <ResourceDeliverJobFor>c__AnonStorey2AF.need, c, resTotalAvailable, canRemoveExistingFloorUnderNearbyNeeders, out num, out job);
 					if (job != null)
 					{
 						return job;
 					}
 					hashSet.Add((Thing)c);
-					Thing thing = hashSet.MinBy((Thing nee) => IntVec3Utility.ManhattanDistanceFlat(<ResourceDeliverJobFor>c__AnonStorey2AD.foundRes.Position, nee.Position));
+					Thing thing = hashSet.MinBy((Thing nee) => IntVec3Utility.ManhattanDistanceFlat(<ResourceDeliverJobFor>c__AnonStorey2AF.foundRes.Position, nee.Position));
 					hashSet.Remove(thing);
 					int num2 = 0;
 					int j = 0;
@@ -78,9 +78,9 @@ namespace RimWorld
 					}
 					while (num2 < num && j < WorkGiver_ConstructDeliverResources.resourcesAvailable.Count);
 					WorkGiver_ConstructDeliverResources.resourcesAvailable.RemoveRange(j, WorkGiver_ConstructDeliverResources.resourcesAvailable.Count - j);
-					WorkGiver_ConstructDeliverResources.resourcesAvailable.Remove(<ResourceDeliverJobFor>c__AnonStorey2AD.foundRes);
+					WorkGiver_ConstructDeliverResources.resourcesAvailable.Remove(<ResourceDeliverJobFor>c__AnonStorey2AF.foundRes);
 					Job job2 = new Job(JobDefOf.HaulToContainer);
-					job2.targetA = <ResourceDeliverJobFor>c__AnonStorey2AD.foundRes;
+					job2.targetA = <ResourceDeliverJobFor>c__AnonStorey2AF.foundRes;
 					job2.targetQueueA = new List<LocalTargetInfo>();
 					for (j = 0; j < WorkGiver_ConstructDeliverResources.resourcesAvailable.Count; j++)
 					{

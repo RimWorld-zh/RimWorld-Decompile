@@ -96,9 +96,9 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			PriorityWork.<GetGizmos>c__Iterator1BE <GetGizmos>c__Iterator1BE = new PriorityWork.<GetGizmos>c__Iterator1BE();
-			<GetGizmos>c__Iterator1BE.<>f__this = this;
-			PriorityWork.<GetGizmos>c__Iterator1BE expr_0E = <GetGizmos>c__Iterator1BE;
+			PriorityWork.<GetGizmos>c__Iterator1C0 <GetGizmos>c__Iterator1C = new PriorityWork.<GetGizmos>c__Iterator1C0();
+			<GetGizmos>c__Iterator1C.<>f__this = this;
+			PriorityWork.<GetGizmos>c__Iterator1C0 expr_0E = <GetGizmos>c__Iterator1C;
 			expr_0E.$PC = -2;
 			return expr_0E;
 		}

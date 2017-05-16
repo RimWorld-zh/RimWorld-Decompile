@@ -32,12 +32,12 @@ namespace RimWorld
 			{
 				return null;
 			}
-			if (RestUtility.FindBedFor(prisoner, prisoner, true, true) != null)
+			if (RestUtility.FindBedFor(prisoner, prisoner, true, true, false) != null)
 			{
 				return null;
 			}
 			Room room = prisoner.GetRoom(RegionType.Set_Passable);
-			Building_Bed building_Bed = RestUtility.FindBedFor(prisoner, warden, true, false);
+			Building_Bed building_Bed = RestUtility.FindBedFor(prisoner, warden, true, false, false);
 			if (building_Bed != null && building_Bed.GetRoom(RegionType.Set_Passable) != room)
 			{
 				return new Job(JobDefOf.EscortPrisonerToBed, prisoner, building_Bed)
@@ -54,7 +54,7 @@ namespace RimWorld
 			{
 				return null;
 			}
-			Building_Bed building_Bed = RestUtility.FindBedFor(prisoner, warden, true, true);
+			Building_Bed building_Bed = RestUtility.FindBedFor(prisoner, warden, true, true, false);
 			if (building_Bed != null)
 			{
 				return new Job(JobDefOf.TakeWoundedPrisonerToBed, prisoner, building_Bed)

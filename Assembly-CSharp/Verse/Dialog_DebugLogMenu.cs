@@ -1,13 +1,7 @@
 using RimWorld;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
-using UnityEngine;
-using Verse.AI;
-using Verse.Profile;
-using Verse.Steam;
 
 namespace Verse
 {
@@ -29,82 +23,6 @@ namespace Verse
 		protected override void DoListingItems()
 		{
 			this.listing.Label("Logs", -1f);
-			base.DebugAction("Quality gen data", delegate
-			{
-				QualityUtility.LogGenerationData();
-			});
-			base.DebugAction("Song selection info", delegate
-			{
-				Find.MusicManagerPlay.LogSongSelectionData();
-			});
-			base.DebugAction("Plant data", delegate
-			{
-				GenPlant.LogPlantData();
-			});
-			base.DebugAction("Age injuries", delegate
-			{
-				AgeInjuryUtility.LogOldInjuryCalculations();
-			});
-			base.DebugAction("Pawn groups made", delegate
-			{
-				PawnGroupMakerUtility.LogPawnGroupsMade();
-			});
-			base.DebugAction("All graphics in database", delegate
-			{
-				GraphicDatabase.DebugLogAllGraphics();
-			});
-			base.DebugAction("Rand tests", delegate
-			{
-				Rand.LogRandTests();
-			});
-			base.DebugAction("Steam Workshop status", delegate
-			{
-				Workshop.LogStatus();
-			});
-			base.DebugAction("Math perf", delegate
-			{
-				GenMath.LogTestMathPerf();
-			});
-			base.DebugAction("MeshPool stats", delegate
-			{
-				MeshPool.LogStats();
-			});
-			base.DebugAction("Lords", delegate
-			{
-				Find.VisibleMap.lordManager.LogLords();
-			});
-			base.DebugAction("Tribal solid backstories", delegate
-			{
-				Dialog_DebugLogMenu.LogSolidBackstoriesWithSpawnCategory("Tribal");
-			});
-			base.DebugAction("Pod contents test", delegate
-			{
-				IncidentWorker_ResourcePodCrash.DebugLogPodContentsChoices();
-			});
-			base.DebugAction("Pod contents possible", delegate
-			{
-				IncidentWorker_ResourcePodCrash.DebugLogPossiblePodContentsDefs();
-			});
-			base.DebugAction("Path cost ignore repeaters", delegate
-			{
-				PathGrid.LogPathCostIgnoreRepeaters();
-			});
-			base.DebugAction("Key strings", delegate
-			{
-				Dialog_DebugLogMenu.LogKeyStrings();
-			});
-			base.DebugAction("Animal stock gen", delegate
-			{
-				StockGenerator_Animals.LogStockGeneration();
-			});
-			base.DebugAction("Objects loaded", delegate
-			{
-				MemoryTracker.LogObjectsLoaded();
-			});
-			base.DebugAction("Object hold paths", delegate
-			{
-				MemoryTracker.LogObjectHoldPaths();
-			});
 			MethodInfo[] methods = typeof(DataAnalysisLogger).GetMethods(BindingFlags.Static | BindingFlags.Public);
 			MethodInfo mi2;
 			for (int i = 0; i < methods.Length; i++)
@@ -193,15 +111,6 @@ namespace Verse
 			this.listing.Gap(12f);
 			Text.Font = GameFont.Small;
 			this.listing.Label("Tables", -1f);
-			base.DebugAction("Population intent", delegate
-			{
-				Find.Storyteller.intenderPopulation.DoTable_PopulationIntents();
-			});
-			base.DebugAction("Pop-adj recruit difficulty", delegate
-			{
-				PawnUtility.DoTable_PopIntentRecruitDifficulty();
-			});
-			base.DebugAction("Manhunter results", new Action(ManhunterPackIncidentUtility.DoTable_ManhunterResults));
 			MethodInfo[] methods2 = typeof(DataAnalysisTableMaker).GetMethods(BindingFlags.Static | BindingFlags.Public);
 			MethodInfo mi;
 			for (int j = 0; j < methods2.Length; j++)
@@ -232,33 +141,6 @@ namespace Verse
 				}
 				Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 			});
-		}
-
-		private static void LogSolidBackstoriesWithSpawnCategory(string spawnCategory)
-		{
-			StringBuilder stringBuilder = new StringBuilder();
-			foreach (PawnBio current in SolidBioDatabase.allBios)
-			{
-				if (current.adulthood.spawnCategories.Contains(spawnCategory))
-				{
-					stringBuilder.AppendLine(current.ToString());
-				}
-			}
-			Log.Message(stringBuilder.ToString());
-		}
-
-		private static void LogKeyStrings()
-		{
-			StringBuilder stringBuilder = new StringBuilder();
-			using (IEnumerator enumerator = Enum.GetValues(typeof(KeyCode)).GetEnumerator())
-			{
-				while (enumerator.MoveNext())
-				{
-					KeyCode keyCode = (KeyCode)((int)enumerator.Current);
-					stringBuilder.AppendLine(keyCode.ToString() + " - " + keyCode.ToStringReadable());
-				}
-			}
-			Log.Message(stringBuilder.ToString());
 		}
 	}
 }

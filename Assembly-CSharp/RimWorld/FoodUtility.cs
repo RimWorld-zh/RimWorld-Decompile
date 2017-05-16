@@ -277,14 +277,14 @@ namespace RimWorld
 				Predicate<Thing> predicate = (Thing t) => foodValidator(t) && !FoodUtility.filtered.Contains(t) && t.def.ingestible.preferability > FoodPreferability.DesperateOnly && !t.IsNotFresh();
 				Predicate<Thing> validator = predicate;
 				bool ignoreEntirelyForbiddenRegions = flag;
-				thing = GenClosest.ClosestThingReachable(getter.Position, getter.Map, thingRequest, PathEndMode.ClosestTouch, TraverseParms.For(getter, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, searchRegionsMax, false, RegionType.Set_Passable, ignoreEntirelyForbiddenRegions);
+				thing = GenClosest.ClosestThingReachable(getter.Position, getter.Map, thingRequest, PathEndMode.ClosestTouch, TraverseParms.For(getter, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, 0, searchRegionsMax, false, RegionType.Set_Passable, ignoreEntirelyForbiddenRegions);
 				FoodUtility.filtered.Clear();
 				if (thing == null)
 				{
 					desperate = true;
 					validator = foodValidator;
 					ignoreEntirelyForbiddenRegions = flag;
-					thing = GenClosest.ClosestThingReachable(getter.Position, getter.Map, thingRequest, PathEndMode.ClosestTouch, TraverseParms.For(getter, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, searchRegionsMax, false, RegionType.Set_Passable, ignoreEntirelyForbiddenRegions);
+					thing = GenClosest.ClosestThingReachable(getter.Position, getter.Map, thingRequest, PathEndMode.ClosestTouch, TraverseParms.For(getter, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, 0, searchRegionsMax, false, RegionType.Set_Passable, ignoreEntirelyForbiddenRegions);
 				}
 			}
 			Profiler.EndSample();

@@ -11,11 +11,11 @@ namespace Verse
 		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors(HediffDef parentDef)
 		{
-			HediffCompProperties.<ConfigErrors>c__Iterator1C7 <ConfigErrors>c__Iterator1C = new HediffCompProperties.<ConfigErrors>c__Iterator1C7();
+			HediffCompProperties.<ConfigErrors>c__Iterator1C9 <ConfigErrors>c__Iterator1C = new HediffCompProperties.<ConfigErrors>c__Iterator1C9();
 			<ConfigErrors>c__Iterator1C.parentDef = parentDef;
 			<ConfigErrors>c__Iterator1C.<$>parentDef = parentDef;
 			<ConfigErrors>c__Iterator1C.<>f__this = this;
-			HediffCompProperties.<ConfigErrors>c__Iterator1C7 expr_1C = <ConfigErrors>c__Iterator1C;
+			HediffCompProperties.<ConfigErrors>c__Iterator1C9 expr_1C = <ConfigErrors>c__Iterator1C;
 			expr_1C.$PC = -2;
 			return expr_1C;
 		}

@@ -76,9 +76,16 @@ namespace Verse
 			foreach (IntVec3 current in room.BorderCells)
 			{
 				Thing roofHolderOrImpassable = current.GetRoofHolderOrImpassable(this.map);
-				if (roofHolderOrImpassable != null && roofHolderOrImpassable.Faction != null && roofHolderOrImpassable.Faction != Faction.OfPlayer)
+				if (roofHolderOrImpassable != null)
 				{
-					return;
+					if (roofHolderOrImpassable.Faction != null && roofHolderOrImpassable.Faction != Faction.OfPlayer)
+					{
+						return;
+					}
+					if (roofHolderOrImpassable.def.building != null && !roofHolderOrImpassable.def.building.allowAutoroof)
+					{
+						return;
+					}
 				}
 			}
 			this.innerCells.Clear();

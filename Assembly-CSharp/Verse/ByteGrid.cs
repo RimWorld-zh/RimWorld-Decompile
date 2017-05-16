@@ -110,7 +110,7 @@ namespace Verse
 				byte b = this.grid[i];
 				if (b > 0)
 				{
-					IntVec3 c = CellIndicesUtility.IndexToCell(i, this.mapSizeX, this.mapSizeZ);
+					IntVec3 c = CellIndicesUtility.IndexToCell(i, this.mapSizeX);
 					CellRenderer.RenderCell(c, (float)b / 255f * 0.5f);
 				}
 			}

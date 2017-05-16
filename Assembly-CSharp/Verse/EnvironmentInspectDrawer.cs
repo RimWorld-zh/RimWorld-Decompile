@@ -59,34 +59,34 @@ namespace Verse
 
 		private static void DrawInfoWindow()
 		{
-			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D1 <DrawInfoWindow>c__AnonStorey5D = new EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D1();
+			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D6 <DrawInfoWindow>c__AnonStorey5D = new EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D6();
 			<DrawInfoWindow>c__AnonStorey5D.room = UI.MouseCell().GetRoom(Find.VisibleMap, RegionType.Set_All);
 			<DrawInfoWindow>c__AnonStorey5D.roomValid = (<DrawInfoWindow>c__AnonStorey5D.room != null && <DrawInfoWindow>c__AnonStorey5D.room.Role != RoomRoleDefOf.None);
 			Text.Font = GameFont.Small;
 			<DrawInfoWindow>c__AnonStorey5D.windowRect = new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 416f, 36f);
-			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D1 expr_8A_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
+			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D6 expr_8A_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
 			expr_8A_cp_0.windowRect.height = expr_8A_cp_0.windowRect.height + 25f;
 			if (<DrawInfoWindow>c__AnonStorey5D.roomValid)
 			{
-				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D1 expr_AC_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
+				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D6 expr_AC_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
 				expr_AC_cp_0.windowRect.height = expr_AC_cp_0.windowRect.height + 13f;
-				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D1 expr_C3_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
+				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D6 expr_C3_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
 				expr_C3_cp_0.windowRect.height = expr_C3_cp_0.windowRect.height + 23f;
-				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D1 expr_DA_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
+				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D6 expr_DA_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
 				expr_DA_cp_0.windowRect.height = expr_DA_cp_0.windowRect.height + (float)EnvironmentInspectDrawer.DisplayedRoomStatsCount * 25f;
 			}
-			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D1 expr_F8_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
+			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D6 expr_F8_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
 			expr_F8_cp_0.windowRect.x = expr_F8_cp_0.windowRect.x + 26f;
-			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D1 expr_10F_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
+			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D6 expr_10F_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
 			expr_10F_cp_0.windowRect.y = expr_10F_cp_0.windowRect.y + 26f;
 			if (<DrawInfoWindow>c__AnonStorey5D.windowRect.xMax > (float)UI.screenWidth)
 			{
-				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D1 expr_13C_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
+				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D6 expr_13C_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
 				expr_13C_cp_0.windowRect.x = expr_13C_cp_0.windowRect.x - (<DrawInfoWindow>c__AnonStorey5D.windowRect.width + 52f);
 			}
 			if (<DrawInfoWindow>c__AnonStorey5D.windowRect.yMax > (float)UI.screenHeight)
 			{
-				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D1 expr_175_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
+				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D6 expr_175_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
 				expr_175_cp_0.windowRect.y = expr_175_cp_0.windowRect.y - (<DrawInfoWindow>c__AnonStorey5D.windowRect.height + 52f);
 			}
 			Find.WindowStack.ImmediateWindow(74975, <DrawInfoWindow>c__AnonStorey5D.windowRect, WindowLayer.Super, delegate

@@ -35,6 +35,8 @@ namespace Verse.AI
 
 		public int maxNumMeleeAttacks = 2147483647;
 
+		public int maxNumStaticAttacks = 2147483647;
+
 		public LocomotionUrgency locomotionUrgency = LocomotionUrgency.Jog;
 
 		public HaulMode haulMode;
@@ -210,6 +212,7 @@ namespace Verse.AI
 			Scribe_Values.Look<bool>(ref this.playerForced, "playerForced", false, false);
 			Scribe_Collections.Look<ThingStackPartClass>(ref this.placedThings, "placedThings", LookMode.Undefined, new object[0]);
 			Scribe_Values.Look<int>(ref this.maxNumMeleeAttacks, "maxNumMeleeAttacks", 2147483647, false);
+			Scribe_Values.Look<int>(ref this.maxNumStaticAttacks, "maxNumStaticAttacks", 2147483647, false);
 			Scribe_Values.Look<bool>(ref this.exitMapOnArrival, "exitMapOnArrival", false, false);
 			Scribe_Values.Look<bool>(ref this.failIfCantJoinOrCreateCaravan, "failIfCantJoinOrCreateCaravan", false, false);
 			Scribe_Values.Look<bool>(ref this.killIncappedTarget, "killIncappedTarget", false, false);

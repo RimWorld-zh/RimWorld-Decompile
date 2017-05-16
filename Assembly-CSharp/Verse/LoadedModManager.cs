@@ -126,10 +126,22 @@ namespace Verse
 
 		public static T ReadModSettings<T>(string modIdentifier, string modHandleName) where T : ModSettings, new()
 		{
+			string settingsFilename = LoadedModManager.GetSettingsFilename(modIdentifier, modHandleName);
 			T t = (T)((object)null);
-			Scribe.loader.InitLoading(LoadedModManager.GetSettingsFilename(modIdentifier, modHandleName));
-			Scribe_Deep.Look<T>(ref t, "ModSettings", new object[0]);
-			Scribe.loader.FinalizeLoading();
+			try
+			{
+				if (File.Exists(settingsFilename))
+				{
+					Scribe.loader.InitLoading(settingsFilename);
+					Scribe_Deep.Look<T>(ref t, "ModSettings", new object[0]);
+					Scribe.loader.FinalizeLoading();
+				}
+			}
+			catch (Exception ex)
+			{
+				Log.Warning(string.Format("Caught exception while loading mod settings data for {0}. Generating fresh settings. The exception was: {1}", modIdentifier, ex.ToString()));
+				t = (T)((object)null);
+			}
 			if (t == null)
 			{
 				t = Activator.CreateInstance<T>();

@@ -84,7 +84,7 @@ namespace RimWorld
 			where x.ThingDef.category == ThingCategory.Pawn
 			select x;
 			widget.AddSection("ColonistsSection".Translate(), from x in source
-			where ((Pawn)x.AnyThing).IsColonist
+			where ((Pawn)x.AnyThing).IsFreeColonist
 			select x);
 			widget.AddSection("PrisonersSection".Translate(), from x in source
 			where ((Pawn)x.AnyThing).IsPrisoner
