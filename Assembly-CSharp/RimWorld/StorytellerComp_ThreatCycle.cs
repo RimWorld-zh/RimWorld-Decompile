@@ -39,7 +39,7 @@ namespace RimWorld
 		private FiringIncident GenerateQueuedThreatSmall(IIncidentTarget target)
 		{
 			IncidentDef incidentDef;
-			if (!this.UsableIncidentsInCategory(IncidentCategory.ThreatSmall, target).TryRandomElementByWeight(new Func<IncidentDef, float>(this.IncidentChanceAdjustedForPopulation), out incidentDef))
+			if (!this.UsableIncidentsInCategory(IncidentCategory.ThreatSmall, target).TryRandomElementByWeight(new Func<IncidentDef, float>(base.IncidentChanceAdjustedForPopulation), out incidentDef))
 			{
 				return null;
 			}
@@ -63,7 +63,7 @@ namespace RimWorld
 			}
 			else if (!(from def in DefDatabase<IncidentDef>.AllDefs
 			where def.category == IncidentCategory.ThreatBig && parms.points >= def.minThreatPoints && def.Worker.CanFireNow(target)
-			select def).TryRandomElementByWeight(new Func<IncidentDef, float>(this.IncidentChanceAdjustedForPopulation), out raidEnemy))
+			select def).TryRandomElementByWeight(new Func<IncidentDef, float>(base.IncidentChanceAdjustedForPopulation), out raidEnemy))
 			{
 				return null;
 			}

@@ -55,7 +55,7 @@ namespace RimWorld.Planet
 				Thing thing2 = list[i];
 				if (CaravanPawnsNeedsUtility.CanNowEatForNutrition(thing2, forPawn))
 				{
-					float foodScore = CaravanPawnsNeedsUtility.GetFoodScore(thing2.def, forPawn);
+					float foodScore = CaravanPawnsNeedsUtility.GetFoodScore(thing2, forPawn);
 					if (thing == null || foodScore > num)
 					{
 						thing = thing2;

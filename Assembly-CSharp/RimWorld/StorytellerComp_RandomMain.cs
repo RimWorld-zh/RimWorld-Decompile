@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
@@ -28,22 +29,9 @@ namespace RimWorld
 			return expr_1C;
 		}
 
-		protected override float IncidentChanceAdjustedForPopulation(IncidentDef def)
+		protected override float IncidentChancePopulationFactor(IncidentDef def)
 		{
-			float num = 1f;
-			if (def.populationEffect >= IncidentPopulationEffect.Increase)
-			{
-				num = Find.Storyteller.intenderPopulation.PopulationIntent;
-			}
-			else if (def.populationEffect <= IncidentPopulationEffect.Decrease)
-			{
-				num = -Find.Storyteller.intenderPopulation.PopulationIntent;
-			}
-			if (num < 0.2f)
-			{
-				num = 0.2f;
-			}
-			return def.Worker.AdjustedChance * num;
+			return Mathf.Max(0.2f, base.IncidentChancePopulationFactor(def));
 		}
 
 		private IncidentCategory DecideCategory(IIncidentTarget target, List<IncidentCategory> skipCategories)

@@ -167,7 +167,7 @@ namespace Verse
 				{
 					return GenPlace.PlaceSpotQuality.Unusable;
 				}
-				if (thing2.def.category == ThingCategory.Item && (thing2.def != thing.def || thing2.stackCount >= thing.def.stackLimit))
+				if (thing.def.category == ThingCategory.Item && thing2.def.category == ThingCategory.Item && (thing2.def != thing.def || thing2.stackCount >= thing.def.stackLimit))
 				{
 					return GenPlace.PlaceSpotQuality.Unusable;
 				}
@@ -185,6 +185,8 @@ namespace Verse
 						}
 					}
 				}
+				Pawn pawn = thing as Pawn;
+				bool flag = pawn != null && pawn.Downed;
 				GenPlace.PlaceSpotQuality placeSpotQuality = GenPlace.PlaceSpotQuality.Perfect;
 				for (int k = 0; k < list.Count; k++)
 				{
@@ -197,10 +199,10 @@ namespace Verse
 					{
 						return GenPlace.PlaceSpotQuality.Bad;
 					}
-					Pawn pawn = thing4 as Pawn;
-					if (pawn != null)
+					Pawn pawn2 = thing4 as Pawn;
+					if (pawn2 != null)
 					{
-						if (pawn.Downed)
+						if (pawn2.Downed || flag)
 						{
 							return GenPlace.PlaceSpotQuality.Bad;
 						}

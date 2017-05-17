@@ -25,7 +25,7 @@ namespace Verse
 			return !this.discovered;
 		}
 
-		public override void CompPostTick()
+		public override void CompPostTick(ref float severityAdjustment)
 		{
 			if (Find.TickManager.TicksGame % 103 == 0)
 			{

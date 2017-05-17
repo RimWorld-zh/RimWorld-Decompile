@@ -185,11 +185,24 @@ namespace RimWorld.Planet
 			return food.IngestibleNow && CaravanPawnsNeedsUtility.CanNowEatForNutrition(food.def, pawn);
 		}
 
+		public static float GetFoodScore(Thing food, Pawn pawn)
+		{
+			float num = CaravanPawnsNeedsUtility.GetFoodScore(food.def, pawn);
+			if (pawn.RaceProps.Humanlike)
+			{
+				CompRottable compRottable = food.TryGetComp<CompRottable>();
+				int a = (compRottable == null) ? 2147483647 : compRottable.TicksUntilRotAtCurrentTemp;
+				float a2 = 1f - (float)Mathf.Min(a, 3600000) / 3600000f;
+				num += Mathf.Min(a2, 0.999f);
+			}
+			return num;
+		}
+
 		public static float GetFoodScore(ThingDef food, Pawn pawn)
 		{
 			if (pawn.RaceProps.Humanlike)
 			{
-				return (float)food.ingestible.preferability + Mathf.Min(food.ingestible.nutrition / 100f, 0.999f);
+				return (float)food.ingestible.preferability;
 			}
 			float num = 0f;
 			if (food == ThingDefOf.Kibble || food == ThingDefOf.Hay)

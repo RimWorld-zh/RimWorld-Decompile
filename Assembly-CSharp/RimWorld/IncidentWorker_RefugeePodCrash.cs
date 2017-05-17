@@ -23,7 +23,7 @@ namespace RimWorld
 			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.BadNonUrgent, new TargetInfo(intVec, map, false), null);
 			DropPodUtility.MakeDropPodAt(intVec, map, new ActiveDropPodInfo
 			{
-				SingleContainedThing = pawn,
+				SingleContainedThing = ((!pawn.Dead) ? pawn : pawn.Corpse),
 				openDelay = 180,
 				leaveSlag = true
 			});

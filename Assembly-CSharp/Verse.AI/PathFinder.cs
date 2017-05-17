@@ -66,7 +66,7 @@ namespace Verse.AI
 
 		public const int Cost_OutsideAllowedArea = 600;
 
-		private const int Cost_PawnCollision = 100;
+		private const int Cost_PawnCollision = 175;
 
 		private const float NonRegionBasedHeuristicStrengthAnimal = 1.75f;
 
@@ -384,18 +384,18 @@ namespace Verse.AI
 									if (!flag)
 									{
 										this.DebugFlash(intVec, 0.22f, "walk");
-										goto IL_D34;
+										goto IL_D37;
 									}
 									flag6 = true;
 									num16 += 60;
 									Building building = edificeGrid[intVec];
 									if (building == null)
 									{
-										goto IL_D34;
+										goto IL_D37;
 									}
 									if (!PathFinder.IsDestroyable(building))
 									{
-										goto IL_D34;
+										goto IL_D37;
 									}
 									num16 += (int)((float)building.HitPoints * 0.1f);
 								}
@@ -409,7 +409,7 @@ namespace Verse.AI
 											if (!flag || !flag2)
 											{
 												this.DebugFlash(new IntVec3((int)num11, 0, (int)(num12 - 1)), 0.9f, "corn");
-												goto IL_D34;
+												goto IL_D37;
 											}
 											num16 += 60;
 										}
@@ -418,7 +418,7 @@ namespace Verse.AI
 											if (!flag || !flag2)
 											{
 												this.DebugFlash(new IntVec3((int)(num11 + 1), 0, (int)num12), 0.9f, "corn");
-												goto IL_D34;
+												goto IL_D37;
 											}
 											num16 += 60;
 										}
@@ -429,7 +429,7 @@ namespace Verse.AI
 											if (!flag || !flag2)
 											{
 												this.DebugFlash(new IntVec3((int)num11, 0, (int)(num12 + 1)), 0.9f, "corn");
-												goto IL_D34;
+												goto IL_D37;
 											}
 											num16 += 60;
 										}
@@ -438,7 +438,7 @@ namespace Verse.AI
 											if (!flag || !flag2)
 											{
 												this.DebugFlash(new IntVec3((int)(num11 + 1), 0, (int)num12), 0.9f, "corn");
-												goto IL_D34;
+												goto IL_D37;
 											}
 											num16 += 60;
 										}
@@ -449,7 +449,7 @@ namespace Verse.AI
 											if (!flag || !flag2)
 											{
 												this.DebugFlash(new IntVec3((int)num11, 0, (int)(num12 + 1)), 0.9f, "corn");
-												goto IL_D34;
+												goto IL_D37;
 											}
 											num16 += 60;
 										}
@@ -458,7 +458,7 @@ namespace Verse.AI
 											if (!flag || !flag2)
 											{
 												this.DebugFlash(new IntVec3((int)(num11 - 1), 0, (int)num12), 0.9f, "corn");
-												goto IL_D34;
+												goto IL_D37;
 											}
 											num16 += 60;
 										}
@@ -469,7 +469,7 @@ namespace Verse.AI
 											if (!flag || !flag2)
 											{
 												this.DebugFlash(new IntVec3((int)num11, 0, (int)(num12 - 1)), 0.9f, "corn");
-												goto IL_D34;
+												goto IL_D37;
 											}
 											num16 += 60;
 										}
@@ -478,7 +478,7 @@ namespace Verse.AI
 											if (!flag || !flag2)
 											{
 												this.DebugFlash(new IntVec3((int)(num11 - 1), 0, (int)num12), 0.9f, "corn");
-												goto IL_D34;
+												goto IL_D37;
 											}
 											num16 += 60;
 										}
@@ -501,7 +501,7 @@ namespace Verse.AI
 								}
 								if (flag4 && PawnUtility.AnyPawnBlockingPathAt(intVec, pawn, false, false))
 								{
-									num17 += 100;
+									num17 += 175;
 								}
 								Building building2 = this.edificeGrid[this.cellIndices.CellToIndex((int)num13, (int)num14)];
 								if (building2 != null)
@@ -511,7 +511,7 @@ namespace Verse.AI
 									if (buildingCost == 2147483647)
 									{
 										this.PfProfilerEndSample();
-										goto IL_D34;
+										goto IL_D37;
 									}
 									num17 += buildingCost;
 									this.PfProfilerEndSample();
@@ -527,7 +527,7 @@ namespace Verse.AI
 									}
 									if (this.calcGrid[num15].knownCost <= num18 + num19)
 									{
-										goto IL_D34;
+										goto IL_D37;
 									}
 								}
 								if (status != this.statusClosedValue && status != this.statusOpenValue)
@@ -553,7 +553,7 @@ namespace Verse.AI
 								num4++;
 								this.openList.Push(new PathFinder.CostNode(num15, num22));
 							}
-							IL_D34:;
+							IL_D37:;
 						}
 						this.PfProfilerEndSample();
 						num3++;

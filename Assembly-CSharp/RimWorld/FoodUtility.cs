@@ -530,7 +530,7 @@ namespace RimWorld
 					return false;
 				}
 			}
-			return (predator.Faction == null || prey.Faction == null || predator.HostileTo(prey)) && (!predator.RaceProps.herdAnimal || predator.def != prey.def);
+			return (predator.Faction == null || prey.Faction == null || predator.HostileTo(prey)) && (predator.Faction != Faction.OfPlayer || prey.Faction != Faction.OfPlayer) && (!predator.RaceProps.herdAnimal || predator.def != prey.def);
 		}
 
 		public static float GetPreyScoreFor(Pawn predator, Pawn prey)

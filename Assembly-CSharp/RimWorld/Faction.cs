@@ -636,11 +636,10 @@ namespace RimWorld
 						}
 					}
 				}
-				PawnKindDef kind;
-				if (list.TryRandomElement(out kind))
+				PawnKindDef kindDef;
+				if (list.TryRandomElement(out kindDef))
 				{
-					PawnGenerationRequest request = new PawnGenerationRequest(kind, this, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, false, null, null, null, null, null, null);
-					this.leader = PawnGenerator.GeneratePawn(request);
+					this.leader = PawnGenerator.GeneratePawn(kindDef, this);
 					if (this.leader.RaceProps.IsFlesh)
 					{
 						this.leader.relations.everSeenByPlayer = true;

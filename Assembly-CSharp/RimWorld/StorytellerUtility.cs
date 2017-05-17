@@ -159,19 +159,28 @@ namespace RimWorld
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("Test future incidents for " + Find.Storyteller.def + ":");
 			int[] array = new int[Find.Storyteller.storytellerComps.Count];
+			int num = 0;
 			for (int j = 0; j < 6000; j++)
 			{
 				foreach (FiringIncident current in Find.Storyteller.MakeIncidentsForInterval())
 				{
 					if (!visibleMapOnly || current.parms.target == Find.VisibleMap)
 					{
-						int num = Find.Storyteller.storytellerComps.IndexOf(current.source);
-						array[num]++;
+						string text = "  ";
+						if (current.def.category == IncidentCategory.ThreatBig)
+						{
+							num++;
+							text = "T";
+						}
+						int num2 = Find.Storyteller.storytellerComps.IndexOf(current.source);
+						array[num2]++;
 						stringBuilder.AppendLine(string.Concat(new object[]
 						{
 							"M",
-							num,
-							"  ",
+							num2,
+							" ",
+							text,
+							" ",
 							Find.TickManager.TicksGame.TicksToDays().ToString("F1"),
 							"d      ",
 							current
@@ -186,8 +195,8 @@ namespace RimWorld
 			for (int k = 0; k < array.Length; k++)
 			{
 				float f = (float)array[k] / (float)array.Sum();
-				float num2 = (float)array[k] / 100f;
-				float num3 = 1f / num2;
+				float num3 = (float)array[k] / 100f;
+				float num4 = 1f / num3;
 				stringBuilder.AppendLine(string.Concat(new object[]
 				{
 					"   M",
@@ -197,12 +206,14 @@ namespace RimWorld
 					"  (",
 					f.ToStringPercent("F2"),
 					" of total, avg ",
-					num2.ToString("F2"),
+					num3.ToString("F2"),
 					" per day, avg interval ",
-					num3,
+					num4,
 					")"
 				}));
 			}
+			stringBuilder.AppendLine("Total threats: " + num);
+			stringBuilder.AppendLine("Total threats avg per day: " + ((float)num / 100f).ToString("F2"));
 			stringBuilder.AppendLine("Overall: " + array.Sum());
 			stringBuilder.AppendLine("Overall avg per day: " + ((float)array.Sum() / 100f).ToString("F2"));
 			Log.Message(stringBuilder.ToString());

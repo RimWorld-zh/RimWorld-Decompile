@@ -15,6 +15,7 @@ namespace RimWorld
 		{
 			BeachMaker.Init(map);
 			RiverMaker river = this.GenerateRiver(map);
+			List<IntVec3> list = new List<IntVec3>();
 			MapGenFloatGrid mapGenFloatGrid = MapGenerator.FloatGridNamed("Elevation", map);
 			MapGenFloatGrid mapGenFloatGrid2 = MapGenerator.FloatGridNamed("Fertility", map);
 			TerrainGrid terrainGrid = map.terrainGrid;
@@ -32,10 +33,12 @@ namespace RimWorld
 				}
 				if ((terrainDef == TerrainDefOf.WaterMovingShallow || terrainDef == TerrainDefOf.WaterMovingDeep) && edifice != null)
 				{
+					list.Add(edifice.Position);
 					edifice.Destroy(DestroyMode.Vanish);
 				}
 				terrainGrid.SetTerrain(current, terrainDef);
 			}
+			RoofCollapseCellsFinder.RemoveBulkCollapsingRoofs(list, map);
 			BeachMaker.Cleanup();
 			foreach (TerrainPatchMaker current2 in map.Biome.terrainPatchMakers)
 			{

@@ -87,7 +87,7 @@ namespace RimWorld
 				"\n",
 				faction.def.LabelCap,
 				"\n",
-				(faction.leader == null) ? string.Empty : (faction.def.leaderTitle + ": " + faction.leader.Name.ToStringFull)
+				(faction.leader == null) ? string.Empty : (faction.def.leaderTitle.CapitalizeFirst() + ": " + faction.leader.Name.ToStringFull)
 			});
 			Widgets.Label(rect, label);
 			Rect rect3 = new Rect(rect.xMax, rowY, 60f, 80f);

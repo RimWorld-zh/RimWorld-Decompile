@@ -45,9 +45,9 @@ namespace Verse
 			});
 		}
 
-		public override void CompPostTick()
+		public override void CompPostTick(ref float severityAdjustment)
 		{
-			base.CompPostTick();
+			base.CompPostTick(ref severityAdjustment);
 			this.verbTracker.VerbsTick();
 		}
 	}

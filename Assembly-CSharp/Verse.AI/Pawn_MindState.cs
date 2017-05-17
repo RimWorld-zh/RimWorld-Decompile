@@ -303,13 +303,13 @@ namespace Verse.AI
 				{
 					this.StartManhunterBecauseOfPawnAction("AnimalManhunterFromDamage");
 				}
+				else if (dinfo.Instigator != null && Pawn_MindState.CanStartFleeingBecauseOfPawnAction(this.pawn))
+				{
+					this.StartFleeingBecauseOfPawnAction(dinfo.Instigator);
+				}
 				if (this.pawn.GetPosture() != PawnPosture.Standing)
 				{
 					this.lastDisturbanceTick = Find.TickManager.TicksGame;
-				}
-				if (dinfo.Instigator != null && Pawn_MindState.CanStartFleeingBecauseOfPawnAction(this.pawn))
-				{
-					this.StartFleeingBecauseOfPawnAction(dinfo.Instigator);
 				}
 			}
 		}

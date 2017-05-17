@@ -32,7 +32,7 @@ namespace Verse
 			}
 		}
 
-		public const int MaxStartMentalStateThreshold = 40;
+		public const int MaxStartMentalBreakThreshold = 40;
 
 		private static List<PawnGenerator.PawnGenerationStatus> pawnsBeingGenerated = new List<PawnGenerator.PawnGenerationStatus>();
 
@@ -368,7 +368,7 @@ namespace Verse
 					pawn.story.hairColor = PawnHairColors.RandomHairColor(pawn.story.SkinColor, pawn.ageTracker.AgeBiologicalYears);
 					PawnBioAndNameGenerator.GiveAppropriateBioAndNameTo(pawn, request.FixedLastName);
 					pawn.story.hairDef = PawnHairChooser.RandomHairDefFor(pawn, request.Faction.def);
-					PawnGenerator.GenerateTraits(pawn, request.AllowGay);
+					PawnGenerator.GenerateTraits(pawn, request);
 					PawnGenerator.GenerateBodyType(pawn);
 					PawnGenerator.GenerateSkills(pawn);
 				}
@@ -660,7 +660,7 @@ namespace Verse
 			return traitDef.degreeDatas.RandomElementByWeight((TraitDegreeData dd) => dd.Commonality).degree;
 		}
 
-		private static void GenerateTraits(Pawn pawn, bool allowGay)
+		private static void GenerateTraits(Pawn pawn, PawnGenerationRequest request)
 		{
 			if (pawn.story == null)
 			{
@@ -699,7 +699,7 @@ namespace Verse
 				}
 			}
 			int num = Rand.RangeInclusive(2, 3);
-			if (allowGay && (LovePartnerRelationUtility.HasAnyLovePartnerOfTheSameGender(pawn) || LovePartnerRelationUtility.HasAnyExLovePartnerOfTheSameGender(pawn)))
+			if (request.AllowGay && (LovePartnerRelationUtility.HasAnyLovePartnerOfTheSameGender(pawn) || LovePartnerRelationUtility.HasAnyExLovePartnerOfTheSameGender(pawn)))
 			{
 				Trait trait = new Trait(TraitDefOf.Gay, PawnGenerator.RandomTraitDegree(TraitDefOf.Gay), false);
 				pawn.story.traits.GainTrait(trait);
@@ -711,7 +711,7 @@ namespace Verse
 				{
 					if (newTraitDef == TraitDefOf.Gay)
 					{
-						if (!allowGay)
+						if (!request.AllowGay)
 						{
 							continue;
 						}
@@ -720,27 +720,30 @@ namespace Verse
 							continue;
 						}
 					}
-					if (!pawn.story.traits.allTraits.Any((Trait tr) => newTraitDef.ConflictsWith(tr)) && (newTraitDef.conflictingTraits == null || !newTraitDef.conflictingTraits.Any((TraitDef tr) => pawn.story.traits.HasTrait(tr))))
+					if (request.Faction == null || Faction.OfPlayerSilentFail == null || !request.Faction.HostileTo(Faction.OfPlayer) || newTraitDef.allowOnHostileSpawn)
 					{
-						if (newTraitDef.requiredWorkTypes == null || !pawn.story.OneOfWorkTypesIsDisabled(newTraitDef.requiredWorkTypes))
+						if (!pawn.story.traits.allTraits.Any((Trait tr) => newTraitDef.ConflictsWith(tr)) && (newTraitDef.conflictingTraits == null || !newTraitDef.conflictingTraits.Any((TraitDef tr) => pawn.story.traits.HasTrait(tr))))
 						{
-							if (!pawn.story.WorkTagIsDisabled(newTraitDef.requiredWorkTags))
+							if (newTraitDef.requiredWorkTypes == null || !pawn.story.OneOfWorkTypesIsDisabled(newTraitDef.requiredWorkTypes))
 							{
-								int degree = PawnGenerator.RandomTraitDegree(newTraitDef);
-								if (!pawn.story.childhood.DisallowsTrait(newTraitDef, degree) && (pawn.story.adulthood == null || !pawn.story.adulthood.DisallowsTrait(newTraitDef, degree)))
+								if (!pawn.story.WorkTagIsDisabled(newTraitDef.requiredWorkTags))
 								{
-									Trait trait2 = new Trait(newTraitDef, degree, false);
-									if (pawn.mindState != null && pawn.mindState.mentalBreaker != null)
+									int degree = PawnGenerator.RandomTraitDegree(newTraitDef);
+									if (!pawn.story.childhood.DisallowsTrait(newTraitDef, degree) && (pawn.story.adulthood == null || !pawn.story.adulthood.DisallowsTrait(newTraitDef, degree)))
 									{
-										float num2 = pawn.mindState.mentalBreaker.BreakThresholdExtreme;
-										num2 += trait2.OffsetOfStat(StatDefOf.MentalBreakThreshold);
-										num2 *= trait2.MultiplierOfStat(StatDefOf.MentalBreakThreshold);
-										if (num2 > 40f)
+										Trait trait2 = new Trait(newTraitDef, degree, false);
+										if (pawn.mindState != null && pawn.mindState.mentalBreaker != null)
 										{
-											continue;
+											float num2 = pawn.mindState.mentalBreaker.BreakThresholdExtreme;
+											num2 += trait2.OffsetOfStat(StatDefOf.MentalBreakThreshold);
+											num2 *= trait2.MultiplierOfStat(StatDefOf.MentalBreakThreshold);
+											if (num2 > 40f)
+											{
+												continue;
+											}
 										}
+										pawn.story.traits.GainTrait(trait2);
 									}
-									pawn.story.traits.GainTrait(trait2);
 								}
 							}
 						}

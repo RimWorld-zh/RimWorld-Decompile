@@ -45,7 +45,7 @@ namespace Verse
 				List<Hediff_MissingPart> missingPartsCommonAncestors = this.pawn.health.hediffSet.GetMissingPartsCommonAncestors();
 				for (int j = 0; j < missingPartsCommonAncestors.Count; j++)
 				{
-					if (missingPartsCommonAncestors[j].IsFresh)
+					if (missingPartsCommonAncestors[j].IsFreshNonSolidExtremity)
 					{
 						num += missingPartsCommonAncestors[j].Part.def.GetMaxHealth(this.pawn);
 					}

@@ -27,7 +27,7 @@ namespace Verse
 			this.ticksToHeal = Rand.Range(15, 30) * 60000;
 		}
 
-		public override void CompPostTick()
+		public override void CompPostTick(ref float severityAdjustment)
 		{
 			this.ticksToHeal--;
 			if (this.ticksToHeal <= 0)

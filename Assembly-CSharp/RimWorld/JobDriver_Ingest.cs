@@ -143,7 +143,7 @@ namespace RimWorld
 					int num = FoodUtility.WillIngestStackCountOf(this.pawn, thing.def);
 					if (num >= thing.stackCount)
 					{
-						if (!thing.Spawned || !base.Map.reservationManager.CanReserve(this.pawn, thing, 1, -1, null, false))
+						if (!thing.Spawned)
 						{
 							this.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 							return;

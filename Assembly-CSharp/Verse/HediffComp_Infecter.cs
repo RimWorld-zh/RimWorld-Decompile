@@ -75,7 +75,7 @@ namespace Verse
 			Scribe_Values.Look<int>(ref this.ticksUntilInfect, "ticksUntilInfect", -2, false);
 		}
 
-		public override void CompPostTick()
+		public override void CompPostTick(ref float severityAdjustment)
 		{
 			if (this.ticksUntilInfect > 0)
 			{

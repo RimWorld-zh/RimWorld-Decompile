@@ -230,14 +230,6 @@ namespace RimWorld
 
 		public static ThingDef Cow;
 
-		public static ThingDef Gun_SurvivalRifle;
-
-		public static ThingDef Gun_Pistol;
-
-		public static ThingDef Gun_TurretImprovised;
-
-		public static ThingDef MeleeWeapon_Knife;
-
 		public static ThingDef Spark;
 
 		public static ThingDef Apparel_ShieldBelt;

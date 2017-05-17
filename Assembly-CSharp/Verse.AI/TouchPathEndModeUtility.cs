@@ -8,7 +8,13 @@ namespace Verse.AI
 		public static bool IsCornerTouchAllowed(int cornerX, int cornerZ, int adjCardinal1X, int adjCardinal1Z, int adjCardinal2X, int adjCardinal2Z, Map map)
 		{
 			Building building = map.edificeGrid[new IntVec3(cornerX, 0, cornerZ)];
-			return (building != null && TouchPathEndModeUtility.MakesOccupiedCellsAlwaysReachableDiagonally(building.def)) || (map.pathGrid.Walkable(new IntVec3(adjCardinal1X, 0, adjCardinal1Z)) || map.pathGrid.Walkable(new IntVec3(adjCardinal2X, 0, adjCardinal2Z)));
+			if (building != null && TouchPathEndModeUtility.MakesOccupiedCellsAlwaysReachableDiagonally(building.def))
+			{
+				return true;
+			}
+			IntVec3 intVec = new IntVec3(adjCardinal1X, 0, adjCardinal1Z);
+			IntVec3 intVec2 = new IntVec3(adjCardinal2X, 0, adjCardinal2Z);
+			return (map.pathGrid.Walkable(intVec) && intVec.GetDoor(map) == null) || (map.pathGrid.Walkable(intVec2) && intVec2.GetDoor(map) == null);
 		}
 
 		public static bool MakesOccupiedCellsAlwaysReachableDiagonally(ThingDef def)

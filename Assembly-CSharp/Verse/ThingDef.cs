@@ -572,7 +572,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.AffectsRegions || TouchPathEndModeUtility.MakesOccupiedCellsAlwaysReachableDiagonally(this);
+				return this.AffectsRegions || (this.passability == Traversability.Impassable || this.IsDoor) || TouchPathEndModeUtility.MakesOccupiedCellsAlwaysReachableDiagonally(this);
 			}
 		}
 

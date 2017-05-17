@@ -446,22 +446,6 @@ namespace Verse
 			throw new InvalidOperationException();
 		}
 
-		public bool HasFreshMissingPartsCommonAncestor()
-		{
-			if (this.cachedMissingPartsCommonAncestors == null)
-			{
-				this.CacheMissingPartsCommonAncestors();
-			}
-			for (int i = 0; i < this.cachedMissingPartsCommonAncestors.Count; i++)
-			{
-				if (this.cachedMissingPartsCommonAncestors[i].IsFresh)
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-
 		public float GetCoverageOfNotMissingNaturalParts(BodyPartRecord part)
 		{
 			if (this.PartIsMissing(part))

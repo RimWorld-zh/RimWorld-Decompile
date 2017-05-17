@@ -106,7 +106,7 @@ namespace Verse
 				if (hediff_MissingPart == null)
 				{
 					bool fresh = false;
-					if (hediff_MissingPart != null && hediff_MissingPart.IsFresh)
+					if (hediff_MissingPart != null && hediff_MissingPart.IsFreshNonSolidExtremity)
 					{
 						fresh = true;
 					}
@@ -215,11 +215,14 @@ namespace Verse
 			}
 			HediffSet hediffSet = p.health.hediffSet;
 			p.health.forceIncap = true;
+			IEnumerable<BodyPartRecord> source = from x in HealthUtility.HittablePartsViolence(hediffSet)
+			where !p.health.hediffSet.hediffs.Any((Hediff y) => y.Part == x && y.CurStage != null && y.CurStage.partEfficiencyOffset < 0f)
+			select x;
 			int num = 0;
-			while (num < 300 && !p.Downed && HealthUtility.HittablePartsViolence(hediffSet).Any<BodyPartRecord>())
+			while (num < 300 && !p.Downed && source.Any<BodyPartRecord>())
 			{
 				num++;
-				BodyPartRecord bodyPartRecord = HealthUtility.HittablePartsViolence(hediffSet).RandomElementByWeight((BodyPartRecord x) => x.coverageAbs);
+				BodyPartRecord bodyPartRecord = source.RandomElementByWeight((BodyPartRecord x) => x.coverageAbs);
 				int num2 = Mathf.RoundToInt(hediffSet.GetPartHealth(bodyPartRecord)) - 3;
 				if (num2 >= 8)
 				{

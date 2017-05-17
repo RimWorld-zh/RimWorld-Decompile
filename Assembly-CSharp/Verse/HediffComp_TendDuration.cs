@@ -212,6 +212,7 @@ namespace Verse
 					int num = Find.TickManager.TicksGame - this.tendTick;
 					stringBuilder.AppendLine("ticks since tend: " + num);
 					stringBuilder.AppendLine("tend duration passed: " + ((float)num / (float)this.TProps.tendDuration).ToStringPercent());
+					stringBuilder.AppendLine("severity change per day: " + (this.TProps.severityPerDayTended * this.tendQuality).ToString());
 				}
 			}
 			else

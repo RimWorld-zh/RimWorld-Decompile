@@ -224,17 +224,17 @@ namespace Verse
 				{
 					return;
 				}
-				if (this.Spawned)
+				if (this.Spawned && (this.def.size.x != 1 || this.def.size.z != 1))
 				{
 					if (this.def.AffectsRegions)
 					{
-						Log.Warning("Changed rotation of a spawned thing which affects regions. This is not supported.");
+						Log.Warning("Changed rotation of a spawned non-single-cell thing which affects regions. This is not supported.");
 					}
 					RegionListersUpdater.DeregisterInRegions(this, this.Map);
 					this.Map.thingGrid.Deregister(this, false);
 				}
 				this.rotationInt = value;
-				if (this.Spawned)
+				if (this.Spawned && (this.def.size.x != 1 || this.def.size.z != 1))
 				{
 					this.Map.thingGrid.Register(this);
 					RegionListersUpdater.RegisterInRegions(this, this.Map);

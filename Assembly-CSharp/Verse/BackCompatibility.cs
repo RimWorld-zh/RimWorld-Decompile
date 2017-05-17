@@ -96,6 +96,14 @@ namespace Verse
 				{
 					return "WoolCamel";
 				}
+				if (defName == "Gun_SurvivalRifle")
+				{
+					return "Gun_BoltActionRifle";
+				}
+				if (defName == "Bullet_SurvivalRifle")
+				{
+					return "Bullet_BoltActionRifle";
+				}
 			}
 			else if (defType == typeof(ConceptDef))
 			{
