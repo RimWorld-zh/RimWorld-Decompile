@@ -275,11 +275,12 @@ namespace Verse.AI
 			{
 				return result;
 			}
+			bool ignoreAllowedAreaCost = this.allowedArea != null && region.OverlapWith(this.allowedArea) != AreaOverlap.None;
 			Rand.PushState();
 			Rand.Seed = this.map.cellIndices.CellToIndex(region.extentsClose.CenterCell) * (region.links.Count + 1);
 			for (int i = 0; i < 11; i++)
 			{
-				RegionCostCalculator.pathCostSamples[i] = this.GetCellCostFast(this.map.cellIndices.CellToIndex(region.RandomCell));
+				RegionCostCalculator.pathCostSamples[i] = this.GetCellCostFast(this.map.cellIndices.CellToIndex(region.RandomCell), ignoreAllowedAreaCost);
 			}
 			Rand.PopState();
 			Array.Sort<int>(RegionCostCalculator.pathCostSamples);
@@ -288,14 +289,14 @@ namespace Verse.AI
 			return num;
 		}
 
-		private int GetCellCostFast(int index)
+		private int GetCellCostFast(int index, bool ignoreAllowedAreaCost = false)
 		{
 			int num = this.map.pathGrid.pathGrid[index];
 			if (this.avoidGrid != null)
 			{
 				num += (int)(this.avoidGrid[index] * 8);
 			}
-			if (this.allowedArea != null && !this.allowedArea[index])
+			if (this.allowedArea != null && !ignoreAllowedAreaCost && !this.allowedArea[index])
 			{
 				num += 600;
 			}
@@ -419,7 +420,7 @@ namespace Verse.AI
 
 		private float PreciseRegionLinkDistancesDistanceGetter(int a, int b)
 		{
-			return (float)(this.GetCellCostFast(b) + ((!this.AreCellsDiagonal(a, b)) ? this.moveTicksCardinal : this.moveTicksDiagonal));
+			return (float)(this.GetCellCostFast(b, false) + ((!this.AreCellsDiagonal(a, b)) ? this.moveTicksCardinal : this.moveTicksDiagonal));
 		}
 
 		private bool AreCellsDiagonal(int a, int b)

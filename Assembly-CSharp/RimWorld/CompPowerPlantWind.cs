@@ -125,7 +125,7 @@ namespace RimWorld
 			GenDraw.DrawFillableBar(r);
 			Vector3 vector = this.parent.TrueCenter();
 			vector += this.parent.Rotation.FacingCell.ToVector3() * 0.7f;
-			vector.y += 0.0483870953f;
+			vector.y += 0.046875f;
 			float num = 4f * Mathf.Sin(this.spinPosition);
 			if (num < 0f)
 			{
@@ -137,7 +137,7 @@ namespace RimWorld
 			Matrix4x4 matrix = default(Matrix4x4);
 			matrix.SetTRS(vector, this.parent.Rotation.AsQuat, s);
 			Graphics.DrawMesh((!flag) ? MeshPool.plane10Flip : MeshPool.plane10, matrix, CompPowerPlantWind.WindTurbineBladesMat, 0);
-			vector.y -= 0.09677419f;
+			vector.y -= 0.09375f;
 			matrix.SetTRS(vector, this.parent.Rotation.AsQuat, s);
 			Graphics.DrawMesh((!flag) ? MeshPool.plane10 : MeshPool.plane10Flip, matrix, CompPowerPlantWind.WindTurbineBladesMat, 0);
 		}

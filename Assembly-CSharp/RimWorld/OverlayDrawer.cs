@@ -168,7 +168,7 @@ namespace RimWorld
 		private void RenderPulsingOverlay(Thing thing, Material mat, int altInd, Mesh mesh)
 		{
 			Vector3 vector = thing.TrueCenter();
-			vector.y = OverlayDrawer.BaseAlt + 0.0483870953f * (float)altInd;
+			vector.y = OverlayDrawer.BaseAlt + 0.046875f * (float)altInd;
 			vector += this.curOffset;
 			this.curOffset.x = this.curOffset.x + this.StackOffsetFor(thing);
 			this.RenderPulsingOverlay(thing, mat, vector, mesh);
@@ -194,14 +194,14 @@ namespace RimWorld
 			{
 				drawPos.z -= (float)t.RotatedSize.z * 0.3f;
 			}
-			drawPos.y = OverlayDrawer.BaseAlt + 0.193548381f;
+			drawPos.y = OverlayDrawer.BaseAlt + 0.1875f;
 			Graphics.DrawMesh(MeshPool.plane05, drawPos, Quaternion.identity, OverlayDrawer.ForbiddenMat, 0);
 		}
 
 		private void RenderForbiddenBigOverlay(Thing t)
 		{
 			Vector3 drawPos = t.DrawPos;
-			drawPos.y = OverlayDrawer.BaseAlt + 0.193548381f;
+			drawPos.y = OverlayDrawer.BaseAlt + 0.1875f;
 			Graphics.DrawMesh(MeshPool.plane10, drawPos, Quaternion.identity, OverlayDrawer.ForbiddenMat, 0);
 		}
 
@@ -217,14 +217,14 @@ namespace RimWorld
 				material = OverlayDrawer.WickMaterialB;
 			}
 			Vector3 drawPos = parent.DrawPos;
-			drawPos.y = OverlayDrawer.BaseAlt + 0.241935477f;
+			drawPos.y = OverlayDrawer.BaseAlt + 0.234375f;
 			Graphics.DrawMesh(MeshPool.plane20, drawPos, Quaternion.identity, material, 0);
 		}
 
 		private void RenderQuestionMarkOverlay(Thing t)
 		{
 			Vector3 drawPos = t.DrawPos;
-			drawPos.y = OverlayDrawer.BaseAlt + 0.290322572f;
+			drawPos.y = OverlayDrawer.BaseAlt + 0.28125f;
 			if (t is Pawn)
 			{
 				drawPos.x += (float)t.def.size.x - 0.52f;

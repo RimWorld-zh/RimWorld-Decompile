@@ -261,6 +261,10 @@ namespace RimWorld
 					{
 						text = string.Format(t.def.ingestible.ingestCommandString, t.LabelShort);
 					}
+					if (!t.IsSociallyProper(pawn))
+					{
+						text = text + " (" + "ReservedForPrisoners".Translate() + ")";
+					}
 					FloatMenuOption item5;
 					if (t.def.IsPleasureDrug && pawn.IsTeetotaler())
 					{

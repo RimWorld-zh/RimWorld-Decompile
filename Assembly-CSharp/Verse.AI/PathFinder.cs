@@ -768,9 +768,14 @@ namespace Verse.AI
 
 		private Area GetAllowedArea(Pawn pawn)
 		{
-			if (pawn != null && pawn.playerSettings != null && !pawn.Drafted)
+			if (pawn != null && pawn.playerSettings != null && !pawn.Drafted && ForbidUtility.CaresAboutForbidden(pawn, true))
 			{
-				return pawn.playerSettings.EffectiveAreaRestrictionInPawnCurrentMap;
+				Area area = pawn.playerSettings.EffectiveAreaRestrictionInPawnCurrentMap;
+				if (area != null && area.TrueCount <= 0)
+				{
+					area = null;
+				}
+				return area;
 			}
 			return null;
 		}

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Verse;
 using Verse.AI.Group;
 
@@ -44,10 +43,6 @@ namespace RimWorld
 			Transition transition2 = new Transition(lordToil_Party, lordToil_End);
 			transition2.AddTrigger(this.timeoutTrigger);
 			transition2.AddPreAction(new TransitionAction_Message("MessagePartyFinished".Translate(), MessageSound.Negative, new TargetInfo(this.spot, base.Map, false)));
-			transition2.AddPreAction(new TransitionAction_Custom(delegate
-			{
-				this.Finished();
-			}));
 			stateGraph.AddTransition(transition2);
 			return stateGraph;
 		}
@@ -55,18 +50,6 @@ namespace RimWorld
 		private bool ShouldBeCalledOff()
 		{
 			return !PartyUtility.AcceptableGameConditionsToContinueParty(base.Map) || (!this.spot.Roofed(base.Map) && !JoyUtility.EnjoyableOutsideNow(base.Map, null));
-		}
-
-		private void Finished()
-		{
-			List<Pawn> ownedPawns = this.lord.ownedPawns;
-			for (int i = 0; i < ownedPawns.Count; i++)
-			{
-				if (PartyUtility.InPartyArea(ownedPawns[i].Position, this.spot, base.Map))
-				{
-					ownedPawns[i].needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.AttendedParty, null);
-				}
-			}
 		}
 
 		public override float VoluntaryJoinPriorityFor(Pawn p)

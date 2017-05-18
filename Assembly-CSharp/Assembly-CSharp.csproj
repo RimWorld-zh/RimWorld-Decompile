@@ -1181,6 +1181,7 @@
     <Compile Include="RimWorld\LordToilData_DefendAndExpandHive.cs" />
     <Compile Include="RimWorld\LordToilData_HuntEnemies.cs" />
     <Compile Include="RimWorld\LordToilData_MarriageCeremony.cs" />
+    <Compile Include="RimWorld\LordToilData_Party.cs" />
     <Compile Include="RimWorld\LordToilData_Siege.cs" />
     <Compile Include="RimWorld\LordToilData_Stage.cs" />
     <Compile Include="RimWorld\LordToil_AssaultColony.cs" />

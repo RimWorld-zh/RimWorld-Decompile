@@ -260,7 +260,7 @@ namespace Verse
 
 		private float GetDamageTexturesAltitude(Building b)
 		{
-			return b.def.Altitude + 0.0483870953f;
+			return b.def.Altitude + 0.046875f;
 		}
 	}
 }

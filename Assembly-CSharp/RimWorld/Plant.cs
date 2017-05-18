@@ -600,7 +600,7 @@ namespace RimWorld
 				}
 				Vector3 center = vector;
 				center.z -= zero.y / 2f * num12;
-				center.y -= 0.0483870953f;
+				center.y -= 0.046875f;
 				Printer_Shadow.PrintShadow(layer, center, this.def.graphicData.shadowData, Rot4.North);
 			}
 			Rand.PopState();

@@ -11,7 +11,7 @@ namespace Verse.AI
 
 		private static string ForbiddenOutsideAllowedAreaLowerTrans;
 
-		private static string PrisonerRoomLowerTrans;
+		private static string ReservedForPrisonersTrans;
 
 		private static string BurningLowerTrans;
 
@@ -23,7 +23,7 @@ namespace Verse.AI
 		{
 			HaulAIUtility.ForbiddenLowerTrans = "ForbiddenLower".Translate();
 			HaulAIUtility.ForbiddenOutsideAllowedAreaLowerTrans = "ForbiddenOutsideAllowedAreaLower".Translate();
-			HaulAIUtility.PrisonerRoomLowerTrans = "PrisonerRoomLower".Translate();
+			HaulAIUtility.ReservedForPrisonersTrans = "ReservedForPrisoners".Translate();
 			HaulAIUtility.BurningLowerTrans = "BurningLower".Translate();
 			HaulAIUtility.NoEmptyPlaceLowerTrans = "NoEmptyPlaceLower".Translate();
 		}
@@ -74,7 +74,7 @@ namespace Verse.AI
 			}
 			if (t.def.IsNutritionGivingIngestible && t.def.ingestible.HumanEdible && !t.IsSociallyProper(p, false, true))
 			{
-				JobFailReason.Is(HaulAIUtility.PrisonerRoomLowerTrans);
+				JobFailReason.Is(HaulAIUtility.ReservedForPrisonersTrans);
 				return false;
 			}
 			if (t.IsBurning())

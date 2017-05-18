@@ -255,7 +255,7 @@ namespace RimWorld
 			if (!this.Empty)
 			{
 				Vector3 drawPos = this.DrawPos;
-				drawPos.y += 0.0483870953f;
+				drawPos.y += 0.046875f;
 				drawPos.z += 0.25f;
 				GenDraw.DrawFillableBar(new GenDraw.FillableBarRequest
 				{

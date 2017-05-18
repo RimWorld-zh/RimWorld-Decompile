@@ -15,7 +15,7 @@ namespace RimWorld
 
 		public float baseChance;
 
-		public IncidentPopulationEffect populationEffect = IncidentPopulationEffect.None;
+		public IncidentPopulationEffect populationEffect;
 
 		public int earliestDay;
 
@@ -34,6 +34,8 @@ namespace RimWorld
 		public List<string> tags;
 
 		public List<string> refireCheckTags;
+
+		public SimpleCurve chanceFactorByPopulationCurve;
 
 		[MustTranslate]
 		public string letterText;

@@ -24,41 +24,56 @@ namespace RimWorld
 			select x;
 		}
 
-		protected virtual float IncidentChancePopulationFactor(IncidentDef def)
+		protected float IncidentChanceFactor_CurrentPopulation(IncidentDef def)
 		{
-			float a = 1f;
-			if (def.populationEffect >= IncidentPopulationEffect.Increase)
+			if (def.chanceFactorByPopulationCurve == null)
 			{
-				a = Find.Storyteller.intenderPopulation.PopulationIntent;
+				return 1f;
 			}
-			else if (def.populationEffect <= IncidentPopulationEffect.Decrease)
-			{
-				a = -Find.Storyteller.intenderPopulation.PopulationIntent;
-			}
-			return Mathf.Max(a, 0.05f);
+			int num = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Colonists.Count<Pawn>();
+			return def.chanceFactorByPopulationCurve.Evaluate((float)num);
 		}
 
-		protected float IncidentChanceAdjustedForPopulation(IncidentDef def)
+		protected float IncidentChanceFactor_PopulationIntent(IncidentDef def)
 		{
-			return Mathf.Max(0f, def.Worker.AdjustedChance * this.IncidentChancePopulationFactor(def));
+			IncidentPopulationEffect populationEffect = def.populationEffect;
+			if (populationEffect == IncidentPopulationEffect.None)
+			{
+				return 1f;
+			}
+			if (populationEffect != IncidentPopulationEffect.Increase)
+			{
+				throw new NotImplementedException();
+			}
+			return Mathf.Max(Find.Storyteller.intenderPopulation.PopulationIntent, this.props.minIncChancePopulationIntentFactor);
+		}
+
+		protected float IncidentChanceFinal(IncidentDef def)
+		{
+			float num = def.Worker.AdjustedChance;
+			num *= this.IncidentChanceFactor_CurrentPopulation(def);
+			num *= this.IncidentChanceFactor_PopulationIntent(def);
+			return Mathf.Max(0f, num);
 		}
 
 		public virtual void DebugTablesIncidentChances(IncidentCategory cat)
 		{
-			IEnumerable<IncidentDef> arg_14D_0 = from d in DefDatabase<IncidentDef>.AllDefs
+			IEnumerable<IncidentDef> arg_192_0 = from d in DefDatabase<IncidentDef>.AllDefs
 			where d.category == cat
-			orderby this.IncidentChanceAdjustedForPopulation(d) descending
+			orderby this.IncidentChanceFinal(d) descending
 			select d;
-			TableDataGetter<IncidentDef>[] expr_41 = new TableDataGetter<IncidentDef>[8];
-			expr_41[0] = new TableDataGetter<IncidentDef>("defName", (IncidentDef d) => d.defName);
-			expr_41[1] = new TableDataGetter<IncidentDef>("baseChance", (IncidentDef d) => d.baseChance.ToString());
-			expr_41[2] = new TableDataGetter<IncidentDef>("AdjustedChance", (IncidentDef d) => d.Worker.AdjustedChance.ToString());
-			expr_41[3] = new TableDataGetter<IncidentDef>("PopulationFactor", (IncidentDef d) => this.IncidentChancePopulationFactor(d).ToString());
-			expr_41[4] = new TableDataGetter<IncidentDef>("final chance", (IncidentDef d) => this.IncidentChanceAdjustedForPopulation(d).ToString());
-			expr_41[5] = new TableDataGetter<IncidentDef>("vismap-usable", (IncidentDef d) => (Find.VisibleMap != null) ? ((!this.UsableIncidentsInCategory(cat, Find.VisibleMap).Contains(d)) ? string.Empty : "V") : "-");
-			expr_41[6] = new TableDataGetter<IncidentDef>("world-usable", (IncidentDef d) => (!this.UsableIncidentsInCategory(cat, Find.World).Contains(d)) ? string.Empty : "W");
-			expr_41[7] = new TableDataGetter<IncidentDef>("pop-intent", (IncidentDef d) => Find.Storyteller.intenderPopulation.PopulationIntent.ToString("F3"));
-			DebugTables.MakeTablesDialog<IncidentDef>(arg_14D_0, expr_41);
+			TableDataGetter<IncidentDef>[] expr_42 = new TableDataGetter<IncidentDef>[10];
+			expr_42[0] = new TableDataGetter<IncidentDef>("defName", (IncidentDef d) => d.defName);
+			expr_42[1] = new TableDataGetter<IncidentDef>("baseChance", (IncidentDef d) => d.baseChance.ToString());
+			expr_42[2] = new TableDataGetter<IncidentDef>("AdjustedChance", (IncidentDef d) => d.Worker.AdjustedChance.ToString());
+			expr_42[3] = new TableDataGetter<IncidentDef>("Factor-PopCurrent", (IncidentDef d) => this.IncidentChanceFactor_CurrentPopulation(d).ToString());
+			expr_42[4] = new TableDataGetter<IncidentDef>("Factor-PopIntent", (IncidentDef d) => this.IncidentChanceFactor_PopulationIntent(d).ToString());
+			expr_42[5] = new TableDataGetter<IncidentDef>("final chance", (IncidentDef d) => this.IncidentChanceFinal(d).ToString());
+			expr_42[6] = new TableDataGetter<IncidentDef>("vismap-usable", (IncidentDef d) => (Find.VisibleMap != null) ? ((!this.UsableIncidentsInCategory(cat, Find.VisibleMap).Contains(d)) ? string.Empty : "V") : "-");
+			expr_42[7] = new TableDataGetter<IncidentDef>("world-usable", (IncidentDef d) => (!this.UsableIncidentsInCategory(cat, Find.World).Contains(d)) ? string.Empty : "W");
+			expr_42[8] = new TableDataGetter<IncidentDef>("pop-current", (IncidentDef d) => PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Colonists.Count<Pawn>().ToString());
+			expr_42[9] = new TableDataGetter<IncidentDef>("pop-intent", (IncidentDef d) => Find.Storyteller.intenderPopulation.PopulationIntent.ToString("F3"));
+			DebugTables.MakeTablesDialog<IncidentDef>(arg_192_0, expr_42);
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public class Pawn_GuestTracker : IExposable
 	{
-		private const int DefaultWaitInsteadOfEscapingTicks = 12500;
+		private const int DefaultWaitInsteadOfEscapingTicks = 25000;
 
 		private const int CheckInitiatePrisonBreakIntervalTicks = 2500;
 
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		public bool ShouldBeBroughtFood
+		public bool CanBeBroughtFood
 		{
 			get
 			{
@@ -228,7 +228,7 @@ namespace RimWorld
 
 		public void WaitInsteadOfEscapingForDefaultTicks()
 		{
-			this.WaitInsteadOfEscapingFor(12500);
+			this.WaitInsteadOfEscapingFor(25000);
 		}
 
 		public void WaitInsteadOfEscapingFor(int ticks)

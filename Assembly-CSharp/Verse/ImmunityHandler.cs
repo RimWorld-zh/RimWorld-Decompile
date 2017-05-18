@@ -71,7 +71,7 @@ namespace Verse
 				ImmunityRecord immunityRecord = this.immunityList[j];
 				Hediff firstHediffOfDef = this.pawn.health.hediffSet.GetFirstHediffOfDef(immunityRecord.hediffDef, false);
 				immunityRecord.ImmunityTick(this.pawn, firstHediffOfDef != null, firstHediffOfDef);
-				if (this.AnyHediffMakesFullyImmuneTo(immunityRecord.hediffDef))
+				if (firstHediffOfDef == null && this.AnyHediffMakesFullyImmuneTo(immunityRecord.hediffDef))
 				{
 					immunityRecord.immunity = Mathf.Clamp(0.650000036f, immunityRecord.immunity, 1f);
 				}

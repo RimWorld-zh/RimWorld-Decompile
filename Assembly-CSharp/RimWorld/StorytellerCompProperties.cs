@@ -12,6 +12,8 @@ namespace RimWorld
 
 		public IncidentTargetType allowedTargetTypes = IncidentTargetType.All;
 
+		public float minIncChancePopulationIntentFactor = 0.05f;
+
 		public StorytellerCompProperties()
 		{
 		}

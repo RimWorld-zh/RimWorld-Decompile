@@ -14,7 +14,11 @@ namespace RimWorld
 				return null;
 			}
 			Pawn pawn2 = (Pawn)t;
-			if (!pawn2.guest.ShouldBeBroughtFood)
+			if (!pawn2.guest.CanBeBroughtFood)
+			{
+				return null;
+			}
+			if (!pawn2.Position.IsInPrisonCell(pawn2.Map))
 			{
 				return null;
 			}

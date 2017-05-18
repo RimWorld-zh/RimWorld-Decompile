@@ -166,53 +166,55 @@ namespace RimWorld
 			{
 				pawn.Map.debugDrawer.FlashCell(root, 0.6f, "root");
 			}
-			if (!root.Walkable(pawn.Map))
+			if (root.Walkable(pawn.Map))
 			{
-				IntVec3 result;
-				CellFinder.TryFindRandomCellNear(root, pawn.Map, 50, (IntVec3 c) => c.InBounds(pawn.Map), out result);
-				return result;
-			}
-			Region region = root.GetRegion(pawn.Map, RegionType.Set_Passable);
-			for (int i = Mathf.Max((int)radius / 3, 6); i >= 1; i--)
-			{
-				Region region2 = CellFinder.RandomRegionNear(region, i, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), null, null, RegionType.Set_Passable);
-				if (region2.extentsClose.ClosestDistSquaredTo(root) > radius * radius)
+				Region region = root.GetRegion(pawn.Map, RegionType.Set_Passable);
+				for (int i = Mathf.Max((int)radius / 3, 6); i >= 1; i--)
 				{
-					if (drawDebug)
+					Region region2 = CellFinder.RandomRegionNear(region, i, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), null, null, RegionType.Set_Passable);
+					if (region2.extentsClose.ClosestDistSquaredTo(root) > radius * radius)
 					{
-						pawn.Map.debugDrawer.FlashCell(region2.extentsClose.CenterCell, 0.36f, "region distance");
-					}
-				}
-				else
-				{
-					int num = (i != 1) ? 1 : 3;
-					int tryIndex;
-					for (tryIndex = 0; tryIndex < num; tryIndex++)
-					{
-						IntVec3 intVec;
-						if (region2.TryFindRandomCellInRegionUnforbidden(pawn, delegate(IntVec3 c)
+						if (drawDebug)
 						{
-							if (!c.InHorDistOf(root, radius))
+							pawn.Map.debugDrawer.FlashCell(region2.extentsClose.CenterCell, 0.36f, "region distance");
+						}
+					}
+					else
+					{
+						int num = (i != 1) ? 1 : 3;
+						int tryIndex;
+						for (tryIndex = 0; tryIndex < num; tryIndex++)
+						{
+							IntVec3 intVec;
+							if (region2.TryFindRandomCellInRegionUnforbidden(pawn, delegate(IntVec3 c)
+							{
+								if (!c.InHorDistOf(root, radius))
+								{
+									if (drawDebug)
+									{
+										pawn.Map.debugDrawer.FlashCell(c, 0.32f, "distance");
+									}
+									return false;
+								}
+								return RCellFinder.CanWanderToCell(c, pawn, root, validator, tryIndex, maxDanger);
+							}, out intVec))
 							{
 								if (drawDebug)
 								{
-									pawn.Map.debugDrawer.FlashCell(c, 0.32f, "distance");
+									pawn.Map.debugDrawer.FlashCell(intVec, 0.9f, "go!");
 								}
-								return false;
+								return intVec;
 							}
-							return RCellFinder.CanWanderToCell(c, pawn, root, validator, tryIndex, maxDanger);
-						}, out intVec))
-						{
-							if (drawDebug)
-							{
-								pawn.Map.debugDrawer.FlashCell(intVec, 0.9f, "go!");
-							}
-							return intVec;
 						}
 					}
 				}
 			}
-			return root;
+			IntVec3 position;
+			if (!CellFinder.TryFindRandomCellNear(root, pawn.Map, 20, (IntVec3 c) => c.InBounds(pawn.Map) && pawn.CanReach(c, PathEndMode.OnCell, Danger.None, false, TraverseMode.ByPawn) && !c.IsForbidden(pawn), out position) && !CellFinder.TryFindRandomCellNear(root, pawn.Map, 30, (IntVec3 c) => c.InBounds(pawn.Map) && pawn.CanReach(c, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn), out position) && !CellFinder.TryFindRandomCellNear(pawn.Position, pawn.Map, 5, (IntVec3 c) => c.InBounds(pawn.Map) && pawn.CanReach(c, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn), out position))
+			{
+				position = pawn.Position;
+			}
+			return position;
 		}
 
 		private static bool CanWanderToCell(IntVec3 c, Pawn pawn, IntVec3 root, Func<Pawn, IntVec3, bool> validator, int tryIndex, Danger maxDanger)

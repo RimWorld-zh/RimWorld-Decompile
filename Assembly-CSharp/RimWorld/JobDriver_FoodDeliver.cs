@@ -12,12 +12,23 @@ namespace RimWorld
 
 		private const TargetIndex DelivereeInd = TargetIndex.B;
 
+		private bool usingNutrientPasteDispenser;
+
+		private bool eatingFromInventory;
+
 		private Pawn Deliveree
 		{
 			get
 			{
 				return (Pawn)base.CurJob.targetB.Thing;
 			}
+		}
+
+		public override void ExposeData()
+		{
+			base.ExposeData();
+			Scribe_Values.Look<bool>(ref this.usingNutrientPasteDispenser, "usingNutrientPasteDispenser", false, false);
+			Scribe_Values.Look<bool>(ref this.eatingFromInventory, "eatingFromInventory", false, false);
 		}
 
 		public override string GetReport()
@@ -27,6 +38,13 @@ namespace RimWorld
 				return base.CurJob.def.reportString.Replace("TargetA", ThingDefOf.MealNutrientPaste.label).Replace("TargetB", ((Pawn)((Thing)base.CurJob.targetB)).LabelShort);
 			}
 			return base.GetReport();
+		}
+
+		public override void Notify_Starting()
+		{
+			base.Notify_Starting();
+			this.usingNutrientPasteDispenser = (base.TargetThingA is Building_NutrientPasteDispenser);
+			this.eatingFromInventory = (this.pawn.inventory != null && this.pawn.inventory.Contains(base.TargetThingA));
 		}
 
 		[DebuggerHidden]

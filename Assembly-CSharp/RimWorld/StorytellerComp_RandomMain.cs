@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using UnityEngine;
 using Verse;
 
 namespace RimWorld
@@ -27,11 +26,6 @@ namespace RimWorld
 			StorytellerComp_RandomMain.<MakeIntervalIncidents>c__IteratorAC expr_1C = <MakeIntervalIncidents>c__IteratorAC;
 			expr_1C.$PC = -2;
 			return expr_1C;
-		}
-
-		protected override float IncidentChancePopulationFactor(IncidentDef def)
-		{
-			return Mathf.Max(0.2f, base.IncidentChancePopulationFactor(def));
 		}
 
 		private IncidentCategory DecideCategory(IIncidentTarget target, List<IncidentCategory> skipCategories)

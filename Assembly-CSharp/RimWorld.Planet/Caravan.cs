@@ -143,7 +143,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return this.Resting || this.AnyPawnHasExtremeMentalBreak || this.AllOwnersDowned || this.ImmobilizedByMass;
+				return this.Resting || this.AnyPawnHasExtremeMentalBreak || this.AllOwnersHaveMentalBreak || this.AllOwnersDowned || this.ImmobilizedByMass;
 			}
 		}
 
@@ -170,6 +170,21 @@ namespace RimWorld.Planet
 				for (int i = 0; i < this.pawns.Count; i++)
 				{
 					if (this.IsOwner(this.pawns[i]) && !this.pawns[i].Downed)
+					{
+						return false;
+					}
+				}
+				return true;
+			}
+		}
+
+		public bool AllOwnersHaveMentalBreak
+		{
+			get
+			{
+				for (int i = 0; i < this.pawns.Count; i++)
+				{
+					if (this.IsOwner(this.pawns[i]) && !this.pawns[i].InMentalState)
 					{
 						return false;
 					}
@@ -519,6 +534,10 @@ namespace RimWorld.Planet
 			else if (this.AllOwnersDowned)
 			{
 				stringBuilder.Append("AllCaravanMembersDowned".Translate());
+			}
+			else if (this.AllOwnersHaveMentalBreak)
+			{
+				stringBuilder.Append("AllCaravanMembersMentalBreak".Translate());
 			}
 			else if (this.pather.Moving)
 			{

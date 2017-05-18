@@ -16,6 +16,7 @@ namespace Verse
 		Shadows,
 		DoorMoveable,
 		Building,
+		BuildingOnTop,
 		Item,
 		ItemImportant,
 		LayingPawn,
@@ -33,6 +34,7 @@ namespace Verse
 		FogOfWar,
 		WorldClipper,
 		WorldDataOverlay,
-		MetaOverlays
+		MetaOverlays,
+		_Count
 	}
 }

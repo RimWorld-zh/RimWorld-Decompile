@@ -10,42 +10,20 @@ namespace RimWorld
 	{
 		public static float ManhunterAnimalWeight(PawnKindDef animal, float points)
 		{
-			if (animal.combatPower > 200f)
+			points = Mathf.Max(points, 35f);
+			if (animal.combatPower > points)
 			{
-				return 1f;
+				return 0f;
 			}
-			int num = Mathf.Max(Mathf.RoundToInt(points / animal.combatPower), 1);
-			return Mathf.Clamp01(Mathf.InverseLerp(40f, 20f, (float)num));
+			int num = Mathf.RoundToInt(points / animal.combatPower);
+			return Mathf.Clamp01(Mathf.InverseLerp(30f, 10f, (float)num));
 		}
 
 		public static bool TryFindManhunterAnimalKind(float points, int tile, out PawnKindDef animalKind)
 		{
 			return (from k in DefDatabase<PawnKindDef>.AllDefs
-			where k.RaceProps.Animal && (tile == -1 || Find.World.tileTemperatures.SeasonAndOutdoorTemperatureAcceptableFor(tile, k.race))
+			where k.RaceProps.Animal && k.canArriveManhunter && (tile == -1 || Find.World.tileTemperatures.SeasonAndOutdoorTemperatureAcceptableFor(tile, k.race))
 			select k).TryRandomElementByWeight((PawnKindDef k) => ManhunterPackIncidentUtility.ManhunterAnimalWeight(k, points), out animalKind);
-		}
-
-		public static void DoTable_ManhunterResults()
-		{
-			List<PawnKindDef> candidates = (from k in DefDatabase<PawnKindDef>.AllDefs
-			where k.RaceProps.Animal
-			orderby -k.combatPower
-			select k).ToList<PawnKindDef>();
-			List<float> list = new List<float>();
-			for (int i = 0; i < 30; i++)
-			{
-				list.Add(20f * Mathf.Pow(1.25f, (float)i));
-			}
-			DebugTables.MakeTablesDialog<float, PawnKindDef>(list, (float points) => points.ToString("F0") + " pts", candidates, (PawnKindDef candidate) => candidate.defName, delegate(float points, PawnKindDef candidate)
-			{
-				float num = candidates.Sum((PawnKindDef k) => ManhunterPackIncidentUtility.ManhunterAnimalWeight(k, points));
-				float num2 = ManhunterPackIncidentUtility.ManhunterAnimalWeight(candidate, points);
-				if (num2 == 0f)
-				{
-					return "0%";
-				}
-				return string.Format("{0}%, {1}", (num2 * 100f / num).ToString("F0"), Mathf.Max(Mathf.RoundToInt(points / candidate.combatPower), 1));
-			}, string.Empty);
 		}
 
 		public static List<Pawn> GenerateAnimals(PawnKindDef animalKind, int tile, float points)
@@ -59,6 +37,29 @@ namespace RimWorld
 				list.Add(item);
 			}
 			return list;
+		}
+
+		public static void DoTable_ManhunterResults()
+		{
+			List<PawnKindDef> candidates = (from k in DefDatabase<PawnKindDef>.AllDefs
+			where k.RaceProps.Animal && k.canArriveManhunter
+			orderby -k.combatPower
+			select k).ToList<PawnKindDef>();
+			List<float> list = new List<float>();
+			for (int i = 0; i < 30; i++)
+			{
+				list.Add(20f * Mathf.Pow(1.25f, (float)i));
+			}
+			DebugTables.MakeTablesDialog<float, PawnKindDef>(list, (float points) => points.ToString("F0") + " pts", candidates, (PawnKindDef candidate) => candidate.defName + " (" + candidate.combatPower.ToString("F0") + ")", delegate(float points, PawnKindDef candidate)
+			{
+				float num = candidates.Sum((PawnKindDef k) => ManhunterPackIncidentUtility.ManhunterAnimalWeight(k, points));
+				float num2 = ManhunterPackIncidentUtility.ManhunterAnimalWeight(candidate, points);
+				if (num2 == 0f)
+				{
+					return "0%";
+				}
+				return string.Format("{0}%, {1}", (num2 * 100f / num).ToString("F0"), Mathf.Max(Mathf.RoundToInt(points / candidate.combatPower), 1));
+			}, string.Empty);
 		}
 	}
 }

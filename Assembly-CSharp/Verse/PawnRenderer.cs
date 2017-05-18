@@ -9,27 +9,27 @@ namespace Verse
 	{
 		private const float CarriedThingDrawAngle = 16f;
 
-		private const float SubInterval = 0.00483870972f;
+		private const float SubInterval = 0.0046875f;
 
 		private const float YOffset_PrimaryEquipmentUnder = 0f;
 
-		private const float YOffset_Body = 0.00483870972f;
+		private const float YOffset_Body = 0.0046875f;
 
-		private const float YOffsetInterval_Clothes = 0.00483870972f;
+		private const float YOffsetInterval_Clothes = 0.0046875f;
 
-		private const float YOffset_Wounds = 0.0193548389f;
+		private const float YOffset_Wounds = 0.01875f;
 
-		private const float YOffset_Shell = 0.0241935477f;
+		private const float YOffset_Shell = 0.0234375f;
 
-		private const float YOffset_Head = 0.0290322583f;
+		private const float YOffset_Head = 0.0281250011f;
 
-		private const float YOffset_OnHead = 0.03387097f;
+		private const float YOffset_OnHead = 0.0328125022f;
 
-		private const float YOffset_CarriedThing = 0.0387096778f;
+		private const float YOffset_CarriedThing = 0.0375f;
 
-		private const float YOffset_PrimaryEquipmentOver = 0.0387096778f;
+		private const float YOffset_PrimaryEquipmentOver = 0.0375f;
 
-		private const float YOffset_Status = 0.0435483865f;
+		private const float YOffset_Status = 0.0421875f;
 
 		private const float UpHeadOffset = 0.34f;
 
@@ -114,11 +114,11 @@ namespace Verse
 						}
 						if (flag)
 						{
-							vector.y -= 0.0387096778f;
+							vector.y -= 0.0375f;
 						}
 						else
 						{
-							vector.y += 0.0387096778f;
+							vector.y += 0.0375f;
 						}
 						carriedThing.DrawAt(vector, flip);
 					}
@@ -149,14 +149,14 @@ namespace Verse
 					Rot4 rotation = building_Bed.Rotation;
 					rotation.AsInt += 2;
 					quat = rotation.AsQuat;
-					AltitudeLayer altLayer = (AltitudeLayer)Mathf.Max((int)building_Bed.def.altitudeLayer, 14);
+					AltitudeLayer altLayer = (AltitudeLayer)Mathf.Max((int)building_Bed.def.altitudeLayer, 15);
 					Vector3 vector2 = this.pawn.Position.ToVector3ShiftedWithAltitude(altLayer);
 					Vector3 vector3 = vector2;
-					vector3.y += 0.0290322583f;
+					vector3.y += 0.0281250011f;
 					float d = -this.BaseHeadOffsetAt(Rot4.South).z;
 					Vector3 a = rotation.FacingCell.ToVector3();
 					rootLoc = vector2 + a * d;
-					rootLoc.y += 0.00483870972f;
+					rootLoc.y += 0.0046875f;
 				}
 				else
 				{
@@ -164,7 +164,7 @@ namespace Verse
 					rootLoc = drawLoc;
 					if (!this.pawn.Dead && this.pawn.CarriedBy == null)
 					{
-						rootLoc.y = Altitudes.AltitudeFor(AltitudeLayer.LayingPawn) + 0.00483870972f;
+						rootLoc.y = Altitudes.AltitudeFor(AltitudeLayer.LayingPawn) + 0.0046875f;
 					}
 					if (this.pawn.Downed || this.pawn.Dead)
 					{
@@ -234,7 +234,7 @@ namespace Verse
 			if (renderBody)
 			{
 				Vector3 loc = rootLoc;
-				loc.y += 0.00483870972f;
+				loc.y += 0.0046875f;
 				if (bodyDrawType == RotDrawMode.Dessicated && !this.pawn.RaceProps.Humanlike && this.graphics.dessicatedGraphic != null && !portrait)
 				{
 					this.graphics.dessicatedGraphic.Draw(loc, bodyFacing, this.pawn);
@@ -254,12 +254,12 @@ namespace Verse
 					{
 						Material damagedMat = this.graphics.flasher.GetDamagedMat(list[i]);
 						GenDraw.DrawMeshNowOrLater(mesh, loc, quat, damagedMat, portrait);
-						loc.y += 0.00483870972f;
+						loc.y += 0.0046875f;
 					}
 					if (bodyDrawType == RotDrawMode.Fresh)
 					{
 						Vector3 drawLoc = rootLoc;
-						drawLoc.y += 0.0193548389f;
+						drawLoc.y += 0.01875f;
 						this.woundOverlays.RenderOverBody(drawLoc, mesh, quat, portrait);
 					}
 				}
@@ -268,13 +268,13 @@ namespace Verse
 			Vector3 a = rootLoc;
 			if (bodyFacing != Rot4.North)
 			{
-				a.y += 0.0290322583f;
-				vector.y += 0.0241935477f;
+				a.y += 0.0281250011f;
+				vector.y += 0.0234375f;
 			}
 			else
 			{
-				a.y += 0.0241935477f;
-				vector.y += 0.0290322583f;
+				a.y += 0.0234375f;
+				vector.y += 0.0281250011f;
 			}
 			if (this.graphics.headGraphic != null)
 			{
@@ -286,7 +286,7 @@ namespace Verse
 					GenDraw.DrawMeshNowOrLater(mesh2, a + b, quat, material, portrait);
 				}
 				Vector3 loc2 = rootLoc + b;
-				loc2.y += 0.03387097f;
+				loc2.y += 0.0328125022f;
 				bool flag = false;
 				if (!portrait || !Prefs.HatsOnlyOnMap)
 				{
@@ -339,7 +339,7 @@ namespace Verse
 					}
 				}
 				Vector3 bodyLoc = rootLoc;
-				bodyLoc.y += 0.0435483865f;
+				bodyLoc.y += 0.0421875f;
 				this.statusOverlays.RenderStatusOverlays(bodyLoc, quat, MeshPool.humanlikeHeadSet.MeshAt(headFacing));
 			}
 		}
@@ -376,7 +376,7 @@ namespace Verse
 					num = (a - this.pawn.DrawPos).AngleFlat();
 				}
 				Vector3 drawLoc = rootLoc + new Vector3(0f, 0f, 0.4f).RotatedBy(num);
-				drawLoc.y += 0.0387096778f;
+				drawLoc.y += 0.0375f;
 				this.DrawEquipmentAiming(this.pawn.equipment.Primary, drawLoc, num);
 			}
 			else if (this.CarryWeaponOpenly())
@@ -384,7 +384,7 @@ namespace Verse
 				if (this.pawn.Rotation == Rot4.South)
 				{
 					Vector3 drawLoc2 = rootLoc + new Vector3(0f, 0f, -0.22f);
-					drawLoc2.y += 0.0387096778f;
+					drawLoc2.y += 0.0375f;
 					this.DrawEquipmentAiming(this.pawn.equipment.Primary, drawLoc2, 143f);
 				}
 				else if (this.pawn.Rotation == Rot4.North)
@@ -396,13 +396,13 @@ namespace Verse
 				else if (this.pawn.Rotation == Rot4.East)
 				{
 					Vector3 drawLoc4 = rootLoc + new Vector3(0.2f, 0f, -0.22f);
-					drawLoc4.y += 0.0387096778f;
+					drawLoc4.y += 0.0375f;
 					this.DrawEquipmentAiming(this.pawn.equipment.Primary, drawLoc4, 143f);
 				}
 				else if (this.pawn.Rotation == Rot4.West)
 				{
 					Vector3 drawLoc5 = rootLoc + new Vector3(-0.2f, 0f, -0.22f);
-					drawLoc5.y += 0.0387096778f;
+					drawLoc5.y += 0.0375f;
 					this.DrawEquipmentAiming(this.pawn.equipment.Primary, drawLoc5, 217f);
 				}
 			}
