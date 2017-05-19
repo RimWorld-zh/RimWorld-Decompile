@@ -115,11 +115,11 @@ namespace Verse
 			Scribe_Collections.Look<T>(ref this.innerList, true, "innerList", this.contentsLookMode, new object[0]);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				base.RemoveAll((Thing x) => x == null);
+				this.innerList.RemoveAll((T x) => x == null);
 			}
 			if (Scribe.mode == LoadSaveMode.LoadingVars || Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				for (int i = this.innerList.Count - 1; i >= 0; i--)
+				for (int i = 0; i < this.innerList.Count; i++)
 				{
 					if (this.innerList[i] != null)
 					{
@@ -653,7 +653,7 @@ namespace Verse
 
 		public bool Contains(Thing item)
 		{
-			return item.holdingOwner == this;
+			return item != null && item.holdingOwner == this;
 		}
 
 		public void RemoveAt(int index)

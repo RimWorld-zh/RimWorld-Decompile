@@ -424,7 +424,7 @@ namespace RimWorld
 					Vector2 vector = Find.WorldGrid.LongLatOf(list[i]);
 					string labelText = "ExitDirectionRadioButtonLabel".Translate(new object[]
 					{
-						direction8WayFromTo.ToStringShort(),
+						direction8WayFromTo.LabelShort(),
 						vector.y.ToStringLatitude(),
 						vector.x.ToStringLongitude()
 					});
@@ -467,24 +467,33 @@ namespace RimWorld
 			{
 				return false;
 			}
-			IntVec3 exitSpot;
-			if (!this.TryFindExitSpot(pawnsFromTransferables, true, out exitSpot))
+			Direction8Way direction8WayFromTo = Find.WorldGrid.GetDirection8WayFromTo(this.CurrentTile, this.startingTile);
+			IntVec3 intVec;
+			if (!this.TryFindExitSpot(pawnsFromTransferables, true, out intVec))
 			{
-				if (!this.TryFindExitSpot(pawnsFromTransferables, false, out exitSpot))
+				if (!this.TryFindExitSpot(pawnsFromTransferables, false, out intVec))
 				{
-					Messages.Message("CaravanCouldNotFindExitSpot".Translate(), MessageSound.RejectInput);
+					Messages.Message("CaravanCouldNotFindExitSpot".Translate(new object[]
+					{
+						direction8WayFromTo.LabelShort()
+					}), MessageSound.RejectInput);
 					return false;
 				}
-				Pawn t = pawnsFromTransferables.Find((Pawn x) => x.IsColonist && !x.CanReach(exitSpot, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn));
-				Messages.Message("CaravanCouldNotFindReachableExitSpot".Translate(), t, MessageSound.Negative);
+				Messages.Message("CaravanCouldNotFindReachableExitSpot".Translate(new object[]
+				{
+					direction8WayFromTo.LabelShort()
+				}), new GlobalTargetInfo(intVec, this.map, false), MessageSound.Negative);
 			}
 			IntVec3 meetingPoint;
-			if (!this.TryFindRandomPackingSpot(exitSpot, out meetingPoint))
+			if (!this.TryFindRandomPackingSpot(intVec, out meetingPoint))
 			{
-				Messages.Message("CaravanCouldNotFindExitSpot".Translate(), MessageSound.RejectInput);
+				Messages.Message("CaravanCouldNotFindPackingSpot".Translate(new object[]
+				{
+					direction8WayFromTo.LabelShort()
+				}), new GlobalTargetInfo(intVec, this.map, false), MessageSound.RejectInput);
 				return false;
 			}
-			CaravanFormingUtility.StartFormingCaravan(pawnsFromTransferables, Faction.OfPlayer, this.transferables, meetingPoint, exitSpot, this.startingTile);
+			CaravanFormingUtility.StartFormingCaravan(pawnsFromTransferables, Faction.OfPlayer, this.transferables, meetingPoint, intVec, this.startingTile);
 			Messages.Message("CaravanFormationProcessStarted".Translate(), pawnsFromTransferables[0], MessageSound.Benefit);
 			return true;
 		}
@@ -627,7 +636,7 @@ namespace RimWorld
 		{
 			if (this.startingTile < 0)
 			{
-				Log.Error("Can't find exit spot because exitTile is not set.");
+				Log.Error("Can't find exit spot because startingTile is not set.");
 				spot = IntVec3.Invalid;
 				return false;
 			}
@@ -653,7 +662,7 @@ namespace RimWorld
 			}
 			IntVec3 intVec = IntVec3.Invalid;
 			int num = -1;
-			foreach (IntVec3 current in CellRect.WholeMap(this.map).GetEdgeCells(rotFromTo))
+			foreach (IntVec3 current in CellRect.WholeMap(this.map).GetEdgeCells(rotFromTo).InRandomOrder(null))
 			{
 				if (validator(current))
 				{

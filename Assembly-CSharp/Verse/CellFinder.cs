@@ -151,6 +151,24 @@ namespace Verse
 			return result;
 		}
 
+		public static void AllRegionsNear(List<Region> results, Region root, int maxRegions, TraverseParms traverseParms, Predicate<Region> validator = null, Pawn pawnToAllow = null, RegionType traversableRegionTypes = RegionType.Set_Passable)
+		{
+			if (root == null)
+			{
+				throw new ArgumentNullException("root");
+			}
+			if (results == null)
+			{
+				throw new ArgumentNullException("results");
+			}
+			results.Clear();
+			RegionTraverser.BreadthFirstTraverse(root, (Region from, Region r) => (validator == null || validator(r)) && r.Allows(traverseParms, true) && (pawnToAllow == null || !r.IsForbiddenEntirely(pawnToAllow)), delegate(Region r)
+			{
+				results.Add(r);
+				return false;
+			}, maxRegions, traversableRegionTypes);
+		}
+
 		public static bool TryFindRandomReachableCellNear(IntVec3 root, Map map, float radius, TraverseParms traverseParms, Predicate<IntVec3> cellValidator, Predicate<Region> regionValidator, out IntVec3 result, int maxRegions = 999999)
 		{
 			if (map == null)

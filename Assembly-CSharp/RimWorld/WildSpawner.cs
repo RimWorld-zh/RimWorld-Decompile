@@ -46,8 +46,8 @@ namespace RimWorld
 				{
 					return 0f;
 				}
-				int num = (int)(10000f / desiredAnimalDensity);
-				return (float)(this.map.Area / num);
+				float num = 10000f / desiredAnimalDensity;
+				return (float)this.map.Area / num;
 			}
 		}
 
@@ -139,12 +139,12 @@ namespace RimWorld
 		{
 			return string.Concat(new object[]
 			{
-				"CurrentTotalAnimalWeight: ",
+				"DesiredTotalAnimalWeight: ",
+				this.DesiredTotalAnimalWeight,
+				"\nCurrentTotalAnimalWeight: ",
 				this.CurrentTotalAnimalWeight,
 				"\nDesiredAnimalDensity: ",
-				this.DesiredAnimalDensity,
-				"\nDesiredTotalAnimalWeight: ",
-				this.DesiredTotalAnimalWeight
+				this.DesiredAnimalDensity
 			});
 		}
 	}

@@ -20,6 +20,8 @@ namespace RimWorld
 
 		private static List<Hediff> tmpHediffs = new List<Hediff>();
 
+		private static List<Pair<Hediff, float>> tmpHediffsWithTendPriority = new List<Pair<Hediff, float>>();
+
 		public static void DoTend(Pawn doctor, Pawn patient, Medicine medicine)
 		{
 			if (!patient.health.HasHediffsNeedingTend(false))
@@ -87,26 +89,30 @@ namespace RimWorld
 			}
 		}
 
-		public static void GetOptimalHediffsToTendWithSingleTreatment(Pawn patient, bool usingMedicine, List<Hediff> outHediffsToTend, HashSet<Hediff> excludedHediffs = null)
+		public static void GetOptimalHediffsToTendWithSingleTreatment(Pawn patient, bool usingMedicine, List<Hediff> outHediffsToTend, List<Hediff> tendableHediffsInTendPriorityOrder = null)
 		{
 			outHediffsToTend.Clear();
 			TendUtility.tmpHediffs.Clear();
-			List<Hediff> hediffs = patient.health.hediffSet.hediffs;
-			for (int i = 0; i < hediffs.Count; i++)
+			if (tendableHediffsInTendPriorityOrder != null)
 			{
-				if (excludedHediffs == null || !excludedHediffs.Contains(hediffs[i]))
+				TendUtility.tmpHediffs.AddRange(tendableHediffsInTendPriorityOrder);
+			}
+			else
+			{
+				List<Hediff> hediffs = patient.health.hediffSet.hediffs;
+				for (int i = 0; i < hediffs.Count; i++)
 				{
 					if (hediffs[i].TendableNow)
 					{
 						TendUtility.tmpHediffs.Add(hediffs[i]);
 					}
 				}
+				TendUtility.SortByTendPriority(TendUtility.tmpHediffs);
 			}
 			if (!TendUtility.tmpHediffs.Any<Hediff>())
 			{
 				return;
 			}
-			TendUtility.tmpHediffs.SortByDescending((Hediff x) => x.TendPriority, (Hediff x) => x.Severity);
 			Hediff hediff = TendUtility.tmpHediffs[0];
 			outHediffsToTend.Add(hediff);
 			HediffCompProperties_TendDuration hediffCompProperties_TendDuration = hediff.def.CompProps<HediffCompProperties_TendDuration>();
@@ -141,6 +147,26 @@ namespace RimWorld
 				}
 			}
 			TendUtility.tmpHediffs.Clear();
+		}
+
+		public static void SortByTendPriority(List<Hediff> hediffs)
+		{
+			if (hediffs.Count <= 1)
+			{
+				return;
+			}
+			TendUtility.tmpHediffsWithTendPriority.Clear();
+			for (int i = 0; i < hediffs.Count; i++)
+			{
+				TendUtility.tmpHediffsWithTendPriority.Add(new Pair<Hediff, float>(hediffs[i], hediffs[i].TendPriority));
+			}
+			TendUtility.tmpHediffsWithTendPriority.SortByDescending((Pair<Hediff, float> x) => x.Second, (Pair<Hediff, float> x) => x.First.Severity);
+			hediffs.Clear();
+			for (int j = 0; j < TendUtility.tmpHediffsWithTendPriority.Count; j++)
+			{
+				hediffs.Add(TendUtility.tmpHediffsWithTendPriority[j].First);
+			}
+			TendUtility.tmpHediffsWithTendPriority.Clear();
 		}
 	}
 }

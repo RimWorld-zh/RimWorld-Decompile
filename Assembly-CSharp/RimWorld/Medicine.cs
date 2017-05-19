@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public class Medicine : ThingWithComps
 	{
-		private static HashSet<Hediff> tmpHandledHediffs = new HashSet<Hediff>();
+		private static List<Hediff> tendableHediffsInTendPriorityOrder = new List<Hediff>();
 
 		private static List<Hediff> tmpHediffs = new List<Hediff>();
 
@@ -14,7 +14,16 @@ namespace RimWorld
 		{
 			int num = 0;
 			int num2 = pawn.health.hediffSet.hediffs.Count + 1;
-			Medicine.tmpHandledHediffs.Clear();
+			Medicine.tendableHediffsInTendPriorityOrder.Clear();
+			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
+			for (int i = 0; i < hediffs.Count; i++)
+			{
+				if (hediffs[i].TendableNow)
+				{
+					Medicine.tendableHediffsInTendPriorityOrder.Add(hediffs[i]);
+				}
+			}
+			TendUtility.SortByTendPriority(Medicine.tendableHediffsInTendPriorityOrder);
 			int num3 = 0;
 			while (true)
 			{
@@ -23,20 +32,21 @@ namespace RimWorld
 				{
 					break;
 				}
-				TendUtility.GetOptimalHediffsToTendWithSingleTreatment(pawn, true, Medicine.tmpHediffs, Medicine.tmpHandledHediffs);
+				TendUtility.GetOptimalHediffsToTendWithSingleTreatment(pawn, true, Medicine.tmpHediffs, Medicine.tendableHediffsInTendPriorityOrder);
 				if (!Medicine.tmpHediffs.Any<Hediff>())
 				{
-					goto IL_9A;
+					goto IL_F6;
 				}
 				num3++;
-				for (int i = 0; i < Medicine.tmpHediffs.Count; i++)
+				for (int j = 0; j < Medicine.tmpHediffs.Count; j++)
 				{
-					Medicine.tmpHandledHediffs.Add(Medicine.tmpHediffs[i]);
+					Medicine.tendableHediffsInTendPriorityOrder.Remove(Medicine.tmpHediffs[j]);
 				}
 			}
 			Log.Error("Too many iterations.");
-			IL_9A:
-			Medicine.tmpHandledHediffs.Clear();
+			IL_F6:
+			Medicine.tmpHediffs.Clear();
+			Medicine.tendableHediffsInTendPriorityOrder.Clear();
 			return num3;
 		}
 	}

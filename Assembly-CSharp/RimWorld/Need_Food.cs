@@ -9,9 +9,9 @@ namespace RimWorld
 	{
 		private const float BaseFoodFallPerTick = 2.66666666E-05f;
 
-		private const float MalnutritionSeverityPerDay = 0.2f;
+		private const float MalnutritionSeverityPerDay = 0.17f;
 
-		private const float MalnutritionSeverityPerInterval = 0.00133333332f;
+		private const float MalnutritionSeverityPerInterval = 0.00113333331f;
 
 		private int lastNonStarvingTick = -99999;
 
@@ -174,11 +174,11 @@ namespace RimWorld
 			{
 				if (this.Starving)
 				{
-					HealthUtility.AdjustSeverity(this.pawn, HediffDefOf.Malnutrition, 0.00133333332f);
+					HealthUtility.AdjustSeverity(this.pawn, HediffDefOf.Malnutrition, 0.00113333331f);
 				}
 				else
 				{
-					HealthUtility.AdjustSeverity(this.pawn, HediffDefOf.Malnutrition, -0.00133333332f);
+					HealthUtility.AdjustSeverity(this.pawn, HediffDefOf.Malnutrition, -0.00113333331f);
 				}
 			}
 		}

@@ -58,6 +58,20 @@ namespace Verse
 			}
 		}
 
+		public static Vector3 PointOnDisc
+		{
+			get
+			{
+				Vector3 result;
+				do
+				{
+					result = new Vector3(Rand.Value - 0.5f, 0f, Rand.Value - 0.5f) * 2f;
+				}
+				while (result.sqrMagnitude > 1f);
+				return result;
+			}
+		}
+
 		private static ulong StateCompressed
 		{
 			get

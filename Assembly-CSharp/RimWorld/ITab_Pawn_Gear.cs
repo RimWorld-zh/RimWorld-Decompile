@@ -190,14 +190,20 @@ namespace RimWorld
 			Text.WordWrap = false;
 			Widgets.Label(rect5, text);
 			Text.WordWrap = true;
-			TooltipHandler.TipRegion(rect, string.Concat(new object[]
+			string text2 = thing.LabelCap;
+			if (thing.def.useHitPoints)
 			{
-				thing.LabelCap,
-				"\n",
-				thing.HitPoints,
-				" / ",
-				thing.MaxHitPoints
-			}));
+				string text3 = text2;
+				text2 = string.Concat(new object[]
+				{
+					text3,
+					"\n",
+					thing.HitPoints,
+					" / ",
+					thing.MaxHitPoints
+				});
+			}
+			TooltipHandler.TipRegion(rect, text2);
 			y += 28f;
 		}
 

@@ -200,7 +200,7 @@ namespace Verse
 				BodyPartRecord bodyPartRecord = source.RandomElementByWeight((BodyPartRecord x) => x.coverageAbs);
 				float partHealth = p.health.hediffSet.GetPartHealth(bodyPartRecord);
 				int num = Mathf.Max(3, GenMath.RoundRandom(partHealth * Rand.Range(0.5f, 1f)));
-				DamageDef def = (Rand.Value >= 0.5f) ? ((Rand.Value >= 0.5f) ? DamageDefOf.Crush : DamageDefOf.Stab) : ((Rand.Value >= 0.5f) ? DamageDefOf.Scratch : DamageDefOf.Cut);
+				DamageDef def = Rand.Element<DamageDef>(DamageDefOf.Cut, DamageDefOf.Scratch, DamageDefOf.Stab, DamageDefOf.Crush);
 				BodyPartRecord forceHitPart = bodyPartRecord;
 				p.TakeDamage(new DamageInfo(def, num, -1f, null, forceHitPart, null, DamageInfo.SourceCategory.ThingOrUnknown));
 				totalDamage -= num;

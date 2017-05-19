@@ -138,23 +138,35 @@ namespace RimWorld.Planet
 
 		public static int RandomBestExitTileFrom(Map map)
 		{
-			Tile tileInfo = map.TileInfo;
-			List<int> options = CaravanExitMapUtility.AvailableExitTilesAt(map);
-			if (tileInfo.roads == null)
+			CaravanExitMapUtility.<RandomBestExitTileFrom>c__AnonStorey389 <RandomBestExitTileFrom>c__AnonStorey = new CaravanExitMapUtility.<RandomBestExitTileFrom>c__AnonStorey389();
+			<RandomBestExitTileFrom>c__AnonStorey.tile = map.TileInfo;
+			<RandomBestExitTileFrom>c__AnonStorey.options = CaravanExitMapUtility.AvailableExitTilesAt(map);
+			if (!<RandomBestExitTileFrom>c__AnonStorey.options.Any<int>())
 			{
-				return options.RandomElementWithFallback(map.Tile);
-			}
-			if (options.Count == 0)
-			{
-				Log.ErrorOnce("Can't find viable exit tile", 3597765);
 				return -1;
 			}
-			RoadDef bestRoad = (from rl in tileInfo.roads
-			where options.Contains(rl.neighbor)
-			select rl).MaxBy((Tile.RoadLink rl) => rl.road.priority).road;
-			return (from rl in tileInfo.roads
-			where options.Contains(rl.neighbor) && rl.road == bestRoad
-			select rl).RandomElementWithFallback(default(Tile.RoadLink)).neighbor;
+			if (<RandomBestExitTileFrom>c__AnonStorey.tile.roads == null)
+			{
+				return <RandomBestExitTileFrom>c__AnonStorey.options.RandomElement<int>();
+			}
+			int bestRoadIndex = -1;
+			for (int i = 0; i < <RandomBestExitTileFrom>c__AnonStorey.tile.roads.Count; i++)
+			{
+				if (<RandomBestExitTileFrom>c__AnonStorey.options.Contains(<RandomBestExitTileFrom>c__AnonStorey.tile.roads[i].neighbor))
+				{
+					if (bestRoadIndex == -1 || <RandomBestExitTileFrom>c__AnonStorey.tile.roads[i].road.priority > <RandomBestExitTileFrom>c__AnonStorey.tile.roads[bestRoadIndex].road.priority)
+					{
+						bestRoadIndex = i;
+					}
+				}
+			}
+			if (bestRoadIndex == -1)
+			{
+				return <RandomBestExitTileFrom>c__AnonStorey.options.RandomElement<int>();
+			}
+			return (from rl in <RandomBestExitTileFrom>c__AnonStorey.tile.roads
+			where <RandomBestExitTileFrom>c__AnonStorey.options.Contains(rl.neighbor) && rl.road == <RandomBestExitTileFrom>c__AnonStorey.tile.roads[bestRoadIndex].road
+			select rl).RandomElement<Tile.RoadLink>().neighbor;
 		}
 
 		private static int FindRandomStartingTileBasedOnExitDir(int tileID, Direction8Way exitDir)

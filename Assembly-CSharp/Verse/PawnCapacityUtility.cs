@@ -116,33 +116,37 @@ namespace Verse
 			{
 				if (diffSet.HasDirectlyAddedPartFor(rec))
 				{
-					Hediff hediff = (from x in diffSet.GetHediffs<Hediff_AddedPart>()
+					Hediff_AddedPart hediff_AddedPart = (from x in diffSet.GetHediffs<Hediff_AddedPart>()
 					where x.Part == rec
 					select x).First<Hediff_AddedPart>();
 					if (impactors != null)
 					{
 						impactors.Add(new PawnCapacityUtility.CapacityImpactorHediff
 						{
-							hediff = hediff
+							hediff = hediff_AddedPart
 						});
 					}
-					return hediff.def.addedPartProps.partEfficiency;
+					return hediff_AddedPart.def.addedPartProps.partEfficiency;
 				}
+			}
+			if (part.parent != null && diffSet.PartIsMissing(part.parent))
+			{
+				return 0f;
 			}
 			float num = 1f;
 			if (!ignoreAddedParts)
 			{
 				for (int i = 0; i < diffSet.hediffs.Count; i++)
 				{
-					Hediff_AddedPart hediff_AddedPart = diffSet.hediffs[i] as Hediff_AddedPart;
-					if (hediff_AddedPart != null && hediff_AddedPart.Part == part)
+					Hediff_AddedPart hediff_AddedPart2 = diffSet.hediffs[i] as Hediff_AddedPart;
+					if (hediff_AddedPart2 != null && hediff_AddedPart2.Part == part)
 					{
-						num *= hediff_AddedPart.def.addedPartProps.partEfficiency;
-						if (hediff_AddedPart.def.addedPartProps.partEfficiency != 1f && impactors != null)
+						num *= hediff_AddedPart2.def.addedPartProps.partEfficiency;
+						if (hediff_AddedPart2.def.addedPartProps.partEfficiency != 1f && impactors != null)
 						{
 							impactors.Add(new PawnCapacityUtility.CapacityImpactorHediff
 							{
-								hediff = hediff_AddedPart
+								hediff = hediff_AddedPart2
 							});
 						}
 					}

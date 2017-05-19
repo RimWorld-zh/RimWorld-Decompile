@@ -286,7 +286,7 @@ namespace RimWorld
 
 		public static bool RoomCanBePrisonCell(Room r)
 		{
-			return !r.TouchesMapEdge && !r.IsHuge;
+			return !r.TouchesMapEdge && !r.IsHuge && r.RegionType == RegionType.Normal;
 		}
 
 		[DebuggerHidden]

@@ -11,9 +11,9 @@ namespace RimWorld
 
 		private const float MinimumSellPrice = 0.01f;
 
-		private const float PriceFactorBuy_Global = 1.5f;
+		public const float PriceFactorBuy_Global = 1.5f;
 
-		private const float PriceFactorSell_Global = 0.5f;
+		public const float PriceFactorSell_Global = 0.5f;
 
 		public List<Thing> thingsColony = new List<Thing>();
 

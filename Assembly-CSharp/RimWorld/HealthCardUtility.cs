@@ -440,9 +440,10 @@ namespace RimWorld
 				{
 					if (PawnCapacityUtility.BodyCanEverDoCapacity(pawn.RaceProps.body, current))
 					{
+						PawnCapacityDef activityLocal = current;
 						Pair<string, Color> efficiencyLabel = HealthCardUtility.GetEfficiencyLabel(pawn, current);
-						string pawnCapacityTip = HealthCardUtility.GetPawnCapacityTip(pawn, current);
-						curY = HealthCardUtility.DrawLeftRow(leftRect, curY, current.GetLabelFor(pawn.RaceProps.IsFlesh, pawn.RaceProps.Humanlike).CapitalizeFirst(), efficiencyLabel.First, efficiencyLabel.Second, pawnCapacityTip);
+						Func<string> textGetter = () => (!pawn.Dead) ? HealthCardUtility.GetPawnCapacityTip(pawn, activityLocal) : string.Empty;
+						curY = HealthCardUtility.DrawLeftRow(leftRect, curY, current.GetLabelFor(pawn.RaceProps.IsFlesh, pawn.RaceProps.Humanlike).CapitalizeFirst(), efficiencyLabel.First, efficiencyLabel.Second, new TipSignal(textGetter, pawn.thingIDNumber ^ (int)current.index));
 					}
 				}
 			}
@@ -479,7 +480,7 @@ namespace RimWorld
 			return curY;
 		}
 
-		private static float DrawLeftRow(Rect leftRect, float curY, string leftLabel, string rightLabel, Color rightLabelColor, string tipLabel)
+		private static float DrawLeftRow(Rect leftRect, float curY, string leftLabel, string rightLabel, Color rightLabelColor, TipSignal tipSignal)
 		{
 			Rect rect = new Rect(0f, curY, leftRect.width, 20f);
 			if (Mouse.IsOver(rect))
@@ -491,7 +492,7 @@ namespace RimWorld
 			Widgets.Label(new Rect(0f, curY, leftRect.width * 0.65f, 30f), leftLabel);
 			GUI.color = rightLabelColor;
 			Widgets.Label(new Rect(leftRect.width * 0.65f, curY, leftRect.width * 0.35f, 30f), rightLabel);
-			TooltipHandler.TipRegion(new Rect(0f, curY, leftRect.width, 20f), new TipSignal(tipLabel));
+			TooltipHandler.TipRegion(new Rect(0f, curY, leftRect.width, 20f), tipSignal);
 			curY += 20f;
 			return curY;
 		}
@@ -606,29 +607,33 @@ namespace RimWorld
 			{
 				stringBuilder.AppendLine();
 				stringBuilder.AppendLine("AffectedBy".Translate());
-				foreach (PawnCapacityUtility.CapacityImpactor current in from impactor in list
-				where impactor is PawnCapacityUtility.CapacityImpactorHediff
-				select impactor)
+				for (int i = 0; i < list.Count; i++)
 				{
-					stringBuilder.AppendLine(string.Format("  {0}", current.Readable(pawn)));
+					if (list[i] is PawnCapacityUtility.CapacityImpactorHediff)
+					{
+						stringBuilder.AppendLine(string.Format("  {0}", list[i].Readable(pawn)));
+					}
 				}
-				foreach (PawnCapacityUtility.CapacityImpactor current2 in from impactor in list
-				where impactor is PawnCapacityUtility.CapacityImpactorBodyPartHealth
-				select impactor)
+				for (int j = 0; j < list.Count; j++)
 				{
-					stringBuilder.AppendLine(string.Format("  {0}", current2.Readable(pawn)));
+					if (list[j] is PawnCapacityUtility.CapacityImpactorBodyPartHealth)
+					{
+						stringBuilder.AppendLine(string.Format("  {0}", list[j].Readable(pawn)));
+					}
 				}
-				foreach (PawnCapacityUtility.CapacityImpactor current3 in from impactor in list
-				where impactor is PawnCapacityUtility.CapacityImpactorCapacity
-				select impactor)
+				for (int k = 0; k < list.Count; k++)
 				{
-					stringBuilder.AppendLine(string.Format("  {0}", current3.Readable(pawn)));
+					if (list[k] is PawnCapacityUtility.CapacityImpactorCapacity)
+					{
+						stringBuilder.AppendLine(string.Format("  {0}", list[k].Readable(pawn)));
+					}
 				}
-				foreach (PawnCapacityUtility.CapacityImpactor current4 in from impactor in list
-				where impactor is PawnCapacityUtility.CapacityImpactorPain
-				select impactor)
+				for (int l = 0; l < list.Count; l++)
 				{
-					stringBuilder.AppendLine(string.Format("  {0}", current4.Readable(pawn)));
+					if (list[l] is PawnCapacityUtility.CapacityImpactorPain)
+					{
+						stringBuilder.AppendLine(string.Format("  {0}", list[l].Readable(pawn)));
+					}
 				}
 			}
 			return stringBuilder.ToString();

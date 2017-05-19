@@ -29,10 +29,10 @@ namespace RimWorld
 
 		private static readonly float[] PlanetCoveragesDev = new float[]
 		{
-			0.05f,
 			0.3f,
 			0.5f,
-			1f
+			1f,
+			0.05f
 		};
 
 		public override string PageTitle

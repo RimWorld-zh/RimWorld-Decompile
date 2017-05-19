@@ -462,19 +462,6 @@ namespace Verse
 			Log.Message(stringBuilder.ToString());
 		}
 
-		public static void DoLog_ItemDeteriorationRates()
-		{
-			StringBuilder stringBuilder = new StringBuilder();
-			foreach (ThingDef current in from d in DefDatabase<ThingDef>.AllDefs
-			where d.category == ThingCategory.Item && !d.destroyOnDrop && d.useHitPoints
-			orderby d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) descending
-			select d)
-			{
-				stringBuilder.AppendLine(current.defName + "  " + current.GetStatValueAbstract(StatDefOf.DeteriorationRate, null).ToString("F1"));
-			}
-			Log.Message(stringBuilder.ToString());
-		}
-
 		public static void DoLog_ItemBeauties()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

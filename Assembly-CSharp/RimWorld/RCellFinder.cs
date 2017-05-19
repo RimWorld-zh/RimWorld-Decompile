@@ -9,6 +9,8 @@ namespace RimWorld
 {
 	public static class RCellFinder
 	{
+		private static List<Region> regions = new List<Region>();
+
 		private static HashSet<Thing> tmpBuildings = new HashSet<Thing>();
 
 		public static IntVec3 BestOrderedGotoDestNear(IntVec3 root, Pawn searcher)
@@ -161,50 +163,38 @@ namespace RimWorld
 					" and will break."
 				}));
 			}
-			bool drawDebug = UnityData.isDebugBuild && DebugViewSettings.drawDestSearch;
-			if (drawDebug)
+			int maxRegions = Mathf.Max((int)radius / 3, 13);
+			CellFinder.AllRegionsNear(RCellFinder.regions, root.GetRegion(pawn.Map, RegionType.Set_Passable), maxRegions, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), (Region reg) => reg.extentsClose.ClosestDistSquaredTo(root) <= radius * radius, null, RegionType.Set_Passable);
+			bool flag = UnityData.isDebugBuild && DebugViewSettings.drawDestSearch;
+			if (flag)
 			{
 				pawn.Map.debugDrawer.FlashCell(root, 0.6f, "root");
 			}
-			if (root.Walkable(pawn.Map))
+			if (RCellFinder.regions.Count > 0)
 			{
-				Region region = root.GetRegion(pawn.Map, RegionType.Set_Passable);
-				for (int i = Mathf.Max((int)radius / 3, 6); i >= 1; i--)
+				for (int i = 0; i < 20; i++)
 				{
-					Region region2 = CellFinder.RandomRegionNear(region, i, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), null, null, RegionType.Set_Passable);
-					if (region2.extentsClose.ClosestDistSquaredTo(root) > radius * radius)
+					IntVec3 randomCell = RCellFinder.regions.RandomElementByWeightWithFallback((Region reg) => (float)reg.CellCount, null).RandomCell;
+					if ((float)randomCell.DistanceToSquared(root) > radius * radius)
 					{
-						if (drawDebug)
+						if (flag)
 						{
-							pawn.Map.debugDrawer.FlashCell(region2.extentsClose.CenterCell, 0.36f, "region distance");
+							pawn.Map.debugDrawer.FlashCell(randomCell, 0.32f, "distance");
 						}
 					}
 					else
 					{
-						int num = (i != 1) ? 1 : 3;
-						int tryIndex;
-						for (tryIndex = 0; tryIndex < num; tryIndex++)
+						if (RCellFinder.CanWanderToCell(randomCell, pawn, root, validator, i, maxDanger))
 						{
-							IntVec3 intVec;
-							if (region2.TryFindRandomCellInRegionUnforbidden(pawn, delegate(IntVec3 c)
+							if (flag)
 							{
-								if (!c.InHorDistOf(root, radius))
-								{
-									if (drawDebug)
-									{
-										pawn.Map.debugDrawer.FlashCell(c, 0.32f, "distance");
-									}
-									return false;
-								}
-								return RCellFinder.CanWanderToCell(c, pawn, root, validator, tryIndex, maxDanger);
-							}, out intVec))
-							{
-								if (drawDebug)
-								{
-									pawn.Map.debugDrawer.FlashCell(intVec, 0.9f, "go!");
-								}
-								return intVec;
+								pawn.Map.debugDrawer.FlashCell(randomCell, 0.9f, "go!");
 							}
+							return randomCell;
+						}
+						if (flag)
+						{
+							pawn.Map.debugDrawer.FlashCell(randomCell, 0.6f, "validation");
 						}
 					}
 				}
@@ -213,6 +203,10 @@ namespace RimWorld
 			if (!CellFinder.TryFindRandomCellNear(root, pawn.Map, 20, (IntVec3 c) => c.InBounds(pawn.Map) && pawn.CanReach(c, PathEndMode.OnCell, Danger.None, false, TraverseMode.ByPawn) && !c.IsForbidden(pawn), out position) && !CellFinder.TryFindRandomCellNear(root, pawn.Map, 30, (IntVec3 c) => c.InBounds(pawn.Map) && pawn.CanReach(c, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn), out position) && !CellFinder.TryFindRandomCellNear(pawn.Position, pawn.Map, 5, (IntVec3 c) => c.InBounds(pawn.Map) && pawn.CanReach(c, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn), out position))
 			{
 				position = pawn.Position;
+			}
+			if (flag)
+			{
+				pawn.Map.debugDrawer.FlashCell(position, 0.4f, "fallback");
 			}
 			return position;
 		}
@@ -236,7 +230,7 @@ namespace RimWorld
 				}
 				return false;
 			}
-			if (tryIndex == 0 && !c.Standable(pawn.Map))
+			if (tryIndex < 10 && !c.Standable(pawn.Map))
 			{
 				if (flag)
 				{
@@ -260,7 +254,7 @@ namespace RimWorld
 				}
 				return false;
 			}
-			if (tryIndex == 0)
+			if (tryIndex < 10)
 			{
 				if (c.GetTerrain(pawn.Map).avoidWander)
 				{
@@ -287,7 +281,7 @@ namespace RimWorld
 					return false;
 				}
 			}
-			else if (tryIndex <= 1 && c.GetDangerFor(pawn, pawn.Map) == Danger.Deadly)
+			else if (tryIndex < 15 && c.GetDangerFor(pawn, pawn.Map) == Danger.Deadly)
 			{
 				if (flag)
 				{

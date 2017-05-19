@@ -211,6 +211,10 @@ namespace Verse
 				{
 					return "Make_Apparel_AdvancedHelmet";
 				}
+				if (defName == "Make_Gun_SurvivalRifle")
+				{
+					return "Make_Gun_BoltActionRifle";
+				}
 			}
 			else if (defType == typeof(HediffDef))
 			{

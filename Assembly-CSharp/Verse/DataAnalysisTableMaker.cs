@@ -2,6 +2,7 @@ using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 
 namespace Verse
@@ -21,6 +22,62 @@ namespace Verse
 		public static void DoTable_ManhunterResults()
 		{
 			ManhunterPackIncidentUtility.DoTable_ManhunterResults();
+		}
+
+		public static void DoTable_DrugEconomy()
+		{
+			Func<ThingDef, string> ingredients = delegate(ThingDef d)
+			{
+				if (d.costList == null)
+				{
+					return "-";
+				}
+				StringBuilder stringBuilder = new StringBuilder();
+				foreach (ThingCountClass current in d.costList)
+				{
+					if (stringBuilder.Length > 0)
+					{
+						stringBuilder.Append(", ");
+					}
+					string text = (!DataAnalysisTableMaker.RequiresBuying(current.thingDef)) ? string.Empty : "*";
+					stringBuilder.Append(string.Concat(new object[]
+					{
+						current.thingDef.defName,
+						text,
+						" x",
+						current.count
+					}));
+				}
+				return stringBuilder.ToString().TrimEndNewlines();
+			};
+			Func<ThingDef, float> workAmount = delegate(ThingDef d)
+			{
+				if (d.recipeMaker == null)
+				{
+					return -1f;
+				}
+				if (d.recipeMaker.workAmount >= 0)
+				{
+					return (float)d.recipeMaker.workAmount;
+				}
+				return Mathf.Max(d.GetStatValueAbstract(StatDefOf.WorkToMake, null), d.GetStatValueAbstract(StatDefOf.WorkToBuild, null));
+			};
+			Func<ThingDef, float> realIngredientCost = (ThingDef d) => DataAnalysisTableMaker.CostToMake(d, true);
+			Func<ThingDef, float> realSellPrice = (ThingDef d) => d.BaseMarketValue * 0.5f;
+			Func<ThingDef, float> realBuyPrice = (ThingDef d) => d.BaseMarketValue * 1.5f;
+			IEnumerable<ThingDef> arg_1BB_0 = from d in DefDatabase<ThingDef>.AllDefs
+			where d.IsWithinCategory(ThingCategoryDefOf.Medicine) || d.IsWithinCategory(ThingCategoryDefOf.Drugs)
+			select d;
+			TableDataGetter<ThingDef>[] expr_E2 = new TableDataGetter<ThingDef>[8];
+			expr_E2[0] = new TableDataGetter<ThingDef>("name", (ThingDef d) => d.defName);
+			expr_E2[1] = new TableDataGetter<ThingDef>("ingredients", (ThingDef d) => ingredients(d));
+			expr_E2[2] = new TableDataGetter<ThingDef>("work amount", (ThingDef d) => workAmount(d).ToString("F0"));
+			expr_E2[3] = new TableDataGetter<ThingDef>("real ingredient cost", (ThingDef d) => realIngredientCost(d).ToString("F1"));
+			expr_E2[4] = new TableDataGetter<ThingDef>("real sell price", (ThingDef d) => realSellPrice(d).ToString("F1"));
+			expr_E2[5] = new TableDataGetter<ThingDef>("real profit per item", (ThingDef d) => (realSellPrice(d) - realIngredientCost(d)).ToString("F1"));
+			expr_E2[6] = new TableDataGetter<ThingDef>("real profit per day's work", (ThingDef d) => ((realSellPrice(d) - realIngredientCost(d)) / workAmount(d) * 30000f).ToString("F1"));
+			expr_E2[7] = new TableDataGetter<ThingDef>("real buy price", (ThingDef d) => realBuyPrice(d).ToString("F1"));
+			DebugTables.MakeTablesDialog<ThingDef>(arg_1BB_0, expr_E2);
 		}
 
 		public static void DoTable_WoolEconomy()
@@ -202,10 +259,10 @@ namespace Verse
 			TableDataGetter<ThingDef>[] expr_6E = new TableDataGetter<ThingDef>[6];
 			expr_6E[0] = new TableDataGetter<ThingDef>("defName", (ThingDef d) => d.defName);
 			expr_6E[1] = new TableDataGetter<ThingDef>("base market value", (ThingDef d) => d.BaseMarketValue.ToString("F1"));
-			expr_6E[2] = new TableDataGetter<ThingDef>("cost to make", (ThingDef d) => DataAnalysisTableMaker.CostToMakeString(d));
+			expr_6E[2] = new TableDataGetter<ThingDef>("cost to make", (ThingDef d) => DataAnalysisTableMaker.CostToMakeString(d, false));
 			expr_6E[3] = new TableDataGetter<ThingDef>("work to make", (ThingDef d) => (d.recipeMaker == null) ? "-" : workAmountGetter(d).ToString("F1"));
-			expr_6E[4] = new TableDataGetter<ThingDef>("profit", (ThingDef d) => (d.BaseMarketValue - DataAnalysisTableMaker.CostToMakeRecursive(d)).ToString("F1"));
-			expr_6E[5] = new TableDataGetter<ThingDef>("profit rate", (ThingDef d) => (d.recipeMaker == null) ? "-" : ((d.BaseMarketValue - DataAnalysisTableMaker.CostToMakeRecursive(d)) / workAmountGetter(d) * 10000f).ToString("F0"));
+			expr_6E[4] = new TableDataGetter<ThingDef>("profit", (ThingDef d) => (d.BaseMarketValue - DataAnalysisTableMaker.CostToMake(d, false)).ToString("F1"));
+			expr_6E[5] = new TableDataGetter<ThingDef>("profit rate", (ThingDef d) => (d.recipeMaker == null) ? "-" : ((d.BaseMarketValue - DataAnalysisTableMaker.CostToMake(d, false)) / workAmountGetter(d) * 10000f).ToString("F0"));
 			DebugTables.MakeTablesDialog<ThingDef>(arg_148_0, expr_6E);
 		}
 
@@ -274,16 +331,16 @@ namespace Verse
 			DebugTables.MakeTablesDialog<RecipeDef>(arg_187_0, expr_AE);
 		}
 
-		private static string CostToMakeString(ThingDef d)
+		private static string CostToMakeString(ThingDef d, bool real = false)
 		{
 			if (d.recipeMaker == null)
 			{
 				return "-";
 			}
-			return DataAnalysisTableMaker.CostToMakeRecursive(d).ToString("F1");
+			return DataAnalysisTableMaker.CostToMake(d, real).ToString("F1");
 		}
 
-		private static float CostToMakeRecursive(ThingDef d)
+		private static float CostToMake(ThingDef d, bool real = false)
 		{
 			if (d.recipeMaker == null)
 			{
@@ -294,7 +351,12 @@ namespace Verse
 			{
 				foreach (ThingCountClass current in d.costList)
 				{
-					num += (float)current.count * DataAnalysisTableMaker.CostToMakeRecursive(current.thingDef);
+					float num2 = 1f;
+					if (real)
+					{
+						num2 = ((!DataAnalysisTableMaker.RequiresBuying(current.thingDef)) ? 0.5f : 1.5f);
+					}
+					num += (float)current.count * DataAnalysisTableMaker.CostToMake(current.thingDef, true) * num2;
 				}
 			}
 			if (d.costStuffCount > 0)
@@ -303,6 +365,22 @@ namespace Verse
 				num += (float)d.costStuffCount * thingDef.BaseMarketValue;
 			}
 			return num;
+		}
+
+		private static bool RequiresBuying(ThingDef def)
+		{
+			if (def.costList != null)
+			{
+				foreach (ThingCountClass current in def.costList)
+				{
+					if (DataAnalysisTableMaker.RequiresBuying(current.thingDef))
+					{
+						return true;
+					}
+				}
+				return false;
+			}
+			return !DefDatabase<ThingDef>.AllDefs.Any((ThingDef d) => d.plant != null && d.plant.harvestedThingDef == def && d.plant.Sowable);
 		}
 
 		public static void DoTable_RacesBasics()
@@ -746,6 +824,33 @@ namespace Verse
 			expr_3A[6] = new TableDataGetter<ThingDef>("mktval", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.MarketValue, stuff).ToString("F0"));
 			expr_3A[7] = new TableDataGetter<ThingDef>("work", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.WorkToMake, stuff).ToString("F0"));
 			DebugTables.MakeTablesDialog<ThingDef>(arg_146_0, expr_3A);
+		}
+
+		public static void DoTable_HitPoints()
+		{
+			IEnumerable<ThingDef> arg_CD_0 = from d in DefDatabase<ThingDef>.AllDefs
+			where d.useHitPoints
+			orderby d.GetStatValueAbstract(StatDefOf.MaxHitPoints, null) descending
+			select d;
+			TableDataGetter<ThingDef>[] expr_4F = new TableDataGetter<ThingDef>[3];
+			expr_4F[0] = new TableDataGetter<ThingDef>("defName", (ThingDef d) => d.defName);
+			expr_4F[1] = new TableDataGetter<ThingDef>("hp", (ThingDef d) => d.BaseMaxHitPoints.ToString());
+			expr_4F[2] = new TableDataGetter<ThingDef>("category", (ThingDef d) => d.category.ToString());
+			DebugTables.MakeTablesDialog<ThingDef>(arg_CD_0, expr_4F);
+		}
+
+		public static void DoTable_DeteriorationRates()
+		{
+			IEnumerable<ThingDef> arg_F7_0 = from d in DefDatabase<ThingDef>.AllDefs
+			where d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) > 0f
+			orderby d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null) descending
+			select d;
+			TableDataGetter<ThingDef>[] expr_4F = new TableDataGetter<ThingDef>[4];
+			expr_4F[0] = new TableDataGetter<ThingDef>("defName", (ThingDef d) => d.defName);
+			expr_4F[1] = new TableDataGetter<ThingDef>("deterioration rate", (ThingDef d) => d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null).ToString("F1"));
+			expr_4F[2] = new TableDataGetter<ThingDef>("hp", (ThingDef d) => d.BaseMaxHitPoints.ToString());
+			expr_4F[3] = new TableDataGetter<ThingDef>("days to vanish", (ThingDef d) => ((float)d.BaseMaxHitPoints / d.GetStatValueAbstract(StatDefOf.DeteriorationRate, null)).ToString("0.#"));
+			DebugTables.MakeTablesDialog<ThingDef>(arg_F7_0, expr_4F);
 		}
 
 		public static void DoTable_ShootingAccuracy()
