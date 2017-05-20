@@ -177,6 +177,7 @@ namespace Verse
 				WorkGiver_FixBrokenDownBuilding.CacheTranslations();
 				ItemCollectionGeneratorUtility.Reset();
 				BaseGen.Reset();
+				HealthUtility.Reset();
 			}
 			finally
 			{

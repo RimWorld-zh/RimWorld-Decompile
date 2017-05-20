@@ -669,18 +669,22 @@ namespace Verse
 			IEnumerable<BiomeDef> enumerable = from d in DefDatabase<BiomeDef>.AllDefs
 			where d.animalDensity > 0f
 			select d;
-			IOrderedEnumerable<PawnKindDef> orderedEnumerable = from d in DefDatabase<PawnKindDef>.AllDefs
+			IOrderedEnumerable<PawnKindDef> source = from d in DefDatabase<PawnKindDef>.AllDefs
 			where d.race.race.Animal
 			orderby (!d.race.race.predator) ? 0 : 1
 			select d;
 			string text = string.Empty;
-			text += "name      commonality     commonalityShare\n\n";
+			text += "name      commonality     commonalityShare     size\n\n";
 			foreach (BiomeDef b in enumerable)
 			{
-				float num = orderedEnumerable.Sum((PawnKindDef a) => b.CommonalityOfAnimal(a));
-				float f = (from a in orderedEnumerable
+				float num = source.Sum((PawnKindDef a) => b.CommonalityOfAnimal(a));
+				float f = (from a in source
 				where a.race.race.predator
 				select a).Sum((PawnKindDef a) => b.CommonalityOfAnimal(a)) / num;
+				float num2 = source.Sum((PawnKindDef a) => b.CommonalityOfAnimal(a) * a.race.race.baseBodySize);
+				float f2 = (from a in source
+				where a.race.race.predator
+				select a).Sum((PawnKindDef a) => b.CommonalityOfAnimal(a) * a.race.race.baseBodySize) / num2;
 				string text2 = text;
 				text = string.Concat(new string[]
 				{
@@ -688,12 +692,16 @@ namespace Verse
 					b.label,
 					"   (predators: ",
 					f.ToStringPercent("F2"),
+					", predators by size: ",
+					f2.ToStringPercent("F2"),
 					")"
 				});
-				foreach (PawnKindDef current in orderedEnumerable)
+				foreach (PawnKindDef current in from a in source
+				orderby b.CommonalityOfAnimal(a) descending
+				select a)
 				{
-					float num2 = b.CommonalityOfAnimal(current);
-					if (num2 > 0f)
+					float num3 = b.CommonalityOfAnimal(current);
+					if (num3 > 0f)
 					{
 						text2 = text;
 						text = string.Concat(new string[]
@@ -701,10 +709,13 @@ namespace Verse
 							text2,
 							"\n    ",
 							current.label,
+							(!current.RaceProps.predator) ? string.Empty : "*",
 							"       ",
-							num2.ToString("F3"),
+							num3.ToString("F3"),
 							"       ",
-							(num2 / num).ToStringPercent("F2")
+							(num3 / num).ToStringPercent("F2"),
+							"       ",
+							current.race.race.baseBodySize.ToString("F2")
 						});
 					}
 				}

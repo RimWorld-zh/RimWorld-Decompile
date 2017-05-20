@@ -243,39 +243,42 @@ namespace RimWorld
 			Profiler.BeginSample("Determine flammability");
 			Fire.flammableList.Clear();
 			this.flammabilityMax = 0f;
-			if (this.parent == null)
+			if (!base.Position.GetTerrain(base.Map).HasTag("Water"))
 			{
-				if (base.Position.TerrainFlammableNow(base.Map))
+				if (this.parent == null)
 				{
-					this.flammabilityMax = base.Position.GetTerrain(base.Map).GetStatValueAbstract(StatDefOf.Flammability, null);
+					if (base.Position.TerrainFlammableNow(base.Map))
+					{
+						this.flammabilityMax = base.Position.GetTerrain(base.Map).GetStatValueAbstract(StatDefOf.Flammability, null);
+					}
+					List<Thing> list = base.Map.thingGrid.ThingsListAt(base.Position);
+					for (int i = 0; i < list.Count; i++)
+					{
+						Thing thing = list[i];
+						if (thing is Building_Door)
+						{
+							flag = true;
+						}
+						float statValue = thing.GetStatValue(StatDefOf.Flammability, true);
+						if (statValue >= 0.01f)
+						{
+							Fire.flammableList.Add(list[i]);
+							if (statValue > this.flammabilityMax)
+							{
+								this.flammabilityMax = statValue;
+							}
+							if (this.parent == null && this.fireSize > 0.4f && list[i].def.category == ThingCategory.Pawn)
+							{
+								list[i].TryAttachFire(this.fireSize * 0.2f);
+							}
+						}
+					}
 				}
-				List<Thing> list = base.Map.thingGrid.ThingsListAt(base.Position);
-				for (int i = 0; i < list.Count; i++)
+				else
 				{
-					Thing thing = list[i];
-					if (thing is Building_Door)
-					{
-						flag = true;
-					}
-					float statValue = thing.GetStatValue(StatDefOf.Flammability, true);
-					if (statValue >= 0.01f)
-					{
-						Fire.flammableList.Add(list[i]);
-						if (statValue > this.flammabilityMax)
-						{
-							this.flammabilityMax = statValue;
-						}
-						if (this.parent == null && this.fireSize > 0.4f && list[i].def.category == ThingCategory.Pawn)
-						{
-							list[i].TryAttachFire(this.fireSize * 0.2f);
-						}
-					}
+					Fire.flammableList.Add(this.parent);
+					this.flammabilityMax = this.parent.GetStatValue(StatDefOf.Flammability, true);
 				}
-			}
-			else
-			{
-				Fire.flammableList.Add(this.parent);
-				this.flammabilityMax = this.parent.GetStatValue(StatDefOf.Flammability, true);
 			}
 			Profiler.EndSample();
 			if (this.flammabilityMax < 0.01f)

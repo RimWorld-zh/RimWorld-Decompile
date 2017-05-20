@@ -71,6 +71,10 @@ namespace RimWorld
 				initAction = delegate
 				{
 					int num = GatherItemsForCaravanUtility.CountLeftToTransfer(this.pawn, this.Transferable, base.CurJob.lord);
+					if (this.pawn.carryTracker.CarriedThing != null)
+					{
+						num -= this.pawn.carryTracker.CarriedThing.stackCount;
+					}
 					if (num <= 0)
 					{
 						this.pawn.jobs.EndCurrentJob(JobCondition.Succeeded, true);

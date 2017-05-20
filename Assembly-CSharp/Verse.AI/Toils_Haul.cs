@@ -177,8 +177,7 @@ namespace Verse.AI
 				{
 					return;
 				}
-				int num = curJob.count - actor.carryTracker.CarriedThing.stackCount;
-				if (num <= 0)
+				if (curJob.count <= 0)
 				{
 					return;
 				}

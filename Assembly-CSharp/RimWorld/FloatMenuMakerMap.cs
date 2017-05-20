@@ -783,126 +783,130 @@ namespace RimWorld
 								JobFailReason.Clear();
 								if (workGiver_Scanner.PotentialWorkThingRequest.Accepts(current2) || (workGiver_Scanner.PotentialWorkThingsGlobal(pawn) != null && workGiver_Scanner.PotentialWorkThingsGlobal(pawn).Contains(current2)))
 								{
-									Job job;
-									if (!workGiver_Scanner.HasJobOnThing(pawn, current2, true))
+									string label = null;
+									Action action = null;
+									PawnCapacityDef pawnCapacityDef = workGiver_Scanner.MissingRequiredCapacity(pawn);
+									if (pawnCapacityDef != null)
 									{
-										job = null;
+										label = "CannotMissingHealthActivities".Translate(new object[]
+										{
+											pawnCapacityDef.label
+										});
 									}
 									else
 									{
-										job = workGiver_Scanner.JobOnThing(pawn, current2, true);
-									}
-									if (job == null)
-									{
-										if (JobFailReason.HaveReason)
+										Job job;
+										if (!workGiver_Scanner.HasJobOnThing(pawn, current2, true))
 										{
-											string label3 = "CannotGenericWork".Translate(new object[]
+											job = null;
+										}
+										else
+										{
+											job = workGiver_Scanner.JobOnThing(pawn, current2, true);
+										}
+										if (job == null)
+										{
+											if (!JobFailReason.HaveReason)
+											{
+												goto IL_5EF;
+											}
+											label = "CannotGenericWork".Translate(new object[]
 											{
 												workGiver_Scanner.def.verb,
 												current2.LabelShort
 											}) + " (" + JobFailReason.Reason + ")";
-											opts.Add(new FloatMenuOption(label3, null, MenuOptionPriority.Default, null, null, 0f, null, null));
-										}
-									}
-									else
-									{
-										WorkTypeDef workType = workGiver_Scanner.def.workType;
-										Action action = null;
-										PawnCapacityDef pawnCapacityDef = workGiver_Scanner.MissingRequiredCapacity(pawn);
-										string label;
-										if (pawn.story != null && pawn.story.WorkTagIsDisabled(workGiver_Scanner.def.workTags))
-										{
-											label = "CannotPrioritizeWorkGiverDisabled".Translate(new object[]
-											{
-												workGiver_Scanner.def.label
-											});
-										}
-										else if (pawnCapacityDef != null)
-										{
-											label = "CannotMissingHealthActivities".Translate(new object[]
-											{
-												pawnCapacityDef.label
-											});
-										}
-										else if (pawn.jobs.curJob != null && pawn.jobs.curJob.JobIsSameAs(job))
-										{
-											label = "CannotGenericAlreadyAm".Translate(new object[]
-											{
-												workType.gerundLabel,
-												current2.LabelShort
-											});
-										}
-										else if (pawn.workSettings.GetPriority(workType) == 0)
-										{
-											if (pawn.story.WorkTypeIsDisabled(workType))
-											{
-												label = "CannotPrioritizeWorkTypeDisabled".Translate(new object[]
-												{
-													workType.gerundLabel
-												});
-											}
-											else if ("CannotPrioritizeNotAssignedToWorkType".CanTranslate())
-											{
-												label = "CannotPrioritizeNotAssignedToWorkType".Translate(new object[]
-												{
-													workType.gerundLabel
-												});
-											}
-											else
-											{
-												label = "CannotPrioritizeIsNotA".Translate(new object[]
-												{
-													pawn.NameStringShort,
-													workType.pawnLabel
-												});
-											}
-										}
-										else if (job.def == JobDefOf.Research && current2 is Building_ResearchBench)
-										{
-											label = "CannotPrioritizeResearch".Translate();
-										}
-										else if (current2.IsForbidden(pawn))
-										{
-											if (!current2.Position.InAllowedArea(pawn))
-											{
-												label = "CannotPrioritizeForbiddenOutsideAllowedArea".Translate(new object[]
-												{
-													current2.Label
-												});
-											}
-											else
-											{
-												label = "CannotPrioritizeForbidden".Translate(new object[]
-												{
-													current2.Label
-												});
-											}
-										}
-										else if (!pawn.CanReach(current2, workGiver_Scanner.PathEndMode, Danger.Deadly, false, TraverseMode.ByPawn))
-										{
-											label = (current2.Label + ": " + "NoPath".Translate()).CapitalizeFirst();
 										}
 										else
 										{
-											label = "PrioritizeGeneric".Translate(new object[]
+											WorkTypeDef workType = workGiver_Scanner.def.workType;
+											if (pawn.story != null && pawn.story.WorkTagIsDisabled(workGiver_Scanner.def.workTags))
 											{
-												workGiver_Scanner.def.gerund,
-												current2.Label
-											});
-											Job localJob = job;
-											WorkGiver_Scanner localScanner = workGiver_Scanner;
-											action = delegate
+												label = "CannotPrioritizeWorkGiverDisabled".Translate(new object[]
+												{
+													workGiver_Scanner.def.label
+												});
+											}
+											else if (pawn.jobs.curJob != null && pawn.jobs.curJob.JobIsSameAs(job))
 											{
-												pawn.jobs.TryTakeOrderedJobPrioritizedWork(localJob, localScanner, clickCell);
-											};
+												label = "CannotGenericAlreadyAm".Translate(new object[]
+												{
+													workType.gerundLabel,
+													current2.LabelShort
+												});
+											}
+											else if (pawn.workSettings.GetPriority(workType) == 0)
+											{
+												if (pawn.story.WorkTypeIsDisabled(workType))
+												{
+													label = "CannotPrioritizeWorkTypeDisabled".Translate(new object[]
+													{
+														workType.gerundLabel
+													});
+												}
+												else if ("CannotPrioritizeNotAssignedToWorkType".CanTranslate())
+												{
+													label = "CannotPrioritizeNotAssignedToWorkType".Translate(new object[]
+													{
+														workType.gerundLabel
+													});
+												}
+												else
+												{
+													label = "CannotPrioritizeIsNotA".Translate(new object[]
+													{
+														pawn.NameStringShort,
+														workType.pawnLabel
+													});
+												}
+											}
+											else if (job.def == JobDefOf.Research && current2 is Building_ResearchBench)
+											{
+												label = "CannotPrioritizeResearch".Translate();
+											}
+											else if (current2.IsForbidden(pawn))
+											{
+												if (!current2.Position.InAllowedArea(pawn))
+												{
+													label = "CannotPrioritizeForbiddenOutsideAllowedArea".Translate(new object[]
+													{
+														current2.Label
+													});
+												}
+												else
+												{
+													label = "CannotPrioritizeForbidden".Translate(new object[]
+													{
+														current2.Label
+													});
+												}
+											}
+											else if (!pawn.CanReach(current2, workGiver_Scanner.PathEndMode, Danger.Deadly, false, TraverseMode.ByPawn))
+											{
+												label = (current2.Label + ": " + "NoPath".Translate()).CapitalizeFirst();
+											}
+											else
+											{
+												label = "PrioritizeGeneric".Translate(new object[]
+												{
+													workGiver_Scanner.def.gerund,
+													current2.Label
+												});
+												Job localJob = job;
+												WorkGiver_Scanner localScanner = workGiver_Scanner;
+												action = delegate
+												{
+													pawn.jobs.TryTakeOrderedJobPrioritizedWork(localJob, localScanner, clickCell);
+												};
+											}
 										}
-										if (!opts.Any((FloatMenuOption op) => op.Label == label.TrimEnd(new char[0])))
-										{
-											opts.Add(FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(label, action, MenuOptionPriority.Default, null, null, 0f, null, null), pawn, current2, "ReservedBy"));
-										}
+									}
+									if (!opts.Any((FloatMenuOption op) => op.Label == label.TrimEnd(new char[0])))
+									{
+										opts.Add(FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(label, action, MenuOptionPriority.Default, null, null, 0f, null, null), pawn, current2, "ReservedBy"));
 									}
 								}
 							}
+							IL_5EF:;
 						}
 					}
 				}
@@ -916,98 +920,102 @@ namespace RimWorld
 							JobFailReason.Clear();
 							if (workGiver_Scanner2.PotentialWorkCellsGlobal(pawn).Contains(clickCell))
 							{
-								Job job2;
-								if (!workGiver_Scanner2.HasJobOnCell(pawn, clickCell))
+								Action action2 = null;
+								string label = null;
+								PawnCapacityDef pawnCapacityDef2 = workGiver_Scanner2.MissingRequiredCapacity(pawn);
+								if (pawnCapacityDef2 != null)
 								{
-									job2 = null;
+									label = "CannotMissingHealthActivities".Translate(new object[]
+									{
+										pawnCapacityDef2.label
+									});
 								}
 								else
 								{
-									job2 = workGiver_Scanner2.JobOnCell(pawn, clickCell);
-								}
-								if (job2 == null)
-								{
-									if (JobFailReason.HaveReason)
+									Job job2;
+									if (!workGiver_Scanner2.HasJobOnCell(pawn, clickCell))
 									{
-										string label2 = "CannotGenericWork".Translate(new object[]
+										job2 = null;
+									}
+									else
+									{
+										job2 = workGiver_Scanner2.JobOnCell(pawn, clickCell);
+									}
+									if (job2 == null)
+									{
+										if (!JobFailReason.HaveReason)
+										{
+											goto IL_A08;
+										}
+										label = "CannotGenericWork".Translate(new object[]
 										{
 											workGiver_Scanner2.def.verb,
 											"AreaLower".Translate()
 										}) + " (" + JobFailReason.Reason + ")";
-										opts.Add(new FloatMenuOption(label2, null, MenuOptionPriority.Default, null, null, 0f, null, null));
-									}
-								}
-								else
-								{
-									WorkTypeDef workType2 = workGiver_Scanner2.def.workType;
-									Action action2 = null;
-									PawnCapacityDef pawnCapacityDef2 = workGiver_Scanner2.MissingRequiredCapacity(pawn);
-									string label;
-									if (pawnCapacityDef2 != null)
-									{
-										label = "CannotMissingHealthActivities".Translate(new object[]
-										{
-											pawnCapacityDef2.label
-										});
-									}
-									else if (pawn.jobs.curJob != null && pawn.jobs.curJob.JobIsSameAs(job2))
-									{
-										label = "CannotGenericAlreadyAm".Translate(new object[]
-										{
-											workType2.gerundLabel,
-											"AreaLower".Translate()
-										});
-									}
-									else if (pawn.workSettings.GetPriority(workType2) == 0)
-									{
-										if (pawn.story.WorkTypeIsDisabled(workType2))
-										{
-											label = "CannotPrioritizeWorkTypeDisabled".Translate(new object[]
-											{
-												workType2.gerundLabel
-											});
-										}
-										else if ("CannotPrioritizeNotAssignedToWorkType".CanTranslate())
-										{
-											label = "CannotPrioritizeNotAssignedToWorkType".Translate(new object[]
-											{
-												workType2.gerundLabel
-											});
-										}
-										else
-										{
-											label = "CannotPrioritizeIsNotA".Translate(new object[]
-											{
-												pawn.NameStringShort,
-												workType2.pawnLabel
-											});
-										}
-									}
-									else if (!pawn.CanReach(clickCell, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
-									{
-										label = "AreaLower".Translate().CapitalizeFirst() + ": " + "NoPath".Translate();
 									}
 									else
 									{
-										label = "PrioritizeGeneric".Translate(new object[]
+										WorkTypeDef workType2 = workGiver_Scanner2.def.workType;
+										if (pawn.jobs.curJob != null && pawn.jobs.curJob.JobIsSameAs(job2))
 										{
-											workGiver_Scanner2.def.gerund,
-											"AreaLower".Translate()
-										});
-										Job localJob = job2;
-										WorkGiver_Scanner localScanner = workGiver_Scanner2;
-										action2 = delegate
+											label = "CannotGenericAlreadyAm".Translate(new object[]
+											{
+												workType2.gerundLabel,
+												"AreaLower".Translate()
+											});
+										}
+										else if (pawn.workSettings.GetPriority(workType2) == 0)
 										{
-											pawn.jobs.TryTakeOrderedJobPrioritizedWork(localJob, localScanner, clickCell);
-										};
+											if (pawn.story.WorkTypeIsDisabled(workType2))
+											{
+												label = "CannotPrioritizeWorkTypeDisabled".Translate(new object[]
+												{
+													workType2.gerundLabel
+												});
+											}
+											else if ("CannotPrioritizeNotAssignedToWorkType".CanTranslate())
+											{
+												label = "CannotPrioritizeNotAssignedToWorkType".Translate(new object[]
+												{
+													workType2.gerundLabel
+												});
+											}
+											else
+											{
+												label = "CannotPrioritizeIsNotA".Translate(new object[]
+												{
+													pawn.NameStringShort,
+													workType2.pawnLabel
+												});
+											}
+										}
+										else if (!pawn.CanReach(clickCell, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+										{
+											label = "AreaLower".Translate().CapitalizeFirst() + ": " + "NoPath".Translate();
+										}
+										else
+										{
+											label = "PrioritizeGeneric".Translate(new object[]
+											{
+												workGiver_Scanner2.def.gerund,
+												"AreaLower".Translate()
+											});
+											Job localJob = job2;
+											WorkGiver_Scanner localScanner = workGiver_Scanner2;
+											action2 = delegate
+											{
+												pawn.jobs.TryTakeOrderedJobPrioritizedWork(localJob, localScanner, clickCell);
+											};
+										}
 									}
-									if (!opts.Any((FloatMenuOption op) => op.Label == label.TrimEnd(new char[0])))
-									{
-										opts.Add(FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(label, action2, MenuOptionPriority.Default, null, null, 0f, null, null), pawn, clickCell, "ReservedBy"));
-									}
+								}
+								if (!opts.Any((FloatMenuOption op) => op.Label == label.TrimEnd(new char[0])))
+								{
+									opts.Add(FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(label, action2, MenuOptionPriority.Default, null, null, 0f, null, null), pawn, clickCell, "ReservedBy"));
 								}
 							}
 						}
+						IL_A08:;
 					}
 				}
 			}

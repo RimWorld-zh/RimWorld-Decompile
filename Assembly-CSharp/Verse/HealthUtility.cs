@@ -9,6 +9,8 @@ namespace Verse
 {
 	public static class HealthUtility
 	{
+		private static List<string> vitalPawnCapacityTags = new List<string>();
+
 		public static readonly Color GoodConditionColor = new Color(0.6f, 0.8f, 0.65f);
 
 		public static readonly Color DarkRedColor = new Color(0.73f, 0.02f, 0.02f);
@@ -16,6 +18,17 @@ namespace Verse
 		public static readonly Color ImpairedColor = new Color(0.9f, 0.7f, 0f);
 
 		public static readonly Color SlightlyImpairedColor = new Color(0.9f, 0.9f, 0f);
+
+		public static void Reset()
+		{
+			HealthUtility.vitalPawnCapacityTags.Clear();
+			HealthUtility.vitalPawnCapacityTags.AddRange(BodyPartDefOf.Heart.tags);
+			HealthUtility.vitalPawnCapacityTags.AddRange(BodyPartDefOf.Liver.tags);
+			HealthUtility.vitalPawnCapacityTags.AddRange(BodyPartDefOf.LeftLung.tags);
+			HealthUtility.vitalPawnCapacityTags.AddRange(BodyPartDefOf.LeftKidney.tags);
+			HealthUtility.vitalPawnCapacityTags.AddRange(BodyPartDefOf.Stomach.tags);
+			HealthUtility.vitalPawnCapacityTags.AddRange(BodyPartDefOf.Brain.tags);
+		}
 
 		public static void HealInjuryRandom(Pawn pawn, float amount)
 		{
@@ -195,16 +208,75 @@ namespace Verse
 				where pa == operatedPart || pa.parent == operatedPart || (operatedPart != null && operatedPart.parent == pa)
 				select pa;
 			}
+			source = from x in source
+			where HealthUtility.GetMinHealthOfPartsWeWantToAvoidDestroying(x, p) >= 2f
+			select x;
+			BodyPartRecord brain = p.health.hediffSet.GetBrain();
+			if (brain != null)
+			{
+				float maxBrainHealth = brain.def.GetMaxHealth(p);
+				source = from x in source
+				where x != brain || p.health.hediffSet.GetPartHealth(x) >= maxBrainHealth * 0.5f + 1f
+				select x;
+			}
 			while (totalDamage > 0 && source.Any<BodyPartRecord>())
 			{
 				BodyPartRecord bodyPartRecord = source.RandomElementByWeight((BodyPartRecord x) => x.coverageAbs);
 				float partHealth = p.health.hediffSet.GetPartHealth(bodyPartRecord);
 				int num = Mathf.Max(3, GenMath.RoundRandom(partHealth * Rand.Range(0.5f, 1f)));
+				float minHealthOfPartsWeWantToAvoidDestroying = HealthUtility.GetMinHealthOfPartsWeWantToAvoidDestroying(bodyPartRecord, p);
+				if (minHealthOfPartsWeWantToAvoidDestroying - (float)num < 1f)
+				{
+					num = Mathf.RoundToInt(minHealthOfPartsWeWantToAvoidDestroying - 1f);
+				}
+				if (bodyPartRecord == brain && partHealth - (float)num < brain.def.GetMaxHealth(p) * 0.5f)
+				{
+					num = Mathf.Max(Mathf.RoundToInt(partHealth - brain.def.GetMaxHealth(p) * 0.5f), 1);
+				}
+				if (num <= 0)
+				{
+					break;
+				}
 				DamageDef def = Rand.Element<DamageDef>(DamageDefOf.Cut, DamageDefOf.Scratch, DamageDefOf.Stab, DamageDefOf.Crush);
+				Thing arg_220_0 = p;
 				BodyPartRecord forceHitPart = bodyPartRecord;
-				p.TakeDamage(new DamageInfo(def, num, -1f, null, forceHitPart, null, DamageInfo.SourceCategory.ThingOrUnknown));
+				arg_220_0.TakeDamage(new DamageInfo(def, num, -1f, null, forceHitPart, null, DamageInfo.SourceCategory.ThingOrUnknown));
 				totalDamage -= num;
 			}
+		}
+
+		private static float GetMinHealthOfPartsWeWantToAvoidDestroying(BodyPartRecord part, Pawn pawn)
+		{
+			float num = 999999f;
+			while (part != null)
+			{
+				if (HealthUtility.ShouldRandomSurgeryInjuriesAvoidDestroying(part, pawn))
+				{
+					num = Mathf.Min(num, pawn.health.hediffSet.GetPartHealth(part));
+				}
+				part = part.parent;
+			}
+			return num;
+		}
+
+		private static bool ShouldRandomSurgeryInjuriesAvoidDestroying(BodyPartRecord part, Pawn pawn)
+		{
+			if (part == pawn.RaceProps.body.corePart)
+			{
+				return true;
+			}
+			if (part.def.tags.Any((string x) => HealthUtility.vitalPawnCapacityTags.Contains(x)))
+			{
+				return true;
+			}
+			for (int i = 0; i < part.parts.Count; i++)
+			{
+				if (HealthUtility.ShouldRandomSurgeryInjuriesAvoidDestroying(part.parts[i], pawn))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		public static void DamageUntilDowned(Pawn p)

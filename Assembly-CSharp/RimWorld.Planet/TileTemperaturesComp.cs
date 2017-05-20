@@ -107,7 +107,7 @@ namespace RimWorld.Planet
 			{
 				this.cache[this.usedSlots[i]].CheckCache();
 			}
-			if (Find.TickManager.TicksGame % 300 == 84)
+			if (Find.TickManager.TicksGame % 300 == 84 && this.usedSlots.Any<int>())
 			{
 				this.cache[this.usedSlots[0]] = null;
 				this.usedSlots.RemoveAt(0);

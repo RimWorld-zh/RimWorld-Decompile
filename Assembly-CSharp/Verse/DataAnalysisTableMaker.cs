@@ -839,6 +839,19 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(arg_CD_0, expr_4F);
 		}
 
+		public static void DoTable_FillPercent()
+		{
+			IEnumerable<ThingDef> arg_CD_0 = from d in DefDatabase<ThingDef>.AllDefs
+			where d.fillPercent > 0f
+			orderby d.fillPercent descending
+			select d;
+			TableDataGetter<ThingDef>[] expr_4F = new TableDataGetter<ThingDef>[3];
+			expr_4F[0] = new TableDataGetter<ThingDef>("defName", (ThingDef d) => d.defName);
+			expr_4F[1] = new TableDataGetter<ThingDef>("fillPercent", (ThingDef d) => d.fillPercent.ToStringPercent());
+			expr_4F[2] = new TableDataGetter<ThingDef>("category", (ThingDef d) => d.category.ToString());
+			DebugTables.MakeTablesDialog<ThingDef>(arg_CD_0, expr_4F);
+		}
+
 		public static void DoTable_DeteriorationRates()
 		{
 			IEnumerable<ThingDef> arg_F7_0 = from d in DefDatabase<ThingDef>.AllDefs
@@ -964,7 +977,7 @@ namespace Verse
 				}
 				return num3.ToStringPercent("F1");
 			})).ToList<TableDataGetter<PawnKindDef>>();
-			list.Insert(0, new TableDataGetter<PawnKindDef>("animal", (PawnKindDef k) => k.defName));
+			list.Insert(0, new TableDataGetter<PawnKindDef>("animal", (PawnKindDef k) => k.defName + ((!k.race.race.predator) ? string.Empty : "*")));
 			DebugTables.MakeTablesDialog<PawnKindDef>(from d in DefDatabase<PawnKindDef>.AllDefs
 			where d.race != null && d.RaceProps.Animal
 			orderby d.defName
