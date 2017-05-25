@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -21,7 +20,6 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Profiler.BeginSample("SatisfyChemicalNeed");
 			JobGiver_SatisfyChemicalNeed.tmpChemicalNeeds.Clear();
 			List<Need> allNeeds = pawn.needs.AllNeeds;
 			for (int i = 0; i < allNeeds.Count; i++)
@@ -33,7 +31,6 @@ namespace RimWorld
 			}
 			if (!JobGiver_SatisfyChemicalNeed.tmpChemicalNeeds.Any<Need_Chemical>())
 			{
-				Profiler.EndSample();
 				return null;
 			}
 			JobGiver_SatisfyChemicalNeed.tmpChemicalNeeds.SortBy((Need_Chemical x) => x.CurLevel);
@@ -43,12 +40,10 @@ namespace RimWorld
 				if (thing != null)
 				{
 					JobGiver_SatisfyChemicalNeed.tmpChemicalNeeds.Clear();
-					Profiler.EndSample();
 					return DrugAIUtility.IngestAndTakeToInventoryJob(thing, pawn, 1);
 				}
 			}
 			JobGiver_SatisfyChemicalNeed.tmpChemicalNeeds.Clear();
-			Profiler.EndSample();
 			return null;
 		}
 

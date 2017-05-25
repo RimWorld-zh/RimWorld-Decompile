@@ -265,14 +265,10 @@ namespace Verse
 		public void DoSingleTick()
 		{
 			List<Map> maps = Find.Maps;
-			Profiler.BeginSample("MapPreTick()");
 			for (int i = 0; i < maps.Count; i++)
 			{
-				Profiler.BeginSample("Map " + i);
 				maps[i].MapPreTick();
-				Profiler.EndSample();
 			}
-			Profiler.EndSample();
 			if (!DebugSettings.fastEcology)
 			{
 				this.ticksGameInt++;
@@ -282,16 +278,9 @@ namespace Verse
 				this.ticksGameInt += 250;
 			}
 			Shader.SetGlobalFloat(ShaderPropertyIDs.GameSeconds, this.TicksGame.TicksToSeconds());
-			Profiler.BeginSample("tickListNormal");
 			this.tickListNormal.Tick();
-			Profiler.EndSample();
-			Profiler.BeginSample("tickListRare");
 			this.tickListRare.Tick();
-			Profiler.EndSample();
-			Profiler.BeginSample("tickListLong");
 			this.tickListLong.Tick();
-			Profiler.EndSample();
-			Profiler.BeginSample("DateNotifierTick()");
 			try
 			{
 				Find.DateNotifier.DateNotifierTick();
@@ -300,8 +289,6 @@ namespace Verse
 			{
 				Log.Error(ex.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("Scenario.TickScenario()");
 			try
 			{
 				Find.Scenario.TickScenario();
@@ -310,8 +297,6 @@ namespace Verse
 			{
 				Log.Error(ex2.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("WorldTick");
 			try
 			{
 				Find.World.WorldTick();
@@ -320,8 +305,6 @@ namespace Verse
 			{
 				Log.Error(ex3.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("StoryWatcherTick");
 			try
 			{
 				Find.StoryWatcher.StoryWatcherTick();
@@ -330,8 +313,6 @@ namespace Verse
 			{
 				Log.Error(ex4.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("GameEnder.GameEndTick()");
 			try
 			{
 				Find.GameEnder.GameEndTick();
@@ -340,8 +321,6 @@ namespace Verse
 			{
 				Log.Error(ex5.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("Storyteller.StorytellerTick()");
 			try
 			{
 				Find.Storyteller.StorytellerTick();
@@ -350,8 +329,6 @@ namespace Verse
 			{
 				Log.Error(ex6.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("taleManager.TaleManagerTick()");
 			try
 			{
 				Current.Game.taleManager.TaleManagerTick();
@@ -360,8 +337,6 @@ namespace Verse
 			{
 				Log.Error(ex7.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("WorldPostTick");
 			try
 			{
 				Find.World.WorldPostTick();
@@ -370,16 +345,10 @@ namespace Verse
 			{
 				Log.Error(ex8.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("MapPostTick()");
 			for (int j = 0; j < maps.Count; j++)
 			{
-				Profiler.BeginSample("Map " + j);
 				maps[j].MapPostTick();
-				Profiler.EndSample();
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("History.HistoryTick()");
 			try
 			{
 				Find.History.HistoryTick();
@@ -388,11 +357,7 @@ namespace Verse
 			{
 				Log.Error(ex9.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("GameComponentTick()");
 			GameComponentUtility.GameComponentTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("LetterStack.LetterStackTick()");
 			try
 			{
 				Find.LetterStack.LetterStackTick();
@@ -401,8 +366,6 @@ namespace Verse
 			{
 				Log.Error(ex10.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("Autosaver.AutosaverTick()");
 			try
 			{
 				Find.Autosaver.AutosaverTick();
@@ -411,7 +374,6 @@ namespace Verse
 			{
 				Log.Error(ex11.ToString());
 			}
-			Profiler.EndSample();
 			Debug.developerConsoleVisible = false;
 		}
 

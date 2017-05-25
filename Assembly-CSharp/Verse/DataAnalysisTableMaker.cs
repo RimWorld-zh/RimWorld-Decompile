@@ -94,7 +94,7 @@ namespace Verse
 			expr_2D[5] = new TableDataGetter<ThingDef>("value per year", delegate(ThingDef d)
 			{
 				CompProperties_Shearable compProperties = d.GetCompProperties<CompProperties_Shearable>();
-				return (compProperties.woolDef.BaseMarketValue / ((float)compProperties.shearIntervalDays / 60f)).ToString("F0");
+				return (compProperties.woolDef.BaseMarketValue * (float)compProperties.woolAmount * (60f / (float)compProperties.shearIntervalDays)).ToString("F0");
 			});
 			DebugTables.MakeTablesDialog<ThingDef>(arg_129_0, expr_2D);
 		}

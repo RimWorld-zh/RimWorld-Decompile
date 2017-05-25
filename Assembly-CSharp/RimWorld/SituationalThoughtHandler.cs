@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Verse;
 
 namespace RimWorld
@@ -61,9 +60,7 @@ namespace RimWorld
 
 		public void SituationalThoughtInterval()
 		{
-			Profiler.BeginSample("SituationalThoughtInterval()");
 			this.RemoveExpiredThoughtsFromCache();
-			Profiler.EndSample();
 		}
 
 		public void AppendMoodThoughts(List<Thought> outThoughts)
@@ -143,7 +140,6 @@ namespace RimWorld
 
 		private void RecalculateSocialThoughtsAffectingMood()
 		{
-			Profiler.BeginSample("recalculate social situational thoughts affecting mood");
 			try
 			{
 				this.tmpToAdd.Clear();

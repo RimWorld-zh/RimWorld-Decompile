@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -22,7 +21,6 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Profiler.BeginSample("DrugPolicy");
 			DrugPolicy currentPolicy = pawn.drugs.CurrentPolicy;
 			for (int i = 0; i < currentPolicy.Count; i++)
 			{
@@ -31,12 +29,10 @@ namespace RimWorld
 					Thing thing = this.FindDrugFor(pawn, currentPolicy[i].drug);
 					if (thing != null)
 					{
-						Profiler.EndSample();
 						return DrugAIUtility.IngestAndTakeToInventoryJob(thing, pawn, 1);
 					}
 				}
 			}
-			Profiler.EndSample();
 			return null;
 		}
 

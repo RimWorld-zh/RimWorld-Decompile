@@ -47,15 +47,9 @@ namespace Verse
 			}
 			try
 			{
-				Profiler.BeginSample("ShipCountdownUpdate()");
 				ShipCountdown.ShipCountdownUpdate();
-				Profiler.EndSample();
-				Profiler.BeginSample("Game.Update()");
 				Current.Game.UpdatePlay();
-				Profiler.EndSample();
-				Profiler.BeginSample("MusicUpdate()");
 				this.musicManagerPlay.MusicUpdate();
-				Profiler.EndSample();
 			}
 			catch (Exception e)
 			{

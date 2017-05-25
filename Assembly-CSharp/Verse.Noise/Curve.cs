@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace Verse.Noise
@@ -51,8 +50,6 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
-			System.Diagnostics.Debug.Assert(this.modules[0] != null);
-			System.Diagnostics.Debug.Assert(this.ControlPointCount >= 4);
 			double value = this.modules[0].GetValue(x, y, z);
 			int i;
 			for (i = 0; i < this.m_data.Count; i++)

@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -38,10 +37,7 @@ namespace RimWorld
 			{
 				return null;
 			}
-			Profiler.BeginSample("GetFunWhileInBed");
-			Job result = base.TryGiveJob(pawn);
-			Profiler.EndSample();
-			return result;
+			return base.TryGiveJob(pawn);
 		}
 	}
 }

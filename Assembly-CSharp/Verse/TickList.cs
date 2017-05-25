@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Verse
 {
@@ -105,7 +104,6 @@ namespace Verse
 				{
 					try
 					{
-						Profiler.BeginSample(list2[m].def.defName);
 						switch (this.tickType)
 						{
 						case TickerType.Normal:
@@ -118,7 +116,6 @@ namespace Verse
 							list2[m].TickLong();
 							break;
 						}
-						Profiler.EndSample();
 					}
 					catch (Exception ex)
 					{

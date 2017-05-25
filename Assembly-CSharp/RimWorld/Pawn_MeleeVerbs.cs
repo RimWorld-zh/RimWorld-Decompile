@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Verse;
 
 namespace RimWorld
@@ -91,7 +90,6 @@ namespace RimWorld
 
 		public List<VerbEntry> GetUpdatedAvailableVerbsList()
 		{
-			Profiler.BeginSample("GetUpdatedAvailableVerbsList");
 			Pawn_MeleeVerbs.meleeVerbs.Clear();
 			if (this.pawn.equipment != null && this.pawn.equipment.Primary != null)
 			{
@@ -99,7 +97,6 @@ namespace RimWorld
 				if (verb != null)
 				{
 					Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(verb, this.pawn, this.pawn.equipment.Primary));
-					Profiler.EndSample();
 					return Pawn_MeleeVerbs.meleeVerbs;
 				}
 			}
@@ -118,7 +115,6 @@ namespace RimWorld
 					Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(current, this.pawn, null));
 				}
 			}
-			Profiler.EndSample();
 			return Pawn_MeleeVerbs.meleeVerbs;
 		}
 

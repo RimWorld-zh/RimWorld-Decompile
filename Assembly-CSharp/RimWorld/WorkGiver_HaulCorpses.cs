@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -24,13 +23,10 @@ namespace RimWorld
 			{
 				return null;
 			}
-			Profiler.BeginSample("PawnCanAutomaticallyHaulFast");
 			if (!HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, t, forced))
 			{
-				Profiler.EndSample();
 				return null;
 			}
-			Profiler.EndSample();
 			return HaulAIUtility.HaulToStorageJob(pawn, t);
 		}
 	}

@@ -43,7 +43,6 @@ namespace Verse
 
 		public override void DoWindowContents(Rect selectorInner)
 		{
-			Profiler.BeginSample("PackageEditorOnGUI");
 			Text.Font = GameFont.Tiny;
 			float width = (selectorInner.width - 4f) / 2f;
 			Rect rect = new Rect(0f, 0f, width, 24f);
@@ -158,7 +157,6 @@ namespace Verse
 			}
 			listing_Standard.End();
 			Widgets.EndScrollView();
-			Profiler.EndSample();
 		}
 	}
 }

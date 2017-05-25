@@ -186,7 +186,6 @@ namespace RimWorld
 			{
 				Log.ErrorOnce("Fire sustainer was null at " + base.Position, 917321);
 			}
-			Profiler.BeginSample("Spawn particles");
 			this.ticksUntilSmoke--;
 			if (this.ticksUntilSmoke <= 0)
 			{
@@ -196,8 +195,6 @@ namespace RimWorld
 			{
 				MoteMaker.ThrowMicroSparks(this.DrawPos, base.Map);
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("Spread");
 			if (this.fireSize > 1f)
 			{
 				this.ticksSinceSpread++;
@@ -207,7 +204,6 @@ namespace RimWorld
 					this.ticksSinceSpread = 0;
 				}
 			}
-			Profiler.EndSample();
 			if (this.IsHashIntervalTick(150))
 			{
 				this.DoComplexCalcs();
@@ -240,7 +236,6 @@ namespace RimWorld
 		private void DoComplexCalcs()
 		{
 			bool flag = false;
-			Profiler.BeginSample("Determine flammability");
 			Fire.flammableList.Clear();
 			this.flammabilityMax = 0f;
 			if (!base.Position.GetTerrain(base.Map).HasTag("Water"))
@@ -280,13 +275,11 @@ namespace RimWorld
 					this.flammabilityMax = this.parent.GetStatValue(StatDefOf.Flammability, true);
 				}
 			}
-			Profiler.EndSample();
 			if (this.flammabilityMax < 0.01f)
 			{
 				this.Destroy(DestroyMode.Vanish);
 				return;
 			}
-			Profiler.BeginSample("Do damage");
 			Thing thing2;
 			if (this.parent != null)
 			{
@@ -304,25 +297,19 @@ namespace RimWorld
 			{
 				this.DoFireDamage(thing2);
 			}
-			Profiler.EndSample();
 			if (base.Spawned)
 			{
-				Profiler.BeginSample("Room heat");
 				float num = this.fireSize * 160f;
 				if (flag)
 				{
 					num *= 0.15f;
 				}
 				GenTemperature.PushHeat(base.Position, base.Map, num);
-				Profiler.EndSample();
-				Profiler.BeginSample("Snow clear");
 				if (Rand.Value < 0.4f)
 				{
 					float radius = this.fireSize * 3f;
 					SnowUtility.AddSnowRadial(base.Position, base.Map, radius, -(this.fireSize * 0.1f));
 				}
-				Profiler.EndSample();
-				Profiler.BeginSample("Grow/extinguish");
 				this.fireSize += 0.00055f * this.flammabilityMax * 150f;
 				if (this.fireSize > 1.75f)
 				{
@@ -332,7 +319,6 @@ namespace RimWorld
 				{
 					base.TakeDamage(new DamageInfo(DamageDefOf.Extinguish, 10, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
 				}
-				Profiler.EndSample();
 			}
 		}
 

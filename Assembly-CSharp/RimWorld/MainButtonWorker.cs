@@ -30,9 +30,7 @@ namespace RimWorld
 		public virtual void DoButton(Rect rect)
 		{
 			Text.Font = GameFont.Small;
-			Profiler.BeginSample("lab");
 			string labelCap = this.def.LabelCap;
-			Profiler.EndSample();
 			if ((!this.def.validWithoutMap || this.def == MainButtonDefOf.World) && Find.VisibleMap == null)
 			{
 				Widgets.DrawAtlas(rect, Widgets.ButtonSubtleAtlas);
@@ -43,13 +41,11 @@ namespace RimWorld
 			}
 			else
 			{
-				Profiler.BeginSample("ButtonTextSubtle");
 				SoundDef mouseoverCategory = SoundDefOf.MouseoverCategory;
 				if (Widgets.ButtonTextSubtle(rect, labelCap, this.ButtonBarPercent, -1f, mouseoverCategory))
 				{
 					this.InterfaceTryActivate();
 				}
-				Profiler.EndSample();
 				if (Find.MainTabsRoot.OpenTab != this.def && !Find.WindowStack.NonImmediateDialogWindowOpen)
 				{
 					UIHighlighter.HighlightOpportunity(rect, this.def.cachedHighlightTagClosed);

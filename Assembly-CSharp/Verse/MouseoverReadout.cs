@@ -49,7 +49,6 @@ namespace Verse
 				return;
 			}
 			float num = 0f;
-			Profiler.BeginSample("fog");
 			Rect rect;
 			if (c.Fogged(Find.VisibleMap))
 			{
@@ -58,14 +57,10 @@ namespace Verse
 				GUI.color = Color.white;
 				return;
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("light");
 			rect = new Rect(MouseoverReadout.BotLeft.x, (float)UI.screenHeight - MouseoverReadout.BotLeft.y - num, 999f, 999f);
 			int num2 = Mathf.RoundToInt(Find.VisibleMap.glowGrid.GameGlowAt(c) * 100f);
 			Widgets.Label(rect, this.glowStrings[num2]);
 			num += 19f;
-			Profiler.EndSample();
-			Profiler.BeginSample("terrain");
 			rect = new Rect(MouseoverReadout.BotLeft.x, (float)UI.screenHeight - MouseoverReadout.BotLeft.y - num, 999f, 999f);
 			TerrainDef terrain = c.GetTerrain(Find.VisibleMap);
 			if (terrain != this.cachedTerrain)
@@ -79,8 +74,6 @@ namespace Verse
 			}
 			Widgets.Label(rect, this.cachedTerrainString);
 			num += 19f;
-			Profiler.EndSample();
-			Profiler.BeginSample("zone");
 			Zone zone = c.GetZone(Find.VisibleMap);
 			if (zone != null)
 			{
@@ -89,7 +82,6 @@ namespace Verse
 				Widgets.Label(rect, label);
 				num += 19f;
 			}
-			Profiler.EndSample();
 			float depth = Find.VisibleMap.snowGrid.GetDepth(c);
 			if (depth > 0.03f)
 			{
@@ -102,7 +94,6 @@ namespace Verse
 				Widgets.Label(rect, label2);
 				num += 19f;
 			}
-			Profiler.BeginSample("things");
 			List<Thing> thingList = c.GetThingList(Find.VisibleMap);
 			for (int i = 0; i < thingList.Count; i++)
 			{
@@ -115,8 +106,6 @@ namespace Verse
 					num += 19f;
 				}
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("roof");
 			RoofDef roof = c.GetRoof(Find.VisibleMap);
 			if (roof != null)
 			{
@@ -124,7 +113,6 @@ namespace Verse
 				Widgets.Label(rect, roof.LabelCap);
 				num += 19f;
 			}
-			Profiler.EndSample();
 			GUI.color = Color.white;
 		}
 

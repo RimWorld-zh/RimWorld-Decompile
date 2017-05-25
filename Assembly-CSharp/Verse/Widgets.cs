@@ -657,7 +657,6 @@ namespace Verse
 
 		public static bool ButtonTextSubtle(Rect rect, string label, float barPercent = 0f, float textLeftMargin = -1f, SoundDef mouseoverSound = null)
 		{
-			Profiler.BeginSample("ButtonTextSubtle");
 			bool flag = false;
 			if (Mouse.IsOver(rect))
 			{
@@ -668,9 +667,7 @@ namespace Verse
 			{
 				MouseoverSounds.DoRegion(rect, mouseoverSound);
 			}
-			Profiler.BeginSample("atlas");
 			Widgets.DrawAtlas(rect, Widgets.ButtonSubtleAtlas);
-			Profiler.EndSample();
 			GUI.color = Color.white;
 			if (barPercent > 0.001f)
 			{
@@ -694,9 +691,7 @@ namespace Verse
 			Widgets.Label(rect3, label);
 			Text.Anchor = TextAnchor.UpperLeft;
 			Text.WordWrap = true;
-			bool result = Widgets.ButtonInvisible(rect, false);
-			Profiler.EndSample();
-			return result;
+			return Widgets.ButtonInvisible(rect, false);
 		}
 
 		public static bool ButtonImage(Rect butRect, Texture2D tex)

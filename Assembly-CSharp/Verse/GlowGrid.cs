@@ -116,7 +116,6 @@ namespace Verse
 			{
 				return;
 			}
-			Profiler.BeginSample("RecalculateAllGlow");
 			if (this.initialGlowerLocs != null)
 			{
 				foreach (IntVec3 current in this.initialGlowerLocs)
@@ -134,7 +133,6 @@ namespace Verse
 			{
 				this.map.glowFlooder.AddFloodGlowFor(current2);
 			}
-			Profiler.EndSample();
 		}
 	}
 }

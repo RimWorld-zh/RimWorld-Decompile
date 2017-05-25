@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using Verse;
 using Verse.Noise;
 
@@ -192,29 +191,16 @@ namespace RimWorld.Planet
 
 		public void WorldTick()
 		{
-			Profiler.BeginSample("WorldPawnsTick()");
 			this.worldPawns.WorldPawnsTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("FactionManagerTick()");
 			this.factionManager.FactionManagerTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("WorldObjectsHolderTick()");
 			this.worldObjects.WorldObjectsHolderTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("WorldDebugDrawerTick()");
 			this.debugDrawer.WorldDebugDrawerTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("WorldPathGridTick()");
 			this.pathGrid.WorldPathGridTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("WorldComponentTick()");
 			WorldComponentUtility.WorldComponentTick(this);
-			Profiler.EndSample();
 		}
 
 		public void WorldPostTick()
 		{
-			Profiler.BeginSample("GameConditionManager.GameConditionManagerTick()");
 			try
 			{
 				this.gameConditionManager.GameConditionManagerTick();
@@ -223,7 +209,6 @@ namespace RimWorld.Planet
 			{
 				Log.Error(ex.ToString());
 			}
-			Profiler.EndSample();
 		}
 
 		public void WorldUpdate()
@@ -232,22 +217,12 @@ namespace RimWorld.Planet
 			this.renderer.CheckActivateWorldCamera();
 			if (worldRenderedNow)
 			{
-				Profiler.BeginSample("ExpandableWorldObjectsUpdate()");
 				ExpandableWorldObjectsUtility.ExpandableWorldObjectsUpdate();
-				Profiler.EndSample();
-				Profiler.BeginSample("World.renderer.DrawWorldLayers()");
 				this.renderer.DrawWorldLayers();
-				Profiler.EndSample();
-				Profiler.BeginSample("World.dynamicDrawManager.DrawDynamicWorldObjects()");
 				this.dynamicDrawManager.DrawDynamicWorldObjects();
-				Profiler.EndSample();
-				Profiler.BeginSample("NoiseDebugUI.RenderPlanetNoise()");
 				NoiseDebugUI.RenderPlanetNoise();
-				Profiler.EndSample();
 			}
-			Profiler.BeginSample("WorldComponentUpdate()");
 			WorldComponentUtility.WorldComponentUpdate(this);
-			Profiler.EndSample();
 		}
 
 		public T GetComponent<T>() where T : WorldComponent

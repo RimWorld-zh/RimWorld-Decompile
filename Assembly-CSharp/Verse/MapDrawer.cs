@@ -140,9 +140,7 @@ namespace Verse
 			CellRect currentViewRect = Find.CameraDriver.CurrentViewRect;
 			currentViewRect.minX -= 17;
 			currentViewRect.minZ -= 17;
-			CellRect visibleSections = this.VisibleSections;
-			Profiler.BeginSample("Draw sections");
-			CellRect.CellRectIterator iterator = visibleSections.GetIterator();
+			CellRect.CellRectIterator iterator = this.VisibleSections.GetIterator();
 			while (!iterator.Done())
 			{
 				IntVec3 current = iterator.Current;
@@ -150,7 +148,6 @@ namespace Verse
 				section.DrawSection(phase, !currentViewRect.Contains(section.botLeft));
 				iterator.MoveNext();
 			}
-			Profiler.EndSample();
 		}
 
 		private IntVec2 SectionCoordsAt(IntVec3 loc)

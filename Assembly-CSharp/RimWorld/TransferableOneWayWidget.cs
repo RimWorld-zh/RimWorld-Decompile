@@ -174,7 +174,6 @@ namespace RimWorld
 			{
 				this.CacheTransferables();
 			}
-			Profiler.BeginSample("TransferableOneWayWidget.OnGUI()");
 			TransferableUIUtility.DoTransferableSorters(this.sorter1, this.sorter2, delegate(TransferableSorterDef x)
 			{
 				this.sorter1 = x;
@@ -199,7 +198,6 @@ namespace RimWorld
 			GUI.EndGroup();
 			Rect mainRect = new Rect(inRect.x, inRect.y + 55f + this.extraHeaderSpace, inRect.width, inRect.height - 55f - this.extraHeaderSpace);
 			this.FillMainRect(mainRect, out anythingChanged);
-			Profiler.EndSample();
 		}
 
 		private void FillMainRect(Rect mainRect, out bool anythingChanged)
@@ -239,9 +237,7 @@ namespace RimWorld
 							{
 								Rect rect = new Rect(0f, num2, viewRect.width, 30f);
 								int countToTransfer = cachedTransferables[k].CountToTransfer;
-								Profiler.BeginSample("DrawRow()");
 								this.DoRow(rect, cachedTransferables[k], k, availableMass);
-								Profiler.EndSample();
 								if (countToTransfer != cachedTransferables[k].CountToTransfer)
 								{
 									anythingChanged = true;
@@ -281,36 +277,28 @@ namespace RimWorld
 				int threshold = (num2 > 0f) ? Mathf.FloorToInt(num2 / this.GetMass(trad.AnyThing)) : 0;
 				TransferableOneWayWidget.stoppingPoints.Add(new TransferableCountToTransferStoppingPoint(threshold, "M<", ">M"));
 			}
-			Profiler.BeginSample("DoCountAdjustInterface()");
 			List<TransferableCountToTransferStoppingPoint> extraStoppingPoints = TransferableOneWayWidget.stoppingPoints;
 			TransferableUIUtility.DoCountAdjustInterface(rect2, trad, index, 0, maxCount, false, extraStoppingPoints);
-			Profiler.EndSample();
 			num -= 240f;
 			if (this.drawMarketValue)
 			{
 				Rect rect3 = new Rect(num - 100f, 0f, 100f, rect.height);
 				Text.Anchor = TextAnchor.MiddleLeft;
-				Profiler.BeginSample("DrawMarketValue()");
 				this.DrawMarketValue(rect3, trad);
-				Profiler.EndSample();
 				num -= 100f;
 			}
 			if (this.drawMass)
 			{
 				Rect rect4 = new Rect(num - 100f, 0f, 100f, rect.height);
 				Text.Anchor = TextAnchor.MiddleLeft;
-				Profiler.BeginSample("DrawMass()");
 				this.DrawMass(rect4, trad, availableMass);
-				Profiler.EndSample();
 				num -= 100f;
 			}
 			if (this.drawDaysUntilRotForTile >= 0)
 			{
 				Rect rect5 = new Rect(num - 75f, 0f, 75f, rect.height);
 				Text.Anchor = TextAnchor.MiddleLeft;
-				Profiler.BeginSample("DrawDaysUntilRot()");
 				this.DrawDaysUntilRot(rect5, trad);
-				Profiler.EndSample();
 				num -= 75f;
 			}
 			Rect rect6 = new Rect(num - 75f, 0f, 75f, rect.height);
@@ -326,9 +314,7 @@ namespace RimWorld
 			TooltipHandler.TipRegion(rect6, this.sourceCountDesc);
 			num -= 75f;
 			Rect idRect = new Rect(0f, 0f, num, rect.height);
-			Profiler.BeginSample("DrawTransferableInfo()");
 			TransferableUIUtility.DrawTransferableInfo(trad, idRect, Color.white);
-			Profiler.EndSample();
 			GenUI.ResetLabelAlign();
 			GUI.EndGroup();
 		}

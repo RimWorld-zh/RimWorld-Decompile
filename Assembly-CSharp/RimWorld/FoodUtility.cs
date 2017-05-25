@@ -42,7 +42,6 @@ namespace RimWorld
 
 		public static bool TryFindBestFoodSourceFor(Pawn getter, Pawn eater, bool desperate, out Thing foodSource, out ThingDef foodDef, bool canRefillDispenser = true, bool canUseInventory = true, bool allowForbidden = false, bool allowCorpse = true, bool allowSociallyImproper = false)
 		{
-			Profiler.BeginSample("TryFindBestFoodSourceFor");
 			bool flag = getter.RaceProps.ToolUser && getter.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation);
 			bool allowDrug = !eater.IsTeetotaler();
 			Thing thing = null;
@@ -56,7 +55,6 @@ namespace RimWorld
 				{
 					if (getter.Faction != Faction.OfPlayer)
 					{
-						Profiler.EndSample();
 						foodSource = thing;
 						foodDef = FoodUtility.GetFinalIngestibleDef(foodSource);
 						return true;
@@ -64,7 +62,6 @@ namespace RimWorld
 					CompRottable compRottable = thing.TryGetComp<CompRottable>();
 					if (compRottable != null && compRottable.Stage == RotStage.Fresh && compRottable.TicksUntilRotAtCurrentTemp < 30000)
 					{
-						Profiler.EndSample();
 						foodSource = thing;
 						foodDef = FoodUtility.GetFinalIngestibleDef(foodSource);
 						return true;
@@ -80,7 +77,6 @@ namespace RimWorld
 					thing = FoodUtility.BestFoodInInventory(getter, null, FoodPreferability.DesperateOnly, FoodPreferability.MealLavish, 0f, allowDrug);
 					if (thing != null)
 					{
-						Profiler.EndSample();
 						foodSource = thing;
 						foodDef = FoodUtility.GetFinalIngestibleDef(foodSource);
 						return true;
@@ -91,27 +87,23 @@ namespace RimWorld
 					Pawn pawn = FoodUtility.BestPawnToHuntForPredator(getter);
 					if (pawn != null)
 					{
-						Profiler.EndSample();
 						foodSource = pawn;
 						foodDef = FoodUtility.GetFinalIngestibleDef(foodSource);
 						return true;
 					}
 				}
-				Profiler.EndSample();
 				foodSource = null;
 				foodDef = null;
 				return false;
 			}
 			if (thing == null && thing2 != null)
 			{
-				Profiler.EndSample();
 				foodSource = thing2;
 				foodDef = FoodUtility.GetFinalIngestibleDef(foodSource);
 				return true;
 			}
 			if (thing2 == null && thing != null)
 			{
-				Profiler.EndSample();
 				foodSource = thing;
 				foodDef = FoodUtility.GetFinalIngestibleDef(foodSource);
 				return true;
@@ -121,12 +113,10 @@ namespace RimWorld
 			num2 -= 32f;
 			if (num > num2)
 			{
-				Profiler.EndSample();
 				foodSource = thing2;
 				foodDef = FoodUtility.GetFinalIngestibleDef(foodSource);
 				return true;
 			}
-			Profiler.EndSample();
 			foodSource = thing;
 			foodDef = FoodUtility.GetFinalIngestibleDef(foodSource);
 			return true;
@@ -175,7 +165,6 @@ namespace RimWorld
 
 		public static Thing BestFoodSourceOnMap(Pawn getter, Pawn eater, bool desperate, FoodPreferability maxPref = FoodPreferability.MealLavish, bool allowPlant = true, bool allowDrug = true, bool allowCorpse = true, bool allowDispenserFull = true, bool allowDispenserEmpty = true, bool allowForbidden = false, bool allowSociallyImproper = false)
 		{
-			Profiler.BeginSample("BestFoodInWorldFor getter=" + getter.LabelCap + " eater=" + eater.LabelCap);
 			bool getterCanManipulate = getter.RaceProps.ToolUser && getter.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation);
 			if (!getterCanManipulate && getter != eater)
 			{
@@ -188,7 +177,6 @@ namespace RimWorld
 					getter,
 					" is incapable of Manipulation."
 				}));
-				Profiler.EndSample();
 				return null;
 			}
 			FoodPreferability minPref;
@@ -206,10 +194,8 @@ namespace RimWorld
 			}
 			Predicate<Thing> foodValidator = delegate(Thing t)
 			{
-				Profiler.BeginSample("foodValidator");
 				if (!allowForbidden && t.IsForbidden(getter))
 				{
-					Profiler.EndSample();
 					return false;
 				}
 				Building_NutrientPasteDispenser building_NutrientPasteDispenser = t as Building_NutrientPasteDispenser;
@@ -217,7 +203,6 @@ namespace RimWorld
 				{
 					if (!allowDispenserFull || ThingDefOf.MealNutrientPaste.ingestible.preferability < minPref || ThingDefOf.MealNutrientPaste.ingestible.preferability > maxPref || !getterCanManipulate || (t.Faction != getter.Faction && t.Faction != getter.HostFaction) || (!building_NutrientPasteDispenser.powerComp.PowerOn || (!allowDispenserEmpty && !building_NutrientPasteDispenser.HasEnoughFeedstockInHoppers())) || !FoodUtility.IsFoodSourceOnMapSociallyProper(t, getter, eater, allowSociallyImproper) || !t.InteractionCell.Standable(t.Map) || !getter.Map.reachability.CanReachNonLocal(getter.Position, new TargetInfo(t.InteractionCell, t.Map, false), PathEndMode.OnCell, TraverseParms.For(getter, Danger.Some, TraverseMode.ByPawn, false)))
 					{
-						Profiler.EndSample();
 						return false;
 					}
 				}
@@ -225,21 +210,17 @@ namespace RimWorld
 				{
 					if (t.def.ingestible.preferability < minPref)
 					{
-						Profiler.EndSample();
 						return false;
 					}
 					if (t.def.ingestible.preferability > maxPref)
 					{
-						Profiler.EndSample();
 						return false;
 					}
 					if (!t.IngestibleNow || !t.def.IsNutritionGivingIngestible || (!allowCorpse && t is Corpse) || (!allowDrug && t.def.IsDrug) || (!desperate && t.IsNotFresh()) || t.IsDessicated() || !eater.RaceProps.WillAutomaticallyEat(t) || !FoodUtility.IsFoodSourceOnMapSociallyProper(t, getter, eater, allowSociallyImproper) || !getter.AnimalAwareOf(t) || !getter.CanReserve(t, 1, -1, null, false))
 					{
-						Profiler.EndSample();
 						return false;
 					}
 				}
-				Profiler.EndSample();
 				return true;
 			};
 			ThingRequest thingRequest;
@@ -287,7 +268,6 @@ namespace RimWorld
 					thing = GenClosest.ClosestThingReachable(getter.Position, getter.Map, thingRequest, PathEndMode.ClosestTouch, TraverseParms.For(getter, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, 0, searchRegionsMax, false, RegionType.Set_Passable, ignoreEntirelyForbiddenRegions);
 				}
 			}
-			Profiler.EndSample();
 			return thing;
 		}
 
@@ -347,10 +327,8 @@ namespace RimWorld
 
 		private static Thing SpawnedFoodSearchInnerScan(Pawn eater, IntVec3 root, List<Thing> searchSet, PathEndMode peMode, TraverseParms traverseParams, float maxDistance = 9999f, Predicate<Thing> validator = null)
 		{
-			Profiler.BeginSample("SpawnedFoodSearchInnerScan");
 			if (searchSet == null)
 			{
-				Profiler.EndSample();
 				return null;
 			}
 			Pawn pawn = traverseParams.pawn ?? eater;
@@ -383,15 +361,6 @@ namespace RimWorld
 					}
 				}
 			}
-			Profiler.BeginSample(string.Concat(new object[]
-			{
-				"changedCount: ",
-				num,
-				" scanCount: ",
-				num2
-			}));
-			Profiler.EndSample();
-			Profiler.EndSample();
 			return result;
 		}
 

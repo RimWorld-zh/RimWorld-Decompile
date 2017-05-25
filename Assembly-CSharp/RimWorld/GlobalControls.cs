@@ -21,56 +21,38 @@ namespace RimWorld
 			num2 -= 35f;
 			GenUI.DrawTextWinterShadow(new Rect((float)(UI.screenWidth - 270), (float)(UI.screenHeight - 450), 270f, 450f));
 			num2 -= 4f;
-			Profiler.BeginSample("Play settings");
 			GlobalControlsUtility.DoPlaySettings(this.rowVisibility, false, ref num2);
-			Profiler.EndSample();
 			num2 -= 4f;
-			Profiler.BeginSample("Timespeed controls");
 			GlobalControlsUtility.DoTimespeedControls(num, 200f, ref num2);
-			Profiler.EndSample();
 			num2 -= 4f;
-			Profiler.BeginSample("Date");
 			GlobalControlsUtility.DoDate(num, 200f, ref num2);
-			Profiler.EndSample();
-			Profiler.BeginSample("Weather");
 			Rect rect = new Rect(num - 30f, num2 - 26f, 230f, 26f);
 			Find.VisibleMap.weatherManager.DoWeatherGUI(rect);
 			num2 -= rect.height;
-			Profiler.EndSample();
-			Profiler.BeginSample("Temperature");
 			Rect rect2 = new Rect(num - 100f, num2 - 26f, 293f, 26f);
 			Text.Anchor = TextAnchor.MiddleRight;
 			Widgets.Label(rect2, GlobalControls.TemperatureString());
 			Text.Anchor = TextAnchor.UpperLeft;
 			num2 -= 26f;
-			Profiler.EndSample();
-			Profiler.BeginSample("Conditions");
 			float num3 = 230f;
 			float num4 = Find.VisibleMap.gameConditionManager.TotalHeightAt(num3 - 15f);
 			Rect rect3 = new Rect(num - 30f, num2 - num4, num3, num4);
 			Find.VisibleMap.gameConditionManager.DoConditionsUI(rect3);
 			num2 -= rect3.height;
-			Profiler.EndSample();
 			if (Prefs.ShowRealtimeClock)
 			{
-				Profiler.BeginSample("RealtimeClock");
 				GlobalControlsUtility.DoRealtimeClock(num, 200f, ref num2);
-				Profiler.EndSample();
 			}
 			if (Find.VisibleMap.info.parent.ForceExitAndRemoveMapCountdownActive)
 			{
-				Profiler.BeginSample("ForceExitAndRemoveMapCountdown");
 				Rect rect4 = new Rect(num, num2 - 26f, 193f, 26f);
 				Text.Anchor = TextAnchor.MiddleRight;
 				GlobalControls.DoCountdownTimer(rect4);
 				Text.Anchor = TextAnchor.UpperLeft;
 				num2 -= 26f;
-				Profiler.EndSample();
 			}
-			Profiler.BeginSample("Letters");
 			num2 -= 10f;
 			Find.LetterStack.LettersOnGUI(num2);
-			Profiler.EndSample();
 		}
 
 		private static string TemperatureString()

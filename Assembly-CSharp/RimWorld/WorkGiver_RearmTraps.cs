@@ -41,7 +41,7 @@ namespace RimWorld
 			for (int i = 0; i < thingList.Count; i++)
 			{
 				IntVec3 intVec;
-				if (thingList[i] != t && thingList[i].def.category == ThingCategory.Item && (thingList[i].IsForbidden(pawn) || !HaulAIUtility.CanHaulAside(pawn, thingList[i], out intVec)))
+				if (thingList[i] != t && thingList[i].def.category == ThingCategory.Item && (thingList[i].IsForbidden(pawn) || thingList[i].IsInValidStorage() || !HaulAIUtility.CanHaulAside(pawn, thingList[i], out intVec)))
 				{
 					return false;
 				}

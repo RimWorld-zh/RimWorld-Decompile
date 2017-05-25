@@ -61,13 +61,10 @@ namespace Verse.AI
 			{
 				return false;
 			}
-			Profiler.BeginSample("CanReach");
 			if (!p.CanReach(t, PathEndMode.ClosestTouch, p.NormalMaxDanger(), false, TraverseMode.ByPawn))
 			{
-				Profiler.EndSample();
 				return false;
 			}
-			Profiler.EndSample();
 			if (!p.CanReserve(t, 1, -1, null, forced))
 			{
 				return false;

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -45,7 +44,6 @@ namespace RimWorld
 
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
-			Profiler.BeginSample("JobGiver_Work");
 			if (this.emergency && pawn.mindState.priorityWork.IsPrioritized)
 			{
 				List<WorkGiverDef> workGiversByPriority = pawn.mindState.priorityWork.WorkType.workGiversByPriority;
@@ -55,7 +53,6 @@ namespace RimWorld
 					Job job = this.GiverTryGiveJobPrioritized(pawn, worker, pawn.mindState.priorityWork.Cell);
 					if (job != null)
 					{
-						Profiler.EndSample();
 						job.playerForced = true;
 						return new ThinkResult(job, this, new JobTag?(workGiversByPriority[i].tagToGive));
 					}
@@ -75,7 +72,6 @@ namespace RimWorld
 				}
 				if (this.PawnCanUseWorkGiver(pawn, workGiver))
 				{
-					Profiler.BeginSample("WorkGiver: " + workGiver.def.defName);
 					try
 					{
 						Job job2 = workGiver.NonScanJob(pawn);
@@ -162,11 +158,9 @@ namespace RimWorld
 					}
 					finally
 					{
-						Profiler.EndSample();
 					}
 					if (targetInfo.IsValid)
 					{
-						Profiler.EndSample();
 						pawn.mindState.lastGivenWorkType = workGiver.def.workType;
 						Job job3;
 						if (targetInfo.HasThing)
@@ -194,7 +188,6 @@ namespace RimWorld
 					num = workGiver.def.priorityInType;
 				}
 			}
-			Profiler.EndSample();
 			return ThinkResult.NoJob;
 		}
 

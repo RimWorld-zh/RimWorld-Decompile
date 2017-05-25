@@ -59,7 +59,6 @@ namespace Verse
 
 		public void DoTabGUI()
 		{
-			Profiler.BeginSample("Inspect tab GUI");
 			Rect rect = this.TabRect;
 			Find.WindowStack.ImmediateWindow(235086, rect, WindowLayer.GameUI, delegate
 			{
@@ -87,7 +86,6 @@ namespace Verse
 				}
 			}, true, false, 1f);
 			this.ExtraOnGUI();
-			Profiler.EndSample();
 		}
 
 		protected abstract void CloseTab();

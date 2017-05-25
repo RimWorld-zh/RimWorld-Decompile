@@ -66,9 +66,7 @@ namespace RimWorld
 
 		private void DoMemoryCleanup()
 		{
-			Profiler.BeginSample("UnloadUnusedAssets");
 			MemoryUtility.UnloadUnusedUnityAssets();
-			Profiler.EndSample();
 		}
 
 		private string NewAutosaveFileName()

@@ -165,7 +165,6 @@ namespace Verse
 			Rect winRect = this.windowRect.AtZero();
 			this.windowRect = GUI.Window(this.ID, this.windowRect, delegate(int x)
 			{
-				Profiler.BeginSample("WindowOnGUI: " + this.GetType().Name);
 				Find.WindowStack.currentlyDrawnWindow = this;
 				if (this.doWindowBackground)
 				{
@@ -249,7 +248,6 @@ namespace Verse
 				}
 				ScreenFader.OverlayOnGUI(winRect.size);
 				Find.WindowStack.currentlyDrawnWindow = null;
-				Profiler.EndSample();
 			}, string.Empty, Widgets.EmptyStyle);
 		}
 

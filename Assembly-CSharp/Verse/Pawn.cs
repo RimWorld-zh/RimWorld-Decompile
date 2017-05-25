@@ -926,24 +926,16 @@ namespace Verse
 				}
 				if (base.Spawned)
 				{
-					Profiler.BeginSample("jobs");
 					this.jobs.JobTrackerTick();
-					Profiler.EndSample();
 				}
 				if (base.Spawned)
 				{
-					Profiler.BeginSample("Drawer");
 					this.Drawer.DrawTrackerTick();
-					Profiler.EndSample();
 				}
-				Profiler.BeginSample("health");
 				this.health.HealthTick();
-				Profiler.EndSample();
 				if (!this.Dead)
 				{
-					Profiler.BeginSample("mindState");
 					this.mindState.MindStateTick();
-					Profiler.EndSample();
 					this.carryTracker.CarryHandsTick();
 				}
 			}
@@ -955,9 +947,7 @@ namespace Verse
 			{
 				if (this.equipment != null)
 				{
-					Profiler.BeginSample("equipment");
 					this.equipment.EquipmentTrackerTick();
-					Profiler.EndSample();
 				}
 				if (this.apparel != null)
 				{
@@ -965,9 +955,7 @@ namespace Verse
 				}
 				if (this.interactions != null)
 				{
-					Profiler.BeginSample("interactions");
 					this.interactions.InteractionsTrackerTick();
-					Profiler.EndSample();
 				}
 				if (this.caller != null)
 				{

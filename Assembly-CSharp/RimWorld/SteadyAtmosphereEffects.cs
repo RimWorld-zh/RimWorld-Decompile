@@ -47,7 +47,6 @@ namespace RimWorld
 
 		public void SteadyAtmosphereEffectsTick()
 		{
-			Profiler.BeginSample("Init");
 			if ((float)Find.TickManager.TicksGame % 97f == 0f && Rand.Value < 0.02f)
 			{
 				this.RollForRainFire();
@@ -57,23 +56,16 @@ namespace RimWorld
 			this.rainRate = this.map.weatherManager.RainRate;
 			this.deteriorationRate = Mathf.Lerp(1f, 5f, this.rainRate);
 			int num = Mathf.RoundToInt((float)this.map.Area * 0.0006f);
-			Profiler.EndSample();
-			Profiler.BeginSample("DoCells");
 			for (int i = 0; i < num; i++)
 			{
 				if (this.cycleIndex >= this.map.Area)
 				{
 					this.cycleIndex = 0;
 				}
-				Profiler.BeginSample("Get cell");
 				IntVec3 c = this.map.cellsInRandomOrder.Get(this.cycleIndex);
-				Profiler.EndSample();
-				Profiler.BeginSample("Affect cell");
 				this.DoCellSteadyEffects(c);
-				Profiler.EndSample();
 				this.cycleIndex++;
 			}
-			Profiler.EndSample();
 		}
 
 		private void DoCellSteadyEffects(IntVec3 c)
@@ -82,7 +74,6 @@ namespace RimWorld
 			bool flag = this.map.roofGrid.Roofed(c);
 			if (room == null || room.UsesOutdoorTemperature)
 			{
-				Profiler.BeginSample("Roomless");
 				if (this.outdoorMeltAmount > 0f)
 				{
 					this.map.snowGrid.AddDepth(c, -this.outdoorMeltAmount);
@@ -91,45 +82,38 @@ namespace RimWorld
 				{
 					this.AddFallenSnowAt(c, 0.046f * this.map.weatherManager.SnowRate);
 				}
-				Profiler.EndSample();
 			}
-			if (room != null && room.UsesOutdoorTemperature)
+			if (room != null && room.UsesOutdoorTemperature && !flag)
 			{
-				Profiler.BeginSample("Outdoors");
-				if (!flag)
+				List<Thing> thingList = c.GetThingList(this.map);
+				for (int i = 0; i < thingList.Count; i++)
 				{
-					List<Thing> thingList = c.GetThingList(this.map);
-					for (int i = 0; i < thingList.Count; i++)
+					Thing thing = thingList[i];
+					Filth filth = thing as Filth;
+					if (filth != null)
 					{
-						Thing thing = thingList[i];
-						Filth filth = thing as Filth;
-						if (filth != null)
+						if (thing.def.filth.rainWashes && Rand.Value < this.rainRate)
 						{
-							if (thing.def.filth.rainWashes && Rand.Value < this.rainRate)
-							{
-								((Filth)thing).ThinFilth();
-							}
-						}
-						else
-						{
-							Corpse corpse = thing as Corpse;
-							if (corpse != null && corpse.InnerPawn.apparel != null)
-							{
-								List<Apparel> wornApparel = corpse.InnerPawn.apparel.WornApparel;
-								for (int j = 0; j < wornApparel.Count; j++)
-								{
-									this.TryDoDeteriorate(wornApparel[j], c, false);
-								}
-							}
-							this.TryDoDeteriorate(thing, c, true);
+							((Filth)thing).ThinFilth();
 						}
 					}
+					else
+					{
+						Corpse corpse = thing as Corpse;
+						if (corpse != null && corpse.InnerPawn.apparel != null)
+						{
+							List<Apparel> wornApparel = corpse.InnerPawn.apparel.WornApparel;
+							for (int j = 0; j < wornApparel.Count; j++)
+							{
+								this.TryDoDeteriorate(wornApparel[j], c, false);
+							}
+						}
+						this.TryDoDeteriorate(thing, c, true);
+					}
 				}
-				Profiler.EndSample();
 			}
 			if (room != null && !room.UsesOutdoorTemperature)
 			{
-				Profiler.BeginSample("Indoors");
 				float temperature = room.Temperature;
 				if (temperature > 0f)
 				{
@@ -151,15 +135,12 @@ namespace RimWorld
 						}
 					}
 				}
-				Profiler.EndSample();
 			}
-			Profiler.BeginSample("GameConditions");
 			List<GameCondition> activeConditions = this.map.gameConditionManager.ActiveConditions;
 			for (int k = 0; k < activeConditions.Count; k++)
 			{
 				activeConditions[k].DoCellSteadyEffects(c);
 			}
-			Profiler.EndSample();
 		}
 
 		public static bool InDeterioratingPosition(Thing t)

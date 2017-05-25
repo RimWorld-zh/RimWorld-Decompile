@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -107,7 +106,6 @@ namespace RimWorld
 
 		protected virtual void UpdateEnemyTarget(Pawn pawn)
 		{
-			Profiler.BeginSample("UpdateEnemyTarget");
 			Thing thing = pawn.mindState.enemyTarget;
 			if (thing != null && (thing.Destroyed || Find.TickManager.TicksGame - pawn.mindState.lastEngageTargetTick > 400 || !pawn.CanReach(thing, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn) || (float)(pawn.Position - thing.Position).LengthHorizontalSquared > this.targetKeepRadius * this.targetKeepRadius || ((IAttackTarget)thing).ThreatDisabled()))
 			{
@@ -145,7 +143,6 @@ namespace RimWorld
 			{
 				Find.TickManager.slower.SignalForceNormalSpeed();
 			}
-			Profiler.EndSample();
 		}
 
 		private Thing FindAttackTargetIfPossible(Pawn pawn)

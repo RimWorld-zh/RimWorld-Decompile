@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Verse.AI.Group;
 
 namespace Verse.AI
@@ -122,7 +121,6 @@ namespace Verse.AI
 
 		private void FinalizeTick()
 		{
-			Profiler.BeginSample("FinalizeTick");
 			this.jobsGivenRecentTicks.Add(this.jobsGivenThisTick);
 			this.jobsGivenRecentTicksTextual.Add(this.jobsGivenThisTickTextual);
 			if (this.jobsGivenRecentTicks.Count > 0)
@@ -154,7 +152,6 @@ namespace Verse.AI
 					}));
 				}
 			}
-			Profiler.EndSample();
 		}
 
 		public void StartJob(Job newJob, JobCondition lastJobEndCondition = JobCondition.None, ThinkNode jobGiver = null, bool resumeCurJobAfterwards = false, bool cancelBusyStances = true, ThinkTreeDef thinkTree = null, JobTag? tag = null)
@@ -418,7 +415,6 @@ namespace Verse.AI
 			ThinkResult result2 = ThinkResult.NoJob;
 			try
 			{
-				Profiler.BeginSample("Determine next job (main)");
 				result2 = this.pawn.thinker.MainThinkNodeRoot.TryIssueJobPackage(this.pawn, default(JobIssueParams));
 			}
 			catch (Exception ex)
@@ -429,7 +425,6 @@ namespace Verse.AI
 			}
 			finally
 			{
-				Profiler.EndSample();
 			}
 			thinkTree = this.pawn.thinker.MainThinkTree;
 			return result2;
@@ -443,7 +438,6 @@ namespace Verse.AI
 			}
 			try
 			{
-				Profiler.BeginSample("Determine next job (constant)");
 				return this.pawn.thinker.ConstantThinkNodeRoot.TryIssueJobPackage(this.pawn, default(JobIssueParams));
 			}
 			catch (Exception ex)
@@ -452,7 +446,6 @@ namespace Verse.AI
 			}
 			finally
 			{
-				Profiler.EndSample();
 			}
 			return ThinkResult.NoJob;
 		}

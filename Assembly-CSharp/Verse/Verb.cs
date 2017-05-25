@@ -99,10 +99,8 @@ namespace Verse
 
 		public bool IsStillUsableBy(Pawn pawn)
 		{
-			Profiler.BeginSample("IsStillUsableBy()");
 			if (this.ownerEquipment != null && !pawn.equipment.AllEquipmentListForReading.Contains(this.ownerEquipment))
 			{
-				Profiler.EndSample();
 				return false;
 			}
 			if (this.ownerHediffComp != null)
@@ -119,17 +117,10 @@ namespace Verse
 				}
 				if (!flag)
 				{
-					Profiler.EndSample();
 					return false;
 				}
 			}
-			if (this.GetDamageFactorFor(pawn) == 0f)
-			{
-				Profiler.EndSample();
-				return false;
-			}
-			Profiler.EndSample();
-			return true;
+			return this.GetDamageFactorFor(pawn) != 0f;
 		}
 
 		public virtual void ExposeData()

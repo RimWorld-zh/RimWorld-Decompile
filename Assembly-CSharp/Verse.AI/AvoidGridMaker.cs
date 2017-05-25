@@ -16,13 +16,11 @@ namespace Verse.AI
 			{
 				return;
 			}
-			Profiler.BeginSample("RegenerateAllAvoidGridsFor " + faction);
 			List<Map> maps = Find.Maps;
 			for (int i = 0; i < maps.Count; i++)
 			{
 				AvoidGridMaker.RegenerateAvoidGridsFor(faction, maps[i]);
 			}
-			Profiler.EndSample();
 		}
 
 		public static void RegenerateAvoidGridsFor(Faction faction, Map map)
@@ -31,7 +29,6 @@ namespace Verse.AI
 			{
 				return;
 			}
-			Profiler.BeginSample("RegenerateAvoidGridsFor " + faction);
 			ByteGrid byteGrid;
 			if (faction.avoidGridsSmart.TryGetValue(map, out byteGrid))
 			{
@@ -54,7 +51,6 @@ namespace Verse.AI
 			}
 			AvoidGridMaker.GenerateAvoidGridInternal(byteGrid, faction, map, AvoidGridMode.Smart);
 			AvoidGridMaker.GenerateAvoidGridInternal(byteGrid2, faction, map, AvoidGridMode.Basic);
-			Profiler.EndSample();
 		}
 
 		internal static void Notify_CombatDangerousBuildingDespawned(Building building, Map map)

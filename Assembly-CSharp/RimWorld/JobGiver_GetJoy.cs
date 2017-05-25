@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -39,7 +38,6 @@ namespace RimWorld
 			{
 				return null;
 			}
-			Profiler.BeginSample("GetFun");
 			List<JoyGiverDef> allDefsListForReading = DefDatabase<JoyGiverDef>.AllDefsListForReading;
 			JoyToleranceSet tolerances = pawn.needs.joy.tolerances;
 			for (int i = 0; i < allDefsListForReading.Count; i++)
@@ -56,7 +54,7 @@ namespace RimWorld
 							if (Rand.Value >= joyGiverDef.pctPawnsEverDo)
 							{
 								Rand.PopState();
-								goto IL_105;
+								goto IL_FB;
 							}
 							Rand.PopState();
 						}
@@ -66,7 +64,7 @@ namespace RimWorld
 						this.joyGiverChances[joyGiverDef] = num;
 					}
 				}
-				IL_105:;
+				IL_FB:;
 			}
 			for (int j = 0; j < this.joyGiverChances.Count; j++)
 			{
@@ -78,12 +76,10 @@ namespace RimWorld
 				Job job = this.TryGiveJobFromJoyGiverDefDirect(def, pawn);
 				if (job != null)
 				{
-					Profiler.EndSample();
 					return job;
 				}
 				this.joyGiverChances[def] = 0f;
 			}
-			Profiler.EndSample();
 			return null;
 		}
 	}

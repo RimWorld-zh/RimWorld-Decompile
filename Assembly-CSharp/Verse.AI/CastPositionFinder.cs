@@ -128,7 +128,6 @@ namespace Verse.AI
 			float slope = -1f / CellLine.Between(CastPositionFinder.req.target.Position, CastPositionFinder.req.caster.Position).Slope;
 			CellLine cellLine = new CellLine(CastPositionFinder.req.target.Position, slope);
 			bool flag = cellLine.CellIsAbove(CastPositionFinder.req.caster.Position);
-			Profiler.BeginSample("TryFindCastPosition scan near side");
 			CellRect.CellRectIterator iterator = cellRect.GetIterator();
 			while (!iterator.Done())
 			{
@@ -139,13 +138,11 @@ namespace Verse.AI
 				}
 				iterator.MoveNext();
 			}
-			Profiler.EndSample();
 			if (CastPositionFinder.bestSpot.IsValid && CastPositionFinder.bestSpotPref > 0.33f)
 			{
 				dest = CastPositionFinder.bestSpot;
 				return true;
 			}
-			Profiler.BeginSample("TryFindCastPosition scan far side");
 			CellRect.CellRectIterator iterator2 = cellRect.GetIterator();
 			while (!iterator2.Done())
 			{
@@ -156,7 +153,6 @@ namespace Verse.AI
 				}
 				iterator2.MoveNext();
 			}
-			Profiler.EndSample();
 			if (CastPositionFinder.bestSpot.IsValid)
 			{
 				dest = CastPositionFinder.bestSpot;

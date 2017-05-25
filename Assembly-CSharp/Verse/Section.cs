@@ -86,15 +86,7 @@ namespace Verse
 				SectionLayer sectionLayer = this.layers[i];
 				if ((sectionLayer.relevantChangeTypes & changeType) != MapMeshFlag.None)
 				{
-					Profiler.BeginSample(string.Concat(new object[]
-					{
-						"Regen ",
-						sectionLayer.GetType().Name,
-						" ",
-						this.botLeft
-					}));
 					sectionLayer.Regenerate();
-					Profiler.EndSample();
 				}
 			}
 		}

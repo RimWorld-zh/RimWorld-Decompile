@@ -1,7 +1,6 @@
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Verse;
 
 namespace RimWorld
@@ -46,13 +45,11 @@ namespace RimWorld
 
 		public void MemoryThoughtInterval()
 		{
-			Profiler.BeginSample("MemoryThoughtInterval()");
 			for (int i = 0; i < this.memories.Count; i++)
 			{
 				this.memories[i].ThoughtInterval();
 			}
 			this.RemoveExpiredMemories();
-			Profiler.EndSample();
 		}
 
 		private void RemoveExpiredMemories()

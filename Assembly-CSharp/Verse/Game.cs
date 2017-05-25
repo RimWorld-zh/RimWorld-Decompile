@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UnityEngine;
 using Verse.Profile;
 
 namespace Verse
@@ -437,29 +436,15 @@ namespace Verse
 
 		public void UpdatePlay()
 		{
-			Profiler.BeginSample("tickManager.TickManagerUpdate()");
 			this.tickManager.TickManagerUpdate();
-			Profiler.EndSample();
-			Profiler.BeginSample("letterStack.LetterStackUpdate()");
 			this.letterStack.LetterStackUpdate();
-			Profiler.EndSample();
-			Profiler.BeginSample("World.WorldUpdate()");
 			this.World.WorldUpdate();
-			Profiler.EndSample();
-			Profiler.BeginSample("Map.MapUpdate()");
 			for (int i = 0; i < this.maps.Count; i++)
 			{
-				Profiler.BeginSample("Map " + i);
 				this.maps[i].MapUpdate();
-				Profiler.EndSample();
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("GameInfoUpdate()");
 			this.Info.GameInfoUpdate();
-			Profiler.EndSample();
-			Profiler.BeginSample("GameComponentUpdate()");
 			GameComponentUtility.GameComponentUpdate();
-			Profiler.EndSample();
 		}
 
 		public T GetComponent<T>() where T : GameComponent

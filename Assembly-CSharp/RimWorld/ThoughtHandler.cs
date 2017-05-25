@@ -160,7 +160,6 @@ namespace RimWorld
 			}
 			if (!ThoughtHandler.tmpSocialThoughts.Any<ISocialThought>())
 			{
-				Profiler.EndSample();
 				return 0;
 			}
 			ThoughtDef def = ((Thought)group).def;

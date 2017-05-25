@@ -57,14 +57,12 @@ namespace RimWorld
 				return;
 			}
 			Rect rect = new Rect(x, y, 25f, 25f);
-			Profiler.BeginSample("DrawWorkBoxFor - Background");
 			if (incapableBecauseOfCapacities)
 			{
 				GUI.color = new Color(1f, 0.3f, 0.3f);
 			}
 			WidgetsWork.DrawWorkBoxBackground(rect, p, wType);
 			GUI.color = Color.white;
-			Profiler.EndSample();
 			if (Find.PlaySettings.useWorkPriorities)
 			{
 				int priority = p.workSettings.GetPriority(wType);
@@ -186,9 +184,7 @@ namespace RimWorld
 
 		private static void DrawWorkBoxBackground(Rect rect, Pawn p, WorkTypeDef workDef)
 		{
-			Profiler.BeginSample("AverageOfRelevantSkillsFor");
 			float num = p.skills.AverageOfRelevantSkillsFor(workDef);
-			Profiler.EndSample();
 			Texture2D image;
 			Texture2D image2;
 			float a;

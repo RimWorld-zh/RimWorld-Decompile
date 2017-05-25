@@ -2,7 +2,6 @@ using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using UnityEngine;
 
 namespace Verse
 {
@@ -37,7 +36,6 @@ namespace Verse
 		{
 			if (Find.TickManager.TicksGame % 120 == 7)
 			{
-				Profiler.BeginSample("Rooms equalize temperatures");
 				this.fastProcessedRoomGroups.Clear();
 				foreach (Region current in this.map.regionGrid.AllRegions)
 				{
@@ -48,7 +46,6 @@ namespace Verse
 					}
 				}
 				this.fastProcessedRoomGroups.Clear();
-				Profiler.EndSample();
 			}
 		}
 
