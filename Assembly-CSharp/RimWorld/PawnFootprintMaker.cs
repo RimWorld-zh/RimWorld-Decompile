@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public class PawnFootprintMaker
 	{
-		private const float FootprintIntervalDist = 0.4f;
+		private const float FootprintIntervalDist = 0.632f;
 
 		private const float LeftRightOffsetDist = 0.17f;
 
@@ -27,7 +27,15 @@ namespace RimWorld
 
 		public void FootprintMakerTick()
 		{
-			if ((this.pawn.Drawer.DrawPos - this.lastFootprintPlacePos).MagnitudeHorizontalSquared() > 0.4f)
+			if (!this.pawn.RaceProps.makesFootprints)
+			{
+				TerrainDef terrain = this.pawn.Position.GetTerrain(this.pawn.Map);
+				if (terrain == null || !terrain.takeSplashes)
+				{
+					return;
+				}
+			}
+			if ((this.pawn.Drawer.DrawPos - this.lastFootprintPlacePos).MagnitudeHorizontalSquared() > 0.399424046f)
 			{
 				this.TryPlaceFootprint();
 			}
@@ -44,7 +52,7 @@ namespace RimWorld
 			IntVec3 c = vector.ToIntVec3();
 			if (c.InBounds(this.pawn.Map))
 			{
-				TerrainDef terrain = vector.ToIntVec3().GetTerrain(this.pawn.Map);
+				TerrainDef terrain = c.GetTerrain(this.pawn.Map);
 				if (terrain != null)
 				{
 					if (terrain.takeSplashes)

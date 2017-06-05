@@ -98,9 +98,10 @@ namespace Verse
 			RegionTraverser.BreadthFirstTraverse(pawn.GetRegion(RegionType.Set_Passable), (Region from, Region reg) => reg.Allows(traverseParms, false), delegate(Region reg)
 			{
 				Danger danger = reg.DangerFor(pawn);
+				Map map = pawn.Map;
 				foreach (IntVec3 current in reg.Cells)
 				{
-					if (current.Standable(pawn.Map))
+					if (current.Standable(map))
 					{
 						if (reg.portal == null)
 						{
@@ -119,7 +120,7 @@ namespace Verse
 							float f = Mathf.Min(num3, distance);
 							float num4 = Mathf.Pow(f, 1.2f);
 							num4 *= Mathf.InverseLerp(50f, 0f, (current - pawn.Position).LengthHorizontal);
-							if (current.GetRoom(pawn.Map, RegionType.Set_Passable) != thing.GetRoom(RegionType.Set_Passable))
+							if (current.GetRoom(map, RegionType.Set_Passable) != thing.GetRoom(RegionType.Set_Passable))
 							{
 								num4 *= 4.2f;
 							}
@@ -127,7 +128,7 @@ namespace Verse
 							{
 								num4 *= 0.05f;
 							}
-							if (pawn.Map.pawnDestinationManager.DestinationIsReserved(current, pawn))
+							if (map.pawnDestinationManager.DestinationIsReserved(current, pawn))
 							{
 								num4 *= 0.5f;
 							}

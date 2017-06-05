@@ -54,7 +54,7 @@ namespace RimWorld
 
 		public static void EnsureRequiredEnemies(Faction player)
 		{
-			FactionGenerator.<EnsureRequiredEnemies>c__AnonStorey366 <EnsureRequiredEnemies>c__AnonStorey = new FactionGenerator.<EnsureRequiredEnemies>c__AnonStorey366();
+			FactionGenerator.<EnsureRequiredEnemies>c__AnonStorey365 <EnsureRequiredEnemies>c__AnonStorey = new FactionGenerator.<EnsureRequiredEnemies>c__AnonStorey365();
 			<EnsureRequiredEnemies>c__AnonStorey.player = player;
 			foreach (FactionDef facDef in DefDatabase<FactionDef>.AllDefs)
 			{

@@ -123,13 +123,13 @@ namespace Verse.AI
 		{
 			this.jobsGivenRecentTicks.Add(this.jobsGivenThisTick);
 			this.jobsGivenRecentTicksTextual.Add(this.jobsGivenThisTickTextual);
-			if (this.jobsGivenRecentTicks.Count > 0)
+			while (this.jobsGivenRecentTicks.Count > 10)
 			{
-				while (this.jobsGivenRecentTicks.Count > 10)
-				{
-					this.jobsGivenRecentTicks.RemoveAt(0);
-					this.jobsGivenRecentTicksTextual.RemoveAt(0);
-				}
+				this.jobsGivenRecentTicks.RemoveAt(0);
+				this.jobsGivenRecentTicksTextual.RemoveAt(0);
+			}
+			if (this.jobsGivenThisTick != 0)
+			{
 				int num = 0;
 				for (int i = 0; i < this.jobsGivenRecentTicks.Count; i++)
 				{
@@ -516,7 +516,7 @@ namespace Verse.AI
 
 		private bool CanDoAnyJob()
 		{
-			return !this.pawn.Dead && this.pawn.Spawned;
+			return this.pawn.Spawned;
 		}
 
 		private bool ShouldStartJobFromThinkTree(ThinkResult thinkResult)

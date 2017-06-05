@@ -138,7 +138,7 @@ namespace RimWorld.Planet
 
 		public static int RandomBestExitTileFrom(Map map)
 		{
-			CaravanExitMapUtility.<RandomBestExitTileFrom>c__AnonStorey389 <RandomBestExitTileFrom>c__AnonStorey = new CaravanExitMapUtility.<RandomBestExitTileFrom>c__AnonStorey389();
+			CaravanExitMapUtility.<RandomBestExitTileFrom>c__AnonStorey388 <RandomBestExitTileFrom>c__AnonStorey = new CaravanExitMapUtility.<RandomBestExitTileFrom>c__AnonStorey388();
 			<RandomBestExitTileFrom>c__AnonStorey.tile = map.TileInfo;
 			<RandomBestExitTileFrom>c__AnonStorey.options = CaravanExitMapUtility.AvailableExitTilesAt(map);
 			if (!<RandomBestExitTileFrom>c__AnonStorey.options.Any<int>())

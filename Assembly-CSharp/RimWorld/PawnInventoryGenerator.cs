@@ -65,7 +65,7 @@ namespace RimWorld
 
 		private static void GiveDrugsIfAddicted(Pawn p)
 		{
-			PawnInventoryGenerator.<GiveDrugsIfAddicted>c__AnonStorey334 <GiveDrugsIfAddicted>c__AnonStorey = new PawnInventoryGenerator.<GiveDrugsIfAddicted>c__AnonStorey334();
+			PawnInventoryGenerator.<GiveDrugsIfAddicted>c__AnonStorey333 <GiveDrugsIfAddicted>c__AnonStorey = new PawnInventoryGenerator.<GiveDrugsIfAddicted>c__AnonStorey333();
 			<GiveDrugsIfAddicted>c__AnonStorey.p = p;
 			if (!<GiveDrugsIfAddicted>c__AnonStorey.p.RaceProps.Humanlike)
 			{

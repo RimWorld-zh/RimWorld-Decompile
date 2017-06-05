@@ -319,48 +319,49 @@ namespace Verse
 					this.def.hediffGivers[i].OnIntervalPassed(this.pawn, this);
 				}
 			}
-			if (this.CurStage != null)
+			HediffStage curStage = this.CurStage;
+			if (curStage != null)
 			{
-				if (this.CurStage.hediffGivers != null && this.pawn.IsHashIntervalTick(60))
+				if (curStage.hediffGivers != null && this.pawn.IsHashIntervalTick(60))
 				{
-					for (int j = 0; j < this.CurStage.hediffGivers.Count; j++)
+					for (int j = 0; j < curStage.hediffGivers.Count; j++)
 					{
-						this.CurStage.hediffGivers[j].OnIntervalPassed(this.pawn, this);
+						curStage.hediffGivers[j].OnIntervalPassed(this.pawn, this);
 					}
 				}
-				if (this.CurStage.mentalStateGivers != null && !this.pawn.InMentalState && this.pawn.IsHashIntervalTick(60))
+				if (curStage.mentalStateGivers != null && this.pawn.IsHashIntervalTick(60) && !this.pawn.InMentalState)
 				{
-					for (int k = 0; k < this.CurStage.mentalStateGivers.Count; k++)
+					for (int k = 0; k < curStage.mentalStateGivers.Count; k++)
 					{
-						MentalStateGiver mentalStateGiver = this.CurStage.mentalStateGivers[k];
+						MentalStateGiver mentalStateGiver = curStage.mentalStateGivers[k];
 						if (Rand.MTBEventOccurs(mentalStateGiver.mtbDays, 60000f, 60f))
 						{
 							this.pawn.mindState.mentalStateHandler.TryStartMentalState(mentalStateGiver.mentalState, null, false, false, null);
 						}
 					}
 				}
-				if (this.CurStage.vomitMtbDays > 0f && this.pawn.IsHashIntervalTick(600) && Rand.MTBEventOccurs(this.CurStage.vomitMtbDays, 60000f, 600f) && this.pawn.Spawned && this.pawn.Awake())
+				if (curStage.vomitMtbDays > 0f && this.pawn.IsHashIntervalTick(600) && Rand.MTBEventOccurs(curStage.vomitMtbDays, 60000f, 600f) && this.pawn.Spawned && this.pawn.Awake())
 				{
 					this.pawn.jobs.StartJob(new Job(JobDefOf.Vomit), JobCondition.InterruptForced, null, true, true, null, null);
 				}
 				Thought_Memory th;
-				if (this.CurStage.forgetMemoryThoughtMtbDays > 0f && this.pawn.needs.mood != null && this.pawn.IsHashIntervalTick(400) && Rand.MTBEventOccurs(this.CurStage.forgetMemoryThoughtMtbDays, 60000f, 400f) && this.pawn.needs.mood.thoughts.memories.Memories.TryRandomElement(out th))
+				if (curStage.forgetMemoryThoughtMtbDays > 0f && this.pawn.needs.mood != null && this.pawn.IsHashIntervalTick(400) && Rand.MTBEventOccurs(curStage.forgetMemoryThoughtMtbDays, 60000f, 400f) && this.pawn.needs.mood.thoughts.memories.Memories.TryRandomElement(out th))
 				{
 					this.pawn.needs.mood.thoughts.memories.RemoveMemory(th);
 				}
-				if (!this.recordedTale && this.CurStage.tale != null)
+				if (!this.recordedTale && curStage.tale != null)
 				{
-					TaleRecorder.RecordTale(this.CurStage.tale, new object[]
+					TaleRecorder.RecordTale(curStage.tale, new object[]
 					{
 						this.pawn
 					});
 					this.recordedTale = true;
 				}
-				if (this.CurStage.destroyPart && this.Part != null && this.Part != this.pawn.RaceProps.body.corePart)
+				if (curStage.destroyPart && this.Part != null && this.Part != this.pawn.RaceProps.body.corePart)
 				{
 					this.pawn.health.AddHediff(HediffDefOf.MissingBodyPart, this.Part, null);
 				}
-				if (this.CurStage.deathMtbDays > 0f && this.pawn.IsHashIntervalTick(200) && Rand.MTBEventOccurs(this.CurStage.deathMtbDays, 60000f, 200f))
+				if (curStage.deathMtbDays > 0f && this.pawn.IsHashIntervalTick(200) && Rand.MTBEventOccurs(curStage.deathMtbDays, 60000f, 200f))
 				{
 					bool flag = PawnUtility.ShouldSendNotificationAbout(this.pawn);
 					Caravan caravan = this.pawn.GetCaravan();

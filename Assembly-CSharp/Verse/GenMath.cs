@@ -145,7 +145,7 @@ namespace Verse
 
 		public static int OctileDistance(int dx, int dz, int cardinal, int diagonal)
 		{
-			return cardinal * (dx + dz) + (diagonal - 2 * cardinal) * Math.Min(dx, dz);
+			return cardinal * (dx + dz) + (diagonal - 2 * cardinal) * Mathf.Min(dx, dz);
 		}
 
 		public static float UnboundedValueToFactor(float val)

@@ -56,9 +56,10 @@ namespace RimWorld
 			this.rainRate = this.map.weatherManager.RainRate;
 			this.deteriorationRate = Mathf.Lerp(1f, 5f, this.rainRate);
 			int num = Mathf.RoundToInt((float)this.map.Area * 0.0006f);
+			int area = this.map.Area;
 			for (int i = 0; i < num; i++)
 			{
-				if (this.cycleIndex >= this.map.Area)
+				if (this.cycleIndex >= area)
 				{
 					this.cycleIndex = 0;
 				}
@@ -72,7 +73,8 @@ namespace RimWorld
 		{
 			Room room = c.GetRoom(this.map, RegionType.Set_All);
 			bool flag = this.map.roofGrid.Roofed(c);
-			if (room == null || room.UsesOutdoorTemperature)
+			bool flag2 = room != null && room.UsesOutdoorTemperature;
+			if (room == null || flag2)
 			{
 				if (this.outdoorMeltAmount > 0f)
 				{
@@ -83,55 +85,61 @@ namespace RimWorld
 					this.AddFallenSnowAt(c, 0.046f * this.map.weatherManager.SnowRate);
 				}
 			}
-			if (room != null && room.UsesOutdoorTemperature && !flag)
+			if (room != null)
 			{
-				List<Thing> thingList = c.GetThingList(this.map);
-				for (int i = 0; i < thingList.Count; i++)
+				if (flag2)
 				{
-					Thing thing = thingList[i];
-					Filth filth = thing as Filth;
-					if (filth != null)
+					if (!flag)
 					{
-						if (thing.def.filth.rainWashes && Rand.Value < this.rainRate)
+						List<Thing> thingList = c.GetThingList(this.map);
+						for (int i = 0; i < thingList.Count; i++)
 						{
-							((Filth)thing).ThinFilth();
-						}
-					}
-					else
-					{
-						Corpse corpse = thing as Corpse;
-						if (corpse != null && corpse.InnerPawn.apparel != null)
-						{
-							List<Apparel> wornApparel = corpse.InnerPawn.apparel.WornApparel;
-							for (int j = 0; j < wornApparel.Count; j++)
+							Thing thing = thingList[i];
+							Filth filth = thing as Filth;
+							if (filth != null)
 							{
-								this.TryDoDeteriorate(wornApparel[j], c, false);
+								if (thing.def.filth.rainWashes && Rand.Value < this.rainRate)
+								{
+									((Filth)thing).ThinFilth();
+								}
+							}
+							else
+							{
+								Corpse corpse = thing as Corpse;
+								if (corpse != null && corpse.InnerPawn.apparel != null)
+								{
+									List<Apparel> wornApparel = corpse.InnerPawn.apparel.WornApparel;
+									for (int j = 0; j < wornApparel.Count; j++)
+									{
+										this.TryDoDeteriorate(wornApparel[j], c, false);
+									}
+								}
+								this.TryDoDeteriorate(thing, c, true);
 							}
 						}
-						this.TryDoDeteriorate(thing, c, true);
 					}
 				}
-			}
-			if (room != null && !room.UsesOutdoorTemperature)
-			{
-				float temperature = room.Temperature;
-				if (temperature > 0f)
+				else
 				{
-					float num = this.MeltAmountAt(temperature);
-					if (num > 0f)
+					float temperature = room.Temperature;
+					if (temperature > 0f)
 					{
-						this.map.snowGrid.AddDepth(c, -num);
-					}
-					if (room.RegionType.Passable() && temperature > SteadyAtmosphereEffects.AutoIgnitionTemperatureRange.min)
-					{
-						float value = Rand.Value;
-						if (value < SteadyAtmosphereEffects.AutoIgnitionTemperatureRange.InverseLerpThroughRange(temperature) * 0.7f && Rand.Chance(FireUtility.ChanceToStartFireIn(c, this.map)))
+						float num = this.MeltAmountAt(temperature);
+						if (num > 0f)
 						{
-							FireUtility.TryStartFireIn(c, this.map, 0.1f);
+							this.map.snowGrid.AddDepth(c, -num);
 						}
-						if (value < 0.33f)
+						if (room.RegionType.Passable() && temperature > SteadyAtmosphereEffects.AutoIgnitionTemperatureRange.min)
 						{
-							MoteMaker.ThrowHeatGlow(c, this.map, 2.3f);
+							float value = Rand.Value;
+							if (value < SteadyAtmosphereEffects.AutoIgnitionTemperatureRange.InverseLerpThroughRange(temperature) * 0.7f && Rand.Chance(FireUtility.ChanceToStartFireIn(c, this.map)))
+							{
+								FireUtility.TryStartFireIn(c, this.map, 0.1f);
+							}
+							if (value < 0.33f)
+							{
+								MoteMaker.ThrowHeatGlow(c, this.map, 2.3f);
+							}
 						}
 					}
 				}

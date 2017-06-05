@@ -61,17 +61,7 @@ namespace Verse.AI
 		{
 			public int Compare(RegionCostCalculator.RegionLinkQueueEntry a, RegionCostCalculator.RegionLinkQueueEntry b)
 			{
-				int estimatedPathCost = a.EstimatedPathCost;
-				int estimatedPathCost2 = b.EstimatedPathCost;
-				if (estimatedPathCost < estimatedPathCost2)
-				{
-					return -1;
-				}
-				if (estimatedPathCost2 < estimatedPathCost)
-				{
-					return 1;
-				}
-				return 0;
+				return a.EstimatedPathCost.CompareTo(b.EstimatedPathCost);
 			}
 		}
 
@@ -276,11 +266,12 @@ namespace Verse.AI
 				return result;
 			}
 			bool ignoreAllowedAreaCost = this.allowedArea != null && region.OverlapWith(this.allowedArea) != AreaOverlap.None;
+			CellIndices cellIndices = this.map.cellIndices;
 			Rand.PushState();
-			Rand.Seed = this.map.cellIndices.CellToIndex(region.extentsClose.CenterCell) * (region.links.Count + 1);
+			Rand.Seed = cellIndices.CellToIndex(region.extentsClose.CenterCell) * (region.links.Count + 1);
 			for (int i = 0; i < 11; i++)
 			{
-				RegionCostCalculator.pathCostSamples[i] = this.GetCellCostFast(this.map.cellIndices.CellToIndex(region.RandomCell), ignoreAllowedAreaCost);
+				RegionCostCalculator.pathCostSamples[i] = this.GetCellCostFast(cellIndices.CellToIndex(region.RandomCell), ignoreAllowedAreaCost);
 			}
 			Rand.PopState();
 			Array.Sort<int>(RegionCostCalculator.pathCostSamples);

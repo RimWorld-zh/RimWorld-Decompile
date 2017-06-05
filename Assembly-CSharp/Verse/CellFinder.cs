@@ -153,15 +153,17 @@ namespace Verse
 
 		public static void AllRegionsNear(List<Region> results, Region root, int maxRegions, TraverseParms traverseParms, Predicate<Region> validator = null, Pawn pawnToAllow = null, RegionType traversableRegionTypes = RegionType.Set_Passable)
 		{
-			if (root == null)
-			{
-				throw new ArgumentNullException("root");
-			}
 			if (results == null)
 			{
-				throw new ArgumentNullException("results");
+				Log.ErrorOnce("Attempted to call AllRegionsNear with an invalid results list", 60733193);
+				return;
 			}
 			results.Clear();
+			if (root == null)
+			{
+				Log.ErrorOnce("Attempted to call AllRegionsNear with an invalid root", 9107839);
+				return;
+			}
 			RegionTraverser.BreadthFirstTraverse(root, (Region from, Region r) => (validator == null || validator(r)) && r.Allows(traverseParms, true) && (pawnToAllow == null || !r.IsForbiddenEntirely(pawnToAllow)), delegate(Region r)
 			{
 				results.Add(r);

@@ -24,6 +24,10 @@ namespace Verse
 
 		private static readonly string MaskTexName = "_MaskTex";
 
+		private static readonly string SwayHeadName = "_SwayHead";
+
+		private static readonly string ShockwaveSpanName = "_ShockwaveSpan";
+
 		public static int PlanetSunLightDirection = Shader.PropertyToID(ShaderPropertyIDs.PlanetSunLightDirectionName);
 
 		public static int PlanetSunLightEnabled = Shader.PropertyToID(ShaderPropertyIDs.PlanetSunLightEnabledName);
@@ -41,5 +45,9 @@ namespace Verse
 		public static int ColorTwo = Shader.PropertyToID(ShaderPropertyIDs.ColorTwoName);
 
 		public static int MaskTex = Shader.PropertyToID(ShaderPropertyIDs.MaskTexName);
+
+		public static int SwayHead = Shader.PropertyToID(ShaderPropertyIDs.SwayHeadName);
+
+		public static int ShockwaveSpan = Shader.PropertyToID(ShaderPropertyIDs.ShockwaveSpanName);
 	}
 }

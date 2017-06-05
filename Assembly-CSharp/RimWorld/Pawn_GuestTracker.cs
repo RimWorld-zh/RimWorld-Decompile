@@ -243,10 +243,11 @@ namespace RimWorld
 
 		internal void Notify_PawnUndowned()
 		{
-			if (this.pawn.RaceProps.Humanlike && this.HostFaction == Faction.OfPlayer && (this.pawn.Faction == null || this.pawn.Faction.def.rescueesCanJoin) && !this.IsPrisoner)
+			if (this.pawn.RaceProps.Humanlike && this.HostFaction == Faction.OfPlayer && (this.pawn.Faction == null || this.pawn.Faction.def.rescueesCanJoin) && !this.IsPrisoner && this.pawn.SpawnedOrAnyParentSpawned)
 			{
+				Map mapHeld = this.pawn.MapHeld;
 				float num;
-				if (!this.pawn.SafeTemperatureRange().Includes(this.pawn.Map.mapTemperature.OutdoorTemp) || this.pawn.Map.gameConditionManager.ConditionIsActive(GameConditionDefOf.ToxicFallout))
+				if (!this.pawn.SafeTemperatureRange().Includes(mapHeld.mapTemperature.OutdoorTemp) || mapHeld.gameConditionManager.ConditionIsActive(GameConditionDefOf.ToxicFallout))
 				{
 					num = 1f;
 				}

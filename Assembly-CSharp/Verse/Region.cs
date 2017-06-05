@@ -137,10 +137,13 @@ namespace Verse
 		{
 			get
 			{
+				Map map = this.Map;
+				CellIndices cellIndices = map.cellIndices;
+				Region[] directGrid = map.regionGrid.DirectGrid;
 				for (int i = 0; i < 1000; i++)
 				{
 					IntVec3 randomCell = this.extentsClose.RandomCell;
-					if (randomCell.GetRegion(this.Map, RegionType.Set_All) == this)
+					if (directGrid[cellIndices.CellToIndex(randomCell)] == this)
 					{
 						return randomCell;
 					}
@@ -153,12 +156,16 @@ namespace Verse
 		{
 			get
 			{
+				Map map = this.Map;
+				CellIndices cellIndices = map.cellIndices;
+				Region[] directGrid = map.regionGrid.DirectGrid;
 				CellRect.CellRectIterator iterator = this.extentsClose.GetIterator();
 				while (!iterator.Done())
 				{
-					if (iterator.Current.GetRegion(this.Map, RegionType.Set_All) == this)
+					IntVec3 current = iterator.Current;
+					if (directGrid[cellIndices.CellToIndex(current)] == this)
 					{
-						return iterator.Current;
+						return current;
 					}
 					iterator.MoveNext();
 				}

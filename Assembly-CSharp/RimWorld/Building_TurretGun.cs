@@ -13,6 +13,8 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Building_TurretGun : Building_Turret
 	{
+		private const int TryStartShootSomethingIntervalTicks = 10;
+
 		protected int burstCooldownTicksLeft;
 
 		protected int burstWarmupTicksLeft;
@@ -177,7 +179,7 @@ namespace RimWorld
 		public override void Tick()
 		{
 			base.Tick();
-			if (!this.CanSetForcedTarget && this.forcedTarget.IsValid)
+			if (this.forcedTarget.IsValid && !this.CanSetForcedTarget)
 			{
 				this.ResetForcedTarget();
 			}
@@ -209,7 +211,7 @@ namespace RimWorld
 						{
 							this.burstCooldownTicksLeft--;
 						}
-						if (this.burstCooldownTicksLeft <= 0)
+						if (this.burstCooldownTicksLeft <= 0 && this.IsHashIntervalTick(10))
 						{
 							this.TryStartShootSomething(true);
 						}

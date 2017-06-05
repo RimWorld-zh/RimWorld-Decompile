@@ -23,7 +23,7 @@ namespace Verse
 			Matrix4x4 matrix = Find.Camera.cameraToWorldMatrix * Find.Camera.projectionMatrix * Find.Camera.worldToCameraMatrix * rhs;
 			Material matSingle = this.MatSingle;
 			matSingle.SetColor(ShaderPropertyIDs.Color, color);
-			matSingle.SetFloat("_ShockwaveSpan", moteSplash.CalculatedShockwaveSpan());
+			matSingle.SetFloat(ShaderPropertyIDs.ShockwaveSpan, moteSplash.CalculatedShockwaveSpan());
 			matSingle.SetPass(0);
 			Graphics.DrawMeshNow(MeshPool.plane10, matrix);
 		}

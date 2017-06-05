@@ -94,7 +94,7 @@ namespace RimWorld
 
 		public static bool HasPartsToWear(Pawn p, ThingDef apparel)
 		{
-			ApparelUtility.<HasPartsToWear>c__AnonStorey350 <HasPartsToWear>c__AnonStorey = new ApparelUtility.<HasPartsToWear>c__AnonStorey350();
+			ApparelUtility.<HasPartsToWear>c__AnonStorey34F <HasPartsToWear>c__AnonStorey34F = new ApparelUtility.<HasPartsToWear>c__AnonStorey34F();
 			List<Hediff> hediffs = p.health.hediffSet.hediffs;
 			bool flag = false;
 			for (int j = 0; j < hediffs.Count; j++)
@@ -110,11 +110,11 @@ namespace RimWorld
 				return true;
 			}
 			IEnumerable<BodyPartRecord> notMissingParts = p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined);
-			<HasPartsToWear>c__AnonStorey.groups = apparel.apparel.bodyPartGroups;
+			<HasPartsToWear>c__AnonStorey34F.groups = apparel.apparel.bodyPartGroups;
 			int i;
-			for (i = 0; i < <HasPartsToWear>c__AnonStorey.groups.Count; i++)
+			for (i = 0; i < <HasPartsToWear>c__AnonStorey34F.groups.Count; i++)
 			{
-				if (notMissingParts.Any((BodyPartRecord x) => x.IsInGroup(<HasPartsToWear>c__AnonStorey.groups[i])))
+				if (notMissingParts.Any((BodyPartRecord x) => x.IsInGroup(<HasPartsToWear>c__AnonStorey34F.groups[i])))
 				{
 					return true;
 				}

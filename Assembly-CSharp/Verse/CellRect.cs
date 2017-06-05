@@ -313,7 +313,7 @@ namespace Verse
 
 		public bool InBounds(Map map)
 		{
-			return this.minX >= 0 && this.minZ >= 0 && this.maxX <= map.Size.x - 1 && this.maxZ <= map.Size.z - 1;
+			return this.minX >= 0 && this.minZ >= 0 && this.maxX < map.Size.x && this.maxZ < map.Size.z;
 		}
 
 		public bool FullyContainedWithin(CellRect within)

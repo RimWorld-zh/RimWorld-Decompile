@@ -178,6 +178,7 @@ namespace Verse
 				ItemCollectionGeneratorUtility.Reset();
 				BaseGen.Reset();
 				HealthUtility.Reset();
+				ResourceCounter.ResetDefs();
 			}
 			finally
 			{

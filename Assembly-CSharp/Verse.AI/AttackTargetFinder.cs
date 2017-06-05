@@ -111,13 +111,13 @@ namespace Verse.AI
 					Predicate<IAttackTarget> oldValidator = innerValidator;
 					innerValidator = ((IAttackTarget t) => oldValidator(t) && AttackTargetFinder.CanReach(searcherThing, t.Thing, canBash));
 				}
-				AttackTargetFinder.tmpTargets.RemoveAll((IAttackTarget x) => !innerValidator(x) || !x.Thing.Position.InHorDistOf(searcherThing.Position, maxDist));
 				bool flag = false;
 				if (searcherThing.Faction != Faction.OfPlayer)
 				{
 					for (int i = 0; i < AttackTargetFinder.tmpTargets.Count; i++)
 					{
-						if (AttackTargetFinder.CanShootAtFromCurrentPosition(AttackTargetFinder.tmpTargets[i], searcher, verb))
+						IAttackTarget attackTarget = AttackTargetFinder.tmpTargets[i];
+						if (attackTarget.Thing.Position.InHorDistOf(searcherThing.Position, maxDist) && innerValidator(attackTarget) && AttackTargetFinder.CanShootAtFromCurrentPosition(attackTarget, searcher, verb))
 						{
 							flag = true;
 							break;
@@ -127,14 +127,19 @@ namespace Verse.AI
 				IAttackTarget result;
 				if (flag)
 				{
+					AttackTargetFinder.tmpTargets.RemoveAll((IAttackTarget x) => !x.Thing.Position.InHorDistOf(searcherThing.Position, maxDist) || !innerValidator(x));
 					result = AttackTargetFinder.GetRandomShootingTargetByScore(AttackTargetFinder.tmpTargets, searcher, verb);
 				}
 				else
 				{
-					Predicate<Thing> validator2 = null;
+					Predicate<Thing> validator2;
 					if ((byte)(flags & TargetScanFlags.NeedReachableIfCantHitFromMyPos) != 0 && (byte)(flags & TargetScanFlags.NeedReachable) == 0)
 					{
-						validator2 = ((Thing t) => AttackTargetFinder.CanShootAtFromCurrentPosition((IAttackTarget)t, searcher, verb) || AttackTargetFinder.CanReach(searcherThing, t, canBash));
+						validator2 = ((Thing t) => innerValidator((IAttackTarget)t) && (AttackTargetFinder.CanReach(searcherThing, t, canBash) || AttackTargetFinder.CanShootAtFromCurrentPosition((IAttackTarget)t, searcher, verb)));
+					}
+					else
+					{
+						validator2 = ((Thing t) => innerValidator((IAttackTarget)t));
 					}
 					result = (IAttackTarget)GenClosest.ClosestThing_Global(searcherThing.Position, AttackTargetFinder.tmpTargets, maxDist, validator2);
 				}
@@ -147,26 +152,26 @@ namespace Verse.AI
 				innerValidator = ((IAttackTarget t) => oldValidator(t) && t.Thing.Position.InHorDistOf(searcherPawn.mindState.duty.focus.Cell, searcherPawn.mindState.duty.radius));
 			}
 			int searchRegionsMax = (maxDist <= 800f) ? 40 : -1;
-			IntVec3 arg_3C1_0 = searcherThing.Position;
-			Map arg_3C1_1 = searcherThing.Map;
-			ThingRequest arg_3C1_2 = ThingRequest.ForGroup(ThingRequestGroup.AttackTarget);
-			PathEndMode arg_3C1_3 = PathEndMode.Touch;
+			IntVec3 arg_415_0 = searcherThing.Position;
+			Map arg_415_1 = searcherThing.Map;
+			ThingRequest arg_415_2 = ThingRequest.ForGroup(ThingRequestGroup.AttackTarget);
+			PathEndMode arg_415_3 = PathEndMode.Touch;
 			bool canBash2 = canBash;
-			IAttackTarget attackTarget = (IAttackTarget)GenClosest.ClosestThingReachable(arg_3C1_0, arg_3C1_1, arg_3C1_2, arg_3C1_3, TraverseParms.For(searcherPawn, Danger.Deadly, TraverseMode.ByPawn, canBash2), maxDist, (Thing x) => innerValidator((IAttackTarget)x), null, 0, searchRegionsMax, false, RegionType.Set_Passable, false);
-			if (attackTarget != null && PawnUtility.ShouldCollideWithPawns(searcherPawn))
+			IAttackTarget attackTarget2 = (IAttackTarget)GenClosest.ClosestThingReachable(arg_415_0, arg_415_1, arg_415_2, arg_415_3, TraverseParms.For(searcherPawn, Danger.Deadly, TraverseMode.ByPawn, canBash2), maxDist, (Thing x) => innerValidator((IAttackTarget)x), null, 0, searchRegionsMax, false, RegionType.Set_Passable, false);
+			if (attackTarget2 != null && PawnUtility.ShouldCollideWithPawns(searcherPawn))
 			{
-				IAttackTarget attackTarget2 = AttackTargetFinder.FindBestReachableMeleeTarget(innerValidator, searcherPawn, maxDist, canBash);
-				if (attackTarget2 != null)
+				IAttackTarget attackTarget3 = AttackTargetFinder.FindBestReachableMeleeTarget(innerValidator, searcherPawn, maxDist, canBash);
+				if (attackTarget3 != null)
 				{
-					float lengthHorizontal = (searcherPawn.Position - attackTarget.Thing.Position).LengthHorizontal;
-					float lengthHorizontal2 = (searcherPawn.Position - attackTarget2.Thing.Position).LengthHorizontal;
+					float lengthHorizontal = (searcherPawn.Position - attackTarget2.Thing.Position).LengthHorizontal;
+					float lengthHorizontal2 = (searcherPawn.Position - attackTarget3.Thing.Position).LengthHorizontal;
 					if (Mathf.Abs(lengthHorizontal - lengthHorizontal2) < 50f)
 					{
-						attackTarget = attackTarget2;
+						attackTarget2 = attackTarget3;
 					}
 				}
 			}
-			return attackTarget;
+			return attackTarget2;
 		}
 
 		private static bool CanReach(Thing searcher, Thing target, bool canBash)

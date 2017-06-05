@@ -101,7 +101,13 @@ namespace Verse.AI
 
 		public void ReleaseAllClaimedBy(Pawn claimant)
 		{
-			this.reservations.RemoveAll((AttackTargetReservationManager.AttackTargetReservation x) => x.claimant == claimant);
+			for (int i = this.reservations.Count - 1; i >= 0; i--)
+			{
+				if (this.reservations[i].claimant == claimant)
+				{
+					this.reservations.RemoveAt(i);
+				}
+			}
 		}
 
 		public void ExposeData()

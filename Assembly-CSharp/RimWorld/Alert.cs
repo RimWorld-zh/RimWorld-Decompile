@@ -110,7 +110,7 @@ namespace RimWorld
 			{
 				GUI.DrawTexture(rect, Alert.AlertBGTexHighlight);
 			}
-			if (this.GetReport().culprit.IsValid && Widgets.ButtonInvisible(rect, false))
+			if (Widgets.ButtonInvisible(rect, false) && this.GetReport().culprit.IsValid)
 			{
 				CameraJumper.TryJumpAndSelect(this.GetReport().culprit);
 			}
@@ -120,34 +120,34 @@ namespace RimWorld
 
 		public void DrawInfoPane()
 		{
-			Alert.<DrawInfoPane>c__AnonStorey3EA <DrawInfoPane>c__AnonStorey3EA = new Alert.<DrawInfoPane>c__AnonStorey3EA();
+			Alert.<DrawInfoPane>c__AnonStorey3E9 <DrawInfoPane>c__AnonStorey3E = new Alert.<DrawInfoPane>c__AnonStorey3E9();
 			Text.Font = GameFont.Small;
 			Text.Anchor = TextAnchor.UpperLeft;
-			<DrawInfoPane>c__AnonStorey3EA.expString = this.GetExplanation();
+			<DrawInfoPane>c__AnonStorey3E.expString = this.GetExplanation();
 			if (this.GetReport().culprit.IsValid)
 			{
-				<DrawInfoPane>c__AnonStorey3EA.expString = <DrawInfoPane>c__AnonStorey3EA.expString + "\n\n(" + "ClickToJumpToProblem".Translate() + ")";
+				<DrawInfoPane>c__AnonStorey3E.expString = <DrawInfoPane>c__AnonStorey3E.expString + "\n\n(" + "ClickToJumpToProblem".Translate() + ")";
 			}
-			float num = Text.CalcHeight(<DrawInfoPane>c__AnonStorey3EA.expString, 310f);
+			float num = Text.CalcHeight(<DrawInfoPane>c__AnonStorey3E.expString, 310f);
 			num += 20f;
-			<DrawInfoPane>c__AnonStorey3EA.infoRect = new Rect((float)UI.screenWidth - 154f - 330f - 8f, Mathf.Max(Mathf.Min(Event.current.mousePosition.y, (float)UI.screenHeight - num), 0f), 330f, num);
-			if (<DrawInfoPane>c__AnonStorey3EA.infoRect.yMax > (float)UI.screenHeight)
+			<DrawInfoPane>c__AnonStorey3E.infoRect = new Rect((float)UI.screenWidth - 154f - 330f - 8f, Mathf.Max(Mathf.Min(Event.current.mousePosition.y, (float)UI.screenHeight - num), 0f), 330f, num);
+			if (<DrawInfoPane>c__AnonStorey3E.infoRect.yMax > (float)UI.screenHeight)
 			{
-				Alert.<DrawInfoPane>c__AnonStorey3EA expr_E2_cp_0 = <DrawInfoPane>c__AnonStorey3EA;
-				expr_E2_cp_0.infoRect.y = expr_E2_cp_0.infoRect.y - ((float)UI.screenHeight - <DrawInfoPane>c__AnonStorey3EA.infoRect.yMax);
+				Alert.<DrawInfoPane>c__AnonStorey3E9 expr_E2_cp_0 = <DrawInfoPane>c__AnonStorey3E;
+				expr_E2_cp_0.infoRect.y = expr_E2_cp_0.infoRect.y - ((float)UI.screenHeight - <DrawInfoPane>c__AnonStorey3E.infoRect.yMax);
 			}
-			if (<DrawInfoPane>c__AnonStorey3EA.infoRect.y < 0f)
+			if (<DrawInfoPane>c__AnonStorey3E.infoRect.y < 0f)
 			{
-				<DrawInfoPane>c__AnonStorey3EA.infoRect.y = 0f;
+				<DrawInfoPane>c__AnonStorey3E.infoRect.y = 0f;
 			}
-			Find.WindowStack.ImmediateWindow(138956, <DrawInfoPane>c__AnonStorey3EA.infoRect, WindowLayer.GameUI, delegate
+			Find.WindowStack.ImmediateWindow(138956, <DrawInfoPane>c__AnonStorey3E.infoRect, WindowLayer.GameUI, delegate
 			{
 				Text.Font = GameFont.Small;
-				Rect rect = <DrawInfoPane>c__AnonStorey3EA.infoRect.AtZero();
+				Rect rect = <DrawInfoPane>c__AnonStorey3E.infoRect.AtZero();
 				Widgets.DrawWindowBackground(rect);
 				Rect position = rect.ContractedBy(10f);
 				GUI.BeginGroup(position);
-				Widgets.Label(new Rect(0f, 0f, position.width, position.height), <DrawInfoPane>c__AnonStorey3EA.expString);
+				Widgets.Label(new Rect(0f, 0f, position.width, position.height), <DrawInfoPane>c__AnonStorey3E.expString);
 				GUI.EndGroup();
 			}, false, false, 1f);
 		}

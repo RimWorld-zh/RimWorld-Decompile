@@ -55,12 +55,14 @@ namespace Verse
 
 		public static bool InBounds(this IntVec3 c, Map map)
 		{
-			return c.x >= 0 && c.z >= 0 && c.x < map.Size.x && c.z < map.Size.z;
+			IntVec3 size = map.Size;
+			return (ulong)c.x < (ulong)((long)size.x) && (ulong)c.z < (ulong)((long)size.z);
 		}
 
 		public static bool InBounds(this Vector3 v, Map map)
 		{
-			return v.x >= 0f && v.z >= 0f && v.x < (float)map.Size.x && v.z < (float)map.Size.z;
+			IntVec3 size = map.Size;
+			return v.x >= 0f && v.z >= 0f && v.x < (float)size.x && v.z < (float)size.z;
 		}
 
 		public static bool Walkable(this IntVec3 c, Map map)

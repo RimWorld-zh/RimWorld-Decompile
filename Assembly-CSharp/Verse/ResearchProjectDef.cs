@@ -202,18 +202,18 @@ namespace Verse
 			}
 			if (!this.requiredResearchFacilities.NullOrEmpty<ThingDef>())
 			{
-				ResearchProjectDef.<CanBeResearchedAt>c__AnonStorey510 <CanBeResearchedAt>c__AnonStorey = new ResearchProjectDef.<CanBeResearchedAt>c__AnonStorey510();
-				<CanBeResearchedAt>c__AnonStorey.<>f__this = this;
-				<CanBeResearchedAt>c__AnonStorey.affectedByFacilities = bench.TryGetComp<CompAffectedByFacilities>();
-				if (<CanBeResearchedAt>c__AnonStorey.affectedByFacilities == null)
+				ResearchProjectDef.<CanBeResearchedAt>c__AnonStorey50C <CanBeResearchedAt>c__AnonStorey50C = new ResearchProjectDef.<CanBeResearchedAt>c__AnonStorey50C();
+				<CanBeResearchedAt>c__AnonStorey50C.<>f__this = this;
+				<CanBeResearchedAt>c__AnonStorey50C.affectedByFacilities = bench.TryGetComp<CompAffectedByFacilities>();
+				if (<CanBeResearchedAt>c__AnonStorey50C.affectedByFacilities == null)
 				{
 					return false;
 				}
-				List<Thing> linkedFacilitiesListForReading = <CanBeResearchedAt>c__AnonStorey.affectedByFacilities.LinkedFacilitiesListForReading;
+				List<Thing> linkedFacilitiesListForReading = <CanBeResearchedAt>c__AnonStorey50C.affectedByFacilities.LinkedFacilitiesListForReading;
 				int i;
 				for (i = 0; i < this.requiredResearchFacilities.Count; i++)
 				{
-					if (linkedFacilitiesListForReading.Find((Thing x) => x.def == this.requiredResearchFacilities[i] && <CanBeResearchedAt>c__AnonStorey.affectedByFacilities.IsFacilityActive(x)) == null)
+					if (linkedFacilitiesListForReading.Find((Thing x) => x.def == this.requiredResearchFacilities[i] && <CanBeResearchedAt>c__AnonStorey50C.affectedByFacilities.IsFacilityActive(x)) == null)
 					{
 						return false;
 					}

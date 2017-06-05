@@ -1985,7 +1985,7 @@ namespace Verse
 
 		public bool ThreatDisabled()
 		{
-			return !base.Spawned || (!this.InMentalState && this.GetTraderCaravanRole() == TraderCaravanRole.Carrier && !(this.jobs.curDriver is JobDriver_AttackMelee)) || base.Position.Fogged(base.Map) || this.Downed;
+			return !base.Spawned || (!this.InMentalState && this.GetTraderCaravanRole() == TraderCaravanRole.Carrier && !(this.jobs.curDriver is JobDriver_AttackMelee)) || this.Downed;
 		}
 
 		public override bool PreventPlayerSellingThingsNearby(out string reason)

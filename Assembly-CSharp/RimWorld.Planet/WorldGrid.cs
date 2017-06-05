@@ -87,7 +87,7 @@ namespace RimWorld.Planet
 
 		public bool InBounds(int tileID)
 		{
-			return tileID >= 0 && tileID < this.TilesCount;
+			return (ulong)tileID < (ulong)((long)this.TilesCount);
 		}
 
 		public Vector2 LongLatOf(int tileID)

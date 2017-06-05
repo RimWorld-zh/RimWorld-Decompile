@@ -48,9 +48,9 @@ namespace RimWorld
 
 		public override void Generate(Map map)
 		{
-			GenStep_Roads.<Generate>c__AnonStorey30C <Generate>c__AnonStorey30C = new GenStep_Roads.<Generate>c__AnonStorey30C();
-			<Generate>c__AnonStorey30C.neededRoads = this.CalculateNeededRoads(map);
-			if (<Generate>c__AnonStorey30C.neededRoads.Count == 0)
+			GenStep_Roads.<Generate>c__AnonStorey30B <Generate>c__AnonStorey30B = new GenStep_Roads.<Generate>c__AnonStorey30B();
+			<Generate>c__AnonStorey30B.neededRoads = this.CalculateNeededRoads(map);
+			if (<Generate>c__AnonStorey30B.neededRoads.Count == 0)
 			{
 				return;
 			}
@@ -61,14 +61,14 @@ namespace RimWorld
 			TerrainDef rockDef = BaseGenUtility.RegionalRockTerrainDef(map.Tile, false);
 			IntVec3 intVec = CellFinderLoose.TryFindCentralCell(map, 3, 10, null);
 			RoadDef bestRoadType = (from rd in DefDatabase<RoadDef>.AllDefs
-			where <Generate>c__AnonStorey30C.neededRoads.Count((GenStep_Roads.NeededRoad nr) => nr.road == rd) >= 2
+			where <Generate>c__AnonStorey30B.neededRoads.Count((GenStep_Roads.NeededRoad nr) => nr.road == rd) >= 2
 			select rd).MaxByWithFallback((RoadDef rd) => rd.priority, null);
 			if (bestRoadType != null)
 			{
-				GenStep_Roads.NeededRoad neededRoad = <Generate>c__AnonStorey30C.neededRoads[<Generate>c__AnonStorey30C.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType)];
-				<Generate>c__AnonStorey30C.neededRoads.RemoveAt(<Generate>c__AnonStorey30C.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType));
-				GenStep_Roads.NeededRoad neededRoad2 = <Generate>c__AnonStorey30C.neededRoads[<Generate>c__AnonStorey30C.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType)];
-				<Generate>c__AnonStorey30C.neededRoads.RemoveAt(<Generate>c__AnonStorey30C.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType));
+				GenStep_Roads.NeededRoad neededRoad = <Generate>c__AnonStorey30B.neededRoads[<Generate>c__AnonStorey30B.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType)];
+				<Generate>c__AnonStorey30B.neededRoads.RemoveAt(<Generate>c__AnonStorey30B.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType));
+				GenStep_Roads.NeededRoad neededRoad2 = <Generate>c__AnonStorey30B.neededRoads[<Generate>c__AnonStorey30B.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType)];
+				<Generate>c__AnonStorey30B.neededRoads.RemoveAt(<Generate>c__AnonStorey30B.neededRoads.FindIndex((GenStep_Roads.NeededRoad nr) => nr.road == bestRoadType));
 				RoadPathingDef pathingMode = neededRoad.road.pathingMode;
 				IntVec3 intVec2 = this.FindRoadExitCell(map, neededRoad.angle, intVec, ref pathingMode);
 				IntVec3 end = this.FindRoadExitCell(map, neededRoad2.angle, intVec2, ref pathingMode);
@@ -79,7 +79,7 @@ namespace RimWorld
 					roadDef = bestRoadType
 				});
 			}
-			foreach (GenStep_Roads.NeededRoad current in <Generate>c__AnonStorey30C.neededRoads)
+			foreach (GenStep_Roads.NeededRoad current in <Generate>c__AnonStorey30B.neededRoads)
 			{
 				RoadPathingDef pathingMode2 = current.road.pathingMode;
 				IntVec3 intVec3 = this.FindRoadExitCell(map, current.angle, intVec, ref pathingMode2);

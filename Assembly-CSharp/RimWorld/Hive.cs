@@ -222,7 +222,13 @@ namespace RimWorld
 
 		private void FilterOutUnspawnedPawns()
 		{
-			this.spawnedPawns.RemoveAll((Pawn x) => !x.Spawned);
+			for (int i = this.spawnedPawns.Count - 1; i >= 0; i--)
+			{
+				if (!this.spawnedPawns[i].Spawned)
+				{
+					this.spawnedPawns.RemoveAt(i);
+				}
+			}
 		}
 
 		private bool TrySpawnPawn(out Pawn pawn)

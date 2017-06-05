@@ -40,6 +40,10 @@ namespace RimWorld
 			{
 				return false;
 			}
+			if (!pawn.Map.listerBuildingsRepairable.Contains(pawn.Faction, building))
+			{
+				return false;
+			}
 			if (!building.def.building.repairable)
 			{
 				return false;

@@ -109,7 +109,19 @@ namespace RimWorld
 				return false;
 			}
 			Pawn pawn = target.Thing as Pawn;
-			return pawn == null || (pawn.MentalStateDef != MentalStateDefOf.PanicFlee && !pawn.IsPrisoner);
+			if (pawn != null && (pawn.MentalStateDef == MentalStateDefOf.PanicFlee || pawn.IsPrisoner))
+			{
+				return false;
+			}
+			if (target.Thing.Spawned)
+			{
+				TraverseParms traverseParms = (pawn == null) ? TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false) : TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
+				if (!target.Thing.Map.reachability.CanReachUnfogged(target.Thing.Position, traverseParms))
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		public static void Notify_PawnLostForTutor(Pawn pawn, Map map)

@@ -68,24 +68,32 @@ namespace RimWorld
 			{
 				return null;
 			}
-			JobGiver_ConfigurableHostilityResponse.tmpThreats.Clear();
-			List<IAttackTarget> potentialTargetsFor = pawn.Map.attackTargetsCache.GetPotentialTargetsFor(pawn);
-			for (int i = 0; i < potentialTargetsFor.Count; i++)
+			IntVec3 c;
+			if (pawn.CurJob != null && pawn.CurJob.def == JobDefOf.FleeAndCower)
 			{
-				IAttackTarget attackTarget = potentialTargetsFor[i];
-				if (!attackTarget.ThreatDisabled())
+				c = pawn.CurJob.targetA.Cell;
+			}
+			else
+			{
+				JobGiver_ConfigurableHostilityResponse.tmpThreats.Clear();
+				List<IAttackTarget> potentialTargetsFor = pawn.Map.attackTargetsCache.GetPotentialTargetsFor(pawn);
+				for (int i = 0; i < potentialTargetsFor.Count; i++)
 				{
-					JobGiver_ConfigurableHostilityResponse.tmpThreats.Add((Thing)attackTarget);
+					IAttackTarget attackTarget = potentialTargetsFor[i];
+					if (!attackTarget.ThreatDisabled())
+					{
+						JobGiver_ConfigurableHostilityResponse.tmpThreats.Add((Thing)attackTarget);
+					}
 				}
+				if (!JobGiver_ConfigurableHostilityResponse.tmpThreats.Any<Thing>())
+				{
+					Log.Warning(pawn.LabelShort + " decided to flee but there is no any threat around.");
+					return null;
+				}
+				c = CellFinderLoose.GetFleeDest(pawn, JobGiver_ConfigurableHostilityResponse.tmpThreats, 23f);
+				JobGiver_ConfigurableHostilityResponse.tmpThreats.Clear();
 			}
-			if (!JobGiver_ConfigurableHostilityResponse.tmpThreats.Any<Thing>())
-			{
-				Log.Warning(pawn.LabelShort + " decided to flee but there is no any threat around.");
-				return null;
-			}
-			IntVec3 fleeDest = CellFinderLoose.GetFleeDest(pawn, JobGiver_ConfigurableHostilityResponse.tmpThreats, 23f);
-			JobGiver_ConfigurableHostilityResponse.tmpThreats.Clear();
-			return new Job(JobDefOf.FleeAndCower, fleeDest);
+			return new Job(JobDefOf.FleeAndCower, c);
 		}
 	}
 }

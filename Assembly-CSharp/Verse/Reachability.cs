@@ -471,5 +471,55 @@ namespace Verse
 			RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, 9999, RegionType.Set_Passable);
 			return foundReg;
 		}
+
+		public bool CanReachUnfogged(IntVec3 c, TraverseParms traverseParms)
+		{
+			if (traverseParms.pawn != null)
+			{
+				if (!traverseParms.pawn.Spawned)
+				{
+					return false;
+				}
+				if (traverseParms.pawn.Map != this.map)
+				{
+					Log.Error(string.Concat(new object[]
+					{
+						"Called CanReachUnfogged() with a pawn spawned not on this map. This means that we can't check his reachability here. Pawn's current map should have been used instead of this one. pawn=",
+						traverseParms.pawn,
+						" pawn.Map=",
+						traverseParms.pawn.Map,
+						" map=",
+						this.map
+					}));
+					return false;
+				}
+			}
+			if (!c.InBounds(this.map))
+			{
+				return false;
+			}
+			if (!c.Fogged(this.map))
+			{
+				return true;
+			}
+			Region region = c.GetRegion(this.map, RegionType.Set_Passable);
+			if (region == null)
+			{
+				return false;
+			}
+			RegionEntryPredicate entryCondition = (Region from, Region r) => r.Allows(traverseParms, false);
+			bool foundReg = false;
+			RegionProcessor regionProcessor = delegate(Region r)
+			{
+				if (!r.AnyCell.Fogged(this.map))
+				{
+					foundReg = true;
+					return true;
+				}
+				return false;
+			};
+			RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, 9999, RegionType.Set_Passable);
+			return foundReg;
+		}
 	}
 }

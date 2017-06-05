@@ -53,6 +53,18 @@ namespace RimWorld
 			{
 				return false;
 			}
+			if (building_Bed.IsForbidden(traveler))
+			{
+				return false;
+			}
+			if (checkSocialProperness && !building_Bed.IsSociallyProper(sleeper, sleeperWillBePrisoner, false))
+			{
+				return false;
+			}
+			if (building_Bed.IsBurning())
+			{
+				return false;
+			}
 			if (sleeperWillBePrisoner)
 			{
 				if (!building_Bed.ForPrisoners)
@@ -97,7 +109,7 @@ namespace RimWorld
 				}
 				else
 				{
-					if (!building_Bed.owners.Any((Pawn x) => LovePartnerRelationUtility.LovePartnerRelationExists(sleeper, x)))
+					if (!RestUtility.IsAnyOwnerLovePartnerOf(building_Bed, sleeper))
 					{
 						return false;
 					}
@@ -107,7 +119,19 @@ namespace RimWorld
 					}
 				}
 			}
-			return (!checkSocialProperness || building_Bed.IsSociallyProper(sleeper, sleeperWillBePrisoner, false)) && !building_Bed.IsForbidden(traveler) && !building_Bed.IsBurning();
+			return true;
+		}
+
+		private static bool IsAnyOwnerLovePartnerOf(Building_Bed bed, Pawn sleeper)
+		{
+			for (int i = 0; i < bed.owners.Count; i++)
+			{
+				if (LovePartnerRelationUtility.LovePartnerRelationExists(sleeper, bed.owners[i]))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		public static Building_Bed FindBedFor(Pawn p)

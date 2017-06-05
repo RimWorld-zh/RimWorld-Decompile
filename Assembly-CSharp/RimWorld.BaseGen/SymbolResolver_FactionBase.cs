@@ -12,7 +12,7 @@ namespace RimWorld.BaseGen
 
 		public override void Resolve(ResolveParams rp)
 		{
-			SymbolResolver_FactionBase.<Resolve>c__AnonStorey301 <Resolve>c__AnonStorey = new SymbolResolver_FactionBase.<Resolve>c__AnonStorey301();
+			SymbolResolver_FactionBase.<Resolve>c__AnonStorey300 <Resolve>c__AnonStorey = new SymbolResolver_FactionBase.<Resolve>c__AnonStorey300();
 			<Resolve>c__AnonStorey.map = BaseGen.globalSettings.map;
 			Faction faction = rp.faction ?? Find.FactionManager.RandomEnemyFaction(false, false, true);
 			int num = 0;

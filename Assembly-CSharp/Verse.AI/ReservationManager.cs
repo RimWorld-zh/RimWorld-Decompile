@@ -219,7 +219,13 @@ namespace Verse.AI
 
 		public void ReleaseAllClaimedBy(Pawn claimant)
 		{
-			this.reservations.RemoveAll((Reservation r) => r.Claimant == claimant);
+			for (int i = this.reservations.Count - 1; i >= 0; i--)
+			{
+				if (this.reservations[i].Claimant == claimant)
+				{
+					this.reservations.RemoveAt(i);
+				}
+			}
 		}
 
 		public bool IsReserved(LocalTargetInfo target, Faction faction)

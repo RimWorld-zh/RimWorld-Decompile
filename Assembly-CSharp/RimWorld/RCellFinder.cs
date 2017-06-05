@@ -163,6 +163,10 @@ namespace RimWorld
 					" and will break."
 				}));
 			}
+			if (root.GetRegion(pawn.Map, RegionType.Set_Passable) == null)
+			{
+				return root;
+			}
 			int maxRegions = Mathf.Max((int)radius / 3, 13);
 			CellFinder.AllRegionsNear(RCellFinder.regions, root.GetRegion(pawn.Map, RegionType.Set_Passable), maxRegions, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), (Region reg) => reg.extentsClose.ClosestDistSquaredTo(root) <= radius * radius, null, RegionType.Set_Passable);
 			bool flag = UnityData.isDebugBuild && DebugViewSettings.drawDestSearch;

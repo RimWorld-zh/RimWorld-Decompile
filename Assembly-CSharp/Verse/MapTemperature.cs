@@ -37,12 +37,14 @@ namespace Verse
 			if (Find.TickManager.TicksGame % 120 == 7)
 			{
 				this.fastProcessedRoomGroups.Clear();
-				foreach (Region current in this.map.regionGrid.AllRegions)
+				List<Room> allRooms = this.map.regionGrid.allRooms;
+				for (int i = 0; i < allRooms.Count; i++)
 				{
-					if (current.Room != null && !this.fastProcessedRoomGroups.Contains(current.Room.Group))
+					RoomGroup group = allRooms[i].Group;
+					if (!this.fastProcessedRoomGroups.Contains(group))
 					{
-						current.Room.Group.TempTracker.EqualizeTemperature();
-						this.fastProcessedRoomGroups.Add(current.Room.Group);
+						group.TempTracker.EqualizeTemperature();
+						this.fastProcessedRoomGroups.Add(group);
 					}
 				}
 				this.fastProcessedRoomGroups.Clear();

@@ -110,7 +110,7 @@ namespace Verse
 				}
 				else
 				{
-					EditWindow_PackageEditor<TNewDef>.<DoWindowContents>c__AnonStorey5D9 <DoWindowContents>c__AnonStorey5D = new EditWindow_PackageEditor<TNewDef>.<DoWindowContents>c__AnonStorey5D9();
+					EditWindow_PackageEditor<TNewDef>.<DoWindowContents>c__AnonStorey5D6 <DoWindowContents>c__AnonStorey5D = new EditWindow_PackageEditor<TNewDef>.<DoWindowContents>c__AnonStorey5D6();
 					<DoWindowContents>c__AnonStorey5D.<>f__this = this;
 					<DoWindowContents>c__AnonStorey5D.deletingDef = null;
 					foreach (Def def in this.curPackage)

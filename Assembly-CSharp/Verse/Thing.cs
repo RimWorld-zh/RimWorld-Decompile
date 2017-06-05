@@ -151,6 +151,10 @@ namespace Verse
 		{
 			get
 			{
+				if (this.Spawned)
+				{
+					return this.Map;
+				}
 				if (this.ParentHolder == null)
 				{
 					return null;
@@ -424,6 +428,10 @@ namespace Verse
 		{
 			get
 			{
+				if (this.Spawned)
+				{
+					return GenTemperature.GetTemperatureForCell(this.Position, this.Map);
+				}
 				float result;
 				if (this.ParentHolder != null && ThingOwnerUtility.TryGetFixedTemperature(this.ParentHolder, out result))
 				{
@@ -445,6 +453,10 @@ namespace Verse
 		{
 			get
 			{
+				if (this.Spawned)
+				{
+					return this.Map.Tile;
+				}
 				if (this.ParentHolder == null)
 				{
 					return -1;
