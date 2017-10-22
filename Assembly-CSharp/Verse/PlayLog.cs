@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -38,19 +37,12 @@ namespace Verse
 
 		public void Notify_PawnDiscarded(Pawn p)
 		{
-			for (int i = this.entries.Count - 1; i >= 0; i--)
+			for (int num = this.entries.Count - 1; num >= 0; num--)
 			{
-				if (this.entries[i].Concerns(p))
+				if (this.entries[num].Concerns(p))
 				{
-					Log.Warning(string.Concat(new object[]
-					{
-						"Discarding pawn ",
-						p,
-						", but he is referenced by a play log entry ",
-						this.entries[i],
-						"."
-					}));
-					this.RemoveEntry(this.entries[i]);
+					Log.Warning("Discarding pawn " + p + ", but he is referenced by a play log entry " + this.entries[num] + ".");
+					this.RemoveEntry(this.entries[num]);
 				}
 			}
 		}

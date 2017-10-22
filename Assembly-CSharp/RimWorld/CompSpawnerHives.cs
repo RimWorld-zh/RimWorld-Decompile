@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -16,7 +15,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_SpawnerHives)this.props;
+				return (CompProperties_SpawnerHives)base.props;
 			}
 		}
 
@@ -24,7 +23,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return HivesUtility.TotalSpawnedHivesCount(this.parent.Map) < 30;
+				return HivesUtility.TotalSpawnedHivesCount(base.parent.Map) < 30;
 			}
 		}
 
@@ -38,14 +37,16 @@ namespace RimWorld
 
 		public override void CompTickRare()
 		{
-			Hive hive = this.parent as Hive;
-			if ((hive == null || hive.active) && Find.TickManager.TicksGame >= this.nextHiveSpawnTick)
+			Hive hive = base.parent as Hive;
+			if (hive != null && !hive.active)
+				return;
+			if (Find.TickManager.TicksGame >= this.nextHiveSpawnTick)
 			{
-				Hive hive2;
+				Hive hive2 = default(Hive);
 				if (this.TrySpawnChildHive(false, out hive2))
 				{
 					hive2.nextPawnSpawnTick = Find.TickManager.TicksGame + Rand.Range(150, 350);
-					Messages.Message("MessageHiveReproduced".Translate(), hive2, MessageSound.Negative);
+					Messages.Message("MessageHiveReproduced".Translate(), (Thing)hive2, MessageSound.Negative);
 				}
 				else
 				{
@@ -56,7 +57,7 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			string text = null;
+			string text = (string)null;
 			if (this.CanSpawnChildHive)
 			{
 				text = text + "HiveReproducesIn".Translate() + ": " + (this.nextHiveSpawnTick - Find.TickManager.TicksGame).ToStringTicksToPeriod(true, false, true);
@@ -66,25 +67,19 @@ namespace RimWorld
 
 		public void CalculateNextHiveSpawnTick()
 		{
-			Room room = this.parent.GetRoom(RegionType.Set_Passable);
+			Room room = base.parent.GetRoom(RegionType.Set_Passable);
 			int num = 0;
 			int num2 = GenRadial.NumCellsInRadius(9f);
-			for (int i = 0; i < num2; i++)
+			for (int num3 = 0; num3 < num2; num3++)
 			{
-				IntVec3 intVec = this.parent.Position + GenRadial.RadialPattern[i];
-				if (intVec.InBounds(this.parent.Map))
+				IntVec3 intVec = base.parent.Position + GenRadial.RadialPattern[num3];
+				if (intVec.InBounds(base.parent.Map) && intVec.GetRoom(base.parent.Map, RegionType.Set_Passable) == room && intVec.GetThingList(base.parent.Map).Any((Predicate<Thing>)((Thing t) => t is Hive)))
 				{
-					if (intVec.GetRoom(this.parent.Map, RegionType.Set_Passable) == room)
-					{
-						if (intVec.GetThingList(this.parent.Map).Any((Thing t) => t is Hive))
-						{
-							num++;
-						}
-					}
+					num++;
 				}
 			}
-			float num3 = GenMath.LerpDouble(0f, 7f, 1f, 0.35f, (float)Mathf.Clamp(num, 0, 7));
-			this.nextHiveSpawnTick = Find.TickManager.TicksGame + (int)(this.Props.HiveSpawnIntervalDays.RandomInRange * 60000f / (num3 * Find.Storyteller.difficulty.enemyReproductionRateFactor));
+			float num4 = GenMath.LerpDouble(0f, 7f, 1f, 0.35f, (float)Mathf.Clamp(num, 0, 7));
+			this.nextHiveSpawnTick = Find.TickManager.TicksGame + (int)(this.Props.HiveSpawnIntervalDays.RandomInRange * 60000.0 / (num4 * Find.Storyteller.difficulty.enemyReproductionRateFactor));
 		}
 
 		public bool TrySpawnChildHive(bool ignoreRoofedRequirement, out Hive newHive)
@@ -95,29 +90,36 @@ namespace RimWorld
 				return false;
 			}
 			IntVec3 invalid = IntVec3.Invalid;
-			for (int i = 0; i < 3; i++)
+			int num = 0;
+			while (num < 3)
 			{
 				float minDist = this.Props.HiveSpawnPreferredMinDist;
-				if (i == 1)
+				switch (num)
+				{
+				case 1:
 				{
 					minDist = 0f;
+					break;
 				}
-				else if (i == 2)
+				case 2:
 				{
 					newHive = null;
 					return false;
 				}
-				if (CellFinder.TryFindRandomReachableCellNear(this.parent.Position, this.parent.Map, this.Props.HiveSpawnRadius, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false), (IntVec3 c) => this.CanSpawnHiveAt(c, minDist, ignoreRoofedRequirement), null, out invalid, 999999))
-				{
-					break;
 				}
+				if (!CellFinder.TryFindRandomReachableCellNear(base.parent.Position, base.parent.Map, this.Props.HiveSpawnRadius, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false), (Predicate<IntVec3>)((IntVec3 c) => this.CanSpawnHiveAt(c, minDist, ignoreRoofedRequirement)), (Predicate<Region>)null, out invalid, 999999))
+				{
+					num++;
+					continue;
+				}
+				break;
 			}
-			newHive = (Hive)GenSpawn.Spawn(this.parent.def, invalid, this.parent.Map);
-			if (newHive.Faction != this.parent.Faction)
+			newHive = (Hive)GenSpawn.Spawn(base.parent.def, invalid, base.parent.Map);
+			if (newHive.Faction != base.parent.Faction)
 			{
-				newHive.SetFaction(this.parent.Faction, null);
+				newHive.SetFaction(base.parent.Faction, null);
 			}
-			Hive hive = this.parent as Hive;
+			Hive hive = base.parent as Hive;
 			if (hive != null)
 			{
 				newHive.active = hive.active;
@@ -128,45 +130,52 @@ namespace RimWorld
 
 		private bool CanSpawnHiveAt(IntVec3 c, float minDist, bool ignoreRoofedRequirement)
 		{
-			if ((!ignoreRoofedRequirement && !c.Roofed(this.parent.Map)) || !c.Standable(this.parent.Map) || (minDist != 0f && (float)c.DistanceToSquared(this.parent.Position) < minDist * minDist))
+			if ((ignoreRoofedRequirement || c.Roofed(base.parent.Map)) && c.Standable(base.parent.Map) && (minDist == 0.0 || (float)c.DistanceToSquared(base.parent.Position) >= minDist * minDist))
 			{
-				return false;
-			}
-			for (int i = 0; i < 8; i++)
-			{
-				IntVec3 c2 = c + GenAdj.AdjacentCells[i];
-				if (c2.InBounds(this.parent.Map))
+				for (int i = 0; i < 8; i++)
 				{
-					List<Thing> thingList = c2.GetThingList(this.parent.Map);
-					for (int j = 0; j < thingList.Count; j++)
+					IntVec3 c2 = c + GenAdj.AdjacentCells[i];
+					if (c2.InBounds(base.parent.Map))
 					{
-						if (thingList[j] is Hive)
+						List<Thing> thingList = c2.GetThingList(base.parent.Map);
+						for (int j = 0; j < thingList.Count; j++)
 						{
-							return false;
+							if (thingList[j] is Hive)
+							{
+								return false;
+							}
 						}
 					}
 				}
-			}
-			List<Thing> thingList2 = c.GetThingList(this.parent.Map);
-			for (int k = 0; k < thingList2.Count; k++)
-			{
-				Thing thing = thingList2[k];
-				if ((thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Building) && GenSpawn.SpawningWipes(this.parent.def, thing.def))
+				List<Thing> thingList2 = c.GetThingList(base.parent.Map);
+				for (int k = 0; k < thingList2.Count; k++)
 				{
-					return false;
+					Thing thing = thingList2[k];
+					if ((thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Building) && GenSpawn.SpawningWipes(base.parent.def, thing.def))
+					{
+						return false;
+					}
 				}
+				return true;
 			}
-			return true;
+			return false;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompSpawnerHives.<CompGetGizmosExtra>c__Iterator16C <CompGetGizmosExtra>c__Iterator16C = new CompSpawnerHives.<CompGetGizmosExtra>c__Iterator16C();
-			<CompGetGizmosExtra>c__Iterator16C.<>f__this = this;
-			CompSpawnerHives.<CompGetGizmosExtra>c__Iterator16C expr_0E = <CompGetGizmosExtra>c__Iterator16C;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (Prefs.DevMode)
+			{
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "DEBUG: Reproduce",
+					icon = TexCommand.GatherSpotActive,
+					action = (Action)delegate
+					{
+						Hive hive = default(Hive);
+						((_003CCompGetGizmosExtra_003Ec__Iterator16C)/*Error near IL_005c: stateMachine*/)._003C_003Ef__this.TrySpawnChildHive(false, out hive);
+					}
+				};
+			}
 		}
 
 		public override void PostExposeData()

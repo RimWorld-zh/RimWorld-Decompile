@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -8,11 +7,11 @@ namespace RimWorld
 	{
 		public Designator_PlanRemove() : base(DesignateMode.Remove)
 		{
-			this.defaultLabel = "DesignatorPlanRemove".Translate();
-			this.defaultDesc = "DesignatorPlanRemoveDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/PlanOff", true);
-			this.soundSucceeded = SoundDefOf.DesignatePlanRemove;
-			this.hotKey = KeyBindingDefOf.Misc8;
+			base.defaultLabel = "DesignatorPlanRemove".Translate();
+			base.defaultDesc = "DesignatorPlanRemoveDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/PlanOff", true);
+			base.soundSucceeded = SoundDefOf.DesignatePlanRemove;
+			base.hotKey = KeyBindingDefOf.Misc8;
 		}
 	}
 }

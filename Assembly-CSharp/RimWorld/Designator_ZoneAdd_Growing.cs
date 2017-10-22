@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -16,12 +15,12 @@ namespace RimWorld
 
 		public Designator_ZoneAdd_Growing()
 		{
-			this.zoneTypeToPlace = typeof(Zone_Growing);
-			this.defaultLabel = "GrowingZone".Translate();
-			this.defaultDesc = "DesignatorGrowingZoneDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Growing", true);
-			this.hotKey = KeyBindingDefOf.Misc2;
-			this.tutorTag = "ZoneAdd_Growing";
+			base.zoneTypeToPlace = typeof(Zone_Growing);
+			base.defaultLabel = "GrowingZone".Translate();
+			base.defaultDesc = "DesignatorGrowingZoneDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Growing", true);
+			base.hotKey = KeyBindingDefOf.Misc2;
+			base.tutorTag = "ZoneAdd_Growing";
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)

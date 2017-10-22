@@ -16,7 +16,7 @@ namespace RimWorld
 
 		public static void Reset()
 		{
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				MedicalCareUtility.careTextures = new Texture2D[5];
 				MedicalCareUtility.careTextures[0] = ContentFinder<Texture2D>.Get("UI/Icons/Medical/NoCare", true);
@@ -29,10 +29,10 @@ namespace RimWorld
 
 		public static void MedicalCareSetter(Rect rect, ref MedicalCareCategory medCare)
 		{
-			Rect rect2 = new Rect(rect.x, rect.y, rect.width / 5f, rect.height);
+			Rect rect2 = new Rect(rect.x, rect.y, (float)(rect.width / 5.0), rect.height);
 			for (int i = 0; i < 5; i++)
 			{
-				MedicalCareCategory mc = (MedicalCareCategory)i;
+				MedicalCareCategory mc = (MedicalCareCategory)(byte)i;
 				Widgets.DrawHighlightIfMouseover(rect2);
 				GUI.DrawTexture(rect2, MedicalCareUtility.careTextures[i]);
 				if (Widgets.ButtonInvisible(rect2, false))
@@ -44,7 +44,7 @@ namespace RimWorld
 				{
 					Widgets.DrawBox(rect2, 3);
 				}
-				TooltipHandler.TipRegion(rect2, () => mc.GetLabel(), 632165 + i * 17);
+				TooltipHandler.TipRegion(rect2, (Func<string>)(() => mc.GetLabel()), 632165 + i * 17);
 				rect2.x += rect2.width;
 			}
 		}
@@ -59,17 +59,29 @@ namespace RimWorld
 			switch (cat)
 			{
 			case MedicalCareCategory.NoCare:
+			{
 				return false;
+			}
 			case MedicalCareCategory.NoMeds:
+			{
 				return false;
+			}
 			case MedicalCareCategory.HerbalOrWorse:
+			{
 				return meds.GetStatValueAbstract(StatDefOf.MedicalPotency, null) <= ThingDefOf.HerbalMedicine.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
+			}
 			case MedicalCareCategory.NormalOrWorse:
+			{
 				return meds.GetStatValueAbstract(StatDefOf.MedicalPotency, null) <= ThingDefOf.Medicine.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
+			}
 			case MedicalCareCategory.Best:
+			{
 				return true;
+			}
 			default:
+			{
 				throw new InvalidOperationException();
+			}
 			}
 		}
 	}

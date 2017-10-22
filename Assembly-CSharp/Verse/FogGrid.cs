@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -16,35 +15,42 @@ namespace Verse
 
 		public void ExposeData()
 		{
-			ArrayExposeUtility.ExposeBoolArray(ref this.fogGrid, this.map.Size.x, this.map.Size.z, "fogGrid");
+			ref bool[] arr = ref this.fogGrid;
+			IntVec3 size = this.map.Size;
+			int x = size.x;
+			IntVec3 size2 = this.map.Size;
+			ArrayExposeUtility.ExposeBoolArray(ref arr, x, size2.z, "fogGrid");
 		}
 
 		public void Unfog(IntVec3 c)
 		{
 			int num = this.map.cellIndices.CellToIndex(c);
-			if (!this.fogGrid[num])
+			if (this.fogGrid[num])
 			{
-				return;
-			}
-			this.fogGrid[num] = false;
-			if (Current.ProgramState == ProgramState.Playing)
-			{
-				this.map.mapDrawer.MapMeshDirty(c, MapMeshFlag.FogOfWar);
-			}
-			Designation designation = this.map.designationManager.DesignationAt(c, DesignationDefOf.Mine);
-			if (designation != null && MineUtility.MineableInCell(c, this.map) == null)
-			{
-				designation.Delete();
-			}
-			if (Current.ProgramState == ProgramState.Playing)
-			{
-				this.map.roofGrid.Drawer.SetDirty();
+				this.fogGrid[num] = false;
+				if (Current.ProgramState == ProgramState.Playing)
+				{
+					this.map.mapDrawer.MapMeshDirty(c, MapMeshFlag.FogOfWar);
+				}
+				Designation designation = this.map.designationManager.DesignationAt(c, DesignationDefOf.Mine);
+				if (designation != null && MineUtility.MineableInCell(c, this.map) == null)
+				{
+					designation.Delete();
+				}
+				if (Current.ProgramState == ProgramState.Playing)
+				{
+					this.map.roofGrid.Drawer.SetDirty();
+				}
 			}
 		}
 
 		public bool IsFogged(IntVec3 c)
 		{
-			return c.InBounds(this.map) && this.fogGrid != null && this.fogGrid[this.map.cellIndices.CellToIndex(c)];
+			if (c.InBounds(this.map) && this.fogGrid != null)
+			{
+				return this.fogGrid[this.map.cellIndices.CellToIndex(c)];
+			}
+			return false;
 		}
 
 		public bool IsFogged(int index)
@@ -54,44 +60,58 @@ namespace Verse
 
 		public void ClearAllFog()
 		{
-			for (int i = 0; i < this.map.Size.x; i++)
+			int num = 0;
+			while (true)
 			{
-				for (int j = 0; j < this.map.Size.z; j++)
+				int num2 = num;
+				IntVec3 size = this.map.Size;
+				if (num2 < size.x)
 				{
-					this.Unfog(new IntVec3(i, 0, j));
+					int num3 = 0;
+					while (true)
+					{
+						int num4 = num3;
+						IntVec3 size2 = this.map.Size;
+						if (num4 < size2.z)
+						{
+							this.Unfog(new IntVec3(num, 0, num3));
+							num3++;
+							continue;
+						}
+						break;
+					}
+					num++;
+					continue;
 				}
+				break;
 			}
 		}
 
 		public void Notify_FogBlockerRemoved(IntVec3 c)
 		{
-			if (Current.ProgramState != ProgramState.Playing)
+			if (Current.ProgramState == ProgramState.Playing)
 			{
-				return;
-			}
-			bool flag = false;
-			for (int i = 0; i < 8; i++)
-			{
-				IntVec3 c2 = c + GenAdj.AdjacentCells[i];
-				if (c2.InBounds(this.map) && !this.IsFogged(c2))
+				bool flag = false;
+				for (int i = 0; i < 8; i++)
 				{
-					flag = true;
-					break;
+					IntVec3 c2 = c + GenAdj.AdjacentCells[i];
+					if (c2.InBounds(this.map) && !this.IsFogged(c2))
+					{
+						flag = true;
+						break;
+					}
+				}
+				if (flag)
+				{
+					this.FloodUnfogAdjacent(c);
 				}
 			}
-			if (!flag)
-			{
-				return;
-			}
-			this.FloodUnfogAdjacent(c);
 		}
 
 		public void Notify_PawnEnteringDoor(Building_Door door, Pawn pawn)
 		{
 			if (pawn.Faction != Faction.OfPlayer && pawn.HostFaction != Faction.OfPlayer)
-			{
 				return;
-			}
 			this.FloodUnfogAdjacent(door.Position);
 		}
 
@@ -102,9 +122,9 @@ namespace Verse
 			{
 				this.fogGrid = new bool[cellIndices.NumGridCells];
 			}
-			foreach (IntVec3 current in this.map.AllCells)
+			foreach (IntVec3 allCell in this.map.AllCells)
 			{
-				this.fogGrid[cellIndices.CellToIndex(current)] = true;
+				this.fogGrid[cellIndices.CellToIndex(allCell)] = true;
 			}
 			if (Current.ProgramState == ProgramState.Playing)
 			{
@@ -120,20 +140,17 @@ namespace Verse
 			for (int i = 0; i < 4; i++)
 			{
 				IntVec3 intVec = c + GenAdj.CardinalDirections[i];
-				if (intVec.InBounds(this.map))
+				if (intVec.InBounds(this.map) && intVec.Fogged(this.map))
 				{
-					if (intVec.Fogged(this.map))
+					Building edifice = intVec.GetEdifice(this.map);
+					if (edifice == null || !edifice.def.MakeFog)
 					{
-						Building edifice = intVec.GetEdifice(this.map);
-						if (edifice == null || !edifice.def.MakeFog)
-						{
-							flag = true;
-							floodUnfogResult = FloodFillerFog.FloodUnfog(intVec, this.map);
-						}
-						else
-						{
-							this.Unfog(intVec);
-						}
+						flag = true;
+						floodUnfogResult = FloodFillerFog.FloodUnfog(intVec, this.map);
+					}
+					else
+					{
+						this.Unfog(intVec);
 					}
 				}
 			}
@@ -153,11 +170,11 @@ namespace Verse
 			{
 				if (floodUnfogResult.mechanoidFound)
 				{
-					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealedWithMechanoids".Translate(), LetterDefOf.BadUrgent, new TargetInfo(c, this.map, false), null);
+					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealedWithMechanoids".Translate(), LetterDefOf.BadUrgent, new TargetInfo(c, this.map, false), (string)null);
 				}
 				else
 				{
-					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealed".Translate(), LetterDefOf.Good, new TargetInfo(c, this.map, false), null);
+					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealed".Translate(), LetterDefOf.Good, new TargetInfo(c, this.map, false), (string)null);
 				}
 			}
 		}

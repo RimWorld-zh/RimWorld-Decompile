@@ -1,10 +1,8 @@
-using System;
-
 namespace Verse.Sound
 {
 	public enum VoicePriorityMode : byte
 	{
-		PrioritizeNewest,
-		PrioritizeNearest
+		PrioritizeNewest = 0,
+		PrioritizeNearest = 1
 	}
 }

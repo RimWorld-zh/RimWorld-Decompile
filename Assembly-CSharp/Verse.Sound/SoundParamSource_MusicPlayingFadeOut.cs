@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Sound
 {
 	public class SoundParamSource_MusicPlayingFadeOut : SoundParamSource
@@ -14,11 +12,11 @@ namespace Verse.Sound
 
 		public override float ValueFor(Sample samp)
 		{
-			if (Current.ProgramState != ProgramState.Playing || Find.MusicManagerPlay == null)
+			if (Current.ProgramState == ProgramState.Playing && Find.MusicManagerPlay != null)
 			{
-				return 1f;
+				return Find.MusicManagerPlay.subtleAmbienceSoundVolumeMultiplier;
 			}
-			return Find.MusicManagerPlay.subtleAmbienceSoundVolumeMultiplier;
+			return 1f;
 		}
 	}
 }

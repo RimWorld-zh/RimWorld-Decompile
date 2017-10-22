@@ -11,14 +11,14 @@ namespace RimWorld
 		public Dialog_NamePlayerFactionBase(FactionBase factionBase)
 		{
 			this.factionBase = factionBase;
-			if (factionBase.HasMap && factionBase.Map.mapPawns.FreeColonistsSpawnedCount != 0)
+			if ((factionBase.HasMap ? factionBase.Map.mapPawns.FreeColonistsSpawnedCount : 0) != 0)
 			{
-				this.suggestingPawn = factionBase.Map.mapPawns.FreeColonistsSpawned.RandomElement<Pawn>();
+				base.suggestingPawn = factionBase.Map.mapPawns.FreeColonistsSpawned.RandomElement();
 			}
-			this.curName = NameGenerator.GenerateName(RulePackDefOf.NamerFactionBasePlayerRandomized, null, false);
-			this.nameMessageKey = "NamePlayerFactionBaseMessage";
-			this.gainedNameMessageKey = "PlayerFactionBaseGainsName";
-			this.invalidNameMessageKey = "PlayerFactionBaseNameIsInvalid";
+			base.curName = NameGenerator.GenerateName(RulePackDefOf.NamerFactionBasePlayerRandomized, (Predicate<string>)null, false);
+			base.nameMessageKey = "NamePlayerFactionBaseMessage";
+			base.gainedNameMessageKey = "PlayerFactionBaseGainsName";
+			base.invalidNameMessageKey = "PlayerFactionBaseNameIsInvalid";
 		}
 
 		public override void PostOpen()

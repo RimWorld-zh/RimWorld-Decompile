@@ -10,16 +10,25 @@ namespace RimWorld
 		{
 			base.Impact(hitThing);
 			List<Thing> list = new List<Thing>();
-			foreach (Thing current in base.Map.thingGrid.ThingsAt(base.Position))
+			foreach (Thing item in base.Map.thingGrid.ThingsAt(base.Position))
 			{
-				if (current.def == ThingDefOf.Fire)
+				if (item.def == ThingDefOf.Fire)
 				{
-					list.Add(current);
+					list.Add(item);
 				}
 			}
-			foreach (Thing current2 in list)
+			List<Thing>.Enumerator enumerator2 = list.GetEnumerator();
+			try
 			{
-				current2.Destroy(DestroyMode.Vanish);
+				while (enumerator2.MoveNext())
+				{
+					Thing current2 = enumerator2.Current;
+					current2.Destroy(DestroyMode.Vanish);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
 			}
 		}
 	}

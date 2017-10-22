@@ -11,27 +11,22 @@ namespace RimWorld
 		public override bool TryExecute(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			IntVec3 loc;
-			if (!CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => map.reachability.CanReachColony(c), map, CellFinder.EdgeRoadChance_Neutral, out loc))
+			IntVec3 loc = default(IntVec3);
+			if (!CellFinder.TryFindRandomEdgeCellWith((Predicate<IntVec3>)((IntVec3 c) => map.reachability.CanReachColony(c)), map, CellFinder.EdgeRoadChance_Neutral, out loc))
 			{
 				return false;
 			}
-			PawnKindDef pawnKindDef = new List<PawnKindDef>
-			{
-				PawnKindDefOf.Villager
-			}.RandomElement<PawnKindDef>();
-			PawnGenerationRequest request = new PawnGenerationRequest(pawnKindDef, Faction.OfPlayer, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 20f, false, true, true, false, false, null, null, null, null, null, null);
+			List<PawnKindDef> list = new List<PawnKindDef>();
+			list.Add(PawnKindDefOf.Villager);
+			PawnKindDef pawnKindDef = list.RandomElement();
+			PawnGenerationRequest request = new PawnGenerationRequest(pawnKindDef, Faction.OfPlayer, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 20f, false, true, true, false, false, null, default(float?), default(float?), default(Gender?), default(float?), (string)null);
 			Pawn pawn = PawnGenerator.GeneratePawn(request);
 			GenSpawn.Spawn(pawn, loc, map);
-			string text = "WandererJoin".Translate(new object[]
-			{
-				pawnKindDef.label,
-				pawn.story.Title.ToLower()
-			});
+			string text = "WandererJoin".Translate(pawnKindDef.label, pawn.story.Title.ToLower());
 			text = text.AdjustedFor(pawn);
 			string label = "LetterLabelWandererJoin".Translate();
 			PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref label, pawn);
-			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.Good, pawn, null);
+			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.Good, (Thing)pawn, (string)null);
 			return true;
 		}
 	}

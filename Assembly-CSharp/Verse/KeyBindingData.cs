@@ -22,13 +22,13 @@ namespace Verse
 		public override string ToString()
 		{
 			string str = "[";
-			if (this.keyBindingA != KeyCode.None)
+			if (this.keyBindingA != 0)
 			{
-				str += this.keyBindingA.ToString();
+				str += ((Enum)(object)this.keyBindingA).ToString();
 			}
-			if (this.keyBindingB != KeyCode.None)
+			if (this.keyBindingB != 0)
 			{
-				str = str + ", " + this.keyBindingB.ToString();
+				str = str + ", " + ((Enum)(object)this.keyBindingB).ToString();
 			}
 			return str + "]";
 		}

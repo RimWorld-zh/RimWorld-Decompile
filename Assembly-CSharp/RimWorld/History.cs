@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -13,10 +12,12 @@ namespace RimWorld
 		public History()
 		{
 			this.autoRecorderGroups = new List<HistoryAutoRecorderGroup>();
-			foreach (HistoryAutoRecorderGroupDef current in DefDatabase<HistoryAutoRecorderGroupDef>.AllDefs)
+			foreach (HistoryAutoRecorderGroupDef allDef in DefDatabase<HistoryAutoRecorderGroupDef>.AllDefs)
 			{
-				HistoryAutoRecorderGroup historyAutoRecorderGroup = new HistoryAutoRecorderGroup();
-				historyAutoRecorderGroup.def = current;
+				HistoryAutoRecorderGroup historyAutoRecorderGroup = new HistoryAutoRecorderGroup
+				{
+					def = allDef
+				};
 				historyAutoRecorderGroup.CreateRecorders();
 				this.autoRecorderGroups.Add(historyAutoRecorderGroup);
 			}

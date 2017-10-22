@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -33,14 +32,16 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			ScenPartDef.<ConfigErrors>c__Iterator93 <ConfigErrors>c__Iterator = new ScenPartDef.<ConfigErrors>c__Iterator93();
-			<ConfigErrors>c__Iterator.<>f__this = this;
-			ScenPartDef.<ConfigErrors>c__Iterator93 expr_0E = <ConfigErrors>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.scenPartClass == null)
+			{
+				yield return "scenPartClass is null";
+			}
 		}
 	}
 }

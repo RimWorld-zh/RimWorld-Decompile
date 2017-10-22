@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -16,15 +15,17 @@ namespace RimWorld
 			{
 				p.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.WasImprisoned, null);
 				p.guest.SetGuestStatus(null, false);
-				return;
 			}
-			p.guest.released = true;
-			IntVec3 c;
-			if (RCellFinder.TryFindBestExitSpot(p, out c, TraverseMode.ByPawn))
+			else
 			{
-				Job job = new Job(JobDefOf.Goto, c);
-				job.exitMapOnArrival = true;
-				p.jobs.StartJob(job, JobCondition.None, null, false, true, null, null);
+				p.guest.released = true;
+				IntVec3 c = default(IntVec3);
+				if (RCellFinder.TryFindBestExitSpot(p, out c, TraverseMode.ByPawn))
+				{
+					Job job = new Job(JobDefOf.Goto, c);
+					job.exitMapOnArrival = true;
+					p.jobs.StartJob(job, JobCondition.None, null, false, true, null, default(JobTag?));
+				}
 			}
 		}
 	}

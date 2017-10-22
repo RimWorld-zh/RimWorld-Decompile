@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -32,20 +31,20 @@ namespace RimWorld
 				return null;
 			}
 			float radius = this.GetRadius(pawn);
-			if ((!followee.pather.Moving || (float)followee.pather.Destination.Cell.DistanceToSquared(pawn.Position) <= radius * radius) && (followee.GetRoom(RegionType.Set_Passable) == pawn.GetRoom(RegionType.Set_Passable) || GenSight.LineOfSight(pawn.Position, followee.Position, followee.Map, false, null, 0, 0)) && (float)followee.Position.DistanceToSquared(pawn.Position) <= radius * radius)
+			if (followee.pather.Moving && (float)followee.pather.Destination.Cell.DistanceToSquared(pawn.Position) > radius * radius)
 			{
-				return null;
+				goto IL_00c0;
 			}
-			IntVec3 root;
-			if (followee.pather.Moving && followee.pather.curPath != null)
+			if (followee.GetRoom(RegionType.Set_Passable) != pawn.GetRoom(RegionType.Set_Passable) && !GenSight.LineOfSight(pawn.Position, followee.Position, followee.Map, false, null, 0, 0))
 			{
-				root = followee.pather.curPath.FinalWalkableNonDoorCell(followee.Map);
+				goto IL_00c0;
 			}
-			else
-			{
-				root = followee.Position;
-			}
-			IntVec3 intVec = CellFinder.RandomClosewalkCellNear(root, followee.Map, Mathf.RoundToInt(radius * 0.7f), null);
+			if ((float)followee.Position.DistanceToSquared(pawn.Position) > radius * radius)
+				goto IL_00c0;
+			return null;
+			IL_00c0:
+			IntVec3 root = (!followee.pather.Moving || followee.pather.curPath == null) ? followee.Position : followee.pather.curPath.FinalWalkableNonDoorCell(followee.Map);
+			IntVec3 intVec = CellFinder.RandomClosewalkCellNear(root, followee.Map, Mathf.RoundToInt((float)(radius * 0.699999988079071)), null);
 			if (intVec == pawn.Position)
 			{
 				return null;
@@ -53,7 +52,7 @@ namespace RimWorld
 			Job job = new Job(JobDefOf.Goto, intVec);
 			job.expiryInterval = this.FollowJobExpireInterval;
 			job.checkOverrideOnExpire = true;
-			if (pawn.mindState.duty != null && pawn.mindState.duty.locomotion != LocomotionUrgency.None)
+			if (((pawn.mindState.duty != null) ? pawn.mindState.duty.locomotion : LocomotionUrgency.None) != 0)
 			{
 				job.locomotionUrgency = pawn.mindState.duty.locomotion;
 			}

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -19,11 +18,11 @@ namespace RimWorld
 			get
 			{
 				float num = this.thoughts.TotalMoodOffset();
-				if (this.pawn.IsColonist || this.pawn.IsPrisonerOfColony)
+				if (base.pawn.IsColonist || base.pawn.IsPrisonerOfColony)
 				{
 					num += Find.Storyteller.difficulty.colonistMoodOffset;
 				}
-				return Mathf.Clamp01(this.def.baseLevel + num / 100f);
+				return Mathf.Clamp01((float)(base.def.baseLevel + num / 100.0));
 			}
 		}
 
@@ -31,28 +30,28 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.pawn.MentalStateDef != null)
+				if (base.pawn.MentalStateDef != null)
 				{
 					return "Mood_MentalState".Translate();
 				}
-				float statValue = this.pawn.GetStatValue(StatDefOf.MentalBreakThreshold, true);
+				float statValue = base.pawn.GetStatValue(StatDefOf.MentalBreakThreshold, true);
 				if (this.CurLevel < statValue)
 				{
 					return "Mood_AboutToBreak".Translate();
 				}
-				if (this.CurLevel < statValue + 0.05f)
+				if (this.CurLevel < statValue + 0.05000000074505806)
 				{
 					return "Mood_OnEdge".Translate();
 				}
-				if (this.CurLevel < 0.35f)
+				if (this.CurLevel < 0.34999999403953552)
 				{
 					return "Mood_Stressed".Translate();
 				}
-				if (this.CurLevel < 0.65f)
+				if (this.CurLevel < 0.64999997615814209)
 				{
 					return "Mood_Neutral".Translate();
 				}
-				if (this.CurLevel < 0.9f)
+				if (this.CurLevel < 0.89999997615814209)
 				{
 					return "Mood_Content".Translate();
 				}
@@ -70,13 +69,13 @@ namespace RimWorld
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Deep.Look<ThoughtHandler>(ref this.thoughts, "thoughts", new object[]
+			Scribe_Deep.Look<ThoughtHandler>(ref this.thoughts, "thoughts", new object[1]
 			{
-				this.pawn
+				base.pawn
 			});
-			Scribe_Deep.Look<PawnRecentMemory>(ref this.recentMemory, "recentMemory", new object[]
+			Scribe_Deep.Look<PawnRecentMemory>(ref this.recentMemory, "recentMemory", new object[1]
 			{
-				this.pawn
+				base.pawn
 			});
 		}
 
@@ -93,22 +92,22 @@ namespace RimWorld
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine(base.GetTipString());
 			stringBuilder.AppendLine();
-			stringBuilder.AppendLine("MentalBreakThresholdExtreme".Translate() + ": " + this.pawn.mindState.mentalBreaker.BreakThresholdExtreme.ToStringPercent());
-			stringBuilder.AppendLine("MentalBreakThresholdMajor".Translate() + ": " + this.pawn.mindState.mentalBreaker.BreakThresholdMajor.ToStringPercent());
-			stringBuilder.AppendLine("MentalBreakThresholdMinor".Translate() + ": " + this.pawn.mindState.mentalBreaker.BreakThresholdMinor.ToStringPercent());
+			stringBuilder.AppendLine("MentalBreakThresholdExtreme".Translate() + ": " + base.pawn.mindState.mentalBreaker.BreakThresholdExtreme.ToStringPercent());
+			stringBuilder.AppendLine("MentalBreakThresholdMajor".Translate() + ": " + base.pawn.mindState.mentalBreaker.BreakThresholdMajor.ToStringPercent());
+			stringBuilder.AppendLine("MentalBreakThresholdMinor".Translate() + ": " + base.pawn.mindState.mentalBreaker.BreakThresholdMinor.ToStringPercent());
 			return stringBuilder.ToString();
 		}
 
 		public override void DrawOnGUI(Rect rect, int maxThresholdMarkers = 2147483647, float customMargin = -1f, bool drawArrows = true, bool doTooltip = true)
 		{
-			if (this.threshPercents == null)
+			if (base.threshPercents == null)
 			{
-				this.threshPercents = new List<float>();
+				base.threshPercents = new List<float>();
 			}
-			this.threshPercents.Clear();
-			this.threshPercents.Add(this.pawn.mindState.mentalBreaker.BreakThresholdExtreme);
-			this.threshPercents.Add(this.pawn.mindState.mentalBreaker.BreakThresholdMajor);
-			this.threshPercents.Add(this.pawn.mindState.mentalBreaker.BreakThresholdMinor);
+			base.threshPercents.Clear();
+			base.threshPercents.Add(base.pawn.mindState.mentalBreaker.BreakThresholdExtreme);
+			base.threshPercents.Add(base.pawn.mindState.mentalBreaker.BreakThresholdMajor);
+			base.threshPercents.Add(base.pawn.mindState.mentalBreaker.BreakThresholdMinor);
 			base.DrawOnGUI(rect, maxThresholdMarkers, customMargin, drawArrows, doTooltip);
 		}
 	}

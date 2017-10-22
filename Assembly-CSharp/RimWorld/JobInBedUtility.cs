@@ -8,12 +8,12 @@ namespace RimWorld
 	{
 		public static void KeepLyingDown(this JobDriver driver, TargetIndex bedIndex)
 		{
-			driver.AddFinishAction(delegate
+			driver.AddFinishAction((Action)delegate()
 			{
 				Pawn pawn = driver.pawn;
 				if (!pawn.Drafted)
 				{
-					pawn.jobs.jobQueue.EnqueueFirst(new Job(JobDefOf.LayDown, pawn.CurJob.GetTarget(bedIndex)), null);
+					pawn.jobs.jobQueue.EnqueueFirst(new Job(JobDefOf.LayDown, pawn.CurJob.GetTarget(bedIndex)), default(JobTag?));
 				}
 			});
 		}

@@ -14,9 +14,13 @@ namespace RimWorld.BaseGen
 			{
 				return false;
 			}
-			return (from x in rp.rect.Cells
+			if (!(from x in rp.rect.Cells
 			where x.Standable(BaseGen.globalSettings.map)
-			select x).Any<IntVec3>();
+			select x).Any())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -31,10 +35,10 @@ namespace RimWorld.BaseGen
 				pawnGroupMakerParms.points = 250f;
 			}
 			PawnGroupKindDef groupKind = rp.pawnGroupKindDef ?? PawnGroupKindDefOf.Normal;
-			foreach (Pawn current in PawnGroupMakerUtility.GeneratePawns(groupKind, pawnGroupMakerParms, true))
+			foreach (Pawn item in PawnGroupMakerUtility.GeneratePawns(groupKind, pawnGroupMakerParms, true))
 			{
 				ResolveParams resolveParams = rp;
-				resolveParams.singlePawnToSpawn = current;
+				resolveParams.singlePawnToSpawn = item;
 				BaseGen.symbolStack.Push("pawn", resolveParams);
 			}
 		}

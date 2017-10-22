@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -10,7 +9,7 @@ namespace RimWorld
 
 		public CompProperties_AffectedByFacilities()
 		{
-			this.compClass = typeof(CompAffectedByFacilities);
+			base.compClass = typeof(CompAffectedByFacilities);
 		}
 	}
 }

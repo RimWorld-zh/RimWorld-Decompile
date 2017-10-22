@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -18,7 +17,7 @@ namespace RimWorld
 
 		public Designator_ZoneAddStockpile()
 		{
-			this.zoneTypeToPlace = typeof(Zone_Stockpile);
+			base.zoneTypeToPlace = typeof(Zone_Stockpile);
 		}
 
 		protected override Zone MakeNewZone()

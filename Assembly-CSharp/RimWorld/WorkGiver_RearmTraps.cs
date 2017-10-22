@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -16,15 +14,12 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			WorkGiver_RearmTraps.<PotentialWorkThingsGlobal>c__Iterator64 <PotentialWorkThingsGlobal>c__Iterator = new WorkGiver_RearmTraps.<PotentialWorkThingsGlobal>c__Iterator64();
-			<PotentialWorkThingsGlobal>c__Iterator.pawn = pawn;
-			<PotentialWorkThingsGlobal>c__Iterator.<$>pawn = pawn;
-			WorkGiver_RearmTraps.<PotentialWorkThingsGlobal>c__Iterator64 expr_15 = <PotentialWorkThingsGlobal>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			foreach (Designation item in pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.RearmTrap))
+			{
+				yield return item.target.Thing;
+			}
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -40,7 +35,7 @@ namespace RimWorld
 			List<Thing> thingList = t.Position.GetThingList(t.Map);
 			for (int i = 0; i < thingList.Count; i++)
 			{
-				IntVec3 intVec;
+				IntVec3 intVec = default(IntVec3);
 				if (thingList[i] != t && thingList[i].def.category == ThingCategory.Item && (thingList[i].IsForbidden(pawn) || thingList[i].IsInValidStorage() || !HaulAIUtility.CanHaulAside(pawn, thingList[i], out intVec)))
 				{
 					return false;

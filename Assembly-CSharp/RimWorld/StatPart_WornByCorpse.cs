@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -29,7 +28,7 @@ namespace RimWorld
 					return "StatsReport_WornByCorpse".Translate() + ": x" + 0.1f.ToStringPercent();
 				}
 			}
-			return null;
+			return (string)null;
 		}
 	}
 }

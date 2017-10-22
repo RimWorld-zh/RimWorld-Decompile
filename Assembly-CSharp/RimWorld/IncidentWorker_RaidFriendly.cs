@@ -11,8 +11,8 @@ namespace RimWorld
 		protected override bool FactionCanBeGroupSource(Faction f, Map map, bool desperate = false)
 		{
 			IEnumerable<Faction> source = (from p in map.attackTargetsCache.TargetsHostileToColony
-			select ((Thing)p).Faction).Distinct<Faction>();
-			return base.FactionCanBeGroupSource(f, map, desperate) && !f.def.hidden && !f.HostileTo(Faction.OfPlayer) && (!source.Any<Faction>() || source.Any((Faction hf) => hf.HostileTo(f)));
+			select ((Thing)p).Faction).Distinct();
+			return base.FactionCanBeGroupSource(f, map, desperate) && !f.def.hidden && !f.HostileTo(Faction.OfPlayer) && (!source.Any() || source.Any((Func<Faction, bool>)((Faction hf) => hf.HostileTo(f))));
 		}
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
@@ -24,7 +24,7 @@ namespace RimWorld
 			Map map = (Map)target;
 			return (from p in map.attackTargetsCache.TargetsHostileToColony
 			where !p.ThreatDisabled()
-			select p).Sum(delegate(IAttackTarget p)
+			select p).Sum((Func<IAttackTarget, float>)delegate(IAttackTarget p)
 			{
 				Pawn pawn = p as Pawn;
 				if (pawn != null)
@@ -32,7 +32,7 @@ namespace RimWorld
 					return pawn.kindDef.combatPower;
 				}
 				return 0f;
-			}) > 120f;
+			}) > 120.0;
 		}
 
 		protected override bool TryResolveRaidFaction(IncidentParms parms)
@@ -42,21 +42,20 @@ namespace RimWorld
 			{
 				return true;
 			}
-			if (!base.CandidateFactions(map, false).Any<Faction>())
+			if (!base.CandidateFactions(map, false).Any())
 			{
 				return false;
 			}
-			parms.faction = base.CandidateFactions(map, false).RandomElementByWeight((Faction fac) => fac.PlayerGoodwill + 120.000008f);
+			parms.faction = base.CandidateFactions(map, false).RandomElementByWeight((Func<Faction, float>)((Faction fac) => (float)(fac.PlayerGoodwill + 120.00000762939453)));
 			return true;
 		}
 
 		protected override void ResolveRaidStrategy(IncidentParms parms)
 		{
-			if (parms.raidStrategy != null)
+			if (parms.raidStrategy == null)
 			{
-				return;
+				parms.raidStrategy = RaidStrategyDefOf.ImmediateAttack;
 			}
-			parms.raidStrategy = RaidStrategyDefOf.ImmediateAttack;
 		}
 
 		protected override void ResolveRaidPoints(IncidentParms parms)
@@ -71,44 +70,34 @@ namespace RimWorld
 
 		protected override string GetLetterText(IncidentParms parms, List<Pawn> pawns)
 		{
-			string text = null;
+			string str = (string)null;
 			switch (parms.raidArrivalMode)
 			{
 			case PawnsArriveMode.EdgeWalkIn:
-				text = "FriendlyRaidWalkIn".Translate(new object[]
-				{
-					parms.faction.def.pawnsPlural,
-					parms.faction.Name
-				});
-				break;
-			case PawnsArriveMode.EdgeDrop:
-				text = "FriendlyRaidEdgeDrop".Translate(new object[]
-				{
-					parms.faction.def.pawnsPlural,
-					parms.faction.Name
-				});
-				break;
-			case PawnsArriveMode.CenterDrop:
-				text = "FriendlyRaidCenterDrop".Translate(new object[]
-				{
-					parms.faction.def.pawnsPlural,
-					parms.faction.Name
-				});
+			{
+				str = "FriendlyRaidWalkIn".Translate(parms.faction.def.pawnsPlural, parms.faction.Name);
 				break;
 			}
-			text += "\n\n";
-			text += parms.raidStrategy.arrivalTextFriendly;
-			Pawn pawn = pawns.Find((Pawn x) => x.Faction.leader == x);
+			case PawnsArriveMode.EdgeDrop:
+			{
+				str = "FriendlyRaidEdgeDrop".Translate(parms.faction.def.pawnsPlural, parms.faction.Name);
+				break;
+			}
+			case PawnsArriveMode.CenterDrop:
+			{
+				str = "FriendlyRaidCenterDrop".Translate(parms.faction.def.pawnsPlural, parms.faction.Name);
+				break;
+			}
+			}
+			str += "\n\n";
+			str += parms.raidStrategy.arrivalTextFriendly;
+			Pawn pawn = pawns.Find((Predicate<Pawn>)((Pawn x) => x.Faction.leader == x));
 			if (pawn != null)
 			{
-				text += "\n\n";
-				text += "FriendlyRaidLeaderPresent".Translate(new object[]
-				{
-					pawn.Faction.def.pawnsPlural,
-					pawn.LabelShort
-				});
+				str += "\n\n";
+				str += "FriendlyRaidLeaderPresent".Translate(pawn.Faction.def.pawnsPlural, pawn.LabelShort);
 			}
-			return text;
+			return str;
 		}
 
 		protected override LetterDef GetLetterDef()
@@ -118,10 +107,7 @@ namespace RimWorld
 
 		protected override string GetRelatedPawnsInfoLetterText(IncidentParms parms)
 		{
-			return "LetterRelatedPawnsRaidFriendly".Translate(new object[]
-			{
-				parms.faction.def.pawnsPlural
-			});
+			return "LetterRelatedPawnsRaidFriendly".Translate(parms.faction.def.pawnsPlural);
 		}
 	}
 }

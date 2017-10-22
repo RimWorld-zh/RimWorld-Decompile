@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -11,7 +10,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_Maintainable)this.props;
+				return (CompProperties_Maintainable)base.props;
 			}
 		}
 
@@ -38,15 +37,13 @@ namespace RimWorld
 
 		public override void CompTickRare()
 		{
-			Hive hive = this.parent as Hive;
+			Hive hive = base.parent as Hive;
 			if (hive != null && !hive.active)
-			{
 				return;
-			}
 			this.ticksSinceMaintain += 250;
 			if (this.CurStage == MaintainableStage.Damaging)
 			{
-				this.parent.TakeDamage(new DamageInfo(DamageDefOf.Deterioration, this.Props.damagePerTickRare, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
+				base.parent.TakeDamage(new DamageInfo(DamageDefOf.Deterioration, this.Props.damagePerTickRare, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
 			}
 		}
 
@@ -57,16 +54,21 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			MaintainableStage curStage = this.CurStage;
-			if (curStage == MaintainableStage.NeedsMaintenance)
+			switch (this.CurStage)
+			{
+			case MaintainableStage.NeedsMaintenance:
 			{
 				return "DueForMaintenance".Translate();
 			}
-			if (curStage != MaintainableStage.Damaging)
+			case MaintainableStage.Damaging:
 			{
-				return null;
+				return "DeterioratingDueToLackOfMaintenance".Translate();
 			}
-			return "DeterioratingDueToLackOfMaintenance".Translate();
+			default:
+			{
+				return (string)null;
+			}
+			}
 		}
 	}
 }

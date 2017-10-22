@@ -65,7 +65,7 @@ namespace Verse
 
 		public void ResolveReferencesSpecial()
 		{
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				if (this.scratches != null)
 				{

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 using Verse.Grammar;
@@ -55,28 +53,34 @@ namespace RimWorld
 		{
 			get
 			{
-				float num = this.def.baseInterest;
-				num /= (float)(1 + this.uses * 3);
+				float baseInterest = this.def.baseInterest;
+				baseInterest /= (float)(1 + this.uses * 3);
 				float a = 0f;
 				switch (this.def.type)
 				{
 				case TaleType.Volatile:
+				{
 					a = 50f;
 					break;
+				}
+				case TaleType.PermanentHistorical:
+				{
+					a = 50f;
+					break;
+				}
 				case TaleType.Expirable:
+				{
 					a = this.def.expireDays;
 					break;
-				case TaleType.PermanentHistorical:
-					a = 50f;
-					break;
+				}
 				}
 				float value = (float)(this.AgeTicks / 60000);
-				num *= Mathf.InverseLerp(a, 0f, value);
-				if (num < 0.01f)
+				baseInterest *= Mathf.InverseLerp(a, 0f, value);
+				if (baseInterest < 0.0099999997764825821)
 				{
-					num = 0.01f;
+					baseInterest = 0.01f;
 				}
-				return num;
+				return baseInterest;
 			}
 		}
 
@@ -84,7 +88,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.Unused && this.def.type == TaleType.Expirable && (float)this.AgeTicks > this.def.expireDays * 60000f;
+				if (!this.Unused)
+				{
+					return false;
+				}
+				if (this.def.type != TaleType.Expirable)
+				{
+					return false;
+				}
+				return (float)this.AgeTicks > this.def.expireDays * 60000.0;
 			}
 		}
 
@@ -134,28 +146,44 @@ namespace RimWorld
 			if (this.uses == 0)
 			{
 				Log.Warning("Called reference destroyed method on tale " + this + " but uses count is 0.");
-				return;
 			}
-			this.uses--;
+			else
+			{
+				this.uses--;
+			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Rule> GetTextGenerationRules()
 		{
-			Tale.<GetTextGenerationRules>c__Iterator130 <GetTextGenerationRules>c__Iterator = new Tale.<GetTextGenerationRules>c__Iterator130();
-			<GetTextGenerationRules>c__Iterator.<>f__this = this;
-			Tale.<GetTextGenerationRules>c__Iterator130 expr_0E = <GetTextGenerationRules>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.def.rulePack != null)
+			{
+				for (int i = 0; i < this.def.rulePack.Rules.Count; i++)
+				{
+					yield return this.def.rulePack.Rules[i];
+				}
+			}
+			Vector2 location = Vector2.zero;
+			if (this.surroundings != null && this.surroundings.tile >= 0)
+			{
+				location = Find.WorldGrid.LongLatOf(this.surroundings.tile);
+			}
+			yield return (Rule)new Rule_String("date", GenDate.DateFullStringAt(this.date, location));
+			if (this.surroundings != null)
+			{
+				foreach (Rule rule in this.surroundings.GetRules())
+				{
+					yield return rule;
+				}
+			}
+			foreach (Rule item in this.SpecialTextGenerationRules())
+			{
+				yield return item;
+			}
 		}
 
-		[DebuggerHidden]
 		protected virtual IEnumerable<Rule> SpecialTextGenerationRules()
 		{
-			Tale.<SpecialTextGenerationRules>c__Iterator131 <SpecialTextGenerationRules>c__Iterator = new Tale.<SpecialTextGenerationRules>c__Iterator131();
-			Tale.<SpecialTextGenerationRules>c__Iterator131 expr_07 = <SpecialTextGenerationRules>c__Iterator;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield break;
 		}
 
 		public string GetUniqueLoadID()
@@ -170,17 +198,7 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			string str = string.Concat(new object[]
-			{
-				"(#",
-				this.id,
-				": ",
-				this.ShortSummary,
-				"(age=",
-				((float)this.AgeTicks / 60000f).ToString("F2"),
-				" interest=",
-				this.InterestLevel
-			});
+			string str = "(#" + this.id + ": " + this.ShortSummary + "(age=" + ((float)((float)this.AgeTicks / 60000.0)).ToString("F2") + " interest=" + this.InterestLevel;
 			if (this.Unused && this.def.type == TaleType.Expirable)
 			{
 				str = str + ", expireDays=" + this.def.expireDays.ToString("F2");

@@ -22,10 +22,12 @@ namespace Verse
 				Current.Game.LoadGame();
 				PermadeathModeUtility.CheckUpdatePermadeathModeUniqueNameOnGameLoad(fileName);
 				DeepProfiler.End();
-				return;
 			}
-			Log.Error("Could not find game XML node.");
-			Scribe.ForceStop();
+			else
+			{
+				Log.Error("Could not find game XML node.");
+				Scribe.ForceStop();
+			}
 		}
 	}
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Verse;
 using Verse.Grammar;
@@ -24,20 +23,24 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.thingID, "thingID", 0, false);
 			Scribe_Defs.Look<ThingDef>(ref this.thingDef, "thingDef");
 			Scribe_Defs.Look<ThingDef>(ref this.stuff, "stuff");
-			Scribe_Values.Look<string>(ref this.title, "title", null, false);
+			Scribe_Values.Look<string>(ref this.title, "title", (string)null, false);
 			Scribe_Values.Look<QualityCategory>(ref this.quality, "quality", QualityCategory.Awful, false);
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Rule> GetRules(string prefix)
 		{
-			TaleData_Thing.<GetRules>c__Iterator12E <GetRules>c__Iterator12E = new TaleData_Thing.<GetRules>c__Iterator12E();
-			<GetRules>c__Iterator12E.prefix = prefix;
-			<GetRules>c__Iterator12E.<$>prefix = prefix;
-			<GetRules>c__Iterator12E.<>f__this = this;
-			TaleData_Thing.<GetRules>c__Iterator12E expr_1C = <GetRules>c__Iterator12E;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			yield return (Rule)new Rule_String(prefix + "_label", this.thingDef.label);
+			yield return (Rule)new Rule_String(prefix + "_labelDefinite", Find.ActiveLanguageWorker.WithDefiniteArticle(this.thingDef.label));
+			yield return (Rule)new Rule_String(prefix + "_labelIndefinite", Find.ActiveLanguageWorker.WithIndefiniteArticle(this.thingDef.label));
+			if (this.stuff != null)
+			{
+				yield return (Rule)new Rule_String(prefix + "_stuffLabel", this.stuff.label);
+			}
+			if (this.title != null)
+			{
+				yield return (Rule)new Rule_String(prefix + "_title", this.title);
+			}
+			yield return (Rule)new Rule_String(prefix + "_quality", this.quality.GetLabel());
 		}
 
 		public static TaleData_Thing GenerateFrom(Thing t)
@@ -57,24 +60,14 @@ namespace RimWorld
 
 		public static TaleData_Thing GenerateRandom()
 		{
-			ThingDef thingDef = DefDatabase<ThingDef>.AllDefs.Where(delegate(ThingDef d)
-			{
-				bool arg_36_0;
-				if (d.comps != null)
-				{
-					arg_36_0 = d.comps.Any((CompProperties cp) => cp.compClass == typeof(CompArt));
-				}
-				else
-				{
-					arg_36_0 = false;
-				}
-				return arg_36_0;
-			}).RandomElement<ThingDef>();
+			ThingDef thingDef = (from d in DefDatabase<ThingDef>.AllDefs
+			where d.comps != null && d.comps.Any((Predicate<CompProperties>)((CompProperties cp) => cp.compClass == typeof(CompArt)))
+			select d).RandomElement();
 			ThingDef thingDef2 = GenStuff.RandomStuffFor(thingDef);
 			Thing thing = ThingMaker.MakeThing(thingDef, thingDef2);
-			ArtGenerationContext source = (Rand.Value >= 0.5f) ? ArtGenerationContext.Outsider : ArtGenerationContext.Colony;
+			ArtGenerationContext source = (ArtGenerationContext)((Rand.Value < 0.5) ? 1 : 0);
 			CompQuality compQuality = thing.TryGetComp<CompQuality>();
-			if (compQuality != null && compQuality.Quality < thing.TryGetComp<CompArt>().Props.minQualityForArtistic)
+			if (compQuality != null && (int)compQuality.Quality < (int)thing.TryGetComp<CompArt>().Props.minQualityForArtistic)
 			{
 				compQuality.SetQuality(thing.TryGetComp<CompArt>().Props.minQualityForArtistic, source);
 			}

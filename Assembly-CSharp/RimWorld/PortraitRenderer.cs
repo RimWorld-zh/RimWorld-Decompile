@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -14,8 +13,9 @@ namespace RimWorld
 			portraitCamera.targetTexture = renderTexture;
 			Vector3 position = portraitCamera.transform.position;
 			float orthographicSize = portraitCamera.orthographicSize;
-			portraitCamera.transform.position += cameraOffset;
-			portraitCamera.orthographicSize = 1f / cameraZoom;
+			Transform transform = portraitCamera.transform;
+			transform.position += cameraOffset;
+			portraitCamera.orthographicSize = (float)(1.0 / cameraZoom);
 			this.pawn = pawn;
 			portraitCamera.Render();
 			portraitCamera.transform.position = position;

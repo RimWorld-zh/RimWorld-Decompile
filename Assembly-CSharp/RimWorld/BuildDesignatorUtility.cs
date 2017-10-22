@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -8,8 +7,10 @@ namespace RimWorld
 		public static void TryDrawPowerGridAndAnticipatedConnection(BuildableDef def)
 		{
 			ThingDef thingDef = def as ThingDef;
-			if (thingDef != null && (thingDef.EverTransmitsPower || thingDef.ConnectToPower))
+			if (thingDef != null)
 			{
+				if (!thingDef.EverTransmitsPower && !thingDef.ConnectToPower)
+					return;
 				OverlayDrawHandler.DrawPowerGridOverlayThisFrame();
 				if (thingDef.ConnectToPower)
 				{

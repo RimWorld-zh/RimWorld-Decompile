@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -14,7 +13,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_TemperatureRuinable)this.props;
+				return (CompProperties_TemperatureRuinable)base.props;
 			}
 		}
 
@@ -22,7 +21,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.ruinedPercent >= 1f;
+				return this.ruinedPercent >= 1.0;
 			}
 		}
 
@@ -50,7 +49,7 @@ namespace RimWorld
 		{
 			if (!this.Ruined)
 			{
-				float ambientTemperature = this.parent.AmbientTemperature;
+				float ambientTemperature = base.parent.AmbientTemperature;
 				if (ambientTemperature > this.Props.maxSafeTemperature)
 				{
 					this.ruinedPercent += (ambientTemperature - this.Props.maxSafeTemperature) * this.Props.progressPerDegreePerTick * (float)ticks;
@@ -59,12 +58,12 @@ namespace RimWorld
 				{
 					this.ruinedPercent -= (ambientTemperature - this.Props.minSafeTemperature) * this.Props.progressPerDegreePerTick * (float)ticks;
 				}
-				if (this.ruinedPercent >= 1f)
+				if (this.ruinedPercent >= 1.0)
 				{
 					this.ruinedPercent = 1f;
-					this.parent.BroadcastCompSignal("RuinedByTemperature");
+					base.parent.BroadcastCompSignal("RuinedByTemperature");
 				}
-				else if (this.ruinedPercent < 0f)
+				else if (this.ruinedPercent < 0.0)
 				{
 					this.ruinedPercent = 0f;
 				}
@@ -73,7 +72,7 @@ namespace RimWorld
 
 		public override void PreAbsorbStack(Thing otherStack, int count)
 		{
-			float t = (float)count / (float)(this.parent.stackCount + count);
+			float t = (float)count / (float)(base.parent.stackCount + count);
 			CompTemperatureRuinable comp = ((ThingWithComps)otherStack).GetComp<CompTemperatureRuinable>();
 			this.ruinedPercent = Mathf.Lerp(this.ruinedPercent, comp.ruinedPercent, t);
 		}
@@ -96,25 +95,25 @@ namespace RimWorld
 			{
 				return "RuinedByTemperature".Translate();
 			}
-			if (this.ruinedPercent > 0f)
+			string str;
+			if (this.ruinedPercent > 0.0)
 			{
-				float ambientTemperature = this.parent.AmbientTemperature;
-				string str;
+				float ambientTemperature = base.parent.AmbientTemperature;
 				if (ambientTemperature > this.Props.maxSafeTemperature)
 				{
 					str = "Overheating".Translate();
+					goto IL_0076;
 				}
-				else
+				if (ambientTemperature < this.Props.minSafeTemperature)
 				{
-					if (ambientTemperature >= this.Props.minSafeTemperature)
-					{
-						return null;
-					}
 					str = "Freezing".Translate();
+					goto IL_0076;
 				}
-				return str + ": " + this.ruinedPercent.ToStringPercent();
+				return (string)null;
 			}
-			return null;
+			return (string)null;
+			IL_0076:
+			return str + ": " + this.ruinedPercent.ToStringPercent();
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.BaseGen
@@ -11,7 +10,7 @@ namespace RimWorld.BaseGen
 		{
 			Map map = BaseGen.globalSettings.map;
 			BaseGen.symbolStack.Push("stockpile", rp);
-			if (map.mapTemperature.OutdoorTemp > 15f)
+			if (map.mapTemperature.OutdoorTemp > 15.0)
 			{
 				ResolveParams resolveParams = rp;
 				resolveParams.singleThingDef = ThingDefOf.PassiveCooler;

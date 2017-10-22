@@ -1,4 +1,3 @@
-using System;
 using Verse.AI.Group;
 
 namespace RimWorld

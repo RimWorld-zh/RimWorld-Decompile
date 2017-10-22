@@ -16,7 +16,7 @@ namespace RimWorld
 		public override void DoHeader(Rect rect, PawnTable table)
 		{
 			base.DoHeader(rect, table);
-			Rect rect2 = new Rect(rect.x, rect.y + (rect.height - 65f), Mathf.Min(rect.width, 360f), 32f);
+			Rect rect2 = new Rect(rect.x, (float)(rect.y + (rect.height - 65.0)), Mathf.Min(rect.width, 360f), 32f);
 			if (Widgets.ButtonText(rect2, "ManageDrugPolicies".Translate(), true, false, true))
 			{
 				Find.WindowStack.Add(new Dialog_ManageDrugPolicies(null));
@@ -28,49 +28,57 @@ namespace RimWorld
 
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (pawn.drugs == null)
+			if (pawn.drugs != null)
 			{
-				return;
-			}
-			int num = Mathf.FloorToInt((rect.width - 4f) * 0.714285731f);
-			int num2 = Mathf.FloorToInt((rect.width - 4f) * 0.2857143f);
-			float num3 = rect.x;
-			Rect rect2 = new Rect(num3, rect.y + 2f, (float)num, rect.height - 4f);
-			string text = pawn.drugs.CurrentPolicy.label;
-			if (pawn.story != null && pawn.story.traits != null)
-			{
-				Trait trait = pawn.story.traits.GetTrait(TraitDefOf.DrugDesire);
-				if (trait != null)
+				int num = Mathf.FloorToInt((float)((rect.width - 4.0) * 0.71428573131561279));
+				int num2 = Mathf.FloorToInt((float)((rect.width - 4.0) * 0.28571429848670959));
+				float x = rect.x;
+				Rect rect2 = new Rect(x, (float)(rect.y + 2.0), (float)num, (float)(rect.height - 4.0));
+				string text = pawn.drugs.CurrentPolicy.label;
+				if (pawn.story != null && pawn.story.traits != null)
 				{
-					text = text + " (" + trait.Label + ")";
-				}
-			}
-			text = text.Truncate(rect2.width, null);
-			if (Widgets.ButtonText(rect2, text, true, false, true))
-			{
-				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				foreach (DrugPolicy current in Current.Game.drugPolicyDatabase.AllPolicies)
-				{
-					DrugPolicy localAssignedDrugs = current;
-					list.Add(new FloatMenuOption(current.label, delegate
+					Trait trait = pawn.story.traits.GetTrait(TraitDefOf.DrugDesire);
+					if (trait != null)
 					{
-						pawn.drugs.CurrentPolicy = localAssignedDrugs;
-					}, MenuOptionPriority.Default, null, null, 0f, null, null));
+						text = text + " (" + trait.Label + ")";
+					}
 				}
-				Find.WindowStack.Add(new FloatMenu(list));
-				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.DrugPolicies, KnowledgeAmount.Total);
+				text = text.Truncate(rect2.width, null);
+				if (Widgets.ButtonText(rect2, text, true, false, true))
+				{
+					List<FloatMenuOption> list = new List<FloatMenuOption>();
+					List<DrugPolicy>.Enumerator enumerator = Current.Game.drugPolicyDatabase.AllPolicies.GetEnumerator();
+					try
+					{
+						while (enumerator.MoveNext())
+						{
+							DrugPolicy current = enumerator.Current;
+							DrugPolicy localAssignedDrugs = current;
+							list.Add(new FloatMenuOption(current.label, (Action)delegate()
+							{
+								pawn.drugs.CurrentPolicy = localAssignedDrugs;
+							}, MenuOptionPriority.Default, null, null, 0f, null, null));
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator).Dispose();
+					}
+					Find.WindowStack.Add(new FloatMenu(list));
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.DrugPolicies, KnowledgeAmount.Total);
+				}
+				x += (float)num;
+				x = (float)(x + 4.0);
+				Rect rect3 = new Rect(x, (float)(rect.y + 2.0), (float)num2, (float)(rect.height - 4.0));
+				if (Widgets.ButtonText(rect3, "AssignTabEdit".Translate(), true, false, true))
+				{
+					Find.WindowStack.Add(new Dialog_ManageDrugPolicies(pawn.drugs.CurrentPolicy));
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.DrugPolicies, KnowledgeAmount.Total);
+				}
+				UIHighlighter.HighlightOpportunity(rect2, "ButtonAssignDrugs");
+				UIHighlighter.HighlightOpportunity(rect3, "ButtonAssignDrugs");
+				x += (float)num2;
 			}
-			num3 += (float)num;
-			num3 += 4f;
-			Rect rect3 = new Rect(num3, rect.y + 2f, (float)num2, rect.height - 4f);
-			if (Widgets.ButtonText(rect3, "AssignTabEdit".Translate(), true, false, true))
-			{
-				Find.WindowStack.Add(new Dialog_ManageDrugPolicies(pawn.drugs.CurrentPolicy));
-				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.DrugPolicies, KnowledgeAmount.Total);
-			}
-			UIHighlighter.HighlightOpportunity(rect2, "ButtonAssignDrugs");
-			UIHighlighter.HighlightOpportunity(rect3, "ButtonAssignDrugs");
-			num3 += (float)num2;
 		}
 
 		public override int GetMinWidth(PawnTable table)
@@ -95,7 +103,7 @@ namespace RimWorld
 
 		private int GetValueToCompare(Pawn pawn)
 		{
-			return (pawn.drugs != null && pawn.drugs.CurrentPolicy != null) ? pawn.drugs.CurrentPolicy.uniqueId : -2147483648;
+			return (pawn.drugs != null && pawn.drugs.CurrentPolicy != null) ? pawn.drugs.CurrentPolicy.uniqueId : (-2147483648);
 		}
 	}
 }

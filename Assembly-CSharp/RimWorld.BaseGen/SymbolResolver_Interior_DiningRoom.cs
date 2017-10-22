@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -11,8 +10,8 @@ namespace RimWorld.BaseGen
 			BaseGen.symbolStack.Push("indoorLighting", rp);
 			BaseGen.symbolStack.Push("randomlyPlaceMealsOnTables", rp);
 			BaseGen.symbolStack.Push("placeChairsNearTables", rp);
-			int num = Mathf.Max(GenMath.RoundRandom((float)rp.rect.Area / 20f), 1);
-			for (int i = 0; i < num; i++)
+			int num = Mathf.Max(GenMath.RoundRandom((float)((float)rp.rect.Area / 20.0)), 1);
+			for (int num2 = 0; num2 < num; num2++)
 			{
 				ResolveParams resolveParams = rp;
 				resolveParams.singleThingDef = ThingDefOf.TableShort;

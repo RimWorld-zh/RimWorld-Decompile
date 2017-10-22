@@ -13,7 +13,7 @@ namespace Verse
 			public abstract string Readable(Pawn pawn);
 		}
 
-		public class CapacityImpactorBodyPartHealth : PawnCapacityUtility.CapacityImpactor
+		public class CapacityImpactorBodyPartHealth : CapacityImpactor
 		{
 			public BodyPartRecord bodyPart;
 
@@ -23,17 +23,17 @@ namespace Verse
 			}
 		}
 
-		public class CapacityImpactorCapacity : PawnCapacityUtility.CapacityImpactor
+		public class CapacityImpactorCapacity : CapacityImpactor
 		{
 			public PawnCapacityDef capacity;
 
 			public override string Readable(Pawn pawn)
 			{
-				return string.Format("{0}: {1}%", this.capacity.LabelCap, (pawn.health.capacities.GetLevel(this.capacity) * 100f).ToString("F0"));
+				return string.Format("{0}: {1}%", this.capacity.LabelCap, ((float)(pawn.health.capacities.GetLevel(this.capacity) * 100.0)).ToString("F0"));
 			}
 		}
 
-		public class CapacityImpactorHediff : PawnCapacityUtility.CapacityImpactor
+		public class CapacityImpactorHediff : CapacityImpactor
 		{
 			public Hediff hediff;
 
@@ -43,11 +43,11 @@ namespace Verse
 			}
 		}
 
-		public class CapacityImpactorPain : PawnCapacityUtility.CapacityImpactor
+		public class CapacityImpactorPain : CapacityImpactor
 		{
 			public override string Readable(Pawn pawn)
 			{
-				return string.Format("{0}: {1}%", "Pain".Translate(), (pawn.health.hediffSet.PainTotal * 100f).ToString("F0"));
+				return string.Format("{0}: {1}%", "Pain".Translate(), ((float)(pawn.health.hediffSet.PainTotal * 100.0)).ToString("F0"));
 			}
 		}
 
@@ -56,13 +56,13 @@ namespace Verse
 			return capacity.Worker.CanHaveCapacity(bodyDef);
 		}
 
-		public static float CalculateCapacityLevel(HediffSet diffSet, PawnCapacityDef capacity, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
+		public static float CalculateCapacityLevel(HediffSet diffSet, PawnCapacityDef capacity, List<CapacityImpactor> impactors = null)
 		{
 			if (capacity.zeroIfCannotBeAwake && !diffSet.pawn.health.capacities.CanBeAwake)
 			{
 				if (impactors != null)
 				{
-					impactors.Add(new PawnCapacityUtility.CapacityImpactorCapacity
+					impactors.Add(new CapacityImpactorCapacity
 					{
 						capacity = PawnCapacityDefOf.Consciousness
 					});
@@ -70,7 +70,7 @@ namespace Verse
 				return 0f;
 			}
 			float num = capacity.Worker.CalculateCapacityLevel(diffSet, impactors);
-			if (num > 0f && capacity.minValue <= 0f)
+			if (num > 0.0 && capacity.minValue <= 0.0)
 			{
 				float num2 = 99999f;
 				float num3 = 1f;
@@ -93,7 +93,7 @@ namespace Verse
 								}
 								if (impactors != null)
 								{
-									impactors.Add(new PawnCapacityUtility.CapacityImpactorHediff
+									impactors.Add(new CapacityImpactorHediff
 									{
 										hediff = hediff
 									});
@@ -109,7 +109,7 @@ namespace Verse
 			return GenMath.RoundedHundredth(num);
 		}
 
-		public static float CalculatePartEfficiency(HediffSet diffSet, BodyPartRecord part, bool ignoreAddedParts = false, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
+		public static float CalculatePartEfficiency(HediffSet diffSet, BodyPartRecord part, bool ignoreAddedParts = false, List<CapacityImpactor> impactors = null)
 		{
 			BodyPartRecord rec;
 			for (rec = part.parent; rec != null; rec = rec.parent)
@@ -118,10 +118,10 @@ namespace Verse
 				{
 					Hediff_AddedPart hediff_AddedPart = (from x in diffSet.GetHediffs<Hediff_AddedPart>()
 					where x.Part == rec
-					select x).First<Hediff_AddedPart>();
+					select x).First();
 					if (impactors != null)
 					{
-						impactors.Add(new PawnCapacityUtility.CapacityImpactorHediff
+						impactors.Add(new CapacityImpactorHediff
 						{
 							hediff = hediff_AddedPart
 						});
@@ -142,9 +142,9 @@ namespace Verse
 					if (hediff_AddedPart2 != null && hediff_AddedPart2.Part == part)
 					{
 						num *= hediff_AddedPart2.def.addedPartProps.partEfficiency;
-						if (hediff_AddedPart2.def.addedPartProps.partEfficiency != 1f && impactors != null)
+						if (hediff_AddedPart2.def.addedPartProps.partEfficiency != 1.0 && impactors != null)
 						{
-							impactors.Add(new PawnCapacityUtility.CapacityImpactorHediff
+							impactors.Add(new CapacityImpactorHediff
 							{
 								hediff = hediff_AddedPart2
 							});
@@ -162,9 +162,9 @@ namespace Verse
 					HediffStage curStage = diffSet.hediffs[j].CurStage;
 					num2 += curStage.partEfficiencyOffset;
 					flag |= curStage.partIgnoreMissingHP;
-					if (curStage.partEfficiencyOffset != 0f && curStage.everVisible && impactors != null)
+					if (curStage.partEfficiencyOffset != 0.0 && curStage.everVisible && impactors != null)
 					{
-						impactors.Add(new PawnCapacityUtility.CapacityImpactorHediff
+						impactors.Add(new CapacityImpactorHediff
 						{
 							hediff = diffSet.hediffs[j]
 						});
@@ -174,9 +174,9 @@ namespace Verse
 			if (!flag)
 			{
 				float num3 = diffSet.GetPartHealth(part) / part.def.GetMaxHealth(diffSet.pawn);
-				if (num3 != 1f && impactors != null)
+				if (num3 != 1.0 && impactors != null)
 				{
-					impactors.Add(new PawnCapacityUtility.CapacityImpactorBodyPartHealth
+					impactors.Add(new CapacityImpactorBodyPartHealth
 					{
 						bodyPart = part
 					});
@@ -184,14 +184,14 @@ namespace Verse
 				num *= num3;
 			}
 			num += num2;
-			if (num > 0.0001f)
+			if (num > 9.9999997473787516E-05)
 			{
 				num = Mathf.Max(num, b);
 			}
 			return Mathf.Max(num, 0f);
 		}
 
-		public static float CalculateImmediatePartEfficiencyAndRecord(HediffSet diffSet, BodyPartRecord part, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
+		public static float CalculateImmediatePartEfficiencyAndRecord(HediffSet diffSet, BodyPartRecord part, List<CapacityImpactor> impactors = null)
 		{
 			if (diffSet.AncestorHasDirectlyAddedParts(part))
 			{
@@ -207,36 +207,35 @@ namespace Verse
 			IEnumerable<BodyPartRecord> enumerable = from x in diffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined)
 			where x.groups.Contains(bodyPartGroup)
 			select x;
-			foreach (BodyPartRecord current in enumerable)
+			foreach (BodyPartRecord item in enumerable)
 			{
-				if (!diffSet.PartOrAnyAncestorHasDirectlyAddedParts(current))
+				if (!diffSet.PartOrAnyAncestorHasDirectlyAddedParts(item))
 				{
-					num += PawnCapacityUtility.CalculatePartEfficiency(diffSet, current, false, null);
+					num += PawnCapacityUtility.CalculatePartEfficiency(diffSet, item, false, null);
 				}
 				num2++;
 			}
-			if (num2 == 0 || num < 0f)
+			if (num2 != 0 && !(num < 0.0))
 			{
-				return 0f;
+				return num / (float)num2;
 			}
-			return num / (float)num2;
+			return 0f;
 		}
 
-		public static float CalculateTagEfficiency(HediffSet diffSet, string tag, float maximum = 3.40282347E+38f, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
+		public static float CalculateTagEfficiency(HediffSet diffSet, string tag, float maximum = 3.40282347E+38f, List<CapacityImpactor> impactors = null)
 		{
 			BodyDef body = diffSet.pawn.RaceProps.body;
 			float num = 0f;
 			int num2 = 0;
-			List<PawnCapacityUtility.CapacityImpactor> list = null;
-			foreach (BodyPartRecord current in body.GetPartsWithTag(tag))
+			List<CapacityImpactor> list = null;
+			foreach (BodyPartRecord item in body.GetPartsWithTag(tag))
 			{
-				List<PawnCapacityUtility.CapacityImpactor> impactors2 = list;
-				float num3 = PawnCapacityUtility.CalculatePartEfficiency(diffSet, current, false, impactors2);
-				if (impactors != null && num3 != 1f && list == null)
+				List<CapacityImpactor> impactors2 = list;
+				float num3 = PawnCapacityUtility.CalculatePartEfficiency(diffSet, item, false, impactors2);
+				if (impactors != null && num3 != 1.0 && list == null)
 				{
-					list = new List<PawnCapacityUtility.CapacityImpactor>();
-					impactors2 = list;
-					PawnCapacityUtility.CalculatePartEfficiency(diffSet, current, false, impactors2);
+					list = (impactors2 = new List<CapacityImpactor>());
+					PawnCapacityUtility.CalculatePartEfficiency(diffSet, item, false, impactors2);
 				}
 				num += num3;
 				num2++;
@@ -247,33 +246,33 @@ namespace Verse
 			}
 			float num4 = num / (float)num2;
 			float num5 = Mathf.Min(num4, maximum);
-			if (impactors != null && list != null && (maximum != 1f || num4 <= 1f || num5 == 1f))
+			if (impactors != null && list != null && (maximum != 1.0 || num4 <= 1.0 || num5 == 1.0))
 			{
 				impactors.AddRange(list);
 			}
 			return num5;
 		}
 
-		public static float CalculateLimbEfficiency(HediffSet diffSet, string limbCoreTag, string limbSegmentTag, string limbDigitTag, float appendageWeight, out float functionalPercentage, List<PawnCapacityUtility.CapacityImpactor> impactors)
+		public static float CalculateLimbEfficiency(HediffSet diffSet, string limbCoreTag, string limbSegmentTag, string limbDigitTag, float appendageWeight, out float functionalPercentage, List<CapacityImpactor> impactors)
 		{
 			BodyDef body = diffSet.pawn.RaceProps.body;
 			float num = 0f;
 			int num2 = 0;
 			int num3 = 0;
-			foreach (BodyPartRecord current in body.GetPartsWithTag(limbCoreTag))
+			foreach (BodyPartRecord item in body.GetPartsWithTag(limbCoreTag))
 			{
-				float num4 = PawnCapacityUtility.CalculateImmediatePartEfficiencyAndRecord(diffSet, current, impactors);
-				foreach (BodyPartRecord current2 in current.GetConnectedParts(limbSegmentTag))
+				float num4 = PawnCapacityUtility.CalculateImmediatePartEfficiencyAndRecord(diffSet, item, impactors);
+				foreach (BodyPartRecord connectedPart in item.GetConnectedParts(limbSegmentTag))
 				{
-					num4 *= PawnCapacityUtility.CalculateImmediatePartEfficiencyAndRecord(diffSet, current2, impactors);
+					num4 *= PawnCapacityUtility.CalculateImmediatePartEfficiencyAndRecord(diffSet, connectedPart, impactors);
 				}
-				if (current.HasChildParts(limbDigitTag))
+				if (item.HasChildParts(limbDigitTag))
 				{
-					num4 = Mathf.Lerp(num4, num4 * current.GetChildParts(limbDigitTag).Average((BodyPartRecord digitPart) => PawnCapacityUtility.CalculateImmediatePartEfficiencyAndRecord(diffSet, digitPart, impactors)), appendageWeight);
+					num4 = Mathf.Lerp(num4, num4 * item.GetChildParts(limbDigitTag).Average((Func<BodyPartRecord, float>)((BodyPartRecord digitPart) => PawnCapacityUtility.CalculateImmediatePartEfficiencyAndRecord(diffSet, digitPart, impactors))), appendageWeight);
 				}
 				num += num4;
 				num2++;
-				if (num4 > 0f)
+				if (num4 > 0.0)
 				{
 					num3++;
 				}

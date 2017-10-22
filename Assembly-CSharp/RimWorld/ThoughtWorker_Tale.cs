@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -15,7 +14,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (Find.TaleManager.GetLatestTale(this.def.taleDef, other) == null)
+			if (Find.TaleManager.GetLatestTale(base.def.taleDef, other) == null)
 			{
 				return false;
 			}

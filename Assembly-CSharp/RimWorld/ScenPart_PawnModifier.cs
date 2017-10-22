@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -42,17 +41,13 @@ namespace RimWorld
 			if (Widgets.ButtonText(rect7, this.context.ToStringHuman(), true, false, true))
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				using (IEnumerator enumerator = Enum.GetValues(typeof(PawnGenerationContext)).GetEnumerator())
+				foreach (int value in Enum.GetValues(typeof(PawnGenerationContext)))
 				{
-					while (enumerator.MoveNext())
+					PawnGenerationContext localCont = (PawnGenerationContext)value;
+					list.Add(new FloatMenuOption(localCont.ToStringHuman(), (Action)delegate
 					{
-						PawnGenerationContext localCont2 = (PawnGenerationContext)((int)enumerator.Current);
-						PawnGenerationContext localCont = localCont2;
-						list.Add(new FloatMenuOption(localCont.ToStringHuman(), delegate
-						{
-							this.context = localCont;
-						}, MenuOptionPriority.Default, null, null, 0f, null, null));
-					}
+						this.context = localCont;
+					}, MenuOptionPriority.Default, null, null, 0f, null, null));
 				}
 				Find.WindowStack.Add(new FloatMenu(list));
 			}
@@ -68,9 +63,7 @@ namespace RimWorld
 		public override void Notify_PawnGenerated(Pawn pawn, PawnGenerationContext context)
 		{
 			if (this.hideOffMap && PawnGenerationContext.PlayerStarter.Includes(context))
-			{
 				return;
-			}
 			if (pawn.RaceProps.Humanlike && this.context.Includes(context))
 			{
 				this.ModifyPawn(pawn);
@@ -79,18 +72,25 @@ namespace RimWorld
 
 		public override void PostMapGenerate(Map map)
 		{
-			if (Find.GameInitData == null)
+			if (Find.GameInitData != null && this.hideOffMap)
 			{
-				return;
-			}
-			if (this.hideOffMap && (this.context == PawnGenerationContext.PlayerStarter || this.context == PawnGenerationContext.All))
-			{
-				foreach (Pawn current in Find.GameInitData.startingPawns)
+				if (((this.context != PawnGenerationContext.PlayerStarter) ? this.context : PawnGenerationContext.All) != 0)
+					return;
+				List<Pawn>.Enumerator enumerator = Find.GameInitData.startingPawns.GetEnumerator();
+				try
 				{
-					if (current.RaceProps.Humanlike)
+					while (enumerator.MoveNext())
 					{
-						this.ModifyPawn(current);
+						Pawn current = enumerator.Current;
+						if (current.RaceProps.Humanlike)
+						{
+							this.ModifyPawn(current);
+						}
 					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 		}

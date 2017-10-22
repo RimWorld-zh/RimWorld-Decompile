@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -46,31 +45,31 @@ namespace RimWorld
 			{
 				if (Current.ProgramState == ProgramState.Playing)
 				{
-					row.ToggleableIcon(ref this.showColonistBar, TexButton.ShowColonistBar, "ShowColonistBarToggleButton".Translate(), SoundDefOf.MouseoverToggle, null);
+					row.ToggleableIcon(ref this.showColonistBar, TexButton.ShowColonistBar, "ShowColonistBarToggleButton".Translate(), SoundDefOf.MouseoverToggle, (string)null);
 				}
 				bool flag2 = this.lockNorthUp;
-				row.ToggleableIcon(ref this.lockNorthUp, TexButton.LockNorthUp, "LockNorthUpToggleButton".Translate(), SoundDefOf.MouseoverToggle, null);
+				row.ToggleableIcon(ref this.lockNorthUp, TexButton.LockNorthUp, "LockNorthUpToggleButton".Translate(), SoundDefOf.MouseoverToggle, (string)null);
 				if (flag2 != this.lockNorthUp && this.lockNorthUp)
 				{
 					Find.WorldCameraDriver.RotateSoNorthIsUp(true);
 				}
-				row.ToggleableIcon(ref this.usePlanetDayNightSystem, TexButton.UsePlanetDayNightSystem, "UsePlanetDayNightSystemToggleButton".Translate(), SoundDefOf.MouseoverToggle, null);
-				row.ToggleableIcon(ref this.expandingIcons, TexButton.ExpandingIcons, "ExpandingIconsToggleButton".Translate(), SoundDefOf.MouseoverToggle, null);
+				row.ToggleableIcon(ref this.usePlanetDayNightSystem, TexButton.UsePlanetDayNightSystem, "UsePlanetDayNightSystemToggleButton".Translate(), SoundDefOf.MouseoverToggle, (string)null);
+				row.ToggleableIcon(ref this.expandingIcons, TexButton.ExpandingIcons, "ExpandingIconsToggleButton".Translate(), SoundDefOf.MouseoverToggle, (string)null);
 			}
 			else
 			{
-				row.ToggleableIcon(ref this.showLearningHelper, TexButton.ShowLearningHelper, "ShowLearningHelperWhenEmptyToggleButton".Translate(), SoundDefOf.MouseoverToggle, null);
-				row.ToggleableIcon(ref this.showZones, TexButton.ShowZones, "ZoneVisibilityToggleButton".Translate(), SoundDefOf.MouseoverToggle, null);
+				row.ToggleableIcon(ref this.showLearningHelper, TexButton.ShowLearningHelper, "ShowLearningHelperWhenEmptyToggleButton".Translate(), SoundDefOf.MouseoverToggle, (string)null);
+				row.ToggleableIcon(ref this.showZones, TexButton.ShowZones, "ZoneVisibilityToggleButton".Translate(), SoundDefOf.MouseoverToggle, (string)null);
 				row.ToggleableIcon(ref this.showEnvironment, TexButton.ShowEnvironment, "ShowEnvironmentToggleButton".Translate(), SoundDefOf.MouseoverToggle, "InspectRoomStats");
-				row.ToggleableIcon(ref this.showColonistBar, TexButton.ShowColonistBar, "ShowColonistBarToggleButton".Translate(), SoundDefOf.MouseoverToggle, null);
-				row.ToggleableIcon(ref this.showRoofOverlay, TexButton.ShowRoofOverlay, "ShowRoofOverlayToggleButton".Translate(), SoundDefOf.MouseoverToggle, null);
-				row.ToggleableIcon(ref this.autoHomeArea, TexButton.AutoHomeArea, "AutoHomeAreaToggleButton".Translate(), SoundDefOf.MouseoverToggle, null);
-				bool resourceReadoutCategorized = Prefs.ResourceReadoutCategorized;
-				bool flag3 = resourceReadoutCategorized;
-				row.ToggleableIcon(ref resourceReadoutCategorized, TexButton.CategorizedResourceReadout, "CategorizedResourceReadoutToggleButton".Translate(), SoundDefOf.MouseoverToggle, null);
-				if (resourceReadoutCategorized != flag3)
+				row.ToggleableIcon(ref this.showColonistBar, TexButton.ShowColonistBar, "ShowColonistBarToggleButton".Translate(), SoundDefOf.MouseoverToggle, (string)null);
+				row.ToggleableIcon(ref this.showRoofOverlay, TexButton.ShowRoofOverlay, "ShowRoofOverlayToggleButton".Translate(), SoundDefOf.MouseoverToggle, (string)null);
+				row.ToggleableIcon(ref this.autoHomeArea, TexButton.AutoHomeArea, "AutoHomeAreaToggleButton".Translate(), SoundDefOf.MouseoverToggle, (string)null);
+				bool resourceReadoutCategorized;
+				bool flag3 = resourceReadoutCategorized = Prefs.ResourceReadoutCategorized;
+				row.ToggleableIcon(ref flag3, TexButton.CategorizedResourceReadout, "CategorizedResourceReadoutToggleButton".Translate(), SoundDefOf.MouseoverToggle, (string)null);
+				if (flag3 != resourceReadoutCategorized)
 				{
-					Prefs.ResourceReadoutCategorized = resourceReadoutCategorized;
+					Prefs.ResourceReadoutCategorized = flag3;
 				}
 			}
 			if (flag != this.showColonistBar)

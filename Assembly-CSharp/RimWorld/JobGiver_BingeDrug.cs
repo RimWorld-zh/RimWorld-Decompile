@@ -66,9 +66,10 @@ namespace RimWorld
 				return null;
 			}
 			Hediff overdose = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.DrugOverdose, false);
-			Predicate<Thing> predicate = delegate(Thing t)
+			Predicate<Thing> validator;
+			Predicate<Thing> predicate = validator = (Predicate<Thing>)delegate(Thing t)
 			{
-				if (!this.IgnoreForbid(pawn) && t.IsForbidden(pawn))
+				if (!base.IgnoreForbid(pawn) && t.IsForbidden(pawn))
 				{
 					return false;
 				}
@@ -77,9 +78,20 @@ namespace RimWorld
 					return false;
 				}
 				CompDrug compDrug = t.TryGetComp<CompDrug>();
-				return compDrug.Props.chemical == chemical && (overdose == null || !compDrug.Props.CanCauseOverdose || overdose.Severity + compDrug.Props.overdoseSeverityOffset.max < 0.786f) && (pawn.Position.InHorDistOf(t.Position, 60f) || t.Position.Roofed(t.Map) || pawn.Map.areaManager.Home[t.Position] || t.GetSlotGroup() != null);
+				if (compDrug.Props.chemical != chemical)
+				{
+					return false;
+				}
+				if (overdose != null && compDrug.Props.CanCauseOverdose && overdose.Severity + compDrug.Props.overdoseSeverityOffset.max >= 0.78600001335144043)
+				{
+					return false;
+				}
+				if (!pawn.Position.InHorDistOf(t.Position, 60f) && !t.Position.Roofed(t.Map) && !((Area)pawn.Map.areaManager.Home)[t.Position] && t.GetSlotGroup() == null)
+				{
+					return false;
+				}
+				return true;
 			};
-			Predicate<Thing> validator = predicate;
 			return GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.Drug), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
 		}
 

@@ -20,7 +20,7 @@ namespace Verse.Noise
 
 		private const int GeneratorShift = 8;
 
-		internal static double[] _randoms = new double[]
+		internal static double[] _randoms = new double[1024]
 		{
 			-0.763874,
 			-0.596439,
@@ -1050,11 +1050,11 @@ namespace Verse.Noise
 
 		internal static double GradientCoherentNoise3D(double x, double y, double z, long seed, QualityMode quality)
 		{
-			int num = (x <= 0.0) ? ((int)x - 1) : ((int)x);
+			int num = (!(x > 0.0)) ? ((int)x - 1) : ((int)x);
 			int ix = num + 1;
-			int num2 = (y <= 0.0) ? ((int)y - 1) : ((int)y);
+			int num2 = (!(y > 0.0)) ? ((int)y - 1) : ((int)y);
 			int iy = num2 + 1;
-			int num3 = (z <= 0.0) ? ((int)z - 1) : ((int)z);
+			int num3 = (!(z > 0.0)) ? ((int)z - 1) : ((int)z);
 			int iz = num3 + 1;
 			double position = 0.0;
 			double position2 = 0.0;
@@ -1062,20 +1062,26 @@ namespace Verse.Noise
 			switch (quality)
 			{
 			case QualityMode.Low:
+			{
 				position = x - (double)num;
 				position2 = y - (double)num2;
 				position3 = z - (double)num3;
 				break;
+			}
 			case QualityMode.Medium:
+			{
 				position = Utils.MapCubicSCurve(x - (double)num);
 				position2 = Utils.MapCubicSCurve(y - (double)num2);
 				position3 = Utils.MapCubicSCurve(z - (double)num3);
 				break;
+			}
 			case QualityMode.High:
+			{
 				position = Utils.MapQuinticSCurve(x - (double)num);
 				position2 = Utils.MapQuinticSCurve(y - (double)num2);
 				position3 = Utils.MapQuinticSCurve(z - (double)num3);
 				break;
+			}
 			}
 			double a = Utils.GradientNoise3D(x, y, z, num, num2, num3, seed);
 			double b = Utils.GradientNoise3D(x, y, z, ix, num2, num3, seed);
@@ -1096,18 +1102,12 @@ namespace Verse.Noise
 
 		internal static double GradientNoise3D(double fx, double fy, double fz, int ix, int iy, int iz, long seed)
 		{
-			long num = (long)(1619 * ix + 31337 * iy + 6971 * iz) + 1013L * seed & (long)((ulong)-1);
+			long num = 1619 * ix + 31337 * iy + 6971 * iz + 1013 * seed & 4294967295u;
 			num ^= num >> 8;
-			num &= 255L;
-			double num2;
-			double num3;
-			double num4;
-			checked
-			{
-				num2 = Utils._randoms[(int)((IntPtr)(num << 2))];
-				num3 = Utils._randoms[(int)((IntPtr)(unchecked((num << 2) + 1L)))];
-				num4 = Utils._randoms[(int)((IntPtr)(unchecked((num << 2) + 2L)))];
-			}
+			num &= 255;
+			double num2 = Utils._randoms[num << 2];
+			double num3 = Utils._randoms[(num << 2) + 1];
+			double num4 = Utils._randoms[(num << 2) + 2];
 			double num5 = fx - (double)ix;
 			double num6 = fy - (double)iy;
 			double num7 = fz - (double)iz;
@@ -1160,9 +1160,9 @@ namespace Verse.Noise
 
 		internal static long ValueNoise3DInt(int x, int y, int z, int seed)
 		{
-			long num = (long)(1619 * x + 31337 * y + 6971 * z + 1013 * seed & 2147483647);
+			long num = 1619 * x + 31337 * y + 6971 * z + 1013 * seed & 2147483647;
 			num = (num >> 13 ^ num);
-			return num * (num * num * 60493L + 19990303L) + 1376312589L & 2147483647L;
+			return num * (num * num * 60493 + 19990303) + 1376312589 & 2147483647;
 		}
 	}
 }

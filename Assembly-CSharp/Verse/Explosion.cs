@@ -71,37 +71,29 @@ namespace Verse
 			}
 			this.damType.Worker.ExplosionStart(this, this.cellsToAffect);
 			this.PlayExplosionSound(explosionSound);
-			MoteMaker.MakeWaterSplash(this.position.ToVector3Shifted(), this.Map, this.radius * 6f, 20f);
-			this.cellsToAffect.Sort((IntVec3 a, IntVec3 b) => this.GetCellAffectTick(b).CompareTo(this.GetCellAffectTick(a)));
+			MoteMaker.MakeWaterSplash(this.position.ToVector3Shifted(), this.Map, (float)(this.radius * 6.0), 20f);
+			this.cellsToAffect.Sort((Comparison<IntVec3>)((IntVec3 a, IntVec3 b) => this.GetCellAffectTick(b).CompareTo(this.GetCellAffectTick(a))));
 		}
 
 		public void Tick()
 		{
 			int ticksGame = Find.TickManager.TicksGame;
 			int count = this.cellsToAffect.Count;
-			for (int i = count - 1; i >= 0; i--)
+			int num = count - 1;
+			while (num >= 0 && ticksGame >= this.GetCellAffectTick(this.cellsToAffect[num]))
 			{
-				if (ticksGame < this.GetCellAffectTick(this.cellsToAffect[i]))
-				{
-					break;
-				}
 				try
 				{
-					this.AffectCell(this.cellsToAffect[i]);
+					this.AffectCell(this.cellsToAffect[num]);
 				}
 				catch (Exception ex)
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Explosion could not affect cell ",
-						this.cellsToAffect[i],
-						": ",
-						ex
-					}));
+					Log.Error("Explosion could not affect cell " + this.cellsToAffect[num] + ": " + ex);
 				}
-				this.cellsToAffect.RemoveAt(i);
+				this.cellsToAffect.RemoveAt(num);
+				num--;
 			}
-			if (!this.cellsToAffect.Any<IntVec3>())
+			if (!this.cellsToAffect.Any())
 			{
 				this.Finished();
 			}
@@ -109,20 +101,19 @@ namespace Verse
 
 		public void Finished()
 		{
-			if (this.finished)
+			if (!this.finished)
 			{
-				return;
+				this.cellsToAffect.Clear();
+				SimplePool<List<IntVec3>>.Return(this.cellsToAffect);
+				this.cellsToAffect = null;
+				this.damagedThings.Clear();
+				SimplePool<List<Thing>>.Return(this.damagedThings);
+				this.damagedThings = null;
+				this.addedCellsAffectedOnlyByDamage.Clear();
+				SimplePool<HashSet<IntVec3>>.Return(this.addedCellsAffectedOnlyByDamage);
+				this.addedCellsAffectedOnlyByDamage = null;
+				this.finished = true;
 			}
-			this.cellsToAffect.Clear();
-			SimplePool<List<IntVec3>>.Return(this.cellsToAffect);
-			this.cellsToAffect = null;
-			this.damagedThings.Clear();
-			SimplePool<List<Thing>>.Return(this.damagedThings);
-			this.damagedThings = null;
-			this.addedCellsAffectedOnlyByDamage.Clear();
-			SimplePool<HashSet<IntVec3>>.Return(this.addedCellsAffectedOnlyByDamage);
-			this.addedCellsAffectedOnlyByDamage = null;
-			this.finished = true;
 		}
 
 		public void ExposeData()
@@ -147,13 +138,13 @@ namespace Verse
 			Scribe_Collections.Look<IntVec3>(ref this.addedCellsAffectedOnlyByDamage, "addedCellsAffectedOnlyByDamage", LookMode.Value);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.damagedThings.RemoveAll((Thing x) => x == null);
+				this.damagedThings.RemoveAll((Predicate<Thing>)((Thing x) => x == null));
 			}
 		}
 
 		private int GetCellAffectTick(IntVec3 cell)
 		{
-			return this.startTick + (int)((cell - this.position).LengthHorizontal * 1.5f);
+			return this.startTick + (int)((cell - this.position).LengthHorizontal * 1.5);
 		}
 
 		private void AffectCell(IntVec3 c)
@@ -172,34 +163,24 @@ namespace Verse
 
 		private void TrySpawnExplosionThing(ThingDef thingDef, IntVec3 c, int count)
 		{
-			if (thingDef == null)
+			if (thingDef != null)
 			{
-				return;
-			}
-			if (thingDef.IsFilth)
-			{
-				FilthMaker.MakeFilth(c, this.Map, thingDef, count);
-			}
-			else
-			{
-				Thing thing = ThingMaker.MakeThing(thingDef, null);
-				thing.stackCount = count;
-				GenSpawn.Spawn(thing, c, this.Map);
+				if (thingDef.IsFilth)
+				{
+					FilthMaker.MakeFilth(c, this.Map, thingDef, count);
+				}
+				else
+				{
+					Thing thing = ThingMaker.MakeThing(thingDef, null);
+					thing.stackCount = count;
+					GenSpawn.Spawn(thing, c, this.Map);
+				}
 			}
 		}
 
 		private void PlayExplosionSound(SoundDef explosionSound)
 		{
-			bool flag;
-			if (Prefs.DevMode)
-			{
-				flag = (explosionSound != null);
-			}
-			else
-			{
-				flag = !explosionSound.NullOrUndefined();
-			}
-			if (flag)
+			if ((!Prefs.DevMode) ? (!explosionSound.NullOrUndefined()) : (explosionSound != null))
 			{
 				explosionSound.PlayOneShot(new TargetInfo(this.position, this.Map, false));
 			}
@@ -224,28 +205,37 @@ namespace Verse
 					for (int k = 0; k < GenAdj.AdjacentCells.Length; k++)
 					{
 						IntVec3 intVec = cells[j] + GenAdj.AdjacentCells[k];
-						if (intVec.InBounds(this.Map))
+						if (intVec.InBounds(this.Map) && Explosion.tmpCells.Add(intVec))
 						{
-							bool flag = Explosion.tmpCells.Add(intVec);
-							if (flag)
-							{
-								this.addedCellsAffectedOnlyByDamage.Add(intVec);
-							}
+							this.addedCellsAffectedOnlyByDamage.Add(intVec);
 						}
 					}
 				}
 			}
 			cells.Clear();
-			foreach (IntVec3 current in Explosion.tmpCells)
+			HashSet<IntVec3>.Enumerator enumerator = Explosion.tmpCells.GetEnumerator();
+			try
 			{
-				cells.Add(current);
+				while (enumerator.MoveNext())
+				{
+					IntVec3 current = enumerator.Current;
+					cells.Add(current);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			Explosion.tmpCells.Clear();
 		}
 
 		private bool ShouldCellBeAffectedOnlyByDamage(IntVec3 c)
 		{
-			return this.applyDamageToExplosionCellsNeighbors && this.addedCellsAffectedOnlyByDamage.Contains(c);
+			if (!this.applyDamageToExplosionCellsNeighbors)
+			{
+				return false;
+			}
+			return this.addedCellsAffectedOnlyByDamage.Contains(c);
 		}
 	}
 }

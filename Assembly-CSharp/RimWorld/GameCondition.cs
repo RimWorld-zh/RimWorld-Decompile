@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -82,51 +81,20 @@ namespace RimWorld
 		{
 			get
 			{
-				string text = this.def.LabelCap;
+				string labelCap = this.def.LabelCap;
 				if (this.Permanent)
 				{
-					text = text + "\n" + "Permanent".Translate().CapitalizeFirst();
+					labelCap = labelCap + "\n" + "Permanent".Translate().CapitalizeFirst();
 				}
 				else
 				{
-					Vector2 location;
-					if (this.Map != null)
-					{
-						location = Find.WorldGrid.LongLatOf(this.Map.Tile);
-					}
-					else if (Find.VisibleMap != null)
-					{
-						location = Find.WorldGrid.LongLatOf(Find.VisibleMap.Tile);
-					}
-					else if (Find.AnyPlayerHomeMap != null)
-					{
-						location = Find.WorldGrid.LongLatOf(Find.AnyPlayerHomeMap.Tile);
-					}
-					else
-					{
-						location = Vector2.zero;
-					}
-					string text2 = text;
-					text = string.Concat(new string[]
-					{
-						text2,
-						"\n",
-						"Started".Translate(),
-						": ",
-						GenDate.DateFullStringAt((long)GenDate.TickGameToAbs(this.startTick), location)
-					});
-					text2 = text;
-					text = string.Concat(new string[]
-					{
-						text2,
-						"\n",
-						"Lasted".Translate(),
-						": ",
-						this.TicksPassed.ToStringTicksToPeriod(true, false, true)
-					});
+					Vector2 location = (this.Map == null) ? ((Find.VisibleMap == null) ? ((Find.AnyPlayerHomeMap == null) ? Vector2.zero : Find.WorldGrid.LongLatOf(Find.AnyPlayerHomeMap.Tile)) : Find.WorldGrid.LongLatOf(Find.VisibleMap.Tile)) : Find.WorldGrid.LongLatOf(this.Map.Tile);
+					string text = labelCap;
+					labelCap = (text = text + "\n" + "Started".Translate() + ": " + GenDate.DateFullStringAt(GenDate.TickGameToAbs(this.startTick), location));
+					labelCap = text + "\n" + "Lasted".Translate() + ": " + this.TicksPassed.ToStringTicksToPeriod(true, false, true);
 				}
-				text += "\n";
-				return text + "\n" + this.def.description;
+				labelCap += "\n";
+				return labelCap + "\n" + this.def.description;
 			}
 		}
 
@@ -170,7 +138,7 @@ namespace RimWorld
 
 		public virtual SkyTarget? SkyTarget()
 		{
-			return null;
+			return default(SkyTarget?);
 		}
 
 		public virtual float AnimalDensityFactor()

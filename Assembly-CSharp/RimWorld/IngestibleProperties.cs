@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -67,7 +65,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (FoodTypeFlags.OmnivoreHuman & this.foodType) != FoodTypeFlags.None;
+				return (3903 & (int)this.foodType) != 0;
 			}
 		}
 
@@ -75,32 +73,54 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.preferability >= FoodPreferability.MealAwful && this.preferability <= FoodPreferability.MealLavish;
+				return (int)this.preferability >= 5 && (int)this.preferability <= 8;
 			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			IngestibleProperties.<ConfigErrors>c__Iterator7E <ConfigErrors>c__Iterator7E = new IngestibleProperties.<ConfigErrors>c__Iterator7E();
-			<ConfigErrors>c__Iterator7E.parentDef = parentDef;
-			<ConfigErrors>c__Iterator7E.<$>parentDef = parentDef;
-			<ConfigErrors>c__Iterator7E.<>f__this = this;
-			IngestibleProperties.<ConfigErrors>c__Iterator7E expr_1C = <ConfigErrors>c__Iterator7E;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (this.preferability == FoodPreferability.Undefined)
+			{
+				yield return "undefined preferability";
+			}
+			if (this.foodType == FoodTypeFlags.None)
+			{
+				yield return "no foodType";
+			}
+			if (this.nutrition == 0.0 && this.preferability != FoodPreferability.NeverForNutrition)
+			{
+				yield return "nutrition == 0 but preferability is " + this.preferability + " instead of " + FoodPreferability.NeverForNutrition;
+			}
+			if (!parentDef.IsCorpse && (int)this.preferability > 2 && !parentDef.socialPropernessMatters && parentDef.EverHaulable)
+			{
+				yield return "ingestible preferability > DesperateOnly but socialPropernessMatters=false. This will cause bugs wherein wardens will look in prison cells for food to give to prisoners and so will repeatedly pick up and drop food inside the cell.";
+			}
+			if (this.joy > 0.0 && this.joyKind == null)
+			{
+				yield return "joy > 0 with no joy kind";
+			}
 		}
 
-		[DebuggerHidden]
 		internal IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
-			IngestibleProperties.<SpecialDisplayStats>c__Iterator7F <SpecialDisplayStats>c__Iterator7F = new IngestibleProperties.<SpecialDisplayStats>c__Iterator7F();
-			<SpecialDisplayStats>c__Iterator7F.parentDef = parentDef;
-			<SpecialDisplayStats>c__Iterator7F.<$>parentDef = parentDef;
-			<SpecialDisplayStats>c__Iterator7F.<>f__this = this;
-			IngestibleProperties.<SpecialDisplayStats>c__Iterator7F expr_1C = <SpecialDisplayStats>c__Iterator7F;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (!parentDef.IsCorpse)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Nutrition".Translate(), this.nutrition.ToString("0.##"), 0);
+			}
+			if (this.joy > 0.0)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Joy".Translate(), this.joy.ToStringPercent("F2") + " (" + this.JoyKind.label + ")", 0);
+			}
+			if (this.outcomeDoers != null)
+			{
+				for (int i = 0; i < this.outcomeDoers.Count; i++)
+				{
+					foreach (StatDrawEntry item in this.outcomeDoers[i].SpecialDisplayStats(parentDef))
+					{
+						yield return item;
+					}
+				}
+			}
 		}
 	}
 }

@@ -1,10 +1,8 @@
-using System;
-
 namespace Verse.Sound
 {
 	public enum PerlinMappingSyncType : byte
 	{
-		Sync,
-		Desync
+		Sync = 0,
+		Desync = 1
 	}
 }

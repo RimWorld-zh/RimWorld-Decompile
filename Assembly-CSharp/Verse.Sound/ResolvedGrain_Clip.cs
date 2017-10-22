@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse.Sound
@@ -10,7 +9,7 @@ namespace Verse.Sound
 		public ResolvedGrain_Clip(AudioClip clip)
 		{
 			this.clip = clip;
-			this.duration = clip.length;
+			base.duration = clip.length;
 		}
 
 		public override string ToString()
@@ -25,12 +24,16 @@ namespace Verse.Sound
 				return false;
 			}
 			ResolvedGrain_Clip resolvedGrain_Clip = obj as ResolvedGrain_Clip;
-			return resolvedGrain_Clip != null && resolvedGrain_Clip.clip == this.clip;
+			if (resolvedGrain_Clip == null)
+			{
+				return false;
+			}
+			return (Object)resolvedGrain_Clip.clip == (Object)this.clip;
 		}
 
 		public override int GetHashCode()
 		{
-			if (this.clip == null)
+			if ((Object)this.clip == (Object)null)
 			{
 				return 0;
 			}

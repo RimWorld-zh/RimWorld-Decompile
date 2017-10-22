@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -13,7 +12,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.texture != null;
+				return (Object)this.texture != (Object)null;
 			}
 		}
 

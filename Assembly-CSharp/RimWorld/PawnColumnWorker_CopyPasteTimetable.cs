@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,16 +19,15 @@ namespace RimWorld
 
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (pawn.timetable == null)
+			if (pawn.timetable != null)
 			{
-				return;
+				base.DoCell(rect, pawn, table);
 			}
-			base.DoCell(rect, pawn, table);
 		}
 
 		protected override void CopyFrom(Pawn p)
 		{
-			PawnColumnWorker_CopyPasteTimetable.clipboard = p.timetable.times.ToList<TimeAssignmentDef>();
+			PawnColumnWorker_CopyPasteTimetable.clipboard = p.timetable.times.ToList();
 		}
 
 		protected override void PasteTo(Pawn p)

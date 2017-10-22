@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld.Planet
 {
 	public enum PawnDiscardDecideMode
 	{
-		Decide,
-		KeepForever,
-		Discard
+		Decide = 0,
+		KeepForever = 1,
+		Discard = 2
 	}
 }

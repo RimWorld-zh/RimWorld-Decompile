@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse.AI
 {
@@ -13,49 +12,53 @@ namespace Verse.AI
 
 		public override string GetReport()
 		{
-			IntVec3 cell = this.pawn.jobs.curJob.targetB.Cell;
-			Thing thing;
-			if (this.pawn.carryTracker.CarriedThing != null)
-			{
-				thing = this.pawn.carryTracker.CarriedThing;
-			}
-			else
-			{
-				thing = base.TargetThingA;
-			}
-			string text = null;
+			IntVec3 cell = base.pawn.jobs.curJob.targetB.Cell;
+			Thing thing = null;
+			thing = ((base.pawn.carryTracker.CarriedThing == null) ? base.TargetThingA : base.pawn.carryTracker.CarriedThing);
+			string text = (string)null;
 			SlotGroup slotGroup = cell.GetSlotGroup(base.Map);
 			if (slotGroup != null)
 			{
 				text = slotGroup.parent.SlotYielderLabel();
 			}
-			string result;
-			if (text != null)
-			{
-				result = "ReportHaulingTo".Translate(new object[]
-				{
-					thing.LabelCap,
-					text
-				});
-			}
-			else
-			{
-				result = "ReportHauling".Translate(new object[]
-				{
-					thing.LabelCap
-				});
-			}
-			return result;
+			return (text == null) ? "ReportHauling".Translate(thing.LabelCap) : "ReportHaulingTo".Translate(thing.LabelCap, text);
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_HaulToCell.<MakeNewToils>c__Iterator1BA <MakeNewToils>c__Iterator1BA = new JobDriver_HaulToCell.<MakeNewToils>c__Iterator1BA();
-			<MakeNewToils>c__Iterator1BA.<>f__this = this;
-			JobDriver_HaulToCell.<MakeNewToils>c__Iterator1BA expr_0E = <MakeNewToils>c__Iterator1BA;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOnDestroyedOrNull(TargetIndex.A);
+			this.FailOnBurningImmobile(TargetIndex.B);
+			if (!base.TargetThingA.IsForbidden(base.pawn))
+			{
+				this.FailOnForbidden(TargetIndex.A);
+			}
+			yield return Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
+			Toil reserveTargetA = Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			yield return reserveTargetA;
+			Toil toilGoto = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(TargetIndex.A).FailOn((Func<bool>)delegate
+			{
+				Pawn actor = ((_003CMakeNewToils_003Ec__Iterator1BA)/*Error near IL_00d7: stateMachine*/)._003CtoilGoto_003E__1.actor;
+				Job curJob = actor.jobs.curJob;
+				if (curJob.haulMode == HaulMode.ToCellStorage)
+				{
+					Thing thing = curJob.GetTarget(TargetIndex.A).Thing;
+					IntVec3 cell = actor.jobs.curJob.GetTarget(TargetIndex.B).Cell;
+					if (!cell.IsValidStorageFor(((_003CMakeNewToils_003Ec__Iterator1BA)/*Error near IL_00d7: stateMachine*/)._003C_003Ef__this.Map, thing))
+					{
+						return true;
+					}
+				}
+				return false;
+			});
+			yield return toilGoto;
+			yield return Toils_Haul.StartCarryThing(TargetIndex.A, false, true);
+			if (base.CurJob.haulOpportunisticDuplicates)
+			{
+				yield return Toils_Haul.CheckForGetOpportunityDuplicate(reserveTargetA, TargetIndex.A, TargetIndex.B, false, null);
+			}
+			Toil carryToCell = Toils_Haul.CarryHauledThingToCell(TargetIndex.B);
+			yield return carryToCell;
+			yield return Toils_Haul.PlaceHauledThingInCell(TargetIndex.B, carryToCell, true);
 		}
 	}
 }

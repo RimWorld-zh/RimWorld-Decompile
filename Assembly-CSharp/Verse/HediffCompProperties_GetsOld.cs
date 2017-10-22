@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class HediffCompProperties_GetsOld : HediffCompProperties
@@ -12,7 +10,7 @@ namespace Verse
 
 		public HediffCompProperties_GetsOld()
 		{
-			this.compClass = typeof(HediffComp_GetsOld);
+			base.compClass = typeof(HediffComp_GetsOld);
 		}
 	}
 }

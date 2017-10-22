@@ -29,73 +29,51 @@ namespace Verse.AI
 		{
 			base.PostStart(reason);
 			this.ChooseRandomChemical();
-			if (PawnUtility.ShouldSendNotificationAbout(this.pawn))
+			if (PawnUtility.ShouldSendNotificationAbout(base.pawn))
 			{
-				string label = "MentalBreakLetterLabel".Translate() + ": " + "LetterLabelDrugBinge".Translate(new object[]
-				{
-					this.chemical.label
-				});
-				string text = "LetterDrugBinge".Translate(new object[]
-				{
-					this.pawn.Label,
-					this.chemical.label
-				}).CapitalizeFirst();
+				string label = "MentalBreakLetterLabel".Translate() + ": " + "LetterLabelDrugBinge".Translate(this.chemical.label);
+				string text = "LetterDrugBinge".Translate(base.pawn.Label, this.chemical.label).CapitalizeFirst();
 				if (reason != null)
 				{
-					text = text + "\n\n" + "FinalStraw".Translate(new object[]
-					{
-						reason
-					});
+					text = text + "\n\n" + "FinalStraw".Translate(reason);
 				}
-				Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.BadNonUrgent, this.pawn, null);
+				Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.BadNonUrgent, (Thing)base.pawn, (string)null);
 			}
 		}
 
 		public override void PostEnd()
 		{
 			base.PostEnd();
-			if (PawnUtility.ShouldSendNotificationAbout(this.pawn))
+			if (PawnUtility.ShouldSendNotificationAbout(base.pawn))
 			{
-				Messages.Message("MessageNoLongerBingingOnDrug".Translate(new object[]
-				{
-					this.pawn.NameStringShort,
-					this.chemical.label
-				}), this.pawn, MessageSound.Silent);
+				Messages.Message("MessageNoLongerBingingOnDrug".Translate(base.pawn.NameStringShort, this.chemical.label), (Thing)base.pawn, MessageSound.Silent);
 			}
 		}
 
 		private void ChooseRandomChemical()
 		{
 			MentalState_BingingDrug.addictions.Clear();
-			List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
+			List<Hediff> hediffs = base.pawn.health.hediffSet.hediffs;
 			for (int i = 0; i < hediffs.Count; i++)
 			{
 				Hediff_Addiction hediff_Addiction = hediffs[i] as Hediff_Addiction;
-				if (hediff_Addiction != null && AddictionUtility.CanBingeOnNow(this.pawn, hediff_Addiction.Chemical, DrugCategory.Any))
+				if (hediff_Addiction != null && AddictionUtility.CanBingeOnNow(base.pawn, hediff_Addiction.Chemical, DrugCategory.Any))
 				{
 					MentalState_BingingDrug.addictions.Add(hediff_Addiction.Chemical);
 				}
 			}
 			if (MentalState_BingingDrug.addictions.Count > 0)
 			{
-				this.chemical = MentalState_BingingDrug.addictions.RandomElement<ChemicalDef>();
+				this.chemical = MentalState_BingingDrug.addictions.RandomElement();
 				MentalState_BingingDrug.addictions.Clear();
 			}
-			else
+			else if (!(from x in DefDatabase<ChemicalDef>.AllDefsListForReading
+			where AddictionUtility.CanBingeOnNow(base.pawn, x, base.def.drugCategory)
+			select x).TryRandomElement<ChemicalDef>(out this.chemical) && !(from x in DefDatabase<ChemicalDef>.AllDefsListForReading
+			where AddictionUtility.CanBingeOnNow(base.pawn, x, DrugCategory.Any)
+			select x).TryRandomElement<ChemicalDef>(out this.chemical))
 			{
-				if ((from x in DefDatabase<ChemicalDef>.AllDefsListForReading
-				where AddictionUtility.CanBingeOnNow(this.pawn, x, this.def.drugCategory)
-				select x).TryRandomElement(out this.chemical))
-				{
-					return;
-				}
-				if ((from x in DefDatabase<ChemicalDef>.AllDefsListForReading
-				where AddictionUtility.CanBingeOnNow(this.pawn, x, DrugCategory.Any)
-				select x).TryRandomElement(out this.chemical))
-				{
-					return;
-				}
-				this.chemical = DefDatabase<ChemicalDef>.AllDefsListForReading.RandomElement<ChemicalDef>();
+				this.chemical = DefDatabase<ChemicalDef>.AllDefsListForReading.RandomElement();
 			}
 		}
 	}

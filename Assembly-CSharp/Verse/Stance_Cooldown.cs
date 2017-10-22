@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -19,10 +18,10 @@ namespace Verse
 
 		public override void StanceDraw()
 		{
-			if (Find.Selector.IsSelected(this.stanceTracker.pawn))
+			if (Find.Selector.IsSelected(base.stanceTracker.pawn))
 			{
-				float radius = Mathf.Min(0.5f, (float)this.ticksLeft * 0.002f);
-				GenDraw.DrawCooldownCircle(this.stanceTracker.pawn.Drawer.DrawPos + new Vector3(0f, 0.2f, 0f), radius);
+				float radius = Mathf.Min(0.5f, (float)((float)base.ticksLeft * 0.0020000000949949026));
+				GenDraw.DrawCooldownCircle(base.stanceTracker.pawn.Drawer.DrawPos + new Vector3(0f, 0.2f, 0f), radius);
 			}
 		}
 	}

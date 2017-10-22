@@ -28,7 +28,7 @@ namespace Verse.Sound
 		{
 			get
 			{
-				return this.endRealTime >= 0f;
+				return this.endRealTime >= 0.0;
 			}
 		}
 
@@ -48,18 +48,11 @@ namespace Verse.Sound
 				{
 					return 0f;
 				}
-				if (this.worldRootObject == null)
+				if ((UnityEngine.Object)this.worldRootObject == (UnityEngine.Object)null)
 				{
 					if (Prefs.DevMode)
 					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Sustainer ",
-							this.def,
-							" info is ",
-							this.info,
-							" but its worldRootObject is null"
-						}));
+						Log.Error("Sustainer " + this.def + " info is " + this.info + " but its worldRootObject is null");
 					}
 					return 0f;
 				}
@@ -73,9 +66,9 @@ namespace Verse.Sound
 			this.info = info;
 			if (def.subSounds.Count > 0)
 			{
-				foreach (KeyValuePair<string, float> current in info.DefinedParameters)
+				foreach (KeyValuePair<string, float> definedParameter in info.DefinedParameters)
 				{
-					this.externalParams[current.Key] = current.Value;
+					this.externalParams[definedParameter.Key] = definedParameter.Value;
 				}
 				if (def.HasSubSoundsInWorld)
 				{
@@ -100,7 +93,7 @@ namespace Verse.Sound
 					this.subSustainers.Add(new SubSustainer(this, def.subSounds[i]));
 				}
 			}
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				this.lastMaintainTick = Find.TickManager.TicksGame;
 				this.lastMaintainFrame = Time.frameCount;
@@ -145,7 +138,7 @@ namespace Verse.Sound
 
 		private void UpdateRootObjectPosition()
 		{
-			if (this.worldRootObject != null)
+			if ((UnityEngine.Object)this.worldRootObject != (UnityEngine.Object)null)
 			{
 				this.worldRootObject.transform.position = this.info.Maker.Cell.ToVector3ShiftedWithAltitude(0f);
 			}
@@ -156,9 +149,8 @@ namespace Verse.Sound
 			if (this.Ended)
 			{
 				Log.Error("Tried to maintain ended sustainer: " + this.def);
-				return;
 			}
-			if (this.info.Maintenance == MaintenanceType.PerTick)
+			else if (this.info.Maintenance == MaintenanceType.PerTick)
 			{
 				this.lastMaintainTick = Find.TickManager.TicksGame;
 			}
@@ -171,7 +163,7 @@ namespace Verse.Sound
 		public void End()
 		{
 			this.endRealTime = Time.realtimeSinceStartup;
-			if (this.def.sustainFadeoutTime < 0.001f)
+			if (this.def.sustainFadeoutTime < 0.0010000000474974513)
 			{
 				this.Cleanup();
 			}
@@ -189,7 +181,7 @@ namespace Verse.Sound
 			}
 			if (this.def.sustainStopSound != string.Empty)
 			{
-				if (this.worldRootObject != null)
+				if ((UnityEngine.Object)this.worldRootObject != (UnityEngine.Object)null)
 				{
 					Map map = this.info.Maker.Map;
 					if (map != null)
@@ -203,7 +195,7 @@ namespace Verse.Sound
 					SoundDef.Named(this.def.sustainStopSound).PlayOneShot(SoundInfo.OnCamera(MaintenanceType.None));
 				}
 			}
-			if (this.worldRootObject != null)
+			if ((UnityEngine.Object)this.worldRootObject != (UnityEngine.Object)null)
 			{
 				UnityEngine.Object.Destroy(this.worldRootObject);
 			}
@@ -212,14 +204,23 @@ namespace Verse.Sound
 
 		public string DebugString()
 		{
-			string text = this.def.defName;
-			text = text + "\n  inScopePercent=" + this.scopeFader.inScopePercent;
-			text = text + "\n  CameraDistanceSquared=" + this.CameraDistanceSquared;
-			foreach (SubSustainer current in this.subSustainers)
+			string defName = this.def.defName;
+			defName = defName + "\n  inScopePercent=" + this.scopeFader.inScopePercent;
+			defName = defName + "\n  CameraDistanceSquared=" + this.CameraDistanceSquared;
+			List<SubSustainer>.Enumerator enumerator = this.subSustainers.GetEnumerator();
+			try
 			{
-				text = text + "\n  sub: " + current;
+				while (enumerator.MoveNext())
+				{
+					SubSustainer current = enumerator.Current;
+					defName = defName + "\n  sub: " + current;
+				}
+				return defName;
 			}
-			return text;
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
 		}
 	}
 }

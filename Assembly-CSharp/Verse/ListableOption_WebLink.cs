@@ -11,9 +11,9 @@ namespace Verse
 
 		private static readonly Vector2 Imagesize = new Vector2(24f, 18f);
 
-		public ListableOption_WebLink(string label, Texture2D image) : base(label, null, null)
+		public ListableOption_WebLink(string label, Texture2D image) : base(label, null, (string)null)
 		{
-			this.minHeight = 24f;
+			base.minHeight = 24f;
 			this.image = image;
 		}
 
@@ -24,19 +24,27 @@ namespace Verse
 
 		public ListableOption_WebLink(string label, Action action, Texture2D image) : this(label, image)
 		{
-			this.action = action;
+			base.action = action;
 		}
 
 		public override float DrawOption(Vector2 pos, float width)
 		{
-			float num = width - ListableOption_WebLink.Imagesize.x - 3f;
-			float num2 = Text.CalcHeight(this.label, num);
-			float num3 = Mathf.Max(this.minHeight, num2);
+			Vector2 imagesize = ListableOption_WebLink.Imagesize;
+			float num = (float)(width - imagesize.x - 3.0);
+			float num2 = Text.CalcHeight(base.label, num);
+			float num3 = Mathf.Max(base.minHeight, num2);
 			Rect rect = new Rect(pos.x, pos.y, width, num3);
 			GUI.color = Color.white;
-			if (this.image != null)
+			if ((UnityEngine.Object)this.image != (UnityEngine.Object)null)
 			{
-				Rect position = new Rect(pos.x, pos.y + num3 / 2f - ListableOption_WebLink.Imagesize.y / 2f, ListableOption_WebLink.Imagesize.x, ListableOption_WebLink.Imagesize.y);
+				float x = pos.x;
+				double num4 = pos.y + num3 / 2.0;
+				Vector2 imagesize2 = ListableOption_WebLink.Imagesize;
+				double y = num4 - imagesize2.y / 2.0;
+				Vector2 imagesize3 = ListableOption_WebLink.Imagesize;
+				float x2 = imagesize3.x;
+				Vector2 imagesize4 = ListableOption_WebLink.Imagesize;
+				Rect position = new Rect(x, (float)y, x2, imagesize4.y);
 				if (Mouse.IsOver(rect))
 				{
 					GUI.color = Widgets.MouseoverOptionColor;
@@ -44,13 +52,13 @@ namespace Verse
 				GUI.DrawTexture(position, this.image);
 			}
 			Rect rect2 = new Rect(rect.xMax - num, pos.y, num, num2);
-			Widgets.Label(rect2, this.label);
+			Widgets.Label(rect2, base.label);
 			GUI.color = Color.white;
 			if (Widgets.ButtonInvisible(rect, true))
 			{
-				if (this.action != null)
+				if ((object)base.action != null)
 				{
-					this.action();
+					base.action();
 				}
 				else
 				{

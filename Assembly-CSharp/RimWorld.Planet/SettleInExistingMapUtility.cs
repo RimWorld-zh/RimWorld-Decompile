@@ -17,7 +17,7 @@ namespace RimWorld.Planet
 			command_Settle.defaultLabel = "CommandSettle".Translate();
 			command_Settle.defaultDesc = "CommandSettleDesc".Translate();
 			command_Settle.icon = SettleUtility.SettleCommandTex;
-			command_Settle.action = delegate
+			command_Settle.action = (Action)delegate()
 			{
 				SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 				SettleInExistingMapUtility.Settle(map);
@@ -41,13 +41,23 @@ namespace RimWorld.Planet
 				}
 				else if (requiresNoEnemies)
 				{
-					foreach (IAttackTarget current in map.attackTargetsCache.TargetsHostileToColony)
+					HashSet<IAttackTarget>.Enumerator enumerator = map.attackTargetsCache.TargetsHostileToColony.GetEnumerator();
+					try
 					{
-						if (!current.ThreatDisabled())
+						while (enumerator.MoveNext())
 						{
-							command_Settle.Disable("CommandSettleFailEnemies".Translate());
-							break;
+							IAttackTarget current = enumerator.Current;
+							if (!current.ThreatDisabled())
+							{
+								command_Settle.Disable("CommandSettleFailEnemies".Translate());
+								return command_Settle;
+							}
 						}
+						return command_Settle;
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator).Dispose();
 					}
 				}
 			}
@@ -57,13 +67,12 @@ namespace RimWorld.Planet
 		public static void Settle(Map map)
 		{
 			MapParent parent = map.info.parent;
-			FactionBase factionBase = SettleUtility.AddNewHome(map.Tile, Faction.OfPlayer);
-			map.info.parent = factionBase;
+			FactionBase o = (FactionBase)(map.info.parent = SettleUtility.AddNewHome(map.Tile, Faction.OfPlayer));
 			if (parent != null)
 			{
 				Find.WorldObjects.Remove(parent);
 			}
-			Messages.Message("MessageSettledInExistingMap".Translate(), factionBase, MessageSound.Benefit);
+			Messages.Message("MessageSettledInExistingMap".Translate(), (WorldObject)o, MessageSound.Benefit);
 			SettleInExistingMapUtility.tmpPlayerPawns.Clear();
 			SettleInExistingMapUtility.tmpPlayerPawns.AddRange(from x in map.mapPawns.AllPawnsSpawned
 			where x.Faction == Faction.OfPlayer || x.HostFaction == Faction.OfPlayer

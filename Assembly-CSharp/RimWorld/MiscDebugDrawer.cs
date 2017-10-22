@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
@@ -7,19 +8,25 @@ namespace RimWorld
 	{
 		public static void DebugDrawInteractionCells()
 		{
-			if (Find.VisibleMap == null)
+			Map visibleMap = Find.VisibleMap;
+			if (visibleMap != null && DebugViewSettings.drawInteractionCells)
 			{
-				return;
-			}
-			if (DebugViewSettings.drawInteractionCells)
-			{
-				foreach (object current in Find.Selector.SelectedObjects)
+				List<object>.Enumerator enumerator = Find.Selector.SelectedObjects.GetEnumerator();
+				try
 				{
-					Thing thing = current as Thing;
-					if (thing != null)
+					while (enumerator.MoveNext())
 					{
-						CellRenderer.RenderCell(thing.InteractionCell, 0.5f);
+						object current = enumerator.Current;
+						Thing thing = current as Thing;
+						if (thing != null)
+						{
+							CellRenderer.RenderCell(thing.InteractionCell, 0.5f);
+						}
 					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 		}

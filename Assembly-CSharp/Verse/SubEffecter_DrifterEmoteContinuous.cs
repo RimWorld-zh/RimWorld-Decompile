@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class SubEffecter_DrifterEmoteContinuous : SubEffecter_DrifterEmote
@@ -16,7 +14,7 @@ namespace Verse
 			if (this.ticksUntilMote <= 0)
 			{
 				base.MakeMote(A);
-				this.ticksUntilMote = this.def.ticksBetweenMotes;
+				this.ticksUntilMote = base.def.ticksBetweenMotes;
 			}
 		}
 	}

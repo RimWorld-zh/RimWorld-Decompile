@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -47,18 +45,23 @@ namespace RimWorld
 			{
 				return null;
 			}
-			return GenStuff.AllowedStuffsFor(td).RandomElement<ThingDef>();
+			return GenStuff.AllowedStuffsFor(td).RandomElement();
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<ThingDef> AllowedStuffsFor(ThingDef td)
 		{
-			GenStuff.<AllowedStuffsFor>c__Iterator1AA <AllowedStuffsFor>c__Iterator1AA = new GenStuff.<AllowedStuffsFor>c__Iterator1AA();
-			<AllowedStuffsFor>c__Iterator1AA.td = td;
-			<AllowedStuffsFor>c__Iterator1AA.<$>td = td;
-			GenStuff.<AllowedStuffsFor>c__Iterator1AA expr_15 = <AllowedStuffsFor>c__Iterator1AA;
-			expr_15.$PC = -2;
-			return expr_15;
+			if (td.MadeFromStuff)
+			{
+				List<ThingDef> allDefs = DefDatabase<ThingDef>.AllDefsListForReading;
+				for (int i = 0; i < allDefs.Count; i++)
+				{
+					ThingDef d = allDefs[i];
+					if (d.IsStuff && d.stuffProps.CanMake(td))
+					{
+						yield return d;
+					}
+				}
+			}
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -15,7 +14,7 @@ namespace Verse
 		{
 			get
 			{
-				return (this.overrideTimeBeforeStartFadeout < 0f) ? this.def.mote.solidTime : this.overrideTimeBeforeStartFadeout;
+				return (!(this.overrideTimeBeforeStartFadeout >= 0.0)) ? base.def.mote.solidTime : this.overrideTimeBeforeStartFadeout;
 			}
 		}
 
@@ -23,7 +22,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.TimeBeforeStartFadeout + this.def.mote.fadeOutTime;
+				return this.TimeBeforeStartFadeout + base.def.mote.fadeOutTime;
 			}
 		}
 
@@ -33,9 +32,9 @@ namespace Verse
 
 		public override void DrawGUIOverlay()
 		{
-			float a = 1f - (base.AgeSecs - this.TimeBeforeStartFadeout) / this.def.mote.fadeOutTime;
+			float a = (float)(1.0 - (base.AgeSecs - this.TimeBeforeStartFadeout) / base.def.mote.fadeOutTime);
 			Color color = new Color(this.textColor.r, this.textColor.g, this.textColor.b, a);
-			GenMapUI.DrawText(new Vector2(this.exactPosition.x, this.exactPosition.z), this.text, color);
+			GenMapUI.DrawText(new Vector2(base.exactPosition.x, base.exactPosition.z), this.text, color);
 		}
 	}
 }

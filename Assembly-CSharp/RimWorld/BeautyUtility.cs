@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -34,50 +33,50 @@ namespace RimWorld
 		{
 			BeautyUtility.beautyRelevantCells.Clear();
 			Room room = root.GetRoom(map, RegionType.Set_Passable);
-			if (room == null)
+			if (room != null)
 			{
-				return;
-			}
-			BeautyUtility.visibleRooms.Clear();
-			BeautyUtility.visibleRooms.Add(room);
-			if (room.Regions.Count == 1 && room.Regions[0].type == RegionType.Portal)
-			{
-				foreach (Region current in room.Regions[0].Neighbors)
+				BeautyUtility.visibleRooms.Clear();
+				BeautyUtility.visibleRooms.Add(room);
+				if (room.Regions.Count == 1 && room.Regions[0].type == RegionType.Portal)
 				{
-					if (!BeautyUtility.visibleRooms.Contains(current.Room))
+					foreach (Region neighbor in room.Regions[0].Neighbors)
 					{
-						BeautyUtility.visibleRooms.Add(current.Room);
+						if (!BeautyUtility.visibleRooms.Contains(neighbor.Room))
+						{
+							BeautyUtility.visibleRooms.Add(neighbor.Room);
+						}
 					}
 				}
-			}
-			for (int i = 0; i < BeautyUtility.SampleNumCells_Beauty; i++)
-			{
-				IntVec3 intVec = root + GenRadial.RadialPattern[i];
-				if (intVec.InBounds(map) && !intVec.Fogged(map))
+				for (int i = 0; i < BeautyUtility.SampleNumCells_Beauty; i++)
 				{
-					Room room2 = intVec.GetRoom(map, RegionType.Set_Passable);
-					if (!BeautyUtility.visibleRooms.Contains(room2))
+					IntVec3 intVec = root + GenRadial.RadialPattern[i];
+					if (intVec.InBounds(map) && !intVec.Fogged(map))
 					{
-						bool flag = false;
-						for (int j = 0; j < 8; j++)
+						Room room2 = intVec.GetRoom(map, RegionType.Set_Passable);
+						if (!BeautyUtility.visibleRooms.Contains(room2))
 						{
-							IntVec3 loc = intVec + GenAdj.AdjacentCells[j];
-							if (BeautyUtility.visibleRooms.Contains(loc.GetRoom(map, RegionType.Set_Passable)))
+							bool flag = false;
+							for (int j = 0; j < 8; j++)
 							{
-								flag = true;
-								break;
+								IntVec3 loc = intVec + GenAdj.AdjacentCells[j];
+								if (BeautyUtility.visibleRooms.Contains(loc.GetRoom(map, RegionType.Set_Passable)))
+								{
+									flag = true;
+									break;
+								}
 							}
+							if (flag)
+								goto IL_0173;
+							continue;
 						}
-						if (!flag)
-						{
-							goto IL_17F;
-						}
+						goto IL_0173;
 					}
+					continue;
+					IL_0173:
 					BeautyUtility.beautyRelevantCells.Add(intVec);
 				}
-				IL_17F:;
+				BeautyUtility.visibleRooms.Clear();
 			}
-			BeautyUtility.visibleRooms.Clear();
 		}
 
 		public static float CellBeauty(IntVec3 c, Map map, List<Thing> countedThings = null)
@@ -86,41 +85,35 @@ namespace RimWorld
 			float num2 = 0f;
 			bool flag = false;
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
-			int i = 0;
-			while (i < list.Count)
+			for (int i = 0; i < list.Count; i++)
 			{
 				Thing thing = list[i];
-				if (countedThings == null)
+				if (countedThings != null)
 				{
-					goto IL_4D;
-				}
-				if (!countedThings.Contains(thing))
-				{
+					if (countedThings.Contains(thing))
+					{
+						continue;
+					}
 					countedThings.Add(thing);
-					goto IL_4D;
 				}
-				IL_CC:
-				i++;
-				continue;
-				IL_4D:
 				SlotGroup slotGroup = thing.GetSlotGroup();
-				if (slotGroup != null && slotGroup.parent.IgnoreStoredThingsBeauty)
+				if (slotGroup == null || !slotGroup.parent.IgnoreStoredThingsBeauty)
 				{
-					goto IL_CC;
+					float num3 = thing.GetStatValue(StatDefOf.Beauty, true);
+					if (thing is Filth && !map.roofGrid.Roofed(c))
+					{
+						num3 = (float)(num3 * 0.30000001192092896);
+					}
+					if (thing.def.Fillage == FillCategory.Full)
+					{
+						flag = true;
+						num2 += num3;
+					}
+					else
+					{
+						num += num3;
+					}
 				}
-				float num3 = thing.GetStatValue(StatDefOf.Beauty, true);
-				if (thing is Filth && !map.roofGrid.Roofed(c))
-				{
-					num3 *= 0.3f;
-				}
-				if (thing.def.Fillage == FillCategory.Full)
-				{
-					flag = true;
-					num2 += num3;
-					goto IL_CC;
-				}
-				num += num3;
-				goto IL_CC;
 			}
 			if (flag)
 			{

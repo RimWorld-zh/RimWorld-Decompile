@@ -49,61 +49,87 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"startedFromEntry: ",
-				this.startedFromEntry,
-				"\nstartingPawns: ",
-				this.startingPawns.Count
-			});
+			return "startedFromEntry: " + this.startedFromEntry + "\nstartingPawns: " + this.startingPawns.Count;
 		}
 
 		public void PrepForMapGen()
 		{
-			foreach (Pawn current in this.startingPawns)
+			List<Pawn>.Enumerator enumerator = this.startingPawns.GetEnumerator();
+			try
 			{
-				current.SetFactionDirect(Faction.OfPlayer);
-				PawnComponentsUtility.AddAndRemoveDynamicComponents(current, false);
-			}
-			foreach (Pawn current2 in this.startingPawns)
-			{
-				current2.workSettings.DisableAll();
-			}
-			foreach (WorkTypeDef w in DefDatabase<WorkTypeDef>.AllDefs)
-			{
-				if (w.alwaysStartActive)
+				while (enumerator.MoveNext())
 				{
-					foreach (Pawn current3 in from col in this.startingPawns
-					where !col.story.WorkTypeIsDisabled(w)
-					select col)
-					{
-						current3.workSettings.SetPriority(w, 3);
-					}
+					Pawn current = enumerator.Current;
+					current.SetFactionDirect(Faction.OfPlayer);
+					PawnComponentsUtility.AddAndRemoveDynamicComponents(current, false);
 				}
-				else
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			List<Pawn>.Enumerator enumerator2 = this.startingPawns.GetEnumerator();
+			try
+			{
+				while (enumerator2.MoveNext())
 				{
-					bool flag = false;
-					foreach (Pawn current4 in this.startingPawns)
+					Pawn current2 = enumerator2.Current;
+					current2.workSettings.DisableAll();
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
+			}
+			using (IEnumerator<WorkTypeDef> enumerator3 = DefDatabase<WorkTypeDef>.AllDefs.GetEnumerator())
+			{
+				WorkTypeDef w;
+				while (enumerator3.MoveNext())
+				{
+					w = enumerator3.Current;
+					if (w.alwaysStartActive)
 					{
-						if (!current4.story.WorkTypeIsDisabled(w) && current4.skills.AverageOfRelevantSkillsFor(w) >= 6f)
+						foreach (Pawn item in from col in this.startingPawns
+						where !col.story.WorkTypeIsDisabled(w)
+						select col)
 						{
-							current4.workSettings.SetPriority(w, 3);
-							flag = true;
+							item.workSettings.SetPriority(w, 3);
 						}
 					}
-					if (!flag)
+					else
 					{
-						IEnumerable<Pawn> source = from col in this.startingPawns
-						where !col.story.WorkTypeIsDisabled(w)
-						select col;
-						if (source.Any<Pawn>())
+						bool flag = false;
+						List<Pawn>.Enumerator enumerator5 = this.startingPawns.GetEnumerator();
+						try
 						{
-							Pawn pawn = source.InRandomOrder(null).MaxBy((Pawn c) => c.skills.AverageOfRelevantSkillsFor(w));
-							pawn.workSettings.SetPriority(w, 3);
+							while (enumerator5.MoveNext())
+							{
+								Pawn current4 = enumerator5.Current;
+								if (!current4.story.WorkTypeIsDisabled(w) && current4.skills.AverageOfRelevantSkillsFor(w) >= 6.0)
+								{
+									current4.workSettings.SetPriority(w, 3);
+									flag = true;
+								}
+							}
 						}
-						else if (w.requireCapableColonist)
+						finally
 						{
-							Log.Error("No colonist could do requireCapableColonist work type " + w);
+							((IDisposable)(object)enumerator5).Dispose();
+						}
+						if (!flag)
+						{
+							IEnumerable<Pawn> source = from col in this.startingPawns
+							where !col.story.WorkTypeIsDisabled(w)
+							select col;
+							if (source.Any())
+							{
+								Pawn pawn = source.InRandomOrder(null).MaxBy((Func<Pawn, float>)((Pawn c) => c.skills.AverageOfRelevantSkillsFor(w)));
+								pawn.workSettings.SetPriority(w, 3);
+							}
+							else if (w.requireCapableColonist)
+							{
+								Log.Error("No colonist could do requireCapableColonist work type " + w);
+							}
 						}
 					}
 				}

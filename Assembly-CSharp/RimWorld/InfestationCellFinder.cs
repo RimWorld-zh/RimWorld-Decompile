@@ -36,7 +36,7 @@ namespace RimWorld
 
 		private const float MaxDistanceToColonyBuilding = 30f;
 
-		private static List<InfestationCellFinder.LocationCandidate> locationCandidates = new List<InfestationCellFinder.LocationCandidate>();
+		private static List<LocationCandidate> locationCandidates = new List<LocationCandidate>();
 
 		private static Dictionary<Region, float> regionsDistanceToUnroofed = new Dictionary<Region, float>();
 
@@ -53,8 +53,8 @@ namespace RimWorld
 		public static bool TryFindCell(out IntVec3 cell, Map map)
 		{
 			InfestationCellFinder.CalculateLocationCandidates(map);
-			InfestationCellFinder.LocationCandidate locationCandidate;
-			if (!InfestationCellFinder.locationCandidates.TryRandomElementByWeight((InfestationCellFinder.LocationCandidate x) => x.score, out locationCandidate))
+			LocationCandidate locationCandidate = default(LocationCandidate);
+			if (!((IEnumerable<LocationCandidate>)InfestationCellFinder.locationCandidates).TryRandomElementByWeight<LocationCandidate>((Func<LocationCandidate, float>)((LocationCandidate x) => x.score), out locationCandidate))
 			{
 				cell = IntVec3.Invalid;
 				return false;
@@ -65,7 +65,7 @@ namespace RimWorld
 
 		private static float GetScoreAt(IntVec3 cell, Map map)
 		{
-			if ((float)InfestationCellFinder.distToColonyBuilding[cell] > 30f)
+			if ((float)(int)InfestationCellFinder.distToColonyBuilding[cell] > 30.0)
 			{
 				return 0f;
 			}
@@ -81,51 +81,43 @@ namespace RimWorld
 			{
 				return 0f;
 			}
-			if (!cell.Roofed(map) || !cell.GetRoof(map).isThickRoof)
+			if (cell.Roofed(map) && cell.GetRoof(map).isThickRoof)
 			{
-				return 0f;
+				Region region = cell.GetRegion(map, RegionType.Set_Passable);
+				if (region == null)
+				{
+					return 0f;
+				}
+				if (InfestationCellFinder.closedAreaSize[cell] < 16)
+				{
+					return 0f;
+				}
+				float temperature = cell.GetTemperature(map);
+				if (temperature < -17.0)
+				{
+					return 0f;
+				}
+				float mountainousnessScoreAt = InfestationCellFinder.GetMountainousnessScoreAt(cell, map);
+				if (mountainousnessScoreAt < 0.17000000178813934)
+				{
+					return 0f;
+				}
+				int num = InfestationCellFinder.StraightLineDistToUnroofed(cell, map);
+				float num2 = (float)(InfestationCellFinder.regionsDistanceToUnroofed.TryGetValue(region, out num2) ? Mathf.Min(num2, (float)((float)num * 4.0)) : ((float)num * 1.1499999761581421));
+				num2 = Mathf.Pow(num2, 1.55f);
+				float num3 = Mathf.InverseLerp(0f, 12f, (float)num);
+				float num4 = Mathf.Lerp(1f, 0.18f, map.glowGrid.GameGlowAt(cell));
+				float num5 = (float)(1.0 - Mathf.Clamp((float)(InfestationCellFinder.DistToBlocker(cell, map) / 11.0), 0f, 0.6f));
+				float num6 = Mathf.InverseLerp(-17f, -7f, temperature);
+				float f = num2 * num3 * num5 * mountainousnessScoreAt * num4 * num6;
+				f = Mathf.Pow(f, 1.2f);
+				if (f < 7.5)
+				{
+					return 0f;
+				}
+				return f;
 			}
-			Region region = cell.GetRegion(map, RegionType.Set_Passable);
-			if (region == null)
-			{
-				return 0f;
-			}
-			if (InfestationCellFinder.closedAreaSize[cell] < 16)
-			{
-				return 0f;
-			}
-			float temperature = cell.GetTemperature(map);
-			if (temperature < -17f)
-			{
-				return 0f;
-			}
-			float mountainousnessScoreAt = InfestationCellFinder.GetMountainousnessScoreAt(cell, map);
-			if (mountainousnessScoreAt < 0.17f)
-			{
-				return 0f;
-			}
-			int num = InfestationCellFinder.StraightLineDistToUnroofed(cell, map);
-			float num2;
-			if (!InfestationCellFinder.regionsDistanceToUnroofed.TryGetValue(region, out num2))
-			{
-				num2 = (float)num * 1.15f;
-			}
-			else
-			{
-				num2 = Mathf.Min(num2, (float)num * 4f);
-			}
-			num2 = Mathf.Pow(num2, 1.55f);
-			float num3 = Mathf.InverseLerp(0f, 12f, (float)num);
-			float num4 = Mathf.Lerp(1f, 0.18f, map.glowGrid.GameGlowAt(cell));
-			float num5 = 1f - Mathf.Clamp(InfestationCellFinder.DistToBlocker(cell, map) / 11f, 0f, 0.6f);
-			float num6 = Mathf.InverseLerp(-17f, -7f, temperature);
-			float num7 = num2 * num3 * num5 * mountainousnessScoreAt * num4 * num6;
-			num7 = Mathf.Pow(num7, 1.2f);
-			if (num7 < 7.5f)
-			{
-				return 0f;
-			}
-			return num7;
+			return 0f;
 		}
 
 		public static void DebugDraw()
@@ -140,33 +132,69 @@ namespace RimWorld
 				InfestationCellFinder.CalculateClosedAreaSizeGrid(visibleMap);
 				InfestationCellFinder.CalculateDistanceToColonyBuildingGrid(visibleMap);
 				float num = 0.001f;
-				for (int i = 0; i < visibleMap.Size.z; i++)
+				int num2 = 0;
+				while (true)
 				{
-					for (int j = 0; j < visibleMap.Size.x; j++)
+					int num3 = num2;
+					IntVec3 size = visibleMap.Size;
+					if (num3 < size.z)
 					{
-						IntVec3 cell = new IntVec3(j, 0, i);
-						float scoreAt = InfestationCellFinder.GetScoreAt(cell, visibleMap);
-						if (scoreAt > num)
+						int num4 = 0;
+						while (true)
 						{
-							num = scoreAt;
-						}
-					}
-				}
-				for (int k = 0; k < visibleMap.Size.z; k++)
-				{
-					for (int l = 0; l < visibleMap.Size.x; l++)
-					{
-						IntVec3 intVec = new IntVec3(l, 0, k);
-						if (cellRect.Contains(intVec))
-						{
-							float scoreAt2 = InfestationCellFinder.GetScoreAt(intVec, visibleMap);
-							if (scoreAt2 > 0f)
+							int num5 = num4;
+							IntVec3 size2 = visibleMap.Size;
+							if (num5 < size2.x)
 							{
-								float a = GenMath.LerpDouble(7.5f, num, 0f, 1f, scoreAt2);
-								CellRenderer.RenderCell(intVec, SolidColorMaterials.SimpleSolidColorMaterial(new Color(0f, 0f, 1f, a), false));
+								IntVec3 cell = new IntVec3(num4, 0, num2);
+								float scoreAt = InfestationCellFinder.GetScoreAt(cell, visibleMap);
+								if (scoreAt > num)
+								{
+									num = scoreAt;
+								}
+								num4++;
+								continue;
 							}
+							break;
 						}
+						num2++;
+						continue;
 					}
+					break;
+				}
+				int num6 = 0;
+				while (true)
+				{
+					int num7 = num6;
+					IntVec3 size3 = visibleMap.Size;
+					if (num7 < size3.z)
+					{
+						int num8 = 0;
+						while (true)
+						{
+							int num9 = num8;
+							IntVec3 size4 = visibleMap.Size;
+							if (num9 < size4.x)
+							{
+								IntVec3 intVec = new IntVec3(num8, 0, num6);
+								if (cellRect.Contains(intVec))
+								{
+									float scoreAt2 = InfestationCellFinder.GetScoreAt(intVec, visibleMap);
+									if (!(scoreAt2 <= 0.0))
+									{
+										float a = GenMath.LerpDouble(7.5f, num, 0f, 1f, scoreAt2);
+										CellRenderer.RenderCell(intVec, SolidColorMaterials.SimpleSolidColorMaterial(new Color(0f, 0f, 1f, a), false));
+									}
+								}
+								num8++;
+								continue;
+							}
+							break;
+						}
+						num6++;
+						continue;
+					}
+					break;
 				}
 			}
 		}
@@ -177,17 +205,35 @@ namespace RimWorld
 			InfestationCellFinder.CalculateTraversalDistancesToUnroofed(map);
 			InfestationCellFinder.CalculateClosedAreaSizeGrid(map);
 			InfestationCellFinder.CalculateDistanceToColonyBuildingGrid(map);
-			for (int i = 0; i < map.Size.z; i++)
+			int num = 0;
+			while (true)
 			{
-				for (int j = 0; j < map.Size.x; j++)
+				int num2 = num;
+				IntVec3 size = map.Size;
+				if (num2 < size.z)
 				{
-					IntVec3 cell = new IntVec3(j, 0, i);
-					float scoreAt = InfestationCellFinder.GetScoreAt(cell, map);
-					if (scoreAt > 0f)
+					int num3 = 0;
+					while (true)
 					{
-						InfestationCellFinder.locationCandidates.Add(new InfestationCellFinder.LocationCandidate(cell, scoreAt));
+						int num4 = num3;
+						IntVec3 size2 = map.Size;
+						if (num4 < size2.x)
+						{
+							IntVec3 cell = new IntVec3(num3, 0, num);
+							float scoreAt = InfestationCellFinder.GetScoreAt(cell, map);
+							if (!(scoreAt <= 0.0))
+							{
+								InfestationCellFinder.locationCandidates.Add(new LocationCandidate(cell, scoreAt));
+							}
+							num3++;
+							continue;
+						}
+						break;
 					}
+					num++;
+					continue;
 				}
+				break;
 			}
 		}
 
@@ -211,41 +257,38 @@ namespace RimWorld
 		private static int StraightLineDistToUnroofed(IntVec3 cell, Map map)
 		{
 			int num = 2147483647;
-			int i = 0;
-			while (i < 4)
+			for (int i = 0; i < 4; i++)
 			{
-				Rot4 rot = new Rot4(i);
-				IntVec3 facingCell = rot.FacingCell;
 				int num2 = 0;
-				int num3;
+				IntVec3 facingCell = new Rot4(i).FacingCell;
+				int num3 = 0;
 				while (true)
 				{
-					IntVec3 intVec = cell + facingCell * num2;
+					IntVec3 intVec = cell + facingCell * num3;
 					if (!intVec.InBounds(map))
 					{
-						goto Block_1;
+						num2 = 2147483647;
 					}
-					num3 = num2;
-					if (InfestationCellFinder.NoRoofAroundAndWalkable(intVec, map))
+					else
 					{
-						break;
+						num2 = num3;
+						if (!InfestationCellFinder.NoRoofAroundAndWalkable(intVec, map))
+						{
+							num3++;
+							continue;
+						}
 					}
-					num2++;
+					break;
 				}
-				IL_6F:
-				if (num3 < num)
+				if (num2 < num)
 				{
-					num = num3;
+					num = num2;
 				}
-				i++;
-				continue;
-				Block_1:
-				num3 = 2147483647;
-				goto IL_6F;
 			}
 			if (num == 2147483647)
 			{
-				return map.Size.x;
+				IntVec3 size = map.Size;
+				return size.x;
 			}
 			return num;
 		}
@@ -256,28 +299,28 @@ namespace RimWorld
 			int num2 = -2147483648;
 			for (int i = 0; i < 4; i++)
 			{
-				Rot4 rot = new Rot4(i);
-				IntVec3 facingCell = rot.FacingCell;
 				int num3 = 0;
-				int num4;
+				IntVec3 facingCell = new Rot4(i).FacingCell;
+				int num4 = 0;
 				while (true)
 				{
-					IntVec3 c = cell + facingCell * num3;
-					num4 = num3;
-					if (!c.InBounds(map) || !c.Walkable(map))
+					IntVec3 c = cell + facingCell * num4;
+					num3 = num4;
+					if (c.InBounds(map) && c.Walkable(map))
 					{
-						break;
+						num4++;
+						continue;
 					}
-					num3++;
+					break;
 				}
-				if (num4 > num)
+				if (num3 > num)
 				{
 					num2 = num;
-					num = num4;
+					num = num3;
 				}
-				else if (num4 > num2)
+				else if (num3 > num2)
 				{
-					num2 = num4;
+					num2 = num3;
 				}
 			}
 			return (float)Mathf.Min(num, num2);
@@ -295,8 +338,7 @@ namespace RimWorld
 			}
 			for (int i = 0; i < 4; i++)
 			{
-				Rot4 rot = new Rot4(i);
-				IntVec3 c = rot.FacingCell + cell;
+				IntVec3 c = new Rot4(i).FacingCell + cell;
 				if (c.InBounds(map) && c.Roofed(map))
 				{
 					return false;
@@ -309,19 +351,19 @@ namespace RimWorld
 		{
 			float num = 0f;
 			int num2 = 0;
-			for (int i = 0; i < 700; i += 10)
+			for (int num3 = 0; num3 < 700; num3 += 10)
 			{
-				IntVec3 c = cell + GenRadial.RadialPattern[i];
+				IntVec3 c = cell + GenRadial.RadialPattern[num3];
 				if (c.InBounds(map))
 				{
 					Building edifice = c.GetEdifice(map);
 					if (edifice != null && edifice.def.category == ThingCategory.Building && edifice.def.building.isNaturalRock)
 					{
-						num += 1f;
+						num = (float)(num + 1.0);
 					}
 					else if (c.Roofed(map) && c.GetRoof(map).isThickRoof)
 					{
-						num += 0.5f;
+						num = (float)(num + 0.5);
 					}
 					num2++;
 				}
@@ -332,19 +374,37 @@ namespace RimWorld
 		private static void CalculateTraversalDistancesToUnroofed(Map map)
 		{
 			InfestationCellFinder.tempUnroofedRegions.Clear();
-			for (int i = 0; i < map.Size.z; i++)
+			int num = 0;
+			while (true)
 			{
-				for (int j = 0; j < map.Size.x; j++)
+				int num2 = num;
+				IntVec3 size = map.Size;
+				if (num2 < size.z)
 				{
-					IntVec3 intVec = new IntVec3(j, 0, i);
-					Region region = intVec.GetRegion(map, RegionType.Set_Passable);
-					if (region != null && InfestationCellFinder.NoRoofAroundAndWalkable(intVec, map))
+					int num3 = 0;
+					while (true)
 					{
-						InfestationCellFinder.tempUnroofedRegions.Add(region);
+						int num4 = num3;
+						IntVec3 size2 = map.Size;
+						if (num4 < size2.x)
+						{
+							IntVec3 intVec = new IntVec3(num3, 0, num);
+							Region region = intVec.GetRegion(map, RegionType.Set_Passable);
+							if (region != null && InfestationCellFinder.NoRoofAroundAndWalkable(intVec, map))
+							{
+								InfestationCellFinder.tempUnroofedRegions.Add(region);
+							}
+							num3++;
+							continue;
+						}
+						break;
 					}
+					num++;
+					continue;
 				}
+				break;
 			}
-			Dijkstra<Region>.Run(InfestationCellFinder.tempUnroofedRegions, (Region x) => x.Neighbors, (Region a, Region b) => Mathf.Sqrt((float)a.extentsClose.CenterCell.DistanceToSquared(b.extentsClose.CenterCell)), ref InfestationCellFinder.regionsDistanceToUnroofed);
+			Dijkstra<Region>.Run((IEnumerable<Region>)InfestationCellFinder.tempUnroofedRegions, (Func<Region, IEnumerable<Region>>)((Region x) => x.Neighbors), (Func<Region, Region, float>)((Region a, Region b) => Mathf.Sqrt((float)a.extentsClose.CenterCell.DistanceToSquared(b.extentsClose.CenterCell))), ref InfestationCellFinder.regionsDistanceToUnroofed);
 			InfestationCellFinder.tempUnroofedRegions.Clear();
 		}
 
@@ -358,25 +418,43 @@ namespace RimWorld
 			{
 				InfestationCellFinder.closedAreaSize.ClearAndResizeTo(map);
 			}
-			for (int i = 0; i < map.Size.z; i++)
+			int num = 0;
+			while (true)
 			{
-				for (int j = 0; j < map.Size.x; j++)
+				int num2 = num;
+				IntVec3 size = map.Size;
+				if (num2 < size.z)
 				{
-					IntVec3 intVec = new IntVec3(j, 0, i);
-					if (InfestationCellFinder.closedAreaSize[j, i] == 0 && !intVec.Impassable(map))
+					int num3 = 0;
+					while (true)
 					{
-						int area = 0;
-						map.floodFiller.FloodFill(intVec, (IntVec3 c) => !c.Impassable(map), delegate(IntVec3 c)
+						int num4 = num3;
+						IntVec3 size2 = map.Size;
+						if (num4 < size2.x)
 						{
-							area++;
-						}, false);
-						area = Mathf.Min(area, 255);
-						map.floodFiller.FloodFill(intVec, (IntVec3 c) => !c.Impassable(map), delegate(IntVec3 c)
-						{
-							InfestationCellFinder.closedAreaSize[c] = (byte)area;
-						}, false);
+							IntVec3 intVec = new IntVec3(num3, 0, num);
+							if (InfestationCellFinder.closedAreaSize[num3, num] == 0 && !intVec.Impassable(map))
+							{
+								int area = 0;
+								map.floodFiller.FloodFill(intVec, (Predicate<IntVec3>)((IntVec3 c) => !c.Impassable(map)), (Action<IntVec3>)delegate(IntVec3 c)
+								{
+									area++;
+								}, false);
+								area = Mathf.Min(area, 255);
+								map.floodFiller.FloodFill(intVec, (Predicate<IntVec3>)((IntVec3 c) => !c.Impassable(map)), (Action<IntVec3>)delegate(IntVec3 c)
+								{
+									InfestationCellFinder.closedAreaSize[c] = (byte)area;
+								}, false);
+							}
+							num3++;
+							continue;
+						}
+						break;
 					}
+					num++;
+					continue;
 				}
+				break;
 			}
 		}
 
@@ -390,20 +468,20 @@ namespace RimWorld
 			{
 				InfestationCellFinder.distToColonyBuilding.ClearAndResizeTo(map);
 			}
-			InfestationCellFinder.distToColonyBuilding.Clear(255);
+			InfestationCellFinder.distToColonyBuilding.Clear((byte)255);
 			InfestationCellFinder.tmpColonyBuildingsLocs.Clear();
 			List<Building> allBuildingsColonist = map.listerBuildings.allBuildingsColonist;
 			for (int i = 0; i < allBuildingsColonist.Count; i++)
 			{
 				InfestationCellFinder.tmpColonyBuildingsLocs.Add(allBuildingsColonist[i].Position);
 			}
-			Dijkstra<IntVec3>.Run(InfestationCellFinder.tmpColonyBuildingsLocs, (IntVec3 x) => DijkstraUtility.AdjacentCellsNeighborsGetter(x, map), delegate(IntVec3 a, IntVec3 b)
+			Dijkstra<IntVec3>.Run((IEnumerable<IntVec3>)InfestationCellFinder.tmpColonyBuildingsLocs, (Func<IntVec3, IEnumerable<IntVec3>>)((IntVec3 x) => DijkstraUtility.AdjacentCellsNeighborsGetter(x, map)), (Func<IntVec3, IntVec3, float>)delegate(IntVec3 a, IntVec3 b)
 			{
-				if (a.x == b.x || a.z == b.z)
+				if (a.x != b.x && a.z != b.z)
 				{
-					return 1f;
+					return 1.41421354f;
 				}
-				return 1.41421354f;
+				return 1f;
 			}, ref InfestationCellFinder.tmpDistanceResult);
 			for (int j = 0; j < InfestationCellFinder.tmpDistanceResult.Count; j++)
 			{

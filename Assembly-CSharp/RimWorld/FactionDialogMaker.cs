@@ -1,7 +1,6 @@
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -37,20 +36,13 @@ namespace RimWorld
 			FactionDialogMaker.negotiator = negotiator;
 			FactionDialogMaker.faction = faction;
 			string text = (faction.leader != null) ? faction.leader.Name.ToStringFull : faction.Name;
-			if (faction.PlayerGoodwill < -70f)
+			if (faction.PlayerGoodwill < -70.0)
 			{
-				FactionDialogMaker.root = new DiaNode("FactionGreetingHostile".Translate(new object[]
-				{
-					text
-				}));
+				FactionDialogMaker.root = new DiaNode("FactionGreetingHostile".Translate(text));
 			}
-			else if (faction.PlayerGoodwill < 40f)
+			else if (faction.PlayerGoodwill < 40.0)
 			{
-				string text2 = "FactionGreetingWary".Translate(new object[]
-				{
-					text,
-					negotiator.LabelShort
-				});
+				string text2 = "FactionGreetingWary".Translate(text, negotiator.LabelShort);
 				text2 = text2.AdjustedFor(negotiator);
 				FactionDialogMaker.root = new DiaNode(text2);
 				if (!SettlementUtility.IsPlayerAttackingAnySettlementOf(faction))
@@ -64,11 +56,7 @@ namespace RimWorld
 			}
 			else
 			{
-				FactionDialogMaker.root = new DiaNode("FactionGreetingWarm".Translate(new object[]
-				{
-					text,
-					negotiator.LabelShort
-				}));
+				FactionDialogMaker.root = new DiaNode("FactionGreetingWarm".Translate(text, negotiator.LabelShort));
 				if (!SettlementUtility.IsPlayerAttackingAnySettlementOf(faction))
 				{
 					FactionDialogMaker.root.options.Add(FactionDialogMaker.OfferGiftOption(negotiator.Map));
@@ -81,9 +69,9 @@ namespace RimWorld
 			}
 			if (Prefs.DevMode)
 			{
-				foreach (DiaOption current in FactionDialogMaker.DebugOptions())
+				foreach (DiaOption item in FactionDialogMaker.DebugOptions())
 				{
-					FactionDialogMaker.root.options.Add(current);
+					FactionDialogMaker.root.options.Add(item);
 				}
 			}
 			DiaOption diaOption = new DiaOption("(" + "Disconnect".Translate() + ")");
@@ -92,20 +80,31 @@ namespace RimWorld
 			return FactionDialogMaker.root;
 		}
 
-		[DebuggerHidden]
 		private static IEnumerable<DiaOption> DebugOptions()
 		{
-			FactionDialogMaker.<DebugOptions>c__IteratorED <DebugOptions>c__IteratorED = new FactionDialogMaker.<DebugOptions>c__IteratorED();
-			FactionDialogMaker.<DebugOptions>c__IteratorED expr_07 = <DebugOptions>c__IteratorED;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield return new DiaOption("(Debug) Goodwill +10")
+			{
+				action = (Action)delegate
+				{
+					FactionDialogMaker.faction.AffectGoodwillWith(Faction.OfPlayer, 10f);
+				},
+				linkLateBind = (Func<DiaNode>)(() => FactionDialogMaker.FactionDialogFor(FactionDialogMaker.negotiator, FactionDialogMaker.faction))
+			};
+			yield return new DiaOption("(Debug) Goodwill -10")
+			{
+				action = (Action)delegate
+				{
+					FactionDialogMaker.faction.AffectGoodwillWith(Faction.OfPlayer, -10f);
+				},
+				linkLateBind = (Func<DiaNode>)(() => FactionDialogMaker.FactionDialogFor(FactionDialogMaker.negotiator, FactionDialogMaker.faction))
+			};
 		}
 
 		private static int AmountSendableSilver(Map map)
 		{
 			return (from t in TradeUtility.AllLaunchableThings(map)
 			where t.def == ThingDefOf.Silver
-			select t).Sum((Thing t) => t.stackCount);
+			select t).Sum((Func<Thing, int>)((Thing t) => t.stackCount));
 		}
 
 		private static DiaOption OfferGiftOption(Map map)
@@ -113,51 +112,30 @@ namespace RimWorld
 			if (FactionDialogMaker.AmountSendableSilver(map) < 300)
 			{
 				DiaOption diaOption = new DiaOption("OfferGift".Translate());
-				diaOption.Disable("NeedSilverLaunchable".Translate(new object[]
-				{
-					300
-				}));
+				diaOption.Disable("NeedSilverLaunchable".Translate(300));
 				return diaOption;
 			}
-			float goodwillDelta = 12f * FactionDialogMaker.negotiator.GetStatValue(StatDefOf.GiftImpact, true);
-			DiaOption diaOption2 = new DiaOption("OfferGift".Translate() + " (" + "SilverForGoodwill".Translate(new object[]
-			{
-				300,
-				goodwillDelta.ToString("#####0")
-			}) + ")");
-			diaOption2.action = delegate
+			float goodwillDelta = (float)(12.0 * FactionDialogMaker.negotiator.GetStatValue(StatDefOf.GiftImpact, true));
+			DiaOption diaOption2 = new DiaOption("OfferGift".Translate() + " (" + "SilverForGoodwill".Translate(300, goodwillDelta.ToString("#####0")) + ")");
+			diaOption2.action = (Action)delegate()
 			{
 				TradeUtility.LaunchThingsOfType(ThingDefOf.Silver, 300, map, null);
 				FactionDialogMaker.faction.AffectGoodwillWith(Faction.OfPlayer, goodwillDelta);
 			};
-			string text = "SilverGiftSent".Translate(new object[]
-			{
-				FactionDialogMaker.faction.leader.LabelIndefinite(),
-				Mathf.RoundToInt(goodwillDelta)
-			}).CapitalizeFirst();
-			diaOption2.link = new DiaNode(text)
-			{
-				options = 
-				{
-					FactionDialogMaker.OKToRoot()
-				}
-			};
+			string text = "SilverGiftSent".Translate(FactionDialogMaker.faction.leader.LabelIndefinite(), Mathf.RoundToInt(goodwillDelta)).CapitalizeFirst();
+			DiaNode diaNode = new DiaNode(text);
+			diaNode.options.Add(FactionDialogMaker.OKToRoot());
+			diaOption2.link = diaNode;
 			return diaOption2;
 		}
 
 		private static DiaOption RequestTraderOption(Map map, int silverCost)
 		{
-			string text = "RequestTrader".Translate(new object[]
-			{
-				silverCost.ToString()
-			});
+			string text = "RequestTrader".Translate(silverCost.ToString());
 			if (FactionDialogMaker.AmountSendableSilver(map) < silverCost)
 			{
 				DiaOption diaOption = new DiaOption(text);
-				diaOption.Disable("NeedSilverLaunchable".Translate(new object[]
-				{
-					silverCost
-				}));
+				diaOption.Disable("NeedSilverLaunchable".Translate(silverCost));
 				return diaOption;
 			}
 			if (!FactionDialogMaker.faction.def.allowedArrivalTemperatureRange.ExpandedBy(-4f).Includes(map.mapTemperature.SeasonalTemp))
@@ -170,39 +148,39 @@ namespace RimWorld
 			if (num > 0)
 			{
 				DiaOption diaOption3 = new DiaOption(text);
-				diaOption3.Disable("WaitTime".Translate(new object[]
-				{
-					num.ToStringTicksToPeriod(true, false, true)
-				}));
+				diaOption3.Disable("WaitTime".Translate(num.ToStringTicksToPeriod(true, false, true)));
 				return diaOption3;
 			}
 			DiaOption diaOption4 = new DiaOption(text);
-			DiaNode diaNode = new DiaNode("TraderSent".Translate(new object[]
-			{
-				FactionDialogMaker.faction.leader.LabelIndefinite()
-			}).CapitalizeFirst());
+			DiaNode diaNode = new DiaNode("TraderSent".Translate(FactionDialogMaker.faction.leader.LabelIndefinite()).CapitalizeFirst());
 			diaNode.options.Add(FactionDialogMaker.OKToRoot());
-			DiaNode diaNode2 = new DiaNode("ChooseTraderKind".Translate(new object[]
+			DiaNode diaNode2 = new DiaNode("ChooseTraderKind".Translate(FactionDialogMaker.faction.leader.LabelIndefinite()));
+			List<TraderKindDef>.Enumerator enumerator = FactionDialogMaker.faction.def.caravanTraderKinds.GetEnumerator();
+			try
 			{
-				FactionDialogMaker.faction.leader.LabelIndefinite()
-			}));
-			foreach (TraderKindDef current in FactionDialogMaker.faction.def.caravanTraderKinds)
-			{
-				TraderKindDef localTk = current;
-				DiaOption diaOption5 = new DiaOption(localTk.LabelCap);
-				diaOption5.action = delegate
+				while (enumerator.MoveNext())
 				{
-					IncidentParms incidentParms = new IncidentParms();
-					incidentParms.target = map;
-					incidentParms.faction = FactionDialogMaker.faction;
-					incidentParms.traderKind = localTk;
-					incidentParms.forced = true;
-					Find.Storyteller.incidentQueue.Add(IncidentDefOf.TraderCaravanArrival, Find.TickManager.TicksGame + 120000, incidentParms);
-					FactionDialogMaker.faction.lastTraderRequestTick = Find.TickManager.TicksGame;
-					TradeUtility.LaunchThingsOfType(ThingDefOf.Silver, silverCost, map, null);
-				};
-				diaOption5.link = diaNode;
-				diaNode2.options.Add(diaOption5);
+					TraderKindDef current = enumerator.Current;
+					TraderKindDef localTk = current;
+					DiaOption diaOption5 = new DiaOption(localTk.LabelCap);
+					diaOption5.action = (Action)delegate()
+					{
+						IncidentParms incidentParms = new IncidentParms();
+						incidentParms.target = map;
+						incidentParms.faction = FactionDialogMaker.faction;
+						incidentParms.traderKind = localTk;
+						incidentParms.forced = true;
+						Find.Storyteller.incidentQueue.Add(IncidentDefOf.TraderCaravanArrival, Find.TickManager.TicksGame + 120000, incidentParms);
+						FactionDialogMaker.faction.lastTraderRequestTick = Find.TickManager.TicksGame;
+						TradeUtility.LaunchThingsOfType(ThingDefOf.Silver, silverCost, map, null);
+					};
+					diaOption5.link = diaNode;
+					diaNode2.options.Add(diaOption5);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			DiaOption diaOption6 = new DiaOption("GoBack".Translate());
 			diaOption6.linkLateBind = FactionDialogMaker.ResetToRoot();
@@ -213,10 +191,7 @@ namespace RimWorld
 
 		private static DiaOption RequestMilitaryAidOption(Map map)
 		{
-			string text = "RequestMilitaryAid".Translate(new object[]
-			{
-				-25f
-			});
+			string text = "RequestMilitaryAid".Translate(-25f);
 			if (!FactionDialogMaker.faction.def.allowedArrivalTemperatureRange.ExpandedBy(-4f).Includes(map.mapTemperature.SeasonalTemp))
 			{
 				DiaOption diaOption = new DiaOption(text);
@@ -224,56 +199,44 @@ namespace RimWorld
 				return diaOption;
 			}
 			DiaOption diaOption2 = new DiaOption(text);
-			if (map.attackTargetsCache.TargetsHostileToColony.Any((IAttackTarget x) => !x.ThreatDisabled()))
+			if (map.attackTargetsCache.TargetsHostileToColony.Any((Func<IAttackTarget, bool>)((IAttackTarget x) => !x.ThreatDisabled())) && !map.attackTargetsCache.TargetsHostileToColony.Any((Func<IAttackTarget, bool>)((IAttackTarget p) => ((Thing)p).Faction != null && ((Thing)p).Faction.HostileTo(FactionDialogMaker.faction))))
 			{
-				if (!map.attackTargetsCache.TargetsHostileToColony.Any((IAttackTarget p) => ((Thing)p).Faction != null && ((Thing)p).Faction.HostileTo(FactionDialogMaker.faction)))
+				IEnumerable<Faction> source = (from x in map.attackTargetsCache.TargetsHostileToColony
+				where !x.ThreatDisabled()
+				select x into pa
+				select ((Thing)pa).Faction into fa
+				where fa != null && !fa.HostileTo(FactionDialogMaker.faction)
+				select fa).Distinct();
+				DiaNode diaNode = new DiaNode("MilitaryAidConfirmMutualEnemy".Translate(FactionDialogMaker.faction.Name, GenText.ToCommaList(from fa in source
+				select fa.Name, true)));
+				DiaOption diaOption3 = new DiaOption("CallConfirm".Translate());
+				diaOption3.action = (Action)delegate()
 				{
-					IEnumerable<Faction> source = (from x in map.attackTargetsCache.TargetsHostileToColony
-					where !x.ThreatDisabled()
-					select x into pa
-					select ((Thing)pa).Faction into fa
-					where fa != null && !fa.HostileTo(FactionDialogMaker.faction)
-					select fa).Distinct<Faction>();
-					string arg_1B6_0 = "MilitaryAidConfirmMutualEnemy";
-					object[] expr_17D = new object[2];
-					expr_17D[0] = FactionDialogMaker.faction.Name;
-					expr_17D[1] = GenText.ToCommaList(from fa in source
-					select fa.Name, true);
-					DiaNode diaNode = new DiaNode(arg_1B6_0.Translate(expr_17D));
-					DiaOption diaOption3 = new DiaOption("CallConfirm".Translate());
-					diaOption3.action = delegate
-					{
-						FactionDialogMaker.CallForAid(map);
-					};
-					diaOption3.link = FactionDialogMaker.FightersSent();
-					DiaOption diaOption4 = new DiaOption("CallCancel".Translate());
-					diaOption4.linkLateBind = FactionDialogMaker.ResetToRoot();
-					diaNode.options.Add(diaOption3);
-					diaNode.options.Add(diaOption4);
-					diaOption2.link = diaNode;
-					return diaOption2;
-				}
+					FactionDialogMaker.CallForAid(map);
+				};
+				diaOption3.link = FactionDialogMaker.FightersSent();
+				DiaOption diaOption4 = new DiaOption("CallCancel".Translate());
+				diaOption4.linkLateBind = FactionDialogMaker.ResetToRoot();
+				diaNode.options.Add(diaOption3);
+				diaNode.options.Add(diaOption4);
+				diaOption2.link = diaNode;
 			}
-			diaOption2.action = delegate
+			else
 			{
-				FactionDialogMaker.CallForAid(map);
-			};
-			diaOption2.link = FactionDialogMaker.FightersSent();
+				diaOption2.action = (Action)delegate()
+				{
+					FactionDialogMaker.CallForAid(map);
+				};
+				diaOption2.link = FactionDialogMaker.FightersSent();
+			}
 			return diaOption2;
 		}
 
 		private static DiaNode FightersSent()
 		{
-			return new DiaNode("MilitaryAidSent".Translate(new object[]
-			{
-				FactionDialogMaker.faction.leader.LabelIndefinite()
-			}).CapitalizeFirst())
-			{
-				options = 
-				{
-					FactionDialogMaker.OKToRoot()
-				}
-			};
+			DiaNode diaNode = new DiaNode("MilitaryAidSent".Translate(FactionDialogMaker.faction.leader.LabelIndefinite()).CapitalizeFirst());
+			diaNode.options.Add(FactionDialogMaker.OKToRoot());
+			return diaNode;
 		}
 
 		private static void CallForAid(Map map)
@@ -288,15 +251,14 @@ namespace RimWorld
 
 		private static DiaOption OKToRoot()
 		{
-			return new DiaOption("OK".Translate())
-			{
-				linkLateBind = FactionDialogMaker.ResetToRoot()
-			};
+			DiaOption diaOption = new DiaOption("OK".Translate());
+			diaOption.linkLateBind = FactionDialogMaker.ResetToRoot();
+			return diaOption;
 		}
 
 		private static Func<DiaNode> ResetToRoot()
 		{
-			return () => FactionDialogMaker.FactionDialogFor(FactionDialogMaker.negotiator, FactionDialogMaker.faction);
+			return (Func<DiaNode>)(() => FactionDialogMaker.FactionDialogFor(FactionDialogMaker.negotiator, FactionDialogMaker.faction));
 		}
 	}
 }

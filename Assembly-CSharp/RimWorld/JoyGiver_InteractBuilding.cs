@@ -52,11 +52,11 @@ namespace RimWorld
 		private Thing FindBestGame(Pawn pawn, bool inBed, IntVec3 partySpot)
 		{
 			List<Thing> searchSet = this.GetSearchSet(pawn);
-			Predicate<Thing> predicate = (Thing t) => this.CanInteractWith(pawn, t, inBed);
+			Predicate<Thing> predicate = (Predicate<Thing>)((Thing t) => this.CanInteractWith(pawn, t, inBed));
 			if (partySpot.IsValid)
 			{
 				Predicate<Thing> oldValidator = predicate;
-				predicate = ((Thing x) => PartyUtility.InPartyArea(x.Position, partySpot, pawn.Map) && oldValidator(x));
+				predicate = (Predicate<Thing>)((Thing x) => PartyUtility.InPartyArea(x.Position, partySpot, pawn.Map) && oldValidator(x));
 			}
 			Predicate<Thing> validator = predicate;
 			return GenClosest.ClosestThing_Global_Reachable(pawn.Position, pawn.Map, searchSet, PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null);
@@ -64,7 +64,7 @@ namespace RimWorld
 
 		protected virtual bool CanInteractWith(Pawn pawn, Thing t, bool inBed)
 		{
-			if (!pawn.CanReserve(t, this.def.jobDef.joyMaxParticipants, -1, null, false))
+			if (!pawn.CanReserve(t, base.def.jobDef.joyMaxParticipants, -1, null, false))
 			{
 				return false;
 			}
@@ -77,7 +77,15 @@ namespace RimWorld
 				return false;
 			}
 			CompPowerTrader compPowerTrader = t.TryGetComp<CompPowerTrader>();
-			return (compPowerTrader == null || compPowerTrader.PowerOn) && (!this.def.unroofedOnly || !t.Position.Roofed(t.Map));
+			if (compPowerTrader != null && !compPowerTrader.PowerOn)
+			{
+				return false;
+			}
+			if (base.def.unroofedOnly && t.Position.Roofed(t.Map))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected abstract Job TryGivePlayJob(Pawn pawn, Thing bestGame);
@@ -85,7 +93,7 @@ namespace RimWorld
 		protected virtual Job TryGivePlayJobWhileInBed(Pawn pawn, Thing bestGame)
 		{
 			Building_Bed t = pawn.CurrentBed();
-			return new Job(this.def.jobDef, bestGame, pawn.Position, t);
+			return new Job(base.def.jobDef, bestGame, pawn.Position, (Thing)t);
 		}
 	}
 }

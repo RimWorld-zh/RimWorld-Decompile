@@ -10,11 +10,8 @@ namespace RimWorld
 			GameCondition_PsychicEmanation gameCondition_PsychicEmanation = (GameCondition_PsychicEmanation)GameConditionMaker.MakeCondition(GameConditionDefOf.PsychicSoothe, duration, 0);
 			gameCondition_PsychicEmanation.gender = gender;
 			map.gameConditionManager.RegisterCondition(gameCondition_PsychicEmanation);
-			string text = "LetterIncidentPsychicSoothe".Translate(new object[]
-			{
-				gender.ToString().Translate().ToLower()
-			});
-			Find.LetterStack.ReceiveLetter("LetterLabelPsychicSoothe".Translate(), text, LetterDefOf.Good, null);
+			string text = "LetterIncidentPsychicSoothe".Translate(((Enum)(object)gender).ToString().Translate().ToLower());
+			Find.LetterStack.ReceiveLetter("LetterLabelPsychicSoothe".Translate(), text, LetterDefOf.Good, (string)null);
 		}
 	}
 }

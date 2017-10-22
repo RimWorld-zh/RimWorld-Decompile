@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -11,7 +10,7 @@ namespace Verse
 		{
 			get
 			{
-				return (CompProperties_Lifespan)this.props;
+				return (CompProperties_Lifespan)base.props;
 			}
 		}
 
@@ -26,7 +25,7 @@ namespace Verse
 			this.age++;
 			if (this.age >= this.Props.lifespanTicks)
 			{
-				this.parent.Destroy(DestroyMode.Vanish);
+				base.parent.Destroy(DestroyMode.Vanish);
 			}
 		}
 
@@ -35,7 +34,7 @@ namespace Verse
 			this.age += 250;
 			if (this.age >= this.Props.lifespanTicks)
 			{
-				this.parent.Destroy(DestroyMode.Vanish);
+				base.parent.Destroy(DestroyMode.Vanish);
 			}
 		}
 

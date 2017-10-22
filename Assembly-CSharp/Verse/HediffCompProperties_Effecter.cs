@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class HediffCompProperties_Effecter : HediffCompProperties
@@ -10,7 +8,7 @@ namespace Verse
 
 		public HediffCompProperties_Effecter()
 		{
-			this.compClass = typeof(HediffComp_Effecter);
+			base.compClass = typeof(HediffComp_Effecter);
 		}
 	}
 }

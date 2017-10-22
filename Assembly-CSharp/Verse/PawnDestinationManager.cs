@@ -16,9 +16,9 @@ namespace Verse
 
 		public PawnDestinationManager()
 		{
-			foreach (Faction current in Find.FactionManager.AllFactions)
+			foreach (Faction allFaction in Find.FactionManager.AllFactions)
 			{
-				this.RegisterFaction(current);
+				this.RegisterFaction(allFaction);
 			}
 		}
 
@@ -29,16 +29,13 @@ namespace Verse
 
 		public void ReserveDestinationFor(Pawn p, IntVec3 loc)
 		{
-			if (p.Faction == null)
+			if (p.Faction != null)
 			{
-				return;
+				Pawn pawn = this.ReserverOfDestinationForFaction(loc, p.Faction);
+				if (pawn != null && pawn != p)
+					return;
+				this.reservedDestinations[p.Faction][p] = loc;
 			}
-			Pawn pawn = this.ReserverOfDestinationForFaction(loc, p.Faction);
-			if (pawn != null && pawn != p)
-			{
-				return;
-			}
-			this.reservedDestinations[p.Faction][p] = loc;
 		}
 
 		public IntVec3 DestinationReservedFor(Pawn p)
@@ -56,15 +53,31 @@ namespace Verse
 
 		public bool DestinationIsReserved(IntVec3 loc)
 		{
-			foreach (KeyValuePair<Faction, Dictionary<Pawn, IntVec3>> current in this.reservedDestinations)
+			Dictionary<Faction, Dictionary<Pawn, IntVec3>>.Enumerator enumerator = this.reservedDestinations.GetEnumerator();
+			try
 			{
-				foreach (KeyValuePair<Pawn, IntVec3> current2 in current.Value)
+				while (enumerator.MoveNext())
 				{
-					if (current2.Value == loc)
+					Dictionary<Pawn, IntVec3>.Enumerator enumerator2 = enumerator.Current.Value.GetEnumerator();
+					try
 					{
-						return true;
+						while (enumerator2.MoveNext())
+						{
+							if (enumerator2.Current.Value == loc)
+							{
+								return true;
+							}
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator2).Dispose();
 					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			return false;
 		}
@@ -75,12 +88,21 @@ namespace Verse
 			{
 				return false;
 			}
-			foreach (KeyValuePair<Pawn, IntVec3> current in this.reservedDestinations[searcher.Faction])
+			Dictionary<Pawn, IntVec3>.Enumerator enumerator = this.reservedDestinations[searcher.Faction].GetEnumerator();
+			try
 			{
-				if (current.Value == c && current.Key != searcher)
+				while (enumerator.MoveNext())
 				{
-					return true;
+					KeyValuePair<Pawn, IntVec3> current = enumerator.Current;
+					if (current.Value == c && current.Key != searcher)
+					{
+						return true;
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			return false;
 		}
@@ -91,41 +113,58 @@ namespace Verse
 			{
 				return null;
 			}
-			foreach (KeyValuePair<Pawn, IntVec3> current in this.reservedDestinations[faction])
+			Dictionary<Pawn, IntVec3>.Enumerator enumerator = this.reservedDestinations[faction].GetEnumerator();
+			try
 			{
-				if (current.Value == c)
+				while (enumerator.MoveNext())
 				{
-					return current.Key;
+					KeyValuePair<Pawn, IntVec3> current = enumerator.Current;
+					if (current.Value == c)
+					{
+						return current.Key;
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			return null;
 		}
 
 		public void UnreserveAllFor(Pawn p)
 		{
-			if (p.Faction == null)
+			if (p.Faction != null)
 			{
-				return;
+				this.reservedDestinations[p.Faction].Remove(p);
 			}
-			this.reservedDestinations[p.Faction].Remove(p);
 		}
 
 		public void DebugDrawDestinations()
 		{
-			foreach (KeyValuePair<Pawn, IntVec3> current in this.reservedDestinations[Faction.OfPlayer])
+			Dictionary<Pawn, IntVec3>.Enumerator enumerator = this.reservedDestinations[Faction.OfPlayer].GetEnumerator();
+			try
 			{
-				if (!(current.Key.Position == current.Value))
+				while (enumerator.MoveNext())
 				{
-					IntVec3 value = current.Value;
-					Vector3 s = new Vector3(1f, 1f, 1f);
-					Matrix4x4 matrix = default(Matrix4x4);
-					matrix.SetTRS(value.ToVector3ShiftedWithAltitude(AltitudeLayer.MetaOverlays), Quaternion.identity, s);
-					Graphics.DrawMesh(MeshPool.plane10, matrix, PawnDestinationManager.DestinationMat, 0);
-					if (Find.Selector.IsSelected(current.Key))
+					KeyValuePair<Pawn, IntVec3> current = enumerator.Current;
+					if (!(current.Key.Position == current.Value))
 					{
-						Graphics.DrawMesh(MeshPool.plane10, matrix, PawnDestinationManager.DestinationSelectionMat, 0);
+						IntVec3 value = current.Value;
+						Vector3 s = new Vector3(1f, 1f, 1f);
+						Matrix4x4 matrix = default(Matrix4x4);
+						matrix.SetTRS(value.ToVector3ShiftedWithAltitude(AltitudeLayer.MetaOverlays), Quaternion.identity, s);
+						Graphics.DrawMesh(MeshPool.plane10, matrix, PawnDestinationManager.DestinationMat, 0);
+						if (Find.Selector.IsSelected(current.Key))
+						{
+							Graphics.DrawMesh(MeshPool.plane10, matrix, PawnDestinationManager.DestinationSelectionMat, 0);
+						}
 					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 	}

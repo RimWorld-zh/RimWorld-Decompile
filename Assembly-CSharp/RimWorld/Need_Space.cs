@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -52,15 +51,15 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.CurLevel < 0.01f)
+				if (this.CurLevel < 0.0099999997764825821)
 				{
 					return SpaceCategory.VeryCramped;
 				}
-				if (this.CurLevel < 0.3f)
+				if (this.CurLevel < 0.30000001192092896)
 				{
 					return SpaceCategory.Cramped;
 				}
-				if (this.CurLevel < 0.7f)
+				if (this.CurLevel < 0.699999988079071)
 				{
 					return SpaceCategory.Normal;
 				}
@@ -70,35 +69,32 @@ namespace RimWorld
 
 		public Need_Space(Pawn pawn) : base(pawn)
 		{
-			this.threshPercents = new List<float>();
-			this.threshPercents.Add(0.3f);
-			this.threshPercents.Add(0.7f);
+			base.threshPercents = new List<float>();
+			base.threshPercents.Add(0.3f);
+			base.threshPercents.Add(0.7f);
 		}
 
 		public float SpacePerceptibleNow()
 		{
-			if (!this.pawn.Spawned)
+			if (!base.pawn.Spawned)
 			{
 				return 1f;
 			}
-			IntVec3 position = this.pawn.Position;
+			IntVec3 position = base.pawn.Position;
 			Need_Space.tempScanRooms.Clear();
 			for (int i = 0; i < 5; i++)
 			{
 				IntVec3 loc = position + GenRadial.RadialPattern[i];
-				Room room = loc.GetRoom(this.pawn.Map, RegionType.Set_Passable);
+				Room room = loc.GetRoom(base.pawn.Map, RegionType.Set_Passable);
 				if (room != null)
 				{
 					if (i == 0 && room.PsychologicallyOutdoors)
 					{
 						return 1f;
 					}
-					if (i == 0 || room.RegionType != RegionType.Portal)
+					if ((i == 0 || room.RegionType != RegionType.Portal) && !Need_Space.tempScanRooms.Contains(room))
 					{
-						if (!Need_Space.tempScanRooms.Contains(room))
-						{
-							Need_Space.tempScanRooms.Add(room);
-						}
+						Need_Space.tempScanRooms.Add(room);
 					}
 				}
 			}
@@ -106,9 +102,9 @@ namespace RimWorld
 			for (int j = 0; j < Need_Space.SampleNumCells; j++)
 			{
 				IntVec3 loc2 = position + GenRadial.RadialPattern[j];
-				if (Need_Space.tempScanRooms.Contains(loc2.GetRoom(this.pawn.Map, RegionType.Set_Passable)))
+				if (Need_Space.tempScanRooms.Contains(loc2.GetRoom(base.pawn.Map, RegionType.Set_Passable)))
 				{
-					num += 1f;
+					num = (float)(num + 1.0);
 				}
 			}
 			Need_Space.tempScanRooms.Clear();

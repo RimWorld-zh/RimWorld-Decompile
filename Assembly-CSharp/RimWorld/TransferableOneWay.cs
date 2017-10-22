@@ -96,18 +96,15 @@ namespace RimWorld
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
-				this.things.RemoveAll((Thing x) => x.Destroyed);
+				this.things.RemoveAll((Predicate<Thing>)((Thing x) => x.Destroyed));
 			}
 			Scribe_Collections.Look<Thing>(ref this.things, "things", LookMode.Reference, new object[0]);
 			int countToTransfer = base.CountToTransfer;
-			Scribe_Values.Look<int>(ref countToTransfer, "countToTransfer", 0, false);
+			Scribe_Values.Look(ref countToTransfer, "countToTransfer", 0, false);
 			base.CountToTransfer = countToTransfer;
-			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			if (((Scribe.mode == LoadSaveMode.PostLoadInit) ? this.things.RemoveAll((Predicate<Thing>)((Thing x) => x == null)) : 0) != 0)
 			{
-				if (this.things.RemoveAll((Thing x) => x == null) != 0)
-				{
-					Log.Warning("Some of the things were null after loading.");
-				}
+				Log.Warning("Some of the things were null after loading.");
 			}
 		}
 	}

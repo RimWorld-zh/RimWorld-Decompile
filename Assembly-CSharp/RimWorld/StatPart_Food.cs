@@ -35,23 +35,33 @@ namespace RimWorld
 					return pawn.needs.food.CurCategory.GetLabel() + ": x" + this.FoodMultiplier(pawn.needs.food.CurCategory).ToStringPercent();
 				}
 			}
-			return null;
+			return (string)null;
 		}
 
 		private float FoodMultiplier(HungerCategory hunger)
 		{
 			switch (hunger)
 			{
-			case HungerCategory.Fed:
-				return this.factorFed;
-			case HungerCategory.Hungry:
-				return this.factorHungry;
-			case HungerCategory.UrgentlyHungry:
-				return this.factorUrgentlyHungry;
 			case HungerCategory.Starving:
+			{
 				return this.factorStarving;
+			}
+			case HungerCategory.UrgentlyHungry:
+			{
+				return this.factorUrgentlyHungry;
+			}
+			case HungerCategory.Hungry:
+			{
+				return this.factorHungry;
+			}
+			case HungerCategory.Fed:
+			{
+				return this.factorFed;
+			}
 			default:
+			{
 				throw new InvalidOperationException();
+			}
 			}
 		}
 	}

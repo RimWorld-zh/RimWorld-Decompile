@@ -34,14 +34,23 @@ namespace RimWorld
 
 		public static void DrawSelectionOverlays()
 		{
-			foreach (object current in Find.Selector.SelectedObjects)
+			List<object>.Enumerator enumerator = Find.Selector.SelectedObjects.GetEnumerator();
+			try
 			{
-				SelectionDrawer.DrawSelectionBracketFor(current);
-				Thing thing = current as Thing;
-				if (thing != null)
+				while (enumerator.MoveNext())
 				{
-					thing.DrawExtraSelectionOverlays();
+					object current = enumerator.Current;
+					SelectionDrawer.DrawSelectionBracketFor(current);
+					Thing thing = current as Thing;
+					if (thing != null)
+					{
+						thing.DrawExtraSelectionOverlays();
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 
@@ -55,7 +64,7 @@ namespace RimWorld
 			Thing thing = obj as Thing;
 			if (thing != null)
 			{
-				SelectionDrawerUtility.CalculateSelectionBracketPositionsWorld<object>(SelectionDrawer.bracketLocs, thing, thing.DrawPos, thing.RotatedSize.ToVector2(), SelectionDrawer.selectTimes, Vector2.one, 1f);
+				SelectionDrawerUtility.CalculateSelectionBracketPositionsWorld(SelectionDrawer.bracketLocs, thing, thing.DrawPos, thing.RotatedSize.ToVector2(), SelectionDrawer.selectTimes, Vector2.one, 1f);
 				int num = 0;
 				for (int i = 0; i < 4; i++)
 				{

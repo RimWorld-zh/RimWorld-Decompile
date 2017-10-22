@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -23,13 +22,13 @@ namespace RimWorld
 					{
 						num = num2;
 					}
-					if (num < 0.2f)
+					if (num < 0.20000000298023224)
 					{
 						return ThoughtState.ActiveAtStage(1);
 					}
 				}
 			}
-			if (num < 0.5f)
+			if (num < 0.5)
 			{
 				return ThoughtState.ActiveAtStage(0);
 			}

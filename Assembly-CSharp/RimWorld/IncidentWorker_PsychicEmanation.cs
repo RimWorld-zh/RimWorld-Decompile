@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -10,13 +9,25 @@ namespace RimWorld
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
 			Map map = (Map)target;
-			return !map.gameConditionManager.ConditionIsActive(GameConditionDefOf.PsychicDrone) && !map.gameConditionManager.ConditionIsActive(GameConditionDefOf.PsychicSoothe) && map.listerThings.ThingsOfDef(ThingDefOf.CrashedPsychicEmanatorShipPart).Count <= 0 && map.mapPawns.FreeColonistsCount != 0;
+			if (!map.gameConditionManager.ConditionIsActive(GameConditionDefOf.PsychicDrone) && !map.gameConditionManager.ConditionIsActive(GameConditionDefOf.PsychicSoothe))
+			{
+				if (map.listerThings.ThingsOfDef(ThingDefOf.CrashedPsychicEmanatorShipPart).Count > 0)
+				{
+					return false;
+				}
+				if (map.mapPawns.FreeColonistsCount == 0)
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		public override bool TryExecute(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			this.DoConditionAndLetter(map, Mathf.RoundToInt(this.def.durationDays.RandomInRange * 60000f), map.mapPawns.FreeColonists.RandomElement<Pawn>().gender);
+			this.DoConditionAndLetter(map, Mathf.RoundToInt((float)(base.def.durationDays.RandomInRange * 60000.0)), map.mapPawns.FreeColonists.RandomElement().gender);
 			SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(map);
 			return true;
 		}

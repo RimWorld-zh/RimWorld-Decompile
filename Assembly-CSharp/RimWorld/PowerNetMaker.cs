@@ -18,43 +18,56 @@ namespace RimWorld
 			PowerNetMaker.closedSet.Clear();
 			PowerNetMaker.currentSet.Clear();
 			PowerNetMaker.openSet.Add(root);
-			do
+			while (true)
 			{
-				foreach (Building current in PowerNetMaker.openSet)
+				HashSet<Building>.Enumerator enumerator = PowerNetMaker.openSet.GetEnumerator();
+				try
 				{
-					PowerNetMaker.closedSet.Add(current);
+					while (enumerator.MoveNext())
+					{
+						Building current = enumerator.Current;
+						PowerNetMaker.closedSet.Add(current);
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 				HashSet<Building> hashSet = PowerNetMaker.currentSet;
 				PowerNetMaker.currentSet = PowerNetMaker.openSet;
 				PowerNetMaker.openSet = hashSet;
 				PowerNetMaker.openSet.Clear();
-				foreach (Building current2 in PowerNetMaker.currentSet)
+				HashSet<Building>.Enumerator enumerator2 = PowerNetMaker.currentSet.GetEnumerator();
+				try
 				{
-					foreach (IntVec3 current3 in GenAdj.CellsAdjacentCardinal(current2))
+					while (enumerator2.MoveNext())
 					{
-						if (current3.InBounds(current2.Map))
+						Building current2 = enumerator2.Current;
+						foreach (IntVec3 item in GenAdj.CellsAdjacentCardinal(current2))
 						{
-							List<Thing> thingList = current3.GetThingList(current2.Map);
-							for (int i = 0; i < thingList.Count; i++)
+							if (item.InBounds(current2.Map))
 							{
-								Building building = thingList[i] as Building;
-								if (building != null)
+								List<Thing> thingList = item.GetThingList(current2.Map);
+								for (int i = 0; i < thingList.Count; i++)
 								{
-									if (building.TransmitsPowerNow)
+									Building building = thingList[i] as Building;
+									if (building != null && building.TransmitsPowerNow && !PowerNetMaker.openSet.Contains(building) && !PowerNetMaker.currentSet.Contains(building) && !PowerNetMaker.closedSet.Contains(building))
 									{
-										if (!PowerNetMaker.openSet.Contains(building) && !PowerNetMaker.currentSet.Contains(building) && !PowerNetMaker.closedSet.Contains(building))
-										{
-											PowerNetMaker.openSet.Add(building);
-											break;
-										}
+										PowerNetMaker.openSet.Add(building);
+										break;
 									}
 								}
 							}
 						}
 					}
 				}
+				finally
+				{
+					((IDisposable)(object)enumerator2).Dispose();
+				}
+				if (PowerNetMaker.openSet.Count <= 0)
+					break;
 			}
-			while (PowerNetMaker.openSet.Count > 0);
 			return from b in PowerNetMaker.closedSet
 			select b.PowerComp;
 		}

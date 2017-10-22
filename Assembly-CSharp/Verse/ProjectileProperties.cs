@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse
 {
@@ -34,14 +32,12 @@ namespace Verse
 
 		public float explosionSpawnChance = 1f;
 
-		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors(ThingDef parent)
 		{
-			ProjectileProperties.<ConfigErrors>c__Iterator1CA <ConfigErrors>c__Iterator1CA = new ProjectileProperties.<ConfigErrors>c__Iterator1CA();
-			<ConfigErrors>c__Iterator1CA.<>f__this = this;
-			ProjectileProperties.<ConfigErrors>c__Iterator1CA expr_0E = <ConfigErrors>c__Iterator1CA;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.alwaysFreeIntercept && this.flyOverhead)
+			{
+				yield return "alwaysFreeIntercept and flyOverhead are both true";
+			}
 		}
 	}
 }

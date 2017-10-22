@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public abstract class IngredientValueGetter
@@ -10,7 +8,7 @@ namespace Verse
 
 		public virtual string ExtraDescriptionLine(RecipeDef r)
 		{
-			return null;
+			return (string)null;
 		}
 	}
 }

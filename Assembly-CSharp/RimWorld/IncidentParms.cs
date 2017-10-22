@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -52,35 +51,17 @@ namespace RimWorld
 			if (this.target != null)
 			{
 				string text2 = text;
-				text = string.Concat(new object[]
-				{
-					text2,
-					"target=",
-					this.target,
-					" "
-				});
+				text = text2 + "target=" + this.target + " ";
 			}
-			if (this.points >= 0f)
+			if (this.points >= 0.0)
 			{
 				string text2 = text;
-				text = string.Concat(new object[]
-				{
-					text2,
-					"points=",
-					this.points,
-					" "
-				});
+				text = text2 + "points=" + this.points + " ";
 			}
 			if (this.generateFightersOnly)
 			{
 				string text2 = text;
-				text = string.Concat(new object[]
-				{
-					text2,
-					"generateFightersOnly=",
-					this.generateFightersOnly,
-					" "
-				});
+				text = text2 + "generateFightersOnly=" + this.generateFightersOnly + " ";
 			}
 			if (this.raidStrategy != null)
 			{

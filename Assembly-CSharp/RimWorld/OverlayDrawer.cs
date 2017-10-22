@@ -63,9 +63,11 @@ namespace RimWorld
 			if (this.overlaysToDraw.ContainsKey(t))
 			{
 				Dictionary<Thing, OverlayTypes> dictionary;
-				Dictionary<Thing, OverlayTypes> expr_17 = dictionary = this.overlaysToDraw;
-				OverlayTypes overlayTypes = dictionary[t];
-				expr_17[t] = (overlayTypes | overlayType);
+				Dictionary<Thing, OverlayTypes> obj = dictionary = this.overlaysToDraw;
+				Thing key;
+				Thing key2 = key = t;
+				OverlayTypes overlayTypes = dictionary[key];
+				obj[key2] = (overlayTypes | overlayType);
 			}
 			else
 			{
@@ -75,68 +77,84 @@ namespace RimWorld
 
 		public void DrawAllOverlays()
 		{
-			foreach (KeyValuePair<Thing, OverlayTypes> current in this.overlaysToDraw)
+			Dictionary<Thing, OverlayTypes>.Enumerator enumerator = this.overlaysToDraw.GetEnumerator();
+			try
 			{
-				this.curOffset = Vector3.zero;
-				Thing key = current.Key;
-				OverlayTypes value = current.Value;
-				if ((value & OverlayTypes.BurningWick) != (OverlayTypes)0)
+				while (enumerator.MoveNext())
 				{
-					this.RenderBurningWick(key);
-				}
-				else
-				{
-					OverlayTypes overlayTypes = OverlayTypes.NeedsPower | OverlayTypes.PowerOff;
-					int bitCountOf = Gen.GetBitCountOf((long)(value & overlayTypes));
-					float num = this.StackOffsetFor(current.Key);
-					switch (bitCountOf)
+					KeyValuePair<Thing, OverlayTypes> current = enumerator.Current;
+					this.curOffset = Vector3.zero;
+					Thing key = current.Key;
+					OverlayTypes value = current.Value;
+					if (((int)value & 4) != 0)
 					{
-					case 1:
-						this.curOffset = Vector3.zero;
-						break;
-					case 2:
-						this.curOffset = new Vector3(-0.5f * num, 0f, 0f);
-						break;
-					case 3:
-						this.curOffset = new Vector3(-1.5f * num, 0f, 0f);
-						break;
+						this.RenderBurningWick(key);
 					}
-					if ((value & OverlayTypes.NeedsPower) != (OverlayTypes)0)
+					else
 					{
-						this.RenderNeedsPowerOverlay(key);
+						OverlayTypes overlayTypes = OverlayTypes.NeedsPower | OverlayTypes.PowerOff;
+						int bitCountOf = Gen.GetBitCountOf((long)(value & overlayTypes));
+						float num = this.StackOffsetFor(current.Key);
+						switch (bitCountOf)
+						{
+						case 1:
+						{
+							this.curOffset = Vector3.zero;
+							break;
+						}
+						case 2:
+						{
+							this.curOffset = new Vector3((float)(-0.5 * num), 0f, 0f);
+							break;
+						}
+						case 3:
+						{
+							this.curOffset = new Vector3((float)(-1.5 * num), 0f, 0f);
+							break;
+						}
+						}
+						if (((int)value & 1) != 0)
+						{
+							this.RenderNeedsPowerOverlay(key);
+						}
+						if (((int)value & 2) != 0)
+						{
+							this.RenderPowerOffOverlay(key);
+						}
+						if (((int)value & 64) != 0)
+						{
+							this.RenderBrokenDownOverlay(key);
+						}
+						if (((int)value & 128) != 0)
+						{
+							this.RenderOutOfFuelOverlay(key);
+						}
 					}
-					if ((value & OverlayTypes.PowerOff) != (OverlayTypes)0)
+					if (((int)value & 16) != 0)
 					{
-						this.RenderPowerOffOverlay(key);
+						this.RenderForbiddenBigOverlay(key);
 					}
-					if ((value & OverlayTypes.BrokenDown) != (OverlayTypes)0)
+					if (((int)value & 8) != 0)
 					{
-						this.RenderBrokenDownOverlay(key);
+						this.RenderForbiddenOverlay(key);
 					}
-					if ((value & OverlayTypes.OutOfFuel) != (OverlayTypes)0)
+					if (((int)value & 32) != 0)
 					{
-						this.RenderOutOfFuelOverlay(key);
+						this.RenderQuestionMarkOverlay(key);
 					}
 				}
-				if ((value & OverlayTypes.ForbiddenBig) != (OverlayTypes)0)
-				{
-					this.RenderForbiddenBigOverlay(key);
-				}
-				if ((value & OverlayTypes.Forbidden) != (OverlayTypes)0)
-				{
-					this.RenderForbiddenOverlay(key);
-				}
-				if ((value & OverlayTypes.QuestionMark) != (OverlayTypes)0)
-				{
-					this.RenderQuestionMarkOverlay(key);
-				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			this.overlaysToDraw.Clear();
 		}
 
 		private float StackOffsetFor(Thing t)
 		{
-			return (float)t.RotatedSize.x * 0.25f;
+			IntVec2 rotatedSize = t.RotatedSize;
+			return (float)((float)rotatedSize.x * 0.25);
 		}
 
 		private void RenderNeedsPowerOverlay(Thing t)
@@ -168,17 +186,17 @@ namespace RimWorld
 		private void RenderPulsingOverlay(Thing thing, Material mat, int altInd, Mesh mesh)
 		{
 			Vector3 vector = thing.TrueCenter();
-			vector.y = OverlayDrawer.BaseAlt + 0.046875f * (float)altInd;
+			vector.y = (float)(OverlayDrawer.BaseAlt + 0.046875 * (float)altInd);
 			vector += this.curOffset;
-			this.curOffset.x = this.curOffset.x + this.StackOffsetFor(thing);
+			this.curOffset.x += this.StackOffsetFor(thing);
 			this.RenderPulsingOverlay(thing, mat, vector, mesh);
 		}
 
 		private void RenderPulsingOverlay(Thing thing, Material mat, Vector3 drawPos, Mesh mesh)
 		{
-			float num = (Time.realtimeSinceStartup + 397f * (float)(thing.thingIDNumber % 571)) * 4f;
-			float num2 = ((float)Math.Sin((double)num) + 1f) * 0.5f;
-			num2 = 0.3f + num2 * 0.7f;
+			float num = (float)((Time.realtimeSinceStartup + 397.0 * (float)(thing.thingIDNumber % 571)) * 4.0);
+			float num2 = (float)(((float)Math.Sin((double)num) + 1.0) * 0.5);
+			num2 = (float)(0.30000001192092896 + num2 * 0.699999988079071);
 			Material material = FadedMaterialPool.FadedVersionOf(mat, num2);
 			Graphics.DrawMesh(mesh, drawPos, Quaternion.identity, material, 0);
 		}
@@ -186,49 +204,44 @@ namespace RimWorld
 		private void RenderForbiddenOverlay(Thing t)
 		{
 			Vector3 drawPos = t.DrawPos;
-			if (t.RotatedSize.z == 1)
+			IntVec2 rotatedSize = t.RotatedSize;
+			if (rotatedSize.z == 1)
 			{
 				drawPos.z -= OverlayDrawer.SingleCellForbiddenOffset;
 			}
 			else
 			{
-				drawPos.z -= (float)t.RotatedSize.z * 0.3f;
+				float z = drawPos.z;
+				IntVec2 rotatedSize2 = t.RotatedSize;
+				drawPos.z = (float)(z - (float)rotatedSize2.z * 0.30000001192092896);
 			}
-			drawPos.y = OverlayDrawer.BaseAlt + 0.1875f;
+			drawPos.y = (float)(OverlayDrawer.BaseAlt + 0.1875);
 			Graphics.DrawMesh(MeshPool.plane05, drawPos, Quaternion.identity, OverlayDrawer.ForbiddenMat, 0);
 		}
 
 		private void RenderForbiddenBigOverlay(Thing t)
 		{
 			Vector3 drawPos = t.DrawPos;
-			drawPos.y = OverlayDrawer.BaseAlt + 0.1875f;
+			drawPos.y = (float)(OverlayDrawer.BaseAlt + 0.1875);
 			Graphics.DrawMesh(MeshPool.plane10, drawPos, Quaternion.identity, OverlayDrawer.ForbiddenMat, 0);
 		}
 
 		private void RenderBurningWick(Thing parent)
 		{
-			Material material;
-			if (Rand.Value < 0.5f)
-			{
-				material = OverlayDrawer.WickMaterialA;
-			}
-			else
-			{
-				material = OverlayDrawer.WickMaterialB;
-			}
+			Material material = (!(Rand.Value < 0.5)) ? OverlayDrawer.WickMaterialB : OverlayDrawer.WickMaterialA;
 			Vector3 drawPos = parent.DrawPos;
-			drawPos.y = OverlayDrawer.BaseAlt + 0.234375f;
+			drawPos.y = (float)(OverlayDrawer.BaseAlt + 0.234375);
 			Graphics.DrawMesh(MeshPool.plane20, drawPos, Quaternion.identity, material, 0);
 		}
 
 		private void RenderQuestionMarkOverlay(Thing t)
 		{
 			Vector3 drawPos = t.DrawPos;
-			drawPos.y = OverlayDrawer.BaseAlt + 0.28125f;
+			drawPos.y = (float)(OverlayDrawer.BaseAlt + 0.28125);
 			if (t is Pawn)
 			{
-				drawPos.x += (float)t.def.size.x - 0.52f;
-				drawPos.z += (float)t.def.size.z - 0.45f;
+				drawPos.x += (float)((float)t.def.size.x - 0.51999998092651367);
+				drawPos.z += (float)((float)t.def.size.z - 0.44999998807907104);
 			}
 			this.RenderPulsingOverlay(t, OverlayDrawer.QuestionMarkMat, drawPos, MeshPool.plane05);
 		}

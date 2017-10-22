@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -39,7 +38,7 @@ namespace RimWorld
 
 		public CompProperties_Explosive()
 		{
-			this.compClass = typeof(CompExplosive);
+			base.compClass = typeof(CompExplosive);
 		}
 	}
 }

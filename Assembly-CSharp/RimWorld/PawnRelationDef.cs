@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -60,7 +59,7 @@ namespace RimWorld
 			{
 				return this.labelFemale;
 			}
-			return this.label;
+			return base.label;
 		}
 
 		public string GetGenderSpecificLabelCap(Pawn pawn)
@@ -86,14 +85,17 @@ namespace RimWorld
 			return this.killedThought;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			PawnRelationDef.<ConfigErrors>c__Iterator92 <ConfigErrors>c__Iterator = new PawnRelationDef.<ConfigErrors>c__Iterator92();
-			<ConfigErrors>c__Iterator.<>f__this = this;
-			PawnRelationDef.<ConfigErrors>c__Iterator92 expr_0E = <ConfigErrors>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.implied && this.reflexive)
+			{
+				yield return base.defName + ": implied relations can't use the \"reflexive\" option.";
+				this.reflexive = false;
+			}
 		}
 	}
 }

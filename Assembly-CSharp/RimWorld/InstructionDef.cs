@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -45,14 +44,24 @@ namespace RimWorld
 
 		public bool resetBuildDesignatorStuffs;
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			InstructionDef.<ConfigErrors>c__Iterator9F <ConfigErrors>c__Iterator9F = new InstructionDef.<ConfigErrors>c__Iterator9F();
-			<ConfigErrors>c__Iterator9F.<>f__this = this;
-			InstructionDef.<ConfigErrors>c__Iterator9F expr_0E = <ConfigErrors>c__Iterator9F;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.instructionClass == null)
+			{
+				yield return "no instruction class";
+			}
+			if (this.text.NullOrEmpty())
+			{
+				yield return "no text";
+			}
+			if (this.eventTagInitiate.NullOrEmpty())
+			{
+				yield return "no eventTagInitiate";
+			}
 		}
 	}
 }

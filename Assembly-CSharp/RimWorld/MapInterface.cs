@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -28,50 +27,45 @@ namespace RimWorld
 
 		public void MapInterfaceOnGUI_BeforeMainTabs()
 		{
-			if (Find.VisibleMap == null)
+			if (Find.VisibleMap != null)
 			{
-				return;
-			}
-			if (!WorldRendererUtility.WorldRenderedNow)
-			{
-				ScreenshotModeHandler screenshotMode = Find.UIRoot.screenshotMode;
-				this.thingOverlays.ThingOverlaysOnGUI();
-				MapComponentUtility.MapComponentOnGUI(Find.VisibleMap);
-				if (!screenshotMode.FiltersCurrentEvent)
+				if (!WorldRendererUtility.WorldRenderedNow)
 				{
-					this.colonistBar.ColonistBarOnGUI();
+					ScreenshotModeHandler screenshotMode = Find.UIRoot.screenshotMode;
+					this.thingOverlays.ThingOverlaysOnGUI();
+					MapComponentUtility.MapComponentOnGUI(Find.VisibleMap);
+					if (!screenshotMode.FiltersCurrentEvent)
+					{
+						this.colonistBar.ColonistBarOnGUI();
+					}
+					this.selector.dragBox.DragBoxOnGUI();
+					this.designatorManager.DesignationManagerOnGUI();
+					this.targeter.TargeterOnGUI();
+					Find.VisibleMap.tooltipGiverList.DispenseAllThingTooltips();
+					if (DebugViewSettings.drawFoodSearchFromMouse)
+					{
+						FoodUtility.DebugFoodSearchFromMouse_OnGUI();
+					}
+					if (DebugViewSettings.drawAttackTargetScores)
+					{
+						AttackTargetFinder.DebugDrawAttackTargetScores_OnGUI();
+					}
+					if (!screenshotMode.FiltersCurrentEvent)
+					{
+						this.globalControls.GlobalControlsOnGUI();
+						this.resourceReadout.ResourceReadoutOnGUI();
+					}
 				}
-				this.selector.dragBox.DragBoxOnGUI();
-				this.designatorManager.DesignationManagerOnGUI();
-				this.targeter.TargeterOnGUI();
-				Find.VisibleMap.tooltipGiverList.DispenseAllThingTooltips();
-				if (DebugViewSettings.drawFoodSearchFromMouse)
+				else
 				{
-					FoodUtility.DebugFoodSearchFromMouse_OnGUI();
+					this.targeter.StopTargeting();
 				}
-				if (DebugViewSettings.drawAttackTargetScores)
-				{
-					AttackTargetFinder.DebugDrawAttackTargetScores_OnGUI();
-				}
-				if (!screenshotMode.FiltersCurrentEvent)
-				{
-					this.globalControls.GlobalControlsOnGUI();
-					this.resourceReadout.ResourceReadoutOnGUI();
-				}
-			}
-			else
-			{
-				this.targeter.StopTargeting();
 			}
 		}
 
 		public void MapInterfaceOnGUI_AfterMainTabs()
 		{
-			if (Find.VisibleMap == null)
-			{
-				return;
-			}
-			if (!WorldRendererUtility.WorldRenderedNow)
+			if (Find.VisibleMap != null && !WorldRendererUtility.WorldRenderedNow)
 			{
 				ScreenshotModeHandler screenshotMode = Find.UIRoot.screenshotMode;
 				if (!screenshotMode.FiltersCurrentEvent)
@@ -85,11 +79,7 @@ namespace RimWorld
 
 		public void HandleMapClicks()
 		{
-			if (Find.VisibleMap == null)
-			{
-				return;
-			}
-			if (!WorldRendererUtility.WorldRenderedNow)
+			if (Find.VisibleMap != null && !WorldRendererUtility.WorldRenderedNow)
 			{
 				this.designatorManager.ProcessInputEvents();
 				this.targeter.ProcessInputEvents();
@@ -98,11 +88,7 @@ namespace RimWorld
 
 		public void HandleLowPriorityInput()
 		{
-			if (Find.VisibleMap == null)
-			{
-				return;
-			}
-			if (!WorldRendererUtility.WorldRenderedNow)
+			if (Find.VisibleMap != null && !WorldRendererUtility.WorldRenderedNow)
 			{
 				this.selector.SelectorOnGUI();
 				Find.VisibleMap.lordManager.LordManagerOnGUI();
@@ -111,11 +97,7 @@ namespace RimWorld
 
 		public void MapInterfaceUpdate()
 		{
-			if (Find.VisibleMap == null)
-			{
-				return;
-			}
-			if (!WorldRendererUtility.WorldRenderedNow)
+			if (Find.VisibleMap != null && !WorldRendererUtility.WorldRenderedNow)
 			{
 				this.targeter.TargeterUpdate();
 				SelectionDrawer.DrawSelectionOverlays();

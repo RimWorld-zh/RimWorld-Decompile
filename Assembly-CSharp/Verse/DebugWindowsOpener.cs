@@ -9,54 +9,53 @@ namespace Verse
 	{
 		public void DevToolStarterOnGUI()
 		{
-			if (!Prefs.DevMode)
+			if (Prefs.DevMode)
 			{
-				return;
-			}
-			Vector2 vector = new Vector2((float)UI.screenWidth * 0.5f, 3f);
-			int num = 6;
-			if (Current.ProgramState == ProgramState.Playing)
-			{
-				num += 2;
-			}
-			float num2 = 25f;
-			if (Current.ProgramState == ProgramState.Playing && DebugSettings.godMode)
-			{
-				num2 += 15f;
-			}
-			Find.WindowStack.ImmediateWindow(1593759361, new Rect(vector.x, vector.y, (float)num * 28f - 4f + 1f, num2).Rounded(), WindowLayer.GameUI, delegate
-			{
-				this.DrawButtons();
-			}, false, false, 0f);
-			if (KeyBindingDefOf.ToggleDebugLog.KeyDownEvent)
-			{
-				this.ToggleLogWindow();
-				Event.current.Use();
-			}
-			if (KeyBindingDefOf.ToggleDebugActionsMenu.KeyDownEvent)
-			{
-				this.ToggleDebugActionsMenu();
-				Event.current.Use();
-			}
-			if (KeyBindingDefOf.ToggleDebugLogMenu.KeyDownEvent)
-			{
-				this.ToggleDebugLogMenu();
-				Event.current.Use();
-			}
-			if (KeyBindingDefOf.ToggleDebugSettingsMenu.KeyDownEvent)
-			{
-				this.ToggleDebugSettingsMenu();
-				Event.current.Use();
-			}
-			if (KeyBindingDefOf.ToggleDebugInspector.KeyDownEvent)
-			{
-				this.ToggleDebugInspector();
-				Event.current.Use();
-			}
-			if (Current.ProgramState == ProgramState.Playing && KeyBindingDefOf.ToggleGodMode.KeyDownEvent)
-			{
-				this.ToggleGodMode();
-				Event.current.Use();
+				Vector2 vector = new Vector2((float)((float)UI.screenWidth * 0.5), 3f);
+				int num = 6;
+				if (Current.ProgramState == ProgramState.Playing)
+				{
+					num += 2;
+				}
+				float num2 = 25f;
+				if (Current.ProgramState == ProgramState.Playing && DebugSettings.godMode)
+				{
+					num2 = (float)(num2 + 15.0);
+				}
+				Find.WindowStack.ImmediateWindow(1593759361, new Rect(vector.x, vector.y, (float)((float)num * 28.0 - 4.0 + 1.0), num2).Rounded(), WindowLayer.GameUI, (Action)delegate
+				{
+					this.DrawButtons();
+				}, false, false, 0f);
+				if (KeyBindingDefOf.ToggleDebugLog.KeyDownEvent)
+				{
+					this.ToggleLogWindow();
+					Event.current.Use();
+				}
+				if (KeyBindingDefOf.ToggleDebugActionsMenu.KeyDownEvent)
+				{
+					this.ToggleDebugActionsMenu();
+					Event.current.Use();
+				}
+				if (KeyBindingDefOf.ToggleDebugLogMenu.KeyDownEvent)
+				{
+					this.ToggleDebugLogMenu();
+					Event.current.Use();
+				}
+				if (KeyBindingDefOf.ToggleDebugSettingsMenu.KeyDownEvent)
+				{
+					this.ToggleDebugSettingsMenu();
+					Event.current.Use();
+				}
+				if (KeyBindingDefOf.ToggleDebugInspector.KeyDownEvent)
+				{
+					this.ToggleDebugInspector();
+					Event.current.Use();
+				}
+				if (Current.ProgramState == ProgramState.Playing && KeyBindingDefOf.ToggleGodMode.KeyDownEvent)
+				{
+					this.ToggleGodMode();
+					Event.current.Use();
+				}
 			}
 		}
 
@@ -99,7 +98,7 @@ namespace Verse
 					Widgets.Label(new Rect(0f, 25f, 200f, 100f), "God mode");
 				}
 				bool pauseOnError = Prefs.PauseOnError;
-				widgetRow.ToggleableIcon(ref pauseOnError, TexButton.TogglePauseOnError, "Pause the game when an error is logged.", null, null);
+				widgetRow.ToggleableIcon(ref pauseOnError, TexButton.TogglePauseOnError, "Pause the game when an error is logged.", null, (string)null);
 				Prefs.PauseOnError = pauseOnError;
 			}
 		}
@@ -115,12 +114,12 @@ namespace Verse
 		private void OpenPackageEditor()
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
-			FloatMenuOption item = new FloatMenuOption("SoundDefs", delegate
+			FloatMenuOption item = new FloatMenuOption("SoundDefs", (Action)delegate
 			{
 				Find.WindowStack.Add(new EditWindow_PackageEditor<SoundDef>("SoundDefs"));
 			}, MenuOptionPriority.Default, null, null, 0f, null, null);
 			list.Add(item);
-			item = new FloatMenuOption("HairDefs", delegate
+			item = new FloatMenuOption("HairDefs", (Action)delegate
 			{
 				Find.WindowStack.Add(new EditWindow_PackageEditor<HairDef>("HairDefs"));
 			}, MenuOptionPriority.Default, null, null, 0f, null, null);

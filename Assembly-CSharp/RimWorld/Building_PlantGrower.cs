@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Verse;
 
@@ -16,28 +15,39 @@ namespace RimWorld
 		{
 			get
 			{
-				Building_PlantGrower.<>c__Iterator15C <>c__Iterator15C = new Building_PlantGrower.<>c__Iterator15C();
-				<>c__Iterator15C.<>f__this = this;
-				Building_PlantGrower.<>c__Iterator15C expr_0E = <>c__Iterator15C;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				if (base.Spawned)
+				{
+					CellRect.CellRectIterator cri = this.OccupiedRect().GetIterator();
+					while (!cri.Done())
+					{
+						List<Thing> thingList = base.Map.thingGrid.ThingsListAt(cri.Current);
+						for (int i = 0; i < thingList.Count; i++)
+						{
+							Plant p = thingList[i] as Plant;
+							if (p != null)
+							{
+								yield return p;
+							}
+						}
+						cri.MoveNext();
+					}
+				}
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_PlantGrower.<GetGizmos>c__Iterator15D <GetGizmos>c__Iterator15D = new Building_PlantGrower.<GetGizmos>c__Iterator15D();
-			<GetGizmos>c__Iterator15D.<>f__this = this;
-			Building_PlantGrower.<GetGizmos>c__Iterator15D expr_0E = <GetGizmos>c__Iterator15D;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			yield return (Gizmo)PlantToGrowSettableUtility.SetPlantToGrowCommand(this);
 		}
 
 		public override void PostMake()
 		{
 			base.PostMake();
-			this.plantDefToGrow = this.def.building.defaultPlantToGrow;
+			this.plantDefToGrow = base.def.building.defaultPlantToGrow;
 		}
 
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
@@ -57,19 +67,28 @@ namespace RimWorld
 		{
 			if (this.compPower != null && !this.compPower.PowerOn)
 			{
-				foreach (Plant current in this.PlantsOnMe)
+				foreach (Plant item in this.PlantsOnMe)
 				{
 					DamageInfo dinfo = new DamageInfo(DamageDefOf.Rotting, 4, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
-					current.TakeDamage(dinfo);
+					item.TakeDamage(dinfo);
 				}
 			}
 		}
 
 		public override void DeSpawn()
 		{
-			foreach (Plant current in this.PlantsOnMe.ToList<Plant>())
+			List<Plant>.Enumerator enumerator = this.PlantsOnMe.ToList().GetEnumerator();
+			try
 			{
-				current.Destroy(DestroyMode.Vanish);
+				while (enumerator.MoveNext())
+				{
+					Plant current = enumerator.Current;
+					current.Destroy(DestroyMode.Vanish);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			base.DeSpawn();
 		}
@@ -79,14 +98,7 @@ namespace RimWorld
 			string text = base.GetInspectString();
 			if (base.Spawned)
 			{
-				if (GenPlant.GrowthSeasonNow(base.Position, base.Map))
-				{
-					text = text + "\n" + "GrowSeasonHereNow".Translate();
-				}
-				else
-				{
-					text = text + "\n" + "CannotGrowBadSeasonTemperature".Translate();
-				}
+				text = ((!GenPlant.GrowthSeasonNow(base.Position, base.Map)) ? (text + "\n" + "CannotGrowBadSeasonTemperature".Translate()) : (text + "\n" + "GrowSeasonHereNow".Translate()));
 			}
 			return text;
 		}
@@ -103,12 +115,22 @@ namespace RimWorld
 
 		public bool CanAcceptSowNow()
 		{
-			return this.compPower == null || this.compPower.PowerOn;
+			if (this.compPower != null && !this.compPower.PowerOn)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		virtual Map get_Map()
 		{
 			return base.Map;
+		}
+
+		Map IPlantToGrowSettable.get_Map()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_Map
+			return this.get_Map();
 		}
 	}
 }

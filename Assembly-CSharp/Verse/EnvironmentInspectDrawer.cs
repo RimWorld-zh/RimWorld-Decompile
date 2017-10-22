@@ -44,81 +44,86 @@ namespace Verse
 
 		private static bool ShouldShow()
 		{
-			return Find.PlaySettings.showEnvironment && !Mouse.IsInputBlockedNow && UI.MouseCell().InBounds(Find.VisibleMap) && !UI.MouseCell().Fogged(Find.VisibleMap);
+			if (!Find.PlaySettings.showEnvironment)
+			{
+				return false;
+			}
+			if (Mouse.IsInputBlockedNow)
+			{
+				return false;
+			}
+			if (UI.MouseCell().InBounds(Find.VisibleMap) && !UI.MouseCell().Fogged(Find.VisibleMap))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static void EnvironmentInspectOnGUI()
 		{
-			if (Event.current.type != EventType.Repaint || !EnvironmentInspectDrawer.ShouldShow())
+			if (Event.current.type == EventType.Repaint && EnvironmentInspectDrawer.ShouldShow())
 			{
-				return;
+				BeautyDrawer.DrawBeautyAroundMouse();
+				EnvironmentInspectDrawer.DrawInfoWindow();
 			}
-			BeautyDrawer.DrawBeautyAroundMouse();
-			EnvironmentInspectDrawer.DrawInfoWindow();
 		}
 
 		private static void DrawInfoWindow()
 		{
-			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D8 <DrawInfoWindow>c__AnonStorey5D = new EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D8();
-			<DrawInfoWindow>c__AnonStorey5D.room = UI.MouseCell().GetRoom(Find.VisibleMap, RegionType.Set_All);
-			<DrawInfoWindow>c__AnonStorey5D.roomValid = (<DrawInfoWindow>c__AnonStorey5D.room != null && <DrawInfoWindow>c__AnonStorey5D.room.Role != RoomRoleDefOf.None);
+			Room room = UI.MouseCell().GetRoom(Find.VisibleMap, RegionType.Set_All);
+			bool roomValid = room != null && room.Role != RoomRoleDefOf.None;
 			Text.Font = GameFont.Small;
-			<DrawInfoWindow>c__AnonStorey5D.windowRect = new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 416f, 36f);
-			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D8 expr_8A_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
-			expr_8A_cp_0.windowRect.height = expr_8A_cp_0.windowRect.height + 25f;
-			if (<DrawInfoWindow>c__AnonStorey5D.roomValid)
+			Vector2 mousePosition = Event.current.mousePosition;
+			float x = mousePosition.x;
+			Vector2 mousePosition2 = Event.current.mousePosition;
+			Rect windowRect = new Rect(x, mousePosition2.y, 416f, 36f);
+			windowRect.height += 25f;
+			if (roomValid)
 			{
-				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D8 expr_AC_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
-				expr_AC_cp_0.windowRect.height = expr_AC_cp_0.windowRect.height + 13f;
-				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D8 expr_C3_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
-				expr_C3_cp_0.windowRect.height = expr_C3_cp_0.windowRect.height + 23f;
-				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D8 expr_DA_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
-				expr_DA_cp_0.windowRect.height = expr_DA_cp_0.windowRect.height + (float)EnvironmentInspectDrawer.DisplayedRoomStatsCount * 25f;
+				windowRect.height += 13f;
+				windowRect.height += 23f;
+				windowRect.height += (float)((float)EnvironmentInspectDrawer.DisplayedRoomStatsCount * 25.0);
 			}
-			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D8 expr_F8_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
-			expr_F8_cp_0.windowRect.x = expr_F8_cp_0.windowRect.x + 26f;
-			EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D8 expr_10F_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
-			expr_10F_cp_0.windowRect.y = expr_10F_cp_0.windowRect.y + 26f;
-			if (<DrawInfoWindow>c__AnonStorey5D.windowRect.xMax > (float)UI.screenWidth)
+			windowRect.x += 26f;
+			windowRect.y += 26f;
+			if (windowRect.xMax > (float)UI.screenWidth)
 			{
-				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D8 expr_13C_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
-				expr_13C_cp_0.windowRect.x = expr_13C_cp_0.windowRect.x - (<DrawInfoWindow>c__AnonStorey5D.windowRect.width + 52f);
+				windowRect.x -= (float)(windowRect.width + 52.0);
 			}
-			if (<DrawInfoWindow>c__AnonStorey5D.windowRect.yMax > (float)UI.screenHeight)
+			if (windowRect.yMax > (float)UI.screenHeight)
 			{
-				EnvironmentInspectDrawer.<DrawInfoWindow>c__AnonStorey5D8 expr_175_cp_0 = <DrawInfoWindow>c__AnonStorey5D;
-				expr_175_cp_0.windowRect.y = expr_175_cp_0.windowRect.y - (<DrawInfoWindow>c__AnonStorey5D.windowRect.height + 52f);
+				windowRect.y -= (float)(windowRect.height + 52.0);
 			}
-			Find.WindowStack.ImmediateWindow(74975, <DrawInfoWindow>c__AnonStorey5D.windowRect, WindowLayer.Super, delegate
+			Find.WindowStack.ImmediateWindow(74975, windowRect, WindowLayer.Super, (Action)delegate
 			{
 				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.InspectRoomStats, KnowledgeAmount.FrameDisplayed);
 				Text.Font = GameFont.Small;
 				float num = 18f;
 				float beauty = BeautyUtility.AverageBeautyPerceptible(UI.MouseCell(), Find.VisibleMap);
-				Rect rect = new Rect(18f, num, <DrawInfoWindow>c__AnonStorey5D.windowRect.width - 36f, 100f);
+				Rect rect = new Rect(18f, num, (float)(windowRect.width - 36.0), 100f);
 				GUI.color = BeautyDrawer.BeautyColor(beauty, 40f);
 				Widgets.Label(rect, "BeautyHere".Translate() + ": " + beauty.ToString("F1"));
-				num += 25f;
-				if (<DrawInfoWindow>c__AnonStorey5D.roomValid)
+				num = (float)(num + 25.0);
+				if (roomValid)
 				{
-					num += 5f;
+					num = (float)(num + 5.0);
 					GUI.color = new Color(1f, 1f, 1f, 0.4f);
-					Widgets.DrawLineHorizontal(18f, num, <DrawInfoWindow>c__AnonStorey5D.windowRect.width - 36f);
+					Widgets.DrawLineHorizontal(18f, num, (float)(windowRect.width - 36.0));
 					GUI.color = Color.white;
-					num += 8f;
-					Rect rect2 = new Rect(18f, num, <DrawInfoWindow>c__AnonStorey5D.windowRect.width - 36f, 100f);
+					num = (float)(num + 8.0);
+					Rect rect2 = new Rect(18f, num, (float)(windowRect.width - 36.0), 100f);
 					GUI.color = Color.white;
-					Widgets.Label(rect2, EnvironmentInspectDrawer.GetRoomRoleLabel(<DrawInfoWindow>c__AnonStorey5D.room));
-					num += 25f;
+					Widgets.Label(rect2, EnvironmentInspectDrawer.GetRoomRoleLabel(room));
+					num = (float)(num + 25.0);
 					Text.WordWrap = false;
 					for (int i = 0; i < DefDatabase<RoomStatDef>.AllDefsListForReading.Count; i++)
 					{
 						RoomStatDef roomStatDef = DefDatabase<RoomStatDef>.AllDefsListForReading[i];
 						if (!roomStatDef.isHidden || DebugViewSettings.showAllRoomStats)
 						{
-							float stat = <DrawInfoWindow>c__AnonStorey5D.room.GetStat(roomStatDef);
+							float stat = room.GetStat(roomStatDef);
 							RoomStatScoreStage scoreStage = roomStatDef.GetScoreStage(stat);
-							if (<DrawInfoWindow>c__AnonStorey5D.room.Role.IsStatRelated(roomStatDef))
+							if (room.Role.IsStatRelated(roomStatDef))
 							{
 								GUI.color = EnvironmentInspectDrawer.RelatedStatColor;
 							}
@@ -128,12 +133,12 @@ namespace Verse
 							}
 							Rect rect3 = new Rect(rect2.x, num, 100f, 23f);
 							Widgets.Label(rect3, roomStatDef.LabelCap);
-							Rect rect4 = new Rect(rect3.xMax + 35f, num, 50f, 23f);
+							Rect rect4 = new Rect((float)(rect3.xMax + 35.0), num, 50f, 23f);
 							string label = roomStatDef.ScoreToString(stat);
 							Widgets.Label(rect4, label);
-							Rect rect5 = new Rect(rect4.xMax + 35f, num, 160f, 23f);
+							Rect rect5 = new Rect((float)(rect4.xMax + 35.0), num, 160f, 23f);
 							Widgets.Label(rect5, (scoreStage != null) ? scoreStage.label : string.Empty);
-							num += 25f;
+							num = (float)(num + 25.0);
 						}
 					}
 					Text.WordWrap = true;
@@ -144,15 +149,14 @@ namespace Verse
 
 		public static void DrawRoomOverlays()
 		{
-			if (!EnvironmentInspectDrawer.ShouldShow())
+			if (EnvironmentInspectDrawer.ShouldShow())
 			{
-				return;
-			}
-			GenUI.RenderMouseoverBracket();
-			Room room = UI.MouseCell().GetRoom(Find.VisibleMap, RegionType.Set_All);
-			if (room != null && room.Role != RoomRoleDefOf.None)
-			{
-				room.DrawFieldEdges();
+				GenUI.RenderMouseoverBracket();
+				Room room = UI.MouseCell().GetRoom(Find.VisibleMap, RegionType.Set_All);
+				if (room != null && room.Role != RoomRoleDefOf.None)
+				{
+					room.DrawFieldEdges();
+				}
 			}
 		}
 
@@ -160,40 +164,18 @@ namespace Verse
 		{
 			Pawn pawn = null;
 			Pawn pawn2 = null;
-			foreach (Pawn current in room.Owners)
+			foreach (Pawn owner in room.Owners)
 			{
 				if (pawn == null)
 				{
-					pawn = current;
+					pawn = owner;
 				}
 				else
 				{
-					pawn2 = current;
+					pawn2 = owner;
 				}
 			}
-			string result;
-			if (pawn == null)
-			{
-				result = room.Role.LabelCap;
-			}
-			else if (pawn2 == null)
-			{
-				result = "SomeonesRoom".Translate(new object[]
-				{
-					pawn.NameStringShort,
-					room.Role.label
-				});
-			}
-			else
-			{
-				result = "CouplesRoom".Translate(new object[]
-				{
-					pawn.NameStringShort,
-					pawn2.NameStringShort,
-					room.Role.label
-				});
-			}
-			return result;
+			return (pawn != null) ? ((pawn2 != null) ? "CouplesRoom".Translate(pawn.NameStringShort, pawn2.NameStringShort, room.Role.label) : "SomeonesRoom".Translate(pawn.NameStringShort, room.Role.label)) : room.Role.LabelCap;
 		}
 	}
 }

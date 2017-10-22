@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -12,7 +11,7 @@ namespace RimWorld
 				return false;
 			}
 			Map map = (Map)target;
-			return map.mapTemperature.SeasonalTemp > 0f && map.mapTemperature.SeasonalTemp < 15f;
+			return map.mapTemperature.SeasonalTemp > 0.0 && map.mapTemperature.SeasonalTemp < 15.0;
 		}
 	}
 }

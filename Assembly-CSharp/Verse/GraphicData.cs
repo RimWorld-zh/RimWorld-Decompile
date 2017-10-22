@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace Verse
@@ -80,22 +79,24 @@ namespace Verse
 			if (this.graphicClass == null)
 			{
 				this.cachedGraphic = null;
-				return;
 			}
-			ShaderType sType = this.shaderType;
-			if (this.shaderType == ShaderType.None)
+			else
 			{
-				sType = ShaderType.Cutout;
-			}
-			Shader shader = ShaderDatabase.ShaderFromType(sType);
-			this.cachedGraphic = GraphicDatabase.Get(this.graphicClass, this.texPath, shader, this.drawSize, this.color, this.colorTwo, this);
-			if (this.onGroundRandomRotateAngle > 0.01f)
-			{
-				this.cachedGraphic = new Graphic_RandomRotated(this.cachedGraphic, this.onGroundRandomRotateAngle);
-			}
-			if (this.Linked)
-			{
-				this.cachedGraphic = GraphicUtility.WrapLinked(this.cachedGraphic, this.linkType);
+				ShaderType sType = this.shaderType;
+				if (this.shaderType == ShaderType.None)
+				{
+					sType = ShaderType.Cutout;
+				}
+				Shader shader = ShaderDatabase.ShaderFromType(sType);
+				this.cachedGraphic = GraphicDatabase.Get(this.graphicClass, this.texPath, shader, this.drawSize, this.color, this.colorTwo, this);
+				if (this.onGroundRandomRotateAngle > 0.0099999997764825821)
+				{
+					this.cachedGraphic = new Graphic_RandomRotated(this.cachedGraphic, this.onGroundRandomRotateAngle);
+				}
+				if (this.Linked)
+				{
+					this.cachedGraphic = GraphicUtility.WrapLinked(this.cachedGraphic, this.linkType);
+				}
 			}
 		}
 
@@ -116,16 +117,28 @@ namespace Verse
 			return this.Graphic.GetColoredVersion(this.Graphic.Shader, t.DrawColor, t.DrawColorTwo);
 		}
 
-		[DebuggerHidden]
 		internal IEnumerable<string> ConfigErrors(ThingDef thingDef)
 		{
-			GraphicData.<ConfigErrors>c__Iterator1C8 <ConfigErrors>c__Iterator1C = new GraphicData.<ConfigErrors>c__Iterator1C8();
-			<ConfigErrors>c__Iterator1C.thingDef = thingDef;
-			<ConfigErrors>c__Iterator1C.<$>thingDef = thingDef;
-			<ConfigErrors>c__Iterator1C.<>f__this = this;
-			GraphicData.<ConfigErrors>c__Iterator1C8 expr_1C = <ConfigErrors>c__Iterator1C;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (this.graphicClass == null)
+			{
+				yield return "graphicClass is null";
+			}
+			if (this.texPath.NullOrEmpty())
+			{
+				yield return "texPath is null or empty";
+			}
+			if (thingDef != null && thingDef.drawerType == DrawerType.RealtimeOnly && this.Linked)
+			{
+				yield return "does not add to map mesh but has a link drawer. Link drawers can only work on the map mesh.";
+			}
+			if (this.shaderType != ShaderType.Cutout && this.shaderType != ShaderType.CutoutComplex)
+				yield break;
+			if (thingDef.mote != null)
+			{
+				if (!(thingDef.mote.fadeInTime > 0.0) && !(thingDef.mote.fadeOutTime > 0.0))
+					yield break;
+				yield return "mote fades but uses cutout shader type. It will abruptly disappear when opacity falls under the cutout threshold.";
+			}
 		}
 	}
 }

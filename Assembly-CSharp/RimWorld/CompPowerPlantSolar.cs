@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -21,7 +20,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return Mathf.Lerp(0f, 1700f, this.parent.Map.skyManager.CurSkyGlow) * this.RoofedPowerOutputFactor;
+				return Mathf.Lerp(0f, 1700f, base.parent.Map.skyManager.CurSkyGlow) * this.RoofedPowerOutputFactor;
 			}
 		}
 
@@ -31,10 +30,10 @@ namespace RimWorld
 			{
 				int num = 0;
 				int num2 = 0;
-				foreach (IntVec3 current in this.parent.OccupiedRect())
+				foreach (IntVec3 item in base.parent.OccupiedRect())
 				{
 					num++;
-					if (this.parent.Map.roofGrid.Roofed(current))
+					if (base.parent.Map.roofGrid.Roofed(item))
 					{
 						num2++;
 					}
@@ -46,14 +45,16 @@ namespace RimWorld
 		public override void PostDraw()
 		{
 			base.PostDraw();
-			GenDraw.FillableBarRequest r = default(GenDraw.FillableBarRequest);
-			r.center = this.parent.DrawPos + Vector3.up * 0.1f;
-			r.size = CompPowerPlantSolar.BarSize;
-			r.fillPercent = base.PowerOutput / 1700f;
-			r.filledMat = CompPowerPlantSolar.PowerPlantSolarBarFilledMat;
-			r.unfilledMat = CompPowerPlantSolar.PowerPlantSolarBarUnfilledMat;
-			r.margin = 0.15f;
-			Rot4 rotation = this.parent.Rotation;
+			GenDraw.FillableBarRequest r = new GenDraw.FillableBarRequest
+			{
+				center = base.parent.DrawPos + Vector3.up * 0.1f,
+				size = CompPowerPlantSolar.BarSize,
+				fillPercent = (float)(base.PowerOutput / 1700.0),
+				filledMat = CompPowerPlantSolar.PowerPlantSolarBarFilledMat,
+				unfilledMat = CompPowerPlantSolar.PowerPlantSolarBarUnfilledMat,
+				margin = 0.15f
+			};
+			Rot4 rotation = base.parent.Rotation;
 			rotation.Rotate(RotationDirection.Clockwise);
 			r.rotation = rotation;
 			GenDraw.DrawFillableBar(r);

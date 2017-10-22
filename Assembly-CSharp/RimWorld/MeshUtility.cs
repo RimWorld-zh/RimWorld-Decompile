@@ -14,68 +14,72 @@ namespace RimWorld
 
 		public static void RemoveVertices(List<Vector3> verts, List<TriangleIndices> tris, Predicate<Vector3> predicate)
 		{
-			int i = 0;
+			int num = 0;
 			int count = tris.Count;
-			while (i < count)
+			while (num < count)
 			{
-				TriangleIndices triangleIndices = tris[i];
+				TriangleIndices triangleIndices = tris[num];
 				if (predicate(verts[triangleIndices.v1]) || predicate(verts[triangleIndices.v2]) || predicate(verts[triangleIndices.v3]))
 				{
-					tris[i] = new TriangleIndices(-1, -1, -1);
+					tris[num] = new TriangleIndices(-1, -1, -1);
 				}
-				i++;
+				num++;
 			}
-			tris.RemoveAll((TriangleIndices x) => x.v1 == -1);
+			tris.RemoveAll((Predicate<TriangleIndices>)((TriangleIndices x) => x.v1 == -1));
 			MeshUtility.RemoveUnusedVertices(verts, tris);
 		}
 
 		public static void RemoveUnusedVertices(List<Vector3> verts, List<TriangleIndices> tris)
 		{
 			MeshUtility.vertIsUsed.Clear();
-			int i = 0;
+			int num = 0;
 			int count = verts.Count;
-			while (i < count)
+			while (num < count)
 			{
 				MeshUtility.vertIsUsed.Add(false);
-				i++;
+				num++;
 			}
-			int j = 0;
+			int num2 = 0;
 			int count2 = tris.Count;
-			while (j < count2)
+			while (num2 < count2)
 			{
-				TriangleIndices triangleIndices = tris[j];
+				TriangleIndices triangleIndices = tris[num2];
 				MeshUtility.vertIsUsed[triangleIndices.v1] = true;
 				MeshUtility.vertIsUsed[triangleIndices.v2] = true;
 				MeshUtility.vertIsUsed[triangleIndices.v3] = true;
-				j++;
+				num2++;
 			}
-			int num = 0;
+			int num3 = 0;
 			MeshUtility.offsets.Clear();
-			int k = 0;
+			int num4 = 0;
 			int count3 = verts.Count;
-			while (k < count3)
+			while (num4 < count3)
 			{
-				if (!MeshUtility.vertIsUsed[k])
+				if (!MeshUtility.vertIsUsed[num4])
 				{
-					num++;
+					num3++;
 				}
-				MeshUtility.offsets.Add(num);
-				k++;
+				MeshUtility.offsets.Add(num3);
+				num4++;
 			}
-			int l = 0;
+			int num5 = 0;
 			int count4 = tris.Count;
-			while (l < count4)
+			while (num5 < count4)
 			{
-				TriangleIndices triangleIndices2 = tris[l];
-				tris[l] = new TriangleIndices(triangleIndices2.v1 - MeshUtility.offsets[triangleIndices2.v1], triangleIndices2.v2 - MeshUtility.offsets[triangleIndices2.v2], triangleIndices2.v3 - MeshUtility.offsets[triangleIndices2.v3]);
-				l++;
+				TriangleIndices triangleIndices2 = tris[num5];
+				tris[num5] = new TriangleIndices(triangleIndices2.v1 - MeshUtility.offsets[triangleIndices2.v1], triangleIndices2.v2 - MeshUtility.offsets[triangleIndices2.v2], triangleIndices2.v3 - MeshUtility.offsets[triangleIndices2.v3]);
+				num5++;
 			}
-			verts.RemoveAll((Vector3 elem, int index) => !MeshUtility.vertIsUsed[index]);
+			verts.RemoveAll((Func<Vector3, int, bool>)((Vector3 elem, int index) => !MeshUtility.vertIsUsed[index]));
 		}
 
 		public static bool Visible(Vector3 point, float radius, Vector3 viewCenter, float viewAngle)
 		{
-			return viewAngle >= 180f || Vector3.Angle(viewCenter * radius, point) <= viewAngle;
+			if (viewAngle >= 180.0)
+			{
+				return true;
+			}
+			return Vector3.Angle(viewCenter * radius, point) <= viewAngle;
 		}
 
 		public static Color32 MutateAlpha(this Color32 input, byte newAlpha)

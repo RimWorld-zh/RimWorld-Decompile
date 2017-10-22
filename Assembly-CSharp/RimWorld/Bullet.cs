@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -13,9 +12,12 @@ namespace RimWorld
 			base.Impact(hitThing);
 			if (hitThing != null)
 			{
-				int damageAmountBase = this.def.projectile.damageAmountBase;
-				ThingDef equipmentDef = this.equipmentDef;
-				DamageInfo dinfo = new DamageInfo(this.def.projectile.damageDef, damageAmountBase, this.ExactRotation.eulerAngles.y, this.launcher, null, equipmentDef, DamageInfo.SourceCategory.ThingOrUnknown);
+				int damageAmountBase = base.def.projectile.damageAmountBase;
+				ThingDef equipmentDef = base.equipmentDef;
+				DamageDef damageDef = base.def.projectile.damageDef;
+				int amount = damageAmountBase;
+				Vector3 eulerAngles = this.ExactRotation.eulerAngles;
+				DamageInfo dinfo = new DamageInfo(damageDef, amount, eulerAngles.y, base.launcher, null, equipmentDef, DamageInfo.SourceCategory.ThingOrUnknown);
 				hitThing.TakeDamage(dinfo);
 			}
 			else
@@ -24,7 +26,7 @@ namespace RimWorld
 				MoteMaker.MakeStaticMote(this.ExactPosition, map, ThingDefOf.Mote_ShotHit_Dirt, 1f);
 				if (base.Position.GetTerrain(map).takeSplashes)
 				{
-					MoteMaker.MakeWaterSplash(this.ExactPosition, map, Mathf.Sqrt((float)this.def.projectile.damageAmountBase) * 1f, 4f);
+					MoteMaker.MakeWaterSplash(this.ExactPosition, map, (float)(Mathf.Sqrt((float)base.def.projectile.damageAmountBase) * 1.0), 4f);
 				}
 			}
 		}

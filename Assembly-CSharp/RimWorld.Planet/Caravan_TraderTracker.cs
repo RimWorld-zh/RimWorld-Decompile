@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Verse;
 
@@ -33,11 +32,20 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				Caravan_TraderTracker.<>c__Iterator100 <>c__Iterator = new Caravan_TraderTracker.<>c__Iterator100();
-				<>c__Iterator.<>f__this = this;
-				Caravan_TraderTracker.<>c__Iterator100 expr_0E = <>c__Iterator;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				List<Thing> inv = CaravanInventoryUtility.AllInventoryItems(this.caravan);
+				for (int j = 0; j < inv.Count; j++)
+				{
+					yield return inv[j];
+				}
+				List<Pawn> pawns = this.caravan.PawnsListForReading;
+				for (int i = 0; i < pawns.Count; i++)
+				{
+					Pawn p = pawns[i];
+					if (!this.caravan.IsOwner(p) && (!p.RaceProps.packAnimal || p.inventory == null || p.inventory.innerContainer.Count <= 0) && !this.soldPrisoners.Contains(p))
+					{
+						yield return (Thing)p;
+					}
+				}
 			}
 		}
 
@@ -61,7 +69,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return this.TraderKind != null && !this.caravan.AllOwnersDowned && this.caravan.Faction != Faction.OfPlayer && this.Goods.Any((Thing x) => this.TraderKind.WillTrade(x.def));
+				return this.TraderKind != null && !this.caravan.AllOwnersDowned && this.caravan.Faction != Faction.OfPlayer && this.Goods.Any((Func<Thing, bool>)((Thing x) => this.TraderKind.WillTrade(x.def)));
 			}
 		}
 
@@ -75,19 +83,34 @@ namespace RimWorld.Planet
 			Scribe_Collections.Look<Pawn>(ref this.soldPrisoners, "soldPrisoners", LookMode.Reference, new object[0]);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.soldPrisoners.RemoveAll((Pawn x) => x == null);
+				this.soldPrisoners.RemoveAll((Predicate<Pawn>)((Pawn x) => x == null));
 			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
-			Caravan_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator101 <ColonyThingsWillingToBuy>c__Iterator = new Caravan_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator101();
-			<ColonyThingsWillingToBuy>c__Iterator.playerNegotiator = playerNegotiator;
-			<ColonyThingsWillingToBuy>c__Iterator.<$>playerNegotiator = playerNegotiator;
-			Caravan_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator101 expr_15 = <ColonyThingsWillingToBuy>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			Caravan playerCaravan = playerNegotiator.GetCaravan();
+			List<Thing>.Enumerator enumerator = CaravanInventoryUtility.AllInventoryItems(playerCaravan).GetEnumerator();
+			try
+			{
+				while (enumerator.MoveNext())
+				{
+					Thing item = enumerator.Current;
+					yield return item;
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			List<Pawn> pawns = playerCaravan.PawnsListForReading;
+			for (int i = 0; i < pawns.Count; i++)
+			{
+				if (!playerCaravan.IsOwner(pawns[i]))
+				{
+					yield return (Thing)pawns[i];
+				}
+			}
 		}
 
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
@@ -95,37 +118,39 @@ namespace RimWorld.Planet
 			if (this.Goods.Contains(toGive))
 			{
 				Log.Error("Tried to add " + toGive + " to stock (pawn's trader tracker), but it's already here.");
-				return;
-			}
-			Caravan caravan = playerNegotiator.GetCaravan();
-			Thing thing = toGive.SplitOff(countToGive);
-			thing.PreTraded(TradeAction.PlayerSells, playerNegotiator, this.caravan);
-			Pawn pawn = thing as Pawn;
-			if (pawn != null)
-			{
-				CaravanInventoryUtility.MoveAllInventoryToSomeoneElse(pawn, caravan.PawnsListForReading, null);
-				this.caravan.AddPawn(pawn, false);
-				if (pawn.IsWorldPawn() && !this.caravan.Spawned)
-				{
-					Find.WorldPawns.RemovePawn(pawn);
-				}
-				if (pawn.RaceProps.Humanlike)
-				{
-					this.soldPrisoners.Add(pawn);
-				}
 			}
 			else
 			{
-				Pawn pawn2 = CaravanInventoryUtility.FindPawnToMoveInventoryTo(thing, this.caravan.PawnsListForReading, null, null);
-				if (pawn2 == null)
+				Caravan caravan = playerNegotiator.GetCaravan();
+				Thing thing = toGive.SplitOff(countToGive);
+				thing.PreTraded(TradeAction.PlayerSells, playerNegotiator, this.caravan);
+				Pawn pawn = thing as Pawn;
+				if (pawn != null)
 				{
-					Log.Error("Could not find pawn to move sold thing to (sold by player). thing=" + thing);
-					thing.Destroy(DestroyMode.Vanish);
+					CaravanInventoryUtility.MoveAllInventoryToSomeoneElse(pawn, caravan.PawnsListForReading, null);
+					this.caravan.AddPawn(pawn, false);
+					if (pawn.IsWorldPawn() && !this.caravan.Spawned)
+					{
+						Find.WorldPawns.RemovePawn(pawn);
+					}
+					if (pawn.RaceProps.Humanlike)
+					{
+						this.soldPrisoners.Add(pawn);
+					}
 				}
-				else if (!pawn2.inventory.innerContainer.TryAdd(thing, true))
+				else
 				{
-					Log.Error("Could not add item to inventory.");
-					thing.Destroy(DestroyMode.Vanish);
+					Pawn pawn2 = CaravanInventoryUtility.FindPawnToMoveInventoryTo(thing, this.caravan.PawnsListForReading, null, null);
+					if (pawn2 == null)
+					{
+						Log.Error("Could not find pawn to move sold thing to (sold by player). thing=" + thing);
+						thing.Destroy(DestroyMode.Vanish);
+					}
+					else if (!pawn2.inventory.innerContainer.TryAdd(thing, true))
+					{
+						Log.Error("Could not add item to inventory.");
+						thing.Destroy(DestroyMode.Vanish);
+					}
 				}
 			}
 		}

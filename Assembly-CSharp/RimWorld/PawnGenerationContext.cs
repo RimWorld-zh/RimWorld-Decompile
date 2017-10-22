@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum PawnGenerationContext
 	{
-		All,
-		PlayerStarter,
-		NonPlayer
+		All = 0,
+		PlayerStarter = 1,
+		NonPlayer = 2
 	}
 }

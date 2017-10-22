@@ -12,7 +12,7 @@ namespace RimWorld
 			{
 				return null;
 			}
-			return pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Parent, (Pawn x) => x.gender != Gender.Female);
+			return pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Parent, (Predicate<Pawn>)((Pawn x) => x.gender != Gender.Female));
 		}
 
 		public static Pawn GetMother(this Pawn pawn)
@@ -21,35 +21,28 @@ namespace RimWorld
 			{
 				return null;
 			}
-			return pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Parent, (Pawn x) => x.gender == Gender.Female);
+			return pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Parent, (Predicate<Pawn>)((Pawn x) => x.gender == Gender.Female));
 		}
 
 		public static void SetFather(this Pawn pawn, Pawn newFather)
 		{
 			if (newFather != null && newFather.gender == Gender.Female)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Tried to set ",
-					newFather,
-					" with gender ",
-					newFather.gender,
-					" as ",
-					pawn,
-					"'s father."
-				}));
-				return;
+				Log.Warning("Tried to set " + newFather + " with gender " + newFather.gender + " as " + pawn + "'s father.");
 			}
-			Pawn father = pawn.GetFather();
-			if (father != newFather)
+			else
 			{
-				if (father != null)
+				Pawn father = pawn.GetFather();
+				if (father != newFather)
 				{
-					pawn.relations.RemoveDirectRelation(PawnRelationDefOf.Parent, father);
-				}
-				if (newFather != null)
-				{
-					pawn.relations.AddDirectRelation(PawnRelationDefOf.Parent, newFather);
+					if (father != null)
+					{
+						pawn.relations.RemoveDirectRelation(PawnRelationDefOf.Parent, father);
+					}
+					if (newFather != null)
+					{
+						pawn.relations.AddDirectRelation(PawnRelationDefOf.Parent, newFather);
+					}
 				}
 			}
 		}
@@ -58,60 +51,46 @@ namespace RimWorld
 		{
 			if (newMother != null && newMother.gender != Gender.Female)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Tried to set ",
-					newMother,
-					" with gender ",
-					newMother.gender,
-					" as ",
-					pawn,
-					"'s mother."
-				}));
-				return;
+				Log.Warning("Tried to set " + newMother + " with gender " + newMother.gender + " as " + pawn + "'s mother.");
 			}
-			Pawn mother = pawn.GetMother();
-			if (mother != newMother)
+			else
 			{
-				if (mother != null)
+				Pawn mother = pawn.GetMother();
+				if (mother != newMother)
 				{
-					pawn.relations.RemoveDirectRelation(PawnRelationDefOf.Parent, mother);
-				}
-				if (newMother != null)
-				{
-					pawn.relations.AddDirectRelation(PawnRelationDefOf.Parent, newMother);
+					if (mother != null)
+					{
+						pawn.relations.RemoveDirectRelation(PawnRelationDefOf.Parent, mother);
+					}
+					if (newMother != null)
+					{
+						pawn.relations.AddDirectRelation(PawnRelationDefOf.Parent, newMother);
+					}
 				}
 			}
 		}
 
-		public static float GetRandomSecondParentSkinColor(float otherParentSkin, float childSkin, float? secondChildSkin = null)
+		public static float GetRandomSecondParentSkinColor(float otherParentSkin, float childSkin, float? secondChildSkin = default(float?))
 		{
-			float mirror;
-			if (secondChildSkin.HasValue)
-			{
-				mirror = (childSkin + secondChildSkin.Value) / 2f;
-			}
-			else
-			{
-				mirror = childSkin;
-			}
-			float reflectedSkin = ChildRelationUtility.GetReflectedSkin(otherParentSkin, mirror);
-			float num = childSkin;
+			float num = 0f;
+			num = (float)((!secondChildSkin.HasValue) ? childSkin : ((childSkin + secondChildSkin.Value) / 2.0));
+			float reflectedSkin = ChildRelationUtility.GetReflectedSkin(otherParentSkin, num);
 			float num2 = childSkin;
+			float num3 = childSkin;
 			if (secondChildSkin.HasValue)
 			{
-				num = Mathf.Min(num, secondChildSkin.Value);
-				num2 = Mathf.Max(num2, secondChildSkin.Value);
+				num2 = Mathf.Min(num2, secondChildSkin.Value);
+				num3 = Mathf.Max(num3, secondChildSkin.Value);
 			}
 			float clampMin = 0f;
 			float clampMax = 1f;
-			if (reflectedSkin >= num2)
+			if (reflectedSkin >= num3)
 			{
-				clampMin = num2;
+				clampMin = num3;
 			}
 			else
 			{
-				clampMax = num;
+				clampMax = num2;
 			}
 			return PawnSkinColors.GetRandomMelaninSimilarTo(reflectedSkin, clampMin, clampMax);
 		}

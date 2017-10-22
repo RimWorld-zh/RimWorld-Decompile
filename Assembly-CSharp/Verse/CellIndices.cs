@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class CellIndices
@@ -18,8 +16,10 @@ namespace Verse
 
 		public CellIndices(Map map)
 		{
-			this.mapSizeX = map.Size.x;
-			this.mapSizeZ = map.Size.z;
+			IntVec3 size = map.Size;
+			this.mapSizeX = size.x;
+			IntVec3 size2 = map.Size;
+			this.mapSizeZ = size2.z;
 		}
 
 		public int CellToIndex(IntVec3 c)

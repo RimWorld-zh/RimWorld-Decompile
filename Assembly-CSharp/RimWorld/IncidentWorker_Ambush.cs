@@ -22,7 +22,11 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
-			return target is Map || CaravanIncidentUtility.CanFireIncidentWhichWantsToGenerateMapAt(target.Tile);
+			if (target is Map)
+			{
+				return true;
+			}
+			return CaravanIncidentUtility.CanFireIncidentWhichWantsToGenerateMapAt(target.Tile);
 		}
 
 		public override bool TryExecute(IncidentParms parms)
@@ -31,7 +35,7 @@ namespace RimWorld
 			{
 				return this.DoExecute(parms);
 			}
-			LongEventHandler.QueueLongEvent(delegate
+			LongEventHandler.QueueLongEvent((Action)delegate()
 			{
 				this.DoExecute(parms);
 			}, "GeneratingMapForNewEncounter", false, null);
@@ -42,7 +46,7 @@ namespace RimWorld
 		{
 			Map map = parms.target as Map;
 			IntVec3 invalid = IntVec3.Invalid;
-			if (map != null && !CellFinder.TryFindRandomEdgeCellWith((IntVec3 x) => x.Standable(map) && map.reachability.CanReachColony(x), map, CellFinder.EdgeRoadChance_Hostile, out invalid))
+			if (map != null && !CellFinder.TryFindRandomEdgeCellWith((Predicate<IntVec3>)((IntVec3 x) => x.Standable(map) && map.reachability.CanReachColony(x)), map, CellFinder.EdgeRoadChance_Hostile, out invalid))
 			{
 				return false;
 			}
@@ -62,9 +66,9 @@ namespace RimWorld
 				}
 			}
 			this.PostProcessGeneratedPawnsAfterSpawning(list);
-			Faction faction;
+			Faction faction = default(Faction);
 			LordJob lordJob = this.CreateLordJob(list, out faction);
-			if (lordJob != null && list.Any<Pawn>())
+			if (lordJob != null && list.Any())
 			{
 				LordMaker.MakeNewLord(faction, lordJob, map, list);
 			}

@@ -45,21 +45,25 @@ namespace Verse
 			if (region == null)
 			{
 				Log.ErrorOnce("Tried to queue null region.", 881121);
-				return;
 			}
-			if (region.reachedIndex == this.reachedIndex)
+			else if (region.reachedIndex == this.reachedIndex)
 			{
 				Log.ErrorOnce("Region is already reached; you can't open it. Region: " + region.ToString(), 719991);
-				return;
 			}
-			this.openQueue.Enqueue(region);
-			region.reachedIndex = this.reachedIndex;
-			this.numRegionsOpened++;
+			else
+			{
+				this.openQueue.Enqueue(region);
+				region.reachedIndex = this.reachedIndex;
+				this.numRegionsOpened++;
+			}
 		}
 
 		private uint NewReachedIndex()
 		{
-			return this.reachedIndex++;
+			uint num = this.reachedIndex;
+			uint result = num;
+			this.reachedIndex = num + 1;
+			return result;
 		}
 
 		private void FinalizeCheck()
@@ -69,12 +73,20 @@ namespace Verse
 
 		public bool CanReachNonLocal(IntVec3 start, TargetInfo dest, PathEndMode peMode, TraverseMode traverseMode, Danger maxDanger)
 		{
-			return (dest.Map == null || dest.Map == this.map) && this.CanReach(start, (LocalTargetInfo)dest, peMode, traverseMode, maxDanger);
+			if (dest.Map != null && dest.Map != this.map)
+			{
+				return false;
+			}
+			return this.CanReach(start, (LocalTargetInfo)dest, peMode, traverseMode, maxDanger);
 		}
 
 		public bool CanReachNonLocal(IntVec3 start, TargetInfo dest, PathEndMode peMode, TraverseParms traverseParams)
 		{
-			return (dest.Map == null || dest.Map == this.map) && this.CanReach(start, (LocalTargetInfo)dest, peMode, traverseParams);
+			if (dest.Map != null && dest.Map != this.map)
+			{
+				return false;
+			}
+			return this.CanReach(start, (LocalTargetInfo)dest, peMode, traverseParams);
 		}
 
 		public bool CanReach(IntVec3 start, LocalTargetInfo dest, PathEndMode peMode, TraverseMode traverseMode, Danger maxDanger)
@@ -97,15 +109,7 @@ namespace Verse
 				}
 				if (traverseParams.pawn.Map != this.map)
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Called CanReach() with a pawn spawned not on this map. This means that we can't check his reachability here. Pawn's current map should have been used instead of this one. pawn=",
-						traverseParams.pawn,
-						" pawn.Map=",
-						traverseParams.pawn.Map,
-						" map=",
-						this.map
-					}));
+					Log.Error("Called CanReach() with a pawn spawned not on this map. This means that we can't check his reachability here. Pawn's current map should have been used instead of this one. pawn=" + traverseParams.pawn + " pawn.Map=" + traverseParams.pawn.Map + " map=" + this.map);
 					return false;
 				}
 			}
@@ -121,100 +125,99 @@ namespace Verse
 			{
 				return false;
 			}
-			if (!start.InBounds(this.map) || !dest.Cell.InBounds(this.map))
+			if (start.InBounds(this.map) && dest.Cell.InBounds(this.map))
 			{
-				return false;
-			}
-			if (peMode == PathEndMode.OnCell || peMode == PathEndMode.Touch || peMode == PathEndMode.ClosestTouch)
-			{
-				Room room = RegionAndRoomQuery.RoomAtFast(start, this.map, RegionType.Set_Passable);
-				if (room != null && room == RegionAndRoomQuery.RoomAtFast(dest.Cell, this.map, RegionType.Set_Passable))
+				if (peMode == PathEndMode.OnCell || peMode == PathEndMode.Touch || peMode == PathEndMode.ClosestTouch)
 				{
-					return true;
-				}
-			}
-			if (traverseParams.mode == TraverseMode.PassAllDestroyableThings)
-			{
-				TraverseParms traverseParams2 = traverseParams;
-				traverseParams2.mode = TraverseMode.PassDoors;
-				if (this.CanReach(start, dest, peMode, traverseParams2))
-				{
-					return true;
-				}
-			}
-			dest = (LocalTargetInfo)GenPath.ResolvePathMode(traverseParams.pawn, dest.ToTargetInfo(this.map), ref peMode);
-			this.working = true;
-			bool result;
-			try
-			{
-				this.pathGrid = this.map.pathGrid;
-				this.regionGrid = this.map.regionGrid;
-				this.reachedIndex += 1u;
-				this.destRegions.Clear();
-				if (peMode == PathEndMode.OnCell)
-				{
-					Region region = dest.Cell.GetRegion(this.map, RegionType.Set_Passable);
-					if (region != null && region.Allows(traverseParams, true))
+					Room room = RegionAndRoomQuery.RoomAtFast(start, this.map, RegionType.Set_Passable);
+					if (room != null && room == RegionAndRoomQuery.RoomAtFast(dest.Cell, this.map, RegionType.Set_Passable))
 					{
-						this.destRegions.Add(region);
+						return true;
 					}
 				}
-				else if (peMode == PathEndMode.Touch)
+				if (traverseParams.mode == TraverseMode.PassAllDestroyableThings)
 				{
-					TouchPathEndModeUtility.AddAllowedAdjacentRegions(dest, traverseParams, this.map, this.destRegions);
+					TraverseParms traverseParams2 = traverseParams;
+					traverseParams2.mode = TraverseMode.PassDoors;
+					if (this.CanReach(start, dest, peMode, traverseParams2))
+					{
+						return true;
+					}
 				}
-				if (this.destRegions.Count == 0 && traverseParams.mode != TraverseMode.PassAllDestroyableThings)
+				dest = (LocalTargetInfo)GenPath.ResolvePathMode(traverseParams.pawn, dest.ToTargetInfo(this.map), ref peMode);
+				this.working = true;
+				try
 				{
-					this.FinalizeCheck();
-					result = false;
-				}
-				else
-				{
-					this.destRegions.RemoveDuplicates<Region>();
+					this.pathGrid = this.map.pathGrid;
+					this.regionGrid = this.map.regionGrid;
+					this.reachedIndex += 1u;
+					this.destRegions.Clear();
+					switch (peMode)
+					{
+					case PathEndMode.OnCell:
+					{
+						Region region = dest.Cell.GetRegion(this.map, RegionType.Set_Passable);
+						if (region != null && region.Allows(traverseParams, true))
+						{
+							this.destRegions.Add(region);
+						}
+						break;
+					}
+					case PathEndMode.Touch:
+					{
+						TouchPathEndModeUtility.AddAllowedAdjacentRegions(dest, traverseParams, this.map, this.destRegions);
+						break;
+					}
+					}
+					if (this.destRegions.Count == 0 && traverseParams.mode != TraverseMode.PassAllDestroyableThings)
+					{
+						this.FinalizeCheck();
+						return false;
+					}
+					this.destRegions.RemoveDuplicates();
 					this.openQueue.Clear();
 					this.numRegionsOpened = 0;
 					this.DetermineStartRegions(start);
 					if (this.openQueue.Count == 0 && traverseParams.mode != TraverseMode.PassAllDestroyableThings)
 					{
 						this.FinalizeCheck();
-						result = false;
+						return false;
 					}
-					else
+					if (this.startingRegions.Any() && this.destRegions.Any())
 					{
-						if (this.startingRegions.Any<Region>() && this.destRegions.Any<Region>())
+						switch (this.GetCachedResult(traverseParams))
 						{
-							switch (this.GetCachedResult(traverseParams))
-							{
-							case BoolUnknown.True:
-								this.FinalizeCheck();
-								result = true;
-								return result;
-							case BoolUnknown.False:
-								this.FinalizeCheck();
-								result = false;
-								return result;
-							}
-						}
-						if (traverseParams.mode == TraverseMode.PassAllDestroyableThings)
+						case BoolUnknown.True:
 						{
-							bool flag = this.CheckCellBasedReachability(start, dest, peMode, traverseParams);
 							this.FinalizeCheck();
-							result = flag;
+							return true;
 						}
-						else
+						case BoolUnknown.False:
 						{
-							bool flag2 = this.CheckRegionBasedReachability(traverseParams);
 							this.FinalizeCheck();
-							result = flag2;
+							return false;
+						}
 						}
 					}
+					if (traverseParams.mode == TraverseMode.PassAllDestroyableThings)
+					{
+						bool result = this.CheckCellBasedReachability(start, dest, peMode, traverseParams);
+						this.FinalizeCheck();
+						return result;
+					}
+					bool result2 = this.CheckRegionBasedReachability(traverseParams);
+					this.FinalizeCheck();
+					return result2;
+					IL_0364:
+					bool result3;
+					return result3;
+				}
+				finally
+				{
+					this.working = false;
 				}
 			}
-			finally
-			{
-				this.working = false;
-			}
-			return result;
+			return false;
 		}
 
 		private void DetermineStartRegions(IntVec3 start)
@@ -231,16 +234,13 @@ namespace Verse
 				for (int i = 0; i < 8; i++)
 				{
 					IntVec3 intVec = start + GenAdj.AdjacentCells[i];
-					if (intVec.InBounds(this.map))
+					if (intVec.InBounds(this.map) && this.pathGrid.WalkableFast(intVec))
 					{
-						if (this.pathGrid.WalkableFast(intVec))
+						Region validRegionAt2 = this.regionGrid.GetValidRegionAt(intVec);
+						if (validRegionAt2 != null && validRegionAt2.reachedIndex != this.reachedIndex)
 						{
-							Region validRegionAt2 = this.regionGrid.GetValidRegionAt(intVec);
-							if (validRegionAt2 != null && validRegionAt2.reachedIndex != this.reachedIndex)
-							{
-								this.QueueNewOpenRegion(validRegionAt2);
-								this.startingRegions.Add(validRegionAt2);
-							}
+							this.QueueNewOpenRegion(validRegionAt2);
+							this.startingRegions.Add(validRegionAt2);
 						}
 					}
 				}
@@ -258,14 +258,17 @@ namespace Verse
 					{
 						return BoolUnknown.True;
 					}
-					BoolUnknown boolUnknown = this.cache.CachedResultFor(this.startingRegions[i].Room, this.destRegions[j].Room, traverseParams);
-					if (boolUnknown == BoolUnknown.True)
+					switch (this.cache.CachedResultFor(this.startingRegions[i].Room, this.destRegions[j].Room, traverseParams))
+					{
+					case BoolUnknown.True:
 					{
 						return BoolUnknown.True;
 					}
-					if (boolUnknown == BoolUnknown.Unknown)
+					case BoolUnknown.Unknown:
 					{
 						flag = true;
+						break;
+					}
 					}
 				}
 			}
@@ -287,20 +290,17 @@ namespace Verse
 					for (int j = 0; j < 2; j++)
 					{
 						Region region2 = regionLink.regions[j];
-						if (region2 != null && region2.reachedIndex != this.reachedIndex && region2.type.Passable())
+						if (region2 != null && region2.reachedIndex != this.reachedIndex && region2.type.Passable() && region2.Allows(traverseParams, false))
 						{
-							if (region2.Allows(traverseParams, false))
+							if (this.destRegions.Contains(region2))
 							{
-								if (this.destRegions.Contains(region2))
+								for (int k = 0; k < this.startingRegions.Count; k++)
 								{
-									for (int k = 0; k < this.startingRegions.Count; k++)
-									{
-										this.cache.AddCachedResult(this.startingRegions[k].Room, region2.Room, traverseParams, true);
-									}
-									return true;
+									this.cache.AddCachedResult(this.startingRegions[k].Room, region2.Room, traverseParams, true);
 								}
-								this.QueueNewOpenRegion(region2);
+								return true;
 							}
+							this.QueueNewOpenRegion(region2);
 						}
 					}
 				}
@@ -321,7 +321,7 @@ namespace Verse
 			Region[] directRegionGrid = this.regionGrid.DirectGrid;
 			PathGrid pathGrid = this.map.pathGrid;
 			CellIndices cellIndices = this.map.cellIndices;
-			this.map.floodFiller.FloodFill(start, delegate(IntVec3 c)
+			this.map.floodFiller.FloodFill(start, (Predicate<IntVec3>)delegate(IntVec3 c)
 			{
 				int num = cellIndices.CellToIndex(c);
 				if (traverseParams.mode == TraverseMode.PassAllDestroyableThings)
@@ -329,10 +329,11 @@ namespace Verse
 					if (!pathGrid.WalkableFast(num))
 					{
 						Building edifice = c.GetEdifice(this.map);
-						if (edifice == null || !PathFinder.IsDestroyable(edifice))
+						if (edifice != null && PathFinder.IsDestroyable(edifice))
 						{
-							return false;
+							goto IL_007b;
 						}
+						return false;
 					}
 				}
 				else
@@ -343,9 +344,15 @@ namespace Verse
 						return false;
 					}
 				}
+				goto IL_007b;
+				IL_007b:
 				Region region = directRegionGrid[num];
-				return region == null || region.Allows(traverseParams, false);
-			}, delegate(IntVec3 c)
+				if (region != null && !region.Allows(traverseParams, false))
+				{
+					return false;
+				}
+				return true;
+			}, (Func<IntVec3, bool>)delegate(IntVec3 c)
 			{
 				if (ReachabilityImmediate.CanReachImmediate(c, dest, this.map, peMode, traverseParams.pawn))
 				{
@@ -406,7 +413,7 @@ namespace Verse
 				List<Building> allBuildingsColonist = this.map.listerBuildings.allBuildingsColonist;
 				for (int j = 0; j < allBuildingsColonist.Count; j++)
 				{
-					if (this.CanReach(c, allBuildingsColonist[j], PathEndMode.Touch, traverseParams))
+					if (this.CanReach(c, (Thing)allBuildingsColonist[j], PathEndMode.Touch, traverseParams))
 					{
 						return true;
 					}
@@ -436,15 +443,7 @@ namespace Verse
 				}
 				if (traverseParms.pawn.Map != this.map)
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Called CanReachMapEdge() with a pawn spawned not on this map. This means that we can't check his reachability here. Pawn's current map should have been used instead of this one. pawn=",
-						traverseParms.pawn,
-						" pawn.Map=",
-						traverseParms.pawn.Map,
-						" map=",
-						this.map
-					}));
+					Log.Error("Called CanReachMapEdge() with a pawn spawned not on this map. This means that we can't check his reachability here. Pawn's current map should have been used instead of this one. pawn=" + traverseParms.pawn + " pawn.Map=" + traverseParms.pawn.Map + " map=" + this.map);
 					return false;
 				}
 			}
@@ -457,9 +456,9 @@ namespace Verse
 			{
 				return true;
 			}
-			RegionEntryPredicate entryCondition = (Region from, Region r) => r.Allows(traverseParms, false);
+			RegionEntryPredicate entryCondition = (RegionEntryPredicate)((Region from, Region r) => r.Allows(traverseParms, false));
 			bool foundReg = false;
-			RegionProcessor regionProcessor = delegate(Region r)
+			RegionProcessor regionProcessor = (RegionProcessor)delegate(Region r)
 			{
 				if (r.Room.TouchesMapEdge)
 				{
@@ -482,15 +481,7 @@ namespace Verse
 				}
 				if (traverseParms.pawn.Map != this.map)
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Called CanReachUnfogged() with a pawn spawned not on this map. This means that we can't check his reachability here. Pawn's current map should have been used instead of this one. pawn=",
-						traverseParms.pawn,
-						" pawn.Map=",
-						traverseParms.pawn.Map,
-						" map=",
-						this.map
-					}));
+					Log.Error("Called CanReachUnfogged() with a pawn spawned not on this map. This means that we can't check his reachability here. Pawn's current map should have been used instead of this one. pawn=" + traverseParms.pawn + " pawn.Map=" + traverseParms.pawn.Map + " map=" + this.map);
 					return false;
 				}
 			}
@@ -507,9 +498,9 @@ namespace Verse
 			{
 				return false;
 			}
-			RegionEntryPredicate entryCondition = (Region from, Region r) => r.Allows(traverseParms, false);
+			RegionEntryPredicate entryCondition = (RegionEntryPredicate)((Region from, Region r) => r.Allows(traverseParms, false));
 			bool foundReg = false;
-			RegionProcessor regionProcessor = delegate(Region r)
+			RegionProcessor regionProcessor = (RegionProcessor)delegate(Region r)
 			{
 				if (!r.AnyCell.Fogged(this.map))
 				{

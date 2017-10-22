@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,23 +6,23 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentSocialStateInternal(Pawn pawn, Pawn other)
 		{
-			if (!other.RaceProps.Humanlike || other.Dead)
+			if (other.RaceProps.Humanlike && !other.Dead)
 			{
-				return false;
+				if (!RelationsUtility.PawnsKnowEachOther(pawn, other))
+				{
+					return false;
+				}
+				if (!RelationsUtility.IsDisfigured(other))
+				{
+					return false;
+				}
+				if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight))
+				{
+					return false;
+				}
+				return true;
 			}
-			if (!RelationsUtility.PawnsKnowEachOther(pawn, other))
-			{
-				return false;
-			}
-			if (!RelationsUtility.IsDisfigured(other))
-			{
-				return false;
-			}
-			if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight))
-			{
-				return false;
-			}
-			return true;
+			return false;
 		}
 	}
 }

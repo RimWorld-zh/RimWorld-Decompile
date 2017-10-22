@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -10,55 +8,54 @@ namespace RimWorld
 	{
 		public const int MinTrainInterval = 15000;
 
-		[DebuggerHidden]
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			WorkGiver_Train.<PotentialWorkThingsGlobal>c__Iterator5C <PotentialWorkThingsGlobal>c__Iterator5C = new WorkGiver_Train.<PotentialWorkThingsGlobal>c__Iterator5C();
-			<PotentialWorkThingsGlobal>c__Iterator5C.pawn = pawn;
-			<PotentialWorkThingsGlobal>c__Iterator5C.<$>pawn = pawn;
-			WorkGiver_Train.<PotentialWorkThingsGlobal>c__Iterator5C expr_15 = <PotentialWorkThingsGlobal>c__Iterator5C;
-			expr_15.$PC = -2;
-			return expr_15;
+			List<Pawn> pawnList = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
+			for (int i = 0; i < pawnList.Count; i++)
+			{
+				yield return (Thing)pawnList[i];
+			}
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
-			if (pawn2 == null || !pawn2.RaceProps.Animal)
+			if (pawn2 != null && pawn2.RaceProps.Animal)
 			{
-				return null;
-			}
-			if (pawn2.Faction != pawn.Faction)
-			{
-				return null;
-			}
-			if (Find.TickManager.TicksGame < pawn2.mindState.lastAssignedInteractTime + 15000)
-			{
-				JobFailReason.Is(WorkGiver_InteractAnimal.AnimalInteractedTooRecentlyTrans);
-				return null;
-			}
-			if (pawn2.training == null)
-			{
-				return null;
-			}
-			if (pawn2.training.NextTrainableToTrain() == null)
-			{
-				return null;
-			}
-			if (!this.CanInteractWithAnimal(pawn, pawn2))
-			{
-				return null;
-			}
-			if (pawn2.RaceProps.EatsFood && !base.HasFoodToInteractAnimal(pawn, pawn2))
-			{
-				Job job = base.TakeFoodForAnimalInteractJob(pawn, pawn2);
-				if (job == null)
+				if (pawn2.Faction != pawn.Faction)
 				{
-					JobFailReason.Is(WorkGiver_InteractAnimal.NoUsableFoodTrans);
+					return null;
 				}
-				return job;
+				if (Find.TickManager.TicksGame < pawn2.mindState.lastAssignedInteractTime + 15000)
+				{
+					JobFailReason.Is(WorkGiver_InteractAnimal.AnimalInteractedTooRecentlyTrans);
+					return null;
+				}
+				if (pawn2.training == null)
+				{
+					return null;
+				}
+				TrainableDef trainableDef = pawn2.training.NextTrainableToTrain();
+				if (trainableDef == null)
+				{
+					return null;
+				}
+				if (!this.CanInteractWithAnimal(pawn, pawn2))
+				{
+					return null;
+				}
+				if (pawn2.RaceProps.EatsFood && !base.HasFoodToInteractAnimal(pawn, pawn2))
+				{
+					Job job = base.TakeFoodForAnimalInteractJob(pawn, pawn2);
+					if (job == null)
+					{
+						JobFailReason.Is(WorkGiver_InteractAnimal.NoUsableFoodTrans);
+					}
+					return job;
+				}
+				return new Job(JobDefOf.Train, t);
 			}
-			return new Job(JobDefOf.Train, t);
+			return null;
 		}
 	}
 }

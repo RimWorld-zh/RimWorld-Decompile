@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.Sound;
 
@@ -8,16 +7,16 @@ namespace RimWorld
 	{
 		private enum JetterState
 		{
-			Resting,
-			WickBurning,
-			Jetting
+			Resting = 0,
+			WickBurning = 1,
+			Jetting = 2
 		}
 
 		private const int TicksBeforeBeginAccelerate = 25;
 
 		private const int TicksBetweenMoves = 3;
 
-		private Jetter.JetterState JState;
+		private JetterState JState;
 
 		private int WickTicksLeft;
 
@@ -29,7 +28,7 @@ namespace RimWorld
 
 		public override void Tick()
 		{
-			if (this.JState == Jetter.JetterState.WickBurning)
+			if (this.JState == JetterState.WickBurning)
 			{
 				base.Map.overlayDrawer.DrawOverlay(this, OverlayTypes.BurningWick);
 				this.WickTicksLeft--;
@@ -38,7 +37,7 @@ namespace RimWorld
 					this.StartJetting();
 				}
 			}
-			else if (this.JState == Jetter.JetterState.Jetting)
+			else if (this.JState == JetterState.Jetting)
 			{
 				this.TicksUntilMove--;
 				if (this.TicksUntilMove <= 0)
@@ -51,7 +50,7 @@ namespace RimWorld
 
 		public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
-			if (!base.Destroyed && dinfo.Def.harmsHealth && this.JState == Jetter.JetterState.Resting)
+			if (!base.Destroyed && dinfo.Def.harmsHealth && this.JState == JetterState.Resting)
 			{
 				this.StartWick();
 			}
@@ -59,19 +58,19 @@ namespace RimWorld
 
 		protected void StartWick()
 		{
-			this.JState = Jetter.JetterState.WickBurning;
+			this.JState = JetterState.WickBurning;
 			this.WickTicksLeft = 25;
-			SoundDef.Named("MetalHitImportant").PlayOneShot(this);
-			this.wickSoundSustainer = SoundDef.Named("HissSmall").TrySpawnSustainer(this);
+			SoundDef.Named("MetalHitImportant").PlayOneShot((Thing)this);
+			this.wickSoundSustainer = SoundDef.Named("HissSmall").TrySpawnSustainer((Thing)this);
 		}
 
 		protected void StartJetting()
 		{
-			this.JState = Jetter.JetterState.Jetting;
+			this.JState = JetterState.Jetting;
 			this.TicksUntilMove = 3;
 			this.wickSoundSustainer.End();
 			this.wickSoundSustainer = null;
-			this.wickSoundSustainer = SoundDef.Named("HissJet").TrySpawnSustainer(this);
+			this.wickSoundSustainer = SoundDef.Named("HissJet").TrySpawnSustainer((Thing)this);
 		}
 
 		protected void MoveJetter()
@@ -81,9 +80,11 @@ namespace RimWorld
 			{
 				this.Destroy(DestroyMode.Vanish);
 				GenExplosion.DoExplosion(base.Position, base.Map, 2.9f, DamageDefOf.Bomb, null, null, null, null, null, 0f, 1, false, null, 0f, 1);
-				return;
 			}
-			base.Position = intVec;
+			else
+			{
+				base.Position = intVec;
+			}
 		}
 
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)

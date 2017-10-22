@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld
 {
 	public class CompPowerPlant : CompPowerTrader
@@ -12,16 +10,16 @@ namespace RimWorld
 		{
 			get
 			{
-				return -base.Props.basePowerConsumption;
+				return (float)(0.0 - base.Props.basePowerConsumption);
 			}
 		}
 
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
-			this.refuelableComp = this.parent.GetComp<CompRefuelable>();
-			this.breakdownableComp = this.parent.GetComp<CompBreakdownable>();
-			if (base.Props.basePowerConsumption < 0f && !this.parent.IsBrokenDown())
+			this.refuelableComp = base.parent.GetComp<CompRefuelable>();
+			this.breakdownableComp = base.parent.GetComp<CompBreakdownable>();
+			if (base.Props.basePowerConsumption < 0.0 && !base.parent.IsBrokenDown())
 			{
 				base.PowerOn = true;
 			}
@@ -35,14 +33,24 @@ namespace RimWorld
 
 		public void UpdateDesiredPowerOutput()
 		{
-			if ((this.breakdownableComp != null && this.breakdownableComp.BrokenDown) || (this.refuelableComp != null && !this.refuelableComp.HasFuel) || (this.flickableComp != null && !this.flickableComp.SwitchIsOn) || !base.PowerOn)
+			if (this.breakdownableComp != null && this.breakdownableComp.BrokenDown)
 			{
-				base.PowerOutput = 0f;
+				goto IL_005c;
 			}
-			else
+			if (this.refuelableComp != null && !this.refuelableComp.HasFuel)
 			{
-				base.PowerOutput = this.DesiredPowerOutput;
+				goto IL_005c;
 			}
+			if (base.flickableComp != null && !base.flickableComp.SwitchIsOn)
+			{
+				goto IL_005c;
+			}
+			if (!base.PowerOn)
+				goto IL_005c;
+			base.PowerOutput = this.DesiredPowerOutput;
+			return;
+			IL_005c:
+			base.PowerOutput = 0f;
 		}
 	}
 }

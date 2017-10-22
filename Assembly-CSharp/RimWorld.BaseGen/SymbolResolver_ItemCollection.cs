@@ -12,17 +12,11 @@ namespace RimWorld.BaseGen
 			Map map = BaseGen.globalSettings.map;
 			ItemCollectionGeneratorDef itemCollectionGeneratorDef = rp.itemCollectionGeneratorDef ?? ItemCollectionGeneratorDefOf.RandomGeneralGoods;
 			ItemCollectionGeneratorParams? itemCollectionGeneratorParams = rp.itemCollectionGeneratorParams;
-			ItemCollectionGeneratorParams parms;
-			if (itemCollectionGeneratorParams.HasValue)
+			ItemCollectionGeneratorParams parms = (!itemCollectionGeneratorParams.HasValue) ? new ItemCollectionGeneratorParams
 			{
-				parms = rp.itemCollectionGeneratorParams.Value;
-			}
-			else
-			{
-				parms = default(ItemCollectionGeneratorParams);
-				parms.count = rp.rect.Cells.Count((IntVec3 x) => x.Standable(map) && x.GetFirstItem(map) == null);
-				parms.techLevel = TechLevel.Spacer;
-			}
+				count = rp.rect.Cells.Count((Func<IntVec3, bool>)((IntVec3 x) => x.Standable(map) && x.GetFirstItem(map) == null)),
+				techLevel = TechLevel.Spacer
+			} : rp.itemCollectionGeneratorParams.Value;
 			List<Thing> list = itemCollectionGeneratorDef.Worker.Generate(parms);
 			for (int i = 0; i < list.Count; i++)
 			{

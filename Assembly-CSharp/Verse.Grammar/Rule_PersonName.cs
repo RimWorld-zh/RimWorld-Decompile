@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse.Grammar
 {
@@ -23,14 +22,14 @@ namespace Verse.Grammar
 			Gender gender = this.gender;
 			if (gender == Gender.None)
 			{
-				gender = ((Rand.Value >= 0.5f) ? Gender.Female : Gender.Male);
+				gender = (Gender)((Rand.Value < 0.5) ? 1 : 2);
 			}
 			return nameBank.GetName(PawnNameSlot.First, gender);
 		}
 
 		public override string ToString()
 		{
-			return this.keyword + "->(personname)";
+			return base.keyword + "->(personname)";
 		}
 	}
 }

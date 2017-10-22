@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse.AI.Group
 {
@@ -19,7 +18,7 @@ namespace Verse.AI.Group
 		{
 			get
 			{
-				return (LordToilData_Travel)this.data;
+				return (LordToilData_Travel)base.data;
 			}
 		}
 
@@ -41,18 +40,18 @@ namespace Verse.AI.Group
 
 		public LordToil_Travel(IntVec3 dest)
 		{
-			this.data = new LordToilData_Travel();
+			base.data = new LordToilData_Travel();
 			this.Data.dest = dest;
 		}
 
 		public override void UpdateAllDuties()
 		{
 			LordToilData_Travel data = this.Data;
-			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
 				PawnDuty pawnDuty = new PawnDuty(DutyDefOf.Travel, data.dest, -1f);
 				pawnDuty.maxDanger = this.maxDanger;
-				this.lord.ownedPawns[i].mindState.duty = pawnDuty;
+				base.lord.ownedPawns[i].mindState.duty = pawnDuty;
 			}
 		}
 
@@ -62,18 +61,21 @@ namespace Verse.AI.Group
 			{
 				LordToilData_Travel data = this.Data;
 				bool flag = true;
-				for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+				int num = 0;
+				while (num < base.lord.ownedPawns.Count)
 				{
-					Pawn pawn = this.lord.ownedPawns[i];
-					if (!pawn.Position.InHorDistOf(data.dest, this.AllArrivedCheckRadius) || !pawn.CanReach(data.dest, PathEndMode.ClosestTouch, Danger.Deadly, false, TraverseMode.ByPawn))
+					Pawn pawn = base.lord.ownedPawns[num];
+					if (pawn.Position.InHorDistOf(data.dest, this.AllArrivedCheckRadius) && pawn.CanReach(data.dest, PathEndMode.ClosestTouch, Danger.Deadly, false, TraverseMode.ByPawn))
 					{
-						flag = false;
-						break;
+						num++;
+						continue;
 					}
+					flag = false;
+					break;
 				}
 				if (flag)
 				{
-					this.lord.ReceiveMemo("TravelArrived");
+					base.lord.ReceiveMemo("TravelArrived");
 				}
 			}
 		}

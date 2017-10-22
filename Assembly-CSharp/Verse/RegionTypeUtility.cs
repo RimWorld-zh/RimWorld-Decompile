@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -43,12 +42,12 @@ namespace Verse
 		public static RegionType GetRegionType(this IntVec3 c, Map map)
 		{
 			Region region = c.GetRegion(map, RegionType.Set_All);
-			return (region == null) ? RegionType.None : region.type;
+			return (region != null) ? region.type : RegionType.None;
 		}
 
 		public static bool Passable(this RegionType regionType)
 		{
-			return (regionType & RegionType.Set_Passable) != RegionType.None;
+			return ((int)regionType & 6) != 0;
 		}
 	}
 }

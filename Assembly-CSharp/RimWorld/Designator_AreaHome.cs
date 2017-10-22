@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -26,10 +25,10 @@ namespace RimWorld
 		public Designator_AreaHome(DesignateMode mode)
 		{
 			this.mode = mode;
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.useMouseIcon = true;
-			this.hotKey = KeyBindingDefOf.Misc7;
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.useMouseIcon = true;
+			base.hotKey = KeyBindingDefOf.Misc7;
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
@@ -38,7 +37,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			bool flag = base.Map.areaManager.Home[c];
+			bool flag = ((Area)base.Map.areaManager.Home)[c];
 			if (this.mode == DesignateMode.Add)
 			{
 				return !flag;
@@ -50,11 +49,11 @@ namespace RimWorld
 		{
 			if (this.mode == DesignateMode.Add)
 			{
-				base.Map.areaManager.Home[c] = true;
+				((Area)base.Map.areaManager.Home)[c] = true;
 			}
 			else
 			{
-				base.Map.areaManager.Home[c] = false;
+				((Area)base.Map.areaManager.Home)[c] = false;
 			}
 		}
 

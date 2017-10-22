@@ -8,10 +8,10 @@ namespace Verse
 		public static List<DebugMenuOption> Options_Scatterers()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
-			foreach (Type current in typeof(GenStep_Scatterer).AllLeafSubclasses())
+			foreach (Type item in typeof(GenStep_Scatterer).AllLeafSubclasses())
 			{
-				Type localSt = current;
-				list.Add(new DebugMenuOption(localSt.ToString(), DebugMenuOptionMode.Tool, delegate
+				Type localSt = item;
+				list.Add(new DebugMenuOption(localSt.ToString(), DebugMenuOptionMode.Tool, (Action)delegate
 				{
 					GenStep_Scatterer genStep_Scatterer = (GenStep_Scatterer)Activator.CreateInstance(localSt);
 					genStep_Scatterer.ForceScatterAt(UI.MouseCell(), Find.VisibleMap);

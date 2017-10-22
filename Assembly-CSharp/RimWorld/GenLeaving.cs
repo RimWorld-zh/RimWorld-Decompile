@@ -25,132 +25,135 @@ namespace RimWorld
 
 		public static void DoLeavingsFor(Thing diedThing, Map map, DestroyMode mode, CellRect leavingsRect)
 		{
-			if (Current.ProgramState != ProgramState.Playing || mode == DestroyMode.Vanish)
+			if (Current.ProgramState == ProgramState.Playing)
 			{
-				return;
-			}
-			if (mode == DestroyMode.KillFinalize && diedThing.def.filthLeaving != null)
-			{
-				for (int i = leavingsRect.minZ; i <= leavingsRect.maxZ; i++)
+				switch (mode)
 				{
-					for (int j = leavingsRect.minX; j <= leavingsRect.maxX; j++)
+				case DestroyMode.Vanish:
+					return;
+				case DestroyMode.KillFinalize:
+				{
+					if (diedThing.def.filthLeaving != null)
 					{
-						IntVec3 c = new IntVec3(j, 0, i);
-						FilthMaker.MakeFilth(c, map, diedThing.def.filthLeaving, Rand.RangeInclusive(1, 3));
-					}
-				}
-			}
-			ThingOwner<Thing> thingOwner = new ThingOwner<Thing>();
-			if (mode == DestroyMode.KillFinalize && diedThing.def.killedLeavings != null)
-			{
-				for (int k = 0; k < diedThing.def.killedLeavings.Count; k++)
-				{
-					Thing thing = ThingMaker.MakeThing(diedThing.def.killedLeavings[k].thingDef, null);
-					thing.stackCount = diedThing.def.killedLeavings[k].count;
-					thingOwner.TryAdd(thing, true);
-				}
-			}
-			if (GenLeaving.CanBuildingLeaveResources(diedThing, mode))
-			{
-				Frame frame = diedThing as Frame;
-				if (frame != null)
-				{
-					for (int l = 0; l < frame.resourceContainer.Count; l++)
-					{
-						int num = GenLeaving.GetBuildingResourcesLeaveCalculator(diedThing, mode)(frame.resourceContainer[l].stackCount);
-						if (num > 0)
+						for (int i = leavingsRect.minZ; i <= leavingsRect.maxZ; i++)
 						{
-							thingOwner.TryAdd(frame.resourceContainer[l], num, true);
-						}
-					}
-				}
-				else
-				{
-					List<ThingCountClass> list = diedThing.CostListAdjusted();
-					for (int m = 0; m < list.Count; m++)
-					{
-						ThingCountClass thingCountClass = list[m];
-						int num2 = GenLeaving.GetBuildingResourcesLeaveCalculator(diedThing, mode)(thingCountClass.count);
-						if (num2 > 0 && mode == DestroyMode.KillFinalize && thingCountClass.thingDef.slagDef != null)
-						{
-							int count = thingCountClass.thingDef.slagDef.smeltProducts.First((ThingCountClass pro) => pro.thingDef == ThingDefOf.Steel).count;
-							int num3 = num2 / 2 / 8;
-							for (int n = 0; n < num3; n++)
+							for (int j = leavingsRect.minX; j <= leavingsRect.maxX; j++)
 							{
-								thingOwner.TryAdd(ThingMaker.MakeThing(thingCountClass.thingDef.slagDef, null), true);
+								IntVec3 c = new IntVec3(j, 0, i);
+								FilthMaker.MakeFilth(c, map, diedThing.def.filthLeaving, Rand.RangeInclusive(1, 3));
 							}
-							num2 -= num3 * count;
 						}
-						if (num2 > 0)
+					}
+					break;
+				}
+				}
+				ThingOwner<Thing> thingOwner = new ThingOwner<Thing>();
+				if (mode == DestroyMode.KillFinalize && diedThing.def.killedLeavings != null)
+				{
+					for (int k = 0; k < diedThing.def.killedLeavings.Count; k++)
+					{
+						Thing thing = ThingMaker.MakeThing(diedThing.def.killedLeavings[k].thingDef, null);
+						thing.stackCount = diedThing.def.killedLeavings[k].count;
+						thingOwner.TryAdd(thing, true);
+					}
+				}
+				if (GenLeaving.CanBuildingLeaveResources(diedThing, mode))
+				{
+					Frame frame = diedThing as Frame;
+					if (frame != null)
+					{
+						for (int l = 0; l < frame.resourceContainer.Count; l++)
 						{
-							Thing thing2 = ThingMaker.MakeThing(thingCountClass.thingDef, null);
-							thing2.stackCount = num2;
-							thingOwner.TryAdd(thing2, true);
+							int num = GenLeaving.GetBuildingResourcesLeaveCalculator(diedThing, mode)(frame.resourceContainer[l].stackCount);
+							if (num > 0)
+							{
+								thingOwner.TryAdd(frame.resourceContainer[l], num, true);
+							}
+						}
+					}
+					else
+					{
+						List<ThingCountClass> list = diedThing.CostListAdjusted();
+						for (int m = 0; m < list.Count; m++)
+						{
+							ThingCountClass thingCountClass = list[m];
+							int num2 = GenLeaving.GetBuildingResourcesLeaveCalculator(diedThing, mode)(thingCountClass.count);
+							if (num2 > 0 && mode == DestroyMode.KillFinalize && thingCountClass.thingDef.slagDef != null)
+							{
+								int count = thingCountClass.thingDef.slagDef.smeltProducts.First((Func<ThingCountClass, bool>)((ThingCountClass pro) => pro.thingDef == ThingDefOf.Steel)).count;
+								int num3 = num2 / 2 / 8;
+								for (int num4 = 0; num4 < num3; num4++)
+								{
+									thingOwner.TryAdd(ThingMaker.MakeThing(thingCountClass.thingDef.slagDef, null), true);
+								}
+								num2 -= num3 * count;
+							}
+							if (num2 > 0)
+							{
+								Thing thing2 = ThingMaker.MakeThing(thingCountClass.thingDef, null);
+								thing2.stackCount = num2;
+								thingOwner.TryAdd(thing2, true);
+							}
 						}
 					}
 				}
-			}
-			List<IntVec3> list2 = leavingsRect.Cells.InRandomOrder(null).ToList<IntVec3>();
-			int num4 = 0;
-			while (thingOwner.Count > 0)
-			{
-				if (mode == DestroyMode.KillFinalize && !map.areaManager.Home[list2[num4]])
+				List<IntVec3> list2 = leavingsRect.Cells.InRandomOrder(null).ToList();
+				int num5 = 0;
+				while (true)
 				{
-					thingOwner[0].SetForbidden(true, false);
-				}
-				Thing thing3;
-				if (!thingOwner.TryDrop(thingOwner[0], list2[num4], map, ThingPlaceMode.Near, out thing3, null))
-				{
-					Log.Warning(string.Concat(new object[]
+					if (thingOwner.Count > 0)
 					{
-						"Failed to place all leavings for destroyed thing ",
-						diedThing,
-						" at ",
-						leavingsRect.CenterCell
-					}));
+						if (mode == DestroyMode.KillFinalize && !((Area)map.areaManager.Home)[list2[num5]])
+						{
+							thingOwner[0].SetForbidden(true, false);
+						}
+						Thing thing3 = default(Thing);
+						if (thingOwner.TryDrop(thingOwner[0], list2[num5], map, ThingPlaceMode.Near, out thing3, (Action<Thing, int>)null))
+						{
+							num5++;
+							if (num5 >= list2.Count)
+							{
+								num5 = 0;
+							}
+							continue;
+						}
+						break;
+					}
 					return;
 				}
-				num4++;
-				if (num4 >= list2.Count)
-				{
-					num4 = 0;
-				}
+				Log.Warning("Failed to place all leavings for destroyed thing " + diedThing + " at " + leavingsRect.CenterCell);
 			}
 		}
 
 		public static void DoLeavingsFor(TerrainDef terrain, IntVec3 cell, Map map)
 		{
-			if (Current.ProgramState != ProgramState.Playing)
+			if (Current.ProgramState == ProgramState.Playing)
 			{
-				return;
-			}
-			ThingOwner<Thing> thingOwner = new ThingOwner<Thing>();
-			List<ThingCountClass> list = terrain.CostListAdjusted(null, true);
-			for (int i = 0; i < list.Count; i++)
-			{
-				ThingCountClass thingCountClass = list[i];
-				int num = GenMath.RoundRandom((float)thingCountClass.count * terrain.resourcesFractionWhenDeconstructed);
-				if (num > 0)
+				ThingOwner<Thing> thingOwner = new ThingOwner<Thing>();
+				List<ThingCountClass> list = terrain.CostListAdjusted(null, true);
+				for (int i = 0; i < list.Count; i++)
 				{
-					Thing thing = ThingMaker.MakeThing(thingCountClass.thingDef, null);
-					thing.stackCount = num;
-					thingOwner.TryAdd(thing, true);
-				}
-			}
-			while (thingOwner.Count > 0)
-			{
-				Thing thing2;
-				if (!thingOwner.TryDrop(thingOwner[0], cell, map, ThingPlaceMode.Near, out thing2, null))
-				{
-					Log.Warning(string.Concat(new object[]
+					ThingCountClass thingCountClass = list[i];
+					int num = GenMath.RoundRandom((float)thingCountClass.count * terrain.resourcesFractionWhenDeconstructed);
+					if (num > 0)
 					{
-						"Failed to place all leavings for removed terrain ",
-						terrain,
-						" at ",
-						cell
-					}));
+						Thing thing = ThingMaker.MakeThing(thingCountClass.thingDef, null);
+						thing.stackCount = num;
+						thingOwner.TryAdd(thing, true);
+					}
+				}
+				while (true)
+				{
+					if (thingOwner.Count > 0)
+					{
+						Thing thing2 = default(Thing);
+						if (!thingOwner.TryDrop(thingOwner[0], cell, map, ThingPlaceMode.Near, out thing2, (Action<Thing, int>)null))
+							break;
+						continue;
+					}
 					return;
 				}
+				Log.Warning("Failed to place all leavings for removed terrain " + terrain + " at " + cell);
 			}
 		}
 
@@ -167,17 +170,29 @@ namespace RimWorld
 			switch (mode)
 			{
 			case DestroyMode.Vanish:
+			{
 				return false;
+			}
 			case DestroyMode.KillFinalize:
+			{
 				return true;
+			}
 			case DestroyMode.Deconstruct:
-				return diedThing.def.resourcesFractionWhenDeconstructed != 0f;
-			case DestroyMode.FailConstruction:
-				return true;
+			{
+				return diedThing.def.resourcesFractionWhenDeconstructed != 0.0;
+			}
 			case DestroyMode.Cancel:
+			{
 				return true;
+			}
+			case DestroyMode.FailConstruction:
+			{
+				return true;
+			}
 			default:
+			{
 				throw new ArgumentException("Unknown destroy mode " + mode);
+			}
 			}
 		}
 
@@ -185,48 +200,58 @@ namespace RimWorld
 		{
 			if (!GenLeaving.CanBuildingLeaveResources(diedThing, mode))
 			{
-				return (int count) => 0;
+				return (Func<int, int>)((int count) => 0);
 			}
 			switch (mode)
 			{
 			case DestroyMode.Vanish:
-				return (int count) => 0;
+			{
+				return (Func<int, int>)((int count) => 0);
+			}
 			case DestroyMode.KillFinalize:
-				return (int count) => GenMath.RoundRandom((float)count * 0.5f);
+			{
+				return (Func<int, int>)((int count) => GenMath.RoundRandom((float)((float)count * 0.5)));
+			}
 			case DestroyMode.Deconstruct:
-				return (int count) => GenMath.RoundRandom(Mathf.Min((float)count * diedThing.def.resourcesFractionWhenDeconstructed, (float)(count - 1)));
-			case DestroyMode.FailConstruction:
-				return (int count) => GenMath.RoundRandom((float)count * 0.5f);
+			{
+				return (Func<int, int>)((int count) => GenMath.RoundRandom(Mathf.Min((float)count * diedThing.def.resourcesFractionWhenDeconstructed, (float)(count - 1))));
+			}
 			case DestroyMode.Cancel:
-				return (int count) => GenMath.RoundRandom((float)count * 1f);
+			{
+				return (Func<int, int>)((int count) => GenMath.RoundRandom((float)((float)count * 1.0)));
+			}
+			case DestroyMode.FailConstruction:
+			{
+				return (Func<int, int>)((int count) => GenMath.RoundRandom((float)((float)count * 0.5)));
+			}
 			default:
+			{
 				throw new ArgumentException("Unknown destroy mode " + mode);
+			}
 			}
 		}
 
 		public static void DropFilthDueToDamage(Thing t, float damageDealt)
 		{
-			if (!t.def.useHitPoints || !t.Spawned || t.def.filthLeaving == null)
+			if (t.def.useHitPoints && t.Spawned && t.def.filthLeaving != null)
 			{
-				return;
-			}
-			CellRect cellRect = t.OccupiedRect().ExpandedBy(1);
-			GenLeaving.tmpCellsCandidates.Clear();
-			foreach (IntVec3 current in cellRect)
-			{
-				if (current.InBounds(t.Map) && current.Walkable(t.Map))
+				CellRect cellRect = t.OccupiedRect().ExpandedBy(1);
+				GenLeaving.tmpCellsCandidates.Clear();
+				foreach (IntVec3 item in cellRect)
 				{
-					GenLeaving.tmpCellsCandidates.Add(current);
+					if (item.InBounds(t.Map) && item.Walkable(t.Map))
+					{
+						GenLeaving.tmpCellsCandidates.Add(item);
+					}
 				}
-			}
-			if (!GenLeaving.tmpCellsCandidates.Any<IntVec3>())
-			{
-				return;
-			}
-			int num = GenMath.RoundRandom(damageDealt * Mathf.Min(0.0166666675f, 1f / ((float)t.MaxHitPoints / 10f)));
-			for (int i = 0; i < num; i++)
-			{
-				FilthMaker.MakeFilth(GenLeaving.tmpCellsCandidates.RandomElement<IntVec3>(), t.Map, t.def.filthLeaving, 1);
+				if (GenLeaving.tmpCellsCandidates.Any())
+				{
+					int num = GenMath.RoundRandom(damageDealt * Mathf.Min(0.0166666675f, (float)(1.0 / ((float)t.MaxHitPoints / 10.0))));
+					for (int num2 = 0; num2 < num; num2++)
+					{
+						FilthMaker.MakeFilth(GenLeaving.tmpCellsCandidates.RandomElement(), t.Map, t.def.filthLeaving, 1);
+					}
+				}
 			}
 		}
 	}

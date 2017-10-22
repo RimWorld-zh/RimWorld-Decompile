@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.Planet
@@ -11,13 +10,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (!this.site.KnownDanger) ? "CaravanVisiting".Translate(new object[]
-				{
-					this.site.Label
-				}) : "CaravanAttacking".Translate(new object[]
-				{
-					this.site.Label
-				});
+				return (!this.site.KnownDanger) ? "CaravanVisiting".Translate(this.site.Label) : "CaravanAttacking".Translate(this.site.Label);
 			}
 		}
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -25,11 +24,11 @@ namespace RimWorld
 		{
 			get
 			{
-				if (!this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight))
+				if (!base.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight))
 				{
 					return 0.5f;
 				}
-				if (!this.pawn.Spawned)
+				if (!base.pawn.Spawned)
 				{
 					return 0.5f;
 				}
@@ -41,27 +40,27 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.CurLevel > 0.99f)
+				if (this.CurLevel > 0.99000000953674316)
 				{
 					return BeautyCategory.Beautiful;
 				}
-				if (this.CurLevel > 0.85f)
+				if (this.CurLevel > 0.85000002384185791)
 				{
 					return BeautyCategory.VeryPretty;
 				}
-				if (this.CurLevel > 0.65f)
+				if (this.CurLevel > 0.64999997615814209)
 				{
 					return BeautyCategory.Pretty;
 				}
-				if (this.CurLevel > 0.35f)
+				if (this.CurLevel > 0.34999999403953552)
 				{
 					return BeautyCategory.Neutral;
 				}
-				if (this.CurLevel > 0.15f)
+				if (this.CurLevel > 0.15000000596046448)
 				{
 					return BeautyCategory.Ugly;
 				}
-				if (this.CurLevel > 0.01f)
+				if (this.CurLevel > 0.0099999997764825821)
 				{
 					return BeautyCategory.VeryUgly;
 				}
@@ -71,25 +70,25 @@ namespace RimWorld
 
 		public Need_Beauty(Pawn pawn) : base(pawn)
 		{
-			this.threshPercents = new List<float>();
-			this.threshPercents.Add(0.15f);
-			this.threshPercents.Add(0.35f);
-			this.threshPercents.Add(0.65f);
-			this.threshPercents.Add(0.85f);
+			base.threshPercents = new List<float>();
+			base.threshPercents.Add(0.15f);
+			base.threshPercents.Add(0.35f);
+			base.threshPercents.Add(0.65f);
+			base.threshPercents.Add(0.85f);
 		}
 
 		private float LevelFromBeauty(float beauty)
 		{
-			return Mathf.Clamp01(this.def.baseLevel + beauty * 0.1f);
+			return Mathf.Clamp01((float)(base.def.baseLevel + beauty * 0.10000000149011612));
 		}
 
 		public float CurrentInstantBeauty()
 		{
-			if (!this.pawn.SpawnedOrAnyParentSpawned)
+			if (!base.pawn.SpawnedOrAnyParentSpawned)
 			{
 				return 0.5f;
 			}
-			return BeautyUtility.AverageBeautyPerceptible(this.pawn.PositionHeld, this.pawn.MapHeld);
+			return BeautyUtility.AverageBeautyPerceptible(base.pawn.PositionHeld, base.pawn.MapHeld);
 		}
 	}
 }

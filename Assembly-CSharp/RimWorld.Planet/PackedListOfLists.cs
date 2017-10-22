@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +10,7 @@ namespace RimWorld.Planet
 		public static void AddList<T>(List<int> offsets, List<T> values, List<T> listToAdd)
 		{
 			offsets.Add(values.Count);
-			values.AddRange(listToAdd);
+			values.AddRange((IEnumerable<T>)listToAdd);
 		}
 
 		public static void GetList<T>(List<int> offsets, List<T> values, int listIndex, List<T> outList)
@@ -33,76 +32,76 @@ namespace RimWorld.Planet
 			outOffsets.Clear();
 			outValues.Clear();
 			PackedListOfLists.vertAdjacentTrisCount.Clear();
-			int i = 0;
+			int num = 0;
 			int count = verts.Count;
-			while (i < count)
+			while (num < count)
 			{
 				PackedListOfLists.vertAdjacentTrisCount.Add(0);
-				i++;
-			}
-			int j = 0;
-			int count2 = tris.Count;
-			while (j < count2)
-			{
-				TriangleIndices triangleIndices = tris[j];
-				List<int> list;
-				List<int> expr_56 = list = PackedListOfLists.vertAdjacentTrisCount;
-				int num;
-				int expr_60 = num = triangleIndices.v1;
-				num = list[num];
-				expr_56[expr_60] = num + 1;
-				List<int> list2;
-				List<int> expr_7C = list2 = PackedListOfLists.vertAdjacentTrisCount;
-				int expr_86 = num = triangleIndices.v2;
-				num = list2[num];
-				expr_7C[expr_86] = num + 1;
-				List<int> list3;
-				List<int> expr_A2 = list3 = PackedListOfLists.vertAdjacentTrisCount;
-				int expr_AC = num = triangleIndices.v3;
-				num = list3[num];
-				expr_A2[expr_AC] = num + 1;
-				j++;
+				num++;
 			}
 			int num2 = 0;
-			int k = 0;
-			int count3 = verts.Count;
-			while (k < count3)
+			int count2 = tris.Count;
+			while (num2 < count2)
 			{
-				outOffsets.Add(num2);
-				int num3 = PackedListOfLists.vertAdjacentTrisCount[k];
-				PackedListOfLists.vertAdjacentTrisCount[k] = 0;
-				for (int l = 0; l < num3; l++)
+				TriangleIndices triangleIndices = tris[num2];
+				List<int> list;
+				List<int> obj = list = PackedListOfLists.vertAdjacentTrisCount;
+				int v;
+				int index = v = triangleIndices.v1;
+				v = list[v];
+				obj[index] = v + 1;
+				List<int> list2;
+				List<int> obj2 = list2 = PackedListOfLists.vertAdjacentTrisCount;
+				int index2 = v = triangleIndices.v2;
+				v = list2[v];
+				obj2[index2] = v + 1;
+				List<int> list3;
+				List<int> obj3 = list3 = PackedListOfLists.vertAdjacentTrisCount;
+				int index3 = v = triangleIndices.v3;
+				v = list3[v];
+				obj3[index3] = v + 1;
+				num2++;
+			}
+			int num3 = 0;
+			int num4 = 0;
+			int count3 = verts.Count;
+			while (num4 < count3)
+			{
+				outOffsets.Add(num3);
+				int num5 = PackedListOfLists.vertAdjacentTrisCount[num4];
+				PackedListOfLists.vertAdjacentTrisCount[num4] = 0;
+				for (int num6 = 0; num6 < num5; num6++)
 				{
 					outValues.Add(-1);
 				}
-				num2 += num3;
-				k++;
+				num3 += num5;
+				num4++;
 			}
-			int m = 0;
+			int num7 = 0;
 			int count4 = tris.Count;
-			while (m < count4)
+			while (num7 < count4)
 			{
-				TriangleIndices triangleIndices2 = tris[m];
-				outValues[outOffsets[triangleIndices2.v1] + PackedListOfLists.vertAdjacentTrisCount[triangleIndices2.v1]] = m;
-				outValues[outOffsets[triangleIndices2.v2] + PackedListOfLists.vertAdjacentTrisCount[triangleIndices2.v2]] = m;
-				outValues[outOffsets[triangleIndices2.v3] + PackedListOfLists.vertAdjacentTrisCount[triangleIndices2.v3]] = m;
+				TriangleIndices triangleIndices2 = tris[num7];
+				outValues[outOffsets[triangleIndices2.v1] + PackedListOfLists.vertAdjacentTrisCount[triangleIndices2.v1]] = num7;
+				outValues[outOffsets[triangleIndices2.v2] + PackedListOfLists.vertAdjacentTrisCount[triangleIndices2.v2]] = num7;
+				outValues[outOffsets[triangleIndices2.v3] + PackedListOfLists.vertAdjacentTrisCount[triangleIndices2.v3]] = num7;
 				List<int> list4;
-				List<int> expr_1CC = list4 = PackedListOfLists.vertAdjacentTrisCount;
-				int num;
-				int expr_1D6 = num = triangleIndices2.v1;
-				num = list4[num];
-				expr_1CC[expr_1D6] = num + 1;
+				List<int> obj4 = list4 = PackedListOfLists.vertAdjacentTrisCount;
+				int v;
+				int index4 = v = triangleIndices2.v1;
+				v = list4[v];
+				obj4[index4] = v + 1;
 				List<int> list5;
-				List<int> expr_1F2 = list5 = PackedListOfLists.vertAdjacentTrisCount;
-				int expr_1FC = num = triangleIndices2.v2;
-				num = list5[num];
-				expr_1F2[expr_1FC] = num + 1;
+				List<int> obj5 = list5 = PackedListOfLists.vertAdjacentTrisCount;
+				int index5 = v = triangleIndices2.v2;
+				v = list5[v];
+				obj5[index5] = v + 1;
 				List<int> list6;
-				List<int> expr_218 = list6 = PackedListOfLists.vertAdjacentTrisCount;
-				int expr_222 = num = triangleIndices2.v3;
-				num = list6[num];
-				expr_218[expr_222] = num + 1;
-				m++;
+				List<int> obj6 = list6 = PackedListOfLists.vertAdjacentTrisCount;
+				int index6 = v = triangleIndices2.v3;
+				v = list6[v];
+				obj6[index6] = v + 1;
+				num7++;
 			}
 		}
 	}

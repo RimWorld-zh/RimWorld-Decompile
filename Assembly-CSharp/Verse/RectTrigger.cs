@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -39,9 +38,8 @@ namespace Verse
 			if (this.destroyIfUnfogged && !this.rect.CenterCell.Fogged(base.Map))
 			{
 				this.Destroy(DestroyMode.Vanish);
-				return;
 			}
-			if (this.IsHashIntervalTick(60))
+			else if (this.IsHashIntervalTick(60))
 			{
 				Map map = base.Map;
 				for (int i = this.rect.minZ; i <= this.rect.maxZ; i++)
@@ -69,7 +67,7 @@ namespace Verse
 			{
 				ChoiceLetter choiceLetter = (ChoiceLetter)this.letter;
 				choiceLetter.text = string.Format(choiceLetter.text, p.NameStringShort).AdjustedFor(p);
-				Find.LetterStack.ReceiveLetter(choiceLetter, null);
+				Find.LetterStack.ReceiveLetter(choiceLetter, (string)null);
 			}
 			if (!base.Destroyed)
 			{

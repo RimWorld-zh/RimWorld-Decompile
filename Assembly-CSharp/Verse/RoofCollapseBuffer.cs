@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -54,14 +53,23 @@ namespace Verse
 			}
 			switch (t.def.category)
 			{
-			case ThingCategory.Pawn:
-				return true;
-			case ThingCategory.Item:
-				return t.MarketValue > 0.01f;
 			case ThingCategory.Building:
+			{
 				return true;
 			}
-			return false;
+			case ThingCategory.Pawn:
+			{
+				return true;
+			}
+			case ThingCategory.Item:
+			{
+				return t.MarketValue > 0.0099999997764825821;
+			}
+			default:
+			{
+				return false;
+			}
+			}
 		}
 
 		public void Clear()

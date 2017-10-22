@@ -33,10 +33,10 @@ namespace Verse
 			try
 			{
 				scen.fileName = Path.GetFileNameWithoutExtension(absFilePath);
-				SafeSaver.Save(absFilePath, "savedscenario", delegate
+				SafeSaver.Save(absFilePath, "savedscenario", (Action)delegate()
 				{
 					ScribeMetaHeaderUtility.WriteMetaHeader();
-					Scribe_Deep.Look<Scenario>(ref scen, "scenario", new object[0]);
+					Scribe_Deep.Look(ref scen, "scenario");
 				});
 			}
 			catch (Exception ex)
@@ -61,6 +61,7 @@ namespace Verse
 				{
 					Scribe.ForceStop();
 					throw;
+					IL_003d:;
 				}
 				scen.fileName = Path.GetFileNameWithoutExtension(new FileInfo(absPath).Name);
 				scen.Category = category;
@@ -79,11 +80,11 @@ namespace Verse
 			try
 			{
 				string path = GenFilePaths.FilePathForSavedGame(fileName);
-				SafeSaver.Save(path, "savegame", delegate
+				SafeSaver.Save(path, "savegame", (Action)delegate
 				{
 					ScribeMetaHeaderUtility.WriteMetaHeader();
 					Game game = Current.Game;
-					Scribe_Deep.Look<Game>(ref game, "game", new object[0]);
+					Scribe_Deep.Look(ref game, "game");
 				});
 				GameDataSaveLoader.lastSaveTick = Find.TickManager.TicksGame;
 			}

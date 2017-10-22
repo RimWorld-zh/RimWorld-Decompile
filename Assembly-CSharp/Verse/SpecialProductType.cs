@@ -1,10 +1,8 @@
-using System;
-
 namespace Verse
 {
 	public enum SpecialProductType : byte
 	{
-		Butchery,
-		Smelted
+		Butchery = 0,
+		Smelted = 1
 	}
 }

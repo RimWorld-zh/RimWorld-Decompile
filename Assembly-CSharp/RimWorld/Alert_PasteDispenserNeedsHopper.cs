@@ -9,9 +9,9 @@ namespace RimWorld
 	{
 		public Alert_PasteDispenserNeedsHopper()
 		{
-			this.defaultLabel = "NeedFoodHopper".Translate();
-			this.defaultExplanation = "NeedFoodHopperDesc".Translate();
-			this.defaultPriority = AlertPriority.High;
+			base.defaultLabel = "NeedFoodHopper".Translate();
+			base.defaultExplanation = "NeedFoodHopperDesc".Translate();
+			base.defaultPriority = AlertPriority.High;
 		}
 
 		public override AlertReport GetReport()
@@ -19,17 +19,17 @@ namespace RimWorld
 			List<Map> maps = Find.Maps;
 			for (int i = 0; i < maps.Count; i++)
 			{
-				foreach (Building current in from b in maps[i].listerBuildings.allBuildingsColonist
+				foreach (Building item in from b in maps[i].listerBuildings.allBuildingsColonist
 				where b.def.IsFoodDispenser
 				select b)
 				{
 					bool flag = false;
 					ThingDef hopper = ThingDefOf.Hopper;
-					foreach (IntVec3 current2 in GenAdj.CellsAdjacentCardinal(current))
+					foreach (IntVec3 item2 in GenAdj.CellsAdjacentCardinal(item))
 					{
-						if (current2.InBounds(maps[i]))
+						if (item2.InBounds(maps[i]))
 						{
-							Thing edifice = current2.GetEdifice(current.Map);
+							Thing edifice = item2.GetEdifice(item.Map);
 							if (edifice != null && edifice.def == hopper)
 							{
 								flag = true;
@@ -39,7 +39,7 @@ namespace RimWorld
 					}
 					if (!flag)
 					{
-						return AlertReport.CulpritIs(current);
+						return AlertReport.CulpritIs((Thing)item);
 					}
 				}
 			}

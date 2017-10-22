@@ -12,26 +12,45 @@ namespace Verse.Sound
 
 		public AudioSourcePoolWorld()
 		{
-			GameObject gameObject = new GameObject("OneShotSourcesWorldContainer");
-			gameObject.transform.position = Vector3.zero;
+			GameObject gameObject = new GameObject("OneShotSourcesWorldContainer")
+			{
+				transform = 
+				{
+					position = Vector3.zero
+				}
+			};
 			for (int i = 0; i < 32; i++)
 			{
-				GameObject gameObject2 = new GameObject("OneShotSource_" + i.ToString());
-				gameObject2.transform.parent = gameObject.transform;
-				gameObject2.transform.localPosition = Vector3.zero;
-				this.sourcesWorld.Add(AudioSourceMaker.NewAudioSourceOn(gameObject2));
+				GameObject go = new GameObject("OneShotSource_" + i.ToString())
+				{
+					transform = 
+					{
+						parent = gameObject.transform,
+						localPosition = Vector3.zero
+					}
+				};
+				this.sourcesWorld.Add(AudioSourceMaker.NewAudioSourceOn(go));
 			}
 		}
 
 		public AudioSource GetSourceWorld()
 		{
-			foreach (AudioSource current in this.sourcesWorld)
+			List<AudioSource>.Enumerator enumerator = this.sourcesWorld.GetEnumerator();
+			try
 			{
-				if (!current.isPlaying)
+				while (enumerator.MoveNext())
 				{
-					SoundFilterUtility.DisableAllFiltersOn(current);
-					return current;
+					AudioSource current = enumerator.Current;
+					if (!current.isPlaying)
+					{
+						SoundFilterUtility.DisableAllFiltersOn(current);
+						return current;
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			return null;
 		}

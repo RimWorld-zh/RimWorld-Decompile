@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse.AI
 {
@@ -11,7 +10,15 @@ namespace Verse.AI
 		{
 			get
 			{
-				return !this.otherPawn.Spawned || this.otherPawn.Dead || this.otherPawn.Downed || !this.IsOtherPawnSocialFightingWithMe;
+				if (this.otherPawn.Spawned && !this.otherPawn.Dead && !this.otherPawn.Downed)
+				{
+					if (!this.IsOtherPawnSocialFightingWithMe)
+					{
+						return true;
+					}
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -24,7 +31,15 @@ namespace Verse.AI
 					return false;
 				}
 				MentalState_SocialFighting mentalState_SocialFighting = this.otherPawn.MentalState as MentalState_SocialFighting;
-				return mentalState_SocialFighting != null && mentalState_SocialFighting.otherPawn == this.pawn;
+				if (mentalState_SocialFighting == null)
+				{
+					return false;
+				}
+				if (mentalState_SocialFighting.otherPawn != base.pawn)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -43,32 +58,20 @@ namespace Verse.AI
 		public override void PostEnd()
 		{
 			base.PostEnd();
-			this.pawn.jobs.StopAll(false);
-			this.pawn.mindState.meleeThreat = null;
+			base.pawn.jobs.StopAll(false);
+			base.pawn.mindState.meleeThreat = null;
 			if (this.IsOtherPawnSocialFightingWithMe)
 			{
 				this.otherPawn.MentalState.RecoverFromState();
 			}
-			if ((PawnUtility.ShouldSendNotificationAbout(this.pawn) || PawnUtility.ShouldSendNotificationAbout(this.otherPawn)) && this.pawn.thingIDNumber < this.otherPawn.thingIDNumber)
+			if ((PawnUtility.ShouldSendNotificationAbout(base.pawn) || PawnUtility.ShouldSendNotificationAbout(this.otherPawn)) && base.pawn.thingIDNumber < this.otherPawn.thingIDNumber)
 			{
-				Messages.Message("MessageNoLongerSocialFighting".Translate(new object[]
-				{
-					this.pawn.NameStringShort,
-					this.otherPawn.LabelShort
-				}), this.pawn, MessageSound.Silent);
+				Messages.Message("MessageNoLongerSocialFighting".Translate(base.pawn.NameStringShort, this.otherPawn.LabelShort), (Thing)base.pawn, MessageSound.Silent);
 			}
-			if (!this.pawn.Dead && this.pawn.needs.mood != null && !this.otherPawn.Dead)
+			if (!base.pawn.Dead && base.pawn.needs.mood != null && !this.otherPawn.Dead)
 			{
-				ThoughtDef def;
-				if (Rand.Value < 0.5f)
-				{
-					def = ThoughtDefOf.HadAngeringFight;
-				}
-				else
-				{
-					def = ThoughtDefOf.HadCatharticFight;
-				}
-				this.pawn.needs.mood.thoughts.memories.TryGainMemory(def, this.otherPawn);
+				ThoughtDef def = (!(Rand.Value < 0.5)) ? ThoughtDefOf.HadCatharticFight : ThoughtDefOf.HadAngeringFight;
+				base.pawn.needs.mood.thoughts.memories.TryGainMemory(def, this.otherPawn);
 			}
 		}
 

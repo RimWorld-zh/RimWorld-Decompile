@@ -29,7 +29,7 @@ namespace Verse
 		public static void GoToMainMenu()
 		{
 			LongEventHandler.ClearQueuedEvents();
-			LongEventHandler.QueueLongEvent(delegate
+			LongEventHandler.QueueLongEvent((Action)delegate
 			{
 				MemoryUtility.ClearAllMapsAndWorld();
 				Current.Game = null;

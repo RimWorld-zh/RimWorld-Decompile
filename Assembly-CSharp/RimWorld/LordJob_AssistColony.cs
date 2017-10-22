@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -33,22 +32,14 @@ namespace RimWorld
 			stateGraph.AddToil(lordToil_ExitMap);
 			Transition transition = new Transition(startingToil, startingToil2);
 			transition.AddSource(lordToil_HuntEnemies);
-			transition.AddPreAction(new TransitionAction_Message("MessageVisitorsDangerousTemperature".Translate(new object[]
-			{
-				this.faction.def.pawnsPlural.CapitalizeFirst(),
-				this.faction.Name
-			})));
+			transition.AddPreAction(new TransitionAction_Message("MessageVisitorsDangerousTemperature".Translate(this.faction.def.pawnsPlural.CapitalizeFirst(), this.faction.Name)));
 			transition.AddPreAction(new TransitionAction_EnsureHaveExitDestination());
 			transition.AddTrigger(new Trigger_PawnExperiencingDangerousTemperatures());
 			stateGraph.AddTransition(transition);
 			Transition transition2 = new Transition(startingToil, lordToil_ExitMap);
 			transition2.AddSource(lordToil_HuntEnemies);
 			transition2.AddSources(stateGraph2.lordToils);
-			transition2.AddPreAction(new TransitionAction_Message("MessageVisitorsTrappedLeaving".Translate(new object[]
-			{
-				this.faction.def.pawnsPlural.CapitalizeFirst(),
-				this.faction.Name
-			})));
+			transition2.AddPreAction(new TransitionAction_Message("MessageVisitorsTrappedLeaving".Translate(this.faction.def.pawnsPlural.CapitalizeFirst(), this.faction.Name)));
 			transition2.AddTrigger(new Trigger_PawnCannotReachMapEdge());
 			stateGraph.AddTransition(transition2);
 			Transition transition3 = new Transition(lordToil_ExitMap, startingToil2);
@@ -59,11 +50,7 @@ namespace RimWorld
 			transition4.AddTrigger(new Trigger_Memo("TravelArrived"));
 			stateGraph.AddTransition(transition4);
 			Transition transition5 = new Transition(lordToil_HuntEnemies, startingToil2);
-			transition5.AddPreAction(new TransitionAction_Message("MessageFriendlyFightersLeaving".Translate(new object[]
-			{
-				this.faction.def.pawnsPlural.CapitalizeFirst(),
-				this.faction.Name
-			})));
+			transition5.AddPreAction(new TransitionAction_Message("MessageFriendlyFightersLeaving".Translate(this.faction.def.pawnsPlural.CapitalizeFirst(), this.faction.Name)));
 			transition5.AddTrigger(new Trigger_TicksPassed(25000));
 			stateGraph.AddTransition(transition5);
 			return stateGraph;

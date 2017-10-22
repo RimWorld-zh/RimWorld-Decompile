@@ -21,7 +21,7 @@ namespace Verse
 			get
 			{
 				string text;
-				if (this.signal.textGetter != null)
+				if ((object)this.signal.textGetter != null)
 				{
 					try
 					{
@@ -37,7 +37,7 @@ namespace Verse
 				{
 					text = this.signal.text;
 				}
-				return text.TrimEnd(new char[0]);
+				return text.TrimEnd();
 			}
 		}
 
@@ -54,8 +54,7 @@ namespace Verse
 					vector.y = Text.CalcHeight(finalText, vector.x);
 				}
 				Rect rect = new Rect(0f, 0f, vector.x, vector.y);
-				rect = rect.ContractedBy(-4f);
-				return rect;
+				return rect.ContractedBy(-4f);
 			}
 		}
 
@@ -77,7 +76,7 @@ namespace Verse
 			string finalText = this.FinalText;
 			Rect bgRect = this.TipRect;
 			bgRect.position = pos;
-			Find.WindowStack.ImmediateWindow(153 * this.signal.uniqueId + 62346, bgRect, WindowLayer.Super, delegate
+			Find.WindowStack.ImmediateWindow(153 * this.signal.uniqueId + 62346, bgRect, WindowLayer.Super, (Action)delegate
 			{
 				Rect rect = bgRect.AtZero();
 				Widgets.DrawAtlas(rect, ActiveTip.TooltipBGAtlas);

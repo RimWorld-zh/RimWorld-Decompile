@@ -24,7 +24,7 @@ namespace RimWorld.BaseGen
 			List<RuleDef> allDefsListForReading = DefDatabase<RuleDef>.AllDefsListForReading;
 			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
-				List<RuleDef> list;
+				List<RuleDef> list = default(List<RuleDef>);
 				if (!BaseGen.rulesBySymbol.TryGetValue(allDefsListForReading[i].symbol, out list))
 				{
 					list = new List<RuleDef>();
@@ -39,65 +39,66 @@ namespace RimWorld.BaseGen
 			if (BaseGen.working)
 			{
 				Log.Error("Cannot call Generate() while already generating. Nested calls are not allowed.");
-				return;
 			}
-			BaseGen.working = true;
-			try
+			else
 			{
-				if (BaseGen.symbolStack.Empty)
+				BaseGen.working = true;
+				try
 				{
-					Log.Warning("Symbol stack is empty.");
-				}
-				else if (BaseGen.globalSettings.map == null)
-				{
-					Log.Error("Called BaseGen.Resolve() with null map.");
-				}
-				else
-				{
-					int num = BaseGen.symbolStack.Count - 1;
-					int num2 = 0;
-					while (!BaseGen.symbolStack.Empty)
+					if (BaseGen.symbolStack.Empty)
 					{
-						num2++;
-						if (num2 > 100000)
+						Log.Warning("Symbol stack is empty.");
+					}
+					else if (BaseGen.globalSettings.map == null)
+					{
+						Log.Error("Called BaseGen.Resolve() with null map.");
+					}
+					else
+					{
+						int num = BaseGen.symbolStack.Count - 1;
+						int num2 = 0;
+						while (true)
 						{
-							Log.Error("Error in BaseGen: Too many iterations. Infinite loop?");
-							break;
-						}
-						Pair<string, ResolveParams> toResolve = BaseGen.symbolStack.Pop();
-						if (BaseGen.symbolStack.Count == num)
-						{
-							BaseGen.globalSettings.mainRect = toResolve.Second.rect;
-							num--;
-						}
-						try
-						{
-							BaseGen.Resolve(toResolve);
-						}
-						catch (Exception ex)
-						{
-							Log.Error(string.Concat(new object[]
+							if (!BaseGen.symbolStack.Empty)
 							{
-								"Error while resolving symbol \"",
-								toResolve.First,
-								"\" with params=",
-								toResolve.Second,
-								"\n\nException: ",
-								ex
-							}));
+								num2++;
+								if (num2 <= 100000)
+								{
+									Pair<string, ResolveParams> toResolve = BaseGen.symbolStack.Pop();
+									if (BaseGen.symbolStack.Count == num)
+									{
+										GlobalSettings obj = BaseGen.globalSettings;
+										ResolveParams second = toResolve.Second;
+										obj.mainRect = second.rect;
+										num--;
+									}
+									try
+									{
+										BaseGen.Resolve(toResolve);
+									}
+									catch (Exception ex)
+									{
+										Log.Error("Error while resolving symbol \"" + toResolve.First + "\" with params=" + toResolve.Second + "\n\nException: " + ex);
+									}
+									continue;
+								}
+								break;
+							}
+							return;
 						}
+						Log.Error("Error in BaseGen: Too many iterations. Infinite loop?");
 					}
 				}
-			}
-			catch (Exception arg)
-			{
-				Log.Error("Error in BaseGen: " + arg);
-			}
-			finally
-			{
-				BaseGen.working = false;
-				BaseGen.symbolStack.Clear();
-				BaseGen.globalSettings.Clear();
+				catch (Exception arg)
+				{
+					Log.Error("Error in BaseGen: " + arg);
+				}
+				finally
+				{
+					BaseGen.working = false;
+					BaseGen.symbolStack.Clear();
+					BaseGen.globalSettings.Clear();
+				}
 			}
 		}
 
@@ -106,7 +107,7 @@ namespace RimWorld.BaseGen
 			string first = toResolve.First;
 			ResolveParams second = toResolve.Second;
 			BaseGen.tmpResolvers.Clear();
-			List<RuleDef> list;
+			List<RuleDef> list = default(List<RuleDef>);
 			if (BaseGen.rulesBySymbol.TryGetValue(first, out list))
 			{
 				for (int i = 0; i < list.Count; i++)
@@ -122,19 +123,15 @@ namespace RimWorld.BaseGen
 					}
 				}
 			}
-			if (!BaseGen.tmpResolvers.Any<SymbolResolver>())
+			if (!BaseGen.tmpResolvers.Any())
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Could not find any RuleDef for symbol \"",
-					first,
-					"\" with any resolver that could resolve ",
-					second
-				}));
-				return;
+				Log.Warning("Could not find any RuleDef for symbol \"" + first + "\" with any resolver that could resolve " + second);
 			}
-			SymbolResolver symbolResolver2 = BaseGen.tmpResolvers.RandomElementByWeight((SymbolResolver x) => x.selectionWeight);
-			symbolResolver2.Resolve(second);
+			else
+			{
+				SymbolResolver symbolResolver2 = BaseGen.tmpResolvers.RandomElementByWeight((Func<SymbolResolver, float>)((SymbolResolver x) => x.selectionWeight));
+				symbolResolver2.Resolve(second);
+			}
 		}
 	}
 }

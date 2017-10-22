@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse
 {
@@ -61,14 +60,11 @@ namespace Verse
 			this.workerInt = new WeatherWorker(this);
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			WeatherDef.<ConfigErrors>c__Iterator1E9 <ConfigErrors>c__Iterator1E = new WeatherDef.<ConfigErrors>c__Iterator1E9();
-			<ConfigErrors>c__Iterator1E.<>f__this = this;
-			WeatherDef.<ConfigErrors>c__Iterator1E9 expr_0E = <ConfigErrors>c__Iterator1E;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.skyColorsDay.saturation != 0.0 && this.skyColorsDusk.saturation != 0.0 && this.skyColorsNightMid.saturation != 0.0 && this.skyColorsNightEdge.saturation != 0.0)
+				yield break;
+			yield return "a sky color has saturation of 0";
 		}
 
 		public static WeatherDef Named(string defName)

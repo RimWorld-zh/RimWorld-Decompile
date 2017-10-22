@@ -22,13 +22,7 @@ namespace Verse
 			}
 			catch (Exception ex)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Exception reading ",
-					name,
-					" as XML: ",
-					ex
-				}));
+				Log.Warning("Exception reading " + name + " as XML: " + ex);
 				this.xmlDoc = null;
 			}
 		}

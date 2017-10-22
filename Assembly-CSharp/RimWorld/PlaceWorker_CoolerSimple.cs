@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Verse;
 
@@ -11,7 +10,7 @@ namespace RimWorld
 			RoomGroup roomGroup = center.GetRoomGroup(base.Map);
 			if (roomGroup != null && !roomGroup.UsesOutdoorTemperature)
 			{
-				GenDraw.DrawFieldEdges(roomGroup.Cells.ToList<IntVec3>(), GenTemperature.ColorRoomCold);
+				GenDraw.DrawFieldEdges(roomGroup.Cells.ToList(), GenTemperature.ColorRoomCold);
 			}
 		}
 	}

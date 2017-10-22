@@ -9,19 +9,18 @@ namespace RimWorld
 	{
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (pawn.timetable == null)
+			if (pawn.timetable != null)
 			{
-				return;
+				float num = rect.x;
+				float num2 = (float)(rect.width / 24.0);
+				for (int i = 0; i < 24; i++)
+				{
+					Rect rect2 = new Rect(num, rect.y, num2, rect.height);
+					this.DoTimeAssignment(rect2, pawn, i);
+					num += num2;
+				}
+				GUI.color = Color.white;
 			}
-			float num = rect.x;
-			float num2 = rect.width / 24f;
-			for (int i = 0; i < 24; i++)
-			{
-				Rect rect2 = new Rect(num, rect.y, num2, rect.height);
-				this.DoTimeAssignment(rect2, pawn, i);
-				num += num2;
-			}
-			GUI.color = Color.white;
 		}
 
 		public override void DoHeader(Rect rect, PawnTable table)
@@ -29,10 +28,10 @@ namespace RimWorld
 			float num = rect.x;
 			Text.Font = GameFont.Tiny;
 			Text.Anchor = TextAnchor.LowerCenter;
-			float num2 = rect.width / 24f;
+			float num2 = (float)(rect.width / 24.0);
 			for (int i = 0; i < 24; i++)
 			{
-				Rect rect2 = new Rect(num, rect.y, num2, rect.height + 3f);
+				Rect rect2 = new Rect(num, rect.y, num2, (float)(rect.height + 3.0));
 				Widgets.Label(rect2, i.ToString());
 				num += num2;
 			}
@@ -71,7 +70,7 @@ namespace RimWorld
 			{
 				return -2147483648;
 			}
-			return pawn.timetable.times.FirstIndexOf((TimeAssignmentDef x) => x == TimeAssignmentDefOf.Work);
+			return pawn.timetable.times.FirstIndexOf((Func<TimeAssignmentDef, bool>)((TimeAssignmentDef x) => x == TimeAssignmentDefOf.Work));
 		}
 
 		private void DoTimeAssignment(Rect rect, Pawn p, int hour)

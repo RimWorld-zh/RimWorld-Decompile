@@ -1,4 +1,3 @@
-using System;
 using System.Xml;
 
 namespace Verse
@@ -8,10 +7,10 @@ namespace Verse
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			bool result = false;
-			foreach (object current in xml.SelectNodes(this.xpath))
+			foreach (object item in xml.SelectNodes(base.xpath))
 			{
 				result = true;
-				XmlNode xmlNode = current as XmlNode;
+				XmlNode xmlNode = item as XmlNode;
 				xmlNode.ParentNode.RemoveChild(xmlNode);
 			}
 			return result;

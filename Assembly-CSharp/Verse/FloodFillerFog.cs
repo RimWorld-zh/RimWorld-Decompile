@@ -21,16 +21,24 @@ namespace Verse
 			List<IntVec3> newlyUnfoggedCells = new List<IntVec3>();
 			int numUnfogged = 0;
 			bool expanding = false;
-			Predicate<IntVec3> predicate = delegate(IntVec3 c)
+			Predicate<IntVec3> predicate = (Predicate<IntVec3>)delegate(IntVec3 c)
 			{
 				if (!fogGridDirect[map.cellIndices.CellToIndex(c)])
 				{
 					return false;
 				}
 				Thing edifice = c.GetEdifice(map);
-				return (edifice == null || !edifice.def.MakeFog) && (!FloodFillerFog.testMode || expanding || numUnfogged <= 500);
+				if (edifice != null && edifice.def.MakeFog)
+				{
+					return false;
+				}
+				if (FloodFillerFog.testMode && !expanding && numUnfogged > 500)
+				{
+					return false;
+				}
+				return true;
 			};
-			Action<IntVec3> processor = delegate(IntVec3 c)
+			Action<IntVec3> processor = (Action<IntVec3>)delegate(IntVec3 c)
 			{
 				fogGrid.Unfog(c);
 				newlyUnfoggedCells.Add(c);
@@ -50,7 +58,7 @@ namespace Verse
 				if (FloodFillerFog.testMode)
 				{
 					numUnfogged++;
-					map.debugDrawer.FlashCell(c, (float)numUnfogged / 200f, numUnfogged.ToStringCached());
+					map.debugDrawer.FlashCell(c, (float)((float)numUnfogged / 200.0), numUnfogged.ToStringCached());
 				}
 			};
 			map.floodFiller.FloodFill(root, predicate, processor, false);
@@ -61,12 +69,9 @@ namespace Verse
 				for (int j = 0; j < 8; j++)
 				{
 					IntVec3 intVec = a + GenAdj.AdjacentCells[j];
-					if (intVec.InBounds(map) && fogGrid.IsFogged(intVec))
+					if (intVec.InBounds(map) && fogGrid.IsFogged(intVec) && !predicate(intVec))
 					{
-						if (!predicate(intVec))
-						{
-							FloodFillerFog.cellsToUnfog.Add(intVec);
-						}
+						FloodFillerFog.cellsToUnfog.Add(intVec);
 					}
 				}
 			}
@@ -86,9 +91,9 @@ namespace Verse
 		internal static void DebugFloodUnfog(IntVec3 root, Map map)
 		{
 			map.fogGrid.SetAllFogged();
-			foreach (IntVec3 current in map.AllCells)
+			foreach (IntVec3 allCell in map.AllCells)
 			{
-				map.mapDrawer.MapMeshDirty(current, MapMeshFlag.FogOfWar);
+				map.mapDrawer.MapMeshDirty(allCell, MapMeshFlag.FogOfWar);
 			}
 			FloodFillerFog.testMode = true;
 			FloodFillerFog.FloodUnfog(root, map);
@@ -98,11 +103,11 @@ namespace Verse
 		internal static void DebugRefogMap(Map map)
 		{
 			map.fogGrid.SetAllFogged();
-			foreach (IntVec3 current in map.AllCells)
+			foreach (IntVec3 allCell in map.AllCells)
 			{
-				map.mapDrawer.MapMeshDirty(current, MapMeshFlag.FogOfWar);
+				map.mapDrawer.MapMeshDirty(allCell, MapMeshFlag.FogOfWar);
 			}
-			FloodFillerFog.FloodUnfog(map.mapPawns.FreeColonistsSpawned.RandomElement<Pawn>().Position, map);
+			FloodFillerFog.FloodUnfog(map.mapPawns.FreeColonistsSpawned.RandomElement().Position, map);
 		}
 	}
 }

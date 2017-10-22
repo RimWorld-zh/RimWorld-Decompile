@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld
 {
 	public class GameCondition_HeatWave : GameCondition

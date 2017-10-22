@@ -21,19 +21,15 @@ namespace RimWorld.BaseGen
 		{
 			Map map = BaseGen.globalSettings.map;
 			ThingDef thingDef = rp.cultivatedPlantDef ?? SymbolResolver_CultivatedPlants.DeterminePlantDef(rp.rect);
-			if (thingDef == null)
+			if (thingDef != null)
 			{
-				return;
-			}
-			float growth = Rand.Range(0.2f, 1f);
-			int age = (!thingDef.plant.LimitedLifespan) ? 0 : Rand.Range(0, Mathf.Max(thingDef.plant.LifespanTicks - 2500, 0));
-			CellRect.CellRectIterator iterator = rp.rect.GetIterator();
-			while (!iterator.Done())
-			{
-				float num = map.fertilityGrid.FertilityAt(iterator.Current);
-				if (num >= thingDef.plant.fertilityMin)
+				float growth = Rand.Range(0.2f, 1f);
+				int age = thingDef.plant.LimitedLifespan ? Rand.Range(0, Mathf.Max(thingDef.plant.LifespanTicks - 2500, 0)) : 0;
+				CellRect.CellRectIterator iterator = rp.rect.GetIterator();
+				while (!iterator.Done())
 				{
-					if (this.TryDestroyBlockingThingsAt(iterator.Current))
+					float num = map.fertilityGrid.FertilityAt(iterator.Current);
+					if (!(num < thingDef.plant.fertilityMin) && this.TryDestroyBlockingThingsAt(iterator.Current))
 					{
 						Plant plant = (Plant)GenSpawn.Spawn(thingDef, iterator.Current, map);
 						plant.Growth = growth;
@@ -42,41 +38,41 @@ namespace RimWorld.BaseGen
 							plant.Age = age;
 						}
 					}
+					iterator.MoveNext();
 				}
-				iterator.MoveNext();
 			}
 		}
 
 		public static ThingDef DeterminePlantDef(CellRect rect)
 		{
 			Map map = BaseGen.globalSettings.map;
-			if (map.mapTemperature.OutdoorTemp < 0f || map.mapTemperature.OutdoorTemp > 58f)
+			if (!(map.mapTemperature.OutdoorTemp < 0.0) && !(map.mapTemperature.OutdoorTemp > 58.0))
 			{
-				return null;
-			}
-			float minFertility = 3.40282347E+38f;
-			bool flag = false;
-			CellRect.CellRectIterator iterator = rect.GetIterator();
-			while (!iterator.Done())
-			{
-				float num = map.fertilityGrid.FertilityAt(iterator.Current);
-				if (num > 0f)
+				float minFertility = 3.40282347E+38f;
+				bool flag = false;
+				CellRect.CellRectIterator iterator = rect.GetIterator();
+				while (!iterator.Done())
 				{
-					flag = true;
-					minFertility = Mathf.Min(minFertility, num);
+					float num = map.fertilityGrid.FertilityAt(iterator.Current);
+					if (!(num <= 0.0))
+					{
+						flag = true;
+						minFertility = Mathf.Min(minFertility, num);
+					}
+					iterator.MoveNext();
 				}
-				iterator.MoveNext();
-			}
-			if (!flag)
-			{
+				if (!flag)
+				{
+					return null;
+				}
+				ThingDef result = default(ThingDef);
+				if ((from x in DefDatabase<ThingDef>.AllDefsListForReading
+				where x.category == ThingCategory.Plant && x.plant.Sowable && !x.plant.IsTree && x.plant.fertilityMin <= minFertility && x.plant.Harvestable
+				select x).TryRandomElement<ThingDef>(out result))
+				{
+					return result;
+				}
 				return null;
-			}
-			ThingDef result;
-			if ((from x in DefDatabase<ThingDef>.AllDefsListForReading
-			where x.category == ThingCategory.Plant && x.plant.Sowable && !x.plant.IsTree && x.plant.fertilityMin <= minFertility && x.plant.Harvestable
-			select x).TryRandomElement(out result))
-			{
-				return result;
 			}
 			return null;
 		}
@@ -88,13 +84,10 @@ namespace RimWorld.BaseGen
 			SymbolResolver_CultivatedPlants.tmpThings.AddRange(c.GetThingList(map));
 			for (int i = 0; i < SymbolResolver_CultivatedPlants.tmpThings.Count; i++)
 			{
-				if (!(SymbolResolver_CultivatedPlants.tmpThings[i] is Pawn))
+				if (!(SymbolResolver_CultivatedPlants.tmpThings[i] is Pawn) && !SymbolResolver_CultivatedPlants.tmpThings[i].def.destroyable)
 				{
-					if (!SymbolResolver_CultivatedPlants.tmpThings[i].def.destroyable)
-					{
-						SymbolResolver_CultivatedPlants.tmpThings.Clear();
-						return false;
-					}
+					SymbolResolver_CultivatedPlants.tmpThings.Clear();
+					return false;
 				}
 			}
 			for (int j = 0; j < SymbolResolver_CultivatedPlants.tmpThings.Count; j++)

@@ -7,15 +7,21 @@ namespace RimWorld
 	{
 		public static string ToStringHuman(this PlayerPawnsArriveMethod method)
 		{
-			if (method == PlayerPawnsArriveMethod.Standing)
+			switch (method)
+			{
+			case PlayerPawnsArriveMethod.Standing:
 			{
 				return "PlayerPawnsArriveMethod_Standing".Translate();
 			}
-			if (method != PlayerPawnsArriveMethod.DropPods)
+			case PlayerPawnsArriveMethod.DropPods:
+			{
+				return "PlayerPawnsArriveMethod_DropPods".Translate();
+			}
+			default:
 			{
 				throw new NotImplementedException();
 			}
-			return "PlayerPawnsArriveMethod_DropPods".Translate();
+			}
 		}
 	}
 }

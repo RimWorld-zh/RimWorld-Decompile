@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -32,11 +31,11 @@ namespace RimWorld.BaseGen
 			{
 				if (!SymbolResolver_AddWortToFermentingBarrels.barrels[j].Fermented)
 				{
-					int num = Rand.RangeInclusive(1, 25);
-					num = Mathf.Min(num, SymbolResolver_AddWortToFermentingBarrels.barrels[j].SpaceLeftForWort);
-					if (num > 0)
+					int a = Rand.RangeInclusive(1, 25);
+					a = Mathf.Min(a, SymbolResolver_AddWortToFermentingBarrels.barrels[j].SpaceLeftForWort);
+					if (a > 0)
 					{
-						SymbolResolver_AddWortToFermentingBarrels.barrels[j].AddWort(num);
+						SymbolResolver_AddWortToFermentingBarrels.barrels[j].AddWort(a);
 						SymbolResolver_AddWortToFermentingBarrels.barrels[j].Progress = progress;
 					}
 				}

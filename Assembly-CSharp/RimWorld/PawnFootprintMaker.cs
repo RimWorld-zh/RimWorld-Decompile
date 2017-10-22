@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -30,12 +29,12 @@ namespace RimWorld
 			if (!this.pawn.RaceProps.makesFootprints)
 			{
 				TerrainDef terrain = this.pawn.Position.GetTerrain(this.pawn.Map);
-				if (terrain == null || !terrain.takeSplashes)
-				{
+				if (terrain == null)
 					return;
-				}
+				if (!terrain.takeSplashes)
+					return;
 			}
-			if ((this.pawn.Drawer.DrawPos - this.lastFootprintPlacePos).MagnitudeHorizontalSquared() > 0.399424046f)
+			if ((this.pawn.Drawer.DrawPos - this.lastFootprintPlacePos).MagnitudeHorizontalSquared() > 0.39942404627799988)
 			{
 				this.TryPlaceFootprint();
 			}
@@ -46,7 +45,7 @@ namespace RimWorld
 			Vector3 drawPos = this.pawn.Drawer.DrawPos;
 			Vector3 normalized = (drawPos - this.lastFootprintPlacePos).normalized;
 			float rot = normalized.AngleFlat();
-			float angle = (float)((!this.lastFootprintRight) ? -90 : 90);
+			float angle = (float)((!this.lastFootprintRight) ? (-90) : 90);
 			Vector3 b = normalized.RotatedBy(angle) * 0.17f * Mathf.Sqrt(this.pawn.BodySize);
 			Vector3 vector = drawPos + PawnFootprintMaker.FootprintOffset + b;
 			IntVec3 c = vector.ToIntVec3();
@@ -57,9 +56,9 @@ namespace RimWorld
 				{
 					if (terrain.takeSplashes)
 					{
-						MoteMaker.MakeWaterSplash(vector, this.pawn.Map, Mathf.Sqrt(this.pawn.BodySize) * 2f, 1.5f);
+						MoteMaker.MakeWaterSplash(vector, this.pawn.Map, (float)(Mathf.Sqrt(this.pawn.BodySize) * 2.0), 1.5f);
 					}
-					if (this.pawn.RaceProps.makesFootprints && terrain.takeFootprints && this.pawn.Map.snowGrid.GetDepth(this.pawn.Position) >= 0.4f)
+					if (this.pawn.RaceProps.makesFootprints && terrain.takeFootprints && this.pawn.Map.snowGrid.GetDepth(this.pawn.Position) >= 0.40000000596046448)
 					{
 						MoteMaker.PlaceFootprint(vector, this.pawn.Map, rot);
 					}

@@ -163,7 +163,7 @@ namespace Verse
 			}
 			this.windowRect = this.windowRect.Rounded();
 			Rect winRect = this.windowRect.AtZero();
-			this.windowRect = GUI.Window(this.ID, this.windowRect, delegate(int x)
+			this.windowRect = GUI.Window(this.ID, this.windowRect, (GUI.WindowFunction)delegate(int x)
 			{
 				Find.WindowStack.currentlyDrawnWindow = this;
 				if (this.doWindowBackground)
@@ -202,7 +202,7 @@ namespace Verse
 				Rect rect = winRect.ContractedBy(this.Margin);
 				if (!this.optionalTitle.NullOrEmpty())
 				{
-					rect.yMin += this.Margin + 25f;
+					rect.yMin += (float)(this.Margin + 25.0);
 				}
 				GUI.BeginGroup(rect);
 				try
@@ -211,13 +211,7 @@ namespace Verse
 				}
 				catch (Exception ex)
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Exception filling window for ",
-						this.GetType().ToString(),
-						": ",
-						ex
-					}));
+					Log.Error("Exception filling window for " + base.GetType().ToString() + ": " + ex);
 				}
 				GUI.EndGroup();
 				if (this.resizeable && Event.current.type == EventType.Repaint)
@@ -227,7 +221,14 @@ namespace Verse
 				if (this.doCloseButton)
 				{
 					Text.Font = GameFont.Small;
-					Rect rect2 = new Rect(winRect.width / 2f - this.CloseButSize.x / 2f, winRect.height - 55f, this.CloseButSize.x, this.CloseButSize.y);
+					double num = winRect.width / 2.0;
+					Vector2 closeButSize = this.CloseButSize;
+					double x2 = num - closeButSize.x / 2.0;
+					double y = winRect.height - 55.0;
+					Vector2 closeButSize2 = this.CloseButSize;
+					float x3 = closeButSize2.x;
+					Vector2 closeButSize3 = this.CloseButSize;
+					Rect rect2 = new Rect((float)x2, (float)y, x3, closeButSize3.y);
 					if (Widgets.ButtonText(rect2, "CloseButton".Translate(), true, false, true))
 					{
 						this.Close(true);
@@ -263,7 +264,16 @@ namespace Verse
 
 		protected virtual void SetInitialSizeAndPosition()
 		{
-			this.windowRect = new Rect(((float)UI.screenWidth - this.InitialSize.x) / 2f, ((float)UI.screenHeight - this.InitialSize.y) / 2f, this.InitialSize.x, this.InitialSize.y);
+			float num = (float)UI.screenWidth;
+			Vector2 initialSize = this.InitialSize;
+			double x = (num - initialSize.x) / 2.0;
+			float num2 = (float)UI.screenHeight;
+			Vector2 initialSize2 = this.InitialSize;
+			double y = (num2 - initialSize2.y) / 2.0;
+			Vector2 initialSize3 = this.InitialSize;
+			float x2 = initialSize3.x;
+			Vector2 initialSize4 = this.InitialSize;
+			this.windowRect = new Rect((float)x, (float)y, x2, initialSize4.y);
 			this.windowRect = this.windowRect.Rounded();
 		}
 

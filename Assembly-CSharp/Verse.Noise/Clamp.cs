@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Noise
 {
 	public class Clamp : ModuleBase
@@ -38,14 +36,14 @@ namespace Verse.Noise
 
 		public Clamp(ModuleBase input) : base(1)
 		{
-			this.modules[0] = input;
+			base.modules[0] = input;
 		}
 
 		public Clamp(double min, double max, ModuleBase input) : base(1)
 		{
 			this.Minimum = min;
 			this.Maximum = max;
-			this.modules[0] = input;
+			base.modules[0] = input;
 		}
 
 		public void SetBounds(double min, double max)
@@ -62,7 +60,7 @@ namespace Verse.Noise
 				this.m_min = this.m_max;
 				this.m_max = min;
 			}
-			double value = this.modules[0].GetValue(x, y, z);
+			double value = base.modules[0].GetValue(x, y, z);
 			if (value < this.m_min)
 			{
 				return this.m_min;

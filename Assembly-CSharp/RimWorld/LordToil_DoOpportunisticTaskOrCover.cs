@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -28,9 +27,9 @@ namespace RimWorld
 		public override void UpdateAllDuties()
 		{
 			List<Thing> list = null;
-			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
-				Pawn pawn = this.lord.ownedPawns[i];
+				Pawn pawn = base.lord.ownedPawns[i];
 				Thing item = null;
 				if (!this.cover || (this.TryFindGoodOpportunisticTaskTarget(pawn, out item, list) && !GenAI.InDangerousCombat(pawn)))
 				{
@@ -57,13 +56,13 @@ namespace RimWorld
 			if (this.cover && Find.TickManager.TicksGame % 181 == 0)
 			{
 				List<Thing> list = null;
-				for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+				for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 				{
-					Pawn pawn = this.lord.ownedPawns[i];
+					Pawn pawn = base.lord.ownedPawns[i];
 					if (!pawn.Downed && pawn.mindState.duty.def == DutyDefOf.AssaultColony)
 					{
 						Thing thing = null;
-						if (this.TryFindGoodOpportunisticTaskTarget(pawn, out thing, list) && !base.Map.reservationManager.IsReserved(thing, this.lord.faction) && !GenAI.InDangerousCombat(pawn))
+						if (this.TryFindGoodOpportunisticTaskTarget(pawn, out thing, list) && !base.Map.reservationManager.IsReserved(thing, base.lord.faction) && !GenAI.InDangerousCombat(pawn))
 						{
 							pawn.mindState.duty = new PawnDuty(this.DutyDef);
 							pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);

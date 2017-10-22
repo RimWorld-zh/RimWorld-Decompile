@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -29,7 +27,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.addictiveness > 0f;
+				return this.addictiveness > 0.0;
 			}
 		}
 
@@ -37,35 +35,37 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.overdoseSeverityOffset.TrueMax > 0f;
+				return this.overdoseSeverityOffset.TrueMax > 0.0;
 			}
 		}
 
 		public CompProperties_Drug()
 		{
-			this.compClass = typeof(CompDrug);
+			base.compClass = typeof(CompDrug);
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			CompProperties_Drug.<ConfigErrors>c__Iterator7B <ConfigErrors>c__Iterator7B = new CompProperties_Drug.<ConfigErrors>c__Iterator7B();
-			<ConfigErrors>c__Iterator7B.parentDef = parentDef;
-			<ConfigErrors>c__Iterator7B.<$>parentDef = parentDef;
-			<ConfigErrors>c__Iterator7B.<>f__this = this;
-			CompProperties_Drug.<ConfigErrors>c__Iterator7B expr_1C = <ConfigErrors>c__Iterator7B;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			foreach (string item in base.ConfigErrors(parentDef))
+			{
+				yield return item;
+			}
+			if (this.Addictive && this.chemical == null)
+			{
+				yield return "addictive but chemical is null";
+			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			CompProperties_Drug.<SpecialDisplayStats>c__Iterator7C <SpecialDisplayStats>c__Iterator7C = new CompProperties_Drug.<SpecialDisplayStats>c__Iterator7C();
-			<SpecialDisplayStats>c__Iterator7C.<>f__this = this;
-			CompProperties_Drug.<SpecialDisplayStats>c__Iterator7C expr_0E = <SpecialDisplayStats>c__Iterator7C;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (StatDrawEntry item in base.SpecialDisplayStats())
+			{
+				yield return item;
+			}
+			if (this.Addictive)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Addictiveness".Translate(), this.addictiveness.ToStringPercent(), 0);
+			}
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -19,10 +18,9 @@ namespace RimWorld
 			{
 				return null;
 			}
-			return new Job(JobDefOf.PrepareCaravan_GatherItems, thing)
-			{
-				lord = lord
-			};
+			Job job = new Job(JobDefOf.PrepareCaravan_GatherItems, thing);
+			job.lord = lord;
+			return job;
 		}
 	}
 }

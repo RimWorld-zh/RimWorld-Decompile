@@ -10,11 +10,11 @@ namespace RimWorld
 		public override float PullRecord()
 		{
 			IEnumerable<Pawn> allMaps_FreeColonists = PawnsFinder.AllMaps_FreeColonists;
-			if (!allMaps_FreeColonists.Any<Pawn>())
+			if (!allMaps_FreeColonists.Any())
 			{
 				return 0f;
 			}
-			return allMaps_FreeColonists.Average((Pawn x) => x.needs.mood.CurLevel * 100f);
+			return allMaps_FreeColonists.Average((Func<Pawn, float>)((Pawn x) => (float)(x.needs.mood.CurLevel * 100.0)));
 		}
 	}
 }

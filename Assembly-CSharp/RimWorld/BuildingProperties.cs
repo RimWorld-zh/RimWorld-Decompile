@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -194,16 +193,20 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors(ThingDef parent)
 		{
-			BuildingProperties.<ConfigErrors>c__Iterator77 <ConfigErrors>c__Iterator = new BuildingProperties.<ConfigErrors>c__Iterator77();
-			<ConfigErrors>c__Iterator.parent = parent;
-			<ConfigErrors>c__Iterator.<$>parent = parent;
-			<ConfigErrors>c__Iterator.<>f__this = this;
-			BuildingProperties.<ConfigErrors>c__Iterator77 expr_1C = <ConfigErrors>c__Iterator;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (this.isTrap && !this.isEdifice)
+			{
+				yield return "isTrap but is not edifice. Code will break.";
+			}
+			if (this.alwaysDeconstructible && !this.deconstructible)
+			{
+				yield return "alwaysDeconstructible=true but deconstructible=false";
+			}
+			if (parent.holdsRoof && !this.isEdifice)
+			{
+				yield return "holds roof but is not an edifice.";
+			}
 		}
 
 		public void PostLoadSpecial(ThingDef parent)
@@ -214,7 +217,7 @@ namespace RimWorld
 		{
 			if (!this.turretTopGraphicPath.NullOrEmpty())
 			{
-				LongEventHandler.ExecuteWhenFinished(delegate
+				LongEventHandler.ExecuteWhenFinished((Action)delegate
 				{
 					this.turretTopMat = MaterialPool.MatFrom(this.turretTopGraphicPath);
 				});

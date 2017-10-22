@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -10,46 +9,53 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			IntVec3 c;
+			IntVec3 c = default(IntVec3);
 			if (this.ShouldStartEscaping(pawn) && RCellFinder.TryFindBestExitSpot(pawn, out c, TraverseMode.ByPawn))
 			{
 				if (!pawn.guest.released)
 				{
-					Messages.Message("MessagePrisonerIsEscaping".Translate(new object[]
-					{
-						pawn.NameStringShort
-					}), pawn, MessageSound.SeriousAlert);
+					Messages.Message("MessagePrisonerIsEscaping".Translate(pawn.NameStringShort), (Thing)pawn, MessageSound.SeriousAlert);
 				}
-				return new Job(JobDefOf.Goto, c)
-				{
-					exitMapOnArrival = true
-				};
+				Job job = new Job(JobDefOf.Goto, c);
+				job.exitMapOnArrival = true;
+				return job;
 			}
 			return null;
 		}
 
 		private bool ShouldStartEscaping(Pawn pawn)
 		{
-			if (!pawn.guest.IsPrisoner || pawn.guest.HostFaction != Faction.OfPlayer || !pawn.guest.PrisonerIsSecure)
+			if (pawn.guest.IsPrisoner && pawn.guest.HostFaction == Faction.OfPlayer && pawn.guest.PrisonerIsSecure)
 			{
-				return false;
-			}
-			Room room = pawn.GetRoom(RegionType.Set_Passable);
-			if (room.TouchesMapEdge)
-			{
-				return true;
-			}
-			bool found = false;
-			RegionTraverser.BreadthFirstTraverse(room.Regions[0], (Region from, Region reg) => reg.portal == null || reg.portal.FreePassage, delegate(Region reg)
-			{
-				if (reg.Room.TouchesMapEdge)
+				Room room = pawn.GetRoom(RegionType.Set_Passable);
+				if (room.TouchesMapEdge)
 				{
-					found = true;
+					return true;
+				}
+				bool found = false;
+				RegionTraverser.BreadthFirstTraverse(room.Regions[0], (RegionEntryPredicate)delegate(Region from, Region reg)
+				{
+					if (reg.portal != null && !reg.portal.FreePassage)
+					{
+						return false;
+					}
+					return true;
+				}, (RegionProcessor)delegate(Region reg)
+				{
+					if (reg.Room.TouchesMapEdge)
+					{
+						found = true;
+						return true;
+					}
+					return false;
+				}, 25, RegionType.Set_Passable);
+				if (found)
+				{
 					return true;
 				}
 				return false;
-			}, 25, RegionType.Set_Passable);
-			return found;
+			}
+			return false;
 		}
 	}
 }

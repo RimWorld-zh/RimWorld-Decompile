@@ -1,6 +1,5 @@
 using RimWorld.BaseGen;
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -31,11 +30,12 @@ namespace RimWorld
 			CellRect.CellRectIterator iterator = CellRect.CenteredOn(c, 3).GetIterator();
 			while (!iterator.Done())
 			{
-				if (!iterator.Current.InBounds(map) || iterator.Current.GetEdifice(map) != null)
+				if (iterator.Current.InBounds(map) && iterator.Current.GetEdifice(map) == null)
 				{
-					return false;
+					iterator.MoveNext();
+					continue;
 				}
-				iterator.MoveNext();
+				return false;
 			}
 			return true;
 		}
@@ -43,10 +43,12 @@ namespace RimWorld
 		protected override void ScatterAt(IntVec3 loc, Map map, int count = 1)
 		{
 			CellRect cellRect = CellRect.CenteredOn(loc, 3).ClipInsideMap(map);
-			ResolveParams resolveParams = default(ResolveParams);
-			resolveParams.rect = cellRect;
-			resolveParams.faction = map.ParentFaction;
-			ItemStashContentsComp component = map.info.parent.GetComponent<ItemStashContentsComp>();
+			ResolveParams resolveParams = new ResolveParams
+			{
+				rect = cellRect,
+				faction = map.ParentFaction
+			};
+			ItemStashContentsComp component = ((WorldObject)map.info.parent).GetComponent<ItemStashContentsComp>();
 			if (component != null && component.contents.Any)
 			{
 				resolveParams.stockpileConcreteContents = component.contents;
@@ -56,13 +58,13 @@ namespace RimWorld
 				resolveParams.stockpileMarketValue = new float?(this.totalValueRange.RandomInRange);
 				if (this.itemCollectionGeneratorDefs != null)
 				{
-					resolveParams.itemCollectionGeneratorDef = this.itemCollectionGeneratorDefs.RandomElement<ItemCollectionGeneratorDef>();
+					resolveParams.itemCollectionGeneratorDef = this.itemCollectionGeneratorDefs.RandomElement();
 				}
 			}
-			BaseGen.globalSettings.map = map;
-			BaseGen.symbolStack.Push("storage", resolveParams);
-			BaseGen.Generate();
-			MapGenerator.SetVar<CellRect>("RectOfInterest", cellRect);
+			RimWorld.BaseGen.BaseGen.globalSettings.map = map;
+			RimWorld.BaseGen.BaseGen.symbolStack.Push("storage", resolveParams);
+			RimWorld.BaseGen.BaseGen.Generate();
+			MapGenerator.SetVar("RectOfInterest", cellRect);
 		}
 	}
 }

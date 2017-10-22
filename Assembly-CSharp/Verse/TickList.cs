@@ -20,13 +20,21 @@ namespace Verse
 				switch (this.tickType)
 				{
 				case TickerType.Normal:
+				{
 					return 1;
+				}
 				case TickerType.Rare:
+				{
 					return 250;
+				}
 				case TickerType.Long:
+				{
 					return 2000;
+				}
 				default:
+				{
 					return -1;
+				}
 				}
 			}
 		}
@@ -107,14 +115,20 @@ namespace Verse
 						switch (this.tickType)
 						{
 						case TickerType.Normal:
+						{
 							list2[m].Tick();
 							break;
+						}
 						case TickerType.Rare:
+						{
 							list2[m].TickRare();
 							break;
+						}
 						case TickerType.Long:
+						{
 							list2[m].TickLong();
 							break;
+						}
 						}
 					}
 					catch (Exception ex)

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -19,7 +18,7 @@ namespace RimWorld
 
 		public CompProperties_SpawnerFilth()
 		{
-			this.compClass = typeof(CompSpawnerFilth);
+			base.compClass = typeof(CompSpawnerFilth);
 		}
 	}
 }

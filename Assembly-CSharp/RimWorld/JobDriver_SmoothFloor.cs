@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -31,7 +30,7 @@ namespace RimWorld
 
 		public JobDriver_SmoothFloor()
 		{
-			this.clearSnow = true;
+			base.clearSnow = true;
 		}
 
 		protected override void DoEffect(IntVec3 c)

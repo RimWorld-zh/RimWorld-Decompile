@@ -43,7 +43,7 @@ namespace RimWorld
 
 		public bool CanTarget(TargetInfo targ)
 		{
-			if (this.validator != null && !this.validator(targ))
+			if ((object)this.validator != null && !this.validator(targ))
 			{
 				return false;
 			}
@@ -88,43 +88,65 @@ namespace RimWorld
 				{
 					return false;
 				}
-				return this.onlyTargetFactions == null || this.onlyTargetFactions.Contains(targ.Thing.Faction);
+				if (this.onlyTargetFactions != null && !this.onlyTargetFactions.Contains(targ.Thing.Faction))
+				{
+					return false;
+				}
+				return true;
 			}
 			if (this.canTargetBuildings && targ.Thing.def.category == ThingCategory.Building)
 			{
-				return (!this.onlyTargetThingsAffectingRegions || targ.Thing.def.AffectsRegions) && (this.onlyTargetFactions == null || this.onlyTargetFactions.Contains(targ.Thing.Faction));
+				if (this.onlyTargetThingsAffectingRegions && !targ.Thing.def.AffectsRegions)
+				{
+					return false;
+				}
+				if (this.onlyTargetFactions != null && !this.onlyTargetFactions.Contains(targ.Thing.Faction))
+				{
+					return false;
+				}
+				return true;
 			}
-			return this.canTargetItems && (!this.mapObjectTargetsMustBeAutoAttackable || targ.Thing.def.isAutoAttackableMapObject);
+			if (this.canTargetItems)
+			{
+				if (this.mapObjectTargetsMustBeAutoAttackable && !targ.Thing.def.isAutoAttackableMapObject)
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		public static TargetingParameters ForSelf(Pawn p)
 		{
-			return new TargetingParameters
-			{
-				targetSpecificThing = p,
-				canTargetPawns = false,
-				canTargetBuildings = false,
-				mapObjectTargetsMustBeAutoAttackable = false
-			};
+			TargetingParameters targetingParameters = new TargetingParameters();
+			targetingParameters.targetSpecificThing = p;
+			targetingParameters.canTargetPawns = false;
+			targetingParameters.canTargetBuildings = false;
+			targetingParameters.mapObjectTargetsMustBeAutoAttackable = false;
+			return targetingParameters;
 		}
 
 		public static TargetingParameters ForArrest(Pawn arrester)
 		{
-			return new TargetingParameters
+			TargetingParameters targetingParameters = new TargetingParameters();
+			targetingParameters.canTargetPawns = true;
+			targetingParameters.canTargetBuildings = false;
+			targetingParameters.mapObjectTargetsMustBeAutoAttackable = false;
+			targetingParameters.validator = (Predicate<TargetInfo>)delegate(TargetInfo targ)
 			{
-				canTargetPawns = true,
-				canTargetBuildings = false,
-				mapObjectTargetsMustBeAutoAttackable = false,
-				validator = delegate(TargetInfo targ)
+				if (!targ.HasThing)
 				{
-					if (!targ.HasThing)
-					{
-						return false;
-					}
-					Pawn pawn = targ.Thing as Pawn;
-					return pawn != null && pawn != arrester && pawn.CanBeArrested();
+					return false;
 				}
+				Pawn pawn = targ.Thing as Pawn;
+				if (pawn != null && pawn != arrester && pawn.CanBeArrested())
+				{
+					return true;
+				}
+				return false;
 			};
+			return targetingParameters;
 		}
 
 		public static TargetingParameters ForAttackHostile()
@@ -134,30 +156,28 @@ namespace RimWorld
 			targetingParameters.canTargetBuildings = true;
 			targetingParameters.canTargetItems = true;
 			targetingParameters.mapObjectTargetsMustBeAutoAttackable = true;
-			targetingParameters.validator = ((TargetInfo targ) => targ.HasThing && (targ.Thing.HostileTo(Faction.OfPlayer) || (targ.Thing is Pawn && !((Pawn)targ.Thing).RaceProps.Humanlike)));
+			targetingParameters.validator = (Predicate<TargetInfo>)((TargetInfo targ) => targ.HasThing && (targ.Thing.HostileTo(Faction.OfPlayer) || (targ.Thing is Pawn && !((Pawn)targ.Thing).RaceProps.Humanlike)));
 			return targetingParameters;
 		}
 
 		public static TargetingParameters ForAttackAny()
 		{
-			return new TargetingParameters
-			{
-				canTargetPawns = true,
-				canTargetBuildings = true,
-				canTargetItems = true,
-				mapObjectTargetsMustBeAutoAttackable = true
-			};
+			TargetingParameters targetingParameters = new TargetingParameters();
+			targetingParameters.canTargetPawns = true;
+			targetingParameters.canTargetBuildings = true;
+			targetingParameters.canTargetItems = true;
+			targetingParameters.mapObjectTargetsMustBeAutoAttackable = true;
+			return targetingParameters;
 		}
 
 		public static TargetingParameters ForRescue(Pawn p)
 		{
-			return new TargetingParameters
-			{
-				canTargetPawns = true,
-				onlyTargetIncapacitatedPawns = true,
-				canTargetBuildings = false,
-				mapObjectTargetsMustBeAutoAttackable = false
-			};
+			TargetingParameters targetingParameters = new TargetingParameters();
+			targetingParameters.canTargetPawns = true;
+			targetingParameters.onlyTargetIncapacitatedPawns = true;
+			targetingParameters.canTargetBuildings = false;
+			targetingParameters.mapObjectTargetsMustBeAutoAttackable = false;
+			return targetingParameters;
 		}
 
 		public static TargetingParameters ForStrip(Pawn p)
@@ -166,7 +186,14 @@ namespace RimWorld
 			targetingParameters.canTargetPawns = true;
 			targetingParameters.canTargetItems = true;
 			targetingParameters.mapObjectTargetsMustBeAutoAttackable = false;
-			targetingParameters.validator = ((TargetInfo targ) => targ.HasThing && StrippableUtility.CanBeStrippedByColony(targ.Thing));
+			targetingParameters.validator = (Predicate<TargetInfo>)delegate(TargetInfo targ)
+			{
+				if (!targ.HasThing)
+				{
+					return false;
+				}
+				return StrippableUtility.CanBeStrippedByColony(targ.Thing);
+			};
 			return targetingParameters;
 		}
 
@@ -176,10 +203,14 @@ namespace RimWorld
 			targetingParameters.canTargetPawns = true;
 			targetingParameters.canTargetBuildings = false;
 			targetingParameters.mapObjectTargetsMustBeAutoAttackable = false;
-			targetingParameters.validator = delegate(TargetInfo x)
+			targetingParameters.validator = (Predicate<TargetInfo>)delegate(TargetInfo x)
 			{
 				ITrader trader = x.Thing as ITrader;
-				return trader != null && trader.CanTradeNow;
+				if (trader == null)
+				{
+					return false;
+				}
+				return trader.CanTradeNow;
 			};
 			return targetingParameters;
 		}
@@ -193,7 +224,7 @@ namespace RimWorld
 			targetingParameters.canTargetFires = false;
 			targetingParameters.canTargetBuildings = false;
 			targetingParameters.canTargetItems = false;
-			targetingParameters.validator = ((TargetInfo x) => DropCellFinder.IsGoodDropSpot(x.Cell, x.Map, false, true));
+			targetingParameters.validator = (Predicate<TargetInfo>)((TargetInfo x) => DropCellFinder.IsGoodDropSpot(x.Cell, x.Map, false, true));
 			return targetingParameters;
 		}
 	}

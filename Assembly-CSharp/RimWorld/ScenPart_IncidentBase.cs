@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -42,33 +41,37 @@ namespace RimWorld
 			return ScenSummaryList.SummaryWithList(scen, this.IncidentTag, key.Translate());
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
-			ScenPart_IncidentBase.<GetSummaryListEntries>c__Iterator119 <GetSummaryListEntries>c__Iterator = new ScenPart_IncidentBase.<GetSummaryListEntries>c__Iterator119();
-			<GetSummaryListEntries>c__Iterator.tag = tag;
-			<GetSummaryListEntries>c__Iterator.<$>tag = tag;
-			<GetSummaryListEntries>c__Iterator.<>f__this = this;
-			ScenPart_IncidentBase.<GetSummaryListEntries>c__Iterator119 expr_1C = <GetSummaryListEntries>c__Iterator;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (tag == this.IncidentTag)
+			{
+				yield return this.incident.LabelCap;
+			}
 		}
 
 		public override void Randomize()
 		{
-			this.incident = this.RandomizableIncidents().RandomElement<IncidentDef>();
+			this.incident = this.RandomizableIncidents().RandomElement();
 		}
 
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_IncidentBase scenPart_IncidentBase = other as ScenPart_IncidentBase;
-			return scenPart_IncidentBase != null && scenPart_IncidentBase.Incident == this.incident;
+			if (scenPart_IncidentBase != null && scenPart_IncidentBase.Incident == this.incident)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override bool CanCoexistWith(ScenPart other)
 		{
 			ScenPart_IncidentBase scenPart_IncidentBase = other as ScenPart_IncidentBase;
-			return scenPart_IncidentBase == null || scenPart_IncidentBase.Incident != this.incident;
+			if (scenPart_IncidentBase != null && scenPart_IncidentBase.Incident == this.incident)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected virtual IEnumerable<IncidentDef> RandomizableIncidents()
@@ -80,10 +83,10 @@ namespace RimWorld
 		{
 			if (Widgets.ButtonText(rect, this.incident.LabelCap, true, false, true))
 			{
-				FloatMenuUtility.MakeMenu<IncidentDef>(DefDatabase<IncidentDef>.AllDefs, (IncidentDef id) => id.LabelCap, (IncidentDef id) => delegate
+				FloatMenuUtility.MakeMenu(DefDatabase<IncidentDef>.AllDefs, (Func<IncidentDef, string>)((IncidentDef id) => id.LabelCap), (Func<IncidentDef, Action>)((IncidentDef id) => (Action)delegate()
 				{
 					this.incident = id;
-				});
+				}));
 			}
 		}
 	}

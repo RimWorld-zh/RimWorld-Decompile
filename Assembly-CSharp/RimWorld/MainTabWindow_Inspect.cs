@@ -91,7 +91,9 @@ namespace RimWorld
 		{
 			get
 			{
-				return (float)UI.screenHeight - InspectPaneUtility.PaneSize.y - 35f;
+				float num = (float)UI.screenHeight;
+				Vector2 paneSize = InspectPaneUtility.PaneSize;
+				return (float)(num - paneSize.y - 35.0);
 			}
 		}
 
@@ -140,7 +142,7 @@ namespace RimWorld
 
 		public MainTabWindow_Inspect()
 		{
-			this.closeOnEscapeKey = false;
+			base.closeOnEscapeKey = false;
 		}
 
 		public override void ExtraOnGUI()
@@ -181,12 +183,12 @@ namespace RimWorld
 				Thing singleSelectedThing = Find.Selector.SingleSelectedThing;
 				if (singleSelectedThing != null)
 				{
-					Widgets.InfoCardButton(rect.width - 48f, 0f, Find.Selector.SingleSelectedThing);
+					Widgets.InfoCardButton((float)(rect.width - 48.0), 0f, Find.Selector.SingleSelectedThing);
 					lineEndWidth += 24f;
 					Pawn pawn = singleSelectedThing as Pawn;
 					if (pawn != null && pawn.playerSettings != null && pawn.playerSettings.UsesConfigurableHostilityResponse)
 					{
-						HostilityResponseModeUtility.DrawResponseButton(new Vector2(rect.width - 72f, 0f), pawn);
+						HostilityResponseModeUtility.DrawResponseButton(new Vector2((float)(rect.width - 72.0), 0f), pawn);
 						lineEndWidth += 24f;
 					}
 				}
@@ -195,26 +197,16 @@ namespace RimWorld
 
 		public void SelectNextInCell()
 		{
-			if (this.NumSelected == 0)
+			if (this.NumSelected != 0)
 			{
-				return;
-			}
-			Selector selector = Find.Selector;
-			if (selector.SelectedZone == null || selector.SelectedZone.ContainsCell(MainTabWindow_Inspect.lastSelectCell))
-			{
+				Selector selector = Find.Selector;
+				if (selector.SelectedZone != null && !selector.SelectedZone.ContainsCell(MainTabWindow_Inspect.lastSelectCell))
+					return;
 				if (selector.SelectedZone == null)
 				{
 					MainTabWindow_Inspect.lastSelectCell = selector.SingleSelectedThing.Position;
 				}
-				Map map;
-				if (selector.SingleSelectedThing != null)
-				{
-					map = selector.SingleSelectedThing.Map;
-				}
-				else
-				{
-					map = selector.SelectedZone.Map;
-				}
+				Map map = (selector.SingleSelectedThing == null) ? selector.SelectedZone.Map : selector.SingleSelectedThing.Map;
 				selector.SelectNextAt(MainTabWindow_Inspect.lastSelectCell, map);
 			}
 		}

@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld
 {
 	public class PawnGroupMakerParms
@@ -22,25 +20,7 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"tile=",
-				this.tile,
-				", inhabitants=",
-				this.inhabitants,
-				", points=",
-				this.points,
-				", faction=",
-				this.faction,
-				", traderKind=",
-				this.traderKind,
-				", generateFightersOnly=",
-				this.generateFightersOnly,
-				", raidStrategy=",
-				this.raidStrategy,
-				", forceOneIncap=",
-				this.forceOneIncap
-			});
+			return "tile=" + this.tile + ", inhabitants=" + this.inhabitants + ", points=" + this.points + ", faction=" + this.faction + ", traderKind=" + this.traderKind + ", generateFightersOnly=" + this.generateFightersOnly + ", raidStrategy=" + this.raidStrategy + ", forceOneIncap=" + this.forceOneIncap;
 		}
 	}
 }

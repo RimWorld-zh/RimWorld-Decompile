@@ -20,23 +20,23 @@ namespace RimWorld
 
 		public Alert_Exhaustion()
 		{
-			this.defaultLabel = "Exhaustion".Translate();
-			this.defaultPriority = AlertPriority.High;
+			base.defaultLabel = "Exhaustion".Translate();
+			base.defaultPriority = AlertPriority.High;
 		}
 
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (Pawn current in this.ExhaustedColonists)
+			foreach (Pawn exhaustedColonist in this.ExhaustedColonists)
 			{
-				stringBuilder.AppendLine("    " + current.NameStringShort);
+				stringBuilder.AppendLine("    " + exhaustedColonist.NameStringShort);
 			}
 			return string.Format("ExhaustionDesc".Translate(), stringBuilder.ToString());
 		}
 
 		public override AlertReport GetReport()
 		{
-			return AlertReport.CulpritIs(this.ExhaustedColonists.FirstOrDefault<Pawn>());
+			return AlertReport.CulpritIs((Thing)this.ExhaustedColonists.FirstOrDefault());
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,24 +13,34 @@ namespace RimWorld
 		{
 			get
 			{
-				Alert_ColonistsIdle.<>c__Iterator18A <>c__Iterator18A = new Alert_ColonistsIdle.<>c__Iterator18A();
-				Alert_ColonistsIdle.<>c__Iterator18A expr_07 = <>c__Iterator18A;
-				expr_07.$PC = -2;
-				return expr_07;
+				List<Map> maps = Find.Maps;
+				for (int i = 0; i < maps.Count; i++)
+				{
+					if (maps[i].IsPlayerHome)
+					{
+						foreach (Pawn item in maps[i].mapPawns.FreeColonistsSpawned)
+						{
+							if (item.mindState.IsIdle)
+							{
+								yield return item;
+							}
+						}
+					}
+				}
 			}
 		}
 
 		public override string GetLabel()
 		{
-			return string.Format("ColonistsIdle".Translate(), this.IdleColonists.Count<Pawn>().ToStringCached());
+			return string.Format("ColonistsIdle".Translate(), this.IdleColonists.Count().ToStringCached());
 		}
 
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (Pawn current in this.IdleColonists)
+			foreach (Pawn idleColonist in this.IdleColonists)
 			{
-				stringBuilder.AppendLine("    " + current.NameStringShort);
+				stringBuilder.AppendLine("    " + idleColonist.NameStringShort);
 			}
 			return string.Format("ColonistsIdleDesc".Translate(), stringBuilder.ToString());
 		}
@@ -42,7 +51,7 @@ namespace RimWorld
 			{
 				return AlertReport.Inactive;
 			}
-			return this.IdleColonists.FirstOrDefault<Pawn>();
+			return (Thing)this.IdleColonists.FirstOrDefault();
 		}
 	}
 }

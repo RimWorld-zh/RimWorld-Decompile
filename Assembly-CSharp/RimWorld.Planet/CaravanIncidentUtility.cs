@@ -34,7 +34,7 @@ namespace RimWorld.Planet
 		public static int CalculateIncidentMapSize(Caravan caravan)
 		{
 			float num = CaravanIncidentUtility.CalculateCaravanPawnsScore(caravan.PawnsListForReading);
-			int num2 = Mathf.RoundToInt(num * 900f);
+			int num2 = Mathf.RoundToInt((float)(num * 900.0));
 			return Mathf.Clamp(Mathf.RoundToInt(Mathf.Sqrt((float)num2)), 75, 110);
 		}
 
@@ -64,9 +64,9 @@ namespace RimWorld.Planet
 			int num = CaravanIncidentUtility.CalculateIncidentMapSize(caravan);
 			Map map = CaravanIncidentUtility.GetOrGenerateMapForIncident(caravan, new IntVec3(num, 1, num), WorldObjectDefOf.Ambush);
 			IntVec3 playerStartingSpot;
-			IntVec3 root;
+			IntVec3 root = default(IntVec3);
 			MultipleCaravansCellFinder.FindStartingCellsFor2Groups(map, out playerStartingSpot, out root);
-			CaravanEnterMapUtility.Enter(caravan, map, (Pawn x) => CellFinder.RandomSpawnCellForPawnNear(playerStartingSpot, map, 4), CaravanDropInventoryMode.DoNotDrop, true);
+			CaravanEnterMapUtility.Enter(caravan, map, (Func<Pawn, IntVec3>)((Pawn x) => CellFinder.RandomSpawnCellForPawnNear(playerStartingSpot, map, 4)), CaravanDropInventoryMode.DoNotDrop, true);
 			for (int i = 0; i < enemies.Count; i++)
 			{
 				IntVec3 loc = CellFinder.RandomSpawnCellForPawnNear(root, map, 4);
@@ -90,20 +90,9 @@ namespace RimWorld.Planet
 		private static float CalculateCaravanPawnsScore(IEnumerable<Pawn> caravanPawns)
 		{
 			float num = 0f;
-			foreach (Pawn current in caravanPawns)
+			foreach (Pawn item in caravanPawns)
 			{
-				if (current.IsColonist)
-				{
-					num += (current.Downed ? 0.35f : 1f);
-				}
-				else if (current.RaceProps.Humanlike)
-				{
-					num += 0.35f;
-				}
-				else
-				{
-					num += 0.2f * current.BodySize;
-				}
+				num = (float)((!item.IsColonist) ? ((!item.RaceProps.Humanlike) ? (num + 0.20000000298023224 * item.BodySize) : (num + 0.34999999403953552)) : (num + (item.Downed ? 0.34999999403953552 : 1.0)));
 			}
 			return num;
 		}

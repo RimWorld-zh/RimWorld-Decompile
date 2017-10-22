@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -14,7 +13,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.subGraphics[Rand.Range(0, this.subGraphics.Length)].MatSingle;
+				return base.subGraphics[Rand.Range(0, base.subGraphics.Length)].MatSingle;
 			}
 		}
 
@@ -29,22 +28,14 @@ namespace Verse
 			Rand.PushState();
 			Rand.Seed = thing.Position.GetHashCode();
 			Filth filth = thing as Filth;
-			int num;
-			if (filth == null)
-			{
-				num = 3;
-			}
-			else
-			{
-				num = filth.thickness;
-			}
-			for (int i = 0; i < num; i++)
+			int num = (filth != null) ? filth.thickness : 3;
+			for (int num2 = 0; num2 < num; num2++)
 			{
 				Material matSingle = this.MatSingle;
 				Vector3 center = a + new Vector3(Rand.Range(-0.45f, 0.45f), 0f, Rand.Range(-0.45f, 0.45f));
 				Vector2 size = new Vector2(Rand.Range(0.8f, 1.2f), Rand.Range(0.8f, 1.2f));
 				float rot = (float)Rand.RangeInclusive(0, 360);
-				bool flipUv = Rand.Value < 0.5f;
+				bool flipUv = Rand.Value < 0.5;
 				Printer_Plane.PrintPlane(layer, center, size, matSingle, rot, flipUv, null, null, 0.01f);
 			}
 			Rand.PopState();
@@ -52,14 +43,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"Scatter(subGraphic[0]=",
-				this.subGraphics[0].ToString(),
-				", count=",
-				this.subGraphics.Length,
-				")"
-			});
+			return "Scatter(subGraphic[0]=" + base.subGraphics[0].ToString() + ", count=" + base.subGraphics.Length + ")";
 		}
 	}
 }

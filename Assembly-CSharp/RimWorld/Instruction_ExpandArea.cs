@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -16,7 +15,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (float)(this.MyArea.TrueCount - this.startingAreaCount) / (float)this.def.targetCount;
+				return (float)(this.MyArea.TrueCount - this.startingAreaCount) / (float)base.def.targetCount;
 			}
 		}
 
@@ -34,7 +33,7 @@ namespace RimWorld
 
 		public override void LessonUpdate()
 		{
-			if (this.ProgressPercent > 0.999f)
+			if (this.ProgressPercent > 0.99900001287460327)
 			{
 				Find.ActiveLesson.Deactivate();
 			}

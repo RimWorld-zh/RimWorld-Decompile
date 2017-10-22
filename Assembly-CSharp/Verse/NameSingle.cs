@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class NameSingle : Name
@@ -56,18 +54,18 @@ namespace Verse
 				{
 					return -1;
 				}
-				if (this.nameInt.NullOrEmpty() || !char.IsDigit(this.nameInt[this.nameInt.Length - 1]))
+				if (!this.nameInt.NullOrEmpty() && char.IsDigit(this.nameInt[this.nameInt.Length - 1]))
 				{
-					return -1;
-				}
-				for (int i = this.nameInt.Length - 2; i >= 0; i--)
-				{
-					if (!char.IsDigit(this.nameInt[i]))
+					for (int num = this.nameInt.Length - 2; num >= 0; num--)
 					{
-						return i + 1;
+						if (!char.IsDigit(this.nameInt[num]))
+						{
+							return num + 1;
+						}
 					}
+					return 0;
 				}
-				return 0;
+				return -1;
 			}
 		}
 
@@ -126,7 +124,7 @@ namespace Verse
 
 		public override void ExposeData()
 		{
-			Scribe_Values.Look<string>(ref this.nameInt, "name", null, false);
+			Scribe_Values.Look<string>(ref this.nameInt, "name", (string)null, false);
 			Scribe_Values.Look<bool>(ref this.numerical, "numerical", false, false);
 		}
 
@@ -138,7 +136,11 @@ namespace Verse
 				return true;
 			}
 			NameTriple nameTriple = other as NameTriple;
-			return nameTriple != null && nameTriple.Nick == this.nameInt;
+			if (nameTriple != null && nameTriple.Nick == this.nameInt)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override string ToString()

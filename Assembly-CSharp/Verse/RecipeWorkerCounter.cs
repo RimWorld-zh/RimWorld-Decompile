@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -38,7 +37,7 @@ namespace Verse
 
 		public virtual string ProductsDescription(Bill_Production bill)
 		{
-			return null;
+			return (string)null;
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -62,7 +61,7 @@ namespace RimWorld
 
 		public Area_Allowed(AreaManager areaManager, AllowedAreaMode mode, string label = null) : base(areaManager)
 		{
-			this.areaManager = areaManager;
+			base.areaManager = areaManager;
 			this.mode = mode;
 			if (!label.NullOrEmpty())
 			{
@@ -75,23 +74,18 @@ namespace RimWorld
 				{
 					if (mode == AllowedAreaMode.Animal)
 					{
-						this.labelInt = "AreaAnimalDefaultLabel".Translate(new object[]
-						{
-							num
-						});
+						this.labelInt = "AreaAnimalDefaultLabel".Translate(num);
 					}
 					else
 					{
-						this.labelInt = "AreaDefaultLabel".Translate(new object[]
-						{
-							num
-						});
+						this.labelInt = "AreaDefaultLabel".Translate(num);
 					}
-					if (areaManager.GetLabeled(this.labelInt) == null)
+					if (areaManager.GetLabeled(this.labelInt) != null)
 					{
-						break;
+						num++;
+						continue;
 					}
-					num++;
+					break;
 				}
 			}
 			this.colorInt = new Color(Rand.Value, Rand.Value, Rand.Value);
@@ -101,14 +95,14 @@ namespace RimWorld
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Values.Look<string>(ref this.labelInt, "label", null, false);
+			Scribe_Values.Look<string>(ref this.labelInt, "label", (string)null, false);
 			Scribe_Values.Look<Color>(ref this.colorInt, "color", default(Color), false);
 			Scribe_Values.Look<AllowedAreaMode>(ref this.mode, "mode", (AllowedAreaMode)0, false);
 		}
 
 		public override bool AssignableAsAllowed(AllowedAreaMode mode)
 		{
-			return (byte)(mode & this.mode) != 0;
+			return (mode & this.mode) != (AllowedAreaMode)0;
 		}
 
 		public override void SetLabel(string label)
@@ -118,13 +112,7 @@ namespace RimWorld
 
 		public override string GetUniqueLoadID()
 		{
-			return string.Concat(new object[]
-			{
-				"Area_",
-				this.ID,
-				"_Named_",
-				this.labelInt
-			});
+			return "Area_" + base.ID + "_Named_" + this.labelInt;
 		}
 
 		public override string ToString()

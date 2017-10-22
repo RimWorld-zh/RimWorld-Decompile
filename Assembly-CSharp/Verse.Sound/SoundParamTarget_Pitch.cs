@@ -17,15 +17,7 @@ namespace Verse.Sound
 
 		public override void SetOn(Sample sample, float value)
 		{
-			float num;
-			if (this.pitchType == PitchParamType.Multiply)
-			{
-				num = value;
-			}
-			else
-			{
-				num = (float)Math.Pow(1.05946, (double)value);
-			}
+			float num = (this.pitchType != 0) ? ((float)Math.Pow(1.05946, (double)value)) : value;
 			sample.source.pitch = sample.resolvedPitch * num;
 		}
 	}

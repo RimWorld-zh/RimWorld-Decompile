@@ -12,7 +12,7 @@ namespace Verse
 
 		private const int MaxRegionsToAssignRoomRole = 36;
 
-		public sbyte mapIndex = -1;
+		public sbyte mapIndex = (sbyte)(-1);
 
 		private RoomGroup groupInt;
 
@@ -58,7 +58,7 @@ namespace Verse
 		{
 			get
 			{
-				return ((int)this.mapIndex >= 0) ? Find.Maps[(int)this.mapIndex] : null;
+				return (this.mapIndex >= 0) ? Find.Maps[this.mapIndex] : null;
 			}
 		}
 
@@ -66,7 +66,7 @@ namespace Verse
 		{
 			get
 			{
-				return (!this.regions.Any<Region>()) ? RegionType.None : this.regions[0].type;
+				return this.regions.Any() ? this.regions[0].type : RegionType.None;
 			}
 		}
 
@@ -134,18 +134,17 @@ namespace Verse
 			}
 			set
 			{
-				if (value == this.groupInt)
+				if (value != this.groupInt)
 				{
-					return;
-				}
-				if (this.groupInt != null)
-				{
-					this.groupInt.RemoveRoom(this);
-				}
-				this.groupInt = value;
-				if (this.groupInt != null)
-				{
-					this.groupInt.AddRoom(this);
+					if (this.groupInt != null)
+					{
+						this.groupInt.RemoveRoom(this);
+					}
+					this.groupInt = value;
+					if (this.groupInt != null)
+					{
+						this.groupInt.AddRoom(this);
+					}
 				}
 			}
 		}
@@ -176,9 +175,9 @@ namespace Verse
 					if (this.Map != null)
 					{
 						RoofGrid roofGrid = this.Map.roofGrid;
-						foreach (IntVec3 current in this.Cells)
+						foreach (IntVec3 cell in this.Cells)
 						{
-							if (!roofGrid.Roofed(current))
+							if (!roofGrid.Roofed(cell))
 							{
 								this.cachedOpenRoofCount++;
 							}
@@ -193,7 +192,15 @@ namespace Verse
 		{
 			get
 			{
-				return this.TouchesMapEdge || this.OpenRoofCount > 300 || (this.Group.AnyRoomTouchesMapEdge && (float)this.OpenRoofCount / (float)this.CellCount >= 0.5f);
+				if (!this.TouchesMapEdge && this.OpenRoofCount <= 300)
+				{
+					if (this.Group.AnyRoomTouchesMapEdge && (float)this.OpenRoofCount / (float)this.CellCount >= 0.5)
+					{
+						return true;
+					}
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -205,11 +212,11 @@ namespace Verse
 				this.uniqueNeighbors.Clear();
 				for (int i = 0; i < this.regions.Count; i++)
 				{
-					foreach (Region current in this.regions[i].Neighbors)
+					foreach (Region neighbor in this.regions[i].Neighbors)
 					{
-						if (this.uniqueNeighborsSet.Add(current.Room) && current.Room != this)
+						if (this.uniqueNeighborsSet.Add(neighbor.Room) && neighbor.Room != this)
 						{
-							this.uniqueNeighbors.Add(current.Room);
+							this.uniqueNeighbors.Add(neighbor.Room);
 						}
 					}
 				}
@@ -222,11 +229,13 @@ namespace Verse
 		{
 			get
 			{
-				Room.<>c__Iterator205 <>c__Iterator = new Room.<>c__Iterator205();
-				<>c__Iterator.<>f__this = this;
-				Room.<>c__Iterator205 expr_0E = <>c__Iterator;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				for (int i = 0; i < this.regions.Count; i++)
+				{
+					foreach (IntVec3 cell in this.regions[i].Cells)
+					{
+						yield return cell;
+					}
+				}
 			}
 		}
 
@@ -234,11 +243,18 @@ namespace Verse
 		{
 			get
 			{
-				Room.<>c__Iterator206 <>c__Iterator = new Room.<>c__Iterator206();
-				<>c__Iterator.<>f__this = this;
-				Room.<>c__Iterator206 expr_0E = <>c__Iterator;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				foreach (IntVec3 cell in this.Cells)
+				{
+					for (int i = 0; i < 8; i++)
+					{
+						IntVec3 prospective = cell + GenAdj.AdjacentCells[i];
+						Region region = (cell + GenAdj.AdjacentCells[i]).GetRegion(this.Map, RegionType.Set_Passable);
+						if (region == null || region.Room != this)
+						{
+							yield return prospective;
+						}
+					}
+				}
 			}
 		}
 
@@ -246,11 +262,42 @@ namespace Verse
 		{
 			get
 			{
-				Room.<>c__Iterator207 <>c__Iterator = new Room.<>c__Iterator207();
-				<>c__Iterator.<>f__this = this;
-				Room.<>c__Iterator207 expr_0E = <>c__Iterator;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				if (!this.TouchesMapEdge && !this.IsHuge && (this.Role == RoomRoleDefOf.Bedroom || this.Role == RoomRoleDefOf.PrisonCell || this.Role == RoomRoleDefOf.Barracks || this.Role == RoomRoleDefOf.PrisonBarracks))
+				{
+					Pawn firstOwner = null;
+					Pawn secondOwner = null;
+					foreach (Building_Bed containedBed in this.ContainedBeds)
+					{
+						if (containedBed.def.building.bed_humanlike)
+						{
+							for (int i = 0; i < containedBed.owners.Count; i++)
+							{
+								if (firstOwner == null)
+								{
+									firstOwner = containedBed.owners[i];
+								}
+								else
+								{
+									if (secondOwner != null)
+										yield break;
+									secondOwner = containedBed.owners[i];
+								}
+							}
+						}
+					}
+					if (firstOwner != null)
+					{
+						if (secondOwner == null)
+						{
+							yield return firstOwner;
+						}
+						else if (LovePartnerRelationUtility.LovePartnerRelationExists(firstOwner, secondOwner))
+						{
+							yield return firstOwner;
+							yield return secondOwner;
+						}
+					}
+				}
 			}
 		}
 
@@ -258,11 +305,15 @@ namespace Verse
 		{
 			get
 			{
-				Room.<>c__Iterator208 <>c__Iterator = new Room.<>c__Iterator208();
-				<>c__Iterator.<>f__this = this;
-				Room.<>c__Iterator208 expr_0E = <>c__Iterator;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				List<Thing> things = this.ContainedAndAdjacentThings;
+				for (int i = 0; i < things.Count; i++)
+				{
+					Building_Bed bed = things[i] as Building_Bed;
+					if (bed != null)
+					{
+						yield return bed;
+					}
+				}
 			}
 		}
 
@@ -270,7 +321,11 @@ namespace Verse
 		{
 			get
 			{
-				return this.regions.Count != 0 && this.regions[0].AnyCell.Fogged(this.Map);
+				if (this.regions.Count == 0)
+				{
+					return false;
+				}
+				return this.regions[0].AnyCell.Fogged(this.Map);
 			}
 		}
 
@@ -325,23 +380,19 @@ namespace Verse
 		{
 			if (this.regions.Contains(r))
 			{
-				Log.Error(string.Concat(new object[]
+				Log.Error("Tried to add the same region twice to Room. region=" + r + ", room=" + this);
+			}
+			else
+			{
+				this.regions.Add(r);
+				if (r.touchesMapEdge)
 				{
-					"Tried to add the same region twice to Room. region=",
-					r,
-					", room=",
-					this
-				}));
-				return;
-			}
-			this.regions.Add(r);
-			if (r.touchesMapEdge)
-			{
-				this.numRegionsTouchingMapEdge++;
-			}
-			if (this.regions.Count == 1)
-			{
-				this.Map.regionGrid.allRooms.Add(this);
+					this.numRegionsTouchingMapEdge++;
+				}
+				if (this.regions.Count == 1)
+				{
+					this.Map.regionGrid.allRooms.Add(this);
+				}
 			}
 		}
 
@@ -349,33 +400,29 @@ namespace Verse
 		{
 			if (!this.regions.Contains(r))
 			{
-				Log.Error(string.Concat(new object[]
+				Log.Error("Tried to remove region from Room but this region is not here. region=" + r + ", room=" + this);
+			}
+			else
+			{
+				this.regions.Remove(r);
+				if (r.touchesMapEdge)
 				{
-					"Tried to remove region from Room but this region is not here. region=",
-					r,
-					", room=",
-					this
-				}));
-				return;
-			}
-			this.regions.Remove(r);
-			if (r.touchesMapEdge)
-			{
-				this.numRegionsTouchingMapEdge--;
-			}
-			if (this.regions.Count == 0)
-			{
-				this.Group = null;
-				this.cachedOpenRoofCount = -1;
-				this.cachedOpenRoofCount = -1;
-				this.statsAndRoleDirty = true;
-				this.Map.regionGrid.allRooms.Remove(this);
+					this.numRegionsTouchingMapEdge--;
+				}
+				if (this.regions.Count == 0)
+				{
+					this.Group = null;
+					this.cachedOpenRoofCount = -1;
+					this.cachedOpenRoofCount = -1;
+					this.statsAndRoleDirty = true;
+					this.Map.regionGrid.allRooms.Remove(this);
+				}
 			}
 		}
 
 		public void Notify_MyMapRemoved()
 		{
-			this.mapIndex = -1;
+			this.mapIndex = (sbyte)(-1);
 		}
 
 		public void Notify_ContainedThingSpawnedOrDespawned(Thing th)
@@ -429,9 +476,9 @@ namespace Verse
 			}
 			if (Current.ProgramState == ProgramState.Playing && this.isPrisonCell)
 			{
-				foreach (Building_Bed current in this.ContainedBeds)
+				foreach (Building_Bed containedBed in this.ContainedBeds)
 				{
-					current.ForPrisoners = true;
+					containedBed.ForPrisoners = true;
 				}
 			}
 			this.lastChangeTick = Find.TickManager.TicksGame;
@@ -442,18 +489,14 @@ namespace Verse
 
 		public void DecrementMapIndex()
 		{
-			if ((int)this.mapIndex <= 0)
+			if (this.mapIndex <= 0)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Tried to decrement map index for room ",
-					this.ID,
-					", but mapIndex=",
-					this.mapIndex
-				}));
-				return;
+				Log.Warning("Tried to decrement map index for room " + this.ID + ", but mapIndex=" + this.mapIndex);
 			}
-			this.mapIndex -= 1;
+			else
+			{
+				this.mapIndex = (sbyte)(this.mapIndex - 1);
+			}
 		}
 
 		public float GetStat(RoomStatDef roomStat)
@@ -493,13 +536,13 @@ namespace Verse
 				{
 					this.stats = new DefMap<RoomStatDef, float>();
 				}
-				foreach (RoomStatDef current in from x in DefDatabase<RoomStatDef>.AllDefs
+				foreach (RoomStatDef item in from x in DefDatabase<RoomStatDef>.AllDefs
 				orderby x.updatePriority descending
 				select x)
 				{
-					this.stats[current] = current.Worker.GetScore(this);
+					this.stats[item] = item.Worker.GetScore(this);
 				}
-				this.role = DefDatabase<RoomRoleDef>.AllDefs.MaxBy((RoomRoleDef x) => x.Worker.GetScore(this));
+				this.role = DefDatabase<RoomRoleDef>.AllDefs.MaxBy((Func<RoomRoleDef, float>)((RoomRoleDef x) => x.Worker.GetScore(this)));
 			}
 			else
 			{
@@ -511,53 +554,20 @@ namespace Verse
 		internal void DebugDraw()
 		{
 			int hashCode = this.GetHashCode();
-			foreach (IntVec3 current in this.Cells)
+			foreach (IntVec3 cell in this.Cells)
 			{
-				CellRenderer.RenderCell(current, (float)hashCode * 0.01f);
+				CellRenderer.RenderCell(cell, (float)((float)hashCode * 0.0099999997764825821));
 			}
 		}
 
 		internal string DebugString()
 		{
-			return string.Concat(new object[]
-			{
-				"Room ID=",
-				this.ID,
-				"\n  first cell=",
-				this.Cells.FirstOrDefault<IntVec3>(),
-				"\n  RegionCount=",
-				this.RegionCount,
-				"\n  RegionType=",
-				this.RegionType,
-				"\n  CellCount=",
-				this.CellCount,
-				"\n  OpenRoofCount=",
-				this.OpenRoofCount,
-				"\n  numRegionsTouchingMapEdge=",
-				this.numRegionsTouchingMapEdge,
-				"\n  lastChangeTick=",
-				this.lastChangeTick,
-				"\n  isPrisonCell=",
-				this.isPrisonCell,
-				"\n  RoomGroup=",
-				(this.Group == null) ? "null" : this.Group.ID.ToString()
-			});
+			return "Room ID=" + this.ID + "\n  first cell=" + this.Cells.FirstOrDefault() + "\n  RegionCount=" + this.RegionCount + "\n  RegionType=" + this.RegionType + "\n  CellCount=" + this.CellCount + "\n  OpenRoofCount=" + this.OpenRoofCount + "\n  numRegionsTouchingMapEdge=" + this.numRegionsTouchingMapEdge + "\n  lastChangeTick=" + this.lastChangeTick + "\n  isPrisonCell=" + this.isPrisonCell + "\n  RoomGroup=" + ((this.Group == null) ? "null" : this.Group.ID.ToString());
 		}
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"Room(roomID=",
-				this.ID,
-				", first=",
-				this.Cells.FirstOrDefault<IntVec3>().ToString(),
-				", RegionsCount=",
-				this.RegionCount.ToString(),
-				", lastChangeTick=",
-				this.lastChangeTick,
-				")"
-			});
+			return "Room(roomID=" + this.ID + ", first=" + this.Cells.FirstOrDefault().ToString() + ", RegionsCount=" + this.RegionCount.ToString() + ", lastChangeTick=" + this.lastChangeTick + ")";
 		}
 
 		public override int GetHashCode()

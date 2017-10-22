@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Verse.Sound
 {
@@ -9,13 +10,22 @@ namespace Verse.Sound
 		public static Sustainer AggregateOrSpawnSustainerFor(ISizeReporter reporter, SoundDef def, SoundInfo info)
 		{
 			Sustainer sustainer = null;
-			foreach (Sustainer current in Find.SoundRoot.sustainerManager.AllSustainers)
+			List<Sustainer>.Enumerator enumerator = Find.SoundRoot.sustainerManager.AllSustainers.GetEnumerator();
+			try
 			{
-				if (current.def == def && current.info.Maker.Map == info.Maker.Map && current.info.Maker.Cell.InHorDistOf(info.Maker.Cell, SustainerAggregatorUtility.AggregateRadius))
+				while (enumerator.MoveNext())
 				{
-					sustainer = current;
-					break;
+					Sustainer current = enumerator.Current;
+					if (current.def == def && current.info.Maker.Map == info.Maker.Map && current.info.Maker.Cell.InHorDistOf(info.Maker.Cell, SustainerAggregatorUtility.AggregateRadius))
+					{
+						sustainer = current;
+						break;
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			if (sustainer == null)
 			{

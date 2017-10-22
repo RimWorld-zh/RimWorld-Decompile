@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse.Sound
@@ -9,16 +8,16 @@ namespace Verse.Sound
 
 		protected static T GetOrMakeFilterOn<T>(AudioSource source) where T : Behaviour
 		{
-			T t = source.gameObject.GetComponent<T>();
-			if (t != null)
+			T val = source.gameObject.GetComponent<T>();
+			if ((Object)(object)val != (Object)null)
 			{
-				t.enabled = true;
+				val.enabled = true;
 			}
 			else
 			{
-				t = source.gameObject.AddComponent<T>();
+				val = source.gameObject.AddComponent<T>();
 			}
-			return t;
+			return val;
 		}
 	}
 }

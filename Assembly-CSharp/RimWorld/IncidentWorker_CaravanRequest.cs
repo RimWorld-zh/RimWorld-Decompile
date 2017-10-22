@@ -36,7 +36,11 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
-			return IncidentWorker_CaravanRequest.RandomNearbyTradeableSettlement(((Map)target).Tile) != null && base.CanFireNowSub(target);
+			if (IncidentWorker_CaravanRequest.RandomNearbyTradeableSettlement(((Map)target).Tile) == null)
+			{
+				return false;
+			}
+			return base.CanFireNowSub(target);
 		}
 
 		public override bool TryExecute(IncidentParms parms)
@@ -46,18 +50,12 @@ namespace RimWorld
 			{
 				return false;
 			}
-			CaravanRequestComp component = settlement.GetComponent<CaravanRequestComp>();
+			CaravanRequestComp component = ((WorldObject)settlement).GetComponent<CaravanRequestComp>();
 			if (!this.GenerateCaravanRequest(component, (Map)parms.target))
 			{
 				return false;
 			}
-			Find.LetterStack.ReceiveLetter("LetterLabelCaravanRequest".Translate(), "LetterCaravanRequest".Translate(new object[]
-			{
-				settlement.Label,
-				GenLabel.ThingLabel(component.requestThingDef, null, component.requestCount).CapitalizeFirst(),
-				component.rewards[0].LabelCap,
-				(component.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F0")
-			}), LetterDefOf.Good, settlement, null);
+			Find.LetterStack.ReceiveLetter("LetterLabelCaravanRequest".Translate(), "LetterCaravanRequest".Translate(settlement.Label, GenLabel.ThingLabel(component.requestThingDef, null, component.requestCount).CapitalizeFirst(), component.rewards[0].LabelCap, (component.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F0")), LetterDefOf.Good, (WorldObject)settlement, (string)null);
 			return true;
 		}
 
@@ -83,16 +81,21 @@ namespace RimWorld
 
 		public static Settlement RandomNearbyTradeableSettlement(int originTile)
 		{
-			return (from settlement in Find.WorldObjects.Settlements
-			where settlement.Visitable && settlement.GetComponent<CaravanRequestComp>() != null && !settlement.GetComponent<CaravanRequestComp>().ActiveRequest && Find.WorldGrid.ApproxDistanceInTiles(originTile, settlement.Tile) < 36f && Find.WorldReachability.CanReach(originTile, settlement.Tile)
-			select settlement).RandomElementWithFallback(null);
+			return Find.WorldObjects.Settlements.Where((Func<Settlement, bool>)delegate(Settlement settlement)
+			{
+				if (settlement.Visitable && ((WorldObject)settlement).GetComponent<CaravanRequestComp>() != null && !((WorldObject)settlement).GetComponent<CaravanRequestComp>().ActiveRequest)
+				{
+					return Find.WorldGrid.ApproxDistanceInTiles(originTile, settlement.Tile) < 36.0 && Find.WorldReachability.CanReach(originTile, settlement.Tile);
+				}
+				return false;
+			}).RandomElementWithFallback(null);
 		}
 
 		private static ThingDef RandomRequestedThingDef()
 		{
-			Func<ThingDef, bool> globalValidator = delegate(ThingDef td)
+			Func<ThingDef, bool> globalValidator = (Func<ThingDef, bool>)delegate(ThingDef td)
 			{
-				if (td.BaseMarketValue / td.BaseMass < 5f)
+				if (td.BaseMarketValue / td.BaseMass < 5.0)
 				{
 					return false;
 				}
@@ -101,22 +104,53 @@ namespace RimWorld
 					return false;
 				}
 				CompProperties_Rottable compProperties = td.GetCompProperties<CompProperties_Rottable>();
-				return (compProperties == null || compProperties.daysToRotStart >= 10f) && td != ThingDefOf.Silver && td.PlayerAcquirable;
+				if (compProperties != null && compProperties.daysToRotStart < 10.0)
+				{
+					return false;
+				}
+				if (td == ThingDefOf.Silver)
+				{
+					return false;
+				}
+				if (!td.PlayerAcquirable)
+				{
+					return false;
+				}
+				return true;
 			};
-			if (Rand.Value < 0.8f)
+			if (Rand.Value < 0.800000011920929)
 			{
 				ThingDef result = null;
-				bool flag = (from td in DefDatabase<ThingDef>.AllDefs
-				where (td.IsWithinCategory(ThingCategoryDefOf.FoodMeals) || td.IsWithinCategory(ThingCategoryDefOf.PlantFoodRaw) || td.IsWithinCategory(ThingCategoryDefOf.PlantMatter) || td.IsWithinCategory(ThingCategoryDefOf.ResourcesRaw)) && td.BaseMarketValue < 4f && globalValidator(td)
-				select td).TryRandomElement(out result);
-				if (flag)
+				if (DefDatabase<ThingDef>.AllDefs.Where((Func<ThingDef, bool>)delegate(ThingDef td)
+				{
+					int result3;
+					if ((td.IsWithinCategory(ThingCategoryDefOf.FoodMeals) || td.IsWithinCategory(ThingCategoryDefOf.PlantFoodRaw) || td.IsWithinCategory(ThingCategoryDefOf.PlantMatter) || td.IsWithinCategory(ThingCategoryDefOf.ResourcesRaw)) && td.BaseMarketValue < 4.0)
+					{
+						result3 = (globalValidator(td) ? 1 : 0);
+						goto IL_005f;
+					}
+					result3 = 0;
+					goto IL_005f;
+					IL_005f:
+					return (byte)result3 != 0;
+				}).TryRandomElement<ThingDef>(out result))
 				{
 					return result;
 				}
 			}
-			return (from td in DefDatabase<ThingDef>.AllDefs
-			where (td.IsWithinCategory(ThingCategoryDefOf.Medicine) || td.IsWithinCategory(ThingCategoryDefOf.Drugs) || td.IsWithinCategory(ThingCategoryDefOf.Weapons) || td.IsWithinCategory(ThingCategoryDefOf.Apparel) || td.IsWithinCategory(ThingCategoryDefOf.ResourcesRaw)) && td.BaseMarketValue >= 4f && globalValidator(td)
-			select td).RandomElementWithFallback(null);
+			return DefDatabase<ThingDef>.AllDefs.Where((Func<ThingDef, bool>)delegate(ThingDef td)
+			{
+				int result2;
+				if ((td.IsWithinCategory(ThingCategoryDefOf.Medicine) || td.IsWithinCategory(ThingCategoryDefOf.Drugs) || td.IsWithinCategory(ThingCategoryDefOf.Weapons) || td.IsWithinCategory(ThingCategoryDefOf.Apparel) || td.IsWithinCategory(ThingCategoryDefOf.ResourcesRaw)) && td.BaseMarketValue >= 4.0)
+				{
+					result2 = (globalValidator(td) ? 1 : 0);
+					goto IL_006f;
+				}
+				result2 = 0;
+				goto IL_006f;
+				IL_006f:
+				return (byte)result2 != 0;
+			}).RandomElementWithFallback(null);
 		}
 
 		private static int RandomRequestCount(ThingDef thingDef, Map map)
@@ -130,26 +164,30 @@ namespace RimWorld
 		private static Thing GenerateRewardFor(ThingDef thingDef, int quantity, Faction faction)
 		{
 			TechLevel techLevel = (faction != null) ? faction.def.techLevel : TechLevel.Spacer;
-			ItemCollectionGeneratorParams parms = default(ItemCollectionGeneratorParams);
-			parms.count = 1;
-			parms.totalMarketValue = thingDef.BaseMarketValue * (float)quantity * Rand.Range(1f, 2f);
-			parms.techLevel = techLevel;
-			parms.validator = ((ThingDef td) => td != thingDef);
+			ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
+			{
+				count = 1,
+				totalMarketValue = thingDef.BaseMarketValue * (float)quantity * Rand.Range(1f, 2f),
+				techLevel = techLevel,
+				validator = (Predicate<ThingDef>)((ThingDef td) => td != thingDef)
+			};
 			return ItemCollectionGeneratorDefOf.CaravanRequestRewards.Worker.Generate(parms)[0];
 		}
 
 		private int RandomOfferDuration(int tileIdFrom, int tileIdTo)
 		{
-			int num = IncidentWorker_CaravanRequest.OfferDurationRange.RandomInRange;
-			int num2 = CaravanArrivalTimeEstimator.EstimatedTicksToArrive(tileIdFrom, tileIdTo, null);
-			float num3 = (float)num2 / 60000f;
-			int b = Mathf.CeilToInt(Mathf.Max(num3 + 1f, num3 * 1.1f));
-			num = Mathf.Max(num, b);
-			if (num > IncidentWorker_CaravanRequest.OfferDurationRange.max)
+			int randomInRange = IncidentWorker_CaravanRequest.OfferDurationRange.RandomInRange;
+			int num = CaravanArrivalTimeEstimator.EstimatedTicksToArrive(tileIdFrom, tileIdTo, null);
+			float num2 = (float)((float)num / 60000.0);
+			int b = Mathf.CeilToInt(Mathf.Max((float)(num2 + 1.0), (float)(num2 * 1.1000000238418579)));
+			randomInRange = Mathf.Max(randomInRange, b);
+			int num3 = randomInRange;
+			IntRange offerDurationRange = IncidentWorker_CaravanRequest.OfferDurationRange;
+			if (num3 > offerDurationRange.max)
 			{
 				return -1;
 			}
-			return 60000 * num;
+			return 60000 * randomInRange;
 		}
 	}
 }

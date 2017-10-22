@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI.Group
 {
 	public abstract class LordJob : IExposable
@@ -58,7 +56,7 @@ namespace Verse.AI.Group
 
 		public virtual string GetReport()
 		{
-			return null;
+			return (string)null;
 		}
 
 		public virtual bool CanOpenAnyDoor(Pawn p)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -26,11 +25,11 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.fireDanger < 0f)
+				if (this.fireDanger < 0.0)
 				{
 					this.UpdateObservations();
 				}
-				return this.fireDanger > 90f;
+				return this.fireDanger > 90.0;
 			}
 		}
 
@@ -54,7 +53,7 @@ namespace RimWorld
 			for (int i = 0; i < list.Count; i++)
 			{
 				Fire fire = list[i] as Fire;
-				this.fireDanger += 0.5f + fire.fireSize;
+				this.fireDanger += (float)(0.5 + fire.fireSize);
 			}
 		}
 	}

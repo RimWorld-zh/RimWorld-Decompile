@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -15,7 +14,7 @@ namespace RimWorld.Planet
 
 		private List<DebugWorldLine> debugLines = new List<DebugWorldLine>();
 
-		public void FlashTile(int tile, float colorPct = 0f, string text = null)
+		public void FlashTile(int tile, float colorPct = 0, string text = null)
 		{
 			DebugTile debugTile = new DebugTile();
 			debugTile.tile = tile;
@@ -66,22 +65,22 @@ namespace RimWorld.Planet
 
 		public void WorldDebugDrawerTick()
 		{
-			for (int i = this.debugTiles.Count - 1; i >= 0; i--)
+			for (int num = this.debugTiles.Count - 1; num >= 0; num--)
 			{
-				DebugTile debugTile = this.debugTiles[i];
+				DebugTile debugTile = this.debugTiles[num];
 				debugTile.ticksLeft--;
 				if (debugTile.ticksLeft <= 0)
 				{
-					this.debugTiles.RemoveAt(i);
+					this.debugTiles.RemoveAt(num);
 				}
 			}
-			for (int j = this.debugLines.Count - 1; j >= 0; j--)
+			for (int num2 = this.debugLines.Count - 1; num2 >= 0; num2--)
 			{
-				DebugWorldLine debugWorldLine = this.debugLines[j];
+				DebugWorldLine debugWorldLine = this.debugLines[num2];
 				debugWorldLine.ticksLeft--;
 				if (debugWorldLine.ticksLeft <= 0)
 				{
-					this.debugLines.RemoveAt(j);
+					this.debugLines.RemoveAt(num2);
 				}
 			}
 		}
@@ -93,7 +92,7 @@ namespace RimWorld.Planet
 			GUI.color = new Color(1f, 1f, 1f, 0.5f);
 			for (int i = 0; i < this.debugTiles.Count; i++)
 			{
-				if (this.debugTiles[i].DistanceToCamera <= 39f)
+				if (!(this.debugTiles[i].DistanceToCamera > 39.0))
 				{
 					this.debugTiles[i].OnGUI();
 				}

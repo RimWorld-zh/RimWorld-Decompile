@@ -1,6 +1,6 @@
+using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse.AI
 {
@@ -17,14 +17,45 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.numAttacksMade, "numAttacksMade", 0, false);
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_AttackStatic.<MakeNewToils>c__Iterator1B6 <MakeNewToils>c__Iterator1B = new JobDriver_AttackStatic.<MakeNewToils>c__Iterator1B6();
-			<MakeNewToils>c__Iterator1B.<>f__this = this;
-			JobDriver_AttackStatic.<MakeNewToils>c__Iterator1B6 expr_0E = <MakeNewToils>c__Iterator1B;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			yield return Toils_Misc.ThrowColonistAttackingMote(TargetIndex.A);
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+					Pawn pawn2 = ((_003CMakeNewToils_003Ec__Iterator1B6)/*Error near IL_004e: stateMachine*/)._003C_003Ef__this.TargetThingA as Pawn;
+					if (pawn2 != null)
+					{
+						((_003CMakeNewToils_003Ec__Iterator1B6)/*Error near IL_004e: stateMachine*/)._003C_003Ef__this.startedIncapacitated = pawn2.Downed;
+					}
+					((_003CMakeNewToils_003Ec__Iterator1B6)/*Error near IL_004e: stateMachine*/)._003C_003Ef__this.pawn.pather.StopDead();
+				},
+				tickAction = (Action)delegate
+				{
+					if (((_003CMakeNewToils_003Ec__Iterator1B6)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.TargetA.HasThing)
+					{
+						Pawn pawn = ((_003CMakeNewToils_003Ec__Iterator1B6)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.TargetA.Thing as Pawn;
+						if (!((_003CMakeNewToils_003Ec__Iterator1B6)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.TargetA.Thing.Destroyed && (pawn == null || ((_003CMakeNewToils_003Ec__Iterator1B6)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.startedIncapacitated || !pawn.Downed))
+						{
+							goto IL_007c;
+						}
+						((_003CMakeNewToils_003Ec__Iterator1B6)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.EndJobWith(JobCondition.Succeeded);
+						return;
+					}
+					goto IL_007c;
+					IL_007c:
+					if (((_003CMakeNewToils_003Ec__Iterator1B6)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.numAttacksMade >= ((_003CMakeNewToils_003Ec__Iterator1B6)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.pawn.CurJob.maxNumStaticAttacks && !((_003CMakeNewToils_003Ec__Iterator1B6)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.pawn.stances.FullBodyBusy)
+					{
+						((_003CMakeNewToils_003Ec__Iterator1B6)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.EndJobWith(JobCondition.Succeeded);
+					}
+					else if (((_003CMakeNewToils_003Ec__Iterator1B6)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.pawn.equipment.TryStartAttack(((_003CMakeNewToils_003Ec__Iterator1B6)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.TargetA))
+					{
+						((_003CMakeNewToils_003Ec__Iterator1B6)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.numAttacksMade++;
+					}
+				},
+				defaultCompleteMode = ToilCompleteMode.Never
+			};
 		}
 	}
 }

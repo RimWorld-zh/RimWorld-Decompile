@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse.AI
 {
@@ -17,10 +16,9 @@ namespace Verse.AI
 				pawn.mindState.forcedGotoPosition = IntVec3.Invalid;
 				return null;
 			}
-			return new Job(JobDefOf.Goto, forcedGotoPosition)
-			{
-				locomotionUrgency = LocomotionUrgency.Walk
-			};
+			Job job = new Job(JobDefOf.Goto, forcedGotoPosition);
+			job.locomotionUrgency = LocomotionUrgency.Walk;
+			return job;
 		}
 	}
 }

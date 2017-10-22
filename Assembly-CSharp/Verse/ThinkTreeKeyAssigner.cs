@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse.AI;
 
@@ -17,9 +16,9 @@ namespace Verse
 		{
 			Rand.PushState();
 			Rand.Seed = startHash;
-			foreach (ThinkNode current in rootNode.ThisAndChildrenRecursive)
+			foreach (ThinkNode item in rootNode.ThisAndChildrenRecursive)
 			{
-				current.SetUniqueSaveKey(ThinkTreeKeyAssigner.NextUnusedKey());
+				item.SetUniqueSaveKey(ThinkTreeKeyAssigner.NextUnusedKey());
 			}
 			Rand.PopState();
 		}
@@ -35,11 +34,12 @@ namespace Verse
 		private static int NextUnusedKey()
 		{
 			int num;
-			do
+			while (true)
 			{
 				num = Rand.Range(1, 2147483647);
+				if (!ThinkTreeKeyAssigner.assignedKeys.Contains(num))
+					break;
 			}
-			while (ThinkTreeKeyAssigner.assignedKeys.Contains(num));
 			ThinkTreeKeyAssigner.assignedKeys.Add(num);
 			return num;
 		}

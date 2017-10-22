@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld
 {
 	public class TransferableComparer_Quality : TransferableComparer
@@ -11,7 +9,7 @@ namespace RimWorld
 
 		private int GetValueFor(Transferable t)
 		{
-			QualityCategory result;
+			QualityCategory result = default(QualityCategory);
 			if (!t.AnyThing.TryGetQuality(out result))
 			{
 				return -1;

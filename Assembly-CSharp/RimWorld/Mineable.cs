@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -19,17 +18,16 @@ namespace RimWorld
 		public override void PreApplyDamage(DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(dinfo, out absorbed);
-			if (absorbed)
+			if (!absorbed)
 			{
-				return;
+				if (base.def.building.mineableThing != null && base.def.building.mineableYieldWasteable && dinfo.Def == DamageDefOf.Mining && dinfo.Instigator != null && dinfo.Instigator is Pawn)
+				{
+					int num = Mathf.Min(dinfo.Amount, this.HitPoints);
+					float num2 = (float)num / (float)base.MaxHitPoints;
+					this.yieldPct += num2 * dinfo.Instigator.GetStatValue(StatDefOf.MiningYield, true);
+				}
+				absorbed = false;
 			}
-			if (this.def.building.mineableThing != null && this.def.building.mineableYieldWasteable && dinfo.Def == DamageDefOf.Mining && dinfo.Instigator != null && dinfo.Instigator is Pawn)
-			{
-				int num = Mathf.Min(dinfo.Amount, this.HitPoints);
-				float num2 = (float)num / (float)base.MaxHitPoints;
-				this.yieldPct += num2 * dinfo.Instigator.GetStatValue(StatDefOf.MiningYield, true);
-			}
-			absorbed = false;
 		}
 
 		public void DestroyMined(Pawn pawn)
@@ -51,22 +49,17 @@ namespace RimWorld
 
 		private void TrySpawnYield(Map map, float yieldChance, bool moteOnWaste)
 		{
-			if (this.def.building.mineableThing == null)
+			if (base.def.building.mineableThing != null && !(Rand.Value > base.def.building.mineableDropChance))
 			{
-				return;
+				int num = base.def.building.mineableYield;
+				if (base.def.building.mineableYieldWasteable)
+				{
+					num = Mathf.Max(1, GenMath.RoundRandom((float)num * this.yieldPct));
+				}
+				Thing thing = ThingMaker.MakeThing(base.def.building.mineableThing, null);
+				thing.stackCount = num;
+				GenSpawn.Spawn(thing, base.Position, map);
 			}
-			if (Rand.Value > this.def.building.mineableDropChance)
-			{
-				return;
-			}
-			int num = this.def.building.mineableYield;
-			if (this.def.building.mineableYieldWasteable)
-			{
-				num = Mathf.Max(1, GenMath.RoundRandom((float)num * this.yieldPct));
-			}
-			Thing thing = ThingMaker.MakeThing(this.def.building.mineableThing, null);
-			thing.stackCount = num;
-			GenSpawn.Spawn(thing, base.Position, map);
 		}
 	}
 }

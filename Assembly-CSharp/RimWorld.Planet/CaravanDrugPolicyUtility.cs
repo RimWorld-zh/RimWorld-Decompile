@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -17,18 +16,14 @@ namespace RimWorld.Planet
 
 		private static void TryTakeScheduledDrugs(Pawn pawn, Caravan caravan)
 		{
-			if (pawn.drugs == null)
+			if (pawn.drugs != null)
 			{
-				return;
-			}
-			DrugPolicy currentPolicy = pawn.drugs.CurrentPolicy;
-			for (int i = 0; i < currentPolicy.Count; i++)
-			{
-				if (pawn.drugs.ShouldTryToTakeScheduledNow(currentPolicy[i].drug))
+				DrugPolicy currentPolicy = pawn.drugs.CurrentPolicy;
+				for (int i = 0; i < currentPolicy.Count; i++)
 				{
-					Thing drug;
-					Pawn drugOwner;
-					if (CaravanInventoryUtility.TryGetThingOfDef(caravan, currentPolicy[i].drug, out drug, out drugOwner))
+					Thing drug = default(Thing);
+					Pawn drugOwner = default(Pawn);
+					if (pawn.drugs.ShouldTryToTakeScheduledNow(currentPolicy[i].drug) && CaravanInventoryUtility.TryGetThingOfDef(caravan, currentPolicy[i].drug, out drug, out drugOwner))
 					{
 						CaravanPawnsNeedsUtility.IngestDrug(pawn, drug, drugOwner, caravan);
 					}

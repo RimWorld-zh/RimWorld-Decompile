@@ -11,21 +11,21 @@ namespace RimWorld
 	{
 		private enum GoodsType
 		{
-			None,
-			Meals,
-			RawFood,
-			Medicine,
-			Drugs,
-			Resources
+			None = 0,
+			Meals = 1,
+			RawFood = 2,
+			Medicine = 3,
+			Drugs = 4,
+			Resources = 5
 		}
 
-		private static Pair<ItemCollectionGenerator_RandomGeneralGoods.GoodsType, float>[] GoodsWeights = new Pair<ItemCollectionGenerator_RandomGeneralGoods.GoodsType, float>[]
+		private static Pair<GoodsType, float>[] GoodsWeights = new Pair<GoodsType, float>[5]
 		{
-			new Pair<ItemCollectionGenerator_RandomGeneralGoods.GoodsType, float>(ItemCollectionGenerator_RandomGeneralGoods.GoodsType.Meals, 1f),
-			new Pair<ItemCollectionGenerator_RandomGeneralGoods.GoodsType, float>(ItemCollectionGenerator_RandomGeneralGoods.GoodsType.RawFood, 0.75f),
-			new Pair<ItemCollectionGenerator_RandomGeneralGoods.GoodsType, float>(ItemCollectionGenerator_RandomGeneralGoods.GoodsType.Medicine, 0.234f),
-			new Pair<ItemCollectionGenerator_RandomGeneralGoods.GoodsType, float>(ItemCollectionGenerator_RandomGeneralGoods.GoodsType.Drugs, 0.234f),
-			new Pair<ItemCollectionGenerator_RandomGeneralGoods.GoodsType, float>(ItemCollectionGenerator_RandomGeneralGoods.GoodsType.Resources, 0.234f)
+			new Pair<GoodsType, float>(GoodsType.Meals, 1f),
+			new Pair<GoodsType, float>(GoodsType.RawFood, 0.75f),
+			new Pair<GoodsType, float>(GoodsType.Medicine, 0.234f),
+			new Pair<GoodsType, float>(GoodsType.Drugs, 0.234f),
+			new Pair<GoodsType, float>(GoodsType.Resources, 0.234f)
 		};
 
 		protected override ItemCollectionGeneratorParams RandomTestParams
@@ -43,7 +43,7 @@ namespace RimWorld
 		{
 			int count = parms.count;
 			TechLevel techLevel = parms.techLevel;
-			for (int i = 0; i < count; i++)
+			for (int num = 0; num < count; num++)
 			{
 				outThings.Add(this.GenerateSingle(techLevel));
 			}
@@ -51,22 +51,34 @@ namespace RimWorld
 
 		private Thing GenerateSingle(TechLevel techLevel)
 		{
-			ItemCollectionGenerator_RandomGeneralGoods.GoodsType first = ItemCollectionGenerator_RandomGeneralGoods.GoodsWeights.RandomElementByWeight((Pair<ItemCollectionGenerator_RandomGeneralGoods.GoodsType, float> x) => x.Second).First;
+			GoodsType first = ItemCollectionGenerator_RandomGeneralGoods.GoodsWeights.RandomElementByWeight((Func<Pair<GoodsType, float>, float>)((Pair<GoodsType, float> x) => x.Second)).First;
 			switch (first)
 			{
-			case ItemCollectionGenerator_RandomGeneralGoods.GoodsType.Meals:
+			case GoodsType.Meals:
+			{
 				return this.RandomMeals(techLevel);
-			case ItemCollectionGenerator_RandomGeneralGoods.GoodsType.RawFood:
+			}
+			case GoodsType.RawFood:
+			{
 				return this.RandomRawFood(techLevel);
-			case ItemCollectionGenerator_RandomGeneralGoods.GoodsType.Medicine:
+			}
+			case GoodsType.Medicine:
+			{
 				return this.RandomMedicine(techLevel);
-			case ItemCollectionGenerator_RandomGeneralGoods.GoodsType.Drugs:
+			}
+			case GoodsType.Drugs:
+			{
 				return this.RandomDrugs(techLevel);
-			case ItemCollectionGenerator_RandomGeneralGoods.GoodsType.Resources:
+			}
+			case GoodsType.Resources:
+			{
 				return this.RandomResources(techLevel);
+			}
 			default:
+			{
 				Log.Error("Goods type not handled: " + first);
 				return null;
+			}
 			}
 		}
 
@@ -80,18 +92,7 @@ namespace RimWorld
 			else
 			{
 				float value = Rand.Value;
-				if (value < 0.5f)
-				{
-					thingDef = ThingDefOf.MealSimple;
-				}
-				else if ((double)value < 0.75)
-				{
-					thingDef = ThingDefOf.MealFine;
-				}
-				else
-				{
-					thingDef = ThingDefOf.MealSurvivalPack;
-				}
+				thingDef = ((!(value < 0.5)) ? ((!((double)value < 0.75)) ? ThingDefOf.MealSurvivalPack : ThingDefOf.MealFine) : ThingDefOf.MealSimple);
 			}
 			Thing thing = ThingMaker.MakeThing(thingDef, null);
 			int num = Mathf.Min(thingDef.stackLimit, 10);
@@ -101,10 +102,10 @@ namespace RimWorld
 
 		private Thing RandomRawFood(TechLevel techLevel)
 		{
-			ThingDef thingDef;
+			ThingDef thingDef = default(ThingDef);
 			if (!(from x in ItemCollectionGeneratorUtility.allGeneratableItems
-			where x.IsNutritionGivingIngestible && !x.IsCorpse && ThingDefOf.Human.race.CanEverEat(x) && !x.HasComp(typeof(CompHatcher)) && x.techLevel <= techLevel && x.ingestible.preferability < FoodPreferability.MealAwful
-			select x).TryRandomElement(out thingDef))
+			where x.IsNutritionGivingIngestible && !x.IsCorpse && ThingDefOf.Human.race.CanEverEat(x) && !x.HasComp(typeof(CompHatcher)) && (int)x.techLevel <= (int)techLevel && (int)x.ingestible.preferability < 5
+			select x).TryRandomElement<ThingDef>(out thingDef))
 			{
 				return null;
 			}
@@ -116,14 +117,14 @@ namespace RimWorld
 
 		private Thing RandomMedicine(TechLevel techLevel)
 		{
-			ThingDef herbalMedicine;
+			ThingDef herbalMedicine = default(ThingDef);
 			if (techLevel.IsNeolithicOrWorse())
 			{
 				herbalMedicine = ThingDefOf.HerbalMedicine;
 			}
 			else if (!(from x in ItemCollectionGeneratorUtility.allGeneratableItems
-			where x.IsMedicine && x.techLevel <= techLevel
-			select x).TryRandomElement(out herbalMedicine))
+			where x.IsMedicine && (int)x.techLevel <= (int)techLevel
+			select x).TryRandomElement<ThingDef>(out herbalMedicine))
 			{
 				return null;
 			}
@@ -135,10 +136,10 @@ namespace RimWorld
 
 		private Thing RandomDrugs(TechLevel techLevel)
 		{
-			ThingDef thingDef;
+			ThingDef thingDef = default(ThingDef);
 			if (!(from x in ItemCollectionGeneratorUtility.allGeneratableItems
-			where x.IsDrug && x.techLevel <= techLevel
-			select x).TryRandomElement(out thingDef))
+			where x.IsDrug && (int)x.techLevel <= (int)techLevel
+			select x).TryRandomElement<ThingDef>(out thingDef))
 			{
 				return null;
 			}

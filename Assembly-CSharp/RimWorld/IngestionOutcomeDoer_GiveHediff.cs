@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -18,34 +16,25 @@ namespace RimWorld
 		protected override void DoIngestionOutcomeSpecial(Pawn pawn, Thing ingested)
 		{
 			Hediff hediff = HediffMaker.MakeHediff(this.hediffDef, pawn, null);
-			float num;
-			if (this.severity > 0f)
-			{
-				num = this.severity;
-			}
-			else
-			{
-				num = this.hediffDef.initialSeverity;
-			}
+			float num = (!(this.severity > 0.0)) ? this.hediffDef.initialSeverity : this.severity;
 			if (this.divideByBodySize)
 			{
 				num /= pawn.BodySize;
 			}
 			AddictionUtility.ModifyChemicalEffectForToleranceAndBodySize(pawn, this.toleranceChemical, ref num);
 			hediff.Severity = num;
-			pawn.health.AddHediff(hediff, null, null);
+			pawn.health.AddHediff(hediff, null, default(DamageInfo?));
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
-			IngestionOutcomeDoer_GiveHediff.<SpecialDisplayStats>c__Iterator81 <SpecialDisplayStats>c__Iterator = new IngestionOutcomeDoer_GiveHediff.<SpecialDisplayStats>c__Iterator81();
-			<SpecialDisplayStats>c__Iterator.parentDef = parentDef;
-			<SpecialDisplayStats>c__Iterator.<$>parentDef = parentDef;
-			<SpecialDisplayStats>c__Iterator.<>f__this = this;
-			IngestionOutcomeDoer_GiveHediff.<SpecialDisplayStats>c__Iterator81 expr_1C = <SpecialDisplayStats>c__Iterator;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (parentDef.IsDrug && base.chance >= 1.0)
+			{
+				foreach (StatDrawEntry item in this.hediffDef.SpecialDisplayStats())
+				{
+					yield return item;
+				}
+			}
 		}
 	}
 }

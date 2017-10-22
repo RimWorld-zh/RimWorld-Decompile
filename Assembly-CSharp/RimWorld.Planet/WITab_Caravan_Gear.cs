@@ -58,7 +58,7 @@ namespace RimWorld.Planet
 
 		public WITab_Caravan_Gear()
 		{
-			this.labelKey = "TabCaravanGear";
+			base.labelKey = "TabCaravanGear";
 		}
 
 		protected override void UpdateSize()
@@ -66,8 +66,8 @@ namespace RimWorld.Planet
 			base.UpdateSize();
 			this.leftPaneWidth = 469f;
 			this.rightPaneWidth = 345f;
-			this.size.x = this.leftPaneWidth + this.rightPaneWidth;
-			this.size.y = Mathf.Min(550f, this.PaneTopY - 30f);
+			base.size.x = this.leftPaneWidth + this.rightPaneWidth;
+			base.size.y = Mathf.Min(550f, (float)(this.PaneTopY - 30.0));
 		}
 
 		public override void OnOpen()
@@ -81,11 +81,11 @@ namespace RimWorld.Planet
 			Text.Font = GameFont.Small;
 			this.CheckDraggedItemStillValid();
 			this.CheckDropDraggedItem();
-			Rect position = new Rect(0f, 0f, this.leftPaneWidth, this.size.y);
+			Rect position = new Rect(0f, 0f, this.leftPaneWidth, base.size.y);
 			GUI.BeginGroup(position);
 			this.DoLeftPane();
 			GUI.EndGroup();
-			Rect position2 = new Rect(position.xMax, 0f, this.rightPaneWidth, this.size.y);
+			Rect position2 = new Rect(position.xMax, 0f, this.rightPaneWidth, base.size.y);
 			GUI.BeginGroup(position2);
 			this.DoRightPane();
 			GUI.EndGroup();
@@ -98,24 +98,23 @@ namespace RimWorld.Planet
 
 		private void DoLeftPane()
 		{
-			Rect rect = new Rect(0f, 0f, this.leftPaneWidth, this.size.y).ContractedBy(10f);
-			Rect rect2 = new Rect(0f, 0f, rect.width - 16f, this.leftPaneScrollViewHeight);
+			Rect rect = new Rect(0f, 0f, this.leftPaneWidth, base.size.y).ContractedBy(10f);
+			Rect rect2 = new Rect(0f, 0f, (float)(rect.width - 16.0), this.leftPaneScrollViewHeight);
 			float num = 0f;
 			Widgets.BeginScrollView(rect, ref this.leftPaneScrollPosition, rect2, true);
 			this.DoPawnRows(ref num, rect2, rect);
 			if (Event.current.type == EventType.Layout)
 			{
-				this.leftPaneScrollViewHeight = num + 30f;
+				this.leftPaneScrollViewHeight = (float)(num + 30.0);
 			}
 			Widgets.EndScrollView();
 		}
 
 		private void DoRightPane()
 		{
-			Rect rect = new Rect(0f, 0f, this.rightPaneWidth, this.size.y).ContractedBy(10f);
-			Rect rect2 = new Rect(0f, 0f, rect.width - 16f, this.rightPaneScrollViewHeight);
-			bool flag = this.draggedItem != null && rect.Contains(Event.current.mousePosition) && this.CurrentWearerOf(this.draggedItem) != null;
-			if (flag)
+			Rect rect = new Rect(0f, 0f, this.rightPaneWidth, base.size.y).ContractedBy(10f);
+			Rect rect2 = new Rect(0f, 0f, (float)(rect.width - 16.0), this.rightPaneScrollViewHeight);
+			if (this.draggedItem != null && rect.Contains(Event.current.mousePosition) && this.CurrentWearerOf(this.draggedItem) != null)
 			{
 				Widgets.DrawHighlight(rect);
 				if (this.droppedDraggedItem)
@@ -129,7 +128,7 @@ namespace RimWorld.Planet
 			this.DoInventoryRows(ref num, rect2, rect);
 			if (Event.current.type == EventType.Layout)
 			{
-				this.rightPaneScrollViewHeight = num + 30f;
+				this.rightPaneScrollViewHeight = (float)(num + 30.0);
 			}
 			Widgets.EndScrollView();
 		}
@@ -141,13 +140,12 @@ namespace RimWorld.Planet
 			{
 				Vector2 mousePosition = Event.current.mousePosition;
 				Rect rect = new Rect(mousePosition.x - this.draggedItemPosOffset.x, mousePosition.y - this.draggedItemPosOffset.y, 32f, 32f);
-				Find.WindowStack.ImmediateWindow(1283641090, rect, WindowLayer.Super, delegate
+				Find.WindowStack.ImmediateWindow(1283641090, rect, WindowLayer.Super, (Action)delegate
 				{
-					if (this.draggedItem == null)
+					if (this.draggedItem != null)
 					{
-						return;
+						Widgets.ThingIcon(rect.AtZero(), this.draggedItem, 1f);
 					}
-					Widgets.ThingIcon(rect.AtZero(), this.draggedItem, 1f);
 				}, false, false, 0f);
 			}
 			this.CheckDropDraggedItem();
@@ -158,7 +156,7 @@ namespace RimWorld.Planet
 			List<Pawn> pawns = this.Pawns;
 			Text.Font = GameFont.Tiny;
 			GUI.color = Color.gray;
-			Widgets.Label(new Rect(135f, curY + 6f, 200f, 100f), "DragToRearrange".Translate());
+			Widgets.Label(new Rect(135f, (float)(curY + 6.0), 200f, 100f), "DragToRearrange".Translate());
 			GUI.color = Color.white;
 			Text.Font = GameFont.Small;
 			Widgets.ListSeparator(ref curY, scrollViewRect.width, "CaravanColonists".Translate());
@@ -188,7 +186,7 @@ namespace RimWorld.Planet
 
 		private void DoPawnRow(ref float curY, Rect viewRect, Rect scrollOutRect, Pawn p)
 		{
-			float num = this.leftPaneScrollPosition.y - 50f;
+			float num = (float)(this.leftPaneScrollPosition.y - 50.0);
 			float num2 = this.leftPaneScrollPosition.y + scrollOutRect.height;
 			if (curY > num && curY < num2)
 			{
@@ -203,21 +201,25 @@ namespace RimWorld.Planet
 			Rect rect2 = rect.AtZero();
 			CaravanPeopleAndItemsTabUtility.DoAbandonButton(rect2, p, base.SelCaravan);
 			rect2.width -= 24f;
-			Widgets.InfoCardButton(rect2.width - 24f, (rect.height - 24f) / 2f, p);
+			Widgets.InfoCardButton((float)(rect2.width - 24.0), (float)((rect.height - 24.0) / 2.0), p);
 			rect2.width -= 24f;
 			bool flag = this.draggedItem != null && rect2.Contains(Event.current.mousePosition) && this.CurrentWearerOf(this.draggedItem) != p;
-			if ((Mouse.IsOver(rect2) && this.draggedItem == null) || flag)
+			if (Mouse.IsOver(rect2) && this.draggedItem == null)
 			{
-				Widgets.DrawHighlight(rect2);
+				goto IL_00ba;
 			}
+			if (flag)
+				goto IL_00ba;
+			goto IL_00c0;
+			IL_00c0:
 			if (flag && this.droppedDraggedItem)
 			{
 				this.TryEquipDraggedItem(p);
 				SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
 			}
-			Rect rect3 = new Rect(4f, (rect.height - 27f) / 2f, 27f, 27f);
+			Rect rect3 = new Rect(4f, (float)((rect.height - 27.0) / 2.0), 27f, 27f);
 			Widgets.ThingIcon(rect3, p, 1f);
-			Rect bgRect = new Rect(rect3.xMax + 4f, 16f, 100f, 18f);
+			Rect bgRect = new Rect((float)(rect3.xMax + 4.0), 16f, 100f, 18f);
 			GenMapUI.DrawPawnLabel(p, bgRect, 1f, 100f, null, GameFont.Small, false, false);
 			float xMax = bgRect.xMax;
 			if (p.equipment != null)
@@ -232,7 +234,7 @@ namespace RimWorld.Planet
 			{
 				WITab_Caravan_Gear.tmpApparel.Clear();
 				WITab_Caravan_Gear.tmpApparel.AddRange(p.apparel.WornApparel);
-				WITab_Caravan_Gear.tmpApparel.SortBy((Apparel x) => (int)x.def.apparel.LastLayer, (Apparel x) => -x.def.apparel.HumanBodyCoverage);
+				WITab_Caravan_Gear.tmpApparel.SortBy((Func<Apparel, int>)((Apparel x) => (int)x.def.apparel.LastLayer), (Func<Apparel, float>)((Apparel x) => (float)(0.0 - x.def.apparel.HumanBodyCoverage)));
 				for (int j = 0; j < WITab_Caravan_Gear.tmpApparel.Count; j++)
 				{
 					this.DoEquippedGear(WITab_Caravan_Gear.tmpApparel[j], p, ref xMax);
@@ -241,10 +243,14 @@ namespace RimWorld.Planet
 			if (p.Downed)
 			{
 				GUI.color = new Color(1f, 0f, 0f, 0.5f);
-				Widgets.DrawLineHorizontal(0f, rect.height / 2f, rect.width);
+				Widgets.DrawLineHorizontal(0f, (float)(rect.height / 2.0), rect.width);
 				GUI.color = Color.white;
 			}
 			GUI.EndGroup();
+			return;
+			IL_00ba:
+			Widgets.DrawHighlight(rect2);
+			goto IL_00c0;
 		}
 
 		private void DoInventoryRows(ref float curY, Rect scrollViewRect, Rect scrollOutRect)
@@ -290,7 +296,7 @@ namespace RimWorld.Planet
 
 		private void DoInventoryRow(ref float curY, Rect viewRect, Rect scrollOutRect, Thing t)
 		{
-			float num = this.rightPaneScrollPosition.y - 30f;
+			float num = (float)(this.rightPaneScrollPosition.y - 30.0);
 			float num2 = this.rightPaneScrollPosition.y + scrollOutRect.height;
 			if (curY > num && curY < num2)
 			{
@@ -303,17 +309,17 @@ namespace RimWorld.Planet
 		{
 			GUI.BeginGroup(rect);
 			Rect rect2 = rect.AtZero();
-			Widgets.InfoCardButton(rect2.width - 24f, (rect.height - 24f) / 2f, t);
+			Widgets.InfoCardButton((float)(rect2.width - 24.0), (float)((rect.height - 24.0) / 2.0), t);
 			rect2.width -= 24f;
 			if (this.draggedItem == null && Mouse.IsOver(rect2))
 			{
 				Widgets.DrawHighlight(rect2);
 			}
-			float num = (t != this.draggedItem) ? 1f : 0.5f;
-			Rect rect3 = new Rect(4f, (rect.height - 27f) / 2f, 27f, 27f);
+			float num = (float)((t != this.draggedItem) ? 1.0 : 0.5);
+			Rect rect3 = new Rect(4f, (float)((rect.height - 27.0) / 2.0), 27f, 27f);
 			Widgets.ThingIcon(rect3, t, num);
 			GUI.color = new Color(1f, 1f, 1f, num);
-			Rect rect4 = new Rect(rect3.xMax + 4f, 0f, 250f, 30f);
+			Rect rect4 = new Rect((float)(rect3.xMax + 4.0), 0f, 250f, 30f);
 			Text.Anchor = TextAnchor.MiddleLeft;
 			Text.WordWrap = false;
 			Widgets.Label(rect4, t.LabelCap);
@@ -335,19 +341,7 @@ namespace RimWorld.Planet
 		{
 			Rect rect = new Rect(curX, 9f, 32f, 32f);
 			bool flag = Mouse.IsOver(rect);
-			float alpha;
-			if (t == this.draggedItem)
-			{
-				alpha = 0.2f;
-			}
-			else if (flag && this.draggedItem == null)
-			{
-				alpha = 0.75f;
-			}
-			else
-			{
-				alpha = 1f;
-			}
+			float alpha = (float)((t != this.draggedItem) ? ((!flag || this.draggedItem != null) ? 1.0 : 0.75) : 0.20000000298023224);
 			Widgets.ThingIcon(rect, t, alpha);
 			curX += 32f;
 			TooltipHandler.TipRegion(rect, t.LabelCap);
@@ -363,34 +357,26 @@ namespace RimWorld.Planet
 
 		private void CheckDraggedItemStillValid()
 		{
-			if (this.draggedItem == null)
+			if (this.draggedItem != null)
 			{
-				return;
+				if (this.draggedItem.Destroyed)
+				{
+					this.draggedItem = null;
+				}
+				else if (this.CurrentWearerOf(this.draggedItem) == null)
+				{
+					List<Thing> list = CaravanInventoryUtility.AllInventoryItems(base.SelCaravan);
+					if (!list.Contains(this.draggedItem))
+					{
+						this.draggedItem = null;
+					}
+				}
 			}
-			if (this.draggedItem.Destroyed)
-			{
-				this.draggedItem = null;
-				return;
-			}
-			if (this.CurrentWearerOf(this.draggedItem) != null)
-			{
-				return;
-			}
-			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(base.SelCaravan);
-			if (list.Contains(this.draggedItem))
-			{
-				return;
-			}
-			this.draggedItem = null;
 		}
 
 		private void CheckDropDraggedItem()
 		{
-			if (this.draggedItem == null)
-			{
-				return;
-			}
-			if (Event.current.type == EventType.MouseUp || Event.current.rawType == EventType.MouseUp)
+			if (this.draggedItem != null && (Event.current.type == EventType.MouseUp || Event.current.rawType == EventType.MouseUp))
 			{
 				this.droppedDraggedItem = true;
 			}
@@ -404,11 +390,11 @@ namespace RimWorld.Planet
 		private Pawn CurrentWearerOf(Thing t)
 		{
 			IThingHolder parentHolder = t.ParentHolder;
-			if (parentHolder is Pawn_EquipmentTracker || parentHolder is Pawn_ApparelTracker)
+			if (!(parentHolder is Pawn_EquipmentTracker) && !(parentHolder is Pawn_ApparelTracker))
 			{
-				return (Pawn)parentHolder.ParentHolder;
+				return null;
 			}
-			return null;
+			return (Pawn)parentHolder.ParentHolder;
 		}
 
 		private void MoveDraggedItemToInventory()
@@ -433,16 +419,13 @@ namespace RimWorld.Planet
 			{
 				if (p.story != null && p.story.WorkTagIsDisabled(WorkTags.Violent))
 				{
-					Messages.Message("MessageCantEquipIncapableOfViolence".Translate(new object[]
-					{
-						p.LabelShort
-					}), p, MessageSound.RejectInput);
+					Messages.Message("MessageCantEquipIncapableOfViolence".Translate(p.LabelShort), (Thing)p, MessageSound.RejectInput);
 					this.draggedItem = null;
 					return;
 				}
 				if (!p.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
 				{
-					Messages.Message("MessageCantEquipIncapableOfManipulation".Translate(), p, MessageSound.RejectInput);
+					Messages.Message("MessageCantEquipIncapableOfManipulation".Translate(), (Thing)p, MessageSound.RejectInput);
 					this.draggedItem = null;
 					return;
 				}
@@ -498,13 +481,7 @@ namespace RimWorld.Planet
 			}
 			else
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Could not make ",
-					p,
-					" equip or wear ",
-					this.draggedItem
-				}));
+				Log.Warning("Could not make " + p + " equip or wear " + this.draggedItem);
 			}
 			this.draggedItem = null;
 		}

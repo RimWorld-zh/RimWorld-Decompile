@@ -2,7 +2,6 @@ using RimWorld;
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -60,10 +59,7 @@ namespace Verse
 		{
 			get
 			{
-				return "DeadLabel".Translate(new object[]
-				{
-					this.InnerPawn.LabelCap
-				});
+				return "DeadLabel".Translate(this.InnerPawn.LabelCap);
 			}
 		}
 
@@ -76,7 +72,19 @@ namespace Verse
 					Log.Error("IngestibleNow on Corpse while Bugged.");
 					return false;
 				}
-				return base.IngestibleNow && this.InnerPawn.RaceProps.IsFlesh && this.GetRotStage() == RotStage.Fresh;
+				if (!base.IngestibleNow)
+				{
+					return false;
+				}
+				if (!this.InnerPawn.RaceProps.IsFlesh)
+				{
+					return false;
+				}
+				if (this.GetRotStage() != 0)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -112,11 +120,18 @@ namespace Verse
 		{
 			get
 			{
-				Corpse.<>c__Iterator22A <>c__Iterator22A = new Corpse.<>c__Iterator22A();
-				<>c__Iterator22A.<>f__this = this;
-				Corpse.<>c__Iterator22A expr_0E = <>c__Iterator22A;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				foreach (StatDrawEntry specialDisplayStat in base.SpecialDisplayStats)
+				{
+					yield return specialDisplayStat;
+				}
+				if (this.GetRotStage() == RotStage.Fresh)
+				{
+					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Nutrition".Translate(), FoodUtility.GetBodyPartNutrition(this.InnerPawn, this.InnerPawn.RaceProps.body.corePart).ToString("0.##"), 0);
+					StatDef meatAmount = StatDefOf.MeatAmount;
+					yield return new StatDrawEntry(meatAmount.category, meatAmount, this.InnerPawn.GetStatValue(meatAmount, true), StatRequest.For(this.InnerPawn), ToStringNumberSense.Undefined);
+					StatDef leatherAmount = StatDefOf.LeatherAmount;
+					yield return new StatDrawEntry(leatherAmount.category, leatherAmount, this.InnerPawn.GetStatValue(leatherAmount, true), StatRequest.For(this.InnerPawn), ToStringNumberSense.Undefined);
+				}
 			}
 		}
 
@@ -132,11 +147,7 @@ namespace Verse
 		{
 			get
 			{
-				Corpse.<>c__Iterator22B <>c__Iterator22B = new Corpse.<>c__Iterator22B();
-				<>c__Iterator22B.<>f__this = this;
-				Corpse.<>c__Iterator22B expr_0E = <>c__Iterator22B;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				yield return this.InteractionCell;
 			}
 		}
 
@@ -179,15 +190,17 @@ namespace Verse
 			if (this.Bugged)
 			{
 				Log.Error(this + " spawned in bugged state.");
-				return;
 			}
-			base.SpawnSetup(map, respawningAfterLoad);
-			if (this.timeOfDeath < 0)
+			else
 			{
-				this.timeOfDeath = Find.TickManager.TicksGame;
+				base.SpawnSetup(map, respawningAfterLoad);
+				if (this.timeOfDeath < 0)
+				{
+					this.timeOfDeath = Find.TickManager.TicksGame;
+				}
+				this.InnerPawn.Rotation = Rot4.South;
+				this.NotifyColonistBar();
 			}
-			this.InnerPawn.Rotation = Rot4.South;
-			this.NotifyColonistBar();
 		}
 
 		public override void DeSpawn()
@@ -239,24 +252,25 @@ namespace Verse
 		public override void TickRare()
 		{
 			base.TickRare();
-			if (base.Destroyed)
+			if (!base.Destroyed)
 			{
-				return;
-			}
-			if (this.Bugged)
-			{
-				Log.Error(this + " has null innerPawn. Destroying.");
-				this.Destroy(DestroyMode.Vanish);
-				return;
-			}
-			this.InnerPawn.TickRare();
-			if (this.vanishAfterTimestamp < 0 || this.GetRotStage() != RotStage.Dessicated)
-			{
-				this.vanishAfterTimestamp = this.Age + 6000000;
-			}
-			if (this.ShouldVanish)
-			{
-				this.Destroy(DestroyMode.Vanish);
+				if (this.Bugged)
+				{
+					Log.Error(this + " has null innerPawn. Destroying.");
+					this.Destroy(DestroyMode.Vanish);
+				}
+				else
+				{
+					this.InnerPawn.TickRare();
+					if (this.vanishAfterTimestamp < 0 || this.GetRotStage() != RotStage.Dessicated)
+					{
+						this.vanishAfterTimestamp = this.Age + 6000000;
+					}
+					if (this.ShouldVanish)
+					{
+						this.Destroy(DestroyMode.Vanish);
+					}
+				}
 			}
 		}
 
@@ -265,13 +279,7 @@ namespace Verse
 			BodyPartRecord bodyPartRecord = this.GetBestBodyPartToEat(ingester, nutritionWanted);
 			if (bodyPartRecord == null)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					ingester,
-					" ate ",
-					this,
-					" but no body part was found. Replacing with core part."
-				}));
+				Log.Error(ingester + " ate " + this + " but no body part was found. Replacing with core part.");
 				bodyPartRecord = this.InnerPawn.RaceProps.body.corePart;
 			}
 			float bodyPartNutrition = FoodUtility.GetBodyPartNutrition(this.InnerPawn, bodyPartRecord);
@@ -279,11 +287,7 @@ namespace Verse
 			{
 				if (PawnUtility.ShouldSendNotificationAbout(this.InnerPawn) && this.InnerPawn.RaceProps.Humanlike)
 				{
-					Messages.Message("MessageEatenByPredator".Translate(new object[]
-					{
-						this.InnerPawn.LabelShort,
-						ingester.LabelIndefinite()
-					}).CapitalizeFirst(), ingester, MessageSound.Negative);
+					Messages.Message("MessageEatenByPredator".Translate(this.InnerPawn.LabelShort, ingester.LabelIndefinite()).CapitalizeFirst(), (Thing)ingester, MessageSound.Negative);
 				}
 				numTaken = 1;
 			}
@@ -292,28 +296,47 @@ namespace Verse
 				Hediff_MissingPart hediff_MissingPart = (Hediff_MissingPart)HediffMaker.MakeHediff(HediffDefOf.MissingBodyPart, this.InnerPawn, bodyPartRecord);
 				hediff_MissingPart.lastInjury = HediffDefOf.Bite;
 				hediff_MissingPart.IsFresh = true;
-				this.InnerPawn.health.AddHediff(hediff_MissingPart, null, null);
+				this.InnerPawn.health.AddHediff(hediff_MissingPart, null, default(DamageInfo?));
 				numTaken = 0;
 			}
-			if (ingester.RaceProps.Humanlike && Rand.Value < 0.05f)
+			if (ingester.RaceProps.Humanlike && Rand.Value < 0.05000000074505806)
 			{
 				FoodUtility.AddFoodPoisoningHediff(ingester, this);
 			}
 			nutritionIngested = bodyPartNutrition;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Thing> ButcherProducts(Pawn butcher, float efficiency)
 		{
-			Corpse.<ButcherProducts>c__Iterator22C <ButcherProducts>c__Iterator22C = new Corpse.<ButcherProducts>c__Iterator22C();
-			<ButcherProducts>c__Iterator22C.butcher = butcher;
-			<ButcherProducts>c__Iterator22C.efficiency = efficiency;
-			<ButcherProducts>c__Iterator22C.<$>butcher = butcher;
-			<ButcherProducts>c__Iterator22C.<$>efficiency = efficiency;
-			<ButcherProducts>c__Iterator22C.<>f__this = this;
-			Corpse.<ButcherProducts>c__Iterator22C expr_2A = <ButcherProducts>c__Iterator22C;
-			expr_2A.$PC = -2;
-			return expr_2A;
+			foreach (Thing item in this.InnerPawn.ButcherProducts(butcher, efficiency))
+			{
+				yield return item;
+			}
+			if (this.InnerPawn.RaceProps.BloodDef != null)
+			{
+				FilthMaker.MakeFilth(butcher.Position, butcher.Map, this.InnerPawn.RaceProps.BloodDef, this.InnerPawn.LabelIndefinite(), 1);
+			}
+			if (this.InnerPawn.RaceProps.Humanlike)
+			{
+				butcher.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.ButcheredHumanlikeCorpse, null);
+				List<Pawn>.Enumerator enumerator2 = butcher.Map.mapPawns.SpawnedPawnsInFaction(butcher.Faction).GetEnumerator();
+				try
+				{
+					while (enumerator2.MoveNext())
+					{
+						Pawn p = enumerator2.Current;
+						if (p != butcher && p.needs != null && p.needs.mood != null && p.needs.mood.thoughts != null)
+						{
+							p.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.KnowButcheredHumanlikeCorpse, null);
+						}
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator2).Dispose();
+				}
+				TaleRecorder.RecordTale(TaleDefOf.ButcheredHumanlikeCorpse, butcher);
+			}
 		}
 
 		public override void ExposeData()
@@ -322,11 +345,11 @@ namespace Verse
 			Scribe_Values.Look<int>(ref this.timeOfDeath, "timeOfDeath", 0, false);
 			Scribe_Values.Look<int>(ref this.vanishAfterTimestamp, "vanishAfterTimestamp", 0, false);
 			Scribe_Values.Look<bool>(ref this.everBuriedInSarcophagus, "everBuriedInSarcophagus", false, false);
-			Scribe_Deep.Look<BillStack>(ref this.operationsBillStack, "operationsBillStack", new object[]
+			Scribe_Deep.Look<BillStack>(ref this.operationsBillStack, "operationsBillStack", new object[1]
 			{
 				this
 			});
-			Scribe_Deep.Look<ThingOwner<Pawn>>(ref this.innerContainer, "innerContainer", new object[]
+			Scribe_Deep.Look<ThingOwner<Pawn>>(ref this.innerContainer, "innerContainer", new object[1]
 			{
 				this
 			});
@@ -341,9 +364,7 @@ namespace Verse
 		{
 			Building building = this.StoringBuilding();
 			if (building != null && building.def == ThingDefOf.Grave)
-			{
 				return;
-			}
 			this.InnerPawn.Drawer.renderer.RenderPawnAt(drawLoc);
 		}
 
@@ -353,17 +374,10 @@ namespace Verse
 			{
 				return null;
 			}
-			if (this.StoringBuilding() == null)
+			Thing thing = this.StoringBuilding();
+			if (thing == null)
 			{
-				Thought_MemoryObservation thought_MemoryObservation;
-				if (this.IsNotFresh())
-				{
-					thought_MemoryObservation = (Thought_MemoryObservation)ThoughtMaker.MakeThought(ThoughtDefOf.ObservedLayingRottingCorpse);
-				}
-				else
-				{
-					thought_MemoryObservation = (Thought_MemoryObservation)ThoughtMaker.MakeThought(ThoughtDefOf.ObservedLayingCorpse);
-				}
+				Thought_MemoryObservation thought_MemoryObservation = (!this.IsNotFresh()) ? ((Thought_MemoryObservation)ThoughtMaker.MakeThought(ThoughtDefOf.ObservedLayingCorpse)) : ((Thought_MemoryObservation)ThoughtMaker.MakeThought(ThoughtDefOf.ObservedLayingRottingCorpse));
 				thought_MemoryObservation.Target = this;
 				return thought_MemoryObservation;
 			}
@@ -377,12 +391,9 @@ namespace Verse
 			{
 				stringBuilder.AppendLine("Faction".Translate() + ": " + this.InnerPawn.Faction.Name);
 			}
-			stringBuilder.AppendLine("DeadTime".Translate(new object[]
-			{
-				this.Age.ToStringTicksToPeriod(false, false, true)
-			}));
-			float num = 1f - this.InnerPawn.health.hediffSet.GetCoverageOfNotMissingNaturalParts(this.InnerPawn.RaceProps.body.corePart);
-			if (num != 0f)
+			stringBuilder.AppendLine("DeadTime".Translate(this.Age.ToStringTicksToPeriod(false, false, true)));
+			float num = (float)(1.0 - this.InnerPawn.health.hediffSet.GetCoverageOfNotMissingNaturalParts(this.InnerPawn.RaceProps.body.corePart));
+			if (num != 0.0)
 			{
 				stringBuilder.AppendLine("CorpsePercentMissing".Translate() + ": " + num.ToStringPercent());
 			}
@@ -399,13 +410,13 @@ namespace Verse
 		private BodyPartRecord GetBestBodyPartToEat(Pawn ingester, float nutritionWanted)
 		{
 			IEnumerable<BodyPartRecord> source = from x in this.InnerPawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined)
-			where x.depth == BodyPartDepth.Outside && FoodUtility.GetBodyPartNutrition(this.InnerPawn, x) > 0.001f
+			where x.depth == BodyPartDepth.Outside && FoodUtility.GetBodyPartNutrition(this.InnerPawn, x) > 0.0010000000474974513
 			select x;
-			if (!source.Any<BodyPartRecord>())
+			if (!source.Any())
 			{
 				return null;
 			}
-			return source.MinBy((BodyPartRecord x) => Mathf.Abs(FoodUtility.GetBodyPartNutrition(this.InnerPawn, x) - nutritionWanted));
+			return source.MinBy((Func<BodyPartRecord, float>)((BodyPartRecord x) => Mathf.Abs(FoodUtility.GetBodyPartNutrition(this.InnerPawn, x) - nutritionWanted)));
 		}
 
 		private void NotifyColonistBar()
@@ -421,9 +432,21 @@ namespace Verse
 			return base.ParentHolder;
 		}
 
+		IThingHolder IThingHolder.get_ParentHolder()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
+			return this.get_ParentHolder();
+		}
+
 		virtual Map get_Map()
 		{
 			return base.Map;
+		}
+
+		Map IBillGiver.get_Map()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_Map
+			return this.get_Map();
 		}
 	}
 }

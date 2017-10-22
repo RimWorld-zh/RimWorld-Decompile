@@ -46,7 +46,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (LordToilData_Siege)this.data;
+				return (LordToilData_Siege)base.data;
 			}
 		}
 
@@ -54,17 +54,26 @@ namespace RimWorld
 		{
 			get
 			{
-				LordToil_Siege.<>c__Iterator68 <>c__Iterator = new LordToil_Siege.<>c__Iterator68();
-				<>c__Iterator.<>f__this = this;
-				LordToil_Siege.<>c__Iterator68 expr_0E = <>c__Iterator;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				LordToilData_Siege data = this.Data;
+				float radSquared = (float)((data.baseRadius + 10.0) * (data.baseRadius + 10.0));
+				List<Thing> framesList = base.Map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingFrame);
+				if (framesList.Count != 0)
+				{
+					for (int i = 0; i < framesList.Count; i++)
+					{
+						Frame frame = (Frame)framesList[i];
+						if (frame.Faction == base.lord.faction && (float)(frame.Position - data.siegeCenter).LengthHorizontalSquared < radSquared)
+						{
+							yield return frame;
+						}
+					}
+				}
 			}
 		}
 
 		public LordToil_Siege(IntVec3 siegeCenter, float blueprintPoints)
 		{
-			this.data = new LordToilData_Siege();
+			base.data = new LordToilData_Siege();
 			this.Data.siegeCenter = siegeCenter;
 			this.Data.blueprintPoints = blueprintPoints;
 		}
@@ -73,27 +82,37 @@ namespace RimWorld
 		{
 			base.Init();
 			LordToilData_Siege data = this.Data;
-			data.baseRadius = Mathf.InverseLerp(14f, 25f, (float)this.lord.ownedPawns.Count / 50f);
+			data.baseRadius = Mathf.InverseLerp(14f, 25f, (float)((float)base.lord.ownedPawns.Count / 50.0));
 			data.baseRadius = Mathf.Clamp(data.baseRadius, 14f, 25f);
 			List<Thing> list = new List<Thing>();
-			foreach (Blueprint_Build current in SiegeBlueprintPlacer.PlaceBlueprints(data.siegeCenter, base.Map, this.lord.faction, data.blueprintPoints))
+			foreach (Blueprint_Build item2 in SiegeBlueprintPlacer.PlaceBlueprints(data.siegeCenter, base.Map, base.lord.faction, data.blueprintPoints))
 			{
-				data.blueprints.Add(current);
-				foreach (ThingCountClass cost in current.MaterialsNeeded())
+				data.blueprints.Add(item2);
+				List<ThingCountClass>.Enumerator enumerator2 = item2.MaterialsNeeded().GetEnumerator();
+				try
 				{
-					Thing thing = list.FirstOrDefault((Thing t) => t.def == cost.thingDef);
-					if (thing != null)
+					ThingCountClass cost;
+					while (enumerator2.MoveNext())
 					{
-						thing.stackCount += cost.count;
-					}
-					else
-					{
-						Thing thing2 = ThingMaker.MakeThing(cost.thingDef, null);
-						thing2.stackCount = cost.count;
-						list.Add(thing2);
+						cost = enumerator2.Current;
+						Thing thing = list.FirstOrDefault((Func<Thing, bool>)((Thing t) => t.def == cost.thingDef));
+						if (thing != null)
+						{
+							thing.stackCount += cost.count;
+						}
+						else
+						{
+							Thing thing2 = ThingMaker.MakeThing(cost.thingDef, null);
+							thing2.stackCount = cost.count;
+							list.Add(thing2);
+						}
 					}
 				}
-				ThingDef thingDef = current.def.entityDefToBuild as ThingDef;
+				finally
+				{
+					((IDisposable)(object)enumerator2).Dispose();
+				}
+				ThingDef thingDef = item2.def.entityDefToBuild as ThingDef;
 				if (thingDef != null && thingDef.building != null && thingDef.building.turretShellDef != null)
 				{
 					Thing thing3 = ThingMaker.MakeThing(thingDef.building.turretShellDef, null);
@@ -128,8 +147,8 @@ namespace RimWorld
 				}
 			}
 			List<Thing> list4 = new List<Thing>();
-			int num2 = Mathf.RoundToInt(LordToil_Siege.MealCountRangePerRaider.RandomInRange * (float)this.lord.ownedPawns.Count);
-			for (int l = 0; l < num2; l++)
+			int num2 = Mathf.RoundToInt(LordToil_Siege.MealCountRangePerRaider.RandomInRange * (float)base.lord.ownedPawns.Count);
+			for (int num3 = 0; num3 < num2; num3++)
 			{
 				Thing item = ThingMaker.MakeThing(ThingDefOf.MealSurvivalPack, null);
 				list4.Add(item);
@@ -142,32 +161,32 @@ namespace RimWorld
 		public override void UpdateAllDuties()
 		{
 			LordToilData_Siege data = this.Data;
-			if (this.lord.ticksInToil < 450)
+			if (base.lord.ticksInToil < 450)
 			{
-				for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+				for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 				{
-					this.SetAsDefender(this.lord.ownedPawns[i]);
+					this.SetAsDefender(base.lord.ownedPawns[i]);
 				}
 			}
 			else
 			{
 				this.rememberedDuties.Clear();
-				int num = Mathf.RoundToInt((float)this.lord.ownedPawns.Count * data.desiredBuilderFraction);
+				int num = Mathf.RoundToInt((float)base.lord.ownedPawns.Count * data.desiredBuilderFraction);
 				if (num <= 0)
 				{
 					num = 1;
 				}
 				int num2 = (from b in base.Map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial)
-				where b.def.hasInteractionCell && b.Faction == this.lord.faction && b.Position.InHorDistOf(this.FlagLoc, data.baseRadius)
-				select b).Count<Thing>();
+				where b.def.hasInteractionCell && b.Faction == base.lord.faction && b.Position.InHorDistOf(this.FlagLoc, data.baseRadius)
+				select b).Count();
 				if (num < num2)
 				{
 					num = num2;
 				}
 				int num3 = 0;
-				for (int j = 0; j < this.lord.ownedPawns.Count; j++)
+				for (int j = 0; j < base.lord.ownedPawns.Count; j++)
 				{
-					Pawn pawn = this.lord.ownedPawns[j];
+					Pawn pawn = base.lord.ownedPawns[j];
 					if (pawn.mindState.duty.def == DutyDefOf.Build)
 					{
 						this.rememberedDuties.Add(pawn, DutyDefOf.Build);
@@ -176,21 +195,21 @@ namespace RimWorld
 					}
 				}
 				int num4 = num - num3;
-				for (int k = 0; k < num4; k++)
+				for (int num5 = 0; num5 < num4; num5++)
 				{
-					Pawn pawn2;
-					if ((from pa in this.lord.ownedPawns
+					Pawn pawn2 = default(Pawn);
+					if ((from pa in base.lord.ownedPawns
 					where !this.rememberedDuties.ContainsKey(pa) && this.CanBeBuilder(pa)
-					select pa).TryRandomElement(out pawn2))
+					select pa).TryRandomElement<Pawn>(out pawn2))
 					{
 						this.rememberedDuties.Add(pawn2, DutyDefOf.Build);
 						this.SetAsBuilder(pawn2);
 						num3++;
 					}
 				}
-				for (int l = 0; l < this.lord.ownedPawns.Count; l++)
+				for (int k = 0; k < base.lord.ownedPawns.Count; k++)
 				{
-					Pawn pawn3 = this.lord.ownedPawns[l];
+					Pawn pawn3 = base.lord.ownedPawns[k];
 					if (!this.rememberedDuties.ContainsKey(pawn3))
 					{
 						this.SetAsDefender(pawn3);
@@ -199,8 +218,7 @@ namespace RimWorld
 				}
 				if (num3 == 0)
 				{
-					this.lord.ReceiveMemo("NoBuilders");
-					return;
+					base.lord.ReceiveMemo("NoBuilders");
 				}
 			}
 		}
@@ -214,7 +232,7 @@ namespace RimWorld
 		public override void Notify_ConstructionFailed(Pawn pawn, Frame frame, Blueprint_Build newBlueprint)
 		{
 			base.Notify_ConstructionFailed(pawn, frame, newBlueprint);
-			if (frame.Faction == this.lord.faction && newBlueprint != null)
+			if (frame.Faction == base.lord.faction && newBlueprint != null)
 			{
 				this.Data.blueprints.Add(newBlueprint);
 			}
@@ -222,7 +240,11 @@ namespace RimWorld
 
 		private bool CanBeBuilder(Pawn p)
 		{
-			return !p.story.WorkTypeIsDisabled(WorkTypeDefOf.Construction) && !p.story.WorkTypeIsDisabled(WorkTypeDefOf.Firefighter);
+			if (!p.story.WorkTypeIsDisabled(WorkTypeDefOf.Construction) && !p.story.WorkTypeIsDisabled(WorkTypeDefOf.Firefighter))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private void SetAsBuilder(Pawn p)
@@ -257,11 +279,11 @@ namespace RimWorld
 		{
 			base.LordToilTick();
 			LordToilData_Siege data = this.Data;
-			if (this.lord.ticksInToil == 450)
+			if (base.lord.ticksInToil == 450)
 			{
-				this.lord.CurLordToil.UpdateAllDuties();
+				base.lord.CurLordToil.UpdateAllDuties();
 			}
-			if (this.lord.ticksInToil > 450 && this.lord.ticksInToil % 500 == 0)
+			if (base.lord.ticksInToil > 450 && base.lord.ticksInToil % 500 == 0)
 			{
 				this.UpdateAllDuties();
 			}
@@ -269,45 +291,44 @@ namespace RimWorld
 			{
 				if (!(from frame in this.Frames
 				where !frame.Destroyed
-				select frame).Any<Frame>())
+				select frame).Any() && !(from blue in data.blueprints
+				where !blue.Destroyed
+				select blue).Any() && !base.Map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial).Any((Predicate<Thing>)((Thing b) => b.Faction == base.lord.faction && b.def.building.buildingTags.Contains("Artillery"))))
 				{
-					if (!(from blue in data.blueprints
-					where !blue.Destroyed
-					select blue).Any<Blueprint>() && !base.Map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial).Any((Thing b) => b.Faction == this.lord.faction && b.def.building.buildingTags.Contains("Artillery")))
-					{
-						this.lord.ReceiveMemo("NoArtillery");
-						return;
-					}
+					base.lord.ReceiveMemo("NoArtillery");
 				}
-				int num = GenRadial.NumCellsInRadius(20f);
-				int num2 = 0;
-				int num3 = 0;
-				for (int i = 0; i < num; i++)
+				else
 				{
-					IntVec3 c = data.siegeCenter + GenRadial.RadialPattern[i];
-					if (c.InBounds(base.Map))
+					int num = GenRadial.NumCellsInRadius(20f);
+					int num2 = 0;
+					int num3 = 0;
+					for (int num4 = 0; num4 < num; num4++)
 					{
-						List<Thing> thingList = c.GetThingList(base.Map);
-						for (int j = 0; j < thingList.Count; j++)
+						IntVec3 c = data.siegeCenter + GenRadial.RadialPattern[num4];
+						if (c.InBounds(base.Map))
 						{
-							if (thingList[j].def == ThingDefOf.MortarShell)
+							List<Thing> thingList = c.GetThingList(base.Map);
+							for (int i = 0; i < thingList.Count; i++)
 							{
-								num2 += thingList[j].stackCount;
-							}
-							if (thingList[j].def == ThingDefOf.MealSurvivalPack)
-							{
-								num3 += thingList[j].stackCount;
+								if (thingList[i].def == ThingDefOf.MortarShell)
+								{
+									num2 += thingList[i].stackCount;
+								}
+								if (thingList[i].def == ThingDefOf.MealSurvivalPack)
+								{
+									num3 += thingList[i].stackCount;
+								}
 							}
 						}
 					}
-				}
-				if (num2 < 4)
-				{
-					this.DropSupplies(ThingDefOf.MortarShell, 10);
-				}
-				if (num3 < 5)
-				{
-					this.DropSupplies(ThingDefOf.MealSurvivalPack, 12);
+					if (num2 < 4)
+					{
+						this.DropSupplies(ThingDefOf.MortarShell, 10);
+					}
+					if (num3 < 5)
+					{
+						this.DropSupplies(ThingDefOf.MealSurvivalPack, 12);
+					}
 				}
 			}
 		}
@@ -324,14 +345,23 @@ namespace RimWorld
 		public override void Cleanup()
 		{
 			LordToilData_Siege data = this.Data;
-			data.blueprints.RemoveAll((Blueprint blue) => blue.Destroyed);
+			data.blueprints.RemoveAll((Predicate<Blueprint>)((Blueprint blue) => blue.Destroyed));
 			for (int i = 0; i < data.blueprints.Count; i++)
 			{
 				data.blueprints[i].Destroy(DestroyMode.Cancel);
 			}
-			foreach (Frame current in this.Frames.ToList<Frame>())
+			List<Frame>.Enumerator enumerator = this.Frames.ToList().GetEnumerator();
+			try
 			{
-				current.Destroy(DestroyMode.Cancel);
+				while (enumerator.MoveNext())
+				{
+					Frame current = enumerator.Current;
+					current.Destroy(DestroyMode.Cancel);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 	}

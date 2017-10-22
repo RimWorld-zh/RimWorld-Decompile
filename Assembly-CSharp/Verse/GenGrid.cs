@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,12 +22,44 @@ namespace Verse
 
 		public static bool CloseToEdge(this IntVec3 c, Map map, int edgeDist)
 		{
-			return c.x < edgeDist || c.z < edgeDist || c.x >= map.Size.x - edgeDist || c.z >= map.Size.z - edgeDist;
+			int result;
+			if (c.x >= edgeDist && c.z >= edgeDist)
+			{
+				int x = c.x;
+				IntVec3 size = map.Size;
+				if (x < size.x - edgeDist)
+				{
+					int z = c.z;
+					IntVec3 size2 = map.Size;
+					result = ((z >= size2.z - edgeDist) ? 1 : 0);
+					goto IL_0055;
+				}
+			}
+			result = 1;
+			goto IL_0055;
+			IL_0055:
+			return (byte)result != 0;
 		}
 
 		public static bool OnEdge(this IntVec3 c, Map map)
 		{
-			return c.x == 0 || c.x == map.Size.x - 1 || c.z == 0 || c.z == map.Size.z - 1;
+			int result;
+			if (c.x != 0)
+			{
+				int x = c.x;
+				IntVec3 size = map.Size;
+				if (((x != size.x - 1) ? c.z : 0) != 0)
+				{
+					int z = c.z;
+					IntVec3 size2 = map.Size;
+					result = ((z == size2.z - 1) ? 1 : 0);
+					goto IL_0050;
+				}
+			}
+			result = 1;
+			goto IL_0050;
+			IL_0050:
+			return (byte)result != 0;
 		}
 
 		public static bool OnEdge(this IntVec3 c, Map map, Rot4 dir)
@@ -39,7 +70,9 @@ namespace Verse
 			}
 			if (dir == Rot4.South)
 			{
-				return c.z == map.Size.z - 1;
+				int z = c.z;
+				IntVec3 size = map.Size;
+				return z == size.z - 1;
 			}
 			if (dir == Rot4.West)
 			{
@@ -47,7 +80,9 @@ namespace Verse
 			}
 			if (dir == Rot4.East)
 			{
-				return c.x == map.Size.x - 1;
+				int x = c.x;
+				IntVec3 size2 = map.Size;
+				return x == size2.x - 1;
 			}
 			Log.ErrorOnce("Invalid edge direction", 55370769);
 			return false;
@@ -56,13 +91,13 @@ namespace Verse
 		public static bool InBounds(this IntVec3 c, Map map)
 		{
 			IntVec3 size = map.Size;
-			return (ulong)c.x < (ulong)((long)size.x) && (ulong)c.z < (ulong)((long)size.z);
+			return (uint)c.x < size.x && (uint)c.z < size.z;
 		}
 
 		public static bool InBounds(this Vector3 v, Map map)
 		{
 			IntVec3 size = map.Size;
-			return v.x >= 0f && v.z >= 0f && v.x < (float)size.x && v.z < (float)size.z;
+			return v.x >= 0.0 && v.z >= 0.0 && v.x < (float)size.x && v.z < (float)size.z;
 		}
 
 		public static bool Walkable(this IntVec3 c, Map map)
@@ -79,7 +114,7 @@ namespace Verse
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
 			for (int i = 0; i < list.Count; i++)
 			{
-				if (list[i].def.passability != Traversability.Standable)
+				if (list[i].def.passability != 0)
 				{
 					return false;
 				}
@@ -112,13 +147,21 @@ namespace Verse
 				return false;
 			}
 			Building edifice = c.GetEdifice(map);
-			return edifice == null || edifice.CanBeSeenOver();
+			if (edifice != null && !edifice.CanBeSeenOver())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool CanBeSeenOverFast(this IntVec3 c, Map map)
 		{
 			Building edifice = c.GetEdifice(map);
-			return edifice == null || edifice.CanBeSeenOver();
+			if (edifice != null && !edifice.CanBeSeenOver())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool CanBeSeenOver(this Building b)
@@ -126,7 +169,11 @@ namespace Verse
 			if (b.def.Fillage == FillCategory.Full)
 			{
 				Building_Door building_Door = b as Building_Door;
-				return building_Door != null && building_Door.Open;
+				if (building_Door != null && building_Door.Open)
+				{
+					return true;
+				}
+				return false;
 			}
 			return true;
 		}
@@ -140,7 +187,7 @@ namespace Verse
 			List<Thing> thingList = c.GetThingList(map);
 			for (int i = 0; i < thingList.Count; i++)
 			{
-				if (thingList[i].def.surfaceType != SurfaceType.None)
+				if (thingList[i].def.surfaceType != 0)
 				{
 					return thingList[i].def.surfaceType;
 				}

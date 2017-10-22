@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse.AI
 {
@@ -7,7 +6,7 @@ namespace Verse.AI
 	{
 		protected override bool TryFindGoodExitDest(Pawn pawn, bool canDig, out IntVec3 spot)
 		{
-			TraverseMode mode = (!canDig) ? TraverseMode.ByPawn : TraverseMode.PassAllDestroyableThings;
+			TraverseMode mode = (TraverseMode)(canDig ? 3 : 0);
 			return RCellFinder.TryFindRandomExitSpot(pawn, out spot, mode);
 		}
 	}

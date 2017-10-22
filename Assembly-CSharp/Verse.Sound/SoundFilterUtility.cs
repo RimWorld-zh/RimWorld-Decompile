@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse.Sound
@@ -17,8 +16,8 @@ namespace Verse.Sound
 
 		private static void DisableFilterOn<T>(AudioSource source) where T : Behaviour
 		{
-			T component = source.GetComponent<T>();
-			if (component != null)
+			T component = ((Component)source).GetComponent<T>();
+			if ((Object)(object)component != (Object)null)
 			{
 				component.enabled = false;
 			}

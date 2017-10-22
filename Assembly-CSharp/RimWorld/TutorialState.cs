@@ -20,7 +20,7 @@ namespace RimWorld
 		{
 			if (Scribe.mode == LoadSaveMode.Saving && this.startingItems != null)
 			{
-				this.startingItems.RemoveAll((Thing it) => it == null || it.Destroyed || (it.Map == null && it.MapHeld == null));
+				this.startingItems.RemoveAll((Predicate<Thing>)((Thing it) => it == null || it.Destroyed || (it.Map == null && it.MapHeld == null)));
 			}
 			Scribe_Collections.Look<Thing>(ref this.startingItems, "startingItems", LookMode.Reference, new object[0]);
 			Scribe_Values.Look<CellRect>(ref this.roomRect, "roomRect", default(CellRect), false);
@@ -29,7 +29,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.introDone, "introDone", false, false);
 			if (this.startingItems != null)
 			{
-				this.startingItems.RemoveAll((Thing it) => it == null);
+				this.startingItems.RemoveAll((Predicate<Thing>)((Thing it) => it == null));
 			}
 		}
 
@@ -43,11 +43,10 @@ namespace RimWorld
 
 		public void AddStartingItem(Thing t)
 		{
-			if (this.startingItems.Contains(t))
+			if (!this.startingItems.Contains(t))
 			{
-				return;
+				this.startingItems.Add(t);
 			}
-			this.startingItems.Add(t);
 		}
 	}
 }

@@ -18,15 +18,15 @@ namespace RimWorld
 
 		public Designator_Cancel()
 		{
-			this.defaultLabel = "DesignatorCancel".Translate();
-			this.defaultDesc = "DesignatorCancelDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel", true);
-			this.useMouseIcon = true;
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.soundSucceeded = SoundDefOf.DesignateCancel;
-			this.hotKey = KeyBindingDefOf.DesignatorCancel;
-			this.tutorTag = "Cancel";
+			base.defaultLabel = "DesignatorCancel".Translate();
+			base.defaultDesc = "DesignatorCancelDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel", true);
+			base.useMouseIcon = true;
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.soundSucceeded = SoundDefOf.DesignateCancel;
+			base.hotKey = KeyBindingDefOf.DesignatorCancel;
+			base.tutorTag = "Cancel";
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
@@ -35,7 +35,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (this.CancelableDesignationsAt(c).Count<Designation>() > 0)
+			if (this.CancelableDesignationsAt(c).Count() > 0)
 			{
 				return true;
 			}
@@ -52,19 +52,28 @@ namespace RimWorld
 
 		public override void DesignateSingleCell(IntVec3 c)
 		{
-			foreach (Designation current in this.CancelableDesignationsAt(c).ToList<Designation>())
+			List<Designation>.Enumerator enumerator = this.CancelableDesignationsAt(c).ToList().GetEnumerator();
+			try
 			{
-				if (current.def.designateCancelable)
+				while (enumerator.MoveNext())
 				{
-					base.Map.designationManager.RemoveDesignation(current);
+					Designation current = enumerator.Current;
+					if (current.def.designateCancelable)
+					{
+						base.Map.designationManager.RemoveDesignation(current);
+					}
 				}
 			}
-			List<Thing> thingList = c.GetThingList(base.Map);
-			for (int i = thingList.Count - 1; i >= 0; i--)
+			finally
 			{
-				if (this.CanDesignateThing(thingList[i]).Accepted)
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			List<Thing> thingList = c.GetThingList(base.Map);
+			for (int num = thingList.Count - 1; num >= 0; num--)
+			{
+				if (this.CanDesignateThing(thingList[num]).Accepted)
 				{
-					this.DesignateThing(thingList[i]);
+					this.DesignateThing(thingList[num]);
 				}
 			}
 		}
@@ -73,9 +82,9 @@ namespace RimWorld
 		{
 			if (base.Map.designationManager.DesignationOn(t) != null)
 			{
-				foreach (Designation current in base.Map.designationManager.AllDesignationsOn(t))
+				foreach (Designation item in base.Map.designationManager.AllDesignationsOn(t))
 				{
-					if (current.def.designateCancelable)
+					if (item.def.designateCancelable)
 					{
 						return true;
 					}

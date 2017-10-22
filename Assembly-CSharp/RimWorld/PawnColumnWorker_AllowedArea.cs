@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -37,18 +36,17 @@ namespace RimWorld
 
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (pawn.Faction != Faction.OfPlayer)
+			if (pawn.Faction == Faction.OfPlayer)
 			{
-				return;
+				AllowedAreaMode mode = (AllowedAreaMode)(pawn.RaceProps.Humanlike ? 1 : 2);
+				AreaAllowedGUI.DoAllowedAreaSelectors(rect, pawn, mode);
 			}
-			AllowedAreaMode mode = (!pawn.RaceProps.Humanlike) ? AllowedAreaMode.Animal : AllowedAreaMode.Humanlike;
-			AreaAllowedGUI.DoAllowedAreaSelectors(rect, pawn, mode);
 		}
 
 		public override void DoHeader(Rect rect, PawnTable table)
 		{
 			base.DoHeader(rect, table);
-			Rect rect2 = new Rect(rect.x, rect.y + (rect.height - 65f), Mathf.Min(rect.width, 360f), 32f);
+			Rect rect2 = new Rect(rect.x, (float)(rect.y + (rect.height - 65.0)), Mathf.Min(rect.width, 360f), 32f);
 			if (Widgets.ButtonText(rect2, "ManageAreas".Translate(), true, false, true))
 			{
 				Find.WindowStack.Add(new Dialog_ManageAreas(Find.VisibleMap));
@@ -67,7 +65,7 @@ namespace RimWorld
 				return -2147483648;
 			}
 			Area areaRestriction = pawn.playerSettings.AreaRestriction;
-			return (areaRestriction == null) ? -2147483647 : areaRestriction.ID;
+			return (areaRestriction == null) ? (-2147483647) : areaRestriction.ID;
 		}
 
 		protected override void HeaderClicked(Rect headerRect, PawnTable table)
@@ -76,20 +74,23 @@ namespace RimWorld
 			if (Event.current.shift && Find.VisibleMap != null)
 			{
 				List<Pawn> pawnsListForReading = table.PawnsListForReading;
-				for (int i = 0; i < pawnsListForReading.Count; i++)
+				int num = 0;
+				while (num < pawnsListForReading.Count)
 				{
-					if (pawnsListForReading[i].Faction != Faction.OfPlayer)
+					if (pawnsListForReading[num].Faction == Faction.OfPlayer)
 					{
-						return;
+						if (Event.current.button == 0)
+						{
+							pawnsListForReading[num].playerSettings.AreaRestriction = Find.VisibleMap.areaManager.Home;
+						}
+						else if (Event.current.button == 1)
+						{
+							pawnsListForReading[num].playerSettings.AreaRestriction = null;
+						}
+						num++;
+						continue;
 					}
-					if (Event.current.button == 0)
-					{
-						pawnsListForReading[i].playerSettings.AreaRestriction = Find.VisibleMap.areaManager.Home;
-					}
-					else if (Event.current.button == 1)
-					{
-						pawnsListForReading[i].playerSettings.AreaRestriction = null;
-					}
+					return;
 				}
 				if (Event.current.button == 0)
 				{

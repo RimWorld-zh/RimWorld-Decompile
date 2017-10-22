@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -16,7 +15,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (LordToilData_AssaultColonySappers)this.data;
+				return (LordToilData_AssaultColonySappers)base.data;
 			}
 		}
 
@@ -30,7 +29,7 @@ namespace RimWorld
 
 		public LordToil_AssaultColonySappers()
 		{
-			this.data = new LordToilData_AssaultColonySappers();
+			base.data = new LordToilData_AssaultColonySappers();
 		}
 
 		public override void Init()
@@ -41,46 +40,38 @@ namespace RimWorld
 
 		public override void UpdateAllDuties()
 		{
-			if (!this.Data.sapperDest.IsValid && this.lord.ownedPawns.Any<Pawn>())
+			if (!this.Data.sapperDest.IsValid && base.lord.ownedPawns.Any())
 			{
-				this.Data.sapperDest = GenAI.RandomRaidDest(this.lord.ownedPawns[0].Position, base.Map);
+				this.Data.sapperDest = GenAI.RandomRaidDest(base.lord.ownedPawns[0].Position, base.Map);
 			}
 			List<Pawn> list = null;
 			if (this.Data.sapperDest.IsValid)
 			{
 				list = new List<Pawn>();
-				for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+				for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 				{
-					Pawn pawn = this.lord.ownedPawns[i];
+					Pawn pawn = base.lord.ownedPawns[i];
 					if (pawn.equipment.Primary != null && pawn.equipment.Primary.def.Verbs[0].ai_IsBuildingDestroyer)
 					{
 						list.Add(pawn);
 					}
 				}
-				if (list.Count == 0 && this.lord.ownedPawns.Count >= 2)
+				if (list.Count == 0 && base.lord.ownedPawns.Count >= 2)
 				{
-					list.Add(this.lord.ownedPawns[0]);
+					list.Add(base.lord.ownedPawns[0]);
 				}
 			}
-			for (int j = 0; j < this.lord.ownedPawns.Count; j++)
+			for (int j = 0; j < base.lord.ownedPawns.Count; j++)
 			{
-				Pawn pawn2 = this.lord.ownedPawns[j];
+				Pawn pawn2 = base.lord.ownedPawns[j];
 				if (list != null && list.Contains(pawn2))
 				{
 					pawn2.mindState.duty = new PawnDuty(DutyDefOf.Sapper, this.Data.sapperDest, -1f);
 				}
-				else if (!list.NullOrEmpty<Pawn>())
+				else if (!list.NullOrEmpty())
 				{
-					float randomInRange;
-					if (pawn2.equipment != null && pawn2.equipment.Primary != null && pawn2.equipment.Primary.def.IsRangedWeapon)
-					{
-						randomInRange = LordToil_AssaultColonySappers.EscortRadiusRanged.RandomInRange;
-					}
-					else
-					{
-						randomInRange = LordToil_AssaultColonySappers.EscortRadiusMelee.RandomInRange;
-					}
-					pawn2.mindState.duty = new PawnDuty(DutyDefOf.Escort, list.RandomElement<Pawn>(), randomInRange);
+					float radius = (pawn2.equipment == null || pawn2.equipment.Primary == null || !pawn2.equipment.Primary.def.IsRangedWeapon) ? LordToil_AssaultColonySappers.EscortRadiusMelee.RandomInRange : LordToil_AssaultColonySappers.EscortRadiusRanged.RandomInRange;
+					pawn2.mindState.duty = new PawnDuty(DutyDefOf.Escort, (Thing)list.RandomElement(), radius);
 				}
 				else
 				{

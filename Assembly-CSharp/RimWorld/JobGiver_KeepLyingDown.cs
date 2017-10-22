@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -8,7 +7,7 @@ namespace RimWorld
 	{
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			if (pawn.CurJob != null && pawn.jobs.curDriver.layingDown != LayingDownState.NotLaying)
+			if (((pawn.CurJob != null) ? pawn.jobs.curDriver.layingDown : LayingDownState.NotLaying) != 0)
 			{
 				return pawn.CurJob;
 			}

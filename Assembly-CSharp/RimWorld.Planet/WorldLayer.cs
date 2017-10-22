@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -60,7 +58,7 @@ namespace RimWorld.Planet
 
 		protected LayerSubMesh GetSubMesh(Material material)
 		{
-			int num;
+			int num = default(int);
 			return this.GetSubMesh(material, out num);
 		}
 
@@ -69,7 +67,7 @@ namespace RimWorld.Planet
 			for (int i = 0; i < this.subMeshes.Count; i++)
 			{
 				LayerSubMesh layerSubMesh = this.subMeshes[i];
-				if (layerSubMesh.material == material && layerSubMesh.verts.Count < 40000)
+				if ((Object)layerSubMesh.material == (Object)material && layerSubMesh.verts.Count < 40000)
 				{
 					subMeshIndex = i;
 					return layerSubMesh;
@@ -116,7 +114,7 @@ namespace RimWorld.Planet
 			{
 				if (this.subMeshes[i].finalized)
 				{
-					if (alpha != 1f)
+					if (alpha != 1.0)
 					{
 						Color color = this.subMeshes[i].material.color;
 						WorldLayer.propertyBlock.SetColor(ShaderPropertyIDs.Color, new Color(color.r, color.g, color.b, color.a * alpha));
@@ -130,14 +128,11 @@ namespace RimWorld.Planet
 			}
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable Regenerate()
 		{
-			WorldLayer.<Regenerate>c__IteratorEE <Regenerate>c__IteratorEE = new WorldLayer.<Regenerate>c__IteratorEE();
-			<Regenerate>c__IteratorEE.<>f__this = this;
-			WorldLayer.<Regenerate>c__IteratorEE expr_0E = <Regenerate>c__IteratorEE;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.dirty = false;
+			this.ClearSubMeshes(MeshParts.All);
+			yield break;
 		}
 
 		public void SetDirty()

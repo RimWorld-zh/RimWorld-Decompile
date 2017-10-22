@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -9,19 +8,17 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_FoodPoisoningChance)this.props;
+				return (CompProperties_FoodPoisoningChance)base.props;
 			}
 		}
 
 		public override void PostIngested(Pawn ingester)
 		{
 			if (this.Props.humanlikeOnly && !ingester.RaceProps.Humanlike)
-			{
 				return;
-			}
 			if (Rand.Value < this.Props.chance)
 			{
-				FoodUtility.AddFoodPoisoningHediff(ingester, this.parent);
+				FoodUtility.AddFoodPoisoningHediff(ingester, base.parent);
 			}
 		}
 	}

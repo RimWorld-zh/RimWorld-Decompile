@@ -11,17 +11,17 @@ namespace Verse.Steam
 			{
 				return "None".Translate();
 			}
-			return ("WorkshopInteractStage_" + stage.ToString()).Translate();
+			return ("WorkshopInteractStage_" + ((Enum)(object)stage).ToString()).Translate();
 		}
 
 		public static string GetLabel(this EItemUpdateStatus status)
 		{
-			return ("EItemUpdateStatus_" + status.ToString()).Translate();
+			return ("EItemUpdateStatus_" + ((Enum)(object)status).ToString()).Translate();
 		}
 
 		public static string GetLabel(this EResult result)
 		{
-			return result.ToString().Substring(9);
+			return ((Enum)(object)result).ToString().Substring(9);
 		}
 	}
 }

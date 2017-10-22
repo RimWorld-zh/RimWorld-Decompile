@@ -1,7 +1,6 @@
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
@@ -33,6 +32,7 @@ namespace Verse
 				switch (rotation.AsInt)
 				{
 				case 0:
+				{
 					if (thingSize.x % 2 == 0)
 					{
 						result.x += 0.5f;
@@ -42,7 +42,9 @@ namespace Verse
 						result.z += 0.5f;
 					}
 					break;
+				}
 				case 1:
+				{
 					if (thingSize.x % 2 == 0)
 					{
 						result.x += 0.5f;
@@ -52,7 +54,9 @@ namespace Verse
 						result.z -= 0.5f;
 					}
 					break;
+				}
 				case 2:
+				{
 					if (thingSize.x % 2 == 0)
 					{
 						result.x -= 0.5f;
@@ -62,7 +66,9 @@ namespace Verse
 						result.z -= 0.5f;
 					}
 					break;
+				}
 				case 3:
+				{
 					if (thingSize.x % 2 == 0)
 					{
 						result.x -= 0.5f;
@@ -73,25 +79,26 @@ namespace Verse
 					}
 					break;
 				}
+				}
 			}
 			return result;
 		}
 
 		public static Vector3 AveragePosition(List<IntVec3> cells)
 		{
-			return new Vector3((float)cells.Average((IntVec3 c) => c.x) + 0.5f, 0f, (float)cells.Average((IntVec3 c) => c.z) + 0.5f);
+			return new Vector3((float)((float)cells.Average((Func<IntVec3, int>)((IntVec3 c) => c.x)) + 0.5), 0f, (float)((float)cells.Average((Func<IntVec3, int>)((IntVec3 c) => c.z)) + 0.5));
 		}
 
 		public static T RandomEnumValue<T>(bool disallowFirstValue)
 		{
-			int min = (!disallowFirstValue) ? 0 : 1;
+			int min = disallowFirstValue ? 1 : 0;
 			int num = Rand.Range(min, Enum.GetValues(typeof(T)).Length);
-			return (T)((object)num);
+			return (T)(object)num;
 		}
 
 		public static Vector3 RandomHorizontalVector(float max)
 		{
-			return new Vector3(Rand.Range(-max, max), 0f, Rand.Range(-max, max));
+			return new Vector3(Rand.Range((float)(0.0 - max), max), 0f, Rand.Range((float)(0.0 - max), max));
 		}
 
 		public static int GetBitCountOf(long lValue)
@@ -99,32 +106,28 @@ namespace Verse
 			int num = 0;
 			while (lValue != 0L)
 			{
-				lValue &= lValue - 1L;
+				lValue &= lValue - 1;
 				num++;
 			}
 			return num;
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<T> GetAllSelectedItems<T>(this Enum value)
 		{
-			Gen.<GetAllSelectedItems>c__Iterator23F<T> <GetAllSelectedItems>c__Iterator23F = new Gen.<GetAllSelectedItems>c__Iterator23F<T>();
-			<GetAllSelectedItems>c__Iterator23F.value = value;
-			<GetAllSelectedItems>c__Iterator23F.<$>value = value;
-			Gen.<GetAllSelectedItems>c__Iterator23F<T> expr_15 = <GetAllSelectedItems>c__Iterator23F;
-			expr_15.$PC = -2;
-			return expr_15;
+			int valueAsInt = Convert.ToInt32(value);
+			foreach (object value2 in Enum.GetValues(typeof(T)))
+			{
+				int itemAsInt = Convert.ToInt32(value2);
+				if (itemAsInt == (valueAsInt & itemAsInt))
+				{
+					yield return (T)value2;
+				}
+			}
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<T> YieldSingle<T>(T val)
 		{
-			Gen.<YieldSingle>c__Iterator240<T> <YieldSingle>c__Iterator = new Gen.<YieldSingle>c__Iterator240<T>();
-			<YieldSingle>c__Iterator.val = val;
-			<YieldSingle>c__Iterator.<$>val = val;
-			Gen.<YieldSingle>c__Iterator240<T> expr_15 = <YieldSingle>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			yield return val;
 		}
 
 		public static string ToStringSafe<T>(this T obj)
@@ -133,33 +136,37 @@ namespace Verse
 			{
 				return "null";
 			}
-			string result;
 			try
 			{
-				result = obj.ToString();
+				return obj.ToString();
+				IL_0024:
+				string result;
+				return result;
 			}
 			catch (Exception arg)
 			{
 				Log.Warning("Exception in ToString(): " + arg);
-				result = "error";
+				return "error";
+				IL_0045:
+				string result;
+				return result;
 			}
-			return result;
 		}
 
 		public static int HashCombine<T>(int seed, T obj)
 		{
 			int num = (obj != null) ? obj.GetHashCode() : 0;
-			return (int)((long)seed ^ (long)num + (long)((ulong)-1640531527) + (long)((long)seed << 6) + (long)(seed >> 2));
+			return (int)(seed ^ num + 2654435769u + (seed << 6) + (seed >> 2));
 		}
 
 		public static int HashCombineStruct<T>(int seed, T obj) where T : struct
 		{
-			return (int)((long)seed ^ (long)obj.GetHashCode() + (long)((ulong)-1640531527) + (long)((long)seed << 6) + (long)(seed >> 2));
+			return (int)(seed ^ obj.GetHashCode() + 2654435769u + (seed << 6) + (seed >> 2));
 		}
 
 		public static int HashCombineInt(int seed, int value)
 		{
-			return (int)((long)seed ^ (long)value + (long)((ulong)-1640531527) + (long)((long)seed << 6) + (long)(seed >> 2));
+			return (int)(seed ^ value + 2654435769u + (seed << 6) + (seed >> 2));
 		}
 
 		public static int HashOffset(this int baseInt)

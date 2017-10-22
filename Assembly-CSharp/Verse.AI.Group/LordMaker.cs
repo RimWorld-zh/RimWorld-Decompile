@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse.AI.Group
@@ -26,9 +25,12 @@ namespace Verse.AI.Group
 			lord.GotoToil(lord.Graph.StartingToil);
 			if (startingPawns != null)
 			{
-				foreach (Pawn current in startingPawns)
 				{
-					lord.AddPawn(current);
+					foreach (Pawn item in startingPawns)
+					{
+						lord.AddPawn(item);
+					}
+					return lord;
 				}
 			}
 			return lord;

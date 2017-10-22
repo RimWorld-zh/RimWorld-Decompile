@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI.Group;
 
@@ -23,17 +22,13 @@ namespace RimWorld
 
 		public bool TryStartMarriageCeremony(Pawn firstFiance, Pawn secondFiance)
 		{
-			IntVec3 intVec;
+			IntVec3 intVec = default(IntVec3);
 			if (!RCellFinder.TryFindMarriageSite(firstFiance, secondFiance, out intVec))
 			{
 				return false;
 			}
 			LordMaker.MakeNewLord(firstFiance.Faction, new LordJob_Joinable_MarriageCeremony(firstFiance, secondFiance, intVec), this.map, null);
-			Messages.Message("MessageNewMarriageCeremony".Translate(new object[]
-			{
-				firstFiance.LabelShort,
-				secondFiance.LabelShort
-			}), new TargetInfo(intVec, this.map, false), MessageSound.Standard);
+			Messages.Message("MessageNewMarriageCeremony".Translate(firstFiance.LabelShort, secondFiance.LabelShort), new TargetInfo(intVec, this.map, false), MessageSound.Standard);
 			this.lastLordStartTick = Find.TickManager.TicksGame;
 			return true;
 		}
@@ -45,16 +40,13 @@ namespace RimWorld
 			{
 				return false;
 			}
-			IntVec3 intVec;
+			IntVec3 intVec = default(IntVec3);
 			if (!RCellFinder.TryFindPartySpot(pawn, out intVec))
 			{
 				return false;
 			}
 			LordMaker.MakeNewLord(pawn.Faction, new LordJob_Joinable_Party(intVec), this.map, null);
-			Find.LetterStack.ReceiveLetter("LetterLabelNewParty".Translate(), "LetterNewParty".Translate(new object[]
-			{
-				pawn.LabelShort
-			}), LetterDefOf.Good, new TargetInfo(intVec, this.map, false), null);
+			Find.LetterStack.ReceiveLetter("LetterLabelNewParty".Translate(), "LetterNewParty".Translate(pawn.LabelShort), LetterDefOf.Good, new TargetInfo(intVec, this.map, false), (string)null);
 			this.lastLordStartTick = Find.TickManager.TicksGame;
 			this.startPartyASAP = false;
 			return true;
@@ -73,11 +65,7 @@ namespace RimWorld
 
 		private void Tick_TryStartParty()
 		{
-			if (!this.map.IsPlayerHome)
-			{
-				return;
-			}
-			if (Find.TickManager.TicksGame % 5000 == 0)
+			if (this.map.IsPlayerHome && Find.TickManager.TicksGame % 5000 == 0)
 			{
 				if (Rand.MTBEventOccurs(40f, 60000f, 5000f))
 				{

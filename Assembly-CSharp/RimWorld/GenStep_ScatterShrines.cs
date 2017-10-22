@@ -1,5 +1,4 @@
 using RimWorld.BaseGen;
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -22,7 +21,11 @@ namespace RimWorld
 				return false;
 			}
 			Building edifice = c.GetEdifice(map);
-			return edifice != null && edifice.def.building.isNaturalRock;
+			if (edifice != null && edifice.def.building.isNaturalRock)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		protected override void ScatterAt(IntVec3 loc, Map map, int stackCount = 1)
@@ -38,38 +41,41 @@ namespace RimWorld
 			int num5 = num3 + 2 + randomInRange3;
 			CellRect rect = new CellRect(loc.x, loc.z, num4, num5);
 			rect.ClipInsideMap(map);
-			if (rect.Width != num4 || rect.Height != num5)
+			if (rect.Width == num4 && rect.Height == num5)
 			{
-				return;
-			}
-			foreach (IntVec3 current in rect.Cells)
-			{
-				List<Thing> list = map.thingGrid.ThingsListAt(current);
-				for (int i = 0; i < list.Count; i++)
+				foreach (IntVec3 cell in rect.Cells)
 				{
-					if (list[i].def == ThingDefOf.AncientCryptosleepCasket)
+					List<Thing> list = map.thingGrid.ThingsListAt(cell);
+					int num6 = 0;
+					while (num6 < list.Count)
 					{
+						if (list[num6].def != ThingDefOf.AncientCryptosleepCasket)
+						{
+							num6++;
+							continue;
+						}
 						return;
 					}
 				}
+				if (base.CanPlaceAncientBuildingInRange(rect, map))
+				{
+					ResolveParams resolveParams = new ResolveParams
+					{
+						rect = rect,
+						disableSinglePawn = new bool?(true),
+						disableHives = new bool?(true),
+						ancientTempleEntranceHeight = new int?(randomInRange3)
+					};
+					RimWorld.BaseGen.BaseGen.globalSettings.map = map;
+					RimWorld.BaseGen.BaseGen.symbolStack.Push("ancientTemple", resolveParams);
+					RimWorld.BaseGen.BaseGen.Generate();
+					RectTrigger rectTrigger = (RectTrigger)ThingMaker.MakeThing(ThingDefOf.RectTrigger, null);
+					rectTrigger.Rect = rect.ExpandedBy(1).ClipInsideMap(map);
+					rectTrigger.letter = LetterMaker.MakeLetter("LetterLabelAncientShrineWarning".Translate(), "AncientShrineWarning".Translate(), LetterDefOf.BadNonUrgent, new TargetInfo(rect.CenterCell, map, false));
+					rectTrigger.destroyIfUnfogged = true;
+					GenSpawn.Spawn(rectTrigger, rect.CenterCell, map);
+				}
 			}
-			if (!base.CanPlaceAncientBuildingInRange(rect, map))
-			{
-				return;
-			}
-			ResolveParams resolveParams = default(ResolveParams);
-			resolveParams.rect = rect;
-			resolveParams.disableSinglePawn = new bool?(true);
-			resolveParams.disableHives = new bool?(true);
-			resolveParams.ancientTempleEntranceHeight = new int?(randomInRange3);
-			BaseGen.globalSettings.map = map;
-			BaseGen.symbolStack.Push("ancientTemple", resolveParams);
-			BaseGen.Generate();
-			RectTrigger rectTrigger = (RectTrigger)ThingMaker.MakeThing(ThingDefOf.RectTrigger, null);
-			rectTrigger.Rect = rect.ExpandedBy(1).ClipInsideMap(map);
-			rectTrigger.letter = LetterMaker.MakeLetter("LetterLabelAncientShrineWarning".Translate(), "AncientShrineWarning".Translate(), LetterDefOf.BadNonUrgent, new TargetInfo(rect.CenterCell, map, false));
-			rectTrigger.destroyIfUnfogged = true;
-			GenSpawn.Spawn(rectTrigger, rect.CenterCell, map);
 		}
 	}
 }

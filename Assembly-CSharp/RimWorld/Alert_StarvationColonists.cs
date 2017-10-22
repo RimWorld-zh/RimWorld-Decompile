@@ -20,23 +20,23 @@ namespace RimWorld
 
 		public Alert_StarvationColonists()
 		{
-			this.defaultLabel = "Starvation".Translate();
-			this.defaultPriority = AlertPriority.High;
+			base.defaultLabel = "Starvation".Translate();
+			base.defaultPriority = AlertPriority.High;
 		}
 
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (Pawn current in this.StarvingColonists)
+			foreach (Pawn starvingColonist in this.StarvingColonists)
 			{
-				stringBuilder.AppendLine("    " + current.NameStringShort);
+				stringBuilder.AppendLine("    " + starvingColonist.NameStringShort);
 			}
 			return string.Format("StarvationDesc".Translate(), stringBuilder.ToString());
 		}
 
 		public override AlertReport GetReport()
 		{
-			return AlertReport.CulpritIs(this.StarvingColonists.FirstOrDefault<Pawn>());
+			return AlertReport.CulpritIs((Thing)this.StarvingColonists.FirstOrDefault());
 		}
 	}
 }

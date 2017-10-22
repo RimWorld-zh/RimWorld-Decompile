@@ -37,16 +37,9 @@ namespace Verse
 		{
 			if (this.regions[0] == reg || this.regions[1] == reg)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Tried to double-register region ",
-					reg.ToString(),
-					" in ",
-					this
-				}));
-				return;
+				Log.Error("Tried to double-register region " + reg.ToString() + " in " + this);
 			}
-			if (this.RegionA == null || !this.RegionA.valid)
+			else if (this.RegionA == null || !this.RegionA.valid)
 			{
 				this.RegionA = reg;
 			}
@@ -56,17 +49,7 @@ namespace Verse
 			}
 			else
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Could not register region ",
-					reg.ToString(),
-					" in link ",
-					this,
-					": > 2 regions on link!\nRegionA: ",
-					this.RegionA.DebugString,
-					"\nRegionB: ",
-					this.RegionB.DebugString
-				}));
+				Log.Error("Could not register region " + reg.ToString() + " in link " + this + ": > 2 regions on link!\nRegionA: " + this.RegionA.DebugString + "\nRegionB: " + this.RegionB.DebugString);
 			}
 		}
 
@@ -105,21 +88,8 @@ namespace Verse
 			string text = GenText.ToCommaList(from r in this.regions
 			where r != null
 			select r.id.ToString(), true);
-			string text2 = string.Concat(new object[]
-			{
-				"span=",
-				this.span.ToString(),
-				" hash=",
-				this.UniqueHashCode()
-			});
-			return string.Concat(new string[]
-			{
-				"(",
-				text2,
-				", regions=",
-				text,
-				")"
-			});
+			string text2 = "span=" + this.span.ToString() + " hash=" + this.UniqueHashCode();
+			return "(" + text2 + ", regions=" + text + ")";
 		}
 	}
 }

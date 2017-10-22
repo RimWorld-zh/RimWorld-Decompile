@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum GizmoState : byte
 	{
-		Clear,
-		Mouseover,
-		Interacted
+		Clear = 0,
+		Mouseover = 1,
+		Interacted = 2
 	}
 }

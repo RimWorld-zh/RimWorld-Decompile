@@ -17,14 +17,14 @@ namespace RimWorld
 
 		public Designator_Deconstruct()
 		{
-			this.defaultLabel = "DesignatorDeconstruct".Translate();
-			this.defaultDesc = "DesignatorDeconstructDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/Deconstruct", true);
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.useMouseIcon = true;
-			this.soundSucceeded = SoundDefOf.DesignateDeconstruct;
-			this.hotKey = KeyBindingDefOf.DesignatorDeconstruct;
+			base.defaultLabel = "DesignatorDeconstruct".Translate();
+			base.defaultDesc = "DesignatorDeconstructDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/Deconstruct", true);
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.useMouseIcon = true;
+			base.soundSucceeded = SoundDefOf.DesignateDeconstruct;
+			base.hotKey = KeyBindingDefOf.DesignatorDeconstruct;
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
@@ -37,7 +37,8 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (this.TopDeconstructibleInCell(c) == null)
+			Thing thing = this.TopDeconstructibleInCell(c);
+			if (thing == null)
 			{
 				return false;
 			}
@@ -51,13 +52,13 @@ namespace RimWorld
 
 		private Thing TopDeconstructibleInCell(IntVec3 loc)
 		{
-			foreach (Thing current in from t in base.Map.thingGrid.ThingsAt(loc)
+			foreach (Thing item in from t in base.Map.thingGrid.ThingsAt(loc)
 			orderby t.def.altitudeLayer descending
 			select t)
 			{
-				if (this.CanDesignateThing(current).Accepted)
+				if (this.CanDesignateThing(item).Accepted)
 				{
-					return current;
+					return item;
 				}
 			}
 			return null;
@@ -70,7 +71,7 @@ namespace RimWorld
 				t.SetFaction(Faction.OfPlayer, null);
 			}
 			Thing innerIfMinified = t.GetInnerIfMinified();
-			if (DebugSettings.godMode || innerIfMinified.GetStatValue(StatDefOf.WorkToBuild, true) == 0f || t.def.IsFrame)
+			if (DebugSettings.godMode || innerIfMinified.GetStatValue(StatDefOf.WorkToBuild, true) == 0.0 || t.def.IsFrame)
 			{
 				t.Destroy(DestroyMode.Deconstruct);
 			}

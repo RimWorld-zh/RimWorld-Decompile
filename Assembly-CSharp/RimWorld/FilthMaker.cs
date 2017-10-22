@@ -9,7 +9,7 @@ namespace RimWorld
 	{
 		public static void MakeFilth(IntVec3 c, Map map, ThingDef filthDef, int count = 1)
 		{
-			for (int i = 0; i < count; i++)
+			for (int num = 0; num < count; num++)
 			{
 				FilthMaker.MakeFilth(c, map, filthDef, null, true);
 			}
@@ -18,9 +18,9 @@ namespace RimWorld
 		public static bool MakeFilth(IntVec3 c, Map map, ThingDef filthDef, string source, int count = 1)
 		{
 			bool flag = false;
-			for (int i = 0; i < count; i++)
+			for (int num = 0; num < count; num++)
 			{
-				flag |= FilthMaker.MakeFilth(c, map, filthDef, Gen.YieldSingle<string>(source), true);
+				flag |= FilthMaker.MakeFilth(c, map, filthDef, Gen.YieldSingle(source), true);
 			}
 			return flag;
 		}
@@ -34,42 +34,39 @@ namespace RimWorld
 		{
 			Filth filth = (Filth)(from t in c.GetThingList(map)
 			where t.def == filthDef
-			select t).FirstOrDefault<Thing>();
-			if (!c.Walkable(map) || (filth != null && !filth.CanBeThickened))
+			select t).FirstOrDefault();
+			if (c.Walkable(map) && (filth == null || filth.CanBeThickened))
 			{
-				if (shouldPropagate)
-				{
-					List<IntVec3> list = GenAdj.AdjacentCells8WayRandomized();
-					for (int i = 0; i < 8; i++)
-					{
-						IntVec3 c2 = c + list[i];
-						if (c2.InBounds(map))
-						{
-							if (FilthMaker.MakeFilth(c2, map, filthDef, sources, false))
-							{
-								return true;
-							}
-						}
-					}
-				}
 				if (filth != null)
 				{
+					filth.ThickenFilth();
 					filth.AddSources(sources);
 				}
-				return false;
+				else
+				{
+					Filth filth2 = (Filth)ThingMaker.MakeThing(filthDef, null);
+					filth2.AddSources(sources);
+					GenSpawn.Spawn(filth2, c, map);
+				}
+				return true;
+			}
+			if (shouldPropagate)
+			{
+				List<IntVec3> list = GenAdj.AdjacentCells8WayRandomized();
+				for (int i = 0; i < 8; i++)
+				{
+					IntVec3 c2 = c + list[i];
+					if (c2.InBounds(map) && FilthMaker.MakeFilth(c2, map, filthDef, sources, false))
+					{
+						return true;
+					}
+				}
 			}
 			if (filth != null)
 			{
-				filth.ThickenFilth();
 				filth.AddSources(sources);
 			}
-			else
-			{
-				Filth filth2 = (Filth)ThingMaker.MakeThing(filthDef, null);
-				filth2.AddSources(sources);
-				GenSpawn.Spawn(filth2, c, map);
-			}
-			return true;
+			return false;
 		}
 	}
 }

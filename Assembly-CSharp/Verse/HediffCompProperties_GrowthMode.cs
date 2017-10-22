@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class HediffCompProperties_GrowthMode : HediffCompProperties
@@ -14,7 +12,7 @@ namespace Verse
 
 		public HediffCompProperties_GrowthMode()
 		{
-			this.compClass = typeof(HediffComp_GrowthMode);
+			base.compClass = typeof(HediffComp_GrowthMode);
 		}
 	}
 }

@@ -21,43 +21,42 @@ namespace RimWorld
 
 		public static void InitializeIfNeeded()
 		{
-			if (LastPlayedVersion.initialized)
+			if (!LastPlayedVersion.initialized)
 			{
-				return;
-			}
-			try
-			{
-				string text = null;
-				if (File.Exists(GenFilePaths.LastPlayedVersionFilePath))
+				try
 				{
-					try
+					string text = (string)null;
+					if (File.Exists(GenFilePaths.LastPlayedVersionFilePath))
 					{
-						text = File.ReadAllText(GenFilePaths.LastPlayedVersionFilePath);
+						try
+						{
+							text = File.ReadAllText(GenFilePaths.LastPlayedVersionFilePath);
+						}
+						catch (Exception ex)
+						{
+							Log.Error("Exception getting last played version data. Path: " + GenFilePaths.LastPlayedVersionFilePath + ". Exception: " + ex.ToString());
+						}
 					}
-					catch (Exception ex)
+					if (text != null)
 					{
-						Log.Error("Exception getting last played version data. Path: " + GenFilePaths.LastPlayedVersionFilePath + ". Exception: " + ex.ToString());
+						try
+						{
+							LastPlayedVersion.lastPlayedVersionInt = VersionControl.VersionFromString(text);
+						}
+						catch (Exception ex2)
+						{
+							Log.Error("Exception parsing last version from string '" + text + "': " + ex2.ToString());
+						}
+					}
+					if (LastPlayedVersion.lastPlayedVersionInt != VersionControl.CurrentVersion)
+					{
+						File.WriteAllText(GenFilePaths.LastPlayedVersionFilePath, VersionControl.CurrentVersionString);
 					}
 				}
-				if (text != null)
+				finally
 				{
-					try
-					{
-						LastPlayedVersion.lastPlayedVersionInt = VersionControl.VersionFromString(text);
-					}
-					catch (Exception ex2)
-					{
-						Log.Error("Exception parsing last version from string '" + text + "': " + ex2.ToString());
-					}
+					LastPlayedVersion.initialized = true;
 				}
-				if (LastPlayedVersion.lastPlayedVersionInt != VersionControl.CurrentVersion)
-				{
-					File.WriteAllText(GenFilePaths.LastPlayedVersionFilePath, VersionControl.CurrentVersionString);
-				}
-			}
-			finally
-			{
-				LastPlayedVersion.initialized = true;
 			}
 		}
 	}

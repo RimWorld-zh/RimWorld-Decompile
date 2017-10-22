@@ -45,7 +45,7 @@ namespace RimWorld
 				}
 				if (PawnWeaponGenerator.IsDerpWeapon(this.thing, this.stuff))
 				{
-					num *= 0.01f;
+					num = (float)(num * 0.0099999997764825821);
 				}
 				return num;
 			}
@@ -78,19 +78,19 @@ namespace RimWorld
 						IEnumerable<ThingDef> enumerable = from st in DefDatabase<ThingDef>.AllDefs
 						where st.IsStuff && st.stuffProps.CanMake(thingDef)
 						select st;
-						int num = enumerable.Count<ThingDef>();
-						float num2 = enumerable.Average((ThingDef st) => st.stuffProps.commonality);
-						float num3 = 1f / (float)num / num2;
-						foreach (ThingDef current in enumerable)
+						int num = enumerable.Count();
+						float num2 = enumerable.Average((Func<ThingDef, float>)((ThingDef st) => st.stuffProps.commonality));
+						float num3 = (float)(1.0 / (float)num / num2);
+						foreach (ThingDef item in enumerable)
 						{
-							list.Add(new ThingStuffPair(thingDef, current, num3));
+							list.Add(new ThingStuffPair(thingDef, item, num3));
 						}
 					}
 				}
 			}
 			return (from p in list
 			orderby p.Price descending
-			select p).ToList<ThingStuffPair>();
+			select p).ToList();
 		}
 
 		public override string ToString()
@@ -99,23 +99,8 @@ namespace RimWorld
 			{
 				return "(null)";
 			}
-			string text;
-			if (this.stuff == null)
-			{
-				text = this.thing.label;
-			}
-			else
-			{
-				text = this.thing.label + " " + this.stuff.LabelAsStuff;
-			}
-			return string.Concat(new string[]
-			{
-				text,
-				" $",
-				this.Price.ToString("F0"),
-				" c=",
-				this.Commonality.ToString("F4")
-			});
+			string text = (this.stuff != null) ? (this.thing.label + " " + this.stuff.LabelAsStuff) : this.thing.label;
+			return text + " $" + this.Price.ToString("F0") + " c=" + this.Commonality.ToString("F4");
 		}
 	}
 }

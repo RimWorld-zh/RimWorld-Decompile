@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -18,7 +17,7 @@ namespace RimWorld
 			{
 				string text = this.thought.LabelCap;
 				float num = this.thought.MoodOffset();
-				if (num != 0f)
+				if (num != 0.0)
 				{
 					text = text + " " + Mathf.RoundToInt(num).ToStringWithSign();
 				}

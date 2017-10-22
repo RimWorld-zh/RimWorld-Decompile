@@ -33,7 +33,7 @@ namespace RimWorld
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
-				this.kidnappedPawns.RemoveAll((Pawn x) => x.Destroyed);
+				this.kidnappedPawns.RemoveAll((Predicate<Pawn>)((Pawn x) => x.Destroyed));
 			}
 			Scribe_Collections.Look<Pawn>(ref this.kidnappedPawns, "kidnappedPawns", LookMode.Reference, new object[0]);
 		}
@@ -43,26 +43,27 @@ namespace RimWorld
 			if (this.kidnappedPawns.Contains(pawn))
 			{
 				Log.Error("Tried to kidnap already kidnapped pawn " + pawn);
-				return;
 			}
-			if (pawn.Faction == this.faction)
+			else if (pawn.Faction == this.faction)
 			{
 				Log.Error("Tried to kidnap pawn with the same faction: " + pawn);
-				return;
 			}
-			pawn.PreKidnapped(kidnapper);
-			if (pawn.Spawned)
+			else
 			{
-				pawn.DeSpawn();
-			}
-			this.kidnappedPawns.Add(pawn);
-			if (!Find.WorldPawns.Contains(pawn))
-			{
-				Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Decide);
+				pawn.PreKidnapped(kidnapper);
+				if (pawn.Spawned)
+				{
+					pawn.DeSpawn();
+				}
+				this.kidnappedPawns.Add(pawn);
 				if (!Find.WorldPawns.Contains(pawn))
 				{
-					Log.Error("WorldPawns discarded kidnapped pawn.");
-					this.kidnappedPawns.Remove(pawn);
+					Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Decide);
+					if (!Find.WorldPawns.Contains(pawn))
+					{
+						Log.Error("WorldPawns discarded kidnapped pawn.");
+						this.kidnappedPawns.Remove(pawn);
+					}
 				}
 			}
 		}
@@ -88,15 +89,15 @@ namespace RimWorld
 
 		public void KidnappedPawnsTrackerTick()
 		{
-			this.kidnappedPawns.RemoveAll((Pawn x) => x.DestroyedOrNull());
+			this.kidnappedPawns.RemoveAll((Predicate<Pawn>)((Pawn x) => x.DestroyedOrNull()));
 			if (Find.TickManager.TicksGame % 15051 == 0)
 			{
-				for (int i = this.kidnappedPawns.Count - 1; i >= 0; i--)
+				for (int num = this.kidnappedPawns.Count - 1; num >= 0; num--)
 				{
 					if (Rand.MTBEventOccurs(30f, 60000f, 15051f))
 					{
-						this.kidnappedPawns[i].SetFaction(this.faction, null);
-						this.kidnappedPawns.RemoveAt(i);
+						this.kidnappedPawns[num].SetFaction(this.faction, null);
+						this.kidnappedPawns.RemoveAt(num);
 					}
 				}
 			}

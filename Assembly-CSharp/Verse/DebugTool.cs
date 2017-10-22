@@ -22,7 +22,7 @@ namespace Verse
 		{
 			this.label = label;
 			this.clickAction = clickAction;
-			this.onGUIAction = delegate
+			this.onGUIAction = (Action)delegate()
 			{
 				IntVec3 intVec = UI.MouseCell();
 				Vector3 v = firstRectCorner.ToVector3Shifted();
@@ -71,7 +71,7 @@ namespace Verse
 			Rect rect = new Rect(vector.x, vector.y, 999f, 999f);
 			Text.Font = GameFont.Small;
 			Widgets.Label(rect, this.label);
-			if (this.onGUIAction != null)
+			if ((object)this.onGUIAction != null)
 			{
 				this.onGUIAction();
 			}

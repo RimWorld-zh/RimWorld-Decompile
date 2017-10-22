@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using Verse;
 
@@ -49,10 +48,9 @@ namespace RimWorld
 
 		protected override void ReceiveCompSignal(string signal)
 		{
-			if (signal == "FlickedOff" || signal == "FlickedOn" || signal == "ScheduledOn" || signal == "ScheduledOff")
-			{
-				this.UpdatePowerGrid();
-			}
+			if (!(signal == "FlickedOff") && !(signal == "FlickedOn") && !(signal == "ScheduledOn") && !(signal == "ScheduledOff"))
+				return;
+			this.UpdatePowerGrid();
 		}
 
 		public override string GetInspectString()

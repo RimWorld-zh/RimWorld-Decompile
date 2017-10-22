@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum MultiCheckboxState : byte
 	{
-		On,
-		Off,
-		Partial
+		On = 0,
+		Off = 1,
+		Partial = 2
 	}
 }

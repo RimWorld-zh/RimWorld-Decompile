@@ -1,23 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
 {
 	public class Recipe_RemoveHediff : Recipe_Surgery
 	{
-		[DebuggerHidden]
 		public override IEnumerable<BodyPartRecord> GetPartsToApplyOn(Pawn pawn, RecipeDef recipe)
 		{
-			Recipe_RemoveHediff.<GetPartsToApplyOn>c__IteratorC5 <GetPartsToApplyOn>c__IteratorC = new Recipe_RemoveHediff.<GetPartsToApplyOn>c__IteratorC5();
-			<GetPartsToApplyOn>c__IteratorC.pawn = pawn;
-			<GetPartsToApplyOn>c__IteratorC.recipe = recipe;
-			<GetPartsToApplyOn>c__IteratorC.<$>pawn = pawn;
-			<GetPartsToApplyOn>c__IteratorC.<$>recipe = recipe;
-			Recipe_RemoveHediff.<GetPartsToApplyOn>c__IteratorC5 expr_23 = <GetPartsToApplyOn>c__IteratorC;
-			expr_23.$PC = -2;
-			return expr_23;
+			List<Hediff> allHediffs = pawn.health.hediffSet.hediffs;
+			for (int i = 0; i < allHediffs.Count; i++)
+			{
+				if (allHediffs[i].Part != null && allHediffs[i].def == recipe.removesHediff && allHediffs[i].Visible)
+				{
+					yield return allHediffs[i].Part;
+				}
+			}
 		}
 
 		public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients)
@@ -28,31 +26,14 @@ namespace RimWorld
 				{
 					return;
 				}
-				TaleRecorder.RecordTale(TaleDefOf.DidSurgery, new object[]
-				{
-					billDoer,
-					pawn
-				});
+				TaleRecorder.RecordTale(TaleDefOf.DidSurgery, billDoer, pawn);
 				if (PawnUtility.ShouldSendNotificationAbout(pawn) || PawnUtility.ShouldSendNotificationAbout(billDoer))
 				{
-					string text;
-					if (!this.recipe.successfullyRemovedHediffMessage.NullOrEmpty())
-					{
-						text = string.Format(this.recipe.successfullyRemovedHediffMessage, billDoer.LabelShort, pawn.LabelShort);
-					}
-					else
-					{
-						text = "MessageSuccessfullyRemovedHediff".Translate(new object[]
-						{
-							billDoer.LabelShort,
-							pawn.LabelShort,
-							this.recipe.removesHediff.label
-						});
-					}
-					Messages.Message(text, pawn, MessageSound.Benefit);
+					string text = base.recipe.successfullyRemovedHediffMessage.NullOrEmpty() ? "MessageSuccessfullyRemovedHediff".Translate(billDoer.LabelShort, pawn.LabelShort, base.recipe.removesHediff.label) : string.Format(base.recipe.successfullyRemovedHediffMessage, billDoer.LabelShort, pawn.LabelShort);
+					Messages.Message(text, (Thing)pawn, MessageSound.Benefit);
 				}
 			}
-			Hediff hediff = pawn.health.hediffSet.hediffs.Find((Hediff x) => x.def == this.recipe.removesHediff && x.Part == part && x.Visible);
+			Hediff hediff = pawn.health.hediffSet.hediffs.Find((Predicate<Hediff>)((Hediff x) => x.def == base.recipe.removesHediff && x.Part == part && x.Visible));
 			if (hediff != null)
 			{
 				pawn.health.RemoveHediff(hediff);

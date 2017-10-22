@@ -1,7 +1,6 @@
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -24,12 +23,12 @@ namespace RimWorld
 			if (Widgets.ButtonText(scenPartRect, this.factionDef.LabelCap, true, false, true))
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				foreach (FactionDef current in from d in DefDatabase<FactionDef>.AllDefs
+				foreach (FactionDef item in from d in DefDatabase<FactionDef>.AllDefs
 				where d.isPlayer
 				select d)
 				{
-					FactionDef localFd = current;
-					list.Add(new FloatMenuOption(localFd.LabelCap, delegate
+					FactionDef localFd = item;
+					list.Add(new FloatMenuOption(localFd.LabelCap, (Action)delegate
 					{
 						this.factionDef = localFd;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -40,17 +39,14 @@ namespace RimWorld
 
 		public override string Summary(Scenario scen)
 		{
-			return "ScenPart_PlayerFaction".Translate(new object[]
-			{
-				this.factionDef.label
-			});
+			return "ScenPart_PlayerFaction".Translate(this.factionDef.label);
 		}
 
 		public override void Randomize()
 		{
 			this.factionDef = (from fd in DefDatabase<FactionDef>.AllDefs
 			where fd.isPlayer
-			select fd).RandomElement<FactionDef>();
+			select fd).RandomElement();
 		}
 
 		public override void PostWorldGenerate()
@@ -74,14 +70,12 @@ namespace RimWorld
 			Find.GameInitData.playerFaction = null;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			ScenPart_PlayerFaction.<ConfigErrors>c__Iterator11C <ConfigErrors>c__Iterator11C = new ScenPart_PlayerFaction.<ConfigErrors>c__Iterator11C();
-			<ConfigErrors>c__Iterator11C.<>f__this = this;
-			ScenPart_PlayerFaction.<ConfigErrors>c__Iterator11C expr_0E = <ConfigErrors>c__Iterator11C;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.factionDef == null)
+			{
+				yield return "factionDef is null";
+			}
 		}
 	}
 }

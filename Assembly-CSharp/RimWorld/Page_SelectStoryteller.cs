@@ -27,7 +27,7 @@ namespace RimWorld
 			this.storyteller = (from d in DefDatabase<StorytellerDef>.AllDefs
 			where d.listVisible
 			orderby d.listOrder
-			select d).First<StorytellerDef>();
+			select d).First();
 		}
 
 		public override void DoWindowContents(Rect rect)
@@ -35,7 +35,7 @@ namespace RimWorld
 			base.DrawPageTitle(rect);
 			Rect mainRect = base.GetMainRect(rect, 0f, false);
 			StorytellerUI.DrawStorytellerSelectionInterface(mainRect, ref this.storyteller, ref this.difficulty, this.selectedStorytellerInfoListing);
-			base.DoBottomButtons(rect, null, null, null, true);
+			base.DoBottomButtons(rect, (string)null, (string)null, null, true);
 		}
 
 		protected override bool CanDoNext()

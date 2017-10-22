@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -18,14 +17,14 @@ namespace RimWorld.Planet
 			get
 			{
 				Vector2 vector = GenWorldUI.WorldToUIPosition(Find.WorldGrid.NorthPolePos);
-				Vector2 vector2 = new Vector2((float)UI.screenWidth / 2f, (float)UI.screenHeight / 2f);
-				return Mathf.Atan2(vector.y - vector2.y, vector.x - vector2.x) * 57.29578f;
+				Vector2 vector2 = new Vector2((float)((float)UI.screenWidth / 2.0), (float)((float)UI.screenHeight / 2.0));
+				return (float)(Mathf.Atan2(vector.y - vector2.y, vector.x - vector2.x) * 57.295780181884766);
 			}
 		}
 
 		public static void CompassOnGUI(ref float curBaseY)
 		{
-			Vector2 center = new Vector2((float)UI.screenWidth - 10f - 32f, curBaseY - 10f - 32f);
+			Vector2 center = new Vector2((float)((float)UI.screenWidth - 10.0 - 32.0), (float)(curBaseY - 10.0 - 32.0));
 			CompassWidget.CompassOnGUI(center);
 			curBaseY -= 84f;
 		}
@@ -33,7 +32,7 @@ namespace RimWorld.Planet
 		private static void CompassOnGUI(Vector2 center)
 		{
 			Widgets.DrawTextureRotated(center, CompassWidget.CompassTex, CompassWidget.Angle, 1f);
-			Rect rect = new Rect(center.x - 32f, center.y - 32f, 64f, 64f);
+			Rect rect = new Rect((float)(center.x - 32.0), (float)(center.y - 32.0), 64f, 64f);
 			TooltipHandler.TipRegion(rect, "CompassTip".Translate());
 			if (Widgets.ButtonInvisible(rect, false))
 			{

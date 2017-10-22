@@ -83,7 +83,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.cachedMat == null)
+				if ((UnityEngine.Object)this.cachedMat == (UnityEngine.Object)null)
 				{
 					if (this.texture.NullOrEmpty())
 					{
@@ -111,11 +111,13 @@ namespace RimWorld
 		{
 			get
 			{
-				BiomeDef.<>c__Iterator8C <>c__Iterator8C = new BiomeDef.<>c__Iterator8C();
-				<>c__Iterator8C.<>f__this = this;
-				BiomeDef.<>c__Iterator8C expr_0E = <>c__Iterator8C;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				foreach (ThingDef allDef in DefDatabase<ThingDef>.AllDefs)
+				{
+					if (allDef.category == ThingCategory.Plant && this.CommonalityOfPlant(allDef) > 0.0)
+					{
+						yield return allDef;
+					}
+				}
 			}
 		}
 
@@ -123,11 +125,13 @@ namespace RimWorld
 		{
 			get
 			{
-				BiomeDef.<>c__Iterator8D <>c__Iterator8D = new BiomeDef.<>c__Iterator8D();
-				<>c__Iterator8D.<>f__this = this;
-				BiomeDef.<>c__Iterator8D expr_0E = <>c__Iterator8D;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				foreach (PawnKindDef allDef in DefDatabase<PawnKindDef>.AllDefs)
+				{
+					if (this.CommonalityOfAnimal(allDef) > 0.0)
+					{
+						yield return allDef;
+					}
+				}
 			}
 		}
 
@@ -140,21 +144,21 @@ namespace RimWorld
 				{
 					this.cachedAnimalCommonalities.Add(this.wildAnimals[i].animal, this.wildAnimals[i].commonality);
 				}
-				foreach (PawnKindDef current in DefDatabase<PawnKindDef>.AllDefs)
+				foreach (PawnKindDef allDef in DefDatabase<PawnKindDef>.AllDefs)
 				{
-					if (current.RaceProps.wildBiomes != null)
+					if (allDef.RaceProps.wildBiomes != null)
 					{
-						for (int j = 0; j < current.RaceProps.wildBiomes.Count; j++)
+						for (int j = 0; j < allDef.RaceProps.wildBiomes.Count; j++)
 						{
-							if (current.RaceProps.wildBiomes[j].biome == this)
+							if (allDef.RaceProps.wildBiomes[j].biome == this)
 							{
-								this.cachedAnimalCommonalities.Add(current, current.RaceProps.wildBiomes[j].commonality);
+								this.cachedAnimalCommonalities.Add(allDef, allDef.RaceProps.wildBiomes[j].commonality);
 							}
 						}
 					}
 				}
 			}
-			float result;
+			float result = default(float);
 			if (this.cachedAnimalCommonalities.TryGetValue(animalDef, out result))
 			{
 				return result;
@@ -171,21 +175,21 @@ namespace RimWorld
 				{
 					this.cachedPlantCommonalities.Add(this.wildPlants[i].plant, this.wildPlants[i].commonality);
 				}
-				foreach (ThingDef current in DefDatabase<ThingDef>.AllDefs)
+				foreach (ThingDef allDef in DefDatabase<ThingDef>.AllDefs)
 				{
-					if (current.plant != null && current.plant.wildBiomes != null)
+					if (allDef.plant != null && allDef.plant.wildBiomes != null)
 					{
-						for (int j = 0; j < current.plant.wildBiomes.Count; j++)
+						for (int j = 0; j < allDef.plant.wildBiomes.Count; j++)
 						{
-							if (current.plant.wildBiomes[j].biome == this)
+							if (allDef.plant.wildBiomes[j].biome == this)
 							{
-								this.cachedPlantCommonalities.Add(current, current.plant.wildBiomes[j].commonality);
+								this.cachedPlantCommonalities.Add(allDef, allDef.plant.wildBiomes[j].commonality);
 							}
 						}
 					}
 				}
 			}
-			float result;
+			float result = default(float);
 			if (this.cachedPlantCommonalities.TryGetValue(plantDef, out result))
 			{
 				return result;
@@ -202,21 +206,21 @@ namespace RimWorld
 				{
 					this.cachedDiseaseCommonalities.Add(this.diseases[i].diseaseInc, this.diseases[i].commonality);
 				}
-				foreach (IncidentDef current in DefDatabase<IncidentDef>.AllDefs)
+				foreach (IncidentDef allDef in DefDatabase<IncidentDef>.AllDefs)
 				{
-					if (current.diseaseBiomeRecords != null)
+					if (allDef.diseaseBiomeRecords != null)
 					{
-						for (int j = 0; j < current.diseaseBiomeRecords.Count; j++)
+						for (int j = 0; j < allDef.diseaseBiomeRecords.Count; j++)
 						{
-							if (current.diseaseBiomeRecords[j].biome == this)
+							if (allDef.diseaseBiomeRecords[j].biome == this)
 							{
-								this.cachedDiseaseCommonalities.Add(current.diseaseBiomeRecords[j].diseaseInc, current.diseaseBiomeRecords[j].commonality);
+								this.cachedDiseaseCommonalities.Add(allDef.diseaseBiomeRecords[j].diseaseInc, allDef.diseaseBiomeRecords[j].commonality);
 							}
 						}
 					}
 				}
 			}
-			float result;
+			float result = default(float);
 			if (this.cachedDiseaseCommonalities.TryGetValue(diseaseInc, out result))
 			{
 				return result;

@@ -15,7 +15,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return 0.35f * Find.WorldGrid.averageTileSize;
+				return (float)(0.34999999403953552 * Find.WorldGrid.averageTileSize);
 			}
 		}
 
@@ -23,7 +23,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return 0.75f * Find.WorldGrid.averageTileSize;
+				return (float)(0.75 * Find.WorldGrid.averageTileSize);
 			}
 		}
 
@@ -31,7 +31,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return 0.35f * Find.WorldGrid.averageTileSize;
+				return (float)(0.34999999403953552 * Find.WorldGrid.averageTileSize);
 			}
 		}
 
@@ -50,7 +50,7 @@ namespace RimWorld.Planet
 					GenWorldUI.clickedCaravans.Add(caravan);
 				}
 			}
-			GenWorldUI.clickedCaravans.SortBy((Caravan x) => x.DistanceToMouse(mousePos));
+			GenWorldUI.clickedCaravans.SortBy((Func<Caravan, float>)((Caravan x) => x.DistanceToMouse(mousePos)));
 			for (int j = 0; j < GenWorldUI.clickedCaravans.Count; j++)
 			{
 				if (!list.Contains(GenWorldUI.clickedCaravans[j]))
@@ -69,7 +69,7 @@ namespace RimWorld.Planet
 					GenWorldUI.clickedDynamicallyDrawnObjects.Add(worldObject);
 				}
 			}
-			GenWorldUI.clickedDynamicallyDrawnObjects.SortBy((WorldObject x) => x.DistanceToMouse(mousePos));
+			GenWorldUI.clickedDynamicallyDrawnObjects.SortBy((Func<WorldObject, float>)((WorldObject x) => x.DistanceToMouse(mousePos)));
 			for (int l = 0; l < GenWorldUI.clickedDynamicallyDrawnObjects.Count; l++)
 			{
 				if (!list.Contains(GenWorldUI.clickedDynamicallyDrawnObjects[l]))
@@ -97,7 +97,7 @@ namespace RimWorld.Planet
 					GenWorldUI.clickedCaravans.Add(caravan2);
 				}
 			}
-			GenWorldUI.clickedCaravans.SortBy((Caravan x) => x.DistanceToMouse(mousePos));
+			GenWorldUI.clickedCaravans.SortBy((Func<Caravan, float>)((Caravan x) => x.DistanceToMouse(mousePos)));
 			for (int num2 = 0; num2 < GenWorldUI.clickedCaravans.Count; num2++)
 			{
 				if (!list.Contains(GenWorldUI.clickedCaravans[num2]))

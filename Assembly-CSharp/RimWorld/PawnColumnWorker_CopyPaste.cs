@@ -16,13 +16,13 @@ namespace RimWorld
 			Action pasteAction = null;
 			if (this.AnythingInClipboard)
 			{
-				pasteAction = delegate
+				pasteAction = (Action)delegate()
 				{
 					this.PasteTo(pawn);
 				};
 			}
 			Rect rect2 = new Rect(rect.x, rect.y, 36f, 30f);
-			CopyPasteUI.DoCopyPasteButtons(rect2, delegate
+			CopyPasteUI.DoCopyPasteButtons(rect2, (Action)delegate()
 			{
 				this.CopyFrom(pawn);
 			}, pasteAction);

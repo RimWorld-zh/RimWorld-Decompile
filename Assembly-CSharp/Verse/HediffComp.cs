@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -29,7 +28,7 @@ namespace Verse
 		{
 			get
 			{
-				return null;
+				return (string)null;
 			}
 		}
 
@@ -37,7 +36,7 @@ namespace Verse
 		{
 			get
 			{
-				return null;
+				return (string)null;
 			}
 		}
 
@@ -100,7 +99,7 @@ namespace Verse
 
 		public virtual string CompDebugString()
 		{
-			return null;
+			return (string)null;
 		}
 	}
 }

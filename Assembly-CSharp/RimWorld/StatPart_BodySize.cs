@@ -7,7 +7,7 @@ namespace RimWorld
 	{
 		public override void TransformValue(StatRequest req, ref float val)
 		{
-			float num;
+			float num = default(float);
 			if (this.TryGetBodySize(req, out num))
 			{
 				val *= num;
@@ -16,20 +16,17 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			float f;
+			float f = default(float);
 			if (this.TryGetBodySize(req, out f))
 			{
-				return "StatsReport_BodySize".Translate(new object[]
-				{
-					f.ToString("F2")
-				}) + ": x" + f.ToStringPercent();
+				return "StatsReport_BodySize".Translate(f.ToString("F2")) + ": x" + f.ToStringPercent();
 			}
-			return null;
+			return (string)null;
 		}
 
 		private bool TryGetBodySize(StatRequest req, out float bodySize)
 		{
-			return PawnOrCorpseStatUtility.TryGetPawnOrCorpseStat(req, (Pawn x) => x.BodySize, (ThingDef x) => x.race.baseBodySize, out bodySize);
+			return PawnOrCorpseStatUtility.TryGetPawnOrCorpseStat(req, (Func<Pawn, float>)((Pawn x) => x.BodySize), (Func<ThingDef, float>)((ThingDef x) => x.race.baseBodySize), out bodySize);
 		}
 	}
 }

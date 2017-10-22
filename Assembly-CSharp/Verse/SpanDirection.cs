@@ -1,10 +1,8 @@
-using System;
-
 namespace Verse
 {
 	public enum SpanDirection : byte
 	{
-		North,
-		East
+		North = 0,
+		East = 1
 	}
 }

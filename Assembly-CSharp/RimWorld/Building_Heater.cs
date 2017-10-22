@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -10,36 +9,24 @@ namespace RimWorld
 
 		public override void TickRare()
 		{
-			if (this.compPowerTrader.PowerOn)
+			if (base.compPowerTrader.PowerOn)
 			{
 				float ambientTemperature = base.AmbientTemperature;
-				float num;
-				if (ambientTemperature < 20f)
-				{
-					num = 1f;
-				}
-				else if (ambientTemperature > 120f)
-				{
-					num = 0f;
-				}
-				else
-				{
-					num = Mathf.InverseLerp(120f, 20f, ambientTemperature);
-				}
-				float energyLimit = this.compTempControl.Props.energyPerSecond * num * 4.16666651f;
-				float num2 = GenTemperature.ControlTemperatureTempChange(base.Position, base.Map, energyLimit, this.compTempControl.targetTemperature);
+				float num = (float)((!(ambientTemperature < 20.0)) ? ((!(ambientTemperature > 120.0)) ? Mathf.InverseLerp(120f, 20f, ambientTemperature) : 0.0) : 1.0);
+				float energyLimit = (float)(base.compTempControl.Props.energyPerSecond * num * 4.1666665077209473);
+				float num2 = GenTemperature.ControlTemperatureTempChange(base.Position, base.Map, energyLimit, base.compTempControl.targetTemperature);
 				bool flag = !Mathf.Approximately(num2, 0f);
-				CompProperties_Power props = this.compPowerTrader.Props;
+				CompProperties_Power props = base.compPowerTrader.Props;
 				if (flag)
 				{
 					this.GetRoomGroup().Temperature += num2;
-					this.compPowerTrader.PowerOutput = -props.basePowerConsumption;
+					base.compPowerTrader.PowerOutput = (float)(0.0 - props.basePowerConsumption);
 				}
 				else
 				{
-					this.compPowerTrader.PowerOutput = -props.basePowerConsumption * this.compTempControl.Props.lowPowerConsumptionFactor;
+					base.compPowerTrader.PowerOutput = (float)((0.0 - props.basePowerConsumption) * base.compTempControl.Props.lowPowerConsumptionFactor);
 				}
-				this.compTempControl.operatingAtHighPower = flag;
+				base.compTempControl.operatingAtHighPower = flag;
 			}
 		}
 	}

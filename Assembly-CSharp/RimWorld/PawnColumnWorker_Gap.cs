@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -10,7 +9,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.def.gap;
+				return base.def.gap;
 			}
 		}
 

@@ -1,7 +1,5 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse
 {
@@ -90,13 +88,9 @@ namespace Verse
 			return label;
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			ThingComp.<CompGetGizmosExtra>c__IteratorB0 <CompGetGizmosExtra>c__IteratorB = new ThingComp.<CompGetGizmosExtra>c__IteratorB0();
-			ThingComp.<CompGetGizmosExtra>c__IteratorB0 expr_07 = <CompGetGizmosExtra>c__IteratorB;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield break;
 		}
 
 		public virtual bool AllowStackWith(Thing other)
@@ -106,21 +100,17 @@ namespace Verse
 
 		public virtual string CompInspectStringExtra()
 		{
-			return null;
+			return (string)null;
 		}
 
 		public virtual string GetDescriptionPart()
 		{
-			return null;
+			return (string)null;
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn selPawn)
 		{
-			ThingComp.<CompFloatMenuOptions>c__IteratorB1 <CompFloatMenuOptions>c__IteratorB = new ThingComp.<CompFloatMenuOptions>c__IteratorB1();
-			ThingComp.<CompFloatMenuOptions>c__IteratorB1 expr_07 = <CompFloatMenuOptions>c__IteratorB;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield break;
 		}
 
 		public virtual void PrePreTraded(TradeAction action, Pawn playerNegotiator, ITrader trader)
@@ -137,15 +127,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				base.GetType().Name,
-				"(parent=",
-				this.parent,
-				" at=",
-				(this.parent == null) ? IntVec3.Invalid : this.parent.Position,
-				")"
-			});
+			return base.GetType().Name + "(parent=" + this.parent + " at=" + ((this.parent == null) ? IntVec3.Invalid : this.parent.Position) + ")";
 		}
 	}
 }

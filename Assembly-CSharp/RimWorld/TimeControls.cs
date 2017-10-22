@@ -9,7 +9,7 @@ namespace RimWorld
 	{
 		public static readonly Vector2 TimeButSize = new Vector2(32f, 24f);
 
-		private static readonly string[] SpeedSounds = new string[]
+		private static readonly string[] SpeedSounds = new string[5]
 		{
 			"ClockStop",
 			"ClockNormal",
@@ -22,20 +22,23 @@ namespace RimWorld
 
 		private static void PlaySoundOf(TimeSpeed speed)
 		{
-			SoundDef.Named(TimeControls.SpeedSounds[(int)speed]).PlayOneShotOnCamera(null);
+			SoundDef.Named(TimeControls.SpeedSounds[(uint)speed]).PlayOneShotOnCamera(null);
 		}
 
 		public static void DoTimeControlsGUI(Rect timerRect)
 		{
 			TickManager tickManager = Find.TickManager;
 			GUI.BeginGroup(timerRect);
-			Rect rect = new Rect(0f, 0f, TimeControls.TimeButSize.x, TimeControls.TimeButSize.y);
+			Vector2 timeButSize = TimeControls.TimeButSize;
+			float x = timeButSize.x;
+			Vector2 timeButSize2 = TimeControls.TimeButSize;
+			Rect rect = new Rect(0f, 0f, x, timeButSize2.y);
 			for (int i = 0; i < TimeControls.CachedTimeSpeedValues.Length; i++)
 			{
 				TimeSpeed timeSpeed = TimeControls.CachedTimeSpeedValues[i];
 				if (timeSpeed != TimeSpeed.Ultrafast)
 				{
-					if (Widgets.ButtonImage(rect, TexButton.SpeedButtonTextures[(int)timeSpeed]))
+					if (Widgets.ButtonImage(rect, TexButton.SpeedButtonTextures[(uint)timeSpeed]))
 					{
 						if (timeSpeed == TimeSpeed.Paused)
 						{
@@ -58,7 +61,7 @@ namespace RimWorld
 			}
 			if (Find.TickManager.slower.ForcedNormalSpeed)
 			{
-				Widgets.DrawLineHorizontal(rect.width * 2f, rect.height / 2f, rect.width * 2f);
+				Widgets.DrawLineHorizontal((float)(rect.width * 2.0), (float)(rect.height / 2.0), (float)(rect.width * 2.0));
 			}
 			GUI.EndGroup();
 			GenUI.AbsorbClicksInRect(timerRect);

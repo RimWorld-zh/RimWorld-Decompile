@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,39 +11,43 @@ namespace RimWorld
 		{
 			get
 			{
-				Alert_Hypothermia.<>c__Iterator185 <>c__Iterator = new Alert_Hypothermia.<>c__Iterator185();
-				Alert_Hypothermia.<>c__Iterator185 expr_07 = <>c__Iterator;
-				expr_07.$PC = -2;
-				return expr_07;
+				foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
+				{
+					if (!item.SafeTemperatureRange().Includes(item.AmbientTemperature))
+					{
+						Hediff hypo = item.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Hypothermia, false);
+						if (hypo != null && hypo.CurStageIndex >= 3)
+						{
+							yield return item;
+						}
+					}
+				}
 			}
 		}
 
 		public Alert_Hypothermia()
 		{
-			this.defaultLabel = "AlertHypothermia".Translate();
+			base.defaultLabel = "AlertHypothermia".Translate();
 		}
 
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (Pawn current in this.HypothermiaDangerColonists)
+			foreach (Pawn hypothermiaDangerColonist in this.HypothermiaDangerColonists)
 			{
-				stringBuilder.AppendLine("    " + current.NameStringShort);
+				stringBuilder.AppendLine("    " + hypothermiaDangerColonist.NameStringShort);
 			}
-			return "AlertHypothermiaDesc".Translate(new object[]
-			{
-				stringBuilder.ToString()
-			});
+			return "AlertHypothermiaDesc".Translate(stringBuilder.ToString());
 		}
 
 		public override AlertReport GetReport()
 		{
-			Pawn pawn = this.HypothermiaDangerColonists.FirstOrDefault<Pawn>();
+			Pawn pawn = this.HypothermiaDangerColonists.FirstOrDefault();
 			if (pawn == null)
 			{
 				return false;
 			}
-			return AlertReport.CulpritIs(pawn);
+			return AlertReport.CulpritIs((Thing)pawn);
 		}
 	}
 }

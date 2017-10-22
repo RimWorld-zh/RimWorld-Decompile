@@ -10,21 +10,21 @@ namespace RimWorld
 		private IEnumerable<Pawn> Candidates(Map map)
 		{
 			return from x in map.mapPawns.AllPawnsSpawned
-			where x.RaceProps.Animal && x.Faction == null && !x.Position.Fogged(x.Map) && !x.InMentalState && !x.Downed && x.RaceProps.wildness > 0f
+			where x.RaceProps.Animal && x.Faction == null && !x.Position.Fogged(x.Map) && !x.InMentalState && !x.Downed && x.RaceProps.wildness > 0.0
 			select x;
 		}
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
 			Map map = (Map)target;
-			return this.Candidates(map).Any<Pawn>();
+			return this.Candidates(map).Any();
 		}
 
 		public override bool TryExecute(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			Pawn pawn = null;
-			if (!this.Candidates(map).TryRandomElementByWeight((Pawn x) => x.RaceProps.wildness, out pawn))
+			if (!this.Candidates(map).TryRandomElementByWeight<Pawn>((Func<Pawn, float>)((Pawn x) => x.RaceProps.wildness), out pawn))
 			{
 				return false;
 			}
@@ -35,37 +35,8 @@ namespace RimWorld
 			string text = pawn.LabelIndefinite();
 			bool flag = pawn.Name != null;
 			pawn.SetFaction(Faction.OfPlayer, null);
-			string text2;
-			if (!flag && pawn.Name != null)
-			{
-				if (pawn.Name.Numerical)
-				{
-					text2 = "LetterAnimalSelfTameAndNameNumerical".Translate(new object[]
-					{
-						text,
-						pawn.Name.ToStringFull
-					}).CapitalizeFirst();
-				}
-				else
-				{
-					text2 = "LetterAnimalSelfTameAndName".Translate(new object[]
-					{
-						text,
-						pawn.Name.ToStringFull
-					}).CapitalizeFirst();
-				}
-			}
-			else
-			{
-				text2 = "LetterAnimalSelfTame".Translate(new object[]
-				{
-					pawn.LabelIndefinite()
-				}).CapitalizeFirst();
-			}
-			Find.LetterStack.ReceiveLetter("LetterLabelAnimalSelfTame".Translate(new object[]
-			{
-				GenLabel.BestKindLabel(pawn, false, false, false)
-			}).CapitalizeFirst(), text2, LetterDefOf.Good, pawn, null);
+			string text2 = (flag || pawn.Name == null) ? "LetterAnimalSelfTame".Translate(pawn.LabelIndefinite()).CapitalizeFirst() : ((!pawn.Name.Numerical) ? "LetterAnimalSelfTameAndName".Translate(text, pawn.Name.ToStringFull).CapitalizeFirst() : "LetterAnimalSelfTameAndNameNumerical".Translate(text, pawn.Name.ToStringFull).CapitalizeFirst());
+			Find.LetterStack.ReceiveLetter("LetterLabelAnimalSelfTame".Translate(GenLabel.BestKindLabel(pawn, false, false, false)).CapitalizeFirst(), text2, LetterDefOf.Good, (Thing)pawn, (string)null);
 			return true;
 		}
 	}

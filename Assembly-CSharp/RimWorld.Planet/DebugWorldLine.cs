@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -45,27 +44,26 @@ namespace RimWorld.Planet
 		public void Draw()
 		{
 			float num = Vector3.Distance(this.a, this.b);
-			if (num < 0.001f)
+			if (!(num < 0.0010000000474974513))
 			{
-				return;
-			}
-			if (this.onPlanetSurface)
-			{
-				float averageTileSize = Find.WorldGrid.averageTileSize;
-				int num2 = Mathf.Max(Mathf.RoundToInt(num / averageTileSize), 0);
-				float num3 = 0.05f;
-				for (int i = 0; i < num2; i++)
+				if (this.onPlanetSurface)
 				{
-					Vector3 vector = Vector3.Lerp(this.a, this.b, (float)i / (float)num2);
-					Vector3 vector2 = Vector3.Lerp(this.a, this.b, (float)(i + 1) / (float)num2);
-					vector = vector.normalized * (100f + num3);
-					vector2 = vector2.normalized * (100f + num3);
-					GenDraw.DrawWorldLineBetween(vector, vector2);
+					float averageTileSize = Find.WorldGrid.averageTileSize;
+					int num2 = Mathf.Max(Mathf.RoundToInt(num / averageTileSize), 0);
+					float num3 = 0.05f;
+					for (int num4 = 0; num4 < num2; num4++)
+					{
+						Vector3 vector = Vector3.Lerp(this.a, this.b, (float)num4 / (float)num2);
+						Vector3 vector2 = Vector3.Lerp(this.a, this.b, (float)(num4 + 1) / (float)num2);
+						vector = vector.normalized * (float)(100.0 + num3);
+						vector2 = vector2.normalized * (float)(100.0 + num3);
+						GenDraw.DrawWorldLineBetween(vector, vector2);
+					}
 				}
-			}
-			else
-			{
-				GenDraw.DrawWorldLineBetween(this.a, this.b);
+				else
+				{
+					GenDraw.DrawWorldLineBetween(this.a, this.b);
+				}
 			}
 		}
 	}

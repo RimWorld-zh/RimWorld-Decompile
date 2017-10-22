@@ -20,13 +20,21 @@ namespace Verse
 			switch (def.context)
 			{
 			case SoundContext.Any:
+			{
 				return true;
+			}
 			case SoundContext.MapOnly:
+			{
 				return Current.ProgramState == ProgramState.Playing && !WorldRendererUtility.WorldRenderedNow;
+			}
 			case SoundContext.WorldOnly:
+			{
 				return WorldRendererUtility.WorldRenderedNow;
+			}
 			default:
+			{
 				throw new NotImplementedException();
+			}
 			}
 		}
 	}

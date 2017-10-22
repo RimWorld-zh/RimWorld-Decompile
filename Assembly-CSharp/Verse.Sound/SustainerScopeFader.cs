@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Sound
 {
 	public class SustainerScopeFader
@@ -16,9 +14,8 @@ namespace Verse.Sound
 		{
 			if (this.inScope)
 			{
-				float num = this.inScopePercent + 0.05f;
-				this.inScopePercent = num;
-				if (this.inScopePercent > 1f)
+				float num = this.inScopePercent += 0.05f;
+				if (this.inScopePercent > 1.0)
 				{
 					this.inScopePercent = 1f;
 				}
@@ -26,7 +23,7 @@ namespace Verse.Sound
 			else
 			{
 				this.inScopePercent -= 0.03f;
-				if (this.inScopePercent <= 0.001f)
+				if (this.inScopePercent <= 0.0010000000474974513)
 				{
 					this.inScopePercent = 0f;
 				}

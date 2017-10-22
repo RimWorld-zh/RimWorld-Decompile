@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using UnityEngine;
 
@@ -16,36 +14,33 @@ namespace Verse
 		public static string TextFromResourceFile(string filePath)
 		{
 			TextAsset textAsset = Resources.Load("Text/" + filePath) as TextAsset;
-			if (textAsset == null)
+			if ((Object)textAsset == (Object)null)
 			{
 				Log.Message("Found no text asset in resources at " + filePath);
-				return null;
+				return (string)null;
 			}
 			return GenFile.GetTextWithoutBOM(textAsset);
 		}
 
 		public static string GetTextWithoutBOM(TextAsset textAsset)
 		{
-			string result = null;
-			using (MemoryStream memoryStream = new MemoryStream(textAsset.bytes))
+			string text = (string)null;
+			using (MemoryStream stream = new MemoryStream(textAsset.bytes))
 			{
-				using (StreamReader streamReader = new StreamReader(memoryStream, true))
+				using (StreamReader streamReader = new StreamReader(stream, true))
 				{
-					result = streamReader.ReadToEnd();
+					return streamReader.ReadToEnd();
 				}
 			}
-			return result;
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<string> LinesFromFile(string filePath)
 		{
-			GenFile.<LinesFromFile>c__Iterator249 <LinesFromFile>c__Iterator = new GenFile.<LinesFromFile>c__Iterator249();
-			<LinesFromFile>c__Iterator.filePath = filePath;
-			<LinesFromFile>c__Iterator.<$>filePath = filePath;
-			GenFile.<LinesFromFile>c__Iterator249 expr_15 = <LinesFromFile>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			string rawText = GenFile.TextFromResourceFile(filePath);
+			foreach (string item in GenText.LinesFromString(rawText))
+			{
+				yield return item;
+			}
 		}
 
 		public static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
@@ -60,11 +55,11 @@ namespace Verse
 			{
 				Directory.CreateDirectory(destDirName);
 			}
-			FileInfo[] files = directoryInfo.GetFiles();
-			FileInfo[] array = files;
-			for (int i = 0; i < array.Length; i++)
+			FileInfo[] files;
+			FileInfo[] array = files = directoryInfo.GetFiles();
+			for (int i = 0; i < files.Length; i++)
 			{
-				FileInfo fileInfo = array[i];
+				FileInfo fileInfo = files[i];
 				string destFileName = Path.Combine(destDirName, fileInfo.Name);
 				fileInfo.CopyTo(destFileName, false);
 			}

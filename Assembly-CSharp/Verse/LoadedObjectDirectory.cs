@@ -32,23 +32,10 @@ namespace Verse
 				catch (Exception)
 				{
 				}
-				ILoadReferenceable loadReferenceable;
+				ILoadReferenceable loadReferenceable = default(ILoadReferenceable);
 				if (this.allObjectsByLoadID.TryGetValue(reffable.GetUniqueLoadID(), out loadReferenceable))
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Cannot register ",
-						reffable.GetType(),
-						" ",
-						text2,
-						", (id=",
-						text,
-						" in loaded object directory. Id already used by ",
-						loadReferenceable.GetType(),
-						" ",
-						loadReferenceable.ToString(),
-						"."
-					}));
+					Log.Error("Cannot register " + reffable.GetType() + " " + text2 + ", (id=" + text + " in loaded object directory. Id already used by " + loadReferenceable.GetType() + " " + loadReferenceable.ToString() + ".");
 					return;
 				}
 			}
@@ -56,7 +43,7 @@ namespace Verse
 			{
 				this.allObjectsByLoadID.Add(reffable.GetUniqueLoadID(), reffable);
 			}
-			catch (Exception ex)
+			catch (Exception ex5)
 			{
 				string text3 = "[excepted]";
 				try
@@ -74,66 +61,36 @@ namespace Verse
 				catch (Exception)
 				{
 				}
-				Log.Error(string.Concat(new object[]
-				{
-					"Exception registering ",
-					reffable.GetType(),
-					" ",
-					text4,
-					" in loaded object directory with unique load ID ",
-					text3,
-					": ",
-					ex
-				}));
+				Log.Error("Exception registering " + reffable.GetType() + " " + text4 + " in loaded object directory with unique load ID " + text3 + ": " + ex5);
 			}
 		}
 
 		public T ObjectWithLoadID<T>(string loadID)
 		{
-			if (loadID.NullOrEmpty() || loadID == "null")
+			if (!loadID.NullOrEmpty() && !(loadID == "null"))
 			{
+				ILoadReferenceable loadReferenceable = default(ILoadReferenceable);
+				if (this.allObjectsByLoadID.TryGetValue(loadID, out loadReferenceable))
+				{
+					if (loadReferenceable == null)
+					{
+						return default(T);
+					}
+					try
+					{
+						return (T)loadReferenceable;
+						IL_0055:;
+					}
+					catch (Exception ex)
+					{
+						Log.Error("Exception getting object with load id " + loadID + " of type " + typeof(T) + ". What we loaded was " + loadReferenceable.ToStringSafe<ILoadReferenceable>() + ". Exception:\n" + ex);
+						return default(T);
+						IL_00ba:;
+					}
+				}
+				Log.Warning("Could not resolve reference to object with loadID " + loadID + " of type " + typeof(T) + ". Was it compressed away, destroyed, had no ID number, or not saved/loaded right? curParent=" + Scribe.loader.curParent.ToStringSafe<IExposable>() + " curPathRelToParent=" + Scribe.loader.curPathRelToParent);
 				return default(T);
 			}
-			ILoadReferenceable loadReferenceable;
-			if (this.allObjectsByLoadID.TryGetValue(loadID, out loadReferenceable))
-			{
-				if (loadReferenceable == null)
-				{
-					return default(T);
-				}
-				try
-				{
-					T result = (T)((object)loadReferenceable);
-					return result;
-				}
-				catch (Exception ex)
-				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Exception getting object with load id ",
-						loadID,
-						" of type ",
-						typeof(T),
-						". What we loaded was ",
-						loadReferenceable.ToStringSafe<ILoadReferenceable>(),
-						". Exception:\n",
-						ex
-					}));
-					T result = default(T);
-					return result;
-				}
-			}
-			Log.Warning(string.Concat(new object[]
-			{
-				"Could not resolve reference to object with loadID ",
-				loadID,
-				" of type ",
-				typeof(T),
-				". Was it compressed away, destroyed, had no ID number, or not saved/loaded right? curParent=",
-				Scribe.loader.curParent.ToStringSafe<IExposable>(),
-				" curPathRelToParent=",
-				Scribe.loader.curPathRelToParent
-			}));
 			return default(T);
 		}
 	}

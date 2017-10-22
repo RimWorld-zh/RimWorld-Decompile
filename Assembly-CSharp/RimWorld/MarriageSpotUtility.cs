@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using Verse;
 using Verse.AI;
@@ -17,122 +16,108 @@ namespace RimWorld
 				}
 				return false;
 			}
-			return cell.Roofed(map) || JoyUtility.EnjoyableOutsideNow(map, outFailReason);
+			if (!cell.Roofed(map) && !JoyUtility.EnjoyableOutsideNow(map, outFailReason))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool IsValidMarriageSpotFor(IntVec3 cell, Pawn firstFiance, Pawn secondFiance, StringBuilder outFailReason = null)
 		{
-			if (!firstFiance.Spawned || !secondFiance.Spawned)
+			if (firstFiance.Spawned && secondFiance.Spawned)
 			{
-				Log.Warning("Can't check if a marriage spot is valid because one of the fiances isn't spawned.");
-				return false;
-			}
-			if (firstFiance.Map != secondFiance.Map)
-			{
-				return false;
-			}
-			if (!MarriageSpotUtility.IsValidMarriageSpot(cell, firstFiance.Map, outFailReason))
-			{
-				return false;
-			}
-			if (!cell.Roofed(firstFiance.Map))
-			{
-				if (!JoyUtility.EnjoyableOutsideNow(firstFiance, outFailReason))
+				if (firstFiance.Map != secondFiance.Map)
 				{
 					return false;
 				}
-				if (!JoyUtility.EnjoyableOutsideNow(secondFiance, outFailReason))
+				if (!MarriageSpotUtility.IsValidMarriageSpot(cell, firstFiance.Map, outFailReason))
 				{
 					return false;
 				}
-			}
-			if (cell.GetDangerFor(firstFiance, firstFiance.Map) != Danger.None)
-			{
-				if (outFailReason != null)
+				if (!cell.Roofed(firstFiance.Map))
 				{
-					outFailReason.Append("MarriageSpotDangerous".Translate(new object[]
+					if (!JoyUtility.EnjoyableOutsideNow(firstFiance, outFailReason))
 					{
-						firstFiance.LabelShort
-					}));
+						return false;
+					}
+					if (!JoyUtility.EnjoyableOutsideNow(secondFiance, outFailReason))
+					{
+						return false;
+					}
 				}
-				return false;
-			}
-			if (cell.GetDangerFor(secondFiance, secondFiance.Map) != Danger.None)
-			{
-				if (outFailReason != null)
+				if (cell.GetDangerFor(firstFiance, firstFiance.Map) != Danger.None)
 				{
-					outFailReason.Append("MarriageSpotDangerous".Translate(new object[]
+					if (outFailReason != null)
 					{
-						secondFiance.LabelShort
-					}));
+						outFailReason.Append("MarriageSpotDangerous".Translate(firstFiance.LabelShort));
+					}
+					return false;
 				}
-				return false;
-			}
-			if (cell.IsForbidden(firstFiance))
-			{
-				if (outFailReason != null)
+				if (cell.GetDangerFor(secondFiance, secondFiance.Map) != Danger.None)
 				{
-					outFailReason.Append("MarriageSpotForbidden".Translate(new object[]
+					if (outFailReason != null)
 					{
-						firstFiance.LabelShort
-					}));
+						outFailReason.Append("MarriageSpotDangerous".Translate(secondFiance.LabelShort));
+					}
+					return false;
 				}
-				return false;
-			}
-			if (cell.IsForbidden(secondFiance))
-			{
-				if (outFailReason != null)
+				if (cell.IsForbidden(firstFiance))
 				{
-					outFailReason.Append("MarriageSpotForbidden".Translate(new object[]
+					if (outFailReason != null)
 					{
-						secondFiance.LabelShort
-					}));
+						outFailReason.Append("MarriageSpotForbidden".Translate(firstFiance.LabelShort));
+					}
+					return false;
 				}
-				return false;
-			}
-			if (!firstFiance.CanReserve(cell, 1, -1, null, false) || !secondFiance.CanReserve(cell, 1, -1, null, false))
-			{
+				if (cell.IsForbidden(secondFiance))
+				{
+					if (outFailReason != null)
+					{
+						outFailReason.Append("MarriageSpotForbidden".Translate(secondFiance.LabelShort));
+					}
+					return false;
+				}
+				if (firstFiance.CanReserve(cell, 1, -1, null, false) && secondFiance.CanReserve(cell, 1, -1, null, false))
+				{
+					if (!firstFiance.CanReach(cell, PathEndMode.OnCell, Danger.None, false, TraverseMode.ByPawn))
+					{
+						if (outFailReason != null)
+						{
+							outFailReason.Append("MarriageSpotUnreachable".Translate(firstFiance.LabelShort));
+						}
+						return false;
+					}
+					if (!secondFiance.CanReach(cell, PathEndMode.OnCell, Danger.None, false, TraverseMode.ByPawn))
+					{
+						if (outFailReason != null)
+						{
+							outFailReason.Append("MarriageSpotUnreachable".Translate(secondFiance.LabelShort));
+						}
+						return false;
+					}
+					if (!firstFiance.IsPrisoner && !secondFiance.IsPrisoner)
+					{
+						Room room = cell.GetRoom(firstFiance.Map, RegionType.Set_Passable);
+						if (room != null && room.isPrisonCell)
+						{
+							if (outFailReason != null)
+							{
+								outFailReason.Append("MarriageSpotInPrisonCell".Translate());
+							}
+							return false;
+						}
+					}
+					return true;
+				}
 				if (outFailReason != null)
 				{
 					outFailReason.Append("MarriageSpotReserved".Translate());
 				}
 				return false;
 			}
-			if (!firstFiance.CanReach(cell, PathEndMode.OnCell, Danger.None, false, TraverseMode.ByPawn))
-			{
-				if (outFailReason != null)
-				{
-					outFailReason.Append("MarriageSpotUnreachable".Translate(new object[]
-					{
-						firstFiance.LabelShort
-					}));
-				}
-				return false;
-			}
-			if (!secondFiance.CanReach(cell, PathEndMode.OnCell, Danger.None, false, TraverseMode.ByPawn))
-			{
-				if (outFailReason != null)
-				{
-					outFailReason.Append("MarriageSpotUnreachable".Translate(new object[]
-					{
-						secondFiance.LabelShort
-					}));
-				}
-				return false;
-			}
-			if (!firstFiance.IsPrisoner && !secondFiance.IsPrisoner)
-			{
-				Room room = cell.GetRoom(firstFiance.Map, RegionType.Set_Passable);
-				if (room != null && room.isPrisonCell)
-				{
-					if (outFailReason != null)
-					{
-						outFailReason.Append("MarriageSpotInPrisonCell".Translate());
-					}
-					return false;
-				}
-			}
-			return true;
+			Log.Warning("Can't check if a marriage spot is valid because one of the fiances isn't spawned.");
+			return false;
 		}
 	}
 }

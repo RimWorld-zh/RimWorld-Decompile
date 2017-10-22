@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,58 +14,55 @@ namespace Verse
 			public override int GetHashCode()
 			{
 				int seed = 0;
-				seed = Gen.HashCombine<string>(seed, this.path);
-				return Gen.HashCombine<int>(seed, this.renderQueue);
+				seed = Gen.HashCombine(seed, this.path);
+				return Gen.HashCombine(seed, this.renderQueue);
 			}
 
 			public override bool Equals(object obj)
 			{
-				return obj is MatLoader.Request && this.Equals((MatLoader.Request)obj);
+				if (!(obj is Request))
+				{
+					return false;
+				}
+				return this.Equals((Request)obj);
 			}
 
-			public bool Equals(MatLoader.Request other)
+			public bool Equals(Request other)
 			{
 				return other.path == this.path && other.renderQueue == this.renderQueue;
 			}
 
 			public override string ToString()
 			{
-				return string.Concat(new object[]
-				{
-					"MatLoader.Request(",
-					this.path,
-					", ",
-					this.renderQueue,
-					")"
-				});
+				return "MatLoader.Request(" + this.path + ", " + this.renderQueue + ")";
 			}
 
-			public static bool operator ==(MatLoader.Request lhs, MatLoader.Request rhs)
+			public static bool operator ==(Request lhs, Request rhs)
 			{
 				return lhs.Equals(rhs);
 			}
 
-			public static bool operator !=(MatLoader.Request lhs, MatLoader.Request rhs)
+			public static bool operator !=(Request lhs, Request rhs)
 			{
 				return !(lhs == rhs);
 			}
 		}
 
-		private static Dictionary<MatLoader.Request, Material> dict = new Dictionary<MatLoader.Request, Material>();
+		private static Dictionary<Request, Material> dict = new Dictionary<Request, Material>();
 
 		public static Material LoadMat(string matPath, int renderQueue = -1)
 		{
 			Material material = (Material)Resources.Load("Materials/" + matPath, typeof(Material));
-			if (material == null)
+			if ((Object)material == (Object)null)
 			{
 				Log.Warning("Could not load material " + matPath);
 			}
-			MatLoader.Request key = new MatLoader.Request
+			Request key = new Request
 			{
 				path = matPath,
 				renderQueue = renderQueue
 			};
-			Material material2;
+			Material material2 = default(Material);
 			if (!MatLoader.dict.TryGetValue(key, out material2))
 			{
 				material2 = new Material(material);

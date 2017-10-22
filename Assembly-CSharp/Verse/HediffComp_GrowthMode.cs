@@ -21,7 +21,7 @@ namespace Verse
 		{
 			get
 			{
-				return (HediffCompProperties_GrowthMode)this.props;
+				return (HediffCompProperties_GrowthMode)base.props;
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace Verse
 		public override void CompPostPostAdd(DamageInfo? dinfo)
 		{
 			base.CompPostPostAdd(dinfo);
-			this.growthMode = ((HediffGrowthMode[])Enum.GetValues(typeof(HediffGrowthMode))).RandomElement<HediffGrowthMode>();
+			this.growthMode = ((HediffGrowthMode[])Enum.GetValues(typeof(HediffGrowthMode))).RandomElement();
 			this.severityPerDayGrowingRandomFactor = this.Props.severityPerDayGrowingRandomFactor.RandomInRange;
 			this.severityPerDayRemissionRandomFactor = this.Props.severityPerDayRemissionRandomFactor.RandomInRange;
 		}
@@ -63,13 +63,21 @@ namespace Verse
 			switch (this.growthMode)
 			{
 			case HediffGrowthMode.Growing:
+			{
 				return this.Props.severityPerDayGrowing * this.severityPerDayGrowingRandomFactor;
+			}
 			case HediffGrowthMode.Stable:
+			{
 				return 0f;
+			}
 			case HediffGrowthMode.Remission:
+			{
 				return this.Props.severityPerDayRemission * this.severityPerDayRemissionRandomFactor;
+			}
 			default:
+			{
 				throw new NotImplementedException("GrowthMode");
+			}
 			}
 		}
 
@@ -77,32 +85,26 @@ namespace Verse
 		{
 			this.growthMode = (from x in (HediffGrowthMode[])Enum.GetValues(typeof(HediffGrowthMode))
 			where x != this.growthMode
-			select x).RandomElement<HediffGrowthMode>();
+			select x).RandomElement();
 			if (PawnUtility.ShouldSendNotificationAbout(base.Pawn))
 			{
 				switch (this.growthMode)
 				{
 				case HediffGrowthMode.Growing:
-					Messages.Message("DiseaseGrowthModeChanged_Growing".Translate(new object[]
-					{
-						base.Pawn.LabelShort,
-						base.Def.label
-					}), base.Pawn, MessageSound.SeriousAlert);
+				{
+					Messages.Message("DiseaseGrowthModeChanged_Growing".Translate(base.Pawn.LabelShort, base.Def.label), (Thing)base.Pawn, MessageSound.SeriousAlert);
 					break;
+				}
 				case HediffGrowthMode.Stable:
-					Messages.Message("DiseaseGrowthModeChanged_Stable".Translate(new object[]
-					{
-						base.Pawn.LabelShort,
-						base.Def.label
-					}), base.Pawn, MessageSound.Standard);
+				{
+					Messages.Message("DiseaseGrowthModeChanged_Stable".Translate(base.Pawn.LabelShort, base.Def.label), (Thing)base.Pawn, MessageSound.Standard);
 					break;
+				}
 				case HediffGrowthMode.Remission:
-					Messages.Message("DiseaseGrowthModeChanged_Remission".Translate(new object[]
-					{
-						base.Pawn.LabelShort,
-						base.Def.label
-					}), base.Pawn, MessageSound.Benefit);
+				{
+					Messages.Message("DiseaseGrowthModeChanged_Remission".Translate(base.Pawn.LabelShort, base.Def.label), (Thing)base.Pawn, MessageSound.Benefit);
 					break;
+				}
 				}
 			}
 		}
@@ -111,7 +113,7 @@ namespace Verse
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append(base.CompDebugString());
-			stringBuilder.AppendLine("severity: " + this.parent.Severity.ToString("F3") + ((this.parent.Severity < base.Def.maxSeverity) ? string.Empty : " (reached max)"));
+			stringBuilder.AppendLine("severity: " + base.parent.Severity.ToString("F3") + ((!(base.parent.Severity >= base.Def.maxSeverity)) ? string.Empty : " (reached max)"));
 			stringBuilder.AppendLine("severityPerDayGrowingRandomFactor: " + this.severityPerDayGrowingRandomFactor.ToString("0.##"));
 			stringBuilder.AppendLine("severityPerDayRemissionRandomFactor: " + this.severityPerDayRemissionRandomFactor.ToString("0.##"));
 			return stringBuilder.ToString();

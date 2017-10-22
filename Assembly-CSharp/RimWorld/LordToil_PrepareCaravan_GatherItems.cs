@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -33,9 +32,9 @@ namespace RimWorld
 
 		public override void UpdateAllDuties()
 		{
-			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
-				Pawn pawn = this.lord.ownedPawns[i];
+				Pawn pawn = base.lord.ownedPawns[i];
 				if (pawn.IsColonist)
 				{
 					pawn.mindState.duty = new PawnDuty(DutyDefOf.PrepareCaravan_GatherItems);
@@ -57,9 +56,9 @@ namespace RimWorld
 			if (Find.TickManager.TicksGame % 120 == 0)
 			{
 				bool flag = true;
-				for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+				for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 				{
-					Pawn pawn = this.lord.ownedPawns[i];
+					Pawn pawn = base.lord.ownedPawns[i];
 					if (pawn.IsColonist && pawn.mindState.lastJobTag != JobTag.WaitingForOthersToFinishGatheringItems)
 					{
 						flag = false;
@@ -69,18 +68,21 @@ namespace RimWorld
 				if (flag)
 				{
 					List<Pawn> allPawnsSpawned = base.Map.mapPawns.AllPawnsSpawned;
-					for (int j = 0; j < allPawnsSpawned.Count; j++)
+					int num = 0;
+					while (num < allPawnsSpawned.Count)
 					{
-						if (allPawnsSpawned[j].CurJob != null && allPawnsSpawned[j].jobs.curDriver is JobDriver_PrepareCaravan_GatherItems && allPawnsSpawned[j].CurJob.lord == this.lord)
+						if (allPawnsSpawned[num].CurJob == null || !(allPawnsSpawned[num].jobs.curDriver is JobDriver_PrepareCaravan_GatherItems) || allPawnsSpawned[num].CurJob.lord != base.lord)
 						{
-							flag = false;
-							break;
+							num++;
+							continue;
 						}
+						flag = false;
+						break;
 					}
 				}
 				if (flag)
 				{
-					this.lord.ReceiveMemo("AllItemsGathered");
+					base.lord.ReceiveMemo("AllItemsGathered");
 				}
 			}
 		}

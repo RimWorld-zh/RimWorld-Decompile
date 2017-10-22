@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -18,17 +17,16 @@ namespace RimWorld
 			{
 				Log.Error("pawnsBeingGeneratedNow is not null. Nested calls are not allowed.");
 			}
-			List<Pawn> list = new List<Pawn>();
-			PawnGroupKindWorker.pawnsBeingGeneratedNow = list;
+			List<Pawn> list = PawnGroupKindWorker.pawnsBeingGeneratedNow = new List<Pawn>();
 			try
 			{
 				this.GeneratePawns(parms, groupMaker, list, errorOnZeroResults);
+				return list;
 			}
 			finally
 			{
 				PawnGroupKindWorker.pawnsBeingGeneratedNow = null;
 			}
-			return list;
 		}
 
 		protected abstract void GeneratePawns(PawnGroupMakerParms parms, PawnGroupMaker groupMaker, List<Pawn> outPawns, bool errorOnZeroResults = true);

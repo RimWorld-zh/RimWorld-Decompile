@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,7 +6,7 @@ namespace RimWorld
 	{
 		protected override void ApplyRule()
 		{
-			Current.Game.Rules.SetAllowDesignator(this.def.designatorType, false);
+			Current.Game.Rules.SetAllowDesignator(base.def.designatorType, false);
 		}
 	}
 }

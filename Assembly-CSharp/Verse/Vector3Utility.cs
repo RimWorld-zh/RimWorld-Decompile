@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -12,11 +11,12 @@ namespace Verse
 
 		public static float AngleFlat(this Vector3 v)
 		{
-			if (v.x == 0f && v.z == 0f)
+			if (v.x == 0.0 && v.z == 0.0)
 			{
 				return 0f;
 			}
-			return Quaternion.LookRotation(v).eulerAngles.y;
+			Vector3 eulerAngles = Quaternion.LookRotation(v).eulerAngles;
+			return eulerAngles.y;
 		}
 
 		public static Vector3 RandomHorizontalOffset(float maxDist)
@@ -36,15 +36,25 @@ namespace Verse
 			switch (rot.AsInt)
 			{
 			case 0:
+			{
 				return orig;
+			}
 			case 1:
-				return new Vector3(orig.z, orig.y, -orig.x);
+			{
+				return new Vector3(orig.z, orig.y, (float)(0.0 - orig.x));
+			}
 			case 2:
-				return new Vector3(-orig.x, orig.y, -orig.z);
+			{
+				return new Vector3((float)(0.0 - orig.x), orig.y, (float)(0.0 - orig.z));
+			}
 			case 3:
-				return new Vector3(-orig.z, orig.y, orig.x);
+			{
+				return new Vector3((float)(0.0 - orig.z), orig.y, orig.x);
+			}
 			default:
+			{
 				return orig;
+			}
 			}
 		}
 	}

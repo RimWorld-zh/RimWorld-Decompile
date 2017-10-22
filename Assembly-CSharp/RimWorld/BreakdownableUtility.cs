@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -8,7 +7,11 @@ namespace RimWorld
 		public static bool IsBrokenDown(this Thing t)
 		{
 			CompBreakdownable compBreakdownable = t.TryGetComp<CompBreakdownable>();
-			return compBreakdownable != null && compBreakdownable.BrokenDown;
+			if (compBreakdownable != null)
+			{
+				return compBreakdownable.BrokenDown;
+			}
+			return false;
 		}
 	}
 }

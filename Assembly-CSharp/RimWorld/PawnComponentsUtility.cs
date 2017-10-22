@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -64,7 +63,7 @@ namespace RimWorld
 			{
 				pawn.filth = new Pawn_FilthTracker(pawn);
 			}
-			if (pawn.RaceProps.intelligence <= Intelligence.ToolUser && pawn.caller == null)
+			if ((int)pawn.RaceProps.intelligence <= 1 && pawn.caller == null)
 			{
 				pawn.caller = new Pawn_CallTracker(pawn);
 			}
@@ -141,14 +140,11 @@ namespace RimWorld
 					pawn.drafter = null;
 				}
 			}
-			if (flag || flag2)
+			if ((flag || flag2) && pawn.playerSettings == null)
 			{
-				if (pawn.playerSettings == null)
-				{
-					pawn.playerSettings = new Pawn_PlayerSettings(pawn);
-				}
+				pawn.playerSettings = new Pawn_PlayerSettings(pawn);
 			}
-			if (pawn.RaceProps.intelligence <= Intelligence.ToolUser && pawn.Faction != null && !pawn.RaceProps.IsMechanoid && pawn.training == null)
+			if ((int)pawn.RaceProps.intelligence <= 1 && pawn.Faction != null && !pawn.RaceProps.IsMechanoid && pawn.training == null)
 			{
 				pawn.training = new Pawn_TrainingTracker(pawn);
 			}

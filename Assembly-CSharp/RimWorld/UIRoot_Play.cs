@@ -24,17 +24,17 @@ namespace RimWorld
 			Find.GameInfo.GameInfoOnGUI();
 			Find.World.UI.WorldInterfaceOnGUI();
 			this.mapUI.MapInterfaceOnGUI_BeforeMainTabs();
-			if (!this.screenshotMode.FiltersCurrentEvent)
+			if (!base.screenshotMode.FiltersCurrentEvent)
 			{
 				this.mainButtonsRoot.MainButtonsOnGUI();
 				this.alerts.AlertsReadoutOnGUI();
 			}
 			this.mapUI.MapInterfaceOnGUI_AfterMainTabs();
-			if (!this.screenshotMode.FiltersCurrentEvent)
+			if (!base.screenshotMode.FiltersCurrentEvent)
 			{
 				Find.Tutor.TutorOnGUI();
 			}
-			this.windows.WindowStackOnGUI();
+			base.windows.WindowStackOnGUI();
 			ReorderableWidget.ReorderableWidgetOnGUI();
 			this.mapUI.HandleMapClicks();
 			if (Find.DesignatorManager.SelectedDesignator != null)

@@ -21,18 +21,18 @@ namespace RimWorld
 
 			public override bool Equals(object rhs)
 			{
-				if (!(rhs is ApparelUtility.LayerGroupPair))
+				if (!(rhs is LayerGroupPair))
 				{
 					return false;
 				}
-				ApparelUtility.LayerGroupPair layerGroupPair = (ApparelUtility.LayerGroupPair)rhs;
+				LayerGroupPair layerGroupPair = (LayerGroupPair)rhs;
 				return layerGroupPair.layer == this.layer && layerGroupPair.group == this.group;
 			}
 
 			public override int GetHashCode()
 			{
 				int num = 17;
-				num = num * 23 + this.layer.GetHashCode();
+				num = num * 23 + ((Enum)(object)this.layer).GetHashCode();
 				return num * 23 + this.group.GetHashCode();
 			}
 		}
@@ -40,37 +40,43 @@ namespace RimWorld
 		public static bool CanWearTogether(ThingDef A, ThingDef B)
 		{
 			bool flag = false;
-			for (int i = 0; i < A.apparel.layers.Count; i++)
+			int num = 0;
+			while (num < A.apparel.layers.Count)
 			{
-				for (int j = 0; j < B.apparel.layers.Count; j++)
+				int num2 = 0;
+				while (num2 < B.apparel.layers.Count)
 				{
-					if (A.apparel.layers[i] == B.apparel.layers[j])
+					if (A.apparel.layers[num] == B.apparel.layers[num2])
 					{
 						flag = true;
 					}
-					if (flag)
+					if (!flag)
 					{
-						break;
+						num2++;
+						continue;
 					}
-				}
-				if (flag)
-				{
 					break;
 				}
+				if (!flag)
+				{
+					num++;
+					continue;
+				}
+				break;
 			}
 			if (!flag)
 			{
 				return true;
 			}
-			for (int k = 0; k < A.apparel.bodyPartGroups.Count; k++)
+			for (int i = 0; i < A.apparel.bodyPartGroups.Count; i++)
 			{
-				for (int l = 0; l < B.apparel.bodyPartGroups.Count; l++)
+				for (int j = 0; j < B.apparel.bodyPartGroups.Count; j++)
 				{
-					BodyPartGroupDef item = A.apparel.bodyPartGroups[k];
-					BodyPartGroupDef item2 = B.apparel.bodyPartGroups[l];
-					for (int m = 0; m < BodyDefOf.Human.AllParts.Count; m++)
+					BodyPartGroupDef item = A.apparel.bodyPartGroups[i];
+					BodyPartGroupDef item2 = B.apparel.bodyPartGroups[j];
+					for (int k = 0; k < BodyDefOf.Human.AllParts.Count; k++)
 					{
-						BodyPartRecord bodyPartRecord = BodyDefOf.Human.AllParts[m];
+						BodyPartRecord bodyPartRecord = BodyDefOf.Human.AllParts[k];
 						if (bodyPartRecord.groups.Contains(item) && bodyPartRecord.groups.Contains(item2))
 						{
 							return false;
@@ -81,40 +87,42 @@ namespace RimWorld
 			return true;
 		}
 
-		public static void GenerateLayerGroupPairs(ThingDef td, Action<ApparelUtility.LayerGroupPair> callback)
+		public static void GenerateLayerGroupPairs(ThingDef td, Action<LayerGroupPair> callback)
 		{
 			for (int i = 0; i < td.apparel.layers.Count; i++)
 			{
 				for (int j = 0; j < td.apparel.bodyPartGroups.Count; j++)
 				{
-					callback(new ApparelUtility.LayerGroupPair(td.apparel.layers[i], td.apparel.bodyPartGroups[j]));
+					callback(new LayerGroupPair(td.apparel.layers[i], td.apparel.bodyPartGroups[j]));
 				}
 			}
 		}
 
 		public static bool HasPartsToWear(Pawn p, ThingDef apparel)
 		{
-			ApparelUtility.<HasPartsToWear>c__AnonStorey34F <HasPartsToWear>c__AnonStorey34F = new ApparelUtility.<HasPartsToWear>c__AnonStorey34F();
 			List<Hediff> hediffs = p.health.hediffSet.hediffs;
 			bool flag = false;
-			for (int j = 0; j < hediffs.Count; j++)
+			int num = 0;
+			while (num < hediffs.Count)
 			{
-				if (hediffs[j] is Hediff_MissingPart)
+				if (!(hediffs[num] is Hediff_MissingPart))
 				{
-					flag = true;
-					break;
+					num++;
+					continue;
 				}
+				flag = true;
+				break;
 			}
 			if (!flag)
 			{
 				return true;
 			}
 			IEnumerable<BodyPartRecord> notMissingParts = p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined);
-			<HasPartsToWear>c__AnonStorey34F.groups = apparel.apparel.bodyPartGroups;
+			List<BodyPartGroupDef> groups = apparel.apparel.bodyPartGroups;
 			int i;
-			for (i = 0; i < <HasPartsToWear>c__AnonStorey34F.groups.Count; i++)
+			for (i = 0; i < groups.Count; i++)
 			{
-				if (notMissingParts.Any((BodyPartRecord x) => x.IsInGroup(<HasPartsToWear>c__AnonStorey34F.groups[i])))
+				if (notMissingParts.Any((Func<BodyPartRecord, bool>)((BodyPartRecord x) => x.IsInGroup(groups[i]))))
 				{
 					return true;
 				}

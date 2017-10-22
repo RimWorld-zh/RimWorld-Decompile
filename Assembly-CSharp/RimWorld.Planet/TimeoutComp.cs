@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.Planet
@@ -35,7 +34,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (!this.Active) ? 0 : (this.timeoutEndTick - Find.TickManager.TicksGame);
+				return this.Active ? (this.timeoutEndTick - Find.TickManager.TicksGame) : 0;
 			}
 		}
 
@@ -43,7 +42,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				MapParent mapParent = this.parent as MapParent;
+				MapParent mapParent = base.parent as MapParent;
 				return mapParent != null && mapParent.HasMap;
 			}
 		}
@@ -58,7 +57,7 @@ namespace RimWorld.Planet
 			base.CompTick();
 			if (this.ShouldRemoveWorldObjectNow)
 			{
-				Find.WorldObjects.Remove(this.parent);
+				Find.WorldObjects.Remove(base.parent);
 			}
 		}
 
@@ -72,12 +71,9 @@ namespace RimWorld.Planet
 		{
 			if (this.Active && !this.ParentHasMap)
 			{
-				return "WorldObjectTimeout".Translate(new object[]
-				{
-					this.TicksLeft.ToStringTicksToPeriod(false, false, false)
-				});
+				return "WorldObjectTimeout".Translate(this.TicksLeft.ToStringTicksToPeriod(false, false, false));
 			}
-			return null;
+			return (string)null;
 		}
 	}
 }

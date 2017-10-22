@@ -1,7 +1,5 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.Grammar;
 
@@ -23,7 +21,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.def.LabelCap + ": " + this.pawnData.name;
+				return base.def.LabelCap + ": " + this.pawnData.name;
 			}
 		}
 
@@ -36,7 +34,7 @@ namespace RimWorld
 			this.pawnData = TaleData_Pawn.GenerateFrom(pawn);
 			if (pawn.SpawnedOrAnyParentSpawned)
 			{
-				this.surroundings = TaleData_Surroundings.GenerateFrom(pawn.PositionHeld, pawn.MapHeld);
+				base.surroundings = TaleData_Surroundings.GenerateFrom(pawn.PositionHeld, pawn.MapHeld);
 			}
 		}
 
@@ -61,14 +59,16 @@ namespace RimWorld
 			Scribe_Deep.Look<TaleData_Pawn>(ref this.pawnData, "pawnData", new object[0]);
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
-			Tale_SinglePawn.<SpecialTextGenerationRules>c__Iterator135 <SpecialTextGenerationRules>c__Iterator = new Tale_SinglePawn.<SpecialTextGenerationRules>c__Iterator135();
-			<SpecialTextGenerationRules>c__Iterator.<>f__this = this;
-			Tale_SinglePawn.<SpecialTextGenerationRules>c__Iterator135 expr_0E = <SpecialTextGenerationRules>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Rule rule in this.pawnData.GetRules("anyPawn"))
+			{
+				yield return rule;
+			}
+			foreach (Rule rule2 in this.pawnData.GetRules("pawn"))
+			{
+				yield return rule2;
+			}
 		}
 
 		public override void GenerateTestData()

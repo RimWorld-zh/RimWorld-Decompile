@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -45,18 +44,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Concat(new string[]
-			{
-				"(glow=",
-				this.glow.ToString("F2"),
-				", colors=",
-				this.colors.ToString(),
-				", lightsourceShineSize=",
-				this.lightsourceShineSize.ToString(),
-				", lightsourceShineIntensity=",
-				this.lightsourceShineIntensity.ToString(),
-				")"
-			});
+			return "(glow=" + this.glow.ToString("F2") + ", colors=" + this.colors.ToString() + ", lightsourceShineSize=" + this.lightsourceShineSize.ToString() + ", lightsourceShineIntensity=" + this.lightsourceShineIntensity.ToString() + ")";
 		}
 	}
 }

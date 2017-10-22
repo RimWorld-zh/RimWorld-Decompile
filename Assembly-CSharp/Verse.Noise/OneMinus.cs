@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Noise
 {
 	public class OneMinus : ModuleBase
@@ -10,12 +8,12 @@ namespace Verse.Noise
 
 		public OneMinus(ModuleBase module) : base(1)
 		{
-			this.modules[0] = module;
+			base.modules[0] = module;
 		}
 
 		public override double GetValue(double x, double y, double z)
 		{
-			return 1.0 - this.modules[0].GetValue(x, y, z);
+			return 1.0 - base.modules[0].GetValue(x, y, z);
 		}
 	}
 }

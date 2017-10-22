@@ -9,12 +9,20 @@ namespace RimWorld
 	{
 		public override float MinPointsToGenerateAnything(PawnGroupMaker groupMaker)
 		{
-			return groupMaker.options.Min((PawnGenOption g) => g.Cost);
+			return groupMaker.options.Min((Func<PawnGenOption, float>)((PawnGenOption g) => g.Cost));
 		}
 
 		public override bool CanGenerateFrom(PawnGroupMakerParms parms, PawnGroupMaker groupMaker)
 		{
-			return base.CanGenerateFrom(parms, groupMaker) && PawnGroupMakerUtility.ChoosePawnGenOptionsByPoints(parms.points, groupMaker.options, parms).Any<PawnGenOption>();
+			if (!base.CanGenerateFrom(parms, groupMaker))
+			{
+				return false;
+			}
+			if (!PawnGroupMakerUtility.ChoosePawnGenOptionsByPoints(parms.points, groupMaker.options, parms).Any())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected override void GeneratePawns(PawnGroupMakerParms parms, PawnGroupMaker groupMaker, List<Pawn> outPawns, bool errorOnZeroResults = true)
@@ -23,33 +31,28 @@ namespace RimWorld
 			{
 				if (errorOnZeroResults)
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Cannot generate pawns for ",
-						parms.faction,
-						" with ",
-						parms.points,
-						". Defaulting to a single random cheap group."
-					}));
+					Log.Error("Cannot generate pawns for " + parms.faction + " with " + parms.points + ". Defaulting to a single random cheap group.");
 				}
-				return;
 			}
-			bool flag = parms.raidStrategy == null || parms.raidStrategy.pawnsCanBringFood;
-			bool flag2 = false;
-			foreach (PawnGenOption current in PawnGroupMakerUtility.ChoosePawnGenOptionsByPoints(parms.points, groupMaker.options, parms))
+			else
 			{
-				int tile = parms.tile;
-				bool allowFood = flag;
-				bool inhabitants = parms.inhabitants;
-				PawnGenerationRequest request = new PawnGenerationRequest(current.kind, parms.faction, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, true, 1f, false, true, allowFood, inhabitants, false, null, null, null, null, null, null);
-				Pawn pawn = PawnGenerator.GeneratePawn(request);
-				if (parms.forceOneIncap && !flag2)
+				bool flag = parms.raidStrategy == null || parms.raidStrategy.pawnsCanBringFood;
+				bool flag2 = false;
+				foreach (PawnGenOption item in PawnGroupMakerUtility.ChoosePawnGenOptionsByPoints(parms.points, groupMaker.options, parms))
 				{
-					pawn.health.forceIncap = true;
-					pawn.mindState.canFleeIndividual = false;
-					flag2 = true;
+					int tile = parms.tile;
+					bool allowFood = flag;
+					bool inhabitants = parms.inhabitants;
+					PawnGenerationRequest request = new PawnGenerationRequest(item.kind, parms.faction, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, true, 1f, false, true, allowFood, inhabitants, false, null, default(float?), default(float?), default(Gender?), default(float?), (string)null);
+					Pawn pawn = PawnGenerator.GeneratePawn(request);
+					if (parms.forceOneIncap && !flag2)
+					{
+						pawn.health.forceIncap = true;
+						pawn.mindState.canFleeIndividual = false;
+						flag2 = true;
+					}
+					outPawns.Add(pawn);
 				}
-				outPawns.Add(pawn);
 			}
 		}
 	}

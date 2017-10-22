@@ -13,10 +13,10 @@ namespace Verse
 				throw new ArgumentNullException("p");
 			}
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
-			foreach (BodyPartRecord current in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined))
+			foreach (BodyPartRecord notMissingPart in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined))
 			{
-				BodyPartRecord localPart = current;
-				list.Add(new DebugMenuOption(localPart.def.LabelCap, DebugMenuOptionMode.Action, delegate
+				BodyPartRecord localPart = notMissingPart;
+				list.Add(new DebugMenuOption(localPart.def.LabelCap, DebugMenuOptionMode.Action, (Action)delegate()
 				{
 					p.health.RestorePart(localPart, null, true);
 				}));
@@ -27,14 +27,14 @@ namespace Verse
 		public static List<DebugMenuOption> Options_ApplyDamage()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
-			foreach (DamageDef current in DefDatabase<DamageDef>.AllDefs)
+			foreach (DamageDef allDef in DefDatabase<DamageDef>.AllDefs)
 			{
-				DamageDef localDef = current;
-				list.Add(new DebugMenuOption(localDef.LabelCap, DebugMenuOptionMode.Tool, delegate
+				DamageDef localDef = allDef;
+				list.Add(new DebugMenuOption(localDef.LabelCap, DebugMenuOptionMode.Tool, (Action)delegate()
 				{
 					Pawn pawn = (from t in Find.VisibleMap.thingGrid.ThingsAt(UI.MouseCell())
 					where t is Pawn
-					select t).Cast<Pawn>().FirstOrDefault<Pawn>();
+					select t).Cast<Pawn>().FirstOrDefault();
 					if (pawn != null)
 					{
 						Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugTools_Health.Options_Damage_BodyParts(pawn, localDef)));
@@ -51,34 +51,43 @@ namespace Verse
 				throw new ArgumentNullException("p");
 			}
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
-			list.Add(new DebugMenuOption("(no body part)", DebugMenuOptionMode.Action, delegate
+			list.Add(new DebugMenuOption("(no body part)", DebugMenuOptionMode.Action, (Action)delegate()
 			{
 				p.TakeDamage(new DamageInfo(def, 5, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
 			}));
-			foreach (BodyPartRecord current in p.RaceProps.body.AllParts)
+			List<BodyPartRecord>.Enumerator enumerator = p.RaceProps.body.AllParts.GetEnumerator();
+			try
 			{
-				BodyPartRecord localPart = current;
-				list.Add(new DebugMenuOption(localPart.def.LabelCap, DebugMenuOptionMode.Action, delegate
+				while (enumerator.MoveNext())
 				{
-					Thing arg_2C_0 = p;
-					BodyPartRecord localPart = localPart;
-					arg_2C_0.TakeDamage(new DamageInfo(def, 5, -1f, null, localPart, null, DamageInfo.SourceCategory.ThingOrUnknown));
-				}));
+					BodyPartRecord current = enumerator.Current;
+					BodyPartRecord localPart = current;
+					list.Add(new DebugMenuOption(localPart.def.LabelCap, DebugMenuOptionMode.Action, (Action)delegate()
+					{
+						Pawn obj = p;
+						BodyPartRecord forceHitPart = localPart;
+						obj.TakeDamage(new DamageInfo(def, 5, -1f, null, forceHitPart, null, DamageInfo.SourceCategory.ThingOrUnknown));
+					}));
+				}
+				return list;
 			}
-			return list;
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
 		}
 
 		public static List<DebugMenuOption> Options_AddHediff()
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
-			foreach (Type current in (from t in typeof(Hediff).AllSubclasses()
+			foreach (Type item in (from t in typeof(Hediff).AllSubclasses()
 			where !t.IsAbstract
-			select t).Concat(Gen.YieldSingle<Type>(typeof(Hediff))))
+			select t).Concat(Gen.YieldSingle(typeof(Hediff))))
 			{
-				Type localDiffType = current;
+				Type localDiffType = item;
 				if (localDiffType != typeof(Hediff_Injury))
 				{
-					list.Add(new DebugMenuOption(localDiffType.ToString(), DebugMenuOptionMode.Action, delegate
+					list.Add(new DebugMenuOption(localDiffType.ToString(), DebugMenuOptionMode.Action, (Action)delegate
 					{
 						Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugTools_Health.Options_HediffsDefs(localDiffType)));
 					}));
@@ -90,14 +99,14 @@ namespace Verse
 		private static List<DebugMenuOption> Options_HediffsDefs(Type diffType)
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
-			foreach (HediffDef current in from d in DefDatabase<HediffDef>.AllDefs
+			foreach (HediffDef item in from d in DefDatabase<HediffDef>.AllDefs
 			where d.hediffClass == diffType
 			select d)
 			{
-				HediffDef localDef = current;
-				list.Add(new DebugMenuOption(localDef.LabelCap, DebugMenuOptionMode.Tool, delegate
+				HediffDef localDef = item;
+				list.Add(new DebugMenuOption(localDef.LabelCap, DebugMenuOptionMode.Tool, (Action)delegate()
 				{
-					Pawn pawn = Find.VisibleMap.thingGrid.ThingsAt(UI.MouseCell()).Where((Thing t) => t is Pawn).Cast<Pawn>().FirstOrDefault<Pawn>();
+					Pawn pawn = Find.VisibleMap.thingGrid.ThingsAt(UI.MouseCell()).Where((Func<Thing, bool>)((Thing t) => t is Pawn)).Cast<Pawn>().FirstOrDefault();
 					if (pawn != null)
 					{
 						Find.WindowStack.Add(new Dialog_DebugOptionListLister(DebugTools_Health.Options_Hediff_BodyParts(pawn, localDef)));
@@ -115,19 +124,28 @@ namespace Verse
 				throw new ArgumentNullException("p");
 			}
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
-			list.Add(new DebugMenuOption("(no body part)", DebugMenuOptionMode.Action, delegate
+			list.Add(new DebugMenuOption("(no body part)", DebugMenuOptionMode.Action, (Action)delegate()
 			{
-				p.health.AddHediff(def, null, null);
+				p.health.AddHediff(def, null, default(DamageInfo?));
 			}));
-			foreach (BodyPartRecord current in p.RaceProps.body.AllParts)
+			List<BodyPartRecord>.Enumerator enumerator = p.RaceProps.body.AllParts.GetEnumerator();
+			try
 			{
-				BodyPartRecord localPart = current;
-				list.Add(new DebugMenuOption(localPart.def.LabelCap, DebugMenuOptionMode.Action, delegate
+				while (enumerator.MoveNext())
 				{
-					p.health.AddHediff(def, localPart, null);
-				}));
+					BodyPartRecord current = enumerator.Current;
+					BodyPartRecord localPart = current;
+					list.Add(new DebugMenuOption(localPart.def.LabelCap, DebugMenuOptionMode.Action, (Action)delegate()
+					{
+						p.health.AddHediff(def, localPart, default(DamageInfo?));
+					}));
+				}
+				return list;
 			}
-			return list;
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
 		}
 	}
 }

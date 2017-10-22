@@ -23,7 +23,8 @@ namespace RimWorld
 			{
 				Rect rect2 = new Rect(0f, 20f, rect.width, 25f);
 				Widgets.Label(rect2, "Master".Translate() + ": ");
-				rect2.xMin = rect2.center.x;
+				Vector2 center = rect2.center;
+				rect2.xMin = center.x;
 				string label2 = TrainableUtility.MasterString(pawn);
 				if (Widgets.ButtonText(rect2, label2, true, false, true))
 				{
@@ -36,7 +37,7 @@ namespace RimWorld
 			{
 				if (TrainingCardUtility.TryDrawTrainableRow(new Rect(0f, num, rect.width, 28f), pawn, trainableDefsInListOrder[i]))
 				{
-					num += 28f;
+					num = (float)(num + 28.0);
 				}
 			}
 			GUI.EndGroup();
@@ -45,7 +46,7 @@ namespace RimWorld
 		private static bool TryDrawTrainableRow(Rect rect, Pawn pawn, TrainableDef td)
 		{
 			bool flag = pawn.training.IsCompleted(td);
-			bool flag2;
+			bool flag2 = default(bool);
 			AcceptanceReport canTrain = pawn.training.CanAssignToTrain(td, out flag2);
 			if (!flag2)
 			{
@@ -54,9 +55,9 @@ namespace RimWorld
 			Widgets.DrawHighlightIfMouseover(rect);
 			Rect rect2 = rect;
 			rect2.width -= 50f;
-			rect2.xMin += (float)td.indent * 10f;
+			rect2.xMin += (float)((float)td.indent * 10.0);
 			Rect rect3 = rect;
-			rect3.xMin = rect3.xMax - 50f + 17f;
+			rect3.xMin = (float)(rect3.xMax - 50.0 + 17.0);
 			if (!flag)
 			{
 				TrainingCardUtility.DoTrainableCheckbox(rect2, pawn, td, canTrain, true, false);
@@ -77,11 +78,11 @@ namespace RimWorld
 			if (DebugSettings.godMode && !pawn.training.IsCompleted(td))
 			{
 				Rect rect4 = rect3;
-				rect4.yMin = rect4.yMax - 10f;
-				rect4.xMin = rect4.xMax - 10f;
+				rect4.yMin = (float)(rect4.yMax - 10.0);
+				rect4.xMin = (float)(rect4.xMax - 10.0);
 				if (Widgets.ButtonText(rect4, "+", true, false, true))
 				{
-					pawn.training.Train(td, pawn.Map.mapPawns.FreeColonistsSpawned.RandomElement<Pawn>());
+					pawn.training.Train(td, pawn.Map.mapPawns.FreeColonistsSpawned.RandomElement());
 				}
 			}
 			TrainingCardUtility.DoTrainableTooltip(rect, pawn, td, canTrain);
@@ -91,8 +92,7 @@ namespace RimWorld
 
 		public static void DoTrainableCheckbox(Rect rect, Pawn pawn, TrainableDef td, AcceptanceReport canTrain, bool drawLabel, bool doTooltip)
 		{
-			bool flag = pawn.training.IsCompleted(td);
-			if (flag)
+			if (pawn.training.IsCompleted(td))
 			{
 				if (!drawLabel)
 				{
@@ -101,20 +101,20 @@ namespace RimWorld
 			}
 			else
 			{
-				bool wanted = pawn.training.GetWanted(td);
-				bool flag2 = wanted;
+				bool wanted;
+				bool flag = wanted = pawn.training.GetWanted(td);
 				if (drawLabel)
 				{
-					Widgets.CheckboxLabeled(rect, td.LabelCap, ref wanted, !canTrain.Accepted);
+					Widgets.CheckboxLabeled(rect, td.LabelCap, ref flag, !canTrain.Accepted);
 				}
 				else
 				{
-					Widgets.Checkbox(rect.position, ref wanted, rect.width, !canTrain.Accepted);
+					Widgets.Checkbox(rect.position, ref flag, rect.width, !canTrain.Accepted);
 				}
-				if (wanted != flag2)
+				if (flag != wanted)
 				{
 					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.AnimalTraining, KnowledgeAmount.Total);
-					pawn.training.SetWantedRecursive(td, wanted);
+					pawn.training.SetWantedRecursive(td, flag);
 				}
 			}
 			if (doTooltip)
@@ -125,29 +125,26 @@ namespace RimWorld
 
 		private static void DoTrainableTooltip(Rect rect, Pawn pawn, TrainableDef td, AcceptanceReport canTrain)
 		{
-			TooltipHandler.TipRegion(rect, delegate
+			TooltipHandler.TipRegion(rect, (Func<string>)delegate()
 			{
 				string text = td.LabelCap + "\n\n" + td.description;
 				if (!canTrain.Accepted)
 				{
 					text = text + "\n\n" + canTrain.Reason;
 				}
-				else if (!td.prerequisites.NullOrEmpty<TrainableDef>())
+				else if (!td.prerequisites.NullOrEmpty())
 				{
 					text += "\n";
 					for (int i = 0; i < td.prerequisites.Count; i++)
 					{
 						if (!pawn.training.IsCompleted(td.prerequisites[i]))
 						{
-							text = text + "\n" + "TrainingNeedsPrerequisite".Translate(new object[]
-							{
-								td.prerequisites[i].LabelCap
-							});
+							text = text + "\n" + "TrainingNeedsPrerequisite".Translate(td.prerequisites[i].LabelCap);
 						}
 					}
 				}
 				return text;
-			}, (int)(rect.y * 612f + rect.x));
+			}, (int)(rect.y * 612.0 + rect.x));
 		}
 	}
 }

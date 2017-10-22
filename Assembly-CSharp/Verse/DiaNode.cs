@@ -28,12 +28,21 @@ namespace Verse
 		{
 			this.def = newDef;
 			this.def.used = true;
-			this.text = this.def.texts.RandomElement<string>();
+			this.text = this.def.texts.RandomElement();
 			if (this.def.optionList.Count > 0)
 			{
-				foreach (DiaOptionMold current in this.def.optionList)
+				List<DiaOptionMold>.Enumerator enumerator = this.def.optionList.GetEnumerator();
+				try
 				{
-					this.options.Add(new DiaOption(current));
+					while (enumerator.MoveNext())
+					{
+						DiaOptionMold current = enumerator.Current;
+						this.options.Add(new DiaOption(current));
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 			else

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse.AI;
 
@@ -11,36 +10,34 @@ namespace Verse
 		public static void DeregisterInRegions(Thing thing, Map map)
 		{
 			ThingDef def = thing.def;
-			if (!ListerThings.EverListable(def, ListerThingsUse.Region))
+			if (ListerThings.EverListable(def, ListerThingsUse.Region))
 			{
-				return;
-			}
-			RegionListersUpdater.GetTouchableRegions(thing, map, RegionListersUpdater.tmpRegions, true);
-			for (int i = 0; i < RegionListersUpdater.tmpRegions.Count; i++)
-			{
-				ListerThings listerThings = RegionListersUpdater.tmpRegions[i].ListerThings;
-				if (listerThings.Contains(thing))
+				RegionListersUpdater.GetTouchableRegions(thing, map, RegionListersUpdater.tmpRegions, true);
+				for (int i = 0; i < RegionListersUpdater.tmpRegions.Count; i++)
 				{
-					listerThings.Remove(thing);
+					ListerThings listerThings = RegionListersUpdater.tmpRegions[i].ListerThings;
+					if (listerThings.Contains(thing))
+					{
+						listerThings.Remove(thing);
+					}
 				}
+				RegionListersUpdater.tmpRegions.Clear();
 			}
-			RegionListersUpdater.tmpRegions.Clear();
 		}
 
 		public static void RegisterInRegions(Thing thing, Map map)
 		{
 			ThingDef def = thing.def;
-			if (!ListerThings.EverListable(def, ListerThingsUse.Region))
+			if (ListerThings.EverListable(def, ListerThingsUse.Region))
 			{
-				return;
-			}
-			RegionListersUpdater.GetTouchableRegions(thing, map, RegionListersUpdater.tmpRegions, false);
-			for (int i = 0; i < RegionListersUpdater.tmpRegions.Count; i++)
-			{
-				ListerThings listerThings = RegionListersUpdater.tmpRegions[i].ListerThings;
-				if (!listerThings.Contains(thing))
+				RegionListersUpdater.GetTouchableRegions(thing, map, RegionListersUpdater.tmpRegions, false);
+				for (int i = 0; i < RegionListersUpdater.tmpRegions.Count; i++)
 				{
-					listerThings.Add(thing);
+					ListerThings listerThings = RegionListersUpdater.tmpRegions[i].ListerThings;
+					if (!listerThings.Contains(thing))
+					{
+						listerThings.Add(thing);
+					}
 				}
 			}
 		}
@@ -49,9 +46,9 @@ namespace Verse
 		{
 			List<Thing> thingList = c.GetThingList(map);
 			int count = thingList.Count;
-			for (int i = 0; i < count; i++)
+			for (int num = 0; num < count; num++)
 			{
-				Thing thing = thingList[i];
+				Thing thing = thingList[num];
 				if (processedThings == null || processedThings.Add(thing))
 				{
 					RegionListersUpdater.RegisterInRegions(thing, map);
@@ -62,13 +59,13 @@ namespace Verse
 		public static void GetTouchableRegions(Thing thing, Map map, List<Region> outRegions, bool allowAdjacentEvenIfCantTouch = false)
 		{
 			outRegions.Clear();
-			CellRect cellRect = thing.OccupiedRect();
-			CellRect cellRect2 = cellRect;
+			CellRect cellRect;
+			CellRect cellRect2 = cellRect = thing.OccupiedRect();
 			if (RegionListersUpdater.CanRegisterInAdjacentRegions(thing))
 			{
-				cellRect2 = cellRect2.ExpandedBy(1);
+				cellRect = cellRect.ExpandedBy(1);
 			}
-			CellRect.CellRectIterator iterator = cellRect2.GetIterator();
+			CellRect.CellRectIterator iterator = cellRect.GetIterator();
 			while (!iterator.Done())
 			{
 				IntVec3 current = iterator.Current;
@@ -77,7 +74,7 @@ namespace Verse
 					Region validRegionAt_NoRebuild = map.regionGrid.GetValidRegionAt_NoRebuild(current);
 					if (validRegionAt_NoRebuild != null && validRegionAt_NoRebuild.type.Passable() && !outRegions.Contains(validRegionAt_NoRebuild))
 					{
-						if (cellRect.Contains(current))
+						if (cellRect2.Contains(current))
 						{
 							outRegions.Add(validRegionAt_NoRebuild);
 						}

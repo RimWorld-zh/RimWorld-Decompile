@@ -17,14 +17,14 @@ namespace RimWorld
 
 		public Designator_Uninstall()
 		{
-			this.defaultLabel = "DesignatorUninstall".Translate();
-			this.defaultDesc = "DesignatorUninstallDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/Uninstall", true);
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.useMouseIcon = true;
-			this.soundSucceeded = SoundDefOf.DesignateDeconstruct;
-			this.hotKey = KeyBindingDefOf.Misc12;
+			base.defaultLabel = "DesignatorUninstall".Translate();
+			base.defaultDesc = "DesignatorUninstallDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/Uninstall", true);
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.useMouseIcon = true;
+			base.soundSucceeded = SoundDefOf.DesignateDeconstruct;
+			base.hotKey = KeyBindingDefOf.Misc12;
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
@@ -37,7 +37,8 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (this.TopUninstallableInCell(c) == null)
+			Thing thing = this.TopUninstallableInCell(c);
+			if (thing == null)
 			{
 				return false;
 			}
@@ -51,13 +52,13 @@ namespace RimWorld
 
 		private Thing TopUninstallableInCell(IntVec3 loc)
 		{
-			foreach (Thing current in from t in base.Map.thingGrid.ThingsAt(loc)
+			foreach (Thing item in from t in base.Map.thingGrid.ThingsAt(loc)
 			orderby t.def.altitudeLayer descending
 			select t)
 			{
-				if (this.CanDesignateThing(current).Accepted)
+				if (this.CanDesignateThing(item).Accepted)
 				{
-					return current;
+					return item;
 				}
 			}
 			return null;
@@ -69,7 +70,7 @@ namespace RimWorld
 			{
 				t.SetFaction(Faction.OfPlayer, null);
 			}
-			if (DebugSettings.godMode || t.GetStatValue(StatDefOf.WorkToBuild, true) == 0f || t.def.IsFrame)
+			if (DebugSettings.godMode || t.GetStatValue(StatDefOf.WorkToBuild, true) == 0.0 || t.def.IsFrame)
 			{
 				t.Uninstall();
 			}

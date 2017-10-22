@@ -69,15 +69,17 @@ namespace RimWorld
 			{
 				return this.MeleeAttackJob(enemyTarget);
 			}
-			bool flag = CoverUtility.CalculateOverallBlockChance(pawn.Position, enemyTarget.Position, pawn.Map) > 0.01f;
+			bool flag = CoverUtility.CalculateOverallBlockChance(pawn.Position, enemyTarget.Position, pawn.Map) > 0.0099999997764825821;
 			bool flag2 = pawn.Position.Standable(pawn.Map);
 			bool flag3 = verb.CanHitTarget(enemyTarget);
 			bool flag4 = (pawn.Position - enemyTarget.Position).LengthHorizontalSquared < 25;
-			if ((flag && flag2 && flag3) || (flag4 && flag3))
+			if (flag && flag2 && flag3)
 			{
-				return new Job(JobDefOf.WaitCombat, JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange, true);
+				goto IL_00cf;
 			}
-			IntVec3 intVec;
+			if (flag4 && flag3)
+				goto IL_00cf;
+			IntVec3 intVec = default(IntVec3);
 			if (!this.TryFindShootingPosition(pawn, out intVec))
 			{
 				return null;
@@ -87,21 +89,21 @@ namespace RimWorld
 				return new Job(JobDefOf.WaitCombat, JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange, true);
 			}
 			pawn.Map.pawnDestinationManager.ReserveDestinationFor(pawn, intVec);
-			return new Job(JobDefOf.Goto, intVec)
-			{
-				expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange,
-				checkOverrideOnExpire = true
-			};
+			Job job = new Job(JobDefOf.Goto, intVec);
+			job.expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange;
+			job.checkOverrideOnExpire = true;
+			return job;
+			IL_00cf:
+			return new Job(JobDefOf.WaitCombat, JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange, true);
 		}
 
 		protected virtual Job MeleeAttackJob(Thing enemyTarget)
 		{
-			return new Job(JobDefOf.AttackMelee, enemyTarget)
-			{
-				expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_Melee.RandomInRange,
-				checkOverrideOnExpire = true,
-				expireRequiresEnemiesNearby = true
-			};
+			Job job = new Job(JobDefOf.AttackMelee, enemyTarget);
+			job.expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_Melee.RandomInRange;
+			job.checkOverrideOnExpire = true;
+			job.expireRequiresEnemiesNearby = true;
+			return job;
 		}
 
 		protected virtual void UpdateEnemyTarget(Pawn pawn)
@@ -159,13 +161,13 @@ namespace RimWorld
 			TargetScanFlags targetScanFlags = TargetScanFlags.NeedLOSToPawns | TargetScanFlags.NeedReachableIfCantHitFromMyPos | TargetScanFlags.NeedThreat;
 			if (this.needLOSToAcquireNonPawnTargets)
 			{
-				targetScanFlags |= TargetScanFlags.NeedLOSToNonPawns;
+				targetScanFlags = (TargetScanFlags)(byte)((int)targetScanFlags | 2);
 			}
 			if (this.PrimaryVerbIsIncendiary(pawn))
 			{
-				targetScanFlags |= TargetScanFlags.NeedNonBurning;
+				targetScanFlags = (TargetScanFlags)(byte)((int)targetScanFlags | 16);
 			}
-			return (Thing)AttackTargetFinder.BestAttackTarget(pawn, targetScanFlags, (Thing x) => this.ExtraTargetValidator(pawn, x), 0f, this.targetAcquireRadius, this.GetFlagPosition(pawn), this.GetFlagRadius(pawn), false);
+			return (Thing)AttackTargetFinder.BestAttackTarget(pawn, targetScanFlags, (Predicate<Thing>)((Thing x) => this.ExtraTargetValidator(pawn, x)), 0f, this.targetAcquireRadius, this.GetFlagPosition(pawn), this.GetFlagRadius(pawn), false);
 		}
 
 		private bool PrimaryVerbIsIncendiary(Pawn pawn)

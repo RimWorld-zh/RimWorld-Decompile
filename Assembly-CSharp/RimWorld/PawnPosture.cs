@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum PawnPosture : byte
 	{
-		Standing,
-		LayingFaceUp,
-		LayingAny
+		Standing = 0,
+		LayingFaceUp = 1,
+		LayingAny = 2
 	}
 }

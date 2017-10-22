@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -61,19 +60,11 @@ namespace RimWorld
 
 		protected virtual float SpringChance(Pawn p)
 		{
-			float num;
-			if (this.KnowsOfTrap(p))
-			{
-				num = 0.004f;
-			}
-			else
-			{
-				num = this.GetStatValue(StatDefOf.TrapSpringChance, true);
-			}
+			float num = (float)((!this.KnowsOfTrap(p)) ? this.GetStatValue(StatDefOf.TrapSpringChance, true) : 0.0040000001899898052);
 			num *= GenMath.LerpDouble(0.4f, 0.8f, 0f, 1f, p.BodySize);
 			if (p.RaceProps.Animal)
 			{
-				num *= 0.1f;
+				num = (float)(num * 0.10000000149011612);
 			}
 			return Mathf.Clamp01(num);
 		}
@@ -83,16 +74,9 @@ namespace RimWorld
 			if (Rand.Value < this.SpringChance(p))
 			{
 				this.Spring(p);
-				if (p.Faction == Faction.OfPlayer || p.HostFaction == Faction.OfPlayer)
-				{
-					Find.LetterStack.ReceiveLetter("LetterFriendlyTrapSprungLabel".Translate(new object[]
-					{
-						p.NameStringShort
-					}), "LetterFriendlyTrapSprung".Translate(new object[]
-					{
-						p.NameStringShort
-					}), LetterDefOf.BadNonUrgent, new TargetInfo(base.Position, base.Map, false), null);
-				}
+				if (p.Faction != Faction.OfPlayer && p.HostFaction != Faction.OfPlayer)
+					return;
+				Find.LetterStack.ReceiveLetter("LetterFriendlyTrapSprungLabel".Translate(p.NameStringShort), "LetterFriendlyTrapSprung".Translate(p.NameStringShort), LetterDefOf.BadNonUrgent, new TargetInfo(base.Position, base.Map, false), (string)null);
 			}
 		}
 
@@ -111,33 +95,37 @@ namespace RimWorld
 				return true;
 			}
 			Lord lord = p.GetLord();
-			return p.guest != null && lord != null && lord.LordJob is LordJob_FormAndSendCaravan;
+			if (p.guest != null && lord != null && lord.LordJob is LordJob_FormAndSendCaravan)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override ushort PathFindCostFor(Pawn p)
 		{
 			if (!this.Armed)
 			{
-				return 0;
+				return (ushort)0;
 			}
 			if (this.KnowsOfTrap(p))
 			{
-				return 800;
+				return (ushort)800;
 			}
-			return 0;
+			return (ushort)0;
 		}
 
 		public override ushort PathWalkCostFor(Pawn p)
 		{
 			if (!this.Armed)
 			{
-				return 0;
+				return (ushort)0;
 			}
 			if (this.KnowsOfTrap(p))
 			{
-				return 30;
+				return (ushort)30;
 			}
-			return 0;
+			return (ushort)0;
 		}
 
 		public override bool IsDangerousFor(Pawn p)
@@ -152,15 +140,7 @@ namespace RimWorld
 			{
 				text += "\n";
 			}
-			if (this.Armed)
-			{
-				text += "TrapArmed".Translate();
-			}
-			else
-			{
-				text += "TrapNotArmed".Translate();
-			}
-			return text;
+			return (!this.Armed) ? (text + "TrapNotArmed".Translate()) : (text + "TrapArmed".Translate());
 		}
 
 		public void Spring(Pawn p)

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -9,20 +10,37 @@ namespace Verse
 	{
 		public static void AddWhitespaceFromRoot(XElement root)
 		{
-			if (!root.Elements().Any<XElement>())
+			if (root.Elements().Any())
 			{
-				return;
-			}
-			foreach (XElement current in root.Elements().ToList<XElement>())
-			{
-				XText content = new XText("\n");
-				current.AddAfterSelf(content);
-			}
-			root.Elements().First<XElement>().AddBeforeSelf(new XText("\n"));
-			root.Elements().Last<XElement>().AddAfterSelf(new XText("\n"));
-			foreach (XElement current2 in root.Elements().ToList<XElement>())
-			{
-				DirectXmlSaveFormatter.IndentXml(current2, 1);
+				List<XElement>.Enumerator enumerator = root.Elements().ToList().GetEnumerator();
+				try
+				{
+					while (enumerator.MoveNext())
+					{
+						XElement current = enumerator.Current;
+						XText content = new XText("\n");
+						current.AddAfterSelf(content);
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
+				}
+				root.Elements().First().AddBeforeSelf(new XText("\n"));
+				root.Elements().Last().AddAfterSelf(new XText("\n"));
+				List<XElement>.Enumerator enumerator2 = root.Elements().ToList().GetEnumerator();
+				try
+				{
+					while (enumerator2.MoveNext())
+					{
+						XElement current2 = enumerator2.Current;
+						DirectXmlSaveFormatter.IndentXml(current2, 1);
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator2).Dispose();
+				}
 			}
 		}
 
@@ -31,9 +49,18 @@ namespace Verse
 			element.AddBeforeSelf(new XText(DirectXmlSaveFormatter.IndentString(depth, true)));
 			bool startWithNewline = element.NextNode == null;
 			element.AddAfterSelf(new XText(DirectXmlSaveFormatter.IndentString(depth - 1, startWithNewline)));
-			foreach (XElement current in element.Elements().ToList<XElement>())
+			List<XElement>.Enumerator enumerator = element.Elements().ToList().GetEnumerator();
+			try
 			{
-				DirectXmlSaveFormatter.IndentXml(current, depth + 1);
+				while (enumerator.MoveNext())
+				{
+					XElement current = enumerator.Current;
+					DirectXmlSaveFormatter.IndentXml(current, depth + 1);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 
@@ -44,7 +71,7 @@ namespace Verse
 			{
 				stringBuilder.Append("\n");
 			}
-			for (int i = 0; i < depth; i++)
+			for (int num = 0; num < depth; num++)
 			{
 				stringBuilder.Append("  ");
 			}

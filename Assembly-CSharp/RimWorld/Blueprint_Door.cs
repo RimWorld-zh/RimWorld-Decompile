@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld
 {
 	public class Blueprint_Door : Blueprint_Build

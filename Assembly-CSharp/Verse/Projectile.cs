@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse.Sound;
@@ -56,24 +55,33 @@ namespace Verse
 		{
 			get
 			{
-				return this.def.projectile.alwaysFreeIntercept || (!this.def.projectile.flyOverhead && this.interceptWallsInt);
+				if (base.def.projectile.alwaysFreeIntercept)
+				{
+					return true;
+				}
+				if (base.def.projectile.flyOverhead)
+				{
+					return false;
+				}
+				return this.interceptWallsInt;
 			}
 			set
 			{
-				if (!value && this.def.projectile.alwaysFreeIntercept)
+				if (!value && base.def.projectile.alwaysFreeIntercept)
 				{
 					Log.Error("Tried to set interceptWalls to false on projectile with alwaysFreeIntercept=true");
-					return;
 				}
-				if (value && this.def.projectile.flyOverhead)
+				else if (value && base.def.projectile.flyOverhead)
 				{
 					Log.Error("Tried to set interceptWalls to true on a projectile with flyOverhead=true");
-					return;
 				}
-				this.interceptWallsInt = value;
-				if (!this.interceptWallsInt && this is Projectile_Explosive)
+				else
 				{
-					Log.Message("Non interceptWallsInt explosive.");
+					this.interceptWallsInt = value;
+					if (!this.interceptWallsInt && this is Projectile_Explosive)
+					{
+						Log.Message("Non interceptWallsInt explosive.");
+					}
 				}
 			}
 		}
@@ -82,21 +90,30 @@ namespace Verse
 		{
 			get
 			{
-				return this.def.projectile.alwaysFreeIntercept || (!this.def.projectile.flyOverhead && this.freeInterceptInt);
+				if (base.def.projectile.alwaysFreeIntercept)
+				{
+					return true;
+				}
+				if (base.def.projectile.flyOverhead)
+				{
+					return false;
+				}
+				return this.freeInterceptInt;
 			}
 			set
 			{
-				if (!value && this.def.projectile.alwaysFreeIntercept)
+				if (!value && base.def.projectile.alwaysFreeIntercept)
 				{
 					Log.Error("Tried to set FreeIntercept to false on projectile with alwaysFreeIntercept=true");
-					return;
 				}
-				if (value && this.def.projectile.flyOverhead)
+				else if (value && base.def.projectile.flyOverhead)
 				{
 					Log.Error("Tried to set FreeIntercept to true on a projectile with flyOverhead=true");
-					return;
 				}
-				this.freeInterceptInt = value;
+				else
+				{
+					this.freeInterceptInt = value;
+				}
 			}
 		}
 
@@ -108,11 +125,10 @@ namespace Verse
 			}
 			set
 			{
-				if (value.def.Fillage == FillCategory.Full)
+				if (value.def.Fillage != FillCategory.Full)
 				{
-					return;
+					this.neverInterceptTargetInt = value;
 				}
-				this.neverInterceptTargetInt = value;
 			}
 		}
 
@@ -120,7 +136,7 @@ namespace Verse
 		{
 			get
 			{
-				int num = Mathf.RoundToInt((this.origin - this.destination).magnitude / (this.def.projectile.speed / 100f));
+				int num = Mathf.RoundToInt((float)((this.origin - this.destination).magnitude / (base.def.projectile.speed / 100.0)));
 				if (num < 1)
 				{
 					num = 1;
@@ -141,8 +157,8 @@ namespace Verse
 		{
 			get
 			{
-				Vector3 b = (this.destination - this.origin) * (1f - (float)this.ticksToImpact / (float)this.StartingTicksToImpact);
-				return this.origin + b + Vector3.up * this.def.Altitude;
+				Vector3 b = (this.destination - this.origin) * (float)(1.0 - (float)this.ticksToImpact / (float)this.StartingTicksToImpact);
+				return this.origin + b + Vector3.up * base.def.Altitude;
 			}
 		}
 
@@ -200,51 +216,50 @@ namespace Verse
 			}
 			this.destination = targ.Cell.ToVector3Shifted() + new Vector3(Rand.Range(-0.3f, 0.3f), 0f, Rand.Range(-0.3f, 0.3f));
 			this.ticksToImpact = this.StartingTicksToImpact;
-			if (!this.def.projectile.soundAmbient.NullOrUndefined())
+			if (!base.def.projectile.soundAmbient.NullOrUndefined())
 			{
-				SoundInfo info = SoundInfo.InMap(this, MaintenanceType.PerTick);
-				this.ambientSustainer = this.def.projectile.soundAmbient.TrySpawnSustainer(info);
+				SoundInfo info = SoundInfo.InMap((Thing)this, MaintenanceType.PerTick);
+				this.ambientSustainer = base.def.projectile.soundAmbient.TrySpawnSustainer(info);
 			}
 		}
 
 		public override void Tick()
 		{
 			base.Tick();
-			if (this.landed)
+			if (!this.landed)
 			{
-				return;
-			}
-			Vector3 exactPosition = this.ExactPosition;
-			this.ticksToImpact--;
-			if (!this.ExactPosition.InBounds(base.Map))
-			{
-				this.ticksToImpact++;
-				base.Position = this.ExactPosition.ToIntVec3();
-				this.Destroy(DestroyMode.Vanish);
-				return;
-			}
-			Vector3 exactPosition2 = this.ExactPosition;
-			if (this.CheckForFreeInterceptBetween(exactPosition, exactPosition2))
-			{
-				return;
-			}
-			base.Position = this.ExactPosition.ToIntVec3();
-			if (this.ticksToImpact == 60 && Find.TickManager.CurTimeSpeed == TimeSpeed.Normal && this.def.projectile.soundImpactAnticipate != null)
-			{
-				this.def.projectile.soundImpactAnticipate.PlayOneShot(this);
-			}
-			if (this.ticksToImpact <= 0)
-			{
-				if (this.DestinationCell.InBounds(base.Map))
+				Vector3 exactPosition = this.ExactPosition;
+				this.ticksToImpact--;
+				if (!this.ExactPosition.InBounds(base.Map))
 				{
-					base.Position = this.DestinationCell;
+					this.ticksToImpact++;
+					base.Position = this.ExactPosition.ToIntVec3();
+					this.Destroy(DestroyMode.Vanish);
 				}
-				this.ImpactSomething();
-				return;
-			}
-			if (this.ambientSustainer != null)
-			{
-				this.ambientSustainer.Maintain();
+				else
+				{
+					Vector3 exactPosition2 = this.ExactPosition;
+					if (!this.CheckForFreeInterceptBetween(exactPosition, exactPosition2))
+					{
+						base.Position = this.ExactPosition.ToIntVec3();
+						if (this.ticksToImpact == 60 && Find.TickManager.CurTimeSpeed == TimeSpeed.Normal && base.def.projectile.soundImpactAnticipate != null)
+						{
+							base.def.projectile.soundImpactAnticipate.PlayOneShot((Thing)this);
+						}
+						if (this.ticksToImpact <= 0)
+						{
+							if (this.DestinationCell.InBounds(base.Map))
+							{
+								base.Position = this.DestinationCell;
+							}
+							this.ImpactSomething();
+						}
+						else if (this.ambientSustainer != null)
+						{
+							this.ambientSustainer.Maintain();
+						}
+					}
+				}
 			}
 		}
 
@@ -256,65 +271,63 @@ namespace Verse
 			{
 				return false;
 			}
-			if (!intVec.InBounds(base.Map) || !intVec2.InBounds(base.Map))
+			if (intVec.InBounds(base.Map) && intVec2.InBounds(base.Map))
 			{
-				return false;
-			}
-			if (intVec2.AdjacentToCardinal(intVec))
-			{
-				bool flag = this.CheckForFreeIntercept(intVec2);
-				if (DebugViewSettings.drawInterceptChecks)
+				if (intVec2.AdjacentToCardinal(intVec))
 				{
-					if (flag)
-					{
-						MoteMaker.ThrowText(intVec2.ToVector3Shifted(), base.Map, "x", -1f);
-					}
-					else
-					{
-						MoteMaker.ThrowText(intVec2.ToVector3Shifted(), base.Map, "o", -1f);
-					}
-				}
-				return flag;
-			}
-			if ((float)this.origin.ToIntVec3().DistanceToSquared(intVec2) > 16f)
-			{
-				Vector3 vector = lastExactPos;
-				Vector3 v = newExactPos - lastExactPos;
-				Vector3 b = v.normalized * 0.2f;
-				int num = (int)(v.MagnitudeHorizontal() / 0.2f);
-				Projectile.checkedCells.Clear();
-				int num2 = 0;
-				while (true)
-				{
-					vector += b;
-					IntVec3 intVec3 = vector.ToIntVec3();
-					if (!Projectile.checkedCells.Contains(intVec3))
-					{
-						if (this.CheckForFreeIntercept(intVec3))
-						{
-							break;
-						}
-						Projectile.checkedCells.Add(intVec3);
-					}
+					bool flag = this.CheckForFreeIntercept(intVec2);
 					if (DebugViewSettings.drawInterceptChecks)
 					{
-						MoteMaker.ThrowText(vector, base.Map, "o", -1f);
+						if (flag)
+						{
+							MoteMaker.ThrowText(intVec2.ToVector3Shifted(), base.Map, "x", -1f);
+						}
+						else
+						{
+							MoteMaker.ThrowText(intVec2.ToVector3Shifted(), base.Map, "o", -1f);
+						}
 					}
-					num2++;
-					if (num2 > num)
-					{
-						return false;
-					}
-					if (intVec3 == intVec2)
-					{
-						return false;
-					}
+					return flag;
 				}
-				if (DebugViewSettings.drawInterceptChecks)
+				if ((float)this.origin.ToIntVec3().DistanceToSquared(intVec2) > 16.0)
 				{
-					MoteMaker.ThrowText(vector, base.Map, "x", -1f);
+					Vector3 vector = lastExactPos;
+					Vector3 v = newExactPos - lastExactPos;
+					Vector3 b = v.normalized * 0.2f;
+					int num = (int)(v.MagnitudeHorizontal() / 0.20000000298023224);
+					Projectile.checkedCells.Clear();
+					int num2 = 0;
+					while (true)
+					{
+						vector += b;
+						IntVec3 intVec3 = vector.ToIntVec3();
+						if (!Projectile.checkedCells.Contains(intVec3))
+						{
+							if (this.CheckForFreeIntercept(intVec3))
+							{
+								if (DebugViewSettings.drawInterceptChecks)
+								{
+									MoteMaker.ThrowText(vector, base.Map, "x", -1f);
+								}
+								return true;
+							}
+							Projectile.checkedCells.Add(intVec3);
+						}
+						if (DebugViewSettings.drawInterceptChecks)
+						{
+							MoteMaker.ThrowText(vector, base.Map, "o", -1f);
+						}
+						num2++;
+						if (num2 > num)
+						{
+							return false;
+						}
+						if (intVec3 == intVec2)
+							break;
+					}
+					return false;
 				}
-				return true;
+				return false;
 			}
 			return false;
 		}
@@ -322,7 +335,7 @@ namespace Verse
 		private bool CheckForFreeIntercept(IntVec3 c)
 		{
 			float num = (c.ToVector3Shifted() - this.origin).MagnitudeHorizontalSquared();
-			if (num < 16f)
+			if (num < 16.0)
 			{
 				return false;
 			}
@@ -330,55 +343,52 @@ namespace Verse
 			for (int i = 0; i < list.Count; i++)
 			{
 				Thing thing = list[i];
-				if (thing != this.ThingToNeverIntercept)
+				if (thing != this.ThingToNeverIntercept && thing != this.launcher)
 				{
-					if (thing != this.launcher)
+					if (thing.def.Fillage == FillCategory.Full && this.InterceptWalls)
 					{
-						if (thing.def.Fillage == FillCategory.Full && this.InterceptWalls)
+						this.Impact(thing);
+						return true;
+					}
+					if (this.FreeIntercept)
+					{
+						float num2 = 0f;
+						Pawn pawn = thing as Pawn;
+						if (pawn != null)
 						{
-							this.Impact(thing);
-							return true;
+							num2 = 0.4f;
+							if (pawn.GetPosture() != 0)
+							{
+								num2 = (float)(num2 * 0.10000000149011612);
+							}
+							if (this.launcher != null && pawn.Faction != null && this.launcher.Faction != null && !pawn.Faction.HostileTo(this.launcher.Faction))
+							{
+								num2 = (float)(num2 * 0.40000000596046448);
+							}
+							num2 *= Mathf.Clamp(pawn.BodySize, 0.1f, 2f);
 						}
-						if (this.FreeIntercept)
+						else if (thing.def.fillPercent > 0.20000000298023224)
 						{
-							float num2 = 0f;
-							Pawn pawn = thing as Pawn;
-							if (pawn != null)
+							num2 = (float)(thing.def.fillPercent * 0.070000000298023224);
+						}
+						if (num2 > 9.9999997473787516E-06)
+						{
+							if (num < 49.0)
 							{
-								num2 = 0.4f;
-								if (pawn.GetPosture() != PawnPosture.Standing)
-								{
-									num2 *= 0.1f;
-								}
-								if (this.launcher != null && pawn.Faction != null && this.launcher.Faction != null && !pawn.Faction.HostileTo(this.launcher.Faction))
-								{
-									num2 *= 0.4f;
-								}
-								num2 *= Mathf.Clamp(pawn.BodySize, 0.1f, 2f);
+								num2 = (float)(num2 * 0.5);
 							}
-							else if (thing.def.fillPercent > 0.2f)
+							else if (num < 100.0)
 							{
-								num2 = thing.def.fillPercent * 0.07f;
+								num2 = (float)(num2 * 0.75);
 							}
-							if (num2 > 1E-05f)
+							if (DebugViewSettings.drawShooting)
 							{
-								if (num < 49f)
-								{
-									num2 *= 0.5f;
-								}
-								else if (num < 100f)
-								{
-									num2 *= 0.75f;
-								}
-								if (DebugViewSettings.drawShooting)
-								{
-									MoteMaker.ThrowText(this.ExactPosition, base.Map, num2.ToStringPercent(), -1f);
-								}
-								if (Rand.Value < num2)
-								{
-									this.Impact(thing);
-									return true;
-								}
+								MoteMaker.ThrowText(this.ExactPosition, base.Map, num2.ToStringPercent(), -1f);
+							}
+							if (Rand.Value < num2)
+							{
+								this.Impact(thing);
+								return true;
 							}
 						}
 					}
@@ -389,20 +399,20 @@ namespace Verse
 
 		public override void Draw()
 		{
-			Graphics.DrawMesh(MeshPool.plane10, this.DrawPos, this.ExactRotation, this.def.DrawMatSingle, 0);
+			Graphics.DrawMesh(MeshPool.plane10, this.DrawPos, this.ExactRotation, base.def.DrawMatSingle, 0);
 			base.Comps_PostDraw();
 		}
 
 		private void ImpactSomething()
 		{
-			if (this.def.projectile.flyOverhead)
+			if (base.def.projectile.flyOverhead)
 			{
 				RoofDef roofDef = base.Map.roofGrid.RoofAt(base.Position);
 				if (roofDef != null)
 				{
 					if (roofDef.isThickRoof)
 					{
-						this.def.projectile.soundHitThickRoof.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
+						base.def.projectile.soundHitThickRoof.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 						this.Destroy(DestroyMode.Vanish);
 						return;
 					}
@@ -412,7 +422,19 @@ namespace Verse
 					}
 				}
 			}
-			if (this.assignedTarget == null)
+			if (this.assignedTarget != null)
+			{
+				Pawn pawn = this.assignedTarget as Pawn;
+				if (pawn != null && pawn.GetPosture() != 0 && (this.origin - this.destination).MagnitudeHorizontalSquared() >= 20.25 && Rand.Value > 0.20000000298023224)
+				{
+					this.Impact(null);
+				}
+				else
+				{
+					this.Impact(this.assignedTarget);
+				}
+			}
+			else
 			{
 				Projectile.cellThingsFiltered.Clear();
 				List<Thing> thingList = base.Position.GetThingList(base.Map);
@@ -424,26 +446,18 @@ namespace Verse
 						Projectile.cellThingsFiltered.Add(thing);
 					}
 				}
-				Projectile.cellThingsFiltered.Shuffle<Thing>();
+				Projectile.cellThingsFiltered.Shuffle();
 				for (int j = 0; j < Projectile.cellThingsFiltered.Count; j++)
 				{
 					Thing t = Projectile.cellThingsFiltered[j];
 					if (Rand.Value < Projectile.ImpactSomethingHitThingChance(t))
 					{
-						this.Impact(Projectile.cellThingsFiltered.RandomElement<Thing>());
+						this.Impact(Projectile.cellThingsFiltered.RandomElement());
 						return;
 					}
 				}
 				this.Impact(null);
-				return;
 			}
-			Pawn pawn = this.assignedTarget as Pawn;
-			if (pawn != null && pawn.GetPosture() != PawnPosture.Standing && (this.origin - this.destination).MagnitudeHorizontalSquared() >= 20.25f && Rand.Value > 0.2f)
-			{
-				this.Impact(null);
-				return;
-			}
-			this.Impact(this.assignedTarget);
 		}
 
 		private static float ImpactSomethingHitThingChance(Thing t)
@@ -451,9 +465,9 @@ namespace Verse
 			Pawn pawn = t as Pawn;
 			if (pawn != null)
 			{
-				return pawn.BodySize * 0.5f;
+				return (float)(pawn.BodySize * 0.5);
 			}
-			return t.def.fillPercent * 1.5f;
+			return (float)(t.def.fillPercent * 1.5);
 		}
 
 		protected virtual void Impact(Thing hitThing)
@@ -466,11 +480,13 @@ namespace Verse
 			if (!this.DestinationCell.InBounds(base.Map))
 			{
 				this.Destroy(DestroyMode.Vanish);
-				return;
 			}
-			this.ticksToImpact = 0;
-			base.Position = this.DestinationCell;
-			this.ImpactSomething();
+			else
+			{
+				this.ticksToImpact = 0;
+				base.Position = this.DestinationCell;
+				this.ImpactSomething();
+			}
 		}
 	}
 }

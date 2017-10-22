@@ -1,6 +1,7 @@
-using System;
 using System.Collections;
-using System.Diagnostics;
+using System.Collections.Generic;
+using UnityEngine;
+using Verse;
 
 namespace RimWorld.Planet
 {
@@ -10,14 +11,19 @@ namespace RimWorld.Planet
 
 		public const float GlowRadius = 8f;
 
-		[DebuggerHidden]
 		public override IEnumerable Regenerate()
 		{
-			WorldLayer_Glow.<Regenerate>c__IteratorF0 <Regenerate>c__IteratorF = new WorldLayer_Glow.<Regenerate>c__IteratorF0();
-			<Regenerate>c__IteratorF.<>f__this = this;
-			WorldLayer_Glow.<Regenerate>c__IteratorF0 expr_0E = <Regenerate>c__IteratorF;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (object item in base.Regenerate())
+			{
+				yield return item;
+			}
+			List<Vector3> tmpVerts;
+			List<int> tmpIndices;
+			SphereGenerator.Generate(4, 108.1f, Vector3.forward, 360f, out tmpVerts, out tmpIndices);
+			LayerSubMesh subMesh = base.GetSubMesh(WorldMaterials.PlanetGlow);
+			subMesh.verts.AddRange(tmpVerts);
+			subMesh.tris.AddRange(tmpIndices);
+			base.FinalizeMesh(MeshParts.All, true);
 		}
 	}
 }

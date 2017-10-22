@@ -9,7 +9,7 @@ namespace RimWorld
 	{
 		public static Page StitchedPages(IEnumerable<Page> pages)
 		{
-			List<Page> list = pages.ToList<Page>();
+			List<Page> list = pages.ToList();
 			if (list.Count == 0)
 			{
 				return null;
@@ -30,7 +30,7 @@ namespace RimWorld
 
 		public static void InitGameStart()
 		{
-			Action preLoadLevelAction = delegate
+			Action preLoadLevelAction = (Action)delegate
 			{
 				Find.GameInitData.PrepForMapGen();
 				Find.GameInitData.startedFromEntry = true;

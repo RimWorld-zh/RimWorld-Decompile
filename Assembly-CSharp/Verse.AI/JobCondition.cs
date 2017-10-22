@@ -1,16 +1,14 @@
-using System;
-
 namespace Verse.AI
 {
 	public enum JobCondition : byte
 	{
-		None,
-		Ongoing,
-		Succeeded,
-		Incompletable,
-		InterruptOptional,
-		InterruptForced,
-		Errored,
-		ErroredPather
+		None = 0,
+		Ongoing = 1,
+		Succeeded = 2,
+		Incompletable = 3,
+		InterruptOptional = 4,
+		InterruptForced = 5,
+		Errored = 6,
+		ErroredPather = 7
 	}
 }

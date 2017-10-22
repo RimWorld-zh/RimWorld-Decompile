@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -42,24 +41,27 @@ namespace RimWorld
 
 		public ITab_Art()
 		{
-			this.size = ITab_Art.WinSize;
-			this.labelKey = "TabArt";
-			this.tutorTag = "Art";
+			base.size = ITab_Art.WinSize;
+			base.labelKey = "TabArt";
+			base.tutorTag = "Art";
 		}
 
 		protected override void FillTab()
 		{
-			Rect rect = new Rect(0f, 0f, ITab_Art.WinSize.x, ITab_Art.WinSize.y).ContractedBy(10f);
-			Rect rect2 = rect;
+			Vector2 winSize = ITab_Art.WinSize;
+			float x = winSize.x;
+			Vector2 winSize2 = ITab_Art.WinSize;
+			Rect rect;
+			Rect rect2 = rect = new Rect(0f, 0f, x, winSize2.y).ContractedBy(10f);
 			Text.Font = GameFont.Medium;
-			Widgets.Label(rect2, this.SelectedCompArt.Title);
+			Widgets.Label(rect, this.SelectedCompArt.Title);
 			if (ITab_Art.cachedImageSource != this.SelectedCompArt || ITab_Art.cachedTaleRef != this.SelectedCompArt.TaleRef)
 			{
 				ITab_Art.cachedImageDescription = this.SelectedCompArt.GenerateImageDescription();
 				ITab_Art.cachedImageSource = this.SelectedCompArt;
 				ITab_Art.cachedTaleRef = this.SelectedCompArt.TaleRef;
 			}
-			Rect rect3 = rect;
+			Rect rect3 = rect2;
 			rect3.yMin += 35f;
 			Text.Font = GameFont.Small;
 			Widgets.Label(rect3, ITab_Art.cachedImageDescription);

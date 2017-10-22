@@ -12,63 +12,50 @@ namespace Verse
 			{
 				return defaultValue;
 			}
-			T result;
 			try
 			{
 				try
 				{
-					result = (T)((object)ParseHelper.FromString(subNode.InnerText, typeof(T)));
-					return result;
+					return (T)ParseHelper.FromString(subNode.InnerText, typeof(T));
+					IL_0028:;
 				}
 				catch (Exception ex)
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Exception parsing node ",
-						subNode.OuterXml,
-						" into a ",
-						typeof(T),
-						":\n",
-						ex.ToString()
-					}));
+					Log.Error("Exception parsing node " + subNode.OuterXml + " into a " + typeof(T) + ":\n" + ex.ToString());
 				}
-				result = default(T);
+				return default(T);
+				IL_0089:
+				T result;
+				return result;
 			}
 			catch (Exception arg)
 			{
 				Log.Error("Exception loading XML: " + arg);
-				result = defaultValue;
+				return defaultValue;
+				IL_00a6:
+				T result;
+				return result;
 			}
-			return result;
 		}
 
 		public static T DefFromNode<T>(XmlNode subNode) where T : Def, new()
 		{
-			if (subNode == null || subNode.InnerText == null || subNode.InnerText == "null")
+			if (subNode != null && subNode.InnerText != null && !(subNode.InnerText == "null"))
 			{
-				return (T)((object)null);
-			}
-			string defName = BackCompatibility.BackCompatibleDefName(typeof(T), subNode.InnerText);
-			T namedSilentFail = DefDatabase<T>.GetNamedSilentFail(defName);
-			if (namedSilentFail == null)
-			{
-				Log.Error(string.Concat(new object[]
+				string defName = BackCompatibility.BackCompatibleDefName(typeof(T), subNode.InnerText);
+				T namedSilentFail = DefDatabase<T>.GetNamedSilentFail(defName);
+				if (namedSilentFail == null)
 				{
-					"Could not load reference to ",
-					typeof(T),
-					" named ",
-					subNode.InnerText
-				}));
+					Log.Error("Could not load reference to " + typeof(T) + " named " + subNode.InnerText);
+				}
+				return namedSilentFail;
 			}
-			return namedSilentFail;
+			return (T)null;
 		}
 
 		public static T DefFromNodeUnsafe<T>(XmlNode subNode)
 		{
-			return (T)((object)GenGeneric.InvokeStaticGenericMethod(typeof(ScribeExtractor), typeof(T), "DefFromNode", new object[]
-			{
-				subNode
-			}));
+			return (T)GenGeneric.InvokeStaticGenericMethod(typeof(ScribeExtractor), typeof(T), "DefFromNode", subNode);
 		}
 
 		public static T SaveableFromNode<T>(XmlNode subNode, object[] ctorArgs)
@@ -83,85 +70,65 @@ namespace Verse
 				return default(T);
 			}
 			XmlAttribute xmlAttribute = subNode.Attributes["IsNull"];
-			T result;
 			if (xmlAttribute != null && xmlAttribute.Value == "True")
 			{
-				result = default(T);
+				return default(T);
 			}
-			else
+			try
 			{
-				try
+				Type type = null;
+				XmlAttribute xmlAttribute2 = subNode.Attributes["Class"];
+				if (xmlAttribute2 != null)
 				{
-					XmlAttribute xmlAttribute2 = subNode.Attributes["Class"];
-					Type type;
-					if (xmlAttribute2 != null)
+					type = GenTypes.GetTypeInAnyAssembly(xmlAttribute2.Value);
+					if (type == null)
 					{
-						type = GenTypes.GetTypeInAnyAssembly(xmlAttribute2.Value);
-						if (type == null)
-						{
-							Log.Error(string.Concat(new object[]
-							{
-								"Could not find class ",
-								xmlAttribute2.Value,
-								" while resolving node ",
-								subNode.Name,
-								". Trying to use ",
-								typeof(T),
-								" instead. Full node: ",
-								subNode.OuterXml
-							}));
-							type = typeof(T);
-						}
-					}
-					else
-					{
+						Log.Error("Could not find class " + xmlAttribute2.Value + " while resolving node " + subNode.Name + ". Trying to use " + typeof(T) + " instead. Full node: " + subNode.OuterXml);
 						type = typeof(T);
 					}
-					if (type.IsAbstract)
-					{
-						throw new ArgumentException("Can't load abstract class " + type);
-					}
-					IExposable exposable = (IExposable)Activator.CreateInstance(type, ctorArgs);
-					bool flag = typeof(T).IsValueType || typeof(Name).IsAssignableFrom(typeof(T));
-					if (!flag)
-					{
-						Scribe.loader.crossRefs.RegisterForCrossRefResolve(exposable);
-					}
-					XmlNode curXmlParent = Scribe.loader.curXmlParent;
-					IExposable curParent = Scribe.loader.curParent;
-					string curPathRelToParent = Scribe.loader.curPathRelToParent;
-					Scribe.loader.curXmlParent = subNode;
-					Scribe.loader.curParent = exposable;
-					Scribe.loader.curPathRelToParent = null;
-					try
-					{
-						exposable.ExposeData();
-					}
-					finally
-					{
-						Scribe.loader.curXmlParent = curXmlParent;
-						Scribe.loader.curParent = curParent;
-						Scribe.loader.curPathRelToParent = curPathRelToParent;
-					}
-					if (!flag)
-					{
-						Scribe.loader.initer.RegisterForPostLoadInit(exposable);
-					}
-					result = (T)((object)exposable);
 				}
-				catch (Exception ex)
+				else
 				{
-					result = default(T);
-					Log.Error(string.Concat(new object[]
-					{
-						"SaveableFromNode exception: ",
-						ex,
-						"\nSubnode:\n",
-						subNode.OuterXml
-					}));
+					type = typeof(T);
 				}
+				if (type.IsAbstract)
+				{
+					throw new ArgumentException("Can't load abstract class " + type);
+				}
+				IExposable exposable = (IExposable)Activator.CreateInstance(type, ctorArgs);
+				bool flag = typeof(T).IsValueType || typeof(Name).IsAssignableFrom(typeof(T));
+				if (!flag)
+				{
+					Scribe.loader.crossRefs.RegisterForCrossRefResolve(exposable);
+				}
+				XmlNode curXmlParent = Scribe.loader.curXmlParent;
+				IExposable curParent = Scribe.loader.curParent;
+				string curPathRelToParent = Scribe.loader.curPathRelToParent;
+				Scribe.loader.curXmlParent = subNode;
+				Scribe.loader.curParent = exposable;
+				Scribe.loader.curPathRelToParent = (string)null;
+				try
+				{
+					exposable.ExposeData();
+				}
+				finally
+				{
+					Scribe.loader.curXmlParent = curXmlParent;
+					Scribe.loader.curParent = curParent;
+					Scribe.loader.curPathRelToParent = curPathRelToParent;
+				}
+				if (!flag)
+				{
+					Scribe.loader.initer.RegisterForPostLoadInit(exposable);
+				}
+				return (T)exposable;
 			}
-			return result;
+			catch (Exception ex)
+			{
+				T result = default(T);
+				Log.Error("SaveableFromNode exception: " + ex + "\nSubnode:\n" + subNode.OuterXml);
+				return result;
+			}
 		}
 
 		public static LocalTargetInfo LocalTargetInfoFromNode(XmlNode node, string label, LocalTargetInfo defaultValue)
@@ -172,23 +139,21 @@ namespace Verse
 				try
 				{
 					string innerText = node.InnerText;
-					LocalTargetInfo result;
 					if (innerText.Length != 0 && innerText[0] == '(')
 					{
-						loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), "thing");
-						result = new LocalTargetInfo(IntVec3.FromString(innerText));
-						return result;
+						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Thing), "thing");
+						return new LocalTargetInfo(IntVec3.FromString(innerText));
 					}
 					loadIDs.RegisterLoadIDReadFromXml(innerText, typeof(Thing), "thing");
-					result = LocalTargetInfo.Invalid;
-					return result;
+					return LocalTargetInfo.Invalid;
+					IL_0089:;
 				}
 				finally
 				{
 					Scribe.ExitNode();
 				}
 			}
-			loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), label + "/thing");
+			loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Thing), label + "/thing");
 			return defaultValue;
 		}
 
@@ -200,29 +165,27 @@ namespace Verse
 				try
 				{
 					string innerText = node.InnerText;
-					TargetInfo result;
 					if (innerText.Length != 0 && innerText[0] == '(')
 					{
-						string str;
-						string targetLoadID;
+						string str = default(string);
+						string targetLoadID = default(string);
 						ScribeExtractor.ExtractCellAndMapPairFromTargetInfo(innerText, out str, out targetLoadID);
-						loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), "thing");
+						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Thing), "thing");
 						loadIDs.RegisterLoadIDReadFromXml(targetLoadID, typeof(Map), "map");
-						result = new TargetInfo(IntVec3.FromString(str), null, true);
-						return result;
+						return new TargetInfo(IntVec3.FromString(str), null, true);
 					}
 					loadIDs.RegisterLoadIDReadFromXml(innerText, typeof(Thing), "thing");
-					loadIDs.RegisterLoadIDReadFromXml(null, typeof(Map), "map");
-					result = TargetInfo.Invalid;
-					return result;
+					loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Map), "map");
+					return TargetInfo.Invalid;
+					IL_00c3:;
 				}
 				finally
 				{
 					Scribe.ExitNode();
 				}
 			}
-			loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), label + "/thing");
-			loadIDs.RegisterLoadIDReadFromXml(null, typeof(Map), label + "/map");
+			loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Thing), label + "/thing");
+			loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Map), label + "/map");
 			return defaultValue;
 		}
 
@@ -234,49 +197,45 @@ namespace Verse
 				try
 				{
 					string innerText = node.InnerText;
-					GlobalTargetInfo result;
 					if (innerText.Length != 0 && innerText[0] == '(')
 					{
-						string str;
-						string targetLoadID;
+						string str = default(string);
+						string targetLoadID = default(string);
 						ScribeExtractor.ExtractCellAndMapPairFromTargetInfo(innerText, out str, out targetLoadID);
-						loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), "thing");
+						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Thing), "thing");
 						loadIDs.RegisterLoadIDReadFromXml(targetLoadID, typeof(Map), "map");
-						loadIDs.RegisterLoadIDReadFromXml(null, typeof(WorldObject), "worldObject");
-						result = new GlobalTargetInfo(IntVec3.FromString(str), null, true);
-						return result;
+						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(WorldObject), "worldObject");
+						return new GlobalTargetInfo(IntVec3.FromString(str), null, true);
 					}
-					int tile;
+					int tile = default(int);
 					if (int.TryParse(innerText, out tile))
 					{
-						loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), "thing");
-						loadIDs.RegisterLoadIDReadFromXml(null, typeof(Map), "map");
-						loadIDs.RegisterLoadIDReadFromXml(null, typeof(WorldObject), "worldObject");
-						result = new GlobalTargetInfo(tile);
-						return result;
+						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Thing), "thing");
+						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Map), "map");
+						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(WorldObject), "worldObject");
+						return new GlobalTargetInfo(tile);
 					}
 					if (innerText.Length != 0 && innerText[0] == '@')
 					{
-						loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), "thing");
-						loadIDs.RegisterLoadIDReadFromXml(null, typeof(Map), "map");
+						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Thing), "thing");
+						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Map), "map");
 						loadIDs.RegisterLoadIDReadFromXml(innerText.Substring(1), typeof(WorldObject), "worldObject");
-						result = GlobalTargetInfo.Invalid;
-						return result;
+						return GlobalTargetInfo.Invalid;
 					}
 					loadIDs.RegisterLoadIDReadFromXml(innerText, typeof(Thing), "thing");
-					loadIDs.RegisterLoadIDReadFromXml(null, typeof(Map), "map");
-					loadIDs.RegisterLoadIDReadFromXml(null, typeof(WorldObject), "worldObject");
-					result = GlobalTargetInfo.Invalid;
-					return result;
+					loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Map), "map");
+					loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(WorldObject), "worldObject");
+					return GlobalTargetInfo.Invalid;
+					IL_01b9:;
 				}
 				finally
 				{
 					Scribe.ExitNode();
 				}
 			}
-			loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), label + "/thing");
-			loadIDs.RegisterLoadIDReadFromXml(null, typeof(Map), label + "/map");
-			loadIDs.RegisterLoadIDReadFromXml(null, typeof(WorldObject), label + "/worldObject");
+			loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Thing), label + "/thing");
+			loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Map), label + "/map");
+			loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(WorldObject), label + "/worldObject");
 			return defaultValue;
 		}
 
@@ -288,20 +247,18 @@ namespace Verse
 				{
 					Thing thing = Scribe.loader.crossRefs.TakeResolvedRef<Thing>("thing");
 					IntVec3 cell = loaded.Cell;
-					LocalTargetInfo result;
 					if (thing != null)
 					{
-						result = new LocalTargetInfo(thing);
-						return result;
+						return new LocalTargetInfo(thing);
 					}
-					result = new LocalTargetInfo(cell);
-					return result;
+					return new LocalTargetInfo(cell);
+					IL_0046:
+					return loaded;
 				}
 				finally
 				{
 					Scribe.ExitNode();
 				}
-				return loaded;
 			}
 			return loaded;
 		}
@@ -315,25 +272,22 @@ namespace Verse
 					Thing thing = Scribe.loader.crossRefs.TakeResolvedRef<Thing>("thing");
 					Map map = Scribe.loader.crossRefs.TakeResolvedRef<Map>("map");
 					IntVec3 cell = loaded.Cell;
-					TargetInfo result;
 					if (thing != null)
 					{
-						result = new TargetInfo(thing);
-						return result;
+						return new TargetInfo(thing);
 					}
 					if (cell.IsValid && map != null)
 					{
-						result = new TargetInfo(cell, map, false);
-						return result;
+						return new TargetInfo(cell, map, false);
 					}
-					result = TargetInfo.Invalid;
-					return result;
+					return TargetInfo.Invalid;
+					IL_007a:
+					return loaded;
 				}
 				finally
 				{
 					Scribe.ExitNode();
 				}
-				return loaded;
 			}
 			return loaded;
 		}
@@ -351,42 +305,32 @@ namespace Verse
 					int tile = loaded.Tile;
 					if (thing != null)
 					{
-						GlobalTargetInfo result = new GlobalTargetInfo(thing);
-						return result;
+						return new GlobalTargetInfo(thing);
 					}
 					if (worldObject != null)
 					{
-						GlobalTargetInfo result = new GlobalTargetInfo(worldObject);
-						return result;
+						return new GlobalTargetInfo(worldObject);
 					}
 					if (cell.IsValid)
 					{
-						GlobalTargetInfo result;
 						if (map != null)
 						{
-							result = new GlobalTargetInfo(cell, map, false);
-							return result;
+							return new GlobalTargetInfo(cell, map, false);
 						}
-						result = GlobalTargetInfo.Invalid;
-						return result;
+						return GlobalTargetInfo.Invalid;
 					}
-					else
+					if (tile >= 0)
 					{
-						GlobalTargetInfo result;
-						if (tile >= 0)
-						{
-							result = new GlobalTargetInfo(tile);
-							return result;
-						}
-						result = GlobalTargetInfo.Invalid;
-						return result;
+						return new GlobalTargetInfo(tile);
 					}
+					return GlobalTargetInfo.Invalid;
+					IL_00d0:
+					return loaded;
 				}
 				finally
 				{
 					Scribe.ExitNode();
 				}
-				return loaded;
 			}
 			return loaded;
 		}
@@ -397,10 +341,7 @@ namespace Verse
 			cell = str.Substring(0, num + 1);
 			int num2 = str.IndexOf(',', num + 1);
 			map = str.Substring(num2 + 1);
-			map = map.TrimStart(new char[]
-			{
-				' '
-			});
+			map = map.TrimStart(' ');
 		}
 	}
 }

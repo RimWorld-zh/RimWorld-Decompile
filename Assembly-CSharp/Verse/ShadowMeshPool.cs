@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,7 +20,7 @@ namespace Verse
 		public static Mesh GetShadowMesh(float baseWidth, float baseHeight, float tallness)
 		{
 			int key = ShadowMeshPool.HashOf(baseWidth, baseHeight, tallness);
-			Mesh mesh;
+			Mesh mesh = default(Mesh);
 			if (!ShadowMeshPool.shadowMeshDict.TryGetValue(key, out mesh))
 			{
 				mesh = MeshMakerShadows.NewShadowMesh(baseWidth, baseHeight, tallness);
@@ -32,9 +31,9 @@ namespace Verse
 
 		private static int HashOf(float baseWidth, float baseheight, float tallness)
 		{
-			int num = (int)(baseWidth * 1000f);
-			int num2 = (int)(baseheight * 1000f);
-			int num3 = (int)(tallness * 1000f);
+			int num = (int)(baseWidth * 1000.0);
+			int num2 = (int)(baseheight * 1000.0);
+			int num3 = (int)(tallness * 1000.0);
 			int num4 = num * 391 ^ 261231;
 			num4 ^= num2 * 612331;
 			return num4 ^ num3 * 456123;

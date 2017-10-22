@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -23,7 +22,7 @@ namespace RimWorld
 		public override void Notify_LastPosture(PawnPosture posture, LayingDownState layingDown)
 		{
 			this.lastPosture = posture;
-			this.layingDown = layingDown;
+			base.layingDown = layingDown;
 		}
 
 		public override void ExposeData()
@@ -33,14 +32,53 @@ namespace RimWorld
 			Scribe_Values.Look<PawnPosture>(ref this.lastPosture, "lastPosture", PawnPosture.Standing, false);
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_Vomit.<MakeNewToils>c__Iterator44 <MakeNewToils>c__Iterator = new JobDriver_Vomit.<MakeNewToils>c__Iterator44();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_Vomit.<MakeNewToils>c__Iterator44 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			Toil to = new Toil
+			{
+				initAction = (Action)delegate
+				{
+					((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0032: stateMachine*/)._003C_003Ef__this.ticksLeft = Rand.Range(300, 900);
+					int num = 0;
+					IntVec3 c;
+					while (true)
+					{
+						c = ((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0032: stateMachine*/)._003C_003Ef__this.pawn.Position + GenAdj.AdjacentCellsAndInside[Rand.Range(0, 9)];
+						num++;
+						if (num > 12)
+						{
+							c = ((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0032: stateMachine*/)._003C_003Ef__this.pawn.Position;
+							break;
+						}
+						if (c.InBounds(((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0032: stateMachine*/)._003C_003Ef__this.pawn.Map) && c.Standable(((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0032: stateMachine*/)._003C_003Ef__this.pawn.Map))
+							break;
+					}
+					((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0032: stateMachine*/)._003C_003Ef__this.pawn.CurJob.targetA = c;
+					((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0032: stateMachine*/)._003C_003Ef__this.pawn.Drawer.rotator.FaceCell(c);
+					((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0032: stateMachine*/)._003C_003Ef__this.pawn.pather.StopDead();
+				},
+				tickAction = (Action)delegate
+				{
+					if (((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0049: stateMachine*/)._003C_003Ef__this.ticksLeft % 150 == 149)
+					{
+						FilthMaker.MakeFilth(((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0049: stateMachine*/)._003C_003Ef__this.pawn.CurJob.targetA.Cell, ((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0049: stateMachine*/)._003C_003Ef__this.Map, ThingDefOf.FilthVomit, ((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0049: stateMachine*/)._003C_003Ef__this.pawn.LabelIndefinite(), 1);
+						if (((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0049: stateMachine*/)._003C_003Ef__this.pawn.needs.food.CurLevelPercentage > 0.10000000149011612)
+						{
+							((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0049: stateMachine*/)._003C_003Ef__this.pawn.needs.food.CurLevel -= (float)(((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0049: stateMachine*/)._003C_003Ef__this.pawn.needs.food.MaxLevel * 0.039999999105930328);
+						}
+					}
+					((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0049: stateMachine*/)._003C_003Ef__this.ticksLeft--;
+					if (((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0049: stateMachine*/)._003C_003Ef__this.ticksLeft <= 0)
+					{
+						((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0049: stateMachine*/)._003C_003Ef__this.ReadyForNextToil();
+						TaleRecorder.RecordTale(TaleDefOf.Vomited, ((_003CMakeNewToils_003Ec__Iterator44)/*Error near IL_0049: stateMachine*/)._003C_003Ef__this.pawn);
+					}
+				},
+				defaultCompleteMode = ToilCompleteMode.Never
+			};
+			to.WithEffect(EffecterDefOf.Vomit, TargetIndex.A);
+			to.PlaySustainerOrSound((Func<SoundDef>)(() => SoundDef.Named("Vomit")));
+			yield return to;
 		}
 	}
 }

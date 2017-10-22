@@ -19,11 +19,13 @@ namespace RimWorld
 		{
 			get
 			{
-				NameBank.<>c__IteratorC7 <>c__IteratorC = new NameBank.<>c__IteratorC7();
-				<>c__IteratorC.<>f__this = this;
-				NameBank.<>c__IteratorC7 expr_0E = <>c__IteratorC;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				for (int j = 0; j < NameBank.numGenders; j++)
+				{
+					for (int i = 0; i < NameBank.numSlots; i++)
+					{
+						yield return this.names[j, i];
+					}
+				}
 			}
 		}
 
@@ -42,36 +44,54 @@ namespace RimWorld
 
 		public void ErrorCheck()
 		{
-			foreach (List<string> current in this.AllNameLists)
+			foreach (List<string> allNameList in this.AllNameLists)
 			{
-				List<string> list = (from x in current
+				List<string> list = (from x in allNameList
 				group x by x into g
-				where g.Count<string>() > 1
-				select g.Key).ToList<string>();
-				foreach (string current2 in list)
+				where g.Count() > 1
+				select g.Key).ToList();
+				List<string>.Enumerator enumerator2 = list.GetEnumerator();
+				try
 				{
-					Log.Error("Duplicated name: " + current2);
-				}
-				foreach (string current3 in current)
-				{
-					if (current3.Trim() != current3)
+					while (enumerator2.MoveNext())
 					{
-						Log.Error("Trimmable whitespace on name: [" + current3 + "]");
+						string current2 = enumerator2.Current;
+						Log.Error("Duplicated name: " + current2);
 					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator2).Dispose();
+				}
+				List<string>.Enumerator enumerator3 = allNameList.GetEnumerator();
+				try
+				{
+					while (enumerator3.MoveNext())
+					{
+						string current3 = enumerator3.Current;
+						if (current3.Trim() != current3)
+						{
+							Log.Error("Trimmable whitespace on name: [" + current3 + "]");
+						}
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator3).Dispose();
 				}
 			}
 		}
 
 		private List<string> NamesFor(PawnNameSlot slot, Gender gender)
 		{
-			return this.names[(int)gender, (int)slot];
+			return this.names[(uint)gender, (uint)slot];
 		}
 
 		public void AddNames(PawnNameSlot slot, Gender gender, IEnumerable<string> namesToAdd)
 		{
-			foreach (string current in namesToAdd)
+			foreach (string item in namesToAdd)
 			{
-				this.NamesFor(slot, gender).Add(current);
+				this.NamesFor(slot, gender).Add(item);
 			}
 		}
 
@@ -86,29 +106,20 @@ namespace RimWorld
 			int num = 0;
 			if (list.Count == 0)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Name list for gender=",
-					gender,
-					" slot=",
-					slot,
-					" is empty."
-				}));
+				Log.Error("Name list for gender=" + gender + " slot=" + slot + " is empty.");
 				return "Errorname";
 			}
 			string text;
 			while (true)
 			{
-				text = list.RandomElement<string>();
+				text = list.RandomElement();
 				if (!NameUseChecker.NameWordIsUsed(text))
-				{
-					break;
-				}
-				num++;
-				if (num > 50)
 				{
 					return text;
 				}
+				num++;
+				if (num > 50)
+					break;
 			}
 			return text;
 		}

@@ -8,16 +8,7 @@ namespace RimWorld
 	{
 		protected override bool Satisfied(Pawn pawn)
 		{
-			bool arg_40_0;
-			if (pawn.Spawned)
-			{
-				arg_40_0 = pawn.Map.mapPawns.FreeColonistsSpawned.Any((Pawn x) => !x.Downed);
-			}
-			else
-			{
-				arg_40_0 = false;
-			}
-			return arg_40_0;
+			return pawn.Spawned && pawn.Map.mapPawns.FreeColonistsSpawned.Any((Func<Pawn, bool>)((Pawn x) => !x.Downed));
 		}
 	}
 }

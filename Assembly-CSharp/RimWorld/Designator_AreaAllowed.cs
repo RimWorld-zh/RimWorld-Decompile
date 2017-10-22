@@ -34,9 +34,9 @@ namespace RimWorld
 
 		public Designator_AreaAllowed(DesignateMode mode)
 		{
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.useMouseIcon = true;
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.useMouseIcon = true;
 		}
 
 		public static void ClearSelectedArea()
@@ -55,19 +55,18 @@ namespace RimWorld
 
 		public override void ProcessInput(Event ev)
 		{
-			if (!base.CheckCanInteract())
+			if (base.CheckCanInteract())
 			{
-				return;
+				if (Designator_AreaAllowed.selectedArea != null)
+				{
+					base.ProcessInput(ev);
+				}
+				AreaUtility.MakeAllowedAreaListFloatMenu((Action<Area>)delegate(Area a)
+				{
+					Designator_AreaAllowed.selectedArea = a;
+					base.ProcessInput(ev);
+				}, AllowedAreaMode.Any, false, true, base.Map);
 			}
-			if (Designator_AreaAllowed.selectedArea != null)
-			{
-				base.ProcessInput(ev);
-			}
-			AreaUtility.MakeAllowedAreaListFloatMenu(delegate(Area a)
-			{
-				Designator_AreaAllowed.selectedArea = a;
-				this.ProcessInput(ev);
-			}, AllowedAreaMode.Any, false, true, base.Map);
 		}
 
 		protected override void FinalizeDesignationSucceeded()

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -23,14 +22,21 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_EnterTransporter.<MakeNewToils>c__Iterator29 <MakeNewToils>c__Iterator = new JobDriver_EnterTransporter.<MakeNewToils>c__Iterator29();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_EnterTransporter.<MakeNewToils>c__Iterator29 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOnDespawnedOrNull(this.TransporterInd);
+			this.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator29)/*Error near IL_0046: stateMachine*/)._003C_003Ef__this.Transporter.LoadingInProgressOrReadyToLaunch));
+			yield return Toils_Reserve.Reserve(this.TransporterInd, 1, -1, null);
+			yield return Toils_Goto.GotoThing(this.TransporterInd, PathEndMode.Touch);
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+					CompTransporter transporter = ((_003CMakeNewToils_003Ec__Iterator29)/*Error near IL_00b1: stateMachine*/)._003C_003Ef__this.Transporter;
+					((_003CMakeNewToils_003Ec__Iterator29)/*Error near IL_00b1: stateMachine*/)._003C_003Ef__this.pawn.DeSpawn();
+					transporter.GetDirectlyHeldThings().TryAdd(((_003CMakeNewToils_003Ec__Iterator29)/*Error near IL_00b1: stateMachine*/)._003C_003Ef__this.pawn, true);
+				}
+			};
 		}
 	}
 }

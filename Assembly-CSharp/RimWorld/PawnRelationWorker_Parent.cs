@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -10,11 +9,11 @@ namespace RimWorld
 			float num = 0f;
 			if (other.gender == Gender.Male)
 			{
-				num = ChildRelationUtility.ChanceOfBecomingChildOf(generated, other, other.GetSpouseOppositeGender(), new PawnGenerationRequest?(request), null, null);
+				num = ChildRelationUtility.ChanceOfBecomingChildOf(generated, other, other.GetSpouseOppositeGender(), new PawnGenerationRequest?(request), default(PawnGenerationRequest?), default(PawnGenerationRequest?));
 			}
 			else if (other.gender == Gender.Female)
 			{
-				num = ChildRelationUtility.ChanceOfBecomingChildOf(generated, other.GetSpouseOppositeGender(), other, new PawnGenerationRequest?(request), null, null);
+				num = ChildRelationUtility.ChanceOfBecomingChildOf(generated, other.GetSpouseOppositeGender(), other, new PawnGenerationRequest?(request), default(PawnGenerationRequest?), default(PawnGenerationRequest?));
 			}
 			return num * base.BaseGenerationChanceFactor(generated, other, request);
 		}
@@ -47,13 +46,9 @@ namespace RimWorld
 
 		private static void ResolveMyName(ref PawnGenerationRequest request, Pawn generatedChild)
 		{
-			if (request.FixedLastName != null)
+			if (request.FixedLastName == null && ChildRelationUtility.ChildWantsNameOfAnyParent(generatedChild))
 			{
-				return;
-			}
-			if (ChildRelationUtility.ChildWantsNameOfAnyParent(generatedChild))
-			{
-				bool flag = Rand.Value < 0.5f || generatedChild.GetMother() == null;
+				bool flag = Rand.Value < 0.5 || generatedChild.GetMother() == null;
 				if (generatedChild.GetFather() == null)
 				{
 					flag = false;
@@ -71,21 +66,20 @@ namespace RimWorld
 
 		private static void ResolveMySkinColor(ref PawnGenerationRequest request, Pawn generatedChild)
 		{
-			if (request.FixedMelanin.HasValue)
+			if (!request.FixedMelanin.HasValue)
 			{
-				return;
-			}
-			if (generatedChild.GetFather() != null && generatedChild.GetMother() != null)
-			{
-				request.SetFixedMelanin(ChildRelationUtility.GetRandomChildSkinColor(generatedChild.GetFather().story.melanin, generatedChild.GetMother().story.melanin));
-			}
-			else if (generatedChild.GetFather() != null)
-			{
-				request.SetFixedMelanin(PawnSkinColors.GetRandomMelaninSimilarTo(generatedChild.GetFather().story.melanin, 0f, 1f));
-			}
-			else
-			{
-				request.SetFixedMelanin(PawnSkinColors.GetRandomMelaninSimilarTo(generatedChild.GetMother().story.melanin, 0f, 1f));
+				if (generatedChild.GetFather() != null && generatedChild.GetMother() != null)
+				{
+					request.SetFixedMelanin(ChildRelationUtility.GetRandomChildSkinColor(generatedChild.GetFather().story.melanin, generatedChild.GetMother().story.melanin));
+				}
+				else if (generatedChild.GetFather() != null)
+				{
+					request.SetFixedMelanin(PawnSkinColors.GetRandomMelaninSimilarTo(generatedChild.GetFather().story.melanin, 0f, 1f));
+				}
+				else
+				{
+					request.SetFixedMelanin(PawnSkinColors.GetRandomMelaninSimilarTo(generatedChild.GetMother().story.melanin, 0f, 1f));
+				}
 			}
 		}
 	}

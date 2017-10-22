@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum TaleType
 	{
-		Volatile,
-		Expirable,
-		PermanentHistorical
+		Volatile = 0,
+		Expirable = 1,
+		PermanentHistorical = 2
 	}
 }

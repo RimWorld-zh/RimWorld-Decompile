@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -12,7 +11,7 @@ namespace RimWorld
 			base.UsedThisTick();
 			if (Find.TickManager.TicksGame % 30 == 4)
 			{
-				GenTemperature.PushHeat(this, this.def.building.heatPerTickWhileWorking * 30f);
+				GenTemperature.PushHeat(this, (float)(base.def.building.heatPerTickWhileWorking * 30.0));
 			}
 		}
 	}

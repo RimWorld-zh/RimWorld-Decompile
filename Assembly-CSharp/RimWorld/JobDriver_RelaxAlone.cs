@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -10,14 +9,25 @@ namespace RimWorld
 	{
 		private Rot4 faceDir;
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_RelaxAlone.<MakeNewToils>c__Iterator1E <MakeNewToils>c__Iterator1E = new JobDriver_RelaxAlone.<MakeNewToils>c__Iterator1E();
-			<MakeNewToils>c__Iterator1E.<>f__this = this;
-			JobDriver_RelaxAlone.<MakeNewToils>c__Iterator1E expr_0E = <MakeNewToils>c__Iterator1E;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+					((_003CMakeNewToils_003Ec__Iterator1E)/*Error near IL_006e: stateMachine*/)._003C_003Ef__this.faceDir = ((!((_003CMakeNewToils_003Ec__Iterator1E)/*Error near IL_006e: stateMachine*/)._003C_003Ef__this.CurJob.def.faceDir.IsValid) ? Rot4.Random : ((_003CMakeNewToils_003Ec__Iterator1E)/*Error near IL_006e: stateMachine*/)._003C_003Ef__this.CurJob.def.faceDir);
+				},
+				tickAction = (Action)delegate
+				{
+					((_003CMakeNewToils_003Ec__Iterator1E)/*Error near IL_0085: stateMachine*/)._003C_003Ef__this.pawn.Drawer.rotator.FaceCell(((_003CMakeNewToils_003Ec__Iterator1E)/*Error near IL_0085: stateMachine*/)._003C_003Ef__this.pawn.Position + ((_003CMakeNewToils_003Ec__Iterator1E)/*Error near IL_0085: stateMachine*/)._003C_003Ef__this.faceDir.FacingCell);
+					((_003CMakeNewToils_003Ec__Iterator1E)/*Error near IL_0085: stateMachine*/)._003C_003Ef__this.pawn.GainComfortFromCellIfPossible();
+					JoyUtility.JoyTickCheckEnd(((_003CMakeNewToils_003Ec__Iterator1E)/*Error near IL_0085: stateMachine*/)._003C_003Ef__this.pawn, JoyTickFullJoyAction.EndJob, 1f);
+				},
+				defaultCompleteMode = ToilCompleteMode.Delay,
+				defaultDuration = base.CurJob.def.joyDuration
+			};
 		}
 
 		public override void ExposeData()

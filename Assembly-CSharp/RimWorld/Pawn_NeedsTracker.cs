@@ -44,7 +44,7 @@ namespace RimWorld
 
 		public void ExposeData()
 		{
-			Scribe_Collections.Look<Need>(ref this.needs, "needs", LookMode.Deep, new object[]
+			Scribe_Collections.Look<Need>(ref this.needs, "needs", LookMode.Deep, new object[1]
 			{
 				this.pawn
 			});
@@ -79,10 +79,10 @@ namespace RimWorld
 			{
 				if (this.needs[i].GetType() == typeof(T))
 				{
-					return (T)((object)this.needs[i]);
+					return (T)this.needs[i];
 				}
 			}
-			return (T)((object)null);
+			return (T)null;
 		}
 
 		public Need TryGetNeed(NeedDef def)
@@ -127,7 +127,7 @@ namespace RimWorld
 
 		private bool ShouldHaveNeed(NeedDef nd)
 		{
-			if (this.pawn.RaceProps.intelligence < nd.minIntelligence)
+			if ((int)this.pawn.RaceProps.intelligence < (int)nd.minIntelligence)
 			{
 				return false;
 			}
@@ -139,7 +139,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (nd.onlyIfCausedByHediff && !this.pawn.health.hediffSet.hediffs.Any((Hediff x) => x.def.causesNeed == nd))
+			if (nd.onlyIfCausedByHediff && !this.pawn.health.hediffSet.hediffs.Any((Predicate<Hediff>)((Hediff x) => x.def.causesNeed == nd)))
 			{
 				return false;
 			}
@@ -151,15 +151,16 @@ namespace RimWorld
 			{
 				return this.pawn.RaceProps.EatsFood;
 			}
-			return nd != NeedDefOf.Rest || this.pawn.RaceProps.needsRest;
+			if (nd == NeedDefOf.Rest)
+			{
+				return this.pawn.RaceProps.needsRest;
+			}
+			return true;
 		}
 
 		private void AddNeed(NeedDef nd)
 		{
-			Need need = (Need)Activator.CreateInstance(nd.needClass, new object[]
-			{
-				this.pawn
-			});
+			Need need = (Need)Activator.CreateInstance(nd.needClass, this.pawn);
 			need.def = nd;
 			this.needs.Add(need);
 			need.SetInitialLevel();

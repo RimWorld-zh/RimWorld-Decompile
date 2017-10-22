@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum OpportunityType : byte
 	{
-		GoodToKnow,
-		Important,
-		Critical
+		GoodToKnow = 0,
+		Important = 1,
+		Critical = 2
 	}
 }

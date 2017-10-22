@@ -36,7 +36,7 @@ namespace RimWorld.BaseGen
 
 		private List<Pair<int, int>> optionsZ = new List<Pair<int, int>>();
 
-		private List<SymbolResolver_BasePart_Outdoors_Division_Grid.Child> children = new List<SymbolResolver_BasePart_Outdoors_Division_Grid.Child>();
+		private List<Child> children = new List<Child>();
 
 		private static List<Pair<Pair<int, int>, Pair<int, int>>> options = new List<Pair<Pair<int, int>, Pair<int, int>>>();
 
@@ -51,53 +51,29 @@ namespace RimWorld.BaseGen
 				return false;
 			}
 			this.FillOptions(rp.rect);
-			return this.optionsX.Any<Pair<int, int>>() && this.optionsZ.Any<Pair<int, int>>();
+			return this.optionsX.Any() && this.optionsZ.Any();
 		}
 
 		public override void Resolve(ResolveParams rp)
 		{
 			this.FillOptions(rp.rect);
-			if (!Rand.Chance(0.2f))
+			if ((Rand.Chance(0.2f) || (!this.TryResolveRandomOption(0, 0, rp) && !this.TryResolveRandomOption(0, 1, rp))) && !this.TryResolveRandomOption(1, 0, rp) && !this.TryResolveRandomOption(2, 0, rp) && !this.TryResolveRandomOption(2, 1, rp) && !this.TryResolveRandomOption(999999, 999999, rp))
 			{
-				if (this.TryResolveRandomOption(0, 0, rp))
-				{
-					return;
-				}
-				if (this.TryResolveRandomOption(0, 1, rp))
-				{
-					return;
-				}
+				Log.Warning("Grid resolver could not resolve any grid size. params=" + rp);
 			}
-			if (this.TryResolveRandomOption(1, 0, rp))
-			{
-				return;
-			}
-			if (this.TryResolveRandomOption(2, 0, rp))
-			{
-				return;
-			}
-			if (this.TryResolveRandomOption(2, 1, rp))
-			{
-				return;
-			}
-			if (this.TryResolveRandomOption(999999, 999999, rp))
-			{
-				return;
-			}
-			Log.Warning("Grid resolver could not resolve any grid size. params=" + rp);
 		}
 
 		private void FillOptions(CellRect rect)
 		{
 			this.FillOptions(this.optionsX, rect.Width);
 			this.FillOptions(this.optionsZ, rect.Height);
-			if (this.optionsZ.Any((Pair<int, int> x) => x.First > 1))
+			if (this.optionsZ.Any((Predicate<Pair<int, int>>)((Pair<int, int> x) => x.First > 1)))
 			{
-				this.optionsX.RemoveAll((Pair<int, int> x) => x.First >= 3 && this.GetRoomSize(x.First, x.Second, rect.Width) <= 7);
+				this.optionsX.RemoveAll((Predicate<Pair<int, int>>)((Pair<int, int> x) => x.First >= 3 && this.GetRoomSize(x.First, x.Second, rect.Width) <= 7));
 			}
-			if (this.optionsX.Any((Pair<int, int> x) => x.First > 1))
+			if (this.optionsX.Any((Predicate<Pair<int, int>>)((Pair<int, int> x) => x.First > 1)))
 			{
-				this.optionsZ.RemoveAll((Pair<int, int> x) => x.First >= 3 && this.GetRoomSize(x.First, x.Second, rect.Height) <= 7);
+				this.optionsZ.RemoveAll((Predicate<Pair<int, int>>)((Pair<int, int> x) => x.First >= 3 && this.GetRoomSize(x.First, x.Second, rect.Height) <= 7));
 			}
 		}
 
@@ -146,9 +122,9 @@ namespace RimWorld.BaseGen
 					}
 				}
 			}
-			if (SymbolResolver_BasePart_Outdoors_Division_Grid.options.Any<Pair<Pair<int, int>, Pair<int, int>>>())
+			if (SymbolResolver_BasePart_Outdoors_Division_Grid.options.Any())
 			{
-				Pair<Pair<int, int>, Pair<int, int>> pair = SymbolResolver_BasePart_Outdoors_Division_Grid.options.RandomElement<Pair<Pair<int, int>, Pair<int, int>>>();
+				Pair<Pair<int, int>, Pair<int, int>> pair = SymbolResolver_BasePart_Outdoors_Division_Grid.options.RandomElement();
 				this.ResolveOption(pair.First.First, pair.First.Second, pair.Second.First, pair.Second.Second, rp);
 				return true;
 			}
@@ -163,14 +139,7 @@ namespace RimWorld.BaseGen
 			ThingDef thingDef = null;
 			if (pathwayWidthX >= 3)
 			{
-				if (rp.faction == null || rp.faction.def.techLevel >= TechLevel.Industrial)
-				{
-					thingDef = ThingDefOf.StandingLamp;
-				}
-				else
-				{
-					thingDef = ThingDefOf.TorchLamp;
-				}
+				thingDef = ((rp.faction != null && (int)rp.faction.def.techLevel < 4) ? ThingDefOf.TorchLamp : ThingDefOf.StandingLamp);
 			}
 			TerrainDef floorDef = rp.pathwayFloorDef ?? BaseGenUtility.RandomBasicFloorDef(rp.faction, false);
 			int num = roomSize;
@@ -198,14 +167,14 @@ namespace RimWorld.BaseGen
 			num = 0;
 			num2 = 0;
 			this.children.Clear();
-			for (int k = 0; k < roomsPerRowX; k++)
+			for (int num3 = 0; num3 < roomsPerRowX; num3++)
 			{
-				for (int l = 0; l < roomsPerRowZ; l++)
+				for (int num4 = 0; num4 < roomsPerRowZ; num4++)
 				{
-					SymbolResolver_BasePart_Outdoors_Division_Grid.Child child = new SymbolResolver_BasePart_Outdoors_Division_Grid.Child();
+					Child child = new Child();
 					child.rect = new CellRect(rp.rect.minX + num, rp.rect.minZ + num2, roomSize, roomSize2);
-					child.gridX = k;
-					child.gridY = l;
+					child.gridX = num3;
+					child.gridY = num4;
 					this.children.Add(child);
 					num2 += roomSize2 + pathwayWidthZ;
 				}
@@ -213,12 +182,12 @@ namespace RimWorld.BaseGen
 				num2 = 0;
 			}
 			this.MergeRandomChildren();
-			this.children.Shuffle<SymbolResolver_BasePart_Outdoors_Division_Grid.Child>();
-			for (int m = 0; m < this.children.Count; m++)
+			this.children.Shuffle();
+			for (int k = 0; k < this.children.Count; k++)
 			{
 				if (thingDef != null)
 				{
-					IntVec3 c = new IntVec3(this.children[m].rect.maxX + 1, 0, this.children[m].rect.maxZ);
+					IntVec3 c = new IntVec3(this.children[k].rect.maxX + 1, 0, this.children[k].rect.maxZ);
 					if (rp.rect.Contains(c) && c.Standable(map))
 					{
 						ResolveParams resolveParams3 = rp;
@@ -228,36 +197,38 @@ namespace RimWorld.BaseGen
 					}
 				}
 				ResolveParams resolveParams4 = rp;
-				resolveParams4.rect = this.children[m].rect;
+				resolveParams4.rect = this.children[k].rect;
 				BaseGen.symbolStack.Push("basePart_outdoors", resolveParams4);
 			}
 		}
 
 		private void MergeRandomChildren()
 		{
-			if (this.children.Count < 4)
+			if (this.children.Count >= 4)
 			{
-				return;
-			}
-			int num = GenMath.RoundRandom((float)this.children.Count / 6f);
-			for (int i = 0; i < num; i++)
-			{
-				SymbolResolver_BasePart_Outdoors_Division_Grid.Child child = this.children.Find((SymbolResolver_BasePart_Outdoors_Division_Grid.Child x) => !x.merged);
-				if (child == null)
+				int num = GenMath.RoundRandom((float)((float)this.children.Count / 6.0));
+				int num2 = 0;
+				while (num2 < num)
 				{
+					Child child = this.children.Find((Predicate<Child>)((Child x) => !x.merged));
+					if (child != null)
+					{
+						Child child2 = this.children.Find((Predicate<Child>)((Child x) => x != child && ((Mathf.Abs(x.gridX - child.gridX) == 1 && x.gridY == child.gridY) || (Mathf.Abs(x.gridY - child.gridY) == 1 && x.gridX == child.gridX))));
+						if (child2 != null)
+						{
+							this.children.Remove(child);
+							this.children.Remove(child2);
+							Child child3 = new Child();
+							child3.gridX = Mathf.Min(child.gridX, child2.gridX);
+							child3.gridY = Mathf.Min(child.gridY, child2.gridY);
+							child3.merged = true;
+							child3.rect = CellRect.FromLimits(Mathf.Min(child.rect.minX, child2.rect.minX), Mathf.Min(child.rect.minZ, child2.rect.minZ), Mathf.Max(child.rect.maxX, child2.rect.maxX), Mathf.Max(child.rect.maxZ, child2.rect.maxZ));
+							this.children.Add(child3);
+						}
+						num2++;
+						continue;
+					}
 					break;
-				}
-				SymbolResolver_BasePart_Outdoors_Division_Grid.Child child3 = this.children.Find((SymbolResolver_BasePart_Outdoors_Division_Grid.Child x) => x != child && ((Mathf.Abs(x.gridX - child.gridX) == 1 && x.gridY == child.gridY) || (Mathf.Abs(x.gridY - child.gridY) == 1 && x.gridX == child.gridX)));
-				if (child3 != null)
-				{
-					this.children.Remove(child);
-					this.children.Remove(child3);
-					SymbolResolver_BasePart_Outdoors_Division_Grid.Child child2 = new SymbolResolver_BasePart_Outdoors_Division_Grid.Child();
-					child2.gridX = Mathf.Min(child.gridX, child3.gridX);
-					child2.gridY = Mathf.Min(child.gridY, child3.gridY);
-					child2.merged = true;
-					child2.rect = CellRect.FromLimits(Mathf.Min(child.rect.minX, child3.rect.minX), Mathf.Min(child.rect.minZ, child3.rect.minZ), Mathf.Max(child.rect.maxX, child3.rect.maxX), Mathf.Max(child.rect.maxZ, child3.rect.maxZ));
-					this.children.Add(child2);
 				}
 			}
 		}

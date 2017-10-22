@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -8,8 +7,8 @@ namespace RimWorld
 	{
 		public Alert_NeedResearchProject()
 		{
-			this.defaultLabel = "NeedResearchProject".Translate();
-			this.defaultExplanation = "NeedResearchProjectDesc".Translate();
+			base.defaultLabel = "NeedResearchProject".Translate();
+			base.defaultExplanation = "NeedResearchProjectDesc".Translate();
 		}
 
 		public override AlertReport GetReport()
@@ -24,16 +23,16 @@ namespace RimWorld
 			}
 			bool flag = false;
 			List<Map> maps = Find.Maps;
-			for (int i = 0; i < maps.Count; i++)
+			int num = 0;
+			while (num < maps.Count)
 			{
-				if (maps[i].IsPlayerHome)
+				if (!maps[num].IsPlayerHome || !maps[num].listerBuildings.ColonistsHaveResearchBench())
 				{
-					if (maps[i].listerBuildings.ColonistsHaveResearchBench())
-					{
-						flag = true;
-						break;
-					}
+					num++;
+					continue;
 				}
+				flag = true;
+				break;
 			}
 			if (!flag)
 			{

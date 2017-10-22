@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -29,40 +28,19 @@ namespace RimWorld.BaseGen
 			{
 				CellRect cellRect = SymbolResolver_PlaceChairsNearTables.tables[j].OccupiedRect().ExpandedBy(1);
 				bool flag = false;
-				foreach (IntVec3 current in cellRect.EdgeCells.InRandomOrder(null))
+				foreach (IntVec3 item in cellRect.EdgeCells.InRandomOrder(null))
 				{
-					if (!cellRect.IsCorner(current) && rp.rect.Contains(current))
+					IntVec3 current = item;
+					if (!cellRect.IsCorner(current) && rp.rect.Contains(current) && current.Standable(map) && current.GetEdifice(map) == null && (!flag || !Rand.Bool))
 					{
-						if (current.Standable(map) && current.GetEdifice(map) == null)
-						{
-							if (!flag || !Rand.Bool)
-							{
-								Rot4 value;
-								if (current.x == cellRect.minX)
-								{
-									value = Rot4.East;
-								}
-								else if (current.x == cellRect.maxX)
-								{
-									value = Rot4.West;
-								}
-								else if (current.z == cellRect.minZ)
-								{
-									value = Rot4.North;
-								}
-								else
-								{
-									value = Rot4.South;
-								}
-								ResolveParams resolveParams = rp;
-								resolveParams.rect = CellRect.SingleCell(current);
-								resolveParams.singleThingDef = ThingDefOf.DiningChair;
-								resolveParams.singleThingStuff = (rp.singleThingStuff ?? ThingDefOf.WoodLog);
-								resolveParams.thingRot = new Rot4?(value);
-								BaseGen.symbolStack.Push("thing", resolveParams);
-								flag = true;
-							}
-						}
+						Rot4 value = (current.x != cellRect.minX) ? ((current.x != cellRect.maxX) ? ((current.z != cellRect.minZ) ? Rot4.South : Rot4.North) : Rot4.West) : Rot4.East;
+						ResolveParams resolveParams = rp;
+						resolveParams.rect = CellRect.SingleCell(current);
+						resolveParams.singleThingDef = ThingDefOf.DiningChair;
+						resolveParams.singleThingStuff = (rp.singleThingStuff ?? ThingDefOf.WoodLog);
+						resolveParams.thingRot = new Rot4?(value);
+						BaseGen.symbolStack.Push("thing", resolveParams);
+						flag = true;
 					}
 				}
 			}

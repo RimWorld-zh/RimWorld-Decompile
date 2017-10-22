@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -14,20 +13,21 @@ namespace Verse
 				{
 					Log.Error("SetColor on non-ThingWithComps " + t);
 				}
-				return;
 			}
-			CompColorable comp = thingWithComps.GetComp<CompColorable>();
-			if (comp == null)
+			else
 			{
-				if (reportFailure)
+				CompColorable comp = thingWithComps.GetComp<CompColorable>();
+				if (comp == null)
 				{
-					Log.Error("SetColor on Thing without CompColorable " + t);
+					if (reportFailure)
+					{
+						Log.Error("SetColor on Thing without CompColorable " + t);
+					}
 				}
-				return;
-			}
-			if (comp.Color != newColor)
-			{
-				comp.Color = newColor;
+				else if (comp.Color != newColor)
+				{
+					comp.Color = newColor;
+				}
 			}
 		}
 	}

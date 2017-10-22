@@ -27,23 +27,41 @@ namespace Verse
 					stringBuilder.AppendLine();
 					stringBuilder.AppendLine("TheseThingsCrushed".Translate());
 					HashSet<string> hashSet = new HashSet<string>();
-					foreach (Thing current in roofCollapseBuffer.CrushedThingsForLetter)
+					List<Thing>.Enumerator enumerator = roofCollapseBuffer.CrushedThingsForLetter.GetEnumerator();
+					try
 					{
-						string item = current.LabelShort.CapitalizeFirst();
-						if (current.def.category == ThingCategory.Pawn)
+						while (enumerator.MoveNext())
 						{
-							item = current.LabelCap;
-						}
-						if (!hashSet.Contains(item))
-						{
-							hashSet.Add(item);
+							Thing current = enumerator.Current;
+							string item = current.LabelShort.CapitalizeFirst();
+							if (current.def.category == ThingCategory.Pawn)
+							{
+								item = current.LabelCap;
+							}
+							if (!hashSet.Contains(item))
+							{
+								hashSet.Add(item);
+							}
 						}
 					}
-					foreach (string current2 in hashSet)
+					finally
 					{
-						stringBuilder.AppendLine("    -" + current2);
+						((IDisposable)(object)enumerator).Dispose();
 					}
-					Find.LetterStack.ReceiveLetter("LetterLabelRoofCollapsed".Translate(), stringBuilder.ToString(), LetterDefOf.BadNonUrgent, new TargetInfo(roofCollapseBuffer.CellsMarkedToCollapse[0], this.map, false), null);
+					HashSet<string>.Enumerator enumerator2 = hashSet.GetEnumerator();
+					try
+					{
+						while (enumerator2.MoveNext())
+						{
+							string current2 = enumerator2.Current;
+							stringBuilder.AppendLine("    -" + current2);
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator2).Dispose();
+					}
+					Find.LetterStack.ReceiveLetter("LetterLabelRoofCollapsed".Translate(), stringBuilder.ToString(), LetterDefOf.BadNonUrgent, new TargetInfo(roofCollapseBuffer.CellsMarkedToCollapse[0], this.map, false), (string)null);
 				}
 				else
 				{

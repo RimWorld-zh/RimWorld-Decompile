@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -15,15 +14,15 @@ namespace RimWorld
 		public Pawn_SkillTracker(Pawn newPawn)
 		{
 			this.pawn = newPawn;
-			foreach (SkillDef current in DefDatabase<SkillDef>.AllDefs)
+			foreach (SkillDef allDef in DefDatabase<SkillDef>.AllDefs)
 			{
-				this.skills.Add(new SkillRecord(this.pawn, current));
+				this.skills.Add(new SkillRecord(this.pawn, allDef));
 			}
 		}
 
 		public void ExposeData()
 		{
-			Scribe_Collections.Look<SkillRecord>(ref this.skills, "skills", LookMode.Deep, new object[]
+			Scribe_Collections.Look<SkillRecord>(ref this.skills, "skills", LookMode.Deep, new object[1]
 			{
 				this.pawn
 			});
@@ -39,13 +38,7 @@ namespace RimWorld
 					return this.skills[i];
 				}
 			}
-			Log.Error(string.Concat(new object[]
-			{
-				"Did not find skill of def ",
-				skillDef,
-				", returning ",
-				this.skills[0]
-			}));
+			Log.Error("Did not find skill of def " + skillDef + ", returning " + this.skills[0]);
 			return this.skills[0];
 		}
 
@@ -97,7 +90,7 @@ namespace RimWorld
 			for (int i = 0; i < workDef.relevantSkills.Count; i++)
 			{
 				Passion passion2 = this.GetSkill(workDef.relevantSkills[i]).passion;
-				if (passion2 > passion)
+				if ((int)passion2 > (int)passion)
 				{
 					passion = passion2;
 				}

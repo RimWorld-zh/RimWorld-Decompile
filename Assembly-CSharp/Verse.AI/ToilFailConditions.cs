@@ -1,5 +1,6 @@
 using RimWorld;
 using System;
+using System.Collections.Generic;
 
 namespace Verse.AI
 {
@@ -7,7 +8,7 @@ namespace Verse.AI
 	{
 		public static Toil FailOn(this Toil toil, Func<Toil, bool> condition)
 		{
-			toil.AddEndCondition(delegate
+			toil.AddEndCondition((Func<JobCondition>)delegate()
 			{
 				if (condition(toil))
 				{
@@ -20,7 +21,7 @@ namespace Verse.AI
 
 		public static T FailOn<T>(this T f, Func<bool> condition) where T : IJobEndable
 		{
-			f.AddEndCondition(delegate
+			f.AddEndCondition((Func<JobCondition>)delegate()
 			{
 				if (condition())
 				{
@@ -33,7 +34,7 @@ namespace Verse.AI
 
 		public static T FailOnDestroyedOrNull<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
-			f.AddEndCondition(delegate
+			f.AddEndCondition((Func<JobCondition>)delegate()
 			{
 				if (f.GetActor().jobs.curJob.GetTarget(ind).Thing.DestroyedOrNull())
 				{
@@ -46,7 +47,7 @@ namespace Verse.AI
 
 		public static T FailOnDespawnedOrNull<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
-			f.AddEndCondition(delegate
+			f.AddEndCondition((Func<JobCondition>)delegate()
 			{
 				LocalTargetInfo target = f.GetActor().jobs.curJob.GetTarget(ind);
 				Thing thing = target.Thing;
@@ -54,18 +55,18 @@ namespace Verse.AI
 				{
 					return JobCondition.Ongoing;
 				}
-				if (thing == null || !thing.Spawned || thing.Map != f.GetActor().Map)
+				if (thing != null && thing.Spawned && thing.Map == f.GetActor().Map)
 				{
-					return JobCondition.Incompletable;
+					return JobCondition.Ongoing;
 				}
-				return JobCondition.Ongoing;
+				return JobCondition.Incompletable;
 			});
 			return f;
 		}
 
 		public static T EndOnDespawnedOrNull<T>(this T f, TargetIndex ind, JobCondition endCondition = JobCondition.Incompletable) where T : IJobEndable
 		{
-			f.AddEndCondition(delegate
+			f.AddEndCondition((Func<JobCondition>)delegate()
 			{
 				LocalTargetInfo target = f.GetActor().jobs.curJob.GetTarget(ind);
 				Thing thing = target.Thing;
@@ -73,18 +74,18 @@ namespace Verse.AI
 				{
 					return JobCondition.Ongoing;
 				}
-				if (thing == null || !thing.Spawned || thing.Map != f.GetActor().Map)
+				if (thing != null && thing.Spawned && thing.Map == f.GetActor().Map)
 				{
-					return endCondition;
+					return JobCondition.Ongoing;
 				}
-				return JobCondition.Ongoing;
+				return endCondition;
 			});
 			return f;
 		}
 
 		public static T FailOnDowned<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
-			f.AddEndCondition(delegate
+			f.AddEndCondition((Func<JobCondition>)delegate()
 			{
 				Thing thing = f.GetActor().jobs.curJob.GetTarget(ind).Thing;
 				if (((Pawn)thing).Downed)
@@ -98,7 +99,7 @@ namespace Verse.AI
 
 		public static T FailOnNotDowned<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
-			f.AddEndCondition(delegate
+			f.AddEndCondition((Func<JobCondition>)delegate()
 			{
 				Thing thing = f.GetActor().jobs.curJob.GetTarget(ind).Thing;
 				if (!((Pawn)thing).Downed)
@@ -112,7 +113,7 @@ namespace Verse.AI
 
 		public static T FailOnNotAwake<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
-			f.AddEndCondition(delegate
+			f.AddEndCondition((Func<JobCondition>)delegate()
 			{
 				Thing thing = f.GetActor().jobs.curJob.GetTarget(ind).Thing;
 				if (!((Pawn)thing).Awake())
@@ -126,7 +127,7 @@ namespace Verse.AI
 
 		public static T FailOnNotCasualInterruptible<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
-			f.AddEndCondition(delegate
+			f.AddEndCondition((Func<JobCondition>)delegate()
 			{
 				Thing thing = f.GetActor().jobs.curJob.GetTarget(ind).Thing;
 				if (!((Pawn)thing).CanCasuallyInteractNow(false))
@@ -140,7 +141,7 @@ namespace Verse.AI
 
 		public static T FailOnMentalState<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
-			f.AddEndCondition(delegate
+			f.AddEndCondition((Func<JobCondition>)delegate()
 			{
 				Pawn pawn = f.GetActor().jobs.curJob.GetTarget(ind).Thing as Pawn;
 				if (pawn != null && pawn.InMentalState)
@@ -154,7 +155,7 @@ namespace Verse.AI
 
 		public static T FailOnAggroMentalState<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
-			f.AddEndCondition(delegate
+			f.AddEndCondition((Func<JobCondition>)delegate()
 			{
 				Pawn pawn = f.GetActor().jobs.curJob.GetTarget(ind).Thing as Pawn;
 				if (pawn != null && pawn.InAggroMentalState)
@@ -168,7 +169,7 @@ namespace Verse.AI
 
 		public static T FailOnSomeonePhysicallyInteracting<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
-			f.AddEndCondition(delegate
+			f.AddEndCondition((Func<JobCondition>)delegate()
 			{
 				Pawn actor = f.GetActor();
 				Thing thing = actor.jobs.curJob.GetTarget(ind).Thing;
@@ -183,7 +184,7 @@ namespace Verse.AI
 
 		public static T FailOnForbidden<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
-			f.AddEndCondition(delegate
+			f.AddEndCondition((Func<JobCondition>)delegate()
 			{
 				Pawn actor = f.GetActor();
 				if (actor.Faction != Faction.OfPlayer)
@@ -210,21 +211,21 @@ namespace Verse.AI
 
 		public static T FailOnDespawnedNullOrForbidden<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
-			f.FailOnDespawnedOrNull(ind);
-			f.FailOnForbidden(ind);
+			f.FailOnDespawnedOrNull<T>(ind);
+			f.FailOnForbidden<T>(ind);
 			return f;
 		}
 
 		public static T FailOnDestroyedNullOrForbidden<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
-			f.FailOnDestroyedOrNull(ind);
-			f.FailOnForbidden(ind);
+			f.FailOnDestroyedOrNull<T>(ind);
+			f.FailOnForbidden<T>(ind);
 			return f;
 		}
 
 		public static T FailOnThingMissingDesignation<T>(this T f, TargetIndex ind, DesignationDef desDef) where T : IJobEndable
 		{
-			f.AddEndCondition(delegate
+			f.AddEndCondition((Func<JobCondition>)delegate()
 			{
 				Pawn actor = f.GetActor();
 				Job curJob = actor.jobs.curJob;
@@ -243,7 +244,7 @@ namespace Verse.AI
 
 		public static T FailOnCellMissingDesignation<T>(this T f, TargetIndex ind, DesignationDef desDef) where T : IJobEndable
 		{
-			f.AddEndCondition(delegate
+			f.AddEndCondition((Func<JobCondition>)delegate()
 			{
 				Pawn actor = f.GetActor();
 				Job curJob = actor.jobs.curJob;
@@ -262,7 +263,7 @@ namespace Verse.AI
 
 		public static T FailOnBurningImmobile<T>(this T f, TargetIndex ind) where T : IJobEndable
 		{
-			f.AddEndCondition(delegate
+			f.AddEndCondition((Func<JobCondition>)delegate()
 			{
 				if (f.GetActor().jobs.curJob.GetTarget(ind).ToTargetInfo(f.GetActor().Map).IsBurning())
 				{
@@ -275,7 +276,7 @@ namespace Verse.AI
 
 		public static T FailOnCannotTouch<T>(this T f, TargetIndex ind, PathEndMode peMode) where T : IJobEndable
 		{
-			f.AddEndCondition(delegate
+			f.AddEndCondition((Func<JobCondition>)delegate()
 			{
 				if (!f.GetActor().CanReachImmediate(f.GetActor().jobs.curJob.GetTarget(ind), peMode))
 				{
@@ -288,18 +289,28 @@ namespace Verse.AI
 
 		public static Toil FailOnDespawnedOrForbiddenPlacedThings(this Toil toil)
 		{
-			toil.AddFailCondition(delegate
+			toil.AddFailCondition((Func<bool>)delegate()
 			{
 				if (toil.actor.jobs.curJob.placedThings == null)
 				{
 					return false;
 				}
-				foreach (ThingStackPartClass current in toil.actor.jobs.curJob.placedThings)
+				List<ThingStackPartClass>.Enumerator enumerator = toil.actor.jobs.curJob.placedThings.GetEnumerator();
+				try
 				{
-					if (!current.thing.Spawned || current.thing.Map != toil.actor.Map || (!toil.actor.CurJob.ignoreForbidden && current.thing.IsForbidden(toil.actor)))
+					while (enumerator.MoveNext())
 					{
+						ThingStackPartClass current = enumerator.Current;
+						if (current.thing.Spawned && current.thing.Map == toil.actor.Map && (toil.actor.CurJob.ignoreForbidden || !current.thing.IsForbidden(toil.actor)))
+						{
+							continue;
+						}
 						return true;
 					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 				return false;
 			});

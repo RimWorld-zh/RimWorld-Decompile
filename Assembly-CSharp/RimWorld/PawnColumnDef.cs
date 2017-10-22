@@ -53,7 +53,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.headerIconTex == null && !this.headerIcon.NullOrEmpty())
+				if ((UnityEngine.Object)this.headerIconTex == (UnityEngine.Object)null && !this.headerIcon.NullOrEmpty())
 				{
 					this.headerIconTex = ContentFinder<Texture2D>.Get(this.headerIcon, true);
 				}
@@ -70,7 +70,7 @@ namespace RimWorld
 					return this.headerIconSize;
 				}
 				Texture2D texture2D = this.HeaderIcon;
-				if (texture2D != null)
+				if ((UnityEngine.Object)texture2D != (UnityEngine.Object)null)
 				{
 					return new Vector2((float)texture2D.width, (float)texture2D.height);
 				}

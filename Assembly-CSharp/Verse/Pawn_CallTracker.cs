@@ -21,7 +21,19 @@ namespace Verse
 		{
 			get
 			{
-				return this.pawn.InAggroMentalState || (this.pawn.mindState.enemyTarget != null && this.pawn.mindState.enemyTarget.Spawned && Find.TickManager.TicksGame - this.pawn.mindState.lastEngageTargetTick <= 360) || (this.pawn.CurJob != null && this.pawn.CurJob.def == JobDefOf.AttackMelee);
+				if (this.pawn.InAggroMentalState)
+				{
+					return true;
+				}
+				if (this.pawn.mindState.enemyTarget != null && this.pawn.mindState.enemyTarget.Spawned && Find.TickManager.TicksGame - this.pawn.mindState.lastEngageTargetTick <= 360)
+				{
+					return true;
+				}
+				if (this.pawn.CurJob != null && this.pawn.CurJob.def == JobDefOf.AttackMelee)
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -32,17 +44,29 @@ namespace Verse
 				switch (Find.TickManager.CurTimeSpeed)
 				{
 				case TimeSpeed.Paused:
+				{
 					return 1f;
+				}
 				case TimeSpeed.Normal:
+				{
 					return 1f;
+				}
 				case TimeSpeed.Fast:
+				{
 					return 1f;
+				}
 				case TimeSpeed.Superfast:
+				{
 					return 0.25f;
+				}
 				case TimeSpeed.Ultrafast:
+				{
 					return 0.25f;
+				}
 				default:
+				{
 					throw new NotImplementedException();
+				}
 				}
 			}
 		}
@@ -77,34 +101,24 @@ namespace Verse
 
 		private void TryDoCall()
 		{
-			if (!Find.CameraDriver.CurrentViewRect.ExpandedBy(10).Contains(this.pawn.Position))
+			if (Find.CameraDriver.CurrentViewRect.ExpandedBy(10).Contains(this.pawn.Position) && !this.pawn.Downed && this.pawn.Awake() && !this.pawn.Position.Fogged(this.pawn.Map))
 			{
-				return;
+				this.DoCall();
 			}
-			if (this.pawn.Downed || !this.pawn.Awake())
-			{
-				return;
-			}
-			if (this.pawn.Position.Fogged(this.pawn.Map))
-			{
-				return;
-			}
-			this.DoCall();
 		}
 
 		public void DoCall()
 		{
-			if (!this.pawn.Spawned)
+			if (this.pawn.Spawned)
 			{
-				return;
-			}
-			if (this.PawnAggressive)
-			{
-				LifeStageUtility.PlayNearestLifestageSound(this.pawn, (LifeStageAge ls) => ls.soundAngry, 1f);
-			}
-			else
-			{
-				LifeStageUtility.PlayNearestLifestageSound(this.pawn, (LifeStageAge ls) => ls.soundCall, this.IdleCallVolumeFactor);
+				if (this.PawnAggressive)
+				{
+					LifeStageUtility.PlayNearestLifestageSound(this.pawn, (Func<LifeStageAge, SoundDef>)((LifeStageAge ls) => ls.soundAngry), 1f);
+				}
+				else
+				{
+					LifeStageUtility.PlayNearestLifestageSound(this.pawn, (Func<LifeStageAge, SoundDef>)((LifeStageAge ls) => ls.soundCall), this.IdleCallVolumeFactor);
+				}
 			}
 		}
 
@@ -115,7 +129,7 @@ namespace Verse
 
 		public void Notify_DidMeleeAttack()
 		{
-			if (Rand.Value < 0.5f)
+			if (Rand.Value < 0.5)
 			{
 				this.ticksToNextCall = Pawn_CallTracker.CallOnMeleeDelayRange.RandomInRange;
 			}
@@ -123,7 +137,7 @@ namespace Verse
 
 		public void Notify_Released()
 		{
-			if (Rand.Value < 0.75f)
+			if (Rand.Value < 0.75)
 			{
 				this.ticksToNextCall = Pawn_CallTracker.CallOnAggroDelayRange.RandomInRange;
 			}

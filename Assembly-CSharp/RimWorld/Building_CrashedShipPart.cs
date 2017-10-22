@@ -72,10 +72,7 @@ namespace RimWorld
 			{
 				stringBuilder.AppendLine();
 			}
-			stringBuilder.Append("AwokeDaysAgo".Translate(new object[]
-			{
-				this.age.TicksToDays().ToString("F1")
-			}));
+			stringBuilder.Append("AwokeDaysAgo".Translate(this.age.TicksToDays().ToString("F1")));
 			return stringBuilder.ToString();
 		}
 
@@ -97,23 +94,31 @@ namespace RimWorld
 		public override void PreApplyDamage(DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(dinfo, out absorbed);
-			if (absorbed)
+			if (!absorbed)
 			{
-				return;
-			}
-			if (dinfo.Def.harmsHealth)
-			{
-				if (this.lord != null)
+				if (dinfo.Def.harmsHealth)
 				{
-					this.lord.ReceiveMemo(Building_CrashedShipPart.MemoDamaged);
+					if (this.lord != null)
+					{
+						this.lord.ReceiveMemo(Building_CrashedShipPart.MemoDamaged);
+					}
+					float num = (float)(this.HitPoints - dinfo.Amount);
+					if (num < (float)base.MaxHitPoints * 0.98000001907348633 && dinfo.Instigator != null && dinfo.Instigator.Faction != null)
+					{
+						goto IL_008f;
+					}
+					if (num < (float)base.MaxHitPoints * 0.89999997615814209)
+						goto IL_008f;
 				}
-				float num = (float)(this.HitPoints - dinfo.Amount);
-				if ((num < (float)base.MaxHitPoints * 0.98f && dinfo.Instigator != null && dinfo.Instigator.Faction != null) || num < (float)base.MaxHitPoints * 0.9f)
-				{
-					this.TrySpawnMechanoids();
-				}
+				goto IL_0095;
 			}
+			return;
+			IL_0095:
 			absorbed = false;
+			return;
+			IL_008f:
+			this.TrySpawnMechanoids();
+			goto IL_0095;
 		}
 
 		public void Notify_AdjacentBlueprintReplacedWithSolidThing(Pawn by)
@@ -126,51 +131,48 @@ namespace RimWorld
 
 		private void TrySpawnMechanoids()
 		{
-			if (this.pointsLeft <= 0f)
+			if (!(this.pointsLeft <= 0.0))
 			{
-				return;
-			}
-			if (this.lord == null)
-			{
-				IntVec3 invalid;
-				if (!CellFinder.TryFindRandomCellNear(base.Position, base.Map, 5, (IntVec3 c) => c.Standable(base.Map) && base.Map.reachability.CanReach(c, this, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)), out invalid))
+				if (this.lord == null)
 				{
-					Log.Error("Found no place for mechanoids to defend " + this);
-					invalid = IntVec3.Invalid;
+					IntVec3 invalid = default(IntVec3);
+					if (!CellFinder.TryFindRandomCellNear(base.Position, base.Map, 5, (Predicate<IntVec3>)((IntVec3 c) => c.Standable(base.Map) && base.Map.reachability.CanReach(c, (Thing)this, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false))), out invalid))
+					{
+						Log.Error("Found no place for mechanoids to defend " + this);
+						invalid = IntVec3.Invalid;
+					}
+					LordJob_MechanoidsDefendShip lordJob = new LordJob_MechanoidsDefendShip(this, base.Faction, 21f, invalid);
+					this.lord = LordMaker.MakeNewLord(Faction.OfMechanoids, lordJob, base.Map, null);
 				}
-				LordJob_MechanoidsDefendShip lordJob = new LordJob_MechanoidsDefendShip(this, base.Faction, 21f, invalid);
-				this.lord = LordMaker.MakeNewLord(Faction.OfMechanoids, lordJob, base.Map, null);
-			}
-			PawnKindDef kindDef;
-			while ((from def in DefDatabase<PawnKindDef>.AllDefs
-			where def.RaceProps.IsMechanoid && def.isFighter && def.combatPower <= this.pointsLeft
-			select def).TryRandomElement(out kindDef))
-			{
-				IntVec3 center;
-				if ((from cell in GenAdj.CellsAdjacent8Way(this)
+				PawnKindDef kindDef = default(PawnKindDef);
+				IntVec3 center = default(IntVec3);
+				while ((from def in DefDatabase<PawnKindDef>.AllDefs
+				where def.RaceProps.IsMechanoid && def.isFighter && def.combatPower <= this.pointsLeft
+				select def).TryRandomElement<PawnKindDef>(out kindDef) && (from cell in GenAdj.CellsAdjacent8Way(this)
 				where this.CanSpawnMechanoidAt(cell)
-				select cell).TryRandomElement(out center))
+				select cell).TryRandomElement<IntVec3>(out center))
 				{
 					Pawn pawn = PawnGenerator.GeneratePawn(kindDef, Faction.OfMechanoids);
-					if (GenPlace.TryPlaceThing(pawn, center, base.Map, ThingPlaceMode.Near, null))
+					if (!GenPlace.TryPlaceThing(pawn, center, base.Map, ThingPlaceMode.Near, null))
 					{
-						this.lord.AddPawn(pawn);
-						this.pointsLeft -= pawn.kindDef.combatPower;
-						continue;
+						Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Discard);
+						break;
 					}
-					Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Discard);
+					this.lord.AddPawn(pawn);
+					this.pointsLeft -= pawn.kindDef.combatPower;
 				}
-				IL_130:
 				this.pointsLeft = 0f;
 				SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(base.Map);
-				return;
 			}
-			goto IL_130;
 		}
 
 		private bool CanSpawnMechanoidAt(IntVec3 c)
 		{
-			return c.Walkable(base.Map);
+			if (!c.Walkable(base.Map))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		private void ExpandSnow()
@@ -179,15 +181,15 @@ namespace RimWorld
 			{
 				this.snowNoise = new Perlin(0.054999999701976776, 2.0, 0.5, 5, Rand.Range(0, 651431), QualityMode.Medium);
 			}
-			if (this.snowRadius < 8f)
+			if (this.snowRadius < 8.0)
 			{
 				this.snowRadius += 1.3f;
 			}
-			else if (this.snowRadius < 17f)
+			else if (this.snowRadius < 17.0)
 			{
 				this.snowRadius += 0.7f;
 			}
-			else if (this.snowRadius < 30f)
+			else if (this.snowRadius < 30.0)
 			{
 				this.snowRadius += 0.4f;
 			}
@@ -195,37 +197,41 @@ namespace RimWorld
 			{
 				this.snowRadius += 0.1f;
 			}
-			if (this.snowRadius > 55f)
+			if (this.snowRadius > 55.0)
 			{
 				this.snowRadius = 55f;
 			}
 			CellRect occupiedRect = this.OccupiedRect();
 			Building_CrashedShipPart.reachableCells.Clear();
-			base.Map.floodFiller.FloodFill(base.Position, (IntVec3 x) => (float)x.DistanceToSquared(this.Position) <= this.snowRadius * this.snowRadius && (occupiedRect.Contains(x) || !x.Filled(this.Map)), delegate(IntVec3 x)
+			base.Map.floodFiller.FloodFill(base.Position, (Predicate<IntVec3>)delegate(IntVec3 x)
+			{
+				if ((float)x.DistanceToSquared(base.Position) > this.snowRadius * this.snowRadius)
+				{
+					return false;
+				}
+				return occupiedRect.Contains(x) || !x.Filled(base.Map);
+			}, (Action<IntVec3>)delegate(IntVec3 x)
 			{
 				Building_CrashedShipPart.reachableCells.Add(x);
 			}, false);
 			int num = GenRadial.NumCellsInRadius(this.snowRadius);
-			for (int i = 0; i < num; i++)
+			for (int num2 = 0; num2 < num; num2++)
 			{
-				IntVec3 intVec = base.Position + GenRadial.RadialPattern[i];
-				if (intVec.InBounds(base.Map))
+				IntVec3 intVec = base.Position + GenRadial.RadialPattern[num2];
+				if (intVec.InBounds(base.Map) && Building_CrashedShipPart.reachableCells.Contains(intVec))
 				{
-					if (Building_CrashedShipPart.reachableCells.Contains(intVec))
+					float value = this.snowNoise.GetValue(intVec);
+					value = (float)(value + 1.0);
+					value = (float)(value * 0.5);
+					if (value < 0.10000000149011612)
 					{
-						float num2 = this.snowNoise.GetValue(intVec);
-						num2 += 1f;
-						num2 *= 0.5f;
-						if (num2 < 0.1f)
-						{
-							num2 = 0.1f;
-						}
-						if (base.Map.snowGrid.GetDepth(intVec) <= num2)
-						{
-							float lengthHorizontal = (intVec - base.Position).LengthHorizontal;
-							float num3 = 1f - lengthHorizontal / this.snowRadius;
-							base.Map.snowGrid.AddDepth(intVec, num3 * 0.12f * num2);
-						}
+						value = 0.1f;
+					}
+					if (!(base.Map.snowGrid.GetDepth(intVec) > value))
+					{
+						float lengthHorizontal = (intVec - base.Position).LengthHorizontal;
+						float num3 = (float)(1.0 - lengthHorizontal / this.snowRadius);
+						base.Map.snowGrid.AddDepth(intVec, (float)(num3 * 0.11999999731779099 * value));
 					}
 				}
 			}
@@ -233,34 +239,33 @@ namespace RimWorld
 
 		private void HarmPlant()
 		{
-			if (this.PlantHarmRange < 0.0001f)
+			if (!(this.PlantHarmRange < 9.9999997473787516E-05))
 			{
-				return;
-			}
-			float angle = Rand.Range(0f, 360f);
-			float num = Rand.Range(0f, this.PlantHarmRange);
-			num = Mathf.Sqrt(num / this.PlantHarmRange) * this.PlantHarmRange;
-			Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
-			Vector3 point = Vector3.forward * num;
-			Vector3 v = rotation * point;
-			IntVec3 b = IntVec3.FromVector3(v);
-			IntVec3 c = base.Position + b;
-			if (c.InBounds(base.Map))
-			{
-				Plant plant = c.GetPlant(base.Map);
-				if (plant != null)
+				float angle = Rand.Range(0f, 360f);
+				float num = Rand.Range(0f, this.PlantHarmRange);
+				num = Mathf.Sqrt(num / this.PlantHarmRange) * this.PlantHarmRange;
+				Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
+				Vector3 point = Vector3.forward * num;
+				Vector3 v = rotation * point;
+				IntVec3 b = IntVec3.FromVector3(v);
+				IntVec3 c = base.Position + b;
+				if (c.InBounds(base.Map))
 				{
-					if (Rand.Value < 0.2f)
+					Plant plant = c.GetPlant(base.Map);
+					if (plant != null)
 					{
-						plant.Kill(null);
-					}
-					else
-					{
-						plant.MakeLeafless(false);
+						if (Rand.Value < 0.20000000298023224)
+						{
+							plant.Kill(default(DamageInfo?));
+						}
+						else
+						{
+							plant.MakeLeafless(false);
+						}
 					}
 				}
+				this.ticksToPlantHarm = this.PlantHarmInterval;
 			}
-			this.ticksToPlantHarm = this.PlantHarmInterval;
 		}
 	}
 }

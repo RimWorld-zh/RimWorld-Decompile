@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -14,8 +13,8 @@ namespace RimWorld
 
 		protected override Thing BestIngestTarget(Pawn pawn)
 		{
-			Thing result;
-			ThingDef thingDef;
+			Thing result = default(Thing);
+			ThingDef thingDef = default(ThingDef);
 			if (FoodUtility.TryFindBestFoodSourceFor(pawn, pawn, true, out result, out thingDef, false, true, true, true, true))
 			{
 				return result;

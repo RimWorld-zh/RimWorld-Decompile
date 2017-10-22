@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld
 {
 	public class CompProperties_Targetable : CompProperties_UseEffect
@@ -8,7 +6,7 @@ namespace RimWorld
 
 		public CompProperties_Targetable()
 		{
-			this.compClass = typeof(CompTargetable);
+			base.compClass = typeof(CompTargetable);
 		}
 	}
 }

@@ -93,11 +93,11 @@ namespace Verse.AI
 		{
 		}
 
-		public Job(JobDef def) : this(def, null)
+		public Job(JobDef def) : this(def, (Thing)null)
 		{
 		}
 
-		public Job(JobDef def, LocalTargetInfo targetA) : this(def, targetA, null)
+		public Job(JobDef def, LocalTargetInfo targetA) : this(def, targetA, (Thing)null)
 		{
 		}
 
@@ -136,19 +136,29 @@ namespace Verse.AI
 			switch (ind)
 			{
 			case TargetIndex.A:
+			{
 				return this.targetA;
+			}
 			case TargetIndex.B:
+			{
 				return this.targetB;
+			}
 			case TargetIndex.C:
+			{
 				return this.targetC;
+			}
 			default:
+			{
 				throw new ArgumentException();
+			}
 			}
 		}
 
 		public List<LocalTargetInfo> GetTargetQueue(TargetIndex ind)
 		{
-			if (ind == TargetIndex.A)
+			switch (ind)
+			{
+			case TargetIndex.A:
 			{
 				if (this.targetQueueA == null)
 				{
@@ -156,15 +166,19 @@ namespace Verse.AI
 				}
 				return this.targetQueueA;
 			}
-			if (ind != TargetIndex.B)
+			case TargetIndex.B:
+			{
+				if (this.targetQueueB == null)
+				{
+					this.targetQueueB = new List<LocalTargetInfo>();
+				}
+				return this.targetQueueB;
+			}
+			default:
 			{
 				throw new ArgumentException();
 			}
-			if (this.targetQueueB == null)
-			{
-				this.targetQueueB = new List<LocalTargetInfo>();
 			}
-			return this.targetQueueB;
 		}
 
 		public void SetTarget(TargetIndex ind, LocalTargetInfo pack)
@@ -172,16 +186,24 @@ namespace Verse.AI
 			switch (ind)
 			{
 			case TargetIndex.A:
+			{
 				this.targetA = pack;
-				return;
+				break;
+			}
 			case TargetIndex.B:
+			{
 				this.targetB = pack;
-				return;
+				break;
+			}
 			case TargetIndex.C:
+			{
 				this.targetC = pack;
-				return;
+				break;
+			}
 			default:
+			{
 				throw new ArgumentException();
+			}
 			}
 		}
 
@@ -193,7 +215,7 @@ namespace Verse.AI
 		public void ExposeData()
 		{
 			ILoadReferenceable loadReferenceable = (ILoadReferenceable)this.commTarget;
-			Scribe_References.Look<ILoadReferenceable>(ref loadReferenceable, "commTarget", false);
+			Scribe_References.Look(ref loadReferenceable, "commTarget", false);
 			this.commTarget = (ICommunicable)loadReferenceable;
 			Scribe_References.Look<Verb>(ref this.verbToUse, "verbToUse", false);
 			Scribe_References.Look<Bill>(ref this.bill, "bill", false);
@@ -241,29 +263,41 @@ namespace Verse.AI
 
 		public bool CanBeginNow(Pawn pawn)
 		{
-			if (!pawn.Downed)
+			if (pawn.Downed)
 			{
-				return true;
+				if (this.def != JobDefOf.LayDown)
+				{
+					return false;
+				}
+				if (this.targetA.HasThing)
+				{
+					return RestUtility.GetBedSleepingSlotPosFor(pawn, (Building_Bed)this.targetA.Thing) == pawn.Position;
+				}
+				return this.targetA.Cell == pawn.Position;
 			}
-			if (this.def != JobDefOf.LayDown)
-			{
-				return false;
-			}
-			if (this.targetA.HasThing)
-			{
-				return RestUtility.GetBedSleepingSlotPosFor(pawn, (Building_Bed)this.targetA.Thing) == pawn.Position;
-			}
-			return this.targetA.Cell == pawn.Position;
+			return true;
 		}
 
 		public bool JobIsSameAs(Job other)
 		{
-			return other != null && this.def == other.def && !(this.targetA != other.targetA) && !(this.targetB != other.targetB) && this.verbToUse == other.verbToUse && !(this.targetC != other.targetC) && this.commTarget == other.commTarget && this.bill == other.bill;
+			if (other == null)
+			{
+				return false;
+			}
+			if (this.def == other.def && !(this.targetA != other.targetA) && !(this.targetB != other.targetB) && this.verbToUse == other.verbToUse && !(this.targetC != other.targetC) && this.commTarget == other.commTarget && this.bill == other.bill)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public bool AnyTargetIs(LocalTargetInfo target)
 		{
-			return target.IsValid && (this.targetA == target || this.targetB == target || this.targetC == target || (this.targetQueueA != null && this.targetQueueA.Contains(target)) || (this.targetQueueB != null && this.targetQueueB.Contains(target)));
+			if (!target.IsValid)
+			{
+				return false;
+			}
+			return this.targetA == target || this.targetB == target || this.targetC == target || (this.targetQueueA != null && this.targetQueueA.Contains(target)) || (this.targetQueueB != null && this.targetQueueB.Contains(target));
 		}
 
 		public override string ToString()

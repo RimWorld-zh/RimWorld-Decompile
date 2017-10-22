@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -15,19 +14,18 @@ namespace Verse
 			{
 				if (!this.active)
 				{
-					return this.parent.def.graphicData.color;
+					return base.parent.def.graphicData.color;
 				}
 				return this.color;
 			}
 			set
 			{
-				if (value == this.color)
+				if (!(value == this.color))
 				{
-					return;
+					this.active = true;
+					this.color = value;
+					base.parent.Notify_ColorChanged();
 				}
-				this.active = true;
-				this.color = value;
-				this.parent.Notify_ColorChanged();
 			}
 		}
 
@@ -42,9 +40,11 @@ namespace Verse
 		public override void Initialize(CompProperties props)
 		{
 			base.Initialize(props);
-			if (this.parent.def.colorGenerator != null && (this.parent.Stuff == null || this.parent.Stuff.stuffProps.allowColorGenerators))
+			if (base.parent.def.colorGenerator != null)
 			{
-				this.Color = this.parent.def.colorGenerator.NewRandomizedColor();
+				if (base.parent.Stuff != null && !base.parent.Stuff.stuffProps.allowColorGenerators)
+					return;
+				this.Color = base.parent.def.colorGenerator.NewRandomizedColor();
 			}
 		}
 
@@ -52,9 +52,7 @@ namespace Verse
 		{
 			base.PostExposeData();
 			if (Scribe.mode == LoadSaveMode.Saving && !this.active)
-			{
 				return;
-			}
 			Scribe_Values.Look<Color>(ref this.color, "color", default(Color), false);
 			Scribe_Values.Look<bool>(ref this.active, "colorActive", false, false);
 		}

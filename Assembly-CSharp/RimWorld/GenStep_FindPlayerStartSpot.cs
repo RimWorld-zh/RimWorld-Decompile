@@ -12,7 +12,7 @@ namespace RimWorld
 			DeepProfiler.Start("RebuildAllRegions");
 			map.regionAndRoomUpdater.RebuildAllRegionsAndRooms();
 			DeepProfiler.End();
-			MapGenerator.PlayerStartSpot = CellFinderLoose.TryFindCentralCell(map, 7, 10, (IntVec3 x) => !x.Roofed(map));
+			MapGenerator.PlayerStartSpot = CellFinderLoose.TryFindCentralCell(map, 7, 10, (Predicate<IntVec3>)((IntVec3 x) => !x.Roofed(map)));
 		}
 	}
 }

@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class RandomNumberGenerator_BasicHash : RandomNumberGenerator
@@ -21,14 +19,14 @@ namespace Verse
 
 		private uint GetHash(int buffer)
 		{
-			uint num = this.seed + 374761393u;
-			num += 4u;
-			num += (uint)(buffer * -1028477379);
-			num = RandomNumberGenerator_BasicHash.Rotate(num, 17) * 668265263u;
+			uint num = base.seed + 374761393;
+			num += 4;
+			num = (uint)((int)num + buffer * -1028477379);
+			num = RandomNumberGenerator_BasicHash.Rotate(num, 17) * 668265263;
 			num ^= num >> 15;
-			num *= 2246822519u;
+			num = (uint)((int)num * -2048144777);
 			num ^= num >> 13;
-			num *= 3266489917u;
+			num = (uint)((int)num * -1028477379);
 			return num ^ num >> 16;
 		}
 

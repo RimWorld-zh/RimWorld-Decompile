@@ -18,14 +18,7 @@ namespace RimWorld
 			{
 				if (this.lastThreatBigTick > Find.TickManager.TicksGame + 1000)
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Latest big threat queue time was ",
-						this.lastThreatBigTick,
-						" at tick ",
-						Find.TickManager.TicksGame,
-						". This is too far in the future. Resetting."
-					}));
+					Log.Error("Latest big threat queue time was " + this.lastThreatBigTick + " at tick " + Find.TickManager.TicksGame + ". This is too far in the future. Resetting.");
 					this.lastThreatBigTick = Find.TickManager.TicksGame - 1;
 				}
 				return this.lastThreatBigTick;
@@ -45,30 +38,29 @@ namespace RimWorld
 
 		public void Notify_IncidentFired(FiringIncident qi)
 		{
-			if (qi.parms.forced || qi.parms.target != this.target)
+			if (!qi.parms.forced && qi.parms.target == this.target)
 			{
-				return;
-			}
-			int ticksGame = Find.TickManager.TicksGame;
-			if (qi.def.category == IncidentCategory.ThreatBig)
-			{
-				if (this.lastThreatBigTick <= ticksGame)
+				int ticksGame = Find.TickManager.TicksGame;
+				if (qi.def.category == IncidentCategory.ThreatBig)
 				{
-					this.lastThreatBigTick = ticksGame;
+					if (this.lastThreatBigTick <= ticksGame)
+					{
+						this.lastThreatBigTick = ticksGame;
+					}
+					else
+					{
+						Log.Error("Queueing threats backwards in time (" + qi + ")");
+					}
+					Find.StoryWatcher.statsRecord.numThreatBigs++;
+				}
+				if (this.lastFireTicks.ContainsKey(qi.def))
+				{
+					this.lastFireTicks[qi.def] = ticksGame;
 				}
 				else
 				{
-					Log.Error("Queueing threats backwards in time (" + qi + ")");
+					this.lastFireTicks.Add(qi.def, ticksGame);
 				}
-				Find.StoryWatcher.statsRecord.numThreatBigs++;
-			}
-			if (this.lastFireTicks.ContainsKey(qi.def))
-			{
-				this.lastFireTicks[qi.def] = ticksGame;
-			}
-			else
-			{
-				this.lastFireTicks.Add(qi.def, ticksGame);
 			}
 		}
 
@@ -76,9 +68,18 @@ namespace RimWorld
 		{
 			other.lastThreatBigTick = this.lastThreatBigTick;
 			other.lastFireTicks.Clear();
-			foreach (KeyValuePair<IncidentDef, int> current in this.lastFireTicks)
+			Dictionary<IncidentDef, int>.Enumerator enumerator = this.lastFireTicks.GetEnumerator();
+			try
 			{
-				other.lastFireTicks.Add(current.Key, current.Value);
+				while (enumerator.MoveNext())
+				{
+					KeyValuePair<IncidentDef, int> current = enumerator.Current;
+					other.lastFireTicks.Add(current.Key, current.Value);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 	}

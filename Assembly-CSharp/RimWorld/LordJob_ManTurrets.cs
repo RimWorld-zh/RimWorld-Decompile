@@ -1,4 +1,3 @@
-using System;
 using Verse.AI.Group;
 
 namespace RimWorld
@@ -7,10 +6,9 @@ namespace RimWorld
 	{
 		public override StateGraph CreateGraph()
 		{
-			return new StateGraph
-			{
-				StartingToil = new LordToil_ManClosestTurrets()
-			};
+			StateGraph stateGraph = new StateGraph();
+			stateGraph.StartingToil = new LordToil_ManClosestTurrets();
+			return stateGraph;
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -22,8 +21,8 @@ namespace RimWorld
 
 		public bool ThingsAvailableAnywhere(ThingCountClass need, Pawn pawn)
 		{
-			int key = Gen.HashCombine<Faction>(need.GetHashCode(), pawn.Faction);
-			bool flag;
+			int key = Gen.HashCombine(need.GetHashCode(), pawn.Faction);
+			bool flag = default(bool);
 			if (!this.cachedResults.TryGetValue(key, out flag))
 			{
 				List<Thing> list = this.map.listerThings.ThingsOfDef(need.thingDef);
@@ -34,9 +33,7 @@ namespace RimWorld
 					{
 						num += list[i].stackCount;
 						if (num >= need.count)
-						{
 							break;
-						}
 					}
 				}
 				flag = (num >= need.count);

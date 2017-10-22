@@ -27,16 +27,16 @@ namespace Verse.AI
 			if (this.matchedTrees == null)
 			{
 				this.matchedTrees = new List<ThinkTreeDef>();
-				foreach (ThinkTreeDef current in DefDatabase<ThinkTreeDef>.AllDefs)
+				foreach (ThinkTreeDef allDef in DefDatabase<ThinkTreeDef>.AllDefs)
 				{
-					if (current.insertTag == this.insertTag)
+					if (allDef.insertTag == this.insertTag)
 					{
-						this.matchedTrees.Add(current);
+						this.matchedTrees.Add(allDef);
 					}
 				}
 				this.matchedTrees = (from tDef in this.matchedTrees
 				orderby tDef.insertPriority descending
-				select tDef).ToList<ThinkTreeDef>();
+				select tDef).ToList();
 			}
 			for (int i = 0; i < this.matchedTrees.Count; i++)
 			{

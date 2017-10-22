@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -28,8 +27,8 @@ namespace RimWorld
 		{
 			get
 			{
-				float num = (float)this.curWeatherAge / 4000f;
-				if (num > 1f)
+				float num = (float)((float)this.curWeatherAge / 4000.0);
+				if (num > 1.0)
 				{
 					num = 1f;
 				}
@@ -88,7 +87,7 @@ namespace RimWorld
 			Scribe_Defs.Look<WeatherDef>(ref this.curWeather, "curWeather");
 			Scribe_Defs.Look<WeatherDef>(ref this.lastWeather, "lastWeather");
 			Scribe_Values.Look<int>(ref this.curWeatherAge, "curWeatherAge", 0, true);
-			Scribe_Deep.Look<TemperatureMemory>(ref this.growthSeasonMemory, "growthSeasonMemory", new object[]
+			Scribe_Deep.Look<TemperatureMemory>(ref this.growthSeasonMemory, "growthSeasonMemory", new object[1]
 			{
 				this.map
 			});
@@ -124,20 +123,23 @@ namespace RimWorld
 			this.eventHandler.WeatherEventHandlerTick();
 			this.curWeatherAge++;
 			this.curWeather.Worker.WeatherTick(this.map, this.TransitionLerpFactor);
-			this.lastWeather.Worker.WeatherTick(this.map, 1f - this.TransitionLerpFactor);
+			this.lastWeather.Worker.WeatherTick(this.map, (float)(1.0 - this.TransitionLerpFactor));
 			this.growthSeasonMemory.GrowthSeasonMemoryTick();
 			for (int i = 0; i < this.curWeather.ambientSounds.Count; i++)
 			{
 				bool flag = false;
-				for (int j = this.ambienceSustainers.Count - 1; j >= 0; j--)
+				int num = this.ambienceSustainers.Count - 1;
+				while (num >= 0)
 				{
-					if (this.ambienceSustainers[j].def == this.curWeather.ambientSounds[i])
+					if (this.ambienceSustainers[num].def != this.curWeather.ambientSounds[i])
 					{
-						flag = true;
-						break;
+						num--;
+						continue;
 					}
+					flag = true;
+					break;
 				}
-				if (!flag && this.VolumeOfAmbientSound(this.curWeather.ambientSounds[i]) > 0.0001f)
+				if (!flag && this.VolumeOfAmbientSound(this.curWeather.ambientSounds[i]) > 9.9999997473787516E-05)
 				{
 					SoundInfo info = SoundInfo.OnCamera(MaintenanceType.None);
 					Sustainer sustainer = this.curWeather.ambientSounds[i].TrySpawnSustainer(info);
@@ -165,17 +167,17 @@ namespace RimWorld
 
 		private void SetAmbienceSustainersVolume()
 		{
-			for (int i = this.ambienceSustainers.Count - 1; i >= 0; i--)
+			for (int num = this.ambienceSustainers.Count - 1; num >= 0; num--)
 			{
-				float num = this.VolumeOfAmbientSound(this.ambienceSustainers[i].def);
-				if (num > 0.0001f)
+				float num2 = this.VolumeOfAmbientSound(this.ambienceSustainers[num].def);
+				if (num2 > 9.9999997473787516E-05)
 				{
-					this.ambienceSustainers[i].externalParams["LerpFactor"] = num;
+					this.ambienceSustainers[num].externalParams["LerpFactor"] = num2;
 				}
 				else
 				{
-					this.ambienceSustainers[i].End();
-					this.ambienceSustainers.RemoveAt(i);
+					this.ambienceSustainers[num].End();
+					this.ambienceSustainers.RemoveAt(num);
 				}
 			}
 		}
@@ -198,7 +200,7 @@ namespace RimWorld
 			{
 				if (this.lastWeather.ambientSounds[j] == soundDef)
 				{
-					num += 1f - this.TransitionLerpFactor;
+					num = (float)(num + (1.0 - this.TransitionLerpFactor));
 				}
 			}
 			for (int k = 0; k < this.curWeather.ambientSounds.Count; k++)

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -170,21 +169,19 @@ namespace RimWorld.Planet
 			if (obj == null)
 			{
 				Log.Error("Cannot select null.");
-				return;
 			}
-			this.selectedTile = -1;
-			if (this.selected.Count >= 80)
+			else
 			{
-				return;
-			}
-			if (!this.IsSelected(obj))
-			{
-				if (playSound)
+				this.selectedTile = -1;
+				if (this.selected.Count < 80 && !this.IsSelected(obj))
 				{
-					this.PlaySelectionSoundFor(obj);
+					if (playSound)
+					{
+						this.PlaySelectionSoundFor(obj);
+					}
+					this.selected.Add(obj);
+					WorldSelectionDrawer.Notify_Selected(obj);
 				}
-				this.selected.Add(obj);
-				WorldSelectionDrawer.Notify_Selected(obj);
 			}
 		}
 
@@ -232,13 +229,13 @@ namespace RimWorld.Planet
 			}
 			if (!flag)
 			{
-				List<WorldObject> list3 = WorldObjectSelectionUtility.MultiSelectableWorldObjectsInScreenRectDistinct(this.dragBox.ScreenRect).ToList<WorldObject>();
-				if (list3.Any((WorldObject x) => x is Caravan))
+				List<WorldObject> list3 = WorldObjectSelectionUtility.MultiSelectableWorldObjectsInScreenRectDistinct(this.dragBox.ScreenRect).ToList();
+				if (list3.Any((Predicate<WorldObject>)((WorldObject x) => x is Caravan)))
 				{
-					list3.RemoveAll((WorldObject x) => !(x is Caravan));
-					if (list3.Any((WorldObject x) => x.Faction == Faction.OfPlayer))
+					list3.RemoveAll((Predicate<WorldObject>)((WorldObject x) => !(x is Caravan)));
+					if (list3.Any((Predicate<WorldObject>)((WorldObject x) => x.Faction == Faction.OfPlayer)))
 					{
-						list3.RemoveAll((WorldObject x) => x.Faction != Faction.OfPlayer);
+						list3.RemoveAll((Predicate<WorldObject>)((WorldObject x) => x.Faction != Faction.OfPlayer));
 					}
 				}
 				for (int k = 0; k < list3.Count; k++)
@@ -249,14 +246,14 @@ namespace RimWorld.Planet
 			}
 			if (!flag)
 			{
-				bool canSelectTile = this.dragBox.Diagonal < 30f;
+				bool canSelectTile = this.dragBox.Diagonal < 30.0;
 				this.SelectUnderMouse(canSelectTile);
 			}
 		}
 
 		public IEnumerable<WorldObject> SelectableObjectsUnderMouse()
 		{
-			bool flag;
+			bool flag = default(bool);
 			return this.SelectableObjectsUnderMouse(out flag, out flag);
 		}
 
@@ -270,7 +267,7 @@ namespace RimWorld.Planet
 				{
 					clickedDirectlyOnCaravan = true;
 					usedColonistBar = true;
-					return Gen.YieldSingle<WorldObject>(caravan);
+					return Gen.YieldSingle((WorldObject)caravan);
 				}
 			}
 			List<WorldObject> list = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
@@ -278,9 +275,9 @@ namespace RimWorld.Planet
 			if (list.Count > 0 && list[0] is Caravan && list[0].DistanceToMouse(UI.MousePositionOnUI) < GenWorldUI.CaravanDirectClickRadius)
 			{
 				clickedDirectlyOnCaravan = true;
-				for (int i = list.Count - 1; i >= 0; i--)
+				for (int num = list.Count - 1; num >= 0; num--)
 				{
-					WorldObject worldObject = list[i];
+					WorldObject worldObject = list[num];
 					if (worldObject is Caravan && worldObject.DistanceToMouse(UI.MousePositionOnUI) > GenWorldUI.CaravanDirectClickRadius)
 					{
 						list.Remove(worldObject);
@@ -291,15 +288,15 @@ namespace RimWorld.Planet
 			return list;
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<WorldObject> SelectableObjectsAt(int tileID)
 		{
-			WorldSelector.<SelectableObjectsAt>c__Iterator1A6 <SelectableObjectsAt>c__Iterator1A = new WorldSelector.<SelectableObjectsAt>c__Iterator1A6();
-			<SelectableObjectsAt>c__Iterator1A.tileID = tileID;
-			<SelectableObjectsAt>c__Iterator1A.<$>tileID = tileID;
-			WorldSelector.<SelectableObjectsAt>c__Iterator1A6 expr_15 = <SelectableObjectsAt>c__Iterator1A;
-			expr_15.$PC = -2;
-			return expr_15;
+			foreach (WorldObject item in Find.WorldObjects.ObjectsAt(tileID))
+			{
+				if (item.SelectableNow)
+				{
+					yield return item;
+				}
+			}
 		}
 
 		private void SelectUnderMouse(bool canSelectTile = true)
@@ -321,9 +318,9 @@ namespace RimWorld.Planet
 					return;
 				}
 			}
-			bool flag;
-			bool flag2;
-			List<WorldObject> list = this.SelectableObjectsUnderMouse(out flag, out flag2).ToList<WorldObject>();
+			bool flag = default(bool);
+			bool flag2 = default(bool);
+			List<WorldObject> list = this.SelectableObjectsUnderMouse(out flag, out flag2).ToList();
 			if (flag2 || (flag && list.Count >= 2))
 			{
 				canSelectTile = false;
@@ -343,22 +340,31 @@ namespace RimWorld.Planet
 			{
 				WorldObject worldObject = (from obj in list
 				where this.selected.Contains(obj)
-				select obj).FirstOrDefault<WorldObject>();
+				select obj).FirstOrDefault();
 				if (worldObject != null)
 				{
 					if (!this.ShiftIsHeld)
 					{
-						int tile = (!canSelectTile) ? -1 : GenWorld.MouseTile(false);
+						int tile = (!canSelectTile) ? (-1) : GenWorld.MouseTile(false);
 						this.SelectFirstOrNextFrom(list, tile);
 					}
 					else
 					{
-						foreach (WorldObject current in list)
+						List<WorldObject>.Enumerator enumerator = list.GetEnumerator();
+						try
 						{
-							if (this.selected.Contains(current))
+							while (enumerator.MoveNext())
 							{
-								this.Deselect(current);
+								WorldObject current = enumerator.Current;
+								if (this.selected.Contains(current))
+								{
+									this.Deselect(current);
+								}
 							}
+						}
+						finally
+						{
+							((IDisposable)(object)enumerator).Dispose();
 						}
 					}
 				}
@@ -375,28 +381,21 @@ namespace RimWorld.Planet
 
 		public void SelectFirstOrNextAt(int tileID)
 		{
-			this.SelectFirstOrNextFrom(WorldSelector.SelectableObjectsAt(tileID).ToList<WorldObject>(), tileID);
+			this.SelectFirstOrNextFrom(WorldSelector.SelectableObjectsAt(tileID).ToList(), tileID);
 		}
 
 		private void SelectAllMatchingObjectUnderMouseOnScreen()
 		{
-			List<WorldObject> list = this.SelectableObjectsUnderMouse().ToList<WorldObject>();
-			if (list.Count == 0)
+			List<WorldObject> list = this.SelectableObjectsUnderMouse().ToList();
+			if (list.Count != 0)
 			{
-				return;
-			}
-			Type type = list[0].GetType();
-			List<WorldObject> allWorldObjects = Find.WorldObjects.AllWorldObjects;
-			for (int i = 0; i < allWorldObjects.Count; i++)
-			{
-				if (list[0].Faction == allWorldObjects[i].Faction)
+				Type type = list[0].GetType();
+				List<WorldObject> allWorldObjects = Find.WorldObjects.AllWorldObjects;
+				for (int i = 0; i < allWorldObjects.Count; i++)
 				{
-					if (type == allWorldObjects[i].GetType())
+					if (list[0].Faction == allWorldObjects[i].Faction && type == allWorldObjects[i].GetType() && allWorldObjects[i].VisibleToCameraNow())
 					{
-						if (allWorldObjects[i].VisibleToCameraNow())
-						{
-							this.Select(allWorldObjects[i], true);
-						}
+						this.Select(allWorldObjects[i], true);
 					}
 				}
 			}
@@ -404,41 +403,41 @@ namespace RimWorld.Planet
 
 		private void AutoOrderToTile(Caravan c, int tile)
 		{
-			if (tile < 0)
+			if (tile >= 0)
 			{
-				return;
-			}
-			if (c.autoJoinable && CaravanExitMapUtility.IsTheOnlyJoinableCaravanForAnyPrisonerOrAnimal(c))
-			{
-				CaravanExitMapUtility.OpenTheOnlyJoinableCaravanForPrisonerOrAnimalDialog(c, delegate
+				if (c.autoJoinable && CaravanExitMapUtility.IsTheOnlyJoinableCaravanForAnyPrisonerOrAnimal(c))
+				{
+					CaravanExitMapUtility.OpenTheOnlyJoinableCaravanForPrisonerOrAnimalDialog(c, (Action)delegate()
+					{
+						this.AutoOrderToTileNow(c, tile);
+					});
+				}
+				else
 				{
 					this.AutoOrderToTileNow(c, tile);
-				});
-			}
-			else
-			{
-				this.AutoOrderToTileNow(c, tile);
+				}
 			}
 		}
 
 		private void AutoOrderToTileNow(Caravan c, int tile)
 		{
-			if (tile < 0 || (tile == c.Tile && !c.pather.Moving))
+			if (tile >= 0)
 			{
-				return;
-			}
-			int num = CaravanUtility.BestGotoDestNear(tile, c);
-			if (num >= 0)
-			{
-				c.pather.StartPath(num, null, true);
-				c.gotoMote.OrderedToTile(num);
-				SoundDefOf.ColonistOrdered.PlayOneShotOnCamera(null);
+				if (tile == c.Tile && !c.pather.Moving)
+					return;
+				int num = CaravanUtility.BestGotoDestNear(tile, c);
+				if (num >= 0)
+				{
+					c.pather.StartPath(num, null, true);
+					c.gotoMote.OrderedToTile(num);
+					SoundDefOf.ColonistOrdered.PlayOneShotOnCamera(null);
+				}
 			}
 		}
 
 		private void SelectFirstOrNextFrom(List<WorldObject> objects, int tile)
 		{
-			int num = objects.FindIndex((WorldObject x) => this.selected.Contains(x));
+			int num = objects.FindIndex((Predicate<WorldObject>)((WorldObject x) => this.selected.Contains(x)));
 			int num2 = -1;
 			int num3 = -1;
 			if (num != -1)

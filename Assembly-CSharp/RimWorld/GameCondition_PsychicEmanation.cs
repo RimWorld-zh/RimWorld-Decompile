@@ -11,7 +11,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.def.label + " (" + this.gender.ToString().Translate().ToLower() + ")";
+				return base.def.label + " (" + ((Enum)(object)this.gender).ToString().Translate().ToLower() + ")";
 			}
 		}
 

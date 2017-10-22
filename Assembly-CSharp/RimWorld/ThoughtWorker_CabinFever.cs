@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -15,12 +14,12 @@ namespace RimWorld
 			{
 				return ThoughtState.Inactive;
 			}
-			float num = (float)p.needs.mood.recentMemory.TicksSinceOutdoors / 60000f;
-			if (num < 2.5f)
+			float num = (float)((float)p.needs.mood.recentMemory.TicksSinceOutdoors / 60000.0);
+			if (num < 2.5)
 			{
 				return ThoughtState.Inactive;
 			}
-			if (num < 7.5f)
+			if (num < 7.5)
 			{
 				return ThoughtState.ActiveAtStage(0);
 			}

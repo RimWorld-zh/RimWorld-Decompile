@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -21,7 +20,7 @@ namespace RimWorld.Planet
 			WorldDebugMatsSpectrum.DebugSpectrum = DebugMatsSpectrum.DebugSpectrum;
 			for (int i = 0; i < 100; i++)
 			{
-				WorldDebugMatsSpectrum.spectrumMats[i] = MatsFromSpectrum.Get(WorldDebugMatsSpectrum.DebugSpectrum, (float)i / 100f, ShaderDatabase.WorldOverlayTransparent);
+				WorldDebugMatsSpectrum.spectrumMats[i] = MatsFromSpectrum.Get(WorldDebugMatsSpectrum.DebugSpectrum, (float)((float)i / 100.0), ShaderDatabase.WorldOverlayTransparent);
 			}
 		}
 

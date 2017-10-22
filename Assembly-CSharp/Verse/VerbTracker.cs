@@ -1,6 +1,6 @@
+using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace Verse
@@ -49,24 +49,53 @@ namespace Verse
 
 		public void VerbsTick()
 		{
-			if (this.verbs == null)
+			if (this.verbs != null)
 			{
-				return;
-			}
-			for (int i = 0; i < this.verbs.Count; i++)
-			{
-				this.verbs[i].VerbTick();
+				for (int i = 0; i < this.verbs.Count; i++)
+				{
+					this.verbs[i].VerbTick();
+				}
 			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Command> GetVerbsCommands(KeyCode hotKey = KeyCode.None)
 		{
-			VerbTracker.<GetVerbsCommands>c__Iterator258 <GetVerbsCommands>c__Iterator = new VerbTracker.<GetVerbsCommands>c__Iterator258();
-			<GetVerbsCommands>c__Iterator.<>f__this = this;
-			VerbTracker.<GetVerbsCommands>c__Iterator258 expr_0E = <GetVerbsCommands>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			CompEquippable ce = this.directOwner as CompEquippable;
+			if (ce != null)
+			{
+				Thing ownerThing = ce.parent;
+				List<Verb> verbs = this.AllVerbs;
+				for (int i = 0; i < verbs.Count; i++)
+				{
+					Verb verb = verbs[i];
+					if (verb.verbProps.hasStandardCommand)
+					{
+						Command_VerbTarget newOpt = new Command_VerbTarget
+						{
+							defaultDesc = ownerThing.LabelCap + ": " + ownerThing.def.description,
+							icon = ownerThing.def.uiIcon,
+							tutorTag = "VerbTarget",
+							verb = verb
+						};
+						if (verb.caster.Faction != Faction.OfPlayer)
+						{
+							newOpt.Disable("CannotOrderNonControlled".Translate());
+						}
+						if (verb.CasterIsPawn)
+						{
+							if (verb.CasterPawn.story.WorkTagIsDisabled(WorkTags.Violent))
+							{
+								newOpt.Disable("IsIncapableOfViolence".Translate(verb.CasterPawn.NameStringShort));
+							}
+							else if (!verb.CasterPawn.drafter.Drafted)
+							{
+								newOpt.Disable("IsNotDrafted".Translate(verb.CasterPawn.NameStringShort));
+							}
+						}
+						yield return (Command)newOpt;
+					}
+				}
+			}
 		}
 
 		public void ExposeData()
@@ -95,13 +124,7 @@ namespace Verse
 					}
 					catch (Exception ex)
 					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Could not instantiate Verb (directOwner=",
-							this.directOwner.ToStringSafe<IVerbOwner>(),
-							"): ",
-							ex
-						}));
+						Log.Error("Could not instantiate Verb (directOwner=" + this.directOwner.ToStringSafe() + "): " + ex);
 					}
 				}
 				this.UpdateVerbsLinksAndProps();
@@ -110,38 +133,37 @@ namespace Verse
 
 		private void UpdateVerbsLinksAndProps()
 		{
-			if (this.verbs == null)
+			if (this.verbs != null)
 			{
-				return;
-			}
-			List<VerbProperties> verbProperties = this.directOwner.VerbProperties;
-			if (this.verbs.Count != verbProperties.Count)
-			{
-				Log.Error("Verbs count is not equal to verb props count.");
-				while (this.verbs.Count > verbProperties.Count)
+				List<VerbProperties> verbProperties = this.directOwner.VerbProperties;
+				if (this.verbs.Count != verbProperties.Count)
 				{
-					this.verbs.RemoveLast<Verb>();
+					Log.Error("Verbs count is not equal to verb props count.");
+					while (this.verbs.Count > verbProperties.Count)
+					{
+						this.verbs.RemoveLast();
+					}
 				}
-			}
-			for (int i = 0; i < this.verbs.Count; i++)
-			{
-				Verb verb = this.verbs[i];
-				verb.verbProps = verbProperties[i];
-				CompEquippable compEquippable = this.directOwner as CompEquippable;
-				Pawn pawn = this.directOwner as Pawn;
-				HediffComp_VerbGiver hediffComp_VerbGiver = this.directOwner as HediffComp_VerbGiver;
-				if (compEquippable != null)
+				for (int i = 0; i < this.verbs.Count; i++)
 				{
-					verb.ownerEquipment = compEquippable.parent;
-				}
-				else if (pawn != null)
-				{
-					verb.caster = pawn;
-				}
-				else if (hediffComp_VerbGiver != null)
-				{
-					verb.ownerHediffComp = hediffComp_VerbGiver;
-					verb.caster = hediffComp_VerbGiver.Pawn;
+					Verb verb = this.verbs[i];
+					verb.verbProps = verbProperties[i];
+					CompEquippable compEquippable = this.directOwner as CompEquippable;
+					Pawn pawn = this.directOwner as Pawn;
+					HediffComp_VerbGiver hediffComp_VerbGiver = this.directOwner as HediffComp_VerbGiver;
+					if (compEquippable != null)
+					{
+						verb.ownerEquipment = compEquippable.parent;
+					}
+					else if (pawn != null)
+					{
+						verb.caster = pawn;
+					}
+					else if (hediffComp_VerbGiver != null)
+					{
+						verb.ownerHediffComp = hediffComp_VerbGiver;
+						verb.caster = hediffComp_VerbGiver.Pawn;
+					}
 				}
 			}
 		}

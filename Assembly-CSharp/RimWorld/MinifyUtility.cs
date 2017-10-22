@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.Sound;
 
@@ -31,14 +30,7 @@ namespace RimWorld
 			}
 			if (minifiedThing.InnerThing.stackCount > 1)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Tried to minify ",
-					thing.LabelCap,
-					" with stack count ",
-					minifiedThing.InnerThing.stackCount,
-					". Clamped stack count to 1."
-				}));
+				Log.Warning("Tried to minify " + thing.LabelCap + " with stack count " + minifiedThing.InnerThing.stackCount + ". Clamped stack count to 1.");
 				minifiedThing.InnerThing.stackCount = 1;
 			}
 			return minifiedThing;

@@ -1,10 +1,8 @@
-using System;
-
 namespace Verse
 {
 	public enum EquipmentType : byte
 	{
-		None,
-		Primary
+		None = 0,
+		Primary = 1
 	}
 }

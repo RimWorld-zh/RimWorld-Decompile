@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public abstract class Stance_Busy : Stance
@@ -34,7 +32,7 @@ namespace Verse
 			this.verb = verb;
 		}
 
-		public Stance_Busy(int ticks) : this(ticks, null, null)
+		public Stance_Busy(int ticks) : this(ticks, (Thing)null, null)
 		{
 		}
 
@@ -78,9 +76,9 @@ namespace Verse
 
 		protected virtual void Expire()
 		{
-			if (this.stanceTracker.curStance == this)
+			if (base.stanceTracker.curStance == this)
 			{
-				this.stanceTracker.SetStance(new Stance_Mobile());
+				base.stanceTracker.SetStance(new Stance_Mobile());
 			}
 		}
 	}

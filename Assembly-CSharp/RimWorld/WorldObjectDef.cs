@@ -1,7 +1,6 @@
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -58,7 +57,7 @@ namespace RimWorld
 				{
 					return null;
 				}
-				if (this.material == null)
+				if ((UnityEngine.Object)this.material == (UnityEngine.Object)null)
 				{
 					this.material = MaterialPool.MatFrom(this.texture, ShaderDatabase.WorldOverlayTransparentLit, WorldMaterials.WorldObjectRenderQueue);
 				}
@@ -70,7 +69,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.expandingIconTextureInt == null)
+				if ((UnityEngine.Object)this.expandingIconTextureInt == (UnityEngine.Object)null)
 				{
 					if (this.expandingIconTexture.NullOrEmpty())
 					{
@@ -99,13 +98,7 @@ namespace RimWorld
 					}
 					catch (Exception ex)
 					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Could not instantiate inspector tab of type ",
-							this.inspectorTabs[i],
-							": ",
-							ex
-						}));
+						Log.Error("Could not instantiate inspector tab of type " + this.inspectorTabs[i] + ": " + ex);
 					}
 				}
 			}
@@ -120,14 +113,19 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			WorldObjectDef.<ConfigErrors>c__IteratorA0 <ConfigErrors>c__IteratorA = new WorldObjectDef.<ConfigErrors>c__IteratorA0();
-			<ConfigErrors>c__IteratorA.<>f__this = this;
-			WorldObjectDef.<ConfigErrors>c__IteratorA0 expr_0E = <ConfigErrors>c__IteratorA;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			for (int i = 0; i < this.comps.Count; i++)
+			{
+				foreach (string item2 in this.comps[i].ConfigErrors(this))
+				{
+					yield return item2;
+				}
+			}
 		}
 	}
 }

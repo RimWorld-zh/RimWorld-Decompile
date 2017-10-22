@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class PawnCapacityModifier
@@ -16,7 +14,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.setMax != 999f;
+				return this.setMax != 999.0;
 			}
 		}
 	}

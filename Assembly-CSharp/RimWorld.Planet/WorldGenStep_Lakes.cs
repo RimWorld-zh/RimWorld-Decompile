@@ -25,24 +25,21 @@ namespace RimWorld.Planet
 			List<int> oceanChunk = new List<int>();
 			for (int i = 0; i < grid.TilesCount; i++)
 			{
-				if (!touched[i])
+				if (!touched[i] && grid[i].biome == BiomeDefOf.Ocean)
 				{
-					if (grid[i].biome == BiomeDefOf.Ocean)
+					Find.WorldFloodFiller.FloodFill(i, (Predicate<int>)((int tid) => grid[tid].biome == BiomeDefOf.Ocean), (Action<int>)delegate(int tid)
 					{
-						Find.WorldFloodFiller.FloodFill(i, (int tid) => grid[tid].biome == BiomeDefOf.Ocean, delegate(int tid)
+						oceanChunk.Add(tid);
+						touched[tid] = true;
+					}, 2147483647);
+					if (oceanChunk.Count <= 15)
+					{
+						for (int j = 0; j < oceanChunk.Count; j++)
 						{
-							oceanChunk.Add(tid);
-							touched[tid] = true;
-						}, 2147483647);
-						if (oceanChunk.Count <= 15)
-						{
-							for (int j = 0; j < oceanChunk.Count; j++)
-							{
-								grid[oceanChunk[j]].biome = BiomeDefOf.Lake;
-							}
+							grid[oceanChunk[j]].biome = BiomeDefOf.Lake;
 						}
-						oceanChunk.Clear();
 					}
+					oceanChunk.Clear();
 				}
 			}
 		}

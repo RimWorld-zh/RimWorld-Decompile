@@ -179,7 +179,11 @@ namespace RimWorld.Planet
 
 		public override bool Equals(object obj)
 		{
-			return obj is GlobalTargetInfo && this.Equals((GlobalTargetInfo)obj);
+			if (!(obj is GlobalTargetInfo))
+			{
+				return false;
+			}
+			return this.Equals((GlobalTargetInfo)obj);
 		}
 
 		public bool Equals(GlobalTargetInfo other)
@@ -195,7 +199,7 @@ namespace RimWorld.Planet
 			}
 			if (this.cellInt.IsValid)
 			{
-				return Gen.HashCombine<Map>(this.cellInt.GetHashCode(), this.mapInt);
+				return Gen.HashCombine(this.cellInt.GetHashCode(), this.mapInt);
 			}
 			if (this.worldObjectInt != null)
 			{
@@ -347,19 +351,23 @@ namespace RimWorld.Planet
 
 		public static bool operator ==(GlobalTargetInfo a, GlobalTargetInfo b)
 		{
-			if (a.Thing != null || b.Thing != null)
+			if (a.Thing == null && b.Thing == null)
 			{
-				return a.Thing == b.Thing;
-			}
-			if (a.cellInt.IsValid || b.cellInt.IsValid)
-			{
+				if (!a.cellInt.IsValid && !b.cellInt.IsValid)
+				{
+					if (a.WorldObject == null && b.WorldObject == null)
+					{
+						if (a.tileInt < 0 && b.tileInt < 0)
+						{
+							return true;
+						}
+						return a.tileInt == b.tileInt;
+					}
+					return a.WorldObject == b.WorldObject;
+				}
 				return a.cellInt == b.cellInt && a.mapInt == b.mapInt;
 			}
-			if (a.WorldObject != null || b.WorldObject != null)
-			{
-				return a.WorldObject == b.WorldObject;
-			}
-			return (a.tileInt < 0 && b.tileInt < 0) || a.tileInt == b.tileInt;
+			return a.Thing == b.Thing;
 		}
 
 		public static bool operator !=(GlobalTargetInfo a, GlobalTargetInfo b)

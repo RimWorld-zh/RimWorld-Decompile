@@ -1,6 +1,7 @@
-using System;
 using System.Collections;
-using System.Diagnostics;
+using System.Collections.Generic;
+using UnityEngine;
+using Verse;
 
 namespace RimWorld.Planet
 {
@@ -10,14 +11,24 @@ namespace RimWorld.Planet
 
 		private const float ViewAngleOffset = 10f;
 
-		[DebuggerHidden]
 		public override IEnumerable Regenerate()
 		{
-			WorldLayer_UngeneratedPlanetParts.<Regenerate>c__IteratorF9 <Regenerate>c__IteratorF = new WorldLayer_UngeneratedPlanetParts.<Regenerate>c__IteratorF9();
-			<Regenerate>c__IteratorF.<>f__this = this;
-			WorldLayer_UngeneratedPlanetParts.<Regenerate>c__IteratorF9 expr_0E = <Regenerate>c__IteratorF;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (object item in base.Regenerate())
+			{
+				yield return item;
+			}
+			Vector3 planetViewCenter = Find.WorldGrid.viewCenter;
+			float planetViewAngle = Find.WorldGrid.viewAngle;
+			if (planetViewAngle < 180.0)
+			{
+				List<Vector3> tmpVerts;
+				List<int> tmpIndices;
+				SphereGenerator.Generate(4, 99.85f, -planetViewCenter, (float)(180.0 - Mathf.Min(planetViewAngle, 180f) + 10.0), out tmpVerts, out tmpIndices);
+				LayerSubMesh subMesh = base.GetSubMesh(WorldMaterials.UngeneratedPlanetParts);
+				subMesh.verts.AddRange(tmpVerts);
+				subMesh.tris.AddRange(tmpIndices);
+			}
+			base.FinalizeMesh(MeshParts.All, true);
 		}
 	}
 }

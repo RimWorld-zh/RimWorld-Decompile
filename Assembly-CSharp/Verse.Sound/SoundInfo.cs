@@ -35,32 +35,47 @@ namespace Verse.Sound
 		{
 			get
 			{
-				SoundInfo.<>c__Iterator229 <>c__Iterator = new SoundInfo.<>c__Iterator229();
-				<>c__Iterator.<>f__this = this;
-				SoundInfo.<>c__Iterator229 expr_13 = <>c__Iterator;
-				expr_13.$PC = -2;
-				return expr_13;
+				if (this.parameters != null)
+				{
+					Dictionary<string, float>.Enumerator enumerator = this.parameters.GetEnumerator();
+					try
+					{
+						while (enumerator.MoveNext())
+						{
+							KeyValuePair<string, float> kvp = enumerator.Current;
+							yield return kvp;
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator).Dispose();
+					}
+				}
 			}
 		}
 
 		public static SoundInfo OnCamera(MaintenanceType maint = MaintenanceType.None)
 		{
-			SoundInfo result = default(SoundInfo);
-			result.IsOnCamera = true;
-			result.Maintenance = maint;
-			result.Maker = TargetInfo.Invalid;
-			result.testPlay = false;
+			SoundInfo result = new SoundInfo
+			{
+				IsOnCamera = true,
+				Maintenance = maint,
+				Maker = TargetInfo.Invalid,
+				testPlay = false
+			};
 			result.volumeFactor = (result.pitchFactor = 1f);
 			return result;
 		}
 
 		public static SoundInfo InMap(TargetInfo maker, MaintenanceType maint = MaintenanceType.None)
 		{
-			SoundInfo result = default(SoundInfo);
-			result.IsOnCamera = false;
-			result.Maintenance = maint;
-			result.Maker = maker;
-			result.testPlay = false;
+			SoundInfo result = new SoundInfo
+			{
+				IsOnCamera = false,
+				Maintenance = maint,
+				Maker = maker,
+				testPlay = false
+			};
 			result.volumeFactor = (result.pitchFactor = 1f);
 			return result;
 		}
@@ -76,42 +91,36 @@ namespace Verse.Sound
 
 		public override string ToString()
 		{
-			string text = null;
+			string text = (string)null;
 			if (this.parameters != null && this.parameters.Count > 0)
 			{
 				text = "parameters=";
-				foreach (KeyValuePair<string, float> current in this.parameters)
+				Dictionary<string, float>.Enumerator enumerator = this.parameters.GetEnumerator();
+				try
 				{
-					string text2 = text;
-					text = string.Concat(new string[]
+					while (enumerator.MoveNext())
 					{
-						text2,
-						current.Key.ToString(),
-						"-",
-						current.Value.ToString(),
-						" "
-					});
+						KeyValuePair<string, float> current = enumerator.Current;
+						string text2 = text;
+						text = text2 + current.Key.ToString() + "-" + current.Value.ToString() + " ";
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
-			string text3 = null;
+			string text3 = (string)null;
 			if (this.Maker.HasThing || this.Maker.Cell.IsValid)
 			{
 				text3 = this.Maker.ToString();
 			}
-			string text4 = null;
-			if (this.Maintenance != MaintenanceType.None)
+			string text4 = (string)null;
+			if (this.Maintenance != 0)
 			{
 				text4 = ", Maint=" + this.Maintenance;
 			}
-			return string.Concat(new string[]
-			{
-				"(",
-				(!this.IsOnCamera) ? "World from " : "Camera",
-				text3,
-				text,
-				text4,
-				")"
-			});
+			return "(" + ((!this.IsOnCamera) ? "World from " : "Camera") + text3 + text + text4 + ")";
 		}
 
 		public static implicit operator SoundInfo(TargetInfo source)

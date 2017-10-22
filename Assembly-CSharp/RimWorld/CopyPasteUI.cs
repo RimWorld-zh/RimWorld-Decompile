@@ -15,14 +15,14 @@ namespace RimWorld
 
 		public static void DoCopyPasteButtons(Rect rect, Action copyAction, Action pasteAction)
 		{
-			Rect rect2 = new Rect(rect.x, rect.y + (rect.height / 2f - 12f), 18f, 24f);
+			Rect rect2 = new Rect(rect.x, (float)(rect.y + (rect.height / 2.0 - 12.0)), 18f, 24f);
 			if (Widgets.ButtonImage(rect2, TexButton.Copy))
 			{
 				copyAction();
 				SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 			}
 			TooltipHandler.TipRegion(rect2, "Copy".Translate());
-			if (pasteAction != null)
+			if ((object)pasteAction != null)
 			{
 				Rect rect3 = rect2;
 				rect3.x = rect2.xMax;

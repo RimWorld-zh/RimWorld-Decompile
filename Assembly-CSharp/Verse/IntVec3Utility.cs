@@ -25,15 +25,25 @@ namespace Verse
 			switch (rot.AsInt)
 			{
 			case 0:
+			{
 				return orig;
+			}
 			case 1:
+			{
 				return new IntVec3(orig.z, orig.y, -orig.x);
+			}
 			case 2:
+			{
 				return new IntVec3(-orig.x, orig.y, -orig.z);
+			}
 			case 3:
+			{
 				return new IntVec3(-orig.z, orig.y, orig.x);
+			}
 			default:
+			{
 				return orig;
+			}
 			}
 		}
 

@@ -9,13 +9,71 @@ namespace RimWorld
 	{
 		public static bool HostileTo(this Thing a, Thing b)
 		{
-			if (a.Destroyed || b.Destroyed || a == b)
+			if (!a.Destroyed && !b.Destroyed && a != b)
 			{
+				Pawn pawn = a as Pawn;
+				Pawn pawn2 = b as Pawn;
+				if (pawn != null && pawn.MentalState != null && pawn.MentalState.ForceHostileTo(b))
+				{
+					goto IL_0071;
+				}
+				if (pawn2 != null && pawn2.MentalState != null && pawn2.MentalState.ForceHostileTo(a))
+					goto IL_0071;
+				if (pawn != null && pawn2 != null && (GenHostility.IsPredatorHostileTo(pawn, pawn2) || GenHostility.IsPredatorHostileTo(pawn2, pawn)))
+				{
+					return true;
+				}
+				if (a.Faction != null && pawn2 != null && pawn2.HostFaction == a.Faction && (pawn == null || pawn.HostFaction == null) && PrisonBreakUtility.IsPrisonBreaking(pawn2))
+				{
+					goto IL_0115;
+				}
+				if (b.Faction != null && pawn != null && pawn.HostFaction == b.Faction && (pawn2 == null || pawn2.HostFaction == null) && PrisonBreakUtility.IsPrisonBreaking(pawn))
+					goto IL_0115;
+				if (a.Faction != null && pawn2 != null && pawn2.HostFaction == a.Faction)
+				{
+					goto IL_015b;
+				}
+				if (b.Faction != null && pawn != null && pawn.HostFaction == b.Faction)
+					goto IL_015b;
+				if (pawn != null && pawn.IsPrisoner && pawn2 != null && pawn2.IsPrisoner)
+				{
+					return false;
+				}
+				if (pawn != null && pawn2 != null)
+				{
+					if (pawn.IsPrisoner && pawn.HostFaction == pawn2.HostFaction && !PrisonBreakUtility.IsPrisonBreaking(pawn))
+					{
+						goto IL_01db;
+					}
+					if (pawn2.IsPrisoner && pawn2.HostFaction == pawn.HostFaction && !PrisonBreakUtility.IsPrisonBreaking(pawn2))
+						goto IL_01db;
+				}
+				if (pawn != null && pawn2 != null)
+				{
+					if (pawn.HostFaction != null && pawn2.Faction != null && !pawn.HostFaction.HostileTo(pawn2.Faction) && !PrisonBreakUtility.IsPrisonBreaking(pawn))
+					{
+						goto IL_0257;
+					}
+					if (pawn2.HostFaction != null && pawn.Faction != null && !pawn2.HostFaction.HostileTo(pawn.Faction) && !PrisonBreakUtility.IsPrisonBreaking(pawn2))
+						goto IL_0257;
+				}
+				if (a.Faction != null && b.Faction != null)
+				{
+					return a.Faction.HostileTo(b.Faction);
+				}
 				return false;
 			}
-			Pawn pawn = a as Pawn;
-			Pawn pawn2 = b as Pawn;
-			return (pawn != null && pawn.MentalState != null && pawn.MentalState.ForceHostileTo(b)) || (pawn2 != null && pawn2.MentalState != null && pawn2.MentalState.ForceHostileTo(a)) || (pawn != null && pawn2 != null && (GenHostility.IsPredatorHostileTo(pawn, pawn2) || GenHostility.IsPredatorHostileTo(pawn2, pawn))) || ((a.Faction != null && pawn2 != null && pawn2.HostFaction == a.Faction && (pawn == null || pawn.HostFaction == null) && PrisonBreakUtility.IsPrisonBreaking(pawn2)) || (b.Faction != null && pawn != null && pawn.HostFaction == b.Faction && (pawn2 == null || pawn2.HostFaction == null) && PrisonBreakUtility.IsPrisonBreaking(pawn))) || ((a.Faction == null || pawn2 == null || pawn2.HostFaction != a.Faction) && (b.Faction == null || pawn == null || pawn.HostFaction != b.Faction) && (pawn == null || !pawn.IsPrisoner || pawn2 == null || !pawn2.IsPrisoner) && (pawn == null || pawn2 == null || ((!pawn.IsPrisoner || pawn.HostFaction != pawn2.HostFaction || PrisonBreakUtility.IsPrisonBreaking(pawn)) && (!pawn2.IsPrisoner || pawn2.HostFaction != pawn.HostFaction || PrisonBreakUtility.IsPrisonBreaking(pawn2)))) && (pawn == null || pawn2 == null || ((pawn.HostFaction == null || pawn2.Faction == null || pawn.HostFaction.HostileTo(pawn2.Faction) || PrisonBreakUtility.IsPrisonBreaking(pawn)) && (pawn2.HostFaction == null || pawn.Faction == null || pawn2.HostFaction.HostileTo(pawn.Faction) || PrisonBreakUtility.IsPrisonBreaking(pawn2)))) && a.Faction != null && b.Faction != null && a.Faction.HostileTo(b.Faction));
+			return false;
+			IL_0257:
+			return false;
+			IL_0115:
+			return true;
+			IL_0071:
+			return true;
+			IL_015b:
+			return false;
+			IL_01db:
+			return false;
 		}
 
 		public static bool HostileTo(this Thing t, Faction fac)
@@ -49,7 +107,11 @@ namespace RimWorld
 					return false;
 				}
 			}
-			return t.Faction != null && t.Faction.HostileTo(fac);
+			if (t.Faction == null)
+			{
+				return false;
+			}
+			return t.Faction.HostileTo(fac);
 		}
 
 		private static bool IsPredatorHostileTo(Pawn predator, Pawn toPawn)
@@ -63,12 +125,24 @@ namespace RimWorld
 				return true;
 			}
 			Pawn preyOfMyFaction = GenHostility.GetPreyOfMyFaction(predator, toPawn.Faction);
-			return preyOfMyFaction != null && predator.Position.InHorDistOf(preyOfMyFaction.Position, 12f);
+			if (preyOfMyFaction != null && predator.Position.InHorDistOf(preyOfMyFaction.Position, 12f))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private static bool IsPredatorHostileTo(Pawn predator, Faction toFaction)
 		{
-			return toFaction.HasPredatorRecentlyAttackedAnyone(predator) || GenHostility.GetPreyOfMyFaction(predator, toFaction) != null;
+			if (toFaction.HasPredatorRecentlyAttackedAnyone(predator))
+			{
+				return true;
+			}
+			if (GenHostility.GetPreyOfMyFaction(predator, toFaction) != null)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private static Pawn GetPreyOfMyFaction(Pawn predator, Faction myFaction)
@@ -88,12 +162,21 @@ namespace RimWorld
 		public static bool AnyHostileActiveThreat(Map map)
 		{
 			HashSet<IAttackTarget> targetsHostileToColony = map.attackTargetsCache.TargetsHostileToColony;
-			foreach (IAttackTarget current in targetsHostileToColony)
+			HashSet<IAttackTarget>.Enumerator enumerator = targetsHostileToColony.GetEnumerator();
+			try
 			{
-				if (GenHostility.IsActiveThreat(current))
+				while (enumerator.MoveNext())
 				{
-					return true;
+					IAttackTarget current = enumerator.Current;
+					if (GenHostility.IsActiveThreat(current))
+					{
+						return true;
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			return false;
 		}

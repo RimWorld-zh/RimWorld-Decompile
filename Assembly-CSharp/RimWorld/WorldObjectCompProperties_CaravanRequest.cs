@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 
 namespace RimWorld
 {
@@ -7,7 +6,7 @@ namespace RimWorld
 	{
 		public WorldObjectCompProperties_CaravanRequest()
 		{
-			this.compClass = typeof(CaravanRequestComp);
+			base.compClass = typeof(CaravanRequestComp);
 		}
 	}
 }

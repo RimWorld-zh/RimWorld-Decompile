@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using UnityEngine;
 
@@ -47,25 +46,25 @@ namespace Verse
 			{
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.Append(base.LabelInBrackets);
-				if (this.sourceHediffDef != null)
+				if (base.sourceHediffDef != null)
 				{
 					if (stringBuilder.Length != 0)
 					{
 						stringBuilder.Append(", ");
 					}
-					stringBuilder.Append(this.sourceHediffDef.label);
+					stringBuilder.Append(base.sourceHediffDef.label);
 				}
-				else if (this.source != null)
+				else if (base.source != null)
 				{
 					if (stringBuilder.Length != 0)
 					{
 						stringBuilder.Append(", ");
 					}
-					stringBuilder.Append(this.source.label);
-					if (this.sourceBodyPartGroup != null)
+					stringBuilder.Append(base.source.label);
+					if (base.sourceBodyPartGroup != null)
 					{
 						stringBuilder.Append(" - ");
-						stringBuilder.Append(this.sourceBodyPartGroup.label);
+						stringBuilder.Append(base.sourceBodyPartGroup.label);
 					}
 				}
 				return stringBuilder.ToString();
@@ -88,9 +87,9 @@ namespace Verse
 		{
 			get
 			{
-				if (this.Severity == 0f)
+				if (this.Severity == 0.0)
 				{
-					return null;
+					return (string)null;
 				}
 				return this.Severity.ToString("0.##");
 			}
@@ -100,11 +99,11 @@ namespace Verse
 		{
 			get
 			{
-				if (this.IsOld() || !this.Visible)
+				if (!this.IsOld() && this.Visible)
 				{
-					return 0f;
+					return (float)(this.Severity / (75.0 * base.pawn.HealthScale));
 				}
-				return this.Severity / (75f * this.pawn.HealthScale);
+				return 0f;
 			}
 		}
 
@@ -112,16 +111,16 @@ namespace Verse
 		{
 			get
 			{
-				if (this.pawn.Dead || this.pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(base.Part) || this.causesNoPain)
+				if (!base.pawn.Dead && !base.pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(base.Part) && !base.causesNoPain)
 				{
-					return 0f;
+					HediffComp_GetsOld hediffComp_GetsOld = this.TryGetComp<HediffComp_GetsOld>();
+					if (hediffComp_GetsOld != null && hediffComp_GetsOld.IsOld)
+					{
+						return this.Severity * base.def.injuryProps.averagePainPerSeverityOld * hediffComp_GetsOld.painFactor;
+					}
+					return this.Severity * base.def.injuryProps.painPerSeverity;
 				}
-				HediffComp_GetsOld hediffComp_GetsOld = this.TryGetComp<HediffComp_GetsOld>();
-				if (hediffComp_GetsOld != null && hediffComp_GetsOld.IsOld)
-				{
-					return this.Severity * this.def.injuryProps.averagePainPerSeverityOld * hediffComp_GetsOld.painFactor;
-				}
-				return this.Severity * this.def.injuryProps.painPerSeverity;
+				return 0f;
 			}
 		}
 
@@ -129,7 +128,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.pawn.Dead)
+				if (base.pawn.Dead)
 				{
 					return 0f;
 				}
@@ -137,20 +136,20 @@ namespace Verse
 				{
 					return 0f;
 				}
-				if (base.Part.def.IsSolid(base.Part, this.pawn.health.hediffSet.hediffs) || this.IsTended() || this.IsOld())
+				if (!base.Part.def.IsSolid(base.Part, base.pawn.health.hediffSet.hediffs) && !this.IsTended() && !this.IsOld())
 				{
-					return 0f;
+					if (base.pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(base.Part))
+					{
+						return 0f;
+					}
+					float num = this.Severity * base.def.injuryProps.bleedRate;
+					if (base.Part != null)
+					{
+						num *= base.Part.def.bleedingRateMultiplier;
+					}
+					return num;
 				}
-				if (this.pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(base.Part))
-				{
-					return 0f;
-				}
-				float num = this.Severity * this.def.injuryProps.bleedRate;
-				if (base.Part != null)
-				{
-					num *= base.Part.def.bleedingRateMultiplier;
-				}
-				return num;
+				return 0f;
 			}
 		}
 
@@ -168,7 +167,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.ageTicks >= this.AgeTicksToStopBleeding;
+				return base.ageTicks >= this.AgeTicksToStopBleeding;
 			}
 		}
 
@@ -179,27 +178,31 @@ namespace Verse
 			bool bleedingStoppedDueToAge2 = this.BleedingStoppedDueToAge;
 			if (bleedingStoppedDueToAge != bleedingStoppedDueToAge2)
 			{
-				this.pawn.health.Notify_HediffChanged(this);
+				base.pawn.health.Notify_HediffChanged(this);
 			}
 		}
 
 		public override void Heal(float amount)
 		{
 			this.Severity -= amount;
-			if (this.comps != null)
+			if (base.comps != null)
 			{
-				for (int i = 0; i < this.comps.Count; i++)
+				for (int i = 0; i < base.comps.Count; i++)
 				{
-					this.comps[i].CompPostInjuryHeal(amount);
+					base.comps[i].CompPostInjuryHeal(amount);
 				}
 			}
-			this.pawn.health.Notify_HediffChanged(this);
+			base.pawn.health.Notify_HediffChanged(this);
 		}
 
 		public override bool TryMergeWith(Hediff other)
 		{
 			Hediff_Injury hediff_Injury = other as Hediff_Injury;
-			return hediff_Injury != null && hediff_Injury.def == this.def && hediff_Injury.Part == base.Part && !hediff_Injury.IsTended() && !hediff_Injury.IsOld() && !this.IsTended() && !this.IsOld() && this.def.injuryProps.canMerge && base.TryMergeWith(other);
+			if (hediff_Injury != null && hediff_Injury.def == base.def && hediff_Injury.Part == base.Part && !hediff_Injury.IsTended() && !hediff_Injury.IsOld() && !this.IsTended() && !this.IsOld() && base.def.injuryProps.canMerge)
+			{
+				return base.TryMergeWith(other);
+			}
+			return false;
 		}
 	}
 }

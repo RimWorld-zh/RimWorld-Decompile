@@ -18,9 +18,9 @@ namespace RimWorld
 				return null;
 			}
 			TraverseParms traverseParms = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
-			RegionEntryPredicate entryCondition = (Region from, Region r) => r.Allows(traverseParms, false);
+			RegionEntryPredicate entryCondition = (RegionEntryPredicate)((Region from, Region r) => r.Allows(traverseParms, false));
 			Region reg = null;
-			RegionProcessor regionProcessor = delegate(Region r)
+			RegionProcessor regionProcessor = (RegionProcessor)delegate(Region r)
 			{
 				if (r.portal != null)
 				{
@@ -34,16 +34,16 @@ namespace RimWorld
 				return false;
 			};
 			RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, 9999, RegionType.Set_Passable);
-			if (reg == null)
+			if (reg != null)
 			{
-				return null;
+				IntVec3 c = default(IntVec3);
+				if (!reg.TryFindRandomCellInRegionUnforbidden(pawn, (Predicate<IntVec3>)null, out c))
+				{
+					return null;
+				}
+				return new Job(JobDefOf.Goto, c);
 			}
-			IntVec3 c;
-			if (!reg.TryFindRandomCellInRegionUnforbidden(pawn, null, out c))
-			{
-				return null;
-			}
-			return new Job(JobDefOf.Goto, c);
+			return null;
 		}
 	}
 }

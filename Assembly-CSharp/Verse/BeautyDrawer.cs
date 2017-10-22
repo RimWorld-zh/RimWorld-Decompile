@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,7 +19,7 @@ namespace Verse
 			{
 				IntVec3 intVec = BeautyUtility.beautyRelevantCells[i];
 				float num = BeautyUtility.CellBeauty(intVec, Find.VisibleMap, BeautyDrawer.beautyCountedThings);
-				if (num != 0f)
+				if (num != 0.0)
 				{
 					Vector3 v = GenMapUI.LabelDrawPosFor(intVec);
 					GenMapUI.DrawThingLabel(v, Mathf.RoundToInt(num).ToStringCached(), BeautyDrawer.BeautyColor(num, 8f));
@@ -31,9 +30,9 @@ namespace Verse
 
 		public static Color BeautyColor(float beauty, float scale)
 		{
-			float num = Mathf.InverseLerp(-scale, scale, beauty);
-			num = Mathf.Clamp01(num);
-			Color a = Color.Lerp(BeautyDrawer.ColorUgly, BeautyDrawer.ColorBeautiful, num);
+			float value = Mathf.InverseLerp((float)(0.0 - scale), scale, beauty);
+			value = Mathf.Clamp01(value);
+			Color a = Color.Lerp(BeautyDrawer.ColorUgly, BeautyDrawer.ColorBeautiful, value);
 			return Color.Lerp(a, Color.white, 0.5f);
 		}
 	}

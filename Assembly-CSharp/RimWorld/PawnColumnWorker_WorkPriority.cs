@@ -15,18 +15,17 @@ namespace RimWorld
 
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (pawn.Dead || pawn.workSettings == null || !pawn.workSettings.EverWork)
+			if (!pawn.Dead && pawn.workSettings != null && pawn.workSettings.EverWork)
 			{
-				return;
+				Text.Font = GameFont.Medium;
+				float x = (float)(rect.x + (rect.width - 25.0) / 2.0);
+				float y = (float)(rect.y + 2.5);
+				bool incapable = this.IsIncapableOfWholeWorkType(pawn, base.def.workType);
+				WidgetsWork.DrawWorkBoxFor(x, y, pawn, base.def.workType, incapable);
+				Rect rect2 = new Rect(x, y, 25f, 25f);
+				TooltipHandler.TipRegion(rect2, (Func<string>)(() => WidgetsWork.TipForPawnWorker(pawn, base.def.workType, incapable)), pawn.thingIDNumber ^ base.def.workType.GetHashCode());
+				Text.Font = GameFont.Small;
 			}
-			Text.Font = GameFont.Medium;
-			float x = rect.x + (rect.width - 25f) / 2f;
-			float y = rect.y + 2.5f;
-			bool incapable = this.IsIncapableOfWholeWorkType(pawn, this.def.workType);
-			WidgetsWork.DrawWorkBoxFor(x, y, pawn, this.def.workType, incapable);
-			Rect rect2 = new Rect(x, y, 25f, 25f);
-			TooltipHandler.TipRegion(rect2, () => WidgetsWork.TipForPawnWorker(pawn, this.def.workType, incapable), pawn.thingIDNumber ^ this.def.workType.GetHashCode());
-			Text.Font = GameFont.Small;
 		}
 
 		public override void DoHeader(Rect rect, PawnTable table)
@@ -35,14 +34,16 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 			if (this.cachedWorkLabelSize == default(Vector2))
 			{
-				this.cachedWorkLabelSize = Text.CalcSize(this.def.workType.labelShort);
+				this.cachedWorkLabelSize = Text.CalcSize(base.def.workType.labelShort);
 			}
 			Rect labelRect = this.GetLabelRect(rect);
 			Text.Anchor = TextAnchor.MiddleCenter;
-			Widgets.Label(labelRect, this.def.workType.labelShort);
+			Widgets.Label(labelRect, base.def.workType.labelShort);
 			GUI.color = new Color(1f, 1f, 1f, 0.3f);
-			Widgets.DrawLineVertical(labelRect.center.x, labelRect.yMax - 3f, rect.y + 50f - labelRect.yMax + 3f);
-			Widgets.DrawLineVertical(labelRect.center.x + 1f, labelRect.yMax - 3f, rect.y + 50f - labelRect.yMax + 3f);
+			Vector2 center = labelRect.center;
+			Widgets.DrawLineVertical(center.x, (float)(labelRect.yMax - 3.0), (float)(rect.y + 50.0 - labelRect.yMax + 3.0));
+			Vector2 center2 = labelRect.center;
+			Widgets.DrawLineVertical((float)(center2.x + 1.0), (float)(labelRect.yMax - 3.0), (float)(rect.y + 50.0 - labelRect.yMax + 3.0));
 			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
@@ -101,22 +102,23 @@ namespace RimWorld
 
 		private float GetValueToCompare(Pawn pawn)
 		{
-			if (pawn.workSettings == null || !pawn.workSettings.EverWork)
+			if (pawn.workSettings != null && pawn.workSettings.EverWork)
 			{
-				return -2f;
+				if (pawn.story != null && pawn.story.WorkTypeIsDisabled(base.def.workType))
+				{
+					return -1f;
+				}
+				return pawn.skills.AverageOfRelevantSkillsFor(base.def.workType);
 			}
-			if (pawn.story != null && pawn.story.WorkTypeIsDisabled(this.def.workType))
-			{
-				return -1f;
-			}
-			return pawn.skills.AverageOfRelevantSkillsFor(this.def.workType);
+			return -2f;
 		}
 
 		private Rect GetLabelRect(Rect headerRect)
 		{
-			float x = headerRect.center.x;
-			Rect result = new Rect(x - this.cachedWorkLabelSize.x / 2f, headerRect.y, this.cachedWorkLabelSize.x, this.cachedWorkLabelSize.y);
-			if (this.def.moveWorkTypeLabelDown)
+			Vector2 center = headerRect.center;
+			float x = center.x;
+			Rect result = new Rect((float)(x - this.cachedWorkLabelSize.x / 2.0), headerRect.y, this.cachedWorkLabelSize.x, this.cachedWorkLabelSize.y);
+			if (base.def.moveWorkTypeLabelDown)
 			{
 				result.y += 20f;
 			}
@@ -125,28 +127,13 @@ namespace RimWorld
 
 		protected override string GetHeaderTip(PawnTable table)
 		{
-			string text = string.Concat(new string[]
+			string str = base.def.workType.gerundLabel + "\n\n" + base.def.workType.description + "\n\n" + PawnColumnWorker_WorkPriority.SpecificWorkListString(base.def.workType);
+			str += "\n";
+			if (base.def.sortable)
 			{
-				this.def.workType.gerundLabel,
-				"\n\n",
-				this.def.workType.description,
-				"\n\n",
-				PawnColumnWorker_WorkPriority.SpecificWorkListString(this.def.workType)
-			});
-			text += "\n";
-			if (this.def.sortable)
-			{
-				text = text + "\n" + "ClickToSortByThisColumn".Translate();
+				str = str + "\n" + "ClickToSortByThisColumn".Translate();
 			}
-			if (Find.PlaySettings.useWorkPriorities)
-			{
-				text = text + "\n" + "WorkPriorityShiftClickTip".Translate();
-			}
-			else
-			{
-				text = text + "\n" + "WorkPriorityShiftClickEnableDisableTip".Translate();
-			}
-			return text;
+			return (!Find.PlaySettings.useWorkPriorities) ? (str + "\n" + "WorkPriorityShiftClickEnableDisableTip".Translate()) : (str + "\n" + "WorkPriorityShiftClickTip".Translate());
 		}
 
 		private static string SpecificWorkListString(WorkTypeDef def)
@@ -176,43 +163,40 @@ namespace RimWorld
 				for (int i = 0; i < pawnsListForReading.Count; i++)
 				{
 					Pawn pawn = pawnsListForReading[i];
-					if (pawn.workSettings != null && pawn.workSettings.EverWork)
+					if (pawn.workSettings != null && pawn.workSettings.EverWork && (pawn.story == null || !pawn.story.WorkTypeIsDisabled(base.def.workType)))
 					{
-						if (pawn.story == null || !pawn.story.WorkTypeIsDisabled(this.def.workType))
+						if (Find.PlaySettings.useWorkPriorities)
 						{
-							if (Find.PlaySettings.useWorkPriorities)
+							int priority = pawn.workSettings.GetPriority(base.def.workType);
+							if (Event.current.button == 0 && priority != 1)
 							{
-								int priority = pawn.workSettings.GetPriority(this.def.workType);
-								if (Event.current.button == 0 && priority != 1)
+								int num = priority - 1;
+								if (num < 0)
 								{
-									int num = priority - 1;
-									if (num < 0)
-									{
-										num = 4;
-									}
-									pawn.workSettings.SetPriority(this.def.workType, num);
+									num = 4;
 								}
-								if (Event.current.button == 1 && priority != 0)
-								{
-									int num2 = priority + 1;
-									if (num2 > 4)
-									{
-										num2 = 0;
-									}
-									pawn.workSettings.SetPriority(this.def.workType, num2);
-								}
+								pawn.workSettings.SetPriority(base.def.workType, num);
 							}
-							else if (pawn.workSettings.GetPriority(this.def.workType) > 0)
+							if (((Event.current.button == 1) ? priority : 0) != 0)
 							{
-								if (Event.current.button == 1)
+								int num2 = priority + 1;
+								if (num2 > 4)
 								{
-									pawn.workSettings.SetPriority(this.def.workType, 0);
+									num2 = 0;
 								}
+								pawn.workSettings.SetPriority(base.def.workType, num2);
 							}
-							else if (Event.current.button == 0)
+						}
+						else if (pawn.workSettings.GetPriority(base.def.workType) > 0)
+						{
+							if (Event.current.button == 1)
 							{
-								pawn.workSettings.SetPriority(this.def.workType, 3);
+								pawn.workSettings.SetPriority(base.def.workType, 0);
 							}
+						}
+						else if (Event.current.button == 0)
+						{
+							pawn.workSettings.SetPriority(base.def.workType, 3);
 						}
 					}
 				}

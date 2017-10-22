@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -8,7 +7,7 @@ namespace RimWorld
 	{
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			IntVec3 c;
+			IntVec3 c = default(IntVec3);
 			if (!RCellFinder.TryFindBestExitSpot(pawn, out c, TraverseMode.ByPawn))
 			{
 				return null;
@@ -18,12 +17,11 @@ namespace RimWorld
 			{
 				return null;
 			}
-			return new Job(JobDefOf.Kidnap)
-			{
-				targetA = pawn2,
-				targetB = c,
-				count = 1
-			};
+			Job job = new Job(JobDefOf.Kidnap);
+			job.targetA = (Thing)pawn2;
+			job.targetB = c;
+			job.count = 1;
+			return job;
 		}
 	}
 }

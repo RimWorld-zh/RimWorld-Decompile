@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse.AI
@@ -10,7 +9,7 @@ namespace Verse.AI
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_ConditionalMentalStates thinkNode_ConditionalMentalStates = (ThinkNode_ConditionalMentalStates)base.DeepCopy(resolve);
-			thinkNode_ConditionalMentalStates.states = this.states.ListFullCopyOrNull<MentalStateDef>();
+			thinkNode_ConditionalMentalStates.states = this.states.ListFullCopyOrNull();
 			return thinkNode_ConditionalMentalStates;
 		}
 

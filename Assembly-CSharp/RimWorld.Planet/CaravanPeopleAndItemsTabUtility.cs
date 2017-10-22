@@ -58,7 +58,7 @@ namespace RimWorld.Planet
 			}
 			Text.Font = GameFont.Small;
 			Rect rect = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
-			Rect viewRect = new Rect(0f, 0f, rect.width - 16f, scrollViewHeight);
+			Rect viewRect = new Rect(0f, 0f, (float)(rect.width - 16.0), scrollViewHeight);
 			bool listingUsesAbandonSpecificCountButtons = CaravanPeopleAndItemsTabUtility.AnyItemOrEmpty(things);
 			Widgets.BeginScrollView(rect, ref scrollPosition, viewRect, true);
 			float num = 0f;
@@ -73,7 +73,7 @@ namespace RimWorld.Planet
 						Widgets.ListSeparator(ref num, viewRect.width, "CaravanColonists".Translate());
 						flag = true;
 					}
-					CaravanPeopleAndItemsTabUtility.DoRow(ref num, viewRect, rect, scrollPosition, pawn, caravan, ref specificNeedsTabForPawn, doNeeds, listingUsesAbandonSpecificCountButtons);
+					CaravanPeopleAndItemsTabUtility.DoRow(ref num, viewRect, rect, scrollPosition, (Thing)pawn, caravan, ref specificNeedsTabForPawn, doNeeds, listingUsesAbandonSpecificCountButtons);
 				}
 			}
 			bool flag2 = false;
@@ -87,7 +87,7 @@ namespace RimWorld.Planet
 						Widgets.ListSeparator(ref num, viewRect.width, "CaravanPrisonersAndAnimals".Translate());
 						flag2 = true;
 					}
-					CaravanPeopleAndItemsTabUtility.DoRow(ref num, viewRect, rect, scrollPosition, pawn2, caravan, ref specificNeedsTabForPawn, doNeeds, listingUsesAbandonSpecificCountButtons);
+					CaravanPeopleAndItemsTabUtility.DoRow(ref num, viewRect, rect, scrollPosition, (Thing)pawn2, caravan, ref specificNeedsTabForPawn, doNeeds, listingUsesAbandonSpecificCountButtons);
 				}
 			}
 			bool flag3 = false;
@@ -116,71 +116,71 @@ namespace RimWorld.Planet
 				Text.Anchor = TextAnchor.UpperCenter;
 				Widgets.Label(new Rect(0f, num, viewRect.width, 25f), "NoneBrackets".Translate());
 				Text.Anchor = TextAnchor.UpperLeft;
-				num += 25f;
+				num = (float)(num + 25.0);
 				GUI.color = Color.white;
 			}
 			if (Event.current.type == EventType.Layout)
 			{
-				scrollViewHeight = num + 30f;
+				scrollViewHeight = (float)(num + 30.0);
 			}
 			Widgets.EndScrollView();
 		}
 
 		public static Vector2 GetSize(List<Thing> things, float paneTopY, bool doNeeds = true)
 		{
-			float num = 0f;
-			if (things.Any((Thing x) => x is Pawn))
+			float a = 0f;
+			if (things.Any((Predicate<Thing>)((Thing x) => x is Pawn)))
 			{
-				num = 100f;
+				a = 100f;
 				if (doNeeds)
 				{
-					num += (float)CaravanPeopleAndItemsTabUtility.MaxNeedsCount(things) * 100f;
+					a = (float)(a + (float)CaravanPeopleAndItemsTabUtility.MaxNeedsCount(things) * 100.0);
 				}
-				num += 24f;
+				a = (float)(a + 24.0);
 			}
-			float num2 = 0f;
+			float b = 0f;
 			if (CaravanPeopleAndItemsTabUtility.AnyItemOrEmpty(things))
 			{
-				num2 = 300f;
-				num2 += 24f;
-				num2 += 60f;
+				b = 300f;
+				b = (float)(b + 24.0);
+				b = (float)(b + 60.0);
 			}
-			Vector2 result;
-			result.x = 103f + Mathf.Max(num, num2) + 16f;
-			result.y = Mathf.Min(550f, paneTopY - 30f);
+			Vector2 result = default(Vector2);
+			result.x = (float)(103.0 + Mathf.Max(a, b) + 16.0);
+			result.y = Mathf.Min(550f, (float)(paneTopY - 30.0));
 			return result;
 		}
 
 		private static bool AnyItemOrEmpty(List<Thing> things)
 		{
-			return things.Any((Thing x) => !(x is Pawn)) || !things.Any<Thing>();
+			return things.Any((Predicate<Thing>)((Thing x) => !(x is Pawn))) || !things.Any();
 		}
 
 		public static void DoAbandonButton(Rect rowRect, Thing t, Caravan caravan)
 		{
-			Rect rect = new Rect(rowRect.width - 24f, (rowRect.height - 24f) / 2f, 24f, 24f);
+			Rect rect = new Rect((float)(rowRect.width - 24.0), (float)((rowRect.height - 24.0) / 2.0), 24f, 24f);
 			if (Widgets.ButtonImage(rect, CaravanPeopleAndItemsTabUtility.AbandonButtonTex))
 			{
 				CaravanPawnsAndItemsAbandonUtility.TryAbandonViaInterface(t, caravan);
 			}
-			TooltipHandler.TipRegion(rect, () => CaravanPawnsAndItemsAbandonUtility.GetAbandonButtonTooltip(t, caravan, false), Gen.HashCombineInt(t.GetHashCode(), 1383004931));
+			TooltipHandler.TipRegion(rect, (Func<string>)(() => CaravanPawnsAndItemsAbandonUtility.GetAbandonButtonTooltip(t, caravan, false)), Gen.HashCombineInt(t.GetHashCode(), 1383004931));
 		}
 
 		private static void DoAbandonSpecificCountButton(Rect rowRect, Thing t, Caravan caravan)
 		{
-			Rect rect = new Rect(rowRect.width - 24f, (rowRect.height - 24f) / 2f, 24f, 24f);
+			Rect rect = new Rect((float)(rowRect.width - 24.0), (float)((rowRect.height - 24.0) / 2.0), 24f, 24f);
 			if (Widgets.ButtonImage(rect, CaravanPeopleAndItemsTabUtility.AbandonSpecificCountButtonTex))
 			{
 				CaravanPawnsAndItemsAbandonUtility.TryAbandonSpecificCountViaInterface(t, caravan);
 			}
-			TooltipHandler.TipRegion(rect, () => CaravanPawnsAndItemsAbandonUtility.GetAbandonButtonTooltip(t, caravan, true), Gen.HashCombineInt(t.GetHashCode(), 1163428609));
+			TooltipHandler.TipRegion(rect, (Func<string>)(() => CaravanPawnsAndItemsAbandonUtility.GetAbandonButtonTooltip(t, caravan, true)), Gen.HashCombineInt(t.GetHashCode(), 1163428609));
 		}
 
 		public static void DoOpenSpecificTabButton(Rect rowRect, Pawn p, ref Pawn specificTabForPawn)
 		{
 			Color baseColor = (p != specificTabForPawn) ? Color.white : CaravanPeopleAndItemsTabUtility.OpenedSpecificTabButtonColor;
 			Color mouseoverColor = (p != specificTabForPawn) ? GenUI.MouseoverColor : CaravanPeopleAndItemsTabUtility.OpenedSpecificTabButtonMouseoverColor;
-			Rect rect = new Rect(rowRect.width - 24f, (rowRect.height - 24f) / 2f, 24f, 24f);
+			Rect rect = new Rect((float)(rowRect.width - 24.0), (float)((rowRect.height - 24.0) / 2.0), 24f, 24f);
 			if (Widgets.ButtonImage(rect, CaravanPeopleAndItemsTabUtility.SpecificTabButtonTex, baseColor, mouseoverColor))
 			{
 				if (p == specificTabForPawn)
@@ -215,7 +215,7 @@ namespace RimWorld.Planet
 
 		private static void DoRow(ref float curY, Rect viewRect, Rect scrollOutRect, Vector2 scrollPosition, Thing thing, Caravan caravan, ref Pawn specificNeedsTabForPawn, bool doNeeds, bool listingUsesAbandonSpecificCountButtons)
 		{
-			float num = (!(thing is Pawn)) ? 30f : 50f;
+			float num = (float)((!(thing is Pawn)) ? 30.0 : 50.0);
 			float num2 = scrollPosition.y - num;
 			float num3 = scrollPosition.y + scrollOutRect.height;
 			if (curY > num2 && curY < num3)
@@ -240,7 +240,7 @@ namespace RimWorld.Planet
 			}
 			CaravanPeopleAndItemsTabUtility.DoAbandonButton(rect2, thing, caravan);
 			rect2.width -= 24f;
-			Widgets.InfoCardButton(rect2.width - 24f, (rect.height - 24f) / 2f, thing);
+			Widgets.InfoCardButton((float)(rect2.width - 24.0), (float)((rect.height - 24.0) / 2.0), thing);
 			rect2.width -= 24f;
 			if (pawn != null && !pawn.Dead)
 			{
@@ -250,7 +250,7 @@ namespace RimWorld.Planet
 			if (pawn == null)
 			{
 				Rect rect3 = rect2;
-				rect3.xMin = rect3.xMax - 60f;
+				rect3.xMin = (float)(rect3.xMax - 60.0);
 				CaravanPeopleAndItemsTabUtility.TryDrawMass(thing, rect3);
 				rect2.width -= 60f;
 			}
@@ -258,11 +258,11 @@ namespace RimWorld.Planet
 			{
 				Widgets.DrawHighlight(rect2);
 			}
-			Rect rect4 = new Rect(4f, (rect.height - 27f) / 2f, 27f, 27f);
+			Rect rect4 = new Rect(4f, (float)((rect.height - 27.0) / 2.0), 27f, 27f);
 			Widgets.ThingIcon(rect4, thing, 1f);
 			if (pawn != null)
 			{
-				Rect bgRect = new Rect(rect4.xMax + 4f, 16f, 100f, 18f);
+				Rect bgRect = new Rect((float)(rect4.xMax + 4.0), 16f, 100f, 18f);
 				GenMapUI.DrawPawnLabel(pawn, bgRect, 1f, 100f, null, GameFont.Small, false, false);
 				if (doNeeds)
 				{
@@ -279,7 +279,7 @@ namespace RimWorld.Planet
 						{
 							maxThresholdMarkers = 1;
 							doTooltip = false;
-							TooltipHandler.TipRegion(rect5, new TipSignal(() => CaravanPeopleAndItemsTabUtility.CustomMoodNeedTooltip(mood), rect5.GetHashCode()));
+							TooltipHandler.TipRegion(rect5, new TipSignal((Func<string>)(() => CaravanPeopleAndItemsTabUtility.CustomMoodNeedTooltip(mood)), rect5.GetHashCode()));
 						}
 						need.DrawOnGUI(rect5, maxThresholdMarkers, 10f, false, doTooltip);
 						xMax = rect5.xMax;
@@ -288,13 +288,13 @@ namespace RimWorld.Planet
 				if (pawn.Downed)
 				{
 					GUI.color = new Color(1f, 0f, 0f, 0.5f);
-					Widgets.DrawLineHorizontal(0f, rect.height / 2f, rect.width);
+					Widgets.DrawLineHorizontal(0f, (float)(rect.height / 2.0), rect.width);
 					GUI.color = Color.white;
 				}
 			}
 			else
 			{
-				Rect rect6 = new Rect(rect4.xMax + 4f, 0f, 300f, 30f);
+				Rect rect6 = new Rect((float)(rect4.xMax + 4.0), 0f, 300f, 30f);
 				Text.Anchor = TextAnchor.MiddleLeft;
 				Text.WordWrap = false;
 				Widgets.Label(rect6, thing.LabelCap);

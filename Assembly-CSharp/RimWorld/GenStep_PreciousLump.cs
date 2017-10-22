@@ -14,11 +14,11 @@ namespace RimWorld
 
 		public override void Generate(Map map)
 		{
-			this.forcedDefToScatter = this.mineables.RandomElement<ThingDef>();
-			this.count = 1;
+			base.forcedDefToScatter = this.mineables.RandomElement();
+			base.count = 1;
 			float randomInRange = this.totalValueRange.RandomInRange;
-			float baseMarketValue = this.forcedDefToScatter.building.mineableThing.BaseMarketValue;
-			this.forcedLumpSize = Mathf.Max(Mathf.RoundToInt(randomInRange / ((float)this.forcedDefToScatter.building.mineableYield * baseMarketValue)), 1);
+			float baseMarketValue = base.forcedDefToScatter.building.mineableThing.BaseMarketValue;
+			base.forcedLumpSize = Mathf.Max(Mathf.RoundToInt(randomInRange / ((float)base.forcedDefToScatter.building.mineableYield * baseMarketValue)), 1);
 			base.Generate(map);
 		}
 
@@ -30,12 +30,12 @@ namespace RimWorld
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
 		{
 			base.ScatterAt(c, map, stackCount);
-			int minX = this.recentLumpCells.Min((IntVec3 x) => x.x);
-			int minZ = this.recentLumpCells.Min((IntVec3 x) => x.z);
-			int maxX = this.recentLumpCells.Max((IntVec3 x) => x.x);
-			int maxZ = this.recentLumpCells.Max((IntVec3 x) => x.z);
+			int minX = base.recentLumpCells.Min((Func<IntVec3, int>)((IntVec3 x) => x.x));
+			int minZ = base.recentLumpCells.Min((Func<IntVec3, int>)((IntVec3 x) => x.z));
+			int maxX = base.recentLumpCells.Max((Func<IntVec3, int>)((IntVec3 x) => x.x));
+			int maxZ = base.recentLumpCells.Max((Func<IntVec3, int>)((IntVec3 x) => x.z));
 			CellRect var = CellRect.FromLimits(minX, minZ, maxX, maxZ);
-			MapGenerator.SetVar<CellRect>("RectOfInterest", var);
+			MapGenerator.SetVar("RectOfInterest", var);
 		}
 	}
 }

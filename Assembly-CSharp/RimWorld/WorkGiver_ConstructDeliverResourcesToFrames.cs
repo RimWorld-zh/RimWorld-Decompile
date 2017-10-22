@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -21,15 +20,15 @@ namespace RimWorld
 				return null;
 			}
 			Frame frame = t as Frame;
-			if (frame == null)
+			if (frame != null)
 			{
-				return null;
+				if (!GenConstruct.CanConstruct(frame, pawn, forced))
+				{
+					return null;
+				}
+				return base.ResourceDeliverJobFor(pawn, frame, true);
 			}
-			if (!GenConstruct.CanConstruct(frame, pawn, forced))
-			{
-				return null;
-			}
-			return base.ResourceDeliverJobFor(pawn, frame, true);
+			return null;
 		}
 	}
 }

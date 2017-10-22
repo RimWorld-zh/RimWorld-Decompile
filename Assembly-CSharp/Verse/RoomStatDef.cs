@@ -35,7 +35,7 @@ namespace Verse
 
 		public RoomStatScoreStage GetScoreStage(float score)
 		{
-			if (this.scoreStages.NullOrEmpty<RoomStatScoreStage>())
+			if (this.scoreStages.NullOrEmpty())
 			{
 				return null;
 			}
@@ -44,18 +44,16 @@ namespace Verse
 
 		public int GetScoreStageIndex(float score)
 		{
-			if (this.scoreStages.NullOrEmpty<RoomStatScoreStage>())
+			if (this.scoreStages.NullOrEmpty())
 			{
 				throw new InvalidOperationException("No score stages available.");
 			}
 			int result = 0;
-			for (int i = 0; i < this.scoreStages.Count; i++)
+			int num = 0;
+			while (num < this.scoreStages.Count && score >= this.scoreStages[num].minScore)
 			{
-				if (score < this.scoreStages[i].minScore)
-				{
-					break;
-				}
-				result = i;
+				result = num;
+				num++;
 			}
 			return result;
 		}

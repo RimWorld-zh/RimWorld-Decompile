@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 
 namespace RimWorld
 {
@@ -11,7 +10,7 @@ namespace RimWorld
 			{
 				return -100f;
 			}
-			return -tile.temperature;
+			return (float)(0.0 - tile.temperature);
 		}
 	}
 }

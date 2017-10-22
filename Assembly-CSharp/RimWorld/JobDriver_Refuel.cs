@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -30,14 +29,31 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_Refuel.<MakeNewToils>c__Iterator39 <MakeNewToils>c__Iterator = new JobDriver_Refuel.<MakeNewToils>c__Iterator39();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_Refuel.<MakeNewToils>c__Iterator39 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
+			this.FailOn((Func<bool>)delegate
+			{
+				ThingWithComps thingWithComps = ((_003CMakeNewToils_003Ec__Iterator39)/*Error near IL_0050: stateMachine*/)._003C_003Ef__this.pawn.CurJob.GetTarget(TargetIndex.A).Thing as ThingWithComps;
+				if (thingWithComps != null)
+				{
+					CompFlickable comp = thingWithComps.GetComp<CompFlickable>();
+					if (comp != null && !comp.SwitchIsOn)
+					{
+						return true;
+					}
+				}
+				return false;
+			});
+			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			Toil reserveFuel = Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
+			yield return reserveFuel;
+			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.ClosestTouch).FailOnDespawnedNullOrForbidden(TargetIndex.B).FailOnSomeonePhysicallyInteracting(TargetIndex.B);
+			yield return Toils_Haul.StartCarryThing(TargetIndex.B, false, true).FailOnDestroyedNullOrForbidden(TargetIndex.B);
+			yield return Toils_Haul.CheckForGetOpportunityDuplicate(reserveFuel, TargetIndex.B, TargetIndex.None, true, null);
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			yield return Toils_General.Wait(240).FailOnDestroyedNullOrForbidden(TargetIndex.B).FailOnDestroyedNullOrForbidden(TargetIndex.A).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
+			yield return Toils_Refuel.FinalizeRefueling(TargetIndex.A, TargetIndex.B);
 		}
 	}
 }

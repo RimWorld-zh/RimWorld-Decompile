@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -70,9 +69,7 @@ namespace Verse
 		public virtual void DesignationDraw()
 		{
 			if (this.target.HasThing && !this.target.Thing.Spawned)
-			{
 				return;
-			}
 			Vector3 position = default(Vector3);
 			if (this.target.HasThing)
 			{
@@ -93,14 +90,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Format(string.Concat(new object[]
-			{
-				"(",
-				this.def.defName,
-				" target=",
-				this.target,
-				")"
-			}), new object[0]);
+			return string.Format("(" + this.def.defName + " target=" + this.target + ")");
 		}
 	}
 }

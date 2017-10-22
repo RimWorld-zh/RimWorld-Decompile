@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -37,12 +36,14 @@ namespace Verse
 			DragSliderManager.dragging = true;
 			DragSliderManager.draggingUpdateMethod = newDraggingUpdateMethod;
 			DragSliderManager.completedMethod = newCompletedMethod;
-			DragSliderManager.rootX = UI.MousePositionOnUI.x;
+			Vector2 mousePositionOnUI = UI.MousePositionOnUI;
+			DragSliderManager.rootX = mousePositionOnUI.x;
 		}
 
 		private static float CurMouseOffset()
 		{
-			return UI.MousePositionOnUI.x - DragSliderManager.rootX;
+			Vector2 mousePositionOnUI = UI.MousePositionOnUI;
+			return mousePositionOnUI.x - DragSliderManager.rootX;
 		}
 
 		public static void DragSlidersOnGUI()
@@ -50,7 +51,7 @@ namespace Verse
 			if (DragSliderManager.dragging && Event.current.type == EventType.MouseUp && Event.current.button == 0)
 			{
 				DragSliderManager.dragging = false;
-				if (DragSliderManager.completedMethod != null)
+				if ((object)DragSliderManager.completedMethod != null)
 				{
 					DragSliderManager.completedMethod(DragSliderManager.CurMouseOffset(), DragSliderManager.lastRateFactor);
 				}
@@ -59,7 +60,7 @@ namespace Verse
 
 		public static void DragSlidersUpdate()
 		{
-			if (DragSliderManager.dragging && DragSliderManager.draggingUpdateMethod != null)
+			if (DragSliderManager.dragging && (object)DragSliderManager.draggingUpdateMethod != null)
 			{
 				DragSliderManager.draggingUpdateMethod(DragSliderManager.CurMouseOffset(), DragSliderManager.lastRateFactor);
 			}

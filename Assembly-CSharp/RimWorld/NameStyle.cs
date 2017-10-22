@@ -1,10 +1,8 @@
-using System;
-
 namespace RimWorld
 {
 	public enum NameStyle
 	{
-		Full,
-		Numeric
+		Full = 0,
+		Numeric = 1
 	}
 }

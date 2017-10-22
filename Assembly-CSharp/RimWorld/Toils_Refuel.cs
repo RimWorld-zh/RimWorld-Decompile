@@ -9,7 +9,7 @@ namespace RimWorld
 		public static Toil FinalizeRefueling(TargetIndex refuelableInd, TargetIndex fuelInd)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.CurJob;

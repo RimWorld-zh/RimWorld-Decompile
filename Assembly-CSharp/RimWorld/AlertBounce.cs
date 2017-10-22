@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace RimWorld
@@ -41,14 +40,14 @@ namespace RimWorld
 			}
 			float num = Mathf.Min(Time.time - this.lastTime, 0.05f);
 			this.lastTime = Time.time;
-			this.velocity -= 1200f * num;
+			this.velocity -= (float)(1200.0 * num);
 			this.position += this.velocity * num;
-			if (this.position < 0f)
+			if (this.position < 0.0)
 			{
 				this.position = 0f;
-				this.velocity = Mathf.Max(-this.velocity / 3f - 1f, 0f);
+				this.velocity = Mathf.Max((float)((0.0 - this.velocity) / 3.0 - 1.0), 0f);
 			}
-			if (Mathf.Abs(this.velocity) < 0.0001f && this.position < 1f)
+			if (Mathf.Abs(this.velocity) < 9.9999997473787516E-05 && this.position < 1.0)
 			{
 				this.velocity = 0f;
 				this.position = 0f;

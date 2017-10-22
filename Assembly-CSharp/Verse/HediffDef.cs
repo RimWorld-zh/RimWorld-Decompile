@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace Verse
@@ -92,40 +91,93 @@ namespace Verse
 			{
 				for (int i = 0; i < this.comps.Count; i++)
 				{
-					T t = this.comps[i] as T;
-					if (t != null)
+					T val = (T)(((object)this.comps[i]) as T);
+					if (val != null)
 					{
-						return t;
+						return val;
 					}
 				}
 			}
-			return (T)((object)null);
+			return (T)null;
 		}
 
 		public bool PossibleToDevelopImmunityNaturally()
 		{
 			HediffCompProperties_Immunizable hediffCompProperties_Immunizable = this.CompProps<HediffCompProperties_Immunizable>();
-			return hediffCompProperties_Immunizable != null && (hediffCompProperties_Immunizable.immunityPerDayNotSick > 0f || hediffCompProperties_Immunizable.immunityPerDaySick > 0f);
+			if (hediffCompProperties_Immunizable != null && (hediffCompProperties_Immunizable.immunityPerDayNotSick > 0.0 || hediffCompProperties_Immunizable.immunityPerDaySick > 0.0))
+			{
+				return true;
+			}
+			return false;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			HediffDef.<ConfigErrors>c__Iterator1CF <ConfigErrors>c__Iterator1CF = new HediffDef.<ConfigErrors>c__Iterator1CF();
-			<ConfigErrors>c__Iterator1CF.<>f__this = this;
-			HediffDef.<ConfigErrors>c__Iterator1CF expr_0E = <ConfigErrors>c__Iterator1CF;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.hediffClass == null)
+			{
+				yield return "hediffClass is null";
+			}
+			if (!this.comps.NullOrEmpty() && !typeof(HediffWithComps).IsAssignableFrom(this.hediffClass))
+			{
+				yield return "has comps but hediffClass is not HediffWithComps or subclass thereof";
+			}
+			if (this.minSeverity > this.initialSeverity)
+			{
+				yield return "minSeverity is greater than initialSeverity";
+			}
+			if (this.maxSeverity < this.initialSeverity)
+			{
+				yield return "maxSeverity is lower than initialSeverity";
+			}
+			if (!this.tendable && this.HasComp(typeof(HediffComp_TendDuration)))
+			{
+				yield return "has HediffComp_TendDuration but tendable = false";
+			}
+			if (this.comps != null)
+			{
+				for (int k = 0; k < this.comps.Count; k++)
+				{
+					foreach (string item2 in this.comps[k].ConfigErrors(this))
+					{
+						yield return this.comps[k] + ": " + item2;
+					}
+				}
+			}
+			if (this.stages != null)
+			{
+				if (!typeof(Hediff_Addiction).IsAssignableFrom(this.hediffClass))
+				{
+					for (int j = 0; j < this.stages.Count; j++)
+					{
+						if (j >= 1 && this.stages[j].minSeverity <= this.stages[j - 1].minSeverity)
+						{
+							yield return "stages are not in order of minSeverity";
+						}
+					}
+				}
+				for (int i = 0; i < this.stages.Count; i++)
+				{
+					if (this.stages[i].makeImmuneTo != null && !this.stages[i].makeImmuneTo.Any((Predicate<HediffDef>)((HediffDef im) => im.HasComp(typeof(HediffComp_Immunizable)))))
+					{
+						yield return "makes immune to hediff which doesn't have comp immunizable";
+					}
+				}
+			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			HediffDef.<SpecialDisplayStats>c__Iterator1D0 <SpecialDisplayStats>c__Iterator1D = new HediffDef.<SpecialDisplayStats>c__Iterator1D0();
-			<SpecialDisplayStats>c__Iterator1D.<>f__this = this;
-			HediffDef.<SpecialDisplayStats>c__Iterator1D0 expr_0E = <SpecialDisplayStats>c__Iterator1D;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.stages != null && this.stages.Count == 1)
+			{
+				foreach (StatDrawEntry item in this.stages[0].SpecialDisplayStats())
+				{
+					yield return item;
+				}
+			}
 		}
 
 		public static HediffDef Named(string defName)

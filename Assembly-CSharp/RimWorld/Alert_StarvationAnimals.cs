@@ -21,20 +21,20 @@ namespace RimWorld
 
 		public Alert_StarvationAnimals()
 		{
-			this.defaultLabel = "StarvationAnimals".Translate();
+			base.defaultLabel = "StarvationAnimals".Translate();
 		}
 
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (Pawn current in from a in this.StarvingAnimals
+			foreach (Pawn item in from a in this.StarvingAnimals
 			orderby a.def.label
 			select a)
 			{
-				stringBuilder.Append("    " + current.NameStringShort);
-				if (current.Name.IsValid && !current.Name.Numerical)
+				stringBuilder.Append("    " + item.NameStringShort);
+				if (item.Name.IsValid && !item.Name.Numerical)
 				{
-					stringBuilder.Append(" (" + current.def.label + ")");
+					stringBuilder.Append(" (" + item.def.label + ")");
 				}
 				stringBuilder.AppendLine();
 			}
@@ -43,7 +43,7 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			return AlertReport.CulpritIs(this.StarvingAnimals.FirstOrDefault<Pawn>());
+			return AlertReport.CulpritIs((Thing)this.StarvingAnimals.FirstOrDefault());
 		}
 	}
 }

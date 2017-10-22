@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse.AI
 {
@@ -8,14 +6,17 @@ namespace Verse.AI
 	{
 		private const TargetIndex VictimInd = TargetIndex.A;
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_Kill.<MakeNewToils>c__Iterator1B7 <MakeNewToils>c__Iterator1B = new JobDriver_Kill.<MakeNewToils>c__Iterator1B7();
-			<MakeNewToils>c__Iterator1B.<>f__this = this;
-			JobDriver_Kill.<MakeNewToils>c__Iterator1B7 expr_0E = <MakeNewToils>c__Iterator1B;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.EndOnDespawnedOrNull(TargetIndex.A, JobCondition.Succeeded);
+			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			yield return Toils_Combat.TrySetJobToUseAttackVerb();
+			Toil gotoCastPos = Toils_Combat.GotoCastPosition(TargetIndex.A, false);
+			yield return gotoCastPos;
+			Toil jumpIfCannotHit = Toils_Jump.JumpIfTargetNotHittable(TargetIndex.A, gotoCastPos);
+			yield return jumpIfCannotHit;
+			yield return Toils_Combat.CastVerb(TargetIndex.A, true);
+			yield return Toils_Jump.Jump(jumpIfCannotHit);
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,30 +14,23 @@ namespace Verse
 		public void TryApplyAndSimulateSeverityChange(Pawn pawn, float gotAtAge, bool tryNotToKillPawn)
 		{
 			HediffGiver_Birthday.addedHediffs.Clear();
-			if (!base.TryApply(pawn, HediffGiver_Birthday.addedHediffs))
+			if (base.TryApply(pawn, HediffGiver_Birthday.addedHediffs))
 			{
-				return;
-			}
-			if (this.averageSeverityPerDayBeforeGeneration != 0f)
-			{
-				float num = (pawn.ageTracker.AgeBiologicalYearsFloat - gotAtAge) * 60f;
-				if (num < 0f)
+				if (this.averageSeverityPerDayBeforeGeneration != 0.0)
 				{
-					Log.Error(string.Concat(new object[]
+					float num = (float)((pawn.ageTracker.AgeBiologicalYearsFloat - gotAtAge) * 60.0);
+					if (num < 0.0)
 					{
-						"daysPassed < 0, pawn=",
-						pawn,
-						", gotAtAge=",
-						gotAtAge
-					}));
-					return;
+						Log.Error("daysPassed < 0, pawn=" + pawn + ", gotAtAge=" + gotAtAge);
+						return;
+					}
+					for (int i = 0; i < HediffGiver_Birthday.addedHediffs.Count; i++)
+					{
+						this.SimulateSeverityChange(pawn, HediffGiver_Birthday.addedHediffs[i], num, tryNotToKillPawn);
+					}
 				}
-				for (int i = 0; i < HediffGiver_Birthday.addedHediffs.Count; i++)
-				{
-					this.SimulateSeverityChange(pawn, HediffGiver_Birthday.addedHediffs[i], num, tryNotToKillPawn);
-				}
+				HediffGiver_Birthday.addedHediffs.Clear();
 			}
-			HediffGiver_Birthday.addedHediffs.Clear();
 		}
 
 		private void SimulateSeverityChange(Pawn pawn, Hediff hediff, float daysPassed, bool tryNotToKillPawn)
@@ -56,28 +48,30 @@ namespace Verse
 
 		private void AvoidLifeThreateningStages(ref float severity, List<HediffStage> stages)
 		{
-			if (stages.NullOrEmpty<HediffStage>())
+			if (!stages.NullOrEmpty())
 			{
-				return;
-			}
-			int num = -1;
-			for (int i = 0; i < stages.Count; i++)
-			{
-				if (stages[i].lifeThreatening)
+				int num = -1;
+				int num2 = 0;
+				while (num2 < stages.Count)
 				{
-					num = i;
+					if (!stages[num2].lifeThreatening)
+					{
+						num2++;
+						continue;
+					}
+					num = num2;
 					break;
 				}
-			}
-			if (num >= 0)
-			{
-				if (num == 0)
+				if (num >= 0)
 				{
-					severity = Mathf.Min(severity, stages[num].minSeverity);
-				}
-				else
-				{
-					severity = Mathf.Min(severity, (stages[num].minSeverity + stages[num - 1].minSeverity) / 2f);
+					if (num == 0)
+					{
+						severity = Mathf.Min(severity, stages[num].minSeverity);
+					}
+					else
+					{
+						severity = Mathf.Min(severity, (float)((stages[num].minSeverity + stages[num - 1].minSeverity) / 2.0));
+					}
 				}
 			}
 		}
@@ -85,12 +79,12 @@ namespace Verse
 		public float DebugChanceToHaveAtAge(Pawn pawn, int age)
 		{
 			float num = 1f;
-			for (int i = 1; i <= age; i++)
+			for (int num2 = 1; num2 <= age; num2++)
 			{
-				float x = (float)i / pawn.RaceProps.lifeExpectancy;
-				num *= 1f - this.ageFractionChanceCurve.Evaluate(x);
+				float x = (float)num2 / pawn.RaceProps.lifeExpectancy;
+				num = (float)(num * (1.0 - this.ageFractionChanceCurve.Evaluate(x)));
 			}
-			return 1f - num;
+			return (float)(1.0 - num);
 		}
 	}
 }

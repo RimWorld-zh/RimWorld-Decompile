@@ -32,10 +32,9 @@ namespace Verse.AI
 			pawn.mindState.nextMoveOrderIsWait = !pawn.mindState.nextMoveOrderIsWait;
 			if (nextMoveOrderIsWait)
 			{
-				return new Job(JobDefOf.WaitWander)
-				{
-					expiryInterval = this.ticksBetweenWandersRange.RandomInRange
-				};
+				Job job = new Job(JobDefOf.WaitWander);
+				job.expiryInterval = this.ticksBetweenWandersRange.RandomInRange;
+				return job;
 			}
 			IntVec3 exactWanderDest = this.GetExactWanderDest(pawn);
 			if (!exactWanderDest.IsValid)
@@ -44,10 +43,9 @@ namespace Verse.AI
 				return null;
 			}
 			pawn.Map.pawnDestinationManager.ReserveDestinationFor(pawn, exactWanderDest);
-			return new Job(JobDefOf.GotoWander, exactWanderDest)
-			{
-				locomotionUrgency = this.locomotionUrgency
-			};
+			Job job2 = new Job(JobDefOf.GotoWander, exactWanderDest);
+			job2.locomotionUrgency = this.locomotionUrgency;
+			return job2;
 		}
 
 		protected virtual IntVec3 GetExactWanderDest(Pawn pawn)

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -24,14 +23,14 @@ namespace RimWorld
 
 		public Designator_SmoothFloor()
 		{
-			this.defaultLabel = "DesignatorSmoothFloor".Translate();
-			this.defaultDesc = "DesignatorSmoothFloorDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/SmoothFloor", true);
-			this.useMouseIcon = true;
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.soundSucceeded = SoundDefOf.DesignateSmoothFloor;
-			this.hotKey = KeyBindingDefOf.Misc1;
+			base.defaultLabel = "DesignatorSmoothFloor".Translate();
+			base.defaultDesc = "DesignatorSmoothFloorDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/SmoothFloor", true);
+			base.useMouseIcon = true;
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.soundSucceeded = SoundDefOf.DesignateSmoothFloor;
+			base.hotKey = KeyBindingDefOf.Misc1;
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)

@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -10,18 +9,18 @@ namespace Verse
 		public override void Tick()
 		{
 			base.Tick();
-			if (this.CurStageIndex >= 3 && this.pawn.IsHashIntervalTick(300) && this.HangoverSusceptible(this.pawn))
+			if (this.CurStageIndex >= 3 && base.pawn.IsHashIntervalTick(300) && this.HangoverSusceptible(base.pawn))
 			{
-				Hediff hediff = this.pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Hangover, false);
-				if (hediff != null)
+				Hediff firstHediffOfDef = base.pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Hangover, false);
+				if (firstHediffOfDef != null)
 				{
-					hediff.Severity = 1f;
+					firstHediffOfDef.Severity = 1f;
 				}
 				else
 				{
-					hediff = HediffMaker.MakeHediff(HediffDefOf.Hangover, this.pawn, null);
-					hediff.Severity = 1f;
-					this.pawn.health.AddHediff(hediff, null, null);
+					firstHediffOfDef = HediffMaker.MakeHediff(HediffDefOf.Hangover, base.pawn, null);
+					firstHediffOfDef.Severity = 1f;
+					base.pawn.health.AddHediff(firstHediffOfDef, null, default(DamageInfo?));
 				}
 			}
 		}

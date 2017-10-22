@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -28,7 +27,7 @@ namespace RimWorld
 					if (ownedRoom2 != null)
 					{
 						float stat = ownedRoom2.GetStat(RoomStatDefOf.Impressiveness);
-						if (stat - num >= Mathf.Abs(num * 0.1f))
+						if (stat - num >= Mathf.Abs((float)(num * 0.10000000149011612)))
 						{
 							return ThoughtState.ActiveWithReason(list[i].LabelShort);
 						}

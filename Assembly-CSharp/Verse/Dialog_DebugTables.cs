@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,15 +24,15 @@ namespace Verse
 		public Dialog_DebugTables(string[,] tables)
 		{
 			this.table = tables;
-			this.doCloseButton = true;
-			this.doCloseX = true;
+			base.doCloseButton = true;
+			base.doCloseX = true;
 		}
 
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Tiny;
 			inRect.yMax -= 40f;
-			Rect viewRect = new Rect(0f, 0f, inRect.width - 16f, (float)this.table.GetLength(1) * 23f);
+			Rect viewRect = new Rect(0f, 0f, (float)(inRect.width - 16.0), (float)((float)this.table.GetLength(1) * 23.0));
 			Widgets.BeginScrollView(inRect, ref this.scrollPosition, viewRect, true);
 			List<float> list = new List<float>();
 			for (int i = 0; i < this.table.GetLength(0); i++)
@@ -42,28 +41,29 @@ namespace Verse
 				for (int j = 0; j < this.table.GetLength(1); j++)
 				{
 					string text = this.table[i, j];
-					float x = Text.CalcSize(text).x;
+					Vector2 vector = Text.CalcSize(text);
+					float x = vector.x;
 					if (x > num)
 					{
 						num = x;
 					}
 				}
-				list.Add(num + 8f);
+				list.Add((float)(num + 8.0));
 			}
 			float num2 = 0f;
 			for (int k = 0; k < this.table.GetLength(0); k++)
 			{
 				for (int l = 0; l < this.table.GetLength(1); l++)
 				{
-					Rect rect = new Rect(num2, (float)l * 23f, list[k], 23f);
-					Rect rect2 = rect;
-					rect2.xMin -= 999f;
-					rect2.xMax += 999f;
-					if (Mouse.IsOver(rect2) || k % 2 == 0)
+					Rect rect;
+					Rect rect2 = rect = new Rect(num2, (float)((float)l * 23.0), list[k], 23f);
+					rect.xMin -= 999f;
+					rect.xMax += 999f;
+					if (Mouse.IsOver(rect) || k % 2 == 0)
 					{
-						Widgets.DrawHighlight(rect);
+						Widgets.DrawHighlight(rect2);
 					}
-					Widgets.Label(rect, this.table[k, l]);
+					Widgets.Label(rect2, this.table[k, l]);
 				}
 				num2 += list[k];
 			}

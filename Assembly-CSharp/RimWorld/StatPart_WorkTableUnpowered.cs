@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -20,17 +19,21 @@ namespace RimWorld
 				float unpoweredWorkTableWorkSpeedFactor = req.Thing.def.building.unpoweredWorkTableWorkSpeedFactor;
 				return "NoPower".Translate() + ": x" + unpoweredWorkTableWorkSpeedFactor.ToStringPercent();
 			}
-			return null;
+			return (string)null;
 		}
 
 		public static bool Applies(Thing th)
 		{
-			if (th.def.building.unpoweredWorkTableWorkSpeedFactor == 0f)
+			if (th.def.building.unpoweredWorkTableWorkSpeedFactor == 0.0)
 			{
 				return false;
 			}
 			CompPowerTrader compPowerTrader = th.TryGetComp<CompPowerTrader>();
-			return compPowerTrader != null && !compPowerTrader.PowerOn;
+			if (compPowerTrader != null && !compPowerTrader.PowerOn)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

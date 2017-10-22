@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum MentalBreakIntensity : byte
 	{
-		Extreme,
-		Major,
-		Minor
+		Extreme = 0,
+		Major = 1,
+		Minor = 2
 	}
 }

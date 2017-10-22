@@ -1,10 +1,8 @@
-using System;
-
 namespace Verse.Sound
 {
 	public enum TimeType : byte
 	{
-		Ticks,
-		RealtimeSeconds
+		Ticks = 0,
+		RealtimeSeconds = 1
 	}
 }

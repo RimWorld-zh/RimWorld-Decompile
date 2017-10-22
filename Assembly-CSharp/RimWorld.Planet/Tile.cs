@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace RimWorld.Planet
@@ -31,19 +30,19 @@ namespace RimWorld.Planet
 
 		public float rainfall;
 
-		public List<Tile.RoadLink> roads;
+		public List<RoadLink> roads;
 
-		public List<Tile.RiverLink> rivers;
+		public List<RiverLink> rivers;
 
 		public bool WaterCovered
 		{
 			get
 			{
-				return this.elevation <= 0f;
+				return this.elevation <= 0.0;
 			}
 		}
 
-		public List<Tile.RoadLink> VisibleRoads
+		public List<RoadLink> VisibleRoads
 		{
 			get
 			{
@@ -51,7 +50,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		public List<Tile.RiverLink> VisibleRivers
+		public List<RiverLink> VisibleRivers
 		{
 			get
 			{
@@ -61,24 +60,7 @@ namespace RimWorld.Planet
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"(",
-				this.biome,
-				" elev=",
-				this.elevation,
-				"m hill=",
-				this.hilliness,
-				" temp=",
-				this.temperature,
-				"°C rain=",
-				this.rainfall,
-				"mm roads=",
-				(this.roads != null) ? this.roads.Count : 0,
-				" rivers=",
-				(this.rivers != null) ? this.rivers.Count : 0,
-				")"
-			});
+			return "(" + this.biome + " elev=" + this.elevation + "m hill=" + this.hilliness + " temp=" + this.temperature + "°C rain=" + this.rainfall + "mm roads=" + ((this.roads != null) ? this.roads.Count : 0) + " rivers=" + ((this.rivers != null) ? this.rivers.Count : 0) + ")";
 		}
 	}
 }

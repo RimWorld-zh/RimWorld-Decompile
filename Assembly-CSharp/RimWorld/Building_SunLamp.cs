@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
@@ -12,18 +12,27 @@ namespace RimWorld
 		{
 			get
 			{
-				return GenRadial.RadialCellsAround(base.Position, this.def.specialDisplayRadius, true);
+				return GenRadial.RadialCellsAround(base.Position, base.def.specialDisplayRadius, true);
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_SunLamp.<GetGizmos>c__Iterator15E <GetGizmos>c__Iterator15E = new Building_SunLamp.<GetGizmos>c__Iterator15E();
-			<GetGizmos>c__Iterator15E.<>f__this = this;
-			Building_SunLamp.<GetGizmos>c__Iterator15E expr_0E = <GetGizmos>c__Iterator15E;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			if (DesignatorUtility.FindAllowedDesignator<Designator_ZoneAdd_Growing>() != null)
+			{
+				yield return (Gizmo)new Command_Action
+				{
+					action = new Action(this.MakeMatchingGrowZone),
+					hotKey = KeyBindingDefOf.Misc2,
+					defaultDesc = "CommandSunLampMakeGrowingZoneDesc".Translate(),
+					icon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Growing", true),
+					defaultLabel = "CommandSunLampMakeGrowingZoneLabel".Translate()
+				};
+			}
 		}
 
 		private void MakeMatchingGrowZone()

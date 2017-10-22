@@ -15,9 +15,9 @@ namespace Verse
 
 		private class CompareGlowFlooderLightSquares : IComparer<int>
 		{
-			private GlowFlooder.GlowFloodCell[] grid;
+			private GlowFloodCell[] grid;
 
-			public CompareGlowFlooderLightSquares(GlowFlooder.GlowFloodCell[] grid)
+			public CompareGlowFlooderLightSquares(GlowFloodCell[] grid)
 			{
 				this.grid = grid;
 			}
@@ -38,7 +38,7 @@ namespace Verse
 
 		private Map map;
 
-		private GlowFlooder.GlowFloodCell[] calcGrid;
+		private GlowFloodCell[] calcGrid;
 
 		private FastPriorityQueue<int> openSet;
 
@@ -68,39 +68,39 @@ namespace Verse
 
 		private Color32[] glowGrid;
 
-		private static readonly sbyte[,] Directions = new sbyte[,]
+		private static readonly sbyte[,] Directions = new sbyte[8, 2]
 		{
 			{
-				0,
-				-1
+				(sbyte)0,
+				(sbyte)(-1)
 			},
 			{
-				1,
-				0
+				(sbyte)1,
+				(sbyte)0
 			},
 			{
-				0,
-				1
+				(sbyte)0,
+				(sbyte)1
 			},
 			{
-				-1,
-				0
+				(sbyte)(-1),
+				(sbyte)0
 			},
 			{
-				1,
-				-1
+				(sbyte)1,
+				(sbyte)(-1)
 			},
 			{
-				1,
-				1
+				(sbyte)1,
+				(sbyte)1
 			},
 			{
-				-1,
-				1
+				(sbyte)(-1),
+				(sbyte)1
 			},
 			{
-				-1,
-				-1
+				(sbyte)(-1),
+				(sbyte)(-1)
 			}
 		};
 
@@ -114,13 +114,13 @@ namespace Verse
 			this.mapSizePowTwo = this.map.info.PowerOfTwoOverMapSize;
 			this.gridSizeX = (ushort)this.mapSizePowTwo;
 			this.gridSizeY = (ushort)this.mapSizePowTwo;
-			this.gridSizeXMinus1 = this.gridSizeX - 1;
-			this.gridSizeZLog2 = (ushort)Math.Log((double)this.gridSizeY, 2.0);
-			if (this.calcGrid == null || this.calcGrid.Length != (int)(this.gridSizeX * this.gridSizeY))
+			this.gridSizeXMinus1 = (ushort)(this.gridSizeX - 1);
+			this.gridSizeZLog2 = (ushort)Math.Log((double)(int)this.gridSizeY, 2.0);
+			if (this.calcGrid == null || this.calcGrid.Length != this.gridSizeX * this.gridSizeY)
 			{
-				this.calcGrid = new GlowFlooder.GlowFloodCell[(int)(this.gridSizeX * this.gridSizeY)];
+				this.calcGrid = new GlowFloodCell[this.gridSizeX * this.gridSizeY];
 			}
-			this.openSet = new FastPriorityQueue<int>(new GlowFlooder.CompareGlowFlooderLightSquares(this.calcGrid));
+			this.openSet = new FastPriorityQueue<int>(new CompareGlowFlooderLightSquares(this.calcGrid));
 		}
 
 		public void AddFloodGlowFor(CompGlower theGlower)
@@ -136,8 +136,8 @@ namespace Verse
 			this.openVal += 3u;
 			this.finalizedVal += 3u;
 			IntVec3 position = this.glower.parent.Position;
-			this.attenLinearSlope = -1f / this.glower.Props.glowRadius;
-			int num = Mathf.RoundToInt(this.glower.Props.glowRadius * 100f);
+			this.attenLinearSlope = (float)(-1.0 / this.glower.Props.glowRadius);
+			int num = Mathf.RoundToInt((float)(this.glower.Props.glowRadius * 100.0));
 			IntVec3 intVec = default(IntVec3);
 			IntVec3 c = default(IntVec3);
 			int num2 = 0;
@@ -149,98 +149,93 @@ namespace Verse
 			while (this.openSet.Count != 0)
 			{
 				int num4 = this.openSet.Pop();
-				intVec.x = (int)((ushort)(num4 & (int)this.gridSizeXMinus1));
-				intVec.z = (int)((ushort)(num4 >> (int)this.gridSizeZLog2));
+				intVec.x = (ushort)(num4 & this.gridSizeXMinus1);
+				intVec.z = (ushort)(num4 >> (int)this.gridSizeZLog2);
 				this.calcGrid[num4].status = this.finalizedVal;
 				this.SetGlowGridFromDist(intVec);
 				if (UnityData.isDebugBuild && DebugViewSettings.drawGlow)
 				{
-					this.map.debugDrawer.FlashCell(intVec, (float)this.calcGrid[num4].intDist / 10f, this.calcGrid[num4].intDist.ToString("F2"));
+					this.map.debugDrawer.FlashCell(intVec, (float)((float)this.calcGrid[num4].intDist / 10.0), this.calcGrid[num4].intDist.ToString("F2"));
 					num2++;
 				}
 				for (int i = 0; i < 8; i++)
 				{
-					c.x = (int)((ushort)(intVec.x + (int)GlowFlooder.Directions[i, 0]));
-					c.z = (int)((ushort)(intVec.z + (int)GlowFlooder.Directions[i, 1]));
+					c.x = (ushort)(intVec.x + GlowFlooder.Directions[i, 0]);
+					c.z = (ushort)(intVec.z + GlowFlooder.Directions[i, 1]);
 					int num5 = (c.z << (int)this.gridSizeZLog2) + c.x;
-					if (c.InBounds(this.map))
+					int num7;
+					if (c.InBounds(this.map) && this.calcGrid[num5].status != this.finalizedVal)
 					{
-						if (this.calcGrid[num5].status != this.finalizedVal)
+						this.blockers[i] = innerArray[cellIndices.CellToIndex(c)];
+						if (this.blockers[i] != null)
 						{
-							this.blockers[i] = innerArray[cellIndices.CellToIndex(c)];
-							if (this.blockers[i] != null)
+							if (this.blockers[i].def.blockLight)
 							{
-								if (this.blockers[i].def.blockLight)
-								{
-									goto IL_47C;
-								}
-								this.blockers[i] = null;
+								continue;
 							}
-							int num6;
+							this.blockers[i] = null;
+						}
+						int num6 = (i >= 4) ? 141 : 100;
+						num7 = this.calcGrid[num4].intDist + num6;
+						if (num7 <= num && this.calcGrid[num5].status != this.finalizedVal)
+						{
 							if (i < 4)
 							{
-								num6 = 100;
+								goto IL_03de;
 							}
-							else
+							bool flag = false;
+							switch (i)
 							{
-								num6 = 141;
-							}
-							int num7 = this.calcGrid[num4].intDist + num6;
-							if (num7 <= num)
+							case 4:
 							{
-								if (this.calcGrid[num5].status != this.finalizedVal)
+								if (this.blockers[0] != null && this.blockers[1] != null)
 								{
-									if (i >= 4)
-									{
-										bool flag = false;
-										switch (i)
-										{
-										case 4:
-											if (this.blockers[0] != null && this.blockers[1] != null)
-											{
-												flag = true;
-											}
-											break;
-										case 5:
-											if (this.blockers[1] != null && this.blockers[2] != null)
-											{
-												flag = true;
-											}
-											break;
-										case 6:
-											if (this.blockers[2] != null && this.blockers[3] != null)
-											{
-												flag = true;
-											}
-											break;
-										case 7:
-											if (this.blockers[0] != null && this.blockers[3] != null)
-											{
-												flag = true;
-											}
-											break;
-										}
-										if (flag)
-										{
-											goto IL_47C;
-										}
-									}
-									if (this.calcGrid[num5].status <= this.unseenVal)
-									{
-										this.calcGrid[num5].intDist = 999999;
-										this.calcGrid[num5].status = this.openVal;
-									}
-									if (num7 < this.calcGrid[num5].intDist)
-									{
-										this.calcGrid[num5].intDist = num7;
-										this.calcGrid[num5].status = this.openVal;
-										this.openSet.Push(num5);
-									}
+									flag = true;
 								}
+								break;
 							}
+							case 5:
+							{
+								if (this.blockers[1] != null && this.blockers[2] != null)
+								{
+									flag = true;
+								}
+								break;
+							}
+							case 6:
+							{
+								if (this.blockers[2] != null && this.blockers[3] != null)
+								{
+									flag = true;
+								}
+								break;
+							}
+							case 7:
+							{
+								if (this.blockers[0] != null && this.blockers[3] != null)
+								{
+									flag = true;
+								}
+								break;
+							}
+							}
+							if (!flag)
+								goto IL_03de;
 						}
 					}
-					IL_47C:;
+					continue;
+					IL_03de:
+					if (this.calcGrid[num5].status <= this.unseenVal)
+					{
+						this.calcGrid[num5].intDist = 999999;
+						this.calcGrid[num5].status = this.openVal;
+					}
+					if (num7 < this.calcGrid[num5].intDist)
+					{
+						this.calcGrid[num5].intDist = num7;
+						this.calcGrid[num5].status = this.openVal;
+						this.openSet.Push(num5);
+					}
 				}
 			}
 		}
@@ -248,28 +243,26 @@ namespace Verse
 		private void SetGlowGridFromDist(IntVec3 c)
 		{
 			this.finalIdx = (c.z << (int)this.gridSizeZLog2) + c.x;
-			float num = (float)this.calcGrid[this.finalIdx].intDist / 100f;
+			float num = (float)((float)this.calcGrid[this.finalIdx].intDist / 100.0);
 			ColorInt colB = default(ColorInt);
 			if (num <= this.glower.Props.glowRadius)
 			{
-				float b = 1f / (num * num);
-				float a = 1f + this.attenLinearSlope * num;
+				float b = (float)(1.0 / (num * num));
+				float a = (float)(1.0 + this.attenLinearSlope * num);
 				float b2 = Mathf.Lerp(a, b, 0.4f);
 				colB = this.glower.Props.glowColor * b2;
 			}
-			if (colB.r > 0 || colB.g > 0 || colB.b > 0)
+			if (colB.r <= 0 && colB.g <= 0 && colB.b <= 0)
+				return;
+			colB.ClampToNonNegative();
+			int num2 = this.map.cellIndices.CellToIndex(c);
+			ColorInt colA = this.glowGrid[num2].AsColorInt();
+			colA += colB;
+			if (num < this.glower.Props.overlightRadius)
 			{
-				colB.ClampToNonNegative();
-				int num2 = this.map.cellIndices.CellToIndex(c);
-				ColorInt colA = this.glowGrid[num2].AsColorInt();
-				colA += colB;
-				if (num < this.glower.Props.overlightRadius)
-				{
-					colA.a = 1;
-				}
-				Color32 toColor = colA.ToColor32;
-				this.glowGrid[num2] = toColor;
+				colA.a = 1;
 			}
+			Color32 color = this.glowGrid[num2] = colA.ToColor32;
 		}
 	}
 }

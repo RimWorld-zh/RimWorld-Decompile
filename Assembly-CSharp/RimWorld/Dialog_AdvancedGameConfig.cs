@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -10,7 +9,7 @@ namespace RimWorld
 
 		private int selTile = -1;
 
-		private static readonly int[] MapSizes = new int[]
+		private static readonly int[] MapSizes = new int[8]
 		{
 			200,
 			225,
@@ -32,10 +31,10 @@ namespace RimWorld
 
 		public Dialog_AdvancedGameConfig(int selTile)
 		{
-			this.doCloseButton = true;
-			this.closeOnEscapeKey = true;
-			this.forcePause = true;
-			this.absorbInputAroundWindow = true;
+			base.doCloseButton = true;
+			base.closeOnEscapeKey = true;
+			base.forcePause = true;
+			base.absorbInputAroundWindow = true;
 			this.selTile = selTile;
 		}
 
@@ -49,27 +48,30 @@ namespace RimWorld
 			for (int i = 0; i < mapSizes.Length; i++)
 			{
 				int num = mapSizes[i];
-				if (num == 200)
+				switch (num)
+				{
+				case 200:
 				{
 					listing_Standard.Label("MapSizeSmall".Translate(), -1f);
+					break;
 				}
-				else if (num == 250)
+				case 250:
 				{
 					listing_Standard.Label("MapSizeMedium".Translate(), -1f);
+					break;
 				}
-				else if (num == 300)
+				case 300:
 				{
 					listing_Standard.Label("MapSizeLarge".Translate(), -1f);
+					break;
 				}
-				else if (num == 350)
+				case 350:
 				{
 					listing_Standard.Label("MapSizeExtreme".Translate(), -1f);
+					break;
 				}
-				string label = "MapSizeDesc".Translate(new object[]
-				{
-					num,
-					num * num
-				});
+				}
+				string label = "MapSizeDesc".Translate(num, num * num);
 				if (listing_Standard.RadioButton(label, Find.GameInitData.mapSize == num, 0f))
 				{
 					Find.GameInitData.mapSize = num;
@@ -78,49 +80,28 @@ namespace RimWorld
 			listing_Standard.NewColumn();
 			GenUI.SetLabelAlign(TextAnchor.MiddleCenter);
 			listing_Standard.Label("MapStartSeason".Translate(), -1f);
-			string label2;
-			if (Find.GameInitData.startingSeason == Season.Undefined)
-			{
-				label2 = "MapStartSeasonDefault".Translate();
-			}
-			else
-			{
-				label2 = Find.GameInitData.startingSeason.LabelCap();
-			}
+			string label2 = (Find.GameInitData.startingSeason != 0) ? Find.GameInitData.startingSeason.LabelCap() : "MapStartSeasonDefault".Translate();
 			Rect rect = listing_Standard.GetRect(32f);
 			GridLayout gridLayout = new GridLayout(rect, 5, 1, 0f, 4f);
 			if (Widgets.ButtonText(gridLayout.GetCellRectByIndex(0, 1, 1), "-", true, false, true))
 			{
-				Season season = Find.GameInitData.startingSeason;
-				if (season == Season.Undefined)
-				{
-					season = Season.Winter;
-				}
-				else
-				{
-					season -= 1;
-				}
-				Find.GameInitData.startingSeason = season;
+				Season startingSeason = Find.GameInitData.startingSeason;
+				startingSeason = ((startingSeason != 0) ? (startingSeason - 1) : Season.Winter);
+				Find.GameInitData.startingSeason = startingSeason;
 			}
 			Widgets.Label(gridLayout.GetCellRectByIndex(1, 3, 1), label2);
 			if (Widgets.ButtonText(gridLayout.GetCellRectByIndex(4, 1, 1), "+", true, false, true))
 			{
-				Season season2 = Find.GameInitData.startingSeason;
-				if (season2 == Season.Winter)
-				{
-					season2 = Season.Undefined;
-				}
-				else
-				{
-					season2 += 1;
-				}
-				Find.GameInitData.startingSeason = season2;
+				Season startingSeason2 = Find.GameInitData.startingSeason;
+				startingSeason2 = ((startingSeason2 != Season.Winter) ? (startingSeason2 + 1) : Season.Undefined);
+				Find.GameInitData.startingSeason = startingSeason2;
 			}
 			GenUI.ResetLabelAlign();
-			if (this.selTile >= 0 && Find.GameInitData.startingSeason != Season.Undefined)
+			if (((this.selTile >= 0) ? Find.GameInitData.startingSeason : Season.Undefined) != 0)
 			{
-				float y = Find.WorldGrid.LongLatOf(this.selTile).y;
-				if (GenTemperature.AverageTemperatureAtTileForTwelfth(this.selTile, Find.GameInitData.startingSeason.GetFirstTwelfth(y)) < 3f)
+				Vector2 vector = Find.WorldGrid.LongLatOf(this.selTile);
+				float y = vector.y;
+				if (GenTemperature.AverageTemperatureAtTileForTwelfth(this.selTile, Find.GameInitData.startingSeason.GetFirstTwelfth(y)) < 3.0)
 				{
 					listing_Standard.Label("MapTemperatureDangerWarning".Translate(), -1f);
 				}

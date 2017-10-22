@@ -59,26 +59,10 @@ namespace RimWorld
 			}
 			if (this.pawn.RaceProps.trainableTags != null)
 			{
-				int j = 0;
-				while (j < this.pawn.RaceProps.trainableTags.Count)
+				for (int j = 0; j < this.pawn.RaceProps.trainableTags.Count; j++)
 				{
 					if (td.MatchesTag(this.pawn.RaceProps.trainableTags[j]))
-					{
-						if (this.pawn.BodySize < td.minBodySize)
-						{
-							visible = true;
-							return new AcceptanceReport("CannotTrainTooSmall".Translate(new object[]
-							{
-								this.pawn.LabelCapNoCount
-							}));
-						}
-						visible = true;
-						return true;
-					}
-					else
-					{
-						j++;
-					}
+						goto IL_00a3;
 				}
 			}
 			if (!td.defaultTrainable)
@@ -89,18 +73,20 @@ namespace RimWorld
 			if (this.pawn.BodySize < td.minBodySize)
 			{
 				visible = true;
-				return new AcceptanceReport("CannotTrainTooSmall".Translate(new object[]
-				{
-					this.pawn.LabelCapNoCount
-				}));
+				return new AcceptanceReport("CannotTrainTooSmall".Translate(this.pawn.LabelCapNoCount));
 			}
 			if (this.pawn.RaceProps.TrainableIntelligence.intelligenceOrder < td.requiredTrainableIntelligence.intelligenceOrder)
 			{
 				visible = true;
-				return new AcceptanceReport("CannotTrainNotSmartEnough".Translate(new object[]
-				{
-					td.requiredTrainableIntelligence
-				}));
+				return new AcceptanceReport("CannotTrainNotSmartEnough".Translate(td.requiredTrainableIntelligence));
+			}
+			visible = true;
+			return true;
+			IL_00a3:
+			if (this.pawn.BodySize < td.minBodySize)
+			{
+				visible = true;
+				return new AcceptanceReport("CannotTrainTooSmall".Translate(this.pawn.LabelCapNoCount));
 			}
 			visible = true;
 			return true;
@@ -122,9 +108,11 @@ namespace RimWorld
 		public void Train(TrainableDef td, Pawn trainer)
 		{
 			DefMap<TrainableDef, int> defMap;
-			DefMap<TrainableDef, int> expr_06 = defMap = this.steps;
-			int num = defMap[td];
-			expr_06[td] = num + 1;
+			DefMap<TrainableDef, int> obj = defMap = this.steps;
+			TrainableDef def;
+			TrainableDef def2 = def = td;
+			int num = defMap[def];
+			obj[def2] = num + 1;
 			if (this.IsCompleted(td) && td == TrainableDefOf.Obedience)
 			{
 				this.pawn.playerSettings.master = trainer;
@@ -149,9 +137,9 @@ namespace RimWorld
 				IEnumerable<TrainableDef> enumerable = from t in DefDatabase<TrainableDef>.AllDefsListForReading
 				where t.prerequisites != null && t.prerequisites.Contains(td)
 				select t;
-				foreach (TrainableDef current in enumerable)
+				foreach (TrainableDef item in enumerable)
 				{
-					this.SetWantedRecursive(current, false);
+					this.SetWantedRecursive(item, false);
 				}
 			}
 		}

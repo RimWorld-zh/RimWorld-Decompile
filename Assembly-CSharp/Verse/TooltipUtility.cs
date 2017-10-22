@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Text;
 
 namespace Verse
@@ -24,10 +23,7 @@ namespace Verse
 				}
 				if (verb != null)
 				{
-					stringBuilder.Append("ShotBy".Translate(new object[]
-					{
-						Find.Selector.SingleSelectedThing.LabelShort
-					}) + ": ");
+					stringBuilder.Append("ShotBy".Translate(Find.Selector.SingleSelectedThing.LabelShort) + ": ");
 					if (verb.CanHitTarget(target))
 					{
 						stringBuilder.Append(ShotReport.HitReportFor(verb.caster, verb, target).GetTextReadout());

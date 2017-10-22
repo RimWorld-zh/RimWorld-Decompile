@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -17,7 +16,7 @@ namespace RimWorld
 
 		public CompProperties_Art()
 		{
-			this.compClass = typeof(CompArt);
+			base.compClass = typeof(CompArt);
 		}
 	}
 }

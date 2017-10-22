@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
+using Verse.AI;
 
 namespace RimWorld
 {
@@ -14,16 +13,46 @@ namespace RimWorld
 			return true;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
 		{
-			WorkGiver_Grower.<PotentialWorkCellsGlobal>c__Iterator5F <PotentialWorkCellsGlobal>c__Iterator5F = new WorkGiver_Grower.<PotentialWorkCellsGlobal>c__Iterator5F();
-			<PotentialWorkCellsGlobal>c__Iterator5F.pawn = pawn;
-			<PotentialWorkCellsGlobal>c__Iterator5F.<$>pawn = pawn;
-			<PotentialWorkCellsGlobal>c__Iterator5F.<>f__this = this;
-			WorkGiver_Grower.<PotentialWorkCellsGlobal>c__Iterator5F expr_1C = <PotentialWorkCellsGlobal>c__Iterator5F;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			Danger maxDanger = pawn.NormalMaxDanger();
+			List<Building> bList = pawn.Map.listerBuildings.allBuildingsColonist;
+			for (int k = 0; k < bList.Count; k++)
+			{
+				Building_PlantGrower b = bList[k] as Building_PlantGrower;
+				if (b != null && this.ExtraRequirements(b, pawn) && !b.IsForbidden(pawn) && pawn.CanReach((Thing)b, PathEndMode.OnCell, maxDanger, false, TraverseMode.ByPawn) && !b.IsBurning())
+				{
+					CellRect.CellRectIterator cri = b.OccupiedRect().GetIterator();
+					while (!cri.Done())
+					{
+						yield return cri.Current;
+						cri.MoveNext();
+					}
+					WorkGiver_Grower.wantedPlantDef = null;
+				}
+			}
+			WorkGiver_Grower.wantedPlantDef = null;
+			List<Zone> zonesList = pawn.Map.zoneManager.AllZones;
+			for (int j = 0; j < zonesList.Count; j++)
+			{
+				Zone_Growing growZone = zonesList[j] as Zone_Growing;
+				if (growZone != null)
+				{
+					if (growZone.cells.Count == 0)
+					{
+						Log.ErrorOnce("Grow zone has 0 cells: " + growZone, -563487);
+					}
+					else if (this.ExtraRequirements(growZone, pawn) && !growZone.ContainsStaticFire && pawn.CanReach(growZone.Cells[0], PathEndMode.OnCell, maxDanger, false, TraverseMode.ByPawn))
+					{
+						for (int i = 0; i < growZone.cells.Count; i++)
+						{
+							yield return growZone.cells[i];
+						}
+						WorkGiver_Grower.wantedPlantDef = null;
+					}
+				}
+			}
+			WorkGiver_Grower.wantedPlantDef = null;
 		}
 
 		public static ThingDef CalculateWantedPlantDef(IntVec3 c, Map map)

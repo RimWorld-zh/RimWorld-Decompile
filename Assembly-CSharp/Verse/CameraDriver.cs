@@ -71,7 +71,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.cachedCamera == null)
+				if ((UnityEngine.Object)this.cachedCamera == (UnityEngine.Object)null)
 				{
 					this.cachedCamera = base.GetComponent<Camera>();
 				}
@@ -95,19 +95,19 @@ namespace Verse
 		{
 			get
 			{
-				if (this.rootSize < 12f)
+				if (this.rootSize < 12.0)
 				{
 					return CameraZoomRange.Closest;
 				}
-				if (this.rootSize < 13.8f)
+				if (this.rootSize < 13.800000190734863)
 				{
 					return CameraZoomRange.Close;
 				}
-				if (this.rootSize < 42f)
+				if (this.rootSize < 42.0)
 				{
 					return CameraZoomRange.Middle;
 				}
-				if (this.rootSize < 57f)
+				if (this.rootSize < 57.0)
 				{
 					return CameraZoomRange.Far;
 				}
@@ -149,10 +149,14 @@ namespace Verse
 				{
 					CameraDriver.lastViewRect = default(CellRect);
 					float num = (float)UI.screenWidth / (float)UI.screenHeight;
-					CameraDriver.lastViewRect.minX = Mathf.FloorToInt(this.CurrentRealPosition.x - this.rootSize * num - 1f);
-					CameraDriver.lastViewRect.maxX = Mathf.CeilToInt(this.CurrentRealPosition.x + this.rootSize * num);
-					CameraDriver.lastViewRect.minZ = Mathf.FloorToInt(this.CurrentRealPosition.z - this.rootSize - 1f);
-					CameraDriver.lastViewRect.maxZ = Mathf.CeilToInt(this.CurrentRealPosition.z + this.rootSize);
+					Vector3 currentRealPosition = this.CurrentRealPosition;
+					CameraDriver.lastViewRect.minX = Mathf.FloorToInt((float)(currentRealPosition.x - this.rootSize * num - 1.0));
+					Vector3 currentRealPosition2 = this.CurrentRealPosition;
+					CameraDriver.lastViewRect.maxX = Mathf.CeilToInt(currentRealPosition2.x + this.rootSize * num);
+					Vector3 currentRealPosition3 = this.CurrentRealPosition;
+					CameraDriver.lastViewRect.minZ = Mathf.FloorToInt((float)(currentRealPosition3.z - this.rootSize - 1.0));
+					Vector3 currentRealPosition4 = this.CurrentRealPosition;
+					CameraDriver.lastViewRect.maxZ = Mathf.CeilToInt(currentRealPosition4.z + this.rootSize);
 					CameraDriver.lastViewRectGetFrame = Time.frameCount;
 				}
 				return CameraDriver.lastViewRect;
@@ -164,9 +168,9 @@ namespace Verse
 			get
 			{
 				float result = 1f;
-				if (Time.deltaTime > 0.025f)
+				if (Time.deltaTime > 0.02500000037252903)
 				{
-					result = 0.025f / Time.deltaTime;
+					result = (float)(0.02500000037252903 / Time.deltaTime);
 				}
 				return result;
 			}
@@ -176,7 +180,7 @@ namespace Verse
 		{
 			get
 			{
-				return (float)UI.screenHeight / (this.rootSize * 2f);
+				return (float)((float)UI.screenHeight / (this.rootSize * 2.0));
 			}
 		}
 
@@ -190,15 +194,7 @@ namespace Verse
 
 		public void OnPreRender()
 		{
-			if (LongEventHandler.ShouldWaitForEvent)
-			{
-				return;
-			}
-			if (Find.VisibleMap == null)
-			{
-				return;
-			}
-			if (!WorldRendererUtility.WorldRenderedNow)
+			if (!LongEventHandler.ShouldWaitForEvent && Find.VisibleMap != null && !WorldRendererUtility.WorldRenderedNow)
 			{
 				Find.VisibleMap.GenerateWaterMap();
 			}
@@ -206,15 +202,7 @@ namespace Verse
 
 		public void OnPreCull()
 		{
-			if (LongEventHandler.ShouldWaitForEvent)
-			{
-				return;
-			}
-			if (Find.VisibleMap == null)
-			{
-				return;
-			}
-			if (!WorldRendererUtility.WorldRenderedNow)
+			if (!LongEventHandler.ShouldWaitForEvent && Find.VisibleMap != null && !WorldRendererUtility.WorldRenderedNow)
 			{
 				Find.VisibleMap.weatherManager.DrawAllWeather();
 			}
@@ -223,139 +211,139 @@ namespace Verse
 		public void OnGUI()
 		{
 			GUI.depth = 100;
-			if (LongEventHandler.ShouldWaitForEvent)
+			if (!LongEventHandler.ShouldWaitForEvent && Find.VisibleMap != null)
 			{
-				return;
-			}
-			if (Find.VisibleMap == null)
-			{
-				return;
-			}
-			this.mouseCoveredByUI = false;
-			if (Find.WindowStack.GetWindowAt(UI.MousePositionOnUIInverted) != null)
-			{
-				this.mouseCoveredByUI = true;
-			}
-			if (!this.AnythingPreventsCameraMotion)
-			{
-				if (Event.current.type == EventType.MouseDrag && Event.current.button == 2)
+				this.mouseCoveredByUI = false;
+				if (Find.WindowStack.GetWindowAt(UI.MousePositionOnUIInverted) != null)
 				{
-					this.mouseDragVect = Event.current.delta;
-					Event.current.Use();
+					this.mouseCoveredByUI = true;
 				}
-				float num = 0f;
-				if (Event.current.type == EventType.ScrollWheel)
+				if (!this.AnythingPreventsCameraMotion)
 				{
-					num -= Event.current.delta.y * 0.35f;
-					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.TinyInteraction);
-				}
-				if (KeyBindingDefOf.MapZoomIn.KeyDownEvent)
-				{
-					num += 4f;
-					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.SmallInteraction);
-				}
-				if (KeyBindingDefOf.MapZoomOut.KeyDownEvent)
-				{
-					num -= 4f;
-					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.SmallInteraction);
-				}
-				this.desiredSize -= num * 2.6f * this.rootSize / 35f;
-				if (this.desiredSize < 11f)
-				{
-					this.desiredSize = 11f;
-				}
-				if (this.desiredSize > 60f)
-				{
-					this.desiredSize = 60f;
-				}
-				this.desiredDolly = Vector3.zero;
-				if (KeyBindingDefOf.MapDollyLeft.IsDown)
-				{
-					this.desiredDolly.x = -this.config.dollyRateKeys;
-				}
-				if (KeyBindingDefOf.MapDollyRight.IsDown)
-				{
-					this.desiredDolly.x = this.config.dollyRateKeys;
-				}
-				if (KeyBindingDefOf.MapDollyUp.IsDown)
-				{
-					this.desiredDolly.y = this.config.dollyRateKeys;
-				}
-				if (KeyBindingDefOf.MapDollyDown.IsDown)
-				{
-					this.desiredDolly.y = -this.config.dollyRateKeys;
-				}
-				if (this.mouseDragVect != Vector2.zero)
-				{
-					this.mouseDragVect *= CameraDriver.HitchReduceFactor;
-					this.mouseDragVect.x = this.mouseDragVect.x * -1f;
-					this.desiredDolly += this.mouseDragVect * this.config.dollyRateMouseDrag;
-					this.mouseDragVect = Vector2.zero;
+					if (Event.current.type == EventType.MouseDrag && Event.current.button == 2)
+					{
+						this.mouseDragVect = Event.current.delta;
+						Event.current.Use();
+					}
+					float num = 0f;
+					if (Event.current.type == EventType.ScrollWheel)
+					{
+						float num2 = num;
+						Vector2 delta = Event.current.delta;
+						num = (float)(num2 - delta.y * 0.34999999403953552);
+						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.TinyInteraction);
+					}
+					if (KeyBindingDefOf.MapZoomIn.KeyDownEvent)
+					{
+						num = (float)(num + 4.0);
+						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.SmallInteraction);
+					}
+					if (KeyBindingDefOf.MapZoomOut.KeyDownEvent)
+					{
+						num = (float)(num - 4.0);
+						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.SmallInteraction);
+					}
+					this.desiredSize -= (float)(num * 2.5999999046325684 * this.rootSize / 35.0);
+					if (this.desiredSize < 11.0)
+					{
+						this.desiredSize = 11f;
+					}
+					if (this.desiredSize > 60.0)
+					{
+						this.desiredSize = 60f;
+					}
+					this.desiredDolly = Vector3.zero;
+					if (KeyBindingDefOf.MapDollyLeft.IsDown)
+					{
+						this.desiredDolly.x = (float)(0.0 - this.config.dollyRateKeys);
+					}
+					if (KeyBindingDefOf.MapDollyRight.IsDown)
+					{
+						this.desiredDolly.x = this.config.dollyRateKeys;
+					}
+					if (KeyBindingDefOf.MapDollyUp.IsDown)
+					{
+						this.desiredDolly.y = this.config.dollyRateKeys;
+					}
+					if (KeyBindingDefOf.MapDollyDown.IsDown)
+					{
+						this.desiredDolly.y = (float)(0.0 - this.config.dollyRateKeys);
+					}
+					if (this.mouseDragVect != Vector2.zero)
+					{
+						this.mouseDragVect *= CameraDriver.HitchReduceFactor;
+						this.mouseDragVect.x *= -1f;
+						this.desiredDolly += this.mouseDragVect * this.config.dollyRateMouseDrag;
+						this.mouseDragVect = Vector2.zero;
+					}
 				}
 			}
 		}
 
 		public void Update()
 		{
-			if (LongEventHandler.ShouldWaitForEvent)
+			if (!LongEventHandler.ShouldWaitForEvent && Find.VisibleMap != null)
 			{
-				return;
-			}
-			if (Find.VisibleMap == null)
-			{
-				return;
-			}
-			Vector2 lhs = this.CalculateCurInputDollyVect();
-			if (lhs != Vector2.zero)
-			{
-				float d = (this.rootSize - 11f) / 49f * 0.7f + 0.3f;
-				this.velocity = new Vector3(lhs.x, 0f, lhs.y) * d;
-				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraDolly, KnowledgeAmount.FrameInteraction);
-			}
-			if (!this.AnythingPreventsCameraMotion)
-			{
-				float d2 = Time.deltaTime * CameraDriver.HitchReduceFactor;
-				this.rootPos += this.velocity * d2 * this.config.moveSpeedScale;
-				if (this.rootPos.x > (float)Find.VisibleMap.Size.x + -2f)
+				Vector2 lhs = this.CalculateCurInputDollyVect();
+				if (lhs != Vector2.zero)
 				{
-					this.rootPos.x = (float)Find.VisibleMap.Size.x + -2f;
+					float d = (float)((this.rootSize - 11.0) / 49.0 * 0.699999988079071 + 0.30000001192092896);
+					this.velocity = new Vector3(lhs.x, 0f, lhs.y) * d;
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraDolly, KnowledgeAmount.FrameInteraction);
 				}
-				if (this.rootPos.z > (float)Find.VisibleMap.Size.z + -2f)
+				if (!this.AnythingPreventsCameraMotion)
 				{
-					this.rootPos.z = (float)Find.VisibleMap.Size.z + -2f;
+					float d2 = Time.deltaTime * CameraDriver.HitchReduceFactor;
+					this.rootPos += this.velocity * d2 * this.config.moveSpeedScale;
+					float x = this.rootPos.x;
+					IntVec3 size = Find.VisibleMap.Size;
+					if (x > (float)size.x + -2.0)
+					{
+						ref Vector3 val = ref this.rootPos;
+						IntVec3 size2 = Find.VisibleMap.Size;
+						val.x = (float)((float)size2.x + -2.0);
+					}
+					float z = this.rootPos.z;
+					IntVec3 size3 = Find.VisibleMap.Size;
+					if (z > (float)size3.z + -2.0)
+					{
+						ref Vector3 val2 = ref this.rootPos;
+						IntVec3 size4 = Find.VisibleMap.Size;
+						val2.z = (float)((float)size4.z + -2.0);
+					}
+					if (this.rootPos.x < 2.0)
+					{
+						this.rootPos.x = 2f;
+					}
+					if (this.rootPos.z < 2.0)
+					{
+						this.rootPos.z = 2f;
+					}
 				}
-				if (this.rootPos.x < 2f)
+				if (this.velocity != Vector3.zero)
 				{
-					this.rootPos.x = 2f;
+					this.velocity *= this.config.camSpeedDecayFactor;
+					if (this.velocity.magnitude < 0.10000000149011612)
+					{
+						this.velocity = Vector3.zero;
+					}
 				}
-				if (this.rootPos.z < 2f)
+				float num = this.desiredSize - this.rootSize;
+				this.rootSize += (float)(num * 0.40000000596046448);
+				this.shaker.Update();
+				this.ApplyPositionToGameObject();
+				if (Find.VisibleMap != null)
 				{
-					this.rootPos.z = 2f;
+					RememberedCameraPos rememberedCameraPos = Find.VisibleMap.rememberedCameraPos;
+					rememberedCameraPos.rootPos = this.rootPos;
+					rememberedCameraPos.rootSize = this.rootSize;
 				}
-			}
-			if (this.velocity != Vector3.zero)
-			{
-				this.velocity *= this.config.camSpeedDecayFactor;
-				if (this.velocity.magnitude < 0.1f)
-				{
-					this.velocity = Vector3.zero;
-				}
-			}
-			float num = this.desiredSize - this.rootSize;
-			this.rootSize += num * 0.4f;
-			this.shaker.Update();
-			this.ApplyPositionToGameObject();
-			if (Find.VisibleMap != null)
-			{
-				RememberedCameraPos rememberedCameraPos = Find.VisibleMap.rememberedCameraPos;
-				rememberedCameraPos.rootPos = this.rootPos;
-				rememberedCameraPos.rootSize = this.rootSize;
 			}
 		}
 
 		private void ApplyPositionToGameObject()
 		{
-			this.rootPos.y = 15f + (this.rootSize - 11f) / 49f * 50f;
+			this.rootPos.y = (float)(15.0 + (this.rootSize - 11.0) / 49.0 * 50.0);
 			this.MyCamera.orthographicSize = this.rootSize;
 			this.MyCamera.transform.position = this.rootPos + this.shaker.ShakeOffset;
 			Vector3 position = base.transform.position;
@@ -384,25 +372,25 @@ namespace Verse
 				if (!rect.Contains(point) && !rect3.Contains(point) && !rect2.Contains(point) && !rect4.Contains(point))
 				{
 					Vector2 b = new Vector2(0f, 0f);
-					if (mousePositionOnUI.x >= 0f && mousePositionOnUI.x < 20f)
+					if (mousePositionOnUI.x >= 0.0 && mousePositionOnUI.x < 20.0)
 					{
 						b.x -= this.config.dollyRateScreenEdge;
 					}
-					if (mousePositionOnUI.x <= (float)UI.screenWidth && mousePositionOnUI.x > (float)UI.screenWidth - 20f)
+					if (mousePositionOnUI.x <= (float)UI.screenWidth && mousePositionOnUI.x > (float)UI.screenWidth - 20.0)
 					{
 						b.x += this.config.dollyRateScreenEdge;
 					}
-					if (mousePositionOnUI.y <= (float)UI.screenHeight && mousePositionOnUI.y > (float)UI.screenHeight - 20f)
+					if (mousePositionOnUI.y <= (float)UI.screenHeight && mousePositionOnUI.y > (float)UI.screenHeight - 20.0)
 					{
 						b.y += this.config.dollyRateScreenEdge;
 					}
-					if (mousePositionOnUI.y >= 0f && mousePositionOnUI.y < this.ScreenDollyEdgeWidthBottom)
+					if (mousePositionOnUI.y >= 0.0 && mousePositionOnUI.y < this.ScreenDollyEdgeWidthBottom)
 					{
-						if (this.mouseTouchingScreenBottomEdgeStartTime < 0f)
+						if (this.mouseTouchingScreenBottomEdgeStartTime < 0.0)
 						{
 							this.mouseTouchingScreenBottomEdgeStartTime = Time.realtimeSinceStartup;
 						}
-						if (Time.realtimeSinceStartup - this.mouseTouchingScreenBottomEdgeStartTime >= 0.28f)
+						if (Time.realtimeSinceStartup - this.mouseTouchingScreenBottomEdgeStartTime >= 0.2800000011920929)
 						{
 							b.y -= this.config.dollyRateScreenEdge;
 						}

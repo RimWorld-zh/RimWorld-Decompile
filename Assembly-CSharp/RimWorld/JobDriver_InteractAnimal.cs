@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -43,38 +42,66 @@ namespace RimWorld
 
 		protected abstract Toil FinalInteractToil();
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_InteractAnimal.<MakeNewToils>c__Iterator5 <MakeNewToils>c__Iterator = new JobDriver_InteractAnimal.<MakeNewToils>c__Iterator5();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_InteractAnimal.<MakeNewToils>c__Iterator5 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
+			this.FailOnDowned(TargetIndex.A);
+			this.FailOnNotCasualInterruptible(TargetIndex.A);
+			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			yield return Toils_Interpersonal.WaitToBeAbleToInteract(base.pawn);
+			yield return JobDriver_InteractAnimal.TalkToAnimal(TargetIndex.A);
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			yield return Toils_Interpersonal.WaitToBeAbleToInteract(base.pawn);
+			yield return JobDriver_InteractAnimal.TalkToAnimal(TargetIndex.A);
+			foreach (Toil item in this.FeedToils())
+			{
+				yield return item;
+			}
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			yield return Toils_Interpersonal.WaitToBeAbleToInteract(base.pawn);
+			yield return JobDriver_InteractAnimal.TalkToAnimal(TargetIndex.A);
+			foreach (Toil item2 in this.FeedToils())
+			{
+				yield return item2;
+			}
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			yield return Toils_Interpersonal.SetLastInteractTime(TargetIndex.A);
+			yield return Toils_Interpersonal.WaitToBeAbleToInteract(base.pawn);
+			yield return this.FinalInteractToil();
 		}
 
 		public static float RequiredNutritionPerFeed(Pawn animal)
 		{
-			return Mathf.Min(animal.needs.food.MaxLevel * 0.15f, 0.3f);
+			return Mathf.Min((float)(animal.needs.food.MaxLevel * 0.15000000596046448), 0.3f);
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<Toil> FeedToils()
 		{
-			JobDriver_InteractAnimal.<FeedToils>c__Iterator6 <FeedToils>c__Iterator = new JobDriver_InteractAnimal.<FeedToils>c__Iterator6();
-			<FeedToils>c__Iterator.<>f__this = this;
-			JobDriver_InteractAnimal.<FeedToils>c__Iterator6 expr_0E = <FeedToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+					((_003CFeedToils_003Ec__Iterator6)/*Error near IL_004a: stateMachine*/)._003C_003Ef__this.feedNutritionLeft = JobDriver_InteractAnimal.RequiredNutritionPerFeed(((_003CFeedToils_003Ec__Iterator6)/*Error near IL_004a: stateMachine*/)._003C_003Ef__this.Animal);
+				},
+				defaultCompleteMode = ToilCompleteMode.Instant
+			};
+			Toil gotoAnimal = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			yield return gotoAnimal;
+			yield return this.StartFeedAnimal(TargetIndex.A);
+			yield return Toils_Ingest.FinalizeIngest(this.Animal, TargetIndex.B);
+			yield return Toils_General.PutCarriedThingInInventory();
+			yield return Toils_General.ClearTarget(TargetIndex.B);
+			yield return Toils_Jump.JumpIf(gotoAnimal, (Func<bool>)(() => ((_003CFeedToils_003Ec__Iterator6)/*Error near IL_011b: stateMachine*/)._003C_003Ef__this.feedNutritionLeft > 0.0));
 		}
 
 		private static Toil TalkToAnimal(TargetIndex tameeInd)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				Pawn actor = toil.GetActor();
-				Pawn recipient = (Pawn)((Thing)actor.CurJob.GetTarget(tameeInd));
+				Pawn recipient = (Pawn)(Thing)actor.CurJob.GetTarget(tameeInd);
 				actor.interactions.TryInteractWith(recipient, InteractionDefOf.AnimalChat);
 			};
 			toil.defaultCompleteMode = ToilCompleteMode.Delay;
@@ -85,35 +112,37 @@ namespace RimWorld
 		private Toil StartFeedAnimal(TargetIndex tameeInd)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				Pawn actor = toil.GetActor();
-				Pawn pawn = (Pawn)((Thing)actor.CurJob.GetTarget(tameeInd));
+				Pawn pawn = (Pawn)(Thing)actor.CurJob.GetTarget(tameeInd);
 				PawnUtility.ForceWait(pawn, 270, actor, false);
 				Thing thing = FoodUtility.BestFoodInInventory(actor, pawn, FoodPreferability.NeverForNutrition, FoodPreferability.RawTasty, 0f, false);
 				if (thing == null)
 				{
 					actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
-					return;
-				}
-				actor.mindState.lastInventoryRawFoodUseTick = Find.TickManager.TicksGame;
-				int num = FoodUtility.StackCountForNutrition(thing.def, this.feedNutritionLeft);
-				int stackCount = thing.stackCount;
-				Thing thing2 = actor.inventory.innerContainer.Take(thing, Mathf.Min(num, stackCount));
-				actor.carryTracker.TryStartCarry(thing2);
-				actor.CurJob.SetTarget(TargetIndex.B, thing2);
-				float num2 = (float)thing2.stackCount * thing2.def.ingestible.nutrition;
-				this.ticksLeftThisToil = Mathf.CeilToInt(270f * (num2 / JobDriver_InteractAnimal.RequiredNutritionPerFeed(pawn)));
-				if (num <= stackCount)
-				{
-					this.feedNutritionLeft = 0f;
 				}
 				else
 				{
-					this.feedNutritionLeft -= num2;
-					if (this.feedNutritionLeft < 0.001f)
+					actor.mindState.lastInventoryRawFoodUseTick = Find.TickManager.TicksGame;
+					int num = FoodUtility.StackCountForNutrition(thing.def, this.feedNutritionLeft);
+					int stackCount = thing.stackCount;
+					Thing thing2 = actor.inventory.innerContainer.Take(thing, Mathf.Min(num, stackCount));
+					actor.carryTracker.TryStartCarry(thing2);
+					actor.CurJob.SetTarget(TargetIndex.B, thing2);
+					float num2 = (float)thing2.stackCount * thing2.def.ingestible.nutrition;
+					base.ticksLeftThisToil = Mathf.CeilToInt((float)(270.0 * (num2 / JobDriver_InteractAnimal.RequiredNutritionPerFeed(pawn))));
+					if (num <= stackCount)
 					{
 						this.feedNutritionLeft = 0f;
+					}
+					else
+					{
+						this.feedNutritionLeft -= num2;
+						if (this.feedNutritionLeft < 0.0010000000474974513)
+						{
+							this.feedNutritionLeft = 0f;
+						}
 					}
 				}
 			};

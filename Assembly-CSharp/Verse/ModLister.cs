@@ -43,31 +43,31 @@ namespace Verse
 			string s = "Rebuilding mods list";
 			ModLister.mods.Clear();
 			s += "\nAdding mods from mods folder:";
-			foreach (string current in from d in new DirectoryInfo(GenFilePaths.CoreModsFolderPath).GetDirectories()
+			foreach (string item in from d in new DirectoryInfo(GenFilePaths.CoreModsFolderPath).GetDirectories()
 			select d.FullName)
 			{
-				ModMetaData modMetaData = new ModMetaData(current);
+				ModMetaData modMetaData = new ModMetaData(item);
 				ModLister.mods.Add(modMetaData);
 				s = s + "\n  Adding " + modMetaData.ToStringLong();
 			}
 			s += "\nAdding mods from Steam:";
-			foreach (WorkshopItem current2 in from it in WorkshopItems.AllSubscribedItems
+			foreach (WorkshopItem item2 in from it in WorkshopItems.AllSubscribedItems
 			where it is WorkshopItem_Mod
 			select it)
 			{
-				ModMetaData modMetaData2 = new ModMetaData(current2);
+				ModMetaData modMetaData2 = new ModMetaData(item2);
 				ModLister.mods.Add(modMetaData2);
 				s = s + "\n  Adding " + modMetaData2.ToStringLong();
 			}
 			s += "\nDeactivating not-installed mods:";
-			ModsConfig.DeactivateNotInstalledMods(delegate(string log)
+			ModsConfig.DeactivateNotInstalledMods((Action<string>)delegate(string log)
 			{
 				s = s + "\n   " + log;
 			});
-			if (ModLister.mods.Count((ModMetaData m) => m.Active) == 0)
+			if (ModLister.mods.Count((Func<ModMetaData, bool>)((ModMetaData m) => m.Active)) == 0)
 			{
 				s += "\nThere are no active mods. Activating Core mod.";
-				ModLister.mods.First((ModMetaData m) => m.IsCoreMod).Active = true;
+				ModLister.mods.First((Func<ModMetaData, bool>)((ModMetaData m) => m.IsCoreMod)).Active = true;
 			}
 			if (Prefs.LogVerbose)
 			{
@@ -78,8 +78,8 @@ namespace Verse
 		public static int InstalledModsListHash(bool activeOnly)
 		{
 			int num = 17;
-			List<ModMetaData> list = ModsConfig.ActiveModsInLoadOrder.ToList<ModMetaData>();
-			for (int i = 0; i < list.Count<ModMetaData>(); i++)
+			List<ModMetaData> list = ModsConfig.ActiveModsInLoadOrder.ToList();
+			for (int i = 0; i < list.Count(); i++)
 			{
 				if (!activeOnly || list[i].Active)
 				{

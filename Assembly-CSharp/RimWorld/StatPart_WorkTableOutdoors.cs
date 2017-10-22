@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -21,7 +20,7 @@ namespace RimWorld
 			{
 				return "Outdoors".Translate() + ": x" + 0.8f.ToStringPercent();
 			}
-			return null;
+			return (string)null;
 		}
 
 		public static bool Applies(Thing t)
@@ -31,16 +30,16 @@ namespace RimWorld
 
 		public static bool Applies(ThingDef def, Map map, IntVec3 c)
 		{
-			if (def.building == null || !def.building.workSpeedPenaltyOutdoors)
+			if (def.building != null && def.building.workSpeedPenaltyOutdoors)
 			{
-				return false;
+				if (map == null)
+				{
+					return false;
+				}
+				Room room = c.GetRoom(map, RegionType.Set_All);
+				return room != null && room.PsychologicallyOutdoors;
 			}
-			if (map == null)
-			{
-				return false;
-			}
-			Room room = c.GetRoom(map, RegionType.Set_All);
-			return room != null && room.PsychologicallyOutdoors;
+			return false;
 		}
 	}
 }

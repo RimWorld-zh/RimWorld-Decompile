@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -15,16 +14,20 @@ namespace Verse
 		{
 			get
 			{
-				return FlickUtility.WantsToBeOn(this.parent) && (this.powerComp == null || this.powerComp.PowerOn) && (this.refuelableComp == null || this.refuelableComp.HasFuel) && (this.breakdownableComp == null || !this.breakdownableComp.BrokenDown);
+				if (FlickUtility.WantsToBeOn(base.parent) && (this.powerComp == null || this.powerComp.PowerOn) && (this.refuelableComp == null || this.refuelableComp.HasFuel) && (this.breakdownableComp == null || !this.breakdownableComp.BrokenDown))
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
-			this.powerComp = this.parent.GetComp<CompPowerTrader>();
-			this.refuelableComp = this.parent.GetComp<CompRefuelable>();
-			this.breakdownableComp = this.parent.GetComp<CompBreakdownable>();
+			this.powerComp = base.parent.GetComp<CompPowerTrader>();
+			this.refuelableComp = base.parent.GetComp<CompRefuelable>();
+			this.breakdownableComp = base.parent.GetComp<CompBreakdownable>();
 		}
 	}
 }

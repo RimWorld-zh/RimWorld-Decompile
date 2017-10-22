@@ -10,7 +10,7 @@ namespace Verse.Profile
 	{
 		public static void UnloadUnusedUnityAssets()
 		{
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				Resources.UnloadUnusedAssets();
 			});
@@ -33,7 +33,7 @@ namespace Verse.Profile
 					}
 				}
 				maps.Clear();
-				Current.Game.visibleMapIndex = -1;
+				Current.Game.visibleMapIndex = (sbyte)(-1);
 			}
 			if (Find.World != null)
 			{

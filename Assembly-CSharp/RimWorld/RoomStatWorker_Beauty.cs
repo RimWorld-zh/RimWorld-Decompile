@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -31,9 +30,9 @@ namespace RimWorld
 			float num = 0f;
 			int num2 = 0;
 			RoomStatWorker_Beauty.countedThings.Clear();
-			foreach (IntVec3 current in room.Cells)
+			foreach (IntVec3 cell in room.Cells)
 			{
-				num += BeautyUtility.CellBeauty(current, room.Map, RoomStatWorker_Beauty.countedThings);
+				num += BeautyUtility.CellBeauty(cell, room.Map, RoomStatWorker_Beauty.countedThings);
 				num2++;
 			}
 			RoomStatWorker_Beauty.countedAdjCells.Clear();

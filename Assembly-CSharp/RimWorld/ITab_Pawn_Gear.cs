@@ -66,22 +66,22 @@ namespace RimWorld
 
 		public ITab_Pawn_Gear()
 		{
-			this.size = new Vector2(460f, 450f);
-			this.labelKey = "TabGear";
-			this.tutorTag = "Gear";
+			base.size = new Vector2(460f, 450f);
+			base.labelKey = "TabGear";
+			base.tutorTag = "Gear";
 		}
 
 		protected override void FillTab()
 		{
 			Text.Font = GameFont.Small;
-			Rect rect = new Rect(0f, 20f, this.size.x, this.size.y - 20f);
+			Rect rect = new Rect(0f, 20f, base.size.x, (float)(base.size.y - 20.0));
 			Rect rect2 = rect.ContractedBy(10f);
 			Rect position = new Rect(rect2.x, rect2.y, rect2.width, rect2.height);
 			GUI.BeginGroup(position);
 			Text.Font = GameFont.Small;
 			GUI.color = Color.white;
 			Rect outRect = new Rect(0f, 0f, position.width, position.height);
-			Rect viewRect = new Rect(0f, 0f, position.width - 16f, this.scrollViewHeight);
+			Rect viewRect = new Rect(0f, 0f, (float)(position.width - 16.0), this.scrollViewHeight);
 			Widgets.BeginScrollView(outRect, ref this.scrollPosition, viewRect, true);
 			float num = 0f;
 			this.TryDrawMassInfo(ref num, viewRect.width);
@@ -97,19 +97,28 @@ namespace RimWorld
 			if (this.SelPawnForGear.equipment != null)
 			{
 				Widgets.ListSeparator(ref num, viewRect.width, "Equipment".Translate());
-				foreach (ThingWithComps current in this.SelPawnForGear.equipment.AllEquipmentListForReading)
+				List<ThingWithComps>.Enumerator enumerator = this.SelPawnForGear.equipment.AllEquipmentListForReading.GetEnumerator();
+				try
 				{
-					this.DrawThingRow(ref num, viewRect.width, current, false);
+					while (enumerator.MoveNext())
+					{
+						ThingWithComps current = enumerator.Current;
+						this.DrawThingRow(ref num, viewRect.width, current, false);
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 			if (this.SelPawnForGear.apparel != null)
 			{
 				Widgets.ListSeparator(ref num, viewRect.width, "Apparel".Translate());
-				foreach (Apparel current2 in from ap in this.SelPawnForGear.apparel.WornApparel
+				foreach (Apparel item in from ap in this.SelPawnForGear.apparel.WornApparel
 				orderby ap.def.apparel.bodyPartGroups[0].listOrder descending
 				select ap)
 				{
-					this.DrawThingRow(ref num, viewRect.width, current2, false);
+					this.DrawThingRow(ref num, viewRect.width, item, false);
 				}
 			}
 			if (this.SelPawnForGear.inventory != null)
@@ -124,7 +133,7 @@ namespace RimWorld
 			}
 			if (Event.current.type == EventType.Layout)
 			{
-				this.scrollViewHeight = num + 30f;
+				this.scrollViewHeight = (float)(num + 30.0);
 			}
 			Widgets.EndScrollView();
 			GUI.EndGroup();
@@ -135,11 +144,11 @@ namespace RimWorld
 		private void DrawThingRow(ref float y, float width, Thing thing, bool showDropButtonIfPrisoner = false)
 		{
 			Rect rect = new Rect(0f, y, width, 28f);
-			Widgets.InfoCardButton(rect.width - 24f, y, thing);
+			Widgets.InfoCardButton((float)(rect.width - 24.0), y, thing);
 			rect.width -= 24f;
 			if (this.CanControl || (this.SelPawnForGear.Faction == Faction.OfPlayer && this.SelPawnForGear.RaceProps.packAnimal) || (showDropButtonIfPrisoner && this.SelPawnForGear.IsPrisonerOfColony))
 			{
-				Rect rect2 = new Rect(rect.width - 24f, y, 24f, 24f);
+				Rect rect2 = new Rect((float)(rect.width - 24.0), y, 24f, 24f);
 				TooltipHandler.TipRegion(rect2, "DropThing".Translate());
 				if (Widgets.ButtonImage(rect2, TexButton.Drop))
 				{
@@ -152,11 +161,8 @@ namespace RimWorld
 			{
 				if (thing.def.IsNutritionGivingIngestible && thing.IngestibleNow && base.SelPawn.RaceProps.CanEverEat(thing))
 				{
-					Rect rect3 = new Rect(rect.width - 24f, y, 24f, 24f);
-					TooltipHandler.TipRegion(rect3, "ConsumeThing".Translate(new object[]
-					{
-						thing.LabelNoCount
-					}));
+					Rect rect3 = new Rect((float)(rect.width - 24.0), y, 24f, 24f);
+					TooltipHandler.TipRegion(rect3, "ConsumeThing".Translate(thing.LabelNoCount));
 					if (Widgets.ButtonImage(rect3, TexButton.Ingest))
 					{
 						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
@@ -166,7 +172,7 @@ namespace RimWorld
 				rect.width -= 24f;
 			}
 			Rect rect4 = rect;
-			rect4.xMin = rect4.xMax - 60f;
+			rect4.xMin = (float)(rect4.xMax - 60.0);
 			CaravanPeopleAndItemsTabUtility.TryDrawMass(thing, rect4);
 			rect.width -= 60f;
 			if (Mouse.IsOver(rect))
@@ -174,13 +180,13 @@ namespace RimWorld
 				GUI.color = ITab_Pawn_Gear.HighlightColor;
 				GUI.DrawTexture(rect, TexUI.HighlightTex);
 			}
-			if (thing.def.DrawMatSingle != null && thing.def.DrawMatSingle.mainTexture != null)
+			if ((UnityEngine.Object)thing.def.DrawMatSingle != (UnityEngine.Object)null && (UnityEngine.Object)thing.def.DrawMatSingle.mainTexture != (UnityEngine.Object)null)
 			{
 				Widgets.ThingIcon(new Rect(4f, y, 28f, 28f), thing, 1f);
 			}
 			Text.Anchor = TextAnchor.MiddleLeft;
 			GUI.color = ITab_Pawn_Gear.ThingLabelColor;
-			Rect rect5 = new Rect(36f, y, rect.width - 36f, rect.height);
+			Rect rect5 = new Rect(36f, y, (float)(rect.width - 36.0), rect.height);
 			string text = thing.LabelCap;
 			Apparel apparel = thing as Apparel;
 			if (apparel != null && this.SelPawnForGear.outfits != null && this.SelPawnForGear.outfits.forcedHandler.IsForced(apparel))
@@ -194,14 +200,7 @@ namespace RimWorld
 			if (thing.def.useHitPoints)
 			{
 				string text3 = text2;
-				text2 = string.Concat(new object[]
-				{
-					text3,
-					"\n",
-					thing.HitPoints,
-					" / ",
-					thing.MaxHitPoints
-				});
+				text2 = text3 + "\n" + thing.HitPoints + " / " + thing.MaxHitPoints;
 			}
 			TooltipHandler.TipRegion(rect, text2);
 			y += 28f;
@@ -209,67 +208,53 @@ namespace RimWorld
 
 		private void TryDrawAverageArmor(ref float curY, float width, StatDef stat, string label, ref bool separatorDrawn)
 		{
-			if (this.SelPawnForGear.RaceProps.body != BodyDefOf.Human)
+			if (this.SelPawnForGear.RaceProps.body == BodyDefOf.Human)
 			{
-				return;
-			}
-			float num = 0f;
-			List<Apparel> wornApparel = this.SelPawnForGear.apparel.WornApparel;
-			for (int i = 0; i < wornApparel.Count; i++)
-			{
-				num += Mathf.Clamp01(wornApparel[i].GetStatValue(stat, true)) * wornApparel[i].def.apparel.HumanBodyCoverage;
-			}
-			num = Mathf.Clamp01(num);
-			if (num > 0.005f)
-			{
-				if (!separatorDrawn)
+				float num = 0f;
+				List<Apparel> wornApparel = this.SelPawnForGear.apparel.WornApparel;
+				for (int i = 0; i < wornApparel.Count; i++)
 				{
-					separatorDrawn = true;
-					Widgets.ListSeparator(ref curY, width, "AverageArmor".Translate());
+					num += Mathf.Clamp01(wornApparel[i].GetStatValue(stat, true)) * wornApparel[i].def.apparel.HumanBodyCoverage;
 				}
-				Rect rect = new Rect(0f, curY, width, 100f);
-				Widgets.Label(rect, label);
-				rect.xMin += 100f;
-				Widgets.Label(rect, num.ToStringPercent());
-				curY += 22f;
+				num = Mathf.Clamp01(num);
+				if (num > 0.004999999888241291)
+				{
+					if (!separatorDrawn)
+					{
+						separatorDrawn = true;
+						Widgets.ListSeparator(ref curY, width, "AverageArmor".Translate());
+					}
+					Rect rect = new Rect(0f, curY, width, 100f);
+					Widgets.Label(rect, label);
+					rect.xMin += 100f;
+					Widgets.Label(rect, num.ToStringPercent());
+					curY += 22f;
+				}
 			}
 		}
 
 		private void TryDrawMassInfo(ref float curY, float width)
 		{
-			if (this.SelPawnForGear.Dead)
+			if (!this.SelPawnForGear.Dead)
 			{
-				return;
+				Rect rect = new Rect(0f, curY, width, 22f);
+				float num = MassUtility.GearAndInventoryMass(this.SelPawnForGear);
+				float num2 = MassUtility.Capacity(this.SelPawnForGear);
+				Widgets.Label(rect, "MassCarried".Translate(num.ToString("0.##"), num2.ToString("0.##")));
+				curY += 22f;
 			}
-			Rect rect = new Rect(0f, curY, width, 22f);
-			float num = MassUtility.GearAndInventoryMass(this.SelPawnForGear);
-			float num2 = MassUtility.Capacity(this.SelPawnForGear);
-			Widgets.Label(rect, "MassCarried".Translate(new object[]
-			{
-				num.ToString("0.##"),
-				num2.ToString("0.##")
-			}));
-			curY += 22f;
 		}
 
 		private void TryDrawComfyTemperatureRange(ref float curY, float width)
 		{
-			if (this.SelPawnForGear.Dead)
+			if (!this.SelPawnForGear.Dead)
 			{
-				return;
+				Rect rect = new Rect(0f, curY, width, 22f);
+				float statValue = this.SelPawnForGear.GetStatValue(StatDefOf.ComfyTemperatureMin, true);
+				float statValue2 = this.SelPawnForGear.GetStatValue(StatDefOf.ComfyTemperatureMax, true);
+				Widgets.Label(rect, "ComfyTemperatureRange".Translate() + ": " + statValue.ToStringTemperature("F0") + " ~ " + statValue2.ToStringTemperature("F0"));
+				curY += 22f;
 			}
-			Rect rect = new Rect(0f, curY, width, 22f);
-			float statValue = this.SelPawnForGear.GetStatValue(StatDefOf.ComfyTemperatureMin, true);
-			float statValue2 = this.SelPawnForGear.GetStatValue(StatDefOf.ComfyTemperatureMax, true);
-			Widgets.Label(rect, string.Concat(new string[]
-			{
-				"ComfyTemperatureRange".Translate(),
-				": ",
-				statValue.ToStringTemperature("F0"),
-				" ~ ",
-				statValue2.ToStringTemperature("F0")
-			}));
-			curY += 22f;
 		}
 
 		private void InterfaceDrop(Thing t)
@@ -278,16 +263,16 @@ namespace RimWorld
 			Apparel apparel = t as Apparel;
 			if (apparel != null && this.SelPawnForGear.apparel != null && this.SelPawnForGear.apparel.WornApparel.Contains(apparel))
 			{
-				this.SelPawnForGear.jobs.TryTakeOrderedJob(new Job(JobDefOf.RemoveApparel, apparel), JobTag.Misc);
+				this.SelPawnForGear.jobs.TryTakeOrderedJob(new Job(JobDefOf.RemoveApparel, (Thing)apparel), JobTag.Misc);
 			}
 			else if (thingWithComps != null && this.SelPawnForGear.equipment != null && this.SelPawnForGear.equipment.AllEquipmentListForReading.Contains(thingWithComps))
 			{
-				this.SelPawnForGear.jobs.TryTakeOrderedJob(new Job(JobDefOf.DropEquipment, thingWithComps), JobTag.Misc);
+				this.SelPawnForGear.jobs.TryTakeOrderedJob(new Job(JobDefOf.DropEquipment, (Thing)thingWithComps), JobTag.Misc);
 			}
 			else if (!t.def.destroyOnDrop)
 			{
-				Thing thing;
-				this.SelPawnForGear.inventory.innerContainer.TryDrop(t, this.SelPawnForGear.Position, this.SelPawnForGear.Map, ThingPlaceMode.Near, out thing, null);
+				Thing thing = default(Thing);
+				this.SelPawnForGear.inventory.innerContainer.TryDrop(t, this.SelPawnForGear.Position, this.SelPawnForGear.Map, ThingPlaceMode.Near, out thing, (Action<Thing, int>)null);
 			}
 		}
 

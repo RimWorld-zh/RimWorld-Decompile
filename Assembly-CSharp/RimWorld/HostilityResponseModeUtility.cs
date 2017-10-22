@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -19,13 +18,21 @@ namespace RimWorld
 			switch (response)
 			{
 			case HostilityResponseMode.Ignore:
+			{
 				return HostilityResponseModeUtility.IgnoreIcon;
+			}
 			case HostilityResponseMode.Attack:
+			{
 				return HostilityResponseModeUtility.AttackIcon;
+			}
 			case HostilityResponseMode.Flee:
+			{
 				return HostilityResponseModeUtility.FleeIcon;
+			}
 			default:
+			{
 				return BaseContent.BadTex;
+			}
 			}
 		}
 
@@ -34,17 +41,25 @@ namespace RimWorld
 			switch (pawn.playerSettings.hostilityResponse)
 			{
 			case HostilityResponseMode.Ignore:
+			{
 				if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 				{
 					return HostilityResponseMode.Flee;
 				}
 				return HostilityResponseMode.Attack;
+			}
 			case HostilityResponseMode.Attack:
+			{
 				return HostilityResponseMode.Flee;
+			}
 			case HostilityResponseMode.Flee:
+			{
 				return HostilityResponseMode.Ignore;
+			}
 			default:
+			{
 				return HostilityResponseMode.Ignore;
+			}
 			}
 		}
 
@@ -64,14 +79,7 @@ namespace RimWorld
 				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.HostilityResponse, KnowledgeAmount.SpecificInteraction);
 			}
 			UIHighlighter.HighlightOpportunity(rect, "HostilityResponse");
-			TooltipHandler.TipRegion(rect, string.Concat(new string[]
-			{
-				"HostilityReponseTip".Translate(),
-				"\n\n",
-				"HostilityResponseCurrentMode".Translate(),
-				": ",
-				pawn.playerSettings.hostilityResponse.GetLabel()
-			}));
+			TooltipHandler.TipRegion(rect, "HostilityReponseTip".Translate() + "\n\n" + "HostilityResponseCurrentMode".Translate() + ": " + pawn.playerSettings.hostilityResponse.GetLabel());
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -35,12 +34,11 @@ namespace RimWorld
 				return null;
 			}
 			ThingDef finalIngestibleDef = FoodUtility.GetFinalIngestibleDef(thing);
-			return new Job(JobDefOf.Ingest, thing)
-			{
-				count = finalIngestibleDef.ingestible.maxNumToIngestAtOnce,
-				ignoreForbidden = this.IgnoreForbid(pawn),
-				overeat = true
-			};
+			Job job = new Job(JobDefOf.Ingest, thing);
+			job.count = finalIngestibleDef.ingestible.maxNumToIngestAtOnce;
+			job.ignoreForbidden = this.IgnoreForbid(pawn);
+			job.overeat = true;
+			return job;
 		}
 
 		protected abstract Thing BestIngestTarget(Pawn pawn);

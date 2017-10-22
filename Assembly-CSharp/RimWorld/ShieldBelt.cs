@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -53,7 +51,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.GetStatValue(StatDefOf.EnergyShieldRechargeRate, true) / 60f;
+				return (float)(this.GetStatValue(StatDefOf.EnergyShieldRechargeRate, true) / 60.0);
 			}
 		}
 
@@ -82,7 +80,27 @@ namespace RimWorld
 			get
 			{
 				Pawn wearer = base.Wearer;
-				return !wearer.Dead && !wearer.Downed && (!wearer.IsPrisonerOfColony || (wearer.MentalStateDef != null && wearer.MentalStateDef.IsAggro)) && (wearer.Drafted || wearer.Faction.HostileTo(Faction.OfPlayer) || Find.TickManager.TicksGame < this.lastKeepDisplayTick + this.KeepDisplayingTicks);
+				if (!wearer.Dead && !wearer.Downed)
+				{
+					if (wearer.IsPrisonerOfColony && (wearer.MentalStateDef == null || !wearer.MentalStateDef.IsAggro))
+					{
+						return false;
+					}
+					if (wearer.Drafted)
+					{
+						return true;
+					}
+					if (wearer.Faction.HostileTo(Faction.OfPlayer))
+					{
+						return true;
+					}
+					if (Find.TickManager.TicksGame < this.lastKeepDisplayTick + this.KeepDisplayingTicks)
+					{
+						return true;
+					}
+					return false;
+				}
+				return false;
 			}
 		}
 
@@ -94,14 +112,15 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.lastKeepDisplayTick, "lastKeepDisplayTick", 0, false);
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetWornGizmos()
 		{
-			ShieldBelt.<GetWornGizmos>c__Iterator161 <GetWornGizmos>c__Iterator = new ShieldBelt.<GetWornGizmos>c__Iterator161();
-			<GetWornGizmos>c__Iterator.<>f__this = this;
-			ShieldBelt.<GetWornGizmos>c__Iterator161 expr_0E = <GetWornGizmos>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (Find.Selector.SingleSelectedThing == base.Wearer)
+			{
+				yield return (Gizmo)new Gizmo_EnergyShieldStatus
+				{
+					shield = this
+				};
+			}
 		}
 
 		public override float GetSpecialApparelScoreOffset()
@@ -115,9 +134,8 @@ namespace RimWorld
 			if (base.Wearer == null)
 			{
 				this.energy = 0f;
-				return;
 			}
-			if (this.ShieldState == ShieldState.Resetting)
+			else if (this.ShieldState == ShieldState.Resetting)
 			{
 				this.ticksToReset--;
 				if (this.ticksToReset <= 0)
@@ -137,32 +155,39 @@ namespace RimWorld
 
 		public override bool CheckPreAbsorbDamage(DamageInfo dinfo)
 		{
-			if (this.ShieldState == ShieldState.Active && ((dinfo.Instigator != null && !dinfo.Instigator.Position.AdjacentTo8WayOrInside(base.Wearer.Position)) || dinfo.Def.isExplosive))
+			if (this.ShieldState == ShieldState.Active)
 			{
-				if (dinfo.Instigator != null)
+				if (dinfo.Instigator != null && !dinfo.Instigator.Position.AdjacentTo8WayOrInside(base.Wearer.Position))
 				{
-					AttachableThing attachableThing = dinfo.Instigator as AttachableThing;
-					if (attachableThing != null && attachableThing.parent == base.Wearer)
-					{
-						return false;
-					}
+					goto IL_0049;
 				}
-				this.energy -= (float)dinfo.Amount * this.EnergyLossPerDamage;
-				if (dinfo.Def == DamageDefOf.EMP)
-				{
-					this.energy = -1f;
-				}
-				if (this.energy < 0f)
-				{
-					this.Break();
-				}
-				else
-				{
-					this.AbsorbedDamage(dinfo);
-				}
-				return true;
+				if (dinfo.Def.isExplosive)
+					goto IL_0049;
 			}
 			return false;
+			IL_0049:
+			if (dinfo.Instigator != null)
+			{
+				AttachableThing attachableThing = dinfo.Instigator as AttachableThing;
+				if (attachableThing != null && attachableThing.parent == base.Wearer)
+				{
+					return false;
+				}
+			}
+			this.energy -= (float)dinfo.Amount * this.EnergyLossPerDamage;
+			if (dinfo.Def == DamageDefOf.EMP)
+			{
+				this.energy = -1f;
+			}
+			if (this.energy < 0.0)
+			{
+				this.Break();
+			}
+			else
+			{
+				this.AbsorbedDamage(dinfo);
+			}
+			return true;
 		}
 
 		public void KeepDisplaying()
@@ -175,10 +200,10 @@ namespace RimWorld
 			SoundDefOf.EnergyShieldAbsorbDamage.PlayOneShot(new TargetInfo(base.Wearer.Position, base.Wearer.Map, false));
 			this.impactAngleVect = Vector3Utility.HorizontalVectorFromAngle(dinfo.Angle);
 			Vector3 loc = base.Wearer.TrueCenter() + this.impactAngleVect.RotatedBy(180f) * 0.5f;
-			float num = Mathf.Min(10f, 2f + (float)dinfo.Amount / 10f);
+			float num = Mathf.Min(10f, (float)(2.0 + (float)dinfo.Amount / 10.0));
 			MoteMaker.MakeStaticMote(loc, base.Wearer.Map, ThingDefOf.Mote_ExplosionFlash, num);
 			int num2 = (int)num;
-			for (int i = 0; i < num2; i++)
+			for (int num3 = 0; num3 < num2; num3++)
 			{
 				MoteMaker.ThrowDustPuff(loc, base.Wearer.Map, Rand.Range(0.8f, 1.2f));
 			}
@@ -220,7 +245,7 @@ namespace RimWorld
 				int num2 = Find.TickManager.TicksGame - this.lastAbsorbDamageTick;
 				if (num2 < 8)
 				{
-					float num3 = (float)(8 - num2) / 8f * 0.05f;
+					float num3 = (float)((float)(8 - num2) / 8.0 * 0.05000000074505806);
 					vector += this.impactAngleVect * num3;
 					num -= num3;
 				}

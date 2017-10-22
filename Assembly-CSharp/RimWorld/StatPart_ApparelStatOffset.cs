@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using Verse;
 
@@ -44,12 +43,12 @@ namespace RimWorld
 					return stringBuilder.ToString();
 				}
 			}
-			return null;
+			return (string)null;
 		}
 
 		private string InfoTextLineFrom(Thing gear)
 		{
-			return "    " + gear.LabelCap + ": " + gear.GetStatValue(this.apparelStat, true).ToStringByStyle(this.parentStat.toStringStyle, ToStringNumberSense.Offset);
+			return "    " + gear.LabelCap + ": " + gear.GetStatValue(this.apparelStat, true).ToStringByStyle(base.parentStat.toStringStyle, ToStringNumberSense.Offset);
 		}
 
 		private bool PawnWearingRelevantGear(Pawn pawn)
@@ -59,7 +58,7 @@ namespace RimWorld
 				for (int i = 0; i < pawn.apparel.WornApparel.Count; i++)
 				{
 					Apparel thing = pawn.apparel.WornApparel[i];
-					if (thing.GetStatValue(this.apparelStat, true) != 0f)
+					if (thing.GetStatValue(this.apparelStat, true) != 0.0)
 					{
 						return true;
 					}

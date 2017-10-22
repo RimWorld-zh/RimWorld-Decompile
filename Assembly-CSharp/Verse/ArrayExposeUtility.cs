@@ -9,13 +9,13 @@ namespace Verse
 
 		public static void ExposeByteArray(ref byte[] arr, string label)
 		{
-			string text = null;
+			string text = (string)null;
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
 				text = Convert.ToBase64String(arr);
 				text = ArrayExposeUtility.AddLineBreaksToLongString(text);
 			}
-			Scribe_Values.Look<string>(ref text, label, null, false);
+			Scribe_Values.Look(ref text, label, (string)null, false);
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
 				text = ArrayExposeUtility.RemoveLineBreaks(text);
@@ -26,24 +26,23 @@ namespace Verse
 		public static void ExposeBoolArray(ref bool[] arr, int mapSizeX, int mapSizeZ, string label)
 		{
 			int num = mapSizeX * mapSizeZ;
-			int num2 = (int)Math.Ceiling((double)((float)num / 6f));
+			int num2 = (int)Math.Ceiling((float)num / 6.0);
 			byte[] array = new byte[num2];
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
 				int num3 = 0;
-				byte b = 1;
-				for (int i = 0; i < num; i++)
+				byte b = (byte)1;
+				for (int num4 = 0; num4 < num; num4++)
 				{
-					if (arr[i])
+					if (arr[num4])
 					{
-						byte[] expr_44_cp_0 = array;
-						int expr_44_cp_1 = num3;
-						expr_44_cp_0[expr_44_cp_1] |= b;
+						ref byte val = ref array[num3];
+						val = (byte)(val | b);
 					}
-					b *= 2;
+					b = (byte)(b * 2);
 					if (b > 32)
 					{
-						b = 1;
+						b = (byte)1;
 						num3++;
 					}
 				}
@@ -51,20 +50,20 @@ namespace Verse
 			ArrayExposeUtility.ExposeByteArray(ref array, label);
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
-				int num4 = 0;
-				byte b2 = 1;
-				for (int j = 0; j < num; j++)
+				int num5 = 0;
+				byte b2 = (byte)1;
+				for (int num6 = 0; num6 < num; num6++)
 				{
 					if (arr == null)
 					{
 						arr = new bool[num];
 					}
-					arr[j] = ((array[num4] & b2) != 0);
-					b2 *= 2;
+					arr[num6] = ((array[num5] & b2) != 0);
+					b2 = (byte)(b2 * 2);
 					if (b2 > 32)
 					{
-						b2 = 1;
-						num4++;
+						b2 = (byte)1;
+						num5++;
 					}
 				}
 			}

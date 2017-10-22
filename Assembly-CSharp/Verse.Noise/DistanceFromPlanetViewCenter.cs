@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse.Noise
@@ -27,14 +26,14 @@ namespace Verse.Noise
 			float valueInt = this.GetValueInt(x, y, z);
 			if (this.invert)
 			{
-				return (double)(1f - valueInt);
+				return 1.0 - valueInt;
 			}
 			return (double)valueInt;
 		}
 
 		private float GetValueInt(double x, double y, double z)
 		{
-			if (this.viewAngle >= 180f)
+			if (this.viewAngle >= 180.0)
 			{
 				return 0f;
 			}

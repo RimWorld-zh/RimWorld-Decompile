@@ -39,9 +39,9 @@ namespace RimWorld
 
 		public Page_SelectLandingSite()
 		{
-			this.absorbInputAroundWindow = false;
-			this.shadowAlpha = 0f;
-			this.preventCameraMotion = false;
+			base.absorbInputAroundWindow = false;
+			base.shadowAlpha = 0f;
+			base.preventCameraMotion = false;
 		}
 
 		public override void PreOpen()
@@ -76,7 +76,7 @@ namespace RimWorld
 			{
 				Find.GameInitData.startingTile = Find.WorldSelector.FirstSelectedObject.Tile;
 			}
-			this.closeOnEscapeKey = !Find.WorldRoutePlanner.Active;
+			base.closeOnEscapeKey = !Find.WorldRoutePlanner.Active;
 		}
 
 		public override void ExtraOnGUI()
@@ -107,7 +107,11 @@ namespace RimWorld
 				return false;
 			}
 			Tile tile = Find.WorldGrid[selectedTile];
-			return TutorSystem.AllowAction("ChooseBiome-" + tile.biome.defName + "-" + tile.hilliness.ToString());
+			if (!TutorSystem.AllowAction("ChooseBiome-" + tile.biome.defName + "-" + ((Enum)(object)tile.hilliness).ToString()))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected override void DoNext()
@@ -119,62 +123,100 @@ namespace RimWorld
 		private void DoCustomBottomButtons()
 		{
 			int num = (!TutorSystem.TutorialMode) ? 5 : 4;
-			int num2;
-			if (num >= 4 && (float)UI.screenWidth < 1340f)
-			{
-				num2 = 2;
-			}
-			else
-			{
-				num2 = 1;
-			}
+			int num2 = (num < 4 || !((float)UI.screenWidth < 1340.0)) ? 1 : 2;
 			int num3 = Mathf.CeilToInt((float)num / (float)num2);
-			float num4 = Page.BottomButSize.x * (float)num3 + 10f * (float)(num3 + 1);
-			float num5 = (float)num2 * Page.BottomButSize.y + 10f * (float)(num2 + 1);
-			Rect rect = new Rect(((float)UI.screenWidth - num4) / 2f, (float)UI.screenHeight - num5 - 4f, num4, num5);
-			if (Find.WindowStack.IsOpen<WorldInspectPane>() && rect.x < InspectPaneUtility.PaneSize.x + 4f)
+			Vector2 bottomButSize = Page.BottomButSize;
+			float num4 = (float)(bottomButSize.x * (float)num3 + 10.0 * (float)(num3 + 1));
+			float num5 = (float)num2;
+			Vector2 bottomButSize2 = Page.BottomButSize;
+			float num6 = (float)(num5 * bottomButSize2.y + 10.0 * (float)(num2 + 1));
+			Rect rect = new Rect((float)(((float)UI.screenWidth - num4) / 2.0), (float)((float)UI.screenHeight - num6 - 4.0), num4, num6);
+			if (Find.WindowStack.IsOpen<WorldInspectPane>())
 			{
-				rect.x = InspectPaneUtility.PaneSize.x + 4f;
+				float x = rect.x;
+				Vector2 paneSize = InspectPaneUtility.PaneSize;
+				if (x < paneSize.x + 4.0)
+				{
+					Vector2 paneSize2 = InspectPaneUtility.PaneSize;
+					rect.x = (float)(paneSize2.x + 4.0);
+				}
 			}
 			Widgets.DrawWindowBackground(rect);
-			float num6 = rect.xMin + 10f;
-			float num7 = rect.yMin + 10f;
+			float num7 = (float)(rect.xMin + 10.0);
+			float num8 = (float)(rect.yMin + 10.0);
 			Text.Font = GameFont.Small;
-			if (Widgets.ButtonText(new Rect(num6, num7, Page.BottomButSize.x, Page.BottomButSize.y), "Back".Translate(), true, false, true) && this.CanDoBack())
+			float x2 = num7;
+			float y = num8;
+			Vector2 bottomButSize3 = Page.BottomButSize;
+			float x3 = bottomButSize3.x;
+			Vector2 bottomButSize4 = Page.BottomButSize;
+			if (Widgets.ButtonText(new Rect(x2, y, x3, bottomButSize4.y), "Back".Translate(), true, false, true) && this.CanDoBack())
 			{
 				this.DoBack();
 			}
-			num6 += Page.BottomButSize.x + 10f;
+			float num9 = num7;
+			Vector2 bottomButSize5 = Page.BottomButSize;
+			num7 = (float)(num9 + (bottomButSize5.x + 10.0));
 			if (!TutorSystem.TutorialMode)
 			{
-				if (Widgets.ButtonText(new Rect(num6, num7, Page.BottomButSize.x, Page.BottomButSize.y), "Advanced".Translate(), true, false, true))
+				float x4 = num7;
+				float y2 = num8;
+				Vector2 bottomButSize6 = Page.BottomButSize;
+				float x5 = bottomButSize6.x;
+				Vector2 bottomButSize7 = Page.BottomButSize;
+				if (Widgets.ButtonText(new Rect(x4, y2, x5, bottomButSize7.y), "Advanced".Translate(), true, false, true))
 				{
 					Find.WindowStack.Add(new Dialog_AdvancedGameConfig(Find.WorldInterface.SelectedTile));
 				}
-				num6 += Page.BottomButSize.x + 10f;
+				float num10 = num7;
+				Vector2 bottomButSize8 = Page.BottomButSize;
+				num7 = (float)(num10 + (bottomButSize8.x + 10.0));
 			}
-			if (Widgets.ButtonText(new Rect(num6, num7, Page.BottomButSize.x, Page.BottomButSize.y), "SelectRandomSite".Translate(), true, false, true))
+			float x6 = num7;
+			float y3 = num8;
+			Vector2 bottomButSize9 = Page.BottomButSize;
+			float x7 = bottomButSize9.x;
+			Vector2 bottomButSize10 = Page.BottomButSize;
+			if (Widgets.ButtonText(new Rect(x6, y3, x7, bottomButSize10.y), "SelectRandomSite".Translate(), true, false, true))
 			{
 				SoundDefOf.Click.PlayOneShotOnCamera(null);
 				Find.WorldInterface.SelectedTile = TileFinder.RandomStartingTile();
 				Find.WorldCameraDriver.JumpTo(Find.WorldGrid.GetTileCenter(Find.WorldInterface.SelectedTile));
 			}
-			num6 += Page.BottomButSize.x + 10f;
+			float num11 = num7;
+			Vector2 bottomButSize11 = Page.BottomButSize;
+			num7 = (float)(num11 + (bottomButSize11.x + 10.0));
 			if (num2 == 2)
 			{
-				num6 = rect.xMin + 10f;
-				num7 += Page.BottomButSize.y + 10f;
+				num7 = (float)(rect.xMin + 10.0);
+				float num12 = num8;
+				Vector2 bottomButSize12 = Page.BottomButSize;
+				num8 = (float)(num12 + (bottomButSize12.y + 10.0));
 			}
-			if (Widgets.ButtonText(new Rect(num6, num7, Page.BottomButSize.x, Page.BottomButSize.y), "WorldFactionsTab".Translate(), true, false, true))
+			float x8 = num7;
+			float y4 = num8;
+			Vector2 bottomButSize13 = Page.BottomButSize;
+			float x9 = bottomButSize13.x;
+			Vector2 bottomButSize14 = Page.BottomButSize;
+			if (Widgets.ButtonText(new Rect(x8, y4, x9, bottomButSize14.y), "WorldFactionsTab".Translate(), true, false, true))
 			{
 				Find.WindowStack.Add(new Dialog_FactionDuringLanding());
 			}
-			num6 += Page.BottomButSize.x + 10f;
-			if (Widgets.ButtonText(new Rect(num6, num7, Page.BottomButSize.x, Page.BottomButSize.y), "Next".Translate(), true, false, true) && this.CanDoNext())
+			float num13 = num7;
+			Vector2 bottomButSize15 = Page.BottomButSize;
+			num7 = (float)(num13 + (bottomButSize15.x + 10.0));
+			float x10 = num7;
+			float y5 = num8;
+			Vector2 bottomButSize16 = Page.BottomButSize;
+			float x11 = bottomButSize16.x;
+			Vector2 bottomButSize17 = Page.BottomButSize;
+			if (Widgets.ButtonText(new Rect(x10, y5, x11, bottomButSize17.y), "Next".Translate(), true, false, true) && this.CanDoNext())
 			{
 				this.DoNext();
 			}
-			num6 += Page.BottomButSize.x + 10f;
+			float num14 = num7;
+			Vector2 bottomButSize18 = Page.BottomButSize;
+			num7 = (float)(num14 + (bottomButSize18.x + 10.0));
 			GenUI.AbsorbClicksInRect(rect);
 		}
 	}

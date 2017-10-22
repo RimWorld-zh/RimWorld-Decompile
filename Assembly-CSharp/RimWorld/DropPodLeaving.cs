@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -95,7 +94,7 @@ namespace RimWorld
 			Scribe_Values.Look<PawnsArriveMode>(ref this.arriveMode, "arriveMode", PawnsArriveMode.Undecided, false);
 			Scribe_Values.Look<bool>(ref this.attackOnArrival, "attackOnArrival", false, false);
 			Scribe_Values.Look<int>(ref this.ticksSinceStart, "ticksSinceStart", 0, false);
-			Scribe_Deep.Look<ActiveDropPodInfo>(ref this.contents, "contents", new object[]
+			Scribe_Deep.Look<ActiveDropPodInfo>(ref this.contents, "contents", new object[1]
 			{
 				this
 			});
@@ -129,38 +128,39 @@ namespace RimWorld
 			{
 				Log.Error("Drop pod left the map, but its group ID is " + this.groupID);
 				this.Destroy(DestroyMode.Vanish);
-				return;
 			}
-			if (this.destinationTile < 0)
+			else if (this.destinationTile < 0)
 			{
 				Log.Error("Drop pod left the map, but its destination tile is " + this.destinationTile);
 				this.Destroy(DestroyMode.Vanish);
-				return;
 			}
-			Lord lord = TransporterUtility.FindLord(this.groupID, base.Map);
-			if (lord != null)
+			else
 			{
-				base.Map.lordManager.RemoveLord(lord);
-			}
-			TravelingTransportPods travelingTransportPods = (TravelingTransportPods)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.TravelingTransportPods);
-			travelingTransportPods.Tile = base.Map.Tile;
-			travelingTransportPods.SetFaction(Faction.OfPlayer);
-			travelingTransportPods.destinationTile = this.destinationTile;
-			travelingTransportPods.destinationCell = this.destinationCell;
-			travelingTransportPods.arriveMode = this.arriveMode;
-			travelingTransportPods.attackOnArrival = this.attackOnArrival;
-			Find.WorldObjects.Add(travelingTransportPods);
-			DropPodLeaving.tmpActiveDropPods.Clear();
-			DropPodLeaving.tmpActiveDropPods.AddRange(base.Map.listerThings.ThingsInGroup(ThingRequestGroup.ActiveDropPod));
-			for (int i = 0; i < DropPodLeaving.tmpActiveDropPods.Count; i++)
-			{
-				DropPodLeaving dropPodLeaving = DropPodLeaving.tmpActiveDropPods[i] as DropPodLeaving;
-				if (dropPodLeaving != null && dropPodLeaving.groupID == this.groupID)
+				Lord lord = TransporterUtility.FindLord(this.groupID, base.Map);
+				if (lord != null)
 				{
-					dropPodLeaving.alreadyLeft = true;
-					travelingTransportPods.AddPod(dropPodLeaving.contents, true);
-					dropPodLeaving.contents = null;
-					dropPodLeaving.Destroy(DestroyMode.Vanish);
+					base.Map.lordManager.RemoveLord(lord);
+				}
+				TravelingTransportPods travelingTransportPods = (TravelingTransportPods)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.TravelingTransportPods);
+				travelingTransportPods.Tile = base.Map.Tile;
+				travelingTransportPods.SetFaction(Faction.OfPlayer);
+				travelingTransportPods.destinationTile = this.destinationTile;
+				travelingTransportPods.destinationCell = this.destinationCell;
+				travelingTransportPods.arriveMode = this.arriveMode;
+				travelingTransportPods.attackOnArrival = this.attackOnArrival;
+				Find.WorldObjects.Add(travelingTransportPods);
+				DropPodLeaving.tmpActiveDropPods.Clear();
+				DropPodLeaving.tmpActiveDropPods.AddRange(base.Map.listerThings.ThingsInGroup(ThingRequestGroup.ActiveDropPod));
+				for (int i = 0; i < DropPodLeaving.tmpActiveDropPods.Count; i++)
+				{
+					DropPodLeaving dropPodLeaving = DropPodLeaving.tmpActiveDropPods[i] as DropPodLeaving;
+					if (dropPodLeaving != null && dropPodLeaving.groupID == this.groupID)
+					{
+						dropPodLeaving.alreadyLeft = true;
+						travelingTransportPods.AddPod(dropPodLeaving.contents, true);
+						dropPodLeaving.contents = null;
+						dropPodLeaving.Destroy(DestroyMode.Vanish);
+					}
 				}
 			}
 		}
@@ -168,6 +168,12 @@ namespace RimWorld
 		virtual IThingHolder get_ParentHolder()
 		{
 			return base.ParentHolder;
+		}
+
+		IThingHolder IThingHolder.get_ParentHolder()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
+			return this.get_ParentHolder();
 		}
 	}
 }

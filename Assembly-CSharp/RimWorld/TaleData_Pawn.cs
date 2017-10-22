@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.Grammar;
@@ -43,7 +42,7 @@ namespace RimWorld
 			taleData_Pawn.pawn = pawn;
 			taleData_Pawn.kind = pawn.kindDef;
 			taleData_Pawn.faction = pawn.Faction;
-			taleData_Pawn.gender = ((!pawn.RaceProps.hasGenders) ? Gender.None : pawn.gender);
+			taleData_Pawn.gender = (pawn.RaceProps.hasGenders ? pawn.gender : Gender.None);
 			if (pawn.RaceProps.Humanlike)
 			{
 				taleData_Pawn.name = pawn.Name;
@@ -51,8 +50,8 @@ namespace RimWorld
 				{
 					taleData_Pawn.primaryEquipment = pawn.equipment.Primary.def;
 				}
-				Apparel apparel;
-				if (pawn.apparel.WornApparel.TryRandomElement(out apparel))
+				Apparel apparel = default(Apparel);
+				if (((IEnumerable<Apparel>)pawn.apparel.WornApparel).TryRandomElement<Apparel>(out apparel))
 				{
 					taleData_Pawn.notableApparel = apparel.def;
 				}

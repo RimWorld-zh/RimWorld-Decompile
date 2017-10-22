@@ -9,16 +9,26 @@ namespace RimWorld
 		{
 			switch (fatigue)
 			{
-			case RestCategory.Rested:
-				return "HungerLevel_Rested".Translate();
-			case RestCategory.Tired:
-				return "HungerLevel_Tired".Translate();
-			case RestCategory.VeryTired:
-				return "HungerLevel_VeryTired".Translate();
 			case RestCategory.Exhausted:
+			{
 				return "HungerLevel_Exhausted".Translate();
+			}
+			case RestCategory.VeryTired:
+			{
+				return "HungerLevel_VeryTired".Translate();
+			}
+			case RestCategory.Tired:
+			{
+				return "HungerLevel_Tired".Translate();
+			}
+			case RestCategory.Rested:
+			{
+				return "HungerLevel_Rested".Translate();
+			}
 			default:
+			{
 				throw new InvalidOperationException();
+			}
 			}
 		}
 	}

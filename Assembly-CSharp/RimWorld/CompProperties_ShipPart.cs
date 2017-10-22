@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,7 +6,7 @@ namespace RimWorld
 	{
 		public CompProperties_ShipPart()
 		{
-			this.compClass = typeof(CompShipPart);
+			base.compClass = typeof(CompShipPart);
 		}
 	}
 }

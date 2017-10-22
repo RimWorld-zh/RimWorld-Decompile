@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum SeedTargFindMode : byte
 	{
-		MapGenCluster,
-		Reproduce,
-		MapEdge
+		MapGenCluster = 0,
+		Reproduce = 1,
+		MapEdge = 2
 	}
 }

@@ -19,13 +19,22 @@ namespace Verse
 
 		private static void CheckThingRegisteredTwice(Map map)
 		{
-			foreach (KeyValuePair<Region, List<Thing>> current in Autotests_RegionListers.expectedListers)
+			Dictionary<Region, List<Thing>>.Enumerator enumerator = Autotests_RegionListers.expectedListers.GetEnumerator();
+			try
 			{
-				Autotests_RegionListers.CheckDuplicates(current.Value, current.Key, true);
+				while (enumerator.MoveNext())
+				{
+					KeyValuePair<Region, List<Thing>> current = enumerator.Current;
+					Autotests_RegionListers.CheckDuplicates(current.Value, current.Key, true);
+				}
 			}
-			foreach (Region current2 in map.regionGrid.AllRegions)
+			finally
 			{
-				Autotests_RegionListers.CheckDuplicates(current2.ListerThings.AllThings, current2, false);
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			foreach (Region allRegion in map.regionGrid.AllRegions)
+			{
+				Autotests_RegionListers.CheckDuplicates(allRegion.ListerThings.AllThings, allRegion, false);
 			}
 		}
 
@@ -33,30 +42,17 @@ namespace Verse
 		{
 			for (int i = 1; i < lister.Count; i++)
 			{
-				for (int j = 0; j < i; j++)
+				for (int num = 0; num < i; num++)
 				{
-					if (lister[i] == lister[j])
+					if (lister[i] == lister[num])
 					{
 						if (expected)
 						{
-							Log.Error(string.Concat(new object[]
-							{
-								"Region error: thing ",
-								lister[i],
-								" is expected to be registered twice in ",
-								region,
-								"? This should never happen."
-							}));
+							Log.Error("Region error: thing " + lister[i] + " is expected to be registered twice in " + region + "? This should never happen.");
 						}
 						else
 						{
-							Log.Error(string.Concat(new object[]
-							{
-								"Region error: thing ",
-								lister[i],
-								" is registered twice in ",
-								region
-							}));
+							Log.Error("Region error: thing " + lister[i] + " is registered twice in " + region);
 						}
 					}
 				}
@@ -65,53 +61,44 @@ namespace Verse
 
 		private static void CheckThingNotRegisteredButShould()
 		{
-			foreach (KeyValuePair<Region, List<Thing>> current in Autotests_RegionListers.expectedListers)
+			Dictionary<Region, List<Thing>>.Enumerator enumerator = Autotests_RegionListers.expectedListers.GetEnumerator();
+			try
 			{
-				List<Thing> value = current.Value;
-				List<Thing> allThings = current.Key.ListerThings.AllThings;
-				for (int i = 0; i < value.Count; i++)
+				while (enumerator.MoveNext())
 				{
-					if (!allThings.Contains(value[i]))
+					KeyValuePair<Region, List<Thing>> current = enumerator.Current;
+					List<Thing> value = current.Value;
+					List<Thing> allThings = current.Key.ListerThings.AllThings;
+					for (int i = 0; i < value.Count; i++)
 					{
-						Log.Error(string.Concat(new object[]
+						if (!allThings.Contains(value[i]))
 						{
-							"Region error: thing ",
-							value[i],
-							" at ",
-							value[i].Position,
-							" should be registered in ",
-							current.Key,
-							" but it's not."
-						}));
+							Log.Error("Region error: thing " + value[i] + " at " + value[i].Position + " should be registered in " + current.Key + " but it's not.");
+						}
 					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 
 		private static void CheckThingRegisteredButShouldnt(Map map)
 		{
-			foreach (Region current in map.regionGrid.AllRegions)
+			foreach (Region allRegion in map.regionGrid.AllRegions)
 			{
-				List<Thing> list;
-				if (!Autotests_RegionListers.expectedListers.TryGetValue(current, out list))
+				List<Thing> list = default(List<Thing>);
+				if (!Autotests_RegionListers.expectedListers.TryGetValue(allRegion, out list))
 				{
 					list = null;
 				}
-				List<Thing> allThings = current.ListerThings.AllThings;
+				List<Thing> allThings = allRegion.ListerThings.AllThings;
 				for (int i = 0; i < allThings.Count; i++)
 				{
 					if (list == null || !list.Contains(allThings[i]))
 					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Region error: thing ",
-							allThings[i],
-							" at ",
-							allThings[i].Position,
-							" is registered in ",
-							current,
-							" but it shouldn't be."
-						}));
+						Log.Error("Region error: thing " + allThings[i] + " at " + allThings[i].Position + " is registered in " + allRegion + " but it shouldn't be.");
 					}
 				}
 			}
@@ -130,7 +117,7 @@ namespace Verse
 					for (int j = 0; j < Autotests_RegionListers.tmpTouchableRegions.Count; j++)
 					{
 						Region key = Autotests_RegionListers.tmpTouchableRegions[j];
-						List<Thing> list;
+						List<Thing> list = default(List<Thing>);
 						if (!Autotests_RegionListers.expectedListers.TryGetValue(key, out list))
 						{
 							list = new List<Thing>();

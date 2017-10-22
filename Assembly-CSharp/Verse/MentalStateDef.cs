@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse.AI;
 
@@ -107,14 +106,16 @@ namespace Verse
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			MentalStateDef.<ConfigErrors>c__Iterator1D3 <ConfigErrors>c__Iterator1D = new MentalStateDef.<ConfigErrors>c__Iterator1D3();
-			<ConfigErrors>c__Iterator1D.<>f__this = this;
-			MentalStateDef.<ConfigErrors>c__Iterator1D3 expr_0E = <ConfigErrors>c__Iterator1D;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (!this.beginLetter.NullOrEmpty() && this.beginLetterLabel.NullOrEmpty())
+			{
+				yield return "no beginLetter or beginLetterLabel";
+			}
 		}
 	}
 }

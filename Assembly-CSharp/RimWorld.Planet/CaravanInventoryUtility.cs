@@ -91,16 +91,10 @@ namespace RimWorld.Planet
 				if (thing2.IngestibleNow && thing2.def.IsDrug)
 				{
 					CompDrug compDrug = thing2.TryGetComp<CompDrug>();
-					if (compDrug != null && compDrug.Props.chemical != null)
+					if (compDrug != null && compDrug.Props.chemical != null && compDrug.Props.chemical.addictionHediff == addictionHediff.def && (forPawn.drugs == null || forPawn.drugs.CurrentPolicy[thing2.def].allowedForAddiction || forPawn.story == null || forPawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire) > 0))
 					{
-						if (compDrug.Props.chemical.addictionHediff == addictionHediff.def)
-						{
-							if (forPawn.drugs == null || forPawn.drugs.CurrentPolicy[thing2.def].allowedForAddiction || forPawn.story == null || forPawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire) > 0)
-							{
-								thing = thing2;
-								break;
-							}
-						}
+						thing = thing2;
+						break;
 					}
 				}
 			}
@@ -117,21 +111,15 @@ namespace RimWorld.Planet
 
 		public static bool TryGetBestMedicine(Caravan caravan, Pawn patient, out Medicine medicine, out Pawn owner)
 		{
-			if (patient.playerSettings == null || patient.playerSettings.medCare <= MedicalCareCategory.NoMeds)
+			if (patient.playerSettings != null && (int)patient.playerSettings.medCare > 1)
 			{
-				medicine = null;
-				owner = null;
-				return false;
-			}
-			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(caravan);
-			Medicine medicine2 = null;
-			float num = 0f;
-			for (int i = 0; i < list.Count; i++)
-			{
-				Thing thing = list[i];
-				if (thing.def.IsMedicine)
+				List<Thing> list = CaravanInventoryUtility.AllInventoryItems(caravan);
+				Medicine medicine2 = null;
+				float num = 0f;
+				for (int i = 0; i < list.Count; i++)
 				{
-					if (patient.playerSettings.medCare.AllowsMedicine(thing.def))
+					Thing thing = list[i];
+					if (thing.def.IsMedicine && patient.playerSettings.medCare.AllowsMedicine(thing.def))
 					{
 						float statValue = thing.GetStatValue(StatDefOf.MedicalPotency, true);
 						if (statValue > num || medicine2 == null)
@@ -141,12 +129,15 @@ namespace RimWorld.Planet
 						}
 					}
 				}
-			}
-			if (medicine2 != null)
-			{
-				medicine = medicine2;
-				owner = CaravanInventoryUtility.GetOwnerOf(caravan, medicine2);
-				return true;
+				if (medicine2 != null)
+				{
+					medicine = medicine2;
+					owner = CaravanInventoryUtility.GetOwnerOf(caravan, medicine2);
+					return true;
+				}
+				medicine = null;
+				owner = null;
+				return false;
 			}
 			medicine = null;
 			owner = null;
@@ -186,24 +177,16 @@ namespace RimWorld.Planet
 		{
 			if (numToMove < 0 || numToMove > item.stackCount)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Tried to move item ",
-					item,
-					" with numToMove=",
-					numToMove,
-					" (item stack count = ",
-					item.stackCount,
-					")"
-				}));
-				return;
+				Log.Warning("Tried to move item " + item + " with numToMove=" + numToMove + " (item stack count = " + item.stackCount + ")");
 			}
-			Pawn pawn = CaravanInventoryUtility.FindPawnToMoveInventoryTo(item, candidates, ignoreCandidates, itemOwner);
-			if (pawn == null)
+			else
 			{
-				return;
+				Pawn pawn = CaravanInventoryUtility.FindPawnToMoveInventoryTo(item, candidates, ignoreCandidates, itemOwner);
+				if (pawn != null)
+				{
+					itemOwner.inventory.innerContainer.TryTransferToContainer(item, pawn.inventory.innerContainer, numToMove, true);
+				}
 			}
-			itemOwner.inventory.innerContainer.TryTransferToContainer(item, pawn.inventory.innerContainer, numToMove, true);
 		}
 
 		public static Pawn FindPawnToMoveInventoryTo(Thing item, List<Pawn> candidates, List<Pawn> ignoreCandidates, Pawn currentItemOwner = null)
@@ -213,22 +196,22 @@ namespace RimWorld.Planet
 				Log.Error("Called FindPawnToMoveInventoryTo but the item is a pawn.");
 				return null;
 			}
-			Pawn result;
+			Pawn result = default(Pawn);
 			if ((from x in candidates
 			where CaravanInventoryUtility.CanMoveInventoryTo(x) && (ignoreCandidates == null || !ignoreCandidates.Contains(x)) && x != currentItemOwner && !MassUtility.IsOverEncumbered(x)
-			select x).TryRandomElement(out result))
+			select x).TryRandomElement<Pawn>(out result))
 			{
 				return result;
 			}
 			if ((from x in candidates
 			where CaravanInventoryUtility.CanMoveInventoryTo(x) && (ignoreCandidates == null || !ignoreCandidates.Contains(x)) && x != currentItemOwner
-			select x).TryRandomElement(out result))
+			select x).TryRandomElement<Pawn>(out result))
 			{
 				return result;
 			}
 			if ((from x in candidates
 			where (ignoreCandidates == null || !ignoreCandidates.Contains(x)) && x != currentItemOwner
-			select x).TryRandomElement(out result))
+			select x).TryRandomElement<Pawn>(out result))
 			{
 				return result;
 			}
@@ -237,42 +220,40 @@ namespace RimWorld.Planet
 
 		public static void MoveAllApparelToSomeonesInventory(Pawn moveFrom, List<Pawn> candidates)
 		{
-			if (moveFrom.apparel == null)
+			if (moveFrom.apparel != null)
 			{
-				return;
-			}
-			CaravanInventoryUtility.tmpApparel.Clear();
-			CaravanInventoryUtility.tmpApparel.AddRange(moveFrom.apparel.WornApparel);
-			for (int i = 0; i < CaravanInventoryUtility.tmpApparel.Count; i++)
-			{
-				moveFrom.apparel.Remove(CaravanInventoryUtility.tmpApparel[i]);
-				Pawn pawn = CaravanInventoryUtility.FindPawnToMoveInventoryTo(CaravanInventoryUtility.tmpApparel[i], candidates, null, moveFrom);
-				if (pawn != null)
+				CaravanInventoryUtility.tmpApparel.Clear();
+				CaravanInventoryUtility.tmpApparel.AddRange(moveFrom.apparel.WornApparel);
+				for (int i = 0; i < CaravanInventoryUtility.tmpApparel.Count; i++)
 				{
-					pawn.inventory.innerContainer.TryAdd(CaravanInventoryUtility.tmpApparel[i], true);
+					moveFrom.apparel.Remove(CaravanInventoryUtility.tmpApparel[i]);
+					Pawn pawn = CaravanInventoryUtility.FindPawnToMoveInventoryTo(CaravanInventoryUtility.tmpApparel[i], candidates, null, moveFrom);
+					if (pawn != null)
+					{
+						pawn.inventory.innerContainer.TryAdd(CaravanInventoryUtility.tmpApparel[i], true);
+					}
 				}
+				CaravanInventoryUtility.tmpApparel.Clear();
 			}
-			CaravanInventoryUtility.tmpApparel.Clear();
 		}
 
 		public static void MoveAllEquipmentToSomeonesInventory(Pawn moveFrom, List<Pawn> candidates)
 		{
-			if (moveFrom.equipment == null)
+			if (moveFrom.equipment != null)
 			{
-				return;
-			}
-			CaravanInventoryUtility.tmpEquipment.Clear();
-			CaravanInventoryUtility.tmpEquipment.AddRange(moveFrom.equipment.AllEquipmentListForReading);
-			for (int i = 0; i < CaravanInventoryUtility.tmpEquipment.Count; i++)
-			{
-				moveFrom.equipment.Remove(CaravanInventoryUtility.tmpEquipment[i]);
-				Pawn pawn = CaravanInventoryUtility.FindPawnToMoveInventoryTo(CaravanInventoryUtility.tmpEquipment[i], candidates, null, moveFrom);
-				if (pawn != null)
+				CaravanInventoryUtility.tmpEquipment.Clear();
+				CaravanInventoryUtility.tmpEquipment.AddRange(moveFrom.equipment.AllEquipmentListForReading);
+				for (int i = 0; i < CaravanInventoryUtility.tmpEquipment.Count; i++)
 				{
-					pawn.inventory.innerContainer.TryAdd(CaravanInventoryUtility.tmpEquipment[i], true);
+					moveFrom.equipment.Remove(CaravanInventoryUtility.tmpEquipment[i]);
+					Pawn pawn = CaravanInventoryUtility.FindPawnToMoveInventoryTo(CaravanInventoryUtility.tmpEquipment[i], candidates, null, moveFrom);
+					if (pawn != null)
+					{
+						pawn.inventory.innerContainer.TryAdd(CaravanInventoryUtility.tmpEquipment[i], true);
+					}
 				}
+				CaravanInventoryUtility.tmpEquipment.Clear();
 			}
-			CaravanInventoryUtility.tmpEquipment.Clear();
 		}
 
 		private static bool CanMoveInventoryTo(Pawn pawn)
@@ -283,15 +264,24 @@ namespace RimWorld.Planet
 		public static List<Thing> TakeThings(Caravan caravan, Func<Thing, int> takeQuantity)
 		{
 			List<Thing> list = new List<Thing>();
-			foreach (Thing current in CaravanInventoryUtility.AllInventoryItems(caravan))
+			List<Thing>.Enumerator enumerator = CaravanInventoryUtility.AllInventoryItems(caravan).GetEnumerator();
+			try
 			{
-				int num = takeQuantity(current);
-				if (num > 0)
+				while (enumerator.MoveNext())
 				{
-					list.Add(current.holdingOwner.Take(current, num));
+					Thing current = enumerator.Current;
+					int num = takeQuantity(current);
+					if (num > 0)
+					{
+						list.Add(current.holdingOwner.Take(current, num));
+					}
 				}
+				return list;
 			}
-			return list;
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
 		}
 
 		public static void GiveThing(Caravan caravan, Thing thing)
@@ -300,20 +290,18 @@ namespace RimWorld.Planet
 			if (pawn == null)
 			{
 				Log.Error(string.Format("Failed to give item {0} to caravan {1}; item was lost", thing, caravan));
-				return;
 			}
-			if (!pawn.inventory.innerContainer.TryAdd(thing, true))
+			else if (!pawn.inventory.innerContainer.TryAdd(thing, true))
 			{
 				Log.Error(string.Format("Failed to give item {0} to caravan {1}; item was lost", thing, caravan));
-				return;
 			}
 		}
 
 		public static bool HasThings(Caravan caravan, ThingDef thingDef, int count, Func<Thing, bool> validator = null)
 		{
 			return (from thing in CaravanInventoryUtility.AllInventoryItems(caravan)
-			where thing.def == thingDef && (validator == null || validator(thing))
-			select thing).Sum((Thing thing) => thing.stackCount) >= count;
+			where thing.def == thingDef && ((object)validator == null || validator(thing))
+			select thing).Sum((Func<Thing, int>)((Thing thing) => thing.stackCount)) >= count;
 		}
 	}
 }

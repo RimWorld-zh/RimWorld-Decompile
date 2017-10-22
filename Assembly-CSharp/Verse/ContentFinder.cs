@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace Verse
@@ -12,53 +10,70 @@ namespace Verse
 			if (!UnityData.IsInMainThread)
 			{
 				Log.Error("Tried to get a resource \"" + itemPath + "\" from a different thread. All resources must be loaded in the main thread.");
-				return (T)((object)null);
+				return (T)null;
 			}
-			T t = (T)((object)null);
-			foreach (ModContentPack current in LoadedModManager.RunningMods)
+			T val = (T)null;
+			foreach (ModContentPack runningMod in LoadedModManager.RunningMods)
 			{
-				t = current.GetContentHolder<T>().Get(itemPath);
-				if (t != null)
+				val = runningMod.GetContentHolder<T>().Get(itemPath);
+				if (val != null)
 				{
-					T result = t;
-					return result;
+					return val;
 				}
 			}
 			if (typeof(T) == typeof(Texture2D))
 			{
-				t = (T)((object)Resources.Load<Texture2D>(GenFilePaths.ContentPath<Texture2D>() + itemPath));
+				val = (T)(object)Resources.Load<Texture2D>(GenFilePaths.ContentPath<Texture2D>() + itemPath);
 			}
 			if (typeof(T) == typeof(AudioClip))
 			{
-				t = (T)((object)Resources.Load<AudioClip>(GenFilePaths.ContentPath<AudioClip>() + itemPath));
+				val = (T)(object)Resources.Load<AudioClip>(GenFilePaths.ContentPath<AudioClip>() + itemPath);
 			}
-			if (t != null)
+			if (val != null)
 			{
-				return t;
+				return val;
 			}
 			if (reportFailure)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Could not load ",
-					typeof(T),
-					" at ",
-					itemPath,
-					" in any active mod or in base resources."
-				}));
+				Log.Error("Could not load " + typeof(T) + " at " + itemPath + " in any active mod or in base resources.");
 			}
-			return (T)((object)null);
+			return (T)null;
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<T> GetAllInFolder(string folderPath)
 		{
-			ContentFinder<T>.<GetAllInFolder>c__Iterator20E <GetAllInFolder>c__Iterator20E = new ContentFinder<T>.<GetAllInFolder>c__Iterator20E();
-			<GetAllInFolder>c__Iterator20E.folderPath = folderPath;
-			<GetAllInFolder>c__Iterator20E.<$>folderPath = folderPath;
-			ContentFinder<T>.<GetAllInFolder>c__Iterator20E expr_15 = <GetAllInFolder>c__Iterator20E;
-			expr_15.$PC = -2;
-			return expr_15;
+			if (!UnityData.IsInMainThread)
+			{
+				Log.Error("Tried to get all resources in a folder \"" + folderPath + "\" from a different thread. All resources must be loaded in the main thread.");
+			}
+			else
+			{
+				foreach (ModContentPack runningMod in LoadedModManager.RunningMods)
+				{
+					foreach (T item2 in runningMod.GetContentHolder<T>().GetAllUnderPath(folderPath))
+					{
+						yield return item2;
+					}
+				}
+				T[] items = null;
+				if (typeof(T) == typeof(Texture2D))
+				{
+					items = (T[])Resources.LoadAll<Texture2D>(GenFilePaths.ContentPath<Texture2D>() + folderPath);
+				}
+				if (typeof(T) == typeof(AudioClip))
+				{
+					items = (T[])Resources.LoadAll<AudioClip>(GenFilePaths.ContentPath<AudioClip>() + folderPath);
+				}
+				if (items != null)
+				{
+					T[] array = items;
+					for (int i = 0; i < array.Length; i++)
+					{
+						T item = array[i];
+						yield return item;
+					}
+				}
+			}
 		}
 	}
 }

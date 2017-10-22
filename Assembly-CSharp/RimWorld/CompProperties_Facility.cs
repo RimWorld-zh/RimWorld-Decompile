@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -19,7 +18,7 @@ namespace RimWorld
 
 		public CompProperties_Facility()
 		{
-			this.compClass = typeof(CompFacility);
+			base.compClass = typeof(CompFacility);
 		}
 
 		public override void ResolveReferences(ThingDef parentDef)
@@ -31,13 +30,16 @@ namespace RimWorld
 				CompProperties_AffectedByFacilities compProperties = allDefsListForReading[i].GetCompProperties<CompProperties_AffectedByFacilities>();
 				if (compProperties != null && compProperties.linkableFacilities != null)
 				{
-					for (int j = 0; j < compProperties.linkableFacilities.Count; j++)
+					int num = 0;
+					while (num < compProperties.linkableFacilities.Count)
 					{
-						if (compProperties.linkableFacilities[j] == parentDef)
+						if (compProperties.linkableFacilities[num] != parentDef)
 						{
-							this.linkableBuildings.Add(allDefsListForReading[i]);
-							break;
+							num++;
+							continue;
 						}
+						this.linkableBuildings.Add(allDefsListForReading[i]);
+						break;
 					}
 				}
 			}

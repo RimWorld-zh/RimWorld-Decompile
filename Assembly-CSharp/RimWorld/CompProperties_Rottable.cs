@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -22,7 +20,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return Mathf.RoundToInt(this.daysToRotStart * 60000f);
+				return Mathf.RoundToInt((float)(this.daysToRotStart * 60000.0));
 			}
 		}
 
@@ -30,13 +28,13 @@ namespace RimWorld
 		{
 			get
 			{
-				return Mathf.RoundToInt(this.daysToDessicated * 60000f);
+				return Mathf.RoundToInt((float)(this.daysToDessicated * 60000.0));
 			}
 		}
 
 		public CompProperties_Rottable()
 		{
-			this.compClass = typeof(CompRottable);
+			base.compClass = typeof(CompRottable);
 		}
 
 		public CompProperties_Rottable(float daysToRotStart)
@@ -44,16 +42,16 @@ namespace RimWorld
 			this.daysToRotStart = daysToRotStart;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			CompProperties_Rottable.<ConfigErrors>c__Iterator7D <ConfigErrors>c__Iterator7D = new CompProperties_Rottable.<ConfigErrors>c__Iterator7D();
-			<ConfigErrors>c__Iterator7D.parentDef = parentDef;
-			<ConfigErrors>c__Iterator7D.<$>parentDef = parentDef;
-			<ConfigErrors>c__Iterator7D.<>f__this = this;
-			CompProperties_Rottable.<ConfigErrors>c__Iterator7D expr_1C = <ConfigErrors>c__Iterator7D;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			foreach (string item in base.ConfigErrors(parentDef))
+			{
+				yield return item;
+			}
+			if (parentDef.tickerType != TickerType.Rare)
+			{
+				yield return "CompRottable needs tickerType " + TickerType.Rare + ", has " + parentDef.tickerType;
+			}
 		}
 	}
 }

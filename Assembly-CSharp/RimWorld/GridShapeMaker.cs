@@ -18,7 +18,7 @@ namespace RimWorld
 					lumpCells.Add(intVec);
 				}
 			}
-			Func<IntVec3, int> NumNeighbors = delegate(IntVec3 sq)
+			Func<IntVec3, int> NumNeighbors = (Func<IntVec3, int>)delegate(IntVec3 sq)
 			{
 				int num2 = 0;
 				for (int k = 0; k < 4; k++)
@@ -45,8 +45,8 @@ namespace RimWorld
 				}
 				List<IntVec3> source = (from sq in lumpCells
 				where NumNeighbors(sq) == fewestNeighbors
-				select sq).ToList<IntVec3>();
-				lumpCells.Remove(source.RandomElement<IntVec3>());
+				select sq).ToList();
+				lumpCells.Remove(source.RandomElement());
 			}
 			return lumpCells;
 		}

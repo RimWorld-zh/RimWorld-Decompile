@@ -8,14 +8,14 @@ namespace RimWorld
 	{
 		public Dialog_SaveFileList_Load()
 		{
-			this.interactButLabel = "LoadGameButton".Translate();
+			base.interactButLabel = "LoadGameButton".Translate();
 		}
 
 		protected override void DoFileInteraction(string saveFileName)
 		{
-			PreLoadUtility.CheckVersionAndLoad(GenFilePaths.FilePathForSavedGame(saveFileName), ScribeMetaHeaderUtility.ScribeHeaderMode.Map, delegate
+			PreLoadUtility.CheckVersionAndLoad(GenFilePaths.FilePathForSavedGame(saveFileName), ScribeMetaHeaderUtility.ScribeHeaderMode.Map, (Action)delegate()
 			{
-				Action preLoadLevelAction = delegate
+				Action preLoadLevelAction = (Action)delegate()
 				{
 					MemoryUtility.ClearAllMapsAndWorld();
 					Current.Game = new Game();

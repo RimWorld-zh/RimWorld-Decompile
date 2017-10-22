@@ -25,11 +25,20 @@ namespace Verse
 		{
 			get
 			{
-				BoolGrid.<>c__Iterator1F6 <>c__Iterator1F = new BoolGrid.<>c__Iterator1F6();
-				<>c__Iterator1F.<>f__this = this;
-				BoolGrid.<>c__Iterator1F6 expr_0E = <>c__Iterator1F;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				if (this.trueCountInt != 0)
+				{
+					int yieldedCount = 0;
+					for (int i = 0; i < this.arr.Length; i++)
+					{
+						if (this.arr[i])
+						{
+							yield return CellIndicesUtility.IndexToCell(i, this.mapSizeX);
+							yieldedCount++;
+							if (yieldedCount >= this.trueCountInt)
+								break;
+						}
+					}
+				}
 			}
 		}
 
@@ -80,7 +89,20 @@ namespace Verse
 
 		public bool MapSizeMatches(Map map)
 		{
-			return this.mapSizeX == map.Size.x && this.mapSizeZ == map.Size.z;
+			int num = this.mapSizeX;
+			IntVec3 size = map.Size;
+			int result;
+			if (num == size.x)
+			{
+				int num2 = this.mapSizeZ;
+				IntVec3 size2 = map.Size;
+				result = ((num2 == size2.z) ? 1 : 0);
+			}
+			else
+			{
+				result = 0;
+			}
+			return (byte)result != 0;
 		}
 
 		public void ClearAndResizeTo(Map map)
@@ -88,11 +110,15 @@ namespace Verse
 			if (this.MapSizeMatches(map) && this.arr != null)
 			{
 				this.Clear();
-				return;
 			}
-			this.mapSizeX = map.Size.x;
-			this.mapSizeZ = map.Size.z;
-			this.arr = new bool[this.mapSizeX * this.mapSizeZ];
+			else
+			{
+				IntVec3 size = map.Size;
+				this.mapSizeX = size.x;
+				IntVec3 size2 = map.Size;
+				this.mapSizeZ = size2.z;
+				this.arr = new bool[this.mapSizeX * this.mapSizeZ];
+			}
 		}
 
 		public void ExposeData()
@@ -116,18 +142,17 @@ namespace Verse
 
 		public virtual void Set(int index, bool value)
 		{
-			if (this.arr[index] == value)
+			if (this.arr[index] != value)
 			{
-				return;
-			}
-			this.arr[index] = value;
-			if (value)
-			{
-				this.trueCountInt++;
-			}
-			else
-			{
-				this.trueCountInt--;
+				this.arr[index] = value;
+				if (value)
+				{
+					this.trueCountInt++;
+				}
+				else
+				{
+					this.trueCountInt--;
+				}
 			}
 		}
 

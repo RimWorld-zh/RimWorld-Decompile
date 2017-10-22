@@ -10,12 +10,15 @@ namespace Verse
 		public static bool CommandLineArgPassed(string key)
 		{
 			string[] commandLineArgs = Environment.GetCommandLineArgs();
-			for (int i = 0; i < commandLineArgs.Length; i++)
+			int num = 0;
+			while (num < commandLineArgs.Length)
 			{
-				if (string.Compare(commandLineArgs[i], key, true) == 0 || string.Compare(commandLineArgs[i], "-" + key, true) == 0)
+				if (((string.Compare(commandLineArgs[num], key, true) != 0) ? string.Compare(commandLineArgs[num], "-" + key, true) : 0) != 0)
 				{
-					return true;
+					num++;
+					continue;
 				}
+				return true;
 			}
 			return false;
 		}
@@ -27,21 +30,15 @@ namespace Verse
 			{
 				if (commandLineArgs[i].Contains('='))
 				{
-					string[] array = commandLineArgs[i].Split(new char[]
+					string[] array = commandLineArgs[i].Split('=');
+					if (array.Length == 2 && (string.Compare(array[0], key, true) == 0 || string.Compare(array[0], "-" + key, true) == 0))
 					{
-						'='
-					});
-					if (array.Length == 2)
-					{
-						if (string.Compare(array[0], key, true) == 0 || string.Compare(array[0], "-" + key, true) == 0)
-						{
-							value = array[1];
-							return true;
-						}
+						value = array[1];
+						return true;
 					}
 				}
 			}
-			value = null;
+			value = (string)null;
 			return false;
 		}
 
@@ -60,12 +57,11 @@ namespace Verse
 					}
 					text2 = text2 + "\"" + commandLineArgs[i].Replace("\"", "\\\"") + "\"";
 				}
-				new Process
-				{
-					StartInfo = new ProcessStartInfo(commandLineArgs[0], text2)
-				}.Start();
+				Process process = new Process();
+				process.StartInfo = new ProcessStartInfo(commandLineArgs[0], text2);
+				process.Start();
 				Root.Shutdown();
-				LongEventHandler.QueueLongEvent(delegate
+				LongEventHandler.QueueLongEvent((Action)delegate
 				{
 					Thread.Sleep(10000);
 				}, "Restarting", true, null);
@@ -73,7 +69,7 @@ namespace Verse
 			catch (Exception arg)
 			{
 				Log.Error("Error restarting: " + arg);
-				Find.WindowStack.Add(new Dialog_MessageBox("FailedToRestart".Translate(), null, null, null, null, null, false));
+				Find.WindowStack.Add(new Dialog_MessageBox("FailedToRestart".Translate(), (string)null, null, (string)null, null, (string)null, false));
 			}
 		}
 	}

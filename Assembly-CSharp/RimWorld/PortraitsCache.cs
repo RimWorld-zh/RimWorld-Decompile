@@ -36,7 +36,7 @@ namespace RimWorld
 			{
 				get
 				{
-					return Time.time - this.LastUseTime > 1f;
+					return Time.time - this.LastUseTime > 1.0;
 				}
 			}
 
@@ -51,7 +51,7 @@ namespace RimWorld
 		[StructLayout(LayoutKind.Sequential, Size = 1)]
 		private struct CachedPortraitsWithParams
 		{
-			public Dictionary<Pawn, PortraitsCache.CachedPortrait> CachedPortraits
+			public Dictionary<Pawn, CachedPortrait> CachedPortraits
 			{
 				get;
 				private set;
@@ -77,7 +77,7 @@ namespace RimWorld
 
 			public CachedPortraitsWithParams(Vector2 size, Vector3 cameraOffset, float cameraZoom)
 			{
-				this.CachedPortraits = new Dictionary<Pawn, PortraitsCache.CachedPortrait>();
+				this.CachedPortraits = new Dictionary<Pawn, CachedPortrait>();
 				this.Size = size;
 				this.CameraOffset = cameraOffset;
 				this.CameraZoom = cameraZoom;
@@ -86,7 +86,7 @@ namespace RimWorld
 
 		private static List<RenderTexture> renderTexturesPool = new List<RenderTexture>();
 
-		private static List<PortraitsCache.CachedPortraitsWithParams> cachedPortraits = new List<PortraitsCache.CachedPortraitsWithParams>();
+		private static List<CachedPortraitsWithParams> cachedPortraits = new List<CachedPortraitsWithParams>();
 
 		private static List<Pawn> toRemove = new List<Pawn>();
 
@@ -94,8 +94,8 @@ namespace RimWorld
 
 		public static RenderTexture Get(Pawn pawn, Vector2 size, Vector3 cameraOffset = default(Vector3), float cameraZoom = 1f)
 		{
-			Dictionary<Pawn, PortraitsCache.CachedPortrait> dictionary = PortraitsCache.GetOrCreateCachedPortraitsWithParams(size, cameraOffset, cameraZoom).CachedPortraits;
-			PortraitsCache.CachedPortrait cachedPortrait;
+			Dictionary<Pawn, CachedPortrait> dictionary = PortraitsCache.GetOrCreateCachedPortraitsWithParams(size, cameraOffset, cameraZoom).CachedPortraits;
+			CachedPortrait cachedPortrait = default(CachedPortrait);
 			if (dictionary.TryGetValue(pawn, out cachedPortrait))
 			{
 				if (!cachedPortrait.RenderTexture.IsCreated())
@@ -108,12 +108,12 @@ namespace RimWorld
 					PortraitsCache.RenderPortrait(pawn, cachedPortrait.RenderTexture, cameraOffset, cameraZoom);
 				}
 				dictionary.Remove(pawn);
-				dictionary.Add(pawn, new PortraitsCache.CachedPortrait(cachedPortrait.RenderTexture, false, Time.time));
+				dictionary.Add(pawn, new CachedPortrait(cachedPortrait.RenderTexture, false, Time.time));
 				return cachedPortrait.RenderTexture;
 			}
 			RenderTexture renderTexture = PortraitsCache.NewRenderTexture(size);
 			PortraitsCache.RenderPortrait(pawn, renderTexture, cameraOffset, cameraZoom);
-			dictionary.Add(pawn, new PortraitsCache.CachedPortrait(renderTexture, false, Time.time));
+			dictionary.Add(pawn, new CachedPortrait(renderTexture, false, Time.time));
 			return renderTexture;
 		}
 
@@ -121,12 +121,12 @@ namespace RimWorld
 		{
 			for (int i = 0; i < PortraitsCache.cachedPortraits.Count; i++)
 			{
-				Dictionary<Pawn, PortraitsCache.CachedPortrait> dictionary = PortraitsCache.cachedPortraits[i].CachedPortraits;
-				PortraitsCache.CachedPortrait cachedPortrait;
+				Dictionary<Pawn, CachedPortrait> dictionary = PortraitsCache.cachedPortraits[i].CachedPortraits;
+				CachedPortrait cachedPortrait = default(CachedPortrait);
 				if (dictionary.TryGetValue(pawn, out cachedPortrait) && !cachedPortrait.Dirty)
 				{
 					dictionary.Remove(pawn);
-					dictionary.Add(pawn, new PortraitsCache.CachedPortrait(cachedPortrait.RenderTexture, true, cachedPortrait.LastUseTime));
+					dictionary.Add(pawn, new CachedPortrait(cachedPortrait.RenderTexture, true, cachedPortrait.LastUseTime));
 				}
 			}
 		}
@@ -141,9 +141,17 @@ namespace RimWorld
 		{
 			for (int i = 0; i < PortraitsCache.cachedPortraits.Count; i++)
 			{
-				foreach (KeyValuePair<Pawn, PortraitsCache.CachedPortrait> current in PortraitsCache.cachedPortraits[i].CachedPortraits)
+				Dictionary<Pawn, CachedPortrait>.Enumerator enumerator = PortraitsCache.cachedPortraits[i].CachedPortraits.GetEnumerator();
+				try
 				{
-					PortraitsCache.DestroyRenderTexture(current.Value.RenderTexture);
+					while (enumerator.MoveNext())
+					{
+						PortraitsCache.DestroyRenderTexture(enumerator.Current.Value.RenderTexture);
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 			PortraitsCache.cachedPortraits.Clear();
@@ -154,7 +162,7 @@ namespace RimWorld
 			PortraitsCache.renderTexturesPool.Clear();
 		}
 
-		private static PortraitsCache.CachedPortraitsWithParams GetOrCreateCachedPortraitsWithParams(Vector2 size, Vector3 cameraOffset, float cameraZoom)
+		private static CachedPortraitsWithParams GetOrCreateCachedPortraitsWithParams(Vector2 size, Vector3 cameraOffset, float cameraZoom)
 		{
 			for (int i = 0; i < PortraitsCache.cachedPortraits.Count; i++)
 			{
@@ -163,7 +171,7 @@ namespace RimWorld
 					return PortraitsCache.cachedPortraits[i];
 				}
 			}
-			PortraitsCache.CachedPortraitsWithParams cachedPortraitsWithParams = new PortraitsCache.CachedPortraitsWithParams(size, cameraOffset, cameraZoom);
+			CachedPortraitsWithParams cachedPortraitsWithParams = new CachedPortraitsWithParams(size, cameraOffset, cameraZoom);
 			PortraitsCache.cachedPortraits.Add(cachedPortraitsWithParams);
 			return cachedPortraitsWithParams;
 		}
@@ -178,15 +186,24 @@ namespace RimWorld
 		{
 			for (int i = 0; i < PortraitsCache.cachedPortraits.Count; i++)
 			{
-				Dictionary<Pawn, PortraitsCache.CachedPortrait> dictionary = PortraitsCache.cachedPortraits[i].CachedPortraits;
+				Dictionary<Pawn, CachedPortrait> dictionary = PortraitsCache.cachedPortraits[i].CachedPortraits;
 				PortraitsCache.toRemove.Clear();
-				foreach (KeyValuePair<Pawn, PortraitsCache.CachedPortrait> current in dictionary)
+				Dictionary<Pawn, CachedPortrait>.Enumerator enumerator = dictionary.GetEnumerator();
+				try
 				{
-					if (current.Value.Expired)
+					while (enumerator.MoveNext())
 					{
-						PortraitsCache.toRemove.Add(current.Key);
-						PortraitsCache.renderTexturesPool.Add(current.Value.RenderTexture);
+						KeyValuePair<Pawn, CachedPortrait> current = enumerator.Current;
+						if (current.Value.Expired)
+						{
+							PortraitsCache.toRemove.Add(current.Key);
+							PortraitsCache.renderTexturesPool.Add(current.Value.RenderTexture);
+						}
 					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 				for (int j = 0; j < PortraitsCache.toRemove.Count; j++)
 				{
@@ -200,20 +217,29 @@ namespace RimWorld
 		{
 			for (int i = 0; i < PortraitsCache.cachedPortraits.Count; i++)
 			{
-				Dictionary<Pawn, PortraitsCache.CachedPortrait> dictionary = PortraitsCache.cachedPortraits[i].CachedPortraits;
+				Dictionary<Pawn, CachedPortrait> dictionary = PortraitsCache.cachedPortraits[i].CachedPortraits;
 				PortraitsCache.toSetDirty.Clear();
-				foreach (KeyValuePair<Pawn, PortraitsCache.CachedPortrait> current in dictionary)
+				Dictionary<Pawn, CachedPortrait>.Enumerator enumerator = dictionary.GetEnumerator();
+				try
 				{
-					if (PortraitsCache.IsAnimated(current.Key) && !current.Value.Dirty)
+					while (enumerator.MoveNext())
 					{
-						PortraitsCache.toSetDirty.Add(current.Key);
+						KeyValuePair<Pawn, CachedPortrait> current = enumerator.Current;
+						if (PortraitsCache.IsAnimated(current.Key) && !current.Value.Dirty)
+						{
+							PortraitsCache.toSetDirty.Add(current.Key);
+						}
 					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 				for (int j = 0; j < PortraitsCache.toSetDirty.Count; j++)
 				{
-					PortraitsCache.CachedPortrait cachedPortrait = dictionary[PortraitsCache.toSetDirty[j]];
+					CachedPortrait cachedPortrait = dictionary[PortraitsCache.toSetDirty[j]];
 					dictionary.Remove(PortraitsCache.toSetDirty[j]);
-					dictionary.Add(PortraitsCache.toSetDirty[j], new PortraitsCache.CachedPortrait(cachedPortrait.RenderTexture, true, cachedPortrait.LastUseTime));
+					dictionary.Add(PortraitsCache.toSetDirty[j], new CachedPortrait(cachedPortrait.RenderTexture, true, cachedPortrait.LastUseTime));
 				}
 				PortraitsCache.toSetDirty.Clear();
 			}
@@ -221,7 +247,7 @@ namespace RimWorld
 
 		private static RenderTexture NewRenderTexture(Vector2 size)
 		{
-			int num = PortraitsCache.renderTexturesPool.FindLastIndex((RenderTexture x) => x.width == (int)size.x && x.height == (int)size.y);
+			int num = PortraitsCache.renderTexturesPool.FindLastIndex((Predicate<RenderTexture>)((RenderTexture x) => x.width == (int)size.x && x.height == (int)size.y));
 			if (num != -1)
 			{
 				RenderTexture result = PortraitsCache.renderTexturesPool[num];
@@ -238,7 +264,11 @@ namespace RimWorld
 
 		private static bool IsAnimated(Pawn pawn)
 		{
-			return Current.ProgramState == ProgramState.Playing && pawn.Drawer.renderer.graphics.flasher.FlashingNowOrRecently;
+			if (Current.ProgramState == ProgramState.Playing && pawn.Drawer.renderer.graphics.flasher.FlashingNowOrRecently)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

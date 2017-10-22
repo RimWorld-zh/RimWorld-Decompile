@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,7 +19,7 @@ namespace Verse
 
 		public static Material SimpleSolidColorMaterial(Color col, bool careAboutVertexColors = false)
 		{
-			Material material;
+			Material material = default(Material);
 			if (careAboutVertexColors)
 			{
 				if (!SolidColorMaterials.simpleColorAndVertexColorMats.TryGetValue(col, out material))
@@ -44,17 +43,10 @@ namespace Verse
 				Log.Error("Tried to create a material from a different thread.");
 				return null;
 			}
-			return new Material(shader)
-			{
-				color = col,
-				name = string.Concat(new object[]
-				{
-					"SolidColorMat-",
-					shader.name,
-					"-",
-					col
-				})
-			};
+			Material material = new Material(shader);
+			material.color = col;
+			material.name = "SolidColorMat-" + shader.name + "-" + col;
+			return material;
 		}
 
 		public static Texture2D NewSolidColorTexture(float r, float g, float b, float a)

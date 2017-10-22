@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -25,7 +24,11 @@ namespace Verse
 					return false;
 				}
 				CaravansBattlefield caravansBattlefield = this.map.info.parent as CaravansBattlefield;
-				return caravansBattlefield == null || !caravansBattlefield.def.blockExitGridUntilBattleIsWon || caravansBattlefield.WonBattle;
+				if (caravansBattlefield != null && caravansBattlefield.def.blockExitGridUntilBattleIsWon && !caravansBattlefield.WonBattle)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -43,7 +46,10 @@ namespace Verse
 				}
 				if (this.drawerInt == null)
 				{
-					this.drawerInt = new CellBoolDrawer(this, this.map.Size.x, this.map.Size.z, 0.33f);
+					IntVec3 size = this.map.Size;
+					int x = size.x;
+					IntVec3 size2 = this.map.Size;
+					this.drawerInt = new CellBoolDrawer(this, x, size2.z, 0.33f);
 				}
 				return this.drawerInt;
 			}
@@ -90,17 +96,20 @@ namespace Verse
 
 		public bool IsExitCell(IntVec3 c)
 		{
-			return this.MapUsesExitGrid && this.Grid[c];
+			if (!this.MapUsesExitGrid)
+			{
+				return false;
+			}
+			return this.Grid[c];
 		}
 
 		public void ExitMapGridUpdate()
 		{
-			if (!this.MapUsesExitGrid)
+			if (this.MapUsesExitGrid)
 			{
-				return;
+				this.Drawer.MarkForDraw();
+				this.Drawer.CellBoolDrawerUpdate();
 			}
-			this.Drawer.MarkForDraw();
-			this.Drawer.CellBoolDrawerUpdate();
 		}
 
 		public void Notify_LOSBlockerSpawned()
@@ -153,9 +162,9 @@ namespace Verse
 				return false;
 			}
 			int num = GenRadial.NumCellsInRadius(4f);
-			for (int i = 0; i < num; i++)
+			for (int num2 = 0; num2 < num; num2++)
 			{
-				IntVec3 intVec = cell + GenRadial.RadialPattern[i];
+				IntVec3 intVec = cell + GenRadial.RadialPattern[num2];
 				if (intVec.InBounds(this.map) && intVec.OnEdge(this.map) && intVec.CanBeSeenOverFast(this.map) && GenSight.LineOfSight(cell, intVec, this.map, false, null, 0, 0))
 				{
 					return true;

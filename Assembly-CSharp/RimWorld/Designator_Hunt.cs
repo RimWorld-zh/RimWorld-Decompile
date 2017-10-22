@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -21,14 +20,14 @@ namespace RimWorld
 
 		public Designator_Hunt()
 		{
-			this.defaultLabel = "DesignatorHunt".Translate();
-			this.defaultDesc = "DesignatorHuntDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/Hunt", true);
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.useMouseIcon = true;
-			this.soundSucceeded = SoundDefOf.DesignateHunt;
-			this.hotKey = KeyBindingDefOf.Misc11;
+			base.defaultLabel = "DesignatorHunt".Translate();
+			base.defaultDesc = "DesignatorHuntDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/Hunt", true);
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.useMouseIcon = true;
+			base.soundSucceeded = SoundDefOf.DesignateHunt;
+			base.hotKey = KeyBindingDefOf.Misc11;
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
@@ -37,7 +36,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (!this.HuntablesInCell(c).Any<Pawn>())
+			if (!this.HuntablesInCell(c).Any())
 			{
 				return "MessageMustDesignateHuntable".Translate();
 			}
@@ -46,9 +45,9 @@ namespace RimWorld
 
 		public override void DesignateSingleCell(IntVec3 loc)
 		{
-			foreach (Pawn current in this.HuntablesInCell(loc))
+			foreach (Pawn item in this.HuntablesInCell(loc))
 			{
-				this.DesignateThing(current);
+				this.DesignateThing(item);
 			}
 		}
 
@@ -72,30 +71,35 @@ namespace RimWorld
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();
-			foreach (PawnKindDef kind in (from p in this.justDesignated
-			select p.kindDef).Distinct<PawnKindDef>())
+			using (IEnumerator<PawnKindDef> enumerator = (from p in this.justDesignated
+			select p.kindDef).Distinct().GetEnumerator())
 			{
-				if (kind.RaceProps.manhunterOnDamageChance > 0.2f)
+				PawnKindDef kind;
+				while (enumerator.MoveNext())
 				{
-					Messages.Message("MessageAnimalsGoPsychoHunted".Translate(new object[]
+					kind = enumerator.Current;
+					if (kind.RaceProps.manhunterOnDamageChance > 0.20000000298023224)
 					{
-						kind.label
-					}), this.justDesignated.First((Pawn x) => x.kindDef == kind), MessageSound.Standard);
+						Messages.Message("MessageAnimalsGoPsychoHunted".Translate(kind.label), (Thing)this.justDesignated.First((Func<Pawn, bool>)((Pawn x) => x.kindDef == kind)), MessageSound.Standard);
+					}
 				}
 			}
 			this.justDesignated.Clear();
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<Pawn> HuntablesInCell(IntVec3 c)
 		{
-			Designator_Hunt.<HuntablesInCell>c__Iterator18F <HuntablesInCell>c__Iterator18F = new Designator_Hunt.<HuntablesInCell>c__Iterator18F();
-			<HuntablesInCell>c__Iterator18F.c = c;
-			<HuntablesInCell>c__Iterator18F.<$>c = c;
-			<HuntablesInCell>c__Iterator18F.<>f__this = this;
-			Designator_Hunt.<HuntablesInCell>c__Iterator18F expr_1C = <HuntablesInCell>c__Iterator18F;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (!c.Fogged(base.Map))
+			{
+				List<Thing> thingList = c.GetThingList(base.Map);
+				for (int i = 0; i < thingList.Count; i++)
+				{
+					if (this.CanDesignateThing(thingList[i]).Accepted)
+					{
+						yield return (Pawn)thingList[i];
+					}
+				}
+			}
 		}
 	}
 }

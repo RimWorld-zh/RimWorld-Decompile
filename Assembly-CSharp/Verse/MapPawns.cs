@@ -24,11 +24,14 @@ namespace Verse
 		{
 			get
 			{
-				MapPawns.<>c__Iterator1FA <>c__Iterator1FA = new MapPawns.<>c__Iterator1FA();
-				<>c__Iterator1FA.<>f__this = this;
-				MapPawns.<>c__Iterator1FA expr_0E = <>c__Iterator1FA;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				for (int i = 0; i < this.pawnsSpawned.Count; i++)
+				{
+					yield return this.pawnsSpawned[i];
+				}
+				foreach (Pawn item in this.AllPawnsUnspawned)
+				{
+					yield return item;
+				}
 			}
 		}
 
@@ -36,11 +39,60 @@ namespace Verse
 		{
 			get
 			{
-				MapPawns.<>c__Iterator1FB <>c__Iterator1FB = new MapPawns.<>c__Iterator1FB();
-				<>c__Iterator1FB.<>f__this = this;
-				MapPawns.<>c__Iterator1FB expr_0E = <>c__Iterator1FB;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				List<Thing> holders = this.map.listerThings.ThingsInGroup(ThingRequestGroup.ThisOrAnyCompIsThingHolder);
+				for (int n = 0; n < holders.Count; n++)
+				{
+					IThingHolder holder = holders[n] as IThingHolder;
+					if (holder != null)
+					{
+						ThingOwnerUtility.GetAllThingsRecursively(holder, MapPawns.tmpThings, true);
+						for (int k = 0; k < MapPawns.tmpThings.Count; k++)
+						{
+							Pawn p2 = MapPawns.tmpThings[k] as Pawn;
+							if (p2 != null && !p2.Dead)
+							{
+								yield return p2;
+							}
+						}
+					}
+					ThingWithComps twc = holders[n] as ThingWithComps;
+					if (twc != null)
+					{
+						List<ThingComp> comps = twc.AllComps;
+						for (int j = 0; j < comps.Count; j++)
+						{
+							IThingHolder compHolder = comps[j] as IThingHolder;
+							if (compHolder != null)
+							{
+								ThingOwnerUtility.GetAllThingsRecursively(compHolder, MapPawns.tmpThings, true);
+								for (int i = 0; i < MapPawns.tmpThings.Count; i++)
+								{
+									Pawn p = MapPawns.tmpThings[i] as Pawn;
+									if (p != null && !p.Dead)
+									{
+										yield return p;
+									}
+								}
+							}
+						}
+					}
+				}
+				MapPawns.tmpMapChildHolders.Clear();
+				this.map.GetNonThingChildHolders(MapPawns.tmpMapChildHolders);
+				for (int m = 0; m < MapPawns.tmpMapChildHolders.Count; m++)
+				{
+					ThingOwnerUtility.GetAllThingsRecursively(MapPawns.tmpMapChildHolders[m], MapPawns.tmpThings, true);
+					for (int l = 0; l < MapPawns.tmpThings.Count; l++)
+					{
+						Pawn p3 = MapPawns.tmpThings[l] as Pawn;
+						if (p3 != null && !p3.Dead)
+						{
+							yield return p3;
+						}
+					}
+				}
+				MapPawns.tmpMapChildHolders.Clear();
+				MapPawns.tmpThings.Clear();
 			}
 		}
 
@@ -81,7 +133,7 @@ namespace Verse
 				}
 				return (from x in this.AllPawns
 				where x.RaceProps.Humanlike && x.Faction == Faction.OfPlayer
-				select x).Count<Pawn>();
+				select x).Count();
 			}
 		}
 
@@ -89,7 +141,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.AllPawns.Count<Pawn>();
+				return this.AllPawns.Count();
 			}
 		}
 
@@ -97,7 +149,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.AllPawnsUnspawned.Count<Pawn>();
+				return this.AllPawnsUnspawned.Count();
 			}
 		}
 
@@ -105,7 +157,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.FreeColonists.Count<Pawn>();
+				return this.FreeColonists.Count();
 			}
 		}
 
@@ -113,7 +165,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.PrisonersOfColony.Count<Pawn>();
+				return this.PrisonersOfColony.Count();
 			}
 		}
 
@@ -121,7 +173,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.PrisonersOfColony.Count<Pawn>();
+				return this.PrisonersOfColony.Count();
 			}
 		}
 
@@ -130,23 +182,26 @@ namespace Verse
 			get
 			{
 				Faction ofPlayer = Faction.OfPlayer;
-				for (int i = 0; i < this.pawnsSpawned.Count; i++)
+				int num = 0;
+				while (num < this.pawnsSpawned.Count)
 				{
-					if (this.pawnsSpawned[i].Faction == ofPlayer || this.pawnsSpawned[i].HostFaction == ofPlayer)
+					if (this.pawnsSpawned[num].Faction != ofPlayer && this.pawnsSpawned[num].HostFaction != ofPlayer)
 					{
-						return true;
+						num++;
+						continue;
 					}
+					return true;
 				}
 				List<Thing> list = this.map.listerThings.ThingsInGroup(ThingRequestGroup.ThisOrAnyCompIsThingHolder);
-				for (int j = 0; j < list.Count; j++)
+				for (int i = 0; i < list.Count; i++)
 				{
-					if (list[j] is IActiveDropPod || list[j].TryGetComp<CompTransporter>() != null)
+					if (list[i] is IActiveDropPod || list[i].TryGetComp<CompTransporter>() != null)
 					{
-						IThingHolder holder = list[j].TryGetComp<CompTransporter>() ?? ((IThingHolder)list[j]);
+						IThingHolder holder = list[i].TryGetComp<CompTransporter>() ?? ((IThingHolder)list[i]);
 						ThingOwnerUtility.GetAllThingsRecursively(holder, MapPawns.tmpThings, true);
-						for (int k = 0; k < MapPawns.tmpThings.Count; k++)
+						for (int j = 0; j < MapPawns.tmpThings.Count; j++)
 						{
-							Pawn pawn = MapPawns.tmpThings[k] as Pawn;
+							Pawn pawn = MapPawns.tmpThings[j] as Pawn;
 							if (pawn != null && (pawn.Faction == ofPlayer || pawn.HostFaction == ofPlayer))
 							{
 								MapPawns.tmpThings.Clear();
@@ -204,7 +259,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.FreeColonistsSpawned.Count<Pawn>();
+				return this.FreeColonistsSpawned.Count();
 			}
 		}
 
@@ -220,7 +275,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.FreeColonistsAndPrisonersSpawned.Count<Pawn>();
+				return this.FreeColonistsAndPrisonersSpawned.Count();
 			}
 		}
 
@@ -257,17 +312,18 @@ namespace Verse
 				for (int j = 0; j < list.Count; j++)
 				{
 					Building_CryptosleepCasket building_CryptosleepCasket = list[j] as Building_CryptosleepCasket;
-					if ((building_CryptosleepCasket != null && building_CryptosleepCasket.def.building.isPlayerEjectable) || list[j] is IActiveDropPod || list[j].TryGetComp<CompTransporter>() != null)
+					if ((building_CryptosleepCasket == null || !building_CryptosleepCasket.def.building.isPlayerEjectable) && !(list[j] is IActiveDropPod) && list[j].TryGetComp<CompTransporter>() == null)
 					{
-						IThingHolder holder = list[j].TryGetComp<CompTransporter>() ?? ((IThingHolder)list[j]);
-						ThingOwnerUtility.GetAllThingsRecursively(holder, MapPawns.tmpThings, true);
-						for (int k = 0; k < MapPawns.tmpThings.Count; k++)
+						continue;
+					}
+					IThingHolder holder = list[j].TryGetComp<CompTransporter>() ?? ((IThingHolder)list[j]);
+					ThingOwnerUtility.GetAllThingsRecursively(holder, MapPawns.tmpThings, true);
+					for (int k = 0; k < MapPawns.tmpThings.Count; k++)
+					{
+						Pawn pawn = MapPawns.tmpThings[k] as Pawn;
+						if (pawn != null && pawn.IsColonist && pawn.HostFaction == null)
 						{
-							Pawn pawn = MapPawns.tmpThings[k] as Pawn;
-							if (pawn != null && pawn.IsColonist && pawn.HostFaction == null)
-							{
-								num++;
-							}
+							num++;
 						}
 					}
 				}
@@ -334,60 +390,42 @@ namespace Verse
 		{
 			if (p.Dead)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Tried to register dead pawn ",
-					p,
-					" in ",
-					base.GetType(),
-					"."
-				}));
-				return;
+				Log.Warning("Tried to register dead pawn " + p + " in " + base.GetType() + ".");
 			}
-			if (!p.Spawned)
+			else if (!p.Spawned)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Tried to register despawned pawn ",
-					p,
-					" in ",
-					base.GetType(),
-					"."
-				}));
-				return;
+				Log.Warning("Tried to register despawned pawn " + p + " in " + base.GetType() + ".");
 			}
-			if (p.Map != this.map)
+			else if (p.Map != this.map)
 			{
 				Log.Warning("Tried to register pawn " + p + " but his Map is not this one.");
-				return;
 			}
-			if (!p.mindState.Active)
+			else if (p.mindState.Active)
 			{
-				return;
-			}
-			this.EnsureFactionsListsInit();
-			if (!this.pawnsSpawned.Contains(p))
-			{
-				this.pawnsSpawned.Add(p);
-			}
-			if (p.Faction != null && !this.pawnsInFactionSpawned[p.Faction].Contains(p))
-			{
-				this.pawnsInFactionSpawned[p.Faction].Add(p);
-				if (p.Faction == Faction.OfPlayer)
+				this.EnsureFactionsListsInit();
+				if (!this.pawnsSpawned.Contains(p))
 				{
-					this.pawnsInFactionSpawned[Faction.OfPlayer].InsertionSort(delegate(Pawn a, Pawn b)
-					{
-						int num = (a.playerSettings == null) ? 0 : a.playerSettings.joinTick;
-						int value = (b.playerSettings == null) ? 0 : b.playerSettings.joinTick;
-						return num.CompareTo(value);
-					});
+					this.pawnsSpawned.Add(p);
 				}
+				if (p.Faction != null && !this.pawnsInFactionSpawned[p.Faction].Contains(p))
+				{
+					this.pawnsInFactionSpawned[p.Faction].Add(p);
+					if (p.Faction == Faction.OfPlayer)
+					{
+						this.pawnsInFactionSpawned[Faction.OfPlayer].InsertionSort((Comparison<Pawn>)delegate(Pawn a, Pawn b)
+						{
+							int num = (a.playerSettings != null) ? a.playerSettings.joinTick : 0;
+							int value = (b.playerSettings != null) ? b.playerSettings.joinTick : 0;
+							return num.CompareTo(value);
+						});
+					}
+				}
+				if (p.IsPrisonerOfColony && !this.prisonersOfColonySpawned.Contains(p))
+				{
+					this.prisonersOfColonySpawned.Add(p);
+				}
+				this.DoListChangedNotifications();
 			}
-			if (p.IsPrisonerOfColony && !this.prisonersOfColonySpawned.Contains(p))
-			{
-				this.prisonersOfColonySpawned.Add(p);
-			}
-			this.DoListChangedNotifications();
 		}
 
 		public void DeRegisterPawn(Pawn p)
@@ -439,27 +477,63 @@ namespace Verse
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("MapPawns:");
 			stringBuilder.AppendLine("pawnsSpawned");
-			foreach (Pawn current in this.pawnsSpawned)
+			List<Pawn>.Enumerator enumerator = this.pawnsSpawned.GetEnumerator();
+			try
 			{
-				stringBuilder.AppendLine("    " + current.ToString());
-			}
-			stringBuilder.AppendLine("AllPawnsUnspawned");
-			foreach (Pawn current2 in this.AllPawnsUnspawned)
-			{
-				stringBuilder.AppendLine("    " + current2.ToString());
-			}
-			foreach (KeyValuePair<Faction, List<Pawn>> current3 in this.pawnsInFactionSpawned)
-			{
-				stringBuilder.AppendLine("pawnsInFactionSpawned[" + current3.Key.ToString() + "]");
-				foreach (Pawn current4 in current3.Value)
+				while (enumerator.MoveNext())
 				{
-					stringBuilder.AppendLine("    " + current4.ToString());
+					Pawn current = enumerator.Current;
+					stringBuilder.AppendLine("    " + current.ToString());
 				}
 			}
-			stringBuilder.AppendLine("prisonersOfColonySpawned");
-			foreach (Pawn current5 in this.prisonersOfColonySpawned)
+			finally
 			{
-				stringBuilder.AppendLine("    " + current5.ToString());
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			stringBuilder.AppendLine("AllPawnsUnspawned");
+			foreach (Pawn item in this.AllPawnsUnspawned)
+			{
+				stringBuilder.AppendLine("    " + item.ToString());
+			}
+			Dictionary<Faction, List<Pawn>>.Enumerator enumerator3 = this.pawnsInFactionSpawned.GetEnumerator();
+			try
+			{
+				while (enumerator3.MoveNext())
+				{
+					KeyValuePair<Faction, List<Pawn>> current3 = enumerator3.Current;
+					stringBuilder.AppendLine("pawnsInFactionSpawned[" + current3.Key.ToString() + "]");
+					List<Pawn>.Enumerator enumerator4 = current3.Value.GetEnumerator();
+					try
+					{
+						while (enumerator4.MoveNext())
+						{
+							Pawn current4 = enumerator4.Current;
+							stringBuilder.AppendLine("    " + current4.ToString());
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator4).Dispose();
+					}
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator3).Dispose();
+			}
+			stringBuilder.AppendLine("prisonersOfColonySpawned");
+			List<Pawn>.Enumerator enumerator5 = this.prisonersOfColonySpawned.GetEnumerator();
+			try
+			{
+				while (enumerator5.MoveNext())
+				{
+					Pawn current5 = enumerator5.Current;
+					stringBuilder.AppendLine("    " + current5.ToString());
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator5).Dispose();
 			}
 			Log.Message(stringBuilder.ToString());
 		}

@@ -1,13 +1,11 @@
-using System;
-
 namespace Verse
 {
 	public enum SnowCategory : byte
 	{
-		None,
-		Dusting,
-		Thin,
-		Medium,
-		Thick
+		None = 0,
+		Dusting = 1,
+		Thin = 2,
+		Medium = 3,
+		Thick = 4
 	}
 }

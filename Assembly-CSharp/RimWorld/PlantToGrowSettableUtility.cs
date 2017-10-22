@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,12 +6,11 @@ namespace RimWorld
 	{
 		public static Command_SetPlantToGrow SetPlantToGrowCommand(IPlantToGrowSettable settable)
 		{
-			return new Command_SetPlantToGrow
-			{
-				defaultDesc = "CommandSelectPlantToGrowDesc".Translate(),
-				hotKey = KeyBindingDefOf.Misc1,
-				settable = settable
-			};
+			Command_SetPlantToGrow command_SetPlantToGrow = new Command_SetPlantToGrow();
+			command_SetPlantToGrow.defaultDesc = "CommandSelectPlantToGrowDesc".Translate();
+			command_SetPlantToGrow.hotKey = KeyBindingDefOf.Misc1;
+			command_SetPlantToGrow.settable = settable;
+			return command_SetPlantToGrow;
 		}
 	}
 }

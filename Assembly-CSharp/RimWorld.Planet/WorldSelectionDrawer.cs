@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -61,9 +60,9 @@ namespace RimWorld.Planet
 		private static void DrawSelectionBracketOnGUIFor(WorldObject obj)
 		{
 			Vector2 vector = obj.ScreenPos();
-			Rect rect = new Rect(vector.x - 17.5f, vector.y - 17.5f, 35f, 35f);
-			Vector2 textureSize = new Vector2((float)SelectionDrawerUtility.SelectedTexGUI.width * 0.4f, (float)SelectionDrawerUtility.SelectedTexGUI.height * 0.4f);
-			SelectionDrawerUtility.CalculateSelectionBracketPositionsUI<WorldObject>(WorldSelectionDrawer.bracketLocs, obj, rect, WorldSelectionDrawer.selectTimes, textureSize, 25f);
+			Rect rect = new Rect((float)(vector.x - 17.5), (float)(vector.y - 17.5), 35f, 35f);
+			Vector2 textureSize = new Vector2((float)((float)SelectionDrawerUtility.SelectedTexGUI.width * 0.40000000596046448), (float)((float)SelectionDrawerUtility.SelectedTexGUI.height * 0.40000000596046448));
+			SelectionDrawerUtility.CalculateSelectionBracketPositionsUI(WorldSelectionDrawer.bracketLocs, obj, rect, WorldSelectionDrawer.selectTimes, textureSize, 25f);
 			if (obj.HiddenBehindTerrainNow())
 			{
 				GUI.color = WorldSelectionDrawer.HiddenSelectionBracketColor;

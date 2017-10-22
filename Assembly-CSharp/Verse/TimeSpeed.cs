@@ -1,13 +1,11 @@
-using System;
-
 namespace Verse
 {
 	public enum TimeSpeed : byte
 	{
-		Paused,
-		Normal,
-		Fast,
-		Superfast,
-		Ultrafast
+		Paused = 0,
+		Normal = 1,
+		Fast = 2,
+		Superfast = 3,
+		Ultrafast = 4
 	}
 }

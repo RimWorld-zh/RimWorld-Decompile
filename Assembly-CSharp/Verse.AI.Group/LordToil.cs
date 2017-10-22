@@ -43,7 +43,7 @@ namespace Verse.AI.Group
 		{
 			get
 			{
-				return null;
+				return default(float?);
 			}
 		}
 

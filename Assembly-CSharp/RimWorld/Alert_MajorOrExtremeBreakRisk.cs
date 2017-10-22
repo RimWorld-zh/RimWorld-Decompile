@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Verse;
 
@@ -18,15 +17,15 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			Pawn pawn = BreakRiskAlertUtility.PawnsAtRiskExtreme.FirstOrDefault<Pawn>();
+			Pawn pawn = BreakRiskAlertUtility.PawnsAtRiskExtreme.FirstOrDefault();
 			if (pawn != null)
 			{
-				return pawn;
+				return (Thing)pawn;
 			}
-			pawn = BreakRiskAlertUtility.PawnsAtRiskMajor.FirstOrDefault<Pawn>();
+			pawn = BreakRiskAlertUtility.PawnsAtRiskMajor.FirstOrDefault();
 			if (pawn != null)
 			{
-				return pawn;
+				return (Thing)pawn;
 			}
 			return false;
 		}

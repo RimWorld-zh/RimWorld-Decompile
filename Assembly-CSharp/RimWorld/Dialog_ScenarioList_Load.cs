@@ -9,14 +9,14 @@ namespace RimWorld
 
 		public Dialog_ScenarioList_Load(Action<Scenario> scenarioReturner)
 		{
-			this.interactButLabel = "LoadGameButton".Translate();
+			base.interactButLabel = "LoadGameButton".Translate();
 			this.scenarioReturner = scenarioReturner;
 		}
 
 		protected override void DoFileInteraction(string fileName)
 		{
 			string filePath = GenFilePaths.AbsPathForScenario(fileName);
-			PreLoadUtility.CheckVersionAndLoad(filePath, ScribeMetaHeaderUtility.ScribeHeaderMode.Scenario, delegate
+			PreLoadUtility.CheckVersionAndLoad(filePath, ScribeMetaHeaderUtility.ScribeHeaderMode.Scenario, (Action)delegate
 			{
 				Scenario obj = null;
 				if (GameDataSaveLoader.TryLoadScenario(filePath, ScenarioCategory.CustomLocal, out obj))

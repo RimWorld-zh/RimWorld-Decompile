@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 using Verse;
 
@@ -40,32 +39,34 @@ namespace RimWorld.Planet
 					{
 						stringBuilder.AppendLine();
 					}
-					stringBuilder.Append("EstimatedTimeToThisWaypoint".Translate(new object[]
-					{
-						ticksToWaypoint.ToStringTicksToDays("0.#")
-					}));
+					stringBuilder.Append("EstimatedTimeToThisWaypoint".Translate(ticksToWaypoint.ToStringTicksToDays("0.#")));
 					if (num >= 2)
 					{
 						int ticksToWaypoint2 = worldRoutePlanner.GetTicksToWaypoint(num - 1);
 						stringBuilder.AppendLine();
-						stringBuilder.Append("EstimatedTimeToThisWaypointFromPrevious".Translate(new object[]
-						{
-							(ticksToWaypoint - ticksToWaypoint2).ToStringTicksToDays("0.#")
-						}));
+						stringBuilder.Append("EstimatedTimeToThisWaypointFromPrevious".Translate((ticksToWaypoint - ticksToWaypoint2).ToStringTicksToDays("0.#")));
 					}
 				}
 			}
 			return stringBuilder.ToString();
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			RoutePlannerWaypoint.<GetGizmos>c__Iterator109 <GetGizmos>c__Iterator = new RoutePlannerWaypoint.<GetGizmos>c__Iterator109();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			RoutePlannerWaypoint.<GetGizmos>c__Iterator109 expr_0E = <GetGizmos>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			yield return (Gizmo)new Command_Action
+			{
+				defaultLabel = "CommandRemoveWaypointLabel".Translate(),
+				defaultDesc = "CommandRemoveWaypointDesc".Translate(),
+				icon = TexCommand.RemoveRoutePlannerWaypoint,
+				action = (Action)delegate
+				{
+					Find.WorldRoutePlanner.TryRemoveWaypoint(((_003CGetGizmos_003Ec__Iterator109)/*Error near IL_00f5: stateMachine*/)._003C_003Ef__this, true);
+				}
+			};
 		}
 	}
 }

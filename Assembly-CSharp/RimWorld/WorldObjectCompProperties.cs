@@ -1,7 +1,6 @@
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace RimWorld
 {
@@ -9,16 +8,12 @@ namespace RimWorld
 	{
 		public Type compClass = typeof(WorldObjectComp);
 
-		[DebuggerHidden]
 		public virtual IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
-			WorldObjectCompProperties.<ConfigErrors>c__Iterator87 <ConfigErrors>c__Iterator = new WorldObjectCompProperties.<ConfigErrors>c__Iterator87();
-			<ConfigErrors>c__Iterator.parentDef = parentDef;
-			<ConfigErrors>c__Iterator.<$>parentDef = parentDef;
-			<ConfigErrors>c__Iterator.<>f__this = this;
-			WorldObjectCompProperties.<ConfigErrors>c__Iterator87 expr_1C = <ConfigErrors>c__Iterator;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (this.compClass == null)
+			{
+				yield return parentDef.defName + " has WorldObjectCompProperties with null compClass.";
+			}
 		}
 
 		public virtual void ResolveReferences(WorldObjectDef parentDef)

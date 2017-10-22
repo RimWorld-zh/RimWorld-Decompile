@@ -10,33 +10,29 @@ namespace RimWorld.BaseGen
 			Map map = BaseGen.globalSettings.map;
 			bool @bool = Rand.Bool;
 			ThingDef thingDef = rp.singleThingDef ?? ((!Rand.Bool) ? ThingDefOf.SleepingSpot : ThingDefOf.Bed);
-			foreach (IntVec3 current in rp.rect)
+			foreach (IntVec3 item in rp.rect)
 			{
+				IntVec3 current = item;
 				if (@bool)
 				{
-					if (current.x % 3 != 0 || current.z % 2 != 0)
-					{
-						continue;
-					}
+					if (current.x % 3 == 0 && current.z % 2 == 0)
+						goto IL_00a1;
 				}
-				else if (current.x % 2 != 0 || current.z % 3 != 0)
-				{
-					continue;
-				}
+				else if (current.x % 2 == 0 && current.z % 3 == 0)
+					goto IL_00a1;
+				continue;
+				IL_00a1:
 				Rot4 rot = (!@bool) ? Rot4.North : Rot4.West;
-				if (!GenSpawn.WouldWipeAnythingWith(current, rot, thingDef, map, (Thing x) => x.def.category == ThingCategory.Building))
+				if (!GenSpawn.WouldWipeAnythingWith(current, rot, thingDef, map, (Predicate<Thing>)((Thing x) => x.def.category == ThingCategory.Building)) && !BaseGenUtility.AnyDoorCardinalAdjacentTo(GenAdj.OccupiedRect(current, rot, thingDef.Size), map))
 				{
-					if (!BaseGenUtility.AnyDoorCardinalAdjacentTo(GenAdj.OccupiedRect(current, rot, thingDef.Size), map))
+					ThingDef stuff = null;
+					if (thingDef.MadeFromStuff)
 					{
-						ThingDef stuff = null;
-						if (thingDef.MadeFromStuff)
-						{
-							stuff = ThingDefOf.WoodLog;
-						}
-						Thing thing = ThingMaker.MakeThing(thingDef, stuff);
-						thing.SetFaction(rp.faction, null);
-						GenSpawn.Spawn(thing, current, map, rot, false);
+						stuff = ThingDefOf.WoodLog;
 					}
+					Thing thing = ThingMaker.MakeThing(thingDef, stuff);
+					thing.SetFaction(rp.faction, null);
+					GenSpawn.Spawn(thing, current, map, rot, false);
 				}
 			}
 		}

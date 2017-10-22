@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -9,7 +8,11 @@ namespace Verse
 		{
 			get
 			{
-				return !this.pawn.health.hediffSet.HasHediff(HediffDefOf.AlcoholHigh) && base.Visible;
+				if (base.pawn.health.hediffSet.HasHediff(HediffDefOf.AlcoholHigh))
+				{
+					return false;
+				}
+				return base.Visible;
 			}
 		}
 	}

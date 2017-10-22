@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -8,17 +7,22 @@ namespace RimWorld
 		public override void Generate(Map map)
 		{
 			int num = 0;
-			while (!map.wildSpawner.AnimalEcosystemFull)
+			while (true)
 			{
-				num++;
-				if (num >= 10000)
+				if (!map.wildSpawner.AnimalEcosystemFull)
 				{
-					Log.Error("Too many iterations.");
+					num++;
+					if (num < 10000)
+					{
+						IntVec3 loc = RCellFinder.RandomAnimalSpawnCell_MapGen(map);
+						map.wildSpawner.SpawnRandomWildAnimalAt(loc);
+						continue;
+					}
 					break;
 				}
-				IntVec3 loc = RCellFinder.RandomAnimalSpawnCell_MapGen(map);
-				map.wildSpawner.SpawnRandomWildAnimalAt(loc);
+				return;
 			}
+			Log.Error("Too many iterations.");
 		}
 	}
 }

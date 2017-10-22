@@ -57,30 +57,34 @@ namespace Verse
 			int num3 = thingCenter.z - (thingSize.z - 1) / 2 - 1;
 			int num4 = num3 + thingSize.z + 1;
 			IntVec3 item = new IntVec3(num - 1, 0, num3);
-			do
+			while (true)
 			{
 				item.x++;
 				GenAdjFast.resultList.Add(item);
+				if (item.x >= num2)
+					break;
 			}
-			while (item.x < num2);
-			do
+			while (true)
 			{
 				item.z++;
 				GenAdjFast.resultList.Add(item);
+				if (item.z >= num4)
+					break;
 			}
-			while (item.z < num4);
-			do
+			while (true)
 			{
 				item.x--;
 				GenAdjFast.resultList.Add(item);
+				if (item.x <= num)
+					break;
 			}
-			while (item.x > num);
-			do
+			while (true)
 			{
 				item.z--;
 				GenAdjFast.resultList.Add(item);
+				if (item.z <= num3 + 1)
+					break;
 			}
-			while (item.z > num3 + 1);
 			GenAdjFast.working = false;
 			return GenAdjFast.resultList;
 		}
@@ -88,20 +92,19 @@ namespace Verse
 		public static void AdjacentThings8Way(Thing thing, List<Thing> outThings)
 		{
 			outThings.Clear();
-			if (!thing.Spawned)
+			if (thing.Spawned)
 			{
-				return;
-			}
-			Map map = thing.Map;
-			List<IntVec3> list = GenAdjFast.AdjacentCells8Way(thing);
-			for (int i = 0; i < list.Count; i++)
-			{
-				List<Thing> thingList = list[i].GetThingList(map);
-				for (int j = 0; j < thingList.Count; j++)
+				Map map = thing.Map;
+				List<IntVec3> list = GenAdjFast.AdjacentCells8Way(thing);
+				for (int i = 0; i < list.Count; i++)
 				{
-					if (!outThings.Contains(thingList[j]))
+					List<Thing> thingList = list[i].GetThingList(map);
+					for (int j = 0; j < thingList.Count; j++)
 					{
-						outThings.Add(thingList[j]);
+						if (!outThings.Contains(thingList[j]))
+						{
+							outThings.Add(thingList[j]);
+						}
 					}
 				}
 			}

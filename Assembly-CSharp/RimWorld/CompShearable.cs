@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -41,7 +40,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_Shearable)this.props;
+				return (CompProperties_Shearable)base.props;
 			}
 		}
 
@@ -53,8 +52,12 @@ namespace RimWorld
 				{
 					return false;
 				}
-				Pawn pawn = this.parent as Pawn;
-				return pawn == null || pawn.ageTracker.CurLifeStage.shearable;
+				Pawn pawn = base.parent as Pawn;
+				if (pawn != null && !pawn.ageTracker.CurLifeStage.shearable)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -62,7 +65,7 @@ namespace RimWorld
 		{
 			if (!this.Active)
 			{
-				return null;
+				return (string)null;
 			}
 			return "WoolGrowth".Translate() + ": " + base.Fullness.ToStringPercent();
 		}

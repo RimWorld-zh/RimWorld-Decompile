@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse.AI.Group;
@@ -12,54 +11,52 @@ namespace Verse.AI
 
 		public static void RegenerateAllAvoidGridsFor(Faction faction)
 		{
-			if (!faction.def.canUseAvoidGrid)
+			if (faction.def.canUseAvoidGrid)
 			{
-				return;
-			}
-			List<Map> maps = Find.Maps;
-			for (int i = 0; i < maps.Count; i++)
-			{
-				AvoidGridMaker.RegenerateAvoidGridsFor(faction, maps[i]);
+				List<Map> maps = Find.Maps;
+				for (int i = 0; i < maps.Count; i++)
+				{
+					AvoidGridMaker.RegenerateAvoidGridsFor(faction, maps[i]);
+				}
 			}
 		}
 
 		public static void RegenerateAvoidGridsFor(Faction faction, Map map)
 		{
-			if (!faction.def.canUseAvoidGrid)
+			if (faction.def.canUseAvoidGrid)
 			{
-				return;
+				ByteGrid byteGrid = default(ByteGrid);
+				if (faction.avoidGridsSmart.TryGetValue(map, out byteGrid))
+				{
+					byteGrid.Clear((byte)0);
+				}
+				else
+				{
+					byteGrid = new ByteGrid(map);
+					faction.avoidGridsSmart.Add(map, byteGrid);
+				}
+				ByteGrid byteGrid2 = default(ByteGrid);
+				if (faction.avoidGridsBasic.TryGetValue(map, out byteGrid2))
+				{
+					byteGrid2.Clear((byte)0);
+				}
+				else
+				{
+					byteGrid2 = new ByteGrid(map);
+					faction.avoidGridsBasic.Add(map, byteGrid2);
+				}
+				AvoidGridMaker.GenerateAvoidGridInternal(byteGrid, faction, map, AvoidGridMode.Smart);
+				AvoidGridMaker.GenerateAvoidGridInternal(byteGrid2, faction, map, AvoidGridMode.Basic);
 			}
-			ByteGrid byteGrid;
-			if (faction.avoidGridsSmart.TryGetValue(map, out byteGrid))
-			{
-				byteGrid.Clear(0);
-			}
-			else
-			{
-				byteGrid = new ByteGrid(map);
-				faction.avoidGridsSmart.Add(map, byteGrid);
-			}
-			ByteGrid byteGrid2;
-			if (faction.avoidGridsBasic.TryGetValue(map, out byteGrid2))
-			{
-				byteGrid2.Clear(0);
-			}
-			else
-			{
-				byteGrid2 = new ByteGrid(map);
-				faction.avoidGridsBasic.Add(map, byteGrid2);
-			}
-			AvoidGridMaker.GenerateAvoidGridInternal(byteGrid, faction, map, AvoidGridMode.Smart);
-			AvoidGridMaker.GenerateAvoidGridInternal(byteGrid2, faction, map, AvoidGridMode.Basic);
 		}
 
 		internal static void Notify_CombatDangerousBuildingDespawned(Building building, Map map)
 		{
-			foreach (Faction current in Find.FactionManager.AllFactions)
+			foreach (Faction allFaction in Find.FactionManager.AllFactions)
 			{
-				if (current.HostileTo(Faction.OfPlayer) && map.mapPawns.SpawnedPawnsInFaction(current).Count > 0)
+				if (allFaction.HostileTo(Faction.OfPlayer) && map.mapPawns.SpawnedPawnsInFaction(allFaction).Count > 0)
 				{
-					AvoidGridMaker.RegenerateAvoidGridsFor(current, map);
+					AvoidGridMaker.RegenerateAvoidGridsFor(allFaction, map);
 				}
 			}
 		}
@@ -101,7 +98,7 @@ namespace Verse.AI
 				if (intVec.InBounds(mem.map) && intVec.Walkable(mem.map) && intVec.GetRoom(mem.map, RegionType.Set_Passable) == room)
 				{
 					float num = (float)Mathf.Max(1, intVec.DistanceToSquared(mem.Cell));
-					int num2 = Mathf.Max(1, Mathf.RoundToInt(32f * mem.PowerPercent / num));
+					int num2 = Mathf.Max(1, Mathf.RoundToInt((float)(32.0 * mem.PowerPercent / num)));
 					AvoidGridMaker.IncrementAvoidGrid(avoidGrid, intVec, num2);
 				}
 			}
@@ -109,10 +106,10 @@ namespace Verse.AI
 
 		private static void PrintAvoidGridAroundTurret(Building_TurretGun tur, ByteGrid avoidGrid)
 		{
-			int num = GenRadial.NumCellsInRadius(tur.GunCompEq.PrimaryVerb.verbProps.range + 4f);
-			for (int i = 0; i < num; i++)
+			int num = GenRadial.NumCellsInRadius((float)(tur.GunCompEq.PrimaryVerb.verbProps.range + 4.0));
+			for (int num2 = 0; num2 < num; num2++)
 			{
-				IntVec3 intVec = tur.Position + GenRadial.RadialPattern[i];
+				IntVec3 intVec = tur.Position + GenRadial.RadialPattern[num2];
 				if (intVec.InBounds(tur.Map) && intVec.Walkable(tur.Map) && GenSight.LineOfSight(intVec, tur.Position, tur.Map, true, null, 0, 0))
 				{
 					AvoidGridMaker.IncrementAvoidGrid(avoidGrid, intVec, 12);
@@ -123,28 +120,26 @@ namespace Verse.AI
 		private static void IncrementAvoidGrid(ByteGrid avoidGrid, IntVec3 c, int num)
 		{
 			byte b = avoidGrid[c];
-			b = (byte)Mathf.Min(255, (int)b + num);
+			b = (byte)Mathf.Min(255, b + num);
 			avoidGrid[c] = b;
 		}
 
 		private static void ExpandAvoidGridIntoEdifices(ByteGrid avoidGrid, Map map)
 		{
 			int numGridCells = map.cellIndices.NumGridCells;
-			for (int i = 0; i < numGridCells; i++)
+			for (int num = 0; num < numGridCells; num++)
 			{
-				if (avoidGrid[i] != 0)
+				if (avoidGrid[num] != 0 && map.edificeGrid[num] == null)
 				{
-					if (map.edificeGrid[i] == null)
+					for (int i = 0; i < 8; i++)
 					{
-						for (int j = 0; j < 8; j++)
+						IntVec3 c = map.cellIndices.IndexToCell(num) + GenAdj.AdjacentCells[i];
+						if (c.InBounds(map))
 						{
-							IntVec3 c = map.cellIndices.IndexToCell(i) + GenAdj.AdjacentCells[j];
-							if (c.InBounds(map))
+							Building edifice = c.GetEdifice(map);
+							if (edifice != null)
 							{
-								if (c.GetEdifice(map) != null)
-								{
-									avoidGrid[c] = (byte)Mathf.Min(255, Mathf.Max((int)avoidGrid[c], (int)avoidGrid[i]));
-								}
+								avoidGrid[c] = (byte)Mathf.Min(255, Mathf.Max(avoidGrid[c], avoidGrid[num]));
 							}
 						}
 					}

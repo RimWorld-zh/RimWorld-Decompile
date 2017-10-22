@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -27,8 +26,8 @@ namespace Verse
 			this.cols = cols;
 			this.innerPadding = innerPadding;
 			this.outerPadding = outerPadding;
-			float num = container.width - outerPadding * 2f - (float)(cols - 1) * innerPadding;
-			float num2 = container.height - outerPadding * 2f - (float)(rows - 1) * innerPadding;
+			float num = (float)(container.width - outerPadding * 2.0 - (float)(cols - 1) * innerPadding);
+			float num2 = (float)(container.height - outerPadding * 2.0 - (float)(rows - 1) * innerPadding);
 			this.colWidth = num / (float)cols;
 			this.rowHeight = num2 / (float)rows;
 			this.colStride = this.colWidth + innerPadding;
@@ -44,7 +43,7 @@ namespace Verse
 			this.outerPadding = outerPadding;
 			this.colStride = colWidth + innerPadding;
 			this.rowStride = rowHeight + innerPadding;
-			this.container = new Rect(0f, 0f, outerPadding * 2f + colWidth * (float)cols + innerPadding * (float)cols - 1f, outerPadding * 2f + rowHeight * (float)rows + innerPadding * (float)rows - 1f);
+			this.container = new Rect(0f, 0f, (float)(outerPadding * 2.0 + colWidth * (float)cols + innerPadding * (float)cols - 1.0), (float)(outerPadding * 2.0 + rowHeight * (float)rows + innerPadding * (float)rows - 1.0));
 		}
 
 		public Rect GetCellRectByIndex(int index, int colspan = 1, int rowspan = 1)

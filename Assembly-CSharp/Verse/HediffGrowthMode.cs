@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum HediffGrowthMode
 	{
-		Growing,
-		Stable,
-		Remission
+		Growing = 0,
+		Stable = 1,
+		Remission = 2
 	}
 }

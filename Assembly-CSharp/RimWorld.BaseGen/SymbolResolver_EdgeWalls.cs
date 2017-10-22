@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -9,9 +8,9 @@ namespace RimWorld.BaseGen
 		public override void Resolve(ResolveParams rp)
 		{
 			ThingDef wallStuff = rp.wallStuff ?? BaseGenUtility.RandomCheapWallStuff(rp.faction, false);
-			foreach (IntVec3 current in rp.rect.EdgeCells)
+			foreach (IntVec3 edgeCell in rp.rect.EdgeCells)
 			{
-				this.TrySpawnWall(current, rp, wallStuff);
+				this.TrySpawnWall(edgeCell, rp, wallStuff);
 			}
 		}
 
@@ -30,9 +29,9 @@ namespace RimWorld.BaseGen
 					return null;
 				}
 			}
-			for (int j = thingList.Count - 1; j >= 0; j--)
+			for (int num = thingList.Count - 1; num >= 0; num--)
 			{
-				thingList[j].Destroy(DestroyMode.Vanish);
+				thingList[num].Destroy(DestroyMode.Vanish);
 			}
 			if (rp.chanceToSkipWallBlock.HasValue && Rand.Chance(rp.chanceToSkipWallBlock.Value))
 			{

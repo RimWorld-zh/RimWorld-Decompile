@@ -1,5 +1,4 @@
 using Steamworks;
-using System;
 using System.IO;
 
 namespace Verse.Steam
@@ -32,9 +31,9 @@ namespace Verse.Steam
 
 		public static WorkshopItem MakeFrom(PublishedFileId_t pfid)
 		{
-			ulong num;
-			string path;
-			uint num2;
+			ulong num = default(ulong);
+			string path = default(string);
+			uint num2 = default(uint);
 			bool itemInstallInfo = SteamUGC.GetItemInstallInfo(pfid, out num, out path, 257u, out num2);
 			WorkshopItem workshopItem = null;
 			if (!itemInstallInfo)

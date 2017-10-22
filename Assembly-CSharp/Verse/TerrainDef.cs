@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace Verse
@@ -10,16 +9,16 @@ namespace Verse
 	{
 		public enum TerrainEdgeType : byte
 		{
-			Hard,
-			Fade,
-			FadeRough,
-			Water
+			Hard = 0,
+			Fade = 1,
+			FadeRough = 2,
+			Water = 3
 		}
 
 		[NoTranslate]
 		public string texturePath;
 
-		public TerrainDef.TerrainEdgeType edgeType;
+		public TerrainEdgeType edgeType;
 
 		[NoTranslate]
 		public string waterDepthShader;
@@ -85,35 +84,43 @@ namespace Verse
 		{
 			get
 			{
-				return this.researchPrerequisites != null && this.researchPrerequisites.Contains(ResearchProjectDefOf.CarpetMaking);
+				return base.researchPrerequisites != null && base.researchPrerequisites.Contains(ResearchProjectDefOf.CarpetMaking);
 			}
 		}
 
 		public override void PostLoad()
 		{
-			this.placingDraggableDimensions = 2;
-			LongEventHandler.ExecuteWhenFinished(delegate
+			base.placingDraggableDimensions = 2;
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				Shader shader = null;
 				switch (this.edgeType)
 				{
-				case TerrainDef.TerrainEdgeType.Hard:
+				case TerrainEdgeType.Hard:
+				{
 					shader = ShaderDatabase.TerrainHard;
 					break;
-				case TerrainDef.TerrainEdgeType.Fade:
+				}
+				case TerrainEdgeType.Fade:
+				{
 					shader = ShaderDatabase.TerrainFade;
 					break;
-				case TerrainDef.TerrainEdgeType.FadeRough:
+				}
+				case TerrainEdgeType.FadeRough:
+				{
 					shader = ShaderDatabase.TerrainFadeRough;
 					break;
-				case TerrainDef.TerrainEdgeType.Water:
+				}
+				case TerrainEdgeType.Water:
+				{
 					shader = ShaderDatabase.TerrainWater;
 					break;
 				}
-				this.graphic = GraphicDatabase.Get<Graphic_Terrain>(this.texturePath, shader, Vector2.one, this.color, 2000 + this.renderPrecedence);
-				if (shader == ShaderDatabase.TerrainFadeRough || shader == ShaderDatabase.TerrainWater)
+				}
+				base.graphic = GraphicDatabase.Get<Graphic_Terrain>(this.texturePath, shader, Vector2.one, this.color, 2000 + this.renderPrecedence);
+				if ((UnityEngine.Object)shader == (UnityEngine.Object)ShaderDatabase.TerrainFadeRough || (UnityEngine.Object)shader == (UnityEngine.Object)ShaderDatabase.TerrainWater)
 				{
-					this.graphic.MatSingle.SetTexture("_AlphaAddTex", TexGame.AlphaAddTex);
+					base.graphic.MatSingle.SetTexture("_AlphaAddTex", TexGame.AlphaAddTex);
 				}
 				if (!this.waterDepthShader.NullOrEmpty())
 				{
@@ -132,14 +139,36 @@ namespace Verse
 			base.PostLoad();
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			TerrainDef.<ConfigErrors>c__Iterator1E0 <ConfigErrors>c__Iterator1E = new TerrainDef.<ConfigErrors>c__Iterator1E0();
-			<ConfigErrors>c__Iterator1E.<>f__this = this;
-			TerrainDef.<ConfigErrors>c__Iterator1E0 expr_0E = <ConfigErrors>c__Iterator1E;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.texturePath.NullOrEmpty())
+			{
+				yield return "missing texturePath";
+			}
+			if (base.fertility < 0.0)
+			{
+				yield return "Terrain Def " + this + " has no fertility value set.";
+			}
+			if (this.renderPrecedence > 400)
+			{
+				yield return "Render order " + this.renderPrecedence + " is out of range (must be < 400)";
+			}
+			if (this.terrainFilthDef != null && this.acceptTerrainSourceFilth)
+			{
+				yield return base.defName + " makes terrain filth and also accepts it.";
+			}
+			if (this.Flammable() && this.burnedDef == null)
+			{
+				yield return "flammable but burnedDef is null";
+			}
+			if (this.burnedDef != null && this.burnedDef.Flammable())
+			{
+				yield return "burnedDef is flammable";
+			}
 		}
 
 		public static TerrainDef Named(string defName)

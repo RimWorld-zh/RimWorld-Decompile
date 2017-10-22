@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -14,7 +13,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.parent.IsBrokenDown())
+				if (base.parent.IsBrokenDown())
 				{
 					return 0f;
 				}
@@ -43,7 +42,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_Battery)this.props;
+				return (CompProperties_Battery)base.props;
 			}
 		}
 
@@ -60,25 +59,27 @@ namespace RimWorld
 
 		public void AddEnergy(float amount)
 		{
-			if (amount < 0f)
+			if (amount < 0.0)
 			{
 				Log.Error("Cannot add negative energy " + amount);
-				return;
 			}
-			if (amount > this.AmountCanAccept)
+			else
 			{
-				amount = this.AmountCanAccept;
+				if (amount > this.AmountCanAccept)
+				{
+					amount = this.AmountCanAccept;
+				}
+				amount *= this.Props.efficiency;
+				this.storedEnergy += amount;
 			}
-			amount *= this.Props.efficiency;
-			this.storedEnergy += amount;
 		}
 
 		public void DrawPower(float amount)
 		{
 			this.storedEnergy -= amount;
-			if (this.storedEnergy < 0f)
+			if (this.storedEnergy < 0.0)
 			{
-				Log.Error("Drawing power we don't have from " + this.parent);
+				Log.Error("Drawing power we don't have from " + base.parent);
 				this.storedEnergy = 0f;
 			}
 		}
@@ -100,36 +101,37 @@ namespace RimWorld
 		public override string CompInspectStringExtra()
 		{
 			CompProperties_Battery props = this.Props;
-			string text = string.Concat(new string[]
-			{
-				"PowerBatteryStored".Translate(),
-				": ",
-				this.storedEnergy.ToString("F0"),
-				" / ",
-				props.storedEnergyMax.ToString("F0"),
-				" Wd"
-			});
-			string text2 = text;
-			text = string.Concat(new string[]
-			{
-				text2,
-				"\n",
-				"PowerBatteryEfficiency".Translate(),
-				": ",
-				(props.efficiency * 100f).ToString("F0"),
-				"%"
-			});
-			return text + "\n" + base.CompInspectStringExtra();
+			string text;
+			string text2 = text = "PowerBatteryStored".Translate() + ": " + this.storedEnergy.ToString("F0") + " / " + props.storedEnergyMax.ToString("F0") + " Wd";
+			text2 = text + "\n" + "PowerBatteryEfficiency".Translate() + ": " + ((float)(props.efficiency * 100.0)).ToString("F0") + "%";
+			return text2 + "\n" + base.CompInspectStringExtra();
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompPowerBattery.<CompGetGizmosExtra>c__IteratorB3 <CompGetGizmosExtra>c__IteratorB = new CompPowerBattery.<CompGetGizmosExtra>c__IteratorB3();
-			<CompGetGizmosExtra>c__IteratorB.<>f__this = this;
-			CompPowerBattery.<CompGetGizmosExtra>c__IteratorB3 expr_0E = <CompGetGizmosExtra>c__IteratorB;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo item in base.CompGetGizmosExtra())
+			{
+				yield return item;
+			}
+			if (Prefs.DevMode)
+			{
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "DEBUG: Fill",
+					action = (Action)delegate
+					{
+						((_003CCompGetGizmosExtra_003Ec__IteratorB3)/*Error near IL_00d9: stateMachine*/)._003C_003Ef__this.SetStoredEnergyPct(1f);
+					}
+				};
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "DEBUG: Empty",
+					action = (Action)delegate
+					{
+						((_003CCompGetGizmosExtra_003Ec__IteratorB3)/*Error near IL_0123: stateMachine*/)._003C_003Ef__this.SetStoredEnergyPct(0f);
+					}
+				};
+			}
 		}
 	}
 }

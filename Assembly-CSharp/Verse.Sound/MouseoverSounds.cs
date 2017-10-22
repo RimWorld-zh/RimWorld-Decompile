@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,22 +18,22 @@ namespace Verse.Sound
 			{
 				get
 				{
-					return this.rect.x >= 0f;
+					return this.rect.x >= 0.0;
 				}
 			}
 
-			public static MouseoverSounds.MouseoverRegionCall Invalid
+			public static MouseoverRegionCall Invalid
 			{
 				get
 				{
-					return new MouseoverSounds.MouseoverRegionCall
+					return new MouseoverRegionCall
 					{
 						rect = new Rect(-1000f, -1000f, 0f, 0f)
 					};
 				}
 			}
 
-			public bool Matches(MouseoverSounds.MouseoverRegionCall other)
+			public bool Matches(MouseoverRegionCall other)
 			{
 				return this.rect.Equals(other.rect);
 			}
@@ -45,21 +44,15 @@ namespace Verse.Sound
 				{
 					return "(Invalid)";
 				}
-				return string.Concat(new object[]
-				{
-					"(rect=",
-					this.rect,
-					(!this.mouseIsOver) ? string.Empty : "mouseIsOver",
-					")"
-				});
+				return "(rect=" + this.rect + ((!this.mouseIsOver) ? string.Empty : "mouseIsOver") + ")";
 			}
 		}
 
-		private static List<MouseoverSounds.MouseoverRegionCall> frameCalls = new List<MouseoverSounds.MouseoverRegionCall>();
+		private static List<MouseoverRegionCall> frameCalls = new List<MouseoverRegionCall>();
 
 		private static int lastUsedCallInd = -1;
 
-		private static MouseoverSounds.MouseoverRegionCall lastUsedCall;
+		private static MouseoverRegionCall lastUsedCall;
 
 		private static int forceSilenceUntilFrame = -1;
 
@@ -75,30 +68,29 @@ namespace Verse.Sound
 
 		public static void DoRegion(Rect rect, SoundDef sound)
 		{
-			if (sound == null)
+			if (sound != null && Event.current.type == EventType.Repaint)
 			{
-				return;
+				MouseoverRegionCall item = new MouseoverRegionCall
+				{
+					rect = rect,
+					sound = sound,
+					mouseIsOver = Mouse.IsOver(rect)
+				};
+				MouseoverSounds.frameCalls.Add(item);
 			}
-			if (Event.current.type != EventType.Repaint)
-			{
-				return;
-			}
-			MouseoverSounds.MouseoverRegionCall item = default(MouseoverSounds.MouseoverRegionCall);
-			item.rect = rect;
-			item.sound = sound;
-			item.mouseIsOver = Mouse.IsOver(rect);
-			MouseoverSounds.frameCalls.Add(item);
 		}
 
 		public static void ResolveFrame()
 		{
 			for (int i = 0; i < MouseoverSounds.frameCalls.Count; i++)
 			{
-				if (MouseoverSounds.frameCalls[i].mouseIsOver)
+				MouseoverRegionCall mouseoverRegionCall = MouseoverSounds.frameCalls[i];
+				if (mouseoverRegionCall.mouseIsOver)
 				{
 					if (MouseoverSounds.lastUsedCallInd != i && !MouseoverSounds.frameCalls[i].Matches(MouseoverSounds.lastUsedCall) && MouseoverSounds.forceSilenceUntilFrame < Time.frameCount)
 					{
-						MouseoverSounds.frameCalls[i].sound.PlayOneShotOnCamera(null);
+						MouseoverRegionCall mouseoverRegionCall2 = MouseoverSounds.frameCalls[i];
+						mouseoverRegionCall2.sound.PlayOneShotOnCamera(null);
 					}
 					MouseoverSounds.lastUsedCallInd = i;
 					MouseoverSounds.lastUsedCall = MouseoverSounds.frameCalls[i];
@@ -106,7 +98,7 @@ namespace Verse.Sound
 					return;
 				}
 			}
-			MouseoverSounds.lastUsedCall = MouseoverSounds.MouseoverRegionCall.Invalid;
+			MouseoverSounds.lastUsedCall = MouseoverRegionCall.Invalid;
 			MouseoverSounds.lastUsedCallInd = -1;
 			MouseoverSounds.frameCalls.Clear();
 		}

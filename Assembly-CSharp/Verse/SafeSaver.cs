@@ -43,16 +43,9 @@ namespace Verse
 					}
 					catch (Exception ex)
 					{
-						Log.Warning(string.Concat(new object[]
-						{
-							"Could not move file from \"",
-							SafeSaver.GetFileFullPath(path),
-							"\" to \"",
-							SafeSaver.GetOldFileFullPath(path),
-							"\": ",
-							ex
-						}));
+						Log.Warning("Could not move file from \"" + SafeSaver.GetFileFullPath(path) + "\" to \"" + SafeSaver.GetOldFileFullPath(path) + "\": " + ex);
 						throw;
+						IL_008c:;
 					}
 					try
 					{
@@ -60,15 +53,7 @@ namespace Verse
 					}
 					catch (Exception ex2)
 					{
-						Log.Warning(string.Concat(new object[]
-						{
-							"Could not move file from \"",
-							SafeSaver.GetNewFileFullPath(path),
-							"\" to \"",
-							SafeSaver.GetFileFullPath(path),
-							"\": ",
-							ex2
-						}));
+						Log.Warning("Could not move file from \"" + SafeSaver.GetNewFileFullPath(path) + "\" to \"" + SafeSaver.GetFileFullPath(path) + "\": " + ex2);
 						SafeSaver.RemoveFileIfExists(SafeSaver.GetFileFullPath(path), false);
 						SafeSaver.RemoveFileIfExists(SafeSaver.GetNewFileFullPath(path), false);
 						try
@@ -77,29 +62,19 @@ namespace Verse
 						}
 						catch (Exception ex3)
 						{
-							Log.Warning(string.Concat(new object[]
-							{
-								"Could not move file from \"",
-								SafeSaver.GetOldFileFullPath(path),
-								"\" back to \"",
-								SafeSaver.GetFileFullPath(path),
-								"\": ",
-								ex3
-							}));
+							Log.Warning("Could not move file from \"" + SafeSaver.GetOldFileFullPath(path) + "\" back to \"" + SafeSaver.GetFileFullPath(path) + "\": " + ex3);
 						}
 						throw;
+						IL_015a:;
 					}
 					SafeSaver.RemoveFileIfExists(SafeSaver.GetOldFileFullPath(path), true);
 				}
 			}
 			catch (Exception ex4)
 			{
-				GenUI.ErrorDialog("ProblemSavingFile".Translate(new object[]
-				{
-					SafeSaver.GetFileFullPath(path),
-					ex4.ToString()
-				}));
+				GenUI.ErrorDialog("ProblemSavingFile".Translate(SafeSaver.GetFileFullPath(path), ex4.ToString()));
 				throw;
+				IL_019a:;
 			}
 		}
 
@@ -119,16 +94,11 @@ namespace Verse
 			}
 			catch (Exception ex)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"An exception was thrown during saving to \"",
-					fullPath,
-					"\": ",
-					ex
-				}));
+				Log.Warning("An exception was thrown during saving to \"" + fullPath + "\": " + ex);
 				Scribe.saver.ForceStop();
 				SafeSaver.RemoveFileIfExists(fullPath, false);
 				throw;
+				IL_005d:;
 			}
 		}
 
@@ -143,17 +113,11 @@ namespace Verse
 			}
 			catch (Exception ex)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Could not remove file \"",
-					path,
-					"\": ",
-					ex
-				}));
-				if (rethrow)
-				{
-					throw;
-				}
+				Log.Warning("Could not remove file \"" + path + "\": " + ex);
+				if (!rethrow)
+					goto end_IL_0016;
+				throw;
+				end_IL_0016:;
 			}
 		}
 
@@ -166,6 +130,7 @@ namespace Verse
 				{
 					File.Move(from, to);
 					return;
+					IL_0015:;
 				}
 				catch (Exception ex2)
 				{

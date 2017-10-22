@@ -6,7 +6,7 @@ namespace Verse
 {
 	public static class FadedMaterialPool
 	{
-		private struct FadedMatRequest : IEquatable<FadedMaterialPool.FadedMatRequest>
+		private struct FadedMatRequest : IEquatable<FadedMatRequest>
 		{
 			private Material mat;
 
@@ -20,12 +20,16 @@ namespace Verse
 
 			public override bool Equals(object obj)
 			{
-				return obj != null && obj is FadedMaterialPool.FadedMatRequest && this.Equals((FadedMaterialPool.FadedMatRequest)obj);
+				if (obj != null && obj is FadedMatRequest)
+				{
+					return this.Equals((FadedMatRequest)obj);
+				}
+				return false;
 			}
 
-			public bool Equals(FadedMaterialPool.FadedMatRequest other)
+			public bool Equals(FadedMatRequest other)
 			{
-				return this.mat == other.mat && this.alphaIndex == other.alphaIndex;
+				return (UnityEngine.Object)this.mat == (UnityEngine.Object)other.mat && this.alphaIndex == other.alphaIndex;
 			}
 
 			public override int GetHashCode()
@@ -33,27 +37,27 @@ namespace Verse
 				return Gen.HashCombineInt(this.mat.GetHashCode(), this.alphaIndex);
 			}
 
-			public static bool operator ==(FadedMaterialPool.FadedMatRequest lhs, FadedMaterialPool.FadedMatRequest rhs)
+			public static bool operator ==(FadedMatRequest lhs, FadedMatRequest rhs)
 			{
 				return lhs.Equals(rhs);
 			}
 
-			public static bool operator !=(FadedMaterialPool.FadedMatRequest lhs, FadedMaterialPool.FadedMatRequest rhs)
+			public static bool operator !=(FadedMatRequest lhs, FadedMatRequest rhs)
 			{
 				return !(lhs == rhs);
 			}
 		}
 
-		private class FadedMatRequestComparer : IEqualityComparer<FadedMaterialPool.FadedMatRequest>
+		private class FadedMatRequestComparer : IEqualityComparer<FadedMatRequest>
 		{
-			public static readonly FadedMaterialPool.FadedMatRequestComparer Instance = new FadedMaterialPool.FadedMatRequestComparer();
+			public static readonly FadedMatRequestComparer Instance = new FadedMatRequestComparer();
 
-			public bool Equals(FadedMaterialPool.FadedMatRequest x, FadedMaterialPool.FadedMatRequest y)
+			public bool Equals(FadedMatRequest x, FadedMatRequest y)
 			{
 				return x.Equals(y);
 			}
 
-			public int GetHashCode(FadedMaterialPool.FadedMatRequest obj)
+			public int GetHashCode(FadedMatRequest obj)
 			{
 				return obj.GetHashCode();
 			}
@@ -61,7 +65,7 @@ namespace Verse
 
 		private const int NumFadeSteps = 30;
 
-		private static Dictionary<FadedMaterialPool.FadedMatRequest, Material> cachedMats = new Dictionary<FadedMaterialPool.FadedMatRequest, Material>(FadedMaterialPool.FadedMatRequestComparer.Instance);
+		private static Dictionary<FadedMatRequest, Material> cachedMats = new Dictionary<FadedMatRequest, Material>(FadedMatRequestComparer.Instance);
 
 		public static int TotalMaterialCount
 		{
@@ -76,39 +80,53 @@ namespace Verse
 			get
 			{
 				int num = 0;
-				foreach (KeyValuePair<FadedMaterialPool.FadedMatRequest, Material> current in FadedMaterialPool.cachedMats)
+				Dictionary<FadedMatRequest, Material>.Enumerator enumerator = FadedMaterialPool.cachedMats.GetEnumerator();
+				try
 				{
-					num += Profiler.GetRuntimeMemorySize(current.Value);
+					while (enumerator.MoveNext())
+					{
+						num += Profiler.GetRuntimeMemorySize(enumerator.Current.Value);
+					}
+					return num;
 				}
-				return num;
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
+				}
 			}
 		}
 
 		public static Material FadedVersionOf(Material sourceMat, float alpha)
 		{
 			int num = FadedMaterialPool.IndexFromAlpha(alpha);
-			if (num == 0)
+			switch (num)
+			{
+			case 0:
 			{
 				return BaseContent.ClearMat;
 			}
-			if (num == 29)
+			case 29:
 			{
 				return sourceMat;
 			}
-			FadedMaterialPool.FadedMatRequest key = new FadedMaterialPool.FadedMatRequest(sourceMat, num);
-			Material material;
-			if (!FadedMaterialPool.cachedMats.TryGetValue(key, out material))
+			default:
 			{
-				material = new Material(sourceMat);
-				material.color = new Color(1f, 1f, 1f, (float)FadedMaterialPool.IndexFromAlpha(alpha) / 30f);
-				FadedMaterialPool.cachedMats.Add(key, material);
+				FadedMatRequest key = new FadedMatRequest(sourceMat, num);
+				Material material = default(Material);
+				if (!FadedMaterialPool.cachedMats.TryGetValue(key, out material))
+				{
+					material = new Material(sourceMat);
+					material.color = new Color(1f, 1f, 1f, (float)((float)FadedMaterialPool.IndexFromAlpha(alpha) / 30.0));
+					FadedMaterialPool.cachedMats.Add(key, material);
+				}
+				return material;
 			}
-			return material;
+			}
 		}
 
 		private static int IndexFromAlpha(float alpha)
 		{
-			int num = Mathf.FloorToInt(alpha * 30f);
+			int num = Mathf.FloorToInt((float)(alpha * 30.0));
 			if (num == 30)
 			{
 				num = 29;

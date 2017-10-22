@@ -1,6 +1,5 @@
-using System;
+using RimWorld.Planet;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -11,10 +10,40 @@ namespace RimWorld
 		{
 			get
 			{
-				PawnsFinder.<>c__IteratorCB <>c__IteratorCB = new PawnsFinder.<>c__IteratorCB();
-				PawnsFinder.<>c__IteratorCB expr_07 = <>c__IteratorCB;
-				expr_07.$PC = -2;
-				return expr_07;
+				foreach (Pawn item in PawnsFinder.AllMapsAndWorld_Alive)
+				{
+					yield return item;
+				}
+				if (Find.World != null)
+				{
+					foreach (Pawn item2 in Find.WorldPawns.AllPawnsDead)
+					{
+						yield return item2;
+					}
+				}
+				List<Pawn> makingPawns = PawnGroupKindWorker.pawnsBeingGeneratedNow;
+				if (makingPawns != null)
+				{
+					for (int j = 0; j < makingPawns.Count; j++)
+					{
+						if (makingPawns[j].Dead)
+						{
+							yield return makingPawns[j];
+						}
+					}
+				}
+				List<Thing> makingThings = ItemCollectionGenerator.thingsBeingGeneratedNow;
+				if (makingThings != null)
+				{
+					for (int i = 0; i < makingThings.Count; i++)
+					{
+						Pawn p = makingThings[i] as Pawn;
+						if (p != null && p.Dead)
+						{
+							yield return p;
+						}
+					}
+				}
 			}
 		}
 
@@ -22,10 +51,51 @@ namespace RimWorld
 		{
 			get
 			{
-				PawnsFinder.<>c__IteratorCC <>c__IteratorCC = new PawnsFinder.<>c__IteratorCC();
-				PawnsFinder.<>c__IteratorCC expr_07 = <>c__IteratorCC;
-				expr_07.$PC = -2;
-				return expr_07;
+				List<Pawn> makingPawns = PawnGroupKindWorker.pawnsBeingGeneratedNow;
+				if (makingPawns != null)
+				{
+					for (int k = 0; k < makingPawns.Count; k++)
+					{
+						if (!makingPawns[k].Dead)
+						{
+							yield return makingPawns[k];
+						}
+					}
+				}
+				List<Thing> makingThings = ItemCollectionGenerator.thingsBeingGeneratedNow;
+				if (makingThings != null)
+				{
+					for (int j = 0; j < makingThings.Count; j++)
+					{
+						Pawn p3 = makingThings[j] as Pawn;
+						if (p3 != null && !p3.Dead)
+						{
+							yield return p3;
+						}
+					}
+				}
+				if (Find.World != null)
+				{
+					foreach (Pawn item in Find.WorldPawns.AllPawnsAlive)
+					{
+						yield return item;
+					}
+					foreach (Pawn allMap in PawnsFinder.AllMaps)
+					{
+						yield return allMap;
+					}
+				}
+				if (Current.ProgramState != ProgramState.Playing && Find.GameInitData != null && Find.GameInitData != null)
+				{
+					List<Pawn> startingPawns = Find.GameInitData.startingPawns;
+					for (int i = 0; i < startingPawns.Count; i++)
+					{
+						if (startingPawns[i] != null)
+						{
+							yield return startingPawns[i];
+						}
+					}
+				}
 			}
 		}
 
@@ -33,10 +103,14 @@ namespace RimWorld
 		{
 			get
 			{
-				PawnsFinder.<>c__IteratorCD <>c__IteratorCD = new PawnsFinder.<>c__IteratorCD();
-				PawnsFinder.<>c__IteratorCD expr_07 = <>c__IteratorCD;
-				expr_07.$PC = -2;
-				return expr_07;
+				List<Map> maps = Find.Maps;
+				for (int i = 0; i < maps.Count; i++)
+				{
+					foreach (Pawn allPawn in maps[i].mapPawns.AllPawns)
+					{
+						yield return allPawn;
+					}
+				}
 			}
 		}
 
@@ -44,10 +118,15 @@ namespace RimWorld
 		{
 			get
 			{
-				PawnsFinder.<>c__IteratorCE <>c__IteratorCE = new PawnsFinder.<>c__IteratorCE();
-				PawnsFinder.<>c__IteratorCE expr_07 = <>c__IteratorCE;
-				expr_07.$PC = -2;
-				return expr_07;
+				List<Map> maps = Find.Maps;
+				for (int j = 0; j < maps.Count; j++)
+				{
+					List<Pawn> spawned = maps[j].mapPawns.AllPawnsSpawned;
+					for (int i = 0; i < spawned.Count; i++)
+					{
+						yield return spawned[i];
+					}
+				}
 			}
 		}
 
@@ -55,10 +134,30 @@ namespace RimWorld
 		{
 			get
 			{
-				PawnsFinder.<>c__IteratorCF <>c__IteratorCF = new PawnsFinder.<>c__IteratorCF();
-				PawnsFinder.<>c__IteratorCF expr_07 = <>c__IteratorCF;
-				expr_07.$PC = -2;
-				return expr_07;
+				foreach (Pawn allMap in PawnsFinder.AllMaps)
+				{
+					yield return allMap;
+				}
+				if (Find.World != null)
+				{
+					List<Caravan> caravans = Find.WorldObjects.Caravans;
+					for (int k = 0; k < caravans.Count; k++)
+					{
+						List<Pawn> pawns = caravans[k].PawnsListForReading;
+						for (int i = 0; i < pawns.Count; i++)
+						{
+							yield return pawns[i];
+						}
+					}
+					List<TravelingTransportPods> travelingTransportPods = Find.WorldObjects.TravelingTransportPods;
+					for (int j = 0; j < travelingTransportPods.Count; j++)
+					{
+						foreach (Pawn pawn in travelingTransportPods[j].Pawns)
+						{
+							yield return pawn;
+						}
+					}
+				}
 			}
 		}
 
@@ -66,10 +165,13 @@ namespace RimWorld
 		{
 			get
 			{
-				PawnsFinder.<>c__IteratorD0 <>c__IteratorD = new PawnsFinder.<>c__IteratorD0();
-				PawnsFinder.<>c__IteratorD0 expr_07 = <>c__IteratorD;
-				expr_07.$PC = -2;
-				return expr_07;
+				foreach (Pawn allMapsCaravansAndTravelingTransportPod in PawnsFinder.AllMapsCaravansAndTravelingTransportPods)
+				{
+					if (allMapsCaravansAndTravelingTransportPod.IsColonist)
+					{
+						yield return allMapsCaravansAndTravelingTransportPod;
+					}
+				}
 			}
 		}
 
@@ -77,10 +179,13 @@ namespace RimWorld
 		{
 			get
 			{
-				PawnsFinder.<>c__IteratorD1 <>c__IteratorD = new PawnsFinder.<>c__IteratorD1();
-				PawnsFinder.<>c__IteratorD1 expr_07 = <>c__IteratorD;
-				expr_07.$PC = -2;
-				return expr_07;
+				foreach (Pawn allMapsCaravansAndTravelingTransportPod in PawnsFinder.AllMapsCaravansAndTravelingTransportPods)
+				{
+					if (allMapsCaravansAndTravelingTransportPod.IsColonist && allMapsCaravansAndTravelingTransportPod.HostFaction == null)
+					{
+						yield return allMapsCaravansAndTravelingTransportPod;
+					}
+				}
 			}
 		}
 
@@ -88,10 +193,13 @@ namespace RimWorld
 		{
 			get
 			{
-				PawnsFinder.<>c__IteratorD2 <>c__IteratorD = new PawnsFinder.<>c__IteratorD2();
-				PawnsFinder.<>c__IteratorD2 expr_07 = <>c__IteratorD;
-				expr_07.$PC = -2;
-				return expr_07;
+				foreach (Pawn allMapsCaravansAndTravelingTransportPod in PawnsFinder.AllMapsCaravansAndTravelingTransportPods)
+				{
+					if (allMapsCaravansAndTravelingTransportPod.IsPrisonerOfColony)
+					{
+						yield return allMapsCaravansAndTravelingTransportPod;
+					}
+				}
 			}
 		}
 
@@ -99,10 +207,15 @@ namespace RimWorld
 		{
 			get
 			{
-				PawnsFinder.<>c__IteratorD3 <>c__IteratorD = new PawnsFinder.<>c__IteratorD3();
-				PawnsFinder.<>c__IteratorD3 expr_07 = <>c__IteratorD;
-				expr_07.$PC = -2;
-				return expr_07;
+				List<Map> maps = Find.Maps;
+				for (int j = 0; j < maps.Count; j++)
+				{
+					List<Pawn> prisonersOfColonySpawned = maps[j].mapPawns.PrisonersOfColonySpawned;
+					for (int i = 0; i < prisonersOfColonySpawned.Count; i++)
+					{
+						yield return prisonersOfColonySpawned[i];
+					}
+				}
 			}
 		}
 
@@ -110,10 +223,14 @@ namespace RimWorld
 		{
 			get
 			{
-				PawnsFinder.<>c__IteratorD4 <>c__IteratorD = new PawnsFinder.<>c__IteratorD4();
-				PawnsFinder.<>c__IteratorD4 expr_07 = <>c__IteratorD;
-				expr_07.$PC = -2;
-				return expr_07;
+				List<Map> maps = Find.Maps;
+				for (int i = 0; i < maps.Count; i++)
+				{
+					foreach (Pawn item in maps[i].mapPawns.PrisonersOfColony)
+					{
+						yield return item;
+					}
+				}
 			}
 		}
 
@@ -121,10 +238,14 @@ namespace RimWorld
 		{
 			get
 			{
-				PawnsFinder.<>c__IteratorD5 <>c__IteratorD = new PawnsFinder.<>c__IteratorD5();
-				PawnsFinder.<>c__IteratorD5 expr_07 = <>c__IteratorD;
-				expr_07.$PC = -2;
-				return expr_07;
+				List<Map> maps = Find.Maps;
+				for (int i = 0; i < maps.Count; i++)
+				{
+					foreach (Pawn freeColonist in maps[i].mapPawns.FreeColonists)
+					{
+						yield return freeColonist;
+					}
+				}
 			}
 		}
 
@@ -132,10 +253,14 @@ namespace RimWorld
 		{
 			get
 			{
-				PawnsFinder.<>c__IteratorD6 <>c__IteratorD = new PawnsFinder.<>c__IteratorD6();
-				PawnsFinder.<>c__IteratorD6 expr_07 = <>c__IteratorD;
-				expr_07.$PC = -2;
-				return expr_07;
+				List<Map> maps = Find.Maps;
+				for (int i = 0; i < maps.Count; i++)
+				{
+					foreach (Pawn item in maps[i].mapPawns.FreeColonistsSpawned)
+					{
+						yield return item;
+					}
+				}
 			}
 		}
 
@@ -143,10 +268,14 @@ namespace RimWorld
 		{
 			get
 			{
-				PawnsFinder.<>c__IteratorD7 <>c__IteratorD = new PawnsFinder.<>c__IteratorD7();
-				PawnsFinder.<>c__IteratorD7 expr_07 = <>c__IteratorD;
-				expr_07.$PC = -2;
-				return expr_07;
+				List<Map> maps = Find.Maps;
+				for (int i = 0; i < maps.Count; i++)
+				{
+					foreach (Pawn item in maps[i].mapPawns.FreeColonistsAndPrisonersSpawned)
+					{
+						yield return item;
+					}
+				}
 			}
 		}
 
@@ -154,22 +283,28 @@ namespace RimWorld
 		{
 			get
 			{
-				PawnsFinder.<>c__IteratorD8 <>c__IteratorD = new PawnsFinder.<>c__IteratorD8();
-				PawnsFinder.<>c__IteratorD8 expr_07 = <>c__IteratorD;
-				expr_07.$PC = -2;
-				return expr_07;
+				List<Map> maps = Find.Maps;
+				for (int i = 0; i < maps.Count; i++)
+				{
+					foreach (Pawn freeColonistsAndPrisoner in maps[i].mapPawns.FreeColonistsAndPrisoners)
+					{
+						yield return freeColonistsAndPrisoner;
+					}
+				}
 			}
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<Pawn> AllMaps_SpawnedPawnsInFaction(Faction faction)
 		{
-			PawnsFinder.<AllMaps_SpawnedPawnsInFaction>c__IteratorD9 <AllMaps_SpawnedPawnsInFaction>c__IteratorD = new PawnsFinder.<AllMaps_SpawnedPawnsInFaction>c__IteratorD9();
-			<AllMaps_SpawnedPawnsInFaction>c__IteratorD.faction = faction;
-			<AllMaps_SpawnedPawnsInFaction>c__IteratorD.<$>faction = faction;
-			PawnsFinder.<AllMaps_SpawnedPawnsInFaction>c__IteratorD9 expr_15 = <AllMaps_SpawnedPawnsInFaction>c__IteratorD;
-			expr_15.$PC = -2;
-			return expr_15;
+			List<Map> maps = Find.Maps;
+			for (int j = 0; j < maps.Count; j++)
+			{
+				List<Pawn> spawnedPawnsInFaction = maps[j].mapPawns.SpawnedPawnsInFaction(faction);
+				for (int i = 0; i < spawnedPawnsInFaction.Count; i++)
+				{
+					yield return spawnedPawnsInFaction[i];
+				}
+			}
 		}
 	}
 }

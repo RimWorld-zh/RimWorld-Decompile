@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -13,7 +12,7 @@ namespace RimWorld
 		{
 			if (dinfo.Instigator != null && dinfo.Instigator is Pawn)
 			{
-				this.secondPawnData = TaleData_Pawn.GenerateFrom((Pawn)dinfo.Instigator);
+				base.secondPawnData = TaleData_Pawn.GenerateFrom((Pawn)dinfo.Instigator);
 			}
 		}
 	}

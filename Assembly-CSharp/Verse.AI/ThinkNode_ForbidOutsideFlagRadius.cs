@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse.AI
@@ -16,9 +15,9 @@ namespace Verse.AI
 
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
-			if (this.maxDistToSquadFlag > 0f)
+			if (this.maxDistToSquadFlag > 0.0)
 			{
-				if (jobParams.maxDistToSquadFlag > 0f)
+				if (jobParams.maxDistToSquadFlag > 0.0)
 				{
 					jobParams.maxDistToSquadFlag = Mathf.Min(jobParams.maxDistToSquadFlag, this.maxDistToSquadFlag);
 				}

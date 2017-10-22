@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -45,11 +44,7 @@ namespace RimWorld
 			LordToil_ExitMap lordToil_ExitMap = new LordToil_ExitMap(LocomotionUrgency.Walk, true);
 			stateGraph.AddToil(lordToil_ExitMap);
 			Transition transition = new Transition(lordToil_DefendPoint, lordToil_ExitMap);
-			transition.AddSources(new LordToil[]
-			{
-				lordToil_AssaultColony2,
-				lordToil_AssaultColony
-			});
+			transition.AddSources(lordToil_AssaultColony2, lordToil_AssaultColony);
 			transition.AddTrigger(new Trigger_PawnCannotReachMapEdge());
 			stateGraph.AddTransition(transition);
 			Transition transition2 = new Transition(lordToil_ExitMap, lordToil_AssaultColony2);
@@ -63,10 +58,7 @@ namespace RimWorld
 			transition3.AddPostAction(new TransitionAction_EndAllJobs());
 			stateGraph.AddTransition(transition3);
 			Transition transition4 = new Transition(lordToil_AssaultColony, lordToil_DefendPoint);
-			transition4.AddTrigger(new Trigger_TicksPassedWithoutHarmOrMemos(1380, new string[]
-			{
-				Building_CrashedShipPart.MemoDamaged
-			}));
+			transition4.AddTrigger(new Trigger_TicksPassedWithoutHarmOrMemos(1380, Building_CrashedShipPart.MemoDamaged));
 			transition4.AddPostAction(new TransitionAction_EndAttackBuildingJobs());
 			stateGraph.AddTransition(transition4);
 			Transition transition5 = new Transition(lordToil_DefendPoint, lordToil_AssaultColony2);

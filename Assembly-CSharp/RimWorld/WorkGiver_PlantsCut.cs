@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -16,15 +14,17 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			WorkGiver_PlantsCut.<PotentialWorkThingsGlobal>c__Iterator63 <PotentialWorkThingsGlobal>c__Iterator = new WorkGiver_PlantsCut.<PotentialWorkThingsGlobal>c__Iterator63();
-			<PotentialWorkThingsGlobal>c__Iterator.pawn = pawn;
-			<PotentialWorkThingsGlobal>c__Iterator.<$>pawn = pawn;
-			WorkGiver_PlantsCut.<PotentialWorkThingsGlobal>c__Iterator63 expr_15 = <PotentialWorkThingsGlobal>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			List<Designation> desList = pawn.Map.designationManager.allDesignations;
+			for (int i = 0; i < desList.Count; i++)
+			{
+				Designation des = desList[i];
+				if (des.def == DesignationDefOf.CutPlant || des.def == DesignationDefOf.HarvestPlant)
+				{
+					yield return des.target.Thing;
+				}
+			}
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -45,24 +45,26 @@ namespace RimWorld
 			{
 				return null;
 			}
-			foreach (Designation current in pawn.Map.designationManager.AllDesignationsOn(t))
+			using (IEnumerator<Designation> enumerator = pawn.Map.designationManager.AllDesignationsOn(t).GetEnumerator())
 			{
-				if (current.def == DesignationDefOf.HarvestPlant)
+				while (enumerator.MoveNext())
 				{
-					Job result;
-					if (!((Plant)t).HarvestableNow)
+					Designation current = enumerator.Current;
+					if (current.def == DesignationDefOf.HarvestPlant)
+						goto IL_0078;
+					if (current.def == DesignationDefOf.CutPlant)
 					{
-						result = null;
-						return result;
+						return new Job(JobDefOf.CutPlant, t);
 					}
-					result = new Job(JobDefOf.Harvest, t);
-					return result;
 				}
-				else if (current.def == DesignationDefOf.CutPlant)
+				goto end_IL_005c;
+				IL_0078:
+				if (!((Plant)t).HarvestableNow)
 				{
-					Job result = new Job(JobDefOf.CutPlant, t);
-					return result;
+					return null;
 				}
+				return new Job(JobDefOf.Harvest, t);
+				end_IL_005c:;
 			}
 			return null;
 		}

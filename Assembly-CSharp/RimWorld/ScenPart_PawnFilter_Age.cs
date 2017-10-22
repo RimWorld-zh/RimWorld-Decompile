@@ -19,7 +19,7 @@ namespace RimWorld
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, 31f);
-			Widgets.IntRange(scenPartRect, (int)listing.CurHeight, ref this.allowedAgeRange, 15, 120, null, 4);
+			Widgets.IntRange(scenPartRect, (int)listing.CurHeight, ref this.allowedAgeRange, 15, 120, (string)null, 4);
 		}
 
 		public override void ExposeData()
@@ -34,28 +34,15 @@ namespace RimWorld
 			{
 				if (this.allowedAgeRange.max < 10000)
 				{
-					return "ScenPart_StartingPawnAgeRange".Translate(new object[]
-					{
-						this.allowedAgeRange.min,
-						this.allowedAgeRange.max
-					});
+					return "ScenPart_StartingPawnAgeRange".Translate(this.allowedAgeRange.min, this.allowedAgeRange.max);
 				}
-				return "ScenPart_StartingPawnAgeMin".Translate(new object[]
-				{
-					this.allowedAgeRange.min
-				});
+				return "ScenPart_StartingPawnAgeMin".Translate(this.allowedAgeRange.min);
 			}
-			else
+			if (this.allowedAgeRange.max < 10000)
 			{
-				if (this.allowedAgeRange.max < 10000)
-				{
-					return "ScenPart_StartingPawnAgeMax".Translate(new object[]
-					{
-						this.allowedAgeRange.max
-					});
-				}
-				throw new Exception();
+				return "ScenPart_StartingPawnAgeMax".Translate(this.allowedAgeRange.max);
 			}
+			throw new Exception();
 		}
 
 		public override bool AllowPlayerStartingPawn(Pawn pawn)
@@ -69,15 +56,21 @@ namespace RimWorld
 			switch (Rand.RangeInclusive(0, 2))
 			{
 			case 0:
+			{
 				this.allowedAgeRange.min = Rand.Range(20, 60);
 				break;
+			}
 			case 1:
+			{
 				this.allowedAgeRange.max = Rand.Range(20, 60);
 				break;
+			}
 			case 2:
+			{
 				this.allowedAgeRange.min = Rand.Range(20, 60);
 				this.allowedAgeRange.max = Rand.Range(20, 60);
 				break;
+			}
 			}
 			this.MakeAllowedAgeRangeValid();
 		}

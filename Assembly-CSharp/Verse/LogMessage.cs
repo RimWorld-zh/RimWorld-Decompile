@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -20,13 +19,21 @@ namespace Verse
 				switch (this.type)
 				{
 				case LogMessageType.Message:
+				{
 					return Color.white;
+				}
 				case LogMessageType.Warning:
+				{
 					return Color.yellow;
+				}
 				case LogMessageType.Error:
+				{
 					return Color.red;
+				}
 				default:
+				{
 					return Color.white;
+				}
 				}
 			}
 		}
@@ -47,7 +54,7 @@ namespace Verse
 		{
 			this.text = text;
 			this.type = LogMessageType.Message;
-			this.stackTrace = null;
+			this.stackTrace = (string)null;
 		}
 
 		public LogMessage(LogMessageType type, string text, string stackTrace)

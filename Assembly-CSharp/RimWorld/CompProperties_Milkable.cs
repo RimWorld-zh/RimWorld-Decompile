@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -15,7 +14,7 @@ namespace RimWorld
 
 		public CompProperties_Milkable()
 		{
-			this.compClass = typeof(CompMilkable);
+			base.compClass = typeof(CompMilkable);
 		}
 	}
 }

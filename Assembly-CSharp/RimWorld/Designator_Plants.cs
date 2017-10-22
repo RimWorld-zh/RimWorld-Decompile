@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -34,21 +33,21 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			if (!c.InBounds(base.Map) || c.Fogged(base.Map))
+			if (c.InBounds(base.Map) && !c.Fogged(base.Map))
 			{
-				return false;
+				Plant plant = c.GetPlant(base.Map);
+				if (plant == null)
+				{
+					return "MessageMustDesignatePlants".Translate();
+				}
+				AcceptanceReport result = this.CanDesignateThing(plant);
+				if (!result.Accepted)
+				{
+					return result;
+				}
+				return true;
 			}
-			Plant plant = c.GetPlant(base.Map);
-			if (plant == null)
-			{
-				return "MessageMustDesignatePlants".Translate();
-			}
-			AcceptanceReport result = this.CanDesignateThing(plant);
-			if (!result.Accepted)
-			{
-				return result;
-			}
-			return true;
+			return false;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -25,14 +24,7 @@ namespace RimWorld
 			}
 			if (this.useReciprocal)
 			{
-				if (Mathf.Abs(num) < 0.001f)
-				{
-					num = 5f;
-				}
-				else
-				{
-					num = Mathf.Min(1f / num, 5f);
-				}
+				num = (float)((!(Mathf.Abs(num) < 0.0010000000474974513)) ? Mathf.Min((float)(1.0 / num), 5f) : 5.0);
 			}
 			return num;
 		}

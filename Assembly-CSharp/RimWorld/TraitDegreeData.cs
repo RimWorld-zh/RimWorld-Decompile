@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -41,24 +40,36 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.commonality >= 0f)
+				if (this.commonality >= 0.0)
 				{
 					return this.commonality;
 				}
 				switch (Mathf.Abs(this.degree))
 				{
 				case 0:
+				{
 					return 1f;
+				}
 				case 1:
+				{
 					return 1f;
+				}
 				case 2:
+				{
 					return 0.4f;
+				}
 				case 3:
+				{
 					return 0.2f;
+				}
 				case 4:
+				{
 					return 0.1f;
+				}
 				default:
+				{
 					return 0.05f;
+				}
 				}
 			}
 		}

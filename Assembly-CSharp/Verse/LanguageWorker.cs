@@ -13,10 +13,7 @@ namespace Verse
 			}
 			if ("IndefiniteForm".CanTranslate())
 			{
-				return "IndefiniteForm".Translate(new object[]
-				{
-					str
-				});
+				return "IndefiniteForm".Translate(str);
 			}
 			return "IndefiniteArticle".Translate() + " " + str;
 		}
@@ -29,10 +26,7 @@ namespace Verse
 			}
 			if ("DefiniteForm".CanTranslate())
 			{
-				return "DefiniteForm".Translate(new object[]
-				{
-					str
-				});
+				return "DefiniteForm".Translate(str);
 			}
 			return "DefiniteArticle".Translate() + " " + str;
 		}

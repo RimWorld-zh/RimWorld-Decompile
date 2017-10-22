@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -16,7 +15,7 @@ namespace Verse
 		public Rect DoResizeControl(Rect winRect)
 		{
 			Vector2 mousePosition = Event.current.mousePosition;
-			Rect rect = new Rect(winRect.width - 24f, winRect.height - 24f, 24f, 24f);
+			Rect rect = new Rect((float)(winRect.width - 24.0), (float)(winRect.height - 24.0), 24f, 24f);
 			if (Event.current.type == EventType.MouseDown && Mouse.IsOver(rect))
 			{
 				this.isResizing = true;
@@ -42,7 +41,7 @@ namespace Verse
 				}
 			}
 			Widgets.ButtonImage(rect, TexUI.WinExpandWidget);
-			return new Rect(winRect.x, winRect.y, (float)((int)winRect.width), (float)((int)winRect.height));
+			return new Rect(winRect.x, winRect.y, (float)(int)winRect.width, (float)(int)winRect.height);
 		}
 	}
 }

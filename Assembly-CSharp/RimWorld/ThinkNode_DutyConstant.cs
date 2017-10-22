@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -31,20 +30,20 @@ namespace RimWorld
 			{
 				return ThinkResult.NoJob;
 			}
-			return this.subNodes[num].TryIssueJobPackage(pawn, jobParams);
+			return base.subNodes[num].TryIssueJobPackage(pawn, jobParams);
 		}
 
 		protected override void ResolveSubnodes()
 		{
 			this.dutyDefToSubNode = new DefMap<DutyDef, int>();
 			this.dutyDefToSubNode.SetAll(-1);
-			foreach (DutyDef current in DefDatabase<DutyDef>.AllDefs)
+			foreach (DutyDef allDef in DefDatabase<DutyDef>.AllDefs)
 			{
-				if (current.constantThinkNode != null)
+				if (allDef.constantThinkNode != null)
 				{
-					this.dutyDefToSubNode[current] = this.subNodes.Count;
-					current.constantThinkNode.ResolveSubnodesAndRecur();
-					this.subNodes.Add(current.constantThinkNode.DeepCopy(true));
+					this.dutyDefToSubNode[allDef] = base.subNodes.Count;
+					allDef.constantThinkNode.ResolveSubnodesAndRecur();
+					base.subNodes.Add(allDef.constantThinkNode.DeepCopy(true));
 				}
 			}
 		}

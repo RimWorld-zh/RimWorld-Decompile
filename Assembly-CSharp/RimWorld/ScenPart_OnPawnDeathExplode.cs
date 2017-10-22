@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -16,8 +15,8 @@ namespace RimWorld
 
 		public override void Randomize()
 		{
-			this.radius = (float)Rand.RangeInclusive(3, 8) - 0.1f;
-			this.damage = this.PossibleDamageDefs().RandomElement<DamageDef>();
+			this.radius = (float)((float)Rand.RangeInclusive(3, 8) - 0.10000000149011612);
+			this.damage = this.PossibleDamageDefs().RandomElement();
 		}
 
 		public override void ExposeData()
@@ -29,23 +28,19 @@ namespace RimWorld
 
 		public override string Summary(Scenario scen)
 		{
-			return "ScenPart_OnPawnDeathExplode".Translate(new object[]
-			{
-				this.damage.label,
-				this.radius.ToString()
-			});
+			return "ScenPart_OnPawnDeathExplode".Translate(this.damage.label, this.radius.ToString());
 		}
 
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
-			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 2f);
+			Rect scenPartRect = listing.GetScenPartRect(this, (float)(ScenPart.RowHeight * 2.0));
 			Widgets.TextFieldNumericLabeled<float>(scenPartRect.TopHalf(), "radius".Translate(), ref this.radius, ref this.radiusBuf, 0f, 1E+09f);
 			if (Widgets.ButtonText(scenPartRect.BottomHalf(), this.damage.LabelCap, true, false, true))
 			{
-				FloatMenuUtility.MakeMenu<DamageDef>(this.PossibleDamageDefs(), (DamageDef d) => d.LabelCap, (DamageDef d) => delegate
+				FloatMenuUtility.MakeMenu(this.PossibleDamageDefs(), (Func<DamageDef, string>)((DamageDef d) => d.LabelCap), (Func<DamageDef, Action>)((DamageDef d) => (Action)delegate()
 				{
 					this.damage = d;
-				});
+				}));
 			}
 		}
 
@@ -57,13 +52,10 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<DamageDef> PossibleDamageDefs()
 		{
-			ScenPart_OnPawnDeathExplode.<PossibleDamageDefs>c__Iterator116 <PossibleDamageDefs>c__Iterator = new ScenPart_OnPawnDeathExplode.<PossibleDamageDefs>c__Iterator116();
-			ScenPart_OnPawnDeathExplode.<PossibleDamageDefs>c__Iterator116 expr_07 = <PossibleDamageDefs>c__Iterator;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield return DamageDefOf.Bomb;
+			yield return DamageDefOf.Flame;
 		}
 	}
 }

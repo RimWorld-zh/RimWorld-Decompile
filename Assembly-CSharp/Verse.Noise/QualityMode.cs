@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse.Noise
 {
 	public enum QualityMode : byte
 	{
-		Low,
-		Medium,
-		High
+		Low = 0,
+		Medium = 1,
+		High = 2
 	}
 }

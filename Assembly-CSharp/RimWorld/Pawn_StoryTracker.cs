@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -65,11 +64,14 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn_StoryTracker.<>c__IteratorDE <>c__IteratorDE = new Pawn_StoryTracker.<>c__IteratorDE();
-				<>c__IteratorDE.<>f__this = this;
-				Pawn_StoryTracker.<>c__IteratorDE expr_0E = <>c__IteratorDE;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				if (this.childhood != null)
+				{
+					yield return this.childhood;
+				}
+				if (this.adulthood != null)
+				{
+					yield return this.adulthood;
+				}
 			}
 		}
 
@@ -92,23 +94,23 @@ namespace RimWorld
 				if (this.cachedDisabledWorkTypes == null)
 				{
 					this.cachedDisabledWorkTypes = new List<WorkTypeDef>();
-					foreach (Backstory current in this.AllBackstories)
+					foreach (Backstory allBackstory in this.AllBackstories)
 					{
-						foreach (WorkTypeDef current2 in current.DisabledWorkTypes)
+						foreach (WorkTypeDef disabledWorkType in allBackstory.DisabledWorkTypes)
 						{
-							if (!this.cachedDisabledWorkTypes.Contains(current2))
+							if (!this.cachedDisabledWorkTypes.Contains(disabledWorkType))
 							{
-								this.cachedDisabledWorkTypes.Add(current2);
+								this.cachedDisabledWorkTypes.Add(disabledWorkType);
 							}
 						}
 					}
 					for (int i = 0; i < this.traits.allTraits.Count; i++)
 					{
-						foreach (WorkTypeDef current3 in this.traits.allTraits[i].GetDisabledWorkTypes())
+						foreach (WorkTypeDef disabledWorkType2 in this.traits.allTraits[i].GetDisabledWorkTypes())
 						{
-							if (!this.cachedDisabledWorkTypes.Contains(current3))
+							if (!this.cachedDisabledWorkTypes.Contains(disabledWorkType2))
 							{
-								this.cachedDisabledWorkTypes.Add(current3);
+								this.cachedDisabledWorkTypes.Add(disabledWorkType2);
 							}
 						}
 					}
@@ -147,14 +149,14 @@ namespace RimWorld
 		public void ExposeData()
 		{
 			string text = (this.childhood == null) ? null : this.childhood.identifier;
-			Scribe_Values.Look<string>(ref text, "childhood", null, false);
+			Scribe_Values.Look(ref text, "childhood", (string)null, false);
 			if (Scribe.mode == LoadSaveMode.LoadingVars && !text.NullOrEmpty() && !BackstoryDatabase.TryGetWithIdentifier(text, out this.childhood))
 			{
 				Log.Error("Couldn't load child backstory with identifier " + text + ". Giving random.");
 				this.childhood = BackstoryDatabase.RandomBackstory(BackstorySlot.Childhood);
 			}
 			string text2 = (this.adulthood == null) ? null : this.adulthood.identifier;
-			Scribe_Values.Look<string>(ref text2, "adulthood", null, false);
+			Scribe_Values.Look(ref text2, "adulthood", (string)null, false);
 			if (Scribe.mode == LoadSaveMode.LoadingVars && !text2.NullOrEmpty() && !BackstoryDatabase.TryGetWithIdentifier(text2, out this.adulthood))
 			{
 				Log.Error("Couldn't load adult backstory with identifier " + text2 + ". Giving random.");
@@ -162,17 +164,17 @@ namespace RimWorld
 			}
 			Scribe_Values.Look<BodyType>(ref this.bodyType, "bodyType", BodyType.Undefined, false);
 			Scribe_Values.Look<CrownType>(ref this.crownType, "crownType", CrownType.Undefined, false);
-			Scribe_Values.Look<string>(ref this.headGraphicPath, "headGraphicPath", null, false);
+			Scribe_Values.Look<string>(ref this.headGraphicPath, "headGraphicPath", (string)null, false);
 			Scribe_Defs.Look<HairDef>(ref this.hairDef, "hairDef");
 			Scribe_Values.Look<Color>(ref this.hairColor, "hairColor", default(Color), false);
 			Scribe_Values.Look<float>(ref this.melanin, "melanin", 0f, false);
-			Scribe_Deep.Look<TraitSet>(ref this.traits, "traits", new object[]
+			Scribe_Deep.Look<TraitSet>(ref this.traits, "traits", new object[1]
 			{
 				this.pawn
 			});
 			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.hairDef == null)
 			{
-				this.hairDef = DefDatabase<HairDef>.AllDefs.RandomElement<HairDef>();
+				this.hairDef = DefDatabase<HairDef>.AllDefs.RandomElement();
 			}
 		}
 

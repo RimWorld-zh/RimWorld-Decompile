@@ -10,23 +10,41 @@ namespace RimWorld
 			switch (tl)
 			{
 			case TechLevel.Undefined:
+			{
 				return "Undefined".Translate();
+			}
 			case TechLevel.Animal:
+			{
 				return "TechLevel_Animal".Translate();
+			}
 			case TechLevel.Neolithic:
+			{
 				return "TechLevel_Neolithic".Translate();
+			}
 			case TechLevel.Medieval:
+			{
 				return "TechLevel_Medieval".Translate();
+			}
 			case TechLevel.Industrial:
+			{
 				return "TechLevel_Industrial".Translate();
+			}
 			case TechLevel.Spacer:
+			{
 				return "TechLevel_Spacer".Translate();
+			}
 			case TechLevel.Ultra:
+			{
 				return "TechLevel_Ultra".Translate();
+			}
 			case TechLevel.Transcendent:
+			{
 				return "TechLevel_Transcendent".Translate();
+			}
 			default:
+			{
 				throw new NotImplementedException();
+			}
 			}
 		}
 
@@ -39,33 +57,48 @@ namespace RimWorld
 			switch (pawnLevel)
 			{
 			case TechLevel.Undefined:
+			{
 				return false;
+			}
 			case TechLevel.Neolithic:
-				return gearLevel <= TechLevel.Neolithic;
+			{
+				return (int)gearLevel <= 2;
+			}
 			case TechLevel.Medieval:
-				return gearLevel <= TechLevel.Medieval;
+			{
+				return (int)gearLevel <= 3;
+			}
 			case TechLevel.Industrial:
+			{
 				return gearLevel == TechLevel.Industrial;
+			}
 			case TechLevel.Spacer:
+			{
 				return gearLevel == TechLevel.Spacer || gearLevel == TechLevel.Industrial;
+			}
 			case TechLevel.Ultra:
+			{
 				return gearLevel == TechLevel.Ultra || gearLevel == TechLevel.Spacer;
+			}
 			case TechLevel.Transcendent:
+			{
 				return gearLevel == TechLevel.Transcendent;
 			}
-			Log.Error(string.Concat(new object[]
+			default:
 			{
-				"Unknown tech levels ",
-				pawnLevel,
-				", ",
-				gearLevel
-			}));
-			return true;
+				Log.Error("Unknown tech levels " + pawnLevel + ", " + gearLevel);
+				return true;
+			}
+			}
 		}
 
 		public static bool IsNeolithicOrWorse(this TechLevel techLevel)
 		{
-			return techLevel != TechLevel.Undefined && techLevel <= TechLevel.Neolithic;
+			if (techLevel == TechLevel.Undefined)
+			{
+				return false;
+			}
+			return (int)techLevel <= 2;
 		}
 	}
 }

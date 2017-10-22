@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -9,13 +8,13 @@ namespace RimWorld
 		{
 			if (base.TryCastShot())
 			{
-				if (this.burstShotsLeft <= 1)
+				if (base.burstShotsLeft <= 1)
 				{
 					this.SelfConsume();
 				}
 				return true;
 			}
-			if (this.burstShotsLeft < this.verbProps.burstShotCount)
+			if (base.burstShotsLeft < base.verbProps.burstShotCount)
 			{
 				this.SelfConsume();
 			}
@@ -25,7 +24,7 @@ namespace RimWorld
 		public override void Notify_EquipmentLost()
 		{
 			base.Notify_EquipmentLost();
-			if (this.state == VerbState.Bursting && this.burstShotsLeft < this.verbProps.burstShotCount)
+			if (base.state == VerbState.Bursting && base.burstShotsLeft < base.verbProps.burstShotCount)
 			{
 				this.SelfConsume();
 			}
@@ -33,9 +32,9 @@ namespace RimWorld
 
 		private void SelfConsume()
 		{
-			if (this.ownerEquipment != null && !this.ownerEquipment.Destroyed)
+			if (base.ownerEquipment != null && !base.ownerEquipment.Destroyed)
 			{
-				this.ownerEquipment.Destroy(DestroyMode.Vanish);
+				base.ownerEquipment.Destroy(DestroyMode.Vanish);
 			}
 		}
 	}

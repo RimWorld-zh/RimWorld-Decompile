@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -13,13 +12,10 @@ namespace Verse
 			for (int i = 0; i < 8; i++)
 			{
 				IntVec3 intVec = targetLoc + GenAdj.AdjacentCells[i];
-				if (intVec.InBounds(map))
+				CoverInfo item = default(CoverInfo);
+				if (intVec.InBounds(map) && CoverUtility.TryFindAdjustedCoverInCell(shooterLoc, targetLoc, intVec, map, out item))
 				{
-					CoverInfo item;
-					if (CoverUtility.TryFindAdjustedCoverInCell(shooterLoc, targetLoc, intVec, map, out item))
-					{
-						list.Add(item);
-					}
+					list.Add(item);
 				}
 			}
 			return list;
@@ -31,13 +27,10 @@ namespace Verse
 			for (int i = 0; i < 8; i++)
 			{
 				IntVec3 intVec = targetLoc + GenAdj.AdjacentCells[i];
-				if (intVec.InBounds(map))
+				CoverInfo coverInfo = default(CoverInfo);
+				if (intVec.InBounds(map) && CoverUtility.TryFindAdjustedCoverInCell(shooterLoc, targetLoc, intVec, map, out coverInfo))
 				{
-					CoverInfo coverInfo;
-					if (CoverUtility.TryFindAdjustedCoverInCell(shooterLoc, targetLoc, intVec, map, out coverInfo))
-					{
-						num += (1f - num) * coverInfo.BlockChance;
-					}
+					num = (float)(num + (1.0 - num) * coverInfo.BlockChance);
 				}
 			}
 			return num;
@@ -46,52 +39,56 @@ namespace Verse
 		private static bool TryFindAdjustedCoverInCell(IntVec3 shooterLoc, IntVec3 targetLoc, IntVec3 adjCell, Map map, out CoverInfo result)
 		{
 			Thing cover = adjCell.GetCover(map);
-			if (cover == null || shooterLoc == targetLoc)
+			float num2;
+			if (cover != null && !(shooterLoc == targetLoc))
 			{
+				float angleFlat = (shooterLoc - targetLoc).AngleFlat;
+				float angleFlat2 = (adjCell - targetLoc).AngleFlat;
+				float num = GenGeo.AngleDifferenceBetween(angleFlat2, angleFlat);
+				if (!targetLoc.AdjacentToCardinal(adjCell))
+				{
+					num = (float)(num * 1.75);
+				}
+				num2 = cover.def.BaseBlockChance();
+				if (num < 15.0)
+				{
+					num2 = (float)(num2 * 1.0);
+					goto IL_0104;
+				}
+				if (num < 27.0)
+				{
+					num2 = (float)(num2 * 0.800000011920929);
+					goto IL_0104;
+				}
+				if (num < 40.0)
+				{
+					num2 = (float)(num2 * 0.60000002384185791);
+					goto IL_0104;
+				}
+				if (num < 52.0)
+				{
+					num2 = (float)(num2 * 0.40000000596046448);
+					goto IL_0104;
+				}
+				if (num < 65.0)
+				{
+					num2 = (float)(num2 * 0.20000000298023224);
+					goto IL_0104;
+				}
 				result = CoverInfo.Invalid;
 				return false;
 			}
-			float angleFlat = (shooterLoc - targetLoc).AngleFlat;
-			float angleFlat2 = (adjCell - targetLoc).AngleFlat;
-			float num = GenGeo.AngleDifferenceBetween(angleFlat2, angleFlat);
-			if (!targetLoc.AdjacentToCardinal(adjCell))
-			{
-				num *= 1.75f;
-			}
-			float num2 = cover.def.BaseBlockChance();
-			if (num < 15f)
-			{
-				num2 *= 1f;
-			}
-			else if (num < 27f)
-			{
-				num2 *= 0.8f;
-			}
-			else if (num < 40f)
-			{
-				num2 *= 0.6f;
-			}
-			else if (num < 52f)
-			{
-				num2 *= 0.4f;
-			}
-			else
-			{
-				if (num >= 65f)
-				{
-					result = CoverInfo.Invalid;
-					return false;
-				}
-				num2 *= 0.2f;
-			}
+			result = CoverInfo.Invalid;
+			return false;
+			IL_0104:
 			float lengthHorizontal = (shooterLoc - adjCell).LengthHorizontal;
-			if (lengthHorizontal < 1.9f)
+			if (lengthHorizontal < 1.8999999761581421)
 			{
-				num2 *= 0.3333f;
+				num2 = (float)(num2 * 0.33329999446868896);
 			}
-			else if (lengthHorizontal < 2.9f)
+			else if (lengthHorizontal < 2.9000000953674316)
 			{
-				num2 *= 0.66666f;
+				num2 = (float)(num2 * 0.66666001081466675);
 			}
 			result = new CoverInfo(cover, num2);
 			return true;

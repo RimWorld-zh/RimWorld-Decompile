@@ -21,11 +21,11 @@ namespace Verse
 		{
 			set
 			{
-				if (this.worldOverlayMat != null)
+				if ((UnityEngine.Object)this.worldOverlayMat != (UnityEngine.Object)null)
 				{
 					this.worldOverlayMat.color = value;
 				}
-				if (this.screenOverlayMat != null)
+				if ((UnityEngine.Object)this.screenOverlayMat != (UnityEngine.Object)null)
 				{
 					this.screenOverlayMat.color = value;
 				}
@@ -34,7 +34,7 @@ namespace Verse
 
 		public SkyOverlay()
 		{
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				this.OverlayColor = Color.clear;
 			});
@@ -42,29 +42,35 @@ namespace Verse
 
 		public virtual void TickOverlay(Map map)
 		{
-			if (this.worldOverlayMat != null)
+			if ((UnityEngine.Object)this.worldOverlayMat != (UnityEngine.Object)null)
 			{
-				this.worldOverlayMat.SetTextureOffset("_MainTex", (float)Find.TickManager.TicksGame * this.worldPanDir1 * -1f * this.worldOverlayPanSpeed1 * this.worldOverlayMat.GetTextureScale("_MainTex").x);
+				Material obj = this.worldOverlayMat;
+				Vector2 a = (float)Find.TickManager.TicksGame * this.worldPanDir1 * -1f * this.worldOverlayPanSpeed1;
+				Vector2 textureScale = this.worldOverlayMat.GetTextureScale("_MainTex");
+				obj.SetTextureOffset("_MainTex", a * textureScale.x);
 				if (this.worldOverlayMat.HasProperty("_MainTex2"))
 				{
-					this.worldOverlayMat.SetTextureOffset("_MainTex2", (float)Find.TickManager.TicksGame * this.worldPanDir2 * -1f * this.worldOverlayPanSpeed2 * this.worldOverlayMat.GetTextureScale("_MainTex2").x);
+					Material obj2 = this.worldOverlayMat;
+					Vector2 a2 = (float)Find.TickManager.TicksGame * this.worldPanDir2 * -1f * this.worldOverlayPanSpeed2;
+					Vector2 textureScale2 = this.worldOverlayMat.GetTextureScale("_MainTex2");
+					obj2.SetTextureOffset("_MainTex2", a2 * textureScale2.x);
 				}
 			}
 		}
 
 		public void DrawOverlay(Map map)
 		{
-			if (this.worldOverlayMat != null)
+			if ((UnityEngine.Object)this.worldOverlayMat != (UnityEngine.Object)null)
 			{
 				Vector3 position = map.Center.ToVector3ShiftedWithAltitude(AltitudeLayer.Weather);
 				Graphics.DrawMesh(MeshPool.wholeMapPlane, position, Quaternion.identity, this.worldOverlayMat, 0);
 			}
-			if (this.screenOverlayMat != null)
+			if ((UnityEngine.Object)this.screenOverlayMat != (UnityEngine.Object)null)
 			{
-				float num = Find.Camera.orthographicSize * 2f;
+				float num = (float)(Find.Camera.orthographicSize * 2.0);
 				Vector3 s = new Vector3(num * Find.Camera.aspect, 1f, num);
 				Vector3 position2 = Find.Camera.transform.position;
-				position2.y = Altitudes.AltitudeFor(AltitudeLayer.Weather) + 0.046875f;
+				position2.y = (float)(Altitudes.AltitudeFor(AltitudeLayer.Weather) + 0.046875);
 				Matrix4x4 matrix = default(Matrix4x4);
 				matrix.SetTRS(position2, Quaternion.identity, s);
 				Graphics.DrawMesh(MeshPool.plane10, matrix, this.screenOverlayMat, 0);
@@ -73,11 +79,11 @@ namespace Verse
 
 		public override string ToString()
 		{
-			if (this.worldOverlayMat != null)
+			if ((UnityEngine.Object)this.worldOverlayMat != (UnityEngine.Object)null)
 			{
 				return this.worldOverlayMat.name;
 			}
-			if (this.screenOverlayMat != null)
+			if ((UnityEngine.Object)this.screenOverlayMat != (UnityEngine.Object)null)
 			{
 				return this.screenOverlayMat.name;
 			}

@@ -6,6 +6,7 @@ namespace Verse
 	{
 		public static void CheckVersionAndLoad(string path, ScribeMetaHeaderUtility.ScribeHeaderMode mode, Action loadAct)
 		{
+			bool flag = false;
 			Scribe.loader.InitLoadingMetaHeaderOnly(path);
 			try
 			{
@@ -14,13 +15,7 @@ namespace Verse
 			}
 			catch (Exception ex)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Exception loading ",
-					path,
-					": ",
-					ex
-				}));
+				Log.Warning("Exception loading " + path + ": " + ex);
 				Scribe.ForceStop();
 			}
 			if (!ScribeMetaHeaderUtility.TryCreateDialogsForVersionMismatchWarnings(loadAct))

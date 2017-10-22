@@ -1,6 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Verse;
 
 namespace RimWorld
 {
@@ -19,16 +18,12 @@ namespace RimWorld
 			return ScenSummaryList.SummaryWithList(scen, "PlayerStartsWith", ScenPart_StartingThing_Defined.PlayerStartWithIntro);
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
-			ScenPart_ScatterThingsNearPlayerStart.<GetSummaryListEntries>c__Iterator122 <GetSummaryListEntries>c__Iterator = new ScenPart_ScatterThingsNearPlayerStart.<GetSummaryListEntries>c__Iterator122();
-			<GetSummaryListEntries>c__Iterator.tag = tag;
-			<GetSummaryListEntries>c__Iterator.<$>tag = tag;
-			<GetSummaryListEntries>c__Iterator.<>f__this = this;
-			ScenPart_ScatterThingsNearPlayerStart.<GetSummaryListEntries>c__Iterator122 expr_1C = <GetSummaryListEntries>c__Iterator;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (tag == "PlayerStartsWith")
+			{
+				yield return GenLabel.ThingLabel(base.thingDef, base.stuff, base.count).CapitalizeFirst();
+			}
 		}
 	}
 }

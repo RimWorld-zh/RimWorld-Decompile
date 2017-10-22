@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +21,7 @@ namespace Verse.Sound
 		{
 			get
 			{
-				return this.startRealTime;
+				return base.startRealTime;
 			}
 		}
 
@@ -30,7 +29,7 @@ namespace Verse.Sound
 		{
 			get
 			{
-				return (float)this.startTick;
+				return (float)base.startTick;
 			}
 		}
 
@@ -66,21 +65,13 @@ namespace Verse.Sound
 		{
 			if ((double)info.pitchFactor <= 0.0001)
 			{
-				Log.ErrorOnce(string.Concat(new object[]
-				{
-					"Played sound with pitchFactor ",
-					info.pitchFactor,
-					": ",
-					def,
-					", ",
-					info
-				}), 632321);
+				Log.ErrorOnce("Played sound with pitchFactor " + info.pitchFactor + ": " + def + ", " + info, 632321);
 				return null;
 			}
 			SampleOneShot sampleOneShot = new SampleOneShot(def);
 			sampleOneShot.info = info;
 			sampleOneShot.source = Find.SoundRoot.sourcePool.GetSource(def.onCamera);
-			if (sampleOneShot.source == null)
+			if ((Object)sampleOneShot.source == (Object)null)
 			{
 				return null;
 			}
@@ -104,9 +95,9 @@ namespace Verse.Sound
 			{
 				def.filters[i].SetupOn(sampleOneShot.source);
 			}
-			foreach (KeyValuePair<string, float> current in info.DefinedParameters)
+			foreach (KeyValuePair<string, float> definedParameter in info.DefinedParameters)
 			{
-				sampleOneShot.externalParams[current.Key] = current.Value;
+				sampleOneShot.externalParams[definedParameter.Key] = definedParameter.Value;
 			}
 			sampleOneShot.ApplyMappedParameters();
 			sampleOneShot.source.Play();

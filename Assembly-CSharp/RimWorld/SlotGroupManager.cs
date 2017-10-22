@@ -41,18 +41,28 @@ namespace RimWorld
 		{
 			get
 			{
-				SlotGroupManager.<>c__Iterator14E <>c__Iterator14E = new SlotGroupManager.<>c__Iterator14E();
-				<>c__Iterator14E.<>f__this = this;
-				SlotGroupManager.<>c__Iterator14E expr_0E = <>c__Iterator14E;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				for (int j = 0; j < this.allGroups.Count; j++)
+				{
+					List<IntVec3> cellsList = this.allGroups[j].CellsList;
+					int i = 0;
+					while (i < cellsList.Count)
+					{
+						yield return cellsList[i];
+						j++;
+					}
+				}
 			}
 		}
 
 		public SlotGroupManager(Map map)
 		{
 			this.map = map;
-			this.groupGrid = new SlotGroup[map.Size.x, map.Size.y, map.Size.z];
+			IntVec3 size = map.Size;
+			int x = size.x;
+			IntVec3 size2 = map.Size;
+			int y = size2.y;
+			IntVec3 size3 = map.Size;
+			this.groupGrid = new SlotGroup[x, y, size3.z];
 		}
 
 		public void AddGroup(SlotGroup newGroup)
@@ -60,23 +70,24 @@ namespace RimWorld
 			if (this.allGroups.Contains(newGroup))
 			{
 				Log.Error("Double-added slot group. SlotGroup parent is " + newGroup.parent);
-				return;
 			}
-			if ((from g in this.allGroups
+			else if ((from g in this.allGroups
 			where g.parent == newGroup.parent
-			select g).Any<SlotGroup>())
+			select g).Any())
 			{
 				Log.Error("Added SlotGroup with a parent matching an existing one. Parent is " + newGroup.parent);
-				return;
 			}
-			this.allGroups.Add(newGroup);
-			this.allGroups.InsertionSort(new Comparison<SlotGroup>(SlotGroupManager.CompareSlotGroupPrioritiesDescending));
-			List<IntVec3> cellsList = newGroup.CellsList;
-			for (int i = 0; i < cellsList.Count; i++)
+			else
 			{
-				this.SetCellFor(cellsList[i], newGroup);
+				this.allGroups.Add(newGroup);
+				this.allGroups.InsertionSort(new Comparison<SlotGroup>(SlotGroupManager.CompareSlotGroupPrioritiesDescending));
+				List<IntVec3> cellsList = newGroup.CellsList;
+				for (int i = 0; i < cellsList.Count; i++)
+				{
+					this.SetCellFor(cellsList[i], newGroup);
+				}
+				this.map.listerHaulables.Notify_SlotGroupChanged(newGroup);
 			}
-			this.map.listerHaulables.Notify_SlotGroupChanged(newGroup);
 		}
 
 		public void RemoveGroup(SlotGroup oldGroup)
@@ -84,16 +95,18 @@ namespace RimWorld
 			if (!this.allGroups.Contains(oldGroup))
 			{
 				Log.Error("Removing SlotGroup that isn't registered.");
-				return;
 			}
-			this.allGroups.Remove(oldGroup);
-			List<IntVec3> cellsList = oldGroup.CellsList;
-			for (int i = 0; i < cellsList.Count; i++)
+			else
 			{
-				IntVec3 intVec = cellsList[i];
-				this.groupGrid[intVec.x, intVec.y, intVec.z] = null;
+				this.allGroups.Remove(oldGroup);
+				List<IntVec3> cellsList = oldGroup.CellsList;
+				for (int i = 0; i < cellsList.Count; i++)
+				{
+					IntVec3 intVec = cellsList[i];
+					this.groupGrid[intVec.x, intVec.y, intVec.z] = null;
+				}
+				this.map.listerHaulables.Notify_SlotGroupChanged(oldGroup);
 			}
-			this.map.listerHaulables.Notify_SlotGroupChanged(oldGroup);
 		}
 
 		public void Notify_GroupChangedPriority()
@@ -110,14 +123,7 @@ namespace RimWorld
 		{
 			if (this.SlotGroupAt(c) != null)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					group,
-					" overwriting slot group square ",
-					c,
-					" of ",
-					this.SlotGroupAt(c)
-				}));
+				Log.Error(group + " overwriting slot group square " + c + " of " + this.SlotGroupAt(c));
 			}
 			this.groupGrid[c.x, c.y, c.z] = group;
 		}
@@ -126,14 +132,7 @@ namespace RimWorld
 		{
 			if (this.SlotGroupAt(c) != group)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					group,
-					" clearing group grid square ",
-					c,
-					" containing ",
-					this.SlotGroupAt(c)
-				}));
+				Log.Error(group + " clearing group grid square " + c + " containing " + this.SlotGroupAt(c));
 			}
 			this.groupGrid[c.x, c.y, c.z] = null;
 		}

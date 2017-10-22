@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Verse
@@ -35,30 +34,31 @@ namespace Verse
 		[Unsaved]
 		public List<WorkGiverDef> workGiversByPriority = new List<WorkGiverDef>();
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			WorkTypeDef.<ConfigErrors>c__Iterator1EB <ConfigErrors>c__Iterator1EB = new WorkTypeDef.<ConfigErrors>c__Iterator1EB();
-			<ConfigErrors>c__Iterator1EB.<>f__this = this;
-			WorkTypeDef.<ConfigErrors>c__Iterator1EB expr_0E = <ConfigErrors>c__Iterator1EB;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.naturalPriority >= 0 && this.naturalPriority <= 10000)
+				yield break;
+			yield return "naturalPriority is " + this.naturalPriority + ", but it must be between 0 and 10000";
 		}
 
 		public override void ResolveReferences()
 		{
-			foreach (WorkGiverDef current in from d in DefDatabase<WorkGiverDef>.AllDefs
+			foreach (WorkGiverDef item in from d in DefDatabase<WorkGiverDef>.AllDefs
 			where d.workType == this
 			orderby d.priorityInType descending
 			select d)
 			{
-				this.workGiversByPriority.Add(current);
+				this.workGiversByPriority.Add(item);
 			}
 		}
 
 		public override int GetHashCode()
 		{
-			return Gen.HashCombine<string>(this.defName.GetHashCode(), this.gerundLabel);
+			return Gen.HashCombine(base.defName.GetHashCode(), this.gerundLabel);
 		}
 	}
 }

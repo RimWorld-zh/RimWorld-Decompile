@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -50,50 +49,82 @@ namespace RimWorld
 			return base.CurJob.def.reportString.Replace("TargetA", this.Victim.LabelShort);
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_Hunt.<MakeNewToils>c__Iterator2E <MakeNewToils>c__Iterator2E = new JobDriver_Hunt.<MakeNewToils>c__Iterator2E();
-			<MakeNewToils>c__Iterator2E.<>f__this = this;
-			JobDriver_Hunt.<MakeNewToils>c__Iterator2E expr_0E = <MakeNewToils>c__Iterator2E;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOn((Func<bool>)delegate
+			{
+				if (!((_003CMakeNewToils_003Ec__Iterator2E)/*Error near IL_005b: stateMachine*/)._003C_003Ef__this.CurJob.ignoreDesignations)
+				{
+					Pawn victim = ((_003CMakeNewToils_003Ec__Iterator2E)/*Error near IL_005b: stateMachine*/)._003C_003Ef__this.Victim;
+					if (victim != null && !victim.Dead && ((_003CMakeNewToils_003Ec__Iterator2E)/*Error near IL_005b: stateMachine*/)._003C_003Ef__this.Map.designationManager.DesignationOn(victim, DesignationDefOf.Hunt) == null)
+					{
+						return true;
+					}
+				}
+				return false;
+			});
+			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+					((_003CMakeNewToils_003Ec__Iterator2E)/*Error near IL_0099: stateMachine*/)._003C_003Ef__this.jobStartTick = Find.TickManager.TicksGame;
+				}
+			};
+			yield return Toils_Combat.TrySetJobToUseAttackVerb();
+			Toil startCollectCorpse = this.StartCollectCorpseToil();
+			Toil gotoCastPos = Toils_Combat.GotoCastPosition(TargetIndex.A, true).JumpIfDespawnedOrNull(TargetIndex.A, startCollectCorpse).FailOn((Func<bool>)(() => Find.TickManager.TicksGame > ((_003CMakeNewToils_003Ec__Iterator2E)/*Error near IL_00fe: stateMachine*/)._003C_003Ef__this.jobStartTick + 5000));
+			yield return gotoCastPos;
+			Toil moveIfCannotHit = Toils_Jump.JumpIfTargetNotHittable(TargetIndex.A, gotoCastPos);
+			yield return moveIfCannotHit;
+			yield return Toils_Jump.JumpIfTargetDownedDistant(TargetIndex.A, gotoCastPos);
+			yield return Toils_Combat.CastVerb(TargetIndex.A, false).JumpIfDespawnedOrNull(TargetIndex.A, startCollectCorpse).FailOn((Func<bool>)(() => Find.TickManager.TicksGame > ((_003CMakeNewToils_003Ec__Iterator2E)/*Error near IL_0188: stateMachine*/)._003C_003Ef__this.jobStartTick + 5000));
+			yield return Toils_Jump.JumpIfTargetDespawnedOrNull(TargetIndex.A, startCollectCorpse);
+			yield return Toils_Jump.Jump(moveIfCannotHit);
+			yield return startCollectCorpse;
+			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.ClosestTouch).FailOnDespawnedNullOrForbidden(TargetIndex.A).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
+			yield return Toils_Haul.StartCarryThing(TargetIndex.A, false, false);
+			Toil carryToCell = Toils_Haul.CarryHauledThingToCell(TargetIndex.B);
+			yield return carryToCell;
+			yield return Toils_Haul.PlaceHauledThingInCell(TargetIndex.B, carryToCell, true);
 		}
 
 		private Toil StartCollectCorpseToil()
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate
 			{
 				if (this.Victim == null)
 				{
 					toil.actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
-					return;
 				}
-				TaleRecorder.RecordTale(TaleDefOf.Hunted, new object[]
+				else
 				{
-					this.pawn,
-					this.Victim
-				});
-				Corpse corpse = this.Victim.Corpse;
-				if (corpse == null || !this.pawn.CanReserveAndReach(corpse, PathEndMode.ClosestTouch, Danger.Deadly, 1, -1, null, false))
-				{
-					this.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
-					return;
+					TaleRecorder.RecordTale(TaleDefOf.Hunted, base.pawn, this.Victim);
+					Corpse corpse = this.Victim.Corpse;
+					if (corpse == null || !base.pawn.CanReserveAndReach((Thing)corpse, PathEndMode.ClosestTouch, Danger.Deadly, 1, -1, null, false))
+					{
+						base.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					}
+					else
+					{
+						corpse.SetForbidden(false, true);
+						IntVec3 c = default(IntVec3);
+						if (StoreUtility.TryFindBestBetterStoreCellFor((Thing)corpse, base.pawn, base.Map, StoragePriority.Unstored, base.pawn.Faction, out c, true))
+						{
+							base.pawn.Reserve((Thing)corpse, 1, -1, null);
+							base.pawn.Reserve(c, 1, -1, null);
+							base.pawn.CurJob.SetTarget(TargetIndex.B, c);
+							base.pawn.CurJob.SetTarget(TargetIndex.A, (Thing)corpse);
+							base.pawn.CurJob.count = 1;
+							base.pawn.CurJob.haulMode = HaulMode.ToCellStorage;
+						}
+						else
+						{
+							base.pawn.jobs.EndCurrentJob(JobCondition.Succeeded, true);
+						}
+					}
 				}
-				corpse.SetForbidden(false, true);
-				IntVec3 c;
-				if (StoreUtility.TryFindBestBetterStoreCellFor(corpse, this.pawn, this.Map, StoragePriority.Unstored, this.pawn.Faction, out c, true))
-				{
-					this.pawn.Reserve(corpse, 1, -1, null);
-					this.pawn.Reserve(c, 1, -1, null);
-					this.pawn.CurJob.SetTarget(TargetIndex.B, c);
-					this.pawn.CurJob.SetTarget(TargetIndex.A, corpse);
-					this.pawn.CurJob.count = 1;
-					this.pawn.CurJob.haulMode = HaulMode.ToCellStorage;
-					return;
-				}
-				this.pawn.jobs.EndCurrentJob(JobCondition.Succeeded, true);
 			};
 			return toil;
 		}

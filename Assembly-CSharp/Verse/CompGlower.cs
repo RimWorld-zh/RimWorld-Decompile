@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -11,7 +10,7 @@ namespace Verse
 		{
 			get
 			{
-				return (CompProperties_Glower)this.props;
+				return (CompProperties_Glower)base.props;
 			}
 		}
 
@@ -19,41 +18,44 @@ namespace Verse
 		{
 			get
 			{
-				if (!this.parent.Spawned)
+				if (!base.parent.Spawned)
 				{
 					return false;
 				}
-				if (!FlickUtility.WantsToBeOn(this.parent))
+				if (!FlickUtility.WantsToBeOn(base.parent))
 				{
 					return false;
 				}
-				CompPowerTrader compPowerTrader = this.parent.TryGetComp<CompPowerTrader>();
+				CompPowerTrader compPowerTrader = base.parent.TryGetComp<CompPowerTrader>();
 				if (compPowerTrader != null && !compPowerTrader.PowerOn)
 				{
 					return false;
 				}
-				CompRefuelable compRefuelable = this.parent.TryGetComp<CompRefuelable>();
-				return compRefuelable == null || compRefuelable.HasFuel;
+				CompRefuelable compRefuelable = base.parent.TryGetComp<CompRefuelable>();
+				if (compRefuelable != null && !compRefuelable.HasFuel)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
 		public void UpdateLit(Map map)
 		{
 			bool shouldBeLitNow = this.ShouldBeLitNow;
-			if (this.glowOnInt == shouldBeLitNow)
+			if (this.glowOnInt != shouldBeLitNow)
 			{
-				return;
-			}
-			this.glowOnInt = shouldBeLitNow;
-			if (!this.glowOnInt)
-			{
-				map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
-				map.glowGrid.DeRegisterGlower(this);
-			}
-			else
-			{
-				map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
-				map.glowGrid.RegisterGlower(this);
+				this.glowOnInt = shouldBeLitNow;
+				if (!this.glowOnInt)
+				{
+					map.mapDrawer.MapMeshDirty(base.parent.Position, MapMeshFlag.Things);
+					map.glowGrid.DeRegisterGlower(this);
+				}
+				else
+				{
+					map.mapDrawer.MapMeshDirty(base.parent.Position, MapMeshFlag.Things);
+					map.glowGrid.RegisterGlower(this);
+				}
 			}
 		}
 
@@ -61,21 +63,20 @@ namespace Verse
 		{
 			if (this.ShouldBeLitNow)
 			{
-				this.UpdateLit(this.parent.Map);
-				this.parent.Map.glowGrid.RegisterGlower(this);
+				this.UpdateLit(base.parent.Map);
+				base.parent.Map.glowGrid.RegisterGlower(this);
 			}
 			else
 			{
-				this.UpdateLit(this.parent.Map);
+				this.UpdateLit(base.parent.Map);
 			}
 		}
 
 		public override void ReceiveCompSignal(string signal)
 		{
-			if (signal == "PowerTurnedOn" || signal == "PowerTurnedOff" || signal == "FlickedOn" || signal == "FlickedOff" || signal == "Refueled" || signal == "RanOutOfFuel" || signal == "ScheduledOn" || signal == "ScheduledOff")
-			{
-				this.UpdateLit(this.parent.Map);
-			}
+			if (!(signal == "PowerTurnedOn") && !(signal == "PowerTurnedOff") && !(signal == "FlickedOn") && !(signal == "FlickedOff") && !(signal == "Refueled") && !(signal == "RanOutOfFuel") && !(signal == "ScheduledOn") && !(signal == "ScheduledOff"))
+				return;
+			this.UpdateLit(base.parent.Map);
 		}
 
 		public override void PostExposeData()

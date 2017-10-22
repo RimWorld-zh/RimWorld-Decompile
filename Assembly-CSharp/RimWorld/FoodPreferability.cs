@@ -1,17 +1,15 @@
-using System;
-
 namespace RimWorld
 {
 	public enum FoodPreferability : byte
 	{
-		Undefined,
-		NeverForNutrition,
-		DesperateOnly,
-		RawBad,
-		RawTasty,
-		MealAwful,
-		MealSimple,
-		MealFine,
-		MealLavish
+		Undefined = 0,
+		NeverForNutrition = 1,
+		DesperateOnly = 2,
+		RawBad = 3,
+		RawTasty = 4,
+		MealAwful = 5,
+		MealSimple = 6,
+		MealFine = 7,
+		MealLavish = 8
 	}
 }

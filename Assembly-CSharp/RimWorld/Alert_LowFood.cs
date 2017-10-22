@@ -12,8 +12,8 @@ namespace RimWorld
 
 		public Alert_LowFood()
 		{
-			this.defaultLabel = "LowFood".Translate();
-			this.defaultPriority = AlertPriority.High;
+			base.defaultLabel = "LowFood".Translate();
+			base.defaultPriority = AlertPriority.High;
 		}
 
 		public override string GetExplanation()
@@ -26,7 +26,7 @@ namespace RimWorld
 			float totalHumanEdibleNutrition = map.resourceCounter.TotalHumanEdibleNutrition;
 			int num = map.mapPawns.FreeColonistsSpawnedCount + (from pr in map.mapPawns.PrisonersOfColony
 			where pr.guest.GetsFood
-			select pr).Count<Pawn>();
+			select pr).Count();
 			int num2 = Mathf.FloorToInt(totalHumanEdibleNutrition / (float)num);
 			return string.Format("LowFoodDesc".Translate(), totalHumanEdibleNutrition.ToString("F0"), num.ToStringCached(), num2.ToStringCached());
 		}
@@ -49,7 +49,7 @@ namespace RimWorld
 				if (map.IsPlayerHome)
 				{
 					int freeColonistsSpawnedCount = map.mapPawns.FreeColonistsSpawnedCount;
-					if (map.resourceCounter.TotalHumanEdibleNutrition < 4f * (float)freeColonistsSpawnedCount)
+					if (map.resourceCounter.TotalHumanEdibleNutrition < 4.0 * (float)freeColonistsSpawnedCount)
 					{
 						return map;
 					}

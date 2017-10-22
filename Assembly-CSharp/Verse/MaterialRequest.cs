@@ -58,42 +58,31 @@ namespace Verse
 		public override int GetHashCode()
 		{
 			int seed = 0;
-			seed = Gen.HashCombine<Shader>(seed, this.shader);
-			seed = Gen.HashCombineStruct<Color>(seed, this.color);
-			seed = Gen.HashCombineStruct<Color>(seed, this.colorTwo);
-			seed = Gen.HashCombine<Texture2D>(seed, this.mainTex);
-			seed = Gen.HashCombine<Texture2D>(seed, this.maskTex);
+			seed = Gen.HashCombine(seed, this.shader);
+			seed = Gen.HashCombineStruct(seed, this.color);
+			seed = Gen.HashCombineStruct(seed, this.colorTwo);
+			seed = Gen.HashCombine(seed, this.mainTex);
+			seed = Gen.HashCombine(seed, this.maskTex);
 			return Gen.HashCombineInt(seed, this.renderQueue);
 		}
 
 		public override bool Equals(object obj)
 		{
-			return obj is MaterialRequest && this.Equals((MaterialRequest)obj);
+			if (!(obj is MaterialRequest))
+			{
+				return false;
+			}
+			return this.Equals((MaterialRequest)obj);
 		}
 
 		public bool Equals(MaterialRequest other)
 		{
-			return other.shader == this.shader && other.mainTex == this.mainTex && other.color == this.color && other.colorTwo == this.colorTwo && other.maskTex == this.maskTex && other.renderQueue == this.renderQueue;
+			return (UnityEngine.Object)other.shader == (UnityEngine.Object)this.shader && (UnityEngine.Object)other.mainTex == (UnityEngine.Object)this.mainTex && other.color == this.color && other.colorTwo == this.colorTwo && (UnityEngine.Object)other.maskTex == (UnityEngine.Object)this.maskTex && other.renderQueue == this.renderQueue;
 		}
 
 		public override string ToString()
 		{
-			return string.Concat(new string[]
-			{
-				"MaterialRequest(",
-				this.shader.name,
-				", ",
-				this.mainTex.name,
-				", ",
-				this.color.ToString(),
-				", ",
-				this.colorTwo.ToString(),
-				", ",
-				this.maskTex.ToString(),
-				", ",
-				this.renderQueue.ToString(),
-				")"
-			});
+			return "MaterialRequest(" + this.shader.name + ", " + this.mainTex.name + ", " + this.color.ToString() + ", " + this.colorTwo.ToString() + ", " + this.maskTex.ToString() + ", " + this.renderQueue.ToString() + ")";
 		}
 
 		public static bool operator ==(MaterialRequest lhs, MaterialRequest rhs)

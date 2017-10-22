@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Verse;
 using Verse.Grammar;
@@ -25,21 +24,21 @@ namespace RimWorld
 
 		public override void ExposeData()
 		{
-			Scribe_Values.Look<string>(ref this.name, "name", null, false);
+			Scribe_Values.Look<string>(ref this.name, "name", (string)null, false);
 			Scribe_Values.Look<int>(ref this.pawnID, "pawnID", -1, false);
 			Scribe_Values.Look<Gender>(ref this.gender, "gender", Gender.Male, false);
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Rule> GetRules(string prefix)
 		{
-			TaleData_Trader.<GetRules>c__Iterator12F <GetRules>c__Iterator12F = new TaleData_Trader.<GetRules>c__Iterator12F();
-			<GetRules>c__Iterator12F.prefix = prefix;
-			<GetRules>c__Iterator12F.<$>prefix = prefix;
-			<GetRules>c__Iterator12F.<>f__this = this;
-			TaleData_Trader.<GetRules>c__Iterator12F expr_1C = <GetRules>c__Iterator12F;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			string nameFull = (!this.IsPawn) ? Find.ActiveLanguageWorker.WithIndefiniteArticle(this.name) : this.name;
+			yield return (Rule)new Rule_String(prefix + "_nameFull", nameFull);
+			string nameShortIndefinite = (!this.IsPawn) ? Find.ActiveLanguageWorker.WithIndefiniteArticle(this.name) : this.name;
+			yield return (Rule)new Rule_String(prefix + "_nameShortIndefinite", nameShortIndefinite);
+			string nameShortDefinite = (!this.IsPawn) ? Find.ActiveLanguageWorker.WithDefiniteArticle(this.name) : this.name;
+			yield return (Rule)new Rule_String(prefix + "_nameShortDefinite", nameShortDefinite);
+			yield return (Rule)new Rule_String(prefix + "_pronoun", this.gender.GetPronoun());
+			yield return (Rule)new Rule_String(prefix + "_possessive", this.gender.GetPossessive());
 		}
 
 		public static TaleData_Trader GenerateFrom(ITrader trader)
@@ -59,7 +58,7 @@ namespace RimWorld
 		{
 			PawnKindDef pawnKindDef = (from d in DefDatabase<PawnKindDef>.AllDefs
 			where d.trader
-			select d).RandomElement<PawnKindDef>();
+			select d).RandomElement();
 			Pawn pawn = PawnGenerator.GeneratePawn(pawnKindDef, FactionUtility.DefaultFactionFrom(pawnKindDef.defaultFactionType));
 			pawn.mindState.wantsToTradeWithColony = true;
 			PawnComponentsUtility.AddAndRemoveDynamicComponents(pawn, true);

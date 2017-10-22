@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse.Sound
@@ -9,7 +8,7 @@ namespace Verse.Sound
 
 		public static AudioSource NewAudioSourceOn(GameObject go)
 		{
-			if (go.GetComponent<AudioSource>() != null)
+			if ((Object)go.GetComponent<AudioSource>() != (Object)null)
 			{
 				Log.Warning("Adding audio source on " + go + " that already has one.");
 				return go.GetComponent<AudioSource>();

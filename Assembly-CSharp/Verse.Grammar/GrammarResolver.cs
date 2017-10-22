@@ -20,7 +20,7 @@ namespace Verse.Grammar
 			{
 				get
 				{
-					return this.rule.BaseSelectionWeight * 100000f / (float)((this.uses + 1) * 1000);
+					return (float)(this.rule.BaseSelectionWeight * 100000.0 / (float)((this.uses + 1) * 1000));
 				}
 			}
 
@@ -45,13 +45,13 @@ namespace Verse.Grammar
 
 		private const int LoopsLimit = 100;
 
-		private static List<GrammarResolver.RuleEntry> rules = new List<GrammarResolver.RuleEntry>();
+		private static List<RuleEntry> rules = new List<RuleEntry>();
 
 		private static int loopCount;
 
 		private static StringBuilder logSb;
 
-		private static List<GrammarResolver.RuleEntry> matchingRules = new List<GrammarResolver.RuleEntry>();
+		private static List<RuleEntry> matchingRules = new List<RuleEntry>();
 
 		private static bool LogOn
 		{
@@ -66,11 +66,11 @@ namespace Verse.Grammar
 			GrammarResolver.rules.Clear();
 			for (int i = 0; i < rawRules.Count; i++)
 			{
-				GrammarResolver.rules.Add(new GrammarResolver.RuleEntry(rawRules[i]));
+				GrammarResolver.rules.Add(new RuleEntry(rawRules[i]));
 			}
 			for (int j = 0; j < RulePackDefOf.GlobalUtility.Rules.Count; j++)
 			{
-				GrammarResolver.rules.Add(new GrammarResolver.RuleEntry(RulePackDefOf.GlobalUtility.Rules[j]));
+				GrammarResolver.rules.Add(new RuleEntry(RulePackDefOf.GlobalUtility.Rules[j]));
 			}
 			GrammarResolver.loopCount = 0;
 			if (GrammarResolver.LogOn)
@@ -79,11 +79,11 @@ namespace Verse.Grammar
 			}
 			string text = "err";
 			bool flag = false;
-			foreach (GrammarResolver.RuleEntry current in (from r in GrammarResolver.rules
+			foreach (RuleEntry item in (from r in GrammarResolver.rules
 			where r.rule.keyword == rootKeyword
 			select r).InRandomOrder(null))
 			{
-				if (GrammarResolver.TryResolveRecursive(current, 0, out text))
+				if (GrammarResolver.TryResolveRecursive(item, 0, out text))
 				{
 					flag = true;
 					break;
@@ -109,13 +109,13 @@ namespace Verse.Grammar
 			return text;
 		}
 
-		private static bool TryResolveRecursive(GrammarResolver.RuleEntry entry, int depth, out string output)
+		private static bool TryResolveRecursive(RuleEntry entry, int depth, out string output)
 		{
 			if (GrammarResolver.LogOn)
 			{
 				GrammarResolver.logSb.AppendLine();
 				GrammarResolver.logSb.Append(depth.ToStringCached() + " ");
-				for (int i = 0; i < depth; i++)
+				for (int num = 0; num < depth; num++)
 				{
 					GrammarResolver.logSb.Append("   ");
 				}
@@ -144,17 +144,18 @@ namespace Verse.Grammar
 			}
 			string text = entry.rule.Generate();
 			bool flag = false;
-			int num = -1;
-			for (int j = 0; j < text.Length; j++)
+			int num2 = -1;
+			for (int i = 0; i < text.Length; i++)
 			{
-				char c = text[j];
+				char c = text[i];
 				if (c == '[')
 				{
-					num = j;
+					num2 = i;
 				}
+				string str = default(string);
 				if (c == ']')
 				{
-					if (num == -1)
+					if (num2 == -1)
 					{
 						Log.Error("Could not resolve rule " + text + ": mismatched brackets.");
 						output = "MISMATCHED_BRACKETS";
@@ -166,21 +167,19 @@ namespace Verse.Grammar
 					}
 					else
 					{
-						string text2 = text.Substring(num + 1, j - num - 1);
-						string str;
+						string text2 = text.Substring(num2 + 1, i - num2 - 1);
 						while (true)
 						{
-							GrammarResolver.RuleEntry ruleEntry = GrammarResolver.RandomPossiblyResolvableEntry(text2);
-							if (ruleEntry == null)
+							RuleEntry ruleEntry = GrammarResolver.RandomPossiblyResolvableEntry(text2);
+							if (ruleEntry != null)
 							{
-								break;
+								ruleEntry.uses++;
+								if (GrammarResolver.TryResolveRecursive(ruleEntry, depth + 1, out str))
+									goto IL_01f0;
+								ruleEntry.MarkKnownUnresolvable();
+								continue;
 							}
-							ruleEntry.uses++;
-							if (GrammarResolver.TryResolveRecursive(ruleEntry, depth + 1, out str))
-							{
-								goto Block_13;
-							}
-							ruleEntry.MarkKnownUnresolvable();
+							break;
 						}
 						entry.MarkKnownUnresolvable();
 						output = "CANNOT_RESOLVE_SUBKEYWORD:" + text2;
@@ -189,19 +188,18 @@ namespace Verse.Grammar
 							GrammarResolver.logSb.Append("UNRESOLVABLE: Cannot resolve sub-keyword '" + text2 + "'");
 						}
 						flag = true;
-						goto IL_21E;
-						Block_13:
-						text = text.Substring(0, num) + str + text.Substring(j + 1);
-						j = num;
 					}
 				}
-				IL_21E:;
+				continue;
+				IL_01f0:
+				text = text.Substring(0, num2) + str + text.Substring(i + 1);
+				i = num2;
 			}
 			output = text;
 			return !flag;
 		}
 
-		private static GrammarResolver.RuleEntry RandomPossiblyResolvableEntry(string keyword)
+		private static RuleEntry RandomPossiblyResolvableEntry(string keyword)
 		{
 			GrammarResolver.matchingRules.Clear();
 			for (int i = 0; i < GrammarResolver.rules.Count; i++)
@@ -215,7 +213,7 @@ namespace Verse.Grammar
 			{
 				return null;
 			}
-			return GrammarResolver.matchingRules.RandomElementByWeight((GrammarResolver.RuleEntry r) => r.SelectionWeight);
+			return GrammarResolver.matchingRules.RandomElementByWeight((Func<RuleEntry, float>)((RuleEntry r) => r.SelectionWeight));
 		}
 	}
 }

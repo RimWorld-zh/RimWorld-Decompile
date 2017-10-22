@@ -1,6 +1,5 @@
 using RimWorld;
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -79,7 +78,7 @@ namespace Verse
 		{
 			get
 			{
-				return (this.def.lethalSeverity > 0f) ? (this.Severity / this.def.lethalSeverity).ToStringPercent() : null;
+				return (!(this.def.lethalSeverity <= 0.0)) ? (this.Severity / this.def.lethalSeverity).ToStringPercent() : null;
 			}
 		}
 
@@ -96,11 +95,11 @@ namespace Verse
 			get
 			{
 				StringBuilder stringBuilder = new StringBuilder();
-				foreach (StatDrawEntry current in HediffStatsUtility.SpecialDisplayStats(this.CurStage, this))
+				foreach (StatDrawEntry item in HediffStatsUtility.SpecialDisplayStats(this.CurStage, this))
 				{
-					if (current.ShouldDisplay)
+					if (item.ShouldDisplay)
 					{
-						stringBuilder.AppendLine(current.LabelCap + ": " + current.ValueString);
+						stringBuilder.AppendLine(item.LabelCap + ": " + item.ValueString);
 					}
 				}
 				return stringBuilder.ToString();
@@ -111,7 +110,7 @@ namespace Verse
 		{
 			get
 			{
-				return (!this.def.stages.NullOrEmpty<HediffStage>()) ? this.def.stages[this.CurStageIndex] : null;
+				return (!this.def.stages.NullOrEmpty()) ? this.def.stages[this.CurStageIndex] : null;
 			}
 		}
 
@@ -119,7 +118,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.Severity <= 0f;
+				return this.Severity <= 0.0;
 			}
 		}
 
@@ -143,7 +142,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.BleedRate > 1E-05f;
+				return this.BleedRate > 9.9999997473787516E-06;
 			}
 		}
 
@@ -151,7 +150,7 @@ namespace Verse
 		{
 			get
 			{
-				return (this.CurStage != null && !this.causesNoPain) ? this.CurStage.painOffset : 0f;
+				return (float)((this.CurStage != null && !this.causesNoPain) ? this.CurStage.painOffset : 0.0);
 			}
 		}
 
@@ -159,7 +158,7 @@ namespace Verse
 		{
 			get
 			{
-				return (this.CurStage != null) ? this.CurStage.painFactor : 1f;
+				return (float)((this.CurStage != null) ? this.CurStage.painFactor : 1.0);
 			}
 		}
 
@@ -183,19 +182,19 @@ namespace Verse
 		{
 			get
 			{
-				float num = 0f;
+				float a = 0f;
 				HediffStage curStage = this.CurStage;
 				if (curStage != null && curStage.lifeThreatening)
 				{
-					num = Mathf.Max(num, 1f);
+					a = Mathf.Max(a, 1f);
 				}
-				num = Mathf.Max(num, this.BleedRate * 1.5f);
+				a = Mathf.Max(a, (float)(this.BleedRate * 1.5));
 				HediffComp_TendDuration hediffComp_TendDuration = this.TryGetComp<HediffComp_TendDuration>();
-				if (hediffComp_TendDuration != null && hediffComp_TendDuration.TProps.severityPerDayTended < 0f)
+				if (hediffComp_TendDuration != null && hediffComp_TendDuration.TProps.severityPerDayTended < 0.0)
 				{
-					num = Mathf.Max(num, 0.025f);
+					a = Mathf.Max(a, 0.025f);
 				}
-				return num;
+				return a;
 			}
 		}
 
@@ -217,11 +216,11 @@ namespace Verse
 				}
 				List<HediffStage> stages = this.def.stages;
 				float severity = this.Severity;
-				for (int i = stages.Count - 1; i >= 0; i--)
+				for (int num = stages.Count - 1; num >= 0; num--)
 				{
-					if (severity >= stages[i].minSeverity)
+					if (severity >= stages[num].minSeverity)
 					{
-						return i;
+						return num;
 					}
 				}
 				return 0;
@@ -237,20 +236,19 @@ namespace Verse
 			set
 			{
 				bool flag = false;
-				if (this.def.lethalSeverity > 0f && value >= this.def.lethalSeverity)
+				if (this.def.lethalSeverity > 0.0 && value >= this.def.lethalSeverity)
 				{
 					value = this.def.lethalSeverity;
 					flag = true;
 				}
 				int curStageIndex = this.CurStageIndex;
 				this.severityInt = Mathf.Clamp(value, this.def.minSeverity, this.def.maxSeverity);
-				if (this.CurStageIndex != curStageIndex || flag)
+				if (this.CurStageIndex == curStageIndex && !flag)
+					return;
+				this.pawn.health.Notify_HediffChanged(this);
+				if (!this.pawn.Dead && this.pawn.needs.mood != null)
 				{
-					this.pawn.health.Notify_HediffChanged(this);
-					if (!this.pawn.Dead && this.pawn.needs.mood != null)
-					{
-						this.pawn.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
-					}
+					this.pawn.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
 				}
 			}
 		}
@@ -270,17 +268,19 @@ namespace Verse
 				if (this.pawn == null)
 				{
 					Log.Error("Hediff: Cannot set Part without setting pawn first.");
-					return;
-				}
-				if (value != null)
-				{
-					this.partIndex = this.pawn.RaceProps.body.GetIndexOfPart(value);
 				}
 				else
 				{
-					this.partIndex = -1;
+					if (value != null)
+					{
+						this.partIndex = this.pawn.RaceProps.body.GetIndexOfPart(value);
+					}
+					else
+					{
+						this.partIndex = -1;
+					}
+					this.cachedPart = value;
 				}
-				this.cachedPart = value;
 			}
 		}
 
@@ -288,7 +288,11 @@ namespace Verse
 		{
 			get
 			{
-				return this.def.tendable && this.Severity > 0f && this.Visible && !this.FullyImmune() && !this.IsTended() && !this.IsOld();
+				if (this.def.tendable && !(this.Severity <= 0.0) && this.Visible && !this.FullyImmune() && !this.IsTended() && !this.IsOld())
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -336,41 +340,37 @@ namespace Verse
 						MentalStateGiver mentalStateGiver = curStage.mentalStateGivers[k];
 						if (Rand.MTBEventOccurs(mentalStateGiver.mtbDays, 60000f, 60f))
 						{
-							this.pawn.mindState.mentalStateHandler.TryStartMentalState(mentalStateGiver.mentalState, null, false, false, null);
+							this.pawn.mindState.mentalStateHandler.TryStartMentalState(mentalStateGiver.mentalState, (string)null, false, false, null);
 						}
 					}
 				}
-				if (curStage.vomitMtbDays > 0f && this.pawn.IsHashIntervalTick(600) && Rand.MTBEventOccurs(curStage.vomitMtbDays, 60000f, 600f) && this.pawn.Spawned && this.pawn.Awake())
+				if (curStage.vomitMtbDays > 0.0 && this.pawn.IsHashIntervalTick(600) && Rand.MTBEventOccurs(curStage.vomitMtbDays, 60000f, 600f) && this.pawn.Spawned && this.pawn.Awake())
 				{
-					this.pawn.jobs.StartJob(new Job(JobDefOf.Vomit), JobCondition.InterruptForced, null, true, true, null, null);
+					this.pawn.jobs.StartJob(new Job(JobDefOf.Vomit), JobCondition.InterruptForced, null, true, true, null, default(JobTag?));
 				}
-				Thought_Memory th;
-				if (curStage.forgetMemoryThoughtMtbDays > 0f && this.pawn.needs.mood != null && this.pawn.IsHashIntervalTick(400) && Rand.MTBEventOccurs(curStage.forgetMemoryThoughtMtbDays, 60000f, 400f) && this.pawn.needs.mood.thoughts.memories.Memories.TryRandomElement(out th))
+				Thought_Memory th = default(Thought_Memory);
+				if (curStage.forgetMemoryThoughtMtbDays > 0.0 && this.pawn.needs.mood != null && this.pawn.IsHashIntervalTick(400) && Rand.MTBEventOccurs(curStage.forgetMemoryThoughtMtbDays, 60000f, 400f) && ((IEnumerable<Thought_Memory>)this.pawn.needs.mood.thoughts.memories.Memories).TryRandomElement<Thought_Memory>(out th))
 				{
 					this.pawn.needs.mood.thoughts.memories.RemoveMemory(th);
 				}
 				if (!this.recordedTale && curStage.tale != null)
 				{
-					TaleRecorder.RecordTale(curStage.tale, new object[]
-					{
-						this.pawn
-					});
+					TaleRecorder.RecordTale(curStage.tale, this.pawn);
 					this.recordedTale = true;
 				}
 				if (curStage.destroyPart && this.Part != null && this.Part != this.pawn.RaceProps.body.corePart)
 				{
-					this.pawn.health.AddHediff(HediffDefOf.MissingBodyPart, this.Part, null);
+					this.pawn.health.AddHediff(HediffDefOf.MissingBodyPart, this.Part, default(DamageInfo?));
 				}
-				if (curStage.deathMtbDays > 0f && this.pawn.IsHashIntervalTick(200) && Rand.MTBEventOccurs(curStage.deathMtbDays, 60000f, 200f))
+				if (curStage.deathMtbDays > 0.0 && this.pawn.IsHashIntervalTick(200) && Rand.MTBEventOccurs(curStage.deathMtbDays, 60000f, 200f))
 				{
 					bool flag = PawnUtility.ShouldSendNotificationAbout(this.pawn);
 					Caravan caravan = this.pawn.GetCaravan();
-					this.pawn.Kill(null);
+					this.pawn.Kill(default(DamageInfo?));
 					if (flag)
 					{
-						this.pawn.health.NotifyPlayerOfKilled(null, this, caravan);
+						this.pawn.health.NotifyPlayerOfKilled(default(DamageInfo?), this, caravan);
 					}
-					return;
 				}
 			}
 		}
@@ -403,12 +403,11 @@ namespace Verse
 
 		public virtual void Heal(float amount)
 		{
-			if (amount <= 0f)
+			if (!(amount <= 0.0))
 			{
-				return;
+				this.Severity -= amount;
+				this.pawn.health.Notify_HediffChanged(this);
 			}
-			this.Severity -= amount;
-			this.pawn.health.Notify_HediffChanged(this);
 		}
 
 		public virtual void ModifyChemicalEffect(ChemicalDef chem, ref float effect)
@@ -417,18 +416,22 @@ namespace Verse
 
 		public virtual bool TryMergeWith(Hediff other)
 		{
-			if (other == null || other.def != this.def || other.Part != this.Part)
+			if (other != null && other.def == this.def && other.Part == this.Part)
 			{
-				return false;
+				this.Severity += other.Severity;
+				this.ageTicks = 0;
+				return true;
 			}
-			this.Severity += other.Severity;
-			this.ageTicks = 0;
-			return true;
+			return false;
 		}
 
 		public virtual bool CauseDeathNow()
 		{
-			return this.def.lethalSeverity >= 0f && this.Severity >= this.def.lethalSeverity;
+			if (this.def.lethalSeverity >= 0.0)
+			{
+				return this.Severity >= this.def.lethalSeverity;
+			}
+			return false;
 		}
 
 		public virtual void Notify_PawnDied()
@@ -437,7 +440,7 @@ namespace Verse
 
 		public virtual string DebugString()
 		{
-			string text = "severity: " + this.Severity.ToString("F3") + ((this.Severity < this.def.maxSeverity) ? string.Empty : " (reached max)");
+			string text = "severity: " + this.Severity.ToString("F3") + ((!(this.Severity >= this.def.maxSeverity)) ? string.Empty : " (reached max)");
 			if (this.TendableNow)
 			{
 				text = text + "\ntend priority: " + this.TendPriority;
@@ -447,15 +450,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"(",
-				this.def.defName,
-				(this.cachedPart == null) ? string.Empty : (" " + this.cachedPart.def.label),
-				" ticksSinceCreation=",
-				this.ageTicks,
-				")"
-			});
+			return "(" + this.def.defName + ((this.cachedPart == null) ? string.Empty : (" " + this.cachedPart.def.label)) + " ticksSinceCreation=" + this.ageTicks + ")";
 		}
 
 		public override int GetHashCode()

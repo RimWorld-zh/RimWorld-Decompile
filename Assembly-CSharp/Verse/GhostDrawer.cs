@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,12 +27,12 @@ namespace Verse
 
 		private static Graphic GhostGraphicFor(Graphic baseGraphic, ThingDef thingDef, Color ghostCol)
 		{
-			int num = 0;
-			num = Gen.HashCombine<Graphic>(num, baseGraphic);
-			num = Gen.HashCombine<ThingDef>(num, thingDef);
-			num = Gen.HashCombineStruct<Color>(num, ghostCol);
-			Graphic graphic;
-			if (!GhostDrawer.ghostGraphics.TryGetValue(num, out graphic))
+			int seed = 0;
+			seed = Gen.HashCombine(seed, baseGraphic);
+			seed = Gen.HashCombine(seed, thingDef);
+			seed = Gen.HashCombineStruct(seed, ghostCol);
+			Graphic graphic = default(Graphic);
+			if (!GhostDrawer.ghostGraphics.TryGetValue(seed, out graphic))
 			{
 				if (thingDef.graphicData.Linked || thingDef.IsDoor)
 				{
@@ -54,7 +53,7 @@ namespace Verse
 					}
 					graphic = GraphicDatabase.Get(baseGraphic.GetType(), baseGraphic.path, ShaderDatabase.Transparent, baseGraphic.drawSize, ghostCol, Color.white, graphicData);
 				}
-				GhostDrawer.ghostGraphics.Add(num, graphic);
+				GhostDrawer.ghostGraphics.Add(seed, graphic);
 			}
 			return graphic;
 		}

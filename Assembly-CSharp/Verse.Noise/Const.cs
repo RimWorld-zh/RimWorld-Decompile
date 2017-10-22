@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Noise
 {
 	public class Const : ModuleBase

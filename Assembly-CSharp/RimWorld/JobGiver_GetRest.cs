@@ -23,7 +23,7 @@ namespace RimWorld
 			{
 				return 0f;
 			}
-			if (rest.CurCategory < this.minCategory)
+			if ((int)rest.CurCategory < (int)this.minCategory)
 			{
 				return 0f;
 			}
@@ -44,79 +44,58 @@ namespace RimWorld
 			else
 			{
 				int num = GenLocalDate.HourOfDay(pawn);
-				if (num < 7 || num > 21)
-				{
-					timeAssignmentDef = TimeAssignmentDefOf.Sleep;
-				}
-				else
-				{
-					timeAssignmentDef = TimeAssignmentDefOf.Anything;
-				}
+				timeAssignmentDef = ((num >= 7 && num <= 21) ? TimeAssignmentDefOf.Anything : TimeAssignmentDefOf.Sleep);
 			}
 			float curLevel = rest.CurLevel;
 			if (timeAssignmentDef == TimeAssignmentDefOf.Anything)
 			{
-				if (curLevel < 0.3f)
+				if (curLevel < 0.30000001192092896)
 				{
 					return 8f;
 				}
 				return 0f;
 			}
-			else
+			if (timeAssignmentDef == TimeAssignmentDefOf.Work)
 			{
-				if (timeAssignmentDef == TimeAssignmentDefOf.Work)
-				{
-					return 0f;
-				}
-				if (timeAssignmentDef == TimeAssignmentDefOf.Joy)
-				{
-					if (curLevel < 0.3f)
-					{
-						return 8f;
-					}
-					return 0f;
-				}
-				else
-				{
-					if (timeAssignmentDef != TimeAssignmentDefOf.Sleep)
-					{
-						throw new NotImplementedException();
-					}
-					if (curLevel < RestUtility.FallAsleepMaxLevel(pawn))
-					{
-						return 8f;
-					}
-					return 0f;
-				}
+				return 0f;
 			}
+			if (timeAssignmentDef == TimeAssignmentDefOf.Joy)
+			{
+				if (curLevel < 0.30000001192092896)
+				{
+					return 8f;
+				}
+				return 0f;
+			}
+			if (timeAssignmentDef == TimeAssignmentDefOf.Sleep)
+			{
+				if (curLevel < RestUtility.FallAsleepMaxLevel(pawn))
+				{
+					return 8f;
+				}
+				return 0f;
+			}
+			throw new NotImplementedException();
 		}
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Need_Rest rest = pawn.needs.rest;
-			if (rest == null || rest.CurCategory < this.minCategory)
+			if (rest != null && (int)rest.CurCategory >= (int)this.minCategory)
 			{
-				return null;
+				if (RestUtility.DisturbancePreventsLyingDown(pawn))
+				{
+					return null;
+				}
+				Lord lord = pawn.GetLord();
+				Building_Bed building_Bed = (lord == null || lord.CurLordToil == null || lord.CurLordToil.AllowRestingInBed) ? RestUtility.FindBedFor(pawn) : null;
+				if (building_Bed != null)
+				{
+					return new Job(JobDefOf.LayDown, (Thing)building_Bed);
+				}
+				return new Job(JobDefOf.LayDown, this.FindGroundSleepSpotFor(pawn));
 			}
-			if (RestUtility.DisturbancePreventsLyingDown(pawn))
-			{
-				return null;
-			}
-			Lord lord = pawn.GetLord();
-			Building_Bed building_Bed;
-			if (lord != null && lord.CurLordToil != null && !lord.CurLordToil.AllowRestingInBed)
-			{
-				building_Bed = null;
-			}
-			else
-			{
-				building_Bed = RestUtility.FindBedFor(pawn);
-			}
-			if (building_Bed != null)
-			{
-				return new Job(JobDefOf.LayDown, building_Bed);
-			}
-			return new Job(JobDefOf.LayDown, this.FindGroundSleepSpotFor(pawn));
+			return null;
 		}
 
 		private IntVec3 FindGroundSleepSpotFor(Pawn pawn)
@@ -125,8 +104,8 @@ namespace RimWorld
 			for (int i = 0; i < 2; i++)
 			{
 				int radius = (i != 0) ? 12 : 4;
-				IntVec3 result;
-				if (CellFinder.TryRandomClosewalkCellNear(pawn.Position, map, radius, out result, (IntVec3 x) => !x.IsForbidden(pawn) && !x.GetTerrain(map).avoidWander))
+				IntVec3 result = default(IntVec3);
+				if (CellFinder.TryRandomClosewalkCellNear(pawn.Position, map, radius, out result, (Predicate<IntVec3>)((IntVec3 x) => !x.IsForbidden(pawn) && !x.GetTerrain(map).avoidWander)))
 				{
 					return result;
 				}

@@ -1,4 +1,4 @@
-using System;
+using UnityEngine;
 
 namespace Verse.Sound
 {
@@ -14,7 +14,8 @@ namespace Verse.Sound
 
 		public override float ValueFor(Sample samp)
 		{
-			return Find.Camera.transform.position.y;
+			Vector3 position = Find.Camera.transform.position;
+			return position.y;
 		}
 	}
 }

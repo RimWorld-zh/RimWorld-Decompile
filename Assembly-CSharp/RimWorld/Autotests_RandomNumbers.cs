@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Verse;
 
@@ -20,39 +19,28 @@ namespace RimWorld
 
 		private static void CheckSimpleFloats()
 		{
-			List<float> list = Autotests_RandomNumbers.RandomFloats(500).ToList<float>();
-			if (list.Any((float x) => x < 0f || x > 1f))
+			List<float> list = Autotests_RandomNumbers.RandomFloats(500).ToList();
+			if (list.Any((Predicate<float>)((float x) => x < 0.0 || x > 1.0)))
 			{
 				Log.Error("Float out of range.");
 			}
-			if (list.Any((float x) => x < 0.1f))
+			if (!list.Any((Predicate<float>)((float x) => x < 0.10000000149011612)) || !list.Any((Predicate<float>)((float x) => (double)x > 0.5 && (double)x < 0.6)) || !list.Any((Predicate<float>)((float x) => (double)x > 0.9)))
 			{
-				if (list.Any((float x) => (double)x > 0.5 && (double)x < 0.6))
-				{
-					if (list.Any((float x) => (double)x > 0.9))
-					{
-						goto IL_C4;
-					}
-				}
+				Log.Warning("Possibly uneven distribution.");
 			}
-			Log.Warning("Possibly uneven distribution.");
-			IL_C4:
-			list = Autotests_RandomNumbers.RandomFloats(1300000).ToList<float>();
-			int num = list.Count((float x) => (double)x < 0.1);
-			Log.Message("< 0.1 count (should be ~10%): " + (float)num / (float)list.Count<float>() * 100f + "%");
-			num = list.Count((float x) => (double)x < 0.0001);
-			Log.Message("< 0.0001 count (should be ~0.01%): " + (float)num / (float)list.Count<float>() * 100f + "%");
+			list = Autotests_RandomNumbers.RandomFloats(1300000).ToList();
+			int num = list.Count((Func<float, bool>)((float x) => (double)x < 0.1));
+			Log.Message("< 0.1 count (should be ~10%): " + (float)((float)num / (float)list.Count() * 100.0) + "%");
+			num = list.Count((Func<float, bool>)((float x) => (double)x < 0.0001));
+			Log.Message("< 0.0001 count (should be ~0.01%): " + (float)((float)num / (float)list.Count() * 100.0) + "%");
 		}
 
-		[DebuggerHidden]
 		private static IEnumerable<float> RandomFloats(int count)
 		{
-			Autotests_RandomNumbers.<RandomFloats>c__Iterator1A8 <RandomFloats>c__Iterator1A = new Autotests_RandomNumbers.<RandomFloats>c__Iterator1A8();
-			<RandomFloats>c__Iterator1A.count = count;
-			<RandomFloats>c__Iterator1A.<$>count = count;
-			Autotests_RandomNumbers.<RandomFloats>c__Iterator1A8 expr_15 = <RandomFloats>c__Iterator1A;
-			expr_15.$PC = -2;
-			return expr_15;
+			for (int i = 0; i < count; i++)
+			{
+				yield return Rand.Value;
+			}
 		}
 
 		private static void CheckIntsRange()
@@ -64,57 +52,52 @@ namespace RimWorld
 			while (true)
 			{
 				bool flag = true;
-				for (int i = num; i <= num2; i++)
+				int num4 = num;
+				while (num4 <= num2)
 				{
-					if (!dictionary.ContainsKey(i))
+					if (dictionary.ContainsKey(num4))
 					{
-						flag = false;
-						break;
+						num4++;
+						continue;
 					}
-				}
-				if (flag)
-				{
+					flag = false;
 					break;
 				}
-				num3++;
-				if (num3 == 200000)
+				if (!flag)
 				{
-					goto Block_3;
+					num3++;
+					if (num3 == 200000)
+					{
+						Log.Error("Failed to find all numbers in a range.");
+						return;
+					}
+					int num5 = Rand.RangeInclusive(num, num2);
+					if (num5 < num || num5 > num2)
+					{
+						Log.Error("Value out of range.");
+					}
+					if (dictionary.ContainsKey(num5))
+					{
+						Dictionary<int, int> dictionary2;
+						Dictionary<int, int> obj = dictionary2 = dictionary;
+						int key;
+						int key2 = key = num5;
+						key = dictionary2[key];
+						obj[key2] = key + 1;
+					}
+					else
+					{
+						dictionary.Add(num5, 1);
+					}
+					continue;
 				}
-				int num4 = Rand.RangeInclusive(num, num2);
-				if (num4 < num || num4 > num2)
-				{
-					Log.Error("Value out of range.");
-				}
-				if (dictionary.ContainsKey(num4))
-				{
-					Dictionary<int, int> dictionary2;
-					Dictionary<int, int> expr_92 = dictionary2 = dictionary;
-					int num5;
-					int expr_97 = num5 = num4;
-					num5 = dictionary2[num5];
-					expr_92[expr_97] = num5 + 1;
-				}
-				else
-				{
-					dictionary.Add(num4, 1);
-				}
+				break;
 			}
-			Log.Message(string.Concat(new object[]
+			Log.Message("Values between " + num + " and " + num2 + " (value: number of occurrences):");
+			for (int num6 = num; num6 <= num2; num6++)
 			{
-				"Values between ",
-				num,
-				" and ",
-				num2,
-				" (value: number of occurrences):"
-			}));
-			for (int j = num; j <= num2; j++)
-			{
-				Log.Message(j + ": " + dictionary[j]);
+				Log.Message(num6 + ": " + dictionary[num6]);
 			}
-			return;
-			Block_3:
-			Log.Error("Failed to find all numbers in a range.");
 		}
 
 		private static void CheckIntsDistribution()
@@ -129,13 +112,7 @@ namespace RimWorld
 			int i;
 			for (i = 0; i < 4; i++)
 			{
-				Log.Message(string.Concat(new object[]
-				{
-					i,
-					": ",
-					(float)list.Count((int x) => x == i) / (float)list.Count<int>() * 100f,
-					"%"
-				}));
+				Log.Message(i + ": " + (float)((float)list.Count((Func<int, bool>)((int x) => x == i)) / (float)list.Count() * 100.0) + "%");
 			}
 		}
 
@@ -176,10 +153,9 @@ namespace RimWorld
 			int int5 = Rand.Int;
 			Rand.PopState();
 			int int6 = Rand.Int;
-			if (@int != int4 || int2 != int6 || int3 != int5)
-			{
-				Log.Error("PushSeed broken.");
-			}
+			if (@int == int4 && int2 == int6 && int3 == int5)
+				return;
+			Log.Error("PushSeed broken.");
 		}
 	}
 }

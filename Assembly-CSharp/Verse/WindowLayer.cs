@@ -1,12 +1,10 @@
-using System;
-
 namespace Verse
 {
 	public enum WindowLayer
 	{
-		GameUI,
-		Dialog,
-		SubSuper,
-		Super
+		GameUI = 0,
+		Dialog = 1,
+		SubSuper = 2,
+		Super = 3
 	}
 }

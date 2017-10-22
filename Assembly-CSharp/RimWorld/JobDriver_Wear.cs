@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse.AI;
 
 namespace RimWorld
@@ -9,14 +8,40 @@ namespace RimWorld
 	{
 		private const int DurationTicks = 60;
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_Wear.<MakeNewToils>c__Iterator54 <MakeNewToils>c__Iterator = new JobDriver_Wear.<MakeNewToils>c__Iterator54();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_Wear.<MakeNewToils>c__Iterator54 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			Toil gotoApparel = new Toil
+			{
+				initAction = (Action)delegate
+				{
+					((_003CMakeNewToils_003Ec__Iterator54)/*Error near IL_0059: stateMachine*/)._003C_003Ef__this.pawn.pather.StartPath(((_003CMakeNewToils_003Ec__Iterator54)/*Error near IL_0059: stateMachine*/)._003C_003Ef__this.TargetThingA, PathEndMode.ClosestTouch);
+				},
+				defaultCompleteMode = ToilCompleteMode.PatherArrival
+			};
+			gotoApparel.FailOnDespawnedNullOrForbidden(TargetIndex.A);
+			yield return gotoApparel;
+			Toil prepare = new Toil
+			{
+				defaultCompleteMode = ToilCompleteMode.Delay,
+				defaultDuration = 60
+			};
+			prepare.WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
+			prepare.FailOnDespawnedNullOrForbidden(TargetIndex.A);
+			yield return prepare;
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+					Apparel apparel = (Apparel)((_003CMakeNewToils_003Ec__Iterator54)/*Error near IL_0108: stateMachine*/)._003C_003Ef__this.CurJob.targetA.Thing;
+					((_003CMakeNewToils_003Ec__Iterator54)/*Error near IL_0108: stateMachine*/)._003C_003Ef__this.pawn.apparel.Wear(apparel, true);
+					if (((_003CMakeNewToils_003Ec__Iterator54)/*Error near IL_0108: stateMachine*/)._003C_003Ef__this.pawn.outfits != null && ((_003CMakeNewToils_003Ec__Iterator54)/*Error near IL_0108: stateMachine*/)._003C_003Ef__this.CurJob.playerForced)
+					{
+						((_003CMakeNewToils_003Ec__Iterator54)/*Error near IL_0108: stateMachine*/)._003C_003Ef__this.pawn.outfits.forcedHandler.SetForced(apparel, true);
+					}
+				},
+				defaultCompleteMode = ToilCompleteMode.Instant
+			};
 		}
 	}
 }

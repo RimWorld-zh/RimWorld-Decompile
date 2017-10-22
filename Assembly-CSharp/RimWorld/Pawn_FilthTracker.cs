@@ -51,11 +51,11 @@ namespace RimWorld
 
 		public void Notify_EnteredNewCell()
 		{
-			if (Rand.Value < 0.05f)
+			if (Rand.Value < 0.05000000074505806)
 			{
 				this.TryDropFilth();
 			}
-			if (Rand.Value < 0.25f)
+			if (Rand.Value < 0.25)
 			{
 				this.TryPickupFilth();
 			}
@@ -70,25 +70,25 @@ namespace RimWorld
 			TerrainDef terrDef = this.pawn.Map.terrainGrid.TerrainAt(this.pawn.Position);
 			if (terrDef.terrainFilthDef != null)
 			{
-				for (int i = this.carriedFilth.Count - 1; i >= 0; i--)
+				for (int num = this.carriedFilth.Count - 1; num >= 0; num--)
 				{
-					if (this.carriedFilth[i].def.filth.terrainSourced && this.carriedFilth[i].def != terrDef.terrainFilthDef)
+					if (this.carriedFilth[num].def.filth.terrainSourced && this.carriedFilth[num].def != terrDef.terrainFilthDef)
 					{
-						this.ThinCarriedFilth(this.carriedFilth[i]);
+						this.ThinCarriedFilth(this.carriedFilth[num]);
 					}
 				}
 				Filth filth = (from f in this.carriedFilth
 				where f.def == terrDef.terrainFilthDef
-				select f).FirstOrDefault<Filth>();
+				select f).FirstOrDefault();
 				if (filth == null || filth.thickness < 1)
 				{
 					this.GainFilth(terrDef.terrainFilthDef);
 				}
 			}
 			List<Thing> thingList = this.pawn.Position.GetThingList(this.pawn.Map);
-			for (int j = thingList.Count - 1; j >= 0; j--)
+			for (int num2 = thingList.Count - 1; num2 >= 0; num2--)
 			{
-				Filth filth2 = thingList[j] as Filth;
+				Filth filth2 = thingList[num2] as Filth;
 				if (filth2 != null && filth2.CanFilthAttachNow)
 				{
 					this.GainFilth(filth2.def, filth2.sources);
@@ -99,15 +99,14 @@ namespace RimWorld
 
 		private void TryDropFilth()
 		{
-			if (this.carriedFilth.Count == 0)
+			if (this.carriedFilth.Count != 0)
 			{
-				return;
-			}
-			for (int i = this.carriedFilth.Count - 1; i >= 0; i--)
-			{
-				if (this.carriedFilth[i].CanDropAt(this.pawn.Position, this.pawn.Map))
+				for (int num = this.carriedFilth.Count - 1; num >= 0; num--)
 				{
-					this.DropCarriedFilth(this.carriedFilth[i]);
+					if (this.carriedFilth[num].CanDropAt(this.pawn.Position, this.pawn.Map))
+					{
+						this.DropCarriedFilth(this.carriedFilth[num]);
+					}
 				}
 			}
 		}
@@ -135,13 +134,16 @@ namespace RimWorld
 		public void GainFilth(ThingDef filthDef, IEnumerable<string> sources)
 		{
 			Filth filth = null;
-			for (int i = 0; i < this.carriedFilth.Count; i++)
+			int num = 0;
+			while (num < this.carriedFilth.Count)
 			{
-				if (this.carriedFilth[i].def == filthDef)
+				if (this.carriedFilth[num].def != filthDef)
 				{
-					filth = this.carriedFilth[i];
-					break;
+					num++;
+					continue;
 				}
+				filth = this.carriedFilth[num];
+				break;
 			}
 			if (filth != null)
 			{

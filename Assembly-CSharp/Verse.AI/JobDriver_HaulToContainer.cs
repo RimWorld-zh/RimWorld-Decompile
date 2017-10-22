@@ -1,6 +1,6 @@
+using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse.AI
 {
@@ -22,30 +22,31 @@ namespace Verse.AI
 
 		public override string GetReport()
 		{
-			Thing thing;
-			if (this.pawn.carryTracker.CarriedThing != null)
-			{
-				thing = this.pawn.carryTracker.CarriedThing;
-			}
-			else
-			{
-				thing = base.TargetThingA;
-			}
-			return "ReportHaulingTo".Translate(new object[]
-			{
-				thing.LabelCap,
-				base.CurJob.targetB.Thing.LabelShort
-			});
+			Thing thing = null;
+			thing = ((base.pawn.carryTracker.CarriedThing == null) ? base.TargetThingA : base.pawn.carryTracker.CarriedThing);
+			return "ReportHaulingTo".Translate(thing.LabelCap, base.CurJob.targetB.Thing.LabelShort);
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_HaulToContainer.<MakeNewToils>c__Iterator1BB <MakeNewToils>c__Iterator1BB = new JobDriver_HaulToContainer.<MakeNewToils>c__Iterator1BB();
-			<MakeNewToils>c__Iterator1BB.<>f__this = this;
-			JobDriver_HaulToContainer.<MakeNewToils>c__Iterator1BB expr_0E = <MakeNewToils>c__Iterator1BB;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOnDestroyedOrNull(TargetIndex.A);
+			this.FailOnDestroyedNullOrForbidden(TargetIndex.B);
+			this.FailOn((Func<bool>)(() => TransporterUtility.WasLoadingCanceled(((_003CMakeNewToils_003Ec__Iterator1BB)/*Error near IL_0071: stateMachine*/)._003C_003Ef__this.Container)));
+			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			yield return Toils_Reserve.ReserveQueue(TargetIndex.A, 1, -1, null);
+			yield return Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
+			yield return Toils_Reserve.ReserveQueue(TargetIndex.B, 1, -1, null);
+			Toil getToHaulTarget = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
+			yield return getToHaulTarget;
+			yield return Toils_Construct.UninstallIfMinifiable(TargetIndex.A).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
+			yield return Toils_Haul.StartCarryThing(TargetIndex.A, false, true);
+			yield return Toils_Haul.JumpIfAlsoCollectingNextTargetInQueue(getToHaulTarget, TargetIndex.A);
+			Toil carryToContainer = Toils_Haul.CarryHauledThingToContainer();
+			yield return carryToContainer;
+			yield return Toils_Goto.MoveOffTargetBlueprint(TargetIndex.B);
+			yield return Toils_Construct.MakeSolidThingFromBlueprintIfNecessary(TargetIndex.B, TargetIndex.C);
+			yield return Toils_Haul.DepositHauledThingInContainer(TargetIndex.B, TargetIndex.C);
+			yield return Toils_Haul.JumpToCarryToNextContainerIfPossible(carryToContainer, TargetIndex.C);
 		}
 	}
 }

@@ -1,27 +1,80 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using UnityEngine;
 
 namespace Verse
 {
 	public static class GenRecipe
 	{
-		[DebuggerHidden]
 		public static IEnumerable<Thing> MakeRecipeProducts(RecipeDef recipeDef, Pawn worker, List<Thing> ingredients, Thing dominantIngredient)
 		{
-			GenRecipe.<MakeRecipeProducts>c__Iterator24D <MakeRecipeProducts>c__Iterator24D = new GenRecipe.<MakeRecipeProducts>c__Iterator24D();
-			<MakeRecipeProducts>c__Iterator24D.recipeDef = recipeDef;
-			<MakeRecipeProducts>c__Iterator24D.worker = worker;
-			<MakeRecipeProducts>c__Iterator24D.dominantIngredient = dominantIngredient;
-			<MakeRecipeProducts>c__Iterator24D.ingredients = ingredients;
-			<MakeRecipeProducts>c__Iterator24D.<$>recipeDef = recipeDef;
-			<MakeRecipeProducts>c__Iterator24D.<$>worker = worker;
-			<MakeRecipeProducts>c__Iterator24D.<$>dominantIngredient = dominantIngredient;
-			<MakeRecipeProducts>c__Iterator24D.<$>ingredients = ingredients;
-			GenRecipe.<MakeRecipeProducts>c__Iterator24D expr_3F = <MakeRecipeProducts>c__Iterator24D;
-			expr_3F.$PC = -2;
-			return expr_3F;
+			float efficiency = (float)((recipeDef.efficiencyStat != null) ? worker.GetStatValue(recipeDef.efficiencyStat, true) : 1.0);
+			if (recipeDef.products != null)
+			{
+				for (int l = 0; l < recipeDef.products.Count; l++)
+				{
+					ThingCountClass prod = recipeDef.products[l];
+					ThingDef stuffDef = (!prod.thingDef.MadeFromStuff) ? null : dominantIngredient.def;
+					Thing product3 = ThingMaker.MakeThing(prod.thingDef, stuffDef);
+					product3.stackCount = Mathf.CeilToInt((float)prod.count * efficiency);
+					if (dominantIngredient != null)
+					{
+						product3.SetColor(dominantIngredient.DrawColor, false);
+					}
+					CompIngredients ingredientsComp = product3.TryGetComp<CompIngredients>();
+					if (ingredientsComp != null)
+					{
+						for (int k = 0; k < ingredients.Count; k++)
+						{
+							ingredientsComp.RegisterIngredient(ingredients[k].def);
+						}
+					}
+					CompFoodPoisonable foodPoisonable = product3.TryGetComp<CompFoodPoisonable>();
+					if (foodPoisonable != null)
+					{
+						float poisonChance = worker.GetStatValue(StatDefOf.FoodPoisonChance, true);
+						Room room = worker.GetRoom(RegionType.Set_Passable);
+						if (room != null)
+						{
+							poisonChance *= room.GetStat(RoomStatDefOf.FoodPoisonChanceFactor);
+						}
+						if (Rand.Value < poisonChance)
+						{
+							foodPoisonable.PoisonPercent = 1f;
+						}
+					}
+					yield return GenRecipe.PostProcessProduct(product3, recipeDef, worker);
+				}
+			}
+			if (recipeDef.specialProducts != null)
+			{
+				for (int j = 0; j < recipeDef.specialProducts.Count; j++)
+				{
+					for (int i = 0; i < ingredients.Count; i++)
+					{
+						Thing ing = ingredients[i];
+						switch (recipeDef.specialProducts[j])
+						{
+						case SpecialProductType.Butchery:
+						{
+							foreach (Thing item in ing.ButcherProducts(worker, efficiency))
+							{
+								yield return GenRecipe.PostProcessProduct(item, recipeDef, worker);
+							}
+							break;
+						}
+						case SpecialProductType.Smelted:
+						{
+							foreach (Thing item2 in ing.SmeltProducts(efficiency))
+							{
+								yield return GenRecipe.PostProcessProduct(item2, recipeDef, worker);
+							}
+							break;
+						}
+						}
+					}
+				}
+			}
 		}
 
 		private static Thing PostProcessProduct(Thing product, RecipeDef recipeDef, Pawn worker)
@@ -40,13 +93,9 @@ namespace Verse
 			if (compArt != null)
 			{
 				compArt.JustCreatedBy(worker);
-				if (compQuality.Quality >= QualityCategory.Excellent)
+				if ((int)compQuality.Quality >= 6)
 				{
-					TaleRecorder.RecordTale(TaleDefOf.CraftedArt, new object[]
-					{
-						worker,
-						product
-					});
+					TaleRecorder.RecordTale(TaleDefOf.CraftedArt, worker, product);
 				}
 			}
 			if (product.def.Minifiable)

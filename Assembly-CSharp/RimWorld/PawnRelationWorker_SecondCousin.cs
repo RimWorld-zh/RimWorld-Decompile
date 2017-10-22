@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -13,12 +12,30 @@ namespace RimWorld
 			}
 			PawnRelationWorker worker = PawnRelationDefOf.GranduncleOrGrandaunt.Worker;
 			Pawn mother = other.GetMother();
-			if (mother != null && ((mother.GetMother() != null && worker.InRelation(me, mother.GetMother())) || (mother.GetFather() != null && worker.InRelation(me, mother.GetFather()))))
+			if (mother != null)
 			{
-				return true;
+				if (mother.GetMother() != null && worker.InRelation(me, mother.GetMother()))
+				{
+					goto IL_005b;
+				}
+				if (mother.GetFather() != null && worker.InRelation(me, mother.GetFather()))
+					goto IL_005b;
 			}
 			Pawn father = other.GetFather();
-			return father != null && ((father.GetMother() != null && worker.InRelation(me, father.GetMother())) || (father.GetFather() != null && worker.InRelation(me, father.GetFather())));
+			if (father != null)
+			{
+				if (father.GetMother() != null && worker.InRelation(me, father.GetMother()))
+				{
+					goto IL_00a4;
+				}
+				if (father.GetFather() != null && worker.InRelation(me, father.GetFather()))
+					goto IL_00a4;
+			}
+			return false;
+			IL_005b:
+			return true;
+			IL_00a4:
+			return true;
 		}
 	}
 }

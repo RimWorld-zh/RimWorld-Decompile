@@ -27,25 +27,26 @@ namespace Verse
 				{
 					tempGrid[i] = num2;
 				}
-				foreach (Region current in this.map.regionGrid.AllRegions_NoRebuild_InvalidAllowed)
+				foreach (Region item in this.map.regionGrid.AllRegions_NoRebuild_InvalidAllowed)
 				{
-					if (current.Room != null)
+					if (item.Room != null)
 					{
-						ushort num3 = this.TempFloatToShort(current.Room.Temperature);
-						foreach (IntVec3 current2 in current.Cells)
+						ushort num3 = this.TempFloatToShort(item.Room.Temperature);
+						foreach (IntVec3 cell in item.Cells)
 						{
-							tempGrid[this.map.cellIndices.CellToIndex(current2)] = num3;
+							tempGrid[this.map.cellIndices.CellToIndex(cell)] = num3;
 						}
 					}
 				}
-				compressedString = GridSaveUtility.CompressedStringForShortGrid((IntVec3 c) => tempGrid[this.map.cellIndices.CellToIndex(c)], this.map);
+				compressedString = GridSaveUtility.CompressedStringForShortGrid((Func<IntVec3, ushort>)((IntVec3 c) => tempGrid[this.map.cellIndices.CellToIndex(c)]), this.map);
 			}
-			Scribe_Values.Look<string>(ref compressedString, "temperatures", null, false);
+			Scribe_Values.Look(ref compressedString, "temperatures", (string)null, false);
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
 				this.tempGrid = new ushort[this.map.cellIndices.NumGridCells];
-				foreach (GridSaveUtility.LoadedGridShort current3 in GridSaveUtility.LoadedUShortGrid(compressedString, this.map))
+				foreach (GridSaveUtility.LoadedGridShort item2 in GridSaveUtility.LoadedUShortGrid(compressedString, this.map))
 				{
+					GridSaveUtility.LoadedGridShort current3 = item2;
 					this.tempGrid[this.map.cellIndices.CellToIndex(current3.cell)] = current3.val;
 				}
 			}
@@ -56,11 +57,11 @@ namespace Verse
 			if (this.tempGrid != null)
 			{
 				CellIndices cellIndices = this.map.cellIndices;
-				foreach (Region current in this.map.regionGrid.AllRegions_NoRebuild_InvalidAllowed)
+				foreach (Region item in this.map.regionGrid.AllRegions_NoRebuild_InvalidAllowed)
 				{
-					if (current.Room != null)
+					if (item.Room != null)
 					{
-						current.Room.Group.Temperature = this.TempShortToFloat(this.tempGrid[cellIndices.CellToIndex(current.Cells.First<IntVec3>())]);
+						item.Room.Group.Temperature = this.TempShortToFloat(this.tempGrid[cellIndices.CellToIndex(item.Cells.First())]);
 					}
 				}
 				this.tempGrid = null;
@@ -70,13 +71,13 @@ namespace Verse
 		private ushort TempFloatToShort(float temp)
 		{
 			temp = Mathf.Clamp(temp, -270f, 2000f);
-			temp *= 16f;
+			temp = (float)(temp * 16.0);
 			return (ushort)((int)temp + 32768);
 		}
 
 		private float TempShortToFloat(ushort temp)
 		{
-			return ((float)temp - 32768f) / 16f;
+			return (float)(((float)(int)temp - 32768.0) / 16.0);
 		}
 	}
 }

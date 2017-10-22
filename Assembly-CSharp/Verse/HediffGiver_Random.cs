@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class HediffGiver_Random : HediffGiver

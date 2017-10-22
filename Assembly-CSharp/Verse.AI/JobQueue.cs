@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse.AI
@@ -43,19 +42,19 @@ namespace Verse.AI
 			Scribe_Collections.Look<QueuedJob>(ref this.jobs, "jobs", LookMode.Deep, new object[0]);
 		}
 
-		public void EnqueueFirst(Job j, JobTag? tag = null)
+		public void EnqueueFirst(Job j, JobTag? tag = default(JobTag?))
 		{
 			this.jobs.Insert(0, new QueuedJob(j, tag));
 		}
 
-		public void EnqueueLast(Job j, JobTag? tag = null)
+		public void EnqueueLast(Job j, JobTag? tag = default(JobTag?))
 		{
 			this.jobs.Add(new QueuedJob(j, tag));
 		}
 
 		public QueuedJob Dequeue()
 		{
-			if (this.jobs.NullOrEmpty<QueuedJob>())
+			if (this.jobs.NullOrEmpty())
 			{
 				return null;
 			}

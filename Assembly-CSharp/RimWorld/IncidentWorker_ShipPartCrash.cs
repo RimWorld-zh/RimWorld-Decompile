@@ -95,7 +95,11 @@ namespace RimWorld
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
 			Map map = (Map)target;
-			return map.listerThings.ThingsOfDef(this.def.shipPart).Count <= 0;
+			if (map.listerThings.ThingsOfDef(base.def.shipPart).Count > 0)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override bool TryExecute(IncidentParms parms)
@@ -105,46 +109,51 @@ namespace RimWorld
 			int countToSpawn = this.CountToSpawn;
 			IntVec3 cell = IntVec3.Invalid;
 			float angle = Rand.Range(0f, 360f);
-			for (int i = 0; i < countToSpawn; i++)
+			int num2 = 0;
+			while (num2 < countToSpawn)
 			{
-				Predicate<IntVec3> validator = delegate(IntVec3 c)
+				Predicate<IntVec3> validator = (Predicate<IntVec3>)delegate(IntVec3 c)
 				{
 					if (c.Fogged(map))
 					{
 						return false;
 					}
-					foreach (IntVec3 current in GenAdj.CellsOccupiedBy(c, Rot4.North, this.def.shipPart.size))
+					foreach (IntVec3 item in GenAdj.CellsOccupiedBy(c, Rot4.North, base.def.shipPart.size))
 					{
-						if (!current.Standable(map))
+						if (!item.Standable(map))
 						{
-							bool result = false;
-							return result;
+							return false;
 						}
-						if (map.roofGrid.Roofed(current))
+						if (map.roofGrid.Roofed(item))
 						{
-							bool result = false;
-							return result;
+							return false;
 						}
 					}
-					return map.reachability.CanReachColony(c);
+					if (!map.reachability.CanReachColony(c))
+					{
+						return false;
+					}
+					return true;
 				};
-				IntVec3 intVec;
-				if (!CellFinderLoose.TryFindRandomNotEdgeCellWith(14, validator, map, out intVec))
+				IntVec3 intVec = default(IntVec3);
+				if (CellFinderLoose.TryFindRandomNotEdgeCellWith(14, validator, map, out intVec))
 				{
-					break;
+					GenExplosion.DoExplosion(intVec, map, 3f, DamageDefOf.Flame, null, null, null, null, null, 0f, 1, false, null, 0f, 1);
+					Building_CrashedShipPart building_CrashedShipPart = (Building_CrashedShipPart)GenSpawn.Spawn(base.def.shipPart, intVec, map);
+					building_CrashedShipPart.SetFaction(Faction.OfMechanoids, null);
+					building_CrashedShipPart.pointsLeft = (float)(parms.points * 0.89999997615814209);
+					if (building_CrashedShipPart.pointsLeft < 300.0)
+					{
+						building_CrashedShipPart.pointsLeft = 300f;
+					}
+					IncidentWorker_ShipPartCrash.SpawnShrapnel(ThingDefOf.ChunkSlagSteel, IncidentWorker_ShipPartCrash.ShrapnelMetal.RandomInRange, intVec, map, angle);
+					IncidentWorker_ShipPartCrash.SpawnShrapnel(ThingDefOf.SlagRubble, IncidentWorker_ShipPartCrash.ShrapnelRubble.RandomInRange, intVec, map, angle);
+					num++;
+					cell = intVec;
+					num2++;
+					continue;
 				}
-				GenExplosion.DoExplosion(intVec, map, 3f, DamageDefOf.Flame, null, null, null, null, null, 0f, 1, false, null, 0f, 1);
-				Building_CrashedShipPart building_CrashedShipPart = (Building_CrashedShipPart)GenSpawn.Spawn(this.def.shipPart, intVec, map);
-				building_CrashedShipPart.SetFaction(Faction.OfMechanoids, null);
-				building_CrashedShipPart.pointsLeft = parms.points * 0.9f;
-				if (building_CrashedShipPart.pointsLeft < 300f)
-				{
-					building_CrashedShipPart.pointsLeft = 300f;
-				}
-				IncidentWorker_ShipPartCrash.SpawnShrapnel(ThingDefOf.ChunkSlagSteel, IncidentWorker_ShipPartCrash.ShrapnelMetal.RandomInRange, intVec, map, angle);
-				IncidentWorker_ShipPartCrash.SpawnShrapnel(ThingDefOf.SlagRubble, IncidentWorker_ShipPartCrash.ShrapnelRubble.RandomInRange, intVec, map, angle);
-				num++;
-				cell = intVec;
+				break;
 			}
 			if (num > 0)
 			{
@@ -152,30 +161,24 @@ namespace RimWorld
 				{
 					Find.CameraDriver.shaker.DoShake(1f);
 				}
-				base.SendStandardLetter(new TargetInfo(cell, map, false), new string[0]);
+				base.SendStandardLetter(new TargetInfo(cell, map, false));
 			}
 			return num > 0;
 		}
 
 		public static void SpawnShrapnel(ThingDef def, int quantity, IntVec3 center, Map map, float angle)
 		{
-			for (int i = 0; i < quantity; i++)
+			for (int num = 0; num < quantity; num++)
 			{
 				IntVec3 intVec = IncidentWorker_ShipPartCrash.GenerateShrapnelLocation(center, angle);
-				if (intVec.InBounds(map))
+				if (intVec.InBounds(map) && !intVec.Impassable(map) && !intVec.Filled(map))
 				{
-					if (!intVec.Impassable(map) && !intVec.Filled(map))
+					RoofDef roofDef = map.roofGrid.RoofAt(intVec);
+					if (roofDef == null && (from thing in intVec.GetThingList(map)
+					where thing.def == def
+					select thing).Count() <= 0)
 					{
-						RoofDef roofDef = map.roofGrid.RoofAt(intVec);
-						if (roofDef == null)
-						{
-							if ((from thing in intVec.GetThingList(map)
-							where thing.def == def
-							select thing).Count<Thing>() <= 0)
-							{
-								GenSpawn.Spawn(def, intVec, map);
-							}
-						}
+						GenSpawn.Spawn(def, intVec, map);
 					}
 				}
 			}

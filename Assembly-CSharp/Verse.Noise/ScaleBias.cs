@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Noise
 {
 	public class ScaleBias : ModuleBase
@@ -38,19 +36,19 @@ namespace Verse.Noise
 
 		public ScaleBias(ModuleBase input) : base(1)
 		{
-			this.modules[0] = input;
+			base.modules[0] = input;
 		}
 
 		public ScaleBias(double scale, double bias, ModuleBase input) : base(1)
 		{
-			this.modules[0] = input;
+			base.modules[0] = input;
 			this.Bias = bias;
 			this.Scale = scale;
 		}
 
 		public override double GetValue(double x, double y, double z)
 		{
-			return this.modules[0].GetValue(x, y, z) * this.scale + this.bias;
+			return base.modules[0].GetValue(x, y, z) * this.scale + this.bias;
 		}
 	}
 }

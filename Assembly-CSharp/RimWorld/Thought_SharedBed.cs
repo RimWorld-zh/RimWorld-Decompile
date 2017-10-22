@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -10,12 +9,12 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn mostDislikedNonPartnerBedOwner = LovePartnerRelationUtility.GetMostDislikedNonPartnerBedOwner(this.pawn);
+				Pawn mostDislikedNonPartnerBedOwner = LovePartnerRelationUtility.GetMostDislikedNonPartnerBedOwner(base.pawn);
 				if (mostDislikedNonPartnerBedOwner == null)
 				{
 					return 0f;
 				}
-				return Mathf.Min(0.05f * (float)this.pawn.relations.OpinionOf(mostDislikedNonPartnerBedOwner) - 5f, 0f);
+				return Mathf.Min((float)(0.05000000074505806 * (float)base.pawn.relations.OpinionOf(mostDislikedNonPartnerBedOwner) - 5.0), 0f);
 			}
 		}
 	}

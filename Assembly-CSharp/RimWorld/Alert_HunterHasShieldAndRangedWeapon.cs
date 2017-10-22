@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,17 +6,17 @@ namespace RimWorld
 	{
 		public Alert_HunterHasShieldAndRangedWeapon()
 		{
-			this.defaultLabel = "HunterHasShieldAndRangedWeapon".Translate();
-			this.defaultExplanation = "HunterHasShieldAndRangedWeaponDesc".Translate();
+			base.defaultLabel = "HunterHasShieldAndRangedWeapon".Translate();
+			base.defaultExplanation = "HunterHasShieldAndRangedWeaponDesc".Translate();
 		}
 
 		private Pawn BadHunter()
 		{
-			foreach (Pawn current in PawnsFinder.AllMaps_FreeColonistsSpawned)
+			foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
 			{
-				if (current.workSettings.WorkIsActive(WorkTypeDefOf.Hunting) && WorkGiver_HunterHunt.HasShieldAndRangedWeapon(current))
+				if (item.workSettings.WorkIsActive(WorkTypeDefOf.Hunting) && WorkGiver_HunterHunt.HasShieldAndRangedWeapon(item))
 				{
-					return current;
+					return item;
 				}
 			}
 			return null;
@@ -30,7 +29,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			return AlertReport.CulpritIs(pawn);
+			return AlertReport.CulpritIs((Thing)pawn);
 		}
 	}
 }

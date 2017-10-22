@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using Verse;
 
 namespace RimWorld
@@ -13,11 +12,11 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (!directPawnRelation.otherPawn.IsColonist || directPawnRelation.otherPawn.IsWorldPawn() || !directPawnRelation.otherPawn.relations.everSeenByPlayer)
+			if (directPawnRelation.otherPawn.IsColonist && !directPawnRelation.otherPawn.IsWorldPawn() && directPawnRelation.otherPawn.relations.everSeenByPlayer)
 			{
-				return false;
+				return p.relations.OpinionOf(directPawnRelation.otherPawn) != 0;
 			}
-			return p.relations.OpinionOf(directPawnRelation.otherPawn) != 0;
+			return false;
 		}
 	}
 }

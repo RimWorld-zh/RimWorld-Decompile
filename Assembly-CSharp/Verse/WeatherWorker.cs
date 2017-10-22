@@ -23,20 +23,29 @@ namespace Verse
 
 		public List<SkyOverlay> overlays = new List<SkyOverlay>();
 
-		private WeatherWorker.SkyThreshold[] skyTargets = new WeatherWorker.SkyThreshold[4];
+		private SkyThreshold[] skyTargets = new SkyThreshold[4];
 
 		public WeatherWorker(WeatherDef def)
 		{
 			this.def = def;
-			foreach (Type current in def.overlayClasses)
+			List<Type>.Enumerator enumerator = def.overlayClasses.GetEnumerator();
+			try
 			{
-				SkyOverlay item = (SkyOverlay)GenGeneric.InvokeStaticGenericMethod(typeof(WeatherPartPool), current, "GetInstanceOf");
-				this.overlays.Add(item);
+				while (enumerator.MoveNext())
+				{
+					Type current = enumerator.Current;
+					SkyOverlay item = (SkyOverlay)GenGeneric.InvokeStaticGenericMethod(typeof(WeatherPartPool), current, "GetInstanceOf");
+					this.overlays.Add(item);
+				}
 			}
-			this.skyTargets[0] = new WeatherWorker.SkyThreshold(def.skyColorsNightMid, 0f);
-			this.skyTargets[1] = new WeatherWorker.SkyThreshold(def.skyColorsNightEdge, 0.1f);
-			this.skyTargets[2] = new WeatherWorker.SkyThreshold(def.skyColorsDusk, 0.6f);
-			this.skyTargets[3] = new WeatherWorker.SkyThreshold(def.skyColorsDay, 1f);
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			this.skyTargets[0] = new SkyThreshold(def.skyColorsNightMid, 0f);
+			this.skyTargets[1] = new SkyThreshold(def.skyColorsNightEdge, 0.1f);
+			this.skyTargets[2] = new SkyThreshold(def.skyColorsDusk, 0.6f);
+			this.skyTargets[3] = new SkyThreshold(def.skyColorsDay, 1f);
 		}
 
 		public void DrawWeather(Map map)
@@ -64,30 +73,27 @@ namespace Verse
 			float num = GenCelestial.CurCelestialSunGlow(map);
 			int num2 = 0;
 			int num3 = 0;
-			for (int i = 0; i < this.skyTargets.Length; i++)
+			int num4 = 0;
+			while (num4 < this.skyTargets.Length)
 			{
-				num3 = i;
-				if (num + 0.001f < this.skyTargets[i].celGlowThreshold)
+				num3 = num4;
+				if (!(num + 0.0010000000474974513 < this.skyTargets[num4].celGlowThreshold))
 				{
-					break;
+					num2 = num4;
+					num4++;
+					continue;
 				}
-				num2 = i;
+				break;
 			}
-			WeatherWorker.SkyThreshold skyThreshold = this.skyTargets[num2];
-			WeatherWorker.SkyThreshold skyThreshold2 = this.skyTargets[num3];
-			float num4 = skyThreshold2.celGlowThreshold - skyThreshold.celGlowThreshold;
-			float t;
-			if (num4 == 0f)
+			SkyThreshold skyThreshold = this.skyTargets[num2];
+			SkyThreshold skyThreshold2 = this.skyTargets[num3];
+			float num5 = skyThreshold2.celGlowThreshold - skyThreshold.celGlowThreshold;
+			float t = (float)((num5 != 0.0) ? ((num - skyThreshold.celGlowThreshold) / num5) : 1.0);
+			SkyTarget result = new SkyTarget
 			{
-				t = 1f;
-			}
-			else
-			{
-				t = (num - skyThreshold.celGlowThreshold) / num4;
-			}
-			SkyTarget result = default(SkyTarget);
-			result.glow = num;
-			result.colors = SkyColorSet.Lerp(skyThreshold.colors, skyThreshold2.colors, t);
+				glow = num,
+				colors = SkyColorSet.Lerp(skyThreshold.colors, skyThreshold2.colors, t)
+			};
 			if (GenCelestial.IsDaytime(num))
 			{
 				result.lightsourceShineIntensity = 1f;

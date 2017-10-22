@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI
 {
 	public class Pawn_Thinker
@@ -45,31 +43,25 @@ namespace Verse.AI
 
 		public T TryGetMainTreeThinkNode<T>() where T : ThinkNode
 		{
-			foreach (ThinkNode current in this.MainThinkNodeRoot.ChildrenRecursive)
+			foreach (ThinkNode item in this.MainThinkNodeRoot.ChildrenRecursive)
 			{
-				T t = current as T;
-				if (t != null)
+				T val = (T)(item as T);
+				if (val != null)
 				{
-					return t;
+					return val;
 				}
 			}
-			return (T)((object)null);
+			return (T)null;
 		}
 
 		public T GetMainTreeThinkNode<T>() where T : ThinkNode
 		{
-			T t = this.TryGetMainTreeThinkNode<T>();
-			if (t == null)
+			T val = this.TryGetMainTreeThinkNode<T>();
+			if (val == null)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					this.pawn,
-					" looked for ThinkNode of type ",
-					typeof(T),
-					" and didn't find it."
-				}));
+				Log.Warning(this.pawn + " looked for ThinkNode of type " + typeof(T) + " and didn't find it.");
 			}
-			return t;
+			return val;
 		}
 	}
 }

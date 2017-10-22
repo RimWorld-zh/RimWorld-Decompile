@@ -17,7 +17,7 @@ namespace RimWorld
 				IntVec3 c = pawn.Position + GenAdj.CardinalDirections[i];
 				if (c.InBounds(pawn.Map))
 				{
-					Thing thing = c.GetThingList(pawn.Map).Find((Thing x) => x is Pawn && this.CanMarry(pawn, (Pawn)x));
+					Thing thing = c.GetThingList(pawn.Map).Find((Predicate<Thing>)((Thing x) => x is Pawn && this.CanMarry(pawn, (Pawn)x)));
 					if (thing != null)
 					{
 						return new Job(JobDefOf.MarryAdjacentPawn, thing);

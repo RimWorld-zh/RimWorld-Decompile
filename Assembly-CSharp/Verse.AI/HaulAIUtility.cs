@@ -46,7 +46,15 @@ namespace Verse.AI
 				}
 				return false;
 			}
-			return (t.def.alwaysHaulable || t.Map.designationManager.DesignationOn(t, DesignationDefOf.Haul) != null || t.IsInValidStorage()) && HaulAIUtility.PawnCanAutomaticallyHaulBasicChecks(p, t, forced);
+			if (!t.def.alwaysHaulable && t.Map.designationManager.DesignationOn(t, DesignationDefOf.Haul) == null && !t.IsInValidStorage())
+			{
+				return false;
+			}
+			if (!HaulAIUtility.PawnCanAutomaticallyHaulBasicChecks(p, t, forced))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool PawnCanAutomaticallyHaulFast(Pawn p, Thing t, bool forced)
@@ -85,7 +93,7 @@ namespace Verse.AI
 		public static Job HaulToStorageJob(Pawn p, Thing t)
 		{
 			StoragePriority currentPriority = HaulAIUtility.StoragePriorityAtFor(t.Position, t);
-			IntVec3 storeCell;
+			IntVec3 storeCell = default(IntVec3);
 			if (!StoreUtility.TryFindBestBetterStoreCellFor(t, p, p.Map, currentPriority, p.Faction, out storeCell, true))
 			{
 				JobFailReason.Is(HaulAIUtility.NoEmptyPlaceLowerTrans);
@@ -121,18 +129,11 @@ namespace Verse.AI
 					if (StoreUtility.IsGoodStoreCell(cellsList[i], p.Map, t, p, p.Faction))
 					{
 						Thing thing2 = p.Map.thingGrid.ThingAt(cellsList[i], t.def);
-						if (thing2 != null && thing2 != t)
-						{
-							num += Mathf.Max(t.def.stackLimit - thing2.stackCount, 0);
-						}
-						else
-						{
-							num += t.def.stackLimit;
-						}
-						if (num >= job.count || (float)num >= statValue)
-						{
+						num = ((thing2 == null || thing2 == t) ? (num + t.def.stackLimit) : (num + Mathf.Max(t.def.stackLimit - thing2.stackCount, 0)));
+						if (num >= job.count)
 							break;
-						}
+						if ((float)num >= statValue)
+							break;
 					}
 				}
 				job.count = Mathf.Min(job.count, num);
@@ -153,33 +154,48 @@ namespace Verse.AI
 				return StoragePriority.Unstored;
 			}
 			SlotGroup slotGroup = t.Map.slotGroupManager.SlotGroupAt(c);
-			if (slotGroup == null || !slotGroup.Settings.AllowedToAccept(t))
+			if (slotGroup != null && slotGroup.Settings.AllowedToAccept(t))
 			{
-				return StoragePriority.Unstored;
+				return slotGroup.Settings.Priority;
 			}
-			return slotGroup.Settings.Priority;
+			return StoragePriority.Unstored;
 		}
 
 		public static bool CanHaulAside(Pawn p, Thing t, out IntVec3 storeCell)
 		{
 			storeCell = IntVec3.Invalid;
-			return t.def.EverHaulable && !t.IsBurning() && p.CanReserveAndReach(t, PathEndMode.ClosestTouch, p.NormalMaxDanger(), 1, -1, null, false) && HaulAIUtility.TryFindSpotToPlaceHaulableCloseTo(t, p, t.PositionHeld, out storeCell);
+			if (!t.def.EverHaulable)
+			{
+				return false;
+			}
+			if (t.IsBurning())
+			{
+				return false;
+			}
+			if (!p.CanReserveAndReach(t, PathEndMode.ClosestTouch, p.NormalMaxDanger(), 1, -1, null, false))
+			{
+				return false;
+			}
+			if (!HaulAIUtility.TryFindSpotToPlaceHaulableCloseTo(t, p, t.PositionHeld, out storeCell))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static Job HaulAsideJobFor(Pawn p, Thing t)
 		{
-			IntVec3 c;
+			IntVec3 c = default(IntVec3);
 			if (!HaulAIUtility.CanHaulAside(p, t, out c))
 			{
 				return null;
 			}
-			return new Job(JobDefOf.HaulToCell, t, c)
-			{
-				count = 99999,
-				haulOpportunisticDuplicates = false,
-				haulMode = HaulMode.ToCellNonStorage,
-				ignoreDesignations = true
-			};
+			Job job = new Job(JobDefOf.HaulToCell, t, c);
+			job.count = 99999;
+			job.haulOpportunisticDuplicates = false;
+			job.haulMode = HaulMode.ToCellNonStorage;
+			job.ignoreDesignations = true;
+			return job;
 		}
 
 		private static bool TryFindSpotToPlaceHaulableCloseTo(Thing haulable, Pawn worker, IntVec3 center, out IntVec3 spot)
@@ -192,17 +208,17 @@ namespace Verse.AI
 			}
 			TraverseParms traverseParms = TraverseParms.For(worker, Danger.Deadly, TraverseMode.ByPawn, false);
 			IntVec3 foundCell = IntVec3.Invalid;
-			RegionTraverser.BreadthFirstTraverse(region, (Region from, Region r) => r.Allows(traverseParms, false), delegate(Region r)
+			RegionTraverser.BreadthFirstTraverse(region, (RegionEntryPredicate)((Region from, Region r) => r.Allows(traverseParms, false)), (RegionProcessor)delegate(Region r)
 			{
 				HaulAIUtility.candidates.Clear();
 				HaulAIUtility.candidates.AddRange(r.Cells);
-				HaulAIUtility.candidates.Sort((IntVec3 a, IntVec3 b) => a.DistanceToSquared(center).CompareTo(b.DistanceToSquared(center)));
+				HaulAIUtility.candidates.Sort((Comparison<IntVec3>)((IntVec3 a, IntVec3 b) => a.DistanceToSquared(center).CompareTo(b.DistanceToSquared(center))));
 				for (int i = 0; i < HaulAIUtility.candidates.Count; i++)
 				{
 					IntVec3 intVec = HaulAIUtility.candidates[i];
 					if (HaulAIUtility.HaulablePlaceValidator(haulable, worker, intVec))
 					{
-						foundCell = intVec;
+						IntVec3 foundCell2 = intVec;
 						return true;
 					}
 				}
@@ -247,7 +263,7 @@ namespace Verse.AI
 					return false;
 				}
 			}
-			if (haulable.def.passability != Traversability.Standable)
+			if (haulable.def.passability != 0)
 			{
 				for (int i = 0; i < 8; i++)
 				{

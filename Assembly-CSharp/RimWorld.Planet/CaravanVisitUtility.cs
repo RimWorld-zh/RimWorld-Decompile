@@ -34,18 +34,18 @@ namespace RimWorld.Planet
 
 		public static Settlement SettlementVisitedNow(Caravan caravan)
 		{
-			if (!caravan.Spawned || caravan.pather.Moving)
+			if (caravan.Spawned && !caravan.pather.Moving)
 			{
-				return null;
-			}
-			List<Settlement> settlements = Find.WorldObjects.Settlements;
-			for (int i = 0; i < settlements.Count; i++)
-			{
-				Settlement settlement = settlements[i];
-				if (settlement.Tile == caravan.Tile && settlement.Faction != caravan.Faction && settlement.Visitable)
+				List<Settlement> settlements = Find.WorldObjects.Settlements;
+				for (int i = 0; i < settlements.Count; i++)
 				{
-					return settlement;
+					Settlement settlement = settlements[i];
+					if (settlement.Tile == caravan.Tile && settlement.Faction != caravan.Faction && settlement.Visitable)
+					{
+						return settlement;
+					}
 				}
+				return null;
 			}
 			return null;
 		}
@@ -57,7 +57,7 @@ namespace RimWorld.Planet
 			command_Action.defaultLabel = "CommandTrade".Translate();
 			command_Action.defaultDesc = "CommandTradeDesc".Translate();
 			command_Action.icon = CaravanVisitUtility.TradeCommandTex;
-			command_Action.action = delegate
+			command_Action.action = (Action)delegate()
 			{
 				Settlement settlement = CaravanVisitUtility.SettlementVisitedNow(caravan);
 				if (settlement != null && settlement.CanTradeNow)
@@ -68,7 +68,7 @@ namespace RimWorld.Planet
 					PawnRelationUtility.Notify_PawnsSeenByPlayer(settlement.Goods.OfType<Pawn>(), ref empty, ref empty2, "LetterRelatedPawnsTradingWithSettlement".Translate(), false);
 					if (!empty2.NullOrEmpty())
 					{
-						Find.LetterStack.ReceiveLetter(empty, empty2, LetterDefOf.Good, settlement, null);
+						Find.LetterStack.ReceiveLetter(empty, empty2, LetterDefOf.Good, (WorldObject)settlement, (string)null);
 					}
 				}
 			};
@@ -81,69 +81,67 @@ namespace RimWorld.Planet
 
 		public static Command FulfillRequestCommand(Caravan caravan)
 		{
-			Func<Thing, bool> validator = (Thing thing) => thing.GetRotStage() == RotStage.Fresh;
+			Func<Thing, bool> validator = (Func<Thing, bool>)delegate(Thing thing)
+			{
+				if (thing.GetRotStage() != 0)
+				{
+					return false;
+				}
+				return true;
+			};
 			Command_Action command_Action = new Command_Action();
 			command_Action.defaultLabel = "CommandFulfillTradeOffer".Translate();
 			command_Action.defaultDesc = "CommandFulfillTradeOfferDesc".Translate();
 			command_Action.icon = CaravanVisitUtility.TradeCommandTex;
-			command_Action.action = delegate
+			command_Action.action = (Action)delegate()
 			{
 				Settlement settlement2 = CaravanVisitUtility.SettlementVisitedNow(caravan);
-				CaravanRequestComp caravanRequest = (settlement2 == null) ? null : settlement2.GetComponent<CaravanRequestComp>();
+				CaravanRequestComp caravanRequest = (settlement2 == null) ? null : ((WorldObject)settlement2).GetComponent<CaravanRequestComp>();
 				if (caravanRequest != null)
 				{
 					if (!caravanRequest.ActiveRequest)
 					{
 						Log.Error("Attempted to fulfill an unavailable request");
-						return;
 					}
-					if (!CaravanInventoryUtility.HasThings(caravan, caravanRequest.requestThingDef, caravanRequest.requestCount, validator))
+					else if (!CaravanInventoryUtility.HasThings(caravan, caravanRequest.requestThingDef, caravanRequest.requestCount, validator))
 					{
-						Messages.Message("CommandFulfillTradeOfferFailInsufficient".Translate(new object[]
-						{
-							GenLabel.ThingLabel(caravanRequest.requestThingDef, null, caravanRequest.requestCount)
-						}), MessageSound.Negative);
-						return;
+						Messages.Message("CommandFulfillTradeOfferFailInsufficient".Translate(GenLabel.ThingLabel(caravanRequest.requestThingDef, null, caravanRequest.requestCount)), MessageSound.Negative);
 					}
-					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("CommandFulfillTradeOfferConfirm".Translate(new object[]
+					else
 					{
-						GenLabel.ThingLabel(caravanRequest.requestThingDef, null, caravanRequest.requestCount),
-						caravanRequest.rewards[0].Label
-					}), delegate
-					{
-						int remaining = caravanRequest.requestCount;
-						List<Thing> list = CaravanInventoryUtility.TakeThings(caravan, delegate(Thing thing)
+						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("CommandFulfillTradeOfferConfirm".Translate(GenLabel.ThingLabel(caravanRequest.requestThingDef, null, caravanRequest.requestCount), caravanRequest.rewards[0].Label), (Action)delegate()
 						{
-							if (caravanRequest.requestThingDef != thing.def)
+							int remaining = caravanRequest.requestCount;
+							List<Thing> list = CaravanInventoryUtility.TakeThings(caravan, (Func<Thing, int>)delegate(Thing thing)
 							{
-								return 0;
+								if (caravanRequest.requestThingDef != thing.def)
+								{
+									return 0;
+								}
+								int num = Mathf.Min(remaining, thing.stackCount);
+								remaining -= num;
+								return num;
+							});
+							for (int i = 0; i < list.Count; i++)
+							{
+								list[i].Destroy(DestroyMode.Vanish);
 							}
-							int num = Mathf.Min(remaining, thing.stackCount);
-							remaining -= num;
-							return num;
-						});
-						for (int i = 0; i < list.Count; i++)
-						{
-							list[i].Destroy(DestroyMode.Vanish);
-						}
-						while (caravanRequest.rewards.Count > 0)
-						{
-							Thing thing2 = caravanRequest.rewards[caravanRequest.rewards.Count - 1];
-							caravanRequest.rewards.Remove(thing2);
-							CaravanInventoryUtility.GiveThing(caravan, thing2);
-						}
-						caravanRequest.Disable();
-					}, false, null));
+							while (caravanRequest.rewards.Count > 0)
+							{
+								Thing thing2 = caravanRequest.rewards[caravanRequest.rewards.Count - 1];
+								caravanRequest.rewards.Remove(thing2);
+								CaravanInventoryUtility.GiveThing(caravan, thing2);
+							}
+							caravanRequest.Disable();
+						}, false, (string)null));
+					}
 				}
 			};
 			Settlement settlement = CaravanVisitUtility.SettlementVisitedNow(caravan);
-			CaravanRequestComp caravanRequestComp = (settlement == null) ? null : settlement.GetComponent<CaravanRequestComp>();
+			CaravanRequestComp caravanRequestComp = (settlement == null) ? null : ((WorldObject)settlement).GetComponent<CaravanRequestComp>();
 			if (!CaravanInventoryUtility.HasThings(caravan, caravanRequestComp.requestThingDef, caravanRequestComp.requestCount, validator))
 			{
-				command_Action.Disable("CommandFulfillTradeOfferFailInsufficient".Translate(new object[]
-				{
-					GenLabel.ThingLabel(caravanRequestComp.requestThingDef, null, caravanRequestComp.requestCount)
-				}));
+				command_Action.Disable("CommandFulfillTradeOfferFailInsufficient".Translate(GenLabel.ThingLabel(caravanRequestComp.requestThingDef, null, caravanRequestComp.requestCount)));
 			}
 			return command_Action;
 		}

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -81,11 +80,11 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.def.Icon != null)
+				if ((Object)this.def.Icon != (Object)null)
 				{
 					return this.def.Icon;
 				}
-				if (this.MoodOffset() > 0f)
+				if (this.MoodOffset() > 0.0)
 				{
 					return Thought.DefaultGoodIcon;
 				}
@@ -102,13 +101,7 @@ namespace RimWorld
 		{
 			if (this.CurStage == null)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"CurStage is null while ShouldDiscard is false on ",
-					this.def.defName,
-					" for ",
-					this.pawn
-				}));
+				Log.Error("CurStage is null while ShouldDiscard is false on " + this.def.defName + " for " + this.pawn);
 				return 0f;
 			}
 			float num = this.BaseMoodOffset;

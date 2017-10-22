@@ -1,6 +1,7 @@
+using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Verse.AI;
 
 namespace Verse
 {
@@ -93,14 +94,30 @@ namespace Verse
 			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			PriorityWork.<GetGizmos>c__Iterator1C0 <GetGizmos>c__Iterator1C = new PriorityWork.<GetGizmos>c__Iterator1C0();
-			<GetGizmos>c__Iterator1C.<>f__this = this;
-			PriorityWork.<GetGizmos>c__Iterator1C0 expr_0E = <GetGizmos>c__Iterator1C;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (!this.IsPrioritized && (this.pawn.CurJob == null || !this.pawn.CurJob.playerForced) && !this.pawn.jobs.jobQueue.AnyPlayerForced)
+				yield break;
+			if (!this.pawn.Drafted)
+			{
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "CommandClearPrioritizedWork".Translate(),
+					defaultDesc = "CommandClearPrioritizedWorkDesc".Translate(),
+					icon = TexCommand.ClearPrioritizedWork,
+					activateSound = SoundDefOf.TickLow,
+					action = (Action)delegate
+					{
+						((_003CGetGizmos_003Ec__Iterator1C0)/*Error near IL_00ef: stateMachine*/)._003C_003Ef__this.ClearPrioritizedWorkAndJobQueue();
+						if (((_003CGetGizmos_003Ec__Iterator1C0)/*Error near IL_00ef: stateMachine*/)._003C_003Ef__this.pawn.CurJob.playerForced)
+						{
+							((_003CGetGizmos_003Ec__Iterator1C0)/*Error near IL_00ef: stateMachine*/)._003C_003Ef__this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+						}
+					},
+					hotKey = KeyBindingDefOf.DesignatorCancel,
+					groupKey = 6165612
+				};
+			}
 		}
 	}
 }

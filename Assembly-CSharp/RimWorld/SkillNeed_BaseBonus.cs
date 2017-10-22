@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -17,7 +15,7 @@ namespace RimWorld
 			{
 				return 1f;
 			}
-			int level = pawn.skills.GetSkill(this.skill).Level;
+			int level = pawn.skills.GetSkill(base.skill).Level;
 			return this.FactorAt(level);
 		}
 
@@ -26,14 +24,20 @@ namespace RimWorld
 			return this.baseFactor + this.bonusFactor * (float)level;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			SkillNeed_BaseBonus.<ConfigErrors>c__Iterator86 <ConfigErrors>c__Iterator = new SkillNeed_BaseBonus.<ConfigErrors>c__Iterator86();
-			<ConfigErrors>c__Iterator.<>f__this = this;
-			SkillNeed_BaseBonus.<ConfigErrors>c__Iterator86 expr_0E = <ConfigErrors>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			for (int i = 1; i <= 20; i++)
+			{
+				float factor = this.FactorAt(i);
+				if (factor <= 0.0)
+				{
+					yield return "SkillNeed yields factor < 0 at skill level " + i;
+				}
+			}
 		}
 	}
 }

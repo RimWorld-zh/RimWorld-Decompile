@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI.Group;
@@ -17,7 +16,7 @@ namespace RimWorld
 
 		protected override bool FactionCanBeGroupSource(Faction f, Map map, bool desperate = false)
 		{
-			return base.FactionCanBeGroupSource(f, map, desperate) && f.def.caravanTraderKinds.Any<TraderKindDef>();
+			return base.FactionCanBeGroupSource(f, map, desperate) && f.def.caravanTraderKinds.Any();
 		}
 
 		public override bool TryExecute(IncidentParms parms)
@@ -53,19 +52,11 @@ namespace RimWorld
 					break;
 				}
 			}
-			string label = "LetterLabelTraderCaravanArrival".Translate(new object[]
-			{
-				parms.faction.Name,
-				traderKindDef.label
-			}).CapitalizeFirst();
-			string text = "LetterTraderCaravanArrival".Translate(new object[]
-			{
-				parms.faction.Name,
-				traderKindDef.label
-			}).CapitalizeFirst();
+			string label = "LetterLabelTraderCaravanArrival".Translate(parms.faction.Name, traderKindDef.label).CapitalizeFirst();
+			string text = "LetterTraderCaravanArrival".Translate(parms.faction.Name, traderKindDef.label).CapitalizeFirst();
 			PawnRelationUtility.Notify_PawnsSeenByPlayer(list, ref label, ref text, "LetterRelatedPawnsNeutralGroup".Translate(), true);
-			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.Good, list[0], null);
-			IntVec3 chillSpot;
+			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.Good, (Thing)list[0], (string)null);
+			IntVec3 chillSpot = default(IntVec3);
 			RCellFinder.TryFindRandomSpotJustOutsideColony(list[0], out chillSpot);
 			LordJob_TradeWithColony lordJob = new LordJob_TradeWithColony(parms.faction, chillSpot);
 			LordMaker.MakeNewLord(parms.faction, lordJob, map, list);

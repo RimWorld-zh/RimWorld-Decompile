@@ -23,30 +23,48 @@ namespace RimWorld
 
 		public void CreateRecorders()
 		{
-			foreach (HistoryAutoRecorderDef current in this.def.historyAutoRecorderDefs)
+			List<HistoryAutoRecorderDef>.Enumerator enumerator = this.def.historyAutoRecorderDefs.GetEnumerator();
+			try
 			{
-				HistoryAutoRecorder historyAutoRecorder = new HistoryAutoRecorder();
-				historyAutoRecorder.def = current;
-				this.recorders.Add(historyAutoRecorder);
+				while (enumerator.MoveNext())
+				{
+					HistoryAutoRecorderDef current = enumerator.Current;
+					HistoryAutoRecorder historyAutoRecorder = new HistoryAutoRecorder();
+					historyAutoRecorder.def = current;
+					this.recorders.Add(historyAutoRecorder);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 
 		public float GetMaxDay()
 		{
 			float num = 0f;
-			foreach (HistoryAutoRecorder current in this.recorders)
+			List<HistoryAutoRecorder>.Enumerator enumerator = this.recorders.GetEnumerator();
+			try
 			{
-				int count = current.records.Count;
-				if (count != 0)
+				while (enumerator.MoveNext())
 				{
-					float num2 = (float)((count - 1) * current.def.recordTicksFrequency) / 60000f;
-					if (num2 > num)
+					HistoryAutoRecorder current = enumerator.Current;
+					int count = current.records.Count;
+					if (count != 0)
 					{
-						num = num2;
+						float num2 = (float)((float)((count - 1) * current.def.recordTicksFrequency) / 60000.0);
+						if (num2 > num)
+						{
+							num = num2;
+						}
 					}
 				}
+				return num;
 			}
-			return num;
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
 		}
 
 		public void Tick()
@@ -73,7 +91,7 @@ namespace RimWorld
 					simpleCurveDrawInfo.curve = new SimpleCurve();
 					for (int j = 0; j < historyAutoRecorder.records.Count; j++)
 					{
-						simpleCurveDrawInfo.curve.Add(new CurvePoint((float)j * (float)historyAutoRecorder.def.recordTicksFrequency / 60000f, historyAutoRecorder.records[j]), false);
+						simpleCurveDrawInfo.curve.Add(new CurvePoint((float)((float)j * (float)historyAutoRecorder.def.recordTicksFrequency / 60000.0), historyAutoRecorder.records[j]), false);
 					}
 					simpleCurveDrawInfo.curve.SortPoints();
 					if (historyAutoRecorder.records.Count == 1)

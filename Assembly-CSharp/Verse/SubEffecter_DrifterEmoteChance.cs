@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class SubEffecter_DrifterEmoteChance : SubEffecter_DrifterEmote
@@ -10,7 +8,7 @@ namespace Verse
 
 		public override void SubEffectTick(TargetInfo A, TargetInfo B)
 		{
-			float chancePerTick = this.def.chancePerTick;
+			float chancePerTick = base.def.chancePerTick;
 			if (Rand.Value < chancePerTick)
 			{
 				base.MakeMote(A);

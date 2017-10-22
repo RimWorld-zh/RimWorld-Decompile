@@ -7,7 +7,7 @@ namespace Verse
 	internal class ReachabilityCache
 	{
 		[StructLayout(LayoutKind.Sequential, Size = 1)]
-		private struct CachedEntry : IEquatable<ReachabilityCache.CachedEntry>
+		private struct CachedEntry : IEquatable<CachedEntry>
 		{
 			public int FirstRoomID
 			{
@@ -44,10 +44,14 @@ namespace Verse
 
 			public override bool Equals(object obj)
 			{
-				return obj is ReachabilityCache.CachedEntry && this.Equals((ReachabilityCache.CachedEntry)obj);
+				if (!(obj is CachedEntry))
+				{
+					return false;
+				}
+				return this.Equals((CachedEntry)obj);
 			}
 
-			public bool Equals(ReachabilityCache.CachedEntry other)
+			public bool Equals(CachedEntry other)
 			{
 				return this.FirstRoomID == other.FirstRoomID && this.SecondRoomID == other.SecondRoomID && this.TraverseParms == other.TraverseParms;
 			}
@@ -55,21 +59,21 @@ namespace Verse
 			public override int GetHashCode()
 			{
 				int seed = Gen.HashCombineInt(this.FirstRoomID, this.SecondRoomID);
-				return Gen.HashCombineStruct<TraverseParms>(seed, this.TraverseParms);
+				return Gen.HashCombineStruct(seed, this.TraverseParms);
 			}
 
-			public static bool operator ==(ReachabilityCache.CachedEntry lhs, ReachabilityCache.CachedEntry rhs)
+			public static bool operator ==(CachedEntry lhs, CachedEntry rhs)
 			{
 				return lhs.Equals(rhs);
 			}
 
-			public static bool operator !=(ReachabilityCache.CachedEntry lhs, ReachabilityCache.CachedEntry rhs)
+			public static bool operator !=(CachedEntry lhs, CachedEntry rhs)
 			{
 				return !lhs.Equals(rhs);
 			}
 		}
 
-		private Dictionary<ReachabilityCache.CachedEntry, bool> cacheDict = new Dictionary<ReachabilityCache.CachedEntry, bool>();
+		private Dictionary<CachedEntry, bool> cacheDict = new Dictionary<CachedEntry, bool>();
 
 		public int Count
 		{
@@ -81,17 +85,17 @@ namespace Verse
 
 		public BoolUnknown CachedResultFor(Room A, Room B, TraverseParms traverseParams)
 		{
-			bool flag;
-			if (this.cacheDict.TryGetValue(new ReachabilityCache.CachedEntry(A.ID, B.ID, traverseParams), out flag))
+			bool flag = default(bool);
+			if (this.cacheDict.TryGetValue(new CachedEntry(A.ID, B.ID, traverseParams), out flag))
 			{
-				return (!flag) ? BoolUnknown.False : BoolUnknown.True;
+				return (BoolUnknown)((!flag) ? 1 : 0);
 			}
 			return BoolUnknown.Unknown;
 		}
 
 		public void AddCachedResult(Room A, Room B, TraverseParms traverseParams, bool reachable)
 		{
-			ReachabilityCache.CachedEntry key = new ReachabilityCache.CachedEntry(A.ID, B.ID, traverseParams);
+			CachedEntry key = new CachedEntry(A.ID, B.ID, traverseParams);
 			if (!this.cacheDict.ContainsKey(key))
 			{
 				this.cacheDict.Add(key, reachable);

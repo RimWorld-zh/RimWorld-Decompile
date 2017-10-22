@@ -7,12 +7,12 @@ namespace Verse
 	{
 		public static int CountAllowNull<T>(this IList<T> list)
 		{
-			return (list == null) ? 0 : list.Count;
+			return (list != null) ? ((ICollection<T>)list).Count : 0;
 		}
 
 		public static bool NullOrEmpty<T>(this IList<T> list)
 		{
-			return list == null || list.Count == 0;
+			return list == null || ((ICollection<T>)list).Count == 0;
 		}
 
 		public static List<T> ListFullCopy<T>(this List<T> source)
@@ -36,17 +36,19 @@ namespace Verse
 
 		public static void RemoveDuplicates<T>(this List<T> list) where T : class
 		{
-			if (list.Count <= 1)
+			if (list.Count > 1)
 			{
-				return;
-			}
-			for (int i = list.Count - 1; i >= 0; i--)
-			{
-				for (int j = 0; j < i; j++)
+				for (int num = list.Count - 1; num >= 0; num--)
 				{
-					if (list[i] == list[j])
+					int num2 = 0;
+					while (num2 < num)
 					{
-						list.RemoveAt(i);
+						if ((object)list[num] != (object)list[num2])
+						{
+							num2++;
+							continue;
+						}
+						list.RemoveAt(num);
 						break;
 					}
 				}
@@ -55,30 +57,30 @@ namespace Verse
 
 		public static void Shuffle<T>(this IList<T> list)
 		{
-			int i = list.Count;
-			while (i > 1)
+			int num = ((ICollection<T>)list).Count;
+			while (num > 1)
 			{
-				i--;
-				int index = Rand.RangeInclusive(0, i);
+				num--;
+				int index = Rand.RangeInclusive(0, num);
 				T value = list[index];
-				list[index] = list[i];
-				list[i] = value;
+				list[index] = list[num];
+				list[num] = value;
 			}
 		}
 
 		public static void InsertionSort<T>(this IList<T> list, Comparison<T> comparison)
 		{
-			int count = list.Count;
-			for (int i = 1; i < count; i++)
+			int count = ((ICollection<T>)list).Count;
+			for (int num = 1; num < count; num++)
 			{
-				T t = list[i];
-				int num = i - 1;
-				while (num >= 0 && comparison(list[num], t) > 0)
+				T val = list[num];
+				int num2 = num - 1;
+				while (num2 >= 0 && comparison(list[num2], val) > 0)
 				{
-					list[num + 1] = list[num];
-					num--;
+					list[num2 + 1] = list[num2];
+					num2--;
 				}
-				list[num + 1] = t;
+				list[num2 + 1] = val;
 			}
 		}
 	}

@@ -42,7 +42,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.adjective ?? this.label;
+				return this.adjective ?? base.label;
 			}
 		}
 
@@ -51,7 +51,7 @@ namespace RimWorld
 			base.ResolveReferences();
 			if (!this.icon.NullOrEmpty())
 			{
-				LongEventHandler.ExecuteWhenFinished(delegate
+				LongEventHandler.ExecuteWhenFinished((Action)delegate
 				{
 					this.iconTex = ContentFinder<Texture2D>.Get(this.icon, true);
 				});

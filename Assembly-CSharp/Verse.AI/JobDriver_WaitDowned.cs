@@ -7,7 +7,7 @@ namespace Verse.AI
 		public override void DecorateWaitToil(Toil wait)
 		{
 			base.DecorateWaitToil(wait);
-			wait.AddFailCondition(() => !this.pawn.Downed);
+			wait.AddFailCondition((Func<bool>)(() => !base.pawn.Downed));
 		}
 	}
 }

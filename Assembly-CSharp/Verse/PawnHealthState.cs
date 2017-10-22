@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum PawnHealthState : byte
 	{
-		Dead,
-		Down,
-		Mobile
+		Dead = 0,
+		Down = 1,
+		Mobile = 2
 	}
 }

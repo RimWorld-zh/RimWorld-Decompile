@@ -6,23 +6,17 @@ namespace Verse.AI
 	{
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
-			int count = this.subNodes.Count;
-			for (int i = 0; i < count; i++)
+			int count = base.subNodes.Count;
+			for (int num = 0; num < count; num++)
 			{
 				ThinkResult result = ThinkResult.NoJob;
 				try
 				{
-					result = this.subNodes[i].TryIssueJobPackage(pawn, jobParams);
+					result = base.subNodes[num].TryIssueJobPackage(pawn, jobParams);
 				}
 				catch (Exception ex)
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Exception in ",
-						base.GetType(),
-						" TryIssueJobPackage: ",
-						ex.ToString()
-					}));
+					Log.Error("Exception in " + base.GetType() + " TryIssueJobPackage: " + ex.ToString());
 				}
 				if (result.IsValid)
 				{

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -12,7 +11,15 @@ namespace RimWorld
 
 		public override bool ShouldLinkWith(IntVec3 c, Thing parent)
 		{
-			return c.InBounds(parent.Map) && (base.ShouldLinkWith(c, parent) || parent.Map.powerNetGrid.TransmittedPowerNetAt(c) != null);
+			if (!c.InBounds(parent.Map))
+			{
+				return false;
+			}
+			if (!base.ShouldLinkWith(c, parent) && parent.Map.powerNetGrid.TransmittedPowerNetAt(c) == null)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void Print(SectionLayer layer, Thing thing)

@@ -60,7 +60,7 @@ namespace Verse
 		public static void SelectLanguage(LoadedLanguage lang)
 		{
 			Prefs.LangFolderName = lang.folderName;
-			LongEventHandler.QueueLongEvent(delegate
+			LongEventHandler.QueueLongEvent((Action)delegate
 			{
 				PlayDataLoader.ClearAllPlayData();
 				PlayDataLoader.LoadAllPlayData(false);
@@ -75,9 +75,9 @@ namespace Verse
 
 		public static void LoadAllMetadata()
 		{
-			foreach (ModContentPack current in LoadedModManager.RunningMods)
+			foreach (ModContentPack runningMod in LoadedModManager.RunningMods)
 			{
-				string path = Path.Combine(current.RootDir, "Languages");
+				string path = Path.Combine(runningMod.RootDir, "Languages");
 				DirectoryInfo directoryInfo = new DirectoryInfo(path);
 				if (directoryInfo.Exists)
 				{
@@ -89,24 +89,23 @@ namespace Verse
 					}
 				}
 			}
-			LanguageDatabase.defaultLanguage = LanguageDatabase.languages.FirstOrDefault((LoadedLanguage la) => la.folderName == LanguageDatabase.DefaultLangFolderName);
-			LanguageDatabase.activeLanguage = LanguageDatabase.languages.FirstOrDefault((LoadedLanguage la) => la.folderName == Prefs.LangFolderName);
+			LanguageDatabase.defaultLanguage = LanguageDatabase.languages.FirstOrDefault((Func<LoadedLanguage, bool>)((LoadedLanguage la) => la.folderName == LanguageDatabase.DefaultLangFolderName));
+			LanguageDatabase.activeLanguage = LanguageDatabase.languages.FirstOrDefault((Func<LoadedLanguage, bool>)((LoadedLanguage la) => la.folderName == Prefs.LangFolderName));
 			if (LanguageDatabase.activeLanguage == null)
 			{
 				Prefs.LangFolderName = LanguageDatabase.DefaultLangFolderName;
-				LanguageDatabase.activeLanguage = LanguageDatabase.languages.FirstOrDefault((LoadedLanguage la) => la.folderName == Prefs.LangFolderName);
+				LanguageDatabase.activeLanguage = LanguageDatabase.languages.FirstOrDefault((Func<LoadedLanguage, bool>)((LoadedLanguage la) => la.folderName == Prefs.LangFolderName));
 			}
-			if (LanguageDatabase.activeLanguage == null || LanguageDatabase.defaultLanguage == null)
-			{
-				Log.Error("No default language found!");
-				LanguageDatabase.defaultLanguage = LanguageDatabase.languages[0];
-				LanguageDatabase.activeLanguage = LanguageDatabase.languages[0];
-			}
+			if (LanguageDatabase.activeLanguage != null && LanguageDatabase.defaultLanguage != null)
+				return;
+			Log.Error("No default language found!");
+			LanguageDatabase.defaultLanguage = LanguageDatabase.languages[0];
+			LanguageDatabase.activeLanguage = LanguageDatabase.languages[0];
 		}
 
 		private static LoadedLanguage LoadLanguageMetadataFrom(DirectoryInfo langDir)
 		{
-			LoadedLanguage loadedLanguage = LanguageDatabase.languages.FirstOrDefault((LoadedLanguage lib) => lib.folderName == langDir.Name);
+			LoadedLanguage loadedLanguage = LanguageDatabase.languages.FirstOrDefault((Func<LoadedLanguage, bool>)((LoadedLanguage lib) => lib.folderName == langDir.Name));
 			if (loadedLanguage == null)
 			{
 				loadedLanguage = new LoadedLanguage(langDir.ToString());
@@ -129,7 +128,7 @@ namespace Verse
 					return text;
 				}
 			}
-			string text2 = Application.systemLanguage.ToString();
+			string text2 = ((Enum)(object)Application.systemLanguage).ToString();
 			if (LanguageDatabase.SupportedAutoSelectLanguages.Contains(text2))
 			{
 				return text2;

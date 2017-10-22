@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using Verse;
 
 namespace RimWorld
@@ -39,24 +39,34 @@ namespace RimWorld
 					return this.degreeDatas[i];
 				}
 			}
-			Log.Error(string.Concat(new object[]
-			{
-				this.defName,
-				" found no data at degree ",
-				degree,
-				", returning first defined."
-			}));
+			Log.Error(base.defName + " found no data at degree " + degree + ", returning first defined.");
 			return this.degreeDatas[0];
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			TraitDef.<ConfigErrors>c__Iterator9D <ConfigErrors>c__Iterator9D = new TraitDef.<ConfigErrors>c__Iterator9D();
-			<ConfigErrors>c__Iterator9D.<>f__this = this;
-			TraitDef.<ConfigErrors>c__Iterator9D expr_0E = <ConfigErrors>c__Iterator9D;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.commonality < 0.0010000000474974513 && this.commonalityFemale < 0.0010000000474974513)
+			{
+				yield return "TraitDef " + base.defName + " has 0 commonality.";
+			}
+			if (!this.degreeDatas.Any())
+			{
+				yield return base.defName + " has no degree datas.";
+			}
+			for (int i = 0; i < this.degreeDatas.Count; i++)
+			{
+				TraitDegreeData dd3 = this.degreeDatas[i];
+				if ((from dd2 in this.degreeDatas
+				where dd2.degree == ((_003CConfigErrors_003Ec__Iterator9D)/*Error near IL_0177: stateMachine*/)._003Cdd_003E__3.degree
+				select dd2).Count() > 1)
+				{
+					yield return ">1 datas for degree " + dd3.degree;
+				}
+			}
 		}
 
 		public bool ConflictsWith(Trait other)
@@ -76,7 +86,7 @@ namespace RimWorld
 
 		public float GetGenderSpecificCommonality(Pawn pawn)
 		{
-			if (pawn.gender == Gender.Female && this.commonalityFemale >= 0f)
+			if (pawn.gender == Gender.Female && this.commonalityFemale >= 0.0)
 			{
 				return this.commonalityFemale;
 			}

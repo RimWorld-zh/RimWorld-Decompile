@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -29,16 +28,7 @@ namespace Verse
 
 		public static int TryAbsorbStackNumToTake(Thing thing, Thing other, bool respectStackLimit)
 		{
-			int result;
-			if (respectStackLimit)
-			{
-				result = Mathf.Min(other.stackCount, thing.def.stackLimit - thing.stackCount);
-			}
-			else
-			{
-				result = other.stackCount;
-			}
-			return result;
+			return (!respectStackLimit) ? other.stackCount : Mathf.Min(other.stackCount, thing.def.stackLimit - thing.stackCount);
 		}
 	}
 }

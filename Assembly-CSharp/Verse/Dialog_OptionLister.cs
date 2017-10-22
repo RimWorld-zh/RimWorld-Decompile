@@ -39,10 +39,10 @@ namespace Verse
 
 		public Dialog_OptionLister()
 		{
-			this.closeOnEscapeKey = true;
-			this.doCloseX = true;
-			this.onlyOneOfTypeAllowed = true;
-			this.absorbInputAroundWindow = true;
+			base.closeOnEscapeKey = true;
+			base.doCloseX = true;
+			base.onlyOneOfTypeAllowed = true;
+			base.absorbInputAroundWindow = true;
 		}
 
 		public override void DoWindowContents(Rect inRect)
@@ -54,15 +54,15 @@ namespace Verse
 			}
 			Rect outRect = new Rect(inRect);
 			outRect.yMin += 35f;
-			float num = (this.totalOptionsHeight + 72f) / 4f;
+			float num = (float)((this.totalOptionsHeight + 72.0) / 4.0);
 			if (num < outRect.height)
 			{
 				num = outRect.height;
 			}
-			Rect rect = new Rect(0f, 0f, outRect.width - 16f, num);
+			Rect rect = new Rect(0f, 0f, (float)(outRect.width - 16.0), num);
 			Widgets.BeginScrollView(outRect, ref this.scrollPosition, rect, true);
 			this.listing = new Listing_Standard();
-			this.listing.ColumnWidth = (rect.width - 51f) / 4f;
+			this.listing.ColumnWidth = (float)((rect.width - 51.0) / 4.0);
 			this.listing.Begin(rect);
 			this.DoListingItems();
 			this.listing.End();
@@ -79,7 +79,15 @@ namespace Verse
 
 		protected bool FilterAllows(string label)
 		{
-			return this.filter.NullOrEmpty() || label.NullOrEmpty() || label.IndexOf(this.filter, StringComparison.OrdinalIgnoreCase) >= 0;
+			if (this.filter.NullOrEmpty())
+			{
+				return true;
+			}
+			if (label.NullOrEmpty())
+			{
+				return true;
+			}
+			return label.IndexOf(this.filter, StringComparison.OrdinalIgnoreCase) >= 0;
 		}
 	}
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -37,7 +36,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.def.entityDefToBuild.GetStatValueAbstract(StatDefOf.WorkToBuild, base.Stuff);
+				return base.def.entityDefToBuild.GetStatValueAbstract(StatDefOf.WorkToBuild, base.Stuff);
 			}
 		}
 
@@ -61,7 +60,7 @@ namespace RimWorld
 		{
 			get
 			{
-				string text = this.def.entityDefToBuild.label + "FrameLabelExtra".Translate();
+				string text = base.def.entityDefToBuild.label + "FrameLabelExtra".Translate();
 				if (base.Stuff != null)
 				{
 					return base.Stuff.label + " " + text;
@@ -74,9 +73,9 @@ namespace RimWorld
 		{
 			get
 			{
-				if (!this.def.MadeFromStuff)
+				if (!base.def.MadeFromStuff)
 				{
-					List<ThingCountClass> costList = this.def.entityDefToBuild.costList;
+					List<ThingCountClass> costList = base.def.entityDefToBuild.costList;
 					if (costList != null)
 					{
 						for (int i = 0; i < costList.Count; i++)
@@ -102,9 +101,9 @@ namespace RimWorld
 				{
 					return base.Stuff.stuffProps.constructEffect;
 				}
-				if (this.def.entityDefToBuild.constructEffect != null)
+				if (base.def.entityDefToBuild.constructEffect != null)
 				{
-					return this.def.entityDefToBuild.constructEffect;
+					return base.def.entityDefToBuild.constructEffect;
 				}
 				return EffecterDefOf.ConstructMetal;
 			}
@@ -114,7 +113,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.cachedCornerMat == null)
+				if ((UnityEngine.Object)this.cachedCornerMat == (UnityEngine.Object)null)
 				{
 					this.cachedCornerMat = MaterialPool.MatFrom(Frame.CornerTex, ShaderDatabase.Cutout, this.DrawColor);
 				}
@@ -126,7 +125,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.cachedTileMat == null)
+				if ((UnityEngine.Object)this.cachedTileMat == (UnityEngine.Object)null)
 				{
 					this.cachedTileMat = MaterialPool.MatFrom(Frame.TileTex, ShaderDatabase.Cutout, this.DrawColor);
 				}
@@ -153,7 +152,7 @@ namespace RimWorld
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.workDone, "workDone", 0f, false);
-			Scribe_Deep.Look<ThingOwner>(ref this.resourceContainer, "resourceContainer", new object[]
+			Scribe_Deep.Look<ThingOwner>(ref this.resourceContainer, "resourceContainer", new object[1]
 			{
 				this
 			});
@@ -167,7 +166,7 @@ namespace RimWorld
 		public List<ThingCountClass> MaterialsNeeded()
 		{
 			this.cachedMaterialsNeeded.Clear();
-			List<ThingCountClass> list = this.def.entityDefToBuild.CostListAdjusted(base.Stuff, true);
+			List<ThingCountClass> list = base.def.entityDefToBuild.CostListAdjusted(base.Stuff, true);
 			for (int i = 0; i < list.Count; i++)
 			{
 				ThingCountClass thingCountClass = list[i];
@@ -186,11 +185,11 @@ namespace RimWorld
 			this.resourceContainer.Clear();
 			Map map = base.Map;
 			this.Destroy(DestroyMode.Vanish);
-			if (this.GetStatValue(StatDefOf.WorkToBuild, true) > 150f && this.def.entityDefToBuild is ThingDef && ((ThingDef)this.def.entityDefToBuild).category == ThingCategory.Building)
+			if (this.GetStatValue(StatDefOf.WorkToBuild, true) > 150.0 && base.def.entityDefToBuild is ThingDef && ((ThingDef)base.def.entityDefToBuild).category == ThingCategory.Building)
 			{
 				SoundDefOf.BuildingComplete.PlayOneShot(new TargetInfo(base.Position, map, false));
 			}
-			ThingDef thingDef = this.def.entityDefToBuild as ThingDef;
+			ThingDef thingDef = base.def.entityDefToBuild as ThingDef;
 			Thing thing = null;
 			if (thingDef != null)
 			{
@@ -216,22 +215,31 @@ namespace RimWorld
 			}
 			else
 			{
-				map.terrainGrid.SetTerrain(base.Position, (TerrainDef)this.def.entityDefToBuild);
+				map.terrainGrid.SetTerrain(base.Position, (TerrainDef)base.def.entityDefToBuild);
 			}
 			if (thingDef != null && (thingDef.passability == Traversability.Impassable || thingDef.Fillage == FillCategory.Full) && (thing == null || !(thing is Building_Door)))
 			{
-				foreach (IntVec3 current in GenAdj.CellsOccupiedBy(base.Position, base.Rotation, this.def.Size))
+				foreach (IntVec3 item in GenAdj.CellsOccupiedBy(base.Position, base.Rotation, base.def.Size))
 				{
-					foreach (Thing current2 in map.thingGrid.ThingsAt(current).ToList<Thing>())
+					List<Thing>.Enumerator enumerator2 = map.thingGrid.ThingsAt(item).ToList().GetEnumerator();
+					try
 					{
-						if (current2 is Plant)
+						while (enumerator2.MoveNext())
 						{
-							current2.Destroy(DestroyMode.KillFinalize);
+							Thing current2 = enumerator2.Current;
+							if (current2 is Plant)
+							{
+								current2.Destroy(DestroyMode.KillFinalize);
+							}
+							else if (current2.def.category == ThingCategory.Item || current2 is Pawn)
+							{
+								GenPlace.TryMoveThing(current2, current2.Position, current2.Map);
+							}
 						}
-						else if (current2.def.category == ThingCategory.Item || current2 is Pawn)
-						{
-							GenPlace.TryMoveThing(current2, current2.Position, current2.Map);
-						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator2).Dispose();
 					}
 				}
 			}
@@ -243,9 +251,9 @@ namespace RimWorld
 			Map map = base.Map;
 			this.Destroy(DestroyMode.FailConstruction);
 			Blueprint_Build blueprint_Build = null;
-			if (this.def.entityDefToBuild.blueprintDef != null)
+			if (base.def.entityDefToBuild.blueprintDef != null)
 			{
-				blueprint_Build = (Blueprint_Build)ThingMaker.MakeThing(this.def.entityDefToBuild.blueprintDef, null);
+				blueprint_Build = (Blueprint_Build)ThingMaker.MakeThing(base.def.entityDefToBuild.blueprintDef, null);
 				blueprint_Build.stuffToUse = base.Stuff;
 				blueprint_Build.SetFactionDirect(base.Faction);
 				GenSpawn.Spawn(blueprint_Build, base.Position, map, base.Rotation, false);
@@ -256,19 +264,15 @@ namespace RimWorld
 				lord.Notify_ConstructionFailed(worker, this, blueprint_Build);
 			}
 			MoteMaker.ThrowText(this.DrawPos, map, "TextMote_ConstructionFail".Translate(), 6f);
-			if (base.Faction == Faction.OfPlayer && this.WorkToMake > 1400f)
+			if (base.Faction == Faction.OfPlayer && this.WorkToMake > 1400.0)
 			{
-				Messages.Message("MessageConstructionFailed".Translate(new object[]
-				{
-					this.Label,
-					worker.LabelShort
-				}), new TargetInfo(base.Position, map, false), MessageSound.Negative);
+				Messages.Message("MessageConstructionFailed".Translate(this.Label, worker.LabelShort), new TargetInfo(base.Position, map, false), MessageSound.Negative);
 			}
 		}
 
 		public override void Draw()
 		{
-			Vector2 vector = new Vector2((float)this.def.size.x, (float)this.def.size.z);
+			Vector2 vector = new Vector2((float)base.def.size.x, (float)base.def.size.z);
 			vector.x *= 1.15f;
 			vector.y *= 1.15f;
 			Vector3 s = new Vector3(vector.x, 1f, vector.y);
@@ -276,48 +280,70 @@ namespace RimWorld
 			matrix.SetTRS(this.DrawPos, base.Rotation.AsQuat, s);
 			Graphics.DrawMesh(MeshPool.plane10, matrix, Frame.UnderfieldMat, 0);
 			int num = 4;
-			for (int i = 0; i < num; i++)
+			for (int num2 = 0; num2 < num; num2++)
 			{
-				float num2 = (float)Mathf.Min(base.RotatedSize.x, base.RotatedSize.z);
-				float num3 = num2 * 0.38f;
+				IntVec2 rotatedSize = base.RotatedSize;
+				int x = rotatedSize.x;
+				IntVec2 rotatedSize2 = base.RotatedSize;
+				float num3 = (float)Mathf.Min(x, rotatedSize2.z);
+				float num4 = (float)(num3 * 0.37999999523162842);
 				IntVec3 intVec = default(IntVec3);
-				if (i == 0)
+				switch (num2)
+				{
+				case 0:
 				{
 					intVec = new IntVec3(-1, 0, -1);
+					break;
 				}
-				else if (i == 1)
+				case 1:
 				{
 					intVec = new IntVec3(-1, 0, 1);
+					break;
 				}
-				else if (i == 2)
+				case 2:
 				{
 					intVec = new IntVec3(1, 0, 1);
+					break;
 				}
-				else if (i == 3)
+				case 3:
 				{
 					intVec = new IntVec3(1, 0, -1);
+					break;
+				}
 				}
 				Vector3 b = default(Vector3);
-				b.x = (float)intVec.x * ((float)base.RotatedSize.x / 2f - num3 / 2f);
-				b.z = (float)intVec.z * ((float)base.RotatedSize.z / 2f - num3 / 2f);
-				Vector3 s2 = new Vector3(num3, 1f, num3);
+				float num5 = (float)intVec.x;
+				IntVec2 rotatedSize3 = base.RotatedSize;
+				b.x = (float)(num5 * ((float)rotatedSize3.x / 2.0 - num4 / 2.0));
+				float num6 = (float)intVec.z;
+				IntVec2 rotatedSize4 = base.RotatedSize;
+				b.z = (float)(num6 * ((float)rotatedSize4.z / 2.0 - num4 / 2.0));
+				Vector3 s2 = new Vector3(num4, 1f, num4);
 				Matrix4x4 matrix2 = default(Matrix4x4);
-				Vector3 arg_1EB_1 = this.DrawPos + Vector3.up * 0.03f + b;
-				Rot4 rot = new Rot4(i);
-				matrix2.SetTRS(arg_1EB_1, rot.AsQuat, s2);
+				matrix2.SetTRS(this.DrawPos + Vector3.up * 0.03f + b, new Rot4(num2).AsQuat, s2);
 				Graphics.DrawMesh(MeshPool.plane10, matrix2, this.CornerMat, 0);
 			}
-			float num4 = this.PercentComplete / 1f;
-			int num5 = Mathf.CeilToInt(num4 * (float)base.RotatedSize.x * (float)base.RotatedSize.z * 4f);
+			float num7 = (float)(this.PercentComplete / 1.0);
+			float num8 = num7;
+			IntVec2 rotatedSize5 = base.RotatedSize;
+			float num9 = num8 * (float)rotatedSize5.x;
+			IntVec2 rotatedSize6 = base.RotatedSize;
+			int num10 = Mathf.CeilToInt((float)(num9 * (float)rotatedSize6.z * 4.0));
 			IntVec2 intVec2 = base.RotatedSize * 2;
-			for (int j = 0; j < num5; j++)
+			for (int num11 = 0; num11 < num10; num11++)
 			{
-				IntVec2 intVec3 = default(IntVec2);
-				intVec3.z = j / intVec2.x;
-				intVec3.x = j - intVec3.z * intVec2.x;
-				Vector3 a = new Vector3((float)intVec3.x * 0.5f, 0f, (float)intVec3.z * 0.5f) + this.DrawPos;
-				a.x -= (float)base.RotatedSize.x * 0.5f - 0.25f;
-				a.z -= (float)base.RotatedSize.z * 0.5f - 0.25f;
+				IntVec2 intVec3 = new IntVec2
+				{
+					z = num11 / intVec2.x
+				};
+				intVec3.x = num11 - intVec3.z * intVec2.x;
+				Vector3 a = new Vector3((float)((float)intVec3.x * 0.5), 0f, (float)((float)intVec3.z * 0.5)) + this.DrawPos;
+				float x2 = a.x;
+				IntVec2 rotatedSize7 = base.RotatedSize;
+				a.x = (float)(x2 - ((float)rotatedSize7.x * 0.5 - 0.25));
+				float z = a.z;
+				IntVec2 rotatedSize8 = base.RotatedSize;
+				a.z = (float)(z - ((float)rotatedSize8.z * 0.5 - 0.25));
 				Vector3 s3 = new Vector3(0.5f, 1f, 0.5f);
 				Matrix4x4 matrix3 = default(Matrix4x4);
 				matrix3.SetTRS(a + Vector3.up * 0.02f, Quaternion.identity, s3);
@@ -326,14 +352,17 @@ namespace RimWorld
 			base.Comps_PostDraw();
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Frame.<GetGizmos>c__Iterator145 <GetGizmos>c__Iterator = new Frame.<GetGizmos>c__Iterator145();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			Frame.<GetGizmos>c__Iterator145 expr_0E = <GetGizmos>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			Command buildCopy = BuildCopyCommandUtility.BuildCopyCommand(base.def.entityDefToBuild, base.Stuff);
+			if (buildCopy != null)
+			{
+				yield return (Gizmo)buildCopy;
+			}
 		}
 
 		public override string GetInspectString()
@@ -341,25 +370,18 @@ namespace RimWorld
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append(base.GetInspectString());
 			stringBuilder.AppendLine("ContainedResources".Translate() + ":");
-			List<ThingCountClass> list = this.def.entityDefToBuild.CostListAdjusted(base.Stuff, true);
+			List<ThingCountClass> list = base.def.entityDefToBuild.CostListAdjusted(base.Stuff, true);
 			for (int i = 0; i < list.Count; i++)
 			{
 				ThingCountClass need = list[i];
 				int num = need.count;
-				foreach (ThingCountClass current in from needed in this.MaterialsNeeded()
+				foreach (ThingCountClass item in from needed in this.MaterialsNeeded()
 				where needed.thingDef == need.thingDef
 				select needed)
 				{
-					num -= current.count;
+					num -= item.count;
 				}
-				stringBuilder.AppendLine(string.Concat(new object[]
-				{
-					need.thingDef.LabelCap,
-					": ",
-					num,
-					" / ",
-					need.count
-				}));
+				stringBuilder.AppendLine(need.thingDef.LabelCap + ": " + num + " / " + need.count);
 			}
 			stringBuilder.Append("WorkLeft".Translate() + ": " + this.WorkLeft.ToStringWorkAmount());
 			return stringBuilder.ToString();
@@ -368,6 +390,12 @@ namespace RimWorld
 		virtual IThingHolder get_ParentHolder()
 		{
 			return base.ParentHolder;
+		}
+
+		IThingHolder IThingHolder.get_ParentHolder()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
+			return this.get_ParentHolder();
 		}
 	}
 }

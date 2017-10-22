@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 
 namespace RimWorld
 {
@@ -11,7 +10,7 @@ namespace RimWorld
 			{
 				return -100f;
 			}
-			return BiomeWorker_IceSheet.PermaIceScore(tile) - 23f;
+			return (float)(BiomeWorker_IceSheet.PermaIceScore(tile) - 23.0);
 		}
 	}
 }

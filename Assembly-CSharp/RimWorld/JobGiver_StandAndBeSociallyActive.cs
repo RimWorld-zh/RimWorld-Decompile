@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -17,10 +16,9 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			return new Job(JobDefOf.StandAndBeSociallyActive)
-			{
-				expiryInterval = this.ticksRange.RandomInRange
-			};
+			Job job = new Job(JobDefOf.StandAndBeSociallyActive);
+			job.expiryInterval = this.ticksRange.RandomInRange;
+			return job;
 		}
 	}
 }

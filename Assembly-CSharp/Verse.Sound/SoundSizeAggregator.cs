@@ -18,17 +18,26 @@ namespace Verse.Sound
 					return this.testSize;
 				}
 				float num = 0f;
-				foreach (ISizeReporter current in this.reporters)
+				List<ISizeReporter>.Enumerator enumerator = this.reporters.GetEnumerator();
+				try
 				{
-					num += current.CurrentSize();
+					while (enumerator.MoveNext())
+					{
+						ISizeReporter current = enumerator.Current;
+						num += current.CurrentSize();
+					}
+					return num;
 				}
-				return num;
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
+				}
 			}
 		}
 
 		public SoundSizeAggregator()
 		{
-			this.testSize = Rand.Value * 3f;
+			this.testSize = (float)(Rand.Value * 3.0);
 			this.testSize *= this.testSize;
 		}
 

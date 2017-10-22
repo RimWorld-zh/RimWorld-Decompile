@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -13,7 +12,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (StorytellerCompProperties_AllyInteraction)this.props;
+				return (StorytellerCompProperties_AllyInteraction)base.props;
 			}
 		}
 
@@ -25,16 +24,14 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			StorytellerComp_AllyInteraction.<MakeIntervalIncidents>c__IteratorA6 <MakeIntervalIncidents>c__IteratorA = new StorytellerComp_AllyInteraction.<MakeIntervalIncidents>c__IteratorA6();
-			<MakeIntervalIncidents>c__IteratorA.target = target;
-			<MakeIntervalIncidents>c__IteratorA.<$>target = target;
-			<MakeIntervalIncidents>c__IteratorA.<>f__this = this;
-			StorytellerComp_AllyInteraction.<MakeIntervalIncidents>c__IteratorA6 expr_1C = <MakeIntervalIncidents>c__IteratorA;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			float mtb = this.IncidentMTBDays;
+			IncidentDef incDef;
+			if (!(mtb < 0.0) && Rand.MTBEventOccurs(mtb, 60000f, 1000f) && this.TryChooseIncident(target, out incDef))
+			{
+				yield return new FiringIncident(incDef, this, this.GenerateParms(incDef.category, target));
+			}
 		}
 
 		private bool TryChooseIncident(IIncidentTarget target, out IncidentDef result)
@@ -44,7 +41,7 @@ namespace RimWorld
 				int num = 0;
 				if (!target.StoryState.lastFireTicks.TryGetValue(IncidentDefOf.TraderCaravanArrival, out num))
 				{
-					num = (int)(this.props.minDaysPassed * 60000f);
+					num = (int)(base.props.minDaysPassed * 60000.0);
 				}
 				if (Find.TickManager.TicksGame > num + 780000)
 				{
@@ -52,7 +49,7 @@ namespace RimWorld
 					return true;
 				}
 			}
-			return this.UsableIncidentsInCategory(IncidentCategory.AllyArrival, target).TryRandomElementByWeight((IncidentDef d) => d.baseChance, out result);
+			return this.UsableIncidentsInCategory(IncidentCategory.AllyArrival, target).TryRandomElementByWeight<IncidentDef>((Func<IncidentDef, float>)((IncidentDef d) => d.baseChance), out result);
 		}
 	}
 }

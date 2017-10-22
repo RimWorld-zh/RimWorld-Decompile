@@ -37,14 +37,7 @@ namespace Verse
 			}
 			if (!this.defs.Contains(def))
 			{
-				throw new InvalidOperationException(string.Concat(new object[]
-				{
-					"Package ",
-					this,
-					" cannot remove ",
-					def,
-					" because it doesn't contain it."
-				}));
+				throw new InvalidOperationException("Package " + this + " cannot remove " + def + " because it doesn't contain it.");
 			}
 			this.defs.Remove(def);
 		}
@@ -58,10 +51,19 @@ namespace Verse
 			xDocument.Add(xElement);
 			try
 			{
-				foreach (Def current in this.defs)
+				List<Def>.Enumerator enumerator = this.defs.GetEnumerator();
+				try
 				{
-					XElement content = DirectXmlSaver.XElementFromObject(current, current.GetType());
-					xElement.Add(content);
+					while (enumerator.MoveNext())
+					{
+						Def current = enumerator.Current;
+						XElement content = DirectXmlSaver.XElementFromObject(current, current.GetType());
+						xElement.Add(content);
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 				DirectXmlSaveFormatter.AddWhitespaceFromRoot(xElement);
 				SaveOptions options = SaveOptions.DisableFormatting;
@@ -72,6 +74,7 @@ namespace Verse
 			{
 				Messages.Message("Exception saving XML: " + ex.ToString(), MessageSound.Negative);
 				throw;
+				IL_00c6:;
 			}
 		}
 
@@ -90,12 +93,13 @@ namespace Verse
 			string fullPath = Path.GetFullPath(Path.Combine(Path.Combine(mod.RootDir, "Defs/"), relFolder));
 			int num = 1;
 			string text;
-			do
+			while (true)
 			{
 				text = "NewPackage" + num.ToString() + ".xml";
 				num++;
+				if (!File.Exists(Path.Combine(fullPath, text)))
+					break;
 			}
-			while (File.Exists(Path.Combine(fullPath, text)));
 			return text;
 		}
 	}

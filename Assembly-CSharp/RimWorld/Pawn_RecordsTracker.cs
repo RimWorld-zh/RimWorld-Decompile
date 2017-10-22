@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -20,11 +19,7 @@ namespace RimWorld
 
 		public void RecordsTick()
 		{
-			if (this.pawn.Dead)
-			{
-				return;
-			}
-			if (this.pawn.IsHashIntervalTick(80))
+			if (!this.pawn.Dead && this.pawn.IsHashIntervalTick(80))
 			{
 				List<RecordDef> allDefsListForReading = DefDatabase<RecordDef>.AllDefsListForReading;
 				for (int i = 0; i < allDefsListForReading.Count; i++)
@@ -32,11 +27,11 @@ namespace RimWorld
 					if (allDefsListForReading[i].type == RecordType.Time && allDefsListForReading[i].Worker.ShouldMeasureTimeNow(this.pawn))
 					{
 						DefMap<RecordDef, float> defMap;
-						DefMap<RecordDef, float> expr_63 = defMap = this.records;
+						DefMap<RecordDef, float> obj = defMap = this.records;
 						RecordDef def;
-						RecordDef expr_6C = def = allDefsListForReading[i];
+						RecordDef def2 = def = allDefsListForReading[i];
 						float num = defMap[def];
-						expr_63[expr_6C] = num + 80f;
+						obj[def2] = (float)(num + 80.0);
 					}
 				}
 			}
@@ -46,17 +41,12 @@ namespace RimWorld
 		{
 			if (def.type != RecordType.Int)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Tried to increment record \"",
-					def.defName,
-					"\" whose record type is \"",
-					def.type,
-					"\"."
-				}));
-				return;
+				Log.Error("Tried to increment record \"" + def.defName + "\" whose record type is \"" + def.type + "\".");
 			}
-			this.records[def] = Mathf.Round(this.records[def] + 1f);
+			else
+			{
+				this.records[def] = Mathf.Round((float)(this.records[def] + 1.0));
+			}
 		}
 
 		public void AddTo(RecordDef def, float value)
@@ -65,35 +55,29 @@ namespace RimWorld
 			{
 				this.records[def] = Mathf.Round(this.records[def] + Mathf.Round(value));
 			}
+			else if (def.type == RecordType.Float)
+			{
+				DefMap<RecordDef, float> defMap;
+				DefMap<RecordDef, float> obj = defMap = this.records;
+				RecordDef def2;
+				RecordDef def3 = def2 = def;
+				float num = defMap[def2];
+				obj[def3] = num + value;
+			}
 			else
 			{
-				if (def.type != RecordType.Float)
-				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Tried to add value to record \"",
-						def.defName,
-						"\" whose record type is \"",
-						def.type,
-						"\"."
-					}));
-					return;
-				}
-				DefMap<RecordDef, float> defMap;
-				DefMap<RecordDef, float> expr_47 = defMap = this.records;
-				float num = defMap[def];
-				expr_47[def] = num + value;
+				Log.Error("Tried to add value to record \"" + def.defName + "\" whose record type is \"" + def.type + "\".");
 			}
 		}
 
 		public float GetValue(RecordDef def)
 		{
 			float num = this.records[def];
-			if (def.type == RecordType.Int || def.type == RecordType.Time)
+			if (((def.type != RecordType.Int) ? def.type : RecordType.Time) != 0)
 			{
-				return Mathf.Round(num);
+				return num;
 			}
-			return num;
+			return Mathf.Round(num);
 		}
 
 		public int GetAsInt(RecordDef def)

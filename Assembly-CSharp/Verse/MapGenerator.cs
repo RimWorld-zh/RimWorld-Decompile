@@ -45,7 +45,6 @@ namespace Verse
 			MapGenerator.playerStartSpotInt = IntVec3.Invalid;
 			MapGenerator.rootsToUnfog.Clear();
 			MapGenerator.data.Clear();
-			Map result;
 			try
 			{
 				DeepProfiler.Start("InitNewGeneratedMap");
@@ -62,13 +61,13 @@ namespace Verse
 				map.ConstructComponents();
 				DeepProfiler.End();
 				Current.Game.AddMap(map);
-				if (extraInitBeforeContentGen != null)
+				if ((object)extraInitBeforeContentGen != null)
 				{
 					extraInitBeforeContentGen(map);
 				}
 				if (mapGenerator == null)
 				{
-					mapGenerator = DefDatabase<MapGeneratorDef>.AllDefsListForReading.RandomElementByWeight((MapGeneratorDef x) => x.selectionWeight);
+					mapGenerator = DefDatabase<MapGeneratorDef>.AllDefsListForReading.RandomElementByWeight((Func<MapGeneratorDef, float>)((MapGeneratorDef x) => x.selectionWeight));
 				}
 				IEnumerable<GenStepDef> enumerable = mapGenerator.GenSteps;
 				if (extraGenStepDefs != null)
@@ -90,14 +89,16 @@ namespace Verse
 				{
 					parent.PostMapGenerate();
 				}
-				result = map;
+				return map;
+				IL_0167:
+				Map result;
+				return result;
 			}
 			finally
 			{
 				DeepProfiler.End();
 				Current.ProgramState = programState;
 			}
-			return result;
 		}
 
 		public static void GenerateContentsIntoMap(IEnumerable<GenStepDef> genStepDefs, Map map)
@@ -105,14 +106,14 @@ namespace Verse
 			Rand.Seed = Gen.HashCombineInt(Find.World.info.Seed, map.Tile);
 			MapGenerator.data.Clear();
 			RockNoises.Init(map);
-			foreach (GenStepDef current in from x in genStepDefs
+			foreach (GenStepDef item in from x in genStepDefs
 			orderby x.order, x.index
 			select x)
 			{
-				DeepProfiler.Start("Genstep - " + current.ToString());
+				DeepProfiler.Start("Genstep - " + item.ToString());
 				try
 				{
-					current.genStep.Generate(map);
+					item.genStep.Generate(map);
 				}
 				catch (Exception ex)
 				{
@@ -130,20 +131,20 @@ namespace Verse
 
 		public static T GetVar<T>(string name)
 		{
-			object obj;
+			object obj = default(object);
 			if (MapGenerator.data.TryGetValue(name, out obj))
 			{
-				return (T)((object)obj);
+				return (T)obj;
 			}
 			return default(T);
 		}
 
 		public static bool TryGetVar<T>(string name, out T var)
 		{
-			object obj;
+			object obj = default(object);
 			if (MapGenerator.data.TryGetValue(name, out obj))
 			{
-				var = (T)((object)obj);
+				var = (T)obj;
 				return true;
 			}
 			var = default(T);
@@ -163,7 +164,7 @@ namespace Verse
 				return var;
 			}
 			MapGenFloatGrid mapGenFloatGrid = new MapGenFloatGrid(map);
-			MapGenerator.SetVar<MapGenFloatGrid>(name, mapGenFloatGrid);
+			MapGenerator.SetVar(name, mapGenFloatGrid);
 			return mapGenFloatGrid;
 		}
 	}

@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld
 {
 	public class DeadPlant : Plant
@@ -46,7 +44,7 @@ namespace RimWorld
 
 		public override string GetInspectStringLowPriority()
 		{
-			return null;
+			return (string)null;
 		}
 
 		public override string GetInspectString()

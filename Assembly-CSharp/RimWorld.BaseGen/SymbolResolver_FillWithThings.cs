@@ -23,30 +23,28 @@ namespace RimWorld.BaseGen
 				IntVec3 zero = IntVec3.Zero;
 				IntVec2 size = rp.singleThingDef.size;
 				GenAdj.AdjustForRotation(ref zero, ref size, rot);
-				if (rp.rect.Width < size.x || rp.rect.Height < size.z)
+				if (rp.rect.Width >= size.x && rp.rect.Height >= size.z)
 				{
-					return false;
+					goto IL_009d;
 				}
+				return false;
 			}
+			goto IL_009d;
+			IL_009d:
 			return true;
 		}
 
 		public override void Resolve(ResolveParams rp)
 		{
-			ThingDef arg_3A_0;
-			if ((arg_3A_0 = rp.singleThingDef) == null)
-			{
-				arg_3A_0 = (from x in ItemCollectionGeneratorUtility.allGeneratableItems
-				where x.IsWeapon || x.IsMedicine || x.IsDrug
-				select x).RandomElement<ThingDef>();
-			}
-			ThingDef thingDef = arg_3A_0;
+			ThingDef thingDef = rp.singleThingDef ?? (from x in ItemCollectionGeneratorUtility.allGeneratableItems
+			where x.IsWeapon || x.IsMedicine || x.IsDrug
+			select x).RandomElement();
 			Rot4? thingRot = rp.thingRot;
 			Rot4 rot = (!thingRot.HasValue) ? Rot4.North : thingRot.Value;
 			IntVec3 zero = IntVec3.Zero;
 			IntVec2 size = thingDef.size;
 			int? fillWithThingsPadding = rp.fillWithThingsPadding;
-			int num = (!fillWithThingsPadding.HasValue) ? 0 : fillWithThingsPadding.Value;
+			int num = fillWithThingsPadding.HasValue ? fillWithThingsPadding.Value : 0;
 			if (num < 0)
 			{
 				num = 0;
@@ -55,20 +53,22 @@ namespace RimWorld.BaseGen
 			if (size.x <= 0 || size.z <= 0)
 			{
 				Log.Error("Thing has 0 size.");
-				return;
 			}
-			for (int i = rp.rect.minX; i <= rp.rect.maxX - size.x + 1; i += size.x + num)
+			else
 			{
-				for (int j = rp.rect.minZ; j <= rp.rect.maxZ - size.z + 1; j += size.z + num)
+				for (int num2 = rp.rect.minX; num2 <= rp.rect.maxX - size.x + 1; num2 += size.x + num)
 				{
-					ResolveParams resolveParams = rp;
-					resolveParams.rect = new CellRect(i, j, size.x, size.z);
-					resolveParams.singleThingDef = thingDef;
-					resolveParams.thingRot = new Rot4?(rot);
-					BaseGen.symbolStack.Push("thing", resolveParams);
+					for (int num3 = rp.rect.minZ; num3 <= rp.rect.maxZ - size.z + 1; num3 += size.z + num)
+					{
+						ResolveParams resolveParams = rp;
+						resolveParams.rect = new CellRect(num2, num3, size.x, size.z);
+						resolveParams.singleThingDef = thingDef;
+						resolveParams.thingRot = new Rot4?(rot);
+						BaseGen.symbolStack.Push("thing", resolveParams);
+					}
 				}
+				BaseGen.symbolStack.Push("clear", rp);
 			}
-			BaseGen.symbolStack.Push("clear", rp);
 		}
 	}
 }

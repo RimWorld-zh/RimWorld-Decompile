@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -9,9 +8,9 @@ namespace RimWorld
 	{
 		public Alert_NeedWarden()
 		{
-			this.defaultLabel = "NeedWarden".Translate();
-			this.defaultExplanation = "NeedWardenDesc".Translate();
-			this.defaultPriority = AlertPriority.High;
+			base.defaultLabel = "NeedWarden".Translate();
+			base.defaultExplanation = "NeedWardenDesc".Translate();
+			base.defaultPriority = AlertPriority.High;
 		}
 
 		public override AlertReport GetReport()
@@ -20,23 +19,20 @@ namespace RimWorld
 			for (int i = 0; i < maps.Count; i++)
 			{
 				Map map = maps[i];
-				if (map.IsPlayerHome)
+				if (map.IsPlayerHome && map.mapPawns.PrisonersOfColonySpawned.Any())
 				{
-					if (map.mapPawns.PrisonersOfColonySpawned.Any<Pawn>())
+					bool flag = false;
+					foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
 					{
-						bool flag = false;
-						foreach (Pawn current in map.mapPawns.FreeColonistsSpawned)
+						if (!item.Downed && item.workSettings != null && item.workSettings.GetPriority(WorkTypeDefOf.Warden) > 0)
 						{
-							if (!current.Downed && current.workSettings != null && current.workSettings.GetPriority(WorkTypeDefOf.Warden) > 0)
-							{
-								flag = true;
-								break;
-							}
+							flag = true;
+							break;
 						}
-						if (!flag)
-						{
-							return AlertReport.CulpritIs(map.mapPawns.PrisonersOfColonySpawned.First<Pawn>());
-						}
+					}
+					if (!flag)
+					{
+						return AlertReport.CulpritIs((Thing)map.mapPawns.PrisonersOfColonySpawned.First());
 					}
 				}
 			}

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -10,20 +9,18 @@ namespace RimWorld
 	{
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (pawn.training == null)
+			if (pawn.training != null)
 			{
-				return;
+				bool flag = default(bool);
+				AcceptanceReport canTrain = pawn.training.CanAssignToTrain(base.def.trainable, out flag);
+				if (flag && canTrain.Accepted)
+				{
+					int num = (int)((rect.width - 24.0) / 2.0);
+					int num2 = Mathf.Max(3, 0);
+					Rect rect2 = new Rect(rect.x + (float)num, rect.y + (float)num2, 24f, 24f);
+					TrainingCardUtility.DoTrainableCheckbox(rect2, pawn, base.def.trainable, canTrain, false, true);
+				}
 			}
-			bool flag;
-			AcceptanceReport canTrain = pawn.training.CanAssignToTrain(this.def.trainable, out flag);
-			if (!flag || !canTrain.Accepted)
-			{
-				return;
-			}
-			int num = (int)((rect.width - 24f) / 2f);
-			int num2 = Mathf.Max(3, 0);
-			Rect rect2 = new Rect(rect.x + (float)num, rect.y + (float)num2, 24f, 24f);
-			TrainingCardUtility.DoTrainableCheckbox(rect2, pawn, this.def.trainable, canTrain, false, true);
 		}
 
 		public override int GetMinWidth(PawnTable table)
@@ -52,12 +49,12 @@ namespace RimWorld
 			{
 				return -2147483648;
 			}
-			if (pawn.training.IsCompleted(this.def.trainable))
+			if (pawn.training.IsCompleted(base.def.trainable))
 			{
 				return 4;
 			}
-			bool flag;
-			AcceptanceReport acceptanceReport = pawn.training.CanAssignToTrain(this.def.trainable, out flag);
+			bool flag = default(bool);
+			AcceptanceReport acceptanceReport = pawn.training.CanAssignToTrain(base.def.trainable, out flag);
 			if (!flag)
 			{
 				return 0;
@@ -66,7 +63,7 @@ namespace RimWorld
 			{
 				return 1;
 			}
-			if (!pawn.training.GetWanted(this.def.trainable))
+			if (!pawn.training.GetWanted(base.def.trainable))
 			{
 				return 2;
 			}
@@ -81,23 +78,23 @@ namespace RimWorld
 				List<Pawn> pawnsListForReading = table.PawnsListForReading;
 				for (int i = 0; i < pawnsListForReading.Count; i++)
 				{
-					if (pawnsListForReading[i].training != null && !pawnsListForReading[i].training.IsCompleted(this.def.trainable))
+					if (pawnsListForReading[i].training != null && !pawnsListForReading[i].training.IsCompleted(base.def.trainable))
 					{
-						bool flag;
-						AcceptanceReport acceptanceReport = pawnsListForReading[i].training.CanAssignToTrain(this.def.trainable, out flag);
+						bool flag = default(bool);
+						AcceptanceReport acceptanceReport = pawnsListForReading[i].training.CanAssignToTrain(base.def.trainable, out flag);
 						if (flag && acceptanceReport.Accepted)
 						{
-							bool wanted = pawnsListForReading[i].training.GetWanted(this.def.trainable);
+							bool wanted = pawnsListForReading[i].training.GetWanted(base.def.trainable);
 							if (Event.current.button == 0)
 							{
 								if (!wanted)
 								{
-									pawnsListForReading[i].training.SetWantedRecursive(this.def.trainable, true);
+									pawnsListForReading[i].training.SetWantedRecursive(base.def.trainable, true);
 								}
 							}
 							else if (Event.current.button == 1 && wanted)
 							{
-								pawnsListForReading[i].training.SetWantedRecursive(this.def.trainable, false);
+								pawnsListForReading[i].training.SetWantedRecursive(base.def.trainable, false);
 							}
 						}
 					}

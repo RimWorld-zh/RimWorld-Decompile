@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.BaseGen
@@ -24,17 +23,9 @@ namespace RimWorld.BaseGen
 				resolveParams.singleThingDef = ThingDefOf.PassiveCooler;
 				BaseGen.symbolStack.Push("edgeThing", resolveParams);
 			}
-			if (map.mapTemperature.OutdoorTemp < 7f)
+			if (map.mapTemperature.OutdoorTemp < 7.0)
 			{
-				ThingDef singleThingDef;
-				if (rp.faction == null || rp.faction.def.techLevel >= TechLevel.Industrial)
-				{
-					singleThingDef = ThingDefOf.Heater;
-				}
-				else
-				{
-					singleThingDef = ThingDefOf.Campfire;
-				}
+				ThingDef singleThingDef = (rp.faction != null && (int)rp.faction.def.techLevel < 4) ? ThingDefOf.Campfire : ThingDefOf.Heater;
 				ResolveParams resolveParams2 = rp;
 				resolveParams2.singleThingDef = singleThingDef;
 				BaseGen.symbolStack.Push("edgeThing", resolveParams2);

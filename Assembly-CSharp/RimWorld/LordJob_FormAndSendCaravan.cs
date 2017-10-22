@@ -26,7 +26,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.lord.CurLordToil == this.gatherItems;
+				return base.lord.CurLordToil == this.gatherItems;
 			}
 		}
 
@@ -93,11 +93,11 @@ namespace RimWorld
 			transition.AddSource(lordToil_PrepareCaravan_Pause3);
 			transition.AddSource(lordToil_PrepareCaravan_Pause4);
 			transition.AddSource(lordToil_PrepareCaravan_Pause5);
-			transition.AddTrigger(new Trigger_Custom((TriggerSignal x) => x.type == TriggerSignalType.PawnLost && !this.caravanSent));
+			transition.AddTrigger(new Trigger_Custom((Func<TriggerSignal, bool>)((TriggerSignal x) => x.type == TriggerSignalType.PawnLost && !this.caravanSent)));
 			transition.AddPreAction(new TransitionAction_Message("MessageFailedToSendCaravanBecausePawnLost".Translate(), MessageSound.Negative));
-			transition.AddPostAction(new TransitionAction_Custom(delegate
+			transition.AddPostAction(new TransitionAction_Custom((Action)delegate
 			{
-				CaravanFormingUtility.Notify_FormAndSendCaravanLordFailed(this.lord);
+				CaravanFormingUtility.Notify_FormAndSendCaravanLordFailed(base.lord);
 			}));
 			stateGraph.AddTransition(transition);
 			Transition transition2 = new Transition(lordToil_PrepareCaravan_GatherAnimals, this.gatherItems);
@@ -174,7 +174,7 @@ namespace RimWorld
 		private void SendCaravan()
 		{
 			this.caravanSent = true;
-			CaravanFormingUtility.FormAndCreateCaravan(this.lord.ownedPawns, this.lord.faction, base.Map.Tile, this.startingTile);
+			CaravanFormingUtility.FormAndCreateCaravan(base.lord.ownedPawns, base.lord.faction, base.Map.Tile, this.startingTile);
 		}
 
 		public override void Notify_PawnAdded(Pawn p)

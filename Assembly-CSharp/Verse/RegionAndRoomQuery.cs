@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public static class RegionAndRoomQuery
@@ -11,7 +9,7 @@ namespace Verse
 				return null;
 			}
 			Region validRegionAt = map.regionGrid.GetValidRegionAt(c);
-			if (validRegionAt != null && (validRegionAt.type & allowedRegionTypes) != RegionType.None)
+			if (((validRegionAt != null) ? (validRegionAt.type & allowedRegionTypes) : RegionType.None) != 0)
 			{
 				return validRegionAt;
 			}
@@ -57,7 +55,7 @@ namespace Verse
 		public static Room RoomAtFast(IntVec3 c, Map map, RegionType allowedRegionTypes = RegionType.Set_Passable)
 		{
 			Region validRegionAt = map.regionGrid.GetValidRegionAt(c);
-			if (validRegionAt != null && (validRegionAt.type & allowedRegionTypes) != RegionType.None)
+			if (((validRegionAt != null) ? (validRegionAt.type & allowedRegionTypes) : RegionType.None) != 0)
 			{
 				return validRegionAt.Room;
 			}

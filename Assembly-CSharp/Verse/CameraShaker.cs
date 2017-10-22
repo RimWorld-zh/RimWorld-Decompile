@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -17,9 +16,9 @@ namespace Verse
 		{
 			get
 			{
-				float x = Mathf.Sin(Time.realtimeSinceStartup * 24f) * this.curShakeMag;
-				float y = Mathf.Sin(Time.realtimeSinceStartup * 24f * 1.05f) * this.curShakeMag;
-				float z = Mathf.Sin(Time.realtimeSinceStartup * 24f * 1.1f) * this.curShakeMag;
+				float x = Mathf.Sin((float)(Time.realtimeSinceStartup * 24.0)) * this.curShakeMag;
+				float y = Mathf.Sin((float)(Time.realtimeSinceStartup * 24.0 * 1.0499999523162842)) * this.curShakeMag;
+				float z = Mathf.Sin((float)(Time.realtimeSinceStartup * 24.0 * 1.1000000238418579)) * this.curShakeMag;
 				return new Vector3(x, y, z);
 			}
 		}
@@ -27,7 +26,7 @@ namespace Verse
 		public void DoShake(float mag)
 		{
 			this.curShakeMag += mag;
-			if (this.curShakeMag > 0.1f)
+			if (this.curShakeMag > 0.10000000149011612)
 			{
 				this.curShakeMag = 0.1f;
 			}
@@ -35,8 +34,8 @@ namespace Verse
 
 		public void Update()
 		{
-			this.curShakeMag -= 0.5f * RealTime.realDeltaTime;
-			if (this.curShakeMag < 0f)
+			this.curShakeMag -= (float)(0.5 * RealTime.realDeltaTime);
+			if (this.curShakeMag < 0.0)
 			{
 				this.curShakeMag = 0f;
 			}

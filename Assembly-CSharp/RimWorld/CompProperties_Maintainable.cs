@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -13,7 +12,7 @@ namespace RimWorld
 
 		public CompProperties_Maintainable()
 		{
-			this.compClass = typeof(CompMaintainable);
+			base.compClass = typeof(CompMaintainable);
 		}
 	}
 }

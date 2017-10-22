@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class LoadedContentItem<T> where T : class

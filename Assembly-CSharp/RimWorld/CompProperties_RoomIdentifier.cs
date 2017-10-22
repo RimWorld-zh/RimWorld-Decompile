@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -9,7 +8,7 @@ namespace RimWorld
 
 		public CompProperties_RoomIdentifier()
 		{
-			this.compClass = typeof(CompRoomIdentifier);
+			base.compClass = typeof(CompRoomIdentifier);
 		}
 	}
 }

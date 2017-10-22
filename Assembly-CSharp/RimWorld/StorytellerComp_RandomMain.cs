@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Verse;
 
@@ -12,20 +11,38 @@ namespace RimWorld
 		{
 			get
 			{
-				return (StorytellerCompProperties_RandomMain)this.props;
+				return (StorytellerCompProperties_RandomMain)base.props;
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			StorytellerComp_RandomMain.<MakeIntervalIncidents>c__IteratorAC <MakeIntervalIncidents>c__IteratorAC = new StorytellerComp_RandomMain.<MakeIntervalIncidents>c__IteratorAC();
-			<MakeIntervalIncidents>c__IteratorAC.target = target;
-			<MakeIntervalIncidents>c__IteratorAC.<$>target = target;
-			<MakeIntervalIncidents>c__IteratorAC.<>f__this = this;
-			StorytellerComp_RandomMain.<MakeIntervalIncidents>c__IteratorAC expr_1C = <MakeIntervalIncidents>c__IteratorAC;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (Rand.MTBEventOccurs(this.Props.mtbDays, 60000f, 1000f))
+			{
+				List<IncidentCategory> triedCategories = new List<IncidentCategory>();
+				IEnumerable<IncidentDef> options;
+				while (true)
+				{
+					if (triedCategories.Count < this.Props.categoryWeights.Count)
+					{
+						IncidentCategory category = this.DecideCategory(target, triedCategories);
+						triedCategories.Add(category);
+						IncidentParms parms = this.GenerateParms(category, target);
+						options = from d in DefDatabase<IncidentDef>.AllDefs
+						where d.category == ((_003CMakeIntervalIncidents_003Ec__IteratorAC)/*Error near IL_00cb: stateMachine*/)._003Ccategory_003E__1 && d.Worker.CanFireNow(((_003CMakeIntervalIncidents_003Ec__IteratorAC)/*Error near IL_00cb: stateMachine*/).target) && (!d.NeedsParms || d.minThreatPoints <= ((_003CMakeIntervalIncidents_003Ec__IteratorAC)/*Error near IL_00cb: stateMachine*/)._003Cparms_003E__2.points)
+						select d;
+						if (options.Any())
+							break;
+						continue;
+					}
+					yield break;
+				}
+				IncidentDef incDef;
+				if (options.TryRandomElementByWeight<IncidentDef>(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incDef))
+				{
+					yield return new FiringIncident(incDef, this, this.GenerateParms(incDef.category, target));
+				}
+			}
 		}
 
 		private IncidentCategory DecideCategory(IIncidentTarget target, List<IncidentCategory> skipCategories)
@@ -33,14 +50,14 @@ namespace RimWorld
 			if (!skipCategories.Contains(IncidentCategory.ThreatBig))
 			{
 				int num = Find.TickManager.TicksGame - target.StoryState.LastThreatBigTick;
-				if ((float)num > 60000f * this.Props.maxThreatBigIntervalDays)
+				if ((float)num > 60000.0 * this.Props.maxThreatBigIntervalDays)
 				{
 					return IncidentCategory.ThreatBig;
 				}
 			}
 			return (from cw in this.Props.categoryWeights
 			where !skipCategories.Contains(cw.category)
-			select cw).RandomElementByWeight((IncidentCategoryEntry cw) => cw.weight).category;
+			select cw).RandomElementByWeight((Func<IncidentCategoryEntry, float>)((IncidentCategoryEntry cw) => cw.weight)).category;
 		}
 
 		public override IncidentParms GenerateParms(IncidentCategory incCat, IIncidentTarget target)

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.Sound;
 
@@ -19,7 +18,7 @@ namespace RimWorld
 			base.DoEffect(usedBy);
 			SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(usedBy.MapHeld);
 			usedBy.records.Increment(RecordDefOf.ArtifactsActivated);
-			this.parent.Destroy(DestroyMode.Vanish);
+			base.parent.Destroy(DestroyMode.Vanish);
 		}
 	}
 }

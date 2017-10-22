@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,7 +6,11 @@ namespace RimWorld
 	{
 		public override bool InRelation(Pawn me, Pawn other)
 		{
-			return me != other && (other.GetMother() == me || other.GetFather() == me);
+			if (me == other)
+			{
+				return false;
+			}
+			return other.GetMother() == me || other.GetFather() == me;
 		}
 
 		public override float GenerationChance(Pawn generated, Pawn other, PawnGenerationRequest request)
@@ -15,11 +18,11 @@ namespace RimWorld
 			float num = 0f;
 			if (generated.gender == Gender.Male)
 			{
-				num = ChildRelationUtility.ChanceOfBecomingChildOf(other, generated, other.GetMother(), null, new PawnGenerationRequest?(request), null);
+				num = ChildRelationUtility.ChanceOfBecomingChildOf(other, generated, other.GetMother(), default(PawnGenerationRequest?), new PawnGenerationRequest?(request), default(PawnGenerationRequest?));
 			}
 			else if (generated.gender == Gender.Female)
 			{
-				num = ChildRelationUtility.ChanceOfBecomingChildOf(other, other.GetFather(), generated, null, null, new PawnGenerationRequest?(request));
+				num = ChildRelationUtility.ChanceOfBecomingChildOf(other, other.GetFather(), generated, default(PawnGenerationRequest?), default(PawnGenerationRequest?), new PawnGenerationRequest?(request));
 			}
 			return num * base.BaseGenerationChanceFactor(generated, other, request);
 		}
@@ -37,10 +40,10 @@ namespace RimWorld
 					{
 						generated.relations.AddDirectRelation(PawnRelationDefOf.ExLover, other.GetMother());
 					}
-					else if (Rand.Value < 0.85f && !LovePartnerRelationUtility.HasAnyLovePartner(other.GetMother()))
+					else if (Rand.Value < 0.85000002384185791 && !LovePartnerRelationUtility.HasAnyLovePartner(other.GetMother()))
 					{
 						generated.relations.AddDirectRelation(PawnRelationDefOf.Spouse, other.GetMother());
-						if (request.FixedLastName == null && Rand.Value < 0.8f)
+						if (request.FixedLastName == null && Rand.Value < 0.800000011920929)
 						{
 							request.SetFixedLastName(((NameTriple)other.GetMother().Name).Last);
 						}
@@ -62,10 +65,10 @@ namespace RimWorld
 					{
 						generated.relations.AddDirectRelation(PawnRelationDefOf.ExLover, other.GetFather());
 					}
-					else if (Rand.Value < 0.85f && !LovePartnerRelationUtility.HasAnyLovePartner(other.GetFather()))
+					else if (Rand.Value < 0.85000002384185791 && !LovePartnerRelationUtility.HasAnyLovePartner(other.GetFather()))
 					{
 						generated.relations.AddDirectRelation(PawnRelationDefOf.Spouse, other.GetFather());
-						if (request.FixedLastName == null && Rand.Value < 0.8f)
+						if (request.FixedLastName == null && Rand.Value < 0.800000011920929)
 						{
 							request.SetFixedLastName(((NameTriple)other.GetFather().Name).Last);
 						}
@@ -80,15 +83,7 @@ namespace RimWorld
 
 		private static void ResolveMyName(ref PawnGenerationRequest request, Pawn child, Pawn otherParent)
 		{
-			if (request.FixedLastName != null)
-			{
-				return;
-			}
-			if (ChildRelationUtility.DefinitelyHasNotBirthName(child))
-			{
-				return;
-			}
-			if (ChildRelationUtility.ChildWantsNameOfAnyParent(child))
+			if (request.FixedLastName == null && !ChildRelationUtility.DefinitelyHasNotBirthName(child) && ChildRelationUtility.ChildWantsNameOfAnyParent(child))
 			{
 				if (otherParent == null)
 				{
@@ -112,17 +107,16 @@ namespace RimWorld
 
 		private static void ResolveMySkinColor(ref PawnGenerationRequest request, Pawn child, Pawn otherParent)
 		{
-			if (request.FixedMelanin.HasValue)
+			if (!request.FixedMelanin.HasValue)
 			{
-				return;
-			}
-			if (otherParent != null)
-			{
-				request.SetFixedMelanin(ParentRelationUtility.GetRandomSecondParentSkinColor(otherParent.story.melanin, child.story.melanin, null));
-			}
-			else
-			{
-				request.SetFixedMelanin(PawnSkinColors.GetRandomMelaninSimilarTo(child.story.melanin, 0f, 1f));
+				if (otherParent != null)
+				{
+					request.SetFixedMelanin(ParentRelationUtility.GetRandomSecondParentSkinColor(otherParent.story.melanin, child.story.melanin, default(float?)));
+				}
+				else
+				{
+					request.SetFixedMelanin(PawnSkinColors.GetRandomMelaninSimilarTo(child.story.melanin, 0f, 1f));
+				}
 			}
 		}
 	}

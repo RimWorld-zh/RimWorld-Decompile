@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class HediffCompProperties_Discoverable : HediffCompProperties
@@ -12,7 +10,7 @@ namespace Verse
 
 		public HediffCompProperties_Discoverable()
 		{
-			this.compClass = typeof(HediffComp_Discoverable);
+			base.compClass = typeof(HediffComp_Discoverable);
 		}
 	}
 }

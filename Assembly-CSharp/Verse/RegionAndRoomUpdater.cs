@@ -70,42 +70,43 @@ namespace Verse
 
 		public void TryRebuildDirtyRegionsAndRooms()
 		{
-			if (this.working || !this.Enabled)
+			if (!this.working && this.Enabled)
 			{
-				return;
-			}
-			this.working = true;
-			if (!this.initialized)
-			{
-				this.RebuildAllRegionsAndRooms();
-			}
-			if (!this.map.regionDirtyer.AnyDirty)
-			{
-				this.working = false;
-				return;
-			}
-			ProfilerThreadCheck.BeginSample("RebuildDirtyRegionsAndRooms");
-			try
-			{
-				ProfilerThreadCheck.BeginSample("Regenerate new regions from dirty cells");
-				this.RegenerateNewRegionsFromDirtyCells();
-				ProfilerThreadCheck.EndSample();
-				ProfilerThreadCheck.BeginSample("Create or update rooms");
-				this.CreateOrUpdateRooms();
-				ProfilerThreadCheck.EndSample();
-			}
-			catch (Exception arg)
-			{
-				Log.Error("Exception while rebuilding dirty regions: " + arg);
-			}
-			this.newRegions.Clear();
-			this.map.regionDirtyer.SetAllClean();
-			this.initialized = true;
-			this.working = false;
-			ProfilerThreadCheck.EndSample();
-			if (DebugSettings.detectRegionListersBugs)
-			{
-				Autotests_RegionListers.CheckBugs(this.map);
+				this.working = true;
+				if (!this.initialized)
+				{
+					this.RebuildAllRegionsAndRooms();
+				}
+				if (!this.map.regionDirtyer.AnyDirty)
+				{
+					this.working = false;
+				}
+				else
+				{
+					ProfilerThreadCheck.BeginSample("RebuildDirtyRegionsAndRooms");
+					try
+					{
+						ProfilerThreadCheck.BeginSample("Regenerate new regions from dirty cells");
+						this.RegenerateNewRegionsFromDirtyCells();
+						ProfilerThreadCheck.EndSample();
+						ProfilerThreadCheck.BeginSample("Create or update rooms");
+						this.CreateOrUpdateRooms();
+						ProfilerThreadCheck.EndSample();
+					}
+					catch (Exception arg)
+					{
+						Log.Error("Exception while rebuilding dirty regions: " + arg);
+					}
+					this.newRegions.Clear();
+					this.map.regionDirtyer.SetAllClean();
+					this.initialized = true;
+					this.working = false;
+					ProfilerThreadCheck.EndSample();
+					if (DebugSettings.detectRegionListersBugs)
+					{
+						Autotests_RegionListers.CheckBugs(this.map);
+					}
+				}
 			}
 		}
 
@@ -168,15 +169,15 @@ namespace Verse
 
 		private void CreateOrAttachToExistingRooms(int numRegionGroups)
 		{
-			for (int i = 0; i < numRegionGroups; i++)
+			for (int num = 0; num < numRegionGroups; num++)
 			{
 				ProfilerThreadCheck.BeginSample("Remake currentRegionGroup list");
 				this.currentRegionGroup.Clear();
-				for (int j = 0; j < this.newRegions.Count; j++)
+				for (int i = 0; i < this.newRegions.Count; i++)
 				{
-					if (this.newRegions[j].newRegionGroupIndex == i)
+					if (this.newRegions[i].newRegionGroupIndex == num)
 					{
-						this.currentRegionGroup.Add(this.newRegions[j]);
+						this.currentRegionGroup.Add(this.newRegions[i]);
 					}
 				}
 				ProfilerThreadCheck.EndSample();
@@ -193,7 +194,7 @@ namespace Verse
 				else
 				{
 					ProfilerThreadCheck.BeginSample("Determine neighboring old rooms");
-					bool flag;
+					bool flag = default(bool);
 					Room room2 = this.FindCurrentRegionGroupNeighborWithMostRegions(out flag);
 					ProfilerThreadCheck.EndSample();
 					ProfilerThreadCheck.BeginSample("Apply final result");
@@ -204,9 +205,9 @@ namespace Verse
 					}
 					else if (!flag)
 					{
-						for (int k = 0; k < this.currentRegionGroup.Count; k++)
+						for (int j = 0; j < this.currentRegionGroup.Count; j++)
 						{
-							this.currentRegionGroup[k].Room = room2;
+							this.currentRegionGroup[j].Room = room2;
 						}
 						this.reusedOldRooms.Add(room2);
 					}
@@ -223,27 +224,45 @@ namespace Verse
 		private int CombineNewAndReusedRoomsIntoContiguousGroups()
 		{
 			int num = 0;
-			foreach (Room current in this.reusedOldRooms)
+			HashSet<Room>.Enumerator enumerator = this.reusedOldRooms.GetEnumerator();
+			try
 			{
-				current.newOrReusedRoomGroupIndex = -1;
+				while (enumerator.MoveNext())
+				{
+					Room current = enumerator.Current;
+					current.newOrReusedRoomGroupIndex = -1;
+				}
 			}
-			foreach (Room current2 in this.reusedOldRooms.Concat(this.newRooms))
+			finally
 			{
-				if (current2.newOrReusedRoomGroupIndex < 0)
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			foreach (Room item in this.reusedOldRooms.Concat(this.newRooms))
+			{
+				if (item.newOrReusedRoomGroupIndex < 0)
 				{
 					this.tmpRoomStack.Clear();
-					this.tmpRoomStack.Push(current2);
-					current2.newOrReusedRoomGroupIndex = num;
+					this.tmpRoomStack.Push(item);
+					item.newOrReusedRoomGroupIndex = num;
 					while (this.tmpRoomStack.Count != 0)
 					{
 						Room room = this.tmpRoomStack.Pop();
-						foreach (Room current3 in room.Neighbors)
+						List<Room>.Enumerator enumerator3 = room.Neighbors.GetEnumerator();
+						try
 						{
-							if (current3.newOrReusedRoomGroupIndex < 0 && this.ShouldBeInTheSameRoomGroup(room, current3))
+							while (enumerator3.MoveNext())
 							{
-								current3.newOrReusedRoomGroupIndex = num;
-								this.tmpRoomStack.Push(current3);
+								Room current3 = enumerator3.Current;
+								if (current3.newOrReusedRoomGroupIndex < 0 && this.ShouldBeInTheSameRoomGroup(room, current3))
+								{
+									current3.newOrReusedRoomGroupIndex = num;
+									this.tmpRoomStack.Push(current3);
+								}
 							}
+						}
+						finally
+						{
+							((IDisposable)(object)enumerator3).Dispose();
 						}
 					}
 					this.tmpRoomStack.Clear();
@@ -255,27 +274,36 @@ namespace Verse
 
 		private void CreateOrAttachToExistingRoomGroups(int numRoomGroups)
 		{
-			for (int i = 0; i < numRoomGroups; i++)
+			for (int num = 0; num < numRoomGroups; num++)
 			{
 				ProfilerThreadCheck.BeginSample("Remake currentRoomGroup list");
 				this.currentRoomGroup.Clear();
-				foreach (Room current in this.reusedOldRooms)
+				HashSet<Room>.Enumerator enumerator = this.reusedOldRooms.GetEnumerator();
+				try
 				{
-					if (current.newOrReusedRoomGroupIndex == i)
+					while (enumerator.MoveNext())
 					{
-						this.currentRoomGroup.Add(current);
+						Room current = enumerator.Current;
+						if (current.newOrReusedRoomGroupIndex == num)
+						{
+							this.currentRoomGroup.Add(current);
+						}
 					}
 				}
-				for (int j = 0; j < this.newRooms.Count; j++)
+				finally
 				{
-					if (this.newRooms[j].newOrReusedRoomGroupIndex == i)
+					((IDisposable)(object)enumerator).Dispose();
+				}
+				for (int i = 0; i < this.newRooms.Count; i++)
+				{
+					if (this.newRooms[i].newOrReusedRoomGroupIndex == num)
 					{
-						this.currentRoomGroup.Add(this.newRooms[j]);
+						this.currentRoomGroup.Add(this.newRooms[i]);
 					}
 				}
 				ProfilerThreadCheck.EndSample();
 				ProfilerThreadCheck.BeginSample("Determine neighboring old room groups");
-				bool flag;
+				bool flag = default(bool);
 				RoomGroup roomGroup = this.FindCurrentRoomGroupNeighborWithMostRegions(out flag);
 				ProfilerThreadCheck.EndSample();
 				ProfilerThreadCheck.BeginSample("Apply final result");
@@ -287,9 +315,9 @@ namespace Verse
 				}
 				else if (!flag)
 				{
-					for (int k = 0; k < this.currentRoomGroup.Count; k++)
+					for (int j = 0; j < this.currentRoomGroup.Count; j++)
 					{
-						this.currentRoomGroup[k].Group = roomGroup;
+						this.currentRoomGroup[j].Group = roomGroup;
 					}
 					this.reusedOldRoomGroups.Add(roomGroup);
 				}
@@ -312,13 +340,22 @@ namespace Verse
 			{
 				Room room = this.tmpRoomStack.Pop();
 				room.Group = roomGroup;
-				foreach (Room current in room.Neighbors)
+				List<Room>.Enumerator enumerator = room.Neighbors.GetEnumerator();
+				try
 				{
-					if (!this.tmpVisitedRooms.Contains(current) && this.ShouldBeInTheSameRoomGroup(room, current))
+					while (enumerator.MoveNext())
 					{
-						this.tmpRoomStack.Push(current);
-						this.tmpVisitedRooms.Add(current);
+						Room current = enumerator.Current;
+						if (!this.tmpVisitedRooms.Contains(current) && this.ShouldBeInTheSameRoomGroup(room, current))
+						{
+							this.tmpRoomStack.Push(current);
+							this.tmpVisitedRooms.Add(current);
+						}
 					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 			this.tmpVisitedRooms.Clear();
@@ -327,23 +364,41 @@ namespace Verse
 
 		private void NotifyAffectedRoomsAndRoomGroupsAndUpdateTemperature()
 		{
-			foreach (Room current in this.reusedOldRooms)
+			HashSet<Room>.Enumerator enumerator = this.reusedOldRooms.GetEnumerator();
+			try
 			{
-				current.Notify_RoomShapeOrContainedBedsChanged();
+				while (enumerator.MoveNext())
+				{
+					Room current = enumerator.Current;
+					current.Notify_RoomShapeOrContainedBedsChanged();
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			for (int i = 0; i < this.newRooms.Count; i++)
 			{
 				this.newRooms[i].Notify_RoomShapeOrContainedBedsChanged();
 			}
-			foreach (RoomGroup current2 in this.reusedOldRoomGroups)
+			HashSet<RoomGroup>.Enumerator enumerator2 = this.reusedOldRoomGroups.GetEnumerator();
+			try
 			{
-				current2.Notify_RoomGroupShapeChanged();
+				while (enumerator2.MoveNext())
+				{
+					RoomGroup current2 = enumerator2.Current;
+					current2.Notify_RoomGroupShapeChanged();
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
 			}
 			for (int j = 0; j < this.newRoomGroups.Count; j++)
 			{
 				RoomGroup roomGroup = this.newRoomGroups[j];
 				roomGroup.Notify_RoomGroupShapeChanged();
-				float temperature;
+				float temperature = default(float);
 				if (this.map.temperatureCache.TryGetAverageCachedRoomGroupTemp(roomGroup, out temperature))
 				{
 					roomGroup.Temperature = temperature;
@@ -357,23 +412,20 @@ namespace Verse
 			Room room = null;
 			for (int i = 0; i < this.currentRegionGroup.Count; i++)
 			{
-				foreach (Region current in this.currentRegionGroup[i].NeighborsOfSameType)
+				foreach (Region item in this.currentRegionGroup[i].NeighborsOfSameType)
 				{
-					if (current.Room != null)
+					if (item.Room != null && !this.reusedOldRooms.Contains(item.Room))
 					{
-						if (!this.reusedOldRooms.Contains(current.Room))
+						if (room == null)
 						{
-							if (room == null)
+							room = item.Room;
+						}
+						else if (item.Room != room)
+						{
+							multipleOldNeighborRooms = true;
+							if (item.Room.RegionCount > room.RegionCount)
 							{
-								room = current.Room;
-							}
-							else if (current.Room != room)
-							{
-								multipleOldNeighborRooms = true;
-								if (current.Room.RegionCount > room.RegionCount)
-								{
-									room = current.Room;
-								}
+								room = item.Room;
 							}
 						}
 					}
@@ -388,11 +440,13 @@ namespace Verse
 			RoomGroup roomGroup = null;
 			for (int i = 0; i < this.currentRoomGroup.Count; i++)
 			{
-				foreach (Room current in this.currentRoomGroup[i].Neighbors)
+				List<Room>.Enumerator enumerator = this.currentRoomGroup[i].Neighbors.GetEnumerator();
+				try
 				{
-					if (current.Group != null && this.ShouldBeInTheSameRoomGroup(this.currentRoomGroup[i], current))
+					while (enumerator.MoveNext())
 					{
-						if (!this.reusedOldRoomGroups.Contains(current.Group))
+						Room current = enumerator.Current;
+						if (current.Group != null && this.ShouldBeInTheSameRoomGroup(this.currentRoomGroup[i], current) && !this.reusedOldRoomGroups.Contains(current.Group))
 						{
 							if (roomGroup == null)
 							{
@@ -408,6 +462,10 @@ namespace Verse
 							}
 						}
 					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 			return roomGroup;

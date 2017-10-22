@@ -14,21 +14,21 @@ namespace RimWorld.Planet
 			SitePartDef sitePartDef = null;
 			if (possibleSiteParts != null)
 			{
-				SiteMaker.TryFindNewRandomSitePartFor(core, null, possibleSiteParts, faction, out sitePartDef, disallowAlliedFactions, extraFactionValidator);
+				SiteMaker.TryFindNewRandomSitePartFor(core, (IEnumerable<SitePartDef>)null, possibleSiteParts, faction, out sitePartDef, disallowAlliedFactions, extraFactionValidator);
 			}
 			if (faction == null)
 			{
-				IEnumerable<SitePartDef> arg_31_0;
+				object obj;
 				if (sitePartDef != null)
 				{
-					IEnumerable<SitePartDef> enumerable = Gen.YieldSingle<SitePartDef>(sitePartDef);
-					arg_31_0 = enumerable;
+					IEnumerable<SitePartDef> enumerable = Gen.YieldSingle(sitePartDef);
+					obj = enumerable;
 				}
 				else
 				{
-					arg_31_0 = null;
+					obj = null;
 				}
-				IEnumerable<SitePartDef> parts = arg_31_0;
+				IEnumerable<SitePartDef> parts = (IEnumerable<SitePartDef>)obj;
 				if (!SiteMaker.TryFindRandomFactionFor(core, parts, out faction, disallowAlliedFactions, extraFactionValidator))
 				{
 					return null;
@@ -46,7 +46,7 @@ namespace RimWorld.Planet
 
 		public static Site TryMakeSite(SiteCoreDef core, IEnumerable<SitePartDef> parts, bool disallowAlliedFactions = true, Predicate<Faction> extraFactionValidator = null)
 		{
-			Faction faction;
+			Faction faction = default(Faction);
 			if (!SiteMaker.TryFindRandomFactionFor(core, parts, out faction, disallowAlliedFactions, extraFactionValidator))
 			{
 				return null;
@@ -67,7 +67,7 @@ namespace RimWorld.Planet
 			{
 				if ((from x in possibleSiteParts
 				where x == null || SiteMaker.FactionCanOwn(x, faction, disallowAlliedFactions, extraFactionValidator)
-				select x).TryRandomElement(out sitePart))
+				select x).TryRandomElement<SitePartDef>(out sitePart))
 				{
 					return true;
 				}
@@ -78,8 +78,8 @@ namespace RimWorld.Planet
 				SiteMaker.possibleFactions.Add(null);
 				SiteMaker.possibleFactions.AddRange(Find.FactionManager.AllFactionsListForReading);
 				if ((from x in possibleSiteParts
-				where x == null || SiteMaker.possibleFactions.Any((Faction fac) => SiteMaker.FactionCanOwn(core, existingSiteParts, fac, disallowAlliedFactions, extraFactionValidator) && SiteMaker.FactionCanOwn(x, fac, disallowAlliedFactions, extraFactionValidator))
-				select x).TryRandomElement(out sitePart))
+				where x == null || SiteMaker.possibleFactions.Any((Predicate<Faction>)((Faction fac) => SiteMaker.FactionCanOwn(core, existingSiteParts, fac, disallowAlliedFactions, extraFactionValidator) && SiteMaker.FactionCanOwn(x, fac, disallowAlliedFactions, extraFactionValidator)))
+				select x).TryRandomElement<SitePartDef>(out sitePart))
 				{
 					SiteMaker.possibleFactions.Clear();
 					return true;
@@ -99,7 +99,7 @@ namespace RimWorld.Planet
 			}
 			if ((from x in Find.FactionManager.AllFactionsListForReading
 			where SiteMaker.FactionCanOwn(core, parts, x, disallowAlliedFactions, extraFactionValidator)
-			select x).TryRandomElement(out faction))
+			select x).TryRandomElement<Faction>(out faction))
 			{
 				return true;
 			}
@@ -115,14 +115,13 @@ namespace RimWorld.Planet
 			}
 			if (parts != null)
 			{
-				foreach (SitePartDef current in parts)
+				foreach (SitePartDef item in parts)
 				{
-					if (!SiteMaker.FactionCanOwn(current, faction, disallowAlliedFactions, extraFactionValidator))
+					if (!SiteMaker.FactionCanOwn(item, faction, disallowAlliedFactions, extraFactionValidator))
 					{
 						return false;
 					}
 				}
-				return true;
 			}
 			return true;
 		}
@@ -134,7 +133,19 @@ namespace RimWorld.Planet
 				Log.Error("Called FactionCanOwn() with null SiteDefBase.");
 				return false;
 			}
-			return siteDefBase.FactionCanOwn(faction) && (!disallowAlliedFactions || faction == null || faction.HostileTo(Faction.OfPlayer)) && (extraFactionValidator == null || extraFactionValidator(faction));
+			if (!siteDefBase.FactionCanOwn(faction))
+			{
+				return false;
+			}
+			if (disallowAlliedFactions && faction != null && !faction.HostileTo(Faction.OfPlayer))
+			{
+				return false;
+			}
+			if ((object)extraFactionValidator != null && !extraFactionValidator(faction))
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

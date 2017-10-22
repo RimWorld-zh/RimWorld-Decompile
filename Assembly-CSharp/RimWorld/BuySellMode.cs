@@ -1,10 +1,8 @@
-using System;
-
 namespace RimWorld
 {
 	public enum BuySellMode : byte
 	{
-		Buying,
-		Selling
+		Buying = 0,
+		Selling = 1
 	}
 }

@@ -1,10 +1,8 @@
-using System;
-
 namespace RimWorld
 {
 	public enum TransferablePositiveCountDirection
 	{
-		Source,
-		Destination
+		Source = 0,
+		Destination = 1
 	}
 }

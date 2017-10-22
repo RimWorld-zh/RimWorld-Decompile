@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -19,15 +18,15 @@ namespace RimWorld
 				Log.Error(pawn + " doing ThinkNode_Duty with no duty.");
 				return ThinkResult.NoJob;
 			}
-			return this.subNodes[(int)pawn.mindState.duty.def.index].TryIssueJobPackage(pawn, jobParams);
+			return base.subNodes[pawn.mindState.duty.def.index].TryIssueJobPackage(pawn, jobParams);
 		}
 
 		protected override void ResolveSubnodes()
 		{
-			foreach (DutyDef current in DefDatabase<DutyDef>.AllDefs)
+			foreach (DutyDef allDef in DefDatabase<DutyDef>.AllDefs)
 			{
-				current.thinkNode.ResolveSubnodesAndRecur();
-				this.subNodes.Add(current.thinkNode.DeepCopy(true));
+				allDef.thinkNode.ResolveSubnodesAndRecur();
+				base.subNodes.Add(allDef.thinkNode.DeepCopy(true));
 			}
 		}
 	}

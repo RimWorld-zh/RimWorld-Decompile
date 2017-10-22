@@ -16,31 +16,20 @@ namespace Verse
 
 		public override string BillRequirementsDescription(RecipeDef r, IngredientCount ing)
 		{
-			if (!ing.filter.AllowedThingDefs.Any((ThingDef td) => td.smallVolume) || ing.filter.AllowedThingDefs.Any((ThingDef td) => td.smallVolume && !r.GetPremultipliedSmallIngredients().Contains(td)))
+			if (ing.filter.AllowedThingDefs.Any((Func<ThingDef, bool>)((ThingDef td) => td.smallVolume)) && !ing.filter.AllowedThingDefs.Any((Func<ThingDef, bool>)((ThingDef td) => td.smallVolume && !r.GetPremultipliedSmallIngredients().Contains(td))))
 			{
-				return "BillRequires".Translate(new object[]
-				{
-					ing.GetBaseCount(),
-					ing.filter.Summary
-				});
+				return "BillRequires".Translate((float)(ing.GetBaseCount() * 10.0), ing.filter.Summary);
 			}
-			return "BillRequires".Translate(new object[]
-			{
-				ing.GetBaseCount() * 10f,
-				ing.filter.Summary
-			});
+			return "BillRequires".Translate(ing.GetBaseCount(), ing.filter.Summary);
 		}
 
 		public override string ExtraDescriptionLine(RecipeDef r)
 		{
-			if (r.ingredients.Any((IngredientCount ing) => ing.filter.AllowedThingDefs.Any((ThingDef td) => td.smallVolume && !r.GetPremultipliedSmallIngredients().Contains(td))))
+			if (r.ingredients.Any((Predicate<IngredientCount>)((IngredientCount ing) => ing.filter.AllowedThingDefs.Any((Func<ThingDef, bool>)((ThingDef td) => td.smallVolume && !r.GetPremultipliedSmallIngredients().Contains(td))))))
 			{
-				return "BillRequiresMayVary".Translate(new object[]
-				{
-					10.ToStringCached()
-				});
+				return "BillRequiresMayVary".Translate(10.ToStringCached());
 			}
-			return null;
+			return (string)null;
 		}
 	}
 }

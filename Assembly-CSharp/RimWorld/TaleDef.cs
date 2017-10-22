@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 using Verse.Grammar;
@@ -38,14 +37,31 @@ namespace RimWorld
 
 		public Color historyGraphColor = Color.white;
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			TaleDef.<ConfigErrors>c__Iterator99 <ConfigErrors>c__Iterator = new TaleDef.<ConfigErrors>c__Iterator99();
-			<ConfigErrors>c__Iterator.<>f__this = this;
-			TaleDef.<ConfigErrors>c__Iterator99 expr_0E = <ConfigErrors>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.taleClass == null)
+			{
+				yield return base.defName + " taleClass is null.";
+			}
+			if (this.expireDays < 0.0)
+			{
+				if (this.type == TaleType.Expirable)
+				{
+					yield return "Expirable tale type is used but expireDays<0";
+				}
+			}
+			else if (this.type != TaleType.Expirable)
+			{
+				yield return "Non expirable tale type is used but expireDays>=0";
+			}
+			if (this.baseInterest > 9.9999999747524271E-07 && !this.usableForArt)
+			{
+				yield return "Non-zero baseInterest but not usable for art";
+			}
 		}
 
 		public static TaleDef Named(string str)

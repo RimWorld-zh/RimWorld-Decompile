@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -10,36 +9,26 @@ namespace Verse
 		{
 			MoteSplash moteSplash = (MoteSplash)thing;
 			float num = moteSplash.CalculatedAlpha();
-			if (num <= 0f)
+			if (!(num <= 0.0))
 			{
-				return;
+				Color color = new Color(1f, 1f, 1f, num);
+				Vector3 exactScale = moteSplash.exactScale;
+				exactScale.x *= base.data.drawSize.x;
+				exactScale.z *= base.data.drawSize.y;
+				Matrix4x4 rhs = default(Matrix4x4);
+				rhs.SetTRS(moteSplash.DrawPos, Quaternion.AngleAxis(moteSplash.exactRotation, Vector3.up), exactScale);
+				Matrix4x4 matrix = Find.Camera.cameraToWorldMatrix * Find.Camera.projectionMatrix * Find.Camera.worldToCameraMatrix * rhs;
+				Material matSingle = this.MatSingle;
+				matSingle.SetColor(ShaderPropertyIDs.Color, color);
+				matSingle.SetFloat(ShaderPropertyIDs.ShockwaveSpan, moteSplash.CalculatedShockwaveSpan());
+				matSingle.SetPass(0);
+				Graphics.DrawMeshNow(MeshPool.plane10, matrix);
 			}
-			Color color = new Color(1f, 1f, 1f, num);
-			Vector3 exactScale = moteSplash.exactScale;
-			exactScale.x *= this.data.drawSize.x;
-			exactScale.z *= this.data.drawSize.y;
-			Matrix4x4 rhs = default(Matrix4x4);
-			rhs.SetTRS(moteSplash.DrawPos, Quaternion.AngleAxis(moteSplash.exactRotation, Vector3.up), exactScale);
-			Matrix4x4 matrix = Find.Camera.cameraToWorldMatrix * Find.Camera.projectionMatrix * Find.Camera.worldToCameraMatrix * rhs;
-			Material matSingle = this.MatSingle;
-			matSingle.SetColor(ShaderPropertyIDs.Color, color);
-			matSingle.SetFloat(ShaderPropertyIDs.ShockwaveSpan, moteSplash.CalculatedShockwaveSpan());
-			matSingle.SetPass(0);
-			Graphics.DrawMeshNow(MeshPool.plane10, matrix);
 		}
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"MoteSplash(path=",
-				this.path,
-				", shader=",
-				base.Shader,
-				", color=",
-				this.color,
-				", colorTwo=unsupported)"
-			});
+			return "MoteSplash(path=" + base.path + ", shader=" + base.Shader + ", color=" + base.color + ", colorTwo=unsupported)";
 		}
 	}
 }

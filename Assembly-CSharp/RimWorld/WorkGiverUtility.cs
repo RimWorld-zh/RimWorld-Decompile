@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -8,15 +7,12 @@ namespace RimWorld
 	{
 		public static Job HaulStuffOffBillGiverJob(Pawn pawn, IBillGiver giver, Thing thingToIgnore)
 		{
-			foreach (IntVec3 current in giver.IngredientStackCells)
+			foreach (IntVec3 ingredientStackCell in giver.IngredientStackCells)
 			{
-				Thing thing = pawn.Map.thingGrid.ThingAt(current, ThingCategory.Item);
-				if (thing != null)
+				Thing thing = pawn.Map.thingGrid.ThingAt(ingredientStackCell, ThingCategory.Item);
+				if (thing != null && thing != thingToIgnore)
 				{
-					if (thing != thingToIgnore)
-					{
-						return HaulAIUtility.HaulAsideJobFor(pawn, thing);
-					}
+					return HaulAIUtility.HaulAsideJobFor(pawn, thing);
 				}
 			}
 			return null;

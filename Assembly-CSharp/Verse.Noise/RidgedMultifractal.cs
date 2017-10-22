@@ -108,35 +108,36 @@ namespace Verse.Noise
 			y *= this.m_frequency;
 			z *= this.m_frequency;
 			double num = 0.0;
-			double num2 = 1.0;
+			double num2 = 0.0;
 			double num3 = 1.0;
-			double num4 = 2.0;
+			double num4 = 1.0;
+			double num5 = 2.0;
 			for (int i = 0; i < this.m_octaveCount; i++)
 			{
 				double x2 = Utils.MakeInt32Range(x);
 				double y2 = Utils.MakeInt32Range(y);
 				double z2 = Utils.MakeInt32Range(z);
-				long seed = (long)(this.m_seed + i & 2147483647);
-				double num5 = Utils.GradientCoherentNoise3D(x2, y2, z2, seed, this.m_quality);
-				num5 = Math.Abs(num5);
-				num5 = num3 - num5;
-				num5 *= num5;
-				num5 *= num2;
-				num2 = num5 * num4;
-				if (num2 > 1.0)
+				long seed = this.m_seed + i & 2147483647;
+				num = Utils.GradientCoherentNoise3D(x2, y2, z2, seed, this.m_quality);
+				num = Math.Abs(num);
+				num = num4 - num;
+				num *= num;
+				num *= num3;
+				num3 = num * num5;
+				if (num3 > 1.0)
 				{
-					num2 = 1.0;
+					num3 = 1.0;
 				}
-				if (num2 < 0.0)
+				if (num3 < 0.0)
 				{
-					num2 = 0.0;
+					num3 = 0.0;
 				}
-				num += num5 * this.m_weights[i];
+				num2 += num * this.m_weights[i];
 				x *= this.m_lacunarity;
 				y *= this.m_lacunarity;
 				z *= this.m_lacunarity;
 			}
-			return num * 1.25 - 1.0;
+			return num2 * 1.25 - 1.0;
 		}
 	}
 }

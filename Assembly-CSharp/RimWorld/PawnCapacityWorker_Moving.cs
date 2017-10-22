@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -11,7 +10,7 @@ namespace RimWorld
 		{
 			float num = 0f;
 			float num2 = PawnCapacityUtility.CalculateLimbEfficiency(diffSet, "MovingLimbCore", "MovingLimbSegment", "MovingLimbDigit", 0.4f, out num, impactors);
-			if (num < 0.4999f)
+			if (num < 0.49990001320838928)
 			{
 				return 0f;
 			}

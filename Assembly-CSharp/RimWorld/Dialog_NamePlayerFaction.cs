@@ -6,10 +6,10 @@ namespace RimWorld
 	{
 		public Dialog_NamePlayerFaction()
 		{
-			this.curName = NameGenerator.GenerateName(RulePackDefOf.NamerFactionPlayerRandomized, null, false);
-			this.nameMessageKey = "NamePlayerFactionMessage";
-			this.gainedNameMessageKey = "PlayerFactionGainsName";
-			this.invalidNameMessageKey = "PlayerFactionNameIsInvalid";
+			base.curName = NameGenerator.GenerateName(RulePackDefOf.NamerFactionPlayerRandomized, (Predicate<string>)null, false);
+			base.nameMessageKey = "NamePlayerFactionMessage";
+			base.gainedNameMessageKey = "PlayerFactionGainsName";
+			base.invalidNameMessageKey = "PlayerFactionNameIsInvalid";
 		}
 
 		protected override bool IsValidName(string s)

@@ -19,10 +19,10 @@ namespace RimWorld
 		{
 			get
 			{
-				ExternalHistoryUtility.<>c__IteratorA1 <>c__IteratorA = new ExternalHistoryUtility.<>c__IteratorA1();
-				ExternalHistoryUtility.<>c__IteratorA1 expr_07 = <>c__IteratorA;
-				expr_07.$PC = -2;
-				return expr_07;
+				for (int i = 0; i < ExternalHistoryUtility.cachedFiles.Count; i++)
+				{
+					yield return ExternalHistoryUtility.cachedFiles[i];
+				}
 			}
 		}
 
@@ -32,7 +32,7 @@ namespace RimWorld
 			ExternalHistoryUtility.gameplayIDAvailableChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 			try
 			{
-				ExternalHistoryUtility.cachedFiles = GenFilePaths.AllExternalHistoryFiles.ToList<FileInfo>();
+				ExternalHistoryUtility.cachedFiles = GenFilePaths.AllExternalHistoryFiles.ToList();
 			}
 			catch (Exception ex)
 			{
@@ -49,21 +49,25 @@ namespace RimWorld
 				Scribe.loader.InitLoading(path);
 				try
 				{
-					Scribe_Deep.Look<ExternalHistory>(ref result, "externalHistory", new object[0]);
+					Scribe_Deep.Look(ref result, "externalHistory");
 					Scribe.loader.FinalizeLoading();
+					return result;
 				}
 				catch
 				{
 					Scribe.ForceStop();
 					throw;
+					IL_003c:
+					return result;
 				}
 			}
 			catch (Exception ex)
 			{
 				Log.Error("Could not load external history (" + path + "): " + ex.Message);
 				return null;
+				IL_0069:
+				return result;
 			}
-			return result;
 		}
 
 		public static string GetRandomGameplayID()
@@ -79,27 +83,30 @@ namespace RimWorld
 
 		public static bool IsValidGameplayID(string ID)
 		{
-			if (ID.NullOrEmpty() || ID.Length != ExternalHistoryUtility.gameplayIDLength)
+			if (!ID.NullOrEmpty() && ID.Length == ExternalHistoryUtility.gameplayIDLength)
 			{
-				return false;
-			}
-			for (int i = 0; i < ID.Length; i++)
-			{
-				bool flag = false;
-				for (int j = 0; j < ExternalHistoryUtility.gameplayIDAvailableChars.Length; j++)
+				for (int i = 0; i < ID.Length; i++)
 				{
-					if (ID[i] == ExternalHistoryUtility.gameplayIDAvailableChars[j])
+					bool flag = false;
+					int num = 0;
+					while (num < ExternalHistoryUtility.gameplayIDAvailableChars.Length)
 					{
+						if (ID[i] != ExternalHistoryUtility.gameplayIDAvailableChars[num])
+						{
+							num++;
+							continue;
+						}
 						flag = true;
 						break;
 					}
+					if (!flag)
+					{
+						return false;
+					}
 				}
-				if (!flag)
-				{
-					return false;
-				}
+				return true;
 			}
-			return true;
+			return false;
 		}
 
 		public static string GetCurrentUploadDate()

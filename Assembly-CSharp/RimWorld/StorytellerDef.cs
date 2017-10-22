@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -49,7 +48,7 @@ namespace RimWorld
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				if (!this.portraitTiny.NullOrEmpty())
 				{
@@ -63,14 +62,19 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			StorytellerDef.<ConfigErrors>c__Iterator97 <ConfigErrors>c__Iterator = new StorytellerDef.<ConfigErrors>c__Iterator97();
-			<ConfigErrors>c__Iterator.<>f__this = this;
-			StorytellerDef.<ConfigErrors>c__Iterator97 expr_0E = <ConfigErrors>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			for (int i = 0; i < this.comps.Count; i++)
+			{
+				foreach (string item2 in this.comps[i].ConfigErrors(this))
+				{
+					yield return item2;
+				}
+			}
 		}
 	}
 }

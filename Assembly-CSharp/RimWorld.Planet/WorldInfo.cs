@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.Planet
@@ -35,9 +34,9 @@ namespace RimWorld.Planet
 
 		public void ExposeData()
 		{
-			Scribe_Values.Look<string>(ref this.name, "name", null, false);
+			Scribe_Values.Look<string>(ref this.name, "name", (string)null, false);
 			Scribe_Values.Look<float>(ref this.planetCoverage, "planetCoverage", 0f, false);
-			Scribe_Values.Look<string>(ref this.seedString, "seedString", null, false);
+			Scribe_Values.Look<string>(ref this.seedString, "seedString", (string)null, false);
 			Scribe_Values.Look<OverallRainfall>(ref this.overallRainfall, "overallRainfall", OverallRainfall.AlmostNone, false);
 			Scribe_Values.Look<OverallTemperature>(ref this.overallTemperature, "overallTemperature", OverallTemperature.VeryCold, false);
 			Scribe_Values.Look<IntVec3>(ref this.initialMapSize, "initialMapSize", default(IntVec3), false);

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,62 +21,62 @@ namespace Verse
 				return list.ToArray();
 			}
 			int[] array = new int[count];
-			if (this.Area() > 0f)
+			if (this.Area() > 0.0)
 			{
-				for (int i = 0; i < count; i++)
+				for (int num = 0; num < count; num++)
 				{
-					array[i] = i;
+					array[num] = num;
 				}
 			}
 			else
 			{
-				for (int j = 0; j < count; j++)
+				for (int num2 = 0; num2 < count; num2++)
 				{
-					array[j] = count - 1 - j;
+					array[num2] = count - 1 - num2;
 				}
 			}
-			int k = count;
-			int num = 2 * k;
-			int num2 = 0;
-			int num3 = k - 1;
-			while (k > 2)
+			int num3 = count;
+			int num4 = 2 * num3;
+			int num5 = 0;
+			int num6 = num3 - 1;
+			while (num3 > 2)
 			{
-				if (num-- <= 0)
+				if (num4-- <= 0)
 				{
 					return list.ToArray();
 				}
-				int num4 = num3;
-				if (k <= num4)
+				int num8 = num6;
+				if (num3 <= num8)
 				{
-					num4 = 0;
+					num8 = 0;
 				}
-				num3 = num4 + 1;
-				if (k <= num3)
+				num6 = num8 + 1;
+				if (num3 <= num6)
 				{
-					num3 = 0;
+					num6 = 0;
 				}
-				int num5 = num3 + 1;
-				if (k <= num5)
+				int num9 = num6 + 1;
+				if (num3 <= num9)
 				{
-					num5 = 0;
+					num9 = 0;
 				}
-				if (this.Snip(num4, num3, num5, k, array))
+				if (this.Snip(num8, num6, num9, num3, array))
 				{
-					int item = array[num4];
-					int item2 = array[num3];
-					int item3 = array[num5];
+					int item = array[num8];
+					int item2 = array[num6];
+					int item3 = array[num9];
 					list.Add(item);
 					list.Add(item2);
 					list.Add(item3);
-					num2++;
-					int num6 = num3;
-					for (int l = num3 + 1; l < k; l++)
+					num5++;
+					int num10 = num6;
+					for (int num11 = num6 + 1; num11 < num3; num11++)
 					{
-						array[num6] = array[l];
-						num6++;
+						array[num10] = array[num11];
+						num10++;
 					}
-					k--;
-					num = 2 * k;
+					num3--;
+					num4 = 2 * num3;
 				}
 			}
 			list.Reverse();
@@ -89,15 +88,15 @@ namespace Verse
 			int count = this.m_points.Count;
 			float num = 0f;
 			int index = count - 1;
-			int i = 0;
-			while (i < count)
+			int num2 = 0;
+			while (num2 < count)
 			{
 				Vector2 vector = this.m_points[index];
-				Vector2 vector2 = this.m_points[i];
+				Vector2 vector2 = this.m_points[num2];
 				num += vector.x * vector2.y - vector2.x * vector.y;
-				index = i++;
+				index = num2++;
 			}
-			return num * 0.5f;
+			return (float)(num * 0.5);
 		}
 
 		private bool Snip(int u, int v, int w, int n, int[] V)
@@ -109,11 +108,11 @@ namespace Verse
 			{
 				return false;
 			}
-			for (int i = 0; i < n; i++)
+			for (int num = 0; num < n; num++)
 			{
-				if (i != u && i != v && i != w)
+				if (num != u && num != v && num != w)
 				{
-					Vector2 p = this.m_points[V[i]];
+					Vector2 p = this.m_points[V[num]];
 					if (this.InsideTriangle(a, b, c, p))
 					{
 						return false;
@@ -140,7 +139,7 @@ namespace Verse
 			float num13 = num * num10 - num2 * num9;
 			float num14 = num5 * num8 - num6 * num7;
 			float num15 = num3 * num12 - num4 * num11;
-			return num13 >= 0f && num15 >= 0f && num14 >= 0f;
+			return num13 >= 0.0 && num15 >= 0.0 && num14 >= 0.0;
 		}
 	}
 }

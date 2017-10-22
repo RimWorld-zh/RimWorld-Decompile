@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -25,11 +24,11 @@ namespace Verse
 
 		public Dialog_Rename()
 		{
-			this.forcePause = true;
-			this.doCloseX = true;
-			this.closeOnEscapeKey = true;
-			this.absorbInputAroundWindow = true;
-			this.closeOnClickedOutside = true;
+			base.forcePause = true;
+			base.doCloseX = true;
+			base.closeOnEscapeKey = true;
+			base.absorbInputAroundWindow = true;
+			base.closeOnClickedOutside = true;
 		}
 
 		protected virtual AcceptanceReport NameIsValid(string name)
@@ -55,25 +54,24 @@ namespace Verse
 			{
 				this.curName = text;
 			}
-			if (Widgets.ButtonText(new Rect(15f, inRect.height - 35f - 15f, inRect.width - 15f - 15f, 35f), "OK", true, false, true) || flag)
+			if (!Widgets.ButtonText(new Rect(15f, (float)(inRect.height - 35.0 - 15.0), (float)(inRect.width - 15.0 - 15.0), 35f), "OK", true, false, true) && !flag)
+				return;
+			AcceptanceReport acceptanceReport = this.NameIsValid(this.curName);
+			if (!acceptanceReport.Accepted)
 			{
-				AcceptanceReport acceptanceReport = this.NameIsValid(this.curName);
-				if (!acceptanceReport.Accepted)
+				if (acceptanceReport.Reason == null)
 				{
-					if (acceptanceReport.Reason == null)
-					{
-						Messages.Message("NameIsInvalid".Translate(), MessageSound.RejectInput);
-					}
-					else
-					{
-						Messages.Message(acceptanceReport.Reason, MessageSound.RejectInput);
-					}
+					Messages.Message("NameIsInvalid".Translate(), MessageSound.RejectInput);
 				}
 				else
 				{
-					this.SetName(this.curName);
-					Find.WindowStack.TryRemove(this, true);
+					Messages.Message(acceptanceReport.Reason, MessageSound.RejectInput);
 				}
+			}
+			else
+			{
+				this.SetName(this.curName);
+				Find.WindowStack.TryRemove(this, true);
 			}
 		}
 

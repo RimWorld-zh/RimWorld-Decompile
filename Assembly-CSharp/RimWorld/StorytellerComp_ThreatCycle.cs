@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Verse;
 
@@ -12,7 +11,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (StorytellerCompProperties_ThreatCycle)this.props;
+				return (StorytellerCompProperties_ThreatCycle)base.props;
 			}
 		}
 
@@ -24,53 +23,67 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			StorytellerComp_ThreatCycle.<MakeIntervalIncidents>c__IteratorAF <MakeIntervalIncidents>c__IteratorAF = new StorytellerComp_ThreatCycle.<MakeIntervalIncidents>c__IteratorAF();
-			<MakeIntervalIncidents>c__IteratorAF.target = target;
-			<MakeIntervalIncidents>c__IteratorAF.<$>target = target;
-			<MakeIntervalIncidents>c__IteratorAF.<>f__this = this;
-			StorytellerComp_ThreatCycle.<MakeIntervalIncidents>c__IteratorAF expr_1C = <MakeIntervalIncidents>c__IteratorAF;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			float curCycleDays = (GenDate.DaysPassedFloat - this.Props.minDaysPassed) % this.Props.ThreatCycleTotalDays;
+			if (curCycleDays > this.Props.threatOffDays)
+			{
+				float daysSinceThreatBig = (float)((float)(Find.TickManager.TicksGame - target.StoryState.LastThreatBigTick) / 60000.0);
+				if (daysSinceThreatBig > this.Props.minDaysBetweenThreatBigs && ((daysSinceThreatBig > this.Props.ThreatCycleTotalDays * 0.89999997615814209 && curCycleDays > this.Props.ThreatCycleTotalDays * 0.949999988079071) || Rand.MTBEventOccurs(this.Props.mtbDaysThreatBig, 60000f, 1000f)))
+				{
+					FiringIncident bt = this.GenerateQueuedThreatBig(target);
+					if (bt != null)
+					{
+						yield return bt;
+					}
+				}
+				if (Rand.MTBEventOccurs(this.Props.mtbDaysThreatSmall, 60000f, 1000f))
+				{
+					FiringIncident st = this.GenerateQueuedThreatSmall(target);
+					if (st != null)
+					{
+						yield return st;
+					}
+				}
+			}
 		}
 
 		private FiringIncident GenerateQueuedThreatSmall(IIncidentTarget target)
 		{
-			IncidentDef incidentDef;
-			if (!this.UsableIncidentsInCategory(IncidentCategory.ThreatSmall, target).TryRandomElementByWeight(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incidentDef))
+			IncidentDef incidentDef = default(IncidentDef);
+			if (!this.UsableIncidentsInCategory(IncidentCategory.ThreatSmall, target).TryRandomElementByWeight<IncidentDef>(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incidentDef))
 			{
 				return null;
 			}
-			return new FiringIncident(incidentDef, this, null)
-			{
-				parms = this.GenerateParms(incidentDef.category, target)
-			};
+			FiringIncident firingIncident = new FiringIncident(incidentDef, this, null);
+			firingIncident.parms = this.GenerateParms(incidentDef.category, target);
+			return firingIncident;
 		}
 
 		private FiringIncident GenerateQueuedThreatBig(IIncidentTarget target)
 		{
 			IncidentParms parms = this.GenerateParms(IncidentCategory.ThreatBig, target);
-			IncidentDef raidEnemy;
+			IncidentDef raidEnemy = default(IncidentDef);
 			if (GenDate.DaysPassed < 20)
 			{
-				if (!IncidentDefOf.RaidEnemy.Worker.CanFireNow(target))
+				if (IncidentDefOf.RaidEnemy.Worker.CanFireNow(target))
 				{
-					return null;
+					raidEnemy = IncidentDefOf.RaidEnemy;
+					goto IL_0088;
 				}
-				raidEnemy = IncidentDefOf.RaidEnemy;
+				return null;
 			}
-			else if (!(from def in DefDatabase<IncidentDef>.AllDefs
+			if (!(from def in DefDatabase<IncidentDef>.AllDefs
 			where def.category == IncidentCategory.ThreatBig && parms.points >= def.minThreatPoints && def.Worker.CanFireNow(target)
-			select def).TryRandomElementByWeight(new Func<IncidentDef, float>(base.IncidentChanceFinal), out raidEnemy))
+			select def).TryRandomElementByWeight<IncidentDef>(new Func<IncidentDef, float>(base.IncidentChanceFinal), out raidEnemy))
 			{
 				return null;
 			}
-			return new FiringIncident(raidEnemy, this, null)
-			{
-				parms = parms
-			};
+			goto IL_0088;
+			IL_0088:
+			FiringIncident firingIncident = new FiringIncident(raidEnemy, this, null);
+			firingIncident.parms = parms;
+			return firingIncident;
 		}
 	}
 }

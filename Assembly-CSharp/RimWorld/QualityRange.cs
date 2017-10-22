@@ -25,27 +25,23 @@ namespace RimWorld
 
 		public bool Includes(QualityCategory p)
 		{
-			return p >= this.min && p <= this.max;
+			return (int)p >= (int)this.min && (int)p <= (int)this.max;
 		}
 
 		public static QualityRange FromString(string s)
 		{
-			string[] array = s.Split(new char[]
-			{
-				'~'
-			});
-			QualityRange result = new QualityRange((QualityCategory)((byte)ParseHelper.FromString(array[0], typeof(QualityCategory))), (QualityCategory)((byte)ParseHelper.FromString(array[1], typeof(QualityCategory))));
-			return result;
+			string[] array = s.Split('~');
+			return new QualityRange((QualityCategory)(byte)ParseHelper.FromString(array[0], typeof(QualityCategory)), (QualityCategory)(byte)ParseHelper.FromString(array[1], typeof(QualityCategory)));
 		}
 
 		public override string ToString()
 		{
-			return this.min.ToString() + "~" + this.max.ToString();
+			return ((Enum)(object)this.min).ToString() + "~" + ((Enum)(object)this.max).ToString();
 		}
 
 		public override int GetHashCode()
 		{
-			return Gen.HashCombineStruct<QualityCategory>(this.min.GetHashCode(), this.max);
+			return Gen.HashCombineStruct(((Enum)(object)this.min).GetHashCode(), this.max);
 		}
 
 		public override bool Equals(object obj)

@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum GenderPossibility : byte
 	{
-		Male,
-		Female,
-		Either
+		Male = 0,
+		Female = 1,
+		Either = 2
 	}
 }

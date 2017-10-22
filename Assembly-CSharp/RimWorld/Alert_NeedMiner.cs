@@ -9,9 +9,9 @@ namespace RimWorld
 	{
 		public Alert_NeedMiner()
 		{
-			this.defaultLabel = "NeedMiner".Translate();
-			this.defaultExplanation = "NeedMinerDesc".Translate();
-			this.defaultPriority = AlertPriority.High;
+			base.defaultLabel = "NeedMiner".Translate();
+			base.defaultExplanation = "NeedMinerDesc".Translate();
+			base.defaultPriority = AlertPriority.High;
 		}
 
 		public override AlertReport GetReport()
@@ -24,13 +24,13 @@ namespace RimWorld
 				{
 					Designation designation = (from d in map.designationManager.allDesignations
 					where d.def == DesignationDefOf.Mine
-					select d).FirstOrDefault<Designation>();
+					select d).FirstOrDefault();
 					if (designation != null)
 					{
 						bool flag = false;
-						foreach (Pawn current in map.mapPawns.FreeColonistsSpawned)
+						foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
 						{
-							if (!current.Downed && current.workSettings != null && current.workSettings.GetPriority(WorkTypeDefOf.Mining) > 0)
+							if (!item.Downed && item.workSettings != null && item.workSettings.GetPriority(WorkTypeDefOf.Mining) > 0)
 							{
 								flag = true;
 								break;

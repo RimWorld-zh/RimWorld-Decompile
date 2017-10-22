@@ -20,13 +20,13 @@ namespace Verse.AI.Group
 				IEnumerable<Pawn> source = from x in lordToil_DefendPoint.lord.ownedPawns
 				where x.GetTraderCaravanRole() == TraderCaravanRole.Carrier
 				select x;
-				if (source.Any<Pawn>())
+				if (source.Any())
 				{
-					lordToil_DefendPoint.SetDefendPoint(source.RandomElement<Pawn>().Position);
+					lordToil_DefendPoint.SetDefendPoint(source.RandomElement().Position);
 				}
 				else
 				{
-					lordToil_DefendPoint.SetDefendPoint(lordToil_DefendPoint.lord.ownedPawns.RandomElement<Pawn>().Position);
+					lordToil_DefendPoint.SetDefendPoint(lordToil_DefendPoint.lord.ownedPawns.RandomElement().Position);
 				}
 			}
 		}

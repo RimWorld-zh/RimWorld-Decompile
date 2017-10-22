@@ -1,20 +1,26 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
 	public class Building_BlastingCharge : Building
 	{
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_BlastingCharge.<GetGizmos>c__Iterator146 <GetGizmos>c__Iterator = new Building_BlastingCharge.<GetGizmos>c__Iterator146();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			Building_BlastingCharge.<GetGizmos>c__Iterator146 expr_0E = <GetGizmos>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			Command_Action com = new Command_Action
+			{
+				icon = ContentFinder<Texture2D>.Get("UI/Commands/Detonate", true),
+				defaultDesc = "CommandDetonateDesc".Translate(),
+				action = new Action(this.Command_Detonate)
+			};
+			if (base.GetComp<CompExplosive>().wickStarted)
+			{
+				com.Disable((string)null);
+			}
+			com.defaultLabel = "CommandDetonateLabel".Translate();
+			yield return (Gizmo)com;
 		}
 
 		private void Command_Detonate()

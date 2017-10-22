@@ -27,7 +27,7 @@ namespace RimWorld.Planet
 
 		public static void ExpandableWorldObjectsUpdate()
 		{
-			float num = Time.deltaTime * 3f;
+			float num = (float)(Time.deltaTime * 3.0);
 			if (Find.WorldCameraDriver.CurrentZoom == WorldCameraZoomRange.Close)
 			{
 				ExpandableWorldObjectsUtility.transitionPct -= num;
@@ -41,31 +41,27 @@ namespace RimWorld.Planet
 
 		public static void ExpandableWorldObjectsOnGUI()
 		{
-			if (ExpandableWorldObjectsUtility.TransitionPct == 0f)
+			if (ExpandableWorldObjectsUtility.TransitionPct != 0.0)
 			{
-				return;
-			}
-			ExpandableWorldObjectsUtility.tmpWorldObjects.Clear();
-			ExpandableWorldObjectsUtility.tmpWorldObjects.AddRange(Find.WorldObjects.AllWorldObjects);
-			ExpandableWorldObjectsUtility.SortByExpandingIconPriority(ExpandableWorldObjectsUtility.tmpWorldObjects);
-			WorldTargeter worldTargeter = Find.WorldTargeter;
-			List<WorldObject> worldObjectsUnderMouse = null;
-			if (worldTargeter.IsTargeting)
-			{
-				worldObjectsUnderMouse = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
-			}
-			for (int i = 0; i < ExpandableWorldObjectsUtility.tmpWorldObjects.Count; i++)
-			{
-				WorldObject worldObject = ExpandableWorldObjectsUtility.tmpWorldObjects[i];
-				if (worldObject.def.expandingIcon)
+				ExpandableWorldObjectsUtility.tmpWorldObjects.Clear();
+				ExpandableWorldObjectsUtility.tmpWorldObjects.AddRange(Find.WorldObjects.AllWorldObjects);
+				ExpandableWorldObjectsUtility.SortByExpandingIconPriority(ExpandableWorldObjectsUtility.tmpWorldObjects);
+				WorldTargeter worldTargeter = Find.WorldTargeter;
+				List<WorldObject> worldObjectsUnderMouse = null;
+				if (worldTargeter.IsTargeting)
 				{
-					if (!worldObject.HiddenBehindTerrainNow())
+					worldObjectsUnderMouse = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
+				}
+				for (int i = 0; i < ExpandableWorldObjectsUtility.tmpWorldObjects.Count; i++)
+				{
+					WorldObject worldObject = ExpandableWorldObjectsUtility.tmpWorldObjects[i];
+					if (worldObject.def.expandingIcon && !worldObject.HiddenBehindTerrainNow())
 					{
 						Color expandingIconColor = worldObject.ExpandingIconColor;
 						expandingIconColor.a = ExpandableWorldObjectsUtility.TransitionPct;
 						if (worldTargeter.IsTargetedNow(worldObject, worldObjectsUnderMouse))
 						{
-							float num = GenMath.LerpDouble(-1f, 1f, 0.7f, 1f, Mathf.Sin(Time.time * 8f));
+							float num = GenMath.LerpDouble(-1f, 1f, 0.7f, 1f, Mathf.Sin((float)(Time.time * 8.0)));
 							expandingIconColor.r *= num;
 							expandingIconColor.g *= num;
 							expandingIconColor.b *= num;
@@ -74,20 +70,20 @@ namespace RimWorld.Planet
 						GUI.DrawTexture(ExpandableWorldObjectsUtility.ExpandedIconScreenRect(worldObject), worldObject.ExpandingIcon);
 					}
 				}
+				ExpandableWorldObjectsUtility.tmpWorldObjects.Clear();
+				GUI.color = Color.white;
 			}
-			ExpandableWorldObjectsUtility.tmpWorldObjects.Clear();
-			GUI.color = Color.white;
 		}
 
 		public static Rect ExpandedIconScreenRect(WorldObject o)
 		{
 			Vector2 vector = o.ScreenPos();
-			return new Rect(vector.x - 15f, vector.y - 15f, 30f, 30f);
+			return new Rect((float)(vector.x - 15.0), (float)(vector.y - 15.0), 30f, 30f);
 		}
 
 		public static bool IsExpanded(WorldObject o)
 		{
-			return ExpandableWorldObjectsUtility.TransitionPct > 0.5f && o.def.expandingIcon;
+			return ExpandableWorldObjectsUtility.TransitionPct > 0.5 && o.def.expandingIcon;
 		}
 
 		public static void GetExpandedWorldObjectUnderMouse(Vector2 mousePos, List<WorldObject> outList)
@@ -99,15 +95,9 @@ namespace RimWorld.Planet
 			for (int i = 0; i < allWorldObjects.Count; i++)
 			{
 				WorldObject worldObject = allWorldObjects[i];
-				if (ExpandableWorldObjectsUtility.IsExpanded(worldObject))
+				if (ExpandableWorldObjectsUtility.IsExpanded(worldObject) && ExpandableWorldObjectsUtility.ExpandedIconScreenRect(worldObject).Contains(point) && !worldObject.HiddenBehindTerrainNow())
 				{
-					if (ExpandableWorldObjectsUtility.ExpandedIconScreenRect(worldObject).Contains(point))
-					{
-						if (!worldObject.HiddenBehindTerrainNow())
-						{
-							outList.Add(worldObject);
-						}
-					}
+					outList.Add(worldObject);
 				}
 			}
 			ExpandableWorldObjectsUtility.SortByExpandingIconPriority(outList);
@@ -116,15 +106,15 @@ namespace RimWorld.Planet
 
 		private static void SortByExpandingIconPriority(List<WorldObject> worldObjects)
 		{
-			worldObjects.SortBy(delegate(WorldObject x)
+			worldObjects.SortBy((Func<WorldObject, float>)delegate(WorldObject x)
 			{
 				float num = x.ExpandingIconPriority;
 				if (x.Faction != null && x.Faction.IsPlayer)
 				{
-					num += 0.001f;
+					num = (float)(num + 0.0010000000474974513);
 				}
 				return num;
-			}, (WorldObject x) => x.ID);
+			}, (Func<WorldObject, int>)((WorldObject x) => x.ID));
 		}
 	}
 }

@@ -81,7 +81,7 @@ namespace RimWorld
 
 		public IEnumerator<Bill> GetEnumerator()
 		{
-			return this.bills.GetEnumerator();
+			return (IEnumerator<Bill>)(object)this.bills.GetEnumerator();
 		}
 
 		public void AddBill(Bill bill)
@@ -114,11 +114,11 @@ namespace RimWorld
 
 		public void RemoveIncompletableBills()
 		{
-			for (int i = this.bills.Count - 1; i >= 0; i--)
+			for (int num = this.bills.Count - 1; num >= 0; num--)
 			{
-				if (!this.bills[i].CompletableEver)
+				if (!this.bills[num].CompletableEver)
 				{
-					this.bills.Remove(this.bills[i]);
+					this.bills.Remove(this.bills[num]);
 				}
 			}
 		}
@@ -156,8 +156,8 @@ namespace RimWorld
 			}
 			Text.Anchor = TextAnchor.UpperLeft;
 			GUI.color = Color.white;
-			Rect outRect = new Rect(0f, 35f, rect.width, rect.height - 35f);
-			Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, viewHeight);
+			Rect outRect = new Rect(0f, 35f, rect.width, (float)(rect.height - 35.0));
+			Rect viewRect = new Rect(0f, 0f, (float)(outRect.width - 16.0), viewHeight);
 			Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect, true);
 			float num = 0f;
 			for (int i = 0; i < this.Count; i++)
@@ -168,11 +168,11 @@ namespace RimWorld
 				{
 					result = bill;
 				}
-				num += rect3.height + 6f;
+				num = (float)(num + (rect3.height + 6.0));
 			}
 			if (Event.current.type == EventType.Layout)
 			{
-				viewHeight = num + 60f;
+				viewHeight = (float)(num + 60.0);
 			}
 			Widgets.EndScrollView();
 			GUI.EndGroup();

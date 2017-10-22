@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class HediffCompProperties_Disappears : HediffCompProperties
@@ -8,7 +6,7 @@ namespace Verse
 
 		public HediffCompProperties_Disappears()
 		{
-			this.compClass = typeof(HediffComp_Disappears);
+			base.compClass = typeof(HediffComp_Disappears);
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Verse;
@@ -9,38 +8,29 @@ namespace RimWorld.Planet
 	{
 		public static void CheckDefeated(FactionBase factionBase)
 		{
-			if (factionBase.Faction == Faction.OfPlayer)
+			if (factionBase.Faction != Faction.OfPlayer)
 			{
-				return;
-			}
-			Map map = factionBase.Map;
-			if (map == null || !FactionBaseDefeatUtility.IsDefeated(map, factionBase.Faction))
-			{
-				return;
-			}
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.Append("LetterFactionBaseDefeated".Translate(new object[]
-			{
-				factionBase.Label,
-				MapParent.GetForceExitAndRemoveMapCountdownTimeLeftString(60000)
-			}));
-			if (!FactionBaseDefeatUtility.HasAnyOtherBase(factionBase))
-			{
-				factionBase.Faction.defeated = true;
-				stringBuilder.AppendLine();
-				stringBuilder.AppendLine();
-				stringBuilder.Append("LetterFactionBaseDefeated_FactionDestroyed".Translate(new object[]
+				Map map = factionBase.Map;
+				if (map != null && FactionBaseDefeatUtility.IsDefeated(map, factionBase.Faction))
 				{
-					factionBase.Faction.Name
-				}));
+					StringBuilder stringBuilder = new StringBuilder();
+					stringBuilder.Append("LetterFactionBaseDefeated".Translate(factionBase.Label, MapParent.GetForceExitAndRemoveMapCountdownTimeLeftString(60000)));
+					if (!FactionBaseDefeatUtility.HasAnyOtherBase(factionBase))
+					{
+						factionBase.Faction.defeated = true;
+						stringBuilder.AppendLine();
+						stringBuilder.AppendLine();
+						stringBuilder.Append("LetterFactionBaseDefeated_FactionDestroyed".Translate(factionBase.Faction.Name));
+					}
+					Find.LetterStack.ReceiveLetter("LetterLabelFactionBaseDefeated".Translate(), stringBuilder.ToString(), LetterDefOf.Good, new GlobalTargetInfo(factionBase.Tile), (string)null);
+					DestroyedFactionBase destroyedFactionBase = (DestroyedFactionBase)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.DestroyedFactionBase);
+					destroyedFactionBase.Tile = factionBase.Tile;
+					Find.WorldObjects.Add(destroyedFactionBase);
+					map.info.parent = destroyedFactionBase;
+					Find.WorldObjects.Remove(factionBase);
+					destroyedFactionBase.StartForceExitAndRemoveMapCountdown();
+				}
 			}
-			Find.LetterStack.ReceiveLetter("LetterLabelFactionBaseDefeated".Translate(), stringBuilder.ToString(), LetterDefOf.Good, new GlobalTargetInfo(factionBase.Tile), null);
-			DestroyedFactionBase destroyedFactionBase = (DestroyedFactionBase)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.DestroyedFactionBase);
-			destroyedFactionBase.Tile = factionBase.Tile;
-			Find.WorldObjects.Add(destroyedFactionBase);
-			map.info.parent = destroyedFactionBase;
-			Find.WorldObjects.Remove(factionBase);
-			destroyedFactionBase.StartForceExitAndRemoveMapCountdown();
 		}
 
 		private static bool IsDefeated(Map map, Faction faction)

@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using Verse;
 
@@ -43,12 +42,12 @@ namespace RimWorld
 
 		public void ExposeData()
 		{
-			Scribe_Values.Look<string>(ref this.gameVersion, "gameVersion", null, false);
-			Scribe_Values.Look<string>(ref this.gameplayID, "gameplayID", null, false);
-			Scribe_Values.Look<string>(ref this.userName, "userName", null, false);
-			Scribe_Values.Look<string>(ref this.storytellerName, "storytellerName", null, false);
-			Scribe_Values.Look<string>(ref this.realWorldDate, "realWorldDate", null, false);
-			Scribe_Values.Look<string>(ref this.firstUploadDate, "firstUploadDate", null, false);
+			Scribe_Values.Look<string>(ref this.gameVersion, "gameVersion", (string)null, false);
+			Scribe_Values.Look<string>(ref this.gameplayID, "gameplayID", (string)null, false);
+			Scribe_Values.Look<string>(ref this.userName, "userName", (string)null, false);
+			Scribe_Values.Look<string>(ref this.storytellerName, "storytellerName", (string)null, false);
+			Scribe_Values.Look<string>(ref this.realWorldDate, "realWorldDate", (string)null, false);
+			Scribe_Values.Look<string>(ref this.firstUploadDate, "firstUploadDate", (string)null, false);
 			Scribe_Values.Look<int>(ref this.firstUploadTime, "firstUploadTime", 0, false);
 			Scribe_Values.Look<bool>(ref this.devMode, "devMode", false, false);
 			Scribe_Deep.Look<History>(ref this.history, "history", new object[0]);

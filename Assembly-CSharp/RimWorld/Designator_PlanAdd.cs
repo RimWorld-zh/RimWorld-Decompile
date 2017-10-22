@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -8,11 +7,11 @@ namespace RimWorld
 	{
 		public Designator_PlanAdd() : base(DesignateMode.Add)
 		{
-			this.defaultLabel = "DesignatorPlan".Translate();
-			this.defaultDesc = "DesignatorPlanDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/PlanOn", true);
-			this.soundSucceeded = SoundDefOf.DesignatePlanAdd;
-			this.hotKey = KeyBindingDefOf.Misc9;
+			base.defaultLabel = "DesignatorPlan".Translate();
+			base.defaultDesc = "DesignatorPlanDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/PlanOn", true);
+			base.soundSucceeded = SoundDefOf.DesignatePlanAdd;
+			base.hotKey = KeyBindingDefOf.Misc9;
 		}
 	}
 }

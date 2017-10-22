@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -9,7 +8,7 @@ namespace Verse
 		{
 			get
 			{
-				return (CompProperties_TemperatureDamaged)this.props;
+				return (CompProperties_TemperatureDamaged)base.props;
 			}
 		}
 
@@ -20,9 +19,9 @@ namespace Verse
 
 		public override void CompTickRare()
 		{
-			if (!this.Props.safeTemperatureRange.Includes(this.parent.AmbientTemperature))
+			if (!this.Props.safeTemperatureRange.Includes(base.parent.AmbientTemperature))
 			{
-				this.parent.TakeDamage(new DamageInfo(DamageDefOf.Deterioration, this.Props.damagePerTickRare, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
+				base.parent.TakeDamage(new DamageInfo(DamageDefOf.Deterioration, this.Props.damagePerTickRare, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
 			}
 		}
 	}

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -14,7 +13,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.def.gameCondition.LabelCap;
+				return base.def.gameCondition.LabelCap;
 			}
 		}
 
@@ -26,20 +25,12 @@ namespace RimWorld
 
 		public override string Summary(Scenario scen)
 		{
-			return string.Concat(new string[]
-			{
-				this.def.gameCondition.LabelCap,
-				": ",
-				this.def.gameCondition.description,
-				" (",
-				((int)(this.durationDays * 60000f)).ToStringTicksToDays("F1"),
-				")"
-			});
+			return base.def.gameCondition.LabelCap + ": " + base.def.gameCondition.description + " (" + ((int)(this.durationDays * 60000.0)).ToStringTicksToDays("F1") + ")";
 		}
 
 		public override void Randomize()
 		{
-			this.durationDays = Mathf.Round(this.def.durationRandomRange.RandomInRange);
+			this.durationDays = Mathf.Round(base.def.durationRandomRange.RandomInRange);
 		}
 
 		public override void DoEditInterface(Listing_ScenEdit listing)
@@ -50,18 +41,21 @@ namespace RimWorld
 
 		public override void GenerateIntoMap(Map map)
 		{
-			if (Find.GameInitData == null)
+			if (Find.GameInitData != null)
 			{
-				return;
+				GameCondition cond = GameConditionMaker.MakeCondition(base.def.gameCondition, (int)(this.durationDays * 60000.0), 0);
+				map.gameConditionManager.RegisterCondition(cond);
 			}
-			GameCondition cond = GameConditionMaker.MakeCondition(this.def.gameCondition, (int)(this.durationDays * 60000f), 0);
-			map.gameConditionManager.RegisterCondition(cond);
 		}
 
 		public override bool CanCoexistWith(ScenPart other)
 		{
 			ScenPart_GameCondition scenPart_GameCondition = other as ScenPart_GameCondition;
-			return scenPart_GameCondition == null || scenPart_GameCondition.def.gameCondition.CanCoexistWith(this.def.gameCondition);
+			if (scenPart_GameCondition != null && !scenPart_GameCondition.def.gameCondition.CanCoexistWith(base.def.gameCondition))
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

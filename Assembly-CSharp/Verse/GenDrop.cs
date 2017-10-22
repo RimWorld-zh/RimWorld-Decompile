@@ -15,13 +15,7 @@ namespace Verse
 			}
 			if (!dropCell.InBounds(map))
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Dropped ",
-					thing,
-					" out of bounds at ",
-					dropCell
-				}));
+				Log.Error("Dropped " + thing + " out of bounds at " + dropCell);
 				resultingThing = null;
 				return false;
 			}

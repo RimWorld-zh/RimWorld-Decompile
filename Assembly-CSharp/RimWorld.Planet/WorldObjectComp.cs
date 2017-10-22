@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld.Planet
@@ -28,32 +26,24 @@ namespace RimWorld.Planet
 		{
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable<Gizmo> GetGizmos()
 		{
-			WorldObjectComp.<GetGizmos>c__Iterator10E <GetGizmos>c__Iterator10E = new WorldObjectComp.<GetGizmos>c__Iterator10E();
-			WorldObjectComp.<GetGizmos>c__Iterator10E expr_07 = <GetGizmos>c__Iterator10E;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield break;
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			WorldObjectComp.<GetFloatMenuOptions>c__Iterator10F <GetFloatMenuOptions>c__Iterator10F = new WorldObjectComp.<GetFloatMenuOptions>c__Iterator10F();
-			WorldObjectComp.<GetFloatMenuOptions>c__Iterator10F expr_07 = <GetFloatMenuOptions>c__Iterator10F;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield break;
 		}
 
 		public virtual string CompInspectStringExtra()
 		{
-			return null;
+			return (string)null;
 		}
 
 		public virtual string GetDescriptionPart()
 		{
-			return null;
+			return (string)null;
 		}
 
 		public virtual void PostPostRemove()
@@ -66,15 +56,7 @@ namespace RimWorld.Planet
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				base.GetType().Name,
-				"(parent=",
-				this.parent,
-				" at=",
-				(this.parent == null) ? -1 : this.parent.Tile,
-				")"
-			});
+			return base.GetType().Name + "(parent=" + this.parent + " at=" + ((this.parent == null) ? (-1) : this.parent.Tile) + ")";
 		}
 	}
 }

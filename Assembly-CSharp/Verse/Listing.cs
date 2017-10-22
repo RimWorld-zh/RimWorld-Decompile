@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -45,7 +44,7 @@ namespace Verse
 		public void NewColumn()
 		{
 			this.curY = 0f;
-			this.curX += this.ColumnWidth + 17f;
+			this.curX += (float)(this.ColumnWidth + 17.0);
 		}
 
 		protected void NewColumnIfNeeded(float neededHeight)
@@ -71,7 +70,7 @@ namespace Verse
 
 		public void GapLine(float gapHeight = 12f)
 		{
-			float y = this.curY + gapHeight / 2f;
+			float y = (float)(this.curY + gapHeight / 2.0);
 			Color color = GUI.color;
 			GUI.color = color * new Color(1f, 1f, 1f, 0.4f);
 			Widgets.DrawLineHorizontal(this.curX, y, this.ColumnWidth);
@@ -86,14 +85,7 @@ namespace Verse
 			{
 				if (this.columnWidthInt > this.listingRect.width)
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Listing set ColumnWith to ",
-						this.columnWidthInt,
-						" which is more than the whole listing rect width of ",
-						this.listingRect.width,
-						". Clamping."
-					}));
+					Log.Error("Listing set ColumnWith to " + this.columnWidthInt + " which is more than the whole listing rect width of " + this.listingRect.width + ". Clamping.");
 					this.columnWidthInt = this.listingRect.width;
 				}
 			}

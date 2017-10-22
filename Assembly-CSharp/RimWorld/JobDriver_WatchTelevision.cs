@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -12,9 +11,11 @@ namespace RimWorld
 			if (!thing.TryGetComp<CompPowerTrader>().PowerOn)
 			{
 				base.EndJobWith(JobCondition.Incompletable);
-				return;
 			}
-			base.WatchTickAction();
+			else
+			{
+				base.WatchTickAction();
+			}
 		}
 	}
 }

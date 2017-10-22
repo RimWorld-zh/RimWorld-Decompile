@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class HediffGiver_Bleeding : HediffGiver
@@ -7,14 +5,13 @@ namespace Verse
 		public override void OnIntervalPassed(Pawn pawn, Hediff cause)
 		{
 			HediffSet hediffSet = pawn.health.hediffSet;
-			bool flag = hediffSet.BleedRateTotal >= 0.1f;
-			if (flag)
+			if (hediffSet.BleedRateTotal >= 0.10000000149011612)
 			{
-				HealthUtility.AdjustSeverity(pawn, this.hediff, hediffSet.BleedRateTotal * 0.001f);
+				HealthUtility.AdjustSeverity(pawn, base.hediff, (float)(hediffSet.BleedRateTotal * 0.0010000000474974513));
 			}
 			else
 			{
-				HealthUtility.AdjustSeverity(pawn, this.hediff, -0.00033333333f);
+				HealthUtility.AdjustSeverity(pawn, base.hediff, -0.00033333333f);
 			}
 		}
 	}

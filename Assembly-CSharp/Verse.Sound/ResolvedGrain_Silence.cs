@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Sound
 {
 	public class ResolvedGrain_Silence : ResolvedGrain
@@ -9,7 +7,7 @@ namespace Verse.Sound
 		public ResolvedGrain_Silence(AudioGrain_Silence sourceGrain)
 		{
 			this.sourceGrain = sourceGrain;
-			this.duration = sourceGrain.durationRange.RandomInRange;
+			base.duration = sourceGrain.durationRange.RandomInRange;
 		}
 
 		public override string ToString()
@@ -24,7 +22,11 @@ namespace Verse.Sound
 				return false;
 			}
 			ResolvedGrain_Silence resolvedGrain_Silence = obj as ResolvedGrain_Silence;
-			return resolvedGrain_Silence != null && resolvedGrain_Silence.sourceGrain == this.sourceGrain;
+			if (resolvedGrain_Silence == null)
+			{
+				return false;
+			}
+			return resolvedGrain_Silence.sourceGrain == this.sourceGrain;
 		}
 
 		public override int GetHashCode()

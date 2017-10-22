@@ -31,30 +31,39 @@ namespace RimWorld.Planet
 		{
 			Find.WorldPathGrid.RecalculateAllPerceivedPathCosts(Season.Spring.GetMiddleYearPct(0f));
 			List<List<int>> list = this.GenerateProspectiveRoads();
-			list.Sort((List<int> lhs, List<int> rhs) => -lhs.Count.CompareTo(rhs.Count));
+			list.Sort((Comparison<List<int>>)((List<int> lhs, List<int> rhs) => -lhs.Count.CompareTo(rhs.Count)));
 			HashSet<int> used = new HashSet<int>();
 			for (int i = 0; i < list.Count; i++)
 			{
-				if (!list[i].Any((int elem) => used.Contains(elem)))
+				if (!list[i].Any((Predicate<int>)((int elem) => used.Contains(elem))))
 				{
 					if (list[i].Count < 4)
 					{
 						break;
 					}
-					foreach (int current in list[i])
+					List<int>.Enumerator enumerator = list[i].GetEnumerator();
+					try
 					{
-						used.Add(current);
+						while (enumerator.MoveNext())
+						{
+							int current = enumerator.Current;
+							used.Add(current);
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator).Dispose();
 					}
 					for (int j = 0; j < list[i].Count - 1; j++)
 					{
 						float num = Find.WorldGrid.ApproxDistanceInTiles(list[i][j], list[i][j + 1]) * this.maximumSegmentCurviness;
-						float costCutoff = num * 12000f;
-						using (WorldPath worldPath = Find.WorldPathFinder.FindPath(list[i][j], list[i][j + 1], null, (float cost) => cost > costCutoff))
+						float costCutoff = (float)(num * 12000.0);
+						using (WorldPath worldPath = Find.WorldPathFinder.FindPath(list[i][j], list[i][j + 1], null, (Func<float, bool>)((float cost) => cost > costCutoff)))
 						{
 							if (worldPath != null && worldPath != WorldPath.NotFound)
 							{
 								List<int> nodesReversed = worldPath.NodesReversed;
-								if ((float)nodesReversed.Count <= Find.WorldGrid.ApproxDistanceInTiles(list[i][j], list[i][j + 1]) * this.maximumSegmentCurviness)
+								if (!((float)nodesReversed.Count > Find.WorldGrid.ApproxDistanceInTiles(list[i][j], list[i][j + 1]) * this.maximumSegmentCurviness))
 								{
 									for (int k = 0; k < nodesReversed.Count - 1; k++)
 									{
@@ -92,15 +101,16 @@ namespace RimWorld.Planet
 					{
 						list3 = (from idx in list3
 						where idx != current && Math.Abs(Find.World.grid.GetHeadingFromTo(current, idx) - ang) < this.maximumSiteCurve
-						select idx).ToList<int>();
-						if (list3.Count == 0)
+						select idx).ToList();
+						if (list3.Count != 0)
 						{
-							break;
+							int num = list3.MinBy((Func<int, float>)((int idx) => Find.World.grid.ApproxDistanceInTiles(current, idx)));
+							ang = Find.World.grid.GetHeadingFromTo(current, num);
+							current = num;
+							list2.Add(current);
+							continue;
 						}
-						int num = list3.MinBy((int idx) => Find.World.grid.ApproxDistanceInTiles(current, idx));
-						ang = Find.World.grid.GetHeadingFromTo(current, num);
-						current = num;
-						list2.Add(current);
+						break;
 					}
 					list.Add(list2);
 				}

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -76,7 +75,7 @@ namespace RimWorld
 				}
 				num *= pawn.ageTracker.CurLifeStage.statFactors.GetStatFactorFromList(this.stat);
 			}
-			if (req.StuffDef != null && (num > 0f || this.stat.applyFactorsIfNegative))
+			if (req.StuffDef != null && (num > 0.0 || this.stat.applyFactorsIfNegative))
 			{
 				num += req.StuffDef.stuffProps.statOffsets.GetStatOffsetFromList(this.stat);
 				num *= req.StuffDef.stuffProps.statFactors.GetStatFactorFromList(this.stat);
@@ -107,7 +106,7 @@ namespace RimWorld
 							}
 						}
 					}
-					else if (this.stat.noSkillFactor != 1f)
+					else if (this.stat.noSkillFactor != 1.0)
 					{
 						num *= this.stat.noSkillFactor;
 					}
@@ -134,16 +133,16 @@ namespace RimWorld
 			Pawn pawn = req.Thing as Pawn;
 			if (pawn != null)
 			{
-				if (pawn.RaceProps.intelligence >= Intelligence.ToolUser)
+				if ((int)pawn.RaceProps.intelligence >= 1)
 				{
 					if (pawn.story != null && pawn.story.traits != null)
 					{
 						List<Trait> list = (from tr in pawn.story.traits.allTraits
-						where tr.CurrentData.statOffsets != null && tr.CurrentData.statOffsets.Any((StatModifier se) => se.stat == this.stat)
-						select tr).ToList<Trait>();
+						where tr.CurrentData.statOffsets != null && tr.CurrentData.statOffsets.Any((Predicate<StatModifier>)((StatModifier se) => se.stat == this.stat))
+						select tr).ToList();
 						List<Trait> list2 = (from tr in pawn.story.traits.allTraits
-						where tr.CurrentData.statFactors != null && tr.CurrentData.statFactors.Any((StatModifier se) => se.stat == this.stat)
-						select tr).ToList<Trait>();
+						where tr.CurrentData.statFactors != null && tr.CurrentData.statFactors.Any((Predicate<StatModifier>)((StatModifier se) => se.stat == this.stat))
+						select tr).ToList();
 						if (list.Count > 0 || list2.Count > 0)
 						{
 							stringBuilder.AppendLine();
@@ -151,18 +150,18 @@ namespace RimWorld
 							for (int i = 0; i < list.Count; i++)
 							{
 								Trait trait = list[i];
-								string toStringAsOffset = trait.CurrentData.statOffsets.First((StatModifier se) => se.stat == this.stat).ToStringAsOffset;
+								string toStringAsOffset = trait.CurrentData.statOffsets.First((Func<StatModifier, bool>)((StatModifier se) => se.stat == this.stat)).ToStringAsOffset;
 								stringBuilder.AppendLine("    " + trait.LabelCap + ": " + toStringAsOffset);
 							}
 							for (int j = 0; j < list2.Count; j++)
 							{
 								Trait trait2 = list2[j];
-								string toStringAsFactor = trait2.CurrentData.statFactors.First((StatModifier se) => se.stat == this.stat).ToStringAsFactor;
+								string toStringAsFactor = trait2.CurrentData.statFactors.First((Func<StatModifier, bool>)((StatModifier se) => se.stat == this.stat)).ToStringAsFactor;
 								stringBuilder.AppendLine("    " + trait2.LabelCap + ": " + toStringAsFactor);
 							}
 						}
 					}
-					if (StatWorker.RelevantGear(pawn, this.stat).Any<Thing>())
+					if (StatWorker.RelevantGear(pawn, this.stat).Any())
 					{
 						stringBuilder.AppendLine();
 						stringBuilder.AppendLine("StatsReport_RelevantGear".Translate());
@@ -188,7 +187,7 @@ namespace RimWorld
 					if (curStage != null)
 					{
 						float statOffsetFromList = curStage.statOffsets.GetStatOffsetFromList(this.stat);
-						if (statOffsetFromList != 0f)
+						if (statOffsetFromList != 0.0)
 						{
 							if (!flag)
 							{
@@ -201,46 +200,25 @@ namespace RimWorld
 					}
 				}
 				float statFactorFromList = pawn.ageTracker.CurLifeStage.statFactors.GetStatFactorFromList(this.stat);
-				if (statFactorFromList != 1f)
+				if (statFactorFromList != 1.0)
 				{
 					stringBuilder.AppendLine();
-					stringBuilder.AppendLine(string.Concat(new string[]
-					{
-						"StatsReport_LifeStage".Translate(),
-						" (",
-						pawn.ageTracker.CurLifeStage.label,
-						"): ",
-						statFactorFromList.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Factor)
-					}));
+					stringBuilder.AppendLine("StatsReport_LifeStage".Translate() + " (" + pawn.ageTracker.CurLifeStage.label + "): " + statFactorFromList.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Factor));
 				}
 			}
-			if (req.StuffDef != null && (baseValueFor > 0f || this.stat.applyFactorsIfNegative))
+			if (req.StuffDef != null && (baseValueFor > 0.0 || this.stat.applyFactorsIfNegative))
 			{
 				float statOffsetFromList2 = req.StuffDef.stuffProps.statOffsets.GetStatOffsetFromList(this.stat);
-				if (statOffsetFromList2 != 0f)
+				if (statOffsetFromList2 != 0.0)
 				{
 					stringBuilder.AppendLine();
-					stringBuilder.AppendLine(string.Concat(new string[]
-					{
-						"StatsReport_Material".Translate(),
-						" (",
-						req.StuffDef.LabelCap,
-						"): ",
-						statOffsetFromList2.ToStringByStyle(this.stat.toStringStyle, ToStringNumberSense.Offset)
-					}));
+					stringBuilder.AppendLine("StatsReport_Material".Translate() + " (" + req.StuffDef.LabelCap + "): " + statOffsetFromList2.ToStringByStyle(this.stat.toStringStyle, ToStringNumberSense.Offset));
 				}
 				float statFactorFromList2 = req.StuffDef.stuffProps.statFactors.GetStatFactorFromList(this.stat);
-				if (statFactorFromList2 != 1f)
+				if (statFactorFromList2 != 1.0)
 				{
 					stringBuilder.AppendLine();
-					stringBuilder.AppendLine(string.Concat(new string[]
-					{
-						"StatsReport_Material".Translate(),
-						" (",
-						req.StuffDef.LabelCap,
-						"): ",
-						statFactorFromList2.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Factor)
-					}));
+					stringBuilder.AppendLine("StatsReport_Material".Translate() + " (" + req.StuffDef.LabelCap + "): " + statFactorFromList2.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Factor));
 				}
 			}
 			CompAffectedByFacilities compAffectedByFacilities = req.Thing.TryGetComp<CompAffectedByFacilities>();
@@ -270,19 +248,11 @@ namespace RimWorld
 						{
 							SkillNeed skillNeed = this.stat.skillNeedFactors[n];
 							int level = pawn.skills.GetSkill(skillNeed.skill).Level;
-							stringBuilder.AppendLine(string.Concat(new object[]
-							{
-								"    ",
-								skillNeed.skill.LabelCap,
-								" (",
-								level,
-								"): x",
-								skillNeed.FactorFor(pawn).ToStringPercent()
-							}));
+							stringBuilder.AppendLine("    " + skillNeed.skill.LabelCap + " (" + level + "): x" + skillNeed.FactorFor(pawn).ToStringPercent());
 						}
 					}
 				}
-				else if (this.stat.noSkillFactor != 1f)
+				else if (this.stat.noSkillFactor != 1.0)
 				{
 					stringBuilder.AppendLine();
 					stringBuilder.AppendLine("StatsReport_Skills".Translate());
@@ -294,34 +264,19 @@ namespace RimWorld
 					stringBuilder.AppendLine("StatsReport_HealthFactors".Translate());
 					if (this.stat.capacityFactors != null)
 					{
-						foreach (PawnCapacityFactor current in from hfa in this.stat.capacityFactors
+						foreach (PawnCapacityFactor item in from hfa in this.stat.capacityFactors
 						orderby hfa.capacity.listOrder
 						select hfa)
 						{
-							string text = current.capacity.GetLabelFor(pawn).CapitalizeFirst();
-							float factor = current.GetFactor(pawn.health.capacities.GetLevel(current.capacity));
+							string text = item.capacity.GetLabelFor(pawn).CapitalizeFirst();
+							float factor = item.GetFactor(pawn.health.capacities.GetLevel(item.capacity));
 							string text2 = factor.ToStringPercent();
-							string text3 = "HealthFactorPercentImpact".Translate(new object[]
+							string text3 = "HealthFactorPercentImpact".Translate(item.weight.ToStringPercent());
+							if (item.max < 100.0)
 							{
-								current.weight.ToStringPercent()
-							});
-							if (current.max < 100f)
-							{
-								text3 = text3 + ", " + "HealthFactorMaxImpact".Translate(new object[]
-								{
-									current.max.ToStringPercent()
-								});
+								text3 = text3 + ", " + "HealthFactorMaxImpact".Translate(item.max.ToStringPercent());
 							}
-							stringBuilder.AppendLine(string.Concat(new string[]
-							{
-								"    ",
-								text,
-								": x",
-								text2,
-								" (",
-								text3,
-								")"
-							}));
+							stringBuilder.AppendLine("    " + text + ": x" + text2 + " (" + text3 + ")");
 						}
 					}
 				}
@@ -348,7 +303,7 @@ namespace RimWorld
 			}
 			if (Mathf.Abs(val) > this.stat.roundToFiveOver)
 			{
-				val = Mathf.Round(val / 5f) * 5f;
+				val = (float)(Mathf.Round((float)(val / 5.0)) * 5.0);
 			}
 			val = Mathf.Clamp(val, this.stat.minValue, this.stat.maxValue);
 			if (this.stat.roundValue)
@@ -379,19 +334,12 @@ namespace RimWorld
 				{
 					string text2 = this.stat.ValueToString(value, numberSense);
 					string text3 = this.stat.ValueToString(value2, numberSense);
-					sb.AppendLine(string.Concat(new string[]
-					{
-						"StatsReport_PostProcessed".Translate(),
-						": ",
-						text2,
-						" -> ",
-						text3
-					}));
+					sb.AppendLine("StatsReport_PostProcessed".Translate() + ": " + text2 + " -> " + text3);
 					sb.AppendLine();
 				}
 			}
 			float statFactor = Find.Scenario.GetStatFactor(this.stat);
-			if (statFactor != 1f)
+			if (statFactor != 1.0)
 			{
 				sb.AppendLine("StatsReport_ScenarioFactor".Translate() + ": " + statFactor.ToStringPercent());
 				sb.AppendLine();
@@ -425,53 +373,44 @@ namespace RimWorld
 					return false;
 				}
 			}
-			if (this.stat.category == StatCategoryDefOf.BasicsPawn || this.stat.category == StatCategoryDefOf.PawnCombat)
+			if (this.stat.category != StatCategoryDefOf.BasicsPawn && this.stat.category != StatCategoryDefOf.PawnCombat)
 			{
-				return thingDef != null && thingDef.category == ThingCategory.Pawn;
-			}
-			if (this.stat.category == StatCategoryDefOf.PawnMisc || this.stat.category == StatCategoryDefOf.PawnSocial || this.stat.category == StatCategoryDefOf.PawnWork)
-			{
-				return thingDef != null && thingDef.category == ThingCategory.Pawn && thingDef.race.Humanlike;
-			}
-			if (this.stat.category == StatCategoryDefOf.Building)
-			{
-				if (thingDef == null)
+				if (this.stat.category != StatCategoryDefOf.PawnMisc && this.stat.category != StatCategoryDefOf.PawnSocial && this.stat.category != StatCategoryDefOf.PawnWork)
 				{
+					if (this.stat.category == StatCategoryDefOf.Building)
+					{
+						if (thingDef == null)
+						{
+							return false;
+						}
+						if (this.stat == StatDefOf.DoorOpenSpeed)
+						{
+							return thingDef.IsDoor;
+						}
+						return thingDef.category == ThingCategory.Building;
+					}
+					if (this.stat.category == StatCategoryDefOf.Apparel)
+					{
+						return thingDef != null && (thingDef.IsApparel || thingDef.category == ThingCategory.Pawn);
+					}
+					if (this.stat.category == StatCategoryDefOf.Weapon)
+					{
+						return thingDef != null && (thingDef.IsMeleeWeapon || thingDef.IsRangedWeapon);
+					}
+					if (this.stat.category == StatCategoryDefOf.BasicsNonPawn)
+					{
+						return thingDef == null || thingDef.category != ThingCategory.Pawn;
+					}
+					if (this.stat.category.displayAllByDefault)
+					{
+						return true;
+					}
+					Log.Error("Unhandled case: " + this.stat + ", " + eDef);
 					return false;
 				}
-				if (this.stat == StatDefOf.DoorOpenSpeed)
-				{
-					return thingDef.IsDoor;
-				}
-				return thingDef.category == ThingCategory.Building;
+				return thingDef != null && thingDef.category == ThingCategory.Pawn && thingDef.race.Humanlike;
 			}
-			else
-			{
-				if (this.stat.category == StatCategoryDefOf.Apparel)
-				{
-					return thingDef != null && (thingDef.IsApparel || thingDef.category == ThingCategory.Pawn);
-				}
-				if (this.stat.category == StatCategoryDefOf.Weapon)
-				{
-					return thingDef != null && (thingDef.IsMeleeWeapon || thingDef.IsRangedWeapon);
-				}
-				if (this.stat.category == StatCategoryDefOf.BasicsNonPawn)
-				{
-					return thingDef == null || thingDef.category != ThingCategory.Pawn;
-				}
-				if (this.stat.category.displayAllByDefault)
-				{
-					return true;
-				}
-				Log.Error(string.Concat(new object[]
-				{
-					"Unhandled case: ",
-					this.stat,
-					", ",
-					eDef
-				}));
-				return false;
-			}
+			return thingDef != null && thingDef.category == ThingCategory.Pawn;
 		}
 
 		public virtual string GetStatDrawEntryLabel(StatDef stat, float value, ToStringNumberSense numberSense, StatRequest optionalReq)
@@ -490,17 +429,46 @@ namespace RimWorld
 			return gear.def.equippedStatOffsets.GetStatOffsetFromList(stat);
 		}
 
-		[DebuggerHidden]
 		private static IEnumerable<Thing> RelevantGear(Pawn pawn, StatDef stat)
 		{
-			StatWorker.<RelevantGear>c__Iterator1AF <RelevantGear>c__Iterator1AF = new StatWorker.<RelevantGear>c__Iterator1AF();
-			<RelevantGear>c__Iterator1AF.pawn = pawn;
-			<RelevantGear>c__Iterator1AF.stat = stat;
-			<RelevantGear>c__Iterator1AF.<$>pawn = pawn;
-			<RelevantGear>c__Iterator1AF.<$>stat = stat;
-			StatWorker.<RelevantGear>c__Iterator1AF expr_23 = <RelevantGear>c__Iterator1AF;
-			expr_23.$PC = -2;
-			return expr_23;
+			if (pawn.apparel != null)
+			{
+				List<Apparel>.Enumerator enumerator = pawn.apparel.WornApparel.GetEnumerator();
+				try
+				{
+					while (enumerator.MoveNext())
+					{
+						Apparel t2 = enumerator.Current;
+						if (StatWorker.GearAffectsStat(t2.def, stat))
+						{
+							yield return (Thing)t2;
+						}
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
+				}
+			}
+			if (pawn.equipment != null)
+			{
+				List<ThingWithComps>.Enumerator enumerator2 = pawn.equipment.AllEquipmentListForReading.GetEnumerator();
+				try
+				{
+					while (enumerator2.MoveNext())
+					{
+						ThingWithComps t = enumerator2.Current;
+						if (StatWorker.GearAffectsStat(t.def, stat))
+						{
+							yield return (Thing)t;
+						}
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator2).Dispose();
+				}
+			}
 		}
 
 		private static bool GearAffectsStat(ThingDef gearDef, StatDef stat)
@@ -509,7 +477,7 @@ namespace RimWorld
 			{
 				for (int i = 0; i < gearDef.equippedStatOffsets.Count; i++)
 				{
-					if (gearDef.equippedStatOffsets[i].stat == stat && gearDef.equippedStatOffsets[i].value != 0f)
+					if (gearDef.equippedStatOffsets[i].stat == stat && gearDef.equippedStatOffsets[i].value != 0.0)
 					{
 						return true;
 					}
@@ -523,13 +491,16 @@ namespace RimWorld
 			float result = this.stat.defaultBaseValue;
 			if (def.statBases != null)
 			{
-				for (int i = 0; i < def.statBases.Count; i++)
+				int num = 0;
+				while (num < def.statBases.Count)
 				{
-					if (def.statBases[i].stat == this.stat)
+					if (def.statBases[num].stat != this.stat)
 					{
-						result = def.statBases[i].value;
-						break;
+						num++;
+						continue;
 					}
+					result = def.statBases[num].value;
+					break;
 				}
 			}
 			return result;

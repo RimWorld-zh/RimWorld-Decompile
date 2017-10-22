@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -23,16 +22,12 @@ namespace RimWorld
 			return ScenSummaryList.SummaryWithList(scen, "DisallowBuilding", "ScenPart_DisallowBuilding".Translate());
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
-			ScenPart_DisallowBuilding.<GetSummaryListEntries>c__Iterator117 <GetSummaryListEntries>c__Iterator = new ScenPart_DisallowBuilding.<GetSummaryListEntries>c__Iterator117();
-			<GetSummaryListEntries>c__Iterator.tag = tag;
-			<GetSummaryListEntries>c__Iterator.<$>tag = tag;
-			<GetSummaryListEntries>c__Iterator.<>f__this = this;
-			ScenPart_DisallowBuilding.<GetSummaryListEntries>c__Iterator117 expr_1C = <GetSummaryListEntries>c__Iterator;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (tag == "DisallowBuilding")
+			{
+				yield return this.building.LabelCap;
+			}
 		}
 
 		public override void ExposeData()
@@ -43,7 +38,7 @@ namespace RimWorld
 
 		public override void Randomize()
 		{
-			this.building = this.RandomizableBuildingDefs().RandomElement<ThingDef>();
+			this.building = this.RandomizableBuildingDefs().RandomElement();
 		}
 
 		public override void DoEditInterface(Listing_ScenEdit listing)
@@ -52,12 +47,12 @@ namespace RimWorld
 			if (Widgets.ButtonText(scenPartRect, this.building.LabelCap, true, false, true))
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				foreach (ThingDef current in from t in this.PossibleBuildingDefs()
+				foreach (ThingDef item in from t in this.PossibleBuildingDefs()
 				orderby t.label
 				select t)
 				{
-					ThingDef localTd = current;
-					list.Add(new FloatMenuOption(localTd.LabelCap, delegate
+					ThingDef localTd = item;
+					list.Add(new FloatMenuOption(localTd.LabelCap, (Action)delegate
 					{
 						this.building = localTd;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -69,7 +64,11 @@ namespace RimWorld
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_DisallowBuilding scenPart_DisallowBuilding = other as ScenPart_DisallowBuilding;
-			return scenPart_DisallowBuilding != null && scenPart_DisallowBuilding.building == this.building;
+			if (scenPart_DisallowBuilding != null && scenPart_DisallowBuilding.building == this.building)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		protected virtual IEnumerable<ThingDef> PossibleBuildingDefs()
@@ -79,13 +78,15 @@ namespace RimWorld
 			select d;
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<ThingDef> RandomizableBuildingDefs()
 		{
-			ScenPart_DisallowBuilding.<RandomizableBuildingDefs>c__Iterator118 <RandomizableBuildingDefs>c__Iterator = new ScenPart_DisallowBuilding.<RandomizableBuildingDefs>c__Iterator118();
-			ScenPart_DisallowBuilding.<RandomizableBuildingDefs>c__Iterator118 expr_07 = <RandomizableBuildingDefs>c__Iterator;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield return ThingDefOf.Wall;
+			yield return ThingDefOf.TurretGun;
+			yield return ThingDefOf.OrbitalTradeBeacon;
+			yield return ThingDefOf.Battery;
+			yield return ThingDefOf.TrapDeadfall;
+			yield return ThingDefOf.Cooler;
+			yield return ThingDefOf.Heater;
 		}
 	}
 }

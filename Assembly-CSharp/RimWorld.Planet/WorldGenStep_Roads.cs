@@ -19,9 +19,9 @@ namespace RimWorld.Planet
 
 		private class Connectedness
 		{
-			public WorldGenStep_Roads.Connectedness parent;
+			public Connectedness parent;
 
-			public WorldGenStep_Roads.Connectedness Group()
+			public Connectedness Group()
 			{
 				if (this.parent == null)
 				{
@@ -62,48 +62,47 @@ namespace RimWorld.Planet
 		private void GenerateRoadEndpoints()
 		{
 			List<int> list = (from wo in Find.WorldObjects.AllWorldObjects
-			where Rand.Value > 0.05f
-			select wo.Tile).ToList<int>();
-			int num = GenMath.RoundRandom((float)Find.WorldGrid.TilesCount / 100000f * WorldGenStep_Roads.ExtraRoadNodesPer100kTiles.RandomInRange);
-			for (int i = 0; i < num; i++)
+			where Rand.Value > 0.05000000074505806
+			select wo.Tile).ToList();
+			int num = GenMath.RoundRandom((float)((float)Find.WorldGrid.TilesCount / 100000.0 * WorldGenStep_Roads.ExtraRoadNodesPer100kTiles.RandomInRange));
+			for (int num2 = 0; num2 < num; num2++)
 			{
 				list.Add(TileFinder.RandomFactionBaseTileFor(null, false));
 			}
 			List<int> list2 = new List<int>();
-			for (int j = 0; j < list.Count; j++)
+			for (int i = 0; i < list.Count; i++)
 			{
-				int num2 = Mathf.Max(0, WorldGenStep_Roads.RoadDistanceFromSettlement.RandomInRange);
-				int num3 = list[j];
-				for (int k = 0; k < num2; k++)
+				int num3 = Mathf.Max(0, WorldGenStep_Roads.RoadDistanceFromSettlement.RandomInRange);
+				int num4 = list[i];
+				for (int num5 = 0; num5 < num3; num5++)
 				{
-					Find.WorldGrid.GetTileNeighbors(num3, list2);
-					num3 = list2.RandomElement<int>();
+					Find.WorldGrid.GetTileNeighbors(num4, list2);
+					num4 = list2.RandomElement();
 				}
-				if (Find.WorldReachability.CanReach(list[j], num3))
+				if (Find.WorldReachability.CanReach(list[i], num4))
 				{
-					list[j] = num3;
+					list[i] = num4;
 				}
 			}
-			list = list.Distinct<int>().ToList<int>();
-			Find.World.genData.roadNodes = list;
+			list = (Find.World.genData.roadNodes = list.Distinct().ToList());
 		}
 
 		private void GenerateRoadNetwork()
 		{
 			Find.WorldPathGrid.RecalculateAllPerceivedPathCosts(Season.Spring.GetMiddleYearPct(0f));
-			List<WorldGenStep_Roads.Link> linkProspective = this.GenerateProspectiveLinks(Find.World.genData.roadNodes);
-			List<WorldGenStep_Roads.Link> linkFinal = this.GenerateFinalLinks(linkProspective, Find.World.genData.roadNodes.Count);
+			List<Link> linkProspective = this.GenerateProspectiveLinks(Find.World.genData.roadNodes);
+			List<Link> linkFinal = this.GenerateFinalLinks(linkProspective, Find.World.genData.roadNodes.Count);
 			this.DrawLinksOnWorld(linkFinal, Find.World.genData.roadNodes);
 		}
 
-		private List<WorldGenStep_Roads.Link> GenerateProspectiveLinks(List<int> indexToTile)
+		private List<Link> GenerateProspectiveLinks(List<int> indexToTile)
 		{
 			Dictionary<int, int> tileToIndexLookup = new Dictionary<int, int>();
 			for (int i = 0; i < indexToTile.Count; i++)
 			{
 				tileToIndexLookup[indexToTile[i]] = i;
 			}
-			List<WorldGenStep_Roads.Link> linkProspective = new List<WorldGenStep_Roads.Link>();
+			List<Link> linkProspective = new List<Link>();
 			List<int> list = new List<int>();
 			int srcIndex;
 			for (srcIndex = 0; srcIndex < indexToTile.Count; srcIndex++)
@@ -112,13 +111,13 @@ namespace RimWorld.Planet
 				list.Clear();
 				list.Add(srcTile);
 				int found = 0;
-				WorldPathFinder arg_D8_0 = Find.WorldPathFinder;
-				Func<int, float, bool> terminator = delegate(int tile, float distance)
+				WorldPathFinder worldPathFinder = Find.WorldPathFinder;
+				Func<int, float, bool> terminator = (Func<int, float, bool>)delegate(int tile, float distance)
 				{
 					if (tile != srcTile && tileToIndexLookup.ContainsKey(tile))
 					{
 						found++;
-						linkProspective.Add(new WorldGenStep_Roads.Link
+						linkProspective.Add(new Link
 						{
 							distance = distance,
 							indexA = srcIndex,
@@ -127,69 +126,62 @@ namespace RimWorld.Planet
 					}
 					return found >= 8;
 				};
-				arg_D8_0.FloodPathsWithCost(list, (int src, int dst) => WorldPathFinder.StandardPathCost(src, dst, null), null, terminator);
+				worldPathFinder.FloodPathsWithCost(list, (Func<int, int, int>)((int src, int dst) => WorldPathFinder.StandardPathCost(src, dst, null)), null, terminator);
 			}
-			linkProspective.Sort((WorldGenStep_Roads.Link lhs, WorldGenStep_Roads.Link rhs) => lhs.distance.CompareTo(rhs.distance));
+			linkProspective.Sort((Comparison<Link>)((Link lhs, Link rhs) => lhs.distance.CompareTo(rhs.distance)));
 			return linkProspective;
 		}
 
-		private List<WorldGenStep_Roads.Link> GenerateFinalLinks(List<WorldGenStep_Roads.Link> linkProspective, int endpointCount)
+		private List<Link> GenerateFinalLinks(List<Link> linkProspective, int endpointCount)
 		{
-			List<WorldGenStep_Roads.Connectedness> list = new List<WorldGenStep_Roads.Connectedness>();
-			for (int i = 0; i < endpointCount; i++)
+			List<Connectedness> list = new List<Connectedness>();
+			for (int num = 0; num < endpointCount; num++)
 			{
-				list.Add(new WorldGenStep_Roads.Connectedness());
+				list.Add(new Connectedness());
 			}
-			List<WorldGenStep_Roads.Link> list2 = new List<WorldGenStep_Roads.Link>();
-			int j = 0;
-			while (j < linkProspective.Count)
+			List<Link> list2 = new List<Link>();
+			for (int i = 0; i < linkProspective.Count; i++)
 			{
-				WorldGenStep_Roads.Link prospective = linkProspective[j];
-				if (list[prospective.indexA].Group() != list[prospective.indexB].Group())
+				Link prospective = linkProspective[i];
+				if (list[prospective.indexA].Group() != list[prospective.indexB].Group() || (!(Rand.Value > 0.014999999664723873) && !list2.Any((Predicate<Link>)((Link link) => link.indexB == prospective.indexA && link.indexA == prospective.indexB))))
 				{
-					goto IL_A9;
-				}
-				if (Rand.Value <= 0.015f)
-				{
-					if (!list2.Any((WorldGenStep_Roads.Link link) => link.indexB == prospective.indexA && link.indexA == prospective.indexB))
+					if (Rand.Value > 0.10000000149011612)
 					{
-						goto IL_A9;
+						list2.Add(prospective);
+					}
+					if (list[prospective.indexA].Group() != list[prospective.indexB].Group())
+					{
+						Connectedness parent = list[prospective.indexA].Group().parent = new Connectedness();
+						list[prospective.indexB].Group().parent = parent;
 					}
 				}
-				IL_13B:
-				j++;
-				continue;
-				IL_A9:
-				if (Rand.Value > 0.1f)
-				{
-					list2.Add(prospective);
-				}
-				if (list[prospective.indexA].Group() != list[prospective.indexB].Group())
-				{
-					WorldGenStep_Roads.Connectedness parent = new WorldGenStep_Roads.Connectedness();
-					list[prospective.indexA].Group().parent = parent;
-					list[prospective.indexB].Group().parent = parent;
-					goto IL_13B;
-				}
-				goto IL_13B;
 			}
 			return list2;
 		}
 
-		private void DrawLinksOnWorld(List<WorldGenStep_Roads.Link> linkFinal, List<int> indexToTile)
+		private void DrawLinksOnWorld(List<Link> linkFinal, List<int> indexToTile)
 		{
-			foreach (WorldGenStep_Roads.Link current in linkFinal)
+			List<Link>.Enumerator enumerator = linkFinal.GetEnumerator();
+			try
 			{
-				WorldPath worldPath = Find.WorldPathFinder.FindPath(indexToTile[current.indexA], indexToTile[current.indexB], null, null);
-				List<int> nodesReversed = worldPath.NodesReversed;
-				RoadDef roadDef = (from rd in DefDatabase<RoadDef>.AllDefsListForReading
-				where !rd.ancientOnly
-				select rd).RandomElementWithFallback(null);
-				for (int i = 0; i < nodesReversed.Count - 1; i++)
+				while (enumerator.MoveNext())
 				{
-					Find.WorldGrid.OverlayRoad(nodesReversed[i], nodesReversed[i + 1], roadDef);
+					Link current = enumerator.Current;
+					WorldPath worldPath = Find.WorldPathFinder.FindPath(indexToTile[current.indexA], indexToTile[current.indexB], null, null);
+					List<int> nodesReversed = worldPath.NodesReversed;
+					RoadDef roadDef = (from rd in DefDatabase<RoadDef>.AllDefsListForReading
+					where !rd.ancientOnly
+					select rd).RandomElementWithFallback(null);
+					for (int i = 0; i < nodesReversed.Count - 1; i++)
+					{
+						Find.WorldGrid.OverlayRoad(nodesReversed[i], nodesReversed[i + 1], roadDef);
+					}
+					worldPath.ReleaseToPool();
 				}
-				worldPath.ReleaseToPool();
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 	}

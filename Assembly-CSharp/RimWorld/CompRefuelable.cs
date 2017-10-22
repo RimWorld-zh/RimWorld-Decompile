@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -32,7 +31,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.configuredTargetFuelLevel >= 0f)
+				if (this.configuredTargetFuelLevel >= 0.0)
 				{
 					return this.configuredTargetFuelLevel;
 				}
@@ -52,7 +51,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_Refuelable)this.props;
+				return (CompProperties_Refuelable)base.props;
 			}
 		}
 
@@ -84,7 +83,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.TargetFuelLevel - this.fuel < 1f;
+				return this.TargetFuelLevel - this.fuel < 1.0;
 			}
 		}
 
@@ -92,7 +91,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.fuel > 0f;
+				return this.fuel > 0.0;
 			}
 		}
 
@@ -100,7 +99,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.Props.fuelConsumptionRate / 60000f;
+				return (float)(this.Props.fuelConsumptionRate / 60000.0);
 			}
 		}
 
@@ -108,7 +107,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.FuelPercentOfTarget <= this.Props.autoRefuelPercent && !this.IsFull && this.TargetFuelLevel > 0f && !this.parent.IsBurning() && (this.flickComp == null || this.flickComp.SwitchIsOn) && this.parent.Map.designationManager.DesignationOn(this.parent, DesignationDefOf.Flick) == null && this.parent.Map.designationManager.DesignationOn(this.parent, DesignationDefOf.Deconstruct) == null;
+				return this.FuelPercentOfTarget <= this.Props.autoRefuelPercent && !this.IsFull && this.TargetFuelLevel > 0.0 && !base.parent.IsBurning() && (this.flickComp == null || this.flickComp.SwitchIsOn) && base.parent.Map.designationManager.DesignationOn(base.parent, DesignationDefOf.Flick) == null && base.parent.Map.designationManager.DesignationOn(base.parent, DesignationDefOf.Deconstruct) == null;
 			}
 		}
 
@@ -119,7 +118,7 @@ namespace RimWorld
 			{
 				this.fuel = this.Props.fuelCapacity;
 			}
-			this.flickComp = this.parent.GetComp<CompFlickable>();
+			this.flickComp = base.parent.GetComp<CompFlickable>();
 		}
 
 		public override void PostExposeData()
@@ -134,18 +133,20 @@ namespace RimWorld
 			base.PostDraw();
 			if (!this.HasFuel && this.Props.drawOutOfFuelOverlay)
 			{
-				this.parent.Map.overlayDrawer.DrawOverlay(this.parent, OverlayTypes.OutOfFuel);
+				base.parent.Map.overlayDrawer.DrawOverlay(base.parent, OverlayTypes.OutOfFuel);
 			}
 			if (this.Props.drawFuelGaugeInMap)
 			{
-				GenDraw.FillableBarRequest r = default(GenDraw.FillableBarRequest);
-				r.center = this.parent.DrawPos + Vector3.up * 0.1f;
-				r.size = CompRefuelable.FuelBarSize;
-				r.fillPercent = this.FuelPercentOfMax;
-				r.filledMat = CompRefuelable.FuelBarFilledMat;
-				r.unfilledMat = CompRefuelable.FuelBarUnfilledMat;
-				r.margin = 0.15f;
-				Rot4 rotation = this.parent.Rotation;
+				GenDraw.FillableBarRequest r = new GenDraw.FillableBarRequest
+				{
+					center = base.parent.DrawPos + Vector3.up * 0.1f,
+					size = CompRefuelable.FuelBarSize,
+					fillPercent = this.FuelPercentOfMax,
+					filledMat = CompRefuelable.FuelBarFilledMat,
+					unfilledMat = CompRefuelable.FuelBarUnfilledMat,
+					margin = 0.15f
+				};
+				Rot4 rotation = base.parent.Rotation;
 				rotation.Rotate(RotationDirection.Clockwise);
 				r.rotation = rotation;
 				GenDraw.DrawFillableBar(r);
@@ -157,40 +158,30 @@ namespace RimWorld
 			base.PostDestroy(mode, previousMap);
 			if (previousMap != null && this.Props.fuelFilter.AllowedDefCount == 1)
 			{
-				ThingDef thingDef = this.Props.fuelFilter.AllowedThingDefs.First<ThingDef>();
+				ThingDef thingDef = this.Props.fuelFilter.AllowedThingDefs.First();
 				float num = 1f;
-				int i = GenMath.RoundRandom(num * this.fuel);
-				while (i > 0)
+				int num2 = GenMath.RoundRandom(num * this.fuel);
+				while (num2 > 0)
 				{
 					Thing thing = ThingMaker.MakeThing(thingDef, null);
-					thing.stackCount = Mathf.Min(i, thingDef.stackLimit);
-					i -= thing.stackCount;
-					GenPlace.TryPlaceThing(thing, this.parent.Position, previousMap, ThingPlaceMode.Near, null);
+					thing.stackCount = Mathf.Min(num2, thingDef.stackLimit);
+					num2 -= thing.stackCount;
+					GenPlace.TryPlaceThing(thing, base.parent.Position, previousMap, ThingPlaceMode.Near, null);
 				}
 			}
 		}
 
 		public override string CompInspectStringExtra()
 		{
-			string text = string.Concat(new string[]
-			{
-				"Fuel".Translate(),
-				": ",
-				this.fuel.ToStringDecimalIfSmall(),
-				" / ",
-				this.Props.fuelCapacity.ToStringDecimalIfSmall()
-			});
+			string text = "Fuel".Translate() + ": " + this.fuel.ToStringDecimalIfSmall() + " / " + this.Props.fuelCapacity.ToStringDecimalIfSmall();
 			if (!this.Props.consumeFuelOnlyWhenUsed && this.HasFuel)
 			{
-				int numTicks = (int)(this.fuel / this.Props.fuelConsumptionRate * 60000f);
+				int numTicks = (int)(this.fuel / this.Props.fuelConsumptionRate * 60000.0);
 				text = text + " (" + numTicks.ToStringTicksToPeriod(true, false, true) + ")";
 			}
 			if (this.Props.targetFuelLevelConfigurable)
 			{
-				text = text + "\n" + "ConfiguredTargetFuelLevel".Translate(new object[]
-				{
-					this.TargetFuelLevel.ToStringDecimalIfSmall()
-				});
+				text = text + "\n" + "ConfiguredTargetFuelLevel".Translate(this.TargetFuelLevel.ToStringDecimalIfSmall());
 			}
 			return text;
 		}
@@ -202,7 +193,7 @@ namespace RimWorld
 			{
 				this.ConsumeFuel(this.ConsumptionRatePerTick);
 			}
-			if (this.Props.fuelConsumptionPerTickInRain > 0f && this.parent.Spawned && this.parent.Map.weatherManager.RainRate > 0.4f && !this.parent.Map.roofGrid.Roofed(this.parent.Position))
+			if (this.Props.fuelConsumptionPerTickInRain > 0.0 && base.parent.Spawned && base.parent.Map.weatherManager.RainRate > 0.40000000596046448 && !base.parent.Map.roofGrid.Roofed(base.parent.Position))
 			{
 				this.ConsumeFuel(this.Props.fuelConsumptionPerTickInRain);
 			}
@@ -210,19 +201,18 @@ namespace RimWorld
 
 		public void ConsumeFuel(float amount)
 		{
-			if (this.fuel <= 0f)
+			if (!(this.fuel <= 0.0))
 			{
-				return;
-			}
-			this.fuel -= amount;
-			if (this.fuel <= 0f)
-			{
-				this.fuel = 0f;
-				if (this.Props.destroyOnNoFuel)
+				this.fuel -= amount;
+				if (this.fuel <= 0.0)
 				{
-					this.parent.Destroy(DestroyMode.Vanish);
+					this.fuel = 0f;
+					if (this.Props.destroyOnNoFuel)
+					{
+						base.parent.Destroy(DestroyMode.Vanish);
+					}
+					base.parent.BroadcastCompSignal("RanOutOfFuel");
 				}
-				this.parent.BroadcastCompSignal("RanOutOfFuel");
 			}
 		}
 
@@ -239,7 +229,7 @@ namespace RimWorld
 			{
 				this.fuel = this.Props.fuelCapacity;
 			}
-			this.parent.BroadcastCompSignal("Refueled");
+			base.parent.BroadcastCompSignal("Refueled");
 		}
 
 		public void Notify_UsedThisTick()
@@ -253,14 +243,46 @@ namespace RimWorld
 			return Mathf.Max(Mathf.CeilToInt(f), 1);
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompRefuelable.<CompGetGizmosExtra>c__Iterator16A <CompGetGizmosExtra>c__Iterator16A = new CompRefuelable.<CompGetGizmosExtra>c__Iterator16A();
-			<CompGetGizmosExtra>c__Iterator16A.<>f__this = this;
-			CompRefuelable.<CompGetGizmosExtra>c__Iterator16A expr_0E = <CompGetGizmosExtra>c__Iterator16A;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.Props.targetFuelLevelConfigurable)
+			{
+				yield return (Gizmo)new Command_SetTargetFuelLevel
+				{
+					refuelable = this,
+					defaultLabel = "CommandSetTargetFuelLevel".Translate(),
+					defaultDesc = "CommandSetTargetFuelLevelDesc".Translate(),
+					icon = CompRefuelable.SetTargetFuelLevelCommand
+				};
+			}
+			if (this.Props.showFuelGizmo && Find.Selector.SingleSelectedThing == base.parent)
+			{
+				yield return (Gizmo)new Gizmo_RefuelableFuelStatus
+				{
+					refuelable = this
+				};
+			}
+			if (Prefs.DevMode)
+			{
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "Debug: Set fuel to 0.1",
+					action = (Action)delegate
+					{
+						((_003CCompGetGizmosExtra_003Ec__Iterator16A)/*Error near IL_013e: stateMachine*/)._003C_003Ef__this.fuel = 0.1f;
+						((_003CCompGetGizmosExtra_003Ec__Iterator16A)/*Error near IL_013e: stateMachine*/)._003C_003Ef__this.parent.BroadcastCompSignal("Refueled");
+					}
+				};
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "Debug: Set fuel to max",
+					action = (Action)delegate
+					{
+						((_003CCompGetGizmosExtra_003Ec__Iterator16A)/*Error near IL_0188: stateMachine*/)._003C_003Ef__this.fuel = ((_003CCompGetGizmosExtra_003Ec__Iterator16A)/*Error near IL_0188: stateMachine*/)._003C_003Ef__this.Props.fuelCapacity;
+						((_003CCompGetGizmosExtra_003Ec__Iterator16A)/*Error near IL_0188: stateMachine*/)._003C_003Ef__this.parent.BroadcastCompSignal("Refueled");
+					}
+				};
+			}
 		}
 	}
 }

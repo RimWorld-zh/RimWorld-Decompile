@@ -1,10 +1,8 @@
-using System;
-
 namespace RimWorld
 {
 	public enum Transactor : byte
 	{
-		Colony,
-		Trader
+		Colony = 0,
+		Trader = 1
 	}
 }

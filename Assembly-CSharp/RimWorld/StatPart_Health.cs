@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -17,10 +16,7 @@ namespace RimWorld
 
 		protected override string ExplanationLabel(StatRequest req)
 		{
-			return "StatsReport_HealthMultiplier".Translate(new object[]
-			{
-				req.Thing.HitPoints + " / " + req.Thing.MaxHitPoints
-			});
+			return "StatsReport_HealthMultiplier".Translate(req.Thing.HitPoints + " / " + req.Thing.MaxHitPoints);
 		}
 	}
 }

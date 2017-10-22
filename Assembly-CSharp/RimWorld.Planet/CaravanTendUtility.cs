@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -11,25 +10,23 @@ namespace RimWorld.Planet
 		public static void TryTendToRandomPawn(Caravan caravan)
 		{
 			CaravanTendUtility.FindPawnsNeedingTend(caravan, CaravanTendUtility.tmpPawnsNeedingTreatment);
-			if (!CaravanTendUtility.tmpPawnsNeedingTreatment.Any<Pawn>())
+			if (CaravanTendUtility.tmpPawnsNeedingTreatment.Any())
 			{
-				return;
+				Pawn patient = CaravanTendUtility.tmpPawnsNeedingTreatment.RandomElement();
+				Pawn pawn = CaravanTendUtility.FindBestDoctor(caravan, patient);
+				if (pawn != null)
+				{
+					Medicine medicine = null;
+					Pawn pawn2 = null;
+					CaravanInventoryUtility.TryGetBestMedicine(caravan, patient, out medicine, out pawn2);
+					TendUtility.DoTend(pawn, patient, medicine);
+					if (medicine != null && medicine.Destroyed && pawn2 != null)
+					{
+						pawn2.inventory.innerContainer.Remove(medicine);
+					}
+					CaravanTendUtility.tmpPawnsNeedingTreatment.Clear();
+				}
 			}
-			Pawn patient = CaravanTendUtility.tmpPawnsNeedingTreatment.RandomElement<Pawn>();
-			Pawn pawn = CaravanTendUtility.FindBestDoctor(caravan, patient);
-			if (pawn == null)
-			{
-				return;
-			}
-			Medicine medicine = null;
-			Pawn pawn2 = null;
-			CaravanInventoryUtility.TryGetBestMedicine(caravan, patient, out medicine, out pawn2);
-			TendUtility.DoTend(pawn, patient, medicine);
-			if (medicine != null && medicine.Destroyed && pawn2 != null)
-			{
-				pawn2.inventory.innerContainer.Remove(medicine);
-			}
-			CaravanTendUtility.tmpPawnsNeedingTreatment.Clear();
 		}
 
 		private static void FindPawnsNeedingTend(Caravan caravan, List<Pawn> outPawnsNeedingTend)
@@ -39,12 +36,9 @@ namespace RimWorld.Planet
 			for (int i = 0; i < pawnsListForReading.Count; i++)
 			{
 				Pawn pawn = pawnsListForReading[i];
-				if (pawn.playerSettings == null || pawn.playerSettings.medCare > MedicalCareCategory.NoCare)
+				if ((pawn.playerSettings == null || (int)pawn.playerSettings.medCare > 0) && pawn.health.HasHediffsNeedingTend(false))
 				{
-					if (pawn.health.HasHediffsNeedingTend(false))
-					{
-						outPawnsNeedingTend.Add(pawn);
-					}
+					outPawnsNeedingTend.Add(pawn);
 				}
 			}
 		}
@@ -57,19 +51,13 @@ namespace RimWorld.Planet
 			for (int i = 0; i < pawnsListForReading.Count; i++)
 			{
 				Pawn pawn2 = pawnsListForReading[i];
-				if (pawn2 != patient && CaravanUtility.IsOwner(pawn2, caravan.Faction))
+				if (pawn2 != patient && CaravanUtility.IsOwner(pawn2, caravan.Faction) && !pawn2.Downed && !pawn2.InMentalState && (pawn2.story == null || !pawn2.story.WorkTypeIsDisabled(WorkTypeDefOf.Doctor)))
 				{
-					if (!pawn2.Downed && !pawn2.InMentalState)
+					float statValue = pawn2.GetStatValue(StatDefOf.MedicalTendQuality, true);
+					if (statValue > num || pawn == null)
 					{
-						if (pawn2.story == null || !pawn2.story.WorkTypeIsDisabled(WorkTypeDefOf.Doctor))
-						{
-							float statValue = pawn2.GetStatValue(StatDefOf.MedicalTendQuality, true);
-							if (statValue > num || pawn == null)
-							{
-								num = statValue;
-								pawn = pawn2;
-							}
-						}
+						num = statValue;
+						pawn = pawn2;
 					}
 				}
 			}

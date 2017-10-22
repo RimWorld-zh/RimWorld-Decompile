@@ -1,12 +1,10 @@
-using System;
-
 namespace Verse
 {
 	public enum ToStringNumberSense : byte
 	{
-		Undefined,
-		Absolute,
-		Factor,
-		Offset
+		Undefined = 0,
+		Absolute = 1,
+		Factor = 2,
+		Offset = 3
 	}
 }

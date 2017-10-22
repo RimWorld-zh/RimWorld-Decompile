@@ -28,21 +28,17 @@ namespace Verse
 		public override void PostLoad()
 		{
 			base.PostLoad();
-			if (this.defName == "UnnamedDef")
+			if (base.defName == "UnnamedDef")
 			{
-				string[] array = this.clipPath.Split(new char[]
-				{
-					'/',
-					'\\'
-				});
-				this.defName = array[array.Length - 1];
+				string[] array = this.clipPath.Split('/', '\\');
+				base.defName = array[array.Length - 1];
 			}
 		}
 
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				this.clip = ContentFinder<AudioClip>.Get(this.clipPath, true);
 			});

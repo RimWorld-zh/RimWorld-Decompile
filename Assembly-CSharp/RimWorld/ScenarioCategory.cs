@@ -1,12 +1,10 @@
-using System;
-
 namespace RimWorld
 {
 	public enum ScenarioCategory
 	{
-		Undefined,
-		FromDef,
-		CustomLocal,
-		SteamWorkshop
+		Undefined = 0,
+		FromDef = 1,
+		CustomLocal = 2,
+		SteamWorkshop = 3
 	}
 }

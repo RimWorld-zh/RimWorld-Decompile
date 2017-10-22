@@ -36,7 +36,7 @@ namespace Verse
 		{
 			get
 			{
-				return (int)(this.ageBiologicalTicksInt / 3600000L);
+				return (int)(this.ageBiologicalTicksInt / 3600000);
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace Verse
 		{
 			get
 			{
-				return (float)this.ageBiologicalTicksInt / 3600000f;
+				return (float)((float)this.ageBiologicalTicksInt / 3600000.0);
 			}
 		}
 
@@ -65,11 +65,11 @@ namespace Verse
 		{
 			get
 			{
-				return (long)GenTicks.TicksAbs - this.birthAbsTicksInt;
+				return GenTicks.TicksAbs - this.birthAbsTicksInt;
 			}
 			set
 			{
-				this.BirthAbsTicks = (long)GenTicks.TicksAbs - value;
+				this.BirthAbsTicks = GenTicks.TicksAbs - value;
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace Verse
 		{
 			get
 			{
-				return (int)(this.AgeChronologicalTicks / 3600000L);
+				return (int)(this.AgeChronologicalTicks / 3600000);
 			}
 		}
 
@@ -85,7 +85,7 @@ namespace Verse
 		{
 			get
 			{
-				return (float)this.AgeChronologicalTicks / 3600000f;
+				return (float)((float)this.AgeChronologicalTicks / 3600000.0);
 			}
 		}
 
@@ -129,13 +129,7 @@ namespace Verse
 				if (this.AgeChronologicalYears != this.AgeBiologicalYears)
 				{
 					string text2 = text;
-					text = string.Concat(new object[]
-					{
-						text2,
-						" (",
-						this.AgeChronologicalYears,
-						")"
-					});
+					text = text2 + " (" + this.AgeChronologicalYears + ")";
 				}
 				return text;
 			}
@@ -145,43 +139,18 @@ namespace Verse
 		{
 			get
 			{
-				int num;
-				int num2;
-				int num3;
-				float num4;
+				int num = default(int);
+				int num2 = default(int);
+				int num3 = default(int);
+				float num4 = default(float);
 				this.ageBiologicalTicksInt.TicksToPeriod(out num, out num2, out num3, out num4);
-				long numTicks = (long)GenTicks.TicksAbs - this.birthAbsTicksInt;
-				int num5;
-				int num6;
-				int num7;
+				long numTicks = GenTicks.TicksAbs - this.birthAbsTicksInt;
+				int num5 = default(int);
+				int num6 = default(int);
+				int num7 = default(int);
 				numTicks.TicksToPeriod(out num5, out num6, out num7, out num4);
-				string text = "FullDate".Translate(new object[]
-				{
-					Find.ActiveLanguageWorker.OrdinalNumber(this.BirthDayOfSeasonZeroBased + 1),
-					this.BirthQuadrum.Label(),
-					this.BirthYear
-				});
-				string text2 = string.Concat(new string[]
-				{
-					"Born".Translate(new object[]
-					{
-						text
-					}),
-					"\n",
-					"AgeChronological".Translate(new object[]
-					{
-						num5,
-						num6,
-						num7
-					}),
-					"\n",
-					"AgeBiological".Translate(new object[]
-					{
-						num,
-						num2,
-						num3
-					})
-				});
+				string text = "FullDate".Translate(Find.ActiveLanguageWorker.OrdinalNumber(this.BirthDayOfSeasonZeroBased + 1), this.BirthQuadrum.Label(), this.BirthYear);
+				string text2 = "Born".Translate(text) + "\n" + "AgeChronological".Translate(num5, num6, num7) + "\n" + "AgeBiological".Translate(num, num2, num3);
 				if (Prefs.DevMode)
 				{
 					text2 += "\n\nDev mode info:";
@@ -262,7 +231,7 @@ namespace Verse
 				{
 					this.BirthdayChronological();
 				}
-				if (this.ageBiologicalTicksInt % 3600000L < 60000L)
+				if (this.ageBiologicalTicksInt % 3600000 < 60000)
 				{
 					this.BirthdayBiological();
 				}
@@ -273,13 +242,16 @@ namespace Verse
 		{
 			int num = -1;
 			List<LifeStageAge> lifeStageAges = this.pawn.RaceProps.lifeStageAges;
-			for (int i = lifeStageAges.Count - 1; i >= 0; i--)
+			int num2 = lifeStageAges.Count - 1;
+			while (num2 >= 0)
 			{
-				if (lifeStageAges[i].minAge <= this.AgeBiologicalYearsFloat + 1E-06f)
+				if (!(lifeStageAges[num2].minAge <= this.AgeBiologicalYearsFloat + 9.9999999747524271E-07))
 				{
-					num = i;
-					break;
+					num2--;
+					continue;
 				}
+				num = num2;
+				break;
 			}
 			if (num == -1)
 			{
@@ -289,7 +261,7 @@ namespace Verse
 			this.cachedLifeStageIndex = num;
 			if (flag && !this.pawn.RaceProps.Humanlike)
 			{
-				LongEventHandler.ExecuteWhenFinished(delegate
+				LongEventHandler.ExecuteWhenFinished((Action)delegate
 				{
 					this.pawn.Drawer.renderer.graphics.ResolveAllGraphics();
 				});
@@ -297,35 +269,30 @@ namespace Verse
 			}
 			if (this.cachedLifeStageIndex < lifeStageAges.Count - 1)
 			{
-				float num2 = lifeStageAges[this.cachedLifeStageIndex + 1].minAge - this.AgeBiologicalYearsFloat;
-				int num3 = (Current.ProgramState != ProgramState.Playing) ? 0 : Find.TickManager.TicksGame;
-				this.nextLifeStageChangeTick = num3 + Mathf.CeilToInt(num2 * 3600000f);
+				float num3 = lifeStageAges[this.cachedLifeStageIndex + 1].minAge - this.AgeBiologicalYearsFloat;
+				int num4 = (Current.ProgramState == ProgramState.Playing) ? Find.TickManager.TicksGame : 0;
+				this.nextLifeStageChangeTick = num4 + Mathf.CeilToInt((float)(num3 * 3600000.0));
 			}
 		}
 
 		private void BirthdayBiological()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (HediffGiver_Birthday current in AgeInjuryUtility.RandomHediffsToGainOnBirthday(this.pawn, this.AgeBiologicalYears))
+			foreach (HediffGiver_Birthday item in AgeInjuryUtility.RandomHediffsToGainOnBirthday(this.pawn, this.AgeBiologicalYears))
 			{
-				if (current.TryApply(this.pawn, null))
+				if (item.TryApply(this.pawn, null))
 				{
 					if (stringBuilder.Length != 0)
 					{
 						stringBuilder.AppendLine();
 					}
-					stringBuilder.Append("    - " + current.hediff.LabelCap);
+					stringBuilder.Append("    - " + item.hediff.LabelCap);
 				}
 			}
 			if (this.pawn.RaceProps.Humanlike && PawnUtility.ShouldSendNotificationAbout(this.pawn) && stringBuilder.Length > 0)
 			{
-				string text = "BirthdayBiologicalAgeInjuries".Translate(new object[]
-				{
-					this.pawn,
-					this.AgeBiologicalYears,
-					stringBuilder
-				}).AdjustedFor(this.pawn);
-				Find.LetterStack.ReceiveLetter("LetterLabelBirthday".Translate(), text, LetterDefOf.BadNonUrgent, this.pawn, null);
+				string text = "BirthdayBiologicalAgeInjuries".Translate(this.pawn, this.AgeBiologicalYears, stringBuilder).AdjustedFor(this.pawn);
+				Find.LetterStack.ReceiveLetter("LetterLabelBirthday".Translate(), text, LetterDefOf.BadNonUrgent, (Thing)this.pawn, (string)null);
 			}
 		}
 
@@ -341,23 +308,23 @@ namespace Verse
 		private void CheckChangePawnKindName()
 		{
 			NameSingle nameSingle = this.pawn.Name as NameSingle;
-			if (nameSingle == null || !nameSingle.Numerical)
+			if (nameSingle != null && nameSingle.Numerical)
 			{
-				return;
+				string kindLabel = this.pawn.KindLabel;
+				if (!(nameSingle.NameWithoutNumber == kindLabel))
+				{
+					int number = nameSingle.Number;
+					string text = this.pawn.KindLabel + " " + number;
+					if (!NameUseChecker.NameSingleIsUsed(text))
+					{
+						this.pawn.Name = new NameSingle(text, true);
+					}
+					else
+					{
+						this.pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(this.pawn, NameStyle.Numeric, (string)null);
+					}
+				}
 			}
-			string kindLabel = this.pawn.KindLabel;
-			if (nameSingle.NameWithoutNumber == kindLabel)
-			{
-				return;
-			}
-			int number = nameSingle.Number;
-			string text = this.pawn.KindLabel + " " + number;
-			if (!NameUseChecker.NameSingleIsUsed(text))
-			{
-				this.pawn.Name = new NameSingle(text, true);
-				return;
-			}
-			this.pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(this.pawn, NameStyle.Numeric, null);
 		}
 
 		public void DebugMake1YearOlder()

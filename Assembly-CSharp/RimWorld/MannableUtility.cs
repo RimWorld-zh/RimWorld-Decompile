@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -12,11 +11,11 @@ namespace RimWorld
 				return null;
 			}
 			Thing lastMannedThing = pawn.mindState.lastMannedThing;
-			if (lastMannedThing == null || lastMannedThing.TryGetComp<CompMannable>().ManningPawn != pawn)
+			if (lastMannedThing != null && lastMannedThing.TryGetComp<CompMannable>().ManningPawn == pawn)
 			{
-				return null;
+				return lastMannedThing;
 			}
-			return lastMannedThing;
+			return null;
 		}
 	}
 }

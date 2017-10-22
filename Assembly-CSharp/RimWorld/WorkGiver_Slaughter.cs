@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -16,46 +14,43 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			WorkGiver_Slaughter.<PotentialWorkThingsGlobal>c__Iterator5A <PotentialWorkThingsGlobal>c__Iterator5A = new WorkGiver_Slaughter.<PotentialWorkThingsGlobal>c__Iterator5A();
-			<PotentialWorkThingsGlobal>c__Iterator5A.pawn = pawn;
-			<PotentialWorkThingsGlobal>c__Iterator5A.<$>pawn = pawn;
-			WorkGiver_Slaughter.<PotentialWorkThingsGlobal>c__Iterator5A expr_15 = <PotentialWorkThingsGlobal>c__Iterator5A;
-			expr_15.$PC = -2;
-			return expr_15;
+			foreach (Designation item in pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Slaughter))
+			{
+				yield return item.target.Thing;
+			}
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
-			if (pawn2 == null || !pawn2.RaceProps.Animal)
+			if (pawn2 != null && pawn2.RaceProps.Animal)
 			{
-				return false;
+				if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Slaughter) == null)
+				{
+					return false;
+				}
+				if (pawn.Faction != t.Faction)
+				{
+					return false;
+				}
+				if (pawn2.InAggroMentalState)
+				{
+					return false;
+				}
+				if (!pawn.CanReserve(t, 1, -1, null, forced))
+				{
+					return false;
+				}
+				if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+				{
+					JobFailReason.Is("IsIncapableOfViolenceShort".Translate());
+					return false;
+				}
+				return true;
 			}
-			if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Slaughter) == null)
-			{
-				return false;
-			}
-			if (pawn.Faction != t.Faction)
-			{
-				return false;
-			}
-			if (pawn2.InAggroMentalState)
-			{
-				return false;
-			}
-			if (!pawn.CanReserve(t, 1, -1, null, forced))
-			{
-				return false;
-			}
-			if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
-			{
-				JobFailReason.Is("IsIncapableOfViolenceShort".Translate());
-				return false;
-			}
-			return true;
+			return false;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

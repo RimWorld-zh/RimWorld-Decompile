@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class CompProperties_Lifespan : CompProperties
@@ -8,7 +6,7 @@ namespace Verse
 
 		public CompProperties_Lifespan()
 		{
-			this.compClass = typeof(CompLifespan);
+			base.compClass = typeof(CompLifespan);
 		}
 	}
 }

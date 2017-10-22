@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -34,10 +33,10 @@ namespace Verse
 			Vector3[] array = new Vector3[4];
 			Vector2[] array2 = new Vector2[4];
 			int[] array3 = new int[6];
-			array[0] = new Vector3(-0.5f * size.x, 0f, -0.5f * size.y);
-			array[1] = new Vector3(-0.5f * size.x, 0f, 0.5f * size.y);
-			array[2] = new Vector3(0.5f * size.x, 0f, 0.5f * size.y);
-			array[3] = new Vector3(0.5f * size.x, 0f, -0.5f * size.y);
+			array[0] = new Vector3((float)(-0.5 * size.x), 0f, (float)(-0.5 * size.y));
+			array[1] = new Vector3((float)(-0.5 * size.x), 0f, (float)(0.5 * size.y));
+			array[2] = new Vector3((float)(0.5 * size.x), 0f, (float)(0.5 * size.y));
+			array[3] = new Vector3((float)(0.5 * size.x), 0f, (float)(-0.5 * size.y));
 			if (backLift)
 			{
 				array[1].y = 0.00234375f;

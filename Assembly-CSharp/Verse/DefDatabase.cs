@@ -38,49 +38,31 @@ namespace Verse
 		public static void AddAllInMods()
 		{
 			HashSet<string> hashSet = new HashSet<string>();
-			foreach (ModContentPack current in from m in LoadedModManager.RunningMods
+			foreach (ModContentPack item in (IEnumerable<ModContentPack>)(from m in LoadedModManager.RunningMods
 			orderby m.OverwritePriority
-			select m)
+			select m))
 			{
 				hashSet.Clear();
-				foreach (T current2 in GenDefDatabase.DefsToGoInDatabase<T>(current))
+				foreach (T item2 in GenDefDatabase.DefsToGoInDatabase<T>(item))
 				{
-					if (hashSet.Contains(current2.defName))
+					if (hashSet.Contains(((Def)(object)item2).defName))
 					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Mod ",
-							current,
-							" has multiple ",
-							typeof(T),
-							"s named ",
-							current2.defName,
-							". Skipping."
-						}));
+						Log.Error("Mod " + item + " has multiple " + typeof(T) + "s named " + ((Def)(object)item2).defName + ". Skipping.");
 					}
 					else
 					{
-						if (current2.defName == "UnnamedDef")
+						if (((Def)(object)item2).defName == "UnnamedDef")
 						{
 							string text = "Unnamed" + typeof(T).Name + Rand.Range(1, 100000).ToString() + "A";
-							Log.Error(string.Concat(new string[]
-							{
-								typeof(T).Name,
-								" in ",
-								current.ToString(),
-								" with label ",
-								current2.label,
-								" lacks a defName. Giving name ",
-								text
-							}));
-							current2.defName = text;
+							Log.Error(typeof(T).Name + " in " + item.ToString() + " with label " + ((Def)(object)item2).label + " lacks a defName. Giving name " + text);
+							((Def)(object)item2).defName = text;
 						}
-						T def;
-						if (DefDatabase<T>.defsByName.TryGetValue(current2.defName, out def))
+						T def = default(T);
+						if (DefDatabase<T>.defsByName.TryGetValue(((Def)(object)item2).defName, out def))
 						{
 							DefDatabase<T>.Remove(def);
 						}
-						DefDatabase<T>.Add(current2);
+						DefDatabase<T>.Add(item2);
 					}
 				}
 			}
@@ -88,44 +70,32 @@ namespace Verse
 
 		public static void Add(IEnumerable<T> defs)
 		{
-			foreach (T current in defs)
+			foreach (T item in defs)
 			{
-				DefDatabase<T>.Add(current);
+				DefDatabase<T>.Add(item);
 			}
 		}
 
 		public static void Add(T def)
 		{
-			while (DefDatabase<T>.defsByName.ContainsKey(def.defName))
+			while (DefDatabase<T>.defsByName.ContainsKey(((Def)(object)def).defName))
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Adding duplicate ",
-					typeof(T),
-					" name: ",
-					def.defName
-				}));
-				T expr_46 = def;
-				expr_46.defName += Mathf.RoundToInt(Rand.Value * 1000f);
+				Log.Error("Adding duplicate " + typeof(T) + " name: " + ((Def)(object)def).defName);
+				object obj = def;
+				((Def)obj).defName = ((Def)obj).defName + Mathf.RoundToInt((float)(Rand.Value * 1000.0));
 			}
 			DefDatabase<T>.defsList.Add(def);
-			DefDatabase<T>.defsByName.Add(def.defName, def);
+			DefDatabase<T>.defsByName.Add(((Def)(object)def).defName, def);
 			if (DefDatabase<T>.defsList.Count > 65535)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Too many ",
-					typeof(T),
-					"; over ",
-					65535
-				}));
+				Log.Error("Too many " + typeof(T) + "; over " + (ushort)65535);
 			}
-			def.index = (ushort)(DefDatabase<T>.defsList.Count - 1);
+			((Def)(object)def).index = (ushort)(DefDatabase<T>.defsList.Count - 1);
 		}
 
 		private static void Remove(T def)
 		{
-			DefDatabase<T>.defsByName.Remove(def.defName);
+			DefDatabase<T>.defsByName.Remove(((Def)(object)def).defName);
 			DefDatabase<T>.defsList.Remove(def);
 			DefDatabase<T>.SetIndices();
 		}
@@ -140,8 +110,8 @@ namespace Verse
 		{
 			for (int i = 0; i < DefDatabase<T>.defsList.Count; i++)
 			{
-				T t = DefDatabase<T>.defsList[i];
-				t.ClearCachedData();
+				T val = DefDatabase<T>.defsList[i];
+				val.ClearCachedData();
 			}
 		}
 
@@ -152,18 +122,12 @@ namespace Verse
 			{
 				try
 				{
-					T t = DefDatabase<T>.defsList[i];
-					t.ResolveReferences();
+					T val = DefDatabase<T>.defsList[i];
+					val.ResolveReferences();
 				}
 				catch (Exception ex)
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Error while resolving references for def ",
-						DefDatabase<T>.defsList[i],
-						": ",
-						ex
-					}));
+					Log.Error("Error while resolving references for def " + DefDatabase<T>.defsList[i] + ": " + ex);
 				}
 			}
 			DefDatabase<T>.SetIndices();
@@ -173,23 +137,18 @@ namespace Verse
 		{
 			for (int i = 0; i < DefDatabase<T>.defsList.Count; i++)
 			{
-				DefDatabase<T>.defsList[i].index = (ushort)i;
+				((Def)(object)DefDatabase<T>.defsList[i]).index = (ushort)i;
 			}
 		}
 
 		public static void ErrorCheckAllDefs()
 		{
-			foreach (T current in DefDatabase<T>.AllDefs)
+			foreach (T allDef in DefDatabase<T>.AllDefs)
 			{
-				foreach (string current2 in current.ConfigErrors())
+				T current = allDef;
+				foreach (string item in current.ConfigErrors())
 				{
-					Log.Warning(string.Concat(new object[]
-					{
-						"Config error in ",
-						current,
-						": ",
-						current2
-					}));
+					Log.Warning("Config error in " + current + ": " + item);
 				}
 			}
 		}
@@ -198,32 +157,20 @@ namespace Verse
 		{
 			if (errorOnFail)
 			{
-				T result;
+				T result = default(T);
 				if (DefDatabase<T>.defsByName.TryGetValue(defName, out result))
 				{
 					return result;
 				}
-				Log.Error(string.Concat(new object[]
-				{
-					"Failed to find ",
-					typeof(T),
-					" named ",
-					defName,
-					". There are ",
-					DefDatabase<T>.defsList.Count,
-					" defs of this type loaded."
-				}));
-				return (T)((object)null);
+				Log.Error("Failed to find " + typeof(T) + " named " + defName + ". There are " + DefDatabase<T>.defsList.Count + " defs of this type loaded.");
+				return (T)null;
 			}
-			else
+			T result2 = default(T);
+			if (DefDatabase<T>.defsByName.TryGetValue(defName, out result2))
 			{
-				T result2;
-				if (DefDatabase<T>.defsByName.TryGetValue(defName, out result2))
-				{
-					return result2;
-				}
-				return (T)((object)null);
+				return result2;
 			}
+			return (T)null;
 		}
 
 		public static T GetNamedSilentFail(string defName)
@@ -235,17 +182,17 @@ namespace Verse
 		{
 			for (int i = 0; i < DefDatabase<T>.defsList.Count; i++)
 			{
-				if (DefDatabase<T>.defsList[i].shortHash == shortHash)
+				if (((Def)(object)DefDatabase<T>.defsList[i]).shortHash == shortHash)
 				{
 					return DefDatabase<T>.defsList[i];
 				}
 			}
-			return (T)((object)null);
+			return (T)null;
 		}
 
 		public static T GetRandom()
 		{
-			return DefDatabase<T>.defsList.RandomElement<T>();
+			return ((IEnumerable<T>)DefDatabase<T>.defsList).RandomElement<T>();
 		}
 	}
 }

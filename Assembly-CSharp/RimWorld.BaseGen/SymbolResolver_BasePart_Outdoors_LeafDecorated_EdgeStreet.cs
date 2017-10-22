@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld.BaseGen
 {
 	public class SymbolResolver_BasePart_Outdoors_LeafDecorated_EdgeStreet : SymbolResolver

@@ -18,7 +18,7 @@ namespace Verse
 
 		public void InitLoading(string filePath)
 		{
-			if (Scribe.mode != LoadSaveMode.Inactive)
+			if (Scribe.mode != 0)
 			{
 				Log.Error("Called InitLoading() but current mode is " + Scribe.mode);
 				Scribe.ForceStop();
@@ -31,16 +31,16 @@ namespace Verse
 			if (this.curPathRelToParent != null)
 			{
 				Log.Error("Current path relative to parent is not null in InitLoading");
-				this.curPathRelToParent = null;
+				this.curPathRelToParent = (string)null;
 			}
 			try
 			{
-				using (StreamReader streamReader = new StreamReader(filePath))
+				using (StreamReader input = new StreamReader(filePath))
 				{
-					using (XmlTextReader xmlTextReader = new XmlTextReader(streamReader))
+					using (XmlTextReader reader = new XmlTextReader(input))
 					{
 						XmlDocument xmlDocument = new XmlDocument();
-						xmlDocument.Load(xmlTextReader);
+						xmlDocument.Load(reader);
 						this.curXmlParent = xmlDocument.DocumentElement;
 					}
 				}
@@ -48,39 +48,32 @@ namespace Verse
 			}
 			catch (Exception ex)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Exception while init loading file: ",
-					filePath,
-					"\n",
-					ex
-				}));
+				Log.Error("Exception while init loading file: " + filePath + "\n" + ex);
 				this.ForceStop();
 				throw;
+				IL_00e7:;
 			}
 		}
 
 		public void InitLoadingMetaHeaderOnly(string filePath)
 		{
-			if (Scribe.mode != LoadSaveMode.Inactive)
+			if (Scribe.mode != 0)
 			{
 				Log.Error("Called InitLoadingMetaHeaderOnly() but current mode is " + Scribe.mode);
 				Scribe.ForceStop();
 			}
 			try
 			{
-				using (StreamReader streamReader = new StreamReader(filePath))
+				using (StreamReader input = new StreamReader(filePath))
 				{
-					using (XmlTextReader xmlTextReader = new XmlTextReader(streamReader))
+					using (XmlTextReader xmlTextReader = new XmlTextReader(input))
 					{
 						if (!ScribeMetaHeaderUtility.ReadToMetaElement(xmlTextReader))
-						{
 							return;
-						}
-						using (XmlReader xmlReader = xmlTextReader.ReadSubtree())
+						using (XmlReader reader = xmlTextReader.ReadSubtree())
 						{
 							XmlDocument xmlDocument = new XmlDocument();
-							xmlDocument.Load(xmlReader);
+							xmlDocument.Load(reader);
 							XmlElement xmlElement = xmlDocument.CreateElement("root");
 							xmlElement.AppendChild(xmlDocument.DocumentElement);
 							this.curXmlParent = xmlElement;
@@ -91,15 +84,10 @@ namespace Verse
 			}
 			catch (Exception ex)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Exception while init loading meta header: ",
-					filePath,
-					"\n",
-					ex
-				}));
+				Log.Error("Exception while init loading meta header: " + filePath + "\n" + ex);
 				this.ForceStop();
 				throw;
+				IL_00f6:;
 			}
 		}
 
@@ -108,23 +96,26 @@ namespace Verse
 			if (Scribe.mode != LoadSaveMode.LoadingVars)
 			{
 				Log.Error("Called FinalizeLoading() but current mode is " + Scribe.mode);
-				return;
 			}
-			try
+			else
 			{
-				Scribe.ExitNode();
-				this.curXmlParent = null;
-				this.curParent = null;
-				this.curPathRelToParent = null;
-				Scribe.mode = LoadSaveMode.Inactive;
-				this.crossRefs.ResolveAllCrossReferences();
-				this.initer.DoAllPostLoadInits();
-			}
-			catch (Exception arg)
-			{
-				Log.Error("Exception in FinalizeLoading(): " + arg);
-				this.ForceStop();
-				throw;
+				try
+				{
+					Scribe.ExitNode();
+					this.curXmlParent = null;
+					this.curParent = null;
+					this.curPathRelToParent = (string)null;
+					Scribe.mode = LoadSaveMode.Inactive;
+					this.crossRefs.ResolveAllCrossReferences();
+					this.initer.DoAllPostLoadInits();
+				}
+				catch (Exception arg)
+				{
+					Log.Error("Exception in FinalizeLoading(): " + arg);
+					this.ForceStop();
+					throw;
+					IL_0079:;
+				}
 			}
 		}
 
@@ -162,7 +153,7 @@ namespace Verse
 				}
 				else
 				{
-					this.curPathRelToParent = null;
+					this.curPathRelToParent = (string)null;
 				}
 			}
 		}
@@ -173,10 +164,9 @@ namespace Verse
 			this.curParent = null;
 			this.crossRefs.Clear(false);
 			this.initer.Clear();
-			if (Scribe.mode == LoadSaveMode.LoadingVars || Scribe.mode == LoadSaveMode.ResolvingCrossRefs || Scribe.mode == LoadSaveMode.PostLoadInit)
-			{
-				Scribe.mode = LoadSaveMode.Inactive;
-			}
+			if (Scribe.mode != LoadSaveMode.LoadingVars && Scribe.mode != LoadSaveMode.ResolvingCrossRefs && Scribe.mode != LoadSaveMode.PostLoadInit)
+				return;
+			Scribe.mode = LoadSaveMode.Inactive;
 		}
 	}
 }

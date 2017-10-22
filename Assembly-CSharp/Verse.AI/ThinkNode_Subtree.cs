@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI
 {
 	public class ThinkNode_Subtree : ThinkNode
@@ -16,7 +14,7 @@ namespace Verse.AI
 			if (resolve)
 			{
 				thinkNode_Subtree.ResolveSubnodesAndRecur();
-				thinkNode_Subtree.subtreeNode = thinkNode_Subtree.subNodes[this.subNodes.IndexOf(this.subtreeNode)];
+				thinkNode_Subtree.subtreeNode = thinkNode_Subtree.subNodes[base.subNodes.IndexOf(this.subtreeNode)];
 			}
 			return thinkNode_Subtree;
 		}
@@ -24,7 +22,7 @@ namespace Verse.AI
 		protected override void ResolveSubnodes()
 		{
 			this.subtreeNode = this.treeDef.thinkRoot.DeepCopy(true);
-			this.subNodes.Add(this.subtreeNode);
+			base.subNodes.Add(this.subtreeNode);
 		}
 
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)

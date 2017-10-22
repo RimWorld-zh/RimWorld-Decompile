@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse
 {
@@ -19,7 +18,7 @@ namespace Verse
 
 		public void ExposeData()
 		{
-			Scribe_Values.Look<string>(ref this.compressedString, "compressedThingMap", null, false);
+			Scribe_Values.Look<string>(ref this.compressedString, "compressedThingMap", (string)null, false);
 		}
 
 		public void BuildCompressedString()
@@ -31,35 +30,55 @@ namespace Verse
 
 		private ushort HashValueForSquare(IntVec3 curSq)
 		{
-			ushort num = 0;
-			foreach (Thing current in this.map.thingGrid.ThingsAt(curSq))
+			ushort num = (ushort)0;
+			foreach (Thing item in this.map.thingGrid.ThingsAt(curSq))
 			{
-				if (current.IsSaveCompressible())
+				if (item.IsSaveCompressible())
 				{
 					if (num != 0)
 					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Found two compressible things in ",
-							curSq,
-							". The last was ",
-							current
-						}));
+						Log.Error("Found two compressible things in " + curSq + ". The last was " + item);
 					}
-					num = current.def.shortHash;
+					num = item.def.shortHash;
 				}
 			}
 			return num;
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Thing> ThingsToSpawnAfterLoad()
 		{
-			MapFileCompressor.<ThingsToSpawnAfterLoad>c__Iterator1F2 <ThingsToSpawnAfterLoad>c__Iterator1F = new MapFileCompressor.<ThingsToSpawnAfterLoad>c__Iterator1F2();
-			<ThingsToSpawnAfterLoad>c__Iterator1F.<>f__this = this;
-			MapFileCompressor.<ThingsToSpawnAfterLoad>c__Iterator1F2 expr_0E = <ThingsToSpawnAfterLoad>c__Iterator1F;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			Dictionary<ushort, ThingDef> thingDefsByShortHash = new Dictionary<ushort, ThingDef>();
+			foreach (ThingDef allDef in DefDatabase<ThingDef>.AllDefs)
+			{
+				if (thingDefsByShortHash.ContainsKey(allDef.shortHash))
+				{
+					Log.Error("Hash collision between " + allDef + " and  " + thingDefsByShortHash[allDef.shortHash] + ": both have short hash " + allDef.shortHash);
+				}
+				else
+				{
+					thingDefsByShortHash.Add(allDef.shortHash, allDef);
+				}
+			}
+			foreach (GridSaveUtility.LoadedGridShort item in GridSaveUtility.LoadedUShortGrid(this.compressedString, this.map))
+			{
+				GridSaveUtility.LoadedGridShort gridThing = item;
+				if (gridThing.val != 0)
+				{
+					ThingDef def = null;
+					try
+					{
+						def = thingDefsByShortHash[gridThing.val];
+					}
+					catch (KeyNotFoundException)
+					{
+						Log.Error("Map compressor decompression error: No thingDef with short hash " + gridThing.val + ". Adding as null to dictionary.");
+						thingDefsByShortHash.Add(gridThing.val, null);
+					}
+					Thing th = ThingMaker.MakeThing(def, null);
+					th.SetPositionDirect(gridThing.cell);
+					yield return th;
+				}
+			}
 		}
 	}
 }

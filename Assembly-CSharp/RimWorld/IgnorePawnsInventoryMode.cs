@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum IgnorePawnsInventoryMode
 	{
-		Ignore,
-		IgnoreIfAssignedToUnload,
-		DontIgnore
+		Ignore = 0,
+		IgnoreIfAssignedToUnload = 1,
+		DontIgnore = 2
 	}
 }

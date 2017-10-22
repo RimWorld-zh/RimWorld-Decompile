@@ -1,41 +1,43 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
 	public class CompShipPart : ThingComp
 	{
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompShipPart.<CompGetGizmosExtra>c__Iterator170 <CompGetGizmosExtra>c__Iterator = new CompShipPart.<CompGetGizmosExtra>c__Iterator170();
-			<CompGetGizmosExtra>c__Iterator.<>f__this = this;
-			CompShipPart.<CompGetGizmosExtra>c__Iterator170 expr_0E = <CompGetGizmosExtra>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			yield return (Gizmo)new Command_Action
+			{
+				action = new Action(this.ShowReport),
+				defaultLabel = "CommandShipLaunchReport".Translate(),
+				defaultDesc = "CommandShipLaunchReportDesc".Translate(),
+				hotKey = KeyBindingDefOf.Misc4,
+				icon = ContentFinder<Texture2D>.Get("UI/Commands/LaunchReport", true)
+			};
 		}
 
 		public void ShowReport()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			if (!ShipUtility.LaunchFailReasons((Building)this.parent).Any<string>())
+			if (!ShipUtility.LaunchFailReasons((Building)base.parent).Any())
 			{
 				stringBuilder.AppendLine("ShipReportCanLaunch".Translate());
 			}
 			else
 			{
 				stringBuilder.AppendLine("ShipReportCannotLaunch".Translate());
-				foreach (string current in ShipUtility.LaunchFailReasons((Building)this.parent))
+				foreach (string item in ShipUtility.LaunchFailReasons((Building)base.parent))
 				{
 					stringBuilder.AppendLine();
-					stringBuilder.AppendLine(current);
+					stringBuilder.AppendLine(item);
 				}
 			}
-			Dialog_MessageBox window = new Dialog_MessageBox(stringBuilder.ToString(), null, null, null, null, null, false);
+			Dialog_MessageBox window = new Dialog_MessageBox(stringBuilder.ToString(), (string)null, null, (string)null, null, (string)null, false);
 			Find.WindowStack.Add(window);
 		}
 	}

@@ -14,21 +14,21 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
-			Faction faction;
-			Faction faction2;
-			int num;
+			Faction faction = default(Faction);
+			Faction faction2 = default(Faction);
+			int num = default(int);
 			return base.CanFireNowSub(target) && this.TryFindFactions(out faction, out faction2) && TileFinder.TryFindNewSiteTile(out num);
 		}
 
 		public override bool TryExecute(IncidentParms parms)
 		{
-			Faction faction;
-			Faction faction2;
+			Faction faction = default(Faction);
+			Faction faction2 = default(Faction);
 			if (!this.TryFindFactions(out faction, out faction2))
 			{
 				return false;
 			}
-			int tile;
+			int tile = default(int);
 			if (!TileFinder.TryFindNewSiteTile(out tile))
 			{
 				return false;
@@ -39,24 +39,20 @@ namespace RimWorld
 			site.core = SiteCoreDefOf.Nothing;
 			site.parts.Add(SitePartDefOf.Outpost);
 			List<Thing> list = this.GenerateRewards(faction);
-			site.GetComponent<DefeatAllEnemiesQuestComp>().StartQuest(faction, 8f, list);
+			((WorldObject)site).GetComponent<DefeatAllEnemiesQuestComp>().StartQuest(faction, 8f, list);
 			Find.WorldObjects.Add(site);
-			base.SendStandardLetter(site, new string[]
-			{
-				faction.leader.LabelShort,
-				faction.def.leaderTitle,
-				faction.Name,
-				list[0].LabelCap
-			});
+			base.SendStandardLetter((WorldObject)site, faction.leader.LabelShort, faction.def.leaderTitle, faction.Name, list[0].LabelCap);
 			return true;
 		}
 
 		private List<Thing> GenerateRewards(Faction alliedFaction)
 		{
-			ItemCollectionGeneratorParams parms = default(ItemCollectionGeneratorParams);
-			parms.count = 1;
-			parms.totalMarketValue = (float)IncidentWorker_QuestBanditCamp.RewardMarketValueRange.RandomInRange;
-			parms.techLevel = alliedFaction.def.techLevel;
+			ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
+			{
+				count = 1,
+				totalMarketValue = (float)IncidentWorker_QuestBanditCamp.RewardMarketValueRange.RandomInRange,
+				techLevel = alliedFaction.def.techLevel
+			};
 			return ItemCollectionGeneratorDefOf.BanditCampQuestRewards.Worker.Generate(parms);
 		}
 
@@ -64,7 +60,7 @@ namespace RimWorld
 		{
 			if ((from x in Find.FactionManager.AllFactions
 			where !x.def.hidden && !x.defeated && !x.IsPlayer && !x.HostileTo(Faction.OfPlayer) && this.CommonHumanlikeEnemyFactionExists(Faction.OfPlayer, x) && !this.AnyQuestExistsFrom(x)
-			select x).TryRandomElement(out alliedFaction))
+			select x).TryRandomElement<Faction>(out alliedFaction))
 			{
 				enemyFaction = this.CommonHumanlikeEnemyFaction(Faction.OfPlayer, alliedFaction);
 				return true;
@@ -79,7 +75,7 @@ namespace RimWorld
 			List<Site> sites = Find.WorldObjects.Sites;
 			for (int i = 0; i < sites.Count; i++)
 			{
-				DefeatAllEnemiesQuestComp component = sites[i].GetComponent<DefeatAllEnemiesQuestComp>();
+				DefeatAllEnemiesQuestComp component = ((WorldObject)sites[i]).GetComponent<DefeatAllEnemiesQuestComp>();
 				if (component != null && component.Active && component.requestingFaction == faction)
 				{
 					return true;
@@ -95,10 +91,10 @@ namespace RimWorld
 
 		private Faction CommonHumanlikeEnemyFaction(Faction f1, Faction f2)
 		{
-			Faction result;
+			Faction result = default(Faction);
 			if ((from x in Find.FactionManager.AllFactions
 			where x != f1 && x != f2 && !x.def.hidden && x.def.humanlikeFaction && !x.defeated && x.HostileTo(f1) && x.HostileTo(f2)
-			select x).TryRandomElement(out result))
+			select x).TryRandomElement<Faction>(out result))
 			{
 				return result;
 			}

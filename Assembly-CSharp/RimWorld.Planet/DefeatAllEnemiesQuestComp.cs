@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -51,7 +50,7 @@ namespace RimWorld.Planet
 			base.CompTick();
 			if (this.active)
 			{
-				MapParent mapParent = this.parent as MapParent;
+				MapParent mapParent = base.parent as MapParent;
 				if (mapParent != null)
 				{
 					this.CheckAllEnemiesDefeated(mapParent);
@@ -61,16 +60,11 @@ namespace RimWorld.Planet
 
 		private void CheckAllEnemiesDefeated(MapParent mapParent)
 		{
-			if (!mapParent.HasMap)
+			if (mapParent.HasMap && !GenHostility.AnyHostileActiveThreat(mapParent.Map))
 			{
-				return;
+				this.GiveRewardsAndSendLetter();
+				this.StopQuest();
 			}
-			if (GenHostility.AnyHostileActiveThreat(mapParent.Map))
-			{
-				return;
-			}
-			this.GiveRewardsAndSendLetter();
-			this.StopQuest();
 		}
 
 		public override void PostExposeData()
@@ -79,7 +73,7 @@ namespace RimWorld.Planet
 			Scribe_Values.Look<bool>(ref this.active, "active", false, false);
 			Scribe_Values.Look<float>(ref this.relationsImprovement, "relationsImprovement", 0f, false);
 			Scribe_References.Look<Faction>(ref this.requestingFaction, "requestingFaction", false);
-			Scribe_Deep.Look<ThingOwner>(ref this.rewards, "rewards", new object[]
+			Scribe_Deep.Look<ThingOwner>(ref this.rewards, "rewards", new object[1]
 			{
 				this
 			});
@@ -87,17 +81,13 @@ namespace RimWorld.Planet
 
 		private void GiveRewardsAndSendLetter()
 		{
-			Map map = Find.AnyPlayerHomeMap ?? ((MapParent)this.parent).Map;
+			Map map = Find.AnyPlayerHomeMap ?? ((MapParent)base.parent).Map;
 			DefeatAllEnemiesQuestComp.tmpRewards.AddRange(this.rewards);
 			this.rewards.Clear();
 			IntVec3 intVec = DropCellFinder.TradeDropSpot(map);
 			DropPodUtility.DropThingsNear(intVec, map, DefeatAllEnemiesQuestComp.tmpRewards, 110, false, false, true);
 			DefeatAllEnemiesQuestComp.tmpRewards.Clear();
-			Find.LetterStack.ReceiveLetter("LetterLabelDefeatAllEnemiesQuestCompleted".Translate(), "LetterDefeatAllEnemiesQuestCompleted".Translate(new object[]
-			{
-				this.requestingFaction.Name,
-				this.relationsImprovement.ToString("F0")
-			}), LetterDefOf.Good, new GlobalTargetInfo(intVec, map, false), null);
+			Find.LetterStack.ReceiveLetter("LetterLabelDefeatAllEnemiesQuestCompleted".Translate(), "LetterDefeatAllEnemiesQuestCompleted".Translate(this.requestingFaction.Name, this.relationsImprovement.ToString("F0")), LetterDefOf.Good, new GlobalTargetInfo(intVec, map, false), (string)null);
 		}
 
 		public void GetChildHolders(List<IThingHolder> outChildren)
@@ -120,18 +110,20 @@ namespace RimWorld.Planet
 		{
 			if (this.active)
 			{
-				return "QuestTargetDestroyInspectString".Translate(new object[]
-				{
-					this.requestingFaction.Name,
-					this.rewards[0].LabelCap
-				}).CapitalizeFirst();
+				return "QuestTargetDestroyInspectString".Translate(this.requestingFaction.Name, this.rewards[0].LabelCap).CapitalizeFirst();
 			}
-			return null;
+			return (string)null;
 		}
 
 		virtual IThingHolder get_ParentHolder()
 		{
 			return base.ParentHolder;
+		}
+
+		IThingHolder IThingHolder.get_ParentHolder()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
+			return this.get_ParentHolder();
 		}
 	}
 }

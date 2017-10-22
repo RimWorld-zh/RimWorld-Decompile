@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -37,14 +38,14 @@ namespace Verse
 		public EditWindow_PackageEditor(string relFolder)
 		{
 			this.relFolder = relFolder;
-			this.onlyOneOfTypeAllowed = true;
-			this.optionalTitle = "Package Editor: " + relFolder;
+			base.onlyOneOfTypeAllowed = true;
+			base.optionalTitle = "Package Editor: " + relFolder;
 		}
 
 		public override void DoWindowContents(Rect selectorInner)
 		{
 			Text.Font = GameFont.Tiny;
-			float width = (selectorInner.width - 4f) / 2f;
+			float width = (float)((selectorInner.width - 4.0) / 2.0);
 			Rect rect = new Rect(0f, 0f, width, 24f);
 			string str = this.curMod.ToString();
 			if (Widgets.ButtonText(rect, "Editing: " + str, true, false, true))
@@ -52,7 +53,7 @@ namespace Verse
 				Messages.Message("Mod changing not implemented - it's always Core for now.", MessageSound.RejectInput);
 			}
 			TooltipHandler.TipRegion(rect, "Change the mod being edited.");
-			Rect rect2 = new Rect(rect.xMax + 4f, 0f, width, 24f);
+			Rect rect2 = new Rect((float)(rect.xMax + 4.0), 0f, width, 24f);
 			string label = "No package loaded";
 			if (this.curPackage != null)
 			{
@@ -60,7 +61,7 @@ namespace Verse
 			}
 			if (Widgets.ButtonText(rect2, label, true, false, true))
 			{
-				Find.WindowStack.Add(new Dialog_PackageSelector(delegate(DefPackage pack)
+				Find.WindowStack.Add(new Dialog_PackageSelector((Action<DefPackage>)delegate(DefPackage pack)
 				{
 					if (pack != this.curPackage)
 					{
@@ -90,7 +91,7 @@ namespace Verse
 			}
 			float num = 56f;
 			Rect rect3 = new Rect(0f, num, selectorInner.width, selectorInner.height - num);
-			Rect rect4 = new Rect(0f, 0f, rect3.width - 16f, this.viewHeight);
+			Rect rect4 = new Rect(0f, 0f, (float)(rect3.width - 16.0), this.viewHeight);
 			Widgets.DrawMenuSection(rect3, true);
 			Widgets.BeginScrollView(rect3, ref this.scrollPosition, rect4, true);
 			Rect rect5 = rect4.ContractedBy(4f);
@@ -110,43 +111,52 @@ namespace Verse
 				}
 				else
 				{
-					EditWindow_PackageEditor<TNewDef>.<DoWindowContents>c__AnonStorey5D6 <DoWindowContents>c__AnonStorey5D = new EditWindow_PackageEditor<TNewDef>.<DoWindowContents>c__AnonStorey5D6();
-					<DoWindowContents>c__AnonStorey5D.<>f__this = this;
-					<DoWindowContents>c__AnonStorey5D.deletingDef = null;
-					foreach (Def def in this.curPackage)
+					Def deletingDef = null;
+					List<Def>.Enumerator enumerator = this.curPackage.GetEnumerator();
+					try
 					{
-						if (listing_Standard.SelectableDef(def.defName, false, delegate
+						Def def;
+						Def deletingDef2;
+						while (enumerator.MoveNext())
 						{
-							<DoWindowContents>c__AnonStorey5D.deletingDef = def;
-						}))
-						{
-							bool flag = false;
-							WindowStack windowStack = Find.WindowStack;
-							for (int i = 0; i < windowStack.Count; i++)
+							def = enumerator.Current;
+							if (listing_Standard.SelectableDef(def.defName, false, (Action)delegate
 							{
-								EditWindow_DefEditor editWindow_DefEditor = windowStack[i] as EditWindow_DefEditor;
-								if (editWindow_DefEditor != null && editWindow_DefEditor.def == def)
+								deletingDef2 = def;
+							}))
+							{
+								bool flag = false;
+								WindowStack windowStack = Find.WindowStack;
+								for (int i = 0; i < windowStack.Count; i++)
 								{
-									flag = true;
+									EditWindow_DefEditor editWindow_DefEditor = windowStack[i] as EditWindow_DefEditor;
+									if (editWindow_DefEditor != null && editWindow_DefEditor.def == def)
+									{
+										flag = true;
+									}
 								}
-							}
-							if (!flag)
-							{
-								Find.WindowStack.Add(new EditWindow_DefEditor(def));
+								if (!flag)
+								{
+									Find.WindowStack.Add(new EditWindow_DefEditor(def));
+								}
 							}
 						}
 					}
-					if (<DoWindowContents>c__AnonStorey5D.deletingDef != null)
+					finally
 					{
-						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("Really delete Def " + <DoWindowContents>c__AnonStorey5D.deletingDef.defName + "?", delegate
+						((IDisposable)(object)enumerator).Dispose();
+					}
+					if (deletingDef != null)
+					{
+						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("Really delete Def " + deletingDef.defName + "?", (Action)delegate
 						{
-							<DoWindowContents>c__AnonStorey5D.<>f__this.curPackage.RemoveDef(<DoWindowContents>c__AnonStorey5D.deletingDef);
-						}, true, null));
+							this.curPackage.RemoveDef(deletingDef);
+						}, true, (string)null));
 					}
 				}
 				if (listing_Standard.ButtonImage(TexButton.Add, 24f, 24f))
 				{
-					Def def2 = Activator.CreateInstance<TNewDef>();
+					Def def2 = (Def)(object)new TNewDef();
 					def2.defName = "New" + typeof(TNewDef).Name;
 					this.curPackage.AddDef(def2);
 				}

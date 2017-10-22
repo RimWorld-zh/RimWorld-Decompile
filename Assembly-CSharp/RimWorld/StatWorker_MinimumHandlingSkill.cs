@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -14,14 +13,7 @@ namespace RimWorld
 		public override string GetExplanation(StatRequest req, ToStringNumberSense numberSense)
 		{
 			float wildness = ((ThingDef)req.Def).race.wildness;
-			return string.Concat(new string[]
-			{
-				"Wildness".Translate(),
-				" ",
-				wildness.ToStringPercent(),
-				": ",
-				this.ValueFromReq(req).ToString("F0")
-			});
+			return "Wildness".Translate() + " " + wildness.ToStringPercent() + ": " + this.ValueFromReq(req).ToString("F0");
 		}
 
 		private float ValueFromReq(StatRequest req)

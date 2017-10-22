@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum Traversability : byte
 	{
-		Standable,
-		PassThroughOnly,
-		Impassable
+		Standable = 0,
+		PassThroughOnly = 1,
+		Impassable = 2
 	}
 }

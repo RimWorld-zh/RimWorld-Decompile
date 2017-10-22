@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -12,28 +11,27 @@ namespace RimWorld
 
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (!this.HasCheckbox(pawn))
+			if (this.HasCheckbox(pawn))
 			{
-				return;
-			}
-			int num = (int)((rect.width - 24f) / 2f);
-			int num2 = Mathf.Max(3, 0);
-			Vector2 topLeft = new Vector2(rect.x + (float)num, rect.y + (float)num2);
-			Rect rect2 = new Rect(topLeft.x, topLeft.y, 24f, 24f);
-			bool value = this.GetValue(pawn);
-			bool flag = value;
-			Widgets.Checkbox(topLeft, ref value, 24f, false);
-			if (Mouse.IsOver(rect2))
-			{
-				string tip = this.GetTip(pawn);
-				if (!tip.NullOrEmpty())
+				int num = (int)((rect.width - 24.0) / 2.0);
+				int num2 = Mathf.Max(3, 0);
+				Vector2 topLeft = new Vector2(rect.x + (float)num, rect.y + (float)num2);
+				Rect rect2 = new Rect(topLeft.x, topLeft.y, 24f, 24f);
+				bool value;
+				bool flag = value = this.GetValue(pawn);
+				Widgets.Checkbox(topLeft, ref flag, 24f, false);
+				if (Mouse.IsOver(rect2))
 				{
-					TooltipHandler.TipRegion(rect2, tip);
+					string tip = this.GetTip(pawn);
+					if (!tip.NullOrEmpty())
+					{
+						TooltipHandler.TipRegion(rect2, tip);
+					}
 				}
-			}
-			if (value != flag)
-			{
-				this.SetValue(pawn, value);
+				if (flag != value)
+				{
+					this.SetValue(pawn, flag);
+				}
 			}
 		}
 
@@ -72,7 +70,7 @@ namespace RimWorld
 
 		protected virtual string GetTip(Pawn pawn)
 		{
-			return null;
+			return (string)null;
 		}
 
 		protected virtual bool HasCheckbox(Pawn pawn)

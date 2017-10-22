@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -17,15 +16,15 @@ namespace RimWorld
 				{
 					return false;
 				}
+				goto IL_0063;
 			}
-			else
+			Building_Bed building_Bed = p.CurrentBed();
+			if (building_Bed != null && building_Bed.Faction == Faction.OfPlayer)
 			{
-				Building_Bed building_Bed = p.CurrentBed();
-				if (building_Bed == null || building_Bed.Faction != Faction.OfPlayer)
-				{
-					return false;
-				}
+				goto IL_0063;
 			}
+			return false;
+			IL_0063:
 			if (!HealthAIUtility.ShouldSeekMedicalRest(p))
 			{
 				return false;

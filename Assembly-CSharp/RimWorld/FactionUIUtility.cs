@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -29,18 +28,18 @@ namespace RimWorld
 			GUI.BeginGroup(position);
 			Text.Font = GameFont.Small;
 			GUI.color = Color.white;
-			Rect outRect = new Rect(0f, 50f, position.width, position.height - 50f);
-			Rect rect = new Rect(0f, 0f, position.width - 16f, scrollViewHeight);
+			Rect outRect = new Rect(0f, 50f, position.width, (float)(position.height - 50.0));
+			Rect rect = new Rect(0f, 0f, (float)(position.width - 16.0), scrollViewHeight);
 			Widgets.BeginScrollView(outRect, ref scrollPosition, rect, true);
 			float num = 0f;
-			foreach (Faction current in Find.FactionManager.AllFactionsInViewOrder)
+			foreach (Faction item in Find.FactionManager.AllFactionsInViewOrder)
 			{
-				if (!current.IsPlayer)
+				if (!item.IsPlayer)
 				{
 					GUI.color = new Color(1f, 1f, 1f, 0.2f);
 					Widgets.DrawLineHorizontal(0f, num, rect.width);
 					GUI.color = Color.white;
-					num += FactionUIUtility.DrawFactionRow(current, num, rect);
+					num += FactionUIUtility.DrawFactionRow(item, num, rect);
 				}
 			}
 			if (Event.current.type == EventType.Layout)
@@ -55,24 +54,18 @@ namespace RimWorld
 		{
 			Rect rect = new Rect(35f, rowY, 220f, 80f);
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (Faction current in Find.FactionManager.AllFactionsVisible)
+			foreach (Faction item in Find.FactionManager.AllFactionsVisible)
 			{
-				if (current != faction && !current.IsPlayer && !current.def.hidden)
+				if (item != faction && !item.IsPlayer && !item.def.hidden && faction.HostileTo(item))
 				{
-					if (faction.HostileTo(current))
-					{
-						stringBuilder.AppendLine("HostileTo".Translate(new object[]
-						{
-							current.Name
-						}));
-					}
+					stringBuilder.AppendLine("HostileTo".Translate(item.Name));
 				}
 			}
 			string text = stringBuilder.ToString();
 			float width = fillRect.width - rect.xMax;
 			float num = Text.CalcHeight(text, width);
 			float num2 = Mathf.Max(80f, num);
-			Rect position = new Rect(10f, rowY + 10f, 15f, 15f);
+			Rect position = new Rect(10f, (float)(rowY + 10.0), 15f, 15f);
 			Rect rect2 = new Rect(0f, rowY, fillRect.width, num2);
 			if (Mouse.IsOver(rect2))
 			{
@@ -81,14 +74,7 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 			Text.Anchor = TextAnchor.UpperLeft;
 			Widgets.DrawRectFast(position, faction.Color, null);
-			string label = string.Concat(new string[]
-			{
-				faction.Name,
-				"\n",
-				faction.def.LabelCap,
-				"\n",
-				(faction.leader == null) ? string.Empty : (faction.def.leaderTitle.CapitalizeFirst() + ": " + faction.leader.Name.ToStringFull)
-			});
+			string label = faction.Name + "\n" + faction.def.LabelCap + "\n" + ((faction.leader == null) ? string.Empty : (faction.def.leaderTitle.CapitalizeFirst() + ": " + faction.leader.Name.ToStringFull));
 			Widgets.Label(rect, label);
 			Rect rect3 = new Rect(rect.xMax, rowY, 60f, 80f);
 			Widgets.InfoCardButton(rect3.x, rect3.y, faction.def);
@@ -102,11 +88,11 @@ namespace RimWorld
 			{
 				text2 = text2 + "\n(" + "DefeatedLower".Translate() + ")";
 			}
-			if (faction.PlayerGoodwill < 0f)
+			if (faction.PlayerGoodwill < 0.0)
 			{
 				GUI.color = Color.red;
 			}
-			else if (faction.PlayerGoodwill == 0f)
+			else if (faction.PlayerGoodwill == 0.0)
 			{
 				GUI.color = Color.yellow;
 			}

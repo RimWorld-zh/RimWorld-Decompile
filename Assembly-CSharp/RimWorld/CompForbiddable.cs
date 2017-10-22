@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -17,24 +16,23 @@ namespace RimWorld
 			}
 			set
 			{
-				if (value == this.forbiddenInt)
+				if (value != this.forbiddenInt)
 				{
-					return;
-				}
-				this.forbiddenInt = value;
-				if (this.parent.Spawned)
-				{
-					if (this.forbiddenInt)
+					this.forbiddenInt = value;
+					if (base.parent.Spawned)
 					{
-						this.parent.Map.listerHaulables.Notify_Forbidden(this.parent);
-					}
-					else
-					{
-						this.parent.Map.listerHaulables.Notify_Unforbidden(this.parent);
-					}
-					if (this.parent is Building_Door)
-					{
-						this.parent.Map.reachability.ClearCache();
+						if (this.forbiddenInt)
+						{
+							base.parent.Map.listerHaulables.Notify_Forbidden(base.parent);
+						}
+						else
+						{
+							base.parent.Map.listerHaulables.Notify_Unforbidden(base.parent);
+						}
+						if (base.parent is Building_Door)
+						{
+							base.parent.Map.reachability.ClearCache();
+						}
 					}
 				}
 			}
@@ -49,24 +47,24 @@ namespace RimWorld
 		{
 			if (this.forbiddenInt)
 			{
-				if (this.parent is Blueprint || this.parent is Frame)
+				if (base.parent is Blueprint || base.parent is Frame)
 				{
-					if (this.parent.def.size.x > 1 || this.parent.def.size.z > 1)
+					if (base.parent.def.size.x > 1 || base.parent.def.size.z > 1)
 					{
-						this.parent.Map.overlayDrawer.DrawOverlay(this.parent, OverlayTypes.ForbiddenBig);
+						base.parent.Map.overlayDrawer.DrawOverlay(base.parent, OverlayTypes.ForbiddenBig);
 					}
 					else
 					{
-						this.parent.Map.overlayDrawer.DrawOverlay(this.parent, OverlayTypes.Forbidden);
+						base.parent.Map.overlayDrawer.DrawOverlay(base.parent, OverlayTypes.Forbidden);
 					}
 				}
-				else if (this.parent.def.category == ThingCategory.Building)
+				else if (base.parent.def.category == ThingCategory.Building)
 				{
-					this.parent.Map.overlayDrawer.DrawOverlay(this.parent, OverlayTypes.ForbiddenBig);
+					base.parent.Map.overlayDrawer.DrawOverlay(base.parent, OverlayTypes.ForbiddenBig);
 				}
 				else
 				{
-					this.parent.Map.overlayDrawer.DrawOverlay(this.parent, OverlayTypes.Forbidden);
+					base.parent.Map.overlayDrawer.DrawOverlay(base.parent, OverlayTypes.Forbidden);
 				}
 			}
 		}
@@ -76,14 +74,44 @@ namespace RimWorld
 			piece.SetForbidden(this.forbiddenInt, true);
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompForbiddable.<CompGetGizmosExtra>c__Iterator164 <CompGetGizmosExtra>c__Iterator = new CompForbiddable.<CompGetGizmosExtra>c__Iterator164();
-			<CompGetGizmosExtra>c__Iterator.<>f__this = this;
-			CompForbiddable.<CompGetGizmosExtra>c__Iterator164 expr_0E = <CompGetGizmosExtra>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (base.parent is Building && base.parent.Faction != Faction.OfPlayer)
+				yield break;
+			Command_Toggle com = new Command_Toggle
+			{
+				hotKey = KeyBindingDefOf.CommandItemForbid,
+				icon = TexCommand.Forbidden,
+				isActive = (Func<bool>)(() => !((_003CCompGetGizmosExtra_003Ec__Iterator164)/*Error near IL_0086: stateMachine*/)._003C_003Ef__this.forbiddenInt),
+				defaultLabel = "CommandForbid".Translate()
+			};
+			if (this.forbiddenInt)
+			{
+				com.defaultDesc = "CommandForbiddenDesc".Translate();
+			}
+			else
+			{
+				com.defaultDesc = "CommandNotForbiddenDesc".Translate();
+			}
+			if (base.parent.def.IsDoor)
+			{
+				com.tutorTag = "ToggleForbidden-Door";
+				com.toggleAction = (Action)delegate
+				{
+					((_003CCompGetGizmosExtra_003Ec__Iterator164)/*Error near IL_011b: stateMachine*/)._003C_003Ef__this.Forbidden = !((_003CCompGetGizmosExtra_003Ec__Iterator164)/*Error near IL_011b: stateMachine*/)._003C_003Ef__this.Forbidden;
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.ForbiddingDoors, KnowledgeAmount.SpecificInteraction);
+				};
+			}
+			else
+			{
+				com.tutorTag = "ToggleForbidden";
+				com.toggleAction = (Action)delegate
+				{
+					((_003CCompGetGizmosExtra_003Ec__Iterator164)/*Error near IL_0147: stateMachine*/)._003C_003Ef__this.Forbidden = !((_003CCompGetGizmosExtra_003Ec__Iterator164)/*Error near IL_0147: stateMachine*/)._003C_003Ef__this.Forbidden;
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Forbidding, KnowledgeAmount.SpecificInteraction);
+				};
+			}
+			yield return (Gizmo)com;
 		}
 	}
 }

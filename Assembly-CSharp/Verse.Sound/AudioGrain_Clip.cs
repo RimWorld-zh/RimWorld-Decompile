@@ -1,6 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using UnityEngine;
 
 namespace Verse.Sound
 {
@@ -8,14 +7,17 @@ namespace Verse.Sound
 	{
 		public string clipPath = string.Empty;
 
-		[DebuggerHidden]
 		public override IEnumerable<ResolvedGrain> GetResolvedGrains()
 		{
-			AudioGrain_Clip.<GetResolvedGrains>c__Iterator1DB <GetResolvedGrains>c__Iterator1DB = new AudioGrain_Clip.<GetResolvedGrains>c__Iterator1DB();
-			<GetResolvedGrains>c__Iterator1DB.<>f__this = this;
-			AudioGrain_Clip.<GetResolvedGrains>c__Iterator1DB expr_0E = <GetResolvedGrains>c__Iterator1DB;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			AudioClip clip = ContentFinder<AudioClip>.Get(this.clipPath, true);
+			if ((Object)clip != (Object)null)
+			{
+				yield return (ResolvedGrain)new ResolvedGrain_Clip(clip);
+			}
+			else
+			{
+				Log.Error("Grain couldn't resolve: Clip not found at " + this.clipPath);
+			}
 		}
 	}
 }

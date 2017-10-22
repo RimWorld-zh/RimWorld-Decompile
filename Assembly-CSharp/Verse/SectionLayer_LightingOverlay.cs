@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using UnityEngine;
 
@@ -14,7 +13,7 @@ namespace Verse
 
 		private CellRect sectRect;
 
-		private static readonly IntVec3[] CheckSquareOffsets = new IntVec3[]
+		private static readonly IntVec3[] CheckSquareOffsets = new IntVec3[4]
 		{
 			new IntVec3(0, 0, -1),
 			new IntVec3(-1, 0, -1),
@@ -32,17 +31,17 @@ namespace Verse
 
 		public SectionLayer_LightingOverlay(Section section) : base(section)
 		{
-			this.relevantChangeTypes = MapMeshFlag.GroundGlow;
+			base.relevantChangeTypes = MapMeshFlag.GroundGlow;
 		}
 
 		public string GlowReportAt(IntVec3 c)
 		{
 			Color32[] colors = base.GetSubMesh(MatBases.LightOverlay).mesh.colors32;
-			int num;
-			int num2;
-			int num3;
-			int num4;
-			int num5;
+			int num = default(int);
+			int num2 = default(int);
+			int num3 = default(int);
+			int num4 = default(int);
+			int num5 = default(int);
 			this.CalculateVertexIndices(c.x, c.z, out num, out num2, out num3, out num4, out num5);
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append("BL=" + colors[num]);
@@ -71,11 +70,11 @@ namespace Verse
 			{
 				for (int j = this.sectRect.minZ; j <= maxZ + 1; j++)
 				{
-					int num;
-					int num2;
-					int num3;
-					int num4;
-					int num5;
+					int num = default(int);
+					int num2 = default(int);
+					int num3 = default(int);
+					int num4 = default(int);
+					int num5 = default(int);
 					this.CalculateVertexIndices(i, j, out num, out num2, out num3, out num4, out num5);
 					IntVec3 a = new IntVec3(i, 0, j);
 					bool flag = false;
@@ -133,33 +132,33 @@ namespace Verse
 					}
 					else
 					{
-						array[num] = new Color32(0, 0, 0, 0);
+						array[num] = new Color32((byte)0, (byte)0, (byte)0, (byte)0);
 					}
 					if (flag && array[num].a < 100)
 					{
-						array[num].a = 100;
+						array[num].a = (byte)100;
 					}
 				}
 			}
-			for (int l = this.sectRect.minX; l <= maxX; l++)
+			for (int num7 = this.sectRect.minX; num7 <= maxX; num7++)
 			{
-				for (int m = this.sectRect.minZ; m <= maxZ; m++)
+				for (int num8 = this.sectRect.minZ; num8 <= maxZ; num8++)
 				{
-					int num7;
-					int num8;
-					int num9;
-					int num10;
-					int num11;
-					this.CalculateVertexIndices(l, m, out num7, out num8, out num9, out num10, out num11);
-					ColorInt colorInt2 = default(ColorInt) + array[num7];
-					colorInt2 += array[num8];
-					colorInt2 += array[num9];
-					colorInt2 += array[num10];
-					array[num11] = (colorInt2 / 4f).ToColor32;
-					Thing thing = innerArray[cellIndices.CellToIndex(l, m)];
-					if (roofGrid.Roofed(l, m) && (thing == null || !thing.def.holdsRoof) && array[num11].a < 100)
+					int num9 = default(int);
+					int num10 = default(int);
+					int num11 = default(int);
+					int num12 = default(int);
+					int num13 = default(int);
+					this.CalculateVertexIndices(num7, num8, out num9, out num10, out num11, out num12, out num13);
+					ColorInt colA = default(ColorInt) + array[num9];
+					colA += array[num10];
+					colA += array[num11];
+					colA += array[num12];
+					array[num13] = (colA / 4f).ToColor32;
+					Thing thing = innerArray[cellIndices.CellToIndex(num7, num8)];
+					if (roofGrid.Roofed(num7, num8) && (thing == null || !thing.def.holdsRoof) && array[num13].a < 100)
 					{
-						array[num11].a = 100;
+						array[num13].a = (byte)100;
 					}
 				}
 			}
@@ -169,7 +168,7 @@ namespace Verse
 		private void MakeBaseGeometry(LayerSubMesh sm)
 		{
 			this.glowGrid = base.Map.glowGrid.glowGrid;
-			this.sectRect = new CellRect(this.section.botLeft.x, this.section.botLeft.z, 17, 17);
+			this.sectRect = new CellRect(base.section.botLeft.x, base.section.botLeft.z, 17, 17);
 			this.sectRect.ClipInsideMap(base.Map);
 			int capacity = (this.sectRect.Width + 1) * (this.sectRect.Height + 1) + this.sectRect.Area;
 			float y = Altitudes.AltitudeFor(AltitudeLayer.LightingOverlay);
@@ -186,7 +185,7 @@ namespace Verse
 			{
 				for (int l = this.sectRect.minX; l <= this.sectRect.maxX; l++)
 				{
-					sm.verts.Add(new Vector3((float)l + 0.5f, y, (float)k + 0.5f));
+					sm.verts.Add(new Vector3((float)((float)l + 0.5), y, (float)((float)k + 0.5)));
 				}
 			}
 			sm.tris.Capacity = this.sectRect.Area * 4 * 3;
@@ -194,11 +193,11 @@ namespace Verse
 			{
 				for (int n = this.sectRect.minX; n <= this.sectRect.maxX; n++)
 				{
-					int item;
-					int item2;
-					int item3;
-					int item4;
-					int item5;
+					int item = default(int);
+					int item2 = default(int);
+					int item3 = default(int);
+					int item4 = default(int);
+					int item5 = default(int);
 					this.CalculateVertexIndices(n, m, out item, out item2, out item3, out item4, out item5);
 					sm.tris.Add(item);
 					sm.tris.Add(item5);

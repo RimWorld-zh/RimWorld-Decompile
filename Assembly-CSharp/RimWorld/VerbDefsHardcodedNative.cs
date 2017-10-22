@@ -1,19 +1,46 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
 {
 	public static class VerbDefsHardcodedNative
 	{
-		[DebuggerHidden]
 		public static IEnumerable<VerbProperties> AllVerbDefs()
 		{
-			VerbDefsHardcodedNative.<AllVerbDefs>c__Iterator1AB <AllVerbDefs>c__Iterator1AB = new VerbDefsHardcodedNative.<AllVerbDefs>c__Iterator1AB();
-			VerbDefsHardcodedNative.<AllVerbDefs>c__Iterator1AB expr_07 = <AllVerbDefs>c__Iterator1AB;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield return new VerbProperties
+			{
+				category = VerbCategory.BeatFire,
+				label = "Beat fire",
+				range = 1f,
+				noiseRadius = 3f,
+				targetParams = 
+				{
+					canTargetFires = true,
+					canTargetPawns = false,
+					canTargetBuildings = false,
+					mapObjectTargetsMustBeAutoAttackable = false
+				},
+				warmupTime = 0f,
+				defaultCooldownTime = 1.1f,
+				soundCast = SoundDef.Named("Interact_BeatFire")
+			};
+			yield return new VerbProperties
+			{
+				category = VerbCategory.Ignite,
+				label = "Ignite",
+				range = 1f,
+				noiseRadius = 3f,
+				targetParams = 
+				{
+					onlyTargetFlammables = true,
+					canTargetBuildings = true,
+					canTargetPawns = false,
+					mapObjectTargetsMustBeAutoAttackable = false
+				},
+				warmupTime = 3f,
+				defaultCooldownTime = 1.3f,
+				soundCast = SoundDef.Named("Interact_Ignite")
+			};
 		}
 	}
 }

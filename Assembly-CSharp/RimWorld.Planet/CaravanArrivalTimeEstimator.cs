@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -48,19 +47,17 @@ namespace RimWorld.Planet
 
 		public static int EstimatedTicksToArrive(int from, int to, Caravan caravan)
 		{
-			int result;
 			using (WorldPath worldPath = Find.WorldPathFinder.FindPath(from, to, caravan, null))
 			{
 				if (worldPath == WorldPath.NotFound)
 				{
-					result = 0;
+					return 0;
 				}
-				else
-				{
-					result = CaravanArrivalTimeEstimator.EstimatedTicksToArrive(from, to, worldPath, 0f, CaravanTicksPerMoveUtility.GetTicksPerMove(caravan), Find.TickManager.TicksAbs);
-				}
+				return CaravanArrivalTimeEstimator.EstimatedTicksToArrive(from, to, worldPath, 0f, CaravanTicksPerMoveUtility.GetTicksPerMove(caravan), Find.TickManager.TicksAbs);
+				IL_0044:
+				int result;
+				return result;
 			}
-			return result;
 		}
 
 		public static int EstimatedTicksToArrive(int from, int to, WorldPath path, float nextTileCostLeft, int caravanTicksPerMove, int curTicksAbs)
@@ -73,27 +70,28 @@ namespace RimWorld.Planet
 			int num6 = 0;
 			int num7 = 0;
 			int num8;
-			if (CaravanRestUtility.WouldBeRestingAt(from, (long)curTicksAbs))
+			if (CaravanRestUtility.WouldBeRestingAt(from, curTicksAbs))
 			{
-				num += CaravanRestUtility.LeftRestTicksAt(from, (long)curTicksAbs);
+				num += CaravanRestUtility.LeftRestTicksAt(from, curTicksAbs);
 				num8 = num5;
 			}
 			else
 			{
-				num8 = CaravanRestUtility.LeftNonRestTicksAt(from, (long)curTicksAbs);
+				num8 = CaravanRestUtility.LeftNonRestTicksAt(from, curTicksAbs);
 			}
 			while (true)
 			{
 				num7++;
 				if (num7 >= 10000)
 				{
-					break;
+					Log.ErrorOnce("Could not calculate estimated ticks to arrive. Too many iterations.", 1837451324);
+					return num;
 				}
 				if (num6 <= 0)
 				{
 					if (num2 == to)
 					{
-						return num;
+						break;
 					}
 					bool flag = num3 == 0;
 					int start = num2;
@@ -107,10 +105,10 @@ namespace RimWorld.Planet
 					else
 					{
 						int num10 = curTicksAbs + num;
-						float yearPercent = (float)GenDate.DayOfYear((long)num10, 0f) / 60f;
+						float yearPercent = (float)((float)GenDate.DayOfYear(num10, 0f) / 60.0);
 						num9 = (float)Caravan_PathFollower.CostToMove(caravanTicksPerMove, start, num2, yearPercent);
 					}
-					num6 = Mathf.CeilToInt(num9 / 1f);
+					num6 = Mathf.CeilToInt((float)(num9 / 1.0));
 				}
 				if (num8 < num6)
 				{
@@ -126,7 +124,6 @@ namespace RimWorld.Planet
 					num6 = 0;
 				}
 			}
-			Log.ErrorOnce("Could not calculate estimated ticks to arrive. Too many iterations.", 1837451324);
 			return num;
 		}
 	}

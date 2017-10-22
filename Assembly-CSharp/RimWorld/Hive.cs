@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Verse;
 using Verse.AI.Group;
@@ -37,7 +36,7 @@ namespace RimWorld
 		{
 			get
 			{
-				Predicate<Pawn> hasDefendHiveLord = delegate(Pawn x)
+				Predicate<Pawn> hasDefendHiveLord = (Predicate<Pawn>)delegate(Pawn x)
 				{
 					Lord lord = x.GetLord();
 					return lord != null && lord.LordJob is LordJob_DefendAndExpandHive;
@@ -47,20 +46,17 @@ namespace RimWorld
 				{
 					if (foundPawn == null)
 					{
-						RegionTraverser.BreadthFirstTraverse(this.GetRegion(RegionType.Set_Passable), (Region from, Region to) => true, delegate(Region r)
+						RegionTraverser.BreadthFirstTraverse(this.GetRegion(RegionType.Set_Passable), (RegionEntryPredicate)((Region from, Region to) => true), (RegionProcessor)delegate(Region r)
 						{
 							List<Thing> list = r.ListerThings.ThingsOfDef(ThingDefOf.Hive);
 							for (int i = 0; i < list.Count; i++)
 							{
-								if (list[i] != this)
+								if (list[i] != this && list[i].Faction == base.Faction)
 								{
-									if (list[i].Faction == this.Faction)
+									foundPawn = ((Hive)list[i]).spawnedPawns.Find(hasDefendHiveLord);
+									if (foundPawn != null)
 									{
-										foundPawn = ((Hive)list[i]).spawnedPawns.Find(hasDefendHiveLord);
-										if (foundPawn != null)
-										{
-											return true;
-										}
+										return true;
 									}
 								}
 							}
@@ -106,13 +102,11 @@ namespace RimWorld
 		private void SpawnInitialPawnsNow()
 		{
 			this.ticksToSpawnInitialPawns = -1;
-			while (this.SpawnedPawnsPoints < 200f)
+			while (this.SpawnedPawnsPoints < 200.0)
 			{
-				Pawn pawn;
+				Pawn pawn = default(Pawn);
 				if (!this.TrySpawnPawn(out pawn))
-				{
 					return;
-				}
 			}
 			this.CalculateNextPawnSpawnTick();
 		}
@@ -139,14 +133,10 @@ namespace RimWorld
 					}
 					if (Find.TickManager.TicksGame >= this.nextPawnSpawnTick)
 					{
-						if (this.SpawnedPawnsPoints < 500f)
+						Pawn pawn = default(Pawn);
+						if (this.SpawnedPawnsPoints < 500.0 && this.TrySpawnPawn(out pawn) && pawn.caller != null)
 						{
-							Pawn pawn;
-							bool flag = this.TrySpawnPawn(out pawn);
-							if (flag && pawn.caller != null)
-							{
-								pawn.caller.DoCall();
-							}
+							pawn.caller.DoCall();
 						}
 						this.CalculateNextPawnSpawnTick();
 					}
@@ -179,7 +169,7 @@ namespace RimWorld
 					lord.ReceiveMemo(Hive.MemoAttackedByEnemy);
 				}
 			}
-			if (dinfo.Def == DamageDefOf.Flame && (float)this.HitPoints < (float)base.MaxHitPoints * 0.3f)
+			if (dinfo.Def == DamageDefOf.Flame && (float)this.HitPoints < (float)base.MaxHitPoints * 0.30000001192092896)
 			{
 				Lord lord2 = this.Lord;
 				if (lord2 != null)
@@ -199,7 +189,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.ticksToSpawnInitialPawns, "ticksToSpawnInitialPawns", 0, false);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.spawnedPawns.RemoveAll((Pawn x) => x == null);
+				this.spawnedPawns.RemoveAll((Predicate<Pawn>)((Pawn x) => x == null));
 			}
 		}
 
@@ -217,16 +207,16 @@ namespace RimWorld
 		private void CalculateNextPawnSpawnTick()
 		{
 			float num = GenMath.LerpDouble(0f, 5f, 1f, 0.5f, (float)this.spawnedPawns.Count);
-			this.nextPawnSpawnTick = Find.TickManager.TicksGame + (int)(Hive.PawnSpawnIntervalDays.RandomInRange * 60000f / (num * Find.Storyteller.difficulty.enemyReproductionRateFactor));
+			this.nextPawnSpawnTick = Find.TickManager.TicksGame + (int)(Hive.PawnSpawnIntervalDays.RandomInRange * 60000.0 / (num * Find.Storyteller.difficulty.enemyReproductionRateFactor));
 		}
 
 		private void FilterOutUnspawnedPawns()
 		{
-			for (int i = this.spawnedPawns.Count - 1; i >= 0; i--)
+			for (int num = this.spawnedPawns.Count - 1; num >= 0; num--)
 			{
-				if (!this.spawnedPawns[i].Spawned)
+				if (!this.spawnedPawns[num].Spawned)
 				{
-					this.spawnedPawns.RemoveAt(i);
+					this.spawnedPawns.RemoveAt(num);
 				}
 			}
 		}
@@ -239,10 +229,10 @@ namespace RimWorld
 			list.Add(PawnKindDefOf.Megaspider);
 			float curPoints = this.SpawnedPawnsPoints;
 			IEnumerable<PawnKindDef> source = from x in list
-			where curPoints + x.combatPower <= 500f
+			where curPoints + x.combatPower <= 500.0
 			select x;
-			PawnKindDef kindDef;
-			if (!source.TryRandomElement(out kindDef))
+			PawnKindDef kindDef = default(PawnKindDef);
+			if (!source.TryRandomElement<PawnKindDef>(out kindDef))
 			{
 				pawn = null;
 				return false;
@@ -259,27 +249,35 @@ namespace RimWorld
 			return true;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Hive.<GetGizmos>c__Iterator160 <GetGizmos>c__Iterator = new Hive.<GetGizmos>c__Iterator160();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			Hive.<GetGizmos>c__Iterator160 expr_0E = <GetGizmos>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			if (Prefs.DevMode)
+			{
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "DEBUG: Spawn pawn",
+					icon = TexCommand.ReleaseAnimals,
+					action = (Action)delegate
+					{
+						Pawn pawn = default(Pawn);
+						((_003CGetGizmos_003Ec__Iterator160)/*Error near IL_00e5: stateMachine*/)._003C_003Ef__this.TrySpawnPawn(out pawn);
+					}
+				};
+			}
 		}
 
 		public override bool PreventPlayerSellingThingsNearby(out string reason)
 		{
-			if (this.spawnedPawns.Count > 0)
+			if (this.spawnedPawns.Count > 0 && this.spawnedPawns.Any((Predicate<Pawn>)((Pawn p) => !p.Downed)))
 			{
-				if (this.spawnedPawns.Any((Pawn p) => !p.Downed))
-				{
-					reason = this.def.label;
-					return true;
-				}
+				reason = base.def.label;
+				return true;
 			}
-			reason = null;
+			reason = (string)null;
 			return false;
 		}
 

@@ -46,7 +46,7 @@ namespace Verse.AI
 		{
 			if (!this.def.recoveryMessage.NullOrEmpty() && PawnUtility.ShouldSendNotificationAbout(this.pawn))
 			{
-				string text = null;
+				string text = (string)null;
 				try
 				{
 					text = string.Format(this.def.recoveryMessage, this.pawn.NameStringShort);
@@ -57,7 +57,7 @@ namespace Verse.AI
 				}
 				if (!text.NullOrEmpty())
 				{
-					Messages.Message(text.AdjustedFor(this.pawn), this.pawn, MessageSound.Silent);
+					Messages.Message(text.AdjustedFor(this.pawn), (Thing)this.pawn, MessageSound.Silent);
 				}
 			}
 		}
@@ -70,17 +70,14 @@ namespace Verse.AI
 				if (this.age >= this.def.maxTicksBeforeRecovery || (this.age >= this.def.minTicksBeforeRecovery && Rand.MTBEventOccurs(this.def.recoveryMtbDays, 60000f, 150f)))
 				{
 					this.RecoverFromState();
-					return;
 				}
-				if (this.def.recoverFromSleep && !this.pawn.Awake())
+				else if (this.def.recoverFromSleep && !this.pawn.Awake())
 				{
 					this.RecoverFromState();
-					return;
 				}
-				if (this.def.recoverFromDowned && this.pawn.Downed)
+				else if (this.def.recoverFromDowned && this.pawn.Downed)
 				{
 					this.RecoverFromState();
-					return;
 				}
 			}
 		}
@@ -89,13 +86,7 @@ namespace Verse.AI
 		{
 			if (this.pawn.MentalState != this)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Recovered from ",
-					this.def,
-					" but pawn's mental state is not this, it is ",
-					this.pawn.MentalState
-				}));
+				Log.Error("Recovered from " + this.def + " but pawn's mental state is not this, it is " + this.pawn.MentalState);
 			}
 			this.pawn.mindState.mentalStateHandler.ClearMentalStateDirect();
 			if (this.causedByMood && this.def.moodRecoveryThought != null && this.pawn.needs.mood != null)

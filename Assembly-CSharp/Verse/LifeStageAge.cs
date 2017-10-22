@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -27,7 +26,7 @@ namespace Verse
 
 		public Texture2D GetIcon(Pawn forPawn)
 		{
-			if (this.def.iconTex != null)
+			if ((Object)this.def.iconTex != (Object)null)
 			{
 				return this.def.iconTex;
 			}

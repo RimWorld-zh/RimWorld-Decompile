@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -48,11 +47,14 @@ namespace RimWorld
 		{
 			get
 			{
-				Backstory.<>c__IteratorDB <>c__IteratorDB = new Backstory.<>c__IteratorDB();
-				<>c__IteratorDB.<>f__this = this;
-				Backstory.<>c__IteratorDB expr_0E = <>c__IteratorDB;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				List<WorkTypeDef> list = DefDatabase<WorkTypeDef>.AllDefsListForReading;
+				for (int i = 0; i < list.Count; i++)
+				{
+					if (!this.AllowsWorkType(list[i]))
+					{
+						yield return list[i];
+					}
+				}
 			}
 		}
 
@@ -60,11 +62,14 @@ namespace RimWorld
 		{
 			get
 			{
-				Backstory.<>c__IteratorDC <>c__IteratorDC = new Backstory.<>c__IteratorDC();
-				<>c__IteratorDC.<>f__this = this;
-				Backstory.<>c__IteratorDC expr_0E = <>c__IteratorDC;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				List<WorkGiverDef> list = DefDatabase<WorkGiverDef>.AllDefsListForReading;
+				for (int i = 0; i < list.Count; i++)
+				{
+					if (!this.AllowsWorkGiver(list[i]))
+					{
+						yield return list[i];
+					}
+				}
 			}
 		}
 
@@ -106,15 +111,25 @@ namespace RimWorld
 
 		public BodyType BodyTypeFor(Gender g)
 		{
-			if (this.bodyTypeGlobal != BodyType.Undefined || g == Gender.None)
+			if (this.bodyTypeGlobal == BodyType.Undefined)
 			{
-				return this.bodyTypeGlobal;
+				switch (g)
+				{
+				case Gender.None:
+					goto IL_0011;
+				case Gender.Female:
+				{
+					return this.bodyTypeFemale;
+				}
+				default:
+				{
+					return this.bodyTypeMale;
+				}
+				}
 			}
-			if (g == Gender.Female)
-			{
-				return this.bodyTypeFemale;
-			}
-			return this.bodyTypeMale;
+			goto IL_0011;
+			IL_0011:
+			return this.bodyTypeGlobal;
 		}
 
 		public string FullDescriptionFor(Pawn p)
@@ -133,20 +148,13 @@ namespace RimWorld
 				}
 			}
 			stringBuilder.AppendLine();
-			foreach (WorkTypeDef current in this.DisabledWorkTypes)
+			foreach (WorkTypeDef disabledWorkType in this.DisabledWorkTypes)
 			{
-				stringBuilder.AppendLine(current.gerundLabel + " " + "DisabledLower".Translate());
+				stringBuilder.AppendLine(disabledWorkType.gerundLabel + " " + "DisabledLower".Translate());
 			}
-			foreach (WorkGiverDef current2 in this.DisabledWorkGivers)
+			foreach (WorkGiverDef disabledWorkGiver in this.DisabledWorkGivers)
 			{
-				stringBuilder.AppendLine(string.Concat(new string[]
-				{
-					current2.workType.gerundLabel,
-					" -> ",
-					current2.label,
-					" ",
-					"DisabledLower".Translate()
-				}));
+				stringBuilder.AppendLine(disabledWorkGiver.workType.gerundLabel + " -> " + disabledWorkGiver.label + " " + "DisabledLower".Translate());
 			}
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
@@ -199,7 +207,7 @@ namespace RimWorld
 					this.bodyTypeFemale = BodyType.Female;
 				}
 			}
-			this.baseDesc = this.baseDesc.TrimEnd(new char[0]);
+			this.baseDesc = this.baseDesc.TrimEnd();
 		}
 
 		public void ResolveReferences()
@@ -208,23 +216,90 @@ namespace RimWorld
 			string s = this.title.Replace('-', ' ');
 			s = GenText.CapitalizedNoSpaces(s);
 			this.identifier = GenText.RemoveNonAlphanumeric(s) + num.ToString();
-			foreach (KeyValuePair<string, int> current in this.skillGains)
+			Dictionary<string, int>.Enumerator enumerator = this.skillGains.GetEnumerator();
+			try
 			{
-				this.skillGainsResolved.Add(DefDatabase<SkillDef>.GetNamed(current.Key, true), current.Value);
+				while (enumerator.MoveNext())
+				{
+					KeyValuePair<string, int> current = enumerator.Current;
+					this.skillGainsResolved.Add(DefDatabase<SkillDef>.GetNamed(current.Key, true), current.Value);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			this.skillGains = null;
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors(bool ignoreNoSpawnCategories)
 		{
-			Backstory.<ConfigErrors>c__IteratorDD <ConfigErrors>c__IteratorDD = new Backstory.<ConfigErrors>c__IteratorDD();
-			<ConfigErrors>c__IteratorDD.ignoreNoSpawnCategories = ignoreNoSpawnCategories;
-			<ConfigErrors>c__IteratorDD.<$>ignoreNoSpawnCategories = ignoreNoSpawnCategories;
-			<ConfigErrors>c__IteratorDD.<>f__this = this;
-			Backstory.<ConfigErrors>c__IteratorDD expr_1C = <ConfigErrors>c__IteratorDD;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (this.title.NullOrEmpty())
+			{
+				yield return "null title, baseDesc is " + this.baseDesc;
+			}
+			if (this.titleShort.NullOrEmpty())
+			{
+				yield return "null titleShort, baseDesc is " + this.baseDesc;
+			}
+			if (((int)this.workDisables & 8) != 0 && this.spawnCategories.Contains("Raider"))
+			{
+				yield return "cannot do Violent work but can spawn as a raider";
+			}
+			if (this.spawnCategories.Count == 0 && !ignoreNoSpawnCategories)
+			{
+				yield return "no spawn categories";
+			}
+			if (this.spawnCategories.Count == 1 && this.spawnCategories[0] == "Trader")
+			{
+				yield return "only Trader spawn category";
+			}
+			if (!this.baseDesc.NullOrEmpty())
+			{
+				if (char.IsWhiteSpace(this.baseDesc[0]))
+				{
+					yield return "baseDesc starts with whitepspace";
+				}
+				if (char.IsWhiteSpace(this.baseDesc[this.baseDesc.Length - 1]))
+				{
+					yield return "baseDesc ends with whitespace";
+				}
+			}
+			if (Prefs.DevMode)
+			{
+				Dictionary<SkillDef, int>.Enumerator enumerator = this.skillGainsResolved.GetEnumerator();
+				try
+				{
+					while (enumerator.MoveNext())
+					{
+						KeyValuePair<SkillDef, int> kvp2 = enumerator.Current;
+						if (kvp2.Key.IsDisabled(this.workDisables, this.DisabledWorkTypes))
+						{
+							yield return "modifies skill " + kvp2.Key + " but also disables this skill";
+						}
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
+				}
+				Dictionary<string, Backstory>.Enumerator enumerator2 = BackstoryDatabase.allBackstories.GetEnumerator();
+				try
+				{
+					while (enumerator2.MoveNext())
+					{
+						KeyValuePair<string, Backstory> kvp = enumerator2.Current;
+						if (kvp.Value != this && kvp.Value.identifier == this.identifier)
+						{
+							yield return "backstory identifier used more than once: " + this.identifier;
+						}
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator2).Dispose();
+				}
+			}
 		}
 
 		public void SetTitle(string newTitle)

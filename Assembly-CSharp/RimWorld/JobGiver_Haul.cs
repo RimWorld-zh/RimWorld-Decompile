@@ -8,10 +8,26 @@ namespace RimWorld
 	{
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Predicate<Thing> validator = delegate(Thing t)
+			Predicate<Thing> validator = (Predicate<Thing>)delegate(Thing t)
 			{
-				IntVec3 intVec;
-				return !t.IsForbidden(pawn) && HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, t, false) && pawn.carryTracker.MaxStackSpaceEver(t.def) > 0 && StoreUtility.TryFindBestBetterStoreCellFor(t, pawn, pawn.Map, HaulAIUtility.StoragePriorityAtFor(t.Position, t), pawn.Faction, out intVec, true);
+				if (t.IsForbidden(pawn))
+				{
+					return false;
+				}
+				if (!HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, t, false))
+				{
+					return false;
+				}
+				if (pawn.carryTracker.MaxStackSpaceEver(t.def) <= 0)
+				{
+					return false;
+				}
+				IntVec3 intVec = default(IntVec3);
+				if (!StoreUtility.TryFindBestBetterStoreCellFor(t, pawn, pawn.Map, HaulAIUtility.StoragePriorityAtFor(t.Position, t), pawn.Faction, out intVec, true))
+				{
+					return false;
+				}
+				return true;
 			};
 			Thing thing = GenClosest.ClosestThing_Global_Reachable(pawn.Position, pawn.Map, pawn.Map.listerHaulables.ThingsPotentiallyNeedingHauling(), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null);
 			if (thing != null)

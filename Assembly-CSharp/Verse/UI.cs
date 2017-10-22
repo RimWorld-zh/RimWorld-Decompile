@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -29,7 +28,7 @@ namespace Verse
 
 		public static void ApplyUIScale()
 		{
-			if (Prefs.UIScale == 1f || LongEventHandler.AnyEventNowOrWaiting)
+			if (Prefs.UIScale == 1.0 || LongEventHandler.AnyEventNowOrWaiting)
 			{
 				UI.screenWidth = Screen.width;
 				UI.screenHeight = Screen.height;
@@ -52,7 +51,7 @@ namespace Verse
 
 		public static void UnfocusCurrentControl()
 		{
-			GUI.FocusControl(null);
+			GUI.FocusControl((string)null);
 		}
 
 		public static Vector2 GUIToScreenPoint(Vector2 guiPoint)
@@ -79,7 +78,10 @@ namespace Verse
 		public static Vector3 UIToMapPosition(Vector2 screenLoc)
 		{
 			Ray ray = Find.Camera.ScreenPointToRay(screenLoc * Prefs.UIScale);
-			return new Vector3(ray.origin.x, 0f, ray.origin.z);
+			Vector3 origin = ray.origin;
+			float x = origin.x;
+			Vector3 origin2 = ray.origin;
+			return new Vector3(x, 0f, origin2.z);
 		}
 
 		public static Vector3 MouseMapPosition()

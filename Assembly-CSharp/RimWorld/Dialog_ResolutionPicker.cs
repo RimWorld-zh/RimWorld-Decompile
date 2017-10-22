@@ -10,8 +10,8 @@ namespace RimWorld
 	{
 		public Dialog_ResolutionPicker()
 		{
-			this.doCloseButton = true;
-			this.absorbInputAroundWindow = true;
+			base.doCloseButton = true;
+			base.absorbInputAroundWindow = true;
 		}
 
 		protected override void DoListingItems()
@@ -19,7 +19,7 @@ namespace RimWorld
 			List<Resolution> list = (from r in Screen.resolutions
 			where r.width >= 1024 && r.height >= 768
 			orderby r.width, r.height
-			select r).ToList<Resolution>();
+			select r).ToList();
 			if (list.Count == 0)
 			{
 				for (int i = 0; i < 30; i++)
@@ -31,20 +31,29 @@ namespace RimWorld
 					});
 				}
 			}
-			foreach (Resolution current in list)
+			List<Resolution>.Enumerator enumerator = list.GetEnumerator();
+			try
 			{
-				if (this.listing.ButtonText(Dialog_Options.ResToString(current.width, current.height), null))
+				while (enumerator.MoveNext())
 				{
-					if (!ResolutionUtility.UIScaleSafeWithResolution(Prefs.UIScale, current.width, current.height))
+					Resolution current = enumerator.Current;
+					if (base.listing.ButtonText(Dialog_Options.ResToString(current.width, current.height), (string)null))
 					{
-						Messages.Message("MessageScreenResTooSmallForUIScale".Translate(), MessageSound.RejectInput);
-					}
-					else
-					{
-						Find.WindowStack.TryRemove(this, true);
-						ResolutionUtility.SafeSetResolution(current);
+						if (!ResolutionUtility.UIScaleSafeWithResolution(Prefs.UIScale, current.width, current.height))
+						{
+							Messages.Message("MessageScreenResTooSmallForUIScale".Translate(), MessageSound.RejectInput);
+						}
+						else
+						{
+							Find.WindowStack.TryRemove(this, true);
+							ResolutionUtility.SafeSetResolution(current);
+						}
 					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 	}

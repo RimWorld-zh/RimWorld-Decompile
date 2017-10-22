@@ -35,7 +35,7 @@ namespace RimWorld
 			if (this.sprayTicksLeft > 0)
 			{
 				this.sprayTicksLeft--;
-				if (Rand.Value < 0.6f)
+				if (Rand.Value < 0.60000002384185791)
 				{
 					MoteMaker.ThrowAirPuffUp(this.parent.TrueCenter(), this.parent.Map);
 				}
@@ -45,7 +45,7 @@ namespace RimWorld
 				}
 				if (this.sprayTicksLeft <= 0)
 				{
-					if (this.endSprayCallback != null)
+					if ((object)this.endSprayCallback != null)
 					{
 						this.endSprayCallback();
 					}
@@ -57,7 +57,7 @@ namespace RimWorld
 				this.ticksUntilSpray--;
 				if (this.ticksUntilSpray <= 0)
 				{
-					if (this.startSprayCallback != null)
+					if ((object)this.startSprayCallback != null)
 					{
 						this.startSprayCallback();
 					}

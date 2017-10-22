@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse
 {
@@ -42,14 +41,16 @@ namespace Verse
 
 		public Rot4 faceDir = Rot4.Invalid;
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			JobDef.<ConfigErrors>c__Iterator1D2 <ConfigErrors>c__Iterator1D = new JobDef.<ConfigErrors>c__Iterator1D2();
-			<ConfigErrors>c__Iterator1D.<>f__this = this;
-			JobDef.<ConfigErrors>c__Iterator1D2 expr_0E = <ConfigErrors>c__Iterator1D;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.joySkill != null && this.joyXpPerTick == 0.0)
+			{
+				yield return "funSkill is not null but funXpPerTick is zero";
+			}
 		}
 	}
 }

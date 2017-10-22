@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using UnityEngine;
 using UnityStandardAssets.ImageEffects;
 
@@ -127,8 +126,8 @@ namespace Verse
 				Current.rootEntryInt = null;
 				Current.rootPlayInt = GameObject.Find("GameRoot").GetComponent<Root_Play>();
 				Current.rootInt = Current.rootPlayInt;
-				Current.cameraDriverInt = Current.cameraInt.GetComponent<CameraDriver>();
-				Current.colorCorrectionCurvesInt = Current.cameraInt.GetComponent<ColorCorrectionCurves>();
+				Current.cameraDriverInt = ((Component)Current.cameraInt).GetComponent<CameraDriver>();
+				Current.colorCorrectionCurvesInt = ((Component)Current.cameraInt).GetComponent<ColorCorrectionCurves>();
 			}
 		}
 	}

@@ -66,7 +66,7 @@ namespace RimWorld
 		public override void PostLoad()
 		{
 			base.PostLoad();
-			this.cachedHighlightTagClosed = "MainTab-" + this.defName + "-Closed";
+			this.cachedHighlightTagClosed = "MainTab-" + base.defName + "-Closed";
 		}
 
 		public void Notify_SwitchedMap()

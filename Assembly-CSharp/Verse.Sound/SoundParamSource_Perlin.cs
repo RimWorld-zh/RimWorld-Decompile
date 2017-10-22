@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse.Noise;
 
@@ -27,47 +26,23 @@ namespace Verse.Sound
 
 		public override float ValueFor(Sample samp)
 		{
-			float num;
-			if (this.syncType == PerlinMappingSyncType.Sync)
-			{
-				num = samp.ParentHashCode % 100f;
-			}
-			else
-			{
-				num = (float)(samp.GetHashCode() % 100);
-			}
+			float num = (float)((this.syncType != 0) ? ((float)(samp.GetHashCode() % 100)) : (samp.ParentHashCode % 100.0));
 			if (this.timeType == TimeType.Ticks && Current.ProgramState == ProgramState.Playing)
 			{
-				float num2;
-				if (this.syncType == PerlinMappingSyncType.Sync)
-				{
-					num2 = (float)Find.TickManager.TicksGame - samp.ParentStartTick;
-				}
-				else
-				{
-					num2 = (float)(Find.TickManager.TicksGame - samp.startTick);
-				}
-				num2 /= 60f;
+				float num2 = (this.syncType != 0) ? ((float)(Find.TickManager.TicksGame - samp.startTick)) : ((float)Find.TickManager.TicksGame - samp.ParentStartTick);
+				num2 = (float)(num2 / 60.0);
 				num += num2;
 			}
 			else
 			{
-				float num3;
-				if (this.syncType == PerlinMappingSyncType.Sync)
-				{
-					num3 = Time.realtimeSinceStartup - samp.ParentStartRealTime;
-				}
-				else
-				{
-					num3 = Time.realtimeSinceStartup - samp.startRealTime;
-				}
+				float num3 = (this.syncType != 0) ? (Time.realtimeSinceStartup - samp.startRealTime) : (Time.realtimeSinceStartup - samp.ParentStartRealTime);
 				num += num3;
 			}
 			num *= this.perlinFrequency;
 			float num4 = (float)SoundParamSource_Perlin.perlin.GetValue((double)num, 0.0, 0.0);
-			num4 *= 2f;
-			num4 += 1f;
-			return num4 / 2f;
+			num4 = (float)(num4 * 2.0);
+			num4 = (float)(num4 + 1.0);
+			return (float)(num4 / 2.0);
 		}
 	}
 }

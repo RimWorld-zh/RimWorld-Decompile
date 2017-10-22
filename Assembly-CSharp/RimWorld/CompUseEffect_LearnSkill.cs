@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -18,21 +17,15 @@ namespace RimWorld
 		public override void DoEffect(Pawn user)
 		{
 			base.DoEffect(user);
-			SkillDef skill = this.parent.GetComp<CompNeurotrainer>().skill;
+			SkillDef skill = base.parent.GetComp<CompNeurotrainer>().skill;
 			int level = user.skills.GetSkill(skill).Level;
 			user.skills.Learn(skill, 50000f, true);
 			int level2 = user.skills.GetSkill(skill).Level;
 			if (PawnUtility.ShouldSendNotificationAbout(user))
 			{
-				Messages.Message("NeurotrainerUsed".Translate(new object[]
-				{
-					user.LabelShort,
-					skill.label,
-					level,
-					level2
-				}), user, MessageSound.Benefit);
+				Messages.Message("NeurotrainerUsed".Translate(user.LabelShort, skill.label, level, level2), (Thing)user, MessageSound.Benefit);
 			}
-			this.parent.Destroy(DestroyMode.Vanish);
+			base.parent.Destroy(DestroyMode.Vanish);
 		}
 	}
 }

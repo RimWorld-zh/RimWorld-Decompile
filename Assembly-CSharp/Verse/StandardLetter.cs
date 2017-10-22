@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -9,11 +8,11 @@ namespace Verse
 		{
 			get
 			{
-				StandardLetter.<>c__Iterator234 <>c__Iterator = new StandardLetter.<>c__Iterator234();
-				<>c__Iterator.<>f__this = this;
-				StandardLetter.<>c__Iterator234 expr_0E = <>c__Iterator;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				yield return base.OK;
+				if (base.lookTarget.IsValid)
+				{
+					yield return base.JumpToLocation;
+				}
 			}
 		}
 	}

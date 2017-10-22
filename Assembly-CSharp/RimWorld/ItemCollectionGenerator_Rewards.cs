@@ -35,7 +35,7 @@ namespace RimWorld
 			float totalMarketValue = parms.totalMarketValue;
 			TechLevel techLevel = parms.techLevel;
 			Predicate<ThingDef> validator = parms.validator;
-			for (int i = 0; i < count; i++)
+			for (int num = 0; num < count; num++)
 			{
 				outThings.Add(this.GenerateReward(totalMarketValue / (float)count, techLevel, validator));
 			}
@@ -43,15 +43,15 @@ namespace RimWorld
 
 		private Thing GenerateReward(float value, TechLevel techLevel, Predicate<ThingDef> validator = null)
 		{
-			if (Rand.Value < 0.5f)
+			if (Rand.Value < 0.5)
 			{
 				Thing thing = ThingMaker.MakeThing(ThingDefOf.Silver, null);
 				thing.stackCount = Mathf.Max(GenMath.RoundRandom(value), 1);
 				return thing;
 			}
-			ItemCollectionGenerator_Rewards.Option option2 = (from option in ItemCollectionGeneratorUtility.allGeneratableItems.Select(delegate(ThingDef td)
+			Option option2 = (from option in ItemCollectionGeneratorUtility.allGeneratableItems.Select((Func<ThingDef, Option>)delegate(ThingDef td)
 			{
-				if (td.techLevel > techLevel)
+				if ((int)td.techLevel > (int)techLevel)
 				{
 					return null;
 				}
@@ -59,29 +59,25 @@ namespace RimWorld
 				{
 					return null;
 				}
-				if (validator != null && !validator(td))
+				if ((object)validator != null && !validator(td))
 				{
 					return null;
 				}
 				ThingDef stuff = null;
-				if (td.MadeFromStuff)
+				if (td.MadeFromStuff && !(from x in GenStuff.AllowedStuffsFor(td)
+				where (int)x.techLevel <= (int)techLevel
+				select x).TryRandomElementByWeight<ThingDef>((Func<ThingDef, float>)((ThingDef st) => st.stuffProps.commonality), out stuff))
 				{
-					if (!(from x in GenStuff.AllowedStuffsFor(td)
-					where x.techLevel <= techLevel
-					select x).TryRandomElementByWeight((ThingDef st) => st.stuffProps.commonality, out stuff))
-					{
-						return null;
-					}
+					return null;
 				}
-				return new ItemCollectionGenerator_Rewards.Option
-				{
-					thingDef = td,
-					quality = ((!td.HasComp(typeof(CompQuality))) ? QualityCategory.Normal : QualityUtility.RandomQuality()),
-					stuff = stuff
-				};
+				Option option3 = new Option();
+				option3.thingDef = td;
+				option3.quality = ((!td.HasComp(typeof(CompQuality))) ? QualityCategory.Normal : QualityUtility.RandomQuality());
+				option3.stuff = stuff;
+				return option3;
 			})
 			where option != null
-			select option).MinBy(delegate(ItemCollectionGenerator_Rewards.Option option)
+			select option).MinBy((Func<Option, float>)delegate(Option option)
 			{
 				float value2 = StatDefOf.MarketValue.Worker.GetValue(StatRequest.For(option.thingDef, option.stuff, option.quality), true);
 				return Mathf.Abs(value - value2);

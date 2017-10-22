@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -28,16 +27,16 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			if (pawn.CurJob == null || pawn.CurrentBed() == null || !pawn.Awake() || pawn.needs.joy == null)
+			if (pawn.CurJob != null && pawn.CurrentBed() != null && pawn.Awake() && pawn.needs.joy != null)
 			{
-				return null;
+				float curLevel = pawn.needs.joy.CurLevel;
+				if (curLevel > 0.5)
+				{
+					return null;
+				}
+				return base.TryGiveJob(pawn);
 			}
-			float curLevel = pawn.needs.joy.CurLevel;
-			if (curLevel > 0.5f)
-			{
-				return null;
-			}
-			return base.TryGiveJob(pawn);
+			return null;
 		}
 	}
 }

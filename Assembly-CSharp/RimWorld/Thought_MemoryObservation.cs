@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -24,13 +23,13 @@ namespace RimWorld
 
 		public override bool TryMergeWithExistingMemory(out bool showBubble)
 		{
-			ThoughtHandler thoughts = this.pawn.needs.mood.thoughts;
+			ThoughtHandler thoughts = base.pawn.needs.mood.thoughts;
 			Thought_MemoryObservation thought_MemoryObservation = null;
 			List<Thought_Memory> memories = thoughts.memories.Memories;
 			for (int i = 0; i < memories.Count; i++)
 			{
 				Thought_MemoryObservation thought_MemoryObservation2 = memories[i] as Thought_MemoryObservation;
-				if (thought_MemoryObservation2 != null && thought_MemoryObservation2.def == this.def && thought_MemoryObservation2.targetThingID == this.targetThingID && (thought_MemoryObservation == null || thought_MemoryObservation2.age > thought_MemoryObservation.age))
+				if (thought_MemoryObservation2 != null && thought_MemoryObservation2.def == base.def && thought_MemoryObservation2.targetThingID == this.targetThingID && (thought_MemoryObservation == null || thought_MemoryObservation2.age > thought_MemoryObservation.age))
 				{
 					thought_MemoryObservation = thought_MemoryObservation2;
 				}

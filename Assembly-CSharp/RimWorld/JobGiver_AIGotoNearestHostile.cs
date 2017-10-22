@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -28,12 +27,11 @@ namespace RimWorld
 			}
 			if (thing != null)
 			{
-				return new Job(JobDefOf.Goto, thing)
-				{
-					checkOverrideOnExpire = true,
-					expiryInterval = 500,
-					collideWithPawns = true
-				};
+				Job job = new Job(JobDefOf.Goto, thing);
+				job.checkOverrideOnExpire = true;
+				job.expiryInterval = 500;
+				job.collideWithPawns = true;
+				return job;
 			}
 			return null;
 		}

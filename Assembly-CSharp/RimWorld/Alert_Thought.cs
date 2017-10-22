@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Verse;
@@ -18,22 +16,46 @@ namespace RimWorld
 			get;
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<Pawn> AffectedPawns()
 		{
-			Alert_Thought.<AffectedPawns>c__Iterator18B <AffectedPawns>c__Iterator18B = new Alert_Thought.<AffectedPawns>c__Iterator18B();
-			<AffectedPawns>c__Iterator18B.<>f__this = this;
-			Alert_Thought.<AffectedPawns>c__Iterator18B expr_0E = <AffectedPawns>c__Iterator18B;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Pawn allMaps_FreeColonist in PawnsFinder.AllMaps_FreeColonists)
+			{
+				if (allMaps_FreeColonist.Dead)
+				{
+					Log.Error("Dead pawn in PawnsFinder.AllMaps_FreeColonists:" + allMaps_FreeColonist);
+				}
+				else
+				{
+					allMaps_FreeColonist.needs.mood.thoughts.GetAllMoodThoughts(Alert_Thought.tmpThoughts);
+					try
+					{
+						ThoughtDef requiredDef = this.Thought;
+						int i = 0;
+						while (i < Alert_Thought.tmpThoughts.Count)
+						{
+							if (Alert_Thought.tmpThoughts[i].def != requiredDef)
+							{
+								i++;
+								continue;
+							}
+							yield return allMaps_FreeColonist;
+							break;
+						}
+					}
+					finally
+					{
+						((_003CAffectedPawns_003Ec__Iterator18B)/*Error near IL_0138: stateMachine*/)._003C_003E__Finally0();
+					}
+				}
+			}
 		}
 
 		public override AlertReport GetReport()
 		{
-			Pawn pawn = this.AffectedPawns().FirstOrDefault<Pawn>();
+			Pawn pawn = this.AffectedPawns().FirstOrDefault();
 			if (pawn != null)
 			{
-				return AlertReport.CulpritIs(pawn);
+				return AlertReport.CulpritIs((Thing)pawn);
 			}
 			return AlertReport.Inactive;
 		}
@@ -41,14 +63,11 @@ namespace RimWorld
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (Pawn current in this.AffectedPawns())
+			foreach (Pawn item in this.AffectedPawns())
 			{
-				stringBuilder.AppendLine("    " + current.NameStringShort);
+				stringBuilder.AppendLine("    " + item.NameStringShort);
 			}
-			return this.explanationKey.Translate(new object[]
-			{
-				stringBuilder.ToString()
-			});
+			return this.explanationKey.Translate(stringBuilder.ToString());
 		}
 	}
 }

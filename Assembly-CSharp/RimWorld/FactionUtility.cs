@@ -8,7 +8,11 @@ namespace RimWorld
 	{
 		public static bool HostileTo(this Faction fac, Faction other)
 		{
-			return fac != null && other != null && other != fac && fac.RelationWith(other, false).hostile;
+			if (fac != null && other != null && other != fac)
+			{
+				return fac.RelationWith(other, false).hostile;
+			}
+			return false;
 		}
 
 		public static Faction DefaultFactionFrom(FactionDef ft)
@@ -21,10 +25,10 @@ namespace RimWorld
 			{
 				return Faction.OfPlayer;
 			}
-			Faction result;
+			Faction result = default(Faction);
 			if ((from fac in Find.FactionManager.AllFactions
 			where fac.def == ft
-			select fac).TryRandomElement(out result))
+			select fac).TryRandomElement<Faction>(out result))
 			{
 				return result;
 			}

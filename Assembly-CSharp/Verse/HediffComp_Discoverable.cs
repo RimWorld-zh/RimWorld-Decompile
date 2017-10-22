@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -11,7 +10,7 @@ namespace Verse
 		{
 			get
 			{
-				return (HediffCompProperties_Discoverable)this.props;
+				return (HediffCompProperties_Discoverable)base.props;
 			}
 		}
 
@@ -42,59 +41,26 @@ namespace Verse
 		{
 			if (this.discovered)
 			{
-				if (!this.parent.CurStage.everVisible)
+				if (!base.parent.CurStage.everVisible)
 				{
 					this.discovered = false;
 				}
-				return;
 			}
-			if (!this.parent.CurStage.everVisible)
+			else if (base.parent.CurStage.everVisible)
 			{
-				return;
-			}
-			this.discovered = true;
-			if (this.Props.sendLetterWhenDiscovered && PawnUtility.ShouldSendNotificationAbout(base.Pawn))
-			{
-				string label;
-				if (!this.Props.discoverLetterLabel.NullOrEmpty())
+				this.discovered = true;
+				if (this.Props.sendLetterWhenDiscovered && PawnUtility.ShouldSendNotificationAbout(base.Pawn))
 				{
-					label = string.Format(this.Props.discoverLetterLabel, base.Pawn.LabelShort).CapitalizeFirst();
-				}
-				else
-				{
-					label = "LetterLabelNewDisease".Translate() + " (" + base.Def.label + ")";
-				}
-				string text;
-				if (!this.Props.discoverLetterText.NullOrEmpty())
-				{
-					text = string.Format(this.Props.discoverLetterText, base.Pawn.LabelIndefinite()).AdjustedFor(base.Pawn).CapitalizeFirst();
-				}
-				else if (this.parent.Part == null)
-				{
-					text = "NewDisease".Translate(new object[]
+					string label = this.Props.discoverLetterLabel.NullOrEmpty() ? ("LetterLabelNewDisease".Translate() + " (" + base.Def.label + ")") : string.Format(this.Props.discoverLetterLabel, base.Pawn.LabelShort).CapitalizeFirst();
+					string text = this.Props.discoverLetterText.NullOrEmpty() ? ((base.parent.Part != null) ? "NewPartDisease".Translate(base.Pawn.LabelIndefinite(), base.parent.Part.def.label, base.Pawn.LabelDefinite(), base.Def.LabelCap).AdjustedFor(base.Pawn).CapitalizeFirst() : "NewDisease".Translate(base.Pawn.LabelIndefinite(), base.Def.label, base.Pawn.LabelDefinite()).AdjustedFor(base.Pawn).CapitalizeFirst()) : string.Format(this.Props.discoverLetterText, base.Pawn.LabelIndefinite()).AdjustedFor(base.Pawn).CapitalizeFirst();
+					if (base.Pawn.RaceProps.Humanlike)
 					{
-						base.Pawn.LabelIndefinite(),
-						base.Def.label,
-						base.Pawn.LabelDefinite()
-					}).AdjustedFor(base.Pawn).CapitalizeFirst();
-				}
-				else
-				{
-					text = "NewPartDisease".Translate(new object[]
+						Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.BadNonUrgent, (Thing)base.Pawn, (string)null);
+					}
+					else
 					{
-						base.Pawn.LabelIndefinite(),
-						this.parent.Part.def.label,
-						base.Pawn.LabelDefinite(),
-						base.Def.LabelCap
-					}).AdjustedFor(base.Pawn).CapitalizeFirst();
-				}
-				if (base.Pawn.RaceProps.Humanlike)
-				{
-					Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.BadNonUrgent, base.Pawn, null);
-				}
-				else
-				{
-					Messages.Message(text, base.Pawn, MessageSound.Standard);
+						Messages.Message(text, (Thing)base.Pawn, MessageSound.Standard);
+					}
 				}
 			}
 		}

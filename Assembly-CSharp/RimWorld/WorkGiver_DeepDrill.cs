@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -37,10 +36,11 @@ namespace RimWorld
 				if (allBuildingsColonist[i].def == ThingDefOf.DeepDrill)
 				{
 					CompPowerTrader comp = allBuildingsColonist[i].GetComp<CompPowerTrader>();
-					if (comp == null || comp.PowerOn)
+					if (comp != null && !comp.PowerOn)
 					{
-						return false;
+						continue;
 					}
+					return false;
 				}
 			}
 			return true;
@@ -61,12 +61,20 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (!pawn.CanReserve(building, 1, -1, null, forced))
+			if (!pawn.CanReserve((Thing)building, 1, -1, null, forced))
 			{
 				return false;
 			}
 			CompDeepDrill compDeepDrill = building.TryGetComp<CompDeepDrill>();
-			return compDeepDrill.CanDrillNow() && !building.IsBurning();
+			if (!compDeepDrill.CanDrillNow())
+			{
+				return false;
+			}
+			if (building.IsBurning())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

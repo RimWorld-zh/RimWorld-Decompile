@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse.AI
 {
 	public enum LayingDownState
 	{
-		NotLaying,
-		LayingSurface,
-		LayingInBed
+		NotLaying = 0,
+		LayingSurface = 1,
+		LayingInBed = 2
 	}
 }

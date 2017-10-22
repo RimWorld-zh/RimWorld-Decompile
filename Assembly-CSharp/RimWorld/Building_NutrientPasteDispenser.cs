@@ -32,7 +32,7 @@ namespace RimWorld
 				{
 					this.cachedAdjCellsCardinal = (from c in GenAdj.CellsAdjacentCardinal(this)
 					where c.InBounds(base.Map)
-					select c).ToList<IntVec3>();
+					select c).ToList();
 				}
 				return this.cachedAdjCellsCardinal;
 			}
@@ -58,7 +58,7 @@ namespace RimWorld
 			{
 				IntVec3 c = this.AdjCellsCardinalInBounds[i];
 				Building edifice = c.GetEdifice(base.Map);
-				if (edifice != null && edifice.def == ThingDefOf.Hopper && reacher.CanReach(edifice, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+				if (edifice != null && edifice.def == ThingDefOf.Hopper && reacher.CanReach((Thing)edifice, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
 				{
 					return (Building_Storage)edifice;
 				}
@@ -72,28 +72,24 @@ namespace RimWorld
 			{
 				return null;
 			}
-			float num = this.def.building.nutritionCostPerDispense - 0.0001f;
+			float num = (float)(base.def.building.nutritionCostPerDispense - 9.9999997473787516E-05);
 			List<ThingDef> list = new List<ThingDef>();
 			while (true)
 			{
 				Thing thing = this.FindFeedInAnyHopper();
 				if (thing == null)
 				{
-					break;
+					Log.Error("Did not find enough food in hoppers while trying to dispense.");
+					return null;
 				}
 				int num2 = Mathf.Min(thing.stackCount, Mathf.CeilToInt(num / thing.def.ingestible.nutrition));
 				num -= (float)num2 * thing.def.ingestible.nutrition;
 				list.Add(thing.def);
 				thing.SplitOff(num2);
-				if (num <= 0f)
-				{
-					goto Block_3;
-				}
+				if (num <= 0.0)
+					break;
 			}
-			Log.Error("Did not find enough food in hoppers while trying to dispense.");
-			return null;
-			Block_3:
-			this.def.building.soundDispense.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
+			base.def.building.soundDispense.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 			Thing thing2 = ThingMaker.MakeThing(ThingDefOf.MealNutrientPaste, null);
 			CompIngredients compIngredients = thing2.TryGetComp<CompIngredients>();
 			for (int i = 0; i < list.Count; i++)
@@ -155,7 +151,7 @@ namespace RimWorld
 				{
 					num += (float)thing.stackCount * thing.def.ingestible.nutrition;
 				}
-				if (num >= this.def.building.nutritionCostPerDispense)
+				if (num >= base.def.building.nutritionCostPerDispense)
 				{
 					return true;
 				}
@@ -165,7 +161,7 @@ namespace RimWorld
 
 		public static bool IsAcceptableFeedstock(ThingDef def)
 		{
-			return def.IsNutritionGivingIngestible && def.ingestible.preferability != FoodPreferability.Undefined && (def.ingestible.foodType & FoodTypeFlags.Plant) != FoodTypeFlags.Plant && (def.ingestible.foodType & FoodTypeFlags.Tree) != FoodTypeFlags.Tree;
+			return def.IsNutritionGivingIngestible && def.ingestible.preferability != 0 && ((int)def.ingestible.foodType & 64) != 64 && ((int)def.ingestible.foodType & 128) != 128;
 		}
 	}
 }

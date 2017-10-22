@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -29,14 +28,14 @@ namespace RimWorld
 		protected override void FinishedRemoving()
 		{
 			base.Target.Destroy(DestroyMode.Deconstruct);
-			this.pawn.records.Increment(RecordDefOf.ThingsDeconstructed);
+			base.pawn.records.Increment(RecordDefOf.ThingsDeconstructed);
 		}
 
 		protected override void TickAction()
 		{
 			if (base.Target.def.CostListAdjusted(base.Target.Stuff, true).Count > 0)
 			{
-				this.pawn.skills.Learn(SkillDefOf.Construction, 0.275f, false);
+				base.pawn.skills.Learn(SkillDefOf.Construction, 0.275f, false);
 			}
 		}
 	}

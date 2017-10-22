@@ -14,8 +14,8 @@ namespace RimWorld
 			IEnumerable<Pawn> source = from x in pawn.Map.mapPawns.FreeColonistsSpawned
 			where SickPawnVisitUtility.CanVisit(pawn, x, maxPatientJoy)
 			select x;
-			Pawn result;
-			if (!source.TryRandomElementByWeight((Pawn x) => SickPawnVisitUtility.VisitChanceScore(pawn, x), out result))
+			Pawn result = default(Pawn);
+			if (!source.TryRandomElementByWeight<Pawn>((Func<Pawn, float>)((Pawn x) => SickPawnVisitUtility.VisitChanceScore(pawn, x)), out result))
 			{
 				return null;
 			}
@@ -24,12 +24,12 @@ namespace RimWorld
 
 		public static bool CanVisit(Pawn pawn, Pawn sick, JoyCategory maxPatientJoy)
 		{
-			return sick.IsColonist && !sick.Dead && pawn != sick && sick.InBed() && sick.Awake() && !sick.IsForbidden(pawn) && sick.needs.joy != null && sick.needs.joy.CurCategory <= maxPatientJoy && InteractionUtility.CanReceiveInteraction(sick) && !sick.needs.food.Starving && sick.needs.rest.CurLevel > 0.33f && pawn.CanReserveAndReach(sick, PathEndMode.InteractionCell, Danger.None, 1, -1, null, false) && !SickPawnVisitUtility.AboutToRecover(sick);
+			return sick.IsColonist && !sick.Dead && pawn != sick && sick.InBed() && sick.Awake() && !sick.IsForbidden(pawn) && sick.needs.joy != null && (int)sick.needs.joy.CurCategory <= (int)maxPatientJoy && InteractionUtility.CanReceiveInteraction(sick) && !sick.needs.food.Starving && sick.needs.rest.CurLevel > 0.33000001311302185 && pawn.CanReserveAndReach((Thing)sick, PathEndMode.InteractionCell, Danger.None, 1, -1, null, false) && !SickPawnVisitUtility.AboutToRecover(sick);
 		}
 
 		public static Thing FindChair(Pawn forPawn, Pawn nearPawn)
 		{
-			Predicate<Thing> validator = delegate(Thing x)
+			Predicate<Thing> validator = (Predicate<Thing>)delegate(Thing x)
 			{
 				if (!x.def.building.isSittable)
 				{
@@ -50,7 +50,7 @@ namespace RimWorld
 				if (x.def.rotatable)
 				{
 					float num = GenGeo.AngleDifferenceBetween(x.Rotation.AsAngle, (nearPawn.Position - x.Position).AngleFlat);
-					if (num > 95f)
+					if (num > 95.0)
 					{
 						return false;
 					}
@@ -84,7 +84,7 @@ namespace RimWorld
 					num += hediff_Injury.Severity;
 				}
 			}
-			return num < 8f * pawn.RaceProps.baseHealthScale;
+			return num < 8.0 * pawn.RaceProps.baseHealthScale;
 		}
 
 		private static float VisitChanceScore(Pawn pawn, Pawn sick)

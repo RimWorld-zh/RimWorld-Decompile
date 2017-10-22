@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -26,10 +25,10 @@ namespace RimWorld
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
 			if (Widgets.ButtonText(scenPartRect, this.gameCondition.LabelCap, true, false, true))
 			{
-				FloatMenuUtility.MakeMenu<GameConditionDef>(this.AllowedGameConditions(), (GameConditionDef d) => d.LabelCap, (GameConditionDef d) => delegate
+				FloatMenuUtility.MakeMenu(this.AllowedGameConditions(), (Func<GameConditionDef, string>)((GameConditionDef d) => d.LabelCap), (Func<GameConditionDef, Action>)((GameConditionDef d) => (Action)delegate()
 				{
 					this.gameCondition = d;
-				});
+				}));
 			}
 		}
 
@@ -41,7 +40,7 @@ namespace RimWorld
 
 		public override void Randomize()
 		{
-			this.gameCondition = this.AllowedGameConditions().RandomElement<GameConditionDef>();
+			this.gameCondition = this.AllowedGameConditions().RandomElement();
 		}
 
 		private IEnumerable<GameConditionDef> AllowedGameConditions()
@@ -56,16 +55,12 @@ namespace RimWorld
 			return ScenSummaryList.SummaryWithList(scen, "PermaGameCondition", "ScenPart_PermaGameCondition".Translate());
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
-			ScenPart_PermaGameCondition.<GetSummaryListEntries>c__Iterator115 <GetSummaryListEntries>c__Iterator = new ScenPart_PermaGameCondition.<GetSummaryListEntries>c__Iterator115();
-			<GetSummaryListEntries>c__Iterator.tag = tag;
-			<GetSummaryListEntries>c__Iterator.<$>tag = tag;
-			<GetSummaryListEntries>c__Iterator.<>f__this = this;
-			ScenPart_PermaGameCondition.<GetSummaryListEntries>c__Iterator115 expr_1C = <GetSummaryListEntries>c__Iterator;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (tag == "PermaGameCondition")
+			{
+				yield return this.gameCondition.LabelCap + ": " + this.gameCondition.description;
+			}
 		}
 
 		public override void GenerateIntoMap(Map map)
@@ -81,7 +76,11 @@ namespace RimWorld
 				return true;
 			}
 			ScenPart_PermaGameCondition scenPart_PermaGameCondition = other as ScenPart_PermaGameCondition;
-			return scenPart_PermaGameCondition == null || this.gameCondition.CanCoexistWith(scenPart_PermaGameCondition.gameCondition);
+			if (scenPart_PermaGameCondition != null && !this.gameCondition.CanCoexistWith(scenPart_PermaGameCondition.gameCondition))
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

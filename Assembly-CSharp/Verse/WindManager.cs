@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -70,13 +69,7 @@ namespace Verse
 
 		public string DebugString()
 		{
-			return string.Concat(new object[]
-			{
-				"WindSpeed: ",
-				this.WindSpeed,
-				"\nplantSwayHead: ",
-				this.plantSwayHead
-			});
+			return "WindSpeed: " + this.WindSpeed + "\nplantSwayHead: " + this.plantSwayHead;
 		}
 
 		public void LogWindSpeeds()
@@ -85,13 +78,7 @@ namespace Verse
 			stringBuilder.AppendLine("Upcoming wind speeds:");
 			for (int i = 0; i < 72; i++)
 			{
-				stringBuilder.AppendLine(string.Concat(new object[]
-				{
-					"Hour ",
-					i,
-					" - ",
-					this.BaseWindSpeedAt(Find.TickManager.TicksAbs + 2500 * i).ToString("F2")
-				}));
+				stringBuilder.AppendLine("Hour " + i + " - " + this.BaseWindSpeedAt(Find.TickManager.TicksAbs + 2500 * i).ToString("F2"));
 			}
 			Log.Message(stringBuilder.ToString());
 		}

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -14,21 +13,31 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			if (this.pawn.Position != base.CurJob.GetTarget(TargetIndex.A).Cell)
+			if (base.pawn.Position != base.CurJob.GetTarget(TargetIndex.A).Cell)
 			{
 				return base.GetReport();
 			}
 			return "ReportCowering".Translate();
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_FleeAndCower.<MakeNewToils>c__Iterator2C <MakeNewToils>c__Iterator2C = new JobDriver_FleeAndCower.<MakeNewToils>c__Iterator2C();
-			<MakeNewToils>c__Iterator2C.<>f__this = this;
-			JobDriver_FleeAndCower.<MakeNewToils>c__Iterator2C expr_0E = <MakeNewToils>c__Iterator2C;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Toil item in base.MakeNewToils())
+			{
+				yield return item;
+			}
+			yield return new Toil
+			{
+				defaultCompleteMode = ToilCompleteMode.Delay,
+				defaultDuration = 1200,
+				tickAction = (Action)delegate
+				{
+					if (((_003CMakeNewToils_003Ec__Iterator2C)/*Error near IL_00d7: stateMachine*/)._003C_003Ef__this.pawn.IsHashIntervalTick(35) && SelfDefenseUtility.ShouldStartFleeing(((_003CMakeNewToils_003Ec__Iterator2C)/*Error near IL_00d7: stateMachine*/)._003C_003Ef__this.pawn))
+					{
+						((_003CMakeNewToils_003Ec__Iterator2C)/*Error near IL_00d7: stateMachine*/)._003C_003Ef__this.EndJobWith(JobCondition.InterruptForced);
+					}
+				}
+			};
 		}
 	}
 }

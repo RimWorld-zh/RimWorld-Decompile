@@ -1,6 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Verse;
 
 namespace RimWorld
 {
@@ -10,20 +9,16 @@ namespace RimWorld
 		{
 			get
 			{
-				return (StorytellerCompProperties_SingleMTB)this.props;
+				return (StorytellerCompProperties_SingleMTB)base.props;
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			StorytellerComp_SingleMTB.<MakeIntervalIncidents>c__IteratorAE <MakeIntervalIncidents>c__IteratorAE = new StorytellerComp_SingleMTB.<MakeIntervalIncidents>c__IteratorAE();
-			<MakeIntervalIncidents>c__IteratorAE.target = target;
-			<MakeIntervalIncidents>c__IteratorAE.<$>target = target;
-			<MakeIntervalIncidents>c__IteratorAE.<>f__this = this;
-			StorytellerComp_SingleMTB.<MakeIntervalIncidents>c__IteratorAE expr_1C = <MakeIntervalIncidents>c__IteratorAE;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (this.Props.incident.TargetAllowed(target) && Rand.MTBEventOccurs(this.Props.mtbDays, 60000f, 1000f))
+			{
+				yield return new FiringIncident(this.Props.incident, this, this.GenerateParms(this.Props.incident.category, target));
+			}
 		}
 	}
 }

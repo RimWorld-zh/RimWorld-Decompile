@@ -54,7 +54,10 @@ namespace RimWorld
 				{
 					return Vector2.zero;
 				}
-				return new Vector2(this.table.Size.x + this.Margin * 2f, this.table.Size.y + this.ExtraBottomSpace + this.ExtraTopSpace + this.Margin * 2f);
+				Vector2 size = this.table.Size;
+				double x = size.x + this.Margin * 2.0;
+				Vector2 size2 = this.table.Size;
+				return new Vector2((float)x, (float)(size2.y + this.ExtraBottomSpace + this.ExtraTopSpace + this.Margin * 2.0));
 			}
 		}
 
@@ -86,7 +89,7 @@ namespace RimWorld
 
 		private PawnTable CreateTable()
 		{
-			return new PawnTable(this.PawnTableDef, () => this.Pawns, 998, UI.screenWidth - (int)(this.Margin * 2f), 0, (int)((float)(UI.screenHeight - 35) - this.ExtraBottomSpace - this.ExtraTopSpace - this.Margin * 2f));
+			return new PawnTable(this.PawnTableDef, (Func<IEnumerable<Pawn>>)(() => this.Pawns), 998, UI.screenWidth - (int)(this.Margin * 2.0), 0, (int)((float)(UI.screenHeight - 35) - this.ExtraBottomSpace - this.ExtraTopSpace - this.Margin * 2.0));
 		}
 
 		protected void SetDirty()

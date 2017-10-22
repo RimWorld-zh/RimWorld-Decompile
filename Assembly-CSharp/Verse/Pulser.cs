@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -12,10 +11,10 @@ namespace Verse
 
 		public static float PulseBrightness(float frequency, float amplitude, float time)
 		{
-			float num = time * 6.28318548f;
+			float num = (float)(time * 6.2831854820251465);
 			num *= frequency;
-			float t = (1f - Mathf.Cos(num)) * 0.5f;
-			return Mathf.Lerp(1f - amplitude, 1f, t);
+			float t = (float)((1.0 - Mathf.Cos(num)) * 0.5);
+			return Mathf.Lerp((float)(1.0 - amplitude), 1f, t);
 		}
 	}
 }

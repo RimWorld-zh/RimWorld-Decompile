@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -28,7 +27,7 @@ namespace RimWorld
 		public override void Tick()
 		{
 			base.Tick();
-			if (this.pawn.IsHashIntervalTick((int)(5000f * this.intervalFactor)))
+			if (base.pawn.IsHashIntervalTick((int)(5000.0 * this.intervalFactor)))
 			{
 				this.Severity += Rand.Range(-0.4f, 0.6f);
 			}
@@ -37,24 +36,18 @@ namespace RimWorld
 		public override void Tended(float quality, int batchPosition = 0)
 		{
 			base.Tended(quality, 0);
-			float num = 0.65f * quality;
+			float num = (float)(0.64999997615814209 * quality);
 			if (Rand.Value < num)
 			{
-				if (batchPosition == 0 && this.pawn.Spawned)
+				if (batchPosition == 0 && base.pawn.Spawned)
 				{
-					MoteMaker.ThrowText(this.pawn.DrawPos, this.pawn.Map, "TextMote_TreatSuccess".Translate(new object[]
-					{
-						num.ToStringPercent()
-					}), 6.5f);
+					MoteMaker.ThrowText(base.pawn.DrawPos, base.pawn.Map, "TextMote_TreatSuccess".Translate(num.ToStringPercent()), 6.5f);
 				}
 				this.Severity -= 0.3f;
 			}
-			else if (batchPosition == 0 && this.pawn.Spawned)
+			else if (batchPosition == 0 && base.pawn.Spawned)
 			{
-				MoteMaker.ThrowText(this.pawn.DrawPos, this.pawn.Map, "TextMote_TreatFailed".Translate(new object[]
-				{
-					num.ToStringPercent()
-				}), 6.5f);
+				MoteMaker.ThrowText(base.pawn.DrawPos, base.pawn.Map, "TextMote_TreatFailed".Translate(num.ToStringPercent()), 6.5f);
 			}
 		}
 	}

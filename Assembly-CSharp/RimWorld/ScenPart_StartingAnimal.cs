@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -45,7 +44,7 @@ namespace RimWorld
 
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
-			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 2f);
+			Rect scenPartRect = listing.GetScenPartRect(this, (float)(ScenPart.RowHeight * 2.0));
 			Listing_Standard listing_Standard = new Listing_Standard();
 			listing_Standard.Begin(scenPartRect.TopHalf());
 			listing_Standard.ColumnWidth = scenPartRect.width;
@@ -54,14 +53,14 @@ namespace RimWorld
 			if (Widgets.ButtonText(scenPartRect.BottomHalf(), this.CurrentAnimalLabel().CapitalizeFirst(), true, false, true))
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				list.Add(new FloatMenuOption("RandomPet".Translate().CapitalizeFirst(), delegate
+				list.Add(new FloatMenuOption("RandomPet".Translate().CapitalizeFirst(), (Action)delegate
 				{
 					this.animalKind = null;
 				}, MenuOptionPriority.Default, null, null, 0f, null, null));
-				foreach (PawnKindDef current in this.PossibleAnimals())
+				foreach (PawnKindDef item in this.PossibleAnimals())
 				{
-					PawnKindDef localKind = current;
-					list.Add(new FloatMenuOption(localKind.LabelCap, delegate
+					PawnKindDef localKind = item;
+					list.Add(new FloatMenuOption(localKind.LabelCap, (Action)delegate
 					{
 						this.animalKind = localKind;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -80,7 +79,7 @@ namespace RimWorld
 		private IEnumerable<PawnKindDef> RandomPets()
 		{
 			return from td in this.PossibleAnimals()
-			where td.RaceProps.petness > 0f
+			where td.RaceProps.petness > 0.0
 			select td;
 		}
 
@@ -94,29 +93,25 @@ namespace RimWorld
 			return ScenSummaryList.SummaryWithList(scen, "PlayerStartsWith", ScenPart_StartingThing_Defined.PlayerStartWithIntro);
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
-			ScenPart_StartingAnimal.<GetSummaryListEntries>c__Iterator11D <GetSummaryListEntries>c__Iterator11D = new ScenPart_StartingAnimal.<GetSummaryListEntries>c__Iterator11D();
-			<GetSummaryListEntries>c__Iterator11D.tag = tag;
-			<GetSummaryListEntries>c__Iterator11D.<$>tag = tag;
-			<GetSummaryListEntries>c__Iterator11D.<>f__this = this;
-			ScenPart_StartingAnimal.<GetSummaryListEntries>c__Iterator11D expr_1C = <GetSummaryListEntries>c__Iterator11D;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (tag == "PlayerStartsWith")
+			{
+				yield return this.CurrentAnimalLabel().CapitalizeFirst() + " x" + this.count;
+			}
 		}
 
 		public override void Randomize()
 		{
-			if (Rand.Value < 0.5f)
+			if (Rand.Value < 0.5)
 			{
 				this.animalKind = null;
 			}
 			else
 			{
-				this.animalKind = this.PossibleAnimals().RandomElement<PawnKindDef>();
+				this.animalKind = this.PossibleAnimals().RandomElement();
 			}
-			this.count = ScenPart_StartingAnimal.PetCountChances.RandomElementByWeight((Pair<int, float> pa) => pa.Second).First;
+			this.count = ScenPart_StartingAnimal.PetCountChances.RandomElementByWeight((Func<Pair<int, float>, float>)((Pair<int, float> pa) => pa.Second)).First;
 			this.bondToRandomPlayerPawnChance = 0f;
 		}
 
@@ -131,14 +126,26 @@ namespace RimWorld
 			return false;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Thing> PlayerStartingThings()
 		{
-			ScenPart_StartingAnimal.<PlayerStartingThings>c__Iterator11E <PlayerStartingThings>c__Iterator11E = new ScenPart_StartingAnimal.<PlayerStartingThings>c__Iterator11E();
-			<PlayerStartingThings>c__Iterator11E.<>f__this = this;
-			ScenPart_StartingAnimal.<PlayerStartingThings>c__Iterator11E expr_0E = <PlayerStartingThings>c__Iterator11E;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			for (int i = 0; i < this.count; i++)
+			{
+				PawnKindDef kind = (this.animalKind == null) ? this.RandomPets().RandomElementByWeight((Func<PawnKindDef, float>)((PawnKindDef td) => td.RaceProps.petness)) : this.animalKind;
+				Pawn animal = PawnGenerator.GeneratePawn(kind, Faction.OfPlayer);
+				if (animal.Name == null || animal.Name.Numerical)
+				{
+					animal.Name = PawnBioAndNameGenerator.GeneratePawnName(animal, NameStyle.Full, (string)null);
+				}
+				if (Rand.Value < this.bondToRandomPlayerPawnChance)
+				{
+					Pawn col = Find.GameInitData.startingPawns.RandomElement();
+					if (!col.story.traits.HasTrait(TraitDefOf.Psychopath))
+					{
+						col.relations.AddDirectRelation(PawnRelationDefOf.Bond, animal);
+					}
+				}
+				yield return (Thing)animal;
+			}
 		}
 	}
 }

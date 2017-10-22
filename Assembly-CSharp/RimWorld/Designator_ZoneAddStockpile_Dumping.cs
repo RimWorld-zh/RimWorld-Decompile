@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -8,11 +7,11 @@ namespace RimWorld
 	{
 		public Designator_ZoneAddStockpile_Dumping()
 		{
-			this.preset = StorageSettingsPreset.DumpingStockpile;
-			this.defaultLabel = this.preset.PresetName();
-			this.defaultDesc = "DesignatorZoneCreateStorageDumpingDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Stockpile", true);
-			this.hotKey = KeyBindingDefOf.Misc3;
+			base.preset = StorageSettingsPreset.DumpingStockpile;
+			base.defaultLabel = base.preset.PresetName();
+			base.defaultDesc = "DesignatorZoneCreateStorageDumpingDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Stockpile", true);
+			base.hotKey = KeyBindingDefOf.Misc3;
 		}
 
 		protected override void FinalizeDesignationSucceeded()

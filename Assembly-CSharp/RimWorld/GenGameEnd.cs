@@ -21,13 +21,13 @@ namespace RimWorld
 				diaNode.options.Add(diaOption);
 			}
 			DiaOption diaOption2 = new DiaOption("GameOverMainMenu".Translate());
-			diaOption2.action = delegate
+			diaOption2.action = (Action)delegate
 			{
 				GenScene.GoToMainMenu();
 			};
 			diaOption2.resolveTree = true;
 			diaNode.options.Add(diaOption2);
-			Dialog_NodeTree dialog_NodeTree = new Dialog_NodeTree(diaNode, true, false, null);
+			Dialog_NodeTree dialog_NodeTree = new Dialog_NodeTree(diaNode, true, false, (string)null);
 			dialog_NodeTree.screenFillColor = screenFillColor;
 			dialog_NodeTree.silenceAmbientSound = !allowKeepPlaying;
 			dialog_NodeTree.closeOnEscapeKey = allowKeepPlaying;

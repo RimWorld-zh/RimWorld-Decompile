@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using UnityEngine;
 
@@ -51,7 +50,7 @@ namespace Verse
 		{
 			get
 			{
-				return new Vector2((float)UI.screenWidth / 2f, (float)UI.screenHeight / 2f);
+				return new Vector2((float)((float)UI.screenWidth / 2.0), (float)((float)UI.screenHeight / 2.0));
 			}
 		}
 
@@ -71,21 +70,20 @@ namespace Verse
 			}
 			set
 			{
-				if (EditWindow_Log.selectedMessage == value)
+				if (EditWindow_Log.selectedMessage != value)
 				{
-					return;
-				}
-				EditWindow_Log.selectedMessage = value;
-				if (UnityData.IsInMainThread && GUI.GetNameOfFocusedControl() == EditWindow_Log.MessageDetailsControlName)
-				{
-					UI.UnfocusCurrentControl();
+					EditWindow_Log.selectedMessage = value;
+					if (UnityData.IsInMainThread && GUI.GetNameOfFocusedControl() == EditWindow_Log.MessageDetailsControlName)
+					{
+						UI.UnfocusCurrentControl();
+					}
 				}
 			}
 		}
 
 		public EditWindow_Log()
 		{
-			this.optionalTitle = "Debug log";
+			base.optionalTitle = "Debug log";
 		}
 
 		public static void TryAutoOpen()
@@ -158,8 +156,10 @@ namespace Verse
 			{
 				rect.yMax -= EditWindow_Log.detailsPaneHeight;
 			}
-			Rect detailsRect = new Rect(inRect);
-			detailsRect.yMin = rect.yMax;
+			Rect detailsRect = new Rect(inRect)
+			{
+				yMin = rect.yMax
+			};
 			this.DoMessagesListing(rect);
 			this.DoMessageDetails(detailsRect, inRect);
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Mouse.IsOver(rect))
@@ -167,7 +167,7 @@ namespace Verse
 				EditWindow_Log.ClearSelectedMessage();
 			}
 			EditWindow_Log.detailsPaneHeight = Mathf.Max(EditWindow_Log.detailsPaneHeight, 20f);
-			EditWindow_Log.detailsPaneHeight = Mathf.Min(EditWindow_Log.detailsPaneHeight, inRect.height - 80f);
+			EditWindow_Log.detailsPaneHeight = Mathf.Min(EditWindow_Log.detailsPaneHeight, (float)(inRect.height - 80.0));
 		}
 
 		public static void Notify_MessageDequeued(LogMessage oldMessage)
@@ -180,24 +180,24 @@ namespace Verse
 
 		private void DoMessagesListing(Rect listingRect)
 		{
-			Rect viewRect = new Rect(0f, 0f, listingRect.width - 16f, this.listingViewHeight + 100f);
+			Rect viewRect = new Rect(0f, 0f, (float)(listingRect.width - 16.0), (float)(this.listingViewHeight + 100.0));
 			Widgets.BeginScrollView(listingRect, ref EditWindow_Log.messagesScrollPosition, viewRect, true);
-			float width = viewRect.width - 28f;
+			float width = (float)(viewRect.width - 28.0);
 			Text.Font = GameFont.Tiny;
 			float num = 0f;
 			bool flag = false;
-			foreach (LogMessage current in Log.Messages)
+			foreach (LogMessage message in Log.Messages)
 			{
-				float num2 = Text.CalcHeight(current.text, width);
-				if (num2 > 30f)
+				float num2 = Text.CalcHeight(message.text, width);
+				if (num2 > 30.0)
 				{
 					num2 = 30f;
 				}
 				GUI.color = new Color(1f, 1f, 1f, 0.7f);
 				Rect rect = new Rect(4f, num, 28f, num2);
-				Widgets.Label(rect, current.repeats.ToStringCached());
+				Widgets.Label(rect, message.repeats.ToStringCached());
 				Rect rect2 = new Rect(28f, num, width, num2);
-				if (EditWindow_Log.selectedMessage == current)
+				if (EditWindow_Log.selectedMessage == message)
 				{
 					GUI.DrawTexture(rect2, EditWindow_Log.SelectedMessageTex);
 				}
@@ -208,10 +208,10 @@ namespace Verse
 				if (Widgets.ButtonInvisible(rect2, false))
 				{
 					EditWindow_Log.ClearSelectedMessage();
-					EditWindow_Log.SelectedMessage = current;
+					EditWindow_Log.SelectedMessage = message;
 				}
-				GUI.color = current.Color;
-				Widgets.Label(rect2, current.text);
+				GUI.color = message.Color;
+				Widgets.Label(rect2, message.text);
 				num += num2;
 				flag = !flag;
 			}
@@ -225,49 +225,50 @@ namespace Verse
 
 		private void DoMessageDetails(Rect detailsRect, Rect outRect)
 		{
-			if (EditWindow_Log.selectedMessage == null)
+			if (EditWindow_Log.selectedMessage != null)
 			{
-				return;
+				Rect rect = detailsRect;
+				rect.height = 7f;
+				Rect rect2 = detailsRect;
+				rect2.yMin = rect.yMax;
+				GUI.DrawTexture(rect, EditWindow_Log.StackTraceBorderTex);
+				if (Mouse.IsOver(rect))
+				{
+					Widgets.DrawHighlight(rect);
+				}
+				if (Event.current.type == EventType.MouseDown && Mouse.IsOver(rect))
+				{
+					this.borderDragging = true;
+					Event.current.Use();
+				}
+				if (this.borderDragging)
+				{
+					float num = outRect.height + Mathf.Round(3.5f);
+					Vector2 mousePosition = Event.current.mousePosition;
+					EditWindow_Log.detailsPaneHeight = num - mousePosition.y;
+				}
+				if (Event.current.rawType == EventType.MouseUp)
+				{
+					this.borderDragging = false;
+				}
+				GUI.DrawTexture(rect2, EditWindow_Log.StackTraceAreaTex);
+				string text = EditWindow_Log.selectedMessage.text + "\n" + EditWindow_Log.selectedMessage.StackTrace;
+				GUI.SetNextControlName(EditWindow_Log.MessageDetailsControlName);
+				Widgets.TextAreaScrollable(rect2, text, ref EditWindow_Log.detailsScrollPosition, true);
 			}
-			Rect rect = detailsRect;
-			rect.height = 7f;
-			Rect rect2 = detailsRect;
-			rect2.yMin = rect.yMax;
-			GUI.DrawTexture(rect, EditWindow_Log.StackTraceBorderTex);
-			if (Mouse.IsOver(rect))
-			{
-				Widgets.DrawHighlight(rect);
-			}
-			if (Event.current.type == EventType.MouseDown && Mouse.IsOver(rect))
-			{
-				this.borderDragging = true;
-				Event.current.Use();
-			}
-			if (this.borderDragging)
-			{
-				EditWindow_Log.detailsPaneHeight = outRect.height + Mathf.Round(3.5f) - Event.current.mousePosition.y;
-			}
-			if (Event.current.rawType == EventType.MouseUp)
-			{
-				this.borderDragging = false;
-			}
-			GUI.DrawTexture(rect2, EditWindow_Log.StackTraceAreaTex);
-			string text = EditWindow_Log.selectedMessage.text + "\n" + EditWindow_Log.selectedMessage.StackTrace;
-			GUI.SetNextControlName(EditWindow_Log.MessageDetailsControlName);
-			Widgets.TextAreaScrollable(rect2, text, ref EditWindow_Log.detailsScrollPosition, true);
 		}
 
 		private void CopyAllMessagesToClipboard()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (LogMessage current in Log.Messages)
+			foreach (LogMessage message in Log.Messages)
 			{
 				if (stringBuilder.Length != 0)
 				{
 					stringBuilder.AppendLine();
 				}
-				stringBuilder.AppendLine(current.text);
-				stringBuilder.Append(current.StackTrace);
+				stringBuilder.AppendLine(message.text);
+				stringBuilder.Append(message.StackTrace);
 				if (stringBuilder[stringBuilder.Length - 1] != '\n')
 				{
 					stringBuilder.AppendLine();

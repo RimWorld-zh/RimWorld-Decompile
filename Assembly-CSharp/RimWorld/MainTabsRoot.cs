@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -50,19 +49,16 @@ namespace RimWorld
 
 		public void SetCurrentTab(MainButtonDef tab, bool playSound = true)
 		{
-			if (tab == this.OpenTab)
+			if (tab != this.OpenTab)
 			{
-				return;
+				this.ToggleTab(tab, playSound);
 			}
-			this.ToggleTab(tab, playSound);
 		}
 
 		public void ToggleTab(MainButtonDef newTab, bool playSound = true)
 		{
 			if (this.OpenTab == null && newTab == null)
-			{
 				return;
-			}
 			if (this.OpenTab == newTab)
 			{
 				Find.WindowStack.TryRemove(this.OpenTab.TabWindow, true);

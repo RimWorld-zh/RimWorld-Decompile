@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse
 {
@@ -30,16 +29,16 @@ namespace Verse
 			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<BodyPartRecord> GetPartsWithTag(string tag)
 		{
-			BodyDef.<GetPartsWithTag>c__Iterator1C4 <GetPartsWithTag>c__Iterator1C = new BodyDef.<GetPartsWithTag>c__Iterator1C4();
-			<GetPartsWithTag>c__Iterator1C.tag = tag;
-			<GetPartsWithTag>c__Iterator1C.<$>tag = tag;
-			<GetPartsWithTag>c__Iterator1C.<>f__this = this;
-			BodyDef.<GetPartsWithTag>c__Iterator1C4 expr_1C = <GetPartsWithTag>c__Iterator1C;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			for (int i = 0; i < this.AllParts.Count; i++)
+			{
+				BodyPartRecord part = this.AllParts[i];
+				if (part.def.tags.Contains(tag))
+				{
+					yield return part;
+				}
+			}
 		}
 
 		public bool HasPartWithTag(string tag)
@@ -72,14 +71,32 @@ namespace Verse
 			throw new ArgumentException("Cannot get index of BodyPartRecord that is not in this BodyDef.");
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			BodyDef.<ConfigErrors>c__Iterator1C5 <ConfigErrors>c__Iterator1C = new BodyDef.<ConfigErrors>c__Iterator1C5();
-			<ConfigErrors>c__Iterator1C.<>f__this = this;
-			BodyDef.<ConfigErrors>c__Iterator1C5 expr_0E = <ConfigErrors>c__Iterator1C;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.cachedPartsVulnerableToFrostbite.NullOrEmpty())
+			{
+				yield return "no parts vulnerable to frostbite";
+			}
+			List<BodyPartRecord>.Enumerator enumerator2 = this.AllParts.GetEnumerator();
+			try
+			{
+				while (enumerator2.MoveNext())
+				{
+					BodyPartRecord part = enumerator2.Current;
+					if (part.def.isConceptual && part.coverageAbs != 0.0)
+					{
+						yield return string.Format("part {0} is tagged conceptual, but has nonzero coverage", part);
+					}
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
+			}
 		}
 
 		public override void ResolveReferences()
@@ -92,7 +109,7 @@ namespace Verse
 			List<BodyPartRecord> allParts = this.AllParts;
 			for (int i = 0; i < allParts.Count; i++)
 			{
-				if (allParts[i].def.frostbiteVulnerability > 0f)
+				if (allParts[i].def.frostbiteVulnerability > 0.0)
 				{
 					this.cachedPartsVulnerableToFrostbite.Add(allParts[i]);
 				}
@@ -118,17 +135,10 @@ namespace Verse
 			{
 				num -= node.parts[j].coverage;
 			}
-			if (num <= 0f)
+			if (num <= 0.0)
 			{
 				num = 0f;
-				Log.Warning(string.Concat(new string[]
-				{
-					"BodyDef ",
-					this.defName,
-					" has BodyPartRecord of ",
-					node.def.defName,
-					" whose children have more or equal total coverage than 1. This means parent can't be hit independently at all."
-				}));
+				Log.Warning("BodyDef " + base.defName + " has BodyPartRecord of " + node.def.defName + " whose children have more or equal total coverage than 1. This means parent can't be hit independently at all.");
 			}
 			node.coverageAbs = node.coverageAbsWithChildren * num;
 			if (node.height == BodyPartHeight.Undefined)

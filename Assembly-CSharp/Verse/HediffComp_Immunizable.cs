@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using UnityEngine;
 
@@ -15,7 +14,7 @@ namespace Verse
 		{
 			get
 			{
-				return (HediffCompProperties_Immunizable)this.props;
+				return (HediffCompProperties_Immunizable)base.props;
 			}
 		}
 
@@ -27,7 +26,7 @@ namespace Verse
 				{
 					return "DevelopedImmunityLower".Translate();
 				}
-				return null;
+				return (string)null;
 			}
 		}
 
@@ -37,9 +36,9 @@ namespace Verse
 			{
 				if (base.Def.PossibleToDevelopImmunityNaturally() && !this.FullyImmune)
 				{
-					return "Immunity".Translate() + ": " + (Mathf.Floor(this.Immunity * 100f) / 100f).ToStringPercent();
+					return "Immunity".Translate() + ": " + ((float)(Mathf.Floor((float)(this.Immunity * 100.0)) / 100.0)).ToStringPercent();
 				}
-				return null;
+				return (string)null;
 			}
 		}
 
@@ -55,7 +54,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.Immunity >= 1f;
+				return this.Immunity >= 1.0;
 			}
 		}
 
@@ -92,7 +91,7 @@ namespace Verse
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine(base.CompDebugString());
-			if (this.severityPerDayNotImmuneRandomFactor != 1f)
+			if (this.severityPerDayNotImmuneRandomFactor != 1.0)
 			{
 				stringBuilder.AppendLine("severityPerDayNotImmuneRandomFactor: " + this.severityPerDayNotImmuneRandomFactor.ToString("0.##"));
 			}
@@ -101,7 +100,7 @@ namespace Verse
 				ImmunityRecord immunityRecord = base.Pawn.health.immunity.GetImmunityRecord(base.Def);
 				if (immunityRecord != null)
 				{
-					stringBuilder.AppendLine("immunity change per day: " + (immunityRecord.ImmunityChangePerTick(base.Pawn, true, this.parent) * 60000f).ToString("F3"));
+					stringBuilder.AppendLine("immunity change per day: " + ((float)(immunityRecord.ImmunityChangePerTick(base.Pawn, true, base.parent) * 60000.0)).ToString("F3"));
 				}
 			}
 			return stringBuilder.ToString();

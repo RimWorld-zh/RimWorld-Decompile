@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -34,17 +33,20 @@ namespace RimWorld.Planet
 
 		public WITab_Planet()
 		{
-			this.size = WITab_Planet.WinSize;
-			this.labelKey = "TabPlanet";
+			base.size = WITab_Planet.WinSize;
+			base.labelKey = "TabPlanet";
 		}
 
 		protected override void FillTab()
 		{
-			Rect rect = new Rect(0f, 0f, WITab_Planet.WinSize.x, WITab_Planet.WinSize.y).ContractedBy(10f);
-			Rect rect2 = rect;
+			Vector2 winSize = WITab_Planet.WinSize;
+			float x = winSize.x;
+			Vector2 winSize2 = WITab_Planet.WinSize;
+			Rect rect;
+			Rect rect2 = rect = new Rect(0f, 0f, x, winSize2.y).ContractedBy(10f);
 			Text.Font = GameFont.Medium;
-			Widgets.Label(rect2, Find.World.info.name);
-			Rect rect3 = rect;
+			Widgets.Label(rect, Find.World.info.name);
+			Rect rect3 = rect2;
 			rect3.yMin += 35f;
 			Text.Font = GameFont.Small;
 			Widgets.Label(rect3, this.Desc);

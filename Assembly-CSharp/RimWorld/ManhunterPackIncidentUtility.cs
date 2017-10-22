@@ -23,16 +23,16 @@ namespace RimWorld
 		{
 			return (from k in DefDatabase<PawnKindDef>.AllDefs
 			where k.RaceProps.Animal && k.canArriveManhunter && (tile == -1 || Find.World.tileTemperatures.SeasonAndOutdoorTemperatureAcceptableFor(tile, k.race))
-			select k).TryRandomElementByWeight((PawnKindDef k) => ManhunterPackIncidentUtility.ManhunterAnimalWeight(k, points), out animalKind);
+			select k).TryRandomElementByWeight<PawnKindDef>((Func<PawnKindDef, float>)((PawnKindDef k) => ManhunterPackIncidentUtility.ManhunterAnimalWeight(k, points)), out animalKind);
 		}
 
 		public static List<Pawn> GenerateAnimals(PawnKindDef animalKind, int tile, float points)
 		{
 			int num = Mathf.Max(Mathf.RoundToInt(points / animalKind.combatPower), 1);
 			List<Pawn> list = new List<Pawn>();
-			for (int i = 0; i < num; i++)
+			for (int num2 = 0; num2 < num; num2++)
 			{
-				PawnGenerationRequest request = new PawnGenerationRequest(animalKind, null, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, null, null, null, null, null, null);
+				PawnGenerationRequest request = new PawnGenerationRequest(animalKind, null, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, null, default(float?), default(float?), default(Gender?), default(float?), (string)null);
 				Pawn item = PawnGenerator.GeneratePawn(request);
 				list.Add(item);
 			}
@@ -43,22 +43,22 @@ namespace RimWorld
 		{
 			List<PawnKindDef> candidates = (from k in DefDatabase<PawnKindDef>.AllDefs
 			where k.RaceProps.Animal && k.canArriveManhunter
-			orderby -k.combatPower
-			select k).ToList<PawnKindDef>();
+			orderby (float)(0.0 - k.combatPower)
+			select k).ToList();
 			List<float> list = new List<float>();
 			for (int i = 0; i < 30; i++)
 			{
-				list.Add(20f * Mathf.Pow(1.25f, (float)i));
+				list.Add((float)(20.0 * Mathf.Pow(1.25f, (float)i)));
 			}
-			DebugTables.MakeTablesDialog<float, PawnKindDef>(list, (float points) => points.ToString("F0") + " pts", candidates, (PawnKindDef candidate) => candidate.defName + " (" + candidate.combatPower.ToString("F0") + ")", delegate(float points, PawnKindDef candidate)
+			DebugTables.MakeTablesDialog(list, (Func<float, string>)((float points) => points.ToString("F0") + " pts"), candidates, (Func<PawnKindDef, string>)((PawnKindDef candidate) => candidate.defName + " (" + candidate.combatPower.ToString("F0") + ")"), (Func<float, PawnKindDef, string>)delegate(float points, PawnKindDef candidate)
 			{
-				float num = candidates.Sum((PawnKindDef k) => ManhunterPackIncidentUtility.ManhunterAnimalWeight(k, points));
+				float num = candidates.Sum((Func<PawnKindDef, float>)((PawnKindDef k) => ManhunterPackIncidentUtility.ManhunterAnimalWeight(k, points)));
 				float num2 = ManhunterPackIncidentUtility.ManhunterAnimalWeight(candidate, points);
-				if (num2 == 0f)
+				if (num2 == 0.0)
 				{
 					return "0%";
 				}
-				return string.Format("{0}%, {1}", (num2 * 100f / num).ToString("F0"), Mathf.Max(Mathf.RoundToInt(points / candidate.combatPower), 1));
+				return string.Format("{0}%, {1}", ((float)(num2 * 100.0 / num)).ToString("F0"), Mathf.Max(Mathf.RoundToInt(points / candidate.combatPower), 1));
 			}, string.Empty);
 		}
 	}

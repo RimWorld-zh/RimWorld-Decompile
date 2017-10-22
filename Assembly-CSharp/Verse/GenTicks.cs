@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -33,28 +32,8 @@ namespace Verse
 			get
 			{
 				GameInitData gameInitData = Find.GameInitData;
-				Vector2 vector;
-				if (gameInitData.startingTile >= 0)
-				{
-					vector = Find.WorldGrid.LongLatOf(gameInitData.startingTile);
-				}
-				else
-				{
-					vector = Vector2.zero;
-				}
-				Twelfth twelfth;
-				if (gameInitData.startingSeason != Season.Undefined)
-				{
-					twelfth = gameInitData.startingSeason.GetFirstTwelfth(vector.y);
-				}
-				else if (gameInitData.startingTile >= 0)
-				{
-					twelfth = TwelfthUtility.FindStartingWarmTwelfth(gameInitData.startingTile);
-				}
-				else
-				{
-					twelfth = Season.Summer.GetFirstTwelfth(0f);
-				}
+				Vector2 vector = (gameInitData.startingTile < 0) ? Vector2.zero : Find.WorldGrid.LongLatOf(gameInitData.startingTile);
+				Twelfth twelfth = (gameInitData.startingSeason == Season.Undefined) ? ((gameInitData.startingTile < 0) ? Season.Summer.GetFirstTwelfth(0f) : TwelfthUtility.FindStartingWarmTwelfth(gameInitData.startingTile)) : gameInitData.startingSeason.GetFirstTwelfth(vector.y);
 				int num = (24 - GenDate.TimeZoneAt(vector.x)) % 24;
 				return 300000 * (int)twelfth + 2500 * (6 + num);
 			}
@@ -62,12 +41,12 @@ namespace Verse
 
 		public static float TicksToSeconds(this int numTicks)
 		{
-			return (float)numTicks / 60f;
+			return (float)((float)numTicks / 60.0);
 		}
 
 		public static int SecondsToTicks(this float numSeconds)
 		{
-			return Mathf.RoundToInt(60f * numSeconds);
+			return Mathf.RoundToInt((float)(60.0 * numSeconds));
 		}
 
 		public static string TicksToSecondsString(this int numTicks)

@@ -17,31 +17,45 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Predicate<Thing> validator = delegate(Thing t)
+			Predicate<Thing> validator = (Predicate<Thing>)delegate(Thing t)
 			{
 				if (!t.def.hasInteractionCell)
 				{
 					return false;
 				}
 				bool flag = false;
-				for (int i = 0; i < t.def.comps.Count; i++)
+				int num = 0;
+				while (num < t.def.comps.Count)
 				{
-					if (t.def.comps[i].compClass == typeof(CompMannable))
+					if (t.def.comps[num].compClass != typeof(CompMannable))
 					{
-						flag = true;
-						break;
+						num++;
+						continue;
 					}
+					flag = true;
+					break;
 				}
-				return flag && pawn.CanReserve(t, 1, -1, null, false) && JobDriver_ManTurret.FindAmmoForTurret(pawn, t) != null;
+				if (!flag)
+				{
+					return false;
+				}
+				if (!pawn.CanReserve(t, 1, -1, null, false))
+				{
+					return false;
+				}
+				if (JobDriver_ManTurret.FindAmmoForTurret(pawn, t) == null)
+				{
+					return false;
+				}
+				return true;
 			};
 			Thing thing = GenClosest.ClosestThingReachable(this.GetRoot(pawn), pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.BuildingArtificial), PathEndMode.InteractionCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), this.maxDistFromPoint, validator, null, 0, -1, false, RegionType.Set_Passable, false);
 			if (thing != null)
 			{
-				return new Job(JobDefOf.ManTurret, thing)
-				{
-					expiryInterval = 2000,
-					checkOverrideOnExpire = true
-				};
+				Job job = new Job(JobDefOf.ManTurret, thing);
+				job.expiryInterval = 2000;
+				job.checkOverrideOnExpire = true;
+				return job;
 			}
 			return null;
 		}

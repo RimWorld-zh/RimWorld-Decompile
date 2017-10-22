@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -41,9 +40,9 @@ namespace RimWorld.BaseGen
 				}
 			}
 			int? ancientTempleEntranceHeight = rp.ancientTempleEntranceHeight;
-			int num = (!ancientTempleEntranceHeight.HasValue) ? 0 : ancientTempleEntranceHeight.Value;
+			int num = ancientTempleEntranceHeight.HasValue ? ancientTempleEntranceHeight.Value : 0;
 			ResolveParams resolveParams4 = rp;
-			resolveParams4.rect.minZ = resolveParams4.rect.minZ + num;
+			resolveParams4.rect.minZ += num;
 			BaseGen.symbolStack.Push("ancientShrinesGroup", resolveParams4);
 		}
 	}

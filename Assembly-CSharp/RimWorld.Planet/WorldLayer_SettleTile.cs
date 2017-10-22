@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -35,7 +34,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return Mathf.Abs(Time.time % 2f - 1f);
+				return Mathf.Abs((float)(Time.time % 2.0 - 1.0));
 			}
 		}
 	}

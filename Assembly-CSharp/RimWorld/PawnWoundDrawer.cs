@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -22,20 +21,20 @@ namespace RimWorld
 			{
 				if (pawn.RaceProps.FleshType == FleshTypeDefOf.Normal)
 				{
-					this.mat = PawnWoundDrawer.WoundOverlays_Flesh.RandomElement<Material>();
+					this.mat = PawnWoundDrawer.WoundOverlays_Flesh.RandomElement();
 				}
 				else if (pawn.RaceProps.FleshType == FleshTypeDefOf.Mechanoid)
 				{
-					this.mat = PawnWoundDrawer.WoundOverlays_Mech.RandomElement<Material>();
+					this.mat = PawnWoundDrawer.WoundOverlays_Mech.RandomElement();
 				}
 				else if (pawn.RaceProps.FleshType == FleshTypeDefOf.Insectoid)
 				{
-					this.mat = PawnWoundDrawer.WoundOverlays_Insect.RandomElement<Material>();
+					this.mat = PawnWoundDrawer.WoundOverlays_Insect.RandomElement();
 				}
 				else
 				{
 					Log.ErrorOnce(string.Format("No wound graphics data available for flesh type {0}", pawn.RaceProps.FleshType), 76591733);
-					this.mat = PawnWoundDrawer.WoundOverlays_Flesh.RandomElement<Material>();
+					this.mat = PawnWoundDrawer.WoundOverlays_Flesh.RandomElement();
 				}
 				this.quat = Quaternion.AngleAxis((float)Rand.Range(0, 360), Vector3.up);
 				for (int i = 0; i < 4; i++)
@@ -47,7 +46,13 @@ namespace RimWorld
 			public void DrawWound(Vector3 drawLoc, Quaternion bodyQuat, Rot4 bodyRot, bool forPortrait)
 			{
 				Vector2 vector = this.locsPerSide[bodyRot.AsInt];
-				drawLoc += new Vector3((vector.x - 0.5f) * PawnWoundDrawer.Wound.WoundSpan.x, 0f, (vector.y - 0.5f) * PawnWoundDrawer.Wound.WoundSpan.y);
+				Vector3 a = drawLoc;
+				double num = vector.x - 0.5;
+				Vector2 woundSpan = Wound.WoundSpan;
+				double x = num * woundSpan.x;
+				double num2 = vector.y - 0.5;
+				Vector2 woundSpan2 = Wound.WoundSpan;
+				drawLoc = a + new Vector3((float)x, 0f, (float)(num2 * woundSpan2.y));
 				drawLoc.z -= 0.3f;
 				GenDraw.DrawMeshNowOrLater(MeshPool.plane025, drawLoc, this.quat, this.mat, forPortrait);
 			}
@@ -55,7 +60,7 @@ namespace RimWorld
 
 		protected Pawn pawn;
 
-		private List<PawnWoundDrawer.Wound> wounds = new List<PawnWoundDrawer.Wound>();
+		private List<Wound> wounds = new List<Wound>();
 
 		private int MaxDisplayWounds = 3;
 
@@ -73,26 +78,18 @@ namespace RimWorld
 			MaterialPool.MatFrom("Things/Pawn/Wounds/WoundMechC")
 		};
 
-		private static readonly Color InsectWoundColor;
+		private static readonly Color InsectWoundColor = new ColorInt(60, 50, 40).ToColor;
 
-		private static readonly List<Material> WoundOverlays_Insect;
+		private static readonly List<Material> WoundOverlays_Insect = new List<Material>
+		{
+			MaterialPool.MatFrom("Things/Pawn/Wounds/WoundA", ShaderDatabase.Cutout, PawnWoundDrawer.InsectWoundColor),
+			MaterialPool.MatFrom("Things/Pawn/Wounds/WoundB", ShaderDatabase.Cutout, PawnWoundDrawer.InsectWoundColor),
+			MaterialPool.MatFrom("Things/Pawn/Wounds/WoundC", ShaderDatabase.Cutout, PawnWoundDrawer.InsectWoundColor)
+		};
 
 		public PawnWoundDrawer(Pawn pawn)
 		{
 			this.pawn = pawn;
-		}
-
-		static PawnWoundDrawer()
-		{
-			// Note: this type is marked as 'beforefieldinit'.
-			ColorInt colorInt = new ColorInt(60, 50, 40);
-			PawnWoundDrawer.InsectWoundColor = colorInt.ToColor;
-			PawnWoundDrawer.WoundOverlays_Insect = new List<Material>
-			{
-				MaterialPool.MatFrom("Things/Pawn/Wounds/WoundA", ShaderDatabase.Cutout, PawnWoundDrawer.InsectWoundColor),
-				MaterialPool.MatFrom("Things/Pawn/Wounds/WoundB", ShaderDatabase.Cutout, PawnWoundDrawer.InsectWoundColor),
-				MaterialPool.MatFrom("Things/Pawn/Wounds/WoundC", ShaderDatabase.Cutout, PawnWoundDrawer.InsectWoundColor)
-			};
 		}
 
 		public void RenderOverBody(Vector3 drawLoc, Mesh bodyMesh, Quaternion quat, bool forPortrait)
@@ -110,19 +107,19 @@ namespace RimWorld
 					}
 				}
 			}
-			int num2 = Mathf.CeilToInt((float)num / 2f);
+			int num2 = Mathf.CeilToInt((float)((float)num / 2.0));
 			if (num2 > this.MaxDisplayWounds)
 			{
 				num2 = this.MaxDisplayWounds;
 			}
 			while (this.wounds.Count < num2)
 			{
-				this.wounds.Add(new PawnWoundDrawer.Wound(this.pawn));
+				this.wounds.Add(new Wound(this.pawn));
 				PortraitsCache.SetDirty(this.pawn);
 			}
 			while (this.wounds.Count > num2)
 			{
-				this.wounds.Remove(this.wounds.RandomElement<PawnWoundDrawer.Wound>());
+				this.wounds.Remove(this.wounds.RandomElement());
 				PortraitsCache.SetDirty(this.pawn);
 			}
 			for (int j = 0; j < this.wounds.Count; j++)

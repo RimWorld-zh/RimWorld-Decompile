@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld
 {
 	public class StorytellerCompProperties_ThreatCycle : StorytellerCompProperties
@@ -24,7 +22,7 @@ namespace RimWorld
 
 		public StorytellerCompProperties_ThreatCycle()
 		{
-			this.compClass = typeof(StorytellerComp_ThreatCycle);
+			base.compClass = typeof(StorytellerComp_ThreatCycle);
 		}
 	}
 }

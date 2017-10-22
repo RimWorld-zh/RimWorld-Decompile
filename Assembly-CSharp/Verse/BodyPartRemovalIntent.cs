@@ -1,10 +1,8 @@
-using System;
-
 namespace Verse
 {
 	public enum BodyPartRemovalIntent
 	{
-		Harvest,
-		Amputate
+		Harvest = 0,
+		Amputate = 1
 	}
 }

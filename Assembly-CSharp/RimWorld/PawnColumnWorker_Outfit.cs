@@ -14,7 +14,7 @@ namespace RimWorld
 		public override void DoHeader(Rect rect, PawnTable table)
 		{
 			base.DoHeader(rect, table);
-			Rect rect2 = new Rect(rect.x, rect.y + (rect.height - 65f), Mathf.Min(rect.width, 360f), 32f);
+			Rect rect2 = new Rect(rect.x, (float)(rect.y + (rect.height - 65.0)), Mathf.Min(rect.width, 360f), 32f);
 			if (Widgets.ButtonText(rect2, "ManageOutfits".Translate(), true, false, true))
 			{
 				Find.WindowStack.Add(new Dialog_ManageOutfits(null));
@@ -25,60 +25,77 @@ namespace RimWorld
 
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (pawn.outfits == null)
+			if (pawn.outfits != null)
 			{
-				return;
-			}
-			int num = Mathf.FloorToInt((rect.width - 4f) * 0.714285731f);
-			int num2 = Mathf.FloorToInt((rect.width - 4f) * 0.2857143f);
-			float num3 = rect.x;
-			bool somethingIsForced = pawn.outfits.forcedHandler.SomethingIsForced;
-			Rect rect2 = new Rect(num3, rect.y + 2f, (float)num, rect.height - 4f);
-			if (somethingIsForced)
-			{
-				rect2.width -= 4f + (float)num2;
-			}
-			string label = pawn.outfits.CurrentOutfit.label.Truncate(rect2.width, null);
-			if (Widgets.ButtonText(rect2, label, true, false, true))
-			{
-				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				foreach (Outfit current in Current.Game.outfitDatabase.AllOutfits)
+				int num = Mathf.FloorToInt((float)((rect.width - 4.0) * 0.71428573131561279));
+				int num2 = Mathf.FloorToInt((float)((rect.width - 4.0) * 0.28571429848670959));
+				float x = rect.x;
+				bool somethingIsForced = pawn.outfits.forcedHandler.SomethingIsForced;
+				Rect rect2 = new Rect(x, (float)(rect.y + 2.0), (float)num, (float)(rect.height - 4.0));
+				if (somethingIsForced)
 				{
-					Outfit localOut = current;
-					list.Add(new FloatMenuOption(localOut.label, delegate
-					{
-						pawn.outfits.CurrentOutfit = localOut;
-					}, MenuOptionPriority.Default, null, null, 0f, null, null));
+					rect2.width -= (float)(4.0 + (float)num2);
 				}
-				Find.WindowStack.Add(new FloatMenu(list));
-			}
-			num3 += rect2.width;
-			num3 += 4f;
-			Rect rect3 = new Rect(num3, rect.y + 2f, (float)num2, rect.height - 4f);
-			if (somethingIsForced)
-			{
-				if (Widgets.ButtonText(rect3, "ClearForcedApparel".Translate(), true, false, true))
+				string label = pawn.outfits.CurrentOutfit.label.Truncate(rect2.width, null);
+				if (Widgets.ButtonText(rect2, label, true, false, true))
 				{
-					pawn.outfits.forcedHandler.Reset();
-				}
-				TooltipHandler.TipRegion(rect3, new TipSignal(delegate
-				{
-					string text = "ForcedApparel".Translate() + ":\n";
-					foreach (Apparel current2 in pawn.outfits.forcedHandler.ForcedApparel)
+					List<FloatMenuOption> list = new List<FloatMenuOption>();
+					List<Outfit>.Enumerator enumerator = Current.Game.outfitDatabase.AllOutfits.GetEnumerator();
+					try
 					{
-						text = text + "\n   " + current2.LabelCap;
+						while (enumerator.MoveNext())
+						{
+							Outfit current = enumerator.Current;
+							Outfit localOut = current;
+							list.Add(new FloatMenuOption(localOut.label, (Action)delegate()
+							{
+								pawn.outfits.CurrentOutfit = localOut;
+							}, MenuOptionPriority.Default, null, null, 0f, null, null));
+						}
 					}
-					return text;
-				}, pawn.GetHashCode() * 612));
-				num3 += (float)num2;
-				num3 += 4f;
+					finally
+					{
+						((IDisposable)(object)enumerator).Dispose();
+					}
+					Find.WindowStack.Add(new FloatMenu(list));
+				}
+				x += rect2.width;
+				x = (float)(x + 4.0);
+				Rect rect3 = new Rect(x, (float)(rect.y + 2.0), (float)num2, (float)(rect.height - 4.0));
+				if (somethingIsForced)
+				{
+					if (Widgets.ButtonText(rect3, "ClearForcedApparel".Translate(), true, false, true))
+					{
+						pawn.outfits.forcedHandler.Reset();
+					}
+					TooltipHandler.TipRegion(rect3, new TipSignal((Func<string>)delegate()
+					{
+						string text = "ForcedApparel".Translate() + ":\n";
+						List<Apparel>.Enumerator enumerator2 = pawn.outfits.forcedHandler.ForcedApparel.GetEnumerator();
+						try
+						{
+							while (enumerator2.MoveNext())
+							{
+								Apparel current2 = enumerator2.Current;
+								text = text + "\n   " + current2.LabelCap;
+							}
+							return text;
+						}
+						finally
+						{
+							((IDisposable)(object)enumerator2).Dispose();
+						}
+					}, pawn.GetHashCode() * 612));
+					x += (float)num2;
+					x = (float)(x + 4.0);
+				}
+				Rect rect4 = new Rect(x, (float)(rect.y + 2.0), (float)num2, (float)(rect.height - 4.0));
+				if (Widgets.ButtonText(rect4, "AssignTabEdit".Translate(), true, false, true))
+				{
+					Find.WindowStack.Add(new Dialog_ManageOutfits(pawn.outfits.CurrentOutfit));
+				}
+				x += (float)num2;
 			}
-			Rect rect4 = new Rect(num3, rect.y + 2f, (float)num2, rect.height - 4f);
-			if (Widgets.ButtonText(rect4, "AssignTabEdit".Translate(), true, false, true))
-			{
-				Find.WindowStack.Add(new Dialog_ManageOutfits(pawn.outfits.CurrentOutfit));
-			}
-			num3 += (float)num2;
 		}
 
 		public override int GetMinWidth(PawnTable table)
@@ -103,7 +120,7 @@ namespace RimWorld
 
 		private int GetValueToCompare(Pawn pawn)
 		{
-			return (pawn.outfits != null && pawn.outfits.CurrentOutfit != null) ? pawn.outfits.CurrentOutfit.uniqueId : -2147483648;
+			return (pawn.outfits != null && pawn.outfits.CurrentOutfit != null) ? pawn.outfits.CurrentOutfit.uniqueId : (-2147483648);
 		}
 	}
 }

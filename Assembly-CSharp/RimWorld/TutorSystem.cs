@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
@@ -18,7 +18,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return Prefs.AdaptiveTrainingEnabled && (Find.Storyteller == null || Find.Storyteller.def == null || !Find.Storyteller.def.disableAdaptiveTraining);
+				if (!Prefs.AdaptiveTrainingEnabled)
+				{
+					return false;
+				}
+				if (Find.Storyteller != null && Find.Storyteller.def != null && Find.Storyteller.def.disableAdaptiveTraining)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -29,28 +37,39 @@ namespace RimWorld
 
 		public static void Notify_Event(EventPack ep)
 		{
-			if (!TutorSystem.TutorialMode)
+			if (TutorSystem.TutorialMode)
 			{
-				return;
-			}
-			if (DebugViewSettings.logTutor)
-			{
-				Log.Message("Notify_Event: " + ep);
-			}
-			if (Current.Game == null)
-			{
-				return;
-			}
-			if (Find.ActiveLesson.Current != null)
-			{
-				Find.ActiveLesson.Current.Notify_Event(ep);
-			}
-			foreach (InstructionDef current in DefDatabase<InstructionDef>.AllDefs)
-			{
-				if (current.eventTagInitiate == ep.Tag && (TutorSystem.TutorialMode || !current.tutorialModeOnly))
+				if (DebugViewSettings.logTutor)
 				{
-					Find.ActiveLesson.Activate(current);
-					break;
+					Log.Message("Notify_Event: " + ep);
+				}
+				if (Current.Game != null)
+				{
+					if (Find.ActiveLesson.Current != null)
+					{
+						Find.ActiveLesson.Current.Notify_Event(ep);
+					}
+					using (IEnumerator<InstructionDef> enumerator = DefDatabase<InstructionDef>.AllDefs.GetEnumerator())
+					{
+						InstructionDef current;
+						while (true)
+						{
+							if (enumerator.MoveNext())
+							{
+								current = enumerator.Current;
+								if (current.eventTagInitiate == ep.Tag)
+								{
+									if (TutorSystem.TutorialMode)
+										break;
+									if (!current.tutorialModeOnly)
+										break;
+								}
+								continue;
+							}
+							return;
+						}
+						Find.ActiveLesson.Activate(current);
+					}
 				}
 			}
 		}
@@ -65,9 +84,9 @@ namespace RimWorld
 			{
 				Log.Message("AllowAction: " + ep);
 			}
-			if (ep.Cells != null && ep.Cells.Count<IntVec3>() == 1)
+			if (ep.Cells != null && ep.Cells.Count() == 1)
 			{
-				return TutorSystem.AllowAction(new EventPack(ep.Tag, ep.Cells.First<IntVec3>()));
+				return TutorSystem.AllowAction(new EventPack(ep.Tag, ep.Cells.First()));
 			}
 			if (Find.ActiveLesson.Current != null)
 			{

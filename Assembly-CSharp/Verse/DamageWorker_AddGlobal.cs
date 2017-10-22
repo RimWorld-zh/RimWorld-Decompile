@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class DamageWorker_AddGlobal : DamageWorker

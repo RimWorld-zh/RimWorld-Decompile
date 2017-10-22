@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld.Planet
@@ -93,7 +92,7 @@ namespace RimWorld.Planet
 			{
 				if (this.trader == null)
 				{
-					return null;
+					return (string)null;
 				}
 				return this.trader.TraderName;
 			}
@@ -103,7 +102,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return this.trader != null && this.trader.CanTradeNow;
+				if (this.trader == null)
+				{
+					return false;
+				}
+				return this.trader.CanTradeNow;
 			}
 		}
 
@@ -142,14 +145,14 @@ namespace RimWorld.Planet
 		{
 			base.ExposeData();
 			Scribe_Collections.Look<Pawn>(ref this.previouslyGeneratedInhabitants, "previouslyGeneratedInhabitants", LookMode.Reference, new object[0]);
-			Scribe_Deep.Look<Settlement_TraderTracker>(ref this.trader, "trader", new object[]
+			Scribe_Deep.Look<Settlement_TraderTracker>(ref this.trader, "trader", new object[1]
 			{
 				this
 			});
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
 				BackCompatibility.SettlementPostLoadInit(this);
-				this.previouslyGeneratedInhabitants.RemoveAll((Pawn x) => x == null);
+				this.previouslyGeneratedInhabitants.RemoveAll((Predicate<Pawn>)((Pawn x) => x == null));
 			}
 		}
 
@@ -165,12 +168,12 @@ namespace RimWorld.Planet
 		public override void Notify_MyMapRemoved(Map map)
 		{
 			base.Notify_MyMapRemoved(map);
-			for (int i = this.previouslyGeneratedInhabitants.Count - 1; i >= 0; i--)
+			for (int num = this.previouslyGeneratedInhabitants.Count - 1; num >= 0; num--)
 			{
-				Pawn pawn = this.previouslyGeneratedInhabitants[i];
+				Pawn pawn = this.previouslyGeneratedInhabitants[num];
 				if (pawn.DestroyedOrNull() || !pawn.IsWorldPawn())
 				{
-					this.previouslyGeneratedInhabitants.RemoveAt(i);
+					this.previouslyGeneratedInhabitants.RemoveAt(num);
 				}
 			}
 		}
@@ -190,26 +193,69 @@ namespace RimWorld.Planet
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Settlement.<GetGizmos>c__Iterator106 <GetGizmos>c__Iterator = new Settlement.<GetGizmos>c__Iterator106();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			Settlement.<GetGizmos>c__Iterator106 expr_0E = <GetGizmos>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			if (this.Abandonable)
+			{
+				yield return (Gizmo)SettlementAbandonUtility.AbandonCommand(this);
+			}
+			if (base.Faction != Faction.OfPlayer && !PlayerKnowledgeDatabase.IsComplete(ConceptDefOf.FormCaravan))
+			{
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "CommandFormCaravan".Translate(),
+					defaultDesc = "CommandFormCaravanDesc".Translate(),
+					icon = MapParent.FormCaravanCommand,
+					action = (Action)delegate
+					{
+						Find.Tutor.learningReadout.TryActivateConcept(ConceptDefOf.FormCaravan);
+						Messages.Message("MessageSelectOwnBaseToFormCaravan".Translate(), MessageSound.RejectInput);
+					}
+				};
+			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			Settlement.<GetFloatMenuOptions>c__Iterator107 <GetFloatMenuOptions>c__Iterator = new Settlement.<GetFloatMenuOptions>c__Iterator107();
-			<GetFloatMenuOptions>c__Iterator.caravan = caravan;
-			<GetFloatMenuOptions>c__Iterator.<$>caravan = caravan;
-			<GetFloatMenuOptions>c__Iterator.<>f__this = this;
-			Settlement.<GetFloatMenuOptions>c__Iterator107 expr_1C = <GetFloatMenuOptions>c__Iterator;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			foreach (FloatMenuOption floatMenuOption in base.GetFloatMenuOptions(caravan))
+			{
+				yield return floatMenuOption;
+			}
+			if (this.Visitable && CaravanVisitUtility.SettlementVisitedNow(caravan) != this)
+			{
+				yield return new FloatMenuOption("VisitSettlement".Translate(this.Label), (Action)delegate
+				{
+					((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_0108: stateMachine*/).caravan.pather.StartPath(((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_0108: stateMachine*/)._003C_003Ef__this.Tile, new CaravanArrivalAction_VisitSettlement(((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_0108: stateMachine*/)._003C_003Ef__this), true);
+				}, MenuOptionPriority.Default, null, null, 0f, null, this);
+				if (Prefs.DevMode)
+				{
+					yield return new FloatMenuOption("VisitSettlement".Translate(this.Label) + " (Dev: instantly)", (Action)delegate
+					{
+						((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_016e: stateMachine*/).caravan.Tile = ((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_016e: stateMachine*/)._003C_003Ef__this.Tile;
+						((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_016e: stateMachine*/).caravan.pather.StopDead();
+						new CaravanArrivalAction_VisitSettlement(((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_016e: stateMachine*/)._003C_003Ef__this).Arrived(((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_016e: stateMachine*/).caravan);
+					}, MenuOptionPriority.Default, null, null, 0f, null, this);
+				}
+			}
+			if (this.Attackable)
+			{
+				yield return new FloatMenuOption("AttackSettlement".Translate(this.Label), (Action)delegate
+				{
+					((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_01d0: stateMachine*/).caravan.pather.StartPath(((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_01d0: stateMachine*/)._003C_003Ef__this.Tile, new CaravanArrivalAction_AttackSettlement(((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_01d0: stateMachine*/)._003C_003Ef__this), true);
+				}, MenuOptionPriority.Default, null, null, 0f, null, this);
+				if (Prefs.DevMode)
+				{
+					yield return new FloatMenuOption("AttackSettlement".Translate(this.Label) + " (Dev: instantly)", (Action)delegate
+					{
+						((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_0236: stateMachine*/).caravan.Tile = ((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_0236: stateMachine*/)._003C_003Ef__this.Tile;
+						new CaravanArrivalAction_AttackSettlement(((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_0236: stateMachine*/)._003C_003Ef__this).Arrived(((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_0236: stateMachine*/).caravan);
+					}, MenuOptionPriority.Default, null, null, 0f, null, this);
+				}
+			}
 		}
 
 		public override void GetChildHolders(List<IThingHolder> outChildren)
@@ -224,6 +270,12 @@ namespace RimWorld.Planet
 		virtual Faction get_Faction()
 		{
 			return base.Faction;
+		}
+
+		Faction ITrader.get_Faction()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_Faction
+			return this.get_Faction();
 		}
 	}
 }

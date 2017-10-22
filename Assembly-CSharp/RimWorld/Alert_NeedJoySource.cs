@@ -8,13 +8,13 @@ namespace RimWorld
 	{
 		public Alert_NeedJoySource()
 		{
-			this.defaultLabel = "NeedJoySource".Translate();
-			this.defaultExplanation = "NeedJoySourceDesc".Translate();
+			base.defaultLabel = "NeedJoySource".Translate();
+			base.defaultExplanation = "NeedJoySourceDesc".Translate();
 		}
 
 		public override AlertReport GetReport()
 		{
-			if (GenDate.DaysPassedFloat < 6.5f)
+			if (GenDate.DaysPassedFloat < 6.5)
 			{
 				return false;
 			}
@@ -35,7 +35,11 @@ namespace RimWorld
 			{
 				return false;
 			}
-			return !map.listerBuildings.allBuildingsColonist.Any((Building b) => b.def.building.isJoySource);
+			if (map.listerBuildings.allBuildingsColonist.Any((Predicate<Building>)((Building b) => b.def.building.isJoySource)))
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

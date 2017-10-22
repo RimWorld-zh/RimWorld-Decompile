@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -11,11 +10,11 @@ namespace RimWorld
 		public static void Reset()
 		{
 			ItemCollectionGeneratorUtility.allGeneratableItems.Clear();
-			foreach (ThingDef current in DefDatabase<ThingDef>.AllDefs)
+			foreach (ThingDef allDef in DefDatabase<ThingDef>.AllDefs)
 			{
-				if ((current.category == ThingCategory.Item || current.Minifiable) && !current.isUnfinishedThing && !current.IsCorpse && current.PlayerAcquirable && current.graphicData != null && !typeof(MinifiedThing).IsAssignableFrom(current.thingClass))
+				if ((allDef.category == ThingCategory.Item || allDef.Minifiable) && !allDef.isUnfinishedThing && !allDef.IsCorpse && allDef.PlayerAcquirable && allDef.graphicData != null && !typeof(MinifiedThing).IsAssignableFrom(allDef.thingClass))
 				{
-					ItemCollectionGeneratorUtility.allGeneratableItems.Add(current);
+					ItemCollectionGeneratorUtility.allGeneratableItems.Add(allDef);
 				}
 			}
 			ItemCollectionGenerator_Weapons.Reset();

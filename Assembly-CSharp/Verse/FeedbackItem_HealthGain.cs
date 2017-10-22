@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -17,17 +16,10 @@ namespace Verse
 
 		public override void FeedbackOnGUI()
 		{
-			string text = string.Empty;
-			if (this.Amount >= 0)
-			{
-				text = "+";
-			}
-			else
-			{
-				text = "-";
-			}
-			text += this.Amount;
-			base.DrawFloatingText(text, Color.red);
+			string empty = string.Empty;
+			empty = ((this.Amount < 0) ? "-" : "+");
+			empty += this.Amount;
+			base.DrawFloatingText(empty, Color.red);
 		}
 	}
 }

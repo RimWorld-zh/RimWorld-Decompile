@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class Hediff_Implant : HediffWithComps
@@ -16,8 +14,7 @@ namespace Verse
 		{
 			if (base.Part == null)
 			{
-				Log.Error("Part is null. It should be set before PostAdd for " + this.def + ".");
-				return;
+				Log.Error("Part is null. It should be set before PostAdd for " + base.def + ".");
 			}
 		}
 	}

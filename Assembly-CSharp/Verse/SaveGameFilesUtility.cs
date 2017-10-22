@@ -8,15 +8,19 @@ namespace Verse
 	{
 		public static bool IsAutoSave(string fileName)
 		{
-			return fileName.Length >= 8 && fileName.Substring(0, 8) == "Autosave";
+			if (fileName.Length < 8)
+			{
+				return false;
+			}
+			return fileName.Substring(0, 8) == "Autosave";
 		}
 
 		public static bool SavedGameNamedExists(string fileName)
 		{
-			foreach (string current in from f in GenFilePaths.AllSavedGameFiles
+			foreach (string item in from f in GenFilePaths.AllSavedGameFiles
 			select Path.GetFileNameWithoutExtension(f.Name))
 			{
-				if (current == fileName)
+				if (item == fileName)
 				{
 					return true;
 				}
@@ -26,15 +30,16 @@ namespace Verse
 
 		public static string UnusedDefaultFileName(string factionLabel)
 		{
-			string text = string.Empty;
+			string empty = string.Empty;
 			int num = 1;
-			do
+			while (true)
 			{
-				text = factionLabel + num.ToString();
+				empty = factionLabel + num.ToString();
 				num++;
+				if (!SaveGameFilesUtility.SavedGameNamedExists(empty))
+					break;
 			}
-			while (SaveGameFilesUtility.SavedGameNamedExists(text));
-			return text;
+			return empty;
 		}
 	}
 }

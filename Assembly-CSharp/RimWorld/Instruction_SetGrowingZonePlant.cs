@@ -10,13 +10,13 @@ namespace RimWorld
 		{
 			get
 			{
-				return (Zone_Growing)base.Map.zoneManager.AllZones.FirstOrDefault((Zone z) => z is Zone_Growing);
+				return (Zone_Growing)base.Map.zoneManager.AllZones.FirstOrDefault((Func<Zone, bool>)((Zone z) => z is Zone_Growing));
 			}
 		}
 
 		public override void LessonOnGUI()
 		{
-			TutorUtility.DrawLabelOnGUI(Gen.AveragePosition(this.GrowZone.cells), this.def.onMapInstruction);
+			TutorUtility.DrawLabelOnGUI(Gen.AveragePosition(this.GrowZone.cells), base.def.onMapInstruction);
 			base.LessonOnGUI();
 		}
 

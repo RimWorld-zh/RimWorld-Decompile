@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -40,7 +39,7 @@ namespace RimWorld
 
 		public override string GetUniqueLoadID()
 		{
-			return "Area_" + this.ID + "_NoRoof";
+			return "Area_" + base.ID + "_NoRoof";
 		}
 	}
 }

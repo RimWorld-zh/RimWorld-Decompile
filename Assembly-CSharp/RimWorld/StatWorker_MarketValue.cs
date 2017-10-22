@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -31,17 +30,10 @@ namespace RimWorld
 			}
 			if (req.Def.costStuffCount > 0)
 			{
-				if (req.StuffDef != null)
-				{
-					num += (float)req.Def.costStuffCount / req.StuffDef.VolumePerUnit * req.StuffDef.GetStatValueAbstract(StatDefOf.MarketValue, null);
-				}
-				else
-				{
-					num += (float)req.Def.costStuffCount * 2f;
-				}
+				num = (float)((req.StuffDef == null) ? (num + (float)req.Def.costStuffCount * 2.0) : (num + (float)req.Def.costStuffCount / req.StuffDef.VolumePerUnit * req.StuffDef.GetStatValueAbstract(StatDefOf.MarketValue, null)));
 			}
 			float num2 = Mathf.Max(req.Def.GetStatValueAbstract(StatDefOf.WorkToMake, req.StuffDef), req.Def.GetStatValueAbstract(StatDefOf.WorkToBuild, req.StuffDef));
-			return num + num2 * 0.003f;
+			return (float)(num + num2 * 0.0030000000260770321);
 		}
 
 		public override string GetExplanation(StatRequest req, ToStringNumberSense numberSense)
@@ -67,7 +59,11 @@ namespace RimWorld
 		public override bool ShouldShowFor(BuildableDef def)
 		{
 			ThingDef thingDef = def as ThingDef;
-			return thingDef != null && (TradeUtility.EverTradeable(thingDef) || thingDef.category == ThingCategory.Building);
+			if (thingDef == null)
+			{
+				return false;
+			}
+			return TradeUtility.EverTradeable(thingDef) || thingDef.category == ThingCategory.Building;
 		}
 	}
 }

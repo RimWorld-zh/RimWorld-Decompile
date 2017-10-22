@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -8,12 +7,12 @@ namespace RimWorld
 	{
 		public Designator_ZoneAddStockpile_Resources()
 		{
-			this.preset = StorageSettingsPreset.DefaultStockpile;
-			this.defaultLabel = this.preset.PresetName();
-			this.defaultDesc = "DesignatorZoneCreateStorageResourcesDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Stockpile", true);
-			this.hotKey = KeyBindingDefOf.Misc1;
-			this.tutorTag = "ZoneAddStockpile_Resources";
+			base.preset = StorageSettingsPreset.DefaultStockpile;
+			base.defaultLabel = base.preset.PresetName();
+			base.defaultDesc = "DesignatorZoneCreateStorageResourcesDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Stockpile", true);
+			base.hotKey = KeyBindingDefOf.Misc1;
+			base.tutorTag = "ZoneAddStockpile_Resources";
 		}
 
 		protected override void FinalizeDesignationSucceeded()

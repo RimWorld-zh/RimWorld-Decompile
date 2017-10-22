@@ -29,11 +29,13 @@ namespace Verse
 			if (node.children == null)
 			{
 				Log.Error(node + " children is null.");
-				return;
 			}
-			for (int i = 0; i < node.children.Count; i++)
+			else
 			{
-				this.Node((TreeNode_Editor)node.children[i], indentLevel, 64);
+				for (int i = 0; i < node.children.Count; i++)
+				{
+					this.Node((TreeNode_Editor)node.children[i], indentLevel, 64);
+				}
 			}
 		}
 
@@ -44,7 +46,7 @@ namespace Verse
 				node.DoSpecialPreElements(this);
 				base.OpenCloseWidget(node, indentLevel, openMask);
 				this.NodeLabelLeft(node, indentLevel);
-				WidgetRow widgetRow = new WidgetRow(this.LabelWidth, this.curY, UIDirection.RightThenUp, 99999f, 4f);
+				WidgetRow widgetRow = new WidgetRow(this.LabelWidth, base.curY, UIDirection.RightThenUp, 99999f, 4f);
 				this.ControlButtonsRight(node, widgetRow);
 				this.ValueEditWidgetRight(node, widgetRow.FinalX);
 				base.EndLine();
@@ -53,7 +55,7 @@ namespace Verse
 			{
 				base.OpenCloseWidget(node, indentLevel, openMask);
 				this.NodeLabelLeft(node, indentLevel);
-				WidgetRow widgetRow2 = new WidgetRow(this.LabelWidth, this.curY, UIDirection.RightThenUp, 99999f, 4f);
+				WidgetRow widgetRow2 = new WidgetRow(this.LabelWidth, base.curY, UIDirection.RightThenUp, 99999f, 4f);
 				this.ControlButtonsRight(node, widgetRow2);
 				this.ExtraInfoText(node, widgetRow2);
 				base.EndLine();
@@ -70,28 +72,28 @@ namespace Verse
 
 		private void ControlButtonsRight(TreeNode_Editor node, WidgetRow widgetRow)
 		{
-			if (node.HasNewButton && widgetRow.ButtonIcon(TexButton.NewItem, null))
+			if (node.HasNewButton && widgetRow.ButtonIcon(TexButton.NewItem, (string)null))
 			{
-				Action<object> addAction = delegate(object o)
+				Action<object> addAction = (Action<object>)delegate(object o)
 				{
 					node.owningField.SetValue(node.ParentObj, o);
 					((TreeNode_Editor)node.parentNode).RebuildChildNodes();
 				};
 				this.MakeCreateNewObjectMenu(node, node.owningField, node.owningField.FieldType, addAction);
 			}
-			if (node.nodeType == EditTreeNodeType.ListRoot && widgetRow.ButtonIcon(TexButton.Add, null))
+			if (node.nodeType == EditTreeNodeType.ListRoot && widgetRow.ButtonIcon(TexButton.Add, (string)null))
 			{
 				Type baseType = node.obj.GetType().GetGenericArguments()[0];
-				Action<object> addAction2 = delegate(object o)
+				Action<object> addAction2 = (Action<object>)delegate(object o)
 				{
-					node.obj.GetType().GetMethod("Add").Invoke(node.obj, new object[]
+					node.obj.GetType().GetMethod("Add").Invoke(node.obj, new object[1]
 					{
 						o
 					});
 				};
 				this.MakeCreateNewObjectMenu(node, node.owningField, baseType, addAction2);
 			}
-			if (node.HasDeleteButton && widgetRow.ButtonIcon(TexButton.DeleteX, null))
+			if (node.HasDeleteButton && widgetRow.ButtonIcon(TexButton.DeleteX, (string)null))
 			{
 				node.Delete();
 			}
@@ -131,30 +133,31 @@ namespace Verse
 
 		protected void MakeCreateNewObjectMenu(TreeNode_Editor owningNode, FieldInfo owningField, Type baseType, Action<object> addAction)
 		{
-			List<Type> list = baseType.InstantiableDescendantsAndSelf().ToList<Type>();
+			List<Type> list = baseType.InstantiableDescendantsAndSelf().ToList();
 			List<FloatMenuOption> list2 = new List<FloatMenuOption>();
-			foreach (Type current in list)
+			List<Type>.Enumerator enumerator = list.GetEnumerator();
+			try
 			{
-				Type creatingType = current;
-				Action action = delegate
+				while (enumerator.MoveNext())
 				{
-					owningNode.SetOpen(-1, true);
-					object obj;
-					if (creatingType == typeof(string))
+					Type current = enumerator.Current;
+					Type creatingType = current;
+					Action action = (Action)delegate()
 					{
-						obj = string.Empty;
-					}
-					else
-					{
-						obj = Activator.CreateInstance(creatingType);
-					}
-					addAction(obj);
-					if (owningNode != null)
-					{
-						owningNode.RebuildChildNodes();
-					}
-				};
-				list2.Add(new FloatMenuOption(current.ToString(), action, MenuOptionPriority.Default, null, null, 0f, null, null));
+						owningNode.SetOpen(-1, true);
+						object obj = (creatingType != typeof(string)) ? Activator.CreateInstance(creatingType) : string.Empty;
+						addAction(obj);
+						if (owningNode != null)
+						{
+							owningNode.RebuildChildNodes();
+						}
+					};
+					list2.Add(new FloatMenuOption(current.ToString(), action, MenuOptionPriority.Default, null, null, 0f, null, null));
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			Find.WindowStack.Add(new FloatMenu(list2));
 		}
@@ -165,36 +168,36 @@ namespace Verse
 			{
 				throw new ArgumentException();
 			}
-			Rect rect = new Rect(leftX, this.curY, base.ColumnWidth - leftX, this.lineHeight);
+			Rect rect = new Rect(leftX, base.curY, base.ColumnWidth - leftX, base.lineHeight);
 			object obj = node.Value;
 			Type objectType = node.ObjectType;
 			if (objectType == typeof(string))
 			{
-				string text = (string)obj;
-				string text2 = text;
-				if (text2 == null)
+				string text;
+				string text2 = text = (string)obj;
+				if (text == null)
 				{
-					text2 = string.Empty;
+					text = string.Empty;
 				}
-				string b = text2;
-				text2 = Widgets.TextField(rect, text2);
-				if (text2 != b)
+				string b = text;
+				text = Widgets.TextField(rect, text);
+				if (text != b)
 				{
-					text = text2;
+					text2 = text;
 				}
-				obj = text;
+				obj = text2;
 			}
 			else if (objectType == typeof(bool))
 			{
 				bool flag = (bool)obj;
-				Widgets.Checkbox(new Vector2(rect.x, rect.y), ref flag, this.lineHeight, false);
+				Widgets.Checkbox(new Vector2(rect.x, rect.y), ref flag, base.lineHeight, false);
 				obj = flag;
 			}
 			else if (objectType == typeof(int))
 			{
 				rect.width = 100f;
 				string s = Widgets.TextField(rect, obj.ToString());
-				int num;
+				int num = default(int);
 				if (int.TryParse(s, out num))
 				{
 					obj = num;
@@ -205,18 +208,18 @@ namespace Verse
 				EditSliderRangeAttribute[] array = (EditSliderRangeAttribute[])node.owningField.GetCustomAttributes(typeof(EditSliderRangeAttribute), true);
 				if (array.Length > 0)
 				{
-					float num2 = (float)obj;
-					Rect rect2 = new Rect(this.LabelWidth + 60f + 4f, this.curY, base.EditAreaWidth - 60f - 8f, this.lineHeight);
-					num2 = Widgets.HorizontalSlider(rect2, num2, array[0].min, array[0].max, false, null, null, null, -1f);
-					obj = num2;
+					float value = (float)obj;
+					Rect rect2 = new Rect((float)(this.LabelWidth + 60.0 + 4.0), base.curY, (float)(base.EditAreaWidth - 60.0 - 8.0), base.lineHeight);
+					value = Widgets.HorizontalSlider(rect2, value, array[0].min, array[0].max, false, (string)null, (string)null, (string)null, -1f);
+					obj = value;
 				}
 				rect.width = 60f;
 				string text3 = obj.ToString();
 				text3 = Widgets.TextField(rect, text3);
-				float num3;
-				if (float.TryParse(text3, out num3))
+				float num2 = default(float);
+				if (float.TryParse(text3, out num2))
 				{
-					obj = num3;
+					obj = num2;
 				}
 			}
 			else if (objectType.IsEnum)
@@ -224,10 +227,10 @@ namespace Verse
 				if (Widgets.ButtonText(rect, obj.ToString(), true, false, true))
 				{
 					List<FloatMenuOption> list = new List<FloatMenuOption>();
-					foreach (object current in Enum.GetValues(objectType))
+					foreach (object value2 in Enum.GetValues(objectType))
 					{
-						object localVal = current;
-						list.Add(new FloatMenuOption(current.ToString(), delegate
+						object localVal = value2;
+						list.Add(new FloatMenuOption(value2.ToString(), (Action)delegate()
 						{
 							node.Value = localVal;
 						}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -246,7 +249,7 @@ namespace Verse
 					sliderMax = array2[0].max;
 				}
 				FloatRange floatRange = (FloatRange)obj;
-				Widgets.FloatRangeWithTypeIn(rect, node.owningIndex, ref floatRange, sliderMin, sliderMax, ToStringStyle.FloatTwo, null);
+				Widgets.FloatRangeWithTypeIn(rect, node.owningIndex, ref floatRange, sliderMin, sliderMax, ToStringStyle.FloatTwo, (string)null);
 				obj = floatRange;
 			}
 			else

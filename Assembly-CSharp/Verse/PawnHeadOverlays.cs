@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -23,23 +22,22 @@ namespace Verse
 
 		public void RenderStatusOverlays(Vector3 bodyLoc, Quaternion quat, Mesh headMesh)
 		{
-			if (!this.pawn.IsColonistPlayerControlled)
+			if (this.pawn.IsColonistPlayerControlled)
 			{
-				return;
-			}
-			Vector3 headLoc = bodyLoc + new Vector3(0f, 0f, 0.32f);
-			if (this.pawn.needs.mood != null && !this.pawn.Downed && this.pawn.HitPoints > 0)
-			{
-				if (this.pawn.mindState.mentalBreaker.BreakExtremeIsImminent)
+				Vector3 headLoc = bodyLoc + new Vector3(0f, 0f, 0.32f);
+				if (this.pawn.needs.mood != null && !this.pawn.Downed && this.pawn.HitPoints > 0)
 				{
-					if (Time.time % 1.2f < 0.4f)
+					if (this.pawn.mindState.mentalBreaker.BreakExtremeIsImminent)
 					{
-						this.DrawHeadGlow(headLoc, PawnHeadOverlays.MentalStateImminentMat);
+						if (Time.time % 1.2000000476837158 < 0.40000000596046448)
+						{
+							this.DrawHeadGlow(headLoc, PawnHeadOverlays.MentalStateImminentMat);
+						}
 					}
-				}
-				else if (this.pawn.mindState.mentalBreaker.BreakExtremeIsApproaching && Time.time % 1.2f < 0.4f)
-				{
-					this.DrawHeadGlow(headLoc, PawnHeadOverlays.UnhappyMat);
+					else if (this.pawn.mindState.mentalBreaker.BreakExtremeIsApproaching && Time.time % 1.2000000476837158 < 0.40000000596046448)
+					{
+						this.DrawHeadGlow(headLoc, PawnHeadOverlays.UnhappyMat);
+					}
 				}
 			}
 		}

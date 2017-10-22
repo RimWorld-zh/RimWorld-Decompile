@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -10,7 +9,7 @@ namespace RimWorld
 		{
 			if (t.InteractionCell.Standable(t.Map) && !t.IsForbidden(pawn) && !t.InteractionCell.IsForbidden(pawn) && !pawn.Map.pawnDestinationManager.DestinationIsReserved(t.InteractionCell))
 			{
-				return new Job(this.def.jobDef, t, t.InteractionCell);
+				return new Job(base.def.jobDef, t, t.InteractionCell);
 			}
 			return null;
 		}

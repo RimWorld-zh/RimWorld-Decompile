@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	internal enum DefInjectionPathPartKind
 	{
-		Field,
-		FieldWithListIndex,
-		ListIndex
+		Field = 0,
+		FieldWithListIndex = 1,
+		ListIndex = 2
 	}
 }

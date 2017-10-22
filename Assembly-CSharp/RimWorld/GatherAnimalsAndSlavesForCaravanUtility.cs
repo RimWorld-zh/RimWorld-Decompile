@@ -14,7 +14,7 @@ namespace RimWorld
 
 		public static void SetFollower(Pawn p, Pawn follower)
 		{
-			p.mindState.duty.focus = follower;
+			p.mindState.duty.focus = (Thing)follower;
 		}
 
 		public static void CheckArrived(Lord lord, IntVec3 meetingPoint, string memo, Predicate<Pawn> shouldCheckIfArrived, Predicate<Pawn> extraValidator = null)
@@ -23,13 +23,10 @@ namespace RimWorld
 			for (int i = 0; i < lord.ownedPawns.Count; i++)
 			{
 				Pawn pawn = lord.ownedPawns[i];
-				if (shouldCheckIfArrived(pawn))
+				if (shouldCheckIfArrived(pawn) && (!pawn.Position.InHorDistOf(meetingPoint, 10f) || !pawn.CanReach(meetingPoint, PathEndMode.ClosestTouch, Danger.Deadly, false, TraverseMode.ByPawn) || ((object)extraValidator != null && !extraValidator(pawn))))
 				{
-					if (!pawn.Position.InHorDistOf(meetingPoint, 10f) || !pawn.CanReach(meetingPoint, PathEndMode.ClosestTouch, Danger.Deadly, false, TraverseMode.ByPawn) || (extraValidator != null && !extraValidator(pawn)))
-					{
-						flag = false;
-						break;
-					}
+					flag = false;
+					break;
 				}
 			}
 			if (flag)

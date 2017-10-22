@@ -13,41 +13,36 @@ namespace Verse
 			FloatRange floatRange = pawn.ComfortableTemperatureRange();
 			FloatRange floatRange2 = pawn.SafeTemperatureRange();
 			HediffSet hediffSet = pawn.health.hediffSet;
-			Hediff firstHediffOfDef = hediffSet.GetFirstHediffOfDef(this.hediff, false);
+			Hediff firstHediffOfDef = hediffSet.GetFirstHediffOfDef(base.hediff, false);
 			if (ambientTemperature < floatRange2.min)
 			{
 				float num = Mathf.Abs(ambientTemperature - floatRange2.min);
-				float num2 = num * 6.45E-05f;
-				num2 = Mathf.Max(num2, 0.00075f);
-				HealthUtility.AdjustSeverity(pawn, this.hediff, num2);
+				float a = (float)(num * 6.44999963697046E-05);
+				a = Mathf.Max(a, 0.00075f);
+				HealthUtility.AdjustSeverity(pawn, base.hediff, a);
 				if (pawn.Dead)
-				{
 					return;
-				}
 			}
 			if (firstHediffOfDef != null)
 			{
 				if (ambientTemperature > floatRange.min)
 				{
-					float num3 = firstHediffOfDef.Severity * 0.027f;
-					num3 = Mathf.Clamp(num3, 0.0015f, 0.015f);
-					firstHediffOfDef.Severity -= num3;
+					float value = (float)(firstHediffOfDef.Severity * 0.027000000700354576);
+					value = Mathf.Clamp(value, 0.0015f, 0.015f);
+					firstHediffOfDef.Severity -= value;
 				}
-				else if (ambientTemperature < 0f && firstHediffOfDef.Severity > 0.37f)
+				else if (ambientTemperature < 0.0 && firstHediffOfDef.Severity > 0.37000000476837158)
 				{
-					float num4 = 0.025f * firstHediffOfDef.Severity;
-					if (Rand.Value < num4)
+					float num2 = (float)(0.02500000037252903 * firstHediffOfDef.Severity);
+					BodyPartRecord bodyPartRecord = default(BodyPartRecord);
+					if (Rand.Value < num2 && (from x in pawn.RaceProps.body.AllPartsVulnerableToFrostbite
+					where !hediffSet.PartIsMissing(x)
+					select x).TryRandomElementByWeight<BodyPartRecord>((Func<BodyPartRecord, float>)((BodyPartRecord x) => x.def.frostbiteVulnerability), out bodyPartRecord))
 					{
-						BodyPartRecord bodyPartRecord;
-						if ((from x in pawn.RaceProps.body.AllPartsVulnerableToFrostbite
-						where !hediffSet.PartIsMissing(x)
-						select x).TryRandomElementByWeight((BodyPartRecord x) => x.def.frostbiteVulnerability, out bodyPartRecord))
-						{
-							int amount = Mathf.CeilToInt((float)bodyPartRecord.def.hitPoints * 0.5f);
-							BodyPartRecord forceHitPart = bodyPartRecord;
-							DamageInfo dinfo = new DamageInfo(DamageDefOf.Frostbite, amount, -1f, null, forceHitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);
-							pawn.TakeDamage(dinfo);
-						}
+						int amount = Mathf.CeilToInt((float)((float)bodyPartRecord.def.hitPoints * 0.5));
+						BodyPartRecord forceHitPart = bodyPartRecord;
+						DamageInfo dinfo = new DamageInfo(DamageDefOf.Frostbite, amount, -1f, null, forceHitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);
+						pawn.TakeDamage(dinfo);
 					}
 				}
 			}

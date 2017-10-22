@@ -17,19 +17,18 @@ namespace RimWorld.Planet
 
 		public static Command TakeOffCommand(int tile)
 		{
-			return new Command_Action
+			Command_Action command_Action = new Command_Action();
+			command_Action.defaultLabel = "CommandTakeOff".Translate();
+			command_Action.defaultDesc = "CommandTakeOffDesc".Translate();
+			command_Action.icon = CaravanJourneyDestinationUtility.TakeOffCommandTex;
+			command_Action.action = (Action)delegate()
 			{
-				defaultLabel = "CommandTakeOff".Translate(),
-				defaultDesc = "CommandTakeOffDesc".Translate(),
-				icon = CaravanJourneyDestinationUtility.TakeOffCommandTex,
-				action = delegate
+				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("CommandTakeOffConfirmation".Translate(), (Action)delegate()
 				{
-					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("CommandTakeOffConfirmation".Translate(), delegate
-					{
-						CaravanJourneyDestinationUtility.TakeOff(tile);
-					}, false, null));
-				}
+					CaravanJourneyDestinationUtility.TakeOff(tile);
+				}, false, (string)null));
 			};
+			return command_Action;
 		}
 
 		public static WorldObject JurneyDestinationAt(int tile)

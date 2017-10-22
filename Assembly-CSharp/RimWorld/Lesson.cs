@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -14,7 +13,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.startRealTime < 0f)
+				if (this.startRealTime < 0.0)
 				{
 					this.startRealTime = Time.realtimeSinceStartup;
 				}
@@ -42,7 +41,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return null;
+				return (string)null;
 			}
 		}
 

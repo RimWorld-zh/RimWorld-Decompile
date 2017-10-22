@@ -25,7 +25,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return ShipCountdown.timeLeft >= 0f;
+				return ShipCountdown.timeLeft >= 0.0;
 			}
 		}
 
@@ -40,10 +40,10 @@ namespace RimWorld
 
 		public static void ShipCountdownUpdate()
 		{
-			if (ShipCountdown.timeLeft > 0f)
+			if (ShipCountdown.timeLeft > 0.0)
 			{
 				ShipCountdown.timeLeft -= Time.deltaTime;
-				if (ShipCountdown.timeLeft <= 0f)
+				if (ShipCountdown.timeLeft <= 0.0)
 				{
 					ShipCountdown.CountdownEnded();
 				}
@@ -79,32 +79,33 @@ namespace RimWorld
 				{
 					Find.WorldObjects.Remove(worldObject);
 				}
-				string victoryText = "GameOverArrivedAtJourneyDestination".Translate(new object[]
-				{
-					stringBuilder.ToString(),
-					GameVictoryUtility.PawnsLeftBehind()
-				});
+				string victoryText = "GameOverArrivedAtJourneyDestination".Translate(stringBuilder.ToString(), GameVictoryUtility.PawnsLeftBehind());
 				GameVictoryUtility.ShowCredits(victoryText);
 			}
 			else
 			{
-				List<Building> list = ShipUtility.ShipBuildingsAttachedTo(ShipCountdown.shipRoot).ToList<Building>();
+				List<Building> list = ShipUtility.ShipBuildingsAttachedTo(ShipCountdown.shipRoot).ToList();
 				StringBuilder stringBuilder2 = new StringBuilder();
-				foreach (Building current in list)
+				List<Building>.Enumerator enumerator = list.GetEnumerator();
+				try
 				{
-					Building_CryptosleepCasket building_CryptosleepCasket = current as Building_CryptosleepCasket;
-					if (building_CryptosleepCasket != null && building_CryptosleepCasket.HasAnyContents)
+					while (enumerator.MoveNext())
 					{
-						stringBuilder2.AppendLine("   " + building_CryptosleepCasket.ContainedThing.LabelCap);
-						Find.StoryWatcher.statsRecord.colonistsLaunched++;
+						Building current = enumerator.Current;
+						Building_CryptosleepCasket building_CryptosleepCasket = current as Building_CryptosleepCasket;
+						if (building_CryptosleepCasket != null && building_CryptosleepCasket.HasAnyContents)
+						{
+							stringBuilder2.AppendLine("   " + building_CryptosleepCasket.ContainedThing.LabelCap);
+							Find.StoryWatcher.statsRecord.colonistsLaunched++;
+						}
+						current.Destroy(DestroyMode.Vanish);
 					}
-					current.Destroy(DestroyMode.Vanish);
 				}
-				string victoryText2 = "GameOverShipLaunched".Translate(new object[]
+				finally
 				{
-					stringBuilder2.ToString(),
-					GameVictoryUtility.PawnsLeftBehind()
-				});
+					((IDisposable)(object)enumerator).Dispose();
+				}
+				string victoryText2 = "GameOverShipLaunched".Translate(stringBuilder2.ToString(), GameVictoryUtility.PawnsLeftBehind());
 				GameVictoryUtility.ShowCredits(victoryText2);
 			}
 		}

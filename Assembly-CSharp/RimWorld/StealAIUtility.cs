@@ -24,18 +24,41 @@ namespace RimWorld
 				item = null;
 				return false;
 			}
-			if ((thief != null && !map.reachability.CanReachMapEdge(thief.Position, TraverseParms.For(thief, Danger.Some, TraverseMode.ByPawn, false))) || (thief == null && !map.reachability.CanReachMapEdge(root, TraverseParms.For(TraverseMode.PassDoors, Danger.Some, false))))
+			if (thief != null && !map.reachability.CanReachMapEdge(thief.Position, TraverseParms.For(thief, Danger.Some, TraverseMode.ByPawn, false)))
 			{
-				item = null;
-				return false;
+				goto IL_009d;
 			}
-			Predicate<Thing> validator = (Thing t) => (thief == null || thief.CanReserve(t, 1, -1, null, false)) && (disallowed == null || !disallowed.Contains(t)) && t.def.stealable && !t.IsBurning();
-			item = GenClosest.ClosestThing_Regionwise_ReachablePrioritized(root, map, ThingRequest.ForGroup(ThingRequestGroup.HaulableEverOrMinifiable), PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Some, false), maxDist, validator, (Thing x) => StealAIUtility.GetValue(x), 15, 15);
-			if (item != null && StealAIUtility.GetValue(item) < 320f)
+			if (thief == null && !map.reachability.CanReachMapEdge(root, TraverseParms.For(TraverseMode.PassDoors, Danger.Some, false)))
+				goto IL_009d;
+			Predicate<Thing> validator = (Predicate<Thing>)delegate(Thing t)
+			{
+				if (thief != null && !thief.CanReserve(t, 1, -1, null, false))
+				{
+					return false;
+				}
+				if (disallowed != null && disallowed.Contains(t))
+				{
+					return false;
+				}
+				if (!t.def.stealable)
+				{
+					return false;
+				}
+				if (t.IsBurning())
+				{
+					return false;
+				}
+				return true;
+			};
+			item = GenClosest.ClosestThing_Regionwise_ReachablePrioritized(root, map, ThingRequest.ForGroup(ThingRequestGroup.HaulableEverOrMinifiable), PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Some, false), maxDist, validator, (Func<Thing, float>)((Thing x) => StealAIUtility.GetValue(x)), 15, 15);
+			if (item != null && StealAIUtility.GetValue(item) < 320.0)
 			{
 				item = null;
 			}
 			return item != null;
+			IL_009d:
+			item = null;
+			return false;
 		}
 
 		public static float TotalMarketValueAround(List<Pawn> pawns)
@@ -44,14 +67,11 @@ namespace RimWorld
 			StealAIUtility.tmpToSteal.Clear();
 			for (int i = 0; i < pawns.Count; i++)
 			{
-				if (pawns[i].Spawned)
+				Thing thing = default(Thing);
+				if (pawns[i].Spawned && StealAIUtility.TryFindBestItemToSteal(pawns[i].Position, pawns[i].Map, 7f, out thing, pawns[i], StealAIUtility.tmpToSteal))
 				{
-					Thing thing;
-					if (StealAIUtility.TryFindBestItemToSteal(pawns[i].Position, pawns[i].Map, 7f, out thing, pawns[i], StealAIUtility.tmpToSteal))
-					{
-						num += StealAIUtility.GetValue(thing);
-						StealAIUtility.tmpToSteal.Add(thing);
-					}
+					num += StealAIUtility.GetValue(thing);
+					StealAIUtility.tmpToSteal.Add(thing);
 				}
 			}
 			StealAIUtility.tmpToSteal.Clear();

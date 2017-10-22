@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using Verse;
+using Verse.AI;
 using Verse.AI.Group;
 
 namespace RimWorld
@@ -68,7 +69,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.pawn.GetLord() == null && this.pawn.Faction == Faction.OfPlayer && this.pawn.HostFaction == null;
+				if (this.pawn.GetLord() != null)
+				{
+					return false;
+				}
+				return this.pawn.Faction == Faction.OfPlayer && this.pawn.HostFaction == null;
 			}
 		}
 
@@ -107,14 +112,34 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.selfTend, "selfTend", false, false);
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			Pawn_PlayerSettings.<GetGizmos>c__IteratorE6 <GetGizmos>c__IteratorE = new Pawn_PlayerSettings.<GetGizmos>c__IteratorE6();
-			<GetGizmos>c__IteratorE.<>f__this = this;
-			Pawn_PlayerSettings.<GetGizmos>c__IteratorE6 expr_0E = <GetGizmos>c__IteratorE;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.pawn.Drafted && PawnUtility.SpawnedMasteredPawns(this.pawn).Any((Func<Pawn, bool>)((Pawn p) => p.training.IsCompleted(TrainableDefOf.Release))))
+			{
+				yield return (Gizmo)new Command_Toggle
+				{
+					defaultLabel = "CommandReleaseAnimalsLabel".Translate(),
+					defaultDesc = "CommandReleaseAnimalsDesc".Translate(),
+					icon = TexCommand.ReleaseAnimals,
+					hotKey = KeyBindingDefOf.Misc7,
+					isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__IteratorE6)/*Error near IL_00c8: stateMachine*/)._003C_003Ef__this.animalsReleased),
+					toggleAction = (Action)delegate
+					{
+						((_003CGetGizmos_003Ec__IteratorE6)/*Error near IL_00df: stateMachine*/)._003C_003Ef__this.animalsReleased = !((_003CGetGizmos_003Ec__IteratorE6)/*Error near IL_00df: stateMachine*/)._003C_003Ef__this.animalsReleased;
+						if (((_003CGetGizmos_003Ec__IteratorE6)/*Error near IL_00df: stateMachine*/)._003C_003Ef__this.animalsReleased)
+						{
+							foreach (Pawn item in PawnUtility.SpawnedMasteredPawns(((_003CGetGizmos_003Ec__IteratorE6)/*Error near IL_00df: stateMachine*/)._003C_003Ef__this.pawn))
+							{
+								if (item.caller != null)
+								{
+									item.caller.Notify_Released();
+								}
+								item.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+							}
+						}
+					}
+				};
+			}
 		}
 
 		public void Notify_FactionChanged()
@@ -129,39 +154,38 @@ namespace RimWorld
 
 		public void ResetMedicalCare()
 		{
-			if (Scribe.mode == LoadSaveMode.LoadingVars)
+			if (Scribe.mode != LoadSaveMode.LoadingVars)
 			{
-				return;
-			}
-			if (this.pawn.Faction == Faction.OfPlayer)
-			{
-				if (!this.pawn.RaceProps.Animal)
+				if (this.pawn.Faction == Faction.OfPlayer)
 				{
-					if (!this.pawn.IsPrisoner)
+					if (!this.pawn.RaceProps.Animal)
 					{
-						this.medCare = Find.World.settings.defaultCareForColonyHumanlike;
+						if (!this.pawn.IsPrisoner)
+						{
+							this.medCare = Find.World.settings.defaultCareForColonyHumanlike;
+						}
+						else
+						{
+							this.medCare = Find.World.settings.defaultCareForColonyPrisoner;
+						}
 					}
 					else
 					{
-						this.medCare = Find.World.settings.defaultCareForColonyPrisoner;
+						this.medCare = Find.World.settings.defaultCareForColonyAnimal;
 					}
+				}
+				else if (this.pawn.Faction == null && this.pawn.RaceProps.Animal)
+				{
+					this.medCare = Find.World.settings.defaultCareForNeutralAnimal;
+				}
+				else if (this.pawn.Faction == null || !this.pawn.Faction.HostileTo(Faction.OfPlayer))
+				{
+					this.medCare = Find.World.settings.defaultCareForNeutralFaction;
 				}
 				else
 				{
-					this.medCare = Find.World.settings.defaultCareForColonyAnimal;
+					this.medCare = Find.World.settings.defaultCareForHostileFaction;
 				}
-			}
-			else if (this.pawn.Faction == null && this.pawn.RaceProps.Animal)
-			{
-				this.medCare = Find.World.settings.defaultCareForNeutralAnimal;
-			}
-			else if (this.pawn.Faction == null || !this.pawn.Faction.HostileTo(Faction.OfPlayer))
-			{
-				this.medCare = Find.World.settings.defaultCareForNeutralFaction;
-			}
-			else
-			{
-				this.medCare = Find.World.settings.defaultCareForHostileFaction;
 			}
 		}
 

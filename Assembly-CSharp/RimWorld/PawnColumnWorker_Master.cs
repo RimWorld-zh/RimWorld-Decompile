@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -26,15 +25,14 @@ namespace RimWorld
 
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (!this.CanAssignMaster(pawn))
+			if (this.CanAssignMaster(pawn))
 			{
-				return;
-			}
-			Rect rect2 = rect.ContractedBy(2f);
-			string label = TrainableUtility.MasterString(pawn).Truncate(rect2.width, null);
-			if (Widgets.ButtonText(rect2, label, true, false, true))
-			{
-				TrainableUtility.OpenMasterSelectMenu(pawn);
+				Rect rect2 = rect.ContractedBy(2f);
+				string label = TrainableUtility.MasterString(pawn).Truncate(rect2.width, null);
+				if (Widgets.ButtonText(rect2, label, true, false, true))
+				{
+					TrainableUtility.OpenMasterSelectMenu(pawn);
+				}
 			}
 		}
 
@@ -51,7 +49,15 @@ namespace RimWorld
 
 		private bool CanAssignMaster(Pawn pawn)
 		{
-			return pawn.RaceProps.Animal && pawn.Faction == Faction.OfPlayer && pawn.training.IsCompleted(TrainableDefOf.Obedience);
+			if (pawn.RaceProps.Animal && pawn.Faction == Faction.OfPlayer)
+			{
+				if (!pawn.training.IsCompleted(TrainableDefOf.Obedience))
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		private int GetValueToCompare1(Pawn pawn)

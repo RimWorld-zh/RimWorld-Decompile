@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class HediffGiver_Event : HediffGiver
@@ -8,7 +6,11 @@ namespace Verse
 
 		public bool EventOccurred(Pawn pawn)
 		{
-			return Rand.Value < this.chance && base.TryApply(pawn, null);
+			if (Rand.Value < this.chance)
+			{
+				return base.TryApply(pawn, null);
+			}
+			return false;
 		}
 	}
 }

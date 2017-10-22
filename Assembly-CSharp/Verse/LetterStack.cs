@@ -68,33 +68,39 @@ namespace Verse
 
 		public void LettersOnGUI(float baseY)
 		{
-			float num = baseY - 30f;
-			for (int i = this.letters.Count - 1; i >= 0; i--)
+			float num = (float)(baseY - 30.0);
+			for (int num2 = this.letters.Count - 1; num2 >= 0; num2--)
 			{
-				this.letters[i].DrawButtonAt(num);
-				num -= 42f;
+				this.letters[num2].DrawButtonAt(num);
+				num = (float)(num - 42.0);
 			}
 			this.lastTopYInt = num;
-			num = baseY - 30f;
-			for (int j = this.letters.Count - 1; j >= 0; j--)
+			num = (float)(baseY - 30.0);
+			for (int num3 = this.letters.Count - 1; num3 >= 0; num3--)
 			{
-				this.letters[j].CheckForMouseOverTextAt(num);
-				num -= 42f;
+				this.letters[num3].CheckForMouseOverTextAt(num);
+				num = (float)(num - 42.0);
 			}
 		}
 
 		public void LetterStackTick()
 		{
 			int num = Find.TickManager.TicksGame + 1;
-			for (int i = 0; i < this.letters.Count; i++)
+			int num2 = 0;
+			LetterWithTimeout letterWithTimeout;
+			while (true)
 			{
-				LetterWithTimeout letterWithTimeout = this.letters[i] as LetterWithTimeout;
-				if (letterWithTimeout != null && letterWithTimeout.TimeoutActive && letterWithTimeout.disappearAtTick == num)
+				if (num2 < this.letters.Count)
 				{
-					letterWithTimeout.OpenLetter();
-					break;
+					letterWithTimeout = (this.letters[num2] as LetterWithTimeout);
+					if (letterWithTimeout != null && letterWithTimeout.TimeoutActive && letterWithTimeout.disappearAtTick == num)
+						break;
+					num2++;
+					continue;
 				}
+				return;
 			}
+			letterWithTimeout.OpenLetter();
 		}
 
 		public void LetterStackUpdate()
@@ -108,11 +114,11 @@ namespace Verse
 				}
 			}
 			this.mouseoverLetterIndex = -1;
-			for (int i = this.letters.Count - 1; i >= 0; i--)
+			for (int num = this.letters.Count - 1; num >= 0; num--)
 			{
-				if (!this.letters[i].StillValid)
+				if (!this.letters[num].StillValid)
 				{
-					this.RemoveLetter(this.letters[i]);
+					this.RemoveLetter(this.letters[num]);
 				}
 			}
 		}
@@ -125,12 +131,9 @@ namespace Verse
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Letter>(ref this.letters, "letters", LookMode.Deep, new object[0]);
-			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			if (((Scribe.mode == LoadSaveMode.PostLoadInit) ? this.letters.RemoveAll((Predicate<Letter>)((Letter x) => x == null)) : 0) != 0)
 			{
-				if (this.letters.RemoveAll((Letter x) => x == null) != 0)
-				{
-					Log.Error("Some letters were null.");
-				}
+				Log.Error("Some letters were null.");
 			}
 		}
 	}

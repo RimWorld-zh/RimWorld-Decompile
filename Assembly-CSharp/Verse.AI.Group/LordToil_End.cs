@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI.Group
 {
 	public class LordToil_End : LordToil

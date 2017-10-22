@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -56,13 +54,9 @@ namespace RimWorld
 			return this.def.description;
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable<string> GetSummaryListEntries(string tag)
 		{
-			ScenPart.<GetSummaryListEntries>c__Iterator111 <GetSummaryListEntries>c__Iterator = new ScenPart.<GetSummaryListEntries>c__Iterator111();
-			ScenPart.<GetSummaryListEntries>c__Iterator111 expr_07 = <GetSummaryListEntries>c__Iterator;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield break;
 		}
 
 		public virtual void Randomize()
@@ -79,13 +73,9 @@ namespace RimWorld
 			return true;
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable<Page> GetConfigPages()
 		{
-			ScenPart.<GetConfigPages>c__Iterator112 <GetConfigPages>c__Iterator = new ScenPart.<GetConfigPages>c__Iterator112();
-			ScenPart.<GetConfigPages>c__Iterator112 expr_07 = <GetConfigPages>c__Iterator;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield break;
 		}
 
 		public virtual bool AllowPlayerStartingPawn(Pawn pawn)
@@ -113,13 +103,9 @@ namespace RimWorld
 		{
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable<Thing> PlayerStartingThings()
 		{
-			ScenPart.<PlayerStartingThings>c__Iterator113 <PlayerStartingThings>c__Iterator = new ScenPart.<PlayerStartingThings>c__Iterator113();
-			ScenPart.<PlayerStartingThings>c__Iterator113 expr_07 = <PlayerStartingThings>c__Iterator;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield break;
 		}
 
 		public virtual void GenerateIntoMap(Map map)
@@ -138,14 +124,12 @@ namespace RimWorld
 		{
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable<string> ConfigErrors()
 		{
-			ScenPart.<ConfigErrors>c__Iterator114 <ConfigErrors>c__Iterator = new ScenPart.<ConfigErrors>c__Iterator114();
-			<ConfigErrors>c__Iterator.<>f__this = this;
-			ScenPart.<ConfigErrors>c__Iterator114 expr_0E = <ConfigErrors>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.def == null)
+			{
+				yield return base.GetType().ToString() + " has null def.";
+			}
 		}
 	}
 }

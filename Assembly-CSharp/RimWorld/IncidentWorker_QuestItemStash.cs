@@ -47,25 +47,25 @@ namespace RimWorld
 			{
 				return false;
 			}
-			SitePartDef sitePartDef;
-			if (!SiteMaker.TryFindNewRandomSitePartFor(SiteCoreDefOf.ItemStash, null, this.PossibleSiteParts, null, out sitePartDef, true, null))
+			SitePartDef sitePartDef = default(SitePartDef);
+			if (!SiteMaker.TryFindNewRandomSitePartFor(SiteCoreDefOf.ItemStash, (IEnumerable<SitePartDef>)null, (IEnumerable<SitePartDef>)this.PossibleSiteParts, (Faction)null, out sitePartDef, true, (Predicate<Faction>)null))
 			{
 				return false;
 			}
-			IEnumerable<SitePartDef> arg_41_0;
+			object obj;
 			if (sitePartDef != null)
 			{
-				IEnumerable<SitePartDef> enumerable = Gen.YieldSingle<SitePartDef>(sitePartDef);
-				arg_41_0 = enumerable;
+				IEnumerable<SitePartDef> enumerable = Gen.YieldSingle(sitePartDef);
+				obj = enumerable;
 			}
 			else
 			{
-				arg_41_0 = null;
+				obj = null;
 			}
-			IEnumerable<SitePartDef> parts = arg_41_0;
-			int num;
-			Faction faction;
-			return Find.FactionManager.RandomAlliedFaction(false, false, false) != null && TileFinder.TryFindNewSiteTile(out num) && SiteMaker.TryFindRandomFactionFor(SiteCoreDefOf.ItemStash, parts, out faction, true, null);
+			IEnumerable<SitePartDef> parts = (IEnumerable<SitePartDef>)obj;
+			int num = default(int);
+			Faction faction = default(Faction);
+			return Find.FactionManager.RandomAlliedFaction(false, false, false) != null && TileFinder.TryFindNewSiteTile(out num) && SiteMaker.TryFindRandomFactionFor(SiteCoreDefOf.ItemStash, parts, out faction, true, (Predicate<Faction>)null);
 		}
 
 		public override bool TryExecute(IncidentParms parms)
@@ -75,29 +75,29 @@ namespace RimWorld
 			{
 				return false;
 			}
-			int tile;
+			int tile = default(int);
 			if (!TileFinder.TryFindNewSiteTile(out tile))
 			{
 				return false;
 			}
-			SitePartDef sitePartDef;
-			if (!SiteMaker.TryFindNewRandomSitePartFor(SiteCoreDefOf.ItemStash, null, this.PossibleSiteParts, null, out sitePartDef, true, null))
+			SitePartDef sitePartDef = default(SitePartDef);
+			if (!SiteMaker.TryFindNewRandomSitePartFor(SiteCoreDefOf.ItemStash, (IEnumerable<SitePartDef>)null, (IEnumerable<SitePartDef>)this.PossibleSiteParts, (Faction)null, out sitePartDef, true, (Predicate<Faction>)null))
 			{
 				return false;
 			}
-			IEnumerable<SitePartDef> arg_57_0;
+			object obj;
 			if (sitePartDef != null)
 			{
-				IEnumerable<SitePartDef> enumerable = Gen.YieldSingle<SitePartDef>(sitePartDef);
-				arg_57_0 = enumerable;
+				IEnumerable<SitePartDef> enumerable = Gen.YieldSingle(sitePartDef);
+				obj = enumerable;
 			}
 			else
 			{
-				arg_57_0 = null;
+				obj = null;
 			}
-			IEnumerable<SitePartDef> parts = arg_57_0;
-			Faction siteFaction;
-			if (!SiteMaker.TryFindRandomFactionFor(SiteCoreDefOf.ItemStash, parts, out siteFaction, true, null))
+			IEnumerable<SitePartDef> parts = (IEnumerable<SitePartDef>)obj;
+			Faction siteFaction = default(Faction);
+			if (!SiteMaker.TryFindRandomFactionFor(SiteCoreDefOf.ItemStash, parts, out siteFaction, true, (Predicate<Faction>)null))
 			{
 				return false;
 			}
@@ -109,12 +109,8 @@ namespace RimWorld
 			{
 				Map map = TradeUtility.PlayerHomeMapWithMostLaunchableSilver();
 				int randomInRange2 = IncidentWorker_QuestItemStash.FeeRange.RandomInRange;
-				string text = letterText + "\n\n" + "ItemStashQuestFeeDemand".Translate(new object[]
-				{
-					faction.leader.LabelShort,
-					randomInRange2
-				}).CapitalizeFirst();
-				ChoiceLetter_ItemStashFeeDemand choiceLetter_ItemStashFeeDemand = (ChoiceLetter_ItemStashFeeDemand)LetterMaker.MakeLetter(this.def.letterLabel, text, LetterDefOf.ItemStashFeeDemand);
+				string text = letterText + "\n\n" + "ItemStashQuestFeeDemand".Translate(faction.leader.LabelShort, randomInRange2).CapitalizeFirst();
+				ChoiceLetter_ItemStashFeeDemand choiceLetter_ItemStashFeeDemand = (ChoiceLetter_ItemStashFeeDemand)LetterMaker.MakeLetter(base.def.letterLabel, text, LetterDefOf.ItemStashFeeDemand);
 				choiceLetter_ItemStashFeeDemand.title = "ItemStashQuestTitle".Translate();
 				choiceLetter_ItemStashFeeDemand.radioMode = true;
 				choiceLetter_ItemStashFeeDemand.map = map;
@@ -126,12 +122,12 @@ namespace RimWorld
 				choiceLetter_ItemStashFeeDemand.alliedFaction = faction;
 				choiceLetter_ItemStashFeeDemand.sitePartsKnown = sitePartsKnown;
 				choiceLetter_ItemStashFeeDemand.StartTimeout(60000);
-				Find.LetterStack.ReceiveLetter(choiceLetter_ItemStashFeeDemand, null);
+				Find.LetterStack.ReceiveLetter(choiceLetter_ItemStashFeeDemand, (string)null);
 			}
 			else
 			{
 				Site o = IncidentWorker_QuestItemStash.CreateSite(tile, sitePartDef, randomInRange, siteFaction, list, sitePartsKnown);
-				Find.LetterStack.ReceiveLetter(this.def.letterLabel, letterText, this.def.letterDef, o, null);
+				Find.LetterStack.ReceiveLetter(base.def.letterLabel, letterText, base.def.letterDef, (WorldObject)o, (string)null);
 			}
 			return true;
 		}
@@ -160,7 +156,7 @@ namespace RimWorld
 		private List<Thing> GenerateItems(Faction siteFaction)
 		{
 			this.CalculatePossibleItemCollectionGenerators(siteFaction);
-			Pair<ItemCollectionGeneratorDef, ItemCollectionGeneratorParams> pair = this.possibleItemCollectionGenerators.RandomElement<Pair<ItemCollectionGeneratorDef, ItemCollectionGeneratorParams>>();
+			Pair<ItemCollectionGeneratorDef, ItemCollectionGeneratorParams> pair = this.possibleItemCollectionGenerators.RandomElement();
 			return pair.First.Worker.Generate(pair.Second);
 		}
 
@@ -168,24 +164,30 @@ namespace RimWorld
 		{
 			TechLevel techLevel = (siteFaction == null) ? TechLevel.Spacer : siteFaction.def.techLevel;
 			this.possibleItemCollectionGenerators.Clear();
-			if (Rand.Chance(0.25f) && techLevel >= ThingDefOf.AIPersonaCore.techLevel)
+			if (Rand.Chance(0.25f) && (int)techLevel >= (int)ThingDefOf.AIPersonaCore.techLevel)
 			{
 				ItemCollectionGeneratorDef aIPersonaCores = ItemCollectionGeneratorDefOf.AIPersonaCores;
-				ItemCollectionGeneratorParams second = default(ItemCollectionGeneratorParams);
-				second.count = 1;
+				ItemCollectionGeneratorParams second = new ItemCollectionGeneratorParams
+				{
+					count = 1
+				};
 				this.possibleItemCollectionGenerators.Add(new Pair<ItemCollectionGeneratorDef, ItemCollectionGeneratorParams>(aIPersonaCores, second));
 			}
-			if (techLevel >= ThingDefOf.Neurotrainer.techLevel)
+			if ((int)techLevel >= (int)ThingDefOf.Neurotrainer.techLevel)
 			{
 				ItemCollectionGeneratorDef neurotrainers = ItemCollectionGeneratorDefOf.Neurotrainers;
-				ItemCollectionGeneratorParams second2 = default(ItemCollectionGeneratorParams);
-				second2.count = IncidentWorker_QuestItemStash.NeurotrainersCountRange.RandomInRange;
+				ItemCollectionGeneratorParams second2 = new ItemCollectionGeneratorParams
+				{
+					count = IncidentWorker_QuestItemStash.NeurotrainersCountRange.RandomInRange
+				};
 				this.possibleItemCollectionGenerators.Add(new Pair<ItemCollectionGeneratorDef, ItemCollectionGeneratorParams>(neurotrainers, second2));
 			}
-			ItemCollectionGeneratorParams second3 = default(ItemCollectionGeneratorParams);
-			second3.count = IncidentWorker_QuestItemStash.ThingsCountRange.RandomInRange;
-			second3.totalMarketValue = IncidentWorker_QuestItemStash.TotalMarketValueRange.RandomInRange;
-			second3.techLevel = techLevel;
+			ItemCollectionGeneratorParams second3 = new ItemCollectionGeneratorParams
+			{
+				count = IncidentWorker_QuestItemStash.ThingsCountRange.RandomInRange,
+				totalMarketValue = IncidentWorker_QuestItemStash.TotalMarketValueRange.RandomInRange,
+				techLevel = techLevel
+			};
 			this.possibleItemCollectionGenerators.Add(new Pair<ItemCollectionGeneratorDef, ItemCollectionGeneratorParams>(ItemCollectionGeneratorDefOf.Weapons, second3));
 			this.possibleItemCollectionGenerators.Add(new Pair<ItemCollectionGeneratorDef, ItemCollectionGeneratorParams>(ItemCollectionGeneratorDefOf.RawResources, second3));
 			this.possibleItemCollectionGenerators.Add(new Pair<ItemCollectionGeneratorDef, ItemCollectionGeneratorParams>(ItemCollectionGeneratorDefOf.Apparel, second3));
@@ -202,38 +204,16 @@ namespace RimWorld
 				site.parts.Add(sitePart);
 			}
 			site.SetFaction(siteFaction);
-			site.GetComponent<TimeoutComp>().StartTimeout(days * 60000);
-			site.GetComponent<ItemStashContentsComp>().contents.TryAddRange(items, false);
+			((WorldObject)site).GetComponent<TimeoutComp>().StartTimeout(days * 60000);
+			((WorldObject)site).GetComponent<ItemStashContentsComp>().contents.TryAddRange(items, false);
 			Find.WorldObjects.Add(site);
 			return site;
 		}
 
 		private string GetLetterText(Faction alliedFaction, List<Thing> items, int days, SitePartDef sitePart, bool sitePartsKnown)
 		{
-			string text;
-			if (sitePartsKnown)
-			{
-				text = this.GetSitePartInfoKey(sitePart).Translate(new object[]
-				{
-					alliedFaction.leader.LabelShort
-				}).CapitalizeFirst();
-			}
-			else
-			{
-				text = "ItemStashSitePart_Unknown".Translate(new object[]
-				{
-					alliedFaction.leader.LabelShort
-				}).CapitalizeFirst();
-			}
-			return string.Format(this.def.letterText, new object[]
-			{
-				alliedFaction.leader.LabelShort,
-				alliedFaction.def.leaderTitle,
-				alliedFaction.Name,
-				GenLabel.ThingsLabel(items).TrimEndNewlines(),
-				days.ToString(),
-				text
-			}).CapitalizeFirst();
+			string text = (!sitePartsKnown) ? "ItemStashSitePart_Unknown".Translate(alliedFaction.leader.LabelShort).CapitalizeFirst() : this.GetSitePartInfoKey(sitePart).Translate(alliedFaction.leader.LabelShort).CapitalizeFirst();
+			return string.Format(base.def.letterText, alliedFaction.leader.LabelShort, alliedFaction.def.leaderTitle, alliedFaction.Name, GenLabel.ThingsLabel(items).TrimEndNewlines(), days.ToString(), text).CapitalizeFirst();
 		}
 
 		private float FeeDemandChance(Faction faction)

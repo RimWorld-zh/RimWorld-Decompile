@@ -62,7 +62,7 @@ namespace RimWorld
 			{
 				GameFont font = Text.Font;
 				Text.Font = GameFont.Medium;
-				float result = this.creds.Sum((CreditsEntry c) => c.DrawHeight(this.ViewWidth)) + 20f;
+				float result = (float)(this.creds.Sum((Func<CreditsEntry, float>)((CreditsEntry c) => c.DrawHeight(this.ViewWidth))) + 20.0);
 				Text.Font = font;
 				return result;
 			}
@@ -72,7 +72,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return Mathf.Max(this.ViewHeight - (float)UI.screenHeight / 2f, 0f);
+				return Mathf.Max((float)(this.ViewHeight - (float)UI.screenHeight / 2.0), 0f);
 			}
 		}
 
@@ -82,7 +82,7 @@ namespace RimWorld
 			{
 				if (this.wonGame)
 				{
-					float num = SongDefOf.EndCreditsSong.clip.length + 5f - 6f;
+					float num = (float)(SongDefOf.EndCreditsSong.clip.length + 5.0 - 6.0);
 					return this.MaxScrollPosition / num;
 				}
 				return 30f;
@@ -95,12 +95,12 @@ namespace RimWorld
 
 		public Screen_Credits(string preCreditsMessage)
 		{
-			this.doWindowBackground = false;
-			this.doCloseButton = false;
-			this.doCloseX = false;
-			this.closeOnEscapeKey = true;
-			this.forcePause = true;
-			this.creds = CreditsAssembler.AllCredits().ToList<CreditsEntry>();
+			base.doWindowBackground = false;
+			base.doCloseButton = false;
+			base.doCloseX = false;
+			base.closeOnEscapeKey = true;
+			base.forcePause = true;
+			this.creds = CreditsAssembler.AllCredits().ToList();
 			this.creds.Insert(0, new CreditRecord_Space(100f));
 			if (!preCreditsMessage.NullOrEmpty())
 			{
@@ -129,7 +129,7 @@ namespace RimWorld
 		public override void WindowUpdate()
 		{
 			base.WindowUpdate();
-			if (this.timeUntilAutoScroll > 0f)
+			if (this.timeUntilAutoScroll > 0.0)
 			{
 				this.timeUntilAutoScroll -= Time.deltaTime;
 			}
@@ -137,7 +137,7 @@ namespace RimWorld
 			{
 				this.scrollPosition += this.AutoScrollRate * Time.deltaTime;
 			}
-			if (this.wonGame && !this.playedMusic && Time.realtimeSinceStartup > this.creationRealtime + 5f)
+			if (this.wonGame && !this.playedMusic && Time.realtimeSinceStartup > this.creationRealtime + 5.0)
 			{
 				Find.MusicManagerPlay.ForceStartSong(SongDefOf.EndCreditsSong, true);
 				this.playedMusic = true;
@@ -151,7 +151,8 @@ namespace RimWorld
 			Rect position = new Rect(rect);
 			position.yMin += 30f;
 			position.yMax -= 30f;
-			position.xMin = rect.center.x - 400f;
+			Vector2 center = rect.center;
+			position.xMin = (float)(center.x - 400.0);
 			position.width = 800f;
 			float viewWidth = this.ViewWidth;
 			float viewHeight = this.ViewHeight;
@@ -162,18 +163,28 @@ namespace RimWorld
 			GUI.BeginGroup(position2);
 			Text.Font = GameFont.Medium;
 			float num = 0f;
-			foreach (CreditsEntry current in this.creds)
+			List<CreditsEntry>.Enumerator enumerator = this.creds.GetEnumerator();
+			try
 			{
-				float num2 = current.DrawHeight(position2.width);
-				Rect rect2 = new Rect(0f, num, position2.width, num2);
-				current.Draw(rect2);
-				num += num2;
+				while (enumerator.MoveNext())
+				{
+					CreditsEntry current = enumerator.Current;
+					float num2 = current.DrawHeight(position2.width);
+					Rect rect2 = new Rect(0f, num, position2.width, num2);
+					current.Draw(rect2);
+					num += num2;
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			GUI.EndGroup();
 			GUI.EndGroup();
 			if (Event.current.type == EventType.ScrollWheel)
 			{
-				this.Scroll(Event.current.delta.y * 25f);
+				Vector2 delta = Event.current.delta;
+				this.Scroll((float)(delta.y * 25.0));
 				Event.current.Use();
 			}
 			if (Event.current.type == EventType.KeyDown)

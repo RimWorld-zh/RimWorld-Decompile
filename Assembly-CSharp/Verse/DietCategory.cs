@@ -1,14 +1,12 @@
-using System;
-
 namespace Verse
 {
 	public enum DietCategory : byte
 	{
-		NeverEats,
-		Herbivorous,
-		Dendrovorous,
-		Ovivorous,
-		Omnivorous,
-		Carnivorous
+		NeverEats = 0,
+		Herbivorous = 1,
+		Dendrovorous = 2,
+		Ovivorous = 3,
+		Omnivorous = 4,
+		Carnivorous = 5
 	}
 }

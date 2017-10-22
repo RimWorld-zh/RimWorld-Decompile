@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.BaseGen
@@ -16,27 +15,27 @@ namespace RimWorld.BaseGen
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
-			if (map.mapTemperature.OutdoorTemp > 22f)
+			if (map.mapTemperature.OutdoorTemp > 22.0)
 			{
 				ResolveParams resolveParams = rp;
 				resolveParams.singleThingDef = ThingDefOf.PassiveCooler;
 				BaseGen.symbolStack.Push("edgeThing", resolveParams);
 			}
 			bool flag = false;
-			if (map.mapTemperature.OutdoorTemp < 3f)
+			if (map.mapTemperature.OutdoorTemp < 3.0)
 			{
 				ThingDef singleThingDef;
-				if (rp.faction == null || rp.faction.def.techLevel >= TechLevel.Industrial)
+				if (rp.faction == null || (int)rp.faction.def.techLevel >= 4)
 				{
 					singleThingDef = ThingDefOf.Heater;
 				}
 				else
 				{
-					singleThingDef = ((map.mapTemperature.OutdoorTemp >= -20f) ? ThingDefOf.TorchLamp : ThingDefOf.Campfire);
+					singleThingDef = ((!(map.mapTemperature.OutdoorTemp < -20.0)) ? ThingDefOf.TorchLamp : ThingDefOf.Campfire);
 					flag = true;
 				}
-				int num = (map.mapTemperature.OutdoorTemp >= -45f) ? 1 : 2;
-				for (int i = 0; i < num; i++)
+				int num = (!(map.mapTemperature.OutdoorTemp < -45.0)) ? 1 : 2;
+				for (int num2 = 0; num2 < num; num2++)
 				{
 					ResolveParams resolveParams2 = rp;
 					resolveParams2.singleThingDef = singleThingDef;

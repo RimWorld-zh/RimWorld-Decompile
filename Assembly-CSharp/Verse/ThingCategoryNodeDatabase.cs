@@ -35,27 +35,36 @@ namespace Verse
 		public static void FinalizeInit()
 		{
 			ThingCategoryNodeDatabase.rootNode = ThingCategoryDefOf.Root.treeNode;
-			foreach (ThingCategoryDef current in DefDatabase<ThingCategoryDef>.AllDefs)
+			foreach (ThingCategoryDef allDef in DefDatabase<ThingCategoryDef>.AllDefs)
 			{
-				if (current.parent != null)
+				if (allDef.parent != null)
 				{
-					current.parent.childCategories.Add(current);
+					allDef.parent.childCategories.Add(allDef);
 				}
 			}
 			ThingCategoryNodeDatabase.SetNestLevelRecursive(ThingCategoryNodeDatabase.rootNode, 0);
-			foreach (ThingDef current2 in DefDatabase<ThingDef>.AllDefs)
+			foreach (ThingDef allDef2 in DefDatabase<ThingDef>.AllDefs)
 			{
-				if (current2.thingCategories != null)
+				if (allDef2.thingCategories != null)
 				{
-					foreach (ThingCategoryDef current3 in current2.thingCategories)
+					List<ThingCategoryDef>.Enumerator enumerator3 = allDef2.thingCategories.GetEnumerator();
+					try
 					{
-						current3.childThingDefs.Add(current2);
+						while (enumerator3.MoveNext())
+						{
+							ThingCategoryDef current3 = enumerator3.Current;
+							current3.childThingDefs.Add(allDef2);
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator3).Dispose();
 					}
 				}
 			}
-			foreach (SpecialThingFilterDef current4 in DefDatabase<SpecialThingFilterDef>.AllDefs)
+			foreach (SpecialThingFilterDef allDef3 in DefDatabase<SpecialThingFilterDef>.AllDefs)
 			{
-				current4.parentCategory.childSpecialFilters.Add(current4);
+				allDef3.parentCategory.childSpecialFilters.Add(allDef3);
 			}
 			ThingCategoryNodeDatabase.rootNode.catDef.childCategories[0].treeNode.SetOpen(-1, true);
 			ThingCategoryNodeDatabase.initialized = true;
@@ -63,10 +72,19 @@ namespace Verse
 
 		private static void SetNestLevelRecursive(TreeNode_ThingCategory node, int nestDepth)
 		{
-			foreach (ThingCategoryDef current in node.catDef.childCategories)
+			List<ThingCategoryDef>.Enumerator enumerator = node.catDef.childCategories.GetEnumerator();
+			try
 			{
-				current.treeNode.nestDepth = nestDepth;
-				ThingCategoryNodeDatabase.SetNestLevelRecursive(current.treeNode, nestDepth + 1);
+				while (enumerator.MoveNext())
+				{
+					ThingCategoryDef current = enumerator.Current;
+					current.treeNode.nestDepth = nestDepth;
+					ThingCategoryNodeDatabase.SetNestLevelRecursive(current.treeNode, nestDepth + 1);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 	}

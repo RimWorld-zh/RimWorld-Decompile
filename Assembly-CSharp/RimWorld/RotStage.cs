@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum RotStage : byte
 	{
-		Fresh,
-		Rotting,
-		Dessicated
+		Fresh = 0,
+		Rotting = 1,
+		Dessicated = 2
 	}
 }

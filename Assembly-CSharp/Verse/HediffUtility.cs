@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public static class HediffUtility
@@ -9,20 +7,20 @@ namespace Verse
 			HediffWithComps hediffWithComps = hd as HediffWithComps;
 			if (hediffWithComps == null)
 			{
-				return (T)((object)null);
+				return (T)null;
 			}
 			if (hediffWithComps.comps != null)
 			{
 				for (int i = 0; i < hediffWithComps.comps.Count; i++)
 				{
-					T t = hediffWithComps.comps[i] as T;
-					if (t != null)
+					T val = (T)(hediffWithComps.comps[i] as T);
+					if (val != null)
 					{
-						return t;
+						return val;
 					}
 				}
 			}
-			return (T)((object)null);
+			return (T)null;
 		}
 
 		public static bool IsTended(this Hediff hd)
@@ -33,7 +31,11 @@ namespace Verse
 				return false;
 			}
 			HediffComp_TendDuration hediffComp_TendDuration = hediffWithComps.TryGetComp<HediffComp_TendDuration>();
-			return hediffComp_TendDuration != null && hediffComp_TendDuration.IsTended;
+			if (hediffComp_TendDuration == null)
+			{
+				return false;
+			}
+			return hediffComp_TendDuration.IsTended;
 		}
 
 		public static bool IsOld(this Hediff hd)
@@ -44,7 +46,11 @@ namespace Verse
 				return false;
 			}
 			HediffComp_GetsOld hediffComp_GetsOld = hediffWithComps.TryGetComp<HediffComp_GetsOld>();
-			return hediffComp_GetsOld != null && hediffComp_GetsOld.IsOld;
+			if (hediffComp_GetsOld == null)
+			{
+				return false;
+			}
+			return hediffComp_GetsOld.IsOld;
 		}
 
 		public static bool FullyImmune(this Hediff hd)
@@ -55,7 +61,11 @@ namespace Verse
 				return false;
 			}
 			HediffComp_Immunizable hediffComp_Immunizable = hediffWithComps.TryGetComp<HediffComp_Immunizable>();
-			return hediffComp_Immunizable != null && hediffComp_Immunizable.FullyImmune;
+			if (hediffComp_Immunizable == null)
+			{
+				return false;
+			}
+			return hediffComp_Immunizable.FullyImmune;
 		}
 
 		public static bool CanHealFromTending(this Hediff_Injury hd)

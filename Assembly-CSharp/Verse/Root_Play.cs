@@ -15,14 +15,14 @@ namespace Verse
 			this.musicManagerPlay = new MusicManagerPlay();
 			if (Find.GameInitData != null && !Find.GameInitData.gameToLoad.NullOrEmpty())
 			{
-				LongEventHandler.QueueLongEvent(delegate
+				LongEventHandler.QueueLongEvent((Action)delegate
 				{
 					SavedGameLoader.LoadGameFromSaveFile(Find.GameInitData.gameToLoad);
 				}, "LoadingLongEvent", true, new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileLoadingGame));
 			}
 			else
 			{
-				LongEventHandler.QueueLongEvent(delegate
+				LongEventHandler.QueueLongEvent((Action)delegate
 				{
 					if (Current.Game == null)
 					{
@@ -31,30 +31,30 @@ namespace Verse
 					Current.Game.InitNewGame();
 				}, "GeneratingMap", true, new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap));
 			}
-			LongEventHandler.QueueLongEvent(delegate
+			LongEventHandler.QueueLongEvent((Action)delegate
 			{
 				ScreenFader.SetColor(Color.black);
 				ScreenFader.StartFade(Color.clear, 0.5f);
-			}, null, false, null);
+			}, (string)null, false, null);
 		}
 
 		public override void Update()
 		{
 			base.Update();
-			if (LongEventHandler.ShouldWaitForEvent || this.destroyed)
+			if (!LongEventHandler.ShouldWaitForEvent && !base.destroyed)
 			{
-				return;
-			}
-			try
-			{
-				ShipCountdown.ShipCountdownUpdate();
-				Current.Game.UpdatePlay();
-				this.musicManagerPlay.MusicUpdate();
-			}
-			catch (Exception e)
-			{
-				Log.Notify_Exception(e);
-				throw;
+				try
+				{
+					ShipCountdown.ShipCountdownUpdate();
+					Current.Game.UpdatePlay();
+					this.musicManagerPlay.MusicUpdate();
+				}
+				catch (Exception e)
+				{
+					Log.Notify_Exception(e);
+					throw;
+					IL_0044:;
+				}
 			}
 		}
 

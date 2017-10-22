@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -13,9 +12,9 @@ namespace RimWorld
 			{
 				return false;
 			}
-			foreach (Pawn current in mapHeld.mapPawns.FreeColonistsSpawned)
+			foreach (Pawn item in mapHeld.mapPawns.FreeColonistsSpawned)
 			{
-				Job curJob = current.CurJob;
+				Job curJob = item.CurJob;
 				if (curJob != null && curJob.exitMapOnArrival)
 				{
 					return true;

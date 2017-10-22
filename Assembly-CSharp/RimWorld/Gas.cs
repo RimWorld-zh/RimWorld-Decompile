@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -16,15 +15,16 @@ namespace RimWorld
 			while (true)
 			{
 				Thing gas = base.Position.GetGas(map);
-				if (gas == null)
+				if (gas != null)
 				{
-					break;
+					gas.Destroy(DestroyMode.Vanish);
+					continue;
 				}
-				gas.Destroy(DestroyMode.Vanish);
+				break;
 			}
 			base.SpawnSetup(map, respawningAfterLoad);
-			this.destroyTick = Find.TickManager.TicksGame + this.def.gas.expireSeconds.RandomInRange.SecondsToTicks();
-			this.graphicRotationSpeed = Rand.Range(-this.def.gas.rotationSpeed, this.def.gas.rotationSpeed) / 60f;
+			this.destroyTick = Find.TickManager.TicksGame + base.def.gas.expireSeconds.RandomInRange.SecondsToTicks();
+			this.graphicRotationSpeed = (float)(Rand.Range((float)(0.0 - base.def.gas.rotationSpeed), base.def.gas.rotationSpeed) / 60.0);
 		}
 
 		public override void Tick()

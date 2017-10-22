@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -28,16 +27,16 @@ namespace RimWorld
 				return null;
 			}
 			Pawn pawn2 = (Pawn)t;
-			if (pawn2.guest.interactionMode != PrisonerInteractionModeDefOf.Execution || !pawn.CanReserve(t, 1, -1, null, false))
+			if (pawn2.guest.interactionMode == PrisonerInteractionModeDefOf.Execution && pawn.CanReserve(t, 1, -1, null, false))
 			{
-				return null;
+				if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+				{
+					JobFailReason.Is(WorkGiver_Warden_DoExecution.IncapableOfViolenceLowerTrans);
+					return null;
+				}
+				return new Job(JobDefOf.PrisonerExecution, t);
 			}
-			if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
-			{
-				JobFailReason.Is(WorkGiver_Warden_DoExecution.IncapableOfViolenceLowerTrans);
-				return null;
-			}
-			return new Job(JobDefOf.PrisonerExecution, t);
+			return null;
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -69,60 +68,45 @@ namespace RimWorld
 
 		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks)
 		{
-			if (recipient.mindState.CheckStartMentalStateBecauseRecruitAttempted(initiator))
+			if (!recipient.mindState.CheckStartMentalStateBecauseRecruitAttempted(initiator))
 			{
-				return;
-			}
-			float num = 1f;
-			if (DebugSettings.instantRecruit)
-			{
-				num = 1f;
-			}
-			else
-			{
-				num *= ((!recipient.RaceProps.Humanlike) ? initiator.GetStatValue(StatDefOf.TameAnimalChance, true) : initiator.GetStatValue(StatDefOf.RecruitPrisonerChance, true));
-				float num2 = (!recipient.RaceProps.Humanlike) ? InteractionWorker_RecruitAttempt.RecruitChanceFactorCurve_Wildness.Evaluate(recipient.RaceProps.wildness) : (1f - recipient.RecruitDifficulty(initiator.Faction, true));
-				num *= num2;
-				if (recipient.RaceProps.Humanlike)
+				float num = 1f;
+				if (DebugSettings.instantRecruit)
 				{
-					float x = (float)recipient.relations.OpinionOf(initiator);
-					num *= InteractionWorker_RecruitAttempt.RecruitChanceFactorCurve_Opinion.Evaluate(x);
-					if (recipient.needs.mood != null)
-					{
-						float curLevel = recipient.needs.mood.CurLevel;
-						num *= InteractionWorker_RecruitAttempt.RecruitChanceFactorCurve_Mood.Evaluate(curLevel);
-					}
-				}
-				if (initiator.relations.DirectRelationExists(PawnRelationDefOf.Bond, recipient))
-				{
-					num *= 4f;
-				}
-				num = Mathf.Clamp(num, 0.005f, 1f);
-			}
-			if (Rand.Value < num)
-			{
-				InteractionWorker_RecruitAttempt.DoRecruit(initiator, recipient, num, true);
-				extraSentencePacks.Add(RulePackDefOf.Sentence_RecruitAttemptAccepted);
-			}
-			else
-			{
-				string text;
-				if (recipient.RaceProps.Humanlike)
-				{
-					text = "TextMote_RecruitFail".Translate(new object[]
-					{
-						num.ToStringPercent()
-					});
+					num = 1f;
 				}
 				else
 				{
-					text = "TextMote_TameFail".Translate(new object[]
+					num *= ((!recipient.RaceProps.Humanlike) ? initiator.GetStatValue(StatDefOf.TameAnimalChance, true) : initiator.GetStatValue(StatDefOf.RecruitPrisonerChance, true));
+					float num2 = (float)((!recipient.RaceProps.Humanlike) ? InteractionWorker_RecruitAttempt.RecruitChanceFactorCurve_Wildness.Evaluate(recipient.RaceProps.wildness) : (1.0 - recipient.RecruitDifficulty(initiator.Faction, true)));
+					num *= num2;
+					if (recipient.RaceProps.Humanlike)
 					{
-						num.ToStringPercent()
-					});
+						float x = (float)recipient.relations.OpinionOf(initiator);
+						num *= InteractionWorker_RecruitAttempt.RecruitChanceFactorCurve_Opinion.Evaluate(x);
+						if (recipient.needs.mood != null)
+						{
+							float curLevel = recipient.needs.mood.CurLevel;
+							num *= InteractionWorker_RecruitAttempt.RecruitChanceFactorCurve_Mood.Evaluate(curLevel);
+						}
+					}
+					if (initiator.relations.DirectRelationExists(PawnRelationDefOf.Bond, recipient))
+					{
+						num = (float)(num * 4.0);
+					}
+					num = Mathf.Clamp(num, 0.005f, 1f);
 				}
-				MoteMaker.ThrowText((initiator.DrawPos + recipient.DrawPos) / 2f, initiator.Map, text, 8f);
-				extraSentencePacks.Add(RulePackDefOf.Sentence_RecruitAttemptRejected);
+				if (Rand.Value < num)
+				{
+					InteractionWorker_RecruitAttempt.DoRecruit(initiator, recipient, num, true);
+					extraSentencePacks.Add(RulePackDefOf.Sentence_RecruitAttemptAccepted);
+				}
+				else
+				{
+					string text = (!recipient.RaceProps.Humanlike) ? "TextMote_TameFail".Translate(num.ToStringPercent()) : "TextMote_RecruitFail".Translate(num.ToStringPercent());
+					MoteMaker.ThrowText((initiator.DrawPos + recipient.DrawPos) / 2f, initiator.Map, text, 8f);
+					extraSentencePacks.Add(RulePackDefOf.Sentence_RecruitAttemptRejected);
+				}
 			}
 		}
 
@@ -142,18 +126,9 @@ namespace RimWorld
 			{
 				if (useAudiovisualEffects)
 				{
-					Find.LetterStack.ReceiveLetter("LetterLabelMessageRecruitSuccess".Translate(), "MessageRecruitSuccess".Translate(new object[]
-					{
-						recruiter,
-						recruitee,
-						recruitChance.ToStringPercent()
-					}), LetterDefOf.Good, recruitee, null);
+					Find.LetterStack.ReceiveLetter("LetterLabelMessageRecruitSuccess".Translate(), "MessageRecruitSuccess".Translate(recruiter, recruitee, recruitChance.ToStringPercent()), LetterDefOf.Good, (Thing)recruitee, (string)null);
 				}
-				TaleRecorder.RecordTale(TaleDefOf.Recruited, new object[]
-				{
-					recruiter,
-					recruitee
-				});
+				TaleRecorder.RecordTale(TaleDefOf.Recruited, recruiter, recruitee);
 				recruiter.records.Increment(RecordDefOf.PrisonersRecruited);
 				recruitee.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.RecruitedMe, recruiter);
 			}
@@ -163,38 +138,20 @@ namespace RimWorld
 				{
 					if (!flag)
 					{
-						Messages.Message("MessageTameAndNameSuccess".Translate(new object[]
-						{
-							recruiter.LabelShort,
-							text,
-							recruitChance.ToStringPercent(),
-							recruitee.Name.ToStringFull
-						}).AdjustedFor(recruitee), recruitee, MessageSound.Benefit);
+						Messages.Message("MessageTameAndNameSuccess".Translate(recruiter.LabelShort, text, recruitChance.ToStringPercent(), recruitee.Name.ToStringFull).AdjustedFor(recruitee), (Thing)recruitee, MessageSound.Benefit);
 					}
 					else
 					{
-						Messages.Message("MessageTameSuccess".Translate(new object[]
-						{
-							recruiter.LabelShort,
-							text,
-							recruitChance.ToStringPercent()
-						}), recruitee, MessageSound.Benefit);
+						Messages.Message("MessageTameSuccess".Translate(recruiter.LabelShort, text, recruitChance.ToStringPercent()), (Thing)recruitee, MessageSound.Benefit);
 					}
-					MoteMaker.ThrowText((recruiter.DrawPos + recruitee.DrawPos) / 2f, recruiter.Map, "TextMote_TameSuccess".Translate(new object[]
-					{
-						recruitChance.ToStringPercent()
-					}), 8f);
+					MoteMaker.ThrowText((recruiter.DrawPos + recruitee.DrawPos) / 2f, recruiter.Map, "TextMote_TameSuccess".Translate(recruitChance.ToStringPercent()), 8f);
 				}
 				recruiter.records.Increment(RecordDefOf.AnimalsTamed);
 				RelationsUtility.TryDevelopBondRelation(recruiter, recruitee, 0.01f);
 				float num = Mathf.Lerp(0.02f, 1f, recruitee.RaceProps.wildness);
 				if (Rand.Value < num)
 				{
-					TaleRecorder.RecordTale(TaleDefOf.TamedAnimal, new object[]
-					{
-						recruiter,
-						recruitee
-					});
+					TaleRecorder.RecordTale(TaleDefOf.TamedAnimal, recruiter, recruitee);
 				}
 			}
 			if (recruitee.caller != null)

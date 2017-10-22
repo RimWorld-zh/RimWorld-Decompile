@@ -8,16 +8,16 @@ namespace RimWorld
 	{
 		protected override void ReloadFiles()
 		{
-			this.files.Clear();
-			foreach (FileInfo current in GenFilePaths.AllCustomScenarioFiles)
+			base.files.Clear();
+			foreach (FileInfo allCustomScenarioFile in GenFilePaths.AllCustomScenarioFiles)
 			{
 				try
 				{
-					this.files.Add(new SaveFileInfo(current));
+					base.files.Add(new SaveFileInfo(allCustomScenarioFile));
 				}
 				catch (Exception ex)
 				{
-					Log.Error("Exception loading " + current.Name + ": " + ex.ToString());
+					Log.Error("Exception loading " + allCustomScenarioFile.Name + ": " + ex.ToString());
 				}
 			}
 		}

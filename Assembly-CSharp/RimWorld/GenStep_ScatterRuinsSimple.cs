@@ -1,5 +1,4 @@
 using RimWorld.BaseGen;
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -13,20 +12,29 @@ namespace RimWorld
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
-			return base.CanScatterAt(c, map) && c.SupportsStructureType(map, TerrainAffordance.Heavy);
+			if (!base.CanScatterAt(c, map))
+			{
+				return false;
+			}
+			if (!c.SupportsStructureType(map, TerrainAffordance.Heavy))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected bool CanPlaceAncientBuildingInRange(CellRect rect, Map map)
 		{
-			foreach (IntVec3 current in rect.Cells)
+			foreach (IntVec3 cell in rect.Cells)
 			{
-				if (current.InBounds(map))
+				if (cell.InBounds(map))
 				{
-					TerrainDef terrainDef = map.terrainGrid.TerrainAt(current);
-					if (terrainDef.HasTag("River") || terrainDef.HasTag("Road"))
+					TerrainDef terrainDef = map.terrainGrid.TerrainAt(cell);
+					if (!terrainDef.HasTag("River") && !terrainDef.HasTag("Road"))
 					{
-						return false;
+						continue;
 					}
+					return false;
 				}
 			}
 			return true;
@@ -39,7 +47,7 @@ namespace RimWorld
 			{
 				bool @bool = Rand.Bool;
 				int randomInRange = this.WallLengthRange.RandomInRange;
-				CellRect cellRect = new CellRect(c.x, c.z, (!@bool) ? 1 : randomInRange, (!@bool) ? randomInRange : 1);
+				CellRect cellRect = new CellRect(c.x, c.z, (!@bool) ? 1 : randomInRange, @bool ? 1 : randomInRange);
 				if (this.CanPlaceAncientBuildingInRange(cellRect.ExpandedBy(1), map))
 				{
 					this.MakeLongWall(c, map, this.WallLengthRange.RandomInRange, @bool, stuffDef);
@@ -47,13 +55,12 @@ namespace RimWorld
 			}
 			else
 			{
-				CellRect cellRect2 = new CellRect(c.x, c.z, this.ShedSizeRange.RandomInRange, this.ShedSizeRange.RandomInRange);
-				CellRect rect = cellRect2.ClipInsideMap(map);
+				CellRect rect = new CellRect(c.x, c.z, this.ShedSizeRange.RandomInRange, this.ShedSizeRange.RandomInRange).ClipInsideMap(map);
 				if (this.CanPlaceAncientBuildingInRange(rect, map))
 				{
-					BaseGen.globalSettings.map = map;
-					BaseGen.symbolStack.Push("ancientRuins", rect);
-					BaseGen.Generate();
+					RimWorld.BaseGen.BaseGen.globalSettings.map = map;
+					RimWorld.BaseGen.BaseGen.symbolStack.Push("ancientRuins", rect);
+					RimWorld.BaseGen.BaseGen.Generate();
 				}
 			}
 		}
@@ -61,16 +68,19 @@ namespace RimWorld
 		private void TrySetCellAsWall(IntVec3 c, Map map, ThingDef stuffDef)
 		{
 			List<Thing> thingList = c.GetThingList(map);
-			for (int i = 0; i < thingList.Count; i++)
+			int num = 0;
+			while (num < thingList.Count)
 			{
-				if (!thingList[i].def.destroyable)
+				if (thingList[num].def.destroyable)
 				{
-					return;
+					num++;
+					continue;
 				}
+				return;
 			}
-			for (int j = thingList.Count - 1; j >= 0; j--)
+			for (int num2 = thingList.Count - 1; num2 >= 0; num2--)
 			{
-				thingList[j].Destroy(DestroyMode.Vanish);
+				thingList[num2].Destroy(DestroyMode.Vanish);
 			}
 			map.terrainGrid.SetTerrain(c, BaseGenUtility.CorrespondingTerrainDef(stuffDef, true));
 			Thing newThing = ThingMaker.MakeThing(ThingDefOf.Wall, stuffDef);
@@ -81,24 +91,18 @@ namespace RimWorld
 		{
 			TerrainDef newTerr = BaseGenUtility.CorrespondingTerrainDef(stuffDef, true);
 			IntVec3 intVec = start;
-			for (int i = 0; i < extendDist; i++)
+			int num = 0;
+			while (num < extendDist && intVec.InBounds(map))
 			{
-				if (!intVec.InBounds(map))
-				{
-					return;
-				}
 				this.TrySetCellAsWall(intVec, map, stuffDef);
 				if (Rand.Chance(0.4f))
 				{
-					for (int j = 0; j < 9; j++)
+					for (int i = 0; i < 9; i++)
 					{
-						IntVec3 c = intVec + GenAdj.AdjacentCellsAndInside[j];
-						if (c.InBounds(map))
+						IntVec3 c = intVec + GenAdj.AdjacentCellsAndInside[i];
+						if (c.InBounds(map) && Rand.Bool)
 						{
-							if (Rand.Bool)
-							{
-								map.terrainGrid.SetTerrain(c, newTerr);
-							}
+							map.terrainGrid.SetTerrain(c, newTerr);
 						}
 					}
 				}
@@ -110,6 +114,7 @@ namespace RimWorld
 				{
 					intVec.z++;
 				}
+				num++;
 			}
 		}
 	}

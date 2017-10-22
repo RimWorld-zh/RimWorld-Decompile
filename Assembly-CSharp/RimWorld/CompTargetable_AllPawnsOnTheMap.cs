@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -17,22 +16,35 @@ namespace RimWorld
 
 		protected override TargetingParameters GetTargetingParameters()
 		{
-			return new TargetingParameters
-			{
-				canTargetPawns = true,
-				canTargetBuildings = false,
-				validator = ((TargetInfo x) => base.BaseTargetValidator(x.Thing))
-			};
+			TargetingParameters targetingParameters = new TargetingParameters();
+			targetingParameters.canTargetPawns = true;
+			targetingParameters.canTargetBuildings = false;
+			targetingParameters.validator = (Predicate<TargetInfo>)((TargetInfo x) => base.BaseTargetValidator(x.Thing));
+			return targetingParameters;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Thing> GetTargets(Thing targetChosenByPlayer = null)
 		{
-			CompTargetable_AllPawnsOnTheMap.<GetTargets>c__Iterator172 <GetTargets>c__Iterator = new CompTargetable_AllPawnsOnTheMap.<GetTargets>c__Iterator172();
-			<GetTargets>c__Iterator.<>f__this = this;
-			CompTargetable_AllPawnsOnTheMap.<GetTargets>c__Iterator172 expr_0E = <GetTargets>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (base.parent.MapHeld != null)
+			{
+				TargetingParameters tp = this.GetTargetingParameters();
+				List<Pawn>.Enumerator enumerator = base.parent.MapHeld.mapPawns.AllPawnsSpawned.GetEnumerator();
+				try
+				{
+					while (enumerator.MoveNext())
+					{
+						Pawn p = enumerator.Current;
+						if (tp.CanTarget((Thing)p))
+						{
+							yield return (Thing)p;
+						}
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
+				}
+			}
 		}
 	}
 }

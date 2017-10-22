@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld
 {
 	public class StorytellerCompProperties_AllyInteraction : StorytellerCompProperties
@@ -8,7 +6,7 @@ namespace RimWorld
 
 		public StorytellerCompProperties_AllyInteraction()
 		{
-			this.compClass = typeof(StorytellerComp_AllyInteraction);
+			base.compClass = typeof(StorytellerComp_AllyInteraction);
 		}
 	}
 }

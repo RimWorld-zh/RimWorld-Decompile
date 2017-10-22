@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -19,7 +18,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.startTime + 10f - Time.realtimeSinceStartup;
+				return (float)(this.startTime + 10.0 - Time.realtimeSinceStartup);
 			}
 		}
 
@@ -34,8 +33,8 @@ namespace Verse
 		private Dialog_ResolutionConfirm()
 		{
 			this.startTime = Time.realtimeSinceStartup;
-			this.closeOnEscapeKey = false;
-			this.absorbInputAroundWindow = true;
+			base.closeOnEscapeKey = false;
+			base.absorbInputAroundWindow = true;
 		}
 
 		public Dialog_ResolutionConfirm(bool oldFullscreen) : this()
@@ -62,16 +61,13 @@ namespace Verse
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Small;
-			string label = "ConfirmResolutionChange".Translate(new object[]
-			{
-				Mathf.CeilToInt(this.TimeUntilRevert)
-			});
+			string label = "ConfirmResolutionChange".Translate(Mathf.CeilToInt(this.TimeUntilRevert));
 			Widgets.Label(new Rect(0f, 0f, inRect.width, inRect.height), label);
-			if (Widgets.ButtonText(new Rect(0f, inRect.height - 35f, inRect.width / 2f - 20f, 35f), "ResolutionKeep".Translate(), true, false, true))
+			if (Widgets.ButtonText(new Rect(0f, (float)(inRect.height - 35.0), (float)(inRect.width / 2.0 - 20.0), 35f), "ResolutionKeep".Translate(), true, false, true))
 			{
 				this.Close(true);
 			}
-			if (Widgets.ButtonText(new Rect(inRect.width / 2f + 20f, inRect.height - 35f, inRect.width / 2f - 20f, 35f), "ResolutionRevert".Translate(), true, false, true))
+			if (Widgets.ButtonText(new Rect((float)(inRect.width / 2.0 + 20.0), (float)(inRect.height - 35.0), (float)(inRect.width / 2.0 - 20.0), 35f), "ResolutionRevert".Translate(), true, false, true))
 			{
 				this.Revert();
 				this.Close(true);
@@ -82,15 +78,7 @@ namespace Verse
 		{
 			if (Prefs.LogVerbose)
 			{
-				Log.Message(string.Concat(new object[]
-				{
-					"Reverting screen settings to ",
-					this.oldRes.x,
-					"x",
-					this.oldRes.z,
-					", fs=",
-					this.oldFullscreen
-				}));
+				Log.Message("Reverting screen settings to " + this.oldRes.x + "x" + this.oldRes.z + ", fs=" + this.oldFullscreen);
 			}
 			Screen.SetResolution(this.oldRes.x, this.oldRes.z, this.oldFullscreen);
 			Prefs.UIScale = this.oldUIScale;
@@ -98,7 +86,7 @@ namespace Verse
 
 		public override void WindowUpdate()
 		{
-			if (this.TimeUntilRevert <= 0f)
+			if (this.TimeUntilRevert <= 0.0)
 			{
 				this.Revert();
 				this.Close(true);

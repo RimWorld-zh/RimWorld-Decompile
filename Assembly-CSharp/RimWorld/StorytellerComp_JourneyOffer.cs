@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -17,16 +15,17 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			StorytellerComp_JourneyOffer.<MakeIntervalIncidents>c__IteratorAB <MakeIntervalIncidents>c__IteratorAB = new StorytellerComp_JourneyOffer.<MakeIntervalIncidents>c__IteratorAB();
-			<MakeIntervalIncidents>c__IteratorAB.target = target;
-			<MakeIntervalIncidents>c__IteratorAB.<$>target = target;
-			<MakeIntervalIncidents>c__IteratorAB.<>f__this = this;
-			StorytellerComp_JourneyOffer.<MakeIntervalIncidents>c__IteratorAB expr_1C = <MakeIntervalIncidents>c__IteratorAB;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (this.IntervalsPassed == 840)
+			{
+				IncidentDef inc = IncidentDefOf.JourneyOffer;
+				if (inc.TargetAllowed(target))
+				{
+					FiringIncident fi = new FiringIncident(inc, this, this.GenerateParms(inc.category, target));
+					yield return fi;
+				}
+			}
 		}
 	}
 }

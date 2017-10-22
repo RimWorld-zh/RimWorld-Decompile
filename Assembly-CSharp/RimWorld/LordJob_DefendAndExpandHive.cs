@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI.Group;
 
@@ -29,13 +28,7 @@ namespace RimWorld
 			transition2.AddTrigger(new Trigger_Memo(Hive.MemoDestroyed));
 			stateGraph.AddTransition(transition2);
 			Transition transition3 = new Transition(lordToil_AssaultColony, lordToil_DefendAndExpandHive);
-			transition3.AddTrigger(new Trigger_TicksPassedWithoutHarmOrMemos(1200, new string[]
-			{
-				Hive.MemoAttackedByEnemy,
-				Hive.MemoBurnedBadly,
-				Hive.MemoDestroyed,
-				HediffGiver_Heat.MemoPawnBurnedByAir
-			}));
+			transition3.AddTrigger(new Trigger_TicksPassedWithoutHarmOrMemos(1200, Hive.MemoAttackedByEnemy, Hive.MemoBurnedBadly, Hive.MemoDestroyed, HediffGiver_Heat.MemoPawnBurnedByAir));
 			transition3.AddPostAction(new TransitionAction_EndAttackBuildingJobs());
 			stateGraph.AddTransition(transition3);
 			return stateGraph;

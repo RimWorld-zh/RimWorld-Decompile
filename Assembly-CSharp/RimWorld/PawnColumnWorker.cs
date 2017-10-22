@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -47,17 +46,17 @@ namespace RimWorld
 				GUI.color = Color.white;
 				Text.Font = GameFont.Small;
 			}
-			else if (this.def.HeaderIcon != null)
+			else if ((Object)this.def.HeaderIcon != (Object)null)
 			{
 				Vector2 headerIconSize = this.def.HeaderIconSize;
-				int num = (int)((rect.width - headerIconSize.x) / 2f);
+				int num = (int)((rect.width - headerIconSize.x) / 2.0);
 				Rect position = new Rect(rect.x + (float)num, rect.yMax - headerIconSize.y, headerIconSize.x, headerIconSize.y);
 				GUI.DrawTexture(position, this.def.HeaderIcon);
 			}
 			if (table.SortingBy == this.def)
 			{
 				Texture2D texture2D = (!table.SortingDescending) ? PawnColumnWorker.SortingIcon : PawnColumnWorker.SortingDescendingIcon;
-				Rect position2 = new Rect(rect.xMax - (float)texture2D.width - 1f, rect.yMax - (float)texture2D.height - 1f, (float)texture2D.width, (float)texture2D.height);
+				Rect position2 = new Rect((float)(rect.xMax - (float)texture2D.width - 1.0), (float)(rect.yMax - (float)texture2D.height - 1.0), (float)texture2D.width, (float)texture2D.height);
 				GUI.DrawTexture(position2, texture2D);
 			}
 			if (this.def.HeaderInteractable)
@@ -86,13 +85,15 @@ namespace RimWorld
 			if (!this.def.label.NullOrEmpty())
 			{
 				Text.Font = this.DefaultHeaderFont;
-				int result = Mathf.CeilToInt(Text.CalcSize(this.def.LabelCap).x);
+				Vector2 vector = Text.CalcSize(this.def.LabelCap);
+				int result = Mathf.CeilToInt(vector.x);
 				Text.Font = GameFont.Small;
 				return result;
 			}
-			if (this.def.HeaderIcon != null)
+			if ((Object)this.def.HeaderIcon != (Object)null)
 			{
-				return Mathf.CeilToInt(this.def.HeaderIconSize.x);
+				Vector2 headerIconSize = this.def.HeaderIconSize;
+				return Mathf.CeilToInt(headerIconSize.x);
 			}
 			return 1;
 		}
@@ -117,13 +118,15 @@ namespace RimWorld
 			if (!this.def.label.NullOrEmpty())
 			{
 				Text.Font = this.DefaultHeaderFont;
-				int result = Mathf.CeilToInt(Text.CalcSize(this.def.LabelCap).y);
+				Vector2 vector = Text.CalcSize(this.def.LabelCap);
+				int result = Mathf.CeilToInt(vector.y);
 				Text.Font = GameFont.Small;
 				return result;
 			}
-			if (this.def.HeaderIcon != null)
+			if ((Object)this.def.HeaderIcon != (Object)null)
 			{
-				return Mathf.CeilToInt(this.def.HeaderIconSize.y);
+				Vector2 headerIconSize = this.def.HeaderIconSize;
+				return Mathf.CeilToInt(headerIconSize.y);
 			}
 			return 0;
 		}

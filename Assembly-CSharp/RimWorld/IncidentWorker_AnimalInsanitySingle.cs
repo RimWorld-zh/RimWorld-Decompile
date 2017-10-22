@@ -19,18 +19,15 @@ namespace RimWorld
 			}
 			List<Pawn> list = (from p in map.mapPawns.AllPawnsSpawned
 			where p.RaceProps.Animal && p.kindDef.combatPower <= (float)maxPoints && IncidentWorker_AnimalInsanityMass.AnimalUsable(p)
-			select p).ToList<Pawn>();
+			select p).ToList();
 			if (list.Count == 0)
 			{
 				return false;
 			}
-			Pawn pawn = list.RandomElement<Pawn>();
+			Pawn pawn = list.RandomElement();
 			IncidentWorker_AnimalInsanityMass.DriveInsane(pawn);
-			string text = "AnimalInsanitySingle".Translate(new object[]
-			{
-				pawn.Label
-			});
-			Find.LetterStack.ReceiveLetter("LetterLabelAnimalInsanitySingle".Translate(), text, LetterDefOf.BadUrgent, pawn, null);
+			string text = "AnimalInsanitySingle".Translate(pawn.Label);
+			Find.LetterStack.ReceiveLetter("LetterLabelAnimalInsanitySingle".Translate(), text, LetterDefOf.BadUrgent, (Thing)pawn, (string)null);
 			return true;
 		}
 	}

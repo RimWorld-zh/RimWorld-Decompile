@@ -21,14 +21,14 @@ namespace Verse
 		public void DetermineReferences()
 		{
 			this.referencedThings.Clear();
-			foreach (Thing current in from des in this.map.designationManager.allDesignations
+			foreach (Thing item in from des in this.map.designationManager.allDesignations
 			select des.target.Thing)
 			{
-				this.referencedThings.Add(current);
+				this.referencedThings.Add(item);
 			}
-			foreach (Thing current2 in this.map.reservationManager.AllReservedThings())
+			foreach (Thing item2 in this.map.reservationManager.AllReservedThings())
 			{
-				this.referencedThings.Add(current2);
+				this.referencedThings.Add(item2);
 			}
 			List<Pawn> allPawnsSpawned = this.map.mapPawns.AllPawnsSpawned;
 			for (int i = 0; i < allPawnsSpawned.Count; i++)

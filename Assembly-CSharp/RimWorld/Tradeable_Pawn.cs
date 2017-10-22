@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -25,15 +24,7 @@ namespace RimWorld
 					text = text + ", " + this.AnyPawn.def.label;
 				}
 				string text2 = text;
-				return string.Concat(new string[]
-				{
-					text2,
-					" (",
-					this.AnyPawn.gender.GetLabel(),
-					", ",
-					this.AnyPawn.ageTracker.AgeBiologicalYearsFloat.ToString("F0"),
-					")"
-				});
+				return text2 + " (" + this.AnyPawn.gender.GetLabel() + ", " + this.AnyPawn.ageTracker.AgeBiologicalYearsFloat.ToString("F0") + ")";
 			}
 		}
 
@@ -58,7 +49,7 @@ namespace RimWorld
 		{
 			if (base.ActionToDo == TradeAction.PlayerSells)
 			{
-				List<Pawn> list = this.thingsColony.Take(-base.CountToTransfer).Cast<Pawn>().ToList<Pawn>();
+				List<Pawn> list = base.thingsColony.Take(-base.CountToTransfer).Cast<Pawn>().ToList();
 				for (int i = 0; i < list.Count; i++)
 				{
 					TradeSession.trader.GiveSoldThingToTrader(list[i], 1, TradeSession.playerNegotiator);
@@ -66,7 +57,7 @@ namespace RimWorld
 			}
 			else if (base.ActionToDo == TradeAction.PlayerBuys)
 			{
-				List<Pawn> list2 = this.thingsTrader.Take(base.CountToTransfer).Cast<Pawn>().ToList<Pawn>();
+				List<Pawn> list2 = base.thingsTrader.Take(base.CountToTransfer).Cast<Pawn>().ToList();
 				for (int j = 0; j < list2.Count; j++)
 				{
 					TradeSession.trader.GiveSoldThingToPlayer(list2[j], 1, TradeSession.playerNegotiator);

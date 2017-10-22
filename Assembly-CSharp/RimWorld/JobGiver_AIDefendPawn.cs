@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -20,11 +19,11 @@ namespace RimWorld
 		protected override IntVec3 GetFlagPosition(Pawn pawn)
 		{
 			Pawn defendee = this.GetDefendee(pawn);
-			if (defendee.Spawned || defendee.CarriedBy != null)
+			if (!defendee.Spawned && defendee.CarriedBy == null)
 			{
-				return defendee.PositionHeld;
+				return IntVec3.Invalid;
 			}
-			return IntVec3.Invalid;
+			return defendee.PositionHeld;
 		}
 
 		protected override Job TryGiveJob(Pawn pawn)
@@ -33,15 +32,18 @@ namespace RimWorld
 			Pawn carriedBy = defendee.CarriedBy;
 			if (carriedBy != null)
 			{
-				if (!pawn.CanReach(carriedBy, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+				if (!pawn.CanReach((Thing)carriedBy, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
 				{
 					return null;
 				}
+				goto IL_0053;
 			}
-			else if (!defendee.Spawned || !pawn.CanReach(defendee, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+			if (defendee.Spawned && pawn.CanReach((Thing)defendee, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
 			{
-				return null;
+				goto IL_0053;
 			}
+			return null;
+			IL_0053:
 			return base.TryGiveJob(pawn);
 		}
 
@@ -50,7 +52,7 @@ namespace RimWorld
 			if (this.attackMeleeThreatEvenIfNotHostile)
 			{
 				Pawn defendee = this.GetDefendee(pawn);
-				if (defendee.Spawned && !defendee.InMentalState && defendee.mindState.meleeThreat != null && defendee.mindState.meleeThreat != pawn && pawn.CanReach(defendee.mindState.meleeThreat, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+				if (defendee.Spawned && !defendee.InMentalState && defendee.mindState.meleeThreat != null && defendee.mindState.meleeThreat != pawn && pawn.CanReach((Thing)defendee.mindState.meleeThreat, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
 				{
 					return defendee.mindState.meleeThreat;
 				}
@@ -74,7 +76,7 @@ namespace RimWorld
 				maxRangeFromTarget = 9999f,
 				locus = this.GetDefendee(pawn).PositionHeld,
 				maxRangeFromLocus = this.GetFlagRadius(pawn),
-				wantCoverFromTarget = (verb.verbProps.range > 7f),
+				wantCoverFromTarget = (verb.verbProps.range > 7.0),
 				maxRegionsRadius = 50
 			}, out dest);
 		}

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -13,15 +12,15 @@ namespace RimWorld
 				return 350f;
 			}
 			float num = 0f;
-			foreach (IntVec3 current in room.Cells)
+			foreach (IntVec3 cell in room.Cells)
 			{
-				if (current.Standable(room.Map))
+				if (cell.Standable(room.Map))
 				{
-					num += 1.4f;
+					num = (float)(num + 1.3999999761581421);
 				}
-				else if (current.Walkable(room.Map))
+				else if (cell.Walkable(room.Map))
 				{
-					num += 0.5f;
+					num = (float)(num + 0.5);
 				}
 			}
 			return Mathf.Min(num, 350f);

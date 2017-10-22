@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -42,9 +41,9 @@ namespace RimWorld
 
 		public ITab_Pawn_Character()
 		{
-			this.size = CharacterCardUtility.PawnCardSize + new Vector2(17f, 17f) * 2f;
-			this.labelKey = "TabCharacter";
-			this.tutorTag = "Character";
+			base.size = CharacterCardUtility.PawnCardSize + new Vector2(17f, 17f) * 2f;
+			base.labelKey = "TabCharacter";
+			base.tutorTag = "Character";
 		}
 
 		protected override void FillTab()

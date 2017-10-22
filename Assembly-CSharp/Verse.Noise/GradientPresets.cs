@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -58,33 +57,45 @@ namespace Verse.Noise
 
 		static GradientPresets()
 		{
-			List<GradientColorKey> list = new List<GradientColorKey>();
-			list.Add(new GradientColorKey(Color.black, 0f));
-			list.Add(new GradientColorKey(Color.white, 1f));
-			List<GradientColorKey> list2 = new List<GradientColorKey>();
-			list2.Add(new GradientColorKey(Color.red, 0f));
-			list2.Add(new GradientColorKey(Color.green, 0.5f));
-			list2.Add(new GradientColorKey(Color.blue, 1f));
-			List<GradientColorKey> list3 = new List<GradientColorKey>();
-			list3.Add(new GradientColorKey(Color.red, 0f));
-			list3.Add(new GradientColorKey(Color.green, 0.333333343f));
-			list3.Add(new GradientColorKey(Color.blue, 0.6666667f));
-			list3.Add(new GradientColorKey(Color.black, 1f));
-			List<GradientAlphaKey> list4 = new List<GradientAlphaKey>();
-			list4.Add(new GradientAlphaKey(0f, 0.6666667f));
-			list4.Add(new GradientAlphaKey(1f, 1f));
-			List<GradientColorKey> list5 = new List<GradientColorKey>();
-			list5.Add(new GradientColorKey(new Color(0f, 0f, 0.5f), 0f));
-			list5.Add(new GradientColorKey(new Color(0.125f, 0.25f, 0.5f), 0.4f));
-			list5.Add(new GradientColorKey(new Color(0.25f, 0.375f, 0.75f), 0.48f));
-			list5.Add(new GradientColorKey(new Color(0f, 0.75f, 0f), 0.5f));
-			list5.Add(new GradientColorKey(new Color(0.75f, 0.75f, 0f), 0.625f));
-			list5.Add(new GradientColorKey(new Color(0.625f, 0.375f, 0.25f), 0.75f));
-			list5.Add(new GradientColorKey(new Color(0.5f, 1f, 1f), 0.875f));
-			list5.Add(new GradientColorKey(Color.white, 1f));
-			List<GradientAlphaKey> list6 = new List<GradientAlphaKey>();
-			list6.Add(new GradientAlphaKey(1f, 0f));
-			list6.Add(new GradientAlphaKey(1f, 1f));
+			List<GradientColorKey> list = new List<GradientColorKey>
+			{
+				new GradientColorKey(Color.black, 0f),
+				new GradientColorKey(Color.white, 1f)
+			};
+			List<GradientColorKey> list2 = new List<GradientColorKey>
+			{
+				new GradientColorKey(Color.red, 0f),
+				new GradientColorKey(Color.green, 0.5f),
+				new GradientColorKey(Color.blue, 1f)
+			};
+			List<GradientColorKey> list3 = new List<GradientColorKey>
+			{
+				new GradientColorKey(Color.red, 0f),
+				new GradientColorKey(Color.green, 0.333333343f),
+				new GradientColorKey(Color.blue, 0.6666667f),
+				new GradientColorKey(Color.black, 1f)
+			};
+			List<GradientAlphaKey> list4 = new List<GradientAlphaKey>
+			{
+				new GradientAlphaKey(0f, 0.6666667f),
+				new GradientAlphaKey(1f, 1f)
+			};
+			List<GradientColorKey> list5 = new List<GradientColorKey>
+			{
+				new GradientColorKey(new Color(0f, 0f, 0.5f), 0f),
+				new GradientColorKey(new Color(0.125f, 0.25f, 0.5f), 0.4f),
+				new GradientColorKey(new Color(0.25f, 0.375f, 0.75f), 0.48f),
+				new GradientColorKey(new Color(0f, 0.75f, 0f), 0.5f),
+				new GradientColorKey(new Color(0.75f, 0.75f, 0f), 0.625f),
+				new GradientColorKey(new Color(0.625f, 0.375f, 0.25f), 0.75f),
+				new GradientColorKey(new Color(0.5f, 1f, 1f), 0.875f),
+				new GradientColorKey(Color.white, 1f)
+			};
+			List<GradientAlphaKey> list6 = new List<GradientAlphaKey>
+			{
+				new GradientAlphaKey(1f, 0f),
+				new GradientAlphaKey(1f, 1f)
+			};
 			GradientPresets._empty = new Gradient();
 			GradientPresets._rgb = new Gradient();
 			GradientPresets._rgb.SetKeys(list2.ToArray(), list6.ToArray());

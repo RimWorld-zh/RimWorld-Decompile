@@ -1,3 +1,4 @@
+using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using Verse;
@@ -26,11 +27,32 @@ namespace RimWorld
 		{
 			get
 			{
-				ChoiceLetter_ItemStashFeeDemand.<>c__Iterator19E <>c__Iterator19E = new ChoiceLetter_ItemStashFeeDemand.<>c__Iterator19E();
-				<>c__Iterator19E.<>f__this = this;
-				ChoiceLetter_ItemStashFeeDemand.<>c__Iterator19E expr_0E = <>c__Iterator19E;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				DiaOption accept = new DiaOption("ItemStashQuest_Accept".Translate())
+				{
+					action = (Action)delegate
+					{
+						int tile = default(int);
+						if (!TileFinder.TryFindNewSiteTile(out tile))
+						{
+							Find.LetterStack.RemoveLetter(((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this);
+						}
+						else
+						{
+							Site o = IncidentWorker_QuestItemStash.CreateSite(tile, ((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this.sitePart, ((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this.siteDaysTimeout, ((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this.siteFaction, ((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this.items, ((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this.sitePartsKnown);
+							CameraJumper.TryJumpAndSelect((WorldObject)o);
+							TradeUtility.LaunchSilver(((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this.map, ((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this.fee);
+							Find.LetterStack.RemoveLetter(((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this);
+						}
+					},
+					resolveTree = true
+				};
+				if (this.map == null || !TradeUtility.ColonyHasEnoughSilver(this.map, this.fee))
+				{
+					accept.Disable("NeedSilverLaunchable".Translate(this.fee));
+				}
+				yield return accept;
+				yield return base.Reject;
+				yield return base.Postpone;
 			}
 		}
 
@@ -38,7 +60,19 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.StillValid && !this.alliedFaction.HostileTo(Faction.OfPlayer) && (this.map == null || Find.Maps.Contains(this.map));
+				if (!base.StillValid)
+				{
+					return false;
+				}
+				if (this.alliedFaction.HostileTo(Faction.OfPlayer))
+				{
+					return false;
+				}
+				if (this.map != null && !Find.Maps.Contains(this.map))
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -53,7 +87,7 @@ namespace RimWorld
 			Scribe_References.Look<Map>(ref this.map, "map", false);
 			Scribe_Values.Look<int>(ref this.fee, "fee", 0, false);
 			Scribe_Values.Look<int>(ref this.siteDaysTimeout, "siteDaysTimeout", 0, false);
-			Scribe_Deep.Look<ThingOwner>(ref this.items, "items", new object[]
+			Scribe_Deep.Look<ThingOwner>(ref this.items, "items", new object[1]
 			{
 				this
 			});
@@ -82,6 +116,12 @@ namespace RimWorld
 		virtual IThingHolder get_ParentHolder()
 		{
 			return base.ParentHolder;
+		}
+
+		IThingHolder IThingHolder.get_ParentHolder()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
+			return this.get_ParentHolder();
 		}
 	}
 }

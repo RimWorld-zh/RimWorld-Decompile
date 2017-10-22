@@ -1,10 +1,8 @@
-using System;
-
 namespace RimWorld
 {
 	public enum StorageSettingsPreset : byte
 	{
-		DefaultStockpile,
-		DumpingStockpile
+		DefaultStockpile = 0,
+		DumpingStockpile = 1
 	}
 }

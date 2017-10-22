@@ -15,26 +15,40 @@ namespace RimWorld
 				psychicDroneLevel = building_PsychicEmanator.droneLevel;
 			}
 			GameCondition_PsychicEmanation activeCondition = p.Map.gameConditionManager.GetActiveCondition<GameCondition_PsychicEmanation>();
-			if (activeCondition != null && activeCondition.gender == p.gender && activeCondition.def.droneLevel > psychicDroneLevel)
+			if (activeCondition != null && activeCondition.gender == p.gender && (int)activeCondition.def.droneLevel > (int)psychicDroneLevel)
 			{
 				psychicDroneLevel = activeCondition.def.droneLevel;
 			}
 			switch (psychicDroneLevel)
 			{
 			case PsychicDroneLevel.None:
+			{
 				return false;
+			}
 			case PsychicDroneLevel.GoodMedium:
+			{
 				return ThoughtState.ActiveAtStage(0);
+			}
 			case PsychicDroneLevel.BadLow:
+			{
 				return ThoughtState.ActiveAtStage(1);
+			}
 			case PsychicDroneLevel.BadMedium:
+			{
 				return ThoughtState.ActiveAtStage(2);
+			}
 			case PsychicDroneLevel.BadHigh:
+			{
 				return ThoughtState.ActiveAtStage(3);
+			}
 			case PsychicDroneLevel.BadExtreme:
+			{
 				return ThoughtState.ActiveAtStage(4);
+			}
 			default:
+			{
 				throw new NotImplementedException();
+			}
 			}
 		}
 

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -36,7 +35,7 @@ namespace Verse
 		public EditWindow_DefEditor(Def def)
 		{
 			this.def = def;
-			this.optionalTitle = def.ToString();
+			base.optionalTitle = def.ToString();
 		}
 
 		public override void DoWindowContents(Rect inRect)
@@ -46,10 +45,10 @@ namespace Verse
 				UI.UnfocusCurrentControl();
 			}
 			Rect rect = new Rect(0f, 0f, inRect.width, 16f);
-			this.labelColumnWidth = Widgets.HorizontalSlider(rect, this.labelColumnWidth, 0f, inRect.width, false, null, null, null, -1f);
+			this.labelColumnWidth = Widgets.HorizontalSlider(rect, this.labelColumnWidth, 0f, inRect.width, false, (string)null, (string)null, (string)null, -1f);
 			Rect outRect = inRect.AtZero();
 			outRect.yMin += 16f;
-			Rect rect2 = new Rect(0f, 0f, outRect.width - 16f, this.viewHeight);
+			Rect rect2 = new Rect(0f, 0f, (float)(outRect.width - 16.0), this.viewHeight);
 			Widgets.BeginScrollView(outRect, ref this.scrollPosition, rect2, true);
 			Listing_TreeDefs listing_TreeDefs = new Listing_TreeDefs(this.labelColumnWidth);
 			listing_TreeDefs.Begin(rect2);
@@ -58,7 +57,7 @@ namespace Verse
 			listing_TreeDefs.End();
 			if (Event.current.type == EventType.Layout)
 			{
-				this.viewHeight = listing_TreeDefs.CurHeight + 200f;
+				this.viewHeight = (float)(listing_TreeDefs.CurHeight + 200.0);
 			}
 			Widgets.EndScrollView();
 		}

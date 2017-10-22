@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -24,7 +23,7 @@ namespace RimWorld.Planet
 
 		public static int GetTicksPerMove(List<Pawn> pawns)
 		{
-			if (pawns.Any<Pawn>())
+			if (pawns.Any())
 			{
 				float num = 0f;
 				for (int i = 0; i < pawns.Count; i++)
@@ -32,7 +31,7 @@ namespace RimWorld.Planet
 					int num2 = (!pawns[i].Downed) ? pawns[i].TicksPerMoveCardinal : 450;
 					num += (float)num2 / (float)pawns.Count;
 				}
-				num *= 190f;
+				num = (float)(num * 190.0);
 				return Mathf.Max(Mathf.RoundToInt(num), 1);
 			}
 			return 2500;

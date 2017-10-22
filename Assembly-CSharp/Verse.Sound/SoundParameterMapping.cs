@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Sound
 {
 	public class SoundParameterMapping
@@ -34,16 +32,15 @@ namespace Verse.Sound
 
 		public void Apply(Sample samp)
 		{
-			if (this.inParam == null || this.outParam == null)
+			if (this.inParam != null && this.outParam != null)
 			{
-				return;
-			}
-			float num = this.inParam.ValueFor(samp);
-			float value = this.curve.Evaluate(num);
-			this.outParam.SetOn(samp, value);
-			if (UnityData.isDebugBuild && this.curve.HasView)
-			{
-				this.curve.View.SetDebugInput(samp, num);
+				float num = this.inParam.ValueFor(samp);
+				float value = this.curve.Evaluate(num);
+				this.outParam.SetOn(samp, value);
+				if (UnityData.isDebugBuild && this.curve.HasView)
+				{
+					this.curve.View.SetDebugInput(samp, num);
+				}
 			}
 		}
 	}

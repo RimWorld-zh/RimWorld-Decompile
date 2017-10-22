@@ -43,7 +43,7 @@ namespace Verse
 				Log.Error("No active language! Cannot translate from key " + key + ".");
 				return key;
 			}
-			string text;
+			string text = default(string);
 			if (LanguageDatabase.activeLanguage.TryGetTextFromKey(key, out text))
 			{
 				return text;
@@ -58,34 +58,35 @@ namespace Verse
 
 		public static string Translate(this string key, params object[] args)
 		{
-			if (key == null || key == string.Empty)
+			if (key != null && !(key == string.Empty))
 			{
-				return key;
-			}
-			if (LanguageDatabase.activeLanguage == null)
-			{
-				Log.Error("No active language! Cannot translate from key " + key + ".");
-				return key;
-			}
-			string text;
-			if (!LanguageDatabase.activeLanguage.TryGetTextFromKey(key, out text))
-			{
-				LanguageDatabase.defaultLanguage.TryGetTextFromKey(key, out text);
-				if (Prefs.DevMode)
+				if (LanguageDatabase.activeLanguage == null)
 				{
-					text = Translator.PseudoTranslated(text);
+					Log.Error("No active language! Cannot translate from key " + key + ".");
+					return key;
+				}
+				string text = default(string);
+				if (!LanguageDatabase.activeLanguage.TryGetTextFromKey(key, out text))
+				{
+					LanguageDatabase.defaultLanguage.TryGetTextFromKey(key, out text);
+					if (Prefs.DevMode)
+					{
+						text = Translator.PseudoTranslated(text);
+					}
+				}
+				string result = text;
+				try
+				{
+					result = string.Format(text, args);
+					return result;
+				}
+				catch (Exception ex)
+				{
+					Log.Error("Exception translating '" + text + "': " + ex.ToString());
+					return result;
 				}
 			}
-			string result = text;
-			try
-			{
-				result = string.Format(text, args);
-			}
-			catch (Exception ex)
-			{
-				Log.Error("Exception translating '" + text + "': " + ex.ToString());
-			}
-			return result;
+			return key;
 		}
 
 		public static bool TryGetTranslatedStringsForFile(string fileName, out List<string> stringList)
@@ -108,92 +109,146 @@ namespace Verse
 			for (int i = 0; i < original.Length; i++)
 			{
 				char c = original[i];
-				string value;
+				string text = (string)null;
 				switch (c)
 				{
 				case 'a':
-					value = "à";
-					break;
-				case 'b':
-					value = "þ";
-					break;
-				case 'c':
-					value = "ç";
-					break;
-				case 'd':
-					value = "ð";
-					break;
-				case 'e':
-					value = "è";
-					break;
-				case 'f':
-					value = "Ƒ";
-					break;
-				case 'g':
-					value = "ğ";
-					break;
-				case 'h':
-					value = "ĥ";
-					break;
-				case 'i':
-					value = "ì";
-					break;
-				case 'j':
-					value = "ĵ";
-					break;
-				case 'k':
-					value = "к";
-					break;
-				case 'l':
-					value = "ſ";
-					break;
-				case 'm':
-					value = "ṁ";
-					break;
-				case 'n':
-					value = "ƞ";
-					break;
-				case 'o':
-					value = "ò";
-					break;
-				case 'p':
-					value = "ṗ";
-					break;
-				case 'q':
-					value = "q";
-					break;
-				case 'r':
-					value = "ṟ";
-					break;
-				case 's':
-					value = "ș";
-					break;
-				case 't':
-					value = "ṭ";
-					break;
-				case 'u':
-					value = "ù";
-					break;
-				case 'v':
-					value = "ṽ";
-					break;
-				case 'w':
-					value = "ẅ";
-					break;
-				case 'x':
-					value = "ẋ";
-					break;
-				case 'y':
-					value = "ý";
-					break;
-				case 'z':
-					value = "ž";
-					break;
-				default:
-					value = string.Empty + c;
+				{
+					text = "à";
 					break;
 				}
-				stringBuilder.Append(value);
+				case 'b':
+				{
+					text = "þ";
+					break;
+				}
+				case 'c':
+				{
+					text = "ç";
+					break;
+				}
+				case 'd':
+				{
+					text = "ð";
+					break;
+				}
+				case 'e':
+				{
+					text = "è";
+					break;
+				}
+				case 'f':
+				{
+					text = "Ƒ";
+					break;
+				}
+				case 'g':
+				{
+					text = "ğ";
+					break;
+				}
+				case 'h':
+				{
+					text = "ĥ";
+					break;
+				}
+				case 'i':
+				{
+					text = "ì";
+					break;
+				}
+				case 'j':
+				{
+					text = "ĵ";
+					break;
+				}
+				case 'k':
+				{
+					text = "к";
+					break;
+				}
+				case 'l':
+				{
+					text = "ſ";
+					break;
+				}
+				case 'm':
+				{
+					text = "ṁ";
+					break;
+				}
+				case 'n':
+				{
+					text = "ƞ";
+					break;
+				}
+				case 'o':
+				{
+					text = "ò";
+					break;
+				}
+				case 'p':
+				{
+					text = "ṗ";
+					break;
+				}
+				case 'q':
+				{
+					text = "q";
+					break;
+				}
+				case 'r':
+				{
+					text = "ṟ";
+					break;
+				}
+				case 's':
+				{
+					text = "ș";
+					break;
+				}
+				case 't':
+				{
+					text = "ṭ";
+					break;
+				}
+				case 'u':
+				{
+					text = "ù";
+					break;
+				}
+				case 'v':
+				{
+					text = "ṽ";
+					break;
+				}
+				case 'w':
+				{
+					text = "ẅ";
+					break;
+				}
+				case 'x':
+				{
+					text = "ẋ";
+					break;
+				}
+				case 'y':
+				{
+					text = "ý";
+					break;
+				}
+				case 'z':
+				{
+					text = "ž";
+					break;
+				}
+				default:
+				{
+					text = string.Empty + c;
+					break;
+				}
+				}
+				stringBuilder.Append(text);
 			}
 			return stringBuilder.ToString();
 		}

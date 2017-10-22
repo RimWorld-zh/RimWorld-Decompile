@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -27,15 +26,15 @@ namespace Verse
 			if (this.modSettings != null && this.modSettings.GetType() != typeof(T))
 			{
 				Log.Error(string.Format("Mod {0} attempted to read two different settings classes (was {1}, is now {2})", this.Content.Name, this.modSettings.GetType(), typeof(T)));
-				return (T)((object)null);
+				return (T)null;
 			}
 			if (this.modSettings != null)
 			{
-				return (T)((object)this.modSettings);
+				return (T)this.modSettings;
 			}
-			this.modSettings = LoadedModManager.ReadModSettings<T>(this.intContent.Identifier, base.GetType().Name);
+			this.modSettings = (ModSettings)(object)LoadedModManager.ReadModSettings<T>(this.intContent.Identifier, base.GetType().Name);
 			this.modSettings.Mod = this;
-			return this.modSettings as T;
+			return (T)(this.modSettings as T);
 		}
 
 		public virtual void WriteSettings()

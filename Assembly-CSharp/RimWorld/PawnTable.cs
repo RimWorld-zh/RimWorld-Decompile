@@ -26,9 +26,9 @@ namespace RimWorld
 
 		private bool dirty;
 
-		private List<bool> columnAtMaxWidth;
+		private List<bool> columnAtMaxWidth = new List<bool>();
 
-		private List<bool> columnAtOptimalWidth;
+		private List<bool> columnAtOptimalWidth = new List<bool>();
 
 		private Vector2 scrollPosition;
 
@@ -38,11 +38,11 @@ namespace RimWorld
 
 		private Vector2 cachedSize;
 
-		private List<Pawn> cachedPawns;
+		private List<Pawn> cachedPawns = new List<Pawn>();
 
-		private List<float> cachedColumnWidths;
+		private List<float> cachedColumnWidths = new List<float>();
 
-		private List<float> cachedRowHeights;
+		private List<float> cachedRowHeights = new List<float>();
 
 		private float cachedHeaderHeight;
 
@@ -114,13 +114,7 @@ namespace RimWorld
 
 		public PawnTable(IEnumerable<PawnColumnDef> columns, Func<IEnumerable<Pawn>> pawnsGetter, int minTableWidth, int maxTableWidth, int minTableHeight, int maxTableHeight)
 		{
-			this.columnAtMaxWidth = new List<bool>();
-			this.columnAtOptimalWidth = new List<bool>();
-			this.cachedPawns = new List<Pawn>();
-			this.cachedColumnWidths = new List<float>();
-			this.cachedRowHeights = new List<float>();
-			base..ctor();
-			this.columns = columns.ToList<PawnColumnDef>();
+			this.columns = columns.ToList();
 			this.pawnsGetter = pawnsGetter;
 			this.SetMinMaxSize(minTableWidth, maxTableWidth, minTableHeight, maxTableHeight);
 			this.SetDirty();
@@ -132,13 +126,7 @@ namespace RimWorld
 
 		public PawnTable(IEnumerable<PawnColumnDef> columns, Func<IEnumerable<Pawn>> pawnsGetter, Vector2 size)
 		{
-			this.columnAtMaxWidth = new List<bool>();
-			this.columnAtOptimalWidth = new List<bool>();
-			this.cachedPawns = new List<Pawn>();
-			this.cachedColumnWidths = new List<float>();
-			this.cachedRowHeights = new List<float>();
-			base..ctor();
-			this.columns = columns.ToList<PawnColumnDef>();
+			this.columns = columns.ToList();
 			this.pawnsGetter = pawnsGetter;
 			this.SetFixedSize(this.fixedSize);
 			this.SetDirty();
@@ -146,70 +134,54 @@ namespace RimWorld
 
 		public void PawnTableOnGUI(Vector2 position)
 		{
-			if (Event.current.type == EventType.Layout)
+			if (Event.current.type != EventType.Layout)
 			{
-				return;
-			}
-			this.RecacheIfDirty();
-			float num = this.cachedSize.x - 16f;
-			int num2 = 0;
-			for (int i = 0; i < this.columns.Count; i++)
-			{
-				int num3;
-				if (i == this.columns.Count - 1)
+				this.RecacheIfDirty();
+				float num = (float)(this.cachedSize.x - 16.0);
+				int num2 = 0;
+				for (int i = 0; i < this.columns.Count; i++)
 				{
-					num3 = (int)(num - (float)num2);
+					int num3 = (i != this.columns.Count - 1) ? ((int)this.cachedColumnWidths[i]) : ((int)(num - (float)num2));
+					Rect rect = new Rect((float)((int)position.x + num2), (float)(int)position.y, (float)num3, (float)(int)this.cachedHeaderHeight);
+					this.columns[i].Worker.DoHeader(rect, this);
+					num2 += num3;
 				}
-				else
+				Rect outRect = new Rect((float)(int)position.x, (float)((int)position.y + (int)this.cachedHeaderHeight), (float)(int)this.cachedSize.x, (float)((int)this.cachedSize.y - (int)this.cachedHeaderHeight));
+				Rect viewRect = new Rect(0f, 0f, (float)(outRect.width - 16.0), (float)((int)this.cachedHeightNoScrollbar - (int)this.cachedHeaderHeight));
+				Widgets.BeginScrollView(outRect, ref this.scrollPosition, viewRect, true);
+				int num4 = 0;
+				for (int j = 0; j < this.cachedPawns.Count; j++)
 				{
-					num3 = (int)this.cachedColumnWidths[i];
-				}
-				Rect rect = new Rect((float)((int)position.x + num2), (float)((int)position.y), (float)num3, (float)((int)this.cachedHeaderHeight));
-				this.columns[i].Worker.DoHeader(rect, this);
-				num2 += num3;
-			}
-			Rect outRect = new Rect((float)((int)position.x), (float)((int)position.y + (int)this.cachedHeaderHeight), (float)((int)this.cachedSize.x), (float)((int)this.cachedSize.y - (int)this.cachedHeaderHeight));
-			Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, (float)((int)this.cachedHeightNoScrollbar - (int)this.cachedHeaderHeight));
-			Widgets.BeginScrollView(outRect, ref this.scrollPosition, viewRect, true);
-			int num4 = 0;
-			for (int j = 0; j < this.cachedPawns.Count; j++)
-			{
-				num2 = 0;
-				if ((float)num4 - this.scrollPosition.y + (float)((int)this.cachedRowHeights[j]) >= 0f && (float)num4 - this.scrollPosition.y <= outRect.height)
-				{
-					GUI.color = new Color(1f, 1f, 1f, 0.2f);
-					Widgets.DrawLineHorizontal(0f, (float)num4, viewRect.width);
-					GUI.color = Color.white;
-					Rect rect2 = new Rect(0f, (float)num4, viewRect.width, (float)((int)this.cachedRowHeights[j]));
-					if (Mouse.IsOver(rect2))
+					num2 = 0;
+					if (!((float)num4 - this.scrollPosition.y + (float)(int)this.cachedRowHeights[j] < 0.0) && !((float)num4 - this.scrollPosition.y > outRect.height))
 					{
-						GUI.DrawTexture(rect2, TexUI.HighlightTex);
-					}
-					for (int k = 0; k < this.columns.Count; k++)
-					{
-						int num5;
-						if (k == this.columns.Count - 1)
-						{
-							num5 = (int)(num - (float)num2);
-						}
-						else
-						{
-							num5 = (int)this.cachedColumnWidths[k];
-						}
-						Rect rect3 = new Rect((float)num2, (float)num4, (float)num5, (float)((int)this.cachedRowHeights[j]));
-						this.columns[k].Worker.DoCell(rect3, this.cachedPawns[j], this);
-						num2 += num5;
-					}
-					if (this.cachedPawns[j].Downed)
-					{
-						GUI.color = new Color(1f, 0f, 0f, 0.5f);
-						Widgets.DrawLineHorizontal(0f, rect2.center.y, viewRect.width);
+						GUI.color = new Color(1f, 1f, 1f, 0.2f);
+						Widgets.DrawLineHorizontal(0f, (float)num4, viewRect.width);
 						GUI.color = Color.white;
+						Rect rect2 = new Rect(0f, (float)num4, viewRect.width, (float)(int)this.cachedRowHeights[j]);
+						if (Mouse.IsOver(rect2))
+						{
+							GUI.DrawTexture(rect2, TexUI.HighlightTex);
+						}
+						for (int k = 0; k < this.columns.Count; k++)
+						{
+							int num5 = (k != this.columns.Count - 1) ? ((int)this.cachedColumnWidths[k]) : ((int)(num - (float)num2));
+							Rect rect3 = new Rect((float)num2, (float)num4, (float)num5, (float)(int)this.cachedRowHeights[j]);
+							this.columns[k].Worker.DoCell(rect3, this.cachedPawns[j], this);
+							num2 += num5;
+						}
+						if (this.cachedPawns[j].Downed)
+						{
+							GUI.color = new Color(1f, 0f, 0f, 0.5f);
+							Vector2 center = rect2.center;
+							Widgets.DrawLineHorizontal(0f, center.y, viewRect.width);
+							GUI.color = Color.white;
+						}
 					}
+					num4 += (int)this.cachedRowHeights[j];
 				}
-				num4 += (int)this.cachedRowHeights[j];
+				Widgets.EndScrollView();
 			}
-			Widgets.EndScrollView();
 		}
 
 		public void SetDirty()
@@ -243,17 +215,16 @@ namespace RimWorld
 
 		private void RecacheIfDirty()
 		{
-			if (!this.dirty)
+			if (this.dirty)
 			{
-				return;
+				this.dirty = false;
+				this.RecachePawns();
+				this.RecacheRowHeights();
+				this.cachedHeaderHeight = this.CalculateHeaderHeight();
+				this.cachedHeightNoScrollbar = this.CalculateTotalRequiredHeight();
+				this.RecacheSize();
+				this.RecacheColumnWidths();
 			}
-			this.dirty = false;
-			this.RecachePawns();
-			this.RecacheRowHeights();
-			this.cachedHeaderHeight = this.CalculateHeaderHeight();
-			this.cachedHeightNoScrollbar = this.CalculateTotalRequiredHeight();
-			this.RecacheSize();
-			this.RecacheColumnWidths();
 		}
 
 		private void RecachePawns()
@@ -264,19 +235,19 @@ namespace RimWorld
 			{
 				if (this.sortDescending)
 				{
-					this.cachedPawns.Sort(delegate(Pawn a, Pawn b)
+					this.cachedPawns.Sort((Comparison<Pawn>)delegate(Pawn a, Pawn b)
 					{
-						int num = this.sortByColumn.Worker.Compare(b, a);
-						if (num == 0)
+						int num2 = this.sortByColumn.Worker.Compare(b, a);
+						if (num2 == 0)
 						{
 							return b.Label.CompareTo(a.Label);
 						}
-						return num;
+						return num2;
 					});
 				}
 				else
 				{
-					this.cachedPawns.Sort(delegate(Pawn a, Pawn b)
+					this.cachedPawns.Sort((Comparison<Pawn>)delegate(Pawn a, Pawn b)
 					{
 						int num = this.sortByColumn.Worker.Compare(a, b);
 						if (num == 0)
@@ -291,26 +262,24 @@ namespace RimWorld
 
 		private void RecacheColumnWidths()
 		{
-			float num = this.cachedSize.x - 16f;
+			float num = (float)(this.cachedSize.x - 16.0);
 			float num2 = 0f;
 			this.RecacheColumnWidths_StartWithMinWidths(out num2);
-			if (num2 == num)
+			if (num2 != num)
 			{
-				return;
-			}
-			if (num2 > num)
-			{
-				this.SubtractProportionally(num2 - num, num2);
-			}
-			else
-			{
-				bool flag;
-				this.RecacheColumnWidths_DistributeUntilOptimal(num, ref num2, out flag);
-				if (flag)
+				if (num2 > num)
 				{
-					return;
+					this.SubtractProportionally(num2 - num, num2);
 				}
-				this.RecacheColumnWidths_DistributeAboveOptimal(num, ref num2);
+				else
+				{
+					bool flag = default(bool);
+					this.RecacheColumnWidths_DistributeUntilOptimal(num, ref num2, out flag);
+					if (!flag)
+					{
+						this.RecacheColumnWidths_DistributeAboveOptimal(num, ref num2);
+					}
+				}
 			}
 		}
 
@@ -339,85 +308,75 @@ namespace RimWorld
 				num++;
 				if (num >= 10000)
 				{
-					break;
+					Log.Error("Too many iterations.");
 				}
-				float num2 = -3.40282347E+38f;
-				for (int j = 0; j < this.columns.Count; j++)
+				else
 				{
-					if (!this.columnAtOptimalWidth[j])
+					float num2 = -3.40282347E+38f;
+					for (int j = 0; j < this.columns.Count; j++)
 					{
-						num2 = Mathf.Max(num2, (float)this.columns[j].widthPriority);
+						if (!this.columnAtOptimalWidth[j])
+						{
+							num2 = Mathf.Max(num2, (float)this.columns[j].widthPriority);
+						}
 					}
-				}
-				float num3 = 0f;
-				for (int k = 0; k < this.cachedColumnWidths.Count; k++)
-				{
-					if (!this.columnAtOptimalWidth[k])
+					float num3 = 0f;
+					for (int k = 0; k < this.cachedColumnWidths.Count; k++)
 					{
-						if ((float)this.columns[k].widthPriority == num2)
+						if (!this.columnAtOptimalWidth[k] && (float)this.columns[k].widthPriority == num2)
 						{
 							num3 += this.GetOptimalWidth(this.columns[k]);
 						}
 					}
-				}
-				float num4 = totalAvailableSpaceForColumns - usedWidth;
-				bool flag = false;
-				bool flag2 = false;
-				for (int l = 0; l < this.cachedColumnWidths.Count; l++)
-				{
-					if (!this.columnAtOptimalWidth[l])
+					float num4 = totalAvailableSpaceForColumns - usedWidth;
+					bool flag = false;
+					bool flag2 = false;
+					for (int l = 0; l < this.cachedColumnWidths.Count; l++)
 					{
-						if ((float)this.columns[l].widthPriority != num2)
+						if (!this.columnAtOptimalWidth[l])
 						{
-							flag = true;
-						}
-						else
-						{
-							float num5 = num4 * this.GetOptimalWidth(this.columns[l]) / num3;
-							float num6 = this.GetOptimalWidth(this.columns[l]) - this.cachedColumnWidths[l];
-							if (num5 >= num6)
-							{
-								num5 = num6;
-								this.columnAtOptimalWidth[l] = true;
-								flag2 = true;
-							}
-							else
+							if ((float)this.columns[l].widthPriority != num2)
 							{
 								flag = true;
 							}
-							if (num5 > 0f)
+							else
 							{
-								List<float> list;
-								List<float> expr_1FC = list = this.cachedColumnWidths;
-								int index;
-								int expr_201 = index = l;
-								float num7 = list[index];
-								expr_1FC[expr_201] = num7 + num5;
-								usedWidth += num5;
+								float num5 = num4 * this.GetOptimalWidth(this.columns[l]) / num3;
+								float num6 = this.GetOptimalWidth(this.columns[l]) - this.cachedColumnWidths[l];
+								if (num5 >= num6)
+								{
+									num5 = num6;
+									this.columnAtOptimalWidth[l] = true;
+									flag2 = true;
+								}
+								else
+								{
+									flag = true;
+								}
+								if (num5 > 0.0)
+								{
+									List<float> list;
+									List<float> obj = list = this.cachedColumnWidths;
+									int index;
+									int index2 = index = l;
+									float num7 = list[index];
+									obj[index2] = num7 + num5;
+									usedWidth += num5;
+								}
 							}
 						}
 					}
+					if (usedWidth >= totalAvailableSpaceForColumns - 0.10000000149011612)
+					{
+						noMoreFreeSpace = true;
+					}
+					else if (flag && flag2)
+					{
+						continue;
+					}
 				}
-				if (usedWidth >= totalAvailableSpaceForColumns - 0.1f)
-				{
-					goto Block_13;
-				}
-				if (!flag)
-				{
-					goto Block_14;
-				}
-				if (!flag2)
-				{
-					goto Block_15;
-				}
+				break;
 			}
-			Log.Error("Too many iterations.");
-			goto IL_26B;
-			Block_13:
-			noMoreFreeSpace = true;
-			Block_14:
-			Block_15:
-			IL_26B:
 			noMoreFreeSpace = false;
 		}
 
@@ -434,58 +393,56 @@ namespace RimWorld
 				num++;
 				if (num >= 10000)
 				{
-					break;
+					Log.Error("Too many iterations.");
 				}
-				float num2 = 0f;
-				for (int j = 0; j < this.columns.Count; j++)
+				else
 				{
-					if (!this.columnAtMaxWidth[j])
+					float num2 = 0f;
+					for (int j = 0; j < this.columns.Count; j++)
 					{
-						num2 += Mathf.Max(this.GetOptimalWidth(this.columns[j]), 1f);
-					}
-				}
-				float num3 = totalAvailableSpaceForColumns - usedWidth;
-				bool flag = false;
-				for (int k = 0; k < this.columns.Count; k++)
-				{
-					if (!this.columnAtMaxWidth[k])
-					{
-						float num4 = num3 * Mathf.Max(this.GetOptimalWidth(this.columns[k]), 1f) / num2;
-						float num5 = this.GetMaxWidth(this.columns[k]) - this.cachedColumnWidths[k];
-						if (num4 >= num5)
+						if (!this.columnAtMaxWidth[j])
 						{
-							num4 = num5;
-							this.columnAtMaxWidth[k] = true;
-						}
-						else
-						{
-							flag = true;
-						}
-						if (num4 > 0f)
-						{
-							List<float> list;
-							List<float> expr_16B = list = this.cachedColumnWidths;
-							int index;
-							int expr_170 = index = k;
-							float num6 = list[index];
-							expr_16B[expr_170] = num6 + num4;
-							usedWidth += num4;
+							num2 += Mathf.Max(this.GetOptimalWidth(this.columns[j]), 1f);
 						}
 					}
+					float num3 = totalAvailableSpaceForColumns - usedWidth;
+					bool flag = false;
+					for (int k = 0; k < this.columns.Count; k++)
+					{
+						if (!this.columnAtMaxWidth[k])
+						{
+							float num4 = num3 * Mathf.Max(this.GetOptimalWidth(this.columns[k]), 1f) / num2;
+							float num5 = this.GetMaxWidth(this.columns[k]) - this.cachedColumnWidths[k];
+							if (num4 >= num5)
+							{
+								num4 = num5;
+								this.columnAtMaxWidth[k] = true;
+							}
+							else
+							{
+								flag = true;
+							}
+							if (num4 > 0.0)
+							{
+								List<float> list;
+								List<float> obj = list = this.cachedColumnWidths;
+								int index;
+								int index2 = index = k;
+								float num6 = list[index];
+								obj[index2] = num6 + num4;
+								usedWidth += num4;
+							}
+						}
+					}
+					if (!(usedWidth >= totalAvailableSpaceForColumns - 0.10000000149011612))
+					{
+						if (!flag)
+							break;
+						continue;
+					}
 				}
-				if (usedWidth >= totalAvailableSpaceForColumns - 0.1f)
-				{
-					goto Block_9;
-				}
-				if (!flag)
-				{
-					goto Block_10;
-				}
+				return;
 			}
-			Log.Error("Too many iterations.");
-			Block_9:
-			return;
-			Block_10:
 			this.DistributeRemainingWidthProportionallyAboveMax(totalAvailableSpaceForColumns - usedWidth);
 		}
 
@@ -514,11 +471,11 @@ namespace RimWorld
 						num += this.GetOptimalWidth(this.columns[i]);
 					}
 				}
-				float num2 = Mathf.Clamp(num + 16f, (float)this.minTableWidth, (float)this.maxTableWidth);
-				float num3 = Mathf.Clamp(this.cachedHeightNoScrollbar, (float)this.minTableHeight, (float)this.maxTableHeight);
-				num2 = Mathf.Min(num2, (float)UI.screenWidth);
-				num3 = Mathf.Min(num3, (float)UI.screenHeight);
-				this.cachedSize = new Vector2(num2, num3);
+				float a = Mathf.Clamp((float)(num + 16.0), (float)this.minTableWidth, (float)this.maxTableWidth);
+				float a2 = Mathf.Clamp(this.cachedHeightNoScrollbar, (float)this.minTableHeight, (float)this.maxTableHeight);
+				a = Mathf.Min(a, (float)UI.screenWidth);
+				a2 = Mathf.Min(a2, (float)UI.screenHeight);
+				this.cachedSize = new Vector2(a, a2);
 			}
 		}
 
@@ -527,11 +484,11 @@ namespace RimWorld
 			for (int i = 0; i < this.cachedColumnWidths.Count; i++)
 			{
 				List<float> list;
-				List<float> expr_0D = list = this.cachedColumnWidths;
+				List<float> obj = list = this.cachedColumnWidths;
 				int index;
-				int expr_10 = index = i;
+				int index2 = index = i;
 				float num = list[index];
-				expr_0D[expr_10] = num - toSubtract * this.cachedColumnWidths[i] / totalUsedWidth;
+				obj[index2] = num - toSubtract * this.cachedColumnWidths[i] / totalUsedWidth;
 			}
 		}
 
@@ -545,11 +502,11 @@ namespace RimWorld
 			for (int j = 0; j < this.columns.Count; j++)
 			{
 				List<float> list;
-				List<float> expr_4E = list = this.cachedColumnWidths;
+				List<float> obj = list = this.cachedColumnWidths;
 				int index;
-				int expr_51 = index = j;
+				int index2 = index = j;
 				float num2 = list[index];
-				expr_4E[expr_51] = num2 + toDistribute * Mathf.Max(this.GetOptimalWidth(this.columns[j]), 1f) / num;
+				obj[index2] = num2 + toDistribute * Mathf.Max(this.GetOptimalWidth(this.columns[j]), 1f) / num;
 			}
 		}
 

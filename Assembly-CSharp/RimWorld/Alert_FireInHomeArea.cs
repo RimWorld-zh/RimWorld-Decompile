@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -17,7 +16,7 @@ namespace RimWorld
 					for (int j = 0; j < list.Count; j++)
 					{
 						Thing thing = list[j];
-						if (maps[i].areaManager.Home[thing.Position] && !thing.Position.Fogged(thing.Map))
+						if (((Area)maps[i].areaManager.Home)[thing.Position] && !thing.Position.Fogged(thing.Map))
 						{
 							return (Fire)thing;
 						}
@@ -29,8 +28,8 @@ namespace RimWorld
 
 		public Alert_FireInHomeArea()
 		{
-			this.defaultLabel = "FireInHomeArea".Translate();
-			this.defaultExplanation = "FireInHomeAreaDesc".Translate();
+			base.defaultLabel = "FireInHomeArea".Translate();
+			base.defaultExplanation = "FireInHomeAreaDesc".Translate();
 		}
 
 		public override AlertReport GetReport()
@@ -38,7 +37,7 @@ namespace RimWorld
 			Fire fireInHomeArea = this.FireInHomeArea;
 			if (fireInHomeArea != null)
 			{
-				return AlertReport.CulpritIs(fireInHomeArea);
+				return AlertReport.CulpritIs((Thing)fireInHomeArea);
 			}
 			return false;
 		}

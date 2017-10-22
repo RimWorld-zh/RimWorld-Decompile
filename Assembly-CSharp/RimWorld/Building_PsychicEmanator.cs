@@ -26,7 +26,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return Mathf.Min(3f + 40f * ((float)this.age / 60000f), 20f);
+				return Mathf.Min((float)(3.0 + 40.0 * ((float)base.age / 60000.0)), 20f);
 			}
 		}
 
@@ -54,26 +54,31 @@ namespace RimWorld
 			switch (this.droneLevel)
 			{
 			case PsychicDroneLevel.BadLow:
+			{
 				text = "PsychicDroneLevelLow".Translate();
 				break;
+			}
 			case PsychicDroneLevel.BadMedium:
+			{
 				text = "PsychicDroneLevelMedium".Translate();
 				break;
+			}
 			case PsychicDroneLevel.BadHigh:
+			{
 				text = "PsychicDroneLevelHigh".Translate();
 				break;
+			}
 			case PsychicDroneLevel.BadExtreme:
+			{
 				text = "PsychicDroneLevelExtreme".Translate();
 				break;
+			}
 			}
 			if (stringBuilder.Length != 0)
 			{
 				stringBuilder.AppendLine();
 			}
-			stringBuilder.Append("PsychicDroneLevel".Translate(new object[]
-			{
-				text
-			}));
+			stringBuilder.Append("PsychicDroneLevel".Translate(text));
 			return stringBuilder.ToString();
 		}
 
@@ -96,14 +101,13 @@ namespace RimWorld
 
 		private void IncreaseDroneLevel()
 		{
-			if (this.droneLevel == PsychicDroneLevel.BadExtreme)
+			if (this.droneLevel != PsychicDroneLevel.BadExtreme)
 			{
-				return;
+				this.droneLevel += (byte)1;
+				string text = "LetterPsychicDroneLevelIncreased".Translate();
+				Find.LetterStack.ReceiveLetter("LetterLabelPsychicDroneLevelIncreased".Translate(), text, LetterDefOf.BadNonUrgent, (string)null);
+				SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(base.Map);
 			}
-			this.droneLevel += 1;
-			string text = "LetterPsychicDroneLevelIncreased".Translate();
-			Find.LetterStack.ReceiveLetter("LetterLabelPsychicDroneLevelIncreased".Translate(), text, LetterDefOf.BadNonUrgent, null);
-			SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(base.Map);
 		}
 
 		private void DoAnimalInsanityPulse()
@@ -111,11 +115,11 @@ namespace RimWorld
 			IEnumerable<Pawn> enumerable = from p in base.Map.mapPawns.AllPawnsSpawned
 			where p.RaceProps.Animal && p.Position.InHorDistOf(base.Position, 25f)
 			select p;
-			foreach (Pawn current in enumerable)
+			foreach (Pawn item in enumerable)
 			{
-				current.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, null, false, false, null);
+				item.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, (string)null, false, false, null);
 			}
-			Messages.Message("MessageAnimalInsanityPulse".Translate(), this, MessageSound.Negative);
+			Messages.Message("MessageAnimalInsanityPulse".Translate(), (Thing)this, MessageSound.Negative);
 			SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(base.Map);
 			if (base.Map == Find.VisibleMap)
 			{

@@ -24,7 +24,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return !this.recipe.targetsBodyPart || this.recipe.Worker.GetPartsToApplyOn(this.GiverPawn, this.recipe).Contains(this.part);
+				if (base.recipe.targetsBodyPart && !base.recipe.Worker.GetPartsToApplyOn(this.GiverPawn, base.recipe).Contains(this.part))
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -40,20 +44,22 @@ namespace RimWorld
 			}
 			set
 			{
-				if (this.billStack == null)
+				if (base.billStack == null)
 				{
 					Log.Error("Can only set Bill_Medical.Part after the bill has been added to a pawn's bill stack.");
-					return;
-				}
-				if (value != null)
-				{
-					this.partIndex = this.GiverPawn.RaceProps.body.GetIndexOfPart(value);
 				}
 				else
 				{
-					this.partIndex = -1;
+					if (value != null)
+					{
+						this.partIndex = this.GiverPawn.RaceProps.body.GetIndexOfPart(value);
+					}
+					else
+					{
+						this.partIndex = -1;
+					}
+					this.part = value;
 				}
-				this.part = value;
 			}
 		}
 
@@ -61,8 +67,8 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn pawn = this.billStack.billGiver as Pawn;
-				Corpse corpse = this.billStack.billGiver as Corpse;
+				Pawn pawn = base.billStack.billGiver as Pawn;
+				Corpse corpse = base.billStack.billGiver as Corpse;
 				if (corpse != null)
 				{
 					pawn = corpse.InnerPawn;
@@ -80,8 +86,8 @@ namespace RimWorld
 			get
 			{
 				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.Append(this.recipe.Worker.GetLabelWhenUsedOn(this.GiverPawn, this.part));
-				if (this.Part != null && !this.recipe.hideBodyPartNames)
+				stringBuilder.Append(base.recipe.Worker.GetLabelWhenUsedOn(this.GiverPawn, this.part));
+				if (this.Part != null && !base.recipe.hideBodyPartNames)
 				{
 					stringBuilder.Append(" (" + this.Part.def.label + ")");
 				}
@@ -99,7 +105,11 @@ namespace RimWorld
 
 		public override bool ShouldDoNow()
 		{
-			return !this.suspended;
+			if (base.suspended)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void Notify_IterationCompleted(Pawn billDoer, List<Thing> ingredients)
@@ -108,35 +118,41 @@ namespace RimWorld
 			if (this.CompletableEver)
 			{
 				Pawn giverPawn = this.GiverPawn;
-				this.recipe.Worker.ApplyOnPawn(giverPawn, this.Part, billDoer, ingredients);
+				base.recipe.Worker.ApplyOnPawn(giverPawn, this.Part, billDoer, ingredients);
 				if (giverPawn.RaceProps.IsFlesh)
 				{
 					giverPawn.records.Increment(RecordDefOf.OperationsReceived);
 					billDoer.records.Increment(RecordDefOf.OperationsPerformed);
 				}
 			}
-			this.billStack.Delete(this);
+			base.billStack.Delete(this);
 		}
 
 		public override void Notify_DoBillStarted(Pawn billDoer)
 		{
 			base.Notify_DoBillStarted(billDoer);
-			if (!this.GiverPawn.Dead && this.recipe.anesthetize && HealthUtility.TryAnesthetize(this.GiverPawn))
+			if (!this.GiverPawn.Dead && base.recipe.anesthetize && HealthUtility.TryAnesthetize(this.GiverPawn))
 			{
 				List<ThingStackPartClass> placedThings = billDoer.CurJob.placedThings;
-				for (int i = 0; i < placedThings.Count; i++)
+				int num = 0;
+				while (true)
 				{
-					if (placedThings[i].thing is Medicine)
+					if (num < placedThings.Count)
 					{
-						this.recipe.Worker.ConsumeIngredient(placedThings[i].thing.SplitOff(1), this.recipe, billDoer.MapHeld);
-						placedThings[i].Count--;
-						if (placedThings[i].thing.Destroyed || placedThings[i].Count <= 0)
+						if (!(placedThings[num].thing is Medicine))
 						{
-							placedThings.RemoveAt(i);
+							num++;
+							continue;
 						}
 						break;
 					}
+					return;
 				}
+				base.recipe.Worker.ConsumeIngredient(placedThings[num].thing.SplitOff(1), base.recipe, billDoer.MapHeld);
+				placedThings[num].Count--;
+				if (!placedThings[num].thing.Destroyed && placedThings[num].Count > 0)
+					return;
+				placedThings.RemoveAt(num);
 			}
 		}
 

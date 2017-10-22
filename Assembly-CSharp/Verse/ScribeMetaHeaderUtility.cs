@@ -11,10 +11,10 @@ namespace Verse
 	{
 		public enum ScribeHeaderMode
 		{
-			None,
-			Map,
-			World,
-			Scenario
+			None = 0,
+			Map = 1,
+			World = 2,
+			Scenario = 3
 		}
 
 		public const string MetaNodeName = "meta";
@@ -25,7 +25,7 @@ namespace Verse
 
 		public const string ModNamesNodeName = "modNames";
 
-		private static ScribeMetaHeaderUtility.ScribeHeaderMode lastMode;
+		private static ScribeHeaderMode lastMode;
 
 		public static string loadedGameVersion;
 
@@ -40,13 +40,13 @@ namespace Verse
 				try
 				{
 					string currentVersionStringWithRev = VersionControl.CurrentVersionStringWithRev;
-					Scribe_Values.Look<string>(ref currentVersionStringWithRev, "gameVersion", null, false);
+					Scribe_Values.Look(ref currentVersionStringWithRev, "gameVersion", (string)null, false);
 					List<string> list = (from mod in LoadedModManager.RunningMods
-					select mod.Identifier).ToList<string>();
-					Scribe_Collections.Look<string>(ref list, "modIds", LookMode.Undefined, new object[0]);
+					select mod.Identifier).ToList();
+					Scribe_Collections.Look(ref list, "modIds", LookMode.Undefined);
 					List<string> list2 = (from mod in LoadedModManager.RunningMods
-					select mod.Name).ToList<string>();
-					Scribe_Collections.Look<string>(ref list2, "modNames", LookMode.Undefined, new object[0]);
+					select mod.Name).ToList();
+					Scribe_Collections.Look(ref list2, "modNames", LookMode.Undefined);
 				}
 				finally
 				{
@@ -55,17 +55,17 @@ namespace Verse
 			}
 		}
 
-		public static void LoadGameDataHeader(ScribeMetaHeaderUtility.ScribeHeaderMode mode, bool logVersionConflictWarning)
+		public static void LoadGameDataHeader(ScribeHeaderMode mode, bool logVersionConflictWarning)
 		{
 			ScribeMetaHeaderUtility.loadedGameVersion = "Unknown";
 			ScribeMetaHeaderUtility.loadedModIdsList = null;
 			ScribeMetaHeaderUtility.loadedModNamesList = null;
 			ScribeMetaHeaderUtility.lastMode = mode;
-			if (Scribe.mode != LoadSaveMode.Inactive && Scribe.EnterNode("meta"))
+			if (Scribe.mode != 0 && Scribe.EnterNode("meta"))
 			{
 				try
 				{
-					Scribe_Values.Look<string>(ref ScribeMetaHeaderUtility.loadedGameVersion, "gameVersion", null, false);
+					Scribe_Values.Look<string>(ref ScribeMetaHeaderUtility.loadedGameVersion, "gameVersion", (string)null, false);
 					Scribe_Collections.Look<string>(ref ScribeMetaHeaderUtility.loadedModIdsList, "modIds", LookMode.Undefined, new object[0]);
 					Scribe_Collections.Look<string>(ref ScribeMetaHeaderUtility.loadedModNamesList, "modNames", LookMode.Undefined, new object[0]);
 				}
@@ -74,18 +74,14 @@ namespace Verse
 					Scribe.ExitNode();
 				}
 			}
-			if (logVersionConflictWarning && (mode == ScribeMetaHeaderUtility.ScribeHeaderMode.Map || !UnityData.isEditor) && !ScribeMetaHeaderUtility.VersionsMatch())
+			if (logVersionConflictWarning)
 			{
-				Log.Warning(string.Concat(new object[]
+				if (mode != ScribeHeaderMode.Map && UnityData.isEditor)
+					return;
+				if (!ScribeMetaHeaderUtility.VersionsMatch())
 				{
-					"Loaded file (",
-					mode,
-					") is from version ",
-					ScribeMetaHeaderUtility.loadedGameVersion,
-					", we are running version ",
-					VersionControl.CurrentVersionStringWithRev,
-					"."
-				}));
+					Log.Warning("Loaded file (" + mode + ") is from version " + ScribeMetaHeaderUtility.loadedGameVersion + ", we are running version " + VersionControl.CurrentVersionStringWithRev + ".");
+				}
 			}
 		}
 
@@ -96,54 +92,20 @@ namespace Verse
 
 		public static bool TryCreateDialogsForVersionMismatchWarnings(Action confirmedAction)
 		{
-			string text = null;
-			string text2 = null;
+			string text = (string)null;
+			string text2 = (string)null;
 			if (!BackCompatibility.IsSaveCompatibleWith(ScribeMetaHeaderUtility.loadedGameVersion) && !ScribeMetaHeaderUtility.VersionsMatch())
 			{
 				text2 = "VersionMismatch".Translate();
 				string text3 = (!ScribeMetaHeaderUtility.loadedGameVersion.NullOrEmpty()) ? ScribeMetaHeaderUtility.loadedGameVersion : ("(" + "UnknownLower".Translate() + ")");
-				if (ScribeMetaHeaderUtility.lastMode == ScribeMetaHeaderUtility.ScribeHeaderMode.Map)
-				{
-					text = "SaveGameIncompatibleWarningText".Translate(new object[]
-					{
-						text3,
-						VersionControl.CurrentVersionString
-					});
-				}
-				else if (ScribeMetaHeaderUtility.lastMode == ScribeMetaHeaderUtility.ScribeHeaderMode.World)
-				{
-					text = "WorldFileVersionMismatch".Translate(new object[]
-					{
-						text3,
-						VersionControl.CurrentVersionString
-					});
-				}
-				else
-				{
-					text = "FileIncompatibleWarning".Translate(new object[]
-					{
-						text3,
-						VersionControl.CurrentVersionString
-					});
-				}
+				text = ((ScribeMetaHeaderUtility.lastMode != ScribeHeaderMode.Map) ? ((ScribeMetaHeaderUtility.lastMode != ScribeHeaderMode.World) ? "FileIncompatibleWarning".Translate(text3, VersionControl.CurrentVersionString) : "WorldFileVersionMismatch".Translate(text3, VersionControl.CurrentVersionString)) : "SaveGameIncompatibleWarningText".Translate(text3, VersionControl.CurrentVersionString));
 			}
-			string text4;
-			string text5;
+			string text4 = default(string);
+			string text5 = default(string);
 			if (!ScribeMetaHeaderUtility.LoadedModsMatchesActiveMods(out text4, out text5))
 			{
-				string text6 = "ModsMismatchWarningText".Translate(new object[]
-				{
-					text4,
-					text5
-				});
-				if (text == null)
-				{
-					text = text6;
-				}
-				else
-				{
-					text = text + "\n\n" + text6;
-				}
+				string text6 = "ModsMismatchWarningText".Translate(text4, text5);
+				text = ((text != null) ? (text + "\n\n" + text6) : text6);
 				if (text2 == null)
 				{
 					text2 = "ModsMismatchWarningTitle".Translate();
@@ -162,10 +124,10 @@ namespace Verse
 
 		public static bool LoadedModsMatchesActiveMods(out string loadedModsSummary, out string runningModsSummary)
 		{
-			loadedModsSummary = null;
-			runningModsSummary = null;
+			loadedModsSummary = (string)null;
+			runningModsSummary = (string)null;
 			List<string> list = (from mod in LoadedModManager.RunningMods
-			select mod.Identifier).ToList<string>();
+			select mod.Identifier).ToList();
 			if (ScribeMetaHeaderUtility.ModListsMatch(ScribeMetaHeaderUtility.loadedModIdsList, list))
 			{
 				return true;
@@ -185,22 +147,22 @@ namespace Verse
 
 		private static bool ModListsMatch(List<string> a, List<string> b)
 		{
-			if (a == null || b == null)
+			if (a != null && b != null)
 			{
-				return false;
-			}
-			if (a.Count != b.Count)
-			{
-				return false;
-			}
-			for (int i = 0; i < a.Count; i++)
-			{
-				if (a[i] != b[i])
+				if (a.Count != b.Count)
 				{
 					return false;
 				}
+				for (int i = 0; i < a.Count; i++)
+				{
+					if (a[i] != b[i])
+					{
+						return false;
+					}
+				}
+				return true;
 			}
-			return true;
+			return false;
 		}
 
 		public static string GameVersionOf(FileInfo file)
@@ -211,9 +173,9 @@ namespace Verse
 			}
 			try
 			{
-				using (StreamReader streamReader = new StreamReader(file.FullName))
+				using (StreamReader input = new StreamReader(file.FullName))
 				{
-					using (XmlTextReader xmlTextReader = new XmlTextReader(streamReader))
+					using (XmlTextReader xmlTextReader = new XmlTextReader(input))
 					{
 						if (ScribeMetaHeaderUtility.ReadToMetaElement(xmlTextReader) && xmlTextReader.ReadToDescendant("gameVersion"))
 						{
@@ -226,24 +188,38 @@ namespace Verse
 			{
 				Log.Error("Exception getting game version of " + file.Name + ": " + ex.ToString());
 			}
-			return null;
+			return (string)null;
 		}
 
 		public static bool ReadToMetaElement(XmlTextReader textReader)
 		{
-			return ScribeMetaHeaderUtility.ReadToNextElement(textReader) && ScribeMetaHeaderUtility.ReadToNextElement(textReader) && !(textReader.Name != "meta");
+			if (!ScribeMetaHeaderUtility.ReadToNextElement(textReader))
+			{
+				return false;
+			}
+			if (!ScribeMetaHeaderUtility.ReadToNextElement(textReader))
+			{
+				return false;
+			}
+			if (textReader.Name != "meta")
+			{
+				return false;
+			}
+			return true;
 		}
 
 		private static bool ReadToNextElement(XmlTextReader textReader)
 		{
-			while (textReader.Read())
+			while (true)
 			{
-				if (textReader.NodeType == XmlNodeType.Element)
+				if (!textReader.Read())
 				{
-					return true;
+					return false;
 				}
+				if (textReader.NodeType == XmlNodeType.Element)
+					break;
 			}
-			return false;
+			return true;
 		}
 	}
 }

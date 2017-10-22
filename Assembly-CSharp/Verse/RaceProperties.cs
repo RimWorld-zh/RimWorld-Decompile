@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace Verse
@@ -104,7 +103,7 @@ namespace Verse
 
 		public string meatLabel;
 
-		public Color meatColor;
+		public Color meatColor = new ColorInt(141, 56, 52).ToColor;
 
 		public ThingDef useMeatFrom;
 
@@ -112,7 +111,7 @@ namespace Verse
 
 		public ShadowData specialShadowData;
 
-		public IntRange soundCallIntervalRange;
+		public IntRange soundCallIntervalRange = new IntRange(2000, 4000);
 
 		public SoundDef soundMeleeHitPawn;
 
@@ -136,7 +135,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.intelligence >= Intelligence.Humanlike;
+				return (int)this.intelligence >= 2;
 			}
 		}
 
@@ -144,7 +143,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.intelligence >= Intelligence.ToolUser;
+				return (int)this.intelligence >= 1;
 			}
 		}
 
@@ -171,19 +170,33 @@ namespace Verse
 				switch (this.ResolvedDietCategory)
 				{
 				case DietCategory.NeverEats:
+				{
 					return 0.3f;
-				case DietCategory.Herbivorous:
-					return 0.45f;
-				case DietCategory.Dendrovorous:
-					return 0.45f;
-				case DietCategory.Ovivorous:
-					return 0.4f;
+				}
 				case DietCategory.Omnivorous:
+				{
 					return 0.3f;
+				}
 				case DietCategory.Carnivorous:
+				{
 					return 0.3f;
+				}
+				case DietCategory.Ovivorous:
+				{
+					return 0.4f;
+				}
+				case DietCategory.Herbivorous:
+				{
+					return 0.45f;
+				}
+				case DietCategory.Dendrovorous:
+				{
+					return 0.45f;
+				}
 				default:
+				{
 					throw new InvalidOperationException();
+				}
 				}
 			}
 		}
@@ -202,20 +215,17 @@ namespace Verse
 				}
 				if (this.Eats(FoodTypeFlags.Meat))
 				{
-					if (this.Eats(FoodTypeFlags.VegetableOrFruit) || this.Eats(FoodTypeFlags.Plant))
+					if (!this.Eats(FoodTypeFlags.VegetableOrFruit) && !this.Eats(FoodTypeFlags.Plant))
 					{
-						return DietCategory.Omnivorous;
+						return DietCategory.Carnivorous;
 					}
-					return DietCategory.Carnivorous;
+					return DietCategory.Omnivorous;
 				}
-				else
+				if (this.Eats(FoodTypeFlags.AnimalProduct))
 				{
-					if (this.Eats(FoodTypeFlags.AnimalProduct))
-					{
-						return DietCategory.Ovivorous;
-					}
-					return DietCategory.Herbivorous;
+					return DietCategory.Ovivorous;
 				}
+				return DietCategory.Herbivorous;
 			}
 		}
 
@@ -287,14 +297,6 @@ namespace Verse
 			}
 		}
 
-		public RaceProperties()
-		{
-			ColorInt colorInt = new ColorInt(141, 56, 52);
-			this.meatColor = colorInt.ToColor;
-			this.soundCallIntervalRange = new IntRange(2000, 4000);
-			base..ctor();
-		}
-
 		public RulePackDef GetNameGenerator(Gender gender)
 		{
 			if (gender == Gender.Female && this.nameGeneratorFemale != null)
@@ -306,7 +308,15 @@ namespace Verse
 
 		public bool WillAutomaticallyEat(Thing t)
 		{
-			return t.def.ingestible != null && this.CanEverEat(t);
+			if (t.def.ingestible == null)
+			{
+				return false;
+			}
+			if (!this.CanEverEat(t))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public bool CanEverEat(Thing t)
@@ -316,12 +326,28 @@ namespace Verse
 
 		public bool CanEverEat(ThingDef t)
 		{
-			return this.EatsFood && t.ingestible != null && t.ingestible.preferability != FoodPreferability.Undefined && this.Eats(t.ingestible.foodType);
+			if (!this.EatsFood)
+			{
+				return false;
+			}
+			if (t.ingestible == null)
+			{
+				return false;
+			}
+			if (t.ingestible.preferability == FoodPreferability.Undefined)
+			{
+				return false;
+			}
+			return this.Eats(t.ingestible.foodType);
 		}
 
 		public bool Eats(FoodTypeFlags food)
 		{
-			return this.EatsFood && (this.foodType & food) != FoodTypeFlags.None;
+			if (!this.EatsFood)
+			{
+				return false;
+			}
+			return (this.foodType & food) != FoodTypeFlags.None;
 		}
 
 		public void ResolveReferencesSpecial()
@@ -336,26 +362,97 @@ namespace Verse
 			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors()
 		{
-			RaceProperties.<ConfigErrors>c__Iterator1CB <ConfigErrors>c__Iterator1CB = new RaceProperties.<ConfigErrors>c__Iterator1CB();
-			<ConfigErrors>c__Iterator1CB.<>f__this = this;
-			RaceProperties.<ConfigErrors>c__Iterator1CB expr_0E = <ConfigErrors>c__Iterator1CB;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.soundMeleeHitPawn == null)
+			{
+				yield return "soundMeleeHitPawn is null";
+			}
+			if (this.soundMeleeHitBuilding == null)
+			{
+				yield return "soundMeleeHitBuilding is null";
+			}
+			if (this.soundMeleeMiss == null)
+			{
+				yield return "soundMeleeMiss is null";
+			}
+			if (this.predator && !this.Eats(FoodTypeFlags.Meat))
+			{
+				yield return "predator but doesn't eat meat";
+			}
+			for (int j = 0; j < this.lifeStageAges.Count; j++)
+			{
+				for (int i = 0; i < j; i++)
+				{
+					if (this.lifeStageAges[i].minAge > this.lifeStageAges[j].minAge)
+					{
+						yield return "lifeStages minAges are not in ascending order";
+					}
+				}
+			}
+			if (this.litterSizeCurve != null)
+			{
+				foreach (string item in this.litterSizeCurve.ConfigErrors("litterSizeCurve"))
+				{
+					yield return item;
+				}
+			}
+			if (this.nameOnTameChance > 0.0 && this.nameGenerator == null)
+			{
+				yield return "can be named, but has no nameGenerator";
+			}
+			if (this.Animal && this.wildness < 0.0)
+			{
+				yield return "is animal but wildness is not defined";
+			}
+			if (this.useMeatFrom != null && this.useMeatFrom.category != ThingCategory.Pawn)
+			{
+				yield return "tries to use meat from non-pawn " + this.useMeatFrom;
+			}
+			if (this.useMeatFrom != null && this.useMeatFrom.race.useMeatFrom != null)
+			{
+				yield return "tries to use meat from " + this.useMeatFrom + " which uses meat from " + this.useMeatFrom.race.useMeatFrom;
+			}
+			if (this.useLeatherFrom != null && this.useLeatherFrom.category != ThingCategory.Pawn)
+			{
+				yield return "tries to use leather from non-pawn " + this.useLeatherFrom;
+			}
+			if (this.useLeatherFrom != null && this.useLeatherFrom.race.useLeatherFrom != null)
+			{
+				yield return "tries to use leather from " + this.useLeatherFrom + " which uses leather from " + this.useLeatherFrom.race.useLeatherFrom;
+			}
 		}
 
-		[DebuggerHidden]
 		internal IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
-			RaceProperties.<SpecialDisplayStats>c__Iterator1CC <SpecialDisplayStats>c__Iterator1CC = new RaceProperties.<SpecialDisplayStats>c__Iterator1CC();
-			<SpecialDisplayStats>c__Iterator1CC.parentDef = parentDef;
-			<SpecialDisplayStats>c__Iterator1CC.<$>parentDef = parentDef;
-			<SpecialDisplayStats>c__Iterator1CC.<>f__this = this;
-			RaceProperties.<SpecialDisplayStats>c__Iterator1CC expr_1C = <SpecialDisplayStats>c__Iterator1CC;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Race".Translate(), parentDef.LabelCap, 2000);
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Diet".Translate(), this.foodType.ToHumanString().CapitalizeFirst(), 0);
+			if (this.wildness >= 0.0)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Wildness".Translate(), this.wildness.ToStringPercent(), 0)
+				{
+					overrideReportText = "WildnessExplanation".Translate()
+				};
+			}
+			if ((int)this.intelligence < 2)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "TrainableIntelligence".Translate(), this.TrainableIntelligence.GetLabel().CapitalizeFirst(), 0);
+			}
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "StatsReport_LifeExpectancy".Translate(), this.lifeExpectancy.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Absolute), 0);
+			if ((int)this.intelligence < 2)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "AnimalFilthRate".Translate(), ((float)(PawnUtility.AnimalFilthChancePerCell(parentDef, parentDef.race.baseBodySize) * 1000.0)).ToString("F2"), 0)
+				{
+					overrideReportText = "AnimalFilthRateExplanation".Translate(1000.ToString())
+				};
+			}
+			if (this.packAnimal)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "PackAnimal".Translate(), "Yes".Translate(), 0)
+				{
+					overrideReportText = "PackAnimalExplanation".Translate()
+				};
+			}
 		}
 	}
 }

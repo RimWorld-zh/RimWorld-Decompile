@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class SubEffecter_DrifterEmoteTriggered : SubEffecter_DrifterEmote

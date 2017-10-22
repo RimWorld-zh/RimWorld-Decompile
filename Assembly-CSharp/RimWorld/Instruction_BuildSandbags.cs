@@ -15,13 +15,22 @@ namespace RimWorld
 			{
 				int num = 0;
 				int num2 = 0;
-				foreach (IntVec3 current in this.sandbagCells)
+				List<IntVec3>.Enumerator enumerator = this.sandbagCells.GetEnumerator();
+				try
 				{
-					if (TutorUtility.BuildingOrBlueprintOrFrameCenterExists(current, base.Map, ThingDefOf.Sandbags))
+					while (enumerator.MoveNext())
 					{
-						num2++;
+						IntVec3 current = enumerator.Current;
+						if (TutorUtility.BuildingOrBlueprintOrFrameCenterExists(current, base.Map, ThingDefOf.Sandbags))
+						{
+							num2++;
+						}
+						num++;
 					}
-					num++;
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 				return (float)num2 / (float)num;
 			}
@@ -32,22 +41,30 @@ namespace RimWorld
 			base.OnActivated();
 			Find.TutorialState.sandbagsRect = TutorUtility.FindUsableRect(7, 7, base.Map, 0f, false);
 			this.sandbagCells = new List<IntVec3>();
-			foreach (IntVec3 current in Find.TutorialState.sandbagsRect.EdgeCells)
+			foreach (IntVec3 edgeCell in Find.TutorialState.sandbagsRect.EdgeCells)
 			{
-				if (current.x != Find.TutorialState.sandbagsRect.CenterCell.x && current.z != Find.TutorialState.sandbagsRect.CenterCell.z)
+				IntVec3 current = edgeCell;
+				int x = current.x;
+				IntVec3 centerCell = Find.TutorialState.sandbagsRect.CenterCell;
+				if (x != centerCell.x)
 				{
-					this.sandbagCells.Add(current);
+					int z = current.z;
+					IntVec3 centerCell2 = Find.TutorialState.sandbagsRect.CenterCell;
+					if (z != centerCell2.z)
+					{
+						this.sandbagCells.Add(current);
+					}
 				}
 			}
-			foreach (IntVec3 current2 in Find.TutorialState.sandbagsRect.ContractedBy(1))
+			foreach (IntVec3 item in Find.TutorialState.sandbagsRect.ContractedBy(1))
 			{
-				if (!Find.TutorialState.sandbagsRect.ContractedBy(2).Contains(current2))
+				if (!Find.TutorialState.sandbagsRect.ContractedBy(2).Contains(item))
 				{
-					List<Thing> thingList = current2.GetThingList(base.Map);
-					for (int i = thingList.Count - 1; i >= 0; i--)
+					List<Thing> thingList = item.GetThingList(base.Map);
+					for (int num = thingList.Count - 1; num >= 0; num--)
 					{
-						Thing thing = thingList[i];
-						if (thing.def.passability != Traversability.Standable && (thing.def.category == ThingCategory.Plant || thing.def.category == ThingCategory.Item))
+						Thing thing = thingList[num];
+						if (thing.def.passability != 0 && (thing.def.category == ThingCategory.Plant || thing.def.category == ThingCategory.Item))
 						{
 							thing.Destroy(DestroyMode.Vanish);
 						}
@@ -64,7 +81,7 @@ namespace RimWorld
 
 		public override void LessonOnGUI()
 		{
-			TutorUtility.DrawLabelOnGUI(Gen.AveragePosition(this.sandbagCells), this.def.onMapInstruction);
+			TutorUtility.DrawLabelOnGUI(Gen.AveragePosition(this.sandbagCells), base.def.onMapInstruction);
 			base.LessonOnGUI();
 		}
 
@@ -72,10 +89,10 @@ namespace RimWorld
 		{
 			List<IntVec3> cells = (from c in this.sandbagCells
 			where !TutorUtility.BuildingOrBlueprintOrFrameCenterExists(c, base.Map, ThingDefOf.Sandbags)
-			select c).ToList<IntVec3>();
+			select c).ToList();
 			GenDraw.DrawFieldEdges(cells);
 			GenDraw.DrawArrowPointingAt(Gen.AveragePosition(this.sandbagCells), false);
-			if (this.ProgressPercent > 0.9999f)
+			if (this.ProgressPercent > 0.99989998340606689)
 			{
 				Find.ActiveLesson.Deactivate();
 			}

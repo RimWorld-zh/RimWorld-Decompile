@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI.Group
 {
 	public class LordJob_DefendPoint : LordJob

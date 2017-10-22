@@ -1,10 +1,8 @@
-using System;
-
 namespace RimWorld
 {
 	public enum MainTabWindowAnchor
 	{
-		Left,
-		Right
+		Left = 0,
+		Right = 1
 	}
 }

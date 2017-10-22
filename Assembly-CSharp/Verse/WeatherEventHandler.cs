@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -30,12 +29,12 @@ namespace Verse
 
 		public void WeatherEventHandlerTick()
 		{
-			for (int i = this.liveEvents.Count - 1; i >= 0; i--)
+			for (int num = this.liveEvents.Count - 1; num >= 0; num--)
 			{
-				this.liveEvents[i].WeatherEventTick();
-				if (this.liveEvents[i].Expired)
+				this.liveEvents[num].WeatherEventTick();
+				if (this.liveEvents[num].Expired)
 				{
-					this.liveEvents.RemoveAt(i);
+					this.liveEvents.RemoveAt(num);
 				}
 			}
 		}

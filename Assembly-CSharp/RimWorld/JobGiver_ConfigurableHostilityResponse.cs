@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -12,25 +11,33 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			if (pawn.playerSettings == null || !pawn.playerSettings.UsesConfigurableHostilityResponse)
+			if (pawn.playerSettings != null && pawn.playerSettings.UsesConfigurableHostilityResponse)
 			{
-				return null;
+				if (PawnUtility.PlayerForcedJobNowOrSoon(pawn))
+				{
+					return null;
+				}
+				switch (pawn.playerSettings.hostilityResponse)
+				{
+				case HostilityResponseMode.Ignore:
+				{
+					return null;
+				}
+				case HostilityResponseMode.Attack:
+				{
+					return this.TryGetAttackNearbyEnemyJob(pawn);
+				}
+				case HostilityResponseMode.Flee:
+				{
+					return this.TryGetFleeJob(pawn);
+				}
+				default:
+				{
+					return null;
+				}
+				}
 			}
-			if (PawnUtility.PlayerForcedJobNowOrSoon(pawn))
-			{
-				return null;
-			}
-			switch (pawn.playerSettings.hostilityResponse)
-			{
-			case HostilityResponseMode.Ignore:
-				return null;
-			case HostilityResponseMode.Attack:
-				return this.TryGetAttackNearbyEnemyJob(pawn);
-			case HostilityResponseMode.Flee:
-				return this.TryGetFleeJob(pawn);
-			default:
-				return null;
-			}
+			return null;
 		}
 
 		private Job TryGetAttackNearbyEnemyJob(Pawn pawn)
@@ -43,7 +50,7 @@ namespace RimWorld
 			float num = 8f;
 			if (!flag)
 			{
-				num = Mathf.Clamp(pawn.equipment.PrimaryEq.PrimaryVerb.verbProps.range * 0.66f, 2f, 20f);
+				num = Mathf.Clamp((float)(pawn.equipment.PrimaryEq.PrimaryVerb.verbProps.range * 0.6600000262260437), 2f, 20f);
 			}
 			float maxDist = num;
 			Thing thing = (Thing)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedLOSToPawns | TargetScanFlags.NeedLOSToNonPawns | TargetScanFlags.NeedReachableIfCantHitFromMyPos | TargetScanFlags.NeedThreat, null, 0f, maxDist, default(IntVec3), 3.40282347E+38f, false);
@@ -51,15 +58,14 @@ namespace RimWorld
 			{
 				return null;
 			}
-			if (flag || pawn.CanReachImmediate(thing, PathEndMode.Touch))
+			if (!flag && !pawn.CanReachImmediate(thing, PathEndMode.Touch))
 			{
-				return new Job(JobDefOf.AttackMelee, thing);
+				Job job = new Job(JobDefOf.AttackStatic, thing);
+				job.maxNumStaticAttacks = 2;
+				job.expiryInterval = 1800;
+				return job;
 			}
-			return new Job(JobDefOf.AttackStatic, thing)
-			{
-				maxNumStaticAttacks = 2,
-				expiryInterval = 1800
-			};
+			return new Job(JobDefOf.AttackMelee, thing);
 		}
 
 		private Job TryGetFleeJob(Pawn pawn)
@@ -85,7 +91,7 @@ namespace RimWorld
 						JobGiver_ConfigurableHostilityResponse.tmpThreats.Add((Thing)attackTarget);
 					}
 				}
-				if (!JobGiver_ConfigurableHostilityResponse.tmpThreats.Any<Thing>())
+				if (!JobGiver_ConfigurableHostilityResponse.tmpThreats.Any())
 				{
 					Log.Warning(pawn.LabelShort + " decided to flee but there is no any threat around.");
 					return null;

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -22,12 +21,12 @@ namespace RimWorld
 
 		public Dialog_MedicalDefaults()
 		{
-			this.forcePause = true;
-			this.doCloseX = true;
-			this.closeOnEscapeKey = true;
-			this.doCloseButton = true;
-			this.closeOnClickedOutside = true;
-			this.absorbInputAroundWindow = true;
+			base.forcePause = true;
+			base.doCloseX = true;
+			base.closeOnEscapeKey = true;
+			base.doCloseButton = true;
+			base.closeOnClickedOutside = true;
+			base.absorbInputAroundWindow = true;
 		}
 
 		public override void DoWindowContents(Rect inRect)

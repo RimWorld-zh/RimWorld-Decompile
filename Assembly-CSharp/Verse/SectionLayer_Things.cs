@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -13,33 +12,32 @@ namespace Verse
 
 		public override void DrawLayer()
 		{
-			if (!DebugViewSettings.drawThingsPrinted)
+			if (DebugViewSettings.drawThingsPrinted)
 			{
-				return;
+				base.DrawLayer();
 			}
-			base.DrawLayer();
 		}
 
 		public override void Regenerate()
 		{
 			base.ClearSubMeshes(MeshParts.All);
-			foreach (IntVec3 current in this.section.CellRect)
+			foreach (IntVec3 item in base.section.CellRect)
 			{
+				IntVec3 current = item;
 				List<Thing> list = base.Map.thingGrid.ThingsListAt(current);
 				int count = list.Count;
-				for (int i = 0; i < count; i++)
+				for (int num = 0; num < count; num++)
 				{
-					Thing thing = list[i];
-					if (thing.def.drawerType != DrawerType.None)
+					Thing thing = list[num];
+					if (thing.def.drawerType != 0 && (thing.def.drawerType != DrawerType.RealtimeOnly || !this.requireAddToMapMesh) && (!(thing.def.hideAtSnowDepth < 1.0) || !(base.Map.snowGrid.GetDepth(thing.Position) > thing.def.hideAtSnowDepth)))
 					{
-						if (thing.def.drawerType != DrawerType.RealtimeOnly || !this.requireAddToMapMesh)
+						IntVec3 position = thing.Position;
+						if (position.x == current.x)
 						{
-							if (thing.def.hideAtSnowDepth >= 1f || base.Map.snowGrid.GetDepth(thing.Position) <= thing.def.hideAtSnowDepth)
+							IntVec3 position2 = thing.Position;
+							if (position2.z == current.z)
 							{
-								if (thing.Position.x == current.x && thing.Position.z == current.z)
-								{
-									this.TakePrintFrom(thing);
-								}
+								this.TakePrintFrom(thing);
 							}
 						}
 					}

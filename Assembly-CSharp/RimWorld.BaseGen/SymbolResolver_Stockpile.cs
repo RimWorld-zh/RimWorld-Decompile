@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,31 +14,29 @@ namespace RimWorld.BaseGen
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
-			if (rp.stockpileConcreteContents != null && rp.stockpileConcreteContents.Any<Thing>())
+			if (rp.stockpileConcreteContents != null && rp.stockpileConcreteContents.Any())
 			{
 				this.CalculateFreeCells(rp.rect, 0f);
 				int num = 0;
-				for (int i = rp.stockpileConcreteContents.Count - 1; i >= 0; i--)
+				int num2 = rp.stockpileConcreteContents.Count - 1;
+				while (num2 >= 0 && num < this.cells.Count)
 				{
-					if (num >= this.cells.Count)
-					{
-						break;
-					}
-					GenSpawn.Spawn(rp.stockpileConcreteContents[i], this.cells[num], map);
+					GenSpawn.Spawn(rp.stockpileConcreteContents[num2], this.cells[num], map);
 					num++;
+					num2--;
 				}
-				for (int j = rp.stockpileConcreteContents.Count - 1; j >= 0; j--)
+				for (int num3 = rp.stockpileConcreteContents.Count - 1; num3 >= 0; num3--)
 				{
-					if (!rp.stockpileConcreteContents[j].Spawned)
+					if (!rp.stockpileConcreteContents[num3].Spawned)
 					{
-						rp.stockpileConcreteContents[j].Destroy(DestroyMode.Vanish);
+						rp.stockpileConcreteContents[num3].Destroy(DestroyMode.Vanish);
 					}
 				}
 				rp.stockpileConcreteContents.Clear();
 			}
 			else
 			{
-				ItemCollectionGeneratorDef itemCollectionGeneratorDef = rp.itemCollectionGeneratorDef ?? Rand.Element<ItemCollectionGeneratorDef>(ItemCollectionGeneratorDefOf.RandomGeneralGoods, ItemCollectionGeneratorDefOf.Weapons, ItemCollectionGeneratorDefOf.Apparel, ItemCollectionGeneratorDefOf.RawResources);
+				ItemCollectionGeneratorDef itemCollectionGeneratorDef = rp.itemCollectionGeneratorDef ?? Rand.Element(ItemCollectionGeneratorDefOf.RandomGeneralGoods, ItemCollectionGeneratorDefOf.Weapons, ItemCollectionGeneratorDefOf.Apparel, ItemCollectionGeneratorDefOf.RawResources);
 				ItemCollectionGeneratorParams? itemCollectionGeneratorParams = rp.itemCollectionGeneratorParams;
 				ItemCollectionGeneratorParams value;
 				if (itemCollectionGeneratorParams.HasValue)
@@ -49,14 +46,15 @@ namespace RimWorld.BaseGen
 				else
 				{
 					this.CalculateFreeCells(rp.rect, 0.41f);
-					value = default(ItemCollectionGeneratorParams);
-					value.count = this.cells.Count;
-					value.techLevel = ((rp.faction == null) ? TechLevel.Spacer : rp.faction.def.techLevel);
+					value = new ItemCollectionGeneratorParams
+					{
+						count = this.cells.Count,
+						techLevel = ((rp.faction == null) ? TechLevel.Spacer : rp.faction.def.techLevel)
+					};
 					if (itemCollectionGeneratorDef.Worker is ItemCollectionGenerator_Standard)
 					{
 						float? stockpileMarketValue = rp.stockpileMarketValue;
-						float totalMarketValue = (!stockpileMarketValue.HasValue) ? Mathf.Min((float)this.cells.Count * 120f, 1800f) : stockpileMarketValue.Value;
-						value.totalMarketValue = totalMarketValue;
+						float num4 = value.totalMarketValue = ((!stockpileMarketValue.HasValue) ? Mathf.Min((float)((float)this.cells.Count * 120.0), 1800f) : stockpileMarketValue.Value);
 					}
 				}
 				ResolveParams resolveParams = rp;
@@ -70,19 +68,19 @@ namespace RimWorld.BaseGen
 		{
 			Map map = BaseGen.globalSettings.map;
 			this.cells.Clear();
-			foreach (IntVec3 current in rect)
+			foreach (IntVec3 item in rect)
 			{
-				if (current.Standable(map) && current.GetFirstItem(map) == null)
+				if (item.Standable(map) && item.GetFirstItem(map) == null)
 				{
-					this.cells.Add(current);
+					this.cells.Add(item);
 				}
 			}
 			int num = (int)(freeCellsFraction * (float)this.cells.Count);
-			for (int i = 0; i < num; i++)
+			for (int num2 = 0; num2 < num; num2++)
 			{
 				this.cells.RemoveAt(Rand.Range(0, this.cells.Count));
 			}
-			this.cells.Shuffle<IntVec3>();
+			this.cells.Shuffle();
 		}
 	}
 }

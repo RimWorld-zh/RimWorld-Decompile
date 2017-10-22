@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -52,12 +51,28 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (pawn.Faction == Faction.OfPlayer && !pawn.Map.areaManager.Home[t.Position])
+			if (pawn.Faction == Faction.OfPlayer && !((Area)pawn.Map.areaManager.Home)[t.Position])
 			{
 				JobFailReason.Is(WorkGiver_FixBrokenDownBuilding.NotInHomeAreaTrans);
 				return false;
 			}
-			return t.def.useHitPoints && t.HitPoints != t.MaxHitPoints && pawn.CanReserve(building, 1, -1, null, forced) && building.Map.designationManager.DesignationOn(building, DesignationDefOf.Deconstruct) == null && !building.IsBurning();
+			if (t.def.useHitPoints && t.HitPoints != t.MaxHitPoints)
+			{
+				if (!pawn.CanReserve((Thing)building, 1, -1, null, forced))
+				{
+					return false;
+				}
+				if (building.Map.designationManager.DesignationOn(building, DesignationDefOf.Deconstruct) != null)
+				{
+					return false;
+				}
+				if (building.IsBurning())
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

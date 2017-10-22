@@ -8,7 +8,7 @@ namespace Verse
 		public static void ErrorWhileLoadingAssets(Exception e)
 		{
 			string text = "ErrorWhileLoadingAssets".Translate();
-			if (ModsConfig.ActiveModsInLoadOrder.Count<ModMetaData>() != 1 || !ModsConfig.ActiveModsInLoadOrder.First<ModMetaData>().IsCoreMod)
+			if (ModsConfig.ActiveModsInLoadOrder.Count() != 1 || !ModsConfig.ActiveModsInLoadOrder.First().IsCoreMod)
 			{
 				text = text + "\n\n" + "ErrorWhileLoadingAssets_ModsInfo".Translate();
 			}
@@ -26,15 +26,11 @@ namespace Verse
 		public static void ErrorWhileLoadingGame(Exception e)
 		{
 			string text = "ErrorWhileLoadingMap".Translate();
-			string text2;
-			string text3;
+			string text2 = default(string);
+			string text3 = default(string);
 			if (!ScribeMetaHeaderUtility.LoadedModsMatchesActiveMods(out text2, out text3))
 			{
-				text = text + "\n\n" + "ModsMismatchWarningText".Translate(new object[]
-				{
-					text2,
-					text3
-				});
+				text = text + "\n\n" + "ModsMismatchWarningText".Translate(text2, text3);
 			}
 			DelayedErrorWindowRequest.Add(text, "ErrorWhileLoadingMapTitle".Translate());
 			Scribe.ForceStop();

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -22,7 +21,7 @@ namespace RimWorld
 			{
 				return null;
 			}
-			if (pawn2.needs.food.CurLevelPercentage >= pawn2.needs.food.PercentageThreshHungry + 0.02f)
+			if (pawn2.needs.food.CurLevelPercentage >= pawn2.needs.food.PercentageThreshHungry + 0.019999999552965164)
 			{
 				return null;
 			}
@@ -30,8 +29,8 @@ namespace RimWorld
 			{
 				return null;
 			}
-			Thing thing;
-			ThingDef def;
+			Thing thing = default(Thing);
+			ThingDef def = default(ThingDef);
 			if (!FoodUtility.TryFindBestFoodSourceFor(pawn, pawn2, pawn2.needs.food.CurCategory == HungerCategory.Starving, out thing, out def, false, true, false, false, false))
 			{
 				return null;
@@ -44,16 +43,15 @@ namespace RimWorld
 			{
 				return null;
 			}
-			return new Job(JobDefOf.DeliverFood, thing, pawn2)
-			{
-				count = FoodUtility.WillIngestStackCountOf(pawn2, def),
-				targetC = RCellFinder.SpotToChewStandingNear(pawn2, thing)
-			};
+			Job job = new Job(JobDefOf.DeliverFood, thing, (Thing)pawn2);
+			job.count = FoodUtility.WillIngestStackCountOf(pawn2, def);
+			job.targetC = RCellFinder.SpotToChewStandingNear(pawn2, thing);
+			return job;
 		}
 
 		private static bool FoodAvailableInRoomTo(Pawn prisoner)
 		{
-			if (prisoner.carryTracker.CarriedThing != null && WorkGiver_Warden_DeliverFood.NutritionAvailableForFrom(prisoner, prisoner.carryTracker.CarriedThing) > 0f)
+			if (prisoner.carryTracker.CarriedThing != null && WorkGiver_Warden_DeliverFood.NutritionAvailableForFrom(prisoner, prisoner.carryTracker.CarriedThing) > 0.0)
 			{
 				return true;
 			}
@@ -71,7 +69,7 @@ namespace RimWorld
 				for (int j = 0; j < list.Count; j++)
 				{
 					Thing thing = list[j];
-					if (!thing.def.IsIngestible || thing.def.ingestible.preferability > FoodPreferability.DesperateOnly)
+					if (!thing.def.IsIngestible || (int)thing.def.ingestible.preferability > 2)
 					{
 						num2 += WorkGiver_Warden_DeliverFood.NutritionAvailableForFrom(prisoner, thing);
 					}
@@ -80,13 +78,17 @@ namespace RimWorld
 				for (int k = 0; k < list2.Count; k++)
 				{
 					Pawn pawn = list2[k] as Pawn;
-					if (pawn.IsPrisonerOfColony && pawn.needs.food.CurLevelPercentage < pawn.needs.food.PercentageThreshHungry + 0.02f && (pawn.carryTracker.CarriedThing == null || !pawn.RaceProps.WillAutomaticallyEat(pawn.carryTracker.CarriedThing)))
+					if (pawn.IsPrisonerOfColony && pawn.needs.food.CurLevelPercentage < pawn.needs.food.PercentageThreshHungry + 0.019999999552965164 && (pawn.carryTracker.CarriedThing == null || !pawn.RaceProps.WillAutomaticallyEat(pawn.carryTracker.CarriedThing)))
 					{
 						num += pawn.needs.food.NutritionWanted;
 					}
 				}
 			}
-			return num2 + 0.5f >= num;
+			if (num2 + 0.5 >= num)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private static float NutritionAvailableForFrom(Pawn p, Thing foodSource)

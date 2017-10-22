@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace Verse
@@ -13,7 +12,7 @@ namespace Verse
 		[Unsaved]
 		private SimpleCurveView view;
 
-		private static Comparison<CurvePoint> CurvePointsComparer = delegate(CurvePoint a, CurvePoint b)
+		private static Comparison<CurvePoint> CurvePointsComparer = (Comparison<CurvePoint>)delegate(CurvePoint a, CurvePoint b)
 		{
 			if (a.x < b.x)
 			{
@@ -80,20 +79,29 @@ namespace Verse
 			return this.GetEnumerator();
 		}
 
-		[DebuggerHidden]
 		public IEnumerator<CurvePoint> GetEnumerator()
 		{
-			SimpleCurve.<GetEnumerator>c__Iterator23C <GetEnumerator>c__Iterator23C = new SimpleCurve.<GetEnumerator>c__Iterator23C();
-			<GetEnumerator>c__Iterator23C.<>f__this = this;
-			return <GetEnumerator>c__Iterator23C;
+			List<CurvePoint>.Enumerator enumerator = this.points.GetEnumerator();
+			try
+			{
+				while (enumerator.MoveNext())
+				{
+					CurvePoint point = enumerator.Current;
+					yield return point;
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
 		}
 
 		public void SetPoints(IEnumerable<CurvePoint> newPoints)
 		{
 			this.points.Clear();
-			foreach (CurvePoint current in newPoints)
+			foreach (CurvePoint item in newPoints)
 			{
-				this.points.Add(current);
+				this.points.Add(item);
 			}
 			this.SortPoints();
 		}
@@ -120,14 +128,21 @@ namespace Verse
 
 		public void RemovePointNear(CurvePoint point)
 		{
-			for (int i = 0; i < this.points.Count; i++)
+			int num = 0;
+			while (true)
 			{
-				if ((this.points[i].Loc - point.Loc).sqrMagnitude < 0.001f)
+				if (num < this.points.Count)
 				{
-					this.points.RemoveAt(i);
-					return;
+					if (!((this.points[num].Loc - point.Loc).sqrMagnitude < 0.0010000000474974513))
+					{
+						num++;
+						continue;
+					}
+					break;
 				}
+				return;
 			}
+			this.points.RemoveAt(num);
 		}
 
 		public float Evaluate(float x)
@@ -147,17 +162,20 @@ namespace Verse
 			}
 			CurvePoint curvePoint = this.points[0];
 			CurvePoint curvePoint2 = this.points[this.points.Count - 1];
-			for (int i = 0; i < this.points.Count; i++)
+			int num = 0;
+			while (num < this.points.Count)
 			{
-				if (x <= this.points[i].x)
+				if (!(x <= this.points[num].x))
 				{
-					curvePoint2 = this.points[i];
-					if (i > 0)
-					{
-						curvePoint = this.points[i - 1];
-					}
-					break;
+					num++;
+					continue;
 				}
+				curvePoint2 = this.points[num];
+				if (num > 0)
+				{
+					curvePoint = this.points[num - 1];
+				}
+				break;
 			}
 			float t = (x - curvePoint.x) / (curvePoint2.x - curvePoint.x);
 			return Mathf.Lerp(curvePoint.y, curvePoint2.y, t);
@@ -169,33 +187,40 @@ namespace Verse
 			{
 				return 0f;
 			}
-			if (this.points[0].y != 0f)
+			if (this.points[0].y != 0.0)
 			{
 				Log.Warning("PeriodProbabilityFromCumulative should only run on curves whose first point is 0.");
 			}
 			float num = this.Evaluate(startX + span) - this.Evaluate(startX);
-			if (num < 0f)
+			if (num < 0.0)
 			{
 				Log.Error("PeriodicProbability got negative probability from " + this + ": slope should never be negative.");
 				num = 0f;
 			}
-			if (num > 1f)
+			if (num > 1.0)
 			{
 				num = 1f;
 			}
 			return num;
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors(string prefix)
 		{
-			SimpleCurve.<ConfigErrors>c__Iterator23D <ConfigErrors>c__Iterator23D = new SimpleCurve.<ConfigErrors>c__Iterator23D();
-			<ConfigErrors>c__Iterator23D.prefix = prefix;
-			<ConfigErrors>c__Iterator23D.<$>prefix = prefix;
-			<ConfigErrors>c__Iterator23D.<>f__this = this;
-			SimpleCurve.<ConfigErrors>c__Iterator23D expr_1C = <ConfigErrors>c__Iterator23D;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			int i = 0;
+			while (true)
+			{
+				if (i < this.points.Count - 1)
+				{
+					if (!(this.points[i + 1].x < this.points[i].x))
+					{
+						i++;
+						continue;
+					}
+					break;
+				}
+				yield break;
+			}
+			yield return prefix + ": points are out of order";
 		}
 	}
 }

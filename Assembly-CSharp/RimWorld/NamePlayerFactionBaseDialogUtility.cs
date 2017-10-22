@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 
 namespace RimWorld
 {
@@ -7,7 +6,11 @@ namespace RimWorld
 	{
 		public static bool IsValidName(string s)
 		{
-			return s.Length != 0;
+			if (s.Length == 0)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static void Named(FactionBase factionBase, string s)

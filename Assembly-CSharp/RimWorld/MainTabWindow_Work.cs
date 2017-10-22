@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using UnityEngine;
 using Verse;
 
@@ -34,21 +33,20 @@ namespace RimWorld
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
-			if (Event.current.type == EventType.Layout)
+			if (Event.current.type != EventType.Layout)
 			{
-				return;
+				this.DoManualPrioritiesCheckbox();
+				GUI.color = new Color(1f, 1f, 1f, 0.5f);
+				Text.Anchor = TextAnchor.UpperCenter;
+				Text.Font = GameFont.Tiny;
+				Rect rect2 = new Rect(370f, (float)(rect.y + 5.0), 160f, 30f);
+				Widgets.Label(rect2, "<= " + "HigherPriority".Translate());
+				Rect rect3 = new Rect(630f, (float)(rect.y + 5.0), 160f, 30f);
+				Widgets.Label(rect3, "LowerPriority".Translate() + " =>");
+				GUI.color = Color.white;
+				Text.Font = GameFont.Small;
+				Text.Anchor = TextAnchor.UpperLeft;
 			}
-			this.DoManualPrioritiesCheckbox();
-			GUI.color = new Color(1f, 1f, 1f, 0.5f);
-			Text.Anchor = TextAnchor.UpperCenter;
-			Text.Font = GameFont.Tiny;
-			Rect rect2 = new Rect(370f, rect.y + 5f, 160f, 30f);
-			Widgets.Label(rect2, "<= " + "HigherPriority".Translate());
-			Rect rect3 = new Rect(630f, rect.y + 5f, 160f, 30f);
-			Widgets.Label(rect3, "LowerPriority".Translate() + " =>");
-			GUI.color = Color.white;
-			Text.Font = GameFont.Small;
-			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
 		private void DoManualPrioritiesCheckbox()
@@ -61,11 +59,11 @@ namespace RimWorld
 			Widgets.CheckboxLabeled(rect, "ManualPriorities".Translate(), ref Current.Game.playSettings.useWorkPriorities, false);
 			if (useWorkPriorities != Current.Game.playSettings.useWorkPriorities)
 			{
-				foreach (Pawn current in PawnsFinder.AllMapsAndWorld_Alive)
+				foreach (Pawn item in PawnsFinder.AllMapsAndWorld_Alive)
 				{
-					if (current.Faction == Faction.OfPlayer && current.workSettings != null)
+					if (item.Faction == Faction.OfPlayer && item.workSettings != null)
 					{
-						current.workSettings.Notify_UseWorkPrioritiesChanged();
+						item.workSettings.Notify_UseWorkPrioritiesChanged();
 					}
 				}
 			}

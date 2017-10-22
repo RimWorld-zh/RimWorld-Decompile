@@ -1,6 +1,5 @@
 using RimWorld;
 using Steamworks;
-using System;
 
 namespace Verse
 {
@@ -8,11 +7,7 @@ namespace Verse
 	{
 		public static void Update()
 		{
-			if (LongEventHandler.ShouldWaitForEvent)
-			{
-				return;
-			}
-			if (KeyBindingDefOf.TakeScreenshot.JustPressed)
+			if (!LongEventHandler.ShouldWaitForEvent && KeyBindingDefOf.TakeScreenshot.JustPressed)
 			{
 				ScreenshotTaker.TakeShot();
 			}

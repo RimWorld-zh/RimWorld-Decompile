@@ -1,8 +1,8 @@
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using NVorbis.NAudioSupport;
-using System;
 using System.IO;
+using System.Threading;
 using UnityEngine;
 
 namespace RuntimeAudioClipLoader
@@ -46,9 +46,14 @@ namespace RuntimeAudioClipLoader
 			set
 			{
 				object obj = this.lockObject;
-				lock (obj)
+				Monitor.Enter(obj);
+				try
 				{
 					this.readerStream.Position = this.DestToSource(value);
+				}
+				finally
+				{
+					Monitor.Exit(obj);
 				}
 			}
 		}
@@ -77,7 +82,9 @@ namespace RuntimeAudioClipLoader
 
 		private void CreateReaderStream(Stream stream, AudioFormat format)
 		{
-			if (format == AudioFormat.wav)
+			switch (format)
+			{
+			case AudioFormat.wav:
 			{
 				this.readerStream = new WaveFileReader(stream);
 				if (this.readerStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm && this.readerStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
@@ -85,22 +92,28 @@ namespace RuntimeAudioClipLoader
 					this.readerStream = WaveFormatConversionStream.CreatePcmStream(this.readerStream);
 					this.readerStream = new BlockAlignReductionStream(this.readerStream);
 				}
+				break;
 			}
-			else if (format == AudioFormat.mp3)
+			case AudioFormat.mp3:
 			{
 				this.readerStream = new Mp3FileReader(stream);
+				break;
 			}
-			else if (format == AudioFormat.aiff)
+			case AudioFormat.aiff:
 			{
 				this.readerStream = new AiffFileReader(stream);
+				break;
 			}
-			else if (format == AudioFormat.ogg)
+			case AudioFormat.ogg:
 			{
 				this.readerStream = new VorbisWaveReader(stream);
+				break;
 			}
-			else
+			default:
 			{
 				Debug.LogWarning("Audio format " + format + " is not supported");
+				break;
+			}
 			}
 		}
 
@@ -115,22 +128,28 @@ namespace RuntimeAudioClipLoader
 		public int Read(float[] buffer, int offset, int count)
 		{
 			object obj = this.lockObject;
-			int result;
-			lock (obj)
+			Monitor.Enter(obj);
+			try
 			{
-				result = this.sampleChannel.Read(buffer, offset, count);
+				return this.sampleChannel.Read(buffer, offset, count);
+				IL_0021:
+				int result;
+				return result;
 			}
-			return result;
+			finally
+			{
+				Monitor.Exit(obj);
+			}
 		}
 
 		private long SourceToDest(long sourceBytes)
 		{
-			return (long)this.destBytesPerSample * (sourceBytes / (long)this.sourceBytesPerSample);
+			return this.destBytesPerSample * (sourceBytes / this.sourceBytesPerSample);
 		}
 
 		private long DestToSource(long destBytes)
 		{
-			return (long)this.sourceBytesPerSample * (destBytes / (long)this.destBytesPerSample);
+			return this.sourceBytesPerSample * (destBytes / this.destBytesPerSample);
 		}
 
 		protected override void Dispose(bool disposing)

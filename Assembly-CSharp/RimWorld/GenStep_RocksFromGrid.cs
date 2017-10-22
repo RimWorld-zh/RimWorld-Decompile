@@ -39,88 +39,95 @@ namespace RimWorld
 
 		public override void Generate(Map map)
 		{
-			if (map.TileInfo.WaterCovered)
+			if (!map.TileInfo.WaterCovered)
 			{
-				return;
-			}
-			map.regionAndRoomUpdater.Enabled = false;
-			float num = 0.7f;
-			List<GenStep_RocksFromGrid.RoofThreshold> list = new List<GenStep_RocksFromGrid.RoofThreshold>();
-			list.Add(new GenStep_RocksFromGrid.RoofThreshold
-			{
-				roofDef = RoofDefOf.RoofRockThick,
-				minGridVal = num * 1.14f
-			});
-			list.Add(new GenStep_RocksFromGrid.RoofThreshold
-			{
-				roofDef = RoofDefOf.RoofRockThin,
-				minGridVal = num * 1.04f
-			});
-			MapGenFloatGrid elevation = MapGenerator.Elevation;
-			foreach (IntVec3 current in map.AllCells)
-			{
-				float num2 = elevation[current];
-				if (num2 > num)
+				map.regionAndRoomUpdater.Enabled = false;
+				float num = 0.7f;
+				List<RoofThreshold> list = new List<RoofThreshold>();
+				RoofThreshold roofThreshold = new RoofThreshold();
+				roofThreshold.roofDef = RoofDefOf.RoofRockThick;
+				roofThreshold.minGridVal = (float)(num * 1.1399999856948853);
+				list.Add(roofThreshold);
+				RoofThreshold roofThreshold2 = new RoofThreshold();
+				roofThreshold2.roofDef = RoofDefOf.RoofRockThin;
+				roofThreshold2.minGridVal = (float)(num * 1.0399999618530273);
+				list.Add(roofThreshold2);
+				MapGenFloatGrid elevation = MapGenerator.Elevation;
+				foreach (IntVec3 allCell in map.AllCells)
 				{
-					ThingDef def = GenStep_RocksFromGrid.RockDefAt(current);
-					GenSpawn.Spawn(def, current, map);
-					for (int i = 0; i < list.Count; i++)
+					float num2 = elevation[allCell];
+					if (num2 > num)
 					{
-						if (num2 > list[i].minGridVal)
+						ThingDef def = GenStep_RocksFromGrid.RockDefAt(allCell);
+						GenSpawn.Spawn(def, allCell, map);
+						int num3 = 0;
+						while (num3 < list.Count)
 						{
-							map.roofGrid.SetRoof(current, list[i].roofDef);
+							if (!(num2 > list[num3].minGridVal))
+							{
+								num3++;
+								continue;
+							}
+							map.roofGrid.SetRoof(allCell, list[num3].roofDef);
 							break;
 						}
 					}
 				}
-			}
-			BoolGrid visited = new BoolGrid(map);
-			List<IntVec3> toRemove = new List<IntVec3>();
-			foreach (IntVec3 current2 in map.AllCells)
-			{
-				if (!visited[current2])
+				BoolGrid visited = new BoolGrid(map);
+				List<IntVec3> toRemove = new List<IntVec3>();
+				foreach (IntVec3 allCell2 in map.AllCells)
 				{
-					if (this.IsNaturalRoofAt(current2, map))
+					if (!visited[allCell2] && this.IsNaturalRoofAt(allCell2, map))
 					{
 						toRemove.Clear();
-						map.floodFiller.FloodFill(current2, (IntVec3 x) => this.IsNaturalRoofAt(x, map), delegate(IntVec3 x)
+						map.floodFiller.FloodFill(allCell2, (Predicate<IntVec3>)((IntVec3 x) => this.IsNaturalRoofAt(x, map)), (Action<IntVec3>)delegate(IntVec3 x)
 						{
 							visited[x] = true;
 							toRemove.Add(x);
 						}, false);
 						if (toRemove.Count < 20)
 						{
-							for (int j = 0; j < toRemove.Count; j++)
+							for (int i = 0; i < toRemove.Count; i++)
 							{
-								map.roofGrid.SetRoof(toRemove[j], null);
+								map.roofGrid.SetRoof(toRemove[i], null);
 							}
 						}
 					}
 				}
+				GenStep_ScatterLumpsMineable genStep_ScatterLumpsMineable = new GenStep_ScatterLumpsMineable();
+				float num4 = 10f;
+				switch (Find.WorldGrid[map.Tile].hilliness)
+				{
+				case Hilliness.Flat:
+				{
+					num4 = 4f;
+					break;
+				}
+				case Hilliness.SmallHills:
+				{
+					num4 = 8f;
+					break;
+				}
+				case Hilliness.LargeHills:
+				{
+					num4 = 11f;
+					break;
+				}
+				case Hilliness.Mountainous:
+				{
+					num4 = 15f;
+					break;
+				}
+				case Hilliness.Impassable:
+				{
+					num4 = 16f;
+					break;
+				}
+				}
+				genStep_ScatterLumpsMineable.countPer10kCellsRange = new FloatRange(num4, num4);
+				genStep_ScatterLumpsMineable.Generate(map);
+				map.regionAndRoomUpdater.Enabled = true;
 			}
-			GenStep_ScatterLumpsMineable genStep_ScatterLumpsMineable = new GenStep_ScatterLumpsMineable();
-			float num3 = 10f;
-			switch (Find.WorldGrid[map.Tile].hilliness)
-			{
-			case Hilliness.Flat:
-				num3 = 4f;
-				break;
-			case Hilliness.SmallHills:
-				num3 = 8f;
-				break;
-			case Hilliness.LargeHills:
-				num3 = 11f;
-				break;
-			case Hilliness.Mountainous:
-				num3 = 15f;
-				break;
-			case Hilliness.Impassable:
-				num3 = 16f;
-				break;
-			}
-			genStep_ScatterLumpsMineable.countPer10kCellsRange = new FloatRange(num3, num3);
-			genStep_ScatterLumpsMineable.Generate(map);
-			map.regionAndRoomUpdater.Enabled = true;
 		}
 
 		private bool IsNaturalRoofAt(IntVec3 c, Map map)

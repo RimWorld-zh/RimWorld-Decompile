@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 
 namespace Verse
 {
@@ -27,9 +26,7 @@ namespace Verse
 				if (!value.Equals(defaultValue))
 				{
 					if (value.Thing != null && Scribe_References.CheckSaveReferenceToDestroyedThing(value.Thing, label, saveDestroyedThings))
-					{
 						return;
-					}
 					Scribe.saver.WriteElement(label, value.ToString());
 				}
 			}
@@ -65,15 +62,15 @@ namespace Verse
 				if (!value.Equals(defaultValue))
 				{
 					if (value.Thing != null && Scribe_References.CheckSaveReferenceToDestroyedThing(value.Thing, label, saveDestroyedThings))
-					{
 						return;
-					}
 					if (!value.HasThing && value.Cell.IsValid && (value.Map == null || !Find.Maps.Contains(value.Map)))
 					{
 						Scribe.saver.WriteElement(label, "null");
-						return;
 					}
-					Scribe.saver.WriteElement(label, value.ToString());
+					else
+					{
+						Scribe.saver.WriteElement(label, value.ToString());
+					}
 				}
 			}
 			else if (Scribe.mode == LoadSaveMode.LoadingVars)
@@ -108,20 +105,19 @@ namespace Verse
 				if (!value.Equals(defaultValue))
 				{
 					if (value.Thing != null && Scribe_References.CheckSaveReferenceToDestroyedThing(value.Thing, label, saveDestroyedThings))
-					{
 						return;
-					}
 					if (value.WorldObject != null && !value.WorldObject.Spawned)
 					{
 						Scribe.saver.WriteElement(label, "null");
-						return;
 					}
-					if (!value.HasThing && !value.HasWorldObject && value.Cell.IsValid && (value.Map == null || !Find.Maps.Contains(value.Map)))
+					else if (!value.HasThing && !value.HasWorldObject && value.Cell.IsValid && (value.Map == null || !Find.Maps.Contains(value.Map)))
 					{
 						Scribe.saver.WriteElement(label, "null");
-						return;
 					}
-					Scribe.saver.WriteElement(label, value.ToString());
+					else
+					{
+						Scribe.saver.WriteElement(label, value.ToString());
+					}
 				}
 			}
 			else if (Scribe.mode == LoadSaveMode.LoadingVars)

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -22,7 +21,7 @@ namespace Verse
 			get
 			{
 				Material matSingle = this.MatSingle;
-				if (matSingle != null)
+				if ((Object)matSingle != (Object)null)
 				{
 					return matSingle.shader;
 				}
@@ -108,15 +107,25 @@ namespace Verse
 			switch (rot.AsInt)
 			{
 			case 0:
+			{
 				return this.MatBack;
+			}
 			case 1:
+			{
 				return this.MatSide;
+			}
 			case 2:
+			{
 				return this.MatFront;
+			}
 			case 3:
+			{
 				return this.MatSide;
+			}
 			default:
+			{
 				return BaseContent.BadMat;
+			}
 			}
 		}
 
@@ -176,14 +185,7 @@ namespace Verse
 			}
 			else
 			{
-				if (!thing.Rotation.IsHorizontal)
-				{
-					size = this.drawSize;
-				}
-				else
-				{
-					size = this.drawSize.Rotated();
-				}
+				size = (thing.Rotation.IsHorizontal ? this.drawSize.Rotated() : this.drawSize);
 				flag = (thing.Rotation == Rot4.West);
 				if (this.data != null && !this.data.allowFlip)
 				{

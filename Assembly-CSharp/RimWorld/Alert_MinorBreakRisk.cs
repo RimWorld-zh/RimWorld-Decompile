@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Verse;
 
@@ -8,7 +7,7 @@ namespace RimWorld
 	{
 		public Alert_MinorBreakRisk()
 		{
-			this.defaultPriority = AlertPriority.High;
+			base.defaultPriority = AlertPriority.High;
 		}
 
 		public override string GetLabel()
@@ -23,14 +22,14 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			if (BreakRiskAlertUtility.PawnsAtRiskExtreme.Any<Pawn>() || BreakRiskAlertUtility.PawnsAtRiskMajor.Any<Pawn>())
+			if (!BreakRiskAlertUtility.PawnsAtRiskExtreme.Any() && !BreakRiskAlertUtility.PawnsAtRiskMajor.Any())
 			{
+				Pawn pawn = BreakRiskAlertUtility.PawnsAtRiskMinor.FirstOrDefault();
+				if (pawn != null)
+				{
+					return (Thing)pawn;
+				}
 				return false;
-			}
-			Pawn pawn = BreakRiskAlertUtility.PawnsAtRiskMinor.FirstOrDefault<Pawn>();
-			if (pawn != null)
-			{
-				return pawn;
 			}
 			return false;
 		}

@@ -21,12 +21,15 @@ namespace Verse
 				return false;
 			}
 			Type[] genericArguments = obj.GetType().GetGenericArguments();
-			if (genericArguments.Length != 1 || genericArguments[0] != (Type)this.value)
+			if (genericArguments.Length == 1 && genericArguments[0] == (Type)base.value)
 			{
-				return false;
+				if ((int)obj.GetType().GetProperty("Count").GetValue(obj, null) != 0)
+				{
+					return false;
+				}
+				return true;
 			}
-			int num = (int)obj.GetType().GetProperty("Count").GetValue(obj, null);
-			return num == 0;
+			return false;
 		}
 	}
 }

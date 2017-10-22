@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.IO;
 using UnityEngine;
 
@@ -49,15 +48,7 @@ namespace Verse
 				{
 					return Color.red;
 				}
-				if (VersionControl.MajorFromVersionString(this.gameVersion) != VersionControl.CurrentMajor || VersionControl.MinorFromVersionString(this.gameVersion) != VersionControl.CurrentMinor)
-				{
-					if (BackCompatibility.IsSaveCompatibleWith(this.gameVersion))
-					{
-						return Color.yellow;
-					}
-					return Color.red;
-				}
-				else
+				if (VersionControl.MajorFromVersionString(this.gameVersion) == VersionControl.CurrentMajor && VersionControl.MinorFromVersionString(this.gameVersion) == VersionControl.CurrentMinor)
 				{
 					if (VersionControl.BuildFromVersionString(this.gameVersion) != VersionControl.CurrentBuild)
 					{
@@ -65,6 +56,11 @@ namespace Verse
 					}
 					return SaveFileInfo.UnimportantTextColor;
 				}
+				if (BackCompatibility.IsSaveCompatibleWith(this.gameVersion))
+				{
+					return Color.yellow;
+				}
+				return Color.red;
 			}
 		}
 
@@ -76,23 +72,15 @@ namespace Verse
 				{
 					return "SaveIsUnknownFormat".Translate();
 				}
-				if (VersionControl.MajorFromVersionString(this.gameVersion) != VersionControl.CurrentMajor || VersionControl.MinorFromVersionString(this.gameVersion) != VersionControl.CurrentMinor)
+				if (VersionControl.MajorFromVersionString(this.gameVersion) == VersionControl.CurrentMajor && VersionControl.MinorFromVersionString(this.gameVersion) == VersionControl.CurrentMinor)
 				{
-					return "SaveIsFromDifferentGameVersion".Translate(new object[]
+					if (VersionControl.BuildFromVersionString(this.gameVersion) != VersionControl.CurrentBuild)
 					{
-						VersionControl.CurrentVersionString,
-						this.gameVersion
-					});
+						return "SaveIsFromDifferentGameBuild".Translate(VersionControl.CurrentVersionString, this.gameVersion);
+					}
+					return "SaveIsFromThisGameBuild".Translate();
 				}
-				if (VersionControl.BuildFromVersionString(this.gameVersion) != VersionControl.CurrentBuild)
-				{
-					return "SaveIsFromDifferentGameBuild".Translate(new object[]
-					{
-						VersionControl.CurrentVersionString,
-						this.gameVersion
-					});
-				}
-				return "SaveIsFromThisGameBuild".Translate();
+				return "SaveIsFromDifferentGameVersion".Translate(VersionControl.CurrentVersionString, this.gameVersion);
 			}
 		}
 

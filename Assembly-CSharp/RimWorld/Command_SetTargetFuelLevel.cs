@@ -32,35 +32,23 @@ namespace RimWorld
 				}
 			}
 			int startingValue = num / 2;
-			for (int j = 0; j < this.refuelables.Count; j++)
+			int num2 = 0;
+			while (num2 < this.refuelables.Count)
 			{
-				if ((int)this.refuelables[j].TargetFuelLevel <= num)
+				if ((int)this.refuelables[num2].TargetFuelLevel > num)
 				{
-					startingValue = (int)this.refuelables[j].TargetFuelLevel;
-					break;
+					num2++;
+					continue;
 				}
+				startingValue = (int)this.refuelables[num2].TargetFuelLevel;
+				break;
 			}
-			Func<int, string> textGetter;
-			if (this.refuelable.parent.def.building.hasFuelingPort)
+			Func<int, string> textGetter = (!this.refuelable.parent.def.building.hasFuelingPort) ? ((Func<int, string>)((int x) => "SetTargetFuelLevel".Translate(x))) : ((Func<int, string>)((int x) => "SetPodLauncherTargetFuelLevel".Translate(x, CompLaunchable.MaxLaunchDistanceAtFuelLevel((float)x))));
+			Dialog_Slider window = new Dialog_Slider(textGetter, 0, num, (Action<int>)delegate(int value)
 			{
-				textGetter = ((int x) => "SetPodLauncherTargetFuelLevel".Translate(new object[]
+				for (int j = 0; j < this.refuelables.Count; j++)
 				{
-					x,
-					CompLaunchable.MaxLaunchDistanceAtFuelLevel((float)x)
-				}));
-			}
-			else
-			{
-				textGetter = ((int x) => "SetTargetFuelLevel".Translate(new object[]
-				{
-					x
-				}));
-			}
-			Dialog_Slider window = new Dialog_Slider(textGetter, 0, num, delegate(int value)
-			{
-				for (int k = 0; k < this.refuelables.Count; k++)
-				{
-					this.refuelables[k].TargetFuelLevel = (float)value;
+					this.refuelables[j].TargetFuelLevel = (float)value;
 				}
 			}, startingValue);
 			Find.WindowStack.Add(window);

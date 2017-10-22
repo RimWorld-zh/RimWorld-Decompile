@@ -34,12 +34,23 @@ namespace RimWorld.Planet
 
 		public static int BestGotoDestNear(int tile, Caravan c)
 		{
-			Predicate<int> predicate = (int t) => !Find.World.Impassable(t) && c.CanReach(t);
+			Predicate<int> predicate = (Predicate<int>)delegate(int t)
+			{
+				if (Find.World.Impassable(t))
+				{
+					return false;
+				}
+				if (!c.CanReach(t))
+				{
+					return false;
+				}
+				return true;
+			};
 			if (predicate(tile))
 			{
 				return tile;
 			}
-			int result;
+			int result = default(int);
 			GenWorldClosest.TryFindClosestTile(tile, predicate, out result, 50, true);
 			return result;
 		}

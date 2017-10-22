@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -15,7 +14,7 @@ namespace Verse
 
 		public Color RandomizedColor()
 		{
-			if (this.only.a >= 0f)
+			if (this.only.a >= 0.0)
 			{
 				return this.only;
 			}

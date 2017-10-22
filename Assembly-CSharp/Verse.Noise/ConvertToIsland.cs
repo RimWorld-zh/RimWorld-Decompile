@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse.Noise
@@ -19,15 +18,15 @@ namespace Verse.Noise
 		{
 			this.viewCenter = viewCenter;
 			this.viewAngle = viewAngle;
-			this.modules[0] = input;
+			base.modules[0] = input;
 		}
 
 		public override double GetValue(double x, double y, double z)
 		{
 			float num = Vector3.Angle(this.viewCenter, new Vector3((float)x, (float)y, (float)z));
-			double value = this.modules[0].GetValue(x, y, z);
-			float num2 = Mathf.Max(2.5f, this.viewAngle * 0.25f);
-			float num3 = Mathf.Max(0.8f, this.viewAngle * 0.1f);
+			double value = base.modules[0].GetValue(x, y, z);
+			float num2 = Mathf.Max(2.5f, (float)(this.viewAngle * 0.25));
+			float num3 = Mathf.Max(0.8f, (float)(this.viewAngle * 0.10000000149011612));
 			if (num < this.viewAngle - num2)
 			{
 				return value;
@@ -35,9 +34,9 @@ namespace Verse.Noise
 			float num4 = GenMath.LerpDouble(this.viewAngle - num2, this.viewAngle - num3, 0f, 0.62f, num);
 			if (value > -0.11999999731779099)
 			{
-				return (value - -0.11999999731779099) * (double)(1f - num4 * 0.7f) - (double)(num4 * 0.3f) + -0.11999999731779099;
+				return (value - -0.11999999731779099) * (1.0 - num4 * 0.699999988079071) - num4 * 0.30000001192092896 + -0.11999999731779099;
 			}
-			return value - (double)(num4 * 0.3f);
+			return value - num4 * 0.30000001192092896;
 		}
 	}
 }

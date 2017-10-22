@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -16,8 +15,16 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn pawn = this.parent as Pawn;
-				return (!this.Props.eggLayFemaleOnly || pawn == null || pawn.gender == Gender.Female) && (pawn == null || pawn.ageTracker.CurLifeStage.milkable);
+				Pawn pawn = base.parent as Pawn;
+				if (this.Props.eggLayFemaleOnly && pawn != null && pawn.gender != Gender.Female)
+				{
+					return false;
+				}
+				if (pawn != null && !pawn.ageTracker.CurLifeStage.milkable)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -25,7 +32,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.Active && this.eggProgress >= 1f;
+				if (!this.Active)
+				{
+					return false;
+				}
+				return this.eggProgress >= 1.0;
 			}
 		}
 
@@ -49,7 +60,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_EggLayer)this.props;
+				return (CompProperties_EggLayer)base.props;
 			}
 		}
 
@@ -65,14 +76,14 @@ namespace RimWorld
 		{
 			if (this.Active)
 			{
-				float num = 1f / (this.Props.eggLayIntervalDays * 60000f);
-				Pawn pawn = this.parent as Pawn;
+				float num = (float)(1.0 / (this.Props.eggLayIntervalDays * 60000.0));
+				Pawn pawn = base.parent as Pawn;
 				if (pawn != null)
 				{
 					num *= PawnUtility.BodyResourceGrowthSpeed(pawn);
 				}
 				this.eggProgress += num;
-				if (this.eggProgress > 1f)
+				if (this.eggProgress > 1.0)
 				{
 					this.eggProgress = 1f;
 				}
@@ -93,7 +104,7 @@ namespace RimWorld
 		{
 			if (!this.Active)
 			{
-				Log.Error("LayEgg while not Active: " + this.parent);
+				Log.Error("LayEgg while not Active: " + base.parent);
 			}
 			this.eggProgress = 0f;
 			int randomInRange = this.Props.eggCountRange.RandomInRange;
@@ -115,8 +126,8 @@ namespace RimWorld
 			CompHatcher compHatcher = thing.TryGetComp<CompHatcher>();
 			if (compHatcher != null)
 			{
-				compHatcher.hatcheeFaction = this.parent.Faction;
-				Pawn pawn = this.parent as Pawn;
+				compHatcher.hatcheeFaction = base.parent.Faction;
+				Pawn pawn = base.parent as Pawn;
 				if (pawn != null)
 				{
 					compHatcher.hatcheeParent = pawn;
@@ -133,7 +144,7 @@ namespace RimWorld
 		{
 			if (!this.Active)
 			{
-				return null;
+				return (string)null;
 			}
 			string text = "EggProgress".Translate() + ": " + this.eggProgress.ToStringPercent();
 			if (this.fertilizationCount > 0)

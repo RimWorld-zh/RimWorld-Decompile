@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum StoryDanger : byte
 	{
-		None,
-		Low,
-		High
+		None = 0,
+		Low = 1,
+		High = 2
 	}
 }

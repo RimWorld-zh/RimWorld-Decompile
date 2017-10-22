@@ -26,13 +26,11 @@ namespace RimWorld
 				}
 				if (num2 >= minTotalRoomsNonWallCellsCount)
 				{
-					break;
+					return list;
 				}
 				num++;
 				if (num > 15)
-				{
-					return list;
-				}
+					break;
 			}
 			return list;
 		}
@@ -41,35 +39,30 @@ namespace RimWorld
 		{
 			List<RoomOutline> list = new List<RoomOutline>();
 			list.Add(new RoomOutline(initialRect));
-			for (int i = 0; i < divisionsCount; i++)
+			int num = 0;
+			RoomOutline roomOutline = default(RoomOutline);
+			while (num < divisionsCount && (from x in list
+			where x.CellsCountIgnoringWalls >= 32
+			select x).TryRandomElementByWeight<RoomOutline>((Func<RoomOutline, float>)((RoomOutline x) => (float)Mathf.Max(x.rect.Width, x.rect.Height)), out roomOutline))
 			{
-				RoomOutline roomOutline;
-				if (!(from x in list
-				where x.CellsCountIgnoringWalls >= 32
-				select x).TryRandomElementByWeight((RoomOutline x) => (float)Mathf.Max(x.rect.Width, x.rect.Height), out roomOutline))
-				{
-					break;
-				}
 				bool flag = roomOutline.rect.Height > roomOutline.rect.Width;
-				if (!flag || roomOutline.rect.Height > 6)
+				if ((!flag || roomOutline.rect.Height > 6) && (flag || roomOutline.rect.Width > 6))
 				{
-					if (flag || roomOutline.rect.Width > 6)
-					{
-						RoomOutlinesGenerator.Split(roomOutline, list, flag);
-					}
+					RoomOutlinesGenerator.Split(roomOutline, list, flag);
 				}
+				num++;
 			}
-			while (list.Any((RoomOutline x) => x.CellsCountIgnoringWalls > maxRoomCells))
+			while (list.Any((Predicate<RoomOutline>)((RoomOutline x) => x.CellsCountIgnoringWalls > maxRoomCells)))
 			{
 				RoomOutline roomOutline2 = (from x in list
 				where x.CellsCountIgnoringWalls > maxRoomCells
-				select x).RandomElement<RoomOutline>();
+				select x).RandomElement();
 				bool horizontalWall = roomOutline2.rect.Height > roomOutline2.rect.Width;
 				RoomOutlinesGenerator.Split(roomOutline2, list, horizontalWall);
 			}
 			while (list.Count > finalRoomsCount)
 			{
-				list.Remove(list.RandomElement<RoomOutline>());
+				list.Remove(list.RandomElement());
 			}
 			return list;
 		}
@@ -79,13 +72,15 @@ namespace RimWorld
 			allRooms.Remove(room);
 			if (horizontalWall)
 			{
-				int z = room.rect.CenterCell.z;
+				IntVec3 centerCell = room.rect.CenterCell;
+				int z = centerCell.z;
 				allRooms.Add(new RoomOutline(new CellRect(room.rect.minX, room.rect.minZ, room.rect.Width, z - room.rect.minZ + 1)));
 				allRooms.Add(new RoomOutline(new CellRect(room.rect.minX, z, room.rect.Width, room.rect.maxZ - z + 1)));
 			}
 			else
 			{
-				int x = room.rect.CenterCell.x;
+				IntVec3 centerCell2 = room.rect.CenterCell;
+				int x = centerCell2.x;
 				allRooms.Add(new RoomOutline(new CellRect(room.rect.minX, room.rect.minZ, x - room.rect.minX + 1, room.rect.Height)));
 				allRooms.Add(new RoomOutline(new CellRect(x, room.rect.minZ, room.rect.maxX - x + 1, room.rect.Height)));
 			}

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -22,21 +21,20 @@ namespace RimWorld
 
 		protected override void SetValue(Pawn pawn, bool value)
 		{
-			if (value == this.GetValue(pawn))
+			if (value != this.GetValue(pawn))
 			{
-				return;
-			}
-			if (value)
-			{
-				pawn.MapHeld.designationManager.AddDesignation(new Designation(pawn, DesignationDefOf.Slaughter));
-				SlaughterDesignatorUtility.CheckWarnAboutBondedAnimal(pawn);
-			}
-			else
-			{
-				Designation slaughterDesignation = this.GetSlaughterDesignation(pawn);
-				if (slaughterDesignation != null)
+				if (value)
 				{
-					pawn.MapHeld.designationManager.RemoveDesignation(slaughterDesignation);
+					pawn.MapHeld.designationManager.AddDesignation(new Designation((Thing)pawn, DesignationDefOf.Slaughter));
+					SlaughterDesignatorUtility.CheckWarnAboutBondedAnimal(pawn);
+				}
+				else
+				{
+					Designation slaughterDesignation = this.GetSlaughterDesignation(pawn);
+					if (slaughterDesignation != null)
+					{
+						pawn.MapHeld.designationManager.RemoveDesignation(slaughterDesignation);
+					}
 				}
 			}
 		}

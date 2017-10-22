@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.BaseGen
@@ -10,19 +9,7 @@ namespace RimWorld.BaseGen
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
-			ThingDef thingDef;
-			if (rp.faction == null || rp.faction.def.techLevel >= TechLevel.Industrial)
-			{
-				thingDef = ThingDefOf.StandingLamp;
-			}
-			else if (map.mapTemperature.OutdoorTemp > 18f)
-			{
-				thingDef = null;
-			}
-			else
-			{
-				thingDef = ThingDefOf.TorchLamp;
-			}
+			ThingDef thingDef = (rp.faction == null || (int)rp.faction.def.techLevel >= 4) ? ThingDefOf.StandingLamp : ((!(map.mapTemperature.OutdoorTemp > 18.0)) ? ThingDefOf.TorchLamp : null);
 			if (thingDef != null)
 			{
 				ResolveParams resolveParams = rp;

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -32,7 +31,7 @@ namespace RimWorld.Planet
 				{
 					return this.customLabel;
 				}
-				if (this.core == SiteCoreDefOf.Nothing && this.parts.Any<SitePartDef>())
+				if (this.core == SiteCoreDefOf.Nothing && this.parts.Any())
 				{
 					return this.parts[0].label;
 				}
@@ -82,17 +81,9 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.cachedMat == null)
+				if ((UnityEngine.Object)this.cachedMat == (UnityEngine.Object)null)
 				{
-					Color color;
-					if (this.LeadingSiteDef.applyFactionColorToSiteTexture && base.Faction != null)
-					{
-						color = base.Faction.Color;
-					}
-					else
-					{
-						color = Color.white;
-					}
+					Color color = (!this.LeadingSiteDef.applyFactionColorToSiteTexture || base.Faction == null) ? Color.white : base.Faction.Color;
 					this.cachedMat = MaterialPool.MatFrom(this.LeadingSiteDef.siteTexture, ShaderDatabase.WorldOverlayTransparentLit, color, WorldMaterials.WorldObjectRenderQueue);
 				}
 				return this.cachedMat;
@@ -111,7 +102,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.core == SiteCoreDefOf.Nothing && this.parts.Any<SitePartDef>())
+				if (this.core == SiteCoreDefOf.Nothing && this.parts.Any())
 				{
 					return this.parts[0];
 				}
@@ -123,18 +114,30 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				Site.<>c__Iterator10A <>c__Iterator10A = new Site.<>c__Iterator10A();
-				<>c__Iterator10A.<>f__this = this;
-				Site.<>c__Iterator10A expr_0E = <>c__Iterator10A;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				foreach (GenStepDef extraGenStepDef in base.ExtraGenStepDefs)
+				{
+					yield return extraGenStepDef;
+				}
+				List<GenStepDef> coreGenStepDefs = this.core.ExtraGenSteps;
+				for (int k = 0; k < coreGenStepDefs.Count; k++)
+				{
+					yield return coreGenStepDefs[k];
+				}
+				for (int j = 0; j < this.parts.Count; j++)
+				{
+					List<GenStepDef> partGenStepDefs = this.parts[j].ExtraGenSteps;
+					for (int i = 0; i < partGenStepDefs.Count; i++)
+					{
+						yield return partGenStepDefs[i];
+					}
+				}
 			}
 		}
 
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Values.Look<string>(ref this.customLabel, "customLabel", null, false);
+			Scribe_Values.Look<string>(ref this.customLabel, "customLabel", (string)null, false);
 			Scribe_Defs.Look<SiteCoreDef>(ref this.core, "core");
 			Scribe_Collections.Look<SitePartDef>(ref this.parts, "parts", LookMode.Def, new object[0]);
 			Scribe_Values.Look<bool>(ref this.startedCountdown, "startedCountdown", false, false);
@@ -174,49 +177,40 @@ namespace RimWorld.Planet
 			return !base.Map.mapPawns.AnyPawnBlockingMapRemoval;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			Site.<GetFloatMenuOptions>c__Iterator10B <GetFloatMenuOptions>c__Iterator10B = new Site.<GetFloatMenuOptions>c__Iterator10B();
-			<GetFloatMenuOptions>c__Iterator10B.caravan = caravan;
-			<GetFloatMenuOptions>c__Iterator10B.<$>caravan = caravan;
-			<GetFloatMenuOptions>c__Iterator10B.<>f__this = this;
-			Site.<GetFloatMenuOptions>c__Iterator10B expr_1C = <GetFloatMenuOptions>c__Iterator10B;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			foreach (FloatMenuOption floatMenuOption in base.GetFloatMenuOptions(caravan))
+			{
+				yield return floatMenuOption;
+			}
+			foreach (FloatMenuOption floatMenuOption2 in this.core.Worker.GetFloatMenuOptions(caravan, this))
+			{
+				yield return floatMenuOption2;
+			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Site.<GetGizmos>c__Iterator10C <GetGizmos>c__Iterator10C = new Site.<GetGizmos>c__Iterator10C();
-			<GetGizmos>c__Iterator10C.<>f__this = this;
-			Site.<GetGizmos>c__Iterator10C expr_0E = <GetGizmos>c__Iterator10C;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			if (base.HasMap && Find.WorldSelector.SingleSelectedObject == this)
+			{
+				yield return (Gizmo)SettleInExistingMapUtility.SettleCommand(base.Map, true);
+			}
 		}
 
 		private void CheckStartForceExitAndRemoveMapCountdown()
 		{
-			if (this.startedCountdown)
+			if (!this.startedCountdown && !GenHostility.AnyHostileActiveThreat(base.Map))
 			{
-				return;
+				this.startedCountdown = true;
+				int num = Mathf.RoundToInt((float)(this.core.forceExitAndRemoveMapCountdownDurationDays * 60000.0));
+				string text = (!this.anyEnemiesInitially) ? "MessageSiteCountdownBecauseNoEnemiesInitially".Translate(MapParent.GetForceExitAndRemoveMapCountdownTimeLeftString(num)) : "MessageSiteCountdownBecauseNoMoreEnemies".Translate(MapParent.GetForceExitAndRemoveMapCountdownTimeLeftString(num));
+				Messages.Message(text, (WorldObject)this, MessageSound.Benefit);
+				base.StartForceExitAndRemoveMapCountdown(num);
 			}
-			if (GenHostility.AnyHostileActiveThreat(base.Map))
-			{
-				return;
-			}
-			this.startedCountdown = true;
-			int num = Mathf.RoundToInt(this.core.forceExitAndRemoveMapCountdownDurationDays * 60000f);
-			string text = (!this.anyEnemiesInitially) ? "MessageSiteCountdownBecauseNoEnemiesInitially".Translate(new object[]
-			{
-				MapParent.GetForceExitAndRemoveMapCountdownTimeLeftString(num)
-			}) : "MessageSiteCountdownBecauseNoMoreEnemies".Translate(new object[]
-			{
-				MapParent.GetForceExitAndRemoveMapCountdownTimeLeftString(num)
-			});
-			Messages.Message(text, this, MessageSound.Benefit);
-			base.StartForceExitAndRemoveMapCountdown(num);
 		}
 
 		public override string GetInspectString()
@@ -235,19 +229,12 @@ namespace RimWorld.Planet
 				}
 				else if (this.parts.Count == 1)
 				{
-					stringBuilder.Append("KnownSiteThreat".Translate(new object[]
-					{
-						this.parts[0].LabelCap
-					}));
+					stringBuilder.Append("KnownSiteThreat".Translate(this.parts[0].LabelCap));
 				}
 				else
 				{
-					StringBuilder arg_D9_0 = stringBuilder;
-					string arg_D4_0 = "KnownSiteThreats";
-					object[] expr_A3 = new object[1];
-					expr_A3[0] = GenText.ToCommaList(from x in this.parts
-					select x.LabelCap, true);
-					arg_D9_0.Append(arg_D4_0.Translate(expr_A3));
+					stringBuilder.Append("KnownSiteThreats".Translate(GenText.ToCommaList(from x in this.parts
+					select x.LabelCap, true)));
 				}
 			}
 			return stringBuilder.ToString();

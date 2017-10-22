@@ -33,26 +33,22 @@ namespace Verse
 		public static void HealInjuryRandom(Pawn pawn, float amount)
 		{
 			BodyPartRecord part;
-			if (!pawn.health.hediffSet.GetInjuredParts().TryRandomElement(out part))
+			if (pawn.health.hediffSet.GetInjuredParts().TryRandomElement<BodyPartRecord>(out part))
 			{
-				return;
-			}
-			Hediff_Injury hediff_Injury = null;
-			foreach (Hediff_Injury current in from x in pawn.health.hediffSet.GetHediffs<Hediff_Injury>()
-			where x.Part == part
-			select x)
-			{
-				if (!current.IsOld())
+				Hediff_Injury hediff_Injury = null;
+				foreach (Hediff_Injury item in from x in pawn.health.hediffSet.GetHediffs<Hediff_Injury>()
+				where x.Part == part
+				select x)
 				{
-					if (hediff_Injury == null || current.Severity > hediff_Injury.Severity)
+					if (!item.IsOld() && (hediff_Injury == null || item.Severity > hediff_Injury.Severity))
 					{
-						hediff_Injury = current;
+						hediff_Injury = item;
 					}
 				}
-			}
-			if (hediff_Injury != null)
-			{
-				hediff_Injury.Heal(amount);
+				if (hediff_Injury != null)
+				{
+					hediff_Injury.Heal(amount);
+				}
 			}
 		}
 
@@ -78,19 +74,16 @@ namespace Verse
 			for (int i = 0; i < pawn.health.hediffSet.hediffs.Count; i++)
 			{
 				Hediff_Injury hediff_Injury = pawn.health.hediffSet.hediffs[i] as Hediff_Injury;
-				if (hediff_Injury != null)
+				if (hediff_Injury != null && !hediff_Injury.IsOld())
 				{
-					if (!hediff_Injury.IsOld())
-					{
-						flag = true;
-					}
+					flag = true;
 				}
 			}
 			if (flag)
 			{
 				return "Injured".Translate();
 			}
-			if (pawn.health.hediffSet.PainTotal > 0.3f)
+			if (pawn.health.hediffSet.PainTotal > 0.30000001192092896)
 			{
 				return "InPain".Translate();
 			}
@@ -102,19 +95,22 @@ namespace Verse
 			float partHealth = pawn.health.hediffSet.GetPartHealth(part);
 			float maxHealth = part.def.GetMaxHealth(pawn);
 			float num = partHealth / maxHealth;
-			string first = string.Empty;
-			Color second = Color.white;
-			if (partHealth <= 0f)
+			string empty = string.Empty;
+			Color white = Color.white;
+			if (partHealth <= 0.0)
 			{
 				Hediff_MissingPart hediff_MissingPart = null;
 				List<Hediff_MissingPart> missingPartsCommonAncestors = pawn.health.hediffSet.GetMissingPartsCommonAncestors();
-				for (int i = 0; i < missingPartsCommonAncestors.Count; i++)
+				int num2 = 0;
+				while (num2 < missingPartsCommonAncestors.Count)
 				{
-					if (missingPartsCommonAncestors[i].Part == part)
+					if (missingPartsCommonAncestors[num2].Part != part)
 					{
-						hediff_MissingPart = missingPartsCommonAncestors[i];
-						break;
+						num2++;
+						continue;
 					}
+					hediff_MissingPart = missingPartsCommonAncestors[num2];
+					break;
 				}
 				if (hediff_MissingPart == null)
 				{
@@ -124,36 +120,36 @@ namespace Verse
 						fresh = true;
 					}
 					bool solid = part.def.IsSolid(part, pawn.health.hediffSet.hediffs);
-					first = HealthUtility.GetGeneralDestroyedPartLabel(part, fresh, solid);
-					second = Color.gray;
+					empty = HealthUtility.GetGeneralDestroyedPartLabel(part, fresh, solid);
+					white = Color.gray;
 				}
 				else
 				{
-					first = hediff_MissingPart.LabelCap;
-					second = hediff_MissingPart.LabelColor;
+					empty = hediff_MissingPart.LabelCap;
+					white = hediff_MissingPart.LabelColor;
 				}
 			}
-			else if (num < 0.4f)
+			else if (num < 0.40000000596046448)
 			{
-				first = "SeriouslyImpaired".Translate();
-				second = HealthUtility.DarkRedColor;
+				empty = "SeriouslyImpaired".Translate();
+				white = HealthUtility.DarkRedColor;
 			}
-			else if (num < 0.7f)
+			else if (num < 0.699999988079071)
 			{
-				first = "Impaired".Translate();
-				second = HealthUtility.ImpairedColor;
+				empty = "Impaired".Translate();
+				white = HealthUtility.ImpairedColor;
 			}
-			else if (num < 0.999f)
+			else if (num < 0.99900001287460327)
 			{
-				first = "SlightlyImpaired".Translate();
-				second = HealthUtility.SlightlyImpairedColor;
+				empty = "SlightlyImpaired".Translate();
+				white = HealthUtility.SlightlyImpairedColor;
 			}
 			else
 			{
-				first = "GoodCondition".Translate();
-				second = HealthUtility.GoodConditionColor;
+				empty = "GoodCondition".Translate();
+				white = HealthUtility.GoodConditionColor;
 			}
-			return new Pair<string, Color>(first, second);
+			return new Pair<string, Color>(empty, white);
 		}
 
 		public static string GetGeneralDestroyedPartLabel(BodyPartRecord part, bool fresh, bool solid)
@@ -197,51 +193,44 @@ namespace Verse
 
 		private static void GiveRandomSurgeryInjuries(Pawn p, int totalDamage, BodyPartRecord operatedPart)
 		{
-			IEnumerable<BodyPartRecord> source;
-			if (operatedPart == null)
-			{
-				source = p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined);
-			}
-			else
-			{
-				source = from pa in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined)
-				where pa == operatedPart || pa.parent == operatedPart || (operatedPart != null && operatedPart.parent == pa)
-				select pa;
-			}
+			IEnumerable<BodyPartRecord> source = (operatedPart != null) ? (from pa in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined)
+			where pa == operatedPart || pa.parent == operatedPart || (operatedPart != null && operatedPart.parent == pa)
+			select pa) : p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined);
 			source = from x in source
-			where HealthUtility.GetMinHealthOfPartsWeWantToAvoidDestroying(x, p) >= 2f
+			where HealthUtility.GetMinHealthOfPartsWeWantToAvoidDestroying(x, p) >= 2.0
 			select x;
 			BodyPartRecord brain = p.health.hediffSet.GetBrain();
 			if (brain != null)
 			{
 				float maxBrainHealth = brain.def.GetMaxHealth(p);
 				source = from x in source
-				where x != brain || p.health.hediffSet.GetPartHealth(x) >= maxBrainHealth * 0.5f + 1f
+				where x != brain || p.health.hediffSet.GetPartHealth(x) >= maxBrainHealth * 0.5 + 1.0
 				select x;
 			}
-			while (totalDamage > 0 && source.Any<BodyPartRecord>())
+			while (totalDamage > 0 && source.Any())
 			{
-				BodyPartRecord bodyPartRecord = source.RandomElementByWeight((BodyPartRecord x) => x.coverageAbs);
+				BodyPartRecord bodyPartRecord = source.RandomElementByWeight((Func<BodyPartRecord, float>)((BodyPartRecord x) => x.coverageAbs));
 				float partHealth = p.health.hediffSet.GetPartHealth(bodyPartRecord);
 				int num = Mathf.Max(3, GenMath.RoundRandom(partHealth * Rand.Range(0.5f, 1f)));
 				float minHealthOfPartsWeWantToAvoidDestroying = HealthUtility.GetMinHealthOfPartsWeWantToAvoidDestroying(bodyPartRecord, p);
-				if (minHealthOfPartsWeWantToAvoidDestroying - (float)num < 1f)
+				if (minHealthOfPartsWeWantToAvoidDestroying - (float)num < 1.0)
 				{
-					num = Mathf.RoundToInt(minHealthOfPartsWeWantToAvoidDestroying - 1f);
+					num = Mathf.RoundToInt((float)(minHealthOfPartsWeWantToAvoidDestroying - 1.0));
 				}
-				if (bodyPartRecord == brain && partHealth - (float)num < brain.def.GetMaxHealth(p) * 0.5f)
+				if (bodyPartRecord == brain && partHealth - (float)num < brain.def.GetMaxHealth(p) * 0.5)
 				{
-					num = Mathf.Max(Mathf.RoundToInt(partHealth - brain.def.GetMaxHealth(p) * 0.5f), 1);
+					num = Mathf.Max(Mathf.RoundToInt((float)(partHealth - brain.def.GetMaxHealth(p) * 0.5)), 1);
 				}
-				if (num <= 0)
+				if (num > 0)
 				{
-					break;
+					DamageDef def = Rand.Element(DamageDefOf.Cut, DamageDefOf.Scratch, DamageDefOf.Stab, DamageDefOf.Crush);
+					Pawn obj = p;
+					BodyPartRecord forceHitPart = bodyPartRecord;
+					obj.TakeDamage(new DamageInfo(def, num, -1f, null, forceHitPart, null, DamageInfo.SourceCategory.ThingOrUnknown));
+					totalDamage -= num;
+					continue;
 				}
-				DamageDef def = Rand.Element<DamageDef>(DamageDefOf.Cut, DamageDefOf.Scratch, DamageDefOf.Stab, DamageDefOf.Crush);
-				Thing arg_220_0 = p;
-				BodyPartRecord forceHitPart = bodyPartRecord;
-				arg_220_0.TakeDamage(new DamageInfo(def, num, -1f, null, forceHitPart, null, DamageInfo.SourceCategory.ThingOrUnknown));
-				totalDamage -= num;
+				break;
 			}
 		}
 
@@ -265,7 +254,7 @@ namespace Verse
 			{
 				return true;
 			}
-			if (part.def.tags.Any((string x) => HealthUtility.vitalPawnCapacityTags.Contains(x)))
+			if (part.def.tags.Any((Predicate<string>)((string x) => HealthUtility.vitalPawnCapacityTags.Contains(x))))
 			{
 				return true;
 			}
@@ -281,70 +270,53 @@ namespace Verse
 
 		public static void DamageUntilDowned(Pawn p)
 		{
-			if (p.health.Downed)
+			if (!p.health.Downed)
 			{
-				return;
-			}
-			HediffSet hediffSet = p.health.hediffSet;
-			p.health.forceIncap = true;
-			IEnumerable<BodyPartRecord> source = from x in HealthUtility.HittablePartsViolence(hediffSet)
-			where !p.health.hediffSet.hediffs.Any((Hediff y) => y.Part == x && y.CurStage != null && y.CurStage.partEfficiencyOffset < 0f)
-			select x;
-			int num = 0;
-			while (num < 300 && !p.Downed && source.Any<BodyPartRecord>())
-			{
-				num++;
-				BodyPartRecord bodyPartRecord = source.RandomElementByWeight((BodyPartRecord x) => x.coverageAbs);
-				int num2 = Mathf.RoundToInt(hediffSet.GetPartHealth(bodyPartRecord)) - 3;
-				if (num2 >= 8)
+				HediffSet hediffSet = p.health.hediffSet;
+				p.health.forceIncap = true;
+				IEnumerable<BodyPartRecord> source = from x in HealthUtility.HittablePartsViolence(hediffSet)
+				where !p.health.hediffSet.hediffs.Any((Predicate<Hediff>)((Hediff y) => y.Part == x && y.CurStage != null && y.CurStage.partEfficiencyOffset < 0.0))
+				select x;
+				int num = 0;
+				while (num < 300 && !p.Downed && source.Any())
 				{
-					DamageDef def;
-					if (bodyPartRecord.depth == BodyPartDepth.Outside)
+					num++;
+					BodyPartRecord bodyPartRecord = source.RandomElementByWeight((Func<BodyPartRecord, float>)((BodyPartRecord x) => x.coverageAbs));
+					int num2 = Mathf.RoundToInt(hediffSet.GetPartHealth(bodyPartRecord)) - 3;
+					if (num2 >= 8)
 					{
-						def = HealthUtility.RandomViolenceDamageType();
+						DamageDef def = (bodyPartRecord.depth != BodyPartDepth.Outside) ? DamageDefOf.Blunt : HealthUtility.RandomViolenceDamageType();
+						int amount = Rand.RangeInclusive(Mathf.RoundToInt((float)((float)num2 * 0.64999997615814209)), num2);
+						BodyPartRecord forceHitPart = bodyPartRecord;
+						DamageInfo dinfo = new DamageInfo(def, amount, -1f, null, forceHitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);
+						dinfo.SetAllowDamagePropagation(false);
+						p.TakeDamage(dinfo);
 					}
-					else
-					{
-						def = DamageDefOf.Blunt;
-					}
-					int amount = Rand.RangeInclusive(Mathf.RoundToInt((float)num2 * 0.65f), num2);
-					BodyPartRecord forceHitPart = bodyPartRecord;
-					DamageInfo dinfo = new DamageInfo(def, amount, -1f, null, forceHitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);
-					dinfo.SetAllowDamagePropagation(false);
-					p.TakeDamage(dinfo);
 				}
-			}
-			if (p.Dead)
-			{
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.AppendLine(p + " died during GiveInjuriesToForceDowned");
-				for (int i = 0; i < p.health.hediffSet.hediffs.Count; i++)
+				if (p.Dead)
 				{
-					stringBuilder.AppendLine("   -" + p.health.hediffSet.hediffs[i].ToString());
+					StringBuilder stringBuilder = new StringBuilder();
+					stringBuilder.AppendLine(p + " died during GiveInjuriesToForceDowned");
+					for (int i = 0; i < p.health.hediffSet.hediffs.Count; i++)
+					{
+						stringBuilder.AppendLine("   -" + p.health.hediffSet.hediffs[i].ToString());
+					}
+					Log.Error(stringBuilder.ToString());
 				}
-				Log.Error(stringBuilder.ToString());
+				p.health.forceIncap = false;
 			}
-			p.health.forceIncap = false;
 		}
 
 		public static void DamageUntilDead(Pawn p)
 		{
 			HediffSet hediffSet = p.health.hediffSet;
 			int num = 0;
-			while (!p.Dead && num < 200 && HealthUtility.HittablePartsViolence(hediffSet).Any<BodyPartRecord>())
+			while (!p.Dead && num < 200 && HealthUtility.HittablePartsViolence(hediffSet).Any())
 			{
 				num++;
-				BodyPartRecord bodyPartRecord = HealthUtility.HittablePartsViolence(hediffSet).RandomElementByWeight((BodyPartRecord x) => x.coverageAbs);
+				BodyPartRecord bodyPartRecord = HealthUtility.HittablePartsViolence(hediffSet).RandomElementByWeight((Func<BodyPartRecord, float>)((BodyPartRecord x) => x.coverageAbs));
 				int amount = Rand.RangeInclusive(8, 25);
-				DamageDef def;
-				if (bodyPartRecord.depth == BodyPartDepth.Outside)
-				{
-					def = HealthUtility.RandomViolenceDamageType();
-				}
-				else
-				{
-					def = DamageDefOf.Blunt;
-				}
+				DamageDef def = (bodyPartRecord.depth != BodyPartDepth.Outside) ? DamageDefOf.Blunt : HealthUtility.RandomViolenceDamageType();
 				BodyPartRecord forceHitPart = bodyPartRecord;
 				DamageInfo dinfo = new DamageInfo(def, amount, -1f, null, forceHitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);
 				p.TakeDamage(dinfo);
@@ -360,17 +332,29 @@ namespace Verse
 			switch (Rand.RangeInclusive(0, 4))
 			{
 			case 0:
+			{
 				return DamageDefOf.Bullet;
+			}
 			case 1:
+			{
 				return DamageDefOf.Blunt;
+			}
 			case 2:
+			{
 				return DamageDefOf.Stab;
+			}
 			case 3:
+			{
 				return DamageDefOf.Scratch;
+			}
 			case 4:
+			{
 				return DamageDefOf.Cut;
+			}
 			default:
+			{
 				return null;
+			}
 			}
 		}
 
@@ -395,33 +379,32 @@ namespace Verse
 				return false;
 			}
 			pawn.health.forceIncap = true;
-			pawn.health.AddHediff(HediffDefOf.Anesthetic, null, null);
+			pawn.health.AddHediff(HediffDefOf.Anesthetic, null, default(DamageInfo?));
 			pawn.health.forceIncap = false;
 			return true;
 		}
 
 		public static void AdjustSeverity(Pawn pawn, HediffDef hdDef, float sevOffset)
 		{
-			if (sevOffset == 0f)
+			if (sevOffset != 0.0)
 			{
-				return;
-			}
-			Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(hdDef, false);
-			if (hediff != null)
-			{
-				hediff.Severity += sevOffset;
-			}
-			else if (sevOffset > 0f)
-			{
-				hediff = HediffMaker.MakeHediff(hdDef, pawn, null);
-				hediff.Severity = sevOffset;
-				pawn.health.AddHediff(hediff, null, null);
+				Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(hdDef, false);
+				if (firstHediffOfDef != null)
+				{
+					firstHediffOfDef.Severity += sevOffset;
+				}
+				else if (sevOffset > 0.0)
+				{
+					firstHediffOfDef = HediffMaker.MakeHediff(hdDef, pawn, null);
+					firstHediffOfDef.Severity = sevOffset;
+					pawn.health.AddHediff(firstHediffOfDef, null, default(DamageInfo?));
+				}
 			}
 		}
 
 		public static BodyPartRemovalIntent PartRemovalIntent(Pawn pawn, BodyPartRecord part)
 		{
-			if (pawn.health.hediffSet.hediffs.Any((Hediff d) => d.Visible && d.Part == part && d.def.isBad))
+			if (pawn.health.hediffSet.hediffs.Any((Predicate<Hediff>)((Hediff d) => d.Visible && d.Part == part && d.def.isBad)))
 			{
 				return BodyPartRemovalIntent.Amputate;
 			}
@@ -435,7 +418,7 @@ namespace Verse
 			{
 				return 2147483647;
 			}
-			return (int)((1f - firstHediffOfDef.Severity) / pawn.health.hediffSet.BleedRateTotal * 60000f);
+			return (int)((1.0 - firstHediffOfDef.Severity) / pawn.health.hediffSet.BleedRateTotal * 60000.0);
 		}
 	}
 }

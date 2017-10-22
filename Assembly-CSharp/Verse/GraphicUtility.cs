@@ -20,17 +20,29 @@ namespace Verse
 			switch (linkDrawerType)
 			{
 			case LinkDrawerType.None:
+			{
 				return null;
+			}
 			case LinkDrawerType.Basic:
+			{
 				return new Graphic_Linked(subGraphic);
+			}
 			case LinkDrawerType.CornerFiller:
+			{
 				return new Graphic_LinkedCornerFiller(subGraphic);
+			}
 			case LinkDrawerType.Transmitter:
+			{
 				return new Graphic_LinkedTransmitter(subGraphic);
+			}
 			case LinkDrawerType.TransmitterOverlay:
+			{
 				return new Graphic_LinkedTransmitterOverlay(subGraphic);
+			}
 			default:
+			{
 				throw new ArgumentException();
+			}
 			}
 		}
 	}

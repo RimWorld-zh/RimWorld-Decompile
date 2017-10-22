@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -25,36 +24,35 @@ namespace RimWorld
 			}
 			set
 			{
-				if (value == this.draftedInt)
+				if (value != this.draftedInt)
 				{
-					return;
-				}
-				this.pawn.mindState.priorityWork.ClearPrioritizedWorkAndJobQueue();
-				this.fireAtWillInt = true;
-				this.draftedInt = value;
-				if (!value && this.pawn.Spawned)
-				{
-					this.pawn.Map.pawnDestinationManager.UnreserveAllFor(this.pawn);
-				}
-				if (this.pawn.jobs.curJob != null && this.pawn.jobs.IsCurrentJobPlayerInterruptible())
-				{
-					this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
-				}
-				if (this.draftedInt)
-				{
-					foreach (Pawn current in PawnUtility.SpawnedMasteredPawns(this.pawn))
+					this.pawn.mindState.priorityWork.ClearPrioritizedWorkAndJobQueue();
+					this.fireAtWillInt = true;
+					this.draftedInt = value;
+					if (!value && this.pawn.Spawned)
 					{
-						current.jobs.Notify_MasterDrafted();
+						this.pawn.Map.pawnDestinationManager.UnreserveAllFor(this.pawn);
 					}
-					Lord lord = this.pawn.GetLord();
-					if (lord != null && lord.LordJob is LordJob_VoluntarilyJoinable)
+					if (this.pawn.jobs.curJob != null && this.pawn.jobs.IsCurrentJobPlayerInterruptible())
 					{
-						lord.Notify_PawnLost(this.pawn, PawnLostCondition.Drafted);
+						this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
 					}
-				}
-				else if (this.pawn.playerSettings != null)
-				{
-					this.pawn.playerSettings.animalsReleased = false;
+					if (this.draftedInt)
+					{
+						foreach (Pawn item in PawnUtility.SpawnedMasteredPawns(this.pawn))
+						{
+							item.jobs.Notify_MasterDrafted();
+						}
+						Lord lord = this.pawn.GetLord();
+						if (lord != null && lord.LordJob is LordJob_VoluntarilyJoinable)
+						{
+							lord.Notify_PawnLost(this.pawn, PawnLostCondition.Drafted);
+						}
+					}
+					else if (this.pawn.playerSettings != null)
+					{
+						this.pawn.playerSettings.animalsReleased = false;
+					}
 				}
 			}
 		}
@@ -85,7 +83,7 @@ namespace RimWorld
 		{
 			Scribe_Values.Look<bool>(ref this.draftedInt, "drafted", false, false);
 			Scribe_Values.Look<bool>(ref this.fireAtWillInt, "fireAtWill", true, false);
-			Scribe_Deep.Look<AutoUndrafter>(ref this.autoUndrafter, "autoUndrafter", new object[]
+			Scribe_Deep.Look<AutoUndrafter>(ref this.autoUndrafter, "autoUndrafter", new object[1]
 			{
 				this.pawn
 			});
@@ -96,14 +94,55 @@ namespace RimWorld
 			this.autoUndrafter.AutoUndraftTick();
 		}
 
-		[DebuggerHidden]
 		internal IEnumerable<Gizmo> GetGizmos()
 		{
-			Pawn_DraftController.<GetGizmos>c__IteratorE1 <GetGizmos>c__IteratorE = new Pawn_DraftController.<GetGizmos>c__IteratorE1();
-			<GetGizmos>c__IteratorE.<>f__this = this;
-			Pawn_DraftController.<GetGizmos>c__IteratorE1 expr_0E = <GetGizmos>c__IteratorE;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			Command_Toggle draft = new Command_Toggle
+			{
+				hotKey = KeyBindingDefOf.CommandColonistDraft,
+				isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__IteratorE1)/*Error near IL_0046: stateMachine*/)._003C_003Ef__this.Drafted),
+				toggleAction = (Action)delegate
+				{
+					((_003CGetGizmos_003Ec__IteratorE1)/*Error near IL_005d: stateMachine*/)._003C_003Ef__this.Drafted = !((_003CGetGizmos_003Ec__IteratorE1)/*Error near IL_005d: stateMachine*/)._003C_003Ef__this.Drafted;
+					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Drafting, KnowledgeAmount.SpecificInteraction);
+				},
+				defaultDesc = "CommandToggleDraftDesc".Translate(),
+				icon = TexCommand.Draft,
+				turnOnSound = SoundDefOf.DraftOn,
+				turnOffSound = SoundDefOf.DraftOff
+			};
+			if (!this.Drafted)
+			{
+				draft.defaultLabel = "CommandDraftLabel".Translate();
+			}
+			if (this.pawn.Downed)
+			{
+				draft.Disable("IsIncapped".Translate(this.pawn.NameStringShort));
+			}
+			if (!this.Drafted)
+			{
+				draft.tutorTag = "Draft";
+			}
+			else
+			{
+				draft.tutorTag = "Undraft";
+			}
+			yield return (Gizmo)draft;
+			if (this.Drafted && this.pawn.equipment.Primary != null && this.pawn.equipment.Primary.def.IsRangedWeapon)
+			{
+				yield return (Gizmo)new Command_Toggle
+				{
+					hotKey = KeyBindingDefOf.Misc6,
+					isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__IteratorE1)/*Error near IL_01d7: stateMachine*/)._003C_003Ef__this.FireAtWill),
+					toggleAction = (Action)delegate
+					{
+						((_003CGetGizmos_003Ec__IteratorE1)/*Error near IL_01ee: stateMachine*/)._003C_003Ef__this.FireAtWill = !((_003CGetGizmos_003Ec__IteratorE1)/*Error near IL_01ee: stateMachine*/)._003C_003Ef__this.FireAtWill;
+					},
+					icon = TexCommand.FireAtWill,
+					defaultLabel = "CommandFireAtWillLabel".Translate(),
+					defaultDesc = "CommandFireAtWillDesc".Translate(),
+					tutorTag = "FireAtWillToggle"
+				};
+			}
 		}
 
 		internal void Notify_PrimaryWeaponChanged()

@@ -14,16 +14,16 @@ namespace RimWorld
 
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
-			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 3f + 31f);
+			Rect scenPartRect = listing.GetScenPartRect(this, (float)(ScenPart.RowHeight * 3.0 + 31.0));
 			if (Widgets.ButtonText(scenPartRect.TopPartPixels(ScenPart.RowHeight), this.need.LabelCap, true, false, true))
 			{
-				FloatMenuUtility.MakeMenu<NeedDef>(this.PossibleNeeds(), (NeedDef hd) => hd.LabelCap, (NeedDef n) => delegate
+				FloatMenuUtility.MakeMenu(this.PossibleNeeds(), (Func<NeedDef, string>)((NeedDef hd) => hd.LabelCap), (Func<NeedDef, Action>)((NeedDef n) => (Action)delegate()
 				{
 					this.need = n;
-				});
+				}));
 			}
 			Widgets.FloatRange(new Rect(scenPartRect.x, scenPartRect.y + ScenPart.RowHeight, scenPartRect.width, 31f), listing.CurHeight.GetHashCode(), ref this.levelRange, 0f, 1f, "ConfigurableLevel", ToStringStyle.FloatTwo);
-			base.DoPawnModifierEditInterface(scenPartRect.BottomPartPixels(ScenPart.RowHeight * 2f));
+			base.DoPawnModifierEditInterface(scenPartRect.BottomPartPixels((float)(ScenPart.RowHeight * 2.0)));
 		}
 
 		private IEnumerable<NeedDef> PossibleNeeds()
@@ -42,20 +42,13 @@ namespace RimWorld
 
 		public override string Summary(Scenario scen)
 		{
-			return "ScenPart_SetNeed".Translate(new object[]
-			{
-				this.context.ToStringHuman(),
-				this.chance.ToStringPercent(),
-				this.need.label,
-				this.levelRange.min.ToStringPercent(),
-				this.levelRange.max.ToStringPercent()
-			}).CapitalizeFirst();
+			return "ScenPart_SetNeed".Translate(base.context.ToStringHuman(), base.chance.ToStringPercent(), this.need.label, this.levelRange.min.ToStringPercent(), this.levelRange.max.ToStringPercent()).CapitalizeFirst();
 		}
 
 		public override void Randomize()
 		{
 			base.Randomize();
-			this.need = this.PossibleNeeds().RandomElement<NeedDef>();
+			this.need = this.PossibleNeeds().RandomElement();
 			this.levelRange.max = Rand.Range(0f, 1f);
 			this.levelRange.min = this.levelRange.max * Rand.Range(0f, 0.95f);
 		}
@@ -65,7 +58,7 @@ namespace RimWorld
 			ScenPart_SetNeedLevel scenPart_SetNeedLevel = other as ScenPart_SetNeedLevel;
 			if (scenPart_SetNeedLevel != null && this.need == scenPart_SetNeedLevel.need)
 			{
-				this.chance = GenMath.ChanceEitherHappens(this.chance, scenPart_SetNeedLevel.chance);
+				base.chance = GenMath.ChanceEitherHappens(base.chance, scenPart_SetNeedLevel.chance);
 				return true;
 			}
 			return false;
@@ -73,7 +66,7 @@ namespace RimWorld
 
 		protected override void ModifyPawn(Pawn p)
 		{
-			if (Rand.Value < this.chance && p.needs != null)
+			if (Rand.Value < base.chance && p.needs != null)
 			{
 				Need need = p.needs.TryGetNeed(this.need);
 				if (need != null)

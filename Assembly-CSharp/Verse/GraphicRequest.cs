@@ -40,24 +40,28 @@ namespace Verse
 				this.path = BaseContent.BadTexPath;
 			}
 			int seed = 0;
-			seed = Gen.HashCombine<Type>(seed, this.graphicClass);
-			seed = Gen.HashCombine<string>(seed, this.path);
-			seed = Gen.HashCombine<Shader>(seed, this.shader);
-			seed = Gen.HashCombineStruct<Vector2>(seed, this.drawSize);
-			seed = Gen.HashCombineStruct<Color>(seed, this.color);
-			seed = Gen.HashCombineStruct<Color>(seed, this.colorTwo);
-			seed = Gen.HashCombine<GraphicData>(seed, this.graphicData);
-			return Gen.HashCombine<int>(seed, this.renderQueue);
+			seed = Gen.HashCombine(seed, this.graphicClass);
+			seed = Gen.HashCombine(seed, this.path);
+			seed = Gen.HashCombine(seed, this.shader);
+			seed = Gen.HashCombineStruct(seed, this.drawSize);
+			seed = Gen.HashCombineStruct(seed, this.color);
+			seed = Gen.HashCombineStruct(seed, this.colorTwo);
+			seed = Gen.HashCombine(seed, this.graphicData);
+			return Gen.HashCombine(seed, this.renderQueue);
 		}
 
 		public override bool Equals(object obj)
 		{
-			return obj is GraphicRequest && this.Equals((GraphicRequest)obj);
+			if (!(obj is GraphicRequest))
+			{
+				return false;
+			}
+			return this.Equals((GraphicRequest)obj);
 		}
 
 		public bool Equals(GraphicRequest other)
 		{
-			return this.graphicClass == other.graphicClass && this.path == other.path && this.shader == other.shader && this.drawSize == other.drawSize && this.color == other.color && this.colorTwo == other.colorTwo && this.graphicData == other.graphicData && this.renderQueue == other.renderQueue;
+			return this.graphicClass == other.graphicClass && this.path == other.path && (UnityEngine.Object)this.shader == (UnityEngine.Object)other.shader && this.drawSize == other.drawSize && this.color == other.color && this.colorTwo == other.colorTwo && this.graphicData == other.graphicData && this.renderQueue == other.renderQueue;
 		}
 
 		public static bool operator ==(GraphicRequest lhs, GraphicRequest rhs)

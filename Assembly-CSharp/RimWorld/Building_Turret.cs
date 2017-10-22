@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -90,7 +89,7 @@ namespace RimWorld
 			base.ExposeData();
 			Scribe_TargetInfo.Look(ref this.forcedTarget, "forcedTarget");
 			Scribe_TargetInfo.Look(ref this.lastAttackedTarget, "lastAttackedTarget");
-			Scribe_Deep.Look<StunHandler>(ref this.stunner, "stunner", new object[]
+			Scribe_Deep.Look<StunHandler>(ref this.stunner, "stunner", new object[1]
 			{
 				this
 			});
@@ -100,12 +99,11 @@ namespace RimWorld
 		public override void PreApplyDamage(DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(dinfo, out absorbed);
-			if (absorbed)
+			if (!absorbed)
 			{
-				return;
+				this.stunner.Notify_DamageApplied(dinfo, true);
+				absorbed = false;
 			}
-			this.stunner.Notify_DamageApplied(dinfo, true);
-			absorbed = false;
 		}
 
 		public abstract void OrderAttack(LocalTargetInfo targ);
@@ -118,7 +116,11 @@ namespace RimWorld
 				return true;
 			}
 			CompMannable comp2 = base.GetComp<CompMannable>();
-			return comp2 != null && !comp2.MannedNow;
+			if (comp2 != null && !comp2.MannedNow)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		protected void OnAttackedTarget(LocalTargetInfo target)

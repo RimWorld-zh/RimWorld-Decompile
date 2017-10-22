@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -18,7 +17,7 @@ namespace Verse
 		{
 			DebugMatsSpectrum.spectrumMatsTranparent = new Material[100];
 			DebugMatsSpectrum.spectrumMatsOpaque = new Material[100];
-			DebugMatsSpectrum.DebugSpectrum = new Color[]
+			DebugMatsSpectrum.DebugSpectrum = new Color[5]
 			{
 				new Color(0.75f, 0f, 0f),
 				new Color(0.5f, 0.3f, 0f),
@@ -28,8 +27,8 @@ namespace Verse
 			};
 			for (int i = 0; i < 100; i++)
 			{
-				DebugMatsSpectrum.spectrumMatsTranparent[i] = MatsFromSpectrum.Get(DebugMatsSpectrum.DebugSpectrumWithOpacity(0.25f), (float)i / 100f);
-				DebugMatsSpectrum.spectrumMatsOpaque[i] = MatsFromSpectrum.Get(DebugMatsSpectrum.DebugSpectrumWithOpacity(1f), (float)i / 100f);
+				DebugMatsSpectrum.spectrumMatsTranparent[i] = MatsFromSpectrum.Get(DebugMatsSpectrum.DebugSpectrumWithOpacity(0.25f), (float)((float)i / 100.0));
+				DebugMatsSpectrum.spectrumMatsOpaque[i] = MatsFromSpectrum.Get(DebugMatsSpectrum.DebugSpectrumWithOpacity(1f), (float)((float)i / 100.0));
 			}
 		}
 

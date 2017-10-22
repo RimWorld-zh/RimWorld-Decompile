@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 using Verse.AI.Group;
 
@@ -49,33 +48,29 @@ namespace Verse
 			FloatRange floatRange = pawn.ComfortableTemperatureRange();
 			FloatRange floatRange2 = pawn.SafeTemperatureRange();
 			HediffSet hediffSet = pawn.health.hediffSet;
-			Hediff firstHediffOfDef = hediffSet.GetFirstHediffOfDef(this.hediff, false);
+			Hediff firstHediffOfDef = hediffSet.GetFirstHediffOfDef(base.hediff, false);
 			if (ambientTemperature > floatRange2.max)
 			{
-				float num = ambientTemperature - floatRange2.max;
-				num = HediffGiver_Heat.TemperatureOverageAdjustmentCurve.Evaluate(num);
-				float num2 = num * 6.45E-05f;
-				num2 = Mathf.Max(num2, 0.000375f);
-				HealthUtility.AdjustSeverity(pawn, this.hediff, num2);
+				float x = ambientTemperature - floatRange2.max;
+				x = HediffGiver_Heat.TemperatureOverageAdjustmentCurve.Evaluate(x);
+				float a = (float)(x * 6.44999963697046E-05);
+				a = Mathf.Max(a, 0.000375f);
+				HealthUtility.AdjustSeverity(pawn, base.hediff, a);
 			}
 			else if (firstHediffOfDef != null && ambientTemperature < floatRange.max)
 			{
-				float num3 = firstHediffOfDef.Severity * 0.027f;
-				num3 = Mathf.Clamp(num3, 0.0015f, 0.015f);
-				firstHediffOfDef.Severity -= num3;
+				float value = (float)(firstHediffOfDef.Severity * 0.027000000700354576);
+				value = Mathf.Clamp(value, 0.0015f, 0.015f);
+				firstHediffOfDef.Severity -= value;
 			}
-			if (pawn.Dead)
+			if (!pawn.Dead && pawn.IsNestedHashIntervalTick(60, 420))
 			{
-				return;
-			}
-			if (pawn.IsNestedHashIntervalTick(60, 420))
-			{
-				float num4 = floatRange.max + 150f;
-				if (ambientTemperature > num4)
+				float num = (float)(floatRange.max + 150.0);
+				if (ambientTemperature > num)
 				{
-					float num5 = ambientTemperature - num4;
-					num5 = HediffGiver_Heat.TemperatureOverageAdjustmentCurve.Evaluate(num5);
-					int amount = Mathf.Max(GenMath.RoundRandom(num5 * 0.06f), 3);
+					float x2 = ambientTemperature - num;
+					x2 = HediffGiver_Heat.TemperatureOverageAdjustmentCurve.Evaluate(x2);
+					int amount = Mathf.Max(GenMath.RoundRandom((float)(x2 * 0.059999998658895493)), 3);
 					DamageInfo dinfo = new DamageInfo(DamageDefOf.Burn, amount, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
 					dinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
 					pawn.TakeDamage(dinfo);
@@ -84,10 +79,7 @@ namespace Verse
 						Find.TickManager.slower.SignalForceNormalSpeed();
 						if (MessagesRepeatAvoider.MessageShowAllowed("PawnBeingBurned", 60f))
 						{
-							Messages.Message("MessagePawnBeingBurned".Translate(new object[]
-							{
-								pawn.LabelShort
-							}).CapitalizeFirst(), pawn, MessageSound.SeriousAlert);
+							Messages.Message("MessagePawnBeingBurned".Translate(pawn.LabelShort).CapitalizeFirst(), (Thing)pawn, MessageSound.SeriousAlert);
 						}
 					}
 					Lord lord = pawn.GetLord();

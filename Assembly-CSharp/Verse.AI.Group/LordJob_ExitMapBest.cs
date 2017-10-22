@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI.Group
 {
 	public class LordJob_ExitMapBest : LordJob
@@ -21,10 +19,9 @@ namespace Verse.AI.Group
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
-			stateGraph.AddToil(new LordToil_ExitMap(this.locomotion, this.canDig)
-			{
-				avoidGridMode = AvoidGridMode.Smart
-			});
+			LordToil_ExitMap lordToil_ExitMap = new LordToil_ExitMap(this.locomotion, this.canDig);
+			lordToil_ExitMap.avoidGridMode = AvoidGridMode.Smart;
+			stateGraph.AddToil(lordToil_ExitMap);
 			return stateGraph;
 		}
 

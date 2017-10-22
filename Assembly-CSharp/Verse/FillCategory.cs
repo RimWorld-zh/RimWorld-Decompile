@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum FillCategory : byte
 	{
-		None,
-		Partial,
-		Full
+		None = 0,
+		Partial = 1,
+		Full = 2
 	}
 }

@@ -73,7 +73,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.defPackages.SelectMany((DefPackage x) => x.defs);
+				return this.defPackages.SelectMany((Func<DefPackage, IEnumerable<Def>>)((DefPackage x) => x.defs));
 			}
 		}
 
@@ -134,7 +134,7 @@ namespace Verse
 
 		public void ReloadContent()
 		{
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				this.audioClips.ReloadAll();
 				this.textures.ReloadAll();
@@ -146,13 +146,22 @@ namespace Verse
 		public void LoadDefs(IEnumerable<PatchOperation> patches)
 		{
 			DeepProfiler.Start("Loading all defs");
-			List<LoadableXmlAsset> list = DirectXmlLoader.XmlAssetsInModFolder(this, "Defs/").ToList<LoadableXmlAsset>();
-			foreach (LoadableXmlAsset current in list)
+			List<LoadableXmlAsset> list = DirectXmlLoader.XmlAssetsInModFolder(this, "Defs/").ToList();
+			List<LoadableXmlAsset>.Enumerator enumerator = list.GetEnumerator();
+			try
 			{
-				foreach (PatchOperation current2 in patches)
+				while (enumerator.MoveNext())
 				{
-					current2.Apply(current.xmlDoc);
+					LoadableXmlAsset current = enumerator.Current;
+					foreach (PatchOperation item in patches)
+					{
+						item.Apply(current.xmlDoc);
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			for (int i = 0; i < list.Count; i++)
 			{
@@ -163,9 +172,9 @@ namespace Verse
 			{
 				string relFolder = GenFilePaths.FolderPathRelativeToDefsFolder(list[j].fullFolderPath, this);
 				DefPackage defPackage = new DefPackage(list[j].name, relFolder);
-				foreach (Def current3 in DirectXmlLoader.AllDefsFromAsset(list[j]))
+				foreach (Def item2 in DirectXmlLoader.AllDefsFromAsset(list[j]))
 				{
-					defPackage.defs.Add(current3);
+					defPackage.defs.Add(item2);
 				}
 				this.defPackages.Add(defPackage);
 			}
@@ -194,7 +203,7 @@ namespace Verse
 		{
 			DeepProfiler.Start("Loading all patches");
 			this.patches = new List<PatchOperation>();
-			List<LoadableXmlAsset> list = DirectXmlLoader.XmlAssetsInModFolder(this, "Patches/").ToList<LoadableXmlAsset>();
+			List<LoadableXmlAsset> list = DirectXmlLoader.XmlAssetsInModFolder(this, "Patches/").ToList();
 			for (int i = 0; i < list.Count; i++)
 			{
 				XmlElement documentElement = list[i].xmlDoc.DocumentElement;

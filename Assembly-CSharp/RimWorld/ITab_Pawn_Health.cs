@@ -29,9 +29,9 @@ namespace RimWorld
 
 		public ITab_Pawn_Health()
 		{
-			this.size = new Vector2(630f, 430f);
-			this.labelKey = "TabHealth";
-			this.tutorTag = "Health";
+			base.size = new Vector2(630f, 430f);
+			base.labelKey = "TabHealth";
+			base.tutorTag = "Health";
 		}
 
 		protected override void FillTab()
@@ -40,12 +40,14 @@ namespace RimWorld
 			if (pawnForHealth == null)
 			{
 				Log.Error("Health tab found no selected pawn to display.");
-				return;
 			}
-			Corpse corpse = base.SelThing as Corpse;
-			bool showBloodLoss = corpse == null || corpse.Age < 60000;
-			Rect outRect = new Rect(0f, 20f, this.size.x, this.size.y - 20f);
-			HealthCardUtility.DrawPawnHealthCard(outRect, pawnForHealth, this.ShouldAllowOperations(), showBloodLoss, base.SelThing);
+			else
+			{
+				Corpse corpse = base.SelThing as Corpse;
+				bool showBloodLoss = corpse == null || corpse.Age < 60000;
+				Rect outRect = new Rect(0f, 20f, base.size.x, (float)(base.size.y - 20.0));
+				HealthCardUtility.DrawPawnHealthCard(outRect, pawnForHealth, this.ShouldAllowOperations(), showBloodLoss, base.SelThing);
+			}
 		}
 
 		private bool ShouldAllowOperations()
@@ -55,7 +57,27 @@ namespace RimWorld
 			{
 				return false;
 			}
-			return base.SelThing.def.AllRecipes.Any((RecipeDef x) => x.AvailableNow) && (pawnForHealth.Faction == Faction.OfPlayer || (pawnForHealth.IsPrisonerOfColony || (pawnForHealth.HostFaction == Faction.OfPlayer && !pawnForHealth.health.capacities.CapableOf(PawnCapacityDefOf.Moving))) || ((!pawnForHealth.RaceProps.IsFlesh || pawnForHealth.Faction == null || !pawnForHealth.Faction.HostileTo(Faction.OfPlayer)) && (!pawnForHealth.RaceProps.Humanlike && pawnForHealth.Downed)));
+			if (!base.SelThing.def.AllRecipes.Any((Predicate<RecipeDef>)((RecipeDef x) => x.AvailableNow)))
+			{
+				return false;
+			}
+			if (pawnForHealth.Faction == Faction.OfPlayer)
+			{
+				return true;
+			}
+			if (!pawnForHealth.IsPrisonerOfColony && (pawnForHealth.HostFaction != Faction.OfPlayer || pawnForHealth.health.capacities.CapableOf(PawnCapacityDefOf.Moving)))
+			{
+				if (pawnForHealth.RaceProps.IsFlesh && pawnForHealth.Faction != null && pawnForHealth.Faction.HostileTo(Faction.OfPlayer))
+				{
+					return false;
+				}
+				if (!pawnForHealth.RaceProps.Humanlike && pawnForHealth.Downed)
+				{
+					return true;
+				}
+				return false;
+			}
+			return true;
 		}
 	}
 }

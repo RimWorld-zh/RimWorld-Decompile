@@ -1,12 +1,10 @@
-using System;
-
 namespace RimWorld
 {
 	public enum PawnNameSlot : byte
 	{
-		First,
-		Last,
-		Nick,
-		Only
+		First = 0,
+		Last = 1,
+		Nick = 2,
+		Only = 3
 	}
 }

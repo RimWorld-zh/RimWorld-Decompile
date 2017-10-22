@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -50,7 +49,7 @@ namespace RimWorld
 			bool fatherIsNew = father != null && child.GetFather() != father;
 			bool motherIsNew = mother != null && child.GetMother() != mother;
 			float skinColorFactor = ChildRelationUtility.GetSkinColorFactor(melanin, melanin2, melanin3, fatherIsNew, motherIsNew);
-			if (skinColorFactor <= 0f)
+			if (skinColorFactor <= 0.0)
 			{
 				return 0f;
 			}
@@ -61,7 +60,7 @@ namespace RimWorld
 			if (father != null && child.GetFather() == null)
 			{
 				num = ChildRelationUtility.GetParentAgeFactor(father, child, 14f, 30f, 50f);
-				if (num == 0f)
+				if (num == 0.0)
 				{
 					return 0f;
 				}
@@ -73,7 +72,7 @@ namespace RimWorld
 			if (mother != null && child.GetMother() == null)
 			{
 				num2 = ChildRelationUtility.GetParentAgeFactor(mother, child, 16f, 27f, 45f);
-				if (num2 == 0f)
+				if (num2 == 0.0)
 				{
 					return 0f;
 				}
@@ -82,7 +81,7 @@ namespace RimWorld
 				{
 					return 0f;
 				}
-				num3 = 1f - (float)mother.relations.ChildrenCount / (float)num5;
+				num3 = (float)(1.0 - (float)mother.relations.ChildrenCount / (float)num5);
 				if (mother.story.traits.HasTrait(TraitDefOf.Gay))
 				{
 					num4 = 0.1f;
@@ -94,7 +93,7 @@ namespace RimWorld
 				Pawn firstDirectRelationPawn = mother.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Spouse, null);
 				if (firstDirectRelationPawn != null && firstDirectRelationPawn != father)
 				{
-					num6 *= 0.15f;
+					num6 = (float)(num6 * 0.15000000596046448);
 				}
 			}
 			if (father != null)
@@ -102,7 +101,7 @@ namespace RimWorld
 				Pawn firstDirectRelationPawn2 = father.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Spouse, null);
 				if (firstDirectRelationPawn2 != null && firstDirectRelationPawn2 != mother)
 				{
-					num6 *= 0.15f;
+					num6 = (float)(num6 * 0.15000000596046448);
 				}
 			}
 			return skinColorFactor * num * num2 * num3 * num6 * num4;
@@ -112,22 +111,15 @@ namespace RimWorld
 		{
 			float num = PawnRelationUtility.MaxPossibleBioAgeAt(parent.ageTracker.AgeBiologicalYearsFloat, parent.ageTracker.AgeChronologicalYearsFloat, child.ageTracker.AgeChronologicalYearsFloat);
 			float num2 = PawnRelationUtility.MinPossibleBioAgeAt(parent.ageTracker.AgeBiologicalYearsFloat, child.ageTracker.AgeChronologicalYearsFloat);
-			if (num <= 0f)
+			if (num <= 0.0)
 			{
 				return 0f;
 			}
 			if (num2 > num)
 			{
-				if (num2 > num + 0.1f)
+				if (num2 > num + 0.10000000149011612)
 				{
-					Log.Warning(string.Concat(new object[]
-					{
-						"Min possible bio age (",
-						num2,
-						") is greater than max possible bio age (",
-						num,
-						")."
-					}));
+					Log.Warning("Min possible bio age (" + num2 + ") is greater than max possible bio age (" + num + ").");
 				}
 				return 0f;
 			}
@@ -142,7 +134,7 @@ namespace RimWorld
 
 		public static bool ChildWantsNameOfAnyParent(Pawn child)
 		{
-			return Rand.ValueSeeded(child.thingIDNumber ^ 88271612) < 0.99f;
+			return Rand.ValueSeeded(child.thingIDNumber ^ 88271612) < 0.99000000953674316;
 		}
 
 		private static int NumberOfChildrenFemaleWantsEver(Pawn female)
@@ -164,7 +156,7 @@ namespace RimWorld
 			{
 				return new float?(pawn.story.melanin);
 			}
-			return null;
+			return default(float?);
 		}
 
 		private static float GetAgeFactor(float ageAtBirth, float min, float max, float mid)
@@ -178,11 +170,11 @@ namespace RimWorld
 			{
 				float num = Mathf.Min(fatherMelanin.Value, motherMelanin.Value);
 				float num2 = Mathf.Max(fatherMelanin.Value, motherMelanin.Value);
-				if (childMelanin.HasValue && childMelanin.Value < num - 0.05f)
+				if (childMelanin.HasValue && childMelanin.Value < num - 0.05000000074505806)
 				{
 					return 0f;
 				}
-				if (childMelanin.HasValue && childMelanin.Value > num2 + 0.05f)
+				if (childMelanin.HasValue && childMelanin.Value > num2 + 0.05000000074505806)
 				{
 					return 0f;
 				}
@@ -211,18 +203,15 @@ namespace RimWorld
 					}
 					return PawnSkinColors.GetMelaninCommonalityFactor(newParentMelanin.Value);
 				}
-				else
+				if (childMelanin.HasValue)
 				{
-					if (childMelanin.HasValue)
-					{
-						float reflectedSkin = ChildRelationUtility.GetReflectedSkin(otherParentMelanin.Value, childMelanin.Value);
-						return ChildRelationUtility.GetMelaninSimilarityFactor(newParentMelanin.Value, reflectedSkin);
-					}
-					float melanin = (newParentMelanin.Value + otherParentMelanin.Value) / 2f;
-					return PawnSkinColors.GetMelaninCommonalityFactor(melanin);
+					float reflectedSkin = ChildRelationUtility.GetReflectedSkin(otherParentMelanin.Value, childMelanin.Value);
+					return ChildRelationUtility.GetMelaninSimilarityFactor(newParentMelanin.Value, reflectedSkin);
 				}
+				float melanin = (float)((newParentMelanin.Value + otherParentMelanin.Value) / 2.0);
+				return PawnSkinColors.GetMelaninCommonalityFactor(melanin);
 			}
-			else if (!otherParentMelanin.HasValue)
+			if (!otherParentMelanin.HasValue)
 			{
 				if (childMelanin.HasValue)
 				{
@@ -230,15 +219,12 @@ namespace RimWorld
 				}
 				return 1f;
 			}
-			else
+			if (childMelanin.HasValue)
 			{
-				if (childMelanin.HasValue)
-				{
-					float reflectedSkin2 = ChildRelationUtility.GetReflectedSkin(otherParentMelanin.Value, childMelanin.Value);
-					return PawnSkinColors.GetMelaninCommonalityFactor(reflectedSkin2);
-				}
-				return PawnSkinColors.GetMelaninCommonalityFactor(otherParentMelanin.Value);
+				float reflectedSkin2 = ChildRelationUtility.GetReflectedSkin(otherParentMelanin.Value, childMelanin.Value);
+				return PawnSkinColors.GetMelaninCommonalityFactor(reflectedSkin2);
 			}
+			return PawnSkinColors.GetMelaninCommonalityFactor(otherParentMelanin.Value);
 		}
 
 		public static float GetReflectedSkin(float value, float mirror)
@@ -248,8 +234,8 @@ namespace RimWorld
 
 		public static float GetMelaninSimilarityFactor(float melanin1, float melanin2)
 		{
-			float min = Mathf.Clamp01(melanin1 - 0.15f);
-			float max = Mathf.Clamp01(melanin1 + 0.15f);
+			float min = Mathf.Clamp01((float)(melanin1 - 0.15000000596046448));
+			float max = Mathf.Clamp01((float)(melanin1 + 0.15000000596046448));
 			return GenMath.GetFactorInInterval(min, melanin1, max, 2.5f, melanin2);
 		}
 
@@ -257,7 +243,7 @@ namespace RimWorld
 		{
 			float clampMin = Mathf.Min(fatherMelanin, motherMelanin);
 			float clampMax = Mathf.Max(fatherMelanin, motherMelanin);
-			float value = (fatherMelanin + motherMelanin) / 2f;
+			float value = (float)((fatherMelanin + motherMelanin) / 2.0);
 			return PawnSkinColors.GetRandomMelaninSimilarTo(value, clampMin, clampMax);
 		}
 
@@ -269,7 +255,19 @@ namespace RimWorld
 				return false;
 			}
 			string last = ((NameTriple)spouse.Name).Last;
-			return !(((NameTriple)pawn.Name).Last != last) && ((spouse.GetMother() != null && ((NameTriple)spouse.GetMother().Name).Last == last) || (spouse.GetFather() != null && ((NameTriple)spouse.GetFather().Name).Last == last));
+			if (((NameTriple)pawn.Name).Last != last)
+			{
+				return false;
+			}
+			if (spouse.GetMother() != null && ((NameTriple)spouse.GetMother().Name).Last == last)
+			{
+				goto IL_0093;
+			}
+			if (spouse.GetFather() != null && ((NameTriple)spouse.GetFather().Name).Last == last)
+				goto IL_0093;
+			return false;
+			IL_0093:
+			return true;
 		}
 	}
 }

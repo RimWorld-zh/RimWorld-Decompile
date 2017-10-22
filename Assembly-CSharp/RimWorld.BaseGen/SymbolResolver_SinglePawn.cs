@@ -9,86 +9,89 @@ namespace RimWorld.BaseGen
 	{
 		public override bool CanResolve(ResolveParams rp)
 		{
-			IntVec3 intVec;
-			return base.CanResolve(rp) && ((rp.singlePawnToSpawn != null && rp.singlePawnToSpawn.Spawned) || SymbolResolver_SinglePawn.TryFindSpawnCell(rp, out intVec));
+			if (!base.CanResolve(rp))
+			{
+				return false;
+			}
+			if (rp.singlePawnToSpawn != null && rp.singlePawnToSpawn.Spawned)
+			{
+				return true;
+			}
+			IntVec3 intVec = default(IntVec3);
+			if (!SymbolResolver_SinglePawn.TryFindSpawnCell(rp, out intVec))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void Resolve(ResolveParams rp)
 		{
 			if (rp.singlePawnToSpawn != null && rp.singlePawnToSpawn.Spawned)
-			{
 				return;
-			}
 			Map map = BaseGen.globalSettings.map;
-			IntVec3 loc;
+			IntVec3 loc = default(IntVec3);
 			if (!SymbolResolver_SinglePawn.TryFindSpawnCell(rp, out loc))
 			{
 				if (rp.singlePawnToSpawn != null)
 				{
 					Find.WorldPawns.PassToWorld(rp.singlePawnToSpawn, PawnDiscardDecideMode.Discard);
 				}
-				return;
-			}
-			Pawn pawn;
-			if (rp.singlePawnToSpawn == null)
-			{
-				PawnGenerationRequest value;
-				if (rp.singlePawnGenerationRequest.HasValue)
-				{
-					value = rp.singlePawnGenerationRequest.Value;
-				}
-				else
-				{
-					PawnKindDef arg_BE_0;
-					if ((arg_BE_0 = rp.singlePawnKindDef) == null)
-					{
-						arg_BE_0 = (from x in DefDatabase<PawnKindDef>.AllDefsListForReading
-						where x.defaultFactionType == null || !x.defaultFactionType.isPlayer
-						select x).RandomElement<PawnKindDef>();
-					}
-					PawnKindDef pawnKindDef = arg_BE_0;
-					Faction faction = rp.faction;
-					if (faction == null && pawnKindDef.RaceProps.Humanlike)
-					{
-						if (pawnKindDef.defaultFactionType != null)
-						{
-							faction = FactionUtility.DefaultFactionFrom(pawnKindDef.defaultFactionType);
-							if (faction == null)
-							{
-								return;
-							}
-						}
-						else if (!(from x in Find.FactionManager.AllFactions
-						where !x.IsPlayer
-						select x).TryRandomElement(out faction))
-						{
-							return;
-						}
-					}
-					int tile = map.Tile;
-					value = new PawnGenerationRequest(pawnKindDef, faction, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, null, null, null, null, null, null);
-				}
-				pawn = PawnGenerator.GeneratePawn(value);
 			}
 			else
 			{
-				pawn = rp.singlePawnToSpawn;
-			}
-			if (!pawn.Dead && rp.disableSinglePawn.HasValue && rp.disableSinglePawn.Value)
-			{
-				pawn.mindState.Active = false;
-			}
-			GenSpawn.Spawn(pawn, loc, map);
-			if (rp.singlePawnLord != null)
-			{
-				rp.singlePawnLord.AddPawn(pawn);
+				Pawn pawn;
+				if (rp.singlePawnToSpawn == null)
+				{
+					PawnGenerationRequest request = default(PawnGenerationRequest);
+					if (rp.singlePawnGenerationRequest.HasValue)
+					{
+						request = rp.singlePawnGenerationRequest.Value;
+					}
+					else
+					{
+						PawnKindDef pawnKindDef = rp.singlePawnKindDef ?? (from x in DefDatabase<PawnKindDef>.AllDefsListForReading
+						where x.defaultFactionType == null || !x.defaultFactionType.isPlayer
+						select x).RandomElement();
+						Faction faction = rp.faction;
+						if (faction == null && pawnKindDef.RaceProps.Humanlike)
+						{
+							if (pawnKindDef.defaultFactionType != null)
+							{
+								faction = FactionUtility.DefaultFactionFrom(pawnKindDef.defaultFactionType);
+								if (faction == null)
+									return;
+							}
+							else if (!(from x in Find.FactionManager.AllFactions
+							where !x.IsPlayer
+							select x).TryRandomElement<Faction>(out faction))
+								return;
+						}
+						int tile = map.Tile;
+						request = new PawnGenerationRequest(pawnKindDef, faction, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, null, default(float?), default(float?), default(Gender?), default(float?), (string)null);
+					}
+					pawn = PawnGenerator.GeneratePawn(request);
+				}
+				else
+				{
+					pawn = rp.singlePawnToSpawn;
+				}
+				if (!pawn.Dead && rp.disableSinglePawn.HasValue && rp.disableSinglePawn.Value)
+				{
+					pawn.mindState.Active = false;
+				}
+				GenSpawn.Spawn(pawn, loc, map);
+				if (rp.singlePawnLord != null)
+				{
+					rp.singlePawnLord.AddPawn(pawn);
+				}
 			}
 		}
 
 		public static bool TryFindSpawnCell(ResolveParams rp, out IntVec3 cell)
 		{
 			Map map = BaseGen.globalSettings.map;
-			return CellFinder.TryFindRandomCellInsideWith(rp.rect, (IntVec3 x) => x.Standable(map) && (rp.singlePawnSpawnCellExtraPredicate == null || rp.singlePawnSpawnCellExtraPredicate(x)), out cell);
+			return CellFinder.TryFindRandomCellInsideWith(rp.rect, (Predicate<IntVec3>)((IntVec3 x) => x.Standable(map) && ((object)rp.singlePawnSpawnCellExtraPredicate == null || rp.singlePawnSpawnCellExtraPredicate(x))), out cell);
 		}
 	}
 }

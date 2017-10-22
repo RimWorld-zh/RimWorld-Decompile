@@ -21,7 +21,7 @@ namespace Verse
 
 		public VerbState state;
 
-		protected LocalTargetInfo currentTarget = null;
+		protected LocalTargetInfo currentTarget = (Thing)null;
 
 		protected int burstShotsLeft;
 
@@ -107,20 +107,27 @@ namespace Verse
 			{
 				bool flag = false;
 				List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
-				for (int i = 0; i < hediffs.Count; i++)
+				int num = 0;
+				while (num < hediffs.Count)
 				{
-					if (hediffs[i] == this.ownerHediffComp.parent)
+					if (hediffs[num] != this.ownerHediffComp.parent)
 					{
-						flag = true;
-						break;
+						num++;
+						continue;
 					}
+					flag = true;
+					break;
 				}
 				if (!flag)
 				{
 					return false;
 				}
 			}
-			return this.GetDamageFactorFor(pawn) != 0f;
+			if (this.GetDamageFactorFor(pawn) == 0.0)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public virtual void ExposeData()
@@ -148,33 +155,33 @@ namespace Verse
 			{
 				return false;
 			}
-			if (this.state == VerbState.Bursting || !this.CanHitTarget(castTarg))
+			if (this.state != VerbState.Bursting && this.CanHitTarget(castTarg))
 			{
-				return false;
-			}
-			if (this.verbProps.CausesTimeSlowdown && castTarg.HasThing && (castTarg.Thing.def.category == ThingCategory.Pawn || (castTarg.Thing.def.building != null && castTarg.Thing.def.building.IsTurret)) && castTarg.Thing.Faction == Faction.OfPlayer && this.caster.HostileTo(Faction.OfPlayer))
-			{
-				Find.TickManager.slower.SignalForceNormalSpeed();
-			}
-			this.surpriseAttack = surpriseAttack;
-			this.canFreeInterceptNow = canFreeIntercept;
-			this.currentTarget = castTarg;
-			if (this.CasterIsPawn && this.verbProps.warmupTime > 0f)
-			{
-				ShootLine newShootLine;
-				if (!this.TryFindShootLineFromTo(this.caster.Position, castTarg, out newShootLine))
+				if (this.verbProps.CausesTimeSlowdown && castTarg.HasThing && (castTarg.Thing.def.category == ThingCategory.Pawn || (castTarg.Thing.def.building != null && castTarg.Thing.def.building.IsTurret)) && castTarg.Thing.Faction == Faction.OfPlayer && this.caster.HostileTo(Faction.OfPlayer))
 				{
+					Find.TickManager.slower.SignalForceNormalSpeed();
+				}
+				this.surpriseAttack = surpriseAttack;
+				this.canFreeInterceptNow = canFreeIntercept;
+				this.currentTarget = castTarg;
+				if (this.CasterIsPawn && this.verbProps.warmupTime > 0.0)
+				{
+					ShootLine newShootLine = default(ShootLine);
+					if (this.TryFindShootLineFromTo(this.caster.Position, castTarg, out newShootLine))
+					{
+						this.CasterPawn.Drawer.Notify_WarmingCastAlongLine(newShootLine, this.caster.Position);
+						float statValue = this.CasterPawn.GetStatValue(StatDefOf.AimingDelayFactor, true);
+						int ticks = (this.verbProps.warmupTime * statValue).SecondsToTicks();
+						this.CasterPawn.stances.SetStance(new Stance_Warmup(ticks, castTarg, this));
+						goto IL_01aa;
+					}
 					return false;
 				}
-				this.CasterPawn.Drawer.Notify_WarmingCastAlongLine(newShootLine, this.caster.Position);
-				float statValue = this.CasterPawn.GetStatValue(StatDefOf.AimingDelayFactor, true);
-				int ticks = (this.verbProps.warmupTime * statValue).SecondsToTicks();
-				this.CasterPawn.stances.SetStance(new Stance_Warmup(ticks, castTarg, this));
-			}
-			else
-			{
 				this.WarmupComplete();
+				goto IL_01aa;
 			}
+			return false;
+			IL_01aa:
 			return true;
 		}
 
@@ -209,7 +216,7 @@ namespace Verse
 			LocalTargetInfo target = this.currentTarget;
 			if (this.TryCastShot())
 			{
-				if (this.verbProps.muzzleFlashScale > 0.01f)
+				if (this.verbProps.muzzleFlashScale > 0.0099999997764825821)
 				{
 					MoteMaker.MakeStaticMote(this.caster.Position, this.caster.Map, ThingDefOf.Mote_ShotFlash, this.verbProps.muzzleFlashScale);
 				}
@@ -232,9 +239,7 @@ namespace Verse
 						this.CasterPawn.mindState.Notify_AttackedTarget(target);
 					}
 					if (!this.CasterPawn.Spawned)
-					{
 						return;
-					}
 				}
 				this.burstShotsLeft--;
 			}
@@ -257,7 +262,7 @@ namespace Verse
 				{
 					this.CasterPawn.stances.SetStance(new Stance_Cooldown(this.verbProps.AdjustedCooldownTicks(this.ownerEquipment), this.currentTarget, this));
 				}
-				if (this.castCompleteCallback != null)
+				if ((object)this.castCompleteCallback != null)
 				{
 					this.castCompleteCallback();
 				}
@@ -274,7 +279,7 @@ namespace Verse
 		public virtual void Reset()
 		{
 			this.state = VerbState.Idle;
-			this.currentTarget = null;
+			this.currentTarget = (Thing)null;
 			this.burstShotsLeft = 0;
 			this.ticksToNextBurstShot = 0;
 			this.castCompleteCallback = null;
@@ -324,7 +329,7 @@ namespace Verse
 					}
 				}
 			}
-			ShootLine shootLine;
+			ShootLine shootLine = default(ShootLine);
 			return this.TryFindShootLineFromTo(root, targ, out shootLine);
 		}
 
@@ -342,49 +347,48 @@ namespace Verse
 			}
 			CellRect cellRect = (!targ.HasThing) ? CellRect.SingleCell(targ.Cell) : targ.Thing.OccupiedRect();
 			float num = cellRect.ClosestDistSquaredTo(root);
-			if (num > this.verbProps.range * this.verbProps.range || num < this.verbProps.minRange * this.verbProps.minRange)
+			if (!(num > this.verbProps.range * this.verbProps.range) && !(num < this.verbProps.minRange * this.verbProps.minRange))
 			{
-				resultingLine = new ShootLine(root, targ.Cell);
-				return false;
-			}
-			if (!this.verbProps.NeedsLineOfSight)
-			{
-				resultingLine = new ShootLine(root, targ.Cell);
-				return true;
-			}
-			if (this.CasterIsPawn)
-			{
-				IntVec3 dest;
-				if (this.CanHitFromCellIgnoringRange(root, targ, out dest))
+				if (!this.verbProps.NeedsLineOfSight)
 				{
-					resultingLine = new ShootLine(root, dest);
+					resultingLine = new ShootLine(root, targ.Cell);
 					return true;
 				}
-				ShootLeanUtility.LeanShootingSourcesFromTo(root, cellRect.ClosestCellTo(root), this.caster.Map, Verb.tempLeanShootSources);
-				for (int i = 0; i < Verb.tempLeanShootSources.Count; i++)
+				IntVec3 dest = default(IntVec3);
+				if (this.CasterIsPawn)
 				{
-					IntVec3 intVec = Verb.tempLeanShootSources[i];
-					if (this.CanHitFromCellIgnoringRange(intVec, targ, out dest))
+					if (this.CanHitFromCellIgnoringRange(root, targ, out dest))
 					{
-						resultingLine = new ShootLine(intVec, dest);
+						resultingLine = new ShootLine(root, dest);
 						return true;
 					}
-				}
-			}
-			else
-			{
-				CellRect.CellRectIterator iterator = this.caster.OccupiedRect().GetIterator();
-				while (!iterator.Done())
-				{
-					IntVec3 current = iterator.Current;
-					IntVec3 dest;
-					if (this.CanHitFromCellIgnoringRange(current, targ, out dest))
+					ShootLeanUtility.LeanShootingSourcesFromTo(root, cellRect.ClosestCellTo(root), this.caster.Map, Verb.tempLeanShootSources);
+					for (int i = 0; i < Verb.tempLeanShootSources.Count; i++)
 					{
-						resultingLine = new ShootLine(current, dest);
-						return true;
+						IntVec3 intVec = Verb.tempLeanShootSources[i];
+						if (this.CanHitFromCellIgnoringRange(intVec, targ, out dest))
+						{
+							resultingLine = new ShootLine(intVec, dest);
+							return true;
+						}
 					}
-					iterator.MoveNext();
 				}
+				else
+				{
+					CellRect.CellRectIterator iterator = this.caster.OccupiedRect().GetIterator();
+					while (!iterator.Done())
+					{
+						IntVec3 current = iterator.Current;
+						if (this.CanHitFromCellIgnoringRange(current, targ, out dest))
+						{
+							resultingLine = new ShootLine(current, dest);
+							return true;
+						}
+						iterator.MoveNext();
+					}
+				}
+				resultingLine = new ShootLine(root, targ.Cell);
+				return false;
 			}
 			resultingLine = new ShootLine(root, targ.Cell);
 			return false;
@@ -443,27 +447,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			string str;
-			if (!this.verbProps.label.NullOrEmpty())
-			{
-				str = this.verbProps.label;
-			}
-			else if (this.ownerHediffComp != null)
-			{
-				str = this.ownerHediffComp.Def.label;
-			}
-			else if (this.ownerEquipment != null)
-			{
-				str = this.ownerEquipment.def.label;
-			}
-			else if (this.verbProps.linkedBodyPartsGroup != null)
-			{
-				str = this.verbProps.linkedBodyPartsGroup.defName;
-			}
-			else
-			{
-				str = "unknown";
-			}
+			string str = this.verbProps.label.NullOrEmpty() ? ((this.ownerHediffComp == null) ? ((this.ownerEquipment == null) ? ((this.verbProps.linkedBodyPartsGroup == null) ? "unknown" : this.verbProps.linkedBodyPartsGroup.defName) : this.ownerEquipment.def.label) : this.ownerHediffComp.Def.label) : this.verbProps.label;
 			return base.GetType().ToString() + "(" + str + ")";
 		}
 	}

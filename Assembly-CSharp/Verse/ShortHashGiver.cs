@@ -13,24 +13,21 @@ namespace Verse
 		{
 			ShortHashGiver.takenHashesPerDeftype.Clear();
 			List<Def> list = new List<Def>();
-			foreach (Type current in GenDefDatabase.AllDefTypesWithDatabases())
+			foreach (Type item2 in GenDefDatabase.AllDefTypesWithDatabases())
 			{
-				Type type = typeof(DefDatabase<>).MakeGenericType(new Type[]
-				{
-					current
-				});
+				Type type = typeof(DefDatabase<>).MakeGenericType(item2);
 				PropertyInfo property = type.GetProperty("AllDefs");
 				MethodInfo getMethod = property.GetGetMethod();
 				IEnumerable enumerable = (IEnumerable)getMethod.Invoke(null, null);
 				list.Clear();
-				foreach (Def item in enumerable)
+				foreach (Def item3 in enumerable)
 				{
-					list.Add(item);
+					list.Add(item3);
 				}
-				list.SortBy((Def d) => d.defName);
+				list.SortBy((Func<Def, string>)((Def d) => d.defName));
 				for (int i = 0; i < list.Count; i++)
 				{
-					ShortHashGiver.GiveShortHash(list[i], current);
+					ShortHashGiver.GiveShortHash(list[i], item2);
 				}
 			}
 		}
@@ -40,27 +37,31 @@ namespace Verse
 			if (def.shortHash != 0)
 			{
 				Log.Error(def + " already has short hash.");
-				return;
 			}
-			HashSet<ushort> hashSet;
-			if (!ShortHashGiver.takenHashesPerDeftype.TryGetValue(defType, out hashSet))
+			else
 			{
-				hashSet = new HashSet<ushort>();
-				ShortHashGiver.takenHashesPerDeftype.Add(defType, hashSet);
-			}
-			ushort num = (ushort)(GenText.StableStringHash(def.defName) % 65535);
-			int num2 = 0;
-			while (num == 0 || hashSet.Contains(num))
-			{
-				num += 1;
-				num2++;
-				if (num2 > 5000)
+				HashSet<ushort> hashSet = default(HashSet<ushort>);
+				if (!ShortHashGiver.takenHashesPerDeftype.TryGetValue(defType, out hashSet))
 				{
-					Log.Message("Short hashes are saturated. There are probably too many Defs.");
+					hashSet = new HashSet<ushort>();
+					ShortHashGiver.takenHashesPerDeftype.Add(defType, hashSet);
 				}
+				ushort num = (ushort)(GenText.StableStringHash(def.defName) % 65535);
+				int num2 = 0;
+				while (true)
+				{
+					if (num != 0 && !hashSet.Contains(num))
+						break;
+					num = (ushort)(num + 1);
+					num2++;
+					if (num2 > 5000)
+					{
+						Log.Message("Short hashes are saturated. There are probably too many Defs.");
+					}
+				}
+				def.shortHash = num;
+				hashSet.Add(num);
 			}
-			def.shortHash = num;
-			hashSet.Add(num);
 		}
 	}
 }

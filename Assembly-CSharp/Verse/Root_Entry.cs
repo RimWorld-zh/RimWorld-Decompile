@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -17,18 +16,17 @@ namespace Verse
 		public override void Update()
 		{
 			base.Update();
-			if (LongEventHandler.ShouldWaitForEvent || this.destroyed)
+			if (!LongEventHandler.ShouldWaitForEvent && !base.destroyed)
 			{
-				return;
-			}
-			this.musicManagerEntry.MusicManagerEntryUpdate();
-			if (Find.World != null)
-			{
-				Find.World.WorldUpdate();
-			}
-			if (Current.Game != null)
-			{
-				Current.Game.UpdateEntry();
+				this.musicManagerEntry.MusicManagerEntryUpdate();
+				if (Find.World != null)
+				{
+					Find.World.WorldUpdate();
+				}
+				if (Current.Game != null)
+				{
+					Current.Game.UpdateEntry();
+				}
 			}
 		}
 	}

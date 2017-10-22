@@ -8,7 +8,7 @@ namespace RimWorld
 		protected override TargetingParameters GetTargetingParameters()
 		{
 			TargetingParameters targetingParameters = base.GetTargetingParameters();
-			targetingParameters.validator = delegate(TargetInfo targ)
+			targetingParameters.validator = (Predicate<TargetInfo>)delegate(TargetInfo targ)
 			{
 				if (!base.BaseTargetValidator(targ.Thing))
 				{

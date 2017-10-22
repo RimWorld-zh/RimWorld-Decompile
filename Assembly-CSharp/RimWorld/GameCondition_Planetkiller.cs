@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -17,27 +16,12 @@ namespace RimWorld
 		{
 			get
 			{
-				string text = this.def.LabelCap;
-				text += "\n";
-				text = text + "\n" + this.def.description;
-				string text2 = text;
-				text = string.Concat(new string[]
-				{
-					text2,
-					"\n",
-					"ImpactDate".Translate().CapitalizeFirst(),
-					": ",
-					GenDate.DateFullStringAt((long)GenDate.TickGameToAbs(this.startTick + this.duration), Find.WorldGrid.LongLatOf(base.Map.Tile))
-				});
-				text2 = text;
-				return string.Concat(new string[]
-				{
-					text2,
-					"\n",
-					"TimeLeft".Translate().CapitalizeFirst(),
-					": ",
-					base.TicksLeft.ToStringTicksToPeriod(true, false, true)
-				});
+				string labelCap = base.def.LabelCap;
+				labelCap += "\n";
+				string text;
+				labelCap = (text = labelCap + "\n" + base.def.description);
+				labelCap = (text = text + "\n" + "ImpactDate".Translate().CapitalizeFirst() + ": " + GenDate.DateFullStringAt(GenDate.TickGameToAbs(base.startTick + base.duration), Find.WorldGrid.LongLatOf(base.Map.Tile)));
+				return text + "\n" + "TimeLeft".Translate().CapitalizeFirst() + ": " + base.TicksLeft.ToStringTicksToPeriod(true, false, true);
 			}
 		}
 
@@ -67,10 +51,7 @@ namespace RimWorld
 		private void Impact()
 		{
 			ScreenFader.SetColor(Color.clear);
-			GenGameEnd.EndGameDialogMessage("GameOverPlanetkillerImpact".Translate(new object[]
-			{
-				Find.World.info.name
-			}), false, GameCondition_Planetkiller.FadeColor);
+			GenGameEnd.EndGameDialogMessage("GameOverPlanetkillerImpact".Translate(Find.World.info.name), false, GameCondition_Planetkiller.FadeColor);
 		}
 	}
 }

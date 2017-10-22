@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class HediffCompProperties_Infecter : HediffCompProperties
@@ -8,7 +6,7 @@ namespace Verse
 
 		public HediffCompProperties_Infecter()
 		{
-			this.compClass = typeof(HediffComp_Infecter);
+			base.compClass = typeof(HediffComp_Infecter);
 		}
 	}
 }

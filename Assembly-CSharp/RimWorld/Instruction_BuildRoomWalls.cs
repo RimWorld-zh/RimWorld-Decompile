@@ -27,9 +27,9 @@ namespace RimWorld
 			{
 				int num = 0;
 				int num2 = 0;
-				foreach (IntVec3 current in this.RoomRect.EdgeCells)
+				foreach (IntVec3 edgeCell in this.RoomRect.EdgeCells)
 				{
-					if (TutorUtility.BuildingOrBlueprintOrFrameCenterExists(current, base.Map, ThingDefOf.Wall))
+					if (TutorUtility.BuildingOrBlueprintOrFrameCenterExists(edgeCell, base.Map, ThingDefOf.Wall))
 					{
 						num2++;
 					}
@@ -47,7 +47,7 @@ namespace RimWorld
 
 		public override void LessonOnGUI()
 		{
-			TutorUtility.DrawCellRectOnGUI(this.RoomRect, this.def.onMapInstruction);
+			TutorUtility.DrawCellRectOnGUI(this.RoomRect, base.def.onMapInstruction);
 			base.LessonOnGUI();
 		}
 
@@ -56,12 +56,12 @@ namespace RimWorld
 			this.cachedEdgeCells.Clear();
 			this.cachedEdgeCells.AddRange((from c in this.RoomRect.EdgeCells
 			where !TutorUtility.BuildingOrBlueprintOrFrameCenterExists(c, base.Map, ThingDefOf.Wall)
-			select c).ToList<IntVec3>());
+			select c).ToList());
 			GenDraw.DrawFieldEdges((from c in this.cachedEdgeCells
 			where c.GetEdifice(base.Map) == null
-			select c).ToList<IntVec3>());
+			select c).ToList());
 			GenDraw.DrawArrowPointingAt(this.RoomRect.CenterVector3, false);
-			if (this.ProgressPercent > 0.9999f)
+			if (this.ProgressPercent > 0.99989998340606689)
 			{
 				Find.ActiveLesson.Deactivate();
 			}

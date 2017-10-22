@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -18,11 +17,11 @@ namespace RimWorld
 				for (int j = 0; j < 8; j++)
 				{
 					int[] array = new int[i + 1];
-					for (int k = 0; k < i; k++)
+					for (int num = 0; num < i; num++)
 					{
-						array[k] = k;
+						array[num] = num;
 					}
-					array.Shuffle<int>();
+					array.Shuffle();
 					PlantPosIndices.rootList[i][j] = array;
 				}
 			}

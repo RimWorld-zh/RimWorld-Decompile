@@ -13,7 +13,7 @@ namespace RimWorld
 			{
 				return (float)(from c in base.Map.mapPawns.FreeColonists
 				where c.equipment.Primary != null
-				select c).Count<Pawn>() / (float)base.Map.mapPawns.FreeColonistsCount;
+				select c).Count() / (float)base.Map.mapPawns.FreeColonistsCount;
 			}
 		}
 
@@ -29,25 +29,25 @@ namespace RimWorld
 
 		public static bool IsWeapon(Thing t)
 		{
-			return t.def.IsWeapon && t.def.BaseMarketValue > 30f;
+			return t.def.IsWeapon && t.def.BaseMarketValue > 30.0;
 		}
 
 		public override void LessonOnGUI()
 		{
-			foreach (Thing current in this.Weapons)
+			foreach (Thing weapon in this.Weapons)
 			{
-				TutorUtility.DrawLabelOnThingOnGUI(current, this.def.onMapInstruction);
+				TutorUtility.DrawLabelOnThingOnGUI(weapon, base.def.onMapInstruction);
 			}
 			base.LessonOnGUI();
 		}
 
 		public override void LessonUpdate()
 		{
-			foreach (Thing current in this.Weapons)
+			foreach (Thing weapon in this.Weapons)
 			{
-				GenDraw.DrawArrowPointingAt(current.DrawPos, true);
+				GenDraw.DrawArrowPointingAt(weapon.DrawPos, true);
 			}
-			if (this.ProgressPercent > 0.9999f)
+			if (this.ProgressPercent > 0.99989998340606689)
 			{
 				Find.ActiveLesson.Deactivate();
 			}

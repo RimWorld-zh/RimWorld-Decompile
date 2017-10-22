@@ -27,15 +27,15 @@ namespace RimWorld
 		public void RebuildAll()
 		{
 			this.filthInHomeArea.Clear();
-			foreach (IntVec3 current in this.map.AllCells)
+			foreach (IntVec3 allCell in this.map.AllCells)
 			{
-				this.Notify_HomeAreaChanged(current);
+				this.Notify_HomeAreaChanged(allCell);
 			}
 		}
 
 		public void Notify_FilthSpawned(Filth f)
 		{
-			if (this.map.areaManager.Home[f.Position])
+			if (((Area)this.map.areaManager.Home)[f.Position])
 			{
 				this.filthInHomeArea.Add(f);
 			}
@@ -43,19 +43,26 @@ namespace RimWorld
 
 		public void Notify_FilthDespawned(Filth f)
 		{
-			for (int i = 0; i < this.filthInHomeArea.Count; i++)
+			int num = 0;
+			while (true)
 			{
-				if (this.filthInHomeArea[i] == f)
+				if (num < this.filthInHomeArea.Count)
 				{
-					this.filthInHomeArea.RemoveAt(i);
-					return;
+					if (this.filthInHomeArea[num] != f)
+					{
+						num++;
+						continue;
+					}
+					break;
 				}
+				return;
 			}
+			this.filthInHomeArea.RemoveAt(num);
 		}
 
 		public void Notify_HomeAreaChanged(IntVec3 c)
 		{
-			if (this.map.areaManager.Home[c])
+			if (((Area)this.map.areaManager.Home)[c])
 			{
 				List<Thing> thingList = c.GetThingList(this.map);
 				for (int i = 0; i < thingList.Count; i++)
@@ -69,11 +76,11 @@ namespace RimWorld
 			}
 			else
 			{
-				for (int j = this.filthInHomeArea.Count - 1; j >= 0; j--)
+				for (int num = this.filthInHomeArea.Count - 1; num >= 0; num--)
 				{
-					if (this.filthInHomeArea[j].Position == c)
+					if (this.filthInHomeArea[num].Position == c)
 					{
-						this.filthInHomeArea.RemoveAt(j);
+						this.filthInHomeArea.RemoveAt(num);
 					}
 				}
 			}
@@ -83,9 +90,18 @@ namespace RimWorld
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("======= Filth in home area");
-			foreach (Thing current in this.filthInHomeArea)
+			List<Thing>.Enumerator enumerator = this.filthInHomeArea.GetEnumerator();
+			try
 			{
-				stringBuilder.AppendLine(current.ThingID + " " + current.Position);
+				while (enumerator.MoveNext())
+				{
+					Thing current = enumerator.Current;
+					stringBuilder.AppendLine(current.ThingID + " " + current.Position);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			return stringBuilder.ToString();
 		}

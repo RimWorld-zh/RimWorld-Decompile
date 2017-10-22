@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum ClamorType
 	{
-		Movement,
-		Harm,
-		Construction
+		Movement = 0,
+		Harm = 1,
+		Construction = 2
 	}
 }

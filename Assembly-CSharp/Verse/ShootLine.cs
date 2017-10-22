@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -48,14 +47,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"(",
-				this.source,
-				"->",
-				this.dest,
-				")"
-			});
+			return "(" + this.source + "->" + this.dest + ")";
 		}
 	}
 }

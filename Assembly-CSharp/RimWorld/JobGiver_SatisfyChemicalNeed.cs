@@ -11,7 +11,7 @@ namespace RimWorld
 
 		public override float GetPriority(Pawn pawn)
 		{
-			if (pawn.needs.AllNeeds.Any((Need x) => this.ShouldSatisfy(x)))
+			if (pawn.needs.AllNeeds.Any((Predicate<Need>)((Need x) => this.ShouldSatisfy(x))))
 			{
 				return 9.25f;
 			}
@@ -29,11 +29,11 @@ namespace RimWorld
 					JobGiver_SatisfyChemicalNeed.tmpChemicalNeeds.Add((Need_Chemical)allNeeds[i]);
 				}
 			}
-			if (!JobGiver_SatisfyChemicalNeed.tmpChemicalNeeds.Any<Need_Chemical>())
+			if (!JobGiver_SatisfyChemicalNeed.tmpChemicalNeeds.Any())
 			{
 				return null;
 			}
-			JobGiver_SatisfyChemicalNeed.tmpChemicalNeeds.SortBy((Need_Chemical x) => x.CurLevel);
+			JobGiver_SatisfyChemicalNeed.tmpChemicalNeeds.SortBy((Func<Need_Chemical, float>)((Need_Chemical x) => x.CurLevel));
 			for (int j = 0; j < JobGiver_SatisfyChemicalNeed.tmpChemicalNeeds.Count; j++)
 			{
 				Thing thing = this.FindDrugFor(pawn, JobGiver_SatisfyChemicalNeed.tmpChemicalNeeds[j]);
@@ -50,7 +50,11 @@ namespace RimWorld
 		private bool ShouldSatisfy(Need need)
 		{
 			Need_Chemical need_Chemical = need as Need_Chemical;
-			return need_Chemical != null && need_Chemical.CurCategory <= DrugDesireCategory.Desire;
+			if (need_Chemical != null && (int)need_Chemical.CurCategory <= 1)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private Thing FindDrugFor(Pawn pawn, Need_Chemical need)
@@ -68,7 +72,7 @@ namespace RimWorld
 					return innerContainer[i];
 				}
 			}
-			Predicate<Thing> validator = (Thing x) => this.DrugValidator(pawn, addictionHediff, x);
+			Predicate<Thing> validator = (Predicate<Thing>)((Thing x) => this.DrugValidator(pawn, addictionHediff, x));
 			return GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.Drug), PathEndMode.ClosestTouch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
 		}
 
@@ -94,23 +98,23 @@ namespace RimWorld
 				}
 			}
 			CompDrug compDrug = drug.TryGetComp<CompDrug>();
-			if (compDrug == null || compDrug.Props.chemical == null)
+			if (compDrug != null && compDrug.Props.chemical != null)
 			{
-				return false;
-			}
-			if (compDrug.Props.chemical.addictionHediff != addiction.def)
-			{
-				return false;
-			}
-			if (pawn.drugs != null && !pawn.drugs.CurrentPolicy[drug.def].allowedForAddiction && pawn.story != null)
-			{
-				int num = pawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire);
-				if (num <= 0 && !pawn.InMentalState)
+				if (compDrug.Props.chemical.addictionHediff != addiction.def)
 				{
 					return false;
 				}
+				if (pawn.drugs != null && !pawn.drugs.CurrentPolicy[drug.def].allowedForAddiction && pawn.story != null)
+				{
+					int num = pawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire);
+					if (num <= 0 && !pawn.InMentalState)
+					{
+						return false;
+					}
+				}
+				return true;
 			}
-			return true;
+			return false;
 		}
 	}
 }

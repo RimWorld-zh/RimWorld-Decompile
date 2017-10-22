@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -21,7 +20,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (LordToilData_Travel)this.data;
+				return (LordToilData_Travel)base.data;
 			}
 		}
 
@@ -50,9 +49,9 @@ namespace RimWorld
 		{
 			LordToilData_Travel data = this.Data;
 			Pawn leader = this.GetLeader();
-			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
-				Pawn pawn = this.lord.ownedPawns[i];
+				Pawn pawn = base.lord.ownedPawns[i];
 				if (this.IsSapper(pawn))
 				{
 					pawn.mindState.duty = new PawnDuty(DutyDefOf.PrisonerEscapeSapper, data.dest, -1f);
@@ -63,7 +62,7 @@ namespace RimWorld
 				}
 				else
 				{
-					pawn.mindState.duty = new PawnDuty(DutyDefOf.PrisonerEscape, leader, 10f);
+					pawn.mindState.duty = new PawnDuty(DutyDefOf.PrisonerEscape, (Thing)leader, 10f);
 				}
 			}
 		}
@@ -71,27 +70,27 @@ namespace RimWorld
 		public override void LordToilTick()
 		{
 			base.LordToilTick();
-			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
-				Pawn pawn = this.lord.ownedPawns[i];
+				Pawn pawn = base.lord.ownedPawns[i];
 				pawn.guilt.Notify_Guilty();
 			}
 		}
 
 		private Pawn GetLeader()
 		{
-			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
-				if (!this.lord.ownedPawns[i].Downed && this.IsSapper(this.lord.ownedPawns[i]))
+				if (!base.lord.ownedPawns[i].Downed && this.IsSapper(base.lord.ownedPawns[i]))
 				{
-					return this.lord.ownedPawns[i];
+					return base.lord.ownedPawns[i];
 				}
 			}
-			for (int j = 0; j < this.lord.ownedPawns.Count; j++)
+			for (int j = 0; j < base.lord.ownedPawns.Count; j++)
 			{
-				if (!this.lord.ownedPawns[j].Downed)
+				if (!base.lord.ownedPawns[j].Downed)
 				{
-					return this.lord.ownedPawns[j];
+					return base.lord.ownedPawns[j];
 				}
 			}
 			return null;

@@ -52,7 +52,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.colorTextureInt == null)
+				if ((UnityEngine.Object)this.colorTextureInt == (UnityEngine.Object)null)
 				{
 					this.colorTextureInt = SolidColorMaterials.NewSolidColorTexture(this.Color);
 				}
@@ -90,7 +90,10 @@ namespace Verse
 			{
 				if (this.drawer == null)
 				{
-					this.drawer = new CellBoolDrawer(this, this.Map.Size.x, this.Map.Size.z, 0.33f);
+					IntVec3 size = this.Map.Size;
+					int x = size.x;
+					IntVec3 size2 = this.Map.Size;
+					this.drawer = new CellBoolDrawer(this, x, size2.z, 0.33f);
 				}
 				return this.drawer;
 			}
@@ -152,12 +155,11 @@ namespace Verse
 		protected virtual void Set(IntVec3 c, bool val)
 		{
 			int index = this.Map.cellIndices.CellToIndex(c);
-			if (this.innerGrid[index] == val)
+			if (this.innerGrid[index] != val)
 			{
-				return;
+				this.innerGrid[index] = val;
+				this.MarkDirty(c);
 			}
-			this.innerGrid[index] = val;
-			this.MarkDirty(c);
 		}
 
 		private void MarkDirty(IntVec3 c)

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -13,7 +12,7 @@ namespace Verse
 		{
 			get
 			{
-				return base.ColumnWidth - 26f;
+				return (float)(base.ColumnWidth - 26.0);
 			}
 		}
 
@@ -46,8 +45,10 @@ namespace Verse
 
 		protected void LabelLeft(string label, string tipText, int indentLevel)
 		{
-			Rect rect = new Rect(0f, this.curY, base.ColumnWidth, this.lineHeight);
-			rect.xMin = this.XAtIndentLevel(indentLevel) + 18f;
+			Rect rect = new Rect(0f, base.curY, base.ColumnWidth, base.lineHeight)
+			{
+				xMin = (float)(this.XAtIndentLevel(indentLevel) + 18.0)
+			};
 			Widgets.DrawHighlightIfMouseover(rect);
 			if (!tipText.NullOrEmpty())
 			{
@@ -72,7 +73,7 @@ namespace Verse
 				return false;
 			}
 			float x = this.XAtIndentLevel(indentLevel);
-			float y = this.curY + this.lineHeight / 2f - 9f;
+			float y = (float)(base.curY + base.lineHeight / 2.0 - 9.0);
 			Rect butRect = new Rect(x, y, 18f, 18f);
 			Texture2D tex = (!node.IsOpen(openMask)) ? TexButton.Reveal : TexButton.Collapse;
 			if (Widgets.ButtonImage(butRect, tex))
@@ -86,11 +87,13 @@ namespace Verse
 		public void InfoText(string text, int indentLevel)
 		{
 			Text.WordWrap = true;
-			Rect rect = new Rect(0f, this.curY, base.ColumnWidth, 50f);
-			rect.xMin = this.LabelWidth;
+			Rect rect = new Rect(0f, base.curY, base.ColumnWidth, 50f)
+			{
+				xMin = this.LabelWidth
+			};
 			rect.height = Text.CalcHeight(text, rect.width);
 			Widgets.Label(rect, text);
-			this.curY += rect.height;
+			base.curY += rect.height;
 			Text.WordWrap = false;
 		}
 
@@ -98,17 +101,17 @@ namespace Verse
 		{
 			Text.WordWrap = true;
 			float num = Text.CalcHeight(label, base.ColumnWidth);
-			Rect rect = new Rect(0f, this.curY, base.ColumnWidth, num);
+			Rect rect = new Rect(0f, base.curY, base.ColumnWidth, num);
 			bool result = Widgets.ButtonText(rect, label, true, false, true);
-			this.curY += num;
+			base.curY += num;
 			Text.WordWrap = false;
 			return result;
 		}
 
 		public WidgetRow StartWidgetsRow(int indentLevel)
 		{
-			WidgetRow result = new WidgetRow(this.LabelWidth, this.curY, UIDirection.RightThenUp, 99999f, 4f);
-			this.curY += 24f;
+			WidgetRow result = new WidgetRow(this.LabelWidth, base.curY, UIDirection.RightThenUp, 99999f, 4f);
+			base.curY += 24f;
 			return result;
 		}
 	}

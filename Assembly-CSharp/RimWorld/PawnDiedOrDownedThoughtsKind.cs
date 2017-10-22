@@ -1,12 +1,10 @@
-using System;
-
 namespace RimWorld
 {
 	public enum PawnDiedOrDownedThoughtsKind
 	{
-		Died,
-		Abandoned,
-		AbandonedToDie,
-		Downed
+		Died = 0,
+		Abandoned = 1,
+		AbandonedToDie = 2,
+		Downed = 3
 	}
 }

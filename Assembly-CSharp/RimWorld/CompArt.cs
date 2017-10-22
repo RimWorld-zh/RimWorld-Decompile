@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -50,14 +49,21 @@ namespace RimWorld
 			{
 				if (this.Props.mustBeFullGrave)
 				{
-					Building_Grave building_Grave = this.parent as Building_Grave;
-					if (building_Grave == null || !building_Grave.HasCorpse)
+					Building_Grave building_Grave = base.parent as Building_Grave;
+					if (building_Grave != null && building_Grave.HasCorpse)
 					{
-						return false;
+						goto IL_002f;
 					}
+					return false;
 				}
-				QualityCategory qualityCategory;
-				return !this.parent.TryGetQuality(out qualityCategory) || qualityCategory >= this.Props.minQualityForArtistic;
+				goto IL_002f;
+				IL_002f:
+				QualityCategory qualityCategory = default(QualityCategory);
+				if (!((Thing)base.parent).TryGetQuality(out qualityCategory))
+				{
+					return true;
+				}
+				return (int)qualityCategory >= (int)this.Props.minQualityForArtistic;
 			}
 		}
 
@@ -73,7 +79,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_Art)this.props;
+				return (CompProperties_Art)base.props;
 			}
 		}
 
@@ -115,7 +121,7 @@ namespace RimWorld
 			}
 			else
 			{
-				this.titleInt = null;
+				this.titleInt = (string)null;
 				this.taleRef = null;
 			}
 		}
@@ -130,8 +136,8 @@ namespace RimWorld
 
 		public void Clear()
 		{
-			this.authorNameInt = null;
-			this.titleInt = null;
+			this.authorNameInt = (string)null;
+			this.titleInt = (string)null;
 			if (this.taleRef != null)
 			{
 				this.taleRef.ReferenceDestroyed();
@@ -142,8 +148,8 @@ namespace RimWorld
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
-			Scribe_Values.Look<string>(ref this.authorNameInt, "authorName", null, false);
-			Scribe_Values.Look<string>(ref this.titleInt, "title", null, false);
+			Scribe_Values.Look<string>(ref this.authorNameInt, "authorName", (string)null, false);
+			Scribe_Values.Look<string>(ref this.titleInt, "title", (string)null, false);
 			Scribe_Deep.Look<TaleReference>(ref this.taleRef, "taleRef", new object[0]);
 		}
 
@@ -151,18 +157,11 @@ namespace RimWorld
 		{
 			if (!this.Active)
 			{
-				return null;
+				return (string)null;
 			}
-			string text = "Author".Translate() + ": " + this.AuthorName;
-			string text2 = text;
-			return string.Concat(new string[]
-			{
-				text2,
-				"\n",
-				"Title".Translate(),
-				": ",
-				this.Title
-			});
+			string text;
+			string text2 = text = "Author".Translate() + ": " + this.AuthorName;
+			return text + "\n" + "Title".Translate() + ": " + this.Title;
 		}
 
 		public override void PostDestroy(DestroyMode mode, Map previousMap)
@@ -179,26 +178,30 @@ namespace RimWorld
 		{
 			if (!this.Active)
 			{
-				return null;
+				return (string)null;
 			}
-			string str = string.Empty;
-			str += this.Title;
-			str += "\n\n";
-			str += this.GenerateImageDescription();
-			str += "\n\n";
-			return str + "Author".Translate() + ": " + this.AuthorName;
+			string empty = string.Empty;
+			empty += this.Title;
+			empty += "\n\n";
+			empty += this.GenerateImageDescription();
+			empty += "\n\n";
+			return empty + "Author".Translate() + ": " + this.AuthorName;
 		}
 
 		public override bool AllowStackWith(Thing other)
 		{
-			return !this.Active;
+			if (this.Active)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public string GenerateImageDescription()
 		{
 			if (this.taleRef == null)
 			{
-				Log.Error("Did CompArt.GenerateImageDescription without initializing art: " + this.parent);
+				Log.Error("Did CompArt.GenerateImageDescription without initializing art: " + base.parent);
 				this.InitializeArt(ArtGenerationContext.Outsider);
 			}
 			return this.taleRef.GenerateText(TextGenerationPurpose.ArtDescription, this.Props.descriptionMaker.Rules);
@@ -208,7 +211,7 @@ namespace RimWorld
 		{
 			if (this.taleRef == null)
 			{
-				Log.Error("Did CompArt.GenerateTitle without initializing art: " + this.parent);
+				Log.Error("Did CompArt.GenerateTitle without initializing art: " + base.parent);
 				this.InitializeArt(ArtGenerationContext.Outsider);
 			}
 			return GenText.CapitalizeAsTitle(this.taleRef.GenerateText(TextGenerationPurpose.ArtName, this.Props.nameMaker.Rules));

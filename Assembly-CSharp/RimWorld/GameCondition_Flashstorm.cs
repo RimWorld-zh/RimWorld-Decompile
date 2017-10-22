@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -59,18 +58,31 @@ namespace RimWorld
 
 		private void FindGoodCenterLocation()
 		{
-			if (base.Map.Size.x <= 16 || base.Map.Size.z <= 16)
+			IntVec3 size = base.Map.Size;
+			if (size.x > 16)
 			{
-				throw new Exception("Map too small for flashstorm.");
-			}
-			for (int i = 0; i < 10; i++)
-			{
-				this.centerLocation = new IntVec2(Rand.Range(8, base.Map.Size.x - 8), Rand.Range(8, base.Map.Size.z - 8));
-				if (this.IsGoodCenterLocation(this.centerLocation))
+				IntVec3 size2 = base.Map.Size;
+				if (size2.z <= 16)
+					goto IL_0034;
+				int num = 0;
+				while (num < 10)
 				{
+					IntVec3 size3 = base.Map.Size;
+					int newX = Rand.Range(8, size3.x - 8);
+					IntVec3 size4 = base.Map.Size;
+					this.centerLocation = new IntVec2(newX, Rand.Range(8, size4.z - 8));
+					if (!this.IsGoodCenterLocation(this.centerLocation))
+					{
+						num++;
+						continue;
+					}
 					break;
 				}
+				return;
 			}
+			goto IL_0034;
+			IL_0034:
+			throw new Exception("Map too small for flashstorm.");
 		}
 
 		private bool IsGoodLocationForStrike(IntVec3 loc)
@@ -81,31 +93,31 @@ namespace RimWorld
 		private bool IsGoodCenterLocation(IntVec2 loc)
 		{
 			int num = 0;
-			int num2 = (int)(3.14159274f * (float)this.areaRadius * (float)this.areaRadius / 2f);
-			foreach (IntVec3 current in this.GetPotentiallyAffectedCells(loc))
+			int num2 = (int)(3.1415927410125732 * (float)this.areaRadius * (float)this.areaRadius / 2.0);
+			foreach (IntVec3 potentiallyAffectedCell in this.GetPotentiallyAffectedCells(loc))
 			{
-				if (this.IsGoodLocationForStrike(current))
+				if (this.IsGoodLocationForStrike(potentiallyAffectedCell))
 				{
 					num++;
 				}
 				if (num >= num2)
-				{
 					break;
-				}
 			}
 			return num >= num2;
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<IntVec3> GetPotentiallyAffectedCells(IntVec2 center)
 		{
-			GameCondition_Flashstorm.<GetPotentiallyAffectedCells>c__IteratorA2 <GetPotentiallyAffectedCells>c__IteratorA = new GameCondition_Flashstorm.<GetPotentiallyAffectedCells>c__IteratorA2();
-			<GetPotentiallyAffectedCells>c__IteratorA.center = center;
-			<GetPotentiallyAffectedCells>c__IteratorA.<$>center = center;
-			<GetPotentiallyAffectedCells>c__IteratorA.<>f__this = this;
-			GameCondition_Flashstorm.<GetPotentiallyAffectedCells>c__IteratorA2 expr_1C = <GetPotentiallyAffectedCells>c__IteratorA;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			for (int x = center.x - this.areaRadius; x <= center.x + this.areaRadius; x++)
+			{
+				for (int z = center.z - this.areaRadius; z <= center.z + this.areaRadius; z++)
+				{
+					if ((center.x - x) * (center.x - x) + (center.z - z) * (center.z - z) <= this.areaRadius * this.areaRadius)
+					{
+						yield return new IntVec3(x, 0, z);
+					}
+				}
+			}
 		}
 	}
 }

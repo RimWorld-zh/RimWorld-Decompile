@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -43,10 +42,7 @@ namespace Verse
 
 		public virtual string GetTipString()
 		{
-			return "OccurredTimeAgo".Translate(new object[]
-			{
-				this.Age.ToStringTicksToPeriod(true, false, true)
-			}).CapitalizeFirst() + ".";
+			return "OccurredTimeAgo".Translate(this.Age.ToStringTicksToPeriod(true, false, true)).CapitalizeFirst() + ".";
 		}
 	}
 }

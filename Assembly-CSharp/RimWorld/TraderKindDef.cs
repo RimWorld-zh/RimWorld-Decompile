@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -16,20 +15,43 @@ namespace RimWorld
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
-			foreach (StockGenerator current in this.stockGenerators)
+			List<StockGenerator>.Enumerator enumerator = this.stockGenerators.GetEnumerator();
+			try
 			{
-				current.ResolveReferences(this);
+				while (enumerator.MoveNext())
+				{
+					StockGenerator current = enumerator.Current;
+					current.ResolveReferences(this);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			TraderKindDef.<ConfigErrors>c__Iterator9B <ConfigErrors>c__Iterator9B = new TraderKindDef.<ConfigErrors>c__Iterator9B();
-			<ConfigErrors>c__Iterator9B.<>f__this = this;
-			TraderKindDef.<ConfigErrors>c__Iterator9B expr_0E = <ConfigErrors>c__Iterator9B;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			List<StockGenerator>.Enumerator enumerator2 = this.stockGenerators.GetEnumerator();
+			try
+			{
+				while (enumerator2.MoveNext())
+				{
+					StockGenerator stock = enumerator2.Current;
+					foreach (string item2 in stock.ConfigErrors(this))
+					{
+						yield return item2;
+					}
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
+			}
 		}
 
 		public bool WillTrade(ThingDef td)
@@ -54,7 +76,7 @@ namespace RimWorld
 			{
 				for (int i = 0; i < this.stockGenerators.Count; i++)
 				{
-					PriceType result;
+					PriceType result = default(PriceType);
 					if (this.stockGenerators[i].TryGetPriceType(thingDef, action, out result))
 					{
 						return result;

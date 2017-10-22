@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace RimWorld.Planet
@@ -52,32 +51,23 @@ namespace RimWorld.Planet
 		static WorldCameraManager()
 		{
 			WorldCameraManager.WorldLayerName = "World";
-			WorldCameraManager.WorldLayerMask = LayerMask.GetMask(new string[]
-			{
-				WorldCameraManager.WorldLayerName
-			});
+			WorldCameraManager.WorldLayerMask = LayerMask.GetMask(WorldCameraManager.WorldLayerName);
 			WorldCameraManager.WorldLayer = LayerMask.NameToLayer(WorldCameraManager.WorldLayerName);
 			WorldCameraManager.WorldSkyboxLayerName = "WorldSkybox";
-			WorldCameraManager.WorldSkyboxLayerMask = LayerMask.GetMask(new string[]
-			{
-				WorldCameraManager.WorldSkyboxLayerName
-			});
+			WorldCameraManager.WorldSkyboxLayerMask = LayerMask.GetMask(WorldCameraManager.WorldSkyboxLayerName);
 			WorldCameraManager.WorldSkyboxLayer = LayerMask.NameToLayer(WorldCameraManager.WorldSkyboxLayerName);
 			WorldCameraManager.SkyColor = new Color(0.0627451f, 0.09019608f, 0.117647059f);
 			WorldCameraManager.worldCameraInt = WorldCameraManager.CreateWorldCamera();
 			WorldCameraManager.worldSkyboxCameraInt = WorldCameraManager.CreateWorldSkyboxCamera(WorldCameraManager.worldCameraInt);
-			WorldCameraManager.worldCameraDriverInt = WorldCameraManager.worldCameraInt.GetComponent<WorldCameraDriver>();
+			WorldCameraManager.worldCameraDriverInt = ((Component)WorldCameraManager.worldCameraInt).GetComponent<WorldCameraDriver>();
 		}
 
 		private static Camera CreateWorldCamera()
 		{
-			GameObject gameObject = new GameObject("WorldCamera", new Type[]
-			{
-				typeof(Camera)
-			});
+			GameObject gameObject = new GameObject("WorldCamera", typeof(Camera));
 			gameObject.SetActive(false);
 			gameObject.AddComponent<WorldCameraDriver>();
-			UnityEngine.Object.DontDestroyOnLoad(gameObject);
+			Object.DontDestroyOnLoad(gameObject);
 			Camera component = gameObject.GetComponent<Camera>();
 			component.orthographic = false;
 			component.cullingMask = WorldCameraManager.WorldLayerMask;
@@ -93,12 +83,9 @@ namespace RimWorld.Planet
 
 		private static Camera CreateWorldSkyboxCamera(Camera parent)
 		{
-			GameObject gameObject = new GameObject("WorldSkyboxCamera", new Type[]
-			{
-				typeof(Camera)
-			});
+			GameObject gameObject = new GameObject("WorldSkyboxCamera", typeof(Camera));
 			gameObject.SetActive(true);
-			UnityEngine.Object.DontDestroyOnLoad(gameObject);
+			Object.DontDestroyOnLoad(gameObject);
 			Camera component = gameObject.GetComponent<Camera>();
 			component.transform.SetParent(parent.transform);
 			component.orthographic = false;

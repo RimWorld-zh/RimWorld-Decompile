@@ -67,7 +67,7 @@ namespace RimWorld.Planet
 			Find.WorldPathGrid.RecalculateAllPerceivedPathCosts(-1f);
 			List<int> coastalWaterTiles = this.GetCoastalWaterTiles();
 			List<int> neighbors = new List<int>();
-			List<int>[] array = Find.WorldPathFinder.FloodPathsWithCostForTree(coastalWaterTiles, delegate(int st, int ed)
+			List<int>[] array = Find.WorldPathFinder.FloodPathsWithCostForTree(coastalWaterTiles, (Func<int, int, int>)delegate(int st, int ed)
 			{
 				Tile tile = Find.WorldGrid[ed];
 				Tile tile2 = Find.WorldGrid[st];
@@ -86,7 +86,7 @@ namespace RimWorld.Planet
 					num2 = 2f;
 				}
 				return Mathf.RoundToInt(num2 * WorldGenStep_Rivers.ElevationChangeCost.Evaluate(WorldGenStep_Rivers.GetImpliedElevation(tile2) - WorldGenStep_Rivers.GetImpliedElevation(tile)));
-			}, (int tid) => Find.WorldGrid[tid].WaterCovered, null);
+			}, (Func<int, bool>)((int tid) => Find.WorldGrid[tid].WaterCovered), null);
 			float[] flow = new float[array.Length];
 			for (int i = 0; i < coastalWaterTiles.Count; i++)
 			{
@@ -165,7 +165,7 @@ namespace RimWorld.Planet
 				float targetFlow = flow[list[i]];
 				RiverDef riverDef = (from rd in DefDatabase<RiverDef>.AllDefs
 				where rd.spawnFlowThreshold > 0 && (float)rd.spawnFlowThreshold <= targetFlow
-				select rd).MaxByWithFallback((RiverDef rd) => rd.spawnFlowThreshold, null);
+				select rd).MaxByWithFallback((Func<RiverDef, int>)((RiverDef rd) => rd.spawnFlowThreshold), (RiverDef)null);
 				if (riverDef != null && Rand.Value < riverDef.spawnChance)
 				{
 					Find.WorldGrid.OverlayRiver(index, list[i], riverDef);
@@ -176,32 +176,38 @@ namespace RimWorld.Planet
 
 		private void ExtendRiver(float[] flow, List<int>[] riverPaths, int index, RiverDef incomingRiver)
 		{
-			if (riverPaths[index] == null)
+			if (riverPaths[index] != null)
 			{
-				return;
-			}
-			int bestOutput = riverPaths[index].MaxBy((int ni) => flow[ni]);
-			RiverDef riverDef = incomingRiver;
-			while (riverDef != null && (float)riverDef.degradeThreshold > flow[bestOutput])
-			{
-				riverDef = riverDef.degradeChild;
-			}
-			if (riverDef != null)
-			{
-				Find.WorldGrid.OverlayRiver(index, bestOutput, riverDef);
-				this.ExtendRiver(flow, riverPaths, bestOutput, riverDef);
-			}
-			if (incomingRiver.branches != null)
-			{
-				foreach (int alternateRiver in from ni in riverPaths[index]
-				where ni != bestOutput
-				select ni)
+				int bestOutput = riverPaths[index].MaxBy((Func<int, float>)((int ni) => flow[ni]));
+				RiverDef riverDef = incomingRiver;
+				while (riverDef != null && (float)riverDef.degradeThreshold > flow[bestOutput])
 				{
-					RiverDef.Branch branch2 = incomingRiver.branches.Where((RiverDef.Branch branch) => (float)branch.minFlow <= flow[alternateRiver]).MaxByWithFallback((RiverDef.Branch branch) => branch.minFlow, null);
-					if (branch2 != null && Rand.Value < branch2.chance)
+					riverDef = riverDef.degradeChild;
+				}
+				if (riverDef != null)
+				{
+					Find.WorldGrid.OverlayRiver(index, bestOutput, riverDef);
+					this.ExtendRiver(flow, riverPaths, bestOutput, riverDef);
+				}
+				if (incomingRiver.branches != null)
+				{
+					using (IEnumerator<int> enumerator = (from ni in riverPaths[index]
+					where ni != bestOutput
+					select ni).GetEnumerator())
 					{
-						Find.WorldGrid.OverlayRiver(index, alternateRiver, branch2.child);
-						this.ExtendRiver(flow, riverPaths, alternateRiver, branch2.child);
+						int alternateRiver;
+						while (enumerator.MoveNext())
+						{
+							alternateRiver = enumerator.Current;
+							RiverDef.Branch branch2 = (from branch in incomingRiver.branches
+							where (float)branch.minFlow <= flow[alternateRiver]
+							select branch).MaxByWithFallback((Func<RiverDef.Branch, int>)((RiverDef.Branch branch) => branch.minFlow), (RiverDef.Branch)null);
+							if (branch2 != null && Rand.Value < branch2.chance)
+							{
+								Find.WorldGrid.OverlayRiver(index, alternateRiver, branch2.child);
+								this.ExtendRiver(flow, riverPaths, alternateRiver, branch2.child);
+							}
+						}
 					}
 				}
 			}
@@ -209,8 +215,8 @@ namespace RimWorld.Planet
 
 		public static float CalculateEvaporationConstant(float temperature)
 		{
-			float num = 0.61121f * Mathf.Exp((18.678f - temperature / 234.5f) * (temperature / (257.14f + temperature)));
-			return num / (temperature + 273f);
+			float num = (float)(0.61120998859405518 * Mathf.Exp((float)((18.677999496459961 - temperature / 234.5) * (temperature / (257.1400146484375 + temperature)))));
+			return (float)(num / (temperature + 273.0));
 		}
 
 		public static float CalculateRiverSurfaceArea(float flow)
@@ -225,7 +231,7 @@ namespace RimWorld.Planet
 
 		public static float CalculateTotalEvaporation(float flow, float temperature)
 		{
-			return WorldGenStep_Rivers.CalculateEvaporationConstant(temperature) * WorldGenStep_Rivers.CalculateEvaporativeArea(flow) * 250f;
+			return (float)(WorldGenStep_Rivers.CalculateEvaporationConstant(temperature) * WorldGenStep_Rivers.CalculateEvaporativeArea(flow) * 250.0);
 		}
 	}
 }

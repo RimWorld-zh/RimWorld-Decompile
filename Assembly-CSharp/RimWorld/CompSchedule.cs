@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -15,7 +14,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_Schedule)this.props;
+				return (CompProperties_Schedule)base.props;
 			}
 		}
 
@@ -27,12 +26,11 @@ namespace RimWorld
 			}
 			set
 			{
-				if (this.intAllowed == value)
+				if (this.intAllowed != value)
 				{
-					return;
+					this.intAllowed = value;
+					base.parent.BroadcastCompSignal((!this.intAllowed) ? "ScheduledOff" : "ScheduledOn");
 				}
-				this.intAllowed = value;
-				this.parent.BroadcastCompSignal((!this.intAllowed) ? "ScheduledOff" : "ScheduledOn");
 			}
 		}
 
@@ -50,7 +48,7 @@ namespace RimWorld
 
 		public void RecalculateAllowed()
 		{
-			float num = GenLocalDate.DayPercent(this.parent);
+			float num = GenLocalDate.DayPercent(base.parent);
 			if (this.Props.startTime <= this.Props.endTime)
 			{
 				this.Allowed = (num > this.Props.startTime && num < this.Props.endTime);
@@ -67,7 +65,7 @@ namespace RimWorld
 			{
 				return this.Props.offMessage;
 			}
-			return null;
+			return (string)null;
 		}
 	}
 }

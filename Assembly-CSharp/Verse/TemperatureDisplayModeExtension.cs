@@ -9,13 +9,21 @@ namespace Verse
 			switch (mode)
 			{
 			case TemperatureDisplayMode.Celsius:
+			{
 				return "Celsius".Translate();
+			}
 			case TemperatureDisplayMode.Fahrenheit:
+			{
 				return "Fahrenheit".Translate();
+			}
 			case TemperatureDisplayMode.Kelvin:
+			{
 				return "Kelvin".Translate();
+			}
 			default:
+			{
 				throw new NotImplementedException();
+			}
 			}
 		}
 	}

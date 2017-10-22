@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,7 +6,7 @@ namespace RimWorld
 	{
 		public override void TransformValue(StatRequest req, ref float val)
 		{
-			float num;
+			float num = default(float);
 			if (this.TryGetValue(req, out num))
 			{
 				val += num;
@@ -16,12 +15,12 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			float mass;
+			float mass = default(float);
 			if (this.TryGetValue(req, out mass))
 			{
 				return "StatsReport_IngredientsMass".Translate() + ": " + mass.ToStringMassOffset();
 			}
-			return null;
+			return (string)null;
 		}
 
 		private bool TryGetValue(StatRequest req, out float value)

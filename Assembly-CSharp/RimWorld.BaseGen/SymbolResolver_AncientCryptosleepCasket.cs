@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -17,8 +16,10 @@ namespace RimWorld.BaseGen
 			Rot4 rot = (!thingRot.HasValue) ? Rot4.North : thingRot.Value;
 			Building_AncientCryptosleepCasket building_AncientCryptosleepCasket = (Building_AncientCryptosleepCasket)ThingMaker.MakeThing(ThingDefOf.AncientCryptosleepCasket, null);
 			building_AncientCryptosleepCasket.groupID = groupID;
-			ItemCollectionGeneratorParams parms = default(ItemCollectionGeneratorParams);
-			parms.podContentsType = podContentsType2;
+			ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
+			{
+				podContentsType = podContentsType2
+			};
 			List<Thing> list = ItemCollectionGeneratorDefOf.AncientPodContents.Worker.Generate(parms);
 			for (int i = 0; i < list.Count; i++)
 			{

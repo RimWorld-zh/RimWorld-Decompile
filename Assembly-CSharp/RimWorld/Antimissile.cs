@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -10,8 +9,8 @@ namespace RimWorld
 		{
 			get
 			{
-				Vector3 b = (((Projectile)this.assignedTarget).ExactPosition - this.origin) * (1f - (float)this.ticksToImpact / (float)base.StartingTicksToImpact);
-				return this.origin + b + Vector3.up * this.def.Altitude;
+				Vector3 b = (((Projectile)base.assignedTarget).ExactPosition - base.origin) * (float)(1.0 - (float)base.ticksToImpact / (float)base.StartingTicksToImpact);
+				return base.origin + b + Vector3.up * base.def.Altitude;
 			}
 		}
 
@@ -19,7 +18,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return Quaternion.LookRotation(((Projectile)this.assignedTarget).ExactPosition - this.ExactPosition);
+				return Quaternion.LookRotation(((Projectile)base.assignedTarget).ExactPosition - this.ExactPosition);
 			}
 		}
 

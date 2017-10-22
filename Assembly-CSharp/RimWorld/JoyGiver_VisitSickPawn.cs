@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -17,7 +16,7 @@ namespace RimWorld
 			{
 				return null;
 			}
-			return new Job(this.def.jobDef, pawn2, SickPawnVisitUtility.FindChair(pawn, pawn2));
+			return new Job(base.def.jobDef, (Thing)pawn2, SickPawnVisitUtility.FindChair(pawn, pawn2));
 		}
 	}
 }

@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum PlantLifeStage : byte
 	{
-		Sowing,
-		Growing,
-		Mature
+		Sowing = 0,
+		Growing = 1,
+		Mature = 2
 	}
 }

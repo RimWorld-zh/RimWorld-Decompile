@@ -28,22 +28,22 @@ namespace RimWorld
 
 		public static bool HasAnyLovePartnerOfTheSameGender(Pawn pawn)
 		{
-			return pawn.relations.DirectRelations.Find((DirectPawnRelation x) => LovePartnerRelationUtility.IsLovePartnerRelation(x.def) && x.otherPawn.gender == pawn.gender) != null;
+			return pawn.relations.DirectRelations.Find((Predicate<DirectPawnRelation>)((DirectPawnRelation x) => LovePartnerRelationUtility.IsLovePartnerRelation(x.def) && x.otherPawn.gender == pawn.gender)) != null;
 		}
 
 		public static bool HasAnyExLovePartnerOfTheSameGender(Pawn pawn)
 		{
-			return pawn.relations.DirectRelations.Find((DirectPawnRelation x) => LovePartnerRelationUtility.IsExLovePartnerRelation(x.def) && x.otherPawn.gender == pawn.gender) != null;
+			return pawn.relations.DirectRelations.Find((Predicate<DirectPawnRelation>)((DirectPawnRelation x) => LovePartnerRelationUtility.IsExLovePartnerRelation(x.def) && x.otherPawn.gender == pawn.gender)) != null;
 		}
 
 		public static bool HasAnyLovePartnerOfTheOppositeGender(Pawn pawn)
 		{
-			return pawn.relations.DirectRelations.Find((DirectPawnRelation x) => LovePartnerRelationUtility.IsLovePartnerRelation(x.def) && x.otherPawn.gender != pawn.gender) != null;
+			return pawn.relations.DirectRelations.Find((Predicate<DirectPawnRelation>)((DirectPawnRelation x) => LovePartnerRelationUtility.IsLovePartnerRelation(x.def) && x.otherPawn.gender != pawn.gender)) != null;
 		}
 
 		public static bool HasAnyExLovePartnerOfTheOppositeGender(Pawn pawn)
 		{
-			return pawn.relations.DirectRelations.Find((DirectPawnRelation x) => LovePartnerRelationUtility.IsExLovePartnerRelation(x.def) && x.otherPawn.gender != pawn.gender) != null;
+			return pawn.relations.DirectRelations.Find((Predicate<DirectPawnRelation>)((DirectPawnRelation x) => LovePartnerRelationUtility.IsExLovePartnerRelation(x.def) && x.otherPawn.gender != pawn.gender)) != null;
 		}
 
 		public static Pawn ExistingLovePartner(Pawn pawn)
@@ -78,46 +78,35 @@ namespace RimWorld
 
 		public static void GiveRandomExLoverOrExSpouseRelation(Pawn first, Pawn second)
 		{
-			PawnRelationDef def;
-			if (Rand.Value < 0.5f)
-			{
-				def = PawnRelationDefOf.ExLover;
-			}
-			else
-			{
-				def = PawnRelationDefOf.ExSpouse;
-			}
+			PawnRelationDef def = (!(Rand.Value < 0.5)) ? PawnRelationDefOf.ExSpouse : PawnRelationDefOf.ExLover;
 			first.relations.AddDirectRelation(def, second);
 		}
 
 		public static Pawn GetPartnerInMyBed(Pawn pawn)
 		{
-			if (pawn.CurJob == null || pawn.jobs.curDriver.layingDown == LayingDownState.NotLaying)
+			if (((pawn.CurJob != null) ? pawn.jobs.curDriver.layingDown : LayingDownState.NotLaying) != 0)
 			{
-				return null;
-			}
-			Building_Bed building_Bed = pawn.CurrentBed();
-			if (building_Bed == null)
-			{
-				return null;
-			}
-			if (building_Bed.SleepingSlotsCount <= 1)
-			{
-				return null;
-			}
-			if (!LovePartnerRelationUtility.HasAnyLovePartner(pawn))
-			{
-				return null;
-			}
-			foreach (Pawn current in building_Bed.CurOccupants)
-			{
-				if (current != pawn)
+				Building_Bed building_Bed = pawn.CurrentBed();
+				if (building_Bed == null)
 				{
-					if (LovePartnerRelationUtility.LovePartnerRelationExists(pawn, current))
+					return null;
+				}
+				if (building_Bed.SleepingSlotsCount <= 1)
+				{
+					return null;
+				}
+				if (!LovePartnerRelationUtility.HasAnyLovePartner(pawn))
+				{
+					return null;
+				}
+				foreach (Pawn curOccupant in building_Bed.CurOccupants)
+				{
+					if (curOccupant != pawn && LovePartnerRelationUtility.LovePartnerRelationExists(pawn, curOccupant))
 					{
-						return current;
+						return curOccupant;
 					}
 				}
+				return null;
 			}
 			return null;
 		}
@@ -143,16 +132,13 @@ namespace RimWorld
 			List<DirectPawnRelation> directRelations = p.relations.DirectRelations;
 			for (int i = 0; i < directRelations.Count; i++)
 			{
-				if (allowDead || !directRelations[i].otherPawn.Dead)
+				if ((allowDead || !directRelations[i].otherPawn.Dead) && LovePartnerRelationUtility.IsLovePartnerRelation(directRelations[i].def))
 				{
-					if (LovePartnerRelationUtility.IsLovePartnerRelation(directRelations[i].def))
+					int num2 = p.relations.OpinionOf(directRelations[i].otherPawn);
+					if (directPawnRelation == null || num2 > num)
 					{
-						int num2 = p.relations.OpinionOf(directRelations[i].otherPawn);
-						if (directPawnRelation == null || num2 > num)
-						{
-							directPawnRelation = directRelations[i];
-							num = num2;
-						}
+						directPawnRelation = directRelations[i];
+						num = num2;
 					}
 				}
 			}
@@ -161,60 +147,59 @@ namespace RimWorld
 
 		public static float GetLovinMtbHours(Pawn pawn, Pawn partner)
 		{
-			if (pawn.Dead || partner.Dead)
+			if (!pawn.Dead && !partner.Dead)
 			{
+				if (DebugSettings.alwaysDoLovin)
+				{
+					return 0.1f;
+				}
+				if (!pawn.needs.food.Starving && !partner.needs.food.Starving)
+				{
+					if (!(pawn.health.hediffSet.BleedRateTotal > 0.0) && !(partner.health.hediffSet.BleedRateTotal > 0.0))
+					{
+						float num = LovePartnerRelationUtility.LovinMtbSinglePawnFactor(pawn);
+						if (num <= 0.0)
+						{
+							return -1f;
+						}
+						float num2 = LovePartnerRelationUtility.LovinMtbSinglePawnFactor(partner);
+						if (num2 <= 0.0)
+						{
+							return -1f;
+						}
+						float num3 = 12f;
+						num3 *= num;
+						num3 *= num2;
+						num3 /= Mathf.Max(pawn.relations.SecondaryRomanceChanceFactor(partner), 0.1f);
+						num3 /= Mathf.Max(partner.relations.SecondaryRomanceChanceFactor(pawn), 0.1f);
+						num3 *= GenMath.LerpDouble(-100f, 100f, 1.3f, 0.7f, (float)pawn.relations.OpinionOf(partner));
+						return num3 * GenMath.LerpDouble(-100f, 100f, 1.3f, 0.7f, (float)partner.relations.OpinionOf(pawn));
+					}
+					return -1f;
+				}
 				return -1f;
 			}
-			if (DebugSettings.alwaysDoLovin)
-			{
-				return 0.1f;
-			}
-			if (pawn.needs.food.Starving || partner.needs.food.Starving)
-			{
-				return -1f;
-			}
-			if (pawn.health.hediffSet.BleedRateTotal > 0f || partner.health.hediffSet.BleedRateTotal > 0f)
-			{
-				return -1f;
-			}
-			float num = LovePartnerRelationUtility.LovinMtbSinglePawnFactor(pawn);
-			if (num <= 0f)
-			{
-				return -1f;
-			}
-			float num2 = LovePartnerRelationUtility.LovinMtbSinglePawnFactor(partner);
-			if (num2 <= 0f)
-			{
-				return -1f;
-			}
-			float num3 = 12f;
-			num3 *= num;
-			num3 *= num2;
-			num3 /= Mathf.Max(pawn.relations.SecondaryRomanceChanceFactor(partner), 0.1f);
-			num3 /= Mathf.Max(partner.relations.SecondaryRomanceChanceFactor(pawn), 0.1f);
-			num3 *= GenMath.LerpDouble(-100f, 100f, 1.3f, 0.7f, (float)pawn.relations.OpinionOf(partner));
-			return num3 * GenMath.LerpDouble(-100f, 100f, 1.3f, 0.7f, (float)partner.relations.OpinionOf(pawn));
+			return -1f;
 		}
 
 		private static float LovinMtbSinglePawnFactor(Pawn pawn)
 		{
 			float num = 1f;
-			num /= 1f - pawn.health.hediffSet.PainTotal;
+			num = (float)(num / (1.0 - pawn.health.hediffSet.PainTotal));
 			float level = pawn.health.capacities.GetLevel(PawnCapacityDefOf.Consciousness);
-			if (level < 0.5f)
+			if (level < 0.5)
 			{
-				num /= level * 2f;
+				num = (float)(num / (level * 2.0));
 			}
 			return num / GenMath.FlatHill(0f, 14f, 16f, 25f, 80f, 0.2f, pawn.ageTracker.AgeBiologicalYearsFloat);
 		}
 
 		public static void TryToShareBed(Pawn first, Pawn second)
 		{
-			if (LovePartnerRelationUtility.TryToShareBed_Int(first, second))
+			if (!LovePartnerRelationUtility.TryToShareBed_Int(first, second))
 			{
-				return;
+				LovePartnerRelationUtility.TryToShareBed_Int(second, first);
 			}
-			LovePartnerRelationUtility.TryToShareBed_Int(second, first);
 		}
 
 		private static bool TryToShareBed_Int(Pawn bedOwner, Pawn otherPawn)
@@ -230,11 +215,11 @@ namespace RimWorld
 
 		public static float LovePartnerRelationGenerationChance(Pawn generated, Pawn other, PawnGenerationRequest request, bool ex)
 		{
-			if (generated.ageTracker.AgeBiologicalYearsFloat < 14f)
+			if (generated.ageTracker.AgeBiologicalYearsFloat < 14.0)
 			{
 				return 0f;
 			}
-			if (other.ageTracker.AgeBiologicalYearsFloat < 14f)
+			if (other.ageTracker.AgeBiologicalYearsFloat < 14.0)
 			{
 				return 0f;
 			}
@@ -264,24 +249,17 @@ namespace RimWorld
 			{
 				return 0f;
 			}
-			float num3 = (generated.gender != other.gender) ? 1f : 0.01f;
+			float num3 = (float)((generated.gender != other.gender) ? 1.0 : 0.0099999997764825821);
 			float generationChanceAgeFactor = LovePartnerRelationUtility.GetGenerationChanceAgeFactor(generated);
 			float generationChanceAgeFactor2 = LovePartnerRelationUtility.GetGenerationChanceAgeFactor(other);
 			float generationChanceAgeGapFactor = LovePartnerRelationUtility.GetGenerationChanceAgeGapFactor(generated, other, ex);
 			float num4 = 1f;
-			if (generated.GetRelations(other).Any((PawnRelationDef x) => x.familyByBloodRelation))
+			if (generated.GetRelations(other).Any((Func<PawnRelationDef, bool>)((PawnRelationDef x) => x.familyByBloodRelation)))
 			{
 				num4 = 0.01f;
 			}
-			float num5;
-			if (request.FixedMelanin.HasValue)
-			{
-				num5 = ChildRelationUtility.GetMelaninSimilarityFactor(request.FixedMelanin.Value, other.story.melanin);
-			}
-			else
-			{
-				num5 = PawnSkinColors.GetMelaninCommonalityFactor(other.story.melanin);
-			}
+			float num5 = 1f;
+			num5 = ((!request.FixedMelanin.HasValue) ? PawnSkinColors.GetMelaninCommonalityFactor(other.story.melanin) : ChildRelationUtility.GetMelaninSimilarityFactor(request.FixedMelanin.Value, other.story.melanin));
 			return num * generationChanceAgeFactor * generationChanceAgeFactor2 * generationChanceAgeGapFactor * num3 * num5 * num4;
 		}
 
@@ -297,17 +275,17 @@ namespace RimWorld
 			if (ex)
 			{
 				float num2 = LovePartnerRelationUtility.MinPossibleAgeGapAtMinAgeToGenerateAsLovers(p1, p2);
-				if (num2 >= 0f)
+				if (num2 >= 0.0)
 				{
 					num = Mathf.Min(num, num2);
 				}
 				float num3 = LovePartnerRelationUtility.MinPossibleAgeGapAtMinAgeToGenerateAsLovers(p2, p1);
-				if (num3 >= 0f)
+				if (num3 >= 0.0)
 				{
 					num = Mathf.Min(num, num3);
 				}
 			}
-			if (num > 40f)
+			if (num > 40.0)
 			{
 				return 0f;
 			}
@@ -317,58 +295,57 @@ namespace RimWorld
 
 		private static float MinPossibleAgeGapAtMinAgeToGenerateAsLovers(Pawn p1, Pawn p2)
 		{
-			float num = p1.ageTracker.AgeChronologicalYearsFloat - 14f;
-			if (num < 0f)
+			float num = (float)(p1.ageTracker.AgeChronologicalYearsFloat - 14.0);
+			if (num < 0.0)
 			{
 				Log.Warning("at < 0");
 				return 0f;
 			}
 			float num2 = PawnRelationUtility.MaxPossibleBioAgeAt(p2.ageTracker.AgeBiologicalYearsFloat, p2.ageTracker.AgeChronologicalYearsFloat, num);
 			float num3 = PawnRelationUtility.MinPossibleBioAgeAt(p2.ageTracker.AgeBiologicalYearsFloat, num);
-			if (num2 < 0f)
+			if (num2 < 0.0)
 			{
 				return -1f;
 			}
-			if (num2 < 14f)
+			if (num2 < 14.0)
 			{
 				return -1f;
 			}
-			if (num3 <= 14f)
+			if (num3 <= 14.0)
 			{
 				return 0f;
 			}
-			return num3 - 14f;
+			return (float)(num3 - 14.0);
 		}
 
 		public static void TryToShareChildrenForGeneratedLovePartner(Pawn generated, Pawn other, PawnGenerationRequest request, float extraChanceFactor)
 		{
-			if (generated.gender == other.gender)
+			if (generated.gender != other.gender)
 			{
-				return;
-			}
-			List<Pawn> list = other.relations.Children.ToList<Pawn>();
-			for (int i = 0; i < list.Count; i++)
-			{
-				Pawn pawn = list[i];
-				float num = 1f;
-				if (generated.gender == Gender.Male)
+				List<Pawn> list = other.relations.Children.ToList();
+				for (int i = 0; i < list.Count; i++)
 				{
-					num = ChildRelationUtility.ChanceOfBecomingChildOf(pawn, generated, other, null, new PawnGenerationRequest?(request), null);
-				}
-				else if (generated.gender == Gender.Female)
-				{
-					num = ChildRelationUtility.ChanceOfBecomingChildOf(pawn, other, generated, null, null, new PawnGenerationRequest?(request));
-				}
-				num *= extraChanceFactor;
-				if (Rand.Value < num)
-				{
+					Pawn pawn = list[i];
+					float num = 1f;
 					if (generated.gender == Gender.Male)
 					{
-						pawn.SetFather(generated);
+						num = ChildRelationUtility.ChanceOfBecomingChildOf(pawn, generated, other, default(PawnGenerationRequest?), new PawnGenerationRequest?(request), default(PawnGenerationRequest?));
 					}
 					else if (generated.gender == Gender.Female)
 					{
-						pawn.SetMother(generated);
+						num = ChildRelationUtility.ChanceOfBecomingChildOf(pawn, other, generated, default(PawnGenerationRequest?), default(PawnGenerationRequest?), new PawnGenerationRequest?(request));
+					}
+					num *= extraChanceFactor;
+					if (Rand.Value < num)
+					{
+						if (generated.gender == Gender.Male)
+						{
+							pawn.SetFather(generated);
+						}
+						else if (generated.gender == Gender.Female)
+						{
+							pawn.SetMother(generated);
+						}
 					}
 				}
 			}
@@ -379,12 +356,13 @@ namespace RimWorld
 			while (true)
 			{
 				Pawn firstDirectRelationPawn = pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Spouse, null);
-				if (firstDirectRelationPawn == null)
+				if (firstDirectRelationPawn != null)
 				{
-					break;
+					pawn.relations.RemoveDirectRelation(PawnRelationDefOf.Spouse, firstDirectRelationPawn);
+					pawn.relations.AddDirectRelation(PawnRelationDefOf.ExSpouse, firstDirectRelationPawn);
+					continue;
 				}
-				pawn.relations.RemoveDirectRelation(PawnRelationDefOf.Spouse, firstDirectRelationPawn);
-				pawn.relations.AddDirectRelation(PawnRelationDefOf.ExSpouse, firstDirectRelationPawn);
+				break;
 			}
 		}
 
@@ -399,16 +377,13 @@ namespace RimWorld
 			int num = 0;
 			for (int i = 0; i < ownedBed.owners.Count; i++)
 			{
-				if (ownedBed.owners[i] != p)
+				if (ownedBed.owners[i] != p && !LovePartnerRelationUtility.LovePartnerRelationExists(p, ownedBed.owners[i]))
 				{
-					if (!LovePartnerRelationUtility.LovePartnerRelationExists(p, ownedBed.owners[i]))
+					int num2 = p.relations.OpinionOf(ownedBed.owners[i]);
+					if (pawn == null || num2 < num)
 					{
-						int num2 = p.relations.OpinionOf(ownedBed.owners[i]);
-						if (pawn == null || num2 < num)
-						{
-							pawn = ownedBed.owners[i];
-							num = num2;
-						}
+						pawn = ownedBed.owners[i];
+						num = num2;
 					}
 				}
 			}
@@ -421,20 +396,14 @@ namespace RimWorld
 			List<DirectPawnRelation> directRelations = other.relations.DirectRelations;
 			for (int i = 0; i < directRelations.Count; i++)
 			{
-				if (LovePartnerRelationUtility.IsLovePartnerRelation(directRelations[i].def))
+				if (LovePartnerRelationUtility.IsLovePartnerRelation(directRelations[i].def) && directRelations[i].otherPawn != pawn && !directRelations[i].otherPawn.Dead)
 				{
-					if (directRelations[i].otherPawn != pawn)
+					foreach (PawnRelationDef relation in other.GetRelations(directRelations[i].otherPawn))
 					{
-						if (!directRelations[i].otherPawn.Dead)
+						float incestOpinionOffset = relation.incestOpinionOffset;
+						if (incestOpinionOffset < num)
 						{
-							foreach (PawnRelationDef current in other.GetRelations(directRelations[i].otherPawn))
-							{
-								float incestOpinionOffset = current.incestOpinionOffset;
-								if (incestOpinionOffset < num)
-								{
-									num = incestOpinionOffset;
-								}
-							}
+							num = incestOpinionOffset;
 						}
 					}
 				}

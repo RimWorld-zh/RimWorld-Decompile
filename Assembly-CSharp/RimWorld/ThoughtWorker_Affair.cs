@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -15,15 +14,9 @@ namespace RimWorld
 			List<DirectPawnRelation> directRelations = otherPawn.relations.DirectRelations;
 			for (int i = 0; i < directRelations.Count; i++)
 			{
-				if (directRelations[i].otherPawn != p)
+				if (directRelations[i].otherPawn != p && !directRelations[i].otherPawn.Dead && (directRelations[i].def == PawnRelationDefOf.Lover || directRelations[i].def == PawnRelationDefOf.Fiance))
 				{
-					if (!directRelations[i].otherPawn.Dead)
-					{
-						if (directRelations[i].def == PawnRelationDefOf.Lover || directRelations[i].def == PawnRelationDefOf.Fiance)
-						{
-							return true;
-						}
-					}
+					return true;
 				}
 			}
 			return false;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -46,20 +47,28 @@ namespace RimWorld
 			Rect mainRect = base.GetMainRect(rect, 30f, false);
 			Widgets.DrawMenuSection(mainRect, true);
 			TabDrawer.DrawTabs(mainRect, from c in Find.GameInitData.startingPawns
-			select new TabRecord(c.LabelCap, delegate
+			select new TabRecord(c.LabelCap, (Action)delegate()
 			{
 				this.SelectPawn(c);
 			}, c == this.curPawn));
-			Rect rect2 = mainRect.ContractedBy(17f);
-			Rect rect3 = rect2;
-			rect3.width = 100f;
-			GUI.DrawTexture(new Rect(rect3.xMin + (rect3.width - Page_ConfigureStartingPawns.PawnPortraitSize.x) / 2f - 10f, rect3.yMin + 20f, Page_ConfigureStartingPawns.PawnPortraitSize.x, Page_ConfigureStartingPawns.PawnPortraitSize.y), PortraitsCache.Get(this.curPawn, Page_ConfigureStartingPawns.PawnPortraitSize, default(Vector3), 1f));
-			Rect rect4 = rect2;
-			rect4.xMin = rect3.xMax;
+			Rect rect2;
+			Rect rect3 = rect2 = mainRect.ContractedBy(17f);
+			rect2.width = 100f;
+			float xMin = rect2.xMin;
+			float width = rect2.width;
+			Vector2 pawnPortraitSize = Page_ConfigureStartingPawns.PawnPortraitSize;
+			double x = xMin + (width - pawnPortraitSize.x) / 2.0 - 10.0;
+			double y = rect2.yMin + 20.0;
+			Vector2 pawnPortraitSize2 = Page_ConfigureStartingPawns.PawnPortraitSize;
+			float x2 = pawnPortraitSize2.x;
+			Vector2 pawnPortraitSize3 = Page_ConfigureStartingPawns.PawnPortraitSize;
+			GUI.DrawTexture(new Rect((float)x, (float)y, x2, pawnPortraitSize3.y), PortraitsCache.Get(this.curPawn, Page_ConfigureStartingPawns.PawnPortraitSize, default(Vector3), 1f));
+			Rect rect4 = rect3;
+			rect4.xMin = rect2.xMax;
 			Rect rect5 = rect4;
 			rect5.width = 475f;
 			CharacterCardUtility.DrawCharacterCard(rect5, this.curPawn, new Action(this.RandomizeCurPawn));
-			Rect rect6 = new Rect(rect5.xMax + 5f, rect4.y + 100f, rect4.width - rect5.width - 5f, 200f);
+			Rect rect6 = new Rect((float)(rect5.xMax + 5.0), (float)(rect4.y + 100.0), (float)(rect4.width - rect5.width - 5.0), 200f);
 			Text.Font = GameFont.Medium;
 			Widgets.Label(rect6, "Health".Translate());
 			Text.Font = GameFont.Small;
@@ -71,32 +80,28 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 			rect7.yMin += 35f;
 			SocialCardUtility.DrawRelationsAndOpinions(rect7, this.curPawn);
-			base.DoBottomButtons(rect, "Start".Translate(), null, null, true);
+			base.DoBottomButtons(rect, "Start".Translate(), (string)null, null, true);
 		}
 
 		private void RandomizeCurPawn()
 		{
-			if (!TutorSystem.AllowAction("RandomizePawn"))
+			if (TutorSystem.AllowAction("RandomizePawn"))
 			{
-				return;
-			}
-			int num = 0;
-			while (true)
-			{
-				this.curPawn = StartingPawnUtility.RandomizeInPlace(this.curPawn);
-				num++;
-				if (num > 15)
+				int num = 0;
+				while (true)
 				{
-					break;
+					this.curPawn = StartingPawnUtility.RandomizeInPlace(this.curPawn);
+					num++;
+					if (num <= 15)
+					{
+						if (StartingPawnUtility.WorkTypeRequirementsSatisfied())
+							break;
+						continue;
+					}
+					return;
 				}
-				if (StartingPawnUtility.WorkTypeRequirementsSatisfied())
-				{
-					goto Block_3;
-				}
+				TutorSystem.Notify_Event("RandomizePawn");
 			}
-			return;
-			Block_3:
-			TutorSystem.Notify_Event("RandomizePawn");
 		}
 
 		protected override bool CanDoNext()
@@ -105,13 +110,22 @@ namespace RimWorld
 			{
 				return false;
 			}
-			foreach (Pawn current in Find.GameInitData.startingPawns)
+			List<Pawn>.Enumerator enumerator = Find.GameInitData.startingPawns.GetEnumerator();
+			try
 			{
-				if (!current.Name.IsValid)
+				while (enumerator.MoveNext())
 				{
-					Messages.Message("EveryoneNeedsValidName".Translate(), MessageSound.RejectInput);
-					return false;
+					Pawn current = enumerator.Current;
+					if (!current.Name.IsValid)
+					{
+						Messages.Message("EveryoneNeedsValidName".Translate(), MessageSound.RejectInput);
+						return false;
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			PortraitsCache.Clear();
 			return true;

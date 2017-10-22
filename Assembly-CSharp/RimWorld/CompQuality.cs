@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -18,7 +17,7 @@ namespace RimWorld
 		public void SetQuality(QualityCategory q, ArtGenerationContext source)
 		{
 			this.qualityInt = q;
-			CompArt compArt = this.parent.TryGetComp<CompArt>();
+			CompArt compArt = base.parent.TryGetComp<CompArt>();
 			if (compArt != null)
 			{
 				compArt.InitializeArt(source);
@@ -38,8 +37,12 @@ namespace RimWorld
 
 		public override bool AllowStackWith(Thing other)
 		{
-			QualityCategory qualityCategory;
-			return other.TryGetQuality(out qualityCategory) && this.qualityInt == qualityCategory;
+			QualityCategory qualityCategory = default(QualityCategory);
+			if (other.TryGetQuality(out qualityCategory))
+			{
+				return this.qualityInt == qualityCategory;
+			}
+			return false;
 		}
 
 		public override void PostSplitOff(Thing piece)
@@ -50,10 +53,7 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			return "QualityIs".Translate(new object[]
-			{
-				this.Quality.GetLabel().CapitalizeFirst()
-			});
+			return "QualityIs".Translate(this.Quality.GetLabel().CapitalizeFirst());
 		}
 	}
 }

@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -56,7 +55,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.forgetMemoryThoughtMtbDays > 0f || this.pctConditionalThoughtsNullified > 0f;
+				return this.forgetMemoryThoughtMtbDays > 0.0 || this.pctConditionalThoughtsNullified > 0.0;
 			}
 		}
 
@@ -64,7 +63,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.opinionOfOthersFactor != 1f;
+				return this.opinionOfOthersFactor != 1.0;
 			}
 		}
 

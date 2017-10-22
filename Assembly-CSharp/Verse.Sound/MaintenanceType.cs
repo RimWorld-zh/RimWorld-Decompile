@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse.Sound
 {
 	public enum MaintenanceType : byte
 	{
-		None,
-		PerTick,
-		PerFrame
+		None = 0,
+		PerTick = 1,
+		PerFrame = 2
 	}
 }

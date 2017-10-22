@@ -44,13 +44,13 @@ namespace Verse
 
 		public LayerSubMesh GetSubMesh(Material material)
 		{
-			if (material == null)
+			if ((UnityEngine.Object)material == (UnityEngine.Object)null)
 			{
 				return null;
 			}
 			for (int i = 0; i < this.subMeshes.Count; i++)
 			{
-				if (this.subMeshes[i].material == material)
+				if ((UnityEngine.Object)this.subMeshes[i].material == (UnityEngine.Object)material)
 				{
 					return this.subMeshes[i];
 				}
@@ -58,13 +58,7 @@ namespace Verse
 			Mesh mesh = new Mesh();
 			if (UnityData.isEditor)
 			{
-				mesh.name = string.Concat(new object[]
-				{
-					"SectionLayerSubMesh_",
-					base.GetType().Name,
-					"_",
-					this.Map.Tile
-				});
+				mesh.name = "SectionLayerSubMesh_" + base.GetType().Name + "_" + this.Map.Tile;
 			}
 			LayerSubMesh layerSubMesh = new LayerSubMesh(mesh, material);
 			this.subMeshes.Add(layerSubMesh);
@@ -84,17 +78,16 @@ namespace Verse
 
 		public virtual void DrawLayer()
 		{
-			if (!this.Visible)
+			if (this.Visible)
 			{
-				return;
-			}
-			int count = this.subMeshes.Count;
-			for (int i = 0; i < count; i++)
-			{
-				LayerSubMesh layerSubMesh = this.subMeshes[i];
-				if (layerSubMesh.finalized && !layerSubMesh.disabled)
+				int count = this.subMeshes.Count;
+				for (int num = 0; num < count; num++)
 				{
-					Graphics.DrawMesh(layerSubMesh.mesh, Vector3.zero, Quaternion.identity, layerSubMesh.material, 0);
+					LayerSubMesh layerSubMesh = this.subMeshes[num];
+					if (layerSubMesh.finalized && !layerSubMesh.disabled)
+					{
+						Graphics.DrawMesh(layerSubMesh.mesh, Vector3.zero, Quaternion.identity, layerSubMesh.material, 0);
+					}
 				}
 			}
 		}
@@ -103,9 +96,18 @@ namespace Verse
 
 		protected void ClearSubMeshes(MeshParts parts)
 		{
-			foreach (LayerSubMesh current in this.subMeshes)
+			List<LayerSubMesh>.Enumerator enumerator = this.subMeshes.GetEnumerator();
+			try
 			{
-				current.Clear(parts);
+				while (enumerator.MoveNext())
+				{
+					LayerSubMesh current = enumerator.Current;
+					current.Clear(parts);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 	}

@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class HediffCompProperties_Immunizable : HediffCompProperties
@@ -16,7 +14,7 @@ namespace Verse
 
 		public HediffCompProperties_Immunizable()
 		{
-			this.compClass = typeof(HediffComp_Immunizable);
+			base.compClass = typeof(HediffComp_Immunizable);
 		}
 	}
 }

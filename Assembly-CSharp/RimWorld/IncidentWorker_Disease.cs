@@ -10,25 +10,30 @@ namespace RimWorld
 	{
 		private IEnumerable<Pawn> PotentialVictims(Map map)
 		{
-			return map.mapPawns.FreeColonistsAndPrisoners.Where(delegate(Pawn p)
+			return map.mapPawns.FreeColonistsAndPrisoners.Where((Func<Pawn, bool>)delegate(Pawn p)
 			{
 				if (p.ParentHolder is Building_CryptosleepCasket)
 				{
 					return false;
 				}
-				if (!this.def.diseasePartsToAffect.NullOrEmpty<BodyPartDef>())
+				if (!base.def.diseasePartsToAffect.NullOrEmpty())
 				{
-					for (int i = 0; i < this.def.diseasePartsToAffect.Count; i++)
+					int num = 0;
+					while (true)
 					{
-						if (IncidentWorker_Disease.CanAddHediffToAnyPartOfDef(p, this.def.diseaseIncident, this.def.diseasePartsToAffect[i]))
+						if (num < base.def.diseasePartsToAffect.Count)
 						{
-							goto IL_76;
+							if (!IncidentWorker_Disease.CanAddHediffToAnyPartOfDef(p, base.def.diseaseIncident, base.def.diseasePartsToAffect[num]))
+							{
+								num++;
+								continue;
+							}
+							break;
 						}
+						return false;
 					}
-					return false;
 				}
-				IL_76:
-				return p.health.immunity.DiseaseContractChanceFactor(this.def.diseaseIncident, null) > 0f;
+				return p.health.immunity.DiseaseContractChanceFactor(base.def.diseaseIncident, null) > 0.0;
 			});
 		}
 
@@ -48,24 +53,25 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
-			return this.PotentialVictims((Map)target).Any<Pawn>();
+			if (!this.PotentialVictims((Map)target).Any())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override bool TryExecute(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			int num = map.mapPawns.FreeColonistsAndPrisoners.Count<Pawn>();
-			IntRange intRange = new IntRange(Mathf.RoundToInt((float)num * this.def.diseaseVictimFractionRange.min), Mathf.RoundToInt((float)num * this.def.diseaseVictimFractionRange.max));
-			int num2 = intRange.RandomInRange;
-			num2 = Mathf.Clamp(num2, 1, this.def.diseaseMaxVictims);
-			for (int i = 0; i < num2; i++)
+			int num = map.mapPawns.FreeColonistsAndPrisoners.Count();
+			int randomInRange = new IntRange(Mathf.RoundToInt((float)num * base.def.diseaseVictimFractionRange.min), Mathf.RoundToInt((float)num * base.def.diseaseVictimFractionRange.max)).RandomInRange;
+			randomInRange = Mathf.Clamp(randomInRange, 1, base.def.diseaseMaxVictims);
+			int num2 = 0;
+			while (num2 < randomInRange && this.PotentialVictims(map).Any())
 			{
-				if (!this.PotentialVictims(map).Any<Pawn>())
-				{
-					break;
-				}
-				Pawn pawn = this.PotentialVictims(map).RandomElementByWeight((Pawn x) => x.health.immunity.DiseaseContractChanceFactor(this.def.diseaseIncident, null));
-				HediffGiveUtility.TryApply(pawn, this.def.diseaseIncident, this.def.diseasePartsToAffect, false, 1, null);
+				Pawn pawn = this.PotentialVictims(map).RandomElementByWeight((Func<Pawn, float>)((Pawn x) => x.health.immunity.DiseaseContractChanceFactor(base.def.diseaseIncident, null)));
+				HediffGiveUtility.TryApply(pawn, base.def.diseaseIncident, base.def.diseasePartsToAffect, false, 1, null);
+				num2++;
 			}
 			return true;
 		}

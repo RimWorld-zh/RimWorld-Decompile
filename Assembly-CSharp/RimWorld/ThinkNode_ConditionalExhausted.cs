@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,7 +6,7 @@ namespace RimWorld
 	{
 		protected override bool Satisfied(Pawn pawn)
 		{
-			return pawn.needs.rest != null && pawn.needs.rest.CurCategory >= RestCategory.Exhausted;
+			return pawn.needs.rest != null && (int)pawn.needs.rest.CurCategory >= 3;
 		}
 	}
 }

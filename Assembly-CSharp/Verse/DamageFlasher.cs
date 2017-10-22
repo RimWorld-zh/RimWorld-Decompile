@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -31,7 +30,7 @@ namespace Verse
 
 		public Material GetDamagedMat(Material baseMat)
 		{
-			return DamagedMatPool.GetDamageFlashMat(baseMat, (float)this.DamageFlashTicksLeft / 16f);
+			return DamagedMatPool.GetDamageFlashMat(baseMat, (float)((float)this.DamageFlashTicksLeft / 16.0));
 		}
 
 		public void Notify_DamageApplied(DamageInfo dinfo)

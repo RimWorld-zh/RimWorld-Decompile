@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -40,13 +38,9 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
 		{
-			WorkGiver_Scanner.<PotentialWorkCellsGlobal>c__Iterator58 <PotentialWorkCellsGlobal>c__Iterator = new WorkGiver_Scanner.<PotentialWorkCellsGlobal>c__Iterator58();
-			WorkGiver_Scanner.<PotentialWorkCellsGlobal>c__Iterator58 expr_07 = <PotentialWorkCellsGlobal>c__Iterator;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield break;
 		}
 
 		public virtual IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)

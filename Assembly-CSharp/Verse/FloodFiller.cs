@@ -23,7 +23,7 @@ namespace Verse
 
 		public void FloodFill(IntVec3 root, Predicate<IntVec3> passCheck, Action<IntVec3> processor, bool rememberParents = false)
 		{
-			this.FloodFill(root, passCheck, delegate(IntVec3 x)
+			this.FloodFill(root, passCheck, (Func<IntVec3, bool>)delegate(IntVec3 x)
 			{
 				processor(x);
 				return false;
@@ -45,100 +45,99 @@ namespace Verse
 					this.parentGrid[root] = IntVec3.Invalid;
 				}
 				ProfilerThreadCheck.EndSample();
-				return;
 			}
-			int area = this.map.Area;
-			IntVec3[] cardinalDirectionsAround = GenAdj.CardinalDirectionsAround;
-			int num = cardinalDirectionsAround.Length;
-			CellIndices cellIndices = this.map.cellIndices;
-			int num2 = cellIndices.CellToIndex(root);
-			this.visited.Add(num2);
-			this.queuedGrid.Set(num2, true);
-			if (rememberParents)
+			else
 			{
-				this.parentGrid[num2] = root;
-			}
-			this.openSet.Clear();
-			this.openSet.Enqueue(root);
-			while (this.openSet.Count > 0)
-			{
-				IntVec3 intVec = this.openSet.Dequeue();
-				if (processor(intVec))
+				int area = this.map.Area;
+				IntVec3[] cardinalDirectionsAround = GenAdj.CardinalDirectionsAround;
+				int num = cardinalDirectionsAround.Length;
+				CellIndices cellIndices = this.map.cellIndices;
+				int num2 = cellIndices.CellToIndex(root);
+				this.visited.Add(num2);
+				this.queuedGrid.Set(num2, true);
+				if (rememberParents)
 				{
+					this.parentGrid[num2] = root;
+				}
+				this.openSet.Clear();
+				this.openSet.Enqueue(root);
+				while (this.openSet.Count > 0)
+				{
+					IntVec3 intVec = this.openSet.Dequeue();
+					if (!processor(intVec))
+					{
+						for (int num3 = 0; num3 < num; num3++)
+						{
+							IntVec3 intVec2 = intVec + cardinalDirectionsAround[num3];
+							int num4 = cellIndices.CellToIndex(intVec2);
+							if (intVec2.InBounds(this.map) && !this.queuedGrid[num4] && passCheck(intVec2))
+							{
+								this.visited.Add(num4);
+								this.openSet.Enqueue(intVec2);
+								this.queuedGrid.Set(num4, true);
+								if (rememberParents)
+								{
+									this.parentGrid[num4] = intVec;
+								}
+							}
+						}
+						if (this.openSet.Count > area)
+						{
+							Log.Error("Overflow on flood fill (>" + area + " cells). Make sure we're not flooding over the same area after we check it.");
+							ProfilerThreadCheck.EndSample();
+							return;
+						}
+						continue;
+					}
 					break;
 				}
-				for (int i = 0; i < num; i++)
-				{
-					IntVec3 intVec2 = intVec + cardinalDirectionsAround[i];
-					int num3 = cellIndices.CellToIndex(intVec2);
-					if (intVec2.InBounds(this.map) && !this.queuedGrid[num3] && passCheck(intVec2))
-					{
-						this.visited.Add(num3);
-						this.openSet.Enqueue(intVec2);
-						this.queuedGrid.Set(num3, true);
-						if (rememberParents)
-						{
-							this.parentGrid[num3] = intVec;
-						}
-					}
-				}
-				if (this.openSet.Count > area)
-				{
-					Log.Error("Overflow on flood fill (>" + area + " cells). Make sure we're not flooding over the same area after we check it.");
-					ProfilerThreadCheck.EndSample();
-					return;
-				}
+				ProfilerThreadCheck.EndSample();
 			}
-			ProfilerThreadCheck.EndSample();
 		}
 
 		public void ReconstructLastFloodFillPath(IntVec3 dest, List<IntVec3> outPath)
 		{
 			outPath.Clear();
-			if (this.parentGrid == null || !dest.InBounds(this.map) || !this.parentGrid[dest].IsValid)
+			if (this.parentGrid != null && dest.InBounds(this.map) && this.parentGrid[dest].IsValid)
 			{
-				return;
-			}
-			int num = 0;
-			int num2 = this.map.Area + 1;
-			IntVec3 intVec = dest;
-			while (true)
-			{
-				num++;
-				if (num > num2)
+				int num = 0;
+				int num2 = this.map.Area + 1;
+				IntVec3 intVec = dest;
+				while (true)
 				{
+					num++;
+					if (num > num2)
+					{
+						Log.Error("Too many iterations.");
+					}
+					else if (intVec.IsValid)
+					{
+						outPath.Add(intVec);
+						if (!(this.parentGrid[intVec] == intVec))
+						{
+							intVec = this.parentGrid[intVec];
+							continue;
+						}
+					}
 					break;
 				}
-				if (!intVec.IsValid)
-				{
-					goto Block_4;
-				}
-				outPath.Add(intVec);
-				if (this.parentGrid[intVec] == intVec)
-				{
-					goto Block_5;
-				}
-				intVec = this.parentGrid[intVec];
+				outPath.Reverse();
 			}
-			Log.Error("Too many iterations.");
-			Block_4:
-			Block_5:
-			outPath.Reverse();
 		}
 
 		private void ClearVisited()
 		{
-			int i = 0;
+			int num = 0;
 			int count = this.visited.Count;
-			while (i < count)
+			while (num < count)
 			{
-				int index = this.visited[i];
+				int index = this.visited[num];
 				this.queuedGrid[index] = false;
 				if (this.parentGrid != null)
 				{
 					this.parentGrid[index] = IntVec3.Invalid;
 				}
-				i++;
+				num++;
 			}
 			this.visited.Clear();
 			this.openSet.Clear();

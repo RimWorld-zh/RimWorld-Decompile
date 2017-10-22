@@ -1,10 +1,8 @@
-using System;
-
 namespace Verse
 {
 	public enum TargetType : byte
 	{
-		Thing,
-		Cell
+		Thing = 0,
+		Cell = 1
 	}
 }

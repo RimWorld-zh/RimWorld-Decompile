@@ -48,15 +48,15 @@ namespace Verse
 
 		private float cachedRequiredWidth;
 
-		private static readonly Color ColorBGActive;
+		private static readonly Color ColorBGActive = new ColorInt(21, 25, 29).ToColor;
 
-		private static readonly Color ColorBGActiveMouseover;
+		private static readonly Color ColorBGActiveMouseover = new ColorInt(29, 45, 50).ToColor;
 
-		private static readonly Color ColorBGDisabled;
+		private static readonly Color ColorBGDisabled = new ColorInt(40, 40, 40).ToColor;
 
-		private static readonly Color ColorTextActive;
+		private static readonly Color ColorTextActive = Color.white;
 
-		private static readonly Color ColorTextDisabled;
+		private static readonly Color ColorTextDisabled = new Color(0.9f, 0.9f, 0.9f);
 
 		public string Label
 		{
@@ -70,7 +70,7 @@ namespace Verse
 				{
 					value = "(missing label)";
 				}
-				this.labelInt = value.TrimEnd(new char[0]);
+				this.labelInt = value.TrimEnd();
 				this.SetSizeMode(this.sizeMode);
 			}
 		}
@@ -79,7 +79,7 @@ namespace Verse
 		{
 			get
 			{
-				return (this.sizeMode != FloatMenuSizeMode.Normal) ? 1f : 4f;
+				return (float)((this.sizeMode != FloatMenuSizeMode.Normal) ? 1.0 : 4.0);
 			}
 		}
 
@@ -87,7 +87,7 @@ namespace Verse
 		{
 			get
 			{
-				return (this.sizeMode != FloatMenuSizeMode.Normal) ? 3f : 6f;
+				return (float)((this.sizeMode != FloatMenuSizeMode.Normal) ? 3.0 : 6.0);
 			}
 		}
 
@@ -95,7 +95,7 @@ namespace Verse
 		{
 			get
 			{
-				return (this.sizeMode != FloatMenuSizeMode.Normal) ? GameFont.Tiny : GameFont.Small;
+				return (GameFont)((this.sizeMode == FloatMenuSizeMode.Normal) ? 1 : 0);
 			}
 		}
 
@@ -103,7 +103,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.action == null;
+				return (object)this.action == null;
 			}
 			set
 			{
@@ -167,33 +167,22 @@ namespace Verse
 			this.revalidateWorldClickTarget = revalidateWorldClickTarget;
 		}
 
-		static FloatMenuOption()
-		{
-			// Note: this type is marked as 'beforefieldinit'.
-			ColorInt colorInt = new ColorInt(21, 25, 29);
-			FloatMenuOption.ColorBGActive = colorInt.ToColor;
-			ColorInt colorInt2 = new ColorInt(29, 45, 50);
-			FloatMenuOption.ColorBGActiveMouseover = colorInt2.ToColor;
-			ColorInt colorInt3 = new ColorInt(40, 40, 40);
-			FloatMenuOption.ColorBGDisabled = colorInt3.ToColor;
-			FloatMenuOption.ColorTextActive = Color.white;
-			FloatMenuOption.ColorTextDisabled = new Color(0.9f, 0.9f, 0.9f);
-		}
-
 		public void SetSizeMode(FloatMenuSizeMode newSizeMode)
 		{
 			this.sizeMode = newSizeMode;
 			Text.Font = this.CurrentFont;
-			float width = 300f - (2f * this.HorizontalMargin + 4f + this.extraPartWidth);
-			this.cachedRequiredHeight = 2f * this.VerticalMargin + Text.CalcHeight(this.Label, width);
-			this.cachedRequiredWidth = this.HorizontalMargin + 4f + Text.CalcSize(this.Label).x + this.extraPartWidth + this.HorizontalMargin;
+			float width = (float)(300.0 - (2.0 * this.HorizontalMargin + 4.0 + this.extraPartWidth));
+			this.cachedRequiredHeight = (float)(2.0 * this.VerticalMargin + Text.CalcHeight(this.Label, width));
+			double num = this.HorizontalMargin + 4.0;
+			Vector2 vector = Text.CalcSize(this.Label);
+			this.cachedRequiredWidth = (float)(num + vector.x + this.extraPartWidth + this.HorizontalMargin);
 		}
 
 		public void Chosen(bool colonistOrdering)
 		{
 			if (!this.Disabled)
 			{
-				if (this.action != null)
+				if ((object)this.action != null)
 				{
 					if (colonistOrdering)
 					{
@@ -223,9 +212,10 @@ namespace Verse
 				rect2.x += 4f;
 			}
 			Rect rect3 = default(Rect);
-			if (this.extraPartWidth != 0f)
+			if (this.extraPartWidth != 0.0)
 			{
-				float num = Mathf.Min(Text.CalcSize(this.Label).x, rect2.width - 4f);
+				Vector2 vector = Text.CalcSize(this.Label);
+				float num = Mathf.Min(vector.x, (float)(rect2.width - 4.0));
 				rect3 = new Rect(rect2.xMin + num, rect2.yMin, this.extraPartWidth, 30f);
 				flag2 = Mouse.IsOver(rect3);
 			}
@@ -257,7 +247,7 @@ namespace Verse
 			Widgets.Label(rect2, this.Label);
 			Text.Anchor = TextAnchor.UpperLeft;
 			GUI.color = color;
-			if (this.extraPartOnGUI != null)
+			if ((object)this.extraPartOnGUI != null)
 			{
 				bool flag3 = this.extraPartOnGUI(rect3);
 				GUI.color = color;
@@ -266,7 +256,7 @@ namespace Verse
 					return true;
 				}
 			}
-			if (flag && this.mouseoverGuiAction != null)
+			if (flag && (object)this.mouseoverGuiAction != null)
 			{
 				this.mouseoverGuiAction();
 			}
@@ -274,20 +264,20 @@ namespace Verse
 			{
 				UIHighlighter.HighlightOpportunity(rect, this.tutorTag);
 			}
-			if (!Widgets.ButtonInvisible(rect, false))
+			if (Widgets.ButtonInvisible(rect, false))
 			{
-				return false;
+				if (this.tutorTag != null && !TutorSystem.AllowAction(this.tutorTag))
+				{
+					return false;
+				}
+				this.Chosen(colonistOrdering);
+				if (this.tutorTag != null)
+				{
+					TutorSystem.Notify_Event(this.tutorTag);
+				}
+				return true;
 			}
-			if (this.tutorTag != null && !TutorSystem.AllowAction(this.tutorTag))
-			{
-				return false;
-			}
-			this.Chosen(colonistOrdering);
-			if (this.tutorTag != null)
-			{
-				TutorSystem.Notify_Event(this.tutorTag);
-			}
-			return true;
+			return false;
 		}
 
 		public override string ToString()

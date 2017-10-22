@@ -25,18 +25,8 @@ namespace Verse
 			}
 			catch (Exception ex)
 			{
-				GenUI.ErrorDialog("ProblemSavingFile".Translate(new object[]
-				{
-					filePath,
-					ex.ToString()
-				}));
-				Log.Error(string.Concat(new object[]
-				{
-					"Exception saving data object ",
-					obj,
-					": ",
-					ex
-				}));
+				GenUI.ErrorDialog("ProblemSavingFile".Translate(filePath, ex.ToString()));
+				Log.Error("Exception saving data object " + obj + ": " + ex);
 			}
 		}
 
@@ -47,8 +37,8 @@ namespace Verse
 
 		public static XElement XElementFromObject(object obj, Type expectedType, string nodeName, FieldInfo owningField = null, bool saveDefsAsRefs = false)
 		{
-			DefaultValueAttribute defaultValueAttribute;
-			if (owningField != null && owningField.TryGetAttribute(out defaultValueAttribute) && defaultValueAttribute.ObjIsDefault(obj))
+			DefaultValueAttribute defaultValueAttribute = default(DefaultValueAttribute);
+			if (owningField != null && ((MemberInfo)owningField).TryGetAttribute<DefaultValueAttribute>(out defaultValueAttribute) && defaultValueAttribute.ObjIsDefault(obj))
 			{
 				return null;
 			}
@@ -63,66 +53,72 @@ namespace Verse
 			if (DirectXmlSaver.IsSimpleTextType(type))
 			{
 				xElement2.Add(new XText(obj.ToString()));
+				goto IL_02ff;
 			}
-			else if (saveDefsAsRefs && typeof(Def).IsAssignableFrom(type))
+			if (saveDefsAsRefs && typeof(Def).IsAssignableFrom(type))
 			{
 				string defName = ((Def)obj).defName;
 				xElement2.Add(new XText(defName));
+				goto IL_02ff;
 			}
-			else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
+			if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
 			{
 				Type expectedType2 = type.GetGenericArguments()[0];
 				int num = (int)type.GetProperty("Count").GetValue(obj, null);
-				for (int i = 0; i < num; i++)
+				for (int num2 = 0; num2 < num; num2++)
 				{
-					object[] index = new object[]
+					object[] index = new object[1]
 					{
-						i
+						num2
 					};
 					object value = type.GetProperty("Item").GetValue(obj, index);
 					XNode content = DirectXmlSaver.XElementFromObject(value, expectedType2, "li", null, true);
 					xElement2.Add(content);
 				}
+				goto IL_02ff;
 			}
-			else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<, >))
+			if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<, >))
 			{
 				Type expectedType3 = type.GetGenericArguments()[0];
 				Type expectedType4 = type.GetGenericArguments()[1];
-				foreach (object current in (obj as IEnumerable))
 				{
-					object value2 = current.GetType().GetProperty("Key").GetValue(current, null);
-					object value3 = current.GetType().GetProperty("Value").GetValue(current, null);
-					XElement xElement3 = new XElement("li");
-					xElement3.Add(DirectXmlSaver.XElementFromObject(value2, expectedType3, "key", null, true));
-					xElement3.Add(DirectXmlSaver.XElementFromObject(value3, expectedType4, "value", null, true));
-					xElement2.Add(xElement3);
+					foreach (object item in obj as IEnumerable)
+					{
+						object value2 = item.GetType().GetProperty("Key").GetValue(item, null);
+						object value3 = item.GetType().GetProperty("Value").GetValue(item, null);
+						XElement xElement3 = new XElement("li");
+						xElement3.Add(DirectXmlSaver.XElementFromObject(value2, expectedType3, "key", null, true));
+						xElement3.Add(DirectXmlSaver.XElementFromObject(value3, expectedType4, "value", null, true));
+						xElement2.Add(xElement3);
+					}
+					return xElement2;
 				}
 			}
-			else
+			if (type != expectedType)
 			{
-				if (type != expectedType)
+				XAttribute content2 = new XAttribute("Class", GenTypes.GetTypeNameWithoutIgnoredNamespaces(obj.GetType()));
+				xElement2.Add(content2);
+			}
+			foreach (FieldInfo item2 in from f in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+			orderby f.MetadataToken
+			select f)
+			{
+				try
 				{
-					XAttribute content2 = new XAttribute("Class", GenTypes.GetTypeNameWithoutIgnoredNamespaces(obj.GetType()));
-					xElement2.Add(content2);
+					XElement xElement4 = DirectXmlSaver.XElementFromField(item2, obj);
+					if (xElement4 != null)
+					{
+						xElement2.Add(xElement4);
+					}
 				}
-				foreach (FieldInfo current2 in from f in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-				orderby f.MetadataToken
-				select f)
+				catch
 				{
-					try
-					{
-						XElement xElement4 = DirectXmlSaver.XElementFromField(current2, obj);
-						if (xElement4 != null)
-						{
-							xElement2.Add(xElement4);
-						}
-					}
-					catch
-					{
-						throw;
-					}
+					throw;
+					IL_02dc:;
 				}
 			}
+			return xElement2;
+			IL_02ff:
 			return xElement2;
 		}
 

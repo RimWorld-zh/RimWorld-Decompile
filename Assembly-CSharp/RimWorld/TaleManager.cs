@@ -41,10 +41,12 @@ namespace RimWorld
 			if (!tale.Unused)
 			{
 				Log.Warning("Tried to remove used tale " + tale);
-				return;
 			}
-			this.tales.Remove(tale);
-			tale.PostRemove();
+			else
+			{
+				this.tales.Remove(tale);
+				tale.PostRemove();
+			}
 		}
 
 		private void CheckCullTales(Tale addedTale)
@@ -55,73 +57,68 @@ namespace RimWorld
 
 		private void CheckCullUnusedVolatileTales()
 		{
-			int i = 0;
-			for (int j = 0; j < this.tales.Count; j++)
+			int num = 0;
+			for (int i = 0; i < this.tales.Count; i++)
 			{
-				if (this.tales[j].def.type == TaleType.Volatile && this.tales[j].Unused)
+				if (this.tales[i].def.type == TaleType.Volatile && this.tales[i].Unused)
 				{
-					i++;
+					num++;
 				}
 			}
-			while (i > 350)
+			while (num > 350)
 			{
 				Tale tale = null;
-				float num = 3.40282347E+38f;
-				for (int k = 0; k < this.tales.Count; k++)
+				float num2 = 3.40282347E+38f;
+				for (int j = 0; j < this.tales.Count; j++)
 				{
-					if (this.tales[k].def.type == TaleType.Volatile && this.tales[k].Unused && this.tales[k].InterestLevel < num)
+					if (this.tales[j].def.type == TaleType.Volatile && this.tales[j].Unused && this.tales[j].InterestLevel < num2)
 					{
-						tale = this.tales[k];
-						num = this.tales[k].InterestLevel;
+						tale = this.tales[j];
+						num2 = this.tales[j].InterestLevel;
 					}
 				}
 				this.RemoveTale(tale);
-				i--;
+				num--;
 			}
 		}
 
 		private void CheckCullUnusedTalesWithMaxPerPawnLimit(Tale addedTale)
 		{
-			if (addedTale.def.maxPerPawn < 0)
+			if (addedTale.def.maxPerPawn >= 0 && addedTale.DominantPawn != null)
 			{
-				return;
-			}
-			if (addedTale.DominantPawn == null)
-			{
-				return;
-			}
-			int i = 0;
-			for (int j = 0; j < this.tales.Count; j++)
-			{
-				if (this.tales[j].Unused && this.tales[j].def == addedTale.def && this.tales[j].DominantPawn == addedTale.DominantPawn)
+				int num = 0;
+				for (int i = 0; i < this.tales.Count; i++)
 				{
-					i++;
-				}
-			}
-			while (i > addedTale.def.maxPerPawn)
-			{
-				Tale tale = null;
-				int num = -1;
-				for (int k = 0; k < this.tales.Count; k++)
-				{
-					if (this.tales[k].Unused && this.tales[k].def == addedTale.def && this.tales[k].DominantPawn == addedTale.DominantPawn && this.tales[k].AgeTicks > num)
+					if (this.tales[i].Unused && this.tales[i].def == addedTale.def && this.tales[i].DominantPawn == addedTale.DominantPawn)
 					{
-						tale = this.tales[k];
-						num = this.tales[k].AgeTicks;
+						num++;
 					}
 				}
-				this.RemoveTale(tale);
-				i--;
+				while (num > addedTale.def.maxPerPawn)
+				{
+					Tale tale = null;
+					int num2 = -1;
+					for (int j = 0; j < this.tales.Count; j++)
+					{
+						if (this.tales[j].Unused && this.tales[j].def == addedTale.def && this.tales[j].DominantPawn == addedTale.DominantPawn && this.tales[j].AgeTicks > num2)
+						{
+							tale = this.tales[j];
+							num2 = this.tales[j].AgeTicks;
+						}
+					}
+					this.RemoveTale(tale);
+					num--;
+				}
 			}
 		}
 
 		private void RemoveExpiredTales()
 		{
-			for (int i = this.tales.Count - 1; i >= 0; i--)
+			for (int num = this.tales.Count - 1; num >= 0; num--)
 			{
-				if (this.tales[i].Expired)
+				if (this.tales[num].Expired)
 				{
-					this.RemoveTale(this.tales[i]);
+					this.RemoveTale(this.tales[num]);
 				}
 			}
 		}
@@ -136,14 +133,14 @@ namespace RimWorld
 			{
 				return TaleReference.Taleless;
 			}
-			if (Rand.Value < 0.25f)
+			if (Rand.Value < 0.25)
 			{
 				return TaleReference.Taleless;
 			}
-			Tale tale;
+			Tale tale = default(Tale);
 			if (!(from x in this.tales
 			where x.def.usableForArt
-			select x).TryRandomElementByWeight((Tale ta) => ta.InterestLevel, out tale))
+			select x).TryRandomElementByWeight<Tale>((Func<Tale, float>)((Tale ta) => ta.InterestLevel), out tale))
 			{
 				return TaleReference.Taleless;
 			}
@@ -157,10 +154,10 @@ namespace RimWorld
 			{
 				return TaleReference.Taleless;
 			}
-			Tale tale;
+			Tale tale = default(Tale);
 			if (!(from x in this.tales
 			where x.def.usableForArt && x.Concerns(th)
-			select x).TryRandomElementByWeight((Tale x) => x.InterestLevel, out tale))
+			select x).TryRandomElementByWeight<Tale>((Func<Tale, float>)((Tale x) => x.InterestLevel), out tale))
 			{
 				return TaleReference.Taleless;
 			}
@@ -185,39 +182,23 @@ namespace RimWorld
 
 		public void Notify_PawnDestroyed(Pawn pawn)
 		{
-			for (int i = this.tales.Count - 1; i >= 0; i--)
+			for (int num = this.tales.Count - 1; num >= 0; num--)
 			{
-				if (this.tales[i].Unused)
+				if (this.tales[num].Unused && !this.tales[num].def.usableForArt && this.tales[num].def.type != TaleType.PermanentHistorical && this.tales[num].DominantPawn == pawn)
 				{
-					if (!this.tales[i].def.usableForArt)
-					{
-						if (this.tales[i].def.type != TaleType.PermanentHistorical)
-						{
-							if (this.tales[i].DominantPawn == pawn)
-							{
-								this.RemoveTale(this.tales[i]);
-							}
-						}
-					}
+					this.RemoveTale(this.tales[num]);
 				}
 			}
 		}
 
 		public void Notify_PawnDiscarded(Pawn p)
 		{
-			for (int i = this.tales.Count - 1; i >= 0; i--)
+			for (int num = this.tales.Count - 1; num >= 0; num--)
 			{
-				if (this.tales[i].Concerns(p))
+				if (this.tales[num].Concerns(p))
 				{
-					Log.Warning(string.Concat(new object[]
-					{
-						"Discarding pawn ",
-						p,
-						", but he is referenced by a tale ",
-						this.tales[i],
-						"."
-					}));
-					this.RemoveTale(this.tales[i]);
+					Log.Warning("Discarding pawn " + p + ", but he is referenced by a tale " + this.tales[num] + ".");
+					this.RemoveTale(this.tales[num]);
 				}
 			}
 		}
@@ -242,7 +223,7 @@ namespace RimWorld
 				Tale tale = this.tales[i];
 				if (tale.def.type == TaleType.PermanentHistorical)
 				{
-					float num2 = (float)GenDate.TickAbsToGame(tale.date) / 60000f;
+					float num2 = (float)((float)GenDate.TickAbsToGame(tale.date) / 60000.0);
 					if (num2 > num)
 					{
 						num = num2;
@@ -268,37 +249,30 @@ namespace RimWorld
 			where x.def.type == TaleType.Expirable && x.Unused
 			select x;
 			stringBuilder.AppendLine("All tales count: " + this.tales.Count);
-			stringBuilder.AppendLine("Used count: " + enumerable.Count<Tale>());
-			stringBuilder.AppendLine(string.Concat(new object[]
-			{
-				"Unused volatile count: ",
-				enumerable2.Count<Tale>(),
-				" (max: ",
-				350,
-				")"
-			}));
-			stringBuilder.AppendLine("Unused permanent count: " + enumerable3.Count<Tale>());
-			stringBuilder.AppendLine("Unused expirable count: " + enumerable4.Count<Tale>());
+			stringBuilder.AppendLine("Used count: " + enumerable.Count());
+			stringBuilder.AppendLine("Unused volatile count: " + enumerable2.Count() + " (max: " + 350 + ")");
+			stringBuilder.AppendLine("Unused permanent count: " + enumerable3.Count());
+			stringBuilder.AppendLine("Unused expirable count: " + enumerable4.Count());
 			stringBuilder.AppendLine();
 			stringBuilder.AppendLine("-------Used-------");
-			foreach (Tale current in enumerable)
+			foreach (Tale item in enumerable)
 			{
-				stringBuilder.AppendLine(current.ToString());
+				stringBuilder.AppendLine(item.ToString());
 			}
 			stringBuilder.AppendLine("-------Unused volatile-------");
-			foreach (Tale current2 in enumerable2)
+			foreach (Tale item2 in enumerable2)
 			{
-				stringBuilder.AppendLine(current2.ToString());
+				stringBuilder.AppendLine(item2.ToString());
 			}
 			stringBuilder.AppendLine("-------Unused permanent-------");
-			foreach (Tale current3 in enumerable3)
+			foreach (Tale item3 in enumerable3)
 			{
-				stringBuilder.AppendLine(current3.ToString());
+				stringBuilder.AppendLine(item3.ToString());
 			}
 			stringBuilder.AppendLine("-------Unused expirable-------");
-			foreach (Tale current4 in enumerable4)
+			foreach (Tale item4 in enumerable4)
 			{
-				stringBuilder.AppendLine(current4.ToString());
+				stringBuilder.AppendLine(item4.ToString());
 			}
 			Log.Message(stringBuilder.ToString());
 		}
@@ -308,29 +282,22 @@ namespace RimWorld
 			StringBuilder stringBuilder = new StringBuilder();
 			float num = (from t in this.tales
 			where t.def.usableForArt
-			select t).Sum((Tale t) => t.InterestLevel);
-			TaleDef def;
-			Func<TaleDef, float> defInterest = (TaleDef def) => (from t in this.tales
+			select t).Sum((Func<Tale, float>)((Tale t) => t.InterestLevel));
+			Func<TaleDef, float> defInterest = (Func<TaleDef, float>)((TaleDef def) => (from t in this.tales
 			where t.def == def
-			select t).Sum((Tale t) => t.InterestLevel);
+			select t).Sum((Func<Tale, float>)((Tale t) => t.InterestLevel)));
 			using (IEnumerator<TaleDef> enumerator = (from def in DefDatabase<TaleDef>.AllDefs
 			where def.usableForArt
 			orderby defInterest(def) descending
 			select def).GetEnumerator())
 			{
+				TaleDef def2;
 				while (enumerator.MoveNext())
 				{
-					def = enumerator.Current;
-					stringBuilder.AppendLine(string.Concat(new object[]
-					{
-						def.label,
-						":   [",
-						(from t in this.tales
-						where t.def == def
-						select t).Count<Tale>(),
-						"]   ",
-						(defInterest(def) / num).ToStringPercent("F2")
-					}));
+					def2 = enumerator.Current;
+					stringBuilder.AppendLine(def2.label + ":   [" + (from t in this.tales
+					where t.def == def2
+					select t).Count() + "]   " + (defInterest(def2) / num).ToStringPercent("F2"));
 				}
 			}
 			Log.Message(stringBuilder.ToString());

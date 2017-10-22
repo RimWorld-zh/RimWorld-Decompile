@@ -1,10 +1,8 @@
-using System;
-
 namespace RimWorld
 {
 	public enum ResourceReadoutMode : byte
 	{
-		Simple,
-		Categorized
+		Simple = 0,
+		Categorized = 1
 	}
 }

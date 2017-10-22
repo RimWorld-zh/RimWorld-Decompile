@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -7,7 +6,7 @@ namespace Verse
 	{
 		public static bool SupportsMaskTex(this Shader shader)
 		{
-			return shader == ShaderDatabase.CutoutComplex;
+			return (Object)shader == (Object)ShaderDatabase.CutoutComplex;
 		}
 	}
 }

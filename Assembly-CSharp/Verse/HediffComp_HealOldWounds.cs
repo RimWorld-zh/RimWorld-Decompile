@@ -12,7 +12,7 @@ namespace Verse
 		{
 			get
 			{
-				return (HediffCompProperties_HealOldWounds)this.props;
+				return (HediffCompProperties_HealOldWounds)base.props;
 			}
 		}
 
@@ -39,22 +39,16 @@ namespace Verse
 
 		private void TryHealRandomOldWound()
 		{
-			Hediff hediff;
-			if (!(from hd in base.Pawn.health.hediffSet.hediffs
+			Hediff hediff = default(Hediff);
+			if ((from hd in base.Pawn.health.hediffSet.hediffs
 			where hd.IsOld()
-			select hd).TryRandomElement(out hediff))
+			select hd).TryRandomElement<Hediff>(out hediff))
 			{
-				return;
-			}
-			hediff.Severity = 0f;
-			if (PawnUtility.ShouldSendNotificationAbout(base.Pawn))
-			{
-				Messages.Message("MessageOldWoundHealed".Translate(new object[]
+				hediff.Severity = 0f;
+				if (PawnUtility.ShouldSendNotificationAbout(base.Pawn))
 				{
-					this.parent.Label,
-					base.Pawn.LabelShort,
-					hediff.Label
-				}), MessageSound.Benefit);
+					Messages.Message("MessageOldWoundHealed".Translate(base.parent.Label, base.Pawn.LabelShort, hediff.Label), MessageSound.Benefit);
+				}
 			}
 		}
 

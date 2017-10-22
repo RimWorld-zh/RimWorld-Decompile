@@ -107,11 +107,11 @@ namespace RimWorld.Planet
 			Scribe_Deep.Look<WorldInfo>(ref this.info, "info", new object[0]);
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
-				foreach (WorldGenStepDef current in from gs in DefDatabase<WorldGenStepDef>.AllDefs
+				foreach (WorldGenStepDef item in from gs in DefDatabase<WorldGenStepDef>.AllDefs
 				orderby gs.order
 				select gs)
 				{
-					current.worldGenStep.GenerateFromScribe(this.info.seedString);
+					item.worldGenStep.GenerateFromScribe(this.info.seedString);
 				}
 			}
 			else
@@ -128,11 +128,11 @@ namespace RimWorld.Planet
 			Scribe_Deep.Look<WorldObjectsHolder>(ref this.worldObjects, "worldObjects", new object[0]);
 			Scribe_Deep.Look<WorldSettings>(ref this.settings, "settings", new object[0]);
 			Scribe_Deep.Look<GameConditionManager>(ref this.gameConditionManager, "gameConditionManager", new object[1]);
-			Scribe_Deep.Look<StoryState>(ref this.storyState, "storyState", new object[]
+			Scribe_Deep.Look<StoryState>(ref this.storyState, "storyState", new object[1]
 			{
 				this
 			});
-			Scribe_Collections.Look<WorldComponent>(ref this.components, "components", LookMode.Deep, new object[]
+			Scribe_Collections.Look<WorldComponent>(ref this.components, "components", LookMode.Deep, new object[1]
 			{
 				this
 			});
@@ -166,15 +166,12 @@ namespace RimWorld.Planet
 
 		private void FillComponents()
 		{
-			this.components.RemoveAll((WorldComponent component) => component == null);
-			foreach (Type current in typeof(WorldComponent).AllSubclassesNonAbstract())
+			this.components.RemoveAll((Predicate<WorldComponent>)((WorldComponent component) => component == null));
+			foreach (Type item2 in typeof(WorldComponent).AllSubclassesNonAbstract())
 			{
-				if (this.GetComponent(current) == null)
+				if (this.GetComponent(item2) == null)
 				{
-					WorldComponent item = (WorldComponent)Activator.CreateInstance(current, new object[]
-					{
-						this
-					});
+					WorldComponent item = (WorldComponent)Activator.CreateInstance(item2, this);
 					this.components.Add(item);
 				}
 			}
@@ -229,13 +226,13 @@ namespace RimWorld.Planet
 		{
 			for (int i = 0; i < this.components.Count; i++)
 			{
-				T t = this.components[i] as T;
-				if (t != null)
+				T val = (T)(this.components[i] as T);
+				if (val != null)
 				{
-					return t;
+					return val;
 				}
 			}
-			return (T)((object)null);
+			return (T)null;
 		}
 
 		public WorldComponent GetComponent(Type type)
@@ -259,20 +256,20 @@ namespace RimWorld.Planet
 			}
 			World.tmpOceanDirs.Clear();
 			this.grid.GetTileNeighbors(tileID, World.tmpNeighbors);
-			int i = 0;
+			int num = 0;
 			int count = World.tmpNeighbors.Count;
-			while (i < count)
+			while (num < count)
 			{
-				Tile tile2 = this.grid[World.tmpNeighbors[i]];
+				Tile tile2 = this.grid[World.tmpNeighbors[num]];
 				if (tile2.biome == BiomeDefOf.Ocean)
 				{
-					Rot4 rotFromTo = this.grid.GetRotFromTo(tileID, World.tmpNeighbors[i]);
+					Rot4 rotFromTo = this.grid.GetRotFromTo(tileID, World.tmpNeighbors[num]);
 					if (!World.tmpOceanDirs.Contains(rotFromTo))
 					{
 						World.tmpOceanDirs.Add(rotFromTo);
 					}
 				}
-				i++;
+				num++;
 			}
 			if (World.tmpOceanDirs.Count == 0)
 			{
@@ -291,16 +288,16 @@ namespace RimWorld.Planet
 			Rand.Seed = tile;
 			List<ThingDef> list = (from d in DefDatabase<ThingDef>.AllDefs
 			where d.category == ThingCategory.Building && d.building.isNaturalRock && !d.building.isResourceRock
-			select d).ToList<ThingDef>();
+			select d).ToList();
 			int num = Rand.RangeInclusive(2, 3);
 			if (num > list.Count)
 			{
 				num = list.Count;
 			}
 			List<ThingDef> list2 = new List<ThingDef>();
-			for (int i = 0; i < num; i++)
+			for (int num2 = 0; num2 < num; num2++)
 			{
-				ThingDef item = list.RandomElement<ThingDef>();
+				ThingDef item = list.RandomElement();
 				list.Remove(item);
 				list2.Add(item);
 			}

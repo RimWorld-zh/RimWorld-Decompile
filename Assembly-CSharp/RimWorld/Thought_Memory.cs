@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -39,7 +38,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.age > this.def.DurationTicks;
+				return this.age > base.def.DurationTicks;
 			}
 		}
 
@@ -90,8 +89,8 @@ namespace RimWorld
 
 		public virtual bool TryMergeWithExistingMemory(out bool showBubble)
 		{
-			ThoughtHandler thoughts = this.pawn.needs.mood.thoughts;
-			if (thoughts.memories.NumMemoriesInGroup(this) >= this.def.stackLimit)
+			ThoughtHandler thoughts = base.pawn.needs.mood.thoughts;
+			if (thoughts.memories.NumMemoriesInGroup(this) >= base.def.stackLimit)
 			{
 				Thought_Memory thought_Memory = thoughts.memories.OldestMemoryInGroup(this);
 				if (thought_Memory != null)
@@ -108,7 +107,11 @@ namespace RimWorld
 		public override bool GroupsWith(Thought other)
 		{
 			Thought_Memory thought_Memory = other as Thought_Memory;
-			return thought_Memory != null && base.GroupsWith(other) && (this.otherPawn == thought_Memory.otherPawn || this.LabelCap == thought_Memory.LabelCap);
+			if (thought_Memory == null)
+			{
+				return false;
+			}
+			return base.GroupsWith(other) && (this.otherPawn == thought_Memory.otherPawn || this.LabelCap == thought_Memory.LabelCap);
 		}
 
 		public override float MoodOffset()
@@ -119,16 +122,7 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"(",
-				this.def.defName,
-				", moodPowerFactor=",
-				this.moodPowerFactor,
-				", age=",
-				this.age,
-				")"
-			});
+			return "(" + base.def.defName + ", moodPowerFactor=" + this.moodPowerFactor + ", age=" + this.age + ")";
 		}
 	}
 }

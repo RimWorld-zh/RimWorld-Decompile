@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -9,13 +8,19 @@ namespace Verse
 
 		private const float CoverSize = 0.45f;
 
-		private static readonly float CoverSizeCornerCorner;
+		private static readonly float CoverSizeCornerCorner = new Vector2(0.45f, 0.45f).magnitude;
 
-		private static readonly float DistCenterCorner;
+		private static readonly float DistCenterCorner = new Vector2(0.5f, 0.5f).magnitude;
 
-		private static readonly float CoverOffsetDist;
+		private static readonly float CoverOffsetDist = (float)(Graphic_LinkedCornerFiller.DistCenterCorner - Graphic_LinkedCornerFiller.CoverSizeCornerCorner * 0.5);
 
-		private static readonly Vector2[] CornerFillUVs;
+		private static readonly Vector2[] CornerFillUVs = new Vector2[4]
+		{
+			new Vector2(0.5f, 0.6f),
+			new Vector2(0.5f, 0.6f),
+			new Vector2(0.5f, 0.6f),
+			new Vector2(0.5f, 0.6f)
+		};
 
 		public override LinkDrawerType LinkerType
 		{
@@ -29,29 +34,11 @@ namespace Verse
 		{
 		}
 
-		static Graphic_LinkedCornerFiller()
-		{
-			// Note: this type is marked as 'beforefieldinit'.
-			Vector2 vector = new Vector2(0.45f, 0.45f);
-			Graphic_LinkedCornerFiller.CoverSizeCornerCorner = vector.magnitude;
-			Vector2 vector2 = new Vector2(0.5f, 0.5f);
-			Graphic_LinkedCornerFiller.DistCenterCorner = vector2.magnitude;
-			Graphic_LinkedCornerFiller.CoverOffsetDist = Graphic_LinkedCornerFiller.DistCenterCorner - Graphic_LinkedCornerFiller.CoverSizeCornerCorner * 0.5f;
-			Graphic_LinkedCornerFiller.CornerFillUVs = new Vector2[]
-			{
-				new Vector2(0.5f, 0.6f),
-				new Vector2(0.5f, 0.6f),
-				new Vector2(0.5f, 0.6f),
-				new Vector2(0.5f, 0.6f)
-			};
-		}
-
 		public override Graphic GetColoredVersion(Shader newShader, Color newColor, Color newColorTwo)
 		{
-			return new Graphic_LinkedCornerFiller(this.subGraphic.GetColoredVersion(newShader, newColor, newColorTwo))
-			{
-				data = this.data
-			};
+			Graphic_LinkedCornerFiller graphic_LinkedCornerFiller = new Graphic_LinkedCornerFiller(base.subGraphic.GetColoredVersion(newShader, newColor, newColorTwo));
+			graphic_LinkedCornerFiller.data = base.data;
+			return graphic_LinkedCornerFiller;
 		}
 
 		public override void Print(SectionLayer layer, Thing thing)
@@ -61,23 +48,11 @@ namespace Verse
 			for (int i = 0; i < 4; i++)
 			{
 				IntVec3 c = thing.Position + GenAdj.DiagonalDirectionsAround[i];
-				if (this.ShouldLinkWith(c, thing))
+				if (this.ShouldLinkWith(c, thing) && (i != 0 || (this.ShouldLinkWith(position + IntVec3.West, thing) && this.ShouldLinkWith(position + IntVec3.South, thing))) && (i != 1 || (this.ShouldLinkWith(position + IntVec3.West, thing) && this.ShouldLinkWith(position + IntVec3.North, thing))) && (i != 2 || (this.ShouldLinkWith(position + IntVec3.East, thing) && this.ShouldLinkWith(position + IntVec3.North, thing))) && (i != 3 || (this.ShouldLinkWith(position + IntVec3.East, thing) && this.ShouldLinkWith(position + IntVec3.South, thing))))
 				{
-					if (i != 0 || (this.ShouldLinkWith(position + IntVec3.West, thing) && this.ShouldLinkWith(position + IntVec3.South, thing)))
-					{
-						if (i != 1 || (this.ShouldLinkWith(position + IntVec3.West, thing) && this.ShouldLinkWith(position + IntVec3.North, thing)))
-						{
-							if (i != 2 || (this.ShouldLinkWith(position + IntVec3.East, thing) && this.ShouldLinkWith(position + IntVec3.North, thing)))
-							{
-								if (i != 3 || (this.ShouldLinkWith(position + IntVec3.East, thing) && this.ShouldLinkWith(position + IntVec3.South, thing)))
-								{
-									Vector3 center = thing.DrawPos + GenAdj.DiagonalDirectionsAround[i].ToVector3().normalized * Graphic_LinkedCornerFiller.CoverOffsetDist + Altitudes.AltIncVect + new Vector3(0f, 0f, 0.09f);
-									Vector2[] cornerFillUVs = Graphic_LinkedCornerFiller.CornerFillUVs;
-									Printer_Plane.PrintPlane(layer, center, new Vector2(0.45f, 0.45f), base.LinkedDrawMatFrom(thing, thing.Position), 0f, false, cornerFillUVs, null, 0.01f);
-								}
-							}
-						}
-					}
+					Vector3 center = thing.DrawPos + GenAdj.DiagonalDirectionsAround[i].ToVector3().normalized * Graphic_LinkedCornerFiller.CoverOffsetDist + Altitudes.AltIncVect + new Vector3(0f, 0f, 0.09f);
+					Vector2[] cornerFillUVs = Graphic_LinkedCornerFiller.CornerFillUVs;
+					Printer_Plane.PrintPlane(layer, center, new Vector2(0.45f, 0.45f), base.LinkedDrawMatFrom(thing, thing.Position), 0f, false, cornerFillUVs, null, 0.01f);
 				}
 			}
 		}

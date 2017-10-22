@@ -12,7 +12,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_Targetable)this.props;
+				return (CompProperties_Targetable)base.props;
 			}
 		}
 
@@ -31,10 +31,10 @@ namespace RimWorld
 		{
 			if (this.PlayerChoosesTarget)
 			{
-				Find.Targeter.BeginTargeting(this.GetTargetingParameters(), delegate(LocalTargetInfo t)
+				Find.Targeter.BeginTargeting(this.GetTargetingParameters(), (Action<LocalTargetInfo>)delegate(LocalTargetInfo t)
 				{
 					this.target = t.Thing;
-					this.parent.GetComp<CompUsable>().TryStartUseJob(p);
+					base.parent.GetComp<CompUsable>().TryStartUseJob(p);
 				}, p, null, null);
 				return true;
 			}
@@ -45,19 +45,15 @@ namespace RimWorld
 		public override void DoEffect(Pawn usedBy)
 		{
 			if (this.PlayerChoosesTarget && this.target == null)
-			{
 				return;
-			}
 			if (this.target != null && !this.GetTargetingParameters().CanTarget(this.target))
-			{
 				return;
-			}
 			base.DoEffect(usedBy);
-			foreach (Thing current in this.GetTargets(this.target))
+			foreach (Thing target2 in this.GetTargets(this.target))
 			{
-				foreach (CompTargetEffect current2 in this.parent.GetComps<CompTargetEffect>())
+				foreach (CompTargetEffect comp in base.parent.GetComps<CompTargetEffect>())
 				{
-					current2.DoEffectOn(usedBy, current);
+					comp.DoEffectOn(usedBy, target2);
 				}
 			}
 			this.target = null;
@@ -72,7 +68,7 @@ namespace RimWorld
 			if (this.Props.psychicSensitiveTargetsOnly)
 			{
 				Pawn pawn = t as Pawn;
-				if (pawn != null && pawn.GetStatValue(StatDefOf.PsychicSensitivity, true) <= 0f)
+				if (pawn != null && pawn.GetStatValue(StatDefOf.PsychicSensitivity, true) <= 0.0)
 				{
 					return false;
 				}

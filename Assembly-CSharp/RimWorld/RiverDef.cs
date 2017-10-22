@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -23,7 +22,7 @@ namespace RimWorld
 
 		public RiverDef degradeChild;
 
-		public List<RiverDef.Branch> branches;
+		public List<Branch> branches;
 
 		public float widthOnWorld = 0.5f;
 

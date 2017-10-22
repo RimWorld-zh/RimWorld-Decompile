@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -15,7 +14,7 @@ namespace Verse
 		{
 			get
 			{
-				return (HediffCompProperties_GetsOld)this.props;
+				return (HediffCompProperties_GetsOld)base.props;
 			}
 		}
 
@@ -27,14 +26,13 @@ namespace Verse
 			}
 			set
 			{
-				if (value == this.isOldInt)
+				if (value != this.isOldInt)
 				{
-					return;
-				}
-				this.isOldInt = value;
-				if (this.isOldInt)
-				{
-					this.painFactor = OldInjuryUtility.GetRandomPainFactor();
+					this.isOldInt = value;
+					if (this.isOldInt)
+					{
+						this.painFactor = OldInjuryUtility.GetRandomPainFactor();
+					}
 				}
 			}
 		}
@@ -43,7 +41,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.oldDamageThreshold < 9000f;
+				return this.oldDamageThreshold < 9000.0;
 			}
 		}
 
@@ -56,23 +54,19 @@ namespace Verse
 
 		public override void CompPostInjuryHeal(float amount)
 		{
-			if (!this.Active || this.IsOld)
-			{
-				return;
-			}
-			if (this.parent.Severity <= this.oldDamageThreshold && this.parent.Severity >= this.oldDamageThreshold - amount)
+			if (this.Active && !this.IsOld && base.parent.Severity <= this.oldDamageThreshold && base.parent.Severity >= this.oldDamageThreshold - amount)
 			{
 				float num = 0.2f;
-				HediffComp_TendDuration hediffComp_TendDuration = this.parent.TryGetComp<HediffComp_TendDuration>();
+				HediffComp_TendDuration hediffComp_TendDuration = base.parent.TryGetComp<HediffComp_TendDuration>();
 				if (hediffComp_TendDuration != null)
 				{
-					num *= Mathf.Clamp01(1f - hediffComp_TendDuration.tendQuality);
+					num *= Mathf.Clamp01((float)(1.0 - hediffComp_TendDuration.tendQuality));
 				}
 				if (Rand.Value < num)
 				{
-					this.parent.Severity = this.oldDamageThreshold;
+					base.parent.Severity = this.oldDamageThreshold;
 					this.IsOld = true;
-					base.Pawn.health.Notify_HediffChanged(this.parent);
+					base.Pawn.health.Notify_HediffChanged(base.parent);
 				}
 				else
 				{
@@ -83,15 +77,7 @@ namespace Verse
 
 		public override string CompDebugString()
 		{
-			return string.Concat(new object[]
-			{
-				"isOld: ",
-				this.isOldInt,
-				"\noldDamageThreshold: ",
-				this.oldDamageThreshold,
-				"\npainFactor: ",
-				this.painFactor
-			});
+			return "isOld: " + this.isOldInt + "\noldDamageThreshold: " + this.oldDamageThreshold + "\npainFactor: " + this.painFactor;
 		}
 	}
 }

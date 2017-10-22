@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -34,29 +33,34 @@ namespace RimWorld
 		public override void UpdateAllDuties()
 		{
 			LordToilData_DefendPoint data = base.Data;
-			Pawn pawn = TraderCaravanUtility.FindTrader(this.lord);
+			Pawn pawn = TraderCaravanUtility.FindTrader(base.lord);
 			if (pawn != null)
 			{
 				pawn.mindState.duty = new PawnDuty(DutyDefOf.Defend, data.defendPoint, data.defendRadius);
-				for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+				for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 				{
-					Pawn pawn2 = this.lord.ownedPawns[i];
+					Pawn pawn2 = base.lord.ownedPawns[i];
 					switch (pawn2.GetTraderCaravanRole())
 					{
 					case TraderCaravanRole.Carrier:
-						pawn2.mindState.duty = new PawnDuty(DutyDefOf.Follow, pawn, 5f);
-						pawn2.mindState.duty.locomotion = LocomotionUrgency.Walk;
-						break;
-					case TraderCaravanRole.Guard:
-						pawn2.mindState.duty = new PawnDuty(DutyDefOf.Defend, data.defendPoint, data.defendRadius);
-						break;
-					case TraderCaravanRole.Chattel:
-						pawn2.mindState.duty = new PawnDuty(DutyDefOf.Escort, pawn, 5f);
+					{
+						pawn2.mindState.duty = new PawnDuty(DutyDefOf.Follow, (Thing)pawn, 5f);
 						pawn2.mindState.duty.locomotion = LocomotionUrgency.Walk;
 						break;
 					}
+					case TraderCaravanRole.Chattel:
+					{
+						pawn2.mindState.duty = new PawnDuty(DutyDefOf.Escort, (Thing)pawn, 5f);
+						pawn2.mindState.duty.locomotion = LocomotionUrgency.Walk;
+						break;
+					}
+					case TraderCaravanRole.Guard:
+					{
+						pawn2.mindState.duty = new PawnDuty(DutyDefOf.Defend, data.defendPoint, data.defendRadius);
+						break;
+					}
+					}
 				}
-				return;
 			}
 		}
 	}

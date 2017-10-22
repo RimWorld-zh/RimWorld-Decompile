@@ -123,7 +123,11 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			return obj is TargetInfo && this.Equals((TargetInfo)obj);
+			if (!(obj is TargetInfo))
+			{
+				return false;
+			}
+			return this.Equals((TargetInfo)obj);
 		}
 
 		public bool Equals(TargetInfo other)
@@ -137,7 +141,7 @@ namespace Verse
 			{
 				return this.thingInt.GetHashCode();
 			}
-			return Gen.HashCombine<Map>(this.cellInt.GetHashCode(), this.mapInt);
+			return Gen.HashCombine(this.cellInt.GetHashCode(), this.mapInt);
 		}
 
 		public override string ToString()
@@ -187,11 +191,15 @@ namespace Verse
 
 		public static bool operator ==(TargetInfo a, TargetInfo b)
 		{
-			if (a.Thing != null || b.Thing != null)
+			if (a.Thing == null && b.Thing == null)
 			{
-				return a.Thing == b.Thing;
+				if (!a.cellInt.IsValid && !b.cellInt.IsValid)
+				{
+					return true;
+				}
+				return a.cellInt == b.cellInt && a.mapInt == b.mapInt;
 			}
-			return (!a.cellInt.IsValid && !b.cellInt.IsValid) || (a.cellInt == b.cellInt && a.mapInt == b.mapInt);
+			return a.Thing == b.Thing;
 		}
 
 		public static bool operator !=(TargetInfo a, TargetInfo b)

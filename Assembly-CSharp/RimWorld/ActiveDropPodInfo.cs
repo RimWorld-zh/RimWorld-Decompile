@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -85,14 +84,16 @@ namespace RimWorld
 			{
 				Scribe_Collections.Look<Pawn>(ref this.tmpSavedPawns, "tmpSavedPawns", LookMode.Reference, new object[0]);
 			}
-			Scribe_Deep.Look<ThingOwner>(ref this.innerContainer, "innerContainer", new object[]
+			Scribe_Deep.Look<ThingOwner>(ref this.innerContainer, "innerContainer", new object[1]
 			{
 				this
 			});
 			Scribe_Values.Look<int>(ref this.openDelay, "openDelay", 110, false);
 			Scribe_Values.Look<bool>(ref this.leaveSlag, "leaveSlag", false, false);
-			if (this.savePawnsWithReferenceMode && (Scribe.mode == LoadSaveMode.PostLoadInit || Scribe.mode == LoadSaveMode.Saving))
+			if (this.savePawnsWithReferenceMode)
 			{
+				if (Scribe.mode != LoadSaveMode.PostLoadInit && Scribe.mode != LoadSaveMode.Saving)
+					return;
 				for (int j = 0; j < this.tmpSavedPawns.Count; j++)
 				{
 					this.innerContainer.TryAdd(this.tmpSavedPawns[j], true);

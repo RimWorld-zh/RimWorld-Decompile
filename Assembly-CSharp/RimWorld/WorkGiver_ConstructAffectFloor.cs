@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -21,16 +19,15 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
 		{
-			WorkGiver_ConstructAffectFloor.<PotentialWorkCellsGlobal>c__Iterator5D <PotentialWorkCellsGlobal>c__Iterator5D = new WorkGiver_ConstructAffectFloor.<PotentialWorkCellsGlobal>c__Iterator5D();
-			<PotentialWorkCellsGlobal>c__Iterator5D.pawn = pawn;
-			<PotentialWorkCellsGlobal>c__Iterator5D.<$>pawn = pawn;
-			<PotentialWorkCellsGlobal>c__Iterator5D.<>f__this = this;
-			WorkGiver_ConstructAffectFloor.<PotentialWorkCellsGlobal>c__Iterator5D expr_1C = <PotentialWorkCellsGlobal>c__Iterator5D;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (pawn.Faction == Faction.OfPlayer)
+			{
+				foreach (Designation item in pawn.Map.designationManager.SpawnedDesignationsOfDef(this.DesDef))
+				{
+					yield return item.target.Cell;
+				}
+			}
 		}
 
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c)
@@ -38,11 +35,12 @@ namespace RimWorld
 			if (pawn.Map.designationManager.DesignationAt(c, this.DesDef) != null)
 			{
 				ReservationLayerDef floor = ReservationLayerDefOf.Floor;
-				if (pawn.CanReserveAndReach(c, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, floor, false))
-				{
-					return true;
-				}
+				if (!pawn.CanReserveAndReach(c, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, floor, false))
+					goto IL_003e;
+				return true;
 			}
+			goto IL_003e;
+			IL_003e:
 			return false;
 		}
 	}

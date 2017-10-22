@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse.AI
 {
@@ -16,10 +15,9 @@ namespace Verse.AI
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			return new Job(JobDefOf.Wait)
-			{
-				expiryInterval = this.ticks
-			};
+			Job job = new Job(JobDefOf.Wait);
+			job.expiryInterval = this.ticks;
+			return job;
 		}
 	}
 }

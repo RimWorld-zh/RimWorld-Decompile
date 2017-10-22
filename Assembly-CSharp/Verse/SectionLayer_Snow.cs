@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,9 +7,9 @@ namespace Verse
 	{
 		private float[] vertDepth = new float[9];
 
-		private static readonly Color32 ColorClear = new Color32(255, 255, 255, 0);
+		private static readonly Color32 ColorClear = new Color32((byte)255, (byte)255, (byte)255, (byte)0);
 
-		private static readonly Color32 ColorWhite = new Color32(255, 255, 255, 255);
+		private static readonly Color32 ColorWhite = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
 
 		public override bool Visible
 		{
@@ -22,7 +21,7 @@ namespace Verse
 
 		public SectionLayer_Snow(Section section) : base(section)
 		{
-			this.relevantChangeTypes = MapMeshFlag.Snow;
+			base.relevantChangeTypes = MapMeshFlag.Snow;
 		}
 
 		private bool Filled(int index)
@@ -36,12 +35,14 @@ namespace Verse
 			LayerSubMesh subMesh = base.GetSubMesh(MatBases.Snow);
 			if (subMesh.mesh.vertexCount == 0)
 			{
-				SectionLayerGeometryMaker_Solid.MakeBaseGeometry(this.section, subMesh, AltitudeLayer.Terrain);
+				SectionLayerGeometryMaker_Solid.MakeBaseGeometry(base.section, subMesh, AltitudeLayer.Terrain);
 			}
 			float[] depthGridDirect_Unsafe = base.Map.snowGrid.DepthGridDirect_Unsafe;
-			CellRect cellRect = this.section.CellRect;
-			int num = base.Map.Size.z - 1;
-			int num2 = base.Map.Size.x - 1;
+			CellRect cellRect = base.section.CellRect;
+			IntVec3 size = base.Map.Size;
+			int num = size.z - 1;
+			IntVec3 size2 = base.Map.Size;
+			int num2 = size2.x - 1;
 			subMesh.colors = new List<Color32>(subMesh.mesh.vertexCount);
 			bool flag = false;
 			CellIndices cellIndices = base.Map.cellIndices;
@@ -66,18 +67,18 @@ namespace Verse
 					float num11 = (i >= num2) ? num3 : depthGridDirect_Unsafe[num4];
 					num4 = cellIndices.CellToIndex(i + 1, j - 1);
 					float num12 = (j <= 0 || i >= num2) ? num3 : depthGridDirect_Unsafe[num4];
-					this.vertDepth[0] = (num5 + num6 + num7 + num3) / 4f;
-					this.vertDepth[1] = (num7 + num3) / 2f;
-					this.vertDepth[2] = (num7 + num8 + num9 + num3) / 4f;
-					this.vertDepth[3] = (num9 + num3) / 2f;
-					this.vertDepth[4] = (num9 + num10 + num11 + num3) / 4f;
-					this.vertDepth[5] = (num11 + num3) / 2f;
-					this.vertDepth[6] = (num11 + num12 + num5 + num3) / 4f;
-					this.vertDepth[7] = (num5 + num3) / 2f;
+					this.vertDepth[0] = (float)((num5 + num6 + num7 + num3) / 4.0);
+					this.vertDepth[1] = (float)((num7 + num3) / 2.0);
+					this.vertDepth[2] = (float)((num7 + num8 + num9 + num3) / 4.0);
+					this.vertDepth[3] = (float)((num9 + num3) / 2.0);
+					this.vertDepth[4] = (float)((num9 + num10 + num11 + num3) / 4.0);
+					this.vertDepth[5] = (float)((num11 + num3) / 2.0);
+					this.vertDepth[6] = (float)((num11 + num12 + num5 + num3) / 4.0);
+					this.vertDepth[7] = (float)((num5 + num3) / 2.0);
 					this.vertDepth[8] = num3;
 					for (int k = 0; k < 9; k++)
 					{
-						if (this.vertDepth[k] > 0.01f)
+						if (this.vertDepth[k] > 0.0099999997764825821)
 						{
 							flag = true;
 						}

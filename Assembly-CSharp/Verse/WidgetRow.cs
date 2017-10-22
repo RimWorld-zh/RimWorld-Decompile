@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 using Verse.Sound;
 
@@ -62,11 +61,11 @@ namespace Verse
 
 		private float LeftX(float elementWidth)
 		{
-			if (this.growDirection == UIDirection.RightThenUp || this.growDirection == UIDirection.RightThenDown)
+			if (this.growDirection != UIDirection.RightThenUp && this.growDirection != UIDirection.RightThenDown)
 			{
-				return this.curX;
+				return this.curX - elementWidth;
 			}
-			return this.curX - elementWidth;
+			return this.curX;
 		}
 
 		private void IncrementPosition(float amount)
@@ -89,11 +88,11 @@ namespace Verse
 		{
 			if (this.growDirection == UIDirection.RightThenUp || this.growDirection == UIDirection.LeftThenUp)
 			{
-				this.curY -= 24f + this.gap;
+				this.curY -= (float)(24.0 + this.gap);
 			}
 			else
 			{
-				this.curY += 24f + this.gap;
+				this.curY += (float)(24.0 + this.gap);
 			}
 			this.curX = this.startX;
 		}
@@ -119,7 +118,7 @@ namespace Verse
 			this.IncrementYIfWillExceedMaxWidth(24f);
 			Rect rect = new Rect(this.LeftX(24f), this.curY, 24f, 24f);
 			bool result = Widgets.ButtonImage(rect, tex);
-			this.IncrementPosition(24f + this.gap);
+			this.IncrementPosition((float)(24.0 + this.gap));
 			if (!tooltip.NullOrEmpty())
 			{
 				TooltipHandler.TipRegion(rect, tooltip);
@@ -131,7 +130,7 @@ namespace Verse
 		{
 			if (this.curY != this.startX)
 			{
-				this.IncrementPosition(24f + this.gap);
+				this.IncrementPosition((float)(24.0 + this.gap));
 			}
 		}
 
@@ -140,12 +139,12 @@ namespace Verse
 			this.IncrementYIfWillExceedMaxWidth(24f);
 			Rect rect = new Rect(this.LeftX(24f), this.curY, 24f, 24f);
 			bool flag = Widgets.ButtonImage(rect, tex);
-			this.IncrementPosition(24f + this.gap);
+			this.IncrementPosition((float)(24.0 + this.gap));
 			if (!tooltip.NullOrEmpty())
 			{
 				TooltipHandler.TipRegion(rect, tooltip);
 			}
-			Rect position = new Rect(rect.x + rect.width / 2f, rect.y, rect.height / 2f, rect.height / 2f);
+			Rect position = new Rect((float)(rect.x + rect.width / 2.0), rect.y, (float)(rect.height / 2.0), (float)(rect.height / 2.0));
 			Texture2D image = (!toggleable) ? Widgets.CheckboxOffTex : Widgets.CheckboxOnTex;
 			GUI.DrawTexture(position, image);
 			if (mouseoverSound != null)
@@ -179,7 +178,7 @@ namespace Verse
 			{
 				TooltipHandler.TipRegion(rect, tooltip);
 			}
-			this.IncrementPosition(24f + this.gap);
+			this.IncrementPosition((float)(24.0 + this.gap));
 			return rect;
 		}
 
@@ -199,11 +198,12 @@ namespace Verse
 			return result;
 		}
 
-		public Rect Label(string text, float width = -1f)
+		public Rect Label(string text, float width = -1)
 		{
-			if (width < 0f)
+			if (width < 0.0)
 			{
-				width = Text.CalcSize(text).x;
+				Vector2 vector = Text.CalcSize(text);
+				width = vector.x;
 			}
 			this.IncrementYIfWillExceedMaxWidth(width);
 			Rect rect = new Rect(this.LeftX(width), this.curY, width, 24f);

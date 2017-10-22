@@ -34,52 +34,61 @@ namespace Verse
 		public static void DrawGizmoGrid(IEnumerable<Gizmo> gizmos, float startX, out Gizmo mouseoverGizmo)
 		{
 			GizmoGridDrawer.gizmoGroups.Clear();
-			foreach (Gizmo current in gizmos)
+			foreach (Gizmo item in gizmos)
 			{
 				bool flag = false;
-				for (int i = 0; i < GizmoGridDrawer.gizmoGroups.Count; i++)
+				int num = 0;
+				while (num < GizmoGridDrawer.gizmoGroups.Count)
 				{
-					if (GizmoGridDrawer.gizmoGroups[i][0].GroupsWith(current))
+					if (!GizmoGridDrawer.gizmoGroups[num][0].GroupsWith(item))
 					{
-						flag = true;
-						GizmoGridDrawer.gizmoGroups[i].Add(current);
-						break;
+						num++;
+						continue;
 					}
+					flag = true;
+					GizmoGridDrawer.gizmoGroups[num].Add(item);
+					break;
 				}
 				if (!flag)
 				{
 					List<Gizmo> list = new List<Gizmo>();
-					list.Add(current);
+					list.Add(item);
 					GizmoGridDrawer.gizmoGroups.Add(list);
 				}
 			}
 			GizmoGridDrawer.firstGizmos.Clear();
-			for (int j = 0; j < GizmoGridDrawer.gizmoGroups.Count; j++)
+			for (int i = 0; i < GizmoGridDrawer.gizmoGroups.Count; i++)
 			{
-				List<Gizmo> source = GizmoGridDrawer.gizmoGroups[j];
-				Gizmo gizmo = source.FirstOrDefault((Gizmo opt) => !opt.disabled);
+				List<Gizmo> source = GizmoGridDrawer.gizmoGroups[i];
+				Gizmo gizmo = source.FirstOrDefault((Func<Gizmo, bool>)((Gizmo opt) => !opt.disabled));
 				if (gizmo == null)
 				{
-					gizmo = source.FirstOrDefault<Gizmo>();
+					gizmo = source.FirstOrDefault();
 				}
 				GizmoGridDrawer.firstGizmos.Add(gizmo);
 			}
 			GizmoGridDrawer.drawnHotKeys.Clear();
-			float num = (float)(UI.screenWidth - 140);
+			float num2 = (float)(UI.screenWidth - 140);
 			Text.Font = GameFont.Tiny;
-			Vector2 topLeft = new Vector2(startX, (float)(UI.screenHeight - 35) - GizmoGridDrawer.GizmoSpacing.y - 75f);
+			float num3 = (float)(UI.screenHeight - 35);
+			Vector2 gizmoSpacing = GizmoGridDrawer.GizmoSpacing;
+			Vector2 topLeft = new Vector2(startX, (float)(num3 - gizmoSpacing.y - 75.0));
 			mouseoverGizmo = null;
 			Gizmo interactedGiz = null;
 			Event ev = null;
-			for (int k = 0; k < GizmoGridDrawer.firstGizmos.Count; k++)
+			for (int j = 0; j < GizmoGridDrawer.firstGizmos.Count; j++)
 			{
-				Gizmo gizmo2 = GizmoGridDrawer.firstGizmos[k];
+				Gizmo gizmo2 = GizmoGridDrawer.firstGizmos[j];
 				if (gizmo2.Visible)
 				{
-					if (topLeft.x + gizmo2.Width + GizmoGridDrawer.GizmoSpacing.x > num)
+					float num4 = topLeft.x + gizmo2.Width;
+					Vector2 gizmoSpacing2 = GizmoGridDrawer.GizmoSpacing;
+					if (num4 + gizmoSpacing2.x > num2)
 					{
 						topLeft.x = startX;
-						topLeft.y -= 75f + GizmoGridDrawer.GizmoSpacing.x;
+						float y = topLeft.y;
+						Vector2 gizmoSpacing3 = GizmoGridDrawer.GizmoSpacing;
+						topLeft.y = (float)(y - (75.0 + gizmoSpacing3.x));
 					}
 					GizmoGridDrawer.heightDrawnFrame = Time.frameCount;
 					GizmoGridDrawer.heightDrawn = (float)UI.screenHeight - topLeft.y;
@@ -89,22 +98,29 @@ namespace Verse
 						ev = gizmoResult.InteractEvent;
 						interactedGiz = gizmo2;
 					}
-					if (gizmoResult.State >= GizmoState.Mouseover)
+					if ((int)gizmoResult.State >= 1)
 					{
 						mouseoverGizmo = gizmo2;
 					}
-					Rect rect = new Rect(topLeft.x, topLeft.y, gizmo2.Width, 75f + GizmoGridDrawer.GizmoSpacing.y);
+					float x = topLeft.x;
+					float y2 = topLeft.y;
+					float width = gizmo2.Width;
+					Vector2 gizmoSpacing4 = GizmoGridDrawer.GizmoSpacing;
+					Rect rect = new Rect(x, y2, width, (float)(75.0 + gizmoSpacing4.y));
 					rect = rect.ContractedBy(-12f);
 					GenUI.AbsorbClicksInRect(rect);
-					topLeft.x += gizmo2.Width + GizmoGridDrawer.GizmoSpacing.x;
+					float x2 = topLeft.x;
+					float width2 = gizmo2.Width;
+					Vector2 gizmoSpacing5 = GizmoGridDrawer.GizmoSpacing;
+					topLeft.x = x2 + (width2 + gizmoSpacing5.x);
 				}
 			}
 			if (interactedGiz != null)
 			{
-				List<Gizmo> list2 = GizmoGridDrawer.gizmoGroups.First((List<Gizmo> group) => group.Contains(interactedGiz));
-				for (int l = 0; l < list2.Count; l++)
+				List<Gizmo> list2 = GizmoGridDrawer.gizmoGroups.First((Func<List<Gizmo>, bool>)((List<Gizmo> group) => group.Contains(interactedGiz)));
+				for (int k = 0; k < list2.Count; k++)
 				{
-					Gizmo gizmo3 = list2[l];
+					Gizmo gizmo3 = list2[k];
 					if (gizmo3 != interactedGiz && !gizmo3.disabled && interactedGiz.InheritInteractionsFrom(gizmo3))
 					{
 						gizmo3.ProcessInput(ev);

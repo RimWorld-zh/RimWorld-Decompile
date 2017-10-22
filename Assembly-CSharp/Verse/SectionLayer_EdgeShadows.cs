@@ -9,9 +9,9 @@ namespace Verse
 
 		private const byte ShadowBrightness = 195;
 
-		private static readonly Color32 Shadowed = new Color32(195, 195, 195, 255);
+		private static readonly Color32 Shadowed = new Color32((byte)195, (byte)195, (byte)195, (byte)255);
 
-		private static readonly Color32 Lit = new Color32(255, 255, 255, 255);
+		private static readonly Color32 Lit = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
 
 		public override bool Visible
 		{
@@ -23,14 +23,14 @@ namespace Verse
 
 		public SectionLayer_EdgeShadows(Section section) : base(section)
 		{
-			this.relevantChangeTypes = MapMeshFlag.Buildings;
+			base.relevantChangeTypes = MapMeshFlag.Buildings;
 		}
 
 		public override void Regenerate()
 		{
 			Building[] innerArray = base.Map.edificeGrid.InnerArray;
 			float y = Altitudes.AltitudeFor(AltitudeLayer.Shadows);
-			CellRect cellRect = new CellRect(this.section.botLeft.x, this.section.botLeft.z, 17, 17);
+			CellRect cellRect = new CellRect(base.section.botLeft.x, base.section.botLeft.z, 17, 17);
 			cellRect.ClipInsideMap(base.Map);
 			LayerSubMesh sm = base.GetSubMesh(MatBases.EdgeShadow);
 			sm.Clear(MeshParts.All);
@@ -40,6 +40,8 @@ namespace Verse
 			bool[] array = new bool[4];
 			bool[] array2 = new bool[4];
 			bool[] array3 = new bool[4];
+			float num = 0f;
+			float num2 = 0f;
 			CellIndices cellIndices = base.Map.cellIndices;
 			for (int i = cellRect.minX; i <= cellRect.maxX; i++)
 			{
@@ -111,7 +113,7 @@ namespace Verse
 								}
 							}
 						}
-						Action<int> action = delegate(int idx)
+						Action<int> action = (Action<int>)delegate(int idx)
 						{
 							sm.tris.Add(sm.verts.Count - 2);
 							sm.tris.Add(idx);
@@ -120,7 +122,7 @@ namespace Verse
 							sm.tris.Add(idx);
 							sm.tris.Add(idx + 1);
 						};
-						Action action2 = delegate
+						Action action2 = (Action)delegate
 						{
 							sm.colors.Add(SectionLayer_EdgeShadows.Shadowed);
 							sm.colors.Add(SectionLayer_EdgeShadows.Lit);
@@ -134,19 +136,18 @@ namespace Verse
 						{
 							if (array2[0] || array2[1])
 							{
-								float num2;
-								float num = num2 = 0f;
+								num = (num2 = 0f);
 								if (array2[0])
-								{
-									num = 0.45f;
-								}
-								if (array2[1])
 								{
 									num2 = 0.45f;
 								}
+								if (array2[1])
+								{
+									num = 0.45f;
+								}
 								sm.verts.Add(new Vector3((float)i, y, (float)j));
 								sm.colors.Add(SectionLayer_EdgeShadows.Shadowed);
-								sm.verts.Add(new Vector3((float)i + num2, y, (float)j + num));
+								sm.verts.Add(new Vector3((float)i + num, y, (float)j + num2));
 								sm.colors.Add(SectionLayer_EdgeShadows.Lit);
 								if (array[1] && !array3[1])
 								{
@@ -156,8 +157,8 @@ namespace Verse
 							else
 							{
 								sm.verts.Add(new Vector3((float)i, y, (float)j));
-								sm.verts.Add(new Vector3((float)i, y, (float)j + 0.45f));
-								sm.verts.Add(new Vector3((float)i + 0.45f, y, (float)j));
+								sm.verts.Add(new Vector3((float)i, y, (float)((float)j + 0.44999998807907104)));
+								sm.verts.Add(new Vector3((float)((float)i + 0.44999998807907104), y, (float)j));
 								action2();
 							}
 						}
@@ -165,19 +166,18 @@ namespace Verse
 						{
 							if (array2[1] || array2[2])
 							{
-								float num2;
-								float num = num2 = 0f;
+								num = (num2 = 0f);
 								if (array2[1])
 								{
-									num2 = 0.45f;
+									num = 0.45f;
 								}
 								if (array2[2])
 								{
-									num = -0.45f;
+									num2 = -0.45f;
 								}
 								sm.verts.Add(new Vector3((float)i, y, (float)(j + 1)));
 								sm.colors.Add(SectionLayer_EdgeShadows.Shadowed);
-								sm.verts.Add(new Vector3((float)i + num2, y, (float)(j + 1) + num));
+								sm.verts.Add(new Vector3((float)i + num, y, (float)(j + 1) + num2));
 								sm.colors.Add(SectionLayer_EdgeShadows.Lit);
 								if (array[2] && !array3[2])
 								{
@@ -187,8 +187,8 @@ namespace Verse
 							else
 							{
 								sm.verts.Add(new Vector3((float)i, y, (float)(j + 1)));
-								sm.verts.Add(new Vector3((float)i + 0.45f, y, (float)(j + 1)));
-								sm.verts.Add(new Vector3((float)i, y, (float)(j + 1) - 0.45f));
+								sm.verts.Add(new Vector3((float)((float)i + 0.44999998807907104), y, (float)(j + 1)));
+								sm.verts.Add(new Vector3((float)i, y, (float)((float)(j + 1) - 0.44999998807907104)));
 								action2();
 							}
 						}
@@ -196,19 +196,18 @@ namespace Verse
 						{
 							if (array2[2] || array2[3])
 							{
-								float num2;
-								float num = num2 = 0f;
+								num = (num2 = 0f);
 								if (array2[2])
-								{
-									num = -0.45f;
-								}
-								if (array2[3])
 								{
 									num2 = -0.45f;
 								}
+								if (array2[3])
+								{
+									num = -0.45f;
+								}
 								sm.verts.Add(new Vector3((float)(i + 1), y, (float)(j + 1)));
 								sm.colors.Add(SectionLayer_EdgeShadows.Shadowed);
-								sm.verts.Add(new Vector3((float)(i + 1) + num2, y, (float)(j + 1) + num));
+								sm.verts.Add(new Vector3((float)(i + 1) + num, y, (float)(j + 1) + num2));
 								sm.colors.Add(SectionLayer_EdgeShadows.Lit);
 								if (array[3] && !array3[3])
 								{
@@ -218,8 +217,8 @@ namespace Verse
 							else
 							{
 								sm.verts.Add(new Vector3((float)(i + 1), y, (float)(j + 1)));
-								sm.verts.Add(new Vector3((float)(i + 1), y, (float)(j + 1) - 0.45f));
-								sm.verts.Add(new Vector3((float)(i + 1) - 0.45f, y, (float)(j + 1)));
+								sm.verts.Add(new Vector3((float)(i + 1), y, (float)((float)(j + 1) - 0.44999998807907104)));
+								sm.verts.Add(new Vector3((float)((float)(i + 1) - 0.44999998807907104), y, (float)(j + 1)));
 								action2();
 							}
 						}
@@ -227,19 +226,18 @@ namespace Verse
 						{
 							if (array2[3] || array2[0])
 							{
-								float num2;
-								float num = num2 = 0f;
+								num = (num2 = 0f);
 								if (array2[3])
 								{
-									num2 = -0.45f;
+									num = -0.45f;
 								}
 								if (array2[0])
 								{
-									num = 0.45f;
+									num2 = 0.45f;
 								}
 								sm.verts.Add(new Vector3((float)(i + 1), y, (float)j));
 								sm.colors.Add(SectionLayer_EdgeShadows.Shadowed);
-								sm.verts.Add(new Vector3((float)(i + 1) + num2, y, (float)j + num));
+								sm.verts.Add(new Vector3((float)(i + 1) + num, y, (float)j + num2));
 								sm.colors.Add(SectionLayer_EdgeShadows.Lit);
 								if (array[0] && !array3[0])
 								{
@@ -249,8 +247,8 @@ namespace Verse
 							else
 							{
 								sm.verts.Add(new Vector3((float)(i + 1), y, (float)j));
-								sm.verts.Add(new Vector3((float)(i + 1) - 0.45f, y, (float)j));
-								sm.verts.Add(new Vector3((float)(i + 1), y, (float)j + 0.45f));
+								sm.verts.Add(new Vector3((float)((float)(i + 1) - 0.44999998807907104), y, (float)j));
+								sm.verts.Add(new Vector3((float)(i + 1), y, (float)((float)j + 0.44999998807907104)));
 								action2();
 							}
 						}

@@ -1,10 +1,8 @@
-using System;
-
 namespace Verse.Sound
 {
 	public enum PitchParamType : byte
 	{
-		Multiply,
-		Semitones
+		Multiply = 0,
+		Semitones = 1
 	}
 }

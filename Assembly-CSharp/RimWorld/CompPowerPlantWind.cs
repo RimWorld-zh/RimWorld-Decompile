@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -53,14 +52,14 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.PowerOutput / (-base.Props.basePowerConsumption * 1.5f);
+				return (float)(base.PowerOutput / ((0.0 - base.Props.basePowerConsumption) * 1.5));
 			}
 		}
 
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
-			CompPowerPlantWind.BarSize = new Vector2((float)this.parent.def.size.z - 0.95f, 0.14f);
+			CompPowerPlantWind.BarSize = new Vector2((float)((float)base.parent.def.size.z - 0.949999988079071), 0.14f);
 			this.RecalculateBlockages();
 			this.spinPosition = Rand.Range(0f, 15f);
 		}
@@ -78,67 +77,69 @@ namespace RimWorld
 			if (!base.PowerOn)
 			{
 				this.cachedPowerOutput = 0f;
-				return;
 			}
-			this.ticksSinceWeatherUpdate++;
-			if (this.ticksSinceWeatherUpdate >= this.updateWeatherEveryXTicks)
+			else
 			{
-				float num = Mathf.Min(this.parent.Map.windManager.WindSpeed, 1.5f);
-				this.ticksSinceWeatherUpdate = 0;
-				this.cachedPowerOutput = -(base.Props.basePowerConsumption * num);
-				this.RecalculateBlockages();
-				if (this.windPathBlockedCells.Count > 0)
+				this.ticksSinceWeatherUpdate++;
+				if (this.ticksSinceWeatherUpdate >= this.updateWeatherEveryXTicks)
 				{
-					float num2 = 0f;
-					for (int i = 0; i < this.windPathBlockedCells.Count; i++)
+					float num = Mathf.Min(base.parent.Map.windManager.WindSpeed, 1.5f);
+					this.ticksSinceWeatherUpdate = 0;
+					this.cachedPowerOutput = (float)(0.0 - base.Props.basePowerConsumption * num);
+					this.RecalculateBlockages();
+					if (this.windPathBlockedCells.Count > 0)
 					{
-						num2 += this.cachedPowerOutput * 0.2f;
-					}
-					this.cachedPowerOutput -= num2;
-					if (this.cachedPowerOutput < 0f)
-					{
-						this.cachedPowerOutput = 0f;
+						float num2 = 0f;
+						for (int i = 0; i < this.windPathBlockedCells.Count; i++)
+						{
+							num2 = (float)(num2 + this.cachedPowerOutput * 0.20000000298023224);
+						}
+						this.cachedPowerOutput -= num2;
+						if (this.cachedPowerOutput < 0.0)
+						{
+							this.cachedPowerOutput = 0f;
+						}
 					}
 				}
-			}
-			if (this.cachedPowerOutput > 0.01f)
-			{
-				this.spinPosition += this.PowerPercent * 0.05f;
+				if (this.cachedPowerOutput > 0.0099999997764825821)
+				{
+					this.spinPosition += (float)(this.PowerPercent * 0.05000000074505806);
+				}
 			}
 		}
 
 		public override void PostDraw()
 		{
 			base.PostDraw();
-			GenDraw.FillableBarRequest r = new GenDraw.FillableBarRequest
-			{
-				center = this.parent.DrawPos + Vector3.up * 0.1f,
-				size = CompPowerPlantWind.BarSize,
-				fillPercent = this.PowerPercent,
-				filledMat = CompPowerPlantWind.WindTurbineBarFilledMat,
-				unfilledMat = CompPowerPlantWind.WindTurbineBarUnfilledMat,
-				margin = 0.15f
-			};
-			Rot4 rotation = this.parent.Rotation;
+			GenDraw.FillableBarRequest fillableBarRequest = default(GenDraw.FillableBarRequest);
+			GenDraw.FillableBarRequest fillableBarRequest2 = fillableBarRequest;
+			fillableBarRequest2.center = base.parent.DrawPos + Vector3.up * 0.1f;
+			fillableBarRequest2.size = CompPowerPlantWind.BarSize;
+			fillableBarRequest2.fillPercent = this.PowerPercent;
+			fillableBarRequest2.filledMat = CompPowerPlantWind.WindTurbineBarFilledMat;
+			fillableBarRequest2.unfilledMat = CompPowerPlantWind.WindTurbineBarUnfilledMat;
+			fillableBarRequest2.margin = 0.15f;
+			fillableBarRequest = fillableBarRequest2;
+			Rot4 rotation = base.parent.Rotation;
 			rotation.Rotate(RotationDirection.Clockwise);
-			r.rotation = rotation;
-			GenDraw.DrawFillableBar(r);
-			Vector3 vector = this.parent.TrueCenter();
-			vector += this.parent.Rotation.FacingCell.ToVector3() * 0.7f;
+			fillableBarRequest.rotation = rotation;
+			GenDraw.DrawFillableBar(fillableBarRequest);
+			Vector3 vector = base.parent.TrueCenter();
+			vector += base.parent.Rotation.FacingCell.ToVector3() * 0.7f;
 			vector.y += 0.046875f;
-			float num = 4f * Mathf.Sin(this.spinPosition);
-			if (num < 0f)
+			float num = (float)(4.0 * Mathf.Sin(this.spinPosition));
+			if (num < 0.0)
 			{
-				num *= -1f;
+				num = (float)(num * -1.0);
 			}
-			bool flag = this.spinPosition % 3.14159274f * 2f < 3.14159274f;
+			bool flag = this.spinPosition % 3.1415927410125732 * 2.0 < 3.1415927410125732;
 			Vector2 vector2 = new Vector2(num, 1f);
 			Vector3 s = new Vector3(vector2.x, 1f, vector2.y);
 			Matrix4x4 matrix = default(Matrix4x4);
-			matrix.SetTRS(vector, this.parent.Rotation.AsQuat, s);
+			matrix.SetTRS(vector, base.parent.Rotation.AsQuat, s);
 			Graphics.DrawMesh((!flag) ? MeshPool.plane10Flip : MeshPool.plane10, matrix, CompPowerPlantWind.WindTurbineBladesMat, 0);
 			vector.y -= 0.09375f;
-			matrix.SetTRS(vector, this.parent.Rotation.AsQuat, s);
+			matrix.SetTRS(vector, base.parent.Rotation.AsQuat, s);
 			Graphics.DrawMesh((!flag) ? MeshPool.plane10 : MeshPool.plane10Flip, matrix, CompPowerPlantWind.WindTurbineBladesMat, 0);
 		}
 
@@ -170,7 +171,7 @@ namespace RimWorld
 		{
 			if (this.windPathCells.Count == 0)
 			{
-				IEnumerable<IntVec3> collection = WindTurbineUtility.CalculateWindCells(this.parent.Position, this.parent.Rotation, this.parent.def.size);
+				IEnumerable<IntVec3> collection = WindTurbineUtility.CalculateWindCells(base.parent.Position, base.parent.Rotation, base.parent.def.size);
 				this.windPathCells.AddRange(collection);
 			}
 			this.windPathBlockedCells.Clear();
@@ -178,14 +179,14 @@ namespace RimWorld
 			for (int i = 0; i < this.windPathCells.Count; i++)
 			{
 				IntVec3 intVec = this.windPathCells[i];
-				if (this.parent.Map.roofGrid.Roofed(intVec))
+				if (base.parent.Map.roofGrid.Roofed(intVec))
 				{
 					this.windPathBlockedByThings.Add(null);
 					this.windPathBlockedCells.Add(intVec);
 				}
 				else
 				{
-					List<Thing> list = this.parent.Map.thingGrid.ThingsListAt(intVec);
+					List<Thing> list = base.parent.Map.thingGrid.ThingsListAt(intVec);
 					for (int j = 0; j < list.Count; j++)
 					{
 						Thing thing = list[j];

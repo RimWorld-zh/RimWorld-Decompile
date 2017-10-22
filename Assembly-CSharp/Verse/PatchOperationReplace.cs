@@ -1,4 +1,3 @@
-using System;
 using System.Xml;
 
 namespace Verse
@@ -11,10 +10,10 @@ namespace Verse
 		{
 			XmlNode node = this.value.node;
 			bool result = false;
-			foreach (object current in xml.SelectNodes(this.xpath))
+			foreach (object item in xml.SelectNodes(base.xpath))
 			{
 				result = true;
-				XmlNode xmlNode = current as XmlNode;
+				XmlNode xmlNode = item as XmlNode;
 				XmlNode parentNode = xmlNode.ParentNode;
 				for (int i = 0; i < node.ChildNodes.Count; i++)
 				{

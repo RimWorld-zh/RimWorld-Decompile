@@ -30,21 +30,26 @@ namespace Verse
 		public static bool ConnectedToRoofHolder(IntVec3 c, Map map, bool assumeRoofAtRoot)
 		{
 			bool connected = false;
-			map.floodFiller.FloodFill(c, (IntVec3 x) => (x.Roofed(map) || (x == c && assumeRoofAtRoot)) && !connected, delegate(IntVec3 x)
+			map.floodFiller.FloodFill(c, (Predicate<IntVec3>)((IntVec3 x) => (x.Roofed(map) || (x == c && assumeRoofAtRoot)) && !connected), (Action<IntVec3>)delegate(IntVec3 x)
 			{
-				for (int i = 0; i < 5; i++)
+				int num = 0;
+				while (true)
 				{
-					IntVec3 c2 = x + GenAdj.CardinalDirectionsAndInside[i];
-					if (c2.InBounds(map))
+					if (num < 5)
 					{
-						Building edifice = c2.GetEdifice(map);
-						if (edifice != null && edifice.def.holdsRoof)
+						IntVec3 c2 = x + GenAdj.CardinalDirectionsAndInside[num];
+						if (c2.InBounds(map))
 						{
-							connected = true;
-							break;
+							Building edifice = c2.GetEdifice(map);
+							if (edifice != null && edifice.def.holdsRoof)
+								break;
 						}
+						num++;
+						continue;
 					}
+					return;
 				}
+				connected = true;
 			}, false);
 			return connected;
 		}

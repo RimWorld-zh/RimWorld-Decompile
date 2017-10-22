@@ -12,37 +12,37 @@ namespace Verse
 		public static Graphic Get<T>(string path) where T : Graphic, new()
 		{
 			GraphicRequest req = new GraphicRequest(typeof(T), path, ShaderDatabase.Cutout, Vector2.one, Color.white, Color.white, null, 0);
-			return GraphicDatabase.GetInner<T>(req);
+			return (Graphic)(object)GraphicDatabase.GetInner<T>(req);
 		}
 
 		public static Graphic Get<T>(string path, Shader shader) where T : Graphic, new()
 		{
 			GraphicRequest req = new GraphicRequest(typeof(T), path, shader, Vector2.one, Color.white, Color.white, null, 0);
-			return GraphicDatabase.GetInner<T>(req);
+			return (Graphic)(object)GraphicDatabase.GetInner<T>(req);
 		}
 
 		public static Graphic Get<T>(string path, Shader shader, Vector2 drawSize, Color color) where T : Graphic, new()
 		{
 			GraphicRequest req = new GraphicRequest(typeof(T), path, shader, drawSize, color, Color.white, null, 0);
-			return GraphicDatabase.GetInner<T>(req);
+			return (Graphic)(object)GraphicDatabase.GetInner<T>(req);
 		}
 
 		public static Graphic Get<T>(string path, Shader shader, Vector2 drawSize, Color color, int renderQueue) where T : Graphic, new()
 		{
 			GraphicRequest req = new GraphicRequest(typeof(T), path, shader, drawSize, color, Color.white, null, renderQueue);
-			return GraphicDatabase.GetInner<T>(req);
+			return (Graphic)(object)GraphicDatabase.GetInner<T>(req);
 		}
 
 		public static Graphic Get<T>(string path, Shader shader, Vector2 drawSize, Color color, Color colorTwo) where T : Graphic, new()
 		{
 			GraphicRequest req = new GraphicRequest(typeof(T), path, shader, drawSize, color, colorTwo, null, 0);
-			return GraphicDatabase.GetInner<T>(req);
+			return (Graphic)(object)GraphicDatabase.GetInner<T>(req);
 		}
 
 		public static Graphic Get<T>(string path, Shader shader, Vector2 drawSize, Color color, Color colorTwo, GraphicData data) where T : Graphic, new()
 		{
 			GraphicRequest req = new GraphicRequest(typeof(T), path, shader, drawSize, color, colorTwo, data, 0);
-			return GraphicDatabase.GetInner<T>(req);
+			return (Graphic)(object)GraphicDatabase.GetInner<T>(req);
 		}
 
 		public static Graphic Get(Type graphicClass, string path, Shader shader, Vector2 drawSize, Color color, Color colorTwo)
@@ -87,36 +87,26 @@ namespace Verse
 			}
 			try
 			{
-				return (Graphic)GenGeneric.InvokeStaticGenericMethod(typeof(GraphicDatabase), graphicRequest.graphicClass, "GetInner", new object[]
-				{
-					graphicRequest
-				});
+				return (Graphic)GenGeneric.InvokeStaticGenericMethod(typeof(GraphicDatabase), graphicRequest.graphicClass, "GetInner", graphicRequest);
+				IL_012f:;
 			}
 			catch (Exception ex)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Exception getting ",
-					graphicClass,
-					" at ",
-					path,
-					": ",
-					ex.ToString()
-				}));
+				Log.Error("Exception getting " + graphicClass + " at " + path + ": " + ex.ToString());
 			}
 			return BaseContent.BadGraphic;
 		}
 
 		private static T GetInner<T>(GraphicRequest req) where T : Graphic, new()
 		{
-			Graphic graphic;
+			Graphic graphic = default(Graphic);
 			if (!GraphicDatabase.allGraphics.TryGetValue(req, out graphic))
 			{
-				graphic = Activator.CreateInstance<T>();
+				graphic = (Graphic)(object)new T();
 				graphic.Init(req);
 				GraphicDatabase.allGraphics.Add(req, graphic);
 			}
-			return (T)((object)graphic);
+			return (T)graphic;
 		}
 
 		public static void Clear()
@@ -129,15 +119,24 @@ namespace Verse
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("There are " + GraphicDatabase.allGraphics.Count + " graphics loaded.");
 			int num = 0;
-			foreach (Graphic current in GraphicDatabase.allGraphics.Values)
+			Dictionary<GraphicRequest, Graphic>.ValueCollection.Enumerator enumerator = GraphicDatabase.allGraphics.Values.GetEnumerator();
+			try
 			{
-				stringBuilder.AppendLine(num + " - " + current.ToString());
-				if (num % 50 == 49)
+				while (enumerator.MoveNext())
 				{
-					Log.Message(stringBuilder.ToString());
-					stringBuilder = new StringBuilder();
+					Graphic current = enumerator.Current;
+					stringBuilder.AppendLine(num + " - " + current.ToString());
+					if (num % 50 == 49)
+					{
+						Log.Message(stringBuilder.ToString());
+						stringBuilder = new StringBuilder();
+					}
+					num++;
 				}
-				num++;
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			Log.Message(stringBuilder.ToString());
 		}

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -90,14 +89,14 @@ namespace Verse
 				this.map.temperatureCache.TryCacheRegionTempInfo(b.Position, validRegionAt_NoRebuild);
 				this.regionsToDirty.Add(validRegionAt_NoRebuild);
 			}
-			foreach (IntVec3 current in GenAdj.CellsAdjacent8Way(b))
+			foreach (IntVec3 item2 in GenAdj.CellsAdjacent8Way(b))
 			{
-				if (current.InBounds(this.map))
+				if (item2.InBounds(this.map))
 				{
-					Region validRegionAt_NoRebuild2 = this.map.regionGrid.GetValidRegionAt_NoRebuild(current);
+					Region validRegionAt_NoRebuild2 = this.map.regionGrid.GetValidRegionAt_NoRebuild(item2);
 					if (validRegionAt_NoRebuild2 != null)
 					{
-						this.map.temperatureCache.TryCacheRegionTempInfo(current, validRegionAt_NoRebuild2);
+						this.map.temperatureCache.TryCacheRegionTempInfo(item2, validRegionAt_NoRebuild2);
 						this.regionsToDirty.Add(validRegionAt_NoRebuild2);
 					}
 				}
@@ -136,25 +135,24 @@ namespace Verse
 
 		private void SetRegionDirty(Region reg, bool addCellsToDirtyCells = true)
 		{
-			if (!reg.valid)
+			if (reg.valid)
 			{
-				return;
-			}
-			reg.valid = false;
-			reg.Room = null;
-			for (int i = 0; i < reg.links.Count; i++)
-			{
-				reg.links[i].Deregister(reg);
-			}
-			reg.links.Clear();
-			if (addCellsToDirtyCells)
-			{
-				foreach (IntVec3 current in reg.Cells)
+				reg.valid = false;
+				reg.Room = null;
+				for (int i = 0; i < reg.links.Count; i++)
 				{
-					this.dirtyCells.Add(current);
-					if (DebugViewSettings.drawRegionDirties)
+					reg.links[i].Deregister(reg);
+				}
+				reg.links.Clear();
+				if (addCellsToDirtyCells)
+				{
+					foreach (IntVec3 cell in reg.Cells)
 					{
-						this.map.debugDrawer.FlashCell(current, 0f, null);
+						this.dirtyCells.Add(cell);
+						if (DebugViewSettings.drawRegionDirties)
+						{
+							this.map.debugDrawer.FlashCell(cell, 0f, (string)null);
+						}
 					}
 				}
 			}
@@ -163,13 +161,13 @@ namespace Verse
 		internal void SetAllDirty()
 		{
 			this.dirtyCells.Clear();
-			foreach (IntVec3 current in this.map)
+			foreach (IntVec3 item in this.map)
 			{
-				this.dirtyCells.Add(current);
+				this.dirtyCells.Add(item);
 			}
-			foreach (Region current2 in this.map.regionGrid.AllRegions_NoRebuild_InvalidAllowed)
+			foreach (Region item2 in this.map.regionGrid.AllRegions_NoRebuild_InvalidAllowed)
 			{
-				this.SetRegionDirty(current2, false);
+				this.SetRegionDirty(item2, false);
 			}
 		}
 	}

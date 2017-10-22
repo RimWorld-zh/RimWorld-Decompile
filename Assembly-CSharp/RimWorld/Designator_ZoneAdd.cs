@@ -33,10 +33,10 @@ namespace RimWorld
 
 		public Designator_ZoneAdd()
 		{
-			this.soundDragSustain = SoundDefOf.DesignateDragAreaAdd;
-			this.soundDragChanged = SoundDefOf.DesignateDragAreaAddChanged;
-			this.soundSucceeded = SoundDefOf.DesignateZoneAdd;
-			this.useMouseIcon = true;
+			base.soundDragSustain = SoundDefOf.DesignateDragAreaAdd;
+			base.soundDragChanged = SoundDefOf.DesignateDragAreaAddChanged;
+			base.soundSucceeded = SoundDefOf.DesignateZoneAdd;
+			base.useMouseIcon = true;
 		}
 
 		protected abstract Zone MakeNewZone();
@@ -52,29 +52,15 @@ namespace RimWorld
 
 		public override void DrawMouseAttachments()
 		{
-			if (this.useMouseIcon)
+			if (base.useMouseIcon)
 			{
 				string text = string.Empty;
 				if (!Input.GetKey(KeyCode.Mouse0))
 				{
 					Zone selectedZone = Find.Selector.SelectedZone;
-					if (selectedZone != null)
-					{
-						text = "ExpandOrCreateZone".Translate(new object[]
-						{
-							selectedZone.label,
-							this.NewZoneLabel
-						});
-					}
-					else
-					{
-						text = "CreateNewZone".Translate(new object[]
-						{
-							this.NewZoneLabel
-						});
-					}
+					text = ((selectedZone == null) ? "CreateNewZone".Translate(this.NewZoneLabel) : "ExpandOrCreateZone".Translate(selectedZone.label, this.NewZoneLabel));
 				}
-				GenUI.DrawMouseAttachment(this.icon, text);
+				GenUI.DrawMouseAttachment(base.icon, text);
 			}
 		}
 
@@ -97,9 +83,9 @@ namespace RimWorld
 			{
 				return false;
 			}
-			foreach (Thing current in base.Map.thingGrid.ThingsAt(c))
+			foreach (Thing item in base.Map.thingGrid.ThingsAt(c))
 			{
-				if (!current.def.CanOverlapZones)
+				if (!item.def.CanOverlapZones)
 				{
 					return false;
 				}
@@ -109,7 +95,8 @@ namespace RimWorld
 
 		public override void DesignateMultiCell(IEnumerable<IntVec3> cells)
 		{
-			List<IntVec3> list = cells.ToList<IntVec3>();
+			List<IntVec3> list = cells.ToList();
+			bool flag = false;
 			if (list.Count == 1)
 			{
 				Zone zone = base.Map.zoneManager.ZoneAt(list[0]);
@@ -125,9 +112,9 @@ namespace RimWorld
 			if (this.SelectedZone == null)
 			{
 				Zone zone2 = null;
-				foreach (IntVec3 current in cells)
+				foreach (IntVec3 item in cells)
 				{
-					Zone zone3 = base.Map.zoneManager.ZoneAt(current);
+					Zone zone3 = base.Map.zoneManager.ZoneAt(item);
 					if (zone3 != null && zone3.GetType() == this.zoneTypeToPlace)
 					{
 						if (zone2 == null)
@@ -143,61 +130,53 @@ namespace RimWorld
 				}
 				this.SelectedZone = zone2;
 			}
-			list.RemoveAll((IntVec3 c) => base.Map.zoneManager.ZoneAt(c) != null);
-			if (list.Count == 0)
+			list.RemoveAll((Predicate<IntVec3>)((IntVec3 c) => base.Map.zoneManager.ZoneAt(c) != null));
+			if (list.Count != 0 && (!TutorSystem.TutorialMode || TutorSystem.AllowAction(new EventPack(base.TutorTagDesignate, list))))
 			{
-				return;
-			}
-			if (TutorSystem.TutorialMode && !TutorSystem.AllowAction(new EventPack(base.TutorTagDesignate, list)))
-			{
-				return;
-			}
-			if (this.SelectedZone == null)
-			{
-				this.SelectedZone = this.MakeNewZone();
-				this.SelectedZone.AddCell(list[0]);
-				list.RemoveAt(0);
-			}
-			bool somethingSucceeded;
-			while (true)
-			{
-				somethingSucceeded = true;
-				int count = list.Count;
-				for (int i = list.Count - 1; i >= 0; i--)
-				{
-					bool flag = false;
-					for (int j = 0; j < 4; j++)
-					{
-						IntVec3 c2 = list[i] + GenAdj.CardinalDirections[j];
-						if (c2.InBounds(base.Map))
-						{
-							if (base.Map.zoneManager.ZoneAt(c2) == this.SelectedZone)
-							{
-								flag = true;
-								break;
-							}
-						}
-					}
-					if (flag)
-					{
-						this.SelectedZone.AddCell(list[i]);
-						list.RemoveAt(i);
-					}
-				}
-				if (list.Count == 0)
-				{
-					break;
-				}
-				if (list.Count == count)
+				if (this.SelectedZone == null)
 				{
 					this.SelectedZone = this.MakeNewZone();
 					this.SelectedZone.AddCell(list[0]);
 					list.RemoveAt(0);
 				}
+				while (true)
+				{
+					flag = true;
+					int count = list.Count;
+					for (int num = list.Count - 1; num >= 0; num--)
+					{
+						bool flag2 = false;
+						for (int i = 0; i < 4; i++)
+						{
+							IntVec3 c2 = list[num] + GenAdj.CardinalDirections[i];
+							if (c2.InBounds(base.Map) && base.Map.zoneManager.ZoneAt(c2) == this.SelectedZone)
+							{
+								flag2 = true;
+								break;
+							}
+						}
+						if (flag2)
+						{
+							this.SelectedZone.AddCell(list[num]);
+							list.RemoveAt(num);
+						}
+					}
+					if (list.Count != 0)
+					{
+						if (list.Count == count)
+						{
+							this.SelectedZone = this.MakeNewZone();
+							this.SelectedZone.AddCell(list[0]);
+							list.RemoveAt(0);
+						}
+						continue;
+					}
+					break;
+				}
+				this.SelectedZone.CheckContiguous();
+				base.Finalize(flag);
+				TutorSystem.Notify_Event(new EventPack(base.TutorTagDesignate, list));
 			}
-			this.SelectedZone.CheckContiguous();
-			base.Finalize(somethingSucceeded);
-			TutorSystem.Notify_Event(new EventPack(base.TutorTagDesignate, list));
 		}
 	}
 }

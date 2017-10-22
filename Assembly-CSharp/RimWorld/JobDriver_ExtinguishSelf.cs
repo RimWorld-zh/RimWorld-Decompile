@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -22,22 +21,33 @@ namespace RimWorld
 		{
 			if (this.TargetFire.parent != null)
 			{
-				return "ReportExtinguishingFireOn".Translate(new object[]
-				{
-					this.TargetFire.parent.LabelCap
-				});
+				return "ReportExtinguishingFireOn".Translate(this.TargetFire.parent.LabelCap);
 			}
 			return "ReportExtinguishingFire".Translate();
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_ExtinguishSelf.<MakeNewToils>c__Iterator15 <MakeNewToils>c__Iterator = new JobDriver_ExtinguishSelf.<MakeNewToils>c__Iterator15();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_ExtinguishSelf.<MakeNewToils>c__Iterator15 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+				},
+				defaultCompleteMode = ToilCompleteMode.Delay,
+				defaultDuration = 150
+			};
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+					if (!((_003CMakeNewToils_003Ec__Iterator15)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.TargetFire.Destroyed)
+					{
+						((_003CMakeNewToils_003Ec__Iterator15)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.TargetFire.Destroy(DestroyMode.Vanish);
+						((_003CMakeNewToils_003Ec__Iterator15)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.pawn.records.Increment(RecordDefOf.FiresExtinguished);
+					}
+				},
+				defaultCompleteMode = ToilCompleteMode.Instant
+			};
 		}
 	}
 }

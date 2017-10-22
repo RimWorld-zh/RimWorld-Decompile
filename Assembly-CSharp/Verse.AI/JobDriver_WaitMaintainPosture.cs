@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse.AI
 {
@@ -18,7 +17,7 @@ namespace Verse.AI
 		public override void Notify_LastPosture(PawnPosture posture, LayingDownState layingDown)
 		{
 			this.lastPosture = posture;
-			this.layingDown = layingDown;
+			base.layingDown = layingDown;
 		}
 
 		public override void ExposeData()

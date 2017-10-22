@@ -47,12 +47,21 @@ namespace Verse
 		{
 			CellIndices cellIndices = this.map.cellIndices;
 			this.zoneGrid = new Zone[cellIndices.NumGridCells];
-			foreach (Zone current in this.allZones)
+			List<Zone>.Enumerator enumerator = this.allZones.GetEnumerator();
+			try
 			{
-				foreach (IntVec3 current2 in current)
+				while (enumerator.MoveNext())
 				{
-					this.zoneGrid[cellIndices.CellToIndex(current2)] = current;
+					Zone current = enumerator.Current;
+					foreach (IntVec3 item in current)
+					{
+						this.zoneGrid[cellIndices.CellToIndex(item)] = current;
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 
@@ -86,7 +95,7 @@ namespace Verse
 			for (int i = 1; i <= 1000; i++)
 			{
 				string cand = nameBase + " " + i;
-				if (!this.allZones.Any((Zone z) => z.label == cand))
+				if (!this.allZones.Any((Predicate<Zone>)((Zone z) => z.label == cand)))
 				{
 					return cand;
 				}

@@ -16,15 +16,15 @@ namespace RimWorld
 
 		public static void ReloadAllBackstories()
 		{
-			foreach (Backstory current in DirectXmlLoader.LoadXmlDataInResourcesFolder<Backstory>("Backstories/Shuffled"))
+			foreach (Backstory item in DirectXmlLoader.LoadXmlDataInResourcesFolder<Backstory>("Backstories/Shuffled"))
 			{
-				current.PostLoad();
-				current.ResolveReferences();
-				foreach (string current2 in current.ConfigErrors(false))
+				item.PostLoad();
+				item.ResolveReferences();
+				foreach (string item2 in item.ConfigErrors(false))
 				{
-					Log.Error(current.Title + ": " + current2);
+					Log.Error(item.Title + ": " + item2);
 				}
-				BackstoryDatabase.AddBackstory(current);
+				BackstoryDatabase.AddBackstory(item);
 			}
 			SolidBioDatabase.LoadAllBios();
 		}
@@ -34,18 +34,12 @@ namespace RimWorld
 			BackstoryHardcodedData.InjectHardcodedData(bs);
 			if (BackstoryDatabase.allBackstories.ContainsKey(bs.identifier))
 			{
-				Log.Error(string.Concat(new string[]
-				{
-					"Backstory ",
-					bs.Title,
-					" has same unique save key ",
-					bs.identifier,
-					" as old backstory ",
-					BackstoryDatabase.allBackstories[bs.identifier].Title
-				}));
-				return;
+				Log.Error("Backstory " + bs.Title + " has same unique save key " + bs.identifier + " as old backstory " + BackstoryDatabase.allBackstories[bs.identifier].Title);
 			}
-			BackstoryDatabase.allBackstories.Add(bs.identifier, bs);
+			else
+			{
+				BackstoryDatabase.allBackstories.Add(bs.identifier, bs);
+			}
 		}
 
 		public static bool TryGetWithIdentifier(string identifier, out Backstory bs)
@@ -57,7 +51,7 @@ namespace RimWorld
 		{
 			return (from bs in BackstoryDatabase.allBackstories
 			where bs.Value.slot == slot
-			select bs).RandomElement<KeyValuePair<string, Backstory>>().Value;
+			select bs).RandomElement().Value;
 		}
 	}
 }

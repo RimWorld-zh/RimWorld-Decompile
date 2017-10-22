@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -14,14 +13,14 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.pawn.Dead)
+				if (base.pawn.Dead)
 				{
 					return null;
 				}
-				List<Need> allNeeds = this.pawn.needs.AllNeeds;
+				List<Need> allNeeds = base.pawn.needs.AllNeeds;
 				for (int i = 0; i < allNeeds.Count; i++)
 				{
-					if (allNeeds[i].def == this.def.causesNeed)
+					if (allNeeds[i].def == base.def.causesNeed)
 					{
 						return (Need_Chemical)allNeeds[i];
 					}
@@ -37,7 +36,7 @@ namespace RimWorld
 				List<ChemicalDef> allDefsListForReading = DefDatabase<ChemicalDef>.AllDefsListForReading;
 				for (int i = 0; i < allDefsListForReading.Count; i++)
 				{
-					if (allDefsListForReading[i].addictionHediff == this.def)
+					if (allDefsListForReading[i].addictionHediff == base.def)
 					{
 						return allDefsListForReading[i];
 					}
@@ -50,9 +49,9 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.CurStageIndex == 1 && this.def.CompProps<HediffCompProperties_SeverityPerDay>() != null)
+				if (this.CurStageIndex == 1 && base.def.CompProps<HediffCompProperties_SeverityPerDay>() != null)
 				{
-					return base.LabelInBrackets + " " + (1f - this.Severity).ToStringPercent();
+					return base.LabelInBrackets + " " + ((float)(1.0 - this.Severity)).ToStringPercent();
 				}
 				return base.LabelInBrackets;
 			}
@@ -63,17 +62,17 @@ namespace RimWorld
 			get
 			{
 				Need_Chemical need = this.Need;
-				if (need == null || need.CurCategory != DrugDesireCategory.Withdrawal)
+				if (need != null && need.CurCategory == DrugDesireCategory.Withdrawal)
 				{
-					return 0;
+					return 1;
 				}
-				return 1;
+				return 0;
 			}
 		}
 
 		public void Notify_NeedCategoryChanged()
 		{
-			this.pawn.health.Notify_HediffChanged(this);
+			base.pawn.health.Notify_HediffChanged(this);
 		}
 	}
 }

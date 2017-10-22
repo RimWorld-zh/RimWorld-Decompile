@@ -24,52 +24,43 @@ namespace RimWorld
 		{
 			this.RootThingCategories = (from cat in DefDatabase<ThingCategoryDef>.AllDefs
 			where cat.resourceReadoutRoot
-			select cat).ToList<ThingCategoryDef>();
+			select cat).ToList();
 		}
 
 		public void ResourceReadoutOnGUI()
 		{
-			if (Event.current.type == EventType.Layout)
+			if (Event.current.type != EventType.Layout && Current.ProgramState == ProgramState.Playing && Find.MainTabsRoot.OpenTab != MainButtonDefOf.Menu)
 			{
-				return;
-			}
-			if (Current.ProgramState != ProgramState.Playing)
-			{
-				return;
-			}
-			if (Find.MainTabsRoot.OpenTab == MainButtonDefOf.Menu)
-			{
-				return;
-			}
-			GenUI.DrawTextWinterShadow(new Rect(256f, 512f, -256f, -512f));
-			Text.Font = GameFont.Small;
-			Rect rect = (!Prefs.ResourceReadoutCategorized) ? new Rect(7f, 7f, 110f, (float)(UI.screenHeight - 7) - 200f) : new Rect(2f, 7f, 124f, (float)(UI.screenHeight - 7) - 200f);
-			Rect rect2 = new Rect(0f, 0f, rect.width, this.lastDrawnHeight);
-			bool flag = rect2.height > rect.height;
-			if (flag)
-			{
-				Widgets.BeginScrollView(rect, ref this.scrollPosition, rect2, false);
-			}
-			else
-			{
-				this.scrollPosition = Vector2.zero;
-				GUI.BeginGroup(rect);
-			}
-			if (!Prefs.ResourceReadoutCategorized)
-			{
-				this.DoReadoutSimple(rect2, rect.height);
-			}
-			else
-			{
-				this.DoReadoutCategorized(rect2);
-			}
-			if (flag)
-			{
-				Widgets.EndScrollView();
-			}
-			else
-			{
-				GUI.EndGroup();
+				GenUI.DrawTextWinterShadow(new Rect(256f, 512f, -256f, -512f));
+				Text.Font = GameFont.Small;
+				Rect rect = (!Prefs.ResourceReadoutCategorized) ? new Rect(7f, 7f, 110f, (float)((float)(UI.screenHeight - 7) - 200.0)) : new Rect(2f, 7f, 124f, (float)((float)(UI.screenHeight - 7) - 200.0));
+				Rect rect2 = new Rect(0f, 0f, rect.width, this.lastDrawnHeight);
+				bool flag = rect2.height > rect.height;
+				if (flag)
+				{
+					Widgets.BeginScrollView(rect, ref this.scrollPosition, rect2, false);
+				}
+				else
+				{
+					this.scrollPosition = Vector2.zero;
+					GUI.BeginGroup(rect);
+				}
+				if (!Prefs.ResourceReadoutCategorized)
+				{
+					this.DoReadoutSimple(rect2, rect.height);
+				}
+				else
+				{
+					this.DoReadoutCategorized(rect2);
+				}
+				if (flag)
+				{
+					Widgets.EndScrollView();
+				}
+				else
+				{
+					GUI.EndGroup();
+				}
 			}
 		}
 
@@ -93,17 +84,26 @@ namespace RimWorld
 			GUI.BeginGroup(rect);
 			Text.Anchor = TextAnchor.MiddleLeft;
 			float num = 0f;
-			foreach (KeyValuePair<ThingDef, int> current in Find.VisibleMap.resourceCounter.AllCountedAmounts)
+			Dictionary<ThingDef, int>.Enumerator enumerator = Find.VisibleMap.resourceCounter.AllCountedAmounts.GetEnumerator();
+			try
 			{
-				if (current.Value > 0 || current.Key.resourceReadoutAlwaysShow)
+				while (enumerator.MoveNext())
 				{
-					Rect rect2 = new Rect(0f, num, 999f, 24f);
-					if (rect2.yMax >= this.scrollPosition.y && rect2.y <= this.scrollPosition.y + outRectHeight)
+					KeyValuePair<ThingDef, int> current = enumerator.Current;
+					if (current.Value > 0 || current.Key.resourceReadoutAlwaysShow)
 					{
-						this.DrawResourceSimple(rect2, current.Key);
+						Rect rect2 = new Rect(0f, num, 999f, 24f);
+						if (rect2.yMax >= this.scrollPosition.y && rect2.y <= this.scrollPosition.y + outRectHeight)
+						{
+							this.DrawResourceSimple(rect2, current.Key);
+						}
+						num = (float)(num + 24.0);
 					}
-					num += 24f;
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			Text.Anchor = TextAnchor.UpperLeft;
 			this.lastDrawnHeight = num;
@@ -115,7 +115,7 @@ namespace RimWorld
 			this.DrawIcon(rect.x, rect.y, thingDef);
 			rect.y += 2f;
 			int count = Find.VisibleMap.resourceCounter.GetCount(thingDef);
-			Rect rect2 = new Rect(34f, rect.y, rect.width - 34f, rect.height);
+			Rect rect2 = new Rect(34f, rect.y, (float)(rect.width - 34.0), rect.height);
 			Widgets.Label(rect2, count.ToStringCached());
 		}
 
@@ -126,7 +126,7 @@ namespace RimWorld
 			GUI.color = thingDef.graphicData.color;
 			GUI.DrawTexture(rect, thingDef.uiIcon);
 			GUI.color = color;
-			TooltipHandler.TipRegion(rect, new TipSignal(() => thingDef.LabelCap + ": " + thingDef.description, thingDef.GetHashCode()));
+			TooltipHandler.TipRegion(rect, new TipSignal((Func<string>)(() => thingDef.LabelCap + ": " + thingDef.description), thingDef.GetHashCode()));
 		}
 	}
 }

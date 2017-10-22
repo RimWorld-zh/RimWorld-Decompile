@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -21,9 +20,9 @@ namespace RimWorld
 		public static string PawnsLeftBehind()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (Pawn current in PawnsFinder.AllMaps_FreeColonistsSpawned)
+			foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
 			{
-				stringBuilder.AppendLine("   " + current.LabelCap);
+				stringBuilder.AppendLine("   " + item.LabelCap);
 			}
 			List<Caravan> caravans = Find.WorldObjects.Caravans;
 			for (int i = 0; i < caravans.Count; i++)

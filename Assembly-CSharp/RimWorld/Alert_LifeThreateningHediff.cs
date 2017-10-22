@@ -12,10 +12,26 @@ namespace RimWorld
 		{
 			get
 			{
-				Alert_LifeThreateningHediff.<>c__Iterator187 <>c__Iterator = new Alert_LifeThreateningHediff.<>c__Iterator187();
-				Alert_LifeThreateningHediff.<>c__Iterator187 expr_07 = <>c__Iterator;
-				expr_07.$PC = -2;
-				return expr_07;
+				foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsAndPrisonersSpawned)
+				{
+					List<Hediff>.Enumerator enumerator2 = item.health.hediffSet.hediffs.GetEnumerator();
+					try
+					{
+						while (enumerator2.MoveNext())
+						{
+							Hediff diff = enumerator2.Current;
+							if (diff.CurStage != null && diff.CurStage.lifeThreatening && !diff.FullyImmune())
+							{
+								yield return item;
+								break;
+							}
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator2).Dispose();
+					}
+				}
 			}
 		}
 
@@ -28,16 +44,25 @@ namespace RimWorld
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			bool flag = false;
-			foreach (Pawn current in this.SickPawns)
+			foreach (Pawn sickPawn in this.SickPawns)
 			{
-				stringBuilder.AppendLine("    " + current.NameStringShort);
-				foreach (Hediff current2 in current.health.hediffSet.hediffs)
+				stringBuilder.AppendLine("    " + sickPawn.NameStringShort);
+				List<Hediff>.Enumerator enumerator2 = sickPawn.health.hediffSet.hediffs.GetEnumerator();
+				try
 				{
-					if (current2.CurStage != null && current2.CurStage.lifeThreatening && current2.Part != null && current2.Part != current.RaceProps.body.corePart)
+					while (enumerator2.MoveNext())
 					{
-						flag = true;
-						break;
+						Hediff current2 = enumerator2.Current;
+						if (current2.CurStage != null && current2.CurStage.lifeThreatening && current2.Part != null && current2.Part != sickPawn.RaceProps.body.corePart)
+						{
+							flag = true;
+							break;
+						}
 					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator2).Dispose();
 				}
 			}
 			if (flag)
@@ -49,7 +74,7 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			return AlertReport.CulpritIs(this.SickPawns.FirstOrDefault<Pawn>());
+			return AlertReport.CulpritIs((Thing)this.SickPawns.FirstOrDefault());
 		}
 	}
 }

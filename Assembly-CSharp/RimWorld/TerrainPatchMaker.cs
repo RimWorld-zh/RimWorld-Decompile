@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.Noise;
@@ -25,7 +24,10 @@ namespace RimWorld
 		private void Init(Map map)
 		{
 			this.noise = new Perlin((double)this.perlinFrequency, (double)this.perlinLacunarity, (double)this.perlinPersistence, this.perlinOctaves, Rand.Range(0, 2147483647), QualityMode.Medium);
-			NoiseDebugUI.RenderSize = new IntVec2(map.Size.x, map.Size.z);
+			IntVec3 size = map.Size;
+			int x = size.x;
+			IntVec3 size2 = map.Size;
+			NoiseDebugUI.RenderSize = new IntVec2(x, size2.z);
 			NoiseDebugUI.StoreNoiseRender(this.noise, "TerrainPatchMaker " + this.thresholds[0].terrain.defName);
 			this.currentlyInitializedForMap = map;
 		}

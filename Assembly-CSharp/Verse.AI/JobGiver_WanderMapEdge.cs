@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse.AI
 {
@@ -7,13 +6,13 @@ namespace Verse.AI
 	{
 		public JobGiver_WanderMapEdge()
 		{
-			this.wanderRadius = 7f;
-			this.ticksBetweenWandersRange = new IntRange(50, 125);
+			base.wanderRadius = 7f;
+			base.ticksBetweenWandersRange = new IntRange(50, 125);
 		}
 
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
-			IntVec3 result;
+			IntVec3 result = default(IntVec3);
 			if (RCellFinder.TryFindBestExitSpot(pawn, out result, TraverseMode.ByPawn))
 			{
 				return result;

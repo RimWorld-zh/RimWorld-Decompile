@@ -1,16 +1,15 @@
-using System;
 using UnityEngine;
 
 namespace Verse
 {
 	public static class Printer_Shadow
 	{
-		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
+		private static readonly Color32 LowVertexColor = new Color32((byte)0, (byte)0, (byte)0, (byte)0);
 
 		public static void PrintShadow(SectionLayer layer, Vector3 center, ShadowData shadow, Rot4 rotation)
 		{
 			LayerSubMesh subMesh = layer.GetSubMesh(MatBases.SunShadowFade);
-			Color32 item = new Color32(255, 0, 0, (byte)(255f * shadow.BaseY));
+			Color32 item = new Color32((byte)255, (byte)0, (byte)0, (byte)(255.0 * shadow.BaseY));
 			Vector3 vector = shadow.volume.RotatedBy(rotation) / 2f;
 			float x = center.x;
 			float z = center.z;

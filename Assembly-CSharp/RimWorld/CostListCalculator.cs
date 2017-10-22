@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -22,7 +21,7 @@ namespace RimWorld
 		public static List<ThingCountClass> CostListAdjusted(this BuildableDef entDef, ThingDef stuff, bool errorOnNullStuff = true)
 		{
 			int key = CostListCalculator.RequestHash(entDef, stuff);
-			List<ThingCountClass> list;
+			List<ThingCountClass> list = default(List<ThingCountClass>);
 			if (!CostListCalculator.cachedCosts.TryGetValue(key, out list))
 			{
 				list = new List<ThingCountClass>();
@@ -49,14 +48,7 @@ namespace RimWorld
 				}
 				else if (stuff != null)
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Got AdjustedCostList for ",
-						entDef,
-						" with stuff ",
-						stuff,
-						" but is not MadeFromStuff."
-					}));
+					Log.Error("Got AdjustedCostList for " + entDef + " with stuff " + stuff + " but is not MadeFromStuff.");
 				}
 				bool flag = false;
 				if (entDef.costList != null)
@@ -86,10 +78,10 @@ namespace RimWorld
 
 		private static int RequestHash(BuildableDef entDef, ThingDef stuff)
 		{
-			int num = (int)entDef.shortHash;
+			int num = entDef.shortHash;
 			if (stuff != null)
 			{
-				num += (int)stuff.shortHash << 16;
+				num += stuff.shortHash << 16;
 			}
 			return num;
 		}

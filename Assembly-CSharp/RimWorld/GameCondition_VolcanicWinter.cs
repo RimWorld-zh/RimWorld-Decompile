@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -16,14 +15,7 @@ namespace RimWorld
 
 		private float MaxTempOffset = -7f;
 
-		private SkyColorSet VolcanicWinterColors;
-
-		public GameCondition_VolcanicWinter()
-		{
-			ColorInt colorInt = new ColorInt(0, 0, 0);
-			this.VolcanicWinterColors = new SkyColorSet(colorInt.ToColor, Color.white, new Color(0.6f, 0.6f, 0.6f), 0.65f);
-			base..ctor();
-		}
+		private SkyColorSet VolcanicWinterColors = new SkyColorSet(new ColorInt(0, 0, 0).ToColor, Color.white, new Color(0.6f, 0.6f, 0.6f), 0.65f);
 
 		public override float SkyTargetLerpFactor()
 		{
@@ -42,7 +34,7 @@ namespace RimWorld
 
 		public override float AnimalDensityFactor()
 		{
-			return 1f - GameConditionUtility.LerpInOutValue((float)base.TicksPassed, (float)base.TicksLeft, (float)this.LerpTicks, 0.5f);
+			return (float)(1.0 - GameConditionUtility.LerpInOutValue((float)base.TicksPassed, (float)base.TicksLeft, (float)this.LerpTicks, 0.5f));
 		}
 
 		public override bool AllowEnjoyableOutsideNow()

@@ -34,7 +34,7 @@ namespace Verse
 
 		public bool enabled = true;
 
-		private ModMetaData.ModMetaDataInternal meta = new ModMetaData.ModMetaDataInternal();
+		private ModMetaDataInternal meta = new ModMetaDataInternal();
 
 		private WorkshopItemHook workshopHookInt;
 
@@ -80,7 +80,15 @@ namespace Verse
 		{
 			get
 			{
-				return this.IsCoreMod || (VersionControl.IsWellFormattedVersionString(this.TargetVersion) && VersionControl.MinorFromVersionString(this.TargetVersion) == VersionControl.CurrentMinor);
+				if (this.IsCoreMod)
+				{
+					return true;
+				}
+				if (!VersionControl.IsWellFormattedVersionString(this.TargetVersion))
+				{
+					return false;
+				}
+				return VersionControl.MinorFromVersionString(this.TargetVersion) == VersionControl.CurrentMinor;
 			}
 		}
 
@@ -132,14 +140,7 @@ namespace Verse
 		{
 			get
 			{
-				return string.Concat(new object[]
-				{
-					this.rootDirInt.FullName,
-					Path.DirectorySeparatorChar,
-					"About",
-					Path.DirectorySeparatorChar,
-					"Preview.png"
-				});
+				return this.rootDirInt.FullName + Path.DirectorySeparatorChar + "About" + Path.DirectorySeparatorChar + "Preview.png";
 			}
 		}
 
@@ -163,14 +164,7 @@ namespace Verse
 		{
 			get
 			{
-				return string.Concat(new object[]
-				{
-					this.rootDirInt.FullName,
-					Path.DirectorySeparatorChar,
-					"About",
-					Path.DirectorySeparatorChar,
-					"PublishedFileId.txt"
-				});
+				return this.rootDirInt.FullName + Path.DirectorySeparatorChar + "About" + Path.DirectorySeparatorChar + "PublishedFileId.txt";
 			}
 		}
 
@@ -190,14 +184,7 @@ namespace Verse
 
 		private void Init()
 		{
-			this.meta = DirectXmlLoader.ItemFromXmlFile<ModMetaData.ModMetaDataInternal>(string.Concat(new object[]
-			{
-				this.RootDir.FullName,
-				Path.DirectorySeparatorChar,
-				"About",
-				Path.DirectorySeparatorChar,
-				"About.xml"
-			}), true);
+			this.meta = DirectXmlLoader.ItemFromXmlFile<ModMetaDataInternal>(this.RootDir.FullName + Path.DirectorySeparatorChar + "About" + Path.DirectorySeparatorChar + "About.xml", true);
 			if (this.meta.name.NullOrEmpty())
 			{
 				if (this.OnSteamWorkshop)
@@ -211,18 +198,9 @@ namespace Verse
 			}
 			if (!this.IsCoreMod && !this.OnSteamWorkshop && !VersionControl.IsWellFormattedVersionString(this.meta.targetVersion))
 			{
-				Log.ErrorOnce(string.Concat(new string[]
-				{
-					"Mod ",
-					this.meta.name,
-					" has incorrectly formatted target version '",
-					this.meta.targetVersion,
-					"'. For the current version, write: <targetVersion>",
-					VersionControl.CurrentVersionString,
-					"</targetVersion>"
-				}), this.Identifier.GetHashCode());
+				Log.ErrorOnce("Mod " + this.meta.name + " has incorrectly formatted target version '" + this.meta.targetVersion + "'. For the current version, write: <targetVersion>" + VersionControl.CurrentVersionString + "</targetVersion>", this.Identifier.GetHashCode());
 			}
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				string url = GenFilePaths.SafeURIForUnityWWWFromPath(this.PreviewImagePath);
 				using (WWW wWW = new WWW(url))
@@ -258,7 +236,19 @@ namespace Verse
 
 		public bool CanToUploadToWorkshop()
 		{
-			return !this.IsCoreMod && this.Source == ContentSource.LocalFolder && !this.GetWorkshopItemHook().MayHaveAuthorNotCurrentUser;
+			if (this.IsCoreMod)
+			{
+				return false;
+			}
+			if (this.Source != ContentSource.LocalFolder)
+			{
+				return false;
+			}
+			if (this.GetWorkshopItemHook().MayHaveAuthorNotCurrentUser)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public PublishedFileId_t GetPublishedFileId()
@@ -268,12 +258,11 @@ namespace Verse
 
 		public void SetPublishedFileId(PublishedFileId_t newPfid)
 		{
-			if (this.publishedFileIdInt == newPfid)
+			if (!(this.publishedFileIdInt == newPfid))
 			{
-				return;
+				this.publishedFileIdInt = newPfid;
+				File.WriteAllText(this.PublishedFileIdPath, newPfid.ToString());
 			}
-			this.publishedFileIdInt = newPfid;
-			File.WriteAllText(this.PublishedFileIdPath, newPfid.ToString());
 		}
 
 		public string GetWorkshopName()
@@ -293,10 +282,9 @@ namespace Verse
 
 		public IList<string> GetWorkshopTags()
 		{
-			return new List<string>
-			{
-				"Mod"
-			};
+			List<string> list = new List<string>();
+			list.Add("Mod");
+			return list;
 		}
 
 		public DirectoryInfo GetWorkshopUploadDirectory()
@@ -320,14 +308,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Concat(new string[]
-			{
-				"[",
-				this.Identifier,
-				"|",
-				this.Name,
-				"]"
-			});
+			return "[" + this.Identifier + "|" + this.Name + "]";
 		}
 
 		public string ToStringLong()

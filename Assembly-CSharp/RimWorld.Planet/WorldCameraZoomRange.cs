@@ -1,10 +1,8 @@
-using System;
-
 namespace RimWorld.Planet
 {
 	public enum WorldCameraZoomRange : byte
 	{
-		Close,
-		Far
+		Close = 0,
+		Far = 1
 	}
 }

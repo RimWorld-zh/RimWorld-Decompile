@@ -1,12 +1,10 @@
-using System;
-
 namespace RimWorld
 {
 	public enum RestCategory : byte
 	{
-		Rested,
-		Tired,
-		VeryTired,
-		Exhausted
+		Rested = 0,
+		Tired = 1,
+		VeryTired = 2,
+		Exhausted = 3
 	}
 }

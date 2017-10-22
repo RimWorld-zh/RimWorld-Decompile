@@ -18,7 +18,11 @@ namespace Verse
 			{
 				return this.value == null;
 			}
-			return this.value != null && this.value.Equals(obj);
+			if (this.value == null)
+			{
+				return false;
+			}
+			return this.value.Equals(obj);
 		}
 	}
 }

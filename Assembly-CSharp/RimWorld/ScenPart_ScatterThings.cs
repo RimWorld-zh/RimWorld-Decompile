@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -12,20 +11,18 @@ namespace RimWorld
 
 		public override void GenerateIntoMap(Map map)
 		{
-			if (Find.GameInitData == null)
+			if (Find.GameInitData != null)
 			{
-				return;
+				GenStep_ScatterThings genStep_ScatterThings = new GenStep_ScatterThings();
+				genStep_ScatterThings.nearPlayerStart = this.NearPlayerStart;
+				genStep_ScatterThings.thingDef = base.thingDef;
+				genStep_ScatterThings.stuff = base.stuff;
+				genStep_ScatterThings.count = base.count;
+				genStep_ScatterThings.spotMustBeStandable = true;
+				genStep_ScatterThings.minSpacing = 5f;
+				genStep_ScatterThings.clusterSize = ((base.thingDef.category == ThingCategory.Building) ? 1 : 4);
+				genStep_ScatterThings.Generate(map);
 			}
-			new GenStep_ScatterThings
-			{
-				nearPlayerStart = this.NearPlayerStart,
-				thingDef = this.thingDef,
-				stuff = this.stuff,
-				count = this.count,
-				spotMustBeStandable = true,
-				minSpacing = 5f,
-				clusterSize = ((this.thingDef.category != ThingCategory.Building) ? 4 : 1)
-			}.Generate(map);
 		}
 	}
 }

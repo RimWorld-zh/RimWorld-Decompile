@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -10,7 +9,7 @@ namespace RimWorld
 
 		public static Designator_Install DesignatorFor(ThingDef artDef)
 		{
-			Designator_Install designator_Install;
+			Designator_Install designator_Install = default(Designator_Install);
 			if (InstallationDesignatorDatabase.designators.TryGetValue(artDef, out designator_Install))
 			{
 				return designator_Install;
@@ -22,10 +21,9 @@ namespace RimWorld
 
 		private static Designator_Install NewDesignatorFor(ThingDef artDef)
 		{
-			return new Designator_Install
-			{
-				hotKey = KeyBindingDefOf.Misc1
-			};
+			Designator_Install designator_Install = new Designator_Install();
+			designator_Install.hotKey = KeyBindingDefOf.Misc1;
+			return designator_Install;
 		}
 	}
 }

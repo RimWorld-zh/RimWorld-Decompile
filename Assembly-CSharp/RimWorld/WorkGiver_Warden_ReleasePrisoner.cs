@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -13,19 +12,18 @@ namespace RimWorld
 				return null;
 			}
 			Pawn pawn2 = (Pawn)t;
-			if (pawn2.guest.interactionMode != PrisonerInteractionModeDefOf.Release || pawn2.Downed || !pawn2.Awake())
+			if (pawn2.guest.interactionMode == PrisonerInteractionModeDefOf.Release && !pawn2.Downed && pawn2.Awake())
 			{
-				return null;
+				IntVec3 c = default(IntVec3);
+				if (!RCellFinder.TryFindPrisonerReleaseCell(pawn2, pawn, out c))
+				{
+					return null;
+				}
+				Job job = new Job(JobDefOf.ReleasePrisoner, (Thing)pawn2, c);
+				job.count = 1;
+				return job;
 			}
-			IntVec3 c;
-			if (!RCellFinder.TryFindPrisonerReleaseCell(pawn2, pawn, out c))
-			{
-				return null;
-			}
-			return new Job(JobDefOf.ReleasePrisoner, pawn2, c)
-			{
-				count = 1
-			};
+			return null;
 		}
 	}
 }

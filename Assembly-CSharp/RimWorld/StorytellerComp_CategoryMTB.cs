@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Verse;
 
 namespace RimWorld
 {
@@ -10,20 +10,17 @@ namespace RimWorld
 		{
 			get
 			{
-				return (StorytellerCompProperties_CategoryMTB)this.props;
+				return (StorytellerCompProperties_CategoryMTB)base.props;
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			StorytellerComp_CategoryMTB.<MakeIntervalIncidents>c__IteratorA8 <MakeIntervalIncidents>c__IteratorA = new StorytellerComp_CategoryMTB.<MakeIntervalIncidents>c__IteratorA8();
-			<MakeIntervalIncidents>c__IteratorA.target = target;
-			<MakeIntervalIncidents>c__IteratorA.<$>target = target;
-			<MakeIntervalIncidents>c__IteratorA.<>f__this = this;
-			StorytellerComp_CategoryMTB.<MakeIntervalIncidents>c__IteratorA8 expr_1C = <MakeIntervalIncidents>c__IteratorA;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			IncidentDef selectedDef;
+			if (Rand.MTBEventOccurs(this.Props.mtbDays, 60000f, 1000f) && this.UsableIncidentsInCategory(this.Props.category, target).TryRandomElementByWeight<IncidentDef>((Func<IncidentDef, float>)((IncidentDef incDef) => ((_003CMakeIntervalIncidents_003Ec__IteratorA8)/*Error near IL_0066: stateMachine*/)._003C_003Ef__this.IncidentChanceFinal(incDef)), out selectedDef))
+			{
+				yield return new FiringIncident(selectedDef, this, this.GenerateParms(selectedDef.category, target));
+			}
 		}
 	}
 }

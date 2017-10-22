@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class HediffCompProperties_TendDuration : HediffCompProperties
@@ -23,7 +21,7 @@ namespace Verse
 
 		public HediffCompProperties_TendDuration()
 		{
-			this.compClass = typeof(HediffComp_TendDuration);
+			base.compClass = typeof(HediffComp_TendDuration);
 		}
 	}
 }

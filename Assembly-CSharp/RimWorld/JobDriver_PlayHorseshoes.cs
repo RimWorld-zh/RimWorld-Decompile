@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -9,9 +8,9 @@ namespace RimWorld
 
 		protected override void WatchTickAction()
 		{
-			if (this.pawn.IsHashIntervalTick(400))
+			if (base.pawn.IsHashIntervalTick(400))
 			{
-				MoteMaker.ThrowHorseshoe(this.pawn, base.TargetA.Cell);
+				MoteMaker.ThrowHorseshoe(base.pawn, base.TargetA.Cell);
 			}
 			base.WatchTickAction();
 		}

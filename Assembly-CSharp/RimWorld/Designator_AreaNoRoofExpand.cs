@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -8,13 +7,13 @@ namespace RimWorld
 	{
 		public Designator_AreaNoRoofExpand() : base(DesignateMode.Add)
 		{
-			this.defaultLabel = "DesignatorAreaNoRoofExpand".Translate();
-			this.defaultDesc = "DesignatorAreaNoRoofExpandDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/NoRoofAreaOn", true);
-			this.hotKey = KeyBindingDefOf.Misc5;
-			this.soundDragSustain = SoundDefOf.DesignateDragAreaAdd;
-			this.soundDragChanged = SoundDefOf.DesignateDragAreaAddChanged;
-			this.soundSucceeded = SoundDefOf.DesignateAreaAdd;
+			base.defaultLabel = "DesignatorAreaNoRoofExpand".Translate();
+			base.defaultDesc = "DesignatorAreaNoRoofExpandDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/NoRoofAreaOn", true);
+			base.hotKey = KeyBindingDefOf.Misc5;
+			base.soundDragSustain = SoundDefOf.DesignateDragAreaAdd;
+			base.soundDragChanged = SoundDefOf.DesignateDragAreaAddChanged;
+			base.soundSucceeded = SoundDefOf.DesignateAreaAdd;
 		}
 	}
 }

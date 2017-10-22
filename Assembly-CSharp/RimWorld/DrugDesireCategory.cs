@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum DrugDesireCategory : byte
 	{
-		Withdrawal,
-		Desire,
-		Satisfied
+		Withdrawal = 0,
+		Desire = 1,
+		Satisfied = 2
 	}
 }

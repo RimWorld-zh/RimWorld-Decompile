@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -18,14 +17,13 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_RemoveRoof.<MakeNewToils>c__Iterator12 <MakeNewToils>c__Iterator = new JobDriver_RemoveRoof.<MakeNewToils>c__Iterator12();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_RemoveRoof.<MakeNewToils>c__Iterator12 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOn((Func<bool>)(() => !((Area)((_003CMakeNewToils_003Ec__Iterator12)/*Error near IL_0029: stateMachine*/)._003C_003Ef__this.Map.areaManager.NoRoof)[((_003CMakeNewToils_003Ec__Iterator12)/*Error near IL_0029: stateMachine*/)._003C_003Ef__this.Cell]));
+			foreach (Toil item in base.MakeNewToils())
+			{
+				yield return item;
+			}
 		}
 
 		protected override void DoEffect()

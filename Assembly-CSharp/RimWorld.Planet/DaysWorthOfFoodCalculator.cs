@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -52,7 +51,7 @@ namespace RimWorld.Planet
 					}
 				}
 			}
-			if (!DaysWorthOfFoodCalculator.tmpFood.Any<ThingCount>())
+			if (!DaysWorthOfFoodCalculator.tmpFood.Any())
 			{
 				return 0f;
 			}
@@ -64,48 +63,41 @@ namespace RimWorld.Planet
 				DaysWorthOfFoodCalculator.tmpAnyFoodLeftIngestibleByPawn.Add(true);
 			}
 			float num = 0f;
-			bool flag;
-			do
+			while (true)
 			{
-				flag = false;
+				bool flag = false;
 				for (int m = 0; m < pawns.Count; m++)
 				{
 					Pawn pawn = pawns[m];
-					if (DaysWorthOfFoodCalculator.tmpAnyFoodLeftIngestibleByPawn[m])
+					if (DaysWorthOfFoodCalculator.tmpAnyFoodLeftIngestibleByPawn[m] && pawn.RaceProps.EatsFood && (!assumeCanEatLocalPlants || !VirtualPlantsUtility.CanEverEatVirtualPlants(pawn)))
 					{
-						if (pawn.RaceProps.EatsFood && (!assumeCanEatLocalPlants || !VirtualPlantsUtility.CanEverEatVirtualPlants(pawn)))
+						while (true)
 						{
-							do
+							int num2 = DaysWorthOfFoodCalculator.BestEverEdibleFoodIndexFor(pawns[m], DaysWorthOfFoodCalculator.tmpFood);
+							if (num2 < 0)
 							{
-								int num2 = DaysWorthOfFoodCalculator.BestEverEdibleFoodIndexFor(pawns[m], DaysWorthOfFoodCalculator.tmpFood);
-								if (num2 < 0)
-								{
-									goto Block_13;
-								}
-								float num3 = Mathf.Min(DaysWorthOfFoodCalculator.tmpFood[num2].ThingDef.ingestible.nutrition, pawn.needs.food.NutritionBetweenHungryAndFed);
-								float num4 = num3 / pawn.needs.food.NutritionBetweenHungryAndFed * (float)pawn.needs.food.TicksUntilHungryWhenFed / 60000f;
-								List<float> list;
-								List<float> expr_25A = list = DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn;
-								int index;
-								int expr_25F = index = m;
-								float num5 = list[index];
-								expr_25A[expr_25F] = num5 + num4;
-								DaysWorthOfFoodCalculator.tmpFood[num2] = DaysWorthOfFoodCalculator.tmpFood[num2].WithCount(DaysWorthOfFoodCalculator.tmpFood[num2].Count - 1);
-								flag = true;
+								DaysWorthOfFoodCalculator.tmpAnyFoodLeftIngestibleByPawn[m] = false;
+								break;
 							}
-							while (DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn[m] < num);
-							IL_2C5:
-							num = Mathf.Max(num, DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn[m]);
-							goto IL_2DA;
-							Block_13:
-							DaysWorthOfFoodCalculator.tmpAnyFoodLeftIngestibleByPawn[m] = false;
-							goto IL_2C5;
+							float num3 = Mathf.Min(DaysWorthOfFoodCalculator.tmpFood[num2].ThingDef.ingestible.nutrition, pawn.needs.food.NutritionBetweenHungryAndFed);
+							float num4 = (float)(num3 / pawn.needs.food.NutritionBetweenHungryAndFed * (float)pawn.needs.food.TicksUntilHungryWhenFed / 60000.0);
+							List<float> list;
+							List<float> obj = list = DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn;
+							int index;
+							int index2 = index = m;
+							float num5 = list[index];
+							obj[index2] = num5 + num4;
+							DaysWorthOfFoodCalculator.tmpFood[num2] = DaysWorthOfFoodCalculator.tmpFood[num2].WithCount(DaysWorthOfFoodCalculator.tmpFood[num2].Count - 1);
+							flag = true;
+							if (!(DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn[m] < num))
+								break;
 						}
+						num = Mathf.Max(num, DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn[m]);
 					}
-					IL_2DA:;
 				}
+				if (!flag)
+					break;
 			}
-			while (flag);
 			float num6 = 1000f;
 			for (int n = 0; n < pawns.Count; n++)
 			{
@@ -119,7 +111,7 @@ namespace RimWorld.Planet
 
 		public static float ApproxDaysWorthOfFood(Caravan caravan)
 		{
-			return DaysWorthOfFoodCalculator.ApproxDaysWorthOfFood(caravan.PawnsListForReading, null, VirtualPlantsUtility.EnvironmentAllowsEatingVirtualPlantsNowAt(caravan.Tile), IgnorePawnsInventoryMode.DontIgnore);
+			return DaysWorthOfFoodCalculator.ApproxDaysWorthOfFood(caravan.PawnsListForReading, (List<ThingCount>)null, VirtualPlantsUtility.EnvironmentAllowsEatingVirtualPlantsNowAt(caravan.Tile), IgnorePawnsInventoryMode.DontIgnore);
 		}
 
 		public static float ApproxDaysWorthOfFood(List<TransferableOneWay> transferables, bool assumeCanEatLocalPlants, IgnorePawnsInventoryMode ignoreInventory)
@@ -165,9 +157,9 @@ namespace RimWorld.Planet
 				{
 					if (transferableOneWay.AnyThing is Pawn)
 					{
-						for (int j = transferableOneWay.things.Count - 1; j >= transferableOneWay.CountToTransfer; j--)
+						for (int num = transferableOneWay.things.Count - 1; num >= transferableOneWay.CountToTransfer; num--)
 						{
-							Pawn pawn = (Pawn)transferableOneWay.things[j];
+							Pawn pawn = (Pawn)transferableOneWay.things[num];
 							if (pawn.RaceProps.EatsFood && (!assumeCanEatLocalPlants || !VirtualPlantsUtility.CanEverEatVirtualPlants(pawn)))
 							{
 								DaysWorthOfFoodCalculator.tmpPawns.Add(pawn);
@@ -225,9 +217,9 @@ namespace RimWorld.Planet
 			TransferableUtility.SimulateTradeableTransfer(allCurrentThings, tradeables, DaysWorthOfFoodCalculator.tmpThingStackParts);
 			DaysWorthOfFoodCalculator.tmpPawns.Clear();
 			DaysWorthOfFoodCalculator.tmpThingCounts.Clear();
-			for (int i = DaysWorthOfFoodCalculator.tmpThingStackParts.Count - 1; i >= 0; i--)
+			for (int num = DaysWorthOfFoodCalculator.tmpThingStackParts.Count - 1; num >= 0; num--)
 			{
-				Pawn pawn = DaysWorthOfFoodCalculator.tmpThingStackParts[i].Thing as Pawn;
+				Pawn pawn = DaysWorthOfFoodCalculator.tmpThingStackParts[num].Thing as Pawn;
 				if (pawn != null)
 				{
 					if (pawn.RaceProps.EatsFood && (!assumeCanEatLocalPlants || !VirtualPlantsUtility.CanEverEatVirtualPlants(pawn)))
@@ -237,7 +229,7 @@ namespace RimWorld.Planet
 				}
 				else
 				{
-					DaysWorthOfFoodCalculator.tmpThingCounts.Add(new ThingCount(DaysWorthOfFoodCalculator.tmpThingStackParts[i].Thing.def, DaysWorthOfFoodCalculator.tmpThingStackParts[i].Count));
+					DaysWorthOfFoodCalculator.tmpThingCounts.Add(new ThingCount(DaysWorthOfFoodCalculator.tmpThingStackParts[num].Thing.def, DaysWorthOfFoodCalculator.tmpThingStackParts[num].Count));
 				}
 			}
 			DaysWorthOfFoodCalculator.tmpThingStackParts.Clear();

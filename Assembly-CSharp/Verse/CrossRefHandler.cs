@@ -15,24 +15,16 @@ namespace Verse
 		{
 			if (Scribe.mode != LoadSaveMode.LoadingVars)
 			{
-				Log.Error(string.Concat(new object[]
+				Log.Error("Registered " + s + " for cross ref resolve, but current mode is " + Scribe.mode);
+			}
+			else if (s != null)
+			{
+				if (DebugViewSettings.logMapLoad)
 				{
-					"Registered ",
-					s,
-					" for cross ref resolve, but current mode is ",
-					Scribe.mode
-				}));
-				return;
+					LogSimple.Message("RegisterForCrossRefResolve " + ((s == null) ? "null" : s.GetType().ToString()));
+				}
+				this.crossReferencingExposables.Add(s);
 			}
-			if (s == null)
-			{
-				return;
-			}
-			if (DebugViewSettings.logMapLoad)
-			{
-				LogSimple.Message("RegisterForCrossRefResolve " + ((s == null) ? "null" : s.GetType().ToString()));
-			}
-			this.crossReferencingExposables.Add(s);
 		}
 
 		public void ResolveAllCrossReferences()
@@ -42,41 +34,59 @@ namespace Verse
 			{
 				LogSimple.Message("==================Register the saveables all so we can find them later");
 			}
-			foreach (IExposable current in this.crossReferencingExposables)
+			List<IExposable>.Enumerator enumerator = this.crossReferencingExposables.GetEnumerator();
+			try
 			{
-				ILoadReferenceable loadReferenceable = current as ILoadReferenceable;
-				if (loadReferenceable != null)
+				while (enumerator.MoveNext())
 				{
-					if (DebugViewSettings.logMapLoad)
+					IExposable current = enumerator.Current;
+					ILoadReferenceable loadReferenceable = current as ILoadReferenceable;
+					if (loadReferenceable != null)
 					{
-						LogSimple.Message("RegisterLoaded " + loadReferenceable.GetType());
+						if (DebugViewSettings.logMapLoad)
+						{
+							LogSimple.Message("RegisterLoaded " + loadReferenceable.GetType());
+						}
+						this.loadedObjectDirectory.RegisterLoaded(loadReferenceable);
 					}
-					this.loadedObjectDirectory.RegisterLoaded(loadReferenceable);
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			if (DebugViewSettings.logMapLoad)
 			{
 				LogSimple.Message("==================Fill all cross-references to the saveables");
 			}
-			foreach (IExposable current2 in this.crossReferencingExposables)
+			List<IExposable>.Enumerator enumerator2 = this.crossReferencingExposables.GetEnumerator();
+			try
 			{
-				if (DebugViewSettings.logMapLoad)
+				while (enumerator2.MoveNext())
 				{
-					LogSimple.Message("ResolvingCrossRefs ExposeData " + current2.GetType());
-				}
-				try
-				{
-					Scribe.loader.curParent = current2;
-					Scribe.loader.curPathRelToParent = null;
-					current2.ExposeData();
-				}
-				catch (Exception arg)
-				{
-					Log.Error("Could not resolve cross refs: " + arg);
+					IExposable current2 = enumerator2.Current;
+					if (DebugViewSettings.logMapLoad)
+					{
+						LogSimple.Message("ResolvingCrossRefs ExposeData " + current2.GetType());
+					}
+					try
+					{
+						Scribe.loader.curParent = current2;
+						Scribe.loader.curPathRelToParent = (string)null;
+						current2.ExposeData();
+					}
+					catch (Exception arg)
+					{
+						Log.Error("Could not resolve cross refs: " + arg);
+					}
 				}
 			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
+			}
 			Scribe.loader.curParent = null;
-			Scribe.loader.curPathRelToParent = null;
+			Scribe.loader.curPathRelToParent = (string)null;
 			Scribe.mode = LoadSaveMode.Inactive;
 			this.Clear(true);
 		}

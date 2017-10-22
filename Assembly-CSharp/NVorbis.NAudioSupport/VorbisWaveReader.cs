@@ -37,11 +37,12 @@ namespace NVorbis.NAudioSupport
 			}
 			set
 			{
-				if (value < 0L || value > this.Length)
+				if (value >= 0 && value <= this.Length)
 				{
-					throw new ArgumentOutOfRangeException("value");
+					this._reader.DecodedTime = TimeSpan.FromSeconds((double)value / (double)this._reader.SampleRate / (double)this._reader.Channels / 4.0);
+					return;
 				}
-				this._reader.DecodedTime = TimeSpan.FromSeconds((double)value / (double)this._reader.SampleRate / (double)this._reader.Channels / 4.0);
+				throw new ArgumentOutOfRangeException("value");
 			}
 		}
 
@@ -77,11 +78,11 @@ namespace NVorbis.NAudioSupport
 			{
 				if (!this._reader.SwitchStreams(value))
 				{
-					throw new NVorbis.InvalidDataException("The selected stream is not a valid Vorbis stream!");
+					throw new InvalidDataException("The selected stream is not a valid Vorbis stream!");
 				}
 				if (this.NextStreamIndex.HasValue && value == this.NextStreamIndex.Value)
 				{
-					this.NextStreamIndex = null;
+					this.NextStreamIndex = default(int?);
 				}
 			}
 		}
@@ -168,12 +169,7 @@ namespace NVorbis.NAudioSupport
 		{
 			count /= 4;
 			count -= count % this._reader.Channels;
-			float[] arg_2E_0;
-			if ((arg_2E_0 = VorbisWaveReader._conversionBuffer) == null)
-			{
-				arg_2E_0 = (VorbisWaveReader._conversionBuffer = new float[count]);
-			}
-			float[] array = arg_2E_0;
+			float[] array = VorbisWaveReader._conversionBuffer ?? (VorbisWaveReader._conversionBuffer = new float[count]);
 			if (array.Length < count)
 			{
 				array = (VorbisWaveReader._conversionBuffer = new float[count]);

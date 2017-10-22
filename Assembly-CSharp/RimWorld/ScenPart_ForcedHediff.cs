@@ -16,16 +16,16 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.hediff.lethalSeverity <= 0f) ? 1f : (this.hediff.lethalSeverity * 0.99f);
+				return (float)((!(this.hediff.lethalSeverity > 0.0)) ? 1.0 : (this.hediff.lethalSeverity * 0.99000000953674316));
 			}
 		}
 
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
-			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 3f + 31f);
+			Rect scenPartRect = listing.GetScenPartRect(this, (float)(ScenPart.RowHeight * 3.0 + 31.0));
 			if (Widgets.ButtonText(scenPartRect.TopPartPixels(ScenPart.RowHeight), this.hediff.LabelCap, true, false, true))
 			{
-				FloatMenuUtility.MakeMenu<HediffDef>(this.PossibleHediffs(), (HediffDef hd) => hd.LabelCap, (HediffDef hd) => delegate
+				FloatMenuUtility.MakeMenu(this.PossibleHediffs(), (Func<HediffDef, string>)((HediffDef hd) => hd.LabelCap), (Func<HediffDef, Action>)((HediffDef hd) => (Action)delegate()
 				{
 					this.hediff = hd;
 					if (this.severityRange.max > this.MaxSeverity)
@@ -36,10 +36,10 @@ namespace RimWorld
 					{
 						this.severityRange.min = this.MaxSeverity;
 					}
-				});
+				}));
 			}
 			Widgets.FloatRange(new Rect(scenPartRect.x, scenPartRect.y + ScenPart.RowHeight, scenPartRect.width, 31f), listing.CurHeight.GetHashCode(), ref this.severityRange, 0f, this.MaxSeverity, "ConfigurableSeverity", ToStringStyle.FloatTwo);
-			base.DoPawnModifierEditInterface(scenPartRect.BottomPartPixels(ScenPart.RowHeight * 2f));
+			base.DoPawnModifierEditInterface(scenPartRect.BottomPartPixels((float)(ScenPart.RowHeight * 2.0)));
 		}
 
 		private IEnumerable<HediffDef> PossibleHediffs()
@@ -58,19 +58,14 @@ namespace RimWorld
 
 		public override string Summary(Scenario scen)
 		{
-			return "ScenPart_PawnsHaveHediff".Translate(new object[]
-			{
-				this.context.ToStringHuman(),
-				this.chance.ToStringPercent(),
-				this.hediff.label
-			}).CapitalizeFirst();
+			return "ScenPart_PawnsHaveHediff".Translate(base.context.ToStringHuman(), base.chance.ToStringPercent(), this.hediff.label).CapitalizeFirst();
 		}
 
 		public override void Randomize()
 		{
 			base.Randomize();
-			this.hediff = this.PossibleHediffs().RandomElement<HediffDef>();
-			this.severityRange.max = Rand.Range(this.MaxSeverity * 0.2f, this.MaxSeverity * 0.95f);
+			this.hediff = this.PossibleHediffs().RandomElement();
+			this.severityRange.max = Rand.Range((float)(this.MaxSeverity * 0.20000000298023224), (float)(this.MaxSeverity * 0.949999988079071));
 			this.severityRange.min = this.severityRange.max * Rand.Range(0f, 0.95f);
 		}
 
@@ -79,7 +74,7 @@ namespace RimWorld
 			ScenPart_ForcedHediff scenPart_ForcedHediff = other as ScenPart_ForcedHediff;
 			if (scenPart_ForcedHediff != null && this.hediff == scenPart_ForcedHediff.hediff)
 			{
-				this.chance = GenMath.ChanceEitherHappens(this.chance, scenPart_ForcedHediff.chance);
+				base.chance = GenMath.ChanceEitherHappens(base.chance, scenPart_ForcedHediff.chance);
 				return true;
 			}
 			return false;
@@ -87,11 +82,11 @@ namespace RimWorld
 
 		protected override void ModifyPawn(Pawn p)
 		{
-			if (Rand.Value < this.chance)
+			if (Rand.Value < base.chance)
 			{
 				Hediff hediff = HediffMaker.MakeHediff(this.hediff, p, null);
 				hediff.Severity = this.severityRange.RandomInRange;
-				p.health.AddHediff(hediff, null, null);
+				p.health.AddHediff(hediff, null, default(DamageInfo?));
 			}
 		}
 	}

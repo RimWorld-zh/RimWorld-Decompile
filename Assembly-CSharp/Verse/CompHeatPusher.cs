@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class CompHeatPusher : ThingComp
@@ -10,7 +8,7 @@ namespace Verse
 		{
 			get
 			{
-				return (CompProperties_HeatPusher)this.props;
+				return (CompProperties_HeatPusher)base.props;
 			}
 		}
 
@@ -25,13 +23,13 @@ namespace Verse
 		public override void CompTick()
 		{
 			base.CompTick();
-			if (this.parent.IsHashIntervalTick(60) && this.ShouldPushHeatNow)
+			if (base.parent.IsHashIntervalTick(60) && this.ShouldPushHeatNow)
 			{
 				CompProperties_HeatPusher props = this.Props;
-				float ambientTemperature = this.parent.AmbientTemperature;
+				float ambientTemperature = base.parent.AmbientTemperature;
 				if (ambientTemperature < props.heatPushMaxTemperature && ambientTemperature > props.heatPushMinTemperature)
 				{
-					GenTemperature.PushHeat(this.parent.Position, this.parent.Map, props.heatPerSecond);
+					GenTemperature.PushHeat(base.parent.Position, base.parent.Map, props.heatPerSecond);
 				}
 			}
 		}

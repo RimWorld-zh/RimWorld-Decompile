@@ -17,15 +17,15 @@ namespace Verse
 
 		public static void ClearAllStartingPawns()
 		{
-			for (int i = StartingPawnUtility.StartingPawns.Count - 1; i >= 0; i--)
+			for (int num = StartingPawnUtility.StartingPawns.Count - 1; num >= 0; num--)
 			{
-				StartingPawnUtility.StartingPawns[i].relations.ClearAllRelations();
+				StartingPawnUtility.StartingPawns[num].relations.ClearAllRelations();
 				if (Find.World != null)
 				{
-					PawnUtility.DestroyStartingColonistFamily(StartingPawnUtility.StartingPawns[i]);
-					Find.WorldPawns.PassToWorld(StartingPawnUtility.StartingPawns[i], PawnDiscardDecideMode.Discard);
+					PawnUtility.DestroyStartingColonistFamily(StartingPawnUtility.StartingPawns[num]);
+					Find.WorldPawns.PassToWorld(StartingPawnUtility.StartingPawns[num], PawnDiscardDecideMode.Discard);
 				}
-				StartingPawnUtility.StartingPawns.RemoveAt(i);
+				StartingPawnUtility.StartingPawns.RemoveAt(num);
 			}
 		}
 
@@ -61,7 +61,7 @@ namespace Verse
 
 		public static Pawn NewGeneratedStartingPawn()
 		{
-			PawnGenerationRequest request = new PawnGenerationRequest(Faction.OfPlayer.def.basicMemberKind, Faction.OfPlayer, PawnGenerationContext.PlayerStarter, -1, true, false, false, false, true, false, 26f, false, true, true, false, false, null, null, null, null, null, null);
+			PawnGenerationRequest request = new PawnGenerationRequest(Faction.OfPlayer.def.basicMemberKind, Faction.OfPlayer, PawnGenerationContext.PlayerStarter, -1, true, false, false, false, true, false, 26f, false, true, true, false, false, null, default(float?), default(float?), default(Gender?), default(float?), (string)null);
 			Pawn pawn = null;
 			try
 			{
@@ -90,13 +90,16 @@ namespace Verse
 				if (workTypeDef.requireCapableColonist)
 				{
 					bool flag = false;
-					for (int j = 0; j < StartingPawnUtility.StartingPawns.Count; j++)
+					int num = 0;
+					while (num < StartingPawnUtility.StartingPawns.Count)
 					{
-						if (!StartingPawnUtility.StartingPawns[j].story.WorkTypeIsDisabled(workTypeDef))
+						if (StartingPawnUtility.StartingPawns[num].story.WorkTypeIsDisabled(workTypeDef))
 						{
-							flag = true;
-							break;
+							num++;
+							continue;
 						}
+						flag = true;
+						break;
 					}
 					if (!flag)
 					{
@@ -104,12 +107,9 @@ namespace Verse
 					}
 				}
 			}
-			if (TutorSystem.TutorialMode)
+			if (TutorSystem.TutorialMode && StartingPawnUtility.StartingPawns.Any((Predicate<Pawn>)((Pawn p) => p.story.WorkTagIsDisabled(WorkTags.Violent))))
 			{
-				if (StartingPawnUtility.StartingPawns.Any((Pawn p) => p.story.WorkTagIsDisabled(WorkTags.Violent)))
-				{
-					return false;
-				}
+				return false;
 			}
 			return true;
 		}

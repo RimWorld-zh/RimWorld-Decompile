@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -9,7 +8,7 @@ namespace RimWorld
 		public override float GetScore(Room room)
 		{
 			float stat = room.GetStat(RoomStatDefOf.Cleanliness);
-			float value = 1f / GenMath.UnboundedValueToFactor(stat * 0.21f);
+			float value = (float)(1.0 / GenMath.UnboundedValueToFactor((float)(stat * 0.20999999344348907)));
 			return Mathf.Clamp(value, 0.7f, 1.6f);
 		}
 	}

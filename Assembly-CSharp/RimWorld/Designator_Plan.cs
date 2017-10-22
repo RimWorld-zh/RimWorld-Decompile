@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -28,10 +27,10 @@ namespace RimWorld
 		public Designator_Plan(DesignateMode mode)
 		{
 			this.mode = mode;
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.useMouseIcon = true;
-			this.hotKey = KeyBindingDefOf.Misc9;
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.useMouseIcon = true;
+			base.hotKey = KeyBindingDefOf.Misc9;
 			this.desDef = DesignationDefOf.Plan;
 		}
 

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse.Sound
@@ -25,7 +24,7 @@ namespace Verse.Sound
 			setup.lfReference = audioReverbFilter.lfReference;
 			setup.diffusion = audioReverbFilter.diffusion;
 			setup.density = audioReverbFilter.density;
-			UnityEngine.Object.Destroy(audioReverbFilter);
+			Object.Destroy(audioReverbFilter);
 		}
 	}
 }

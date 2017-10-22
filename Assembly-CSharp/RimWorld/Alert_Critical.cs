@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -25,17 +24,16 @@ namespace RimWorld
 
 		public Alert_Critical()
 		{
-			this.defaultPriority = AlertPriority.Critical;
+			base.defaultPriority = AlertPriority.Critical;
 		}
 
 		public override void AlertActiveUpdate()
 		{
 			if (this.lastActiveFrame < Time.frameCount - 1)
 			{
-				Messages.Message("MessageCriticalAlert".Translate(new object[]
-				{
-					this.GetLabel()
-				}), this.GetReport().culprit, MessageSound.SeriousAlert);
+				string text = "MessageCriticalAlert".Translate(this.GetLabel());
+				AlertReport report = this.GetReport();
+				Messages.Message(text, report.culprit, MessageSound.SeriousAlert);
 			}
 			this.lastActiveFrame = Time.frameCount;
 		}

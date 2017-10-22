@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,7 +6,7 @@ namespace RimWorld
 	{
 		public override void Activate()
 		{
-			Find.MainTabsRoot.ToggleTab(this.def, true);
+			Find.MainTabsRoot.ToggleTab(base.def, true);
 		}
 	}
 }

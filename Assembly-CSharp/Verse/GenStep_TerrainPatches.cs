@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -13,14 +12,14 @@ namespace Verse
 
 		public override void Generate(Map map)
 		{
-			int num = Mathf.RoundToInt((float)map.Area / 10000f * this.patchesPer10kCellsRange.RandomInRange);
-			for (int i = 0; i < num; i++)
+			int num = Mathf.RoundToInt((float)((float)map.Area / 10000.0 * this.patchesPer10kCellsRange.RandomInRange));
+			for (int num2 = 0; num2 < num; num2++)
 			{
 				float randomInRange = this.patchSizeRange.RandomInRange;
 				IntVec3 a = CellFinder.RandomCell(map);
-				foreach (IntVec3 current in GenRadial.RadialPatternInRadius(randomInRange / 2f))
+				foreach (IntVec3 item in GenRadial.RadialPatternInRadius((float)(randomInRange / 2.0)))
 				{
-					IntVec3 c = a + current;
+					IntVec3 c = a + item;
 					if (c.InBounds(map))
 					{
 						map.terrainGrid.SetTerrain(c, this.terrainDef);

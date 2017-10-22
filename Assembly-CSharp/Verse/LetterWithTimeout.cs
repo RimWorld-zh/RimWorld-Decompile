@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -19,7 +18,15 @@ namespace Verse
 		{
 			get
 			{
-				return base.StillValid && (!this.TimeoutActive || Find.TickManager.TicksGame < this.disappearAtTick);
+				if (!base.StillValid)
+				{
+					return false;
+				}
+				if (this.TimeoutActive && Find.TickManager.TicksGame >= this.disappearAtTick)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -39,16 +46,9 @@ namespace Verse
 			string text = base.PostProcessedLabel();
 			if (this.TimeoutActive)
 			{
-				int num = Mathf.RoundToInt((float)(this.disappearAtTick - Find.TickManager.TicksGame) / 2500f);
+				int num = Mathf.RoundToInt((float)((float)(this.disappearAtTick - Find.TickManager.TicksGame) / 2500.0));
 				string text2 = text;
-				text = string.Concat(new object[]
-				{
-					text2,
-					" (",
-					num,
-					"LetterHour".Translate(),
-					")"
-				});
+				text = text2 + " (" + num + "LetterHour".Translate() + ")";
 			}
 			return text;
 		}

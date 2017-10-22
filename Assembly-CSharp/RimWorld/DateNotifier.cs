@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
@@ -16,23 +16,42 @@ namespace RimWorld
 		public void DateNotifierTick()
 		{
 			Map map = this.FindPlayerHomeWithMinTimezone();
-			float latitude = (map == null) ? 0f : Find.WorldGrid.LongLatOf(map.Tile).y;
-			float longitude = (map == null) ? 0f : Find.WorldGrid.LongLatOf(map.Tile).x;
-			Season season = GenDate.Season((long)Find.TickManager.TicksAbs, latitude, longitude);
-			if (season != this.lastSeason && (this.lastSeason == Season.Undefined || season != this.lastSeason.GetPreviousSeason()))
+			double num;
+			if (map != null)
 			{
-				if (this.lastSeason != Season.Undefined && this.AnyPlayerHomeSeasonsAreMeaningful())
+				Vector2 vector = Find.WorldGrid.LongLatOf(map.Tile);
+				num = vector.y;
+			}
+			else
+			{
+				num = 0.0;
+			}
+			float latitude = (float)num;
+			double num2;
+			if (map != null)
+			{
+				Vector2 vector2 = Find.WorldGrid.LongLatOf(map.Tile);
+				num2 = vector2.x;
+			}
+			else
+			{
+				num2 = 0.0;
+			}
+			float longitude = (float)num2;
+			Season season = GenDate.Season(Find.TickManager.TicksAbs, latitude, longitude);
+			if (season != this.lastSeason)
+			{
+				if (this.lastSeason != 0 && season == this.lastSeason.GetPreviousSeason())
+					return;
+				if (this.lastSeason != 0 && this.AnyPlayerHomeSeasonsAreMeaningful())
 				{
 					if (GenDate.YearsPassed == 0 && season == Season.Summer && this.AnyPlayerHomeAvgTempIsLowInWinter())
 					{
-						Find.LetterStack.ReceiveLetter("LetterLabelFirstSummerWarning".Translate(), "FirstSummerWarning".Translate(), LetterDefOf.Good, null);
+						Find.LetterStack.ReceiveLetter("LetterLabelFirstSummerWarning".Translate(), "FirstSummerWarning".Translate(), LetterDefOf.Good, (string)null);
 					}
 					else if (GenDate.DaysPassed > 5)
 					{
-						Messages.Message("MessageSeasonBegun".Translate(new object[]
-						{
-							season.Label()
-						}).CapitalizeFirst(), MessageSound.Standard);
+						Messages.Message("MessageSeasonBegun".Translate(season.Label()).CapitalizeFirst(), MessageSound.Standard);
 					}
 				}
 				this.lastSeason = season;
@@ -48,7 +67,8 @@ namespace RimWorld
 			{
 				if (maps[i].IsPlayerHome)
 				{
-					int num2 = GenDate.TimeZoneAt(Find.WorldGrid.LongLatOf(maps[i].Tile).x);
+					Vector2 vector = Find.WorldGrid.LongLatOf(maps[i].Tile);
+					int num2 = GenDate.TimeZoneAt(vector.x);
 					if (map == null || num2 < num)
 					{
 						map = maps[i];
@@ -77,9 +97,14 @@ namespace RimWorld
 			List<Map> maps = Find.Maps;
 			for (int i = 0; i < maps.Count; i++)
 			{
-				if (maps[i].IsPlayerHome && GenTemperature.AverageTemperatureAtTileForTwelfth(maps[i].Tile, Season.Winter.GetMiddleTwelfth(Find.WorldGrid.LongLatOf(maps[i].Tile).y)) < 8f)
+				if (maps[i].IsPlayerHome)
 				{
-					return true;
+					int tile = maps[i].Tile;
+					Vector2 vector = Find.WorldGrid.LongLatOf(maps[i].Tile);
+					if (GenTemperature.AverageTemperatureAtTileForTwelfth(tile, Season.Winter.GetMiddleTwelfth(vector.y)) < 8.0)
+					{
+						return true;
+					}
 				}
 			}
 			return false;

@@ -19,9 +19,9 @@ namespace RimWorld
 			}
 			if (p.kindDef.inventoryOptions != null)
 			{
-				foreach (Thing current in p.kindDef.inventoryOptions.GenerateThings())
+				foreach (Thing item in p.kindDef.inventoryOptions.GenerateThings())
 				{
-					p.inventory.innerContainer.TryAdd(current, true);
+					p.inventory.innerContainer.TryAdd(item, true);
 				}
 			}
 			if (request.AllowFood)
@@ -34,7 +34,7 @@ namespace RimWorld
 
 		public static void GiveRandomFood(Pawn p)
 		{
-			if (p.kindDef.invNutrition > 0.001f)
+			if (p.kindDef.invNutrition > 0.0010000000474974513)
 			{
 				ThingDef thingDef;
 				if (p.kindDef.invFoodDef != null)
@@ -44,18 +44,7 @@ namespace RimWorld
 				else
 				{
 					float value = Rand.Value;
-					if (value < 0.5f)
-					{
-						thingDef = ThingDefOf.MealSimple;
-					}
-					else if ((double)value < 0.75)
-					{
-						thingDef = ThingDefOf.MealFine;
-					}
-					else
-					{
-						thingDef = ThingDefOf.MealSurvivalPack;
-					}
+					thingDef = ((!(value < 0.5)) ? ((!((double)value < 0.75)) ? ThingDefOf.MealSurvivalPack : ThingDefOf.MealFine) : ThingDefOf.MealSimple);
 				}
 				Thing thing = ThingMaker.MakeThing(thingDef, null);
 				thing.stackCount = GenMath.RoundRandom(p.kindDef.invNutrition / thingDef.ingestible.nutrition);
@@ -65,83 +54,79 @@ namespace RimWorld
 
 		private static void GiveDrugsIfAddicted(Pawn p)
 		{
-			PawnInventoryGenerator.<GiveDrugsIfAddicted>c__AnonStorey333 <GiveDrugsIfAddicted>c__AnonStorey = new PawnInventoryGenerator.<GiveDrugsIfAddicted>c__AnonStorey333();
-			<GiveDrugsIfAddicted>c__AnonStorey.p = p;
-			if (!<GiveDrugsIfAddicted>c__AnonStorey.p.RaceProps.Humanlike)
+			if (p.RaceProps.Humanlike)
 			{
-				return;
-			}
-			IEnumerable<Hediff_Addiction> hediffs = <GiveDrugsIfAddicted>c__AnonStorey.p.health.hediffSet.GetHediffs<Hediff_Addiction>();
-			foreach (Hediff_Addiction addiction in hediffs)
-			{
-				IEnumerable<ThingDef> source = DefDatabase<ThingDef>.AllDefsListForReading.Where(delegate(ThingDef x)
+				IEnumerable<Hediff_Addiction> hediffs = p.health.hediffSet.GetHediffs<Hediff_Addiction>();
+				using (IEnumerator<Hediff_Addiction> enumerator = hediffs.GetEnumerator())
 				{
-					if (x.category != ThingCategory.Item)
+					Hediff_Addiction addiction;
+					while (enumerator.MoveNext())
 					{
-						return false;
+						addiction = enumerator.Current;
+						IEnumerable<ThingDef> source = DefDatabase<ThingDef>.AllDefsListForReading.Where((Func<ThingDef, bool>)delegate(ThingDef x)
+						{
+							if (x.category != ThingCategory.Item)
+							{
+								return false;
+							}
+							if (p.Faction != null && (int)x.techLevel > (int)p.Faction.def.techLevel)
+							{
+								return false;
+							}
+							CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
+							return compProperties != null && compProperties.chemical != null && compProperties.chemical.addictionHediff == addiction.def;
+						});
+						ThingDef def = default(ThingDef);
+						if (source.TryRandomElement<ThingDef>(out def))
+						{
+							int stackCount = Rand.RangeInclusive(2, 5);
+							Thing thing = ThingMaker.MakeThing(def, null);
+							thing.stackCount = stackCount;
+							p.inventory.TryAddItemNotForSale(thing);
+						}
 					}
-					if (<GiveDrugsIfAddicted>c__AnonStorey.p.Faction != null && x.techLevel > <GiveDrugsIfAddicted>c__AnonStorey.p.Faction.def.techLevel)
-					{
-						return false;
-					}
-					CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
-					return compProperties != null && compProperties.chemical != null && compProperties.chemical.addictionHediff == addiction.def;
-				});
-				ThingDef def;
-				if (source.TryRandomElement(out def))
-				{
-					int stackCount = Rand.RangeInclusive(2, 5);
-					Thing thing = ThingMaker.MakeThing(def, null);
-					thing.stackCount = stackCount;
-					<GiveDrugsIfAddicted>c__AnonStorey.p.inventory.TryAddItemNotForSale(thing);
 				}
 			}
 		}
 
 		private static void GiveCombatEnhancingDrugs(Pawn pawn)
 		{
-			if (Rand.Value >= pawn.kindDef.combatEnhancingDrugsChance)
+			if (!(Rand.Value >= pawn.kindDef.combatEnhancingDrugsChance) && !pawn.IsTeetotaler())
 			{
-				return;
-			}
-			if (pawn.IsTeetotaler())
-			{
-				return;
-			}
-			for (int i = 0; i < pawn.inventory.innerContainer.Count; i++)
-			{
-				CompDrug compDrug = pawn.inventory.innerContainer[i].TryGetComp<CompDrug>();
-				if (compDrug != null && compDrug.Props.isCombatEnhancingDrug)
+				for (int i = 0; i < pawn.inventory.innerContainer.Count; i++)
 				{
-					return;
+					CompDrug compDrug = pawn.inventory.innerContainer[i].TryGetComp<CompDrug>();
+					if (compDrug != null && compDrug.Props.isCombatEnhancingDrug)
+						return;
 				}
-			}
-			int randomInRange = pawn.kindDef.combatEnhancingDrugsCount.RandomInRange;
-			if (randomInRange <= 0)
-			{
-				return;
-			}
-			IEnumerable<ThingDef> source = DefDatabase<ThingDef>.AllDefsListForReading.Where(delegate(ThingDef x)
-			{
-				if (x.category != ThingCategory.Item)
+				int randomInRange = pawn.kindDef.combatEnhancingDrugsCount.RandomInRange;
+				if (randomInRange > 0)
 				{
-					return false;
+					IEnumerable<ThingDef> source = DefDatabase<ThingDef>.AllDefsListForReading.Where((Func<ThingDef, bool>)delegate(ThingDef x)
+					{
+						if (x.category != ThingCategory.Item)
+						{
+							return false;
+						}
+						if (pawn.Faction != null && (int)x.techLevel > (int)pawn.Faction.def.techLevel)
+						{
+							return false;
+						}
+						CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
+						if (compProperties != null && compProperties.isCombatEnhancingDrug)
+						{
+							return true;
+						}
+						return false;
+					});
+					int num = 0;
+					ThingDef def = default(ThingDef);
+					while (num < randomInRange && source.TryRandomElement<ThingDef>(out def))
+					{
+						pawn.inventory.innerContainer.TryAdd(ThingMaker.MakeThing(def, null), true);
+						num++;
+					}
 				}
-				if (pawn.Faction != null && x.techLevel > pawn.Faction.def.techLevel)
-				{
-					return false;
-				}
-				CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
-				return compProperties != null && compProperties.isCombatEnhancingDrug;
-			});
-			for (int j = 0; j < randomInRange; j++)
-			{
-				ThingDef def;
-				if (!source.TryRandomElement(out def))
-				{
-					break;
-				}
-				pawn.inventory.innerContainer.TryAdd(ThingMaker.MakeThing(def, null), true);
 			}
 		}
 	}

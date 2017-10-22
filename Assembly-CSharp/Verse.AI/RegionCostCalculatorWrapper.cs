@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -105,17 +104,17 @@ namespace Verse.AI
 			{
 				return this.OctileDistanceToEnd(cell);
 			}
-			if (this.cachedBestLink == null)
+			if (this.cachedBestLink != null)
 			{
-				return 10000;
+				int num = this.regionCostCalculator.RegionLinkDistance(cell, this.cachedBestLink, this.cachedRegionCellPathCost);
+				if (this.cachedSecondBestLink != null)
+				{
+					int num2 = this.regionCostCalculator.RegionLinkDistance(cell, this.cachedSecondBestLink, this.cachedRegionCellPathCost);
+					return Mathf.Min(this.cachedSecondBestLinkCost + num2, this.cachedBestLinkCost + num);
+				}
+				return this.cachedBestLinkCost + num;
 			}
-			int num = this.regionCostCalculator.RegionLinkDistance(cell, this.cachedBestLink, this.cachedRegionCellPathCost);
-			if (this.cachedSecondBestLink != null)
-			{
-				int num2 = this.regionCostCalculator.RegionLinkDistance(cell, this.cachedSecondBestLink, this.cachedRegionCellPathCost);
-				return Mathf.Min(this.cachedSecondBestLinkCost + num2, this.cachedBestLinkCost + num);
-			}
-			return this.cachedBestLinkCost + num;
+			return 10000;
 		}
 
 		private int OctileDistanceToEnd(IntVec3 cell)

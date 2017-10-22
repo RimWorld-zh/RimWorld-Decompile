@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -99,7 +98,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.startingGoodwill.max >= 0f || this.appreciative;
+				if (this.startingGoodwill.max < 0.0 && !this.appreciative)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -107,7 +110,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.expandingIconTextureInt == null)
+				if ((UnityEngine.Object)this.expandingIconTextureInt == (UnityEngine.Object)null)
 				{
 					if (!this.expandingIconTexture.NullOrEmpty())
 					{
@@ -131,16 +134,20 @@ namespace RimWorld
 			IEnumerable<PawnGroupMaker> source = from x in this.pawnGroupMakers
 			where x.kindDef == PawnGroupKindDefOf.Normal
 			select x;
-			if (!source.Any<PawnGroupMaker>())
+			if (!source.Any())
 			{
 				return 2.14748365E+09f;
 			}
-			return source.Min((PawnGroupMaker pgm) => pgm.MinPointsToGenerateAnything);
+			return source.Min((Func<PawnGroupMaker, float>)((PawnGroupMaker pgm) => pgm.MinPointsToGenerateAnything));
 		}
 
 		public bool CanUseStuffForApparel(ThingDef stuffDef)
 		{
-			return this.apparelStuffFilter == null || this.apparelStuffFilter.Allows(stuffDef);
+			if (this.apparelStuffFilter == null)
+			{
+				return true;
+			}
+			return this.apparelStuffFilter.Allows(stuffDef);
 		}
 
 		public override void ResolveReferences()
@@ -152,14 +159,31 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			FactionDef.<ConfigErrors>c__Iterator8E <ConfigErrors>c__Iterator8E = new FactionDef.<ConfigErrors>c__Iterator8E();
-			<ConfigErrors>c__Iterator8E.<>f__this = this;
-			FactionDef.<ConfigErrors>c__Iterator8E expr_0E = <ConfigErrors>c__Iterator8E;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (!this.isPlayer && this.factionNameMaker == null && this.fixedName == null)
+			{
+				yield return "FactionTypeDef " + base.defName + " lacks a factionNameMaker and a fixedName.";
+			}
+			if (this.techLevel == TechLevel.Undefined)
+			{
+				yield return base.defName + " has no tech level.";
+			}
+			if (this.humanlikeFaction)
+			{
+				if (this.backstoryCategory == null)
+				{
+					yield return base.defName + " is humanlikeFaction but has no backstory category.";
+				}
+				if (this.hairTags.Count == 0)
+				{
+					yield return base.defName + " is humanlikeFaction but has no hairTags.";
+				}
+			}
 		}
 
 		public static FactionDef Named(string defName)

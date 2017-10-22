@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -8,22 +6,33 @@ namespace RimWorld.Planet
 {
 	public static class WorldObjectSelectionUtility
 	{
-		[DebuggerHidden]
 		public static IEnumerable<WorldObject> MultiSelectableWorldObjectsInScreenRectDistinct(Rect rect)
 		{
-			WorldObjectSelectionUtility.<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A5 <MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A = new WorldObjectSelectionUtility.<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A5();
-			<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A.rect = rect;
-			<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A.<$>rect = rect;
-			WorldObjectSelectionUtility.<MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A5 expr_15 = <MultiSelectableWorldObjectsInScreenRectDistinct>c__Iterator1A;
-			expr_15.$PC = -2;
-			return expr_15;
+			List<WorldObject> allObjects = Find.WorldObjects.AllWorldObjects;
+			for (int i = 0; i < allObjects.Count; i++)
+			{
+				if (!allObjects[i].NeverMultiSelect && !allObjects[i].HiddenBehindTerrainNow())
+				{
+					if (ExpandableWorldObjectsUtility.IsExpanded(allObjects[i]))
+					{
+						if (rect.Overlaps(ExpandableWorldObjectsUtility.ExpandedIconScreenRect(allObjects[i])))
+						{
+							yield return allObjects[i];
+						}
+					}
+					else if (rect.Contains(allObjects[i].ScreenPos()))
+					{
+						yield return allObjects[i];
+					}
+				}
+			}
 		}
 
 		public static bool HiddenBehindTerrainNow(this WorldObject o)
 		{
 			Vector3 normalized = o.DrawPos.normalized;
 			Vector3 currentlyLookingAtPointOnSphere = Find.WorldCameraDriver.CurrentlyLookingAtPointOnSphere;
-			return Vector3.Angle(normalized, currentlyLookingAtPointOnSphere) > 73f;
+			return Vector3.Angle(normalized, currentlyLookingAtPointOnSphere) > 73.0;
 		}
 
 		public static Vector2 ScreenPos(this WorldObject o)
@@ -43,15 +52,14 @@ namespace RimWorld.Planet
 				return false;
 			}
 			Vector2 point = o.ScreenPos();
-			Rect rect = new Rect(0f, 0f, (float)UI.screenWidth, (float)UI.screenHeight);
-			return rect.Contains(point);
+			return new Rect(0f, 0f, (float)UI.screenWidth, (float)UI.screenHeight).Contains(point);
 		}
 
 		public static float DistanceToMouse(this WorldObject o, Vector2 mousePos)
 		{
 			Ray ray = Find.WorldCamera.ScreenPointToRay(mousePos * Prefs.UIScale);
 			int worldLayerMask = WorldCameraManager.WorldLayerMask;
-			RaycastHit raycastHit;
+			RaycastHit raycastHit = default(RaycastHit);
 			if (Physics.Raycast(ray, out raycastHit, 1500f, worldLayerMask))
 			{
 				return Vector3.Distance(raycastHit.point, o.DrawPos);

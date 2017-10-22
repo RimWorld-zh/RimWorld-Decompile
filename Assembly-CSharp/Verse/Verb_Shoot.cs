@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -9,7 +8,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.verbProps.burstShotCount;
+				return base.verbProps.burstShotCount;
 			}
 		}
 
@@ -19,8 +18,8 @@ namespace Verse
 			if (base.CasterIsPawn && base.CasterPawn.skills != null)
 			{
 				float xp = 6f;
-				Pawn pawn = this.currentTarget.Thing as Pawn;
-				if (pawn != null && pawn.HostileTo(this.caster) && !pawn.Downed)
+				Pawn pawn = base.currentTarget.Thing as Pawn;
+				if (pawn != null && pawn.HostileTo(base.caster) && !pawn.Downed)
 				{
 					xp = 240f;
 				}

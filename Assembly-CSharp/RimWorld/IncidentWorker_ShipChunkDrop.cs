@@ -7,7 +7,7 @@ namespace RimWorld
 {
 	public class IncidentWorker_ShipChunkDrop : IncidentWorker
 	{
-		private static readonly Pair<int, float>[] CountChance = new Pair<int, float>[]
+		private static readonly Pair<int, float>[] CountChance = new Pair<int, float>[4]
 		{
 			new Pair<int, float>(1, 1f),
 			new Pair<int, float>(2, 0.95f),
@@ -19,9 +19,9 @@ namespace RimWorld
 		{
 			get
 			{
-				float x2 = (float)Find.TickManager.TicksGame / 3600000f;
+				float x2 = (float)((float)Find.TickManager.TicksGame / 3600000.0);
 				float timePassedFactor = Mathf.Clamp(GenMath.LerpDouble(0f, 1.2f, 1f, 0.1f, x2), 0.1f, 1f);
-				return IncidentWorker_ShipChunkDrop.CountChance.RandomElementByWeight(delegate(Pair<int, float> x)
+				return IncidentWorker_ShipChunkDrop.CountChance.RandomElementByWeight((Func<Pair<int, float>, float>)delegate(Pair<int, float> x)
 				{
 					if (x.First == 1)
 					{
@@ -35,7 +35,7 @@ namespace RimWorld
 		public override bool TryExecute(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			IntVec3 intVec;
+			IntVec3 intVec = default(IntVec3);
 			if (!ShipChunkDropCellFinder.TryFindShipChunkDropCell(map.Center, map, 999999, out intVec))
 			{
 				return false;
@@ -50,7 +50,7 @@ namespace RimWorld
 			this.SpawnChunk(firstChunkPos, map);
 			for (int i = 0; i < count - 1; i++)
 			{
-				IntVec3 pos;
+				IntVec3 pos = default(IntVec3);
 				if (ShipChunkDropCellFinder.TryFindShipChunkDropCell(firstChunkPos, map, 5, out pos))
 				{
 					this.SpawnChunk(pos, map);
@@ -60,17 +60,13 @@ namespace RimWorld
 
 		private void SpawnChunk(IntVec3 pos, Map map)
 		{
-			IncidentWorker_ShipChunkDrop.<SpawnChunk>c__AnonStorey2E2 <SpawnChunk>c__AnonStorey2E = new IncidentWorker_ShipChunkDrop.<SpawnChunk>c__AnonStorey2E2();
-			<SpawnChunk>c__AnonStorey2E.map = map;
-			<SpawnChunk>c__AnonStorey2E.cr = CellRect.SingleCell(pos);
-			IncidentWorker_ShipChunkDrop.<SpawnChunk>c__AnonStorey2E2 expr_1F_cp_0 = <SpawnChunk>c__AnonStorey2E;
-			expr_1F_cp_0.cr.Width = expr_1F_cp_0.cr.Width + 1;
-			IncidentWorker_ShipChunkDrop.<SpawnChunk>c__AnonStorey2E2 expr_32_cp_0 = <SpawnChunk>c__AnonStorey2E;
-			expr_32_cp_0.cr.Height = expr_32_cp_0.cr.Height + 1;
-			RoofCollapserImmediate.DropRoofInCells(from c in <SpawnChunk>c__AnonStorey2E.cr.ExpandedBy(1).ClipInsideMap(<SpawnChunk>c__AnonStorey2E.map).Cells
-			where <SpawnChunk>c__AnonStorey2E.cr.Contains(c) || !<SpawnChunk>c__AnonStorey2E.map.thingGrid.CellContains(c, ThingCategory.Pawn)
-			select c, <SpawnChunk>c__AnonStorey2E.map);
-			GenSpawn.Spawn(ThingDefOf.ShipChunk, pos, <SpawnChunk>c__AnonStorey2E.map);
+			CellRect cr = CellRect.SingleCell(pos);
+			cr.Width++;
+			cr.Height++;
+			RoofCollapserImmediate.DropRoofInCells(from c in cr.ExpandedBy(1).ClipInsideMap(map).Cells
+			where cr.Contains(c) || !map.thingGrid.CellContains(c, ThingCategory.Pawn)
+			select c, map);
+			GenSpawn.Spawn(ThingDefOf.ShipChunk, pos, map);
 		}
 	}
 }

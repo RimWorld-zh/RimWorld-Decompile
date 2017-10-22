@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -15,8 +14,8 @@ namespace RimWorld
 
 		public Alert_TatteredApparel()
 		{
-			this.defaultLabel = "AlertTatteredApparel".Translate();
-			this.explanationKey = "AlertTatteredApparelDesc";
+			base.defaultLabel = "AlertTatteredApparel".Translate();
+			base.explanationKey = "AlertTatteredApparelDesc";
 		}
 	}
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.Grammar;
 
@@ -21,32 +20,26 @@ namespace RimWorld
 				this.tmpDefName = this.def.defName;
 				this.tmpDefType = this.def.GetType();
 			}
-			Scribe_Values.Look<string>(ref this.tmpDefName, "defName", null, false);
-			Scribe_Values.Look<Type>(ref this.tmpDefType, "defType", null, false);
+			Scribe_Values.Look<string>(ref this.tmpDefName, "defName", (string)null, false);
+			Scribe_Values.Look<Type>(ref this.tmpDefType, "defType", (Type)null, false);
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
 				this.def = GenDefDatabase.GetDef(this.tmpDefType, this.tmpDefName, true);
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Rule> GetRules(string prefix)
 		{
-			TaleData_Def.<GetRules>c__Iterator12C <GetRules>c__Iterator12C = new TaleData_Def.<GetRules>c__Iterator12C();
-			<GetRules>c__Iterator12C.prefix = prefix;
-			<GetRules>c__Iterator12C.<$>prefix = prefix;
-			<GetRules>c__Iterator12C.<>f__this = this;
-			TaleData_Def.<GetRules>c__Iterator12C expr_1C = <GetRules>c__Iterator12C;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			yield return (Rule)new Rule_String(prefix + "_label", this.def.label);
+			yield return (Rule)new Rule_String(prefix + "_labelDefinite", Find.ActiveLanguageWorker.WithDefiniteArticle(this.def.label));
+			yield return (Rule)new Rule_String(prefix + "_labelIndefinite", Find.ActiveLanguageWorker.WithIndefiniteArticle(this.def.label));
 		}
 
 		public static TaleData_Def GenerateFrom(Def def)
 		{
-			return new TaleData_Def
-			{
-				def = def
-			};
+			TaleData_Def taleData_Def = new TaleData_Def();
+			taleData_Def.def = def;
+			return taleData_Def;
 		}
 	}
 }

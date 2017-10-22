@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI.Group;
 
@@ -117,7 +116,15 @@ namespace RimWorld
 					return false;
 				}
 				Map mapHeld = this.pawn.MapHeld;
-				return mapHeld != null && mapHeld.mapPawns.FreeColonistsSpawnedCount != 0 && Find.TickManager.TicksGame < this.ticksWhenAllowedToEscapeAgain;
+				if (mapHeld == null)
+				{
+					return false;
+				}
+				if (mapHeld.mapPawns.FreeColonistsSpawnedCount == 0)
+				{
+					return false;
+				}
+				return Find.TickManager.TicksGame < this.ticksWhenAllowedToEscapeAgain;
 			}
 		}
 
@@ -135,7 +142,7 @@ namespace RimWorld
 			if (this.pawn.IsHashIntervalTick(2500))
 			{
 				float num = PrisonBreakUtility.InitiatePrisonBreakMtbDays(this.pawn);
-				if (num >= 0f && Rand.MTBEventOccurs(num, 60000f, 2500f))
+				if (num >= 0.0 && Rand.MTBEventOccurs(num, 60000f, 2500f))
 				{
 					PrisonBreakUtility.StartPrisonBreak(this.pawn);
 				}
@@ -160,69 +167,52 @@ namespace RimWorld
 				this.released = false;
 			}
 			if (newHost == this.HostFaction && prisoner == this.IsPrisoner)
-			{
 				return;
-			}
 			if (!prisoner && this.pawn.Faction.HostileTo(newHost))
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Tried to make ",
-					this.pawn,
-					" a guest of ",
-					newHost,
-					" but their faction ",
-					this.pawn.Faction,
-					" is hostile to ",
-					newHost
-				}));
-				return;
+				Log.Error("Tried to make " + this.pawn + " a guest of " + newHost + " but their faction " + this.pawn.Faction + " is hostile to " + newHost);
 			}
-			if (newHost != null && newHost == this.pawn.Faction && !prisoner)
+			else if (newHost != null && newHost == this.pawn.Faction && !prisoner)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Tried to make ",
-					this.pawn,
-					" a guest of their own faction ",
-					this.pawn.Faction
-				}));
-				return;
+				Log.Error("Tried to make " + this.pawn + " a guest of their own faction " + this.pawn.Faction);
 			}
-			bool flag = prisoner && (!this.IsPrisoner || this.HostFaction != newHost);
-			this.isPrisonerInt = prisoner;
-			this.hostFactionInt = newHost;
-			this.pawn.ClearMind(false);
-			this.pawn.ClearReservations(true);
-			if (flag)
+			else
 			{
-				this.pawn.DropAndForbidEverything(false);
-				Lord lord = this.pawn.GetLord();
-				if (lord != null)
+				bool flag = prisoner && (!this.IsPrisoner || this.HostFaction != newHost);
+				this.isPrisonerInt = prisoner;
+				this.hostFactionInt = newHost;
+				this.pawn.ClearMind(false);
+				this.pawn.ClearReservations(true);
+				if (flag)
 				{
-					lord.Notify_PawnLost(this.pawn, PawnLostCondition.MadePrisoner);
+					this.pawn.DropAndForbidEverything(false);
+					Lord lord = this.pawn.GetLord();
+					if (lord != null)
+					{
+						lord.Notify_PawnLost(this.pawn, PawnLostCondition.MadePrisoner);
+					}
+					if (this.pawn.Drafted)
+					{
+						this.pawn.drafter.Drafted = false;
+					}
 				}
-				if (this.pawn.Drafted)
+				PawnComponentsUtility.AddAndRemoveDynamicComponents(this.pawn, false);
+				this.pawn.health.surgeryBills.Clear();
+				if (this.pawn.ownership != null)
 				{
-					this.pawn.drafter.Drafted = false;
+					this.pawn.ownership.Notify_ChangedGuestStatus();
 				}
-			}
-			PawnComponentsUtility.AddAndRemoveDynamicComponents(this.pawn, false);
-			this.pawn.health.surgeryBills.Clear();
-			if (this.pawn.ownership != null)
-			{
-				this.pawn.ownership.Notify_ChangedGuestStatus();
-			}
-			ReachabilityUtility.ClearCache();
-			if (this.pawn.Spawned)
-			{
-				this.pawn.Map.mapPawns.UpdateRegistryForPawn(this.pawn);
-				this.pawn.Map.attackTargetsCache.UpdateTarget(this.pawn);
-			}
-			AddictionUtility.CheckDrugAddictionTeachOpportunity(this.pawn);
-			if (prisoner && this.pawn.playerSettings != null)
-			{
-				this.pawn.playerSettings.Notify_MadePrisoner();
+				ReachabilityUtility.ClearCache();
+				if (this.pawn.Spawned)
+				{
+					this.pawn.Map.mapPawns.UpdateRegistryForPawn(this.pawn);
+					this.pawn.Map.attackTargetsCache.UpdateTarget(this.pawn);
+				}
+				AddictionUtility.CheckDrugAddictionTeachOpportunity(this.pawn);
+				if (prisoner && this.pawn.playerSettings != null)
+				{
+					this.pawn.playerSettings.Notify_MadePrisoner();
+				}
 			}
 		}
 
@@ -233,35 +223,28 @@ namespace RimWorld
 
 		public void WaitInsteadOfEscapingFor(int ticks)
 		{
-			if (!this.IsPrisoner)
+			if (this.IsPrisoner)
 			{
-				return;
+				this.ticksWhenAllowedToEscapeAgain = Find.TickManager.TicksGame + ticks;
+				this.spotToWaitInsteadOfEscaping = IntVec3.Invalid;
 			}
-			this.ticksWhenAllowedToEscapeAgain = Find.TickManager.TicksGame + ticks;
-			this.spotToWaitInsteadOfEscaping = IntVec3.Invalid;
 		}
 
 		internal void Notify_PawnUndowned()
 		{
-			if (this.pawn.RaceProps.Humanlike && this.HostFaction == Faction.OfPlayer && (this.pawn.Faction == null || this.pawn.Faction.def.rescueesCanJoin) && !this.IsPrisoner && this.pawn.SpawnedOrAnyParentSpawned)
+			if (this.pawn.RaceProps.Humanlike && this.HostFaction == Faction.OfPlayer)
 			{
-				Map mapHeld = this.pawn.MapHeld;
-				float num;
-				if (!this.pawn.SafeTemperatureRange().Includes(mapHeld.mapTemperature.OutdoorTemp) || mapHeld.gameConditionManager.ConditionIsActive(GameConditionDefOf.ToxicFallout))
+				if (this.pawn.Faction != null && !this.pawn.Faction.def.rescueesCanJoin)
+					return;
+				if (!this.IsPrisoner && this.pawn.SpawnedOrAnyParentSpawned)
 				{
-					num = 1f;
-				}
-				else
-				{
-					num = 0.5f;
-				}
-				if (Rand.ValueSeeded(this.pawn.thingIDNumber ^ 8976612) < num)
-				{
-					this.pawn.SetFaction(Faction.OfPlayer, null);
-					Messages.Message("MessageRescueeJoined".Translate(new object[]
+					Map mapHeld = this.pawn.MapHeld;
+					float num = (float)((this.pawn.SafeTemperatureRange().Includes(mapHeld.mapTemperature.OutdoorTemp) && !mapHeld.gameConditionManager.ConditionIsActive(GameConditionDefOf.ToxicFallout)) ? 0.5 : 1.0);
+					if (Rand.ValueSeeded(this.pawn.thingIDNumber ^ 8976612) < num)
 					{
-						this.pawn.LabelShort
-					}).AdjustedFor(this.pawn), this.pawn, MessageSound.Benefit);
+						this.pawn.SetFaction(Faction.OfPlayer, null);
+						Messages.Message("MessageRescueeJoined".Translate(this.pawn.LabelShort).AdjustedFor(this.pawn), (Thing)this.pawn, MessageSound.Benefit);
+					}
 				}
 			}
 		}

@@ -72,35 +72,44 @@ namespace Verse
 					}
 					return 1f;
 				}
-				else
+				switch (this.curTimeSpeed)
 				{
-					switch (this.curTimeSpeed)
+				case TimeSpeed.Paused:
+				{
+					return 0f;
+				}
+				case TimeSpeed.Normal:
+				{
+					return 1f;
+				}
+				case TimeSpeed.Fast:
+				{
+					return 3f;
+				}
+				case TimeSpeed.Superfast:
+				{
+					if (Find.VisibleMap == null)
 					{
-					case TimeSpeed.Paused:
-						return 0f;
-					case TimeSpeed.Normal:
-						return 1f;
-					case TimeSpeed.Fast:
-						return 3f;
-					case TimeSpeed.Superfast:
-						if (Find.VisibleMap == null)
-						{
-							return 150f;
-						}
-						if (this.NothingHappeningInGame())
-						{
-							return 12f;
-						}
-						return 6f;
-					case TimeSpeed.Ultrafast:
-						if (Find.VisibleMap == null)
-						{
-							return 250f;
-						}
-						return 15f;
-					default:
-						return -1f;
+						return 150f;
 					}
+					if (this.NothingHappeningInGame())
+					{
+						return 12f;
+					}
+					return 6f;
+				}
+				case TimeSpeed.Ultrafast:
+				{
+					if (Find.VisibleMap == null)
+					{
+						return 250f;
+					}
+					return 15f;
+				}
+				default:
+				{
+					return -1f;
+				}
 				}
 			}
 		}
@@ -109,11 +118,11 @@ namespace Verse
 		{
 			get
 			{
-				if (this.TickRateMultiplier == 0f)
+				if (this.TickRateMultiplier == 0.0)
 				{
 					return 0f;
 				}
-				return 1f / (60f * this.TickRateMultiplier);
+				return (float)(1.0 / (60.0 * this.TickRateMultiplier));
 			}
 		}
 
@@ -129,7 +138,11 @@ namespace Verse
 		{
 			get
 			{
-				return Find.MainTabsRoot.OpenTab == MainButtonDefOf.Menu;
+				if (Find.MainTabsRoot.OpenTab == MainButtonDefOf.Menu)
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -147,7 +160,7 @@ namespace Verse
 
 		public void TogglePaused()
 		{
-			if (this.curTimeSpeed != TimeSpeed.Paused)
+			if (this.curTimeSpeed != 0)
 			{
 				this.prePauseTimeSpeed = this.curTimeSpeed;
 				this.curTimeSpeed = TimeSpeed.Paused;
@@ -168,32 +181,38 @@ namespace Verse
 			{
 				this.nothingHappeningCached = true;
 				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				int num = 0;
+				while (num < maps.Count)
 				{
-					List<Pawn> list = maps[i].mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer);
-					for (int j = 0; j < list.Count; j++)
+					List<Pawn> list = maps[num].mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer);
+					for (int i = 0; i < list.Count; i++)
 					{
-						Pawn pawn = list[j];
+						Pawn pawn = list[i];
 						if (pawn.HostFaction == null && pawn.RaceProps.Humanlike && pawn.Awake())
 						{
 							this.nothingHappeningCached = false;
 							break;
 						}
 					}
-					if (!this.nothingHappeningCached)
+					if (this.nothingHappeningCached)
 					{
-						break;
+						num++;
+						continue;
 					}
+					break;
 				}
 				if (this.nothingHappeningCached)
 				{
-					for (int k = 0; k < maps.Count; k++)
+					int num2 = 0;
+					while (num2 < maps.Count)
 					{
-						if (maps[k].IsPlayerHome && maps[k].dangerWatcher.DangerRating >= StoryDanger.Low)
+						if (!maps[num2].IsPlayerHome || (int)maps[num2].dangerWatcher.DangerRating < 1)
 						{
-							this.nothingHappeningCached = false;
-							break;
+							num2++;
+							continue;
 						}
+						this.nothingHappeningCached = false;
+						break;
 					}
 				}
 				this.lastNothingHappeningCheckTick = this.TicksGame;
@@ -231,15 +250,25 @@ namespace Verse
 			switch (t.def.tickerType)
 			{
 			case TickerType.Never:
+			{
 				return null;
+			}
 			case TickerType.Normal:
+			{
 				return this.tickListNormal;
+			}
 			case TickerType.Rare:
+			{
 				return this.tickListRare;
+			}
 			case TickerType.Long:
+			{
 				return this.tickListLong;
+			}
 			default:
+			{
 				throw new InvalidOperationException();
+			}
 			}
 		}
 
@@ -249,13 +278,13 @@ namespace Verse
 			{
 				this.realTimeToTickThrough += Time.deltaTime;
 				int num = 0;
-				while (this.realTimeToTickThrough > 0f && (float)num < this.TickRateMultiplier * 2f)
+				while (this.realTimeToTickThrough > 0.0 && (float)num < this.TickRateMultiplier * 2.0)
 				{
 					this.DoSingleTick();
 					this.realTimeToTickThrough -= this.CurTimePerTick;
 					num++;
 				}
-				if (this.realTimeToTickThrough > 0f)
+				if (this.realTimeToTickThrough > 0.0)
 				{
 					this.realTimeToTickThrough = 0f;
 				}
@@ -379,9 +408,9 @@ namespace Verse
 
 		public void RemoveAllFromMap(Map map)
 		{
-			this.tickListNormal.RemoveWhere((Thing x) => x.Map == map);
-			this.tickListRare.RemoveWhere((Thing x) => x.Map == map);
-			this.tickListLong.RemoveWhere((Thing x) => x.Map == map);
+			this.tickListNormal.RemoveWhere((Predicate<Thing>)((Thing x) => x.Map == map));
+			this.tickListRare.RemoveWhere((Predicate<Thing>)((Thing x) => x.Map == map));
+			this.tickListLong.RemoveWhere((Predicate<Thing>)((Thing x) => x.Map == map));
 		}
 
 		public void DebugSetTicksGame(int newTicksGame)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -18,23 +17,18 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"(",
-				this.count,
-				"x ",
-				(this.thing == null) ? "null" : this.thing.ThingID,
-				")"
-			});
+			return "(" + this.count + "x " + ((this.thing == null) ? "null" : this.thing.ThingID) + ")";
 		}
 
 		public static int CountUsed(List<ThingAmount> list, Thing thing)
 		{
 			for (int i = 0; i < list.Count; i++)
 			{
-				if (list[i].thing == thing)
+				ThingAmount thingAmount = list[i];
+				if (thingAmount.thing == thing)
 				{
-					return list[i].count;
+					ThingAmount thingAmount2 = list[i];
+					return thingAmount2.count;
 				}
 			}
 			return 0;
@@ -44,9 +38,14 @@ namespace RimWorld
 		{
 			for (int i = 0; i < list.Count; i++)
 			{
-				if (list[i].thing == thing)
+				ThingAmount thingAmount = list[i];
+				if (thingAmount.thing == thing)
 				{
-					list[i] = new ThingAmount(list[i].thing, list[i].count + countToAdd);
+					int index = i;
+					ThingAmount thingAmount2 = list[i];
+					Thing obj = thingAmount2.thing;
+					ThingAmount thingAmount3 = list[i];
+					list[index] = new ThingAmount(obj, thingAmount3.count + countToAdd);
 					return;
 				}
 			}

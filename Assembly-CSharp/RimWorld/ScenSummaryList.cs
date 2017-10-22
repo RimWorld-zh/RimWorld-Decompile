@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using Verse;
 
@@ -13,25 +12,25 @@ namespace RimWorld
 			{
 				return "\n" + intro + ":\n" + text;
 			}
-			return null;
+			return (string)null;
 		}
 
 		private static string SummaryList(Scenario scen, string tag)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			bool flag = true;
-			foreach (ScenPart current in scen.AllParts)
+			foreach (ScenPart allPart in scen.AllParts)
 			{
-				if (!current.summarized)
+				if (!allPart.summarized)
 				{
-					foreach (string current2 in current.GetSummaryListEntries(tag))
+					foreach (string summaryListEntry in allPart.GetSummaryListEntries(tag))
 					{
 						if (!flag)
 						{
 							stringBuilder.Append("\n");
 						}
-						stringBuilder.Append("   -" + current2);
-						current.summarized = true;
+						stringBuilder.Append("   -" + summaryListEntry);
+						allPart.summarized = true;
 						flag = false;
 					}
 				}

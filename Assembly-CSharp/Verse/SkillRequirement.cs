@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -11,7 +10,11 @@ namespace Verse
 
 		public bool PawnSatisfies(Pawn pawn)
 		{
-			return pawn.skills != null && pawn.skills.GetSkill(this.skill).Level >= this.minLevel;
+			if (pawn.skills == null)
+			{
+				return false;
+			}
+			return pawn.skills.GetSkill(this.skill).Level >= this.minLevel;
 		}
 	}
 }

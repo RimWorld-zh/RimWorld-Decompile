@@ -41,7 +41,7 @@ namespace RimWorld
 			{
 				return (from x in this.AllFactionsVisible
 				orderby x.defeated
-				select x).ThenByDescending((Faction fa) => fa.def.startingGoodwill.Average);
+				select x).ThenByDescending((Func<Faction, float>)((Faction fa) => fa.def.startingGoodwill.Average));
 			}
 		}
 
@@ -91,9 +91,9 @@ namespace RimWorld
 			IEnumerable<Faction> source = from x in this.AllFactions
 			where x != Faction.OfPlayer && !x.def.hidden && x.def.humanlikeFaction && (allowDefeated || !x.defeated)
 			select x;
-			return source.TryRandomElementByWeight(delegate(Faction x)
+			return source.TryRandomElementByWeight<Faction>((Func<Faction, float>)delegate(Faction x)
 			{
-				if (tryMedievalOrBetter && x.def.techLevel < TechLevel.Medieval)
+				if (tryMedievalOrBetter && (int)x.def.techLevel < 3)
 				{
 					return 0.1f;
 				}
@@ -103,10 +103,29 @@ namespace RimWorld
 
 		public Faction RandomEnemyFaction(bool allowHidden = false, bool allowDefeated = false, bool allowNonHumanlike = true)
 		{
-			Faction result;
-			if ((from x in this.AllFactions
-			where (allowHidden || !x.def.hidden) && (allowDefeated || !x.defeated) && (allowNonHumanlike || x.def.humanlikeFaction) && x.HostileTo(Faction.OfPlayer)
-			select x).TryRandomElement(out result))
+			Faction result = default(Faction);
+			if (this.AllFactions.Where((Func<Faction, bool>)delegate(Faction x)
+			{
+				if (!allowHidden && x.def.hidden)
+				{
+					goto IL_0059;
+				}
+				if (!allowDefeated && x.defeated)
+				{
+					goto IL_0059;
+				}
+				if (!allowNonHumanlike && !x.def.humanlikeFaction)
+				{
+					goto IL_0059;
+				}
+				int result2 = x.HostileTo(Faction.OfPlayer) ? 1 : 0;
+				goto IL_005a;
+				IL_005a:
+				return (byte)result2 != 0;
+				IL_0059:
+				result2 = 0;
+				goto IL_005a;
+			}).TryRandomElement<Faction>(out result))
 			{
 				return result;
 			}
@@ -115,10 +134,10 @@ namespace RimWorld
 
 		public Faction RandomAlliedFaction(bool allowHidden = false, bool allowDefeated = false, bool allowNonHumanlike = true)
 		{
-			Faction result;
+			Faction result = default(Faction);
 			if ((from x in this.AllFactions
 			where !x.IsPlayer && (allowHidden || !x.def.hidden) && (allowDefeated || !x.defeated) && (allowNonHumanlike || x.def.humanlikeFaction) && !x.HostileTo(Faction.OfPlayer)
-			select x).TryRandomElement(out result))
+			select x).TryRandomElement<Faction>(out result))
 			{
 				return result;
 			}

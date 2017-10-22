@@ -1,27 +1,54 @@
+using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 
 namespace Verse
 {
 	public static class KeyBindingDefGenerator
 	{
-		[DebuggerHidden]
 		public static IEnumerable<KeyBindingCategoryDef> ImpliedKeyBindingCategoryDefs()
 		{
-			KeyBindingDefGenerator.<ImpliedKeyBindingCategoryDefs>c__Iterator253 <ImpliedKeyBindingCategoryDefs>c__Iterator = new KeyBindingDefGenerator.<ImpliedKeyBindingCategoryDefs>c__Iterator253();
-			KeyBindingDefGenerator.<ImpliedKeyBindingCategoryDefs>c__Iterator253 expr_07 = <ImpliedKeyBindingCategoryDefs>c__Iterator;
-			expr_07.$PC = -2;
-			return expr_07;
+			List<KeyBindingCategoryDef> gameUniversalCats = (from d in DefDatabase<KeyBindingCategoryDef>.AllDefs
+			where d.isGameUniversal
+			select d).ToList();
+			foreach (DesignationCategoryDef allDef in DefDatabase<DesignationCategoryDef>.AllDefs)
+			{
+				KeyBindingCategoryDef catDef = new KeyBindingCategoryDef
+				{
+					defName = "Architect_" + allDef.defName,
+					label = allDef.label + " tab",
+					description = "Key bindings for the \"" + allDef.LabelCap + "\" section of the Architect menu"
+				};
+				catDef.checkForConflicts.AddRange(gameUniversalCats);
+				for (int i = 0; i < gameUniversalCats.Count; i++)
+				{
+					gameUniversalCats[i].checkForConflicts.Add(catDef);
+				}
+				allDef.bindingCatDef = catDef;
+				yield return catDef;
+			}
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<KeyBindingDef> ImpliedKeyBindingDefs()
 		{
-			KeyBindingDefGenerator.<ImpliedKeyBindingDefs>c__Iterator254 <ImpliedKeyBindingDefs>c__Iterator = new KeyBindingDefGenerator.<ImpliedKeyBindingDefs>c__Iterator254();
-			KeyBindingDefGenerator.<ImpliedKeyBindingDefs>c__Iterator254 expr_07 = <ImpliedKeyBindingDefs>c__Iterator;
-			expr_07.$PC = -2;
-			return expr_07;
+			foreach (MainButtonDef item in from td in DefDatabase<MainButtonDef>.AllDefs
+			orderby td.order
+			select td)
+			{
+				if (item.defaultHotKey != 0)
+				{
+					KeyBindingDef keyDef = new KeyBindingDef
+					{
+						label = "Toggle " + item.label + " tab",
+						defName = "MainTab_" + item.defName,
+						category = KeyBindingCategoryDefOf.MainTabs,
+						defaultKeyCodeA = item.defaultHotKey
+					};
+					item.hotKey = keyDef;
+					yield return keyDef;
+				}
+			}
 		}
 	}
 }

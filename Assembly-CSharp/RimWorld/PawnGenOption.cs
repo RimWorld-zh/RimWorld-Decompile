@@ -1,4 +1,3 @@
-using System;
 using System.Xml;
 using Verse;
 
@@ -20,16 +19,7 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			return string.Concat(new string[]
-			{
-				"(",
-				(this.kind == null) ? "null" : this.kind.ToString(),
-				" w=",
-				this.selectionWeight.ToString("F2"),
-				" c=",
-				(this.kind == null) ? "null" : this.Cost.ToString("F2"),
-				")"
-			});
+			return "(" + ((this.kind == null) ? "null" : this.kind.ToString()) + " w=" + this.selectionWeight.ToString("F2") + " c=" + ((this.kind == null) ? "null" : this.Cost.ToString("F2")) + ")";
 		}
 
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)

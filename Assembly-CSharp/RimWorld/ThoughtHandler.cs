@@ -30,7 +30,7 @@ namespace RimWorld
 
 		public void ExposeData()
 		{
-			Scribe_Deep.Look<MemoryThoughtHandler>(ref this.memories, "memories", new object[]
+			Scribe_Deep.Look<MemoryThoughtHandler>(ref this.memories, "memories", new object[1]
 			{
 				this.pawn
 			});
@@ -49,7 +49,7 @@ namespace RimWorld
 			for (int i = 0; i < list.Count; i++)
 			{
 				Thought_Memory thought_Memory = list[i];
-				if (thought_Memory.MoodOffset() != 0f)
+				if (thought_Memory.MoodOffset() != 0.0)
 				{
 					outThoughts.Add(thought_Memory);
 				}
@@ -60,11 +60,11 @@ namespace RimWorld
 		public void GetMoodThoughts(Thought group, List<Thought> outThoughts)
 		{
 			this.GetAllMoodThoughts(outThoughts);
-			for (int i = outThoughts.Count - 1; i >= 0; i--)
+			for (int num = outThoughts.Count - 1; num >= 0; num--)
 			{
-				if (!outThoughts[i].GroupsWith(group))
+				if (!outThoughts[num].GroupsWith(group))
 				{
-					outThoughts.RemoveAt(i);
+					outThoughts.RemoveAt(num);
 				}
 			}
 		}
@@ -72,7 +72,7 @@ namespace RimWorld
 		public float MoodOffsetOfGroup(Thought group)
 		{
 			this.GetMoodThoughts(group, ThoughtHandler.tmpThoughts);
-			if (!ThoughtHandler.tmpThoughts.Any<Thought>())
+			if (!ThoughtHandler.tmpThoughts.Any())
 			{
 				return 0f;
 			}
@@ -94,16 +94,19 @@ namespace RimWorld
 		public void GetDistinctMoodThoughtGroups(List<Thought> outThoughts)
 		{
 			this.GetAllMoodThoughts(outThoughts);
-			for (int i = outThoughts.Count - 1; i >= 0; i--)
+			for (int num = outThoughts.Count - 1; num >= 0; num--)
 			{
-				Thought other = outThoughts[i];
-				for (int j = 0; j < i; j++)
+				Thought other = outThoughts[num];
+				int num2 = 0;
+				while (num2 < num)
 				{
-					if (outThoughts[j].GroupsWith(other))
+					if (!outThoughts[num2].GroupsWith(other))
 					{
-						outThoughts.RemoveAt(i);
-						break;
+						num2++;
+						continue;
 					}
+					outThoughts.RemoveAt(num);
+					break;
 				}
 			}
 		}
@@ -138,11 +141,11 @@ namespace RimWorld
 		public void GetSocialThoughts(Pawn otherPawn, ISocialThought group, List<ISocialThought> outThoughts)
 		{
 			this.GetSocialThoughts(otherPawn, outThoughts);
-			for (int i = outThoughts.Count - 1; i >= 0; i--)
+			for (int num = outThoughts.Count - 1; num >= 0; num--)
 			{
-				if (!((Thought)outThoughts[i]).GroupsWith((Thought)group))
+				if (!((Thought)outThoughts[num]).GroupsWith((Thought)group))
 				{
-					outThoughts.RemoveAt(i);
+					outThoughts.RemoveAt(num);
 				}
 			}
 		}
@@ -151,55 +154,58 @@ namespace RimWorld
 		{
 			ProfilerThreadCheck.BeginSample("OpinionOffsetOfGroup()");
 			this.GetSocialThoughts(otherPawn, group, ThoughtHandler.tmpSocialThoughts);
-			for (int i = ThoughtHandler.tmpSocialThoughts.Count - 1; i >= 0; i--)
+			for (int num = ThoughtHandler.tmpSocialThoughts.Count - 1; num >= 0; num--)
 			{
-				if (ThoughtHandler.tmpSocialThoughts[i].OpinionOffset() == 0f)
+				if (ThoughtHandler.tmpSocialThoughts[num].OpinionOffset() == 0.0)
 				{
-					ThoughtHandler.tmpSocialThoughts.RemoveAt(i);
+					ThoughtHandler.tmpSocialThoughts.RemoveAt(num);
 				}
 			}
-			if (!ThoughtHandler.tmpSocialThoughts.Any<ISocialThought>())
+			if (!ThoughtHandler.tmpSocialThoughts.Any())
 			{
 				return 0;
 			}
 			ThoughtDef def = ((Thought)group).def;
-			if (def.IsMemory && def.stackedEffectMultiplier != 1f)
+			if (def.IsMemory && def.stackedEffectMultiplier != 1.0)
 			{
-				ThoughtHandler.tmpSocialThoughts.Sort((ISocialThought a, ISocialThought b) => ((Thought_Memory)a).age.CompareTo(((Thought_Memory)b).age));
+				ThoughtHandler.tmpSocialThoughts.Sort((Comparison<ISocialThought>)((ISocialThought a, ISocialThought b) => ((Thought_Memory)a).age.CompareTo(((Thought_Memory)b).age)));
 			}
-			float num = 0f;
-			float num2 = 1f;
-			for (int j = 0; j < ThoughtHandler.tmpSocialThoughts.Count; j++)
+			float num2 = 0f;
+			float num3 = 1f;
+			for (int i = 0; i < ThoughtHandler.tmpSocialThoughts.Count; i++)
 			{
-				num += ThoughtHandler.tmpSocialThoughts[j].OpinionOffset() * num2;
-				num2 *= ((Thought)ThoughtHandler.tmpSocialThoughts[j]).def.stackedEffectMultiplier;
+				num2 += ThoughtHandler.tmpSocialThoughts[i].OpinionOffset() * num3;
+				num3 *= ((Thought)ThoughtHandler.tmpSocialThoughts[i]).def.stackedEffectMultiplier;
 			}
 			ThoughtHandler.tmpSocialThoughts.Clear();
 			ProfilerThreadCheck.EndSample();
-			if (num == 0f)
+			if (num2 == 0.0)
 			{
 				return 0;
 			}
-			if (num > 0f)
+			if (num2 > 0.0)
 			{
-				return Mathf.Max(Mathf.RoundToInt(num), 1);
+				return Mathf.Max(Mathf.RoundToInt(num2), 1);
 			}
-			return Mathf.Min(Mathf.RoundToInt(num), -1);
+			return Mathf.Min(Mathf.RoundToInt(num2), -1);
 		}
 
 		public void GetDistinctSocialThoughtGroups(Pawn otherPawn, List<ISocialThought> outThoughts)
 		{
 			this.GetSocialThoughts(otherPawn, outThoughts);
-			for (int i = outThoughts.Count - 1; i >= 0; i--)
+			for (int num = outThoughts.Count - 1; num >= 0; num--)
 			{
-				ISocialThought socialThought = outThoughts[i];
-				for (int j = 0; j < i; j++)
+				ISocialThought socialThought = outThoughts[num];
+				int num2 = 0;
+				while (num2 < num)
 				{
-					if (((Thought)outThoughts[j]).GroupsWith((Thought)socialThought))
+					if (!((Thought)outThoughts[num2]).GroupsWith((Thought)socialThought))
 					{
-						outThoughts.RemoveAt(i);
-						break;
+						num2++;
+						continue;
 					}
+					outThoughts.RemoveAt(num);
+					break;
 				}
 			}
 		}

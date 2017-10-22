@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,24 +9,30 @@ namespace Verse
 
 		public SectionLayer_BuildingsDamage(Section section) : base(section)
 		{
-			this.relevantChangeTypes = (MapMeshFlag.Buildings | MapMeshFlag.BuildingsDamage);
+			base.relevantChangeTypes = (MapMeshFlag.Buildings | MapMeshFlag.BuildingsDamage);
 		}
 
 		public override void Regenerate()
 		{
 			base.ClearSubMeshes(MeshParts.All);
-			foreach (IntVec3 current in this.section.CellRect)
+			foreach (IntVec3 item in base.section.CellRect)
 			{
+				IntVec3 current = item;
 				List<Thing> list = base.Map.thingGrid.ThingsListAt(current);
 				int count = list.Count;
-				for (int i = 0; i < count; i++)
+				for (int num = 0; num < count; num++)
 				{
-					Building building = list[i] as Building;
+					Building building = list[num] as Building;
 					if (building != null && building.def.useHitPoints && building.HitPoints < building.MaxHitPoints && building.def.drawDamagedOverlay)
 					{
-						if (building.Position.x == current.x && building.Position.z == current.z)
+						IntVec3 position = building.Position;
+						if (position.x == current.x)
 						{
-							this.PrintDamageVisualsFrom(building);
+							IntVec3 position2 = building.Position;
+							if (position2.z == current.z)
+							{
+								this.PrintDamageVisualsFrom(building);
+							}
 						}
 					}
 				}
@@ -38,9 +43,7 @@ namespace Verse
 		private void PrintDamageVisualsFrom(Building b)
 		{
 			if (b.def.graphicData != null && b.def.graphicData.damageData != null && !b.def.graphicData.damageData.enabled)
-			{
 				return;
-			}
 			this.PrintScratches(b);
 			this.PrintCornersAndEdges(b);
 		}
@@ -56,44 +59,44 @@ namespace Verse
 					num++;
 				}
 			}
-			if (num == 0)
+			if (num != 0)
 			{
-				return;
-			}
-			Rect rect = BuildingsDamageSectionLayerUtility.GetDamageRect(b);
-			float num2 = Mathf.Min(0.5f * Mathf.Min(rect.width, rect.height), 1f);
-			rect = rect.ContractedBy(num2 / 2f);
-			if (rect.width <= 0f || rect.height <= 0f)
-			{
-				return;
-			}
-			float num3 = Mathf.Max(rect.width, rect.height) * 0.7f;
-			SectionLayer_BuildingsDamage.scratches.Clear();
-			Rand.PushState();
-			Rand.Seed = b.thingIDNumber * 3697;
-			for (int j = 0; j < num; j++)
-			{
-				this.AddScratch(b, rect.width, rect.height, ref num3);
-			}
-			Rand.PopState();
-			float damageTexturesAltitude = this.GetDamageTexturesAltitude(b);
-			IList<Material> scratchMats = BuildingsDamageSectionLayerUtility.GetScratchMats(b);
-			Rand.PushState();
-			Rand.Seed = b.thingIDNumber * 7;
-			for (int k = 0; k < SectionLayer_BuildingsDamage.scratches.Count; k++)
-			{
-				float x = SectionLayer_BuildingsDamage.scratches[k].x;
-				float y = SectionLayer_BuildingsDamage.scratches[k].y;
-				float rot = Rand.Range(0f, 360f);
-				float num4 = num2;
-				if (rect.width > 0.95f && rect.height > 0.95f)
+				Rect rect = BuildingsDamageSectionLayerUtility.GetDamageRect(b);
+				float num2 = Mathf.Min((float)(0.5 * Mathf.Min(rect.width, rect.height)), 1f);
+				rect = rect.ContractedBy((float)(num2 / 2.0));
+				if (!(rect.width <= 0.0) && !(rect.height <= 0.0))
 				{
-					num4 *= Rand.Range(0.85f, 1f);
+					float num3 = (float)(Mathf.Max(rect.width, rect.height) * 0.699999988079071);
+					SectionLayer_BuildingsDamage.scratches.Clear();
+					Rand.PushState();
+					Rand.Seed = b.thingIDNumber * 3697;
+					for (int num4 = 0; num4 < num; num4++)
+					{
+						this.AddScratch(b, rect.width, rect.height, ref num3);
+					}
+					Rand.PopState();
+					float damageTexturesAltitude = this.GetDamageTexturesAltitude(b);
+					IList<Material> scratchMats = BuildingsDamageSectionLayerUtility.GetScratchMats(b);
+					Rand.PushState();
+					Rand.Seed = b.thingIDNumber * 7;
+					for (int j = 0; j < SectionLayer_BuildingsDamage.scratches.Count; j++)
+					{
+						Vector2 vector = SectionLayer_BuildingsDamage.scratches[j];
+						float x = vector.x;
+						Vector2 vector2 = SectionLayer_BuildingsDamage.scratches[j];
+						float y = vector2.y;
+						float rot = Rand.Range(0f, 360f);
+						float num5 = num2;
+						if (rect.width > 0.949999988079071 && rect.height > 0.949999988079071)
+						{
+							num5 *= Rand.Range(0.85f, 1f);
+						}
+						Vector3 center = new Vector3(rect.xMin + x, damageTexturesAltitude, rect.yMin + y);
+						Printer_Plane.PrintPlane(this, center, new Vector2(num5, num5), scratchMats.RandomElement(), rot, false, null, null, 0f);
+					}
+					Rand.PopState();
 				}
-				Vector3 center = new Vector3(rect.xMin + x, damageTexturesAltitude, rect.yMin + y);
-				Printer_Plane.PrintPlane(this, center, new Vector2(num4, num4), scratchMats.RandomElement<Material>(), rot, false, null, null, 0f);
 			}
-			Rand.PopState();
 		}
 
 		private void AddScratch(Building b, float rectWidth, float rectHeight, ref float minDist)
@@ -110,10 +113,21 @@ namespace Verse
 					float num3 = 3.40282347E+38f;
 					for (int j = 0; j < SectionLayer_BuildingsDamage.scratches.Count; j++)
 					{
-						float num4 = (num - SectionLayer_BuildingsDamage.scratches[j].x) * (num - SectionLayer_BuildingsDamage.scratches[j].x) + (num2 - SectionLayer_BuildingsDamage.scratches[j].y) * (num2 - SectionLayer_BuildingsDamage.scratches[j].y);
-						if (num4 < num3)
+						float num4 = num;
+						Vector2 vector = SectionLayer_BuildingsDamage.scratches[j];
+						float num5 = num4 - vector.x;
+						float num6 = num;
+						Vector2 vector2 = SectionLayer_BuildingsDamage.scratches[j];
+						float num7 = num5 * (num6 - vector2.x);
+						float num8 = num2;
+						Vector2 vector3 = SectionLayer_BuildingsDamage.scratches[j];
+						float num9 = num8 - vector3.y;
+						float num10 = num2;
+						Vector2 vector4 = SectionLayer_BuildingsDamage.scratches[j];
+						float num11 = num7 + num9 * (num10 - vector4.y);
+						if (num11 < num3)
 						{
-							num3 = num4;
+							num3 = num11;
 						}
 					}
 					if (num3 >= minDist * minDist)
@@ -125,10 +139,8 @@ namespace Verse
 				if (!flag)
 				{
 					minDist *= 0.85f;
-					if (minDist < 0.001f)
-					{
+					if (minDist < 0.0010000000474974513)
 						break;
-					}
 				}
 			}
 			if (flag)
@@ -154,113 +166,142 @@ namespace Verse
 
 		private void DrawLinkableCornersAndEdges(Building b)
 		{
-			if (b.def.graphicData == null)
+			if (b.def.graphicData != null)
 			{
-				return;
-			}
-			DamageGraphicData damageData = b.def.graphicData.damageData;
-			if (damageData == null)
-			{
-				return;
-			}
-			float damageTexturesAltitude = this.GetDamageTexturesAltitude(b);
-			List<DamageOverlay> overlays = BuildingsDamageSectionLayerUtility.GetOverlays(b);
-			IntVec3 position = b.Position;
-			Vector3 vector = new Vector3((float)position.x + 0.5f, damageTexturesAltitude, (float)position.z + 0.5f);
-			float x = Rand.Range(0.4f, 0.6f);
-			float z = Rand.Range(0.4f, 0.6f);
-			float x2 = Rand.Range(0.4f, 0.6f);
-			float z2 = Rand.Range(0.4f, 0.6f);
-			for (int i = 0; i < overlays.Count; i++)
-			{
-				switch (overlays[i])
+				DamageGraphicData damageData = b.def.graphicData.damageData;
+				if (damageData != null)
 				{
-				case DamageOverlay.TopLeftCorner:
-					Printer_Plane.PrintPlane(this, vector, Vector2.one, damageData.cornerTLMat, 0f, false, null, null, 0f);
-					break;
-				case DamageOverlay.TopRightCorner:
-					Printer_Plane.PrintPlane(this, vector, Vector2.one, damageData.cornerTRMat, 90f, false, null, null, 0f);
-					break;
-				case DamageOverlay.BotLeftCorner:
-					Printer_Plane.PrintPlane(this, vector, Vector2.one, damageData.cornerBLMat, 270f, false, null, null, 0f);
-					break;
-				case DamageOverlay.BotRightCorner:
-					Printer_Plane.PrintPlane(this, vector, Vector2.one, damageData.cornerBRMat, 180f, false, null, null, 0f);
-					break;
-				case DamageOverlay.LeftEdge:
-					Printer_Plane.PrintPlane(this, vector + new Vector3(0f, 0f, z2), Vector2.one, damageData.edgeLeftMat, 270f, false, null, null, 0f);
-					break;
-				case DamageOverlay.RightEdge:
-					Printer_Plane.PrintPlane(this, vector + new Vector3(0f, 0f, z), Vector2.one, damageData.edgeRightMat, 90f, false, null, null, 0f);
-					break;
-				case DamageOverlay.TopEdge:
-					Printer_Plane.PrintPlane(this, vector + new Vector3(x, 0f, 0f), Vector2.one, damageData.edgeTopMat, 0f, false, null, null, 0f);
-					break;
-				case DamageOverlay.BotEdge:
-					Printer_Plane.PrintPlane(this, vector + new Vector3(x2, 0f, 0f), Vector2.one, damageData.edgeBotMat, 180f, false, null, null, 0f);
-					break;
+					float damageTexturesAltitude = this.GetDamageTexturesAltitude(b);
+					List<DamageOverlay> overlays = BuildingsDamageSectionLayerUtility.GetOverlays(b);
+					IntVec3 position = b.Position;
+					Vector3 vector = new Vector3((float)((float)position.x + 0.5), damageTexturesAltitude, (float)((float)position.z + 0.5));
+					float x = Rand.Range(0.4f, 0.6f);
+					float z = Rand.Range(0.4f, 0.6f);
+					float x2 = Rand.Range(0.4f, 0.6f);
+					float z2 = Rand.Range(0.4f, 0.6f);
+					for (int i = 0; i < overlays.Count; i++)
+					{
+						switch (overlays[i])
+						{
+						case DamageOverlay.TopEdge:
+						{
+							Printer_Plane.PrintPlane(this, vector + new Vector3(x, 0f, 0f), Vector2.one, damageData.edgeTopMat, 0f, false, null, null, 0f);
+							break;
+						}
+						case DamageOverlay.RightEdge:
+						{
+							Printer_Plane.PrintPlane(this, vector + new Vector3(0f, 0f, z), Vector2.one, damageData.edgeRightMat, 90f, false, null, null, 0f);
+							break;
+						}
+						case DamageOverlay.BotEdge:
+						{
+							Printer_Plane.PrintPlane(this, vector + new Vector3(x2, 0f, 0f), Vector2.one, damageData.edgeBotMat, 180f, false, null, null, 0f);
+							break;
+						}
+						case DamageOverlay.LeftEdge:
+						{
+							Printer_Plane.PrintPlane(this, vector + new Vector3(0f, 0f, z2), Vector2.one, damageData.edgeLeftMat, 270f, false, null, null, 0f);
+							break;
+						}
+						case DamageOverlay.TopLeftCorner:
+						{
+							Printer_Plane.PrintPlane(this, vector, Vector2.one, damageData.cornerTLMat, 0f, false, null, null, 0f);
+							break;
+						}
+						case DamageOverlay.TopRightCorner:
+						{
+							Printer_Plane.PrintPlane(this, vector, Vector2.one, damageData.cornerTRMat, 90f, false, null, null, 0f);
+							break;
+						}
+						case DamageOverlay.BotRightCorner:
+						{
+							Printer_Plane.PrintPlane(this, vector, Vector2.one, damageData.cornerBRMat, 180f, false, null, null, 0f);
+							break;
+						}
+						case DamageOverlay.BotLeftCorner:
+						{
+							Printer_Plane.PrintPlane(this, vector, Vector2.one, damageData.cornerBLMat, 270f, false, null, null, 0f);
+							break;
+						}
+						}
+					}
 				}
 			}
 		}
 
 		private void DrawFullThingCorners(Building b)
 		{
-			if (b.def.graphicData == null)
+			if (b.def.graphicData != null)
 			{
-				return;
-			}
-			if (b.def.graphicData.damageData == null)
-			{
-				return;
-			}
-			Rect damageRect = BuildingsDamageSectionLayerUtility.GetDamageRect(b);
-			float damageTexturesAltitude = this.GetDamageTexturesAltitude(b);
-			float num = Mathf.Min(Mathf.Min(damageRect.width, damageRect.height), 1.5f);
-			Material mat;
-			Material mat2;
-			Material mat3;
-			Material mat4;
-			BuildingsDamageSectionLayerUtility.GetCornerMats(out mat, out mat2, out mat3, out mat4, b);
-			float num2 = num * Rand.Range(0.9f, 1f);
-			float num3 = num * Rand.Range(0.9f, 1f);
-			float num4 = num * Rand.Range(0.9f, 1f);
-			float num5 = num * Rand.Range(0.9f, 1f);
-			List<DamageOverlay> overlays = BuildingsDamageSectionLayerUtility.GetOverlays(b);
-			for (int i = 0; i < overlays.Count; i++)
-			{
-				switch (overlays[i])
+				DamageGraphicData damageData = b.def.graphicData.damageData;
+				if (damageData != null)
 				{
-				case DamageOverlay.TopLeftCorner:
-				{
-					Rect rect = new Rect(damageRect.xMin, damageRect.yMax - num2, num2, num2);
-					Printer_Plane.PrintPlane(this, new Vector3(rect.center.x, damageTexturesAltitude, rect.center.y), rect.size, mat, 0f, false, null, null, 0f);
-					break;
-				}
-				case DamageOverlay.TopRightCorner:
-				{
-					Rect rect2 = new Rect(damageRect.xMax - num3, damageRect.yMax - num3, num3, num3);
-					Printer_Plane.PrintPlane(this, new Vector3(rect2.center.x, damageTexturesAltitude, rect2.center.y), rect2.size, mat2, 90f, false, null, null, 0f);
-					break;
-				}
-				case DamageOverlay.BotLeftCorner:
-				{
-					Rect rect3 = new Rect(damageRect.xMin, damageRect.yMin, num5, num5);
-					Printer_Plane.PrintPlane(this, new Vector3(rect3.center.x, damageTexturesAltitude, rect3.center.y), rect3.size, mat4, 270f, false, null, null, 0f);
-					break;
-				}
-				case DamageOverlay.BotRightCorner:
-				{
-					Rect rect4 = new Rect(damageRect.xMax - num4, damageRect.yMin, num4, num4);
-					Printer_Plane.PrintPlane(this, new Vector3(rect4.center.x, damageTexturesAltitude, rect4.center.y), rect4.size, mat3, 180f, false, null, null, 0f);
-					break;
-				}
+					Rect damageRect = BuildingsDamageSectionLayerUtility.GetDamageRect(b);
+					float damageTexturesAltitude = this.GetDamageTexturesAltitude(b);
+					float num = Mathf.Min(Mathf.Min(damageRect.width, damageRect.height), 1.5f);
+					Material mat = default(Material);
+					Material mat2 = default(Material);
+					Material mat3 = default(Material);
+					Material mat4 = default(Material);
+					BuildingsDamageSectionLayerUtility.GetCornerMats(out mat, out mat2, out mat3, out mat4, b);
+					float num2 = num * Rand.Range(0.9f, 1f);
+					float num3 = num * Rand.Range(0.9f, 1f);
+					float num4 = num * Rand.Range(0.9f, 1f);
+					float num5 = num * Rand.Range(0.9f, 1f);
+					List<DamageOverlay> overlays = BuildingsDamageSectionLayerUtility.GetOverlays(b);
+					for (int i = 0; i < overlays.Count; i++)
+					{
+						switch (overlays[i])
+						{
+						case DamageOverlay.TopLeftCorner:
+						{
+							Rect rect = new Rect(damageRect.xMin, damageRect.yMax - num2, num2, num2);
+							Vector2 center = rect.center;
+							float x = center.x;
+							float y = damageTexturesAltitude;
+							Vector2 center2 = rect.center;
+							Printer_Plane.PrintPlane(this, new Vector3(x, y, center2.y), rect.size, mat, 0f, false, null, null, 0f);
+							break;
+						}
+						case DamageOverlay.TopRightCorner:
+						{
+							Rect rect2 = new Rect(damageRect.xMax - num3, damageRect.yMax - num3, num3, num3);
+							Vector2 center3 = rect2.center;
+							float x2 = center3.x;
+							float y2 = damageTexturesAltitude;
+							Vector2 center4 = rect2.center;
+							Printer_Plane.PrintPlane(this, new Vector3(x2, y2, center4.y), rect2.size, mat2, 90f, false, null, null, 0f);
+							break;
+						}
+						case DamageOverlay.BotRightCorner:
+						{
+							Rect rect3 = new Rect(damageRect.xMax - num4, damageRect.yMin, num4, num4);
+							Vector2 center5 = rect3.center;
+							float x3 = center5.x;
+							float y3 = damageTexturesAltitude;
+							Vector2 center6 = rect3.center;
+							Printer_Plane.PrintPlane(this, new Vector3(x3, y3, center6.y), rect3.size, mat3, 180f, false, null, null, 0f);
+							break;
+						}
+						case DamageOverlay.BotLeftCorner:
+						{
+							Rect rect4 = new Rect(damageRect.xMin, damageRect.yMin, num5, num5);
+							Vector2 center7 = rect4.center;
+							float x4 = center7.x;
+							float y4 = damageTexturesAltitude;
+							Vector2 center8 = rect4.center;
+							Printer_Plane.PrintPlane(this, new Vector3(x4, y4, center8.y), rect4.size, mat4, 270f, false, null, null, 0f);
+							break;
+						}
+						}
+					}
 				}
 			}
 		}
 
 		private float GetDamageTexturesAltitude(Building b)
 		{
-			return b.def.Altitude + 0.046875f;
+			return (float)(b.def.Altitude + 0.046875);
 		}
 	}
 }

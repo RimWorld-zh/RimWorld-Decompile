@@ -23,11 +23,17 @@ namespace Verse
 		{
 			get
 			{
-				EdgeSpan.<>c__Iterator204 <>c__Iterator = new EdgeSpan.<>c__Iterator204();
-				<>c__Iterator.<>f__this = this;
-				EdgeSpan.<>c__Iterator204 expr_13 = <>c__Iterator;
-				expr_13.$PC = -2;
-				return expr_13;
+				for (int i = 0; i < this.length; i++)
+				{
+					if (this.dir == SpanDirection.North)
+					{
+						yield return new IntVec3(this.root.x, 0, this.root.z + i);
+					}
+					else if (this.dir == SpanDirection.East)
+					{
+						yield return new IntVec3(this.root.x + i, 0, this.root.z);
+					}
+				}
 			}
 		}
 
@@ -40,16 +46,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"(root=",
-				this.root,
-				", dir=",
-				this.dir.ToString(),
-				" + length=",
-				this.length,
-				")"
-			});
+			return "(root=" + this.root + ", dir=" + ((Enum)(object)this.dir).ToString() + " + length=" + this.length + ")";
 		}
 
 		public ulong UniqueHashCode()
@@ -57,9 +54,9 @@ namespace Verse
 			ulong num = this.root.UniqueHashCode();
 			if (this.dir == SpanDirection.East)
 			{
-				num += 17592186044416uL;
+				num += 17592186044416L;
 			}
-			return num + (ulong)(281474976710656L * (long)this.length);
+			return (ulong)((long)num + 281474976710656L * this.length);
 		}
 	}
 }

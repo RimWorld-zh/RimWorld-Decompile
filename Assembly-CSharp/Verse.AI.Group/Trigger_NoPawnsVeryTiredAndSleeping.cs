@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse.AI.Group
 {
@@ -19,12 +18,9 @@ namespace Verse.AI.Group
 				for (int i = 0; i < lord.ownedPawns.Count; i++)
 				{
 					Need_Rest rest = lord.ownedPawns[i].needs.rest;
-					if (rest != null)
+					if (rest != null && rest.CurLevelPercentage < 0.14000000059604645 + this.extraRestThreshOffset && !lord.ownedPawns[i].Awake())
 					{
-						if (rest.CurLevelPercentage < 0.14f + this.extraRestThreshOffset && !lord.ownedPawns[i].Awake())
-						{
-							return false;
-						}
+						return false;
 					}
 				}
 				return true;

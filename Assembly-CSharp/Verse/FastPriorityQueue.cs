@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -35,9 +34,7 @@ namespace Verse
 			{
 				int num2 = (num - 1) / 2;
 				if (this.CompareElements(num, num2) >= 0)
-				{
 					break;
-				}
 				this.SwapElements(num, num2);
 				num = num2;
 			}
@@ -64,11 +61,12 @@ namespace Verse
 				{
 					num = num4;
 				}
-				if (num == num2)
+				if (num != num2)
 				{
-					break;
+					this.SwapElements(num, num2);
+					continue;
 				}
-				this.SwapElements(num, num2);
+				break;
 			}
 			return result;
 		}

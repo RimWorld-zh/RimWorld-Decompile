@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -142,19 +141,33 @@ namespace RimWorld
 			return false;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			IncidentDef.<ConfigErrors>c__Iterator8F <ConfigErrors>c__Iterator8F = new IncidentDef.<ConfigErrors>c__Iterator8F();
-			<ConfigErrors>c__Iterator8F.<>f__this = this;
-			IncidentDef.<ConfigErrors>c__Iterator8F expr_0E = <ConfigErrors>c__Iterator8F;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.category == IncidentCategory.Undefined)
+			{
+				yield return "category is undefined.";
+			}
+			if (this.targetType == IncidentTargetType.None)
+			{
+				yield return "no target type";
+			}
+			if (this.TargetTypeAllowed(IncidentTargetType.World) && this.targetType != IncidentTargetType.World)
+			{
+				yield return "allows world target type along with other targets. World targeting incidents should only target the world.";
+			}
+			if (this.TargetTypeAllowed(IncidentTargetType.World) && this.allowedBiomes != null)
+			{
+				yield return "world-targeting incident has a biome restriction list";
+			}
 		}
 
 		public bool TargetTypeAllowed(IncidentTargetType target)
 		{
-			return (byte)(this.targetType & target) != 0;
+			return (this.targetType & target) != IncidentTargetType.None;
 		}
 
 		public bool TargetAllowed(IIncidentTarget target)

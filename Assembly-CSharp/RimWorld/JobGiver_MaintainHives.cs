@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -15,18 +14,15 @@ namespace RimWorld
 			while ((float)num < JobGiver_MaintainHives.CellsInScanRadius)
 			{
 				IntVec3 intVec = pawn.Position + GenRadial.RadialPattern[num];
-				if (intVec.InBounds(pawn.Map))
+				if (intVec.InBounds(pawn.Map) && intVec.GetRoom(pawn.Map, RegionType.Set_Passable) == room)
 				{
-					if (intVec.GetRoom(pawn.Map, RegionType.Set_Passable) == room)
+					Hive hive = (Hive)pawn.Map.thingGrid.ThingAt(intVec, ThingDefOf.Hive);
+					if (hive != null)
 					{
-						Hive hive = (Hive)pawn.Map.thingGrid.ThingAt(intVec, ThingDefOf.Hive);
-						if (hive != null)
+						CompMaintainable compMaintainable = hive.TryGetComp<CompMaintainable>();
+						if (compMaintainable.CurStage != 0)
 						{
-							CompMaintainable compMaintainable = hive.TryGetComp<CompMaintainable>();
-							if (compMaintainable.CurStage != MaintainableStage.Healthy)
-							{
-								return new Job(JobDefOf.Maintain, hive);
-							}
+							return new Job(JobDefOf.Maintain, (Thing)hive);
 						}
 					}
 				}

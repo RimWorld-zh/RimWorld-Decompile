@@ -50,7 +50,7 @@ namespace RimWorld
 
 		public IEnumerator<Tradeable> GetEnumerator()
 		{
-			return this.tradeables.GetEnumerator();
+			return (IEnumerator<Tradeable>)(object)this.tradeables.GetEnumerator();
 		}
 
 		public void Reset()
@@ -62,10 +62,10 @@ namespace RimWorld
 
 		private void AddAllTradeables()
 		{
-			foreach (Thing current in TradeSession.trader.ColonyThingsWillingToBuy(TradeSession.playerNegotiator))
+			foreach (Thing item in TradeSession.trader.ColonyThingsWillingToBuy(TradeSession.playerNegotiator))
 			{
-				string text;
-				if (!TradeSession.playerNegotiator.IsWorldPawn() && !this.InSellablePosition(current, out text))
+				string text = default(string);
+				if (!TradeSession.playerNegotiator.IsWorldPawn() && !this.InSellablePosition(item, out text))
 				{
 					if (text != null && !this.cannotSellReasons.Contains(text))
 					{
@@ -74,14 +74,14 @@ namespace RimWorld
 				}
 				else
 				{
-					this.AddToTradeables(current, Transactor.Colony);
+					this.AddToTradeables(item, Transactor.Colony);
 				}
 			}
-			foreach (Thing current2 in TradeSession.trader.Goods)
+			foreach (Thing good in TradeSession.trader.Goods)
 			{
-				this.AddToTradeables(current2, Transactor.Trader);
+				this.AddToTradeables(good, Transactor.Trader);
 			}
-			if (this.tradeables.Find((Tradeable x) => x.IsCurrency) == null)
+			if (this.tradeables.Find((Predicate<Tradeable>)((Tradeable x) => x.IsCurrency)) == null)
 			{
 				Thing thing = ThingMaker.MakeThing(ThingDefOf.Silver, null);
 				thing.stackCount = 0;
@@ -93,27 +93,27 @@ namespace RimWorld
 		{
 			if (!t.Spawned)
 			{
-				reason = null;
+				reason = (string)null;
 				return false;
 			}
 			if (t.Position.Fogged(t.Map))
 			{
-				reason = null;
+				reason = (string)null;
 				return false;
 			}
 			Room room = t.GetRoom(RegionType.Set_Passable);
 			if (room != null)
 			{
 				int num = GenRadial.NumCellsInRadius(6.9f);
-				for (int i = 0; i < num; i++)
+				for (int num2 = 0; num2 < num; num2++)
 				{
-					IntVec3 intVec = t.Position + GenRadial.RadialPattern[i];
+					IntVec3 intVec = t.Position + GenRadial.RadialPattern[num2];
 					if (intVec.InBounds(t.Map) && intVec.GetRoom(t.Map, RegionType.Set_Passable) == room)
 					{
 						List<Thing> thingList = intVec.GetThingList(t.Map);
-						for (int j = 0; j < thingList.Count; j++)
+						for (int i = 0; i < thingList.Count; i++)
 						{
-							if (thingList[j].PreventPlayerSellingThingsNearby(out reason))
+							if (thingList[i].PreventPlayerSellingThingsNearby(out reason))
 							{
 								return false;
 							}
@@ -121,24 +121,17 @@ namespace RimWorld
 					}
 				}
 			}
-			reason = null;
+			reason = (string)null;
 			return true;
 		}
 
 		private void AddToTradeables(Thing t, Transactor trans)
 		{
-			Tradeable tradeable = TransferableUtility.TransferableMatching<Tradeable>(t, this.tradeables);
+			Tradeable tradeable = TransferableUtility.TransferableMatching(t, this.tradeables);
 			if (tradeable == null)
 			{
 				Pawn pawn = t as Pawn;
-				if (pawn != null)
-				{
-					tradeable = new Tradeable_Pawn();
-				}
-				else
-				{
-					tradeable = new Tradeable();
-				}
+				tradeable = ((pawn == null) ? new Tradeable() : new Tradeable_Pawn());
 				this.tradeables.Add(tradeable);
 			}
 			tradeable.AddThing(t, trans);
@@ -147,12 +140,21 @@ namespace RimWorld
 		public void UpdateCurrencyCount()
 		{
 			float num = 0f;
-			foreach (Tradeable current in this.tradeables)
+			List<Tradeable>.Enumerator enumerator = this.tradeables.GetEnumerator();
+			try
 			{
-				if (!current.IsCurrency)
+				while (enumerator.MoveNext())
 				{
-					num += current.CurTotalSilverCost;
+					Tradeable current = enumerator.Current;
+					if (!current.IsCurrency)
+					{
+						num += current.CurTotalSilverCost;
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			this.SilverTradeable.ForceTo(-Mathf.RoundToInt(num));
 		}
@@ -169,13 +171,22 @@ namespace RimWorld
 			this.UpdateCurrencyCount();
 			this.LimitCurrencyCountToTraderFunds();
 			actuallyTraded = false;
-			foreach (Tradeable current in this.tradeables)
+			List<Tradeable>.Enumerator enumerator = this.tradeables.GetEnumerator();
+			try
 			{
-				if (current.ActionToDo != TradeAction.None)
+				while (enumerator.MoveNext())
 				{
-					actuallyTraded = true;
+					Tradeable current = enumerator.Current;
+					if (current.ActionToDo != 0)
+					{
+						actuallyTraded = true;
+					}
+					current.ResolveTrade();
 				}
-				current.ResolveTrade();
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			this.Reset();
 			return true;

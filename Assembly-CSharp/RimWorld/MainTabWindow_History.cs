@@ -11,11 +11,11 @@ namespace RimWorld
 	{
 		private enum HistoryTab : byte
 		{
-			Graph,
-			Statistics
+			Graph = 0,
+			Statistics = 1
 		}
 
-		private MainTabWindow_History.HistoryTab curTab;
+		private HistoryTab curTab;
 
 		private HistoryAutoRecorderGroup historyAutoRecorderGroup;
 
@@ -34,10 +34,10 @@ namespace RimWorld
 		public override void PreOpen()
 		{
 			base.PreOpen();
-			this.historyAutoRecorderGroup = Find.History.Groups().FirstOrDefault<HistoryAutoRecorderGroup>();
+			this.historyAutoRecorderGroup = Find.History.Groups().FirstOrDefault();
 			if (this.historyAutoRecorderGroup != null)
 			{
-				this.graphSection = new Vector2(0f, (float)Find.TickManager.TicksGame / 60000f);
+				this.graphSection = new Vector2(0f, (float)((float)Find.TickManager.TicksGame / 60000.0));
 			}
 			List<Map> maps = Find.Maps;
 			for (int i = 0; i < maps.Count; i++)
@@ -52,26 +52,27 @@ namespace RimWorld
 			Rect rect2 = rect;
 			rect2.yMin += 45f;
 			List<TabRecord> list = new List<TabRecord>();
-			list.Add(new TabRecord("Graph".Translate(), delegate
+			list.Add(new TabRecord("Graph".Translate(), (Action)delegate
 			{
-				this.curTab = MainTabWindow_History.HistoryTab.Graph;
-			}, this.curTab == MainTabWindow_History.HistoryTab.Graph));
-			list.Add(new TabRecord("Statistics".Translate(), delegate
+				this.curTab = HistoryTab.Graph;
+			}, this.curTab == HistoryTab.Graph));
+			list.Add(new TabRecord("Statistics".Translate(), (Action)delegate
 			{
-				this.curTab = MainTabWindow_History.HistoryTab.Statistics;
-			}, this.curTab == MainTabWindow_History.HistoryTab.Statistics));
+				this.curTab = HistoryTab.Statistics;
+			}, this.curTab == HistoryTab.Statistics));
 			TabDrawer.DrawTabs(rect2, list);
-			MainTabWindow_History.HistoryTab historyTab = this.curTab;
-			if (historyTab != MainTabWindow_History.HistoryTab.Graph)
+			switch (this.curTab)
 			{
-				if (historyTab == MainTabWindow_History.HistoryTab.Statistics)
-				{
-					this.DoStatisticsPage(rect2);
-				}
-			}
-			else
+			case HistoryTab.Graph:
 			{
 				this.DoGraphPage(rect2);
+				break;
+			}
+			case HistoryTab.Statistics:
+			{
+				this.DoStatisticsPage(rect2);
+				break;
+			}
 			}
 		}
 
@@ -81,22 +82,7 @@ namespace RimWorld
 			GUI.BeginGroup(rect);
 			StringBuilder stringBuilder = new StringBuilder();
 			TimeSpan timeSpan = new TimeSpan(0, 0, (int)Find.GameInfo.RealPlayTimeInteracting);
-			stringBuilder.AppendLine(string.Concat(new object[]
-			{
-				"Playtime".Translate(),
-				": ",
-				timeSpan.Days,
-				"LetterDay".Translate(),
-				" ",
-				timeSpan.Hours,
-				"LetterHour".Translate(),
-				" ",
-				timeSpan.Minutes,
-				"LetterMinute".Translate(),
-				" ",
-				timeSpan.Seconds,
-				"LetterSecond".Translate()
-			}));
+			stringBuilder.AppendLine("Playtime".Translate() + ": " + timeSpan.Days + "LetterDay".Translate() + " " + timeSpan.Hours + "LetterHour".Translate() + " " + timeSpan.Minutes + "LetterMinute".Translate() + " " + timeSpan.Seconds + "LetterSecond".Translate());
 			stringBuilder.AppendLine("Storyteller".Translate() + ": " + Find.Storyteller.def.label);
 			DifficultyDef difficulty = Find.Storyteller.difficulty;
 			stringBuilder.AppendLine("Difficulty".Translate() + ": " + difficulty.label);
@@ -130,7 +116,7 @@ namespace RimWorld
 			rect.yMin += 17f;
 			GUI.BeginGroup(rect);
 			Rect graphRect = new Rect(0f, 0f, rect.width, 450f);
-			Rect legendRect = new Rect(0f, graphRect.yMax, rect.width / 2f, 40f);
+			Rect legendRect = new Rect(0f, graphRect.yMax, (float)(rect.width / 2.0), 40f);
 			Rect rect2 = new Rect(0f, legendRect.yMax, rect.width, 40f);
 			if (this.historyAutoRecorderGroup != null)
 			{
@@ -141,27 +127,27 @@ namespace RimWorld
 					Tale tale = allTalesListForReading[i];
 					if (tale.def.type == TaleType.PermanentHistorical)
 					{
-						float x = (float)GenDate.TickAbsToGame(tale.date) / 60000f;
+						float x = (float)((float)GenDate.TickAbsToGame(tale.date) / 60000.0);
 						MainTabWindow_History.marks.Add(new CurveMark(x, tale.ShortSummary, tale.def.historyGraphColor));
 					}
 				}
 				this.historyAutoRecorderGroup.DrawGraph(graphRect, legendRect, this.graphSection, Find.History.curveDrawerStyle, MainTabWindow_History.marks);
 			}
 			Text.Font = GameFont.Small;
-			float num = (float)Find.TickManager.TicksGame / 60000f;
+			float num = (float)((float)Find.TickManager.TicksGame / 60000.0);
 			if (Widgets.ButtonText(new Rect(legendRect.xMin + legendRect.width, legendRect.yMin, 110f, 40f), "Last30Days".Translate(), true, false, true))
 			{
-				this.graphSection = new Vector2(Mathf.Max(0f, num - 30f), num);
+				this.graphSection = new Vector2(Mathf.Max(0f, (float)(num - 30.0)), num);
 			}
-			if (Widgets.ButtonText(new Rect(legendRect.xMin + legendRect.width + 110f + 4f, legendRect.yMin, 110f, 40f), "Last100Days".Translate(), true, false, true))
+			if (Widgets.ButtonText(new Rect((float)(legendRect.xMin + legendRect.width + 110.0 + 4.0), legendRect.yMin, 110f, 40f), "Last100Days".Translate(), true, false, true))
 			{
-				this.graphSection = new Vector2(Mathf.Max(0f, num - 100f), num);
+				this.graphSection = new Vector2(Mathf.Max(0f, (float)(num - 100.0)), num);
 			}
-			if (Widgets.ButtonText(new Rect(legendRect.xMin + legendRect.width + 228f, legendRect.yMin, 110f, 40f), "Last300Days".Translate(), true, false, true))
+			if (Widgets.ButtonText(new Rect((float)(legendRect.xMin + legendRect.width + 228.0), legendRect.yMin, 110f, 40f), "Last300Days".Translate(), true, false, true))
 			{
-				this.graphSection = new Vector2(Mathf.Max(0f, num - 300f), num);
+				this.graphSection = new Vector2(Mathf.Max(0f, (float)(num - 300.0)), num);
 			}
-			if (Widgets.ButtonText(new Rect(legendRect.xMin + legendRect.width + 342f, legendRect.yMin, 110f, 40f), "AllDays".Translate(), true, false, true))
+			if (Widgets.ButtonText(new Rect((float)(legendRect.xMin + legendRect.width + 342.0), legendRect.yMin, 110f, 40f), "AllDays".Translate(), true, false, true))
 			{
 				this.graphSection = new Vector2(0f, num);
 			}
@@ -172,7 +158,7 @@ namespace RimWorld
 				for (int j = 0; j < list2.Count; j++)
 				{
 					HistoryAutoRecorderGroup groupLocal = list2[j];
-					list.Add(new FloatMenuOption(groupLocal.def.LabelCap, delegate
+					list.Add(new FloatMenuOption(groupLocal.def.LabelCap, (Action)delegate
 					{
 						this.historyAutoRecorderGroup = groupLocal;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));

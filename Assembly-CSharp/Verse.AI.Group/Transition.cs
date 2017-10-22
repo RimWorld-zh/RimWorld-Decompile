@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse.AI.Group
@@ -37,20 +36,22 @@ namespace Verse.AI.Group
 			if (this.sources.Contains(source))
 			{
 				Log.Error("Double-added source to Transition: " + source);
-				return;
 			}
-			if (!this.canMoveToSameState && this.target == source)
+			else
 			{
-				Log.Error("Transition canMoveToSameState and target is source: " + source);
+				if (!this.canMoveToSameState && this.target == source)
+				{
+					Log.Error("Transition canMoveToSameState and target is source: " + source);
+				}
+				this.sources.Add(source);
 			}
-			this.sources.Add(source);
 		}
 
 		public void AddSources(IEnumerable<LordToil> sources)
 		{
-			foreach (LordToil current in sources)
+			foreach (LordToil item in sources)
 			{
-				this.AddSource(current);
+				this.AddSource(item);
 			}
 		}
 
@@ -91,40 +92,33 @@ namespace Verse.AI.Group
 			{
 				if (this.triggers[i].ActivateOn(lord, signal))
 				{
-					if (this.triggers[i].filters != null)
+					if (this.triggers[i].filters == null)
 					{
-						bool flag = true;
-						for (int j = 0; j < this.triggers[i].filters.Count; j++)
-						{
-							if (!this.triggers[i].filters[j].AllowActivation(lord, signal))
-							{
-								flag = false;
-								break;
-							}
-						}
-						if (!flag)
-						{
-							goto IL_100;
-						}
+						goto IL_0093;
 					}
-					if (DebugViewSettings.logLordToilTransitions)
+					bool flag = true;
+					int num = 0;
+					while (num < this.triggers[i].filters.Count)
 					{
-						Log.Message(string.Concat(new object[]
+						if (this.triggers[i].filters[num].AllowActivation(lord, signal))
 						{
-							"Transitioning ",
-							this.sources,
-							" to ",
-							this.target,
-							" by trigger ",
-							this.triggers[i],
-							" on signal ",
-							signal
-						}));
+							num++;
+							continue;
+						}
+						flag = false;
+						break;
 					}
-					this.Execute(lord);
-					return true;
+					if (flag)
+						goto IL_0093;
 				}
-				IL_100:;
+				continue;
+				IL_0093:
+				if (DebugViewSettings.logLordToilTransitions)
+				{
+					Log.Message("Transitioning " + this.sources + " to " + this.target + " by trigger " + this.triggers[i] + " on signal " + signal);
+				}
+				this.Execute(lord);
+				return true;
 			}
 			return false;
 		}
@@ -132,9 +126,7 @@ namespace Verse.AI.Group
 		public void Execute(Lord lord)
 		{
 			if (!this.canMoveToSameState && this.target == lord.CurLordToil)
-			{
 				return;
-			}
 			for (int i = 0; i < this.preActions.Count; i++)
 			{
 				this.preActions[i].DoAction(this);
@@ -148,17 +140,10 @@ namespace Verse.AI.Group
 
 		public override string ToString()
 		{
-			string text = (!this.sources.NullOrEmpty<LordToil>()) ? this.sources[0].ToString() : "null";
+			string text = (!this.sources.NullOrEmpty()) ? this.sources[0].ToString() : "null";
 			int num = (this.sources != null) ? this.sources.Count : 0;
 			string text2 = (this.target != null) ? this.target.ToString() : "null";
-			return string.Concat(new object[]
-			{
-				text,
-				"(",
-				num,
-				")->",
-				text2
-			});
+			return text + "(" + num + ")->" + text2;
 		}
 	}
 }

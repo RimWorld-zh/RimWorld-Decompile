@@ -29,7 +29,7 @@ namespace RimWorld
 				pawn.mindState.nextMoveOrderIsWait = false;
 				return job;
 			}
-			if (Rand.Value < 0.75f)
+			if (Rand.Value < 0.75)
 			{
 				Thing thing = this.TryFindRandomIgniteTarget(pawn);
 				if (thing != null)
@@ -50,8 +50,8 @@ namespace RimWorld
 
 		private Thing TryFindRandomIgniteTarget(Pawn pawn)
 		{
-			Region region;
-			if (!CellFinder.TryFindClosestRegionWith(pawn.GetRegion(RegionType.Set_Passable), TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), (Region candidateRegion) => !candidateRegion.IsForbiddenEntirely(pawn), 100, out region, RegionType.Set_Passable))
+			Region region = default(Region);
+			if (!CellFinder.TryFindClosestRegionWith(pawn.GetRegion(RegionType.Set_Passable), TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), (Predicate<Region>)((Region candidateRegion) => !candidateRegion.IsForbiddenEntirely(pawn)), 100, out region, RegionType.Set_Passable))
 			{
 				return null;
 			}
@@ -65,11 +65,11 @@ namespace RimWorld
 					JobGiver_FireStartingSpree.potentialTargets.Add(thing);
 				}
 			}
-			if (JobGiver_FireStartingSpree.potentialTargets.NullOrEmpty<Thing>())
+			if (JobGiver_FireStartingSpree.potentialTargets.NullOrEmpty())
 			{
 				return null;
 			}
-			return JobGiver_FireStartingSpree.potentialTargets.RandomElement<Thing>();
+			return JobGiver_FireStartingSpree.potentialTargets.RandomElement();
 		}
 	}
 }

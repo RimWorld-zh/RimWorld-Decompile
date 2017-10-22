@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI
 {
 	public class ThinkNode_ChancePerHour_Constant : ThinkNode_ChancePerHour

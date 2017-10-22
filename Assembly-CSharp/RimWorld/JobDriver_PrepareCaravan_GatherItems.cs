@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -54,126 +53,150 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_PrepareCaravan_GatherItems.<MakeNewToils>c__Iterator9 <MakeNewToils>c__Iterator = new JobDriver_PrepareCaravan_GatherItems.<MakeNewToils>c__Iterator9();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_PrepareCaravan_GatherItems.<MakeNewToils>c__Iterator9 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator9)/*Error near IL_004b: stateMachine*/)._003C_003Ef__this.Map.lordManager.lords.Contains(((_003CMakeNewToils_003Ec__Iterator9)/*Error near IL_004b: stateMachine*/)._003C_003Ef__this.CurJob.lord)));
+			Toil reserve = Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			yield return reserve;
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			yield return this.DetermineNumToHaul();
+			yield return Toils_Haul.StartCarryThing(TargetIndex.A, false, true);
+			yield return this.AddCarriedThingToTransferables();
+			yield return Toils_Haul.CheckForGetOpportunityDuplicate(reserve, TargetIndex.A, TargetIndex.None, true, (Predicate<Thing>)((Thing x) => ((_003CMakeNewToils_003Ec__Iterator9)/*Error near IL_00fb: stateMachine*/)._003C_003Ef__this.Transferable.things.Contains(x)));
+			Toil findCarrier = this.FindCarrier();
+			yield return findCarrier;
+			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.Touch).JumpIf((Func<bool>)(() => !JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier(((_003CMakeNewToils_003Ec__Iterator9)/*Error near IL_014e: stateMachine*/)._003C_003Ef__this.Carrier, ((_003CMakeNewToils_003Ec__Iterator9)/*Error near IL_014e: stateMachine*/)._003C_003Ef__this.pawn, true)), findCarrier);
+			yield return Toils_General.Wait(25).JumpIf((Func<bool>)(() => !JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier(((_003CMakeNewToils_003Ec__Iterator9)/*Error near IL_017e: stateMachine*/)._003C_003Ef__this.Carrier, ((_003CMakeNewToils_003Ec__Iterator9)/*Error near IL_017e: stateMachine*/)._003C_003Ef__this.pawn, true)), findCarrier).WithProgressBarToilDelay(TargetIndex.B, false, -0.5f);
+			yield return this.PlaceTargetInCarrierInventory();
 		}
 
 		private Toil DetermineNumToHaul()
 		{
-			return new Toil
+			Toil toil = new Toil();
+			toil.initAction = (Action)delegate
 			{
-				initAction = delegate
+				int num = GatherItemsForCaravanUtility.CountLeftToTransfer(base.pawn, this.Transferable, base.CurJob.lord);
+				if (base.pawn.carryTracker.CarriedThing != null)
 				{
-					int num = GatherItemsForCaravanUtility.CountLeftToTransfer(this.pawn, this.Transferable, base.CurJob.lord);
-					if (this.pawn.carryTracker.CarriedThing != null)
-					{
-						num -= this.pawn.carryTracker.CarriedThing.stackCount;
-					}
-					if (num <= 0)
-					{
-						this.pawn.jobs.EndCurrentJob(JobCondition.Succeeded, true);
-					}
-					else
-					{
-						base.CurJob.count = num;
-					}
-				},
-				defaultCompleteMode = ToilCompleteMode.Instant,
-				atomicWithPrevious = true
+					num -= base.pawn.carryTracker.CarriedThing.stackCount;
+				}
+				if (num <= 0)
+				{
+					base.pawn.jobs.EndCurrentJob(JobCondition.Succeeded, true);
+				}
+				else
+				{
+					base.CurJob.count = num;
+				}
 			};
+			toil.defaultCompleteMode = ToilCompleteMode.Instant;
+			toil.atomicWithPrevious = true;
+			return toil;
 		}
 
 		private Toil AddCarriedThingToTransferables()
 		{
-			return new Toil
+			Toil toil = new Toil();
+			toil.initAction = (Action)delegate
 			{
-				initAction = delegate
+				TransferableOneWay transferable = this.Transferable;
+				if (!transferable.things.Contains(base.pawn.carryTracker.CarriedThing))
 				{
-					TransferableOneWay transferable = this.Transferable;
-					if (!transferable.things.Contains(this.pawn.carryTracker.CarriedThing))
-					{
-						transferable.things.Add(this.pawn.carryTracker.CarriedThing);
-					}
-				},
-				defaultCompleteMode = ToilCompleteMode.Instant,
-				atomicWithPrevious = true
+					transferable.things.Add(base.pawn.carryTracker.CarriedThing);
+				}
 			};
+			toil.defaultCompleteMode = ToilCompleteMode.Instant;
+			toil.atomicWithPrevious = true;
+			return toil;
 		}
 
 		private Toil FindCarrier()
 		{
-			return new Toil
+			Toil toil = new Toil();
+			toil.initAction = (Action)delegate()
 			{
-				initAction = delegate
+				Pawn pawn = this.FindBestCarrier(true);
+				if (pawn == null)
 				{
-					Pawn pawn = this.FindBestCarrier(true);
-					if (pawn == null)
+					bool flag = base.pawn.GetLord() == base.CurJob.lord;
+					if (flag && !MassUtility.IsOverEncumbered(base.pawn))
 					{
-						bool flag = this.pawn.GetLord() == base.CurJob.lord;
-						if (flag && !MassUtility.IsOverEncumbered(this.pawn))
+						pawn = base.pawn;
+					}
+					else
+					{
+						pawn = this.FindBestCarrier(false);
+						if (pawn == null)
 						{
-							pawn = this.pawn;
-						}
-						else
-						{
-							pawn = this.FindBestCarrier(false);
-							if (pawn == null)
+							if (!flag)
 							{
-								if (flag)
+								IEnumerable<Pawn> source = from x in base.CurJob.lord.ownedPawns
+								where JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier(x, base.pawn, true)
+								select x;
+								if (source.Any())
 								{
-									pawn = this.pawn;
+									pawn = source.RandomElement();
+									goto IL_00aa;
 								}
-								else
-								{
-									IEnumerable<Pawn> source = from x in base.CurJob.lord.ownedPawns
-									where JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier(x, this.pawn, true)
-									select x;
-									if (!source.Any<Pawn>())
-									{
-										base.EndJobWith(JobCondition.Incompletable);
-										return;
-									}
-									pawn = source.RandomElement<Pawn>();
-								}
+								base.EndJobWith(JobCondition.Incompletable);
+								return;
 							}
+							pawn = base.pawn;
 						}
 					}
-					base.CurJob.SetTarget(TargetIndex.B, pawn);
 				}
+				goto IL_00aa;
+				IL_00aa:
+				base.CurJob.SetTarget(TargetIndex.B, (Thing)pawn);
 			};
+			return toil;
 		}
 
 		private Toil PlaceTargetInCarrierInventory()
 		{
-			return new Toil
+			Toil toil = new Toil();
+			toil.initAction = (Action)delegate
 			{
-				initAction = delegate
-				{
-					Pawn_CarryTracker carryTracker = this.pawn.carryTracker;
-					Thing carriedThing = carryTracker.CarriedThing;
-					this.Transferable.AdjustTo(Mathf.Max(this.Transferable.CountToTransfer - carriedThing.stackCount, 0));
-					carryTracker.innerContainer.TryTransferToContainer(carriedThing, this.Carrier.inventory.innerContainer, carriedThing.stackCount, true);
-				}
+				Pawn_CarryTracker carryTracker = base.pawn.carryTracker;
+				Thing carriedThing = carryTracker.CarriedThing;
+				this.Transferable.AdjustTo(Mathf.Max(this.Transferable.CountToTransfer - carriedThing.stackCount, 0));
+				carryTracker.innerContainer.TryTransferToContainer(carriedThing, this.Carrier.inventory.innerContainer, carriedThing.stackCount, true);
 			};
+			return toil;
 		}
 
 		public static bool IsUsableCarrier(Pawn p, Pawn forPawn, bool allowColonists)
 		{
-			return p == forPawn || (!p.DestroyedOrNull() && p.Spawned && !p.inventory.UnloadEverything && forPawn.CanReach(p, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn) && ((allowColonists && p.IsColonist) || ((p.RaceProps.packAnimal || p.HostFaction == Faction.OfPlayer) && !p.IsBurning() && !p.Downed && !MassUtility.IsOverEncumbered(p))));
+			if (p == forPawn)
+			{
+				return true;
+			}
+			int result;
+			if (!p.DestroyedOrNull() && p.Spawned && !p.inventory.UnloadEverything && forPawn.CanReach((Thing)p, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+			{
+				if (allowColonists && p.IsColonist)
+				{
+					return true;
+				}
+				if ((p.RaceProps.packAnimal || p.HostFaction == Faction.OfPlayer) && !p.IsBurning() && !p.Downed)
+				{
+					result = ((!MassUtility.IsOverEncumbered(p)) ? 1 : 0);
+					goto IL_009b;
+				}
+				result = 0;
+				goto IL_009b;
+			}
+			return false;
+			IL_009b:
+			return (byte)result != 0;
 		}
 
 		private float GetCarrierScore(Pawn p)
 		{
-			float lengthHorizontal = (p.Position - this.pawn.Position).LengthHorizontal;
+			float lengthHorizontal = (p.Position - base.pawn.Position).LengthHorizontal;
 			float num = MassUtility.EncumbrancePercent(p);
-			float num2 = 1f - num;
-			return num2 - lengthHorizontal / 10f * 0.2f;
+			float num2 = (float)(1.0 - num);
+			return (float)(num2 - lengthHorizontal / 10.0 * 0.20000000298023224);
 		}
 
 		private Pawn FindBestCarrier(bool onlyAnimals)
@@ -186,19 +209,13 @@ namespace RimWorld
 				for (int i = 0; i < lord.ownedPawns.Count; i++)
 				{
 					Pawn pawn2 = lord.ownedPawns[i];
-					if (pawn2 != this.pawn)
+					if (pawn2 != base.pawn && (!onlyAnimals || pawn2.RaceProps.Animal) && JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier(pawn2, base.pawn, false))
 					{
-						if (!onlyAnimals || pawn2.RaceProps.Animal)
+						float carrierScore = this.GetCarrierScore(pawn2);
+						if (pawn == null || carrierScore > num)
 						{
-							if (JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier(pawn2, this.pawn, false))
-							{
-								float carrierScore = this.GetCarrierScore(pawn2);
-								if (pawn == null || carrierScore > num)
-								{
-									pawn = pawn2;
-									num = carrierScore;
-								}
-							}
+							pawn = pawn2;
+							num = carrierScore;
 						}
 					}
 				}

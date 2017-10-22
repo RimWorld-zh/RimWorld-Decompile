@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -21,7 +20,7 @@ namespace RimWorld
 					LightningBoltMeshPool.boltMeshes.Add(mesh);
 					return mesh;
 				}
-				return LightningBoltMeshPool.boltMeshes.RandomElement<Mesh>();
+				return LightningBoltMeshPool.boltMeshes.RandomElement();
 			}
 		}
 	}

@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum CheckJobOverrideOnDamageMode
 	{
-		Never,
-		OnlyIfInstigatorNotJobTarget,
-		Always
+		Never = 0,
+		OnlyIfInstigatorNotJobTarget = 1,
+		Always = 2
 	}
 }

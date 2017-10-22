@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -11,7 +10,7 @@ namespace RimWorld
 
 		public CompProperties_Hatcher()
 		{
-			this.compClass = typeof(CompHatcher);
+			base.compClass = typeof(CompHatcher);
 		}
 	}
 }

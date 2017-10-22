@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Grammar
 {
 	public class Rule_Number : Rule
@@ -23,7 +21,7 @@ namespace Verse.Grammar
 
 		public override string ToString()
 		{
-			return this.keyword + "->(number: " + this.range.ToString() + ")";
+			return base.keyword + "->(number: " + this.range.ToString() + ")";
 		}
 	}
 }

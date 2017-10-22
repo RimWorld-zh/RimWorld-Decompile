@@ -2,7 +2,6 @@ using RimWorld;
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse.AI;
@@ -194,7 +193,10 @@ namespace Verse
 		{
 			get
 			{
-				return new IntVec3(this.Size.x / 2, 0, this.Size.z / 2);
+				IntVec3 size = this.Size;
+				int newX = size.x / 2;
+				IntVec3 size2 = this.Size;
+				return new IntVec3(newX, 0, size2.z / 2);
 			}
 		}
 
@@ -210,7 +212,10 @@ namespace Verse
 		{
 			get
 			{
-				return this.Size.x * this.Size.z;
+				IntVec3 size = this.Size;
+				int x = size.x;
+				IntVec3 size2 = this.Size;
+				return x * size2.z;
 			}
 		}
 
@@ -226,11 +231,43 @@ namespace Verse
 		{
 			get
 			{
-				Map.<>c__Iterator1FD <>c__Iterator1FD = new Map.<>c__Iterator1FD();
-				<>c__Iterator1FD.<>f__this = this;
-				Map.<>c__Iterator1FD expr_0E = <>c__Iterator1FD;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				int z = 0;
+				while (true)
+				{
+					int num = z;
+					IntVec3 size = this.Size;
+					if (num < size.z)
+					{
+						int y = 0;
+						while (true)
+						{
+							int num2 = y;
+							IntVec3 size2 = this.Size;
+							if (num2 < size2.y)
+							{
+								int x = 0;
+								while (true)
+								{
+									int num3 = x;
+									IntVec3 size3 = this.Size;
+									if (num3 < size3.x)
+									{
+										yield return new IntVec3(x, y, z);
+										x++;
+										continue;
+									}
+									break;
+								}
+								y++;
+								continue;
+							}
+							break;
+						}
+						z++;
+						continue;
+					}
+					break;
+				}
 			}
 		}
 
@@ -306,12 +343,12 @@ namespace Verse
 			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerator<IntVec3> GetEnumerator()
 		{
-			Map.<GetEnumerator>c__Iterator1FE <GetEnumerator>c__Iterator1FE = new Map.<GetEnumerator>c__Iterator1FE();
-			<GetEnumerator>c__Iterator1FE.<>f__this = this;
-			return <GetEnumerator>c__Iterator1FE;
+			foreach (IntVec3 allCell in this.AllCells)
+			{
+				yield return allCell;
+			}
 		}
 
 		public void ConstructComponents()
@@ -410,34 +447,37 @@ namespace Verse
 				{
 					try
 					{
-						foreach (Thing current in this.listerThings.AllThings)
+						List<Thing>.Enumerator enumerator = this.listerThings.AllThings.GetEnumerator();
+						try
 						{
-							try
+							while (enumerator.MoveNext())
 							{
-								if (current.def.isSaveable && !current.IsSaveCompressible())
+								Thing current = enumerator.Current;
+								try
 								{
-									if (hashSet.Contains(current.ThingID))
+									if (current.def.isSaveable && !current.IsSaveCompressible())
 									{
-										Log.Error("Saving Thing with already-used ID " + current.ThingID);
+										if (hashSet.Contains(current.ThingID))
+										{
+											Log.Error("Saving Thing with already-used ID " + current.ThingID);
+										}
+										else
+										{
+											hashSet.Add(current.ThingID);
+										}
+										Thing thing = current;
+										Scribe_Deep.Look(ref thing, "thing");
 									}
-									else
-									{
-										hashSet.Add(current.ThingID);
-									}
-									Thing thing = current;
-									Scribe_Deep.Look<Thing>(ref thing, "thing", new object[0]);
+								}
+								catch (Exception ex)
+								{
+									Log.Error("Exception saving " + current + ": " + ex);
 								}
 							}
-							catch (Exception ex)
-							{
-								Log.Error(string.Concat(new object[]
-								{
-									"Exception saving ",
-									current,
-									": ",
-									ex
-								}));
-							}
+						}
+						finally
+						{
+							((IDisposable)(object)enumerator).Dispose();
 						}
 					}
 					finally
@@ -471,15 +511,12 @@ namespace Verse
 
 		private void FillComponents()
 		{
-			this.components.RemoveAll((MapComponent component) => component == null);
-			foreach (Type current in typeof(MapComponent).AllSubclassesNonAbstract())
+			this.components.RemoveAll((Predicate<MapComponent>)((MapComponent component) => component == null));
+			foreach (Type item2 in typeof(MapComponent).AllSubclassesNonAbstract())
 			{
-				if (this.GetComponent(current) == null)
+				if (this.GetComponent(item2) == null)
 				{
-					MapComponent item = (MapComponent)Activator.CreateInstance(current, new object[]
-					{
-						this
-					});
+					MapComponent item = (MapComponent)Activator.CreateInstance(item2, this);
 					this.components.Add(item);
 				}
 			}
@@ -488,33 +525,36 @@ namespace Verse
 
 		public void FinalizeLoading()
 		{
-			List<Thing> list = this.compressor.ThingsToSpawnAfterLoad().ToList<Thing>();
+			List<Thing> list = this.compressor.ThingsToSpawnAfterLoad().ToList();
 			this.compressor = null;
 			DeepProfiler.Start("Merge compressed and non-compressed thing lists");
 			List<Thing> list2 = new List<Thing>(this.loadedFullThings.Count + list.Count);
-			foreach (Thing current in this.loadedFullThings.Concat(list))
+			foreach (Thing item in this.loadedFullThings.Concat(list))
 			{
-				list2.Add(current);
+				list2.Add(item);
 			}
 			this.loadedFullThings.Clear();
 			DeepProfiler.End();
 			DeepProfiler.Start("Spawn everything into the map");
-			foreach (Thing current2 in list2)
+			List<Thing>.Enumerator enumerator2 = list2.GetEnumerator();
+			try
 			{
-				try
+				while (enumerator2.MoveNext())
 				{
-					GenSpawn.Spawn(current2, current2.Position, this, current2.Rotation, true);
-				}
-				catch (Exception ex)
-				{
-					Log.Error(string.Concat(new object[]
+					Thing current2 = enumerator2.Current;
+					try
 					{
-						"Exception spawning loaded thing ",
-						current2,
-						": ",
-						ex
-					}));
+						GenSpawn.Spawn(current2, current2.Position, this, current2.Rotation, true);
+					}
+					catch (Exception ex)
+					{
+						Log.Error("Exception spawning loaded thing " + current2 + ": " + ex);
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
 			}
 			DeepProfiler.End();
 			this.FinalizeInit();
@@ -527,25 +567,28 @@ namespace Verse
 			this.regionAndRoomUpdater.RebuildAllRegionsAndRooms();
 			this.powerNetManager.UpdatePowerNetsAndConnections_First();
 			this.temperatureCache.temperatureSaveLoad.ApplyLoadedDataToRegions();
-			foreach (Thing current in this.listerThings.AllThings.ToList<Thing>())
+			List<Thing>.Enumerator enumerator = this.listerThings.AllThings.ToList().GetEnumerator();
+			try
 			{
-				try
+				while (enumerator.MoveNext())
 				{
-					current.PostMapInit();
-				}
-				catch (Exception ex)
-				{
-					Log.Error(string.Concat(new object[]
+					Thing current = enumerator.Current;
+					try
 					{
-						"Exception PostMapInit in ",
-						current,
-						": ",
-						ex
-					}));
+						current.PostMapInit();
+					}
+					catch (Exception ex)
+					{
+						Log.Error("Exception PostMapInit in " + current + ": " + ex);
+					}
 				}
 			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
 			this.listerFilthInHomeArea.RebuildAll();
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				this.mapDrawer.RegenerateEverythingNow();
 			});
@@ -556,86 +599,86 @@ namespace Verse
 
 		private void ExposeComponents()
 		{
-			Scribe_Deep.Look<WeatherManager>(ref this.weatherManager, "weatherManager", new object[]
+			Scribe_Deep.Look<WeatherManager>(ref this.weatherManager, "weatherManager", new object[1]
 			{
 				this
 			});
-			Scribe_Deep.Look<ReservationManager>(ref this.reservationManager, "reservationManager", new object[]
+			Scribe_Deep.Look<ReservationManager>(ref this.reservationManager, "reservationManager", new object[1]
 			{
 				this
 			});
 			Scribe_Deep.Look<PhysicalInteractionReservationManager>(ref this.physicalInteractionReservationManager, "physicalInteractionReservationManager", new object[0]);
-			Scribe_Deep.Look<DesignationManager>(ref this.designationManager, "designationManager", new object[]
+			Scribe_Deep.Look<DesignationManager>(ref this.designationManager, "designationManager", new object[1]
 			{
 				this
 			});
-			Scribe_Deep.Look<LordManager>(ref this.lordManager, "lordManager", new object[]
+			Scribe_Deep.Look<LordManager>(ref this.lordManager, "lordManager", new object[1]
 			{
 				this
 			});
-			Scribe_Deep.Look<PassingShipManager>(ref this.passingShipManager, "visitorManager", new object[]
+			Scribe_Deep.Look<PassingShipManager>(ref this.passingShipManager, "visitorManager", new object[1]
 			{
 				this
 			});
-			Scribe_Deep.Look<GameConditionManager>(ref this.gameConditionManager, "gameConditionManager", new object[]
+			Scribe_Deep.Look<GameConditionManager>(ref this.gameConditionManager, "gameConditionManager", new object[1]
 			{
 				this
 			});
-			Scribe_Deep.Look<FogGrid>(ref this.fogGrid, "fogGrid", new object[]
+			Scribe_Deep.Look<FogGrid>(ref this.fogGrid, "fogGrid", new object[1]
 			{
 				this
 			});
-			Scribe_Deep.Look<RoofGrid>(ref this.roofGrid, "roofGrid", new object[]
+			Scribe_Deep.Look<RoofGrid>(ref this.roofGrid, "roofGrid", new object[1]
 			{
 				this
 			});
-			Scribe_Deep.Look<TerrainGrid>(ref this.terrainGrid, "terrainGrid", new object[]
+			Scribe_Deep.Look<TerrainGrid>(ref this.terrainGrid, "terrainGrid", new object[1]
 			{
 				this
 			});
-			Scribe_Deep.Look<ZoneManager>(ref this.zoneManager, "zoneManager", new object[]
+			Scribe_Deep.Look<ZoneManager>(ref this.zoneManager, "zoneManager", new object[1]
 			{
 				this
 			});
-			Scribe_Deep.Look<TemperatureCache>(ref this.temperatureCache, "temperatureCache", new object[]
+			Scribe_Deep.Look<TemperatureCache>(ref this.temperatureCache, "temperatureCache", new object[1]
 			{
 				this
 			});
-			Scribe_Deep.Look<SnowGrid>(ref this.snowGrid, "snowGrid", new object[]
+			Scribe_Deep.Look<SnowGrid>(ref this.snowGrid, "snowGrid", new object[1]
 			{
 				this
 			});
-			Scribe_Deep.Look<AreaManager>(ref this.areaManager, "areaManager", new object[]
+			Scribe_Deep.Look<AreaManager>(ref this.areaManager, "areaManager", new object[1]
 			{
 				this
 			});
-			Scribe_Deep.Look<VoluntarilyJoinableLordsStarter>(ref this.lordsStarter, "lordsStarter", new object[]
+			Scribe_Deep.Look<VoluntarilyJoinableLordsStarter>(ref this.lordsStarter, "lordsStarter", new object[1]
 			{
 				this
 			});
-			Scribe_Deep.Look<AttackTargetReservationManager>(ref this.attackTargetReservationManager, "attackTargetReservationManager", new object[]
+			Scribe_Deep.Look<AttackTargetReservationManager>(ref this.attackTargetReservationManager, "attackTargetReservationManager", new object[1]
 			{
 				this
 			});
-			Scribe_Deep.Look<DeepResourceGrid>(ref this.deepResourceGrid, "deepResourceGrid", new object[]
+			Scribe_Deep.Look<DeepResourceGrid>(ref this.deepResourceGrid, "deepResourceGrid", new object[1]
 			{
 				this
 			});
-			Scribe_Deep.Look<WeatherDecider>(ref this.weatherDecider, "weatherDecider", new object[]
+			Scribe_Deep.Look<WeatherDecider>(ref this.weatherDecider, "weatherDecider", new object[1]
 			{
 				this
 			});
 			Scribe_Deep.Look<DamageWatcher>(ref this.damageWatcher, "damageWatcher", new object[0]);
-			Scribe_Deep.Look<RememberedCameraPos>(ref this.rememberedCameraPos, "rememberedCameraPos", new object[]
+			Scribe_Deep.Look<RememberedCameraPos>(ref this.rememberedCameraPos, "rememberedCameraPos", new object[1]
 			{
 				this
 			});
 			Scribe_Deep.Look<MineStrikeManager>(ref this.mineStrikeManager, "mineStrikeManager", new object[0]);
-			Scribe_Deep.Look<StoryState>(ref this.storyState, "storyState", new object[]
+			Scribe_Deep.Look<StoryState>(ref this.storyState, "storyState", new object[1]
 			{
 				this
 			});
-			Scribe_Collections.Look<MapComponent>(ref this.components, "components", LookMode.Deep, new object[]
+			Scribe_Collections.Look<MapComponent>(ref this.components, "components", LookMode.Deep, new object[1]
 			{
 				this
 			});
@@ -839,13 +882,13 @@ namespace Verse
 		{
 			for (int i = 0; i < this.components.Count; i++)
 			{
-				T t = this.components[i] as T;
-				if (t != null)
+				T val = (T)(this.components[i] as T);
+				if (val != null)
 				{
-					return t;
+					return val;
 				}
 			}
-			return (T)((object)null);
+			return (T)null;
 		}
 
 		public MapComponent GetComponent(Type type)

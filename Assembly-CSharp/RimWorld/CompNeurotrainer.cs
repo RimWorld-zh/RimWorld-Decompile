@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -39,7 +38,11 @@ namespace RimWorld
 				return false;
 			}
 			CompNeurotrainer compNeurotrainer = other.TryGetComp<CompNeurotrainer>();
-			return compNeurotrainer != null && compNeurotrainer.skill == this.skill;
+			if (compNeurotrainer != null && compNeurotrainer.skill == this.skill)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override void PostSplitOff(Thing piece)

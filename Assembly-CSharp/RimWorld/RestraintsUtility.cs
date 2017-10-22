@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI.Group;
 
@@ -17,7 +16,11 @@ namespace RimWorld
 				return false;
 			}
 			Lord lord = pawn.GetLord();
-			return lord == null || lord.LordJob == null || !lord.LordJob.NeverInRestraints;
+			if (lord != null && lord.LordJob != null && lord.LordJob.NeverInRestraints)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool ShouldShowRestraintsInfo(Pawn pawn)

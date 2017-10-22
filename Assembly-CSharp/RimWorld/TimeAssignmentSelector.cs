@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -13,8 +12,10 @@ namespace RimWorld
 		{
 			rect.yMax -= 2f;
 			Rect rect2 = rect;
-			rect2.xMax = rect2.center.x;
-			rect2.yMax = rect2.center.y;
+			Vector2 center = rect2.center;
+			rect2.xMax = center.x;
+			Vector2 center2 = rect2.center;
+			rect2.yMax = center2.y;
 			TimeAssignmentSelector.DrawTimeAssignmentSelectorFor(rect2, TimeAssignmentDefOf.Anything);
 			rect2.x += rect2.width;
 			TimeAssignmentSelector.DrawTimeAssignmentSelectorFor(rect2, TimeAssignmentDefOf.Work);

@@ -9,38 +9,74 @@ namespace Verse.AI
 	{
 		public static bool CanInteractPawn(Pawn assister, Pawn assistee)
 		{
-			return assistee.Spawned && assister.CanReach(assistee, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn);
+			if (assistee.Spawned && assister.CanReach((Thing)assistee, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool MachinesLike(Faction machineFaction, Pawn p)
 		{
-			return p.Faction != null && (!p.IsPrisoner || p.HostFaction != machineFaction) && !p.Faction.HostileTo(machineFaction);
+			if (p.Faction == null)
+			{
+				return false;
+			}
+			if (p.IsPrisoner && p.HostFaction == machineFaction)
+			{
+				return false;
+			}
+			if (p.Faction.HostileTo(machineFaction))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool CanUseItemForWork(Pawn p, Thing item)
 		{
-			return !item.IsForbidden(p) && p.CanReserveAndReach(item, PathEndMode.ClosestTouch, p.NormalMaxDanger(), 1, -1, null, false);
+			if (item.IsForbidden(p))
+			{
+				return false;
+			}
+			if (!p.CanReserveAndReach(item, PathEndMode.ClosestTouch, p.NormalMaxDanger(), 1, -1, null, false))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool CanBeArrested(this Pawn pawn)
 		{
-			return pawn.RaceProps.Humanlike && !pawn.InAggroMentalState && !pawn.HostileTo(Faction.OfPlayer) && (!pawn.IsPrisonerOfColony || !pawn.Position.IsInPrisonCell(pawn.Map));
+			if (!pawn.RaceProps.Humanlike)
+			{
+				return false;
+			}
+			if (!pawn.InAggroMentalState && !pawn.HostileTo(Faction.OfPlayer))
+			{
+				if (pawn.IsPrisonerOfColony && pawn.Position.IsInPrisonCell(pawn.Map))
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		public static bool InDangerousCombat(Pawn pawn)
 		{
 			Region root = pawn.GetRegion(RegionType.Set_Passable);
 			bool found = false;
-			RegionTraverser.BreadthFirstTraverse(root, (Region r1, Region r2) => r2.Room == root.Room, (Region r) => r.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn).Any(delegate(Thing t)
+			RegionTraverser.BreadthFirstTraverse(root, (RegionEntryPredicate)((Region r1, Region r2) => r2.Room == root.Room), (RegionProcessor)((Region r) => r.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn).Any((Predicate<Thing>)delegate(Thing t)
 			{
 				Pawn pawn2 = t as Pawn;
-				if (pawn2 != null && !pawn2.Downed && (float)(pawn.Position - pawn2.Position).LengthHorizontalSquared < 144f && pawn2.HostileTo(pawn.Faction))
+				if (pawn2 != null && !pawn2.Downed && (float)(pawn.Position - pawn2.Position).LengthHorizontalSquared < 144.0 && pawn2.HostileTo(pawn.Faction))
 				{
-					found = true;
+					bool found2 = true;
 					return true;
 				}
 				return false;
-			}), 9, RegionType.Set_Passable);
+			})), 9, RegionType.Set_Passable);
 			return found;
 		}
 
@@ -50,27 +86,27 @@ namespace Verse.AI
 			List<Building> list = new List<Building>(map.mapPawns.FreeColonistsAndPrisonersSpawnedCount);
 			for (int i = 0; i < allBedDefBestToWorst.Count; i++)
 			{
-				foreach (Building current in map.listerBuildings.AllBuildingsColonistOfDef(allBedDefBestToWorst[i]))
+				foreach (Building item in map.listerBuildings.AllBuildingsColonistOfDef(allBedDefBestToWorst[i]))
 				{
-					if (((Building_Bed)current).owners.Any<Pawn>() && map.reachability.CanReach(raidSpawnLoc, current, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly))
+					if (((Building_Bed)item).owners.Any() && map.reachability.CanReach(raidSpawnLoc, (Thing)item, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly))
 					{
-						list.Add(current);
+						list.Add(item);
 					}
 				}
 			}
-			Building building;
-			if (list.TryRandomElement(out building))
+			Building building = default(Building);
+			if (((IEnumerable<Building>)list).TryRandomElement<Building>(out building))
 			{
 				return building.Position;
 			}
 			IEnumerable<Building> source = from b in map.listerBuildings.allBuildingsColonist
 			where !b.def.building.ai_combatDangerous && !b.def.building.isInert
 			select b;
-			if (source.Any<Building>())
+			if (source.Any())
 			{
 				for (int j = 0; j < 500; j++)
 				{
-					Building t = source.RandomElement<Building>();
+					Building t = source.RandomElement();
 					IntVec3 intVec = t.RandomAdjacentCell8Way();
 					if (intVec.Walkable(map) && map.reachability.CanReach(raidSpawnLoc, intVec, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly))
 					{
@@ -78,15 +114,15 @@ namespace Verse.AI
 					}
 				}
 			}
-			Pawn pawn;
+			Pawn pawn = default(Pawn);
 			if ((from x in map.mapPawns.FreeColonistsSpawned
-			where map.reachability.CanReach(raidSpawnLoc, x, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly)
-			select x).TryRandomElement(out pawn))
+			where map.reachability.CanReach(raidSpawnLoc, (Thing)x, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly)
+			select x).TryRandomElement<Pawn>(out pawn))
 			{
 				return pawn.Position;
 			}
-			IntVec3 result;
-			if (CellFinderLoose.TryGetRandomCellWith((IntVec3 x) => map.reachability.CanReach(raidSpawnLoc, x, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly), map, 1000, out result))
+			IntVec3 result = default(IntVec3);
+			if (CellFinderLoose.TryGetRandomCellWith((Predicate<IntVec3>)((IntVec3 x) => map.reachability.CanReach(raidSpawnLoc, x, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly)), map, 1000, out result))
 			{
 				return result;
 			}
@@ -103,12 +139,9 @@ namespace Verse.AI
 			for (int i = 0; i < potentialTargetsFor.Count; i++)
 			{
 				IAttackTarget attackTarget = potentialTargetsFor[i];
-				if (!attackTarget.ThreatDisabled())
+				if (!attackTarget.ThreatDisabled() && p.Position.InHorDistOf(((Thing)attackTarget).Position, radius))
 				{
-					if (p.Position.InHorDistOf(((Thing)attackTarget).Position, radius))
-					{
-						return true;
-					}
+					return true;
 				}
 			}
 			return false;

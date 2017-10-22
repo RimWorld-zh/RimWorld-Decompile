@@ -11,15 +11,15 @@ namespace Verse
 		{
 			string path = "Textures/" + dirPath;
 			return (from Texture2D tex in Resources.LoadAll(path, typeof(Texture2D))
-			select MaterialPool.MatFrom(tex)).ToList<Material>();
+			select MaterialPool.MatFrom(tex)).ToList();
 		}
 
 		public static Material MatWithEnding(string dirPath, string ending)
 		{
 			Material material = (from mat in MaterialLoader.MatsFromTexturesInFolder(dirPath)
 			where mat.mainTexture.name.ToLower().EndsWith(ending)
-			select mat).FirstOrDefault<Material>();
-			if (material == null)
+			select mat).FirstOrDefault();
+			if ((UnityEngine.Object)material == (UnityEngine.Object)null)
 			{
 				Log.Warning("MatWithEnding: Dir " + dirPath + " lacks texture ending in " + ending);
 				return BaseContent.BadMat;

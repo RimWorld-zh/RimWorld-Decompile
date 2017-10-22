@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -23,24 +22,28 @@ namespace RimWorld
 			}
 			Pawn spouse = recipient.GetSpouse();
 			Pawn spouse2 = initiator.GetSpouse();
-			if ((spouse != null && !spouse.Dead) || (spouse2 != null && !spouse2.Dead))
+			if (spouse != null && !spouse.Dead)
 			{
-				return 0f;
+				goto IL_004e;
 			}
+			if (spouse2 != null && !spouse2.Dead)
+				goto IL_004e;
 			float num = 0.4f;
 			int ticksGame = Find.TickManager.TicksGame;
-			float value = (float)(ticksGame - directRelation.startTicks) / 60000f;
+			float value = (float)((float)(ticksGame - directRelation.startTicks) / 60000.0);
 			num *= Mathf.InverseLerp(0f, 60f, value);
 			num *= Mathf.InverseLerp(0f, 60f, (float)initiator.relations.OpinionOf(recipient));
 			if (recipient.relations.OpinionOf(initiator) < 0)
 			{
-				num *= 0.3f;
+				num = (float)(num * 0.30000001192092896);
 			}
 			if (initiator.gender == Gender.Female)
 			{
-				num *= 0.2f;
+				num = (float)(num * 0.20000000298023224);
 			}
 			return num;
+			IL_004e:
+			return 0f;
 		}
 
 		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks)
@@ -65,7 +68,7 @@ namespace RimWorld
 				initiator.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.RejectedMyProposal, recipient);
 				recipient.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.IRejectedTheirProposal, initiator);
 				extraSentencePacks.Add(RulePackDefOf.Sentence_MarriageProposalRejected);
-				if (Rand.Value < 0.4f)
+				if (Rand.Value < 0.40000000596046448)
 				{
 					initiator.relations.RemoveDirectRelation(PawnRelationDefOf.Lover, recipient);
 					initiator.relations.AddDirectRelation(PawnRelationDefOf.ExLover, recipient);
@@ -73,10 +76,9 @@ namespace RimWorld
 					extraSentencePacks.Add(RulePackDefOf.Sentence_MarriageProposalRejectedBrokeUp);
 				}
 			}
-			if (initiator.IsColonist || recipient.IsColonist)
-			{
-				this.SendLetter(initiator, recipient, flag, brokeUp);
-			}
+			if (!initiator.IsColonist && !recipient.IsColonist)
+				return;
+			this.SendLetter(initiator, recipient, flag, brokeUp);
 		}
 
 		public float AcceptanceChance(Pawn initiator, Pawn recipient)
@@ -95,32 +97,20 @@ namespace RimWorld
 			{
 				label = "LetterLabelAcceptedProposal".Translate();
 				textLetterDef = LetterDefOf.Good;
-				stringBuilder.AppendLine("LetterAcceptedProposal".Translate(new object[]
-				{
-					initiator,
-					recipient
-				}));
+				stringBuilder.AppendLine("LetterAcceptedProposal".Translate(initiator, recipient));
 			}
 			else
 			{
 				label = "LetterLabelRejectedProposal".Translate();
 				textLetterDef = LetterDefOf.BadNonUrgent;
-				stringBuilder.AppendLine("LetterRejectedProposal".Translate(new object[]
-				{
-					initiator,
-					recipient
-				}));
+				stringBuilder.AppendLine("LetterRejectedProposal".Translate(initiator, recipient));
 				if (brokeUp)
 				{
 					stringBuilder.AppendLine();
-					stringBuilder.AppendLine("LetterNoLongerLovers".Translate(new object[]
-					{
-						initiator,
-						recipient
-					}));
+					stringBuilder.AppendLine("LetterNoLongerLovers".Translate(initiator, recipient));
 				}
 			}
-			Find.LetterStack.ReceiveLetter(label, stringBuilder.ToString().TrimEndNewlines(), textLetterDef, initiator, null);
+			Find.LetterStack.ReceiveLetter(label, stringBuilder.ToString().TrimEndNewlines(), textLetterDef, (Thing)initiator, (string)null);
 		}
 	}
 }

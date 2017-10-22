@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.Planet
@@ -25,7 +24,11 @@ namespace RimWorld.Planet
 				return false;
 			}
 			float temperatureAtTile = GenTemperature.GetTemperatureAtTile(tile);
-			return temperatureAtTile >= 0f;
+			if (temperatureAtTile < 0.0)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static void EatVirtualPlants(Pawn p)

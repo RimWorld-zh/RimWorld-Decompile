@@ -16,7 +16,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.SkyTargetLerpFactor >= 0f;
+				return this.SkyTargetLerpFactor >= 0.0;
 			}
 		}
 
@@ -40,7 +40,7 @@ namespace Verse
 		{
 			get
 			{
-				return null;
+				return default(Vector2?);
 			}
 		}
 

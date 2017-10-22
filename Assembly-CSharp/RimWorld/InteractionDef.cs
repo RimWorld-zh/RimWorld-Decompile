@@ -53,7 +53,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.symbolTex == null)
+				if ((UnityEngine.Object)this.symbolTex == (UnityEngine.Object)null)
 				{
 					this.symbolTex = ContentFinder<Texture2D>.Get(this.symbol, true);
 				}

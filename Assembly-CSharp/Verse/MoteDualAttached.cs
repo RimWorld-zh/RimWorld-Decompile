@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class MoteDualAttached : Mote
@@ -8,7 +6,7 @@ namespace Verse
 
 		public void Attach(TargetInfo a, TargetInfo b)
 		{
-			this.link1 = new MoteAttachLink(a);
+			base.link1 = new MoteAttachLink(a);
 			this.link2 = new MoteAttachLink(b);
 		}
 
@@ -20,30 +18,30 @@ namespace Verse
 
 		protected void UpdatePosition()
 		{
-			if (this.link1.Linked)
+			if (base.link1.Linked)
 			{
 				if (this.link2.Linked)
 				{
-					if (!this.link1.Target.ThingDestroyed)
+					if (!base.link1.Target.ThingDestroyed)
 					{
-						this.link1.UpdateDrawPos();
+						base.link1.UpdateDrawPos();
 					}
 					if (!this.link2.Target.ThingDestroyed)
 					{
 						this.link2.UpdateDrawPos();
 					}
-					this.exactPosition = (this.link1.LastDrawPos + this.link2.LastDrawPos) * 0.5f;
+					base.exactPosition = (base.link1.LastDrawPos + this.link2.LastDrawPos) * 0.5f;
 				}
 				else
 				{
-					if (!this.link1.Target.ThingDestroyed)
+					if (!base.link1.Target.ThingDestroyed)
 					{
-						this.link1.UpdateDrawPos();
+						base.link1.UpdateDrawPos();
 					}
-					this.exactPosition = this.link1.LastDrawPos + this.def.mote.attachedDrawOffset;
+					base.exactPosition = base.link1.LastDrawPos + base.def.mote.attachedDrawOffset;
 				}
 			}
-			this.exactPosition.y = Altitudes.AltitudeFor(this.def.altitudeLayer);
+			base.exactPosition.y = Altitudes.AltitudeFor(base.def.altitudeLayer);
 		}
 	}
 }

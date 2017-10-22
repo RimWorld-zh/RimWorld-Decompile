@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -29,7 +28,7 @@ namespace RimWorld
 					return "StatsReport_InBed".Translate() + ": x" + this.BedMultiplier(pawn).ToStringPercent();
 				}
 			}
-			return null;
+			return (string)null;
 		}
 
 		private float BedMultiplier(Pawn pawn)

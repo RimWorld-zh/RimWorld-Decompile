@@ -37,7 +37,7 @@ namespace RimWorld
 
 		public static void Reset()
 		{
-			DateReadout.dateString = null;
+			DateReadout.dateString = (string)null;
 			DateReadout.dateStringDay = -1;
 			DateReadout.dateStringSeason = Season.Undefined;
 			DateReadout.dateStringQuadrum = Quadrum.Undefined;
@@ -63,26 +63,27 @@ namespace RimWorld
 			else
 			{
 				if (Find.VisibleMap == null)
-				{
 					return;
-				}
 				location = Find.WorldGrid.LongLatOf(Find.VisibleMap.Tile);
 			}
-			int index = GenDate.HourInteger((long)Find.TickManager.TicksAbs, location.x);
-			int num = GenDate.DayOfTwelfth((long)Find.TickManager.TicksAbs, location.x);
-			Season season = GenDate.Season((long)Find.TickManager.TicksAbs, location);
-			Quadrum quadrum = GenDate.Quadrum((long)Find.TickManager.TicksAbs, location.x);
-			int num2 = GenDate.Year((long)Find.TickManager.TicksAbs, location.x);
+			int index = GenDate.HourInteger(Find.TickManager.TicksAbs, location.x);
+			int num = GenDate.DayOfTwelfth(Find.TickManager.TicksAbs, location.x);
+			Season season = GenDate.Season(Find.TickManager.TicksAbs, location);
+			Quadrum quadrum = GenDate.Quadrum(Find.TickManager.TicksAbs, location.x);
+			int num2 = GenDate.Year(Find.TickManager.TicksAbs, location.x);
 			if (num != DateReadout.dateStringDay || season != DateReadout.dateStringSeason || quadrum != DateReadout.dateStringQuadrum || num2 != DateReadout.dateStringYear)
 			{
-				DateReadout.dateString = GenDate.DateReadoutStringAt((long)Find.TickManager.TicksAbs, location);
+				DateReadout.dateString = GenDate.DateReadoutStringAt(Find.TickManager.TicksAbs, location);
 				DateReadout.dateStringDay = num;
 				DateReadout.dateStringSeason = season;
 				DateReadout.dateStringQuadrum = quadrum;
 				DateReadout.dateStringYear = num2;
 			}
 			Text.Font = GameFont.Small;
-			float num3 = Mathf.Max(Text.CalcSize(DateReadout.fastHourStrings[index]).x, Text.CalcSize(DateReadout.dateString).x + 7f);
+			Vector2 vector = Text.CalcSize(DateReadout.fastHourStrings[index]);
+			float x = vector.x;
+			Vector2 vector2 = Text.CalcSize(DateReadout.dateString);
+			float num3 = Mathf.Max(x, (float)(vector2.x + 7.0));
 			dateRect.xMin = dateRect.xMax - num3;
 			if (Mouse.IsOver(dateRect))
 			{
@@ -98,23 +99,15 @@ namespace RimWorld
 			Widgets.Label(rect, DateReadout.dateString);
 			Text.Anchor = TextAnchor.UpperLeft;
 			GUI.EndGroup();
-			TooltipHandler.TipRegion(dateRect, new TipSignal(delegate
+			TooltipHandler.TipRegion(dateRect, new TipSignal((Func<string>)delegate
 			{
 				StringBuilder stringBuilder = new StringBuilder();
 				for (int i = 0; i < 4; i++)
 				{
-					Quadrum quadrum2 = (Quadrum)i;
+					Quadrum quadrum2 = (Quadrum)(byte)i;
 					stringBuilder.AppendLine(quadrum2.Label() + " - " + quadrum2.GetSeason(location.y).LabelCap());
 				}
-				return "DateReadoutTip".Translate(new object[]
-				{
-					GenDate.DaysPassed,
-					15,
-					season.LabelCap(),
-					15,
-					GenDate.Quadrum((long)GenTicks.TicksAbs, location.x).Label(),
-					stringBuilder.ToString()
-				});
+				return "DateReadoutTip".Translate(GenDate.DaysPassed, 15, season.LabelCap(), 15, GenDate.Quadrum(GenTicks.TicksAbs, location.x).Label(), stringBuilder.ToString());
 			}, 86423));
 		}
 	}

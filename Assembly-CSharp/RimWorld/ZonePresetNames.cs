@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,15 +6,21 @@ namespace RimWorld
 	{
 		public static string PresetName(this StorageSettingsPreset preset)
 		{
-			if (preset == StorageSettingsPreset.DumpingStockpile)
+			switch (preset)
+			{
+			case StorageSettingsPreset.DumpingStockpile:
 			{
 				return "DumpingStockpile".Translate();
 			}
-			if (preset == StorageSettingsPreset.DefaultStockpile)
+			case StorageSettingsPreset.DefaultStockpile:
 			{
 				return "Stockpile".Translate();
 			}
-			return "Zone".Translate();
+			default:
+			{
+				return "Zone".Translate();
+			}
+			}
 		}
 	}
 }

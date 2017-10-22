@@ -20,7 +20,7 @@ namespace Verse
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				this.iconMat = MaterialPool.MatFrom(this.texturePath, ShaderDatabase.MetaOverlay);
 			});

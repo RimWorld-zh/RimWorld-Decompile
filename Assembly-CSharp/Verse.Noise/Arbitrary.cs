@@ -12,13 +12,13 @@ namespace Verse.Noise
 
 		public Arbitrary(ModuleBase source, Func<double, double> processor) : base(1)
 		{
-			this.modules[0] = source;
+			base.modules[0] = source;
 			this.processor = processor;
 		}
 
 		public override double GetValue(double x, double y, double z)
 		{
-			return this.processor(this.modules[0].GetValue(x, y, z));
+			return this.processor(base.modules[0].GetValue(x, y, z));
 		}
 	}
 }

@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -37,7 +36,7 @@ namespace RimWorld
 			if (snapToExpandableWorldObjects)
 			{
 				ExpandableWorldObjectsUtility.GetExpandedWorldObjectUnderMouse(UI.MousePositionOnUI, GenWorld.tmpWorldObjectsUnderMouse);
-				if (GenWorld.tmpWorldObjectsUnderMouse.Any<WorldObject>())
+				if (GenWorld.tmpWorldObjectsUnderMouse.Any())
 				{
 					int tile = GenWorld.tmpWorldObjectsUnderMouse[0].Tile;
 					GenWorld.tmpWorldObjectsUnderMouse.Clear();
@@ -46,7 +45,7 @@ namespace RimWorld
 			}
 			Ray ray = worldCamera.ScreenPointToRay(clickPos * Prefs.UIScale);
 			int worldLayerMask = WorldCameraManager.WorldLayerMask;
-			RaycastHit hit;
+			RaycastHit hit = default(RaycastHit);
 			if (Physics.Raycast(ray, out hit, 1500f, worldLayerMask))
 			{
 				return Find.World.renderer.GetTileIDFromRayHit(hit);

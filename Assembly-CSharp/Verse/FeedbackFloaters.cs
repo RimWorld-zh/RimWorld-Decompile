@@ -14,21 +14,30 @@ namespace Verse
 
 		public void FeedbackUpdate()
 		{
-			for (int i = this.feeders.Count - 1; i >= 0; i--)
+			for (int num = this.feeders.Count - 1; num >= 0; num--)
 			{
-				this.feeders[i].Update();
-				if (this.feeders[i].TimeLeft <= 0f)
+				this.feeders[num].Update();
+				if (this.feeders[num].TimeLeft <= 0.0)
 				{
-					this.feeders.Remove(this.feeders[i]);
+					this.feeders.Remove(this.feeders[num]);
 				}
 			}
 		}
 
 		public void FeedbackOnGUI()
 		{
-			foreach (FeedbackItem current in this.feeders)
+			List<FeedbackItem>.Enumerator enumerator = this.feeders.GetEnumerator();
+			try
 			{
-				current.FeedbackOnGUI();
+				while (enumerator.MoveNext())
+				{
+					FeedbackItem current = enumerator.Current;
+					current.FeedbackOnGUI();
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 	}

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -31,10 +30,9 @@ namespace RimWorld
 			pawn.mindState.nextMoveOrderIsWait = !pawn.mindState.nextMoveOrderIsWait;
 			if (pawn.mindState.nextMoveOrderIsWait && !this.exactCell)
 			{
-				return new Job(JobDefOf.WaitWander)
-				{
-					expiryInterval = this.WaitTicks.RandomInRange
-				};
+				Job job = new Job(JobDefOf.WaitWander);
+				job.expiryInterval = this.WaitTicks.RandomInRange;
+				return job;
 			}
 			IntVec3 cell = pawn.mindState.duty.focus.Cell;
 			if (!pawn.CanReach(cell, PathEndMode.OnCell, PawnUtility.ResolveMaxDanger(pawn, this.maxDanger), false, TraverseMode.ByPawn))
@@ -50,11 +48,10 @@ namespace RimWorld
 			{
 				c = CellFinder.RandomClosewalkCellNear(cell, pawn.Map, 6, null);
 			}
-			return new Job(JobDefOf.Goto, c)
-			{
-				locomotionUrgency = PawnUtility.ResolveLocomotion(pawn, this.locomotionUrgency),
-				expiryInterval = this.jobMaxDuration
-			};
+			Job job2 = new Job(JobDefOf.Goto, c);
+			job2.locomotionUrgency = PawnUtility.ResolveLocomotion(pawn, this.locomotionUrgency);
+			job2.expiryInterval = this.jobMaxDuration;
+			return job2;
 		}
 	}
 }

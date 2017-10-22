@@ -20,42 +20,39 @@ namespace RimWorld
 
 		public override void Generate(Map map)
 		{
-			CellRect cellRect;
+			CellRect cellRect = default(CellRect);
 			if (!MapGenerator.TryGetVar<CellRect>("RectOfInterest", out cellRect))
 			{
 				cellRect = this.FindRandomRectToDefend(map);
 			}
-			Faction faction;
-			if (map.ParentFaction == null || map.ParentFaction == Faction.OfPlayer)
-			{
-				faction = (from x in Find.FactionManager.AllFactions
-				where !x.defeated && x.HostileTo(Faction.OfPlayer) && !x.def.hidden && x.def.techLevel >= TechLevel.Industrial
-				select x).RandomElementWithFallback(Find.FactionManager.RandomEnemyFaction(false, false, true));
-			}
-			else
-			{
-				faction = map.ParentFaction;
-			}
+			Faction faction = (map.ParentFaction != null && map.ParentFaction != Faction.OfPlayer) ? map.ParentFaction : (from x in Find.FactionManager.AllFactions
+			where !x.defeated && x.HostileTo(Faction.OfPlayer) && !x.def.hidden && (int)x.def.techLevel >= 4
+			select x).RandomElementWithFallback(Find.FactionManager.RandomEnemyFaction(false, false, true));
 			int randomInRange = this.widthRange.RandomInRange;
 			CellRect rect = cellRect.ExpandedBy(7 + randomInRange).ClipInsideMap(map);
-			ResolveParams resolveParams = default(ResolveParams);
-			resolveParams.rect = rect;
-			resolveParams.faction = faction;
-			resolveParams.edgeDefenseWidth = new int?(randomInRange);
-			resolveParams.edgeDefenseTurretsCount = new int?(this.turretsCountRange.RandomInRange);
-			resolveParams.edgeDefenseMortarsCount = new int?(this.mortarsCountRange.RandomInRange);
-			resolveParams.edgeDefenseGuardsCount = new int?(this.guardsCountRange.RandomInRange);
-			BaseGen.globalSettings.map = map;
-			BaseGen.symbolStack.Push("edgeDefense", resolveParams);
-			BaseGen.Generate();
+			ResolveParams resolveParams = new ResolveParams
+			{
+				rect = rect,
+				faction = faction,
+				edgeDefenseWidth = new int?(randomInRange),
+				edgeDefenseTurretsCount = new int?(this.turretsCountRange.RandomInRange),
+				edgeDefenseMortarsCount = new int?(this.mortarsCountRange.RandomInRange),
+				edgeDefenseGuardsCount = new int?(this.guardsCountRange.RandomInRange)
+			};
+			RimWorld.BaseGen.BaseGen.globalSettings.map = map;
+			RimWorld.BaseGen.BaseGen.symbolStack.Push("edgeDefense", resolveParams);
+			RimWorld.BaseGen.BaseGen.Generate();
 		}
 
 		private CellRect FindRandomRectToDefend(Map map)
 		{
-			int rectRadius = Mathf.Max(Mathf.RoundToInt((float)Mathf.Min(map.Size.x, map.Size.z) * 0.07f), 1);
+			IntVec3 size = map.Size;
+			int x2 = size.x;
+			IntVec3 size2 = map.Size;
+			int rectRadius = Mathf.Max(Mathf.RoundToInt((float)((float)Mathf.Min(x2, size2.z) * 0.070000000298023224)), 1);
 			TraverseParms traverseParams = TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false);
-			IntVec3 center;
-			if (RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith(delegate(IntVec3 x)
+			IntVec3 center = default(IntVec3);
+			if (RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith((Predicate<IntVec3>)delegate(IntVec3 x)
 			{
 				if (!map.reachability.CanReachMapEdge(x, traverseParams))
 				{
@@ -76,12 +73,12 @@ namespace RimWorld
 					}
 					iterator.MoveNext();
 				}
-				return (float)num / (float)cellRect.Area >= 0.6f;
+				return (float)num / (float)cellRect.Area >= 0.60000002384185791;
 			}, map, out center))
 			{
 				return CellRect.CenteredOn(center, rectRadius);
 			}
-			if (RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith((IntVec3 x) => x.Standable(map), map, out center))
+			if (RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith((Predicate<IntVec3>)((IntVec3 x) => x.Standable(map)), map, out center))
 			{
 				return CellRect.CenteredOn(center, rectRadius);
 			}

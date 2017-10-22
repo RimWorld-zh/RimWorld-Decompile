@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +9,7 @@ namespace Verse.AI.Group
 
 		public Trigger_TicksPassedWithoutHarmOrMemos(int tickLimit, params string[] memos) : base(tickLimit)
 		{
-			this.memos = memos.ToList<string>();
+			this.memos = memos.ToList();
 		}
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)

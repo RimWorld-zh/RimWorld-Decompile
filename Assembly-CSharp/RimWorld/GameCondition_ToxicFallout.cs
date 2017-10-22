@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -21,22 +20,12 @@ namespace RimWorld
 
 		private const float CorpseRotProgressAdd = 3000f;
 
-		private SkyColorSet ToxicFalloutColors;
+		private SkyColorSet ToxicFalloutColors = new SkyColorSet(new ColorInt(216, 255, 0).ToColor, new ColorInt(234, 200, 255).ToColor, new Color(0.6f, 0.8f, 0.5f), 0.85f);
 
-		private List<SkyOverlay> overlays;
-
-		public GameCondition_ToxicFallout()
+		private List<SkyOverlay> overlays = new List<SkyOverlay>
 		{
-			ColorInt colorInt = new ColorInt(216, 255, 0);
-			Color arg_50_0 = colorInt.ToColor;
-			ColorInt colorInt2 = new ColorInt(234, 200, 255);
-			this.ToxicFalloutColors = new SkyColorSet(arg_50_0, colorInt2.ToColor, new Color(0.6f, 0.8f, 0.5f), 0.85f);
-			this.overlays = new List<SkyOverlay>
-			{
-				new WeatherOverlay_Fallout()
-			};
-			base..ctor();
-		}
+			(SkyOverlay)new WeatherOverlay_Fallout()
+		};
 
 		public override void Init()
 		{
@@ -56,7 +45,7 @@ namespace RimWorld
 					{
 						float num = 0.028758334f;
 						num *= pawn.GetStatValue(StatDefOf.ToxicSensitivity, true);
-						if (num != 0f)
+						if (num != 0.0)
 						{
 							float num2 = Mathf.Lerp(0.85f, 1.15f, Rand.ValueSeeded(pawn.thingIDNumber ^ 74374237));
 							num *= num2;
@@ -81,15 +70,15 @@ namespace RimWorld
 					Thing thing = thingList[i];
 					if (thing is Plant)
 					{
-						if (Rand.Value < 0.0065f)
+						if (Rand.Value < 0.0065000001341104507)
 						{
-							thing.Kill(null);
+							thing.Kill(default(DamageInfo?));
 						}
 					}
 					else if (thing.def.category == ThingCategory.Item)
 					{
 						CompRottable compRottable = thing.TryGetComp<CompRottable>();
-						if (compRottable != null && compRottable.Stage < RotStage.Dessicated)
+						if (compRottable != null && (int)compRottable.Stage < 2)
 						{
 							compRottable.RotProgress += 3000f;
 						}

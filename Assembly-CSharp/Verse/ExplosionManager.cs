@@ -43,7 +43,7 @@ namespace Verse
 					this.explosions.Remove(this.tmpToTick[i]);
 				}
 			}
-			this.explosions.RemoveAll((Explosion x) => x.finished);
+			this.explosions.RemoveAll((Predicate<Explosion>)((Explosion x) => x.finished));
 		}
 
 		public void StartExplosion(Explosion explosion, SoundDef explosionSound)

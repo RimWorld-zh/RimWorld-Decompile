@@ -13,7 +13,11 @@ namespace Verse.AI.Group
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
-			return signal.type == TriggerSignalType.Tick && this.condition();
+			if (signal.type == TriggerSignalType.Tick)
+			{
+				return this.condition();
+			}
+			return false;
 		}
 	}
 }

@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Noise
 {
 	public class Turbulence : ModuleBase
@@ -96,7 +94,7 @@ namespace Verse.Noise
 			this.m_xDistort = new Perlin();
 			this.m_yDistort = new Perlin();
 			this.m_zDistort = new Perlin();
-			this.modules[0] = input;
+			base.modules[0] = input;
 		}
 
 		public Turbulence(double power, ModuleBase input) : this(new Perlin(), new Perlin(), new Perlin(), power, input)
@@ -108,7 +106,7 @@ namespace Verse.Noise
 			this.m_xDistort = x;
 			this.m_yDistort = y;
 			this.m_zDistort = z;
-			this.modules[0] = input;
+			base.modules[0] = input;
 			this.Power = power;
 		}
 
@@ -117,7 +115,7 @@ namespace Verse.Noise
 			double x2 = x + this.m_xDistort.GetValue(x + 0.189422607421875, y + 0.99371337890625, z + 0.4781646728515625) * this.m_power;
 			double y2 = y + this.m_yDistort.GetValue(x + 0.4046478271484375, y + 0.276611328125, z + 0.9230499267578125) * this.m_power;
 			double z2 = z + this.m_zDistort.GetValue(x + 0.82122802734375, y + 0.1710968017578125, z + 0.6842803955078125) * this.m_power;
-			return this.modules[0].GetValue(x2, y2, z2);
+			return base.modules[0].GetValue(x2, y2, z2);
 		}
 	}
 }

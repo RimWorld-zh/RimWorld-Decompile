@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI.Group
 {
 	public class LordToilData_DefendPoint : LordToilData

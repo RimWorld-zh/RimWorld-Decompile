@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 using Verse.AI.Group;
+using Verse.Sound;
 
 namespace RimWorld
 {
@@ -34,7 +34,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_Transporter)this.props;
+				return (CompProperties_Transporter)base.props;
 			}
 		}
 
@@ -42,7 +42,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.parent.MapHeld;
+				return base.parent.MapHeld;
 			}
 		}
 
@@ -76,7 +76,7 @@ namespace RimWorld
 			{
 				if (this.cachedCompLaunchable == null)
 				{
-					this.cachedCompLaunchable = this.parent.GetComp<CompLaunchable>();
+					this.cachedCompLaunchable = base.parent.GetComp<CompLaunchable>();
 				}
 				return this.cachedCompLaunchable;
 			}
@@ -90,7 +90,7 @@ namespace RimWorld
 				{
 					return null;
 				}
-				TransferableOneWay transferableOneWay = this.leftToLoad.Find((TransferableOneWay x) => x.CountToTransfer != 0 && x.HasAnyThing);
+				TransferableOneWay transferableOneWay = this.leftToLoad.Find((Predicate<TransferableOneWay>)((TransferableOneWay x) => x.CountToTransfer != 0 && x.HasAnyThing));
 				if (transferableOneWay != null)
 				{
 					return transferableOneWay.AnyThing;
@@ -103,7 +103,7 @@ namespace RimWorld
 		{
 			get
 			{
-				List<CompTransporter> list = this.TransportersInGroup(this.parent.Map);
+				List<CompTransporter> list = this.TransportersInGroup(base.parent.Map);
 				for (int i = 0; i < list.Count; i++)
 				{
 					Thing firstThingLeftToLoad = list[i].FirstThingLeftToLoad;
@@ -125,7 +125,7 @@ namespace RimWorld
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<int>(ref this.groupID, "groupID", 0, false);
-			Scribe_Deep.Look<ThingOwner>(ref this.innerContainer, "innerContainer", new object[]
+			Scribe_Deep.Look<ThingOwner>(ref this.innerContainer, "innerContainer", new object[1]
 			{
 				this
 			});
@@ -152,14 +152,90 @@ namespace RimWorld
 			return CompTransporter.tmpTransportersInGroup;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompTransporter.<CompGetGizmosExtra>c__Iterator16F <CompGetGizmosExtra>c__Iterator16F = new CompTransporter.<CompGetGizmosExtra>c__Iterator16F();
-			<CompGetGizmosExtra>c__Iterator16F.<>f__this = this;
-			CompTransporter.<CompGetGizmosExtra>c__Iterator16F expr_0E = <CompGetGizmosExtra>c__Iterator16F;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo item in base.CompGetGizmosExtra())
+			{
+				yield return item;
+			}
+			if (this.LoadingInProgressOrReadyToLaunch)
+			{
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "CommandCancelLoad".Translate(),
+					defaultDesc = "CommandCancelLoadDesc".Translate(),
+					icon = CompTransporter.CancelLoadCommandTex,
+					action = (Action)delegate
+					{
+						SoundDefOf.DesignateCancel.PlayOneShotOnCamera(null);
+						((_003CCompGetGizmosExtra_003Ec__Iterator16F)/*Error near IL_0115: stateMachine*/)._003C_003Ef__this.CancelLoad();
+					}
+				};
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "CommandSelectPreviousTransporter".Translate(),
+					defaultDesc = "CommandSelectPreviousTransporterDesc".Translate(),
+					icon = CompTransporter.SelectPreviousInGroupCommandTex,
+					action = (Action)delegate
+					{
+						((_003CCompGetGizmosExtra_003Ec__Iterator16F)/*Error near IL_0189: stateMachine*/)._003C_003Ef__this.SelectPreviousInGroup();
+					}
+				};
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "CommandSelectAllTransporters".Translate(),
+					defaultDesc = "CommandSelectAllTransportersDesc".Translate(),
+					icon = CompTransporter.SelectAllInGroupCommandTex,
+					action = (Action)delegate
+					{
+						((_003CCompGetGizmosExtra_003Ec__Iterator16F)/*Error near IL_01fd: stateMachine*/)._003C_003Ef__this.SelectAllInGroup();
+					}
+				};
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "CommandSelectNextTransporter".Translate(),
+					defaultDesc = "CommandSelectNextTransporterDesc".Translate(),
+					icon = CompTransporter.SelectNextInGroupCommandTex,
+					action = (Action)delegate
+					{
+						((_003CCompGetGizmosExtra_003Ec__Iterator16F)/*Error near IL_0271: stateMachine*/)._003C_003Ef__this.SelectNextInGroup();
+					}
+				};
+			}
+			else
+			{
+				Command_LoadToTransporter loadGroup = new Command_LoadToTransporter();
+				int selectedTransportersCount = 0;
+				for (int i = 0; i < Find.Selector.NumSelected; i++)
+				{
+					Thing t = Find.Selector.SelectedObjectsListForReading[i] as Thing;
+					if (t != null && t.def == base.parent.def)
+					{
+						CompLaunchable cl = t.TryGetComp<CompLaunchable>();
+						if (cl == null || (cl.FuelingPortSource != null && cl.FuelingPortSourceHasAnyFuel))
+						{
+							selectedTransportersCount++;
+						}
+					}
+				}
+				loadGroup.defaultLabel = "CommandLoadTransporter".Translate(selectedTransportersCount.ToString());
+				loadGroup.defaultDesc = "CommandLoadTransporterDesc".Translate();
+				loadGroup.icon = CompTransporter.LoadCommandTex;
+				loadGroup.transComp = this;
+				CompLaunchable launchable = this.Launchable;
+				if (launchable != null)
+				{
+					if (!launchable.ConnectedToFuelingPort)
+					{
+						loadGroup.Disable("CommandLoadTransporterFailNotConnectedToFuelingPort".Translate());
+					}
+					else if (!launchable.FuelingPortSourceHasAnyFuel)
+					{
+						loadGroup.Disable("CommandLoadTransporterFailNoFuel".Translate());
+					}
+				}
+				yield return (Gizmo)loadGroup;
+			}
 		}
 
 		public override void PostDeSpawn(Map map)
@@ -169,28 +245,29 @@ namespace RimWorld
 			{
 				Messages.Message("MessageTransportersLoadCanceled_TransporterDestroyed".Translate(), MessageSound.Negative);
 			}
-			this.innerContainer.TryDropAll(this.parent.Position, map, ThingPlaceMode.Near);
+			this.innerContainer.TryDropAll(base.parent.Position, map, ThingPlaceMode.Near);
 		}
 
 		public void AddToTheToLoadList(TransferableOneWay t, int count)
 		{
-			if (!t.HasAnyThing || t.CountToTransfer <= 0)
+			if (t.HasAnyThing && t.CountToTransfer > 0)
 			{
-				return;
+				if (this.leftToLoad == null)
+				{
+					this.leftToLoad = new List<TransferableOneWay>();
+				}
+				if (TransferableUtility.TransferableMatching(t.AnyThing, this.leftToLoad) != null)
+				{
+					Log.Error("Transferable already exists.");
+				}
+				else
+				{
+					TransferableOneWay transferableOneWay = new TransferableOneWay();
+					this.leftToLoad.Add(transferableOneWay);
+					transferableOneWay.things.AddRange(t.things);
+					transferableOneWay.AdjustTo(count);
+				}
 			}
-			if (this.leftToLoad == null)
-			{
-				this.leftToLoad = new List<TransferableOneWay>();
-			}
-			if (TransferableUtility.TransferableMatching<TransferableOneWay>(t.AnyThing, this.leftToLoad) != null)
-			{
-				Log.Error("Transferable already exists.");
-				return;
-			}
-			TransferableOneWay transferableOneWay = new TransferableOneWay();
-			this.leftToLoad.Add(transferableOneWay);
-			transferableOneWay.things.AddRange(t.things);
-			transferableOneWay.AdjustTo(count);
 		}
 
 		public void Notify_ThingAdded(Thing t)
@@ -226,21 +303,20 @@ namespace RimWorld
 
 		public void TryRemoveLord(Map map)
 		{
-			if (!this.LoadingInProgressOrReadyToLaunch)
+			if (this.LoadingInProgressOrReadyToLaunch)
 			{
-				return;
-			}
-			Lord lord = TransporterUtility.FindLord(this.groupID, map);
-			if (lord != null)
-			{
-				map.lordManager.RemoveLord(lord);
+				Lord lord = TransporterUtility.FindLord(this.groupID, map);
+				if (lord != null)
+				{
+					map.lordManager.RemoveLord(lord);
+				}
 			}
 		}
 
 		public void CleanUpLoadingVars(Map map)
 		{
 			this.groupID = -1;
-			this.innerContainer.TryDropAll(this.parent.Position, map, ThingPlaceMode.Near);
+			this.innerContainer.TryDropAll(base.parent.Position, map, ThingPlaceMode.Near);
 			if (this.leftToLoad != null)
 			{
 				this.leftToLoad.Clear();
@@ -249,23 +325,21 @@ namespace RimWorld
 
 		private void SubtractFromToLoadList(Thing t, int count)
 		{
-			if (this.leftToLoad == null)
+			if (this.leftToLoad != null)
 			{
-				return;
-			}
-			TransferableOneWay transferableOneWay = TransferableUtility.TransferableMatchingDesperate(t, this.leftToLoad);
-			if (transferableOneWay == null)
-			{
-				return;
-			}
-			transferableOneWay.AdjustBy(-count);
-			if (transferableOneWay.CountToTransfer <= 0)
-			{
-				this.leftToLoad.Remove(transferableOneWay);
-			}
-			if (!this.AnyInGroupHasAnythingLeftToLoad)
-			{
-				Messages.Message("MessageFinishedLoadingTransporters".Translate(), this.parent, MessageSound.Benefit);
+				TransferableOneWay transferableOneWay = TransferableUtility.TransferableMatchingDesperate(t, this.leftToLoad);
+				if (transferableOneWay != null)
+				{
+					transferableOneWay.AdjustBy(-count);
+					if (transferableOneWay.CountToTransfer <= 0)
+					{
+						this.leftToLoad.Remove(transferableOneWay);
+					}
+					if (!this.AnyInGroupHasAnythingLeftToLoad)
+					{
+						Messages.Message("MessageFinishedLoadingTransporters".Translate(), (Thing)base.parent, MessageSound.Benefit);
+					}
+				}
 			}
 		}
 
@@ -273,7 +347,7 @@ namespace RimWorld
 		{
 			List<CompTransporter> list = this.TransportersInGroup(this.Map);
 			int num = list.IndexOf(this);
-			CameraJumper.TryJumpAndSelect(list[GenMath.PositiveMod(num - 1, list.Count)].parent);
+			CameraJumper.TryJumpAndSelect((Thing)list[GenMath.PositiveMod(num - 1, list.Count)].parent);
 		}
 
 		private void SelectAllInGroup()
@@ -291,12 +365,18 @@ namespace RimWorld
 		{
 			List<CompTransporter> list = this.TransportersInGroup(this.Map);
 			int num = list.IndexOf(this);
-			CameraJumper.TryJumpAndSelect(list[(num + 1) % list.Count].parent);
+			CameraJumper.TryJumpAndSelect((Thing)list[(num + 1) % list.Count].parent);
 		}
 
 		virtual IThingHolder get_ParentHolder()
 		{
 			return base.ParentHolder;
+		}
+
+		IThingHolder IThingHolder.get_ParentHolder()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
+			return this.get_ParentHolder();
 		}
 	}
 }

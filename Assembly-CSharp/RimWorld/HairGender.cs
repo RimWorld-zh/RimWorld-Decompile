@@ -1,13 +1,11 @@
-using System;
-
 namespace RimWorld
 {
 	public enum HairGender : byte
 	{
-		Male,
-		MaleUsually,
-		Any,
-		FemaleUsually,
-		Female
+		Male = 0,
+		MaleUsually = 1,
+		Any = 2,
+		FemaleUsually = 3,
+		Female = 4
 	}
 }

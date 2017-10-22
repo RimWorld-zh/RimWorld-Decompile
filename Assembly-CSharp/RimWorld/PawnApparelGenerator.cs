@@ -30,7 +30,7 @@ namespace RimWorld
 			{
 				get
 				{
-					return this.aps.Sum((ThingStuffPair pa) => pa.Price);
+					return this.aps.Sum((Func<ThingStuffPair, float>)((ThingStuffPair pa) => pa.Price));
 				}
 			}
 
@@ -38,7 +38,7 @@ namespace RimWorld
 			{
 				get
 				{
-					return this.aps.Sum((ThingStuffPair a) => a.InsulationCold);
+					return this.aps.Sum((Func<ThingStuffPair, float>)((ThingStuffPair a) => a.InsulationCold));
 				}
 			}
 
@@ -51,7 +51,7 @@ namespace RimWorld
 			public void Add(ThingStuffPair pair)
 			{
 				this.aps.Add(pair);
-				ApparelUtility.GenerateLayerGroupPairs(pair.thing, delegate(ApparelUtility.LayerGroupPair lgp)
+				ApparelUtility.GenerateLayerGroupPairs(pair.thing, (Action<ApparelUtility.LayerGroupPair>)delegate(ApparelUtility.LayerGroupPair lgp)
 				{
 					this.lgps.Add(lgp);
 				});
@@ -60,7 +60,7 @@ namespace RimWorld
 			public bool PairOverlapsAnything(ThingStuffPair pair)
 			{
 				bool conflicts = false;
-				ApparelUtility.GenerateLayerGroupPairs(pair.thing, delegate(ApparelUtility.LayerGroupPair lgp)
+				ApparelUtility.GenerateLayerGroupPairs(pair.thing, (Action<ApparelUtility.LayerGroupPair>)delegate(ApparelUtility.LayerGroupPair lgp)
 				{
 					conflicts |= this.lgps.Contains(lgp);
 				});
@@ -73,19 +73,30 @@ namespace RimWorld
 				bool flag2 = false;
 				for (int i = 0; i < this.aps.Count; i++)
 				{
-					if (this.aps[i].thing.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.Torso))
+					ThingStuffPair thingStuffPair = this.aps[i];
+					if (thingStuffPair.thing.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.Torso))
 					{
-						for (int j = 0; j < this.aps[i].thing.apparel.layers.Count; j++)
+						int num = 0;
+						while (true)
 						{
-							ApparelLayer apparelLayer = this.aps[i].thing.apparel.layers[j];
-							if (apparelLayer == ApparelLayer.OnSkin)
+							int num2 = num;
+							ThingStuffPair thingStuffPair2 = this.aps[i];
+							if (num2 < thingStuffPair2.thing.apparel.layers.Count)
 							{
-								flag2 = true;
+								ThingStuffPair thingStuffPair3 = this.aps[i];
+								ApparelLayer apparelLayer = thingStuffPair3.thing.apparel.layers[num];
+								if (apparelLayer == ApparelLayer.OnSkin)
+								{
+									flag2 = true;
+								}
+								if (apparelLayer == ApparelLayer.Shell || apparelLayer == ApparelLayer.Middle)
+								{
+									flag = true;
+								}
+								num++;
+								continue;
 							}
-							if (apparelLayer == ApparelLayer.Shell || apparelLayer == ApparelLayer.Middle)
-							{
-								flag = true;
-							}
+							break;
 						}
 					}
 				}
@@ -96,7 +107,8 @@ namespace RimWorld
 			{
 				for (int i = 0; i < this.aps.Count; i++)
 				{
-					if (this.aps[i].thing.apparel.bodyPartGroups.Contains(bp))
+					ThingStuffPair thingStuffPair = this.aps[i];
+					if (thingStuffPair.thing.apparel.bodyPartGroups.Contains(bp))
 					{
 						return true;
 					}
@@ -108,129 +120,148 @@ namespace RimWorld
 			{
 				switch (gender)
 				{
-				case Gender.None:
-					return false;
 				case Gender.Male:
+				{
 					return !this.Covers(BodyPartGroupDefOf.Legs);
+				}
 				case Gender.Female:
+				{
 					return !this.Covers(BodyPartGroupDefOf.Legs) || !this.Covers(BodyPartGroupDefOf.Torso);
-				default:
+				}
+				case Gender.None:
+				{
 					return false;
+				}
+				default:
+				{
+					return false;
+				}
 				}
 			}
 
 			public bool SatisfiesNeededWarmth(NeededWarmth warmth)
 			{
-				if (warmth == NeededWarmth.Any)
+				switch (warmth)
+				{
+				case NeededWarmth.Any:
 				{
 					return true;
 				}
-				if (warmth == NeededWarmth.Cool)
+				case NeededWarmth.Cool:
 				{
 					return true;
 				}
-				if (warmth == NeededWarmth.Warm)
+				case NeededWarmth.Warm:
 				{
-					float num = this.aps.Sum((ThingStuffPair a) => a.InsulationCold);
-					return num <= -52f;
+					float num = this.aps.Sum((Func<ThingStuffPair, float>)((ThingStuffPair a) => a.InsulationCold));
+					return num <= -52.0;
 				}
-				throw new NotImplementedException();
+				default:
+				{
+					throw new NotImplementedException();
+				}
+				}
 			}
 
 			public void AddFreeWarmthAsNeeded(NeededWarmth warmth)
 			{
-				if (warmth == NeededWarmth.Any)
+				switch (warmth)
 				{
+				case NeededWarmth.Any:
 					return;
-				}
-				if (warmth == NeededWarmth.Cool)
-				{
+				case NeededWarmth.Cool:
 					return;
-				}
-				if (DebugViewSettings.logApparelGeneration)
-				{
-					PawnApparelGenerator.debugSb.AppendLine();
-					PawnApparelGenerator.debugSb.AppendLine("Trying to give free warm layer.");
-				}
-				if (!this.SatisfiesNeededWarmth(warmth))
+				default:
 				{
 					if (DebugViewSettings.logApparelGeneration)
 					{
-						PawnApparelGenerator.debugSb.AppendLine("Checking to give free torso-cover at max price " + PawnApparelGenerator.freeWarmParkaMaxPrice);
+						PawnApparelGenerator.debugSb.AppendLine();
+						PawnApparelGenerator.debugSb.AppendLine("Trying to give free warm layer.");
 					}
-					Predicate<ThingStuffPair> parkaPairValidator = (ThingStuffPair pa) => pa.Price <= PawnApparelGenerator.freeWarmParkaMaxPrice && pa.InsulationCold <= -40f;
-					ThingStuffPair parkaPair;
-					if ((from pa in PawnApparelGenerator.allApparelPairs
-					where parkaPairValidator(pa)
-					select pa).TryRandomElementByWeight((ThingStuffPair pa) => pa.Commonality / (pa.Price * pa.Price), out parkaPair))
+					if (!this.SatisfiesNeededWarmth(warmth))
 					{
 						if (DebugViewSettings.logApparelGeneration)
 						{
-							PawnApparelGenerator.debugSb.AppendLine(string.Concat(new object[]
-							{
-								"Giving free torso-cover: ",
-								parkaPair,
-								" insulation=",
-								parkaPair.InsulationCold
-							}));
-							foreach (ThingStuffPair current in from a in this.aps
-							where !ApparelUtility.CanWearTogether(a.thing, parkaPair.thing)
-							select a)
-							{
-								PawnApparelGenerator.debugSb.AppendLine(string.Concat(new object[]
-								{
-									"    -replaces ",
-									current.ToString(),
-									" InsulationCold=",
-									current.InsulationCold
-								}));
-							}
+							PawnApparelGenerator.debugSb.AppendLine("Checking to give free torso-cover at max price " + PawnApparelGenerator.freeWarmParkaMaxPrice);
 						}
-						this.aps.RemoveAll((ThingStuffPair pa) => !ApparelUtility.CanWearTogether(pa.thing, parkaPair.thing));
-						this.aps.Add(parkaPair);
+						Predicate<ThingStuffPair> parkaPairValidator = (Predicate<ThingStuffPair>)delegate(ThingStuffPair pa)
+						{
+							if (pa.Price > PawnApparelGenerator.freeWarmParkaMaxPrice)
+							{
+								return false;
+							}
+							if (pa.InsulationCold > -40.0)
+							{
+								return false;
+							}
+							return true;
+						};
+						ThingStuffPair parkaPair;
+						if ((from pa in PawnApparelGenerator.allApparelPairs
+						where parkaPairValidator(pa)
+						select pa).TryRandomElementByWeight<ThingStuffPair>((Func<ThingStuffPair, float>)((ThingStuffPair pa) => pa.Commonality / (pa.Price * pa.Price)), out parkaPair))
+						{
+							if (DebugViewSettings.logApparelGeneration)
+							{
+								PawnApparelGenerator.debugSb.AppendLine("Giving free torso-cover: " + parkaPair + " insulation=" + parkaPair.InsulationCold);
+								foreach (ThingStuffPair item in from a in this.aps
+								where !ApparelUtility.CanWearTogether(a.thing, parkaPair.thing)
+								select a)
+								{
+									PawnApparelGenerator.debugSb.AppendLine("    -replaces " + item.ToString() + " InsulationCold=" + item.InsulationCold);
+								}
+							}
+							this.aps.RemoveAll((Predicate<ThingStuffPair>)((ThingStuffPair pa) => !ApparelUtility.CanWearTogether(pa.thing, parkaPair.thing)));
+							this.aps.Add(parkaPair);
+						}
 					}
-				}
-				if (!this.SatisfiesNeededWarmth(warmth))
-				{
+					if (!this.SatisfiesNeededWarmth(warmth))
+					{
+						if (DebugViewSettings.logApparelGeneration)
+						{
+							PawnApparelGenerator.debugSb.AppendLine("Checking to give free hat at max price " + PawnApparelGenerator.freeWarmHatMaxPrice);
+						}
+						Predicate<ThingStuffPair> hatPairValidator = (Predicate<ThingStuffPair>)delegate(ThingStuffPair pa)
+						{
+							if (pa.Price > PawnApparelGenerator.freeWarmHatMaxPrice)
+							{
+								return false;
+							}
+							if (pa.InsulationCold > -7.0)
+							{
+								return false;
+							}
+							if (!pa.thing.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.FullHead) && !pa.thing.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.UpperHead))
+							{
+								return false;
+							}
+							return true;
+						};
+						ThingStuffPair hatPair;
+						if ((from pa in PawnApparelGenerator.allApparelPairs
+						where hatPairValidator(pa)
+						select pa).TryRandomElementByWeight<ThingStuffPair>((Func<ThingStuffPair, float>)((ThingStuffPair pa) => pa.Commonality / (pa.Price * pa.Price)), out hatPair))
+						{
+							if (DebugViewSettings.logApparelGeneration)
+							{
+								PawnApparelGenerator.debugSb.AppendLine("Giving free hat: " + hatPair + " insulation=" + hatPair.InsulationCold);
+								foreach (ThingStuffPair item2 in from a in this.aps
+								where !ApparelUtility.CanWearTogether(a.thing, hatPair.thing)
+								select a)
+								{
+									PawnApparelGenerator.debugSb.AppendLine("    -replaces " + item2.ToString() + " InsulationCold=" + item2.InsulationCold);
+								}
+							}
+							this.aps.RemoveAll((Predicate<ThingStuffPair>)((ThingStuffPair pa) => !ApparelUtility.CanWearTogether(pa.thing, hatPair.thing)));
+							this.aps.Add(hatPair);
+						}
+					}
 					if (DebugViewSettings.logApparelGeneration)
 					{
-						PawnApparelGenerator.debugSb.AppendLine("Checking to give free hat at max price " + PawnApparelGenerator.freeWarmHatMaxPrice);
+						PawnApparelGenerator.debugSb.AppendLine("New TotalInsulationCold: " + this.TotalInsulationCold);
 					}
-					Predicate<ThingStuffPair> hatPairValidator = (ThingStuffPair pa) => pa.Price <= PawnApparelGenerator.freeWarmHatMaxPrice && pa.InsulationCold <= -7f && (pa.thing.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.FullHead) || pa.thing.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.UpperHead));
-					ThingStuffPair hatPair;
-					if ((from pa in PawnApparelGenerator.allApparelPairs
-					where hatPairValidator(pa)
-					select pa).TryRandomElementByWeight((ThingStuffPair pa) => pa.Commonality / (pa.Price * pa.Price), out hatPair))
-					{
-						if (DebugViewSettings.logApparelGeneration)
-						{
-							PawnApparelGenerator.debugSb.AppendLine(string.Concat(new object[]
-							{
-								"Giving free hat: ",
-								hatPair,
-								" insulation=",
-								hatPair.InsulationCold
-							}));
-							foreach (ThingStuffPair current2 in from a in this.aps
-							where !ApparelUtility.CanWearTogether(a.thing, hatPair.thing)
-							select a)
-							{
-								PawnApparelGenerator.debugSb.AppendLine(string.Concat(new object[]
-								{
-									"    -replaces ",
-									current2.ToString(),
-									" InsulationCold=",
-									current2.InsulationCold
-								}));
-							}
-						}
-						this.aps.RemoveAll((ThingStuffPair pa) => !ApparelUtility.CanWearTogether(pa.thing, hatPair.thing));
-						this.aps.Add(hatPair);
-					}
+					break;
 				}
-				if (DebugViewSettings.logApparelGeneration)
-				{
-					PawnApparelGenerator.debugSb.AppendLine("New TotalInsulationCold: " + this.TotalInsulationCold);
 				}
 			}
 
@@ -238,7 +269,10 @@ namespace RimWorld
 			{
 				for (int i = 0; i < this.aps.Count; i++)
 				{
-					Apparel apparel = (Apparel)ThingMaker.MakeThing(this.aps[i].thing, this.aps[i].stuff);
+					ThingStuffPair thingStuffPair = this.aps[i];
+					ThingDef thing = thingStuffPair.thing;
+					ThingStuffPair thingStuffPair2 = this.aps[i];
+					Apparel apparel = (Apparel)ThingMaker.MakeThing(thing, thingStuffPair2.stuff);
 					PawnGenerator.PostProcessGeneratedGear(apparel, pawn);
 					if (ApparelUtility.HasPartsToWear(pawn, apparel.def))
 					{
@@ -254,14 +288,7 @@ namespace RimWorld
 						{
 							if (j != k && !ApparelUtility.CanWearTogether(wornApparel[j].def, wornApparel[k].def))
 							{
-								Log.Error(string.Concat(new object[]
-								{
-									pawn,
-									" generated with apparel that cannot be worn together: ",
-									wornApparel[j],
-									", ",
-									wornApparel[k]
-								}));
+								Log.Error(pawn + " generated with apparel that cannot be worn together: " + wornApparel[j] + ", " + wornApparel[k]);
 								return;
 							}
 						}
@@ -286,7 +313,7 @@ namespace RimWorld
 
 		private static float freeWarmHatMaxPrice;
 
-		private static PawnApparelGenerator.PossibleApparelSet workingSet;
+		private static PossibleApparelSet workingSet;
 
 		private static List<ThingStuffPair> usableApparel;
 
@@ -295,7 +322,7 @@ namespace RimWorld
 		static PawnApparelGenerator()
 		{
 			PawnApparelGenerator.allApparelPairs = new List<ThingStuffPair>();
-			PawnApparelGenerator.workingSet = new PawnApparelGenerator.PossibleApparelSet();
+			PawnApparelGenerator.workingSet = new PossibleApparelSet();
 			PawnApparelGenerator.usableApparel = new List<ThingStuffPair>();
 			PawnApparelGenerator.debugSb = null;
 			PawnApparelGenerator.Reset();
@@ -303,150 +330,135 @@ namespace RimWorld
 
 		public static void Reset()
 		{
-			PawnApparelGenerator.allApparelPairs = ThingStuffPair.AllWith((ThingDef td) => td.IsApparel);
-			PawnApparelGenerator.freeWarmParkaMaxPrice = (float)((int)(StatDefOf.MarketValue.Worker.GetValueAbstract(ThingDefOf.Apparel_Parka, ThingDefOf.Cloth) * 1.3f));
-			PawnApparelGenerator.freeWarmHatMaxPrice = (float)((int)(StatDefOf.MarketValue.Worker.GetValueAbstract(ThingDefOf.Apparel_Tuque, ThingDefOf.Cloth) * 1.3f));
+			PawnApparelGenerator.allApparelPairs = ThingStuffPair.AllWith((Predicate<ThingDef>)((ThingDef td) => td.IsApparel));
+			PawnApparelGenerator.freeWarmParkaMaxPrice = (float)(int)(StatDefOf.MarketValue.Worker.GetValueAbstract(ThingDefOf.Apparel_Parka, ThingDefOf.Cloth) * 1.2999999523162842);
+			PawnApparelGenerator.freeWarmHatMaxPrice = (float)(int)(StatDefOf.MarketValue.Worker.GetValueAbstract(ThingDefOf.Apparel_Tuque, ThingDefOf.Cloth) * 1.2999999523162842);
 		}
 
 		public static void GenerateStartingApparelFor(Pawn pawn, PawnGenerationRequest request)
 		{
-			if (!pawn.RaceProps.ToolUser || !pawn.RaceProps.IsFlesh)
+			if (pawn.RaceProps.ToolUser && pawn.RaceProps.IsFlesh)
 			{
-				return;
-			}
-			if (pawn.Faction == null)
-			{
-				Log.Error("Cannot generate apparel for faction-less pawn " + pawn);
-				return;
-			}
-			pawn.apparel.DestroyAll(DestroyMode.Vanish);
-			float randomInRange = pawn.kindDef.apparelMoney.RandomInRange;
-			NeededWarmth neededWarmth = PawnApparelGenerator.ApparelWarmthNeededNow(pawn, request);
-			bool flag = Rand.Value < pawn.kindDef.apparelAllowHeadwearChance;
-			PawnApparelGenerator.debugSb = null;
-			if (DebugViewSettings.logApparelGeneration)
-			{
-				PawnApparelGenerator.debugSb = new StringBuilder();
-				PawnApparelGenerator.debugSb.AppendLine("Generating apparel for " + pawn);
-				PawnApparelGenerator.debugSb.AppendLine("Money: " + randomInRange.ToString("F0"));
-				PawnApparelGenerator.debugSb.AppendLine("Needed warmth: " + neededWarmth);
-				PawnApparelGenerator.debugSb.AppendLine("Headwear allowed: " + flag);
-			}
-			if (randomInRange >= 0.001f)
-			{
-				int num = 0;
-				while (true)
+				if (pawn.Faction == null)
 				{
-					PawnApparelGenerator.GenerateWorkingPossibleApparelSetFor(pawn, randomInRange, flag);
+					Log.Error("Cannot generate apparel for faction-less pawn " + pawn);
+				}
+				else
+				{
+					pawn.apparel.DestroyAll(DestroyMode.Vanish);
+					float randomInRange = pawn.kindDef.apparelMoney.RandomInRange;
+					NeededWarmth neededWarmth = PawnApparelGenerator.ApparelWarmthNeededNow(pawn, request);
+					bool flag = Rand.Value < pawn.kindDef.apparelAllowHeadwearChance;
+					PawnApparelGenerator.debugSb = null;
 					if (DebugViewSettings.logApparelGeneration)
 					{
-						PawnApparelGenerator.debugSb.Append(num.ToString().PadRight(5) + "Trying: " + PawnApparelGenerator.workingSet.ToString());
+						PawnApparelGenerator.debugSb = new StringBuilder();
+						PawnApparelGenerator.debugSb.AppendLine("Generating apparel for " + pawn);
+						PawnApparelGenerator.debugSb.AppendLine("Money: " + randomInRange.ToString("F0"));
+						PawnApparelGenerator.debugSb.AppendLine("Needed warmth: " + neededWarmth);
+						PawnApparelGenerator.debugSb.AppendLine("Headwear allowed: " + flag);
 					}
-					if (num >= 10 || Rand.Value >= 0.85f)
+					if (randomInRange >= 0.0010000000474974513)
 					{
-						goto IL_1F0;
+						int num = 0;
+						while (true)
+						{
+							PawnApparelGenerator.GenerateWorkingPossibleApparelSetFor(pawn, randomInRange, flag);
+							if (DebugViewSettings.logApparelGeneration)
+							{
+								PawnApparelGenerator.debugSb.Append(num.ToString().PadRight(5) + "Trying: " + PawnApparelGenerator.workingSet.ToString());
+							}
+							if (num < 10 && Rand.Value < 0.85000002384185791)
+							{
+								float num2 = Rand.Range(0.45f, 0.8f);
+								float totalPrice = PawnApparelGenerator.workingSet.TotalPrice;
+								if (totalPrice < randomInRange * num2)
+								{
+									if (DebugViewSettings.logApparelGeneration)
+									{
+										PawnApparelGenerator.debugSb.AppendLine(" -- Failed: Spent $" + totalPrice.ToString("F0") + ", < " + ((float)(num2 * 100.0)).ToString("F0") + "% of money.");
+									}
+									goto IL_0354;
+								}
+							}
+							if (num < 20 && Rand.Value < 0.97000002861022949 && !PawnApparelGenerator.workingSet.Covers(BodyPartGroupDefOf.Torso))
+							{
+								if (DebugViewSettings.logApparelGeneration)
+								{
+									PawnApparelGenerator.debugSb.AppendLine(" -- Failed: Does not cover torso.");
+								}
+							}
+							else if (num < 30 && Rand.Value < 0.800000011920929 && PawnApparelGenerator.workingSet.CoatButNoShirt())
+							{
+								if (DebugViewSettings.logApparelGeneration)
+								{
+									PawnApparelGenerator.debugSb.AppendLine(" -- Failed: Coat but no shirt.");
+								}
+							}
+							else if (num < 50 && !PawnApparelGenerator.workingSet.SatisfiesNeededWarmth(neededWarmth))
+							{
+								if (DebugViewSettings.logApparelGeneration)
+								{
+									PawnApparelGenerator.debugSb.AppendLine(" -- Failed: Wrong warmth.");
+								}
+							}
+							else
+							{
+								if (num >= 80)
+									break;
+								if (!PawnApparelGenerator.workingSet.IsNaked(pawn.gender))
+									break;
+								if (DebugViewSettings.logApparelGeneration)
+								{
+									PawnApparelGenerator.debugSb.AppendLine(" -- Failed: Naked.");
+								}
+							}
+							goto IL_0354;
+							IL_0354:
+							num++;
+						}
+						if (DebugViewSettings.logApparelGeneration)
+						{
+							PawnApparelGenerator.debugSb.Append(" -- Approved! Total price: $" + PawnApparelGenerator.workingSet.TotalPrice.ToString("F0") + ", TotalInsulationCold: " + PawnApparelGenerator.workingSet.TotalInsulationCold);
+						}
 					}
-					float num2 = Rand.Range(0.45f, 0.8f);
-					float totalPrice = PawnApparelGenerator.workingSet.TotalPrice;
-					if (totalPrice >= randomInRange * num2)
+					if ((!pawn.kindDef.apparelIgnoreSeasons || request.ForceAddFreeWarmLayerIfNeeded) && !PawnApparelGenerator.workingSet.SatisfiesNeededWarmth(neededWarmth))
 					{
-						goto IL_1F0;
+						PawnApparelGenerator.workingSet.AddFreeWarmthAsNeeded(neededWarmth);
 					}
 					if (DebugViewSettings.logApparelGeneration)
 					{
-						PawnApparelGenerator.debugSb.AppendLine(string.Concat(new string[]
-						{
-							" -- Failed: Spent $",
-							totalPrice.ToString("F0"),
-							", < ",
-							(num2 * 100f).ToString("F0"),
-							"% of money."
-						}));
+						Log.Message(PawnApparelGenerator.debugSb.ToString());
 					}
-					IL_354:
-					num++;
-					continue;
-					IL_1F0:
-					if (num < 20 && Rand.Value < 0.97f && !PawnApparelGenerator.workingSet.Covers(BodyPartGroupDefOf.Torso))
-					{
-						if (DebugViewSettings.logApparelGeneration)
-						{
-							PawnApparelGenerator.debugSb.AppendLine(" -- Failed: Does not cover torso.");
-						}
-						goto IL_354;
-					}
-					if (num < 30 && Rand.Value < 0.8f && PawnApparelGenerator.workingSet.CoatButNoShirt())
-					{
-						if (DebugViewSettings.logApparelGeneration)
-						{
-							PawnApparelGenerator.debugSb.AppendLine(" -- Failed: Coat but no shirt.");
-						}
-						goto IL_354;
-					}
-					if (num < 50 && !PawnApparelGenerator.workingSet.SatisfiesNeededWarmth(neededWarmth))
-					{
-						if (DebugViewSettings.logApparelGeneration)
-						{
-							PawnApparelGenerator.debugSb.AppendLine(" -- Failed: Wrong warmth.");
-						}
-						goto IL_354;
-					}
-					if (num < 80 && PawnApparelGenerator.workingSet.IsNaked(pawn.gender))
-					{
-						if (DebugViewSettings.logApparelGeneration)
-						{
-							PawnApparelGenerator.debugSb.AppendLine(" -- Failed: Naked.");
-						}
-						goto IL_354;
-					}
-					break;
-				}
-				if (DebugViewSettings.logApparelGeneration)
-				{
-					PawnApparelGenerator.debugSb.Append(string.Concat(new object[]
-					{
-						" -- Approved! Total price: $",
-						PawnApparelGenerator.workingSet.TotalPrice.ToString("F0"),
-						", TotalInsulationCold: ",
-						PawnApparelGenerator.workingSet.TotalInsulationCold
-					}));
+					PawnApparelGenerator.workingSet.GiveToPawn(pawn);
+					PawnApparelGenerator.workingSet.Reset();
 				}
 			}
-			if ((!pawn.kindDef.apparelIgnoreSeasons || request.ForceAddFreeWarmLayerIfNeeded) && !PawnApparelGenerator.workingSet.SatisfiesNeededWarmth(neededWarmth))
-			{
-				PawnApparelGenerator.workingSet.AddFreeWarmthAsNeeded(neededWarmth);
-			}
-			if (DebugViewSettings.logApparelGeneration)
-			{
-				Log.Message(PawnApparelGenerator.debugSb.ToString());
-			}
-			PawnApparelGenerator.workingSet.GiveToPawn(pawn);
-			PawnApparelGenerator.workingSet.Reset();
 		}
 
 		private static void GenerateWorkingPossibleApparelSetFor(Pawn pawn, float money, bool headwearAllowed)
 		{
 			PawnApparelGenerator.workingSet.Reset();
-			float moneyLeft = money;
 			List<ThingDef> reqApparel = pawn.kindDef.apparelRequired;
 			if (reqApparel != null)
 			{
 				int i;
+				_003CGenerateWorkingPossibleApparelSetFor_003Ec__AnonStorey324 _003CGenerateWorkingPossibleApparelSetFor_003Ec__AnonStorey;
 				for (i = 0; i < reqApparel.Count; i++)
 				{
 					ThingStuffPair pair = (from pa in PawnApparelGenerator.allApparelPairs
-					where pa.thing == reqApparel[i]
-					select pa).RandomElementByWeight((ThingStuffPair pa) => pa.Commonality);
+					where pa.thing == _003CGenerateWorkingPossibleApparelSetFor_003Ec__AnonStorey.reqApparel[i]
+					select pa).RandomElementByWeight((Func<ThingStuffPair, float>)((ThingStuffPair pa) => pa.Commonality));
 					PawnApparelGenerator.workingSet.Add(pair);
-					moneyLeft -= pair.Price;
+					money -= pair.Price;
 				}
 			}
 			int specialSeed = Rand.Int;
-			while (Rand.Value >= 0.1f)
+			while (!(Rand.Value < 0.10000000149011612))
 			{
-				Predicate<ThingStuffPair> predicate = delegate(ThingStuffPair pa)
+				Predicate<ThingStuffPair> predicate = (Predicate<ThingStuffPair>)delegate(ThingStuffPair pa)
 				{
-					if (pa.Price > moneyLeft)
+					if (pa.Price > money)
 					{
 						return false;
 					}
@@ -462,30 +474,40 @@ namespace RimWorld
 					{
 						return false;
 					}
-					if (!pawn.kindDef.apparelTags.NullOrEmpty<string>())
+					if (!pawn.kindDef.apparelTags.NullOrEmpty())
 					{
 						bool flag2 = false;
-						for (int i = 0; i < pawn.kindDef.apparelTags.Count; i++)
+						int num = 0;
+						while (num < pawn.kindDef.apparelTags.Count)
 						{
-							for (int k = 0; k < pa.thing.apparel.tags.Count; k++)
+							int num2 = 0;
+							while (num2 < pa.thing.apparel.tags.Count)
 							{
-								if (pawn.kindDef.apparelTags[i] == pa.thing.apparel.tags[k])
+								if (!(pawn.kindDef.apparelTags[num] == pa.thing.apparel.tags[num2]))
 								{
-									flag2 = true;
-									break;
+									num2++;
+									continue;
 								}
-							}
-							if (flag2)
-							{
+								flag2 = true;
 								break;
 							}
+							if (!flag2)
+							{
+								num++;
+								continue;
+							}
+							break;
 						}
 						if (!flag2)
 						{
 							return false;
 						}
 					}
-					return pa.thing.generateAllowChance >= 1f || Rand.ValueSeeded(specialSeed ^ (int)pa.thing.index ^ 64128343) <= pa.thing.generateAllowChance;
+					if (pa.thing.generateAllowChance < 1.0 && Rand.ValueSeeded(specialSeed ^ pa.thing.index ^ 64128343) > pa.thing.generateAllowChance)
+					{
+						return false;
+					}
+					return true;
 				};
 				for (int j = 0; j < PawnApparelGenerator.allApparelPairs.Count; j++)
 				{
@@ -494,15 +516,13 @@ namespace RimWorld
 						PawnApparelGenerator.usableApparel.Add(PawnApparelGenerator.allApparelPairs[j]);
 					}
 				}
-				ThingStuffPair pair2;
-				bool flag = PawnApparelGenerator.usableApparel.TryRandomElementByWeight((ThingStuffPair pa) => pa.Commonality, out pair2);
+				ThingStuffPair pair2 = default(ThingStuffPair);
+				bool flag = ((IEnumerable<ThingStuffPair>)PawnApparelGenerator.usableApparel).TryRandomElementByWeight<ThingStuffPair>((Func<ThingStuffPair, float>)((ThingStuffPair pa) => pa.Commonality), out pair2);
 				PawnApparelGenerator.usableApparel.Clear();
 				if (!flag)
-				{
-					return;
-				}
+					break;
 				PawnApparelGenerator.workingSet.Add(pair2);
-				moneyLeft -= pair2.Price;
+				money -= pair2.Price;
 			}
 		}
 
@@ -531,32 +551,32 @@ namespace RimWorld
 			for (int i = 0; i < 2; i++)
 			{
 				NeededWarmth neededWarmth2 = PawnApparelGenerator.CalculateNeededWarmth(pawn, tile, twelfth);
-				if (neededWarmth2 != NeededWarmth.Any)
+				if (neededWarmth2 != 0)
 				{
 					neededWarmth = neededWarmth2;
 					break;
 				}
 				twelfth = twelfth.NextTwelfth();
 			}
-			if (!pawn.kindDef.apparelIgnoreSeasons)
+			if (pawn.kindDef.apparelIgnoreSeasons)
 			{
-				return neededWarmth;
+				if (request.ForceAddFreeWarmLayerIfNeeded && neededWarmth == NeededWarmth.Warm)
+				{
+					return neededWarmth;
+				}
+				return NeededWarmth.Any;
 			}
-			if (request.ForceAddFreeWarmLayerIfNeeded && neededWarmth == NeededWarmth.Warm)
-			{
-				return neededWarmth;
-			}
-			return NeededWarmth.Any;
+			return neededWarmth;
 		}
 
 		public static NeededWarmth CalculateNeededWarmth(Pawn pawn, int tile, Twelfth twelfth)
 		{
 			float num = GenTemperature.AverageTemperatureAtTileForTwelfth(tile, twelfth);
-			if (num < pawn.def.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null) - 4f)
+			if (num < pawn.def.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null) - 4.0)
 			{
 				return NeededWarmth.Warm;
 			}
-			if (num > pawn.def.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null) + 4f)
+			if (num > pawn.def.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null) + 4.0)
 			{
 				return NeededWarmth.Cool;
 			}
@@ -565,17 +585,9 @@ namespace RimWorld
 
 		internal static void MakeTableApparelPairs()
 		{
-			IEnumerable<ThingStuffPair> arg_129_0 = from p in PawnApparelGenerator.allApparelPairs
+			DebugTables.MakeTablesDialog(from p in PawnApparelGenerator.allApparelPairs
 			orderby p.thing.defName descending
-			select p;
-			TableDataGetter<ThingStuffPair>[] expr_2D = new TableDataGetter<ThingStuffPair>[6];
-			expr_2D[0] = new TableDataGetter<ThingStuffPair>("thing", (ThingStuffPair p) => p.thing.defName);
-			expr_2D[1] = new TableDataGetter<ThingStuffPair>("stuff", (ThingStuffPair p) => (p.stuff == null) ? string.Empty : p.stuff.defName);
-			expr_2D[2] = new TableDataGetter<ThingStuffPair>("price", (ThingStuffPair p) => p.Price.ToString());
-			expr_2D[3] = new TableDataGetter<ThingStuffPair>("commonality", (ThingStuffPair p) => (p.Commonality * 100f).ToString("F4"));
-			expr_2D[4] = new TableDataGetter<ThingStuffPair>("def-commonality", (ThingStuffPair p) => p.thing.generateCommonality.ToString("F4"));
-			expr_2D[5] = new TableDataGetter<ThingStuffPair>("insulationCold", (ThingStuffPair p) => (p.InsulationCold != 0f) ? p.InsulationCold.ToString() : string.Empty);
-			DebugTables.MakeTablesDialog<ThingStuffPair>(arg_129_0, expr_2D);
+			select p, new TableDataGetter<ThingStuffPair>("thing", (Func<ThingStuffPair, string>)((ThingStuffPair p) => p.thing.defName)), new TableDataGetter<ThingStuffPair>("stuff", (Func<ThingStuffPair, string>)((ThingStuffPair p) => (p.stuff == null) ? string.Empty : p.stuff.defName)), new TableDataGetter<ThingStuffPair>("price", (Func<ThingStuffPair, string>)((ThingStuffPair p) => p.Price.ToString())), new TableDataGetter<ThingStuffPair>("commonality", (Func<ThingStuffPair, string>)((ThingStuffPair p) => ((float)(p.Commonality * 100.0)).ToString("F4"))), new TableDataGetter<ThingStuffPair>("def-commonality", (Func<ThingStuffPair, string>)((ThingStuffPair p) => p.thing.generateCommonality.ToString("F4"))), new TableDataGetter<ThingStuffPair>("insulationCold", (Func<ThingStuffPair, string>)((ThingStuffPair p) => (p.InsulationCold != 0.0) ? p.InsulationCold.ToString() : string.Empty)));
 		}
 
 		public static void MakeTableApparelPairsByThing()
@@ -587,11 +599,12 @@ namespace RimWorld
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("Listing all entries in allApparelPairs of headwear");
-			foreach (ThingStuffPair current in from pa in PawnApparelGenerator.allApparelPairs
+			foreach (ThingStuffPair item in from pa in PawnApparelGenerator.allApparelPairs
 			where PawnApparelGenerator.IsHeadwear(pa.thing)
 			orderby pa.thing.defName
 			select pa)
 			{
+				ThingStuffPair current = item;
 				stringBuilder.AppendLine(current + "  - " + current.commonalityMultiplier);
 			}
 			Log.Message(stringBuilder.ToString());
@@ -602,35 +615,37 @@ namespace RimWorld
 			DefMap<ThingDef, float> totalCommMult = new DefMap<ThingDef, float>();
 			DefMap<ThingDef, float> totalComm = new DefMap<ThingDef, float>();
 			DefMap<ThingDef, int> pairCount = new DefMap<ThingDef, int>();
-			foreach (ThingStuffPair current in pairList)
+			List<ThingStuffPair>.Enumerator enumerator = pairList.GetEnumerator();
+			try
 			{
-				DefMap<ThingDef, float> totalCommMult2;
-				DefMap<ThingDef, float> expr_4D = totalCommMult2 = totalCommMult;
-				ThingDef thing;
-				ThingDef expr_56 = thing = current.thing;
-				float num = totalCommMult2[thing];
-				expr_4D[expr_56] = num + current.commonalityMultiplier;
-				DefMap<ThingDef, float> totalComm2;
-				DefMap<ThingDef, float> expr_78 = totalComm2 = totalComm;
-				ThingDef expr_82 = thing = current.thing;
-				num = totalComm2[thing];
-				expr_78[expr_82] = num + current.Commonality;
-				DefMap<ThingDef, int> pairCount2;
-				DefMap<ThingDef, int> expr_A5 = pairCount2 = pairCount;
-				ThingDef expr_AF = thing = current.thing;
-				int num2 = pairCount2[thing];
-				expr_A5[expr_AF] = num2 + 1;
+				while (enumerator.MoveNext())
+				{
+					ThingStuffPair current = enumerator.Current;
+					DefMap<ThingDef, float> defMap;
+					DefMap<ThingDef, float> obj = defMap = totalCommMult;
+					ThingDef thing;
+					ThingDef def = thing = current.thing;
+					float num = defMap[thing];
+					obj[def] = num + current.commonalityMultiplier;
+					DefMap<ThingDef, float> defMap2;
+					DefMap<ThingDef, float> obj2 = defMap2 = totalComm;
+					ThingDef def2 = thing = current.thing;
+					num = defMap2[thing];
+					obj2[def2] = num + current.Commonality;
+					DefMap<ThingDef, int> defMap3;
+					DefMap<ThingDef, int> obj3 = defMap3 = pairCount;
+					ThingDef def3 = thing = current.thing;
+					int num2 = defMap3[thing];
+					obj3[def3] = num2 + 1;
+				}
 			}
-			IEnumerable<ThingDef> arg_19E_0 = from d in DefDatabase<ThingDef>.AllDefs
-			where pairList.Any((ThingStuffPair pa) => pa.thing == d)
-			select d;
-			TableDataGetter<ThingDef>[] expr_FF = new TableDataGetter<ThingDef>[5];
-			expr_FF[0] = new TableDataGetter<ThingDef>("thing", (ThingDef t) => t.defName);
-			expr_FF[1] = new TableDataGetter<ThingDef>("pair count", (ThingDef t) => pairCount[t].ToString());
-			expr_FF[2] = new TableDataGetter<ThingDef>("total commonality multiplier ", (ThingDef t) => totalCommMult[t].ToString("F4"));
-			expr_FF[3] = new TableDataGetter<ThingDef>("total commonality", (ThingDef t) => totalComm[t].ToString("F4"));
-			expr_FF[4] = new TableDataGetter<ThingDef>("def-commonality", (ThingDef t) => t.generateCommonality.ToString("F4"));
-			DebugTables.MakeTablesDialog<ThingDef>(arg_19E_0, expr_FF);
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			DebugTables.MakeTablesDialog(from d in DefDatabase<ThingDef>.AllDefs
+			where pairList.Any((Predicate<ThingStuffPair>)((ThingStuffPair pa) => pa.thing == d))
+			select d, new TableDataGetter<ThingDef>("thing", (Func<ThingDef, string>)((ThingDef t) => t.defName)), new TableDataGetter<ThingDef>("pair count", (Func<ThingDef, string>)((ThingDef t) => pairCount[t].ToString())), new TableDataGetter<ThingDef>("total commonality multiplier ", (Func<ThingDef, string>)((ThingDef t) => totalCommMult[t].ToString("F4"))), new TableDataGetter<ThingDef>("total commonality", (Func<ThingDef, string>)((ThingDef t) => totalComm[t].ToString("F4"))), new TableDataGetter<ThingDef>("def-commonality", (Func<ThingDef, string>)((ThingDef t) => t.generateCommonality.ToString("F4"))));
 		}
 	}
 }

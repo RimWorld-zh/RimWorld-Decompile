@@ -31,7 +31,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.expiryTime < 3.40282347E+38f;
+				return this.expiryTime < 3.4028234663852886E+38;
 			}
 		}
 
@@ -40,8 +40,9 @@ namespace RimWorld
 			get
 			{
 				float num = Text.CalcHeight(this.def.HelpTextAdjusted, 432f);
-				float height = num + 20f;
-				return new Rect(Messages.MessagesTopLeftStandard.x, 0f, 500f, height);
+				float height = (float)(num + 20.0);
+				Vector2 messagesTopLeftStandard = Messages.MessagesTopLeftStandard;
+				return new Rect(messagesTopLeftStandard.x, 0f, 500f, height);
 			}
 		}
 
@@ -79,19 +80,19 @@ namespace RimWorld
 			float alpha = 1f;
 			if (this.doFadeIn)
 			{
-				alpha = Mathf.Clamp01(base.AgeSeconds / 0.4f);
+				alpha = Mathf.Clamp01((float)(base.AgeSeconds / 0.40000000596046448));
 			}
 			if (this.Expiring)
 			{
 				float num = this.expiryTime - Time.timeSinceLevelLoad;
-				if (num < 1.1f)
+				if (num < 1.1000000238418579)
 				{
-					alpha = num / 1.1f;
+					alpha = (float)(num / 1.1000000238418579);
 				}
 			}
-			WindowStack arg_9D_0 = Find.WindowStack;
-			float alpha2 = alpha;
-			arg_9D_0.ImmediateWindow(134706, mainRect, WindowLayer.Super, delegate
+			WindowStack windowStack = Find.WindowStack;
+			float shadowAlpha = alpha;
+			windowStack.ImmediateWindow(134706, mainRect, WindowLayer.Super, (Action)delegate
 			{
 				Rect rect = mainRect.AtZero();
 				Text.Font = GameFont.Small;
@@ -107,16 +108,8 @@ namespace RimWorld
 				Rect rect2 = rect.ContractedBy(10f);
 				rect2.width = 432f;
 				Widgets.Label(rect2, this.def.HelpTextAdjusted);
-				Rect butRect = new Rect(rect.xMax - 32f - 8f, rect.y + 8f, 32f, 32f);
-				Texture2D tex;
-				if (this.Expiring)
-				{
-					tex = Widgets.CheckboxOnTex;
-				}
-				else
-				{
-					tex = TexButton.CloseXBig;
-				}
+				Rect butRect = new Rect((float)(rect.xMax - 32.0 - 8.0), (float)(rect.y + 8.0), 32f, 32f);
+				Texture2D tex = (!this.Expiring) ? TexButton.CloseXBig : Widgets.CheckboxOnTex;
 				if (Widgets.ButtonImage(butRect, tex, new Color(0.95f, 0.95f, 0.95f), new Color(0.8352941f, 0.6666667f, 0.274509817f)))
 				{
 					SoundDefOf.Click.PlayOneShotOnCamera(null);
@@ -127,21 +120,21 @@ namespace RimWorld
 					this.CloseButtonClicked();
 				}
 				GUI.color = Color.white;
-			}, false, false, alpha2);
+			}, false, false, shadowAlpha);
 		}
 
 		private void CloseButtonClicked()
 		{
-			KnowledgeAmount know = (!this.def.noteTeaches) ? KnowledgeAmount.NoteClosed : KnowledgeAmount.NoteTaught;
+			KnowledgeAmount know = (KnowledgeAmount)((!this.def.noteTeaches) ? 7 : 8);
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(this.def, know);
 			Find.ActiveLesson.Deactivate();
 		}
 
 		public override void Notify_KnowledgeDemonstrated(ConceptDef conc)
 		{
-			if (this.def == conc && PlayerKnowledgeDatabase.GetKnowledge(conc) > 0.2f && !this.Expiring)
+			if (this.def == conc && PlayerKnowledgeDatabase.GetKnowledge(conc) > 0.20000000298023224 && !this.Expiring)
 			{
-				this.expiryTime = Time.timeSinceLevelLoad + 2.1f;
+				this.expiryTime = (float)(Time.timeSinceLevelLoad + 2.0999999046325684);
 			}
 		}
 	}

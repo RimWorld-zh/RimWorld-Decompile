@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -16,14 +15,14 @@ namespace RimWorld
 
 		public ITab_Pawn_Training()
 		{
-			this.size = new Vector2(300f, 450f);
-			this.labelKey = "TabTraining";
-			this.tutorTag = "Training";
+			base.size = new Vector2(300f, 450f);
+			base.labelKey = "TabTraining";
+			base.tutorTag = "Training";
 		}
 
 		protected override void FillTab()
 		{
-			Rect rect = new Rect(0f, 0f, this.size.x, this.size.y).ContractedBy(17f);
+			Rect rect = new Rect(0f, 0f, base.size.x, base.size.y).ContractedBy(17f);
 			rect.yMin += 10f;
 			TrainingCardUtility.DrawTrainingCard(rect, base.SelPawn);
 		}

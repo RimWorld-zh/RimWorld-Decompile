@@ -9,47 +9,45 @@ namespace RimWorld
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
 			Map map = (Map)target;
-			return !map.gameConditionManager.ConditionIsActive(GameConditionDefOf.ToxicFallout);
+			if (map.gameConditionManager.ConditionIsActive(GameConditionDefOf.ToxicFallout))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override bool TryExecute(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			IntVec3 intVec;
-			if (!RCellFinder.TryFindRandomPawnEntryCell(out intVec, map, CellFinder.EdgeRoadChance_Animal + 0.2f, null))
+			IntVec3 intVec = default(IntVec3);
+			if (!RCellFinder.TryFindRandomPawnEntryCell(out intVec, map, (float)(CellFinder.EdgeRoadChance_Animal + 0.20000000298023224), (Predicate<IntVec3>)null))
 			{
 				return false;
 			}
 			PawnKindDef thrumbo = PawnKindDefOf.Thrumbo;
 			float points = StorytellerUtility.DefaultParmsNow(Find.Storyteller.def, IncidentCategory.ThreatBig, map).points;
-			int num = GenMath.RoundRandom(points / thrumbo.combatPower);
+			int value = GenMath.RoundRandom(points / thrumbo.combatPower);
 			int max = Rand.RangeInclusive(2, 4);
-			num = Mathf.Clamp(num, 1, max);
-			int num2 = Rand.RangeInclusive(90000, 150000);
+			value = Mathf.Clamp(value, 1, max);
+			int num = Rand.RangeInclusive(90000, 150000);
 			IntVec3 invalid = IntVec3.Invalid;
 			if (!RCellFinder.TryFindRandomCellOutsideColonyNearTheCenterOfTheMap(intVec, map, 10f, out invalid))
 			{
 				invalid = IntVec3.Invalid;
 			}
 			Pawn pawn = null;
-			for (int i = 0; i < num; i++)
+			for (int num2 = 0; num2 < value; num2++)
 			{
 				IntVec3 loc = CellFinder.RandomClosewalkCellNear(intVec, map, 10, null);
 				pawn = PawnGenerator.GeneratePawn(thrumbo, null);
 				GenSpawn.Spawn(pawn, loc, map, Rot4.Random, false);
-				pawn.mindState.exitMapAfterTick = Find.TickManager.TicksGame + num2;
+				pawn.mindState.exitMapAfterTick = Find.TickManager.TicksGame + num;
 				if (invalid.IsValid)
 				{
 					pawn.mindState.forcedGotoPosition = CellFinder.RandomClosewalkCellNear(invalid, map, 10, null);
 				}
 			}
-			Find.LetterStack.ReceiveLetter("LetterLabelThrumboPasses".Translate(new object[]
-			{
-				thrumbo.label
-			}).CapitalizeFirst(), "LetterThrumboPasses".Translate(new object[]
-			{
-				thrumbo.label
-			}), LetterDefOf.Good, pawn, null);
+			Find.LetterStack.ReceiveLetter("LetterLabelThrumboPasses".Translate(thrumbo.label).CapitalizeFirst(), "LetterThrumboPasses".Translate(thrumbo.label), LetterDefOf.Good, (Thing)pawn, (string)null);
 			return true;
 		}
 	}

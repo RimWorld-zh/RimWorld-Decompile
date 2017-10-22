@@ -38,14 +38,11 @@ namespace RimWorld
 
 		public AcceptanceReport TryDelete(Outfit outfit)
 		{
-			foreach (Pawn current in PawnsFinder.AllMapsCaravansAndTravelingTransportPods)
+			foreach (Pawn allMapsCaravansAndTravelingTransportPod in PawnsFinder.AllMapsCaravansAndTravelingTransportPods)
 			{
-				if (current.outfits != null && current.outfits.CurrentOutfit == outfit)
+				if (allMapsCaravansAndTravelingTransportPod.outfits != null && allMapsCaravansAndTravelingTransportPod.outfits.CurrentOutfit == outfit)
 				{
-					return new AcceptanceReport("OutfitInUse".Translate(new object[]
-					{
-						current
-					}));
+					return new AcceptanceReport("OutfitInUse".Translate(allMapsCaravansAndTravelingTransportPod));
 				}
 			}
 			this.outfits.Remove(outfit);
@@ -54,16 +51,7 @@ namespace RimWorld
 
 		public Outfit MakeNewOutfit()
 		{
-			int arg_40_0;
-			if (this.outfits.Any<Outfit>())
-			{
-				arg_40_0 = this.outfits.Max((Outfit o) => o.uniqueId) + 1;
-			}
-			else
-			{
-				arg_40_0 = 1;
-			}
-			int uniqueId = arg_40_0;
+			int uniqueId = (!this.outfits.Any()) ? 1 : (this.outfits.Max((Func<Outfit, int>)((Outfit o) => o.uniqueId)) + 1);
 			Outfit outfit = new Outfit(uniqueId, "Outfit".Translate() + " " + uniqueId.ToString());
 			outfit.filter.SetAllow(ThingCategoryDefOf.Apparel, true, null, null);
 			this.outfits.Add(outfit);
@@ -78,33 +66,33 @@ namespace RimWorld
 			outfit2.label = "OutfitWorker".Translate();
 			outfit2.filter.SetDisallowAll(null, null);
 			outfit2.filter.SetAllow(SpecialThingFilterDefOf.AllowNonDeadmansApparel, true);
-			foreach (ThingDef current in DefDatabase<ThingDef>.AllDefs)
+			foreach (ThingDef allDef in DefDatabase<ThingDef>.AllDefs)
 			{
-				if (current.apparel != null && current.apparel.defaultOutfitTags != null && current.apparel.defaultOutfitTags.Contains("Worker"))
+				if (allDef.apparel != null && allDef.apparel.defaultOutfitTags != null && allDef.apparel.defaultOutfitTags.Contains("Worker"))
 				{
-					outfit2.filter.SetAllow(current, true);
+					outfit2.filter.SetAllow(allDef, true);
 				}
 			}
 			Outfit outfit3 = this.MakeNewOutfit();
 			outfit3.label = "OutfitSoldier".Translate();
 			outfit3.filter.SetDisallowAll(null, null);
 			outfit3.filter.SetAllow(SpecialThingFilterDefOf.AllowNonDeadmansApparel, true);
-			foreach (ThingDef current2 in DefDatabase<ThingDef>.AllDefs)
+			foreach (ThingDef allDef2 in DefDatabase<ThingDef>.AllDefs)
 			{
-				if (current2.apparel != null && current2.apparel.defaultOutfitTags != null && current2.apparel.defaultOutfitTags.Contains("Soldier"))
+				if (allDef2.apparel != null && allDef2.apparel.defaultOutfitTags != null && allDef2.apparel.defaultOutfitTags.Contains("Soldier"))
 				{
-					outfit3.filter.SetAllow(current2, true);
+					outfit3.filter.SetAllow(allDef2, true);
 				}
 			}
 			Outfit outfit4 = this.MakeNewOutfit();
 			outfit4.label = "OutfitNudist".Translate();
 			outfit4.filter.SetDisallowAll(null, null);
 			outfit4.filter.SetAllow(SpecialThingFilterDefOf.AllowNonDeadmansApparel, true);
-			foreach (ThingDef current3 in DefDatabase<ThingDef>.AllDefs)
+			foreach (ThingDef allDef3 in DefDatabase<ThingDef>.AllDefs)
 			{
-				if (current3.apparel != null && !current3.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.Legs) && !current3.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.Torso))
+				if (allDef3.apparel != null && !allDef3.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.Legs) && !allDef3.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.Torso))
 				{
-					outfit4.filter.SetAllow(current3, true);
+					outfit4.filter.SetAllow(allDef3, true);
 				}
 			}
 		}

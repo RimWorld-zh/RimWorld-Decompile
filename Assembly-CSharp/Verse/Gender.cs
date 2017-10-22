@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum Gender : byte
 	{
-		None,
-		Male,
-		Female
+		None = 0,
+		Male = 1,
+		Female = 2
 	}
 }

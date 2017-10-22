@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -34,10 +33,9 @@ namespace Verse
 
 		public override Graphic GetColoredVersion(Shader newShader, Color newColor, Color newColorTwo)
 		{
-			return new Graphic_Linked(this.subGraphic.GetColoredVersion(newShader, newColor, newColorTwo))
-			{
-				data = this.data
-			};
+			Graphic_Linked graphic_Linked = new Graphic_Linked(this.subGraphic.GetColoredVersion(newShader, newColor, newColorTwo));
+			graphic_Linked.data = base.data;
+			return graphic_Linked;
 		}
 
 		public override void Print(SectionLayer layer, Thing thing)
@@ -59,7 +57,7 @@ namespace Verse
 				}
 				num2 *= 2;
 			}
-			LinkDirections linkSet = (LinkDirections)num;
+			LinkDirections linkSet = (LinkDirections)(byte)num;
 			Material mat = this.subGraphic.MatSingleFor(parent);
 			return MaterialAtlasPool.SubMaterialFromAtlas(mat, linkSet);
 		}
@@ -68,7 +66,7 @@ namespace Verse
 		{
 			if (!c.InBounds(parent.Map))
 			{
-				return (parent.def.graphicData.linkFlags & LinkFlags.MapEdge) != LinkFlags.None;
+				return ((int)parent.def.graphicData.linkFlags & 1) != 0;
 			}
 			return (parent.Map.linkGrid.LinkFlagsAt(c) & parent.def.graphicData.linkFlags) != LinkFlags.None;
 		}

@@ -11,47 +11,50 @@ namespace Verse
 		{
 			if (Scribe.mode != LoadSaveMode.LoadingVars)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Registered ",
-					s,
-					" for post load init, but current mode is ",
-					Scribe.mode
-				}));
-				return;
+				Log.Error("Registered " + s + " for post load init, but current mode is " + Scribe.mode);
 			}
-			if (s == null)
+			else if (s == null)
 			{
 				Log.Warning("Trying to register null in RegisterforPostLoadInit.");
-				return;
 			}
-			if (this.saveablesToPostLoad.Contains(s))
+			else if (this.saveablesToPostLoad.Contains(s))
 			{
 				Log.Warning("Tried to register in RegisterforPostLoadInit when already registered: " + s);
-				return;
 			}
-			this.saveablesToPostLoad.Add(s);
+			else
+			{
+				this.saveablesToPostLoad.Add(s);
+			}
 		}
 
 		public void DoAllPostLoadInits()
 		{
 			Scribe.mode = LoadSaveMode.PostLoadInit;
-			foreach (IExposable current in this.saveablesToPostLoad)
+			HashSet<IExposable>.Enumerator enumerator = this.saveablesToPostLoad.GetEnumerator();
+			try
 			{
-				try
+				while (enumerator.MoveNext())
 				{
-					Scribe.loader.curParent = current;
-					Scribe.loader.curPathRelToParent = null;
-					current.ExposeData();
+					IExposable current = enumerator.Current;
+					try
+					{
+						Scribe.loader.curParent = current;
+						Scribe.loader.curPathRelToParent = (string)null;
+						current.ExposeData();
+					}
+					catch (Exception arg)
+					{
+						Log.Error("Could not do PostLoadInit: " + arg);
+					}
 				}
-				catch (Exception arg)
-				{
-					Log.Error("Could not do PostLoadInit: " + arg);
-				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			this.Clear();
 			Scribe.loader.curParent = null;
-			Scribe.loader.curPathRelToParent = null;
+			Scribe.loader.curPathRelToParent = (string)null;
 			Scribe.mode = LoadSaveMode.Inactive;
 		}
 

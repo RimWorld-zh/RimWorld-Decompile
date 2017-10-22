@@ -6,8 +6,8 @@ namespace Verse
 	{
 		public SectionLayer_ThingsGeneral(Section section) : base(section)
 		{
-			this.relevantChangeTypes = MapMeshFlag.Things;
-			this.requireAddToMapMesh = true;
+			base.relevantChangeTypes = MapMeshFlag.Things;
+			base.requireAddToMapMesh = true;
 		}
 
 		protected override void TakePrintFrom(Thing t)
@@ -18,15 +18,7 @@ namespace Verse
 			}
 			catch (Exception ex)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Exception printing ",
-					t,
-					" at ",
-					t.Position,
-					": ",
-					ex.ToString()
-				}));
+				Log.Error("Exception printing " + t + " at " + t.Position + ": " + ex.ToString());
 			}
 		}
 	}

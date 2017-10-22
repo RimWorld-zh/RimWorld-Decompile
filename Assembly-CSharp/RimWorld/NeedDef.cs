@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -39,14 +38,26 @@ namespace RimWorld
 
 		public bool freezeWhileSleeping;
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			NeedDef.<ConfigErrors>c__Iterator91 <ConfigErrors>c__Iterator = new NeedDef.<ConfigErrors>c__Iterator91();
-			<ConfigErrors>c__Iterator.<>f__this = this;
-			NeedDef.<ConfigErrors>c__Iterator91 expr_0E = <ConfigErrors>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (base.description.NullOrEmpty())
+			{
+				yield return "no description";
+			}
+			if (this.needClass == null)
+			{
+				yield return "needClass is null";
+			}
+			if (this.needClass == typeof(Need_Seeker))
+			{
+				if (this.seekerRisePerHour != 0.0 && this.seekerFallPerHour != 0.0)
+					yield break;
+				yield return "seeker rise/fall rates not set";
+			}
 		}
 	}
 }

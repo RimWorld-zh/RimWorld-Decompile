@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld.Planet
@@ -66,11 +65,7 @@ namespace RimWorld.Planet
 				{
 					return this.settlement.LabelCap;
 				}
-				return "SettlementTrader".Translate(new object[]
-				{
-					this.settlement.LabelCap,
-					this.settlement.Faction.Name
-				});
+				return "SettlementTrader".Translate(this.settlement.LabelCap, this.settlement.Faction.Name);
 			}
 		}
 
@@ -78,7 +73,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return this.TraderKind != null && (this.stock == null || this.stock.InnerListForReading.Any((Thing x) => this.TraderKind.WillTrade(x.def)));
+				return this.TraderKind != null && (this.stock == null || this.stock.InnerListForReading.Any((Predicate<Thing>)((Thing x) => this.TraderKind.WillTrade(x.def))));
 			}
 		}
 
@@ -102,9 +97,9 @@ namespace RimWorld.Planet
 				this.tmpSavedPawns.Clear();
 				if (this.stock != null)
 				{
-					for (int i = this.stock.Count - 1; i >= 0; i--)
+					for (int num = this.stock.Count - 1; num >= 0; num--)
 					{
-						Pawn pawn = this.stock[i] as Pawn;
+						Pawn pawn = this.stock[num] as Pawn;
 						if (pawn != null)
 						{
 							this.stock.Remove(pawn);
@@ -116,25 +111,39 @@ namespace RimWorld.Planet
 			Scribe_Collections.Look<Pawn>(ref this.tmpSavedPawns, "tmpSavedPawns", LookMode.Reference, new object[0]);
 			Scribe_Deep.Look<ThingOwner<Thing>>(ref this.stock, "stock", new object[0]);
 			Scribe_Values.Look<int>(ref this.lastStockGenerationTicks, "lastStockGenerationTicks", 0, false);
-			if (Scribe.mode == LoadSaveMode.PostLoadInit || Scribe.mode == LoadSaveMode.Saving)
+			if (Scribe.mode != LoadSaveMode.PostLoadInit && Scribe.mode != LoadSaveMode.Saving)
+				return;
+			for (int i = 0; i < this.tmpSavedPawns.Count; i++)
 			{
-				for (int j = 0; j < this.tmpSavedPawns.Count; j++)
-				{
-					this.stock.TryAdd(this.tmpSavedPawns[j], false);
-				}
-				this.tmpSavedPawns.Clear();
+				this.stock.TryAdd(this.tmpSavedPawns[i], false);
 			}
+			this.tmpSavedPawns.Clear();
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
-			Settlement_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator108 <ColonyThingsWillingToBuy>c__Iterator = new Settlement_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator108();
-			<ColonyThingsWillingToBuy>c__Iterator.playerNegotiator = playerNegotiator;
-			<ColonyThingsWillingToBuy>c__Iterator.<$>playerNegotiator = playerNegotiator;
-			Settlement_TraderTracker.<ColonyThingsWillingToBuy>c__Iterator108 expr_15 = <ColonyThingsWillingToBuy>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			Caravan caravan = playerNegotiator.GetCaravan();
+			List<Thing>.Enumerator enumerator = CaravanInventoryUtility.AllInventoryItems(caravan).GetEnumerator();
+			try
+			{
+				while (enumerator.MoveNext())
+				{
+					Thing item = enumerator.Current;
+					yield return item;
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			List<Pawn> pawns = caravan.PawnsListForReading;
+			for (int i = 0; i < pawns.Count; i++)
+			{
+				if (!caravan.IsOwner(pawns[i]))
+				{
+					yield return (Thing)pawns[i];
+				}
+			}
 		}
 
 		public virtual void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
@@ -149,9 +158,8 @@ namespace RimWorld.Planet
 				if (pawn.RaceProps.Humanlike)
 				{
 					Find.WorldPawns.DiscardIfUnimportant(pawn);
-					return;
 				}
-				if (!this.stock.TryAdd(pawn, false))
+				else if (!this.stock.TryAdd(pawn, false))
 				{
 					pawn.Destroy(DestroyMode.Vanish);
 				}
@@ -198,18 +206,18 @@ namespace RimWorld.Planet
 				}
 				else
 				{
-					for (int i = this.stock.Count - 1; i >= 0; i--)
+					for (int num = this.stock.Count - 1; num >= 0; num--)
 					{
-						Pawn pawn = this.stock[i] as Pawn;
+						Pawn pawn = this.stock[num] as Pawn;
 						if (pawn != null && pawn.Destroyed)
 						{
 							this.stock.Remove(pawn);
 							Find.WorldPawns.DiscardIfUnimportant(pawn);
 						}
 					}
-					for (int j = this.stock.Count - 1; j >= 0; j--)
+					for (int num2 = this.stock.Count - 1; num2 >= 0; num2--)
 					{
-						Pawn pawn2 = this.stock[j] as Pawn;
+						Pawn pawn2 = this.stock[num2] as Pawn;
 						if (pawn2 != null && !pawn2.IsWorldPawn())
 						{
 							Log.Error("Faction base has non-world-pawns in its stock. Removing...");
@@ -224,9 +232,9 @@ namespace RimWorld.Planet
 		{
 			if (this.stock != null)
 			{
-				for (int i = this.stock.Count - 1; i >= 0; i--)
+				for (int num = this.stock.Count - 1; num >= 0; num--)
 				{
-					Thing thing = this.stock[i];
+					Thing thing = this.stock[num];
 					this.stock.Remove(thing);
 					Pawn pawn = thing as Pawn;
 					if (pawn != null)
@@ -244,7 +252,11 @@ namespace RimWorld.Planet
 
 		public bool ContainsPawn(Pawn p)
 		{
-			return this.stock != null && this.stock.Contains(p);
+			if (this.stock != null)
+			{
+				return this.stock.Contains(p);
+			}
+			return false;
 		}
 
 		protected virtual void RegenerateStock()
@@ -253,10 +265,12 @@ namespace RimWorld.Planet
 			this.stock = new ThingOwner<Thing>(this);
 			if (this.settlement.Faction == null || !this.settlement.Faction.IsPlayer)
 			{
-				ItemCollectionGeneratorParams parms = default(ItemCollectionGeneratorParams);
-				parms.traderDef = this.TraderKind;
-				parms.forTile = this.settlement.Tile;
-				parms.forFaction = this.settlement.Faction;
+				ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
+				{
+					traderDef = this.TraderKind,
+					forTile = this.settlement.Tile,
+					forFaction = this.settlement.Faction
+				};
 				this.stock.TryAddRange(ItemCollectionGeneratorDefOf.TraderStock.Worker.Generate(parms), true);
 			}
 			for (int i = 0; i < this.stock.Count; i++)

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -18,7 +17,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.colorTextureInt == null)
+				if ((Object)this.colorTextureInt == (Object)null)
 				{
 					this.colorTextureInt = SolidColorMaterials.NewSolidColorTexture(this.color);
 				}

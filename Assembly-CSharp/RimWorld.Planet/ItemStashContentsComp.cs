@@ -21,7 +21,7 @@ namespace RimWorld.Planet
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
-			Scribe_Deep.Look<ThingOwner>(ref this.contents, "contents", new object[]
+			Scribe_Deep.Look<ThingOwner>(ref this.contents, "contents", new object[1]
 			{
 				this
 			});
@@ -45,38 +45,38 @@ namespace RimWorld.Planet
 
 		public override string CompInspectStringExtra()
 		{
-			if (!this.contents.Any)
+			if (this.contents.Any)
 			{
-				return null;
-			}
-			ItemStashContentsComp.tmpContents.Clear();
-			ItemStashContentsComp.tmpContents.AddRange(this.contents);
-			ItemStashContentsComp.tmpContents.SortByDescending((Thing x) => x.GetInnerIfMinified().MarketValue * (float)x.stackCount);
-			ItemStashContentsComp.tmpContentsStr.Clear();
-			for (int i = 0; i < Mathf.Min(5, ItemStashContentsComp.tmpContents.Count); i++)
-			{
-				ItemStashContentsComp.tmpContentsStr.Add(ItemStashContentsComp.tmpContents[i].LabelShort);
-			}
-			string text = GenText.ToCommaList(ItemStashContentsComp.tmpContentsStr, true);
-			int count = ItemStashContentsComp.tmpContents.Count;
-			ItemStashContentsComp.tmpContents.Clear();
-			ItemStashContentsComp.tmpContentsStr.Clear();
-			if (count > 5)
-			{
-				return "SomeItemStashContents".Translate(new object[]
+				ItemStashContentsComp.tmpContents.Clear();
+				ItemStashContentsComp.tmpContents.AddRange(this.contents);
+				ItemStashContentsComp.tmpContents.SortByDescending((Func<Thing, float>)((Thing x) => x.GetInnerIfMinified().MarketValue * (float)x.stackCount));
+				ItemStashContentsComp.tmpContentsStr.Clear();
+				for (int i = 0; i < Mathf.Min(5, ItemStashContentsComp.tmpContents.Count); i++)
 				{
-					text
-				});
+					ItemStashContentsComp.tmpContentsStr.Add(ItemStashContentsComp.tmpContents[i].LabelShort);
+				}
+				string text = GenText.ToCommaList(ItemStashContentsComp.tmpContentsStr, true);
+				int count = ItemStashContentsComp.tmpContents.Count;
+				ItemStashContentsComp.tmpContents.Clear();
+				ItemStashContentsComp.tmpContentsStr.Clear();
+				if (count > 5)
+				{
+					return "SomeItemStashContents".Translate(text);
+				}
+				return "ItemStashContents".Translate(text);
 			}
-			return "ItemStashContents".Translate(new object[]
-			{
-				text
-			});
+			return (string)null;
 		}
 
 		virtual IThingHolder get_ParentHolder()
 		{
 			return base.ParentHolder;
+		}
+
+		IThingHolder IThingHolder.get_ParentHolder()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
+			return this.get_ParentHolder();
 		}
 	}
 }

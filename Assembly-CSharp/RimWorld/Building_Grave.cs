@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
@@ -19,19 +19,19 @@ namespace RimWorld
 		{
 			get
 			{
-				if (!this.HasCorpse)
+				if (this.HasCorpse)
 				{
-					return base.Graphic;
+					if (base.def.building.fullGraveGraphicData == null)
+					{
+						return base.Graphic;
+					}
+					if (this.cachedGraphicFull == null)
+					{
+						this.cachedGraphicFull = base.def.building.fullGraveGraphicData.GraphicColoredFor(this);
+					}
+					return this.cachedGraphicFull;
 				}
-				if (this.def.building.fullGraveGraphicData == null)
-				{
-					return base.Graphic;
-				}
-				if (this.cachedGraphicFull == null)
-				{
-					this.cachedGraphicFull = this.def.building.fullGraveGraphicData.GraphicColoredFor(this);
-				}
-				return this.cachedGraphicFull;
+				return base.Graphic;
 			}
 		}
 
@@ -47,9 +47,9 @@ namespace RimWorld
 		{
 			get
 			{
-				for (int i = 0; i < this.innerContainer.Count; i++)
+				for (int i = 0; i < base.innerContainer.Count; i++)
 				{
-					Corpse corpse = this.innerContainer[i] as Corpse;
+					Corpse corpse = base.innerContainer[i] as Corpse;
 					if (corpse != null)
 					{
 						return corpse;
@@ -78,11 +78,10 @@ namespace RimWorld
 		{
 			get
 			{
-				Building_Grave.<>c__Iterator158 <>c__Iterator = new Building_Grave.<>c__Iterator158();
-				<>c__Iterator.<>f__this = this;
-				Building_Grave.<>c__Iterator158 expr_0E = <>c__Iterator;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				if (this.assignedPawn != null)
+				{
+					yield return this.assignedPawn;
+				}
 			}
 		}
 
@@ -122,23 +121,23 @@ namespace RimWorld
 
 		public StorageSettings GetParentStoreSettings()
 		{
-			return this.def.building.fixedStorageSettings;
+			return base.def.building.fixedStorageSettings;
 		}
 
 		public override void PostMake()
 		{
 			base.PostMake();
 			this.storageSettings = new StorageSettings(this);
-			if (this.def.building.defaultStorageSettings != null)
+			if (base.def.building.defaultStorageSettings != null)
 			{
-				this.storageSettings.CopyFrom(this.def.building.defaultStorageSettings);
+				this.storageSettings.CopyFrom(base.def.building.defaultStorageSettings);
 			}
 		}
 
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Deep.Look<StorageSettings>(ref this.storageSettings, "storageSettings", new object[]
+			Scribe_Deep.Look<StorageSettings>(ref this.storageSettings, "storageSettings", new object[1]
 			{
 				this
 			});
@@ -211,14 +210,33 @@ namespace RimWorld
 			return false;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_Grave.<GetGizmos>c__Iterator159 <GetGizmos>c__Iterator = new Building_Grave.<GetGizmos>c__Iterator159();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			Building_Grave.<GetGizmos>c__Iterator159 expr_0E = <GetGizmos>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			if (this.StorageTabVisible)
+			{
+				foreach (Gizmo item in StorageSettingsClipboard.CopyPasteGizmosFor(this.storageSettings))
+				{
+					yield return item;
+				}
+			}
+			if (!this.HasCorpse)
+			{
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "CommandGraveAssignColonistLabel".Translate(),
+					icon = ContentFinder<Texture2D>.Get("UI/Commands/AssignOwner", true),
+					defaultDesc = "CommandGraveAssignColonistDesc".Translate(),
+					action = (Action)delegate
+					{
+						Find.WindowStack.Add(new Dialog_AssignBuildingOwner(((_003CGetGizmos_003Ec__Iterator159)/*Error near IL_01a7: stateMachine*/)._003C_003Ef__this));
+					},
+					hotKey = KeyBindingDefOf.Misc3
+				};
+			}
 		}
 
 		public override string GetInspectString()

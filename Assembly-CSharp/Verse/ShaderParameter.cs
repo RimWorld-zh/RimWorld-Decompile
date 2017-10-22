@@ -1,4 +1,3 @@
-using System;
 using System.Xml;
 
 namespace Verse
@@ -14,10 +13,12 @@ namespace Verse
 			if (xmlRoot.ChildNodes.Count != 1)
 			{
 				Log.Error("Misconfigured ThingCount: " + xmlRoot.OuterXml);
-				return;
 			}
-			this.name = xmlRoot.Name;
-			this.value = (float)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(float));
+			else
+			{
+				this.name = xmlRoot.Name;
+				this.value = (float)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(float));
+			}
 		}
 	}
 }

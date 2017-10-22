@@ -1,10 +1,8 @@
-using System;
-
 namespace RimWorld
 {
 	public enum PlayerPawnsArriveMethod
 	{
-		Standing,
-		DropPods
+		Standing = 0,
+		DropPods = 1
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -17,7 +16,7 @@ namespace RimWorld
 				return ThoughtState.ActiveAtStage(0);
 			}
 			int scoreStageIndex = RoomStatDefOf.Impressiveness.GetScoreStageIndex(ownedRoom.GetStat(RoomStatDefOf.Impressiveness));
-			if (this.def.stages[scoreStageIndex] != null)
+			if (base.def.stages[scoreStageIndex] != null)
 			{
 				return ThoughtState.ActiveAtStage(scoreStageIndex);
 			}

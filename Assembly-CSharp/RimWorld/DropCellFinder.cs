@@ -11,7 +11,7 @@ namespace RimWorld
 	{
 		public static IntVec3 RandomDropSpot(Map map)
 		{
-			return CellFinderLoose.RandomCellWith((IntVec3 c) => c.Standable(map) && !c.Roofed(map) && !c.Fogged(map), map, 1000);
+			return CellFinderLoose.RandomCellWith((Predicate<IntVec3>)((IntVec3 c) => c.Standable(map) && !c.Roofed(map) && !c.Fogged(map)), map, 1000);
 		}
 
 		public static IntVec3 TradeDropSpot(Map map)
@@ -22,33 +22,33 @@ namespace RimWorld
 			IEnumerable<Building> enumerable = from b in map.listerBuildings.allBuildingsColonist
 			where b.def.IsOrbitalTradeBeacon
 			select b;
-			Building building = enumerable.FirstOrDefault((Building b) => !map.roofGrid.Roofed(b.Position) && DropCellFinder.AnyAdjacentGoodDropSpot(b.Position, map, false, false));
-			IntVec3 position;
+			Building building = enumerable.FirstOrDefault((Func<Building, bool>)((Building b) => !map.roofGrid.Roofed(b.Position) && DropCellFinder.AnyAdjacentGoodDropSpot(b.Position, map, false, false)));
+			IntVec3 position = default(IntVec3);
 			if (building != null)
 			{
 				position = building.Position;
-				IntVec3 result;
+				IntVec3 result = default(IntVec3);
 				if (!DropCellFinder.TryFindDropSpotNear(position, map, out result, false, false))
 				{
 					Log.Error("Could find no good TradeDropSpot near dropCenter " + position + ". Using a random standable unfogged cell.");
-					result = CellFinderLoose.RandomCellWith((IntVec3 c) => c.Standable(map) && !c.Fogged(map), map, 1000);
+					result = CellFinderLoose.RandomCellWith((Predicate<IntVec3>)((IntVec3 c) => c.Standable(map) && !c.Fogged(map)), map, 1000);
 				}
 				return result;
 			}
 			List<Building> list = new List<Building>();
 			list.AddRange(enumerable);
 			list.AddRange(collection);
-			list.RemoveAll(delegate(Building b)
+			list.RemoveAll((Predicate<Building>)delegate(Building b)
 			{
 				CompPowerTrader compPowerTrader = b.TryGetComp<CompPowerTrader>();
 				return compPowerTrader != null && !compPowerTrader.PowerOn;
 			});
-			Predicate<IntVec3> validator = (IntVec3 c) => DropCellFinder.IsGoodDropSpot(c, map, false, false);
-			if (!list.Any<Building>())
+			Predicate<IntVec3> validator = (Predicate<IntVec3>)((IntVec3 c) => DropCellFinder.IsGoodDropSpot(c, map, false, false));
+			if (!list.Any())
 			{
 				list.AddRange(map.listerBuildings.allBuildingsColonist);
-				list.Shuffle<Building>();
-				if (!list.Any<Building>())
+				list.Shuffle();
+				if (!list.Any())
 				{
 					return CellFinderLoose.RandomCellWith(validator, map, 1000);
 				}
@@ -64,14 +64,12 @@ namespace RimWorld
 						return position;
 					}
 				}
-				num = Mathf.RoundToInt((float)num * 1.1f);
-				if (num > map.Size.x)
-				{
-					goto Block_9;
-				}
+				num = Mathf.RoundToInt((float)((float)num * 1.1000000238418579));
+				int num2 = num;
+				IntVec3 size = map.Size;
+				if (num2 > size.x)
+					break;
 			}
-			return position;
-			Block_9:
 			Log.Error("Failed to generate trade drop center. Giving random.");
 			return CellFinderLoose.RandomCellWith(validator, map, 1000);
 		}
@@ -82,52 +80,68 @@ namespace RimWorld
 			{
 				map.debugDrawer.FlashCell(center, 1f, "center");
 			}
-			Predicate<IntVec3> validator = (IntVec3 c) => DropCellFinder.IsGoodDropSpot(c, map, allowFogged, canRoofPunch) && map.reachability.CanReach(center, c, PathEndMode.OnCell, TraverseMode.PassDoors, Danger.Deadly);
-			int num = 5;
-			while (!CellFinder.TryFindRandomCellNear(center, map, num, validator, out result))
+			Predicate<IntVec3> validator = (Predicate<IntVec3>)delegate(IntVec3 c)
 			{
-				num += 3;
-				if (num > 16)
+				if (!DropCellFinder.IsGoodDropSpot(c, map, allowFogged, canRoofPunch))
 				{
-					result = center;
 					return false;
 				}
+				if (!map.reachability.CanReach(center, c, PathEndMode.OnCell, TraverseMode.PassDoors, Danger.Deadly))
+				{
+					return false;
+				}
+				return true;
+			};
+			int num = 5;
+			while (true)
+			{
+				if (CellFinder.TryFindRandomCellNear(center, map, num, validator, out result))
+				{
+					return true;
+				}
+				num += 3;
+				if (num > 16)
+					break;
 			}
-			return true;
+			result = center;
+			return false;
 		}
 
 		public static bool IsGoodDropSpot(IntVec3 c, Map map, bool allowFogged, bool canRoofPunch)
 		{
-			if (!c.InBounds(map) || !c.Standable(map))
+			if (c.InBounds(map) && c.Standable(map))
 			{
-				return false;
-			}
-			if (!DropCellFinder.CanPhysicallyDropInto(c, map, canRoofPunch))
-			{
-				if (DebugViewSettings.drawDestSearch)
+				if (!DropCellFinder.CanPhysicallyDropInto(c, map, canRoofPunch))
 				{
-					map.debugDrawer.FlashCell(c, 0f, "phys");
+					if (DebugViewSettings.drawDestSearch)
+					{
+						map.debugDrawer.FlashCell(c, 0f, "phys");
+					}
+					return false;
 				}
-				return false;
-			}
-			if (Current.ProgramState == ProgramState.Playing && !allowFogged && c.Fogged(map))
-			{
-				return false;
-			}
-			List<Thing> thingList = c.GetThingList(map);
-			for (int i = 0; i < thingList.Count; i++)
-			{
-				Thing thing = thingList[i];
-				if (thing is IActiveDropPod || thing.def.category == ThingCategory.Skyfaller)
+				if (Current.ProgramState == ProgramState.Playing && !allowFogged && c.Fogged(map))
 				{
 					return false;
 				}
-				if (thing.def.category != ThingCategory.Plant && GenSpawn.SpawningWipes(ThingDefOf.ActiveDropPod, thing.def))
+				List<Thing> thingList = c.GetThingList(map);
+				int num = 0;
+				while (num < thingList.Count)
 				{
+					Thing thing = thingList[num];
+					if (!(thing is IActiveDropPod) && thing.def.category != ThingCategory.Skyfaller)
+					{
+						if (thing.def.category != ThingCategory.Plant && GenSpawn.SpawningWipes(ThingDefOf.ActiveDropPod, thing.def))
+						{
+							return false;
+						}
+						num++;
+						continue;
+					}
 					return false;
 				}
+				return true;
 			}
-			return true;
+			return false;
 		}
 
 		private static bool AnyAdjacentGoodDropSpot(IntVec3 c, Map map, bool allowFogged, bool canRoofPunch)
@@ -138,19 +152,14 @@ namespace RimWorld
 		public static IntVec3 FindRaidDropCenterDistant(Map map)
 		{
 			Faction hostFaction = map.ParentFaction ?? Faction.OfPlayer;
-			IEnumerable<Thing> enumerable = map.mapPawns.FreeHumanlikesSpawnedOfFaction(hostFaction).Cast<Thing>();
-			if (hostFaction == Faction.OfPlayer)
-			{
-				enumerable = enumerable.Concat(map.listerBuildings.allBuildingsColonist.Cast<Thing>());
-			}
-			else
-			{
-				enumerable = enumerable.Concat(from x in map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial)
-				where x.Faction == hostFaction
-				select x);
-			}
+			IEnumerable<Thing> first = map.mapPawns.FreeHumanlikesSpawnedOfFaction(hostFaction).Cast<Thing>();
+			first = ((hostFaction != Faction.OfPlayer) ? first.Concat(from x in map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial)
+			where x.Faction == hostFaction
+			select x) : first.Concat(map.listerBuildings.allBuildingsColonist.Cast<Thing>()));
 			int num = 0;
 			float num2 = 65f;
+			goto IL_0095;
+			IL_0095:
 			IntVec3 intVec;
 			while (true)
 			{
@@ -160,28 +169,28 @@ namespace RimWorld
 				{
 					if (num > 300)
 					{
-						break;
+						return intVec;
 					}
 					if (!intVec.Roofed(map))
 					{
-						num2 -= 0.2f;
+						num2 = (float)(num2 - 0.20000000298023224);
 						bool flag = false;
-						foreach (Thing current in enumerable)
+						foreach (Thing item in first)
 						{
-							if ((float)(intVec - current.Position).LengthHorizontalSquared < num2 * num2)
+							if ((float)(intVec - item.Position).LengthHorizontalSquared < num2 * num2)
 							{
 								flag = true;
 								break;
 							}
 						}
 						if (!flag && map.reachability.CanReachFactionBase(intVec, hostFaction))
-						{
-							return intVec;
-						}
+							break;
 					}
 				}
 			}
 			return intVec;
+			IL_016a:
+			goto IL_0095;
 		}
 
 		public static bool TryFindRaidDropCenterClose(out IntVec3 spot, Map map)
@@ -191,32 +200,28 @@ namespace RimWorld
 			while (true)
 			{
 				IntVec3 root = IntVec3.Invalid;
-				if (map.mapPawns.FreeHumanlikesSpawnedOfFaction(faction).Count<Pawn>() > 0)
+				if (map.mapPawns.FreeHumanlikesSpawnedOfFaction(faction).Count() > 0)
 				{
-					root = map.mapPawns.FreeHumanlikesSpawnedOfFaction(faction).RandomElement<Pawn>().Position;
+					root = map.mapPawns.FreeHumanlikesSpawnedOfFaction(faction).RandomElement().Position;
 				}
 				else
 				{
 					if (faction == Faction.OfPlayer)
 					{
 						List<Building> allBuildingsColonist = map.listerBuildings.allBuildingsColonist;
-						for (int i = 0; i < allBuildingsColonist.Count; i++)
+						int num2 = 0;
+						while (num2 < allBuildingsColonist.Count && !DropCellFinder.TryFindDropSpotNear(allBuildingsColonist[num2].Position, map, out root, true, true))
 						{
-							if (DropCellFinder.TryFindDropSpotNear(allBuildingsColonist[i].Position, map, out root, true, true))
-							{
-								break;
-							}
+							num2++;
 						}
 					}
 					else
 					{
 						List<Thing> list = map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial);
-						for (int j = 0; j < list.Count; j++)
+						int num3 = 0;
+						while (num3 < list.Count && (list[num3].Faction != faction || !DropCellFinder.TryFindDropSpotNear(list[num3].Position, map, out root, true, true)))
 						{
-							if (list[j].Faction == faction && DropCellFinder.TryFindDropSpotNear(list[j].Position, map, out root, true, true))
-							{
-								break;
-							}
+							num3++;
 						}
 					}
 					if (!root.IsValid)
@@ -227,17 +232,13 @@ namespace RimWorld
 				spot = CellFinder.RandomClosewalkCellNear(root, map, 10, null);
 				if (DropCellFinder.CanPhysicallyDropInto(spot, map, true))
 				{
-					break;
+					return true;
 				}
 				num++;
 				if (num > 300)
-				{
-					goto Block_9;
-				}
+					break;
 			}
-			return true;
-			Block_9:
-			spot = CellFinderLoose.RandomCellWith((IntVec3 c) => DropCellFinder.CanPhysicallyDropInto(c, map, true), map, 1000);
+			spot = CellFinderLoose.RandomCellWith((Predicate<IntVec3>)((IntVec3 c) => DropCellFinder.CanPhysicallyDropInto(c, map, true)), map, 1000);
 			return false;
 		}
 

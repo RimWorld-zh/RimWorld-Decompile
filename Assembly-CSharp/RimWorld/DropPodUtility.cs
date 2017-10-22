@@ -18,10 +18,10 @@ namespace RimWorld
 
 		public static void DropThingsNear(IntVec3 dropCenter, Map map, IEnumerable<Thing> things, int openDelay = 110, bool canInstaDropDuringInit = false, bool leaveSlag = false, bool canRoofPunch = true)
 		{
-			foreach (Thing current in things)
+			foreach (Thing item in things)
 			{
 				List<Thing> list = new List<Thing>();
-				list.Add(current);
+				list.Add(item);
 				DropPodUtility.tempList.Add(list);
 			}
 			DropPodUtility.DropThingGroupsNear(dropCenter, map, DropPodUtility.tempList, openDelay, canInstaDropDuringInit, leaveSlag, canRoofPunch);
@@ -30,43 +30,63 @@ namespace RimWorld
 
 		public static void DropThingGroupsNear(IntVec3 dropCenter, Map map, List<List<Thing>> thingsGroups, int openDelay = 110, bool instaDrop = false, bool leaveSlag = false, bool canRoofPunch = true)
 		{
-			foreach (List<Thing> current in thingsGroups)
+			List<List<Thing>>.Enumerator enumerator = thingsGroups.GetEnumerator();
+			try
 			{
-				IntVec3 intVec;
-				if (!DropCellFinder.TryFindDropSpotNear(dropCenter, map, out intVec, true, canRoofPunch))
+				while (enumerator.MoveNext())
 				{
-					Log.Warning(string.Concat(new object[]
+					List<Thing> current = enumerator.Current;
+					IntVec3 intVec = default(IntVec3);
+					if (!DropCellFinder.TryFindDropSpotNear(dropCenter, map, out intVec, true, canRoofPunch))
 					{
-						"DropThingsNear failed to find a place to drop ",
-						current.FirstOrDefault<Thing>(),
-						" near ",
-						dropCenter,
-						". Dropping on random square instead."
-					}));
-					intVec = CellFinderLoose.RandomCellWith((IntVec3 c) => c.Walkable(map), map, 1000);
-				}
-				for (int i = 0; i < current.Count; i++)
-				{
-					current[i].SetForbidden(true, false);
-				}
-				if (instaDrop)
-				{
-					foreach (Thing current2 in current)
+						Log.Warning("DropThingsNear failed to find a place to drop " + current.FirstOrDefault() + " near " + dropCenter + ". Dropping on random square instead.");
+						intVec = CellFinderLoose.RandomCellWith((Predicate<IntVec3>)((IntVec3 c) => c.Walkable(map)), map, 1000);
+					}
+					for (int i = 0; i < current.Count; i++)
 					{
-						GenPlace.TryPlaceThing(current2, intVec, map, ThingPlaceMode.Near, null);
+						current[i].SetForbidden(true, false);
+					}
+					if (instaDrop)
+					{
+						List<Thing>.Enumerator enumerator2 = current.GetEnumerator();
+						try
+						{
+							while (enumerator2.MoveNext())
+							{
+								Thing current2 = enumerator2.Current;
+								GenPlace.TryPlaceThing(current2, intVec, map, ThingPlaceMode.Near, null);
+							}
+						}
+						finally
+						{
+							((IDisposable)(object)enumerator2).Dispose();
+						}
+					}
+					else
+					{
+						ActiveDropPodInfo activeDropPodInfo = new ActiveDropPodInfo();
+						List<Thing>.Enumerator enumerator3 = current.GetEnumerator();
+						try
+						{
+							while (enumerator3.MoveNext())
+							{
+								Thing current3 = enumerator3.Current;
+								activeDropPodInfo.innerContainer.TryAdd(current3, true);
+							}
+						}
+						finally
+						{
+							((IDisposable)(object)enumerator3).Dispose();
+						}
+						activeDropPodInfo.openDelay = openDelay;
+						activeDropPodInfo.leaveSlag = leaveSlag;
+						DropPodUtility.MakeDropPodAt(intVec, map, activeDropPodInfo);
 					}
 				}
-				else
-				{
-					ActiveDropPodInfo activeDropPodInfo = new ActiveDropPodInfo();
-					foreach (Thing current3 in current)
-					{
-						activeDropPodInfo.innerContainer.TryAdd(current3, true);
-					}
-					activeDropPodInfo.openDelay = openDelay;
-					activeDropPodInfo.leaveSlag = leaveSlag;
-					DropPodUtility.MakeDropPodAt(intVec, map, activeDropPodInfo);
-				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 	}

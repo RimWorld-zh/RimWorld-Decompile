@@ -18,14 +18,14 @@ namespace RimWorld
 
 		public Designator_Claim()
 		{
-			this.defaultLabel = "DesignatorClaim".Translate();
-			this.defaultDesc = "DesignatorClaimDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/Claim", true);
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.useMouseIcon = true;
-			this.soundSucceeded = SoundDefOf.DesignateClaim;
-			this.hotKey = KeyBindingDefOf.Misc4;
+			base.defaultLabel = "DesignatorClaim".Translate();
+			base.defaultDesc = "DesignatorClaimDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/Claim", true);
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.useMouseIcon = true;
+			base.soundSucceeded = SoundDefOf.DesignateClaim;
+			base.hotKey = KeyBindingDefOf.Misc4;
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
@@ -40,7 +40,7 @@ namespace RimWorld
 			}
 			if (!(from t in c.GetThingList(base.Map)
 			where this.CanDesignateThing(t).Accepted
-			select t).Any<Thing>())
+			select t).Any())
 			{
 				return "MessageMustDesignateClaimable".Translate();
 			}

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -30,17 +29,37 @@ namespace RimWorld
 
 		public JobDriver_BuryCorpse()
 		{
-			this.rotateToFace = TargetIndex.B;
+			base.rotateToFace = TargetIndex.B;
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_BuryCorpse.<MakeNewToils>c__Iterator24 <MakeNewToils>c__Iterator = new JobDriver_BuryCorpse.<MakeNewToils>c__Iterator24();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_BuryCorpse.<MakeNewToils>c__Iterator24 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOnDestroyedNullOrForbidden(TargetIndex.A);
+			this.FailOnDestroyedNullOrForbidden(TargetIndex.B);
+			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			yield return Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
+			yield return Toils_Haul.StartCarryThing(TargetIndex.A, false, false);
+			yield return Toils_Haul.CarryHauledThingToContainer();
+			Toil prepare = Toils_General.Wait(250);
+			prepare.WithProgressBarToilDelay(TargetIndex.B, false, -0.5f);
+			yield return prepare;
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+					if (((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.pawn.carryTracker.CarriedThing == null)
+					{
+						Log.Error(((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.pawn + " tried to place hauled corpse in grave but is not hauling anything.");
+					}
+					else if (((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.Grave.TryAcceptThing(((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.Corpse, true))
+					{
+						((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.pawn.carryTracker.innerContainer.Remove(((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.Corpse);
+						((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.Grave.Notify_CorpseBuried(((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.pawn);
+						((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.pawn.records.Increment(RecordDefOf.CorpsesBuried);
+					}
+				}
+			};
 		}
 	}
 }

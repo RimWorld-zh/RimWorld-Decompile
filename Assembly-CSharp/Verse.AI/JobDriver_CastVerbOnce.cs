@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse.AI
 {
@@ -8,29 +6,14 @@ namespace Verse.AI
 	{
 		public override string GetReport()
 		{
-			string text;
-			if (base.TargetA.HasThing)
-			{
-				text = base.TargetThingA.LabelCap;
-			}
-			else
-			{
-				text = "AreaLower".Translate();
-			}
-			return "UsingVerb".Translate(new object[]
-			{
-				base.CurJob.verbToUse.verbProps.label,
-				text
-			});
+			string text = (!base.TargetA.HasThing) ? "AreaLower".Translate() : base.TargetThingA.LabelCap;
+			return "UsingVerb".Translate(base.CurJob.verbToUse.verbProps.label, text);
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_CastVerbOnce.<MakeNewToils>c__Iterator1B8 <MakeNewToils>c__Iterator1B = new JobDriver_CastVerbOnce.<MakeNewToils>c__Iterator1B8();
-			JobDriver_CastVerbOnce.<MakeNewToils>c__Iterator1B8 expr_07 = <MakeNewToils>c__Iterator1B;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield return Toils_Combat.GotoCastPosition(TargetIndex.A, false);
+			yield return Toils_Combat.CastVerb(TargetIndex.A, true);
 		}
 	}
 }

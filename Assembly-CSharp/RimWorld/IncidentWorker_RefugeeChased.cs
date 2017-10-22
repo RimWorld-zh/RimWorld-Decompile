@@ -17,38 +17,31 @@ namespace RimWorld
 		{
 			Map map = (Map)parms.target;
 			IntVec3 spawnSpot;
-			if (!CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => map.reachability.CanReachColony(c), map, CellFinder.EdgeRoadChance_Neutral, out spawnSpot))
+			if (!CellFinder.TryFindRandomEdgeCellWith((Predicate<IntVec3>)((IntVec3 c) => map.reachability.CanReachColony(c)), map, CellFinder.EdgeRoadChance_Neutral, out spawnSpot))
 			{
 				return false;
 			}
 			Faction faction = Find.FactionManager.FirstFactionOfDef(FactionDefOf.Spacer);
-			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.SpaceRefugee, faction, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 20f, false, true, true, false, false, null, null, null, null, null, null);
+			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.SpaceRefugee, faction, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 20f, false, true, true, false, false, null, default(float?), default(float?), default(Gender?), default(float?), (string)null);
 			Pawn refugee = PawnGenerator.GeneratePawn(request);
 			refugee.relations.everSeenByPlayer = true;
 			Faction enemyFac;
 			if (!(from f in Find.FactionManager.AllFactions
 			where !f.def.hidden && f.HostileTo(Faction.OfPlayer)
-			select f).TryRandomElement(out enemyFac))
+			select f).TryRandomElement<Faction>(out enemyFac))
 			{
 				return false;
 			}
-			string text = "RefugeeChasedInitial".Translate(new object[]
-			{
-				refugee.Name.ToStringFull,
-				refugee.story.Title.ToLower(),
-				enemyFac.def.pawnsPlural,
-				enemyFac.Name,
-				refugee.ageTracker.AgeBiologicalYears
-			});
+			string text = "RefugeeChasedInitial".Translate(refugee.Name.ToStringFull, refugee.story.Title.ToLower(), enemyFac.def.pawnsPlural, enemyFac.Name, refugee.ageTracker.AgeBiologicalYears);
 			text = text.AdjustedFor(refugee);
 			PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, refugee);
 			DiaNode diaNode = new DiaNode(text);
 			DiaOption diaOption = new DiaOption("RefugeeChasedInitial_Accept".Translate());
-			diaOption.action = delegate
+			diaOption.action = (Action)delegate
 			{
 				GenSpawn.Spawn(refugee, spawnSpot, map);
 				refugee.SetFaction(Faction.OfPlayer, null);
-				CameraJumper.TryJump(refugee);
+				CameraJumper.TryJump((Thing)refugee);
 				IncidentParms incidentParms = StorytellerUtility.DefaultParmsNow(Find.Storyteller.def, IncidentCategory.ThreatBig, map);
 				incidentParms.forced = true;
 				incidentParms.faction = enemyFac;
@@ -61,25 +54,19 @@ namespace RimWorld
 			};
 			diaOption.resolveTree = true;
 			diaNode.options.Add(diaOption);
-			string text2 = "RefugeeChasedRejected".Translate(new object[]
-			{
-				refugee.NameStringShort
-			});
+			string text2 = "RefugeeChasedRejected".Translate(refugee.NameStringShort);
 			DiaNode diaNode2 = new DiaNode(text2);
 			DiaOption diaOption2 = new DiaOption("OK".Translate());
 			diaOption2.resolveTree = true;
 			diaNode2.options.Add(diaOption2);
 			DiaOption diaOption3 = new DiaOption("RefugeeChasedInitial_Reject".Translate());
-			diaOption3.action = delegate
+			diaOption3.action = (Action)delegate
 			{
 				Find.WorldPawns.PassToWorld(refugee, PawnDiscardDecideMode.Decide);
 			};
 			diaOption3.link = diaNode2;
 			diaNode.options.Add(diaOption3);
-			string title = "RefugeeChasedTitle".Translate(new object[]
-			{
-				map.info.parent.Label
-			});
+			string title = "RefugeeChasedTitle".Translate(map.info.parent.Label);
 			Find.WindowStack.Add(new Dialog_NodeTree(diaNode, true, true, title));
 			return true;
 		}

@@ -15,27 +15,27 @@ namespace RimWorld
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
 			if (Widgets.ButtonText(scenPartRect, this.project.LabelCap, true, false, true))
 			{
-				FloatMenuUtility.MakeMenu<ResearchProjectDef>(this.NonRedundantResearchProjects(), (ResearchProjectDef d) => d.LabelCap, (ResearchProjectDef d) => delegate
+				FloatMenuUtility.MakeMenu(this.NonRedundantResearchProjects(), (Func<ResearchProjectDef, string>)((ResearchProjectDef d) => d.LabelCap), (Func<ResearchProjectDef, Action>)((ResearchProjectDef d) => (Action)delegate()
 				{
 					this.project = d;
-				});
+				}));
 			}
 		}
 
 		public override void Randomize()
 		{
-			this.project = this.NonRedundantResearchProjects().RandomElement<ResearchProjectDef>();
+			this.project = this.NonRedundantResearchProjects().RandomElement();
 		}
 
 		private IEnumerable<ResearchProjectDef> NonRedundantResearchProjects()
 		{
-			return DefDatabase<ResearchProjectDef>.AllDefs.Where(delegate(ResearchProjectDef d)
+			return DefDatabase<ResearchProjectDef>.AllDefs.Where((Func<ResearchProjectDef, bool>)delegate(ResearchProjectDef d)
 			{
-				if (d.tags == null || Find.Scenario.playerFaction.factionDef.startingResearchTags == null)
+				if (d.tags != null && Find.Scenario.playerFaction.factionDef.startingResearchTags != null)
 				{
-					return true;
+					return !d.tags.Any((Predicate<string>)((string tag) => Find.Scenario.playerFaction.factionDef.startingResearchTags.Contains(tag)));
 				}
-				return !d.tags.Any((string tag) => Find.Scenario.playerFaction.factionDef.startingResearchTags.Contains(tag));
+				return true;
 			});
 		}
 
@@ -47,10 +47,7 @@ namespace RimWorld
 
 		public override string Summary(Scenario scen)
 		{
-			return "ScenPart_StartingResearchFinished".Translate(new object[]
-			{
-				this.project.LabelCap
-			});
+			return "ScenPart_StartingResearchFinished".Translate(this.project.LabelCap);
 		}
 
 		public override void PostGameStart()

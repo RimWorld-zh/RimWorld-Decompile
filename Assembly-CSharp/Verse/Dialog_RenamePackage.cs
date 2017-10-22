@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using UnityEngine;
 
@@ -30,9 +29,9 @@ namespace Verse
 		{
 			this.renamingPackage = renamingPackage;
 			this.proposedName = renamingPackage.fileName;
-			this.closeOnEscapeKey = true;
-			this.doCloseX = true;
-			this.forcePause = true;
+			base.closeOnEscapeKey = true;
+			base.doCloseX = true;
+			base.forcePause = true;
 		}
 
 		public override void DoWindowContents(Rect inRect)

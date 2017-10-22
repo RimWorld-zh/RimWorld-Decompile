@@ -61,9 +61,9 @@ namespace RimWorld.Planet
 				{
 					int tilesCount = this.TilesCount;
 					this.tileIndices = new List<int>();
-					for (int i = 0; i < tilesCount; i++)
+					for (int num = 0; num < tilesCount; num++)
 					{
-						this.tileIndices.Add(i);
+						this.tileIndices.Add(num);
 					}
 				}
 				return this.tileIndices;
@@ -87,14 +87,14 @@ namespace RimWorld.Planet
 
 		public bool InBounds(int tileID)
 		{
-			return (ulong)tileID < (ulong)((long)this.TilesCount);
+			return (uint)tileID < this.TilesCount;
 		}
 
 		public Vector2 LongLatOf(int tileID)
 		{
 			Vector3 tileCenter = this.GetTileCenter(tileID);
-			float x = Mathf.Atan2(tileCenter.x, -tileCenter.z) * 57.29578f;
-			float y = Mathf.Asin(tileCenter.y / 100f) * 57.29578f;
+			float x = (float)(Mathf.Atan2(tileCenter.x, (float)(0.0 - tileCenter.z)) * 57.295780181884766);
+			float y = (float)(Mathf.Asin((float)(tileCenter.y / 100.0)) * 57.295780181884766);
 			return new Vector2(x, y);
 		}
 
@@ -105,17 +105,17 @@ namespace RimWorld.Planet
 				return 0f;
 			}
 			Vector3 northPolePos = this.NorthPolePos;
-			Vector3 from2;
-			Vector3 rhs;
+			Vector3 from2 = default(Vector3);
+			Vector3 rhs = default(Vector3);
 			WorldRendererUtility.GetTangentialVectorFacing(from, northPolePos, out from2, out rhs);
-			Vector3 vector;
-			Vector3 vector2;
+			Vector3 vector = default(Vector3);
+			Vector3 vector2 = default(Vector3);
 			WorldRendererUtility.GetTangentialVectorFacing(from, to, out vector, out vector2);
 			float num = Vector3.Angle(from2, vector);
 			float num2 = Vector3.Dot(vector, rhs);
-			if (num2 < 0f)
+			if (num2 < 0.0)
 			{
-				num = 360f - num;
+				num = (float)(360.0 - num);
 			}
 			return num;
 		}
@@ -134,58 +134,58 @@ namespace RimWorld.Planet
 		public Direction8Way GetDirection8WayFromTo(int fromTileID, int toTileID)
 		{
 			float headingFromTo = this.GetHeadingFromTo(fromTileID, toTileID);
-			if (headingFromTo >= 337.5f || headingFromTo < 22.5f)
+			if (!(headingFromTo >= 337.5) && !(headingFromTo < 22.5))
 			{
-				return Direction8Way.North;
+				if (headingFromTo < 67.5)
+				{
+					return Direction8Way.NorthEast;
+				}
+				if (headingFromTo < 112.5)
+				{
+					return Direction8Way.East;
+				}
+				if (headingFromTo < 157.5)
+				{
+					return Direction8Way.SouthEast;
+				}
+				if (headingFromTo < 202.5)
+				{
+					return Direction8Way.South;
+				}
+				if (headingFromTo < 247.5)
+				{
+					return Direction8Way.SouthWest;
+				}
+				if (headingFromTo < 292.5)
+				{
+					return Direction8Way.West;
+				}
+				return Direction8Way.NorthWest;
 			}
-			if (headingFromTo < 67.5f)
-			{
-				return Direction8Way.NorthEast;
-			}
-			if (headingFromTo < 112.5f)
-			{
-				return Direction8Way.East;
-			}
-			if (headingFromTo < 157.5f)
-			{
-				return Direction8Way.SouthEast;
-			}
-			if (headingFromTo < 202.5f)
-			{
-				return Direction8Way.South;
-			}
-			if (headingFromTo < 247.5f)
-			{
-				return Direction8Way.SouthWest;
-			}
-			if (headingFromTo < 292.5f)
-			{
-				return Direction8Way.West;
-			}
-			return Direction8Way.NorthWest;
+			return Direction8Way.North;
 		}
 
 		public Rot4 GetRotFromTo(int fromTileID, int toTileID)
 		{
 			float headingFromTo = this.GetHeadingFromTo(fromTileID, toTileID);
-			if (headingFromTo >= 315f || headingFromTo < 45f)
+			if (!(headingFromTo >= 315.0) && !(headingFromTo < 45.0))
 			{
-				return Rot4.North;
+				if (headingFromTo < 135.0)
+				{
+					return Rot4.East;
+				}
+				if (headingFromTo < 225.0)
+				{
+					return Rot4.South;
+				}
+				return Rot4.West;
 			}
-			if (headingFromTo < 135f)
-			{
-				return Rot4.East;
-			}
-			if (headingFromTo < 225f)
-			{
-				return Rot4.South;
-			}
-			return Rot4.West;
+			return Rot4.North;
 		}
 
 		public void GetTileVertices(int tileID, List<Vector3> outVerts)
 		{
-			PackedListOfLists.GetList<Vector3>(this.tileIDToVerts_offsets, this.verts, tileID, outVerts);
+			PackedListOfLists.GetList(this.tileIDToVerts_offsets, this.verts, tileID, outVerts);
 		}
 
 		public void GetTileVerticesIndices(int tileID, List<int> outVertsIndices)
@@ -197,15 +197,15 @@ namespace RimWorld.Planet
 			{
 				num2 = this.tileIDToVerts_offsets[tileID + 1];
 			}
-			for (int i = num; i < num2; i++)
+			for (int num3 = num; num3 < num2; num3++)
 			{
-				outVertsIndices.Add(i);
+				outVertsIndices.Add(num3);
 			}
 		}
 
 		public void GetTileNeighbors(int tileID, List<int> outNeighbors)
 		{
-			PackedListOfLists.GetList<int>(this.tileIDToNeighbors_offsets, this.tileIDToNeighbors_values, tileID, outNeighbors);
+			PackedListOfLists.GetList(this.tileIDToNeighbors_offsets, this.tileIDToNeighbors_values, tileID, outNeighbors);
 		}
 
 		public bool IsNeighbor(int tile1, int tile2)
@@ -224,9 +224,9 @@ namespace RimWorld.Planet
 			int num = (tileID + 1 >= this.tileIDToVerts_offsets.Count) ? this.verts.Count : this.tileIDToVerts_offsets[tileID + 1];
 			Vector3 a = Vector3.zero;
 			int num2 = 0;
-			for (int i = this.tileIDToVerts_offsets[tileID]; i < num; i++)
+			for (int num3 = this.tileIDToVerts_offsets[tileID]; num3 < num; num3++)
 			{
-				a += this.verts[i];
+				a += this.verts[num3];
 				num2++;
 			}
 			return a / (float)num2;
@@ -234,17 +234,18 @@ namespace RimWorld.Planet
 
 		public float TileRadiusToAngle(float radius)
 		{
-			return radius / (628.318542f / this.averageTileSize) * 360f;
+			return (float)(radius / (628.31854248046875 / this.averageTileSize) * 360.0);
 		}
 
 		public float DistanceFromEquatorNormalized(int tile)
 		{
-			return Mathf.Abs(Find.WorldGrid.GetTileCenter(tile).y / 100f);
+			Vector3 tileCenter = Find.WorldGrid.GetTileCenter(tile);
+			return Mathf.Abs((float)(tileCenter.y / 100.0));
 		}
 
 		public float ApproxDistanceInTiles(float sphericalDistance)
 		{
-			return sphericalDistance * 100f / this.averageTileSize;
+			return (float)(sphericalDistance * 100.0 / this.averageTileSize);
 		}
 
 		public float ApproxDistanceInTiles(int firstTile, int secondTile)
@@ -259,42 +260,43 @@ namespace RimWorld.Planet
 			if (roadDef == null)
 			{
 				Log.ErrorOnce("Attempted to remove road with overlayRoad; not supported", 90292249);
-				return;
 			}
-			RoadDef roadDef2 = this.GetRoadDef(fromTile, toTile, false);
-			if (roadDef2 == roadDef)
+			else
 			{
-				return;
-			}
-			Tile tile = this[fromTile];
-			Tile tile2 = this[toTile];
-			if (roadDef2 != null)
-			{
-				if (roadDef2.priority >= roadDef.priority)
+				RoadDef roadDef2 = this.GetRoadDef(fromTile, toTile, false);
+				if (roadDef2 != roadDef)
 				{
-					return;
+					Tile tile = this[fromTile];
+					Tile tile2 = this[toTile];
+					if (roadDef2 != null)
+					{
+						if (roadDef2.priority >= roadDef.priority)
+						{
+							return;
+						}
+						tile.roads.RemoveAll((Predicate<Tile.RoadLink>)((Tile.RoadLink rl) => rl.neighbor == toTile));
+						tile2.roads.RemoveAll((Predicate<Tile.RoadLink>)((Tile.RoadLink rl) => rl.neighbor == fromTile));
+					}
+					if (tile.roads == null)
+					{
+						tile.roads = new List<Tile.RoadLink>();
+					}
+					if (tile2.roads == null)
+					{
+						tile2.roads = new List<Tile.RoadLink>();
+					}
+					tile.roads.Add(new Tile.RoadLink
+					{
+						neighbor = toTile,
+						road = roadDef
+					});
+					tile2.roads.Add(new Tile.RoadLink
+					{
+						neighbor = fromTile,
+						road = roadDef
+					});
 				}
-				tile.roads.RemoveAll((Tile.RoadLink rl) => rl.neighbor == toTile);
-				tile2.roads.RemoveAll((Tile.RoadLink rl) => rl.neighbor == fromTile);
 			}
-			if (tile.roads == null)
-			{
-				tile.roads = new List<Tile.RoadLink>();
-			}
-			if (tile2.roads == null)
-			{
-				tile2.roads = new List<Tile.RoadLink>();
-			}
-			tile.roads.Add(new Tile.RoadLink
-			{
-				neighbor = toTile,
-				road = roadDef
-			});
-			tile2.roads.Add(new Tile.RoadLink
-			{
-				neighbor = fromTile,
-				road = roadDef
-			});
 		}
 
 		public RoadDef GetRoadDef(int fromTile, int toTile, bool visibleOnly = true)
@@ -312,9 +314,11 @@ namespace RimWorld.Planet
 			}
 			for (int i = 0; i < list.Count; i++)
 			{
-				if (list[i].neighbor == toTile)
+				Tile.RoadLink roadLink = list[i];
+				if (roadLink.neighbor == toTile)
 				{
-					return list[i].road;
+					Tile.RoadLink roadLink2 = list[i];
+					return roadLink2.road;
 				}
 			}
 			return null;
@@ -325,42 +329,43 @@ namespace RimWorld.Planet
 			if (riverDef == null)
 			{
 				Log.ErrorOnce("Attempted to remove river with overlayRiver; not supported", 90292250);
-				return;
 			}
-			RiverDef riverDef2 = this.GetRiverDef(fromTile, toTile, false);
-			if (riverDef2 == riverDef)
+			else
 			{
-				return;
-			}
-			Tile tile = this[fromTile];
-			Tile tile2 = this[toTile];
-			if (riverDef2 != null)
-			{
-				if (riverDef2.degradeThreshold >= riverDef.degradeThreshold)
+				RiverDef riverDef2 = this.GetRiverDef(fromTile, toTile, false);
+				if (riverDef2 != riverDef)
 				{
-					return;
+					Tile tile = this[fromTile];
+					Tile tile2 = this[toTile];
+					if (riverDef2 != null)
+					{
+						if (riverDef2.degradeThreshold >= riverDef.degradeThreshold)
+						{
+							return;
+						}
+						tile.rivers.RemoveAll((Predicate<Tile.RiverLink>)((Tile.RiverLink rl) => rl.neighbor == toTile));
+						tile2.rivers.RemoveAll((Predicate<Tile.RiverLink>)((Tile.RiverLink rl) => rl.neighbor == fromTile));
+					}
+					if (tile.rivers == null)
+					{
+						tile.rivers = new List<Tile.RiverLink>();
+					}
+					if (tile2.rivers == null)
+					{
+						tile2.rivers = new List<Tile.RiverLink>();
+					}
+					tile.rivers.Add(new Tile.RiverLink
+					{
+						neighbor = toTile,
+						river = riverDef
+					});
+					tile2.rivers.Add(new Tile.RiverLink
+					{
+						neighbor = fromTile,
+						river = riverDef
+					});
 				}
-				tile.rivers.RemoveAll((Tile.RiverLink rl) => rl.neighbor == toTile);
-				tile2.rivers.RemoveAll((Tile.RiverLink rl) => rl.neighbor == fromTile);
 			}
-			if (tile.rivers == null)
-			{
-				tile.rivers = new List<Tile.RiverLink>();
-			}
-			if (tile2.rivers == null)
-			{
-				tile2.rivers = new List<Tile.RiverLink>();
-			}
-			tile.rivers.Add(new Tile.RiverLink
-			{
-				neighbor = toTile,
-				river = riverDef
-			});
-			tile2.rivers.Add(new Tile.RiverLink
-			{
-				neighbor = fromTile,
-				river = riverDef
-			});
 		}
 
 		public RiverDef GetRiverDef(int fromTile, int toTile, bool visibleOnly = true)
@@ -378,9 +383,11 @@ namespace RimWorld.Planet
 			}
 			for (int i = 0; i < list.Count; i++)
 			{
-				if (list[i].neighbor == toTile)
+				Tile.RiverLink riverLink = list[i];
+				if (riverLink.neighbor == toTile)
 				{
-					return list[i].river;
+					Tile.RiverLink riverLink2 = list[i];
+					return riverLink2.river;
 				}
 			}
 			return null;
@@ -395,9 +402,11 @@ namespace RimWorld.Planet
 			}
 			for (int i = 0; i < roads.Count; i++)
 			{
-				if (roads[i].neighbor == toTile)
+				Tile.RoadLink roadLink = roads[i];
+				if (roadLink.neighbor == toTile)
 				{
-					return roads[i].road.movementCostMultiplier;
+					Tile.RoadLink roadLink2 = roads[i];
+					return roadLink2.road.movementCostMultiplier;
 				}
 			}
 			return 1f;
@@ -405,39 +414,33 @@ namespace RimWorld.Planet
 
 		public int TraversalDistanceBetween(int start, int end)
 		{
-			if (start < 0 || end < 0)
+			if (start >= 0 && end >= 0)
 			{
-				return 0;
-			}
-			if (this.cachedTraversalDistanceForStart == start && this.cachedTraversalDistanceForEnd == end)
-			{
-				return this.cachedTraversalDistance;
-			}
-			int finalDist = -1;
-			Find.WorldFloodFiller.FloodFill(start, (int x) => true, delegate(int tile, int dist)
-			{
-				if (tile == end)
+				if (this.cachedTraversalDistanceForStart == start && this.cachedTraversalDistanceForEnd == end)
 				{
-					finalDist = dist;
-					return true;
+					return this.cachedTraversalDistance;
 				}
-				return false;
-			}, 2147483647);
-			if (finalDist < 0)
-			{
-				Log.Error(string.Concat(new object[]
+				int finalDist = -1;
+				Find.WorldFloodFiller.FloodFill(start, (Predicate<int>)((int x) => true), (Func<int, int, bool>)delegate(int tile, int dist)
 				{
-					"Could not reach tile ",
-					end,
-					" from ",
-					start
-				}));
-				return 0;
+					if (tile == end)
+					{
+						finalDist = dist;
+						return true;
+					}
+					return false;
+				}, 2147483647);
+				if (finalDist < 0)
+				{
+					Log.Error("Could not reach tile " + end + " from " + start);
+					return 0;
+				}
+				this.cachedTraversalDistance = finalDist;
+				this.cachedTraversalDistanceForStart = start;
+				this.cachedTraversalDistanceForEnd = end;
+				return finalDist;
 			}
-			this.cachedTraversalDistance = finalDist;
-			this.cachedTraversalDistanceForStart = start;
-			this.cachedTraversalDistanceForEnd = end;
-			return finalDist;
+			return 0;
 		}
 
 		private void CalculateAverageTileSize()
@@ -445,13 +448,13 @@ namespace RimWorld.Planet
 			int tilesCount = this.TilesCount;
 			double num = 0.0;
 			int num2 = 0;
-			for (int i = 0; i < tilesCount; i++)
+			for (int num3 = 0; num3 < tilesCount; num3++)
 			{
-				Vector3 tileCenter = this.GetTileCenter(i);
-				int num3 = (i + 1 >= this.tileIDToNeighbors_offsets.Count) ? this.tileIDToNeighbors_values.Count : this.tileIDToNeighbors_offsets[i + 1];
-				for (int j = this.tileIDToNeighbors_offsets[i]; j < num3; j++)
+				Vector3 tileCenter = this.GetTileCenter(num3);
+				int num4 = (num3 + 1 >= this.tileIDToNeighbors_offsets.Count) ? this.tileIDToNeighbors_values.Count : this.tileIDToNeighbors_offsets[num3 + 1];
+				for (int num5 = this.tileIDToNeighbors_offsets[num3]; num5 < num4; num5++)
 				{
-					int tileID = this.tileIDToNeighbors_values[j];
+					int tileID = this.tileIDToNeighbors_values[num5];
 					Vector3 tileCenter2 = this.GetTileCenter(tileID);
 					num += (double)Vector3.Distance(tileCenter, tileCenter2);
 					num2++;
@@ -462,12 +465,12 @@ namespace RimWorld.Planet
 
 		private void CalculateViewCenterAndAngle()
 		{
-			this.viewAngle = Find.World.PlanetCoverage * 180f;
+			this.viewAngle = (float)(Find.World.PlanetCoverage * 180.0);
 			this.viewCenter = Vector3.back;
 			float angle = 45f;
-			if (this.viewAngle > 45f)
+			if (this.viewAngle > 45.0)
 			{
-				angle = Mathf.Max(90f - this.viewAngle, 0f);
+				angle = Mathf.Max((float)(90.0 - this.viewAngle), 0f);
 			}
 			this.viewCenter = Quaternion.AngleAxis(angle, Vector3.right) * this.viewCenter;
 		}

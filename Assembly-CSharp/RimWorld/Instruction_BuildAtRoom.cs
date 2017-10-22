@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -14,20 +13,20 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.def.targetCount <= 1)
+				if (base.def.targetCount <= 1)
 				{
 					return -1f;
 				}
-				return (float)this.NumPlaced() / (float)this.def.targetCount;
+				return (float)this.NumPlaced() / (float)base.def.targetCount;
 			}
 		}
 
 		protected int NumPlaced()
 		{
 			int num = 0;
-			foreach (IntVec3 current in this.BuildableRect)
+			foreach (IntVec3 item in this.BuildableRect)
 			{
-				if (TutorUtility.BuildingOrBlueprintOrFrameCenterExists(current, base.Map, this.def.thingDef))
+				if (TutorUtility.BuildingOrBlueprintOrFrameCenterExists(item, base.Map, base.def.thingDef))
 				{
 					num++;
 				}
@@ -37,7 +36,7 @@ namespace RimWorld
 
 		public override void LessonOnGUI()
 		{
-			TutorUtility.DrawCellRectOnGUI(this.BuildableRect.ContractedBy(1), this.def.onMapInstruction);
+			TutorUtility.DrawCellRectOnGUI(this.BuildableRect.ContractedBy(1), base.def.onMapInstruction);
 			base.LessonOnGUI();
 		}
 
@@ -48,7 +47,7 @@ namespace RimWorld
 
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
-			if (ep.Tag == "Designate-" + this.def.thingDef.defName)
+			if (ep.Tag == "Designate-" + base.def.thingDef.defName)
 			{
 				return this.AllowBuildAt(ep.Cell);
 			}
@@ -62,7 +61,7 @@ namespace RimWorld
 
 		public override void Notify_Event(EventPack ep)
 		{
-			if (this.NumPlaced() >= this.def.targetCount)
+			if (this.NumPlaced() >= base.def.targetCount)
 			{
 				Find.ActiveLesson.Deactivate();
 			}

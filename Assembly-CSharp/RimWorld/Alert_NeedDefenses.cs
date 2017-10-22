@@ -8,24 +8,24 @@ namespace RimWorld
 	{
 		public Alert_NeedDefenses()
 		{
-			this.defaultLabel = "NeedDefenses".Translate();
-			this.defaultExplanation = "NeedDefensesDesc".Translate();
-			this.defaultPriority = AlertPriority.High;
+			base.defaultLabel = "NeedDefenses".Translate();
+			base.defaultExplanation = "NeedDefensesDesc".Translate();
+			base.defaultPriority = AlertPriority.High;
 		}
 
 		public override AlertReport GetReport()
 		{
-			if (GenDate.DaysPassed < 2 || GenDate.DaysPassed > 5)
+			if (GenDate.DaysPassed >= 2 && GenDate.DaysPassed <= 5)
 			{
-				return false;
-			}
-			List<Map> maps = Find.Maps;
-			for (int i = 0; i < maps.Count; i++)
-			{
-				if (this.NeedDefenses(maps[i]))
+				List<Map> maps = Find.Maps;
+				for (int i = 0; i < maps.Count; i++)
 				{
-					return true;
+					if (this.NeedDefenses(maps[i]))
+					{
+						return true;
+					}
 				}
+				return false;
 			}
 			return false;
 		}
@@ -36,7 +36,11 @@ namespace RimWorld
 			{
 				return false;
 			}
-			return !map.listerBuildings.allBuildingsColonist.Any((Building b) => (b.def.building != null && (b.def.building.IsTurret || b.def.building.isTrap)) || b.def == ThingDefOf.Sandbags);
+			if (map.listerBuildings.allBuildingsColonist.Any((Predicate<Building>)((Building b) => (b.def.building != null && (b.def.building.IsTurret || b.def.building.isTrap)) || b.def == ThingDefOf.Sandbags)))
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

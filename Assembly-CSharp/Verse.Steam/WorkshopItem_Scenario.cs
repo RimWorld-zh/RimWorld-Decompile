@@ -39,7 +39,7 @@ namespace Verse.Steam
 		{
 			FileInfo fileInfo = (from fi in base.Directory.GetFiles("*.rsc")
 			where fi.Extension == ".rsc"
-			select fi).First<FileInfo>();
+			select fi).First();
 			if (GameDataSaveLoader.TryLoadScenario(fileInfo.FullName, ScenarioCategory.SteamWorkshop, out this.cachedScenario))
 			{
 				this.cachedScenario.SetPublishedFileId(this.PublishedFileId);

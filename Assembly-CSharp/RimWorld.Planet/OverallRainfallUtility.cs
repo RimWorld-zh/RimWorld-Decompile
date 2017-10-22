@@ -176,19 +176,34 @@ namespace RimWorld.Planet
 			switch (overallRainfall)
 			{
 			case OverallRainfall.AlmostNone:
+			{
 				return OverallRainfallUtility.Curve_AlmostNone;
+			}
 			case OverallRainfall.Little:
+			{
 				return OverallRainfallUtility.Curve_Little;
+			}
 			case OverallRainfall.LittleBitLess:
+			{
 				return OverallRainfallUtility.Curve_LittleBitLess;
+			}
 			case OverallRainfall.LittleBitMore:
+			{
 				return OverallRainfallUtility.Curve_LittleBitMore;
+			}
 			case OverallRainfall.High:
+			{
 				return OverallRainfallUtility.Curve_High;
+			}
 			case OverallRainfall.VeryHigh:
+			{
 				return OverallRainfallUtility.Curve_VeryHigh;
 			}
-			return null;
+			default:
+			{
+				return null;
+			}
+			}
 		}
 	}
 }

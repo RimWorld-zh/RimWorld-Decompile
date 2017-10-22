@@ -15,43 +15,35 @@ namespace Verse
 			public List<string> activeMods = new List<string>();
 		}
 
-		private static ModsConfig.ModsConfigData data;
+		private static ModsConfigData data;
 
 		public static IEnumerable<ModMetaData> ActiveModsInLoadOrder
 		{
 			get
 			{
-				ModsConfig.<>c__Iterator211 <>c__Iterator = new ModsConfig.<>c__Iterator211();
-				ModsConfig.<>c__Iterator211 expr_07 = <>c__Iterator;
-				expr_07.$PC = -2;
-				return expr_07;
+				ModLister.EnsureInit();
+				for (int i = 0; i < ModsConfig.data.activeMods.Count; i++)
+				{
+					yield return ModLister.GetModWithIdentifier(ModsConfig.data.activeMods[i]);
+				}
 			}
 		}
 
 		static ModsConfig()
 		{
 			bool flag = false;
-			ModsConfig.data = DirectXmlLoader.ItemFromXmlFile<ModsConfig.ModsConfigData>(GenFilePaths.ModsConfigFilePath, true);
+			ModsConfig.data = DirectXmlLoader.ItemFromXmlFile<ModsConfigData>(GenFilePaths.ModsConfigFilePath, true);
 			if (ModsConfig.data.buildNumber < VersionControl.CurrentBuild)
 			{
-				Log.Message(string.Concat(new object[]
-				{
-					"Mods config data is from build ",
-					ModsConfig.data.buildNumber,
-					" while we are at build ",
-					VersionControl.CurrentBuild,
-					". Resetting."
-				}));
-				ModsConfig.data = new ModsConfig.ModsConfigData();
+				Log.Message("Mods config data is from build " + ModsConfig.data.buildNumber + " while we are at build " + VersionControl.CurrentBuild + ". Resetting.");
+				ModsConfig.data = new ModsConfigData();
 				flag = true;
 			}
 			ModsConfig.data.buildNumber = VersionControl.CurrentBuild;
-			bool flag2 = File.Exists(GenFilePaths.ModsConfigFilePath);
-			if (!flag2 || flag)
-			{
-				ModsConfig.data.activeMods.Add(ModContentPack.CoreModIdentifier);
-				ModsConfig.Save();
-			}
+			if (File.Exists(GenFilePaths.ModsConfigFilePath) && !flag)
+				return;
+			ModsConfig.data.activeMods.Add(ModContentPack.CoreModIdentifier);
+			ModsConfig.Save();
 		}
 
 		public static void DeactivateNotInstalledMods(Action<string> logCallback = null)
@@ -59,9 +51,9 @@ namespace Verse
 			int i;
 			for (i = ModsConfig.data.activeMods.Count - 1; i >= 0; i--)
 			{
-				if (!ModLister.AllInstalledMods.Any((ModMetaData m) => m.Identifier == ModsConfig.data.activeMods[i]))
+				if (!ModLister.AllInstalledMods.Any((Func<ModMetaData, bool>)((ModMetaData m) => m.Identifier == ModsConfig.data.activeMods[i])))
 				{
-					if (logCallback != null)
+					if ((object)logCallback != null)
 					{
 						logCallback("Deactivating " + ModsConfig.data.activeMods[i]);
 					}
@@ -79,13 +71,12 @@ namespace Verse
 
 		internal static void Reorder(int modIndex, int newIndex)
 		{
-			if (modIndex == newIndex)
+			if (modIndex != newIndex)
 			{
-				return;
+				string item = ModsConfig.data.activeMods[modIndex];
+				ModsConfig.data.activeMods.RemoveAt(modIndex);
+				ModsConfig.data.activeMods.Insert(newIndex, item);
 			}
-			string item = ModsConfig.data.activeMods[modIndex];
-			ModsConfig.data.activeMods.RemoveAt(modIndex);
-			ModsConfig.data.activeMods.Insert(newIndex, item);
 		}
 
 		public static bool IsActive(ModMetaData mod)

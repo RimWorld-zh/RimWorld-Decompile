@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -12,13 +11,13 @@ namespace RimWorld
 		{
 			for (int i = 0; i < WeatherPartPool.instances.Count; i++)
 			{
-				T t = WeatherPartPool.instances[i] as T;
-				if (t != null)
+				T val = (T)(WeatherPartPool.instances[i] as T);
+				if (val != null)
 				{
-					return t;
+					return (SkyOverlay)(object)val;
 				}
 			}
-			SkyOverlay skyOverlay = Activator.CreateInstance<T>();
+			SkyOverlay skyOverlay = (SkyOverlay)(object)new T();
 			WeatherPartPool.instances.Add(skyOverlay);
 			return skyOverlay;
 		}

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,13 +16,15 @@ namespace Verse
 				Vector2 mainTextureScale = new Vector2(0.1875f, 0.1875f);
 				for (int i = 0; i < 16; i++)
 				{
-					float x = (float)(i % 4) * 0.25f + 0.03125f;
-					float y = (float)(i / 4) * 0.25f + 0.03125f;
+					float x = (float)((float)(i % 4) * 0.25 + 0.03125);
+					float y = (float)((float)(i / 4) * 0.25 + 0.03125);
 					Vector2 mainTextureOffset = new Vector2(x, y);
-					Material material = new Material(newRootMat);
-					material.name = newRootMat.name + "_ASM" + i;
-					material.mainTextureScale = mainTextureScale;
-					material.mainTextureOffset = mainTextureOffset;
+					Material material = new Material(newRootMat)
+					{
+						name = newRootMat.name + "_ASM" + i,
+						mainTextureScale = mainTextureScale,
+						mainTextureOffset = mainTextureOffset
+					};
 					this.subMats[i] = material;
 				}
 			}
@@ -35,17 +36,17 @@ namespace Verse
 					Log.Warning("Cannot get submat of index " + (int)linkSet + ": out of range.");
 					return BaseContent.BadMat;
 				}
-				return this.subMats[(int)linkSet];
+				return this.subMats[(uint)linkSet];
 			}
 		}
 
-		private static Dictionary<Material, MaterialAtlasPool.MaterialAtlas> atlasDict = new Dictionary<Material, MaterialAtlasPool.MaterialAtlas>();
+		private static Dictionary<Material, MaterialAtlas> atlasDict = new Dictionary<Material, MaterialAtlas>();
 
 		public static Material SubMaterialFromAtlas(Material mat, LinkDirections LinkSet)
 		{
 			if (!MaterialAtlasPool.atlasDict.ContainsKey(mat))
 			{
-				MaterialAtlasPool.atlasDict.Add(mat, new MaterialAtlasPool.MaterialAtlas(mat));
+				MaterialAtlasPool.atlasDict.Add(mat, new MaterialAtlas(mat));
 			}
 			return MaterialAtlasPool.atlasDict[mat].SubMat(LinkSet);
 		}

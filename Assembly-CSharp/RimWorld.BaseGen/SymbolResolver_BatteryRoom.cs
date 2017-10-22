@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld.BaseGen
 {
 	public class SymbolResolver_BatteryRoom : SymbolResolver

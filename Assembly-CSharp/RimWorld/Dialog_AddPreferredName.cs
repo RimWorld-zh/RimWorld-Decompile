@@ -24,12 +24,12 @@ namespace RimWorld
 
 		public Dialog_AddPreferredName()
 		{
-			this.doCloseButton = true;
-			this.absorbInputAroundWindow = true;
+			base.doCloseButton = true;
+			base.absorbInputAroundWindow = true;
 			this.cachedNames = (from n in (from b in SolidBioDatabase.allBios
 			select b.name).Concat(PawnNameDatabaseSolid.AllNames())
 			orderby n.Last descending
-			select n).ToList<NameTriple>();
+			select n).ToList();
 		}
 
 		public override void DoWindowContents(Rect inRect)
@@ -41,24 +41,22 @@ namespace RimWorld
 			if (text.Length < 20)
 			{
 				this.searchName = text;
-				this.searchWords = this.searchName.Replace("'", string.Empty).Split(new char[]
-				{
-					' '
-				});
+				this.searchWords = this.searchName.Replace("'", string.Empty).Split(' ');
 			}
 			listing_Standard.Gap(4f);
 			if (this.searchName.Length > 1)
 			{
-				foreach (NameTriple current in this.cachedNames.Where(new Func<NameTriple, bool>(this.FilterMatch)))
+				foreach (NameTriple item in this.cachedNames.Where(new Func<NameTriple, bool>(this.FilterMatch)))
 				{
-					if (listing_Standard.ButtonText(current.ToString(), null))
+					if (listing_Standard.ButtonText(item.ToString(), (string)null))
 					{
-						this.TryChooseName(current);
+						this.TryChooseName(item);
 					}
-					if (listing_Standard.CurHeight + 30f > inRect.height - (this.CloseButSize.y + 8f))
-					{
+					double num = listing_Standard.CurHeight + 30.0;
+					float height = inRect.height;
+					Vector2 closeButSize = base.CloseButSize;
+					if (num > height - (closeButSize.y + 8.0))
 						break;
-					}
 				}
 			}
 			listing_Standard.End();
@@ -78,7 +76,11 @@ namespace RimWorld
 			{
 				return n.Last.StartsWith(this.searchName, StringComparison.OrdinalIgnoreCase) || n.First.StartsWith(this.searchName, StringComparison.OrdinalIgnoreCase) || n.Nick.StartsWith(this.searchName, StringComparison.OrdinalIgnoreCase);
 			}
-			return this.searchWords.Length == 2 && n.First.EqualsIgnoreCase(this.searchWords[0]) && (n.Last.StartsWith(this.searchWords[1], StringComparison.OrdinalIgnoreCase) || n.Nick.StartsWith(this.searchWords[1], StringComparison.OrdinalIgnoreCase));
+			if (this.searchWords.Length == 2)
+			{
+				return n.First.EqualsIgnoreCase(this.searchWords[0]) && (n.Last.StartsWith(this.searchWords[1], StringComparison.OrdinalIgnoreCase) || n.Nick.StartsWith(this.searchWords[1], StringComparison.OrdinalIgnoreCase));
+			}
+			return false;
 		}
 
 		private void TryChooseName(NameTriple name)

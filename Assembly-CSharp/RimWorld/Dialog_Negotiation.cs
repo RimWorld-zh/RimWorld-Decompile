@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -22,7 +21,7 @@ namespace RimWorld
 			}
 		}
 
-		public Dialog_Negotiation(Pawn negotiator, ICommunicable commTarget, DiaNode startNode, bool radioMode) : base(startNode, radioMode, false, null)
+		public Dialog_Negotiation(Pawn negotiator, ICommunicable commTarget, DiaNode startNode, bool radioMode) : base(startNode, radioMode, false, (string)null)
 		{
 			this.negotiator = negotiator;
 			this.commTarget = commTarget;
@@ -31,10 +30,10 @@ namespace RimWorld
 		public override void DoWindowContents(Rect inRect)
 		{
 			GUI.BeginGroup(inRect);
-			Rect rect = new Rect(0f, 0f, inRect.width / 2f, 70f);
+			Rect rect = new Rect(0f, 0f, (float)(inRect.width / 2.0), 70f);
 			Rect rect2 = new Rect(0f, rect.yMax, rect.width, 60f);
-			Rect rect3 = new Rect(inRect.width / 2f, 0f, inRect.width / 2f, 70f);
-			Rect rect4 = new Rect(inRect.width / 2f, rect.yMax, rect.width, 60f);
+			Rect rect3 = new Rect((float)(inRect.width / 2.0), 0f, (float)(inRect.width / 2.0), 70f);
+			Rect rect4 = new Rect((float)(inRect.width / 2.0), rect.yMax, rect.width, 60f);
 			Text.Font = GameFont.Medium;
 			Widgets.Label(rect, this.negotiator.LabelCap);
 			Text.Anchor = TextAnchor.UpperRight;
@@ -42,10 +41,7 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 			Text.Font = GameFont.Small;
 			GUI.color = new Color(1f, 1f, 1f, 0.7f);
-			Widgets.Label(rect2, "SocialSkillIs".Translate(new object[]
-			{
-				this.negotiator.skills.GetSkill(SkillDefOf.Social).Level
-			}));
+			Widgets.Label(rect2, "SocialSkillIs".Translate(this.negotiator.skills.GetSkill(SkillDefOf.Social).Level));
 			Text.Anchor = TextAnchor.UpperRight;
 			Widgets.Label(rect4, this.commTarget.GetInfoText());
 			Text.Anchor = TextAnchor.UpperLeft;

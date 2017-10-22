@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -12,12 +11,11 @@ namespace RimWorld
 
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
-			if (!pawn.RaceProps.Humanlike)
+			if (pawn.RaceProps.Humanlike)
 			{
-				return;
+				Vector2 pos = new Vector2(rect.x, (float)(rect.y + 3.0));
+				HostilityResponseModeUtility.DrawResponseButton(pos, pawn);
 			}
-			Vector2 pos = new Vector2(rect.x, rect.y + 3f);
-			HostilityResponseModeUtility.DrawResponseButton(pos, pawn);
 		}
 
 		public override int GetMinCellHeight(Pawn pawn)

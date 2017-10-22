@@ -11,7 +11,18 @@ namespace RimWorld
 
 		protected override Thing BestIngestItem(Pawn pawn, Predicate<Thing> extraValidator)
 		{
-			Predicate<Thing> predicate = (Thing t) => this.CanIngestForJoy(pawn, t) && (extraValidator == null || extraValidator(t));
+			Predicate<Thing> predicate = (Predicate<Thing>)delegate(Thing t)
+			{
+				if (!this.CanIngestForJoy(pawn, t))
+				{
+					return false;
+				}
+				if ((object)extraValidator != null && !extraValidator(t))
+				{
+					return false;
+				}
+				return true;
+			};
 			ThingOwner<Thing> innerContainer = pawn.inventory.innerContainer;
 			for (int i = 0; i < innerContainer.Count; i++)
 			{
@@ -29,7 +40,7 @@ namespace RimWorld
 					JoyGiver_TakeDrug.takeableDrugs.Add(currentPolicy[j].drug);
 				}
 			}
-			JoyGiver_TakeDrug.takeableDrugs.Shuffle<ThingDef>();
+			JoyGiver_TakeDrug.takeableDrugs.Shuffle();
 			for (int k = 0; k < JoyGiver_TakeDrug.takeableDrugs.Count; k++)
 			{
 				List<Thing> list = pawn.Map.listerThings.ThingsOfDef(JoyGiver_TakeDrug.takeableDrugs[k]);
@@ -57,14 +68,14 @@ namespace RimWorld
 			{
 				return 0f;
 			}
-			float num2 = this.def.baseChance;
+			float num2 = base.def.baseChance;
 			if (num == 1)
 			{
-				num2 *= 2f;
+				num2 = (float)(num2 * 2.0);
 			}
 			if (num == 2)
 			{
-				num2 *= 5f;
+				num2 = (float)(num2 * 5.0);
 			}
 			return num2;
 		}

@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class CompProperties_TemperatureDamaged : CompProperties
@@ -10,7 +8,7 @@ namespace Verse
 
 		public CompProperties_TemperatureDamaged()
 		{
-			this.compClass = typeof(CompTemperatureDamaged);
+			base.compClass = typeof(CompTemperatureDamaged);
 		}
 	}
 }

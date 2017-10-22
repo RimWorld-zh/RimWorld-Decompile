@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class HediffComp_Disappears : HediffComp
@@ -10,7 +8,7 @@ namespace Verse
 		{
 			get
 			{
-				return (HediffCompProperties_Disappears)this.props;
+				return (HediffCompProperties_Disappears)base.props;
 			}
 		}
 

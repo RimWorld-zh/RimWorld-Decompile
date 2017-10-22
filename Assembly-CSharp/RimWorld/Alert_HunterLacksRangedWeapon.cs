@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,18 +6,18 @@ namespace RimWorld
 	{
 		public Alert_HunterLacksRangedWeapon()
 		{
-			this.defaultLabel = "HunterLacksWeapon".Translate();
-			this.defaultExplanation = "HunterLacksWeaponDesc".Translate();
-			this.defaultPriority = AlertPriority.High;
+			base.defaultLabel = "HunterLacksWeapon".Translate();
+			base.defaultExplanation = "HunterLacksWeaponDesc".Translate();
+			base.defaultPriority = AlertPriority.High;
 		}
 
 		public override AlertReport GetReport()
 		{
-			foreach (Pawn current in PawnsFinder.AllMaps_FreeColonistsSpawned)
+			foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
 			{
-				if (current.workSettings.WorkIsActive(WorkTypeDefOf.Hunting) && !WorkGiver_HunterHunt.HasHuntingWeapon(current) && !current.Downed)
+				if (item.workSettings.WorkIsActive(WorkTypeDefOf.Hunting) && !WorkGiver_HunterHunt.HasHuntingWeapon(item) && !item.Downed)
 				{
-					return current;
+					return (Thing)item;
 				}
 			}
 			return false;

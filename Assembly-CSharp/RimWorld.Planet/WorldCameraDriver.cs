@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -72,7 +71,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.cachedCamera == null)
+				if ((Object)this.cachedCamera == (Object)null)
 				{
 					this.cachedCamera = base.GetComponent<Camera>();
 				}
@@ -84,7 +83,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.AltitudePercent < 0.025f)
+				if (this.AltitudePercent < 0.02500000037252903)
 				{
 					return WorldCameraZoomRange.Close;
 				}
@@ -145,129 +144,123 @@ namespace RimWorld.Planet
 		public void OnGUI()
 		{
 			GUI.depth = 100;
-			if (LongEventHandler.ShouldWaitForEvent)
+			if (!LongEventHandler.ShouldWaitForEvent)
 			{
-				return;
-			}
-			this.mouseCoveredByUI = false;
-			if (Find.WindowStack.GetWindowAt(UI.MousePositionOnUIInverted) != null)
-			{
-				this.mouseCoveredByUI = true;
-			}
-			if (!this.AnythingPreventsCameraMotion)
-			{
-				if (Event.current.type == EventType.MouseDrag && Event.current.button == 2)
+				this.mouseCoveredByUI = false;
+				if (Find.WindowStack.GetWindowAt(UI.MousePositionOnUIInverted) != null)
 				{
-					this.mouseDragVect = Event.current.delta;
-					Event.current.Use();
-					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorldCameraMovement, KnowledgeAmount.FrameInteraction);
+					this.mouseCoveredByUI = true;
 				}
-				float num = 0f;
-				if (Event.current.type == EventType.ScrollWheel)
+				if (!this.AnythingPreventsCameraMotion)
 				{
-					num -= Event.current.delta.y * 0.1f;
-					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorldCameraMovement, KnowledgeAmount.SpecificInteraction);
-				}
-				if (KeyBindingDefOf.MapZoomIn.KeyDownEvent)
-				{
-					num += 2f;
-					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorldCameraMovement, KnowledgeAmount.SpecificInteraction);
-				}
-				if (KeyBindingDefOf.MapZoomOut.KeyDownEvent)
-				{
-					num -= 2f;
-					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorldCameraMovement, KnowledgeAmount.SpecificInteraction);
-				}
-				this.desiredAltitude -= num * 2.6f * this.altitude / 12f;
-				this.desiredAltitude = Mathf.Clamp(this.desiredAltitude, 125f, 1100f);
-				this.desiredRotation = Vector2.zero;
-				if (KeyBindingDefOf.MapDollyLeft.IsDown)
-				{
-					this.desiredRotation.x = -170f;
-					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorldCameraMovement, KnowledgeAmount.SpecificInteraction);
-				}
-				if (KeyBindingDefOf.MapDollyRight.IsDown)
-				{
-					this.desiredRotation.x = 170f;
-					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorldCameraMovement, KnowledgeAmount.SpecificInteraction);
-				}
-				if (KeyBindingDefOf.MapDollyUp.IsDown)
-				{
-					this.desiredRotation.y = 170f;
-					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorldCameraMovement, KnowledgeAmount.SpecificInteraction);
-				}
-				if (KeyBindingDefOf.MapDollyDown.IsDown)
-				{
-					this.desiredRotation.y = -170f;
-					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorldCameraMovement, KnowledgeAmount.SpecificInteraction);
-				}
-				if (this.mouseDragVect != Vector2.zero)
-				{
-					this.mouseDragVect *= CameraDriver.HitchReduceFactor;
-					this.mouseDragVect.x = this.mouseDragVect.x * -1f;
-					this.desiredRotation += this.mouseDragVect * 25f;
-					this.mouseDragVect = Vector2.zero;
+					if (Event.current.type == EventType.MouseDrag && Event.current.button == 2)
+					{
+						this.mouseDragVect = Event.current.delta;
+						Event.current.Use();
+						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorldCameraMovement, KnowledgeAmount.FrameInteraction);
+					}
+					float num = 0f;
+					if (Event.current.type == EventType.ScrollWheel)
+					{
+						float num2 = num;
+						Vector2 delta = Event.current.delta;
+						num = (float)(num2 - delta.y * 0.10000000149011612);
+						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorldCameraMovement, KnowledgeAmount.SpecificInteraction);
+					}
+					if (KeyBindingDefOf.MapZoomIn.KeyDownEvent)
+					{
+						num = (float)(num + 2.0);
+						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorldCameraMovement, KnowledgeAmount.SpecificInteraction);
+					}
+					if (KeyBindingDefOf.MapZoomOut.KeyDownEvent)
+					{
+						num = (float)(num - 2.0);
+						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorldCameraMovement, KnowledgeAmount.SpecificInteraction);
+					}
+					this.desiredAltitude -= (float)(num * 2.5999999046325684 * this.altitude / 12.0);
+					this.desiredAltitude = Mathf.Clamp(this.desiredAltitude, 125f, 1100f);
+					this.desiredRotation = Vector2.zero;
+					if (KeyBindingDefOf.MapDollyLeft.IsDown)
+					{
+						this.desiredRotation.x = -170f;
+						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorldCameraMovement, KnowledgeAmount.SpecificInteraction);
+					}
+					if (KeyBindingDefOf.MapDollyRight.IsDown)
+					{
+						this.desiredRotation.x = 170f;
+						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorldCameraMovement, KnowledgeAmount.SpecificInteraction);
+					}
+					if (KeyBindingDefOf.MapDollyUp.IsDown)
+					{
+						this.desiredRotation.y = 170f;
+						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorldCameraMovement, KnowledgeAmount.SpecificInteraction);
+					}
+					if (KeyBindingDefOf.MapDollyDown.IsDown)
+					{
+						this.desiredRotation.y = -170f;
+						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorldCameraMovement, KnowledgeAmount.SpecificInteraction);
+					}
+					if (this.mouseDragVect != Vector2.zero)
+					{
+						this.mouseDragVect *= CameraDriver.HitchReduceFactor;
+						this.mouseDragVect.x *= -1f;
+						this.desiredRotation += this.mouseDragVect * 25f;
+						this.mouseDragVect = Vector2.zero;
+					}
 				}
 			}
 		}
 
 		public void Update()
 		{
-			if (LongEventHandler.ShouldWaitForEvent)
+			if (!LongEventHandler.ShouldWaitForEvent)
 			{
-				return;
-			}
-			if (Find.World == null)
-			{
-				this.MyCamera.gameObject.SetActive(false);
-				return;
-			}
-			if (!Find.WorldInterface.everReset)
-			{
-				Find.WorldInterface.Reset();
-			}
-			Vector2 lhs = this.CalculateCurInputDollyVect();
-			if (lhs != Vector2.zero)
-			{
-				float d = (this.altitude - 125f) / 975f * 0.85f + 0.15f;
-				this.rotationVelocity = new Vector2(lhs.x, lhs.y) * d;
-			}
-			if (!this.AnythingPreventsCameraMotion)
-			{
-				float num = Time.deltaTime * CameraDriver.HitchReduceFactor;
-				this.sphereRotation *= Quaternion.AngleAxis(this.rotationVelocity.x * num * 0.3f, this.MyCamera.transform.up);
-				this.sphereRotation *= Quaternion.AngleAxis(-this.rotationVelocity.y * num * 0.3f, this.MyCamera.transform.right);
-			}
-			if (this.rotationVelocity != Vector2.zero)
-			{
-				this.rotationVelocity *= 0.9f;
-				if (this.rotationVelocity.magnitude < 0.05f)
+				if (Find.World == null)
 				{
-					this.rotationVelocity = Vector2.zero;
+					this.MyCamera.gameObject.SetActive(false);
+				}
+				else
+				{
+					if (!Find.WorldInterface.everReset)
+					{
+						Find.WorldInterface.Reset();
+					}
+					Vector2 lhs = this.CalculateCurInputDollyVect();
+					if (lhs != Vector2.zero)
+					{
+						float d = (float)((this.altitude - 125.0) / 975.0 * 0.85000002384185791 + 0.15000000596046448);
+						this.rotationVelocity = new Vector2(lhs.x, lhs.y) * d;
+					}
+					if (!this.AnythingPreventsCameraMotion)
+					{
+						float num = Time.deltaTime * CameraDriver.HitchReduceFactor;
+						this.sphereRotation *= Quaternion.AngleAxis((float)(this.rotationVelocity.x * num * 0.30000001192092896), this.MyCamera.transform.up);
+						this.sphereRotation *= Quaternion.AngleAxis((float)((0.0 - this.rotationVelocity.y) * num * 0.30000001192092896), this.MyCamera.transform.right);
+					}
+					if (this.rotationVelocity != Vector2.zero)
+					{
+						this.rotationVelocity *= 0.9f;
+						if (this.rotationVelocity.magnitude < 0.05000000074505806)
+						{
+							this.rotationVelocity = Vector2.zero;
+						}
+					}
+					float num2 = this.desiredAltitude - this.altitude;
+					this.altitude += (float)(num2 * 0.40000000596046448);
+					this.rotationAnimation_lerpFactor += (float)(Time.deltaTime * 8.0);
+					if (Find.PlaySettings.lockNorthUp)
+					{
+						this.RotateSoNorthIsUp(false);
+						this.ClampXRotation(ref this.sphereRotation);
+					}
+					this.ApplyPositionToGameObject();
 				}
 			}
-			float num2 = this.desiredAltitude - this.altitude;
-			this.altitude += num2 * 0.4f;
-			this.rotationAnimation_lerpFactor += Time.deltaTime * 8f;
-			if (Find.PlaySettings.lockNorthUp)
-			{
-				this.RotateSoNorthIsUp(false);
-				this.ClampXRotation(ref this.sphereRotation);
-			}
-			this.ApplyPositionToGameObject();
 		}
 
 		private void ApplyPositionToGameObject()
 		{
-			Quaternion rotation;
-			if (this.rotationAnimation_lerpFactor < 1f)
-			{
-				rotation = Quaternion.Lerp(this.rotationAnimation_prevSphereRotation, this.sphereRotation, this.rotationAnimation_lerpFactor);
-			}
-			else
-			{
-				rotation = this.sphereRotation;
-			}
+			Quaternion rotation = (!(this.rotationAnimation_lerpFactor < 1.0)) ? this.sphereRotation : Quaternion.Lerp(this.rotationAnimation_prevSphereRotation, this.sphereRotation, this.rotationAnimation_lerpFactor);
 			if (Find.PlaySettings.lockNorthUp)
 			{
 				this.ClampXRotation(ref rotation);
@@ -296,25 +289,25 @@ namespace RimWorld.Planet
 				if (!rect2.Contains(mousePositionOnUIInverted) && !rect3.Contains(mousePositionOnUIInverted) && !rect.Contains(mousePositionOnUIInverted))
 				{
 					Vector2 zero = Vector2.zero;
-					if (mousePositionOnUI.x >= 0f && mousePositionOnUI.x < 20f)
+					if (mousePositionOnUI.x >= 0.0 && mousePositionOnUI.x < 20.0)
 					{
 						zero.x -= 125f;
 					}
-					if (mousePositionOnUI.x <= (float)UI.screenWidth && mousePositionOnUI.x > (float)UI.screenWidth - 20f)
+					if (mousePositionOnUI.x <= (float)UI.screenWidth && mousePositionOnUI.x > (float)UI.screenWidth - 20.0)
 					{
 						zero.x += 125f;
 					}
-					if (mousePositionOnUI.y <= (float)UI.screenHeight && mousePositionOnUI.y > (float)UI.screenHeight - 20f)
+					if (mousePositionOnUI.y <= (float)UI.screenHeight && mousePositionOnUI.y > (float)UI.screenHeight - 20.0)
 					{
 						zero.y += 125f;
 					}
-					if (mousePositionOnUI.y >= 0f && mousePositionOnUI.y < this.ScreenDollyEdgeWidthBottom)
+					if (mousePositionOnUI.y >= 0.0 && mousePositionOnUI.y < this.ScreenDollyEdgeWidthBottom)
 					{
-						if (this.mouseTouchingScreenBottomEdgeStartTime < 0f)
+						if (this.mouseTouchingScreenBottomEdgeStartTime < 0.0)
 						{
 							this.mouseTouchingScreenBottomEdgeStartTime = Time.realtimeSinceStartup;
 						}
-						if (Time.realtimeSinceStartup - this.mouseTouchingScreenBottomEdgeStartTime >= 0.28f)
+						if (Time.realtimeSinceStartup - this.mouseTouchingScreenBottomEdgeStartTime >= 0.2800000011920929)
 						{
 							zero.y -= 125f;
 						}
@@ -380,7 +373,7 @@ namespace RimWorld.Planet
 			float altitudePercent = this.AltitudePercent;
 			float num = Mathf.Lerp(88.6f, 78f, altitudePercent);
 			bool flag = false;
-			if (eulerAngles.x <= 90f)
+			if (eulerAngles.x <= 90.0)
 			{
 				if (eulerAngles.x > num)
 				{
@@ -388,9 +381,9 @@ namespace RimWorld.Planet
 					flag = true;
 				}
 			}
-			else if (eulerAngles.x < 360f - num)
+			else if (eulerAngles.x < 360.0 - num)
 			{
-				eulerAngles.x = 360f - num;
+				eulerAngles.x = (float)(360.0 - num);
 				flag = true;
 			}
 			if (flag)

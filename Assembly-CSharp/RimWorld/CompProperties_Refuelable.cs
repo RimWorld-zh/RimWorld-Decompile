@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -31,7 +30,7 @@ namespace RimWorld
 
 		public CompProperties_Refuelable()
 		{
-			this.compClass = typeof(CompRefuelable);
+			base.compClass = typeof(CompRefuelable);
 		}
 
 		public override void ResolveReferences(ThingDef parentDef)

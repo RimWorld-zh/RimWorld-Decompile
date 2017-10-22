@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -12,21 +11,25 @@ namespace RimWorld
 
 		public static bool ShouldTrashPlant(Pawn pawn, Plant p)
 		{
-			if (!p.sown || p.def.plant.IsTree || !p.FlammableNow || !TrashUtility.CanTrash(pawn, p))
+			if (p.sown && !p.def.plant.IsTree && p.FlammableNow && TrashUtility.CanTrash(pawn, p))
 			{
-				return false;
-			}
-			CellRect.CellRectIterator iterator = CellRect.CenteredOn(p.Position, 2).ClipInsideMap(p.Map).GetIterator();
-			while (!iterator.Done())
-			{
-				IntVec3 current = iterator.Current;
-				if (current.InBounds(p.Map) && current.ContainsStaticFire(p.Map))
+				CellRect.CellRectIterator iterator = CellRect.CenteredOn(p.Position, 2).ClipInsideMap(p.Map).GetIterator();
+				while (!iterator.Done())
+				{
+					IntVec3 current = iterator.Current;
+					if (current.InBounds(p.Map) && current.ContainsStaticFire(p.Map))
+					{
+						return false;
+					}
+					iterator.MoveNext();
+				}
+				if (!p.Position.Roofed(p.Map) && p.Map.weatherManager.RainRate > 0.25)
 				{
 					return false;
 				}
-				iterator.MoveNext();
+				return true;
 			}
-			return p.Position.Roofed(p.Map) || p.Map.weatherManager.RainRate <= 0.25f;
+			return false;
 		}
 
 		public static bool ShouldTrashBuilding(Pawn pawn, Building b)
@@ -44,12 +47,24 @@ namespace RimWorld
 					return false;
 				}
 			}
-			return (!b.def.building.isTrap || !((Building_Trap)b).Armed) && TrashUtility.CanTrash(pawn, b) && pawn.HostileTo(b);
+			if (b.def.building.isTrap && ((Building_Trap)b).Armed)
+			{
+				return false;
+			}
+			if (TrashUtility.CanTrash(pawn, b) && pawn.HostileTo(b))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private static bool CanTrash(Pawn pawn, Thing t)
 		{
-			return pawn.CanReach(t, PathEndMode.Touch, Danger.Some, false, TraverseMode.ByPawn) && !t.IsBurning();
+			if (pawn.CanReach(t, PathEndMode.Touch, Danger.Some, false, TraverseMode.ByPawn) && !t.IsBurning())
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static Job TrashJob(Pawn pawn, Thing t)
@@ -61,29 +76,22 @@ namespace RimWorld
 				TrashUtility.FinalizeTrashJob(job);
 				return job;
 			}
-			if (pawn.equipment != null && Rand.Value < 0.7f)
+			if (pawn.equipment != null && Rand.Value < 0.699999988079071)
 			{
-				foreach (Verb current in pawn.equipment.AllEquipmentVerbs)
+				foreach (Verb allEquipmentVerb in pawn.equipment.AllEquipmentVerbs)
 				{
-					if (current.verbProps.ai_IsBuildingDestroyer)
+					if (allEquipmentVerb.verbProps.ai_IsBuildingDestroyer)
 					{
 						Job job2 = new Job(JobDefOf.UseVerbOnThing, t);
-						job2.verbToUse = current;
+						job2.verbToUse = allEquipmentVerb;
 						TrashUtility.FinalizeTrashJob(job2);
 						return job2;
 					}
 				}
 			}
+			Job job3 = null;
 			float value = Rand.Value;
-			Job job3;
-			if (value < 0.35f && pawn.natives.IgniteVerb != null && t.FlammableNow && !t.IsBurning() && !(t is Building_Door))
-			{
-				job3 = new Job(JobDefOf.Ignite, t);
-			}
-			else
-			{
-				job3 = new Job(JobDefOf.AttackMelee, t);
-			}
+			job3 = ((!(value < 0.34999999403953552) || pawn.natives.IgniteVerb == null || !t.FlammableNow || t.IsBurning() || t is Building_Door) ? new Job(JobDefOf.AttackMelee, t) : new Job(JobDefOf.Ignite, t));
 			TrashUtility.FinalizeTrashJob(job3);
 			return job3;
 		}

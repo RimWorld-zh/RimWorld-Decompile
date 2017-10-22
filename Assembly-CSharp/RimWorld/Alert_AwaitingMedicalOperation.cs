@@ -20,22 +20,22 @@ namespace RimWorld
 
 		public override string GetLabel()
 		{
-			return string.Format("PatientsAwaitingMedicalOperation".Translate(), this.AwaitingMedicalOperation.Count<Pawn>().ToStringCached());
+			return string.Format("PatientsAwaitingMedicalOperation".Translate(), this.AwaitingMedicalOperation.Count().ToStringCached());
 		}
 
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (Pawn current in this.AwaitingMedicalOperation)
+			foreach (Pawn item in this.AwaitingMedicalOperation)
 			{
-				stringBuilder.AppendLine("    " + current.NameStringShort);
+				stringBuilder.AppendLine("    " + item.NameStringShort);
 			}
 			return string.Format("PatientsAwaitingMedicalOperationDesc".Translate(), stringBuilder.ToString());
 		}
 
 		public override AlertReport GetReport()
 		{
-			return this.AwaitingMedicalOperation.FirstOrDefault<Pawn>();
+			return (Thing)this.AwaitingMedicalOperation.FirstOrDefault();
 		}
 	}
 }

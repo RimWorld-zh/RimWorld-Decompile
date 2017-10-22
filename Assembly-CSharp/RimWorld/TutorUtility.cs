@@ -29,14 +29,14 @@ namespace RimWorld
 			return false;
 		}
 
-		public static CellRect FindUsableRect(int width, int height, Map map, float minFertility = 0f, bool noItems = false)
+		public static CellRect FindUsableRect(int width, int height, Map map, float minFertility = 0, bool noItems = false)
 		{
 			IntVec3 center = map.Center;
 			float num = 1f;
 			CellRect cellRect;
 			while (true)
 			{
-				IntVec3 center2 = center + new IntVec3((int)Rand.Range(-num, num), 0, (int)Rand.Range(-num, num));
+				IntVec3 center2 = center + new IntVec3((int)Rand.Range((float)(0.0 - num), num), 0, (int)Rand.Range((float)(0.0 - num), num));
 				cellRect = CellRect.CenteredOn(center2, width / 2);
 				cellRect.Width = width;
 				cellRect.Height = height;
@@ -46,18 +46,20 @@ namespace RimWorld
 				while (!iterator.Done())
 				{
 					IntVec3 current = iterator.Current;
-					if (current.Fogged(map) || !current.Walkable(map) || !current.GetTerrain(map).affordances.Contains(TerrainAffordance.Heavy) || current.GetTerrain(map).fertility < minFertility || current.GetZone(map) != null || TutorUtility.ContainsBlockingThing(current, map, noItems) || current.InNoBuildEdgeArea(map) || current.InNoZoneEdgeArea(map))
+					if (!current.Fogged(map) && current.Walkable(map) && current.GetTerrain(map).affordances.Contains(TerrainAffordance.Heavy) && !(current.GetTerrain(map).fertility < minFertility) && current.GetZone(map) == null && !TutorUtility.ContainsBlockingThing(current, map, noItems) && !current.InNoBuildEdgeArea(map) && !current.InNoZoneEdgeArea(map))
 					{
-						flag = false;
-						break;
+						iterator.MoveNext();
+						continue;
 					}
-					iterator.MoveNext();
-				}
-				if (flag)
-				{
+					flag = false;
 					break;
 				}
-				num += 0.25f;
+				if (!flag)
+				{
+					num = (float)(num + 0.25);
+					continue;
+				}
+				break;
 			}
 			return cellRect.ContractedBy(1);
 		}
@@ -87,7 +89,7 @@ namespace RimWorld
 		{
 			Vector2 vector = (t.DrawPos + new Vector3(0f, 0f, 0.5f)).MapToUIPosition();
 			Vector2 vector2 = Text.CalcSize(label);
-			Rect rect = new Rect(vector.x - vector2.x / 2f, vector.y - vector2.y / 2f, vector2.x, vector2.y);
+			Rect rect = new Rect((float)(vector.x - vector2.x / 2.0), (float)(vector.y - vector2.y / 2.0), vector2.x, vector2.y);
 			GUI.DrawTexture(rect, TexUI.GrayTextBG);
 			Text.Font = GameFont.Tiny;
 			Text.Anchor = TextAnchor.MiddleCenter;
@@ -99,7 +101,7 @@ namespace RimWorld
 		{
 			Vector2 vector = mapPos.MapToUIPosition();
 			Vector2 vector2 = Text.CalcSize(label);
-			Rect rect = new Rect(vector.x - vector2.x / 2f, vector.y - vector2.y / 2f, vector2.x, vector2.y);
+			Rect rect = new Rect((float)(vector.x - vector2.x / 2.0), (float)(vector.y - vector2.y / 2.0), vector2.x, vector2.y);
 			GUI.DrawTexture(rect, TexUI.GrayTextBG);
 			Text.Font = GameFont.Tiny;
 			Text.Anchor = TextAnchor.MiddleCenter;
@@ -131,7 +133,7 @@ namespace RimWorld
 			if (!PlayerKnowledgeDatabase.IsComplete(conc))
 			{
 				string helpTextAdjusted = conc.HelpTextAdjusted;
-				Find.WindowStack.Add(new Dialog_MessageBox(helpTextAdjusted, null, null, null, null, null, false));
+				Find.WindowStack.Add(new Dialog_MessageBox(helpTextAdjusted, (string)null, null, (string)null, null, (string)null, false));
 				PlayerKnowledgeDatabase.KnowledgeDemonstrated(conc, KnowledgeAmount.Total);
 			}
 		}
@@ -147,9 +149,9 @@ namespace RimWorld
 				return false;
 			}
 			int num = 0;
-			foreach (IntVec3 current in ep.Cells)
+			foreach (IntVec3 cell in ep.Cells)
 			{
-				if (!targetCells.Contains(current))
+				if (!targetCells.Contains(cell))
 				{
 					return false;
 				}
@@ -164,7 +166,11 @@ namespace RimWorld
 			{
 				return targetCells.Contains(ep.Cell);
 			}
-			return ep.Cells != null && !ep.Cells.Any((IntVec3 c) => !targetCells.Contains(c));
+			if (ep.Cells != null)
+			{
+				return !ep.Cells.Any((Func<IntVec3, bool>)((IntVec3 c) => !targetCells.Contains(c)));
+			}
+			return false;
 		}
 	}
 }

@@ -33,11 +33,11 @@ namespace Verse.AI
 		{
 			get
 			{
-				ThinkNode.<>c__Iterator55 <>c__Iterator = new ThinkNode.<>c__Iterator55();
-				<>c__Iterator.<>f__this = this;
-				ThinkNode.<>c__Iterator55 expr_0E = <>c__Iterator;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				yield return this;
+				foreach (ThinkNode item in this.ChildrenRecursive)
+				{
+					yield return item;
+				}
 			}
 		}
 
@@ -45,17 +45,19 @@ namespace Verse.AI
 		{
 			get
 			{
-				ThinkNode.<>c__Iterator56 <>c__Iterator = new ThinkNode.<>c__Iterator56();
-				<>c__Iterator.<>f__this = this;
-				ThinkNode.<>c__Iterator56 expr_0E = <>c__Iterator;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				for (int i = 0; i < this.subNodes.Count; i++)
+				{
+					foreach (ThinkNode item in this.subNodes[i].ThisAndChildrenRecursive)
+					{
+						yield return item;
+					}
+				}
 			}
 		}
 
 		public virtual float GetPriority(Pawn pawn)
 		{
-			if (this.priority < 0f)
+			if (this.priority < 0.0)
 			{
 				Log.ErrorOnce("ThinkNode_PrioritySorter has child node which didn't give a priority: " + this, this.GetHashCode());
 				return 0f;
@@ -71,14 +73,13 @@ namespace Verse.AI
 
 		public void ResolveSubnodesAndRecur()
 		{
-			if (this.uniqueSaveKeyInt != -2)
+			if (this.uniqueSaveKeyInt == -2)
 			{
-				return;
-			}
-			this.ResolveSubnodes();
-			for (int i = 0; i < this.subNodes.Count; i++)
-			{
-				this.subNodes[i].ResolveSubnodesAndRecur();
+				this.ResolveSubnodes();
+				for (int i = 0; i < this.subNodes.Count; i++)
+				{
+					this.subNodes[i].ResolveSubnodesAndRecur();
+				}
 			}
 		}
 

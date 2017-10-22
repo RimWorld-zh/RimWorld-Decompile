@@ -42,9 +42,9 @@ namespace Verse.Sound
 
 		public void SustainerManagerUpdate()
 		{
-			for (int i = this.allSustainers.Count - 1; i >= 0; i--)
+			for (int num = this.allSustainers.Count - 1; num >= 0; num--)
 			{
-				this.allSustainers[i].SustainerUpdate();
+				this.allSustainers[num].SustainerUpdate();
 			}
 			this.UpdateAllSustainerScopes();
 		}
@@ -66,49 +66,65 @@ namespace Verse.Sound
 					SustainerManager.playingPerDef[sustainer.def].Add(sustainer);
 				}
 			}
-			foreach (KeyValuePair<SoundDef, List<Sustainer>> current in SustainerManager.playingPerDef)
+			Dictionary<SoundDef, List<Sustainer>>.Enumerator enumerator = SustainerManager.playingPerDef.GetEnumerator();
+			try
 			{
-				SoundDef key = current.Key;
-				List<Sustainer> value = current.Value;
-				int num = value.Count - key.maxVoices;
-				if (num < 0)
+				while (enumerator.MoveNext())
 				{
-					for (int j = 0; j < value.Count; j++)
+					KeyValuePair<SoundDef, List<Sustainer>> current = enumerator.Current;
+					SoundDef key = current.Key;
+					List<Sustainer> value = current.Value;
+					int num = value.Count - key.maxVoices;
+					if (num < 0)
 					{
-						value[j].scopeFader.inScope = true;
-					}
-				}
-				else
-				{
-					for (int k = 0; k < value.Count; k++)
-					{
-						value[k].scopeFader.inScope = false;
-					}
-					int num2 = 0;
-					foreach (Sustainer current2 in from lo in value
-					orderby lo.CameraDistanceSquared
-					select lo)
-					{
-						current2.scopeFader.inScope = true;
-						num2++;
-						if (num2 >= key.maxVoices)
+						for (int j = 0; j < value.Count; j++)
 						{
-							break;
+							value[j].scopeFader.inScope = true;
 						}
 					}
-					for (int l = 0; l < value.Count; l++)
+					else
 					{
-						if (!value[l].scopeFader.inScope)
+						for (int k = 0; k < value.Count; k++)
 						{
-							value[l].scopeFader.inScopePercent = 0f;
+							value[k].scopeFader.inScope = false;
+						}
+						int num2 = 0;
+						foreach (Sustainer item in from lo in value
+						orderby lo.CameraDistanceSquared
+						select lo)
+						{
+							item.scopeFader.inScope = true;
+							num2++;
+							if (num2 >= key.maxVoices)
+								break;
+						}
+						for (int l = 0; l < value.Count; l++)
+						{
+							if (!value[l].scopeFader.inScope)
+							{
+								value[l].scopeFader.inScopePercent = 0f;
+							}
 						}
 					}
 				}
 			}
-			foreach (KeyValuePair<SoundDef, List<Sustainer>> current3 in SustainerManager.playingPerDef)
+			finally
 			{
-				current3.Value.Clear();
-				SimplePool<List<Sustainer>>.Return(current3.Value);
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			Dictionary<SoundDef, List<Sustainer>>.Enumerator enumerator3 = SustainerManager.playingPerDef.GetEnumerator();
+			try
+			{
+				while (enumerator3.MoveNext())
+				{
+					KeyValuePair<SoundDef, List<Sustainer>> current3 = enumerator3.Current;
+					current3.Value.Clear();
+					SimplePool<List<Sustainer>>.Return(current3.Value);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator3).Dispose();
 			}
 			SustainerManager.playingPerDef.Clear();
 			ProfilerThreadCheck.EndSample();
@@ -116,7 +132,7 @@ namespace Verse.Sound
 
 		public void RemoveAllFromMap(Map map)
 		{
-			this.allSustainers.RemoveAll((Sustainer sustainer) => sustainer.info.Maker.Map == map);
+			this.allSustainers.RemoveAll((Predicate<Sustainer>)((Sustainer sustainer) => sustainer.info.Maker.Map == map));
 		}
 	}
 }

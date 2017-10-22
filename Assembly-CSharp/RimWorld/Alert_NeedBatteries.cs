@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -8,8 +7,8 @@ namespace RimWorld
 	{
 		public Alert_NeedBatteries()
 		{
-			this.defaultLabel = "NeedBatteries".Translate();
-			this.defaultExplanation = "NeedBatteriesDesc".Translate();
+			base.defaultLabel = "NeedBatteries".Translate();
+			base.defaultExplanation = "NeedBatteriesDesc".Translate();
 		}
 
 		public override AlertReport GetReport()
@@ -27,7 +26,23 @@ namespace RimWorld
 
 		private bool NeedBatteries(Map map)
 		{
-			return map.IsPlayerHome && !map.listerBuildings.ColonistsHaveBuilding(ThingDefOf.Battery) && (map.listerBuildings.ColonistsHaveBuilding(ThingDefOf.SolarGenerator) || map.listerBuildings.ColonistsHaveBuilding(ThingDefOf.WindTurbine)) && !map.listerBuildings.ColonistsHaveBuilding(ThingDefOf.GeothermalGenerator);
+			if (!map.IsPlayerHome)
+			{
+				return false;
+			}
+			if (map.listerBuildings.ColonistsHaveBuilding(ThingDefOf.Battery))
+			{
+				return false;
+			}
+			if (!map.listerBuildings.ColonistsHaveBuilding(ThingDefOf.SolarGenerator) && !map.listerBuildings.ColonistsHaveBuilding(ThingDefOf.WindTurbine))
+			{
+				return false;
+			}
+			if (map.listerBuildings.ColonistsHaveBuilding(ThingDefOf.GeothermalGenerator))
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

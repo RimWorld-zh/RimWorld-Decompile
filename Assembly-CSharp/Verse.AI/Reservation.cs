@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse.AI
 {
@@ -87,18 +86,7 @@ namespace Verse.AI
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				(this.claimant == null) ? "null" : this.claimant.LabelShort,
-				", ",
-				this.target.ToString(),
-				", ",
-				this.layer.ToString(),
-				", ",
-				this.maxPawns,
-				", ",
-				this.stackCount
-			});
+			return ((this.claimant == null) ? "null" : this.claimant.LabelShort) + ", " + this.target.ToString() + ", " + this.layer.ToString() + ", " + this.maxPawns + ", " + this.stackCount;
 		}
 	}
 }

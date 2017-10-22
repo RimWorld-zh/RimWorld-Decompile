@@ -1,4 +1,3 @@
-using System;
 using Verse.AI;
 
 namespace Verse
@@ -15,8 +14,15 @@ namespace Verse
 			switch (peMode)
 			{
 			case PathEndMode.None:
+			{
 				return false;
+			}
+			case PathEndMode.Touch:
+			{
+				return true;
+			}
 			case PathEndMode.OnCell:
+			{
 				if (thing.def.size.x == 1 && thing.def.size.z == 1)
 				{
 					if (thing.Position.GetRegion(map, RegionType.Set_Passable) == region)
@@ -37,13 +43,21 @@ namespace Verse
 					}
 				}
 				return false;
-			case PathEndMode.Touch:
-				return true;
-			case PathEndMode.InteractionCell:
-				return thing.InteractionCell.GetRegion(map, RegionType.Set_Passable) == region;
 			}
-			Log.Error("Unsupported PathEndMode: " + peMode);
-			return false;
+			case PathEndMode.InteractionCell:
+			{
+				if (thing.InteractionCell.GetRegion(map, RegionType.Set_Passable) == region)
+				{
+					return true;
+				}
+				return false;
+			}
+			default:
+			{
+				Log.Error("Unsupported PathEndMode: " + peMode);
+				return false;
+			}
+			}
 		}
 	}
 }

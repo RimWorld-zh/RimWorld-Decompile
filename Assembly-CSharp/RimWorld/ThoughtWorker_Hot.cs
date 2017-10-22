@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -10,19 +9,19 @@ namespace RimWorld
 			float statValue = p.GetStatValue(StatDefOf.ComfyTemperatureMax, true);
 			float ambientTemperature = p.AmbientTemperature;
 			float num = ambientTemperature - statValue;
-			if (num <= 0f)
+			if (num <= 0.0)
 			{
 				return ThoughtState.Inactive;
 			}
-			if (num < 10f)
+			if (num < 10.0)
 			{
 				return ThoughtState.ActiveAtStage(0);
 			}
-			if (num < 20f)
+			if (num < 20.0)
 			{
 				return ThoughtState.ActiveAtStage(1);
 			}
-			if (num < 30f)
+			if (num < 30.0)
 			{
 				return ThoughtState.ActiveAtStage(2);
 			}

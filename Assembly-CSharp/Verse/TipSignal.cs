@@ -59,14 +59,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"Tip(",
-				this.text,
-				", ",
-				this.uniqueId,
-				")"
-			});
+			return "Tip(" + this.text + ", " + this.uniqueId + ")";
 		}
 
 		public static implicit operator TipSignal(string str)

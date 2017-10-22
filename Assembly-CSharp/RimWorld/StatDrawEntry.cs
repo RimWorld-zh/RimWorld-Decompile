@@ -31,7 +31,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.stat == null || !Mathf.Approximately(this.value, this.stat.hideAtValue);
+				if (this.stat != null)
+				{
+					return !Mathf.Approximately(this.value, this.stat.hideAtValue);
+				}
+				return true;
 			}
 		}
 
@@ -79,9 +83,9 @@ namespace RimWorld
 		{
 			this.category = category;
 			this.stat = stat;
-			this.labelInt = null;
+			this.labelInt = (string)null;
 			this.value = value;
-			this.valueStringInt = null;
+			this.valueStringInt = (string)null;
 			this.displayOrderWithinCategory = 0;
 			this.optionalReq = optionalReq;
 			this.hasOptionalReq = true;
@@ -131,7 +135,7 @@ namespace RimWorld
 
 		public float Draw(float x, float y, float width, bool selected, Action clickedCallback)
 		{
-			float num = width * 0.45f;
+			float num = (float)(width * 0.44999998807907104);
 			Rect rect = new Rect(8f, y, width, Text.CalcHeight(this.ValueString, num));
 			if (selected)
 			{
@@ -151,7 +155,7 @@ namespace RimWorld
 			if (this.stat != null)
 			{
 				StatDef localStat = this.stat;
-				TooltipHandler.TipRegion(rect, new TipSignal(() => localStat.LabelCap + ": " + localStat.description, this.stat.GetHashCode()));
+				TooltipHandler.TipRegion(rect, new TipSignal((Func<string>)(() => localStat.LabelCap + ": " + localStat.description), this.stat.GetHashCode()));
 			}
 			if (Widgets.ButtonInvisible(rect, false))
 			{
@@ -162,14 +166,7 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			return string.Concat(new string[]
-			{
-				"(",
-				this.LabelCap,
-				": ",
-				this.ValueString,
-				")"
-			});
+			return "(" + this.LabelCap + ": " + this.ValueString + ")";
 		}
 	}
 }

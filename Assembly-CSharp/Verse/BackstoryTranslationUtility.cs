@@ -1,36 +1,56 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace Verse
 {
 	public static class BackstoryTranslationUtility
 	{
-		[DebuggerHidden]
 		private static IEnumerable<XElement> BackstoryTranslationElements(LoadedLanguage lang)
 		{
-			BackstoryTranslationUtility.<BackstoryTranslationElements>c__Iterator1ED <BackstoryTranslationElements>c__Iterator1ED = new BackstoryTranslationUtility.<BackstoryTranslationElements>c__Iterator1ED();
-			<BackstoryTranslationElements>c__Iterator1ED.lang = lang;
-			<BackstoryTranslationElements>c__Iterator1ED.<$>lang = lang;
-			BackstoryTranslationUtility.<BackstoryTranslationElements>c__Iterator1ED expr_15 = <BackstoryTranslationElements>c__Iterator1ED;
-			expr_15.$PC = -2;
-			return expr_15;
+			foreach (string folderPath2 in lang.FolderPaths)
+			{
+				string _ = folderPath2;
+				FileInfo fi = new FileInfo(Path.Combine(folderPath2.ToString(), "Backstories/Backstories.xml"));
+				if (fi.Exists)
+				{
+					XDocument doc;
+					try
+					{
+						doc = XDocument.Load(fi.FullName);
+					}
+					catch (Exception ex)
+					{
+						Exception e;
+						Exception ex2 = e = ex;
+						Log.Warning("Exception loading backstory translation data from file " + fi + ": " + e);
+						yield break;
+					}
+					foreach (XElement item in doc.Root.Elements())
+					{
+						yield return item;
+					}
+					continue;
+				}
+				break;
+			}
 		}
 
 		public static void LoadAndInjectBackstoryData(LoadedLanguage lang)
 		{
-			foreach (XElement current in BackstoryTranslationUtility.BackstoryTranslationElements(lang))
+			foreach (XElement item in BackstoryTranslationUtility.BackstoryTranslationElements(lang))
 			{
 				string text = "[unknown]";
 				try
 				{
-					text = current.Name.ToString();
-					string value = current.Element("title").Value;
-					string value2 = current.Element("titleShort").Value;
-					string value3 = current.Element("desc").Value;
-					Backstory backstory;
+					text = item.Name.ToString();
+					string value = item.Element("title").Value;
+					string value2 = item.Element("titleShort").Value;
+					string value3 = item.Element("desc").Value;
+					Backstory backstory = default(Backstory);
 					if (!BackstoryDatabase.TryGetWithIdentifier(text, out backstory))
 					{
 						throw new Exception("Backstory not found matching identifier " + text);
@@ -57,28 +77,55 @@ namespace Verse
 				}
 				catch (Exception ex)
 				{
-					Log.Warning(string.Concat(new object[]
-					{
-						"Couldn't load backstory ",
-						text,
-						": ",
-						ex,
-						"\nFull XML text:\n\n",
-						current.ToString()
-					}));
+					Log.Warning("Couldn't load backstory " + text + ": " + ex + "\nFull XML text:\n\n" + item.ToString());
 				}
 			}
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<string> MissingBackstoryTranslations(LoadedLanguage lang)
 		{
-			BackstoryTranslationUtility.<MissingBackstoryTranslations>c__Iterator1EE <MissingBackstoryTranslations>c__Iterator1EE = new BackstoryTranslationUtility.<MissingBackstoryTranslations>c__Iterator1EE();
-			<MissingBackstoryTranslations>c__Iterator1EE.lang = lang;
-			<MissingBackstoryTranslations>c__Iterator1EE.<$>lang = lang;
-			BackstoryTranslationUtility.<MissingBackstoryTranslations>c__Iterator1EE expr_15 = <MissingBackstoryTranslations>c__Iterator1EE;
-			expr_15.$PC = -2;
-			return expr_15;
+			List<string> neededTranslations = (from kvp in BackstoryDatabase.allBackstories
+			select kvp.Key).ToList();
+			foreach (XElement item in BackstoryTranslationUtility.BackstoryTranslationElements(lang))
+			{
+				string identifier = item.Name.ToString();
+				if (neededTranslations.Contains(identifier))
+				{
+					neededTranslations.Remove(identifier);
+					string title = item.Element("title").Value;
+					string titleShort = item.Element("titleShort").Value;
+					string desc = item.Element("desc").Value;
+					if (title.NullOrEmpty())
+					{
+						yield return identifier + ".title missing";
+					}
+					if (titleShort.NullOrEmpty())
+					{
+						yield return identifier + ".titleShort missing";
+					}
+					if (desc.NullOrEmpty())
+					{
+						yield return identifier + ".desc missing";
+					}
+				}
+				else
+				{
+					yield return "Translation doesn't correspond to any backstory: " + identifier;
+				}
+			}
+			List<string>.Enumerator enumerator2 = neededTranslations.GetEnumerator();
+			try
+			{
+				while (enumerator2.MoveNext())
+				{
+					string tra = enumerator2.Current;
+					yield return "Missing backstory: " + tra;
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
+			}
 		}
 	}
 }

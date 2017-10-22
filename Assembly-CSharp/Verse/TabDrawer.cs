@@ -20,22 +20,22 @@ namespace Verse
 		public static TabRecord DrawTabs(Rect baseRect, IEnumerable<TabRecord> tabsEnum)
 		{
 			TabDrawer.tabList.Clear();
-			foreach (TabRecord current in tabsEnum)
+			foreach (TabRecord item in tabsEnum)
 			{
-				TabDrawer.tabList.Add(current);
+				TabDrawer.tabList.Add(item);
 			}
 			TabRecord tabRecord = null;
 			TabRecord tabRecord2 = (from t in TabDrawer.tabList
 			where t.selected
-			select t).FirstOrDefault<TabRecord>();
+			select t).FirstOrDefault();
 			if (tabRecord2 == null)
 			{
 				Log.ErrorOnce("Drew tabs without any being selected.", 5509712);
 				return TabDrawer.tabList[0];
 			}
-			float num = baseRect.width + (float)(TabDrawer.tabList.Count - 1) * 10f;
+			float num = (float)(baseRect.width + (float)(TabDrawer.tabList.Count - 1) * 10.0);
 			float tabWidth = num / (float)TabDrawer.tabList.Count;
-			if (tabWidth > 200f)
+			if (tabWidth > 200.0)
 			{
 				tabWidth = 200f;
 			}
@@ -45,17 +45,17 @@ namespace Verse
 			GUI.BeginGroup(position);
 			Text.Anchor = TextAnchor.MiddleCenter;
 			Text.Font = GameFont.Small;
-			Func<TabRecord, Rect> func = delegate(TabRecord tab)
+			Func<TabRecord, Rect> func = (Func<TabRecord, Rect>)delegate(TabRecord tab)
 			{
 				int num2 = TabDrawer.tabList.IndexOf(tab);
-				float x = (float)num2 * (tabWidth - 10f);
+				float x = (float)((float)num2 * (tabWidth - 10.0));
 				return new Rect(x, 1f, tabWidth, 32f);
 			};
-			List<TabRecord> list = TabDrawer.tabList.ListFullCopy<TabRecord>();
+			List<TabRecord> list = TabDrawer.tabList.ListFullCopy();
 			list.Remove(tabRecord2);
 			list.Add(tabRecord2);
 			TabRecord tabRecord3 = null;
-			List<TabRecord> list2 = list.ListFullCopy<TabRecord>();
+			List<TabRecord> list2 = list.ListFullCopy();
 			list2.Reverse();
 			for (int i = 0; i < list2.Count; i++)
 			{
@@ -71,17 +71,26 @@ namespace Verse
 					tabRecord = tabRecord4;
 				}
 			}
-			foreach (TabRecord current2 in list)
+			List<TabRecord>.Enumerator enumerator2 = list.GetEnumerator();
+			try
 			{
-				Rect rect2 = func(current2);
-				current2.Draw(rect2);
+				while (enumerator2.MoveNext())
+				{
+					TabRecord current2 = enumerator2.Current;
+					Rect rect2 = func(current2);
+					current2.Draw(rect2);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
 			}
 			Text.Anchor = TextAnchor.UpperLeft;
 			GUI.EndGroup();
 			if (tabRecord != null && tabRecord != tabRecord2)
 			{
 				SoundDefOf.RowTabSelect.PlayOneShotOnCamera(null);
-				if (tabRecord.clickedAction != null)
+				if ((object)tabRecord.clickedAction != null)
 				{
 					tabRecord.clickedAction();
 				}

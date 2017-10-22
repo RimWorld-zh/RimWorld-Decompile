@@ -46,11 +46,11 @@ namespace Verse.AI
 		{
 			get
 			{
-				return new ThinkResult(null, null, null);
+				return new ThinkResult(null, null, default(JobTag?));
 			}
 		}
 
-		public ThinkResult(Job job, ThinkNode sourceNode, JobTag? tag = null)
+		public ThinkResult(Job job, ThinkNode sourceNode, JobTag? tag = default(JobTag?))
 		{
 			this.jobInt = job;
 			this.sourceNodeInt = sourceNode;
@@ -61,44 +61,41 @@ namespace Verse.AI
 		{
 			string text = (this.Job == null) ? "null" : this.Job.ToString();
 			string text2 = (this.SourceNode == null) ? "null" : this.SourceNode.ToString();
-			return string.Concat(new string[]
-			{
-				"(job=",
-				text,
-				" sourceNode=",
-				text2,
-				")"
-			});
+			return "(job=" + text + " sourceNode=" + text2 + ")";
 		}
 
 		public override int GetHashCode()
 		{
 			int seed = 0;
-			seed = Gen.HashCombine<Job>(seed, this.jobInt);
-			seed = Gen.HashCombine<ThinkNode>(seed, this.sourceNodeInt);
-			return Gen.HashCombine<JobTag?>(seed, this.tag);
+			seed = Gen.HashCombine(seed, this.jobInt);
+			seed = Gen.HashCombine(seed, this.sourceNodeInt);
+			return Gen.HashCombine(seed, this.tag);
 		}
 
 		public override bool Equals(object obj)
 		{
-			return obj is ThinkResult && this.Equals((ThinkResult)obj);
+			if (!(obj is ThinkResult))
+			{
+				return false;
+			}
+			return this.Equals((ThinkResult)obj);
 		}
 
 		public bool Equals(ThinkResult other)
 		{
-			bool arg_59_0;
+			int result;
 			if (this.jobInt == other.jobInt && this.sourceNodeInt == other.sourceNodeInt)
 			{
-				JobTag? jobTag = this.tag;
-				JobTag arg_41_0 = jobTag.GetValueOrDefault();
-				JobTag? jobTag2 = other.tag;
-				arg_59_0 = (arg_41_0 == jobTag2.GetValueOrDefault() && jobTag.HasValue == jobTag2.HasValue);
+				JobTag? nullable = this.tag;
+				JobTag valueOrDefault = nullable.GetValueOrDefault();
+				JobTag? nullable2 = other.tag;
+				result = ((valueOrDefault == nullable2.GetValueOrDefault() && nullable.HasValue == nullable2.HasValue) ? 1 : 0);
 			}
 			else
 			{
-				arg_59_0 = false;
+				result = 0;
 			}
-			return arg_59_0;
+			return (byte)result != 0;
 		}
 
 		public static bool operator ==(ThinkResult lhs, ThinkResult rhs)

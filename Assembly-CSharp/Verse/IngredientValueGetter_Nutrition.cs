@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class IngredientValueGetter_Nutrition : IngredientValueGetter
@@ -15,10 +13,7 @@ namespace Verse
 
 		public override string BillRequirementsDescription(RecipeDef r, IngredientCount ing)
 		{
-			return "BillRequiresNutrition".Translate(new object[]
-			{
-				ing.GetBaseCount()
-			}) + " (" + ing.filter.Summary + ")";
+			return "BillRequiresNutrition".Translate(ing.GetBaseCount()) + " (" + ing.filter.Summary + ")";
 		}
 	}
 }

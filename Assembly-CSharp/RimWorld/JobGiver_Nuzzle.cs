@@ -12,23 +12,22 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			if (pawn.RaceProps.nuzzleMtbHours <= 0f)
+			if (pawn.RaceProps.nuzzleMtbHours <= 0.0)
 			{
 				return null;
 			}
 			List<Pawn> source = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
-			Pawn t;
+			Pawn t = default(Pawn);
 			if (!(from p in source
 			where p.RaceProps.Humanlike && p.Position.InHorDistOf(pawn.Position, 15f) && pawn.GetRoom(RegionType.Set_Passable) == p.GetRoom(RegionType.Set_Passable) && !p.Position.IsForbidden(pawn) && p.CanCasuallyInteractNow(false)
-			select p).TryRandomElement(out t))
+			select p).TryRandomElement<Pawn>(out t))
 			{
 				return null;
 			}
-			return new Job(JobDefOf.Nuzzle, t)
-			{
-				locomotionUrgency = LocomotionUrgency.Walk,
-				expiryInterval = 3000
-			};
+			Job job = new Job(JobDefOf.Nuzzle, (Thing)t);
+			job.locomotionUrgency = LocomotionUrgency.Walk;
+			job.expiryInterval = 3000;
+			return job;
 		}
 	}
 }

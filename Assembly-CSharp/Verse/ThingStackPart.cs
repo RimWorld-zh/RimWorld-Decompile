@@ -28,26 +28,12 @@ namespace Verse
 		{
 			if (count < 0)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Tried to set ThingStackPart stack count to ",
-					count,
-					". thing=",
-					thing
-				}));
+				Log.Warning("Tried to set ThingStackPart stack count to " + count + ". thing=" + thing);
 				count = 0;
 			}
 			if (count > thing.stackCount)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Tried to set ThingStackPart stack count to ",
-					count,
-					", but thing's stack count is only ",
-					thing.stackCount,
-					". thing=",
-					thing
-				}));
+				Log.Warning("Tried to set ThingStackPart stack count to " + count + ", but thing's stack count is only " + thing.stackCount + ". thing=" + thing);
 				count = thing.stackCount;
 			}
 			this.thing = thing;
@@ -61,7 +47,11 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			return obj is ThingStackPart && this.Equals((ThingStackPart)obj);
+			if (!(obj is ThingStackPart))
+			{
+				return false;
+			}
+			return this.Equals((ThingStackPart)obj);
 		}
 
 		public bool Equals(ThingStackPart other)
@@ -71,7 +61,7 @@ namespace Verse
 
 		public override int GetHashCode()
 		{
-			return Gen.HashCombine<Thing>(this.count, this.thing);
+			return Gen.HashCombine(this.count, this.thing);
 		}
 
 		public static bool operator ==(ThingStackPart a, ThingStackPart b)

@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -152,13 +151,7 @@ namespace Verse
 					for (int i = 0; i < this.skillRequirements.Count; i++)
 					{
 						SkillRequirement skillRequirement = this.skillRequirements[i];
-						stringBuilder.AppendLine(string.Concat(new object[]
-						{
-							"   ",
-							skillRequirement.skill.skillLabel,
-							": ",
-							skillRequirement.minLevel
-						}));
+						stringBuilder.AppendLine("   " + skillRequirement.skill.skillLabel + ": " + skillRequirement.minLevel);
 						flag = true;
 					}
 				}
@@ -174,11 +167,18 @@ namespace Verse
 		{
 			get
 			{
-				RecipeDef.<>c__Iterator1D6 <>c__Iterator1D = new RecipeDef.<>c__Iterator1D6();
-				<>c__Iterator1D.<>f__this = this;
-				RecipeDef.<>c__Iterator1D6 expr_0E = <>c__Iterator1D;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				for (int j = 0; j < this.recipeUsers.Count; j++)
+				{
+					yield return this.recipeUsers[j];
+				}
+				List<ThingDef> thingDefs = DefDatabase<ThingDef>.AllDefsListForReading;
+				for (int i = 0; i < thingDefs.Count; i++)
+				{
+					if (thingDefs[i].recipes != null && thingDefs[i].recipes.Contains(this))
+					{
+						yield return thingDefs[i];
+					}
+				}
 			}
 		}
 
@@ -192,25 +192,47 @@ namespace Verse
 
 		public float WorkAmountTotal(ThingDef stuffDef)
 		{
-			if (this.workAmount >= 0f)
+			if (this.workAmount >= 0.0)
 			{
 				return this.workAmount;
 			}
 			return this.products[0].thingDef.GetStatValueAbstract(StatDefOf.WorkToMake, stuffDef);
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<ThingDef> PotentiallyMissingIngredients(Pawn billDoer, Map map)
 		{
-			RecipeDef.<PotentiallyMissingIngredients>c__Iterator1D7 <PotentiallyMissingIngredients>c__Iterator1D = new RecipeDef.<PotentiallyMissingIngredients>c__Iterator1D7();
-			<PotentiallyMissingIngredients>c__Iterator1D.map = map;
-			<PotentiallyMissingIngredients>c__Iterator1D.billDoer = billDoer;
-			<PotentiallyMissingIngredients>c__Iterator1D.<$>map = map;
-			<PotentiallyMissingIngredients>c__Iterator1D.<$>billDoer = billDoer;
-			<PotentiallyMissingIngredients>c__Iterator1D.<>f__this = this;
-			RecipeDef.<PotentiallyMissingIngredients>c__Iterator1D7 expr_2A = <PotentiallyMissingIngredients>c__Iterator1D;
-			expr_2A.$PC = -2;
-			return expr_2A;
+			for (int j = 0; j < this.ingredients.Count; j++)
+			{
+				IngredientCount ing = this.ingredients[j];
+				bool foundIng = false;
+				List<Thing> thingList = map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver);
+				for (int i = 0; i < thingList.Count; i++)
+				{
+					Thing t = thingList[i];
+					if ((billDoer == null || !t.IsForbidden(billDoer)) && !t.Position.Fogged(map) && (ing.IsFixedIngredient || this.fixedIngredientFilter.Allows(t)) && ing.filter.Allows(t))
+					{
+						foundIng = true;
+						break;
+					}
+				}
+				if (!foundIng)
+				{
+					if (ing.IsFixedIngredient)
+					{
+						yield return ing.filter.AllowedThingDefs.First();
+					}
+					else
+					{
+						ThingDef def = (from x in ing.filter.AllowedThingDefs
+						orderby x.BaseMarketValue
+						select x).FirstOrDefault((Func<ThingDef, bool>)((ThingDef x) => ((_003CPotentiallyMissingIngredients_003Ec__Iterator1D7)/*Error near IL_01ba: stateMachine*/)._003C_003Ef__this.fixedIngredientFilter.Allows(x)));
+						if (def != null)
+						{
+							yield return def;
+						}
+					}
+				}
+			}
 		}
 
 		public bool IsIngredient(ThingDef th)
@@ -225,14 +247,16 @@ namespace Verse
 			return false;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			RecipeDef.<ConfigErrors>c__Iterator1D8 <ConfigErrors>c__Iterator1D = new RecipeDef.<ConfigErrors>c__Iterator1D8();
-			<ConfigErrors>c__Iterator1D.<>f__this = this;
-			RecipeDef.<ConfigErrors>c__Iterator1D8 expr_0E = <ConfigErrors>c__Iterator1D;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.workerClass == null)
+			{
+				yield return "workerClass is null.";
+			}
 		}
 
 		public override void ResolveReferences()
@@ -259,7 +283,7 @@ namespace Verse
 
 		public bool PawnSatisfiesSkillRequirements(Pawn pawn)
 		{
-			return this.skillRequirements == null || !this.skillRequirements.Any((SkillRequirement req) => !req.PawnSatisfies(pawn));
+			return this.skillRequirements == null || !this.skillRequirements.Any((Predicate<SkillRequirement>)((SkillRequirement req) => !req.PawnSatisfies(pawn)));
 		}
 
 		public List<ThingDef> GetPremultipliedSmallIngredients()
@@ -268,21 +292,20 @@ namespace Verse
 			{
 				return this.premultipliedSmallIngredients;
 			}
-			this.premultipliedSmallIngredients = (from td in this.ingredients.SelectMany((IngredientCount ingredient) => ingredient.filter.AllowedThingDefs)
+			this.premultipliedSmallIngredients = (from td in this.ingredients.SelectMany((Func<IngredientCount, IEnumerable<ThingDef>>)((IngredientCount ingredient) => ingredient.filter.AllowedThingDefs))
 			where td.smallVolume
-			select td).Distinct<ThingDef>().ToList<ThingDef>();
+			select td).Distinct().ToList();
 			bool flag = true;
 			while (flag)
 			{
 				flag = false;
 				for (int i = 0; i < this.ingredients.Count; i++)
 				{
-					bool flag2 = this.ingredients[i].filter.AllowedThingDefs.Any((ThingDef td) => !this.premultipliedSmallIngredients.Contains(td));
-					if (flag2)
+					if (this.ingredients[i].filter.AllowedThingDefs.Any((Func<ThingDef, bool>)((ThingDef td) => !this.premultipliedSmallIngredients.Contains(td))))
 					{
-						foreach (ThingDef current in this.ingredients[i].filter.AllowedThingDefs)
+						foreach (ThingDef allowedThingDef in this.ingredients[i].filter.AllowedThingDefs)
 						{
-							flag |= this.premultipliedSmallIngredients.Remove(current);
+							flag |= this.premultipliedSmallIngredients.Remove(allowedThingDef);
 						}
 					}
 				}

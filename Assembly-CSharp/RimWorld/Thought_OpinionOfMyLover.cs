@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -10,7 +9,7 @@ namespace RimWorld
 		{
 			get
 			{
-				DirectPawnRelation directPawnRelation = LovePartnerRelationUtility.ExistingMostLikedLovePartnerRel(this.pawn, false);
+				DirectPawnRelation directPawnRelation = LovePartnerRelationUtility.ExistingMostLikedLovePartnerRel(base.pawn, false);
 				return string.Format(base.CurStage.label, directPawnRelation.def.GetGenderSpecificLabel(directPawnRelation.otherPawn), directPawnRelation.otherPawn.LabelShort).CapitalizeFirst();
 			}
 		}
@@ -19,8 +18,8 @@ namespace RimWorld
 		{
 			get
 			{
-				float num = 0.1f * (float)this.pawn.relations.OpinionOf(LovePartnerRelationUtility.ExistingMostLikedLovePartnerRel(this.pawn, false).otherPawn);
-				if (num < 0f)
+				float num = (float)(0.10000000149011612 * (float)base.pawn.relations.OpinionOf(LovePartnerRelationUtility.ExistingMostLikedLovePartnerRel(base.pawn, false).otherPawn));
+				if (num < 0.0)
 				{
 					return Mathf.Min(num, -1f);
 				}

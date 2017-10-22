@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class HediffCompProperties_SelfHeal : HediffCompProperties
@@ -8,7 +6,7 @@ namespace Verse
 
 		public HediffCompProperties_SelfHeal()
 		{
-			this.compClass = typeof(HediffComp_SelfHeal);
+			base.compClass = typeof(HediffComp_SelfHeal);
 		}
 	}
 }

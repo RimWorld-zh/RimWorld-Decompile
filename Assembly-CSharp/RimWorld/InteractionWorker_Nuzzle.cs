@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -20,7 +19,9 @@ namespace RimWorld
 
 		private void TryGiveName(Pawn initiator, Pawn recipient)
 		{
-			if ((initiator.Name == null || initiator.Name.Numerical) && Rand.Value < initiator.RaceProps.nameOnNuzzleChance)
+			if (initiator.Name != null && !initiator.Name.Numerical)
+				return;
+			if (Rand.Value < initiator.RaceProps.nameOnNuzzleChance)
 			{
 				PawnUtility.GiveNameBecauseOfNuzzle(recipient, initiator);
 			}

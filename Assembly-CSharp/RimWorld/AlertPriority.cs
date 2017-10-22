@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum AlertPriority : byte
 	{
-		Medium,
-		High,
-		Critical
+		Medium = 0,
+		High = 1,
+		Critical = 2
 	}
 }

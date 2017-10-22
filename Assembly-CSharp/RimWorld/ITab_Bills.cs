@@ -26,16 +26,19 @@ namespace RimWorld
 
 		public ITab_Bills()
 		{
-			this.size = ITab_Bills.WinSize;
-			this.labelKey = "TabBills";
-			this.tutorTag = "Bills";
+			base.size = ITab_Bills.WinSize;
+			base.labelKey = "TabBills";
+			base.tutorTag = "Bills";
 		}
 
 		protected override void FillTab()
 		{
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.BillsTab, KnowledgeAmount.FrameDisplayed);
-			Rect rect = new Rect(0f, 0f, ITab_Bills.WinSize.x, ITab_Bills.WinSize.y).ContractedBy(10f);
-			Func<List<FloatMenuOption>> recipeOptionsMaker = delegate
+			Vector2 winSize = ITab_Bills.WinSize;
+			float x = winSize.x;
+			Vector2 winSize2 = ITab_Bills.WinSize;
+			Rect rect = new Rect(0f, 0f, x, winSize2.y).ContractedBy(10f);
+			Func<List<FloatMenuOption>> recipeOptionsMaker = (Func<List<FloatMenuOption>>)delegate()
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
 				for (int i = 0; i < this.SelTable.def.AllRecipes.Count; i++)
@@ -43,9 +46,9 @@ namespace RimWorld
 					if (this.SelTable.def.AllRecipes[i].AvailableNow)
 					{
 						RecipeDef recipe = this.SelTable.def.AllRecipes[i];
-						list.Add(new FloatMenuOption(recipe.LabelCap, delegate
+						list.Add(new FloatMenuOption(recipe.LabelCap, (Action)delegate()
 						{
-							if (!this.SelTable.Map.mapPawns.FreeColonists.Any((Pawn col) => recipe.PawnSatisfiesSkillRequirements(col)))
+							if (!this.SelTable.Map.mapPawns.FreeColonists.Any((Func<Pawn, bool>)((Pawn col) => recipe.PawnSatisfiesSkillRequirements(col))))
 							{
 								Bill.CreateNoPawnsWithSkillDialog(recipe);
 							}
@@ -62,7 +65,7 @@ namespace RimWorld
 						}, MenuOptionPriority.Default, null, null, 0f, null, null));
 					}
 				}
-				if (!list.Any<FloatMenuOption>())
+				if (!list.Any())
 				{
 					list.Add(new FloatMenuOption("NoneBrackets".Translate(), null, MenuOptionPriority.Default, null, null, 0f, null, null));
 				}

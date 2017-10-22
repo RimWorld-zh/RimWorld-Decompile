@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +5,7 @@ namespace RimWorld.Planet
 {
 	public static class IcosahedronGenerator
 	{
-		private static readonly TriangleIndices[] IcosahedronTris = new TriangleIndices[]
+		private static readonly TriangleIndices[] IcosahedronTris = new TriangleIndices[20]
 		{
 			new TriangleIndices(0, 11, 5),
 			new TriangleIndices(0, 5, 1),
@@ -32,50 +31,38 @@ namespace RimWorld.Planet
 
 		public static void GenerateIcosahedron(List<Vector3> outVerts, List<TriangleIndices> outTris, float radius, Vector3 viewCenter, float viewAngle)
 		{
-			float num = (1f + Mathf.Sqrt(5f)) / 2f;
+			float num = (float)((1.0 + Mathf.Sqrt(5f)) / 2.0);
 			outVerts.Clear();
-			Vector3 vector = new Vector3(-1f, num, 0f);
-			outVerts.Add(vector.normalized * radius);
-			Vector3 vector2 = new Vector3(1f, num, 0f);
-			outVerts.Add(vector2.normalized * radius);
-			Vector3 vector3 = new Vector3(-1f, -num, 0f);
-			outVerts.Add(vector3.normalized * radius);
-			Vector3 vector4 = new Vector3(1f, -num, 0f);
-			outVerts.Add(vector4.normalized * radius);
-			Vector3 vector5 = new Vector3(0f, -1f, num);
-			outVerts.Add(vector5.normalized * radius);
-			Vector3 vector6 = new Vector3(0f, 1f, num);
-			outVerts.Add(vector6.normalized * radius);
-			Vector3 vector7 = new Vector3(0f, -1f, -num);
-			outVerts.Add(vector7.normalized * radius);
-			Vector3 vector8 = new Vector3(0f, 1f, -num);
-			outVerts.Add(vector8.normalized * radius);
-			Vector3 vector9 = new Vector3(num, 0f, -1f);
-			outVerts.Add(vector9.normalized * radius);
-			Vector3 vector10 = new Vector3(num, 0f, 1f);
-			outVerts.Add(vector10.normalized * radius);
-			Vector3 vector11 = new Vector3(-num, 0f, -1f);
-			outVerts.Add(vector11.normalized * radius);
-			Vector3 vector12 = new Vector3(-num, 0f, 1f);
-			outVerts.Add(vector12.normalized * radius);
+			outVerts.Add(new Vector3(-1f, num, 0f).normalized * radius);
+			outVerts.Add(new Vector3(1f, num, 0f).normalized * radius);
+			outVerts.Add(new Vector3(-1f, (float)(0.0 - num), 0f).normalized * radius);
+			outVerts.Add(new Vector3(1f, (float)(0.0 - num), 0f).normalized * radius);
+			outVerts.Add(new Vector3(0f, -1f, num).normalized * radius);
+			outVerts.Add(new Vector3(0f, 1f, num).normalized * radius);
+			outVerts.Add(new Vector3(0f, -1f, (float)(0.0 - num)).normalized * radius);
+			outVerts.Add(new Vector3(0f, 1f, (float)(0.0 - num)).normalized * radius);
+			outVerts.Add(new Vector3(num, 0f, -1f).normalized * radius);
+			outVerts.Add(new Vector3(num, 0f, 1f).normalized * radius);
+			outVerts.Add(new Vector3((float)(0.0 - num), 0f, -1f).normalized * radius);
+			outVerts.Add(new Vector3((float)(0.0 - num), 0f, 1f).normalized * radius);
 			outTris.Clear();
-			int i = 0;
-			int num2 = IcosahedronGenerator.IcosahedronTris.Length;
-			while (i < num2)
+			int num2 = 0;
+			int num3 = IcosahedronGenerator.IcosahedronTris.Length;
+			while (num2 < num3)
 			{
-				TriangleIndices item = IcosahedronGenerator.IcosahedronTris[i];
+				TriangleIndices item = IcosahedronGenerator.IcosahedronTris[num2];
 				if (IcosahedronGenerator.IcosahedronFaceNeeded(item.v1, item.v2, item.v3, outVerts, radius, viewCenter, viewAngle))
 				{
 					outTris.Add(item);
 				}
-				i++;
+				num2++;
 			}
 			MeshUtility.RemoveUnusedVertices(outVerts, outTris);
 		}
 
 		private static bool IcosahedronFaceNeeded(int v1, int v2, int v3, List<Vector3> verts, float radius, Vector3 viewCenter, float viewAngle)
 		{
-			viewAngle += 18f;
+			viewAngle = (float)(viewAngle + 18.0);
 			return MeshUtility.Visible(verts[v1], radius, viewCenter, viewAngle) || MeshUtility.Visible(verts[v2], radius, viewCenter, viewAngle) || MeshUtility.Visible(verts[v3], radius, viewCenter, viewAngle);
 		}
 	}

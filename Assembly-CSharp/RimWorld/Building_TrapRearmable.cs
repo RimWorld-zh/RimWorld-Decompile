@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -37,7 +36,7 @@ namespace RimWorld
 				}
 				if (this.graphicUnarmedInt == null)
 				{
-					this.graphicUnarmedInt = this.def.building.trapUnarmedGraphicData.GraphicColoredFor(this);
+					this.graphicUnarmedInt = base.def.building.trapUnarmedGraphicData.GraphicColoredFor(this);
 				}
 				return this.graphicUnarmedInt;
 			}
@@ -59,7 +58,7 @@ namespace RimWorld
 			}
 			if (this.autoRearm)
 			{
-				base.Map.designationManager.AddDesignation(new Designation(this, DesignationDefOf.RearmTrap));
+				base.Map.designationManager.AddDesignation(new Designation((Thing)this, DesignationDefOf.RearmTrap));
 			}
 		}
 
@@ -71,31 +70,39 @@ namespace RimWorld
 
 		private void DamagePawn(Pawn p)
 		{
-			BodyPartHeight height = (Rand.Value >= 0.666f) ? BodyPartHeight.Middle : BodyPartHeight.Top;
+			BodyPartHeight height = (BodyPartHeight)((!(Rand.Value < 0.66600000858306885)) ? 2 : 3);
 			int num = Mathf.RoundToInt(this.GetStatValue(StatDefOf.TrapMeleeDamage, true) * Building_TrapRearmable.TrapDamageFactor.RandomInRange);
 			int randomInRange = Building_TrapRearmable.DamageCount.RandomInRange;
-			for (int i = 0; i < randomInRange; i++)
+			int num2 = 0;
+			while (num2 < randomInRange && num > 0)
 			{
-				if (num <= 0)
-				{
-					break;
-				}
-				int num2 = Mathf.Max(1, Mathf.RoundToInt(Rand.Value * (float)num));
-				num -= num2;
-				DamageInfo dinfo = new DamageInfo(DamageDefOf.Stab, num2, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
+				int num3 = Mathf.Max(1, Mathf.RoundToInt(Rand.Value * (float)num));
+				num -= num3;
+				DamageInfo dinfo = new DamageInfo(DamageDefOf.Stab, num3, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
 				dinfo.SetBodyRegion(height, BodyPartDepth.Outside);
 				p.TakeDamage(dinfo);
+				num2++;
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_TrapRearmable.<GetGizmos>c__Iterator147 <GetGizmos>c__Iterator = new Building_TrapRearmable.<GetGizmos>c__Iterator147();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			Building_TrapRearmable.<GetGizmos>c__Iterator147 expr_0E = <GetGizmos>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			yield return (Gizmo)new Command_Toggle
+			{
+				defaultLabel = "CommandAutoRearm".Translate(),
+				defaultDesc = "CommandAutoRearmDesc".Translate(),
+				hotKey = KeyBindingDefOf.Misc3,
+				icon = TexCommand.RearmTrap,
+				isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__Iterator147)/*Error near IL_0105: stateMachine*/)._003C_003Ef__this.autoRearm),
+				toggleAction = (Action)delegate
+				{
+					((_003CGetGizmos_003Ec__Iterator147)/*Error near IL_011c: stateMachine*/)._003C_003Ef__this.autoRearm = !((_003CGetGizmos_003Ec__Iterator147)/*Error near IL_011c: stateMachine*/)._003C_003Ef__this.autoRearm;
+				}
+			};
 		}
 	}
 }

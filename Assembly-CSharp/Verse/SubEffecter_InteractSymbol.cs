@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -15,7 +14,7 @@ namespace Verse
 		{
 			if (this.interactMote == null)
 			{
-				this.interactMote = MoteMaker.MakeInteractionOverlay(this.def.moteDef, A, B);
+				this.interactMote = MoteMaker.MakeInteractionOverlay(base.def.moteDef, A, B);
 			}
 		}
 

@@ -20,7 +20,7 @@ namespace Verse
 
 		public SectionLayer_Watergen(Section section) : base(section)
 		{
-			this.relevantChangeTypes = MapMeshFlag.Terrain;
+			base.relevantChangeTypes = MapMeshFlag.Terrain;
 		}
 
 		public override Material GetMaterialFor(TerrainDef terrain)
@@ -31,26 +31,25 @@ namespace Verse
 		public override void Regenerate()
 		{
 			base.Regenerate();
-			this.renderOrder = (from sm in this.subMeshes
+			this.renderOrder = (from sm in base.subMeshes
 			orderby sm.material.renderQueue
-			select sm).ToList<LayerSubMesh>();
+			select sm).ToList();
 		}
 
 		public override void DrawLayer()
 		{
-			if (!this.Visible)
+			if (this.Visible)
 			{
-				return;
-			}
-			Matrix4x4 matrix = Find.Camera.cameraToWorldMatrix * Find.Camera.projectionMatrix * Find.Camera.worldToCameraMatrix;
-			int count = this.renderOrder.Count;
-			for (int i = 0; i < count; i++)
-			{
-				LayerSubMesh layerSubMesh = this.renderOrder[i];
-				if (layerSubMesh.finalized && !layerSubMesh.disabled)
+				Matrix4x4 matrix = Find.Camera.cameraToWorldMatrix * Find.Camera.projectionMatrix * Find.Camera.worldToCameraMatrix;
+				int count = this.renderOrder.Count;
+				for (int num = 0; num < count; num++)
 				{
-					layerSubMesh.material.SetPass(0);
-					Graphics.DrawMeshNow(layerSubMesh.mesh, matrix);
+					LayerSubMesh layerSubMesh = this.renderOrder[num];
+					if (layerSubMesh.finalized && !layerSubMesh.disabled)
+					{
+						layerSubMesh.material.SetPass(0);
+						Graphics.DrawMeshNow(layerSubMesh.mesh, matrix);
+					}
 				}
 			}
 		}

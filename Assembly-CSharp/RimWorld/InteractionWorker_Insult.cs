@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -9,7 +8,7 @@ namespace RimWorld
 
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
-			return 0.007f * NegativeInteractionUtility.NegativeInteractionChanceFactor(initiator, recipient);
+			return (float)(0.0070000002160668373 * NegativeInteractionUtility.NegativeInteractionChanceFactor(initiator, recipient));
 		}
 	}
 }

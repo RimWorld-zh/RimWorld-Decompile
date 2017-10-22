@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -20,12 +19,11 @@ namespace RimWorld
 				{
 					IntVec3 c = randomCell + GenAdj.CardinalDirections[j];
 					Building edifice = c.GetEdifice(pawn.Map);
-					if (edifice != null && (edifice.def.passability == Traversability.Impassable || edifice.def.IsDoor) && edifice.def.size == IntVec2.One && edifice.def != ThingDefOf.CollapsedRocks && pawn.CanReserve(edifice, 1, -1, null, false))
+					if (edifice != null && (edifice.def.passability == Traversability.Impassable || edifice.def.IsDoor) && edifice.def.size == IntVec2.One && edifice.def != ThingDefOf.CollapsedRocks && pawn.CanReserve((Thing)edifice, 1, -1, null, false))
 					{
-						return new Job(JobDefOf.Mine, edifice)
-						{
-							ignoreDesignations = true
-						};
+						Job job = new Job(JobDefOf.Mine, (Thing)edifice);
+						job.ignoreDesignations = true;
+						return job;
 					}
 				}
 			}

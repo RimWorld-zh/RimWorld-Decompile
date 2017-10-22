@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -19,13 +18,9 @@ namespace RimWorld
 		{
 			Hediff_Pregnant pregnantHediff = this.GetPregnantHediff(pawn);
 			float gestationProgress = pregnantHediff.GestationProgress;
-			int num = (int)(pawn.RaceProps.gestationPeriodDays * 60000f);
+			int num = (int)(pawn.RaceProps.gestationPeriodDays * 60000.0);
 			int numTicks = (int)(gestationProgress * (float)num);
-			return "PregnantIconDesc".Translate(new object[]
-			{
-				numTicks.ToStringTicksToDays("F0"),
-				num.ToStringTicksToDays("F0")
-			});
+			return "PregnantIconDesc".Translate(numTicks.ToStringTicksToDays("F0"), num.ToStringTicksToDays("F0"));
 		}
 
 		private Hediff_Pregnant GetPregnantHediff(Pawn pawn)

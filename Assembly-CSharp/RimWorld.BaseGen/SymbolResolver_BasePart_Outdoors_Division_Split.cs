@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -12,30 +11,38 @@ namespace RimWorld.BaseGen
 
 		public override bool CanResolve(ResolveParams rp)
 		{
-			int num;
-			int num2;
-			return base.CanResolve(rp) && (this.TryFindSplitPoint(false, rp.rect, out num, out num2) || this.TryFindSplitPoint(true, rp.rect, out num, out num2));
+			if (!base.CanResolve(rp))
+			{
+				return false;
+			}
+			int num = default(int);
+			int num2 = default(int);
+			if (!this.TryFindSplitPoint(false, rp.rect, out num, out num2) && !this.TryFindSplitPoint(true, rp.rect, out num, out num2))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void Resolve(ResolveParams rp)
 		{
 			bool @bool = Rand.Bool;
-			int num;
-			int num2;
+			int num = default(int);
+			int num2 = default(int);
 			bool flag;
 			if (this.TryFindSplitPoint(@bool, rp.rect, out num, out num2))
 			{
 				flag = @bool;
+				goto IL_0053;
 			}
-			else
+			if (this.TryFindSplitPoint(!@bool, rp.rect, out num, out num2))
 			{
-				if (!this.TryFindSplitPoint(!@bool, rp.rect, out num, out num2))
-				{
-					Log.Warning("Could not find split point.");
-					return;
-				}
 				flag = !@bool;
+				goto IL_0053;
 			}
+			Log.Warning("Could not find split point.");
+			return;
+			IL_0053:
 			TerrainDef floorDef = rp.pathwayFloorDef ?? BaseGenUtility.RandomBasicFloorDef(rp.faction, false);
 			ResolveParams resolveParams3;
 			ResolveParams resolveParams5;
@@ -84,7 +91,9 @@ namespace RimWorld.BaseGen
 			int num = (!horizontal) ? rect.Width : rect.Height;
 			spaceBetween = SymbolResolver_BasePart_Outdoors_Division_Split.SpaceBetweenRange.RandomInRange;
 			spaceBetween = Mathf.Min(spaceBetween, num - 10);
-			if (spaceBetween < SymbolResolver_BasePart_Outdoors_Division_Split.SpaceBetweenRange.min)
+			int num2 = spaceBetween;
+			IntRange spaceBetweenRange = SymbolResolver_BasePart_Outdoors_Division_Split.SpaceBetweenRange;
+			if (num2 < spaceBetweenRange.min)
 			{
 				splitPoint = -1;
 				return false;

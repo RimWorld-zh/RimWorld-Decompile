@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Verse;
@@ -23,7 +22,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.def.filth.canFilthAttach && this.thickness > 1 && Find.TickManager.TicksGame - this.growTick > 400;
+				return base.def.filth.canFilthAttach && this.thickness > 1 && Find.TickManager.TicksGame - this.growTick > 400;
 			}
 		}
 
@@ -49,7 +48,7 @@ namespace RimWorld
 			{
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.Append(base.Label);
-				if (!this.sources.NullOrEmpty<string>())
+				if (!this.sources.NullOrEmpty())
 				{
 					stringBuilder.Append(" " + "OfLower".Translate() + " ");
 					stringBuilder.Append(GenText.ToCommaList(this.sources, true));
@@ -64,10 +63,9 @@ namespace RimWorld
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.thickness, "thickness", 1, false);
 			Scribe_Values.Look<int>(ref this.growTick, "growTick", 0, false);
-			if (Scribe.mode != LoadSaveMode.Saving || this.sources != null)
-			{
-				Scribe_Collections.Look<string>(ref this.sources, "sources", LookMode.Value, new object[0]);
-			}
+			if (Scribe.mode == LoadSaveMode.Saving && this.sources == null)
+				return;
+			Scribe_Collections.Look<string>(ref this.sources, "sources", LookMode.Value, new object[0]);
 		}
 
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
@@ -103,12 +101,15 @@ namespace RimWorld
 			{
 				this.sources = new List<string>();
 			}
-			for (int i = 0; i < this.sources.Count; i++)
+			int num = 0;
+			while (num < this.sources.Count)
 			{
-				if (this.sources[i] == newSource)
+				if (!(this.sources[num] == newSource))
 				{
-					return;
+					num++;
+					continue;
 				}
+				return;
 			}
 			while (this.sources.Count > 3)
 			{
@@ -119,20 +120,19 @@ namespace RimWorld
 
 		public void AddSources(IEnumerable<string> sources)
 		{
-			if (sources == null)
+			if (sources != null)
 			{
-				return;
-			}
-			foreach (string current in sources)
-			{
-				this.AddSource(current);
+				foreach (string item in sources)
+				{
+					this.AddSource(item);
+				}
 			}
 		}
 
 		public virtual void ThickenFilth()
 		{
 			this.growTick = Find.TickManager.TicksGame;
-			if (this.thickness < this.def.filth.maxThickness)
+			if (this.thickness < base.def.filth.maxThickness)
 			{
 				this.thickness++;
 				this.UpdateMesh();
@@ -166,7 +166,15 @@ namespace RimWorld
 		public bool CanDropAt(IntVec3 c, Map map)
 		{
 			TerrainDef terrainDef = map.terrainGrid.TerrainAt(c);
-			return terrainDef.acceptFilth && (!this.def.filth.terrainSourced || terrainDef.acceptTerrainSourceFilth);
+			if (!terrainDef.acceptFilth)
+			{
+				return false;
+			}
+			if (base.def.filth.terrainSourced && !terrainDef.acceptTerrainSourceFilth)
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.Sound;
 
@@ -88,14 +87,17 @@ namespace RimWorld
 			return flag;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Blueprint_Install.<GetGizmos>c__Iterator144 <GetGizmos>c__Iterator = new Blueprint_Install.<GetGizmos>c__Iterator144();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			Blueprint_Install.<GetGizmos>c__Iterator144 expr_0E = <GetGizmos>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			Command buildCopy = BuildCopyCommandUtility.BuildCopyCommand(this.ThingToInstall.def, this.ThingToInstall.Stuff);
+			if (buildCopy != null)
+			{
+				yield return (Gizmo)buildCopy;
+			}
 		}
 
 		internal void SetThingToInstallFromMinified(MinifiedThing itemToInstall)
@@ -109,10 +111,12 @@ namespace RimWorld
 			if (!buildingToReinstall.def.Minifiable)
 			{
 				Log.Error("Tried to reinstall non-minifiable building.");
-				return;
 			}
-			this.miniToInstall = null;
-			this.buildingToReinstall = buildingToReinstall;
+			else
+			{
+				this.miniToInstall = null;
+				this.buildingToReinstall = buildingToReinstall;
+			}
 		}
 	}
 }

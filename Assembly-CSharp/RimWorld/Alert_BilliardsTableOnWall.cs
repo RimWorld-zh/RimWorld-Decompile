@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -8,8 +7,8 @@ namespace RimWorld
 	{
 		public Alert_BilliardsTableOnWall()
 		{
-			this.defaultLabel = "BilliardsNeedsSpace".Translate();
-			this.defaultExplanation = "BilliardsNeedsSpaceDesc".Translate();
+			base.defaultLabel = "BilliardsNeedsSpace".Translate();
+			base.defaultExplanation = "BilliardsNeedsSpaceDesc".Translate();
 		}
 
 		private Thing BadTable()

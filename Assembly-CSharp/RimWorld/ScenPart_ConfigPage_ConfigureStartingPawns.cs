@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -27,10 +26,7 @@ namespace RimWorld
 
 		public override string Summary(Scenario scen)
 		{
-			return "ScenPart_StartWithPawns".Translate(new object[]
-			{
-				this.pawnCount
-			});
+			return "ScenPart_StartWithPawns".Translate(this.pawnCount);
 		}
 
 		public override void Randomize()
@@ -49,14 +45,11 @@ namespace RimWorld
 					Find.GameInitData.startingPawns.Add(StartingPawnUtility.NewGeneratedStartingPawn());
 				}
 				num++;
-				if (num > 20)
+				if (num <= 20 && !StartingPawnUtility.WorkTypeRequirementsSatisfied())
 				{
-					break;
+					continue;
 				}
-				if (StartingPawnUtility.WorkTypeRequirementsSatisfied())
-				{
-					return;
-				}
+				break;
 			}
 		}
 	}

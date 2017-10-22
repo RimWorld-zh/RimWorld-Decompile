@@ -34,42 +34,49 @@ namespace Verse
 
 		public static void FlushToFileAndOpen()
 		{
-			if (LogSimple.messages.Count == 0)
+			if (LogSimple.messages.Count != 0)
 			{
-				return;
+				string value = LogSimple.CompiledLog();
+				string path = GenFilePaths.SaveDataFolderPath + Path.DirectorySeparatorChar + "LogSimple.txt";
+				using (StreamWriter streamWriter = new StreamWriter(path, false))
+				{
+					streamWriter.Write(value);
+				}
+				LongEventHandler.ExecuteWhenFinished((Action)delegate
+				{
+					Application.OpenURL(path);
+				});
+				LogSimple.messages.Clear();
 			}
-			string value = LogSimple.CompiledLog();
-			string path = GenFilePaths.SaveDataFolderPath + Path.DirectorySeparatorChar + "LogSimple.txt";
-			using (StreamWriter streamWriter = new StreamWriter(path, false))
-			{
-				streamWriter.Write(value);
-			}
-			LongEventHandler.ExecuteWhenFinished(delegate
-			{
-				Application.OpenURL(path);
-			});
-			LogSimple.messages.Clear();
 		}
 
 		public static void FlushToStandardLog()
 		{
-			if (LogSimple.messages.Count == 0)
+			if (LogSimple.messages.Count != 0)
 			{
-				return;
+				string text = LogSimple.CompiledLog();
+				Log.Message(text);
+				LogSimple.messages.Clear();
 			}
-			string text = LogSimple.CompiledLog();
-			Log.Message(text);
-			LogSimple.messages.Clear();
 		}
 
 		private static string CompiledLog()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (string current in LogSimple.messages)
+			List<string>.Enumerator enumerator = LogSimple.messages.GetEnumerator();
+			try
 			{
-				stringBuilder.AppendLine(current);
+				while (enumerator.MoveNext())
+				{
+					string current = enumerator.Current;
+					stringBuilder.AppendLine(current);
+				}
 			}
-			return stringBuilder.ToString().TrimEnd(new char[0]);
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			return stringBuilder.ToString().TrimEnd();
 		}
 	}
 }

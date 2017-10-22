@@ -39,19 +39,20 @@ namespace Verse
 		public override void Generate(Map map)
 		{
 			if (!this.allowOnWater && map.TileInfo.WaterCovered)
-			{
 				return;
-			}
 			int num = this.CalculateFinalCount(map);
-			for (int i = 0; i < num; i++)
+			int num2 = 0;
+			while (num2 < num)
 			{
-				IntVec3 intVec;
-				if (!this.TryFindScatterCell(map, out intVec))
+				IntVec3 intVec = default(IntVec3);
+				if (this.TryFindScatterCell(map, out intVec))
 				{
-					return;
+					this.ScatterAt(intVec, map, 1);
+					this.usedSpots.Add(intVec);
+					num2++;
+					continue;
 				}
-				this.ScatterAt(intVec, map, 1);
-				this.usedSpots.Add(intVec);
+				return;
 			}
 			this.usedSpots.Clear();
 		}
@@ -60,7 +61,7 @@ namespace Verse
 		{
 			if (this.nearMapCenter)
 			{
-				if (RCellFinder.TryFindRandomCellNearWith(map.Center, (IntVec3 x) => this.CanScatterAt(x, map), map, out result, 3))
+				if (RCellFinder.TryFindRandomCellNearWith(map.Center, (Predicate<IntVec3>)((IntVec3 x) => this.CanScatterAt(x, map)), map, out result, 3))
 				{
 					return true;
 				}
@@ -69,10 +70,10 @@ namespace Verse
 			{
 				if (this.nearPlayerStart)
 				{
-					result = CellFinder.RandomClosewalkCellNear(MapGenerator.PlayerStartSpot, map, 20, (IntVec3 x) => this.CanScatterAt(x, map));
+					result = CellFinder.RandomClosewalkCellNear(MapGenerator.PlayerStartSpot, map, 20, (Predicate<IntVec3>)((IntVec3 x) => this.CanScatterAt(x, map)));
 					return true;
 				}
-				if (CellFinderLoose.TryFindRandomNotEdgeCellWith(5, (IntVec3 x) => this.CanScatterAt(x, map), map, out result))
+				if (CellFinderLoose.TryFindRandomNotEdgeCellWith(5, (Predicate<IntVec3>)((IntVec3 x) => this.CanScatterAt(x, map)), map, out result))
 				{
 					return true;
 				}
@@ -146,9 +147,10 @@ namespace Verse
 		{
 			if (mapSize < 0)
 			{
-				mapSize = map.Size.x;
+				IntVec3 size = map.Size;
+				mapSize = size.x;
 			}
-			int num = Mathf.RoundToInt(10000f / countPer10kCells);
+			int num = Mathf.RoundToInt((float)(10000.0 / countPer10kCells));
 			return Mathf.RoundToInt((float)(mapSize * mapSize) / (float)num);
 		}
 

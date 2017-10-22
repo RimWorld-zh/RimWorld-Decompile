@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -9,30 +8,14 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_RoomIdentifier)this.props;
+				return (CompProperties_RoomIdentifier)base.props;
 			}
 		}
 
 		public override string CompInspectStringExtra()
 		{
-			Room room = this.parent.GetRoom(RegionType.Set_All);
-			string str;
-			if (room == null || room.Role == RoomRoleDefOf.None)
-			{
-				str = "Outdoors".Translate();
-			}
-			else
-			{
-				str = string.Concat(new string[]
-				{
-					room.Role.LabelCap,
-					" (",
-					room.GetStatScoreStage(this.Props.roomStat).label,
-					", ",
-					this.Props.roomStat.ScoreToString(room.GetStat(this.Props.roomStat)),
-					")"
-				});
-			}
+			Room room = base.parent.GetRoom(RegionType.Set_All);
+			string str = (room != null && room.Role != RoomRoleDefOf.None) ? (room.Role.LabelCap + " (" + room.GetStatScoreStage(this.Props.roomStat).label + ", " + this.Props.roomStat.ScoreToString(room.GetStat(this.Props.roomStat)) + ")") : "Outdoors".Translate();
 			return "Room".Translate() + ": " + str;
 		}
 	}

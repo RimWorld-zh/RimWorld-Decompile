@@ -28,9 +28,9 @@ namespace RimWorld.BaseGen
 			{
 				bool? edgeThingAvoidOtherEdgeThings = rp.edgeThingAvoidOtherEdgeThings;
 				bool avoidOtherEdgeThings = edgeThingAvoidOtherEdgeThings.HasValue && edgeThingAvoidOtherEdgeThings.Value;
+				IntVec3 intVec = default(IntVec3);
 				if (rp.thingRot.HasValue)
 				{
-					IntVec3 intVec;
 					if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, rp.thingRot.Value, avoidOtherEdgeThings, out intVec))
 					{
 						return false;
@@ -38,7 +38,6 @@ namespace RimWorld.BaseGen
 				}
 				else if (!rp.singleThingDef.rotatable)
 				{
-					IntVec3 intVec;
 					if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, Rot4.North, avoidOtherEdgeThings, out intVec))
 					{
 						return false;
@@ -47,14 +46,16 @@ namespace RimWorld.BaseGen
 				else
 				{
 					bool flag = false;
-					for (int i = 0; i < 4; i++)
+					int num = 0;
+					while (num < 4)
 					{
-						IntVec3 intVec;
-						if (this.TryFindSpawnCell(rp.rect, rp.singleThingDef, new Rot4(i), avoidOtherEdgeThings, out intVec))
+						if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, new Rot4(num), avoidOtherEdgeThings, out intVec))
 						{
-							flag = true;
-							break;
+							num++;
+							continue;
 						}
+						flag = true;
+						break;
 					}
 					if (!flag)
 					{
@@ -67,52 +68,64 @@ namespace RimWorld.BaseGen
 
 		public override void Resolve(ResolveParams rp)
 		{
-			ThingDef thingDef = rp.singleThingDef ?? (from x in DefDatabase<ThingDef>.AllDefsListForReading
-			where (x.IsWeapon || x.IsMedicine || x.IsDrug) && x.graphicData != null && !x.destroyOnDrop && x.size.x <= rp.rect.Width && x.size.z <= rp.rect.Width && x.size.x <= rp.rect.Height && x.size.z <= rp.rect.Height
-			select x).RandomElement<ThingDef>();
+			ThingDef thingDef = rp.singleThingDef ?? DefDatabase<ThingDef>.AllDefsListForReading.Where((Func<ThingDef, bool>)delegate(ThingDef x)
+			{
+				int result;
+				if ((x.IsWeapon || x.IsMedicine || x.IsDrug) && x.graphicData != null && !x.destroyOnDrop && x.size.x <= rp.rect.Width && x.size.z <= rp.rect.Width && x.size.x <= rp.rect.Height)
+				{
+					result = ((x.size.z <= rp.rect.Height) ? 1 : 0);
+					goto IL_00ba;
+				}
+				result = 0;
+				goto IL_00ba;
+				IL_00ba:
+				return (byte)result != 0;
+			}).RandomElement();
 			IntVec3 invalid = IntVec3.Invalid;
 			Rot4 value = Rot4.North;
 			bool? edgeThingAvoidOtherEdgeThings = rp.edgeThingAvoidOtherEdgeThings;
 			bool avoidOtherEdgeThings = edgeThingAvoidOtherEdgeThings.HasValue && edgeThingAvoidOtherEdgeThings.Value;
 			if (rp.thingRot.HasValue)
 			{
-				if (!this.TryFindSpawnCell(rp.rect, thingDef, rp.thingRot.Value, avoidOtherEdgeThings, out invalid))
+				if (this.TryFindSpawnCell(rp.rect, thingDef, rp.thingRot.Value, avoidOtherEdgeThings, out invalid))
 				{
-					return;
+					value = rp.thingRot.Value;
+					goto IL_0183;
 				}
-				value = rp.thingRot.Value;
+				return;
 			}
-			else if (!thingDef.rotatable)
+			if (!thingDef.rotatable)
 			{
-				if (!this.TryFindSpawnCell(rp.rect, thingDef, Rot4.North, avoidOtherEdgeThings, out invalid))
+				if (this.TryFindSpawnCell(rp.rect, thingDef, Rot4.North, avoidOtherEdgeThings, out invalid))
 				{
-					return;
+					value = Rot4.North;
+					goto IL_0183;
 				}
-				value = Rot4.North;
+				return;
 			}
-			else
+			this.randomRotations.Shuffle();
+			bool flag = false;
+			int num = 0;
+			while (num < this.randomRotations.Count)
 			{
-				this.randomRotations.Shuffle<int>();
-				bool flag = false;
-				for (int i = 0; i < this.randomRotations.Count; i++)
+				if (!this.TryFindSpawnCell(rp.rect, thingDef, new Rot4(this.randomRotations[num]), avoidOtherEdgeThings, out invalid))
 				{
-					if (this.TryFindSpawnCell(rp.rect, thingDef, new Rot4(this.randomRotations[i]), avoidOtherEdgeThings, out invalid))
-					{
-						value = new Rot4(this.randomRotations[i]);
-						flag = true;
-						break;
-					}
+					num++;
+					continue;
 				}
-				if (!flag)
-				{
-					return;
-				}
+				value = new Rot4(this.randomRotations[num]);
+				flag = true;
+				break;
 			}
-			ResolveParams rp2 = rp;
-			rp2.rect = CellRect.SingleCell(invalid);
-			rp2.thingRot = new Rot4?(value);
-			rp2.singleThingDef = thingDef;
-			BaseGen.symbolStack.Push("thing", rp2);
+			if (!flag)
+				return;
+			goto IL_0183;
+			IL_0183:
+			ResolveParams resolveParams = rp;
+			resolveParams.rect = CellRect.SingleCell(invalid);
+			resolveParams.thingRot = new Rot4?(value);
+			resolveParams.singleThingDef = thingDef;
+			BaseGen.symbolStack.Push("thing", resolveParams);
 		}
 
 		private bool TryFindSpawnCell(CellRect rect, ThingDef thingDef, Rot4 rot, bool avoidOtherEdgeThings, out IntVec3 spawnCell)
@@ -123,7 +136,7 @@ namespace RimWorld.BaseGen
 				int num = -1;
 				for (int i = 0; i < this.MaxTriesToAvoidOtherEdgeThings; i++)
 				{
-					IntVec3 intVec;
+					IntVec3 intVec = default(IntVec3);
 					if (this.TryFindSpawnCell(rect, thingDef, rot, out intVec))
 					{
 						int distanceSquaredToExistingEdgeThing = this.GetDistanceSquaredToExistingEdgeThing(intVec, rect, thingDef);
@@ -132,9 +145,7 @@ namespace RimWorld.BaseGen
 							spawnCell = intVec;
 							num = distanceSquaredToExistingEdgeThing;
 							if (num == 2147483647)
-							{
 								break;
-							}
 						}
 					}
 				}
@@ -150,27 +161,14 @@ namespace RimWorld.BaseGen
 			IntVec2 size = thingDef.size;
 			GenAdj.AdjustForRotation(ref zero, ref size, rot);
 			CellRect empty = CellRect.Empty;
-			Predicate<CellRect> basePredicate = delegate(CellRect x)
-			{
-				int arg_83_0;
-				if (x.Cells.All((IntVec3 y) => y.Standable(map)))
-				{
-					if (!GenSpawn.WouldWipeAnythingWith(x, thingDef, map, (Thing z) => z.def.category == ThingCategory.Building))
-					{
-						arg_83_0 = ((thingDef.category != ThingCategory.Item || x.CenterCell.GetFirstItem(map) == null) ? 1 : 0);
-						return arg_83_0 != 0;
-					}
-				}
-				arg_83_0 = 0;
-				return arg_83_0 != 0;
-			};
+			Predicate<CellRect> basePredicate = (Predicate<CellRect>)((CellRect x) => x.Cells.All((Func<IntVec3, bool>)((IntVec3 y) => y.Standable(map))) && !GenSpawn.WouldWipeAnythingWith(x, thingDef, map, (Predicate<Thing>)((Thing z) => z.def.category == ThingCategory.Building)) && (thingDef.category != ThingCategory.Item || x.CenterCell.GetFirstItem(map) == null));
 			bool flag = false;
 			if (thingDef.category == ThingCategory.Building)
 			{
-				flag = rect.TryFindRandomInnerRectTouchingEdge(size, out empty, (CellRect x) => basePredicate(x) && !BaseGenUtility.AnyDoorCardinalAdjacentTo(x, map) && GenConstruct.TerrainCanSupport(x, map, thingDef));
+				flag = rect.TryFindRandomInnerRectTouchingEdge(size, out empty, (Predicate<CellRect>)((CellRect x) => basePredicate(x) && !BaseGenUtility.AnyDoorCardinalAdjacentTo(x, map) && GenConstruct.TerrainCanSupport(x, map, thingDef)));
 				if (!flag)
 				{
-					flag = rect.TryFindRandomInnerRectTouchingEdge(size, out empty, (CellRect x) => basePredicate(x) && !BaseGenUtility.AnyDoorCardinalAdjacentTo(x, map));
+					flag = rect.TryFindRandomInnerRectTouchingEdge(size, out empty, (Predicate<CellRect>)((CellRect x) => basePredicate(x) && !BaseGenUtility.AnyDoorCardinalAdjacentTo(x, map)));
 				}
 			}
 			if (!flag && !rect.TryFindRandomInnerRectTouchingEdge(size, out empty, basePredicate))
@@ -197,21 +195,24 @@ namespace RimWorld.BaseGen
 		{
 			Map map = BaseGen.globalSettings.map;
 			int num = 2147483647;
-			foreach (IntVec3 current in rect.EdgeCells)
+			foreach (IntVec3 edgeCell in rect.EdgeCells)
 			{
-				List<Thing> thingList = current.GetThingList(map);
+				List<Thing> thingList = edgeCell.GetThingList(map);
 				bool flag = false;
-				for (int i = 0; i < thingList.Count; i++)
+				int num2 = 0;
+				while (num2 < thingList.Count)
 				{
-					if (thingList[i].def == thingDef)
+					if (thingList[num2].def != thingDef)
 					{
-						flag = true;
-						break;
+						num2++;
+						continue;
 					}
+					flag = true;
+					break;
 				}
 				if (flag)
 				{
-					num = Mathf.Min(num, cell.DistanceToSquared(current));
+					num = Mathf.Min(num, cell.DistanceToSquared(edgeCell));
 				}
 			}
 			return num;

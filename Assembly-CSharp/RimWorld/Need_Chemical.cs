@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -22,11 +21,11 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.CurLevel > 0.3f)
+				if (this.CurLevel > 0.30000001192092896)
 				{
 					return DrugDesireCategory.Satisfied;
 				}
-				if (this.CurLevel > 0.01f)
+				if (this.CurLevel > 0.0099999997764825821)
 				{
 					return DrugDesireCategory.Desire;
 				}
@@ -55,11 +54,11 @@ namespace RimWorld
 		{
 			get
 			{
-				List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
+				List<Hediff> hediffs = base.pawn.health.hediffSet.hediffs;
 				for (int i = 0; i < hediffs.Count; i++)
 				{
 					Hediff_Addiction hediff_Addiction = hediffs[i] as Hediff_Addiction;
-					if (hediff_Addiction != null && hediff_Addiction.def.causesNeed == this.def)
+					if (hediff_Addiction != null && hediff_Addiction.def.causesNeed == base.def)
 					{
 						return hediff_Addiction;
 					}
@@ -72,14 +71,14 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.def.fallPerDay / 60000f;
+				return (float)(base.def.fallPerDay / 60000.0);
 			}
 		}
 
 		public Need_Chemical(Pawn pawn) : base(pawn)
 		{
-			this.threshPercents = new List<float>();
-			this.threshPercents.Add(0.3f);
+			base.threshPercents = new List<float>();
+			base.threshPercents.Add(0.3f);
 		}
 
 		public override void SetInitialLevel()
@@ -91,7 +90,7 @@ namespace RimWorld
 		{
 			if (!base.IsFrozen)
 			{
-				this.CurLevel -= this.ChemicalFallPerTick * 150f;
+				this.CurLevel -= (float)(this.ChemicalFallPerTick * 150.0);
 			}
 		}
 

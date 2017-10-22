@@ -1,4 +1,3 @@
-using System;
 using System.Xml;
 using Verse;
 
@@ -15,10 +14,12 @@ namespace RimWorld
 			if (xmlRoot.ChildNodes.Count != 1)
 			{
 				Log.Error("Misconfigured MTBByBiome: " + xmlRoot.OuterXml);
-				return;
 			}
-			DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "biome", xmlRoot.Name);
-			this.mtbDays = (float)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(float));
+			else
+			{
+				DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "biome", xmlRoot.Name);
+				this.mtbDays = (float)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(float));
+			}
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -34,12 +33,12 @@ namespace Verse.AI.Group
 			{
 				this.lords[i].LordTick();
 			}
-			for (int j = this.lords.Count - 1; j >= 0; j--)
+			for (int num = this.lords.Count - 1; num >= 0; num--)
 			{
-				LordToil curLordToil = this.lords[j].CurLordToil;
+				LordToil curLordToil = this.lords[num].CurLordToil;
 				if (curLordToil.ShouldFail)
 				{
-					this.RemoveLord(this.lords[j]);
+					this.RemoveLord(this.lords[num]);
 				}
 			}
 		}
@@ -68,21 +67,21 @@ namespace Verse.AI.Group
 			{
 				Text.Anchor = TextAnchor.MiddleCenter;
 				Text.Font = GameFont.Tiny;
-				foreach (Pawn current in this.map.mapPawns.AllPawns)
+				foreach (Pawn allPawn in this.map.mapPawns.AllPawns)
 				{
-					if (current.Spawned)
+					if (allPawn.Spawned)
 					{
 						string text = string.Empty;
-						if (!current.Dead && current.mindState.duty != null)
+						if (!allPawn.Dead && allPawn.mindState.duty != null)
 						{
-							text = current.mindState.duty.ToString();
+							text = allPawn.mindState.duty.ToString();
 						}
-						if (current.InMentalState)
+						if (allPawn.InMentalState)
 						{
-							text = text + "\nMentalState=" + current.MentalState.ToString();
+							text = text + "\nMentalState=" + allPawn.MentalState.ToString();
 						}
-						Vector2 vector = current.DrawPos.MapToUIPosition();
-						Widgets.Label(new Rect(vector.x - 100f, vector.y - 100f, 200f, 200f), text);
+						Vector2 vector = allPawn.DrawPos.MapToUIPosition();
+						Widgets.Label(new Rect((float)(vector.x - 100.0), (float)(vector.y - 100.0), 200f, 200f), text);
 					}
 				}
 				Text.Anchor = TextAnchor.UpperLeft;
@@ -147,14 +146,7 @@ namespace Verse.AI.Group
 				stringBuilder.AppendLine("Members (count: " + lord.ownedPawns.Count + "):");
 				for (int j = 0; j < lord.ownedPawns.Count; j++)
 				{
-					stringBuilder.AppendLine(string.Concat(new object[]
-					{
-						"  ",
-						lord.ownedPawns[j].LabelShort,
-						" (",
-						lord.ownedPawns[j].Faction,
-						")"
-					}));
+					stringBuilder.AppendLine("  " + lord.ownedPawns[j].LabelShort + " (" + lord.ownedPawns[j].Faction + ")");
 				}
 			}
 			Log.Message(stringBuilder.ToString());

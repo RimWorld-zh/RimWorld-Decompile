@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,7 +6,7 @@ namespace RimWorld
 	{
 		public CompProperties_FoodPoisonable()
 		{
-			this.compClass = typeof(CompFoodPoisonable);
+			base.compClass = typeof(CompFoodPoisonable);
 		}
 	}
 }

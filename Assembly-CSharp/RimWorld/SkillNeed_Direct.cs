@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -14,7 +13,7 @@ namespace RimWorld
 			{
 				return 1f;
 			}
-			int level = pawn.skills.GetSkill(this.skill).Level;
+			int level = pawn.skills.GetSkill(base.skill).Level;
 			if (this.factorsPerLevel.Count > level)
 			{
 				return this.factorsPerLevel[level];

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -11,15 +10,18 @@ namespace RimWorld.BaseGen
 			IntVec3 bottomLeft = rp.rect.BottomLeft;
 			Map map = BaseGen.globalSettings.map;
 			CellRect rect = new CellRect(bottomLeft.x + rp.rect.Width / 2 - 1, bottomLeft.z + rp.rect.Height / 2, 2, 1);
-			foreach (IntVec3 current in rect)
+			foreach (IntVec3 item in rect)
 			{
-				List<Thing> thingList = current.GetThingList(map);
-				for (int i = 0; i < thingList.Count; i++)
+				List<Thing> thingList = item.GetThingList(map);
+				int num = 0;
+				while (num < thingList.Count)
 				{
-					if (!thingList[i].def.destroyable)
+					if (thingList[num].def.destroyable)
 					{
-						return;
+						num++;
+						continue;
 					}
+					return;
 				}
 			}
 			ResolveParams resolveParams = rp;

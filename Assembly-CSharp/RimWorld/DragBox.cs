@@ -16,7 +16,9 @@ namespace RimWorld
 		{
 			get
 			{
-				return Math.Min(this.start.x, UI.MouseMapPosition().x);
+				float x = this.start.x;
+				Vector3 vector = UI.MouseMapPosition();
+				return Math.Min(x, vector.x);
 			}
 		}
 
@@ -24,7 +26,9 @@ namespace RimWorld
 		{
 			get
 			{
-				return Math.Max(this.start.x, UI.MouseMapPosition().x);
+				float x = this.start.x;
+				Vector3 vector = UI.MouseMapPosition();
+				return Math.Max(x, vector.x);
 			}
 		}
 
@@ -32,7 +36,9 @@ namespace RimWorld
 		{
 			get
 			{
-				return Math.Min(this.start.z, UI.MouseMapPosition().z);
+				float z = this.start.z;
+				Vector3 vector = UI.MouseMapPosition();
+				return Math.Min(z, vector.z);
 			}
 		}
 
@@ -40,7 +46,9 @@ namespace RimWorld
 		{
 			get
 			{
-				return Math.Max(this.start.z, UI.MouseMapPosition().z);
+				float z = this.start.z;
+				Vector3 vector = UI.MouseMapPosition();
+				return Math.Max(z, vector.z);
 			}
 		}
 
@@ -76,7 +84,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.start - UI.MouseMapPosition()).magnitude > 0.5f;
+				return (this.start - UI.MouseMapPosition()).magnitude > 0.5;
 			}
 		}
 
@@ -105,8 +113,7 @@ namespace RimWorld
 			CellRect.CellRectIterator iterator = t.OccupiedRect().GetIterator();
 			while (!iterator.Done())
 			{
-				IntVec3 current = iterator.Current;
-				if (this.Contains(current.ToVector3Shifted()))
+				if (this.Contains(iterator.Current.ToVector3Shifted()))
 				{
 					return true;
 				}
@@ -117,7 +124,11 @@ namespace RimWorld
 
 		public bool Contains(Vector3 v)
 		{
-			return v.x + 0.5f > this.LeftX && v.x - 0.5f < this.RightX && v.z + 0.5f > this.BotZ && v.z - 0.5f < this.TopZ;
+			if (v.x + 0.5 > this.LeftX && v.x - 0.5 < this.RightX && v.z + 0.5 > this.BotZ && v.z - 0.5 < this.TopZ)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

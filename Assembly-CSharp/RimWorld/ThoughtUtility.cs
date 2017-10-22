@@ -15,81 +15,77 @@ namespace RimWorld
 		{
 			ThoughtUtility.situationalSocialThoughtDefs = (from x in DefDatabase<ThoughtDef>.AllDefs
 			where x.IsSituational && x.IsSocial
-			select x).ToList<ThoughtDef>();
+			select x).ToList();
 			ThoughtUtility.situationalNonSocialThoughtDefs = (from x in DefDatabase<ThoughtDef>.AllDefs
 			where x.IsSituational && !x.IsSocial
-			select x).ToList<ThoughtDef>();
+			select x).ToList();
 		}
 
 		public static void GiveThoughtsForPawnExecuted(Pawn victim, PawnExecutionKind kind)
 		{
-			if (!victim.RaceProps.Humanlike)
+			if (victim.RaceProps.Humanlike)
 			{
-				return;
-			}
-			int forcedStage = 1;
-			if (victim.guilt.IsGuilty)
-			{
-				forcedStage = 0;
-			}
-			else
-			{
-				switch (kind)
+				int forcedStage = 1;
+				if (victim.guilt.IsGuilty)
 				{
-				case PawnExecutionKind.GenericBrutal:
-					forcedStage = 2;
-					break;
-				case PawnExecutionKind.GenericHumane:
-					forcedStage = 1;
-					break;
-				case PawnExecutionKind.OrganHarvesting:
-					forcedStage = 3;
-					break;
+					forcedStage = 0;
 				}
-			}
-			ThoughtDef def;
-			if (victim.IsColonist)
-			{
-				def = ThoughtDefOf.KnowColonistExecuted;
-			}
-			else
-			{
-				def = ThoughtDefOf.KnowGuestExecuted;
-			}
-			foreach (Pawn current in from x in PawnsFinder.AllMapsCaravansAndTravelingTransportPods
-			where x.IsColonist || x.IsPrisonerOfColony
-			select x)
-			{
-				current.needs.mood.thoughts.memories.TryGainMemory(ThoughtMaker.MakeThought(def, forcedStage), null);
+				else
+				{
+					switch (kind)
+					{
+					case PawnExecutionKind.GenericHumane:
+					{
+						forcedStage = 1;
+						break;
+					}
+					case PawnExecutionKind.GenericBrutal:
+					{
+						forcedStage = 2;
+						break;
+					}
+					case PawnExecutionKind.OrganHarvesting:
+					{
+						forcedStage = 3;
+						break;
+					}
+					}
+				}
+				ThoughtDef def = (!victim.IsColonist) ? ThoughtDefOf.KnowGuestExecuted : ThoughtDefOf.KnowColonistExecuted;
+				foreach (Pawn item in from x in PawnsFinder.AllMapsCaravansAndTravelingTransportPods
+				where x.IsColonist || x.IsPrisonerOfColony
+				select x)
+				{
+					item.needs.mood.thoughts.memories.TryGainMemory(ThoughtMaker.MakeThought(def, forcedStage), null);
+				}
 			}
 		}
 
 		public static void GiveThoughtsForPawnOrganHarvested(Pawn victim)
 		{
-			if (!victim.RaceProps.Humanlike)
+			if (victim.RaceProps.Humanlike)
 			{
-				return;
-			}
-			ThoughtDef thoughtDef = null;
-			if (victim.IsColonist)
-			{
-				thoughtDef = ThoughtDefOf.KnowColonistOrganHarvested;
-			}
-			else if (victim.HostFaction == Faction.OfPlayer)
-			{
-				thoughtDef = ThoughtDefOf.KnowGuestOrganHarvested;
-			}
-			foreach (Pawn current in from x in PawnsFinder.AllMapsCaravansAndTravelingTransportPods
-			where x.IsColonist || x.IsPrisonerOfColony
-			select x)
-			{
-				if (current == victim)
+				ThoughtDef thoughtDef = null;
+				if (victim.IsColonist)
 				{
-					current.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.MyOrganHarvested, null);
+					thoughtDef = ThoughtDefOf.KnowColonistOrganHarvested;
 				}
-				else if (thoughtDef != null)
+				else if (victim.HostFaction == Faction.OfPlayer)
 				{
-					current.needs.mood.thoughts.memories.TryGainMemory(thoughtDef, null);
+					thoughtDef = ThoughtDefOf.KnowGuestOrganHarvested;
+				}
+				foreach (Pawn item in from x in PawnsFinder.AllMapsCaravansAndTravelingTransportPods
+				where x.IsColonist || x.IsPrisonerOfColony
+				select x)
+				{
+					if (item == victim)
+					{
+						item.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.MyOrganHarvested, null);
+					}
+					else if (thoughtDef != null)
+					{
+						item.needs.mood.thoughts.memories.TryGainMemory(thoughtDef, null);
+					}
 				}
 			}
 		}
@@ -110,12 +106,12 @@ namespace RimWorld
 					num = curStage.pctConditionalThoughtsNullified;
 				}
 			}
-			if (num == 0f)
+			if (num == 0.0)
 			{
 				return false;
 			}
 			Rand.PushState();
-			Rand.Seed = pawn.thingIDNumber * 31 + (int)(def.index * 139);
+			Rand.Seed = pawn.thingIDNumber * 31 + def.index * 139;
 			bool result = Rand.Value < num;
 			Rand.PopState();
 			return result;
@@ -138,12 +134,11 @@ namespace RimWorld
 
 		public static void RemovePositiveBedroomThoughts(Pawn pawn)
 		{
-			if (pawn.needs.mood == null)
+			if (pawn.needs.mood != null)
 			{
-				return;
+				pawn.needs.mood.thoughts.memories.RemoveMemoriesOfDefIf(ThoughtDefOf.SleptInBedroom, (Func<Thought_Memory, bool>)((Thought_Memory thought) => thought.MoodOffset() > 0.0));
+				pawn.needs.mood.thoughts.memories.RemoveMemoriesOfDefIf(ThoughtDefOf.SleptInBarracks, (Func<Thought_Memory, bool>)((Thought_Memory thought) => thought.MoodOffset() > 0.0));
 			}
-			pawn.needs.mood.thoughts.memories.RemoveMemoriesOfDefIf(ThoughtDefOf.SleptInBedroom, (Thought_Memory thought) => thought.MoodOffset() > 0f);
-			pawn.needs.mood.thoughts.memories.RemoveMemoriesOfDefIf(ThoughtDefOf.SleptInBarracks, (Thought_Memory thought) => thought.MoodOffset() > 0f);
 		}
 
 		public static bool CanGetThought(Pawn pawn, ThoughtDef def)
@@ -153,8 +148,7 @@ namespace RimWorld
 			{
 				if (!def.validWhileDespawned && !pawn.Spawned && !def.IsMemory)
 				{
-					bool result = false;
-					return result;
+					return false;
 				}
 				if (def.nullifyingTraits != null)
 				{
@@ -162,45 +156,40 @@ namespace RimWorld
 					{
 						if (pawn.story.traits.HasTrait(def.nullifyingTraits[i]))
 						{
-							bool result = false;
-							return result;
+							return false;
 						}
 					}
 				}
-				if (!def.requiredTraits.NullOrEmpty<TraitDef>())
+				if (!def.requiredTraits.NullOrEmpty())
 				{
 					bool flag = false;
-					for (int j = 0; j < def.requiredTraits.Count; j++)
+					int num = 0;
+					while (num < def.requiredTraits.Count)
 					{
-						if (pawn.story.traits.HasTrait(def.requiredTraits[j]))
+						if (!pawn.story.traits.HasTrait(def.requiredTraits[num]) || (def.RequiresSpecificTraitsDegree && def.requiredTraitsDegree != pawn.story.traits.DegreeOfTrait(def.requiredTraits[num])))
 						{
-							if (!def.RequiresSpecificTraitsDegree || def.requiredTraitsDegree == pawn.story.traits.DegreeOfTrait(def.requiredTraits[j]))
-							{
-								flag = true;
-								break;
-							}
+							num++;
+							continue;
 						}
+						flag = true;
+						break;
 					}
 					if (!flag)
 					{
-						bool result = false;
-						return result;
+						return false;
 					}
 				}
 				if (def.nullifiedIfNotColonist && !pawn.IsColonist)
 				{
-					bool result = false;
-					return result;
+					return false;
 				}
 				if (ThoughtUtility.IsSituationalThoughtNullifiedByHediffs(def, pawn))
 				{
-					bool result = false;
-					return result;
+					return false;
 				}
 				if (ThoughtUtility.IsThoughtNullifiedByOwnTales(def, pawn))
 				{
-					bool result = false;
-					return result;
+					return false;
 				}
 			}
 			finally

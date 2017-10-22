@@ -33,7 +33,7 @@ namespace Verse
 		{
 			get
 			{
-				return (!this.rooms.Any<Room>()) ? null : this.rooms[0].Map;
+				return (!this.rooms.Any()) ? null : this.rooms[0].Map;
 			}
 		}
 
@@ -69,7 +69,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.AnyRoomTouchesMapEdge || this.OpenRoofCount >= Mathf.CeilToInt((float)this.CellCount * 0.25f);
+				return this.AnyRoomTouchesMapEdge || this.OpenRoofCount >= Mathf.CeilToInt((float)((float)this.CellCount * 0.25));
 			}
 		}
 
@@ -77,11 +77,13 @@ namespace Verse
 		{
 			get
 			{
-				RoomGroup.<>c__Iterator209 <>c__Iterator = new RoomGroup.<>c__Iterator209();
-				<>c__Iterator.<>f__this = this;
-				RoomGroup.<>c__Iterator209 expr_0E = <>c__Iterator;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				for (int i = 0; i < this.rooms.Count; i++)
+				{
+					foreach (IntVec3 cell in this.rooms[i].Cells)
+					{
+						yield return cell;
+					}
+				}
 			}
 		}
 
@@ -105,11 +107,22 @@ namespace Verse
 		{
 			get
 			{
-				RoomGroup.<>c__Iterator20A <>c__Iterator20A = new RoomGroup.<>c__Iterator20A();
-				<>c__Iterator20A.<>f__this = this;
-				RoomGroup.<>c__Iterator20A expr_0E = <>c__Iterator20A;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				for (int i = 0; i < this.rooms.Count; i++)
+				{
+					List<Region>.Enumerator enumerator = this.rooms[i].Regions.GetEnumerator();
+					try
+					{
+						while (enumerator.MoveNext())
+						{
+							Region r = enumerator.Current;
+							yield return r;
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator).Dispose();
+					}
+				}
 			}
 		}
 
@@ -170,32 +183,24 @@ namespace Verse
 		{
 			if (this.rooms.Contains(room))
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Tried to add the same room twice to RoomGroup. room=",
-					room,
-					", roomGroup=",
-					this
-				}));
-				return;
+				Log.Error("Tried to add the same room twice to RoomGroup. room=" + room + ", roomGroup=" + this);
 			}
-			this.rooms.Add(room);
+			else
+			{
+				this.rooms.Add(room);
+			}
 		}
 
 		public void RemoveRoom(Room room)
 		{
 			if (!this.rooms.Contains(room))
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Tried to remove room from RoomGroup but this room is not here. room=",
-					room,
-					", roomGroup=",
-					this
-				}));
-				return;
+				Log.Error("Tried to remove room from RoomGroup but this room is not here. room=" + room + ", roomGroup=" + this);
 			}
-			this.rooms.Remove(room);
+			else
+			{
+				this.rooms.Remove(room);
+			}
 		}
 
 		public bool PushHeat(float energy)
@@ -223,31 +228,15 @@ namespace Verse
 
 		public string DebugString()
 		{
-			return string.Concat(new object[]
-			{
-				"RoomGroup ID=",
-				this.ID,
-				"\n  first cell=",
-				this.Cells.FirstOrDefault<IntVec3>(),
-				"\n  RoomCount=",
-				this.RoomCount,
-				"\n  RegionCount=",
-				this.RegionCount,
-				"\n  CellCount=",
-				this.CellCount,
-				"\n  OpenRoofCount=",
-				this.OpenRoofCount,
-				"\n  ",
-				this.tempTracker.DebugString()
-			});
+			return "RoomGroup ID=" + this.ID + "\n  first cell=" + this.Cells.FirstOrDefault() + "\n  RoomCount=" + this.RoomCount + "\n  RegionCount=" + this.RegionCount + "\n  CellCount=" + this.CellCount + "\n  OpenRoofCount=" + this.OpenRoofCount + "\n  " + this.tempTracker.DebugString();
 		}
 
 		internal void DebugDraw()
 		{
 			int num = Gen.HashCombineInt(this.GetHashCode(), 1948571531);
-			foreach (IntVec3 current in this.Cells)
+			foreach (IntVec3 cell in this.Cells)
 			{
-				CellRenderer.RenderCell(current, (float)num * 0.01f);
+				CellRenderer.RenderCell(cell, (float)((float)num * 0.0099999997764825821));
 			}
 			this.tempTracker.DebugDraw();
 		}

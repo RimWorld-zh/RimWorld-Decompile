@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -13,11 +12,11 @@ namespace RimWorld
 				return false;
 			}
 			Building edifice = c.GetEdifice(base.Map);
-			if (edifice == null || edifice.def != ThingDefOf.Ship_Beam)
+			if (edifice != null && edifice.def == ThingDefOf.Ship_Beam)
 			{
-				return "MustPlaceHeadOnShipBeam".Translate();
+				return true;
 			}
-			return true;
+			return "MustPlaceHeadOnShipBeam".Translate();
 		}
 	}
 }

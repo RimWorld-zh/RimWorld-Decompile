@@ -15,57 +15,27 @@ namespace RimWorld
 		public static void DrawDaysWorthOfFoodInfo(Rect rect, float daysWorthOfFood, float daysUntilRot, bool canEatLocalPlants, bool alignRight = false, float truncToWidth = 3.40282347E+38f)
 		{
 			GUI.color = Color.gray;
-			string text;
-			if (daysWorthOfFood >= 1000f)
-			{
-				text = "InfiniteDaysWorthOfFoodInfo".Translate();
-			}
-			else if (daysUntilRot < 1000f)
-			{
-				text = "DaysWorthOfFoodInfoRot".Translate(new object[]
-				{
-					daysWorthOfFood.ToString("0.#"),
-					daysUntilRot.ToString("0.#")
-				});
-			}
-			else
-			{
-				text = "DaysWorthOfFoodInfo".Translate(new object[]
-				{
-					daysWorthOfFood.ToString("0.#")
-				});
-			}
+			string text = (!(daysWorthOfFood >= 1000.0)) ? ((!(daysUntilRot < 1000.0)) ? "DaysWorthOfFoodInfo".Translate(daysWorthOfFood.ToString("0.#")) : "DaysWorthOfFoodInfoRot".Translate(daysWorthOfFood.ToString("0.#"), daysUntilRot.ToString("0.#"))) : "InfiniteDaysWorthOfFoodInfo".Translate();
 			string text2 = text;
-			if (truncToWidth != 3.40282347E+38f)
+			if (truncToWidth != 3.4028234663852886E+38)
 			{
 				text2 = text.Truncate(truncToWidth, null);
 			}
 			Vector2 vector = Text.CalcSize(text2);
-			Rect rect2;
-			if (alignRight)
-			{
-				rect2 = new Rect(rect.xMax - vector.x, rect.y, vector.x, vector.y);
-			}
-			else
-			{
-				rect2 = new Rect(rect.x, rect.y, vector.x, vector.y);
-			}
+			Rect rect2 = (!alignRight) ? new Rect(rect.x, rect.y, vector.x, vector.y) : new Rect(rect.xMax - vector.x, rect.y, vector.x, vector.y);
 			Widgets.Label(rect2, text2);
-			string text3 = string.Empty;
-			if (truncToWidth != 3.40282347E+38f && Text.CalcSize(text).x > truncToWidth)
+			string str = string.Empty;
+			if (truncToWidth != 3.4028234663852886E+38)
 			{
-				text3 = text3 + text + "\n\n";
+				Vector2 vector2 = Text.CalcSize(text);
+				if (vector2.x > truncToWidth)
+				{
+					str = str + text + "\n\n";
+				}
 			}
-			text3 = text3 + "DaysWorthOfFoodTooltip".Translate() + "\n\n";
-			if (canEatLocalPlants)
-			{
-				text3 += "DaysWorthOfFoodTooltip_CanEatLocalPlants".Translate();
-			}
-			else
-			{
-				text3 += "DaysWorthOfFoodTooltip_CantEatLocalPlants".Translate();
-			}
-			TooltipHandler.TipRegion(rect2, text3);
+			str = str + "DaysWorthOfFoodTooltip".Translate() + "\n\n";
+			str = ((!canEatLocalPlants) ? (str + "DaysWorthOfFoodTooltip_CantEatLocalPlants".Translate()) : (str + "DaysWorthOfFoodTooltip_CanEatLocalPlants".Translate()));
+			TooltipHandler.TipRegion(rect2, str);
 			GUI.color = Color.white;
 		}
 

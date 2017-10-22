@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -13,7 +12,11 @@ namespace RimWorld
 				return false;
 			}
 			CompRottable comp = thingWithComps.GetComp<CompRottable>();
-			return comp != null && !((CompProperties_Rottable)comp.props).rotDestroys && comp.Stage != RotStage.Fresh;
+			if (comp != null && !((CompProperties_Rottable)comp.props).rotDestroys)
+			{
+				return comp.Stage != RotStage.Fresh;
+			}
+			return false;
 		}
 
 		public override bool CanEverMatch(ThingDef def)

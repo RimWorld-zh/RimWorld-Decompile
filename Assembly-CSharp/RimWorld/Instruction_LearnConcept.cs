@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -9,20 +8,20 @@ namespace RimWorld
 		{
 			get
 			{
-				return PlayerKnowledgeDatabase.GetKnowledge(this.def.concept);
+				return PlayerKnowledgeDatabase.GetKnowledge(base.def.concept);
 			}
 		}
 
 		public override void OnActivated()
 		{
-			PlayerKnowledgeDatabase.SetKnowledge(this.def.concept, 0f);
+			PlayerKnowledgeDatabase.SetKnowledge(base.def.concept, 0f);
 			base.OnActivated();
 		}
 
 		public override void LessonUpdate()
 		{
 			base.LessonUpdate();
-			if (PlayerKnowledgeDatabase.IsComplete(this.def.concept))
+			if (PlayerKnowledgeDatabase.IsComplete(base.def.concept))
 			{
 				Find.ActiveLesson.Deactivate();
 			}

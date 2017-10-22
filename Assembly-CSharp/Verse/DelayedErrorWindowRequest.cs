@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -12,7 +11,7 @@ namespace Verse
 			public string title;
 		}
 
-		private static List<DelayedErrorWindowRequest.Request> requests = new List<DelayedErrorWindowRequest.Request>();
+		private static List<Request> requests = new List<Request>();
 
 		public static void DelayedErrorWindowRequestOnGUI()
 		{
@@ -20,9 +19,11 @@ namespace Verse
 			{
 				for (int i = 0; i < DelayedErrorWindowRequest.requests.Count; i++)
 				{
-					WindowStack arg_47_0 = Find.WindowStack;
-					string title = DelayedErrorWindowRequest.requests[i].title;
-					arg_47_0.Add(new Dialog_MessageBox(DelayedErrorWindowRequest.requests[i].text, "OK".Translate(), null, null, null, title, false));
+					WindowStack windowStack = Find.WindowStack;
+					Request request = DelayedErrorWindowRequest.requests[i];
+					string title = request.title;
+					Request request2 = DelayedErrorWindowRequest.requests[i];
+					windowStack.Add(new Dialog_MessageBox(request2.text, "OK".Translate(), null, (string)null, null, title, false));
 				}
 			}
 			finally
@@ -33,9 +34,11 @@ namespace Verse
 
 		public static void Add(string text, string title = null)
 		{
-			DelayedErrorWindowRequest.Request item = default(DelayedErrorWindowRequest.Request);
-			item.text = text;
-			item.title = title;
+			Request item = new Request
+			{
+				text = text,
+				title = title
+			};
 			DelayedErrorWindowRequest.requests.Add(item);
 		}
 	}

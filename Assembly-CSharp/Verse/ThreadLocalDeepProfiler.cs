@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -14,7 +13,7 @@ namespace Verse
 
 			private Stopwatch watch;
 
-			private List<ThreadLocalDeepProfiler.Watcher> children;
+			private List<Watcher> children;
 
 			public string Label
 			{
@@ -32,7 +31,7 @@ namespace Verse
 				}
 			}
 
-			public List<ThreadLocalDeepProfiler.Watcher> Children
+			public List<Watcher> Children
 			{
 				get
 				{
@@ -47,11 +46,11 @@ namespace Verse
 				this.children = null;
 			}
 
-			public void AddChildResult(ThreadLocalDeepProfiler.Watcher w)
+			public void AddChildResult(Watcher w)
 			{
 				if (this.children == null)
 				{
-					this.children = new List<ThreadLocalDeepProfiler.Watcher>();
+					this.children = new List<Watcher>();
 				}
 				this.children.Add(w);
 			}
@@ -59,7 +58,7 @@ namespace Verse
 
 		private const int MaxDepth = 50;
 
-		private Stack<ThreadLocalDeepProfiler.Watcher> watchers = new Stack<ThreadLocalDeepProfiler.Watcher>();
+		private Stack<Watcher> watchers = new Stack<Watcher>();
 
 		private static readonly string[] Prefixes;
 
@@ -69,48 +68,47 @@ namespace Verse
 			for (int i = 0; i < 50; i++)
 			{
 				ThreadLocalDeepProfiler.Prefixes[i] = string.Empty;
-				for (int j = 0; j < i; j++)
+				for (int num = 0; num < i; num++)
 				{
-					string[] expr_31_cp_0 = ThreadLocalDeepProfiler.Prefixes;
-					int expr_31_cp_1 = i;
-					expr_31_cp_0[expr_31_cp_1] += " -";
+					ref string val = ref ThreadLocalDeepProfiler.Prefixes[i];
+					val += " -";
 				}
 			}
 		}
 
 		public void Start(string label = null)
 		{
-			if (!Prefs.LogVerbose)
+			if (Prefs.LogVerbose)
 			{
-				return;
+				this.watchers.Push(new Watcher(label));
 			}
-			this.watchers.Push(new ThreadLocalDeepProfiler.Watcher(label));
 		}
 
 		public void End()
 		{
-			if (!Prefs.LogVerbose)
+			if (Prefs.LogVerbose)
 			{
-				return;
-			}
-			if (this.watchers.Count == 0)
-			{
-				Log.Error("Ended deep profiling while not profiling.");
-				return;
-			}
-			ThreadLocalDeepProfiler.Watcher watcher = this.watchers.Pop();
-			watcher.Watch.Stop();
-			if (this.watchers.Count > 0)
-			{
-				this.watchers.Peek().AddChildResult(watcher);
-			}
-			else
-			{
-				this.Output(watcher);
+				if (this.watchers.Count == 0)
+				{
+					Log.Error("Ended deep profiling while not profiling.");
+				}
+				else
+				{
+					Watcher watcher = this.watchers.Pop();
+					watcher.Watch.Stop();
+					if (this.watchers.Count > 0)
+					{
+						this.watchers.Peek().AddChildResult(watcher);
+					}
+					else
+					{
+						this.Output(watcher);
+					}
+				}
 			}
 		}
 
-		private void Output(ThreadLocalDeepProfiler.Watcher root)
+		private void Output(Watcher root)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			if (UnityData.IsInMainThread)
@@ -125,16 +123,9 @@ namespace Verse
 			Log.Message(stringBuilder.ToString());
 		}
 
-		private void AppendStringRecursive(StringBuilder sb, ThreadLocalDeepProfiler.Watcher w, int depth)
+		private void AppendStringRecursive(StringBuilder sb, Watcher w, int depth)
 		{
-			sb.AppendLine(string.Concat(new object[]
-			{
-				ThreadLocalDeepProfiler.Prefixes[depth],
-				" ",
-				w.Watch.ElapsedMilliseconds,
-				"ms ",
-				w.Label
-			}));
+			sb.AppendLine(ThreadLocalDeepProfiler.Prefixes[depth] + " " + w.Watch.ElapsedMilliseconds + "ms " + w.Label);
 			if (w.Children != null)
 			{
 				for (int i = 0; i < w.Children.Count; i++)

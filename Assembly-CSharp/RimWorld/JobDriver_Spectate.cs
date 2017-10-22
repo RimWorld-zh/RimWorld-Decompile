@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Verse;
 using Verse.AI;
 
 namespace RimWorld
@@ -11,14 +11,28 @@ namespace RimWorld
 
 		private const TargetIndex WatchTargetInd = TargetIndex.B;
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_Spectate.<MakeNewToils>c__Iterator17 <MakeNewToils>c__Iterator = new JobDriver_Spectate.<MakeNewToils>c__Iterator17();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_Spectate.<MakeNewToils>c__Iterator17 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (base.CurJob.GetTarget(TargetIndex.A).HasThing)
+			{
+				this.EndOnDespawnedOrNull(TargetIndex.A, JobCondition.Incompletable);
+			}
+			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
+			yield return new Toil
+			{
+				tickAction = (Action)delegate
+				{
+					((_003CMakeNewToils_003Ec__Iterator17)/*Error near IL_00a6: stateMachine*/)._003C_003Ef__this.pawn.Drawer.rotator.FaceCell(((_003CMakeNewToils_003Ec__Iterator17)/*Error near IL_00a6: stateMachine*/)._003C_003Ef__this.CurJob.GetTarget(TargetIndex.B).Cell);
+					((_003CMakeNewToils_003Ec__Iterator17)/*Error near IL_00a6: stateMachine*/)._003C_003Ef__this.pawn.GainComfortFromCellIfPossible();
+					if (((_003CMakeNewToils_003Ec__Iterator17)/*Error near IL_00a6: stateMachine*/)._003C_003Ef__this.pawn.IsHashIntervalTick(100))
+					{
+						((_003CMakeNewToils_003Ec__Iterator17)/*Error near IL_00a6: stateMachine*/)._003C_003Ef__this.pawn.jobs.CheckForJobOverride();
+					}
+				},
+				defaultCompleteMode = ToilCompleteMode.Never,
+				handlingFacing = true
+			};
 		}
 	}
 }

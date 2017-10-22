@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -31,7 +30,7 @@ namespace RimWorld
 
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c)
 		{
-			if (!pawn.Map.areaManager.NoRoof[c])
+			if (!((Area)pawn.Map.areaManager.NoRoof)[c])
 			{
 				return false;
 			}
@@ -40,7 +39,11 @@ namespace RimWorld
 				return false;
 			}
 			ReservationLayerDef ceiling = ReservationLayerDefOf.Ceiling;
-			return pawn.CanReserveAndReach(c, PathEndMode.ClosestTouch, pawn.NormalMaxDanger(), 1, -1, ceiling, false);
+			if (!pawn.CanReserveAndReach(c, PathEndMode.ClosestTouch, pawn.NormalMaxDanger(), 1, -1, ceiling, false))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 c)
@@ -68,7 +71,7 @@ namespace RimWorld
 					}
 				}
 			}
-			return (float)(-(float)Mathf.Min(num, 3));
+			return (float)(-Mathf.Min(num, 3));
 		}
 	}
 }

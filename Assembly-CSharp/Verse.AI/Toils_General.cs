@@ -8,7 +8,7 @@ namespace Verse.AI
 		public static Toil Wait(int ticks)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate
 			{
 				toil.actor.pather.StopDead();
 			};
@@ -20,7 +20,7 @@ namespace Verse.AI
 		public static Toil WaitWith(TargetIndex targetInd, int ticks, bool useProgressBar = false, bool maintainPosture = false)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				toil.actor.pather.StopDead();
 				Pawn pawn = toil.actor.CurJob.GetTarget(targetInd).Thing as Pawn;
@@ -44,7 +44,7 @@ namespace Verse.AI
 		public static Toil RemoveDesignationsOnThing(TargetIndex ind, DesignationDef def)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				toil.actor.Map.designationManager.RemoveAllDesignationsOn(toil.actor.jobs.curJob.GetTarget(ind).Thing, false);
 			};
@@ -54,9 +54,9 @@ namespace Verse.AI
 		public static Toil ClearTarget(TargetIndex ind)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
-				toil.GetActor().CurJob.SetTarget(ind, null);
+				toil.GetActor().CurJob.SetTarget(ind, (Thing)null);
 			};
 			return toil;
 		}
@@ -64,13 +64,13 @@ namespace Verse.AI
 		public static Toil PutCarriedThingInInventory()
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate
 			{
 				Pawn actor = toil.GetActor();
 				if (actor.carryTracker.CarriedThing != null && !actor.carryTracker.innerContainer.TryTransferToContainer(actor.carryTracker.CarriedThing, actor.inventory.innerContainer, true))
 				{
-					Thing thing;
-					actor.carryTracker.TryDropCarriedThing(actor.Position, actor.carryTracker.CarriedThing.stackCount, ThingPlaceMode.Near, out thing, null);
+					Thing thing = default(Thing);
+					actor.carryTracker.TryDropCarriedThing(actor.Position, actor.carryTracker.CarriedThing.stackCount, ThingPlaceMode.Near, out thing, (Action<Thing, int>)null);
 				}
 			};
 			return toil;

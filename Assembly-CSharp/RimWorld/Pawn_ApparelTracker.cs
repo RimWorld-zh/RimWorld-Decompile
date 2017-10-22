@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -40,11 +39,10 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn_ApparelTracker.<>c__IteratorE2 <>c__IteratorE = new Pawn_ApparelTracker.<>c__IteratorE2();
-				<>c__IteratorE.<>f__this = this;
-				Pawn_ApparelTracker.<>c__IteratorE2 expr_0E = <>c__IteratorE;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				for (int i = 0; i < this.wornApparel.Count; i++)
+				{
+					yield return this.wornApparel[i];
+				}
 			}
 		}
 
@@ -64,14 +62,18 @@ namespace RimWorld
 				{
 					return false;
 				}
-				bool flag;
-				bool flag2;
+				bool flag = default(bool);
+				bool flag2 = default(bool);
 				this.HasBasicApparel(out flag, out flag2);
 				if (this.pawn.gender == Gender.Male)
 				{
 					return !flag;
 				}
-				return this.pawn.gender == Gender.Female && (!flag || !flag2);
+				if (this.pawn.gender == Gender.Female)
+				{
+					return !flag || !flag2;
+				}
+				return false;
 			}
 		}
 
@@ -83,7 +85,7 @@ namespace RimWorld
 
 		public void ExposeData()
 		{
-			Scribe_Deep.Look<ThingOwner<Apparel>>(ref this.wornApparel, "wornApparel", new object[]
+			Scribe_Deep.Look<ThingOwner<Apparel>>(ref this.wornApparel, "wornApparel", new object[1]
 			{
 				this
 			});
@@ -116,10 +118,7 @@ namespace RimWorld
 			this.wornApparel.ThingOwnerTick(true);
 			if (this.pawn.IsColonist && this.pawn.Spawned && !this.pawn.Dead && this.pawn.IsHashIntervalTick(60000) && this.PsychologicallyNude)
 			{
-				TaleRecorder.RecordTale(TaleDefOf.WalkedNaked, new object[]
-				{
-					this.pawn
-				});
+				TaleRecorder.RecordTale(TaleDefOf.WalkedNaked, this.pawn);
 			}
 		}
 
@@ -132,13 +131,9 @@ namespace RimWorld
 			}
 			if (ap.Destroyed && PawnUtility.ShouldSendNotificationAbout(this.pawn) && !this.pawn.Dead)
 			{
-				string text = "MessageWornApparelDeterioratedAway".Translate(new object[]
-				{
-					GenLabel.ThingLabel(ap.def, ap.Stuff, 1),
-					this.pawn
-				});
-				text = text.CapitalizeFirst();
-				Messages.Message(text, this.pawn, MessageSound.Negative);
+				string str = "MessageWornApparelDeterioratedAway".Translate(GenLabel.ThingLabel(ap.def, ap.Stuff, 1), this.pawn);
+				str = str.CapitalizeFirst();
+				Messages.Message(str, (Thing)this.pawn, MessageSound.Negative);
 			}
 		}
 
@@ -162,49 +157,37 @@ namespace RimWorld
 			}
 			if (!ApparelUtility.HasPartsToWear(this.pawn, newApparel.def))
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					this.pawn,
-					" tried to wear ",
-					newApparel,
-					" but he has no body parts required to wear it."
-				}));
-				return;
+				Log.Warning(this.pawn + " tried to wear " + newApparel + " but he has no body parts required to wear it.");
 			}
-			for (int i = this.wornApparel.Count - 1; i >= 0; i--)
+			else
 			{
-				Apparel apparel = this.wornApparel[i];
-				if (!ApparelUtility.CanWearTogether(newApparel.def, apparel.def))
+				for (int num = this.wornApparel.Count - 1; num >= 0; num--)
 				{
-					if (dropReplacedApparel)
+					Apparel apparel = this.wornApparel[num];
+					if (!ApparelUtility.CanWearTogether(newApparel.def, apparel.def))
 					{
-						bool forbid = this.pawn.Faction.HostileTo(Faction.OfPlayer);
-						Apparel apparel2;
-						if (!this.TryDrop(apparel, out apparel2, this.pawn.Position, forbid))
+						if (dropReplacedApparel)
 						{
-							Log.Error(this.pawn + " could not drop " + apparel);
-							return;
+							bool forbid = this.pawn.Faction.HostileTo(Faction.OfPlayer);
+							Apparel apparel2 = default(Apparel);
+							if (!this.TryDrop(apparel, out apparel2, this.pawn.Position, forbid))
+							{
+								Log.Error(this.pawn + " could not drop " + apparel);
+								return;
+							}
+						}
+						else
+						{
+							this.Remove(apparel);
 						}
 					}
-					else
-					{
-						this.Remove(apparel);
-					}
 				}
-			}
-			if (newApparel.Wearer != null)
-			{
-				Log.Warning(string.Concat(new object[]
+				if (newApparel.Wearer != null)
 				{
-					this.pawn,
-					" is trying to wear ",
-					newApparel,
-					" but this apparel already has a wearer (",
-					newApparel.Wearer,
-					"). This may or may not cause bugs."
-				}));
+					Log.Warning(this.pawn + " is trying to wear " + newApparel + " but this apparel already has a wearer (" + newApparel.Wearer + "). This may or may not cause bugs.");
+				}
+				this.wornApparel.TryAdd(newApparel, false);
 			}
-			this.wornApparel.TryAdd(newApparel, false);
 		}
 
 		public void Remove(Apparel ap)
@@ -219,7 +202,7 @@ namespace RimWorld
 
 		public bool TryDrop(Apparel ap, out Apparel resultingAp, IntVec3 pos, bool forbid = true)
 		{
-			if (this.wornApparel.TryDrop(ap, pos, this.pawn.MapHeld, ThingPlaceMode.Near, out resultingAp, null))
+			if (this.wornApparel.TryDrop((Thing)ap, pos, this.pawn.MapHeld, ThingPlaceMode.Near, out resultingAp, (Action<Apparel, int>)null))
 			{
 				if (resultingAp != null)
 				{
@@ -239,7 +222,7 @@ namespace RimWorld
 			}
 			for (int j = 0; j < Pawn_ApparelTracker.tmpApparelList.Count; j++)
 			{
-				Apparel apparel;
+				Apparel apparel = default(Apparel);
 				this.TryDrop(Pawn_ApparelTracker.tmpApparelList[j], out apparel, pos, forbid);
 			}
 		}
@@ -292,7 +275,7 @@ namespace RimWorld
 
 		private void SortWornApparelIntoDrawOrder()
 		{
-			this.wornApparel.InnerListForReading.Sort((Apparel a, Apparel b) => a.def.apparel.LastLayer.CompareTo(b.def.apparel.LastLayer));
+			this.wornApparel.InnerListForReading.Sort((Comparison<Apparel>)((Apparel a, Apparel b) => ((Enum)(object)a.def.apparel.LastLayer).CompareTo((object)b.def.apparel.LastLayer)));
 		}
 
 		public void HasBasicApparel(out bool hasPants, out bool hasShirt)
@@ -313,9 +296,7 @@ namespace RimWorld
 						hasPants = true;
 					}
 					if (hasShirt && hasPants)
-					{
 						return;
-					}
 				}
 			}
 		}
@@ -352,19 +333,20 @@ namespace RimWorld
 			return false;
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			Pawn_ApparelTracker.<GetGizmos>c__IteratorE3 <GetGizmos>c__IteratorE = new Pawn_ApparelTracker.<GetGizmos>c__IteratorE3();
-			<GetGizmos>c__IteratorE.<>f__this = this;
-			Pawn_ApparelTracker.<GetGizmos>c__IteratorE3 expr_0E = <GetGizmos>c__IteratorE;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			for (int i = 0; i < this.wornApparel.Count; i++)
+			{
+				foreach (Gizmo wornGizmo in this.wornApparel[i].GetWornGizmos())
+				{
+					yield return wornGizmo;
+				}
+			}
 		}
 
 		private void ApparelChanged()
 		{
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				this.pawn.Drawer.renderer.graphics.ResolveApparelGraphics();
 				PortraitsCache.SetDirty(this.pawn);

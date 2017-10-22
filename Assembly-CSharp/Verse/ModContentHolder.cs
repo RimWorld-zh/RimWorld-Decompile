@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace Verse
@@ -20,13 +19,22 @@ namespace Verse
 		{
 			if (typeof(UnityEngine.Object).IsAssignableFrom(typeof(T)))
 			{
-				foreach (T current in this.contentList.Values)
+				Dictionary<string, T>.ValueCollection.Enumerator enumerator = this.contentList.Values.GetEnumerator();
+				try
 				{
-					T localObj = current;
-					LongEventHandler.ExecuteWhenFinished(delegate
+					while (enumerator.MoveNext())
 					{
-						UnityEngine.Object.Destroy((UnityEngine.Object)((object)localObj));
-					});
+						T current = enumerator.Current;
+						T localObj = current;
+						LongEventHandler.ExecuteWhenFinished((Action)delegate
+						{
+							UnityEngine.Object.Destroy((UnityEngine.Object)(object)localObj);
+						});
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 			this.contentList.Clear();
@@ -34,45 +42,47 @@ namespace Verse
 
 		public void ReloadAll()
 		{
-			foreach (LoadedContentItem<T> current in ModContentLoader<T>.LoadAllForMod(this.mod))
+			foreach (LoadedContentItem<T> item in ModContentLoader<T>.LoadAllForMod(this.mod))
 			{
-				if (this.contentList.ContainsKey(current.internalPath))
+				if (this.contentList.ContainsKey(item.internalPath))
 				{
-					Log.Warning(string.Concat(new object[]
-					{
-						"Tried to load duplicate ",
-						typeof(T),
-						" with path: ",
-						current.internalPath
-					}));
+					Log.Warning("Tried to load duplicate " + typeof(T) + " with path: " + item.internalPath);
 				}
 				else
 				{
-					this.contentList.Add(current.internalPath, current.contentItem);
+					this.contentList.Add(item.internalPath, item.contentItem);
 				}
 			}
 		}
 
 		public T Get(string path)
 		{
-			T result;
+			T result = default(T);
 			if (this.contentList.TryGetValue(path, out result))
 			{
 				return result;
 			}
-			return (T)((object)null);
+			return (T)null;
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<T> GetAllUnderPath(string pathRoot)
 		{
-			ModContentHolder<T>.<GetAllUnderPath>c__Iterator20F <GetAllUnderPath>c__Iterator20F = new ModContentHolder<T>.<GetAllUnderPath>c__Iterator20F();
-			<GetAllUnderPath>c__Iterator20F.pathRoot = pathRoot;
-			<GetAllUnderPath>c__Iterator20F.<$>pathRoot = pathRoot;
-			<GetAllUnderPath>c__Iterator20F.<>f__this = this;
-			ModContentHolder<T>.<GetAllUnderPath>c__Iterator20F expr_1C = <GetAllUnderPath>c__Iterator20F;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			Dictionary<string, T>.Enumerator enumerator = this.contentList.GetEnumerator();
+			try
+			{
+				while (enumerator.MoveNext())
+				{
+					KeyValuePair<string, T> kvp = enumerator.Current;
+					if (kvp.Key.StartsWith(pathRoot))
+					{
+						yield return kvp.Value;
+					}
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
 		}
 	}
 }

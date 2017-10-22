@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.Grammar;
@@ -13,13 +12,15 @@ namespace RimWorld
 		{
 			Rand.PushState();
 			Rand.Seed = seed;
-			string rootKeyword = null;
+			string rootKeyword = (string)null;
 			List<Rule> list = new List<Rule>();
 			list.AddRange(extraRules);
-			if (purpose == TextGenerationPurpose.ArtDescription)
+			switch (purpose)
+			{
+			case TextGenerationPurpose.ArtDescription:
 			{
 				rootKeyword = "art_description_root";
-				if (tale != null && Rand.Value > 0.2f)
+				if (tale != null && Rand.Value > 0.20000000298023224)
 				{
 					list.AddRange(RulePackDefOf.ArtDescriptionRoot_HasTale.Rules);
 					list.AddRange(tale.GetTextGenerationRules());
@@ -30,14 +31,17 @@ namespace RimWorld
 					list.AddRange(RulePackDefOf.TalelessImages.Rules);
 				}
 				list.AddRange(RulePackDefOf.ArtDescriptionUtility_Global.Rules);
+				break;
 			}
-			else if (purpose == TextGenerationPurpose.ArtName)
+			case TextGenerationPurpose.ArtName:
 			{
 				rootKeyword = "art_name";
 				if (tale != null)
 				{
 					list.AddRange(tale.GetTextGenerationRules());
 				}
+				break;
+			}
 			}
 			string result = GrammarResolver.Resolve(rootKeyword, list, (tale == null) ? "null_tale" : tale.def.defName);
 			Rand.PopState();

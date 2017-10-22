@@ -32,14 +32,14 @@ namespace RimWorld
 		{
 			get
 			{
-				return null;
+				return (string)null;
 			}
 		}
 
 		public Page()
 		{
-			this.forcePause = true;
-			this.absorbInputAroundWindow = true;
+			base.forcePause = true;
+			base.absorbInputAroundWindow = true;
 		}
 
 		protected void DrawPageTitle(Rect rect)
@@ -49,22 +49,27 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 		}
 
-		protected Rect GetMainRect(Rect rect, float extraTopSpace = 0f, bool ignoreTitle = false)
+		protected Rect GetMainRect(Rect rect, float extraTopSpace = 0, bool ignoreTitle = false)
 		{
 			float num = 0f;
 			if (!ignoreTitle)
 			{
-				num = 45f + extraTopSpace;
+				num = (float)(45.0 + extraTopSpace);
 			}
-			return new Rect(0f, num, rect.width, rect.height - 38f - num - 17f);
+			return new Rect(0f, num, rect.width, (float)(rect.height - 38.0 - num - 17.0));
 		}
 
 		protected void DoBottomButtons(Rect rect, string nextLabel = null, string midLabel = null, Action midAct = null, bool showNext = true)
 		{
-			float y = rect.height - 38f;
+			float num = (float)(rect.height - 38.0);
 			Text.Font = GameFont.Small;
 			string label = "Back".Translate();
-			Rect rect2 = new Rect(rect.x, y, Page.BottomButSize.x, Page.BottomButSize.y);
+			float x = rect.x;
+			float y = num;
+			Vector2 bottomButSize = Page.BottomButSize;
+			float x2 = bottomButSize.x;
+			Vector2 bottomButSize2 = Page.BottomButSize;
+			Rect rect2 = new Rect(x, y, x2, bottomButSize2.y);
 			if (Widgets.ButtonText(rect2, label, true, false, true) && this.CanDoBack())
 			{
 				this.DoBack();
@@ -75,16 +80,30 @@ namespace RimWorld
 				{
 					nextLabel = "Next".Translate();
 				}
-				Rect rect3 = new Rect(rect.x + rect.width - Page.BottomButSize.x, y, Page.BottomButSize.x, Page.BottomButSize.y);
+				float num2 = rect.x + rect.width;
+				Vector2 bottomButSize3 = Page.BottomButSize;
+				float x3 = num2 - bottomButSize3.x;
+				float y2 = num;
+				Vector2 bottomButSize4 = Page.BottomButSize;
+				float x4 = bottomButSize4.x;
+				Vector2 bottomButSize5 = Page.BottomButSize;
+				Rect rect3 = new Rect(x3, y2, x4, bottomButSize5.y);
 				if (Widgets.ButtonText(rect3, nextLabel, true, false, true) && this.CanDoNext())
 				{
 					this.DoNext();
 				}
 				UIHighlighter.HighlightOpportunity(rect3, "NextPage");
 			}
-			if (midAct != null)
+			if ((object)midAct != null)
 			{
-				Rect rect4 = new Rect(rect.x + rect.width / 2f - Page.BottomButSize.x / 2f, y, Page.BottomButSize.x, Page.BottomButSize.y);
+				double num3 = rect.x + rect.width / 2.0;
+				Vector2 bottomButSize6 = Page.BottomButSize;
+				double x5 = num3 - bottomButSize6.x / 2.0;
+				float y3 = num;
+				Vector2 bottomButSize7 = Page.BottomButSize;
+				float x6 = bottomButSize7.x;
+				Vector2 bottomButSize8 = Page.BottomButSize;
+				Rect rect4 = new Rect((float)x5, y3, x6, bottomButSize8.y);
 				if (Widgets.ButtonText(rect4, midLabel, true, false, true))
 				{
 					midAct();
@@ -108,7 +127,7 @@ namespace RimWorld
 			{
 				Find.WindowStack.Add(this.next);
 			}
-			if (this.nextAct != null)
+			if ((object)this.nextAct != null)
 			{
 				this.nextAct();
 			}

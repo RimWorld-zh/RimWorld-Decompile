@@ -1,4 +1,3 @@
-using System;
 using Verse.AI;
 using Verse.AI.Group;
 
@@ -23,11 +22,11 @@ namespace RimWorld
 
 		public override void UpdateAllDuties()
 		{
-			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
 				PawnDuty pawnDuty = new PawnDuty(DutyDefOf.LoadAndEnterTransporters);
 				pawnDuty.transportersGroup = this.transportersGroup;
-				this.lord.ownedPawns[i].mindState.duty = pawnDuty;
+				base.lord.ownedPawns[i].mindState.duty = pawnDuty;
 			}
 		}
 	}

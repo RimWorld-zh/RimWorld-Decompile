@@ -37,18 +37,11 @@ namespace RimWorld
 			List<PawnCapacityDef> allDefsListForReading = DefDatabase<PawnCapacityDef>.AllDefsListForReading;
 			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
-				if (!pawn.health.capacities.CapableOf(allDefsListForReading[i]))
-				{
-					num *= 0.6f;
-				}
-				else
-				{
-					num *= Mathf.Lerp(0.5f, 1f, pawn.health.capacities.GetLevel(allDefsListForReading[i]));
-				}
+				num = (float)(pawn.health.capacities.CapableOf(allDefsListForReading[i]) ? (num * Mathf.Lerp(0.5f, 1f, pawn.health.capacities.GetLevel(allDefsListForReading[i]))) : (num * 0.60000002384185791));
 			}
 			if (pawn.skills != null)
 			{
-				num *= PriceUtility.AverageSkillCurve.Evaluate(pawn.skills.skills.Average((SkillRecord sk) => (float)sk.Level));
+				num *= PriceUtility.AverageSkillCurve.Evaluate(pawn.skills.skills.Average((Func<SkillRecord, float>)((SkillRecord sk) => (float)sk.Level)));
 			}
 			return num * pawn.ageTracker.CurLifeStage.marketValueFactor;
 		}

@@ -9,14 +9,18 @@ namespace Verse
 		public static string ToStringFullContents<K, V>(this Dictionary<K, V> dict)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (KeyValuePair<K, V> current in dict)
+			Dictionary<K, V>.Enumerator enumerator = dict.GetEnumerator();
+			try
 			{
-				StringBuilder arg_50_0 = stringBuilder;
-				K key = current.Key;
-				string arg_4B_0 = key.ToString();
-				string arg_4B_1 = ": ";
-				V value = current.Value;
-				arg_50_0.AppendLine(arg_4B_0 + arg_4B_1 + value.ToString());
+				while (enumerator.MoveNext())
+				{
+					KeyValuePair<K, V> current = enumerator.Current;
+					stringBuilder.AppendLine(current.Key.ToString() + ": " + current.Value.ToString());
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			return stringBuilder.ToString();
 		}

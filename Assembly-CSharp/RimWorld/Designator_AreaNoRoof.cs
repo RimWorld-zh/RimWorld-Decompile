@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -33,9 +32,9 @@ namespace RimWorld
 		public Designator_AreaNoRoof(DesignateMode mode)
 		{
 			this.mode = mode;
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.useMouseIcon = true;
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.useMouseIcon = true;
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
@@ -53,7 +52,7 @@ namespace RimWorld
 			{
 				return "MessageNothingCanRemoveThickRoofs".Translate();
 			}
-			bool flag = base.Map.areaManager.NoRoof[c];
+			bool flag = ((Area)base.Map.areaManager.NoRoof)[c];
 			if (this.mode == DesignateMode.Add)
 			{
 				return !flag;
@@ -65,12 +64,12 @@ namespace RimWorld
 		{
 			if (this.mode == DesignateMode.Add)
 			{
-				base.Map.areaManager.NoRoof[c] = true;
+				((Area)base.Map.areaManager.NoRoof)[c] = true;
 				Designator_AreaNoRoof.justAddedCells.Add(c);
 			}
 			else if (this.mode == DesignateMode.Remove)
 			{
-				base.Map.areaManager.NoRoof[c] = false;
+				((Area)base.Map.areaManager.NoRoof)[c] = false;
 				Designator_AreaNoRoof.justRemovedCells.Add(c);
 			}
 		}
@@ -82,7 +81,7 @@ namespace RimWorld
 			{
 				for (int i = 0; i < Designator_AreaNoRoof.justAddedCells.Count; i++)
 				{
-					base.Map.areaManager.BuildRoof[Designator_AreaNoRoof.justAddedCells[i]] = false;
+					((Area)base.Map.areaManager.BuildRoof)[Designator_AreaNoRoof.justAddedCells[i]] = false;
 				}
 				Designator_AreaNoRoof.justAddedCells.Clear();
 			}

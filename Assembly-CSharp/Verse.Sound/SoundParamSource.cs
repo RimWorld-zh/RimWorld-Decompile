@@ -1,8 +1,7 @@
-using System;
-
 namespace Verse.Sound
 {
-	[EditorReplaceable, EditorShowClassName]
+	[EditorShowClassName]
+	[EditorReplaceable]
 	public abstract class SoundParamSource
 	{
 		public abstract string Label

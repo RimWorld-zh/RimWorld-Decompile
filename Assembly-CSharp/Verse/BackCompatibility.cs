@@ -16,18 +16,18 @@ namespace Verse
 			{
 				return true;
 			}
-			if (VersionControl.MajorFromVersionString(version) != 0 || VersionControl.CurrentMajor != 0)
+			if (VersionControl.MajorFromVersionString(version) == 0 && VersionControl.CurrentMajor == 0)
 			{
-				return false;
-			}
-			int num = VersionControl.MinorFromVersionString(version);
-			int currentMinor = VersionControl.CurrentMinor;
-			for (int i = 0; i < BackCompatibility.SaveCompatibleMinorVersions.Length; i++)
-			{
-				if (BackCompatibility.SaveCompatibleMinorVersions[i].First == num && BackCompatibility.SaveCompatibleMinorVersions[i].Second == currentMinor)
+				int num = VersionControl.MinorFromVersionString(version);
+				int currentMinor = VersionControl.CurrentMinor;
+				for (int i = 0; i < BackCompatibility.SaveCompatibleMinorVersions.Length; i++)
 				{
-					return true;
+					if (BackCompatibility.SaveCompatibleMinorVersions[i].First == num && BackCompatibility.SaveCompatibleMinorVersions[i].Second == currentMinor)
+					{
+						return true;
+					}
 				}
+				return false;
 			}
 			return false;
 		}
@@ -322,13 +322,16 @@ namespace Verse
 			if (jobTracker.jobQueue != null)
 			{
 				bool flag = false;
-				for (int i = 0; i < jobTracker.jobQueue.Count; i++)
+				int num = 0;
+				while (num < jobTracker.jobQueue.Count)
 				{
-					if (jobTracker.jobQueue[i].job == null)
+					if (jobTracker.jobQueue[num].job != null)
 					{
-						flag = true;
-						break;
+						num++;
+						continue;
 					}
+					flag = true;
+					break;
 				}
 				if (flag)
 				{

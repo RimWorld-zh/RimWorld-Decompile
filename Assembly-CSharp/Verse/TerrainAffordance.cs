@@ -1,15 +1,13 @@
-using System;
-
 namespace Verse
 {
 	public enum TerrainAffordance : byte
 	{
-		Undefined,
-		Light,
-		Heavy,
-		GrowSoil,
-		Diggable,
-		SmoothHard,
-		SmoothableStone
+		Undefined = 0,
+		Light = 1,
+		Heavy = 2,
+		GrowSoil = 3,
+		Diggable = 4,
+		SmoothHard = 5,
+		SmoothableStone = 6
 	}
 }

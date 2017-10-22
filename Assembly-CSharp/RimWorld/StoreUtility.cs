@@ -25,7 +25,11 @@ namespace RimWorld
 				return false;
 			}
 			SlotGroup slotGroup = t.GetSlotGroup();
-			return slotGroup != null && slotGroup.Settings.AllowedToAccept(t);
+			if (slotGroup != null && slotGroup.Settings.AllowedToAccept(t))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool IsInValidBestStorage(this Thing t)
@@ -35,8 +39,16 @@ namespace RimWorld
 				return false;
 			}
 			SlotGroup slotGroup = t.GetSlotGroup();
-			IntVec3 intVec;
-			return slotGroup != null && slotGroup.Settings.AllowedToAccept(t) && !StoreUtility.TryFindBestBetterStoreCellFor(t, null, t.Map, slotGroup.Settings.Priority, Faction.OfPlayer, out intVec, false);
+			if (slotGroup != null && slotGroup.Settings.AllowedToAccept(t))
+			{
+				IntVec3 intVec = default(IntVec3);
+				if (StoreUtility.TryFindBestBetterStoreCellFor(t, (Pawn)null, t.Map, slotGroup.Settings.Priority, Faction.OfPlayer, out intVec, false))
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		public static Building StoringBuilding(this Thing t)
@@ -46,14 +58,14 @@ namespace RimWorld
 				return null;
 			}
 			SlotGroup slotGroup = t.GetSlotGroup();
-			if (slotGroup == null)
+			if (slotGroup != null)
 			{
+				Building building = slotGroup.parent as Building;
+				if (building != null)
+				{
+					return building;
+				}
 				return null;
-			}
-			Building building = slotGroup.parent as Building;
-			if (building != null)
-			{
-				return building;
 			}
 			return null;
 		}
@@ -96,7 +108,11 @@ namespace RimWorld
 				return false;
 			}
 			SlotGroup slotGroup = c.GetSlotGroup(map);
-			return slotGroup != null && slotGroup.Settings.AllowedToAccept(storable);
+			if (slotGroup != null && slotGroup.Settings.AllowedToAccept(storable))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private static bool NoStorageBlockersIn(IntVec3 c, Map map, Thing thing)
@@ -116,11 +132,11 @@ namespace RimWorld
 						return false;
 					}
 				}
-				if (thing2.def.entityDefToBuild != null && thing2.def.entityDefToBuild.passability != Traversability.Standable)
+				if (((thing2.def.entityDefToBuild != null) ? thing2.def.entityDefToBuild.passability : Traversability.Standable) != 0)
 				{
 					return false;
 				}
-				if (thing2.def.surfaceType == SurfaceType.None && thing2.def.passability != Traversability.Standable)
+				if (((thing2.def.surfaceType == SurfaceType.None) ? thing2.def.passability : Traversability.Standable) != 0)
 				{
 					return false;
 				}
@@ -142,47 +158,37 @@ namespace RimWorld
 			IntVec3 intVec = default(IntVec3);
 			bool flag = false;
 			int count = allGroupsListInPriorityOrder.Count;
-			for (int i = 0; i < count; i++)
+			int num2 = 0;
+			while (num2 < count)
 			{
-				SlotGroup slotGroup = allGroupsListInPriorityOrder[i];
+				SlotGroup slotGroup = allGroupsListInPriorityOrder[num2];
 				StoragePriority priority = slotGroup.Settings.Priority;
-				if (priority < storagePriority || priority <= currentPriority)
+				if ((int)priority >= (int)storagePriority && (int)priority > (int)currentPriority)
 				{
-					break;
-				}
-				if (slotGroup.Settings.AllowedToAccept(t))
-				{
-					List<IntVec3> cellsList = slotGroup.CellsList;
-					int count2 = cellsList.Count;
-					int num2;
-					if (needAccurateResult)
+					if (slotGroup.Settings.AllowedToAccept(t))
 					{
-						num2 = Mathf.FloorToInt((float)count2 * Rand.Range(0.005f, 0.018f));
-					}
-					else
-					{
-						num2 = 0;
-					}
-					for (int j = 0; j < count2; j++)
-					{
-						IntVec3 intVec2 = cellsList[j];
-						float num3 = (float)(a - intVec2).LengthHorizontalSquared;
-						if (num3 <= num)
+						List<IntVec3> cellsList = slotGroup.CellsList;
+						int count2 = cellsList.Count;
+						int num3 = needAccurateResult ? Mathf.FloorToInt((float)count2 * Rand.Range(0.005f, 0.018f)) : 0;
+						for (int num4 = 0; num4 < count2; num4++)
 						{
-							if (StoreUtility.IsGoodStoreCell(intVec2, map, t, carrier, faction))
+							IntVec3 intVec2 = cellsList[num4];
+							float num5 = (float)(a - intVec2).LengthHorizontalSquared;
+							if (!(num5 > num) && StoreUtility.IsGoodStoreCell(intVec2, map, t, carrier, faction))
 							{
 								flag = true;
 								intVec = intVec2;
-								num = num3;
+								num = num5;
 								storagePriority = priority;
-								if (j >= num2)
-								{
+								if (num4 >= num3)
 									break;
-								}
 							}
 						}
 					}
+					num2++;
+					continue;
 				}
+				break;
 			}
 			if (!flag)
 			{
@@ -214,7 +220,15 @@ namespace RimWorld
 			{
 				return false;
 			}
-			return !c.ContainsStaticFire(map) && (carrier == null || carrier.Map.reachability.CanReach((!t.SpawnedOrAnyParentSpawned) ? carrier.PositionHeld : t.PositionHeld, c, PathEndMode.ClosestTouch, TraverseParms.For(carrier, Danger.Deadly, TraverseMode.ByPawn, false)));
+			if (c.ContainsStaticFire(map))
+			{
+				return false;
+			}
+			if (carrier != null && !carrier.Map.reachability.CanReach((!t.SpawnedOrAnyParentSpawned) ? carrier.PositionHeld : t.PositionHeld, c, PathEndMode.ClosestTouch, TraverseParms.For(carrier, Danger.Deadly, TraverseMode.ByPawn, false)))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool TryFindStoreCellNearColonyDesperate(Thing item, Pawn carrier, out IntVec3 storeCell)
@@ -227,13 +241,13 @@ namespace RimWorld
 			{
 				int num = (i >= 0) ? i : Rand.RangeInclusive(0, 4);
 				IntVec3 intVec = carrier.Position + GenRadial.RadialPattern[num];
-				if (intVec.InBounds(carrier.Map) && carrier.Map.areaManager.Home[intVec] && carrier.CanReach(intVec, PathEndMode.ClosestTouch, Danger.Deadly, false, TraverseMode.ByPawn) && intVec.GetSlotGroup(carrier.Map) == null && StoreUtility.IsGoodStoreCell(intVec, carrier.Map, item, carrier, carrier.Faction))
+				if (intVec.InBounds(carrier.Map) && ((Area)carrier.Map.areaManager.Home)[intVec] && carrier.CanReach(intVec, PathEndMode.ClosestTouch, Danger.Deadly, false, TraverseMode.ByPawn) && intVec.GetSlotGroup(carrier.Map) == null && StoreUtility.IsGoodStoreCell(intVec, carrier.Map, item, carrier, carrier.Faction))
 				{
 					storeCell = intVec;
 					return true;
 				}
 			}
-			if (RCellFinder.TryFindRandomSpotJustOutsideColony(carrier.Position, carrier.Map, carrier, out storeCell, (IntVec3 x) => x.GetSlotGroup(carrier.Map) == null && StoreUtility.IsGoodStoreCell(x, carrier.Map, item, carrier, carrier.Faction)))
+			if (RCellFinder.TryFindRandomSpotJustOutsideColony(carrier.Position, carrier.Map, carrier, out storeCell, (Predicate<IntVec3>)((IntVec3 x) => x.GetSlotGroup(carrier.Map) == null && StoreUtility.IsGoodStoreCell(x, carrier.Map, item, carrier, carrier.Faction))))
 			{
 				return true;
 			}

@@ -1,7 +1,6 @@
-using System;
 using System.Collections;
-using System.Diagnostics;
 using UnityEngine;
+using Verse;
 
 namespace RimWorld.Planet
 {
@@ -25,14 +24,18 @@ namespace RimWorld.Planet
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable Regenerate()
 		{
-			WorldLayer_Sun.<Regenerate>c__IteratorF5 <Regenerate>c__IteratorF = new WorldLayer_Sun.<Regenerate>c__IteratorF5();
-			<Regenerate>c__IteratorF.<>f__this = this;
-			WorldLayer_Sun.<Regenerate>c__IteratorF5 expr_0E = <Regenerate>c__IteratorF;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (object item in base.Regenerate())
+			{
+				yield return item;
+			}
+			Rand.PushState();
+			Rand.Seed = Find.World.info.Seed;
+			LayerSubMesh sunSubMesh = base.GetSubMesh(WorldMaterials.Sun);
+			WorldRendererUtility.PrintQuadTangentialToPlanet(Vector3.forward * 10f, 15f, 0f, sunSubMesh, true, false, true);
+			Rand.PopState();
+			base.FinalizeMesh(MeshParts.All, true);
 		}
 	}
 }

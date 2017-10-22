@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.Noise;
@@ -31,7 +30,7 @@ namespace RimWorld.Planet
 				this.twelfthlyTempAverages = new float[12];
 				for (int i = 0; i < 12; i++)
 				{
-					this.twelfthlyTempAverages[i] = GenTemperature.AverageTemperatureAtTileForTwelfth(tile, (Twelfth)i);
+					this.twelfthlyTempAverages[i] = GenTemperature.AverageTemperatureAtTileForTwelfth(tile, (Twelfth)(byte)i);
 				}
 				this.CheckCache();
 			}
@@ -53,12 +52,12 @@ namespace RimWorld.Planet
 
 			public float OffsetFromDailyRandomVariation(int absTick)
 			{
-				return (float)this.dailyVariationPerlinCached.GetValue((double)absTick, 0.0, 0.0) * 7f;
+				return (float)((float)this.dailyVariationPerlinCached.GetValue((double)absTick, 0.0, 0.0) * 7.0);
 			}
 
 			public float AverageTemperatureForTwelfth(Twelfth twelfth)
 			{
-				return this.twelfthlyTempAverages[(int)twelfth];
+				return this.twelfthlyTempAverages[(uint)twelfth];
 			}
 
 			public void CheckCache()
@@ -92,7 +91,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		private TileTemperaturesComp.CachedTileTemperatureData[] cache;
+		private CachedTileTemperatureData[] cache;
 
 		private List<int> usedSlots;
 
@@ -107,7 +106,7 @@ namespace RimWorld.Planet
 			{
 				this.cache[this.usedSlots[i]].CheckCache();
 			}
-			if (Find.TickManager.TicksGame % 300 == 84 && this.usedSlots.Any<int>())
+			if (Find.TickManager.TicksGame % 300 == 84 && this.usedSlots.Any())
 			{
 				this.cache[this.usedSlots[0]] = null;
 				this.usedSlots.RemoveAt(0);
@@ -158,17 +157,17 @@ namespace RimWorld.Planet
 
 		public void ClearCaches()
 		{
-			this.cache = new TileTemperaturesComp.CachedTileTemperatureData[Find.WorldGrid.TilesCount];
+			this.cache = new CachedTileTemperatureData[Find.WorldGrid.TilesCount];
 			this.usedSlots = new List<int>();
 		}
 
-		private TileTemperaturesComp.CachedTileTemperatureData RetrieveCachedData(int tile)
+		private CachedTileTemperatureData RetrieveCachedData(int tile)
 		{
 			if (this.cache[tile] != null)
 			{
 				return this.cache[tile];
 			}
-			this.cache[tile] = new TileTemperaturesComp.CachedTileTemperatureData(tile);
+			this.cache[tile] = new CachedTileTemperatureData(tile);
 			this.usedSlots.Add(tile);
 			return this.cache[tile];
 		}

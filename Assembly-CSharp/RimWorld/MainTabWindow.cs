@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -43,13 +42,13 @@ namespace RimWorld
 
 		public MainTabWindow()
 		{
-			this.layer = WindowLayer.GameUI;
-			this.soundAppear = null;
-			this.soundClose = null;
-			this.doCloseButton = false;
-			this.doCloseX = false;
-			this.closeOnEscapeKey = true;
-			this.preventCameraMotion = false;
+			base.layer = WindowLayer.GameUI;
+			base.soundAppear = null;
+			base.soundClose = null;
+			base.doCloseButton = false;
+			base.doCloseX = false;
+			base.closeOnEscapeKey = true;
+			base.preventCameraMotion = false;
 		}
 
 		public override void DoWindowContents(Rect inRect)
@@ -62,13 +61,13 @@ namespace RimWorld
 			base.SetInitialSizeAndPosition();
 			if (this.Anchor == MainTabWindowAnchor.Left)
 			{
-				this.windowRect.x = 0f;
+				base.windowRect.x = 0f;
 			}
 			else
 			{
-				this.windowRect.x = (float)UI.screenWidth - this.windowRect.width;
+				base.windowRect.x = (float)UI.screenWidth - base.windowRect.width;
 			}
-			this.windowRect.y = (float)(UI.screenHeight - 35) - this.windowRect.height;
+			base.windowRect.y = (float)(UI.screenHeight - 35) - base.windowRect.height;
 		}
 	}
 }

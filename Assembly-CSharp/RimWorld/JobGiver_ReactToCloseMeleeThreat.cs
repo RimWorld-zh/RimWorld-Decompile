@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -36,11 +35,10 @@ namespace RimWorld
 			{
 				return null;
 			}
-			return new Job(JobDefOf.AttackMelee, meleeThreat)
-			{
-				maxNumMeleeAttacks = 1,
-				expiryInterval = 200
-			};
+			Job job = new Job(JobDefOf.AttackMelee, (Thing)meleeThreat);
+			job.maxNumMeleeAttacks = 1;
+			job.expiryInterval = 200;
+			return job;
 		}
 
 		private bool IsHunting(Pawn pawn, Pawn prey)
@@ -55,7 +53,11 @@ namespace RimWorld
 				return jobDriver_Hunt.Victim == prey;
 			}
 			JobDriver_PredatorHunt jobDriver_PredatorHunt = pawn.jobs.curDriver as JobDriver_PredatorHunt;
-			return jobDriver_PredatorHunt != null && jobDriver_PredatorHunt.Prey == prey;
+			if (jobDriver_PredatorHunt != null)
+			{
+				return jobDriver_PredatorHunt.Prey == prey;
+			}
+			return false;
 		}
 	}
 }

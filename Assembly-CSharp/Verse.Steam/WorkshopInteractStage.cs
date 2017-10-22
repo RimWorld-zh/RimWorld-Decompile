@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse.Steam
 {
 	public enum WorkshopInteractStage
 	{
-		None,
-		CreatingItem,
-		SubmittingItem
+		None = 0,
+		CreatingItem = 1,
+		SubmittingItem = 2
 	}
 }

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -14,23 +12,25 @@ namespace RimWorld
 			base.PostLoad();
 			if (this.scenario.name.NullOrEmpty())
 			{
-				this.scenario.name = this.label;
+				this.scenario.name = base.label;
 			}
 			if (this.scenario.description.NullOrEmpty())
 			{
-				this.scenario.description = this.description;
+				this.scenario.description = base.description;
 			}
 			this.scenario.Category = ScenarioCategory.FromDef;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			ScenarioDef.<ConfigErrors>c__Iterator94 <ConfigErrors>c__Iterator = new ScenarioDef.<ConfigErrors>c__Iterator94();
-			<ConfigErrors>c__Iterator.<>f__this = this;
-			ScenarioDef.<ConfigErrors>c__Iterator94 expr_0E = <ConfigErrors>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.scenario == null)
+			{
+				yield return "null scenario";
+			}
+			foreach (string item in this.scenario.ConfigErrors())
+			{
+				yield return item;
+			}
 		}
 	}
 }

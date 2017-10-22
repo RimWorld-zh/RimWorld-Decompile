@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public sealed class EdificeGrid
@@ -49,16 +47,7 @@ namespace Verse
 					IntVec3 intVec = new IntVec3(j, 0, i);
 					if (UnityData.isDebugBuild && this[intVec] != null && !this[intVec].Destroyed)
 					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Added edifice ",
-							ed.LabelCap,
-							" over edifice ",
-							this[intVec].LabelCap,
-							" at ",
-							intVec,
-							". Destroying old edifice."
-						}));
+						Log.Error("Added edifice " + ed.LabelCap + " over edifice " + this[intVec].LabelCap + " at " + intVec + ". Destroying old edifice.");
 						this[intVec].Destroy(DestroyMode.Vanish);
 						return;
 					}

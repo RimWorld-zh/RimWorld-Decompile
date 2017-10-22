@@ -1,5 +1,4 @@
 using RimWorld.BaseGen;
-using System;
 using Verse;
 
 namespace RimWorld
@@ -26,9 +25,17 @@ namespace RimWorld
 			{
 				return false;
 			}
-			int min = GenStep_FactionBase.FactionBaseSizeRange.min;
+			IntRange factionBaseSizeRange = GenStep_FactionBase.FactionBaseSizeRange;
+			int min = factionBaseSizeRange.min;
 			CellRect cellRect = new CellRect(c.x - min / 2, c.z - min / 2, min, min);
-			return cellRect.FullyContainedWithin(new CellRect(0, 0, map.Size.x, map.Size.z));
+			IntVec3 size = map.Size;
+			int x = size.x;
+			IntVec3 size2 = map.Size;
+			if (!cellRect.FullyContainedWithin(new CellRect(0, 0, x, size2.z)))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
@@ -36,24 +43,18 @@ namespace RimWorld
 			int randomInRange = GenStep_FactionBase.FactionBaseSizeRange.RandomInRange;
 			int randomInRange2 = GenStep_FactionBase.FactionBaseSizeRange.RandomInRange;
 			CellRect rect = new CellRect(c.x - randomInRange / 2, c.z - randomInRange2 / 2, randomInRange, randomInRange2);
-			Faction faction;
-			if (map.ParentFaction == null || map.ParentFaction == Faction.OfPlayer)
-			{
-				faction = Find.FactionManager.RandomEnemyFaction(false, false, true);
-			}
-			else
-			{
-				faction = map.ParentFaction;
-			}
+			Faction faction = (map.ParentFaction != null && map.ParentFaction != Faction.OfPlayer) ? map.ParentFaction : Find.FactionManager.RandomEnemyFaction(false, false, true);
 			rect.ClipInsideMap(map);
-			ResolveParams resolveParams = default(ResolveParams);
-			resolveParams.rect = rect;
-			resolveParams.faction = faction;
-			BaseGen.globalSettings.map = map;
-			BaseGen.globalSettings.minBuildings = 1;
-			BaseGen.globalSettings.minBarracks = 1;
-			BaseGen.symbolStack.Push("factionBase", resolveParams);
-			BaseGen.Generate();
+			ResolveParams resolveParams = new ResolveParams
+			{
+				rect = rect,
+				faction = faction
+			};
+			RimWorld.BaseGen.BaseGen.globalSettings.map = map;
+			RimWorld.BaseGen.BaseGen.globalSettings.minBuildings = 1;
+			RimWorld.BaseGen.BaseGen.globalSettings.minBarracks = 1;
+			RimWorld.BaseGen.BaseGen.symbolStack.Push("factionBase", resolveParams);
+			RimWorld.BaseGen.BaseGen.Generate();
 		}
 	}
 }

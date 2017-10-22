@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -36,32 +35,17 @@ namespace RimWorld
 			LordToil_ExitMap lordToil_ExitMap = new LordToil_ExitMap(LocomotionUrgency.Walk, true);
 			stateGraph.AddToil(lordToil_ExitMap);
 			Transition transition = new Transition(startingToil, startingToil2);
-			transition.AddSources(new LordToil[]
-			{
-				lordToil_DefendPoint
-			});
+			transition.AddSources(lordToil_DefendPoint);
 			transition.AddTrigger(new Trigger_PawnExperiencingDangerousTemperatures());
-			transition.AddPreAction(new TransitionAction_Message("MessageVisitorsDangerousTemperature".Translate(new object[]
-			{
-				this.faction.def.pawnsPlural.CapitalizeFirst(),
-				this.faction.Name
-			})));
+			transition.AddPreAction(new TransitionAction_Message("MessageVisitorsDangerousTemperature".Translate(this.faction.def.pawnsPlural.CapitalizeFirst(), this.faction.Name)));
 			transition.AddPreAction(new TransitionAction_EnsureHaveExitDestination());
 			transition.AddPostAction(new TransitionAction_WakeAll());
 			stateGraph.AddTransition(transition);
 			Transition transition2 = new Transition(startingToil, lordToil_ExitMap);
-			transition2.AddSources(new LordToil[]
-			{
-				lordToil_DefendPoint,
-				lordToil_TakeWoundedGuest
-			});
+			transition2.AddSources(lordToil_DefendPoint, lordToil_TakeWoundedGuest);
 			transition2.AddSources(stateGraph2.lordToils);
 			transition2.AddTrigger(new Trigger_PawnCannotReachMapEdge());
-			transition2.AddPreAction(new TransitionAction_Message("MessageVisitorsTrappedLeaving".Translate(new object[]
-			{
-				this.faction.def.pawnsPlural.CapitalizeFirst(),
-				this.faction.Name
-			})));
+			transition2.AddPreAction(new TransitionAction_Message("MessageVisitorsTrappedLeaving".Translate(this.faction.def.pawnsPlural.CapitalizeFirst(), this.faction.Name)));
 			stateGraph.AddTransition(transition2);
 			Transition transition3 = new Transition(lordToil_ExitMap, startingToil2);
 			transition3.AddTrigger(new Trigger_PawnCanReachMapEdge());
@@ -73,18 +57,10 @@ namespace RimWorld
 			stateGraph.AddTransition(transition4);
 			Transition transition5 = new Transition(lordToil_DefendPoint, lordToil_TakeWoundedGuest);
 			transition5.AddTrigger(new Trigger_WoundedGuestPresent());
-			transition5.AddPreAction(new TransitionAction_Message("MessageVisitorsTakingWounded".Translate(new object[]
-			{
-				this.faction.def.pawnsPlural.CapitalizeFirst(),
-				this.faction.Name
-			})));
+			transition5.AddPreAction(new TransitionAction_Message("MessageVisitorsTakingWounded".Translate(this.faction.def.pawnsPlural.CapitalizeFirst(), this.faction.Name)));
 			stateGraph.AddTransition(transition5);
 			Transition transition6 = new Transition(lordToil_DefendPoint, target);
-			transition6.AddSources(new LordToil[]
-			{
-				lordToil_TakeWoundedGuest,
-				startingToil
-			});
+			transition6.AddSources(lordToil_TakeWoundedGuest, startingToil);
 			transition6.AddTrigger(new Trigger_BecameColonyEnemy());
 			transition6.AddPreAction(new TransitionAction_SetDefendLocalGroup());
 			transition6.AddPostAction(new TransitionAction_WakeAll());
@@ -92,10 +68,7 @@ namespace RimWorld
 			stateGraph.AddTransition(transition6);
 			Transition transition7 = new Transition(lordToil_DefendPoint, startingToil2);
 			transition7.AddTrigger(new Trigger_TicksPassed(Rand.Range(8000, 22000)));
-			transition7.AddPreAction(new TransitionAction_Message("VisitorsLeaving".Translate(new object[]
-			{
-				this.faction.Name
-			})));
+			transition7.AddPreAction(new TransitionAction_Message("VisitorsLeaving".Translate(this.faction.Name)));
 			transition7.AddPostAction(new TransitionAction_WakeAll());
 			transition7.AddPreAction(new TransitionAction_EnsureHaveExitDestination());
 			stateGraph.AddTransition(transition7);

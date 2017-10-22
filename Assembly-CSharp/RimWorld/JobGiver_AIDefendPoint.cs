@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -22,7 +21,7 @@ namespace RimWorld
 				maxRangeFromTarget = 9999f,
 				locus = (IntVec3)pawn.mindState.duty.focus,
 				maxRangeFromLocus = pawn.mindState.duty.radius,
-				wantCoverFromTarget = (verb.verbProps.range > 7f)
+				wantCoverFromTarget = (verb.verbProps.range > 7.0)
 			}, out dest);
 		}
 	}

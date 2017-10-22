@@ -44,7 +44,7 @@ namespace Verse.Sound
 				{
 					return Find.TickManager.TicksGame - this.startTick;
 				}
-				return (int)(this.AgeRealTime * 60f);
+				return (int)(this.AgeRealTime * 60.0);
 			}
 		}
 
@@ -77,11 +77,20 @@ namespace Verse.Sound
 					return 0f;
 				}
 				float num = 1f;
-				foreach (float num2 in this.volumeInMappings.Values)
+				Dictionary<SoundParamTarget, float>.ValueCollection.Enumerator enumerator = this.volumeInMappings.Values.GetEnumerator();
+				try
 				{
-					num *= num2;
+					while (enumerator.MoveNext())
+					{
+						float num2 = enumerator.Current;
+						num *= num2;
+					}
+					return num;
 				}
-				return num;
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
+				}
 			}
 		}
 
@@ -116,10 +125,10 @@ namespace Verse.Sound
 			{
 				this.startTick = 0;
 			}
-			foreach (SoundParamTarget_Volume current in (from m in this.subDef.paramMappings
+			foreach (SoundParamTarget_Volume item in (from m in this.subDef.paramMappings
 			select m.outParam).OfType<SoundParamTarget_Volume>())
 			{
-				this.volumeInMappings.Add(current, 0f);
+				this.volumeInMappings.Add(item, 0f);
 			}
 		}
 
@@ -155,20 +164,12 @@ namespace Verse.Sound
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"Sample_",
-				this.subDef.name,
-				" volume=",
-				this.source.volume,
-				" at ",
-				this.source.transform.position.ToIntVec3()
-			});
+			return "Sample_" + this.subDef.name + " volume=" + this.source.volume + " at " + this.source.transform.position.ToIntVec3();
 		}
 
 		public override int GetHashCode()
 		{
-			return Gen.HashCombine<SubSoundDef>(this.startRealTime.GetHashCode(), this.subDef);
+			return Gen.HashCombine(this.startRealTime.GetHashCode(), this.subDef);
 		}
 	}
 }

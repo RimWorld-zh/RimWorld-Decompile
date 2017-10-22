@@ -17,26 +17,38 @@ namespace RimWorld
 
 		protected virtual bool FactionCanBeGroupSource(Faction f, Map map, bool desperate = false)
 		{
-			return !f.IsPlayer && !f.defeated && (desperate || (f.def.allowedArrivalTemperatureRange.Includes(map.mapTemperature.OutdoorTemp) && f.def.allowedArrivalTemperatureRange.Includes(map.mapTemperature.SeasonalTemp)));
+			if (f.IsPlayer)
+			{
+				return false;
+			}
+			if (f.defeated)
+			{
+				return false;
+			}
+			if (!desperate && (!f.def.allowedArrivalTemperatureRange.Includes(map.mapTemperature.OutdoorTemp) || !f.def.allowedArrivalTemperatureRange.Includes(map.mapTemperature.SeasonalTemp)))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
 			Map map = (Map)target;
-			return this.CandidateFactions(map, false).Any<Faction>();
+			return this.CandidateFactions(map, false).Any();
 		}
 
 		public string DebugListingOfGroupSources()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (Faction current in Find.FactionManager.AllFactions)
+			foreach (Faction allFaction in Find.FactionManager.AllFactions)
 			{
-				stringBuilder.Append(current.Name);
-				if (this.FactionCanBeGroupSource(current, Find.VisibleMap, false))
+				stringBuilder.Append(allFaction.Name);
+				if (this.FactionCanBeGroupSource(allFaction, Find.VisibleMap, false))
 				{
 					stringBuilder.Append("    YES");
 				}
-				else if (this.FactionCanBeGroupSource(current, Find.VisibleMap, true))
+				else if (this.FactionCanBeGroupSource(allFaction, Find.VisibleMap, true))
 				{
 					stringBuilder.Append("    YES-DESPERATE");
 				}

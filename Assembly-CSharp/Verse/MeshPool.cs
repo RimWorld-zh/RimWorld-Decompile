@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -80,7 +79,7 @@ namespace Verse
 
 		public static Mesh GridPlane(Vector2 size)
 		{
-			Mesh mesh;
+			Mesh mesh = default(Mesh);
 			if (!MeshPool.planes.TryGetValue(size, out mesh))
 			{
 				mesh = MeshMakerPlanes.NewPlaneMesh(size, false, false, false);
@@ -91,7 +90,7 @@ namespace Verse
 
 		public static Mesh GridPlaneFlip(Vector2 size)
 		{
-			Mesh mesh;
+			Mesh mesh = default(Mesh);
 			if (!MeshPool.planesFlip.TryGetValue(size, out mesh))
 			{
 				mesh = MeshMakerPlanes.NewPlaneMesh(size, true, false, false);
@@ -102,7 +101,7 @@ namespace Verse
 
 		private static Vector2 RoundedToHundredths(this Vector2 v)
 		{
-			return new Vector2((float)((int)(v.x * 100f)) / 100f, (float)((int)(v.y * 100f)) / 100f);
+			return new Vector2((float)((float)(int)(v.x * 100.0) / 100.0), (float)((float)(int)(v.y * 100.0) / 100.0));
 		}
 
 		public static void LogStats()

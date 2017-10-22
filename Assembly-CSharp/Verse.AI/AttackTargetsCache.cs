@@ -37,15 +37,14 @@ namespace Verse.AI
 
 		public void UpdateTarget(IAttackTarget t)
 		{
-			if (!this.allTargets.Contains(t))
+			if (this.allTargets.Contains(t))
 			{
-				return;
-			}
-			this.DeregisterTarget(t);
-			Thing thing = t.Thing;
-			if (thing.Spawned && thing.Map == this.map)
-			{
-				this.RegisterTarget(t);
+				this.DeregisterTarget(t);
+				Thing thing = t.Thing;
+				if (thing.Spawned && thing.Map == this.map)
+				{
+					this.RegisterTarget(t);
+				}
 			}
 		}
 
@@ -60,20 +59,38 @@ namespace Verse.AI
 				{
 					this.Debug_AssertHostile(faction, this.TargetsHostileToFaction(faction));
 				}
-				foreach (IAttackTarget current in this.TargetsHostileToFaction(faction))
+				HashSet<IAttackTarget>.Enumerator enumerator = this.TargetsHostileToFaction(faction).GetEnumerator();
+				try
 				{
-					if (thing.HostileTo(current.Thing))
+					while (enumerator.MoveNext())
 					{
-						AttackTargetsCache.targets.Add(current);
+						IAttackTarget current = enumerator.Current;
+						if (thing.HostileTo(current.Thing))
+						{
+							AttackTargetsCache.targets.Add(current);
+						}
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
+				}
+			}
+			HashSet<Pawn>.Enumerator enumerator2 = this.pawnsInAggroMentalState.GetEnumerator();
+			try
+			{
+				while (enumerator2.MoveNext())
+				{
+					Pawn current2 = enumerator2.Current;
+					if (thing.HostileTo(current2))
+					{
+						AttackTargetsCache.targets.Add(current2);
 					}
 				}
 			}
-			foreach (Pawn current2 in this.pawnsInAggroMentalState)
+			finally
 			{
-				if (thing.HostileTo(current2))
-				{
-					AttackTargetsCache.targets.Add(current2);
-				}
+				((IDisposable)(object)enumerator2).Dispose();
 			}
 			Pawn pawn = th as Pawn;
 			if (pawn != null && PrisonBreakUtility.IsPrisonBreaking(pawn))
@@ -126,13 +143,22 @@ namespace Verse.AI
 		public void Notify_FactionHostilityChanged(Faction f1, Faction f2)
 		{
 			AttackTargetsCache.tmpTargets.Clear();
-			foreach (IAttackTarget current in this.allTargets)
+			HashSet<IAttackTarget>.Enumerator enumerator = this.allTargets.GetEnumerator();
+			try
 			{
-				Thing thing = current.Thing;
-				if (thing.Faction == f1 || thing.Faction == f2)
+				while (enumerator.MoveNext())
 				{
-					AttackTargetsCache.tmpTargets.Add(current);
+					IAttackTarget current = enumerator.Current;
+					Thing thing = current.Thing;
+					if (thing.Faction == f1 || thing.Faction == f2)
+					{
+						AttackTargetsCache.tmpTargets.Add(current);
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			for (int i = 0; i < AttackTargetsCache.tmpTargets.Count; i++)
 			{
@@ -145,49 +171,40 @@ namespace Verse.AI
 		{
 			if (this.allTargets.Contains(target))
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Tried to register the same target twice ",
-					target,
-					" in ",
-					base.GetType()
-				}));
-				return;
+				Log.Warning("Tried to register the same target twice " + target + " in " + base.GetType());
 			}
-			Thing thing = target.Thing;
-			if (!thing.Spawned)
+			else
 			{
-				Log.Warning(string.Concat(new object[]
+				Thing thing = target.Thing;
+				if (!thing.Spawned)
 				{
-					"Tried to register unspawned thing ",
-					thing,
-					" in ",
-					base.GetType()
-				}));
-				return;
-			}
-			if (thing.Map != this.map)
-			{
-				Log.Warning("Tried to register attack target " + thing + " but its Map is not this one.");
-				return;
-			}
-			this.allTargets.Add(target);
-			List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
-			for (int i = 0; i < allFactionsListForReading.Count; i++)
-			{
-				if (thing.HostileTo(allFactionsListForReading[i]))
-				{
-					if (!this.targetsHostileToFaction.ContainsKey(allFactionsListForReading[i]))
-					{
-						this.targetsHostileToFaction.Add(allFactionsListForReading[i], new HashSet<IAttackTarget>());
-					}
-					this.targetsHostileToFaction[allFactionsListForReading[i]].Add(target);
+					Log.Warning("Tried to register unspawned thing " + thing + " in " + base.GetType());
 				}
-			}
-			Pawn pawn = target as Pawn;
-			if (pawn != null && pawn.InAggroMentalState)
-			{
-				this.pawnsInAggroMentalState.Add(pawn);
+				else if (thing.Map != this.map)
+				{
+					Log.Warning("Tried to register attack target " + thing + " but its Map is not this one.");
+				}
+				else
+				{
+					this.allTargets.Add(target);
+					List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
+					for (int i = 0; i < allFactionsListForReading.Count; i++)
+					{
+						if (thing.HostileTo(allFactionsListForReading[i]))
+						{
+							if (!this.targetsHostileToFaction.ContainsKey(allFactionsListForReading[i]))
+							{
+								this.targetsHostileToFaction.Add(allFactionsListForReading[i], new HashSet<IAttackTarget>());
+							}
+							this.targetsHostileToFaction[allFactionsListForReading[i]].Add(target);
+						}
+					}
+					Pawn pawn = target as Pawn;
+					if (pawn != null && pawn.InAggroMentalState)
+					{
+						this.pawnsInAggroMentalState.Add(pawn);
+					}
+				}
 			}
 		}
 
@@ -195,47 +212,51 @@ namespace Verse.AI
 		{
 			if (!this.allTargets.Contains(target))
 			{
-				Log.Warning(string.Concat(new object[]
+				Log.Warning("Tried to deregister " + target + " but it's not in " + base.GetType());
+			}
+			else
+			{
+				this.allTargets.Remove(target);
+				Dictionary<Faction, HashSet<IAttackTarget>>.Enumerator enumerator = this.targetsHostileToFaction.GetEnumerator();
+				try
 				{
-					"Tried to deregister ",
-					target,
-					" but it's not in ",
-					base.GetType()
-				}));
-				return;
-			}
-			this.allTargets.Remove(target);
-			foreach (KeyValuePair<Faction, HashSet<IAttackTarget>> current in this.targetsHostileToFaction)
-			{
-				HashSet<IAttackTarget> value = current.Value;
-				value.Remove(target);
-			}
-			Pawn pawn = target as Pawn;
-			if (pawn != null)
-			{
-				this.pawnsInAggroMentalState.Remove(pawn);
+					while (enumerator.MoveNext())
+					{
+						HashSet<IAttackTarget> value = enumerator.Current.Value;
+						value.Remove(target);
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
+				}
+				Pawn pawn = target as Pawn;
+				if (pawn != null)
+				{
+					this.pawnsInAggroMentalState.Remove(pawn);
+				}
 			}
 		}
 
 		private void Debug_AssertHostile(Faction f, HashSet<IAttackTarget> targets)
 		{
 			AttackTargetsCache.tmpToUpdate.Clear();
-			foreach (IAttackTarget current in targets)
+			HashSet<IAttackTarget>.Enumerator enumerator = targets.GetEnumerator();
+			try
 			{
-				if (!current.Thing.HostileTo(f))
+				while (enumerator.MoveNext())
 				{
-					AttackTargetsCache.tmpToUpdate.Add(current);
-					Log.Error(string.Concat(new string[]
+					IAttackTarget current = enumerator.Current;
+					if (!current.Thing.HostileTo(f))
 					{
-						"Target ",
-						(current == null) ? "null" : current.ToString(),
-						" is not hostile to ",
-						(f == null) ? "null" : f.ToString(),
-						" (in ",
-						base.GetType().Name,
-						") but it's in the list (forgot to update the target somewhere?). Trying to update the target..."
-					}));
+						AttackTargetsCache.tmpToUpdate.Add(current);
+						Log.Error("Target " + ((current == null) ? "null" : current.ToString()) + " is not hostile to " + ((f == null) ? "null" : f.ToString()) + " (in " + base.GetType().Name + ") but it's in the list (forgot to update the target somewhere?). Trying to update the target...");
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			for (int i = 0; i < AttackTargetsCache.tmpToUpdate.Count; i++)
 			{

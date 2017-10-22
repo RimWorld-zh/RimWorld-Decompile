@@ -44,7 +44,7 @@ namespace Verse
 			{
 				get
 				{
-					return 13f - this.Age;
+					return (float)(13.0 - this.Age);
 				}
 			}
 
@@ -52,7 +52,7 @@ namespace Verse
 			{
 				get
 				{
-					return this.TimeLeft <= 0f;
+					return this.TimeLeft <= 0.0;
 				}
 			}
 
@@ -60,9 +60,9 @@ namespace Verse
 			{
 				get
 				{
-					if (this.TimeLeft < 0.6f)
+					if (this.TimeLeft < 0.60000002384185791)
 					{
-						return this.TimeLeft / 0.6f;
+						return (float)(this.TimeLeft / 0.60000002384185791);
 					}
 					return 1f;
 				}
@@ -74,7 +74,7 @@ namespace Verse
 				this.lookTarget = GlobalTargetInfo.Invalid;
 				this.startingFrame = RealTime.frameCount;
 				this.startingTime = RealTime.LastRealTime;
-				this.ID = Messages.LiveMessage.uniqueID++;
+				this.ID = LiveMessage.uniqueID++;
 			}
 
 			public LiveMessage(string text, GlobalTargetInfo lookTarget) : this(text)
@@ -85,7 +85,7 @@ namespace Verse
 			public Rect CalculateRect(float x, float y)
 			{
 				Text.Font = GameFont.Small;
-				if (this.cachedSize.x < 0f)
+				if (this.cachedSize.x < 0.0)
 				{
 					this.cachedSize = Text.CalcSize(this.text);
 				}
@@ -97,34 +97,34 @@ namespace Verse
 			public void Draw(int xOffset, int yOffset)
 			{
 				Rect rect = this.CalculateRect((float)xOffset, (float)yOffset);
-				Find.WindowStack.ImmediateWindow(Gen.HashCombineInt(this.ID, 45574281), rect, WindowLayer.Super, delegate
+				Find.WindowStack.ImmediateWindow(Gen.HashCombineInt(this.ID, 45574281), rect, WindowLayer.Super, (Action)delegate
 				{
 					Text.Font = GameFont.Small;
 					Text.Anchor = TextAnchor.MiddleLeft;
-					Rect rect = rect.AtZero();
+					Rect rect2 = rect.AtZero();
 					float alpha = this.Alpha;
 					GUI.color = new Color(1f, 1f, 1f, alpha);
 					if (Messages.ShouldDrawMessageBackground)
 					{
-						GUI.color = new Color(0.15f, 0.15f, 0.15f, 0.8f * alpha);
-						GUI.DrawTexture(rect, BaseContent.WhiteTex);
+						GUI.color = new Color(0.15f, 0.15f, 0.15f, (float)(0.800000011920929 * alpha));
+						GUI.DrawTexture(rect2, BaseContent.WhiteTex);
 						GUI.color = new Color(1f, 1f, 1f, alpha);
 					}
 					if (this.lookTarget.IsValid)
 					{
-						UIHighlighter.HighlightOpportunity(rect, "Messages");
-						Widgets.DrawHighlightIfMouseover(rect);
+						UIHighlighter.HighlightOpportunity(rect2, "Messages");
+						Widgets.DrawHighlightIfMouseover(rect2);
 					}
-					Rect rect2 = new Rect(2f, 0f, rect.width - 2f, rect.height);
-					Widgets.Label(rect2, this.text);
-					if (Current.ProgramState == ProgramState.Playing && this.lookTarget.IsValid && Widgets.ButtonInvisible(rect, false))
+					Rect rect3 = new Rect(2f, 0f, (float)(rect2.width - 2.0), rect2.height);
+					Widgets.Label(rect3, this.text);
+					if (Current.ProgramState == ProgramState.Playing && this.lookTarget.IsValid && Widgets.ButtonInvisible(rect2, false))
 					{
 						CameraJumper.TryJumpAndSelect(this.lookTarget);
 						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.ClickingMessages, KnowledgeAmount.Total);
 					}
 					Text.Anchor = TextAnchor.UpperLeft;
 					GUI.color = Color.white;
-					if (Mouse.IsOver(rect))
+					if (Mouse.IsOver(rect2))
 					{
 						Messages.mouseoverMessageIndex = Messages.liveMessages.IndexOf(this);
 					}
@@ -136,7 +136,7 @@ namespace Verse
 
 		private const int MaxLiveMessages = 12;
 
-		private static List<Messages.LiveMessage> liveMessages = new List<Messages.LiveMessage>();
+		private static List<LiveMessage> liveMessages = new List<LiveMessage>();
 
 		private static int mouseoverMessageIndex = -1;
 
@@ -173,41 +173,41 @@ namespace Verse
 				}
 			}
 			Messages.mouseoverMessageIndex = -1;
-			Messages.liveMessages.RemoveAll((Messages.LiveMessage m) => m.Expired);
+			Messages.liveMessages.RemoveAll((Predicate<LiveMessage>)((LiveMessage m) => m.Expired));
 		}
 
 		public static void Message(string text, GlobalTargetInfo lookTarget, MessageSound sound)
 		{
-			if (!Messages.AcceptsMessage(text, lookTarget))
+			if (Messages.AcceptsMessage(text, lookTarget))
 			{
-				return;
+				LiveMessage msg = new LiveMessage(text, lookTarget);
+				Messages.Message(msg, sound);
 			}
-			Messages.LiveMessage msg = new Messages.LiveMessage(text, lookTarget);
-			Messages.Message(msg, sound);
 		}
 
 		public static void Message(string text, MessageSound sound)
 		{
-			if (!Messages.AcceptsMessage(text, TargetInfo.Invalid))
+			if (Messages.AcceptsMessage(text, TargetInfo.Invalid))
 			{
-				return;
+				LiveMessage msg = new LiveMessage(text);
+				Messages.Message(msg, sound);
 			}
-			Messages.LiveMessage msg = new Messages.LiveMessage(text);
-			Messages.Message(msg, sound);
 		}
 
 		public static void MessagesDoGUI()
 		{
 			Text.Font = GameFont.Small;
-			int xOffset = (int)Messages.MessagesTopLeftStandard.x;
-			int num = (int)Messages.MessagesTopLeftStandard.y;
+			Vector2 messagesTopLeftStandard = Messages.MessagesTopLeftStandard;
+			int xOffset = (int)messagesTopLeftStandard.x;
+			Vector2 messagesTopLeftStandard2 = Messages.MessagesTopLeftStandard;
+			int num = (int)messagesTopLeftStandard2.y;
 			if (Current.Game != null && Find.ActiveLesson.ActiveLessonVisible)
 			{
 				num += (int)Find.ActiveLesson.Current.MessagesYOffset;
 			}
-			for (int i = Messages.liveMessages.Count - 1; i >= 0; i--)
+			for (int num2 = Messages.liveMessages.Count - 1; num2 >= 0; num2--)
 			{
-				Messages.liveMessages[i].Draw(xOffset, num);
+				Messages.liveMessages[num2].Draw(xOffset, num);
 				num += 26;
 			}
 		}
@@ -218,7 +218,7 @@ namespace Verse
 			float num = 0f;
 			for (int i = 0; i < Messages.liveMessages.Count; i++)
 			{
-				Messages.LiveMessage liveMessage = Messages.liveMessages[i];
+				LiveMessage liveMessage = Messages.liveMessages[i];
 				if (rect.Overlaps(liveMessage.lastDrawRect))
 				{
 					result = true;
@@ -258,33 +258,43 @@ namespace Verse
 			return true;
 		}
 
-		private static void Message(Messages.LiveMessage msg, MessageSound sound)
+		private static void Message(LiveMessage msg, MessageSound sound)
 		{
 			Messages.liveMessages.Add(msg);
 			while (Messages.liveMessages.Count > 12)
 			{
 				Messages.liveMessages.RemoveAt(0);
 			}
-			if (sound != MessageSound.Silent)
+			if (sound != 0)
 			{
 				SoundDef soundDef = null;
 				switch (sound)
 				{
 				case MessageSound.Standard:
+				{
 					soundDef = SoundDefOf.MessageAlert;
 					break;
+				}
 				case MessageSound.RejectInput:
+				{
 					soundDef = SoundDefOf.ClickReject;
 					break;
+				}
 				case MessageSound.Benefit:
+				{
 					soundDef = SoundDefOf.MessageBenefit;
 					break;
+				}
 				case MessageSound.Negative:
+				{
 					soundDef = SoundDefOf.MessageAlertNegative;
 					break;
+				}
 				case MessageSound.SeriousAlert:
+				{
 					soundDef = SoundDefOf.MessageSeriousAlert;
 					break;
+				}
 				}
 				soundDef.PlayOneShotOnCamera(null);
 			}

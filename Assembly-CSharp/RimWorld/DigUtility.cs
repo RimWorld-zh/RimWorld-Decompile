@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -19,12 +18,11 @@ namespace RimWorld
 				Verb primaryVerb = pawn.equipment.PrimaryEq.PrimaryVerb;
 				if (primaryVerb.verbProps.ai_IsBuildingDestroyer && (!primaryVerb.verbProps.ai_IsIncendiary || blocker.FlammableNow))
 				{
-					return new Job(JobDefOf.UseVerbOnThing)
-					{
-						targetA = blocker,
-						verbToUse = primaryVerb,
-						expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange
-					};
+					Job job = new Job(JobDefOf.UseVerbOnThing);
+					job.targetA = blocker;
+					job.verbToUse = primaryVerb;
+					job.expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange;
+					return job;
 				}
 			}
 			if (canMineNonMineables)
@@ -40,12 +38,11 @@ namespace RimWorld
 			{
 				return DigUtility.WaitNearJob(pawn, cellBeforeBlocker);
 			}
-			return new Job(JobDefOf.AttackMelee, blocker)
-			{
-				ignoreDesignations = true,
-				expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange,
-				checkOverrideOnExpire = true
-			};
+			Job job = new Job(JobDefOf.AttackMelee, blocker);
+			job.ignoreDesignations = true;
+			job.expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange;
+			job.checkOverrideOnExpire = true;
+			return job;
 		}
 
 		private static Job MineOrWaitJob(Pawn pawn, Thing blocker, IntVec3 cellBeforeBlocker)
@@ -54,12 +51,11 @@ namespace RimWorld
 			{
 				return DigUtility.WaitNearJob(pawn, cellBeforeBlocker);
 			}
-			return new Job(JobDefOf.Mine, blocker)
-			{
-				ignoreDesignations = true,
-				expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange,
-				checkOverrideOnExpire = true
-			};
+			Job job = new Job(JobDefOf.Mine, blocker);
+			job.ignoreDesignations = true;
+			job.expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange;
+			job.checkOverrideOnExpire = true;
+			return job;
 		}
 
 		private static Job WaitNearJob(Pawn pawn, IntVec3 cellBeforeBlocker)

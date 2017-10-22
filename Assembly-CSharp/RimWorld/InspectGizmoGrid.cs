@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
@@ -24,9 +25,9 @@ namespace RimWorld
 					ISelectable selectable = InspectGizmoGrid.objList[i] as ISelectable;
 					if (selectable != null)
 					{
-						foreach (Gizmo current in selectable.GetGizmos())
+						foreach (Gizmo gizmo in selectable.GetGizmos())
 						{
-							InspectGizmoGrid.gizmoList.Add(current);
+							InspectGizmoGrid.gizmoList.Add(gizmo);
 						}
 					}
 				}
@@ -45,14 +46,13 @@ namespace RimWorld
 								command_Action.defaultLabel = des.LabelCapReverseDesignating(t);
 								command_Action.icon = des.IconReverseDesignating(t);
 								command_Action.defaultDesc = des.DescReverseDesignating(t);
-								command_Action.action = delegate
+								command_Action.action = (Action)delegate
 								{
-									if (!TutorSystem.AllowAction(des.TutorTagDesignate))
+									if (TutorSystem.AllowAction(des.TutorTagDesignate))
 									{
-										return;
+										des.DesignateThing(t);
+										des.Finalize(true);
 									}
-									des.DesignateThing(t);
-									des.Finalize(true);
 								};
 								command_Action.hotKey = des.hotKey;
 								command_Action.groupKey = des.groupKey;
@@ -61,7 +61,9 @@ namespace RimWorld
 						}
 					}
 				}
-				GizmoGridDrawer.DrawGizmoGrid(InspectGizmoGrid.gizmoList, InspectPaneUtility.PaneSize.x + 20f, out InspectGizmoGrid.mouseoverGizmo);
+				List<Gizmo> gizmos = InspectGizmoGrid.gizmoList;
+				Vector2 paneSize = InspectPaneUtility.PaneSize;
+				GizmoGridDrawer.DrawGizmoGrid((IEnumerable<Gizmo>)gizmos, (float)(paneSize.x + 20.0), out InspectGizmoGrid.mouseoverGizmo);
 			}
 			catch (Exception ex)
 			{

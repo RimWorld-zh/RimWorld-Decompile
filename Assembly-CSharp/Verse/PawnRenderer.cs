@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,7 +46,7 @@ namespace Verse
 
 		private Graphic_Shadow shadowGraphic;
 
-		private static readonly float[] HorHeadOffsets = new float[]
+		private static readonly float[] HorHeadOffsets = new float[6]
 		{
 			0f,
 			0.04f,
@@ -103,14 +102,7 @@ namespace Verse
 						bool flip = false;
 						if (this.pawn.CurJob == null || !this.pawn.jobs.curDriver.ModifyCarriedThingDrawPos(ref vector, ref flag, ref flip))
 						{
-							if (carriedThing is Pawn || carriedThing is Corpse)
-							{
-								vector += new Vector3(0.44f, 0f, 0f);
-							}
-							else
-							{
-								vector += new Vector3(0.18f, 0f, 0.05f);
-							}
+							vector = ((!(carriedThing is Pawn) && !(carriedThing is Corpse)) ? (vector + new Vector3(0.18f, 0f, 0.05f)) : (vector + new Vector3(0.44f, 0f, 0f)));
 						}
 						if (flag)
 						{
@@ -149,13 +141,14 @@ namespace Verse
 					Rot4 rotation = building_Bed.Rotation;
 					rotation.AsInt += 2;
 					quat = rotation.AsQuat;
-					AltitudeLayer altLayer = (AltitudeLayer)Mathf.Max((int)building_Bed.def.altitudeLayer, 15);
-					Vector3 vector2 = this.pawn.Position.ToVector3ShiftedWithAltitude(altLayer);
-					Vector3 vector3 = vector2;
-					vector3.y += 0.0281250011f;
-					float d = -this.BaseHeadOffsetAt(Rot4.South).z;
-					Vector3 a = rotation.FacingCell.ToVector3();
-					rootLoc = vector2 + a * d;
+					AltitudeLayer altLayer = (AltitudeLayer)(byte)Mathf.Max((int)building_Bed.def.altitudeLayer, 15);
+					Vector3 vector2;
+					Vector3 a = vector2 = this.pawn.Position.ToVector3ShiftedWithAltitude(altLayer);
+					vector2.y += 0.0281250011f;
+					Vector3 vector3 = this.BaseHeadOffsetAt(Rot4.South);
+					float d = (float)(0.0 - vector3.z);
+					Vector3 a2 = rotation.FacingCell.ToVector3();
+					rootLoc = a + a2 * d;
 					rootLoc.y += 0.0046875f;
 				}
 				else
@@ -164,7 +157,7 @@ namespace Verse
 					rootLoc = drawLoc;
 					if (!this.pawn.Dead && this.pawn.CarriedBy == null)
 					{
-						rootLoc.y = Altitudes.AltitudeFor(AltitudeLayer.LayingPawn) + 0.0046875f;
+						rootLoc.y = (float)(Altitudes.AltitudeFor(AltitudeLayer.LayingPawn) + 0.0046875001862645149);
 					}
 					if (this.pawn.Downed || this.pawn.Dead)
 					{
@@ -177,17 +170,18 @@ namespace Verse
 					else
 					{
 						Rot4 rot2 = Rot4.West;
-						int num = this.pawn.thingIDNumber % 2;
-						if (num != 0)
+						switch (this.pawn.thingIDNumber % 2)
 						{
-							if (num == 1)
-							{
-								rot2 = Rot4.East;
-							}
-						}
-						else
+						case 0:
 						{
 							rot2 = Rot4.West;
+							break;
+						}
+						case 1:
+						{
+							rot2 = Rot4.East;
+							break;
+						}
 						}
 						quat = rot2.AsQuat;
 					}
@@ -241,14 +235,7 @@ namespace Verse
 				}
 				else
 				{
-					if (this.pawn.RaceProps.Humanlike)
-					{
-						mesh = MeshPool.humanlikeBodySet.MeshAt(bodyFacing);
-					}
-					else
-					{
-						mesh = this.graphics.nakedGraphic.MeshAt(bodyFacing);
-					}
+					mesh = ((!this.pawn.RaceProps.Humanlike) ? this.graphics.nakedGraphic.MeshAt(bodyFacing) : MeshPool.humanlikeBodySet.MeshAt(bodyFacing));
 					List<Material> list = this.graphics.MatsBodyBaseAt(bodyFacing, bodyDrawType);
 					for (int i = 0; i < list.Count; i++)
 					{
@@ -280,7 +267,7 @@ namespace Verse
 			{
 				Vector3 b = quat * this.BaseHeadOffsetAt(headFacing);
 				Material material = this.graphics.HeadMatAt(headFacing, bodyDrawType, headStump);
-				if (material != null)
+				if ((Object)material != (Object)null)
 				{
 					Mesh mesh2 = MeshPool.humanlikeHeadSet.MeshAt(headFacing);
 					GenDraw.DrawMeshNowOrLater(mesh2, a + b, quat, material, portrait);
@@ -294,12 +281,14 @@ namespace Verse
 					List<ApparelGraphicRecord> apparelGraphics = this.graphics.apparelGraphics;
 					for (int j = 0; j < apparelGraphics.Count; j++)
 					{
-						if (apparelGraphics[j].sourceApparel.def.apparel.LastLayer == ApparelLayer.Overhead)
+						ApparelGraphicRecord apparelGraphicRecord = apparelGraphics[j];
+						if (apparelGraphicRecord.sourceApparel.def.apparel.LastLayer == ApparelLayer.Overhead)
 						{
 							flag = true;
-							Material material2 = apparelGraphics[j].graphic.MatAt(bodyFacing, null);
-							material2 = this.graphics.flasher.GetDamagedMat(material2);
-							GenDraw.DrawMeshNowOrLater(mesh3, loc2, quat, material2, portrait);
+							ApparelGraphicRecord apparelGraphicRecord2 = apparelGraphics[j];
+							Material baseMat = apparelGraphicRecord2.graphic.MatAt(bodyFacing, null);
+							baseMat = this.graphics.flasher.GetDamagedMat(baseMat);
+							GenDraw.DrawMeshNowOrLater(mesh3, loc2, quat, baseMat, portrait);
 						}
 					}
 				}
@@ -314,12 +303,12 @@ namespace Verse
 			{
 				for (int k = 0; k < this.graphics.apparelGraphics.Count; k++)
 				{
-					ApparelGraphicRecord apparelGraphicRecord = this.graphics.apparelGraphics[k];
-					if (apparelGraphicRecord.sourceApparel.def.apparel.LastLayer == ApparelLayer.Shell)
+					ApparelGraphicRecord apparelGraphicRecord3 = this.graphics.apparelGraphics[k];
+					if (apparelGraphicRecord3.sourceApparel.def.apparel.LastLayer == ApparelLayer.Shell)
 					{
-						Material material3 = apparelGraphicRecord.graphic.MatAt(bodyFacing, null);
-						material3 = this.graphics.flasher.GetDamagedMat(material3);
-						GenDraw.DrawMeshNowOrLater(mesh, vector, quat, material3, portrait);
+						Material baseMat2 = apparelGraphicRecord3.graphic.MatAt(bodyFacing, null);
+						baseMat2 = this.graphics.flasher.GetDamagedMat(baseMat2);
+						GenDraw.DrawMeshNowOrLater(mesh, vector, quat, baseMat2, portrait);
 					}
 				}
 			}
@@ -346,81 +335,64 @@ namespace Verse
 
 		private void DrawEquipment(Vector3 rootLoc)
 		{
-			if (this.pawn.Dead || !this.pawn.Spawned)
+			if (!this.pawn.Dead && this.pawn.Spawned && this.pawn.equipment != null && this.pawn.equipment.Primary != null && (this.pawn.CurJob == null || !this.pawn.CurJob.def.neverShowWeapon))
 			{
-				return;
-			}
-			if (this.pawn.equipment == null || this.pawn.equipment.Primary == null)
-			{
-				return;
-			}
-			if (this.pawn.CurJob != null && this.pawn.CurJob.def.neverShowWeapon)
-			{
-				return;
-			}
-			Stance_Busy stance_Busy = this.pawn.stances.curStance as Stance_Busy;
-			if (stance_Busy != null && !stance_Busy.neverAimWeapon && stance_Busy.focusTarg.IsValid)
-			{
-				Vector3 a;
-				if (stance_Busy.focusTarg.HasThing)
+				Stance_Busy stance_Busy = this.pawn.stances.curStance as Stance_Busy;
+				if (stance_Busy != null && !stance_Busy.neverAimWeapon && stance_Busy.focusTarg.IsValid)
 				{
-					a = stance_Busy.focusTarg.Thing.DrawPos;
+					Vector3 a = (!stance_Busy.focusTarg.HasThing) ? stance_Busy.focusTarg.Cell.ToVector3Shifted() : stance_Busy.focusTarg.Thing.DrawPos;
+					float num = 0f;
+					if ((a - this.pawn.DrawPos).MagnitudeHorizontalSquared() > 0.0010000000474974513)
+					{
+						num = (a - this.pawn.DrawPos).AngleFlat();
+					}
+					Vector3 drawLoc = rootLoc + new Vector3(0f, 0f, 0.4f).RotatedBy(num);
+					drawLoc.y += 0.0375f;
+					this.DrawEquipmentAiming(this.pawn.equipment.Primary, drawLoc, num);
 				}
-				else
+				else if (this.CarryWeaponOpenly())
 				{
-					a = stance_Busy.focusTarg.Cell.ToVector3Shifted();
-				}
-				float num = 0f;
-				if ((a - this.pawn.DrawPos).MagnitudeHorizontalSquared() > 0.001f)
-				{
-					num = (a - this.pawn.DrawPos).AngleFlat();
-				}
-				Vector3 drawLoc = rootLoc + new Vector3(0f, 0f, 0.4f).RotatedBy(num);
-				drawLoc.y += 0.0375f;
-				this.DrawEquipmentAiming(this.pawn.equipment.Primary, drawLoc, num);
-			}
-			else if (this.CarryWeaponOpenly())
-			{
-				if (this.pawn.Rotation == Rot4.South)
-				{
-					Vector3 drawLoc2 = rootLoc + new Vector3(0f, 0f, -0.22f);
-					drawLoc2.y += 0.0375f;
-					this.DrawEquipmentAiming(this.pawn.equipment.Primary, drawLoc2, 143f);
-				}
-				else if (this.pawn.Rotation == Rot4.North)
-				{
-					Vector3 drawLoc3 = rootLoc + new Vector3(0f, 0f, -0.11f);
-					drawLoc3.y = drawLoc3.y;
-					this.DrawEquipmentAiming(this.pawn.equipment.Primary, drawLoc3, 143f);
-				}
-				else if (this.pawn.Rotation == Rot4.East)
-				{
-					Vector3 drawLoc4 = rootLoc + new Vector3(0.2f, 0f, -0.22f);
-					drawLoc4.y += 0.0375f;
-					this.DrawEquipmentAiming(this.pawn.equipment.Primary, drawLoc4, 143f);
-				}
-				else if (this.pawn.Rotation == Rot4.West)
-				{
-					Vector3 drawLoc5 = rootLoc + new Vector3(-0.2f, 0f, -0.22f);
-					drawLoc5.y += 0.0375f;
-					this.DrawEquipmentAiming(this.pawn.equipment.Primary, drawLoc5, 217f);
+					if (this.pawn.Rotation == Rot4.South)
+					{
+						Vector3 drawLoc2 = rootLoc + new Vector3(0f, 0f, -0.22f);
+						drawLoc2.y += 0.0375f;
+						this.DrawEquipmentAiming(this.pawn.equipment.Primary, drawLoc2, 143f);
+					}
+					else if (this.pawn.Rotation == Rot4.North)
+					{
+						Vector3 drawLoc3 = rootLoc + new Vector3(0f, 0f, -0.11f);
+						drawLoc3.y = drawLoc3.y;
+						this.DrawEquipmentAiming(this.pawn.equipment.Primary, drawLoc3, 143f);
+					}
+					else if (this.pawn.Rotation == Rot4.East)
+					{
+						Vector3 drawLoc4 = rootLoc + new Vector3(0.2f, 0f, -0.22f);
+						drawLoc4.y += 0.0375f;
+						this.DrawEquipmentAiming(this.pawn.equipment.Primary, drawLoc4, 143f);
+					}
+					else if (this.pawn.Rotation == Rot4.West)
+					{
+						Vector3 drawLoc5 = rootLoc + new Vector3(-0.2f, 0f, -0.22f);
+						drawLoc5.y += 0.0375f;
+						this.DrawEquipmentAiming(this.pawn.equipment.Primary, drawLoc5, 217f);
+					}
 				}
 			}
 		}
 
 		public void DrawEquipmentAiming(Thing eq, Vector3 drawLoc, float aimAngle)
 		{
-			float num = aimAngle - 90f;
-			Mesh mesh;
-			if (aimAngle > 20f && aimAngle < 160f)
+			Mesh mesh = null;
+			float num = (float)(aimAngle - 90.0);
+			if (aimAngle > 20.0 && aimAngle < 160.0)
 			{
 				mesh = MeshPool.plane10;
 				num += eq.def.equippedAngleOffset;
 			}
-			else if (aimAngle > 200f && aimAngle < 340f)
+			else if (aimAngle > 200.0 && aimAngle < 340.0)
 			{
 				mesh = MeshPool.plane10Flip;
-				num -= 180f;
+				num = (float)(num - 180.0);
 				num -= eq.def.equippedAngleOffset;
 			}
 			else
@@ -428,23 +400,32 @@ namespace Verse
 				mesh = MeshPool.plane10;
 				num += eq.def.equippedAngleOffset;
 			}
-			num %= 360f;
+			num = (float)(num % 360.0);
+			Material material = null;
 			Graphic_StackCount graphic_StackCount = eq.Graphic as Graphic_StackCount;
-			Material matSingle;
-			if (graphic_StackCount != null)
-			{
-				matSingle = graphic_StackCount.SubGraphicForStackCount(1, eq.def).MatSingle;
-			}
-			else
-			{
-				matSingle = eq.Graphic.MatSingle;
-			}
-			Graphics.DrawMesh(mesh, drawLoc, Quaternion.AngleAxis(num, Vector3.up), matSingle, 0);
+			material = ((graphic_StackCount == null) ? eq.Graphic.MatSingle : graphic_StackCount.SubGraphicForStackCount(1, eq.def).MatSingle);
+			Graphics.DrawMesh(mesh, drawLoc, Quaternion.AngleAxis(num, Vector3.up), material, 0);
 		}
 
 		private bool CarryWeaponOpenly()
 		{
-			return (this.pawn.carryTracker == null || this.pawn.carryTracker.CarriedThing == null) && (this.pawn.Drafted || (this.pawn.CurJob != null && this.pawn.CurJob.def.alwaysShowWeapon) || (this.pawn.mindState.duty != null && this.pawn.mindState.duty.def.alwaysShowWeapon));
+			if (this.pawn.carryTracker != null && this.pawn.carryTracker.CarriedThing != null)
+			{
+				return false;
+			}
+			if (this.pawn.Drafted)
+			{
+				return true;
+			}
+			if (this.pawn.CurJob != null && this.pawn.CurJob.def.alwaysShowWeapon)
+			{
+				return true;
+			}
+			if (this.pawn.mindState.duty != null && this.pawn.mindState.duty.def.alwaysShowWeapon)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private Rot4 LayingFacing()
@@ -458,13 +439,21 @@ namespace Verse
 				switch (this.pawn.thingIDNumber % 4)
 				{
 				case 0:
+				{
 					return Rot4.South;
+				}
 				case 1:
+				{
 					return Rot4.South;
+				}
 				case 2:
+				{
 					return Rot4.East;
+				}
 				case 3:
+				{
 					return Rot4.West;
+				}
 				}
 			}
 			else
@@ -472,13 +461,21 @@ namespace Verse
 				switch (this.pawn.thingIDNumber % 4)
 				{
 				case 0:
+				{
 					return Rot4.South;
+				}
 				case 1:
+				{
 					return Rot4.East;
+				}
 				case 2:
+				{
 					return Rot4.West;
+				}
 				case 3:
+				{
 					return Rot4.West;
+				}
 				}
 			}
 			return Rot4.Random;
@@ -486,20 +483,30 @@ namespace Verse
 
 		public Vector3 BaseHeadOffsetAt(Rot4 rotation)
 		{
-			float num = PawnRenderer.HorHeadOffsets[(int)this.pawn.story.bodyType];
+			float num = PawnRenderer.HorHeadOffsets[(uint)this.pawn.story.bodyType];
 			switch (rotation.AsInt)
 			{
 			case 0:
+			{
 				return new Vector3(0f, 0f, 0.34f);
+			}
 			case 1:
+			{
 				return new Vector3(num, 0f, 0.34f);
+			}
 			case 2:
+			{
 				return new Vector3(0f, 0f, 0.34f);
+			}
 			case 3:
-				return new Vector3(-num, 0f, 0.34f);
+			{
+				return new Vector3((float)(0.0 - num), 0f, 0.34f);
+			}
 			default:
+			{
 				Log.Error("BaseHeadOffsetAt error in " + this.pawn);
 				return Vector3.zero;
+			}
 			}
 		}
 

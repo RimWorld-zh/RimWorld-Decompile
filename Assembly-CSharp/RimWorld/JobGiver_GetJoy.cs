@@ -44,41 +44,35 @@ namespace RimWorld
 			{
 				JoyGiverDef joyGiverDef = allDefsListForReading[i];
 				this.joyGiverChances[joyGiverDef] = 0f;
-				if (this.JoyGiverAllowed(joyGiverDef))
+				if (this.JoyGiverAllowed(joyGiverDef) && joyGiverDef.Worker.MissingRequiredCapacity(pawn) == null)
 				{
-					if (joyGiverDef.Worker.MissingRequiredCapacity(pawn) == null)
+					if (joyGiverDef.pctPawnsEverDo < 1.0)
 					{
-						if (joyGiverDef.pctPawnsEverDo < 1f)
+						Rand.PushState(pawn.thingIDNumber ^ 63216713);
+						if (Rand.Value >= joyGiverDef.pctPawnsEverDo)
 						{
-							Rand.PushState(pawn.thingIDNumber ^ 63216713);
-							if (Rand.Value >= joyGiverDef.pctPawnsEverDo)
-							{
-								Rand.PopState();
-								goto IL_FB;
-							}
 							Rand.PopState();
+							continue;
 						}
-						float num = joyGiverDef.Worker.GetChance(pawn);
-						float num2 = 1f - tolerances[joyGiverDef.joyKind];
-						num *= num2 * num2;
-						this.joyGiverChances[joyGiverDef] = num;
+						Rand.PopState();
 					}
+					float chance = joyGiverDef.Worker.GetChance(pawn);
+					float num = (float)(1.0 - tolerances[joyGiverDef.joyKind]);
+					chance *= num * num;
+					this.joyGiverChances[joyGiverDef] = chance;
 				}
-				IL_FB:;
 			}
-			for (int j = 0; j < this.joyGiverChances.Count; j++)
+			int num2 = 0;
+			JoyGiverDef def = default(JoyGiverDef);
+			while (num2 < this.joyGiverChances.Count && ((IEnumerable<JoyGiverDef>)allDefsListForReading).TryRandomElementByWeight<JoyGiverDef>((Func<JoyGiverDef, float>)((JoyGiverDef d) => this.joyGiverChances[d]), out def))
 			{
-				JoyGiverDef def;
-				if (!allDefsListForReading.TryRandomElementByWeight((JoyGiverDef d) => this.joyGiverChances[d], out def))
-				{
-					break;
-				}
 				Job job = this.TryGiveJobFromJoyGiverDefDirect(def, pawn);
 				if (job != null)
 				{
 					return job;
 				}
 				this.joyGiverChances[def] = 0f;
+				num2++;
 			}
 			return null;
 		}

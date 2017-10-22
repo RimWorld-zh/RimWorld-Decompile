@@ -41,7 +41,7 @@ namespace RimWorld
 
 		private ColonistBarDrawLocsFinder drawLocsFinder = new ColonistBarDrawLocsFinder();
 
-		private List<ColonistBar.Entry> cachedEntries = new List<ColonistBar.Entry>();
+		private List<Entry> cachedEntries = new List<Entry>();
 
 		private List<Vector2> cachedDrawLocs = new List<Vector2>();
 
@@ -69,7 +69,7 @@ namespace RimWorld
 
 		private static List<Pawn> tmpCaravanPawns = new List<Pawn>();
 
-		public List<ColonistBar.Entry> Entries
+		public List<Entry> Entries
 		{
 			get
 			{
@@ -82,11 +82,13 @@ namespace RimWorld
 		{
 			get
 			{
-				List<ColonistBar.Entry> entries = this.Entries;
+				List<Entry> entries = this.Entries;
 				int num = -1;
 				for (int i = 0; i < entries.Count; i++)
 				{
-					num = Mathf.Max(num, entries[i].group);
+					int a = num;
+					Entry entry = entries[i];
+					num = Mathf.Max(a, entry.group);
 				}
 				return num >= 1;
 			}
@@ -120,7 +122,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return 24f * this.Scale;
+				return (float)(24.0 * this.Scale);
 			}
 		}
 
@@ -128,7 +130,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return UI.screenWidth >= 800 && UI.screenHeight >= 500;
+				if (UI.screenWidth >= 800 && UI.screenHeight >= 500)
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -139,19 +145,22 @@ namespace RimWorld
 
 		public void ColonistBarOnGUI()
 		{
-			if (!this.Visible)
+			if (this.Visible && Event.current.type != EventType.Layout)
 			{
-				return;
-			}
-			if (Event.current.type != EventType.Layout)
-			{
-				List<ColonistBar.Entry> entries = this.Entries;
+				List<Entry> entries = this.Entries;
 				int num = -1;
 				bool showGroupFrames = this.ShowGroupFrames;
 				for (int i = 0; i < this.cachedDrawLocs.Count; i++)
 				{
-					Rect rect = new Rect(this.cachedDrawLocs[i].x, this.cachedDrawLocs[i].y, this.Size.x, this.Size.y);
-					ColonistBar.Entry entry = entries[i];
+					Vector2 vector = this.cachedDrawLocs[i];
+					float x = vector.x;
+					Vector2 vector2 = this.cachedDrawLocs[i];
+					float y = vector2.y;
+					Vector2 size = this.Size;
+					float x2 = size.x;
+					Vector2 size2 = this.Size;
+					Rect rect = new Rect(x, y, x2, size2.y);
+					Entry entry = entries[i];
 					bool flag = num != entry.group;
 					num = entry.group;
 					if (entry.pawn != null)
@@ -175,7 +184,7 @@ namespace RimWorld
 				{
 					for (int j = 0; j < this.cachedDrawLocs.Count; j++)
 					{
-						ColonistBar.Entry entry2 = entries[j];
+						Entry entry2 = entries[j];
 						bool flag2 = num != entry2.group;
 						num = entry2.group;
 						if (flag2)
@@ -189,88 +198,84 @@ namespace RimWorld
 
 		private void CheckRecacheEntries()
 		{
-			if (!this.entriesDirty)
+			if (this.entriesDirty)
 			{
-				return;
-			}
-			this.entriesDirty = false;
-			this.cachedEntries.Clear();
-			if (Find.PlaySettings.showColonistBar)
-			{
-				ColonistBar.tmpMaps.Clear();
-				ColonistBar.tmpMaps.AddRange(Find.Maps);
-				ColonistBar.tmpMaps.SortBy((Map x) => !x.IsPlayerHome, (Map x) => x.uniqueID);
-				int num = 0;
-				for (int i = 0; i < ColonistBar.tmpMaps.Count; i++)
+				this.entriesDirty = false;
+				this.cachedEntries.Clear();
+				if (Find.PlaySettings.showColonistBar)
 				{
-					ColonistBar.tmpPawns.Clear();
-					ColonistBar.tmpPawns.AddRange(ColonistBar.tmpMaps[i].mapPawns.FreeColonists);
-					List<Thing> list = ColonistBar.tmpMaps[i].listerThings.ThingsInGroup(ThingRequestGroup.Corpse);
-					for (int j = 0; j < list.Count; j++)
+					ColonistBar.tmpMaps.Clear();
+					ColonistBar.tmpMaps.AddRange(Find.Maps);
+					ColonistBar.tmpMaps.SortBy((Func<Map, bool>)((Map x) => !x.IsPlayerHome), (Func<Map, int>)((Map x) => x.uniqueID));
+					int num = 0;
+					for (int i = 0; i < ColonistBar.tmpMaps.Count; i++)
 					{
-						if (!list[j].IsDessicated())
+						ColonistBar.tmpPawns.Clear();
+						ColonistBar.tmpPawns.AddRange(ColonistBar.tmpMaps[i].mapPawns.FreeColonists);
+						List<Thing> list = ColonistBar.tmpMaps[i].listerThings.ThingsInGroup(ThingRequestGroup.Corpse);
+						for (int j = 0; j < list.Count; j++)
 						{
-							Pawn innerPawn = ((Corpse)list[j]).InnerPawn;
-							if (innerPawn != null)
+							if (!list[j].IsDessicated())
 							{
-								if (innerPawn.IsColonist)
+								Pawn innerPawn = ((Corpse)list[j]).InnerPawn;
+								if (innerPawn != null && innerPawn.IsColonist)
 								{
 									ColonistBar.tmpPawns.Add(innerPawn);
 								}
 							}
 						}
-					}
-					List<Pawn> allPawnsSpawned = ColonistBar.tmpMaps[i].mapPawns.AllPawnsSpawned;
-					for (int k = 0; k < allPawnsSpawned.Count; k++)
-					{
-						Corpse corpse = allPawnsSpawned[k].carryTracker.CarriedThing as Corpse;
-						if (corpse != null && !corpse.IsDessicated() && corpse.InnerPawn.IsColonist)
+						List<Pawn> allPawnsSpawned = ColonistBar.tmpMaps[i].mapPawns.AllPawnsSpawned;
+						for (int k = 0; k < allPawnsSpawned.Count; k++)
 						{
-							ColonistBar.tmpPawns.Add(corpse.InnerPawn);
-						}
-					}
-					ColonistBar.tmpPawns.SortBy((Pawn x) => x.thingIDNumber);
-					for (int l = 0; l < ColonistBar.tmpPawns.Count; l++)
-					{
-						this.cachedEntries.Add(new ColonistBar.Entry(ColonistBar.tmpPawns[l], ColonistBar.tmpMaps[i], num));
-					}
-					if (!ColonistBar.tmpPawns.Any<Pawn>())
-					{
-						this.cachedEntries.Add(new ColonistBar.Entry(null, ColonistBar.tmpMaps[i], num));
-					}
-					num++;
-				}
-				ColonistBar.tmpCaravans.Clear();
-				ColonistBar.tmpCaravans.AddRange(Find.WorldObjects.Caravans);
-				ColonistBar.tmpCaravans.SortBy((Caravan x) => x.ID);
-				for (int m = 0; m < ColonistBar.tmpCaravans.Count; m++)
-				{
-					if (ColonistBar.tmpCaravans[m].IsPlayerControlled)
-					{
-						ColonistBar.tmpPawns.Clear();
-						ColonistBar.tmpPawns.AddRange(ColonistBar.tmpCaravans[m].PawnsListForReading);
-						ColonistBar.tmpPawns.SortBy((Pawn x) => x.thingIDNumber);
-						for (int n = 0; n < ColonistBar.tmpPawns.Count; n++)
-						{
-							if (ColonistBar.tmpPawns[n].IsColonist)
+							Corpse corpse = allPawnsSpawned[k].carryTracker.CarriedThing as Corpse;
+							if (corpse != null && !corpse.IsDessicated() && corpse.InnerPawn.IsColonist)
 							{
-								this.cachedEntries.Add(new ColonistBar.Entry(ColonistBar.tmpPawns[n], null, num));
+								ColonistBar.tmpPawns.Add(corpse.InnerPawn);
 							}
+						}
+						ColonistBar.tmpPawns.SortBy((Func<Pawn, int>)((Pawn x) => x.thingIDNumber));
+						for (int l = 0; l < ColonistBar.tmpPawns.Count; l++)
+						{
+							this.cachedEntries.Add(new Entry(ColonistBar.tmpPawns[l], ColonistBar.tmpMaps[i], num));
+						}
+						if (!ColonistBar.tmpPawns.Any())
+						{
+							this.cachedEntries.Add(new Entry(null, ColonistBar.tmpMaps[i], num));
 						}
 						num++;
 					}
+					ColonistBar.tmpCaravans.Clear();
+					ColonistBar.tmpCaravans.AddRange(Find.WorldObjects.Caravans);
+					ColonistBar.tmpCaravans.SortBy((Func<Caravan, int>)((Caravan x) => x.ID));
+					for (int m = 0; m < ColonistBar.tmpCaravans.Count; m++)
+					{
+						if (ColonistBar.tmpCaravans[m].IsPlayerControlled)
+						{
+							ColonistBar.tmpPawns.Clear();
+							ColonistBar.tmpPawns.AddRange(ColonistBar.tmpCaravans[m].PawnsListForReading);
+							ColonistBar.tmpPawns.SortBy((Func<Pawn, int>)((Pawn x) => x.thingIDNumber));
+							for (int n = 0; n < ColonistBar.tmpPawns.Count; n++)
+							{
+								if (ColonistBar.tmpPawns[n].IsColonist)
+								{
+									this.cachedEntries.Add(new Entry(ColonistBar.tmpPawns[n], null, num));
+								}
+							}
+							num++;
+						}
+					}
 				}
+				this.drawer.Notify_RecachedEntries();
+				ColonistBar.tmpPawns.Clear();
+				ColonistBar.tmpMaps.Clear();
+				ColonistBar.tmpCaravans.Clear();
+				this.drawLocsFinder.CalculateDrawLocs(this.cachedDrawLocs, out this.cachedScale);
 			}
-			this.drawer.Notify_RecachedEntries();
-			ColonistBar.tmpPawns.Clear();
-			ColonistBar.tmpMaps.Clear();
-			ColonistBar.tmpCaravans.Clear();
-			this.drawLocsFinder.CalculateDrawLocs(this.cachedDrawLocs, out this.cachedScale);
 		}
 
 		public float GetEntryRectAlpha(Rect rect)
 		{
-			float t;
+			float t = default(float);
 			if (Messages.CollidesWithAnyMessage(rect, out t))
 			{
 				return Mathf.Lerp(1f, 0.2f, t);
@@ -280,37 +285,47 @@ namespace RimWorld
 
 		public bool AnyColonistOrCorpseAt(Vector2 pos)
 		{
-			ColonistBar.Entry entry;
-			return this.TryGetEntryAt(pos, out entry) && entry.pawn != null;
+			Entry entry = default(Entry);
+			if (!this.TryGetEntryAt(pos, out entry))
+			{
+				return false;
+			}
+			return entry.pawn != null;
 		}
 
-		public bool TryGetEntryAt(Vector2 pos, out ColonistBar.Entry entry)
+		public bool TryGetEntryAt(Vector2 pos, out Entry entry)
 		{
 			List<Vector2> drawLocs = this.DrawLocs;
-			List<ColonistBar.Entry> entries = this.Entries;
+			List<Entry> entries = this.Entries;
 			Vector2 size = this.Size;
 			for (int i = 0; i < drawLocs.Count; i++)
 			{
-				Rect rect = new Rect(drawLocs[i].x, drawLocs[i].y, size.x, size.y);
+				Vector2 vector = drawLocs[i];
+				float x = vector.x;
+				Vector2 vector2 = drawLocs[i];
+				Rect rect = new Rect(x, vector2.y, size.x, size.y);
 				if (rect.Contains(pos))
 				{
 					entry = entries[i];
 					return true;
 				}
 			}
-			entry = default(ColonistBar.Entry);
+			entry = default(Entry);
 			return false;
 		}
 
 		public List<Pawn> GetColonistsInOrder()
 		{
-			List<ColonistBar.Entry> entries = this.Entries;
+			List<Entry> entries = this.Entries;
 			ColonistBar.tmpColonistsInOrder.Clear();
 			for (int i = 0; i < entries.Count; i++)
 			{
-				if (entries[i].pawn != null)
+				Entry entry = entries[i];
+				if (entry.pawn != null)
 				{
-					ColonistBar.tmpColonistsInOrder.Add(entries[i].pawn);
+					List<Pawn> obj = ColonistBar.tmpColonistsInOrder;
+					Entry entry2 = entries[i];
+					obj.Add(entry2.pawn);
 				}
 			}
 			return ColonistBar.tmpColonistsInOrder;
@@ -319,42 +334,36 @@ namespace RimWorld
 		public List<Thing> ColonistsOrCorpsesInScreenRect(Rect rect)
 		{
 			List<Vector2> drawLocs = this.DrawLocs;
-			List<ColonistBar.Entry> entries = this.Entries;
+			List<Entry> entries = this.Entries;
 			Vector2 size = this.Size;
 			ColonistBar.tmpColonistsWithMap.Clear();
 			for (int i = 0; i < drawLocs.Count; i++)
 			{
-				if (rect.Overlaps(new Rect(drawLocs[i].x, drawLocs[i].y, size.x, size.y)))
+				Vector2 vector = drawLocs[i];
+				float x2 = vector.x;
+				Vector2 vector2 = drawLocs[i];
+				if (rect.Overlaps(new Rect(x2, vector2.y, size.x, size.y)))
 				{
-					Pawn pawn = entries[i].pawn;
+					Entry entry = entries[i];
+					Pawn pawn = entry.pawn;
 					if (pawn != null)
 					{
-						Thing first;
-						if (pawn.Dead && pawn.Corpse != null && pawn.Corpse.SpawnedOrAnyParentSpawned)
-						{
-							first = pawn.Corpse;
-						}
-						else
-						{
-							first = pawn;
-						}
-						ColonistBar.tmpColonistsWithMap.Add(new Pair<Thing, Map>(first, entries[i].map));
+						Thing thing = (Thing)((!pawn.Dead || pawn.Corpse == null || !pawn.Corpse.SpawnedOrAnyParentSpawned) ? ((object)pawn) : ((object)pawn.Corpse));
+						List<Pair<Thing, Map>> obj = ColonistBar.tmpColonistsWithMap;
+						Thing first = thing;
+						Entry entry2 = entries[i];
+						obj.Add(new Pair<Thing, Map>(first, entry2.map));
 					}
 				}
 			}
-			if (WorldRendererUtility.WorldRenderedNow)
+			if (WorldRendererUtility.WorldRenderedNow && ColonistBar.tmpColonistsWithMap.Any((Predicate<Pair<Thing, Map>>)((Pair<Thing, Map> x) => x.Second == null)))
 			{
-				if (ColonistBar.tmpColonistsWithMap.Any((Pair<Thing, Map> x) => x.Second == null))
-				{
-					ColonistBar.tmpColonistsWithMap.RemoveAll((Pair<Thing, Map> x) => x.Second != null);
-					goto IL_1A1;
-				}
+				ColonistBar.tmpColonistsWithMap.RemoveAll((Predicate<Pair<Thing, Map>>)((Pair<Thing, Map> x) => x.Second != null));
 			}
-			if (ColonistBar.tmpColonistsWithMap.Any((Pair<Thing, Map> x) => x.Second == Find.VisibleMap))
+			else if (ColonistBar.tmpColonistsWithMap.Any((Predicate<Pair<Thing, Map>>)((Pair<Thing, Map> x) => x.Second == Find.VisibleMap)))
 			{
-				ColonistBar.tmpColonistsWithMap.RemoveAll((Pair<Thing, Map> x) => x.Second != Find.VisibleMap);
+				ColonistBar.tmpColonistsWithMap.RemoveAll((Predicate<Pair<Thing, Map>>)((Pair<Thing, Map> x) => x.Second != Find.VisibleMap));
 			}
-			IL_1A1:
 			ColonistBar.tmpColonists.Clear();
 			for (int j = 0; j < ColonistBar.tmpColonistsWithMap.Count; j++)
 			{
@@ -436,22 +445,13 @@ namespace RimWorld
 			{
 				return null;
 			}
-			ColonistBar.Entry entry;
+			Entry entry = default(Entry);
 			if (!this.TryGetEntryAt(pos, out entry))
 			{
 				return null;
 			}
 			Pawn pawn = entry.pawn;
-			Thing result;
-			if (pawn != null && pawn.Dead && pawn.Corpse != null && pawn.Corpse.SpawnedOrAnyParentSpawned)
-			{
-				result = pawn.Corpse;
-			}
-			else
-			{
-				result = pawn;
-			}
-			return result;
+			return (Thing)((pawn == null || !pawn.Dead || pawn.Corpse == null || !pawn.Corpse.SpawnedOrAnyParentSpawned) ? ((object)pawn) : ((object)pawn.Corpse));
 		}
 	}
 }

@@ -16,103 +16,93 @@ namespace RimWorld
 		public static Toil LayDown(TargetIndex bedOrRestSpotIndex, bool hasBed, bool lookForOtherJobs, bool canSleep = true, bool gainRestAndHealth = true)
 		{
 			Toil layDown = new Toil();
-			layDown.initAction = delegate
+			layDown.initAction = (Action)delegate()
 			{
-				Pawn actor = layDown.actor;
-				actor.pather.StopDead();
-				JobDriver curDriver = actor.jobs.curDriver;
+				Pawn actor3 = layDown.actor;
+				actor3.pather.StopDead();
+				JobDriver curDriver3 = actor3.jobs.curDriver;
 				if (hasBed)
 				{
-					Building_Bed t = (Building_Bed)actor.CurJob.GetTarget(bedOrRestSpotIndex).Thing;
-					if (!t.OccupiedRect().Contains(actor.Position))
+					Building_Bed t = (Building_Bed)actor3.CurJob.GetTarget(bedOrRestSpotIndex).Thing;
+					if (!t.OccupiedRect().Contains(actor3.Position))
 					{
-						Log.Error("Can't start LayDown toil because pawn is not in the bed. pawn=" + actor);
-						actor.jobs.EndCurrentJob(JobCondition.Errored, true);
+						Log.Error("Can't start LayDown toil because pawn is not in the bed. pawn=" + actor3);
+						actor3.jobs.EndCurrentJob(JobCondition.Errored, true);
 						return;
 					}
-					curDriver.layingDown = LayingDownState.LayingInBed;
+					curDriver3.layingDown = LayingDownState.LayingInBed;
 				}
 				else
 				{
-					curDriver.layingDown = LayingDownState.LayingSurface;
+					curDriver3.layingDown = LayingDownState.LayingSurface;
 				}
-				curDriver.asleep = false;
-				actor.mindState.awokeVoluntarily = false;
-				if (actor.mindState.applyBedThoughtsTick == 0)
+				curDriver3.asleep = false;
+				actor3.mindState.awokeVoluntarily = false;
+				if (actor3.mindState.applyBedThoughtsTick == 0)
 				{
-					actor.mindState.applyBedThoughtsTick = Find.TickManager.TicksGame + Rand.Range(2500, 10000);
-					actor.mindState.applyBedThoughtsOnLeave = false;
+					actor3.mindState.applyBedThoughtsTick = Find.TickManager.TicksGame + Rand.Range(2500, 10000);
+					actor3.mindState.applyBedThoughtsOnLeave = false;
 				}
-				if (actor.ownership != null && actor.CurrentBed() != actor.ownership.OwnedBed)
+				if (actor3.ownership != null && actor3.CurrentBed() != actor3.ownership.OwnedBed)
 				{
-					ThoughtUtility.RemovePositiveBedroomThoughts(actor);
+					ThoughtUtility.RemovePositiveBedroomThoughts(actor3);
 				}
 			};
-			layDown.tickAction = delegate
+			layDown.tickAction = (Action)delegate()
 			{
-				Pawn actor = layDown.actor;
-				Job curJob = actor.CurJob;
-				JobDriver curDriver = actor.jobs.curDriver;
+				Pawn actor2 = layDown.actor;
+				Job curJob = actor2.CurJob;
+				JobDriver curDriver2 = actor2.jobs.curDriver;
 				Building_Bed building_Bed = (Building_Bed)curJob.GetTarget(bedOrRestSpotIndex).Thing;
-				actor.GainComfortFromCellIfPossible();
-				if (!curDriver.asleep)
+				actor2.GainComfortFromCellIfPossible();
+				if (!curDriver2.asleep)
 				{
-					if (canSleep && actor.needs.rest.CurLevel < RestUtility.FallAsleepMaxLevel(actor))
+					if (canSleep && actor2.needs.rest.CurLevel < RestUtility.FallAsleepMaxLevel(actor2))
 					{
-						curDriver.asleep = true;
+						curDriver2.asleep = true;
 					}
 				}
-				else if (!canSleep || actor.needs.rest.CurLevel >= RestUtility.WakeThreshold(actor))
+				else if (!canSleep || actor2.needs.rest.CurLevel >= RestUtility.WakeThreshold(actor2))
 				{
-					curDriver.asleep = false;
+					curDriver2.asleep = false;
 				}
-				if (curDriver.asleep && gainRestAndHealth)
+				if (curDriver2.asleep && gainRestAndHealth)
 				{
-					float num;
-					if (building_Bed != null && building_Bed.def.statBases.StatListContains(StatDefOf.BedRestEffectiveness))
-					{
-						num = building_Bed.GetStatValue(StatDefOf.BedRestEffectiveness, true);
-					}
-					else
-					{
-						num = 0.8f;
-					}
-					float num2 = RestUtility.PawnHealthRestEffectivenessFactor(actor);
-					num = 0.7f * num + 0.3f * num * num2;
-					actor.needs.rest.TickResting(num);
+					float num = (float)((building_Bed == null || !building_Bed.def.statBases.StatListContains(StatDefOf.BedRestEffectiveness)) ? 0.800000011920929 : building_Bed.GetStatValue(StatDefOf.BedRestEffectiveness, true));
+					float num2 = RestUtility.PawnHealthRestEffectivenessFactor(actor2);
+					num = (float)(0.699999988079071 * num + 0.30000001192092896 * num * num2);
+					actor2.needs.rest.TickResting(num);
 				}
-				if (actor.mindState.applyBedThoughtsTick != 0 && actor.mindState.applyBedThoughtsTick <= Find.TickManager.TicksGame)
+				if (actor2.mindState.applyBedThoughtsTick != 0 && actor2.mindState.applyBedThoughtsTick <= Find.TickManager.TicksGame)
 				{
-					Toils_LayDown.ApplyBedThoughts(actor);
-					actor.mindState.applyBedThoughtsTick += 60000;
-					actor.mindState.applyBedThoughtsOnLeave = true;
+					Toils_LayDown.ApplyBedThoughts(actor2);
+					actor2.mindState.applyBedThoughtsTick += 60000;
+					actor2.mindState.applyBedThoughtsOnLeave = true;
 				}
-				if (actor.IsHashIntervalTick(100) && !actor.Position.Fogged(actor.Map))
+				if (actor2.IsHashIntervalTick(100) && !actor2.Position.Fogged(actor2.Map))
 				{
-					if (curDriver.asleep)
+					if (curDriver2.asleep)
 					{
-						MoteMaker.ThrowMetaIcon(actor.Position, actor.Map, ThingDefOf.Mote_SleepZ);
+						MoteMaker.ThrowMetaIcon(actor2.Position, actor2.Map, ThingDefOf.Mote_SleepZ);
 					}
-					if (gainRestAndHealth && actor.health.hediffSet.GetNaturallyHealingInjuredParts().Any<BodyPartRecord>())
+					if (gainRestAndHealth && actor2.health.hediffSet.GetNaturallyHealingInjuredParts().Any())
 					{
-						MoteMaker.ThrowMetaIcon(actor.Position, actor.Map, ThingDefOf.Mote_HealingCross);
+						MoteMaker.ThrowMetaIcon(actor2.Position, actor2.Map, ThingDefOf.Mote_HealingCross);
 					}
 				}
-				if (actor.ownership != null && building_Bed != null && !building_Bed.Medical && !building_Bed.owners.Contains(actor))
+				if (actor2.ownership != null && building_Bed != null && !building_Bed.Medical && !building_Bed.owners.Contains(actor2))
 				{
-					if (actor.Downed)
+					if (actor2.Downed)
 					{
-						actor.Position = CellFinder.RandomClosewalkCellNear(actor.Position, actor.Map, 1, null);
+						actor2.Position = CellFinder.RandomClosewalkCellNear(actor2.Position, actor2.Map, 1, null);
 					}
-					actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
-					return;
+					actor2.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 				}
-				if (lookForOtherJobs && actor.IsHashIntervalTick(211))
+				else if (lookForOtherJobs && actor2.IsHashIntervalTick(211))
 				{
-					actor.mindState.awokeVoluntarily = true;
-					actor.jobs.CheckForJobOverride();
-					actor.mindState.awokeVoluntarily = false;
-					return;
+					actor2.mindState.awokeVoluntarily = true;
+					actor2.jobs.CheckForJobOverride();
+					actor2.mindState.awokeVoluntarily = false;
 				}
 			};
 			layDown.defaultCompleteMode = ToilCompleteMode.Never;
@@ -120,7 +110,7 @@ namespace RimWorld
 			{
 				layDown.FailOnBedNoLongerUsable(bedOrRestSpotIndex);
 			}
-			layDown.AddFinishAction(delegate
+			layDown.AddFinishAction((Action)delegate
 			{
 				Pawn actor = layDown.actor;
 				JobDriver curDriver = actor.jobs.curDriver;
@@ -140,50 +130,49 @@ namespace RimWorld
 
 		private static void ApplyBedThoughts(Pawn actor)
 		{
-			if (actor.needs.mood == null)
+			if (actor.needs.mood != null)
 			{
-				return;
-			}
-			Building_Bed building_Bed = actor.CurrentBed();
-			actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptInBedroom);
-			actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptInBarracks);
-			actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptOutside);
-			actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptOnGround);
-			actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptInCold);
-			actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptInHeat);
-			if (actor.GetRoom(RegionType.Set_Passable).PsychologicallyOutdoors)
-			{
-				actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleptOutside, null);
-			}
-			if (building_Bed == null || building_Bed.CostListAdjusted().Count == 0)
-			{
-				actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleptOnGround, null);
-			}
-			if (actor.AmbientTemperature < actor.def.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null))
-			{
-				actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleptInCold, null);
-			}
-			if (actor.AmbientTemperature > actor.def.GetStatValueAbstract(StatDefOf.ComfyTemperatureMax, null))
-			{
-				actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleptInHeat, null);
-			}
-			if (building_Bed != null && building_Bed == actor.ownership.OwnedBed && !building_Bed.ForPrisoners && !actor.story.traits.HasTrait(TraitDefOf.Ascetic))
-			{
-				ThoughtDef thoughtDef = null;
-				if (building_Bed.GetRoom(RegionType.Set_Passable).Role == RoomRoleDefOf.Bedroom)
+				Building_Bed building_Bed = actor.CurrentBed();
+				actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptInBedroom);
+				actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptInBarracks);
+				actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptOutside);
+				actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptOnGround);
+				actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptInCold);
+				actor.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDefOf.SleptInHeat);
+				if (actor.GetRoom(RegionType.Set_Passable).PsychologicallyOutdoors)
 				{
-					thoughtDef = ThoughtDefOf.SleptInBedroom;
+					actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleptOutside, null);
 				}
-				else if (building_Bed.GetRoom(RegionType.Set_Passable).Role == RoomRoleDefOf.Barracks)
+				if (building_Bed == null || building_Bed.CostListAdjusted().Count == 0)
 				{
-					thoughtDef = ThoughtDefOf.SleptInBarracks;
+					actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleptOnGround, null);
 				}
-				if (thoughtDef != null)
+				if (actor.AmbientTemperature < actor.def.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null))
 				{
-					int scoreStageIndex = RoomStatDefOf.Impressiveness.GetScoreStageIndex(building_Bed.GetRoom(RegionType.Set_Passable).GetStat(RoomStatDefOf.Impressiveness));
-					if (thoughtDef.stages[scoreStageIndex] != null)
+					actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleptInCold, null);
+				}
+				if (actor.AmbientTemperature > actor.def.GetStatValueAbstract(StatDefOf.ComfyTemperatureMax, null))
+				{
+					actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleptInHeat, null);
+				}
+				if (building_Bed != null && building_Bed == actor.ownership.OwnedBed && !building_Bed.ForPrisoners && !actor.story.traits.HasTrait(TraitDefOf.Ascetic))
+				{
+					ThoughtDef thoughtDef = null;
+					if (building_Bed.GetRoom(RegionType.Set_Passable).Role == RoomRoleDefOf.Bedroom)
 					{
-						actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtMaker.MakeThought(thoughtDef, scoreStageIndex), null);
+						thoughtDef = ThoughtDefOf.SleptInBedroom;
+					}
+					else if (building_Bed.GetRoom(RegionType.Set_Passable).Role == RoomRoleDefOf.Barracks)
+					{
+						thoughtDef = ThoughtDefOf.SleptInBarracks;
+					}
+					if (thoughtDef != null)
+					{
+						int scoreStageIndex = RoomStatDefOf.Impressiveness.GetScoreStageIndex(building_Bed.GetRoom(RegionType.Set_Passable).GetStat(RoomStatDefOf.Impressiveness));
+						if (thoughtDef.stages[scoreStageIndex] != null)
+						{
+							actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtMaker.MakeThought(thoughtDef, scoreStageIndex), null);
+						}
 					}
 				}
 			}

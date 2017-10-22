@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public struct CellLine
@@ -38,15 +36,7 @@ namespace Verse
 
 		public static CellLine Between(IntVec3 a, IntVec3 b)
 		{
-			float num;
-			if (a.x == b.x)
-			{
-				num = 1E+08f;
-			}
-			else
-			{
-				num = (float)(b.z - a.z) / (float)(b.x - a.x);
-			}
+			float num = (float)((a.x != b.x) ? ((float)(b.z - a.z) / (float)(b.x - a.x)) : 100000000.0);
 			float num2 = (float)a.z - (float)a.x * num;
 			return new CellLine(num2, num);
 		}

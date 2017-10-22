@@ -49,20 +49,16 @@ namespace Verse
 			{
 				return t.def == this.singleDef;
 			}
-			return this.group == ThingRequestGroup.Everything || this.group.Includes(t.def);
+			if (this.group != ThingRequestGroup.Everything)
+			{
+				return this.group.Includes(t.def);
+			}
+			return true;
 		}
 
 		public override string ToString()
 		{
-			string str;
-			if (this.singleDef != null)
-			{
-				str = "singleDef " + this.singleDef.defName;
-			}
-			else
-			{
-				str = "group " + this.group.ToString();
-			}
+			string str = (this.singleDef == null) ? ("group " + ((Enum)(object)this.group).ToString()) : ("singleDef " + this.singleDef.defName);
 			return "ThingRequest(" + str + ")";
 		}
 	}

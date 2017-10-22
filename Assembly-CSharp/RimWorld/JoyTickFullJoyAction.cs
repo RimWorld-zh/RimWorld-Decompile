@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum JoyTickFullJoyAction
 	{
-		EndJob,
-		GoToNextToil,
-		None
+		EndJob = 0,
+		GoToNextToil = 1,
+		None = 2
 	}
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -30,14 +29,26 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_FillFermentingBarrel.<MakeNewToils>c__Iterator2A <MakeNewToils>c__Iterator2A = new JobDriver_FillFermentingBarrel.<MakeNewToils>c__Iterator2A();
-			<MakeNewToils>c__Iterator2A.<>f__this = this;
-			JobDriver_FillFermentingBarrel.<MakeNewToils>c__Iterator2A expr_0E = <MakeNewToils>c__Iterator2A;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
+			this.FailOnBurningImmobile(TargetIndex.A);
+			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			Toil reserveWort = Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
+			yield return reserveWort;
+			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.ClosestTouch).FailOnDespawnedNullOrForbidden(TargetIndex.B).FailOnSomeonePhysicallyInteracting(TargetIndex.B);
+			yield return Toils_Haul.StartCarryThing(TargetIndex.B, false, true).FailOnDestroyedNullOrForbidden(TargetIndex.B);
+			yield return Toils_Haul.CheckForGetOpportunityDuplicate(reserveWort, TargetIndex.B, TargetIndex.None, true, null);
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			yield return Toils_General.Wait(200).FailOnDestroyedNullOrForbidden(TargetIndex.B).FailOnDestroyedNullOrForbidden(TargetIndex.A).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+					((_003CMakeNewToils_003Ec__Iterator2A)/*Error near IL_0164: stateMachine*/)._003C_003Ef__this.Barrel.AddWort(((_003CMakeNewToils_003Ec__Iterator2A)/*Error near IL_0164: stateMachine*/)._003C_003Ef__this.Wort);
+				},
+				defaultCompleteMode = ToilCompleteMode.Instant
+			};
 		}
 	}
 }

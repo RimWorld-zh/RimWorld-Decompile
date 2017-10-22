@@ -26,7 +26,7 @@ namespace RimWorld
 
 		public static readonly Vector2 PaneSize = new Vector2(432f, 165f);
 
-		public static readonly Vector2 PaneInnerSize = new Vector2(InspectPaneUtility.PaneSize.x - 24f, InspectPaneUtility.PaneSize.y - 24f);
+		public static readonly Vector2 PaneInnerSize = new Vector2((float)(InspectPaneUtility.PaneSize.x - 24.0), (float)(InspectPaneUtility.PaneSize.y - 24.0));
 
 		private static List<Thing> selectedThings = new List<Thing>();
 
@@ -39,12 +39,20 @@ namespace RimWorld
 		{
 			Thing thing = A as Thing;
 			Thing thing2 = B as Thing;
-			return thing != null && thing2 != null && thing.def.category != ThingCategory.Pawn && thing.def == thing2.def;
+			if (thing != null && thing2 != null)
+			{
+				if (thing.def.category == ThingCategory.Pawn)
+				{
+					return false;
+				}
+				return thing.def == thing2.def;
+			}
+			return false;
 		}
 
 		public static string AdjustedLabelFor(IEnumerable<object> selected, Rect rect)
 		{
-			Zone zone = selected.First<object>() as Zone;
+			Zone zone = selected.First() as Zone;
 			string str;
 			if (zone != null)
 			{
@@ -53,9 +61,9 @@ namespace RimWorld
 			else
 			{
 				InspectPaneUtility.selectedThings.Clear();
-				foreach (object current in selected)
+				foreach (object item in selected)
 				{
-					Thing thing = current as Thing;
+					Thing thing = item as Thing;
 					if (thing != null)
 					{
 						InspectPaneUtility.selectedThings.Add(thing);
@@ -70,7 +78,7 @@ namespace RimWorld
 					IEnumerable<IGrouping<string, Thing>> source = from th in InspectPaneUtility.selectedThings
 					group th by th.LabelCapNoCount into g
 					select g;
-					if (source.Count<IGrouping<string, Thing>>() > 1)
+					if (source.Count() > 1)
 					{
 						str = "VariousLabel".Translate();
 					}
@@ -105,15 +113,12 @@ namespace RimWorld
 		public static void UpdateTabs(IInspectPane pane)
 		{
 			bool flag = false;
-			foreach (InspectTabBase current in pane.CurTabs)
+			foreach (InspectTabBase curTab in pane.CurTabs)
 			{
-				if (current.IsVisible)
+				if (curTab.IsVisible && curTab.GetType() == pane.OpenTabType)
 				{
-					if (current.GetType() == pane.OpenTabType)
-					{
-						current.TabUpdate();
-						flag = true;
-					}
+					curTab.TabUpdate();
+					flag = true;
 				}
 			}
 			if (!flag)
@@ -124,7 +129,8 @@ namespace RimWorld
 
 		public static void InspectPaneOnGUI(Rect inRect, IInspectPane pane)
 		{
-			pane.RecentHeight = InspectPaneUtility.PaneSize.y;
+			Vector2 paneSize = InspectPaneUtility.PaneSize;
+			pane.RecentHeight = paneSize.y;
 			if (pane.AnythingSelected)
 			{
 				try
@@ -136,16 +142,13 @@ namespace RimWorld
 					float num = 0f;
 					if (pane.ShouldShowSelectNextInCellButton)
 					{
-						Rect rect2 = new Rect(rect.width - 24f, 0f, 24f, 24f);
+						Rect rect2 = new Rect((float)(rect.width - 24.0), 0f, 24f, 24f);
 						if (Widgets.ButtonImage(rect2, TexButton.SelectOverlappingNext))
 						{
 							pane.SelectNextInCell();
 						}
-						num += 24f;
-						TooltipHandler.TipRegion(rect2, "SelectNextInSquareTip".Translate(new object[]
-						{
-							KeyBindingDefOf.SelectNextInCell.MainKeyLabel
-						}));
+						num = (float)(num + 24.0);
+						TooltipHandler.TipRegion(rect2, "SelectNextInSquareTip".Translate(KeyBindingDefOf.SelectNextInCell.MainKeyLabel));
 					}
 					pane.DoInspectPaneButtons(rect, ref num);
 					Rect rect3 = new Rect(0f, 0f, rect.width - num, 50f);
@@ -176,33 +179,33 @@ namespace RimWorld
 		{
 			try
 			{
-				float y = pane.PaneTopY - 30f;
+				float y = (float)(pane.PaneTopY - 30.0);
 				float num = 360f;
 				float width = 0f;
 				bool flag = false;
-				foreach (InspectTabBase current in pane.CurTabs)
+				foreach (InspectTabBase curTab in pane.CurTabs)
 				{
-					if (current.IsVisible)
+					if (curTab.IsVisible)
 					{
 						Rect rect = new Rect(num, y, 72f, 30f);
 						width = num;
 						Text.Font = GameFont.Small;
-						if (Widgets.ButtonText(rect, current.labelKey.Translate(), true, false, true))
+						if (Widgets.ButtonText(rect, curTab.labelKey.Translate(), true, false, true))
 						{
-							InspectPaneUtility.InterfaceToggleTab(current, pane);
+							InspectPaneUtility.InterfaceToggleTab(curTab, pane);
 						}
-						bool flag2 = current.GetType() == pane.OpenTabType;
-						if (!flag2 && !current.TutorHighlightTagClosed.NullOrEmpty())
+						bool flag2 = curTab.GetType() == pane.OpenTabType;
+						if (!flag2 && !curTab.TutorHighlightTagClosed.NullOrEmpty())
 						{
-							UIHighlighter.HighlightOpportunity(rect, current.TutorHighlightTagClosed);
+							UIHighlighter.HighlightOpportunity(rect, curTab.TutorHighlightTagClosed);
 						}
 						if (flag2)
 						{
-							current.DoTabGUI();
+							curTab.DoTabGUI();
 							pane.RecentHeight = 700f;
 							flag = true;
 						}
-						num -= 72f;
+						num = (float)(num - 72.0);
 					}
 				}
 				if (flag)
@@ -239,9 +242,7 @@ namespace RimWorld
 		private static void InterfaceToggleTab(InspectTabBase tab, IInspectPane pane)
 		{
 			if (TutorSystem.TutorialMode && !InspectPaneUtility.IsOpen(tab, pane) && !TutorSystem.AllowAction("ITab-" + tab.tutorTag + "-Open"))
-			{
 				return;
-			}
 			InspectPaneUtility.ToggleTab(tab, pane);
 		}
 	}

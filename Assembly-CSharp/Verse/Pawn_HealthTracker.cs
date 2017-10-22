@@ -64,7 +64,7 @@ namespace Verse
 					for (int i = 0; i < allTraits.Count; i++)
 					{
 						float painShockThreshold = allTraits[i].CurrentData.painShockThreshold;
-						if (painShockThreshold > 0f)
+						if (painShockThreshold > 0.0)
 						{
 							return painShockThreshold;
 						}
@@ -106,26 +106,26 @@ namespace Verse
 		{
 			Scribe_Values.Look<PawnHealthState>(ref this.healthState, "healthState", PawnHealthState.Mobile, false);
 			Scribe_Values.Look<bool>(ref this.forceIncap, "forceIncap", false, false);
-			Scribe_Deep.Look<HediffSet>(ref this.hediffSet, "hediffSet", new object[]
+			Scribe_Deep.Look<HediffSet>(ref this.hediffSet, "hediffSet", new object[1]
 			{
 				this.pawn
 			});
-			Scribe_Deep.Look<BillStack>(ref this.surgeryBills, "surgeryBills", new object[]
+			Scribe_Deep.Look<BillStack>(ref this.surgeryBills, "surgeryBills", new object[1]
 			{
 				this.pawn
 			});
-			Scribe_Deep.Look<ImmunityHandler>(ref this.immunity, "immunity", new object[]
+			Scribe_Deep.Look<ImmunityHandler>(ref this.immunity, "immunity", new object[1]
 			{
 				this.pawn
 			});
 		}
 
-		public void AddHediff(HediffDef def, BodyPartRecord part = null, DamageInfo? dinfo = null)
+		public void AddHediff(HediffDef def, BodyPartRecord part = null, DamageInfo? dinfo = default(DamageInfo?))
 		{
 			this.AddHediff(HediffMaker.MakeHediff(def, this.pawn, null), part, dinfo);
 		}
 
-		public void AddHediff(Hediff hediff, BodyPartRecord part = null, DamageInfo? dinfo = null)
+		public void AddHediff(Hediff hediff, BodyPartRecord part = null, DamageInfo? dinfo = default(DamageInfo?))
 		{
 			if (part != null)
 			{
@@ -156,7 +156,7 @@ namespace Verse
 		public void Notify_HediffChanged(Hediff hediff)
 		{
 			this.hediffSet.DirtyCache();
-			this.CheckForStateChange(null, hediff);
+			this.CheckForStateChange(default(DamageInfo?), hediff);
 		}
 
 		public void PreApplyDamage(DamageInfo dinfo, out bool absorbed)
@@ -254,15 +254,13 @@ namespace Verse
 						if (damageDefAdditionalHediff.hediff != null)
 						{
 							float num = totalDamageDealt * damageDefAdditionalHediff.severityPerDamageDealt;
-							if (num >= 0f)
+							if (num >= 0.0)
 							{
 								Hediff hediff = HediffMaker.MakeHediff(damageDefAdditionalHediff.hediff, this.pawn, null);
 								hediff.Severity = num;
 								this.AddHediff(hediff, null, new DamageInfo?(dinfo));
 								if (this.Dead)
-								{
 									return;
-								}
 							}
 						}
 					}
@@ -279,32 +277,34 @@ namespace Verse
 			if (part == null)
 			{
 				Log.Error("Tried to restore null body part.");
-				return;
 			}
-			this.RestorePartRecursive(part, diffException);
-			this.hediffSet.DirtyCache();
-			if (checkStateChange)
+			else
 			{
-				this.CheckForStateChange(null, null);
+				this.RestorePartRecursive(part, diffException);
+				this.hediffSet.DirtyCache();
+				if (checkStateChange)
+				{
+					this.CheckForStateChange(default(DamageInfo?), null);
+				}
 			}
 		}
 
 		private void RestorePartRecursive(BodyPartRecord part, Hediff diffException = null)
 		{
 			List<Hediff> hediffs = this.hediffSet.hediffs;
-			for (int i = hediffs.Count - 1; i >= 0; i--)
+			for (int num = hediffs.Count - 1; num >= 0; num--)
 			{
-				Hediff hediff = hediffs[i];
+				Hediff hediff = hediffs[num];
 				if (hediff.Part == part && hediff != diffException)
 				{
-					Hediff hediff2 = hediffs[i];
-					hediffs.RemoveAt(i);
+					Hediff hediff2 = hediffs[num];
+					hediffs.RemoveAt(num);
 					hediff2.PostRemoved();
 				}
 			}
-			for (int j = 0; j < part.parts.Count; j++)
+			for (int i = 0; i < part.parts.Count; i++)
 			{
-				this.RestorePartRecursive(part.parts[j], diffException);
+				this.RestorePartRecursive(part.parts[i], diffException);
 			}
 		}
 
@@ -324,21 +324,21 @@ namespace Verse
 							this.NotifyPlayerOfKilled(dinfo, hediff, caravan);
 						}
 					}
-					return;
 				}
-				if (!this.Downed)
+				else if (!this.Downed)
 				{
 					if (this.ShouldBeDowned())
 					{
-						float num = (!this.pawn.RaceProps.Animal) ? 0.67f : 0.47f;
+						float num = (float)((!this.pawn.RaceProps.Animal) ? 0.67000001668930054 : 0.4699999988079071);
 						if (!this.forceIncap && dinfo.HasValue && dinfo.Value.Def.externalViolence && (this.pawn.Faction == null || !this.pawn.Faction.IsPlayer) && !this.pawn.IsPrisonerOfColony && this.pawn.RaceProps.IsFlesh && Rand.Value < num)
 						{
 							this.pawn.Kill(dinfo);
-							return;
 						}
-						this.forceIncap = false;
-						this.MakeDowned(dinfo, hediff);
-						return;
+						else
+						{
+							this.forceIncap = false;
+							this.MakeDowned(dinfo, hediff);
+						}
 					}
 					else if (!this.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
 					{
@@ -354,7 +354,7 @@ namespace Verse
 							}
 							else if (this.pawn.SpawnedOrAnyParentSpawned)
 							{
-								ThingWithComps thingWithComps;
+								ThingWithComps thingWithComps = default(ThingWithComps);
 								this.pawn.equipment.TryDropEquipment(this.pawn.equipment.Primary, out thingWithComps, this.pawn.PositionHeld, true);
 							}
 							else
@@ -367,7 +367,6 @@ namespace Verse
 				else if (!this.ShouldBeDowned())
 				{
 					this.MakeUndowned();
-					return;
 				}
 			}
 		}
@@ -394,14 +393,17 @@ namespace Verse
 			for (int j = 0; j < allDefsListForReading.Count; j++)
 			{
 				PawnCapacityDef pawnCapacityDef = allDefsListForReading[j];
-				bool flag = (!this.pawn.RaceProps.IsFlesh) ? pawnCapacityDef.lethalMechanoids : pawnCapacityDef.lethalFlesh;
-				if (flag && !this.capacities.CapableOf(pawnCapacityDef))
+				if (((!this.pawn.RaceProps.IsFlesh) ? pawnCapacityDef.lethalMechanoids : pawnCapacityDef.lethalFlesh) && !this.capacities.CapableOf(pawnCapacityDef))
 				{
 					return true;
 				}
 			}
 			float num = PawnCapacityUtility.CalculatePartEfficiency(this.hediffSet, this.pawn.RaceProps.body.corePart, false, null);
-			return num <= 0.0001f;
+			if (num <= 9.9999997473787516E-05)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public void SetDead()
@@ -418,59 +420,61 @@ namespace Verse
 			if (this.Downed)
 			{
 				Log.Error(this.pawn + " tried to do MakeDowned while already downed.");
-				return;
 			}
-			this.healthState = PawnHealthState.Down;
-			PawnDiedOrDownedThoughtsUtility.TryGiveThoughts(this.pawn, dinfo, PawnDiedOrDownedThoughtsKind.Downed);
-			if (this.pawn.MentalState != null)
+			else
 			{
-				this.pawn.mindState.mentalStateHandler.CurState.RecoverFromState();
-			}
-			if (this.pawn.Spawned)
-			{
-				if (this.pawn.Faction == Faction.OfPlayer)
+				this.healthState = PawnHealthState.Down;
+				PawnDiedOrDownedThoughtsUtility.TryGiveThoughts(this.pawn, dinfo, PawnDiedOrDownedThoughtsKind.Downed);
+				if (this.pawn.MentalState != null)
 				{
-					Find.StoryWatcher.watcherRampUp.Notify_PlayerPawnIncappedOrKilled(this.pawn);
+					this.pawn.mindState.mentalStateHandler.CurState.RecoverFromState();
 				}
-				this.pawn.DropAndForbidEverything(true);
-				this.pawn.stances.CancelBusyStanceSoft();
-			}
-			this.pawn.ClearMind(true);
-			if (Current.ProgramState == ProgramState.Playing)
-			{
-				this.pawn.ClearReservations(true);
-				Lord lord = this.pawn.GetLord();
-				if (lord != null)
+				if (this.pawn.Spawned)
 				{
-					lord.Notify_PawnLost(this.pawn, PawnLostCondition.IncappedOrKilled);
+					if (this.pawn.Faction == Faction.OfPlayer)
+					{
+						Find.StoryWatcher.watcherRampUp.Notify_PlayerPawnIncappedOrKilled(this.pawn);
+					}
+					this.pawn.DropAndForbidEverything(true);
+					this.pawn.stances.CancelBusyStanceSoft();
 				}
-			}
-			if (this.pawn.Drafted)
-			{
-				this.pawn.drafter.Drafted = false;
-			}
-			PortraitsCache.SetDirty(this.pawn);
-			if (this.pawn.SpawnedOrAnyParentSpawned)
-			{
-				GenHostility.Notify_PawnLostForTutor(this.pawn, this.pawn.MapHeld);
-			}
-			if (this.pawn.RaceProps.Humanlike && Current.ProgramState == ProgramState.Playing && this.pawn.SpawnedOrAnyParentSpawned)
-			{
-				if (this.pawn.HostileTo(Faction.OfPlayer))
+				this.pawn.ClearMind(true);
+				if (Current.ProgramState == ProgramState.Playing)
 				{
-					LessonAutoActivator.TeachOpportunity(ConceptDefOf.Capturing, this.pawn, OpportunityType.Important);
+					this.pawn.ClearReservations(true);
+					Lord lord = this.pawn.GetLord();
+					if (lord != null)
+					{
+						lord.Notify_PawnLost(this.pawn, PawnLostCondition.IncappedOrKilled);
+					}
 				}
-				if (this.pawn.Faction == Faction.OfPlayer)
+				if (this.pawn.Drafted)
 				{
-					LessonAutoActivator.TeachOpportunity(ConceptDefOf.Rescuing, this.pawn, OpportunityType.Critical);
+					this.pawn.drafter.Drafted = false;
 				}
-			}
-			if (dinfo.HasValue && dinfo.Value.Instigator != null)
-			{
-				Pawn pawn = dinfo.Value.Instigator as Pawn;
-				if (pawn != null)
+				PortraitsCache.SetDirty(this.pawn);
+				if (this.pawn.SpawnedOrAnyParentSpawned)
 				{
-					RecordsUtility.Notify_PawnDowned(this.pawn, pawn);
+					GenHostility.Notify_PawnLostForTutor(this.pawn, this.pawn.MapHeld);
+				}
+				if (this.pawn.RaceProps.Humanlike && Current.ProgramState == ProgramState.Playing && this.pawn.SpawnedOrAnyParentSpawned)
+				{
+					if (this.pawn.HostileTo(Faction.OfPlayer))
+					{
+						LessonAutoActivator.TeachOpportunity(ConceptDefOf.Capturing, this.pawn, OpportunityType.Important);
+					}
+					if (this.pawn.Faction == Faction.OfPlayer)
+					{
+						LessonAutoActivator.TeachOpportunity(ConceptDefOf.Rescuing, this.pawn, OpportunityType.Critical);
+					}
+				}
+				if (dinfo.HasValue && dinfo.Value.Instigator != null)
+				{
+					Pawn pawn = dinfo.Value.Instigator as Pawn;
+					if (pawn != null)
+					{
+						RecordsUtility.Notify_PawnDowned(this.pawn, pawn);
+					}
 				}
 			}
 		}
@@ -480,157 +484,135 @@ namespace Verse
 			if (!this.Downed)
 			{
 				Log.Error(this.pawn + " tried to do MakeUndowned when already undowned.");
-				return;
 			}
-			this.healthState = PawnHealthState.Mobile;
-			if (PawnUtility.ShouldSendNotificationAbout(this.pawn))
+			else
 			{
-				Messages.Message("MessageNoLongerDowned".Translate(new object[]
+				this.healthState = PawnHealthState.Mobile;
+				if (PawnUtility.ShouldSendNotificationAbout(this.pawn))
 				{
-					this.pawn.LabelCap
-				}), this.pawn, MessageSound.Benefit);
-			}
-			if (this.pawn.Spawned && !this.pawn.InBed())
-			{
-				this.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
-			}
-			PortraitsCache.SetDirty(this.pawn);
-			if (this.pawn.guest != null)
-			{
-				this.pawn.guest.Notify_PawnUndowned();
+					Messages.Message("MessageNoLongerDowned".Translate(this.pawn.LabelCap), (Thing)this.pawn, MessageSound.Benefit);
+				}
+				if (this.pawn.Spawned && !this.pawn.InBed())
+				{
+					this.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+				}
+				PortraitsCache.SetDirty(this.pawn);
+				if (this.pawn.guest != null)
+				{
+					this.pawn.guest.Notify_PawnUndowned();
+				}
 			}
 		}
 
 		public void NotifyPlayerOfKilled(DamageInfo? dinfo, Hediff hediff, Caravan caravan)
 		{
-			string text = null;
+			string text = (string)null;
 			if (dinfo.HasValue)
 			{
 				text = string.Format(dinfo.Value.Def.deathMessage, this.pawn.NameStringShort.CapitalizeFirst());
 			}
 			else if (hediff != null)
 			{
-				text = "PawnDiedBecauseOf".Translate(new object[]
-				{
-					this.pawn.NameStringShort.CapitalizeFirst(),
-					hediff.def.label
-				});
+				text = "PawnDiedBecauseOf".Translate(this.pawn.NameStringShort.CapitalizeFirst(), hediff.def.label);
 			}
 			if (!text.NullOrEmpty())
 			{
 				text = text.AdjustedFor(this.pawn);
-				GlobalTargetInfo lookTarget;
-				if (caravan != null)
-				{
-					lookTarget = caravan;
-				}
-				else
-				{
-					lookTarget = this.pawn;
-				}
+				GlobalTargetInfo lookTarget = (caravan == null) ? ((Thing)this.pawn) : ((WorldObject)caravan);
 				Messages.Message(text, lookTarget, MessageSound.Negative);
 			}
 		}
 
 		public void HealthTick()
 		{
-			if (this.Dead)
+			if (!this.Dead)
 			{
-				return;
-			}
-			for (int i = this.hediffSet.hediffs.Count - 1; i >= 0; i--)
-			{
-				Hediff hediff = this.hediffSet.hediffs[i];
-				hediff.Tick();
-				hediff.PostTick();
-			}
-			bool flag = false;
-			for (int j = this.hediffSet.hediffs.Count - 1; j >= 0; j--)
-			{
-				Hediff hediff2 = this.hediffSet.hediffs[j];
-				if (hediff2.ShouldRemove)
+				for (int num = this.hediffSet.hediffs.Count - 1; num >= 0; num--)
 				{
-					this.hediffSet.hediffs.RemoveAt(j);
-					hediff2.PostRemoved();
-					flag = true;
+					Hediff hediff = this.hediffSet.hediffs[num];
+					hediff.Tick();
+					hediff.PostTick();
 				}
-			}
-			if (flag)
-			{
-				this.Notify_HediffChanged(null);
-			}
-			if (this.Dead)
-			{
-				return;
-			}
-			this.immunity.ImmunityHandlerTick();
-			if (this.pawn.RaceProps.IsFlesh && this.pawn.IsHashIntervalTick(600) && (this.pawn.needs.food == null || !this.pawn.needs.food.Starving))
-			{
-				bool flag2 = false;
-				if (this.hediffSet.HasNaturallyHealingInjury())
+				bool flag = false;
+				for (int num2 = this.hediffSet.hediffs.Count - 1; num2 >= 0; num2--)
 				{
-					float num = 8f;
-					if (this.pawn.GetPosture() != PawnPosture.Standing)
+					Hediff hediff2 = this.hediffSet.hediffs[num2];
+					if (hediff2.ShouldRemove)
 					{
-						num += 4f;
-						Building_Bed building_Bed = this.pawn.CurrentBed();
-						if (building_Bed != null)
+						this.hediffSet.hediffs.RemoveAt(num2);
+						hediff2.PostRemoved();
+						flag = true;
+					}
+				}
+				if (flag)
+				{
+					this.Notify_HediffChanged(null);
+				}
+				if (!this.Dead)
+				{
+					this.immunity.ImmunityHandlerTick();
+					if (this.pawn.RaceProps.IsFlesh && this.pawn.IsHashIntervalTick(600) && (this.pawn.needs.food == null || !this.pawn.needs.food.Starving))
+					{
+						bool flag2 = false;
+						if (this.hediffSet.HasNaturallyHealingInjury())
 						{
-							num += building_Bed.def.building.bed_healPerDay;
+							float num3 = 8f;
+							if (this.pawn.GetPosture() != 0)
+							{
+								num3 = (float)(num3 + 4.0);
+								Building_Bed building_Bed = this.pawn.CurrentBed();
+								if (building_Bed != null)
+								{
+									num3 += building_Bed.def.building.bed_healPerDay;
+								}
+							}
+							Hediff_Injury hediff_Injury = (from x in this.hediffSet.GetHediffs<Hediff_Injury>()
+							where x.CanHealNaturally()
+							select x).RandomElement();
+							hediff_Injury.Heal((float)(num3 * this.pawn.HealthScale * 0.0099999997764825821));
+							flag2 = true;
+						}
+						if (this.hediffSet.HasTendedAndHealingInjury() && (this.pawn.needs.food == null || !this.pawn.needs.food.Starving))
+						{
+							Hediff_Injury hediff_Injury2 = (from x in this.hediffSet.GetHediffs<Hediff_Injury>()
+							where x.CanHealFromTending()
+							select x).RandomElement();
+							float tendQuality = hediff_Injury2.TryGetComp<HediffComp_TendDuration>().tendQuality;
+							float num4 = GenMath.LerpDouble(0f, 1f, 0.5f, 1.5f, Mathf.Clamp01(tendQuality));
+							hediff_Injury2.Heal((float)(22.0 * num4 * this.pawn.HealthScale * 0.0099999997764825821));
+							flag2 = true;
+						}
+						if (flag2 && !this.HasHediffsNeedingTendByColony(false) && !HealthAIUtility.ShouldSeekMedicalRest(this.pawn) && !this.hediffSet.HasTendedAndHealingInjury() && PawnUtility.ShouldSendNotificationAbout(this.pawn))
+						{
+							Messages.Message("MessageFullyHealed".Translate(this.pawn.LabelCap), (Thing)this.pawn, MessageSound.Benefit);
 						}
 					}
-					Hediff_Injury hediff_Injury = (from x in this.hediffSet.GetHediffs<Hediff_Injury>()
-					where x.CanHealNaturally()
-					select x).RandomElement<Hediff_Injury>();
-					hediff_Injury.Heal(num * this.pawn.HealthScale * 0.01f);
-					flag2 = true;
-				}
-				if (this.hediffSet.HasTendedAndHealingInjury() && (this.pawn.needs.food == null || !this.pawn.needs.food.Starving))
-				{
-					Hediff_Injury hediff_Injury2 = (from x in this.hediffSet.GetHediffs<Hediff_Injury>()
-					where x.CanHealFromTending()
-					select x).RandomElement<Hediff_Injury>();
-					float tendQuality = hediff_Injury2.TryGetComp<HediffComp_TendDuration>().tendQuality;
-					float num2 = GenMath.LerpDouble(0f, 1f, 0.5f, 1.5f, Mathf.Clamp01(tendQuality));
-					hediff_Injury2.Heal(22f * num2 * this.pawn.HealthScale * 0.01f);
-					flag2 = true;
-				}
-				if (flag2 && !this.HasHediffsNeedingTendByColony(false) && !HealthAIUtility.ShouldSeekMedicalRest(this.pawn) && !this.hediffSet.HasTendedAndHealingInjury() && PawnUtility.ShouldSendNotificationAbout(this.pawn))
-				{
-					Messages.Message("MessageFullyHealed".Translate(new object[]
+					if (this.pawn.RaceProps.IsFlesh && this.hediffSet.BleedRateTotal >= 0.10000000149011612)
 					{
-						this.pawn.LabelCap
-					}), this.pawn, MessageSound.Benefit);
-				}
-			}
-			if (this.pawn.RaceProps.IsFlesh && this.hediffSet.BleedRateTotal >= 0.1f)
-			{
-				float num3 = this.hediffSet.BleedRateTotal * this.pawn.BodySize;
-				if (this.pawn.GetPosture() == PawnPosture.Standing)
-				{
-					num3 *= 0.008f;
-				}
-				else
-				{
-					num3 *= 0.0008f;
-				}
-				if (Rand.Value < num3)
-				{
-					this.TryDropBloodFilth();
-				}
-			}
-			List<HediffGiverSetDef> hediffGiverSets = this.pawn.RaceProps.hediffGiverSets;
-			if (hediffGiverSets != null && this.pawn.IsHashIntervalTick(60))
-			{
-				for (int k = 0; k < hediffGiverSets.Count; k++)
-				{
-					List<HediffGiver> hediffGivers = hediffGiverSets[k].hediffGivers;
-					for (int l = 0; l < hediffGivers.Count; l++)
-					{
-						hediffGivers[l].OnIntervalPassed(this.pawn, null);
-						if (this.pawn.Dead)
+						float num5 = this.hediffSet.BleedRateTotal * this.pawn.BodySize;
+						num5 = (float)((this.pawn.GetPosture() != 0) ? (num5 * 0.00079999997979030013) : (num5 * 0.00800000037997961));
+						if (Rand.Value < num5)
 						{
-							return;
+							this.TryDropBloodFilth();
+						}
+					}
+					List<HediffGiverSetDef> hediffGiverSets = this.pawn.RaceProps.hediffGiverSets;
+					if (hediffGiverSets != null && this.pawn.IsHashIntervalTick(60))
+					{
+						for (int i = 0; i < hediffGiverSets.Count; i++)
+						{
+							List<HediffGiver> hediffGivers = hediffGiverSets[i].hediffGivers;
+							int num6 = 0;
+							while (num6 < hediffGivers.Count)
+							{
+								hediffGivers[num6].OnIntervalPassed(this.pawn, null);
+								if (!this.pawn.Dead)
+								{
+									num6++;
+									continue;
+								}
+								return;
+							}
 						}
 					}
 				}
@@ -658,17 +640,24 @@ namespace Verse
 						return true;
 					}
 				}
-				else if ((this.pawn.Faction == Faction.OfPlayer && this.pawn.HostFaction == null) || this.pawn.HostFaction == Faction.OfPlayer)
+				else
 				{
-					return true;
+					if (this.pawn.Faction == Faction.OfPlayer && this.pawn.HostFaction == null)
+					{
+						goto IL_009b;
+					}
+					if (this.pawn.HostFaction == Faction.OfPlayer)
+						goto IL_009b;
 				}
 			}
 			return false;
+			IL_009b:
+			return true;
 		}
 
 		protected void TryDropBloodFilth()
 		{
-			if (Rand.Value < 0.5f)
+			if (Rand.Value < 0.5)
 			{
 				this.DropBloodFilth();
 			}
@@ -676,7 +665,9 @@ namespace Verse
 
 		public void DropBloodFilth()
 		{
-			if ((this.pawn.Spawned || this.pawn.ParentHolder is Pawn_CarryTracker) && this.pawn.SpawnedOrAnyParentSpawned && this.pawn.RaceProps.BloodDef != null)
+			if (!this.pawn.Spawned && !(this.pawn.ParentHolder is Pawn_CarryTracker))
+				return;
+			if (this.pawn.SpawnedOrAnyParentSpawned && this.pawn.RaceProps.BloodDef != null)
 			{
 				FilthMaker.MakeFilth(this.pawn.PositionHeld, this.pawn.MapHeld, this.pawn.RaceProps.BloodDef, this.pawn.LabelIndefinite(), 1);
 			}

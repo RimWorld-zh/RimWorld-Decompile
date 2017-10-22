@@ -45,7 +45,7 @@ namespace Verse
 			if (!this.map.roofGrid.Roofed(c))
 			{
 				num = this.map.skyManager.CurSkyGlow;
-				if (num == 1f)
+				if (num == 1.0)
 				{
 					return num;
 				}
@@ -55,7 +55,7 @@ namespace Verse
 			{
 				return 1f;
 			}
-			float b = (float)(color.r + color.g + color.b) / 3f / 255f * 3.6f;
+			float b = (float)((float)(color.r + color.g + color.b) / 3.0 / 255.0 * 3.5999999046325684);
 			b = Mathf.Min(0.5f, b);
 			return Mathf.Max(num, b);
 		}
@@ -68,11 +68,11 @@ namespace Verse
 
 		public static PsychGlow PsychGlowAtGlow(float glow)
 		{
-			if (glow > 0.9f)
+			if (glow > 0.89999997615814209)
 			{
 				return PsychGlow.Overlit;
 			}
-			if (glow > 0.3f)
+			if (glow > 0.30000001192092896)
 			{
 				return PsychGlow.Lit;
 			}
@@ -112,26 +112,43 @@ namespace Verse
 
 		private void RecalculateAllGlow()
 		{
-			if (Current.ProgramState != ProgramState.Playing)
+			if (Current.ProgramState == ProgramState.Playing)
 			{
-				return;
-			}
-			if (this.initialGlowerLocs != null)
-			{
-				foreach (IntVec3 current in this.initialGlowerLocs)
+				if (this.initialGlowerLocs != null)
 				{
-					this.MarkGlowGridDirty(current);
+					List<IntVec3>.Enumerator enumerator = this.initialGlowerLocs.GetEnumerator();
+					try
+					{
+						while (enumerator.MoveNext())
+						{
+							IntVec3 current = enumerator.Current;
+							this.MarkGlowGridDirty(current);
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator).Dispose();
+					}
+					this.initialGlowerLocs = null;
 				}
-				this.initialGlowerLocs = null;
-			}
-			int numGridCells = this.map.cellIndices.NumGridCells;
-			for (int i = 0; i < numGridCells; i++)
-			{
-				this.glowGrid[i] = new Color32(0, 0, 0, 0);
-			}
-			foreach (CompGlower current2 in this.litGlowers)
-			{
-				this.map.glowFlooder.AddFloodGlowFor(current2);
+				int numGridCells = this.map.cellIndices.NumGridCells;
+				for (int num = 0; num < numGridCells; num++)
+				{
+					this.glowGrid[num] = new Color32((byte)0, (byte)0, (byte)0, (byte)0);
+				}
+				HashSet<CompGlower>.Enumerator enumerator2 = this.litGlowers.GetEnumerator();
+				try
+				{
+					while (enumerator2.MoveNext())
+					{
+						CompGlower current2 = enumerator2.Current;
+						this.map.glowFlooder.AddFloodGlowFor(current2);
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator2).Dispose();
+				}
 			}
 		}
 	}

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -18,13 +17,13 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.lumpProgress / 14000f;
+				return (float)(this.lumpProgress / 14000.0);
 			}
 		}
 
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
-			this.powerComp = this.parent.TryGetComp<CompPowerTrader>();
+			this.powerComp = base.parent.TryGetComp<CompPowerTrader>();
 		}
 
 		public override void PostExposeData()
@@ -37,8 +36,8 @@ namespace RimWorld
 		{
 			float statValue = driller.GetStatValue(StatDefOf.MiningSpeed, true);
 			this.lumpProgress += statValue;
-			this.lumpYieldPct += statValue * driller.GetStatValue(StatDefOf.MiningYield, true) / 14000f;
-			if (this.lumpProgress > 14000f)
+			this.lumpYieldPct += (float)(statValue * driller.GetStatValue(StatDefOf.MiningYield, true) / 14000.0);
+			if (this.lumpProgress > 14000.0)
 			{
 				this.TryProduceLump(this.lumpYieldPct);
 				this.lumpProgress = 0f;
@@ -48,22 +47,17 @@ namespace RimWorld
 
 		private void TryProduceLump(float yieldPct)
 		{
-			ThingDef thingDef;
-			int num;
-			IntVec3 c;
+			ThingDef thingDef = default(ThingDef);
+			int num = default(int);
+			IntVec3 c = default(IntVec3);
 			if (this.TryGetNextResource(out thingDef, out num, out c))
 			{
-				int num2 = Mathf.Min(new int[]
-				{
-					num,
-					thingDef.deepCountPerCell / 2,
-					thingDef.stackLimit
-				});
-				this.parent.Map.deepResourceGrid.SetAt(c, thingDef, num - num2);
+				int num2 = Mathf.Min(num, thingDef.deepCountPerCell / 2, thingDef.stackLimit);
+				base.parent.Map.deepResourceGrid.SetAt(c, thingDef, num - num2);
 				int stackCount = Mathf.Max(1, GenMath.RoundRandom((float)num2 * yieldPct));
 				Thing thing = ThingMaker.MakeThing(thingDef, null);
 				thing.stackCount = stackCount;
-				GenPlace.TryPlaceThing(thing, this.parent.InteractionCell, this.parent.Map, ThingPlaceMode.Near, null);
+				GenPlace.TryPlaceThing(thing, base.parent.InteractionCell, base.parent.Map, ThingPlaceMode.Near, null);
 			}
 			else
 			{
@@ -75,14 +69,14 @@ namespace RimWorld
 		{
 			for (int i = 0; i < 9; i++)
 			{
-				IntVec3 intVec = this.parent.Position + GenRadial.RadialPattern[i];
-				if (intVec.InBounds(this.parent.Map))
+				IntVec3 intVec = base.parent.Position + GenRadial.RadialPattern[i];
+				if (intVec.InBounds(base.parent.Map))
 				{
-					ThingDef thingDef = this.parent.Map.deepResourceGrid.ThingDefAt(intVec);
+					ThingDef thingDef = base.parent.Map.deepResourceGrid.ThingDefAt(intVec);
 					if (thingDef != null)
 					{
 						resDef = thingDef;
-						countPresent = this.parent.Map.deepResourceGrid.CountAt(intVec);
+						countPresent = base.parent.Map.deepResourceGrid.CountAt(intVec);
 						cell = intVec;
 						return true;
 					}
@@ -96,34 +90,33 @@ namespace RimWorld
 
 		public bool CanDrillNow()
 		{
-			return (this.powerComp == null || this.powerComp.PowerOn) && this.ResourcesPresent();
+			if (this.powerComp != null && !this.powerComp.PowerOn)
+			{
+				return false;
+			}
+			if (!this.ResourcesPresent())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public bool ResourcesPresent()
 		{
-			ThingDef thingDef;
-			int num;
-			IntVec3 intVec;
+			ThingDef thingDef = default(ThingDef);
+			int num = default(int);
+			IntVec3 intVec = default(IntVec3);
 			return this.TryGetNextResource(out thingDef, out num, out intVec);
 		}
 
 		public override string CompInspectStringExtra()
 		{
-			ThingDef thingDef;
-			int num;
-			IntVec3 intVec;
+			ThingDef thingDef = default(ThingDef);
+			int num = default(int);
+			IntVec3 intVec = default(IntVec3);
 			if (this.TryGetNextResource(out thingDef, out num, out intVec))
 			{
-				return string.Concat(new string[]
-				{
-					"ResourceBelow".Translate(),
-					": ",
-					thingDef.label,
-					"\n",
-					"ProgressToNextLump".Translate(),
-					": ",
-					this.ProgressToNextLumpPercent.ToStringPercent("F0")
-				});
+				return "ResourceBelow".Translate() + ": " + thingDef.label + "\n" + "ProgressToNextLump".Translate() + ": " + this.ProgressToNextLumpPercent.ToStringPercent("F0");
 			}
 			return "ResourceBelow".Translate() + ": " + "NothingLower".Translate();
 		}

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse.AI;
 
 namespace RimWorld
@@ -9,14 +8,22 @@ namespace RimWorld
 	{
 		protected const TargetIndex DestInd = TargetIndex.A;
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_Flee.<MakeNewToils>c__Iterator2B <MakeNewToils>c__Iterator2B = new JobDriver_Flee.<MakeNewToils>c__Iterator2B();
-			<MakeNewToils>c__Iterator2B.<>f__this = this;
-			JobDriver_Flee.<MakeNewToils>c__Iterator2B expr_0E = <MakeNewToils>c__Iterator2B;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			yield return new Toil
+			{
+				atomicWithPrevious = true,
+				defaultCompleteMode = ToilCompleteMode.Instant,
+				initAction = (Action)delegate
+				{
+					((_003CMakeNewToils_003Ec__Iterator2B)/*Error near IL_004e: stateMachine*/)._003C_003Ef__this.Map.pawnDestinationManager.ReserveDestinationFor(((_003CMakeNewToils_003Ec__Iterator2B)/*Error near IL_004e: stateMachine*/)._003C_003Ef__this.pawn, ((_003CMakeNewToils_003Ec__Iterator2B)/*Error near IL_004e: stateMachine*/)._003C_003Ef__this.CurJob.GetTarget(TargetIndex.A).Cell);
+					if (((_003CMakeNewToils_003Ec__Iterator2B)/*Error near IL_004e: stateMachine*/)._003C_003Ef__this.pawn.IsColonist)
+					{
+						MoteMaker.MakeColonistActionOverlay(((_003CMakeNewToils_003Ec__Iterator2B)/*Error near IL_004e: stateMachine*/)._003C_003Ef__this.pawn, ThingDefOf.Mote_ColonistFleeing);
+					}
+				}
+			};
+			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
 		}
 	}
 }

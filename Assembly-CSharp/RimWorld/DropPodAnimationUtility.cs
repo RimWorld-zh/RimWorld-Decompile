@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -18,9 +17,9 @@ namespace RimWorld
 				ticksToImpact = 0;
 			}
 			Vector3 result = basePos.ToVector3ShiftedWithAltitude(AltitudeLayer.FlyingItem);
-			float num = (float)(ticksToImpact * ticksToImpact) * 0.01f;
-			result.x -= num * 0.4f;
-			result.z += num * 0.6f;
+			float num = (float)((float)(ticksToImpact * ticksToImpact) * 0.0099999997764825821);
+			result.x -= (float)(num * 0.40000000596046448);
+			result.z += (float)(num * 0.60000002384185791);
 			return result;
 		}
 
@@ -32,7 +31,7 @@ namespace RimWorld
 			}
 			Vector3 pos = dropPod.TrueCenter();
 			pos.y = Altitudes.AltitudeFor(AltitudeLayer.Shadows);
-			float num = 2f + (float)ticksToImpact / 100f;
+			float num = (float)(2.0 + (float)ticksToImpact / 100.0);
 			Vector3 s = new Vector3(num, 1f, num);
 			Color white = Color.white;
 			if (ticksToImpact > 150)

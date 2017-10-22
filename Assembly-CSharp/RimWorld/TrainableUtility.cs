@@ -24,32 +24,38 @@ namespace RimWorld
 			TrainableUtility.defsInListOrder.AddRange(from td in DefDatabase<TrainableDef>.AllDefsListForReading
 			orderby td.listPriority descending
 			select td);
-			bool flag;
-			do
+			while (true)
 			{
-				flag = false;
-				for (int i = 0; i < TrainableUtility.defsInListOrder.Count; i++)
+				bool flag = false;
+				int num = 0;
+				while (num < TrainableUtility.defsInListOrder.Count)
 				{
-					TrainableDef trainableDef = TrainableUtility.defsInListOrder[i];
+					TrainableDef trainableDef = TrainableUtility.defsInListOrder[num];
 					if (trainableDef.prerequisites != null)
 					{
-						for (int j = 0; j < trainableDef.prerequisites.Count; j++)
+						int num2 = 0;
+						while (num2 < trainableDef.prerequisites.Count)
 						{
-							if (trainableDef.indent <= trainableDef.prerequisites[j].indent)
+							if (trainableDef.indent > trainableDef.prerequisites[num2].indent)
 							{
-								trainableDef.indent = trainableDef.prerequisites[j].indent + 1;
-								flag = true;
-								break;
+								num2++;
+								continue;
 							}
+							trainableDef.indent = trainableDef.prerequisites[num2].indent + 1;
+							flag = true;
+							break;
 						}
 					}
-					if (flag)
+					if (!flag)
 					{
-						break;
+						num++;
+						continue;
 					}
+					break;
 				}
+				if (!flag)
+					break;
 			}
-			while (flag);
 		}
 
 		public static string MasterString(Pawn pawn)
@@ -60,20 +66,20 @@ namespace RimWorld
 		public static void OpenMasterSelectMenu(Pawn p)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
-			list.Add(new FloatMenuOption("(" + "NoneLower".Translate() + ")", delegate
+			list.Add(new FloatMenuOption("(" + "NoneLower".Translate() + ")", (Action)delegate()
 			{
 				p.playerSettings.master = null;
 			}, MenuOptionPriority.Default, null, null, 0f, null, null));
-			foreach (Pawn current in PawnsFinder.AllMaps_FreeColonistsSpawned)
+			foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
 			{
-				string text = RelationsUtility.LabelWithBondInfo(current, p);
-				int level = current.skills.GetSkill(SkillDefOf.Animals).Level;
+				string text = RelationsUtility.LabelWithBondInfo(item, p);
+				int level = item.skills.GetSkill(SkillDefOf.Animals).Level;
 				int num = TrainableUtility.MinimumHandlingSkill(p);
 				Action action;
 				if (level >= num)
 				{
-					Pawn localCol = current;
-					action = delegate
+					Pawn localCol = item;
+					action = (Action)delegate()
 					{
 						p.playerSettings.master = localCol;
 					};
@@ -81,12 +87,7 @@ namespace RimWorld
 				else
 				{
 					action = null;
-					text = text + " (" + "SkillTooLow".Translate(new object[]
-					{
-						SkillDefOf.Animals.LabelCap,
-						level,
-						num
-					}) + ")";
+					text = text + " (" + "SkillTooLow".Translate(SkillDefOf.Animals.LabelCap, level, num) + ")";
 				}
 				list.Add(new FloatMenuOption(text, action, MenuOptionPriority.Default, null, null, 0f, null, null));
 			}

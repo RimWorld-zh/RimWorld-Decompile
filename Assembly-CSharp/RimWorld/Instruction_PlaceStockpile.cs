@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -23,7 +22,7 @@ namespace RimWorld
 
 		private void RecacheCells()
 		{
-			this.cachedCells = this.stockpileRect.Cells.ToList<IntVec3>();
+			this.cachedCells = this.stockpileRect.Cells.ToList();
 		}
 
 		public override void OnActivated()
@@ -35,7 +34,7 @@ namespace RimWorld
 
 		public override void LessonOnGUI()
 		{
-			TutorUtility.DrawCellRectOnGUI(this.stockpileRect, this.def.onMapInstruction);
+			TutorUtility.DrawCellRectOnGUI(this.stockpileRect, base.def.onMapInstruction);
 			base.LessonOnGUI();
 		}
 

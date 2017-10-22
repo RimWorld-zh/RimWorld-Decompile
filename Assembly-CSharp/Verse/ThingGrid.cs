@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse
 {
@@ -46,25 +44,19 @@ namespace Verse
 		{
 			if (!c.InBounds(this.map))
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					t,
-					" tried to register out of bounds at ",
-					c,
-					". Destroying."
-				}));
+				Log.Warning(t + " tried to register out of bounds at " + c + ". Destroying.");
 				t.Destroy(DestroyMode.Vanish);
-				return;
 			}
-			this.thingGrid[this.map.cellIndices.CellToIndex(c)].Add(t);
+			else
+			{
+				this.thingGrid[this.map.cellIndices.CellToIndex(c)].Add(t);
+			}
 		}
 
 		public void Deregister(Thing t, bool doEvenIfDespawned = false)
 		{
 			if (!t.Spawned && !doEvenIfDespawned)
-			{
 				return;
-			}
 			if (t.def.size.x == 1 && t.def.size.z == 1)
 			{
 				this.DeregisterInCell(t, t.Position);
@@ -87,25 +79,27 @@ namespace Verse
 			if (!c.InBounds(this.map))
 			{
 				Log.Error(t + " tried to de-register out of bounds at " + c);
-				return;
 			}
-			int num = this.map.cellIndices.CellToIndex(c);
-			if (this.thingGrid[num].Contains(t))
+			else
 			{
-				this.thingGrid[num].Remove(t);
+				int num = this.map.cellIndices.CellToIndex(c);
+				if (this.thingGrid[num].Contains(t))
+				{
+					this.thingGrid[num].Remove(t);
+				}
 			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Thing> ThingsAt(IntVec3 c)
 		{
-			ThingGrid.<ThingsAt>c__Iterator1F7 <ThingsAt>c__Iterator1F = new ThingGrid.<ThingsAt>c__Iterator1F7();
-			<ThingsAt>c__Iterator1F.c = c;
-			<ThingsAt>c__Iterator1F.<$>c = c;
-			<ThingsAt>c__Iterator1F.<>f__this = this;
-			ThingGrid.<ThingsAt>c__Iterator1F7 expr_1C = <ThingsAt>c__Iterator1F;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (c.InBounds(this.map))
+			{
+				List<Thing> list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
+				for (int i = 0; i < list.Count; i++)
+				{
+					yield return list[i];
+				}
+			}
 		}
 
 		public List<Thing> ThingsListAt(IntVec3 c)
@@ -176,18 +170,18 @@ namespace Verse
 		{
 			if (!c.InBounds(this.map))
 			{
-				return (T)((object)null);
+				return (T)null;
 			}
 			List<Thing> list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
 			for (int i = 0; i < list.Count; i++)
 			{
-				T t = list[i] as T;
-				if (t != null)
+				T val = (T)(list[i] as T);
+				if (val != null)
 				{
-					return t;
+					return val;
 				}
 			}
-			return (T)((object)null);
+			return (T)null;
 		}
 	}
 }

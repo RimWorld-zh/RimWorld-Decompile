@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -16,7 +15,7 @@ namespace RimWorld
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			Rect rect2 = new Rect(rect.x, rect.y, rect.width, Mathf.Min(rect.height, 30f));
-			if (pawn.health.summaryHealth.SummaryHealthPercent < 0.99f)
+			if (pawn.health.summaryHealth.SummaryHealthPercent < 0.99000000953674316)
 			{
 				Rect rect3 = new Rect(rect2);
 				rect3.xMin -= 4f;
@@ -28,15 +27,7 @@ namespace RimWorld
 			{
 				GUI.DrawTexture(rect2, TexUI.HighlightTex);
 			}
-			string str;
-			if (!pawn.RaceProps.Humanlike && pawn.Name != null && !pawn.Name.Numerical)
-			{
-				str = pawn.Name.ToStringShort.CapitalizeFirst() + ", " + pawn.KindLabel;
-			}
-			else
-			{
-				str = pawn.LabelCap;
-			}
+			string str = (pawn.RaceProps.Humanlike || pawn.Name == null || pawn.Name.Numerical) ? pawn.LabelCap : (pawn.Name.ToStringShort.CapitalizeFirst() + ", " + pawn.KindLabel);
 			Rect rect4 = rect2;
 			rect4.xMin += 3f;
 			if (rect4.width != PawnColumnWorker_Label.labelCacheForWidth)
@@ -52,12 +43,14 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 			if (Widgets.ButtonInvisible(rect2, false))
 			{
-				CameraJumper.TryJumpAndSelect(pawn);
-				return;
+				CameraJumper.TryJumpAndSelect((Thing)pawn);
 			}
-			TipSignal tooltip = pawn.GetTooltip();
-			tooltip.text = "ClickToJumpTo".Translate() + "\n\n" + tooltip.text;
-			TooltipHandler.TipRegion(rect2, tooltip);
+			else
+			{
+				TipSignal tooltip = pawn.GetTooltip();
+				tooltip.text = "ClickToJumpTo".Translate() + "\n\n" + tooltip.text;
+				TooltipHandler.TipRegion(rect2, tooltip);
+			}
 		}
 
 		public override int GetMinWidth(PawnTable table)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,7 +19,7 @@ namespace Verse
 
 		public SectionLayer_FogOfWar(Section section) : base(section)
 		{
-			this.relevantChangeTypes = MapMeshFlag.FogOfWar;
+			base.relevantChangeTypes = MapMeshFlag.FogOfWar;
 		}
 
 		public override void Regenerate()
@@ -28,12 +27,14 @@ namespace Verse
 			LayerSubMesh subMesh = base.GetSubMesh(MatBases.FogOfWar);
 			if (subMesh.mesh.vertexCount == 0)
 			{
-				SectionLayerGeometryMaker_Solid.MakeBaseGeometry(this.section, subMesh, AltitudeLayer.FogOfWar);
+				SectionLayerGeometryMaker_Solid.MakeBaseGeometry(base.section, subMesh, AltitudeLayer.FogOfWar);
 			}
 			bool[] fogGrid = base.Map.fogGrid.fogGrid;
-			CellRect cellRect = this.section.CellRect;
-			int num = base.Map.Size.z - 1;
-			int num2 = base.Map.Size.x - 1;
+			CellRect cellRect = base.section.CellRect;
+			IntVec3 size = base.Map.Size;
+			int num = size.z - 1;
+			IntVec3 size2 = base.Map.Size;
+			int num2 = size2.x - 1;
 			subMesh.colors = new List<Color32>(subMesh.mesh.vertexCount);
 			bool flag = false;
 			CellIndices cellIndices = base.Map.cellIndices;
@@ -100,14 +101,14 @@ namespace Verse
 						byte a;
 						if (this.vertsCovered[m])
 						{
-							a = 255;
+							a = (byte)255;
 							flag = true;
 						}
 						else
 						{
-							a = 0;
+							a = (byte)0;
 						}
-						subMesh.colors.Add(new Color32(255, 255, 255, a));
+						subMesh.colors.Add(new Color32((byte)255, (byte)255, (byte)255, a));
 					}
 				}
 			}

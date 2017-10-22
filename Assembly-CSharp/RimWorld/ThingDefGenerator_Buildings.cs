@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -18,52 +18,70 @@ namespace RimWorld
 
 		private static Color BlueprintColor = new Color(0.5f, 0.5f, 1f, 0.35f);
 
-		[DebuggerHidden]
 		public static IEnumerable<ThingDef> ImpliedBlueprintAndFrameDefs()
 		{
-			ThingDefGenerator_Buildings.<ImpliedBlueprintAndFrameDefs>c__Iterator72 <ImpliedBlueprintAndFrameDefs>c__Iterator = new ThingDefGenerator_Buildings.<ImpliedBlueprintAndFrameDefs>c__Iterator72();
-			ThingDefGenerator_Buildings.<ImpliedBlueprintAndFrameDefs>c__Iterator72 expr_07 = <ImpliedBlueprintAndFrameDefs>c__Iterator;
-			expr_07.$PC = -2;
-			return expr_07;
+			List<ThingDef>.Enumerator enumerator = DefDatabase<ThingDef>.AllDefs.ToList().GetEnumerator();
+			try
+			{
+				while (enumerator.MoveNext())
+				{
+					ThingDef def = enumerator.Current;
+					ThingDef blueprint = null;
+					if (def.designationCategory != null)
+					{
+						blueprint = ThingDefGenerator_Buildings.NewBlueprintDef_Thing(def, false, null);
+						yield return blueprint;
+						yield return ThingDefGenerator_Buildings.NewFrameDef_Thing(def);
+					}
+					if (def.Minifiable)
+					{
+						yield return ThingDefGenerator_Buildings.NewBlueprintDef_Thing(def, true, blueprint);
+					}
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			foreach (TerrainDef allDef in DefDatabase<TerrainDef>.AllDefs)
+			{
+				if (allDef.designationCategory != null)
+				{
+					yield return ThingDefGenerator_Buildings.NewBlueprintDef_Terrain(allDef);
+					yield return ThingDefGenerator_Buildings.NewFrameDef_Terrain(allDef);
+				}
+			}
 		}
 
 		private static ThingDef BaseBlueprintDef()
 		{
-			return new ThingDef
-			{
-				category = ThingCategory.Ethereal,
-				label = "Unspecified blueprint",
-				altitudeLayer = AltitudeLayer.Blueprint,
-				useHitPoints = false,
-				selectable = true,
-				seeThroughFog = true,
-				comps = 
-				{
-					new CompProperties_Forbiddable()
-				},
-				drawerType = DrawerType.MapMeshAndRealTime
-			};
+			ThingDef thingDef = new ThingDef();
+			thingDef.category = ThingCategory.Ethereal;
+			thingDef.label = "Unspecified blueprint";
+			thingDef.altitudeLayer = AltitudeLayer.Blueprint;
+			thingDef.useHitPoints = false;
+			thingDef.selectable = true;
+			thingDef.seeThroughFog = true;
+			thingDef.comps.Add(new CompProperties_Forbiddable());
+			thingDef.drawerType = DrawerType.MapMeshAndRealTime;
+			return thingDef;
 		}
 
 		private static ThingDef BaseFrameDef()
 		{
-			return new ThingDef
-			{
-				isFrame = true,
-				category = ThingCategory.Building,
-				label = "Unspecified building frame",
-				thingClass = typeof(Frame),
-				altitudeLayer = AltitudeLayer.Building,
-				useHitPoints = true,
-				selectable = true,
-				building = new BuildingProperties(),
-				comps = 
-				{
-					new CompProperties_Forbiddable()
-				},
-				scatterableOnMapGen = false,
-				leaveResourcesWhenKilled = true
-			};
+			ThingDef thingDef = new ThingDef();
+			thingDef.isFrame = true;
+			thingDef.category = ThingCategory.Building;
+			thingDef.label = "Unspecified building frame";
+			thingDef.thingClass = typeof(Frame);
+			thingDef.altitudeLayer = AltitudeLayer.Building;
+			thingDef.useHitPoints = true;
+			thingDef.selectable = true;
+			thingDef.building = new BuildingProperties();
+			thingDef.comps.Add(new CompProperties_Forbiddable());
+			thingDef.scatterableOnMapGen = false;
+			thingDef.leaveResourcesWhenKilled = true;
+			return thingDef;
 		}
 
 		private static ThingDef NewBlueprintDef_Thing(ThingDef def, bool isInstallBlueprint, ThingDef normalBlueprint = null)
@@ -79,8 +97,8 @@ namespace RimWorld
 			}
 			if (isInstallBlueprint)
 			{
-				ThingDef expr_72 = thingDef;
-				expr_72.defName += ThingDefGenerator_Buildings.InstallBlueprintDefNameSuffix;
+				ThingDef obj = thingDef;
+				obj.defName += ThingDefGenerator_Buildings.InstallBlueprintDefNameSuffix;
 			}
 			if (isInstallBlueprint && normalBlueprint != null)
 			{
@@ -151,13 +169,13 @@ namespace RimWorld
 			thingDef.defName = def.defName + ThingDefGenerator_Buildings.BuildingFrameDefNameSuffix;
 			thingDef.label = def.label + "FrameLabelExtra".Translate();
 			thingDef.size = def.size;
-			thingDef.SetStatBaseValue(StatDefOf.MaxHitPoints, (float)def.BaseMaxHitPoints * 0.25f);
+			thingDef.SetStatBaseValue(StatDefOf.MaxHitPoints, (float)((float)def.BaseMaxHitPoints * 0.25));
 			thingDef.SetStatBaseValue(StatDefOf.Beauty, -8f);
 			thingDef.fillPercent = 0.2f;
 			thingDef.pathCost = 10;
 			thingDef.description = def.description;
 			thingDef.passability = def.passability;
-			if (thingDef.passability > Traversability.PassThroughOnly)
+			if ((int)thingDef.passability > 1)
 			{
 				thingDef.passability = Traversability.PassThroughOnly;
 			}

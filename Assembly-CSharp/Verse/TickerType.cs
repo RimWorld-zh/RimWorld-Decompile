@@ -1,12 +1,10 @@
-using System;
-
 namespace Verse
 {
 	public enum TickerType : byte
 	{
-		Never,
-		Normal,
-		Rare,
-		Long
+		Never = 0,
+		Normal = 1,
+		Rare = 2,
+		Long = 3
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -8,9 +7,9 @@ namespace RimWorld
 	{
 		public Alert_NeedColonistBeds()
 		{
-			this.defaultLabel = "NeedColonistBeds".Translate();
-			this.defaultExplanation = "NeedColonistBedsDesc".Translate();
-			this.defaultPriority = AlertPriority.High;
+			base.defaultLabel = "NeedColonistBeds".Translate();
+			base.defaultExplanation = "NeedColonistBedsDesc".Translate();
+			base.defaultPriority = AlertPriority.High;
 		}
 
 		public override AlertReport GetReport()
@@ -56,10 +55,10 @@ namespace RimWorld
 			}
 			int num3 = 0;
 			int num4 = 0;
-			foreach (Pawn current in map.mapPawns.FreeColonistsSpawned)
+			foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
 			{
-				Pawn pawn = LovePartnerRelationUtility.ExistingMostLikedLovePartner(current, false);
-				if (pawn == null || !pawn.Spawned || pawn.Map != current.Map || pawn.Faction != Faction.OfPlayer || pawn.HostFaction != null)
+				Pawn pawn = LovePartnerRelationUtility.ExistingMostLikedLovePartner(item, false);
+				if (pawn == null || !pawn.Spawned || pawn.Map != item.Map || pawn.Faction != Faction.OfPlayer || pawn.HostFaction != null)
 				{
 					num3++;
 				}
@@ -83,7 +82,7 @@ namespace RimWorld
 					num -= 2;
 				}
 			}
-			for (int k = 0; k < num3; k++)
+			for (int num5 = 0; num5 < num3; num5++)
 			{
 				if (num2 > 0)
 				{

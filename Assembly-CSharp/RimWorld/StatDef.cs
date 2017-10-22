@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -79,14 +78,41 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			StatDef.<ConfigErrors>c__Iterator96 <ConfigErrors>c__Iterator = new StatDef.<ConfigErrors>c__Iterator96();
-			<ConfigErrors>c__Iterator.<>f__this = this;
-			StatDef.<ConfigErrors>c__Iterator96 expr_0E = <ConfigErrors>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.capacityFactors != null)
+			{
+				List<PawnCapacityFactor>.Enumerator enumerator2 = this.capacityFactors.GetEnumerator();
+				try
+				{
+					while (enumerator2.MoveNext())
+					{
+						PawnCapacityFactor afac = enumerator2.Current;
+						if (afac.weight > 1.0)
+						{
+							yield return base.defName + " has activity factor with weight > 1";
+						}
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator2).Dispose();
+				}
+			}
+			if (this.parts != null)
+			{
+				for (int i = 0; i < this.parts.Count; i++)
+				{
+					foreach (string item2 in this.parts[i].ConfigErrors())
+					{
+						yield return base.defName + " has error in StatPart " + this.parts[i].ToString() + ": " + item2;
+					}
+				}
+			}
 		}
 
 		public string ValueToString(float val, ToStringNumberSense numberSense = ToStringNumberSense.Absolute)

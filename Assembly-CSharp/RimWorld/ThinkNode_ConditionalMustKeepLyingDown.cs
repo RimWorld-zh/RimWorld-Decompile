@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -8,29 +7,29 @@ namespace RimWorld
 	{
 		protected override bool Satisfied(Pawn pawn)
 		{
-			if (pawn.CurJob == null || pawn.jobs.curDriver.layingDown == LayingDownState.NotLaying)
+			if (((pawn.CurJob != null) ? pawn.jobs.curDriver.layingDown : LayingDownState.NotLaying) != 0)
 			{
-				return false;
-			}
-			if (!pawn.Downed)
-			{
-				if (RestUtility.DisturbancePreventsLyingDown(pawn))
+				if (!pawn.Downed)
 				{
-					return false;
-				}
-				if (!pawn.CurJob.restUntilHealed || !HealthAIUtility.ShouldSeekMedicalRest(pawn))
-				{
-					if (!pawn.jobs.curDriver.asleep)
+					if (RestUtility.DisturbancePreventsLyingDown(pawn))
 					{
 						return false;
 					}
-					if (!pawn.CurJob.playerForced && RestUtility.TimetablePreventsLayDown(pawn))
+					if (!pawn.CurJob.restUntilHealed || !HealthAIUtility.ShouldSeekMedicalRest(pawn))
 					{
-						return false;
+						if (!pawn.jobs.curDriver.asleep)
+						{
+							return false;
+						}
+						if (!pawn.CurJob.playerForced && RestUtility.TimetablePreventsLayDown(pawn))
+						{
+							return false;
+						}
 					}
 				}
+				return true;
 			}
-			return true;
+			return false;
 		}
 	}
 }

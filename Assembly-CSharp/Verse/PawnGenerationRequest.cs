@@ -137,7 +137,7 @@ namespace Verse
 			private set;
 		}
 
-		public PawnGenerationRequest(PawnKindDef kind, Faction faction = null, PawnGenerationContext context = PawnGenerationContext.NonPlayer, int tile = -1, bool forceGenerateNewPawn = false, bool newborn = false, bool allowDead = false, bool allowDowned = false, bool canGeneratePawnRelations = true, bool mustBeCapableOfViolence = false, float colonistRelationChanceFactor = 1f, bool forceAddFreeWarmLayerIfNeeded = false, bool allowGay = true, bool allowFood = true, bool inhabitant = false, bool certainlyBeenInCryptosleep = false, Predicate<Pawn> validator = null, float? fixedBiologicalAge = null, float? fixedChronologicalAge = null, Gender? fixedGender = null, float? fixedMelanin = null, string fixedLastName = null)
+		public PawnGenerationRequest(PawnKindDef kind, Faction faction = null, PawnGenerationContext context = PawnGenerationContext.NonPlayer, int tile = -1, bool forceGenerateNewPawn = false, bool newborn = false, bool allowDead = false, bool allowDowned = false, bool canGeneratePawnRelations = true, bool mustBeCapableOfViolence = false, float colonistRelationChanceFactor = 1f, bool forceAddFreeWarmLayerIfNeeded = false, bool allowGay = true, bool allowFood = true, bool inhabitant = false, bool certainlyBeenInCryptosleep = false, Predicate<Pawn> validator = null, float? fixedBiologicalAge = default(float?), float? fixedChronologicalAge = default(float?), Gender? fixedGender = default(Gender?), float? fixedMelanin = default(float?), string fixedLastName = null)
 		{
 			if (context == PawnGenerationContext.All)
 			{
@@ -178,13 +178,7 @@ namespace Verse
 			if (this.KindDef.RaceProps.Humanlike && this.Faction == null)
 			{
 				this.Faction = FactionUtility.DefaultFactionFrom(this.KindDef.defaultFactionType);
-				Log.Error(string.Concat(new object[]
-				{
-					"Tried to generate pawn of Humanlike race ",
-					this.KindDef,
-					" with null faction. Setting to ",
-					this.Faction
-				}));
+				Log.Error("Tried to generate pawn of Humanlike race " + this.KindDef + " with null faction. Setting to " + this.Faction);
 			}
 		}
 
@@ -193,9 +187,11 @@ namespace Verse
 			if (this.FixedLastName != null)
 			{
 				Log.Error("Last name is already a fixed value: " + this.FixedLastName + ".");
-				return;
 			}
-			this.FixedLastName = fixedLastName;
+			else
+			{
+				this.FixedLastName = fixedLastName;
+			}
 		}
 
 		public void SetFixedMelanin(float fixedMelanin)
@@ -203,60 +199,16 @@ namespace Verse
 			if (this.FixedMelanin.HasValue)
 			{
 				Log.Error("Melanin is already a fixed value: " + this.FixedMelanin + ".");
-				return;
 			}
-			this.FixedMelanin = new float?(fixedMelanin);
+			else
+			{
+				this.FixedMelanin = new float?(fixedMelanin);
+			}
 		}
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"kindDef=",
-				this.KindDef,
-				", context=",
-				this.Context,
-				", faction=",
-				this.Faction,
-				", tile=",
-				this.Tile,
-				", forceGenerateNewPawn=",
-				this.ForceGenerateNewPawn,
-				", newborn=",
-				this.Newborn,
-				", allowDead=",
-				this.AllowDead,
-				", allowDowned=",
-				this.AllowDowned,
-				", canGeneratePawnRelations=",
-				this.CanGeneratePawnRelations,
-				", mustBeCapableOfViolence=",
-				this.MustBeCapableOfViolence,
-				", colonistRelationChanceFactor=",
-				this.ColonistRelationChanceFactor,
-				", forceAddFreeWarmLayerIfNeeded=",
-				this.ForceAddFreeWarmLayerIfNeeded,
-				", allowGay=",
-				this.AllowGay,
-				", allowFood=",
-				this.AllowFood,
-				", inhabitant=",
-				this.Inhabitant,
-				", certainlyBeenInCryptosleep=",
-				this.CertainlyBeenInCryptosleep,
-				", validator=",
-				this.Validator,
-				", fixedBiologicalAge=",
-				this.FixedBiologicalAge,
-				", fixedChronologicalAge=",
-				this.FixedChronologicalAge,
-				", fixedGender=",
-				this.FixedGender,
-				", fixedMelanin=",
-				this.FixedMelanin,
-				", fixedLastName=",
-				this.FixedLastName
-			});
+			return "kindDef=" + this.KindDef + ", context=" + this.Context + ", faction=" + this.Faction + ", tile=" + this.Tile + ", forceGenerateNewPawn=" + this.ForceGenerateNewPawn + ", newborn=" + this.Newborn + ", allowDead=" + this.AllowDead + ", allowDowned=" + this.AllowDowned + ", canGeneratePawnRelations=" + this.CanGeneratePawnRelations + ", mustBeCapableOfViolence=" + this.MustBeCapableOfViolence + ", colonistRelationChanceFactor=" + this.ColonistRelationChanceFactor + ", forceAddFreeWarmLayerIfNeeded=" + this.ForceAddFreeWarmLayerIfNeeded + ", allowGay=" + this.AllowGay + ", allowFood=" + this.AllowFood + ", inhabitant=" + this.Inhabitant + ", certainlyBeenInCryptosleep=" + this.CertainlyBeenInCryptosleep + ", validator=" + this.Validator + ", fixedBiologicalAge=" + this.FixedBiologicalAge + ", fixedChronologicalAge=" + this.FixedChronologicalAge + ", fixedGender=" + this.FixedGender + ", fixedMelanin=" + this.FixedMelanin + ", fixedLastName=" + this.FixedLastName;
 		}
 	}
 }

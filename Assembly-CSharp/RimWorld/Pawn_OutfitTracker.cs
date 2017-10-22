@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -23,12 +22,11 @@ namespace RimWorld
 			}
 			set
 			{
-				if (this.curOutfit == value)
+				if (this.curOutfit != value)
 				{
-					return;
+					this.curOutfit = value;
+					this.pawn.mindState.Notify_OutfitChanged();
 				}
-				this.curOutfit = value;
-				this.pawn.mindState.Notify_OutfitChanged();
 			}
 		}
 

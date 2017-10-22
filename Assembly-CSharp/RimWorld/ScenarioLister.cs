@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -9,43 +7,70 @@ namespace RimWorld
 	{
 		private static bool dirty = true;
 
-		[DebuggerHidden]
 		public static IEnumerable<Scenario> AllScenarios()
 		{
-			ScenarioLister.<AllScenarios>c__Iterator127 <AllScenarios>c__Iterator = new ScenarioLister.<AllScenarios>c__Iterator127();
-			ScenarioLister.<AllScenarios>c__Iterator127 expr_07 = <AllScenarios>c__Iterator;
-			expr_07.$PC = -2;
-			return expr_07;
+			ScenarioLister.RecacheIfDirty();
+			foreach (ScenarioDef allDef in DefDatabase<ScenarioDef>.AllDefs)
+			{
+				yield return allDef.scenario;
+			}
+			foreach (Scenario item in ScenarioFiles.AllScenariosLocal)
+			{
+				yield return item;
+			}
+			foreach (Scenario item2 in ScenarioFiles.AllScenariosWorkshop)
+			{
+				yield return item2;
+			}
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<Scenario> ScenariosInCategory(ScenarioCategory cat)
 		{
-			ScenarioLister.<ScenariosInCategory>c__Iterator128 <ScenariosInCategory>c__Iterator = new ScenarioLister.<ScenariosInCategory>c__Iterator128();
-			<ScenariosInCategory>c__Iterator.cat = cat;
-			<ScenariosInCategory>c__Iterator.<$>cat = cat;
-			ScenarioLister.<ScenariosInCategory>c__Iterator128 expr_15 = <ScenariosInCategory>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			ScenarioLister.RecacheIfDirty();
+			switch (cat)
+			{
+			case ScenarioCategory.FromDef:
+			{
+				foreach (ScenarioDef allDef in DefDatabase<ScenarioDef>.AllDefs)
+				{
+					yield return allDef.scenario;
+				}
+				break;
+			}
+			case ScenarioCategory.CustomLocal:
+			{
+				foreach (Scenario item in ScenarioFiles.AllScenariosLocal)
+				{
+					yield return item;
+				}
+				break;
+			}
+			case ScenarioCategory.SteamWorkshop:
+			{
+				foreach (Scenario item2 in ScenarioFiles.AllScenariosWorkshop)
+				{
+					yield return item2;
+				}
+				break;
+			}
+			}
 		}
 
 		public static bool ScenarioIsListedAnywhere(Scenario scen)
 		{
 			ScenarioLister.RecacheIfDirty();
-			foreach (ScenarioDef current in DefDatabase<ScenarioDef>.AllDefs)
+			foreach (ScenarioDef allDef in DefDatabase<ScenarioDef>.AllDefs)
 			{
-				if (current.scenario == scen)
+				if (allDef.scenario == scen)
 				{
-					bool result = true;
-					return result;
+					return true;
 				}
 			}
-			foreach (Scenario current2 in ScenarioFiles.AllScenariosLocal)
+			foreach (Scenario item in ScenarioFiles.AllScenariosLocal)
 			{
-				if (scen == current2)
+				if (scen == item)
 				{
-					bool result = true;
-					return result;
+					return true;
 				}
 			}
 			return false;
@@ -82,9 +107,9 @@ namespace RimWorld
 		public static int ScenarioListHash()
 		{
 			int num = 9826121;
-			foreach (Scenario current in ScenarioLister.AllScenarios())
+			foreach (Scenario item in ScenarioLister.AllScenarios())
 			{
-				num ^= 791 * current.GetHashCode() * 6121;
+				num ^= 791 * item.GetHashCode() * 6121;
 			}
 			return num;
 		}

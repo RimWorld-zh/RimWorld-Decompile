@@ -106,7 +106,8 @@ namespace Verse.Noise
 		public override double GetValue(double x, double y, double z)
 		{
 			double num = 0.0;
-			double num2 = 1.0;
+			double num2 = 0.0;
+			double num3 = 1.0;
 			x *= this.m_frequency;
 			y *= this.m_frequency;
 			z *= this.m_frequency;
@@ -115,14 +116,14 @@ namespace Verse.Noise
 				double x2 = Utils.MakeInt32Range(x);
 				double y2 = Utils.MakeInt32Range(y);
 				double z2 = Utils.MakeInt32Range(z);
-				long seed = (long)(this.m_seed + i) & (long)((ulong)-1);
-				double num3 = Utils.GradientCoherentNoise3D(x2, y2, z2, seed, this.m_quality);
-				num3 = 2.0 * Math.Abs(num3) - 1.0;
-				num += num3 * num2;
+				long seed = this.m_seed + i & 4294967295u;
+				num2 = Utils.GradientCoherentNoise3D(x2, y2, z2, seed, this.m_quality);
+				num2 = 2.0 * Math.Abs(num2) - 1.0;
+				num += num2 * num3;
 				x *= this.m_lacunarity;
 				y *= this.m_lacunarity;
 				z *= this.m_lacunarity;
-				num2 *= this.m_persistence;
+				num3 *= this.m_persistence;
 			}
 			return num + 0.5;
 		}

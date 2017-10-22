@@ -1,4 +1,3 @@
-using System;
 using System.Xml;
 
 namespace Verse
@@ -11,9 +10,9 @@ namespace Verse
 		{
 			XmlNode node = this.value.node;
 			bool result = false;
-			foreach (object current in xml.SelectNodes(this.xpath))
+			foreach (object item in xml.SelectNodes(base.xpath))
 			{
-				XmlNode xmlNode = current as XmlNode;
+				XmlNode xmlNode = item as XmlNode;
 				XmlNode xmlNode2 = xmlNode["modExtensions"];
 				if (xmlNode2 == null)
 				{

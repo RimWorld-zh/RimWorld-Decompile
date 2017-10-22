@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -47,7 +46,7 @@ namespace RimWorld
 
 		public void SteadyAtmosphereEffectsTick()
 		{
-			if ((float)Find.TickManager.TicksGame % 97f == 0f && Rand.Value < 0.02f)
+			if ((float)Find.TickManager.TicksGame % 97.0 == 0.0 && Rand.Value < 0.019999999552965164)
 			{
 				this.RollForRainFire();
 			}
@@ -55,9 +54,9 @@ namespace RimWorld
 			this.snowRate = this.map.weatherManager.SnowRate;
 			this.rainRate = this.map.weatherManager.RainRate;
 			this.deteriorationRate = Mathf.Lerp(1f, 5f, this.rainRate);
-			int num = Mathf.RoundToInt((float)this.map.Area * 0.0006f);
+			int num = Mathf.RoundToInt((float)((float)this.map.Area * 0.00060000002849847078));
 			int area = this.map.Area;
-			for (int i = 0; i < num; i++)
+			for (int num2 = 0; num2 < num; num2++)
 			{
 				if (this.cycleIndex >= area)
 				{
@@ -76,13 +75,13 @@ namespace RimWorld
 			bool flag2 = room != null && room.UsesOutdoorTemperature;
 			if (room == null || flag2)
 			{
-				if (this.outdoorMeltAmount > 0f)
+				if (this.outdoorMeltAmount > 0.0)
 				{
-					this.map.snowGrid.AddDepth(c, -this.outdoorMeltAmount);
+					this.map.snowGrid.AddDepth(c, (float)(0.0 - this.outdoorMeltAmount));
 				}
-				if (!flag && this.snowRate > 0.001f)
+				if (!flag && this.snowRate > 0.0010000000474974513)
 				{
-					this.AddFallenSnowAt(c, 0.046f * this.map.weatherManager.SnowRate);
+					this.AddFallenSnowAt(c, (float)(0.046000000089406967 * this.map.weatherManager.SnowRate));
 				}
 			}
 			if (room != null)
@@ -122,23 +121,28 @@ namespace RimWorld
 				else
 				{
 					float temperature = room.Temperature;
-					if (temperature > 0f)
+					if (temperature > 0.0)
 					{
 						float num = this.MeltAmountAt(temperature);
-						if (num > 0f)
+						if (num > 0.0)
 						{
-							this.map.snowGrid.AddDepth(c, -num);
+							this.map.snowGrid.AddDepth(c, (float)(0.0 - num));
 						}
-						if (room.RegionType.Passable() && temperature > SteadyAtmosphereEffects.AutoIgnitionTemperatureRange.min)
+						if (room.RegionType.Passable())
 						{
-							float value = Rand.Value;
-							if (value < SteadyAtmosphereEffects.AutoIgnitionTemperatureRange.InverseLerpThroughRange(temperature) * 0.7f && Rand.Chance(FireUtility.ChanceToStartFireIn(c, this.map)))
+							float num2 = temperature;
+							FloatRange autoIgnitionTemperatureRange = SteadyAtmosphereEffects.AutoIgnitionTemperatureRange;
+							if (num2 > autoIgnitionTemperatureRange.min)
 							{
-								FireUtility.TryStartFireIn(c, this.map, 0.1f);
-							}
-							if (value < 0.33f)
-							{
-								MoteMaker.ThrowHeatGlow(c, this.map, 2.3f);
+								float value = Rand.Value;
+								if (value < SteadyAtmosphereEffects.AutoIgnitionTemperatureRange.InverseLerpThroughRange(temperature) * 0.699999988079071 && Rand.Chance(FireUtility.ChanceToStartFireIn(c, this.map)))
+								{
+									FireUtility.TryStartFireIn(c, this.map, 0.1f);
+								}
+								if (value < 0.33000001311302185)
+								{
+									MoteMaker.ThrowHeatGlow(c, this.map, 2.3f);
+								}
 							}
 						}
 					}
@@ -153,26 +157,38 @@ namespace RimWorld
 
 		public static bool InDeterioratingPosition(Thing t)
 		{
-			return !t.Position.Roofed(t.Map) && !SteadyAtmosphereEffects.ProtectedByEdifice(t.Position, t.Map);
+			if (t.Position.Roofed(t.Map))
+			{
+				return false;
+			}
+			if (SteadyAtmosphereEffects.ProtectedByEdifice(t.Position, t.Map))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		private static bool ProtectedByEdifice(IntVec3 c, Map map)
 		{
 			Building edifice = c.GetEdifice(map);
-			return edifice != null && edifice.def.building != null && edifice.def.building.preventDeterioration;
+			if (edifice != null && edifice.def.building != null && edifice.def.building.preventDeterioration)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private float MeltAmountAt(float temperature)
 		{
-			if (temperature < 0f)
+			if (temperature < 0.0)
 			{
 				return 0f;
 			}
-			if (temperature < 10f)
+			if (temperature < 10.0)
 			{
-				return temperature * temperature * 0.0058f * 0.1f;
+				return (float)(temperature * temperature * 0.0057999999262392521 * 0.10000000149011612);
 			}
-			return temperature * 0.0058f;
+			return (float)(temperature * 0.0057999999262392521);
 		}
 
 		public void AddFallenSnowAt(IntVec3 c, float baseAmount)
@@ -181,14 +197,14 @@ namespace RimWorld
 			{
 				this.snowNoise = new Perlin(0.039999999105930328, 2.0, 0.5, 5, Rand.Range(0, 651431), QualityMode.Medium);
 			}
-			float num = this.snowNoise.GetValue(c);
-			num += 1f;
-			num *= 0.5f;
-			if (num < 0.5f)
+			float value = this.snowNoise.GetValue(c);
+			value = (float)(value + 1.0);
+			value = (float)(value * 0.5);
+			if (value < 0.5)
 			{
-				num = 0.5f;
+				value = 0.5f;
 			}
-			float depthToAdd = baseAmount * num;
+			float depthToAdd = baseAmount * value;
 			this.map.snowGrid.AddDepth(c, depthToAdd);
 		}
 
@@ -204,36 +220,37 @@ namespace RimWorld
 		private void TryDoDeteriorate(Thing t, IntVec3 c, bool checkEdifice)
 		{
 			float num = SteadyAtmosphereEffects.FinalDeteriorationRate(t);
-			if (num < 0.001f)
+			if (!(num < 0.0010000000474974513))
 			{
-				return;
-			}
-			float num2 = this.deteriorationRate * num / 36f;
-			if (Rand.Value < num2 && (!checkEdifice || !SteadyAtmosphereEffects.ProtectedByEdifice(c, t.Map)))
-			{
-				t.TakeDamage(new DamageInfo(DamageDefOf.Deterioration, 1, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
+				float num2 = (float)(this.deteriorationRate * num / 36.0);
+				if (Rand.Value < num2)
+				{
+					if (checkEdifice && SteadyAtmosphereEffects.ProtectedByEdifice(c, t.Map))
+						return;
+					t.TakeDamage(new DamageInfo(DamageDefOf.Deterioration, 1, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
+				}
 			}
 		}
 
 		private void RollForRainFire()
 		{
-			float num = 0.2f * (float)this.map.listerBuildings.allBuildingsColonistElecFire.Count * this.map.weatherManager.RainRate;
-			if (Rand.Value > num)
+			float num = (float)(0.20000000298023224 * (float)this.map.listerBuildings.allBuildingsColonistElecFire.Count * this.map.weatherManager.RainRate);
+			if (!(Rand.Value > num))
 			{
-				return;
-			}
-			Building building = this.map.listerBuildings.allBuildingsColonistElecFire.RandomElement<Building>();
-			if (!this.map.roofGrid.Roofed(building.Position))
-			{
-				ThingWithComps thingWithComps = building;
-				CompPowerTrader comp = thingWithComps.GetComp<CompPowerTrader>();
-				if ((comp != null && comp.PowerOn && comp.Props.shortCircuitInRain) || (thingWithComps.GetComp<CompPowerBattery>() != null && thingWithComps.GetComp<CompPowerBattery>().StoredEnergy > 100f))
+				Building building = this.map.listerBuildings.allBuildingsColonistElecFire.RandomElement();
+				if (!this.map.roofGrid.Roofed(building.Position))
 				{
-					GenExplosion.DoExplosion(building.OccupiedRect().RandomCell, this.map, 1.9f, DamageDefOf.Flame, null, null, null, null, null, 0f, 1, false, null, 0f, 1);
-					Find.LetterStack.ReceiveLetter("LetterLabelShortCircuit".Translate(), "ShortCircuitRain".Translate(new object[]
+					ThingWithComps thingWithComps = building;
+					CompPowerTrader comp = thingWithComps.GetComp<CompPowerTrader>();
+					if (comp == null || !comp.PowerOn || !comp.Props.shortCircuitInRain)
 					{
-						building.Label
-					}), LetterDefOf.BadUrgent, new TargetInfo(building.Position, building.Map, false), null);
+						if (thingWithComps.GetComp<CompPowerBattery>() == null)
+							return;
+						if (!(thingWithComps.GetComp<CompPowerBattery>().StoredEnergy > 100.0))
+							return;
+					}
+					GenExplosion.DoExplosion(building.OccupiedRect().RandomCell, this.map, 1.9f, DamageDefOf.Flame, null, null, null, null, null, 0f, 1, false, null, 0f, 1);
+					Find.LetterStack.ReceiveLetter("LetterLabelShortCircuit".Translate(), "ShortCircuitRain".Translate(building.Label), LetterDefOf.BadUrgent, new TargetInfo(building.Position, building.Map, false), (string)null);
 				}
 			}
 		}

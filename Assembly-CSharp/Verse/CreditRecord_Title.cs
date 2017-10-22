@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -29,7 +28,7 @@ namespace Verse
 			Widgets.Label(rect, this.title);
 			Text.Anchor = TextAnchor.UpperLeft;
 			GUI.color = new Color(1f, 1f, 1f, 0.5f);
-			Widgets.DrawLineHorizontal(rect.x + 10f, Mathf.Round(rect.yMax) - 14f, rect.width - 20f);
+			Widgets.DrawLineHorizontal((float)(rect.x + 10.0), (float)(Mathf.Round(rect.yMax) - 14.0), (float)(rect.width - 20.0));
 			GUI.color = Color.white;
 		}
 	}

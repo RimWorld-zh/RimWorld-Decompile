@@ -19,12 +19,9 @@ namespace RimWorld
 			for (int i = 0; i < allBuildingsColonist.Count; i++)
 			{
 				Building_Battery building_Battery = allBuildingsColonist[i] as Building_Battery;
-				if (building_Battery != null && building_Battery.GetComp<CompPowerBattery>().StoredEnergy >= 50f)
+				if (building_Battery != null && !(building_Battery.GetComp<CompPowerBattery>().StoredEnergy < 50.0) && this.GetRandomConduit(building_Battery) != null)
 				{
-					if (this.GetRandomConduit(building_Battery) != null)
-					{
-						IncidentWorker_ShortCircuit.tmpBatteries.Add(building_Battery);
-					}
+					IncidentWorker_ShortCircuit.tmpBatteries.Add(building_Battery);
 				}
 			}
 			return IncidentWorker_ShortCircuit.tmpBatteries;
@@ -33,18 +30,18 @@ namespace RimWorld
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
 			Map map = (Map)target;
-			return this.BatteryCandidates(map).Any<Building_Battery>();
+			return this.BatteryCandidates(map).Any();
 		}
 
 		public override bool TryExecute(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			List<Building_Battery> list = this.BatteryCandidates(map);
-			if (!list.Any<Building_Battery>())
+			if (!list.Any())
 			{
 				return false;
 			}
-			Building_Battery building_Battery = list.RandomElement<Building_Battery>();
+			Building_Battery building_Battery = list.RandomElement();
 			PowerNet powerNet = building_Battery.PowerComp.PowerNet;
 			CompPower randomConduit = this.GetRandomConduit(building_Battery);
 			if (randomConduit == null)
@@ -52,21 +49,30 @@ namespace RimWorld
 				return false;
 			}
 			float num = 0f;
-			foreach (CompPowerBattery current in powerNet.batteryComps)
+			List<CompPowerBattery>.Enumerator enumerator = powerNet.batteryComps.GetEnumerator();
+			try
 			{
-				num += current.StoredEnergy;
-				current.DrawPower(current.StoredEnergy);
+				while (enumerator.MoveNext())
+				{
+					CompPowerBattery current = enumerator.Current;
+					num += current.StoredEnergy;
+					current.DrawPower(current.StoredEnergy);
+				}
 			}
-			float num2 = Mathf.Sqrt(num) * 0.05f;
-			if (num2 > 14.9f)
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			float num2 = (float)(Mathf.Sqrt(num) * 0.05000000074505806);
+			if (num2 > 14.899999618530273)
 			{
 				num2 = 14.9f;
 			}
 			ThingWithComps parent = randomConduit.parent;
 			GenExplosion.DoExplosion(parent.Position, map, num2, DamageDefOf.Flame, null, null, null, null, null, 0f, 1, false, null, 0f, 1);
-			if (num2 > 3.5f)
+			if (num2 > 3.5)
 			{
-				GenExplosion.DoExplosion(parent.Position, map, num2 * 0.3f, DamageDefOf.Bomb, null, null, null, null, null, 0f, 1, false, null, 0f, 1);
+				GenExplosion.DoExplosion(parent.Position, map, (float)(num2 * 0.30000001192092896), DamageDefOf.Bomb, null, null, null, null, null, 0f, 1, false, null, 0f, 1);
 			}
 			if (!parent.Destroyed)
 			{
@@ -78,24 +84,20 @@ namespace RimWorld
 				text = "AnElectricalConduit".Translate();
 			}
 			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.Append("ShortCircuit".Translate(new object[]
-			{
-				text,
-				num.ToString("F0")
-			}));
-			if (num2 > 5f)
+			stringBuilder.Append("ShortCircuit".Translate(text, num.ToString("F0")));
+			if (num2 > 5.0)
 			{
 				stringBuilder.AppendLine();
 				stringBuilder.AppendLine();
 				stringBuilder.Append("ShortCircuitWasLarge".Translate());
 			}
-			if (num2 > 8f)
+			if (num2 > 8.0)
 			{
 				stringBuilder.AppendLine();
 				stringBuilder.AppendLine();
 				stringBuilder.Append("ShortCircuitWasHuge".Translate());
 			}
-			Find.LetterStack.ReceiveLetter("LetterLabelShortCircuit".Translate(), stringBuilder.ToString(), LetterDefOf.BadNonUrgent, new TargetInfo(parent.Position, map, false), null);
+			Find.LetterStack.ReceiveLetter("LetterLabelShortCircuit".Translate(), stringBuilder.ToString(), LetterDefOf.BadNonUrgent, new TargetInfo(parent.Position, map, false), (string)null);
 			return true;
 		}
 
@@ -110,11 +112,11 @@ namespace RimWorld
 					IncidentWorker_ShortCircuit.tmpConduits.Add(transmitters[i]);
 				}
 			}
-			if (!IncidentWorker_ShortCircuit.tmpConduits.Any<CompPower>())
+			if (!IncidentWorker_ShortCircuit.tmpConduits.Any())
 			{
 				return null;
 			}
-			CompPower result = IncidentWorker_ShortCircuit.tmpConduits.RandomElement<CompPower>();
+			CompPower result = IncidentWorker_ShortCircuit.tmpConduits.RandomElement();
 			IncidentWorker_ShortCircuit.tmpConduits.Clear();
 			return result;
 		}

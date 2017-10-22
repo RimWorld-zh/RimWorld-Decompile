@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -112,12 +111,12 @@ namespace RimWorld.Planet
 			WorldMaterials.TargetSquareMatSingle = MaterialPool.MatFrom("UI/Overlays/TargetHighlight_Square", ShaderDatabase.Transparent, 3560);
 			WorldMaterials.NumMatsPerMode = 50;
 			WorldMaterials.OverlayModeMatOcean = SolidColorMaterials.NewSolidColorMaterial(new Color(0.09f, 0.18f, 0.2f), ShaderDatabase.Transparent);
-			WorldMaterials.FertilitySpectrum = new Color[]
+			WorldMaterials.FertilitySpectrum = new Color[2]
 			{
 				new Color(0f, 1f, 0f, 0f),
 				new Color(0f, 1f, 0f, 0.5f)
 			};
-			WorldMaterials.TemperatureSpectrum = new Color[]
+			WorldMaterials.TemperatureSpectrum = new Color[8]
 			{
 				new Color(1f, 1f, 1f),
 				new Color(0f, 0f, 1f),
@@ -128,14 +127,14 @@ namespace RimWorld.Planet
 				new Color(1f, 0.6f, 0.18f),
 				new Color(1f, 0f, 0f)
 			};
-			WorldMaterials.ElevationSpectrum = new Color[]
+			WorldMaterials.ElevationSpectrum = new Color[4]
 			{
 				new Color(0.224f, 0.18f, 0.15f),
 				new Color(0.447f, 0.369f, 0.298f),
 				new Color(0.6f, 0.6f, 0.6f),
 				new Color(1f, 1f, 1f)
 			};
-			WorldMaterials.RainfallSpectrum = new Color[]
+			WorldMaterials.RainfallSpectrum = new Color[12]
 			{
 				new Color(0.9f, 0.9f, 0.9f),
 				GenColor.FromBytes(190, 190, 190, 255),
@@ -159,9 +158,9 @@ namespace RimWorld.Planet
 		private static void GenerateMats(ref Material[] mats, Color[] colorSpectrum, int numMats)
 		{
 			mats = new Material[numMats];
-			for (int i = 0; i < numMats; i++)
+			for (int num = 0; num < numMats; num++)
 			{
-				mats[i] = MatsFromSpectrum.Get(colorSpectrum, (float)i / (float)numMats);
+				mats[num] = MatsFromSpectrum.Get(colorSpectrum, (float)num / (float)numMats);
 			}
 		}
 

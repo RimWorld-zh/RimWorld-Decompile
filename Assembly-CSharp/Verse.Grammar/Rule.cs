@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Grammar
 {
 	public abstract class Rule

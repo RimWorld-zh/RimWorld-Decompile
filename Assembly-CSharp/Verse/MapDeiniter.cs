@@ -65,7 +65,7 @@ namespace Verse
 		private static void PassPawnsToWorld(Map map)
 		{
 			bool flag = map.ParentFaction != null && map.ParentFaction.HostileTo(Faction.OfPlayer);
-			List<Pawn> list = map.mapPawns.AllPawns.ToList<Pawn>();
+			List<Pawn> list = map.mapPawns.AllPawns.ToList();
 			for (int i = 0; i < list.Count; i++)
 			{
 				try
@@ -86,13 +86,7 @@ namespace Verse
 				}
 				catch (Exception ex)
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Could not despawn and pass to world ",
-						list[i],
-						": ",
-						ex
-					}));
+					Log.Error("Could not despawn and pass to world " + list[i] + ": " + ex);
 				}
 			}
 		}
@@ -152,15 +146,15 @@ namespace Verse
 						allRooms[l].DecrementMapIndex();
 					}
 				}
-				foreach (Region current in maps[j].regionGrid.AllRegions_NoRebuild_InvalidAllowed)
+				foreach (Region item in maps[j].regionGrid.AllRegions_NoRebuild_InvalidAllowed)
 				{
 					if (j == num)
 					{
-						current.Notify_MyMapRemoved();
+						item.Notify_MyMapRemoved();
 					}
 					else
 					{
-						current.DecrementMapIndex();
+						item.DecrementMapIndex();
 					}
 				}
 			}

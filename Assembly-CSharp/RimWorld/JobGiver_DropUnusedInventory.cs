@@ -14,7 +14,7 @@ namespace RimWorld
 			{
 				return null;
 			}
-			if (!pawn.Map.areaManager.Home[pawn.Position])
+			if (!((Area)pawn.Map.areaManager.Home)[pawn.Position])
 			{
 				return null;
 			}
@@ -24,18 +24,18 @@ namespace RimWorld
 			}
 			if (Find.TickManager.TicksGame > pawn.mindState.lastInventoryRawFoodUseTick + 150000)
 			{
-				for (int i = pawn.inventory.innerContainer.Count - 1; i >= 0; i--)
+				for (int num = pawn.inventory.innerContainer.Count - 1; num >= 0; num--)
 				{
-					Thing thing = pawn.inventory.innerContainer[i];
-					if (thing.def.IsIngestible && !thing.def.IsDrug && thing.def.ingestible.preferability <= FoodPreferability.RawTasty)
+					Thing thing = pawn.inventory.innerContainer[num];
+					if (thing.def.IsIngestible && !thing.def.IsDrug && (int)thing.def.ingestible.preferability <= 4)
 					{
 						this.Drop(pawn, thing);
 					}
 				}
 			}
-			for (int j = pawn.inventory.innerContainer.Count - 1; j >= 0; j--)
+			for (int num2 = pawn.inventory.innerContainer.Count - 1; num2 >= 0; num2--)
 			{
-				Thing thing2 = pawn.inventory.innerContainer[j];
+				Thing thing2 = pawn.inventory.innerContainer[num2];
 				if (thing2.def.IsDrug && pawn.drugs != null && !pawn.drugs.AllowedToTakeScheduledEver(thing2.def) && pawn.drugs.HasEverTaken(thing2.def) && !AddictionUtility.IsAddicted(pawn, thing2))
 				{
 					this.Drop(pawn, thing2);
@@ -46,8 +46,8 @@ namespace RimWorld
 
 		private void Drop(Pawn pawn, Thing thing)
 		{
-			Thing thing2;
-			pawn.inventory.innerContainer.TryDrop(thing, pawn.Position, pawn.Map, ThingPlaceMode.Near, out thing2, null);
+			Thing thing2 = default(Thing);
+			pawn.inventory.innerContainer.TryDrop(thing, pawn.Position, pawn.Map, ThingPlaceMode.Near, out thing2, (Action<Thing, int>)null);
 		}
 	}
 }

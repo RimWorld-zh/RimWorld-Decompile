@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.Planet
@@ -43,20 +42,12 @@ namespace RimWorld.Planet
 
 		private void CheckWonBattle()
 		{
-			if (this.wonBattle)
+			if (!this.wonBattle && !GenHostility.AnyHostileActiveThreat(base.Map))
 			{
-				return;
+				Messages.Message("MessageAmbushVictory".Translate(MapParent.GetForceExitAndRemoveMapCountdownTimeLeftString(60000)), (WorldObject)this, MessageSound.Benefit);
+				this.wonBattle = true;
+				base.StartForceExitAndRemoveMapCountdown();
 			}
-			if (GenHostility.AnyHostileActiveThreat(base.Map))
-			{
-				return;
-			}
-			Messages.Message("MessageAmbushVictory".Translate(new object[]
-			{
-				MapParent.GetForceExitAndRemoveMapCountdownTimeLeftString(60000)
-			}), this, MessageSound.Benefit);
-			this.wonBattle = true;
-			base.StartForceExitAndRemoveMapCountdown();
 		}
 	}
 }

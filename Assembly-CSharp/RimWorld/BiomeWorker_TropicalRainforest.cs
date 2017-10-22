@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 
 namespace RimWorld
 {
@@ -11,15 +10,15 @@ namespace RimWorld
 			{
 				return -100f;
 			}
-			if (tile.temperature < 15f)
+			if (tile.temperature < 15.0)
 			{
 				return 0f;
 			}
-			if (tile.rainfall < 2000f)
+			if (tile.rainfall < 2000.0)
 			{
 				return 0f;
 			}
-			return 28f + (tile.temperature - 20f) * 1.5f + (tile.rainfall - 600f) / 165f;
+			return (float)(28.0 + (tile.temperature - 20.0) * 1.5 + (tile.rainfall - 600.0) / 165.0);
 		}
 	}
 }

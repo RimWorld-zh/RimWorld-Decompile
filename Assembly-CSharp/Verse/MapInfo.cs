@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -22,7 +21,12 @@ namespace Verse
 		{
 			get
 			{
-				return this.Size.x * this.Size.y * this.Size.z;
+				IntVec3 size = this.Size;
+				int x = size.x;
+				IntVec3 size2 = this.Size;
+				int num = x * size2.y;
+				IntVec3 size3 = this.Size;
+				return num * size3.z;
 			}
 		}
 
@@ -43,11 +47,11 @@ namespace Verse
 			get
 			{
 				int num = Mathf.Max(this.sizeInt.x, this.sizeInt.z);
-				int i;
-				for (i = 1; i <= num; i *= 2)
+				int num2;
+				for (num2 = 1; num2 <= num; num2 *= 2)
 				{
 				}
-				return i;
+				return num2;
 			}
 		}
 

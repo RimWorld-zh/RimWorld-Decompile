@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,19 +6,7 @@ namespace RimWorld
 	{
 		public override void PawnDied(Corpse corpse)
 		{
-			float radius;
-			if (corpse.InnerPawn.ageTracker.CurLifeStageIndex == 0)
-			{
-				radius = 1.9f;
-			}
-			else if (corpse.InnerPawn.ageTracker.CurLifeStageIndex == 1)
-			{
-				radius = 2.9f;
-			}
-			else
-			{
-				radius = 4.9f;
-			}
+			float radius = (float)((corpse.InnerPawn.ageTracker.CurLifeStageIndex != 0) ? ((corpse.InnerPawn.ageTracker.CurLifeStageIndex != 1) ? 4.9000000953674316 : 2.9000000953674316) : 1.8999999761581421);
 			GenExplosion.DoExplosion(corpse.Position, corpse.Map, radius, DamageDefOf.Flame, corpse.InnerPawn, null, null, null, null, 0f, 1, false, null, 0f, 1);
 		}
 	}

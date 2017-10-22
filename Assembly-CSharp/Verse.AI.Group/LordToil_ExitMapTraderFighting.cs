@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse.AI.Group
 {
@@ -15,9 +14,9 @@ namespace Verse.AI.Group
 
 		public override void UpdateAllDuties()
 		{
-			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
-				Pawn pawn = this.lord.ownedPawns[i];
+				Pawn pawn = base.lord.ownedPawns[i];
 				TraderCaravanRole traderCaravanRole = pawn.GetTraderCaravanRole();
 				if (traderCaravanRole == TraderCaravanRole.Carrier || traderCaravanRole == TraderCaravanRole.Chattel)
 				{

@@ -47,7 +47,7 @@ namespace Verse
 
 		public PlayLogEntry_Interaction(InteractionDef intDef, Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks)
 		{
-			this.ticksAbs = Find.TickManager.TicksAbs;
+			base.ticksAbs = Find.TickManager.TicksAbs;
 			this.intDef = intDef;
 			this.initiator = initiator;
 			this.recipient = recipient;
@@ -63,68 +63,67 @@ namespace Verse
 		{
 			if (pov == this.initiator)
 			{
-				CameraJumper.TryJumpAndSelect(this.recipient);
+				CameraJumper.TryJumpAndSelect((Thing)this.recipient);
+				return;
 			}
-			else
+			if (pov == this.recipient)
 			{
-				if (pov != this.recipient)
-				{
-					throw new NotImplementedException();
-				}
-				CameraJumper.TryJumpAndSelect(this.initiator);
+				CameraJumper.TryJumpAndSelect((Thing)this.initiator);
+				return;
 			}
+			throw new NotImplementedException();
 		}
 
 		public override string ToGameStringFromPOV(Thing pov)
 		{
-			if (this.initiator == null || this.recipient == null)
+			if (this.initiator != null && this.recipient != null)
 			{
-				Log.ErrorOnce("PlayLogEntry_Interaction has a null pawn reference.", 34422);
-				return "[" + this.intDef.label + " error: null pawn reference]";
-			}
-			Rand.PushState();
-			Rand.Seed = this.ticksAbs * 61261;
-			List<Rule> list = new List<Rule>();
-			string text;
-			if (pov == this.initiator)
-			{
-				list.AddRange(this.intDef.logRulesInitiator.Rules);
-				list.AddRange(GrammarUtility.RulesForPawn("me", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
-				list.AddRange(GrammarUtility.RulesForPawn("other", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
-				text = GrammarResolver.Resolve("logentry", list, "interaction from initiator");
-			}
-			else if (pov == this.recipient)
-			{
-				if (this.intDef.logRulesRecipient != null)
+				Rand.PushState();
+				Rand.Seed = base.ticksAbs * 61261;
+				List<Rule> list = new List<Rule>();
+				string text;
+				if (pov == this.initiator)
 				{
-					list.AddRange(this.intDef.logRulesRecipient.Rules);
+					list.AddRange(this.intDef.logRulesInitiator.Rules);
+					list.AddRange(GrammarUtility.RulesForPawn("me", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
+					list.AddRange(GrammarUtility.RulesForPawn("other", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
+					text = GrammarResolver.Resolve("logentry", list, "interaction from initiator");
+				}
+				else if (pov == this.recipient)
+				{
+					if (this.intDef.logRulesRecipient != null)
+					{
+						list.AddRange(this.intDef.logRulesRecipient.Rules);
+					}
+					else
+					{
+						list.AddRange(this.intDef.logRulesInitiator.Rules);
+					}
+					list.AddRange(GrammarUtility.RulesForPawn("me", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
+					list.AddRange(GrammarUtility.RulesForPawn("other", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
+					text = GrammarResolver.Resolve("logentry", list, "interaction from recipient");
 				}
 				else
 				{
-					list.AddRange(this.intDef.logRulesInitiator.Rules);
+					Log.ErrorOnce("Cannot display PlayLogEntry_Interaction from POV who isn't initiator or recipient.", 51251);
+					text = this.ToString();
 				}
-				list.AddRange(GrammarUtility.RulesForPawn("me", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
-				list.AddRange(GrammarUtility.RulesForPawn("other", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
-				text = GrammarResolver.Resolve("logentry", list, "interaction from recipient");
-			}
-			else
-			{
-				Log.ErrorOnce("Cannot display PlayLogEntry_Interaction from POV who isn't initiator or recipient.", 51251);
-				text = this.ToString();
-			}
-			if (this.extraSentencePacks != null)
-			{
-				for (int i = 0; i < this.extraSentencePacks.Count; i++)
+				if (this.extraSentencePacks != null)
 				{
-					list.Clear();
-					list.AddRange(this.extraSentencePacks[i].Rules);
-					list.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
-					list.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
-					text = text + " " + GrammarResolver.Resolve(this.extraSentencePacks[i].Rules[0].keyword, list, "extraSentencePack");
+					for (int i = 0; i < this.extraSentencePacks.Count; i++)
+					{
+						list.Clear();
+						list.AddRange(this.extraSentencePacks[i].Rules);
+						list.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
+						list.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
+						text = text + " " + GrammarResolver.Resolve(this.extraSentencePacks[i].Rules[0].keyword, list, "extraSentencePack");
+					}
 				}
+				Rand.PopState();
+				return text;
 			}
-			Rand.PopState();
-			return text;
+			Log.ErrorOnce("PlayLogEntry_Interaction has a null pawn reference.", 34422);
+			return "[" + this.intDef.label + " error: null pawn reference]";
 		}
 
 		public override void PostRemove()
@@ -152,14 +151,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Concat(new string[]
-			{
-				this.intDef.label,
-				": ",
-				this.InitiatorName,
-				"->",
-				this.RecipientName
-			});
+			return this.intDef.label + ": " + this.InitiatorName + "->" + this.RecipientName;
 		}
 	}
 }

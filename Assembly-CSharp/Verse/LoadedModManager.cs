@@ -31,30 +31,31 @@ namespace Verse
 		{
 			XmlInheritance.Clear();
 			int num = 0;
-			foreach (ModMetaData current in ModsConfig.ActiveModsInLoadOrder.ToList<ModMetaData>())
+			List<ModMetaData>.Enumerator enumerator = ModsConfig.ActiveModsInLoadOrder.ToList().GetEnumerator();
+			try
 			{
-				DeepProfiler.Start("Initializing " + current);
-				if (!current.RootDir.Exists)
+				while (enumerator.MoveNext())
 				{
-					ModsConfig.SetActive(current.Identifier, false);
-					Log.Warning(string.Concat(new object[]
+					ModMetaData current = enumerator.Current;
+					DeepProfiler.Start("Initializing " + current);
+					if (!current.RootDir.Exists)
 					{
-						"Failed to find active mod ",
-						current.Name,
-						"(",
-						current.Identifier,
-						") at ",
-						current.RootDir
-					}));
-					DeepProfiler.End();
+						ModsConfig.SetActive(current.Identifier, false);
+						Log.Warning("Failed to find active mod " + current.Name + "(" + current.Identifier + ") at " + current.RootDir);
+						DeepProfiler.End();
+					}
+					else
+					{
+						ModContentPack item = new ModContentPack(current.RootDir, num, current.Name);
+						num++;
+						LoadedModManager.runningMods.Add(item);
+						DeepProfiler.End();
+					}
 				}
-				else
-				{
-					ModContentPack item = new ModContentPack(current.RootDir, num, current.Name);
-					num++;
-					LoadedModManager.runningMods.Add(item);
-					DeepProfiler.End();
-				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			for (int i = 0; i < LoadedModManager.runningMods.Count; i++)
 			{
@@ -67,28 +68,39 @@ namespace Verse
 			{
 				ModContentPack modContentPack2 = LoadedModManager.runningMods[j];
 				DeepProfiler.Start("Loading " + modContentPack2);
-				modContentPack2.LoadDefs(LoadedModManager.runningMods.SelectMany((ModContentPack rm) => rm.Patches));
+				modContentPack2.LoadDefs(LoadedModManager.runningMods.SelectMany((Func<ModContentPack, IEnumerable<PatchOperation>>)((ModContentPack rm) => rm.Patches)));
 				DeepProfiler.End();
 			}
-			foreach (ModContentPack current2 in LoadedModManager.runningMods)
+			List<ModContentPack>.Enumerator enumerator2 = LoadedModManager.runningMods.GetEnumerator();
+			try
 			{
-				foreach (PatchOperation current3 in current2.Patches)
+				while (enumerator2.MoveNext())
 				{
-					current3.Complete(current2.Name);
-				}
-				current2.ClearPatchesCache();
-			}
-			foreach (Type type in typeof(Mod).InstantiableDescendantsAndSelf())
-			{
-				if (!LoadedModManager.runningModClasses.ContainsKey(type))
-				{
-					ModContentPack modContentPack3 = (from modpack in LoadedModManager.runningMods
-					where modpack.assemblies.loadedAssemblies.Contains(type.Assembly)
-					select modpack).FirstOrDefault<ModContentPack>();
-					LoadedModManager.runningModClasses[type] = (Mod)Activator.CreateInstance(type, new object[]
+					ModContentPack current2 = enumerator2.Current;
+					foreach (PatchOperation patch in current2.Patches)
 					{
-						modContentPack3
-					});
+						patch.Complete(current2.Name);
+					}
+					current2.ClearPatchesCache();
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
+			}
+			using (IEnumerator<Type> enumerator4 = typeof(Mod).InstantiableDescendantsAndSelf().GetEnumerator())
+			{
+				Type type;
+				while (enumerator4.MoveNext())
+				{
+					type = enumerator4.Current;
+					if (!LoadedModManager.runningModClasses.ContainsKey(type))
+					{
+						ModContentPack modContentPack3 = (from modpack in LoadedModManager.runningMods
+						where modpack.assemblies.loadedAssemblies.Contains(type.Assembly)
+						select modpack).FirstOrDefault();
+						LoadedModManager.runningModClasses[type] = (Mod)Activator.CreateInstance(type, modContentPack3);
+					}
 				}
 			}
 			XmlInheritance.Clear();
@@ -96,16 +108,25 @@ namespace Verse
 
 		public static void ClearDestroy()
 		{
-			foreach (ModContentPack current in LoadedModManager.runningMods)
+			List<ModContentPack>.Enumerator enumerator = LoadedModManager.runningMods.GetEnumerator();
+			try
 			{
-				current.ClearDestroy();
+				while (enumerator.MoveNext())
+				{
+					ModContentPack current = enumerator.Current;
+					current.ClearDestroy();
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			LoadedModManager.runningMods.Clear();
 		}
 
 		public static T GetMod<T>() where T : Mod
 		{
-			return LoadedModManager.GetMod(typeof(T)) as T;
+			return (T)(LoadedModManager.GetMod(typeof(T)) as T);
 		}
 
 		public static Mod GetMod(Type type)
@@ -116,7 +137,7 @@ namespace Verse
 			}
 			return (from kvp in LoadedModManager.runningModClasses
 			where type.IsAssignableFrom(kvp.Key)
-			select kvp).FirstOrDefault<KeyValuePair<Type, Mod>>().Value;
+			select kvp).FirstOrDefault().Value;
 		}
 
 		private static string GetSettingsFilename(string modIdentifier, string modHandleName)
@@ -127,32 +148,32 @@ namespace Verse
 		public static T ReadModSettings<T>(string modIdentifier, string modHandleName) where T : ModSettings, new()
 		{
 			string settingsFilename = LoadedModManager.GetSettingsFilename(modIdentifier, modHandleName);
-			T t = (T)((object)null);
+			T val = (T)null;
 			try
 			{
 				if (File.Exists(settingsFilename))
 				{
 					Scribe.loader.InitLoading(settingsFilename);
-					Scribe_Deep.Look<T>(ref t, "ModSettings", new object[0]);
+					Scribe_Deep.Look<T>(ref val, "ModSettings", new object[0]);
 					Scribe.loader.FinalizeLoading();
 				}
 			}
 			catch (Exception ex)
 			{
 				Log.Warning(string.Format("Caught exception while loading mod settings data for {0}. Generating fresh settings. The exception was: {1}", modIdentifier, ex.ToString()));
-				t = (T)((object)null);
+				val = (T)null;
 			}
-			if (t == null)
+			if (val == null)
 			{
-				t = Activator.CreateInstance<T>();
+				val = new T();
 			}
-			return t;
+			return val;
 		}
 
 		public static void WriteModSettings(string modIdentifier, string modHandleName, ModSettings settings)
 		{
 			Scribe.saver.InitSaving(LoadedModManager.GetSettingsFilename(modIdentifier, modHandleName), "SettingsBlock");
-			Scribe_Deep.Look<ModSettings>(ref settings, "ModSettings", new object[0]);
+			Scribe_Deep.Look(ref settings, "ModSettings");
 			Scribe.saver.FinalizeSaving();
 		}
 	}

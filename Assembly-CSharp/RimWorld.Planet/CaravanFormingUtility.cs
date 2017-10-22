@@ -16,7 +16,7 @@ namespace RimWorld.Planet
 		public static void FormAndCreateCaravan(IEnumerable<Pawn> pawns, Faction faction, int exitFromTile, int directionTile)
 		{
 			Caravan o = CaravanExitMapUtility.ExitMapAndCreateCaravan(pawns, faction, exitFromTile, directionTile);
-			Find.LetterStack.ReceiveLetter("LetterLabelFormedCaravan".Translate(), "LetterFormedCaravan".Translate(), LetterDefOf.Good, o, null);
+			Find.LetterStack.ReceiveLetter("LetterLabelFormedCaravan".Translate(), "LetterFormedCaravan".Translate(), LetterDefOf.Good, (WorldObject)o, (string)null);
 		}
 
 		public static void StartFormingCaravan(List<Pawn> pawns, Faction faction, List<TransferableOneWay> transferables, IntVec3 meetingPoint, IntVec3 exitSpot, int startingTile)
@@ -24,35 +24,36 @@ namespace RimWorld.Planet
 			if (startingTile < 0)
 			{
 				Log.Error("Can't start forming caravan because startingTile is invalid.");
-				return;
 			}
-			if (!pawns.Any<Pawn>())
+			else if (!pawns.Any())
 			{
 				Log.Error("Can't start forming caravan with 0 pawns.");
-				return;
 			}
-			if (pawns.Any((Pawn x) => x.Downed))
+			else
 			{
-				Log.Warning("Forming a caravan with a downed pawn. This shouldn't happen because we have to create a Lord.");
-			}
-			List<TransferableOneWay> list = transferables.ToList<TransferableOneWay>();
-			list.RemoveAll((TransferableOneWay x) => x.CountToTransfer <= 0 || !x.HasAnyThing || x.AnyThing is Pawn);
-			for (int i = 0; i < pawns.Count; i++)
-			{
-				Lord lord = pawns[i].GetLord();
-				if (lord != null)
+				if (pawns.Any((Predicate<Pawn>)((Pawn x) => x.Downed)))
 				{
-					lord.Notify_PawnLost(pawns[i], PawnLostCondition.ForcedToJoinOtherLord);
+					Log.Warning("Forming a caravan with a downed pawn. This shouldn't happen because we have to create a Lord.");
 				}
-			}
-			LordJob_FormAndSendCaravan lordJob = new LordJob_FormAndSendCaravan(list, meetingPoint, exitSpot, startingTile);
-			LordMaker.MakeNewLord(Faction.OfPlayer, lordJob, pawns[0].MapHeld, pawns);
-			for (int j = 0; j < pawns.Count; j++)
-			{
-				Pawn pawn = pawns[j];
-				if (pawn.Spawned)
+				List<TransferableOneWay> list = transferables.ToList();
+				list.RemoveAll((Predicate<TransferableOneWay>)((TransferableOneWay x) => x.CountToTransfer <= 0 || !x.HasAnyThing || x.AnyThing is Pawn));
+				for (int i = 0; i < pawns.Count; i++)
 				{
-					pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+					Lord lord = pawns[i].GetLord();
+					if (lord != null)
+					{
+						lord.Notify_PawnLost(pawns[i], PawnLostCondition.ForcedToJoinOtherLord);
+					}
+				}
+				LordJob_FormAndSendCaravan lordJob = new LordJob_FormAndSendCaravan(list, meetingPoint, exitSpot, startingTile);
+				LordMaker.MakeNewLord(Faction.OfPlayer, lordJob, pawns[0].MapHeld, pawns);
+				for (int j = 0; j < pawns.Count; j++)
+				{
+					Pawn pawn = pawns[j];
+					if (pawn.Spawned)
+					{
+						pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+					}
 				}
 			}
 		}
@@ -83,7 +84,7 @@ namespace RimWorld.Planet
 			for (int i = 0; i < allThings.Count; i++)
 			{
 				Thing thing = allThings[i];
-				if (thing.def.category == ThingCategory.Item && (allowEvenIfOutsideHomeArea || map.areaManager.Home[thing.Position] || thing.IsInAnyStorage()) && (!thing.Position.Fogged(thing.Map) && (allowEvenIfReserved || !map.reservationManager.IsReserved(thing, Faction.OfPlayer))) && thing.def.EverHaulable)
+				if (thing.def.category == ThingCategory.Item && (allowEvenIfOutsideHomeArea || ((Area)map.areaManager.Home)[thing.Position] || thing.IsInAnyStorage()) && !thing.Position.Fogged(thing.Map) && (allowEvenIfReserved || !map.reservationManager.IsReserved(thing, Faction.OfPlayer)) && thing.def.EverHaulable)
 				{
 					CaravanFormingUtility.tmpReachableItems.Add(thing);
 				}
@@ -98,7 +99,7 @@ namespace RimWorld.Planet
 			for (int i = 0; i < allPawnsSpawned.Count; i++)
 			{
 				Pawn pawn = allPawnsSpawned[i];
-				if ((allowEvenIfDownedOrInMentalState || !pawn.Downed) && (allowEvenIfDownedOrInMentalState || !pawn.InMentalState) && (!pawn.HostileTo(Faction.OfPlayer) && (pawn.Faction == Faction.OfPlayer || pawn.IsPrisonerOfColony)) && (allowEvenIfPrisonerNotSecure || !pawn.IsPrisoner || pawn.guest.PrisonerIsSecure) && (pawn.GetLord() == null || pawn.GetLord().LordJob is LordJob_VoluntarilyJoinable))
+				if ((allowEvenIfDownedOrInMentalState || !pawn.Downed) && (allowEvenIfDownedOrInMentalState || !pawn.InMentalState) && !pawn.HostileTo(Faction.OfPlayer) && (pawn.Faction == Faction.OfPlayer || pawn.IsPrisonerOfColony) && (allowEvenIfPrisonerNotSecure || !pawn.IsPrisoner || pawn.guest.PrisonerIsSecure) && (pawn.GetLord() == null || pawn.GetLord().LordJob is LordJob_VoluntarilyJoinable))
 				{
 					CaravanFormingUtility.tmpSendablePawns.Add(pawn);
 				}

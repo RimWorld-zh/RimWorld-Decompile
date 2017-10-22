@@ -46,7 +46,7 @@ namespace RimWorld
 					return innerContainer[i];
 				}
 			}
-			Predicate<Thing> validator = (Thing x) => this.DrugValidator(pawn, x);
+			Predicate<Thing> validator = (Predicate<Thing>)((Thing x) => this.DrugValidator(pawn, x));
 			return GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(drugDef), PathEndMode.ClosestTouch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
 		}
 

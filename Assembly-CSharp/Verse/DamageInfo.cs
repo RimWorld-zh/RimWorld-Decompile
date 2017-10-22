@@ -7,8 +7,8 @@ namespace Verse
 	{
 		public enum SourceCategory
 		{
-			ThingOrUnknown,
-			Collapse
+			ThingOrUnknown = 0,
+			Collapse = 1
 		}
 
 		private DamageDef defInt;
@@ -19,7 +19,7 @@ namespace Verse
 
 		private Thing instigatorInt;
 
-		private DamageInfo.SourceCategory categoryInt;
+		private SourceCategory categoryInt;
 
 		private BodyPartRecord forceHitPartInt;
 
@@ -65,7 +65,7 @@ namespace Verse
 			}
 		}
 
-		public DamageInfo.SourceCategory Category
+		public SourceCategory Category
 		{
 			get
 			{
@@ -141,15 +141,19 @@ namespace Verse
 		{
 			get
 			{
-				return !this.InstantOldInjury && this.allowDamagePropagationInt;
+				if (this.InstantOldInjury)
+				{
+					return false;
+				}
+				return this.allowDamagePropagationInt;
 			}
 		}
 
-		public DamageInfo(DamageDef def, int amount, float angle = -1f, Thing instigator = null, BodyPartRecord forceHitPart = null, ThingDef weaponGear = null, DamageInfo.SourceCategory category = DamageInfo.SourceCategory.ThingOrUnknown)
+		public DamageInfo(DamageDef def, int amount, float angle = -1, Thing instigator = null, BodyPartRecord forceHitPart = null, ThingDef weaponGear = null, SourceCategory category = SourceCategory.ThingOrUnknown)
 		{
 			this.defInt = def;
 			this.amountInt = amount;
-			if (angle < 0f)
+			if (angle < 0.0)
 			{
 				this.angleInt = (float)Rand.RangeInclusive(0, 359);
 			}
@@ -224,9 +228,10 @@ namespace Verse
 
 		public void SetAngle(Vector3 vec)
 		{
-			if (vec.x != 0f || vec.z != 0f)
+			if (vec.x != 0.0 || vec.z != 0.0)
 			{
-				this.angleInt = Quaternion.LookRotation(vec).eulerAngles.y;
+				Vector3 eulerAngles = Quaternion.LookRotation(vec).eulerAngles;
+				this.angleInt = eulerAngles.y;
 			}
 			else
 			{
@@ -236,18 +241,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"(def=",
-				this.defInt,
-				", amount= ",
-				this.amountInt,
-				", instigator=",
-				(this.instigatorInt == null) ? this.categoryInt.ToString() : this.instigatorInt.ToString(),
-				", angle=",
-				this.angleInt.ToString("F1"),
-				")"
-			});
+			return "(def=" + this.defInt + ", amount= " + this.amountInt + ", instigator=" + ((this.instigatorInt == null) ? ((Enum)(object)this.categoryInt).ToString() : this.instigatorInt.ToString()) + ", angle=" + this.angleInt.ToString("F1") + ")";
 		}
 	}
 }

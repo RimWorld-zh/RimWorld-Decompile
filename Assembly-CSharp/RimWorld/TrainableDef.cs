@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -37,7 +35,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.iconTex == null)
+				if ((Object)this.iconTex == (Object)null)
 				{
 					this.iconTex = ContentFinder<Texture2D>.Get(this.icon, true);
 				}
@@ -47,7 +45,7 @@ namespace RimWorld
 
 		public bool MatchesTag(string tag)
 		{
-			if (tag == this.defName)
+			if (tag == base.defName)
 			{
 				return true;
 			}
@@ -61,14 +59,16 @@ namespace RimWorld
 			return false;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			TrainableDef.<ConfigErrors>c__Iterator9C <ConfigErrors>c__Iterator9C = new TrainableDef.<ConfigErrors>c__Iterator9C();
-			<ConfigErrors>c__Iterator9C.<>f__this = this;
-			TrainableDef.<ConfigErrors>c__Iterator9C expr_0E = <ConfigErrors>c__Iterator9C;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.difficulty < 0.0)
+			{
+				yield return "difficulty not set";
+			}
 		}
 	}
 }

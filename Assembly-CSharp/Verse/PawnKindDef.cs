@@ -1,7 +1,8 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
+using UnityEngine;
 
 namespace Verse
 {
@@ -110,14 +111,46 @@ namespace Verse
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			PawnKindDef.<ConfigErrors>c__Iterator1D5 <ConfigErrors>c__Iterator1D = new PawnKindDef.<ConfigErrors>c__Iterator1D5();
-			<ConfigErrors>c__Iterator1D.<>f__this = this;
-			PawnKindDef.<ConfigErrors>c__Iterator1D5 expr_0E = <ConfigErrors>c__Iterator1D;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.race == null)
+			{
+				yield return "no race";
+			}
+			else if (this.RaceProps.Humanlike && this.backstoryCategory.NullOrEmpty())
+			{
+				yield return "Humanlike needs backstoryCategory.";
+			}
+			if (this.baseRecruitDifficulty > 1.0001000165939331)
+			{
+				yield return base.defName + " recruitDifficulty is greater than 1. 1 means impossible to recruit.";
+			}
+			if (this.combatPower < 0.0)
+			{
+				yield return base.defName + " has no pointsCost.";
+			}
+			if (this.weaponMoney.min > 0.0)
+			{
+				float minCost = 999999f;
+				for (int i = 0; i < this.weaponTags.Count; i++)
+				{
+					minCost = Mathf.Min(minCost, (from d in DefDatabase<ThingDef>.AllDefs
+					where d.weaponTags != null && d.weaponTags.Contains(((_003CConfigErrors_003Ec__Iterator1D5)/*Error near IL_01e0: stateMachine*/)._003C_003Ef__this.weaponTags[((_003CConfigErrors_003Ec__Iterator1D5)/*Error near IL_01e0: stateMachine*/)._003Ci_003E__3])
+					select d).Min((Func<ThingDef, float>)((ThingDef d) => PawnWeaponGenerator.CheapestNonDerpPriceFor(d))));
+				}
+				if (minCost > this.weaponMoney.min)
+				{
+					yield return "Cheapest weapon with one of my weaponTags costs " + minCost + " but weaponMoney min is " + this.weaponMoney.min + ", so could end up weaponless.";
+				}
+			}
+			if (!this.RaceProps.Humanlike && this.lifeStages.Count != this.RaceProps.lifeStageAges.Count)
+			{
+				yield return "PawnKindDef defines " + this.lifeStages.Count + " lifeStages while race def defines " + this.RaceProps.lifeStageAges.Count;
+			}
 		}
 
 		public static PawnKindDef Named(string defName)

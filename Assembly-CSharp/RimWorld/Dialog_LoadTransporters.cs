@@ -14,8 +14,8 @@ namespace RimWorld
 	{
 		private enum Tab
 		{
-			Pawns,
-			Items
+			Pawns = 0,
+			Items = 1
 		}
 
 		private const float TitleRectHeight = 40f;
@@ -32,7 +32,7 @@ namespace RimWorld
 
 		private TransferableOneWayWidget itemsTransfer;
 
-		private Dialog_LoadTransporters.Tab tab;
+		private Tab tab;
 
 		private float lastMassFlashTime = -9999f;
 
@@ -133,9 +133,9 @@ namespace RimWorld
 			this.map = map;
 			this.transporters = new List<CompTransporter>();
 			this.transporters.AddRange(transporters);
-			this.closeOnEscapeKey = true;
-			this.forcePause = true;
-			this.absorbInputAroundWindow = true;
+			base.closeOnEscapeKey = true;
+			base.forcePause = true;
+			base.absorbInputAroundWindow = true;
 		}
 
 		public override void PostOpen()
@@ -149,47 +149,45 @@ namespace RimWorld
 			Rect rect = new Rect(0f, 0f, inRect.width, 40f);
 			Text.Font = GameFont.Medium;
 			Text.Anchor = TextAnchor.MiddleCenter;
-			Widgets.Label(rect, "LoadTransporters".Translate(new object[]
-			{
-				this.TransportersLabel
-			}));
+			Widgets.Label(rect, "LoadTransporters".Translate(this.TransportersLabel));
 			Text.Font = GameFont.Small;
 			Text.Anchor = TextAnchor.UpperLeft;
 			Dialog_LoadTransporters.tabsList.Clear();
-			Dialog_LoadTransporters.tabsList.Add(new TabRecord("PawnsTab".Translate(), delegate
+			Dialog_LoadTransporters.tabsList.Add(new TabRecord("PawnsTab".Translate(), (Action)delegate
 			{
-				this.tab = Dialog_LoadTransporters.Tab.Pawns;
-			}, this.tab == Dialog_LoadTransporters.Tab.Pawns));
-			Dialog_LoadTransporters.tabsList.Add(new TabRecord("ItemsTab".Translate(), delegate
+				this.tab = Tab.Pawns;
+			}, this.tab == Tab.Pawns));
+			Dialog_LoadTransporters.tabsList.Add(new TabRecord("ItemsTab".Translate(), (Action)delegate
 			{
-				this.tab = Dialog_LoadTransporters.Tab.Items;
-			}, this.tab == Dialog_LoadTransporters.Tab.Items));
+				this.tab = Tab.Items;
+			}, this.tab == Tab.Items));
 			inRect.yMin += 72f;
 			Widgets.DrawMenuSection(inRect, true);
 			TabDrawer.DrawTabs(inRect, Dialog_LoadTransporters.tabsList);
 			inRect = inRect.ContractedBy(17f);
 			GUI.BeginGroup(inRect);
-			Rect rect2 = inRect.AtZero();
-			Rect rect3 = rect2;
-			rect3.xMin += rect2.width - 515f;
-			rect3.y += 32f;
-			TransferableUIUtility.DrawMassInfo(rect3, this.MassUsage, this.MassCapacity, "TransportersMassUsageTooltip".Translate(), this.lastMassFlashTime, true);
-			CaravanUIUtility.DrawDaysWorthOfFoodInfo(new Rect(rect3.x, rect3.y + 19f, rect3.width, rect3.height), this.DaysWorthOfFood.First, this.DaysWorthOfFood.Second, this.EnvironmentAllowsEatingVirtualPlantsNow, true, 3.40282347E+38f);
-			this.DoBottomButtons(rect2);
-			Rect inRect2 = rect2;
+			Rect rect2;
+			Rect rect3 = rect2 = inRect.AtZero();
+			rect2.xMin += (float)(rect3.width - 515.0);
+			rect2.y += 32f;
+			TransferableUIUtility.DrawMassInfo(rect2, this.MassUsage, this.MassCapacity, "TransportersMassUsageTooltip".Translate(), this.lastMassFlashTime, true);
+			CaravanUIUtility.DrawDaysWorthOfFoodInfo(new Rect(rect2.x, (float)(rect2.y + 19.0), rect2.width, rect2.height), this.DaysWorthOfFood.First, this.DaysWorthOfFood.Second, this.EnvironmentAllowsEatingVirtualPlantsNow, true, 3.40282347E+38f);
+			this.DoBottomButtons(rect3);
+			Rect inRect2 = rect3;
 			inRect2.yMax -= 59f;
 			bool flag = false;
-			Dialog_LoadTransporters.Tab tab = this.tab;
-			if (tab != Dialog_LoadTransporters.Tab.Pawns)
+			switch (this.tab)
 			{
-				if (tab == Dialog_LoadTransporters.Tab.Items)
-				{
-					this.itemsTransfer.OnGUI(inRect2, out flag);
-				}
-			}
-			else
+			case Tab.Pawns:
 			{
 				this.pawnsTransfer.OnGUI(inRect2, out flag);
+				break;
+			}
+			case Tab.Items:
+			{
+				this.itemsTransfer.OnGUI(inRect2, out flag);
+				break;
+			}
 			}
 			if (flag)
 			{
@@ -205,7 +203,7 @@ namespace RimWorld
 
 		private void AddToTransferables(Thing t)
 		{
-			TransferableOneWay transferableOneWay = TransferableUtility.TransferableMatching<TransferableOneWay>(t, this.transferables);
+			TransferableOneWay transferableOneWay = TransferableUtility.TransferableMatching(t, this.transferables);
 			if (transferableOneWay == null)
 			{
 				transferableOneWay = new TransferableOneWay();
@@ -216,19 +214,38 @@ namespace RimWorld
 
 		private void DoBottomButtons(Rect rect)
 		{
-			Rect rect2 = new Rect(rect.width / 2f - this.BottomButtonSize.x / 2f, rect.height - 55f, this.BottomButtonSize.x, this.BottomButtonSize.y);
+			double num = rect.width / 2.0;
+			Vector2 bottomButtonSize = this.BottomButtonSize;
+			double x = num - bottomButtonSize.x / 2.0;
+			double y = rect.height - 55.0;
+			Vector2 bottomButtonSize2 = this.BottomButtonSize;
+			float x2 = bottomButtonSize2.x;
+			Vector2 bottomButtonSize3 = this.BottomButtonSize;
+			Rect rect2 = new Rect((float)x, (float)y, x2, bottomButtonSize3.y);
 			if (Widgets.ButtonText(rect2, "AcceptButton".Translate(), true, false, true) && this.TryAccept())
 			{
 				SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 				this.Close(false);
 			}
-			Rect rect3 = new Rect(rect2.x - 10f - this.BottomButtonSize.x, rect2.y, this.BottomButtonSize.x, this.BottomButtonSize.y);
+			double num2 = rect2.x - 10.0;
+			Vector2 bottomButtonSize4 = this.BottomButtonSize;
+			double x3 = num2 - bottomButtonSize4.x;
+			float y2 = rect2.y;
+			Vector2 bottomButtonSize5 = this.BottomButtonSize;
+			float x4 = bottomButtonSize5.x;
+			Vector2 bottomButtonSize6 = this.BottomButtonSize;
+			Rect rect3 = new Rect((float)x3, y2, x4, bottomButtonSize6.y);
 			if (Widgets.ButtonText(rect3, "ResetButton".Translate(), true, false, true))
 			{
 				SoundDefOf.TickLow.PlayOneShotOnCamera(null);
 				this.CalculateAndRecacheTransferables();
 			}
-			Rect rect4 = new Rect(rect2.xMax + 10f, rect2.y, this.BottomButtonSize.x, this.BottomButtonSize.y);
+			double x5 = rect2.xMax + 10.0;
+			float y3 = rect2.y;
+			Vector2 bottomButtonSize7 = this.BottomButtonSize;
+			float x6 = bottomButtonSize7.x;
+			Vector2 bottomButtonSize8 = this.BottomButtonSize;
+			Rect rect4 = new Rect((float)x5, y3, x6, bottomButtonSize8.y);
 			if (Widgets.ButtonText(rect4, "CancelButton".Translate(), true, false, true))
 			{
 				this.Close(true);
@@ -236,14 +253,15 @@ namespace RimWorld
 			if (Prefs.DevMode)
 			{
 				float width = 200f;
-				float num = this.BottomButtonSize.y / 2f;
-				Rect rect5 = new Rect(0f, rect.height - 55f, width, num);
+				Vector2 bottomButtonSize9 = this.BottomButtonSize;
+				float num3 = (float)(bottomButtonSize9.y / 2.0);
+				Rect rect5 = new Rect(0f, (float)(rect.height - 55.0), width, num3);
 				if (Widgets.ButtonText(rect5, "Dev: Load instantly", true, false, true) && this.DebugTryLoadInstantly())
 				{
 					SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 					this.Close(false);
 				}
-				Rect rect6 = new Rect(0f, rect.height - 55f + num, width, num);
+				Rect rect6 = new Rect(0f, (float)(rect.height - 55.0 + num3), width, num3);
 				if (Widgets.ButtonText(rect6, "Dev: Select everything", true, false, true))
 				{
 					SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
@@ -257,11 +275,11 @@ namespace RimWorld
 			this.transferables = new List<TransferableOneWay>();
 			this.AddPawnsToTransferables();
 			this.AddItemsToTransferables();
-			this.pawnsTransfer = new TransferableOneWayWidget(null, Faction.OfPlayer.Name, this.TransportersLabelCap, "FormCaravanColonyThingCountTip".Translate(), true, IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload, true, () => this.MassCapacity - this.MassUsage, 24f, false, true, -1);
+			this.pawnsTransfer = new TransferableOneWayWidget(null, Faction.OfPlayer.Name, this.TransportersLabelCap, "FormCaravanColonyThingCountTip".Translate(), true, IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload, true, (Func<float>)(() => this.MassCapacity - this.MassUsage), 24f, false, true, -1);
 			CaravanUIUtility.AddPawnsSections(this.pawnsTransfer, this.transferables);
 			this.itemsTransfer = new TransferableOneWayWidget(from x in this.transferables
 			where x.ThingDef.category != ThingCategory.Pawn
-			select x, Faction.OfPlayer.Name, this.TransportersLabelCap, "FormCaravanColonyThingCountTip".Translate(), true, IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload, true, () => this.MassCapacity - this.MassUsage, 24f, false, true, this.map.Tile);
+			select x, Faction.OfPlayer.Name, this.TransportersLabelCap, "FormCaravanColonyThingCountTip".Translate(), true, IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload, true, (Func<float>)(() => this.MassCapacity - this.MassUsage), 24f, false, true, this.map.Tile);
 			this.CountToTransferChanged();
 		}
 
@@ -271,7 +289,7 @@ namespace RimWorld
 			int i;
 			for (i = 0; i < this.transferables.Count; i++)
 			{
-				TransferableUtility.Transfer(this.transferables[i].things, this.transferables[i].CountToTransfer, delegate(Thing splitPiece, IThingHolder originalThing)
+				TransferableUtility.Transfer(this.transferables[i].things, this.transferables[i].CountToTransfer, (Action<Thing, IThingHolder>)delegate(Thing splitPiece, IThingHolder originalThing)
 				{
 					this.transporters[i % this.transporters.Count].GetDirectlyHeldThings().TryAdd(splitPiece, true);
 				});
@@ -291,42 +309,39 @@ namespace RimWorld
 			IEnumerable<Pawn> enumerable = from x in pawnsFromTransferables
 			where x.IsColonist && !x.Downed
 			select x;
-			if (enumerable.Any<Pawn>())
+			if (enumerable.Any())
 			{
-				foreach (Pawn current in enumerable)
+				foreach (Pawn item in enumerable)
 				{
-					Lord lord = current.GetLord();
+					Lord lord = item.GetLord();
 					if (lord != null)
 					{
-						lord.Notify_PawnLost(current, PawnLostCondition.ForcedToJoinOtherLord);
+						lord.Notify_PawnLost(item, PawnLostCondition.ForcedToJoinOtherLord);
 					}
 				}
 				LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_LoadAndEnterTransporters(transportersGroup), this.map, enumerable);
-				foreach (Pawn current2 in enumerable)
+				foreach (Pawn item2 in enumerable)
 				{
-					if (current2.Spawned)
+					if (item2.Spawned)
 					{
-						current2.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+						item2.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
 					}
 				}
 			}
-			Messages.Message("MessageTransportersLoadingProcessStarted".Translate(), this.transporters[0].parent, MessageSound.Benefit);
+			Messages.Message("MessageTransportersLoadingProcessStarted".Translate(), (Thing)this.transporters[0].parent, MessageSound.Benefit);
 			return true;
 		}
 
 		private void AssignTransferablesToRandomTransporters()
 		{
-			TransferableOneWay transferableOneWay = this.transferables.MaxBy((TransferableOneWay x) => x.CountToTransfer);
+			TransferableOneWay transferableOneWay = this.transferables.MaxBy((Func<TransferableOneWay, int>)((TransferableOneWay x) => x.CountToTransfer));
 			int num = 0;
 			for (int i = 0; i < this.transferables.Count; i++)
 			{
-				if (this.transferables[i] != transferableOneWay)
+				if (this.transferables[i] != transferableOneWay && this.transferables[i].CountToTransfer > 0)
 				{
-					if (this.transferables[i].CountToTransfer > 0)
-					{
-						this.transporters[num % this.transporters.Count].AddToTheToLoadList(this.transferables[i], this.transferables[i].CountToTransfer);
-						num++;
-					}
+					this.transporters[num % this.transporters.Count].AddToTheToLoadList(this.transferables[i], this.transferables[i].CountToTransfer);
+					num++;
 				}
 			}
 			if (num < this.transporters.Count)
@@ -361,7 +376,7 @@ namespace RimWorld
 
 		private bool CheckForErrors(List<Pawn> pawns)
 		{
-			if (!this.transferables.Any((TransferableOneWay x) => x.CountToTransfer != 0))
+			if (!this.transferables.Any((Predicate<TransferableOneWay>)((TransferableOneWay x) => x.CountToTransfer != 0)))
 			{
 				Messages.Message("CantSendEmptyTransportPods".Translate(), MessageSound.RejectInput);
 				return false;
@@ -372,13 +387,10 @@ namespace RimWorld
 				Messages.Message("TooBigTransportersMassUsage".Translate(), MessageSound.RejectInput);
 				return false;
 			}
-			Pawn pawn = pawns.Find((Pawn x) => !x.MapHeld.reachability.CanReach(x.PositionHeld, this.transporters[0].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)));
+			Pawn pawn = pawns.Find((Predicate<Pawn>)((Pawn x) => !x.MapHeld.reachability.CanReach(x.PositionHeld, (Thing)this.transporters[0].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false))));
 			if (pawn != null)
 			{
-				Messages.Message("PawnCantReachTransporters".Translate(new object[]
-				{
-					pawn.LabelShort
-				}).CapitalizeFirst(), MessageSound.RejectInput);
+				Messages.Message("PawnCantReachTransporters".Translate(pawn.LabelShort).CapitalizeFirst(), MessageSound.RejectInput);
 				return false;
 			}
 			Map map = this.transporters[0].parent.Map;
@@ -393,31 +405,22 @@ namespace RimWorld
 						for (int j = 0; j < this.transferables[i].things.Count; j++)
 						{
 							Thing thing = this.transferables[i].things[j];
-							if (map.reachability.CanReach(thing.Position, this.transporters[0].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
+							if (map.reachability.CanReach(thing.Position, (Thing)this.transporters[0].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
 							{
 								num += thing.stackCount;
 								if (num >= countToTransfer)
-								{
 									break;
-								}
 							}
 						}
 						if (num < countToTransfer)
 						{
 							if (countToTransfer == 1)
 							{
-								Messages.Message("TransporterItemIsUnreachableSingle".Translate(new object[]
-								{
-									this.transferables[i].ThingDef.label
-								}), MessageSound.RejectInput);
+								Messages.Message("TransporterItemIsUnreachableSingle".Translate(this.transferables[i].ThingDef.label), MessageSound.RejectInput);
 							}
 							else
 							{
-								Messages.Message("TransporterItemIsUnreachableMulti".Translate(new object[]
-								{
-									countToTransfer,
-									this.transferables[i].ThingDef.label
-								}), MessageSound.RejectInput);
+								Messages.Message("TransporterItemIsUnreachableMulti".Translate(countToTransfer, this.transferables[i].ThingDef.label), MessageSound.RejectInput);
 							}
 							return false;
 						}

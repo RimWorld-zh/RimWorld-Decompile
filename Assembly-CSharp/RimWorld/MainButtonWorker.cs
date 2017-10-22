@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -21,9 +20,7 @@ namespace RimWorld
 		public virtual void InterfaceTryActivate()
 		{
 			if (TutorSystem.TutorialMode && this.def.canBeTutorDenied && Find.MainTabsRoot.OpenTab != this.def && !TutorSystem.AllowAction("MainTab-" + this.def.defName + "-Open"))
-			{
 				return;
-			}
 			this.Activate();
 		}
 
@@ -38,22 +35,20 @@ namespace RimWorld
 				{
 					Event.current.Use();
 				}
+				return;
 			}
-			else
+			SoundDef mouseoverCategory = SoundDefOf.MouseoverCategory;
+			if (Widgets.ButtonTextSubtle(rect, labelCap, this.ButtonBarPercent, -1f, mouseoverCategory))
 			{
-				SoundDef mouseoverCategory = SoundDefOf.MouseoverCategory;
-				if (Widgets.ButtonTextSubtle(rect, labelCap, this.ButtonBarPercent, -1f, mouseoverCategory))
-				{
-					this.InterfaceTryActivate();
-				}
-				if (Find.MainTabsRoot.OpenTab != this.def && !Find.WindowStack.NonImmediateDialogWindowOpen)
-				{
-					UIHighlighter.HighlightOpportunity(rect, this.def.cachedHighlightTagClosed);
-				}
-				if (!this.def.description.NullOrEmpty())
-				{
-					TooltipHandler.TipRegion(rect, this.def.description);
-				}
+				this.InterfaceTryActivate();
+			}
+			if (Find.MainTabsRoot.OpenTab != this.def && !Find.WindowStack.NonImmediateDialogWindowOpen)
+			{
+				UIHighlighter.HighlightOpportunity(rect, this.def.cachedHighlightTagClosed);
+			}
+			if (!this.def.description.NullOrEmpty())
+			{
+				TooltipHandler.TipRegion(rect, this.def.description);
 			}
 		}
 	}

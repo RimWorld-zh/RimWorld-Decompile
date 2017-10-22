@@ -1,4 +1,3 @@
-using System;
 using Verse.Sound;
 
 namespace Verse
@@ -16,12 +15,12 @@ namespace Verse
 		public override void SubEffectTick(TargetInfo A, TargetInfo B)
 		{
 			this.age++;
-			if (this.age > this.def.ticksBeforeSustainerStart)
+			if (this.age > base.def.ticksBeforeSustainerStart)
 			{
 				if (this.sustainer == null)
 				{
 					SoundInfo info = SoundInfo.InMap(A, MaintenanceType.PerTick);
-					this.sustainer = this.def.soundDef.TrySpawnSustainer(info);
+					this.sustainer = base.def.soundDef.TrySpawnSustainer(info);
 				}
 				else
 				{

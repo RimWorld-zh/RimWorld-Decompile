@@ -48,7 +48,7 @@ namespace Verse
 
 		public void ExposeData()
 		{
-			Scribe_Deep.Look<ThingOwner<Thing>>(ref this.innerContainer, "innerContainer", new object[]
+			Scribe_Deep.Look<ThingOwner<Thing>>(ref this.innerContainer, "innerContainer", new object[1]
 			{
 				this
 			});
@@ -83,32 +83,32 @@ namespace Verse
 
 		public bool TryStartCarry(Thing item)
 		{
-			if (this.pawn.Dead || this.pawn.Downed)
+			if (!this.pawn.Dead && !this.pawn.Downed)
 			{
-				Log.Error("Dead/downed pawn " + this.pawn + " tried to start carry item.");
+				if (this.innerContainer.TryAdd(item, true))
+				{
+					item.def.soundPickup.PlayOneShot(new TargetInfo(item.Position, this.pawn.Map, false));
+					return true;
+				}
 				return false;
 			}
-			if (this.innerContainer.TryAdd(item, true))
-			{
-				item.def.soundPickup.PlayOneShot(new TargetInfo(item.Position, this.pawn.Map, false));
-				return true;
-			}
+			Log.Error("Dead/downed pawn " + this.pawn + " tried to start carry item.");
 			return false;
 		}
 
 		public int TryStartCarry(Thing item, int count)
 		{
-			if (this.pawn.Dead || this.pawn.Downed)
+			if (!this.pawn.Dead && !this.pawn.Downed)
 			{
-				Log.Error("Dead/downed pawn " + this.pawn + " tried to start carry item.");
-				return 0;
+				int num = this.innerContainer.TryAdd(item, count, true);
+				if (num > 0)
+				{
+					item.def.soundPickup.PlayOneShot(new TargetInfo(item.Position, this.pawn.Map, false));
+				}
+				return num;
 			}
-			int num = this.innerContainer.TryAdd(item, count, true);
-			if (num > 0)
-			{
-				item.def.soundPickup.PlayOneShot(new TargetInfo(item.Position, this.pawn.Map, false));
-			}
-			return num;
+			Log.Error("Dead/downed pawn " + this.pawn + " tried to start carry item.");
+			return 0;
 		}
 
 		public bool TryDropCarriedThing(IntVec3 dropLoc, ThingPlaceMode mode, out Thing resultingThing, Action<Thing, int> placedAction = null)

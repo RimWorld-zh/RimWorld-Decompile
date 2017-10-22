@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -56,20 +55,15 @@ namespace Verse
 
 		public void DrawTrackerTick()
 		{
-			if (!this.pawn.Spawned)
+			if (this.pawn.Spawned && (Current.ProgramState != ProgramState.Playing || Find.CameraDriver.CurrentViewRect.ExpandedBy(3).Contains(this.pawn.Position)))
 			{
-				return;
+				this.jitterer.JitterHandlerTick();
+				this.footprintMaker.FootprintMakerTick();
+				this.breathMoteMaker.BreathMoteMakerTick();
+				this.leaner.LeanerTick();
+				this.rotator.PawnRotatorTick();
+				this.renderer.RendererTick();
 			}
-			if (Current.ProgramState == ProgramState.Playing && !Find.CameraDriver.CurrentViewRect.ExpandedBy(3).Contains(this.pawn.Position))
-			{
-				return;
-			}
-			this.jitterer.JitterHandlerTick();
-			this.footprintMaker.FootprintMakerTick();
-			this.breathMoteMaker.BreathMoteMakerTick();
-			this.leaner.LeanerTick();
-			this.rotator.PawnRotatorTick();
-			this.renderer.RendererTick();
 		}
 
 		public void DrawAt(Vector3 loc)
@@ -89,12 +83,11 @@ namespace Verse
 
 		public void Notify_DamageApplied(DamageInfo dinfo)
 		{
-			if (this.pawn.Destroyed)
+			if (!this.pawn.Destroyed)
 			{
-				return;
+				this.jitterer.Notify_DamageApplied(dinfo);
+				this.renderer.Notify_DamageApplied(dinfo);
 			}
-			this.jitterer.Notify_DamageApplied(dinfo);
-			this.renderer.Notify_DamageApplied(dinfo);
 		}
 
 		public void Notify_MeleeAttackOn(Thing Target)

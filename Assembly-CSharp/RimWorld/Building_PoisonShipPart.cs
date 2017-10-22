@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace RimWorld
@@ -9,7 +8,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return Mathf.Min(3f + 30f * ((float)this.age / 60000f), 140f);
+				return Mathf.Min((float)(3.0 + 30.0 * ((float)base.age / 60000.0)), 140f);
 			}
 		}
 
@@ -17,7 +16,7 @@ namespace RimWorld
 		{
 			get
 			{
-				float f = 4f - 0.6f * (float)this.age / 60000f;
+				float f = (float)(4.0 - 0.60000002384185791 * (float)base.age / 60000.0);
 				return Mathf.Clamp(Mathf.RoundToInt(f), 2, 4);
 			}
 		}

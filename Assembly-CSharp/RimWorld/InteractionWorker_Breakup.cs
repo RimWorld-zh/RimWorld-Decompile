@@ -25,23 +25,23 @@ namespace RimWorld
 			{
 				num2 = 0.4f;
 			}
-			return 0.02f * num * num2;
+			return (float)(0.019999999552965164 * num * num2);
 		}
 
 		public Thought RandomBreakupReason(Pawn initiator, Pawn recipient)
 		{
 			List<Thought_Memory> list = (from m in initiator.needs.mood.thoughts.memories.Memories
-			where m != null && m.otherPawn == recipient && m.CurStage != null && m.CurStage.baseOpinionOffset < 0f
-			select m).ToList<Thought_Memory>();
+			where m != null && m.otherPawn == recipient && m.CurStage != null && m.CurStage.baseOpinionOffset < 0.0
+			select m).ToList();
 			if (list.Count == 0)
 			{
 				return null;
 			}
-			float worstMemoryOpinionOffset = list.Max((Thought_Memory m) => -m.CurStage.baseOpinionOffset);
+			float worstMemoryOpinionOffset = list.Max((Func<Thought_Memory, float>)((Thought_Memory m) => (float)(0.0 - m.CurStage.baseOpinionOffset)));
 			Thought_Memory result = null;
 			(from m in list
-			where -m.CurStage.baseOpinionOffset >= worstMemoryOpinionOffset / 2f
-			select m).TryRandomElementByWeight((Thought_Memory m) => -m.CurStage.baseOpinionOffset, out result);
+			where 0.0 - m.CurStage.baseOpinionOffset >= worstMemoryOpinionOffset / 2.0
+			select m).TryRandomElementByWeight<Thought_Memory>((Func<Thought_Memory, float>)((Thought_Memory m) => (float)(0.0 - m.CurStage.baseOpinionOffset)), out result);
 			return result;
 		}
 
@@ -67,32 +67,20 @@ namespace RimWorld
 			}
 			if (initiator.ownership.OwnedBed != null && initiator.ownership.OwnedBed == recipient.ownership.OwnedBed)
 			{
-				Pawn pawn = (Rand.Value >= 0.5f) ? recipient : initiator;
+				Pawn pawn = (!(Rand.Value < 0.5)) ? recipient : initiator;
 				pawn.ownership.UnclaimBed();
 			}
-			TaleRecorder.RecordTale(TaleDefOf.Breakup, new object[]
-			{
-				initiator,
-				recipient
-			});
+			TaleRecorder.RecordTale(TaleDefOf.Breakup, initiator, recipient);
 			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.AppendLine("LetterNoLongerLovers".Translate(new object[]
-			{
-				initiator.LabelShort,
-				recipient.LabelShort
-			}));
+			stringBuilder.AppendLine("LetterNoLongerLovers".Translate(initiator.LabelShort, recipient.LabelShort));
 			if (thought != null)
 			{
 				stringBuilder.AppendLine();
-				stringBuilder.AppendLine("FinalStraw".Translate(new object[]
-				{
-					thought.CurStage.label
-				}));
+				stringBuilder.AppendLine("FinalStraw".Translate(thought.CurStage.label));
 			}
-			if (PawnUtility.ShouldSendNotificationAbout(initiator) || PawnUtility.ShouldSendNotificationAbout(recipient))
-			{
-				Find.LetterStack.ReceiveLetter("LetterLabelBreakup".Translate(), stringBuilder.ToString(), LetterDefOf.BadNonUrgent, initiator, null);
-			}
+			if (!PawnUtility.ShouldSendNotificationAbout(initiator) && !PawnUtility.ShouldSendNotificationAbout(recipient))
+				return;
+			Find.LetterStack.ReceiveLetter("LetterLabelBreakup".Translate(), stringBuilder.ToString(), LetterDefOf.BadNonUrgent, (Thing)initiator, (string)null);
 		}
 	}
 }

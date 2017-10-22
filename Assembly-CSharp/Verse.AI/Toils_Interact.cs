@@ -7,7 +7,7 @@ namespace Verse.AI
 		public static Toil DestroyThing(TargetIndex ind)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				Pawn actor = toil.actor;
 				Thing thing = actor.jobs.curJob.GetTarget(ind).Thing;

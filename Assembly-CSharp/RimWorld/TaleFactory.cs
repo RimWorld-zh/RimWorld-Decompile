@@ -21,9 +21,9 @@ namespace RimWorld
 			{
 				def = (from d in DefDatabase<TaleDef>.AllDefs
 				where d.usableForArt
-				select d).RandomElement<TaleDef>();
+				select d).RandomElement();
 			}
-			Tale tale = TaleFactory.MakeRawTale(def, new object[0]);
+			Tale tale = TaleFactory.MakeRawTale(def);
 			tale.GenerateTestData();
 			return tale;
 		}

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -24,14 +23,16 @@ namespace Verse
 			if (this.lastMessage != null && msg.CanCombineWith(this.lastMessage))
 			{
 				this.lastMessage.repeats++;
-				return;
 			}
-			this.lastMessage = msg;
-			this.messages.Enqueue(msg);
-			if (this.messages.Count > this.maxMessages)
+			else
 			{
-				LogMessage oldMessage = this.messages.Dequeue();
-				EditWindow_Log.Notify_MessageDequeued(oldMessage);
+				this.lastMessage = msg;
+				this.messages.Enqueue(msg);
+				if (this.messages.Count > this.maxMessages)
+				{
+					LogMessage oldMessage = this.messages.Dequeue();
+					EditWindow_Log.Notify_MessageDequeued(oldMessage);
+				}
 			}
 		}
 

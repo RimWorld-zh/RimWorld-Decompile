@@ -16,7 +16,7 @@ namespace Verse
 
 		public void InitSaving(string filePath, string documentElementName)
 		{
-			if (Scribe.mode != LoadSaveMode.Inactive)
+			if (Scribe.mode != 0)
 			{
 				Log.Error("Called InitSaving() but current mode is " + Scribe.mode);
 				Scribe.ForceStop();
@@ -34,15 +34,10 @@ namespace Verse
 			}
 			catch (Exception ex)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Exception while init saving file: ",
-					filePath,
-					"\n",
-					ex
-				}));
+				Log.Error("Exception while init saving file: " + filePath + "\n" + ex);
 				this.ForceStop();
 				throw;
+				IL_00b2:;
 			}
 		}
 
@@ -51,33 +46,36 @@ namespace Verse
 			if (Scribe.mode != LoadSaveMode.Saving)
 			{
 				Log.Error("Called FinalizeSaving() but current mode is " + Scribe.mode);
-				return;
 			}
-			try
+			else
 			{
-				if (this.writer != null)
+				try
 				{
-					this.ExitNode();
-					this.writer.WriteEndDocument();
-					this.writer.Flush();
-					this.writer.Close();
-					this.writer = null;
+					if (this.writer != null)
+					{
+						this.ExitNode();
+						this.writer.WriteEndDocument();
+						this.writer.Flush();
+						this.writer.Close();
+						this.writer = null;
+					}
+					if (this.saveStream != null)
+					{
+						this.saveStream.Flush();
+						this.saveStream.Close();
+						this.saveStream = null;
+					}
+					Scribe.mode = LoadSaveMode.Inactive;
+					this.savingForDebug = false;
+					this.loadIDsErrorsChecker.CheckForErrorsAndClear();
 				}
-				if (this.saveStream != null)
+				catch (Exception arg)
 				{
-					this.saveStream.Flush();
-					this.saveStream.Close();
-					this.saveStream = null;
+					Log.Error("Exception in FinalizeLoading(): " + arg);
+					this.ForceStop();
+					throw;
+					IL_00bc:;
 				}
-				Scribe.mode = LoadSaveMode.Inactive;
-				this.savingForDebug = false;
-				this.loadIDsErrorsChecker.CheckForErrorsAndClear();
-			}
-			catch (Exception arg)
-			{
-				Log.Error("Exception in FinalizeLoading(): " + arg);
-				this.ForceStop();
-				throw;
 			}
 		}
 
@@ -86,9 +84,11 @@ namespace Verse
 			if (this.writer == null)
 			{
 				Log.Error("Called WriteElemenet(), but writer is null.");
-				return;
 			}
-			this.writer.WriteElementString(elementName, value);
+			else
+			{
+				this.writer.WriteElementString(elementName, value);
+			}
 		}
 
 		public void WriteAttribute(string attributeName, string value)
@@ -96,19 +96,20 @@ namespace Verse
 			if (this.writer == null)
 			{
 				Log.Error("Called WriteAttribute(), but writer is null.");
-				return;
 			}
-			this.writer.WriteAttributeString(attributeName, value);
+			else
+			{
+				this.writer.WriteAttributeString(attributeName, value);
+			}
 		}
 
 		public string DebugOutputFor(IExposable saveable)
 		{
-			if (Scribe.mode != LoadSaveMode.Inactive)
+			if (Scribe.mode != 0)
 			{
 				Log.Error("DebugOutput needs current mode to be Inactive");
 				return string.Empty;
 			}
-			string result;
 			try
 			{
 				using (StringWriter stringWriter = new StringWriter())
@@ -123,8 +124,11 @@ namespace Verse
 						{
 							Scribe.mode = LoadSaveMode.Saving;
 							this.savingForDebug = true;
-							Scribe_Deep.Look<IExposable>(ref saveable, "saveable", new object[0]);
-							result = stringWriter.ToString();
+							Scribe_Deep.Look(ref saveable, "saveable");
+							return stringWriter.ToString();
+							IL_007e:
+							string result;
+							return result;
 						}
 					}
 					finally
@@ -137,9 +141,11 @@ namespace Verse
 			{
 				Log.Error("Exception while getting debug output: " + arg);
 				this.ForceStop();
-				result = string.Empty;
+				return string.Empty;
+				IL_00d6:
+				string result;
+				return result;
 			}
-			return result;
 		}
 
 		public bool EnterNode(string nodeName)
@@ -154,11 +160,10 @@ namespace Verse
 
 		public void ExitNode()
 		{
-			if (this.writer == null)
+			if (this.writer != null)
 			{
-				return;
+				this.writer.WriteEndElement();
 			}
-			this.writer.WriteEndElement();
 		}
 
 		public void ForceStop()

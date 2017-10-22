@@ -1,7 +1,6 @@
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -23,7 +22,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_LongRangeMineralScanner)this.props;
+				return (CompProperties_LongRangeMineralScanner)base.props;
 			}
 		}
 
@@ -43,7 +42,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.parent.Spawned && (this.powerComp == null || this.powerComp.PowerOn) && this.parent.Faction == Faction.OfPlayer;
+				if (!base.parent.Spawned)
+				{
+					return false;
+				}
+				if (this.powerComp != null && !this.powerComp.PowerOn)
+				{
+					return false;
+				}
+				return base.parent.Faction == Faction.OfPlayer;
 			}
 		}
 
@@ -53,7 +60,7 @@ namespace RimWorld
 			{
 				CompProperties_LongRangeMineralScanner props = this.Props;
 				float effectiveAreaPct = this.EffectiveAreaPct;
-				if (effectiveAreaPct <= 0.001f)
+				if (effectiveAreaPct <= 0.0010000000474974513)
 				{
 					return -1f;
 				}
@@ -72,7 +79,7 @@ namespace RimWorld
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
-			this.powerComp = this.parent.GetComp<CompPowerTrader>();
+			this.powerComp = base.parent.GetComp<CompPowerTrader>();
 			this.RecacheEffectiveAreaPct();
 		}
 
@@ -97,81 +104,71 @@ namespace RimWorld
 			if (!this.Active)
 			{
 				this.cachedEffectiveAreaPct = 0f;
-				return;
 			}
-			this.CalculateOtherActiveMineralScanners();
-			if (!this.otherActiveMineralScanners.Any<Pair<Vector3, float>>())
+			else
 			{
-				this.cachedEffectiveAreaPct = 1f;
-				return;
-			}
-			CompProperties_LongRangeMineralScanner props = this.Props;
-			WorldGrid worldGrid = Find.WorldGrid;
-			Vector3 tileCenter = worldGrid.GetTileCenter(this.parent.Tile);
-			float angle = worldGrid.TileRadiusToAngle(props.radius);
-			int num = 0;
-			int count = this.otherActiveMineralScanners.Count;
-			Rand.PushState(this.parent.thingIDNumber);
-			for (int i = 0; i < 400; i++)
-			{
-				Vector3 point = Rand.PointOnSphereCap(tileCenter, angle);
-				bool flag = false;
-				for (int j = 0; j < count; j++)
+				this.CalculateOtherActiveMineralScanners();
+				if (!this.otherActiveMineralScanners.Any())
 				{
-					Pair<Vector3, float> pair = this.otherActiveMineralScanners[j];
-					if (MeshUtility.Visible(point, 1f, pair.First, pair.Second))
+					this.cachedEffectiveAreaPct = 1f;
+				}
+				else
+				{
+					CompProperties_LongRangeMineralScanner props = this.Props;
+					WorldGrid worldGrid = Find.WorldGrid;
+					Vector3 tileCenter = worldGrid.GetTileCenter(base.parent.Tile);
+					float angle = worldGrid.TileRadiusToAngle(props.radius);
+					int num = 0;
+					int count = this.otherActiveMineralScanners.Count;
+					Rand.PushState(base.parent.thingIDNumber);
+					for (int i = 0; i < 400; i++)
 					{
-						flag = true;
-						break;
+						Vector3 point = Rand.PointOnSphereCap(tileCenter, angle);
+						bool flag = false;
+						for (int num2 = 0; num2 < count; num2++)
+						{
+							Pair<Vector3, float> pair = this.otherActiveMineralScanners[num2];
+							if (MeshUtility.Visible(point, 1f, pair.First, pair.Second))
+							{
+								flag = true;
+								break;
+							}
+						}
+						if (!flag)
+						{
+							num++;
+						}
 					}
-				}
-				if (!flag)
-				{
-					num++;
+					Rand.PopState();
+					this.cachedEffectiveAreaPct = (float)((float)num / 400.0);
 				}
 			}
-			Rand.PopState();
-			this.cachedEffectiveAreaPct = (float)num / 400f;
 		}
 
 		private void CheckTryFindMinerals(int interval)
 		{
-			if (!this.Active)
+			if (this.Active)
 			{
-				return;
-			}
-			float effectiveMtbDays = this.EffectiveMtbDays;
-			if (effectiveMtbDays <= 0f)
-			{
-				return;
-			}
-			if (Rand.MTBEventOccurs(effectiveMtbDays, 60000f, (float)interval))
-			{
-				this.FoundMinerals();
+				float effectiveMtbDays = this.EffectiveMtbDays;
+				if (!(effectiveMtbDays <= 0.0) && Rand.MTBEventOccurs(effectiveMtbDays, 60000f, (float)interval))
+				{
+					this.FoundMinerals();
+				}
 			}
 		}
 
 		private void FoundMinerals()
 		{
-			int tile;
-			if (!TileFinder.TryFindNewSiteTile(out tile))
+			int tile = default(int);
+			if (TileFinder.TryFindNewSiteTile(out tile))
 			{
-				return;
-			}
-			Site site;
-			if (Rand.Chance(0.6f))
-			{
-				site = SiteMaker.TryMakeSite(SiteCoreDefOf.PreciousLump, null, true, null);
-			}
-			else
-			{
-				site = SiteMaker.TryMakeRandomSite(SiteCoreDefOf.PreciousLump, this.PossibleSiteParts, null, true, null);
-			}
-			if (site != null)
-			{
-				site.Tile = tile;
-				Find.WorldObjects.Add(site);
-				Find.LetterStack.ReceiveLetter("LetterLabelFoundPreciousLump".Translate(), "LetterFoundPreciousLump".Translate(), LetterDefOf.Good, site, null);
+				Site site = (!Rand.Chance(0.6f)) ? SiteMaker.TryMakeRandomSite(SiteCoreDefOf.PreciousLump, this.PossibleSiteParts, null, true, null) : SiteMaker.TryMakeSite(SiteCoreDefOf.PreciousLump, null, true, null);
+				if (site != null)
+				{
+					site.Tile = tile;
+					Find.WorldObjects.Add(site);
+					Find.LetterStack.ReceiveLetter("LetterLabelFoundPreciousLump".Translate(), "LetterFoundPreciousLump".Translate(), LetterDefOf.Good, (WorldObject)site, (string)null);
+				}
 			}
 		}
 
@@ -210,7 +207,7 @@ namespace RimWorld
 			{
 				return otherScanner.Props.mtbDays < this.Props.mtbDays;
 			}
-			return otherScanner.parent.thingIDNumber < this.parent.thingIDNumber;
+			return otherScanner.parent.thingIDNumber < base.parent.thingIDNumber;
 		}
 
 		public override string CompInspectStringExtra()
@@ -218,22 +215,24 @@ namespace RimWorld
 			if (this.Active)
 			{
 				this.RecacheEffectiveAreaPct();
-				return "LongRangeMineralScannerEfficiency".Translate(new object[]
-				{
-					this.EffectiveAreaPct.ToStringPercent()
-				});
+				return "LongRangeMineralScannerEfficiency".Translate(this.EffectiveAreaPct.ToStringPercent());
 			}
-			return null;
+			return (string)null;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompLongRangeMineralScanner.<CompGetGizmosExtra>c__Iterator167 <CompGetGizmosExtra>c__Iterator = new CompLongRangeMineralScanner.<CompGetGizmosExtra>c__Iterator167();
-			<CompGetGizmosExtra>c__Iterator.<>f__this = this;
-			CompLongRangeMineralScanner.<CompGetGizmosExtra>c__Iterator167 expr_0E = <CompGetGizmosExtra>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (Prefs.DevMode)
+			{
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "Dev: Find resources now",
+					action = (Action)delegate
+					{
+						((_003CCompGetGizmosExtra_003Ec__Iterator167)/*Error near IL_004c: stateMachine*/)._003C_003Ef__this.FoundMinerals();
+					}
+				};
+			}
 		}
 	}
 }

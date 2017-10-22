@@ -19,11 +19,22 @@ namespace Verse
 		{
 			get
 			{
-				SimpleCurveView.<>c__Iterator23B <>c__Iterator23B = new SimpleCurveView.<>c__Iterator23B();
-				<>c__Iterator23B.<>f__this = this;
-				SimpleCurveView.<>c__Iterator23B expr_0E = <>c__Iterator23B;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				if (this.debugInputValues != null)
+				{
+					Dictionary<object, float>.ValueCollection.Enumerator enumerator = this.debugInputValues.Values.GetEnumerator();
+					try
+					{
+						while (enumerator.MoveNext())
+						{
+							float val = enumerator.Current;
+							yield return val;
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator).Dispose();
+					}
+				}
 			}
 		}
 
@@ -42,41 +53,55 @@ namespace Verse
 
 		public void SetViewRectAround(SimpleCurve curve)
 		{
-			if (!curve.AllPoints.Any<CurvePoint>())
+			if (!curve.AllPoints.Any())
 			{
 				this.rect = SimpleCurveView.identityRect;
-				return;
 			}
-			this.rect.xMin = (from pt in curve.AllPoints
-			select pt.Loc.x).Min();
-			this.rect.xMax = (from pt in curve.AllPoints
-			select pt.Loc.x).Max();
-			this.rect.yMin = (from pt in curve.AllPoints
-			select pt.Loc.y).Min();
-			this.rect.yMax = (from pt in curve.AllPoints
-			select pt.Loc.y).Max();
-			if (Mathf.Approximately(this.rect.width, 0f))
+			else
 			{
-				this.rect.width = this.rect.xMin * 2f;
+				this.rect.xMin = curve.AllPoints.Select((Func<CurvePoint, float>)delegate(CurvePoint pt)
+				{
+					Vector2 loc4 = pt.Loc;
+					return loc4.x;
+				}).Min();
+				this.rect.xMax = curve.AllPoints.Select((Func<CurvePoint, float>)delegate(CurvePoint pt)
+				{
+					Vector2 loc3 = pt.Loc;
+					return loc3.x;
+				}).Max();
+				this.rect.yMin = curve.AllPoints.Select((Func<CurvePoint, float>)delegate(CurvePoint pt)
+				{
+					Vector2 loc2 = pt.Loc;
+					return loc2.y;
+				}).Min();
+				this.rect.yMax = curve.AllPoints.Select((Func<CurvePoint, float>)delegate(CurvePoint pt)
+				{
+					Vector2 loc = pt.Loc;
+					return loc.y;
+				}).Max();
+				if (Mathf.Approximately(this.rect.width, 0f))
+				{
+					this.rect.width = (float)(this.rect.xMin * 2.0);
+				}
+				if (Mathf.Approximately(this.rect.height, 0f))
+				{
+					this.rect.height = (float)(this.rect.yMin * 2.0);
+				}
+				if (Mathf.Approximately(this.rect.width, 0f))
+				{
+					this.rect.width = 1f;
+				}
+				if (Mathf.Approximately(this.rect.height, 0f))
+				{
+					this.rect.height = 1f;
+				}
+				float width = this.rect.width;
+				float height = this.rect.height;
+				this.rect.xMin -= (float)(width * 0.10000000149011612);
+				this.rect.xMax += (float)(width * 0.10000000149011612);
+				this.rect.yMin -= (float)(height * 0.10000000149011612);
+				this.rect.yMax += (float)(height * 0.10000000149011612);
 			}
-			if (Mathf.Approximately(this.rect.height, 0f))
-			{
-				this.rect.height = this.rect.yMin * 2f;
-			}
-			if (Mathf.Approximately(this.rect.width, 0f))
-			{
-				this.rect.width = 1f;
-			}
-			if (Mathf.Approximately(this.rect.height, 0f))
-			{
-				this.rect.height = 1f;
-			}
-			float width = this.rect.width;
-			float height = this.rect.height;
-			this.rect.xMin = this.rect.xMin - width * 0.1f;
-			this.rect.xMax = this.rect.xMax + width * 0.1f;
-			this.rect.yMin = this.rect.yMin - height * 0.1f;
-			this.rect.yMax = this.rect.yMax + height * 0.1f;
 		}
 	}
 }

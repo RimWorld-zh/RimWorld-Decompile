@@ -64,7 +64,7 @@ namespace Verse
 			this.areas.Add(new Area_BuildRoof(this));
 			this.areas.Add(new Area_NoRoof(this));
 			this.areas.Add(new Area_SnowClear(this));
-			Area_Allowed area_Allowed;
+			Area_Allowed area_Allowed = default(Area_Allowed);
 			this.TryMakeNewAllowed(AllowedAreaMode.Humanlike, out area_Allowed);
 			this.TryMakeNewAllowed(AllowedAreaMode.Animal, out area_Allowed);
 		}
@@ -91,19 +91,21 @@ namespace Verse
 			if (!area.Mutable)
 			{
 				Log.Error("Tried to delete non-Deletable area " + area);
-				return;
 			}
-			this.areas.Remove(area);
-			foreach (Pawn current in PawnsFinder.AllMapsAndWorld_Alive)
+			else
 			{
-				if (current.playerSettings != null)
+				this.areas.Remove(area);
+				foreach (Pawn item in PawnsFinder.AllMapsAndWorld_Alive)
 				{
-					current.playerSettings.Notify_AreaRemoved(area);
+					if (item.playerSettings != null)
+					{
+						item.playerSettings.Notify_AreaRemoved(area);
+					}
 				}
-			}
-			if (Designator_AreaAllowed.SelectedArea == area)
-			{
-				Designator_AreaAllowed.ClearSelectedArea();
+				if (Designator_AreaAllowed.SelectedArea == area)
+				{
+					Designator_AreaAllowed.ClearSelectedArea();
+				}
 			}
 		}
 
@@ -123,18 +125,18 @@ namespace Verse
 		{
 			for (int i = 0; i < this.areas.Count; i++)
 			{
-				T t = this.areas[i] as T;
-				if (t != null)
+				T val = (T)(this.areas[i] as T);
+				if (val != null)
 				{
-					return t;
+					return val;
 				}
 			}
-			return (T)((object)null);
+			return (T)null;
 		}
 
 		private void SortAreas()
 		{
-			this.areas.InsertionSort((Area a, Area b) => b.ListPriority.CompareTo(a.ListPriority));
+			this.areas.InsertionSort((Comparison<Area>)((Area a, Area b) => b.ListPriority.CompareTo(a.ListPriority)));
 		}
 
 		private void UpdateAllAreasLinks()
@@ -149,7 +151,7 @@ namespace Verse
 		{
 			return (from a in this.areas
 			where a is Area_Allowed && ((Area_Allowed)a).mode == mode
-			select a).Count<Area>() < 5;
+			select a).Count() < 5;
 		}
 
 		public bool TryMakeNewAllowed(AllowedAreaMode mode, out Area_Allowed area)
@@ -159,7 +161,7 @@ namespace Verse
 				area = null;
 				return false;
 			}
-			area = new Area_Allowed(this, mode, null);
+			area = new Area_Allowed(this, mode, (string)null);
 			this.areas.Add(area);
 			this.SortAreas();
 			return true;

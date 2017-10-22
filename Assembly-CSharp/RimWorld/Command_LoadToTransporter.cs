@@ -34,7 +34,7 @@ namespace RimWorld
 				{
 					Map map = this.transComp.Map;
 					Command_LoadToTransporter.tmpFuelingPortGivers.Clear();
-					map.floodFiller.FloodFill(fuelingPortSource.Position, (IntVec3 x) => FuelingPortUtility.AnyFuelingPortGiverAt(x, map), delegate(IntVec3 x)
+					map.floodFiller.FloodFill(fuelingPortSource.Position, (Predicate<IntVec3>)((IntVec3 x) => FuelingPortUtility.AnyFuelingPortGiverAt(x, map)), (Action<IntVec3>)delegate(IntVec3 x)
 					{
 						Command_LoadToTransporter.tmpFuelingPortGivers.Add(FuelingPortUtility.FuelingPortGiverAt(x, map));
 					}, false);
@@ -43,7 +43,7 @@ namespace RimWorld
 						Building fuelingPortSource2 = this.transporters[i].Launchable.FuelingPortSource;
 						if (fuelingPortSource2 != null && !Command_LoadToTransporter.tmpFuelingPortGivers.Contains(fuelingPortSource2))
 						{
-							Messages.Message("MessageTransportersNotAdjacent".Translate(), fuelingPortSource2, MessageSound.RejectInput);
+							Messages.Message("MessageTransportersNotAdjacent".Translate(), (Thing)fuelingPortSource2, MessageSound.RejectInput);
 							return;
 						}
 					}
@@ -51,13 +51,10 @@ namespace RimWorld
 			}
 			for (int j = 0; j < this.transporters.Count; j++)
 			{
-				if (this.transporters[j] != this.transComp)
+				if (this.transporters[j] != this.transComp && !this.transComp.Map.reachability.CanReach(this.transComp.parent.Position, (Thing)this.transporters[j].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
 				{
-					if (!this.transComp.Map.reachability.CanReach(this.transComp.parent.Position, this.transporters[j].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
-					{
-						Messages.Message("MessageTransporterUnreachable".Translate(), this.transporters[j].parent, MessageSound.RejectInput);
-						return;
-					}
+					Messages.Message("MessageTransporterUnreachable".Translate(), (Thing)this.transporters[j].parent, MessageSound.RejectInput);
+					return;
 				}
 			}
 			Find.WindowStack.Add(new Dialog_LoadTransporters(this.transComp.Map, this.transporters));

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -14,25 +12,25 @@ namespace RimWorld
 		{
 			get
 			{
-				float num = (float)Find.TickManager.TicksGame / 3600000f;
-				if (num > 10f)
+				float num = (float)((float)Find.TickManager.TicksGame / 3600000.0);
+				if (num > 10.0)
 				{
 					num = 2.75f;
 				}
-				return 20f * Mathf.Pow(2f, num);
+				return (float)(20.0 * Mathf.Pow(2f, num));
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			StorytellerComp_ShipChunkDrop.<MakeIntervalIncidents>c__IteratorAD <MakeIntervalIncidents>c__IteratorAD = new StorytellerComp_ShipChunkDrop.<MakeIntervalIncidents>c__IteratorAD();
-			<MakeIntervalIncidents>c__IteratorAD.target = target;
-			<MakeIntervalIncidents>c__IteratorAD.<$>target = target;
-			<MakeIntervalIncidents>c__IteratorAD.<>f__this = this;
-			StorytellerComp_ShipChunkDrop.<MakeIntervalIncidents>c__IteratorAD expr_1C = <MakeIntervalIncidents>c__IteratorAD;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (Rand.MTBEventOccurs(this.ShipChunkDropMTBDays, 60000f, 1000f))
+			{
+				IncidentDef def = IncidentDefOf.ShipChunkDrop;
+				if (def.TargetAllowed(target))
+				{
+					yield return new FiringIncident(def, this, this.GenerateParms(def.category, target));
+				}
+			}
 		}
 	}
 }

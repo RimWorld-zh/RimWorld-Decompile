@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 using Verse.Sound;
 
@@ -59,41 +58,48 @@ namespace Verse
 
 		public void ProcessInputEvents()
 		{
-			if (!this.CheckSelectedDesignatorValid())
+			if (this.CheckSelectedDesignatorValid())
 			{
-				return;
-			}
-			if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
-			{
-				if (this.selectedDesignator.DraggableDimensions == 0)
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
 				{
-					Designator designator = this.selectedDesignator;
-					AcceptanceReport acceptanceReport = this.selectedDesignator.CanDesignateCell(UI.MouseCell());
-					if (acceptanceReport.Accepted)
+					if (this.selectedDesignator.DraggableDimensions == 0)
 					{
-						designator.DesignateSingleCell(UI.MouseCell());
-						designator.Finalize(true);
+						Designator designator = this.selectedDesignator;
+						AcceptanceReport acceptanceReport = this.selectedDesignator.CanDesignateCell(UI.MouseCell());
+						if (acceptanceReport.Accepted)
+						{
+							designator.DesignateSingleCell(UI.MouseCell());
+							designator.Finalize(true);
+						}
+						else
+						{
+							Messages.Message(acceptanceReport.Reason, MessageSound.Silent);
+							this.selectedDesignator.Finalize(false);
+						}
 					}
 					else
 					{
-						Messages.Message(acceptanceReport.Reason, MessageSound.Silent);
-						this.selectedDesignator.Finalize(false);
+						this.dragger.StartDrag();
 					}
+					Event.current.Use();
 				}
-				else
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 1)
 				{
-					this.dragger.StartDrag();
+					goto IL_00e8;
 				}
-				Event.current.Use();
+				if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape)
+					goto IL_00e8;
+				goto IL_011d;
 			}
-			if ((Event.current.type == EventType.MouseDown && Event.current.button == 1) || (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape))
-			{
-				SoundDefOf.CancelMode.PlayOneShotOnCamera(null);
-				this.Deselect();
-				this.dragger.EndDrag();
-				Event.current.Use();
-				TutorSystem.Notify_Event("ClearDesignatorSelection");
-			}
+			return;
+			IL_00e8:
+			SoundDefOf.CancelMode.PlayOneShotOnCamera(null);
+			this.Deselect();
+			this.dragger.EndDrag();
+			Event.current.Use();
+			TutorSystem.Notify_Event("ClearDesignatorSelection");
+			goto IL_011d;
+			IL_011d:
 			if (Event.current.type == EventType.MouseUp && Event.current.button == 0 && this.dragger.Dragging)
 			{
 				this.selectedDesignator.DesignateMultiCell(this.dragger.DragCells);

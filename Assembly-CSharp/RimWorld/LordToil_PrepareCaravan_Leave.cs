@@ -40,9 +40,9 @@ namespace RimWorld
 
 		public override void UpdateAllDuties()
 		{
-			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
-				Pawn pawn = this.lord.ownedPawns[i];
+				Pawn pawn = base.lord.ownedPawns[i];
 				pawn.mindState.duty = new PawnDuty(DutyDefOf.Travel, this.exitSpot, -1f);
 				pawn.mindState.duty.locomotion = LocomotionUrgency.Jog;
 			}
@@ -52,7 +52,7 @@ namespace RimWorld
 		{
 			if (Find.TickManager.TicksGame % 100 == 0)
 			{
-				GatherAnimalsAndSlavesForCaravanUtility.CheckArrived(this.lord, this.exitSpot, "ReadyToExitMap", (Pawn x) => true, null);
+				GatherAnimalsAndSlavesForCaravanUtility.CheckArrived(base.lord, this.exitSpot, "ReadyToExitMap", (Predicate<Pawn>)((Pawn x) => true), null);
 			}
 		}
 	}

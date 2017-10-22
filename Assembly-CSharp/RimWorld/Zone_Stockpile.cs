@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -52,7 +50,7 @@ namespace RimWorld
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Deep.Look<StorageSettings>(ref this.settings, "settings", new object[]
+			Scribe_Deep.Look<StorageSettings>(ref this.settings, "settings", new object[1]
 			{
 				this
 			});
@@ -83,23 +81,21 @@ namespace RimWorld
 			this.slotGroup.Notify_ParentDestroying();
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<InspectTabBase> GetInspectTabs()
 		{
-			Zone_Stockpile.<GetInspectTabs>c__IteratorBC <GetInspectTabs>c__IteratorBC = new Zone_Stockpile.<GetInspectTabs>c__IteratorBC();
-			Zone_Stockpile.<GetInspectTabs>c__IteratorBC expr_07 = <GetInspectTabs>c__IteratorBC;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield return (InspectTabBase)Zone_Stockpile.StorageTab;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Zone_Stockpile.<GetGizmos>c__IteratorBD <GetGizmos>c__IteratorBD = new Zone_Stockpile.<GetGizmos>c__IteratorBD();
-			<GetGizmos>c__IteratorBD.<>f__this = this;
-			Zone_Stockpile.<GetGizmos>c__IteratorBD expr_0E = <GetGizmos>c__IteratorBD;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			foreach (Gizmo item in StorageSettingsClipboard.CopyPasteGizmosFor(this.settings))
+			{
+				yield return item;
+			}
 		}
 
 		public SlotGroup GetSlotGroup()
@@ -107,19 +103,17 @@ namespace RimWorld
 			return this.slotGroup;
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<IntVec3> AllSlotCells()
 		{
-			Zone_Stockpile.<AllSlotCells>c__IteratorBE <AllSlotCells>c__IteratorBE = new Zone_Stockpile.<AllSlotCells>c__IteratorBE();
-			<AllSlotCells>c__IteratorBE.<>f__this = this;
-			Zone_Stockpile.<AllSlotCells>c__IteratorBE expr_0E = <AllSlotCells>c__IteratorBE;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			for (int i = 0; i < base.cells.Count; i++)
+			{
+				yield return base.cells[i];
+			}
 		}
 
 		public List<IntVec3> AllSlotCellsList()
 		{
-			return this.cells;
+			return base.cells;
 		}
 
 		public StorageSettings GetParentStoreSettings()
@@ -134,7 +128,7 @@ namespace RimWorld
 
 		public string SlotYielderLabel()
 		{
-			return this.label;
+			return base.label;
 		}
 
 		public void Notify_ReceivedThing(Thing newItem)
@@ -152,6 +146,12 @@ namespace RimWorld
 		virtual Map get_Map()
 		{
 			return base.Map;
+		}
+
+		Map ISlotGroupParent.get_Map()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_Map
+			return this.get_Map();
 		}
 	}
 }

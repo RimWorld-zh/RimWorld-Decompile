@@ -24,52 +24,55 @@ namespace Verse
 			if (PlayDataLoader.loadedInt)
 			{
 				Log.Error("Loading play data when already loaded. Call ClearAllPlayData first.");
-				return;
 			}
-			DeepProfiler.Start("LoadAllPlayData");
-			try
+			else
 			{
-				PlayDataLoader.DoPlayLoad();
-			}
-			catch (Exception arg)
-			{
-				if (!Prefs.ResetModsConfigOnCrash)
-				{
-					throw;
-				}
-				if (recovering)
-				{
-					Log.Warning("Could not recover from errors loading play data. Giving up.");
-					throw;
-				}
-				IEnumerable<ModMetaData> activeModsInLoadOrder = ModsConfig.ActiveModsInLoadOrder;
-				if (activeModsInLoadOrder.Count<ModMetaData>() == 1 && activeModsInLoadOrder.First<ModMetaData>().IsCoreMod)
-				{
-					throw;
-				}
-				Log.Warning("Caught exception while loading play data but there are active mods other than Core. Resetting mods config and trying again.\nThe exception was: " + arg);
+				DeepProfiler.Start("LoadAllPlayData");
 				try
 				{
-					PlayDataLoader.ClearAllPlayData();
+					PlayDataLoader.DoPlayLoad();
 				}
-				catch
+				catch (Exception arg)
 				{
-					Log.Warning("Caught exception while recovering from errors and trying to clear all play data. Ignoring it.\nThe exception was: " + arg);
+					if (!Prefs.ResetModsConfigOnCrash)
+					{
+						throw;
+					}
+					if (recovering)
+					{
+						Log.Warning("Could not recover from errors loading play data. Giving up.");
+						throw;
+					}
+					IEnumerable<ModMetaData> activeModsInLoadOrder = ModsConfig.ActiveModsInLoadOrder;
+					if (activeModsInLoadOrder.Count() == 1 && activeModsInLoadOrder.First().IsCoreMod)
+					{
+						throw;
+					}
+					Log.Warning("Caught exception while loading play data but there are active mods other than Core. Resetting mods config and trying again.\nThe exception was: " + arg);
+					try
+					{
+						PlayDataLoader.ClearAllPlayData();
+					}
+					catch
+					{
+						Log.Warning("Caught exception while recovering from errors and trying to clear all play data. Ignoring it.\nThe exception was: " + arg);
+					}
+					ModsConfig.Reset();
+					DirectXmlCrossRefLoader.Clear();
+					PlayDataLoader.LoadAllPlayData(true);
+					return;
+					IL_00b1:;
 				}
-				ModsConfig.Reset();
-				DirectXmlCrossRefLoader.Clear();
-				PlayDataLoader.LoadAllPlayData(true);
-				return;
-			}
-			finally
-			{
-				DeepProfiler.End();
-			}
-			PlayDataLoader.loadedInt = true;
-			if (recovering)
-			{
-				Log.Message("Successfully recovered from errors and loaded play data.");
-				DelayedErrorWindowRequest.Add("RecoveredFromErrorsText".Translate(), "RecoveredFromErrorsDialogTitle".Translate());
+				finally
+				{
+					DeepProfiler.End();
+				}
+				PlayDataLoader.loadedInt = true;
+				if (recovering)
+				{
+					Log.Message("Successfully recovered from errors and loaded play data.");
+					DelayedErrorWindowRequest.Add("RecoveredFromErrorsText".Translate(), "RecoveredFromErrorsDialogTitle".Translate());
+				}
 			}
 		}
 
@@ -98,9 +101,9 @@ namespace Verse
 			DeepProfiler.Start("Copy all Defs from mods to global databases.");
 			try
 			{
-				foreach (Type current in typeof(Def).AllSubclasses())
+				foreach (Type item in typeof(Def).AllSubclasses())
 				{
-					GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), current, "AddAllInMods");
+					GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), item, "AddAllInMods");
 				}
 			}
 			finally
@@ -187,11 +190,11 @@ namespace Verse
 			DeepProfiler.Start("Resolve references.");
 			try
 			{
-				foreach (Type current2 in typeof(Def).AllSubclasses())
+				foreach (Type item2 in typeof(Def).AllSubclasses())
 				{
-					if (current2 != typeof(ThingDef))
+					if (item2 != typeof(ThingDef))
 					{
-						GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), current2, "ResolveAllReferences");
+						GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), item2, "ResolveAllReferences");
 					}
 				}
 				DefDatabase<ThingDef>.ResolveAllReferences();
@@ -214,9 +217,9 @@ namespace Verse
 				DeepProfiler.Start("Error check all defs.");
 				try
 				{
-					foreach (Type current3 in typeof(Def).AllSubclasses())
+					foreach (Type item3 in typeof(Def).AllSubclasses())
 					{
-						GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), current3, "ErrorCheckAllDefs");
+						GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), item3, "ErrorCheckAllDefs");
 					}
 				}
 				finally
@@ -243,7 +246,7 @@ namespace Verse
 			{
 				DeepProfiler.End();
 			}
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				DeepProfiler.Start("Load backstories.");
 				try
@@ -255,7 +258,7 @@ namespace Verse
 					DeepProfiler.End();
 				}
 			});
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				DeepProfiler.Start("Inject selected language data into game data.");
 				try
@@ -268,7 +271,7 @@ namespace Verse
 					DeepProfiler.End();
 				}
 			});
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				StaticConstructorOnStartupUtility.CallAll();
 				if (Prefs.DevMode)
@@ -282,9 +285,9 @@ namespace Verse
 		{
 			LanguageDatabase.Clear();
 			LoadedModManager.ClearDestroy();
-			foreach (Type current in typeof(Def).AllSubclasses())
+			foreach (Type item in typeof(Def).AllSubclasses())
 			{
-				GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), current, "Clear");
+				GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), item, "Clear");
 			}
 			ThingCategoryNodeDatabase.Clear();
 			BackstoryDatabase.Clear();

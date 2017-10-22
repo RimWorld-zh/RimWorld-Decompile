@@ -20,32 +20,26 @@ namespace RimWorld
 
 		public void CheckStruckOre(IntVec3 justMinedPos, ThingDef justMinedDef, Thing miner)
 		{
-			if (miner.Faction != Faction.OfPlayer)
+			if (miner.Faction == Faction.OfPlayer)
 			{
-				return;
-			}
-			for (int i = 0; i < 4; i++)
-			{
-				IntVec3 intVec = justMinedPos + GenAdj.CardinalDirections[i];
-				if (intVec.InBounds(miner.Map))
+				for (int i = 0; i < 4; i++)
 				{
-					Building edifice = intVec.GetEdifice(miner.Map);
-					if (edifice != null && edifice.def != justMinedDef && this.MineableIsWorthLetter(edifice.def) && !this.AlreadyVisibleNearby(intVec, miner.Map, edifice.def) && !this.RecentlyStruck(intVec, edifice.def))
+					IntVec3 intVec = justMinedPos + GenAdj.CardinalDirections[i];
+					if (intVec.InBounds(miner.Map))
 					{
-						StrikeRecord item = default(StrikeRecord);
-						item.cell = intVec;
-						item.def = edifice.def;
-						item.ticksGame = Find.TickManager.TicksGame;
-						this.strikeRecords.Add(item);
-						Messages.Message("StruckMineable".Translate(new object[]
+						Building edifice = intVec.GetEdifice(miner.Map);
+						if (edifice != null && edifice.def != justMinedDef && this.MineableIsWorthLetter(edifice.def) && !this.AlreadyVisibleNearby(intVec, miner.Map, edifice.def) && !this.RecentlyStruck(intVec, edifice.def))
 						{
-							edifice.def.label
-						}), edifice, MessageSound.Benefit);
-						TaleRecorder.RecordTale(TaleDefOf.StruckMineable, new object[]
-						{
-							miner,
-							edifice
-						});
+							StrikeRecord item = new StrikeRecord
+							{
+								cell = intVec,
+								def = edifice.def,
+								ticksGame = Find.TickManager.TicksGame
+							};
+							this.strikeRecords.Add(item);
+							Messages.Message("StruckMineable".Translate(edifice.def.label), (Thing)edifice, MessageSound.Benefit);
+							TaleRecorder.RecordTale(TaleDefOf.StruckMineable, miner, edifice);
+						}
 					}
 				}
 			}
@@ -71,15 +65,23 @@ namespace RimWorld
 
 		private bool RecentlyStruck(IntVec3 cell, ThingDef def)
 		{
-			for (int i = this.strikeRecords.Count - 1; i >= 0; i--)
+			for (int num = this.strikeRecords.Count - 1; num >= 0; num--)
 			{
-				if (this.strikeRecords[i].Expired)
+				if (this.strikeRecords[num].Expired)
 				{
-					this.strikeRecords.RemoveAt(i);
+					this.strikeRecords.RemoveAt(num);
 				}
-				else if (this.strikeRecords[i].def == def && this.strikeRecords[i].cell.InHorDistOf(cell, 12f))
+				else
 				{
-					return true;
+					StrikeRecord strikeRecord = this.strikeRecords[num];
+					if (strikeRecord.def == def)
+					{
+						StrikeRecord strikeRecord2 = this.strikeRecords[num];
+						if (strikeRecord2.cell.InHorDistOf(cell, 12f))
+						{
+							return true;
+						}
+					}
 				}
 			}
 			return false;
@@ -87,15 +89,23 @@ namespace RimWorld
 
 		private bool MineableIsWorthLetter(ThingDef mineableDef)
 		{
-			return mineableDef.mineable && mineableDef.building.mineableThing.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)mineableDef.building.mineableYield > 10f;
+			return mineableDef.mineable && mineableDef.building.mineableThing.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)mineableDef.building.mineableYield > 10.0;
 		}
 
 		public string DebugStrikeRecords()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (StrikeRecord current in this.strikeRecords)
+			List<StrikeRecord>.Enumerator enumerator = this.strikeRecords.GetEnumerator();
+			try
 			{
-				stringBuilder.AppendLine(current.ToString());
+				while (enumerator.MoveNext())
+				{
+					stringBuilder.AppendLine(enumerator.Current.ToString());
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			return stringBuilder.ToString();
 		}

@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI
 {
 	public static class AvoidGridTunings

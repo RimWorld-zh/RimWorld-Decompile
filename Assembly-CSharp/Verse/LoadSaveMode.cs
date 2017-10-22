@@ -1,13 +1,11 @@
-using System;
-
 namespace Verse
 {
 	public enum LoadSaveMode : byte
 	{
-		Inactive,
-		Saving,
-		LoadingVars,
-		ResolvingCrossRefs,
-		PostLoadInit
+		Inactive = 0,
+		Saving = 1,
+		LoadingVars = 2,
+		ResolvingCrossRefs = 3,
+		PostLoadInit = 4
 	}
 }

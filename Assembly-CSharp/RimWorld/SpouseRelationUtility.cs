@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -23,11 +22,15 @@ namespace RimWorld
 			{
 				return null;
 			}
-			if ((pawn.gender == Gender.Male && spouse.gender == Gender.Female) || (pawn.gender == Gender.Female && spouse.gender == Gender.Male))
+			if (pawn.gender == Gender.Male && spouse.gender == Gender.Female)
 			{
-				return spouse;
+				goto IL_003f;
 			}
+			if (pawn.gender == Gender.Female && spouse.gender == Gender.Male)
+				goto IL_003f;
 			return null;
+			IL_003f:
+			return spouse;
 		}
 	}
 }

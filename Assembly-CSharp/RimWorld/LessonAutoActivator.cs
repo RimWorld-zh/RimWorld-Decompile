@@ -39,7 +39,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return 100f - LessonAutoActivator.SecondsSinceLesson * 0.111111112f;
+				return (float)(100.0 - LessonAutoActivator.SecondsSinceLesson * 0.1111111119389534);
 			}
 		}
 
@@ -55,29 +55,35 @@ namespace RimWorld
 
 		public static void TeachOpportunity(ConceptDef conc, Thing subject, OpportunityType opp)
 		{
-			if (!TutorSystem.AdaptiveTrainingEnabled || PlayerKnowledgeDatabase.IsComplete(conc))
+			if (TutorSystem.AdaptiveTrainingEnabled && !PlayerKnowledgeDatabase.IsComplete(conc))
 			{
-				return;
-			}
-			float value = 999f;
-			switch (opp)
-			{
-			case OpportunityType.GoodToKnow:
-				value = 60f;
-				break;
-			case OpportunityType.Important:
-				value = 80f;
-				break;
-			case OpportunityType.Critical:
-				value = 100f;
-				break;
-			default:
-				Log.Error("Unknown need");
-				break;
-			}
-			LessonAutoActivator.opportunities[conc] = value;
-			if (opp >= OpportunityType.Important || Find.Tutor.learningReadout.ActiveConceptsCount < 4)
-			{
+				float value = 999f;
+				switch (opp)
+				{
+				case OpportunityType.GoodToKnow:
+				{
+					value = 60f;
+					break;
+				}
+				case OpportunityType.Important:
+				{
+					value = 80f;
+					break;
+				}
+				case OpportunityType.Critical:
+				{
+					value = 100f;
+					break;
+				}
+				default:
+				{
+					Log.Error("Unknown need");
+					break;
+				}
+				}
+				LessonAutoActivator.opportunities[conc] = value;
+				if ((int)opp < 1 && Find.Tutor.learningReadout.ActiveConceptsCount >= 4)
+					return;
 				LessonAutoActivator.TryInitiateLesson(conc);
 			}
 		}
@@ -92,63 +98,67 @@ namespace RimWorld
 
 		public static void LessonAutoActivatorUpdate()
 		{
-			if (!TutorSystem.AdaptiveTrainingEnabled || Current.Game == null || Find.Tutor.learningReadout.ShowAllMode)
+			if (TutorSystem.AdaptiveTrainingEnabled && Current.Game != null && !Find.Tutor.learningReadout.ShowAllMode)
 			{
-				return;
-			}
-			LessonAutoActivator.timeSinceLastLesson += RealTime.realDeltaTime;
-			if (Current.ProgramState == ProgramState.Playing && (Time.timeSinceLevelLoad < 8f || Find.WindowStack.SecondsSinceClosedGameStartDialog < 8f || Find.TickManager.NotPlaying))
-			{
-				return;
-			}
-			for (int i = LessonAutoActivator.alertingConcepts.Count - 1; i >= 0; i--)
-			{
-				if (PlayerKnowledgeDatabase.IsComplete(LessonAutoActivator.alertingConcepts[i]))
+				LessonAutoActivator.timeSinceLastLesson += RealTime.realDeltaTime;
+				if (Current.ProgramState == ProgramState.Playing)
 				{
-					LessonAutoActivator.alertingConcepts.RemoveAt(i);
+					if (Time.timeSinceLevelLoad < 8.0)
+						return;
+					if (Find.WindowStack.SecondsSinceClosedGameStartDialog < 8.0)
+						return;
+					if (Find.TickManager.NotPlaying)
+						return;
 				}
-			}
-			if (Time.frameCount % 15 == 0 && Find.ActiveLesson.Current == null)
-			{
-				for (int j = 0; j < DefDatabase<ConceptDef>.AllDefsListForReading.Count; j++)
+				for (int num = LessonAutoActivator.alertingConcepts.Count - 1; num >= 0; num--)
 				{
-					ConceptDef conceptDef = DefDatabase<ConceptDef>.AllDefsListForReading[j];
-					if (!PlayerKnowledgeDatabase.IsComplete(conceptDef))
+					if (PlayerKnowledgeDatabase.IsComplete(LessonAutoActivator.alertingConcepts[num]))
 					{
-						float num = PlayerKnowledgeDatabase.GetKnowledge(conceptDef);
-						num -= 0.00015f * Time.deltaTime * 15f;
-						if (num < 0f)
+						LessonAutoActivator.alertingConcepts.RemoveAt(num);
+					}
+				}
+				if (Time.frameCount % 15 == 0 && Find.ActiveLesson.Current == null)
+				{
+					for (int i = 0; i < DefDatabase<ConceptDef>.AllDefsListForReading.Count; i++)
+					{
+						ConceptDef conceptDef = DefDatabase<ConceptDef>.AllDefsListForReading[i];
+						if (!PlayerKnowledgeDatabase.IsComplete(conceptDef))
 						{
-							num = 0f;
-						}
-						PlayerKnowledgeDatabase.SetKnowledge(conceptDef, num);
-						if (conceptDef.opportunityDecays)
-						{
-							float num2 = LessonAutoActivator.GetOpportunity(conceptDef);
-							num2 -= 0.4f * Time.deltaTime * 15f;
-							if (num2 < 0f)
+							float knowledge = PlayerKnowledgeDatabase.GetKnowledge(conceptDef);
+							knowledge = (float)(knowledge - 0.0001500000071246177 * Time.deltaTime * 15.0);
+							if (knowledge < 0.0)
 							{
-								num2 = 0f;
+								knowledge = 0f;
 							}
-							LessonAutoActivator.opportunities[conceptDef] = num2;
+							PlayerKnowledgeDatabase.SetKnowledge(conceptDef, knowledge);
+							if (conceptDef.opportunityDecays)
+							{
+								float opportunity = LessonAutoActivator.GetOpportunity(conceptDef);
+								opportunity = (float)(opportunity - 0.40000000596046448 * Time.deltaTime * 15.0);
+								if (opportunity < 0.0)
+								{
+									opportunity = 0f;
+								}
+								LessonAutoActivator.opportunities[conceptDef] = opportunity;
+							}
 						}
 					}
-				}
-				if (Find.Tutor.learningReadout.ActiveConceptsCount < 3)
-				{
-					ConceptDef conceptDef2 = LessonAutoActivator.MostDesiredConcept();
-					if (conceptDef2 != null)
+					if (Find.Tutor.learningReadout.ActiveConceptsCount < 3)
 					{
-						float desire = LessonAutoActivator.GetDesire(conceptDef2);
-						if (desire > 0.1f && LessonAutoActivator.RelaxDesire < desire)
+						ConceptDef conceptDef2 = LessonAutoActivator.MostDesiredConcept();
+						if (conceptDef2 != null)
 						{
-							LessonAutoActivator.TryInitiateLesson(conceptDef2);
+							float desire = LessonAutoActivator.GetDesire(conceptDef2);
+							if (desire > 0.10000000149011612 && LessonAutoActivator.RelaxDesire < desire)
+							{
+								LessonAutoActivator.TryInitiateLesson(conceptDef2);
+							}
 						}
 					}
-				}
-				else
-				{
-					LessonAutoActivator.SetLastLessonTimeToNow();
+					else
+					{
+						LessonAutoActivator.SetLastLessonTimeToNow();
+					}
 				}
 			}
 		}
@@ -162,16 +172,10 @@ namespace RimWorld
 			{
 				ConceptDef conceptDef = allDefsListForReading[i];
 				float desire = LessonAutoActivator.GetDesire(conceptDef);
-				if (desire > num)
+				if (desire > num && (!conceptDef.needsOpportunity || !(LessonAutoActivator.GetOpportunity(conceptDef) < 0.10000000149011612)) && !(PlayerKnowledgeDatabase.GetKnowledge(conceptDef) > 0.15000000596046448))
 				{
-					if (!conceptDef.needsOpportunity || LessonAutoActivator.GetOpportunity(conceptDef) >= 0.1f)
-					{
-						if (PlayerKnowledgeDatabase.GetKnowledge(conceptDef) <= 0.15f)
-						{
-							num = desire;
-							result = conceptDef;
-						}
-					}
+					num = desire;
+					result = conceptDef;
 				}
 			}
 			return result;
@@ -191,19 +195,19 @@ namespace RimWorld
 			{
 				return 0f;
 			}
-			if (conc.needsOpportunity && LessonAutoActivator.GetOpportunity(conc) < 0.1f)
+			if (conc.needsOpportunity && LessonAutoActivator.GetOpportunity(conc) < 0.10000000149011612)
 			{
 				return 0f;
 			}
 			float num = 0f;
 			num += conc.priority;
-			num += LessonAutoActivator.GetOpportunity(conc) / 100f * 60f;
-			return num * (1f - PlayerKnowledgeDatabase.GetKnowledge(conc));
+			num = (float)(num + LessonAutoActivator.GetOpportunity(conc) / 100.0 * 60.0);
+			return (float)(num * (1.0 - PlayerKnowledgeDatabase.GetKnowledge(conc)));
 		}
 
 		private static float GetOpportunity(ConceptDef conc)
 		{
-			float result;
+			float result = default(float);
 			if (LessonAutoActivator.opportunities.TryGetValue(conc, out result))
 			{
 				return result;
@@ -234,26 +238,17 @@ namespace RimWorld
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("RelaxDesire: " + LessonAutoActivator.RelaxDesire);
-			foreach (ConceptDef current in from co in DefDatabase<ConceptDef>.AllDefs
+			foreach (ConceptDef item in from co in DefDatabase<ConceptDef>.AllDefs
 			orderby LessonAutoActivator.GetDesire(co) descending
 			select co)
 			{
-				if (PlayerKnowledgeDatabase.IsComplete(current))
+				if (PlayerKnowledgeDatabase.IsComplete(item))
 				{
-					stringBuilder.AppendLine(current.defName + " complete");
+					stringBuilder.AppendLine(item.defName + " complete");
 				}
 				else
 				{
-					stringBuilder.AppendLine(string.Concat(new string[]
-					{
-						current.defName,
-						"\n   know ",
-						PlayerKnowledgeDatabase.GetKnowledge(current).ToString("F3"),
-						"\n   need ",
-						LessonAutoActivator.opportunities[current].ToString("F3"),
-						"\n   des ",
-						LessonAutoActivator.GetDesire(current).ToString("F3")
-					}));
+					stringBuilder.AppendLine(item.defName + "\n   know " + PlayerKnowledgeDatabase.GetKnowledge(item).ToString("F3") + "\n   need " + LessonAutoActivator.opportunities[item].ToString("F3") + "\n   des " + LessonAutoActivator.GetDesire(item).ToString("F3"));
 				}
 			}
 			return stringBuilder.ToString();
@@ -263,7 +258,7 @@ namespace RimWorld
 		{
 			LessonAutoActivator.TryInitiateLesson((from def in DefDatabase<ConceptDef>.AllDefs
 			orderby LessonAutoActivator.GetDesire(def) descending
-			select def).First<ConceptDef>());
+			select def).First());
 		}
 	}
 }

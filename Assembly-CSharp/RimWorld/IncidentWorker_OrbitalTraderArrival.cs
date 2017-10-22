@@ -13,19 +13,15 @@ namespace RimWorld
 			{
 				return false;
 			}
-			TraderKindDef def;
+			TraderKindDef def = default(TraderKindDef);
 			if ((from x in DefDatabase<TraderKindDef>.AllDefs
 			where x.orbital
-			select x).TryRandomElementByWeight((TraderKindDef traderDef) => traderDef.commonality, out def))
+			select x).TryRandomElementByWeight<TraderKindDef>((Func<TraderKindDef, float>)((TraderKindDef traderDef) => traderDef.commonality), out def))
 			{
 				TradeShip tradeShip = new TradeShip(def);
-				if (map.listerBuildings.allBuildingsColonist.Any((Building b) => b.def.IsCommsConsole && b.GetComp<CompPowerTrader>().PowerOn))
+				if (map.listerBuildings.allBuildingsColonist.Any((Predicate<Building>)((Building b) => b.def.IsCommsConsole && b.GetComp<CompPowerTrader>().PowerOn)))
 				{
-					Find.LetterStack.ReceiveLetter(tradeShip.def.LabelCap, "TraderArrival".Translate(new object[]
-					{
-						tradeShip.name,
-						tradeShip.def.label
-					}), LetterDefOf.Good, null);
+					Find.LetterStack.ReceiveLetter(tradeShip.def.LabelCap, "TraderArrival".Translate(tradeShip.name, tradeShip.def.label), LetterDefOf.Good, (string)null);
 				}
 				map.passingShipManager.AddShip(tradeShip);
 				tradeShip.GenerateThings();

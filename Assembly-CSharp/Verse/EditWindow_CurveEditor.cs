@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
@@ -49,7 +48,7 @@ namespace Verse
 		public EditWindow_CurveEditor(SimpleCurve curve, string title)
 		{
 			this.curve = curve;
-			this.optionalTitle = title;
+			base.optionalTitle = title;
 		}
 
 		public override void DoWindowContents(Rect inRect)
@@ -110,34 +109,36 @@ namespace Verse
 			Vector2 mousePosition = Event.current.mousePosition;
 			if (Mouse.IsOver(screenRect))
 			{
-				Rect rect = new Rect(mousePosition.x + 8f, mousePosition.y + 18f, 100f, 100f);
+				Rect rect = new Rect((float)(mousePosition.x + 8.0), (float)(mousePosition.y + 18.0), 100f, 100f);
 				Vector2 v = SimpleCurveDrawer.ScreenToCurveCoords(screenRect, this.curve.View.rect, mousePosition);
 				Widgets.Label(rect, v.ToStringTwoDigits());
 			}
-			Rect rect2 = new Rect(0f, 0f, 50f, 24f);
-			rect2.x = screenRect.x;
-			rect2.y = screenRect.y + screenRect.height / 2f - 12f;
+			Rect rect2 = new Rect(0f, 0f, 50f, 24f)
+			{
+				x = screenRect.x,
+				y = (float)(screenRect.y + screenRect.height / 2.0 - 12.0)
+			};
 			string s = Widgets.TextField(rect2, this.curve.View.rect.x.ToString());
-			float num;
+			float num = default(float);
 			if (float.TryParse(s, out num))
 			{
 				this.curve.View.rect.x = num;
 			}
 			rect2.x = screenRect.xMax - rect2.width;
-			rect2.y = screenRect.y + screenRect.height / 2f - 12f;
+			rect2.y = (float)(screenRect.y + screenRect.height / 2.0 - 12.0);
 			s = Widgets.TextField(rect2, this.curve.View.rect.xMax.ToString());
 			if (float.TryParse(s, out num))
 			{
 				this.curve.View.rect.xMax = num;
 			}
-			rect2.x = screenRect.x + screenRect.width / 2f - rect2.width / 2f;
+			rect2.x = (float)(screenRect.x + screenRect.width / 2.0 - rect2.width / 2.0);
 			rect2.y = screenRect.yMax - rect2.height;
 			s = Widgets.TextField(rect2, this.curve.View.rect.y.ToString());
 			if (float.TryParse(s, out num))
 			{
 				this.curve.View.rect.y = num;
 			}
-			rect2.x = screenRect.x + screenRect.width / 2f - rect2.width / 2f;
+			rect2.x = (float)(screenRect.x + screenRect.width / 2.0 - rect2.width / 2.0);
 			rect2.y = screenRect.y;
 			s = Widgets.TextField(rect2, this.curve.View.rect.yMax.ToString());
 			if (float.TryParse(s, out num))
@@ -148,23 +149,22 @@ namespace Verse
 			{
 				if (Event.current.type == EventType.ScrollWheel)
 				{
-					float num2 = -1f * Event.current.delta.y * 0.025f;
-					float num3 = this.curve.View.rect.center.x - this.curve.View.rect.x;
-					float num4 = this.curve.View.rect.center.y - this.curve.View.rect.y;
-					SimpleCurveView expr_363_cp_0 = this.curve.View;
-					expr_363_cp_0.rect.xMin = expr_363_cp_0.rect.xMin + num3 * num2;
-					SimpleCurveView expr_384_cp_0 = this.curve.View;
-					expr_384_cp_0.rect.xMax = expr_384_cp_0.rect.xMax - num3 * num2;
-					SimpleCurveView expr_3A5_cp_0 = this.curve.View;
-					expr_3A5_cp_0.rect.yMin = expr_3A5_cp_0.rect.yMin + num4 * num2;
-					SimpleCurveView expr_3C6_cp_0 = this.curve.View;
-					expr_3C6_cp_0.rect.yMax = expr_3C6_cp_0.rect.yMax - num4 * num2;
+					Vector2 delta = Event.current.delta;
+					float num2 = (float)(-1.0 * delta.y * 0.02500000037252903);
+					Vector2 center = this.curve.View.rect.center;
+					float num3 = center.x - this.curve.View.rect.x;
+					Vector2 center2 = this.curve.View.rect.center;
+					float num4 = center2.y - this.curve.View.rect.y;
+					this.curve.View.rect.xMin += num3 * num2;
+					this.curve.View.rect.xMax -= num3 * num2;
+					this.curve.View.rect.yMin += num4 * num2;
+					this.curve.View.rect.yMax -= num4 * num2;
 					Event.current.Use();
 				}
 				if (Event.current.type == EventType.MouseDown && (Event.current.button == 0 || Event.current.button == 2))
 				{
-					List<int> list = this.PointsNearMouse(screenRect).ToList<int>();
-					if (list.Any<int>())
+					List<int> list = this.PointsNearMouse(screenRect).ToList();
+					if (list.Any())
 					{
 						this.draggingPointIndex = list[0];
 					}
@@ -182,14 +182,14 @@ namespace Verse
 				{
 					Vector2 mouseCurveCoords = SimpleCurveDrawer.ScreenToCurveCoords(screenRect, this.curve.View.rect, Event.current.mousePosition);
 					List<FloatMenuOption> list2 = new List<FloatMenuOption>();
-					list2.Add(new FloatMenuOption("Add point at " + mouseCurveCoords.ToString(), delegate
+					list2.Add(new FloatMenuOption("Add point at " + mouseCurveCoords.ToString(), (Action)delegate
 					{
 						this.curve.Add(new CurvePoint(mouseCurveCoords), true);
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));
-					foreach (int current in this.PointsNearMouse(screenRect))
+					foreach (int item in this.PointsNearMouse(screenRect))
 					{
-						CurvePoint point = this.curve[current];
-						list2.Add(new FloatMenuOption("Remove point at " + point.ToString(), delegate
+						CurvePoint point = this.curve[item];
+						list2.Add(new FloatMenuOption("Remove point at " + point.ToString(), (Action)delegate
 						{
 							this.curve.RemovePointNear(point);
 						}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -212,11 +212,9 @@ namespace Verse
 			{
 				if (Event.current.type == EventType.MouseDrag)
 				{
-					Vector2 delta = Event.current.delta;
-					SimpleCurveView expr_668_cp_0 = this.curve.View;
-					expr_668_cp_0.rect.x = expr_668_cp_0.rect.x - delta.x * this.curve.View.rect.width * 0.002f;
-					SimpleCurveView expr_6A7_cp_0 = this.curve.View;
-					expr_6A7_cp_0.rect.y = expr_6A7_cp_0.rect.y + delta.y * this.curve.View.rect.height * 0.002f;
+					Vector2 delta2 = Event.current.delta;
+					this.curve.View.rect.x -= (float)(delta2.x * this.curve.View.rect.width * 0.0020000000949949026);
+					this.curve.View.rect.y += (float)(delta2.y * this.curve.View.rect.height * 0.0020000000949949026);
 					Event.current.Use();
 				}
 				if (Event.current.type == EventType.MouseUp && Event.current.button == this.draggingButton)
@@ -226,16 +224,24 @@ namespace Verse
 			}
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<int> PointsNearMouse(Rect screenRect)
 		{
-			EditWindow_CurveEditor.<PointsNearMouse>c__Iterator232 <PointsNearMouse>c__Iterator = new EditWindow_CurveEditor.<PointsNearMouse>c__Iterator232();
-			<PointsNearMouse>c__Iterator.screenRect = screenRect;
-			<PointsNearMouse>c__Iterator.<$>screenRect = screenRect;
-			<PointsNearMouse>c__Iterator.<>f__this = this;
-			EditWindow_CurveEditor.<PointsNearMouse>c__Iterator232 expr_1C = <PointsNearMouse>c__Iterator;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			GUI.BeginGroup(screenRect);
+			try
+			{
+				for (int i = 0; i < this.curve.PointsCount; i++)
+				{
+					Vector2 screenPoint = SimpleCurveDrawer.CurveToScreenCoordsInsideScreenRect(screenRect, this.curve.View.rect, this.curve[i].Loc);
+					if ((screenPoint - Event.current.mousePosition).sqrMagnitude < 49.0)
+					{
+						yield return i;
+					}
+				}
+			}
+			finally
+			{
+				((_003CPointsNearMouse_003Ec__Iterator232)/*Error near IL_0100: stateMachine*/)._003C_003E__Finally0();
+			}
 		}
 	}
 }

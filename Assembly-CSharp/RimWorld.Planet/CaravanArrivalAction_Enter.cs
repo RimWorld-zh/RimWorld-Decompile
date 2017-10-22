@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.Planet
@@ -11,10 +10,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return "CaravanEntering".Translate(new object[]
-				{
-					this.mapParent.Label
-				});
+				return "CaravanEntering".Translate(this.mapParent.Label);
 			}
 		}
 
@@ -38,29 +34,23 @@ namespace RimWorld.Planet
 		public override void Arrived(Caravan caravan)
 		{
 			Map map = this.mapParent.Map;
-			if (map == null)
+			if (map != null)
 			{
-				return;
-			}
-			Pawn t = caravan.PawnsListForReading[0];
-			CaravanDropInventoryMode dropInventoryMode = (!map.IsPlayerHome) ? CaravanDropInventoryMode.DoNotDrop : CaravanDropInventoryMode.UnloadIndividually;
-			bool draftColonists = this.mapParent.Faction != null && this.mapParent.Faction.HostileTo(Faction.OfPlayer);
-			CaravanEnterMapUtility.Enter(caravan, map, CaravanEnterMode.Edge, dropInventoryMode, draftColonists, null);
-			if (this.mapParent.def == WorldObjectDefOf.Ambush)
-			{
-				Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
-				Find.LetterStack.ReceiveLetter("LetterLabelCaravanEnteredAmbushMap".Translate(), "LetterCaravanEnteredAmbushMap".Translate(new object[]
+				Pawn t = caravan.PawnsListForReading[0];
+				CaravanDropInventoryMode dropInventoryMode = (CaravanDropInventoryMode)(map.IsPlayerHome ? 2 : 0);
+				bool draftColonists = this.mapParent.Faction != null && this.mapParent.Faction.HostileTo(Faction.OfPlayer);
+				CaravanEnterMapUtility.Enter(caravan, map, CaravanEnterMode.Edge, dropInventoryMode, draftColonists, null);
+				if (this.mapParent.def == WorldObjectDefOf.Ambush)
 				{
-					caravan.Label
-				}).CapitalizeFirst(), LetterDefOf.Good, t, null);
-			}
-			else if (caravan.IsPlayerControlled || this.mapParent.Faction == Faction.OfPlayer)
-			{
-				Messages.Message("MessageCaravanEnteredWorldObject".Translate(new object[]
+					Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+					Find.LetterStack.ReceiveLetter("LetterLabelCaravanEnteredAmbushMap".Translate(), "LetterCaravanEnteredAmbushMap".Translate(caravan.Label).CapitalizeFirst(), LetterDefOf.Good, (Thing)t, (string)null);
+				}
+				else
 				{
-					caravan.Label,
-					this.mapParent.Label
-				}).CapitalizeFirst(), t, MessageSound.Benefit);
+					if (!caravan.IsPlayerControlled && this.mapParent.Faction != Faction.OfPlayer)
+						return;
+					Messages.Message("MessageCaravanEnteredWorldObject".Translate(caravan.Label, this.mapParent.Label).CapitalizeFirst(), (Thing)t, MessageSound.Benefit);
+				}
 			}
 		}
 

@@ -1,7 +1,6 @@
 using Steamworks;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -52,11 +51,11 @@ namespace RimWorld
 		{
 			get
 			{
-				Scenario.<>c__Iterator125 <>c__Iterator = new Scenario.<>c__Iterator125();
-				<>c__Iterator.<>f__this = this;
-				Scenario.<>c__Iterator125 expr_0E = <>c__Iterator;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				yield return (ScenPart)this.playerFaction;
+				for (int i = 0; i < this.parts.Count; i++)
+				{
+					yield return this.parts[i];
+				}
 			}
 		}
 
@@ -78,55 +77,72 @@ namespace RimWorld
 
 		public void ExposeData()
 		{
-			Scribe_Values.Look<string>(ref this.name, "name", null, false);
-			Scribe_Values.Look<string>(ref this.summary, "summary", null, false);
-			Scribe_Values.Look<string>(ref this.description, "description", null, false);
+			Scribe_Values.Look<string>(ref this.name, "name", (string)null, false);
+			Scribe_Values.Look<string>(ref this.summary, "summary", (string)null, false);
+			Scribe_Values.Look<string>(ref this.description, "description", (string)null, false);
 			Scribe_Values.Look<PublishedFileId_t>(ref this.publishedFileIdInt, "publishedFileId", PublishedFileId_t.Invalid, false);
 			Scribe_Deep.Look<ScenPart_PlayerFaction>(ref this.playerFaction, "playerFaction", new object[0]);
 			Scribe_Collections.Look<ScenPart>(ref this.parts, "parts", LookMode.Deep, new object[0]);
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors()
 		{
-			Scenario.<ConfigErrors>c__Iterator126 <ConfigErrors>c__Iterator = new Scenario.<ConfigErrors>c__Iterator126();
-			<ConfigErrors>c__Iterator.<>f__this = this;
-			Scenario.<ConfigErrors>c__Iterator126 expr_0E = <ConfigErrors>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.name.NullOrEmpty())
+			{
+				yield return "no title";
+			}
+			if (this.parts.NullOrEmpty())
+			{
+				yield return "no parts";
+			}
+			if (this.playerFaction == null)
+			{
+				yield return "no playerFaction";
+			}
+			foreach (ScenPart allPart in this.AllParts)
+			{
+				foreach (string item in allPart.ConfigErrors())
+				{
+					yield return item;
+				}
+			}
 		}
 
 		public string GetFullInformationText()
 		{
-			string result;
 			try
 			{
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.AppendLine(this.description);
 				stringBuilder.AppendLine();
-				foreach (ScenPart current in this.AllParts)
+				foreach (ScenPart allPart in this.AllParts)
 				{
-					current.summarized = false;
+					allPart.summarized = false;
 				}
-				foreach (ScenPart current2 in from p in this.AllParts
+				foreach (ScenPart item in from p in this.AllParts
 				orderby p.def.summaryPriority descending, p.def.defName
 				where p.visible
 				select p)
 				{
-					string text = current2.Summary(this);
+					string text = item.Summary(this);
 					if (!text.NullOrEmpty())
 					{
 						stringBuilder.AppendLine(text);
 					}
 				}
-				result = stringBuilder.ToString().TrimEndNewlines();
+				return stringBuilder.ToString().TrimEndNewlines();
+				IL_0122:
+				string result;
+				return result;
 			}
 			catch (Exception ex)
 			{
 				Log.ErrorOnce("Exception in Scenario.GetFullInformationText():\n" + ex.ToString(), 10395878);
-				result = "Cannot read data.";
+				return "Cannot read data.";
+				IL_0150:
+				string result;
+				return result;
 			}
-			return result;
 		}
 
 		public string GetSummary()
@@ -149,9 +165,9 @@ namespace RimWorld
 
 		public void PreConfigure()
 		{
-			foreach (ScenPart current in this.AllParts)
+			foreach (ScenPart allPart in this.AllParts)
 			{
-				current.PreConfigure();
+				allPart.PreConfigure();
 			}
 		}
 
@@ -161,9 +177,9 @@ namespace RimWorld
 			list.Add(new Page_SelectStoryteller());
 			list.Add(new Page_CreateWorldParams());
 			list.Add(new Page_SelectLandingSite());
-			foreach (Page current in this.parts.SelectMany((ScenPart p) => p.GetConfigPages()))
+			foreach (Page item in this.parts.SelectMany((Func<ScenPart, IEnumerable<Page>>)((ScenPart p) => p.GetConfigPages())))
 			{
-				list.Add(current);
+				list.Add(item);
 			}
 			Page page = PageUtility.StitchedPages(list);
 			if (page != null)
@@ -173,7 +189,7 @@ namespace RimWorld
 				{
 					page2 = page2.next;
 				}
-				page2.nextAct = delegate
+				page2.nextAct = (Action)delegate
 				{
 					PageUtility.InitGameStart();
 				};
@@ -183,9 +199,9 @@ namespace RimWorld
 
 		public bool AllowPlayerStartingPawn(Pawn pawn)
 		{
-			foreach (ScenPart current in this.AllParts)
+			foreach (ScenPart allPart in this.AllParts)
 			{
-				if (!current.AllowPlayerStartingPawn(pawn))
+				if (!allPart.AllowPlayerStartingPawn(pawn))
 				{
 					return false;
 				}
@@ -195,9 +211,9 @@ namespace RimWorld
 
 		public void Notify_PawnGenerated(Pawn pawn, PawnGenerationContext context)
 		{
-			foreach (ScenPart current in this.AllParts)
+			foreach (ScenPart allPart in this.AllParts)
 			{
-				current.Notify_PawnGenerated(pawn, context);
+				allPart.Notify_PawnGenerated(pawn, context);
 			}
 		}
 
@@ -211,41 +227,41 @@ namespace RimWorld
 
 		public void PostWorldGenerate()
 		{
-			foreach (ScenPart current in this.AllParts)
+			foreach (ScenPart allPart in this.AllParts)
 			{
-				current.PostWorldGenerate();
+				allPart.PostWorldGenerate();
 			}
 		}
 
 		public void PreMapGenerate()
 		{
-			foreach (ScenPart current in this.AllParts)
+			foreach (ScenPart allPart in this.AllParts)
 			{
-				current.PreMapGenerate();
+				allPart.PreMapGenerate();
 			}
 		}
 
 		public void GenerateIntoMap(Map map)
 		{
-			foreach (ScenPart current in this.AllParts)
+			foreach (ScenPart allPart in this.AllParts)
 			{
-				current.GenerateIntoMap(map);
+				allPart.GenerateIntoMap(map);
 			}
 		}
 
 		public void PostMapGenerate(Map map)
 		{
-			foreach (ScenPart current in this.AllParts)
+			foreach (ScenPart allPart in this.AllParts)
 			{
-				current.PostMapGenerate(map);
+				allPart.PostMapGenerate(map);
 			}
 		}
 
 		public void PostGameStart()
 		{
-			foreach (ScenPart current in this.AllParts)
+			foreach (ScenPart allPart in this.AllParts)
 			{
-				current.PostGameStart();
+				allPart.PostGameStart();
 			}
 		}
 
@@ -287,15 +303,29 @@ namespace RimWorld
 				return false;
 			}
 			int num = this.parts.IndexOf(part);
-			if (dir == ReorderDirection.Up)
+			switch (dir)
 			{
-				return num != 0 && (num <= 0 || this.parts[num - 1].def.PlayerAddRemovable);
+			case ReorderDirection.Up:
+			{
+				if (num == 0)
+				{
+					return false;
+				}
+				if (num > 0 && !this.parts[num - 1].def.PlayerAddRemovable)
+				{
+					return false;
+				}
+				return true;
 			}
-			if (dir == ReorderDirection.Down)
+			case ReorderDirection.Down:
 			{
 				return num != this.parts.Count - 1;
 			}
-			throw new NotImplementedException();
+			default:
+			{
+				throw new NotImplementedException();
+			}
+			}
 		}
 
 		public void Reorder(ScenPart part, ReorderDirection dir)
@@ -314,7 +344,19 @@ namespace RimWorld
 
 		public bool CanToUploadToWorkshop()
 		{
-			return this.Category != ScenarioCategory.FromDef && this.TryUploadReport().Accepted && !this.GetWorkshopItemHook().MayHaveAuthorNotCurrentUser;
+			if (this.Category == ScenarioCategory.FromDef)
+			{
+				return false;
+			}
+			if (!this.TryUploadReport().Accepted)
+			{
+				return false;
+			}
+			if (this.GetWorkshopItemHook().MayHaveAuthorNotCurrentUser)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public void PrepareForWorkshopUpload()
@@ -327,18 +369,18 @@ namespace RimWorld
 				directoryInfo.Delete();
 			}
 			directoryInfo.Create();
-			string text = Path.Combine(this.tempUploadDir, this.name);
-			text += ".rsc";
-			GameDataSaveLoader.SaveScenario(this, text);
+			string str = Path.Combine(this.tempUploadDir, this.name);
+			str += ".rsc";
+			GameDataSaveLoader.SaveScenario(this, str);
 		}
 
 		public AcceptanceReport TryUploadReport()
 		{
-			if (this.name == null || this.name.Length < 3 || this.summary == null || this.summary.Length < 3 || this.description == null || this.description.Length < 3)
+			if (this.name != null && this.name.Length >= 3 && this.summary != null && this.summary.Length >= 3 && this.description != null && this.description.Length >= 3)
 			{
-				return "TextFieldsMustBeFilled".Translate();
+				return AcceptanceReport.WasAccepted;
 			}
-			return AcceptanceReport.WasAccepted;
+			return "TextFieldsMustBeFilled".Translate();
 		}
 
 		public PublishedFileId_t GetPublishedFileId()
@@ -372,10 +414,9 @@ namespace RimWorld
 
 		public IList<string> GetWorkshopTags()
 		{
-			return new List<string>
-			{
-				"Scenario"
-			};
+			List<string> list = new List<string>();
+			list.Add("Scenario");
+			return list;
 		}
 
 		public DirectoryInfo GetWorkshopUploadDirectory()

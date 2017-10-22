@@ -20,13 +20,13 @@ namespace RimWorld.BaseGen
 				return ThingDefOf.WoodLog;
 			}
 			return (from d in DefDatabase<ThingDef>.AllDefsListForReading
-			where BaseGenUtility.IsCheapWallStuff(d) && (!notVeryFlammable || d.BaseFlammability < 0.5f)
-			select d).RandomElement<ThingDef>();
+			where BaseGenUtility.IsCheapWallStuff(d) && (!notVeryFlammable || d.BaseFlammability < 0.5)
+			select d).RandomElement();
 		}
 
 		public static bool IsCheapWallStuff(ThingDef d)
 		{
-			return d.IsStuff && d.stuffProps.CanMake(ThingDefOf.Wall) && d.BaseMarketValue / d.VolumePerUnit < 5f;
+			return d.IsStuff && d.stuffProps.CanMake(ThingDefOf.Wall) && d.BaseMarketValue / d.VolumePerUnit < 5.0;
 		}
 
 		public static TerrainDef RandomBasicFloorDef(Faction faction, bool allowCarpet = false)
@@ -35,9 +35,9 @@ namespace RimWorld.BaseGen
 			{
 				return (from x in DefDatabase<TerrainDef>.AllDefsListForReading
 				where x.IsCarpet
-				select x).RandomElement<TerrainDef>();
+				select x).RandomElement();
 			}
-			return Rand.Element<TerrainDef>(TerrainDefOf.MetalTile, TerrainDefOf.PavedTile, TerrainDefOf.WoodPlankFloor, TerrainDefOf.TileSandstone);
+			return Rand.Element(TerrainDefOf.MetalTile, TerrainDefOf.PavedTile, TerrainDefOf.WoodPlankFloor, TerrainDefOf.TileSandstone);
 		}
 
 		public static TerrainDef CorrespondingTerrainDef(ThingDef stuffDef, bool beautiful)
@@ -87,14 +87,11 @@ namespace RimWorld.BaseGen
 
 		public static bool AnyDoorCardinalAdjacentTo(CellRect rect, Map map)
 		{
-			foreach (IntVec3 current in rect.ExpandedBy(1).EdgeCells)
+			foreach (IntVec3 edgeCell in rect.ExpandedBy(1).EdgeCells)
 			{
-				if (!rect.IsCorner(current) && current.InBounds(map))
+				if (!rect.IsCorner(edgeCell) && edgeCell.InBounds(map) && edgeCell.GetDoor(map) != null)
 				{
-					if (current.GetDoor(map) != null)
-					{
-						return true;
-					}
+					return true;
 				}
 			}
 			return false;

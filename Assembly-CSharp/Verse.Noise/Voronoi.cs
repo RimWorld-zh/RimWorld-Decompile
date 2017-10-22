@@ -78,9 +78,9 @@ namespace Verse.Noise
 			x *= this.m_frequency;
 			y *= this.m_frequency;
 			z *= this.m_frequency;
-			int num = (x <= 0.0) ? ((int)x - 1) : ((int)x);
-			int num2 = (y <= 0.0) ? ((int)y - 1) : ((int)y);
-			int num3 = (z <= 0.0) ? ((int)z - 1) : ((int)z);
+			int num = (!(x > 0.0)) ? ((int)x - 1) : ((int)x);
+			int num2 = (!(y > 0.0)) ? ((int)y - 1) : ((int)y);
+			int num3 = (!(z > 0.0)) ? ((int)z - 1) : ((int)z);
 			double num4 = 2147483647.0;
 			double num5 = 0.0;
 			double num6 = 0.0;

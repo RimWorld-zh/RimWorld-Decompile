@@ -42,10 +42,7 @@ namespace Verse
 
 		public SubEffecter Spawn()
 		{
-			return (SubEffecter)Activator.CreateInstance(this.subEffecterClass, new object[]
-			{
-				this
-			});
+			return (SubEffecter)Activator.CreateInstance(this.subEffecterClass, this);
 		}
 	}
 }

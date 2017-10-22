@@ -25,17 +25,44 @@ namespace Verse
 		public void PostLoad()
 		{
 			int num = 0;
-			foreach (string current in this.texts.ListFullCopy<string>())
+			List<string>.Enumerator enumerator = this.texts.ListFullCopy().GetEnumerator();
+			try
 			{
-				this.texts[num] = current.Replace("\\n", Environment.NewLine);
-				num++;
-			}
-			foreach (DiaOptionMold current2 in this.optionList)
-			{
-				foreach (DiaNodeMold current3 in current2.ChildNodes)
+				while (enumerator.MoveNext())
 				{
-					current3.PostLoad();
+					string current = enumerator.Current;
+					this.texts[num] = current.Replace("\\n", Environment.NewLine);
+					num++;
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			List<DiaOptionMold>.Enumerator enumerator2 = this.optionList.GetEnumerator();
+			try
+			{
+				while (enumerator2.MoveNext())
+				{
+					DiaOptionMold current2 = enumerator2.Current;
+					List<DiaNodeMold>.Enumerator enumerator3 = current2.ChildNodes.GetEnumerator();
+					try
+					{
+						while (enumerator3.MoveNext())
+						{
+							DiaNodeMold current3 = enumerator3.Current;
+							current3.PostLoad();
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator3).Dispose();
+					}
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
 			}
 		}
 	}

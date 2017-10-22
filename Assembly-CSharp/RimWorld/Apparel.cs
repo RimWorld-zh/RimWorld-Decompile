@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -28,7 +26,7 @@ namespace RimWorld
 
 		public void Notify_PawnKilled()
 		{
-			if (this.def.apparel.careIfWornByCorpse)
+			if (base.def.apparel.careIfWornByCorpse)
 			{
 				this.wornByCorpseInt = true;
 			}
@@ -54,13 +52,9 @@ namespace RimWorld
 			return true;
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable<Gizmo> GetWornGizmos()
 		{
-			Apparel.<GetWornGizmos>c__Iterator15F <GetWornGizmos>c__Iterator15F = new Apparel.<GetWornGizmos>c__Iterator15F();
-			Apparel.<GetWornGizmos>c__Iterator15F expr_07 = <GetWornGizmos>c__Iterator15F;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield break;
 		}
 
 		public override string GetInspectString()

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -31,7 +30,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.expandingIconTextureInt == null)
+				if ((Object)this.expandingIconTextureInt == (Object)null)
 				{
 					if (!this.expandingIconTexture.NullOrEmpty())
 					{
@@ -68,7 +67,19 @@ namespace RimWorld
 
 		public virtual bool FactionCanOwn(Faction faction)
 		{
-			return (!this.requiresFaction || faction != null) && (this.minFactionTechLevel == TechLevel.Undefined || (faction != null && faction.def.techLevel >= this.minFactionTechLevel)) && (faction == null || (!faction.IsPlayer && !faction.defeated && !faction.def.hidden));
+			if (this.requiresFaction && faction == null)
+			{
+				return false;
+			}
+			if (this.minFactionTechLevel != 0 && (faction == null || (int)faction.def.techLevel < (int)this.minFactionTechLevel))
+			{
+				return false;
+			}
+			if (faction != null && (faction.IsPlayer || faction.defeated || faction.def.hidden))
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -20,7 +19,11 @@ namespace RimWorld
 
 		public bool HasAmmo()
 		{
-			return !this.limitedAmmo || this.ammo > 0;
+			if (!this.limitedAmmo)
+			{
+				return true;
+			}
+			return this.ammo > 0;
 		}
 
 		public void ConsumeAmmo()

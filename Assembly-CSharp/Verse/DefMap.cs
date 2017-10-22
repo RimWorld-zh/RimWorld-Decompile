@@ -19,11 +19,11 @@ namespace Verse
 		{
 			get
 			{
-				return this.values[(int)def.index];
+				return this.values[((Def)(object)def).index];
 			}
 			set
 			{
-				this.values[(int)def.index] = value;
+				this.values[((Def)(object)def).index] = value;
 			}
 		}
 
@@ -44,19 +44,12 @@ namespace Verse
 			int defCount = DefDatabase<D>.DefCount;
 			if (defCount == 0)
 			{
-				throw new Exception(string.Concat(new object[]
-				{
-					"Constructed DefMap<",
-					typeof(D),
-					", ",
-					typeof(V),
-					"> without defs being initialized. Try constructing it in ResolveReferences instead of the constructor."
-				}));
+				throw new Exception("Constructed DefMap<" + typeof(D) + ", " + typeof(V) + "> without defs being initialized. Try constructing it in ResolveReferences instead of the constructor.");
 			}
 			this.values = new List<V>(defCount);
-			for (int i = 0; i < defCount; i++)
+			for (int num = 0; num < defCount; num++)
 			{
-				this.values.Add((default(V) == null) ? Activator.CreateInstance<V>() : default(V));
+				this.values.Add(new V());
 			}
 		}
 

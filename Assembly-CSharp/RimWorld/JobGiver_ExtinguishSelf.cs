@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -10,12 +9,12 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			if (Rand.Value < 0.1f)
+			if (Rand.Value < 0.10000000149011612)
 			{
 				Fire fire = (Fire)pawn.GetAttachment(ThingDefOf.Fire);
 				if (fire != null)
 				{
-					return new Job(JobDefOf.ExtinguishSelf, fire);
+					return new Job(JobDefOf.ExtinguishSelf, (Thing)fire);
 				}
 			}
 			return null;

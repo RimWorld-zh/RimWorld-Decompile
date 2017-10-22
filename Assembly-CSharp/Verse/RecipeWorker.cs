@@ -1,7 +1,5 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse
 {
@@ -9,13 +7,9 @@ namespace Verse
 	{
 		public RecipeDef recipe;
 
-		[DebuggerHidden]
 		public virtual IEnumerable<BodyPartRecord> GetPartsToApplyOn(Pawn pawn, RecipeDef recipe)
 		{
-			RecipeWorker.<GetPartsToApplyOn>c__IteratorBF <GetPartsToApplyOn>c__IteratorBF = new RecipeWorker.<GetPartsToApplyOn>c__IteratorBF();
-			RecipeWorker.<GetPartsToApplyOn>c__IteratorBF expr_07 = <GetPartsToApplyOn>c__IteratorBF;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield break;
 		}
 
 		public virtual void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients)
@@ -24,7 +18,11 @@ namespace Verse
 
 		public virtual bool IsViolationOnPawn(Pawn pawn, BodyPartRecord part, Faction billDoerFaction)
 		{
-			return pawn.Faction != billDoerFaction && this.recipe.isViolation;
+			if (pawn.Faction == billDoerFaction)
+			{
+				return false;
+			}
+			return this.recipe.isViolation;
 		}
 
 		public virtual string GetLabelWhenUsedOn(Pawn pawn, BodyPartRecord part)

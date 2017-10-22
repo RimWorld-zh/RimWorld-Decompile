@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -19,7 +18,7 @@ namespace RimWorld
 					num++;
 				}
 			}
-			return (float)num * 7.6f;
+			return (float)((float)num * 7.5999999046325684);
 		}
 	}
 }

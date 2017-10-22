@@ -44,8 +44,8 @@ namespace Verse.Noise
 
 		private ModuleBase m_generator;
 
-		[XmlIgnore]
 		[NonSerialized]
+		[XmlIgnore]
 		private bool m_disposed;
 
 		public float this[int x, int y, bool isCropped = true]
@@ -64,18 +64,15 @@ namespace Verse.Noise
 					}
 					return this.m_data[x, y];
 				}
-				else
+				if (x < 0 && x >= this.m_ucWidth)
 				{
-					if (x < 0 && x >= this.m_ucWidth)
-					{
-						throw new ArgumentOutOfRangeException("Invalid x position");
-					}
-					if (y < 0 && y >= this.m_ucHeight)
-					{
-						throw new ArgumentOutOfRangeException("Inavlid y position");
-					}
-					return this.m_ucData[x, y];
+					throw new ArgumentOutOfRangeException("Invalid x position");
 				}
+				if (y < 0 && y >= this.m_ucHeight)
+				{
+					throw new ArgumentOutOfRangeException("Inavlid y position");
+				}
+				return this.m_ucData[x, y];
 			}
 			set
 			{
@@ -188,9 +185,9 @@ namespace Verse.Noise
 
 		public float[,] GetData(bool isCropped = true, int xCrop = 0, int yCrop = 0, bool isNormalized = false)
 		{
+			float[,] array;
 			int num;
 			int num2;
-			float[,] array;
 			if (isCropped)
 			{
 				num = this.m_width;
@@ -206,20 +203,12 @@ namespace Verse.Noise
 			num -= xCrop;
 			num2 -= yCrop;
 			float[,] array2 = new float[num, num2];
-			for (int i = 0; i < num; i++)
+			for (int num3 = 0; num3 < num; num3++)
 			{
-				for (int j = 0; j < num2; j++)
+				for (int num4 = 0; num4 < num2; num4++)
 				{
-					float num3;
-					if (isNormalized)
-					{
-						num3 = (array[i, j] + 1f) / 2f;
-					}
-					else
-					{
-						num3 = array[i, j];
-					}
-					array2[i, j] = num3;
+					float num5 = (float)((!isNormalized) ? array[num3, num4] : ((array[num3, num4] + 1.0) / 2.0));
+					array2[num3, num4] = num5;
 				}
 			}
 			return array2;
@@ -253,50 +242,51 @@ namespace Verse.Noise
 
 		public void GeneratePlanar(double left, double right, double top, double bottom, bool isSeamless)
 		{
-			if (right <= left || bottom <= top)
+			if (!(right <= left) && !(bottom <= top))
 			{
-				throw new ArgumentException("Invalid right/left or bottom/top combination");
-			}
-			if (this.m_generator == null)
-			{
-				throw new ArgumentNullException("Generator is null");
-			}
-			double num = right - left;
-			double num2 = bottom - top;
-			double num3 = num / ((double)this.m_width - (double)this.m_ucBorder);
-			double num4 = num2 / ((double)this.m_height - (double)this.m_ucBorder);
-			double num5 = left;
-			for (int i = 0; i < this.m_ucWidth; i++)
-			{
-				double num6 = top;
-				for (int j = 0; j < this.m_ucHeight; j++)
+				if (this.m_generator == null)
 				{
-					float num7;
-					if (isSeamless)
-					{
-						num7 = (float)this.GeneratePlanar(num5, num6);
-					}
-					else
-					{
-						double a = this.GeneratePlanar(num5, num6);
-						double b = this.GeneratePlanar(num5 + num, num6);
-						double a2 = this.GeneratePlanar(num5, num6 + num2);
-						double b2 = this.GeneratePlanar(num5 + num, num6 + num2);
-						double position = 1.0 - (num5 - left) / num;
-						double position2 = 1.0 - (num6 - top) / num2;
-						double a3 = Utils.InterpolateLinear(a, b, position);
-						double b3 = Utils.InterpolateLinear(a2, b2, position);
-						num7 = (float)Utils.InterpolateLinear(a3, b3, position2);
-					}
-					this.m_ucData[i, j] = num7;
-					if (i >= this.m_ucBorder && j >= this.m_ucBorder && i < this.m_width + this.m_ucBorder && j < this.m_height + this.m_ucBorder)
-					{
-						this.m_data[i - this.m_ucBorder, j - this.m_ucBorder] = num7;
-					}
-					num6 += num4;
+					throw new ArgumentNullException("Generator is null");
 				}
-				num5 += num3;
+				double num = right - left;
+				double num2 = bottom - top;
+				double num3 = num / ((double)this.m_width - (double)this.m_ucBorder);
+				double num4 = num2 / ((double)this.m_height - (double)this.m_ucBorder);
+				double num5 = left;
+				float num6 = 0f;
+				for (int i = 0; i < this.m_ucWidth; i++)
+				{
+					double num7 = top;
+					for (int j = 0; j < this.m_ucHeight; j++)
+					{
+						if (isSeamless)
+						{
+							num6 = (float)this.GeneratePlanar(num5, num7);
+						}
+						else
+						{
+							double a = this.GeneratePlanar(num5, num7);
+							double b = this.GeneratePlanar(num5 + num, num7);
+							double a2 = this.GeneratePlanar(num5, num7 + num2);
+							double b2 = this.GeneratePlanar(num5 + num, num7 + num2);
+							double position = 1.0 - (num5 - left) / num;
+							double position2 = 1.0 - (num7 - top) / num2;
+							double a3 = Utils.InterpolateLinear(a, b, position);
+							double b3 = Utils.InterpolateLinear(a2, b2, position);
+							num6 = (float)Utils.InterpolateLinear(a3, b3, position2);
+						}
+						this.m_ucData[i, j] = num6;
+						if (i >= this.m_ucBorder && j >= this.m_ucBorder && i < this.m_width + this.m_ucBorder && j < this.m_height + this.m_ucBorder)
+						{
+							this.m_data[i - this.m_ucBorder, j - this.m_ucBorder] = num6;
+						}
+						num7 += num4;
+					}
+					num5 += num3;
+				}
+				return;
 			}
+			throw new ArgumentException("Invalid right/left or bottom/top combination");
 		}
 
 		private double GenerateCylindrical(double angle, double height)
@@ -308,33 +298,34 @@ namespace Verse.Noise
 
 		public void GenerateCylindrical(double angleMin, double angleMax, double heightMin, double heightMax)
 		{
-			if (angleMax <= angleMin || heightMax <= heightMin)
+			if (!(angleMax <= angleMin) && !(heightMax <= heightMin))
 			{
-				throw new ArgumentException("Invalid angle or height parameters");
-			}
-			if (this.m_generator == null)
-			{
-				throw new ArgumentNullException("Generator is null");
-			}
-			double num = angleMax - angleMin;
-			double num2 = heightMax - heightMin;
-			double num3 = num / ((double)this.m_width - (double)this.m_ucBorder);
-			double num4 = num2 / ((double)this.m_height - (double)this.m_ucBorder);
-			double num5 = angleMin;
-			for (int i = 0; i < this.m_ucWidth; i++)
-			{
-				double num6 = heightMin;
-				for (int j = 0; j < this.m_ucHeight; j++)
+				if (this.m_generator == null)
 				{
-					this.m_ucData[i, j] = (float)this.GenerateCylindrical(num5, num6);
-					if (i >= this.m_ucBorder && j >= this.m_ucBorder && i < this.m_width + this.m_ucBorder && j < this.m_height + this.m_ucBorder)
-					{
-						this.m_data[i - this.m_ucBorder, j - this.m_ucBorder] = (float)this.GenerateCylindrical(num5, num6);
-					}
-					num6 += num4;
+					throw new ArgumentNullException("Generator is null");
 				}
-				num5 += num3;
+				double num = angleMax - angleMin;
+				double num2 = heightMax - heightMin;
+				double num3 = num / ((double)this.m_width - (double)this.m_ucBorder);
+				double num4 = num2 / ((double)this.m_height - (double)this.m_ucBorder);
+				double num5 = angleMin;
+				for (int i = 0; i < this.m_ucWidth; i++)
+				{
+					double num6 = heightMin;
+					for (int j = 0; j < this.m_ucHeight; j++)
+					{
+						this.m_ucData[i, j] = (float)this.GenerateCylindrical(num5, num6);
+						if (i >= this.m_ucBorder && j >= this.m_ucBorder && i < this.m_width + this.m_ucBorder && j < this.m_height + this.m_ucBorder)
+						{
+							this.m_data[i - this.m_ucBorder, j - this.m_ucBorder] = (float)this.GenerateCylindrical(num5, num6);
+						}
+						num6 += num4;
+					}
+					num5 += num3;
+				}
+				return;
 			}
+			throw new ArgumentException("Invalid angle or height parameters");
 		}
 
 		private double GenerateSpherical(double lat, double lon)
@@ -345,33 +336,34 @@ namespace Verse.Noise
 
 		public void GenerateSpherical(double south, double north, double west, double east)
 		{
-			if (east <= west || north <= south)
+			if (!(east <= west) && !(north <= south))
 			{
-				throw new ArgumentException("Invalid east/west or north/south combination");
-			}
-			if (this.m_generator == null)
-			{
-				throw new ArgumentNullException("Generator is null");
-			}
-			double num = east - west;
-			double num2 = north - south;
-			double num3 = num / ((double)this.m_width - (double)this.m_ucBorder);
-			double num4 = num2 / ((double)this.m_height - (double)this.m_ucBorder);
-			double num5 = west;
-			for (int i = 0; i < this.m_ucWidth; i++)
-			{
-				double num6 = south;
-				for (int j = 0; j < this.m_ucHeight; j++)
+				if (this.m_generator == null)
 				{
-					this.m_ucData[i, j] = (float)this.GenerateSpherical(num6, num5);
-					if (i >= this.m_ucBorder && j >= this.m_ucBorder && i < this.m_width + this.m_ucBorder && j < this.m_height + this.m_ucBorder)
-					{
-						this.m_data[i - this.m_ucBorder, j - this.m_ucBorder] = (float)this.GenerateSpherical(num6, num5);
-					}
-					num6 += num4;
+					throw new ArgumentNullException("Generator is null");
 				}
-				num5 += num3;
+				double num = east - west;
+				double num2 = north - south;
+				double num3 = num / ((double)this.m_width - (double)this.m_ucBorder);
+				double num4 = num2 / ((double)this.m_height - (double)this.m_ucBorder);
+				double num5 = west;
+				for (int i = 0; i < this.m_ucWidth; i++)
+				{
+					double num6 = south;
+					for (int j = 0; j < this.m_ucHeight; j++)
+					{
+						this.m_ucData[i, j] = (float)this.GenerateSpherical(num6, num5);
+						if (i >= this.m_ucBorder && j >= this.m_ucBorder && i < this.m_width + this.m_ucBorder && j < this.m_height + this.m_ucBorder)
+						{
+							this.m_data[i - this.m_ucBorder, j - this.m_ucBorder] = (float)this.GenerateSpherical(num6, num5);
+						}
+						num6 += num4;
+					}
+					num5 += num3;
+				}
+				return;
 			}
+			throw new ArgumentException("Invalid east/west or north/south combination");
 		}
 
 		public Texture2D GetTexture()
@@ -388,16 +380,9 @@ namespace Verse.Noise
 			{
 				for (int j = 0; j < this.m_height; j++)
 				{
-					float num;
-					if (!float.IsNaN(this.m_borderValue) && (i == 0 || i == this.m_width - this.m_ucBorder || j == 0 || j == this.m_height - this.m_ucBorder))
-					{
-						num = this.m_borderValue;
-					}
-					else
-					{
-						num = this.m_data[i, j];
-					}
-					array[i + j * this.m_width] = gradient.Evaluate((num + 1f) / 2f);
+					float num = 0f;
+					num = ((float.IsNaN(this.m_borderValue) || (i != 0 && i != this.m_width - this.m_ucBorder && j != 0 && j != this.m_height - this.m_ucBorder)) ? this.m_data[i, j] : this.m_borderValue);
+					array[i + j * this.m_width] = gradient.Evaluate((float)((num + 1.0) / 2.0));
 				}
 			}
 			texture2D.SetPixels(array);
@@ -415,16 +400,16 @@ namespace Verse.Noise
 			{
 				for (int j = 0; j < this.m_ucHeight; j++)
 				{
-					float num = (this.m_ucData[Mathf.Max(0, i - this.m_ucBorder), j] - this.m_ucData[Mathf.Min(i + this.m_ucBorder, this.m_height + this.m_ucBorder), j]) / 2f;
-					float num2 = (this.m_ucData[i, Mathf.Max(0, j - this.m_ucBorder)] - this.m_ucData[i, Mathf.Min(j + this.m_ucBorder, this.m_width + this.m_ucBorder)]) / 2f;
+					float num = (float)((this.m_ucData[Mathf.Max(0, i - this.m_ucBorder), j] - this.m_ucData[Mathf.Min(i + this.m_ucBorder, this.m_height + this.m_ucBorder), j]) / 2.0);
+					float num2 = (float)((this.m_ucData[i, Mathf.Max(0, j - this.m_ucBorder)] - this.m_ucData[i, Mathf.Min(j + this.m_ucBorder, this.m_width + this.m_ucBorder)]) / 2.0);
 					Vector3 a = new Vector3(num * intensity, 0f, 1f);
 					Vector3 b = new Vector3(0f, num2 * intensity, 1f);
 					Vector3 vector = a + b;
 					vector.Normalize();
 					Vector3 zero = Vector3.zero;
-					zero.x = (vector.x + 1f) / 2f;
-					zero.y = (vector.y + 1f) / 2f;
-					zero.z = (vector.z + 1f) / 2f;
+					zero.x = (float)((vector.x + 1.0) / 2.0);
+					zero.y = (float)((vector.y + 1.0) / 2.0);
+					zero.z = (float)((vector.z + 1.0) / 2.0);
 					if (i >= this.m_ucBorder && j >= this.m_ucBorder && i < this.m_width + this.m_ucBorder && j < this.m_height + this.m_ucBorder)
 					{
 						array[i - this.m_ucBorder + (j - this.m_ucBorder) * this.m_width] = new Color(zero.x, zero.y, zero.z);

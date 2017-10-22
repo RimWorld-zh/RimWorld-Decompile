@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Verse;
 
@@ -26,7 +24,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.def.building.ignoreStoredThingsBeauty;
+				return base.def.building.ignoreStoredThingsBeauty;
 			}
 		}
 
@@ -47,21 +45,19 @@ namespace RimWorld
 		{
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable<IntVec3> AllSlotCells()
 		{
-			Building_Storage.<AllSlotCells>c__Iterator14A <AllSlotCells>c__Iterator14A = new Building_Storage.<AllSlotCells>c__Iterator14A();
-			<AllSlotCells>c__Iterator14A.<>f__this = this;
-			Building_Storage.<AllSlotCells>c__Iterator14A expr_0E = <AllSlotCells>c__Iterator14A;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (IntVec3 item in GenAdj.CellsOccupiedBy(this))
+			{
+				yield return item;
+			}
 		}
 
 		public List<IntVec3> AllSlotCellsList()
 		{
 			if (this.cachedOccupiedCells == null)
 			{
-				this.cachedOccupiedCells = this.AllSlotCells().ToList<IntVec3>();
+				this.cachedOccupiedCells = this.AllSlotCells().ToList();
 			}
 			return this.cachedOccupiedCells;
 		}
@@ -73,7 +69,7 @@ namespace RimWorld
 
 		public StorageSettings GetParentStoreSettings()
 		{
-			return this.def.building.fixedStorageSettings;
+			return base.def.building.fixedStorageSettings;
 		}
 
 		public string SlotYielderLabel()
@@ -85,23 +81,23 @@ namespace RimWorld
 		{
 			base.PostMake();
 			this.settings = new StorageSettings(this);
-			if (this.def.building.defaultStorageSettings != null)
+			if (base.def.building.defaultStorageSettings != null)
 			{
-				this.settings.CopyFrom(this.def.building.defaultStorageSettings);
+				this.settings.CopyFrom(base.def.building.defaultStorageSettings);
 			}
 		}
 
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
-			this.cachedOccupiedCells = this.AllSlotCells().ToList<IntVec3>();
+			this.cachedOccupiedCells = this.AllSlotCells().ToList();
 			this.slotGroup = new SlotGroup(this);
 		}
 
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Deep.Look<StorageSettings>(ref this.settings, "settings", new object[]
+			Scribe_Deep.Look<StorageSettings>(ref this.settings, "settings", new object[1]
 			{
 				this
 			});
@@ -116,19 +112,27 @@ namespace RimWorld
 			base.DeSpawn();
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_Storage.<GetGizmos>c__Iterator14B <GetGizmos>c__Iterator14B = new Building_Storage.<GetGizmos>c__Iterator14B();
-			<GetGizmos>c__Iterator14B.<>f__this = this;
-			Building_Storage.<GetGizmos>c__Iterator14B expr_0E = <GetGizmos>c__Iterator14B;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			foreach (Gizmo item in StorageSettingsClipboard.CopyPasteGizmosFor(this.settings))
+			{
+				yield return item;
+			}
 		}
 
 		virtual Map get_Map()
 		{
 			return base.Map;
+		}
+
+		Map ISlotGroupParent.get_Map()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_Map
+			return this.get_Map();
 		}
 	}
 }

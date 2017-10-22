@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI.Group
 {
 	public class Trigger_PawnHarmed : Trigger
@@ -16,7 +14,15 @@ namespace Verse.AI.Group
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
-			return Trigger_PawnHarmed.SignalIsHarm(signal) && (!this.requireInstigatorWithFaction || (signal.dinfo.Instigator != null && signal.dinfo.Instigator.Faction != null)) && Rand.Value < this.chance;
+			if (!Trigger_PawnHarmed.SignalIsHarm(signal))
+			{
+				return false;
+			}
+			if (this.requireInstigatorWithFaction && (signal.dinfo.Instigator == null || signal.dinfo.Instigator.Faction == null))
+			{
+				return false;
+			}
+			return Rand.Value < this.chance;
 		}
 
 		public static bool SignalIsHarm(TriggerSignal signal)
@@ -29,7 +35,11 @@ namespace Verse.AI.Group
 			{
 				return signal.condition == PawnLostCondition.MadePrisoner || signal.condition == PawnLostCondition.IncappedOrKilled;
 			}
-			return signal.type == TriggerSignalType.PawnArrestAttempted;
+			if (signal.type == TriggerSignalType.PawnArrestAttempted)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

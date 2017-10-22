@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -17,15 +16,11 @@ namespace RimWorld
 				if (lordJob_FormAndSendCaravan != null && lordJob_FormAndSendCaravan.GatheringItemsNow)
 				{
 					Thing thing = GatherItemsForCaravanUtility.FindThingToHaul(pawn, lords[i]);
-					if (thing != null)
+					if (thing != null && this.AnyReachableCarrierOrColonist(pawn, lords[i]))
 					{
-						if (this.AnyReachableCarrierOrColonist(pawn, lords[i]))
-						{
-							return new Job(JobDefOf.PrepareCaravan_GatherItems, thing)
-							{
-								lord = lords[i]
-							};
-						}
+						Job job = new Job(JobDefOf.PrepareCaravan_GatherItems, thing);
+						job.lord = lords[i];
+						return job;
 					}
 				}
 			}
@@ -36,15 +31,9 @@ namespace RimWorld
 		{
 			for (int i = 0; i < lord.ownedPawns.Count; i++)
 			{
-				if (JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier(lord.ownedPawns[i], forPawn, false))
+				if (JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier(lord.ownedPawns[i], forPawn, false) && !lord.ownedPawns[i].IsForbidden(forPawn) && forPawn.CanReach((Thing)lord.ownedPawns[i], PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
 				{
-					if (!lord.ownedPawns[i].IsForbidden(forPawn))
-					{
-						if (forPawn.CanReach(lord.ownedPawns[i], PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
-						{
-							return true;
-						}
-					}
+					return true;
 				}
 			}
 			return false;

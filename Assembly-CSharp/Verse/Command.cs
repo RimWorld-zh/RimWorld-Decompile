@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 using Verse.Sound;
 
@@ -114,20 +113,20 @@ namespace Verse
 				GUI.color = GenUI.MouseoverColor;
 			}
 			Texture2D badTex = this.icon;
-			if (badTex == null)
+			if ((Object)badTex == (Object)null)
 			{
 				badTex = BaseContent.BadTex;
 			}
 			GUI.DrawTexture(rect, Command.BGTex);
 			MouseoverSounds.DoRegion(rect, SoundDefOf.MouseoverCommand);
 			GUI.color = this.IconDrawColor;
-			Widgets.DrawTextureFitted(new Rect(rect), badTex, this.iconDrawScale * 0.85f, this.iconProportions, this.iconTexCoords);
+			Widgets.DrawTextureFitted(new Rect(rect), badTex, (float)(this.iconDrawScale * 0.85000002384185791), this.iconProportions, this.iconTexCoords);
 			GUI.color = Color.white;
 			bool flag2 = false;
 			KeyCode keyCode = (this.hotKey != null) ? this.hotKey.MainKey : KeyCode.None;
-			if (keyCode != KeyCode.None && !GizmoGridDrawer.drawnHotKeys.Contains(keyCode))
+			if (keyCode != 0 && !GizmoGridDrawer.drawnHotKeys.Contains(keyCode))
 			{
-				Rect rect2 = new Rect(rect.x + 5f, rect.y + 5f, rect.width - 10f, 18f);
+				Rect rect2 = new Rect((float)(rect.x + 5.0), (float)(rect.y + 5.0), (float)(rect.width - 10.0), 18f);
 				Widgets.Label(rect2, keyCode.ToStringReadable());
 				GizmoGridDrawer.drawnHotKeys.Add(keyCode);
 				if (this.hotKey.KeyDownEvent)
@@ -144,7 +143,7 @@ namespace Verse
 			if (!labelCap.NullOrEmpty())
 			{
 				float num = Text.CalcHeight(labelCap, rect.width);
-				Rect rect3 = new Rect(rect.x, rect.yMax - num + 12f, rect.width, num);
+				Rect rect3 = new Rect(rect.x, (float)(rect.yMax - num + 12.0), rect.width, num);
 				GUI.DrawTexture(rect3, TexUI.GrayTextBG);
 				GUI.color = Color.white;
 				Text.Anchor = TextAnchor.UpperCenter;
@@ -156,17 +155,10 @@ namespace Verse
 			if (this.DoTooltip)
 			{
 				TipSignal tip = this.Desc;
-				if (this.disabled && !this.disabledReason.NullOrEmpty())
+				if (base.disabled && !base.disabledReason.NullOrEmpty())
 				{
 					string text = tip.text;
-					tip.text = string.Concat(new string[]
-					{
-						text,
-						"\n\n",
-						"DisabledCommand".Translate(),
-						": ",
-						this.disabledReason
-					});
+					tip.text = text + "\n\n" + "DisabledCommand".Translate() + ": " + base.disabledReason;
 				}
 				TooltipHandler.TipRegion(rect, tip);
 			}
@@ -176,11 +168,11 @@ namespace Verse
 			}
 			if (flag2)
 			{
-				if (this.disabled)
+				if (base.disabled)
 				{
-					if (!this.disabledReason.NullOrEmpty())
+					if (!base.disabledReason.NullOrEmpty())
 					{
-						Messages.Message(this.disabledReason, MessageSound.RejectInput);
+						Messages.Message(base.disabledReason, MessageSound.RejectInput);
 					}
 					return new GizmoResult(GizmoState.Mouseover, null);
 				}
@@ -192,20 +184,33 @@ namespace Verse
 				TutorSystem.Notify_Event(this.TutorTagSelect);
 				return result;
 			}
-			else
+			if (flag)
 			{
-				if (flag)
-				{
-					return new GizmoResult(GizmoState.Mouseover, null);
-				}
-				return new GizmoResult(GizmoState.Clear, null);
+				return new GizmoResult(GizmoState.Mouseover, null);
 			}
+			return new GizmoResult(GizmoState.Clear, null);
 		}
 
 		public override bool GroupsWith(Gizmo other)
 		{
 			Command command = other as Command;
-			return command != null && ((this.hotKey == command.hotKey && this.Label == command.Label && this.icon == command.icon) || (this.groupKey != 0 && command.groupKey != 0 && this.groupKey == command.groupKey));
+			if (command == null)
+			{
+				return false;
+			}
+			if (this.hotKey == command.hotKey && this.Label == command.Label && (Object)this.icon == (Object)command.icon)
+			{
+				return true;
+			}
+			if (((this.groupKey != 0) ? command.groupKey : 0) != 0)
+			{
+				if (this.groupKey == command.groupKey)
+				{
+					return true;
+				}
+				return false;
+			}
+			return false;
 		}
 
 		public override void ProcessInput(Event ev)
@@ -219,21 +224,14 @@ namespace Verse
 		public override int GetHashCode()
 		{
 			int seed = 0;
-			seed = Gen.HashCombine<KeyBindingDef>(seed, this.hotKey);
-			seed = Gen.HashCombine<Texture2D>(seed, this.icon);
-			return Gen.HashCombine<string>(seed, this.defaultDesc);
+			seed = Gen.HashCombine(seed, this.hotKey);
+			seed = Gen.HashCombine(seed, this.icon);
+			return Gen.HashCombine(seed, this.defaultDesc);
 		}
 
 		public override string ToString()
 		{
-			return string.Concat(new string[]
-			{
-				"Command(label=",
-				this.defaultLabel,
-				", defaultDesc=",
-				this.defaultDesc,
-				")"
-			});
+			return "Command(label=" + this.defaultLabel + ", defaultDesc=" + this.defaultDesc + ")";
 		}
 	}
 }

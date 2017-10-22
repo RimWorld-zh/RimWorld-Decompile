@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse.AI.Group;
 
@@ -14,13 +13,13 @@ namespace RimWorld
 		{
 			get
 			{
-				return (TriggerData_FractionColonyDamageTaken)this.data;
+				return (TriggerData_FractionColonyDamageTaken)base.data;
 			}
 		}
 
 		public Trigger_FractionColonyDamageTaken(float desiredColonyDamageFraction, float minDamage = 3.40282347E+38f)
 		{
-			this.data = new TriggerData_FractionColonyDamageTaken();
+			base.data = new TriggerData_FractionColonyDamageTaken();
 			this.desiredColonyDamageFraction = desiredColonyDamageFraction;
 			this.minDamage = minDamage;
 		}

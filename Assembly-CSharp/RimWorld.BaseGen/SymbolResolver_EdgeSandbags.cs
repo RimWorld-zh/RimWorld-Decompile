@@ -15,7 +15,11 @@ namespace RimWorld.BaseGen
 			int num = 0;
 			int num2 = 0;
 			int num3 = -1;
-			if (rp.rect.EdgeCellsCount < (SymbolResolver_EdgeSandbags.LineLengthRange.max + SymbolResolver_EdgeSandbags.GapLengthRange.max) * 2)
+			int edgeCellsCount = rp.rect.EdgeCellsCount;
+			IntRange lineLengthRange = SymbolResolver_EdgeSandbags.LineLengthRange;
+			int max = lineLengthRange.max;
+			IntRange gapLengthRange = SymbolResolver_EdgeSandbags.GapLengthRange;
+			if (edgeCellsCount < (max + gapLengthRange.max) * 2)
 			{
 				num = rp.rect.EdgeCellsCount;
 			}
@@ -27,7 +31,7 @@ namespace RimWorld.BaseGen
 			{
 				num2 = SymbolResolver_EdgeSandbags.GapLengthRange.RandomInRange;
 			}
-			foreach (IntVec3 current in rp.rect.EdgeCells)
+			foreach (IntVec3 edgeCell in rp.rect.EdgeCells)
 			{
 				num3++;
 				if (num2 > 0)
@@ -45,22 +49,19 @@ namespace RimWorld.BaseGen
 						}
 					}
 				}
-				else if (current.Standable(map) && !current.Roofed(map))
+				else if (edgeCell.Standable(map) && !edgeCell.Roofed(map) && !GenSpawn.WouldWipeAnythingWith(edgeCell, Rot4.North, ThingDefOf.Sandbags, map, (Predicate<Thing>)((Thing x) => x.def.category == ThingCategory.Building || x.def.category == ThingCategory.Item)))
 				{
-					if (!GenSpawn.WouldWipeAnythingWith(current, Rot4.North, ThingDefOf.Sandbags, map, (Thing x) => x.def.category == ThingCategory.Building || x.def.category == ThingCategory.Item))
+					if (num > 0)
 					{
-						if (num > 0)
+						num--;
+						if (num == 0)
 						{
-							num--;
-							if (num == 0)
-							{
-								num2 = SymbolResolver_EdgeSandbags.GapLengthRange.RandomInRange;
-							}
+							num2 = SymbolResolver_EdgeSandbags.GapLengthRange.RandomInRange;
 						}
-						Thing thing = ThingMaker.MakeThing(ThingDefOf.Sandbags, null);
-						thing.SetFaction(rp.faction, null);
-						GenSpawn.Spawn(thing, current, map);
 					}
+					Thing thing = ThingMaker.MakeThing(ThingDefOf.Sandbags, null);
+					thing.SetFaction(rp.faction, null);
+					GenSpawn.Spawn(thing, edgeCell, map);
 				}
 			}
 		}

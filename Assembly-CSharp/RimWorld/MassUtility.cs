@@ -21,7 +21,7 @@ namespace RimWorld
 
 		public static bool IsOverEncumbered(Pawn pawn)
 		{
-			return MassUtility.UnboundedEncumbrancePercent(pawn) > 1f;
+			return MassUtility.UnboundedEncumbrancePercent(pawn) > 1.0;
 		}
 
 		public static bool WillBeOverEncumberedAfterPickingUp(Pawn pawn, Thing thing, int count)
@@ -57,9 +57,19 @@ namespace RimWorld
 			}
 			if (p.equipment != null)
 			{
-				foreach (ThingWithComps current in p.equipment.AllEquipmentListForReading)
+				List<ThingWithComps>.Enumerator enumerator = p.equipment.AllEquipmentListForReading.GetEnumerator();
+				try
 				{
-					num += current.GetStatValue(StatDefOf.Mass, true);
+					while (enumerator.MoveNext())
+					{
+						ThingWithComps current = enumerator.Current;
+						num += current.GetStatValue(StatDefOf.Mass, true);
+					}
+					return num;
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 			return num;
@@ -82,7 +92,7 @@ namespace RimWorld
 			{
 				return 0f;
 			}
-			return p.BodySize * 35f;
+			return (float)(p.BodySize * 35.0);
 		}
 
 		public static bool CanEverCarryAnything(Pawn p)

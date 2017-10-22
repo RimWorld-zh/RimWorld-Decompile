@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
@@ -52,7 +51,11 @@ namespace Verse
 					this.x = this.ir.minX;
 					this.z++;
 				}
-				return this.z <= this.ir.maxZ;
+				if (this.z > this.ir.maxZ)
+				{
+					return false;
+				}
+				return true;
 			}
 
 			public void Reset()
@@ -191,7 +194,7 @@ namespace Verse
 		{
 			get
 			{
-				return new Vector3((float)this.minX + (float)this.Width / 2f, 0f, (float)this.minZ + (float)this.Height / 2f);
+				return new Vector3((float)((float)this.minX + (float)this.Width / 2.0), 0f, (float)((float)this.minZ + (float)this.Height / 2.0));
 			}
 		}
 
@@ -207,11 +210,13 @@ namespace Verse
 		{
 			get
 			{
-				CellRect.<>c__Iterator237 <>c__Iterator = new CellRect.<>c__Iterator237();
-				<>c__Iterator.<>f__this = this;
-				CellRect.<>c__Iterator237 expr_13 = <>c__Iterator;
-				expr_13.$PC = -2;
-				return expr_13;
+				for (int z = this.minZ; z <= this.maxZ; z++)
+				{
+					for (int x = this.minX; x <= this.maxX; x++)
+					{
+						yield return new IntVec3(x, 0, z);
+					}
+				}
 			}
 		}
 
@@ -219,11 +224,13 @@ namespace Verse
 		{
 			get
 			{
-				CellRect.<>c__Iterator238 <>c__Iterator = new CellRect.<>c__Iterator238();
-				<>c__Iterator.<>f__this = this;
-				CellRect.<>c__Iterator238 expr_13 = <>c__Iterator;
-				expr_13.$PC = -2;
-				return expr_13;
+				for (int z = this.minZ; z <= this.maxZ; z++)
+				{
+					for (int x = this.minX; x <= this.maxX; x++)
+					{
+						yield return new IntVec2(x, z);
+					}
+				}
 			}
 		}
 
@@ -231,11 +238,27 @@ namespace Verse
 		{
 			get
 			{
-				CellRect.<>c__Iterator239 <>c__Iterator = new CellRect.<>c__Iterator239();
-				<>c__Iterator.<>f__this = this;
-				CellRect.<>c__Iterator239 expr_13 = <>c__Iterator;
-				expr_13.$PC = -2;
-				return expr_13;
+				int x4 = this.minX;
+				int z4 = this.minZ;
+				for (; x4 <= this.maxX; x4++)
+				{
+					yield return new IntVec3(x4, 0, z4);
+				}
+				x4--;
+				for (z4++; z4 <= this.maxZ; z4++)
+				{
+					yield return new IntVec3(x4, 0, z4);
+				}
+				z4--;
+				for (x4--; x4 >= this.minX; x4--)
+				{
+					yield return new IntVec3(x4, 0, z4);
+				}
+				x4++;
+				for (z4--; z4 > this.minZ; z4--)
+				{
+					yield return new IntVec3(x4, 0, z4);
+				}
 			}
 		}
 
@@ -263,14 +286,17 @@ namespace Verse
 			this.maxZ = minZ + height - 1;
 		}
 
-		public CellRect.CellRectIterator GetIterator()
+		public CellRectIterator GetIterator()
 		{
-			return new CellRect.CellRectIterator(this);
+			return new CellRectIterator(this);
 		}
 
 		public static CellRect WholeMap(Map map)
 		{
-			return new CellRect(0, 0, map.Size.x, map.Size.z);
+			IntVec3 size = map.Size;
+			int x = size.x;
+			IntVec3 size2 = map.Size;
+			return new CellRect(0, 0, x, size2.z);
 		}
 
 		public static CellRect FromLimits(int minX, int minZ, int maxX, int maxZ)
@@ -313,7 +339,23 @@ namespace Verse
 
 		public bool InBounds(Map map)
 		{
-			return this.minX >= 0 && this.minZ >= 0 && this.maxX < map.Size.x && this.maxZ < map.Size.z;
+			int result;
+			if (this.minX >= 0 && this.minZ >= 0)
+			{
+				int num = this.maxX;
+				IntVec3 size = map.Size;
+				if (num < size.x)
+				{
+					int num2 = this.maxZ;
+					IntVec3 size2 = map.Size;
+					result = ((num2 < size2.z) ? 1 : 0);
+					goto IL_004a;
+				}
+			}
+			result = 0;
+			goto IL_004a;
+			IL_004a:
+			return (byte)result != 0;
 		}
 
 		public bool FullyContainedWithin(CellRect within)
@@ -325,12 +367,48 @@ namespace Verse
 
 		public bool IsOnEdge(IntVec3 c)
 		{
-			return (c.x == this.minX && c.z >= this.minZ && c.z <= this.maxZ) || (c.x == this.maxX && c.z >= this.minZ && c.z <= this.maxZ) || (c.z == this.minZ && c.x >= this.minX && c.x <= this.maxX) || (c.z == this.maxZ && c.x >= this.minX && c.x <= this.maxX);
+			if (c.x == this.minX && c.z >= this.minZ && c.z <= this.maxZ)
+			{
+				goto IL_00dd;
+			}
+			if (c.x == this.maxX && c.z >= this.minZ && c.z <= this.maxZ)
+			{
+				goto IL_00dd;
+			}
+			if (c.z == this.minZ && c.x >= this.minX && c.x <= this.maxX)
+			{
+				goto IL_00dd;
+			}
+			int result = (c.z == this.maxZ && c.x >= this.minX && c.x <= this.maxX) ? 1 : 0;
+			goto IL_00de;
+			IL_00dd:
+			result = 1;
+			goto IL_00de;
+			IL_00de:
+			return (byte)result != 0;
 		}
 
 		public bool IsCorner(IntVec3 c)
 		{
-			return (c.x == this.minX && c.z == this.minZ) || (c.x == this.maxX && c.z == this.minZ) || (c.x == this.minX && c.z == this.maxZ) || (c.x == this.maxX && c.z == this.maxZ);
+			if (c.x == this.minX && c.z == this.minZ)
+			{
+				goto IL_0092;
+			}
+			if (c.x == this.maxX && c.z == this.minZ)
+			{
+				goto IL_0092;
+			}
+			if (c.x == this.minX && c.z == this.maxZ)
+			{
+				goto IL_0092;
+			}
+			int result = (c.x == this.maxX && c.z == this.maxZ) ? 1 : 0;
+			goto IL_0093;
+			IL_0093:
+			return (byte)result != 0;
+			IL_0092:
+			result = 1;
+			goto IL_0093;
 		}
 
 		public CellRect ClipInsideMap(Map map)
@@ -343,13 +421,19 @@ namespace Verse
 			{
 				this.minZ = 0;
 			}
-			if (this.maxX > map.Size.x - 1)
+			int num = this.maxX;
+			IntVec3 size = map.Size;
+			if (num > size.x - 1)
 			{
-				this.maxX = map.Size.x - 1;
+				IntVec3 size2 = map.Size;
+				this.maxX = size2.x - 1;
 			}
-			if (this.maxZ > map.Size.z - 1)
+			int num2 = this.maxZ;
+			IntVec3 size3 = map.Size;
+			if (num2 > size3.z - 1)
 			{
-				this.maxZ = map.Size.z - 1;
+				IntVec3 size4 = map.Size;
+				this.maxZ = size4.z - 1;
 			}
 			return this;
 		}
@@ -398,7 +482,7 @@ namespace Verse
 				}
 				return (float)((this.minX - c.x) * (this.minX - c.x));
 			}
-			else if (c.x > this.maxX)
+			if (c.x > this.maxX)
 			{
 				if (c.z < this.minZ)
 				{
@@ -410,14 +494,11 @@ namespace Verse
 				}
 				return (float)((c.x - this.maxX) * (c.x - this.maxX));
 			}
-			else
+			if (c.z < this.minZ)
 			{
-				if (c.z < this.minZ)
-				{
-					return (float)((this.minZ - c.z) * (this.minZ - c.z));
-				}
-				return (float)((c.z - this.maxZ) * (c.z - this.maxZ));
+				return (float)((this.minZ - c.z) * (this.minZ - c.z));
 			}
+			return (float)((c.z - this.maxZ) * (c.z - this.maxZ));
 		}
 
 		public IntVec3 ClosestCellTo(IntVec3 c)
@@ -438,7 +519,7 @@ namespace Verse
 				}
 				return new IntVec3(this.minX, 0, c.z);
 			}
-			else if (c.x > this.maxX)
+			if (c.x > this.maxX)
 			{
 				if (c.z < this.minZ)
 				{
@@ -450,51 +531,68 @@ namespace Verse
 				}
 				return new IntVec3(this.maxX, 0, c.z);
 			}
-			else
+			if (c.z < this.minZ)
 			{
-				if (c.z < this.minZ)
-				{
-					return new IntVec3(c.x, 0, this.minZ);
-				}
-				return new IntVec3(c.x, 0, this.maxZ);
+				return new IntVec3(c.x, 0, this.minZ);
 			}
+			return new IntVec3(c.x, 0, this.maxZ);
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<IntVec3> GetEdgeCells(Rot4 dir)
 		{
-			CellRect.<GetEdgeCells>c__Iterator23A <GetEdgeCells>c__Iterator23A = new CellRect.<GetEdgeCells>c__Iterator23A();
-			<GetEdgeCells>c__Iterator23A.dir = dir;
-			<GetEdgeCells>c__Iterator23A.<$>dir = dir;
-			<GetEdgeCells>c__Iterator23A.<>f__this = this;
-			CellRect.<GetEdgeCells>c__Iterator23A expr_21 = <GetEdgeCells>c__Iterator23A;
-			expr_21.$PC = -2;
-			return expr_21;
+			if (dir == Rot4.North)
+			{
+				for (int x2 = this.minX; x2 <= this.maxX; x2++)
+				{
+					yield return new IntVec3(x2, 0, this.maxZ);
+				}
+			}
+			else if (dir == Rot4.South)
+			{
+				for (int x = this.minX; x <= this.maxX; x++)
+				{
+					yield return new IntVec3(x, 0, this.minZ);
+				}
+			}
+			else if (dir == Rot4.West)
+			{
+				for (int z2 = this.minZ; z2 <= this.maxZ; z2++)
+				{
+					yield return new IntVec3(this.minX, 0, z2);
+				}
+			}
+			else if (dir == Rot4.East)
+			{
+				for (int z = this.minZ; z <= this.maxZ; z++)
+				{
+					yield return new IntVec3(this.maxX, 0, z);
+				}
+			}
 		}
 
 		public bool TryFindRandomInnerRectTouchingEdge(IntVec2 size, out CellRect rect, Predicate<CellRect> predicate = null)
 		{
-			if (this.Width < size.x || this.Height < size.z)
+			if (this.Width >= size.x && this.Height >= size.z)
 			{
-				rect = CellRect.Empty;
-				return false;
-			}
-			CellRect cellRect = this;
-			cellRect.maxX -= size.x - 1;
-			cellRect.maxZ -= size.z - 1;
-			IntVec3 intVec;
-			if (cellRect.EdgeCells.Where(delegate(IntVec3 x)
-			{
-				if (predicate == null)
+				CellRect cellRect = this;
+				cellRect.maxX -= size.x - 1;
+				cellRect.maxZ -= size.z - 1;
+				IntVec3 intVec = default(IntVec3);
+				if (cellRect.EdgeCells.Where((Func<IntVec3, bool>)delegate(IntVec3 x)
 				{
+					if ((object)predicate == null)
+					{
+						return true;
+					}
+					CellRect obj = new CellRect(x.x, x.z, size.x, size.z);
+					return predicate(obj);
+				}).TryRandomElement<IntVec3>(out intVec))
+				{
+					rect = new CellRect(intVec.x, intVec.z, size.x, size.z);
 					return true;
 				}
-				CellRect obj = new CellRect(x.x, x.z, size.x, size.z);
-				return predicate(obj);
-			}).TryRandomElement(out intVec))
-			{
-				rect = new CellRect(intVec.x, intVec.z, size.x, size.z);
-				return true;
+				rect = CellRect.Empty;
+				return false;
 			}
 			rect = CellRect.Empty;
 			return false;
@@ -530,39 +628,19 @@ namespace Verse
 
 		public IEnumerator<IntVec3> GetEnumerator()
 		{
-			return new CellRect.Enumerator(this);
+			return (IEnumerator<IntVec3>)(object)new Enumerator(this);
 		}
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"(",
-				this.minX,
-				",",
-				this.minZ,
-				",",
-				this.maxX,
-				",",
-				this.maxZ,
-				")"
-			});
+			return "(" + this.minX + "," + this.minZ + "," + this.maxX + "," + this.maxZ + ")";
 		}
 
 		public static CellRect FromString(string str)
 		{
-			str = str.TrimStart(new char[]
-			{
-				'('
-			});
-			str = str.TrimEnd(new char[]
-			{
-				')'
-			});
-			string[] array = str.Split(new char[]
-			{
-				','
-			});
+			str = str.TrimStart('(');
+			str = str.TrimEnd(')');
+			string[] array = str.Split(',');
 			int num = Convert.ToInt32(array[0]);
 			int num2 = Convert.ToInt32(array[1]);
 			int num3 = Convert.ToInt32(array[2]);
@@ -581,7 +659,11 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			return obj is CellRect && this.Equals((CellRect)obj);
+			if (!(obj is CellRect))
+			{
+				return false;
+			}
+			return this.Equals((CellRect)obj);
 		}
 
 		public bool Equals(CellRect other)

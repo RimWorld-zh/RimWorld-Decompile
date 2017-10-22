@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,12 +47,13 @@ namespace Verse
 		public static void DrawThingLabel(Vector2 screenPos, string text, Color textColor)
 		{
 			Text.Font = GameFont.Tiny;
-			float x = Text.CalcSize(text).x;
-			Rect position = new Rect(screenPos.x - x / 2f - 4f, screenPos.y, x + 8f, 12f);
+			Vector2 vector = Text.CalcSize(text);
+			float x = vector.x;
+			Rect position = new Rect((float)(screenPos.x - x / 2.0 - 4.0), screenPos.y, (float)(x + 8.0), 12f);
 			GUI.DrawTexture(position, TexUI.GrayTextBG);
 			GUI.color = textColor;
 			Text.Anchor = TextAnchor.UpperCenter;
-			Rect rect = new Rect(screenPos.x - x / 2f, screenPos.y - 3f, x, 999f);
+			Rect rect = new Rect((float)(screenPos.x - x / 2.0), (float)(screenPos.y - 3.0), x, 999f);
 			Widgets.Label(rect, text);
 			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;
@@ -62,7 +62,7 @@ namespace Verse
 		public static void DrawPawnLabel(Pawn pawn, Vector2 pos, float alpha = 1f, float truncateToWidth = 9999f, Dictionary<string, string> truncatedLabelsCache = null, GameFont font = GameFont.Tiny, bool alwaysDrawBg = true, bool alignCenter = true)
 		{
 			float pawnLabelNameWidth = GenMapUI.GetPawnLabelNameWidth(pawn, truncateToWidth, truncatedLabelsCache, font);
-			Rect bgRect = new Rect(pos.x - pawnLabelNameWidth / 2f - 4f, pos.y, pawnLabelNameWidth + 8f, 12f);
+			Rect bgRect = new Rect((float)(pos.x - pawnLabelNameWidth / 2.0 - 4.0), pos.y, (float)(pawnLabelNameWidth + 8.0), 12f);
 			if (!pawn.RaceProps.Humanlike)
 			{
 				bgRect.y -= 4f;
@@ -77,11 +77,11 @@ namespace Verse
 			string pawnLabel = GenMapUI.GetPawnLabel(pawn, truncateToWidth, truncatedLabelsCache, font);
 			float pawnLabelNameWidth = GenMapUI.GetPawnLabelNameWidth(pawn, truncateToWidth, truncatedLabelsCache, font);
 			float summaryHealthPercent = pawn.health.summaryHealth.SummaryHealthPercent;
-			if (alwaysDrawBg || summaryHealthPercent < 0.999f)
+			if (alwaysDrawBg || summaryHealthPercent < 0.99900001287460327)
 			{
 				GUI.DrawTexture(bgRect, TexUI.GrayTextBG);
 			}
-			if (summaryHealthPercent < 0.999f)
+			if (summaryHealthPercent < 0.99900001287460327)
 			{
 				Rect rect = bgRect.ContractedBy(1f);
 				Widgets.FillableBar(rect, summaryHealthPercent, GenMapUI.OverlayHealthTex, BaseContent.ClearTex, false);
@@ -89,21 +89,27 @@ namespace Verse
 			Color color = PawnNameColorUtility.PawnNameColorOf(pawn);
 			color.a = alpha;
 			GUI.color = color;
-			Rect rect2;
+			Rect rect2 = default(Rect);
 			if (alignCenter)
 			{
 				Text.Anchor = TextAnchor.UpperCenter;
-				rect2 = new Rect(bgRect.center.x - pawnLabelNameWidth / 2f, bgRect.y - 2f, pawnLabelNameWidth, 100f);
+				Vector2 center = bgRect.center;
+				rect2 = new Rect((float)(center.x - pawnLabelNameWidth / 2.0), (float)(bgRect.y - 2.0), pawnLabelNameWidth, 100f);
 			}
 			else
 			{
 				Text.Anchor = TextAnchor.UpperLeft;
-				rect2 = new Rect(bgRect.x + 2f, bgRect.center.y - Text.CalcSize(pawnLabel).y / 2f, pawnLabelNameWidth, 100f);
+				double x = bgRect.x + 2.0;
+				Vector2 center2 = bgRect.center;
+				float y = center2.y;
+				Vector2 vector = Text.CalcSize(pawnLabel);
+				rect2 = new Rect((float)x, (float)(y - vector.y / 2.0), pawnLabelNameWidth, 100f);
 			}
 			Widgets.Label(rect2, pawnLabel);
 			if (pawn.Drafted)
 			{
-				Widgets.DrawLineHorizontal(bgRect.center.x - pawnLabelNameWidth / 2f, bgRect.y + 11f, pawnLabelNameWidth);
+				Vector2 center3 = bgRect.center;
+				Widgets.DrawLineHorizontal((float)(center3.x - pawnLabelNameWidth / 2.0), (float)(bgRect.y + 11.0), pawnLabelNameWidth);
 			}
 			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;
@@ -117,8 +123,9 @@ namespace Verse
 			Text.Font = GameFont.Tiny;
 			GUI.color = textColor;
 			Text.Anchor = TextAnchor.UpperCenter;
-			float x = Text.CalcSize(text).x;
-			Widgets.Label(new Rect(vector.x - x / 2f, vector.y - 2f, x, 999f), text);
+			Vector2 vector2 = Text.CalcSize(text);
+			float x = vector2.x;
+			Widgets.Label(new Rect((float)(vector.x - x / 2.0), (float)(vector.y - 2.0), x, 999f), text);
 			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
@@ -135,9 +142,10 @@ namespace Verse
 			}
 			else
 			{
-				num = Text.CalcSize(pawnLabel).x;
+				Vector2 vector = Text.CalcSize(pawnLabel);
+				num = vector.x;
 			}
-			if (num < 20f)
+			if (num < 20.0)
 			{
 				num = 20f;
 			}

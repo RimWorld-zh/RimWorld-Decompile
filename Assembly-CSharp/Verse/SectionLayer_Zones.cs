@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -16,7 +15,7 @@ namespace Verse
 
 		public SectionLayer_Zones(Section section) : base(section)
 		{
-			this.relevantChangeTypes = MapMeshFlag.Zone;
+			base.relevantChangeTypes = MapMeshFlag.Zone;
 		}
 
 		public override void DrawLayer()
@@ -31,7 +30,7 @@ namespace Verse
 		{
 			float y = Altitudes.AltitudeFor(AltitudeLayer.Zone);
 			ZoneManager zoneManager = base.Map.zoneManager;
-			CellRect cellRect = new CellRect(this.section.botLeft.x, this.section.botLeft.z, 17, 17);
+			CellRect cellRect = new CellRect(base.section.botLeft.x, base.section.botLeft.z, 17, 17);
 			cellRect.ClipInsideMap(base.Map);
 			base.ClearSubMeshes(MeshParts.All);
 			for (int i = cellRect.minX; i <= cellRect.maxX; i++)

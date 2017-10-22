@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -63,7 +62,7 @@ namespace RimWorld
 
 		private void SetNextOptimizeTick(Pawn pawn)
 		{
-			pawn.mindState.nextApparelOptimizeTick = Find.TickManager.TicksGame + UnityEngine.Random.Range(6000, 9000);
+			pawn.mindState.nextApparelOptimizeTick = Find.TickManager.TicksGame + Random.Range(6000, 9000);
 		}
 
 		protected override Job TryGiveJob(Pawn pawn)
@@ -88,28 +87,21 @@ namespace RimWorld
 			else
 			{
 				JobGiver_OptimizeApparel.debugSb = new StringBuilder();
-				JobGiver_OptimizeApparel.debugSb.AppendLine(string.Concat(new object[]
-				{
-					"Scanning for ",
-					pawn,
-					" at ",
-					pawn.Position
-				}));
+				JobGiver_OptimizeApparel.debugSb.AppendLine("Scanning for " + pawn + " at " + pawn.Position);
 			}
 			Outfit currentOutfit = pawn.outfits.CurrentOutfit;
 			List<Apparel> wornApparel = pawn.apparel.WornApparel;
-			for (int i = wornApparel.Count - 1; i >= 0; i--)
+			for (int num = wornApparel.Count - 1; num >= 0; num--)
 			{
-				if (!currentOutfit.filter.Allows(wornApparel[i]) && pawn.outfits.forcedHandler.AllowedToAutomaticallyDrop(wornApparel[i]))
+				if (!currentOutfit.filter.Allows(wornApparel[num]) && pawn.outfits.forcedHandler.AllowedToAutomaticallyDrop(wornApparel[num]))
 				{
-					return new Job(JobDefOf.RemoveApparel, wornApparel[i])
-					{
-						haulDroppedApparel = true
-					};
+					Job job = new Job(JobDefOf.RemoveApparel, (Thing)wornApparel[num]);
+					job.haulDroppedApparel = true;
+					return job;
 				}
 			}
 			Thing thing = null;
-			float num = 0f;
+			float num2 = 0f;
 			List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.Apparel);
 			if (list.Count == 0)
 			{
@@ -117,31 +109,23 @@ namespace RimWorld
 				return null;
 			}
 			JobGiver_OptimizeApparel.neededWarmth = PawnApparelGenerator.CalculateNeededWarmth(pawn, pawn.Map.Tile, GenLocalDate.Twelfth(pawn));
-			for (int j = 0; j < list.Count; j++)
+			for (int i = 0; i < list.Count; i++)
 			{
-				Apparel apparel = (Apparel)list[j];
+				Apparel apparel = (Apparel)list[i];
 				if (currentOutfit.filter.Allows(apparel))
 				{
-					if (apparel.Map.slotGroupManager.SlotGroupAt(apparel.Position) != null)
+					SlotGroup slotGroup = apparel.Map.slotGroupManager.SlotGroupAt(apparel.Position);
+					if (slotGroup != null && !apparel.IsForbidden(pawn))
 					{
-						if (!apparel.IsForbidden(pawn))
+						float num3 = JobGiver_OptimizeApparel.ApparelScoreGain(pawn, apparel);
+						if (DebugViewSettings.debugApparelOptimize)
 						{
-							float num2 = JobGiver_OptimizeApparel.ApparelScoreGain(pawn, apparel);
-							if (DebugViewSettings.debugApparelOptimize)
-							{
-								JobGiver_OptimizeApparel.debugSb.AppendLine(apparel.LabelCap + ": " + num2.ToString("F2"));
-							}
-							if (num2 >= 0.05f && num2 >= num)
-							{
-								if (ApparelUtility.HasPartsToWear(pawn, apparel.def))
-								{
-									if (pawn.CanReserveAndReach(apparel, PathEndMode.OnCell, pawn.NormalMaxDanger(), 1, -1, null, false))
-									{
-										thing = apparel;
-										num = num2;
-									}
-								}
-							}
+							JobGiver_OptimizeApparel.debugSb.AppendLine(apparel.LabelCap + ": " + num3.ToString("F2"));
+						}
+						if (!(num3 < 0.05000000074505806) && !(num3 < num2) && ApparelUtility.HasPartsToWear(pawn, apparel.def) && pawn.CanReserveAndReach((Thing)apparel, PathEndMode.OnCell, pawn.NormalMaxDanger(), 1, -1, null, false))
+						{
+							thing = apparel;
+							num2 = num3;
 						}
 					}
 				}
@@ -183,7 +167,7 @@ namespace RimWorld
 			}
 			if (!flag)
 			{
-				num *= 10f;
+				num = (float)(num * 10.0);
 			}
 			return num;
 		}
@@ -208,25 +192,25 @@ namespace RimWorld
 			num *= num3;
 			if (ap.WornByCorpse && (pawn == null || ThoughtUtility.CanGetThought(pawn, ThoughtDefOf.DeadMansApparel)))
 			{
-				num -= 0.5f;
-				if (num > 0f)
+				num = (float)(num - 0.5);
+				if (num > 0.0)
 				{
-					num *= 0.1f;
+					num = (float)(num * 0.10000000149011612);
 				}
 			}
 			if (ap.Stuff == ThingDefOf.Human.race.leatherDef)
 			{
 				if (pawn == null || ThoughtUtility.CanGetThought(pawn, ThoughtDefOf.HumanLeatherApparelSad))
 				{
-					num -= 0.5f;
-					if (num > 0f)
+					num = (float)(num - 0.5);
+					if (num > 0.0)
 					{
-						num *= 0.1f;
+						num = (float)(num * 0.10000000149011612);
 					}
 				}
 				if (pawn != null && ThoughtUtility.CanGetThought(pawn, ThoughtDefOf.HumanLeatherApparelHappy))
 				{
-					num += 0.12f;
+					num = (float)(num + 0.11999999731779099);
 				}
 			}
 			return num;

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -21,7 +20,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_Explosive)this.props;
+				return (CompProperties_Explosive)base.props;
 			}
 		}
 
@@ -29,7 +28,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return Mathf.RoundToInt(this.Props.startWickHitPointsPercent * (float)this.parent.MaxHitPoints);
+				return Mathf.RoundToInt(this.Props.startWickHitPointsPercent * (float)base.parent.MaxHitPoints);
 			}
 		}
 
@@ -37,12 +36,12 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.Props.chanceNeverExplodeFromDamage < 1E-05f)
+				if (this.Props.chanceNeverExplodeFromDamage < 9.9999997473787516E-06)
 				{
 					return true;
 				}
 				Rand.PushState();
-				Rand.Seed = this.parent.thingIDNumber.GetHashCode();
+				Rand.Seed = base.parent.thingIDNumber.GetHashCode();
 				bool result = Rand.Value < this.Props.chanceNeverExplodeFromDamage;
 				Rand.PopState();
 				return result;
@@ -73,15 +72,15 @@ namespace RimWorld
 				this.wickTicksLeft--;
 				if (this.wickTicksLeft <= 0)
 				{
-					this.Detonate(this.parent.MapHeld);
+					this.Detonate(base.parent.MapHeld);
 				}
 			}
 		}
 
 		private void StartWickSustainer()
 		{
-			SoundDefOf.MetalHitImportant.PlayOneShot(new TargetInfo(this.parent.Position, this.parent.Map, false));
-			SoundInfo info = SoundInfo.InMap(this.parent, MaintenanceType.PerTick);
+			SoundDefOf.MetalHitImportant.PlayOneShot(new TargetInfo(base.parent.Position, base.parent.Map, false));
+			SoundInfo info = SoundInfo.InMap((Thing)base.parent, MaintenanceType.PerTick);
 			this.wickSoundSustainer = SoundDefOf.HissSmall.TrySpawnSustainer(info);
 		}
 
@@ -89,7 +88,7 @@ namespace RimWorld
 		{
 			if (this.wickStarted)
 			{
-				this.parent.Map.overlayDrawer.DrawOverlay(this.parent, OverlayTypes.BurningWick);
+				base.parent.Map.overlayDrawer.DrawOverlay(base.parent, OverlayTypes.BurningWick);
 			}
 		}
 
@@ -98,11 +97,11 @@ namespace RimWorld
 			absorbed = false;
 			if (this.CanEverExplodeFromDamage)
 			{
-				if (dinfo.Def.externalViolence && dinfo.Amount >= this.parent.HitPoints)
+				if (dinfo.Def.externalViolence && dinfo.Amount >= base.parent.HitPoints)
 				{
-					if (this.parent.MapHeld != null)
+					if (base.parent.MapHeld != null)
 					{
-						this.Detonate(this.parent.MapHeld);
+						this.Detonate(base.parent.MapHeld);
 						absorbed = true;
 					}
 				}
@@ -115,17 +114,13 @@ namespace RimWorld
 
 		public override void PostPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
-			if (!this.CanEverExplodeFromDamage)
-			{
-				return;
-			}
-			if (!this.parent.Destroyed)
+			if (this.CanEverExplodeFromDamage && !base.parent.Destroyed)
 			{
 				if (this.wickStarted && dinfo.Def == DamageDefOf.Stun)
 				{
 					this.StopWick();
 				}
-				else if (!this.wickStarted && this.parent.HitPoints <= this.StartWickThreshold && dinfo.Def.externalViolence)
+				else if (!this.wickStarted && base.parent.HitPoints <= this.StartWickThreshold && dinfo.Def.externalViolence)
 				{
 					this.StartWick(dinfo.Instigator);
 				}
@@ -134,15 +129,14 @@ namespace RimWorld
 
 		public void StartWick(Thing instigator = null)
 		{
-			if (this.wickStarted)
+			if (!this.wickStarted)
 			{
-				return;
+				this.instigator = instigator;
+				this.wickStarted = true;
+				this.wickTicksLeft = this.Props.wickTicks.RandomInRange;
+				this.StartWickSustainer();
+				GenExplosion.NotifyNearbyPawnsOfDangerousExplosive(base.parent, this.Props.explosiveDamageType, null);
 			}
-			this.instigator = instigator;
-			this.wickStarted = true;
-			this.wickTicksLeft = this.Props.wickTicks.RandomInRange;
-			this.StartWickSustainer();
-			GenExplosion.NotifyNearbyPawnsOfDangerousExplosive(this.parent, this.Props.explosiveDamageType, null);
 		}
 
 		public void StopWick()
@@ -153,40 +147,40 @@ namespace RimWorld
 
 		protected void Detonate(Map map)
 		{
-			if (this.detonated)
+			if (!this.detonated)
 			{
-				return;
+				this.detonated = true;
+				if (base.parent.SpawnedOrAnyParentSpawned)
+				{
+					if (!base.parent.Destroyed)
+					{
+						base.parent.Kill(default(DamageInfo?));
+					}
+					if (map == null)
+					{
+						Log.Warning("Tried to detonate CompExplosive in a null map.");
+					}
+					else
+					{
+						CompProperties_Explosive props = this.Props;
+						float num = props.explosiveRadius;
+						if (base.parent.stackCount > 1 && props.explosiveExpandPerStackcount > 0.0)
+						{
+							num += Mathf.Sqrt((float)(base.parent.stackCount - 1) * props.explosiveExpandPerStackcount);
+						}
+						if (props.explosionEffect != null)
+						{
+							Effecter effecter = props.explosionEffect.Spawn();
+							effecter.Trigger(new TargetInfo(base.parent.PositionHeld, map, false), new TargetInfo(base.parent.PositionHeld, map, false));
+							effecter.Cleanup();
+						}
+						ThingDef postExplosionSpawnThingDef = props.postExplosionSpawnThingDef;
+						float postExplosionSpawnChance = props.postExplosionSpawnChance;
+						int postExplosionSpawnThingCount = props.postExplosionSpawnThingCount;
+						GenExplosion.DoExplosion(base.parent.PositionHeld, map, num, props.explosiveDamageType, this.instigator ?? base.parent, null, null, null, postExplosionSpawnThingDef, postExplosionSpawnChance, postExplosionSpawnThingCount, props.applyDamageToExplosionCellsNeighbors, props.preExplosionSpawnThingDef, props.preExplosionSpawnChance, props.preExplosionSpawnThingCount);
+					}
+				}
 			}
-			this.detonated = true;
-			if (!this.parent.SpawnedOrAnyParentSpawned)
-			{
-				return;
-			}
-			if (!this.parent.Destroyed)
-			{
-				this.parent.Kill(null);
-			}
-			if (map == null)
-			{
-				Log.Warning("Tried to detonate CompExplosive in a null map.");
-				return;
-			}
-			CompProperties_Explosive props = this.Props;
-			float num = props.explosiveRadius;
-			if (this.parent.stackCount > 1 && props.explosiveExpandPerStackcount > 0f)
-			{
-				num += Mathf.Sqrt((float)(this.parent.stackCount - 1) * props.explosiveExpandPerStackcount);
-			}
-			if (props.explosionEffect != null)
-			{
-				Effecter effecter = props.explosionEffect.Spawn();
-				effecter.Trigger(new TargetInfo(this.parent.PositionHeld, map, false), new TargetInfo(this.parent.PositionHeld, map, false));
-				effecter.Cleanup();
-			}
-			ThingDef postExplosionSpawnThingDef = props.postExplosionSpawnThingDef;
-			float postExplosionSpawnChance = props.postExplosionSpawnChance;
-			int postExplosionSpawnThingCount = props.postExplosionSpawnThingCount;
-			GenExplosion.DoExplosion(this.parent.PositionHeld, map, num, props.explosiveDamageType, this.instigator ?? this.parent, null, null, null, postExplosionSpawnThingDef, postExplosionSpawnChance, postExplosionSpawnThingCount, props.applyDamageToExplosionCellsNeighbors, props.preExplosionSpawnThingDef, props.preExplosionSpawnChance, props.preExplosionSpawnThingCount);
 		}
 	}
 }

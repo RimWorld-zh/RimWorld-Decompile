@@ -16,34 +16,40 @@ namespace Verse
 
 		public Command_SetPlantToGrow()
 		{
-			this.tutorTag = "GrowingZoneSetPlant";
+			base.tutorTag = "GrowingZoneSetPlant";
 			ThingDef thingDef = null;
 			bool flag = false;
-			foreach (object current in Find.Selector.SelectedObjects)
+			List<object>.Enumerator enumerator = Find.Selector.SelectedObjects.GetEnumerator();
+			try
 			{
-				IPlantToGrowSettable plantToGrowSettable = current as IPlantToGrowSettable;
-				if (plantToGrowSettable != null)
+				while (enumerator.MoveNext())
 				{
-					if (thingDef != null && thingDef != plantToGrowSettable.GetPlantDefToGrow())
+					object current = enumerator.Current;
+					IPlantToGrowSettable plantToGrowSettable = current as IPlantToGrowSettable;
+					if (plantToGrowSettable != null)
 					{
-						flag = true;
-						break;
+						if (thingDef != null && thingDef != plantToGrowSettable.GetPlantDefToGrow())
+						{
+							flag = true;
+							break;
+						}
+						thingDef = plantToGrowSettable.GetPlantDefToGrow();
 					}
-					thingDef = plantToGrowSettable.GetPlantDefToGrow();
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			if (flag)
 			{
-				this.icon = Command_SetPlantToGrow.SetPlantToGrowTex;
-				this.defaultLabel = "CommandSelectPlantToGrowMulti".Translate();
+				base.icon = Command_SetPlantToGrow.SetPlantToGrowTex;
+				base.defaultLabel = "CommandSelectPlantToGrowMulti".Translate();
 			}
 			else
 			{
-				this.icon = thingDef.uiIcon;
-				this.defaultLabel = "CommandSelectPlantToGrow".Translate(new object[]
-				{
-					thingDef.label
-				});
+				base.icon = thingDef.uiIcon;
+				base.defaultLabel = "CommandSelectPlantToGrow".Translate(thingDef.label);
 			}
 		}
 
@@ -59,41 +65,32 @@ namespace Verse
 			{
 				this.settables.Add(this.settable);
 			}
-			foreach (ThingDef current in GenPlant.ValidPlantTypesForGrowers(this.settables))
+			foreach (ThingDef item in GenPlant.ValidPlantTypesForGrowers(this.settables))
 			{
-				if (this.IsPlantAvailable(current))
+				if (this.IsPlantAvailable(item))
 				{
-					ThingDef localPlantDef = current;
-					string text = current.LabelCap;
-					if (current.plant.sowMinSkill > 0)
+					ThingDef localPlantDef = item;
+					string text = item.LabelCap;
+					if (item.plant.sowMinSkill > 0)
 					{
 						string text2 = text;
-						text = string.Concat(new object[]
-						{
-							text2,
-							" (",
-							"MinSkill".Translate(),
-							": ",
-							current.plant.sowMinSkill,
-							")"
-						});
+						text = text2 + " (" + "MinSkill".Translate() + ": " + item.plant.sowMinSkill + ")";
 					}
-					List<FloatMenuOption> arg_121_0 = list;
-					Func<Rect, bool> extraPartOnGUI = (Rect rect) => Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, localPlantDef);
-					arg_121_0.Add(new FloatMenuOption(text, delegate
+					List<FloatMenuOption> obj = list;
+					Func<Rect, bool> extraPartOnGUI = (Func<Rect, bool>)((Rect rect) => Widgets.InfoCardButton((float)(rect.x + 5.0), (float)(rect.y + (rect.height - 24.0) / 2.0), localPlantDef));
+					obj.Add(new FloatMenuOption(text, (Action)delegate
 					{
-						string s = this.tutorTag + "-" + localPlantDef.defName;
-						if (!TutorSystem.AllowAction(s))
+						string s = base.tutorTag + "-" + localPlantDef.defName;
+						if (TutorSystem.AllowAction(s))
 						{
-							return;
+							for (int i = 0; i < this.settables.Count; i++)
+							{
+								this.settables[i].SetPlantDefToGrow(localPlantDef);
+							}
+							PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.SetGrowingZonePlant, KnowledgeAmount.Total);
+							this.WarnAsAppropriate(localPlantDef);
+							TutorSystem.Notify_Event(s);
 						}
-						for (int i = 0; i < this.settables.Count; i++)
-						{
-							this.settables[i].SetPlantDefToGrow(localPlantDef);
-						}
-						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.SetGrowingZonePlant, KnowledgeAmount.Total);
-						this.WarnAsAppropriate(localPlantDef);
-						TutorSystem.Notify_Event(s);
 					}, MenuOptionPriority.Default, null, null, 29f, extraPartOnGUI, null));
 				}
 			}
@@ -114,18 +111,12 @@ namespace Verse
 		{
 			if (plantDef.plant.sowMinSkill > 0)
 			{
-				foreach (Pawn current in this.settable.Map.mapPawns.FreeColonistsSpawned)
+				foreach (Pawn item in this.settable.Map.mapPawns.FreeColonistsSpawned)
 				{
-					if (current.skills.GetSkill(SkillDefOf.Growing).Level >= plantDef.plant.sowMinSkill && !current.Downed && current.workSettings.WorkIsActive(WorkTypeDefOf.Growing))
-					{
+					if (item.skills.GetSkill(SkillDefOf.Growing).Level >= plantDef.plant.sowMinSkill && !item.Downed && item.workSettings.WorkIsActive(WorkTypeDefOf.Growing))
 						return;
-					}
 				}
-				Find.WindowStack.Add(new Dialog_MessageBox("NoGrowerCanPlant".Translate(new object[]
-				{
-					plantDef.label,
-					plantDef.plant.sowMinSkill
-				}).CapitalizeFirst(), null, null, null, null, null, false));
+				Find.WindowStack.Add(new Dialog_MessageBox("NoGrowerCanPlant".Translate(plantDef.label, plantDef.plant.sowMinSkill).CapitalizeFirst(), (string)null, null, (string)null, null, (string)null, false));
 			}
 		}
 

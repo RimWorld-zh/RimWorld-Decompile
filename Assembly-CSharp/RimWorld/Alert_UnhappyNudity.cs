@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -15,8 +14,8 @@ namespace RimWorld
 
 		public Alert_UnhappyNudity()
 		{
-			this.defaultLabel = "AlertUnhappyNudity".Translate();
-			this.explanationKey = "AlertUnhappyNudityDesc";
+			base.defaultLabel = "AlertUnhappyNudity".Translate();
+			base.explanationKey = "AlertUnhappyNudityDesc";
 		}
 	}
 }

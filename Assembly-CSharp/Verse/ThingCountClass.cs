@@ -1,4 +1,3 @@
-using System;
 using System.Xml;
 
 namespace Verse
@@ -24,27 +23,22 @@ namespace Verse
 			if (xmlRoot.ChildNodes.Count != 1)
 			{
 				Log.Error("Misconfigured ThingCount: " + xmlRoot.OuterXml);
-				return;
 			}
-			DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "thingDef", xmlRoot.Name);
-			this.count = (int)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(int));
+			else
+			{
+				DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "thingDef", xmlRoot.Name);
+				this.count = (int)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(int));
+			}
 		}
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"(",
-				this.count,
-				"x ",
-				(this.thingDef == null) ? "null" : this.thingDef.defName,
-				")"
-			});
+			return "(" + this.count + "x " + ((this.thingDef == null) ? "null" : this.thingDef.defName) + ")";
 		}
 
 		public override int GetHashCode()
 		{
-			return (int)this.thingDef.shortHash + this.count << 16;
+			return this.thingDef.shortHash + this.count << 16;
 		}
 	}
 }

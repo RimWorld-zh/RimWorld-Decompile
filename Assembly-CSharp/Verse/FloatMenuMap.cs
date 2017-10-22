@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,17 +19,19 @@ namespace Verse
 			if (pawn == null)
 			{
 				Find.WindowStack.TryRemove(this, true);
-				return;
 			}
-			List<FloatMenuOption> curOpts = FloatMenuMakerMap.ChoicesAtFor(this.clickPos, pawn);
-			for (int i = 0; i < this.options.Count; i++)
+			else
 			{
-				if (!this.options[i].Disabled && !FloatMenuMap.StillValid(this.options[i], curOpts))
+				List<FloatMenuOption> curOpts = FloatMenuMakerMap.ChoicesAtFor(this.clickPos, pawn);
+				for (int i = 0; i < base.options.Count; i++)
 				{
-					this.options[i].Disabled = true;
+					if (!base.options[i].Disabled && !FloatMenuMap.StillValid(base.options[i], curOpts))
+					{
+						base.options[i].Disabled = true;
+					}
 				}
+				base.DoWindowContents(inRect);
 			}
-			base.DoWindowContents(inRect);
 		}
 
 		private static bool StillValid(FloatMenuOption opt, List<FloatMenuOption> curOpts)
@@ -65,7 +66,11 @@ namespace Verse
 
 		private static bool OptionsMatch(FloatMenuOption a, FloatMenuOption b)
 		{
-			return a.Label == b.Label;
+			if (a.Label == b.Label)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

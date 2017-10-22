@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld.Planet
 {
 	public enum CaravanEnterMode
 	{
-		None,
-		Edge,
-		Center
+		None = 0,
+		Edge = 1,
+		Center = 2
 	}
 }

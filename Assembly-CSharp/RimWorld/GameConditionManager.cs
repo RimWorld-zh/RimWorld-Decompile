@@ -58,9 +58,9 @@ namespace RimWorld
 
 		public void GameConditionManagerTick()
 		{
-			for (int i = this.activeConditions.Count - 1; i >= 0; i--)
+			for (int num = this.activeConditions.Count - 1; num >= 0; num--)
 			{
-				GameCondition gameCondition = this.activeConditions[i];
+				GameCondition gameCondition = this.activeConditions[num];
 				if (gameCondition.Expired)
 				{
 					gameCondition.End();
@@ -74,9 +74,9 @@ namespace RimWorld
 
 		public void GameConditionManagerDraw()
 		{
-			for (int i = this.activeConditions.Count - 1; i >= 0; i--)
+			for (int num = this.activeConditions.Count - 1; num >= 0; num--)
 			{
-				this.activeConditions[i].GameConditionDraw();
+				this.activeConditions[num].GameConditionDraw();
 			}
 			if (this.Parent != null)
 			{
@@ -109,17 +109,17 @@ namespace RimWorld
 		{
 			for (int i = 0; i < this.activeConditions.Count; i++)
 			{
-				T t = this.activeConditions[i] as T;
-				if (t != null)
+				T val = (T)(this.activeConditions[i] as T);
+				if (val != null)
 				{
-					return t;
+					return val;
 				}
 			}
 			if (this.Parent != null)
 			{
 				return this.Parent.GetActiveCondition<T>();
 			}
-			return (T)((object)null);
+			return (T)null;
 		}
 
 		public float TotalHeightAt(float width)
@@ -142,13 +142,13 @@ namespace RimWorld
 			float num = 0f;
 			for (int i = 0; i < this.activeConditions.Count; i++)
 			{
-				float width = rect.width - 15f;
+				float width = (float)(rect.width - 15.0);
 				Rect rect2 = new Rect(0f, num, width, Text.CalcHeight(this.activeConditions[i].LabelCap, width));
 				Text.Font = GameFont.Small;
 				Text.Anchor = TextAnchor.MiddleRight;
 				Widgets.Label(rect2, this.activeConditions[i].LabelCap);
 				GameCondition localCond = this.activeConditions[i];
-				TooltipHandler.TipRegion(rect2, () => localCond.TooltipString, i * 631);
+				TooltipHandler.TipRegion(rect2, (Func<string>)(() => localCond.TooltipString), i * 631);
 				num += rect2.height;
 			}
 			rect.yMin += num;
@@ -165,7 +165,7 @@ namespace RimWorld
 			float num = 0f;
 			for (int i = 0; i < this.activeConditions.Count; i++)
 			{
-				num += (1f - num) * this.activeConditions[i].SkyTargetLerpFactor();
+				num = (float)(num + (1.0 - num) * this.activeConditions[i].SkyTargetLerpFactor());
 			}
 			if (this.Parent != null)
 			{
@@ -179,9 +179,9 @@ namespace RimWorld
 			SkyTarget value = default(SkyTarget);
 			float num = 0f;
 			this.AggregateSkyTargetWorker(ref value, ref num);
-			if (num == 0f)
+			if (num == 0.0)
 			{
-				return null;
+				return default(SkyTarget?);
 			}
 			return new SkyTarget?(value);
 		}
@@ -192,9 +192,9 @@ namespace RimWorld
 			{
 				GameCondition gameCondition = this.activeConditions[i];
 				float num = gameCondition.SkyTargetLerpFactor();
-				if (num > 0f)
+				if (num > 0.0)
 				{
-					if (lfTotal == 0f)
+					if (lfTotal == 0.0)
 					{
 						total = gameCondition.SkyTarget().Value;
 						lfTotal = num;
@@ -256,7 +256,7 @@ namespace RimWorld
 
 		internal bool AllowEnjoyableOutsideNow()
 		{
-			GameConditionDef gameConditionDef;
+			GameConditionDef gameConditionDef = default(GameConditionDef);
 			return this.AllowEnjoyableOutsideNow(out gameConditionDef);
 		}
 
@@ -272,15 +272,28 @@ namespace RimWorld
 				}
 			}
 			reason = null;
-			return this.Parent == null || this.Parent.AllowEnjoyableOutsideNow(out reason);
+			if (this.Parent != null)
+			{
+				return this.Parent.AllowEnjoyableOutsideNow(out reason);
+			}
+			return true;
 		}
 
 		public string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (GameCondition current in this.activeConditions)
+			List<GameCondition>.Enumerator enumerator = this.activeConditions.GetEnumerator();
+			try
 			{
-				stringBuilder.AppendLine(Scribe.saver.DebugOutputFor(current));
+				while (enumerator.MoveNext())
+				{
+					GameCondition current = enumerator.Current;
+					stringBuilder.AppendLine(Scribe.saver.DebugOutputFor(current));
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			return stringBuilder.ToString();
 		}

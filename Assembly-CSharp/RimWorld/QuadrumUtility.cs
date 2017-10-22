@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -19,15 +18,25 @@ namespace RimWorld
 			switch (quadrum)
 			{
 			case Quadrum.Aprimay:
+			{
 				return Twelfth.First;
+			}
 			case Quadrum.Jugust:
+			{
 				return Twelfth.Fourth;
+			}
 			case Quadrum.Septober:
+			{
 				return Twelfth.Seventh;
+			}
 			case Quadrum.Decembary:
+			{
 				return Twelfth.Tenth;
+			}
 			default:
+			{
 				return Twelfth.Undefined;
+			}
 			}
 		}
 
@@ -36,15 +45,25 @@ namespace RimWorld
 			switch (quadrum)
 			{
 			case Quadrum.Aprimay:
+			{
 				return "QuadrumAprimay".Translate();
+			}
 			case Quadrum.Jugust:
+			{
 				return "QuadrumJugust".Translate();
+			}
 			case Quadrum.Septober:
+			{
 				return "QuadrumSeptober".Translate();
+			}
 			case Quadrum.Decembary:
+			{
 				return "QuadrumDecembary".Translate();
+			}
 			default:
+			{
 				return "Unknown quadrum";
+			}
 			}
 		}
 
@@ -67,7 +86,7 @@ namespace RimWorld
 			string text = string.Empty;
 			for (int i = 0; i < 12; i++)
 			{
-				Twelfth twelfth = (Twelfth)i;
+				Twelfth twelfth = (Twelfth)(byte)i;
 				if (twelfths.Contains(twelfth))
 				{
 					if (!text.NullOrEmpty())
@@ -84,23 +103,17 @@ namespace RimWorld
 		{
 			Twelfth leftMostTwelfth = TwelfthUtility.GetLeftMostTwelfth(twelfths, rootTwelfth);
 			Twelfth rightMostTwelfth = TwelfthUtility.GetRightMostTwelfth(twelfths, rootTwelfth);
-			for (Twelfth twelfth = leftMostTwelfth; twelfth != rightMostTwelfth; twelfth = TwelfthUtility.TwelfthAfter(twelfth))
+			Twelfth twelfth = leftMostTwelfth;
+			while (twelfth != rightMostTwelfth)
 			{
-				if (!twelfths.Contains(twelfth))
+				if (twelfths.Contains(twelfth))
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Twelfths doesn't contain ",
-						twelfth,
-						" (",
-						leftMostTwelfth,
-						"..",
-						rightMostTwelfth,
-						")"
-					}));
-					break;
+					twelfths.Remove(twelfth);
+					twelfth = TwelfthUtility.TwelfthAfter(twelfth);
+					continue;
 				}
-				twelfths.Remove(twelfth);
+				Log.Error("Twelfths doesn't contain " + twelfth + " (" + leftMostTwelfth + ".." + rightMostTwelfth + ")");
+				break;
 			}
 			twelfths.Remove(rightMostTwelfth);
 			return GenDate.QuadrumDateStringAt(leftMostTwelfth) + " - " + GenDate.QuadrumDateStringAt(rightMostTwelfth);

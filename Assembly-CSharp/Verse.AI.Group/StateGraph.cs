@@ -57,39 +57,40 @@ namespace Verse.AI.Group
 			{
 				Log.Error("Graph has 0 lord toils.");
 			}
-			foreach (LordToil toil in this.lordToils.Distinct<LordToil>())
+			using (IEnumerator<LordToil> enumerator = this.lordToils.Distinct().GetEnumerator())
 			{
-				int num = (from s in this.lordToils
-				where s == toil
-				select s).Count<LordToil>();
-				if (num != 1)
+				LordToil toil;
+				while (enumerator.MoveNext())
 				{
-					Log.Error(string.Concat(new object[]
+					toil = enumerator.Current;
+					int num = (from s in this.lordToils
+					where s == toil
+					select s).Count();
+					if (num != 1)
 					{
-						"Graph has lord toil ",
-						toil,
-						" registered ",
-						num,
-						" times."
-					}));
+						Log.Error("Graph has lord toil " + toil + " registered " + num + " times.");
+					}
 				}
 			}
-			foreach (Transition trans in this.transitions)
+			List<Transition>.Enumerator enumerator2 = this.transitions.GetEnumerator();
+			try
 			{
-				int num2 = (from t in this.transitions
-				where t == trans
-				select t).Count<Transition>();
-				if (num2 != 1)
+				Transition trans;
+				while (enumerator2.MoveNext())
 				{
-					Log.Error(string.Concat(new object[]
+					trans = enumerator2.Current;
+					int num2 = (from t in this.transitions
+					where t == trans
+					select t).Count();
+					if (num2 != 1)
 					{
-						"Graph has transition ",
-						trans,
-						" registered ",
-						num2,
-						" times."
-					}));
+						Log.Error("Graph has transition " + trans + " registered " + num2 + " times.");
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
 			}
 			StateGraph.checkedToils = new HashSet<LordToil>();
 			this.CheckForUnregisteredLinkedToilsRecursive(this.StartingToil);

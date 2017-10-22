@@ -62,17 +62,20 @@ namespace Verse
 			int num2 = number / 10 % 10;
 			if (num2 != 1)
 			{
-				if (num == 1)
+				switch (num)
+				{
+				case 1:
 				{
 					return number + "st";
 				}
-				if (num == 2)
+				case 2:
 				{
 					return number + "nd";
 				}
-				if (num == 3)
+				case 3:
 				{
 					return number + "rd";
+				}
 				}
 			}
 			return number + "th";

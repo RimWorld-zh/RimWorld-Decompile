@@ -8,8 +8,8 @@ namespace Verse.Noise
 	{
 		protected ModuleBase[] modules;
 
-		[XmlIgnore]
 		[NonSerialized]
+		[XmlIgnore]
 		private bool m_disposed;
 
 		public int SourceModuleCount
@@ -24,27 +24,28 @@ namespace Verse.Noise
 		{
 			get
 			{
-				if (index < 0 || index >= this.modules.Length)
+				if (index >= 0 && index < this.modules.Length)
 				{
-					throw new ArgumentOutOfRangeException("Index out of valid module range");
+					if (this.modules[index] == null)
+					{
+						throw new ArgumentNullException("Desired element is null");
+					}
+					return this.modules[index];
 				}
-				if (this.modules[index] == null)
-				{
-					throw new ArgumentNullException("Desired element is null");
-				}
-				return this.modules[index];
+				throw new ArgumentOutOfRangeException("Index out of valid module range");
 			}
 			set
 			{
-				if (index < 0 || index >= this.modules.Length)
+				if (index >= 0 && index < this.modules.Length)
 				{
-					throw new ArgumentOutOfRangeException("Index out of valid module range");
+					if (value == null)
+					{
+						throw new ArgumentNullException("Value should not be null");
+					}
+					this.modules[index] = value;
+					return;
 				}
-				if (value == null)
-				{
-					throw new ArgumentNullException("Value should not be null");
-				}
-				this.modules[index] = value;
+				throw new ArgumentOutOfRangeException("Index out of valid module range");
 			}
 		}
 

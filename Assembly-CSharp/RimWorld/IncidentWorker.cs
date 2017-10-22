@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -28,7 +27,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (PawnsFinder.AllMapsCaravansAndTravelingTransportPods_FreeColonists.Count<Pawn>() < this.def.minPopulation)
+			if (PawnsFinder.AllMapsCaravansAndTravelingTransportPods_FreeColonists.Count() < this.def.minPopulation)
 			{
 				return false;
 			}
@@ -54,10 +53,10 @@ namespace RimWorld
 			}
 			Dictionary<IncidentDef, int> lastFireTicks = target.StoryState.lastFireTicks;
 			int ticksGame = Find.TickManager.TicksGame;
-			int num;
+			int num = default(int);
 			if (lastFireTicks.TryGetValue(this.def, out num))
 			{
-				float num2 = (float)(ticksGame - num) / 60000f;
+				float num2 = (float)((float)(ticksGame - num) / 60000.0);
 				if (num2 < this.def.minRefireDays)
 				{
 					return false;
@@ -70,7 +69,7 @@ namespace RimWorld
 				{
 					if (lastFireTicks.TryGetValue(refireCheckIncidents[j], out num))
 					{
-						float num3 = (float)(ticksGame - num) / 60000f;
+						float num3 = (float)((float)(ticksGame - num) / 60000.0);
 						if (num3 < this.def.minRefireDays)
 						{
 							return false;
@@ -78,7 +77,11 @@ namespace RimWorld
 					}
 				}
 			}
-			return this.CanFireNowSub(target);
+			if (!this.CanFireNowSub(target))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected virtual bool CanFireNowSub(IIncidentTarget target)
@@ -98,7 +101,7 @@ namespace RimWorld
 			{
 				Log.Error("Sending standard incident letter with no label or text.");
 			}
-			Find.LetterStack.ReceiveLetter(this.def.letterLabel, this.def.letterText, this.def.letterDef, null);
+			Find.LetterStack.ReceiveLetter(this.def.letterLabel, this.def.letterText, this.def.letterDef, (string)null);
 		}
 
 		protected void SendStandardLetter(GlobalTargetInfo target, params string[] textArgs)
@@ -108,7 +111,7 @@ namespace RimWorld
 				Log.Error("Sending standard incident letter with no label or text.");
 			}
 			string text = string.Format(this.def.letterText, textArgs).CapitalizeFirst();
-			Find.LetterStack.ReceiveLetter(this.def.letterLabel, text, this.def.letterDef, target, null);
+			Find.LetterStack.ReceiveLetter(this.def.letterLabel, text, this.def.letterDef, target, (string)null);
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -42,18 +41,7 @@ namespace RimWorld
 						int num = this.map.cellIndices.CellToIndex(k, j);
 						if (this.netGrid[num] != null)
 						{
-							Log.Warning(string.Concat(new object[]
-							{
-								"Two power nets on the same cell (",
-								k,
-								", ",
-								j,
-								"). First transmitters: ",
-								newNet.transmitters[0].parent.LabelCap,
-								" and ",
-								(!this.netGrid[num].transmitters.NullOrEmpty<CompPower>()) ? this.netGrid[num].transmitters[0].parent.LabelCap : "[none]",
-								"."
-							}));
+							Log.Warning("Two power nets on the same cell (" + k + ", " + j + "). First transmitters: " + newNet.transmitters[0].parent.LabelCap + " and " + ((!this.netGrid[num].transmitters.NullOrEmpty()) ? this.netGrid[num].transmitters[0].parent.LabelCap : "[none]") + ".");
 						}
 						this.netGrid[num] = newNet;
 						list.Add(new IntVec3(k, 0, j));
@@ -64,52 +52,45 @@ namespace RimWorld
 
 		public void Notify_PowerNetDeleted(PowerNet deadNet)
 		{
-			List<IntVec3> list;
+			List<IntVec3> list = default(List<IntVec3>);
 			if (!this.powerNetCells.TryGetValue(deadNet, out list))
 			{
 				Log.Warning("Net " + deadNet + " does not exist in PowerNetGrid's dictionary.");
-				return;
 			}
-			for (int i = 0; i < list.Count; i++)
+			else
 			{
-				int num = this.map.cellIndices.CellToIndex(list[i]);
-				if (this.netGrid[num] == deadNet)
+				for (int i = 0; i < list.Count; i++)
 				{
-					this.netGrid[num] = null;
+					int num = this.map.cellIndices.CellToIndex(list[i]);
+					if (this.netGrid[num] == deadNet)
+					{
+						this.netGrid[num] = null;
+					}
+					else
+					{
+						Log.Warning("Multiple nets on the same cell " + list[i] + ". This is probably a result of an earlier error.");
+					}
 				}
-				else
-				{
-					Log.Warning("Multiple nets on the same cell " + list[i] + ". This is probably a result of an earlier error.");
-				}
+				this.powerNetCells.Remove(deadNet);
 			}
-			this.powerNetCells.Remove(deadNet);
 		}
 
 		public void DrawDebugPowerNetGrid()
 		{
-			if (!DebugViewSettings.drawPowerNetGrid)
+			if (DebugViewSettings.drawPowerNetGrid && Current.ProgramState == ProgramState.Playing && this.map == Find.VisibleMap)
 			{
-				return;
-			}
-			if (Current.ProgramState != ProgramState.Playing)
-			{
-				return;
-			}
-			if (this.map != Find.VisibleMap)
-			{
-				return;
-			}
-			Rand.PushState();
-			foreach (IntVec3 current in Find.CameraDriver.CurrentViewRect.ClipInsideMap(this.map))
-			{
-				PowerNet powerNet = this.netGrid[this.map.cellIndices.CellToIndex(current)];
-				if (powerNet != null)
+				Rand.PushState();
+				foreach (IntVec3 item in Find.CameraDriver.CurrentViewRect.ClipInsideMap(this.map))
 				{
-					Rand.Seed = powerNet.GetHashCode();
-					CellRenderer.RenderCell(current, Rand.Value);
+					PowerNet powerNet = this.netGrid[this.map.cellIndices.CellToIndex(item)];
+					if (powerNet != null)
+					{
+						Rand.Seed = powerNet.GetHashCode();
+						CellRenderer.RenderCell(item, Rand.Value);
+					}
 				}
+				Rand.PopState();
 			}
-			Rand.PopState();
 		}
 	}
 }

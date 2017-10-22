@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -74,19 +73,34 @@ namespace RimWorld
 			}
 		};
 
-		[DebuggerHidden]
 		public static IEnumerable<Pawn> GeneratePawns(PawnGroupKindDef groupKind, PawnGroupMakerParms parms, bool warnOnZeroResults = true)
 		{
-			PawnGroupMakerUtility.<GeneratePawns>c__IteratorC9 <GeneratePawns>c__IteratorC = new PawnGroupMakerUtility.<GeneratePawns>c__IteratorC9();
-			<GeneratePawns>c__IteratorC.groupKind = groupKind;
-			<GeneratePawns>c__IteratorC.parms = parms;
-			<GeneratePawns>c__IteratorC.warnOnZeroResults = warnOnZeroResults;
-			<GeneratePawns>c__IteratorC.<$>groupKind = groupKind;
-			<GeneratePawns>c__IteratorC.<$>parms = parms;
-			<GeneratePawns>c__IteratorC.<$>warnOnZeroResults = warnOnZeroResults;
-			PawnGroupMakerUtility.<GeneratePawns>c__IteratorC9 expr_31 = <GeneratePawns>c__IteratorC;
-			expr_31.$PC = -2;
-			return expr_31;
+			if (groupKind == null)
+			{
+				Log.Error("Tried to generate pawns with null pawn group kind def. parms=" + parms);
+			}
+			else if (parms.faction.def.pawnGroupMakers == null)
+			{
+				Log.Error("Faction " + parms.faction + " of def " + parms.faction.def + " has no any PawnGroupMakers.");
+			}
+			else
+			{
+				IEnumerable<PawnGroupMaker> usableGroupMakers = from gm in parms.faction.def.pawnGroupMakers
+				where gm.kindDef == ((_003CGeneratePawns_003Ec__IteratorC9)/*Error near IL_00c6: stateMachine*/).groupKind && gm.CanGenerateFrom(((_003CGeneratePawns_003Ec__IteratorC9)/*Error near IL_00c6: stateMachine*/).parms)
+				select gm;
+				PawnGroupMaker chosenGroupMaker;
+				if (!usableGroupMakers.TryRandomElementByWeight<PawnGroupMaker>((Func<PawnGroupMaker, float>)((PawnGroupMaker gm) => gm.commonality), out chosenGroupMaker))
+				{
+					Log.Error("Faction " + parms.faction + " of def " + parms.faction.def + " has no usable PawnGroupMakers for parms " + parms);
+				}
+				else
+				{
+					foreach (Pawn item in chosenGroupMaker.GeneratePawns(parms, warnOnZeroResults))
+					{
+						yield return item;
+					}
+				}
+			}
 		}
 
 		public static IEnumerable<PawnGenOption> ChoosePawnGenOptionsByPoints(float points, List<PawnGenOption> options, PawnGroupMakerParms parms)
@@ -102,57 +116,38 @@ namespace RimWorld
 				for (int i = 0; i < options.Count; i++)
 				{
 					PawnGenOption pawnGenOption = options[i];
-					if (pawnGenOption.Cost <= num2)
+					if (!(pawnGenOption.Cost > num2) && !(pawnGenOption.Cost > num) && (!parms.generateFightersOnly || pawnGenOption.kind.isFighter) && (parms.raidStrategy == null || parms.raidStrategy.Worker.CanUsePawnGenOption(pawnGenOption, list2)) && (!flag || !pawnGenOption.kind.factionLeader))
 					{
-						if (pawnGenOption.Cost <= num)
+						list.Add(pawnGenOption);
+					}
+				}
+				if (list.Count != 0)
+				{
+					float desireToSuppressCount = PawnGroupMakerUtility.DesireToSuppressCountPerRaidPointsCurve.Evaluate(points);
+					Func<PawnGenOption, float> weightSelector = (Func<PawnGenOption, float>)delegate(PawnGenOption gr)
+					{
+						float num3 = (float)gr.selectionWeight;
+						if (desireToSuppressCount > 0.0)
 						{
-							if (!parms.generateFightersOnly || pawnGenOption.kind.isFighter)
-							{
-								if (parms.raidStrategy == null || parms.raidStrategy.Worker.CanUsePawnGenOption(pawnGenOption, list2))
-								{
-									if (!flag || !pawnGenOption.kind.factionLeader)
-									{
-										list.Add(pawnGenOption);
-									}
-								}
-							}
+							float b = (float)(num3 * (gr.Cost / 100.0));
+							num3 = Mathf.Lerp(num3, b, desireToSuppressCount);
 						}
-					}
-				}
-				if (list.Count == 0)
-				{
-					break;
-				}
-				float desireToSuppressCount = PawnGroupMakerUtility.DesireToSuppressCountPerRaidPointsCurve.Evaluate(points);
-				Func<PawnGenOption, float> weightSelector = delegate(PawnGenOption gr)
-				{
-					float num3 = (float)gr.selectionWeight;
-					if (desireToSuppressCount > 0f)
+						return num3;
+					};
+					PawnGenOption pawnGenOption2 = list.RandomElementByWeight(weightSelector);
+					list2.Add(pawnGenOption2);
+					num2 -= pawnGenOption2.Cost;
+					if (pawnGenOption2.kind.factionLeader)
 					{
-						float b = num3 * (gr.Cost / 100f);
-						num3 = Mathf.Lerp(num3, b, desireToSuppressCount);
+						flag = true;
 					}
-					return num3;
-				};
-				PawnGenOption pawnGenOption2 = list.RandomElementByWeight(weightSelector);
-				list2.Add(pawnGenOption2);
-				num2 -= pawnGenOption2.Cost;
-				if (pawnGenOption2.kind.factionLeader)
-				{
-					flag = true;
+					continue;
 				}
+				break;
 			}
-			if (list2.Count == 1 && num2 > points / 2f)
+			if (list2.Count == 1 && num2 > points / 2.0)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Used only ",
-					points - num2,
-					" / ",
-					points,
-					" points generating for ",
-					parms.faction
-				}));
+				Log.Warning("Used only " + (points - num2) + " / " + points + " points generating for " + parms.faction);
 			}
 			return list2;
 		}
@@ -165,92 +160,57 @@ namespace RimWorld
 			{
 				num = Mathf.Min(num, totalPoints / raidStrategy.minPawns);
 			}
-			num = Mathf.Max(num, faction.def.MinPointsToGenerateNormalPawnGroup() * 1.2f);
+			num = Mathf.Max(num, (float)(faction.def.MinPointsToGenerateNormalPawnGroup() * 1.2000000476837158));
 			if (raidStrategy != null)
 			{
-				num = Mathf.Max(num, raidStrategy.Worker.MinMaxAllowedPawnGenOptionCost(faction) * 1.2f);
+				num = Mathf.Max(num, (float)(raidStrategy.Worker.MinMaxAllowedPawnGenOptionCost(faction) * 1.2000000476837158));
 			}
 			return num;
 		}
 
 		public static void LogPawnGroupsMade()
 		{
-			foreach (Faction fac in Find.FactionManager.AllFactions)
+			using (IEnumerator<Faction> enumerator = Find.FactionManager.AllFactions.GetEnumerator())
 			{
-				if (!fac.def.pawnGroupMakers.NullOrEmpty<PawnGroupMaker>())
+				Faction fac;
+				while (enumerator.MoveNext())
 				{
-					StringBuilder sb = new StringBuilder();
-					sb.AppendLine(string.Concat(new object[]
+					fac = enumerator.Current;
+					if (!fac.def.pawnGroupMakers.NullOrEmpty())
 					{
-						"FACTION: ",
-						fac.Name,
-						" (",
-						fac.def.defName,
-						") min=",
-						fac.def.MinPointsToGenerateNormalPawnGroup()
-					}));
-					Action<float> action = delegate(float points)
-					{
-						if (points < fac.def.MinPointsToGenerateNormalPawnGroup())
+						StringBuilder sb = new StringBuilder();
+						sb.AppendLine("FACTION: " + fac.Name + " (" + fac.def.defName + ") min=" + fac.def.MinPointsToGenerateNormalPawnGroup());
+						Action<float> action = (Action<float>)delegate(float points)
 						{
-							return;
+							if (!(points < fac.def.MinPointsToGenerateNormalPawnGroup()))
+							{
+								PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
+								pawnGroupMakerParms.tile = Find.VisibleMap.Tile;
+								pawnGroupMakerParms.points = points;
+								pawnGroupMakerParms.faction = fac;
+								sb.AppendLine("Group with " + pawnGroupMakerParms.points + " points (max option cost: " + PawnGroupMakerUtility.MaxAllowedPawnGenOptionCost(fac, points, RaidStrategyDefOf.ImmediateAttack) + ")");
+								float num = 0f;
+								foreach (Pawn item in from pa in PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, pawnGroupMakerParms, false)
+								orderby pa.kindDef.combatPower
+								select pa)
+								{
+									string text = (item.equipment.Primary == null) ? "no-equipment" : item.equipment.Primary.Label;
+									Apparel apparel = item.apparel.FirstApparelOnBodyPartGroup(BodyPartGroupDefOf.Torso);
+									string text2 = (apparel == null) ? "shirtless" : apparel.LabelCap;
+									sb.AppendLine("  " + item.kindDef.combatPower.ToString("F0").PadRight(6) + item.kindDef.defName + ", " + text + ", " + text2);
+									num += item.kindDef.combatPower;
+								}
+								sb.AppendLine("         totalCost " + num);
+								sb.AppendLine();
+							}
+						};
+						foreach (float item2 in Dialog_DebugActionsMenu.PointsOptions())
+						{
+							float obj = item2;
+							action(obj);
 						}
-						PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
-						pawnGroupMakerParms.tile = Find.VisibleMap.Tile;
-						pawnGroupMakerParms.points = points;
-						pawnGroupMakerParms.faction = fac;
-						sb.AppendLine(string.Concat(new object[]
-						{
-							"Group with ",
-							pawnGroupMakerParms.points,
-							" points (max option cost: ",
-							PawnGroupMakerUtility.MaxAllowedPawnGenOptionCost(fac, points, RaidStrategyDefOf.ImmediateAttack),
-							")"
-						}));
-						float num = 0f;
-						foreach (Pawn current in from pa in PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, pawnGroupMakerParms, false)
-						orderby pa.kindDef.combatPower
-						select pa)
-						{
-							string text;
-							if (current.equipment.Primary != null)
-							{
-								text = current.equipment.Primary.Label;
-							}
-							else
-							{
-								text = "no-equipment";
-							}
-							Apparel apparel = current.apparel.FirstApparelOnBodyPartGroup(BodyPartGroupDefOf.Torso);
-							string text2;
-							if (apparel != null)
-							{
-								text2 = apparel.LabelCap;
-							}
-							else
-							{
-								text2 = "shirtless";
-							}
-							sb.AppendLine(string.Concat(new string[]
-							{
-								"  ",
-								current.kindDef.combatPower.ToString("F0").PadRight(6),
-								current.kindDef.defName,
-								", ",
-								text,
-								", ",
-								text2
-							}));
-							num += current.kindDef.combatPower;
-						}
-						sb.AppendLine("         totalCost " + num);
-						sb.AppendLine();
-					};
-					foreach (float obj in Dialog_DebugActionsMenu.PointsOptions())
-					{
-						action(obj);
+						Log.Message(sb.ToString());
 					}
-					Log.Message(sb.ToString());
 				}
 			}
 		}

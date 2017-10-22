@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,7 +17,7 @@ namespace Verse
 				return spectrum[0];
 			}
 			val = Mathf.Clamp01(val);
-			float num = 1f / (float)(spectrum.Count - 1);
+			float num = (float)(1.0 / (float)(spectrum.Count - 1));
 			int num2 = (int)(val / num);
 			if (num2 == spectrum.Count - 1)
 			{

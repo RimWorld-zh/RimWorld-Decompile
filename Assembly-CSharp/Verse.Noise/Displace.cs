@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Noise
 {
 	public class Displace : ModuleBase
@@ -8,11 +6,11 @@ namespace Verse.Noise
 		{
 			get
 			{
-				return this.modules[1];
+				return base.modules[1];
 			}
 			set
 			{
-				this.modules[1] = value;
+				base.modules[1] = value;
 			}
 		}
 
@@ -20,11 +18,11 @@ namespace Verse.Noise
 		{
 			get
 			{
-				return this.modules[2];
+				return base.modules[2];
 			}
 			set
 			{
-				this.modules[2] = value;
+				base.modules[2] = value;
 			}
 		}
 
@@ -32,11 +30,11 @@ namespace Verse.Noise
 		{
 			get
 			{
-				return this.modules[3];
+				return base.modules[3];
 			}
 			set
 			{
-				this.modules[3] = value;
+				base.modules[3] = value;
 			}
 		}
 
@@ -46,18 +44,18 @@ namespace Verse.Noise
 
 		public Displace(ModuleBase input, ModuleBase x, ModuleBase y, ModuleBase z) : base(4)
 		{
-			this.modules[0] = input;
-			this.modules[1] = x;
-			this.modules[2] = y;
-			this.modules[3] = z;
+			base.modules[0] = input;
+			base.modules[1] = x;
+			base.modules[2] = y;
+			base.modules[3] = z;
 		}
 
 		public override double GetValue(double x, double y, double z)
 		{
-			double x2 = x + this.modules[1].GetValue(x, y, z);
-			double y2 = y + this.modules[2].GetValue(x, y, z);
-			double z2 = z + this.modules[3].GetValue(x, y, z);
-			return this.modules[0].GetValue(x2, y2, z2);
+			double x2 = x + base.modules[1].GetValue(x, y, z);
+			double y2 = y + base.modules[2].GetValue(x, y, z);
+			double z2 = z + base.modules[3].GetValue(x, y, z);
+			return base.modules[0].GetValue(x2, y2, z2);
 		}
 	}
 }

@@ -21,11 +21,19 @@ namespace RimWorld
 			base.OnActivated();
 			CellRect cellRect = Find.TutorialState.sandbagsRect.ContractedBy(1);
 			this.coverCells = new List<IntVec3>();
-			foreach (IntVec3 current in cellRect.EdgeCells)
+			foreach (IntVec3 edgeCell in cellRect.EdgeCells)
 			{
-				if (current.x != cellRect.CenterCell.x && current.z != cellRect.CenterCell.z)
+				IntVec3 current = edgeCell;
+				int x = current.x;
+				IntVec3 centerCell = cellRect.CenterCell;
+				if (x != centerCell.x)
 				{
-					this.coverCells.Add(current);
+					int z = current.z;
+					IntVec3 centerCell2 = cellRect.CenterCell;
+					if (z != centerCell2.z)
+					{
+						this.coverCells.Add(current);
+					}
 				}
 			}
 			IncidentParms incidentParms = new IncidentParms();
@@ -40,9 +48,9 @@ namespace RimWorld
 
 		private bool AllColonistsInCover()
 		{
-			foreach (Pawn current in base.Map.mapPawns.FreeColonistsSpawned)
+			foreach (Pawn item in base.Map.mapPawns.FreeColonistsSpawned)
 			{
-				if (!this.coverCells.Contains(current.Position))
+				if (!this.coverCells.Contains(item.Position))
 				{
 					return false;
 				}
@@ -54,7 +62,7 @@ namespace RimWorld
 		{
 			if (!this.AllColonistsInCover())
 			{
-				TutorUtility.DrawCellRectOnGUI(Find.TutorialState.sandbagsRect, this.def.onMapInstruction);
+				TutorUtility.DrawCellRectOnGUI(Find.TutorialState.sandbagsRect, base.def.onMapInstruction);
 			}
 			base.LessonOnGUI();
 		}
@@ -70,19 +78,19 @@ namespace RimWorld
 				}
 			}
 			IEnumerable<Pawn> source = base.Map.mapPawns.PawnsInFaction(Faction.OfPlayer);
-			if (source.Any((Pawn p) => p.Downed))
+			if (source.Any((Func<Pawn, bool>)((Pawn p) => p.Downed)))
 			{
-				foreach (Pawn current in base.Map.mapPawns.AllPawns)
+				foreach (Pawn allPawn in base.Map.mapPawns.AllPawns)
 				{
-					if (current.HostileTo(Faction.OfPlayer))
+					if (allPawn.HostileTo(Faction.OfPlayer))
 					{
-						HealthUtility.DamageUntilDowned(current);
+						HealthUtility.DamageUntilDowned(allPawn);
 					}
 				}
 			}
 			if ((from p in base.Map.mapPawns.AllPawnsSpawned
 			where p.HostileTo(Faction.OfPlayer) && !p.Downed
-			select p).Count<Pawn>() == 0)
+			select p).Count() == 0)
 			{
 				Find.ActiveLesson.Deactivate();
 			}

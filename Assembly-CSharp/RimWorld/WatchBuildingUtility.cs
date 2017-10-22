@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -11,21 +9,19 @@ namespace RimWorld
 	{
 		private static List<int> allowedDirections = new List<int>();
 
-		[DebuggerHidden]
 		public static IEnumerable<IntVec3> CalculateWatchCells(ThingDef def, IntVec3 center, Rot4 rot, Map map)
 		{
-			WatchBuildingUtility.<CalculateWatchCells>c__Iterator57 <CalculateWatchCells>c__Iterator = new WatchBuildingUtility.<CalculateWatchCells>c__Iterator57();
-			<CalculateWatchCells>c__Iterator.def = def;
-			<CalculateWatchCells>c__Iterator.rot = rot;
-			<CalculateWatchCells>c__Iterator.center = center;
-			<CalculateWatchCells>c__Iterator.map = map;
-			<CalculateWatchCells>c__Iterator.<$>def = def;
-			<CalculateWatchCells>c__Iterator.<$>rot = rot;
-			<CalculateWatchCells>c__Iterator.<$>center = center;
-			<CalculateWatchCells>c__Iterator.<$>map = map;
-			WatchBuildingUtility.<CalculateWatchCells>c__Iterator57 expr_3F = <CalculateWatchCells>c__Iterator;
-			expr_3F.$PC = -2;
-			return expr_3F;
+			List<int> allowedDirections = WatchBuildingUtility.CalculateAllowedDirections(def, rot);
+			for (int i = 0; i < allowedDirections.Count; i++)
+			{
+				foreach (IntVec3 item in WatchBuildingUtility.GetWatchCellRect(def, center, rot, allowedDirections[i]))
+				{
+					if (WatchBuildingUtility.EverPossibleToWatchFrom(item, center, map, true))
+					{
+						yield return item;
+					}
+				}
+			}
 		}
 
 		public static bool TryFindBestWatchCell(Thing toWatch, Pawn pawn, bool desireSit, out IntVec3 result, out Building chair)
@@ -37,9 +33,9 @@ namespace RimWorld
 				CellRect watchCellRect = WatchBuildingUtility.GetWatchCellRect(toWatch.def, toWatch.Position, toWatch.Rotation, list[i]);
 				IntVec3 centerCell = watchCellRect.CenterCell;
 				int num = watchCellRect.Area * 4;
-				for (int j = 0; j < num; j++)
+				for (int num2 = 0; num2 < num; num2++)
 				{
-					IntVec3 intVec2 = centerCell + GenRadial.RadialPattern[j];
+					IntVec3 intVec2 = centerCell + GenRadial.RadialPattern[num2];
 					if (watchCellRect.Contains(intVec2))
 					{
 						bool flag = false;
@@ -49,7 +45,7 @@ namespace RimWorld
 							if (desireSit)
 							{
 								building = intVec2.GetEdifice(pawn.Map);
-								if (building != null && building.def.building.isSittable && pawn.CanReserve(building, 1, -1, null, false))
+								if (building != null && building.def.building.isSittable && pawn.CanReserve((Thing)building, 1, -1, null, false))
 								{
 									flag = true;
 								}
@@ -61,22 +57,15 @@ namespace RimWorld
 						}
 						if (flag)
 						{
-							if (desireSit)
+							if (!desireSit || !(building.Rotation != new Rot4(list[i]).Opposite))
 							{
-								Rot4 arg_15D_0 = building.Rotation;
-								Rot4 rot = new Rot4(list[i]);
-								if (arg_15D_0 != rot.Opposite)
-								{
-									intVec = intVec2;
-									goto IL_17E;
-								}
+								result = intVec2;
+								chair = building;
+								return true;
 							}
-							result = intVec2;
-							chair = building;
-							return true;
+							intVec = intVec2;
 						}
 					}
-					IL_17E:;
 				}
 			}
 			if (intVec.IsValid)
@@ -100,21 +89,41 @@ namespace RimWorld
 			{
 				Rot4 rotation = bed.Rotation;
 				CellRect cellRect = toWatch.OccupiedRect();
-				if (rotation == Rot4.North && cellRect.maxZ < pawn.Position.z)
+				if (rotation == Rot4.North)
 				{
-					return false;
+					int maxZ = cellRect.maxZ;
+					IntVec3 position = pawn.Position;
+					if (maxZ < position.z)
+					{
+						return false;
+					}
 				}
-				if (rotation == Rot4.South && cellRect.minZ > pawn.Position.z)
+				if (rotation == Rot4.South)
 				{
-					return false;
+					int minZ = cellRect.minZ;
+					IntVec3 position2 = pawn.Position;
+					if (minZ > position2.z)
+					{
+						return false;
+					}
 				}
-				if (rotation == Rot4.East && cellRect.maxX < pawn.Position.x)
+				if (rotation == Rot4.East)
 				{
-					return false;
+					int maxX = cellRect.maxX;
+					IntVec3 position3 = pawn.Position;
+					if (maxX < position3.x)
+					{
+						return false;
+					}
 				}
-				if (rotation == Rot4.West && cellRect.minX > pawn.Position.x)
+				if (rotation == Rot4.West)
 				{
-					return false;
+					int minX = cellRect.minX;
+					IntVec3 position4 = pawn.Position;
+					if (minX > position4.x)
+					{
+						return false;
+					}
 				}
 			}
 			List<int> list = WatchBuildingUtility.CalculateAllowedDirections(toWatch.def, toWatch.Rotation);

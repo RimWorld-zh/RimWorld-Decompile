@@ -26,30 +26,37 @@ namespace RimWorld
 
 		protected virtual void ResolveRaidArriveMode(IncidentParms parms)
 		{
-			if (parms.raidArrivalMode != PawnsArriveMode.Undecided)
+			if (parms.raidArrivalMode == PawnsArriveMode.Undecided)
 			{
-				return;
-			}
-			if (parms.faction.def.techLevel < TechLevel.Spacer || parms.points < 240f)
-			{
-				parms.raidArrivalMode = PawnsArriveMode.EdgeWalkIn;
-			}
-			else
-			{
-				parms.raidArrivalMode = parms.raidStrategy.arriveModes.RandomElementByWeight(delegate(PawnsArriveMode am)
+				if ((int)parms.faction.def.techLevel < 5 || parms.points < 240.0)
 				{
-					switch (am)
+					parms.raidArrivalMode = PawnsArriveMode.EdgeWalkIn;
+				}
+				else
+				{
+					parms.raidArrivalMode = parms.raidStrategy.arriveModes.RandomElementByWeight((Func<PawnsArriveMode, float>)delegate(PawnsArriveMode am)
 					{
-					case PawnsArriveMode.EdgeWalkIn:
-						return 70f;
-					case PawnsArriveMode.EdgeDrop:
-						return 20f;
-					case PawnsArriveMode.CenterDrop:
-						return 10f;
-					default:
-						throw new NotImplementedException();
-					}
-				});
+						switch (am)
+						{
+						case PawnsArriveMode.EdgeWalkIn:
+						{
+							return 70f;
+						}
+						case PawnsArriveMode.EdgeDrop:
+						{
+							return 20f;
+						}
+						case PawnsArriveMode.CenterDrop:
+						{
+							return 10f;
+						}
+						default:
+						{
+							throw new NotImplementedException();
+						}
+						}
+					});
+				}
 			}
 		}
 
@@ -66,7 +73,7 @@ namespace RimWorld
 				{
 					parms.raidPodOpenDelay = 520;
 					parms.spawnRotation = Rot4.Random;
-					if (Rand.Value < 0.4f && map.listerBuildings.ColonistsHaveBuildingWithPowerOn(ThingDefOf.OrbitalTradeBeacon))
+					if (Rand.Value < 0.40000000596046448 && map.listerBuildings.ColonistsHaveBuildingWithPowerOn(ThingDefOf.OrbitalTradeBeacon))
 					{
 						parms.spawnCenter = DropCellFinder.TradeDropSpot(map);
 					}
@@ -84,7 +91,7 @@ namespace RimWorld
 			}
 			else
 			{
-				if (!RCellFinder.TryFindRandomPawnEntryCell(out parms.spawnCenter, map, CellFinder.EdgeRoadChance_Hostile, null))
+				if (!RCellFinder.TryFindRandomPawnEntryCell(out parms.spawnCenter, map, CellFinder.EdgeRoadChance_Hostile, (Predicate<IntVec3>)null))
 				{
 					return false;
 				}
@@ -109,7 +116,7 @@ namespace RimWorld
 			}
 			IncidentParmsUtility.AdjustPointsForGroupArrivalParams(parms);
 			PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(parms);
-			List<Pawn> list = PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, defaultPawnGroupMakerParms, true).ToList<Pawn>();
+			List<Pawn> list = PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, defaultPawnGroupMakerParms, true).ToList();
 			if (list.Count == 0)
 			{
 				Log.Error("Got no pawns spawning raid from parms " + parms);
@@ -123,19 +130,37 @@ namespace RimWorld
 			}
 			else
 			{
-				foreach (Pawn current in list)
+				List<Pawn>.Enumerator enumerator = list.GetEnumerator();
+				try
 				{
-					IntVec3 loc = CellFinder.RandomClosewalkCellNear(parms.spawnCenter, map, 8, null);
-					GenSpawn.Spawn(current, loc, map, parms.spawnRotation, false);
-					target = current;
+					while (enumerator.MoveNext())
+					{
+						Pawn current = enumerator.Current;
+						IntVec3 loc = CellFinder.RandomClosewalkCellNear(parms.spawnCenter, map, 8, null);
+						GenSpawn.Spawn(current, loc, map, parms.spawnRotation, false);
+						target = (Thing)current;
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("Points = " + parms.points.ToString("F0"));
-			foreach (Pawn current2 in list)
+			List<Pawn>.Enumerator enumerator2 = list.GetEnumerator();
+			try
 			{
-				string str = (current2.equipment == null || current2.equipment.Primary == null) ? "unarmed" : current2.equipment.Primary.LabelCap;
-				stringBuilder.AppendLine(current2.KindLabel + " - " + str);
+				while (enumerator2.MoveNext())
+				{
+					Pawn current2 = enumerator2.Current;
+					string str = (current2.equipment == null || current2.equipment.Primary == null) ? "unarmed" : current2.equipment.Primary.LabelCap;
+					stringBuilder.AppendLine(current2.KindLabel + " - " + str);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
 			}
 			string letterLabel = this.GetLetterLabel(parms);
 			string letterText = this.GetLetterText(parms, list);
@@ -143,7 +168,7 @@ namespace RimWorld
 			Find.LetterStack.ReceiveLetter(letterLabel, letterText, this.GetLetterDef(), target, stringBuilder.ToString());
 			if (this.GetLetterDef() == LetterDefOf.BadUrgent)
 			{
-				TaleRecorder.RecordTale(TaleDefOf.RaidArrived, new object[0]);
+				TaleRecorder.RecordTale(TaleDefOf.RaidArrived);
 			}
 			Lord lord = LordMaker.MakeNewLord(parms.faction, parms.raidStrategy.Worker.MakeLordJob(parms, map), map, list);
 			AvoidGridMaker.RegenerateAvoidGridsFor(parms.faction, map);
@@ -153,7 +178,7 @@ namespace RimWorld
 				for (int i = 0; i < list.Count; i++)
 				{
 					Pawn pawn = list[i];
-					if (pawn.apparel.WornApparel.Any((Apparel ap) => ap is ShieldBelt))
+					if (pawn.apparel.WornApparel.Any((Predicate<Apparel>)((Apparel ap) => ap is ShieldBelt)))
 					{
 						LessonAutoActivator.TeachOpportunity(ConceptDefOf.ShieldBelts, OpportunityType.Critical);
 						break;
@@ -162,14 +187,7 @@ namespace RimWorld
 			}
 			if (DebugViewSettings.drawStealDebug && parms.faction.HostileTo(Faction.OfPlayer))
 			{
-				Log.Message(string.Concat(new object[]
-				{
-					"Market value threshold to start stealing: ",
-					StealAIUtility.StartStealingMarketValueThreshold(lord),
-					" (colony wealth = ",
-					map.wealthWatcher.WealthTotal,
-					")"
-				}));
+				Log.Message("Market value threshold to start stealing: " + StealAIUtility.StartStealingMarketValueThreshold(lord) + " (colony wealth = " + map.wealthWatcher.WealthTotal + ")");
 			}
 			return true;
 		}

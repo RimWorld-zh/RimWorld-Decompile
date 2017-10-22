@@ -9,14 +9,26 @@ namespace RimWorld
 	{
 		public static bool IsCleanAndDroppable(Pawn pawn, BodyPartRecord part)
 		{
-			return !pawn.Dead && !pawn.RaceProps.Animal && part.def.spawnThingOnRemoved != null && MedicalRecipesUtility.IsClean(pawn, part);
+			if (pawn.Dead)
+			{
+				return false;
+			}
+			if (pawn.RaceProps.Animal)
+			{
+				return false;
+			}
+			return part.def.spawnThingOnRemoved != null && MedicalRecipesUtility.IsClean(pawn, part);
 		}
 
 		public static bool IsClean(Pawn pawn, BodyPartRecord part)
 		{
-			return !pawn.Dead && !(from x in pawn.health.hediffSet.hediffs
+			if (pawn.Dead)
+			{
+				return false;
+			}
+			return !(from x in pawn.health.hediffSet.hediffs
 			where x.Part == part
-			select x).Any<Hediff>();
+			select x).Any();
 		}
 
 		public static void RestorePartAndSpawnAllPreviousParts(Pawn pawn, BodyPartRecord part, IntVec3 pos, Map map)
@@ -37,23 +49,22 @@ namespace RimWorld
 
 		public static void SpawnThingsFromHediffs(Pawn pawn, BodyPartRecord part, IntVec3 pos, Map map)
 		{
-			if (!pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined).Contains(part))
+			if (pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined).Contains(part))
 			{
-				return;
-			}
-			IEnumerable<Hediff> enumerable = from x in pawn.health.hediffSet.hediffs
-			where x.Part == part
-			select x;
-			foreach (Hediff current in enumerable)
-			{
-				if (current.def.spawnThingOnRemoved != null)
+				IEnumerable<Hediff> enumerable = from x in pawn.health.hediffSet.hediffs
+				where x.Part == part
+				select x;
+				foreach (Hediff item in enumerable)
 				{
-					GenSpawn.Spawn(current.def.spawnThingOnRemoved, pos, map);
+					if (item.def.spawnThingOnRemoved != null)
+					{
+						GenSpawn.Spawn(item.def.spawnThingOnRemoved, pos, map);
+					}
 				}
-			}
-			for (int i = 0; i < part.parts.Count; i++)
-			{
-				MedicalRecipesUtility.SpawnThingsFromHediffs(pawn, part.parts[i], pos, map);
+				for (int i = 0; i < part.parts.Count; i++)
+				{
+					MedicalRecipesUtility.SpawnThingsFromHediffs(pawn, part.parts[i], pos, map);
+				}
 			}
 		}
 	}

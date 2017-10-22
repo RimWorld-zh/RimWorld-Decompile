@@ -1,12 +1,10 @@
-using System;
-
 namespace RimWorld
 {
 	public enum HungerCategory : byte
 	{
-		Fed,
-		Hungry,
-		UrgentlyHungry,
-		Starving
+		Fed = 0,
+		Hungry = 1,
+		UrgentlyHungry = 2,
+		Starving = 3
 	}
 }

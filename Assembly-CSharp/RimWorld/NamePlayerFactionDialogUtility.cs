@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,7 +6,15 @@ namespace RimWorld
 	{
 		public static bool IsValidName(string s)
 		{
-			return s.Length != 0 && GenText.IsValidFilename(s);
+			if (s.Length == 0)
+			{
+				return false;
+			}
+			if (!GenText.IsValidFilename(s))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static void Named(string s)

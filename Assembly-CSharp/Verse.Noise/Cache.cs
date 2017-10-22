@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Noise
 {
 	public class Cache : ModuleBase
@@ -33,14 +31,14 @@ namespace Verse.Noise
 
 		public Cache(ModuleBase input) : base(1)
 		{
-			this.modules[0] = input;
+			base.modules[0] = input;
 		}
 
 		public override double GetValue(double x, double y, double z)
 		{
 			if (!this.m_cached || this.m_x != x || this.m_y != y || this.m_z != z)
 			{
-				this.m_value = this.modules[0].GetValue(x, y, z);
+				this.m_value = base.modules[0].GetValue(x, y, z);
 				this.m_x = x;
 				this.m_y = y;
 				this.m_z = z;

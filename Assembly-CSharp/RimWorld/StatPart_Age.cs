@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -28,13 +26,10 @@ namespace RimWorld
 				Pawn pawn = req.Thing as Pawn;
 				if (pawn != null && pawn.ageTracker != null)
 				{
-					return "StatsReport_AgeMultiplier".Translate(new object[]
-					{
-						pawn.ageTracker.AgeBiologicalYears
-					}) + ": x" + this.AgeMultiplier(pawn).ToStringPercent();
+					return "StatsReport_AgeMultiplier".Translate(pawn.ageTracker.AgeBiologicalYears) + ": x" + this.AgeMultiplier(pawn).ToStringPercent();
 				}
 			}
-			return null;
+			return (string)null;
 		}
 
 		private float AgeMultiplier(Pawn pawn)
@@ -42,14 +37,12 @@ namespace RimWorld
 			return this.curve.Evaluate((float)pawn.ageTracker.AgeBiologicalYears / pawn.RaceProps.lifeExpectancy);
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			StatPart_Age.<ConfigErrors>c__Iterator1AD <ConfigErrors>c__Iterator1AD = new StatPart_Age.<ConfigErrors>c__Iterator1AD();
-			<ConfigErrors>c__Iterator1AD.<>f__this = this;
-			StatPart_Age.<ConfigErrors>c__Iterator1AD expr_0E = <ConfigErrors>c__Iterator1AD;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.curve == null)
+			{
+				yield return "curve is null.";
+			}
 		}
 	}
 }

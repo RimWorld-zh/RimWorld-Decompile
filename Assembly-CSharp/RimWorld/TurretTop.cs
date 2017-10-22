@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -33,11 +32,11 @@ namespace RimWorld
 			set
 			{
 				this.curRotationInt = value;
-				if (this.curRotationInt > 360f)
+				if (this.curRotationInt > 360.0)
 				{
 					this.curRotationInt -= 360f;
 				}
-				if (this.curRotationInt < 0f)
+				if (this.curRotationInt < 0.0)
 				{
 					this.curRotationInt += 360f;
 				}
@@ -63,7 +62,7 @@ namespace RimWorld
 				this.ticksUntilIdleTurn--;
 				if (this.ticksUntilIdleTurn == 0)
 				{
-					if (Rand.Value < 0.5f)
+					if (Rand.Value < 0.5)
 					{
 						this.idleTurnClockwise = true;
 					}

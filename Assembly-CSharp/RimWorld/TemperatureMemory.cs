@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -17,7 +16,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.noGrowUntilTick <= 0 || Find.TickManager.TicksGame >= this.noGrowUntilTick) && Find.TickManager.TicksGame < this.growthSeasonUntilTick;
+				if (this.noGrowUntilTick > 0 && Find.TickManager.TicksGame < this.noGrowUntilTick)
+				{
+					return false;
+				}
+				return Find.TickManager.TicksGame < this.growthSeasonUntilTick;
 			}
 		}
 
@@ -28,11 +31,11 @@ namespace RimWorld
 
 		public void GrowthSeasonMemoryTick()
 		{
-			if (this.map.mapTemperature.OutdoorTemp > 0f && this.map.mapTemperature.OutdoorTemp < 58f)
+			if (this.map.mapTemperature.OutdoorTemp > 0.0 && this.map.mapTemperature.OutdoorTemp < 58.0)
 			{
 				this.growthSeasonUntilTick = Find.TickManager.TicksGame + 30000;
 			}
-			else if (this.map.mapTemperature.OutdoorTemp < -2f)
+			else if (this.map.mapTemperature.OutdoorTemp < -2.0)
 			{
 				this.growthSeasonUntilTick = -1;
 				this.noGrowUntilTick = Find.TickManager.TicksGame + 30000;

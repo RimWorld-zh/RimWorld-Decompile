@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -32,11 +31,11 @@ namespace RimWorld
 			if (this.thisIsFirstBodyEver && worker.IsColonist && base.Corpse.InnerPawn.def.race.Humanlike && !base.Corpse.everBuriedInSarcophagus)
 			{
 				base.Corpse.everBuriedInSarcophagus = true;
-				foreach (Pawn current in base.Map.mapPawns.FreeColonists)
+				foreach (Pawn freeColonist in base.Map.mapPawns.FreeColonists)
 				{
-					if (current.needs.mood != null)
+					if (freeColonist.needs.mood != null)
 					{
-						current.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.KnowBuriedInSarcophagus, null);
+						freeColonist.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.KnowBuriedInSarcophagus, null);
 					}
 				}
 			}

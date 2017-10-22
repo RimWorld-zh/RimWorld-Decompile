@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -13,7 +12,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_Spawner)this.props;
+				return (CompProperties_Spawner)base.props;
 			}
 		}
 
@@ -27,22 +26,20 @@ namespace RimWorld
 
 		public override void CompTick()
 		{
-			if (this.parent.Position.Fogged(this.parent.Map))
+			if (!base.parent.Position.Fogged(base.parent.Map))
 			{
-				return;
+				this.ticksUntilSpawn--;
+				this.CheckShouldSpawn();
 			}
-			this.ticksUntilSpawn--;
-			this.CheckShouldSpawn();
 		}
 
 		public override void CompTickRare()
 		{
-			if (this.parent.Position.Fogged(this.parent.Map))
+			if (!base.parent.Position.Fogged(base.parent.Map))
 			{
-				return;
+				this.ticksUntilSpawn -= 250;
+				this.CheckShouldSpawn();
 			}
-			this.ticksUntilSpawn -= 250;
-			this.CheckShouldSpawn();
 		}
 
 		private void CheckShouldSpawn()
@@ -61,7 +58,7 @@ namespace RimWorld
 				int num = 0;
 				for (int i = 0; i < 9; i++)
 				{
-					List<Thing> thingList = (this.parent.Position + GenAdj.AdjacentCellsAndInside[i]).GetThingList(this.parent.Map);
+					List<Thing> thingList = (base.parent.Position + GenAdj.AdjacentCellsAndInside[i]).GetThingList(base.parent.Map);
 					for (int j = 0; j < thingList.Count; j++)
 					{
 						if (thingList[j].def == this.PropsSpawner.thingToSpawn)
@@ -75,13 +72,13 @@ namespace RimWorld
 					}
 				}
 			}
-			IntVec3 center;
+			IntVec3 center = default(IntVec3);
 			if (this.TryFindSpawnCell(out center))
 			{
 				Thing thing = ThingMaker.MakeThing(this.PropsSpawner.thingToSpawn, null);
 				thing.stackCount = this.PropsSpawner.spawnCount;
-				Thing t;
-				GenPlace.TryPlaceThing(thing, center, this.parent.Map, ThingPlaceMode.Direct, out t, null);
+				Thing t = default(Thing);
+				GenPlace.TryPlaceThing(thing, center, base.parent.Map, ThingPlaceMode.Direct, out t, (Action<Thing, int>)null);
 				if (this.PropsSpawner.spawnForbidden)
 				{
 					t.SetForbidden(true, true);
@@ -93,34 +90,31 @@ namespace RimWorld
 
 		private bool TryFindSpawnCell(out IntVec3 result)
 		{
-			foreach (IntVec3 current in GenAdj.CellsAdjacent8Way(this.parent).InRandomOrder(null))
+			foreach (IntVec3 item in GenAdj.CellsAdjacent8Way(base.parent).InRandomOrder(null))
 			{
-				if (current.Walkable(this.parent.Map))
+				if (item.Walkable(base.parent.Map))
 				{
-					Building edifice = current.GetEdifice(this.parent.Map);
+					Building edifice = item.GetEdifice(base.parent.Map);
 					if (edifice == null || !this.PropsSpawner.thingToSpawn.IsEdifice())
 					{
 						Building_Door building_Door = edifice as Building_Door;
-						if (building_Door == null || building_Door.FreePassage)
+						if ((building_Door == null || building_Door.FreePassage) && GenSight.LineOfSight(base.parent.Position, item, base.parent.Map, false, null, 0, 0))
 						{
-							if (GenSight.LineOfSight(this.parent.Position, current, this.parent.Map, false, null, 0, 0))
+							bool flag = false;
+							List<Thing> thingList = item.GetThingList(base.parent.Map);
+							for (int i = 0; i < thingList.Count; i++)
 							{
-								bool flag = false;
-								List<Thing> thingList = current.GetThingList(this.parent.Map);
-								for (int i = 0; i < thingList.Count; i++)
+								Thing thing = thingList[i];
+								if (thing.def.category == ThingCategory.Item && (thing.def != this.PropsSpawner.thingToSpawn || thing.stackCount > this.PropsSpawner.thingToSpawn.stackLimit - this.PropsSpawner.spawnCount))
 								{
-									Thing thing = thingList[i];
-									if (thing.def.category == ThingCategory.Item && (thing.def != this.PropsSpawner.thingToSpawn || thing.stackCount > this.PropsSpawner.thingToSpawn.stackLimit - this.PropsSpawner.spawnCount))
-									{
-										flag = true;
-										break;
-									}
+									flag = true;
+									break;
 								}
-								if (!flag)
-								{
-									result = current;
-									return true;
-								}
+							}
+							if (!flag)
+							{
+								result = item;
+								return true;
 							}
 						}
 					}
@@ -140,14 +134,21 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.ticksUntilSpawn, "ticksUntilSpawn", 0, false);
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompSpawner.<CompGetGizmosExtra>c__Iterator16B <CompGetGizmosExtra>c__Iterator16B = new CompSpawner.<CompGetGizmosExtra>c__Iterator16B();
-			<CompGetGizmosExtra>c__Iterator16B.<>f__this = this;
-			CompSpawner.<CompGetGizmosExtra>c__Iterator16B expr_0E = <CompGetGizmosExtra>c__Iterator16B;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (Prefs.DevMode)
+			{
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "DEBUG: Spawn " + this.PropsSpawner.thingToSpawn.label,
+					icon = TexCommand.DesirePower,
+					action = (Action)delegate
+					{
+						((_003CCompGetGizmosExtra_003Ec__Iterator16B)/*Error near IL_0076: stateMachine*/)._003C_003Ef__this.TryDoSpawn();
+						((_003CCompGetGizmosExtra_003Ec__Iterator16B)/*Error near IL_0076: stateMachine*/)._003C_003Ef__this.ResetCountdown();
+					}
+				};
+			}
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -30,16 +29,7 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"(",
-				this.cell,
-				", ",
-				this.def,
-				", ",
-				this.ticksGame,
-				")"
-			});
+			return "(" + this.cell + ", " + this.def + ", " + this.ticksGame + ")";
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -10,19 +9,14 @@ namespace RimWorld
 		public override void DoEffectOn(Pawn user, Thing target)
 		{
 			Pawn pawn = (Pawn)target;
-			if (pawn.Dead)
-			{
-				return;
-			}
-			if (Rand.Value <= 0.3f)
+			if (!pawn.Dead && Rand.Value <= 0.30000001192092896)
 			{
 				BodyPartRecord brain = pawn.health.hediffSet.GetBrain();
-				if (brain == null)
+				if (brain != null)
 				{
-					return;
+					int amount = Rand.RangeInclusive(1, 5);
+					pawn.TakeDamage(new DamageInfo(DamageDefOf.Flame, amount, -1f, user, brain, base.parent.def, DamageInfo.SourceCategory.ThingOrUnknown));
 				}
-				int amount = Rand.RangeInclusive(1, 5);
-				pawn.TakeDamage(new DamageInfo(DamageDefOf.Flame, amount, -1f, user, brain, this.parent.def, DamageInfo.SourceCategory.ThingOrUnknown));
 			}
 		}
 	}

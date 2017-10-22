@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -33,39 +32,39 @@ namespace Verse
 		{
 			get
 			{
-				return (HediffCompProperties_Infecter)this.props;
+				return (HediffCompProperties_Infecter)base.props;
 			}
 		}
 
 		public override void CompPostPostAdd(DamageInfo? dinfo)
 		{
-			if (this.parent.IsOld())
+			if (base.parent.IsOld())
 			{
 				this.ticksUntilInfect = -2;
-				return;
 			}
-			if (this.parent.Part.def.IsSolid(this.parent.Part, base.Pawn.health.hediffSet.hediffs))
+			else if (base.parent.Part.def.IsSolid(base.parent.Part, base.Pawn.health.hediffSet.hediffs))
 			{
 				this.ticksUntilInfect = -2;
-				return;
 			}
-			if (base.Pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(this.parent.Part))
+			else if (base.Pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(base.parent.Part))
 			{
 				this.ticksUntilInfect = -2;
-				return;
-			}
-			float num = this.Props.infectionChance;
-			if (base.Pawn.RaceProps.Animal)
-			{
-				num *= 0.2f;
-			}
-			if (Rand.Value <= num)
-			{
-				this.ticksUntilInfect = HealthTunings.InfectionDelayRange.RandomInRange;
 			}
 			else
 			{
-				this.ticksUntilInfect = -2;
+				float num = this.Props.infectionChance;
+				if (base.Pawn.RaceProps.Animal)
+				{
+					num = (float)(num * 0.20000000298023224);
+				}
+				if (Rand.Value <= num)
+				{
+					this.ticksUntilInfect = HealthTunings.InfectionDelayRange.RandomInRange;
+				}
+				else
+				{
+					this.ticksUntilInfect = -2;
+				}
 			}
 		}
 
@@ -101,62 +100,58 @@ namespace Verse
 
 		private void CheckMakeInfection()
 		{
-			if (base.Pawn.health.immunity.DiseaseContractChanceFactor(HediffDefOf.WoundInfection, this.parent.Part) <= 0.001f)
+			if (base.Pawn.health.immunity.DiseaseContractChanceFactor(HediffDefOf.WoundInfection, base.parent.Part) <= 0.0010000000474974513)
 			{
 				this.ticksUntilInfect = -3;
-				return;
-			}
-			float num = 1f;
-			HediffComp_TendDuration hediffComp_TendDuration = this.parent.TryGetComp<HediffComp_TendDuration>();
-			if (hediffComp_TendDuration != null && hediffComp_TendDuration.IsTended)
-			{
-				num *= this.infectionChanceFactorFromTendRoom;
-				num *= HediffComp_Infecter.InfectionChanceFactorFromTendQualityCurve.Evaluate(hediffComp_TendDuration.tendQuality);
-			}
-			if (base.Pawn.Faction == Faction.OfPlayer)
-			{
-				num *= Find.Storyteller.difficulty.playerPawnInfectionChanceFactor;
-			}
-			if (Rand.Value < num)
-			{
-				this.ticksUntilInfect = -4;
-				base.Pawn.health.AddHediff(HediffDefOf.WoundInfection, this.parent.Part, null);
 			}
 			else
 			{
-				this.ticksUntilInfect = -3;
+				float num = 1f;
+				HediffComp_TendDuration hediffComp_TendDuration = base.parent.TryGetComp<HediffComp_TendDuration>();
+				if (hediffComp_TendDuration != null && hediffComp_TendDuration.IsTended)
+				{
+					num *= this.infectionChanceFactorFromTendRoom;
+					num *= HediffComp_Infecter.InfectionChanceFactorFromTendQualityCurve.Evaluate(hediffComp_TendDuration.tendQuality);
+				}
+				if (base.Pawn.Faction == Faction.OfPlayer)
+				{
+					num *= Find.Storyteller.difficulty.playerPawnInfectionChanceFactor;
+				}
+				if (Rand.Value < num)
+				{
+					this.ticksUntilInfect = -4;
+					base.Pawn.health.AddHediff(HediffDefOf.WoundInfection, base.parent.Part, default(DamageInfo?));
+				}
+				else
+				{
+					this.ticksUntilInfect = -3;
+				}
 			}
 		}
 
 		public override string CompDebugString()
 		{
-			if (this.ticksUntilInfect > 0)
+			if (this.ticksUntilInfect <= 0)
 			{
-				return string.Concat(new object[]
+				if (this.ticksUntilInfect == -4)
 				{
-					"infection may appear in: ",
-					this.ticksUntilInfect,
-					" ticks\ninfectChnceFactorFromTendRoom: ",
-					this.infectionChanceFactorFromTendRoom.ToStringPercent()
-				});
+					return "already created infection";
+				}
+				if (this.ticksUntilInfect == -3)
+				{
+					return "failed to make infection";
+				}
+				if (this.ticksUntilInfect == -2)
+				{
+					return "will not make infection";
+				}
+				if (this.ticksUntilInfect == -1)
+				{
+					return "uninitialized data!";
+				}
+				return "unexpected ticksUntilInfect = " + this.ticksUntilInfect;
 			}
-			if (this.ticksUntilInfect == -4)
-			{
-				return "already created infection";
-			}
-			if (this.ticksUntilInfect == -3)
-			{
-				return "failed to make infection";
-			}
-			if (this.ticksUntilInfect == -2)
-			{
-				return "will not make infection";
-			}
-			if (this.ticksUntilInfect == -1)
-			{
-				return "uninitialized data!";
-			}
-			return "unexpected ticksUntilInfect = " + this.ticksUntilInfect;
+			return "infection may appear in: " + this.ticksUntilInfect + " ticks\ninfectChnceFactorFromTendRoom: " + this.infectionChanceFactorFromTendRoom.ToStringPercent();
 		}
 	}
 }

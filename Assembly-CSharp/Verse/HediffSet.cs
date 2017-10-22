@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
@@ -31,7 +30,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.cachedPain < 0f)
+				if (this.cachedPain < 0.0)
 				{
 					this.cachedPain = this.CalculatePain();
 				}
@@ -43,7 +42,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.cachedBleedRate < 0f)
+				if (this.cachedBleedRate < 0.0)
 				{
 					this.cachedBleedRate = this.CalculateBleedRate();
 				}
@@ -55,10 +54,10 @@ namespace Verse
 		{
 			get
 			{
-				bool? flag = this.cachedHasHead;
-				if (!flag.HasValue)
+				bool? nullable = this.cachedHasHead;
+				if (!nullable.HasValue)
 				{
-					this.cachedHasHead = new bool?(this.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined).Any((BodyPartRecord x) => x.def == BodyPartDefOf.Head));
+					this.cachedHasHead = new bool?(this.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined).Any((Func<BodyPartRecord, bool>)((BodyPartRecord x) => x.def == BodyPartDefOf.Head)));
 				}
 				return this.cachedHasHead.Value;
 			}
@@ -70,12 +69,9 @@ namespace Verse
 			{
 				for (int i = 0; i < this.hediffs.Count; i++)
 				{
-					if (this.hediffs[i].def.makesSickThought)
+					if (this.hediffs[i].def.makesSickThought && this.hediffs[i].Visible)
 					{
-						if (this.hediffs[i].Visible)
-						{
-							return true;
-						}
+						return true;
 					}
 				}
 				return false;
@@ -100,78 +96,79 @@ namespace Verse
 			}
 		}
 
-		public void AddDirect(Hediff hediff, DamageInfo? dinfo = null)
+		public void AddDirect(Hediff hediff, DamageInfo? dinfo = default(DamageInfo?))
 		{
 			if (hediff.def == null)
 			{
 				Log.Error("Tried to add health diff with null def. Canceling.");
-				return;
 			}
-			if (hediff.Part != null && !this.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined).Contains(hediff.Part))
+			else if (hediff.Part != null && !this.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined).Contains(hediff.Part))
 			{
 				Log.Error("Tried to add health diff to missing part " + hediff.Part);
-				return;
 			}
-			ProfilerThreadCheck.BeginSample("HediffSet.AddHediff()");
-			hediff.ageTicks = 0;
-			hediff.pawn = this.pawn;
-			ProfilerThreadCheck.BeginSample("Attempt merge or add new hediff");
-			bool flag = false;
-			for (int i = 0; i < this.hediffs.Count; i++)
+			else
 			{
-				if (this.hediffs[i].TryMergeWith(hediff))
+				ProfilerThreadCheck.BeginSample("HediffSet.AddHediff()");
+				hediff.ageTicks = 0;
+				hediff.pawn = this.pawn;
+				ProfilerThreadCheck.BeginSample("Attempt merge or add new hediff");
+				bool flag = false;
+				for (int i = 0; i < this.hediffs.Count; i++)
 				{
-					flag = true;
-				}
-			}
-			if (!flag)
-			{
-				this.hediffs.Add(hediff);
-				hediff.PostAdd(dinfo);
-				if (this.pawn.needs != null && this.pawn.needs.mood != null)
-				{
-					this.pawn.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
-				}
-			}
-			ProfilerThreadCheck.EndSample();
-			bool flag2 = hediff is Hediff_MissingPart;
-			if (!(hediff is Hediff_MissingPart) && hediff.Part != null && hediff.Part != this.pawn.RaceProps.body.corePart && this.GetPartHealth(hediff.Part) == 0f)
-			{
-				ProfilerThreadCheck.BeginSample("Handle missing body part");
-				if (hediff.Part != this.pawn.RaceProps.body.corePart)
-				{
-					bool flag3 = this.HasDirectlyAddedPartFor(hediff.Part);
-					Hediff_MissingPart hediff_MissingPart = (Hediff_MissingPart)HediffMaker.MakeHediff(HediffDefOf.MissingBodyPart, this.pawn, null);
-					hediff_MissingPart.IsFresh = !flag3;
-					hediff_MissingPart.lastInjury = hediff.def;
-					this.pawn.health.AddHediff(hediff_MissingPart, hediff.Part, dinfo);
-					if (flag3)
+					if (this.hediffs[i].TryMergeWith(hediff))
 					{
-						if (dinfo.HasValue)
-						{
-							hediff_MissingPart.lastInjury = HealthUtility.GetHediffDefFromDamage(dinfo.Value.Def, this.pawn, hediff.Part);
-						}
-						else
-						{
-							hediff_MissingPart.lastInjury = null;
-						}
+						flag = true;
 					}
-					flag2 = true;
+				}
+				if (!flag)
+				{
+					this.hediffs.Add(hediff);
+					hediff.PostAdd(dinfo);
+					if (this.pawn.needs != null && this.pawn.needs.mood != null)
+					{
+						this.pawn.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
+					}
+				}
+				ProfilerThreadCheck.EndSample();
+				bool flag2 = hediff is Hediff_MissingPart;
+				if (!(hediff is Hediff_MissingPart) && hediff.Part != null && hediff.Part != this.pawn.RaceProps.body.corePart && this.GetPartHealth(hediff.Part) == 0.0)
+				{
+					ProfilerThreadCheck.BeginSample("Handle missing body part");
+					if (hediff.Part != this.pawn.RaceProps.body.corePart)
+					{
+						bool flag3 = this.HasDirectlyAddedPartFor(hediff.Part);
+						Hediff_MissingPart hediff_MissingPart = (Hediff_MissingPart)HediffMaker.MakeHediff(HediffDefOf.MissingBodyPart, this.pawn, null);
+						hediff_MissingPart.IsFresh = !flag3;
+						hediff_MissingPart.lastInjury = hediff.def;
+						this.pawn.health.AddHediff(hediff_MissingPart, hediff.Part, dinfo);
+						if (flag3)
+						{
+							if (dinfo.HasValue)
+							{
+								hediff_MissingPart.lastInjury = HealthUtility.GetHediffDefFromDamage(dinfo.Value.Def, this.pawn, hediff.Part);
+							}
+							else
+							{
+								hediff_MissingPart.lastInjury = null;
+							}
+						}
+						flag2 = true;
+					}
+					ProfilerThreadCheck.EndSample();
+				}
+				ProfilerThreadCheck.BeginSample("Dirty cache");
+				this.DirtyCache();
+				ProfilerThreadCheck.EndSample();
+				if (flag2 && this.pawn.apparel != null)
+				{
+					this.pawn.apparel.Notify_LostBodyPart();
+				}
+				if (hediff.def.causesNeed != null && !this.pawn.Dead)
+				{
+					this.pawn.needs.AddOrRemoveNeedsAsAppropriate();
 				}
 				ProfilerThreadCheck.EndSample();
 			}
-			ProfilerThreadCheck.BeginSample("Dirty cache");
-			this.DirtyCache();
-			ProfilerThreadCheck.EndSample();
-			if (flag2 && this.pawn.apparel != null)
-			{
-				this.pawn.apparel.Notify_LostBodyPart();
-			}
-			if (hediff.def.causesNeed != null && !this.pawn.Dead)
-			{
-				this.pawn.needs.AddOrRemoveNeedsAsAppropriate();
-			}
-			ProfilerThreadCheck.EndSample();
 		}
 
 		public void DirtyCache()
@@ -179,19 +176,21 @@ namespace Verse
 			this.CacheMissingPartsCommonAncestors();
 			this.cachedPain = -1f;
 			this.cachedBleedRate = -1f;
-			this.cachedHasHead = null;
+			this.cachedHasHead = default(bool?);
 			this.pawn.health.capacities.Notify_CapacityLevelsDirty();
 			this.pawn.health.summaryHealth.Notify_HealthChanged();
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<T> GetHediffs<T>() where T : Hediff
 		{
-			HediffSet.<GetHediffs>c__Iterator212<T> <GetHediffs>c__Iterator = new HediffSet.<GetHediffs>c__Iterator212<T>();
-			<GetHediffs>c__Iterator.<>f__this = this;
-			HediffSet.<GetHediffs>c__Iterator212<T> expr_0E = <GetHediffs>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			for (int i = 0; i < this.hediffs.Count; i++)
+			{
+				T t = (T)(this.hediffs[i] as T);
+				if (t != null)
+				{
+					yield return t;
+				}
+			}
 		}
 
 		public Hediff GetFirstHediffOfDef(HediffDef def, bool mustBeVisible = false)
@@ -240,7 +239,7 @@ namespace Verse
 					}
 				}
 			}
-			if (num < 0f)
+			if (num < 0.0)
 			{
 				num = 0f;
 			}
@@ -249,11 +248,11 @@ namespace Verse
 
 		public BodyPartRecord GetBrain()
 		{
-			foreach (BodyPartRecord current in this.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined))
+			foreach (BodyPartRecord notMissingPart in this.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined))
 			{
-				if (current.def.tags.Contains("ConsciousnessSource"))
+				if (notMissingPart.def.tags.Contains("ConsciousnessSource"))
 				{
-					return current;
+					return notMissingPart;
 				}
 			}
 			return null;
@@ -283,49 +282,55 @@ namespace Verse
 			return false;
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Verb> GetHediffsVerbs()
 		{
-			HediffSet.<GetHediffsVerbs>c__Iterator213 <GetHediffsVerbs>c__Iterator = new HediffSet.<GetHediffsVerbs>c__Iterator213();
-			<GetHediffsVerbs>c__Iterator.<>f__this = this;
-			HediffSet.<GetHediffsVerbs>c__Iterator213 expr_0E = <GetHediffsVerbs>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			for (int j = 0; j < this.hediffs.Count; j++)
+			{
+				HediffComp_VerbGiver vg = this.hediffs[j].TryGetComp<HediffComp_VerbGiver>();
+				if (vg != null && !vg.VerbProperties.NullOrEmpty())
+				{
+					List<Verb> verbList = vg.VerbTracker.AllVerbs;
+					for (int i = 0; i < verbList.Count; i++)
+					{
+						yield return verbList[i];
+					}
+				}
+			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Hediff> GetHediffsTendable()
 		{
-			HediffSet.<GetHediffsTendable>c__Iterator214 <GetHediffsTendable>c__Iterator = new HediffSet.<GetHediffsTendable>c__Iterator214();
-			<GetHediffsTendable>c__Iterator.<>f__this = this;
-			HediffSet.<GetHediffsTendable>c__Iterator214 expr_0E = <GetHediffsTendable>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			for (int i = 0; i < this.hediffs.Count; i++)
+			{
+				if (this.hediffs[i].TendableNow)
+				{
+					yield return this.hediffs[i];
+				}
+			}
 		}
 
 		public bool HasTendableHediff(bool forAlert = false)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
 			{
-				if (!forAlert || this.hediffs[i].def.makesAlert)
+				if ((!forAlert || this.hediffs[i].def.makesAlert) && this.hediffs[i].TendableNow)
 				{
-					if (this.hediffs[i].TendableNow)
-					{
-						return true;
-					}
+					return true;
 				}
 			}
 			return false;
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Hediff_Injury> GetInjuriesTendable()
 		{
-			HediffSet.<GetInjuriesTendable>c__Iterator215 <GetInjuriesTendable>c__Iterator = new HediffSet.<GetInjuriesTendable>c__Iterator215();
-			<GetInjuriesTendable>c__Iterator.<>f__this = this;
-			HediffSet.<GetInjuriesTendable>c__Iterator215 expr_0E = <GetInjuriesTendable>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			for (int i = 0; i < this.hediffs.Count; i++)
+			{
+				Hediff_Injury inj = this.hediffs[i] as Hediff_Injury;
+				if (inj != null && inj.TendableNow)
+				{
+					yield return inj;
+				}
+			}
 		}
 
 		public bool HasTendableInjury()
@@ -359,7 +364,7 @@ namespace Verse
 			for (int i = 0; i < this.hediffs.Count; i++)
 			{
 				Hediff_Injury hediff_Injury = this.hediffs[i] as Hediff_Injury;
-				if (hediff_Injury != null && hediff_Injury.CanHealFromTending() && hediff_Injury.Severity > 0f)
+				if (hediff_Injury != null && hediff_Injury.CanHealFromTending() && hediff_Injury.Severity > 0.0)
 				{
 					return true;
 				}
@@ -383,17 +388,23 @@ namespace Verse
 		{
 			return (from x in this.hediffs
 			where x is Hediff_Injury
-			select x.Part).Distinct<BodyPartRecord>();
+			select x.Part).Distinct();
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<BodyPartRecord> GetNaturallyHealingInjuredParts()
 		{
-			HediffSet.<GetNaturallyHealingInjuredParts>c__Iterator216 <GetNaturallyHealingInjuredParts>c__Iterator = new HediffSet.<GetNaturallyHealingInjuredParts>c__Iterator216();
-			<GetNaturallyHealingInjuredParts>c__Iterator.<>f__this = this;
-			HediffSet.<GetNaturallyHealingInjuredParts>c__Iterator216 expr_0E = <GetNaturallyHealingInjuredParts>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (BodyPartRecord injuredPart in this.GetInjuredParts())
+			{
+				for (int i = 0; i < this.hediffs.Count; i++)
+				{
+					Hediff_Injury injury = this.hediffs[i] as Hediff_Injury;
+					if (injury != null && this.hediffs[i].Part == injuredPart && injury.CanHealNaturally())
+					{
+						yield return injuredPart;
+						break;
+					}
+				}
+			}
 		}
 
 		public List<Hediff_MissingPart> GetMissingPartsCommonAncestors()
@@ -405,41 +416,40 @@ namespace Verse
 			return this.cachedMissingPartsCommonAncestors;
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<BodyPartRecord> GetNotMissingParts(BodyPartHeight height = BodyPartHeight.Undefined, BodyPartDepth depth = BodyPartDepth.Undefined)
 		{
-			HediffSet.<GetNotMissingParts>c__Iterator217 <GetNotMissingParts>c__Iterator = new HediffSet.<GetNotMissingParts>c__Iterator217();
-			<GetNotMissingParts>c__Iterator.height = height;
-			<GetNotMissingParts>c__Iterator.depth = depth;
-			<GetNotMissingParts>c__Iterator.<$>height = height;
-			<GetNotMissingParts>c__Iterator.<$>depth = depth;
-			<GetNotMissingParts>c__Iterator.<>f__this = this;
-			HediffSet.<GetNotMissingParts>c__Iterator217 expr_2A = <GetNotMissingParts>c__Iterator;
-			expr_2A.$PC = -2;
-			return expr_2A;
+			List<BodyPartRecord> allPartsList = this.pawn.def.race.body.AllParts;
+			for (int i = 0; i < allPartsList.Count; i++)
+			{
+				BodyPartRecord part = allPartsList[i];
+				if (!this.GetHediffs<Hediff_MissingPart>().Any((Func<Hediff_MissingPart, bool>)((Hediff_MissingPart x) => x.Part == ((_003CGetNotMissingParts_003Ec__Iterator217)/*Error near IL_0074: stateMachine*/)._003Cpart_003E__2)) && (height == BodyPartHeight.Undefined || part.height == height) && (depth == BodyPartDepth.Undefined || part.depth == depth))
+				{
+					yield return part;
+				}
+			}
 		}
 
 		public BodyPartRecord GetRandomNotMissingPart(DamageDef damDef, BodyPartHeight height = BodyPartHeight.Undefined, BodyPartDepth depth = BodyPartDepth.Undefined)
 		{
-			IEnumerable<BodyPartRecord> notMissingParts;
-			if (this.GetNotMissingParts(height, depth).Any<BodyPartRecord>())
+			IEnumerable<BodyPartRecord> enumerable = null;
+			if (this.GetNotMissingParts(height, depth).Any())
 			{
-				notMissingParts = this.GetNotMissingParts(height, depth);
+				enumerable = this.GetNotMissingParts(height, depth);
+				goto IL_0053;
 			}
-			else
+			if (this.GetNotMissingParts(BodyPartHeight.Undefined, depth).Any())
 			{
-				if (!this.GetNotMissingParts(BodyPartHeight.Undefined, depth).Any<BodyPartRecord>())
-				{
-					return null;
-				}
-				notMissingParts = this.GetNotMissingParts(BodyPartHeight.Undefined, depth);
+				enumerable = this.GetNotMissingParts(BodyPartHeight.Undefined, depth);
+				goto IL_0053;
 			}
-			BodyPartRecord result;
-			if (notMissingParts.TryRandomElementByWeight((BodyPartRecord x) => x.coverageAbs * x.def.GetHitChanceFactorFor(damDef), out result))
+			return null;
+			IL_0053:
+			BodyPartRecord result = default(BodyPartRecord);
+			if (enumerable.TryRandomElementByWeight<BodyPartRecord>((Func<BodyPartRecord, float>)((BodyPartRecord x) => x.coverageAbs * x.def.GetHitChanceFactorFor(damDef)), out result))
 			{
 				return result;
 			}
-			if (notMissingParts.TryRandomElementByWeight((BodyPartRecord x) => x.coverageAbs, out result))
+			if (enumerable.TryRandomElementByWeight<BodyPartRecord>((Func<BodyPartRecord, float>)((BodyPartRecord x) => x.coverageAbs), out result))
 			{
 				return result;
 			}
@@ -472,7 +482,7 @@ namespace Verse
 			float num = 0f;
 			this.coveragePartsStack.Clear();
 			this.coveragePartsStack.Push(part);
-			while (this.coveragePartsStack.Any<BodyPartRecord>())
+			while (this.coveragePartsStack.Any())
 			{
 				BodyPartRecord bodyPartRecord = this.coveragePartsStack.Pop();
 				num += bodyPartRecord.coverageAbs;
@@ -508,7 +518,7 @@ namespace Verse
 				{
 					Hediff_MissingPart hediff_MissingPart = (from x in this.GetHediffs<Hediff_MissingPart>()
 					where x.Part == node
-					select x).FirstOrDefault<Hediff_MissingPart>();
+					select x).FirstOrDefault();
 					if (hediff_MissingPart != null)
 					{
 						this.cachedMissingPartsCommonAncestors.Add(hediff_MissingPart);
@@ -538,40 +548,44 @@ namespace Verse
 
 		public bool PartOrAnyAncestorHasDirectlyAddedParts(BodyPartRecord part)
 		{
-			return this.HasDirectlyAddedPartFor(part) || (part.parent != null && this.PartOrAnyAncestorHasDirectlyAddedParts(part.parent));
+			if (this.HasDirectlyAddedPartFor(part))
+			{
+				return true;
+			}
+			if (part.parent != null && this.PartOrAnyAncestorHasDirectlyAddedParts(part.parent))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public bool AncestorHasDirectlyAddedParts(BodyPartRecord part)
 		{
-			return part.parent != null && this.PartOrAnyAncestorHasDirectlyAddedParts(part.parent);
+			if (part.parent != null && this.PartOrAnyAncestorHasDirectlyAddedParts(part.parent))
+			{
+				return true;
+			}
+			return false;
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Hediff> GetTendableNonInjuryNonMissingPartHediffs()
 		{
-			HediffSet.<GetTendableNonInjuryNonMissingPartHediffs>c__Iterator218 <GetTendableNonInjuryNonMissingPartHediffs>c__Iterator = new HediffSet.<GetTendableNonInjuryNonMissingPartHediffs>c__Iterator218();
-			<GetTendableNonInjuryNonMissingPartHediffs>c__Iterator.<>f__this = this;
-			HediffSet.<GetTendableNonInjuryNonMissingPartHediffs>c__Iterator218 expr_0E = <GetTendableNonInjuryNonMissingPartHediffs>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			for (int i = 0; i < this.hediffs.Count; i++)
+			{
+				if (!(this.hediffs[i] is Hediff_Injury) && !(this.hediffs[i] is Hediff_MissingPart) && this.hediffs[i].TendableNow)
+				{
+					yield return this.hediffs[i];
+				}
+			}
 		}
 
 		public bool HasTendableNonInjuryNonMissingPartHediff(bool forAlert = false)
 		{
 			for (int i = 0; i < this.hediffs.Count; i++)
 			{
-				if (!forAlert || this.hediffs[i].def.makesAlert)
+				if ((!forAlert || this.hediffs[i].def.makesAlert) && !(this.hediffs[i] is Hediff_Injury) && !(this.hediffs[i] is Hediff_MissingPart) && this.hediffs[i].TendableNow)
 				{
-					if (!(this.hediffs[i] is Hediff_Injury))
-					{
-						if (!(this.hediffs[i] is Hediff_MissingPart))
-						{
-							if (this.hediffs[i].TendableNow)
-							{
-								return true;
-							}
-						}
-					}
+					return true;
 				}
 			}
 			return false;
@@ -579,35 +593,35 @@ namespace Verse
 
 		private float CalculateBleedRate()
 		{
-			if (!this.pawn.RaceProps.IsFlesh || this.pawn.health.Dead)
+			if (this.pawn.RaceProps.IsFlesh && !this.pawn.health.Dead)
 			{
-				return 0f;
+				float num = 0f;
+				for (int i = 0; i < this.hediffs.Count; i++)
+				{
+					num += this.hediffs[i].BleedRate;
+				}
+				return num / this.pawn.HealthScale;
 			}
-			float num = 0f;
-			for (int i = 0; i < this.hediffs.Count; i++)
-			{
-				num += this.hediffs[i].BleedRate;
-			}
-			return num / this.pawn.HealthScale;
+			return 0f;
 		}
 
 		private float CalculatePain()
 		{
-			if (!this.pawn.RaceProps.IsFlesh || this.pawn.Dead)
+			if (this.pawn.RaceProps.IsFlesh && !this.pawn.Dead)
 			{
-				return 0f;
+				float num = 0f;
+				for (int i = 0; i < this.hediffs.Count; i++)
+				{
+					num += this.hediffs[i].PainOffset;
+				}
+				float num2 = num / this.pawn.HealthScale;
+				for (int j = 0; j < this.hediffs.Count; j++)
+				{
+					num2 *= this.hediffs[j].PainFactor;
+				}
+				return Mathf.Clamp(num2, 0f, 1f);
 			}
-			float num = 0f;
-			for (int i = 0; i < this.hediffs.Count; i++)
-			{
-				num += this.hediffs[i].PainOffset;
-			}
-			float num2 = num / this.pawn.HealthScale;
-			for (int j = 0; j < this.hediffs.Count; j++)
-			{
-				num2 *= this.hediffs[j].PainFactor;
-			}
-			return Mathf.Clamp(num2, 0f, 1f);
+			return 0f;
 		}
 
 		public void Clear()

@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -56,14 +54,32 @@ namespace RimWorld.Planet
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable Regenerate()
 		{
-			WorldLayer_Stars.<Regenerate>c__IteratorF4 <Regenerate>c__IteratorF = new WorldLayer_Stars.<Regenerate>c__IteratorF4();
-			<Regenerate>c__IteratorF.<>f__this = this;
-			WorldLayer_Stars.<Regenerate>c__IteratorF4 expr_0E = <Regenerate>c__IteratorF;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (object item in base.Regenerate())
+			{
+				yield return item;
+			}
+			Rand.PushState();
+			Rand.Seed = Find.World.info.Seed;
+			for (int i = 0; i < 1500; i++)
+			{
+				Vector3 pointNormal = Rand.PointOnSphere;
+				Vector3 point = pointNormal * 10f;
+				LayerSubMesh subMesh = base.GetSubMesh(WorldMaterials.Stars);
+				float size = WorldLayer_Stars.StarsDrawSize.RandomInRange;
+				Vector3 sunVector = (!this.UseStaticRotation) ? Vector3.forward : GenCelestial.CurSunPositionInWorldSpace().normalized;
+				float dot = Vector3.Dot(pointNormal, sunVector);
+				if (dot > 0.800000011920929)
+				{
+					size *= GenMath.LerpDouble(0.8f, 1f, 1f, 0.35f, dot);
+				}
+				WorldRendererUtility.PrintQuadTangentialToPlanet(point, size, 0f, subMesh, true, true, true);
+			}
+			this.calculatedForStartingTile = ((Find.GameInitData == null) ? (-1) : Find.GameInitData.startingTile);
+			this.calculatedForStaticRotation = this.UseStaticRotation;
+			Rand.PopState();
+			base.FinalizeMesh(MeshParts.All, true);
 		}
 	}
 }

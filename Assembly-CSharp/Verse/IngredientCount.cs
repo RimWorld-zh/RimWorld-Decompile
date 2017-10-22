@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -40,14 +39,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"(",
-				this.count,
-				"x ",
-				this.filter.ToString(),
-				")"
-			});
+			return "(" + this.count + "x " + this.filter.ToString() + ")";
 		}
 	}
 }

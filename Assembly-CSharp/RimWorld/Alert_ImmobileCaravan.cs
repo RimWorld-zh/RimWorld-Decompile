@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -25,14 +24,14 @@ namespace RimWorld
 
 		public Alert_ImmobileCaravan()
 		{
-			this.defaultLabel = "ImmobileCaravan".Translate();
-			this.defaultExplanation = "ImmobileCaravanDesc".Translate();
-			this.defaultPriority = AlertPriority.High;
+			base.defaultLabel = "ImmobileCaravan".Translate();
+			base.defaultExplanation = "ImmobileCaravanDesc".Translate();
+			base.defaultPriority = AlertPriority.High;
 		}
 
 		public override AlertReport GetReport()
 		{
-			return this.FirstImmobileCaravan;
+			return (WorldObject)this.FirstImmobileCaravan;
 		}
 	}
 }

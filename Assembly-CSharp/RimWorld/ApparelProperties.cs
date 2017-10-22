@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Verse;
@@ -38,7 +37,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.cachedHumanBodyCoverage < 0f)
+				if (this.cachedHumanBodyCoverage < 0.0)
 				{
 					this.cachedHumanBodyCoverage = 0f;
 					List<BodyPartRecord> allParts = BodyDefOf.Human.AllParts;
@@ -54,16 +53,12 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			ApparelProperties.<ConfigErrors>c__Iterator76 <ConfigErrors>c__Iterator = new ApparelProperties.<ConfigErrors>c__Iterator76();
-			<ConfigErrors>c__Iterator.parentDef = parentDef;
-			<ConfigErrors>c__Iterator.<$>parentDef = parentDef;
-			<ConfigErrors>c__Iterator.<>f__this = this;
-			ApparelProperties.<ConfigErrors>c__Iterator76 expr_1C = <ConfigErrors>c__Iterator;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (this.layers.NullOrEmpty())
+			{
+				yield return parentDef.defName + " apparel has no layers.";
+			}
 		}
 
 		public bool CoversBodyPart(BodyPartRecord partRec)
@@ -81,18 +76,18 @@ namespace RimWorld
 		public string GetCoveredOuterPartsString(BodyDef body)
 		{
 			IEnumerable<BodyPartRecord> source = from x in body.AllParts
-			where x.depth == BodyPartDepth.Outside && x.groups.Any((BodyPartGroupDef y) => this.bodyPartGroups.Contains(y))
+			where x.depth == BodyPartDepth.Outside && x.groups.Any((Predicate<BodyPartGroupDef>)((BodyPartGroupDef y) => this.bodyPartGroups.Contains(y)))
 			select x;
 			StringBuilder stringBuilder = new StringBuilder();
 			bool flag = true;
-			foreach (BodyPartRecord current in source.Distinct<BodyPartRecord>())
+			foreach (BodyPartRecord item in source.Distinct())
 			{
 				if (!flag)
 				{
 					stringBuilder.Append(", ");
 				}
 				flag = false;
-				stringBuilder.Append(current.def.label);
+				stringBuilder.Append(item.def.label);
 			}
 			return stringBuilder.ToString().CapitalizeFirst();
 		}

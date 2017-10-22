@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -47,29 +46,15 @@ namespace RimWorld
 		public override string GetInspectString()
 		{
 			string text = string.Empty;
-			if (!base.Cells.NullOrEmpty<IntVec3>())
+			if (!base.Cells.NullOrEmpty())
 			{
-				IntVec3 c = base.Cells.First<IntVec3>();
+				IntVec3 c = base.Cells.First();
 				if (c.UsesOutdoorTemperature(base.Map))
 				{
 					string text2 = text;
-					text = string.Concat(new string[]
-					{
-						text2,
-						"OutdoorGrowingPeriod".Translate(),
-						": ",
-						Zone_Growing.GrowingQuadrumsDescription(base.Map.Tile),
-						"\n"
-					});
+					text = text2 + "OutdoorGrowingPeriod".Translate() + ": " + Zone_Growing.GrowingQuadrumsDescription(base.Map.Tile) + "\n";
 				}
-				if (GenPlant.GrowthSeasonNow(c, base.Map))
-				{
-					text += "GrowSeasonHereNow".Translate();
-				}
-				else
-				{
-					text += "CannotGrowBadSeasonTemperature".Translate();
-				}
+				text = ((!GenPlant.GrowthSeasonNow(c, base.Map)) ? (text + "CannotGrowBadSeasonTemperature".Translate()) : (text + "GrowSeasonHereNow".Translate()));
 			}
 			return text;
 		}
@@ -77,7 +62,7 @@ namespace RimWorld
 		public static string GrowingQuadrumsDescription(int tile)
 		{
 			List<Twelfth> list = GenTemperature.TwelfthsInAverageTemperatureRange(tile, 10f, 42f);
-			if (list.NullOrEmpty<Twelfth>())
+			if (list.NullOrEmpty())
 			{
 				return "NoGrowingPeriod".Translate();
 			}
@@ -85,20 +70,28 @@ namespace RimWorld
 			{
 				return "GrowYearRound".Translate();
 			}
-			return "PeriodDays".Translate(new object[]
-			{
-				list.Count * 5
-			}) + " (" + QuadrumUtility.QuadrumsRangeLabel(list) + ")";
+			return "PeriodDays".Translate(list.Count * 5) + " (" + QuadrumUtility.QuadrumsRangeLabel(list) + ")";
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Zone_Growing.<GetGizmos>c__IteratorBB <GetGizmos>c__IteratorBB = new Zone_Growing.<GetGizmos>c__IteratorBB();
-			<GetGizmos>c__IteratorBB.<>f__this = this;
-			Zone_Growing.<GetGizmos>c__IteratorBB expr_0E = <GetGizmos>c__IteratorBB;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			yield return (Gizmo)PlantToGrowSettableUtility.SetPlantToGrowCommand(this);
+			yield return (Gizmo)new Command_Toggle
+			{
+				defaultLabel = "CommandAllowSow".Translate(),
+				defaultDesc = "CommandAllowSowDesc".Translate(),
+				hotKey = KeyBindingDefOf.CommandItemForbid,
+				icon = TexCommand.Forbidden,
+				isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__IteratorBB)/*Error near IL_0126: stateMachine*/)._003C_003Ef__this.allowSow),
+				toggleAction = (Action)delegate
+				{
+					((_003CGetGizmos_003Ec__IteratorBB)/*Error near IL_013d: stateMachine*/)._003C_003Ef__this.allowSow = !((_003CGetGizmos_003Ec__IteratorBB)/*Error near IL_013d: stateMachine*/)._003C_003Ef__this.allowSow;
+				}
+			};
 		}
 
 		public ThingDef GetPlantDefToGrow()
@@ -119,6 +112,12 @@ namespace RimWorld
 		virtual Map get_Map()
 		{
 			return base.Map;
+		}
+
+		Map IPlantToGrowSettable.get_Map()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_Map
+			return this.get_Map();
 		}
 	}
 }

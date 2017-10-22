@@ -20,14 +20,13 @@ namespace Verse
 		{
 			get
 			{
-				return new DiaOption("RejectLetter".Translate())
+				DiaOption diaOption = new DiaOption("RejectLetter".Translate());
+				diaOption.action = (Action)delegate
 				{
-					action = delegate
-					{
-						Find.LetterStack.RemoveLetter(this);
-					},
-					resolveTree = true
+					Find.LetterStack.RemoveLetter(this);
 				};
+				diaOption.resolveTree = true;
+				return diaOption;
 			}
 		}
 
@@ -37,9 +36,9 @@ namespace Verse
 			{
 				DiaOption diaOption = new DiaOption("PostponeLetter".Translate());
 				diaOption.resolveTree = true;
-				if (base.TimeoutActive && this.disappearAtTick <= Find.TickManager.TicksGame + 1)
+				if (base.TimeoutActive && base.disappearAtTick <= Find.TickManager.TicksGame + 1)
 				{
-					diaOption.Disable(null);
+					diaOption.Disable((string)null);
 				}
 				return diaOption;
 			}
@@ -49,14 +48,13 @@ namespace Verse
 		{
 			get
 			{
-				return new DiaOption("OK".Translate())
+				DiaOption diaOption = new DiaOption("OK".Translate());
+				diaOption.action = (Action)delegate
 				{
-					action = delegate
-					{
-						Find.LetterStack.RemoveLetter(this);
-					},
-					resolveTree = true
+					Find.LetterStack.RemoveLetter(this);
 				};
+				diaOption.resolveTree = true;
+				return diaOption;
 			}
 		}
 
@@ -65,15 +63,15 @@ namespace Verse
 			get
 			{
 				DiaOption diaOption = new DiaOption("JumpToLocation".Translate());
-				diaOption.action = delegate
+				diaOption.action = (Action)delegate
 				{
-					CameraJumper.TryJumpAndSelect(this.lookTarget);
+					CameraJumper.TryJumpAndSelect(base.lookTarget);
 					Find.LetterStack.RemoveLetter(this);
 				};
 				diaOption.resolveTree = true;
-				if (!this.lookTarget.IsValid)
+				if (!base.lookTarget.IsValid)
 				{
-					diaOption.Disable(null);
+					diaOption.Disable((string)null);
 				}
 				return diaOption;
 			}
@@ -82,8 +80,8 @@ namespace Verse
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Values.Look<string>(ref this.title, "title", null, false);
-			Scribe_Values.Look<string>(ref this.text, "text", null, false);
+			Scribe_Values.Look<string>(ref this.title, "title", (string)null, false);
+			Scribe_Values.Look<string>(ref this.text, "text", (string)null, false);
 			Scribe_Values.Look<bool>(ref this.radioMode, "radioMode", false, false);
 		}
 
@@ -96,9 +94,9 @@ namespace Verse
 		{
 			DiaNode diaNode = new DiaNode(this.text);
 			diaNode.options.AddRange(this.Choices);
-			WindowStack arg_37_0 = Find.WindowStack;
+			WindowStack windowStack = Find.WindowStack;
 			bool flag = this.radioMode;
-			arg_37_0.Add(new Dialog_NodeTree(diaNode, false, flag, this.title));
+			windowStack.Add(new Dialog_NodeTree(diaNode, false, flag, this.title));
 		}
 	}
 }

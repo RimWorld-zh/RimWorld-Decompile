@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -27,7 +26,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (!this.pawn.Spawned)
+				if (!base.pawn.Spawned)
 				{
 					return 0.5f;
 				}
@@ -43,23 +42,23 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.CurLevel < 0.1f)
+				if (this.CurLevel < 0.10000000149011612)
 				{
 					return ComfortCategory.Uncomfortable;
 				}
-				if (this.CurLevel < 0.6f)
+				if (this.CurLevel < 0.60000002384185791)
 				{
 					return ComfortCategory.Normal;
 				}
-				if (this.CurLevel < 0.7f)
+				if (this.CurLevel < 0.699999988079071)
 				{
 					return ComfortCategory.Comfortable;
 				}
-				if (this.CurLevel < 0.8f)
+				if (this.CurLevel < 0.800000011920929)
 				{
 					return ComfortCategory.VeryComfortable;
 				}
-				if (this.CurLevel < 0.9f)
+				if (this.CurLevel < 0.89999997615814209)
 				{
 					return ComfortCategory.ExtremelyComfortable;
 				}
@@ -69,12 +68,12 @@ namespace RimWorld
 
 		public Need_Comfort(Pawn pawn) : base(pawn)
 		{
-			this.threshPercents = new List<float>();
-			this.threshPercents.Add(0.1f);
-			this.threshPercents.Add(0.6f);
-			this.threshPercents.Add(0.7f);
-			this.threshPercents.Add(0.8f);
-			this.threshPercents.Add(0.9f);
+			base.threshPercents = new List<float>();
+			base.threshPercents.Add(0.1f);
+			base.threshPercents.Add(0.6f);
+			base.threshPercents.Add(0.7f);
+			base.threshPercents.Add(0.8f);
+			base.threshPercents.Add(0.9f);
 		}
 
 		public void ComfortUsed(float comfort)

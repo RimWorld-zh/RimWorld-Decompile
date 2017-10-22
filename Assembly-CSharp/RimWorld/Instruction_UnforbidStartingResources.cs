@@ -13,7 +13,7 @@ namespace RimWorld
 			{
 				return (float)(from it in Find.TutorialState.startingItems
 				where !it.IsForbidden(Faction.OfPlayer) || it.Destroyed
-				select it).Count<Thing>() / (float)Find.TutorialState.startingItems.Count;
+				select it).Count() / (float)Find.TutorialState.startingItems.Count;
 			}
 		}
 
@@ -27,27 +27,27 @@ namespace RimWorld
 		public override void PostDeactivated()
 		{
 			base.PostDeactivated();
-			Find.TutorialState.startingItems.RemoveAll((Thing it) => !Instruction_EquipWeapons.IsWeapon(it));
+			Find.TutorialState.startingItems.RemoveAll((Predicate<Thing>)((Thing it) => !Instruction_EquipWeapons.IsWeapon(it)));
 		}
 
 		public override void LessonOnGUI()
 		{
-			foreach (Thing current in this.NeedUnforbidItems())
+			foreach (Thing item in this.NeedUnforbidItems())
 			{
-				TutorUtility.DrawLabelOnThingOnGUI(current, this.def.onMapInstruction);
+				TutorUtility.DrawLabelOnThingOnGUI(item, base.def.onMapInstruction);
 			}
 			base.LessonOnGUI();
 		}
 
 		public override void LessonUpdate()
 		{
-			if (this.ProgressPercent > 0.9999f)
+			if (this.ProgressPercent > 0.99989998340606689)
 			{
 				Find.ActiveLesson.Deactivate();
 			}
-			foreach (Thing current in this.NeedUnforbidItems())
+			foreach (Thing item in this.NeedUnforbidItems())
 			{
-				GenDraw.DrawArrowPointingAt(current.DrawPos, true);
+				GenDraw.DrawArrowPointingAt(item.DrawPos, true);
 			}
 		}
 	}

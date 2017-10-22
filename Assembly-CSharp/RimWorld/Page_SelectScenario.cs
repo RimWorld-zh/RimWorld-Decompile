@@ -45,18 +45,26 @@ namespace RimWorld
 			base.DrawPageTitle(rect);
 			Rect mainRect = base.GetMainRect(rect, 0f, false);
 			GUI.BeginGroup(mainRect);
-			Rect rect2 = new Rect(0f, 0f, mainRect.width * 0.35f, mainRect.height).Rounded();
+			Rect rect2 = new Rect(0f, 0f, (float)(mainRect.width * 0.34999999403953552), mainRect.height).Rounded();
 			this.DoScenarioSelectionList(rect2);
-			Rect rect3 = new Rect(rect2.xMax + 17f, 0f, mainRect.width - rect2.width - 17f, mainRect.height).Rounded();
+			Rect rect3 = new Rect((float)(rect2.xMax + 17.0), 0f, (float)(mainRect.width - rect2.width - 17.0), mainRect.height).Rounded();
 			ScenarioUI.DrawScenarioInfo(rect3, this.curScen, ref this.infoScrollPosition);
 			GUI.EndGroup();
 			string midLabel = "ScenarioEditor".Translate();
-			base.DoBottomButtons(rect, null, midLabel, new Action(this.GoToScenarioEditor), true);
+			base.DoBottomButtons(rect, (string)null, midLabel, new Action(this.GoToScenarioEditor), true);
 		}
 
 		private bool CanEditScenario(Scenario scen)
 		{
-			return scen.Category == ScenarioCategory.CustomLocal || scen.CanToUploadToWorkshop();
+			if (scen.Category == ScenarioCategory.CustomLocal)
+			{
+				return true;
+			}
+			if (scen.CanToUploadToWorkshop())
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private void GoToScenarioEditor()
@@ -71,7 +79,7 @@ namespace RimWorld
 		private void DoScenarioSelectionList(Rect rect)
 		{
 			rect.xMax += 2f;
-			Rect rect2 = new Rect(0f, 0f, rect.width - 16f - 2f, this.totalScenarioListHeight + 250f);
+			Rect rect2 = new Rect(0f, 0f, (float)(rect.width - 16.0 - 2.0), (float)(this.totalScenarioListHeight + 250.0));
 			Widgets.BeginScrollView(rect, ref this.scenariosScrollPosition, rect2, true);
 			Rect rect3 = rect2.AtZero();
 			rect3.height = 999999f;
@@ -87,7 +95,7 @@ namespace RimWorld
 			listing_Standard.Gap(12f);
 			Text.Font = GameFont.Small;
 			listing_Standard.Label("ScenariosSteamWorkshop".Translate(), -1f);
-			if (listing_Standard.ButtonText("OpenSteamWorkshop".Translate(), null))
+			if (listing_Standard.ButtonText("OpenSteamWorkshop".Translate(), (string)null))
 			{
 				SteamUtility.OpenSteamWorkshopPage();
 			}
@@ -100,13 +108,13 @@ namespace RimWorld
 		private void ListScenariosOnListing(Listing_Standard listing, IEnumerable<Scenario> scenarios)
 		{
 			bool flag = false;
-			foreach (Scenario current in scenarios)
+			foreach (Scenario item in scenarios)
 			{
 				if (flag)
 				{
 					listing.Gap(12f);
 				}
-				Scenario scen = current;
+				Scenario scen = item;
 				Rect rect = listing.GetRect(62f);
 				this.DoScenarioListEntry(rect, scen);
 				flag = true;
@@ -143,21 +151,15 @@ namespace RimWorld
 				WidgetRow widgetRow = new WidgetRow(rect.xMax, rect.y, UIDirection.LeftThenDown, 99999f, 4f);
 				if (scen.Category == ScenarioCategory.CustomLocal && widgetRow.ButtonIcon(TexButton.DeleteX, "Delete".Translate()))
 				{
-					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDelete".Translate(new object[]
-					{
-						scen.File.Name
-					}), delegate
+					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDelete".Translate(scen.File.Name), (Action)delegate()
 					{
 						scen.File.Delete();
 						ScenarioLister.MarkDirty();
-					}, true, null));
+					}, true, (string)null));
 				}
 				if (scen.Category == ScenarioCategory.SteamWorkshop && widgetRow.ButtonIcon(TexButton.DeleteX, "Unsubscribe".Translate()))
 				{
-					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmUnsubscribe".Translate(new object[]
-					{
-						scen.File.Name
-					}), delegate
+					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmUnsubscribe".Translate(scen.File.Name), (Action)delegate()
 					{
 						scen.enabled = false;
 						if (this.curScen == scen)
@@ -166,7 +168,7 @@ namespace RimWorld
 							this.EnsureValidSelection();
 						}
 						Workshop.Unsubscribe(scen);
-					}, true, null));
+					}, true, (string)null));
 				}
 				if (scen.GetPublishedFileId() != PublishedFileId_t.Invalid)
 				{
@@ -211,24 +213,25 @@ namespace RimWorld
 			if (firstConfigPage == null)
 			{
 				PageUtility.InitGameStart();
-				return;
 			}
-			originPage.next = firstConfigPage;
-			firstConfigPage.prev = originPage;
+			else
+			{
+				originPage.next = firstConfigPage;
+				firstConfigPage.prev = originPage;
+			}
 		}
 
 		private void EnsureValidSelection()
 		{
-			if (this.curScen == null || !ScenarioLister.ScenarioIsListedAnywhere(this.curScen))
-			{
-				this.curScen = ScenarioLister.ScenariosInCategory(ScenarioCategory.FromDef).FirstOrDefault<Scenario>();
-			}
+			if (this.curScen != null && ScenarioLister.ScenarioIsListedAnywhere(this.curScen))
+				return;
+			this.curScen = ScenarioLister.ScenariosInCategory(ScenarioCategory.FromDef).FirstOrDefault();
 		}
 
 		internal void Notify_ScenarioListChanged()
 		{
 			PublishedFileId_t selModId = this.curScen.GetPublishedFileId();
-			this.curScen = ScenarioLister.AllScenarios().FirstOrDefault((Scenario sc) => sc.GetPublishedFileId() == selModId);
+			this.curScen = ScenarioLister.AllScenarios().FirstOrDefault((Func<Scenario, bool>)((Scenario sc) => sc.GetPublishedFileId() == selModId));
 			this.EnsureValidSelection();
 		}
 

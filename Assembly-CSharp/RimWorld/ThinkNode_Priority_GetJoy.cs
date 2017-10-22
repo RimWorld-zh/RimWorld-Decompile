@@ -30,32 +30,29 @@ namespace RimWorld
 			}
 			if (timeAssignmentDef == TimeAssignmentDefOf.Anything)
 			{
-				if (curLevel < 0.35f)
+				if (curLevel < 0.34999999403953552)
 				{
 					return 6f;
 				}
 				return 0f;
 			}
-			else if (timeAssignmentDef == TimeAssignmentDefOf.Joy)
+			if (timeAssignmentDef == TimeAssignmentDefOf.Joy)
 			{
-				if (curLevel < 0.95f)
+				if (curLevel < 0.949999988079071)
 				{
 					return 7f;
 				}
 				return 0f;
 			}
-			else
+			if (timeAssignmentDef == TimeAssignmentDefOf.Sleep)
 			{
-				if (timeAssignmentDef != TimeAssignmentDefOf.Sleep)
-				{
-					throw new NotImplementedException();
-				}
-				if (curLevel < 0.95f)
+				if (curLevel < 0.949999988079071)
 				{
 					return 2f;
 				}
 				return 0f;
 			}
+			throw new NotImplementedException();
 		}
 	}
 }

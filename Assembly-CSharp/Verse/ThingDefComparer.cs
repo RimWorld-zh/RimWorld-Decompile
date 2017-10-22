@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -9,7 +8,15 @@ namespace Verse
 
 		public bool Equals(ThingDef x, ThingDef y)
 		{
-			return (x == null && y == null) || (x != null && y != null && x.shortHash == y.shortHash);
+			if (x == null && y == null)
+			{
+				return true;
+			}
+			if (x != null && y != null)
+			{
+				return x.shortHash == y.shortHash;
+			}
+			return false;
 		}
 
 		public int GetHashCode(ThingDef obj)

@@ -13,12 +13,12 @@ namespace RimWorld
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
-				this.assignedHives.RemoveAll((KeyValuePair<Pawn, Hive> x) => x.Key.Destroyed);
+				this.assignedHives.RemoveAll((Predicate<KeyValuePair<Pawn, Hive>>)((KeyValuePair<Pawn, Hive> x) => x.Key.Destroyed));
 			}
 			Scribe_Collections.Look<Pawn, Hive>(ref this.assignedHives, "assignedHives", LookMode.Reference, LookMode.Reference);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.assignedHives.RemoveAll((KeyValuePair<Pawn, Hive> x) => x.Value == null);
+				this.assignedHives.RemoveAll((Predicate<KeyValuePair<Pawn, Hive>>)((KeyValuePair<Pawn, Hive> x) => x.Value == null));
 			}
 		}
 	}

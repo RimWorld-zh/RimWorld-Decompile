@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -35,15 +34,15 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.CurLevel < 0.01f)
+				if (this.CurLevel < 0.0099999997764825821)
 				{
 					return RestCategory.Exhausted;
 				}
-				if (this.CurLevel < 0.14f)
+				if (this.CurLevel < 0.14000000059604645)
 				{
 					return RestCategory.VeryTired;
 				}
-				if (this.CurLevel < 0.28f)
+				if (this.CurLevel < 0.2800000011920929)
 				{
 					return RestCategory.Tired;
 				}
@@ -58,15 +57,25 @@ namespace RimWorld
 				switch (this.CurCategory)
 				{
 				case RestCategory.Rested:
-					return 1.58333332E-05f * this.RestFallFactor;
+				{
+					return (float)(1.5833333236514591E-05 * this.RestFallFactor);
+				}
 				case RestCategory.Tired:
-					return 1.58333332E-05f * this.RestFallFactor * 0.7f;
+				{
+					return (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.699999988079071);
+				}
 				case RestCategory.VeryTired:
-					return 1.58333332E-05f * this.RestFallFactor * 0.3f;
+				{
+					return (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.30000001192092896);
+				}
 				case RestCategory.Exhausted:
-					return 1.58333332E-05f * this.RestFallFactor * 0.6f;
+				{
+					return (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.60000002384185791);
+				}
 				default:
+				{
 					return 999f;
+				}
 				}
 			}
 		}
@@ -76,7 +85,7 @@ namespace RimWorld
 			get
 			{
 				float num = 1f;
-				List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
+				List<Hediff> hediffs = base.pawn.health.hediffSet.hediffs;
 				for (int i = 0; i < hediffs.Count; i++)
 				{
 					HediffStage curStage = hediffs[i].CurStage;
@@ -119,9 +128,9 @@ namespace RimWorld
 
 		public Need_Rest(Pawn pawn) : base(pawn)
 		{
-			this.threshPercents = new List<float>();
-			this.threshPercents.Add(0.28f);
-			this.threshPercents.Add(0.14f);
+			base.threshPercents = new List<float>();
+			base.threshPercents.Add(0.28f);
+			base.threshPercents.Add(0.14f);
 		}
 
 		public override void ExposeData()
@@ -141,14 +150,14 @@ namespace RimWorld
 			{
 				if (this.Resting)
 				{
-					this.CurLevel += 0.005714286f * this.lastRestEffectiveness;
+					this.CurLevel += (float)(0.0057142861187458038 * this.lastRestEffectiveness);
 				}
 				else
 				{
-					this.CurLevel -= this.RestFallPerTick * 150f;
+					this.CurLevel -= (float)(this.RestFallPerTick * 150.0);
 				}
 			}
-			if (this.CurLevel < 0.0001f)
+			if (this.CurLevel < 9.9999997473787516E-05)
 			{
 				this.ticksAtZero += 150;
 			}
@@ -156,34 +165,15 @@ namespace RimWorld
 			{
 				this.ticksAtZero = 0;
 			}
-			if (this.ticksAtZero > 1000 && this.pawn.Spawned)
+			if (this.ticksAtZero > 1000 && base.pawn.Spawned)
 			{
-				float mtb;
-				if (this.ticksAtZero < 15000)
-				{
-					mtb = 0.25f;
-				}
-				else if (this.ticksAtZero < 30000)
-				{
-					mtb = 0.125f;
-				}
-				else if (this.ticksAtZero < 45000)
-				{
-					mtb = 0.0833333358f;
-				}
-				else
-				{
-					mtb = 0.0625f;
-				}
+				float mtb = (float)((this.ticksAtZero >= 15000) ? ((this.ticksAtZero >= 30000) ? ((this.ticksAtZero >= 45000) ? 0.0625 : 0.0833333358168602) : 0.125) : 0.25);
 				if (Rand.MTBEventOccurs(mtb, 60000f, 150f))
 				{
-					this.pawn.jobs.StartJob(new Job(JobDefOf.LayDown, this.pawn.Position), JobCondition.InterruptForced, null, false, true, null, null);
-					if (PawnUtility.ShouldSendNotificationAbout(this.pawn))
+					base.pawn.jobs.StartJob(new Job(JobDefOf.LayDown, base.pawn.Position), JobCondition.InterruptForced, null, false, true, null, default(JobTag?));
+					if (PawnUtility.ShouldSendNotificationAbout(base.pawn))
 					{
-						Messages.Message("MessageInvoluntarySleep".Translate(new object[]
-						{
-							this.pawn.LabelShort
-						}), this.pawn, MessageSound.Negative);
+						Messages.Message("MessageInvoluntarySleep".Translate(base.pawn.LabelShort), (Thing)base.pawn, MessageSound.Negative);
 					}
 				}
 			}

@@ -11,14 +11,14 @@ namespace RimWorld
 
 		static NativeVerbPropertiesDatabase()
 		{
-			NativeVerbPropertiesDatabase.allVerbDefs = VerbDefsHardcodedNative.AllVerbDefs().ToList<VerbProperties>();
+			NativeVerbPropertiesDatabase.allVerbDefs = VerbDefsHardcodedNative.AllVerbDefs().ToList();
 		}
 
 		public static VerbProperties VerbWithCategory(VerbCategory id)
 		{
 			VerbProperties verbProperties = (from v in NativeVerbPropertiesDatabase.allVerbDefs
 			where v.category == id
-			select v).FirstOrDefault<VerbProperties>();
+			select v).FirstOrDefault();
 			if (verbProperties == null)
 			{
 				Log.Error("Failed to find Verb with id " + id);

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -22,12 +21,9 @@ namespace RimWorld.Planet
 			{
 				for (int i = 0; i < this.layers.Count; i++)
 				{
-					if (this.layers[i].Dirty)
+					if (this.layers[i].Dirty && this.layers[i] is WorldLayer_Terrain)
 					{
-						if (this.layers[i] is WorldLayer_Terrain)
-						{
-							return true;
-						}
+						return true;
 					}
 				}
 				return false;
@@ -36,9 +32,9 @@ namespace RimWorld.Planet
 
 		public WorldRenderer()
 		{
-			foreach (Type current in typeof(WorldLayer).AllLeafSubclasses())
+			foreach (Type item in typeof(WorldLayer).AllLeafSubclasses())
 			{
-				this.layers.Add((WorldLayer)Activator.CreateInstance(current));
+				this.layers.Add((WorldLayer)Activator.CreateInstance(item));
 			}
 		}
 
@@ -69,14 +65,20 @@ namespace RimWorld.Planet
 			}
 		}
 
-		[DebuggerHidden]
 		private IEnumerable RegenerateDirtyLayersNow_Async()
 		{
-			WorldRenderer.<RegenerateDirtyLayersNow_Async>c__IteratorFB <RegenerateDirtyLayersNow_Async>c__IteratorFB = new WorldRenderer.<RegenerateDirtyLayersNow_Async>c__IteratorFB();
-			<RegenerateDirtyLayersNow_Async>c__IteratorFB.<>f__this = this;
-			WorldRenderer.<RegenerateDirtyLayersNow_Async>c__IteratorFB expr_0E = <RegenerateDirtyLayersNow_Async>c__IteratorFB;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			for (int i = 0; i < this.layers.Count; i++)
+			{
+				if (this.layers[i].Dirty)
+				{
+					foreach (object item in this.layers[i].Regenerate())
+					{
+						yield return item;
+					}
+					yield return (object)null;
+				}
+			}
+			this.asynchronousRegenerationActive = false;
 		}
 
 		public void Notify_StaticWorldObjectPosChanged()
@@ -101,33 +103,34 @@ namespace RimWorld.Planet
 			if (this.asynchronousRegenerationActive)
 			{
 				Log.Error("Called DrawWorldLayers() but already regenerating. This shouldn't ever happen because LongEventHandler should have stopped us.");
-				return;
 			}
-			if (this.ShouldRegenerateDirtyLayersInLongEvent)
+			else if (this.ShouldRegenerateDirtyLayersInLongEvent)
 			{
 				this.asynchronousRegenerationActive = true;
 				LongEventHandler.QueueLongEvent(this.RegenerateDirtyLayersNow_Async(), "GeneratingPlanet", null);
-				return;
 			}
-			WorldRendererUtility.UpdateWorldShadersParams();
-			for (int i = 0; i < this.layers.Count; i++)
+			else
 			{
-				this.layers[i].Render();
+				WorldRendererUtility.UpdateWorldShadersParams();
+				for (int i = 0; i < this.layers.Count; i++)
+				{
+					this.layers[i].Render();
+				}
 			}
 		}
 
 		public int GetTileIDFromRayHit(RaycastHit hit)
 		{
-			int i = 0;
+			int num = 0;
 			int count = this.layers.Count;
-			while (i < count)
+			while (num < count)
 			{
-				WorldLayer_Terrain worldLayer_Terrain = this.layers[i] as WorldLayer_Terrain;
+				WorldLayer_Terrain worldLayer_Terrain = this.layers[num] as WorldLayer_Terrain;
 				if (worldLayer_Terrain != null)
 				{
 					return worldLayer_Terrain.GetTileIDFromRayHit(hit);
 				}
-				i++;
+				num++;
 			}
 			return -1;
 		}

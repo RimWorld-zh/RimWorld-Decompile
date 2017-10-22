@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -19,11 +18,11 @@ namespace Verse
 			if (this.randomizedCells == null)
 			{
 				this.randomizedCells = new List<IntVec3>(this.map.Area);
-				foreach (IntVec3 current in this.map.AllCells)
+				foreach (IntVec3 allCell in this.map.AllCells)
 				{
-					this.randomizedCells.Add(current);
+					this.randomizedCells.Add(allCell);
 				}
-				this.randomizedCells.Shuffle<IntVec3>();
+				this.randomizedCells.Shuffle();
 			}
 			return this.randomizedCells[index];
 		}

@@ -32,9 +32,9 @@ namespace RimWorld
 
 		public override void UpdateAllDuties()
 		{
-			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
-				Pawn pawn = this.lord.ownedPawns[i];
+				Pawn pawn = base.lord.ownedPawns[i];
 				if (pawn.IsColonist || pawn.RaceProps.Animal)
 				{
 					pawn.mindState.duty = new PawnDuty(DutyDefOf.PrepareCaravan_GatherPawns, this.meetingPoint, -1f);
@@ -51,7 +51,7 @@ namespace RimWorld
 		{
 			if (Find.TickManager.TicksGame % 100 == 0)
 			{
-				GatherAnimalsAndSlavesForCaravanUtility.CheckArrived(this.lord, this.meetingPoint, "AllAnimalsGathered", (Pawn x) => x.RaceProps.Animal, (Pawn x) => GatherAnimalsAndSlavesForCaravanUtility.IsFollowingAnyone(x));
+				GatherAnimalsAndSlavesForCaravanUtility.CheckArrived(base.lord, this.meetingPoint, "AllAnimalsGathered", (Predicate<Pawn>)((Pawn x) => x.RaceProps.Animal), (Predicate<Pawn>)((Pawn x) => GatherAnimalsAndSlavesForCaravanUtility.IsFollowingAnyone(x)));
 			}
 		}
 	}

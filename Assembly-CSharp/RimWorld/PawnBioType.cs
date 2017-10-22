@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum PawnBioType
 	{
-		Undefined,
-		BackstoryInGame,
-		PirateKing
+		Undefined = 0,
+		BackstoryInGame = 1,
+		PirateKing = 2
 	}
 }

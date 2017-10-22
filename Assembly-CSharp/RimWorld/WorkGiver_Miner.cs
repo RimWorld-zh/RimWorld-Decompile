@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -16,15 +14,29 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			WorkGiver_Miner.<PotentialWorkThingsGlobal>c__Iterator61 <PotentialWorkThingsGlobal>c__Iterator = new WorkGiver_Miner.<PotentialWorkThingsGlobal>c__Iterator61();
-			<PotentialWorkThingsGlobal>c__Iterator.pawn = pawn;
-			<PotentialWorkThingsGlobal>c__Iterator.<$>pawn = pawn;
-			WorkGiver_Miner.<PotentialWorkThingsGlobal>c__Iterator61 expr_15 = <PotentialWorkThingsGlobal>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			foreach (Designation item in pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Mine))
+			{
+				bool mayBeAccessible = false;
+				for (int j = 0; j < 8; j++)
+				{
+					IntVec3 c = item.target.Cell + GenAdj.AdjacentCells[j];
+					if (c.InBounds(pawn.Map) && c.Walkable(pawn.Map))
+					{
+						mayBeAccessible = true;
+						break;
+					}
+				}
+				if (mayBeAccessible)
+				{
+					Thing i = MineUtility.MineableInCell(item.target.Cell, pawn.Map);
+					if (i != null)
+					{
+						yield return i;
+					}
+				}
+			}
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -56,18 +68,12 @@ namespace RimWorld
 				for (int j = 0; j < 8; j++)
 				{
 					IntVec3 intVec2 = t.Position + GenAdj.AdjacentCells[j];
-					if (intVec2.InBounds(t.Map))
+					if (intVec2.InBounds(t.Map) && ReachabilityImmediate.CanReachImmediate(intVec2, t, pawn.Map, PathEndMode.Touch, pawn) && intVec2.Walkable(t.Map) && !intVec2.Standable(t.Map))
 					{
-						if (ReachabilityImmediate.CanReachImmediate(intVec2, t, pawn.Map, PathEndMode.Touch, pawn))
+						Thing firstHaulable = intVec2.GetFirstHaulable(t.Map);
+						if (firstHaulable != null && firstHaulable.def.passability == Traversability.PassThroughOnly)
 						{
-							if (intVec2.Walkable(t.Map) && !intVec2.Standable(t.Map))
-							{
-								Thing firstHaulable = intVec2.GetFirstHaulable(t.Map);
-								if (firstHaulable != null && firstHaulable.def.passability == Traversability.PassThroughOnly)
-								{
-									return HaulAIUtility.HaulAsideJobFor(pawn, firstHaulable);
-								}
-							}
+							return HaulAIUtility.HaulAsideJobFor(pawn, firstHaulable);
 						}
 					}
 				}

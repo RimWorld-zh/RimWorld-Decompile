@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI
 {
 	public static class JobFailReason
@@ -29,7 +27,7 @@ namespace Verse.AI
 
 		public static void Clear()
 		{
-			JobFailReason.lastReason = null;
+			JobFailReason.lastReason = (string)null;
 		}
 	}
 }

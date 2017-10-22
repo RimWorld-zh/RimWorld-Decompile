@@ -42,17 +42,7 @@ namespace Verse.AI
 					}
 					catch (Exception ex)
 					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Pawn ",
-							this.actor,
-							" threw exception while executing toil's finish action (",
-							i,
-							"), curJob=",
-							this.actor.CurJob,
-							": ",
-							ex
-						}));
+						Log.Error("Pawn " + this.actor + " threw exception while executing toil's finish action (" + i + "), curJob=" + this.actor.CurJob + ": " + ex);
 					}
 				}
 			}
@@ -65,7 +55,7 @@ namespace Verse.AI
 
 		public void AddFailCondition(Func<bool> newFailCondition)
 		{
-			this.endConditions.Add(delegate
+			this.endConditions.Add((Func<JobCondition>)delegate()
 			{
 				if (newFailCondition())
 				{

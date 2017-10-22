@@ -9,19 +9,13 @@ namespace Verse
 
 		private static MethodInfo MethodOnGenericType(Type genericBase, Type genericParam, string methodName)
 		{
-			Type type = genericBase.MakeGenericType(new Type[]
-			{
-				genericParam
-			});
+			Type type = genericBase.MakeGenericType(genericParam);
 			return type.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
 		}
 
 		public static void InvokeGenericMethod(object objectToInvoke, Type genericParam, string methodName, params object[] args)
 		{
-			objectToInvoke.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).MakeGenericMethod(new Type[]
-			{
-				genericParam
-			}).Invoke(objectToInvoke, args);
+			objectToInvoke.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).MakeGenericMethod(genericParam).Invoke(objectToInvoke, args);
 		}
 
 		public static object InvokeStaticMethodOnGenericType(Type genericBase, Type genericParam, string methodName, params object[] args)
@@ -36,19 +30,13 @@ namespace Verse
 
 		public static object InvokeStaticGenericMethod(Type baseClass, Type genericParam, string methodName)
 		{
-			return baseClass.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).MakeGenericMethod(new Type[]
-			{
-				genericParam
-			}).Invoke(null, null);
+			return baseClass.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).MakeGenericMethod(genericParam).Invoke(null, null);
 		}
 
 		public static object InvokeStaticGenericMethod(Type baseClass, Type genericParam, string methodName, params object[] args)
 		{
 			MethodInfo method = baseClass.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-			MethodInfo methodInfo = method.MakeGenericMethod(new Type[]
-			{
-				genericParam
-			});
+			MethodInfo methodInfo = method.MakeGenericMethod(genericParam);
 			return methodInfo.Invoke(null, args);
 		}
 

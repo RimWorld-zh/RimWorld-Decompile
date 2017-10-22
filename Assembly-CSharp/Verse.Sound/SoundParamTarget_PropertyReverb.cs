@@ -29,24 +29,17 @@ namespace Verse.Sound
 
 		public override void SetOn(Sample sample, float value)
 		{
-			AudioReverbFilter audioReverbFilter = sample.source.GetComponent<AudioReverbFilter>();
-			if (audioReverbFilter == null)
+			AudioReverbFilter audioReverbFilter = ((Component)sample.source).GetComponent<AudioReverbFilter>();
+			if ((UnityEngine.Object)audioReverbFilter == (UnityEngine.Object)null)
 			{
 				audioReverbFilter = sample.source.gameObject.AddComponent<AudioReverbFilter>();
 			}
 			ReverbSetup reverbSetup;
-			if (value < 0.001f)
+			if (value < 0.0010000000474974513)
 			{
 				reverbSetup = this.baseSetup;
 			}
-			if (value > 0.999f)
-			{
-				reverbSetup = this.targetSetup;
-			}
-			else
-			{
-				reverbSetup = ReverbSetup.Lerp(this.baseSetup, this.targetSetup, value);
-			}
+			reverbSetup = ((!(value > 0.99900001287460327)) ? ReverbSetup.Lerp(this.baseSetup, this.targetSetup, value) : this.targetSetup);
 			reverbSetup.ApplyTo(audioReverbFilter);
 		}
 	}

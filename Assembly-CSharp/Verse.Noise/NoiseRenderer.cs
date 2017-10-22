@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse.Noise
@@ -7,7 +6,7 @@ namespace Verse.Noise
 	{
 		public static IntVec2 renderSize = new IntVec2(200, 200);
 
-		private static Color[] spectrum = new Color[]
+		private static Color[] spectrum = new Color[4]
 		{
 			Color.black,
 			Color.blue,
@@ -24,8 +23,9 @@ namespace Verse.Noise
 		{
 			Texture2D texture2D = new Texture2D(rect.Width, rect.Height);
 			texture2D.name = "NoiseRender";
-			foreach (IntVec2 current in rect.Cells2D)
+			foreach (IntVec2 item in rect.Cells2D)
 			{
+				IntVec2 current = item;
 				texture2D.SetPixel(current.x, current.z, NoiseRenderer.ColorForValue(noise.GetValue(current)));
 			}
 			texture2D.Apply();
@@ -34,7 +34,7 @@ namespace Verse.Noise
 
 		private static Color ColorForValue(float val)
 		{
-			val = val * 0.5f + 0.5f;
+			val = (float)(val * 0.5 + 0.5);
 			return ColorsFromSpectrum.Get(NoiseRenderer.spectrum, val);
 		}
 	}

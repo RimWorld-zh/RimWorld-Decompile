@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -18,14 +17,15 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_BuildRoof.<MakeNewToils>c__IteratorD <MakeNewToils>c__IteratorD = new JobDriver_BuildRoof.<MakeNewToils>c__IteratorD();
-			<MakeNewToils>c__IteratorD.<>f__this = this;
-			JobDriver_BuildRoof.<MakeNewToils>c__IteratorD expr_0E = <MakeNewToils>c__IteratorD;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOn((Func<bool>)(() => !((Area)((_003CMakeNewToils_003Ec__IteratorD)/*Error near IL_0029: stateMachine*/)._003C_003Ef__this.Map.areaManager.BuildRoof)[((_003CMakeNewToils_003Ec__IteratorD)/*Error near IL_0029: stateMachine*/)._003C_003Ef__this.Cell]));
+			this.FailOn((Func<bool>)(() => !RoofCollapseUtility.WithinRangeOfRoofHolder(((_003CMakeNewToils_003Ec__IteratorD)/*Error near IL_0041: stateMachine*/)._003C_003Ef__this.Cell, ((_003CMakeNewToils_003Ec__IteratorD)/*Error near IL_0041: stateMachine*/)._003C_003Ef__this.Map)));
+			this.FailOn((Func<bool>)(() => !RoofCollapseUtility.ConnectedToRoofHolder(((_003CMakeNewToils_003Ec__IteratorD)/*Error near IL_0059: stateMachine*/)._003C_003Ef__this.Cell, ((_003CMakeNewToils_003Ec__IteratorD)/*Error near IL_0059: stateMachine*/)._003C_003Ef__this.Map, true)));
+			foreach (Toil item in base.MakeNewToils())
+			{
+				yield return item;
+			}
 		}
 
 		protected override void DoEffect()
@@ -34,14 +34,11 @@ namespace RimWorld
 			for (int i = 0; i < 9; i++)
 			{
 				IntVec3 intVec = base.Cell + GenAdj.AdjacentCellsAndInside[i];
-				if (intVec.InBounds(base.Map))
+				if (intVec.InBounds(base.Map) && ((Area)base.Map.areaManager.BuildRoof)[intVec] && !intVec.Roofed(base.Map) && RoofCollapseUtility.WithinRangeOfRoofHolder(intVec, base.Map))
 				{
-					if (base.Map.areaManager.BuildRoof[intVec] && !intVec.Roofed(base.Map) && RoofCollapseUtility.WithinRangeOfRoofHolder(intVec, base.Map))
-					{
-						base.Map.roofGrid.SetRoof(intVec, RoofDefOf.RoofConstructed);
-						MoteMaker.PlaceTempRoof(intVec, base.Map);
-						JobDriver_BuildRoof.builtRoofs.Add(intVec);
-					}
+					base.Map.roofGrid.SetRoof(intVec, RoofDefOf.RoofConstructed);
+					MoteMaker.PlaceTempRoof(intVec, base.Map);
+					JobDriver_BuildRoof.builtRoofs.Add(intVec);
 				}
 			}
 			JobDriver_BuildRoof.builtRoofs.Clear();

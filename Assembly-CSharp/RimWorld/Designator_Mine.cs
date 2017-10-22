@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -24,15 +23,15 @@ namespace RimWorld
 
 		public Designator_Mine()
 		{
-			this.defaultLabel = "DesignatorMine".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/Mine", true);
-			this.defaultDesc = "DesignatorMineDesc".Translate();
-			this.useMouseIcon = true;
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.soundSucceeded = SoundDefOf.DesignateMine;
-			this.hotKey = KeyBindingDefOf.Misc10;
-			this.tutorTag = "Mine";
+			base.defaultLabel = "DesignatorMine".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/Mine", true);
+			base.defaultDesc = "DesignatorMineDesc".Translate();
+			base.useMouseIcon = true;
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.soundSucceeded = SoundDefOf.DesignateMine;
+			base.hotKey = KeyBindingDefOf.Misc10;
+			base.tutorTag = "Mine";
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)

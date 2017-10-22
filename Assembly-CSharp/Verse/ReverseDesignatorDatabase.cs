@@ -33,13 +33,13 @@ namespace Verse
 			}
 			for (int i = 0; i < this.desList.Count; i++)
 			{
-				T t = this.desList[i] as T;
-				if (t != null)
+				T val = (T)(this.desList[i] as T);
+				if (val != null)
 				{
-					return t;
+					return val;
 				}
 			}
-			return (T)((object)null);
+			return (T)null;
 		}
 
 		private void InitDesignators()
@@ -59,7 +59,7 @@ namespace Verse
 			this.desList.Add(new Designator_Strip());
 			this.desList.Add(new Designator_RearmTrap());
 			this.desList.Add(new Designator_Open());
-			this.desList.RemoveAll((Designator des) => !Current.Game.Rules.DesignatorAllowed(des));
+			this.desList.RemoveAll((Predicate<Designator>)((Designator des) => !Current.Game.Rules.DesignatorAllowed(des)));
 		}
 	}
 }

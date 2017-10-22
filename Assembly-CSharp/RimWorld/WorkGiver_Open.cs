@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -16,20 +14,25 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			WorkGiver_Open.<PotentialWorkThingsGlobal>c__Iterator62 <PotentialWorkThingsGlobal>c__Iterator = new WorkGiver_Open.<PotentialWorkThingsGlobal>c__Iterator62();
-			<PotentialWorkThingsGlobal>c__Iterator.pawn = pawn;
-			<PotentialWorkThingsGlobal>c__Iterator.<$>pawn = pawn;
-			WorkGiver_Open.<PotentialWorkThingsGlobal>c__Iterator62 expr_15 = <PotentialWorkThingsGlobal>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			foreach (Designation item in pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Open))
+			{
+				yield return item.target.Thing;
+			}
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			return pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Open) != null && pawn.CanReserve(t, 1, -1, null, forced);
+			if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Open) == null)
+			{
+				return false;
+			}
+			if (!pawn.CanReserve(t, 1, -1, null, forced))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

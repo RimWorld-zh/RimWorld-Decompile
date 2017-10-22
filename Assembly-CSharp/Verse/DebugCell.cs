@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -17,7 +16,7 @@ namespace Verse
 
 		public void Draw()
 		{
-			if (this.customMat != null)
+			if ((Object)this.customMat != (Object)null)
 			{
 				CellRenderer.RenderCell(this.c, this.customMat);
 			}
@@ -32,9 +31,8 @@ namespace Verse
 			if (this.displayString != null)
 			{
 				Vector2 vector = this.c.ToUIPosition();
-				Rect rect = new Rect(vector.x - 20f, vector.y - 20f, 40f, 40f);
-				Rect rect2 = new Rect(0f, 0f, (float)UI.screenWidth, (float)UI.screenHeight);
-				if (rect2.Overlaps(rect))
+				Rect rect = new Rect((float)(vector.x - 20.0), (float)(vector.y - 20.0), 40f, 40f);
+				if (new Rect(0f, 0f, (float)UI.screenWidth, (float)UI.screenHeight).Overlaps(rect))
 				{
 					Widgets.Label(rect, this.displayString);
 				}

@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -18,14 +17,14 @@ namespace Verse
 			}
 			HediffCompProperties_Immunizable hediffCompProperties_Immunizable = this.hediffDef.CompProps<HediffCompProperties_Immunizable>();
 			float num = (!sick) ? hediffCompProperties_Immunizable.immunityPerDayNotSick : hediffCompProperties_Immunizable.immunityPerDaySick;
-			num /= 60000f;
+			num = (float)(num / 60000.0);
 			float num2 = pawn.GetStatValue(StatDefOf.ImmunityGainSpeed, true);
 			if (diseaseInstance != null)
 			{
 				int value = Gen.HashCombineInt(diseaseInstance.GetHashCode(), 156482735);
-				num2 *= Mathf.Lerp(0.8f, 1.2f, (float)Mathf.Abs(value) / 2.14748365E+09f);
+				num2 *= Mathf.Lerp(0.8f, 1.2f, (float)((float)Mathf.Abs(value) / 2147483648.0));
 			}
-			if (num > 0f)
+			if (num > 0.0)
 			{
 				return num * num2;
 			}

@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public abstract class Listing_Lines : Listing
@@ -8,7 +6,7 @@ namespace Verse
 
 		protected void EndLine()
 		{
-			this.curY += this.lineHeight + this.verticalSpacing;
+			base.curY += this.lineHeight + base.verticalSpacing;
 		}
 	}
 }

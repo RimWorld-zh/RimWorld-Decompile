@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -17,10 +16,10 @@ namespace Verse
 				{
 					if (rules.DesignatorAllowed(allResolvedDesignators[j]))
 					{
-						T t = allResolvedDesignators[j] as T;
-						if (t != null)
+						T val = (T)(allResolvedDesignators[j] as T);
+						if (val != null)
 						{
-							return t;
+							return (Designator)(object)val;
 						}
 					}
 				}

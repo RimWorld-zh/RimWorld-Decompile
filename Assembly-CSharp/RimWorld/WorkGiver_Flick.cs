@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -8,20 +6,29 @@ namespace RimWorld
 {
 	public class WorkGiver_Flick : WorkGiver_Scanner
 	{
-		[DebuggerHidden]
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			WorkGiver_Flick.<PotentialWorkThingsGlobal>c__Iterator67 <PotentialWorkThingsGlobal>c__Iterator = new WorkGiver_Flick.<PotentialWorkThingsGlobal>c__Iterator67();
-			<PotentialWorkThingsGlobal>c__Iterator.pawn = pawn;
-			<PotentialWorkThingsGlobal>c__Iterator.<$>pawn = pawn;
-			WorkGiver_Flick.<PotentialWorkThingsGlobal>c__Iterator67 expr_15 = <PotentialWorkThingsGlobal>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			List<Designation> desList = pawn.Map.designationManager.allDesignations;
+			for (int i = 0; i < desList.Count; i++)
+			{
+				if (desList[i].def == DesignationDefOf.Flick)
+				{
+					yield return desList[i].target.Thing;
+				}
+			}
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			return pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Flick) != null && pawn.CanReserveAndReach(t, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, null, forced);
+			if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Flick) == null)
+			{
+				return false;
+			}
+			if (!pawn.CanReserveAndReach(t, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, null, forced))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

@@ -29,7 +29,7 @@ namespace Verse
 		{
 			get
 			{
-				return ((float)this.min + (float)this.max) / 2f;
+				return (float)(((float)this.min + (float)this.max) / 2.0);
 			}
 		}
 
@@ -54,10 +54,7 @@ namespace Verse
 
 		public static IntRange FromString(string s)
 		{
-			string[] array = s.Split(new char[]
-			{
-				'~'
-			});
+			string[] array = s.Split('~');
 			if (array.Length == 1)
 			{
 				int num = Convert.ToInt32(array[0]);
@@ -78,7 +75,11 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			return obj is IntRange && this.Equals((IntRange)obj);
+			if (!(obj is IntRange))
+			{
+				return false;
+			}
+			return this.Equals((IntRange)obj);
 		}
 
 		public bool Equals(IntRange other)

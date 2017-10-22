@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -10,8 +9,8 @@ namespace RimWorld
 
 		public Alert_LowMedicine()
 		{
-			this.defaultLabel = "LowMedicine".Translate();
-			this.defaultPriority = AlertPriority.High;
+			base.defaultLabel = "LowMedicine".Translate();
+			base.defaultPriority = AlertPriority.High;
 		}
 
 		public override string GetExplanation()
@@ -24,7 +23,7 @@ namespace RimWorld
 			int num = this.MedicineCount(map);
 			if (num == 0)
 			{
-				return string.Format("NoMedicineDesc".Translate(), new object[0]);
+				return string.Format("NoMedicineDesc".Translate());
 			}
 			return string.Format("LowMedicineDesc".Translate(), num);
 		}
@@ -44,12 +43,9 @@ namespace RimWorld
 			for (int i = 0; i < maps.Count; i++)
 			{
 				Map map = maps[i];
-				if (map.IsPlayerHome)
+				if (map.IsPlayerHome && (float)this.MedicineCount(map) < 2.0 * (float)map.mapPawns.FreeColonistsSpawnedCount)
 				{
-					if ((float)this.MedicineCount(map) < 2f * (float)map.mapPawns.FreeColonistsSpawnedCount)
-					{
-						return map;
-					}
+					return map;
 				}
 			}
 			return null;

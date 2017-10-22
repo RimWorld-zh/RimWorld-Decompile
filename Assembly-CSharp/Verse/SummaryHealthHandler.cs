@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,14 +29,14 @@ namespace Verse
 						if (!(hediffs[i] is Hediff_MissingPart))
 						{
 							float num2 = Mathf.Min(hediffs[i].SummaryHealthPercentImpact, 0.95f);
-							num *= 1f - num2;
+							num = (float)(num * (1.0 - num2));
 						}
 					}
 					List<Hediff_MissingPart> missingPartsCommonAncestors = this.pawn.health.hediffSet.GetMissingPartsCommonAncestors();
 					for (int j = 0; j < missingPartsCommonAncestors.Count; j++)
 					{
 						float num3 = Mathf.Min(missingPartsCommonAncestors[j].SummaryHealthPercentImpact, 0.95f);
-						num *= 1f - num3;
+						num = (float)(num * (1.0 - num3));
 					}
 					this.cachedSummaryHealthPercent = Mathf.Clamp(num, 0.05f, 1f);
 					ProfilerThreadCheck.EndSample();

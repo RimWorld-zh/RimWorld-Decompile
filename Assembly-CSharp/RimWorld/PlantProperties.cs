@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -85,7 +84,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return !this.sowTags.NullOrEmpty<string>();
+				return !this.sowTags.NullOrEmpty();
 			}
 		}
 
@@ -93,7 +92,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.harvestYield > 0.001f;
+				return this.harvestYield > 0.0010000000474974513;
 			}
 		}
 
@@ -101,7 +100,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.harvestAfterGrowth <= 0f;
+				return this.harvestAfterGrowth <= 0.0;
 			}
 		}
 
@@ -109,7 +108,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.wildClusterRadius > 0f)
+				if (this.wildClusterRadius > 0.0)
 				{
 					return this.wildClusterRadius;
 				}
@@ -137,7 +136,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (int)(this.LifespanDays * 60000f);
+				return (int)(this.LifespanDays * 60000.0);
 			}
 		}
 
@@ -145,7 +144,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.lifespanFraction > 0f;
+				return this.lifespanFraction > 0.0;
 			}
 		}
 
@@ -153,38 +152,66 @@ namespace RimWorld
 		{
 			if (!this.leaflessGraphicPath.NullOrEmpty())
 			{
-				LongEventHandler.ExecuteWhenFinished(delegate
+				LongEventHandler.ExecuteWhenFinished((Action)delegate()
 				{
 					this.leaflessGraphic = GraphicDatabase.Get(parentDef.graphicData.graphicClass, this.leaflessGraphicPath, parentDef.graphic.Shader, parentDef.graphicData.drawSize, parentDef.graphicData.color, parentDef.graphicData.colorTwo);
 				});
 			}
 			if (!this.immatureGraphicPath.NullOrEmpty())
 			{
-				LongEventHandler.ExecuteWhenFinished(delegate
+				LongEventHandler.ExecuteWhenFinished((Action)delegate()
 				{
 					this.immatureGraphic = GraphicDatabase.Get(parentDef.graphicData.graphicClass, this.immatureGraphicPath, parentDef.graphic.Shader, parentDef.graphicData.drawSize, parentDef.graphicData.color, parentDef.graphicData.colorTwo);
 				});
 			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors()
 		{
-			PlantProperties.<ConfigErrors>c__Iterator83 <ConfigErrors>c__Iterator = new PlantProperties.<ConfigErrors>c__Iterator83();
-			<ConfigErrors>c__Iterator.<>f__this = this;
-			PlantProperties.<ConfigErrors>c__Iterator83 expr_0E = <ConfigErrors>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.maxMeshCount > 25)
+			{
+				yield return "maxMeshCount > MaxMaxMeshCount";
+			}
 		}
 
-		[DebuggerHidden]
 		internal IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			PlantProperties.<SpecialDisplayStats>c__Iterator84 <SpecialDisplayStats>c__Iterator = new PlantProperties.<SpecialDisplayStats>c__Iterator84();
-			<SpecialDisplayStats>c__Iterator.<>f__this = this;
-			PlantProperties.<SpecialDisplayStats>c__Iterator84 expr_0E = <SpecialDisplayStats>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.sowMinSkill > 0)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "MinGrowingSkillToSow".Translate(), this.sowMinSkill.ToString(), 0);
+			}
+			string attributes = string.Empty;
+			if (this.Harvestable)
+			{
+				if (!attributes.NullOrEmpty())
+				{
+					attributes += ", ";
+				}
+				attributes += "Harvestable".Translate();
+			}
+			if (this.LimitedLifespan)
+			{
+				if (!attributes.NullOrEmpty())
+				{
+					attributes += ", ";
+				}
+				attributes += "LimitedLifespan".Translate();
+			}
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "GrowingTime".Translate(), this.growDays.ToString("0.##") + " " + "Days".Translate(), 0)
+			{
+				overrideReportText = "GrowingTimeDesc".Translate()
+			};
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "FertilityRequirement".Translate(), this.fertilityMin.ToStringPercent(), 0);
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "FertilitySensitivity".Translate(), this.fertilitySensitivity.ToStringPercent(), 0);
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "LightRequirement".Translate(), this.growMinGlow.ToStringPercent(), 0);
+			if (!attributes.NullOrEmpty())
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Attributes".Translate(), attributes, 0);
+			}
+			if (this.LimitedLifespan)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "LifeSpan".Translate(), this.LifespanDays.ToString("0.##") + " " + "Days".Translate(), 0);
+			}
 		}
 	}
 }

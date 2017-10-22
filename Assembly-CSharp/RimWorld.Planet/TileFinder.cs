@@ -19,26 +19,23 @@ namespace RimWorld.Planet
 		{
 			for (int i = 0; i < 500; i++)
 			{
-				int num;
+				int num = default(int);
 				if ((from _ in Enumerable.Range(0, 100)
-				select Rand.Range(0, Find.WorldGrid.TilesCount)).TryRandomElementByWeight(delegate(int x)
+				select Rand.Range(0, Find.WorldGrid.TilesCount)).TryRandomElementByWeight<int>((Func<int, float>)delegate(int x)
 				{
 					Tile tile = Find.WorldGrid[x];
-					if (!tile.biome.canBuildBase || !tile.biome.implemented || tile.hilliness == Hilliness.Impassable)
+					if (tile.biome.canBuildBase && tile.biome.implemented && tile.hilliness != Hilliness.Impassable)
 					{
-						return 0f;
+						if (mustBeAutoChoosable && !tile.biome.canAutoChoose)
+						{
+							return 0f;
+						}
+						return tile.biome.factionBaseSelectionWeight;
 					}
-					if (mustBeAutoChoosable && !tile.biome.canAutoChoose)
-					{
-						return 0f;
-					}
-					return tile.biome.factionBaseSelectionWeight;
-				}, out num))
+					return 0f;
+				}, out num) && TileFinder.IsValidTileForNewSettlement(num, null))
 				{
-					if (TileFinder.IsValidTileForNewSettlement(num, null))
-					{
-						return num;
-					}
+					return num;
 				}
 			}
 			Log.Error("Failed to find faction base tile for " + faction);
@@ -52,10 +49,7 @@ namespace RimWorld.Planet
 			{
 				if (reason != null)
 				{
-					reason.Append("CannotLandBiome".Translate(new object[]
-					{
-						tile2.biome.label
-					}));
+					reason.Append("CannotLandBiome".Translate(tile2.biome.label));
 				}
 				return false;
 			}
@@ -90,10 +84,7 @@ namespace RimWorld.Planet
 					}
 					else
 					{
-						reason.Append("BaseAlreadyThere".Translate(new object[]
-						{
-							settlement.Faction.Name
-						}));
+						reason.Append("BaseAlreadyThere".Translate(settlement.Faction.Name));
 					}
 				}
 				return false;
@@ -106,34 +97,34 @@ namespace RimWorld.Planet
 				}
 				return false;
 			}
-			if (Find.WorldObjects.AnyMapParentAt(tile) || Current.Game.FindMap(tile) != null)
+			if (!Find.WorldObjects.AnyMapParentAt(tile) && Current.Game.FindMap(tile) == null)
 			{
-				if (reason != null)
-				{
-					reason.Append("TileOccupied".Translate());
-				}
-				return false;
+				return true;
 			}
-			return true;
+			if (reason != null)
+			{
+				reason.Append("TileOccupied".Translate());
+			}
+			return false;
 		}
 
 		public static bool TryFindPassableTileWithTraversalDistance(int rootTile, int minDist, int maxDist, out int result, Predicate<int> validator = null, bool ignoreFirstTilePassability = false)
 		{
 			TileFinder.tmpTiles.Clear();
-			Find.WorldFloodFiller.FloodFill(rootTile, (int x) => !Find.World.Impassable(x) || (x == rootTile && ignoreFirstTilePassability), delegate(int tile, int traversalDistance)
+			Find.WorldFloodFiller.FloodFill(rootTile, (Predicate<int>)((int x) => !Find.World.Impassable(x) || (x == rootTile && ignoreFirstTilePassability)), (Func<int, int, bool>)delegate(int tile, int traversalDistance)
 			{
 				if (traversalDistance > maxDist)
 				{
 					return true;
 				}
-				if (traversalDistance >= minDist && (validator == null || validator(tile)))
+				if (traversalDistance >= minDist && ((object)validator == null || validator(tile)))
 				{
 					TileFinder.tmpTiles.Add(new Pair<int, int>(tile, traversalDistance));
 				}
 				return false;
 			}, 2147483647);
-			Pair<int, int> pair;
-			if (TileFinder.tmpTiles.TryRandomElementByWeight((Pair<int, int> x) => 1f - (float)(x.Second - minDist) / ((float)(maxDist - minDist) + 0.01f), out pair))
+			Pair<int, int> pair = default(Pair<int, int>);
+			if (((IEnumerable<Pair<int, int>>)TileFinder.tmpTiles).TryRandomElementByWeight<Pair<int, int>>((Func<Pair<int, int>, float>)((Pair<int, int> x) => (float)(1.0 - (float)(x.Second - minDist) / (float)((float)(maxDist - minDist) + 0.0099999997764825821))), out pair))
 			{
 				result = pair.First;
 				return true;
@@ -144,25 +135,25 @@ namespace RimWorld.Planet
 
 		public static bool TryFindRandomPlayerTile(out int tile)
 		{
-			Map map;
+			Map map = default(Map);
 			if ((from x in Find.Maps
 			where x.IsPlayerHome && x.mapPawns.FreeColonistsSpawnedCount != 0
-			select x).TryRandomElement(out map))
+			select x).TryRandomElement<Map>(out map))
 			{
 				tile = map.Tile;
 				return true;
 			}
 			if ((from x in Find.Maps
 			where x.IsPlayerHome
-			select x).TryRandomElement(out map))
+			select x).TryRandomElement<Map>(out map))
 			{
 				tile = map.Tile;
 				return true;
 			}
-			Caravan caravan;
+			Caravan caravan = default(Caravan);
 			if ((from x in Find.WorldObjects.Caravans
 			where x.IsPlayerControlled
-			select x).TryRandomElement(out caravan))
+			select x).TryRandomElement<Caravan>(out caravan))
 			{
 				tile = caravan.Tile;
 				return true;
@@ -173,13 +164,13 @@ namespace RimWorld.Planet
 
 		public static bool TryFindNewSiteTile(out int tile)
 		{
-			int rootTile;
+			int rootTile = default(int);
 			if (!TileFinder.TryFindRandomPlayerTile(out rootTile))
 			{
 				tile = -1;
 				return false;
 			}
-			return TileFinder.TryFindPassableTileWithTraversalDistance(rootTile, 8, 30, out tile, (int x) => !Find.WorldObjects.AnyWorldObjectAt(x) && TileFinder.IsValidTileForNewSettlement(x, null), false);
+			return TileFinder.TryFindPassableTileWithTraversalDistance(rootTile, 8, 30, out tile, (Predicate<int>)((int x) => !Find.WorldObjects.AnyWorldObjectAt(x) && TileFinder.IsValidTileForNewSettlement(x, null)), false);
 		}
 	}
 }

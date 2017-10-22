@@ -1,7 +1,6 @@
 using RuntimeAudioClipLoader;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using UnityEngine;
 
@@ -9,7 +8,7 @@ namespace Verse
 {
 	public static class ModContentLoader<T> where T : class
 	{
-		private static string[] AcceptableExtensionsAudio = new string[]
+		private static string[] AcceptableExtensionsAudio = new string[7]
 		{
 			".wav",
 			".mp3",
@@ -20,13 +19,13 @@ namespace Verse
 			".s3m"
 		};
 
-		private static string[] AcceptableExtensionsTexture = new string[]
+		private static string[] AcceptableExtensionsTexture = new string[2]
 		{
 			".png",
 			".jpg"
 		};
 
-		private static string[] AcceptableExtensionsString = new string[]
+		private static string[] AcceptableExtensionsString = new string[1]
 		{
 			".txt"
 		};
@@ -37,20 +36,21 @@ namespace Verse
 			if (typeof(T) == typeof(AudioClip))
 			{
 				array = ModContentLoader<T>.AcceptableExtensionsAudio;
+				goto IL_0087;
 			}
-			else if (typeof(T) == typeof(Texture2D))
+			if (typeof(T) == typeof(Texture2D))
 			{
 				array = ModContentLoader<T>.AcceptableExtensionsTexture;
+				goto IL_0087;
 			}
-			else
+			if (typeof(T) == typeof(string))
 			{
-				if (typeof(T) != typeof(string))
-				{
-					Log.Error("Unknown content type " + typeof(T));
-					return false;
-				}
 				array = ModContentLoader<T>.AcceptableExtensionsString;
+				goto IL_0087;
 			}
+			Log.Error("Unknown content type " + typeof(T));
+			return false;
+			IL_0087:
 			string[] array2 = array;
 			for (int i = 0; i < array2.Length; i++)
 			{
@@ -63,15 +63,28 @@ namespace Verse
 			return false;
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<LoadedContentItem<T>> LoadAllForMod(ModContentPack mod)
 		{
-			ModContentLoader<T>.<LoadAllForMod>c__Iterator210 <LoadAllForMod>c__Iterator = new ModContentLoader<T>.<LoadAllForMod>c__Iterator210();
-			<LoadAllForMod>c__Iterator.mod = mod;
-			<LoadAllForMod>c__Iterator.<$>mod = mod;
-			ModContentLoader<T>.<LoadAllForMod>c__Iterator210 expr_15 = <LoadAllForMod>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			string contentDirPath = Path.Combine(mod.RootDir, GenFilePaths.ContentPath<T>());
+			DirectoryInfo contentDir = new DirectoryInfo(contentDirPath);
+			if (contentDir.Exists)
+			{
+				DeepProfiler.Start("Loading assets of type " + typeof(T) + " for mod " + mod);
+				FileInfo[] files = contentDir.GetFiles("*.*", SearchOption.AllDirectories);
+				for (int i = 0; i < files.Length; i++)
+				{
+					FileInfo file = files[i];
+					if (ModContentLoader<T>.IsAcceptableExtension(file.Extension))
+					{
+						LoadedContentItem<T> loadedItem = ModContentLoader<T>.LoadItem(file.FullName, contentDirPath);
+						if (loadedItem != null)
+						{
+							yield return loadedItem;
+						}
+					}
+				}
+				DeepProfiler.End();
+			}
 		}
 
 		public static LoadedContentItem<T> LoadItem(string absFilePath, string contentDirPath = null)
@@ -87,13 +100,11 @@ namespace Verse
 			{
 				if (typeof(T) == typeof(string))
 				{
-					LoadedContentItem<T> result = new LoadedContentItem<T>(text, (T)((object)GenFile.TextFromRawFile(absFilePath)));
-					return result;
+					return new LoadedContentItem<T>(text, (T)(object)GenFile.TextFromRawFile(absFilePath));
 				}
 				if (typeof(T) == typeof(Texture2D))
 				{
-					LoadedContentItem<T> result = new LoadedContentItem<T>(text, (T)((object)ModContentLoader<T>.LoadPNG(absFilePath)));
-					return result;
+					return new LoadedContentItem<T>(text, (T)(object)ModContentLoader<T>.LoadPNG(absFilePath));
 				}
 				if (typeof(T) == typeof(AudioClip))
 				{
@@ -101,11 +112,11 @@ namespace Verse
 					{
 						DeepProfiler.Start("Loading file " + text);
 					}
-					T t;
+					T val = default(T);
 					try
 					{
 						bool doStream = ModContentLoader<T>.ShouldStreamAudioClipFromPath(absFilePath);
-						t = (T)((object)Manager.Load(absFilePath, doStream, true, true));
+						val = (T)(object)Manager.Load(absFilePath, doStream, true, true);
 					}
 					finally
 					{
@@ -114,28 +125,17 @@ namespace Verse
 							DeepProfiler.End();
 						}
 					}
-					UnityEngine.Object @object = t as UnityEngine.Object;
-					if (@object != null)
+					UnityEngine.Object @object = ((object)val) as UnityEngine.Object;
+					if (@object != (UnityEngine.Object)null)
 					{
 						@object.name = Path.GetFileNameWithoutExtension(new FileInfo(absFilePath).Name);
 					}
-					LoadedContentItem<T> result = new LoadedContentItem<T>(text, t);
-					return result;
+					return new LoadedContentItem<T>(text, val);
 				}
 			}
 			catch (Exception ex)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Exception loading ",
-					typeof(T),
-					" from file.\nabsFilePath: ",
-					absFilePath,
-					"\ncontentDirPath: ",
-					contentDirPath,
-					"\nException: ",
-					ex.ToString()
-				}));
+				Log.Error("Exception loading " + typeof(T) + " from file.\nabsFilePath: " + absFilePath + "\ncontentDirPath: " + contentDirPath + "\nException: " + ex.ToString());
 			}
 			if (typeof(T) == typeof(Texture2D))
 			{
@@ -151,7 +151,7 @@ namespace Verse
 				return false;
 			}
 			FileInfo fileInfo = new FileInfo(absPath);
-			return fileInfo.Length > 307200L;
+			return fileInfo.Length > 307200;
 		}
 
 		private static Texture2D LoadPNG(string filePath)

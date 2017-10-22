@@ -38,29 +38,26 @@ namespace Verse
 			}
 			Debug.LogError(text);
 			Log.messageQueue.Enqueue(new LogMessage(LogMessageType.Error, text, StackTraceUtility.ExtractStackTrace()));
-			if (!PlayDataLoader.Loaded || Prefs.DevMode)
-			{
-				Log.TryOpenLogWindow();
-			}
+			if (PlayDataLoader.Loaded && !Prefs.DevMode)
+				return;
+			Log.TryOpenLogWindow();
 		}
 
 		public static void ErrorOnce(string text, int key)
 		{
-			if (Log.usedKeys.Contains(key))
+			if (!Log.usedKeys.Contains(key))
 			{
-				return;
+				Log.usedKeys.Add(key);
+				Log.Error(text);
 			}
-			Log.usedKeys.Add(key);
-			Log.Error(text);
 		}
 
 		public static void Notify_Exception(Exception e)
 		{
 			Log.messageQueue.Enqueue(new LogMessage(LogMessageType.Error, e.Message, e.StackTrace));
-			if (!PlayDataLoader.Loaded || Prefs.DevMode)
-			{
-				Log.TryOpenLogWindow();
-			}
+			if (PlayDataLoader.Loaded && !Prefs.DevMode)
+				return;
+			Log.TryOpenLogWindow();
 		}
 
 		internal static void Clear()
@@ -71,10 +68,9 @@ namespace Verse
 
 		public static void TryOpenLogWindow()
 		{
-			if (StaticConstructorOnStartupUtility.coreStaticAssetsLoaded || UnityData.IsInMainThread)
-			{
-				EditWindow_Log.TryAutoOpen();
-			}
+			if (!StaticConstructorOnStartupUtility.coreStaticAssetsLoaded && !UnityData.IsInMainThread)
+				return;
+			EditWindow_Log.TryAutoOpen();
 		}
 	}
 }

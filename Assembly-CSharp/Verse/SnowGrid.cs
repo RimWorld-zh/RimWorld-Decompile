@@ -37,20 +37,21 @@ namespace Verse
 
 		public void ExposeData()
 		{
-			string compressedString = null;
+			string compressedString = (string)null;
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
-				compressedString = GridSaveUtility.CompressedStringForShortGrid((IntVec3 c) => SnowGrid.SnowFloatToShort(this.GetDepth(c)), this.map);
+				compressedString = GridSaveUtility.CompressedStringForShortGrid((Func<IntVec3, ushort>)((IntVec3 c) => SnowGrid.SnowFloatToShort(this.GetDepth(c))), this.map);
 			}
-			Scribe_Values.Look<string>(ref compressedString, "depthGrid", null, false);
+			Scribe_Values.Look(ref compressedString, "depthGrid", (string)null, false);
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
 				this.totalDepth = 0.0;
-				foreach (GridSaveUtility.LoadedGridShort current in GridSaveUtility.LoadedUShortGrid(compressedString, this.map))
+				foreach (GridSaveUtility.LoadedGridShort item in GridSaveUtility.LoadedUShortGrid(compressedString, this.map))
 				{
+					GridSaveUtility.LoadedGridShort current = item;
 					ushort val = current.val;
 					this.depthGrid[this.map.cellIndices.CellToIndex(current.cell)] = SnowGrid.SnowShortToFloat(val);
-					this.totalDepth += (double)val;
+					this.totalDepth += (double)(int)val;
 				}
 			}
 		}
@@ -58,13 +59,13 @@ namespace Verse
 		private static ushort SnowFloatToShort(float depth)
 		{
 			depth = Mathf.Clamp(depth, 0f, 1f);
-			depth *= 65535f;
+			depth = (float)(depth * 65535.0);
 			return (ushort)Mathf.RoundToInt(depth);
 		}
 
 		private static float SnowShortToFloat(ushort depth)
 		{
-			return (float)depth / 65535f;
+			return (float)((float)(int)depth / 65535.0);
 		}
 
 		private bool CanHaveSnow(int ind)
@@ -75,39 +76,45 @@ namespace Verse
 				return false;
 			}
 			TerrainDef terrainDef = this.map.terrainGrid.TerrainAt(ind);
-			return terrainDef == null || terrainDef.holdSnow;
+			if (terrainDef != null && !terrainDef.holdSnow)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool CanCoexistWithSnow(ThingDef def)
 		{
-			return def.category != ThingCategory.Building || def.Fillage != FillCategory.Full;
+			if (def.category == ThingCategory.Building && def.Fillage == FillCategory.Full)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public void AddDepth(IntVec3 c, float depthToAdd)
 		{
 			int num = this.map.cellIndices.CellToIndex(c);
 			float num2 = this.depthGrid[num];
-			if (num2 <= 0f && depthToAdd < 0f)
-			{
+			if (num2 <= 0.0 && depthToAdd < 0.0)
 				return;
-			}
-			if (num2 >= 0.999f && depthToAdd > 1f)
-			{
+			if (num2 >= 0.99900001287460327 && depthToAdd > 1.0)
 				return;
-			}
 			if (!this.CanHaveSnow(num))
 			{
 				this.depthGrid[num] = 0f;
-				return;
 			}
-			float num3 = num2 + depthToAdd;
-			num3 = Mathf.Clamp(num3, 0f, 1f);
-			float num4 = num3 - num2;
-			this.totalDepth += (double)num4;
-			if (Mathf.Abs(num4) > 0.0001f)
+			else
 			{
-				this.depthGrid[num] = num3;
-				this.CheckVisualOrPathCostChange(c, num2, num3);
+				float value = num2 + depthToAdd;
+				value = Mathf.Clamp(value, 0f, 1f);
+				float num3 = value - num2;
+				this.totalDepth += (double)num3;
+				if (Mathf.Abs(num3) > 9.9999997473787516E-05)
+				{
+					this.depthGrid[num] = value;
+					this.CheckVisualOrPathCostChange(c, num2, value);
+				}
 			}
 		}
 
@@ -117,26 +124,28 @@ namespace Verse
 			if (!this.CanHaveSnow(num))
 			{
 				this.depthGrid[num] = 0f;
-				return;
 			}
-			newDepth = Mathf.Clamp(newDepth, 0f, 1f);
-			float num2 = this.depthGrid[num];
-			this.depthGrid[num] = newDepth;
-			float num3 = newDepth - num2;
-			this.totalDepth += (double)num3;
-			this.CheckVisualOrPathCostChange(c, num2, newDepth);
+			else
+			{
+				newDepth = Mathf.Clamp(newDepth, 0f, 1f);
+				float num2 = this.depthGrid[num];
+				this.depthGrid[num] = newDepth;
+				float num3 = newDepth - num2;
+				this.totalDepth += (double)num3;
+				this.CheckVisualOrPathCostChange(c, num2, newDepth);
+			}
 		}
 
 		private void CheckVisualOrPathCostChange(IntVec3 c, float oldDepth, float newDepth)
 		{
 			if (!Mathf.Approximately(oldDepth, newDepth))
 			{
-				if (Mathf.Abs(oldDepth - newDepth) > 0.15f || Rand.Value < 0.0125f)
+				if (Mathf.Abs(oldDepth - newDepth) > 0.15000000596046448 || Rand.Value < 0.012500000186264515)
 				{
 					this.map.mapDrawer.MapMeshDirty(c, MapMeshFlag.Snow, true, false);
 					this.map.mapDrawer.MapMeshDirty(c, MapMeshFlag.Things, true, false);
 				}
-				else if (newDepth == 0f)
+				else if (newDepth == 0.0)
 				{
 					this.map.mapDrawer.MapMeshDirty(c, MapMeshFlag.Snow, true, false);
 				}

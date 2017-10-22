@@ -19,7 +19,7 @@ namespace Verse.Noise
 			{
 				get
 				{
-					if (this.tex == null)
+					if ((UnityEngine.Object)this.tex == (UnityEngine.Object)null)
 					{
 						this.tex = NoiseRenderer.NoiseRendered(this.noise);
 					}
@@ -47,15 +47,15 @@ namespace Verse.Noise
 			}
 		}
 
-		private static List<NoiseDebugUI.Noise2D> noises2D = new List<NoiseDebugUI.Noise2D>();
+		private static List<Noise2D> noises2D = new List<Noise2D>();
 
-		private static List<NoiseDebugUI.NoisePlanet> planetNoises = new List<NoiseDebugUI.NoisePlanet>();
+		private static List<NoisePlanet> planetNoises = new List<NoisePlanet>();
 
 		private static Mesh planetNoiseMesh;
 
-		private static NoiseDebugUI.NoisePlanet currentPlanetNoise;
+		private static NoisePlanet currentPlanetNoise;
 
-		private static NoiseDebugUI.NoisePlanet lastDrawnPlanetNoise;
+		private static NoisePlanet lastDrawnPlanetNoise;
 
 		private static List<Color32> planetNoiseMeshColors = new List<Color32>();
 
@@ -77,112 +77,113 @@ namespace Verse.Noise
 
 		public static void StoreNoiseRender(ModuleBase noise, string name)
 		{
-			if (!Prefs.DevMode || !DebugViewSettings.drawRecordedNoise)
+			if (Prefs.DevMode && DebugViewSettings.drawRecordedNoise)
 			{
-				return;
+				Noise2D item = new Noise2D(noise, name);
+				NoiseDebugUI.noises2D.Add(item);
 			}
-			NoiseDebugUI.Noise2D item = new NoiseDebugUI.Noise2D(noise, name);
-			NoiseDebugUI.noises2D.Add(item);
 		}
 
 		public static void StorePlanetNoise(ModuleBase noise, string name)
 		{
-			if (!Prefs.DevMode || !DebugViewSettings.drawRecordedNoise)
+			if (Prefs.DevMode && DebugViewSettings.drawRecordedNoise)
 			{
-				return;
+				NoisePlanet item = new NoisePlanet(noise, name);
+				NoiseDebugUI.planetNoises.Add(item);
 			}
-			NoiseDebugUI.NoisePlanet item = new NoiseDebugUI.NoisePlanet(noise, name);
-			NoiseDebugUI.planetNoises.Add(item);
 		}
 
 		public static void NoiseDebugOnGUI()
 		{
-			if (!Prefs.DevMode || !DebugViewSettings.drawRecordedNoise)
+			if (Prefs.DevMode && DebugViewSettings.drawRecordedNoise)
 			{
-				return;
-			}
-			if (Widgets.ButtonText(new Rect(0f, 40f, 200f, 30f), "Clear noise renders", true, false, true))
-			{
-				NoiseDebugUI.Clear();
-			}
-			if (Widgets.ButtonText(new Rect(200f, 40f, 200f, 30f), "Hide noise renders", true, false, true))
-			{
-				DebugViewSettings.drawRecordedNoise = false;
-			}
-			if (WorldRendererUtility.WorldRenderedNow)
-			{
-				if (NoiseDebugUI.planetNoises.Any<NoiseDebugUI.NoisePlanet>() && Widgets.ButtonText(new Rect(400f, 40f, 200f, 30f), "Next planet noise", true, false, true))
+				if (Widgets.ButtonText(new Rect(0f, 40f, 200f, 30f), "Clear noise renders", true, false, true))
 				{
-					if (NoiseDebugUI.currentPlanetNoise == null || NoiseDebugUI.planetNoises.IndexOf(NoiseDebugUI.currentPlanetNoise) == -1)
+					NoiseDebugUI.Clear();
+				}
+				if (Widgets.ButtonText(new Rect(200f, 40f, 200f, 30f), "Hide noise renders", true, false, true))
+				{
+					DebugViewSettings.drawRecordedNoise = false;
+				}
+				if (WorldRendererUtility.WorldRenderedNow)
+				{
+					if (NoiseDebugUI.planetNoises.Any() && Widgets.ButtonText(new Rect(400f, 40f, 200f, 30f), "Next planet noise", true, false, true))
 					{
-						NoiseDebugUI.currentPlanetNoise = NoiseDebugUI.planetNoises[0];
+						if (NoiseDebugUI.currentPlanetNoise == null || NoiseDebugUI.planetNoises.IndexOf(NoiseDebugUI.currentPlanetNoise) == -1)
+						{
+							NoiseDebugUI.currentPlanetNoise = NoiseDebugUI.planetNoises[0];
+						}
+						else if (NoiseDebugUI.planetNoises.IndexOf(NoiseDebugUI.currentPlanetNoise) == NoiseDebugUI.planetNoises.Count - 1)
+						{
+							NoiseDebugUI.currentPlanetNoise = null;
+						}
+						else
+						{
+							NoiseDebugUI.currentPlanetNoise = NoiseDebugUI.planetNoises[NoiseDebugUI.planetNoises.IndexOf(NoiseDebugUI.currentPlanetNoise) + 1];
+						}
 					}
-					else if (NoiseDebugUI.planetNoises.IndexOf(NoiseDebugUI.currentPlanetNoise) == NoiseDebugUI.planetNoises.Count - 1)
+					if (NoiseDebugUI.currentPlanetNoise != null)
 					{
-						NoiseDebugUI.currentPlanetNoise = null;
-					}
-					else
-					{
-						NoiseDebugUI.currentPlanetNoise = NoiseDebugUI.planetNoises[NoiseDebugUI.planetNoises.IndexOf(NoiseDebugUI.currentPlanetNoise) + 1];
+						Rect rect = new Rect(605f, 40f, 300f, 30f);
+						Text.Font = GameFont.Medium;
+						Widgets.Label(rect, NoiseDebugUI.currentPlanetNoise.name);
+						Text.Font = GameFont.Small;
 					}
 				}
-				if (NoiseDebugUI.currentPlanetNoise != null)
+				float num = 0f;
+				float num2 = 90f;
+				Text.Font = GameFont.Tiny;
+				List<Noise2D>.Enumerator enumerator = NoiseDebugUI.noises2D.GetEnumerator();
+				try
 				{
-					Rect rect = new Rect(605f, 40f, 300f, 30f);
-					Text.Font = GameFont.Medium;
-					Widgets.Label(rect, NoiseDebugUI.currentPlanetNoise.name);
-					Text.Font = GameFont.Small;
+					while (enumerator.MoveNext())
+					{
+						Noise2D current = enumerator.Current;
+						Texture2D texture = current.Texture;
+						if (num + (float)texture.width + 5.0 > (float)UI.screenWidth)
+						{
+							num = 0f;
+							num2 += (float)(texture.height + 5 + 25);
+						}
+						Rect position = new Rect(num, num2, (float)texture.width, (float)texture.height);
+						GUI.DrawTexture(position, texture);
+						Rect rect2 = new Rect(num, (float)(num2 - 15.0), (float)texture.width, (float)texture.height);
+						GUI.color = Color.black;
+						Widgets.Label(rect2, current.name);
+						GUI.color = Color.white;
+						Widgets.Label(new Rect((float)(rect2.x + 1.0), (float)(rect2.y + 1.0), rect2.width, rect2.height), current.name);
+						num += (float)(texture.width + 5);
+					}
 				}
-			}
-			float num = 0f;
-			float num2 = 90f;
-			Text.Font = GameFont.Tiny;
-			foreach (NoiseDebugUI.Noise2D current in NoiseDebugUI.noises2D)
-			{
-				Texture2D texture = current.Texture;
-				if (num + (float)texture.width + 5f > (float)UI.screenWidth)
+				finally
 				{
-					num = 0f;
-					num2 += (float)(texture.height + 5 + 25);
+					((IDisposable)(object)enumerator).Dispose();
 				}
-				Rect position = new Rect(num, num2, (float)texture.width, (float)texture.height);
-				GUI.DrawTexture(position, texture);
-				Rect rect2 = new Rect(num, num2 - 15f, (float)texture.width, (float)texture.height);
-				GUI.color = Color.black;
-				Widgets.Label(rect2, current.name);
-				GUI.color = Color.white;
-				Widgets.Label(new Rect(rect2.x + 1f, rect2.y + 1f, rect2.width, rect2.height), current.name);
-				num += (float)(texture.width + 5);
 			}
 		}
 
 		public static void RenderPlanetNoise()
 		{
-			if (!Prefs.DevMode || !DebugViewSettings.drawRecordedNoise)
+			if (Prefs.DevMode && DebugViewSettings.drawRecordedNoise && NoiseDebugUI.currentPlanetNoise != null)
 			{
-				return;
+				if ((UnityEngine.Object)NoiseDebugUI.planetNoiseMesh == (UnityEngine.Object)null)
+				{
+					List<int> triangles = default(List<int>);
+					SphereGenerator.Generate(5, 100.3f, Vector3.forward, 360f, out NoiseDebugUI.planetNoiseMeshVerts, out triangles);
+					NoiseDebugUI.planetNoiseMesh = new Mesh();
+					NoiseDebugUI.planetNoiseMesh.name = "NoiseDebugUI";
+					NoiseDebugUI.planetNoiseMesh.SetVertices(NoiseDebugUI.planetNoiseMeshVerts);
+					NoiseDebugUI.planetNoiseMesh.SetTriangles(triangles, 0);
+					NoiseDebugUI.planetNoiseMesh.Optimize();
+					NoiseDebugUI.lastDrawnPlanetNoise = null;
+				}
+				if (NoiseDebugUI.lastDrawnPlanetNoise != NoiseDebugUI.currentPlanetNoise)
+				{
+					NoiseDebugUI.UpdatePlanetNoiseVertexColors();
+					NoiseDebugUI.lastDrawnPlanetNoise = NoiseDebugUI.currentPlanetNoise;
+				}
+				Graphics.DrawMesh(NoiseDebugUI.planetNoiseMesh, Vector3.zero, Quaternion.identity, WorldMaterials.VertexColor, WorldCameraManager.WorldLayer);
 			}
-			if (NoiseDebugUI.currentPlanetNoise == null)
-			{
-				return;
-			}
-			if (NoiseDebugUI.planetNoiseMesh == null)
-			{
-				List<int> triangles;
-				SphereGenerator.Generate(5, 100.3f, Vector3.forward, 360f, out NoiseDebugUI.planetNoiseMeshVerts, out triangles);
-				NoiseDebugUI.planetNoiseMesh = new Mesh();
-				NoiseDebugUI.planetNoiseMesh.name = "NoiseDebugUI";
-				NoiseDebugUI.planetNoiseMesh.SetVertices(NoiseDebugUI.planetNoiseMeshVerts);
-				NoiseDebugUI.planetNoiseMesh.SetTriangles(triangles, 0);
-				NoiseDebugUI.planetNoiseMesh.Optimize();
-				NoiseDebugUI.lastDrawnPlanetNoise = null;
-			}
-			if (NoiseDebugUI.lastDrawnPlanetNoise != NoiseDebugUI.currentPlanetNoise)
-			{
-				NoiseDebugUI.UpdatePlanetNoiseVertexColors();
-				NoiseDebugUI.lastDrawnPlanetNoise = NoiseDebugUI.currentPlanetNoise;
-			}
-			Graphics.DrawMesh(NoiseDebugUI.planetNoiseMesh, Vector3.zero, Quaternion.identity, WorldMaterials.VertexColor, WorldCameraManager.WorldLayer);
 		}
 
 		public static void Clear()
@@ -200,10 +201,10 @@ namespace Verse.Noise
 			NoiseDebugUI.planetNoises.Clear();
 			NoiseDebugUI.currentPlanetNoise = null;
 			NoiseDebugUI.lastDrawnPlanetNoise = null;
-			if (NoiseDebugUI.planetNoiseMesh != null)
+			if ((UnityEngine.Object)NoiseDebugUI.planetNoiseMesh != (UnityEngine.Object)null)
 			{
 				Mesh localPlanetNoiseMesh = NoiseDebugUI.planetNoiseMesh;
-				LongEventHandler.ExecuteWhenFinished(delegate
+				LongEventHandler.ExecuteWhenFinished((Action)delegate
 				{
 					UnityEngine.Object.Destroy(localPlanetNoiseMesh);
 				});
@@ -217,8 +218,8 @@ namespace Verse.Noise
 			for (int i = 0; i < NoiseDebugUI.planetNoiseMeshVerts.Count; i++)
 			{
 				float value = NoiseDebugUI.currentPlanetNoise.noise.GetValue(NoiseDebugUI.planetNoiseMeshVerts[i]);
-				byte b = (byte)Mathf.Clamp((value * 0.5f + 0.5f) * 255f, 0f, 255f);
-				NoiseDebugUI.planetNoiseMeshColors.Add(new Color32(b, b, b, 255));
+				byte b = (byte)Mathf.Clamp((float)((value * 0.5 + 0.5) * 255.0), 0f, 255f);
+				NoiseDebugUI.planetNoiseMeshColors.Add(new Color32(b, b, b, (byte)255));
 			}
 			NoiseDebugUI.planetNoiseMesh.SetColors(NoiseDebugUI.planetNoiseMeshColors);
 		}

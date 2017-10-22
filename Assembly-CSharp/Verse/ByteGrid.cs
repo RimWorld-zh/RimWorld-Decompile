@@ -66,19 +66,36 @@ namespace Verse
 
 		public bool MapSizeMatches(Map map)
 		{
-			return this.mapSizeX == map.Size.x && this.mapSizeZ == map.Size.z;
+			int num = this.mapSizeX;
+			IntVec3 size = map.Size;
+			int result;
+			if (num == size.x)
+			{
+				int num2 = this.mapSizeZ;
+				IntVec3 size2 = map.Size;
+				result = ((num2 == size2.z) ? 1 : 0);
+			}
+			else
+			{
+				result = 0;
+			}
+			return (byte)result != 0;
 		}
 
 		public void ClearAndResizeTo(Map map)
 		{
 			if (this.MapSizeMatches(map) && this.grid != null)
 			{
-				this.Clear(0);
-				return;
+				this.Clear((byte)0);
 			}
-			this.mapSizeX = map.Size.x;
-			this.mapSizeZ = map.Size.z;
-			this.grid = new byte[this.mapSizeX * this.mapSizeZ];
+			else
+			{
+				IntVec3 size = map.Size;
+				this.mapSizeX = size.x;
+				IntVec3 size2 = map.Size;
+				this.mapSizeZ = size2.z;
+				this.grid = new byte[this.mapSizeX * this.mapSizeZ];
+			}
 		}
 
 		public void ExposeData()
@@ -111,7 +128,7 @@ namespace Verse
 				if (b > 0)
 				{
 					IntVec3 c = CellIndicesUtility.IndexToCell(i, this.mapSizeX);
-					CellRenderer.RenderCell(c, (float)b / 255f * 0.5f);
+					CellRenderer.RenderCell(c, (float)((float)(int)b / 255.0 * 0.5));
 				}
 			}
 		}

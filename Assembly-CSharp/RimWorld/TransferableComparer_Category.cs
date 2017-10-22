@@ -14,7 +14,7 @@ namespace RimWorld
 		{
 			if (lhsTh.category != rhsTh.category)
 			{
-				return lhsTh.category.CompareTo(rhsTh.category);
+				return ((Enum)(object)lhsTh.category).CompareTo((object)rhsTh.category);
 			}
 			float num = TransferableUIUtility.DefaultListOrderPriority(lhsTh);
 			float num2 = TransferableUIUtility.DefaultListOrderPriority(rhsTh);
@@ -23,14 +23,14 @@ namespace RimWorld
 				return num.CompareTo(num2);
 			}
 			int num3 = 0;
-			if (!lhsTh.thingCategories.NullOrEmpty<ThingCategoryDef>())
+			if (!lhsTh.thingCategories.NullOrEmpty())
 			{
-				num3 = (int)lhsTh.thingCategories[0].index;
+				num3 = lhsTh.thingCategories[0].index;
 			}
 			int value = 0;
-			if (!rhsTh.thingCategories.NullOrEmpty<ThingCategoryDef>())
+			if (!rhsTh.thingCategories.NullOrEmpty())
 			{
-				value = (int)rhsTh.thingCategories[0].index;
+				value = rhsTh.thingCategories[0].index;
 			}
 			return num3.CompareTo(value);
 		}

@@ -11,7 +11,7 @@ namespace RimWorld
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
 			Map map = (Map)target;
-			IntVec3 intVec;
+			IntVec3 intVec = default(IntVec3);
 			return base.CanFireNowSub(target) && HivesUtility.TotalSpawnedHivesCount(map) < 30 && InfestationCellFinder.TryFindCell(out intVec, map);
 		}
 
@@ -19,20 +19,20 @@ namespace RimWorld
 		{
 			Map map = (Map)parms.target;
 			Hive t = null;
-			int num;
-			for (int i = Mathf.Max(GenMath.RoundRandom(parms.points / 400f), 1); i > 0; i -= num)
+			int num2;
+			for (int num = Mathf.Max(GenMath.RoundRandom((float)(parms.points / 400.0)), 1); num > 0; num -= num2)
 			{
-				num = Mathf.Min(3, i);
-				t = this.SpawnHiveCluster(num, map);
+				num2 = Mathf.Min(3, num);
+				t = this.SpawnHiveCluster(num2, map);
 			}
-			base.SendStandardLetter(t, new string[0]);
+			base.SendStandardLetter((Thing)t);
 			Find.TickManager.slower.SignalForceNormalSpeedShort();
 			return true;
 		}
 
 		private Hive SpawnHiveCluster(int hiveCount, Map map)
 		{
-			IntVec3 loc;
+			IntVec3 loc = default(IntVec3);
 			if (!InfestationCellFinder.TryFindCell(out loc, map))
 			{
 				return null;
@@ -42,7 +42,7 @@ namespace RimWorld
 			IncidentWorker_Infestation.SpawnInsectJellyInstantly(hive);
 			for (int i = 0; i < hiveCount - 1; i++)
 			{
-				Hive hive2;
+				Hive hive2 = default(Hive);
 				if (hive.GetComp<CompSpawnerHives>().TrySpawnChildHive(false, out hive2))
 				{
 					IncidentWorker_Infestation.SpawnInsectJellyInstantly(hive2);
@@ -54,7 +54,7 @@ namespace RimWorld
 
 		private static void SpawnInsectJellyInstantly(Hive hive)
 		{
-			CompSpawner compSpawner = (CompSpawner)hive.AllComps.Find(delegate(ThingComp x)
+			CompSpawner compSpawner = (CompSpawner)hive.AllComps.Find((Predicate<ThingComp>)delegate(ThingComp x)
 			{
 				CompSpawner compSpawner2 = x as CompSpawner;
 				return compSpawner2 != null && compSpawner2.PropsSpawner.thingToSpawn == ThingDefOf.InsectJelly;

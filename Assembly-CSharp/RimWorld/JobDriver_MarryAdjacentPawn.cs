@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -30,14 +29,40 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_MarryAdjacentPawn.<MakeNewToils>c__Iterator16 <MakeNewToils>c__Iterator = new JobDriver_MarryAdjacentPawn.<MakeNewToils>c__Iterator16();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_MarryAdjacentPawn.<MakeNewToils>c__Iterator16 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOnDespawnedOrNull(TargetIndex.A);
+			this.FailOn((Func<bool>)(() => ((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0038: stateMachine*/)._003C_003Ef__this.OtherFiance.Drafted || !((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0038: stateMachine*/)._003C_003Ef__this.pawn.Position.AdjacentTo8WayOrInside(((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0038: stateMachine*/)._003C_003Ef__this.OtherFiance)));
+			Toil marry = new Toil
+			{
+				initAction = (Action)delegate
+				{
+					((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_005b: stateMachine*/)._003C_003Ef__this.ticksLeftToMarry = 2500;
+				},
+				tickAction = (Action)delegate
+				{
+					((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0072: stateMachine*/)._003C_003Ef__this.ticksLeftToMarry--;
+					if (((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0072: stateMachine*/)._003C_003Ef__this.ticksLeftToMarry <= 0)
+					{
+						((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0072: stateMachine*/)._003C_003Ef__this.ticksLeftToMarry = 0;
+						((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0072: stateMachine*/)._003C_003Ef__this.ReadyForNextToil();
+					}
+				},
+				defaultCompleteMode = ToilCompleteMode.Never
+			};
+			marry.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0095: stateMachine*/)._003C_003Ef__this.pawn.relations.DirectRelationExists(PawnRelationDefOf.Fiance, ((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0095: stateMachine*/)._003C_003Ef__this.OtherFiance)));
+			yield return marry;
+			yield return new Toil
+			{
+				defaultCompleteMode = ToilCompleteMode.Instant,
+				initAction = (Action)delegate
+				{
+					if (((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_00dc: stateMachine*/)._003C_003Ef__this.pawn.thingIDNumber < ((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_00dc: stateMachine*/)._003C_003Ef__this.OtherFiance.thingIDNumber)
+					{
+						MarriageCeremonyUtility.Married(((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_00dc: stateMachine*/)._003C_003Ef__this.pawn, ((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_00dc: stateMachine*/)._003C_003Ef__this.OtherFiance);
+					}
+				}
+			};
 		}
 
 		public override void ExposeData()

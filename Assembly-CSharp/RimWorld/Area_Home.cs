@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -40,22 +39,21 @@ namespace RimWorld
 
 		public override bool AssignableAsAllowed(AllowedAreaMode mode)
 		{
-			return (byte)(mode & AllowedAreaMode.Any) != 0;
+			return (byte)((int)mode & 3) != 0;
 		}
 
 		public override string GetUniqueLoadID()
 		{
-			return "Area_" + this.ID + "_Home";
+			return "Area_" + base.ID + "_Home";
 		}
 
 		protected override void Set(IntVec3 c, bool val)
 		{
-			if (base[c] == val)
+			if (base[c] != val)
 			{
-				return;
+				base.Set(c, val);
+				base.Map.listerFilthInHomeArea.Notify_HomeAreaChanged(c);
 			}
-			base.Set(c, val);
-			base.Map.listerFilthInHomeArea.Notify_HomeAreaChanged(c);
 		}
 	}
 }

@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Verse
@@ -27,26 +26,27 @@ namespace Verse
 			}
 			private set
 			{
-				if (this.Primary == value)
+				if (this.Primary != value)
 				{
-					return;
-				}
-				if (value != null && value.def.equipmentType != EquipmentType.Primary)
-				{
-					Log.Error("Tried to set non-primary equipment as primary.");
-					return;
-				}
-				if (this.Primary != null)
-				{
-					this.equipment.Remove(this.Primary);
-				}
-				if (value != null)
-				{
-					this.equipment.TryAdd(value, true);
-				}
-				if (this.pawn.drafter != null)
-				{
-					this.pawn.drafter.Notify_PrimaryWeaponChanged();
+					if (value != null && value.def.equipmentType != EquipmentType.Primary)
+					{
+						Log.Error("Tried to set non-primary equipment as primary.");
+					}
+					else
+					{
+						if (this.Primary != null)
+						{
+							this.equipment.Remove(this.Primary);
+						}
+						if (value != null)
+						{
+							this.equipment.TryAdd(value, true);
+						}
+						if (this.pawn.drafter != null)
+						{
+							this.pawn.drafter.Notify_PrimaryWeaponChanged();
+						}
+					}
 				}
 			}
 		}
@@ -71,11 +71,16 @@ namespace Verse
 		{
 			get
 			{
-				Pawn_EquipmentTracker.<>c__Iterator21E <>c__Iterator21E = new Pawn_EquipmentTracker.<>c__Iterator21E();
-				<>c__Iterator21E.<>f__this = this;
-				Pawn_EquipmentTracker.<>c__Iterator21E expr_0E = <>c__Iterator21E;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				List<ThingWithComps> list = this.AllEquipmentListForReading;
+				for (int j = 0; j < list.Count; j++)
+				{
+					ThingWithComps eq = list[j];
+					List<Verb> verbs = eq.GetComp<CompEquippable>().AllVerbs;
+					for (int i = 0; i < verbs.Count; i++)
+					{
+						yield return verbs[i];
+					}
+				}
 			}
 		}
 
@@ -95,7 +100,7 @@ namespace Verse
 
 		public void ExposeData()
 		{
-			Scribe_Deep.Look<ThingOwner<ThingWithComps>>(ref this.equipment, "equipment", new object[]
+			Scribe_Deep.Look<ThingOwner<ThingWithComps>>(ref this.equipment, "equipment", new object[1]
 			{
 				this
 			});
@@ -105,10 +110,19 @@ namespace Verse
 				for (int i = 0; i < allEquipmentListForReading.Count; i++)
 				{
 					ThingWithComps thingWithComps = allEquipmentListForReading[i];
-					foreach (Verb current in thingWithComps.GetComp<CompEquippable>().AllVerbs)
+					List<Verb>.Enumerator enumerator = thingWithComps.GetComp<CompEquippable>().AllVerbs.GetEnumerator();
+					try
 					{
-						current.caster = this.pawn;
-						current.ownerEquipment = thingWithComps;
+						while (enumerator.MoveNext())
+						{
+							Verb current = enumerator.Current;
+							current.caster = this.pawn;
+							current.ownerEquipment = thingWithComps;
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator).Dispose();
 					}
 				}
 			}
@@ -133,7 +147,7 @@ namespace Verse
 		{
 			if (eq.def.equipmentType == EquipmentType.Primary && this.Primary != null)
 			{
-				ThingWithComps thingWithComps;
+				ThingWithComps thingWithComps = default(ThingWithComps);
 				if (this.TryDropEquipment(this.Primary, out thingWithComps, this.pawn.Position, true))
 				{
 					if (thingWithComps != null)
@@ -157,17 +171,11 @@ namespace Verse
 		{
 			if (!pos.IsValid)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					this.pawn,
-					" tried to drop ",
-					eq,
-					" at invalid cell."
-				}));
+				Log.Error(this.pawn + " tried to drop " + eq + " at invalid cell.");
 				resultingEq = null;
 				return false;
 			}
-			if (this.equipment.TryDrop(eq, pos, this.pawn.MapHeld, ThingPlaceMode.Near, out resultingEq, null))
+			if (this.equipment.TryDrop((Thing)eq, pos, this.pawn.MapHeld, ThingPlaceMode.Near, out resultingEq, (Action<ThingWithComps, int>)null))
 			{
 				if (resultingEq != null)
 				{
@@ -180,10 +188,10 @@ namespace Verse
 
 		public void DropAllEquipment(IntVec3 pos, bool forbid = true)
 		{
-			for (int i = this.equipment.Count - 1; i >= 0; i--)
+			for (int num = this.equipment.Count - 1; num >= 0; num--)
 			{
-				ThingWithComps thingWithComps;
-				this.TryDropEquipment(this.equipment[i], out thingWithComps, pos, forbid);
+				ThingWithComps thingWithComps = default(ThingWithComps);
+				this.TryDropEquipment(this.equipment[num], out thingWithComps, pos, forbid);
 			}
 		}
 
@@ -197,10 +205,12 @@ namespace Verse
 			if (!this.equipment.Contains(eq))
 			{
 				Log.Warning("Tried to destroy equipment " + eq + " but it's not here.");
-				return;
 			}
-			this.Remove(eq);
-			eq.Destroy(DestroyMode.Vanish);
+			else
+			{
+				this.Remove(eq);
+				eq.Destroy(DestroyMode.Vanish);
+			}
 		}
 
 		public void DestroyAllEquipment(DestroyMode mode = DestroyMode.Vanish)
@@ -229,28 +239,50 @@ namespace Verse
 		{
 			if (newEq.def.equipmentType == EquipmentType.Primary && this.Primary != null)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Pawn ",
-					this.pawn.LabelCap,
-					" got primaryInt equipment ",
-					newEq,
-					" while already having primaryInt equipment ",
-					this.Primary
-				}));
-				return;
+				Log.Error("Pawn " + this.pawn.LabelCap + " got primaryInt equipment " + newEq + " while already having primaryInt equipment " + this.Primary);
 			}
-			this.equipment.TryAdd(newEq, true);
+			else
+			{
+				this.equipment.TryAdd(newEq, true);
+			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			Pawn_EquipmentTracker.<GetGizmos>c__Iterator21F <GetGizmos>c__Iterator21F = new Pawn_EquipmentTracker.<GetGizmos>c__Iterator21F();
-			<GetGizmos>c__Iterator21F.<>f__this = this;
-			Pawn_EquipmentTracker.<GetGizmos>c__Iterator21F expr_0E = <GetGizmos>c__Iterator21F;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.ShouldUseSquadAttackGizmo())
+			{
+				yield return this.GetSquadAttackGizmo();
+			}
+			else
+			{
+				List<ThingWithComps> list = this.AllEquipmentListForReading;
+				for (int i = 0; i < list.Count; i++)
+				{
+					ThingWithComps eq = list[i];
+					foreach (Command verbsCommand in eq.GetComp<CompEquippable>().GetVerbsCommands())
+					{
+						switch (i)
+						{
+						case 0:
+						{
+							verbsCommand.hotKey = KeyBindingDefOf.Misc1;
+							break;
+						}
+						case 1:
+						{
+							verbsCommand.hotKey = KeyBindingDefOf.Misc2;
+							break;
+						}
+						case 2:
+						{
+							verbsCommand.hotKey = KeyBindingDefOf.Misc3;
+							break;
+						}
+						}
+						yield return (Gizmo)verbsCommand;
+					}
+				}
+			}
 		}
 
 		public bool TryStartAttack(LocalTargetInfo targ)
@@ -265,7 +297,11 @@ namespace Verse
 			}
 			bool allowManualCastWeapons = !this.pawn.IsColonist;
 			Verb verb = this.pawn.TryGetAttackVerb(allowManualCastWeapons);
-			return verb != null && verb.TryStartCastOn(targ, false, true);
+			if (verb == null)
+			{
+				return false;
+			}
+			return verb.TryStartCastOn(targ, false, true);
 		}
 
 		private bool ShouldUseSquadAttackGizmo()
@@ -282,15 +318,7 @@ namespace Verse
 				Pawn pawn = selectedObjectsListForReading[i] as Pawn;
 				if (pawn != null && pawn.IsColonist)
 				{
-					ThingDef thingDef2;
-					if (pawn.equipment.Primary == null)
-					{
-						thingDef2 = null;
-					}
-					else
-					{
-						thingDef2 = pawn.equipment.Primary.def;
-					}
+					ThingDef thingDef2 = (pawn.equipment.Primary != null) ? pawn.equipment.Primary.def : null;
 					if (!flag)
 					{
 						thingDef = thingDef2;
@@ -313,23 +341,23 @@ namespace Verse
 			command_Target.targetingParams = TargetingParameters.ForAttackAny();
 			command_Target.hotKey = KeyBindingDefOf.Misc1;
 			command_Target.icon = TexCommand.SquadAttack;
-			string str;
-			if (FloatMenuUtility.GetAttackAction(this.pawn, LocalTargetInfo.Invalid, out str) == null)
+			string str = default(string);
+			if ((object)FloatMenuUtility.GetAttackAction(this.pawn, LocalTargetInfo.Invalid, out str) == null)
 			{
 				command_Target.Disable(str.CapitalizeFirst() + ".");
 			}
-			command_Target.action = delegate(Thing target)
+			command_Target.action = (Action<Thing>)delegate(Thing target)
 			{
-				IEnumerable<Pawn> enumerable = Find.Selector.SelectedObjects.Where(delegate(object x)
+				IEnumerable<Pawn> enumerable = Find.Selector.SelectedObjects.Where((Func<object, bool>)delegate(object x)
 				{
 					Pawn pawn = x as Pawn;
 					return pawn != null && pawn.IsColonistPlayerControlled && pawn.Drafted;
 				}).Cast<Pawn>();
-				foreach (Pawn current in enumerable)
+				foreach (Pawn item in enumerable)
 				{
-					string text;
-					Action attackAction = FloatMenuUtility.GetAttackAction(current, target, out text);
-					if (attackAction != null)
+					string text = default(string);
+					Action attackAction = FloatMenuUtility.GetAttackAction(item, target, out text);
+					if ((object)attackAction != null)
 					{
 						attackAction();
 					}
@@ -340,10 +368,19 @@ namespace Verse
 
 		public void Notify_EquipmentAdded(ThingWithComps eq)
 		{
-			foreach (Verb current in eq.GetComp<CompEquippable>().AllVerbs)
+			List<Verb>.Enumerator enumerator = eq.GetComp<CompEquippable>().AllVerbs.GetEnumerator();
+			try
 			{
-				current.caster = this.pawn;
-				current.Notify_PickedUp();
+				while (enumerator.MoveNext())
+				{
+					Verb current = enumerator.Current;
+					current.caster = this.pawn;
+					current.Notify_PickedUp();
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 

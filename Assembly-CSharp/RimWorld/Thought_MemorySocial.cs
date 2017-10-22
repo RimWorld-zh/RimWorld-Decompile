@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -12,7 +11,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.otherPawn == null || this.opinionOffset == 0f || base.ShouldDiscard;
+				return base.otherPawn == null || this.opinionOffset == 0.0 || base.ShouldDiscard;
 			}
 		}
 
@@ -20,7 +19,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.VisibleInNeedsTab && this.MoodOffset() != 0f;
+				return base.VisibleInNeedsTab && this.MoodOffset() != 0.0;
 			}
 		}
 
@@ -28,7 +27,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (float)this.age / (float)this.def.DurationTicks;
+				return (float)base.age / (float)base.def.DurationTicks;
 			}
 		}
 
@@ -36,7 +35,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return Mathf.InverseLerp(1f, this.def.lerpOpinionToZeroAfterDurationPct, this.AgePct);
+				return Mathf.InverseLerp(1f, base.def.lerpOpinionToZeroAfterDurationPct, this.AgePct);
 			}
 		}
 
@@ -51,7 +50,7 @@ namespace RimWorld
 
 		public Pawn OtherPawn()
 		{
-			return this.otherPawn;
+			return base.otherPawn;
 		}
 
 		public override void ExposeData()
@@ -75,7 +74,11 @@ namespace RimWorld
 		public override bool GroupsWith(Thought other)
 		{
 			Thought_MemorySocial thought_MemorySocial = other as Thought_MemorySocial;
-			return thought_MemorySocial != null && base.GroupsWith(other) && this.otherPawn == thought_MemorySocial.otherPawn;
+			if (thought_MemorySocial == null)
+			{
+				return false;
+			}
+			return base.GroupsWith(other) && base.otherPawn == thought_MemorySocial.otherPawn;
 		}
 	}
 }

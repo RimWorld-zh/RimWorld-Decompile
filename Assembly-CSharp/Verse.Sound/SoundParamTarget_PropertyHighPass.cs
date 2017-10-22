@@ -25,8 +25,8 @@ namespace Verse.Sound
 
 		public override void SetOn(Sample sample, float value)
 		{
-			AudioHighPassFilter audioHighPassFilter = sample.source.GetComponent<AudioHighPassFilter>();
-			if (audioHighPassFilter == null)
+			AudioHighPassFilter audioHighPassFilter = ((Component)sample.source).GetComponent<AudioHighPassFilter>();
+			if ((UnityEngine.Object)audioHighPassFilter == (UnityEngine.Object)null)
 			{
 				audioHighPassFilter = sample.source.gameObject.AddComponent<AudioHighPassFilter>();
 			}

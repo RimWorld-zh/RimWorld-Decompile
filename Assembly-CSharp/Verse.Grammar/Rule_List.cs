@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse.Grammar
@@ -17,12 +16,12 @@ namespace Verse.Grammar
 
 		public override string Generate()
 		{
-			return this.strings.RandomElement<string>();
+			return this.strings.RandomElement();
 		}
 
 		public override string ToString()
 		{
-			return this.keyword + "->(list: " + this.strings[0] + " etc)";
+			return base.keyword + "->(list: " + this.strings[0] + " etc)";
 		}
 	}
 }

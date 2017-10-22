@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse
 {
@@ -28,24 +27,28 @@ namespace Verse
 			}
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				for (int j = this.allDesignations.Count - 1; j >= 0; j--)
+				for (int num = this.allDesignations.Count - 1; num >= 0; num--)
 				{
-					TargetType targetType = this.allDesignations[j].def.targetType;
-					if (targetType != TargetType.Thing)
+					switch (this.allDesignations[num].def.targetType)
 					{
-						if (targetType == TargetType.Cell)
+					case TargetType.Thing:
+					{
+						if (!this.allDesignations[num].target.HasThing)
 						{
-							if (!this.allDesignations[j].target.Cell.IsValid)
-							{
-								Log.Error("Cell-needing designation " + this.allDesignations[j] + " had no cell target. Removing...");
-								this.allDesignations.RemoveAt(j);
-							}
+							Log.Error("Thing-needing designation " + this.allDesignations[num] + " had no thing target. Removing...");
+							this.allDesignations.RemoveAt(num);
 						}
+						break;
 					}
-					else if (!this.allDesignations[j].target.HasThing)
+					case TargetType.Cell:
 					{
-						Log.Error("Thing-needing designation " + this.allDesignations[j] + " had no thing target. Removing...");
-						this.allDesignations.RemoveAt(j);
+						if (!this.allDesignations[num].target.Cell.IsValid)
+						{
+							Log.Error("Cell-needing designation " + this.allDesignations[num] + " had no cell target. Removing...");
+							this.allDesignations.RemoveAt(num);
+						}
+						break;
+					}
 					}
 				}
 			}
@@ -67,24 +70,25 @@ namespace Verse
 			if (newDes.def.targetType == TargetType.Cell && this.DesignationAt(newDes.target.Cell, newDes.def) != null)
 			{
 				Log.Error("Tried to double-add designation at location " + newDes.target);
-				return;
 			}
-			if (newDes.def.targetType == TargetType.Thing && this.DesignationOn(newDes.target.Thing, newDes.def) != null)
+			else if (newDes.def.targetType == TargetType.Thing && this.DesignationOn(newDes.target.Thing, newDes.def) != null)
 			{
 				Log.Error("Tried to double-add designation on Thing " + newDes.target);
-				return;
 			}
-			if (newDes.def.targetType == TargetType.Thing)
+			else
 			{
-				newDes.target.Thing.SetForbidden(false, false);
-			}
-			this.allDesignations.Add(newDes);
-			newDes.designationManager = this;
-			newDes.Notify_Added();
-			Map map = (!newDes.target.HasThing) ? this.map : newDes.target.Thing.Map;
-			if (map != null)
-			{
-				MoteMaker.ThrowMetaPuffs(newDes.target.ToTargetInfo(map));
+				if (newDes.def.targetType == TargetType.Thing)
+				{
+					newDes.target.Thing.SetForbidden(false, false);
+				}
+				this.allDesignations.Add(newDes);
+				newDes.designationManager = this;
+				newDes.Notify_Added();
+				Map map = (!newDes.target.HasThing) ? this.map : newDes.target.Thing.Map;
+				if (map != null)
+				{
+					MoteMaker.ThrowMetaPuffs(newDes.target.ToTargetInfo(map));
+				}
 			}
 		}
 
@@ -137,40 +141,42 @@ namespace Verse
 			return null;
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Designation> AllDesignationsOn(Thing t)
 		{
-			DesignationManager.<AllDesignationsOn>c__Iterator1F3 <AllDesignationsOn>c__Iterator1F = new DesignationManager.<AllDesignationsOn>c__Iterator1F3();
-			<AllDesignationsOn>c__Iterator1F.t = t;
-			<AllDesignationsOn>c__Iterator1F.<$>t = t;
-			<AllDesignationsOn>c__Iterator1F.<>f__this = this;
-			DesignationManager.<AllDesignationsOn>c__Iterator1F3 expr_1C = <AllDesignationsOn>c__Iterator1F;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			int count = this.allDesignations.Count;
+			for (int i = 0; i < count; i++)
+			{
+				if (this.allDesignations[i].target.Thing == t)
+				{
+					yield return this.allDesignations[i];
+				}
+			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Designation> AllDesignationsAt(IntVec3 c)
 		{
-			DesignationManager.<AllDesignationsAt>c__Iterator1F4 <AllDesignationsAt>c__Iterator1F = new DesignationManager.<AllDesignationsAt>c__Iterator1F4();
-			<AllDesignationsAt>c__Iterator1F.c = c;
-			<AllDesignationsAt>c__Iterator1F.<$>c = c;
-			<AllDesignationsAt>c__Iterator1F.<>f__this = this;
-			DesignationManager.<AllDesignationsAt>c__Iterator1F4 expr_1C = <AllDesignationsAt>c__Iterator1F;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			int count = this.allDesignations.Count;
+			for (int i = 0; i < count; i++)
+			{
+				Designation des = this.allDesignations[i];
+				if ((!des.target.HasThing || des.target.Thing.Map == this.map) && des.target.Cell == c)
+				{
+					yield return des;
+				}
+			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Designation> SpawnedDesignationsOfDef(DesignationDef def)
 		{
-			DesignationManager.<SpawnedDesignationsOfDef>c__Iterator1F5 <SpawnedDesignationsOfDef>c__Iterator1F = new DesignationManager.<SpawnedDesignationsOfDef>c__Iterator1F5();
-			<SpawnedDesignationsOfDef>c__Iterator1F.def = def;
-			<SpawnedDesignationsOfDef>c__Iterator1F.<$>def = def;
-			<SpawnedDesignationsOfDef>c__Iterator1F.<>f__this = this;
-			DesignationManager.<SpawnedDesignationsOfDef>c__Iterator1F5 expr_1C = <SpawnedDesignationsOfDef>c__Iterator1F;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			int count = this.allDesignations.Count;
+			for (int i = 0; i < count; i++)
+			{
+				Designation des = this.allDesignations[i];
+				if (des.def == def && (!des.target.HasThing || des.target.Thing.Map == this.map))
+				{
+					yield return des;
+				}
+			}
 		}
 
 		public void RemoveDesignation(Designation des)
@@ -184,23 +190,20 @@ namespace Verse
 			for (int i = 0; i < this.allDesignations.Count; i++)
 			{
 				Designation designation = this.allDesignations[i];
-				if (!standardCanceling || designation.def.designateCancelable)
+				if ((!standardCanceling || designation.def.designateCancelable) && designation.target.Thing == t)
 				{
-					if (designation.target.Thing == t)
-					{
-						designation.Notify_Removing();
-					}
+					designation.Notify_Removing();
 				}
 			}
-			this.allDesignations.RemoveAll((Designation d) => (!standardCanceling || d.def.designateCancelable) && d.target.Thing == t);
+			this.allDesignations.RemoveAll((Predicate<Designation>)((Designation d) => (!standardCanceling || d.def.designateCancelable) && d.target.Thing == t));
 		}
 
 		public void Notify_BuildingDespawned(Thing b)
 		{
 			CellRect cellRect = b.OccupiedRect();
-			for (int i = this.allDesignations.Count - 1; i >= 0; i--)
+			for (int num = this.allDesignations.Count - 1; num >= 0; num--)
 			{
-				Designation designation = this.allDesignations[i];
+				Designation designation = this.allDesignations[num];
 				if (cellRect.Contains(designation.target.Cell) && designation.def.removeIfBuildingDespawned)
 				{
 					this.RemoveDesignation(designation);

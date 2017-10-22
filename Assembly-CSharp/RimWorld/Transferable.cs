@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -117,9 +116,11 @@ namespace RimWorld
 			if (!this.CanAdjustTo(destination).Accepted)
 			{
 				Log.Error("Failed to adjust transferable counts");
-				return;
 			}
-			this.CountToTransfer = this.ClampAmount(destination);
+			else
+			{
+				this.CountToTransfer = this.ClampAmount(destination);
+			}
 		}
 
 		public void ForceTo(int destination)

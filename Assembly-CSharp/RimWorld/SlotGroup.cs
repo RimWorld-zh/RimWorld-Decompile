@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -29,11 +27,18 @@ namespace RimWorld
 		{
 			get
 			{
-				SlotGroup.<>c__Iterator14C <>c__Iterator14C = new SlotGroup.<>c__Iterator14C();
-				<>c__Iterator14C.<>f__this = this;
-				SlotGroup.<>c__Iterator14C expr_0E = <>c__Iterator14C;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				List<IntVec3> cellsList = this.CellsList;
+				for (int j = 0; j < cellsList.Count; j++)
+				{
+					List<Thing> thingList = this.Map.thingGrid.ThingsListAt(cellsList[j]);
+					for (int i = 0; i < thingList.Count; i++)
+					{
+						if (thingList[i].def.EverStoreable)
+						{
+							yield return thingList[i];
+						}
+					}
+				}
 			}
 		}
 
@@ -51,12 +56,12 @@ namespace RimWorld
 			this.Map.slotGroupManager.AddGroup(this);
 		}
 
-		[DebuggerHidden]
 		public IEnumerator<IntVec3> GetEnumerator()
 		{
-			SlotGroup.<GetEnumerator>c__Iterator14D <GetEnumerator>c__Iterator14D = new SlotGroup.<GetEnumerator>c__Iterator14D();
-			<GetEnumerator>c__Iterator14D.<>f__this = this;
-			return <GetEnumerator>c__Iterator14D;
+			for (int i = 0; i < this.CellsList.Count; i++)
+			{
+				yield return this.CellsList[i];
+			}
 		}
 
 		public void Notify_AddedCell(IntVec3 c)

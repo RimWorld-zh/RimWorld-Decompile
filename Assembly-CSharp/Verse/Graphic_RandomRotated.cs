@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -29,7 +28,7 @@ namespace Verse
 			float angle = 0f;
 			if (thing != null)
 			{
-				angle = -this.maxAngle + (float)(thing.thingIDNumber * 542) % (this.maxAngle * 2f);
+				angle = (float)(0.0 - this.maxAngle + (float)(thing.thingIDNumber * 542) % (this.maxAngle * 2.0));
 			}
 			Material matSingle = this.subGraphic.MatSingle;
 			Graphics.DrawMesh(mesh, loc, Quaternion.AngleAxis(angle, Vector3.up), matSingle, 0, null, 0);
@@ -42,10 +41,9 @@ namespace Verse
 
 		public override Graphic GetColoredVersion(Shader newShader, Color newColor, Color newColorTwo)
 		{
-			return new Graphic_RandomRotated(this.subGraphic.GetColoredVersion(newShader, newColor, newColorTwo), this.maxAngle)
-			{
-				data = this.data
-			};
+			Graphic_RandomRotated graphic_RandomRotated = new Graphic_RandomRotated(this.subGraphic.GetColoredVersion(newShader, newColor, newColorTwo), this.maxAngle);
+			graphic_RandomRotated.data = base.data;
+			return graphic_RandomRotated;
 		}
 	}
 }

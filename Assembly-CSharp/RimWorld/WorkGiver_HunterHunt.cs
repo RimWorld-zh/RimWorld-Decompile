@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -16,26 +14,43 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			WorkGiver_HunterHunt.<PotentialWorkThingsGlobal>c__Iterator60 <PotentialWorkThingsGlobal>c__Iterator = new WorkGiver_HunterHunt.<PotentialWorkThingsGlobal>c__Iterator60();
-			<PotentialWorkThingsGlobal>c__Iterator.pawn = pawn;
-			<PotentialWorkThingsGlobal>c__Iterator.<$>pawn = pawn;
-			WorkGiver_HunterHunt.<PotentialWorkThingsGlobal>c__Iterator60 expr_15 = <PotentialWorkThingsGlobal>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			foreach (Designation item in pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Hunt))
+			{
+				yield return item.target.Thing;
+			}
 		}
 
 		public override bool ShouldSkip(Pawn pawn)
 		{
-			return !WorkGiver_HunterHunt.HasHuntingWeapon(pawn) || WorkGiver_HunterHunt.HasShieldAndRangedWeapon(pawn);
+			if (!WorkGiver_HunterHunt.HasHuntingWeapon(pawn))
+			{
+				return true;
+			}
+			if (WorkGiver_HunterHunt.HasShieldAndRangedWeapon(pawn))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
-			return pawn2 != null && pawn2.RaceProps.Animal && pawn.CanReserve(t, 1, -1, null, forced) && pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Hunt) != null;
+			if (pawn2 != null && pawn2.RaceProps.Animal)
+			{
+				if (!pawn.CanReserve(t, 1, -1, null, forced))
+				{
+					return false;
+				}
+				if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Hunt) == null)
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -45,7 +60,11 @@ namespace RimWorld
 
 		public static bool HasHuntingWeapon(Pawn p)
 		{
-			return p.equipment.Primary != null && p.equipment.Primary.def.IsRangedWeapon;
+			if (p.equipment.Primary != null && p.equipment.Primary.def.IsRangedWeapon)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool HasShieldAndRangedWeapon(Pawn p)

@@ -20,11 +20,11 @@ namespace Verse
 		private static void LoadAllDialog()
 		{
 			DialogDatabase.Nodes.Clear();
-			UnityEngine.Object[] array = Resources.LoadAll("Dialog", typeof(TextAsset));
-			UnityEngine.Object[] array2 = array;
-			for (int i = 0; i < array2.Length; i++)
+			UnityEngine.Object[] array;
+			UnityEngine.Object[] array2 = array = Resources.LoadAll("Dialog", typeof(TextAsset));
+			for (int i = 0; i < array.Length; i++)
 			{
-				UnityEngine.Object @object = array2[i];
+				UnityEngine.Object @object = array[i];
 				TextAsset ass = @object as TextAsset;
 				if (@object.name == "BaseEncounters" || @object.name == "GeneratedDialogs")
 				{
@@ -39,9 +39,18 @@ namespace Verse
 					LayerLoader.LoadFileIntoList(ass, DialogDatabase.Nodes, DialogDatabase.NodeLists, DiaNodeType.Special);
 				}
 			}
-			foreach (DiaNodeMold current in DialogDatabase.Nodes)
+			List<DiaNodeMold>.Enumerator enumerator = DialogDatabase.Nodes.GetEnumerator();
+			try
 			{
-				current.PostLoad();
+				while (enumerator.MoveNext())
+				{
+					DiaNodeMold current = enumerator.Current;
+					current.PostLoad();
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			LayerLoader.MarkNonRootNodes(DialogDatabase.Nodes);
 		}
@@ -49,33 +58,58 @@ namespace Verse
 		public static DiaNodeMold GetRandomEncounterRootNode(DiaNodeType NType)
 		{
 			List<DiaNodeMold> list = new List<DiaNodeMold>();
-			foreach (DiaNodeMold current in DialogDatabase.Nodes)
+			List<DiaNodeMold>.Enumerator enumerator = DialogDatabase.Nodes.GetEnumerator();
+			try
 			{
-				if (current.isRoot && (!current.unique || !current.used) && current.nodeType == NType)
+				while (enumerator.MoveNext())
 				{
-					list.Add(current);
+					DiaNodeMold current = enumerator.Current;
+					if (current.isRoot && (!current.unique || !current.used) && current.nodeType == NType)
+					{
+						list.Add(current);
+					}
 				}
 			}
-			return list.RandomElement<DiaNodeMold>();
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			return list.RandomElement();
 		}
 
 		public static DiaNodeMold GetNodeNamed(string NodeName)
 		{
-			foreach (DiaNodeMold current in DialogDatabase.Nodes)
+			List<DiaNodeMold>.Enumerator enumerator = DialogDatabase.Nodes.GetEnumerator();
+			try
 			{
-				if (current.name == NodeName)
+				while (enumerator.MoveNext())
 				{
-					DiaNodeMold result = current;
-					return result;
+					DiaNodeMold current = enumerator.Current;
+					if (current.name == NodeName)
+					{
+						return current;
+					}
 				}
 			}
-			foreach (DiaNodeList current2 in DialogDatabase.NodeLists)
+			finally
 			{
-				if (current2.Name == NodeName)
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			List<DiaNodeList>.Enumerator enumerator2 = DialogDatabase.NodeLists.GetEnumerator();
+			try
+			{
+				while (enumerator2.MoveNext())
 				{
-					DiaNodeMold result = current2.RandomNodeFromList();
-					return result;
+					DiaNodeList current2 = enumerator2.Current;
+					if (current2.Name == NodeName)
+					{
+						return current2.RandomNodeFromList();
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
 			}
 			Log.Error("Did not find node named '" + NodeName + "'.");
 			return null;

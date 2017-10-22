@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld
 {
 	public class ITab_Pawn_Guest : ITab_Pawn_Visitor
@@ -14,8 +12,8 @@ namespace RimWorld
 
 		public ITab_Pawn_Guest()
 		{
-			this.labelKey = "TabGuest";
-			this.tutorTag = "Guest";
+			base.labelKey = "TabGuest";
+			base.tutorTag = "Guest";
 		}
 	}
 }

@@ -41,7 +41,9 @@ namespace RimWorld
 			{
 				return NeedsCardUtility.FullSize;
 			}
-			return new Vector2(225f, (float)NeedsCardUtility.displayNeeds.Count * Mathf.Min(70f, NeedsCardUtility.FullSize.y / (float)NeedsCardUtility.displayNeeds.Count));
+			float num = (float)NeedsCardUtility.displayNeeds.Count;
+			Vector2 fullSize = NeedsCardUtility.FullSize;
+			return new Vector2(225f, num * Mathf.Min(70f, fullSize.y / (float)NeedsCardUtility.displayNeeds.Count));
 		}
 
 		public static void DoNeedsMoodAndThoughts(Rect rect, Pawn pawn, ref Vector2 thoughtScrollPosition)
@@ -70,7 +72,7 @@ namespace RimWorld
 						rect2.y += 10f;
 					}
 					rect2.width *= 0.73f;
-					rect2.height = Mathf.Max(rect2.height * 0.666f, 30f);
+					rect2.height = Mathf.Max((float)(rect2.height * 0.66600000858306885), 30f);
 				}
 				need.DrawOnGUI(rect2, 2147483647, -1f, true, true);
 				num = rect2.yMax;
@@ -80,9 +82,9 @@ namespace RimWorld
 		private static void DoMoodAndThoughts(Rect rect, Pawn pawn, ref Vector2 thoughtScrollPosition)
 		{
 			GUI.BeginGroup(rect);
-			Rect rect2 = new Rect(0f, 0f, rect.width * 0.8f, 70f);
+			Rect rect2 = new Rect(0f, 0f, (float)(rect.width * 0.800000011920929), 70f);
 			pawn.needs.mood.DrawOnGUI(rect2, 2147483647, -1f, true, true);
-			Rect rect3 = new Rect(0f, 80f, rect.width, rect.height - 70f - 10f);
+			Rect rect3 = new Rect(0f, 80f, rect.width, (float)(rect.height - 70.0 - 10.0));
 			rect3 = rect3.ContractedBy(10f);
 			NeedsCardUtility.DrawThoughtListing(rect3, pawn, ref thoughtScrollPosition);
 			GUI.EndGroup();
@@ -104,26 +106,25 @@ namespace RimWorld
 
 		private static void DrawThoughtListing(Rect listingRect, Pawn pawn, ref Vector2 thoughtScrollPosition)
 		{
-			if (Event.current.type == EventType.Layout)
+			if (Event.current.type != EventType.Layout)
 			{
-				return;
-			}
-			Text.Font = GameFont.Small;
-			PawnNeedsUIUtility.GetThoughtGroupsInDisplayOrder(pawn.needs.mood, NeedsCardUtility.thoughtGroupsPresent);
-			float height = (float)NeedsCardUtility.thoughtGroupsPresent.Count * 24f;
-			Widgets.BeginScrollView(listingRect, ref thoughtScrollPosition, new Rect(0f, 0f, listingRect.width - 16f, height), true);
-			Text.Anchor = TextAnchor.MiddleLeft;
-			float num = 0f;
-			for (int i = 0; i < NeedsCardUtility.thoughtGroupsPresent.Count; i++)
-			{
-				Rect rect = new Rect(0f, num, listingRect.width - 16f, 20f);
-				if (NeedsCardUtility.DrawThoughtGroup(rect, NeedsCardUtility.thoughtGroupsPresent[i], pawn))
+				Text.Font = GameFont.Small;
+				PawnNeedsUIUtility.GetThoughtGroupsInDisplayOrder(pawn.needs.mood, NeedsCardUtility.thoughtGroupsPresent);
+				float height = (float)((float)NeedsCardUtility.thoughtGroupsPresent.Count * 24.0);
+				Widgets.BeginScrollView(listingRect, ref thoughtScrollPosition, new Rect(0f, 0f, (float)(listingRect.width - 16.0), height), true);
+				Text.Anchor = TextAnchor.MiddleLeft;
+				float num = 0f;
+				for (int i = 0; i < NeedsCardUtility.thoughtGroupsPresent.Count; i++)
 				{
-					num += 24f;
+					Rect rect = new Rect(0f, num, (float)(listingRect.width - 16.0), 20f);
+					if (NeedsCardUtility.DrawThoughtGroup(rect, NeedsCardUtility.thoughtGroupsPresent[i], pawn))
+					{
+						num = (float)(num + 24.0);
+					}
 				}
+				Widgets.EndScrollView();
+				Text.Anchor = TextAnchor.UpperLeft;
 			}
-			Widgets.EndScrollView();
-			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
 		private static bool DrawThoughtGroup(Rect rect, Thought group, Pawn pawn)
@@ -157,23 +158,14 @@ namespace RimWorld
 					{
 						if (NeedsCardUtility.thoughtGroup.Count == 1)
 						{
-							stringBuilder.Append("ThoughtExpiresIn".Translate(new object[]
-							{
-								(group.def.DurationTicks - thought_Memory.age).ToStringTicksToPeriod(true, false, true)
-							}));
+							stringBuilder.Append("ThoughtExpiresIn".Translate((group.def.DurationTicks - thought_Memory.age).ToStringTicksToPeriod(true, false, true)));
 						}
 						else
 						{
 							Thought_Memory thought_Memory2 = (Thought_Memory)NeedsCardUtility.thoughtGroup[NeedsCardUtility.thoughtGroup.Count - 1];
-							stringBuilder.Append("ThoughtStartsExpiringIn".Translate(new object[]
-							{
-								(group.def.DurationTicks - thought_Memory.age).ToStringTicksToPeriod(true, false, true)
-							}));
+							stringBuilder.Append("ThoughtStartsExpiringIn".Translate((group.def.DurationTicks - thought_Memory.age).ToStringTicksToPeriod(true, false, true)));
 							stringBuilder.AppendLine();
-							stringBuilder.Append("ThoughtFinishesExpiringIn".Translate(new object[]
-							{
-								(group.def.DurationTicks - thought_Memory2.age).ToStringTicksToPeriod(true, false, true)
-							}));
+							stringBuilder.Append("ThoughtFinishesExpiringIn".Translate((group.def.DurationTicks - thought_Memory2.age).ToStringTicksToPeriod(true, false, true)));
 						}
 					}
 				}
@@ -183,13 +175,16 @@ namespace RimWorld
 					for (int i = 1; i < NeedsCardUtility.thoughtGroup.Count; i++)
 					{
 						bool flag2 = false;
-						for (int j = 0; j < i; j++)
+						int num = 0;
+						while (num < i)
 						{
-							if (NeedsCardUtility.thoughtGroup[i].LabelCap == NeedsCardUtility.thoughtGroup[j].LabelCap)
+							if (!(NeedsCardUtility.thoughtGroup[i].LabelCap == NeedsCardUtility.thoughtGroup[num].LabelCap))
 							{
-								flag2 = true;
-								break;
+								num++;
+								continue;
 							}
+							flag2 = true;
+							break;
 						}
 						if (!flag2)
 						{
@@ -206,7 +201,7 @@ namespace RimWorld
 				TooltipHandler.TipRegion(rect, new TipSignal(stringBuilder.ToString(), 7291));
 				Text.WordWrap = false;
 				Text.Anchor = TextAnchor.MiddleLeft;
-				Rect rect2 = new Rect(rect.x + 10f, rect.y, 225f, rect.height);
+				Rect rect2 = new Rect((float)(rect.x + 10.0), rect.y, 225f, rect.height);
 				rect2.yMin -= 3f;
 				rect2.yMax += 3f;
 				string text = leadingThoughtInGroup.LabelCap;
@@ -216,12 +211,12 @@ namespace RimWorld
 				}
 				Widgets.Label(rect2, text);
 				Text.Anchor = TextAnchor.MiddleCenter;
-				float num = pawn.needs.mood.thoughts.MoodOffsetOfGroup(group);
-				if (num == 0f)
+				float num2 = pawn.needs.mood.thoughts.MoodOffsetOfGroup(group);
+				if (num2 == 0.0)
 				{
 					GUI.color = NeedsCardUtility.NoEffectColor;
 				}
-				else if (num > 0f)
+				else if (num2 > 0.0)
 				{
 					GUI.color = NeedsCardUtility.MoodColor;
 				}
@@ -229,23 +224,15 @@ namespace RimWorld
 				{
 					GUI.color = NeedsCardUtility.MoodColorNegative;
 				}
-				Rect rect3 = new Rect(rect.x + 235f, rect.y, 32f, rect.height);
-				Widgets.Label(rect3, num.ToString("##0"));
+				Rect rect3 = new Rect((float)(rect.x + 235.0), rect.y, 32f, rect.height);
+				Widgets.Label(rect3, num2.ToString("##0"));
 				Text.Anchor = TextAnchor.UpperLeft;
 				GUI.color = Color.white;
 				Text.WordWrap = true;
 			}
 			catch (Exception ex)
 			{
-				Log.ErrorOnce(string.Concat(new object[]
-				{
-					"Exception in DrawThoughtGroup for ",
-					group.def,
-					" on ",
-					pawn,
-					": ",
-					ex.ToString()
-				}), 3452698);
+				Log.ErrorOnce("Exception in DrawThoughtGroup for " + group.def + " on " + pawn + ": " + ex.ToString(), 3452698);
 			}
 			return true;
 		}

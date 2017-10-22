@@ -10,10 +10,10 @@ namespace RimWorld
 		public static void MakeMenu<T>(IEnumerable<T> objects, Func<T, string> labelGetter, Func<T, Action> actionGetter)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
-			foreach (T current in objects)
+			foreach (T item in objects)
 			{
-				T arg = current;
-				list.Add(new FloatMenuOption(labelGetter(arg), actionGetter(arg), MenuOptionPriority.Default, null, null, 0f, null, null));
+				T _ = item;
+				list.Add(new FloatMenuOption(labelGetter(item), actionGetter(item), MenuOptionPriority.Default, null, null, 0f, null, null));
 			}
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
@@ -32,16 +32,15 @@ namespace RimWorld
 			}
 			if (!pawn.Drafted)
 			{
-				failStr = "IsNotDraftedLower".Translate(new object[]
-				{
-					pawn.NameStringShort
-				});
+				failStr = "IsNotDraftedLower".Translate(pawn.NameStringShort);
+				goto IL_017d;
 			}
-			else if (!pawn.IsColonistPlayerControlled)
+			if (!pawn.IsColonistPlayerControlled)
 			{
 				failStr = "CannotOrderNonControlledLower".Translate();
+				goto IL_017d;
 			}
-			else if (target.IsValid && !pawn.equipment.PrimaryEq.PrimaryVerb.CanHitTarget(target))
+			if (target.IsValid && !pawn.equipment.PrimaryEq.PrimaryVerb.CanHitTarget(target))
 			{
 				if (!pawn.Position.InHorDistOf(target.Cell, primaryVerb.verbProps.range))
 				{
@@ -51,22 +50,19 @@ namespace RimWorld
 				{
 					failStr = "CannotHitTarget".Translate();
 				}
+				goto IL_017d;
 			}
-			else
+			if (pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 			{
-				if (!pawn.story.WorkTagIsDisabled(WorkTags.Violent))
-				{
-					return delegate
-					{
-						Job job = new Job(JobDefOf.AttackStatic, target);
-						pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-					};
-				}
-				failStr = "IsIncapableOfViolenceLower".Translate(new object[]
-				{
-					pawn.NameStringShort
-				});
+				failStr = "IsIncapableOfViolenceLower".Translate(pawn.NameStringShort);
+				goto IL_017d;
 			}
+			return (Action)delegate()
+			{
+				Job job = new Job(JobDefOf.AttackStatic, target);
+				pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			};
+			IL_017d:
 			return null;
 		}
 
@@ -75,43 +71,40 @@ namespace RimWorld
 			failStr = string.Empty;
 			if (!pawn.Drafted)
 			{
-				failStr = "IsNotDraftedLower".Translate(new object[]
-				{
-					pawn.NameStringShort
-				});
+				failStr = "IsNotDraftedLower".Translate(pawn.NameStringShort);
+				goto IL_011a;
 			}
-			else if (!pawn.IsColonistPlayerControlled)
+			if (!pawn.IsColonistPlayerControlled)
 			{
 				failStr = "CannotOrderNonControlledLower".Translate();
+				goto IL_011a;
 			}
-			else if (target.IsValid && !pawn.CanReach(target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+			if (target.IsValid && !pawn.CanReach(target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
 			{
 				failStr = "NoPath".Translate();
+				goto IL_011a;
 			}
-			else if (pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+			if (pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 			{
-				failStr = "IsIncapableOfViolenceLower".Translate(new object[]
-				{
-					pawn.NameStringShort
-				});
+				failStr = "IsIncapableOfViolenceLower".Translate(pawn.NameStringShort);
+				goto IL_011a;
 			}
-			else
+			if (pawn.meleeVerbs.TryGetMeleeVerb() == null)
 			{
-				if (pawn.meleeVerbs.TryGetMeleeVerb() != null)
-				{
-					return delegate
-					{
-						Job job = new Job(JobDefOf.AttackMelee, target);
-						Pawn pawn2 = target.Thing as Pawn;
-						if (pawn2 != null)
-						{
-							job.killIncappedTarget = pawn2.Downed;
-						}
-						pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-					};
-				}
 				failStr = "Incapable".Translate();
+				goto IL_011a;
 			}
+			return (Action)delegate()
+			{
+				Job job = new Job(JobDefOf.AttackMelee, target);
+				Pawn pawn2 = target.Thing as Pawn;
+				if (pawn2 != null)
+				{
+					job.killIncappedTarget = pawn2.Downed;
+				}
+				pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+			};
+			IL_011a:
 			return null;
 		}
 
@@ -126,7 +119,7 @@ namespace RimWorld
 
 		public static FloatMenuOption DecoratePrioritizedTask(FloatMenuOption option, Pawn pawn, LocalTargetInfo target, string reservedText = "ReservedBy")
 		{
-			if (option.action == null)
+			if ((object)option.action == null)
 			{
 				return option;
 			}
@@ -139,10 +132,7 @@ namespace RimWorld
 				}
 				if (pawn2 != null)
 				{
-					option.Label = option.Label + " (" + reservedText.Translate(new object[]
-					{
-						pawn2.LabelShort
-					}) + ")";
+					option.Label = option.Label + " (" + reservedText.Translate(pawn2.LabelShort) + ")";
 				}
 			}
 			return option;

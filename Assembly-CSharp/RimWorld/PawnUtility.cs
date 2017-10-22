@@ -1,7 +1,6 @@
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -64,7 +63,7 @@ namespace RimWorld
 
 		public static void TryDestroyStartingColonistFamily(Pawn pawn)
 		{
-			if (!pawn.relations.RelatedPawns.Any((Pawn x) => Find.GameInitData.startingPawns.Contains(x)))
+			if (!pawn.relations.RelatedPawns.Any((Func<Pawn, bool>)((Pawn x) => Find.GameInitData.startingPawns.Contains(x))))
 			{
 				PawnUtility.DestroyStartingColonistFamily(pawn);
 			}
@@ -72,17 +71,26 @@ namespace RimWorld
 
 		public static void DestroyStartingColonistFamily(Pawn pawn)
 		{
-			foreach (Pawn current in pawn.relations.RelatedPawns.ToList<Pawn>())
+			List<Pawn>.Enumerator enumerator = pawn.relations.RelatedPawns.ToList().GetEnumerator();
+			try
 			{
-				if (!Find.GameInitData.startingPawns.Contains(current))
+				while (enumerator.MoveNext())
 				{
-					WorldPawnSituation situation = Find.WorldPawns.GetSituation(current);
-					if (situation == WorldPawnSituation.Free || situation == WorldPawnSituation.Dead)
+					Pawn current = enumerator.Current;
+					if (!Find.GameInitData.startingPawns.Contains(current))
 					{
-						Find.WorldPawns.RemovePawn(current);
-						Find.WorldPawns.PassToWorld(current, PawnDiscardDecideMode.Discard);
+						WorldPawnSituation situation = Find.WorldPawns.GetSituation(current);
+						if (situation == WorldPawnSituation.Free || situation == WorldPawnSituation.Dead)
+						{
+							Find.WorldPawns.RemovePawn(current);
+							Find.WorldPawns.PassToWorld(current, PawnDiscardDecideMode.Discard);
+						}
 					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 
@@ -90,7 +98,7 @@ namespace RimWorld
 		{
 			TraverseParms tp = (!passDoors) ? TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false) : TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false);
 			bool foundEnemy = false;
-			RegionTraverser.BreadthFirstTraverse(pawn.Position, pawn.Map, (Region from, Region to) => to.Allows(tp, false), delegate(Region r)
+			RegionTraverser.BreadthFirstTraverse(pawn.Position, pawn.Map, (RegionEntryPredicate)((Region from, Region to) => to.Allows(tp, false)), (RegionProcessor)delegate(Region r)
 			{
 				List<Thing> list = r.ListerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
 				for (int i = 0; i < list.Count; i++)
@@ -108,13 +116,25 @@ namespace RimWorld
 
 		public static bool WillSoonHaveBasicNeed(Pawn p)
 		{
-			return p.needs != null && ((p.needs.rest != null && p.needs.rest.CurLevel < 0.33f) || (p.needs.food != null && p.needs.food.CurLevelPercentage < p.needs.food.PercentageThreshHungry + 0.05f));
+			if (p.needs == null)
+			{
+				return false;
+			}
+			if (p.needs.rest != null && p.needs.rest.CurLevel < 0.33000001311302185)
+			{
+				return true;
+			}
+			if (p.needs.food != null && p.needs.food.CurLevelPercentage < p.needs.food.PercentageThreshHungry + 0.05000000074505806)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static float AnimalFilthChancePerCell(ThingDef def, float bodySize)
 		{
-			float num = bodySize * 0.00125f;
-			return num * (1f - def.race.petness);
+			float num = (float)(bodySize * 0.0012499999720603228);
+			return (float)(num * (1.0 - def.race.petness));
 		}
 
 		public static bool CanCasuallyInteractNow(this Pawn p, bool twoWayInteraction = false)
@@ -136,40 +156,57 @@ namespace RimWorld
 				return false;
 			}
 			Job curJob = p.CurJob;
-			return curJob == null || !twoWayInteraction || (curJob.def.casualInterruptible && curJob.playerForced);
+			if (curJob != null && twoWayInteraction && (!curJob.def.casualInterruptible || !curJob.playerForced))
+			{
+				return false;
+			}
+			return true;
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<Pawn> SpawnedMasteredPawns(Pawn master)
 		{
-			PawnUtility.<SpawnedMasteredPawns>c__IteratorCA <SpawnedMasteredPawns>c__IteratorCA = new PawnUtility.<SpawnedMasteredPawns>c__IteratorCA();
-			<SpawnedMasteredPawns>c__IteratorCA.master = master;
-			<SpawnedMasteredPawns>c__IteratorCA.<$>master = master;
-			PawnUtility.<SpawnedMasteredPawns>c__IteratorCA expr_15 = <SpawnedMasteredPawns>c__IteratorCA;
-			expr_15.$PC = -2;
-			return expr_15;
+			if (Current.ProgramState == ProgramState.Playing && master.Faction != null && master.RaceProps.Humanlike && master.Spawned)
+			{
+				List<Pawn> pawns = master.Map.mapPawns.SpawnedPawnsInFaction(master.Faction);
+				for (int i = 0; i < pawns.Count; i++)
+				{
+					if (pawns[i].playerSettings != null && pawns[i].playerSettings.master == master)
+					{
+						yield return pawns[i];
+					}
+				}
+			}
 		}
 
 		public static bool InValidState(Pawn p)
 		{
-			return p.health != null && (p.Dead || (p.stances != null && p.mindState != null && p.needs != null && p.ageTracker != null));
+			if (p.health == null)
+			{
+				return false;
+			}
+			if (!p.Dead && (p.stances == null || p.mindState == null || p.needs == null || p.ageTracker == null))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static PawnPosture GetPosture(this Pawn p)
 		{
-			if (p.Downed || p.Dead)
+			if (!p.Downed && !p.Dead)
 			{
-				return PawnPosture.LayingAny;
+				if (p.jobs == null)
+				{
+					return PawnPosture.Standing;
+				}
+				Job curJob = p.jobs.curJob;
+				if (curJob == null)
+				{
+					return PawnPosture.Standing;
+				}
+				return p.jobs.curDriver.Posture;
 			}
-			if (p.jobs == null)
-			{
-				return PawnPosture.Standing;
-			}
-			if (p.jobs.curJob == null)
-			{
-				return PawnPosture.Standing;
-			}
-			return p.jobs.curDriver.Posture;
+			return PawnPosture.LayingAny;
 		}
 
 		public static void ForceWait(Pawn pawn, int ticks, Thing faceTarget = null, bool maintainPosture = false)
@@ -180,21 +217,16 @@ namespace RimWorld
 			}
 			Job job = new Job((!maintainPosture) ? JobDefOf.Wait : JobDefOf.WaitMaintainPosture, faceTarget);
 			job.expiryInterval = ticks;
-			pawn.jobs.StartJob(job, JobCondition.InterruptForced, null, true, true, null, null);
+			pawn.jobs.StartJob(job, JobCondition.InterruptForced, null, true, true, null, default(JobTag?));
 		}
 
 		public static void GiveNameBecauseOfNuzzle(Pawn namer, Pawn namee)
 		{
 			string text = (namee.Name != null) ? namee.Name.ToStringFull : namee.LabelIndefinite();
-			namee.Name = PawnBioAndNameGenerator.GeneratePawnName(namee, NameStyle.Full, null);
+			namee.Name = PawnBioAndNameGenerator.GeneratePawnName(namee, NameStyle.Full, (string)null);
 			if (namer.Faction == Faction.OfPlayer)
 			{
-				Messages.Message("MessageNuzzledPawnGaveNameTo".Translate(new object[]
-				{
-					namer,
-					text,
-					namee.Name.ToStringFull
-				}), namee, MessageSound.Standard);
+				Messages.Message("MessageNuzzledPawnGaveNameTo".Translate(namer, text, namee.Name.ToStringFull), (Thing)namee, MessageSound.Standard);
 			}
 		}
 
@@ -206,7 +238,7 @@ namespace RimWorld
 				if (edifice != null)
 				{
 					float statValue = edifice.GetStatValue(StatDefOf.Comfort, true);
-					if (statValue >= 0f && p.needs != null && p.needs.comfort != null)
+					if (statValue >= 0.0 && p.needs != null && p.needs.comfort != null)
 					{
 						p.needs.comfort.ComfortUsed(statValue);
 					}
@@ -221,13 +253,21 @@ namespace RimWorld
 				switch (pawn.needs.food.CurCategory)
 				{
 				case HungerCategory.Fed:
+				{
 					return 1f;
+				}
 				case HungerCategory.Hungry:
+				{
 					return 0.666f;
+				}
 				case HungerCategory.UrgentlyHungry:
+				{
 					return 0.333f;
+				}
 				case HungerCategory.Starving:
+				{
 					return 0f;
+				}
 				}
 			}
 			return 1f;
@@ -235,41 +275,44 @@ namespace RimWorld
 
 		public static bool FertileMateTarget(Pawn male, Pawn female)
 		{
-			if (female.gender != Gender.Female || !female.ageTracker.CurLifeStage.reproductive)
+			if (female.gender == Gender.Female && female.ageTracker.CurLifeStage.reproductive)
 			{
-				return false;
+				CompEggLayer compEggLayer = female.TryGetComp<CompEggLayer>();
+				if (compEggLayer != null)
+				{
+					return !compEggLayer.FullyFertilized;
+				}
+				return !female.health.hediffSet.HasHediff(HediffDefOf.Pregnant);
 			}
-			CompEggLayer compEggLayer = female.TryGetComp<CompEggLayer>();
-			if (compEggLayer != null)
-			{
-				return !compEggLayer.FullyFertilized;
-			}
-			return !female.health.hediffSet.HasHediff(HediffDefOf.Pregnant);
+			return false;
 		}
 
 		public static void Mated(Pawn male, Pawn female)
 		{
-			if (!female.ageTracker.CurLifeStage.reproductive)
+			if (female.ageTracker.CurLifeStage.reproductive)
 			{
-				return;
-			}
-			CompEggLayer compEggLayer = female.TryGetComp<CompEggLayer>();
-			if (compEggLayer != null)
-			{
-				compEggLayer.Fertilize(male);
-			}
-			else if (Rand.Value < 0.5f && !female.health.hediffSet.HasHediff(HediffDefOf.Pregnant))
-			{
-				Hediff_Pregnant hediff_Pregnant = (Hediff_Pregnant)HediffMaker.MakeHediff(HediffDefOf.Pregnant, female, null);
-				hediff_Pregnant.father = male;
-				female.health.AddHediff(hediff_Pregnant, null, null);
+				CompEggLayer compEggLayer = female.TryGetComp<CompEggLayer>();
+				if (compEggLayer != null)
+				{
+					compEggLayer.Fertilize(male);
+				}
+				else if (Rand.Value < 0.5 && !female.health.hediffSet.HasHediff(HediffDefOf.Pregnant))
+				{
+					Hediff_Pregnant hediff_Pregnant = (Hediff_Pregnant)HediffMaker.MakeHediff(HediffDefOf.Pregnant, female, null);
+					hediff_Pregnant.father = male;
+					female.health.AddHediff(hediff_Pregnant, null, default(DamageInfo?));
+				}
 			}
 		}
 
 		public static bool PlayerForcedJobNowOrSoon(Pawn pawn)
 		{
 			Job curJob = pawn.CurJob;
-			return curJob != null && curJob.playerForced;
+			if (curJob != null && curJob.playerForced)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool TrySpawnHatchedOrBornPawn(Pawn pawn, Thing motherOrEgg)
@@ -324,32 +367,40 @@ namespace RimWorld
 			{
 				return null;
 			}
-			if (p.Faction == Faction.OfPlayer || !p.Faction.RelationWith(Faction.OfPlayer, false).hostile)
+			if (p.Faction != Faction.OfPlayer && p.Faction.RelationWith(Faction.OfPlayer, false).hostile)
 			{
-				return null;
+				Lord lord = p.GetLord();
+				if (lord != null)
+				{
+					if (lord.CurLordToil.avoidGridMode == AvoidGridMode.Ignore)
+					{
+						return null;
+					}
+					if (lord.CurLordToil.avoidGridMode == AvoidGridMode.Basic)
+					{
+						return p.Faction.GetAvoidGridBasic(p.Map);
+					}
+					if (lord.CurLordToil.avoidGridMode == AvoidGridMode.Smart)
+					{
+						return p.Faction.GetAvoidGridSmart(p.Map);
+					}
+				}
+				return p.Faction.GetAvoidGridBasic(p.Map);
 			}
-			Lord lord = p.GetLord();
-			if (lord != null)
-			{
-				if (lord.CurLordToil.avoidGridMode == AvoidGridMode.Ignore)
-				{
-					return null;
-				}
-				if (lord.CurLordToil.avoidGridMode == AvoidGridMode.Basic)
-				{
-					return p.Faction.GetAvoidGridBasic(p.Map);
-				}
-				if (lord.CurLordToil.avoidGridMode == AvoidGridMode.Smart)
-				{
-					return p.Faction.GetAvoidGridSmart(p.Map);
-				}
-			}
-			return p.Faction.GetAvoidGridBasic(p.Map);
+			return null;
 		}
 
 		public static bool ShouldCollideWithPawns(Pawn p)
 		{
-			return !p.Downed && !p.Dead && p.mindState.anyCloseHostilesRecently;
+			if (!p.Downed && !p.Dead)
+			{
+				if (!p.mindState.anyCloseHostilesRecently)
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		public static bool AnyPawnBlockingPathAt(IntVec3 c, Pawn forPawn, bool actAsIfHadCollideWithPawnsJob = false, bool collideOnlyWithStandingPawns = false)
@@ -384,52 +435,37 @@ namespace RimWorld
 			for (int i = 0; i < thingList.Count; i++)
 			{
 				Pawn pawn = thingList[i] as Pawn;
-				if (pawn != null && pawn != forPawn && !pawn.Downed)
+				if (pawn != null && pawn != forPawn && !pawn.Downed && (!collideOnlyWithStandingPawns || (!pawn.pather.MovingNow && (!pawn.pather.Moving || !pawn.pather.MovedRecently(60)))) && !PawnUtility.PawnsCanShareCellBecauseOfBodySize(pawn, forPawn))
 				{
-					if (collideOnlyWithStandingPawns)
+					if (pawn.HostileTo(forPawn))
 					{
-						if (pawn.pather.MovingNow)
-						{
-							goto IL_13C;
-						}
-						if (pawn.pather.Moving && pawn.pather.MovedRecently(60))
-						{
-							goto IL_13C;
-						}
+						return pawn;
 					}
-					if (!PawnUtility.PawnsCanShareCellBecauseOfBodySize(pawn, forPawn))
+					if (flag)
 					{
-						if (pawn.HostileTo(forPawn))
+						Job curJob2 = pawn.CurJob;
+						if (curJob2 != null && (curJob2.collideWithPawns || curJob2.def.collideWithPawns))
 						{
 							return pawn;
 						}
-						if (flag)
-						{
-							Job curJob2 = pawn.CurJob;
-							if (curJob2 != null && (curJob2.collideWithPawns || curJob2.def.collideWithPawns))
-							{
-								return pawn;
-							}
-						}
 					}
 				}
-				IL_13C:;
 			}
 			return null;
 		}
 
 		private static bool PawnsCanShareCellBecauseOfBodySize(Pawn p1, Pawn p2)
 		{
-			if (p1.BodySize >= 1.5f || p2.BodySize >= 1.5f)
+			if (!(p1.BodySize >= 1.5) && !(p2.BodySize >= 1.5))
 			{
-				return false;
+				float num = p1.BodySize / p2.BodySize;
+				if (num < 1.0)
+				{
+					num = (float)(1.0 / num);
+				}
+				return num > 3.5699999332427979;
 			}
-			float num = p1.BodySize / p2.BodySize;
-			if (num < 1f)
-			{
-				num = 1f / num;
-			}
-			return num > 3.57f;
+			return false;
 		}
 
 		public static bool KnownDangerAt(IntVec3 c, Pawn forPawn)
@@ -489,7 +525,7 @@ namespace RimWorld
 		{
 			PawnUtility.tmpPawns.Clear();
 			PawnUtility.tmpPawns.AddRange(pawns);
-			PawnUtility.tmpPawns.SortBy((Pawn x) => !x.RaceProps.Humanlike, (Pawn x) => x.KindLabelPlural);
+			PawnUtility.tmpPawns.SortBy((Func<Pawn, bool>)((Pawn x) => !x.RaceProps.Humanlike), (Func<Pawn, string>)((Pawn x) => x.KindLabelPlural));
 			PawnUtility.tmpAddedPawnKinds.Clear();
 			PawnUtility.tmpPawnKinds.Clear();
 			for (int i = 0; i < PawnUtility.tmpPawns.Count; i++)
@@ -520,7 +556,7 @@ namespace RimWorld
 
 		public static LocomotionUrgency ResolveLocomotion(Pawn pawn, LocomotionUrgency secondPriority)
 		{
-			if (!pawn.Dead && pawn.mindState.duty != null && pawn.mindState.duty.locomotion != LocomotionUrgency.None)
+			if (((!pawn.Dead) ? ((pawn.mindState.duty != null) ? pawn.mindState.duty.locomotion : LocomotionUrgency.None) : LocomotionUrgency.None) != 0)
 			{
 				return pawn.mindState.duty.locomotion;
 			}
@@ -530,7 +566,7 @@ namespace RimWorld
 		public static LocomotionUrgency ResolveLocomotion(Pawn pawn, LocomotionUrgency secondPriority, LocomotionUrgency thirdPriority)
 		{
 			LocomotionUrgency locomotionUrgency = PawnUtility.ResolveLocomotion(pawn, secondPriority);
-			if (locomotionUrgency != LocomotionUrgency.None)
+			if (locomotionUrgency != 0)
 			{
 				return locomotionUrgency;
 			}
@@ -539,7 +575,7 @@ namespace RimWorld
 
 		public static Danger ResolveMaxDanger(Pawn pawn, Danger secondPriority)
 		{
-			if (!pawn.Dead && pawn.mindState.duty != null && pawn.mindState.duty.maxDanger != Danger.Unspecified)
+			if (((!pawn.Dead) ? ((pawn.mindState.duty != null) ? pawn.mindState.duty.maxDanger : Danger.Unspecified) : Danger.Unspecified) != 0)
 			{
 				return pawn.mindState.duty.maxDanger;
 			}
@@ -549,7 +585,7 @@ namespace RimWorld
 		public static Danger ResolveMaxDanger(Pawn pawn, Danger secondPriority, Danger thirdPriority)
 		{
 			Danger danger = PawnUtility.ResolveMaxDanger(pawn, secondPriority);
-			if (danger != Danger.Unspecified)
+			if (danger != 0)
 			{
 				return danger;
 			}
@@ -563,72 +599,89 @@ namespace RimWorld
 
 		public static float RecruitDifficulty(this Pawn pawn, Faction recruiterFaction, bool withPopIntent)
 		{
-			float num = pawn.kindDef.baseRecruitDifficulty;
+			float baseRecruitDifficulty = pawn.kindDef.baseRecruitDifficulty;
 			Rand.PushState();
 			Rand.Seed = pawn.HashOffset();
-			num += Rand.Range(-0.2f, 0.2f);
+			baseRecruitDifficulty += Rand.Range(-0.2f, 0.2f);
 			Rand.PopState();
 			if (pawn.Faction != null)
 			{
-				int num2 = Mathf.Abs((int)(pawn.Faction.def.techLevel - recruiterFaction.def.techLevel));
-				num += (float)num2 * 0.15f;
+				int num = Mathf.Abs(pawn.Faction.def.techLevel - recruiterFaction.def.techLevel);
+				baseRecruitDifficulty = (float)(baseRecruitDifficulty + (float)num * 0.15000000596046448);
 			}
 			if (withPopIntent)
 			{
-				float popIntent = (Current.ProgramState != ProgramState.Playing) ? 1f : Find.Storyteller.intenderPopulation.PopulationIntent;
-				num = PawnUtility.PopIntentAdjustedRecruitDifficulty(num, popIntent);
+				float popIntent = (float)((Current.ProgramState != ProgramState.Playing) ? 1.0 : Find.Storyteller.intenderPopulation.PopulationIntent);
+				baseRecruitDifficulty = PawnUtility.PopIntentAdjustedRecruitDifficulty(baseRecruitDifficulty, popIntent);
 			}
-			return Mathf.Clamp(num, 0.33f, 0.99f);
+			return Mathf.Clamp(baseRecruitDifficulty, 0.33f, 0.99f);
 		}
 
 		private static float PopIntentAdjustedRecruitDifficulty(float baseDifficulty, float popIntent)
 		{
 			float num = Mathf.Clamp(popIntent, 0.25f, 3f);
-			return 1f - (1f - baseDifficulty) * num;
+			return (float)(1.0 - (1.0 - baseDifficulty) * num);
 		}
 
 		public static void DoTable_PopIntentRecruitDifficulty()
 		{
 			List<float> list = new List<float>();
-			for (float num = -1f; num < 3f; num += 0.1f)
+			for (float num = -1f; num < 3.0; num = (float)(num + 0.10000000149011612))
 			{
 				list.Add(num);
 			}
-			List<float> colValues = new List<float>
-			{
-				0.1f,
-				0.2f,
-				0.3f,
-				0.4f,
-				0.5f,
-				0.6f,
-				0.7f,
-				0.8f,
-				0.9f,
-				0.95f,
-				0.99f
-			};
-			DebugTables.MakeTablesDialog<float, float>(colValues, (float d) => "d=" + d.ToString("F0"), list, (float rv) => rv.ToString("F1"), (float d, float pi) => PawnUtility.PopIntentAdjustedRecruitDifficulty(d, pi).ToStringPercent(), "intents");
+			List<float> list2 = new List<float>();
+			list2.Add(0.1f);
+			list2.Add(0.2f);
+			list2.Add(0.3f);
+			list2.Add(0.4f);
+			list2.Add(0.5f);
+			list2.Add(0.6f);
+			list2.Add(0.7f);
+			list2.Add(0.8f);
+			list2.Add(0.9f);
+			list2.Add(0.95f);
+			list2.Add(0.99f);
+			List<float> colValues = list2;
+			DebugTables.MakeTablesDialog(colValues, (Func<float, string>)((float d) => "d=" + d.ToString("F0")), list, (Func<float, string>)((float rv) => rv.ToString("F1")), (Func<float, float, string>)((float d, float pi) => PawnUtility.PopIntentAdjustedRecruitDifficulty(d, pi).ToStringPercent()), "intents");
 		}
 
 		public static void GiveAllStartingPlayerPawnsThought(ThoughtDef thought)
 		{
-			foreach (Pawn current in Find.GameInitData.startingPawns)
+			List<Pawn>.Enumerator enumerator = Find.GameInitData.startingPawns.GetEnumerator();
+			try
 			{
-				if (thought.IsSocial)
+				while (enumerator.MoveNext())
 				{
-					foreach (Pawn current2 in Find.GameInitData.startingPawns)
+					Pawn current = enumerator.Current;
+					if (thought.IsSocial)
 					{
-						if (current2 != current)
+						List<Pawn>.Enumerator enumerator2 = Find.GameInitData.startingPawns.GetEnumerator();
+						try
 						{
-							current.needs.mood.thoughts.memories.TryGainMemory(thought, current2);
+							while (enumerator2.MoveNext())
+							{
+								Pawn current2 = enumerator2.Current;
+								if (current2 != current)
+								{
+									current.needs.mood.thoughts.memories.TryGainMemory(thought, current2);
+								}
+							}
+						}
+						finally
+						{
+							((IDisposable)(object)enumerator2).Dispose();
 						}
 					}
+					else
+					{
+						current.needs.mood.thoughts.memories.TryGainMemory(thought, null);
+					}
 				}
-				else
-				{
-					current.needs.mood.thoughts.memories.TryGainMemory(thought, null);
-				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 

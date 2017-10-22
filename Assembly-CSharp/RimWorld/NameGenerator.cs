@@ -10,38 +10,44 @@ namespace RimWorld
 	{
 		public static string GenerateName(RulePackDef rootPack, IEnumerable<string> extantNames, bool appendNumberIfNameUsed = false)
 		{
-			return NameGenerator.GenerateName(rootPack, (string x) => !extantNames.Contains(x), appendNumberIfNameUsed);
+			return NameGenerator.GenerateName(rootPack, (Predicate<string>)((string x) => !extantNames.Contains(x)), appendNumberIfNameUsed);
 		}
 
 		public static string GenerateName(RulePackDef rootPack, Predicate<string> validator = null, bool appendNumberIfNameUsed = false)
 		{
-			string text = null;
+			string text = (string)null;
 			if (appendNumberIfNameUsed)
 			{
 				for (int i = 0; i < 100; i++)
 				{
-					for (int j = 0; j < 5; j++)
+					int num = 0;
+					while (num < 5)
 					{
-						text = GenText.ToTitleCaseSmart(GrammarResolver.Resolve(rootPack.Rules[0].keyword, rootPack.Rules, null));
+						text = GenText.ToTitleCaseSmart(GrammarResolver.Resolve(rootPack.Rules[0].keyword, rootPack.Rules, (string)null));
 						if (i != 0)
 						{
 							text = text + " " + (i + 1);
 						}
-						if (validator == null || validator(text))
+						if ((object)validator != null && !validator(text))
 						{
-							return text;
+							num++;
+							continue;
 						}
+						return text;
 					}
 				}
-				return GenText.ToTitleCaseSmart(GrammarResolver.Resolve(rootPack.Rules[0].keyword, rootPack.Rules, null));
+				return GenText.ToTitleCaseSmart(GrammarResolver.Resolve(rootPack.Rules[0].keyword, rootPack.Rules, (string)null));
 			}
-			for (int k = 0; k < 150; k++)
+			int num2 = 0;
+			while (num2 < 150)
 			{
-				text = GenText.ToTitleCaseSmart(GrammarResolver.Resolve(rootPack.Rules[0].keyword, rootPack.Rules, null));
-				if (validator == null || validator(text))
+				text = GenText.ToTitleCaseSmart(GrammarResolver.Resolve(rootPack.Rules[0].keyword, rootPack.Rules, (string)null));
+				if ((object)validator != null && !validator(text))
 				{
-					return text;
+					num2++;
+					continue;
 				}
+				return text;
 			}
 			Log.Error("Could not get new name.");
 			return text;

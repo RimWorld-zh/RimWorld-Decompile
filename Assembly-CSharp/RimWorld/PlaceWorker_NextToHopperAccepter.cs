@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -18,12 +17,9 @@ namespace RimWorld
 					{
 						Thing thing = thingList[j];
 						ThingDef thingDef = GenConstruct.BuiltDefOf(thing.def) as ThingDef;
-						if (thingDef != null && thingDef.building != null)
+						if (thingDef != null && thingDef.building != null && thingDef.building.wantsHopperAdjacent)
 						{
-							if (thingDef.building.wantsHopperAdjacent)
-							{
-								return true;
-							}
+							return true;
 						}
 					}
 				}

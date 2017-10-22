@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -31,18 +30,13 @@ namespace RimWorld
 		private void CheckLeaveCurrentVoluntarilyJoinableLord(Pawn pawn)
 		{
 			Lord lord = pawn.GetLord();
-			if (lord == null)
+			if (lord != null)
 			{
-				return;
-			}
-			LordJob_VoluntarilyJoinable lordJob_VoluntarilyJoinable = lord.LordJob as LordJob_VoluntarilyJoinable;
-			if (lordJob_VoluntarilyJoinable == null)
-			{
-				return;
-			}
-			if (lordJob_VoluntarilyJoinable.VoluntaryJoinPriorityFor(pawn) <= 0f)
-			{
-				lord.Notify_PawnLost(pawn, PawnLostCondition.LeftVoluntarily);
+				LordJob_VoluntarilyJoinable lordJob_VoluntarilyJoinable = lord.LordJob as LordJob_VoluntarilyJoinable;
+				if (lordJob_VoluntarilyJoinable != null && lordJob_VoluntarilyJoinable.VoluntaryJoinPriorityFor(pawn) <= 0.0)
+				{
+					lord.Notify_PawnLost(pawn, PawnLostCondition.LeftVoluntarily);
+				}
 			}
 		}
 
@@ -55,9 +49,7 @@ namespace RimWorld
 			{
 				LordJob_VoluntarilyJoinable lordJob_VoluntarilyJoinable = lord.LordJob as LordJob_VoluntarilyJoinable;
 				if (lordJob_VoluntarilyJoinable == null)
-				{
 					return;
-				}
 				lord2 = lord;
 				num = lordJob_VoluntarilyJoinable.VoluntaryJoinPriorityFor(pawn);
 			}
@@ -65,19 +57,13 @@ namespace RimWorld
 			for (int i = 0; i < lords.Count; i++)
 			{
 				LordJob_VoluntarilyJoinable lordJob_VoluntarilyJoinable2 = lords[i].LordJob as LordJob_VoluntarilyJoinable;
-				if (lordJob_VoluntarilyJoinable2 != null)
+				if (lordJob_VoluntarilyJoinable2 != null && lords[i].CurLordToil.VoluntaryJoinDutyHookFor(pawn) == this.dutyHook)
 				{
-					if (lords[i].CurLordToil.VoluntaryJoinDutyHookFor(pawn) == this.dutyHook)
+					float num2 = lordJob_VoluntarilyJoinable2.VoluntaryJoinPriorityFor(pawn);
+					if (!(num2 <= 0.0) && (lord2 == null || num2 > num))
 					{
-						float num2 = lordJob_VoluntarilyJoinable2.VoluntaryJoinPriorityFor(pawn);
-						if (num2 > 0f)
-						{
-							if (lord2 == null || num2 > num)
-							{
-								lord2 = lords[i];
-								num = num2;
-							}
-						}
+						lord2 = lords[i];
+						num = num2;
 					}
 				}
 			}

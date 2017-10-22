@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -26,18 +25,30 @@ namespace RimWorld
 
 		public override bool IsViolationOnPawn(Pawn pawn, BodyPartRecord part, Faction billDoerFaction)
 		{
-			return pawn.Faction != billDoerFaction && this.recipe.ingredients[0].filter.AllowedThingDefs.First<ThingDef>().ingestible.drugCategory != DrugCategory.Medical;
+			if (pawn.Faction == billDoerFaction)
+			{
+				return false;
+			}
+			return base.recipe.ingredients[0].filter.AllowedThingDefs.First().ingestible.drugCategory != DrugCategory.Medical;
 		}
 
 		public override string GetLabelWhenUsedOn(Pawn pawn, BodyPartRecord part)
 		{
-			if (pawn.IsTeetotaler() && this.recipe.ingredients[0].filter.BestThingRequest.singleDef.IsDrug)
+			if (pawn.IsTeetotaler())
 			{
-				return base.GetLabelWhenUsedOn(pawn, part) + " (" + "TeetotalerUnhappy".Translate() + ")";
+				ThingRequest bestThingRequest = base.recipe.ingredients[0].filter.BestThingRequest;
+				if (bestThingRequest.singleDef.IsDrug)
+				{
+					return base.GetLabelWhenUsedOn(pawn, part) + " (" + "TeetotalerUnhappy".Translate() + ")";
+				}
 			}
-			if (pawn.IsProsthophobe() && this.recipe.ingredients[0].filter.BestThingRequest.singleDef == ThingDefOf.Luciferium)
+			if (pawn.IsProsthophobe())
 			{
-				return base.GetLabelWhenUsedOn(pawn, part) + " (" + "ProsthophobeUnhappy".Translate() + ")";
+				ThingRequest bestThingRequest2 = base.recipe.ingredients[0].filter.BestThingRequest;
+				if (bestThingRequest2.singleDef == ThingDefOf.Luciferium)
+				{
+					return base.GetLabelWhenUsedOn(pawn, part) + " (" + "ProsthophobeUnhappy".Translate() + ")";
+				}
 			}
 			return base.GetLabelWhenUsedOn(pawn, part);
 		}

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -11,7 +10,7 @@ namespace Verse
 		{
 			get
 			{
-				return (HediffCompProperties_VerbGiver)this.props;
+				return (HediffCompProperties_VerbGiver)base.props;
 			}
 		}
 
@@ -39,7 +38,7 @@ namespace Verse
 		public override void CompExposeData()
 		{
 			base.CompExposeData();
-			Scribe_Deep.Look<VerbTracker>(ref this.verbTracker, "verbTracker", new object[]
+			Scribe_Deep.Look<VerbTracker>(ref this.verbTracker, "verbTracker", new object[1]
 			{
 				this
 			});

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI.Group;
 
@@ -12,13 +11,13 @@ namespace RimWorld
 		{
 			get
 			{
-				return (TriggerData_PawnCycleInd)this.data;
+				return (TriggerData_PawnCycleInd)base.data;
 			}
 		}
 
 		public Trigger_WoundedGuestPresent()
 		{
-			this.data = new TriggerData_PawnCycleInd();
+			base.data = new TriggerData_PawnCycleInd();
 		}
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)

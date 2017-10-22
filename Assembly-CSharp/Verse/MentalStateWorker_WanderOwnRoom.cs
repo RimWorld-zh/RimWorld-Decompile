@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -12,7 +11,11 @@ namespace Verse
 				return false;
 			}
 			Building_Bed ownedBed = pawn.ownership.OwnedBed;
-			return ownedBed != null && ownedBed.GetRoom(RegionType.Set_Passable) != null && !ownedBed.GetRoom(RegionType.Set_Passable).PsychologicallyOutdoors;
+			if (ownedBed != null && ownedBed.GetRoom(RegionType.Set_Passable) != null && !ownedBed.GetRoom(RegionType.Set_Passable).PsychologicallyOutdoors)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

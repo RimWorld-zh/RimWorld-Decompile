@@ -1,8 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
+using Verse;
 
 namespace RimWorld.Planet
 {
@@ -30,14 +29,35 @@ namespace RimWorld.Planet
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable Regenerate()
 		{
-			WorldLayer_SingleTile.<Regenerate>c__IteratorEF <Regenerate>c__IteratorEF = new WorldLayer_SingleTile.<Regenerate>c__IteratorEF();
-			<Regenerate>c__IteratorEF.<>f__this = this;
-			WorldLayer_SingleTile.<Regenerate>c__IteratorEF expr_0E = <Regenerate>c__IteratorEF;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (object item in base.Regenerate())
+			{
+				yield return item;
+			}
+			int tile = this.Tile;
+			if (tile >= 0)
+			{
+				LayerSubMesh subMesh = base.GetSubMesh(this.Material);
+				Find.WorldGrid.GetTileVertices(tile, this.verts);
+				int startVertIndex = subMesh.verts.Count;
+				int i = 0;
+				int count = this.verts.Count;
+				while (i < count)
+				{
+					subMesh.verts.Add(this.verts[i] + this.verts[i].normalized * 0.012f);
+					subMesh.uvs.Add((GenGeo.RegularPolygonVertexPosition(count, i) + Vector2.one) / 2f);
+					if (i < count - 2)
+					{
+						subMesh.tris.Add(startVertIndex + i + 2);
+						subMesh.tris.Add(startVertIndex + i + 1);
+						subMesh.tris.Add(startVertIndex);
+					}
+					i++;
+				}
+				base.FinalizeMesh(MeshParts.All, false);
+			}
+			this.lastDrawnTile = tile;
 		}
 	}
 }

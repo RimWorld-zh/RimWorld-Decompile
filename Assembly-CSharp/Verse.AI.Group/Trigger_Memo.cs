@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI.Group
 {
 	public class Trigger_Memo : Trigger
@@ -13,7 +11,11 @@ namespace Verse.AI.Group
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
-			return signal.type == TriggerSignalType.Memo && signal.memo == this.memo;
+			if (signal.type == TriggerSignalType.Memo)
+			{
+				return signal.memo == this.memo;
+			}
+			return false;
 		}
 	}
 }

@@ -33,9 +33,7 @@ namespace RimWorld
 		{
 			Lesson_Instruction lesson_Instruction = this.activeLesson as Lesson_Instruction;
 			if (lesson_Instruction != null && id == lesson_Instruction.def)
-			{
 				return;
-			}
 			Lesson_Instruction lesson_Instruction2 = (Lesson_Instruction)Activator.CreateInstance(id.instructionClass);
 			lesson_Instruction2.def = id;
 			this.activeLesson = lesson_Instruction2;
@@ -65,20 +63,18 @@ namespace RimWorld
 
 		public void ActiveLessonOnGUI()
 		{
-			if (Time.timeSinceLevelLoad < 0.01f || !this.ActiveLessonVisible)
+			if (!(Time.timeSinceLevelLoad < 0.0099999997764825821) && this.ActiveLessonVisible)
 			{
-				return;
+				this.activeLesson.LessonOnGUI();
 			}
-			this.activeLesson.LessonOnGUI();
 		}
 
 		public void ActiveLessonUpdate()
 		{
-			if (Time.timeSinceLevelLoad < 0.01f || !this.ActiveLessonVisible)
+			if (!(Time.timeSinceLevelLoad < 0.0099999997764825821) && this.ActiveLessonVisible)
 			{
-				return;
+				this.activeLesson.LessonUpdate();
 			}
-			this.activeLesson.LessonUpdate();
 		}
 
 		public void Notify_KnowledgeDemonstrated(ConceptDef conc)

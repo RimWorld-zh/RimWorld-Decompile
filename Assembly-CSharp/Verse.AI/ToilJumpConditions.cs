@@ -7,12 +7,11 @@ namespace Verse.AI
 	{
 		public static Toil JumpIf(this Toil toil, Func<bool> jumpCondition, Toil jumpToil)
 		{
-			toil.AddPreTickAction(delegate
+			toil.AddPreTickAction((Action)delegate()
 			{
 				if (jumpCondition())
 				{
 					toil.actor.jobs.curDriver.JumpToToil(jumpToil);
-					return;
 				}
 			});
 			return toil;
@@ -20,7 +19,7 @@ namespace Verse.AI
 
 		public static Toil JumpIfDespawnedOrNull(this Toil toil, TargetIndex ind, Toil jumpToil)
 		{
-			return toil.JumpIf(delegate
+			return toil.JumpIf((Func<bool>)delegate()
 			{
 				Thing thing = toil.actor.jobs.curJob.GetTarget(ind).Thing;
 				return thing == null || !thing.Spawned;
@@ -29,7 +28,7 @@ namespace Verse.AI
 
 		public static Toil JumpIfDespawnedOrNullOrForbidden(this Toil toil, TargetIndex ind, Toil jumpToil)
 		{
-			return toil.JumpIf(delegate
+			return toil.JumpIf((Func<bool>)delegate()
 			{
 				Thing thing = toil.actor.jobs.curJob.GetTarget(ind).Thing;
 				return thing == null || !thing.Spawned || thing.IsForbidden(toil.actor);
@@ -38,10 +37,14 @@ namespace Verse.AI
 
 		public static Toil JumpIfOutsideHomeArea(this Toil toil, TargetIndex ind, Toil jumpToil)
 		{
-			return toil.JumpIf(delegate
+			return toil.JumpIf((Func<bool>)delegate()
 			{
 				Thing thing = toil.actor.jobs.curJob.GetTarget(ind).Thing;
-				return !toil.actor.Map.areaManager.Home[thing.Position];
+				if (!((Area)toil.actor.Map.areaManager.Home)[thing.Position])
+				{
+					return true;
+				}
+				return false;
 			}, jumpToil);
 		}
 	}

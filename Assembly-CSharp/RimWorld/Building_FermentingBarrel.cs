@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -38,12 +37,11 @@ namespace RimWorld
 			}
 			set
 			{
-				if (value == this.progressInt)
+				if (value != this.progressInt)
 				{
-					return;
+					this.progressInt = value;
+					this.barFilledCachedMat = null;
 				}
-				this.progressInt = value;
-				this.barFilledCachedMat = null;
 			}
 		}
 
@@ -51,7 +49,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.barFilledCachedMat == null)
+				if ((UnityEngine.Object)this.barFilledCachedMat == (UnityEngine.Object)null)
 				{
 					this.barFilledCachedMat = SolidColorMaterials.SimpleSolidColorMaterial(Color.Lerp(Building_FermentingBarrel.BarZeroProgressColor, Building_FermentingBarrel.BarFermentedColor, this.Progress), false);
 				}
@@ -83,7 +81,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return !this.Empty && this.Progress >= 1f;
+				return !this.Empty && this.Progress >= 1.0;
 			}
 		}
 
@@ -91,13 +89,13 @@ namespace RimWorld
 		{
 			get
 			{
-				CompProperties_TemperatureRuinable compProperties = this.def.GetCompProperties<CompProperties_TemperatureRuinable>();
+				CompProperties_TemperatureRuinable compProperties = base.def.GetCompProperties<CompProperties_TemperatureRuinable>();
 				float ambientTemperature = base.AmbientTemperature;
 				if (ambientTemperature < compProperties.minSafeTemperature)
 				{
 					return 0.1f;
 				}
-				if (ambientTemperature < 7f)
+				if (ambientTemperature < 7.0)
 				{
 					return GenMath.LerpDouble(compProperties.minSafeTemperature, 7f, 0.1f, 1f, ambientTemperature);
 				}
@@ -109,7 +107,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return 1.66666666E-06f * this.CurrentTempProgressSpeedFactor;
+				return (float)(1.6666666624587378E-06 * this.CurrentTempProgressSpeedFactor);
 			}
 		}
 
@@ -117,7 +115,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return Mathf.Max(Mathf.RoundToInt((1f - this.Progress) / this.ProgressPerTickAtCurrentTemp), 0);
+				return Mathf.Max(Mathf.RoundToInt((float)((1.0 - this.Progress) / this.ProgressPerTickAtCurrentTemp)), 0);
 			}
 		}
 
@@ -133,7 +131,7 @@ namespace RimWorld
 			base.TickRare();
 			if (!this.Empty)
 			{
-				this.Progress = Mathf.Min(this.Progress + 250f * this.ProgressPerTickAtCurrentTemp, 1f);
+				this.Progress = Mathf.Min((float)(this.Progress + 250.0 * this.ProgressPerTickAtCurrentTemp), 1f);
 			}
 		}
 
@@ -143,15 +141,16 @@ namespace RimWorld
 			if (this.Fermented)
 			{
 				Log.Warning("Tried to add wort to a barrel full of beer. Colonists should take the beer first.");
-				return;
 			}
-			int num = Mathf.Min(count, 25 - this.wortCount);
-			if (num <= 0)
+			else
 			{
-				return;
+				int num = Mathf.Min(count, 25 - this.wortCount);
+				if (num > 0)
+				{
+					this.Progress = GenMath.WeightedAverage(0f, (float)num, this.Progress, (float)this.wortCount);
+					this.wortCount += num;
+				}
 			}
-			this.Progress = GenMath.WeightedAverage(0f, (float)num, this.Progress, (float)this.wortCount);
-			this.wortCount += num;
 		}
 
 		protected override void ReceiveCompSignal(string signal)
@@ -187,19 +186,11 @@ namespace RimWorld
 			{
 				if (this.Fermented)
 				{
-					stringBuilder.AppendLine("ContainsBeer".Translate(new object[]
-					{
-						this.wortCount,
-						25
-					}));
+					stringBuilder.AppendLine("ContainsBeer".Translate(this.wortCount, 25));
 				}
 				else
 				{
-					stringBuilder.AppendLine("ContainsWort".Translate(new object[]
-					{
-						this.wortCount,
-						25
-					}));
+					stringBuilder.AppendLine("ContainsWort".Translate(this.wortCount, 25));
 				}
 			}
 			if (!this.Empty)
@@ -210,29 +201,15 @@ namespace RimWorld
 				}
 				else
 				{
-					stringBuilder.AppendLine("FermentationProgress".Translate(new object[]
+					stringBuilder.AppendLine("FermentationProgress".Translate(this.Progress.ToStringPercent(), this.EstimatedTicksLeft.ToStringTicksToPeriod(true, false, true)));
+					if (this.CurrentTempProgressSpeedFactor != 1.0)
 					{
-						this.Progress.ToStringPercent(),
-						this.EstimatedTicksLeft.ToStringTicksToPeriod(true, false, true)
-					}));
-					if (this.CurrentTempProgressSpeedFactor != 1f)
-					{
-						stringBuilder.AppendLine("FermentationBarrelOutOfIdealTemperature".Translate(new object[]
-						{
-							this.CurrentTempProgressSpeedFactor.ToStringPercent()
-						}));
+						stringBuilder.AppendLine("FermentationBarrelOutOfIdealTemperature".Translate(this.CurrentTempProgressSpeedFactor.ToStringPercent()));
 					}
 				}
 			}
 			stringBuilder.AppendLine("Temperature".Translate() + ": " + base.AmbientTemperature.ToStringTemperature("F0"));
-			stringBuilder.AppendLine(string.Concat(new string[]
-			{
-				"IdealFermentingTemperature".Translate(),
-				": ",
-				7f.ToStringTemperature("F0"),
-				" ~ ",
-				comp.Props.maxSafeTemperature.ToStringTemperature("F0")
-			}));
+			stringBuilder.AppendLine("IdealFermentingTemperature".Translate() + ": " + 7f.ToStringTemperature("F0") + " ~ " + comp.Props.maxSafeTemperature.ToStringTemperature("F0"));
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
@@ -261,7 +238,7 @@ namespace RimWorld
 				{
 					center = drawPos,
 					size = Building_FermentingBarrel.BarSize,
-					fillPercent = (float)this.wortCount / 25f,
+					fillPercent = (float)((float)this.wortCount / 25.0),
 					filledMat = this.BarFilledMat,
 					unfilledMat = Building_FermentingBarrel.BarUnfilledMat,
 					margin = 0.1f,
@@ -270,14 +247,23 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_FermentingBarrel.<GetGizmos>c__Iterator157 <GetGizmos>c__Iterator = new Building_FermentingBarrel.<GetGizmos>c__Iterator157();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			Building_FermentingBarrel.<GetGizmos>c__Iterator157 expr_0E = <GetGizmos>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			if (Prefs.DevMode && !this.Empty)
+			{
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "Debug: Set progress to 1",
+					action = (Action)delegate
+					{
+						((_003CGetGizmos_003Ec__Iterator157)/*Error near IL_00e5: stateMachine*/)._003C_003Ef__this.Progress = 1f;
+					}
+				};
+			}
 		}
 	}
 }

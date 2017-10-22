@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -35,7 +34,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return 60000f * this.intervalDays;
+				return (float)(60000.0 * this.intervalDays);
 			}
 		}
 
@@ -50,10 +49,10 @@ namespace RimWorld
 
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
-			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 3f);
-			Rect rect = new Rect(scenPartRect.x, scenPartRect.y, scenPartRect.width, scenPartRect.height / 3f);
-			Rect rect2 = new Rect(scenPartRect.x, scenPartRect.y + scenPartRect.height / 3f, scenPartRect.width, scenPartRect.height / 3f);
-			Rect rect3 = new Rect(scenPartRect.x, scenPartRect.y + scenPartRect.height * 2f / 3f, scenPartRect.width, scenPartRect.height / 3f);
+			Rect scenPartRect = listing.GetScenPartRect(this, (float)(ScenPart.RowHeight * 3.0));
+			Rect rect = new Rect(scenPartRect.x, scenPartRect.y, scenPartRect.width, (float)(scenPartRect.height / 3.0));
+			Rect rect2 = new Rect(scenPartRect.x, (float)(scenPartRect.y + scenPartRect.height / 3.0), scenPartRect.width, (float)(scenPartRect.height / 3.0));
+			Rect rect3 = new Rect(scenPartRect.x, (float)(scenPartRect.y + scenPartRect.height * 2.0 / 3.0), scenPartRect.width, (float)(scenPartRect.height / 3.0));
 			base.DoIncidentEditInterface(rect);
 			Widgets.TextFieldNumericLabeled<float>(rect2, "intervalDays".Translate(), ref this.intervalDays, ref this.intervalDaysBuffer, 0f, 1E+09f);
 			Widgets.CheckboxLabeled(rect3, "repeat".Translate(), ref this.repeat, false);
@@ -62,21 +61,19 @@ namespace RimWorld
 		public override void Randomize()
 		{
 			base.Randomize();
-			this.intervalDays = 15f * Rand.Gaussian(0f, 1f) + 30f;
-			if (this.intervalDays < 0f)
+			this.intervalDays = (float)(15.0 * Rand.Gaussian(0f, 1f) + 30.0);
+			if (this.intervalDays < 0.0)
 			{
 				this.intervalDays = 0f;
 			}
 			this.repeat = (Rand.Range(0, 100) < 50);
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<IncidentDef> RandomizableIncidents()
 		{
-			ScenPart_CreateIncident.<RandomizableIncidents>c__Iterator11A <RandomizableIncidents>c__Iterator11A = new ScenPart_CreateIncident.<RandomizableIncidents>c__Iterator11A();
-			ScenPart_CreateIncident.<RandomizableIncidents>c__Iterator11A expr_07 = <RandomizableIncidents>c__Iterator11A;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield return IncidentDefOf.Eclipse;
+			yield return IncidentDefOf.ToxicFallout;
+			yield return IncidentDefOf.SolarFlare;
 		}
 
 		public override void PostGameStart()
@@ -88,37 +85,30 @@ namespace RimWorld
 		public override void Tick()
 		{
 			base.Tick();
-			if (Find.AnyPlayerHomeMap == null)
+			if (Find.AnyPlayerHomeMap != null && !this.isFinished)
 			{
-				return;
-			}
-			if (this.isFinished)
-			{
-				return;
-			}
-			if (this.incident == null)
-			{
-				Log.Error("Trying to tick ScenPart_CreateIncident but the incident is null");
-				this.isFinished = true;
-				return;
-			}
-			if ((float)Find.TickManager.TicksGame >= this.occurTick)
-			{
-				IncidentParms parms = StorytellerUtility.DefaultParmsNow(Find.Storyteller.def, this.incident.category, (from x in Find.Maps
-				where x.IsPlayerHome
-				select x).RandomElement<Map>());
-				if (!this.incident.Worker.TryExecute(parms))
+				if (base.incident == null)
 				{
+					Log.Error("Trying to tick ScenPart_CreateIncident but the incident is null");
 					this.isFinished = true;
-					return;
 				}
-				if (this.repeat && this.intervalDays > 0f)
+				else if ((float)Find.TickManager.TicksGame >= this.occurTick)
 				{
-					this.occurTick += this.IntervalTicks;
-				}
-				else
-				{
-					this.isFinished = true;
+					IncidentParms parms = StorytellerUtility.DefaultParmsNow(Find.Storyteller.def, base.incident.category, (from x in Find.Maps
+					where x.IsPlayerHome
+					select x).RandomElement());
+					if (!base.incident.Worker.TryExecute(parms))
+					{
+						this.isFinished = true;
+					}
+					else if (this.repeat && this.intervalDays > 0.0)
+					{
+						this.occurTick += this.IntervalTicks;
+					}
+					else
+					{
+						this.isFinished = true;
+					}
 				}
 			}
 		}

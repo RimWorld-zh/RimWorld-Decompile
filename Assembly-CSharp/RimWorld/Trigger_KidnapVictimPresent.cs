@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -15,13 +15,13 @@ namespace RimWorld
 		{
 			get
 			{
-				return (TriggerData_PawnCycleInd)this.data;
+				return (TriggerData_PawnCycleInd)base.data;
 			}
 		}
 
 		public Trigger_KidnapVictimPresent()
 		{
-			this.data = new TriggerData_PawnCycleInd();
+			base.data = new TriggerData_PawnCycleInd();
 		}
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
@@ -35,8 +35,8 @@ namespace RimWorld
 					data.pawnCycleInd = 0;
 				}
 				Pawn pawn = lord.ownedPawns[data.pawnCycleInd];
-				Pawn pawn2;
-				if (pawn.Spawned && !pawn.Downed && pawn.MentalStateDef == null && KidnapAIUtility.TryFindGoodKidnapVictim(pawn, 8f, out pawn2, null) && !GenAI.InDangerousCombat(pawn))
+				Pawn pawn2 = default(Pawn);
+				if (pawn.Spawned && !pawn.Downed && pawn.MentalStateDef == null && KidnapAIUtility.TryFindGoodKidnapVictim(pawn, 8f, out pawn2, (List<Thing>)null) && !GenAI.InDangerousCombat(pawn))
 				{
 					return true;
 				}

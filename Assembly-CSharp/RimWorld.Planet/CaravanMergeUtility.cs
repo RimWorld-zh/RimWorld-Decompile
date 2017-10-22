@@ -45,7 +45,7 @@ namespace RimWorld.Planet
 			command_Action.defaultLabel = "CommandMergeCaravans".Translate();
 			command_Action.defaultDesc = "CommandMergeCaravansDesc".Translate();
 			command_Action.icon = CaravanMergeUtility.MergeCommandTex;
-			command_Action.action = delegate
+			command_Action.action = (Action)delegate
 			{
 				CaravanMergeUtility.TryMergeSelectedCaravans();
 				SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
@@ -65,18 +65,18 @@ namespace RimWorld.Planet
 					CaravanMergeUtility.tmpSelectedPlayerCaravans.Add(caravan);
 				}
 			}
-			while (CaravanMergeUtility.tmpSelectedPlayerCaravans.Any<Caravan>())
+			while (CaravanMergeUtility.tmpSelectedPlayerCaravans.Any())
 			{
 				Caravan caravan2 = CaravanMergeUtility.tmpSelectedPlayerCaravans[0];
 				CaravanMergeUtility.tmpSelectedPlayerCaravans.RemoveAt(0);
 				CaravanMergeUtility.tmpCaravansOnSameTile.Clear();
 				CaravanMergeUtility.tmpCaravansOnSameTile.Add(caravan2);
-				for (int j = CaravanMergeUtility.tmpSelectedPlayerCaravans.Count - 1; j >= 0; j--)
+				for (int num = CaravanMergeUtility.tmpSelectedPlayerCaravans.Count - 1; num >= 0; num--)
 				{
-					if (CaravanMergeUtility.CloseToEachOther(CaravanMergeUtility.tmpSelectedPlayerCaravans[j], caravan2))
+					if (CaravanMergeUtility.CloseToEachOther(CaravanMergeUtility.tmpSelectedPlayerCaravans[num], caravan2))
 					{
-						CaravanMergeUtility.tmpCaravansOnSameTile.Add(CaravanMergeUtility.tmpSelectedPlayerCaravans[j]);
-						CaravanMergeUtility.tmpSelectedPlayerCaravans.RemoveAt(j);
+						CaravanMergeUtility.tmpCaravansOnSameTile.Add(CaravanMergeUtility.tmpSelectedPlayerCaravans[num]);
+						CaravanMergeUtility.tmpSelectedPlayerCaravans.RemoveAt(num);
 					}
 				}
 				if (CaravanMergeUtility.tmpCaravansOnSameTile.Count >= 2)
@@ -94,13 +94,17 @@ namespace RimWorld.Planet
 			}
 			Vector3 drawPos = c1.DrawPos;
 			Vector3 drawPos2 = c2.DrawPos;
-			float num = Find.WorldGrid.averageTileSize * 0.5f;
-			return (drawPos - drawPos2).sqrMagnitude < num * num;
+			float num = (float)(Find.WorldGrid.averageTileSize * 0.5);
+			if ((drawPos - drawPos2).sqrMagnitude < num * num)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private static void MergeCaravans(List<Caravan> caravans)
 		{
-			Caravan caravan = caravans.MaxBy((Caravan x) => x.PawnsListForReading.Count);
+			Caravan caravan = caravans.MaxBy((Func<Caravan, int>)((Caravan x) => x.PawnsListForReading.Count));
 			for (int i = 0; i < caravans.Count; i++)
 			{
 				Caravan caravan2 = caravans[i];

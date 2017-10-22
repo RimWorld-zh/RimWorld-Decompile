@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -27,12 +28,12 @@ namespace RimWorld
 			{
 				if (Find.TickManager.TicksGame > this.lastUpdateTick + 101)
 				{
-					int num = this.map.attackTargetsCache.TargetsHostileToColony.Count((IAttackTarget x) => !x.ThreatDisabled());
+					int num = this.map.attackTargetsCache.TargetsHostileToColony.Count((Func<IAttackTarget, bool>)((IAttackTarget x) => !x.ThreatDisabled()));
 					if (num == 0)
 					{
 						this.dangerRatingInt = StoryDanger.None;
 					}
-					else if (num <= Mathf.CeilToInt((float)this.map.mapPawns.FreeColonistsSpawnedCount * 0.5f))
+					else if (num <= Mathf.CeilToInt((float)((float)this.map.mapPawns.FreeColonistsSpawnedCount * 0.5)))
 					{
 						this.dangerRatingInt = StoryDanger.Low;
 					}
@@ -45,13 +46,22 @@ namespace RimWorld
 						}
 						else
 						{
-							foreach (Lord current in this.map.lordManager.lords)
+							List<Lord>.Enumerator enumerator = this.map.lordManager.lords.GetEnumerator();
+							try
 							{
-								if (current.CurLordToil is LordToil_AssaultColony)
+								while (enumerator.MoveNext())
 								{
-									this.dangerRatingInt = StoryDanger.High;
-									break;
+									Lord current = enumerator.Current;
+									if (current.CurLordToil is LordToil_AssaultColony)
+									{
+										this.dangerRatingInt = StoryDanger.High;
+										break;
+									}
 								}
+							}
+							finally
+							{
+								((IDisposable)(object)enumerator).Dispose();
 							}
 						}
 					}

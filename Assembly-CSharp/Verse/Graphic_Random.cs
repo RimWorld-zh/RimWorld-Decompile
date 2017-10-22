@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -9,7 +8,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.subGraphics[Rand.Range(0, this.subGraphics.Length)].MatSingle;
+				return base.subGraphics[Rand.Range(0, base.subGraphics.Length)].MatSingle;
 			}
 		}
 
@@ -19,7 +18,7 @@ namespace Verse
 			{
 				Log.ErrorOnce("Cannot use Graphic_Random.GetColoredVersion with a non-white colorTwo.", 9910251);
 			}
-			return GraphicDatabase.Get<Graphic_Random>(this.path, newShader, this.drawSize, newColor, Color.white, this.data);
+			return GraphicDatabase.Get<Graphic_Random>(base.path, newShader, base.drawSize, newColor, Color.white, base.data);
 		}
 
 		public override Material MatAt(Rot4 rot, Thing thing = null)
@@ -42,33 +41,18 @@ namespace Verse
 
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing)
 		{
-			Graphic graphic;
-			if (thing != null)
-			{
-				graphic = this.SubGraphicFor(thing);
-			}
-			else
-			{
-				graphic = this.subGraphics[0];
-			}
+			Graphic graphic = (thing == null) ? base.subGraphics[0] : this.SubGraphicFor(thing);
 			graphic.DrawWorker(loc, rot, thingDef, thing);
 		}
 
 		public Graphic SubGraphicFor(Thing thing)
 		{
-			return this.subGraphics[thing.thingIDNumber % this.subGraphics.Length];
+			return base.subGraphics[thing.thingIDNumber % base.subGraphics.Length];
 		}
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"Random(path=",
-				this.path,
-				", count=",
-				this.subGraphics.Length,
-				")"
-			});
+			return "Random(path=" + base.path + ", count=" + base.subGraphics.Length + ")";
 		}
 	}
 }

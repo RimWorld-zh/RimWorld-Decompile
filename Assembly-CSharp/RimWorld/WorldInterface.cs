@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using Verse;
 
 namespace RimWorld
@@ -72,8 +71,7 @@ namespace RimWorld
 
 		public void WorldInterfaceUpdate()
 		{
-			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
-			if (worldRenderedNow)
+			if (WorldRendererUtility.WorldRenderedNow)
 			{
 				this.targeter.TargeterUpdate();
 				WorldSelectionDrawer.DrawSelectionOverlays();
@@ -112,8 +110,7 @@ namespace RimWorld
 
 		public void HandleLowPriorityInput()
 		{
-			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
-			if (worldRenderedNow)
+			if (WorldRendererUtility.WorldRenderedNow)
 			{
 				this.targeter.ProcessInputEvents();
 				this.selector.WorldSelectorOnGUI();

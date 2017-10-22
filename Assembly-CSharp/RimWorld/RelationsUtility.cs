@@ -9,7 +9,27 @@ namespace RimWorld
 	{
 		public static bool PawnsKnowEachOther(Pawn p1, Pawn p2)
 		{
-			return (p1.Faction != null && p1.Faction == p2.Faction) || (p1.RaceProps.IsFlesh && p1.relations.DirectRelations.Find((DirectPawnRelation x) => x.otherPawn == p2) != null) || (p2.RaceProps.IsFlesh && p2.relations.DirectRelations.Find((DirectPawnRelation x) => x.otherPawn == p1) != null) || RelationsUtility.HasAnySocialMemoryWith(p1, p2) || RelationsUtility.HasAnySocialMemoryWith(p2, p1);
+			if (p1.Faction != null && p1.Faction == p2.Faction)
+			{
+				return true;
+			}
+			if (p1.RaceProps.IsFlesh && p1.relations.DirectRelations.Find((Predicate<DirectPawnRelation>)((DirectPawnRelation x) => x.otherPawn == p2)) != null)
+			{
+				return true;
+			}
+			if (p2.RaceProps.IsFlesh && p2.relations.DirectRelations.Find((Predicate<DirectPawnRelation>)((DirectPawnRelation x) => x.otherPawn == p1)) != null)
+			{
+				return true;
+			}
+			if (RelationsUtility.HasAnySocialMemoryWith(p1, p2))
+			{
+				return true;
+			}
+			if (RelationsUtility.HasAnySocialMemoryWith(p2, p1))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool IsDisfigured(Pawn pawn)
@@ -17,12 +37,9 @@ namespace RimWorld
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 			for (int i = 0; i < hediffs.Count; i++)
 			{
-				if (hediffs[i].Part != null && hediffs[i].Part.def.beautyRelated)
+				if (hediffs[i].Part != null && hediffs[i].Part.def.beautyRelated && (hediffs[i] is Hediff_MissingPart || hediffs[i] is Hediff_Injury))
 				{
-					if (hediffs[i] is Hediff_MissingPart || hediffs[i] is Hediff_Injury)
-					{
-						return true;
-					}
+					return true;
 				}
 			}
 			return false;
@@ -42,7 +59,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (animal.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Bond, (Pawn x) => x.Spawned) != null)
+			if (animal.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Bond, (Predicate<Pawn>)((Pawn x) => x.Spawned)) != null)
 			{
 				return false;
 			}
@@ -80,41 +97,20 @@ namespace RimWorld
 				}
 				if (humanlike.Faction == Faction.OfPlayer || animal.Faction == Faction.OfPlayer)
 				{
-					TaleRecorder.RecordTale(TaleDefOf.BondedWithAnimal, new object[]
-					{
-						humanlike,
-						animal
-					});
+					TaleRecorder.RecordTale(TaleDefOf.BondedWithAnimal, humanlike, animal);
 				}
 				bool flag = false;
-				string text = null;
+				string text = (string)null;
 				if (animal.Name == null || animal.Name.Numerical)
 				{
 					flag = true;
 					text = ((animal.Name != null) ? animal.Name.ToStringFull : animal.LabelIndefinite());
-					animal.Name = PawnBioAndNameGenerator.GeneratePawnName(animal, NameStyle.Full, null);
+					animal.Name = PawnBioAndNameGenerator.GeneratePawnName(animal, NameStyle.Full, (string)null);
 				}
 				if (PawnUtility.ShouldSendNotificationAbout(humanlike) || PawnUtility.ShouldSendNotificationAbout(animal))
 				{
-					string text2;
-					if (flag)
-					{
-						text2 = "MessageNewBondRelationNewName".Translate(new object[]
-						{
-							humanlike.LabelShort,
-							text,
-							animal.Name.ToStringFull
-						}).AdjustedFor(animal).CapitalizeFirst();
-					}
-					else
-					{
-						text2 = "MessageNewBondRelation".Translate(new object[]
-						{
-							humanlike.LabelShort,
-							animal.LabelShort
-						}).CapitalizeFirst();
-					}
-					Messages.Message(text2, humanlike, MessageSound.Benefit);
+					string text2 = (!flag) ? "MessageNewBondRelation".Translate(humanlike.LabelShort, animal.LabelShort).CapitalizeFirst() : "MessageNewBondRelationNewName".Translate(humanlike.LabelShort, text, animal.Name.ToStringFull).AdjustedFor(animal).CapitalizeFirst();
+					Messages.Message(text2, (Thing)humanlike, MessageSound.Benefit);
 				}
 				return true;
 			}
@@ -133,22 +129,22 @@ namespace RimWorld
 
 		private static bool HasAnySocialMemoryWith(Pawn p, Pawn otherPawn)
 		{
-			if (!p.RaceProps.Humanlike || !otherPawn.RaceProps.Humanlike)
+			if (p.RaceProps.Humanlike && otherPawn.RaceProps.Humanlike)
 			{
-				return false;
-			}
-			if (p.Dead)
-			{
-				return false;
-			}
-			List<Thought_Memory> memories = p.needs.mood.thoughts.memories.Memories;
-			for (int i = 0; i < memories.Count; i++)
-			{
-				Thought_MemorySocial thought_MemorySocial = memories[i] as Thought_MemorySocial;
-				if (thought_MemorySocial != null && thought_MemorySocial.OtherPawn() == otherPawn)
+				if (p.Dead)
 				{
-					return true;
+					return false;
 				}
+				List<Thought_Memory> memories = p.needs.mood.thoughts.memories.Memories;
+				for (int i = 0; i < memories.Count; i++)
+				{
+					Thought_MemorySocial thought_MemorySocial = memories[i] as Thought_MemorySocial;
+					if (thought_MemorySocial != null && thought_MemorySocial.OtherPawn() == otherPawn)
+					{
+						return true;
+					}
+				}
+				return false;
 			}
 			return false;
 		}

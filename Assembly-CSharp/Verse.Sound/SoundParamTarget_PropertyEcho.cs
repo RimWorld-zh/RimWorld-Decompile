@@ -25,8 +25,8 @@ namespace Verse.Sound
 
 		public override void SetOn(Sample sample, float value)
 		{
-			AudioEchoFilter audioEchoFilter = sample.source.GetComponent<AudioEchoFilter>();
-			if (audioEchoFilter == null)
+			AudioEchoFilter audioEchoFilter = ((Component)sample.source).GetComponent<AudioEchoFilter>();
+			if ((UnityEngine.Object)audioEchoFilter == (UnityEngine.Object)null)
 			{
 				audioEchoFilter = sample.source.gameObject.AddComponent<AudioEchoFilter>();
 			}

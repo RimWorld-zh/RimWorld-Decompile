@@ -25,9 +25,9 @@ namespace Verse
 		public void ResetTemperatureCache()
 		{
 			int numGridCells = this.map.cellIndices.NumGridCells;
-			for (int i = 0; i < numGridCells; i++)
+			for (int num = 0; num < numGridCells; num++)
 			{
-				this.tempCache[i].Reset();
+				this.tempCache[num].Reset();
 			}
 		}
 
@@ -59,9 +59,9 @@ namespace Verse
 		public bool TryGetAverageCachedRoomGroupTemp(RoomGroup r, out float result)
 		{
 			CellIndices cellIndices = this.map.cellIndices;
-			foreach (IntVec3 current in r.Cells)
+			foreach (IntVec3 cell in r.Cells)
 			{
-				CachedTempInfo item = this.map.temperatureCache.tempCache[cellIndices.CellToIndex(current)];
+				CachedTempInfo item = this.map.temperatureCache.tempCache[cellIndices.CellToIndex(cell)];
 				if (item.numCells > 0 && !this.processedRoomGroupIDs.Contains(item.roomGroupID))
 				{
 					this.relevantTempInfoList.Add(item);
@@ -70,13 +70,22 @@ namespace Verse
 			}
 			int num = 0;
 			float num2 = 0f;
-			foreach (CachedTempInfo current2 in this.relevantTempInfoList)
+			List<CachedTempInfo>.Enumerator enumerator2 = this.relevantTempInfoList.GetEnumerator();
+			try
 			{
-				num += current2.numCells;
-				num2 += current2.temperature * (float)current2.numCells;
+				while (enumerator2.MoveNext())
+				{
+					CachedTempInfo current2 = enumerator2.Current;
+					num += current2.numCells;
+					num2 += current2.temperature * (float)current2.numCells;
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
 			}
 			result = num2 / (float)num;
-			bool result2 = !this.relevantTempInfoList.NullOrEmpty<CachedTempInfo>();
+			bool result2 = !this.relevantTempInfoList.NullOrEmpty();
 			this.processedRoomGroupIDs.Clear();
 			this.relevantTempInfoList.Clear();
 			return result2;

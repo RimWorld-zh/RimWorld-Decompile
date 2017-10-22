@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -32,9 +31,9 @@ namespace RimWorld
 			{
 				return null;
 			}
-			RegionEntryPredicate entryCondition = (Region from, Region r) => r.Allows(traverseParms, false);
+			RegionEntryPredicate entryCondition = (RegionEntryPredicate)((Region from, Region r) => r.Allows(traverseParms, false));
 			Region foundReg = null;
-			RegionProcessor regionProcessor = delegate(Region r)
+			RegionProcessor regionProcessor = (RegionProcessor)delegate(Region r)
 			{
 				if (r.portal != null)
 				{

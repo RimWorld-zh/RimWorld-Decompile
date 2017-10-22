@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum RecordType
 	{
-		Time,
-		Int,
-		Float
+		Time = 0,
+		Int = 1,
+		Float = 2
 	}
 }

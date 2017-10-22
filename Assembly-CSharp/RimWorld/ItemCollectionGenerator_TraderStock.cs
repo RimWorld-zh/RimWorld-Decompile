@@ -12,8 +12,8 @@ namespace RimWorld
 			get
 			{
 				ItemCollectionGeneratorParams randomTestParams = base.RandomTestParams;
-				randomTestParams.traderDef = DefDatabase<TraderKindDef>.AllDefsListForReading.RandomElement<TraderKindDef>();
-				randomTestParams.forTile = ((Find.VisibleMap == null) ? -1 : Find.VisibleMap.Tile);
+				randomTestParams.traderDef = DefDatabase<TraderKindDef>.AllDefsListForReading.RandomElement();
+				randomTestParams.forTile = ((Find.VisibleMap == null) ? (-1) : Find.VisibleMap.Tile);
 				randomTestParams.forFaction = (Find.FactionManager.RandomAlliedFaction(false, false, true) ?? Find.FactionManager.RandomEnemyFaction(false, false, true));
 				return randomTestParams;
 			}
@@ -27,22 +27,16 @@ namespace RimWorld
 			for (int i = 0; i < traderDef.stockGenerators.Count; i++)
 			{
 				StockGenerator stockGenerator = traderDef.stockGenerators[i];
-				foreach (Thing current in stockGenerator.GenerateThings(forTile))
+				foreach (Thing item in stockGenerator.GenerateThings(forTile))
 				{
-					if (current.def.tradeability != Tradeability.Stockable)
+					if (item.def.tradeability != Tradeability.Stockable)
 					{
-						Log.Error(string.Concat(new object[]
-						{
-							traderDef,
-							" generated carrying ",
-							current,
-							" which has is not Stockable. Ignoring..."
-						}));
+						Log.Error(traderDef + " generated carrying " + item + " which has is not Stockable. Ignoring...");
 					}
 					else
 					{
-						current.PostGeneratedForTrader(traderDef, forTile, forFaction);
-						outThings.Add(current);
+						item.PostGeneratedForTrader(traderDef, forTile, forFaction);
+						outThings.Add(item);
 					}
 				}
 			}
@@ -50,18 +44,29 @@ namespace RimWorld
 
 		public float AverageTotalStockValue(TraderKindDef td)
 		{
-			ItemCollectionGeneratorParams parms = default(ItemCollectionGeneratorParams);
-			parms.traderDef = td;
-			parms.forTile = -1;
+			ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
+			{
+				traderDef = td,
+				forTile = -1
+			};
 			float num = 0f;
 			for (int i = 0; i < 50; i++)
 			{
-				foreach (Thing current in base.Generate(parms))
+				List<Thing>.Enumerator enumerator = base.Generate(parms).GetEnumerator();
+				try
 				{
-					num += current.MarketValue * (float)current.stackCount;
+					while (enumerator.MoveNext())
+					{
+						Thing current = enumerator.Current;
+						num += current.MarketValue * (float)current.stackCount;
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
-			return num / 50f;
+			return (float)(num / 50.0);
 		}
 
 		public string GenerationDataFor(TraderKindDef td)
@@ -69,25 +74,28 @@ namespace RimWorld
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine(td.defName);
 			stringBuilder.AppendLine("Average total market value:" + this.AverageTotalStockValue(td).ToString("F0"));
-			ItemCollectionGeneratorParams parms = default(ItemCollectionGeneratorParams);
-			parms.traderDef = td;
-			parms.forTile = -1;
-			stringBuilder.AppendLine("Example generated stock:\n\n");
-			foreach (Thing current in base.Generate(parms))
+			ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
 			{
-				MinifiedThing minifiedThing = current as MinifiedThing;
-				Thing thing;
-				if (minifiedThing != null)
+				traderDef = td,
+				forTile = -1
+			};
+			stringBuilder.AppendLine("Example generated stock:\n\n");
+			List<Thing>.Enumerator enumerator = base.Generate(parms).GetEnumerator();
+			try
+			{
+				while (enumerator.MoveNext())
 				{
-					thing = minifiedThing.InnerThing;
+					Thing current = enumerator.Current;
+					MinifiedThing minifiedThing = current as MinifiedThing;
+					Thing thing = (minifiedThing == null) ? current : minifiedThing.InnerThing;
+					string labelCap = thing.LabelCap;
+					labelCap = labelCap + " [" + (thing.MarketValue * (float)thing.stackCount).ToString("F0") + "]";
+					stringBuilder.AppendLine(labelCap);
 				}
-				else
-				{
-					thing = current;
-				}
-				string text = thing.LabelCap;
-				text = text + " [" + (thing.MarketValue * (float)thing.stackCount).ToString("F0") + "]";
-				stringBuilder.AppendLine(text);
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			return stringBuilder.ToString();
 		}

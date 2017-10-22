@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld.Planet
 {
 	public enum CaravanDropInventoryMode
 	{
-		DoNotDrop,
-		DropInstantly,
-		UnloadIndividually
+		DoNotDrop = 0,
+		DropInstantly = 1,
+		UnloadIndividually = 2
 	}
 }

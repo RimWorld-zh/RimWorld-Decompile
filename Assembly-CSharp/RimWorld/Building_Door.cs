@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -55,7 +54,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.openInt && (this.holdOpenInt || !this.WillCloseSoon);
+				if (!this.openInt)
+				{
+					return false;
+				}
+				return this.holdOpenInt || !this.WillCloseSoon;
 			}
 		}
 
@@ -88,12 +91,9 @@ namespace RimWorld
 						for (int j = 0; j < thingList.Count; j++)
 						{
 							Pawn pawn = thingList[j] as Pawn;
-							if (pawn != null && !pawn.HostileTo(this))
+							if (pawn != null && !pawn.HostileTo(this) && (pawn.Position == base.Position || (pawn.pather.MovingNow && pawn.pather.nextCell == base.Position)))
 							{
-								if (pawn.Position == base.Position || (pawn.pather.MovingNow && pawn.pather.nextCell == base.Position))
-								{
-									return true;
-								}
+								return true;
 							}
 						}
 					}
@@ -107,13 +107,16 @@ namespace RimWorld
 			get
 			{
 				List<Thing> thingList = base.Position.GetThingList(base.Map);
-				for (int i = 0; i < thingList.Count; i++)
+				int num = 0;
+				while (num < thingList.Count)
 				{
-					Thing thing = thingList[i];
-					if (thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Pawn)
+					Thing thing = thingList[num];
+					if (thing.def.category != ThingCategory.Item && thing.def.category != ThingCategory.Pawn)
 					{
-						return true;
+						num++;
+						continue;
 					}
+					return true;
 				}
 				return false;
 			}
@@ -139,10 +142,10 @@ namespace RimWorld
 		{
 			get
 			{
-				float num = 45f / this.GetStatValue(StatDefOf.DoorOpenSpeed, true);
+				float num = (float)(45.0 / this.GetStatValue(StatDefOf.DoorOpenSpeed, true));
 				if (this.DoorPowerOn)
 				{
-					num *= 0.25f;
+					num = (float)(num * 0.25);
 				}
 				return Mathf.RoundToInt(num);
 			}
@@ -238,7 +241,7 @@ namespace RimWorld
 				{
 					this.visualTicksOpen--;
 				}
-				if ((Find.TickManager.TicksGame + this.thingIDNumber.HashOffset()) % 375 == 0)
+				if ((Find.TickManager.TicksGame + base.thingIDNumber.HashOffset()) % 375 == 0)
 				{
 					GenTemperature.EqualizeTemperaturesThroughBuilding(this, 1f, false);
 				}
@@ -264,7 +267,7 @@ namespace RimWorld
 						}
 					}
 				}
-				if ((Find.TickManager.TicksGame + this.thingIDNumber.HashOffset()) % 22 == 0)
+				if ((Find.TickManager.TicksGame + base.thingIDNumber.HashOffset()) % 22 == 0)
 				{
 					GenTemperature.EqualizeTemperaturesThroughBuilding(this, 1f, false);
 				}
@@ -296,12 +299,24 @@ namespace RimWorld
 		public virtual bool PawnCanOpen(Pawn p)
 		{
 			Lord lord = p.GetLord();
-			return (lord != null && lord.LordJob != null && lord.LordJob.CanOpenAnyDoor(p)) || base.Faction == null || GenAI.MachinesLike(base.Faction, p);
+			if (lord != null && lord.LordJob != null && lord.LordJob.CanOpenAnyDoor(p))
+			{
+				return true;
+			}
+			if (base.Faction == null)
+			{
+				return true;
+			}
+			return GenAI.MachinesLike(base.Faction, p);
 		}
 
 		public override bool BlocksPawn(Pawn p)
 		{
-			return !this.openInt && !this.PawnCanOpen(p);
+			if (this.openInt)
+			{
+				return false;
+			}
+			return !this.PawnCanOpen(p);
 		}
 
 		protected void DoorOpen(int ticksToClose = 60)
@@ -312,29 +327,28 @@ namespace RimWorld
 				this.openInt = true;
 				if (this.DoorPowerOn)
 				{
-					this.def.building.soundDoorOpenPowered.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
+					base.def.building.soundDoorOpenPowered.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 				}
 				else
 				{
-					this.def.building.soundDoorOpenManual.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
+					base.def.building.soundDoorOpenManual.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 				}
 			}
 		}
 
 		protected void DoorTryClose()
 		{
-			if (this.holdOpenInt || this.BlockedOpenMomentary)
+			if (!this.holdOpenInt && !this.BlockedOpenMomentary)
 			{
-				return;
-			}
-			this.openInt = false;
-			if (this.DoorPowerOn)
-			{
-				this.def.building.soundDoorClosePowered.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
-			}
-			else
-			{
-				this.def.building.soundDoorCloseManual.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
+				this.openInt = false;
+				if (this.DoorPowerOn)
+				{
+					base.def.building.soundDoorClosePowered.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
+				}
+				else
+				{
+					base.def.building.soundDoorCloseManual.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
+				}
 			}
 		}
 
@@ -352,7 +366,7 @@ namespace RimWorld
 		{
 			base.Rotation = Building_Door.DoorRotationAt(base.Position, base.Map);
 			float num = Mathf.Clamp01((float)this.visualTicksOpen / (float)this.VisualTicksToOpen);
-			float d = 0f + 0.45f * num;
+			float d = (float)(0.0 + 0.44999998807907104 * num);
 			for (int i = 0; i < 2; i++)
 			{
 				Vector3 vector = default(Vector3);
@@ -427,14 +441,27 @@ namespace RimWorld
 			return Rot4.East;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_Door.<GetGizmos>c__Iterator156 <GetGizmos>c__Iterator = new Building_Door.<GetGizmos>c__Iterator156();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			Building_Door.<GetGizmos>c__Iterator156 expr_0E = <GetGizmos>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			if (base.Faction == Faction.OfPlayer)
+			{
+				yield return (Gizmo)new Command_Toggle
+				{
+					defaultLabel = "CommandToggleDoorHoldOpen".Translate(),
+					defaultDesc = "CommandToggleDoorHoldOpenDesc".Translate(),
+					hotKey = KeyBindingDefOf.Misc3,
+					icon = TexCommand.HoldOpen,
+					isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__Iterator156)/*Error near IL_011a: stateMachine*/)._003C_003Ef__this.holdOpenInt),
+					toggleAction = (Action)delegate
+					{
+						((_003CGetGizmos_003Ec__Iterator156)/*Error near IL_0131: stateMachine*/)._003C_003Ef__this.holdOpenInt = !((_003CGetGizmos_003Ec__Iterator156)/*Error near IL_0131: stateMachine*/)._003C_003Ef__this.holdOpenInt;
+					}
+				};
+			}
 		}
 
 		private void ClearReachabilityCache(Map map)

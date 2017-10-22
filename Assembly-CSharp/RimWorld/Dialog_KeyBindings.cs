@@ -40,18 +40,18 @@ namespace RimWorld
 
 		public Dialog_KeyBindings()
 		{
-			this.forcePause = true;
-			this.onlyOneOfTypeAllowed = true;
-			this.absorbInputAroundWindow = true;
+			base.forcePause = true;
+			base.onlyOneOfTypeAllowed = true;
+			base.absorbInputAroundWindow = true;
 			this.scrollPosition = new Vector2(0f, 0f);
 			this.keyPrefsData = KeyPrefs.KeyPrefsData.Clone();
 			this.contentHeight = 0f;
 			KeyBindingCategoryDef keyBindingCategoryDef = null;
-			foreach (KeyBindingDef current in DefDatabase<KeyBindingDef>.AllDefs)
+			foreach (KeyBindingDef allDef in DefDatabase<KeyBindingDef>.AllDefs)
 			{
-				if (keyBindingCategoryDef != current.category)
+				if (keyBindingCategoryDef != allDef.category)
 				{
-					keyBindingCategoryDef = current.category;
+					keyBindingCategoryDef = allDef.category;
 					this.contentHeight += 44f;
 				}
 				this.contentHeight += 34f;
@@ -63,9 +63,9 @@ namespace RimWorld
 			Vector2 vector = new Vector2(120f, 40f);
 			float y = vector.y;
 			float num = 600f;
-			float num2 = (inRect.width - num) / 2f;
-			Rect position = new Rect(num2 + inRect.x, inRect.y, num, inRect.height - (y + 10f)).ContractedBy(10f);
-			Rect position2 = new Rect(position.x, position.y + position.height + 10f, position.width, y);
+			float num2 = (float)((inRect.width - num) / 2.0);
+			Rect position = new Rect(num2 + inRect.x, inRect.y, num, (float)(inRect.height - (y + 10.0))).ContractedBy(10f);
+			Rect position2 = new Rect(position.x, (float)(position.y + position.height + 10.0), position.width, y);
 			GUI.BeginGroup(position);
 			Rect rect = new Rect(0f, 0f, position.width, 40f);
 			Text.Font = GameFont.Medium;
@@ -74,35 +74,35 @@ namespace RimWorld
 			GenUI.ResetLabelAlign();
 			Text.Font = GameFont.Small;
 			Rect outRect = new Rect(0f, rect.height, position.width, position.height - rect.height);
-			Rect rect2 = new Rect(0f, 0f, outRect.width - 16f, this.contentHeight);
+			Rect rect2 = new Rect(0f, 0f, (float)(outRect.width - 16.0), this.contentHeight);
 			Widgets.BeginScrollView(outRect, ref this.scrollPosition, rect2, true);
 			float num3 = 0f;
 			KeyBindingCategoryDef keyBindingCategoryDef = null;
 			Dialog_KeyBindings.keyBindingsWorkingList.Clear();
 			Dialog_KeyBindings.keyBindingsWorkingList.AddRange(DefDatabase<KeyBindingDef>.AllDefs);
-			Dialog_KeyBindings.keyBindingsWorkingList.SortBy((KeyBindingDef x) => x.category.index, (KeyBindingDef x) => x.index);
+			Dialog_KeyBindings.keyBindingsWorkingList.SortBy((Func<KeyBindingDef, ushort>)((KeyBindingDef x) => x.category.index), (Func<KeyBindingDef, ushort>)((KeyBindingDef x) => x.index));
 			for (int i = 0; i < Dialog_KeyBindings.keyBindingsWorkingList.Count; i++)
 			{
 				KeyBindingDef keyBindingDef = Dialog_KeyBindings.keyBindingsWorkingList[i];
 				if (keyBindingCategoryDef != keyBindingDef.category)
 				{
-					bool skipDrawing = num3 - this.scrollPosition.y + 40f < 0f || num3 - this.scrollPosition.y > outRect.height;
+					bool skipDrawing = num3 - this.scrollPosition.y + 40.0 < 0.0 || num3 - this.scrollPosition.y > outRect.height;
 					keyBindingCategoryDef = keyBindingDef.category;
 					this.DrawCategoryEntry(keyBindingCategoryDef, rect2.width, ref num3, skipDrawing);
 				}
-				bool skipDrawing2 = num3 - this.scrollPosition.y + 34f < 0f || num3 - this.scrollPosition.y > outRect.height;
+				bool skipDrawing2 = num3 - this.scrollPosition.y + 34.0 < 0.0 || num3 - this.scrollPosition.y > outRect.height;
 				this.DrawKeyEntry(keyBindingDef, rect2, ref num3, skipDrawing2);
 			}
 			Widgets.EndScrollView();
 			GUI.EndGroup();
 			GUI.BeginGroup(position2);
 			int num4 = 3;
-			float num5 = vector.x * (float)num4 + 10f * (float)(num4 - 1);
-			float num6 = (position2.width - num5) / 2f;
-			float num7 = vector.x + 10f;
+			float num5 = (float)(vector.x * (float)num4 + 10.0 * (float)(num4 - 1));
+			float num6 = (float)((position2.width - num5) / 2.0);
+			float num7 = (float)(vector.x + 10.0);
 			Rect rect3 = new Rect(num6, 0f, vector.x, vector.y);
 			Rect rect4 = new Rect(num6 + num7, 0f, vector.x, vector.y);
-			Rect rect5 = new Rect(num6 + num7 * 2f, 0f, vector.x, vector.y);
+			Rect rect5 = new Rect((float)(num6 + num7 * 2.0), 0f, vector.x, vector.y);
 			if (Widgets.ButtonText(rect3, "ResetButton".Translate(), true, false, true))
 			{
 				this.keyPrefsData.ResetToDefaults();
@@ -160,7 +160,7 @@ namespace RimWorld
 				GenUI.ResetLabelAlign();
 				float num = 4f;
 				Vector2 vector = new Vector2(140f, 28f);
-				Rect rect2 = new Rect(rect.x + rect.width - vector.x * 2f - num, rect.y, vector.x, vector.y);
+				Rect rect2 = new Rect((float)(rect.x + rect.width - vector.x * 2.0 - num), rect.y, vector.x, vector.y);
 				Rect rect3 = new Rect(rect.x + rect.width - vector.x, rect.y, vector.x, vector.y);
 				TooltipHandler.TipRegion(rect2, new TipSignal("BindingButtonToolTip".Translate()));
 				TooltipHandler.TipRegion(rect3, new TipSignal("BindingButtonToolTip".Translate()));
@@ -186,12 +186,12 @@ namespace RimWorld
 			else if (Event.current.button == 1)
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				list.Add(new FloatMenuOption("ResetBinding".Translate(), delegate
+				list.Add(new FloatMenuOption("ResetBinding".Translate(), (Action)delegate()
 				{
-					KeyCode keyCode = (slot != KeyPrefs.BindingSlot.A) ? keyDef.defaultKeyCodeB : keyDef.defaultKeyCodeA;
+					KeyCode keyCode = (slot != 0) ? keyDef.defaultKeyCodeB : keyDef.defaultKeyCodeA;
 					this.keyPrefsData.SetBinding(keyDef, slot, keyCode);
 				}, MenuOptionPriority.Default, null, null, 0f, null, null));
-				list.Add(new FloatMenuOption("ClearBinding".Translate(), delegate
+				list.Add(new FloatMenuOption("ClearBinding".Translate(), (Action)delegate()
 				{
 					this.keyPrefsData.SetBinding(keyDef, slot, KeyCode.None);
 				}, MenuOptionPriority.Default, null, null, 0f, null, null));

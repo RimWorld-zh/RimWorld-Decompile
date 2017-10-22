@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace RimWorld
@@ -13,7 +12,7 @@ namespace RimWorld
 
 		public StorytellerCompProperties_RandomMain()
 		{
-			this.compClass = typeof(StorytellerComp_RandomMain);
+			base.compClass = typeof(StorytellerComp_RandomMain);
 		}
 	}
 }

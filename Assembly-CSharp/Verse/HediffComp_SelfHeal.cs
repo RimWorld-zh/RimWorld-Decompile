@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class HediffComp_SelfHeal : HediffComp
@@ -10,7 +8,7 @@ namespace Verse
 		{
 			get
 			{
-				return (HediffCompProperties_SelfHeal)this.props;
+				return (HediffCompProperties_SelfHeal)base.props;
 			}
 		}
 

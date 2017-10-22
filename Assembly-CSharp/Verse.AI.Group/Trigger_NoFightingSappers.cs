@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse.AI.Group
 {
@@ -24,7 +23,15 @@ namespace Verse.AI.Group
 
 		private bool IsFightingSapper(Pawn p)
 		{
-			return !p.Downed && !p.InMentalState && RaidStrategyWorker_ImmediateAttackSappers.CanBeSapper(p.kindDef);
+			if (!p.Downed && !p.InMentalState)
+			{
+				if (RaidStrategyWorker_ImmediateAttackSappers.CanBeSapper(p.kindDef))
+				{
+					return true;
+				}
+				return false;
+			}
+			return false;
 		}
 	}
 }

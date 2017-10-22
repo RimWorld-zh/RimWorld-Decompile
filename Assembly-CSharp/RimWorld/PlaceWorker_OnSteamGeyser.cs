@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -8,11 +7,11 @@ namespace RimWorld
 		public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Thing thingToIgnore = null)
 		{
 			Thing thing = base.Map.thingGrid.ThingAt(loc, ThingDefOf.SteamGeyser);
-			if (thing == null || thing.Position != loc)
+			if (thing != null && !(thing.Position != loc))
 			{
-				return "MustPlaceOnSteamGeyser".Translate();
+				return true;
 			}
-			return true;
+			return "MustPlaceOnSteamGeyser".Translate();
 		}
 
 		public override bool ForceAllowPlaceOver(BuildableDef otherDef)

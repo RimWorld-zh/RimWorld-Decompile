@@ -8,7 +8,7 @@ namespace RimWorld
 	{
 		public static void SortInDisplayOrder(List<Need> needs)
 		{
-			needs.Sort((Need a, Need b) => b.def.listPriority.CompareTo(a.def.listPriority));
+			needs.Sort((Comparison<Need>)((Need a, Need b) => b.def.listPriority.CompareTo(a.def.listPriority)));
 		}
 
 		public static Thought GetLeadingThoughtInGroup(List<Thought> thoughtsInGroup)
@@ -29,14 +29,14 @@ namespace RimWorld
 		public static void GetThoughtGroupsInDisplayOrder(Need_Mood mood, List<Thought> outThoughtGroupsPresent)
 		{
 			mood.thoughts.GetDistinctMoodThoughtGroups(outThoughtGroupsPresent);
-			for (int i = outThoughtGroupsPresent.Count - 1; i >= 0; i--)
+			for (int num = outThoughtGroupsPresent.Count - 1; num >= 0; num--)
 			{
-				if (!outThoughtGroupsPresent[i].VisibleInNeedsTab)
+				if (!outThoughtGroupsPresent[num].VisibleInNeedsTab)
 				{
-					outThoughtGroupsPresent.RemoveAt(i);
+					outThoughtGroupsPresent.RemoveAt(num);
 				}
 			}
-			outThoughtGroupsPresent.SortByDescending((Thought t) => mood.thoughts.MoodOffsetOfGroup(t), (Thought t) => t.GetHashCode());
+			outThoughtGroupsPresent.SortByDescending((Func<Thought, float>)((Thought t) => mood.thoughts.MoodOffsetOfGroup(t)), (Func<Thought, int>)((Thought t) => t.GetHashCode()));
 		}
 	}
 }

@@ -26,7 +26,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (float)UI.screenWidth - 520f;
+				return (float)((float)UI.screenWidth - 520.0);
 			}
 		}
 
@@ -36,13 +36,15 @@ namespace RimWorld
 			{
 				outDrawLocs.Clear();
 				scale = 1f;
-				return;
 			}
-			this.CalculateColonistsInGroup();
-			bool onlyOneRow;
-			int maxPerGlobalRow;
-			scale = this.FindBestScale(out onlyOneRow, out maxPerGlobalRow);
-			this.CalculateDrawLocs(outDrawLocs, scale, onlyOneRow, maxPerGlobalRow);
+			else
+			{
+				this.CalculateColonistsInGroup();
+				bool onlyOneRow = default(bool);
+				int maxPerGlobalRow = default(int);
+				scale = this.FindBestScale(out onlyOneRow, out maxPerGlobalRow);
+				this.CalculateDrawLocs(outDrawLocs, scale, onlyOneRow, maxPerGlobalRow);
+			}
 		}
 
 		private void CalculateColonistsInGroup()
@@ -50,18 +52,19 @@ namespace RimWorld
 			this.entriesInGroup.Clear();
 			List<ColonistBar.Entry> entries = this.ColonistBar.Entries;
 			int num = this.CalculateGroupsCount();
-			for (int i = 0; i < num; i++)
+			for (int num2 = 0; num2 < num; num2++)
 			{
 				this.entriesInGroup.Add(0);
 			}
-			for (int j = 0; j < entries.Count; j++)
+			for (int i = 0; i < entries.Count; i++)
 			{
 				List<int> list;
-				List<int> expr_49 = list = this.entriesInGroup;
-				int num2;
-				int expr_5C = num2 = entries[j].group;
-				num2 = list[num2];
-				expr_49[expr_5C] = num2 + 1;
+				List<int> obj = list = this.entriesInGroup;
+				ColonistBar.Entry entry = entries[i];
+				int group;
+				int index = group = entry.group;
+				group = list[group];
+				obj[index] = group + 1;
 			}
 		}
 
@@ -72,10 +75,13 @@ namespace RimWorld
 			int num2 = 0;
 			for (int i = 0; i < entries.Count; i++)
 			{
-				if (num != entries[i].group)
+				int num3 = num;
+				ColonistBar.Entry entry = entries[i];
+				if (num3 != entry.group)
 				{
 					num2++;
-					num = entries[i].group;
+					ColonistBar.Entry entry2 = entries[i];
+					num = entry2.group;
 				}
 			}
 			return num2;
@@ -88,8 +94,9 @@ namespace RimWorld
 			int num2 = this.CalculateGroupsCount();
 			while (true)
 			{
-				float num3 = (ColonistBar.BaseSize.x + 24f) * num;
-				float num4 = ColonistBarDrawLocsFinder.MaxColonistBarWidth - (float)(num2 - 1) * 25f * num;
+				Vector2 baseSize = ColonistBar.BaseSize;
+				float num3 = (float)((baseSize.x + 24.0) * num);
+				float num4 = (float)(ColonistBarDrawLocsFinder.MaxColonistBarWidth - (float)(num2 - 1) * 25.0 * num);
 				maxPerGlobalRow = Mathf.FloorToInt(num4 / num3);
 				onlyOneRow = true;
 				if (this.TryDistributeHorizontalSlotsBetweenGroups(maxPerGlobalRow))
@@ -99,15 +106,23 @@ namespace RimWorld
 					int num5 = -1;
 					for (int i = 0; i < entries.Count; i++)
 					{
-						if (num5 != entries[i].group)
+						int num6 = num5;
+						ColonistBar.Entry entry = entries[i];
+						if (num6 != entry.group)
 						{
-							num5 = entries[i].group;
-							int num6 = Mathf.CeilToInt((float)this.entriesInGroup[entries[i].group] / (float)this.horizontalSlotsPerGroup[entries[i].group]);
-							if (num6 > 1)
+							ColonistBar.Entry entry2 = entries[i];
+							num5 = entry2.group;
+							List<int> obj = this.entriesInGroup;
+							ColonistBar.Entry entry3 = entries[i];
+							float num7 = (float)obj[entry3.group];
+							List<int> obj2 = this.horizontalSlotsPerGroup;
+							ColonistBar.Entry entry4 = entries[i];
+							int num8 = Mathf.CeilToInt(num7 / (float)obj2[entry4.group]);
+							if (num8 > 1)
 							{
 								onlyOneRow = false;
 							}
-							if (num6 > allowedRowsCountForScale)
+							if (num8 > allowedRowsCountForScale)
 							{
 								flag = false;
 								break;
@@ -115,11 +130,9 @@ namespace RimWorld
 						}
 					}
 					if (flag)
-					{
 						break;
-					}
 				}
-				num *= 0.95f;
+				num = (float)(num * 0.949999988079071);
 			}
 			return num;
 		}
@@ -128,32 +141,32 @@ namespace RimWorld
 		{
 			int num = this.CalculateGroupsCount();
 			this.horizontalSlotsPerGroup.Clear();
-			for (int k = 0; k < num; k++)
+			for (int num2 = 0; num2 < num; num2++)
 			{
 				this.horizontalSlotsPerGroup.Add(0);
 			}
-			GenMath.DHondtDistribution(this.horizontalSlotsPerGroup, (int i) => (float)this.entriesInGroup[i], maxPerGlobalRow);
+			GenMath.DHondtDistribution(this.horizontalSlotsPerGroup, (Func<int, float>)((int i) => (float)this.entriesInGroup[i]), maxPerGlobalRow);
 			for (int j = 0; j < this.horizontalSlotsPerGroup.Count; j++)
 			{
 				if (this.horizontalSlotsPerGroup[j] == 0)
 				{
-					int num2 = this.horizontalSlotsPerGroup.Max();
-					if (num2 <= 1)
+					int num3 = this.horizontalSlotsPerGroup.Max();
+					if (num3 <= 1)
 					{
 						return false;
 					}
-					int num3 = this.horizontalSlotsPerGroup.IndexOf(num2);
+					int num4 = this.horizontalSlotsPerGroup.IndexOf(num3);
 					List<int> list;
-					List<int> expr_89 = list = this.horizontalSlotsPerGroup;
-					int num4;
-					int expr_8E = num4 = num3;
-					num4 = list[num4];
-					expr_89[expr_8E] = num4 - 1;
+					List<int> obj = list = this.horizontalSlotsPerGroup;
+					int index;
+					int index2 = index = num4;
+					index = list[index];
+					obj[index2] = index - 1;
 					List<int> list2;
-					List<int> expr_AB = list2 = this.horizontalSlotsPerGroup;
-					int expr_AF = num4 = j;
-					num4 = list2[num4];
-					expr_AB[expr_AF] = num4 + 1;
+					List<int> obj2 = list2 = this.horizontalSlotsPerGroup;
+					int index3 = index = j;
+					index = list2[index];
+					obj2[index3] = index + 1;
 				}
 			}
 			return true;
@@ -161,11 +174,11 @@ namespace RimWorld
 
 		private static int GetAllowedRowsCountForScale(float scale)
 		{
-			if (scale > 0.58f)
+			if (scale > 0.57999998331069946)
 			{
 				return 1;
 			}
-			if (scale > 0.42f)
+			if (scale > 0.41999998688697815)
 			{
 				return 2;
 			}
@@ -185,44 +198,59 @@ namespace RimWorld
 				num = this.ColonistBar.Entries.Count;
 			}
 			int num2 = this.CalculateGroupsCount();
-			float num3 = (ColonistBar.BaseSize.x + 24f) * scale;
-			float num4 = (float)num * num3 + (float)(num2 - 1) * 25f * scale;
+			Vector2 baseSize = ColonistBar.BaseSize;
+			float num3 = (float)((baseSize.x + 24.0) * scale);
+			float num4 = (float)((float)num * num3 + (float)(num2 - 1) * 25.0 * scale);
 			List<ColonistBar.Entry> entries = this.ColonistBar.Entries;
 			int num5 = -1;
 			int num6 = -1;
-			float num7 = ((float)UI.screenWidth - num4) / 2f;
+			float num7 = (float)(((float)UI.screenWidth - num4) / 2.0);
 			for (int j = 0; j < entries.Count; j++)
 			{
-				if (num5 != entries[j].group)
+				int num8 = num5;
+				ColonistBar.Entry entry = entries[j];
+				if (num8 != entry.group)
 				{
 					if (num5 >= 0)
 					{
-						num7 += 25f * scale;
-						num7 += (float)this.horizontalSlotsPerGroup[num5] * scale * (ColonistBar.BaseSize.x + 24f);
+						num7 = (float)(num7 + 25.0 * scale);
+						float num9 = num7;
+						float num10 = (float)this.horizontalSlotsPerGroup[num5] * scale;
+						Vector2 baseSize2 = ColonistBar.BaseSize;
+						num7 = (float)(num9 + num10 * (baseSize2.x + 24.0));
 					}
 					num6 = 0;
-					num5 = entries[j].group;
+					ColonistBar.Entry entry2 = entries[j];
+					num5 = entry2.group;
 				}
 				else
 				{
 					num6++;
 				}
-				Vector2 drawLoc = this.GetDrawLoc(num7, 21f, entries[j].group, num6, scale);
+				float groupStartX = num7;
+				ColonistBar.Entry entry3 = entries[j];
+				Vector2 drawLoc = this.GetDrawLoc(groupStartX, 21f, entry3.group, num6, scale);
 				outDrawLocs.Add(drawLoc);
 			}
 		}
 
 		private Vector2 GetDrawLoc(float groupStartX, float groupStartY, int group, int numInGroup, float scale)
 		{
-			float num = groupStartX + (float)(numInGroup % this.horizontalSlotsPerGroup[group]) * scale * (ColonistBar.BaseSize.x + 24f);
-			float y = groupStartY + (float)(numInGroup / this.horizontalSlotsPerGroup[group]) * scale * (ColonistBar.BaseSize.y + 32f);
-			bool flag = numInGroup >= this.entriesInGroup[group] - this.entriesInGroup[group] % this.horizontalSlotsPerGroup[group];
-			if (flag)
+			float num = (float)(numInGroup % this.horizontalSlotsPerGroup[group]) * scale;
+			Vector2 baseSize = ColonistBar.BaseSize;
+			float num2 = (float)(groupStartX + num * (baseSize.x + 24.0));
+			float num3 = (float)(numInGroup / this.horizontalSlotsPerGroup[group]) * scale;
+			Vector2 baseSize2 = ColonistBar.BaseSize;
+			float y = (float)(groupStartY + num3 * (baseSize2.y + 32.0));
+			if (numInGroup >= this.entriesInGroup[group] - this.entriesInGroup[group] % this.horizontalSlotsPerGroup[group])
 			{
-				int num2 = this.horizontalSlotsPerGroup[group] - this.entriesInGroup[group] % this.horizontalSlotsPerGroup[group];
-				num += (float)num2 * scale * (ColonistBar.BaseSize.x + 24f) * 0.5f;
+				int num4 = this.horizontalSlotsPerGroup[group] - this.entriesInGroup[group] % this.horizontalSlotsPerGroup[group];
+				float num5 = num2;
+				float num6 = (float)num4 * scale;
+				Vector2 baseSize3 = ColonistBar.BaseSize;
+				num2 = (float)(num5 + num6 * (baseSize3.x + 24.0) * 0.5);
 			}
-			return new Vector2(num, y);
+			return new Vector2(num2, y);
 		}
 	}
 }

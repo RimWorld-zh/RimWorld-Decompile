@@ -19,7 +19,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return this.totalCostInt >= 0f;
+				return this.totalCostInt >= 0.0;
 			}
 		}
 
@@ -81,10 +81,12 @@ namespace RimWorld.Planet
 			if (this == WorldPath.NotFound)
 			{
 				Log.Warning("Calling SetupFound with totalCost=" + totalCost + " on WorldPath.NotFound");
-				return;
 			}
-			this.totalCostInt = totalCost;
-			this.curNodeIndex = this.nodes.Count - 1;
+			else
+			{
+				this.totalCostInt = totalCost;
+				this.curNodeIndex = this.nodes.Count - 1;
+			}
 		}
 
 		public void Dispose()
@@ -104,10 +106,9 @@ namespace RimWorld.Planet
 
 		public static WorldPath NewNotFound()
 		{
-			return new WorldPath
-			{
-				totalCostInt = -1f
-			};
+			WorldPath worldPath = new WorldPath();
+			worldPath.totalCostInt = -1f;
+			return worldPath;
 		}
 
 		public int ConsumeNextNode()
@@ -132,30 +133,12 @@ namespace RimWorld.Planet
 			{
 				return "WorldPath(not in use)";
 			}
-			return string.Concat(new object[]
-			{
-				"WorldPath(nodeCount= ",
-				this.nodes.Count,
-				(this.nodes.Count <= 0) ? string.Empty : string.Concat(new object[]
-				{
-					" first=",
-					this.FirstNode,
-					" last=",
-					this.LastNode
-				}),
-				" cost=",
-				this.totalCostInt,
-				" )"
-			});
+			return "WorldPath(nodeCount= " + this.nodes.Count + ((this.nodes.Count <= 0) ? string.Empty : (" first=" + this.FirstNode + " last=" + this.LastNode)) + " cost=" + this.totalCostInt + " )";
 		}
 
 		public void DrawPath(Caravan pathingCaravan)
 		{
-			if (!this.Found)
-			{
-				return;
-			}
-			if (this.NodesLeftCount > 0)
+			if (this.Found && this.NodesLeftCount > 0)
 			{
 				WorldGrid worldGrid = Find.WorldGrid;
 				float d = 0.05f;
@@ -173,7 +156,7 @@ namespace RimWorld.Planet
 					Vector3 vector2 = worldGrid.GetTileCenter(this.Peek(0));
 					a2 += a2.normalized * d;
 					vector2 += vector2.normalized * d;
-					if ((a2 - vector2).sqrMagnitude > 0.005f)
+					if ((a2 - vector2).sqrMagnitude > 0.004999999888241291)
 					{
 						GenDraw.DrawWorldLineBetween(a2, vector2);
 					}

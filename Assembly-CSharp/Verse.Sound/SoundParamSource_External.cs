@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Sound
 {
 	public class SoundParamSource_External : SoundParamSource
@@ -24,7 +22,7 @@ namespace Verse.Sound
 
 		public override float ValueFor(Sample samp)
 		{
-			float result;
+			float result = default(float);
 			if (samp.ExternalParams.TryGetValue(this.inParamName, out result))
 			{
 				return result;

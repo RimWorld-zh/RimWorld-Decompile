@@ -17,132 +17,148 @@ namespace RimWorld
 		public static bool TryFindSpectatorCellFor(Pawn p, CellRect spectateRect, Map map, out IntVec3 cell, SpectateRectSide allowedSides = SpectateRectSide.All, int margin = 1, List<IntVec3> extraDisallowedCells = null)
 		{
 			spectateRect.ClipInsideMap(map);
-			if (spectateRect.Area == 0 || allowedSides == SpectateRectSide.None)
+			if (((spectateRect.Area != 0) ? allowedSides : SpectateRectSide.None) != 0)
 			{
-				cell = IntVec3.Invalid;
-				return false;
-			}
-			CellRect rectWithMargin = spectateRect.ExpandedBy(margin).ClipInsideMap(map);
-			Predicate<IntVec3> predicate = delegate(IntVec3 x)
-			{
-				if (!x.InBounds(map))
+				CellRect rectWithMargin = spectateRect.ExpandedBy(margin).ClipInsideMap(map);
+				Predicate<IntVec3> predicate = (Predicate<IntVec3>)delegate(IntVec3 x)
 				{
-					return false;
-				}
-				if (!x.Standable(map))
-				{
-					return false;
-				}
-				if (x.Fogged(map))
-				{
-					return false;
-				}
-				if (rectWithMargin.Contains(x))
-				{
-					return false;
-				}
-				if ((x.z <= rectWithMargin.maxZ || (allowedSides & SpectateRectSide.Up) != SpectateRectSide.Up) && (x.x <= rectWithMargin.maxX || (allowedSides & SpectateRectSide.Right) != SpectateRectSide.Right) && (x.z >= rectWithMargin.minZ || (allowedSides & SpectateRectSide.Down) != SpectateRectSide.Down) && (x.x >= rectWithMargin.minX || (allowedSides & SpectateRectSide.Left) != SpectateRectSide.Left))
-				{
-					return false;
-				}
-				IntVec3 intVec3 = spectateRect.ClosestCellTo(x);
-				if ((float)intVec3.DistanceToSquared(x) > 210.25f)
-				{
-					return false;
-				}
-				if (!GenSight.LineOfSight(intVec3, x, map, true, null, 0, 0))
-				{
-					return false;
-				}
-				if (x.GetThingList(map).Find((Thing y) => y is Pawn && y != p) != null)
-				{
-					return false;
-				}
-				if (p != null)
-				{
-					if (!p.CanReserveAndReach(x, PathEndMode.OnCell, Danger.Some, 1, -1, null, false))
+					if (!x.InBounds(map))
 					{
 						return false;
 					}
-					Building edifice = x.GetEdifice(map);
-					if (edifice != null && edifice.def.category == ThingCategory.Building && edifice.def.building.isSittable && !p.CanReserve(edifice, 1, -1, null, false))
+					if (!x.Standable(map))
 					{
 						return false;
 					}
-					if (x.IsForbidden(p))
+					if (x.Fogged(map))
 					{
 						return false;
 					}
-					if (x.GetDangerFor(p, map) != Danger.None)
+					CellRect rectWithMargin2;
+					if (rectWithMargin2.Contains(x))
 					{
 						return false;
 					}
-				}
-				if (extraDisallowedCells != null && extraDisallowedCells.Contains(x))
-				{
+					if (x.z > rectWithMargin2.maxZ && ((int)allowedSides & 1) == 1)
+					{
+						goto IL_00e2;
+					}
+					if (x.x > rectWithMargin2.maxX && ((int)allowedSides & 2) == 2)
+					{
+						goto IL_00e2;
+					}
+					if (x.z < rectWithMargin2.minZ && ((int)allowedSides & 4) == 4)
+					{
+						goto IL_00e2;
+					}
+					if (x.x < rectWithMargin2.minX && ((int)allowedSides & 8) == 8)
+					{
+						goto IL_00e2;
+					}
 					return false;
-				}
-				if (!SpectatorCellFinder.CorrectlyRotatedChairAt(x, map, spectateRect))
-				{
-					int num = 0;
-					for (int k = 0; k < GenAdj.AdjacentCells.Length; k++)
+					IL_00e2:
+					CellRect spectateRect2;
+					IntVec3 intVec3 = spectateRect2.ClosestCellTo(x);
+					if ((float)intVec3.DistanceToSquared(x) > 210.25)
 					{
-						IntVec3 x2 = x + GenAdj.AdjacentCells[k];
-						if (SpectatorCellFinder.CorrectlyRotatedChairAt(x2, map, spectateRect))
+						return false;
+					}
+					if (!GenSight.LineOfSight(intVec3, x, map, true, null, 0, 0))
+					{
+						return false;
+					}
+					if (x.GetThingList(map).Find((Predicate<Thing>)((Thing y) => y is Pawn && y != p)) != null)
+					{
+						return false;
+					}
+					if (p != null)
+					{
+						if (!p.CanReserveAndReach(x, PathEndMode.OnCell, Danger.Some, 1, -1, null, false))
 						{
-							num++;
+							return false;
 						}
-					}
-					if (num >= 3)
-					{
-						return false;
-					}
-					int num2 = SpectatorCellFinder.DistanceToClosestChair(x, new IntVec3(-1, 0, 0), map, 4, spectateRect);
-					if (num2 >= 0)
-					{
-						int num3 = SpectatorCellFinder.DistanceToClosestChair(x, new IntVec3(1, 0, 0), map, 4, spectateRect);
-						if (num3 >= 0 && Mathf.Abs(num2 - num3) <= 1)
+						Building edifice = x.GetEdifice(map);
+						if (edifice != null && edifice.def.category == ThingCategory.Building && edifice.def.building.isSittable && !p.CanReserve((Thing)edifice, 1, -1, null, false))
+						{
+							return false;
+						}
+						if (x.IsForbidden(p))
+						{
+							return false;
+						}
+						if (x.GetDangerFor(p, map) != Danger.None)
 						{
 							return false;
 						}
 					}
-					int num4 = SpectatorCellFinder.DistanceToClosestChair(x, new IntVec3(0, 0, 1), map, 4, spectateRect);
-					if (num4 >= 0)
+					if (extraDisallowedCells != null && extraDisallowedCells.Contains(x))
 					{
-						int num5 = SpectatorCellFinder.DistanceToClosestChair(x, new IntVec3(0, 0, -1), map, 4, spectateRect);
-						if (num5 >= 0 && Mathf.Abs(num4 - num5) <= 1)
-						{
-							return false;
-						}
+						return false;
 					}
-				}
-				return true;
-			};
-			if (p != null && predicate(p.Position) && SpectatorCellFinder.CorrectlyRotatedChairAt(p.Position, map, spectateRect))
-			{
-				cell = p.Position;
-				return true;
-			}
-			for (int i = 0; i < 1000; i++)
-			{
-				IntVec3 intVec = rectWithMargin.CenterCell + GenRadial.RadialPattern[i];
-				if (predicate(intVec))
-				{
-					if (!SpectatorCellFinder.CorrectlyRotatedChairAt(intVec, map, spectateRect))
+					if (!SpectatorCellFinder.CorrectlyRotatedChairAt(x, map, spectateRect2))
 					{
-						for (int j = 0; j < 90; j++)
+						int num = 0;
+						for (int k = 0; k < GenAdj.AdjacentCells.Length; k++)
 						{
-							IntVec3 intVec2 = intVec + GenRadial.RadialPattern[j];
-							if (SpectatorCellFinder.CorrectlyRotatedChairAt(intVec2, map, spectateRect) && predicate(intVec2))
+							IntVec3 x2 = x + GenAdj.AdjacentCells[k];
+							if (SpectatorCellFinder.CorrectlyRotatedChairAt(x2, map, spectateRect2))
 							{
-								cell = intVec2;
-								return true;
+								num++;
+							}
+						}
+						if (num >= 3)
+						{
+							return false;
+						}
+						int num2 = SpectatorCellFinder.DistanceToClosestChair(x, new IntVec3(-1, 0, 0), map, 4, spectateRect2);
+						if (num2 >= 0)
+						{
+							int num3 = SpectatorCellFinder.DistanceToClosestChair(x, new IntVec3(1, 0, 0), map, 4, spectateRect2);
+							if (num3 >= 0 && Mathf.Abs(num2 - num3) <= 1)
+							{
+								return false;
+							}
+						}
+						int num4 = SpectatorCellFinder.DistanceToClosestChair(x, new IntVec3(0, 0, 1), map, 4, spectateRect2);
+						if (num4 >= 0)
+						{
+							int num5 = SpectatorCellFinder.DistanceToClosestChair(x, new IntVec3(0, 0, -1), map, 4, spectateRect2);
+							if (num5 >= 0 && Mathf.Abs(num4 - num5) <= 1)
+							{
+								return false;
 							}
 						}
 					}
-					cell = intVec;
+					return true;
+				};
+				if (p != null && predicate(p.Position) && SpectatorCellFinder.CorrectlyRotatedChairAt(p.Position, map, spectateRect))
+				{
+					cell = p.Position;
 					return true;
 				}
+				for (int i = 0; i < 1000; i++)
+				{
+					IntVec3 intVec = rectWithMargin.CenterCell + GenRadial.RadialPattern[i];
+					if (predicate(intVec))
+					{
+						if (!SpectatorCellFinder.CorrectlyRotatedChairAt(intVec, map, spectateRect))
+						{
+							for (int j = 0; j < 90; j++)
+							{
+								IntVec3 intVec2 = intVec + GenRadial.RadialPattern[j];
+								if (SpectatorCellFinder.CorrectlyRotatedChairAt(intVec2, map, spectateRect) && predicate(intVec2))
+								{
+									cell = intVec2;
+									return true;
+								}
+							}
+						}
+						cell = intVec;
+						return true;
+					}
+				}
+				cell = IntVec3.Invalid;
+				return false;
 			}
 			cell = IntVec3.Invalid;
 			return false;
@@ -160,16 +176,16 @@ namespace RimWorld
 				return null;
 			}
 			Building edifice = x.GetEdifice(map);
-			if (edifice == null || edifice.def.category != ThingCategory.Building || !edifice.def.building.isSittable)
+			if (edifice != null && edifice.def.category == ThingCategory.Building && edifice.def.building.isSittable)
 			{
-				return null;
+				float num = GenGeo.AngleDifferenceBetween(edifice.Rotation.AsAngle, (spectateRect.ClosestCellTo(x) - edifice.Position).AngleFlat);
+				if (num > 75.0)
+				{
+					return null;
+				}
+				return edifice;
 			}
-			float num = GenGeo.AngleDifferenceBetween(edifice.Rotation.AsAngle, (spectateRect.ClosestCellTo(x) - edifice.Position).AngleFlat);
-			if (num > 75f)
-			{
-				return null;
-			}
-			return edifice;
+			return null;
 		}
 
 		private static int DistanceToClosestChair(IntVec3 from, IntVec3 step, Map map, int maxDist, CellRect spectateRect)
@@ -182,7 +198,7 @@ namespace RimWorld
 				num++;
 				if (!intVec.InBounds(map))
 				{
-					break;
+					return -1;
 				}
 				if (SpectatorCellFinder.CorrectlyRotatedChairAt(intVec, map, spectateRect))
 				{
@@ -193,9 +209,7 @@ namespace RimWorld
 					return -1;
 				}
 				if (num >= maxDist)
-				{
-					return -1;
-				}
+					break;
 			}
 			return -1;
 		}
@@ -204,34 +218,40 @@ namespace RimWorld
 		{
 			List<IntVec3> list = new List<IntVec3>();
 			int num = 50;
-			for (int i = 0; i < num; i++)
+			int num2 = 0;
+			IntVec3 intVec = default(IntVec3);
+			while (num2 < num && SpectatorCellFinder.TryFindSpectatorCellFor((Pawn)null, spectateRect, map, out intVec, allowedSides, margin, list))
 			{
-				IntVec3 intVec;
-				if (!SpectatorCellFinder.TryFindSpectatorCellFor(null, spectateRect, map, out intVec, allowedSides, margin, list))
-				{
-					break;
-				}
 				list.Add(intVec);
-				float a = Mathf.Lerp(1f, 0.08f, (float)i / (float)num);
+				float a = Mathf.Lerp(1f, 0.08f, (float)num2 / (float)num);
 				Material mat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0f, 0.8f, 0f, a), false);
-				map.debugDrawer.FlashCell(intVec, mat, (i + 1).ToString());
+				map.debugDrawer.FlashCell(intVec, mat, (num2 + 1).ToString());
+				num2++;
 			}
 			SpectateRectSide spectateRectSide = SpectatorCellFinder.FindSingleBestSide(spectateRect, map, allowedSides, margin);
 			IntVec3 centerCell = spectateRect.CenterCell;
 			switch (spectateRectSide)
 			{
 			case SpectateRectSide.Up:
+			{
 				centerCell.z += spectateRect.Height / 2 + 10;
 				break;
+			}
 			case SpectateRectSide.Right:
+			{
 				centerCell.x += spectateRect.Width / 2 + 10;
 				break;
+			}
 			case SpectateRectSide.Down:
+			{
 				centerCell.z -= spectateRect.Height / 2 + 10;
 				break;
+			}
 			case SpectateRectSide.Left:
+			{
 				centerCell.x -= spectateRect.Width / 2 + 10;
 				break;
+			}
 			}
 			map.debugDrawer.FlashLine(spectateRect.CenterCell, centerCell);
 		}
@@ -245,76 +265,81 @@ namespace RimWorld
 			SpectatorCellFinder.usedCells.Clear();
 			int num = 30;
 			CellRect cellRect = spectateRect.ExpandedBy(margin).ClipInsideMap(map);
-			for (int j = 0; j < num; j++)
+			int num2 = 0;
+			IntVec3 intVec = default(IntVec3);
+			while (num2 < num && SpectatorCellFinder.TryFindSpectatorCellFor((Pawn)null, spectateRect, map, out intVec, allowedSides, margin, SpectatorCellFinder.usedCells))
 			{
-				IntVec3 intVec;
-				if (!SpectatorCellFinder.TryFindSpectatorCellFor(null, spectateRect, map, out intVec, allowedSides, margin, SpectatorCellFinder.usedCells))
-				{
-					break;
-				}
 				SpectatorCellFinder.usedCells.Add(intVec);
-				float num2 = Mathf.Lerp(1f, 0.35f, (float)j / (float)num);
-				float num3 = num2;
+				float num3;
+				float num4 = num3 = Mathf.Lerp(1f, 0.35f, (float)num2 / (float)num);
 				Building correctlyRotatedChairAt = SpectatorCellFinder.GetCorrectlyRotatedChairAt(intVec, map, spectateRect);
-				if (intVec.z > cellRect.maxZ && (allowedSides & SpectateRectSide.Up) == SpectateRectSide.Up)
+				if (intVec.z > cellRect.maxZ && ((int)allowedSides & 1) == 1)
 				{
 					SpectatorCellFinder.scorePerSide[0] += num3;
 					if (correctlyRotatedChairAt != null && correctlyRotatedChairAt.Rotation == Rot4.South)
 					{
-						SpectatorCellFinder.scorePerSide[0] += 1.2f * num2;
+						SpectatorCellFinder.scorePerSide[0] += (float)(1.2000000476837158 * num4);
 					}
 				}
-				if (intVec.x > cellRect.maxX && (allowedSides & SpectateRectSide.Right) == SpectateRectSide.Right)
+				if (intVec.x > cellRect.maxX && ((int)allowedSides & 2) == 2)
 				{
 					SpectatorCellFinder.scorePerSide[1] += num3;
 					if (correctlyRotatedChairAt != null && correctlyRotatedChairAt.Rotation == Rot4.West)
 					{
-						SpectatorCellFinder.scorePerSide[1] += 1.2f * num2;
+						SpectatorCellFinder.scorePerSide[1] += (float)(1.2000000476837158 * num4);
 					}
 				}
-				if (intVec.z < cellRect.minZ && (allowedSides & SpectateRectSide.Down) == SpectateRectSide.Down)
+				if (intVec.z < cellRect.minZ && ((int)allowedSides & 4) == 4)
 				{
 					SpectatorCellFinder.scorePerSide[2] += num3;
 					if (correctlyRotatedChairAt != null && correctlyRotatedChairAt.Rotation == Rot4.North)
 					{
-						SpectatorCellFinder.scorePerSide[2] += 1.2f * num2;
+						SpectatorCellFinder.scorePerSide[2] += (float)(1.2000000476837158 * num4);
 					}
 				}
-				if (intVec.x < cellRect.minX && (allowedSides & SpectateRectSide.Left) == SpectateRectSide.Left)
+				if (intVec.x < cellRect.minX && ((int)allowedSides & 8) == 8)
 				{
 					SpectatorCellFinder.scorePerSide[3] += num3;
 					if (correctlyRotatedChairAt != null && correctlyRotatedChairAt.Rotation == Rot4.East)
 					{
-						SpectatorCellFinder.scorePerSide[3] += 1.2f * num2;
+						SpectatorCellFinder.scorePerSide[3] += (float)(1.2000000476837158 * num4);
 					}
 				}
+				num2++;
 			}
-			float num4 = 0f;
-			int num5 = -1;
-			for (int k = 0; k < SpectatorCellFinder.scorePerSide.Length; k++)
+			float num5 = 0f;
+			int num6 = -1;
+			for (int j = 0; j < SpectatorCellFinder.scorePerSide.Length; j++)
 			{
-				if (SpectatorCellFinder.scorePerSide[k] != 0f)
+				if (SpectatorCellFinder.scorePerSide[j] != 0.0 && (num6 < 0 || SpectatorCellFinder.scorePerSide[j] > num5))
 				{
-					if (num5 < 0 || SpectatorCellFinder.scorePerSide[k] > num4)
-					{
-						num5 = k;
-						num4 = SpectatorCellFinder.scorePerSide[k];
-					}
+					num6 = j;
+					num5 = SpectatorCellFinder.scorePerSide[j];
 				}
 			}
 			SpectatorCellFinder.usedCells.Clear();
-			switch (num5)
+			switch (num6)
 			{
 			case 0:
+			{
 				return SpectateRectSide.Up;
+			}
 			case 1:
+			{
 				return SpectateRectSide.Right;
+			}
 			case 2:
+			{
 				return SpectateRectSide.Down;
+			}
 			case 3:
+			{
 				return SpectateRectSide.Left;
+			}
 			default:
+			{
 				return SpectateRectSide.None;
+			}
 			}
 		}
 	}

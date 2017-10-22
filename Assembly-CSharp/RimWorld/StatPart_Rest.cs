@@ -35,23 +35,33 @@ namespace RimWorld
 					return pawn.needs.rest.CurCategory.GetLabel() + ": x" + this.RestMultiplier(pawn.needs.rest.CurCategory).ToStringPercent();
 				}
 			}
-			return null;
+			return (string)null;
 		}
 
 		private float RestMultiplier(RestCategory fatigue)
 		{
 			switch (fatigue)
 			{
-			case RestCategory.Rested:
-				return this.factorRested;
-			case RestCategory.Tired:
-				return this.factorTired;
-			case RestCategory.VeryTired:
-				return this.factorVeryTired;
 			case RestCategory.Exhausted:
+			{
 				return this.factorExhausted;
+			}
+			case RestCategory.VeryTired:
+			{
+				return this.factorVeryTired;
+			}
+			case RestCategory.Tired:
+			{
+				return this.factorTired;
+			}
+			case RestCategory.Rested:
+			{
+				return this.factorRested;
+			}
 			default:
+			{
 				throw new InvalidOperationException();
+			}
 			}
 		}
 	}

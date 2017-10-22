@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld.Planet
 {
 	public static class WorldAltitudeOffsets

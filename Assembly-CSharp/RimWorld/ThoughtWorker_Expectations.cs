@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using Verse;
 
 namespace RimWorld
@@ -25,19 +24,19 @@ namespace RimWorld
 				return ThoughtState.Inactive;
 			}
 			float wealthTotal = p.MapHeld.wealthWatcher.WealthTotal;
-			if (wealthTotal < 10000f)
+			if (wealthTotal < 10000.0)
 			{
 				return ThoughtState.ActiveAtStage(3);
 			}
-			if (wealthTotal < 50000f)
+			if (wealthTotal < 50000.0)
 			{
 				return ThoughtState.ActiveAtStage(2);
 			}
-			if (wealthTotal < 150000f)
+			if (wealthTotal < 150000.0)
 			{
 				return ThoughtState.ActiveAtStage(1);
 			}
-			if (wealthTotal < 300000f)
+			if (wealthTotal < 300000.0)
 			{
 				return ThoughtState.ActiveAtStage(0);
 			}

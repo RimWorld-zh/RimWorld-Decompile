@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -24,11 +23,11 @@ namespace RimWorld
 				return false;
 			}
 			Hediff firstHediffOfDef = other.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.AlcoholHigh, false);
-			if (firstHediffOfDef == null || !firstHediffOfDef.Visible)
+			if (firstHediffOfDef != null && firstHediffOfDef.Visible)
 			{
-				return false;
+				return true;
 			}
-			return true;
+			return false;
 		}
 	}
 }

@@ -18,7 +18,7 @@ namespace Verse.AI
 		{
 			get
 			{
-				return this.totalCostInt >= 0f;
+				return this.totalCostInt >= 0.0;
 			}
 		}
 
@@ -80,10 +80,12 @@ namespace Verse.AI
 			if (this == PawnPath.NotFound)
 			{
 				Log.Warning("Calling SetupFound with totalCost=" + totalCost + " on PawnPath.NotFound");
-				return;
 			}
-			this.totalCostInt = totalCost;
-			this.curNodeIndex = this.nodes.Count - 1;
+			else
+			{
+				this.totalCostInt = totalCost;
+				this.curNodeIndex = this.nodes.Count - 1;
+			}
 		}
 
 		public void Dispose()
@@ -103,10 +105,9 @@ namespace Verse.AI
 
 		public static PawnPath NewNotFound()
 		{
-			return new PawnPath
-			{
-				totalCostInt = -1f
-			};
+			PawnPath pawnPath = new PawnPath();
+			pawnPath.totalCostInt = -1f;
+			return pawnPath;
 		}
 
 		public IntVec3 ConsumeNextNode()
@@ -131,49 +132,34 @@ namespace Verse.AI
 			{
 				return "PawnPath(not in use)";
 			}
-			return string.Concat(new object[]
-			{
-				"PawnPath(nodeCount= ",
-				this.nodes.Count,
-				(this.nodes.Count <= 0) ? string.Empty : string.Concat(new object[]
-				{
-					" first=",
-					this.FirstNode,
-					" last=",
-					this.LastNode
-				}),
-				" cost=",
-				this.totalCostInt,
-				" )"
-			});
+			return "PawnPath(nodeCount= " + this.nodes.Count + ((this.nodes.Count <= 0) ? string.Empty : (" first=" + this.FirstNode + " last=" + this.LastNode)) + " cost=" + this.totalCostInt + " )";
 		}
 
 		public void DrawPath(Pawn pathingPawn)
 		{
-			if (!this.Found)
+			if (this.Found)
 			{
-				return;
-			}
-			float y = Altitudes.AltitudeFor(AltitudeLayer.Item);
-			if (this.NodesLeftCount > 0)
-			{
-				for (int i = 0; i < this.NodesLeftCount - 1; i++)
+				float y = Altitudes.AltitudeFor(AltitudeLayer.Item);
+				if (this.NodesLeftCount > 0)
 				{
-					Vector3 a = this.Peek(i).ToVector3Shifted();
-					a.y = y;
-					Vector3 b = this.Peek(i + 1).ToVector3Shifted();
-					b.y = y;
-					GenDraw.DrawLineBetween(a, b);
-				}
-				if (pathingPawn != null)
-				{
-					Vector3 drawPos = pathingPawn.DrawPos;
-					drawPos.y = y;
-					Vector3 b2 = this.Peek(0).ToVector3Shifted();
-					b2.y = y;
-					if ((drawPos - b2).sqrMagnitude > 0.01f)
+					for (int i = 0; i < this.NodesLeftCount - 1; i++)
 					{
-						GenDraw.DrawLineBetween(drawPos, b2);
+						Vector3 a = this.Peek(i).ToVector3Shifted();
+						a.y = y;
+						Vector3 b = this.Peek(i + 1).ToVector3Shifted();
+						b.y = y;
+						GenDraw.DrawLineBetween(a, b);
+					}
+					if (pathingPawn != null)
+					{
+						Vector3 drawPos = pathingPawn.DrawPos;
+						drawPos.y = y;
+						Vector3 b2 = this.Peek(0).ToVector3Shifted();
+						b2.y = y;
+						if ((drawPos - b2).sqrMagnitude > 0.0099999997764825821)
+						{
+							GenDraw.DrawLineBetween(drawPos, b2);
+						}
 					}
 				}
 			}

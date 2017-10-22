@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -8,12 +7,12 @@ namespace RimWorld
 	{
 		public Designator_AreaHomeClear() : base(DesignateMode.Remove)
 		{
-			this.defaultLabel = "DesignatorAreaHomeClear".Translate();
-			this.defaultDesc = "DesignatorAreaHomeClearDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/HomeAreaOff", true);
-			this.soundDragSustain = SoundDefOf.DesignateDragAreaDelete;
-			this.soundDragChanged = SoundDefOf.DesignateDragAreaDeleteChanged;
-			this.soundSucceeded = SoundDefOf.DesignateAreaDelete;
+			base.defaultLabel = "DesignatorAreaHomeClear".Translate();
+			base.defaultDesc = "DesignatorAreaHomeClearDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/HomeAreaOff", true);
+			base.soundDragSustain = SoundDefOf.DesignateDragAreaDelete;
+			base.soundDragChanged = SoundDefOf.DesignateDragAreaDeleteChanged;
+			base.soundSucceeded = SoundDefOf.DesignateAreaDelete;
 		}
 	}
 }

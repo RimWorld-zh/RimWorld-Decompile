@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -79,18 +78,23 @@ namespace RimWorld
 		{
 			if (dinfo.Def == DamageDefOf.Stun)
 			{
-				this.StunFor(Mathf.RoundToInt((float)dinfo.Amount * 20f));
+				this.StunFor(Mathf.RoundToInt((float)((float)dinfo.Amount * 20.0)));
 			}
 			else if (dinfo.Def == DamageDefOf.EMP && affectedByEMP)
 			{
 				if (this.EMPAdaptedTicksLeft <= 0)
 				{
-					this.StunFor(Mathf.RoundToInt((float)dinfo.Amount * 15f));
+					this.StunFor(Mathf.RoundToInt((float)((float)dinfo.Amount * 15.0)));
 					this.EMPAdaptedTicksLeft = this.EMPAdaptationTicksDuration;
 				}
 				else
 				{
-					Vector3 loc = new Vector3((float)this.parent.Position.x + 1f, (float)this.parent.Position.y, (float)this.parent.Position.z + 1f);
+					IntVec3 position = this.parent.Position;
+					double x = (float)position.x + 1.0;
+					IntVec3 position2 = this.parent.Position;
+					float y = (float)position2.y;
+					IntVec3 position3 = this.parent.Position;
+					Vector3 loc = new Vector3((float)x, y, (float)((float)position3.z + 1.0));
 					MoteMaker.ThrowText(loc, this.parent.Map, "Adapted".Translate(), Color.white, -1f);
 				}
 			}

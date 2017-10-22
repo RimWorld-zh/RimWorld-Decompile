@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,7 +39,7 @@ namespace Verse
 			{
 				if (this.immunityList[j].hediffDef == diseaseDef)
 				{
-					return Mathf.Lerp(1f, 0f, this.immunityList[j].immunity / 0.6f);
+					return Mathf.Lerp(1f, 0f, (float)(this.immunityList[j].immunity / 0.60000002384185791));
 				}
 			}
 			return 1f;
@@ -76,11 +75,11 @@ namespace Verse
 					immunityRecord.immunity = Mathf.Clamp(0.650000036f, immunityRecord.immunity, 1f);
 				}
 			}
-			for (int k = this.immunityList.Count - 1; k >= 0; k--)
+			for (int num = this.immunityList.Count - 1; num >= 0; num--)
 			{
-				if (this.immunityList[k].immunity <= 0f && !list.Contains(this.immunityList[k].hediffDef))
+				if (this.immunityList[num].immunity <= 0.0 && !list.Contains(this.immunityList[num].hediffDef))
 				{
-					this.immunityList.RemoveAt(k);
+					this.immunityList.RemoveAt(num);
 				}
 			}
 		}
@@ -129,17 +128,12 @@ namespace Verse
 
 		private void TryAddImmunityRecord(HediffDef def)
 		{
-			if (def.CompProps<HediffCompProperties_Immunizable>() == null)
+			if (def.CompProps<HediffCompProperties_Immunizable>() != null && !this.ImmunityRecordExists(def))
 			{
-				return;
+				ImmunityRecord immunityRecord = new ImmunityRecord();
+				immunityRecord.hediffDef = def;
+				this.immunityList.Add(immunityRecord);
 			}
-			if (this.ImmunityRecordExists(def))
-			{
-				return;
-			}
-			ImmunityRecord immunityRecord = new ImmunityRecord();
-			immunityRecord.hediffDef = def;
-			this.immunityList.Add(immunityRecord);
 		}
 
 		public ImmunityRecord GetImmunityRecord(HediffDef def)

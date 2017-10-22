@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum Intelligence : byte
 	{
-		Animal,
-		ToolUser,
-		Humanlike
+		Animal = 0,
+		ToolUser = 1,
+		Humanlike = 2
 	}
 }

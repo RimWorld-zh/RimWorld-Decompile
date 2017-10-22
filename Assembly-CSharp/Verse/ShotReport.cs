@@ -45,7 +45,7 @@ namespace Verse
 				if (this.target.HasThing)
 				{
 					Pawn pawn = this.target.Thing as Pawn;
-					if (pawn != null && this.distance >= 4.5f && pawn.GetPosture() != PawnPosture.Standing)
+					if (((pawn != null) ? ((this.distance >= 4.5) ? pawn.GetPosture() : PawnPosture.Standing) : PawnPosture.Standing) != 0)
 					{
 						return 0.2f;
 					}
@@ -61,7 +61,7 @@ namespace Verse
 				if (this.target.HasThing)
 				{
 					Pawn pawn = this.target.Thing as Pawn;
-					if (pawn != null && this.distance <= 3.9f && pawn.GetPosture() != PawnPosture.Standing)
+					if (((pawn != null) ? ((this.distance <= 3.9000000953674316) ? pawn.GetPosture() : PawnPosture.Standing) : PawnPosture.Standing) != 0)
 					{
 						return 7.5f;
 					}
@@ -76,7 +76,7 @@ namespace Verse
 			{
 				if (this.coveringGas != null)
 				{
-					return 1f - this.coveringGas.gas.accuracyPenalty;
+					return (float)(1.0 - this.coveringGas.gas.accuracyPenalty);
 				}
 				return 1f;
 			}
@@ -86,7 +86,7 @@ namespace Verse
 		{
 			get
 			{
-				return 1f - this.coversOverallBlockChance;
+				return (float)(1.0 - this.coversOverallBlockChance);
 			}
 		}
 
@@ -111,20 +111,12 @@ namespace Verse
 		{
 			Pawn pawn = caster as Pawn;
 			IntVec3 cell = target.Cell;
-			ShotReport result;
+			ShotReport result = default(ShotReport);
 			result.distance = (cell - caster.Position).LengthHorizontal;
 			result.target = target.ToTargetInfo(caster.Map);
-			float f;
-			if (pawn != null)
-			{
-				f = pawn.GetStatValue(StatDefOf.ShootingAccuracy, true);
-			}
-			else
-			{
-				f = 0.96f;
-			}
+			float f = (float)((pawn == null) ? 0.95999997854232788 : pawn.GetStatValue(StatDefOf.ShootingAccuracy, true));
 			result.factorFromShooterAndDist = Mathf.Pow(f, result.distance);
-			if (result.factorFromShooterAndDist < 0.0201f)
+			if (result.factorFromShooterAndDist < 0.020099999383091927)
 			{
 				result.factorFromShooterAndDist = 0.0201f;
 			}
@@ -132,12 +124,12 @@ namespace Verse
 			result.covers = CoverUtility.CalculateCoverGiverSet(cell, caster.Position, caster.Map);
 			result.coversOverallBlockChance = CoverUtility.CalculateOverallBlockChance(cell, caster.Position, caster.Map);
 			result.coveringGas = null;
-			ShootLine shootLine;
+			ShootLine shootLine = default(ShootLine);
 			if (verb.TryFindShootLineFromTo(verb.caster.Position, target, out shootLine))
 			{
-				foreach (IntVec3 current in shootLine.Points())
+				foreach (IntVec3 item in shootLine.Points())
 				{
-					Thing gas = current.GetGas(caster.Map);
+					Thing gas = item.GetGas(caster.Map);
 					if (gas != null && (result.coveringGas == null || result.coveringGas.gas.accuracyPenalty < gas.def.gas.accuracyPenalty))
 					{
 						result.coveringGas = gas.def;
@@ -162,7 +154,7 @@ namespace Verse
 				}
 				else
 				{
-					result.factorFromTargetSize = target.Thing.def.fillPercent * 1.7f;
+					result.factorFromTargetSize = (float)(target.Thing.def.fillPercent * 1.7000000476837158);
 				}
 				result.factorFromTargetSize = Mathf.Clamp(result.factorFromTargetSize, 0.5f, 2f);
 			}
@@ -173,7 +165,7 @@ namespace Verse
 		public string GetTextReadout()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			if (this.forcedMissRadius > 0.5f)
+			if (this.forcedMissRadius > 0.5)
 			{
 				stringBuilder.AppendLine();
 				stringBuilder.AppendLine("WeaponMissRadius".Translate() + "   " + this.forcedMissRadius.ToString("F1"));
@@ -182,41 +174,37 @@ namespace Verse
 			{
 				stringBuilder.AppendLine(" " + this.TotalEstimatedHitChance.ToStringPercent());
 				stringBuilder.AppendLine("   " + "ShootReportShooterAbility".Translate() + "  " + this.factorFromShooterAndDist.ToStringPercent());
-				if (this.factorFromEquipment < 0.99f)
+				if (this.factorFromEquipment < 0.99000000953674316)
 				{
 					stringBuilder.AppendLine("   " + "ShootReportWeapon".Translate() + "        " + this.factorFromEquipment.ToStringPercent());
 				}
-				if (this.target.HasThing && this.factorFromTargetSize != 1f)
+				if (this.target.HasThing && this.factorFromTargetSize != 1.0)
 				{
 					stringBuilder.AppendLine("   " + "TargetSize".Translate() + "       " + this.factorFromTargetSize.ToStringPercent());
 				}
-				if (this.factorFromWeather < 0.99f)
+				if (this.factorFromWeather < 0.99000000953674316)
 				{
 					stringBuilder.AppendLine("   " + "Weather".Translate() + "         " + this.factorFromWeather.ToStringPercent());
 				}
-				if (this.FactorFromCoveringGas < 0.99f)
+				if (this.FactorFromCoveringGas < 0.99000000953674316)
 				{
 					stringBuilder.AppendLine("   " + this.coveringGas.label.CapitalizeFirst() + "         " + this.FactorFromCoveringGas.ToStringPercent());
 				}
-				if (this.FactorFromPosture < 0.9999f)
+				if (this.FactorFromPosture < 0.99989998340606689)
 				{
 					stringBuilder.AppendLine("   " + "TargetProne".Translate() + "  " + this.FactorFromPosture.ToStringPercent());
 				}
-				if (this.FactorFromExecution != 1f)
+				if (this.FactorFromExecution != 1.0)
 				{
 					stringBuilder.AppendLine("   " + "Execution".Translate() + "   " + this.FactorFromExecution.ToStringPercent());
 				}
-				if (this.ChanceToNotHitCover < 1f)
+				if (this.ChanceToNotHitCover < 1.0)
 				{
 					stringBuilder.AppendLine("   " + "ShootingCover".Translate() + "        " + this.ChanceToNotHitCover.ToStringPercent());
 					for (int i = 0; i < this.covers.Count; i++)
 					{
 						CoverInfo coverInfo = this.covers[i];
-						stringBuilder.AppendLine("     " + "CoverThingBlocksPercentOfShots".Translate(new object[]
-						{
-							coverInfo.Thing.LabelCap,
-							coverInfo.BlockChance.ToStringPercent()
-						}));
+						stringBuilder.AppendLine("     " + "CoverThingBlocksPercentOfShots".Translate(coverInfo.Thing.LabelCap, coverInfo.BlockChance.ToStringPercent()));
 					}
 				}
 				else
@@ -229,7 +217,7 @@ namespace Verse
 
 		public Thing GetRandomCoverToMissInto()
 		{
-			return this.covers.RandomElementByWeight((CoverInfo c) => c.BlockChance).Thing;
+			return this.covers.RandomElementByWeight((Func<CoverInfo, float>)((CoverInfo c) => c.BlockChance)).Thing;
 		}
 	}
 }

@@ -10,32 +10,39 @@ namespace RimWorld.BaseGen
 
 		public override bool CanResolve(ResolveParams rp)
 		{
-			IntVec3 intVec;
-			return base.CanResolve(rp) && this.TryFindFirstHivePos(rp.rect, out intVec);
+			if (!base.CanResolve(rp))
+			{
+				return false;
+			}
+			IntVec3 intVec = default(IntVec3);
+			if (!this.TryFindFirstHivePos(rp.rect, out intVec))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void Resolve(ResolveParams rp)
 		{
-			IntVec3 loc;
-			if (!this.TryFindFirstHivePos(rp.rect, out loc))
+			IntVec3 loc = default(IntVec3);
+			if (this.TryFindFirstHivePos(rp.rect, out loc))
 			{
-				return;
-			}
-			int? hivesCount = rp.hivesCount;
-			int num = (!hivesCount.HasValue) ? SymbolResolver_Hives.DefaultHivesCountRange.RandomInRange : hivesCount.Value;
-			Hive hive = (Hive)ThingMaker.MakeThing(ThingDefOf.Hive, null);
-			hive.SetFaction(Faction.OfInsects, null);
-			if (rp.disableHives.HasValue && rp.disableHives.Value)
-			{
-				hive.active = false;
-			}
-			hive = (Hive)GenSpawn.Spawn(hive, loc, BaseGen.globalSettings.map);
-			for (int i = 0; i < num - 1; i++)
-			{
-				Hive hive2;
-				if (hive.GetComp<CompSpawnerHives>().TrySpawnChildHive(true, out hive2))
+				int? hivesCount = rp.hivesCount;
+				int num = (!hivesCount.HasValue) ? SymbolResolver_Hives.DefaultHivesCountRange.RandomInRange : hivesCount.Value;
+				Hive hive = (Hive)ThingMaker.MakeThing(ThingDefOf.Hive, null);
+				hive.SetFaction(Faction.OfInsects, null);
+				if (rp.disableHives.HasValue && rp.disableHives.Value)
 				{
-					hive = hive2;
+					hive.active = false;
+				}
+				hive = (Hive)GenSpawn.Spawn(hive, loc, BaseGen.globalSettings.map);
+				for (int i = 0; i < num - 1; i++)
+				{
+					Hive hive2 = default(Hive);
+					if (hive.GetComp<CompSpawnerHives>().TrySpawnChildHive(true, out hive2))
+					{
+						hive = hive2;
+					}
 				}
 			}
 		}
@@ -45,7 +52,7 @@ namespace RimWorld.BaseGen
 			Map map = BaseGen.globalSettings.map;
 			return (from mc in rect.Cells
 			where mc.Standable(map)
-			select mc).TryRandomElement(out pos);
+			select mc).TryRandomElement<IntVec3>(out pos);
 		}
 	}
 }

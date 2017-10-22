@@ -44,24 +44,34 @@ namespace RimWorld
 				JobFailReason.Is("NoEmptyGraveLower".Translate());
 				return null;
 			}
-			return new Job(JobDefOf.BuryCorpse, t, building_Grave)
-			{
-				count = corpse.stackCount
-			};
+			Job job = new Job(JobDefOf.BuryCorpse, t, (Thing)building_Grave);
+			job.count = corpse.stackCount;
+			return job;
 		}
 
 		private Building_Grave FindBestGrave(Pawn p, Corpse corpse)
 		{
-			Predicate<Thing> predicate = (Thing m) => !m.IsForbidden(p) && p.CanReserve(m, 1, -1, null, false) && ((Building_Grave)m).Accepts(corpse);
+			Predicate<Thing> predicate = (Predicate<Thing>)delegate(Thing m)
+			{
+				if (!m.IsForbidden(p) && p.CanReserve(m, 1, -1, null, false))
+				{
+					if (!((Building_Grave)m).Accepts(corpse))
+					{
+						return false;
+					}
+					return true;
+				}
+				return false;
+			};
 			if (corpse.InnerPawn.ownership != null && corpse.InnerPawn.ownership.AssignedGrave != null)
 			{
 				Building_Grave assignedGrave = corpse.InnerPawn.ownership.AssignedGrave;
-				if (predicate(assignedGrave) && p.Map.reachability.CanReach(corpse.Position, assignedGrave, PathEndMode.ClosestTouch, TraverseParms.For(p, Danger.Deadly, TraverseMode.ByPawn, false)))
+				if (predicate(assignedGrave) && p.Map.reachability.CanReach(corpse.Position, (Thing)assignedGrave, PathEndMode.ClosestTouch, TraverseParms.For(p, Danger.Deadly, TraverseMode.ByPawn, false)))
 				{
 					return assignedGrave;
 				}
 			}
-			Func<Thing, float> priorityGetter = (Thing t) => (float)((IStoreSettingsParent)t).GetStoreSettings().Priority;
+			Func<Thing, float> priorityGetter = (Func<Thing, float>)((Thing t) => (float)(int)((IStoreSettingsParent)t).GetStoreSettings().Priority);
 			Predicate<Thing> validator = predicate;
 			return (Building_Grave)GenClosest.ClosestThing_Global_Reachable(corpse.Position, corpse.Map, corpse.Map.listerThings.ThingsInGroup(ThingRequestGroup.Grave), PathEndMode.ClosestTouch, TraverseParms.For(p, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, priorityGetter);
 		}

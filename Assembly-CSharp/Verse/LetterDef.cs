@@ -27,7 +27,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.iconTex == null && !this.icon.NullOrEmpty())
+				if ((UnityEngine.Object)this.iconTex == (UnityEngine.Object)null && !this.icon.NullOrEmpty())
 				{
 					this.iconTex = ContentFinder<Texture2D>.Get(this.icon, true);
 				}

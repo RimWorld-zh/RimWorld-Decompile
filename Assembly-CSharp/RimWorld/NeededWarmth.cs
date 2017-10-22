@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum NeededWarmth : byte
 	{
-		Any,
-		Warm,
-		Cool
+		Any = 0,
+		Warm = 1,
+		Cool = 2
 	}
 }

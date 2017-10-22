@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -8,20 +7,20 @@ namespace RimWorld
 	{
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			if (pawn.guest == null || !pawn.guest.ShouldWaitInsteadOfEscaping)
+			if (pawn.guest != null && pawn.guest.ShouldWaitInsteadOfEscaping)
 			{
-				return null;
-			}
-			IntVec3 spotToWaitInsteadOfEscaping = pawn.guest.spotToWaitInsteadOfEscaping;
-			if (!spotToWaitInsteadOfEscaping.IsValid || !pawn.CanReach(spotToWaitInsteadOfEscaping, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
-			{
-				if (!RCellFinder.TryFindRandomSpotJustOutsideColony(pawn, out spotToWaitInsteadOfEscaping))
+				IntVec3 spotToWaitInsteadOfEscaping = pawn.guest.spotToWaitInsteadOfEscaping;
+				if (!spotToWaitInsteadOfEscaping.IsValid || !pawn.CanReach(spotToWaitInsteadOfEscaping, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
 				{
-					return null;
+					if (!RCellFinder.TryFindRandomSpotJustOutsideColony(pawn, out spotToWaitInsteadOfEscaping))
+					{
+						return null;
+					}
+					pawn.guest.spotToWaitInsteadOfEscaping = spotToWaitInsteadOfEscaping;
 				}
-				pawn.guest.spotToWaitInsteadOfEscaping = spotToWaitInsteadOfEscaping;
+				return base.TryGiveJob(pawn);
 			}
-			return base.TryGiveJob(pawn);
+			return null;
 		}
 
 		protected override IntVec3 GetWanderRoot(Pawn pawn)

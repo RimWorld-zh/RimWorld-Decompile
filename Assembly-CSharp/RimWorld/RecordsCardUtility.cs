@@ -16,7 +16,7 @@ namespace RimWorld
 		public static void DrawRecordsCard(Rect rect, Pawn pawn)
 		{
 			Text.Font = GameFont.Small;
-			Rect rect2 = new Rect(0f, 0f, rect.width - 16f, RecordsCardUtility.listHeight);
+			Rect rect2 = new Rect(0f, 0f, (float)(rect.width - 16.0), RecordsCardUtility.listHeight);
 			Widgets.BeginScrollView(rect, ref RecordsCardUtility.scrollPosition, rect2, true);
 			Rect leftRect = rect2;
 			leftRect.width *= 0.5f;
@@ -27,7 +27,7 @@ namespace RimWorld
 			rightRect.xMin += 6f;
 			float a = RecordsCardUtility.DrawTimeRecords(leftRect, pawn);
 			float b = RecordsCardUtility.DrawMiscRecords(rightRect, pawn);
-			RecordsCardUtility.listHeight = Mathf.Max(a, b) + 100f;
+			RecordsCardUtility.listHeight = (float)(Mathf.Max(a, b) + 100.0);
 			Widgets.EndScrollView();
 		}
 
@@ -41,7 +41,7 @@ namespace RimWorld
 			{
 				if (allDefsListForReading[i].type == RecordType.Time)
 				{
-					num += RecordsCardUtility.DrawRecord(8f, num, leftRect.width - 8f, allDefsListForReading[i], pawn);
+					num += RecordsCardUtility.DrawRecord(8f, num, (float)(leftRect.width - 8.0), allDefsListForReading[i], pawn);
 				}
 			}
 			GUI.EndGroup();
@@ -58,7 +58,7 @@ namespace RimWorld
 			{
 				if (allDefsListForReading[i].type == RecordType.Int || allDefsListForReading[i].type == RecordType.Float)
 				{
-					num += RecordsCardUtility.DrawRecord(8f, num, rightRect.width - 8f, allDefsListForReading[i], pawn);
+					num += RecordsCardUtility.DrawRecord(8f, num, (float)(rightRect.width - 8.0), allDefsListForReading[i], pawn);
 				}
 			}
 			GUI.EndGroup();
@@ -67,16 +67,8 @@ namespace RimWorld
 
 		private static float DrawRecord(float x, float y, float width, RecordDef record, Pawn pawn)
 		{
-			float num = width * 0.45f;
-			string text;
-			if (record.type == RecordType.Time)
-			{
-				text = pawn.records.GetAsInt(record).ToStringTicksToPeriod(true, false, true);
-			}
-			else
-			{
-				text = pawn.records.GetValue(record).ToString("0.##");
-			}
+			float num = (float)(width * 0.44999998807907104);
+			string text = (record.type != 0) ? pawn.records.GetValue(record).ToString("0.##") : pawn.records.GetAsInt(record).ToStringTicksToPeriod(true, false, true);
 			Rect rect = new Rect(8f, y, width, Text.CalcHeight(text, num));
 			if (Mouse.IsOver(rect))
 			{
@@ -89,7 +81,7 @@ namespace RimWorld
 			rect3.x = rect2.xMax;
 			rect3.width = num;
 			Widgets.Label(rect3, text);
-			TooltipHandler.TipRegion(rect, new TipSignal(() => record.description, record.GetHashCode()));
+			TooltipHandler.TipRegion(rect, new TipSignal((Func<string>)(() => record.description), record.GetHashCode()));
 			return rect.height;
 		}
 	}

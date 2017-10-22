@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -28,11 +27,10 @@ namespace RimWorld
 
 		private static void ResolveMySkinColor(ref PawnGenerationRequest request, Pawn generated, Pawn other)
 		{
-			if (request.FixedMelanin.HasValue)
+			if (!request.FixedMelanin.HasValue)
 			{
-				return;
+				request.SetFixedMelanin(PawnSkinColors.GetRandomMelaninSimilarTo(other.story.melanin, 0f, 1f));
 			}
-			request.SetFixedMelanin(PawnSkinColors.GetRandomMelaninSimilarTo(other.story.melanin, 0f, 1f));
 		}
 	}
 }

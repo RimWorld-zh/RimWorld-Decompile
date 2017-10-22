@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -7,27 +6,27 @@ namespace Verse
 	{
 		private enum CacheStatus
 		{
-			Uncached,
-			Caching,
-			Cached
+			Uncached = 0,
+			Caching = 1,
+			Cached = 2
 		}
 
 		private class CacheElement
 		{
-			public PawnCapacitiesHandler.CacheStatus status;
+			public CacheStatus status;
 
 			public float value;
 		}
 
 		private Pawn pawn;
 
-		private DefMap<PawnCapacityDef, PawnCapacitiesHandler.CacheElement> cachedCapacityLevels;
+		private DefMap<PawnCapacityDef, CacheElement> cachedCapacityLevels;
 
 		public bool CanBeAwake
 		{
 			get
 			{
-				return this.GetLevel(PawnCapacityDefOf.Consciousness) >= 0.3f;
+				return this.GetLevel(PawnCapacityDefOf.Consciousness) >= 0.30000001192092896;
 			}
 		}
 
@@ -51,17 +50,17 @@ namespace Verse
 			{
 				this.Notify_CapacityLevelsDirty();
 			}
-			PawnCapacitiesHandler.CacheElement cacheElement = this.cachedCapacityLevels[capacity];
-			if (cacheElement.status == PawnCapacitiesHandler.CacheStatus.Caching)
+			CacheElement cacheElement = this.cachedCapacityLevels[capacity];
+			if (cacheElement.status == CacheStatus.Caching)
 			{
 				Log.Error(string.Format("Detected infinite stat recursion when evaluating {0}", capacity));
 				return 0f;
 			}
-			if (cacheElement.status == PawnCapacitiesHandler.CacheStatus.Uncached)
+			if (cacheElement.status == CacheStatus.Uncached)
 			{
-				cacheElement.status = PawnCapacitiesHandler.CacheStatus.Caching;
+				cacheElement.status = CacheStatus.Caching;
 				cacheElement.value = PawnCapacityUtility.CalculateCapacityLevel(this.pawn.health.hediffSet, capacity, null);
-				cacheElement.status = PawnCapacitiesHandler.CacheStatus.Cached;
+				cacheElement.status = CacheStatus.Cached;
 			}
 			return cacheElement.value;
 		}
@@ -75,11 +74,11 @@ namespace Verse
 		{
 			if (this.cachedCapacityLevels == null)
 			{
-				this.cachedCapacityLevels = new DefMap<PawnCapacityDef, PawnCapacitiesHandler.CacheElement>();
+				this.cachedCapacityLevels = new DefMap<PawnCapacityDef, CacheElement>();
 			}
 			for (int i = 0; i < this.cachedCapacityLevels.Count; i++)
 			{
-				this.cachedCapacityLevels[i].status = PawnCapacitiesHandler.CacheStatus.Uncached;
+				this.cachedCapacityLevels[i].status = CacheStatus.Uncached;
 			}
 		}
 	}

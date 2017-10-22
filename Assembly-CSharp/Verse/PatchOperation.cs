@@ -1,4 +1,3 @@
-using System;
 using System.Xml;
 
 namespace Verse
@@ -7,28 +6,28 @@ namespace Verse
 	{
 		private enum Success
 		{
-			Normal,
-			Invert,
-			Always,
-			Never
+			Normal = 0,
+			Invert = 1,
+			Always = 2,
+			Never = 3
 		}
 
 		private bool neverSucceeded = true;
 
-		private PatchOperation.Success success;
+		private Success success;
 
 		public bool Apply(XmlDocument xml)
 		{
 			bool flag = this.ApplyWorker(xml);
-			if (this.success == PatchOperation.Success.Always)
+			if (this.success == Success.Always)
 			{
 				flag = true;
 			}
-			else if (this.success == PatchOperation.Success.Never)
+			else if (this.success == Success.Never)
 			{
 				flag = false;
 			}
-			else if (this.success == PatchOperation.Success.Invert)
+			else if (this.success == Success.Invert)
 			{
 				flag = !flag;
 			}

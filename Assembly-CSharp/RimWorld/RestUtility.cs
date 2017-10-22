@@ -27,11 +27,11 @@ namespace RimWorld
 			RestUtility.bedDefsBestToWorst_RestEffectiveness = (from d in DefDatabase<ThingDef>.AllDefs
 			where d.IsBed
 			orderby d.building.bed_maxBodySize, d.GetStatValueAbstract(StatDefOf.BedRestEffectiveness, null) descending
-			select d).ToList<ThingDef>();
+			select d).ToList();
 			RestUtility.bedDefsBestToWorst_Medical = (from d in DefDatabase<ThingDef>.AllDefs
 			where d.IsBed
 			orderby d.building.bed_maxBodySize, d.GetStatValueAbstract(StatDefOf.MedicalTendQualityOffset, null) descending, d.GetStatValueAbstract(StatDefOf.BedRestEffectiveness, null) descending
-			select d).ToList<ThingDef>();
+			select d).ToList();
 		}
 
 		public static bool IsValidBedFor(Thing bedThing, Pawn sleeper, Pawn traveler, bool sleeperWillBePrisoner, bool checkSocialProperness, bool allowMedBedEvenIfSetToNoCare = false, bool ignoreOtherReservations = false)
@@ -41,7 +41,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (!traveler.CanReserveAndReach(building_Bed, PathEndMode.OnCell, Danger.Some, building_Bed.SleepingSlotsCount, -1, null, ignoreOtherReservations))
+			if (!traveler.CanReserveAndReach((Thing)building_Bed, PathEndMode.OnCell, Danger.Some, building_Bed.SleepingSlotsCount, -1, null, ignoreOtherReservations))
 			{
 				return false;
 			}
@@ -98,27 +98,27 @@ namespace RimWorld
 					return false;
 				}
 			}
-			else if (building_Bed.owners.Any<Pawn>() && !building_Bed.owners.Contains(sleeper))
+			else if (building_Bed.owners.Any() && !building_Bed.owners.Contains(sleeper))
 			{
-				if (sleeper.IsPrisoner || sleeperWillBePrisoner)
+				if (!sleeper.IsPrisoner && !sleeperWillBePrisoner)
 				{
-					if (!building_Bed.AnyUnownedSleepingSlot)
+					if (RestUtility.IsAnyOwnerLovePartnerOf(building_Bed, sleeper))
 					{
-						return false;
+						if (!building_Bed.AnyUnownedSleepingSlot)
+						{
+							return false;
+						}
+						goto IL_018f;
 					}
+					return false;
 				}
-				else
+				if (!building_Bed.AnyUnownedSleepingSlot)
 				{
-					if (!RestUtility.IsAnyOwnerLovePartnerOf(building_Bed, sleeper))
-					{
-						return false;
-					}
-					if (!building_Bed.AnyUnownedSleepingSlot)
-					{
-						return false;
-					}
+					return false;
 				}
 			}
+			goto IL_018f;
+			IL_018f:
 			return true;
 		}
 
@@ -153,19 +153,19 @@ namespace RimWorld
 				}
 				for (int i = 0; i < RestUtility.bedDefsBestToWorst_Medical.Count; i++)
 				{
-					Predicate<Thing> validator = delegate(Thing b)
+					Predicate<Thing> validator = (Predicate<Thing>)delegate(Thing b)
 					{
-						bool arg_3A_0;
+						int result2;
 						if (((Building_Bed)b).Medical)
 						{
-							bool ignoreOtherReservations3 = ignoreOtherReservations;
-							arg_3A_0 = RestUtility.IsValidBedFor(b, sleeper, traveler, sleeperWillBePrisoner, checkSocialProperness, false, ignoreOtherReservations3);
+							bool ignoreOtherReservations4 = ignoreOtherReservations;
+							result2 = (RestUtility.IsValidBedFor(b, sleeper, traveler, sleeperWillBePrisoner, checkSocialProperness, false, ignoreOtherReservations4) ? 1 : 0);
 						}
 						else
 						{
-							arg_3A_0 = false;
+							result2 = 0;
 						}
-						return arg_3A_0;
+						return (byte)result2 != 0;
 					};
 					Building_Bed building_Bed = (Building_Bed)GenClosest.ClosestThingReachable(sleeper.Position, sleeper.Map, ThingRequest.ForDef(RestUtility.bedDefsBestToWorst_Medical[i]), PathEndMode.OnCell, TraverseParms.For(traveler, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
 					if (building_Bed != null)
@@ -200,19 +200,19 @@ namespace RimWorld
 				ThingDef thingDef = RestUtility.bedDefsBestToWorst_RestEffectiveness[j];
 				if (RestUtility.CanUseBedEver(sleeper, thingDef))
 				{
-					Predicate<Thing> validator = delegate(Thing b)
+					Predicate<Thing> validator = (Predicate<Thing>)delegate(Thing b)
 					{
-						bool arg_3A_0;
+						int result;
 						if (!((Building_Bed)b).Medical)
 						{
 							bool ignoreOtherReservations3 = ignoreOtherReservations;
-							arg_3A_0 = RestUtility.IsValidBedFor(b, sleeper, traveler, sleeperWillBePrisoner, checkSocialProperness, false, ignoreOtherReservations3);
+							result = (RestUtility.IsValidBedFor(b, sleeper, traveler, sleeperWillBePrisoner, checkSocialProperness, false, ignoreOtherReservations3) ? 1 : 0);
 						}
 						else
 						{
-							arg_3A_0 = false;
+							result = 0;
 						}
-						return arg_3A_0;
+						return (byte)result != 0;
 					};
 					Building_Bed building_Bed2 = (Building_Bed)GenClosest.ClosestThingReachable(sleeper.Position, sleeper.Map, ThingRequest.ForDef(thingDef), PathEndMode.OnCell, TraverseParms.For(traveler, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
 					if (building_Bed2 != null)
@@ -226,10 +226,22 @@ namespace RimWorld
 
 		public static Building_Bed FindPatientBedFor(Pawn pawn)
 		{
-			Predicate<Thing> predicate = delegate(Thing t)
+			Predicate<Thing> predicate = (Predicate<Thing>)delegate(Thing t)
 			{
 				Building_Bed building_Bed2 = t as Building_Bed;
-				return building_Bed2 != null && (building_Bed2.Medical || !building_Bed2.def.building.bed_humanlike) && RestUtility.IsValidBedFor(building_Bed2, pawn, pawn, pawn.IsPrisoner, false, true, false);
+				if (building_Bed2 == null)
+				{
+					return false;
+				}
+				if (!building_Bed2.Medical && building_Bed2.def.building.bed_humanlike)
+				{
+					return false;
+				}
+				if (!RestUtility.IsValidBedFor(building_Bed2, pawn, pawn, pawn.IsPrisoner, false, true, false))
+				{
+					return false;
+				}
+				return true;
 			};
 			if (pawn.InBed() && predicate(pawn.CurrentBed()))
 			{
@@ -275,12 +287,24 @@ namespace RimWorld
 
 		public static bool CanUseBedEver(Pawn p, ThingDef bedDef)
 		{
-			return p.BodySize <= bedDef.building.bed_maxBodySize && p.RaceProps.Humanlike == bedDef.building.bed_humanlike;
+			if (p.BodySize > bedDef.building.bed_maxBodySize)
+			{
+				return false;
+			}
+			if (p.RaceProps.Humanlike != bedDef.building.bed_humanlike)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool TimetablePreventsLayDown(Pawn pawn)
 		{
-			return pawn.timetable != null && !pawn.timetable.CurrentAssignment.allowRest && pawn.needs.rest.CurLevel >= 0.2f;
+			if (pawn.timetable != null && !pawn.timetable.CurrentAssignment.allowRest && pawn.needs.rest.CurLevel >= 0.20000000298023224)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool DisturbancePreventsLyingDown(Pawn pawn)
@@ -295,35 +319,46 @@ namespace RimWorld
 
 		public static bool Awake(this Pawn p)
 		{
-			return p.health.capacities.CanBeAwake && (!p.Spawned || p.CurJob == null || !p.jobs.curDriver.asleep);
+			if (!p.health.capacities.CanBeAwake)
+			{
+				return false;
+			}
+			if (!p.Spawned)
+			{
+				return true;
+			}
+			return p.CurJob == null || !p.jobs.curDriver.asleep;
 		}
 
 		public static Building_Bed CurrentBed(this Pawn p)
 		{
-			if (!p.Spawned || p.CurJob == null || p.jobs.curDriver.layingDown != LayingDownState.LayingInBed)
+			if (p.Spawned && p.CurJob != null && p.jobs.curDriver.layingDown == LayingDownState.LayingInBed)
 			{
-				return null;
-			}
-			Building_Bed building_Bed = null;
-			List<Thing> thingList = p.Position.GetThingList(p.Map);
-			for (int i = 0; i < thingList.Count; i++)
-			{
-				building_Bed = (thingList[i] as Building_Bed);
-				if (building_Bed != null)
+				Building_Bed building_Bed = null;
+				List<Thing> thingList = p.Position.GetThingList(p.Map);
+				int num = 0;
+				while (num < thingList.Count)
 				{
+					building_Bed = (thingList[num] as Building_Bed);
+					if (building_Bed == null)
+					{
+						num++;
+						continue;
+					}
 					break;
 				}
-			}
-			if (building_Bed == null)
-			{
-				return null;
-			}
-			for (int j = 0; j < building_Bed.SleepingSlotsCount; j++)
-			{
-				if (building_Bed.GetCurOccupant(j) == p)
+				if (building_Bed == null)
 				{
-					return building_Bed;
+					return null;
 				}
+				for (int i = 0; i < building_Bed.SleepingSlotsCount; i++)
+				{
+					if (building_Bed.GetCurOccupant(i) == p)
+					{
+						return building_Bed;
+					}
+				}
+				return null;
 			}
 			return null;
 		}
@@ -335,7 +370,7 @@ namespace RimWorld
 
 		public static void WakeUp(Pawn p)
 		{
-			if (p.CurJob != null && p.jobs.curDriver.layingDown != LayingDownState.NotLaying && !p.Downed)
+			if (p.CurJob != null && p.jobs.curDriver.layingDown != 0 && !p.Downed)
 			{
 				p.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
 			}
@@ -353,7 +388,7 @@ namespace RimWorld
 
 		public static float FallAsleepMaxLevel(Pawn p)
 		{
-			return Mathf.Min(0.75f, RestUtility.WakeThreshold(p) - 0.01f);
+			return Mathf.Min(0.75f, (float)(RestUtility.WakeThreshold(p) - 0.0099999997764825821));
 		}
 	}
 }

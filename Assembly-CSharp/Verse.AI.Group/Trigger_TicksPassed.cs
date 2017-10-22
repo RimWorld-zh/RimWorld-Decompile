@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse.AI.Group
@@ -11,7 +10,7 @@ namespace Verse.AI.Group
 		{
 			get
 			{
-				return (TriggerData_TicksPassed)this.data;
+				return (TriggerData_TicksPassed)base.data;
 			}
 		}
 
@@ -25,7 +24,7 @@ namespace Verse.AI.Group
 
 		public Trigger_TicksPassed(int tickLimit)
 		{
-			this.data = new TriggerData_TicksPassed();
+			base.data = new TriggerData_TicksPassed();
 			this.duration = tickLimit;
 		}
 

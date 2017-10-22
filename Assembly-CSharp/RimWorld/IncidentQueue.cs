@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 using Verse;
 
@@ -24,20 +23,38 @@ namespace RimWorld
 			get
 			{
 				StringBuilder stringBuilder = new StringBuilder();
-				foreach (QueuedIncident current in this.queuedIncidents)
+				List<QueuedIncident>.Enumerator enumerator = this.queuedIncidents.GetEnumerator();
+				try
 				{
-					stringBuilder.AppendLine(current.ToString() + " (in " + (current.FireTick - Find.TickManager.TicksGame).ToString() + " ticks)");
+					while (enumerator.MoveNext())
+					{
+						QueuedIncident current = enumerator.Current;
+						stringBuilder.AppendLine(current.ToString() + " (in " + (current.FireTick - Find.TickManager.TicksGame).ToString() + " ticks)");
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 				return stringBuilder.ToString();
 			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerator GetEnumerator()
 		{
-			IncidentQueue.<GetEnumerator>c__IteratorA3 <GetEnumerator>c__IteratorA = new IncidentQueue.<GetEnumerator>c__IteratorA3();
-			<GetEnumerator>c__IteratorA.<>f__this = this;
-			return <GetEnumerator>c__IteratorA;
+			List<QueuedIncident>.Enumerator enumerator = this.queuedIncidents.GetEnumerator();
+			try
+			{
+				while (enumerator.MoveNext())
+				{
+					QueuedIncident inc = enumerator.Current;
+					yield return (object)inc;
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
 		}
 
 		public void Clear()
@@ -53,7 +70,7 @@ namespace RimWorld
 		public bool Add(QueuedIncident qi)
 		{
 			this.queuedIncidents.Add(qi);
-			this.queuedIncidents.Sort((QueuedIncident a, QueuedIncident b) => a.FireTick.CompareTo(b.FireTick));
+			this.queuedIncidents.Sort((Comparison<QueuedIncident>)((QueuedIncident a, QueuedIncident b) => a.FireTick.CompareTo(b.FireTick)));
 			return true;
 		}
 
@@ -67,9 +84,9 @@ namespace RimWorld
 
 		public void IncidentQueueTick()
 		{
-			for (int i = this.queuedIncidents.Count - 1; i >= 0; i--)
+			for (int num = this.queuedIncidents.Count - 1; num >= 0; num--)
 			{
-				QueuedIncident queuedIncident = this.queuedIncidents[i];
+				QueuedIncident queuedIncident = this.queuedIncidents[num];
 				if (queuedIncident.FireTick <= Find.TickManager.TicksGame)
 				{
 					Find.Storyteller.TryFire(queuedIncident.FiringIncident);

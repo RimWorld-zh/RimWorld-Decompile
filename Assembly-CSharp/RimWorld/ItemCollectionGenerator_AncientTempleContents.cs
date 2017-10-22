@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -25,9 +24,9 @@ namespace RimWorld
 			if (Rand.Chance(0.9f))
 			{
 				int randomInRange = ItemCollectionGenerator_AncientTempleContents.ArtifactsCountRange.RandomInRange;
-				for (int i = 0; i < randomInRange; i++)
+				for (int num = 0; num < randomInRange; num++)
 				{
-					ThingDef def = ItemCollectionGenerator_Artifacts.artifacts.RandomElement<ThingDef>();
+					ThingDef def = ItemCollectionGenerator_Artifacts.artifacts.RandomElement();
 					Thing item = ThingMaker.MakeThing(def, null);
 					outThings.Add(item);
 				}

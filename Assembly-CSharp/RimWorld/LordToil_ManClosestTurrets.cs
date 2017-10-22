@@ -1,4 +1,3 @@
-using System;
 using Verse.AI;
 using Verse.AI.Group;
 
@@ -8,9 +7,9 @@ namespace RimWorld
 	{
 		public override void UpdateAllDuties()
 		{
-			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
-				this.lord.ownedPawns[i].mindState.duty = new PawnDuty(DutyDefOf.ManClosestTurret, this.lord.ownedPawns[i].Position, -1f);
+				base.lord.ownedPawns[i].mindState.duty = new PawnDuty(DutyDefOf.ManClosestTurret, base.lord.ownedPawns[i].Position, -1f);
 			}
 		}
 	}

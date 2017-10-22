@@ -75,7 +75,7 @@ namespace RimWorld
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.ticksToImpact, "ticksToImpact", 0, false);
-			Scribe_Deep.Look<ActiveDropPodInfo>(ref this.contents, "contents", new object[]
+			Scribe_Deep.Look<ActiveDropPodInfo>(ref this.contents, "contents", new object[1]
 			{
 				this
 			});
@@ -101,27 +101,30 @@ namespace RimWorld
 
 		private void HitRoof()
 		{
-			if (!base.Position.Roofed(base.Map))
+			if (base.Position.Roofed(base.Map))
 			{
-				return;
-			}
-			RoofCollapserImmediate.DropRoofInCells(this.OccupiedRect().ExpandedBy(1).Cells.Where(delegate(IntVec3 c)
-			{
-				if (!c.InBounds(base.Map))
+				RoofCollapserImmediate.DropRoofInCells(this.OccupiedRect().ExpandedBy(1).Cells.Where((Func<IntVec3, bool>)delegate(IntVec3 c)
 				{
-					return false;
-				}
-				if (c == base.Position)
-				{
+					if (!c.InBounds(base.Map))
+					{
+						return false;
+					}
+					if (c == base.Position)
+					{
+						return true;
+					}
+					if (base.Map.thingGrid.CellContains(c, ThingCategory.Pawn))
+					{
+						return false;
+					}
+					Building edifice = c.GetEdifice(base.Map);
+					if (edifice != null && edifice.def.holdsRoof)
+					{
+						return false;
+					}
 					return true;
-				}
-				if (base.Map.thingGrid.CellContains(c, ThingCategory.Pawn))
-				{
-					return false;
-				}
-				Building edifice = c.GetEdifice(base.Map);
-				return edifice == null || !edifice.def.holdsRoof;
-			}), base.Map);
+				}), base.Map);
+			}
 		}
 
 		public override void DrawAt(Vector3 drawLoc, bool flip = false)
@@ -162,6 +165,12 @@ namespace RimWorld
 		virtual IThingHolder get_ParentHolder()
 		{
 			return base.ParentHolder;
+		}
+
+		IThingHolder IThingHolder.get_ParentHolder()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
+			return this.get_ParentHolder();
 		}
 	}
 }

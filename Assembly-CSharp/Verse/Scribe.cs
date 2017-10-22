@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public static class Scribe
@@ -27,7 +25,11 @@ namespace Verse
 			{
 				return Scribe.saver.EnterNode(nodeName);
 			}
-			return (Scribe.mode != LoadSaveMode.LoadingVars && Scribe.mode != LoadSaveMode.ResolvingCrossRefs && Scribe.mode != LoadSaveMode.PostLoadInit) || Scribe.loader.EnterNode(nodeName);
+			if (Scribe.mode != LoadSaveMode.LoadingVars && Scribe.mode != LoadSaveMode.ResolvingCrossRefs && Scribe.mode != LoadSaveMode.PostLoadInit)
+			{
+				return true;
+			}
+			return Scribe.loader.EnterNode(nodeName);
 		}
 
 		public static void ExitNode()
@@ -36,10 +38,9 @@ namespace Verse
 			{
 				Scribe.saver.ExitNode();
 			}
-			if (Scribe.mode == LoadSaveMode.LoadingVars || Scribe.mode == LoadSaveMode.ResolvingCrossRefs || Scribe.mode == LoadSaveMode.PostLoadInit)
-			{
-				Scribe.loader.ExitNode();
-			}
+			if (Scribe.mode != LoadSaveMode.LoadingVars && Scribe.mode != LoadSaveMode.ResolvingCrossRefs && Scribe.mode != LoadSaveMode.PostLoadInit)
+				return;
+			Scribe.loader.ExitNode();
 		}
 	}
 }

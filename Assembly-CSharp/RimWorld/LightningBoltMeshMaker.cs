@@ -37,11 +37,11 @@ namespace RimWorld
 
 		private static void MakeVerticesBase()
 		{
-			int num = (int)Math.Ceiling((double)((Vector2.zero - LightningBoltMeshMaker.lightningTop).magnitude / 0.25f));
+			int num = (int)Math.Ceiling((Vector2.zero - LightningBoltMeshMaker.lightningTop).magnitude / 0.25);
 			Vector2 b = LightningBoltMeshMaker.lightningTop / (float)num;
 			LightningBoltMeshMaker.verts2D = new List<Vector2>();
 			Vector2 vector = Vector2.zero;
-			for (int i = 0; i < num; i++)
+			for (int num2 = 0; num2 < num; num2++)
 			{
 				LightningBoltMeshMaker.verts2D.Add(vector);
 				vector += b;
@@ -51,11 +51,11 @@ namespace RimWorld
 		private static void PeturbVerticesRandomly()
 		{
 			Perlin perlin = new Perlin(0.0070000002160668373, 2.0, 0.5, 6, Rand.Range(0, 2147483647), QualityMode.High);
-			List<Vector2> list = LightningBoltMeshMaker.verts2D.ListFullCopy<Vector2>();
+			List<Vector2> list = LightningBoltMeshMaker.verts2D.ListFullCopy();
 			LightningBoltMeshMaker.verts2D.Clear();
 			for (int i = 0; i < list.Count; i++)
 			{
-				float d = 12f * (float)perlin.GetValue((double)i, 0.0, 0.0);
+				float d = (float)(12.0 * (float)perlin.GetValue((double)i, 0.0, 0.0));
 				Vector2 item = list[i] + d * Vector2.right;
 				LightningBoltMeshMaker.verts2D.Add(item);
 			}
@@ -63,7 +63,7 @@ namespace RimWorld
 
 		private static void DoubleVertices()
 		{
-			List<Vector2> list = LightningBoltMeshMaker.verts2D.ListFullCopy<Vector2>();
+			List<Vector2> list = LightningBoltMeshMaker.verts2D.ListFullCopy();
 			Vector3 vector = default(Vector3);
 			Vector2 a = default(Vector2);
 			LightningBoltMeshMaker.verts2D.Clear();
@@ -87,34 +87,37 @@ namespace RimWorld
 			Vector3[] array = new Vector3[LightningBoltMeshMaker.verts2D.Count];
 			for (int i = 0; i < array.Length; i++)
 			{
-				array[i] = new Vector3(LightningBoltMeshMaker.verts2D[i].x, 0f, LightningBoltMeshMaker.verts2D[i].y);
+				ref Vector3 val = ref array[i];
+				Vector2 vector = LightningBoltMeshMaker.verts2D[i];
+				float x = vector.x;
+				Vector2 vector2 = LightningBoltMeshMaker.verts2D[i];
+				val = new Vector3(x, 0f, vector2.y);
 			}
 			float num = 0f;
 			Vector2[] array2 = new Vector2[LightningBoltMeshMaker.verts2D.Count];
-			for (int j = 0; j < LightningBoltMeshMaker.verts2D.Count; j += 2)
+			for (int num2 = 0; num2 < LightningBoltMeshMaker.verts2D.Count; num2 += 2)
 			{
-				array2[j] = new Vector2(0f, num);
-				array2[j + 1] = new Vector2(1f, num);
-				num += 0.04f;
+				array2[num2] = new Vector2(0f, num);
+				array2[num2 + 1] = new Vector2(1f, num);
+				num = (float)(num + 0.039999999105930328);
 			}
 			int[] array3 = new int[LightningBoltMeshMaker.verts2D.Count * 3];
-			for (int k = 0; k < LightningBoltMeshMaker.verts2D.Count - 2; k += 2)
+			for (int num3 = 0; num3 < LightningBoltMeshMaker.verts2D.Count - 2; num3 += 2)
 			{
-				int num2 = k * 3;
-				array3[num2] = k;
-				array3[num2 + 1] = k + 1;
-				array3[num2 + 2] = k + 2;
-				array3[num2 + 3] = k + 2;
-				array3[num2 + 4] = k + 1;
-				array3[num2 + 5] = k + 3;
+				int num4 = num3 * 3;
+				array3[num4] = num3;
+				array3[num4 + 1] = num3 + 1;
+				array3[num4 + 2] = num3 + 2;
+				array3[num4 + 3] = num3 + 2;
+				array3[num4 + 4] = num3 + 1;
+				array3[num4 + 5] = num3 + 3;
 			}
-			return new Mesh
-			{
-				vertices = array,
-				uv = array2,
-				triangles = array3,
-				name = "MeshFromVerts()"
-			};
+			Mesh mesh = new Mesh();
+			mesh.vertices = array;
+			mesh.uv = array2;
+			mesh.triangles = array3;
+			mesh.name = "MeshFromVerts()";
+			return mesh;
 		}
 	}
 }

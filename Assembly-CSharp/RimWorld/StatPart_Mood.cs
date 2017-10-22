@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -9,14 +7,12 @@ namespace RimWorld
 	{
 		private SimpleCurve curve;
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			StatPart_Mood.<ConfigErrors>c__Iterator1AE <ConfigErrors>c__Iterator1AE = new StatPart_Mood.<ConfigErrors>c__Iterator1AE();
-			<ConfigErrors>c__Iterator1AE.<>f__this = this;
-			StatPart_Mood.<ConfigErrors>c__Iterator1AE expr_0E = <ConfigErrors>c__Iterator1AE;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.curve == null)
+			{
+				yield return "curve is null.";
+			}
 		}
 
 		public override void TransformValue(StatRequest req, ref float val)
@@ -38,13 +34,10 @@ namespace RimWorld
 				Pawn pawn = req.Thing as Pawn;
 				if (pawn != null && pawn.needs.mood != null)
 				{
-					return "StatsReport_MoodMultiplier".Translate(new object[]
-					{
-						pawn.needs.mood.CurLevel.ToStringPercent()
-					}) + ": x" + this.MoodMultiplier(pawn.needs.mood.CurLevel).ToStringPercent();
+					return "StatsReport_MoodMultiplier".Translate(pawn.needs.mood.CurLevel.ToStringPercent()) + ": x" + this.MoodMultiplier(pawn.needs.mood.CurLevel).ToStringPercent();
 				}
 			}
-			return null;
+			return (string)null;
 		}
 
 		private float MoodMultiplier(float mood)

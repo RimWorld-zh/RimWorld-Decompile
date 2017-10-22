@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -77,59 +76,77 @@ namespace Verse
 			{
 				this.cachedMatsBodyBase.Clear();
 				this.cachedMatsBodyBaseHash = num;
-				if (bodyCondition == RotDrawMode.Fresh)
+				switch (bodyCondition)
+				{
+				case RotDrawMode.Rotting:
+					goto IL_0063;
+				case RotDrawMode.Fresh:
 				{
 					this.cachedMatsBodyBase.Add(this.nakedGraphic.MatAt(facing, null));
+					break;
 				}
-				else if (bodyCondition == RotDrawMode.Rotting || this.dessicatedGraphic == null)
+				default:
 				{
-					this.cachedMatsBodyBase.Add(this.rottingGraphic.MatAt(facing, null));
-				}
-				else if (bodyCondition == RotDrawMode.Dessicated)
-				{
-					this.cachedMatsBodyBase.Add(this.dessicatedGraphic.MatAt(facing, null));
-				}
-				for (int i = 0; i < this.apparelGraphics.Count; i++)
-				{
-					if (this.apparelGraphics[i].sourceApparel.def.apparel.LastLayer != ApparelLayer.Shell && this.apparelGraphics[i].sourceApparel.def.apparel.LastLayer != ApparelLayer.Overhead)
+					if (this.dessicatedGraphic == null)
+						goto IL_0063;
+					if (bodyCondition == RotDrawMode.Dessicated)
 					{
-						this.cachedMatsBodyBase.Add(this.apparelGraphics[i].graphic.MatAt(facing, null));
+						this.cachedMatsBodyBase.Add(this.dessicatedGraphic.MatAt(facing, null));
+					}
+					break;
+				}
+				}
+				goto IL_009f;
+			}
+			goto IL_0134;
+			IL_009f:
+			for (int i = 0; i < this.apparelGraphics.Count; i++)
+			{
+				ApparelGraphicRecord apparelGraphicRecord = this.apparelGraphics[i];
+				if (apparelGraphicRecord.sourceApparel.def.apparel.LastLayer != ApparelLayer.Shell)
+				{
+					ApparelGraphicRecord apparelGraphicRecord2 = this.apparelGraphics[i];
+					if (apparelGraphicRecord2.sourceApparel.def.apparel.LastLayer != ApparelLayer.Overhead)
+					{
+						List<Material> obj = this.cachedMatsBodyBase;
+						ApparelGraphicRecord apparelGraphicRecord3 = this.apparelGraphics[i];
+						obj.Add(apparelGraphicRecord3.graphic.MatAt(facing, null));
 					}
 				}
 			}
+			goto IL_0134;
+			IL_0063:
+			this.cachedMatsBodyBase.Add(this.rottingGraphic.MatAt(facing, null));
+			goto IL_009f;
+			IL_0134:
 			return this.cachedMatsBodyBase;
 		}
 
 		public Material HeadMatAt(Rot4 facing, RotDrawMode bodyCondition = RotDrawMode.Fresh, bool stump = false)
 		{
 			Material material = null;
-			if (bodyCondition == RotDrawMode.Fresh)
+			switch (bodyCondition)
 			{
-				if (stump)
-				{
-					material = this.headStumpGraphic.MatAt(facing, null);
-				}
-				else
-				{
-					material = this.headGraphic.MatAt(facing, null);
-				}
-			}
-			else if (bodyCondition == RotDrawMode.Rotting)
+			case RotDrawMode.Fresh:
 			{
-				if (stump)
-				{
-					material = this.desiccatedHeadStumpGraphic.MatAt(facing, null);
-				}
-				else
-				{
-					material = this.desiccatedHeadGraphic.MatAt(facing, null);
-				}
+				material = ((!stump) ? this.headGraphic.MatAt(facing, null) : this.headStumpGraphic.MatAt(facing, null));
+				break;
 			}
-			else if (bodyCondition == RotDrawMode.Dessicated && !stump)
+			case RotDrawMode.Rotting:
 			{
-				material = this.skullGraphic.MatAt(facing, null);
+				material = ((!stump) ? this.desiccatedHeadGraphic.MatAt(facing, null) : this.desiccatedHeadStumpGraphic.MatAt(facing, null));
+				break;
 			}
-			if (material != null)
+			case RotDrawMode.Dessicated:
+			{
+				if (!stump)
+				{
+					material = this.skullGraphic.MatAt(facing, null);
+				}
+				break;
+			}
+			}
+			if ((Object)material != (Object)null)
 			{
 				material = this.flasher.GetDamagedMat(material);
 			}
@@ -190,10 +207,10 @@ namespace Verse
 		{
 			this.ClearCache();
 			this.apparelGraphics.Clear();
-			foreach (Apparel current in this.pawn.apparel.WornApparelInDrawOrder)
+			foreach (Apparel item2 in this.pawn.apparel.WornApparelInDrawOrder)
 			{
-				ApparelGraphicRecord item;
-				if (ApparelGraphicRecordGetter.TryGetGraphicApparel(current, this.pawn.story.bodyType, out item))
+				ApparelGraphicRecord item = default(ApparelGraphicRecord);
+				if (ApparelGraphicRecordGetter.TryGetGraphicApparel(item2, this.pawn.story.bodyType, out item))
 				{
 					this.apparelGraphics.Add(item);
 				}

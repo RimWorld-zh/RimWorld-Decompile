@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -8,14 +7,14 @@ namespace RimWorld
 	{
 		public Designator_AreaAllowedClear() : base(DesignateMode.Remove)
 		{
-			this.defaultLabel = "DesignatorClearAreaAllowed".Translate();
-			this.defaultDesc = "DesignatorClearAreaAllowedDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/AreaAllowedClear", true);
-			this.soundDragSustain = SoundDefOf.DesignateDragAreaDelete;
-			this.soundDragChanged = SoundDefOf.DesignateDragAreaDeleteChanged;
-			this.soundSucceeded = SoundDefOf.DesignateAreaDelete;
-			this.hotKey = KeyBindingDefOf.Misc9;
-			this.tutorTag = "AreaAllowedClear";
+			base.defaultLabel = "DesignatorClearAreaAllowed".Translate();
+			base.defaultDesc = "DesignatorClearAreaAllowedDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/AreaAllowedClear", true);
+			base.soundDragSustain = SoundDefOf.DesignateDragAreaDelete;
+			base.soundDragChanged = SoundDefOf.DesignateDragAreaDeleteChanged;
+			base.soundSucceeded = SoundDefOf.DesignateAreaDelete;
+			base.hotKey = KeyBindingDefOf.Misc9;
+			base.tutorTag = "AreaAllowedClear";
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)

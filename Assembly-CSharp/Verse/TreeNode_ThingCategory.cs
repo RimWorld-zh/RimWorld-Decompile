@@ -27,11 +27,10 @@ namespace Verse
 		{
 			get
 			{
-				TreeNode_ThingCategory.<>c__Iterator235 <>c__Iterator = new TreeNode_ThingCategory.<>c__Iterator235();
-				<>c__Iterator.<>f__this = this;
-				TreeNode_ThingCategory.<>c__Iterator235 expr_0E = <>c__Iterator;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				foreach (ThingCategoryDef thisAndChildCategoryDef in this.catDef.ThisAndChildCategoryDefs)
+				{
+					yield return thisAndChildCategoryDef.treeNode;
+				}
 			}
 		}
 
@@ -39,11 +38,19 @@ namespace Verse
 		{
 			get
 			{
-				TreeNode_ThingCategory.<>c__Iterator236 <>c__Iterator = new TreeNode_ThingCategory.<>c__Iterator236();
-				<>c__Iterator.<>f__this = this;
-				TreeNode_ThingCategory.<>c__Iterator236 expr_0E = <>c__Iterator;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				List<ThingCategoryDef>.Enumerator enumerator = this.catDef.childCategories.GetEnumerator();
+				try
+				{
+					while (enumerator.MoveNext())
+					{
+						ThingCategoryDef other = enumerator.Current;
+						yield return other.treeNode;
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
+				}
 			}
 		}
 

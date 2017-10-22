@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -16,17 +15,20 @@ namespace RimWorld
 				if (thing.def.category == ThingCategory.Building)
 				{
 					List<JoyGiverDef> allDefsListForReading = DefDatabase<JoyGiverDef>.AllDefsListForReading;
-					for (int j = 0; j < allDefsListForReading.Count; j++)
+					int num2 = 0;
+					while (num2 < allDefsListForReading.Count)
 					{
-						if (allDefsListForReading[j].thingDefs != null && allDefsListForReading[j].thingDefs.Contains(thing.def))
+						if (allDefsListForReading[num2].thingDefs == null || !allDefsListForReading[num2].thingDefs.Contains(thing.def))
 						{
-							num++;
-							break;
+							num2++;
+							continue;
 						}
+						num++;
+						break;
 					}
 				}
 			}
-			return (float)num * 5f;
+			return (float)((float)num * 5.0);
 		}
 	}
 }

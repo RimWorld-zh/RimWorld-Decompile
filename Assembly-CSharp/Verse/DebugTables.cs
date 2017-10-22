@@ -8,7 +8,7 @@ namespace Verse
 	{
 		public static void MakeTablesDialog<T>(IEnumerable<T> dataSources, params TableDataGetter<T>[] getters)
 		{
-			List<TableDataGetter<T>> list = getters.ToList<TableDataGetter<T>>();
+			List<TableDataGetter<T>> list = ((IEnumerable<TableDataGetter<T>>)getters).ToList<TableDataGetter<T>>();
 			int num = dataSources.Count<T>() + 1;
 			int count = list.Count;
 			string[,] array = new string[count, num];
@@ -20,11 +20,11 @@ namespace Verse
 				num2++;
 			}
 			int num3 = 1;
-			foreach (T current in dataSources)
+			foreach (T item in dataSources)
 			{
-				for (int j = 0; j < count; j++)
+				for (int num4 = 0; num4 < count; num4++)
 				{
-					array[j, num3] = list[j].getter(current);
+					array[num4, num3] = list[num4].getter(item);
 				}
 				num3++;
 			}
@@ -38,24 +38,24 @@ namespace Verse
 			string[,] array = new string[num, num2];
 			array[0, 0] = tlLabel;
 			int num3 = 1;
-			foreach (TColumn current in colValues)
+			foreach (TColumn item in colValues)
 			{
-				array[num3, 0] = colLabelFormatter(current);
+				array[num3, 0] = colLabelFormatter(item);
 				num3++;
 			}
 			int num4 = 1;
-			foreach (TRow current2 in rowValues)
+			foreach (TRow item2 in rowValues)
 			{
-				array[0, num4] = rowLabelFormatter(current2);
+				array[0, num4] = rowLabelFormatter(item2);
 				num4++;
 			}
 			int num5 = 1;
-			foreach (TRow current3 in rowValues)
+			foreach (TRow item3 in rowValues)
 			{
 				int num6 = 1;
-				foreach (TColumn current4 in colValues)
+				foreach (TColumn item4 in colValues)
 				{
-					array[num6, num5] = func(current4, current3);
+					array[num6, num5] = func(item4, item3);
 					num6++;
 				}
 				num5++;

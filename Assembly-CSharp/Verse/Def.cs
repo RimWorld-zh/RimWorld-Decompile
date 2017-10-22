@@ -1,7 +1,5 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace Verse
@@ -10,23 +8,27 @@ namespace Verse
 	{
 		public const string DefaultDefName = "UnnamedDef";
 
-		[Description("The name of this Def. It is used as an identifier by the game code."), NoTranslate]
+		[Description("The name of this Def. It is used as an identifier by the game code.")]
+		[NoTranslate]
 		public string defName = "UnnamedDef";
 
-		[DefaultValue(null), Description("A human-readable label used to identify this in game.")]
+		[DefaultValue(null)]
+		[Description("A human-readable label used to identify this in game.")]
 		public string label;
 
-		[DefaultValue(null), Description("A human-readable description given when the Def is inspected by players.")]
+		[Description("A human-readable description given when the Def is inspected by players.")]
+		[DefaultValue(null)]
 		public string description;
 
-		[DefaultValue(null), Description("Mod-specific data. Not used by core game code.")]
+		[Description("Mod-specific data. Not used by core game code.")]
+		[DefaultValue(null)]
 		public List<DefModExtension> modExtensions;
 
 		[Unsaved]
 		public ushort shortHash;
 
 		[Unsaved]
-		public ushort index = 65535;
+		public ushort index = (ushort)65535;
 
 		[Unsaved]
 		private string cachedLabelCap;
@@ -42,7 +44,7 @@ namespace Verse
 			{
 				if (this.label.NullOrEmpty())
 				{
-					return null;
+					return (string)null;
 				}
 				if (this.cachedLabelCap.NullOrEmpty())
 				{
@@ -52,28 +54,30 @@ namespace Verse
 			}
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			Def.<SpecialDisplayStats>c__Iterator8A <SpecialDisplayStats>c__Iterator8A = new Def.<SpecialDisplayStats>c__Iterator8A();
-			Def.<SpecialDisplayStats>c__Iterator8A expr_07 = <SpecialDisplayStats>c__Iterator8A;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield break;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			Def.<ConfigErrors>c__Iterator8B <ConfigErrors>c__Iterator8B = new Def.<ConfigErrors>c__Iterator8B();
-			<ConfigErrors>c__Iterator8B.<>f__this = this;
-			Def.<ConfigErrors>c__Iterator8B expr_0E = <ConfigErrors>c__Iterator8B;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.defName == "UnnamedDef")
+			{
+				yield return base.GetType() + " lacks defName. Label=" + this.label;
+			}
+			if (this.defName == "null")
+			{
+				yield return "defName cannot be the string 'null'.";
+			}
+			if (!Def.AllowedDefnamesRegex.IsMatch(this.defName))
+			{
+				yield return "defName " + this.defName + " should only contain letters, numbers, underscores, or dashes.";
+			}
 		}
 
 		public virtual void ClearCachedData()
 		{
-			this.cachedLabelCap = null;
+			this.cachedLabelCap = (string)null;
 		}
 
 		public override string ToString()
@@ -90,16 +94,16 @@ namespace Verse
 		{
 			if (this.modExtensions == null)
 			{
-				return (T)((object)null);
+				return (T)null;
 			}
 			for (int i = 0; i < this.modExtensions.Count; i++)
 			{
 				if (this.modExtensions[i] is T)
 				{
-					return this.modExtensions[i] as T;
+					return (T)(this.modExtensions[i] as T);
 				}
 			}
-			return (T)((object)null);
+			return (T)null;
 		}
 
 		public bool HasModExtension<T>() where T : DefModExtension

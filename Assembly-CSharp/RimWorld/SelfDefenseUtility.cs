@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -17,12 +16,12 @@ namespace RimWorld
 			{
 				return false;
 			}
-			RegionTraverser.BreadthFirstTraverse(region, (Region from, Region reg) => reg.portal == null || reg.portal.Open, delegate(Region reg)
+			RegionTraverser.BreadthFirstTraverse(region, (RegionEntryPredicate)((Region from, Region reg) => reg.portal == null || reg.portal.Open), (RegionProcessor)delegate(Region reg)
 			{
 				List<Thing> list = reg.ListerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
 				for (int i = 0; i < list.Count; i++)
 				{
-					if (list[i] != pawn && (float)list[i].Position.DistanceToSquared(pawn.Position) < 64f && list[i].HostileTo(pawn) && !((IAttackTarget)list[i]).ThreatDisabled() && GenSight.LineOfSight(pawn.Position, list[i].Position, pawn.Map, false, null, 0, 0))
+					if (list[i] != pawn && (float)list[i].Position.DistanceToSquared(pawn.Position) < 64.0 && list[i].HostileTo(pawn) && !((IAttackTarget)list[i]).ThreatDisabled() && GenSight.LineOfSight(pawn.Position, list[i].Position, pawn.Map, false, null, 0, 0))
 					{
 						foundThreat = true;
 					}

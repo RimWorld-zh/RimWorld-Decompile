@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -57,7 +56,15 @@ namespace Verse
 
 		private static Color RandomShiftOf(Color color, int i)
 		{
-			return new Color(Mathf.Clamp01(color.r * PawnNameColorUtility.ColorShifts[i].r), Mathf.Clamp01(color.g * PawnNameColorUtility.ColorShifts[i].g), Mathf.Clamp01(color.b * PawnNameColorUtility.ColorShifts[i].b), color.a);
+			float r = color.r;
+			Color color2 = PawnNameColorUtility.ColorShifts[i];
+			float r2 = Mathf.Clamp01(r * color2.r);
+			float g = color.g;
+			Color color3 = PawnNameColorUtility.ColorShifts[i];
+			float g2 = Mathf.Clamp01(g * color3.g);
+			float b = color.b;
+			Color color4 = PawnNameColorUtility.ColorShifts[i];
+			return new Color(r2, g2, Mathf.Clamp01(b * color4.b), color.a);
 		}
 
 		public static Color PawnNameColorOf(Pawn pawn)
@@ -66,15 +73,7 @@ namespace Verse
 			{
 				return pawn.MentalStateDef.nameColor;
 			}
-			int index;
-			if (pawn.Faction == null)
-			{
-				index = 0;
-			}
-			else
-			{
-				index = pawn.Faction.randomKey % 10;
-			}
+			int index = (pawn.Faction != null) ? (pawn.Faction.randomKey % 10) : 0;
 			if (pawn.IsPrisoner)
 			{
 				return PawnNameColorUtility.ColorsPrisoner[index];

@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace Verse
@@ -74,14 +73,14 @@ namespace Verse
 				return 0f;
 			}
 			float num = GenCelestial.CurCelestialSunGlow(Find.VisibleMap);
-			float num2 = (Find.VisibleMap.Biome != BiomeDefOf.IceSheet) ? Mathf.Clamp01(Find.VisibleMap.snowGrid.TotalDepth / 1000f) : 1f;
-			return num * num2 * 0.41f;
+			float num2 = (float)((Find.VisibleMap.Biome != BiomeDefOf.IceSheet) ? Mathf.Clamp01((float)(Find.VisibleMap.snowGrid.TotalDepth / 1000.0)) : 1.0);
+			return (float)(num * num2 * 0.40999999642372131);
 		}
 
 		public static void DrawTextWinterShadow(Rect rect)
 		{
 			float num = GenUI.BackgroundDarkAlphaForText();
-			if (num > 0.001f)
+			if (num > 0.0010000000474974513)
 			{
 				GUI.color = new Color(1f, 1f, 1f, num);
 				GUI.DrawTexture(rect, GenUI.UnderShadowTex);
@@ -95,13 +94,25 @@ namespace Verse
 			{
 				return 1f;
 			}
-			if (tDef.iconDrawScale > 0f)
+			if (tDef.iconDrawScale > 0.0)
 			{
 				return tDef.iconDrawScale;
 			}
-			if (tDef.graphicData.drawSize.x > (float)tDef.Size.x && tDef.graphicData.drawSize.y > (float)tDef.Size.z)
+			float x = tDef.graphicData.drawSize.x;
+			IntVec2 size = tDef.Size;
+			if (x > (float)size.x)
 			{
-				return Mathf.Min(tDef.graphicData.drawSize.x / (float)tDef.Size.x, tDef.graphicData.drawSize.y / (float)tDef.Size.z);
+				float y = tDef.graphicData.drawSize.y;
+				IntVec2 size2 = tDef.Size;
+				if (y > (float)size2.z)
+				{
+					float num = tDef.graphicData.drawSize.x;
+					IntVec2 size3 = tDef.Size;
+					float a = num / (float)size3.x;
+					float num2 = tDef.graphicData.drawSize.y;
+					IntVec2 size4 = tDef.Size;
+					return Mathf.Min(a, num2 / (float)size4.z);
+				}
 			}
 			return 1f;
 		}
@@ -110,13 +121,13 @@ namespace Verse
 		{
 			if (Find.WindowStack != null)
 			{
-				Find.WindowStack.Add(new Dialog_MessageBox(message, null, null, null, null, null, false));
+				Find.WindowStack.Add(new Dialog_MessageBox(message, (string)null, null, (string)null, null, (string)null, false));
 			}
 		}
 
 		public static void DrawFlash(float centerX, float centerY, float size, float alpha, Color color)
 		{
-			Rect position = new Rect(centerX - size / 2f, centerY - size / 2f, size, size);
+			Rect position = new Rect((float)(centerX - size / 2.0), (float)(centerY - size / 2.0), size, size);
 			Color color2 = color;
 			color2.a = alpha;
 			GUI.color = color2;
@@ -130,30 +141,35 @@ namespace Verse
 			{
 				GenUI.labelWidthCache.Clear();
 			}
-			float x;
+			float x = default(float);
 			if (GenUI.labelWidthCache.TryGetValue(s, out x))
 			{
 				return x;
 			}
-			x = Text.CalcSize(s).x;
+			Vector2 vector = Text.CalcSize(s);
+			x = vector.x;
 			GenUI.labelWidthCache.Add(s, x);
 			return x;
 		}
 
 		public static Rect Rounded(this Rect r)
 		{
-			return new Rect((float)((int)r.x), (float)((int)r.y), (float)((int)r.width), (float)((int)r.height));
+			return new Rect((float)(int)r.x, (float)(int)r.y, (float)(int)r.width, (float)(int)r.height);
 		}
 
 		public static float DistFromRect(Rect r, Vector2 p)
 		{
-			float num = Mathf.Abs(p.x - r.center.x) - r.width / 2f;
-			if (num < 0f)
+			float x = p.x;
+			Vector2 center = r.center;
+			float num = (float)(Mathf.Abs(x - center.x) - r.width / 2.0);
+			if (num < 0.0)
 			{
 				num = 0f;
 			}
-			float num2 = Mathf.Abs(p.y - r.center.y) - r.height / 2f;
-			if (num2 < 0f)
+			float y = p.y;
+			Vector2 center2 = r.center;
+			float num2 = (float)(Mathf.Abs(y - center2.y) - r.height / 2.0);
+			if (num2 < 0.0)
 			{
 				num2 = 0f;
 			}
@@ -163,16 +179,16 @@ namespace Verse
 		public static void DrawMouseAttachment(Texture2D iconTex, string text)
 		{
 			Vector2 mousePosition = Event.current.mousePosition;
-			float num = mousePosition.y + 12f;
-			if (iconTex != null)
+			float num = (float)(mousePosition.y + 12.0);
+			if ((UnityEngine.Object)iconTex != (UnityEngine.Object)null)
 			{
-				Rect position = new Rect(mousePosition.x + 12f, num, 32f, 32f);
+				Rect position = new Rect((float)(mousePosition.x + 12.0), num, 32f, 32f);
 				GUI.DrawTexture(position, iconTex);
 				num += position.height;
 			}
 			if (text != string.Empty)
 			{
-				Rect rect = new Rect(mousePosition.x + 12f, num, 200f, 9999f);
+				Rect rect = new Rect((float)(mousePosition.x + 12.0), num, 200f, 9999f);
 				Widgets.Label(rect, text);
 			}
 		}
@@ -180,7 +196,7 @@ namespace Verse
 		public static void DrawMouseAttachment(Texture2D icon)
 		{
 			Vector2 mousePosition = Event.current.mousePosition;
-			GUI.DrawTexture(new Rect(mousePosition.x + 8f, mousePosition.y + 8f, 32f, 32f), icon);
+			GUI.DrawTexture(new Rect((float)(mousePosition.x + 8.0), (float)(mousePosition.y + 8.0), 32f, 32f), icon);
 		}
 
 		public static void RenderMouseoverBracket()
@@ -194,7 +210,10 @@ namespace Verse
 			GUI.BeginGroup(rect);
 			Rect rect2 = new Rect(0f, 2f, rect.width, 25f);
 			Widgets.Label(rect2, status.LabelCap);
-			Rect rect3 = new Rect(100f, 3f, GenUI.PieceBarSize.x, GenUI.PieceBarSize.y);
+			Vector2 pieceBarSize = GenUI.PieceBarSize;
+			float x = pieceBarSize.x;
+			Vector2 pieceBarSize2 = GenUI.PieceBarSize;
+			Rect rect3 = new Rect(100f, 3f, x, pieceBarSize2.y);
 			Widgets.FillableBar(rect3, status.CurLevelPercentage);
 			Widgets.FillableBarChangeArrows(rect3, status.GUIChangeArrow);
 			GUI.EndGroup();
@@ -210,19 +229,21 @@ namespace Verse
 			return GenUI.TargetsAt(UI.MouseMapPosition(), clickParams, thingsOnly);
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<LocalTargetInfo> TargetsAt(Vector3 clickPos, TargetingParameters clickParams, bool thingsOnly = false)
 		{
-			GenUI.<TargetsAt>c__Iterator233 <TargetsAt>c__Iterator = new GenUI.<TargetsAt>c__Iterator233();
-			<TargetsAt>c__Iterator.clickPos = clickPos;
-			<TargetsAt>c__Iterator.clickParams = clickParams;
-			<TargetsAt>c__Iterator.thingsOnly = thingsOnly;
-			<TargetsAt>c__Iterator.<$>clickPos = clickPos;
-			<TargetsAt>c__Iterator.<$>clickParams = clickParams;
-			<TargetsAt>c__Iterator.<$>thingsOnly = thingsOnly;
-			GenUI.<TargetsAt>c__Iterator233 expr_31 = <TargetsAt>c__Iterator;
-			expr_31.$PC = -2;
-			return expr_31;
+			List<Thing> clickableList = GenUI.ThingsUnderMouse(clickPos, 0.8f, clickParams);
+			for (int i = 0; i < clickableList.Count; i++)
+			{
+				yield return clickableList[i];
+			}
+			if (!thingsOnly)
+			{
+				IntVec3 cellTarg = UI.MouseCell();
+				if (cellTarg.InBounds(Find.VisibleMap) && clickParams.CanTarget(new TargetInfo(cellTarg, Find.VisibleMap, false)))
+				{
+					yield return cellTarg;
+				}
+			}
 		}
 
 		public static List<Thing> ThingsUnderMouse(Vector3 clickPos, float pawnWideClickRadius, TargetingParameters clickParams)
@@ -234,7 +255,7 @@ namespace Verse
 			for (int i = 0; i < allPawnsSpawned.Count; i++)
 			{
 				Pawn pawn = allPawnsSpawned[i];
-				if ((pawn.DrawPos - clickPos).MagnitudeHorizontal() < 0.4f && clickParams.CanTarget(pawn))
+				if ((pawn.DrawPos - clickPos).MagnitudeHorizontal() < 0.40000000596046448 && clickParams.CanTarget((Thing)pawn))
 				{
 					GenUI.clickedPawns.Add(pawn);
 				}
@@ -245,11 +266,11 @@ namespace Verse
 				list.Add(GenUI.clickedPawns[j]);
 			}
 			List<Thing> list2 = new List<Thing>();
-			foreach (Thing current in Find.VisibleMap.thingGrid.ThingsAt(c))
+			foreach (Thing item in Find.VisibleMap.thingGrid.ThingsAt(c))
 			{
-				if (!list.Contains(current) && clickParams.CanTarget(current))
+				if (!list.Contains(item) && clickParams.CanTarget(item))
 				{
-					list2.Add(current);
+					list2.Add(item);
 				}
 			}
 			list2.Sort(new Comparison<Thing>(GenUI.CompareThingsByDrawAltitude));
@@ -259,7 +280,7 @@ namespace Verse
 			for (int k = 0; k < allPawnsSpawned2.Count; k++)
 			{
 				Pawn pawn2 = allPawnsSpawned2[k];
-				if ((pawn2.DrawPos - clickPos).MagnitudeHorizontal() < pawnWideClickRadius && clickParams.CanTarget(pawn2))
+				if ((pawn2.DrawPos - clickPos).MagnitudeHorizontal() < pawnWideClickRadius && clickParams.CanTarget((Thing)pawn2))
 				{
 					GenUI.clickedPawns.Add(pawn2);
 				}
@@ -272,7 +293,7 @@ namespace Verse
 					list.Add(GenUI.clickedPawns[l]);
 				}
 			}
-			list.RemoveAll((Thing t) => !t.Spawned);
+			list.RemoveAll((Predicate<Thing>)((Thing t) => !t.Spawned));
 			GenUI.clickedPawns.Clear();
 			return list;
 		}
@@ -330,13 +351,13 @@ namespace Verse
 
 		public static Rect ContractedBy(this Rect rect, float margin)
 		{
-			return new Rect(rect.x + margin, rect.y + margin, rect.width - margin * 2f, rect.height - margin * 2f);
+			return new Rect(rect.x + margin, rect.y + margin, (float)(rect.width - margin * 2.0), (float)(rect.height - margin * 2.0));
 		}
 
 		public static Rect ScaledBy(this Rect rect, float scale)
 		{
-			rect.x -= rect.width * (scale - 1f) / 2f;
-			rect.y -= rect.height * (scale - 1f) / 2f;
+			rect.x -= (float)(rect.width * (scale - 1.0) / 2.0);
+			rect.y -= (float)(rect.height * (scale - 1.0) / 2.0);
 			rect.width *= scale;
 			rect.height *= scale;
 			return rect;
@@ -344,12 +365,12 @@ namespace Verse
 
 		public static Rect CenteredOnXIn(this Rect rect, Rect otherRect)
 		{
-			return new Rect(otherRect.x + (otherRect.width - rect.width) / 2f, rect.y, rect.width, rect.height);
+			return new Rect((float)(otherRect.x + (otherRect.width - rect.width) / 2.0), rect.y, rect.width, rect.height);
 		}
 
 		public static Rect CenteredOnYIn(this Rect rect, Rect otherRect)
 		{
-			return new Rect(rect.x, otherRect.y + (otherRect.height - rect.height) / 2f, rect.width, rect.height);
+			return new Rect(rect.x, (float)(otherRect.y + (otherRect.height - rect.height) / 2.0), rect.width, rect.height);
 		}
 
 		public static Rect AtZero(this Rect rect)
@@ -367,7 +388,7 @@ namespace Verse
 
 		public static Rect LeftHalf(this Rect rect)
 		{
-			return new Rect(rect.x, rect.y, rect.width / 2f, rect.height);
+			return new Rect(rect.x, rect.y, (float)(rect.width / 2.0), rect.height);
 		}
 
 		public static Rect LeftPart(this Rect rect, float pct)
@@ -382,12 +403,12 @@ namespace Verse
 
 		public static Rect RightHalf(this Rect rect)
 		{
-			return new Rect(rect.x + rect.width / 2f, rect.y, rect.width / 2f, rect.height);
+			return new Rect((float)(rect.x + rect.width / 2.0), rect.y, (float)(rect.width / 2.0), rect.height);
 		}
 
 		public static Rect RightPart(this Rect rect, float pct)
 		{
-			return new Rect(rect.x + rect.width * (1f - pct), rect.y, rect.width * pct, rect.height);
+			return new Rect((float)(rect.x + rect.width * (1.0 - pct)), rect.y, rect.width * pct, rect.height);
 		}
 
 		public static Rect RightPartPixels(this Rect rect, float width)
@@ -397,7 +418,7 @@ namespace Verse
 
 		public static Rect TopHalf(this Rect rect)
 		{
-			return new Rect(rect.x, rect.y, rect.width, rect.height / 2f);
+			return new Rect(rect.x, rect.y, rect.width, (float)(rect.height / 2.0));
 		}
 
 		public static Rect TopPart(this Rect rect, float pct)
@@ -412,12 +433,12 @@ namespace Verse
 
 		public static Rect BottomHalf(this Rect rect)
 		{
-			return new Rect(rect.x, rect.y + rect.height / 2f, rect.width, rect.height / 2f);
+			return new Rect(rect.x, (float)(rect.y + rect.height / 2.0), rect.width, (float)(rect.height / 2.0));
 		}
 
 		public static Rect BottomPart(this Rect rect, float pct)
 		{
-			return new Rect(rect.x, rect.y + rect.height * (1f - pct), rect.width, rect.height * pct);
+			return new Rect(rect.x, (float)(rect.y + rect.height * (1.0 - pct)), rect.width, rect.height * pct);
 		}
 
 		public static Rect BottomPartPixels(this Rect rect, float height)

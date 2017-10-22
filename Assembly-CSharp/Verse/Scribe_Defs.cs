@@ -1,4 +1,4 @@
-using System;
+using System.Xml;
 
 namespace Verse
 {
@@ -8,20 +8,12 @@ namespace Verse
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
-				string text;
-				if (value == null)
-				{
-					text = "null";
-				}
-				else
-				{
-					text = value.defName;
-				}
+				string text = (value != null) ? ((Def)(object)value).defName : "null";
 				Scribe_Values.Look<string>(ref text, label, "null", false);
 			}
 			else if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
-				value = ScribeExtractor.DefFromNode<T>(Scribe.loader.curXmlParent[label]);
+				value = ScribeExtractor.DefFromNode<T>((XmlNode)Scribe.loader.curXmlParent[label]);
 			}
 		}
 	}

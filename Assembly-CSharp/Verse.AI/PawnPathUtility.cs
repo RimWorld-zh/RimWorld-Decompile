@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse.AI
@@ -21,29 +20,32 @@ namespace Verse.AI
 			}
 			Building building = null;
 			IntVec3 intVec = IntVec3.Invalid;
-			for (int i = nodesReversed.Count - 2; i >= 1; i--)
+			for (int num = nodesReversed.Count - 2; num >= 1; num--)
 			{
-				Building edifice = nodesReversed[i].GetEdifice(pawn.Map);
+				Building edifice = nodesReversed[num].GetEdifice(pawn.Map);
 				if (edifice != null)
 				{
 					Building_Door building_Door = edifice as Building_Door;
-					if ((building_Door != null && !building_Door.FreePassage && (pawn == null || !building_Door.PawnCanOpen(pawn))) || edifice.def.passability == Traversability.Impassable)
+					if ((building_Door == null || building_Door.FreePassage || (pawn != null && building_Door.PawnCanOpen(pawn))) && edifice.def.passability != Traversability.Impassable)
 					{
-						if (building != null)
-						{
-							cellBefore = intVec;
-							return building;
-						}
-						cellBefore = nodesReversed[i + 1];
-						return edifice;
+						goto IL_00da;
 					}
+					if (building != null)
+					{
+						cellBefore = intVec;
+						return building;
+					}
+					cellBefore = nodesReversed[num + 1];
+					return edifice;
 				}
+				goto IL_00da;
+				IL_00da:
 				if (edifice != null && edifice.def.passability == Traversability.PassThroughOnly && edifice.def.Fillage == FillCategory.Full)
 				{
 					if (building == null)
 					{
 						building = edifice;
-						intVec = nodesReversed[i + 1];
+						intVec = nodesReversed[num + 1];
 					}
 				}
 				else if (edifice == null || edifice.def.passability != Traversability.PassThroughOnly)
@@ -65,14 +67,16 @@ namespace Verse.AI
 			for (int i = 0; i < nodesReversed.Count; i++)
 			{
 				Building edifice = nodesReversed[i].GetEdifice(map);
-				if (edifice == null || edifice.def.passability != Traversability.Impassable)
+				if (edifice != null && edifice.def.passability == Traversability.Impassable)
 				{
-					Building_Door building_Door = edifice as Building_Door;
-					if (building_Door == null || building_Door.FreePassage)
-					{
-						return nodesReversed[i];
-					}
+					continue;
 				}
+				Building_Door building_Door = edifice as Building_Door;
+				if (building_Door != null && !building_Door.FreePassage)
+				{
+					continue;
+				}
+				return nodesReversed[i];
 			}
 			return nodesReversed[0];
 		}
@@ -84,19 +88,19 @@ namespace Verse.AI
 				return path.NodesReversed[0];
 			}
 			List<IntVec3> nodesReversed = path.NodesReversed;
-			for (int i = nodesReversed.Count - 2; i >= 1; i--)
+			for (int num = nodesReversed.Count - 2; num >= 1; num--)
 			{
-				Building edifice = nodesReversed[i].GetEdifice(map);
+				Building edifice = nodesReversed[num].GetEdifice(map);
 				if (edifice != null)
 				{
 					if (edifice.def.passability == Traversability.Impassable)
 					{
-						return nodesReversed[i + 1];
+						return nodesReversed[num + 1];
 					}
 					Building_Door building_Door = edifice as Building_Door;
 					if (building_Door != null && !building_Door.FreePassage)
 					{
-						return nodesReversed[i + 1];
+						return nodesReversed[num + 1];
 					}
 				}
 			}
@@ -111,12 +115,12 @@ namespace Verse.AI
 				return false;
 			}
 			List<IntVec3> nodesReversed = path.NodesReversed;
-			for (int i = nodesReversed.Count - 2; i >= 1; i--)
+			for (int num = nodesReversed.Count - 2; num >= 1; num--)
 			{
-				Building_Door building_Door = nodesReversed[i].GetEdifice(pawn.Map) as Building_Door;
+				Building_Door building_Door = nodesReversed[num].GetEdifice(pawn.Map) as Building_Door;
 				if (building_Door != null && !building_Door.CanPhysicallyPass(pawn))
 				{
-					result = nodesReversed[i + 1];
+					result = nodesReversed[num + 1];
 					return true;
 				}
 			}
@@ -126,13 +130,13 @@ namespace Verse.AI
 
 		public static bool TryFindCellAtIndex(PawnPath path, int index, out IntVec3 result)
 		{
-			if (path.NodesReversed.Count <= index || index < 0)
+			if (path.NodesReversed.Count > index && index >= 0)
 			{
-				result = IntVec3.Invalid;
-				return false;
+				result = path.NodesReversed[path.NodesReversed.Count - 1 - index];
+				return true;
 			}
-			result = path.NodesReversed[path.NodesReversed.Count - 1 - index];
-			return true;
+			result = IntVec3.Invalid;
+			return false;
 		}
 	}
 }

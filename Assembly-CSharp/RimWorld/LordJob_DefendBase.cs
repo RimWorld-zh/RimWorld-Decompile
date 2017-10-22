@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI.Group;
 
@@ -45,12 +44,7 @@ namespace RimWorld
 			transition3.AddTrigger(new Trigger_UrgentlyHungry());
 			transition3.AddTrigger(new Trigger_ChanceOnPlayerHarmNPCBuilding(0.4f));
 			transition3.AddPostAction(new TransitionAction_WakeAll());
-			string message = "MessageDefendersAttacking".Translate(new object[]
-			{
-				this.faction.def.pawnsPlural,
-				this.faction.Name,
-				Faction.OfPlayer.def.pawnsPlural
-			}).CapitalizeFirst();
+			string message = "MessageDefendersAttacking".Translate(this.faction.def.pawnsPlural, this.faction.Name, Faction.OfPlayer.def.pawnsPlural).CapitalizeFirst();
 			transition3.AddPreAction(new TransitionAction_Message(message, MessageSound.SeriousAlert));
 			stateGraph.AddTransition(transition3);
 			return stateGraph;

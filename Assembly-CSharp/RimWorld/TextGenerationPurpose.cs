@@ -1,10 +1,8 @@
-using System;
-
 namespace RimWorld
 {
 	public enum TextGenerationPurpose
 	{
-		ArtDescription,
-		ArtName
+		ArtDescription = 0,
+		ArtName = 1
 	}
 }

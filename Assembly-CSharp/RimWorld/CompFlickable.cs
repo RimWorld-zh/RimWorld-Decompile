@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -27,7 +26,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_Flickable)this.props;
+				return (CompProperties_Flickable)base.props;
 			}
 		}
 
@@ -35,7 +34,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.cachedCommandTex == null)
+				if ((UnityEngine.Object)this.cachedCommandTex == (UnityEngine.Object)null)
 				{
 					this.cachedCommandTex = ContentFinder<Texture2D>.Get(this.Props.commandTexture, true);
 				}
@@ -51,22 +50,21 @@ namespace RimWorld
 			}
 			set
 			{
-				if (this.switchOnInt == value)
+				if (this.switchOnInt != value)
 				{
-					return;
-				}
-				this.switchOnInt = value;
-				if (this.switchOnInt)
-				{
-					this.parent.BroadcastCompSignal("FlickedOn");
-				}
-				else
-				{
-					this.parent.BroadcastCompSignal("FlickedOff");
-				}
-				if (this.parent.Spawned)
-				{
-					this.parent.Map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things | MapMeshFlag.Buildings);
+					this.switchOnInt = value;
+					if (this.switchOnInt)
+					{
+						base.parent.BroadcastCompSignal("FlickedOn");
+					}
+					else
+					{
+						base.parent.BroadcastCompSignal("FlickedOff");
+					}
+					if (base.parent.Spawned)
+					{
+						base.parent.Map.mapDrawer.MapMeshDirty(base.parent.Position, MapMeshFlag.Things | MapMeshFlag.Buildings);
+					}
 				}
 			}
 		}
@@ -77,11 +75,11 @@ namespace RimWorld
 			{
 				if (this.SwitchIsOn)
 				{
-					return this.parent.DefaultGraphic;
+					return base.parent.DefaultGraphic;
 				}
 				if (this.offGraphic == null)
 				{
-					this.offGraphic = GraphicDatabase.Get(this.parent.def.graphicData.graphicClass, this.parent.def.graphicData.texPath + "_Off", ShaderDatabase.ShaderFromType(this.parent.def.graphicData.shaderType), this.parent.def.graphicData.drawSize, this.parent.DrawColor, this.parent.DrawColorTwo);
+					this.offGraphic = GraphicDatabase.Get(base.parent.def.graphicData.graphicClass, base.parent.def.graphicData.texPath + "_Off", ShaderDatabase.ShaderFromType(base.parent.def.graphicData.shaderType), base.parent.def.graphicData.drawSize, base.parent.DrawColor, base.parent.DrawColorTwo);
 				}
 				return this.offGraphic;
 			}
@@ -102,7 +100,7 @@ namespace RimWorld
 		public void DoFlick()
 		{
 			this.SwitchIsOn = !this.SwitchIsOn;
-			SoundDefOf.FlickSwitch.PlayOneShot(new TargetInfo(this.parent.Position, this.parent.Map, false));
+			SoundDefOf.FlickSwitch.PlayOneShot(new TargetInfo(base.parent.Position, base.parent.Map, false));
 		}
 
 		public void ResetToOn()
@@ -111,14 +109,28 @@ namespace RimWorld
 			this.wantSwitchOn = true;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompFlickable.<CompGetGizmosExtra>c__IteratorB4 <CompGetGizmosExtra>c__IteratorB = new CompFlickable.<CompGetGizmosExtra>c__IteratorB4();
-			<CompGetGizmosExtra>c__IteratorB.<>f__this = this;
-			CompFlickable.<CompGetGizmosExtra>c__IteratorB4 expr_0E = <CompGetGizmosExtra>c__IteratorB;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo item in base.CompGetGizmosExtra())
+			{
+				yield return item;
+			}
+			if (base.parent.Faction == Faction.OfPlayer)
+			{
+				yield return (Gizmo)new Command_Toggle
+				{
+					hotKey = KeyBindingDefOf.CommandTogglePower,
+					icon = this.CommandTex,
+					defaultLabel = this.Props.commandLabelKey.Translate(),
+					defaultDesc = this.Props.commandDescKey.Translate(),
+					isActive = (Func<bool>)(() => ((_003CCompGetGizmosExtra_003Ec__IteratorB4)/*Error near IL_013b: stateMachine*/)._003C_003Ef__this.wantSwitchOn),
+					toggleAction = (Action)delegate
+					{
+						((_003CCompGetGizmosExtra_003Ec__IteratorB4)/*Error near IL_0152: stateMachine*/)._003C_003Ef__this.wantSwitchOn = !((_003CCompGetGizmosExtra_003Ec__IteratorB4)/*Error near IL_0152: stateMachine*/)._003C_003Ef__this.wantSwitchOn;
+						FlickUtility.UpdateFlickDesignation(((_003CCompGetGizmosExtra_003Ec__IteratorB4)/*Error near IL_0152: stateMachine*/)._003C_003Ef__this.parent);
+					}
+				};
+			}
 		}
 	}
 }

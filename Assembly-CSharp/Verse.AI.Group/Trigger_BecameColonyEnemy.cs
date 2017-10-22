@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse.AI.Group
 {
@@ -7,7 +6,11 @@ namespace Verse.AI.Group
 	{
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
-			return signal.type == TriggerSignalType.FactionRelationsChanged && lord.faction.HostileTo(Faction.OfPlayer);
+			if (signal.type == TriggerSignalType.FactionRelationsChanged)
+			{
+				return lord.faction.HostileTo(Faction.OfPlayer);
+			}
+			return false;
 		}
 	}
 }

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -19,13 +17,13 @@ namespace RimWorld
 
 		public Designator_Open()
 		{
-			this.defaultLabel = "DesignatorOpen".Translate();
-			this.defaultDesc = "DesignatorOpenDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/Open", true);
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.useMouseIcon = true;
-			this.soundSucceeded = SoundDefOf.DesignateClaim;
+			base.defaultLabel = "DesignatorOpen".Translate();
+			base.defaultDesc = "DesignatorOpenDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/Open", true);
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.useMouseIcon = true;
+			base.soundSucceeded = SoundDefOf.DesignateClaim;
 		}
 
 		protected override void FinalizeDesignationFailed()
@@ -40,7 +38,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (!this.OpenablesInCell(c).Any<Thing>())
+			if (!this.OpenablesInCell(c).Any())
 			{
 				return false;
 			}
@@ -49,20 +47,20 @@ namespace RimWorld
 
 		public override void DesignateSingleCell(IntVec3 c)
 		{
-			foreach (Thing current in this.OpenablesInCell(c))
+			foreach (Thing item in this.OpenablesInCell(c))
 			{
-				this.DesignateThing(current);
+				this.DesignateThing(item);
 			}
 		}
 
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			IOpenable openable = t as IOpenable;
-			if (openable == null || !openable.CanOpen || base.Map.designationManager.DesignationOn(t, DesignationDefOf.Open) != null)
+			if (openable != null && openable.CanOpen && base.Map.designationManager.DesignationOn(t, DesignationDefOf.Open) == null)
 			{
-				return false;
+				return true;
 			}
-			return true;
+			return false;
 		}
 
 		public override void DesignateThing(Thing t)
@@ -70,16 +68,19 @@ namespace RimWorld
 			base.Map.designationManager.AddDesignation(new Designation(t, DesignationDefOf.Open));
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<Thing> OpenablesInCell(IntVec3 c)
 		{
-			Designator_Open.<OpenablesInCell>c__Iterator190 <OpenablesInCell>c__Iterator = new Designator_Open.<OpenablesInCell>c__Iterator190();
-			<OpenablesInCell>c__Iterator.c = c;
-			<OpenablesInCell>c__Iterator.<$>c = c;
-			<OpenablesInCell>c__Iterator.<>f__this = this;
-			Designator_Open.<OpenablesInCell>c__Iterator190 expr_1C = <OpenablesInCell>c__Iterator;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (!c.Fogged(base.Map))
+			{
+				List<Thing> thingList = c.GetThingList(base.Map);
+				for (int i = 0; i < thingList.Count; i++)
+				{
+					if (this.CanDesignateThing(thingList[i]).Accepted)
+					{
+						yield return thingList[i];
+					}
+				}
+			}
 		}
 	}
 }

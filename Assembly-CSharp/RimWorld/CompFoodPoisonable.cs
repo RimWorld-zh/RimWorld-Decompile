@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -37,14 +36,14 @@ namespace RimWorld
 		{
 			base.PreAbsorbStack(otherStack, count);
 			CompFoodPoisonable compFoodPoisonable = otherStack.TryGetComp<CompFoodPoisonable>();
-			this.poisonPct = GenMath.WeightedAverage(this.poisonPct, (float)this.parent.stackCount, compFoodPoisonable.poisonPct, (float)count);
+			this.poisonPct = GenMath.WeightedAverage(this.poisonPct, (float)base.parent.stackCount, compFoodPoisonable.poisonPct, (float)count);
 		}
 
 		public override void PostIngested(Pawn ingester)
 		{
 			if (Rand.Value < this.poisonPct)
 			{
-				FoodUtility.AddFoodPoisoningHediff(ingester, this.parent);
+				FoodUtility.AddFoodPoisoningHediff(ingester, base.parent);
 			}
 		}
 	}

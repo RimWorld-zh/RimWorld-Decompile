@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -35,7 +33,7 @@ namespace RimWorld
 		public static void DrawCharacterCard(Rect rect, Pawn pawn, Action randomizeCallback)
 		{
 			GUI.BeginGroup(rect);
-			bool flag = randomizeCallback != null;
+			bool flag = (object)randomizeCallback != null;
 			Rect rect2 = new Rect(0f, 0f, 300f, 30f);
 			NameTriple nameTriple = pawn.Name as NameTriple;
 			if (flag && nameTriple != null)
@@ -47,7 +45,7 @@ namespace RimWorld
 				rect4.x += rect4.width;
 				Rect rect5 = new Rect(rect2);
 				rect5.width *= 0.333f;
-				rect5.x += rect4.width * 2f;
+				rect5.x += (float)(rect4.width * 2.0);
 				string first = nameTriple.First;
 				string nick = nameTriple.Nick;
 				string last = nameTriple.Last;
@@ -74,9 +72,9 @@ namespace RimWorld
 				Widgets.Label(rect2, pawn.Name.ToStringFull);
 				Text.Font = GameFont.Small;
 			}
-			if (randomizeCallback != null)
+			if ((object)randomizeCallback != null)
 			{
-				Rect rect6 = new Rect(rect2.xMax + 6f, 0f, 100f, rect2.height);
+				Rect rect6 = new Rect((float)(rect2.xMax + 6.0), 0f, 100f, rect2.height);
 				if (Widgets.ButtonText(rect6, "Randomize".Translate(), true, false, true))
 				{
 					SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
@@ -86,7 +84,7 @@ namespace RimWorld
 			}
 			if (!flag && pawn.IsColonist && !pawn.health.Dead)
 			{
-				Rect rect7 = new Rect(CharacterCardUtility.PawnCardSize.x - 85f, 0f, 30f, 30f);
+				Rect rect7 = new Rect((float)(CharacterCardUtility.PawnCardSize.x - 85.0), 0f, 30f, 30f);
 				TooltipHandler.TipRegion(rect7, new TipSignal("RenameColonist".Translate()));
 				if (Widgets.ButtonImage(rect7, TexButton.Rename))
 				{
@@ -95,51 +93,47 @@ namespace RimWorld
 			}
 			if (flag)
 			{
-				Widgets.InfoCardButton(CharacterCardUtility.PawnCardSize.x - 115f, 0f, pawn);
+				Widgets.InfoCardButton((float)(CharacterCardUtility.PawnCardSize.x - 115.0), 0f, pawn);
 			}
 			string label = pawn.MainDesc(true);
 			Rect rect8 = new Rect(0f, 45f, rect.width, 60f);
 			Widgets.Label(rect8, label);
-			TooltipHandler.TipRegion(rect8, () => pawn.ageTracker.AgeTooltipString, 6873641);
+			TooltipHandler.TipRegion(rect8, (Func<string>)(() => pawn.ageTracker.AgeTooltipString), 6873641);
 			Rect position = new Rect(0f, 100f, 250f, 450f);
 			Rect position2 = new Rect(position.xMax, 100f, 258f, 450f);
 			GUI.BeginGroup(position);
 			float num = 0f;
 			Text.Font = GameFont.Medium;
 			Widgets.Label(new Rect(0f, 0f, 200f, 30f), "Backstory".Translate());
-			num += 30f;
+			num = (float)(num + 30.0);
 			Text.Font = GameFont.Small;
-			using (IEnumerator enumerator = Enum.GetValues(typeof(BackstorySlot)).GetEnumerator())
+			foreach (byte value in Enum.GetValues(typeof(BackstorySlot)))
 			{
-				while (enumerator.MoveNext())
+				Backstory backstory = pawn.story.GetBackstory((BackstorySlot)value);
+				if (backstory != null)
 				{
-					BackstorySlot backstorySlot = (BackstorySlot)((byte)enumerator.Current);
-					Backstory backstory = pawn.story.GetBackstory(backstorySlot);
-					if (backstory != null)
+					Rect rect9 = new Rect(0f, num, position.width, 24f);
+					if (Mouse.IsOver(rect9))
 					{
-						Rect rect9 = new Rect(0f, num, position.width, 24f);
-						if (Mouse.IsOver(rect9))
-						{
-							Widgets.DrawHighlight(rect9);
-						}
-						TooltipHandler.TipRegion(rect9, backstory.FullDescriptionFor(pawn));
-						Text.Anchor = TextAnchor.MiddleLeft;
-						string str = (backstorySlot != BackstorySlot.Adulthood) ? "Childhood".Translate() : "Adulthood".Translate();
-						Widgets.Label(rect9, str + ":");
-						Text.Anchor = TextAnchor.UpperLeft;
-						Rect rect10 = new Rect(rect9);
-						rect10.x += 90f;
-						rect10.width -= 90f;
-						string title = backstory.Title;
-						Widgets.Label(rect10, title);
-						num += rect9.height + 2f;
+						Widgets.DrawHighlight(rect9);
 					}
+					TooltipHandler.TipRegion(rect9, backstory.FullDescriptionFor(pawn));
+					Text.Anchor = TextAnchor.MiddleLeft;
+					string str = (value != 1) ? "Childhood".Translate() : "Adulthood".Translate();
+					Widgets.Label(rect9, str + ":");
+					Text.Anchor = TextAnchor.UpperLeft;
+					Rect rect10 = new Rect(rect9);
+					rect10.x += 90f;
+					rect10.width -= 90f;
+					string title = backstory.Title;
+					Widgets.Label(rect10, title);
+					num = (float)(num + (rect9.height + 2.0));
 				}
 			}
-			num += 25f;
+			num = (float)(num + 25.0);
 			Text.Font = GameFont.Medium;
 			Widgets.Label(new Rect(0f, num, 200f, 30f), "IncapableOf".Translate());
-			num += 30f;
+			num = (float)(num + 30.0);
 			Text.Font = GameFont.Small;
 			StringBuilder stringBuilder = new StringBuilder();
 			WorkTags combinedDisabledWorkTags = pawn.story.CombinedDisabledWorkTags;
@@ -149,30 +143,39 @@ namespace RimWorld
 			}
 			else
 			{
-				List<WorkTags> list = CharacterCardUtility.WorkTagsFrom(combinedDisabledWorkTags).ToList<WorkTags>();
+				List<WorkTags> list = CharacterCardUtility.WorkTagsFrom(combinedDisabledWorkTags).ToList();
 				bool flag2 = true;
-				foreach (WorkTags current in list)
+				List<WorkTags>.Enumerator enumerator2 = list.GetEnumerator();
+				try
 				{
-					if (!flag2)
+					while (enumerator2.MoveNext())
 					{
-						stringBuilder.Append(current.LabelTranslated().ToLower());
+						WorkTags current = enumerator2.Current;
+						if (!flag2)
+						{
+							stringBuilder.Append(current.LabelTranslated().ToLower());
+						}
+						else
+						{
+							stringBuilder.Append(current.LabelTranslated());
+						}
+						stringBuilder.Append(", ");
+						flag2 = false;
 					}
-					else
-					{
-						stringBuilder.Append(current.LabelTranslated());
-					}
-					stringBuilder.Append(", ");
-					flag2 = false;
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator2).Dispose();
 				}
 			}
 			string text = stringBuilder.ToString();
 			text = text.Substring(0, text.Length - 2);
 			Rect rect11 = new Rect(0f, num, position.width, 999f);
 			Widgets.Label(rect11, text);
-			num += 100f;
+			num = (float)(num + 100.0);
 			Text.Font = GameFont.Medium;
 			Widgets.Label(new Rect(0f, num, 200f, 30f), "Traits".Translate());
-			num += 30f;
+			num = (float)(num + 30.0);
 			Text.Font = GameFont.Small;
 			for (int i = 0; i < pawn.story.traits.allTraits.Count; i++)
 			{
@@ -183,24 +186,16 @@ namespace RimWorld
 					Widgets.DrawHighlight(rect12);
 				}
 				Widgets.Label(rect12, trait.LabelCap);
-				num += rect12.height + 2f;
+				num = (float)(num + (rect12.height + 2.0));
 				Trait trLocal = trait;
-				TipSignal tip = new TipSignal(() => trLocal.TipString(pawn), (int)num * 37);
+				TipSignal tip = new TipSignal((Func<string>)(() => trLocal.TipString(pawn)), (int)num * 37);
 				TooltipHandler.TipRegion(rect12, tip);
 			}
 			GUI.EndGroup();
 			GUI.BeginGroup(position2);
 			Text.Font = GameFont.Medium;
 			Widgets.Label(new Rect(0f, 0f, 200f, 30f), "Skills".Translate());
-			SkillUI.SkillDrawMode mode;
-			if (Current.ProgramState == ProgramState.Playing)
-			{
-				mode = SkillUI.SkillDrawMode.Gameplay;
-			}
-			else
-			{
-				mode = SkillUI.SkillDrawMode.Menu;
-			}
+			SkillUI.SkillDrawMode mode = (SkillUI.SkillDrawMode)((Current.ProgramState != ProgramState.Playing) ? 1 : 0);
 			SkillUI.DrawSkillsOf(pawn, new Vector2(0f, 35f), mode);
 			GUI.EndGroup();
 			GUI.EndGroup();
@@ -215,15 +210,15 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		private static IEnumerable<WorkTags> WorkTagsFrom(WorkTags tags)
 		{
-			CharacterCardUtility.<WorkTagsFrom>c__Iterator196 <WorkTagsFrom>c__Iterator = new CharacterCardUtility.<WorkTagsFrom>c__Iterator196();
-			<WorkTagsFrom>c__Iterator.tags = tags;
-			<WorkTagsFrom>c__Iterator.<$>tags = tags;
-			CharacterCardUtility.<WorkTagsFrom>c__Iterator196 expr_15 = <WorkTagsFrom>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			foreach (WorkTags allSelectedItem in ((Enum)(object)tags).GetAllSelectedItems<WorkTags>())
+			{
+				if (allSelectedItem != 0)
+				{
+					yield return allSelectedItem;
+				}
+			}
 		}
 	}
 }

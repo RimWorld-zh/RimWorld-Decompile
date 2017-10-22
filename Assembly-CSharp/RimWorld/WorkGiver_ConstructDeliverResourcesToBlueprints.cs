@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -43,15 +42,7 @@ namespace RimWorld
 					{
 						return HaulAIUtility.HaulAsideJobFor(pawn, thing);
 					}
-					Log.ErrorOnce(string.Concat(new object[]
-					{
-						"Never haulable ",
-						thing,
-						" blocking ",
-						t,
-						" at ",
-						t.Position
-					}), 6429262);
+					Log.ErrorOnce("Never haulable " + thing + " blocking " + t + " at " + t.Position, 6429262);
 				}
 				return null;
 			}
@@ -87,38 +78,46 @@ namespace RimWorld
 			Thing thing = GenConstruct.MiniToInstallOrBuildingToReinstall(blue);
 			Thing thing2 = null;
 			CellRect cellRect = blue.OccupiedRect();
-			for (int i = cellRect.minZ; i <= cellRect.maxZ; i++)
+			int num = cellRect.minZ;
+			while (num <= cellRect.maxZ)
 			{
-				for (int j = cellRect.minX; j <= cellRect.maxX; j++)
+				int num2 = cellRect.minX;
+				while (num2 <= cellRect.maxX)
 				{
-					IntVec3 c = new IntVec3(j, 0, i);
+					IntVec3 c = new IntVec3(num2, 0, num);
 					List<Thing> thingList = c.GetThingList(pawn.Map);
-					for (int k = 0; k < thingList.Count; k++)
+					int num3 = 0;
+					while (num3 < thingList.Count)
 					{
-						if (thingList[k].def.category == ThingCategory.Building && thingList[k] != thing && GenSpawn.SpawningWipes(blue.def.entityDefToBuild, thingList[k].def))
+						if (thingList[num3].def.category != ThingCategory.Building || thingList[num3] == thing || !GenSpawn.SpawningWipes(blue.def.entityDefToBuild, thingList[num3].def))
 						{
-							thing2 = thingList[k];
-							break;
+							num3++;
+							continue;
 						}
-					}
-					if (thing2 != null)
-					{
+						thing2 = thingList[num3];
 						break;
 					}
-				}
-				if (thing2 != null)
-				{
+					if (thing2 == null)
+					{
+						num2++;
+						continue;
+					}
 					break;
 				}
+				if (thing2 == null)
+				{
+					num++;
+					continue;
+				}
+				break;
 			}
-			if (thing2 == null || !pawn.CanReserve(thing2, 1, -1, null, false))
+			if (thing2 != null && pawn.CanReserve(thing2, 1, -1, null, false))
 			{
-				return null;
+				Job job = new Job(JobDefOf.Deconstruct, thing2);
+				job.ignoreDesignations = true;
+				return job;
 			}
-			return new Job(JobDefOf.Deconstruct, thing2)
-			{
-				ignoreDesignations = true
-			};
+			return null;
 		}
 
 		private Job NoCostFrameMakeJobFor(Pawn pawn, IConstructible c)
@@ -129,10 +128,9 @@ namespace RimWorld
 			}
 			if (c is Blueprint && c.MaterialsNeeded().Count == 0)
 			{
-				return new Job(JobDefOf.PlaceNoCostFrame)
-				{
-					targetA = (Thing)c
-				};
+				Job job = new Job(JobDefOf.PlaceNoCostFrame);
+				job.targetA = (Thing)c;
+				return job;
 			}
 			return null;
 		}

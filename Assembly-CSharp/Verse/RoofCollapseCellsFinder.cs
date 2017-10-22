@@ -11,11 +11,10 @@ namespace Verse
 
 		public static void Notify_RoofHolderDespawned(Thing t, Map map)
 		{
-			if (Current.ProgramState != ProgramState.Playing)
+			if (Current.ProgramState == ProgramState.Playing)
 			{
-				return;
+				RoofCollapseCellsFinder.ProcessRoofHolderDespawned(t.OccupiedRect(), t.Position, map, false);
 			}
-			RoofCollapseCellsFinder.ProcessRoofHolderDespawned(t.OccupiedRect(), t.Position, map, false);
 		}
 
 		public static void ProcessRoofHolderDespawned(CellRect rect, IntVec3 position, Map map, bool removalMode = false)
@@ -26,26 +25,17 @@ namespace Verse
 			for (int i = 0; i < RoofCollapseUtility.RoofSupportRadialCellsCount; i++)
 			{
 				IntVec3 intVec = position + GenRadial.RadialPattern[i];
-				if (intVec.InBounds(map))
+				if (intVec.InBounds(map) && roofGrid.Roofed(intVec.x, intVec.z) && !map.roofCollapseBuffer.IsMarkedToCollapse(intVec) && !RoofCollapseUtility.WithinRangeOfRoofHolder(intVec, map))
 				{
-					if (roofGrid.Roofed(intVec.x, intVec.z))
+					if (removalMode)
 					{
-						if (!map.roofCollapseBuffer.IsMarkedToCollapse(intVec))
-						{
-							if (!RoofCollapseUtility.WithinRangeOfRoofHolder(intVec, map))
-							{
-								if (removalMode)
-								{
-									map.roofGrid.SetRoof(intVec, null);
-								}
-								else
-								{
-									map.roofCollapseBuffer.MarkToCollapse(intVec);
-								}
-								RoofCollapseCellsFinder.roofsCollapsingBecauseTooFar.Add(intVec);
-							}
-						}
+						map.roofGrid.SetRoof(intVec, null);
 					}
+					else
+					{
+						map.roofCollapseBuffer.MarkToCollapse(intVec);
+					}
+					RoofCollapseCellsFinder.roofsCollapsingBecauseTooFar.Add(intVec);
 				}
 			}
 			RoofCollapseCellsFinder.CheckCollapseFlyingRoofs(RoofCollapseCellsFinder.roofsCollapsingBecauseTooFar, map, removalMode);
@@ -56,7 +46,10 @@ namespace Verse
 		{
 			for (int i = 0; i < nearCells.Count; i++)
 			{
-				RoofCollapseCellsFinder.ProcessRoofHolderDespawned(new CellRect(nearCells[i].x, nearCells[i].z, 1, 1), nearCells[i], map, true);
+				IntVec3 intVec = nearCells[i];
+				int x = intVec.x;
+				IntVec3 intVec2 = nearCells[i];
+				RoofCollapseCellsFinder.ProcessRoofHolderDespawned(new CellRect(x, intVec2.z, 1, 1), nearCells[i], map, true);
 			}
 		}
 
@@ -93,31 +86,19 @@ namespace Verse
 			for (int i = 0; i < 5; i++)
 			{
 				IntVec3 intVec = root + GenAdj.CardinalDirectionsAndInside[i];
-				if (intVec.InBounds(map))
+				if (intVec.InBounds(map) && intVec.Roofed(map) && !RoofCollapseCellsFinder.visitedCells.Contains(intVec) && !roofCollapseBuffer.IsMarkedToCollapse(intVec) && !RoofCollapseCellsFinder.ConnectsToRoofHolder(intVec, map))
 				{
-					if (intVec.Roofed(map))
+					map.floodFiller.FloodFill(intVec, (Predicate<IntVec3>)((IntVec3 x) => x.Roofed(map)), (Action<IntVec3>)delegate(IntVec3 x)
 					{
-						if (!RoofCollapseCellsFinder.visitedCells.Contains(intVec))
+						roofCollapseBuffer.MarkToCollapse(x);
+					}, false);
+					if (removalMode)
+					{
+						for (int j = 0; j < roofCollapseBuffer.CellsMarkedToCollapse.Count; j++)
 						{
-							if (!roofCollapseBuffer.IsMarkedToCollapse(intVec))
-							{
-								if (!RoofCollapseCellsFinder.ConnectsToRoofHolder(intVec, map))
-								{
-									map.floodFiller.FloodFill(intVec, (IntVec3 x) => x.Roofed(map), delegate(IntVec3 x)
-									{
-										roofCollapseBuffer.MarkToCollapse(x);
-									}, false);
-									if (removalMode)
-									{
-										for (int j = 0; j < roofCollapseBuffer.CellsMarkedToCollapse.Count; j++)
-										{
-											map.roofGrid.SetRoof(roofCollapseBuffer.CellsMarkedToCollapse[j], null);
-										}
-										roofCollapseBuffer.Clear();
-									}
-								}
-							}
+							map.roofGrid.SetRoof(roofCollapseBuffer.CellsMarkedToCollapse[j], null);
 						}
+						roofCollapseBuffer.Clear();
 					}
 				}
 			}
@@ -128,26 +109,33 @@ namespace Verse
 		private static bool ConnectsToRoofHolder(IntVec3 c, Map map)
 		{
 			bool connected = false;
-			map.floodFiller.FloodFill(c, (IntVec3 x) => x.Roofed(map) && !connected, delegate(IntVec3 x)
+			map.floodFiller.FloodFill(c, (Predicate<IntVec3>)((IntVec3 x) => x.Roofed(map) && !connected), (Action<IntVec3>)delegate(IntVec3 x)
 			{
 				if (RoofCollapseCellsFinder.visitedCells.Contains(x))
 				{
 					connected = true;
-					return;
 				}
-				RoofCollapseCellsFinder.visitedCells.Add(x);
-				for (int i = 0; i < 5; i++)
+				else
 				{
-					IntVec3 c2 = x + GenAdj.CardinalDirectionsAndInside[i];
-					if (c2.InBounds(map))
+					RoofCollapseCellsFinder.visitedCells.Add(x);
+					int num = 0;
+					while (true)
 					{
-						Building edifice = c2.GetEdifice(map);
-						if (edifice != null && edifice.def.holdsRoof)
+						if (num < 5)
 						{
-							connected = true;
-							break;
+							IntVec3 c2 = x + GenAdj.CardinalDirectionsAndInside[num];
+							if (c2.InBounds(map))
+							{
+								Building edifice = c2.GetEdifice(map);
+								if (edifice != null && edifice.def.holdsRoof)
+									break;
+							}
+							num++;
+							continue;
 						}
+						return;
 					}
+					connected = true;
 				}
 			}, false);
 			return connected;

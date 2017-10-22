@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -9,14 +7,13 @@ namespace RimWorld
 	{
 		private List<ThingDef> thingDefs = new List<ThingDef>();
 
-		[DebuggerHidden]
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
-			StockGenerator_MultiDef.<GenerateThings>c__Iterator17B <GenerateThings>c__Iterator17B = new StockGenerator_MultiDef.<GenerateThings>c__Iterator17B();
-			<GenerateThings>c__Iterator17B.<>f__this = this;
-			StockGenerator_MultiDef.<GenerateThings>c__Iterator17B expr_0E = <GenerateThings>c__Iterator17B;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			ThingDef td = this.thingDefs.RandomElement();
+			foreach (Thing item in StockGeneratorUtility.TryMakeForStock(td, base.RandomCountOf(td)))
+			{
+				yield return item;
+			}
 		}
 
 		public override bool HandlesThingDef(ThingDef thingDef)

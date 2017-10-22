@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -25,7 +24,11 @@ namespace RimWorld
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
-			return pawn2 != null && (!this.def.tendToHumanlikesOnly || pawn2.RaceProps.Humanlike) && (!this.def.tendToAnimalsOnly || pawn2.RaceProps.Animal) && WorkGiver_Tend.GoodLayingStatusForTend(pawn2, pawn) && HealthAIUtility.ShouldBeTendedNow(pawn2) && pawn.CanReserve(pawn2, 1, -1, null, forced);
+			if (pawn2 != null && (!base.def.tendToHumanlikesOnly || pawn2.RaceProps.Humanlike) && (!base.def.tendToAnimalsOnly || pawn2.RaceProps.Animal) && WorkGiver_Tend.GoodLayingStatusForTend(pawn2, pawn) && HealthAIUtility.ShouldBeTendedNow(pawn2) && pawn.CanReserve((Thing)pawn2, 1, -1, null, forced))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool GoodLayingStatusForTend(Pawn patient, Pawn doctor)
@@ -51,9 +54,9 @@ namespace RimWorld
 			}
 			if (thing != null)
 			{
-				return new Job(JobDefOf.TendPatient, pawn2, thing);
+				return new Job(JobDefOf.TendPatient, (Thing)pawn2, thing);
 			}
-			return new Job(JobDefOf.TendPatient, pawn2);
+			return new Job(JobDefOf.TendPatient, (Thing)pawn2);
 		}
 	}
 }

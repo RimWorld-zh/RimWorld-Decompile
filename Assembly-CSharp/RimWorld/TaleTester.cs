@@ -12,7 +12,7 @@ namespace RimWorld
 		public static void LogGeneratedTales(int count)
 		{
 			List<Tale> list = new List<Tale>();
-			for (int i = 0; i < count; i++)
+			for (int num = 0; num < count; num++)
 			{
 				list.Add(TaleFactory.MakeRandomTestTale(null));
 			}
@@ -22,7 +22,7 @@ namespace RimWorld
 		public static void LogSpecificTale(TaleDef def, int count)
 		{
 			List<Tale> list = new List<Tale>();
-			for (int i = 0; i < count; i++)
+			for (int num = 0; num < count; num++)
 			{
 				list.Add(TaleFactory.MakeRandomTestTale(def));
 			}
@@ -50,9 +50,9 @@ namespace RimWorld
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			int num = 0;
-			foreach (Tale current in tales)
+			foreach (Tale item in tales)
 			{
-				TaleReference tr = new TaleReference(current);
+				TaleReference tr = new TaleReference(item);
 				stringBuilder.AppendLine(TaleTester.RandomArtworkName(tr));
 				stringBuilder.AppendLine(TaleTester.RandomArtworkDescription(tr));
 				stringBuilder.AppendLine();
@@ -75,20 +75,30 @@ namespace RimWorld
 			switch (Rand.RangeInclusive(0, 4))
 			{
 			case 0:
+			{
 				list.AddRange(RulePackDefOf.ArtName_Sculpture.Rules);
 				break;
+			}
 			case 1:
+			{
 				list.AddRange(RulePackDefOf.ArtName_WeaponMelee.Rules);
 				break;
+			}
 			case 2:
+			{
 				list.AddRange(RulePackDefOf.ArtName_WeaponGun.Rules);
 				break;
+			}
 			case 3:
+			{
 				list.AddRange(RulePackDefOf.ArtName_Furniture.Rules);
 				break;
+			}
 			case 4:
+			{
 				list.AddRange(RulePackDefOf.ArtName_SarcophagusPlate.Rules);
 				break;
+			}
 			}
 			return tr.GenerateText(TextGenerationPurpose.ArtName, list);
 		}
@@ -99,20 +109,30 @@ namespace RimWorld
 			switch (Rand.RangeInclusive(0, 4))
 			{
 			case 0:
+			{
 				list.AddRange(RulePackDefOf.ArtDescription_Sculpture.Rules);
 				break;
+			}
 			case 1:
+			{
 				list.AddRange(RulePackDefOf.ArtDescription_WeaponMelee.Rules);
 				break;
+			}
 			case 2:
+			{
 				list.AddRange(RulePackDefOf.ArtDescription_WeaponGun.Rules);
 				break;
+			}
 			case 3:
+			{
 				list.AddRange(RulePackDefOf.ArtDescription_Furniture.Rules);
 				break;
+			}
 			case 4:
+			{
 				list.AddRange(RulePackDefOf.ArtDescription_SarcophagusPlate.Rules);
 				break;
+			}
 			}
 			return tr.GenerateText(TextGenerationPurpose.ArtDescription, list);
 		}

@@ -21,7 +21,7 @@ namespace RimWorld.BaseGen
 				SymbolResolver_EnsureCanReachMapEdge.cellsInRandomOrder.Add(iterator.Current);
 				iterator.MoveNext();
 			}
-			SymbolResolver_EnsureCanReachMapEdge.cellsInRandomOrder.Shuffle<IntVec3>();
+			SymbolResolver_EnsureCanReachMapEdge.cellsInRandomOrder.Shuffle();
 			this.TryMakeAllCellsReachable(false, rp);
 			this.TryMakeAllCellsReachable(true, rp);
 		}
@@ -44,13 +44,9 @@ namespace RimWorld.BaseGen
 						{
 							bool found = false;
 							IntVec3 foundDest = IntVec3.Invalid;
-							map.floodFiller.FloodFill(intVec, (IntVec3 x) => !found && this.CanTraverse(x, canPathThroughNonStandable), delegate(IntVec3 x)
+							map.floodFiller.FloodFill(intVec, (Predicate<IntVec3>)((IntVec3 x) => !found && this.CanTraverse(x, canPathThroughNonStandable)), (Action<IntVec3>)delegate(IntVec3 x)
 							{
-								if (found)
-								{
-									return;
-								}
-								if (map.reachability.CanReachMapEdge(x, traverseParms))
+								if (!found && map.reachability.CanReachMapEdge(x, traverseParms))
 								{
 									found = true;
 									foundDest = x;
@@ -96,24 +92,14 @@ namespace RimWorld.BaseGen
 			}
 			if (intVec.IsValid)
 			{
-				ThingDef arg_12F_0;
-				if ((arg_12F_0 = thingDef) == null)
-				{
-					arg_12F_0 = (rp.wallStuff ?? BaseGenUtility.RandomCheapWallStuff(rp.faction, false));
-				}
-				ThingDef stuff = arg_12F_0;
+				ThingDef stuff = thingDef ?? rp.wallStuff ?? BaseGenUtility.RandomCheapWallStuff(rp.faction, false);
 				Thing thing = ThingMaker.MakeThing(ThingDefOf.Door, stuff);
 				thing.SetFaction(rp.faction, null);
 				GenSpawn.Spawn(thing, intVec, map);
 			}
 			if (intVec2.IsValid && intVec2 != intVec && !intVec2.AdjacentToCardinal(intVec))
 			{
-				ThingDef arg_1A1_0;
-				if ((arg_1A1_0 = thingDef2) == null)
-				{
-					arg_1A1_0 = (rp.wallStuff ?? BaseGenUtility.RandomCheapWallStuff(rp.faction, false));
-				}
-				ThingDef stuff2 = arg_1A1_0;
+				ThingDef stuff2 = thingDef2 ?? rp.wallStuff ?? BaseGenUtility.RandomCheapWallStuff(rp.faction, false);
 				Thing thing2 = ThingMaker.MakeThing(ThingDefOf.Door, stuff2);
 				thing2.SetFaction(rp.faction, null);
 				GenSpawn.Spawn(thing2, intVec2, map);
@@ -124,7 +110,19 @@ namespace RimWorld.BaseGen
 		{
 			Map map = BaseGen.globalSettings.map;
 			Building edifice = c.GetEdifice(map);
-			return this.IsWallOrRock(edifice) || ((canPathThroughNonStandable || c.Standable(map)) && !c.Impassable(map));
+			if (this.IsWallOrRock(edifice))
+			{
+				return true;
+			}
+			if (!canPathThroughNonStandable && !c.Standable(map))
+			{
+				return false;
+			}
+			if (!c.Impassable(map))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private bool IsWallOrRock(Building b)

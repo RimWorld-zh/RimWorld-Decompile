@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -8,13 +7,13 @@ namespace RimWorld
 	{
 		public Designator_AreaHomeExpand() : base(DesignateMode.Add)
 		{
-			this.defaultLabel = "DesignatorAreaHomeExpand".Translate();
-			this.defaultDesc = "DesignatorAreaHomeExpandDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/HomeAreaOn", true);
-			this.soundDragSustain = SoundDefOf.DesignateDragAreaAdd;
-			this.soundDragChanged = SoundDefOf.DesignateDragAreaAddChanged;
-			this.soundSucceeded = SoundDefOf.DesignateAreaAdd;
-			this.tutorTag = "AreaHomeExpand";
+			base.defaultLabel = "DesignatorAreaHomeExpand".Translate();
+			base.defaultDesc = "DesignatorAreaHomeExpandDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/HomeAreaOn", true);
+			base.soundDragSustain = SoundDefOf.DesignateDragAreaAdd;
+			base.soundDragChanged = SoundDefOf.DesignateDragAreaAddChanged;
+			base.soundSucceeded = SoundDefOf.DesignateAreaAdd;
+			base.tutorTag = "AreaHomeExpand";
 		}
 	}
 }

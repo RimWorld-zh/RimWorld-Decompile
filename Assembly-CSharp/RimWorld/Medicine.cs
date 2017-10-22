@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -30,21 +29,18 @@ namespace RimWorld
 				num++;
 				if (num > num2)
 				{
+					Log.Error("Too many iterations.");
 					break;
 				}
 				TendUtility.GetOptimalHediffsToTendWithSingleTreatment(pawn, true, Medicine.tmpHediffs, Medicine.tendableHediffsInTendPriorityOrder);
-				if (!Medicine.tmpHediffs.Any<Hediff>())
-				{
-					goto IL_F6;
-				}
+				if (!Medicine.tmpHediffs.Any())
+					break;
 				num3++;
 				for (int j = 0; j < Medicine.tmpHediffs.Count; j++)
 				{
 					Medicine.tendableHediffsInTendPriorityOrder.Remove(Medicine.tmpHediffs[j]);
 				}
 			}
-			Log.Error("Too many iterations.");
-			IL_F6:
 			Medicine.tmpHediffs.Clear();
 			Medicine.tendableHediffsInTendPriorityOrder.Clear();
 			return num3;

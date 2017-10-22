@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.AI.Group;
@@ -13,7 +12,7 @@ namespace RimWorld
 		{
 			IntVec3 siegeSpot = RCellFinder.FindSiegePositionFrom(parms.spawnCenter, map);
 			float num = parms.points * Rand.Range(0.2f, 0.3f);
-			if (num < 60f)
+			if (num < 60.0)
 			{
 				num = 60f;
 			}
@@ -27,7 +26,11 @@ namespace RimWorld
 
 		public override bool CanUseWith(IncidentParms parms)
 		{
-			return base.CanUseWith(parms) && parms.faction.def.canSiege;
+			if (!base.CanUseWith(parms))
+			{
+				return false;
+			}
+			return parms.faction.def.canSiege;
 		}
 	}
 }

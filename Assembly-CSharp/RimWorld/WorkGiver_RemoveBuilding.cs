@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -26,16 +24,12 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			WorkGiver_RemoveBuilding.<PotentialWorkThingsGlobal>c__Iterator5E <PotentialWorkThingsGlobal>c__Iterator5E = new WorkGiver_RemoveBuilding.<PotentialWorkThingsGlobal>c__Iterator5E();
-			<PotentialWorkThingsGlobal>c__Iterator5E.pawn = pawn;
-			<PotentialWorkThingsGlobal>c__Iterator5E.<$>pawn = pawn;
-			<PotentialWorkThingsGlobal>c__Iterator5E.<>f__this = this;
-			WorkGiver_RemoveBuilding.<PotentialWorkThingsGlobal>c__Iterator5E expr_1C = <PotentialWorkThingsGlobal>c__Iterator5E;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			foreach (Designation item in pawn.Map.designationManager.SpawnedDesignationsOfDef(this.Designation))
+			{
+				yield return item.target.Thing;
+			}
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -51,7 +45,15 @@ namespace RimWorld
 			{
 				return false;
 			}
-			return pawn.CanReserve(t, 1, -1, null, forced) && pawn.Map.designationManager.DesignationOn(t, this.Designation) != null;
+			if (!pawn.CanReserve(t, 1, -1, null, forced))
+			{
+				return false;
+			}
+			if (pawn.Map.designationManager.DesignationOn(t, this.Designation) == null)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

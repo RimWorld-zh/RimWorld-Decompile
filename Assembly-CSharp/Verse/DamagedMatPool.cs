@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,11 +19,11 @@ namespace Verse
 
 		public static Material GetDamageFlashMat(Material baseMat, float damPct)
 		{
-			if (damPct < 0.01f)
+			if (damPct < 0.0099999997764825821)
 			{
 				return baseMat;
 			}
-			Material material;
+			Material material = default(Material);
 			if (!DamagedMatPool.damagedMats.TryGetValue(baseMat, out material))
 			{
 				material = new Material(baseMat);

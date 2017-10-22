@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum ListerThingsUse : byte
 	{
-		Undefined,
-		Global,
-		Region
+		Undefined = 0,
+		Global = 1,
+		Region = 2
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -14,11 +13,17 @@ namespace RimWorld
 		{
 			get
 			{
-				TraitSet.<>c__IteratorEC <>c__IteratorEC = new TraitSet.<>c__IteratorEC();
-				<>c__IteratorEC.<>f__this = this;
-				TraitSet.<>c__IteratorEC expr_0E = <>c__IteratorEC;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				for (int j = 0; j < this.allTraits.Count; j++)
+				{
+					Trait trait = this.allTraits[j];
+					if (trait.CurrentData.allowedMentalBreaks != null)
+					{
+						for (int i = 0; i < trait.CurrentData.allowedMentalBreaks.Count; i++)
+						{
+							yield return trait.CurrentData.allowedMentalBreaks[i];
+						}
+					}
+				}
 			}
 		}
 
@@ -37,21 +42,23 @@ namespace RimWorld
 			if (this.HasTrait(trait.def))
 			{
 				Log.Warning(this.pawn + " already has trait " + trait.def);
-				return;
 			}
-			this.allTraits.Add(trait);
-			if (this.pawn.workSettings != null)
+			else
 			{
-				this.pawn.workSettings.Notify_GainedTrait();
-			}
-			this.pawn.story.Notify_TraitChanged();
-			if (this.pawn.skills != null)
-			{
-				this.pawn.skills.Notify_SkillDisablesChanged();
-			}
-			if (!this.pawn.Dead && this.pawn.RaceProps.Humanlike)
-			{
-				this.pawn.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
+				this.allTraits.Add(trait);
+				if (this.pawn.workSettings != null)
+				{
+					this.pawn.workSettings.Notify_GainedTrait();
+				}
+				this.pawn.story.Notify_TraitChanged();
+				if (this.pawn.skills != null)
+				{
+					this.pawn.skills.Notify_SkillDisablesChanged();
+				}
+				if (!this.pawn.Dead && this.pawn.RaceProps.Humanlike)
+				{
+					this.pawn.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
+				}
 			}
 		}
 

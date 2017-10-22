@@ -80,30 +80,37 @@ namespace RimWorld
 			}
 			this.priorities.SetAll(0);
 			int num = 0;
-			foreach (WorkTypeDef current in from w in DefDatabase<WorkTypeDef>.AllDefs
+			foreach (WorkTypeDef item in from w in DefDatabase<WorkTypeDef>.AllDefs
 			where !w.alwaysStartActive && !this.pawn.story.WorkTypeIsDisabled(w)
 			orderby this.pawn.skills.AverageOfRelevantSkillsFor(w) descending
 			select w)
 			{
-				this.SetPriority(current, 3);
+				this.SetPriority(item, 3);
 				num++;
 				if (num >= 6)
-				{
 					break;
-				}
 			}
-			foreach (WorkTypeDef current2 in from w in DefDatabase<WorkTypeDef>.AllDefs
+			foreach (WorkTypeDef item2 in from w in DefDatabase<WorkTypeDef>.AllDefs
 			where w.alwaysStartActive
 			select w)
 			{
-				if (!this.pawn.story.WorkTypeIsDisabled(current2))
+				if (!this.pawn.story.WorkTypeIsDisabled(item2))
 				{
-					this.SetPriority(current2, 3);
+					this.SetPriority(item2, 3);
 				}
 			}
-			foreach (WorkTypeDef current3 in this.pawn.story.DisabledWorkTypes)
+			List<WorkTypeDef>.Enumerator enumerator3 = this.pawn.story.DisabledWorkTypes.GetEnumerator();
+			try
 			{
-				this.Disable(current3);
+				while (enumerator3.MoveNext())
+				{
+					WorkTypeDef current3 = enumerator3.Current;
+					this.Disable(current3);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator3).Dispose();
 			}
 		}
 
@@ -121,25 +128,21 @@ namespace RimWorld
 			this.ConfirmInitializedDebug();
 			if (priority != 0 && this.pawn.story.WorkTypeIsDisabled(w))
 			{
-				Log.Error(string.Concat(new object[]
+				Log.Error("Tried to change priority on disabled worktype " + w + " for pawn " + this.pawn);
+			}
+			else
+			{
+				if (priority < 0 || priority > 4)
 				{
-					"Tried to change priority on disabled worktype ",
-					w,
-					" for pawn ",
-					this.pawn
-				}));
-				return;
+					Log.Message("Trying to set work to invalid priority " + priority);
+				}
+				this.priorities[w] = priority;
+				if (priority == 0)
+				{
+					this.pawn.mindState.Notify_WorkPriorityDisabled(w);
+				}
+				this.workGiversDirty = true;
 			}
-			if (priority < 0 || priority > 4)
-			{
-				Log.Message("Trying to set work to invalid priority " + priority);
-			}
-			this.priorities[w] = priority;
-			if (priority == 0)
-			{
-				this.pawn.mindState.Notify_WorkPriorityDisabled(w);
-			}
-			this.workGiversDirty = true;
 		}
 
 		public int GetPriority(WorkTypeDef w)
@@ -179,13 +182,21 @@ namespace RimWorld
 
 		public void Notify_GainedTrait()
 		{
-			if (this.priorities == null)
+			if (this.priorities != null)
 			{
-				return;
-			}
-			foreach (WorkTypeDef current in this.pawn.story.DisabledWorkTypes)
-			{
-				this.Disable(current);
+				List<WorkTypeDef>.Enumerator enumerator = this.pawn.story.DisabledWorkTypes.GetEnumerator();
+				try
+				{
+					while (enumerator.MoveNext())
+					{
+						WorkTypeDef current = enumerator.Current;
+						this.Disable(current);
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
+				}
 			}
 		}
 
@@ -200,17 +211,14 @@ namespace RimWorld
 				int priority = this.GetPriority(workTypeDef);
 				if (priority > 0)
 				{
-					if (priority < num)
+					if (priority < num && workTypeDef.workGiversByPriority.Any((Predicate<WorkGiverDef>)((WorkGiverDef wg) => !wg.emergency)))
 					{
-						if (workTypeDef.workGiversByPriority.Any((WorkGiverDef wg) => !wg.emergency))
-						{
-							num = priority;
-						}
+						num = priority;
 					}
 					Pawn_WorkSettings.wtsByPrio.Add(workTypeDef);
 				}
 			}
-			Pawn_WorkSettings.wtsByPrio.InsertionSort(delegate(WorkTypeDef a, WorkTypeDef b)
+			Pawn_WorkSettings.wtsByPrio.InsertionSort((Comparison<WorkTypeDef>)delegate(WorkTypeDef a, WorkTypeDef b)
 			{
 				float value = (float)(a.naturalPriority + (4 - this.GetPriority(a)) * 100000);
 				return ((float)(b.naturalPriority + (4 - this.GetPriority(b)) * 100000)).CompareTo(value);
@@ -251,42 +259,19 @@ namespace RimWorld
 			stringBuilder.AppendLine("Cached emergency WorkGivers in order:");
 			for (int i = 0; i < this.WorkGiversInOrderEmergency.Count; i++)
 			{
-				stringBuilder.AppendLine(string.Concat(new object[]
-				{
-					"   ",
-					i,
-					": ",
-					this.DebugStringFor(this.WorkGiversInOrderEmergency[i].def)
-				}));
+				stringBuilder.AppendLine("   " + i + ": " + this.DebugStringFor(this.WorkGiversInOrderEmergency[i].def));
 			}
 			stringBuilder.AppendLine("Cached normal WorkGivers in order:");
 			for (int j = 0; j < this.WorkGiversInOrderNormal.Count; j++)
 			{
-				stringBuilder.AppendLine(string.Concat(new object[]
-				{
-					"   ",
-					j,
-					": ",
-					this.DebugStringFor(this.WorkGiversInOrderNormal[j].def)
-				}));
+				stringBuilder.AppendLine("   " + j + ": " + this.DebugStringFor(this.WorkGiversInOrderNormal[j].def));
 			}
 			return stringBuilder.ToString();
 		}
 
 		private string DebugStringFor(WorkGiverDef wg)
 		{
-			return string.Concat(new object[]
-			{
-				"[",
-				this.GetPriority(wg.workType),
-				" ",
-				wg.workType.defName,
-				"] - ",
-				wg.defName,
-				" (",
-				wg.priorityInType,
-				")"
-			});
+			return "[" + this.GetPriority(wg.workType) + " " + wg.workType.defName + "] - " + wg.defName + " (" + wg.priorityInType + ")";
 		}
 	}
 }

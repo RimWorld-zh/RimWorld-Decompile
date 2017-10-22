@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -45,24 +44,24 @@ namespace Verse
 		public static void OverlayOnGUI(Vector2 windowSize)
 		{
 			Color color = ScreenFader.CurrentInstantColor();
-			if (color.a > 0f)
+			if (color.a > 0.0)
 			{
 				if (ScreenFader.fadeTextureDirty)
 				{
 					ScreenFader.fadeTexture.SetPixel(0, 0, color);
 					ScreenFader.fadeTexture.Apply();
 				}
-				GUI.Label(new Rect(-10f, -10f, windowSize.x + 10f, windowSize.y + 10f), ScreenFader.fadeTexture, ScreenFader.backgroundStyle);
+				GUI.Label(new Rect(-10f, -10f, (float)(windowSize.x + 10.0), (float)(windowSize.y + 10.0)), ScreenFader.fadeTexture, ScreenFader.backgroundStyle);
 			}
 		}
 
 		private static Color CurrentInstantColor()
 		{
-			if (ScreenFader.CurTime > ScreenFader.targetTime || ScreenFader.targetTime == ScreenFader.sourceTime)
+			if (!(ScreenFader.CurTime > ScreenFader.targetTime) && ScreenFader.targetTime != ScreenFader.sourceTime)
 			{
-				return ScreenFader.targetColor;
+				return Color.Lerp(ScreenFader.sourceColor, ScreenFader.targetColor, (ScreenFader.CurTime - ScreenFader.sourceTime) / (ScreenFader.targetTime - ScreenFader.sourceTime));
 			}
-			return Color.Lerp(ScreenFader.sourceColor, ScreenFader.targetColor, (ScreenFader.CurTime - ScreenFader.sourceTime) / (ScreenFader.targetTime - ScreenFader.sourceTime));
+			return ScreenFader.targetColor;
 		}
 
 		public static void SetColor(Color newColor)
@@ -76,15 +75,17 @@ namespace Verse
 
 		public static void StartFade(Color finalColor, float duration)
 		{
-			if (duration <= 0f)
+			if (duration <= 0.0)
 			{
 				ScreenFader.SetColor(finalColor);
-				return;
 			}
-			ScreenFader.sourceColor = ScreenFader.CurrentInstantColor();
-			ScreenFader.targetColor = finalColor;
-			ScreenFader.sourceTime = ScreenFader.CurTime;
-			ScreenFader.targetTime = ScreenFader.CurTime + duration;
+			else
+			{
+				ScreenFader.sourceColor = ScreenFader.CurrentInstantColor();
+				ScreenFader.targetColor = finalColor;
+				ScreenFader.sourceTime = ScreenFader.CurTime;
+				ScreenFader.targetTime = ScreenFader.CurTime + duration;
+			}
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -20,7 +19,7 @@ namespace RimWorld
 			{
 				return null;
 			}
-			return new Job(this.def.jobDef, t);
+			return new Job(base.def.jobDef, t);
 		}
 
 		public static bool ThingHasStandableSpaceOnAllSides(Thing t)
@@ -30,12 +29,9 @@ namespace RimWorld
 			while (!iterator.Done())
 			{
 				IntVec3 current = iterator.Current;
-				if (!cellRect.Contains(current))
+				if (!cellRect.Contains(current) && !current.Standable(t.Map))
 				{
-					if (!current.Standable(t.Map))
-					{
-						return false;
-					}
+					return false;
 				}
 				iterator.MoveNext();
 			}

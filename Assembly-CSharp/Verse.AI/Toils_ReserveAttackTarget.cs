@@ -7,7 +7,7 @@ namespace Verse.AI
 		public static Toil TryReserve(TargetIndex ind)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				Pawn actor = toil.actor;
 				IAttackTarget attackTarget = actor.CurJob.GetTarget(ind).Thing as IAttackTarget;

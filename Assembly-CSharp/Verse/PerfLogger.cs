@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 using System.Text;
 
@@ -34,13 +33,7 @@ namespace Verse
 			{
 				PerfLogger.currentLog = new StringBuilder();
 			}
-			PerfLogger.currentLog.AppendLine(string.Format("{0}: {3}{1} ({2})", new object[]
-			{
-				(timestamp - PerfLogger.start) * 1000L / Stopwatch.Frequency,
-				label,
-				(timestamp - PerfLogger.current) * 1000L / Stopwatch.Frequency,
-				new string(' ', PerfLogger.indent * 2)
-			}));
+			PerfLogger.currentLog.AppendLine(string.Format("{0}: {3}{1} ({2})", (timestamp - PerfLogger.start) * 1000 / Stopwatch.Frequency, label, (timestamp - PerfLogger.current) * 1000 / Stopwatch.Frequency, new string(' ', PerfLogger.indent * 2)));
 			PerfLogger.current = timestamp;
 		}
 

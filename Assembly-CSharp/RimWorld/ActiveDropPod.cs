@@ -35,7 +35,7 @@ namespace RimWorld
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.age, "age", 0, false);
-			Scribe_Deep.Look<ActiveDropPodInfo>(ref this.contents, "contents", new object[]
+			Scribe_Deep.Look<ActiveDropPodInfo>(ref this.contents, "contents", new object[1]
 			{
 				this
 			});
@@ -81,11 +81,11 @@ namespace RimWorld
 
 		private void PodOpen()
 		{
-			for (int i = this.contents.innerContainer.Count - 1; i >= 0; i--)
+			for (int num = this.contents.innerContainer.Count - 1; num >= 0; num--)
 			{
-				Thing thing = this.contents.innerContainer[i];
-				Thing thing2;
-				GenPlace.TryPlaceThing(thing, base.Position, base.Map, ThingPlaceMode.Near, out thing2, delegate(Thing placedThing, int count)
+				Thing thing = this.contents.innerContainer[num];
+				Thing thing2 = default(Thing);
+				GenPlace.TryPlaceThing(thing, base.Position, base.Map, ThingPlaceMode.Near, out thing2, (Action<Thing, int>)delegate(Thing placedThing, int count)
 				{
 					if (Find.TickManager.TicksGame < 1200 && TutorSystem.TutorialMode && placedThing.def.category == ThingCategory.Item)
 					{
@@ -97,10 +97,7 @@ namespace RimWorld
 				{
 					if (pawn.RaceProps.Humanlike)
 					{
-						TaleRecorder.RecordTale(TaleDefOf.LandedInPod, new object[]
-						{
-							pawn
-						});
+						TaleRecorder.RecordTale(TaleDefOf.LandedInPod, pawn);
 					}
 					if (pawn.IsColonist && pawn.Spawned && !base.Map.IsPlayerHome)
 					{
@@ -111,7 +108,7 @@ namespace RimWorld
 			this.contents.innerContainer.ClearAndDestroyContents(DestroyMode.Vanish);
 			if (this.contents.leaveSlag)
 			{
-				for (int j = 0; j < 1; j++)
+				for (int i = 0; i < 1; i++)
 				{
 					Thing thing3 = ThingMaker.MakeThing(ThingDefOf.ChunkSlagSteel, null);
 					GenPlace.TryPlaceThing(thing3, base.Position, base.Map, ThingPlaceMode.Near, null);
@@ -124,6 +121,12 @@ namespace RimWorld
 		virtual IThingHolder get_ParentHolder()
 		{
 			return base.ParentHolder;
+		}
+
+		IThingHolder IThingHolder.get_ParentHolder()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
+			return this.get_ParentHolder();
 		}
 	}
 }

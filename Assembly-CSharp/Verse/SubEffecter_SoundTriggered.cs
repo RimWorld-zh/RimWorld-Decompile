@@ -1,4 +1,3 @@
-using System;
 using Verse.Sound;
 
 namespace Verse
@@ -11,7 +10,7 @@ namespace Verse
 
 		public override void SubTrigger(TargetInfo A, TargetInfo B)
 		{
-			this.def.soundDef.PlayOneShot(new TargetInfo(A.Cell, A.Map, false));
+			base.def.soundDef.PlayOneShot(new TargetInfo(A.Cell, A.Map, false));
 		}
 	}
 }

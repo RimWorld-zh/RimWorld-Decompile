@@ -91,7 +91,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return ThingOwnerUtility.ContentsFrozen(this.pawn.ParentHolder) || (this.def.freezeWhileSleeping && !this.pawn.Awake()) || !this.IsPawnInteractableOrVisible;
+				if (ThingOwnerUtility.ContentsFrozen(this.pawn.ParentHolder))
+				{
+					return true;
+				}
+				if (this.def.freezeWhileSleeping && !this.pawn.Awake())
+				{
+					return true;
+				}
+				return !this.IsPawnInteractableOrVisible;
 			}
 		}
 
@@ -99,7 +107,19 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.pawn.SpawnedOrAnyParentSpawned || this.pawn.IsCaravanMember() || PawnUtility.IsTravelingInTransportPodWorldObject(this.pawn);
+				if (this.pawn.SpawnedOrAnyParentSpawned)
+				{
+					return true;
+				}
+				if (this.pawn.IsCaravanMember())
+				{
+					return true;
+				}
+				if (PawnUtility.IsTravelingInTransportPodWorldObject(this.pawn))
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -123,14 +143,7 @@ namespace RimWorld
 
 		public virtual string GetTipString()
 		{
-			return string.Concat(new string[]
-			{
-				this.LabelCap,
-				": ",
-				this.CurLevelPercentage.ToStringPercent(),
-				"\n",
-				this.def.description
-			});
+			return this.LabelCap + ": " + this.CurLevelPercentage.ToStringPercent() + "\n" + this.def.description;
 		}
 
 		public virtual void SetInitialLevel()
@@ -145,9 +158,9 @@ namespace RimWorld
 
 		public virtual void DrawOnGUI(Rect rect, int maxThresholdMarkers = 2147483647, float customMargin = -1f, bool drawArrows = true, bool doTooltip = true)
 		{
-			if (rect.height > 70f)
+			if (rect.height > 70.0)
 			{
-				float num = (rect.height - 70f) / 2f;
+				float num = (float)((rect.height - 70.0) / 2.0);
 				rect.height = 70f;
 				rect.y += num;
 			}
@@ -157,21 +170,21 @@ namespace RimWorld
 			}
 			if (doTooltip)
 			{
-				TooltipHandler.TipRegion(rect, new TipSignal(() => this.GetTipString(), rect.GetHashCode()));
+				TooltipHandler.TipRegion(rect, new TipSignal((Func<string>)(() => this.GetTipString()), rect.GetHashCode()));
 			}
 			float num2 = 14f;
-			float num3 = (customMargin < 0f) ? (num2 + 15f) : customMargin;
-			if (rect.height < 50f)
+			float num3 = (float)((!(customMargin >= 0.0)) ? (num2 + 15.0) : customMargin);
+			if (rect.height < 50.0)
 			{
 				num2 *= Mathf.InverseLerp(0f, 50f, rect.height);
 			}
-			Text.Font = ((rect.height <= 55f) ? GameFont.Tiny : GameFont.Small);
+			Text.Font = (GameFont)((rect.height > 55.0) ? 1 : 0);
 			Text.Anchor = TextAnchor.LowerLeft;
-			Rect rect2 = new Rect(rect.x + num3 + rect.width * 0.1f, rect.y, rect.width - num3 - rect.width * 0.1f, rect.height / 2f);
+			Rect rect2 = new Rect((float)(rect.x + num3 + rect.width * 0.10000000149011612), rect.y, (float)(rect.width - num3 - rect.width * 0.10000000149011612), (float)(rect.height / 2.0));
 			Widgets.Label(rect2, this.LabelCap);
 			Text.Anchor = TextAnchor.UpperLeft;
-			Rect rect3 = new Rect(rect.x, rect.y + rect.height / 2f, rect.width, rect.height / 2f);
-			rect3 = new Rect(rect3.x + num3, rect3.y, rect3.width - num3 * 2f, rect3.height - num2);
+			Rect rect3 = new Rect(rect.x, (float)(rect.y + rect.height / 2.0), rect.width, (float)(rect.height / 2.0));
+			rect3 = new Rect(rect3.x + num3, rect3.y, (float)(rect3.width - num3 * 2.0), rect3.height - num2);
 			Widgets.FillableBar(rect3, this.CurLevelPercentage);
 			if (drawArrows)
 			{
@@ -185,7 +198,7 @@ namespace RimWorld
 				}
 			}
 			float curInstantLevelPercentage = this.CurInstantLevelPercentage;
-			if (curInstantLevelPercentage >= 0f)
+			if (curInstantLevelPercentage >= 0.0)
 			{
 				this.DrawBarInstantMarkerAt(rect3, curInstantLevelPercentage);
 			}
@@ -198,24 +211,24 @@ namespace RimWorld
 
 		protected void DrawBarInstantMarkerAt(Rect barRect, float pct)
 		{
-			if (pct > 1f)
+			if (pct > 1.0)
 			{
 				Log.ErrorOnce(this.def + " drawing bar percent > 1 : " + pct, 6932178);
 			}
 			float num = 12f;
-			if (barRect.width < 150f)
+			if (barRect.width < 150.0)
 			{
-				num /= 2f;
+				num = (float)(num / 2.0);
 			}
 			Vector2 vector = new Vector2(barRect.x + barRect.width * pct, barRect.y + barRect.height);
-			Rect position = new Rect(vector.x - num / 2f, vector.y, num, num);
+			Rect position = new Rect((float)(vector.x - num / 2.0), vector.y, num, num);
 			GUI.DrawTexture(position, Need.BarInstantMarkerTex);
 		}
 
 		private void DrawBarThreshold(Rect barRect, float threshPct)
 		{
-			float num = (float)((barRect.width <= 60f) ? 1 : 2);
-			Rect position = new Rect(barRect.x + barRect.width * threshPct - (num - 1f), barRect.y + barRect.height / 2f, num, barRect.height / 2f);
+			float num = (float)((!(barRect.width > 60.0)) ? 1 : 2);
+			Rect position = new Rect((float)(barRect.x + barRect.width * threshPct - (num - 1.0)), (float)(barRect.y + barRect.height / 2.0), num, (float)(barRect.height / 2.0));
 			Texture2D image;
 			if (threshPct < this.CurLevelPercentage)
 			{

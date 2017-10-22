@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,17 +6,17 @@ namespace RimWorld
 	{
 		public Alert_BrawlerHasRangedWeapon()
 		{
-			this.defaultLabel = "BrawlerHasRangedWeapon".Translate();
-			this.defaultExplanation = "BrawlerHasRangedWeaponDesc".Translate();
+			base.defaultLabel = "BrawlerHasRangedWeapon".Translate();
+			base.defaultExplanation = "BrawlerHasRangedWeaponDesc".Translate();
 		}
 
 		public override AlertReport GetReport()
 		{
-			foreach (Pawn current in PawnsFinder.AllMaps_FreeColonistsSpawned)
+			foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
 			{
-				if (current.story.traits.HasTrait(TraitDefOf.Brawler) && current.equipment.Primary != null && current.equipment.Primary.def.IsRangedWeapon)
+				if (item.story.traits.HasTrait(TraitDefOf.Brawler) && item.equipment.Primary != null && item.equipment.Primary.def.IsRangedWeapon)
 				{
-					return current;
+					return (Thing)item;
 				}
 			}
 			return false;

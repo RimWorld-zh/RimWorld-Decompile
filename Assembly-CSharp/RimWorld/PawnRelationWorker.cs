@@ -36,27 +36,34 @@ namespace RimWorld
 			float num = 1f;
 			if (generated.Faction != other.Faction)
 			{
-				num *= 0.65f;
+				num = (float)(num * 0.64999997615814209);
 			}
 			if (generated.HostileTo(other))
 			{
-				num *= 0.7f;
+				num = (float)(num * 0.699999988079071);
 			}
 			if (other.Faction != null && other.Faction.IsPlayer)
 			{
 				num *= request.ColonistRelationChanceFactor;
 			}
-			TechLevel techLevel = (generated.Faction == null) ? TechLevel.Undefined : generated.Faction.def.techLevel;
-			TechLevel techLevel2 = (other.Faction == null) ? TechLevel.Undefined : other.Faction.def.techLevel;
-			if (techLevel != TechLevel.Undefined && techLevel2 != TechLevel.Undefined && techLevel != techLevel2)
+			TechLevel techLevel = (generated.Faction != null) ? generated.Faction.def.techLevel : TechLevel.Undefined;
+			TechLevel techLevel2 = (other.Faction != null) ? other.Faction.def.techLevel : TechLevel.Undefined;
+			if (techLevel != 0 && techLevel2 != 0 && techLevel != techLevel2)
 			{
-				num *= 0.85f;
+				num = (float)(num * 0.85000002384185791);
 			}
-			if ((techLevel.IsNeolithicOrWorse() && !techLevel2.IsNeolithicOrWorse()) || (!techLevel.IsNeolithicOrWorse() && techLevel2.IsNeolithicOrWorse()))
+			if (techLevel.IsNeolithicOrWorse() && !techLevel2.IsNeolithicOrWorse())
 			{
-				num *= 0.03f;
+				goto IL_00e3;
 			}
+			if (!techLevel.IsNeolithicOrWorse() && techLevel2.IsNeolithicOrWorse())
+				goto IL_00e3;
+			goto IL_00eb;
+			IL_00eb:
 			return num;
+			IL_00e3:
+			num = (float)(num * 0.029999999329447746);
+			goto IL_00eb;
 		}
 	}
 }

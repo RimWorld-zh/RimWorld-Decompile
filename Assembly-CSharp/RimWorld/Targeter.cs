@@ -28,7 +28,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.targetingVerb != null || this.action != null;
+				return this.targetingVerb != null || (object)this.action != null;
 			}
 		}
 
@@ -43,7 +43,7 @@ namespace RimWorld
 			{
 				Job job = new Job(JobDefOf.UseVerbOnThing);
 				job.verbToUse = verb;
-				verb.CasterPawn.jobs.StartJob(job, JobCondition.None, null, false, true, null, null);
+				verb.CasterPawn.jobs.StartJob(job, JobCondition.None, null, false, true, null, default(JobTag?));
 			}
 			this.action = null;
 			this.caster = null;
@@ -65,7 +65,7 @@ namespace RimWorld
 
 		public void StopTargeting()
 		{
-			if (this.actionWhenFinished != null)
+			if ((object)this.actionWhenFinished != null)
 			{
 				this.actionWhenFinished();
 				this.actionWhenFinished = null;
@@ -85,7 +85,7 @@ namespace RimWorld
 					{
 						this.OrderVerbForceTarget();
 					}
-					if (this.action != null)
+					if ((object)this.action != null)
 					{
 						LocalTargetInfo obj = this.CurrentTargetUnderMouse(false);
 						if (obj.IsValid)
@@ -97,12 +97,16 @@ namespace RimWorld
 					this.StopTargeting();
 					Event.current.Use();
 				}
-				if ((Event.current.type == EventType.MouseDown && Event.current.button == 1) || (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape))
+				if (Event.current.type != 0 || Event.current.button != 1)
 				{
-					SoundDefOf.CancelMode.PlayOneShotOnCamera(null);
-					this.StopTargeting();
-					Event.current.Use();
+					if (Event.current.type != EventType.KeyDown)
+						return;
+					if (Event.current.keyCode != KeyCode.Escape)
+						return;
 				}
+				SoundDefOf.CancelMode.PlayOneShotOnCamera(null);
+				this.StopTargeting();
+				Event.current.Use();
 			}
 		}
 
@@ -110,25 +114,10 @@ namespace RimWorld
 		{
 			if (this.targetingVerb != null)
 			{
-				Texture2D icon;
-				if (this.CurrentTargetUnderMouse(true).IsValid)
-				{
-					if (this.targetingVerb.UIIcon != BaseContent.BadTex)
-					{
-						icon = this.targetingVerb.UIIcon;
-					}
-					else
-					{
-						icon = TexCommand.Attack;
-					}
-				}
-				else
-				{
-					icon = TexCommand.CannotShoot;
-				}
+				Texture2D icon = (!this.CurrentTargetUnderMouse(true).IsValid) ? TexCommand.CannotShoot : ((!((UnityEngine.Object)this.targetingVerb.UIIcon != (UnityEngine.Object)BaseContent.BadTex)) ? TexCommand.Attack : this.targetingVerb.UIIcon);
 				GenUI.DrawMouseAttachment(icon);
 			}
-			if (this.action != null)
+			if ((object)this.action != null)
 			{
 				Texture2D icon2 = this.mouseAttachment ?? TexCommand.Attack;
 				GenUI.DrawMouseAttachment(icon2);
@@ -154,14 +143,14 @@ namespace RimWorld
 				if (targ.IsValid)
 				{
 					GenDraw.DrawTargetHighlight(targ);
-					ShootLine shootLine;
-					if (this.targetingVerb.HighlightFieldRadiusAroundTarget() > 0.2f && this.targetingVerb.TryFindShootLineFromTo(this.targetingVerb.caster.Position, targ, out shootLine))
+					ShootLine shootLine = default(ShootLine);
+					if (this.targetingVerb.HighlightFieldRadiusAroundTarget() > 0.20000000298023224 && this.targetingVerb.TryFindShootLineFromTo(this.targetingVerb.caster.Position, targ, out shootLine))
 					{
 						GenExplosion.RenderPredictedAreaOfEffect(shootLine.Dest, this.targetingVerb.HighlightFieldRadiusAroundTarget());
 					}
 				}
 			}
-			if (this.action != null)
+			if ((object)this.action != null)
 			{
 				LocalTargetInfo targ2 = this.CurrentTargetUnderMouse(false);
 				if (targ2.IsValid)
@@ -209,14 +198,21 @@ namespace RimWorld
 				}
 				else
 				{
-					for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
+					int num = 0;
+					while (true)
 					{
-						if (this.targetingVerbAdditionalPawns[i].Destroyed || !selector.IsSelected(this.targetingVerbAdditionalPawns[i]))
+						if (num < this.targetingVerbAdditionalPawns.Count)
 						{
-							this.StopTargeting();
+							if (!this.targetingVerbAdditionalPawns[num].Destroyed && selector.IsSelected(this.targetingVerbAdditionalPawns[num]))
+							{
+								num++;
+								continue;
+							}
 							break;
 						}
+						return;
 					}
+					this.StopTargeting();
 				}
 			}
 		}
@@ -239,9 +235,9 @@ namespace RimWorld
 			{
 				int numSelected = Find.Selector.NumSelected;
 				List<object> selectedObjects = Find.Selector.SelectedObjects;
-				for (int j = 0; j < numSelected; j++)
+				for (int num = 0; num < numSelected; num++)
 				{
-					Building_Turret building_Turret = selectedObjects[j] as Building_Turret;
+					Building_Turret building_Turret = selectedObjects[num] as Building_Turret;
 					if (building_Turret != null && building_Turret.Map == Find.VisibleMap)
 					{
 						LocalTargetInfo targ = this.CurrentTargetUnderMouse(true);
@@ -254,28 +250,27 @@ namespace RimWorld
 		private void OrderPawnForceTarget(Verb verb)
 		{
 			LocalTargetInfo targetA = this.CurrentTargetUnderMouse(true);
-			if (!targetA.IsValid)
+			if (targetA.IsValid)
 			{
-				return;
-			}
-			if (verb.verbProps.MeleeRange)
-			{
-				Job job = new Job(JobDefOf.AttackMelee, targetA);
-				job.playerForced = true;
-				Pawn pawn = targetA.Thing as Pawn;
-				if (pawn != null)
+				if (verb.verbProps.MeleeRange)
 				{
-					job.killIncappedTarget = pawn.Downed;
+					Job job = new Job(JobDefOf.AttackMelee, targetA);
+					job.playerForced = true;
+					Pawn pawn = targetA.Thing as Pawn;
+					if (pawn != null)
+					{
+						job.killIncappedTarget = pawn.Downed;
+					}
+					verb.CasterPawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
 				}
-				verb.CasterPawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-			}
-			else
-			{
-				JobDef def = (!verb.verbProps.ai_IsWeapon) ? JobDefOf.UseVerbOnThing : JobDefOf.AttackStatic;
-				Job job2 = new Job(def);
-				job2.verbToUse = verb;
-				job2.targetA = targetA;
-				verb.CasterPawn.jobs.TryTakeOrderedJob(job2, JobTag.Misc);
+				else
+				{
+					JobDef def = (!verb.verbProps.ai_IsWeapon) ? JobDefOf.UseVerbOnThing : JobDefOf.AttackStatic;
+					Job job2 = new Job(def);
+					job2.verbToUse = verb;
+					job2.targetA = targetA;
+					verb.CasterPawn.jobs.TryTakeOrderedJob(job2, JobTag.Misc);
+				}
 			}
 		}
 
@@ -291,13 +286,12 @@ namespace RimWorld
 			{
 				if (enumerator.MoveNext())
 				{
-					LocalTargetInfo current = enumerator.Current;
-					localTargetInfo = current;
+					LocalTargetInfo localTargetInfo2 = localTargetInfo = enumerator.Current;
 				}
 			}
 			if (localTargetInfo.IsValid && mustBeHittableNowIfNotMelee && !(localTargetInfo.Thing is Pawn) && this.targetingVerb != null && !this.targetingVerb.verbProps.MeleeRange)
 			{
-				if (this.targetingVerbAdditionalPawns != null && this.targetingVerbAdditionalPawns.Any<Pawn>())
+				if (this.targetingVerbAdditionalPawns != null && this.targetingVerbAdditionalPawns.Any())
 				{
 					bool flag = false;
 					for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
@@ -324,7 +318,7 @@ namespace RimWorld
 
 		private Verb GetTargetingVerb(Pawn pawn)
 		{
-			return pawn.equipment.AllEquipmentVerbs.FirstOrDefault((Verb x) => x.verbProps == this.targetingVerb.verbProps);
+			return pawn.equipment.AllEquipmentVerbs.FirstOrDefault((Func<Verb, bool>)((Verb x) => x.verbProps == this.targetingVerb.verbProps));
 		}
 	}
 }

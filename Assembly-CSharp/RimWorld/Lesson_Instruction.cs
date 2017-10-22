@@ -33,7 +33,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.ProgressPercent >= 0f;
+				return this.ProgressPercent >= 0.0;
 			}
 		}
 
@@ -62,11 +62,11 @@ namespace RimWorld
 			}
 			if (this.def.resetBuildDesignatorStuffs)
 			{
-				foreach (DesignationCategoryDef current in DefDatabase<DesignationCategoryDef>.AllDefs)
+				foreach (DesignationCategoryDef allDef in DefDatabase<DesignationCategoryDef>.AllDefs)
 				{
-					foreach (Designator current2 in current.ResolvedAllowedDesignators)
+					foreach (Designator resolvedAllowedDesignator in allDef.ResolvedAllowedDesignators)
 					{
-						Designator_Build designator_Build = current2 as Designator_Build;
+						Designator_Build designator_Build = resolvedAllowedDesignator as Designator_Build;
 						if (designator_Build != null)
 						{
 							designator_Build.ResetStuffToDefault();
@@ -81,34 +81,34 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 			string textAdj = this.def.text.AdjustedForKeys();
 			float num = Text.CalcHeight(textAdj, 290f);
-			float num2 = num + 20f;
+			float num2 = (float)(num + 20.0);
 			if (this.ShowProgressBar)
 			{
-				num2 += 47f;
+				num2 = (float)(num2 + 47.0);
 			}
-			Vector2 b = new Vector2((float)UI.screenWidth - 17f - 155f, 17f + num2 / 2f);
+			Vector2 b = new Vector2((float)((float)UI.screenWidth - 17.0 - 155.0), (float)(17.0 + num2 / 2.0));
 			if (!Find.TutorialState.introDone)
 			{
 				float screenOverlayAlpha = 0f;
 				if (this.def.startCentered)
 				{
 					Vector2 vector = new Vector2((float)(UI.screenWidth / 2), (float)(UI.screenHeight / 2));
-					if (base.AgeSeconds < 4f)
+					if (base.AgeSeconds < 4.0)
 					{
 						b = vector;
 						screenOverlayAlpha = 0.9f;
 					}
-					else if (base.AgeSeconds < 5f)
+					else if (base.AgeSeconds < 5.0)
 					{
-						float t = (base.AgeSeconds - 4f) / 1f;
+						float t = (float)((base.AgeSeconds - 4.0) / 1.0);
 						b = Vector2.Lerp(vector, b, t);
 						screenOverlayAlpha = Mathf.Lerp(0.9f, 0f, t);
 					}
 				}
-				if (screenOverlayAlpha > 0f)
+				if (screenOverlayAlpha > 0.0)
 				{
 					Rect fullScreenRect = new Rect(0f, 0f, (float)UI.screenWidth, (float)UI.screenHeight);
-					Find.WindowStack.ImmediateWindow(972651, fullScreenRect, WindowLayer.SubSuper, delegate
+					Find.WindowStack.ImmediateWindow(972651, fullScreenRect, WindowLayer.SubSuper, (Action)delegate
 					{
 						GUI.color = new Color(1f, 1f, 1f, screenOverlayAlpha);
 						GUI.DrawTexture(fullScreenRect, BaseContent.BlackTex);
@@ -120,8 +120,8 @@ namespace RimWorld
 					Find.TutorialState.introDone = true;
 				}
 			}
-			Rect mainRect = new Rect(b.x - 155f, b.y - num2 / 2f - 10f, 310f, num2);
-			Find.WindowStack.ImmediateWindow(177706, mainRect, WindowLayer.Super, delegate
+			Rect mainRect = new Rect((float)(b.x - 155.0), (float)(b.y - num2 / 2.0 - 10.0), 310f, num2);
+			Find.WindowStack.ImmediateWindow(177706, mainRect, WindowLayer.Super, (Action)delegate
 			{
 				Rect rect = mainRect.AtZero();
 				Widgets.DrawWindowBackgroundTutor(rect);
@@ -135,12 +135,12 @@ namespace RimWorld
 				Widgets.Label(rect3, textAdj);
 				if (this.ShowProgressBar)
 				{
-					Rect rect4 = new Rect(rect2.x, rect2.yMax - 30f, rect2.width, 30f);
+					Rect rect4 = new Rect(rect2.x, (float)(rect2.yMax - 30.0), rect2.width, 30f);
 					Widgets.FillableBar(rect4, this.ProgressPercent, LearningReadout.ProgressBarFillTex);
 				}
-				if (this.AgeSeconds < 0.5f)
+				if (base.AgeSeconds < 0.5)
 				{
-					GUI.color = new Color(1f, 1f, 1f, Mathf.Lerp(1f, 0f, this.AgeSeconds / 0.5f));
+					GUI.color = new Color(1f, 1f, 1f, Mathf.Lerp(1f, 0f, (float)(base.AgeSeconds / 0.5)));
 					GUI.DrawTexture(rect, BaseContent.WhiteTex);
 					GUI.color = Color.white;
 				}

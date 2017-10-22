@@ -1,10 +1,8 @@
-using System;
-
 namespace RimWorld
 {
 	public enum ShieldState : byte
 	{
-		Active,
-		Resetting
+		Active = 0,
+		Resetting = 1
 	}
 }

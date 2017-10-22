@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -24,15 +23,14 @@ namespace Verse
 
 		public void GameInfoOnGUI()
 		{
-			if (Event.current.type == EventType.MouseDown || Event.current.type == EventType.MouseMove || Event.current.type == EventType.KeyDown)
-			{
-				this.lastInputRealTime = Time.realtimeSinceStartup;
-			}
+			if (Event.current.type != 0 && Event.current.type != EventType.MouseMove && Event.current.type != EventType.KeyDown)
+				return;
+			this.lastInputRealTime = Time.realtimeSinceStartup;
 		}
 
 		public void GameInfoUpdate()
 		{
-			if (Time.realtimeSinceStartup < this.lastInputRealTime + 90f && Find.MainTabsRoot.OpenTab != MainButtonDefOf.Menu && Current.ProgramState == ProgramState.Playing && !Find.WindowStack.IsOpen<Dialog_Options>())
+			if (Time.realtimeSinceStartup < this.lastInputRealTime + 90.0 && Find.MainTabsRoot.OpenTab != MainButtonDefOf.Menu && Current.ProgramState == ProgramState.Playing && !Find.WindowStack.IsOpen<Dialog_Options>())
 			{
 				this.realPlayTimeInteracting += RealTime.realDeltaTime;
 			}
@@ -42,7 +40,7 @@ namespace Verse
 		{
 			Scribe_Values.Look<float>(ref this.realPlayTimeInteracting, "realPlayTimeInteracting", 0f, false);
 			Scribe_Values.Look<bool>(ref this.permadeathMode, "permadeathMode", false, false);
-			Scribe_Values.Look<string>(ref this.permadeathModeUniqueName, "permadeathModeUniqueName", null, false);
+			Scribe_Values.Look<string>(ref this.permadeathModeUniqueName, "permadeathModeUniqueName", (string)null, false);
 		}
 	}
 }

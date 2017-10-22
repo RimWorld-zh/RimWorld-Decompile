@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class CellGrid
@@ -69,7 +67,20 @@ namespace Verse
 
 		public bool MapSizeMatches(Map map)
 		{
-			return this.mapSizeX == map.Size.x && this.mapSizeZ == map.Size.z;
+			int num = this.mapSizeX;
+			IntVec3 size = map.Size;
+			int result;
+			if (num == size.x)
+			{
+				int num2 = this.mapSizeZ;
+				IntVec3 size2 = map.Size;
+				result = ((num2 == size2.z) ? 1 : 0);
+			}
+			else
+			{
+				result = 0;
+			}
+			return (byte)result != 0;
 		}
 
 		public void ClearAndResizeTo(Map map)
@@ -77,12 +88,16 @@ namespace Verse
 			if (this.MapSizeMatches(map) && this.grid != null)
 			{
 				this.Clear();
-				return;
 			}
-			this.mapSizeX = map.Size.x;
-			this.mapSizeZ = map.Size.z;
-			this.grid = new int[this.mapSizeX * this.mapSizeZ];
-			this.Clear();
+			else
+			{
+				IntVec3 size = map.Size;
+				this.mapSizeX = size.x;
+				IntVec3 size2 = map.Size;
+				this.mapSizeZ = size2.z;
+				this.grid = new int[this.mapSizeX * this.mapSizeZ];
+				this.Clear();
+			}
 		}
 
 		public void Clear()

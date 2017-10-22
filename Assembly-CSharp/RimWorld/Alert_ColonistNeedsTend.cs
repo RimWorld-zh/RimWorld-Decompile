@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,37 +11,44 @@ namespace RimWorld
 		{
 			get
 			{
-				Alert_ColonistNeedsTend.<>c__Iterator189 <>c__Iterator = new Alert_ColonistNeedsTend.<>c__Iterator189();
-				Alert_ColonistNeedsTend.<>c__Iterator189 expr_07 = <>c__Iterator;
-				expr_07.$PC = -2;
-				return expr_07;
+				foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
+				{
+					if (item.health.HasHediffsNeedingTendByColony(true))
+					{
+						Building_Bed curBed = item.CurrentBed();
+						if ((curBed == null || !curBed.Medical) && !Alert_ColonistNeedsRescuing.NeedsRescue(item))
+						{
+							yield return item;
+						}
+					}
+				}
 			}
 		}
 
 		public Alert_ColonistNeedsTend()
 		{
-			this.defaultLabel = "ColonistNeedsTreatment".Translate();
-			this.defaultPriority = AlertPriority.High;
+			base.defaultLabel = "ColonistNeedsTreatment".Translate();
+			base.defaultPriority = AlertPriority.High;
 		}
 
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (Pawn current in this.NeedingColonists)
+			foreach (Pawn needingColonist in this.NeedingColonists)
 			{
-				stringBuilder.AppendLine("    " + current.NameStringShort);
+				stringBuilder.AppendLine("    " + needingColonist.NameStringShort);
 			}
 			return string.Format("ColonistNeedsTreatmentDesc".Translate(), stringBuilder.ToString());
 		}
 
 		public override AlertReport GetReport()
 		{
-			Pawn pawn = this.NeedingColonists.FirstOrDefault<Pawn>();
+			Pawn pawn = this.NeedingColonists.FirstOrDefault();
 			if (pawn == null)
 			{
 				return false;
 			}
-			return AlertReport.CulpritIs(pawn);
+			return AlertReport.CulpritIs((Thing)pawn);
 		}
 	}
 }

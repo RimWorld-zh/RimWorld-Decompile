@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -8,16 +7,16 @@ namespace RimWorld
 	{
 		public Designator_PlantsHarvestWood()
 		{
-			this.defaultLabel = "DesignatorHarvestWood".Translate();
-			this.defaultDesc = "DesignatorHarvestWoodDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/HarvestWood", true);
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.useMouseIcon = true;
-			this.soundSucceeded = SoundDefOf.DesignateHarvest;
-			this.hotKey = KeyBindingDefOf.Misc1;
-			this.designationDef = DesignationDefOf.HarvestPlant;
-			this.tutorTag = "PlantsHarvestWood";
+			base.defaultLabel = "DesignatorHarvestWood".Translate();
+			base.defaultDesc = "DesignatorHarvestWoodDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/HarvestWood", true);
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.useMouseIcon = true;
+			base.soundSucceeded = SoundDefOf.DesignateHarvest;
+			base.hotKey = KeyBindingDefOf.Misc1;
+			base.designationDef = DesignationDefOf.HarvestPlant;
+			base.tutorTag = "PlantsHarvestWood";
 		}
 
 		public override AcceptanceReport CanDesignateThing(Thing t)
@@ -28,11 +27,11 @@ namespace RimWorld
 				return result;
 			}
 			Plant plant = (Plant)t;
-			if (!plant.HarvestableNow || plant.def.plant.harvestTag != "Wood")
+			if (plant.HarvestableNow && !(plant.def.plant.harvestTag != "Wood"))
 			{
-				return "MessageMustDesignateHarvestableWood".Translate();
+				return true;
 			}
-			return true;
+			return "MessageMustDesignateHarvestableWood".Translate();
 		}
 	}
 }

@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Xml;
 
 namespace Verse
@@ -25,10 +24,12 @@ namespace Verse
 			if (xmlRoot.ChildNodes.Count != 1)
 			{
 				Log.Error("Misconfigured SkillGain: " + xmlRoot.OuterXml);
-				return;
 			}
-			DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "skill", xmlRoot.Name);
-			this.xp = (int)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(int));
+			else
+			{
+				DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "skill", xmlRoot.Name);
+				this.xp = (int)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(int));
+			}
 		}
 	}
 }

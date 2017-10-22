@@ -79,35 +79,37 @@ namespace RimWorld
 				ListerHaulables.groupCycleIndex = 0;
 			}
 			List<SlotGroup> allGroupsListForReading = this.map.slotGroupManager.AllGroupsListForReading;
-			if (allGroupsListForReading.Count == 0)
+			if (allGroupsListForReading.Count != 0)
 			{
-				return;
-			}
-			int num = ListerHaulables.groupCycleIndex % allGroupsListForReading.Count;
-			SlotGroup slotGroup = allGroupsListForReading[ListerHaulables.groupCycleIndex % allGroupsListForReading.Count];
-			while (this.cellCycleIndices.Count <= num)
-			{
-				this.cellCycleIndices.Add(0);
-			}
-			if (this.cellCycleIndices[num] >= 2147473647)
-			{
-				this.cellCycleIndices[num] = 0;
-			}
-			for (int i = 0; i < 4; i++)
-			{
-				List<int> list;
-				List<int> expr_B0 = list = this.cellCycleIndices;
-				int num2;
-				int expr_B4 = num2 = num;
-				num2 = list[num2];
-				expr_B0[expr_B4] = num2 + 1;
-				IntVec3 c = slotGroup.CellsList[this.cellCycleIndices[num] % slotGroup.CellsList.Count];
-				List<Thing> thingList = c.GetThingList(this.map);
-				for (int j = 0; j < thingList.Count; j++)
+				int num = ListerHaulables.groupCycleIndex % allGroupsListForReading.Count;
+				SlotGroup slotGroup = allGroupsListForReading[ListerHaulables.groupCycleIndex % allGroupsListForReading.Count];
+				while (this.cellCycleIndices.Count <= num)
 				{
-					if (thingList[j].def.EverHaulable)
+					this.cellCycleIndices.Add(0);
+				}
+				if (this.cellCycleIndices[num] >= 2147473647)
+				{
+					this.cellCycleIndices[num] = 0;
+				}
+				for (int i = 0; i < 4; i++)
+				{
+					List<int> list;
+					List<int> obj = list = this.cellCycleIndices;
+					int index;
+					int index2 = index = num;
+					index = list[index];
+					obj[index2] = index + 1;
+					IntVec3 c = slotGroup.CellsList[this.cellCycleIndices[num] % slotGroup.CellsList.Count];
+					List<Thing> thingList = c.GetThingList(this.map);
+					int num2 = 0;
+					while (num2 < thingList.Count)
 					{
-						this.Check(thingList[j]);
+						if (!thingList[num2].def.EverHaulable)
+						{
+							num2++;
+							continue;
+						}
+						this.Check(thingList[num2]);
 						break;
 					}
 				}
@@ -155,7 +157,11 @@ namespace RimWorld
 					return false;
 				}
 			}
-			return !t.IsInValidBestStorage();
+			if (t.IsInValidBestStorage())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		private void CheckAdd(Thing t)
@@ -181,14 +187,21 @@ namespace RimWorld
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.AppendLine("======= All haulables (Count " + this.haulables.Count + ")");
 				int num = 0;
-				foreach (Thing current in this.haulables)
+				List<Thing>.Enumerator enumerator = this.haulables.GetEnumerator();
+				try
 				{
-					stringBuilder.AppendLine(current.ThingID);
-					num++;
-					if (num > 200)
+					while (enumerator.MoveNext())
 					{
-						break;
+						Thing current = enumerator.Current;
+						stringBuilder.AppendLine(current.ThingID);
+						num++;
+						if (num > 200)
+							break;
 					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 				this.debugOutput = stringBuilder.ToString();
 			}

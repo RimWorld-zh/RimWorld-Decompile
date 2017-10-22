@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse
 {
@@ -31,14 +30,16 @@ namespace Verse
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			SpecialThingFilterDef.<ConfigErrors>c__Iterator257 <ConfigErrors>c__Iterator = new SpecialThingFilterDef.<ConfigErrors>c__Iterator257();
-			<ConfigErrors>c__Iterator.<>f__this = this;
-			SpecialThingFilterDef.<ConfigErrors>c__Iterator257 expr_0E = <ConfigErrors>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.workerClass == null)
+			{
+				yield return "SpecialThingFilterDef " + base.defName + " has no worker class.";
+			}
 		}
 
 		public static SpecialThingFilterDef Named(string defName)

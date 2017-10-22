@@ -39,7 +39,7 @@ namespace RimWorld
 
 		public virtual void ExposeData()
 		{
-			Scribe_Values.Look<string>(ref this.name, "name", null, false);
+			Scribe_Values.Look<string>(ref this.name, "name", (string)null, false);
 			Scribe_Values.Look<int>(ref this.loadID, "loadID", 0, false);
 			Scribe_Values.Look<int>(ref this.ticksUntilDeparture, "ticksUntilDeparture", 0, false);
 		}
@@ -55,12 +55,9 @@ namespace RimWorld
 
 		public virtual void Depart()
 		{
-			if (this.Map.listerBuildings.ColonistsHaveBuilding((Thing b) => b.def.IsCommsConsole))
+			if (this.Map.listerBuildings.ColonistsHaveBuilding((Func<Thing, bool>)((Thing b) => b.def.IsCommsConsole)))
 			{
-				Messages.Message("MessageShipHasLeftCommsRange".Translate(new object[]
-				{
-					this.FullTitle
-				}), MessageSound.Silent);
+				Messages.Message("MessageShipHasLeftCommsRange".Translate(this.FullTitle), MessageSound.Silent);
 			}
 			this.passingShipManager.RemoveShip(this);
 		}

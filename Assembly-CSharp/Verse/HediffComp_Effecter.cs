@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class HediffComp_Effecter : HediffComp
@@ -8,13 +6,13 @@ namespace Verse
 		{
 			get
 			{
-				return (HediffCompProperties_Effecter)this.props;
+				return (HediffCompProperties_Effecter)base.props;
 			}
 		}
 
 		public EffecterDef CurrentStateEffecter()
 		{
-			if (this.parent.CurStageIndex >= this.Props.severityIndices.min && (this.Props.severityIndices.max < 0 || this.parent.CurStageIndex <= this.Props.severityIndices.max))
+			if (base.parent.CurStageIndex >= this.Props.severityIndices.min && (this.Props.severityIndices.max < 0 || base.parent.CurStageIndex <= this.Props.severityIndices.max))
 			{
 				return this.Props.stateEffecter;
 			}

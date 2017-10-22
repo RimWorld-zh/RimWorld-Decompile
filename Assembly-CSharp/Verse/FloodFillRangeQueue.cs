@@ -34,17 +34,7 @@ namespace Verse
 		{
 			get
 			{
-				return string.Concat(new object[]
-				{
-					"NumTimesExpanded: ",
-					this.debugNumTimesExpanded,
-					", MaxUsedSize= ",
-					this.debugMaxUsedSpace,
-					", ClaimedSize=",
-					this.array.Length,
-					", UnusedSpace=",
-					this.array.Length - this.debugMaxUsedSpace
-				});
+				return "NumTimesExpanded: " + this.debugNumTimesExpanded + ", MaxUsedSize= " + this.debugMaxUsedSpace + ", ClaimedSize=" + this.array.Length + ", UnusedSpace=" + (this.array.Length - this.debugMaxUsedSpace);
 			}
 		}
 
@@ -65,7 +55,12 @@ namespace Verse
 				this.head = 0;
 				this.debugNumTimesExpanded++;
 			}
-			this.array[this.head + this.count++] = r;
+			FloodFillRange[] obj = this.array;
+			int num = this.head;
+			int num2 = this.count;
+			int num3 = num2;
+			this.count = num2 + 1;
+			obj[num + num3] = r;
 			this.debugMaxUsedSpace = this.count + this.head;
 		}
 

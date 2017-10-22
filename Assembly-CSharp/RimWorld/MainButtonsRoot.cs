@@ -33,24 +33,28 @@ namespace RimWorld
 		{
 			this.allButtonsInOrder = (from x in DefDatabase<MainButtonDef>.AllDefs
 			orderby x.order
-			select x).ToList<MainButtonDef>();
+			select x).ToList();
 		}
 
 		public void MainButtonsOnGUI()
 		{
-			if (Event.current.type == EventType.Layout)
+			if (Event.current.type != EventType.Layout)
 			{
-				return;
-			}
-			this.DoButtons();
-			for (int i = 0; i < this.allButtonsInOrder.Count; i++)
-			{
-				if ((this.allButtonsInOrder[i].validWithoutMap || Find.VisibleMap != null) && this.allButtonsInOrder[i].hotKey != null && this.allButtonsInOrder[i].hotKey.KeyDownEvent)
+				this.DoButtons();
+				int num = 0;
+				while (true)
 				{
-					Event.current.Use();
-					this.allButtonsInOrder[i].Worker.InterfaceTryActivate();
-					break;
+					if (num < this.allButtonsInOrder.Count)
+					{
+						if ((this.allButtonsInOrder[num].validWithoutMap || Find.VisibleMap != null) && this.allButtonsInOrder[num].hotKey != null && this.allButtonsInOrder[num].hotKey.KeyDownEvent)
+							break;
+						num++;
+						continue;
+					}
+					return;
 				}
+				Event.current.Use();
+				this.allButtonsInOrder[num].Worker.InterfaceTryActivate();
 			}
 		}
 
@@ -69,7 +73,7 @@ namespace RimWorld
 			GUI.color = Color.white;
 			int visibleButtonsCount = this.VisibleButtonsCount;
 			int num = (int)((float)UI.screenWidth / (float)visibleButtonsCount);
-			int num2 = this.allButtonsInOrder.FindLastIndex((MainButtonDef x) => x.buttonVisible);
+			int num2 = this.allButtonsInOrder.FindLastIndex((Predicate<MainButtonDef>)((MainButtonDef x) => x.buttonVisible));
 			int num3 = 0;
 			for (int i = 0; i < this.allButtonsInOrder.Count; i++)
 			{

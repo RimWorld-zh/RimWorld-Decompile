@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -26,7 +25,7 @@ namespace RimWorld
 				return ThinkResult.NoJob;
 			}
 			Job job = new Job(JobDefOf.LayDown, thing);
-			return new ThinkResult(job, this, null);
+			return new ThinkResult(job, this, default(JobTag?));
 		}
 	}
 }

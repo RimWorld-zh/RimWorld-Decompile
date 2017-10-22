@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse.AI.Group
 {
@@ -9,13 +8,16 @@ namespace Verse.AI.Group
 		{
 			if (signal.type == TriggerSignalType.PawnLost)
 			{
-				for (int i = 0; i < lord.ownedPawns.Count; i++)
+				int num = 0;
+				while (num < lord.ownedPawns.Count)
 				{
-					TraderCaravanRole traderCaravanRole = lord.ownedPawns[i].GetTraderCaravanRole();
-					if (traderCaravanRole == TraderCaravanRole.Trader || traderCaravanRole == TraderCaravanRole.Guard)
+					TraderCaravanRole traderCaravanRole = lord.ownedPawns[num].GetTraderCaravanRole();
+					if (traderCaravanRole != TraderCaravanRole.Trader && traderCaravanRole != TraderCaravanRole.Guard)
 					{
-						return false;
+						num++;
+						continue;
 					}
+					return false;
 				}
 				return true;
 			}

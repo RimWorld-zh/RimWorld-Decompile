@@ -8,10 +8,10 @@ namespace Verse
 	{
 		private enum RangeCategory : byte
 		{
-			Touch,
-			Short,
-			Medium,
-			Long
+			Touch = 0,
+			Short = 1,
+			Medium = 2,
+			Long = 3
 		}
 
 		private const float DistTouch = 4f;
@@ -100,7 +100,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.range < 1.1f;
+				return this.range < 1.1000000238418579;
 			}
 		}
 
@@ -124,16 +124,7 @@ namespace Verse
 		{
 			get
 			{
-				return string.Concat(new string[]
-				{
-					this.accuracyTouch.ToStringPercent(),
-					" - ",
-					this.accuracyShort.ToStringPercent(),
-					" - ",
-					this.accuracyMedium.ToStringPercent(),
-					" - ",
-					this.accuracyLong.ToStringPercent()
-				});
+				return this.accuracyTouch.ToStringPercent() + " - " + this.accuracyShort.ToStringPercent() + " - " + this.accuracyMedium.ToStringPercent() + " - " + this.accuracyLong.ToStringPercent();
 			}
 		}
 
@@ -147,15 +138,7 @@ namespace Verse
 
 		public int AdjustedMeleeDamageAmount(Verb ownerVerb, Pawn attacker, Thing equipment)
 		{
-			float num;
-			if (ownerVerb != null && ownerVerb.ownerEquipment != null)
-			{
-				num = ownerVerb.ownerEquipment.GetStatValue(StatDefOf.MeleeWeapon_DamageAmount, true);
-			}
-			else
-			{
-				num = (float)this.meleeDamageBaseAmount;
-			}
+			float num = (ownerVerb == null || ownerVerb.ownerEquipment == null) ? ((float)this.meleeDamageBaseAmount) : ownerVerb.ownerEquipment.GetStatValue(StatDefOf.MeleeWeapon_DamageAmount, true);
 			if (attacker != null)
 			{
 				num *= ownerVerb.GetDamageFactorFor(attacker);
@@ -170,82 +153,80 @@ namespace Verse
 
 		public int AdjustedCooldownTicks(Thing equipment)
 		{
-			if (equipment == null)
-			{
-				return this.defaultCooldownTime.SecondsToTicks();
-			}
-			if (this.MeleeRange)
-			{
-				return equipment.GetStatValue(StatDefOf.MeleeWeapon_Cooldown, true).SecondsToTicks();
-			}
-			return equipment.GetStatValue(StatDefOf.RangedWeapon_Cooldown, true).SecondsToTicks();
-		}
-
-		private float AdjustedAccuracy(VerbProperties.RangeCategory cat, Thing equipment)
-		{
 			if (equipment != null)
 			{
-				StatDef stat = null;
+				if (this.MeleeRange)
+				{
+					return equipment.GetStatValue(StatDefOf.MeleeWeapon_Cooldown, true).SecondsToTicks();
+				}
+				return equipment.GetStatValue(StatDefOf.RangedWeapon_Cooldown, true).SecondsToTicks();
+			}
+			return this.defaultCooldownTime.SecondsToTicks();
+		}
+
+		private float AdjustedAccuracy(RangeCategory cat, Thing equipment)
+		{
+			if (equipment == null)
+			{
 				switch (cat)
 				{
-				case VerbProperties.RangeCategory.Touch:
-					stat = StatDefOf.AccuracyTouch;
-					break;
-				case VerbProperties.RangeCategory.Short:
-					stat = StatDefOf.AccuracyShort;
-					break;
-				case VerbProperties.RangeCategory.Medium:
-					stat = StatDefOf.AccuracyMedium;
-					break;
-				case VerbProperties.RangeCategory.Long:
-					stat = StatDefOf.AccuracyLong;
-					break;
+				case RangeCategory.Touch:
+				{
+					return this.accuracyTouch;
 				}
-				return equipment.GetStatValue(stat, true);
+				case RangeCategory.Short:
+				{
+					return this.accuracyShort;
+				}
+				case RangeCategory.Medium:
+				{
+					return this.accuracyMedium;
+				}
+				case RangeCategory.Long:
+				{
+					return this.accuracyLong;
+				}
+				default:
+				{
+					throw new InvalidOperationException();
+				}
+				}
 			}
+			StatDef stat = null;
 			switch (cat)
 			{
-			case VerbProperties.RangeCategory.Touch:
-				return this.accuracyTouch;
-			case VerbProperties.RangeCategory.Short:
-				return this.accuracyShort;
-			case VerbProperties.RangeCategory.Medium:
-				return this.accuracyMedium;
-			case VerbProperties.RangeCategory.Long:
-				return this.accuracyLong;
-			default:
-				throw new InvalidOperationException();
+			case RangeCategory.Touch:
+			{
+				stat = StatDefOf.AccuracyTouch;
+				break;
 			}
+			case RangeCategory.Short:
+			{
+				stat = StatDefOf.AccuracyShort;
+				break;
+			}
+			case RangeCategory.Medium:
+			{
+				stat = StatDefOf.AccuracyMedium;
+				break;
+			}
+			case RangeCategory.Long:
+			{
+				stat = StatDefOf.AccuracyLong;
+				break;
+			}
+			}
+			return equipment.GetStatValue(stat, true);
 		}
 
 		public float GetHitChanceFactor(Thing equipment, float dist)
 		{
-			float num;
-			if (dist <= 4f)
-			{
-				num = this.AdjustedAccuracy(VerbProperties.RangeCategory.Touch, equipment);
-			}
-			else if (dist <= 15f)
-			{
-				num = Mathf.Lerp(this.AdjustedAccuracy(VerbProperties.RangeCategory.Touch, equipment), this.AdjustedAccuracy(VerbProperties.RangeCategory.Short, equipment), (dist - 4f) / 11f);
-			}
-			else if (dist <= 30f)
-			{
-				num = Mathf.Lerp(this.AdjustedAccuracy(VerbProperties.RangeCategory.Short, equipment), this.AdjustedAccuracy(VerbProperties.RangeCategory.Medium, equipment), (dist - 15f) / 15f);
-			}
-			else if (dist <= 50f)
-			{
-				num = Mathf.Lerp(this.AdjustedAccuracy(VerbProperties.RangeCategory.Medium, equipment), this.AdjustedAccuracy(VerbProperties.RangeCategory.Long, equipment), (dist - 30f) / 20f);
-			}
-			else
-			{
-				num = this.AdjustedAccuracy(VerbProperties.RangeCategory.Long, equipment);
-			}
-			if (num < 0.01f)
+			float num = (!(dist <= 4.0)) ? ((!(dist <= 15.0)) ? ((!(dist <= 30.0)) ? ((!(dist <= 50.0)) ? this.AdjustedAccuracy(RangeCategory.Long, equipment) : Mathf.Lerp(this.AdjustedAccuracy(RangeCategory.Medium, equipment), this.AdjustedAccuracy(RangeCategory.Long, equipment), (float)((dist - 30.0) / 20.0))) : Mathf.Lerp(this.AdjustedAccuracy(RangeCategory.Short, equipment), this.AdjustedAccuracy(RangeCategory.Medium, equipment), (float)((dist - 15.0) / 15.0))) : Mathf.Lerp(this.AdjustedAccuracy(RangeCategory.Touch, equipment), this.AdjustedAccuracy(RangeCategory.Short, equipment), (float)((dist - 4.0) / 11.0))) : this.AdjustedAccuracy(RangeCategory.Touch, equipment);
+			if (num < 0.0099999997764825821)
 			{
 				num = 0.01f;
 			}
-			if (num > 1f)
+			if (num > 1.0)
 			{
 				num = 1f;
 			}
@@ -254,21 +235,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			string str;
-			if (!this.label.NullOrEmpty())
-			{
-				str = this.label;
-			}
-			else
-			{
-				str = string.Concat(new object[]
-				{
-					"range=",
-					this.range,
-					", projectile=",
-					(this.projectileDef == null) ? "null" : this.projectileDef.defName
-				});
-			}
+			string str = this.label.NullOrEmpty() ? ("range=" + this.range + ", projectile=" + ((this.projectileDef == null) ? "null" : this.projectileDef.defName)) : this.label;
 			return "VerbProperties(" + str + ")";
 		}
 	}

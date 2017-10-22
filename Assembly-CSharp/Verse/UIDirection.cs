@@ -1,12 +1,10 @@
-using System;
-
 namespace Verse
 {
 	public enum UIDirection : byte
 	{
-		LeftThenUp,
-		LeftThenDown,
-		RightThenUp,
-		RightThenDown
+		LeftThenUp = 0,
+		LeftThenDown = 1,
+		RightThenUp = 2,
+		RightThenDown = 3
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -35,26 +34,25 @@ namespace RimWorld
 		{
 			base.OnActivated();
 			CellRect cellRect = TutorUtility.FindUsableRect(10, 10, base.Map, 0f, true);
-			new GenStep_ScatterLumpsMineable
-			{
-				forcedDefToScatter = ThingDefOf.MineableSteel
-			}.ForceScatterAt(cellRect.CenterCell, base.Map);
+			GenStep_ScatterLumpsMineable genStep_ScatterLumpsMineable = new GenStep_ScatterLumpsMineable();
+			genStep_ScatterLumpsMineable.forcedDefToScatter = ThingDefOf.MineableSteel;
+			genStep_ScatterLumpsMineable.ForceScatterAt(cellRect.CenterCell, base.Map);
 			this.mineCells = new List<IntVec3>();
-			foreach (IntVec3 current in cellRect)
+			foreach (IntVec3 item in cellRect)
 			{
-				Building edifice = current.GetEdifice(base.Map);
+				Building edifice = item.GetEdifice(base.Map);
 				if (edifice != null && edifice.def == ThingDefOf.MineableSteel)
 				{
-					this.mineCells.Add(current);
+					this.mineCells.Add(item);
 				}
 			}
 		}
 
 		public override void LessonOnGUI()
 		{
-			if (!this.mineCells.NullOrEmpty<IntVec3>())
+			if (!this.mineCells.NullOrEmpty())
 			{
-				TutorUtility.DrawLabelOnGUI(Gen.AveragePosition(this.mineCells), this.def.onMapInstruction);
+				TutorUtility.DrawLabelOnGUI(Gen.AveragePosition(this.mineCells), base.def.onMapInstruction);
 			}
 			base.LessonOnGUI();
 		}
@@ -75,7 +73,7 @@ namespace RimWorld
 
 		public override void Notify_Event(EventPack ep)
 		{
-			if (ep.Tag == "Designate-Mine" && this.ProgressPercent > 0.999f)
+			if (ep.Tag == "Designate-Mine" && this.ProgressPercent > 0.99900001287460327)
 			{
 				Find.ActiveLesson.Deactivate();
 			}

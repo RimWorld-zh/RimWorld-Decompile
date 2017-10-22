@@ -35,14 +35,14 @@ namespace RimWorld
 
 		public ITab_Pawn_Social()
 		{
-			this.size = new Vector2(540f, 510f);
-			this.labelKey = "TabSocial";
-			this.tutorTag = "Social";
+			base.size = new Vector2(540f, 510f);
+			base.labelKey = "TabSocial";
+			base.tutorTag = "Social";
 		}
 
 		protected override void FillTab()
 		{
-			SocialCardUtility.DrawSocialCard(new Rect(0f, 0f, this.size.x, this.size.y), this.SelPawnForSocialInfo);
+			SocialCardUtility.DrawSocialCard(new Rect(0f, 0f, base.size.x, base.size.y), this.SelPawnForSocialInfo);
 		}
 	}
 }

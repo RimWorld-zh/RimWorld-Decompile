@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -25,14 +24,55 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.gatherProgress, "gatherProgress", 0f, false);
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_GatherAnimalBodyResources.<MakeNewToils>c__Iterator4 <MakeNewToils>c__Iterator = new JobDriver_GatherAnimalBodyResources.<MakeNewToils>c__Iterator4();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_GatherAnimalBodyResources.<MakeNewToils>c__Iterator4 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
+			this.FailOnDowned(TargetIndex.A);
+			this.FailOnNotCasualInterruptible(TargetIndex.A);
+			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			Toil wait = new Toil
+			{
+				initAction = (Action)delegate
+				{
+					Pawn actor2 = ((_003CMakeNewToils_003Ec__Iterator4)/*Error near IL_0095: stateMachine*/)._003Cwait_003E__0.actor;
+					Pawn pawn2 = (Pawn)((_003CMakeNewToils_003Ec__Iterator4)/*Error near IL_0095: stateMachine*/)._003Cwait_003E__0.actor.CurJob.GetTarget(TargetIndex.A).Thing;
+					actor2.pather.StopDead();
+					PawnUtility.ForceWait(pawn2, 15000, null, true);
+				},
+				tickAction = (Action)delegate
+				{
+					Pawn actor = ((_003CMakeNewToils_003Ec__Iterator4)/*Error near IL_00ac: stateMachine*/)._003Cwait_003E__0.actor;
+					actor.skills.Learn(SkillDefOf.Animals, 0.142999992f, false);
+					((_003CMakeNewToils_003Ec__Iterator4)/*Error near IL_00ac: stateMachine*/)._003C_003Ef__this.gatherProgress += actor.GetStatValue(StatDefOf.AnimalGatherSpeed, true);
+					if (((_003CMakeNewToils_003Ec__Iterator4)/*Error near IL_00ac: stateMachine*/)._003C_003Ef__this.gatherProgress >= ((_003CMakeNewToils_003Ec__Iterator4)/*Error near IL_00ac: stateMachine*/)._003C_003Ef__this.WorkTotal)
+					{
+						((_003CMakeNewToils_003Ec__Iterator4)/*Error near IL_00ac: stateMachine*/)._003C_003Ef__this.GetComp((Pawn)(Thing)((_003CMakeNewToils_003Ec__Iterator4)/*Error near IL_00ac: stateMachine*/)._003C_003Ef__this.CurJob.GetTarget(TargetIndex.A)).Gathered(((_003CMakeNewToils_003Ec__Iterator4)/*Error near IL_00ac: stateMachine*/)._003C_003Ef__this.pawn);
+						actor.jobs.EndCurrentJob(JobCondition.Succeeded, true);
+					}
+				}
+			};
+			wait.AddFinishAction((Action)delegate
+			{
+				Pawn pawn = (Pawn)((_003CMakeNewToils_003Ec__Iterator4)/*Error near IL_00c3: stateMachine*/)._003Cwait_003E__0.actor.CurJob.GetTarget(TargetIndex.A).Thing;
+				if (pawn.jobs.curJob.def == JobDefOf.WaitMaintainPosture)
+				{
+					pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+				}
+			});
+			wait.FailOnDespawnedOrNull(TargetIndex.A);
+			wait.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
+			wait.AddEndCondition((Func<JobCondition>)delegate
+			{
+				if (!((_003CMakeNewToils_003Ec__Iterator4)/*Error near IL_00f5: stateMachine*/)._003C_003Ef__this.GetComp((Pawn)(Thing)((_003CMakeNewToils_003Ec__Iterator4)/*Error near IL_00f5: stateMachine*/)._003C_003Ef__this.CurJob.GetTarget(TargetIndex.A)).ActiveAndFull)
+				{
+					return JobCondition.Incompletable;
+				}
+				return JobCondition.Ongoing;
+			});
+			wait.defaultCompleteMode = ToilCompleteMode.Never;
+			wait.WithProgressBar(TargetIndex.A, (Func<float>)(() => ((_003CMakeNewToils_003Ec__Iterator4)/*Error near IL_0119: stateMachine*/)._003C_003Ef__this.gatherProgress / ((_003CMakeNewToils_003Ec__Iterator4)/*Error near IL_0119: stateMachine*/)._003C_003Ef__this.WorkTotal), false, -0.5f);
+			yield return wait;
 		}
 	}
 }

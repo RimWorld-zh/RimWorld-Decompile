@@ -19,7 +19,7 @@ namespace RimWorld
 				return null;
 			}
 			Command_Action command_Action = new Command_Action();
-			command_Action.action = delegate
+			command_Action.action = (Action)delegate()
 			{
 				SoundDefOf.SelectDesignator.PlayOneShotOnCamera(null);
 				des.SetStuffDef(stuff);

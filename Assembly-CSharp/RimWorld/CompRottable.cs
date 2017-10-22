@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -13,7 +12,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_Rottable)this.props;
+				return (CompProperties_Rottable)base.props;
 			}
 		}
 
@@ -62,9 +61,9 @@ namespace RimWorld
 		{
 			get
 			{
-				float num = this.parent.AmbientTemperature;
-				num = (float)Mathf.RoundToInt(num);
-				return this.TicksUntilRotAtTemp(num);
+				float ambientTemperature = base.parent.AmbientTemperature;
+				ambientTemperature = (float)Mathf.RoundToInt(ambientTemperature);
+				return this.TicksUntilRotAtTemp(ambientTemperature);
 			}
 		}
 
@@ -78,41 +77,36 @@ namespace RimWorld
 		{
 			float rotProgress = this.RotProgress;
 			float num = 1f;
-			float ambientTemperature = this.parent.AmbientTemperature;
+			float ambientTemperature = base.parent.AmbientTemperature;
 			num *= GenTemperature.RotRateAtTemperature(ambientTemperature);
-			this.RotProgress += Mathf.Round(num * 250f);
+			this.RotProgress += Mathf.Round((float)(num * 250.0));
 			if (this.Stage == RotStage.Rotting && this.PropsRot.rotDestroys)
 			{
-				if (this.parent.Spawned && this.parent.Map.slotGroupManager.SlotGroupAt(this.parent.Position) != null)
+				if (base.parent.Spawned && base.parent.Map.slotGroupManager.SlotGroupAt(base.parent.Position) != null)
 				{
-					Messages.Message("MessageRottedAwayInStorage".Translate(new object[]
-					{
-						this.parent.Label
-					}).CapitalizeFirst(), MessageSound.Silent);
+					Messages.Message("MessageRottedAwayInStorage".Translate(base.parent.Label).CapitalizeFirst(), MessageSound.Silent);
 					LessonAutoActivator.TeachOpportunity(ConceptDefOf.SpoilageAndFreezers, OpportunityType.GoodToKnow);
 				}
-				this.parent.Destroy(DestroyMode.Vanish);
-				return;
+				base.parent.Destroy(DestroyMode.Vanish);
 			}
-			bool flag = Mathf.FloorToInt(rotProgress / 60000f) != Mathf.FloorToInt(this.RotProgress / 60000f);
-			if (flag && this.ShouldTakeRotDamage())
+			else if (Mathf.FloorToInt((float)(rotProgress / 60000.0)) != Mathf.FloorToInt((float)(this.RotProgress / 60000.0)) && this.ShouldTakeRotDamage())
 			{
-				if (this.Stage == RotStage.Rotting && this.PropsRot.rotDamagePerDay > 0f)
+				if (this.Stage == RotStage.Rotting && this.PropsRot.rotDamagePerDay > 0.0)
 				{
-					this.parent.TakeDamage(new DamageInfo(DamageDefOf.Rotting, GenMath.RoundRandom(this.PropsRot.rotDamagePerDay), -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
+					base.parent.TakeDamage(new DamageInfo(DamageDefOf.Rotting, GenMath.RoundRandom(this.PropsRot.rotDamagePerDay), -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
 				}
-				else if (this.Stage == RotStage.Dessicated && this.PropsRot.dessicatedDamagePerDay > 0f)
+				else if (this.Stage == RotStage.Dessicated && this.PropsRot.dessicatedDamagePerDay > 0.0)
 				{
-					this.parent.TakeDamage(new DamageInfo(DamageDefOf.Rotting, GenMath.RoundRandom(this.PropsRot.dessicatedDamagePerDay), -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
+					base.parent.TakeDamage(new DamageInfo(DamageDefOf.Rotting, GenMath.RoundRandom(this.PropsRot.dessicatedDamagePerDay), -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
 				}
 			}
 		}
 
 		private bool ShouldTakeRotDamage()
 		{
-			if (this.parent.ParentHolder != null)
+			if (base.parent.ParentHolder != null)
 			{
-				Thing thing = this.parent.ParentHolder as Thing;
+				Thing thing = base.parent.ParentHolder as Thing;
 				if (thing != null && thing.def.category == ThingCategory.Building && thing.def.building.preventDeterioration)
 				{
 					return false;
@@ -123,7 +117,7 @@ namespace RimWorld
 
 		public override void PreAbsorbStack(Thing otherStack, int count)
 		{
-			float t = (float)count / (float)(this.parent.stackCount + count);
+			float t = (float)count / (float)(base.parent.stackCount + count);
 			float rotProgress = ((ThingWithComps)otherStack).GetComp<CompRottable>().RotProgress;
 			this.RotProgress = Mathf.Lerp(this.RotProgress, rotProgress, t);
 		}
@@ -135,9 +129,9 @@ namespace RimWorld
 
 		public override void PostIngested(Pawn ingester)
 		{
-			if (this.Stage != RotStage.Fresh)
+			if (this.Stage != 0)
 			{
-				FoodUtility.AddFoodPoisoningHediff(ingester, this.parent);
+				FoodUtility.AddFoodPoisoningHediff(ingester, base.parent);
 			}
 		}
 
@@ -147,40 +141,40 @@ namespace RimWorld
 			switch (this.Stage)
 			{
 			case RotStage.Fresh:
+			{
 				stringBuilder.Append("RotStateFresh".Translate() + ".");
 				break;
+			}
 			case RotStage.Rotting:
+			{
 				stringBuilder.Append("RotStateRotting".Translate() + ".");
 				break;
+			}
 			case RotStage.Dessicated:
+			{
 				stringBuilder.Append("RotStateDessicated".Translate() + ".");
 				break;
 			}
+			}
 			float num = (float)this.PropsRot.TicksToRotStart - this.RotProgress;
-			if (num > 0f)
+			if (num > 0.0)
 			{
-				float num2 = this.parent.AmbientTemperature;
-				num2 = (float)Mathf.RoundToInt(num2);
-				float num3 = GenTemperature.RotRateAtTemperature(num2);
+				float ambientTemperature = base.parent.AmbientTemperature;
+				ambientTemperature = (float)Mathf.RoundToInt(ambientTemperature);
+				float num2 = GenTemperature.RotRateAtTemperature(ambientTemperature);
 				int ticksUntilRotAtCurrentTemp = this.TicksUntilRotAtCurrentTemp;
 				stringBuilder.AppendLine();
-				if (num3 < 0.001f)
+				if (num2 < 0.0010000000474974513)
 				{
 					stringBuilder.Append("CurrentlyFrozen".Translate() + ".");
 				}
-				else if (num3 < 0.999f)
+				else if (num2 < 0.99900001287460327)
 				{
-					stringBuilder.Append("CurrentlyRefrigerated".Translate(new object[]
-					{
-						ticksUntilRotAtCurrentTemp.ToStringTicksToPeriodVagueMax()
-					}) + ".");
+					stringBuilder.Append("CurrentlyRefrigerated".Translate(ticksUntilRotAtCurrentTemp.ToStringTicksToPeriodVagueMax()) + ".");
 				}
 				else
 				{
-					stringBuilder.Append("NotRefrigerated".Translate(new object[]
-					{
-						ticksUntilRotAtCurrentTemp.ToStringTicksToPeriodVagueMax()
-					}) + ".");
+					stringBuilder.Append("NotRefrigerated".Translate(ticksUntilRotAtCurrentTemp.ToStringTicksToPeriodVagueMax()) + ".");
 				}
 			}
 			return stringBuilder.ToString();
@@ -195,12 +189,12 @@ namespace RimWorld
 		public int TicksUntilRotAtTemp(float temp)
 		{
 			float num = GenTemperature.RotRateAtTemperature(temp);
-			if (num <= 0f)
+			if (num <= 0.0)
 			{
 				return 2147483647;
 			}
 			float num2 = (float)this.PropsRot.TicksToRotStart - this.RotProgress;
-			if (num2 <= 0f)
+			if (num2 <= 0.0)
 			{
 				return 0;
 			}
@@ -209,7 +203,7 @@ namespace RimWorld
 
 		private void StageChanged()
 		{
-			Corpse corpse = this.parent as Corpse;
+			Corpse corpse = base.parent as Corpse;
 			if (corpse != null)
 			{
 				corpse.RotStageChanged();

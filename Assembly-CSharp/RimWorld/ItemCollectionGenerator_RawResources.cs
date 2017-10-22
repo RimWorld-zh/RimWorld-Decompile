@@ -20,7 +20,7 @@ namespace RimWorld
 		protected override IEnumerable<ThingDef> AllowedDefs(ItemCollectionGeneratorParams parms)
 		{
 			return from x in ItemCollectionGenerator_RawResources.rawResources
-			where x.techLevel <= parms.techLevel
+			where (int)x.techLevel <= (int)parms.techLevel
 			select x;
 		}
 	}

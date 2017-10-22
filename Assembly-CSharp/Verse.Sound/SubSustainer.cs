@@ -43,7 +43,7 @@ namespace Verse.Sound
 		{
 			this.parent = parent;
 			this.subDef = subSoundDef;
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				this.creationFrame = Time.frameCount;
 				this.creationRealTime = Time.realtimeSinceStartup;
@@ -51,7 +51,7 @@ namespace Verse.Sound
 				{
 					this.creationTick = Find.TickManager.TicksGame;
 				}
-				if (this.subDef.startDelayRange.TrueMax < 0.001f)
+				if (this.subDef.startDelayRange.TrueMax < 0.0010000000474974513)
 				{
 					this.StartSample();
 				}
@@ -67,68 +67,53 @@ namespace Verse.Sound
 			ResolvedGrain resolvedGrain = this.subDef.RandomizedResolvedGrain();
 			if (resolvedGrain == null)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"SubSustainer for ",
-					this.subDef,
-					" of ",
-					this.parent.def,
-					" could not resolve any grains."
-				}));
+				Log.Error("SubSustainer for " + this.subDef + " of " + this.parent.def + " could not resolve any grains.");
 				this.parent.End();
-				return;
-			}
-			float num;
-			if (this.subDef.sustainLoop)
-			{
-				num = this.subDef.sustainLoopDurationRange.RandomInRange;
 			}
 			else
 			{
-				num = resolvedGrain.duration;
+				float num = (!this.subDef.sustainLoop) ? resolvedGrain.duration : this.subDef.sustainLoopDurationRange.RandomInRange;
+				float num2 = Time.realtimeSinceStartup + num;
+				this.nextSampleStartTime = num2 + this.subDef.sustainIntervalRange.RandomInRange;
+				if (this.nextSampleStartTime < Time.realtimeSinceStartup + 0.0099999997764825821)
+				{
+					this.nextSampleStartTime = (float)(Time.realtimeSinceStartup + 0.0099999997764825821);
+				}
+				if (!(resolvedGrain is ResolvedGrain_Silence))
+				{
+					SampleSustainer sampleSustainer = SampleSustainer.TryMakeAndPlay(this, ((ResolvedGrain_Clip)resolvedGrain).clip, num2);
+					if (sampleSustainer != null)
+					{
+						if (this.subDef.sustainSkipFirstAttack && Time.frameCount == this.creationFrame)
+						{
+							sampleSustainer.resolvedSkipAttack = true;
+						}
+						this.samples.Add(sampleSustainer);
+					}
+				}
 			}
-			float num2 = Time.realtimeSinceStartup + num;
-			this.nextSampleStartTime = num2 + this.subDef.sustainIntervalRange.RandomInRange;
-			if (this.nextSampleStartTime < Time.realtimeSinceStartup + 0.01f)
-			{
-				this.nextSampleStartTime = Time.realtimeSinceStartup + 0.01f;
-			}
-			if (resolvedGrain is ResolvedGrain_Silence)
-			{
-				return;
-			}
-			SampleSustainer sampleSustainer = SampleSustainer.TryMakeAndPlay(this, ((ResolvedGrain_Clip)resolvedGrain).clip, num2);
-			if (sampleSustainer == null)
-			{
-				return;
-			}
-			if (this.subDef.sustainSkipFirstAttack && Time.frameCount == this.creationFrame)
-			{
-				sampleSustainer.resolvedSkipAttack = true;
-			}
-			this.samples.Add(sampleSustainer);
 		}
 
 		public void SubSustainerUpdate()
 		{
-			for (int i = this.samples.Count - 1; i >= 0; i--)
+			for (int num = this.samples.Count - 1; num >= 0; num--)
 			{
-				if (Time.realtimeSinceStartup > this.samples[i].scheduledEndTime)
+				if (Time.realtimeSinceStartup > this.samples[num].scheduledEndTime)
 				{
-					this.EndSample(this.samples[i]);
+					this.EndSample(this.samples[num]);
 				}
 			}
 			if (Time.realtimeSinceStartup > this.nextSampleStartTime)
 			{
 				this.StartSample();
 			}
+			for (int i = 0; i < this.samples.Count; i++)
+			{
+				this.samples[i].ApplyMappedParameters();
+			}
 			for (int j = 0; j < this.samples.Count; j++)
 			{
-				this.samples[j].ApplyMappedParameters();
-			}
-			for (int k = 0; k < this.samples.Count; k++)
-			{
-				this.samples[k].UpdateSourceVolume();
+				this.samples[j].UpdateSourceVolume();
 			}
 		}
 
@@ -153,15 +138,24 @@ namespace Verse.Sound
 
 		public override int GetHashCode()
 		{
-			return Gen.HashCombine<SubSoundDef>(this.creationRealTime.GetHashCode(), this.subDef);
+			return Gen.HashCombine(this.creationRealTime.GetHashCode(), this.subDef);
 		}
 
 		public string SamplesDebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (SampleSustainer current in this.samples)
+			List<SampleSustainer>.Enumerator enumerator = this.samples.GetEnumerator();
+			try
 			{
-				stringBuilder.AppendLine(current.ToString());
+				while (enumerator.MoveNext())
+				{
+					SampleSustainer current = enumerator.Current;
+					stringBuilder.AppendLine(current.ToString());
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			return stringBuilder.ToString();
 		}

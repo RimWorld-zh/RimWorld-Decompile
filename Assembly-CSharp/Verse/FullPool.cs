@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -11,7 +10,7 @@ namespace Verse
 		{
 			if (FullPool<T>.freeItems.Count == 0)
 			{
-				return (default(T) == null) ? Activator.CreateInstance<T>() : default(T);
+				return new T();
 			}
 			T result = FullPool<T>.freeItems[FullPool<T>.freeItems.Count - 1];
 			FullPool<T>.freeItems.RemoveAt(FullPool<T>.freeItems.Count - 1);

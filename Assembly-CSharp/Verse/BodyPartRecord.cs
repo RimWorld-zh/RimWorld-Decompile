@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Verse
@@ -30,14 +28,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"BodyPartRecord(",
-				(this.def == null) ? "NULL_DEF" : this.def.defName,
-				" parts.Count=",
-				this.parts.Count,
-				")"
-			});
+			return "BodyPartRecord(" + ((this.def == null) ? "NULL_DEF" : this.def.defName) + " parts.Count=" + this.parts.Count + ")";
 		}
 
 		public bool IsInGroup(BodyPartGroupDef group)
@@ -52,33 +43,37 @@ namespace Verse
 			return false;
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<BodyPartRecord> GetChildParts(string tag)
 		{
-			BodyPartRecord.<GetChildParts>c__Iterator1C2 <GetChildParts>c__Iterator1C = new BodyPartRecord.<GetChildParts>c__Iterator1C2();
-			<GetChildParts>c__Iterator1C.tag = tag;
-			<GetChildParts>c__Iterator1C.<$>tag = tag;
-			<GetChildParts>c__Iterator1C.<>f__this = this;
-			BodyPartRecord.<GetChildParts>c__Iterator1C2 expr_1C = <GetChildParts>c__Iterator1C;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (this.def.tags.Contains(tag))
+			{
+				yield return this;
+			}
+			for (int i = 0; i < this.parts.Count; i++)
+			{
+				foreach (BodyPartRecord childPart in this.parts[i].GetChildParts(tag))
+				{
+					yield return childPart;
+				}
+			}
 		}
 
 		public bool HasChildParts(string tag)
 		{
-			return this.GetChildParts(tag).Any<BodyPartRecord>();
+			return this.GetChildParts(tag).Any();
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<BodyPartRecord> GetConnectedParts(string tag)
 		{
-			BodyPartRecord.<GetConnectedParts>c__Iterator1C3 <GetConnectedParts>c__Iterator1C = new BodyPartRecord.<GetConnectedParts>c__Iterator1C3();
-			<GetConnectedParts>c__Iterator1C.tag = tag;
-			<GetConnectedParts>c__Iterator1C.<$>tag = tag;
-			<GetConnectedParts>c__Iterator1C.<>f__this = this;
-			BodyPartRecord.<GetConnectedParts>c__Iterator1C3 expr_1C = <GetConnectedParts>c__Iterator1C;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			BodyPartRecord ancestor = this;
+			while (ancestor.parent != null && ancestor.parent.def.tags.Contains(tag))
+			{
+				ancestor = ancestor.parent;
+			}
+			foreach (BodyPartRecord childPart in ancestor.GetChildParts(tag))
+			{
+				yield return childPart;
+			}
 		}
 	}
 }

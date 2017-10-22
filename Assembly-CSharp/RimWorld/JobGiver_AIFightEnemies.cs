@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -21,7 +20,7 @@ namespace RimWorld
 				target = pawn.mindState.enemyTarget,
 				verb = verb,
 				maxRangeFromTarget = verb.verbProps.range,
-				wantCoverFromTarget = (verb.verbProps.range > 5f)
+				wantCoverFromTarget = (verb.verbProps.range > 5.0)
 			}, out dest);
 		}
 	}

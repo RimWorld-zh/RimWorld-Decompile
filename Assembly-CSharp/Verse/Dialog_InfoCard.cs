@@ -10,10 +10,10 @@ namespace Verse
 	{
 		private enum InfoCardTab : byte
 		{
-			Stats,
-			Character,
-			Health,
-			Records
+			Stats = 0,
+			Character = 1,
+			Health = 2,
+			Records = 3
 		}
 
 		private Thing thing;
@@ -24,7 +24,7 @@ namespace Verse
 
 		private WorldObject worldObject;
 
-		private Dialog_InfoCard.InfoCardTab tab;
+		private InfoCardTab tab;
 
 		private Def Def
 		{
@@ -69,7 +69,7 @@ namespace Verse
 		public Dialog_InfoCard(Thing thing)
 		{
 			this.thing = thing;
-			this.tab = Dialog_InfoCard.InfoCardTab.Stats;
+			this.tab = InfoCardTab.Stats;
 			this.Setup();
 		}
 
@@ -94,13 +94,13 @@ namespace Verse
 
 		private void Setup()
 		{
-			this.forcePause = true;
-			this.closeOnEscapeKey = true;
-			this.doCloseButton = true;
-			this.doCloseX = true;
-			this.absorbInputAroundWindow = true;
-			this.soundAppear = SoundDef.Named("InfoCard_Open");
-			this.soundClose = SoundDef.Named("InfoCard_Close");
+			base.forcePause = true;
+			base.closeOnEscapeKey = true;
+			base.doCloseButton = true;
+			base.doCloseX = true;
+			base.absorbInputAroundWindow = true;
+			base.soundAppear = SoundDef.Named("InfoCard_Open");
+			base.soundClose = SoundDef.Named("InfoCard_Close");
 			StatsReportUtility.Reset();
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.InfoCard, KnowledgeAmount.Total);
 		}
@@ -117,36 +117,38 @@ namespace Verse
 			rect.height = 34f;
 			Text.Font = GameFont.Medium;
 			Widgets.Label(rect, this.GetTitle());
-			Rect rect2 = new Rect(inRect);
-			rect2.yMin = rect.yMax;
+			Rect rect2 = new Rect(inRect)
+			{
+				yMin = rect.yMax
+			};
 			rect2.yMax -= 38f;
 			Rect rect3 = rect2;
 			rect3.yMin += 45f;
 			List<TabRecord> list = new List<TabRecord>();
-			TabRecord item = new TabRecord("TabStats".Translate(), delegate
+			TabRecord item = new TabRecord("TabStats".Translate(), (Action)delegate
 			{
-				this.tab = Dialog_InfoCard.InfoCardTab.Stats;
-			}, this.tab == Dialog_InfoCard.InfoCardTab.Stats);
+				this.tab = InfoCardTab.Stats;
+			}, this.tab == InfoCardTab.Stats);
 			list.Add(item);
 			if (this.ThingPawn != null)
 			{
 				if (this.ThingPawn.RaceProps.Humanlike)
 				{
-					TabRecord item2 = new TabRecord("TabCharacter".Translate(), delegate
+					TabRecord item2 = new TabRecord("TabCharacter".Translate(), (Action)delegate
 					{
-						this.tab = Dialog_InfoCard.InfoCardTab.Character;
-					}, this.tab == Dialog_InfoCard.InfoCardTab.Character);
+						this.tab = InfoCardTab.Character;
+					}, this.tab == InfoCardTab.Character);
 					list.Add(item2);
 				}
-				TabRecord item3 = new TabRecord("TabHealth".Translate(), delegate
+				TabRecord item3 = new TabRecord("TabHealth".Translate(), (Action)delegate
 				{
-					this.tab = Dialog_InfoCard.InfoCardTab.Health;
-				}, this.tab == Dialog_InfoCard.InfoCardTab.Health);
+					this.tab = InfoCardTab.Health;
+				}, this.tab == InfoCardTab.Health);
 				list.Add(item3);
-				TabRecord item4 = new TabRecord("TabRecords".Translate(), delegate
+				TabRecord item4 = new TabRecord("TabRecords".Translate(), (Action)delegate
 				{
-					this.tab = Dialog_InfoCard.InfoCardTab.Records;
-				}, this.tab == Dialog_InfoCard.InfoCardTab.Records);
+					this.tab = InfoCardTab.Records;
+				}, this.tab == InfoCardTab.Records);
 				list.Add(item4);
 			}
 			TabDrawer.DrawTabs(rect3, list);
@@ -155,7 +157,7 @@ namespace Verse
 
 		protected void FillCard(Rect cardRect)
 		{
-			if (this.tab == Dialog_InfoCard.InfoCardTab.Stats)
+			if (this.tab == InfoCardTab.Stats)
 			{
 				if (this.thing != null)
 				{
@@ -176,16 +178,16 @@ namespace Verse
 					StatsReportUtility.DrawStatsReport(cardRect, this.def, this.stuff);
 				}
 			}
-			else if (this.tab == Dialog_InfoCard.InfoCardTab.Character)
+			else if (this.tab == InfoCardTab.Character)
 			{
 				CharacterCardUtility.DrawCharacterCard(cardRect, (Pawn)this.thing);
 			}
-			else if (this.tab == Dialog_InfoCard.InfoCardTab.Health)
+			else if (this.tab == InfoCardTab.Health)
 			{
 				cardRect.yMin += 8f;
 				HealthCardUtility.DrawPawnHealthCard(cardRect, (Pawn)this.thing, false, false, null);
 			}
-			else if (this.tab == Dialog_InfoCard.InfoCardTab.Records)
+			else if (this.tab == InfoCardTab.Records)
 			{
 				RecordsCardUtility.DrawRecordsCard(cardRect, (Pawn)this.thing);
 			}

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -18,11 +17,11 @@ namespace RimWorld
 			{
 				return null;
 			}
-			if (JoyUtility.LordPreventsGettingJoy(pawn) || JoyUtility.TimetablePreventsGettingJoy(pawn))
+			if (!JoyUtility.LordPreventsGettingJoy(pawn) && !JoyUtility.TimetablePreventsGettingJoy(pawn))
 			{
-				return null;
+				return base.TryGiveJob(pawn);
 			}
-			return base.TryGiveJob(pawn);
+			return null;
 		}
 	}
 }

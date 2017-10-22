@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -38,29 +37,28 @@ namespace Verse
 
 		public void PreDrawPosCalculation()
 		{
-			if (this.lastDrawFrame == RealTime.frameCount)
+			if (this.lastDrawFrame != RealTime.frameCount)
 			{
-				return;
-			}
-			if (this.lastDrawFrame < RealTime.frameCount - 1)
-			{
-				this.ResetTweenedPosToRoot();
-			}
-			else
-			{
-				this.lastTickSpringPos = this.tweenedPos;
-				float tickRateMultiplier = Find.TickManager.TickRateMultiplier;
-				if (tickRateMultiplier < 5f)
+				if (this.lastDrawFrame < RealTime.frameCount - 1)
 				{
-					Vector3 a = this.TweenedPosRoot() - this.tweenedPos;
-					this.tweenedPos += a * 0.09f * (RealTime.deltaTime * 60f * tickRateMultiplier);
+					this.ResetTweenedPosToRoot();
 				}
 				else
 				{
-					this.tweenedPos = this.TweenedPosRoot();
+					this.lastTickSpringPos = this.tweenedPos;
+					float tickRateMultiplier = Find.TickManager.TickRateMultiplier;
+					if (tickRateMultiplier < 5.0)
+					{
+						Vector3 a = this.TweenedPosRoot() - this.tweenedPos;
+						this.tweenedPos += a * 0.09f * (float)(RealTime.deltaTime * 60.0 * tickRateMultiplier);
+					}
+					else
+					{
+						this.tweenedPos = this.TweenedPosRoot();
+					}
 				}
+				this.lastDrawFrame = RealTime.frameCount;
 			}
-			this.lastDrawFrame = RealTime.frameCount;
 		}
 
 		public void ResetTweenedPosToRoot()
@@ -76,7 +74,7 @@ namespace Verse
 				return this.pawn.Position.ToVector3Shifted();
 			}
 			float num = this.MovedPercent();
-			return this.pawn.pather.nextCell.ToVector3Shifted() * num + this.pawn.Position.ToVector3Shifted() * (1f - num) + PawnCollisionTweenerUtility.PawnCollisionPosOffsetFor(this.pawn);
+			return this.pawn.pather.nextCell.ToVector3Shifted() * num + this.pawn.Position.ToVector3Shifted() * (float)(1.0 - num) + PawnCollisionTweenerUtility.PawnCollisionPosOffsetFor(this.pawn);
 		}
 
 		private float MovedPercent()
@@ -101,7 +99,7 @@ namespace Verse
 			{
 				return 0f;
 			}
-			return 1f - this.pawn.pather.nextCellCostLeft / this.pawn.pather.nextCellCostTotal;
+			return (float)(1.0 - this.pawn.pather.nextCellCostLeft / this.pawn.pather.nextCellCostTotal);
 		}
 	}
 }

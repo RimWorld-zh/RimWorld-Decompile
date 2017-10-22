@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -40,17 +39,12 @@ namespace Verse
 			CompAttachBase compAttachBase = parent.TryGetComp<CompAttachBase>();
 			if (compAttachBase == null)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Cannot attach ",
-					this,
-					" to ",
-					parent,
-					": parent has no CompAttachBase."
-				}));
-				return;
+				Log.Error("Cannot attach " + this + " to " + parent + ": parent has no CompAttachBase.");
 			}
-			compAttachBase.AddAttachment(this);
+			else
+			{
+				compAttachBase.AddAttachment(this);
+			}
 		}
 
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)

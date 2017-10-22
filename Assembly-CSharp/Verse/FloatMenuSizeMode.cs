@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum FloatMenuSizeMode
 	{
-		Undefined,
-		Normal,
-		Tiny
+		Undefined = 0,
+		Normal = 1,
+		Tiny = 2
 	}
 }

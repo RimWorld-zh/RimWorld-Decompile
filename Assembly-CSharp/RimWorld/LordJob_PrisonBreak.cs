@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -48,11 +47,7 @@ namespace RimWorld
 			LordToil_ExitMap lordToil_ExitMap2 = new LordToil_ExitMap(LocomotionUrgency.Jog, true);
 			stateGraph.AddToil(lordToil_ExitMap2);
 			Transition transition = new Transition(lordToil_Travel, lordToil_ExitMap2);
-			transition.AddSources(new LordToil[]
-			{
-				lordToil_PrisonerEscape,
-				lordToil_ExitMap
-			});
+			transition.AddSources(lordToil_PrisonerEscape, lordToil_ExitMap);
 			transition.AddTrigger(new Trigger_PawnCannotReachMapEdge());
 			stateGraph.AddTransition(transition);
 			Transition transition2 = new Transition(lordToil_ExitMap2, lordToil_ExitMap);

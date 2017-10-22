@@ -9,30 +9,28 @@ namespace RimWorld
 		public static bool TryFindShipChunkDropCell(IntVec3 nearLoc, Map map, int maxDist, out IntVec3 pos)
 		{
 			ThingDef chunkDef = ThingDefOf.ShipChunk;
-			return CellFinder.TryFindRandomCellNear(nearLoc, map, maxDist, delegate(IntVec3 x)
+			return CellFinder.TryFindRandomCellNear(nearLoc, map, maxDist, (Predicate<IntVec3>)delegate(IntVec3 x)
 			{
-				foreach (IntVec3 current in GenAdj.OccupiedRect(x, Rot4.North, chunkDef.size))
+				foreach (IntVec3 item in GenAdj.OccupiedRect(x, Rot4.North, chunkDef.size))
 				{
-					if (!current.InBounds(map) || current.Fogged(map) || !current.Standable(map) || (current.Roofed(map) && current.GetRoof(map).isThickRoof))
+					if (item.InBounds(map) && !item.Fogged(map) && item.Standable(map) && (!item.Roofed(map) || !item.GetRoof(map).isThickRoof))
 					{
-						bool result = false;
-						return result;
-					}
-					if (!current.SupportsStructureType(map, chunkDef.terrainAffordanceNeeded))
-					{
-						bool result = false;
-						return result;
-					}
-					List<Thing> thingList = current.GetThingList(map);
-					for (int i = 0; i < thingList.Count; i++)
-					{
-						Thing thing = thingList[i];
-						if (thing.def.category != ThingCategory.Plant && thing.def.category != ThingCategory.Filth && GenSpawn.SpawningWipes(chunkDef, thing.def))
+						if (!item.SupportsStructureType(map, chunkDef.terrainAffordanceNeeded))
 						{
-							bool result = false;
-							return result;
+							return false;
 						}
+						List<Thing> thingList = item.GetThingList(map);
+						for (int i = 0; i < thingList.Count; i++)
+						{
+							Thing thing = thingList[i];
+							if (thing.def.category != ThingCategory.Plant && thing.def.category != ThingCategory.Filth && GenSpawn.SpawningWipes(chunkDef, thing.def))
+							{
+								return false;
+							}
+						}
+						continue;
 					}
+					return false;
 				}
 				return true;
 			}, out pos);

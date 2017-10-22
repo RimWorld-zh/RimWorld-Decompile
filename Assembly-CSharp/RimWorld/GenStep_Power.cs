@@ -67,17 +67,20 @@ namespace RimWorld
 					if (powerNet == null || !this.HasAnyPowerGenerator(powerNet))
 					{
 						map.powerNetManager.UpdatePowerNetsAndConnections_First();
-						PowerNet powerNet2;
-						IntVec3 dest;
-						Building building2;
-						if (this.TryFindClosestReachableNet(compPowerBattery.parent.Position, (PowerNet x) => this.HasAnyPowerGenerator(x), map, out powerNet2, out dest))
+						PowerNet powerNet2 = default(PowerNet);
+						IntVec3 dest = default(IntVec3);
+						Building building2 = default(Building);
+						if (this.TryFindClosestReachableNet(compPowerBattery.parent.Position, (Predicate<PowerNet>)((PowerNet x) => this.HasAnyPowerGenerator(x)), map, out powerNet2, out dest))
 						{
 							map.floodFiller.ReconstructLastFloodFillPath(dest, this.tmpCells);
 							if (this.canSpawnPowerGenerators)
 							{
 								int count = this.tmpCells.Count;
-								float chance = Mathf.InverseLerp((float)GenStep_Power.MaxDistanceBetweenBatteryAndTransmitter.min, (float)GenStep_Power.MaxDistanceBetweenBatteryAndTransmitter.max, (float)count);
-								Building building;
+								IntRange maxDistanceBetweenBatteryAndTransmitter = GenStep_Power.MaxDistanceBetweenBatteryAndTransmitter;
+								float a = (float)maxDistanceBetweenBatteryAndTransmitter.min;
+								IntRange maxDistanceBetweenBatteryAndTransmitter2 = GenStep_Power.MaxDistanceBetweenBatteryAndTransmitter;
+								float chance = Mathf.InverseLerp(a, (float)maxDistanceBetweenBatteryAndTransmitter2.max, (float)count);
+								Building building = default(Building);
 								if (Rand.Chance(chance) && this.TrySpawnPowerGeneratorNear(compPowerBattery.parent.Position, map, compPowerBattery.parent.Faction, out building))
 								{
 									this.SpawnTransmitters(compPowerBattery.parent.Position, building.Position, map, compPowerBattery.parent.Faction);
@@ -115,10 +118,10 @@ namespace RimWorld
 					else
 					{
 						map.powerNetManager.UpdatePowerNetsAndConnections_First();
-						PowerNet powerNet2;
-						IntVec3 dest;
-						Building building;
-						if (this.TryFindClosestReachableNet(powerComp.parent.Position, (PowerNet x) => x.CurrentEnergyGainRate() - powerComp.Props.basePowerConsumption * CompPower.WattsToWattDaysPerTick > 1E-07f, map, out powerNet2, out dest))
+						PowerNet powerNet2 = default(PowerNet);
+						IntVec3 dest = default(IntVec3);
+						Building building = default(Building);
+						if (this.TryFindClosestReachableNet(powerComp.parent.Position, (Predicate<PowerNet>)((PowerNet x) => x.CurrentEnergyGainRate() - powerComp.Props.basePowerConsumption * CompPower.WattsToWattDaysPerTick > 1.0000000116860974E-07), map, out powerNet2, out dest))
 						{
 							map.floodFiller.ReconstructLastFloodFillPath(dest, this.tmpCells);
 							bool flag = false;
@@ -136,7 +139,7 @@ namespace RimWorld
 						{
 							this.TryTurnOnImmediately(powerComp, map);
 						}
-						else if (this.TryFindClosestReachableNet(powerComp.parent.Position, (PowerNet x) => x.CurrentStoredEnergy() > 1E-07f, map, out powerNet2, out dest))
+						else if (this.TryFindClosestReachableNet(powerComp.parent.Position, (Predicate<PowerNet>)((PowerNet x) => x.CurrentStoredEnergy() > 1.0000000116860974E-07), map, out powerNet2, out dest))
 						{
 							map.floodFiller.ReconstructLastFloodFillPath(dest, this.tmpCells);
 							this.SpawnTransmitters(this.tmpCells, map, this.tmpThings[i].Faction);
@@ -144,7 +147,7 @@ namespace RimWorld
 						else if (this.canSpawnBatteries && this.TrySpawnBatteryNear(this.tmpThings[i].Position, map, this.tmpThings[i].Faction, out building))
 						{
 							this.SpawnTransmitters(this.tmpThings[i].Position, building.Position, map, this.tmpThings[i].Faction);
-							if (building.GetComp<CompPowerBattery>().StoredEnergy > 0f)
+							if (building.GetComp<CompPowerBattery>().StoredEnergy > 0.0)
 							{
 								this.TryTurnOnImmediately(powerComp, map);
 							}
@@ -166,9 +169,9 @@ namespace RimWorld
 					if (powerNet == null || !this.HasAnyPowerUser(powerNet))
 					{
 						map.powerNetManager.UpdatePowerNetsAndConnections_First();
-						PowerNet powerNet2;
-						IntVec3 dest;
-						if (this.TryFindClosestReachableNet(this.tmpThings[i].Position, (PowerNet x) => this.HasAnyPowerUser(x), map, out powerNet2, out dest))
+						PowerNet powerNet2 = default(PowerNet);
+						IntVec3 dest = default(IntVec3);
+						if (this.TryFindClosestReachableNet(this.tmpThings[i].Position, (Predicate<PowerNet>)((PowerNet x) => this.HasAnyPowerUser(x)), map, out powerNet2, out dest))
 						{
 							map.floodFiller.ReconstructLastFloodFillPath(dest, this.tmpCells);
 							this.SpawnTransmitters(this.tmpCells, map, this.tmpThings[i].Faction);
@@ -181,7 +184,7 @@ namespace RimWorld
 		private bool IsPowerUser(Thing thing)
 		{
 			CompPowerTrader compPowerTrader = thing.TryGetComp<CompPowerTrader>();
-			return compPowerTrader != null && (compPowerTrader.PowerOutput < 0f || (!compPowerTrader.PowerOn && compPowerTrader.Props.basePowerConsumption > 0f));
+			return compPowerTrader != null && (compPowerTrader.PowerOutput < 0.0 || (!compPowerTrader.PowerOn && compPowerTrader.Props.basePowerConsumption > 0.0));
 		}
 
 		private bool IsPowerGenerator(Thing thing)
@@ -191,7 +194,7 @@ namespace RimWorld
 				return true;
 			}
 			CompPowerTrader compPowerTrader = thing.TryGetComp<CompPowerTrader>();
-			return compPowerTrader != null && (compPowerTrader.PowerOutput > 0f || (!compPowerTrader.PowerOn && compPowerTrader.Props.basePowerConsumption < 0f));
+			return compPowerTrader != null && (compPowerTrader.PowerOutput > 0.0 || (!compPowerTrader.PowerOn && compPowerTrader.Props.basePowerConsumption < 0.0));
 		}
 
 		private bool HasAnyPowerGenerator(PowerNet net)
@@ -225,7 +228,7 @@ namespace RimWorld
 			this.tmpPowerNetPredicateResults.Clear();
 			PowerNet foundNetLocal = null;
 			IntVec3 closestTransmitterLocal = IntVec3.Invalid;
-			map.floodFiller.FloodFill(root, (IntVec3 x) => this.EverPossibleToTransmitPowerAt(x, map), delegate(IntVec3 x)
+			map.floodFiller.FloodFill(root, (Predicate<IntVec3>)((IntVec3 x) => this.EverPossibleToTransmitPowerAt(x, map)), (Func<IntVec3, bool>)delegate(IntVec3 x)
 			{
 				Building transmitter = x.GetTransmitter(map);
 				PowerNet powerNet = (transmitter == null) ? null : transmitter.GetComp<CompPower>().PowerNet;
@@ -233,7 +236,7 @@ namespace RimWorld
 				{
 					return false;
 				}
-				bool flag;
+				bool flag = default(bool);
 				if (!this.tmpPowerNetPredicateResults.TryGetValue(powerNet, out flag))
 				{
 					flag = predicate(powerNet);
@@ -274,7 +277,7 @@ namespace RimWorld
 		private void SpawnTransmitters(IntVec3 start, IntVec3 end, Map map, Faction faction)
 		{
 			bool foundPath = false;
-			map.floodFiller.FloodFill(start, (IntVec3 x) => this.EverPossibleToTransmitPowerAt(x, map), delegate(IntVec3 x)
+			map.floodFiller.FloodFill(start, (Predicate<IntVec3>)((IntVec3 x) => this.EverPossibleToTransmitPowerAt(x, map)), (Func<IntVec3, bool>)delegate(IntVec3 x)
 			{
 				if (x == end)
 				{
@@ -293,28 +296,29 @@ namespace RimWorld
 		private bool TrySpawnPowerTransmittingBuildingNear(IntVec3 position, Map map, Faction faction, ThingDef def, out Building newBuilding)
 		{
 			TraverseParms traverseParams = TraverseParms.For(TraverseMode.PassAllDestroyableThings, Danger.Deadly, false);
-			IntVec3 loc;
-			if (RCellFinder.TryFindRandomCellNearWith(position, delegate(IntVec3 x)
+			IntVec3 loc = default(IntVec3);
+			if (RCellFinder.TryFindRandomCellNearWith(position, (Predicate<IntVec3>)delegate(IntVec3 x)
 			{
-				if (!x.Standable(map) || x.Roofed(map) || !this.EverPossibleToTransmitPowerAt(x, map))
+				if (x.Standable(map) && !x.Roofed(map) && this.EverPossibleToTransmitPowerAt(x, map))
 				{
-					return false;
-				}
-				if (!map.reachability.CanReach(position, x, PathEndMode.OnCell, traverseParams))
-				{
-					return false;
-				}
-				CellRect.CellRectIterator iterator = GenAdj.OccupiedRect(x, Rot4.North, def.size).GetIterator();
-				while (!iterator.Done())
-				{
-					IntVec3 current = iterator.Current;
-					if (!current.InBounds(map) || current.Roofed(map) || current.GetEdifice(map) != null || current.GetFirstItem(map) != null || current.GetTransmitter(map) != null)
+					if (!map.reachability.CanReach(position, x, PathEndMode.OnCell, traverseParams))
 					{
 						return false;
 					}
-					iterator.MoveNext();
+					CellRect.CellRectIterator iterator = GenAdj.OccupiedRect(x, Rot4.North, def.size).GetIterator();
+					while (!iterator.Done())
+					{
+						IntVec3 current = iterator.Current;
+						if (current.InBounds(map) && !current.Roofed(map) && current.GetEdifice(map) == null && current.GetFirstItem(map) == null && current.GetTransmitter(map) == null)
+						{
+							iterator.MoveNext();
+							continue;
+						}
+						return false;
+					}
+					return true;
 				}
-				return true;
+				return false;
 			}, map, out loc, 8))
 			{
 				newBuilding = (Building)GenSpawn.Spawn(ThingMaker.MakeThing(def, null), loc, map, Rot4.North, false);
@@ -356,15 +360,15 @@ namespace RimWorld
 			IntVec3 position = forThing.Position;
 			if (this.canSpawnBatteries)
 			{
-				float chance = (!(forThing is Building_Turret)) ? 0.1f : 1f;
-				Building building;
+				float chance = (float)((!(forThing is Building_Turret)) ? 0.10000000149011612 : 1.0);
+				Building building = default(Building);
 				if (Rand.Chance(chance) && this.TrySpawnBatteryNear(forThing.Position, map, forThing.Faction, out building))
 				{
 					this.SpawnTransmitters(forThing.Position, building.Position, map, forThing.Faction);
 					position = building.Position;
 				}
 			}
-			Building building2;
+			Building building2 = default(Building);
 			if (this.TrySpawnPowerGeneratorNear(position, map, forThing.Faction, out building2))
 			{
 				this.SpawnTransmitters(position, building2.Position, map, forThing.Faction);
@@ -380,14 +384,13 @@ namespace RimWorld
 
 		private void TryTurnOnImmediately(CompPowerTrader powerComp, Map map)
 		{
-			if (powerComp.PowerOn)
+			if (!powerComp.PowerOn)
 			{
-				return;
-			}
-			map.powerNetManager.UpdatePowerNetsAndConnections_First();
-			if (powerComp.PowerNet != null && powerComp.PowerNet.CurrentEnergyGainRate() > 1E-07f)
-			{
-				powerComp.PowerOn = true;
+				map.powerNetManager.UpdatePowerNetsAndConnections_First();
+				if (powerComp.PowerNet != null && powerComp.PowerNet.CurrentEnergyGainRate() > 1.0000000116860974E-07)
+				{
+					powerComp.PowerOn = true;
+				}
 			}
 		}
 	}

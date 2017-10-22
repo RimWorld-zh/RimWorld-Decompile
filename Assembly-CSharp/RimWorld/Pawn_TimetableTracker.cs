@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -24,15 +23,7 @@ namespace RimWorld
 			this.times = new List<TimeAssignmentDef>(24);
 			for (int i = 0; i < 24; i++)
 			{
-				TimeAssignmentDef item;
-				if (i <= 5 || i > 21)
-				{
-					item = TimeAssignmentDefOf.Sleep;
-				}
-				else
-				{
-					item = TimeAssignmentDefOf.Anything;
-				}
+				TimeAssignmentDef item = (i > 5 && i <= 21) ? TimeAssignmentDefOf.Anything : TimeAssignmentDefOf.Sleep;
 				this.times.Add(item);
 			}
 		}

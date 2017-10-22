@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -54,9 +53,7 @@ namespace RimWorld
 						{
 							num++;
 							if (num >= num2)
-							{
 								break;
-							}
 						}
 					}
 					if (num < num2)
@@ -65,10 +62,9 @@ namespace RimWorld
 					}
 				}
 			}
-			return new Job(JobDefOf.Ingest, thing)
-			{
-				count = 1
-			};
+			Job job = new Job(JobDefOf.Ingest, thing);
+			job.count = 1;
+			return job;
 		}
 
 		private bool HarmedRecently(Pawn pawn)
@@ -82,12 +78,9 @@ namespace RimWorld
 			{
 				Thing thing = pawn.inventory.innerContainer[i];
 				CompDrug compDrug = thing.TryGetComp<CompDrug>();
-				if (compDrug != null)
+				if (compDrug != null && compDrug.Props.isCombatEnhancingDrug)
 				{
-					if (compDrug.Props.isCombatEnhancingDrug)
-					{
-						return thing;
-					}
+					return thing;
 				}
 			}
 			return null;

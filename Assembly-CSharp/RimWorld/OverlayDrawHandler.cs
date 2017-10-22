@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -22,7 +21,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return Find.PlaySettings.showZones || Time.frameCount <= OverlayDrawHandler.lastZoneDrawFrame + 1;
+				if (Find.PlaySettings.showZones)
+				{
+					return true;
+				}
+				if (Time.frameCount <= OverlayDrawHandler.lastZoneDrawFrame + 1)
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 

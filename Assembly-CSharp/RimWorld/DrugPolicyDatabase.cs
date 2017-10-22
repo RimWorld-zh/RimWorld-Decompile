@@ -38,14 +38,11 @@ namespace RimWorld
 
 		public AcceptanceReport TryDelete(DrugPolicy policy)
 		{
-			foreach (Pawn current in PawnsFinder.AllMapsCaravansAndTravelingTransportPods)
+			foreach (Pawn allMapsCaravansAndTravelingTransportPod in PawnsFinder.AllMapsCaravansAndTravelingTransportPods)
 			{
-				if (current.drugs != null && current.drugs.CurrentPolicy == policy)
+				if (allMapsCaravansAndTravelingTransportPod.drugs != null && allMapsCaravansAndTravelingTransportPod.drugs.CurrentPolicy == policy)
 				{
-					return new AcceptanceReport("DrugPolicyInUse".Translate(new object[]
-					{
-						current
-					}));
+					return new AcceptanceReport("DrugPolicyInUse".Translate(allMapsCaravansAndTravelingTransportPod));
 				}
 			}
 			this.policies.Remove(policy);
@@ -54,16 +51,7 @@ namespace RimWorld
 
 		public DrugPolicy MakeNewDrugPolicy()
 		{
-			int arg_40_0;
-			if (this.policies.Any<DrugPolicy>())
-			{
-				arg_40_0 = this.policies.Max((DrugPolicy o) => o.uniqueId) + 1;
-			}
-			else
-			{
-				arg_40_0 = 1;
-			}
-			int uniqueId = arg_40_0;
+			int uniqueId = (!this.policies.Any()) ? 1 : (this.policies.Max((Func<DrugPolicy, int>)((DrugPolicy o) => o.uniqueId)) + 1);
 			DrugPolicy drugPolicy = new DrugPolicy(uniqueId, "DrugPolicy".Translate() + " " + uniqueId.ToString());
 			this.policies.Add(drugPolicy);
 			return drugPolicy;

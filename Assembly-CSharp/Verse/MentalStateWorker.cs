@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -9,7 +8,19 @@ namespace Verse
 
 		public virtual bool StateCanOccur(Pawn pawn)
 		{
-			return (this.def.unspawnedCanDo || pawn.Spawned) && (this.def.prisonersCanDo || pawn.HostFaction == null) && (!this.def.colonistsOnly || pawn.Faction == Faction.OfPlayer);
+			if (!this.def.unspawnedCanDo && !pawn.Spawned)
+			{
+				return false;
+			}
+			if (!this.def.prisonersCanDo && pawn.HostFaction != null)
+			{
+				return false;
+			}
+			if (this.def.colonistsOnly && pawn.Faction != Faction.OfPlayer)
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

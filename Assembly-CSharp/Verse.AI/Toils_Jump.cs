@@ -8,7 +8,7 @@ namespace Verse.AI
 		public static Toil Jump(Toil jumpTarget)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				toil.actor.jobs.curDriver.JumpToToil(jumpTarget);
 			};
@@ -18,7 +18,7 @@ namespace Verse.AI
 		public static Toil JumpIf(Toil jumpTarget, Func<bool> condition)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				if (condition())
 				{
@@ -31,13 +31,12 @@ namespace Verse.AI
 		public static Toil JumpIfTargetDespawnedOrNull(TargetIndex ind, Toil jumpToil)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				Thing thing = toil.actor.jobs.curJob.GetTarget(ind).Thing;
-				if (thing == null || !thing.Spawned)
-				{
-					toil.actor.jobs.curDriver.JumpToToil(jumpToil);
-				}
+				if (thing != null && thing.Spawned)
+					return;
+				toil.actor.jobs.curDriver.JumpToToil(jumpToil);
 			};
 			return toil;
 		}
@@ -45,7 +44,7 @@ namespace Verse.AI
 		public static Toil JumpIfTargetNotHittable(TargetIndex ind, Toil jumpToil)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
@@ -61,7 +60,7 @@ namespace Verse.AI
 		public static Toil JumpIfTargetDownedDistant(TargetIndex ind, Toil jumpToil)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
@@ -78,12 +77,12 @@ namespace Verse.AI
 		public static Toil JumpIfHaveTargetInQueue(TargetIndex ind, Toil jumpToil)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
 				List<LocalTargetInfo> targetQueue = curJob.GetTargetQueue(ind);
-				if (!targetQueue.NullOrEmpty<LocalTargetInfo>())
+				if (!targetQueue.NullOrEmpty())
 				{
 					actor.jobs.curDriver.JumpToToil(jumpToil);
 				}
@@ -94,7 +93,7 @@ namespace Verse.AI
 		public static Toil JumpIfCannotTouch(TargetIndex ind, PathEndMode peMode, Toil jumpToil)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;

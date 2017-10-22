@@ -10,21 +10,30 @@ namespace Verse
 
 		public Dialog_DebugOptionListLister(IEnumerable<DebugMenuOption> options)
 		{
-			this.options = options.ToList<DebugMenuOption>();
+			this.options = options.ToList();
 		}
 
 		protected override void DoListingItems()
 		{
-			foreach (DebugMenuOption current in this.options)
+			List<DebugMenuOption>.Enumerator enumerator = this.options.GetEnumerator();
+			try
 			{
-				if (current.mode == DebugMenuOptionMode.Action)
+				while (enumerator.MoveNext())
 				{
-					base.DebugAction(current.label, current.method);
+					DebugMenuOption current = enumerator.Current;
+					if (current.mode == DebugMenuOptionMode.Action)
+					{
+						base.DebugAction(current.label, current.method);
+					}
+					if (current.mode == DebugMenuOptionMode.Tool)
+					{
+						base.DebugToolMap(current.label, current.method);
+					}
 				}
-				if (current.mode == DebugMenuOptionMode.Tool)
-				{
-					base.DebugToolMap(current.label, current.method);
-				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 	}

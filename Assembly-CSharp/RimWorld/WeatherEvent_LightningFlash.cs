@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -61,9 +60,9 @@ namespace RimWorld
 			{
 				if (this.age <= 3)
 				{
-					return (float)this.age / 3f;
+					return (float)((float)this.age / 3.0);
 				}
-				return 1f - (float)this.age / (float)this.duration;
+				return (float)(1.0 - (float)this.age / (float)this.duration);
 			}
 		}
 
@@ -75,7 +74,7 @@ namespace RimWorld
 
 		public override void FireEvent()
 		{
-			SoundDefOf.Thunder_OffMap.PlayOneShotOnCamera(this.map);
+			SoundDefOf.Thunder_OffMap.PlayOneShotOnCamera(base.map);
 		}
 
 		public override void WeatherEventTick()

@@ -54,78 +54,94 @@ namespace RimWorld
 			LordToil_End lordToil_End = new LordToil_End();
 			stateGraph.AddToil(lordToil_End);
 			Transition transition = new Transition(lordToil_Party, lordToil_MarriageCeremony);
-			transition.AddTrigger(new Trigger_TickCondition(() => this.lord.ticksInToil >= 5000 && this.AreFiancesInPartyArea()));
-			transition.AddPreAction(new TransitionAction_Message("MessageMarriageCeremonyStarts".Translate(new object[]
-			{
-				this.firstPawn.LabelShort,
-				this.secondPawn.LabelShort
-			}), MessageSound.Benefit, this.firstPawn));
+			transition.AddTrigger(new Trigger_TickCondition((Func<bool>)(() => base.lord.ticksInToil >= 5000 && this.AreFiancesInPartyArea())));
+			transition.AddPreAction(new TransitionAction_Message("MessageMarriageCeremonyStarts".Translate(this.firstPawn.LabelShort, this.secondPawn.LabelShort), MessageSound.Benefit, (Thing)this.firstPawn));
 			stateGraph.AddTransition(transition);
 			Transition transition2 = new Transition(lordToil_MarriageCeremony, lordToil_Party2);
-			transition2.AddTrigger(new Trigger_TickCondition(() => this.firstPawn.relations.DirectRelationExists(PawnRelationDefOf.Spouse, this.secondPawn)));
-			transition2.AddPreAction(new TransitionAction_Message("MessageNewlyMarried".Translate(new object[]
-			{
-				this.firstPawn.LabelShort,
-				this.secondPawn.LabelShort
-			}), MessageSound.Benefit, new TargetInfo(this.spot, base.Map, false)));
-			transition2.AddPreAction(new TransitionAction_Custom(delegate
+			transition2.AddTrigger(new Trigger_TickCondition((Func<bool>)(() => this.firstPawn.relations.DirectRelationExists(PawnRelationDefOf.Spouse, this.secondPawn))));
+			transition2.AddPreAction(new TransitionAction_Message("MessageNewlyMarried".Translate(this.firstPawn.LabelShort, this.secondPawn.LabelShort), MessageSound.Benefit, new TargetInfo(this.spot, base.Map, false)));
+			transition2.AddPreAction(new TransitionAction_Custom((Action)delegate
 			{
 				this.AddAttendedWeddingThoughts();
 			}));
 			stateGraph.AddTransition(transition2);
 			Transition transition3 = new Transition(lordToil_Party2, lordToil_End);
-			transition3.AddTrigger(new Trigger_TickCondition(() => this.ShouldAfterPartyBeCalledOff()));
+			transition3.AddTrigger(new Trigger_TickCondition((Func<bool>)(() => this.ShouldAfterPartyBeCalledOff())));
 			transition3.AddTrigger(new Trigger_PawnLostViolently());
-			transition3.AddPreAction(new TransitionAction_Message("MessageMarriageCeremonyCalledOff".Translate(new object[]
-			{
-				this.firstPawn.LabelShort,
-				this.secondPawn.LabelShort
-			}), MessageSound.Negative, new TargetInfo(this.spot, base.Map, false)));
+			transition3.AddPreAction(new TransitionAction_Message("MessageMarriageCeremonyCalledOff".Translate(this.firstPawn.LabelShort, this.secondPawn.LabelShort), MessageSound.Negative, new TargetInfo(this.spot, base.Map, false)));
 			stateGraph.AddTransition(transition3);
 			this.afterPartyTimeoutTrigger = new Trigger_TicksPassed(7500);
 			Transition transition4 = new Transition(lordToil_Party2, lordToil_End);
 			transition4.AddTrigger(this.afterPartyTimeoutTrigger);
-			transition4.AddPreAction(new TransitionAction_Message("MessageMarriageCeremonyAfterPartyFinished".Translate(new object[]
-			{
-				this.firstPawn.LabelShort,
-				this.secondPawn.LabelShort
-			}), MessageSound.Benefit, this.firstPawn));
+			transition4.AddPreAction(new TransitionAction_Message("MessageMarriageCeremonyAfterPartyFinished".Translate(this.firstPawn.LabelShort, this.secondPawn.LabelShort), MessageSound.Benefit, (Thing)this.firstPawn));
 			stateGraph.AddTransition(transition4);
 			Transition transition5 = new Transition(lordToil_MarriageCeremony, lordToil_End);
 			transition5.AddSource(lordToil_Party);
-			transition5.AddTrigger(new Trigger_TickCondition(() => this.lord.ticksInToil >= 120000 && (this.firstPawn.Drafted || this.secondPawn.Drafted || !this.firstPawn.Position.InHorDistOf(this.spot, 4f) || !this.secondPawn.Position.InHorDistOf(this.spot, 4f))));
-			transition5.AddPreAction(new TransitionAction_Message("MessageMarriageCeremonyCalledOff".Translate(new object[]
-			{
-				this.firstPawn.LabelShort,
-				this.secondPawn.LabelShort
-			}), MessageSound.Negative, new TargetInfo(this.spot, base.Map, false)));
+			transition5.AddTrigger(new Trigger_TickCondition((Func<bool>)(() => base.lord.ticksInToil >= 120000 && (this.firstPawn.Drafted || this.secondPawn.Drafted || !this.firstPawn.Position.InHorDistOf(this.spot, 4f) || !this.secondPawn.Position.InHorDistOf(this.spot, 4f)))));
+			transition5.AddPreAction(new TransitionAction_Message("MessageMarriageCeremonyCalledOff".Translate(this.firstPawn.LabelShort, this.secondPawn.LabelShort), MessageSound.Negative, new TargetInfo(this.spot, base.Map, false)));
 			stateGraph.AddTransition(transition5);
 			Transition transition6 = new Transition(lordToil_MarriageCeremony, lordToil_End);
 			transition6.AddSource(lordToil_Party);
-			transition6.AddTrigger(new Trigger_TickCondition(() => this.ShouldCeremonyBeCalledOff()));
+			transition6.AddTrigger(new Trigger_TickCondition((Func<bool>)(() => this.ShouldCeremonyBeCalledOff())));
 			transition6.AddTrigger(new Trigger_PawnLostViolently());
-			transition6.AddPreAction(new TransitionAction_Message("MessageMarriageCeremonyCalledOff".Translate(new object[]
-			{
-				this.firstPawn.LabelShort,
-				this.secondPawn.LabelShort
-			}), MessageSound.Negative, new TargetInfo(this.spot, base.Map, false)));
+			transition6.AddPreAction(new TransitionAction_Message("MessageMarriageCeremonyCalledOff".Translate(this.firstPawn.LabelShort, this.secondPawn.LabelShort), MessageSound.Negative, new TargetInfo(this.spot, base.Map, false)));
 			stateGraph.AddTransition(transition6);
 			return stateGraph;
 		}
 
 		private bool AreFiancesInPartyArea()
 		{
-			return this.lord.ownedPawns.Contains(this.firstPawn) && this.lord.ownedPawns.Contains(this.secondPawn) && this.firstPawn.Map == base.Map && PartyUtility.InPartyArea(this.firstPawn.Position, this.spot, base.Map) && this.secondPawn.Map == base.Map && PartyUtility.InPartyArea(this.secondPawn.Position, this.spot, base.Map);
+			if (base.lord.ownedPawns.Contains(this.firstPawn) && base.lord.ownedPawns.Contains(this.secondPawn))
+			{
+				if (this.firstPawn.Map == base.Map && PartyUtility.InPartyArea(this.firstPawn.Position, this.spot, base.Map))
+				{
+					if (this.secondPawn.Map == base.Map && PartyUtility.InPartyArea(this.secondPawn.Position, this.spot, base.Map))
+					{
+						return true;
+					}
+					return false;
+				}
+				return false;
+			}
+			return false;
 		}
 
 		private bool ShouldCeremonyBeCalledOff()
 		{
-			return this.firstPawn.Destroyed || this.secondPawn.Destroyed || !this.firstPawn.relations.DirectRelationExists(PawnRelationDefOf.Fiance, this.secondPawn) || (this.spot.GetDangerFor(this.firstPawn, base.Map) != Danger.None || this.spot.GetDangerFor(this.secondPawn, base.Map) != Danger.None) || (!MarriageCeremonyUtility.AcceptableGameConditionsToContinueCeremony(base.Map) || !MarriageCeremonyUtility.FianceCanContinueCeremony(this.firstPawn) || !MarriageCeremonyUtility.FianceCanContinueCeremony(this.secondPawn));
+			if (!this.firstPawn.Destroyed && !this.secondPawn.Destroyed)
+			{
+				if (!this.firstPawn.relations.DirectRelationExists(PawnRelationDefOf.Fiance, this.secondPawn))
+				{
+					return true;
+				}
+				if (this.spot.GetDangerFor(this.firstPawn, base.Map) == Danger.None && this.spot.GetDangerFor(this.secondPawn, base.Map) == Danger.None)
+				{
+					if (MarriageCeremonyUtility.AcceptableGameConditionsToContinueCeremony(base.Map) && MarriageCeremonyUtility.FianceCanContinueCeremony(this.firstPawn) && MarriageCeremonyUtility.FianceCanContinueCeremony(this.secondPawn))
+					{
+						return false;
+					}
+					return true;
+				}
+				return true;
+			}
+			return true;
 		}
 
 		private bool ShouldAfterPartyBeCalledOff()
 		{
-			return this.firstPawn.Destroyed || this.secondPawn.Destroyed || (this.spot.GetDangerFor(this.firstPawn, base.Map) != Danger.None || this.spot.GetDangerFor(this.secondPawn, base.Map) != Danger.None) || !PartyUtility.AcceptableGameConditionsToContinueParty(base.Map);
+			if (!this.firstPawn.Destroyed && !this.secondPawn.Destroyed)
+			{
+				if (this.spot.GetDangerFor(this.firstPawn, base.Map) == Danger.None && this.spot.GetDangerFor(this.secondPawn, base.Map) == Danger.None)
+				{
+					if (!PartyUtility.AcceptableGameConditionsToContinueParty(base.Map))
+					{
+						return true;
+					}
+					return false;
+				}
+				return true;
+			}
+			return true;
 		}
 
 		public override float VoluntaryJoinPriorityFor(Pawn p)
@@ -138,31 +154,28 @@ namespace RimWorld
 				}
 				return VoluntarilyJoinableLordJobJoinPriorities.MarriageCeremonyFiance;
 			}
-			else
+			if (this.IsGuest(p))
 			{
-				if (!this.IsGuest(p))
-				{
-					return 0f;
-				}
 				if (!MarriageCeremonyUtility.ShouldGuestKeepAttendingCeremony(p))
 				{
 					return 0f;
 				}
-				if (!this.lord.ownedPawns.Contains(p))
+				if (!base.lord.ownedPawns.Contains(p))
 				{
 					if (this.IsCeremonyAboutToEnd())
 					{
 						return 0f;
 					}
-					LordToil_MarriageCeremony lordToil_MarriageCeremony = this.lord.CurLordToil as LordToil_MarriageCeremony;
-					IntVec3 intVec;
-					if (lordToil_MarriageCeremony != null && !SpectatorCellFinder.TryFindSpectatorCellFor(p, lordToil_MarriageCeremony.Data.spectateRect, base.Map, out intVec, lordToil_MarriageCeremony.Data.spectateRectAllowedSides, 1, null))
+					LordToil_MarriageCeremony lordToil_MarriageCeremony = base.lord.CurLordToil as LordToil_MarriageCeremony;
+					IntVec3 intVec = default(IntVec3);
+					if (lordToil_MarriageCeremony != null && !SpectatorCellFinder.TryFindSpectatorCellFor(p, lordToil_MarriageCeremony.Data.spectateRect, base.Map, out intVec, lordToil_MarriageCeremony.Data.spectateRectAllowedSides, 1, (List<IntVec3>)null))
 					{
 						return 0f;
 					}
 				}
 				return VoluntarilyJoinableLordJobJoinPriorities.MarriageCeremonyGuest;
 			}
+			return 0f;
 		}
 
 		public override void ExposeData()
@@ -179,7 +192,11 @@ namespace RimWorld
 
 		private bool IsCeremonyAboutToEnd()
 		{
-			return this.afterPartyTimeoutTrigger.TicksLeft < 1200;
+			if (this.afterPartyTimeoutTrigger.TicksLeft < 1200)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private bool IsFiance(Pawn p)
@@ -189,20 +206,25 @@ namespace RimWorld
 
 		private bool IsGuest(Pawn p)
 		{
-			return p.RaceProps.Humanlike && p != this.firstPawn && p != this.secondPawn && (p.Faction == this.firstPawn.Faction || p.Faction == this.secondPawn.Faction);
+			if (!p.RaceProps.Humanlike)
+			{
+				return false;
+			}
+			if (p != this.firstPawn && p != this.secondPawn)
+			{
+				return p.Faction == this.firstPawn.Faction || p.Faction == this.secondPawn.Faction;
+			}
+			return false;
 		}
 
 		private void AddAttendedWeddingThoughts()
 		{
-			List<Pawn> ownedPawns = this.lord.ownedPawns;
+			List<Pawn> ownedPawns = base.lord.ownedPawns;
 			for (int i = 0; i < ownedPawns.Count; i++)
 			{
-				if (ownedPawns[i] != this.firstPawn && ownedPawns[i] != this.secondPawn)
+				if (ownedPawns[i] != this.firstPawn && ownedPawns[i] != this.secondPawn && (this.firstPawn.Position.InHorDistOf(ownedPawns[i].Position, 18f) || this.secondPawn.Position.InHorDistOf(ownedPawns[i].Position, 18f)))
 				{
-					if (this.firstPawn.Position.InHorDistOf(ownedPawns[i].Position, 18f) || this.secondPawn.Position.InHorDistOf(ownedPawns[i].Position, 18f))
-					{
-						ownedPawns[i].needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.AttendedWedding, null);
-					}
+					ownedPawns[i].needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.AttendedWedding, null);
 				}
 			}
 		}

@@ -17,21 +17,23 @@ namespace RimWorld.Planet
 			if (faction != Faction.OfPlayer)
 			{
 				Log.Error("Cannot settle with non-player faction.");
-				return;
 			}
-			FactionBase newHome = SettleUtility.AddNewHome(caravan.Tile, faction);
-			LongEventHandler.QueueLongEvent(delegate
+			else
 			{
-				GetOrGenerateMapUtility.GetOrGenerateMap(caravan.Tile, Find.World.info.initialMapSize, null);
-			}, "GeneratingMap", true, new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap));
-			LongEventHandler.QueueLongEvent(delegate
-			{
-				Map map = newHome.Map;
-				Pawn t = caravan.PawnsListForReading[0];
-				Predicate<IntVec3> extraCellValidator = (IntVec3 x) => x.GetRoom(map, RegionType.Set_Passable).CellCount >= 600;
-				CaravanEnterMapUtility.Enter(caravan, map, CaravanEnterMode.Center, CaravanDropInventoryMode.DropInstantly, false, extraCellValidator);
-				CameraJumper.TryJump(t);
-			}, "SpawningColonists", true, new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap));
+				FactionBase newHome = SettleUtility.AddNewHome(caravan.Tile, faction);
+				LongEventHandler.QueueLongEvent((Action)delegate()
+				{
+					GetOrGenerateMapUtility.GetOrGenerateMap(caravan.Tile, Find.World.info.initialMapSize, null);
+				}, "GeneratingMap", true, new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap));
+				LongEventHandler.QueueLongEvent((Action)delegate()
+				{
+					Map map = newHome.Map;
+					Pawn t = caravan.PawnsListForReading[0];
+					Predicate<IntVec3> extraCellValidator = (Predicate<IntVec3>)((IntVec3 x) => x.GetRoom(map, RegionType.Set_Passable).CellCount >= 600);
+					CaravanEnterMapUtility.Enter(caravan, map, CaravanEnterMode.Center, CaravanDropInventoryMode.DropInstantly, false, extraCellValidator);
+					CameraJumper.TryJump((Thing)t);
+				}, "SpawningColonists", true, new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap));
+			}
 		}
 
 		public static Command SettleCommand(Caravan caravan)
@@ -40,7 +42,7 @@ namespace RimWorld.Planet
 			command_Settle.defaultLabel = "CommandSettle".Translate();
 			command_Settle.defaultDesc = "CommandSettleDesc".Translate();
 			command_Settle.icon = SettleUtility.SettleCommandTex;
-			command_Settle.action = delegate
+			command_Settle.action = (Action)delegate()
 			{
 				SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 				SettleInEmptyTileUtility.Settle(caravan);

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -22,13 +21,13 @@ namespace RimWorld
 
 		protected override Job TryGivePlayJob(Pawn pawn, Thing t)
 		{
-			IntVec3 c;
-			Building t2;
-			if (!WatchBuildingUtility.TryFindBestWatchCell(t, pawn, this.def.desireSit, out c, out t2))
+			IntVec3 c = default(IntVec3);
+			Building t2 = default(Building);
+			if (!WatchBuildingUtility.TryFindBestWatchCell(t, pawn, base.def.desireSit, out c, out t2))
 			{
 				return null;
 			}
-			return new Job(this.def.jobDef, t, c, t2);
+			return new Job(base.def.jobDef, t, c, (Thing)t2);
 		}
 	}
 }

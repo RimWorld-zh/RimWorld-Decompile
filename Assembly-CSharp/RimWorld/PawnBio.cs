@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -61,14 +59,22 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors()
 		{
-			PawnBio.<ConfigErrors>c__IteratorDF <ConfigErrors>c__IteratorDF = new PawnBio.<ConfigErrors>c__IteratorDF();
-			<ConfigErrors>c__IteratorDF.<>f__this = this;
-			PawnBio.<ConfigErrors>c__IteratorDF expr_0E = <ConfigErrors>c__IteratorDF;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (this.childhood != null)
+			{
+				foreach (string item in this.childhood.ConfigErrors(true))
+				{
+					yield return this.name + ", " + this.childhood.Title + ": " + item;
+				}
+			}
+			if (this.adulthood != null)
+			{
+				foreach (string item2 in this.adulthood.ConfigErrors(false))
+				{
+					yield return this.name + ", " + this.adulthood.Title + ": " + item2;
+				}
+			}
 		}
 
 		public override string ToString()

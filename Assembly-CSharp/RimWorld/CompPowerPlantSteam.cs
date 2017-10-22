@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -12,7 +11,7 @@ namespace RimWorld
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
-			this.steamSprayer = new IntermittentSteamSprayer(this.parent);
+			this.steamSprayer = new IntermittentSteamSprayer(base.parent);
 		}
 
 		public override void CompTick()
@@ -20,11 +19,11 @@ namespace RimWorld
 			base.CompTick();
 			if (this.geyser == null)
 			{
-				this.geyser = (Building_SteamGeyser)this.parent.Map.thingGrid.ThingAt(this.parent.Position, ThingDefOf.SteamGeyser);
+				this.geyser = (Building_SteamGeyser)base.parent.Map.thingGrid.ThingAt(base.parent.Position, ThingDefOf.SteamGeyser);
 			}
 			if (this.geyser != null)
 			{
-				this.geyser.harvester = (Building)this.parent;
+				this.geyser.harvester = (Building)base.parent;
 				this.steamSprayer.SteamSprayerTick();
 			}
 		}

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using Verse;
 
@@ -20,12 +20,12 @@ namespace RimWorld
 				return map.weatherManager.growthSeasonMemory.GrowthSeasonOutdoorsNow;
 			}
 			float temperature = c.GetTemperature(map);
-			return temperature > 0f && temperature < 58f;
+			return temperature > 0.0 && temperature < 58.0;
 		}
 
 		public static bool SnowAllowsPlanting(IntVec3 c, Map map)
 		{
-			return c.GetSnowDepth(map) < 0.2f;
+			return c.GetSnowDepth(map) < 0.20000000298023224;
 		}
 
 		public static bool CanEverPlantAt(this ThingDef plantDef, IntVec3 c, Map map)
@@ -76,47 +76,40 @@ namespace RimWorld
 		public static void LogPlantProportions()
 		{
 			Dictionary<ThingDef, float> dictionary = new Dictionary<ThingDef, float>();
-			foreach (ThingDef current in Find.VisibleMap.Biome.AllWildPlants)
+			foreach (ThingDef allWildPlant in Find.VisibleMap.Biome.AllWildPlants)
 			{
-				dictionary.Add(current, 0f);
+				dictionary.Add(allWildPlant, 0f);
 			}
 			float num = 0f;
-			foreach (IntVec3 current2 in Find.VisibleMap.AllCells)
+			foreach (IntVec3 allCell in Find.VisibleMap.AllCells)
 			{
-				Plant plant = current2.GetPlant(Find.VisibleMap);
+				Plant plant = allCell.GetPlant(Find.VisibleMap);
 				if (plant != null && dictionary.ContainsKey(plant.def))
 				{
 					Dictionary<ThingDef, float> dictionary2;
-					Dictionary<ThingDef, float> expr_9B = dictionary2 = dictionary;
-					ThingDef key;
-					ThingDef expr_A5 = key = plant.def;
-					float num2 = dictionary2[key];
-					expr_9B[expr_A5] = num2 + 1f;
-					num += 1f;
+					Dictionary<ThingDef, float> obj = dictionary2 = dictionary;
+					ThingDef def;
+					ThingDef key = def = plant.def;
+					float num2 = dictionary2[def];
+					obj[key] = (float)(num2 + 1.0);
+					num = (float)(num + 1.0);
 				}
 			}
-			foreach (ThingDef current3 in Find.VisibleMap.Biome.AllWildPlants)
+			foreach (ThingDef allWildPlant2 in Find.VisibleMap.Biome.AllWildPlants)
 			{
 				Dictionary<ThingDef, float> dictionary3;
-				Dictionary<ThingDef, float> expr_10B = dictionary3 = dictionary;
-				ThingDef key;
-				ThingDef expr_110 = key = current3;
-				float num2 = dictionary3[key];
-				expr_10B[expr_110] = num2 / num;
+				Dictionary<ThingDef, float> obj2 = dictionary3 = dictionary;
+				ThingDef def;
+				ThingDef key2 = def = allWildPlant2;
+				float num2 = dictionary3[def];
+				obj2[key2] = num2 / num;
 			}
 			Dictionary<ThingDef, float> dictionary4 = GenPlant.CalculateDesiredPlantProportions(Find.VisibleMap.Biome);
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("PLANT           EXPECTED             FOUND");
-			foreach (ThingDef current4 in Find.VisibleMap.Biome.AllWildPlants)
+			foreach (ThingDef allWildPlant3 in Find.VisibleMap.Biome.AllWildPlants)
 			{
-				stringBuilder.AppendLine(string.Concat(new string[]
-				{
-					current4.LabelCap,
-					"       ",
-					dictionary4[current4].ToStringPercent(),
-					"        ",
-					dictionary[current4].ToStringPercent()
-				}));
+				stringBuilder.AppendLine(allWildPlant3.LabelCap + "       " + dictionary4[allWildPlant3].ToStringPercent() + "        " + dictionary[allWildPlant3].ToStringPercent());
 			}
 			Log.Message(stringBuilder.ToString());
 		}
@@ -125,36 +118,38 @@ namespace RimWorld
 		{
 			Dictionary<ThingDef, float> dictionary = new Dictionary<ThingDef, float>();
 			float num = 0f;
-			foreach (ThingDef current in DefDatabase<ThingDef>.AllDefs)
+			foreach (ThingDef allDef in DefDatabase<ThingDef>.AllDefs)
 			{
-				if (current.plant != null)
+				if (allDef.plant != null)
 				{
-					float num2 = biome.CommonalityOfPlant(current);
-					dictionary.Add(current, num2);
+					float num2 = biome.CommonalityOfPlant(allDef);
+					dictionary.Add(allDef, num2);
 					num += num2;
 				}
 			}
-			foreach (ThingDef current2 in biome.AllWildPlants)
+			foreach (ThingDef allWildPlant in biome.AllWildPlants)
 			{
 				Dictionary<ThingDef, float> dictionary2;
-				Dictionary<ThingDef, float> expr_7C = dictionary2 = dictionary;
+				Dictionary<ThingDef, float> obj = dictionary2 = dictionary;
 				ThingDef key;
-				ThingDef expr_81 = key = current2;
+				ThingDef key2 = key = allWildPlant;
 				float num3 = dictionary2[key];
-				expr_7C[expr_81] = num3 / num;
+				obj[key2] = num3 / num;
 			}
 			return dictionary;
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<ThingDef> ValidPlantTypesForGrowers(List<IPlantToGrowSettable> sel)
 		{
-			GenPlant.<ValidPlantTypesForGrowers>c__Iterator1A9 <ValidPlantTypesForGrowers>c__Iterator1A = new GenPlant.<ValidPlantTypesForGrowers>c__Iterator1A9();
-			<ValidPlantTypesForGrowers>c__Iterator1A.sel = sel;
-			<ValidPlantTypesForGrowers>c__Iterator1A.<$>sel = sel;
-			GenPlant.<ValidPlantTypesForGrowers>c__Iterator1A9 expr_15 = <ValidPlantTypesForGrowers>c__Iterator1A;
-			expr_15.$PC = -2;
-			return expr_15;
+			foreach (ThingDef item in from def in DefDatabase<ThingDef>.AllDefs
+			where def.category == ThingCategory.Plant
+			select def)
+			{
+				if (sel.TrueForAll((Predicate<IPlantToGrowSettable>)((IPlantToGrowSettable x) => GenPlant.CanSowOnGrower(((_003CValidPlantTypesForGrowers_003Ec__Iterator1A9)/*Error near IL_0080: stateMachine*/)._003CplantDef_003E__1, x))))
+				{
+					yield return item;
+				}
+			}
 		}
 
 		public static bool CanSowOnGrower(ThingDef plantDef, object obj)
@@ -164,7 +159,11 @@ namespace RimWorld
 				return plantDef.plant.sowTags.Contains("Ground");
 			}
 			Thing thing = obj as Thing;
-			return thing != null && thing.def.building != null && plantDef.plant.sowTags.Contains(thing.def.building.sowTag);
+			if (thing != null && thing.def.building != null)
+			{
+				return plantDef.plant.sowTags.Contains(thing.def.building.sowTag);
+			}
+			return false;
 		}
 
 		public static Thing AdjacentSowBlocker(ThingDef plantDef, IntVec3 c, Map map)
@@ -188,23 +187,23 @@ namespace RimWorld
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("All plant data");
-			foreach (ThingDef current in DefDatabase<ThingDef>.AllDefs)
+			foreach (ThingDef allDef in DefDatabase<ThingDef>.AllDefs)
 			{
-				if (current.plant != null)
+				if (allDef.plant != null)
 				{
-					float num = current.plant.growDays * 2f;
-					float num2 = current.plant.lifespanFraction / (current.plant.lifespanFraction - 1f);
+					float num = (float)(allDef.plant.growDays * 2.0);
+					float num2 = (float)(allDef.plant.lifespanFraction / (allDef.plant.lifespanFraction - 1.0));
 					float num3 = num2 * num;
-					float num4 = (num3 + num * 0.399999976f) / current.plant.reproduceMtbDays;
-					stringBuilder.AppendLine(current.defName);
-					stringBuilder.AppendLine("  lifeSpanDays:\t\t\t\t" + current.plant.LifespanDays.ToString("F2"));
-					stringBuilder.AppendLine("  daysToGrown:\t\t\t\t" + current.plant.growDays);
+					float num4 = (float)((num3 + num * 0.39999997615814209) / allDef.plant.reproduceMtbDays);
+					stringBuilder.AppendLine(allDef.defName);
+					stringBuilder.AppendLine("  lifeSpanDays:\t\t\t\t" + allDef.plant.LifespanDays.ToString("F2"));
+					stringBuilder.AppendLine("  daysToGrown:\t\t\t\t" + allDef.plant.growDays);
 					stringBuilder.AppendLine("  guess days to grown:\t\t" + num.ToString("F2"));
 					stringBuilder.AppendLine("  grown days before death:\t" + num3.ToString("F2"));
 					stringBuilder.AppendLine("  percent of life grown:\t" + num2.ToStringPercent());
-					if (current.plant.reproduces)
+					if (allDef.plant.reproduces)
 					{
-						stringBuilder.AppendLine("  MTB seed emits (days):\t" + current.plant.reproduceMtbDays.ToString("F2"));
+						stringBuilder.AppendLine("  MTB seed emits (days):\t" + allDef.plant.reproduceMtbDays.ToString("F2"));
 						stringBuilder.AppendLine("  average seeds emitted:\t" + num4.ToString("F2"));
 					}
 					stringBuilder.AppendLine();

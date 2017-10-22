@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -19,7 +18,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_UseEffect)this.props;
+				return (CompProperties_UseEffect)base.props;
 			}
 		}
 

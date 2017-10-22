@@ -26,7 +26,7 @@ namespace RimWorld
 
 		public override void Randomize()
 		{
-			this.thingDef = this.PossibleThingDefs().RandomElement<ThingDef>();
+			this.thingDef = this.PossibleThingDefs().RandomElement();
 			this.stuff = GenStuff.RandomStuffFor(this.thingDef);
 			if (this.thingDef.statBases.StatListContains(StatDefOf.MarketValue))
 			{
@@ -42,19 +42,19 @@ namespace RimWorld
 
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
-			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 3f);
-			Rect rect = new Rect(scenPartRect.x, scenPartRect.y, scenPartRect.width, scenPartRect.height / 3f);
-			Rect rect2 = new Rect(scenPartRect.x, scenPartRect.y + scenPartRect.height / 3f, scenPartRect.width, scenPartRect.height / 3f);
-			Rect rect3 = new Rect(scenPartRect.x, scenPartRect.y + scenPartRect.height * 2f / 3f, scenPartRect.width, scenPartRect.height / 3f);
+			Rect scenPartRect = listing.GetScenPartRect(this, (float)(ScenPart.RowHeight * 3.0));
+			Rect rect = new Rect(scenPartRect.x, scenPartRect.y, scenPartRect.width, (float)(scenPartRect.height / 3.0));
+			Rect rect2 = new Rect(scenPartRect.x, (float)(scenPartRect.y + scenPartRect.height / 3.0), scenPartRect.width, (float)(scenPartRect.height / 3.0));
+			Rect rect3 = new Rect(scenPartRect.x, (float)(scenPartRect.y + scenPartRect.height * 2.0 / 3.0), scenPartRect.width, (float)(scenPartRect.height / 3.0));
 			if (Widgets.ButtonText(rect, this.thingDef.LabelCap, true, false, true))
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				foreach (ThingDef current in from t in this.PossibleThingDefs()
+				foreach (ThingDef item in from t in this.PossibleThingDefs()
 				orderby t.label
 				select t)
 				{
-					ThingDef localTd = current;
-					list.Add(new FloatMenuOption(localTd.LabelCap, delegate
+					ThingDef localTd = item;
+					list.Add(new FloatMenuOption(localTd.LabelCap, (Action)delegate
 					{
 						this.thingDef = localTd;
 						this.stuff = GenStuff.DefaultStuffFor(localTd);
@@ -65,12 +65,12 @@ namespace RimWorld
 			if (this.thingDef.MadeFromStuff && Widgets.ButtonText(rect2, this.stuff.LabelCap, true, false, true))
 			{
 				List<FloatMenuOption> list2 = new List<FloatMenuOption>();
-				foreach (ThingDef current2 in from t in GenStuff.AllowedStuffsFor(this.thingDef)
+				foreach (ThingDef item2 in from t in GenStuff.AllowedStuffsFor(this.thingDef)
 				orderby t.label
 				select t)
 				{
-					ThingDef localSd = current2;
-					list2.Add(new FloatMenuOption(localSd.LabelCap, delegate
+					ThingDef localSd = item2;
+					list2.Add(new FloatMenuOption(localSd.LabelCap, (Action)delegate
 					{
 						this.stuff = localSd;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -93,9 +93,24 @@ namespace RimWorld
 
 		protected virtual IEnumerable<ThingDef> PossibleThingDefs()
 		{
-			return from d in DefDatabase<ThingDef>.AllDefs
-			where (d.category == ThingCategory.Item && d.scatterableOnMapGen && !d.destroyOnDrop) || (d.category == ThingCategory.Building && d.Minifiable) || (d.category == ThingCategory.Building && d.scatterableOnMapGen)
-			select d;
+			return DefDatabase<ThingDef>.AllDefs.Where((Func<ThingDef, bool>)delegate(ThingDef d)
+			{
+				if (d.category == ThingCategory.Item && d.scatterableOnMapGen && !d.destroyOnDrop)
+				{
+					goto IL_0050;
+				}
+				if (d.category == ThingCategory.Building && d.Minifiable)
+				{
+					goto IL_0050;
+				}
+				int result = (d.category == ThingCategory.Building && d.scatterableOnMapGen) ? 1 : 0;
+				goto IL_0051;
+				IL_0051:
+				return (byte)result != 0;
+				IL_0050:
+				result = 1;
+				goto IL_0051;
+			});
 		}
 	}
 }

@@ -44,7 +44,7 @@ namespace Verse
 			}
 		}
 
-		private List<SectionLayer_TerrainScatter.Scatterable> scats = new List<SectionLayer_TerrainScatter.Scatterable>();
+		private List<Scatterable> scats = new List<Scatterable>();
 
 		public override bool Visible
 		{
@@ -56,16 +56,16 @@ namespace Verse
 
 		public SectionLayer_TerrainScatter(Section section) : base(section)
 		{
-			this.relevantChangeTypes = MapMeshFlag.Terrain;
+			base.relevantChangeTypes = MapMeshFlag.Terrain;
 		}
 
 		public override void Regenerate()
 		{
 			base.ClearSubMeshes(MeshParts.All);
-			this.scats.RemoveAll((SectionLayer_TerrainScatter.Scatterable scat) => !scat.IsOnValidTerrain);
+			this.scats.RemoveAll((Predicate<Scatterable>)((Scatterable scat) => !scat.IsOnValidTerrain));
 			int num = 0;
 			TerrainDef[] topGrid = base.Map.terrainGrid.topGrid;
-			CellRect cellRect = this.section.CellRect;
+			CellRect cellRect = base.section.CellRect;
 			CellIndices cellIndices = base.Map.cellIndices;
 			for (int i = cellRect.minZ; i <= cellRect.maxZ; i++)
 			{
@@ -82,20 +82,17 @@ namespace Verse
 			while (this.scats.Count < num && num2 < 200)
 			{
 				num2++;
-				IntVec3 randomCell = this.section.CellRect.RandomCell;
+				IntVec3 randomCell = base.section.CellRect.RandomCell;
 				string terrScatType = base.Map.terrainGrid.TerrainAt(randomCell).scatterType;
-				if (terrScatType != null && !randomCell.Filled(base.Map))
+				ScatterableDef def2 = default(ScatterableDef);
+				if (terrScatType != null && !randomCell.Filled(base.Map) && (from def in DefDatabase<ScatterableDef>.AllDefs
+				where def.scatterType == terrScatType
+				select def).TryRandomElement<ScatterableDef>(out def2))
 				{
-					ScatterableDef def2;
-					if ((from def in DefDatabase<ScatterableDef>.AllDefs
-					where def.scatterType == terrScatType
-					select def).TryRandomElement(out def2))
-					{
-						Vector3 loc = new Vector3((float)randomCell.x + Rand.Value, (float)randomCell.y, (float)randomCell.z + Rand.Value);
-						SectionLayer_TerrainScatter.Scatterable scatterable = new SectionLayer_TerrainScatter.Scatterable(def2, loc, base.Map);
-						this.scats.Add(scatterable);
-						scatterable.PrintOnto(this);
-					}
+					Vector3 loc = new Vector3((float)randomCell.x + Rand.Value, (float)randomCell.y, (float)randomCell.z + Rand.Value);
+					Scatterable scatterable = new Scatterable(def2, loc, base.Map);
+					this.scats.Add(scatterable);
+					scatterable.PrintOnto(this);
 				}
 			}
 			for (int k = 0; k < this.scats.Count; k++)

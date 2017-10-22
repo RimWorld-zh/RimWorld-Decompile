@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -29,52 +28,52 @@ namespace RimWorld
 			{
 				IntVec3 intVec2 = IntVec3.Invalid;
 				float num = -1f;
-				for (int j = WalkPathFinder.StartRadialIndex; j > WalkPathFinder.EndRadialIndex; j -= WalkPathFinder.RadialIndexStride)
+				for (int num2 = WalkPathFinder.StartRadialIndex; num2 > WalkPathFinder.EndRadialIndex; num2 -= WalkPathFinder.RadialIndexStride)
 				{
-					IntVec3 intVec3 = intVec + GenRadial.RadialPattern[j];
+					IntVec3 intVec3 = intVec + GenRadial.RadialPattern[num2];
 					if (intVec3.InBounds(pawn.Map) && intVec3.Standable(pawn.Map) && !intVec3.IsForbidden(pawn) && GenSight.LineOfSight(intVec, intVec3, pawn.Map, false, null, 0, 0) && !intVec3.Roofed(pawn.Map) && !PawnUtility.KnownDangerAt(intVec3, pawn))
 					{
-						float num2 = 10000f;
-						for (int k = 0; k < list.Count; k++)
+						float num3 = 10000f;
+						for (int j = 0; j < list.Count; j++)
 						{
-							num2 += (float)(list[k] - intVec3).LengthManhattan;
+							num3 += (float)(list[j] - intVec3).LengthManhattan;
 						}
-						float num3 = (float)(intVec3 - root).LengthManhattan;
-						if (num3 > 40f)
+						float num4 = (float)(intVec3 - root).LengthManhattan;
+						if (num4 > 40.0)
 						{
-							num2 *= Mathf.InverseLerp(70f, 40f, num3);
+							num3 *= Mathf.InverseLerp(70f, 40f, num4);
 						}
 						if (list.Count >= 2)
 						{
-							float num4 = (list[list.Count - 1] - list[list.Count - 2]).AngleFlat;
-							float angleFlat = (intVec3 - intVec).AngleFlat;
+							float angleFlat = (list[list.Count - 1] - list[list.Count - 2]).AngleFlat;
+							float angleFlat2 = (intVec3 - intVec).AngleFlat;
 							float num5;
-							if (angleFlat > num4)
+							if (angleFlat2 > angleFlat)
 							{
-								num5 = angleFlat - num4;
+								num5 = angleFlat2 - angleFlat;
 							}
 							else
 							{
-								num4 -= 360f;
-								num5 = angleFlat - num4;
+								angleFlat = (float)(angleFlat - 360.0);
+								num5 = angleFlat2 - angleFlat;
 							}
-							if (num5 > 110f)
+							if (num5 > 110.0)
 							{
-								num2 *= 0.01f;
+								num3 = (float)(num3 * 0.0099999997764825821);
 							}
 						}
 						if (list.Count >= 4 && (intVec - root).LengthManhattan < (intVec3 - root).LengthManhattan)
 						{
-							num2 *= 1E-05f;
+							num3 = (float)(num3 * 9.9999997473787516E-06);
 						}
-						if (num2 > num)
+						if (num3 > num)
 						{
 							intVec2 = intVec3;
-							num = num2;
+							num = num3;
 						}
 					}
 				}
-				if (num < 0f)
+				if (num < 0.0)
 				{
 					result = null;
 					return false;
@@ -90,18 +89,20 @@ namespace RimWorld
 		public static void DebugFlashWalkPath(IntVec3 root, int numEntries = 8)
 		{
 			Map visibleMap = Find.VisibleMap;
-			List<IntVec3> list;
-			if (!WalkPathFinder.TryFindWalkPath(visibleMap.mapPawns.FreeColonistsSpawned.First<Pawn>(), root, out list))
+			List<IntVec3> list = default(List<IntVec3>);
+			if (!WalkPathFinder.TryFindWalkPath(visibleMap.mapPawns.FreeColonistsSpawned.First(), root, out list))
 			{
 				visibleMap.debugDrawer.FlashCell(root, 0.2f, "NOPATH");
-				return;
 			}
-			for (int i = 0; i < list.Count; i++)
+			else
 			{
-				visibleMap.debugDrawer.FlashCell(list[i], (float)i / (float)numEntries, i.ToString());
-				if (i > 0)
+				for (int i = 0; i < list.Count; i++)
 				{
-					visibleMap.debugDrawer.FlashLine(list[i], list[i - 1]);
+					visibleMap.debugDrawer.FlashCell(list[i], (float)i / (float)numEntries, i.ToString());
+					if (i > 0)
+					{
+						visibleMap.debugDrawer.FlashLine(list[i], list[i - 1]);
+					}
 				}
 			}
 		}

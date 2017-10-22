@@ -49,7 +49,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.TimeUntilInteractive <= 0f;
+				return this.TimeUntilInteractive <= 0.0;
 			}
 		}
 
@@ -66,15 +66,15 @@ namespace Verse
 			{
 				this.buttonAText = "OK".Translate();
 			}
-			if (buttonAAction == null)
+			if ((object)buttonAAction == null)
 			{
-				this.closeOnEscapeKey = true;
+				base.closeOnEscapeKey = true;
 			}
-			this.forcePause = true;
-			this.absorbInputAroundWindow = true;
-			this.closeOnEscapeKey = false;
+			base.forcePause = true;
+			base.absorbInputAroundWindow = true;
+			base.closeOnEscapeKey = false;
 			this.creationRealTime = RealTime.LastRealTime;
-			this.onlyOneOfTypeAllowed = false;
+			base.onlyOneOfTypeAllowed = false;
 		}
 
 		public static Dialog_MessageBox CreateConfirmation(string text, Action confirmedAct, bool destructive = false, string title = null)
@@ -89,11 +89,11 @@ namespace Verse
 			{
 				Text.Font = GameFont.Medium;
 				Widgets.Label(new Rect(0f, num, inRect.width, 42f), this.title);
-				num += 42f;
+				num = (float)(num + 42.0);
 			}
 			Text.Font = GameFont.Small;
-			Rect outRect = new Rect(inRect.x, num, inRect.width, inRect.height - 35f - 5f - num);
-			float width = outRect.width - 16f;
+			Rect outRect = new Rect(inRect.x, num, inRect.width, (float)(inRect.height - 35.0 - 5.0 - num));
+			float width = (float)(outRect.width - 16.0);
 			Rect viewRect = new Rect(0f, 0f, width, Text.CalcHeight(this.text, width));
 			Widgets.BeginScrollView(outRect, ref this.scrollPosition, viewRect, true);
 			Widgets.Label(new Rect(0f, 0f, viewRect.width, viewRect.height), this.text);
@@ -103,19 +103,19 @@ namespace Verse
 				GUI.color = new Color(1f, 0.3f, 0.35f);
 			}
 			string label = (!this.InteractionDelayExpired) ? (this.buttonAText + "(" + Mathf.Ceil(this.TimeUntilInteractive).ToString("F0") + ")") : this.buttonAText;
-			float width2 = inRect.width / 2f - 20f;
-			if (Widgets.ButtonText(new Rect(inRect.width / 2f + 20f, inRect.height - 35f, width2, 35f), label, true, false, true) && this.InteractionDelayExpired)
+			float width2 = (float)(inRect.width / 2.0 - 20.0);
+			if (Widgets.ButtonText(new Rect((float)(inRect.width / 2.0 + 20.0), (float)(inRect.height - 35.0), width2, 35f), label, true, false, true) && this.InteractionDelayExpired)
 			{
-				if (this.buttonAAction != null)
+				if ((object)this.buttonAAction != null)
 				{
 					this.buttonAAction();
 				}
 				this.Close(true);
 			}
 			GUI.color = Color.white;
-			if (this.buttonBText != null && Widgets.ButtonText(new Rect(0f, inRect.height - 35f, width2, 35f), this.buttonBText, true, false, true))
+			if (this.buttonBText != null && Widgets.ButtonText(new Rect(0f, (float)(inRect.height - 35.0), width2, 35f), this.buttonBText, true, false, true))
 			{
-				if (this.buttonBAction != null)
+				if ((object)this.buttonBAction != null)
 				{
 					this.buttonBAction();
 				}

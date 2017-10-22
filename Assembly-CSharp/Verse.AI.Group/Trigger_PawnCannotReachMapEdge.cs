@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI.Group
 {
 	public class Trigger_PawnCannotReachMapEdge : Trigger
@@ -11,12 +9,9 @@ namespace Verse.AI.Group
 				for (int i = 0; i < lord.ownedPawns.Count; i++)
 				{
 					Pawn pawn = lord.ownedPawns[i];
-					if (pawn.Spawned && !pawn.Dead && !pawn.Downed)
+					if (pawn.Spawned && !pawn.Dead && !pawn.Downed && !pawn.CanReachMapEdge())
 					{
-						if (!pawn.CanReachMapEdge())
-						{
-							return true;
-						}
+						return true;
 					}
 				}
 			}

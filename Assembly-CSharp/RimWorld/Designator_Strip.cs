@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -19,14 +17,14 @@ namespace RimWorld
 
 		public Designator_Strip()
 		{
-			this.defaultLabel = "DesignatorStrip".Translate();
-			this.defaultDesc = "DesignatorStripDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/Strip", true);
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.useMouseIcon = true;
-			this.soundSucceeded = SoundDefOf.DesignateClaim;
-			this.hotKey = KeyBindingDefOf.Misc11;
+			base.defaultLabel = "DesignatorStrip".Translate();
+			base.defaultDesc = "DesignatorStripDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/Strip", true);
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.useMouseIcon = true;
+			base.soundSucceeded = SoundDefOf.DesignateClaim;
+			base.hotKey = KeyBindingDefOf.Misc11;
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
@@ -35,7 +33,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (!this.StrippablesInCell(c).Any<Thing>())
+			if (!this.StrippablesInCell(c).Any())
 			{
 				return "MessageMustDesignateStrippable".Translate();
 			}
@@ -44,9 +42,9 @@ namespace RimWorld
 
 		public override void DesignateSingleCell(IntVec3 c)
 		{
-			foreach (Thing current in this.StrippablesInCell(c))
+			foreach (Thing item in this.StrippablesInCell(c))
 			{
-				this.DesignateThing(current);
+				this.DesignateThing(item);
 			}
 		}
 
@@ -64,16 +62,19 @@ namespace RimWorld
 			base.Map.designationManager.AddDesignation(new Designation(t, DesignationDefOf.Strip));
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<Thing> StrippablesInCell(IntVec3 c)
 		{
-			Designator_Strip.<StrippablesInCell>c__Iterator193 <StrippablesInCell>c__Iterator = new Designator_Strip.<StrippablesInCell>c__Iterator193();
-			<StrippablesInCell>c__Iterator.c = c;
-			<StrippablesInCell>c__Iterator.<$>c = c;
-			<StrippablesInCell>c__Iterator.<>f__this = this;
-			Designator_Strip.<StrippablesInCell>c__Iterator193 expr_1C = <StrippablesInCell>c__Iterator;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (!c.Fogged(base.Map))
+			{
+				List<Thing> thingList = c.GetThingList(base.Map);
+				for (int i = 0; i < thingList.Count; i++)
+				{
+					if (this.CanDesignateThing(thingList[i]).Accepted)
+					{
+						yield return thingList[i];
+					}
+				}
+			}
 		}
 	}
 }

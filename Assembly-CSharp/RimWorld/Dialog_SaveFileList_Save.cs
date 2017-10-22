@@ -15,28 +15,25 @@ namespace RimWorld
 
 		public Dialog_SaveFileList_Save()
 		{
-			this.interactButLabel = "OverwriteButton".Translate();
-			this.bottomAreaHeight = 85f;
+			base.interactButLabel = "OverwriteButton".Translate();
+			base.bottomAreaHeight = 85f;
 			if (Faction.OfPlayer.HasName)
 			{
-				this.typingName = Faction.OfPlayer.Name;
+				base.typingName = Faction.OfPlayer.Name;
 			}
 			else
 			{
-				this.typingName = SaveGameFilesUtility.UnusedDefaultFileName(Faction.OfPlayer.def.LabelCap);
+				base.typingName = SaveGameFilesUtility.UnusedDefaultFileName(Faction.OfPlayer.def.LabelCap);
 			}
 		}
 
 		protected override void DoFileInteraction(string mapName)
 		{
-			LongEventHandler.QueueLongEvent(delegate
+			LongEventHandler.QueueLongEvent((Action)delegate()
 			{
 				GameDataSaveLoader.SaveGame(mapName);
 			}, "SavingLongEvent", false, null);
-			Messages.Message("SavedAs".Translate(new object[]
-			{
-				mapName
-			}), MessageSound.Silent);
+			Messages.Message("SavedAs".Translate(mapName), MessageSound.Silent);
 			PlayerKnowledgeDatabase.Save();
 			this.Close(true);
 		}

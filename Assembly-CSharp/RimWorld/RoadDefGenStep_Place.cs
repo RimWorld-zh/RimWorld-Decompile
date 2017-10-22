@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -37,9 +36,7 @@ namespace RimWorld
 			else if (this.place is ThingDef)
 			{
 				if (this.proximitySpacing > 0 && GenClosest.ClosestThing_Global(position, map.listerThings.ThingsOfDef(this.place as ThingDef), (float)this.proximitySpacing, null) != null)
-				{
 					return;
-				}
 				while (position.GetThingList(map).Count > 0)
 				{
 					position.GetThingList(map)[0].Destroy(DestroyMode.Vanish);

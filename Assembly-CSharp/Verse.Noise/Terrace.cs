@@ -44,12 +44,12 @@ namespace Verse.Noise
 
 		public Terrace(ModuleBase input) : base(1)
 		{
-			this.modules[0] = input;
+			base.modules[0] = input;
 		}
 
 		public Terrace(bool inverted, ModuleBase input) : base(1)
 		{
-			this.modules[0] = input;
+			base.modules[0] = input;
 			this.IsInverted = inverted;
 		}
 
@@ -59,7 +59,7 @@ namespace Verse.Noise
 			{
 				this.m_data.Add(input);
 			}
-			this.m_data.Sort((double lhs, double rhs) => lhs.CompareTo(rhs));
+			this.m_data.Sort((Comparison<double>)((double lhs, double rhs) => lhs.CompareTo(rhs)));
 		}
 
 		public void Clear()
@@ -76,7 +76,7 @@ namespace Verse.Noise
 			this.Clear();
 			double num = 2.0 / ((double)steps - 1.0);
 			double num2 = -1.0;
-			for (int i = 0; i < steps; i++)
+			for (int num3 = 0; num3 < steps; num3++)
 			{
 				this.Add(num2);
 				num2 += num;
@@ -85,33 +85,30 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
-			double value = this.modules[0].GetValue(x, y, z);
-			int i;
-			for (i = 0; i < this.m_data.Count; i++)
+			double value = base.modules[0].GetValue(x, y, z);
+			int num = 0;
+			while (num < this.m_data.Count && !(value < this.m_data[num]))
 			{
-				if (value < this.m_data[i])
-				{
-					break;
-				}
+				num++;
 			}
-			int num = Mathf.Clamp(i - 1, 0, this.m_data.Count - 1);
-			int num2 = Mathf.Clamp(i, 0, this.m_data.Count - 1);
-			if (num == num2)
+			int num2 = Mathf.Clamp(num - 1, 0, this.m_data.Count - 1);
+			int num3 = Mathf.Clamp(num, 0, this.m_data.Count - 1);
+			if (num2 == num3)
 			{
-				return this.m_data[num2];
+				return this.m_data[num3];
 			}
-			double num3 = this.m_data[num];
 			double num4 = this.m_data[num2];
-			double num5 = (value - num3) / (num4 - num3);
+			double num5 = this.m_data[num3];
+			double num6 = (value - num4) / (num5 - num4);
 			if (this.m_inverted)
 			{
-				num5 = 1.0 - num5;
-				double num6 = num3;
-				num3 = num4;
-				num4 = num6;
+				num6 = 1.0 - num6;
+				double num7 = num4;
+				num4 = num5;
+				num5 = num7;
 			}
-			num5 *= num5;
-			return Utils.InterpolateLinear(num3, num4, num5);
+			num6 *= num6;
+			return Utils.InterpolateLinear(num4, num5, num6);
 		}
 	}
 }

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse
 {
@@ -14,13 +12,9 @@ namespace Verse
 		{
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable<string> ConfigErrors()
 		{
-			Editable.<ConfigErrors>c__Iterator89 <ConfigErrors>c__Iterator = new Editable.<ConfigErrors>c__Iterator89();
-			Editable.<ConfigErrors>c__Iterator89 expr_07 = <ConfigErrors>c__Iterator;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield break;
 		}
 	}
 }

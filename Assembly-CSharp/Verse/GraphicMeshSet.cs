@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -9,12 +8,7 @@ namespace Verse
 
 		public GraphicMeshSet(Mesh normalMesh, Mesh leftMesh)
 		{
-			Mesh[] arg_30_0 = this.meshes;
-			int arg_30_1 = 0;
-			Mesh[] arg_2E_0 = this.meshes;
-			int arg_2E_1 = 1;
-			this.meshes[2] = normalMesh;
-			arg_30_0[arg_30_1] = (arg_2E_0[arg_2E_1] = normalMesh);
+			this.meshes[0] = (this.meshes[1] = (this.meshes[2] = normalMesh));
 			this.meshes[3] = leftMesh;
 		}
 

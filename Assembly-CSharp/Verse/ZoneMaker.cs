@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -9,9 +8,12 @@ namespace Verse
 		{
 			if (cells != null)
 			{
-				foreach (IntVec3 current in cells)
 				{
-					z.AddCell(current);
+					foreach (IntVec3 item in cells)
+					{
+						z.AddCell(item);
+					}
+					return z;
 				}
 			}
 			return z;

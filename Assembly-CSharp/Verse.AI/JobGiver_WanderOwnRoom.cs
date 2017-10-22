@@ -6,10 +6,10 @@ namespace Verse.AI
 	{
 		public JobGiver_WanderOwnRoom()
 		{
-			this.wanderRadius = 7f;
-			this.ticksBetweenWandersRange = new IntRange(300, 600);
-			this.locomotionUrgency = LocomotionUrgency.Amble;
-			this.wanderDestValidator = ((Pawn pawn, IntVec3 loc) => WanderRoomUtility.IsValidWanderDest(pawn, loc, this.GetWanderRoot(pawn)));
+			base.wanderRadius = 7f;
+			base.ticksBetweenWandersRange = new IntRange(300, 600);
+			base.locomotionUrgency = LocomotionUrgency.Amble;
+			base.wanderDestValidator = (Func<Pawn, IntVec3, bool>)((Pawn pawn, IntVec3 loc) => WanderRoomUtility.IsValidWanderDest(pawn, loc, this.GetWanderRoot(pawn)));
 		}
 
 		protected override IntVec3 GetWanderRoot(Pawn pawn)

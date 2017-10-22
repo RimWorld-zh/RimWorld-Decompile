@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class SubEffecter_SprayerContinuous : SubEffecter_Sprayer
@@ -16,7 +14,7 @@ namespace Verse
 			if (this.ticksUntilMote <= 0)
 			{
 				base.MakeMote(A, B);
-				this.ticksUntilMote = this.def.ticksBetweenMotes;
+				this.ticksUntilMote = base.def.ticksBetweenMotes;
 			}
 		}
 	}

@@ -10,7 +10,7 @@ namespace RimWorld
 		public static Toil Learn(SkillDef skill, float xp)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				toil.actor.skills.Learn(skill, xp, false);
 			};
@@ -20,7 +20,7 @@ namespace RimWorld
 		public static Toil SetForbidden(TargetIndex ind, bool forbidden)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				toil.actor.CurJob.GetTarget(ind).Thing.SetForbidden(forbidden, true);
 			};
@@ -29,23 +29,22 @@ namespace RimWorld
 
 		public static Toil TakeItemFromInventoryToCarrier(Pawn pawn, TargetIndex itemInd)
 		{
-			return new Toil
+			Toil toil = new Toil();
+			toil.initAction = (Action)delegate()
 			{
-				initAction = delegate
-				{
-					Job curJob = pawn.CurJob;
-					Thing thing = (Thing)curJob.GetTarget(itemInd);
-					int count = Mathf.Min(thing.stackCount, curJob.count);
-					pawn.inventory.innerContainer.TryTransferToContainer(thing, pawn.carryTracker.innerContainer, count, true);
-					curJob.SetTarget(itemInd, pawn.carryTracker.CarriedThing);
-				}
+				Job curJob = pawn.CurJob;
+				Thing thing = (Thing)curJob.GetTarget(itemInd);
+				int count = Mathf.Min(thing.stackCount, curJob.count);
+				pawn.inventory.innerContainer.TryTransferToContainer(thing, pawn.carryTracker.innerContainer, count, true);
+				curJob.SetTarget(itemInd, pawn.carryTracker.CarriedThing);
 			};
+			return toil;
 		}
 
 		public static Toil ThrowColonistAttackingMote(TargetIndex target)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.CurJob;

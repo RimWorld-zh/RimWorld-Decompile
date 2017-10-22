@@ -22,9 +22,9 @@ namespace RimWorld
 
 		public Designator_Place()
 		{
-			this.soundDragSustain = SoundDefOf.DesignateDragBuilding;
-			this.soundDragChanged = SoundDefOf.DesignateDragBuildingChanged;
-			this.soundSucceeded = SoundDefOf.DesignatePlaceBuilding;
+			base.soundDragSustain = SoundDefOf.DesignateDragBuilding;
+			base.soundDragChanged = SoundDefOf.DesignateDragBuildingChanged;
+			base.soundSucceeded = SoundDefOf.DesignatePlaceBuilding;
 		}
 
 		public override void DoExtraGuiControls(float leftX, float bottomY)
@@ -32,13 +32,13 @@ namespace RimWorld
 			ThingDef thingDef = this.PlacingDef as ThingDef;
 			if (thingDef != null && thingDef.rotatable)
 			{
-				Rect winRect = new Rect(leftX, bottomY - 90f, 200f, 90f);
-				Find.WindowStack.ImmediateWindow(73095, winRect, WindowLayer.GameUI, delegate
+				Rect winRect = new Rect(leftX, (float)(bottomY - 90.0), 200f, 90f);
+				Find.WindowStack.ImmediateWindow(73095, winRect, WindowLayer.GameUI, (Action)delegate
 				{
 					RotationDirection rotationDirection = RotationDirection.None;
 					Text.Anchor = TextAnchor.MiddleCenter;
 					Text.Font = GameFont.Medium;
-					Rect rect = new Rect(winRect.width / 2f - 64f - 5f, 15f, 64f, 64f);
+					Rect rect = new Rect((float)(winRect.width / 2.0 - 64.0 - 5.0), 15f, 64f, 64f);
 					if (Widgets.ButtonImage(rect, TexUI.RotLeftTex))
 					{
 						SoundDefOf.AmountDecrement.PlayOneShotOnCamera(null);
@@ -46,7 +46,7 @@ namespace RimWorld
 						Event.current.Use();
 					}
 					Widgets.Label(rect, KeyBindingDefOf.DesignatorRotateLeft.MainKeyLabel);
-					Rect rect2 = new Rect(winRect.width / 2f + 5f, 15f, 64f, 64f);
+					Rect rect2 = new Rect((float)(winRect.width / 2.0 + 5.0), 15f, 64f, 64f);
 					if (Widgets.ButtonImage(rect2, TexUI.RotRightTex))
 					{
 						SoundDefOf.AmountIncrement.PlayOneShotOnCamera(null);
@@ -54,7 +54,7 @@ namespace RimWorld
 						Event.current.Use();
 					}
 					Widgets.Label(rect2, KeyBindingDefOf.DesignatorRotateRight.MainKeyLabel);
-					if (rotationDirection != RotationDirection.None)
+					if (rotationDirection != 0)
 					{
 						this.placingRot.Rotate(rotationDirection);
 					}
@@ -83,23 +83,17 @@ namespace RimWorld
 				if (this.PlacingDef is TerrainDef)
 				{
 					GenUI.RenderMouseoverBracket();
-					return;
-				}
-				Color ghostCol;
-				if (this.CanDesignateCell(intVec).Accepted)
-				{
-					ghostCol = new Color(0.5f, 1f, 0.6f, 0.4f);
 				}
 				else
 				{
-					ghostCol = new Color(1f, 0f, 0f, 0.4f);
+					Color ghostCol = (!this.CanDesignateCell(intVec).Accepted) ? new Color(1f, 0f, 0f, 0.4f) : new Color(0.5f, 1f, 0.6f, 0.4f);
+					this.DrawGhost(ghostCol);
+					if (this.CanDesignateCell(intVec).Accepted && this.PlacingDef.specialDisplayRadius > 0.0099999997764825821)
+					{
+						GenDraw.DrawRadiusRing(UI.MouseCell(), this.PlacingDef.specialDisplayRadius);
+					}
+					GenDraw.DrawInteractionCell((ThingDef)this.PlacingDef, intVec, this.placingRot);
 				}
-				this.DrawGhost(ghostCol);
-				if (this.CanDesignateCell(intVec).Accepted && this.PlacingDef.specialDisplayRadius > 0.01f)
-				{
-					GenDraw.DrawRadiusRing(UI.MouseCell(), this.PlacingDef.specialDisplayRadius);
-				}
-				GenDraw.DrawInteractionCell((ThingDef)this.PlacingDef, intVec, this.placingRot);
 			}
 		}
 
@@ -118,7 +112,7 @@ namespace RimWorld
 					Event.current.Use();
 					Designator_Place.middleMouseDownTime = Time.realtimeSinceStartup;
 				}
-				if (Event.current.type == EventType.MouseUp && Time.realtimeSinceStartup - Designator_Place.middleMouseDownTime < 0.15f)
+				if (Event.current.type == EventType.MouseUp && Time.realtimeSinceStartup - Designator_Place.middleMouseDownTime < 0.15000000596046448)
 				{
 					rotationDirection = RotationDirection.Clockwise;
 				}

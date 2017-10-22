@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -30,7 +29,7 @@ namespace RimWorld
 
 		protected virtual bool CanInteractWithAnimal(Pawn pawn, Pawn animal)
 		{
-			if (!pawn.CanReserve(animal, 1, -1, null, false))
+			if (!pawn.CanReserve((Thing)animal, 1, -1, null, false))
 			{
 				return false;
 			}
@@ -59,7 +58,7 @@ namespace RimWorld
 			for (int i = 0; i < innerContainer.Count; i++)
 			{
 				Thing thing = innerContainer[i];
-				if (tamee.RaceProps.CanEverEat(thing) && thing.def.ingestible.preferability <= FoodPreferability.RawTasty && !thing.def.IsDrug)
+				if (tamee.RaceProps.CanEverEat(thing) && (int)thing.def.ingestible.preferability <= 4 && !thing.def.IsDrug)
 				{
 					for (int j = 0; j < thing.stackCount; j++)
 					{
@@ -81,16 +80,15 @@ namespace RimWorld
 
 		protected Job TakeFoodForAnimalInteractJob(Pawn pawn, Pawn tamee)
 		{
-			float num = JobDriver_InteractAnimal.RequiredNutritionPerFeed(tamee) * 2f * 4f;
+			float num = (float)(JobDriver_InteractAnimal.RequiredNutritionPerFeed(tamee) * 2.0 * 4.0);
 			Thing thing = FoodUtility.BestFoodSourceOnMap(pawn, tamee, false, FoodPreferability.RawTasty, false, false, false, false, false, false, false);
 			if (thing == null)
 			{
 				return null;
 			}
-			return new Job(JobDefOf.TakeInventory, thing)
-			{
-				count = Mathf.CeilToInt(num / thing.def.ingestible.nutrition)
-			};
+			Job job = new Job(JobDefOf.TakeInventory, thing);
+			job.count = Mathf.CeilToInt(num / thing.def.ingestible.nutrition);
+			return job;
 		}
 	}
 }

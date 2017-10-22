@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -31,15 +30,15 @@ namespace RimWorld
 		{
 			if (this.brokenDownInt)
 			{
-				this.parent.Map.overlayDrawer.DrawOverlay(this.parent, OverlayTypes.BrokenDown);
+				base.parent.Map.overlayDrawer.DrawOverlay(base.parent, OverlayTypes.BrokenDown);
 			}
 		}
 
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
-			this.powerComp = this.parent.GetComp<CompPowerTrader>();
-			this.parent.Map.GetComponent<BreakdownManager>().Register(this);
+			this.powerComp = base.parent.GetComp<CompPowerTrader>();
+			base.parent.Map.GetComponent<BreakdownManager>().Register(this);
 		}
 
 		public override void PostDeSpawn(Map map)
@@ -64,27 +63,21 @@ namespace RimWorld
 		public void Notify_Repaired()
 		{
 			this.brokenDownInt = false;
-			this.parent.Map.GetComponent<BreakdownManager>().Notify_Repaired(this.parent);
-			if (this.parent is Building_PowerSwitch)
+			base.parent.Map.GetComponent<BreakdownManager>().Notify_Repaired(base.parent);
+			if (base.parent is Building_PowerSwitch)
 			{
-				this.parent.Map.powerNetManager.Notfiy_TransmitterTransmitsPowerNowChanged(this.parent.GetComp<CompPower>());
+				base.parent.Map.powerNetManager.Notfiy_TransmitterTransmitsPowerNowChanged(base.parent.GetComp<CompPower>());
 			}
 		}
 
 		public void DoBreakdown()
 		{
 			this.brokenDownInt = true;
-			this.parent.BroadcastCompSignal("Breakdown");
-			this.parent.Map.GetComponent<BreakdownManager>().Notify_BrokenDown(this.parent);
-			if (this.parent.Faction == Faction.OfPlayer)
+			base.parent.BroadcastCompSignal("Breakdown");
+			base.parent.Map.GetComponent<BreakdownManager>().Notify_BrokenDown(base.parent);
+			if (base.parent.Faction == Faction.OfPlayer)
 			{
-				Find.LetterStack.ReceiveLetter("LetterLabelBuildingBrokenDown".Translate(new object[]
-				{
-					this.parent.LabelShort
-				}), "LetterBuildingBrokenDown".Translate(new object[]
-				{
-					this.parent.LabelShort
-				}), LetterDefOf.BadNonUrgent, this.parent, null);
+				Find.LetterStack.ReceiveLetter("LetterLabelBuildingBrokenDown".Translate(base.parent.LabelShort), "LetterBuildingBrokenDown".Translate(base.parent.LabelShort), LetterDefOf.BadNonUrgent, (Thing)base.parent, (string)null);
 			}
 		}
 
@@ -94,7 +87,7 @@ namespace RimWorld
 			{
 				return "BrokenDown".Translate();
 			}
-			return null;
+			return (string)null;
 		}
 	}
 }

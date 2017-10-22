@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -9,20 +8,20 @@ namespace RimWorld
 
 		public Verb_BeatFire()
 		{
-			this.verbProps = NativeVerbPropertiesDatabase.VerbWithCategory(VerbCategory.BeatFire);
+			base.verbProps = NativeVerbPropertiesDatabase.VerbWithCategory(VerbCategory.BeatFire);
 		}
 
 		protected override bool TryCastShot()
 		{
-			Fire fire = (Fire)this.currentTarget.Thing;
+			Fire fire = (Fire)base.currentTarget.Thing;
 			Pawn casterPawn = base.CasterPawn;
 			if (casterPawn.stances.FullBodyBusy)
 			{
 				return false;
 			}
-			Thing arg_47_0 = fire;
-			Thing caster = this.caster;
-			arg_47_0.TakeDamage(new DamageInfo(DamageDefOf.Extinguish, 32, -1f, caster, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
+			Fire obj = fire;
+			Thing caster = base.caster;
+			obj.TakeDamage(new DamageInfo(DamageDefOf.Extinguish, 32, -1f, caster, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
 			casterPawn.Drawer.Notify_MeleeAttackOn(fire);
 			return true;
 		}

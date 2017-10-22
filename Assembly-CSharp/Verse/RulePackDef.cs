@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse.Grammar;
 
 namespace Verse
@@ -36,14 +34,22 @@ namespace Verse
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			RulePackDef.<ConfigErrors>c__Iterator1DA <ConfigErrors>c__Iterator1DA = new RulePackDef.<ConfigErrors>c__Iterator1DA();
-			<ConfigErrors>c__Iterator1DA.<>f__this = this;
-			RulePackDef.<ConfigErrors>c__Iterator1DA expr_0E = <ConfigErrors>c__Iterator1DA;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.include != null)
+			{
+				for (int i = 0; i < this.include.Count; i++)
+				{
+					if (this.include[i].include != null && this.include[i].include.Contains(this))
+					{
+						yield return "includes other RulePackDef which includes it: " + this.include[i].defName;
+					}
+				}
+			}
 		}
 
 		public static RulePackDef Named(string defName)

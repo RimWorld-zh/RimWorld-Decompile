@@ -34,11 +34,11 @@ namespace RimWorld
 			set
 			{
 				this.powerOutputInt = value;
-				if (this.powerOutputInt > 0f)
+				if (this.powerOutputInt > 0.0)
 				{
 					this.powerLastOutputted = true;
 				}
-				if (this.powerOutputInt < 0f)
+				if (this.powerOutputInt < 0.0)
 				{
 					this.powerLastOutputted = false;
 				}
@@ -61,53 +61,53 @@ namespace RimWorld
 			}
 			set
 			{
-				if (this.powerOnInt == value)
+				if (this.powerOnInt != value)
 				{
-					return;
-				}
-				this.powerOnInt = value;
-				if (this.powerOnInt)
-				{
-					if (!FlickUtility.WantsToBeOn(this.parent))
+					this.powerOnInt = value;
+					if (this.powerOnInt)
 					{
-						Log.Warning("Tried to power on " + this.parent + " which did not desire it.");
-						return;
+						if (!FlickUtility.WantsToBeOn(base.parent))
+						{
+							Log.Warning("Tried to power on " + base.parent + " which did not desire it.");
+						}
+						else if (base.parent.IsBrokenDown())
+						{
+							Log.Warning("Tried to power on " + base.parent + " which is broken down.");
+						}
+						else
+						{
+							if ((object)this.powerStartedAction != null)
+							{
+								this.powerStartedAction();
+							}
+							base.parent.BroadcastCompSignal("PowerTurnedOn");
+							SoundDef soundDef = ((CompProperties_Power)base.parent.def.CompDefForAssignableFrom<CompPowerTrader>()).soundPowerOn;
+							if (soundDef.NullOrUndefined())
+							{
+								soundDef = SoundDefOf.PowerOnSmall;
+							}
+							soundDef.PlayOneShot(new TargetInfo(base.parent.Position, base.parent.Map, false));
+							this.StartSustainerPoweredIfInactive();
+						}
 					}
-					if (this.parent.IsBrokenDown())
+					else
 					{
-						Log.Warning("Tried to power on " + this.parent + " which is broken down.");
-						return;
+						if ((object)this.powerStoppedAction != null)
+						{
+							this.powerStoppedAction();
+						}
+						base.parent.BroadcastCompSignal("PowerTurnedOff");
+						SoundDef soundDef2 = ((CompProperties_Power)base.parent.def.CompDefForAssignableFrom<CompPowerTrader>()).soundPowerOff;
+						if (soundDef2.NullOrUndefined())
+						{
+							soundDef2 = SoundDefOf.PowerOffSmall;
+						}
+						if (base.parent.Spawned)
+						{
+							soundDef2.PlayOneShot(new TargetInfo(base.parent.Position, base.parent.Map, false));
+						}
+						this.EndSustainerPoweredIfActive();
 					}
-					if (this.powerStartedAction != null)
-					{
-						this.powerStartedAction();
-					}
-					this.parent.BroadcastCompSignal("PowerTurnedOn");
-					SoundDef soundDef = ((CompProperties_Power)this.parent.def.CompDefForAssignableFrom<CompPowerTrader>()).soundPowerOn;
-					if (soundDef.NullOrUndefined())
-					{
-						soundDef = SoundDefOf.PowerOnSmall;
-					}
-					soundDef.PlayOneShot(new TargetInfo(this.parent.Position, this.parent.Map, false));
-					this.StartSustainerPoweredIfInactive();
-				}
-				else
-				{
-					if (this.powerStoppedAction != null)
-					{
-						this.powerStoppedAction();
-					}
-					this.parent.BroadcastCompSignal("PowerTurnedOff");
-					SoundDef soundDef2 = ((CompProperties_Power)this.parent.def.CompDefForAssignableFrom<CompPowerTrader>()).soundPowerOff;
-					if (soundDef2.NullOrUndefined())
-					{
-						soundDef2 = SoundDefOf.PowerOffSmall;
-					}
-					if (this.parent.Spawned)
-					{
-						soundDef2.PlayOneShot(new TargetInfo(this.parent.Position, this.parent.Map, false));
-					}
-					this.EndSustainerPoweredIfActive();
 				}
 			}
 		}
@@ -117,7 +117,7 @@ namespace RimWorld
 			get
 			{
 				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.AppendLine(this.parent.LabelCap + " CompPower:");
+				stringBuilder.AppendLine(base.parent.LabelCap + " CompPower:");
 				stringBuilder.AppendLine("   PowerOn: " + this.PowerOn);
 				stringBuilder.AppendLine("   energyProduction: " + this.PowerOutput);
 				return stringBuilder.ToString();
@@ -139,7 +139,7 @@ namespace RimWorld
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
-			this.flickableComp = this.parent.GetComp<CompFlickable>();
+			this.flickableComp = base.parent.GetComp<CompFlickable>();
 		}
 
 		public override void PostDeSpawn(Map map)
@@ -158,18 +158,15 @@ namespace RimWorld
 		public override void PostDraw()
 		{
 			base.PostDraw();
-			if (!this.parent.IsBrokenDown())
+			if (!base.parent.IsBrokenDown())
 			{
 				if (this.flickableComp != null && !this.flickableComp.SwitchIsOn)
 				{
-					this.parent.Map.overlayDrawer.DrawOverlay(this.parent, OverlayTypes.PowerOff);
+					base.parent.Map.overlayDrawer.DrawOverlay(base.parent, OverlayTypes.PowerOff);
 				}
-				else if (FlickUtility.WantsToBeOn(this.parent))
+				else if (FlickUtility.WantsToBeOn(base.parent) && !this.PowerOn)
 				{
-					if (!this.PowerOn)
-					{
-						this.parent.Map.overlayDrawer.DrawOverlay(this.parent, OverlayTypes.NeedsPower);
-					}
+					base.parent.Map.overlayDrawer.DrawOverlay(base.parent, OverlayTypes.NeedsPower);
 				}
 			}
 		}
@@ -178,8 +175,8 @@ namespace RimWorld
 		{
 			base.SetUpPowerVars();
 			CompProperties_Power props = base.Props;
-			this.PowerOutput = -1f * props.basePowerConsumption;
-			this.powerLastOutputted = (props.basePowerConsumption <= 0f);
+			this.PowerOutput = (float)(-1.0 * props.basePowerConsumption);
+			this.powerLastOutputted = (props.basePowerConsumption <= 0.0);
 		}
 
 		public override void ResetPowerVars()
@@ -203,15 +200,7 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			string str;
-			if (this.powerLastOutputted)
-			{
-				str = "PowerOutput".Translate() + ": " + this.PowerOutput.ToString("#####0") + " W";
-			}
-			else
-			{
-				str = "PowerNeeded".Translate() + ": " + (-this.PowerOutput).ToString("#####0") + " W";
-			}
+			string str = (!this.powerLastOutputted) ? ("PowerNeeded".Translate() + ": " + ((float)(0.0 - this.PowerOutput)).ToString("#####0") + " W") : ("PowerOutput".Translate() + ": " + this.PowerOutput.ToString("#####0") + " W");
 			return str + "\n" + base.CompInspectStringExtra();
 		}
 
@@ -220,7 +209,7 @@ namespace RimWorld
 			CompProperties_Power props = base.Props;
 			if (!props.soundAmbientPowered.NullOrUndefined() && this.sustainerPowered == null)
 			{
-				SoundInfo info = SoundInfo.InMap(this.parent, MaintenanceType.None);
+				SoundInfo info = SoundInfo.InMap((Thing)base.parent, MaintenanceType.None);
 				this.sustainerPowered = props.soundAmbientPowered.TrySpawnSustainer(info);
 			}
 		}

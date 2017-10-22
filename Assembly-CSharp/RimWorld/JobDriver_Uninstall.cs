@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -26,7 +25,7 @@ namespace RimWorld
 		protected override void FinishedRemoving()
 		{
 			base.Building.Uninstall();
-			this.pawn.records.Increment(RecordDefOf.ThingsUninstalled);
+			base.pawn.records.Increment(RecordDefOf.ThingsUninstalled);
 		}
 	}
 }

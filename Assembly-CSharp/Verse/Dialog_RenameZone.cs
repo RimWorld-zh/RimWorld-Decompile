@@ -9,7 +9,7 @@ namespace Verse
 		public Dialog_RenameZone(Zone zone)
 		{
 			this.zone = zone;
-			this.curName = zone.label;
+			base.curName = zone.label;
 		}
 
 		protected override AcceptanceReport NameIsValid(string name)
@@ -19,7 +19,7 @@ namespace Verse
 			{
 				return result;
 			}
-			if (this.zone.Map.zoneManager.AllZones.Any((Zone z) => z.label == name))
+			if (this.zone.Map.zoneManager.AllZones.Any((Predicate<Zone>)((Zone z) => z.label == name)))
 			{
 				return "NameIsInUse".Translate();
 			}
@@ -28,11 +28,8 @@ namespace Verse
 
 		protected override void SetName(string name)
 		{
-			this.zone.label = this.curName;
-			Messages.Message("ZoneGainsName".Translate(new object[]
-			{
-				this.curName
-			}), MessageSound.Benefit);
+			this.zone.label = base.curName;
+			Messages.Message("ZoneGainsName".Translate(base.curName), MessageSound.Benefit);
 		}
 	}
 }

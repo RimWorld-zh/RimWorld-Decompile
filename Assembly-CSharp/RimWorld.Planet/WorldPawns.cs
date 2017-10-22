@@ -64,13 +64,22 @@ namespace RimWorld.Planet
 			}
 			WorldPawns.tmpPawnsToTick.Clear();
 			WorldPawns.tmpPawnsToRemove.Clear();
-			foreach (Pawn current in this.pawnsDead)
+			HashSet<Pawn>.Enumerator enumerator = this.pawnsDead.GetEnumerator();
+			try
 			{
-				if (current.Discarded)
+				while (enumerator.MoveNext())
 				{
-					Log.Error("World pawn " + current + " has been discarded while still being a world pawn. This should never happen, because discard destroy mode means that the pawn is no longer managed by anything. Pawn should have been removed from the world first.");
-					WorldPawns.tmpPawnsToRemove.Add(current);
+					Pawn current = enumerator.Current;
+					if (current.Discarded)
+					{
+						Log.Error("World pawn " + current + " has been discarded while still being a world pawn. This should never happen, because discard destroy mode means that the pawn is no longer managed by anything. Pawn should have been removed from the world first.");
+						WorldPawns.tmpPawnsToRemove.Add(current);
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			for (int j = 0; j < WorldPawns.tmpPawnsToRemove.Count; j++)
 			{
@@ -96,37 +105,44 @@ namespace RimWorld.Planet
 			if (pawn.Spawned)
 			{
 				Log.Error("Tried to call PassToWorld with spawned pawn: " + pawn + ". Despawn him first.");
-				return;
 			}
-			if (this.Contains(pawn))
+			else if (this.Contains(pawn))
 			{
 				Log.Error("Tried to pass pawn " + pawn + " to world, but it's already here.");
-				return;
 			}
-			if (discardMode == PawnDiscardDecideMode.KeepForever && pawn.Discarded)
+			else
 			{
-				Log.Error("Tried to pass a discarded pawn " + pawn + " to world with discardMode=Keep. Discarded pawns should never be stored in WorldPawns.");
-				discardMode = PawnDiscardDecideMode.Decide;
-			}
-			switch (discardMode)
-			{
-			case PawnDiscardDecideMode.Decide:
-				if (this.ShouldKeep(pawn))
+				if (discardMode == PawnDiscardDecideMode.KeepForever && pawn.Discarded)
 				{
-					this.AddPawn(pawn);
+					Log.Error("Tried to pass a discarded pawn " + pawn + " to world with discardMode=Keep. Discarded pawns should never be stored in WorldPawns.");
+					discardMode = PawnDiscardDecideMode.Decide;
 				}
-				else
+				switch (discardMode)
+				{
+				case PawnDiscardDecideMode.Decide:
+				{
+					if (this.ShouldKeep(pawn))
+					{
+						this.AddPawn(pawn);
+					}
+					else
+					{
+						this.DiscardPawn(pawn);
+					}
+					break;
+				}
+				case PawnDiscardDecideMode.KeepForever:
+				{
+					this.pawnsForcefullyKeptAsWorldPawns.Add(pawn);
+					this.AddPawn(pawn);
+					break;
+				}
+				case PawnDiscardDecideMode.Discard:
 				{
 					this.DiscardPawn(pawn);
+					break;
 				}
-				break;
-			case PawnDiscardDecideMode.KeepForever:
-				this.pawnsForcefullyKeptAsWorldPawns.Add(pawn);
-				this.AddPawn(pawn);
-				break;
-			case PawnDiscardDecideMode.Discard:
-				this.DiscardPawn(pawn);
-				break;
+				}
 			}
 		}
 
@@ -134,14 +150,7 @@ namespace RimWorld.Planet
 		{
 			if (!this.Contains(p))
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Tried to remove pawn ",
-					p,
-					" from ",
-					base.GetType(),
-					", but it's not here."
-				}));
+				Log.Error("Tried to remove pawn " + p + " from " + base.GetType() + ", but it's not here.");
 			}
 			this.pawnsAlive.Remove(p);
 			this.pawnsDead.Remove(p);
@@ -154,31 +163,31 @@ namespace RimWorld.Planet
 			{
 				return WorldPawnSituation.None;
 			}
-			if (p.Dead || p.Destroyed)
+			if (!p.Dead && !p.Destroyed)
 			{
-				return WorldPawnSituation.Dead;
+				if (PawnUtility.IsFactionLeader(p))
+				{
+					return WorldPawnSituation.FactionLeader;
+				}
+				if (PawnUtility.IsKidnappedPawn(p))
+				{
+					return WorldPawnSituation.Kidnapped;
+				}
+				if (p.IsCaravanMember())
+				{
+					return WorldPawnSituation.CaravanMember;
+				}
+				if (PawnUtility.IsTravelingInTransportPodWorldObject(p))
+				{
+					return WorldPawnSituation.InTravelingTransportPod;
+				}
+				if (PawnUtility.ForSaleBySettlement(p))
+				{
+					return WorldPawnSituation.ForSaleBySettlement;
+				}
+				return WorldPawnSituation.Free;
 			}
-			if (PawnUtility.IsFactionLeader(p))
-			{
-				return WorldPawnSituation.FactionLeader;
-			}
-			if (PawnUtility.IsKidnappedPawn(p))
-			{
-				return WorldPawnSituation.Kidnapped;
-			}
-			if (p.IsCaravanMember())
-			{
-				return WorldPawnSituation.CaravanMember;
-			}
-			if (PawnUtility.IsTravelingInTransportPodWorldObject(p))
-			{
-				return WorldPawnSituation.InTravelingTransportPod;
-			}
-			if (PawnUtility.ForSaleBySettlement(p))
-			{
-				return WorldPawnSituation.ForSaleBySettlement;
-			}
-			return WorldPawnSituation.Free;
+			return WorldPawnSituation.Dead;
 		}
 
 		public IEnumerable<Pawn> GetPawnsBySituation(WorldPawnSituation situation)
@@ -191,21 +200,39 @@ namespace RimWorld.Planet
 		public int GetPawnsBySituationCount(WorldPawnSituation situation)
 		{
 			int num = 0;
-			foreach (Pawn current in this.pawnsAlive)
+			HashSet<Pawn>.Enumerator enumerator = this.pawnsAlive.GetEnumerator();
+			try
 			{
-				if (this.GetSituation(current) == situation)
+				while (enumerator.MoveNext())
 				{
-					num++;
+					Pawn current = enumerator.Current;
+					if (this.GetSituation(current) == situation)
+					{
+						num++;
+					}
 				}
 			}
-			foreach (Pawn current2 in this.pawnsDead)
+			finally
 			{
-				if (this.GetSituation(current2) == situation)
-				{
-					num++;
-				}
+				((IDisposable)(object)enumerator).Dispose();
 			}
-			return num;
+			HashSet<Pawn>.Enumerator enumerator2 = this.pawnsDead.GetEnumerator();
+			try
+			{
+				while (enumerator2.MoveNext())
+				{
+					Pawn current2 = enumerator2.Current;
+					if (this.GetSituation(current2) == situation)
+					{
+						num++;
+					}
+				}
+				return num;
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
+			}
 		}
 
 		private bool ShouldAutoTendTo(Pawn pawn)
@@ -215,19 +242,17 @@ namespace RimWorld.Planet
 
 		public void DiscardIfUnimportant(Pawn pawn)
 		{
-			if (pawn.Discarded)
+			if (!pawn.Discarded)
 			{
-				return;
-			}
-			if (!this.Contains(pawn))
-			{
-				Log.Warning(pawn + " is not a world pawn.");
-				return;
-			}
-			if (!this.ShouldKeep(pawn))
-			{
-				this.RemovePawn(pawn);
-				this.DiscardPawn(pawn);
+				if (!this.Contains(pawn))
+				{
+					Log.Warning(pawn + " is not a world pawn.");
+				}
+				else if (!this.ShouldKeep(pawn))
+				{
+					this.RemovePawn(pawn);
+					this.DiscardPawn(pawn);
+				}
 			}
 		}
 
@@ -249,28 +274,21 @@ namespace RimWorld.Planet
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("======= World Pawns =======");
-			stringBuilder.AppendLine("Count: " + this.AllPawnsAliveOrDead.Count<Pawn>());
+			stringBuilder.AppendLine("Count: " + this.AllPawnsAliveOrDead.Count());
 			WorldPawnSituation[] array = (WorldPawnSituation[])Enum.GetValues(typeof(WorldPawnSituation));
 			for (int i = 0; i < array.Length; i++)
 			{
 				WorldPawnSituation worldPawnSituation = array[i];
-				if (worldPawnSituation != WorldPawnSituation.None)
+				if (worldPawnSituation != 0)
 				{
 					stringBuilder.AppendLine();
 					stringBuilder.AppendLine("== " + worldPawnSituation + " ==");
-					foreach (Pawn current in from x in this.GetPawnsBySituation(worldPawnSituation)
-					orderby (x.Faction != null) ? x.Faction.loadID : -1
+					foreach (Pawn item in from x in this.GetPawnsBySituation(worldPawnSituation)
+					orderby (x.Faction != null) ? x.Faction.loadID : (-1)
 					select x)
 					{
-						string text = (current.Name == null) ? current.LabelCap : current.Name.ToStringFull;
-						stringBuilder.AppendLine(string.Concat(new object[]
-						{
-							text,
-							", ",
-							current.KindLabel,
-							", ",
-							current.Faction
-						}));
+						string text = (item.Name == null) ? item.LabelCap : item.Name.ToStringFull;
+						stringBuilder.AppendLine(text + ", " + item.KindLabel + ", " + item.Faction);
 					}
 				}
 			}
@@ -353,19 +371,16 @@ namespace RimWorld.Planet
 					return true;
 				}
 			}
-			foreach (Pawn current in PawnsFinder.AllMapsAndWorld_Alive)
+			foreach (Pawn item in PawnsFinder.AllMapsAndWorld_Alive)
 			{
-				if (current.needs.mood != null && current.needs.mood.thoughts.memories.AnyMemoryConcerns(pawn))
+				if (item.needs.mood != null && item.needs.mood.thoughts.memories.AnyMemoryConcerns(pawn))
 				{
 					return true;
 				}
 			}
-			if (!pawn.RaceProps.Animal && pawn.RaceProps.IsFlesh)
+			if (!pawn.RaceProps.Animal && pawn.RaceProps.IsFlesh && pawn.relations.RelatedPawns.Any((Func<Pawn, bool>)((Pawn x) => x.relations.everSeenByPlayer)))
 			{
-				if (pawn.relations.RelatedPawns.Any((Pawn x) => x.relations.everSeenByPlayer))
-				{
-					return true;
-				}
+				return true;
 			}
 			return false;
 		}
@@ -382,8 +397,8 @@ namespace RimWorld.Planet
 			}
 			if ((p.Faction == null || p.Faction.IsPlayer) && p.RaceProps.Humanlike && !p.Dead && this.GetSituation(p) == WorldPawnSituation.Free)
 			{
-				bool tryMedievalOrBetter = p.Faction != null && p.Faction.def.techLevel >= TechLevel.Medieval;
-				Faction newFaction;
+				bool tryMedievalOrBetter = p.Faction != null && (int)p.Faction.def.techLevel >= 3;
+				Faction newFaction = default(Faction);
 				if (Find.FactionManager.TryGetRandomNonColonyHumanlikeFaction(out newFaction, tryMedievalOrBetter, false))
 				{
 					p.SetFaction(newFaction, null);

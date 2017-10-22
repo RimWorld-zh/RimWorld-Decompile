@@ -8,8 +8,8 @@ namespace RimWorld
 	{
 		public Alert_NeedMealSource()
 		{
-			this.defaultLabel = "NeedMealSource".Translate();
-			this.defaultExplanation = "NeedMealSourceDesc".Translate();
+			base.defaultLabel = "NeedMealSource".Translate();
+			base.defaultExplanation = "NeedMealSourceDesc".Translate();
 		}
 
 		public override AlertReport GetReport()
@@ -35,7 +35,11 @@ namespace RimWorld
 			{
 				return false;
 			}
-			return !map.listerBuildings.allBuildingsColonist.Any((Building b) => b.def.building.isMealSource);
+			if (map.listerBuildings.allBuildingsColonist.Any((Predicate<Building>)((Building b) => b.def.building.isMealSource)))
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

@@ -1,8 +1,8 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using UnityEngine;
 
 namespace Verse
 {
@@ -33,10 +33,12 @@ namespace Verse
 				if (value == null)
 				{
 					Log.Error("Cannot set creator to null.");
-					return;
 				}
-				this.creatorInt = value;
-				this.creatorName = value.NameStringShort;
+				else
+				{
+					this.creatorInt = value;
+					this.creatorName = value.NameStringShort;
+				}
 			}
 		}
 
@@ -60,22 +62,21 @@ namespace Verse
 			}
 			set
 			{
-				if (value == this.boundBillInt)
+				if (value != this.boundBillInt)
 				{
-					return;
-				}
-				Bill_ProductionWithUft bill_ProductionWithUft = this.boundBillInt;
-				this.boundBillInt = value;
-				if (bill_ProductionWithUft != null && bill_ProductionWithUft.BoundUft == this)
-				{
-					bill_ProductionWithUft.SetBoundUft(null, false);
-				}
-				if (value != null)
-				{
-					this.recipeInt = value.recipe;
-					if (value.BoundUft != this)
+					Bill_ProductionWithUft bill_ProductionWithUft = this.boundBillInt;
+					this.boundBillInt = value;
+					if (bill_ProductionWithUft != null && bill_ProductionWithUft.BoundUft == this)
 					{
-						value.SetBoundUft(this, false);
+						bill_ProductionWithUft.SetBoundUft(null, false);
+					}
+					if (value != null)
+					{
+						this.recipeInt = value.recipe;
+						if (value.BoundUft != this)
+						{
+							value.SetBoundUft(this, false);
+						}
 					}
 				}
 			}
@@ -109,16 +110,9 @@ namespace Verse
 				}
 				if (base.Stuff == null)
 				{
-					return "UnfinishedItem".Translate(new object[]
-					{
-						this.Recipe.products[0].thingDef.label
-					});
+					return "UnfinishedItem".Translate(this.Recipe.products[0].thingDef.label);
 				}
-				return "UnfinishedItemWithStuff".Translate(new object[]
-				{
-					base.Stuff.LabelAsStuff,
-					this.Recipe.products[0].thingDef.label
-				});
+				return "UnfinishedItemWithStuff".Translate(base.Stuff.LabelAsStuff, this.Recipe.products[0].thingDef.label);
 			}
 		}
 
@@ -126,7 +120,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.workLeft > -5000f;
+				return this.workLeft > -5000.0;
 			}
 		}
 
@@ -138,7 +132,7 @@ namespace Verse
 				this.boundBillInt = null;
 			}
 			Scribe_References.Look<Pawn>(ref this.creatorInt, "creator", false);
-			Scribe_Values.Look<string>(ref this.creatorName, "creatorName", null, false);
+			Scribe_Values.Look<string>(ref this.creatorName, "creatorName", (string)null, false);
 			Scribe_References.Look<Bill_ProductionWithUft>(ref this.boundBillInt, "bill", false);
 			Scribe_Defs.Look<RecipeDef>(ref this.recipeInt, "recipe");
 			Scribe_Values.Look<float>(ref this.workLeft, "workLeft", 0f, false);
@@ -151,7 +145,7 @@ namespace Verse
 			{
 				for (int i = 0; i < this.ingredients.Count; i++)
 				{
-					int num = GenMath.RoundRandom((float)this.ingredients[i].stackCount * 0.75f);
+					int num = GenMath.RoundRandom((float)((float)this.ingredients[i].stackCount * 0.75));
 					if (num > 0)
 					{
 						this.ingredients[i].stackCount = num;
@@ -164,14 +158,23 @@ namespace Verse
 			this.BoundBill = null;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			UnfinishedThing.<GetGizmos>c__Iterator230 <GetGizmos>c__Iterator = new UnfinishedThing.<GetGizmos>c__Iterator230();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			UnfinishedThing.<GetGizmos>c__Iterator230 expr_0E = <GetGizmos>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			yield return (Gizmo)new Command_Action
+			{
+				defaultLabel = "CommandCancelConstructionLabel".Translate(),
+				defaultDesc = "CommandCancelConstructionDesc".Translate(),
+				icon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel", true),
+				hotKey = KeyBindingDefOf.DesignatorCancel,
+				action = (Action)delegate
+				{
+					((_003CGetGizmos_003Ec__Iterator230)/*Error near IL_010b: stateMachine*/)._003C_003Ef__this.Destroy(DestroyMode.Cancel);
+				}
+			};
 		}
 
 		public Bill_ProductionWithUft BillOnTableForMe(Thing workTable)
@@ -182,15 +185,9 @@ namespace Verse
 				for (int i = 0; i < billGiver.BillStack.Count; i++)
 				{
 					Bill_ProductionWithUft bill_ProductionWithUft = billGiver.BillStack[i] as Bill_ProductionWithUft;
-					if (bill_ProductionWithUft != null)
+					if (bill_ProductionWithUft != null && bill_ProductionWithUft.ShouldDoNow() && bill_ProductionWithUft != null && bill_ProductionWithUft.recipe == this.Recipe)
 					{
-						if (bill_ProductionWithUft.ShouldDoNow())
-						{
-							if (bill_ProductionWithUft != null && bill_ProductionWithUft.recipe == this.Recipe)
-							{
-								return bill_ProductionWithUft;
-							}
-						}
+						return bill_ProductionWithUft;
 					}
 				}
 			}
@@ -213,16 +210,9 @@ namespace Verse
 			{
 				text += "\n";
 			}
-			text = text + "Author".Translate() + ": " + this.creatorName;
-			string text2 = text;
-			return string.Concat(new string[]
-			{
-				text2,
-				"\n",
-				"WorkLeft".Translate(),
-				": ",
-				this.workLeft.ToStringWorkAmount()
-			});
+			string text2;
+			text = (text2 = text + "Author".Translate() + ": " + this.creatorName);
+			return text2 + "\n" + "WorkLeft".Translate() + ": " + this.workLeft.ToStringWorkAmount();
 		}
 	}
 }

@@ -15,13 +15,13 @@ namespace RimWorld
 			{
 				if (this.initialBlueprintsCount < 0)
 				{
-					this.initialBlueprintsCount = this.ConstructionNeeders().Count<Thing>();
+					this.initialBlueprintsCount = this.ConstructionNeeders().Count();
 				}
 				if (this.initialBlueprintsCount == 0)
 				{
 					return 1f;
 				}
-				return 1f - (float)this.ConstructionNeeders().Count<Thing>() / (float)this.initialBlueprintsCount;
+				return (float)(1.0 - (float)this.ConstructionNeeders().Count() / (float)this.initialBlueprintsCount);
 			}
 		}
 
@@ -35,14 +35,14 @@ namespace RimWorld
 		public override void LessonUpdate()
 		{
 			base.LessonUpdate();
-			if (this.ConstructionNeeders().Count<Thing>() < 3)
+			if (this.ConstructionNeeders().Count() < 3)
 			{
-				foreach (Thing current in this.ConstructionNeeders())
+				foreach (Thing item in this.ConstructionNeeders())
 				{
-					GenDraw.DrawArrowPointingAt(current.DrawPos, false);
+					GenDraw.DrawArrowPointingAt(item.DrawPos, false);
 				}
 			}
-			if (this.ProgressPercent > 0.9999f)
+			if (this.ProgressPercent > 0.99989998340606689)
 			{
 				Find.ActiveLesson.Deactivate();
 			}

@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public struct FloodFillRange

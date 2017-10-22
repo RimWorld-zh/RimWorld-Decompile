@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -10,7 +9,7 @@ namespace RimWorld
 		{
 			get
 			{
-				DirectPawnRelation directPawnRelation = LovePartnerRelationUtility.ExistingMostLikedLovePartnerRel(this.pawn, false);
+				DirectPawnRelation directPawnRelation = LovePartnerRelationUtility.ExistingMostLikedLovePartnerRel(base.pawn, false);
 				return string.Format(base.CurStage.label, directPawnRelation.otherPawn.LabelShort).CapitalizeFirst();
 			}
 		}
@@ -19,7 +18,7 @@ namespace RimWorld
 		{
 			get
 			{
-				float a = -0.05f * (float)this.pawn.relations.OpinionOf(LovePartnerRelationUtility.ExistingMostLikedLovePartnerRel(this.pawn, false).otherPawn);
+				float a = (float)(-0.05000000074505806 * (float)base.pawn.relations.OpinionOf(LovePartnerRelationUtility.ExistingMostLikedLovePartnerRel(base.pawn, false).otherPawn));
 				return Mathf.Min(a, -1f);
 			}
 		}

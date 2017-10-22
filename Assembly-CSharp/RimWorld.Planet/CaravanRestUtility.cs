@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -12,18 +11,19 @@ namespace RimWorld.Planet
 
 		public static bool RestingNowAt(int tile)
 		{
-			return CaravanRestUtility.WouldBeRestingAt(tile, (long)GenTicks.TicksAbs);
+			return CaravanRestUtility.WouldBeRestingAt(tile, GenTicks.TicksAbs);
 		}
 
 		public static bool WouldBeRestingAt(int tile, long ticksAbs)
 		{
-			float num = GenDate.HourFloat(ticksAbs, Find.WorldGrid.LongLatOf(tile).x);
-			return num < 6f || num > 22f;
+			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+			float num = GenDate.HourFloat(ticksAbs, vector.x);
+			return num < 6.0 || num > 22.0;
 		}
 
 		public static int LeftRestTicksAt(int tile)
 		{
-			return CaravanRestUtility.LeftRestTicksAt(tile, (long)GenTicks.TicksAbs);
+			return CaravanRestUtility.LeftRestTicksAt(tile, GenTicks.TicksAbs);
 		}
 
 		public static int LeftRestTicksAt(int tile, long ticksAbs)
@@ -32,17 +32,18 @@ namespace RimWorld.Planet
 			{
 				return 0;
 			}
-			float num = GenDate.HourFloat(ticksAbs, Find.WorldGrid.LongLatOf(tile).x);
-			if (num < 6f)
+			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+			float num = GenDate.HourFloat(ticksAbs, vector.x);
+			if (num < 6.0)
 			{
-				return Mathf.CeilToInt((6f - num) * 2500f);
+				return Mathf.CeilToInt((float)((6.0 - num) * 2500.0));
 			}
-			return Mathf.CeilToInt((24f - num + 6f) * 2500f);
+			return Mathf.CeilToInt((float)((24.0 - num + 6.0) * 2500.0));
 		}
 
 		public static int LeftNonRestTicksAt(int tile)
 		{
-			return CaravanRestUtility.LeftNonRestTicksAt(tile, (long)GenTicks.TicksAbs);
+			return CaravanRestUtility.LeftNonRestTicksAt(tile, GenTicks.TicksAbs);
 		}
 
 		public static int LeftNonRestTicksAt(int tile, long ticksAbs)
@@ -51,8 +52,9 @@ namespace RimWorld.Planet
 			{
 				return 0;
 			}
-			float num = GenDate.HourFloat(ticksAbs, Find.WorldGrid.LongLatOf(tile).x);
-			return Mathf.CeilToInt((22f - num) * 2500f);
+			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+			float num = GenDate.HourFloat(ticksAbs, vector.x);
+			return Mathf.CeilToInt((float)((22.0 - num) * 2500.0));
 		}
 
 		public static float DayPercentNotRestingAt(int tile)

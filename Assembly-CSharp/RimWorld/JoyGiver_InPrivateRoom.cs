@@ -18,14 +18,14 @@ namespace RimWorld
 			{
 				return null;
 			}
-			IntVec3 c2;
+			IntVec3 c2 = default(IntVec3);
 			if (!(from c in ownedRoom.Cells
 			where c.Standable(pawn.Map) && !c.IsForbidden(pawn) && pawn.CanReserveAndReach(c, PathEndMode.OnCell, Danger.None, 1, -1, null, false)
-			select c).TryRandomElement(out c2))
+			select c).TryRandomElement<IntVec3>(out c2))
 			{
 				return null;
 			}
-			return new Job(this.def.jobDef, c2);
+			return new Job(base.def.jobDef, c2);
 		}
 	}
 }

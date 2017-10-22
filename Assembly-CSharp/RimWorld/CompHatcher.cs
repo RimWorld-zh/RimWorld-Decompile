@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using UnityEngine;
 using Verse;
 
@@ -19,7 +18,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_Hatcher)this.props;
+				return (CompProperties_Hatcher)base.props;
 			}
 		}
 
@@ -27,7 +26,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.parent.GetComp<CompTemperatureRuinable>();
+				return base.parent.GetComp<CompTemperatureRuinable>();
 			}
 		}
 
@@ -53,9 +52,9 @@ namespace RimWorld
 		{
 			if (!this.TemperatureDamaged)
 			{
-				float num = 1f / (this.Props.hatcherDaystoHatch * 60000f);
+				float num = (float)(1.0 / (this.Props.hatcherDaystoHatch * 60000.0));
 				this.gestateProgress += num;
-				if (this.gestateProgress > 1f)
+				if (this.gestateProgress > 1.0)
 				{
 					this.Hatch();
 				}
@@ -64,11 +63,11 @@ namespace RimWorld
 
 		public void Hatch()
 		{
-			PawnGenerationRequest request = new PawnGenerationRequest(this.Props.hatcherPawn, this.hatcheeFaction, PawnGenerationContext.NonPlayer, -1, false, true, false, false, true, false, 1f, false, true, true, false, false, null, null, null, null, null, null);
-			for (int i = 0; i < this.parent.stackCount; i++)
+			PawnGenerationRequest request = new PawnGenerationRequest(this.Props.hatcherPawn, this.hatcheeFaction, PawnGenerationContext.NonPlayer, -1, false, true, false, false, true, false, 1f, false, true, true, false, false, null, default(float?), default(float?), default(Gender?), default(float?), (string)null);
+			for (int i = 0; i < base.parent.stackCount; i++)
 			{
 				Pawn pawn = PawnGenerator.GeneratePawn(request);
-				if (PawnUtility.TrySpawnHatchedOrBornPawn(pawn, this.parent))
+				if (PawnUtility.TrySpawnHatchedOrBornPawn(pawn, base.parent))
 				{
 					if (pawn != null)
 					{
@@ -88,9 +87,9 @@ namespace RimWorld
 							pawn.relations.AddDirectRelation(PawnRelationDefOf.Parent, this.otherParent);
 						}
 					}
-					if (this.parent.Spawned)
+					if (base.parent.Spawned)
 					{
-						FilthMaker.MakeFilth(this.parent.Position, this.parent.Map, ThingDefOf.FilthAmnioticFluid, 1);
+						FilthMaker.MakeFilth(base.parent.Position, base.parent.Map, ThingDefOf.FilthAmnioticFluid, 1);
 					}
 				}
 				else
@@ -98,12 +97,12 @@ namespace RimWorld
 					Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Discard);
 				}
 			}
-			this.parent.Destroy(DestroyMode.Vanish);
+			base.parent.Destroy(DestroyMode.Vanish);
 		}
 
 		public override void PreAbsorbStack(Thing otherStack, int count)
 		{
-			float t = (float)count / (float)(this.parent.stackCount + count);
+			float t = (float)count / (float)(base.parent.stackCount + count);
 			CompHatcher comp = ((ThingWithComps)otherStack).GetComp<CompHatcher>();
 			float b = comp.gestateProgress;
 			this.gestateProgress = Mathf.Lerp(this.gestateProgress, b, t);
@@ -121,13 +120,18 @@ namespace RimWorld
 		public override void PrePreTraded(TradeAction action, Pawn playerNegotiator, ITrader trader)
 		{
 			base.PrePreTraded(action, playerNegotiator, trader);
-			if (action == TradeAction.PlayerBuys)
+			switch (action)
+			{
+			case TradeAction.PlayerBuys:
 			{
 				this.hatcheeFaction = Faction.OfPlayer;
+				break;
 			}
-			else if (action == TradeAction.PlayerSells)
+			case TradeAction.PlayerSells:
 			{
 				this.hatcheeFaction = trader.Faction;
+				break;
+			}
 			}
 		}
 
@@ -143,7 +147,7 @@ namespace RimWorld
 			{
 				return "EggProgress".Translate() + ": " + this.gestateProgress.ToStringPercent();
 			}
-			return null;
+			return (string)null;
 		}
 	}
 }

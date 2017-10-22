@@ -17,28 +17,25 @@ namespace RimWorld
 			{
 				return null;
 			}
-			Predicate<IntVec3> cellValidator = (IntVec3 x) => !PawnUtility.KnownDangerAt(x, pawn);
-			Predicate<Region> validator = delegate(Region x)
-			{
-				IntVec3 intVec;
-				return x.Room.PsychologicallyOutdoors && !x.IsForbiddenEntirely(pawn) && x.TryFindRandomCellInRegionUnforbidden(pawn, cellValidator, out intVec);
-			};
-			Region reg;
+			Predicate<IntVec3> cellValidator = (Predicate<IntVec3>)((IntVec3 x) => !PawnUtility.KnownDangerAt(x, pawn));
+			IntVec3 intVec = default(IntVec3);
+			Predicate<Region> validator = (Predicate<Region>)((Region x) => x.Room.PsychologicallyOutdoors && !x.IsForbiddenEntirely(pawn) && x.TryFindRandomCellInRegionUnforbidden(pawn, cellValidator, out intVec));
+			Region reg = default(Region);
 			if (!CellFinder.TryFindClosestRegionWith(pawn.GetRegion(RegionType.Set_Passable), TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), validator, 100, out reg, RegionType.Set_Passable))
 			{
 				return null;
 			}
-			IntVec3 root;
+			IntVec3 root = default(IntVec3);
 			if (!reg.TryFindRandomCellInRegionUnforbidden(pawn, cellValidator, out root))
 			{
 				return null;
 			}
-			List<IntVec3> list;
+			List<IntVec3> list = default(List<IntVec3>);
 			if (!WalkPathFinder.TryFindWalkPath(pawn, root, out list))
 			{
 				return null;
 			}
-			Job job = new Job(this.def.jobDef, list[0]);
+			Job job = new Job(base.def.jobDef, list[0]);
 			job.targetQueueA = new List<LocalTargetInfo>();
 			for (int i = 1; i < list.Count; i++)
 			{

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -25,37 +24,36 @@ namespace RimWorld.BaseGen
 			{
 				return false;
 			}
-			if (BaseGen.globalSettings.basePart_powerPlantsCoverage + (float)rp.rect.Area / (float)BaseGen.globalSettings.mainRect.Area >= 0.09f)
+			if (BaseGen.globalSettings.basePart_powerPlantsCoverage + (float)rp.rect.Area / (float)BaseGen.globalSettings.mainRect.Area >= 0.090000003576278687)
 			{
 				return false;
 			}
-			if (rp.faction != null && rp.faction.def.techLevel < TechLevel.Industrial)
+			if (rp.faction != null && (int)rp.faction.def.techLevel < 4)
 			{
 				return false;
 			}
-			if (rp.rect.Width > 13 || rp.rect.Height > 13)
+			if (rp.rect.Width <= 13 && rp.rect.Height <= 13)
 			{
-				return false;
+				this.CalculateAvailablePowerPlants(rp.rect);
+				return SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Any();
 			}
-			this.CalculateAvailablePowerPlants(rp.rect);
-			return SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Any<ThingDef>();
+			return false;
 		}
 
 		public override void Resolve(ResolveParams rp)
 		{
 			this.CalculateAvailablePowerPlants(rp.rect);
-			if (!SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Any<ThingDef>())
+			if (SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Any())
 			{
-				return;
+				BaseGen.symbolStack.Push("refuel", rp);
+				ThingDef thingDef = SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.RandomElement();
+				ResolveParams resolveParams = rp;
+				resolveParams.singleThingDef = thingDef;
+				int? fillWithThingsPadding = rp.fillWithThingsPadding;
+				resolveParams.fillWithThingsPadding = new int?((!fillWithThingsPadding.HasValue) ? Mathf.Max(5 - thingDef.size.x, 1) : fillWithThingsPadding.Value);
+				BaseGen.symbolStack.Push("fillWithThings", resolveParams);
+				BaseGen.globalSettings.basePart_powerPlantsCoverage += (float)rp.rect.Area / (float)BaseGen.globalSettings.mainRect.Area;
 			}
-			BaseGen.symbolStack.Push("refuel", rp);
-			ThingDef thingDef = SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.RandomElement<ThingDef>();
-			ResolveParams resolveParams = rp;
-			resolveParams.singleThingDef = thingDef;
-			int? fillWithThingsPadding = rp.fillWithThingsPadding;
-			resolveParams.fillWithThingsPadding = new int?((!fillWithThingsPadding.HasValue) ? Mathf.Max(5 - thingDef.size.x, 1) : fillWithThingsPadding.Value);
-			BaseGen.symbolStack.Push("fillWithThings", resolveParams);
-			BaseGen.globalSettings.basePart_powerPlantsCoverage += (float)rp.rect.Area / (float)BaseGen.globalSettings.mainRect.Area;
 		}
 
 		private void CalculateAvailablePowerPlants(CellRect rect)
@@ -74,7 +72,7 @@ namespace RimWorld.BaseGen
 					}
 					iterator.MoveNext();
 				}
-				if ((float)num / (float)rect.Area >= 0.5f)
+				if ((float)num / (float)rect.Area >= 0.5)
 				{
 					SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Add(ThingDefOf.SolarGenerator);
 				}

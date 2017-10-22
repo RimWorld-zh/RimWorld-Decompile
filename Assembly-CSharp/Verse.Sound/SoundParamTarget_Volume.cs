@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Sound
 {
 	public class SoundParamTarget_Volume : SoundParamTarget

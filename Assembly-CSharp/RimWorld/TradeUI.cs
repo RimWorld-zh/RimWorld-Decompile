@@ -27,11 +27,11 @@ namespace RimWorld
 			}
 			Text.Font = GameFont.Small;
 			GUI.BeginGroup(rect);
-			float num = rect.width;
-			int num2 = trad.CountHeldBy(Transactor.Trader);
-			if (num2 != 0)
+			float width = rect.width;
+			int num = trad.CountHeldBy(Transactor.Trader);
+			if (num != 0)
 			{
-				Rect rect2 = new Rect(num - 75f, 0f, 75f, rect.height);
+				Rect rect2 = new Rect((float)(width - 75.0), 0f, 75f, rect.height);
 				if (Mouse.IsOver(rect2))
 				{
 					Widgets.DrawHighlight(rect2);
@@ -40,31 +40,31 @@ namespace RimWorld
 				Rect rect3 = rect2;
 				rect3.xMin += 5f;
 				rect3.xMax -= 5f;
-				Widgets.Label(rect3, num2.ToStringCached());
+				Widgets.Label(rect3, num.ToStringCached());
 				TooltipHandler.TipRegion(rect2, "TraderCount".Translate());
-				Rect rect4 = new Rect(rect2.x - 100f, 0f, 100f, rect.height);
+				Rect rect4 = new Rect((float)(rect2.x - 100.0), 0f, 100f, rect.height);
 				Text.Anchor = TextAnchor.MiddleRight;
 				TradeUI.DrawPrice(rect4, trad, TradeAction.PlayerBuys);
 			}
-			num -= 175f;
-			Rect rect5 = new Rect(num - 240f, 0f, 240f, rect.height);
+			width = (float)(width - 175.0);
+			Rect rect5 = new Rect((float)(width - 240.0), 0f, 240f, rect.height);
 			if (trad.TraderWillTrade)
 			{
-				bool flash = Time.time - Dialog_Trade.lastCurrencyFlashTime < 1f && trad.IsCurrency;
+				bool flash = Time.time - Dialog_Trade.lastCurrencyFlashTime < 1.0 && trad.IsCurrency;
 				TransferableUIUtility.DoCountAdjustInterface(rect5, trad, index, -trad.CountHeldBy(Transactor.Colony), trad.CountHeldBy(Transactor.Trader), flash, null);
 			}
 			else
 			{
 				TradeUI.DrawWillNotTradeIndication(rect, trad);
 			}
-			num -= 240f;
-			int num3 = trad.CountHeldBy(Transactor.Colony);
-			if (num3 != 0)
+			width = (float)(width - 240.0);
+			int num2 = trad.CountHeldBy(Transactor.Colony);
+			if (num2 != 0)
 			{
-				Rect rect6 = new Rect(num - 100f, 0f, 100f, rect.height);
+				Rect rect6 = new Rect((float)(width - 100.0), 0f, 100f, rect.height);
 				Text.Anchor = TextAnchor.MiddleLeft;
 				TradeUI.DrawPrice(rect6, trad, TradeAction.PlayerSells);
-				Rect rect7 = new Rect(rect6.x - 75f, 0f, 75f, rect.height);
+				Rect rect7 = new Rect((float)(rect6.x - 75.0), 0f, 75f, rect.height);
 				if (Mouse.IsOver(rect7))
 				{
 					Widgets.DrawHighlight(rect7);
@@ -73,11 +73,11 @@ namespace RimWorld
 				Rect rect8 = rect7;
 				rect8.xMin += 5f;
 				rect8.xMax -= 5f;
-				Widgets.Label(rect8, num3.ToStringCached());
+				Widgets.Label(rect8, num2.ToStringCached());
 				TooltipHandler.TipRegion(rect7, "ColonyCount".Translate());
 			}
-			num -= 175f;
-			Rect idRect = new Rect(0f, 0f, num, rect.height);
+			width = (float)(width - 175.0);
+			Rect idRect = new Rect(0f, 0f, width, rect.height);
 			TransferableUIUtility.DrawTransferableInfo(trad, idRect, (!trad.TraderWillTrade) ? TradeUI.NoTradeColor : Color.white);
 			GenUI.ResetLabelAlign();
 			GUI.EndGroup();
@@ -85,73 +85,92 @@ namespace RimWorld
 
 		private static void DrawPrice(Rect rect, Tradeable trad, TradeAction action)
 		{
-			if (trad.IsCurrency || !trad.TraderWillTrade)
+			if (!trad.IsCurrency && trad.TraderWillTrade)
 			{
-				return;
-			}
-			rect = rect.Rounded();
-			if (Mouse.IsOver(rect))
-			{
-				Widgets.DrawHighlight(rect);
-			}
-			TooltipHandler.TipRegion(rect, new TipSignal(() => trad.GetPriceTooltip(action), trad.GetHashCode() * 297));
-			if (action == TradeAction.PlayerBuys)
-			{
-				switch (trad.PriceTypeFor(action))
+				rect = rect.Rounded();
+				if (Mouse.IsOver(rect))
 				{
-				case PriceType.VeryCheap:
-					GUI.color = new Color(0f, 1f, 0f);
-					break;
-				case PriceType.Cheap:
-					GUI.color = new Color(0.5f, 1f, 0.5f);
-					break;
-				case PriceType.Normal:
-					GUI.color = Color.white;
-					break;
-				case PriceType.Expensive:
-					GUI.color = new Color(1f, 0.5f, 0.5f);
-					break;
-				case PriceType.Exorbitant:
-					GUI.color = new Color(1f, 0f, 0f);
-					break;
+					Widgets.DrawHighlight(rect);
 				}
-			}
-			else
-			{
-				switch (trad.PriceTypeFor(action))
+				TooltipHandler.TipRegion(rect, new TipSignal((Func<string>)(() => trad.GetPriceTooltip(action)), trad.GetHashCode() * 297));
+				if (action == TradeAction.PlayerBuys)
 				{
-				case PriceType.VeryCheap:
-					GUI.color = new Color(1f, 0f, 0f);
-					break;
-				case PriceType.Cheap:
-					GUI.color = new Color(1f, 0.5f, 0.5f);
-					break;
-				case PriceType.Normal:
-					GUI.color = Color.white;
-					break;
-				case PriceType.Expensive:
-					GUI.color = new Color(0.5f, 1f, 0.5f);
-					break;
-				case PriceType.Exorbitant:
-					GUI.color = new Color(0f, 1f, 0f);
-					break;
+					switch (trad.PriceTypeFor(action))
+					{
+					case PriceType.VeryCheap:
+					{
+						GUI.color = new Color(0f, 1f, 0f);
+						break;
+					}
+					case PriceType.Cheap:
+					{
+						GUI.color = new Color(0.5f, 1f, 0.5f);
+						break;
+					}
+					case PriceType.Normal:
+					{
+						GUI.color = Color.white;
+						break;
+					}
+					case PriceType.Expensive:
+					{
+						GUI.color = new Color(1f, 0.5f, 0.5f);
+						break;
+					}
+					case PriceType.Exorbitant:
+					{
+						GUI.color = new Color(1f, 0f, 0f);
+						break;
+					}
+					}
 				}
+				else
+				{
+					switch (trad.PriceTypeFor(action))
+					{
+					case PriceType.VeryCheap:
+					{
+						GUI.color = new Color(1f, 0f, 0f);
+						break;
+					}
+					case PriceType.Cheap:
+					{
+						GUI.color = new Color(1f, 0.5f, 0.5f);
+						break;
+					}
+					case PriceType.Normal:
+					{
+						GUI.color = Color.white;
+						break;
+					}
+					case PriceType.Expensive:
+					{
+						GUI.color = new Color(0.5f, 1f, 0.5f);
+						break;
+					}
+					case PriceType.Exorbitant:
+					{
+						GUI.color = new Color(0f, 1f, 0f);
+						break;
+					}
+					}
+				}
+				float priceFor = trad.GetPriceFor(action);
+				string label = priceFor.ToStringMoney();
+				Rect rect2 = new Rect(rect);
+				rect2.xMax -= 5f;
+				rect2.xMin += 5f;
+				if (Text.Anchor == TextAnchor.MiddleLeft)
+				{
+					rect2.xMax += 300f;
+				}
+				if (Text.Anchor == TextAnchor.MiddleRight)
+				{
+					rect2.xMin -= 300f;
+				}
+				Widgets.Label(rect2, label);
+				GUI.color = Color.white;
 			}
-			float priceFor = trad.GetPriceFor(action);
-			string label = priceFor.ToStringMoney();
-			Rect rect2 = new Rect(rect);
-			rect2.xMax -= 5f;
-			rect2.xMin += 5f;
-			if (Text.Anchor == TextAnchor.MiddleLeft)
-			{
-				rect2.xMax += 300f;
-			}
-			if (Text.Anchor == TextAnchor.MiddleRight)
-			{
-				rect2.xMin -= 300f;
-			}
-			Widgets.Label(rect2, label);
-			GUI.color = Color.white;
 		}
 
 		private static void DrawWillNotTradeIndication(Rect rect, Tradeable trad)

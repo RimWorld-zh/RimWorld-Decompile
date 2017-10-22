@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -43,12 +42,12 @@ namespace RimWorld
 
 		public Dialog_ManageOutfits(Outfit selectedOutfit)
 		{
-			this.forcePause = true;
-			this.doCloseX = true;
-			this.closeOnEscapeKey = true;
-			this.doCloseButton = true;
-			this.closeOnClickedOutside = true;
-			this.absorbInputAroundWindow = true;
+			base.forcePause = true;
+			base.doCloseX = true;
+			base.closeOnEscapeKey = true;
+			base.doCloseButton = true;
+			base.closeOnClickedOutside = true;
+			base.absorbInputAroundWindow = true;
 			if (Dialog_ManageOutfits.apparelGlobalFilter == null)
 			{
 				Dialog_ManageOutfits.apparelGlobalFilter = new ThingFilter();
@@ -69,52 +68,73 @@ namespace RimWorld
 		{
 			float num = 0f;
 			Rect rect = new Rect(0f, 0f, 150f, 35f);
-			num += 150f;
+			num = (float)(num + 150.0);
 			if (Widgets.ButtonText(rect, "SelectOutfit".Translate(), true, false, true))
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				foreach (Outfit current in Current.Game.outfitDatabase.AllOutfits)
+				List<Outfit>.Enumerator enumerator = Current.Game.outfitDatabase.AllOutfits.GetEnumerator();
+				try
 				{
-					Outfit localOut = current;
-					list.Add(new FloatMenuOption(localOut.label, delegate
+					while (enumerator.MoveNext())
 					{
-						this.SelectedOutfit = localOut;
-					}, MenuOptionPriority.Default, null, null, 0f, null, null));
+						Outfit current = enumerator.Current;
+						Outfit localOut = current;
+						list.Add(new FloatMenuOption(localOut.label, (Action)delegate
+						{
+							this.SelectedOutfit = localOut;
+						}, MenuOptionPriority.Default, null, null, 0f, null, null));
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 				Find.WindowStack.Add(new FloatMenu(list));
 			}
-			num += 10f;
+			num = (float)(num + 10.0);
 			Rect rect2 = new Rect(num, 0f, 150f, 35f);
-			num += 150f;
+			num = (float)(num + 150.0);
 			if (Widgets.ButtonText(rect2, "NewOutfit".Translate(), true, false, true))
 			{
 				this.SelectedOutfit = Current.Game.outfitDatabase.MakeNewOutfit();
 			}
-			num += 10f;
+			num = (float)(num + 10.0);
 			Rect rect3 = new Rect(num, 0f, 150f, 35f);
-			num += 150f;
+			num = (float)(num + 150.0);
 			if (Widgets.ButtonText(rect3, "DeleteOutfit".Translate(), true, false, true))
 			{
 				List<FloatMenuOption> list2 = new List<FloatMenuOption>();
-				foreach (Outfit current2 in Current.Game.outfitDatabase.AllOutfits)
+				List<Outfit>.Enumerator enumerator2 = Current.Game.outfitDatabase.AllOutfits.GetEnumerator();
+				try
 				{
-					Outfit localOut = current2;
-					list2.Add(new FloatMenuOption(localOut.label, delegate
+					while (enumerator2.MoveNext())
 					{
-						AcceptanceReport acceptanceReport = Current.Game.outfitDatabase.TryDelete(localOut);
-						if (!acceptanceReport.Accepted)
+						Outfit current2 = enumerator2.Current;
+						Outfit localOut2 = current2;
+						list2.Add(new FloatMenuOption(localOut2.label, (Action)delegate
 						{
-							Messages.Message(acceptanceReport.Reason, MessageSound.RejectInput);
-						}
-						else if (localOut == this.SelectedOutfit)
-						{
-							this.SelectedOutfit = null;
-						}
-					}, MenuOptionPriority.Default, null, null, 0f, null, null));
+							AcceptanceReport acceptanceReport = Current.Game.outfitDatabase.TryDelete(localOut2);
+							if (!acceptanceReport.Accepted)
+							{
+								Messages.Message(acceptanceReport.Reason, MessageSound.RejectInput);
+							}
+							else if (localOut2 == this.SelectedOutfit)
+							{
+								this.SelectedOutfit = null;
+							}
+						}, MenuOptionPriority.Default, null, null, 0f, null, null));
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator2).Dispose();
 				}
 				Find.WindowStack.Add(new FloatMenu(list2));
 			}
-			Rect rect4 = new Rect(0f, 40f, inRect.width, inRect.height - 40f - this.CloseButSize.y).ContractedBy(10f);
+			float width = inRect.width;
+			double num2 = inRect.height - 40.0;
+			Vector2 closeButSize = base.CloseButSize;
+			Rect rect4 = new Rect(0f, 40f, width, (float)(num2 - closeButSize.y)).ContractedBy(10f);
 			if (this.SelectedOutfit == null)
 			{
 				GUI.color = Color.grey;
@@ -122,24 +142,22 @@ namespace RimWorld
 				Widgets.Label(rect4, "NoOutfitSelected".Translate());
 				Text.Anchor = TextAnchor.UpperLeft;
 				GUI.color = Color.white;
-				return;
 			}
-			GUI.BeginGroup(rect4);
-			Rect rect5 = new Rect(0f, 0f, 200f, 30f);
-			Dialog_ManageOutfits.DoNameInputRect(rect5, ref this.SelectedOutfit.label);
-			Rect rect6 = new Rect(0f, 40f, 300f, rect4.height - 45f - 10f);
-			IEnumerable<SpecialThingFilterDef> forceHiddenFilters = this.HiddenSpecialThingFilters();
-			ThingFilterUI.DoThingFilterConfigWindow(rect6, ref this.scrollPosition, this.SelectedOutfit.filter, Dialog_ManageOutfits.apparelGlobalFilter, 16, null, forceHiddenFilters, null);
-			GUI.EndGroup();
+			else
+			{
+				GUI.BeginGroup(rect4);
+				Rect rect5 = new Rect(0f, 0f, 200f, 30f);
+				Dialog_ManageOutfits.DoNameInputRect(rect5, ref this.SelectedOutfit.label);
+				Rect rect6 = new Rect(0f, 40f, 300f, (float)(rect4.height - 45.0 - 10.0));
+				IEnumerable<SpecialThingFilterDef> forceHiddenFilters = this.HiddenSpecialThingFilters();
+				ThingFilterUI.DoThingFilterConfigWindow(rect6, ref this.scrollPosition, this.SelectedOutfit.filter, Dialog_ManageOutfits.apparelGlobalFilter, 16, (IEnumerable<ThingDef>)null, forceHiddenFilters, (List<ThingDef>)null);
+				GUI.EndGroup();
+			}
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<SpecialThingFilterDef> HiddenSpecialThingFilters()
 		{
-			Dialog_ManageOutfits.<HiddenSpecialThingFilters>c__Iterator195 <HiddenSpecialThingFilters>c__Iterator = new Dialog_ManageOutfits.<HiddenSpecialThingFilters>c__Iterator195();
-			Dialog_ManageOutfits.<HiddenSpecialThingFilters>c__Iterator195 expr_07 = <HiddenSpecialThingFilters>c__Iterator;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield return SpecialThingFilterDefOf.AllowNonDeadmansApparel;
 		}
 
 		public override void PreClose()

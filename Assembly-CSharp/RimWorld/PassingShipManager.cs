@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -43,9 +42,9 @@ namespace RimWorld
 
 		public void PassingShipManagerTick()
 		{
-			for (int i = this.passingShips.Count - 1; i >= 0; i--)
+			for (int num = this.passingShips.Count - 1; num >= 0; num--)
 			{
-				this.passingShips[i].PassingShipTick();
+				this.passingShips[num].PassingShipTick();
 			}
 		}
 

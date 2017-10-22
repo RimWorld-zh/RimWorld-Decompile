@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using UnityEngine;
 using Verse;
 
@@ -9,32 +8,36 @@ namespace RimWorld
 	{
 		public override bool InRelation(Pawn me, Pawn other)
 		{
-			return me != other && (me.GetMother() != null && me.GetFather() != null && me.GetMother() == other.GetMother() && me.GetFather() == other.GetFather());
+			if (me == other)
+			{
+				return false;
+			}
+			if (me.GetMother() != null && me.GetFather() != null && me.GetMother() == other.GetMother() && me.GetFather() == other.GetFather())
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override float GenerationChance(Pawn generated, Pawn other, PawnGenerationRequest request)
 		{
 			float num = 1f;
 			float num2 = 1f;
-			if (other.GetFather() != null || other.GetMother() != null)
+			if (other.GetFather() == null && other.GetMother() == null)
 			{
-				num = ChildRelationUtility.ChanceOfBecomingChildOf(generated, other.GetFather(), other.GetMother(), new PawnGenerationRequest?(request), null, null);
-			}
-			else if (request.FixedMelanin.HasValue)
-			{
-				num2 = ChildRelationUtility.GetMelaninSimilarityFactor(request.FixedMelanin.Value, other.story.melanin);
+				num2 = ((!request.FixedMelanin.HasValue) ? PawnSkinColors.GetMelaninCommonalityFactor(other.story.melanin) : ChildRelationUtility.GetMelaninSimilarityFactor(request.FixedMelanin.Value, other.story.melanin));
 			}
 			else
 			{
-				num2 = PawnSkinColors.GetMelaninCommonalityFactor(other.story.melanin);
+				num = ChildRelationUtility.ChanceOfBecomingChildOf(generated, other.GetFather(), other.GetMother(), new PawnGenerationRequest?(request), default(PawnGenerationRequest?), default(PawnGenerationRequest?));
 			}
 			float num3 = Mathf.Abs(generated.ageTracker.AgeChronologicalYearsFloat - other.ageTracker.AgeChronologicalYearsFloat);
 			float num4 = 1f;
-			if (num3 > 40f)
+			if (num3 > 40.0)
 			{
 				num4 = 0.2f;
 			}
-			else if (num3 > 10f)
+			else if (num3 > 10.0)
 			{
 				num4 = 0.65f;
 			}
@@ -45,7 +48,7 @@ namespace RimWorld
 		{
 			bool flag = other.GetMother() != null;
 			bool flag2 = other.GetFather() != null;
-			bool flag3 = Rand.Value < 0.85f;
+			bool flag3 = Rand.Value < 0.85000002384185791;
 			if (flag && LovePartnerRelationUtility.HasAnyLovePartner(other.GetMother()))
 			{
 				flag3 = false;
@@ -68,8 +71,7 @@ namespace RimWorld
 			generated.SetFather(other.GetFather());
 			if (!flag || !flag2)
 			{
-				bool flag4 = other.GetMother().story.traits.HasTrait(TraitDefOf.Gay) || other.GetFather().story.traits.HasTrait(TraitDefOf.Gay);
-				if (flag4)
+				if (other.GetMother().story.traits.HasTrait(TraitDefOf.Gay) || other.GetFather().story.traits.HasTrait(TraitDefOf.Gay))
 				{
 					other.GetFather().relations.AddDirectRelation(PawnRelationDefOf.ExLover, other.GetMother());
 				}
@@ -90,19 +92,19 @@ namespace RimWorld
 		{
 			float ageChronologicalYearsFloat = generatedChild.ageTracker.AgeChronologicalYearsFloat;
 			float ageChronologicalYearsFloat2 = existingChild.ageTracker.AgeChronologicalYearsFloat;
-			float num = (genderToGenerate != Gender.Male) ? 16f : 14f;
-			float num2 = (genderToGenerate != Gender.Male) ? 45f : 50f;
-			float num3 = (genderToGenerate != Gender.Male) ? 27f : 30f;
+			float num = (float)((genderToGenerate != Gender.Male) ? 16.0 : 14.0);
+			float num2 = (float)((genderToGenerate != Gender.Male) ? 45.0 : 50.0);
+			float num3 = (float)((genderToGenerate != Gender.Male) ? 27.0 : 30.0);
 			float num4 = Mathf.Max(ageChronologicalYearsFloat, ageChronologicalYearsFloat2) + num;
 			float maxChronologicalAge = num4 + (num2 - num);
 			float midChronologicalAge = num4 + (num3 - num);
-			float value;
-			float value2;
-			float value3;
-			string last;
+			float value = default(float);
+			float value2 = default(float);
+			float value3 = default(float);
+			string last = default(string);
 			PawnRelationWorker_Sibling.GenerateParentParams(num4, maxChronologicalAge, midChronologicalAge, num, generatedChild, existingChild, childRequest, out value, out value2, out value3, out last);
 			bool allowGay = true;
-			if (newlyGeneratedParentsWillBeSpousesIfNotGay && last.NullOrEmpty() && Rand.Value < 0.8f)
+			if (newlyGeneratedParentsWillBeSpousesIfNotGay && last.NullOrEmpty() && Rand.Value < 0.800000011920929)
 			{
 				if (genderToGenerate == Gender.Male && existingChild.GetMother() != null && !existingChild.GetMother().story.traits.HasTrait(TraitDefOf.Gay))
 				{
@@ -118,7 +120,7 @@ namespace RimWorld
 			Faction faction = existingChild.Faction;
 			if (faction == null || faction.IsPlayer)
 			{
-				bool tryMedievalOrBetter = faction != null && faction.def.techLevel >= TechLevel.Medieval;
+				bool tryMedievalOrBetter = faction != null && (int)faction.def.techLevel >= 3;
 				Find.FactionManager.TryGetRandomNonColonyHumanlikeFaction(out faction, tryMedievalOrBetter, true);
 			}
 			Gender? fixedGender = new Gender?(genderToGenerate);
@@ -135,7 +137,7 @@ namespace RimWorld
 
 		private static void GenerateParentParams(float minChronologicalAge, float maxChronologicalAge, float midChronologicalAge, float minBioAgeToHaveChildren, Pawn generatedChild, Pawn existingChild, PawnGenerationRequest childRequest, out float biologicalAge, out float chronologicalAge, out float melanin, out string lastName)
 		{
-			chronologicalAge = Rand.GaussianAsymmetric(midChronologicalAge, (midChronologicalAge - minChronologicalAge) / 2f, (maxChronologicalAge - midChronologicalAge) / 2f);
+			chronologicalAge = Rand.GaussianAsymmetric(midChronologicalAge, (float)((midChronologicalAge - minChronologicalAge) / 2.0), (float)((maxChronologicalAge - midChronologicalAge) / 2.0));
 			chronologicalAge = Mathf.Clamp(chronologicalAge, minChronologicalAge, maxChronologicalAge);
 			biologicalAge = Rand.Range(minBioAgeToHaveChildren, Mathf.Min(existingChild.RaceProps.lifeExpectancy, chronologicalAge));
 			if (existingChild.GetFather() != null)
@@ -154,7 +156,7 @@ namespace RimWorld
 			{
 				float num = Mathf.Min(childRequest.FixedMelanin.Value, existingChild.story.melanin);
 				float num2 = Mathf.Max(childRequest.FixedMelanin.Value, existingChild.story.melanin);
-				if (Rand.Value < 0.5f)
+				if (Rand.Value < 0.5)
 				{
 					melanin = PawnSkinColors.GetRandomMelaninSimilarTo(num, 0f, num);
 				}
@@ -163,12 +165,12 @@ namespace RimWorld
 					melanin = PawnSkinColors.GetRandomMelaninSimilarTo(num2, num2, 1f);
 				}
 			}
-			lastName = null;
+			lastName = (string)null;
 			if (!ChildRelationUtility.DefinitelyHasNotBirthName(existingChild) && ChildRelationUtility.ChildWantsNameOfAnyParent(existingChild))
 			{
 				if (existingChild.GetMother() == null && existingChild.GetFather() == null)
 				{
-					if (Rand.Value < 0.5f)
+					if (Rand.Value < 0.5)
 					{
 						lastName = ((NameTriple)existingChild.Name).Last;
 					}
@@ -176,7 +178,7 @@ namespace RimWorld
 				else
 				{
 					string last = ((NameTriple)existingChild.Name).Last;
-					string b = null;
+					string b = (string)null;
 					if (existingChild.GetMother() != null)
 					{
 						b = ((NameTriple)existingChild.GetMother().Name).Last;
@@ -195,13 +197,9 @@ namespace RimWorld
 
 		private static void ResolveMyName(ref PawnGenerationRequest request, Pawn generated)
 		{
-			if (request.FixedLastName != null)
+			if (request.FixedLastName == null && ChildRelationUtility.ChildWantsNameOfAnyParent(generated))
 			{
-				return;
-			}
-			if (ChildRelationUtility.ChildWantsNameOfAnyParent(generated))
-			{
-				if (Rand.Value < 0.5f)
+				if (Rand.Value < 0.5)
 				{
 					request.SetFixedLastName(((NameTriple)generated.GetFather().Name).Last);
 				}
@@ -214,11 +212,10 @@ namespace RimWorld
 
 		private static void ResolveMySkinColor(ref PawnGenerationRequest request, Pawn generated)
 		{
-			if (request.FixedMelanin.HasValue)
+			if (!request.FixedMelanin.HasValue)
 			{
-				return;
+				request.SetFixedMelanin(ChildRelationUtility.GetRandomChildSkinColor(generated.GetFather().story.melanin, generated.GetMother().story.melanin));
 			}
-			request.SetFixedMelanin(ChildRelationUtility.GetRandomChildSkinColor(generated.GetFather().story.melanin, generated.GetMother().story.melanin));
 		}
 	}
 }

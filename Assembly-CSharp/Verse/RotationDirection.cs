@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum RotationDirection : byte
 	{
-		None,
-		Clockwise,
-		Counterclockwise
+		None = 0,
+		Clockwise = 1,
+		Counterclockwise = 2
 	}
 }

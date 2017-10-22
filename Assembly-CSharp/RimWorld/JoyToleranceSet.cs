@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -29,12 +28,12 @@ namespace RimWorld
 
 		public void Notify_JoyGained(float amount, JoyKindDef joyKind)
 		{
-			this.tolerances[joyKind] = Mathf.Min(this.tolerances[joyKind] + amount * 0.4f, 1f);
+			this.tolerances[joyKind] = Mathf.Min((float)(this.tolerances[joyKind] + amount * 0.40000000596046448), 1f);
 		}
 
 		public float JoyFactorFromTolerance(JoyKindDef joyKind)
 		{
-			return 1f - this.tolerances[joyKind];
+			return (float)(1.0 - this.tolerances[joyKind]);
 		}
 
 		public void NeedInterval()
@@ -42,8 +41,8 @@ namespace RimWorld
 			for (int i = 0; i < this.tolerances.Count; i++)
 			{
 				float num = this.tolerances[i];
-				num -= 0.000208333338f;
-				if (num < 0f)
+				num = (float)(num - 0.00020833333837799728);
+				if (num < 0.0)
 				{
 					num = 0f;
 				}
@@ -60,7 +59,7 @@ namespace RimWorld
 			{
 				JoyKindDef joyKindDef = allDefsListForReading[i];
 				float num = this.tolerances[joyKindDef];
-				if (num > 0.01f)
+				if (num > 0.0099999997764825821)
 				{
 					stringBuilder.AppendLine("   -" + joyKindDef.label + ": " + num.ToStringPercent());
 				}

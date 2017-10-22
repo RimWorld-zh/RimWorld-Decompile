@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum LogMessageType : byte
 	{
-		Message,
-		Warning,
-		Error
+		Message = 0,
+		Warning = 1,
+		Error = 2
 	}
 }

@@ -10,12 +10,21 @@ namespace Verse
 
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
-			foreach (PatchOperation current in this.operations)
+			List<PatchOperation>.Enumerator enumerator = this.operations.GetEnumerator();
+			try
 			{
-				if (!current.Apply(xml))
+				while (enumerator.MoveNext())
 				{
-					return false;
+					PatchOperation current = enumerator.Current;
+					if (!current.Apply(xml))
+					{
+						return false;
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			return true;
 		}

@@ -71,13 +71,16 @@ namespace Verse
 							return new ThingStackPart(this.innerContainer[j], this.innerContainer[j].stackCount);
 						}
 						int num = -1;
-						for (int k = 0; k < Pawn_InventoryTracker.tmpDrugsToKeep.Count; k++)
+						int num2 = 0;
+						while (num2 < Pawn_InventoryTracker.tmpDrugsToKeep.Count)
 						{
-							if (this.innerContainer[j].def == Pawn_InventoryTracker.tmpDrugsToKeep[k].ThingDef)
+							if (this.innerContainer[j].def != Pawn_InventoryTracker.tmpDrugsToKeep[num2].ThingDef)
 							{
-								num = k;
-								break;
+								num2++;
+								continue;
 							}
+							num = num2;
+							break;
 						}
 						if (num < 0)
 						{
@@ -112,7 +115,7 @@ namespace Verse
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Thing>(ref this.itemsNotForSale, "itemsNotForSale", LookMode.Reference, new object[0]);
-			Scribe_Deep.Look<ThingOwner<Thing>>(ref this.innerContainer, "innerContainer", new object[]
+			Scribe_Deep.Look<ThingOwner<Thing>>(ref this.innerContainer, "innerContainer", new object[1]
 			{
 				this
 			});
@@ -138,28 +141,30 @@ namespace Verse
 			if (this.pawn.MapHeld == null)
 			{
 				Log.Error("Tried to drop all inventory near pawn but the pawn is unspawned. pawn=" + this.pawn);
-				return;
 			}
-			Pawn_InventoryTracker.tmpThingList.Clear();
-			Pawn_InventoryTracker.tmpThingList.AddRange(this.innerContainer);
-			for (int i = 0; i < Pawn_InventoryTracker.tmpThingList.Count; i++)
+			else
 			{
-				Thing thing;
-				this.innerContainer.TryDrop(Pawn_InventoryTracker.tmpThingList[i], pos, this.pawn.MapHeld, ThingPlaceMode.Near, out thing, delegate(Thing t, int unused)
+				Pawn_InventoryTracker.tmpThingList.Clear();
+				Pawn_InventoryTracker.tmpThingList.AddRange(this.innerContainer);
+				for (int i = 0; i < Pawn_InventoryTracker.tmpThingList.Count; i++)
 				{
-					if (forbid)
+					Thing thing = default(Thing);
+					this.innerContainer.TryDrop(Pawn_InventoryTracker.tmpThingList[i], pos, this.pawn.MapHeld, ThingPlaceMode.Near, out thing, (Action<Thing, int>)delegate(Thing t, int unused)
 					{
-						t.SetForbiddenIfOutsideHomeArea();
-					}
-					if (unforbid)
-					{
-						t.SetForbidden(false, false);
-					}
-					if (t.def.IsPleasureDrug)
-					{
-						LessonAutoActivator.TeachOpportunity(ConceptDefOf.DrugBurning, OpportunityType.Important);
-					}
-				});
+						if (forbid)
+						{
+							t.SetForbiddenIfOutsideHomeArea();
+						}
+						if (unforbid)
+						{
+							t.SetForbidden(false, false);
+						}
+						if (t.def.IsPleasureDrug)
+						{
+							LessonAutoActivator.TeachOpportunity(ConceptDefOf.DrugBurning, OpportunityType.Important);
+						}
+					});
+				}
 			}
 		}
 

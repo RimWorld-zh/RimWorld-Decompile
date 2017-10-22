@@ -94,9 +94,9 @@ namespace Verse
 		{
 			get
 			{
-				float num = (float)Math.Sin((double)(Time.time * 8f));
-				num *= 0.2f;
-				num += 0.8f;
+				float num = (float)Math.Sin(Time.time * 8.0);
+				num = (float)(num * 0.20000000298023224);
+				num = (float)(num + 0.800000011920929);
 				return new Color(1f, num, num);
 			}
 		}
@@ -136,51 +136,64 @@ namespace Verse
 			switch (color)
 			{
 			case SimpleColor.White:
+			{
 				mat = GenDraw.LineMatWhite;
 				break;
+			}
 			case SimpleColor.Red:
+			{
 				mat = GenDraw.LineMatRed;
 				break;
+			}
 			case SimpleColor.Green:
+			{
 				mat = GenDraw.LineMatGreen;
 				break;
+			}
 			case SimpleColor.Blue:
+			{
 				mat = GenDraw.LineMatBlue;
 				break;
+			}
 			case SimpleColor.Magenta:
+			{
 				mat = GenDraw.LineMatMagenta;
 				break;
+			}
 			case SimpleColor.Yellow:
+			{
 				mat = GenDraw.LineMatYellow;
 				break;
+			}
 			case SimpleColor.Cyan:
+			{
 				mat = GenDraw.LineMatCyan;
 				break;
+			}
 			default:
+			{
 				mat = GenDraw.LineMatWhite;
 				break;
+			}
 			}
 			GenDraw.DrawLineBetween(A, B, mat);
 		}
 
 		public static void DrawLineBetween(Vector3 A, Vector3 B, Material mat)
 		{
-			if (Mathf.Abs(A.x - B.x) < 0.01f && Mathf.Abs(A.z - B.z) < 0.01f)
-			{
+			if (Mathf.Abs(A.x - B.x) < 0.0099999997764825821 && Mathf.Abs(A.z - B.z) < 0.0099999997764825821)
 				return;
-			}
 			Vector3 pos = (A + B) / 2f;
-			if (A == B)
+			if (!(A == B))
 			{
-				return;
+				A.y = B.y;
+				float z = (A - B).MagnitudeHorizontal();
+				Quaternion q = Quaternion.LookRotation(A - B);
+				Vector3 s = new Vector3(0.2f, 1f, z);
+				Matrix4x4 matrix = default(Matrix4x4);
+				matrix.SetTRS(pos, q, s);
+				Graphics.DrawMesh(MeshPool.plane10, matrix, mat, 0);
 			}
-			A.y = B.y;
-			float z = (A - B).MagnitudeHorizontal();
-			Quaternion q = Quaternion.LookRotation(A - B);
-			Vector3 s = new Vector3(0.2f, 1f, z);
-			Matrix4x4 matrix = default(Matrix4x4);
-			matrix.SetTRS(pos, q, s);
-			Graphics.DrawMesh(MeshPool.plane10, matrix, mat, 0);
 		}
 
 		public static void DrawWorldLineBetween(Vector3 A, Vector3 B)
@@ -195,14 +208,12 @@ namespace Verse
 
 		public static void DrawWorldLineBetween(Vector3 A, Vector3 B, Material material, float widthFactor)
 		{
-			if (Mathf.Abs(A.x - B.x) < 0.005f && Mathf.Abs(A.y - B.y) < 0.005f && Mathf.Abs(A.z - B.z) < 0.005f)
-			{
+			if (Mathf.Abs(A.x - B.x) < 0.004999999888241291 && Mathf.Abs(A.y - B.y) < 0.004999999888241291 && Mathf.Abs(A.z - B.z) < 0.004999999888241291)
 				return;
-			}
 			Vector3 pos = (A + B) / 2f;
 			float magnitude = (A - B).magnitude;
 			Quaternion q = Quaternion.LookRotation(A - B, pos.normalized);
-			Vector3 s = new Vector3(0.2f * Find.WorldGrid.averageTileSize * widthFactor, 1f, magnitude);
+			Vector3 s = new Vector3((float)(0.20000000298023224 * Find.WorldGrid.averageTileSize * widthFactor), 1f, magnitude);
 			Matrix4x4 matrix = default(Matrix4x4);
 			matrix.SetTRS(pos, q, s);
 			Graphics.DrawMesh(MeshPool.plane10, matrix, material, WorldCameraManager.WorldLayer);
@@ -210,68 +221,66 @@ namespace Verse
 
 		public static void DrawWorldRadiusRing(int center, int radius)
 		{
-			if (radius < 0)
+			if (radius >= 0)
 			{
-				return;
-			}
-			if (GenDraw.cachedEdgeTilesForCenter != center || GenDraw.cachedEdgeTilesForRadius != radius || GenDraw.cachedEdgeTilesForWorldSeed != Find.World.info.Seed)
-			{
-				GenDraw.cachedEdgeTilesForCenter = center;
-				GenDraw.cachedEdgeTilesForRadius = radius;
-				GenDraw.cachedEdgeTilesForWorldSeed = Find.World.info.Seed;
-				GenDraw.cachedEdgeTiles.Clear();
-				Find.WorldFloodFiller.FloodFill(center, (int tile) => true, delegate(int tile, int dist)
+				if (GenDraw.cachedEdgeTilesForCenter != center || GenDraw.cachedEdgeTilesForRadius != radius || GenDraw.cachedEdgeTilesForWorldSeed != Find.World.info.Seed)
 				{
-					if (dist > radius + 1)
+					GenDraw.cachedEdgeTilesForCenter = center;
+					GenDraw.cachedEdgeTilesForRadius = radius;
+					GenDraw.cachedEdgeTilesForWorldSeed = Find.World.info.Seed;
+					GenDraw.cachedEdgeTiles.Clear();
+					Find.WorldFloodFiller.FloodFill(center, (Predicate<int>)((int tile) => true), (Func<int, int, bool>)delegate(int tile, int dist)
 					{
-						return true;
-					}
-					if (dist == radius + 1)
+						if (dist > radius + 1)
+						{
+							return true;
+						}
+						if (dist == radius + 1)
+						{
+							GenDraw.cachedEdgeTiles.Add(tile);
+						}
+						return false;
+					}, 2147483647);
+					WorldGrid worldGrid = Find.WorldGrid;
+					Vector3 c = worldGrid.GetTileCenter(center);
+					Vector3 i = c.normalized;
+					GenDraw.cachedEdgeTiles.Sort((Comparison<int>)delegate(int a, int b)
 					{
-						GenDraw.cachedEdgeTiles.Add(tile);
-					}
-					return false;
-				}, 2147483647);
-				WorldGrid worldGrid = Find.WorldGrid;
-				Vector3 c = worldGrid.GetTileCenter(center);
-				Vector3 n = c.normalized;
-				GenDraw.cachedEdgeTiles.Sort(delegate(int a, int b)
-				{
-					float num = Vector3.Dot(n, Vector3.Cross(worldGrid.GetTileCenter(a) - c, worldGrid.GetTileCenter(b) - c));
-					if (Mathf.Abs(num) < 0.0001f)
-					{
-						return 0;
-					}
-					if (num < 0f)
-					{
-						return -1;
-					}
-					return 1;
-				});
+						float num = Vector3.Dot(i, Vector3.Cross(worldGrid.GetTileCenter(a) - c, worldGrid.GetTileCenter(b) - c));
+						if (Mathf.Abs(num) < 9.9999997473787516E-05)
+						{
+							return 0;
+						}
+						if (num < 0.0)
+						{
+							return -1;
+						}
+						return 1;
+					});
+				}
+				GenDraw.DrawWorldLineStrip(GenDraw.cachedEdgeTiles, GenDraw.OneSidedWorldLineMatWhite, 5f);
 			}
-			GenDraw.DrawWorldLineStrip(GenDraw.cachedEdgeTiles, GenDraw.OneSidedWorldLineMatWhite, 5f);
 		}
 
 		public static void DrawWorldLineStrip(List<int> edgeTiles, Material material, float widthFactor)
 		{
-			if (edgeTiles.Count < 3)
+			if (edgeTiles.Count >= 3)
 			{
-				return;
-			}
-			WorldGrid worldGrid = Find.WorldGrid;
-			float d = 0.05f;
-			for (int i = 0; i < edgeTiles.Count; i++)
-			{
-				int index = (i != 0) ? (i - 1) : (edgeTiles.Count - 1);
-				int num = edgeTiles[index];
-				int num2 = edgeTiles[i];
-				if (worldGrid.IsNeighbor(num, num2))
+				WorldGrid worldGrid = Find.WorldGrid;
+				float d = 0.05f;
+				for (int i = 0; i < edgeTiles.Count; i++)
 				{
-					Vector3 a = worldGrid.GetTileCenter(num);
-					Vector3 vector = worldGrid.GetTileCenter(num2);
-					a += a.normalized * d;
-					vector += vector.normalized * d;
-					GenDraw.DrawWorldLineBetween(a, vector, material, widthFactor);
+					int index = (i != 0) ? (i - 1) : (edgeTiles.Count - 1);
+					int num = edgeTiles[index];
+					int num2 = edgeTiles[i];
+					if (worldGrid.IsNeighbor(num, num2))
+					{
+						Vector3 a = worldGrid.GetTileCenter(num);
+						Vector3 vector = worldGrid.GetTileCenter(num2);
+						a += a.normalized * d;
+						vector += vector.normalized * d;
+						GenDraw.DrawWorldLineBetween(a, vector, material, widthFactor);
+					}
 				}
 			}
 		}
@@ -322,15 +331,17 @@ namespace Verse
 					Log.Error("Cannot draw radius ring of radius " + radius + ": not enough squares in the precalculated list.");
 					GenDraw.maxRadiusMessaged = true;
 				}
-				return;
 			}
-			GenDraw.ringDrawCells.Clear();
-			int num = GenRadial.NumCellsInRadius(radius);
-			for (int i = 0; i < num; i++)
+			else
 			{
-				GenDraw.ringDrawCells.Add(center + GenRadial.RadialPattern[i]);
+				GenDraw.ringDrawCells.Clear();
+				int num = GenRadial.NumCellsInRadius(radius);
+				for (int num2 = 0; num2 < num; num2++)
+				{
+					GenDraw.ringDrawCells.Add(center + GenRadial.RadialPattern[num2]);
+				}
+				GenDraw.DrawFieldEdges(GenDraw.ringDrawCells);
 			}
-			GenDraw.DrawFieldEdges(GenDraw.ringDrawCells);
 		}
 
 		public static void DrawFieldEdges(List<IntVec3> cells)
@@ -356,33 +367,36 @@ namespace Verse
 			{
 				GenDraw.fieldGrid.ClearAndResizeTo(visibleMap);
 			}
-			int x = visibleMap.Size.x;
-			int z = visibleMap.Size.z;
+			IntVec3 size = visibleMap.Size;
+			int x = size.x;
+			IntVec3 size2 = visibleMap.Size;
+			int z = size2.z;
 			int count = cells.Count;
-			for (int i = 0; i < count; i++)
+			for (int num = 0; num < count; num++)
 			{
-				if (cells[i].InBounds(visibleMap))
+				if (cells[num].InBounds(visibleMap))
 				{
-					GenDraw.fieldGrid[cells[i].x, cells[i].z] = true;
+					BoolGrid obj = GenDraw.fieldGrid;
+					IntVec3 intVec = cells[num];
+					int x2 = intVec.x;
+					IntVec3 intVec2 = cells[num];
+					obj[x2, intVec2.z] = true;
 				}
 			}
-			for (int j = 0; j < count; j++)
+			for (int num2 = 0; num2 < count; num2++)
 			{
-				IntVec3 c = cells[j];
+				IntVec3 c = cells[num2];
 				if (c.InBounds(visibleMap))
 				{
 					GenDraw.rotNeeded[0] = (c.z < z - 1 && !GenDraw.fieldGrid[c.x, c.z + 1]);
 					GenDraw.rotNeeded[1] = (c.x < x - 1 && !GenDraw.fieldGrid[c.x + 1, c.z]);
 					GenDraw.rotNeeded[2] = (c.z > 0 && !GenDraw.fieldGrid[c.x, c.z - 1]);
 					GenDraw.rotNeeded[3] = (c.x > 0 && !GenDraw.fieldGrid[c.x - 1, c.z]);
-					for (int k = 0; k < 4; k++)
+					for (int i = 0; i < 4; i++)
 					{
-						if (GenDraw.rotNeeded[k])
+						if (GenDraw.rotNeeded[i])
 						{
-							Mesh arg_219_0 = MeshPool.plane10;
-							Vector3 arg_219_1 = c.ToVector3ShiftedWithAltitude(AltitudeLayer.MetaOverlays);
-							Rot4 rot = new Rot4(k);
-							Graphics.DrawMesh(arg_219_0, arg_219_1, rot.AsQuat, material, 0);
+							Graphics.DrawMesh(MeshPool.plane10, c.ToVector3ShiftedWithAltitude(AltitudeLayer.MetaOverlays), new Rot4(i).AsQuat, material, 0);
 						}
 					}
 				}
@@ -394,30 +408,22 @@ namespace Verse
 			float facing = 0f;
 			if (target.Cell != shooter.Position)
 			{
-				if (target.Thing != null)
-				{
-					facing = (target.Thing.DrawPos - shooter.Position.ToVector3Shifted()).AngleFlat();
-				}
-				else
-				{
-					facing = (target.Cell - shooter.Position).AngleFlat;
-				}
+				facing = ((target.Thing == null) ? (target.Cell - shooter.Position).AngleFlat : (target.Thing.DrawPos - shooter.Position.ToVector3Shifted()).AngleFlat());
 			}
 			GenDraw.DrawAimPieRaw(shooter.DrawPos + new Vector3(0f, offsetDist, 0f), facing, degreesWide);
 		}
 
 		public static void DrawAimPieRaw(Vector3 center, float facing, int degreesWide)
 		{
-			if (degreesWide <= 0)
+			if (degreesWide > 0)
 			{
-				return;
+				if (degreesWide > 360)
+				{
+					degreesWide = 360;
+				}
+				center += Quaternion.AngleAxis(facing, Vector3.up) * Vector3.forward * 0.8f;
+				Graphics.DrawMesh(MeshPool.pies[degreesWide], center, Quaternion.AngleAxis((float)(facing + (float)(degreesWide / 2) - 90.0), Vector3.up), GenDraw.AimPieMaterial, 0);
 			}
-			if (degreesWide > 360)
-			{
-				degreesWide = 360;
-			}
-			center += Quaternion.AngleAxis(facing, Vector3.up) * Vector3.forward * 0.8f;
-			Graphics.DrawMesh(MeshPool.pies[degreesWide], center, Quaternion.AngleAxis(facing + (float)(degreesWide / 2) - 90f, Vector3.up), GenDraw.AimPieMaterial, 0);
 		}
 
 		public static void DrawCooldownCircle(Vector3 center, float radius)
@@ -428,7 +434,7 @@ namespace Verse
 			Graphics.DrawMesh(MeshPool.circle, matrix, GenDraw.AimPieMaterial, 0);
 		}
 
-		public static void DrawFillableBar(GenDraw.FillableBarRequest r)
+		public static void DrawFillableBar(FillableBarRequest r)
 		{
 			Vector2 vector = r.preRotationOffset.RotatedBy(r.rotation.AsAngle);
 			r.center += new Vector3(vector.x, 0f, vector.y);
@@ -444,20 +450,20 @@ namespace Verse
 			Matrix4x4 matrix = default(Matrix4x4);
 			matrix.SetTRS(r.center, r.rotation.AsQuat, s);
 			Graphics.DrawMesh(MeshPool.plane10, matrix, r.unfilledMat, 0);
-			if (r.fillPercent > 0.001f)
+			if (r.fillPercent > 0.0010000000474974513)
 			{
 				s = new Vector3(r.size.x * r.fillPercent, 1f, r.size.y);
 				matrix = default(Matrix4x4);
 				Vector3 pos = r.center + Vector3.up * 0.01f;
 				if (!r.rotation.IsHorizontal)
 				{
-					pos.x -= r.size.x * 0.5f;
-					pos.x += 0.5f * r.size.x * r.fillPercent;
+					pos.x -= (float)(r.size.x * 0.5);
+					pos.x += (float)(0.5 * r.size.x * r.fillPercent);
 				}
 				else
 				{
-					pos.z -= r.size.x * 0.5f;
-					pos.z += 0.5f * r.size.x * r.fillPercent;
+					pos.z -= (float)(r.size.x * 0.5);
+					pos.z += (float)(0.5 * r.size.x * r.fillPercent);
 				}
 				matrix.SetTRS(pos, r.rotation.AsQuat, s);
 				Graphics.DrawMesh(MeshPool.plane10, matrix, r.filledMat, 0);
@@ -480,7 +486,7 @@ namespace Verse
 		public static void DrawArrowPointingAt(Vector3 mapTarget, bool offscreenOnly = false)
 		{
 			Vector3 vector = UI.UIToMapPosition((float)(UI.screenWidth / 2), (float)(UI.screenHeight / 2));
-			if ((vector - mapTarget).MagnitudeHorizontalSquared() < 81f)
+			if ((vector - mapTarget).MagnitudeHorizontalSquared() < 81.0)
 			{
 				if (!offscreenOnly)
 				{

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -23,15 +22,15 @@ namespace RimWorld
 
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
-			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 2f);
+			Rect scenPartRect = listing.GetScenPartRect(this, (float)(ScenPart.RowHeight * 2.0));
 			Rect rect = scenPartRect.TopHalf();
 			if (Widgets.ButtonText(rect, this.stat.LabelCap, true, false, true))
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				foreach (StatDef current in DefDatabase<StatDef>.AllDefs)
+				foreach (StatDef allDef in DefDatabase<StatDef>.AllDefs)
 				{
-					StatDef localSd = current;
-					list.Add(new FloatMenuOption(localSd.LabelCap, delegate
+					StatDef localSd = allDef;
+					list.Add(new FloatMenuOption(localSd.LabelCap, (Action)delegate
 					{
 						this.stat = localSd;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -49,16 +48,12 @@ namespace RimWorld
 
 		public override string Summary(Scenario scen)
 		{
-			return "ScenPart_StatFactor".Translate(new object[]
-			{
-				this.stat.label,
-				this.factor.ToStringPercent()
-			});
+			return "ScenPart_StatFactor".Translate(this.stat.label, this.factor.ToStringPercent());
 		}
 
 		public override void Randomize()
 		{
-			this.stat = this.RandomizableStats().RandomElement<StatDef>();
+			this.stat = this.RandomizableStats().RandomElement();
 			this.factor = GenMath.RoundedHundredth(Rand.Range(0.1f, 3f));
 		}
 
@@ -82,13 +77,35 @@ namespace RimWorld
 			return 1f;
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<StatDef> RandomizableStats()
 		{
-			ScenPart_StatFactor.<RandomizableStats>c__Iterator11F <RandomizableStats>c__Iterator11F = new ScenPart_StatFactor.<RandomizableStats>c__Iterator11F();
-			ScenPart_StatFactor.<RandomizableStats>c__Iterator11F expr_07 = <RandomizableStats>c__Iterator11F;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield return StatDefOf.ComfyTemperatureMax;
+			yield return StatDefOf.ComfyTemperatureMin;
+			yield return StatDefOf.ConstructSuccessChance;
+			yield return StatDefOf.ConstructionSpeed;
+			yield return StatDefOf.DeteriorationRate;
+			yield return StatDefOf.Flammability;
+			yield return StatDefOf.GlobalLearningFactor;
+			yield return StatDefOf.PlantHarvestYield;
+			yield return StatDefOf.MedicalTendSpeed;
+			yield return StatDefOf.ImmunityGainSpeed;
+			yield return StatDefOf.MarketValue;
+			yield return StatDefOf.MaxHitPoints;
+			yield return StatDefOf.MentalBreakThreshold;
+			yield return StatDefOf.MiningSpeed;
+			yield return StatDefOf.MoveSpeed;
+			yield return StatDefOf.PsychicSensitivity;
+			yield return StatDefOf.ResearchSpeed;
+			yield return StatDefOf.ShootingAccuracy;
+			yield return StatDefOf.MedicalSurgerySuccessChance;
+			yield return StatDefOf.RecruitPrisonerChance;
+			yield return StatDefOf.TameAnimalChance;
+			yield return StatDefOf.TrainAnimalChance;
+			yield return StatDefOf.MeleeWeapon_DamageAmount;
+			yield return StatDefOf.RangedWeapon_Cooldown;
+			yield return StatDefOf.WorkSpeedGlobal;
+			yield return StatDefOf.WorkToMake;
+			yield return StatDefOf.WorkToBuild;
 		}
 	}
 }

@@ -1,16 +1,14 @@
-using System;
-
 namespace Verse
 {
 	public enum LookMode : byte
 	{
-		Undefined,
-		Value,
-		Deep,
-		Reference,
-		Def,
-		LocalTargetInfo,
-		TargetInfo,
-		GlobalTargetInfo
+		Undefined = 0,
+		Value = 1,
+		Deep = 2,
+		Reference = 3,
+		Def = 4,
+		LocalTargetInfo = 5,
+		TargetInfo = 6,
+		GlobalTargetInfo = 7
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -10,40 +9,40 @@ namespace RimWorld
 		public static void GenerateImpliedDefs_PreResolve()
 		{
 			IEnumerable<ThingDef> enumerable = ThingDefGenerator_Buildings.ImpliedBlueprintAndFrameDefs().Concat(ThingDefGenerator_Meat.ImpliedMeatDefs()).Concat(ThingDefGenerator_Corpses.ImpliedCorpseDefs()).Concat(ThingDefGenerator_Leather.ImpliedLeatherDefs());
-			foreach (ThingDef current in enumerable)
+			foreach (ThingDef item in enumerable)
 			{
-				current.PostLoad();
-				DefDatabase<ThingDef>.Add(current);
+				item.PostLoad();
+				DefDatabase<ThingDef>.Add(item);
 			}
 			DirectXmlCrossRefLoader.ResolveAllWantedCrossReferences(FailMode.Silent);
-			foreach (TerrainDef current2 in TerrainDefGenerator_Stone.ImpliedTerrainDefs())
+			foreach (TerrainDef item2 in TerrainDefGenerator_Stone.ImpliedTerrainDefs())
 			{
-				current2.PostLoad();
-				DefDatabase<TerrainDef>.Add(current2);
+				item2.PostLoad();
+				DefDatabase<TerrainDef>.Add(item2);
 			}
-			foreach (RecipeDef current3 in RecipeDefGenerator.ImpliedRecipeDefs())
+			foreach (RecipeDef item3 in RecipeDefGenerator.ImpliedRecipeDefs())
 			{
-				current3.PostLoad();
-				DefDatabase<RecipeDef>.Add(current3);
+				item3.PostLoad();
+				DefDatabase<RecipeDef>.Add(item3);
 			}
-			foreach (PawnColumnDef current4 in PawnColumnDefgenerator.ImpliedPawnColumnDefs())
+			foreach (PawnColumnDef item4 in PawnColumnDefgenerator.ImpliedPawnColumnDefs())
 			{
-				current4.PostLoad();
-				DefDatabase<PawnColumnDef>.Add(current4);
+				item4.PostLoad();
+				DefDatabase<PawnColumnDef>.Add(item4);
 			}
 		}
 
 		public static void GenerateImpliedDefs_PostResolve()
 		{
-			foreach (KeyBindingCategoryDef current in KeyBindingDefGenerator.ImpliedKeyBindingCategoryDefs())
+			foreach (KeyBindingCategoryDef item in KeyBindingDefGenerator.ImpliedKeyBindingCategoryDefs())
 			{
-				current.PostLoad();
-				DefDatabase<KeyBindingCategoryDef>.Add(current);
+				item.PostLoad();
+				DefDatabase<KeyBindingCategoryDef>.Add(item);
 			}
-			foreach (KeyBindingDef current2 in KeyBindingDefGenerator.ImpliedKeyBindingDefs())
+			foreach (KeyBindingDef item2 in KeyBindingDefGenerator.ImpliedKeyBindingDefs())
 			{
-				current2.PostLoad();
-				DefDatabase<KeyBindingDef>.Add(current2);
+				item2.PostLoad();
+				DefDatabase<KeyBindingDef>.Add(item2);
 			}
 		}
 	}

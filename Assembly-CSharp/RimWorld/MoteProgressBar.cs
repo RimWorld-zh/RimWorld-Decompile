@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -20,10 +19,12 @@ namespace RimWorld
 			base.UpdatePosition();
 			if (Find.CameraDriver.CurrentZoom == CameraZoomRange.Closest)
 			{
-				GenDraw.FillableBarRequest r = default(GenDraw.FillableBarRequest);
-				r.center = this.exactPosition;
-				r.center.z = r.center.z + this.offsetZ;
-				r.size = new Vector2(this.exactScale.x, this.exactScale.z);
+				GenDraw.FillableBarRequest r = new GenDraw.FillableBarRequest
+				{
+					center = base.exactPosition
+				};
+				r.center.z += this.offsetZ;
+				r.size = new Vector2(base.exactScale.x, base.exactScale.z);
 				r.fillPercent = this.progress;
 				r.filledMat = MoteProgressBar.FilledMat;
 				r.unfilledMat = MoteProgressBar.UnfilledMat;

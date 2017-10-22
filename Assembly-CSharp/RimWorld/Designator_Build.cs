@@ -113,35 +113,38 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.cachedHighlightTag == null && this.tutorTag != null)
+				if (base.cachedHighlightTag == null && base.tutorTag != null)
 				{
-					this.cachedHighlightTag = "Designator-Build-" + this.tutorTag;
+					base.cachedHighlightTag = "Designator-Build-" + base.tutorTag;
 				}
-				return this.cachedHighlightTag;
+				return base.cachedHighlightTag;
 			}
 		}
 
 		public Designator_Build(BuildableDef entDef)
 		{
 			this.entDef = entDef;
-			this.icon = entDef.uiIcon;
-			this.hotKey = entDef.designationHotKey;
-			this.tutorTag = entDef.defName;
+			base.icon = entDef.uiIcon;
+			base.hotKey = entDef.designationHotKey;
+			base.tutorTag = entDef.defName;
 			ThingDef thingDef = entDef as ThingDef;
 			if (thingDef != null && thingDef.uiIconPath.NullOrEmpty())
 			{
-				this.iconProportions = thingDef.graphicData.drawSize;
-				this.iconDrawScale = GenUI.IconDrawScale(thingDef);
+				base.iconProportions = thingDef.graphicData.drawSize;
+				base.iconDrawScale = GenUI.IconDrawScale(thingDef);
 			}
 			else
 			{
-				this.iconProportions = new Vector2(1f, 1f);
-				this.iconDrawScale = 1f;
+				base.iconProportions = new Vector2(1f, 1f);
+				base.iconDrawScale = 1f;
 			}
 			TerrainDef terrainDef = entDef as TerrainDef;
 			if (terrainDef != null)
 			{
-				this.iconTexCoords = new Rect(0f, 0f, Designator_Build.TerrainTextureCroppedSize.x / (float)this.icon.width, Designator_Build.TerrainTextureCroppedSize.y / (float)this.icon.height);
+				Vector2 terrainTextureCroppedSize = Designator_Build.TerrainTextureCroppedSize;
+				float width = terrainTextureCroppedSize.x / (float)base.icon.width;
+				Vector2 terrainTextureCroppedSize2 = Designator_Build.TerrainTextureCroppedSize;
+				base.iconTexCoords = new Rect(0f, 0f, width, terrainTextureCroppedSize2.y / (float)base.icon.height);
 			}
 			this.ResetStuffToDefault();
 		}
@@ -161,15 +164,7 @@ namespace RimWorld
 			if (!ArchitectCategoryTab.InfoRect.Contains(UI.MousePositionOnUIInverted))
 			{
 				DesignationDragger dragger = Find.DesignatorManager.Dragger;
-				int num;
-				if (dragger.Dragging)
-				{
-					num = dragger.DragCells.Count<IntVec3>();
-				}
-				else
-				{
-					num = 1;
-				}
+				int num = (!dragger.Dragging) ? 1 : dragger.DragCells.Count();
 				float num2 = 0f;
 				Vector2 vector = Event.current.mousePosition + Designator_Build.DragPriceDrawOffset;
 				List<ThingCountClass> list = this.entDef.CostListAdjusted(this.stuffDef, true);
@@ -179,7 +174,7 @@ namespace RimWorld
 					float y = vector.y + num2;
 					Rect position = new Rect(vector.x, y, 27f, 27f);
 					GUI.DrawTexture(position, thingCountClass.thingDef.uiIcon);
-					Rect rect = new Rect(vector.x + 29f, y, 999f, 29f);
+					Rect rect = new Rect((float)(vector.x + 29.0), y, 999f, 29f);
 					int num3 = num * thingCountClass.count;
 					string text = num3.ToString();
 					if (base.Map.resourceCounter.GetCount(thingCountClass.thingDef) < num3)
@@ -192,69 +187,74 @@ namespace RimWorld
 					Widgets.Label(rect, text);
 					Text.Anchor = TextAnchor.UpperLeft;
 					GUI.color = Color.white;
-					num2 += 29f;
+					num2 = (float)(num2 + 29.0);
 				}
 			}
 		}
 
 		public override void ProcessInput(Event ev)
 		{
-			if (!base.CheckCanInteract())
+			if (base.CheckCanInteract())
 			{
-				return;
-			}
-			ThingDef thingDef = this.entDef as ThingDef;
-			if (thingDef == null || !thingDef.MadeFromStuff)
-			{
-				base.ProcessInput(ev);
-			}
-			else
-			{
-				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				foreach (ThingDef current in base.Map.resourceCounter.AllCountedAmounts.Keys)
+				ThingDef thingDef = this.entDef as ThingDef;
+				if (thingDef == null || !thingDef.MadeFromStuff)
 				{
-					if (current.IsStuff && current.stuffProps.CanMake(thingDef) && (DebugSettings.godMode || base.Map.listerThings.ThingsOfDef(current).Count > 0))
-					{
-						ThingDef localStuffDef = current;
-						string labelCap = localStuffDef.LabelCap;
-						list.Add(new FloatMenuOption(labelCap, delegate
-						{
-							this.ProcessInput(ev);
-							Find.DesignatorManager.Select(this);
-							this.stuffDef = localStuffDef;
-							this.writeStuff = true;
-						}, MenuOptionPriority.Default, null, null, 0f, null, null)
-						{
-							tutorTag = "SelectStuff-" + thingDef.defName + "-" + localStuffDef.defName
-						});
-					}
-				}
-				if (list.Count == 0)
-				{
-					Messages.Message("NoStuffsToBuildWith".Translate(), MessageSound.RejectInput);
+					base.ProcessInput(ev);
 				}
 				else
 				{
-					FloatMenu floatMenu = new FloatMenu(list);
-					floatMenu.vanishIfMouseDistant = true;
-					Find.WindowStack.Add(floatMenu);
-					Find.DesignatorManager.Select(this);
+					List<FloatMenuOption> list = new List<FloatMenuOption>();
+					Dictionary<ThingDef, int>.KeyCollection.Enumerator enumerator = base.Map.resourceCounter.AllCountedAmounts.Keys.GetEnumerator();
+					try
+					{
+						while (enumerator.MoveNext())
+						{
+							ThingDef current = enumerator.Current;
+							if (current.IsStuff && current.stuffProps.CanMake(thingDef) && (DebugSettings.godMode || base.Map.listerThings.ThingsOfDef(current).Count > 0))
+							{
+								ThingDef localStuffDef = current;
+								string labelCap = localStuffDef.LabelCap;
+								FloatMenuOption floatMenuOption = new FloatMenuOption(labelCap, (Action)delegate()
+								{
+									base.ProcessInput(ev);
+									Find.DesignatorManager.Select(this);
+									this.stuffDef = localStuffDef;
+									this.writeStuff = true;
+								}, MenuOptionPriority.Default, null, null, 0f, null, null);
+								floatMenuOption.tutorTag = "SelectStuff-" + thingDef.defName + "-" + localStuffDef.defName;
+								list.Add(floatMenuOption);
+							}
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator).Dispose();
+					}
+					if (list.Count == 0)
+					{
+						Messages.Message("NoStuffsToBuildWith".Translate(), MessageSound.RejectInput);
+					}
+					else
+					{
+						FloatMenu floatMenu = new FloatMenu(list);
+						floatMenu.vanishIfMouseDistant = true;
+						Find.WindowStack.Add(floatMenu);
+						Find.DesignatorManager.Select(this);
+					}
 				}
 			}
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			return GenConstruct.CanPlaceBlueprintAt(this.entDef, c, this.placingRot, base.Map, DebugSettings.godMode, null);
+			return GenConstruct.CanPlaceBlueprintAt(this.entDef, c, base.placingRot, base.Map, DebugSettings.godMode, null);
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			if (TutorSystem.TutorialMode && !TutorSystem.AllowAction(new EventPack(base.TutorTagDesignate, c)))
-			{
 				return;
-			}
-			if (DebugSettings.godMode || this.entDef.GetStatValueAbstract(StatDefOf.WorkToBuild, this.stuffDef) == 0f)
+			if (DebugSettings.godMode || this.entDef.GetStatValueAbstract(StatDefOf.WorkToBuild, this.stuffDef) == 0.0)
 			{
 				if (this.entDef is TerrainDef)
 				{
@@ -264,15 +264,15 @@ namespace RimWorld
 				{
 					Thing thing = ThingMaker.MakeThing((ThingDef)this.entDef, this.stuffDef);
 					thing.SetFactionDirect(Faction.OfPlayer);
-					GenSpawn.Spawn(thing, c, base.Map, this.placingRot, false);
+					GenSpawn.Spawn(thing, c, base.Map, base.placingRot, false);
 				}
 			}
 			else
 			{
-				GenSpawn.WipeExistingThings(c, this.placingRot, this.entDef.blueprintDef, base.Map, DestroyMode.Deconstruct);
-				GenConstruct.PlaceBlueprintForBuild(this.entDef, c, base.Map, this.placingRot, Faction.OfPlayer, this.stuffDef);
+				GenSpawn.WipeExistingThings(c, base.placingRot, this.entDef.blueprintDef, base.Map, DestroyMode.Deconstruct);
+				GenConstruct.PlaceBlueprintForBuild(this.entDef, c, base.Map, base.placingRot, Faction.OfPlayer, this.stuffDef);
 			}
-			MoteMaker.ThrowMetaPuffs(GenAdj.OccupiedRect(c, this.placingRot, this.entDef.Size), base.Map);
+			MoteMaker.ThrowMetaPuffs(GenAdj.OccupiedRect(c, base.placingRot, this.entDef.Size), base.Map);
 			ThingDef thingDef = this.entDef as ThingDef;
 			if (thingDef != null && thingDef.IsOrbitalTradeBeacon)
 			{
@@ -286,7 +286,7 @@ namespace RimWorld
 			{
 				for (int i = 0; i < this.entDef.PlaceWorkers.Count; i++)
 				{
-					this.entDef.PlaceWorkers[i].PostPlace(base.Map, this.entDef, c, this.placingRot);
+					this.entDef.PlaceWorkers[i].PostPlace(base.Map, this.entDef, c, base.placingRot);
 				}
 			}
 		}
@@ -321,24 +321,16 @@ namespace RimWorld
 				}
 				GUI.DrawTexture(new Rect(0f, curY, 20f, 20f), image);
 				GUI.color = color;
-				if (thingCountClass.thingDef != null && thingCountClass.thingDef.resourceReadoutPriority != ResourceCountPriority.Uncounted && base.Map.resourceCounter.GetCount(thingCountClass.thingDef) < thingCountClass.count)
+				if (thingCountClass.thingDef != null && thingCountClass.thingDef.resourceReadoutPriority != 0 && base.Map.resourceCounter.GetCount(thingCountClass.thingDef) < thingCountClass.count)
 				{
 					GUI.color = Color.red;
 				}
-				Widgets.Label(new Rect(26f, curY + 2f, 50f, 100f), thingCountClass.count.ToString());
+				Widgets.Label(new Rect(26f, (float)(curY + 2.0), 50f, 100f), thingCountClass.count.ToString());
 				GUI.color = Color.white;
-				string text;
-				if (thingCountClass.thingDef == null)
-				{
-					text = "(" + "UnchosenStuff".Translate() + ")";
-				}
-				else
-				{
-					text = thingCountClass.thingDef.LabelCap;
-				}
-				float width2 = width - 60f;
-				float num = Text.CalcHeight(text, width2) - 2f;
-				Widgets.Label(new Rect(60f, curY + 2f, width2, num), text);
+				string text = (thingCountClass.thingDef != null) ? thingCountClass.thingDef.LabelCap : ("(" + "UnchosenStuff".Translate() + ")");
+				float width2 = (float)(width - 60.0);
+				float num = (float)(Text.CalcHeight(text, width2) - 2.0);
+				Widgets.Label(new Rect(60f, (float)(curY + 2.0), width2, num), text);
 				curY += num;
 			}
 			ThingDef thingDef = this.entDef as ThingDef;

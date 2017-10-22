@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -40,17 +39,16 @@ namespace RimWorld
 
 		public void RecentMemoryInterval()
 		{
-			if (!this.pawn.Spawned)
+			if (this.pawn.Spawned)
 			{
-				return;
-			}
-			if (this.pawn.Map.glowGrid.PsychGlowAt(this.pawn.Position) != PsychGlow.Dark)
-			{
-				this.lastLightTick = Find.TickManager.TicksGame;
-			}
-			if (this.Outdoors())
-			{
-				this.lastOutdoorTick = Find.TickManager.TicksGame;
+				if (this.pawn.Map.glowGrid.PsychGlowAt(this.pawn.Position) != 0)
+				{
+					this.lastLightTick = Find.TickManager.TicksGame;
+				}
+				if (this.Outdoors())
+				{
+					this.lastOutdoorTick = Find.TickManager.TicksGame;
+				}
 			}
 		}
 

@@ -1,10 +1,8 @@
-using System;
-
 namespace RimWorld
 {
 	public enum BackstorySlot : byte
 	{
-		Childhood,
-		Adulthood
+		Childhood = 0,
+		Adulthood = 1
 	}
 }

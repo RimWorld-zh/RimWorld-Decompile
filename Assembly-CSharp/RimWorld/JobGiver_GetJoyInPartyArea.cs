@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -17,7 +16,7 @@ namespace RimWorld
 				return null;
 			}
 			float curLevelPercentage = pawn.needs.joy.CurLevelPercentage;
-			if (curLevelPercentage > 0.92f)
+			if (curLevelPercentage > 0.92000001668930054)
 			{
 				return null;
 			}

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -22,7 +21,7 @@ namespace RimWorld
 			get
 			{
 				float num = Prefs.AutosaveIntervalDays;
-				if (Current.Game.Info.permadeathMode && num > 1f)
+				if (Current.Game.Info.permadeathMode && num > 1.0)
 				{
 					num = 1f;
 				}
@@ -34,7 +33,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return Mathf.RoundToInt(this.AutosaveIntervalDays * 60000f);
+				return Mathf.RoundToInt((float)(this.AutosaveIntervalDays * 60000.0));
 			}
 		}
 
@@ -51,15 +50,7 @@ namespace RimWorld
 		private void DoAutosave()
 		{
 			ProfilerThreadCheck.BeginSample("DoAutosave");
-			string fileName;
-			if (Current.Game.Info.permadeathMode)
-			{
-				fileName = Current.Game.Info.permadeathModeUniqueName;
-			}
-			else
-			{
-				fileName = this.NewAutosaveFileName();
-			}
+			string fileName = (!Current.Game.Info.permadeathMode) ? this.NewAutosaveFileName() : Current.Game.Info.permadeathModeUniqueName;
 			GameDataSaveLoader.SaveGame(fileName);
 			ProfilerThreadCheck.EndSample();
 		}
@@ -73,21 +64,20 @@ namespace RimWorld
 		{
 			string text = (from name in this.AutoSaveNames()
 			where !SaveGameFilesUtility.SavedGameNamedExists(name)
-			select name).FirstOrDefault<string>();
+			select name).FirstOrDefault();
 			if (text != null)
 			{
 				return text;
 			}
-			return this.AutoSaveNames().MinBy((string name) => new FileInfo(GenFilePaths.FilePathForSavedGame(name)).LastWriteTime);
+			return this.AutoSaveNames().MinBy((Func<string, DateTime>)((string name) => new FileInfo(GenFilePaths.FilePathForSavedGame(name)).LastWriteTime));
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<string> AutoSaveNames()
 		{
-			Autosaver.<AutoSaveNames>c__Iterator1A7 <AutoSaveNames>c__Iterator1A = new Autosaver.<AutoSaveNames>c__Iterator1A7();
-			Autosaver.<AutoSaveNames>c__Iterator1A7 expr_07 = <AutoSaveNames>c__Iterator1A;
-			expr_07.$PC = -2;
-			return expr_07;
+			for (int i = 1; i <= 5; i++)
+			{
+				yield return "Autosave-" + i;
+			}
 		}
 	}
 }

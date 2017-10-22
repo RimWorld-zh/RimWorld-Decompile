@@ -114,7 +114,11 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			return obj is LocalTargetInfo && this.Equals((LocalTargetInfo)obj);
+			if (!(obj is LocalTargetInfo))
+			{
+				return false;
+			}
+			return this.Equals((LocalTargetInfo)obj);
 		}
 
 		public bool Equals(LocalTargetInfo other)
@@ -174,11 +178,15 @@ namespace Verse
 
 		public static bool operator ==(LocalTargetInfo a, LocalTargetInfo b)
 		{
-			if (a.Thing != null || b.Thing != null)
+			if (a.Thing == null && b.Thing == null)
 			{
-				return a.Thing == b.Thing;
+				if (!a.cellInt.IsValid && !b.cellInt.IsValid)
+				{
+					return true;
+				}
+				return a.cellInt == b.cellInt;
 			}
-			return (!a.cellInt.IsValid && !b.cellInt.IsValid) || a.cellInt == b.cellInt;
+			return a.Thing == b.Thing;
 		}
 
 		public static bool operator !=(LocalTargetInfo a, LocalTargetInfo b)

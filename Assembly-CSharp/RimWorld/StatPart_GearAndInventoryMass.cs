@@ -7,7 +7,7 @@ namespace RimWorld
 	{
 		public override void TransformValue(StatRequest req, ref float val)
 		{
-			float num;
+			float num = default(float);
 			if (this.TryGetValue(req, out num))
 			{
 				val += num;
@@ -16,17 +16,17 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			float mass;
+			float mass = default(float);
 			if (this.TryGetValue(req, out mass))
 			{
 				return "StatsReport_GearAndInventoryMass".Translate() + ": " + mass.ToStringMassOffset();
 			}
-			return null;
+			return (string)null;
 		}
 
 		private bool TryGetValue(StatRequest req, out float value)
 		{
-			return PawnOrCorpseStatUtility.TryGetPawnOrCorpseStat(req, (Pawn x) => MassUtility.GearAndInventoryMass(x), (ThingDef x) => 0f, out value);
+			return PawnOrCorpseStatUtility.TryGetPawnOrCorpseStat(req, (Func<Pawn, float>)((Pawn x) => MassUtility.GearAndInventoryMass(x)), (Func<ThingDef, float>)((ThingDef x) => 0f), out value);
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.Noise;
 
@@ -24,30 +23,38 @@ namespace RimWorld
 			if (!a.IsValid)
 			{
 				BeachMaker.beachNoise = null;
-				return;
 			}
-			ModuleBase moduleBase = new Perlin(0.029999999329447746, 2.0, 0.5, 3, Rand.Range(0, 2147483647), QualityMode.Medium);
-			moduleBase = new ScaleBias(0.5, 0.5, moduleBase);
-			NoiseDebugUI.StoreNoiseRender(moduleBase, "BeachMaker base", new IntVec2(map.Size.x, map.Size.z));
-			ModuleBase moduleBase2 = new DistFromAxis(BeachMaker.CoastWidthRange.RandomInRange);
-			if (a == Rot4.North)
+			else
 			{
-				moduleBase2 = new Rotate(0.0, 90.0, 0.0, moduleBase2);
-				moduleBase2 = new Translate(0.0, 0.0, (double)(-(double)map.Size.z), moduleBase2);
+				ModuleBase input = new Perlin(0.029999999329447746, 2.0, 0.5, 3, Rand.Range(0, 2147483647), QualityMode.Medium);
+				input = new ScaleBias(0.5, 0.5, input);
+				ModuleBase noise = input;
+				IntVec3 size = map.Size;
+				int x = size.x;
+				IntVec3 size2 = map.Size;
+				NoiseDebugUI.StoreNoiseRender(noise, "BeachMaker base", new IntVec2(x, size2.z));
+				ModuleBase input2 = new DistFromAxis(BeachMaker.CoastWidthRange.RandomInRange);
+				if (a == Rot4.North)
+				{
+					input2 = new Rotate(0.0, 90.0, 0.0, input2);
+					IntVec3 size3 = map.Size;
+					input2 = new Translate(0.0, 0.0, (double)(-size3.z), input2);
+				}
+				else if (a == Rot4.East)
+				{
+					IntVec3 size4 = map.Size;
+					input2 = new Translate((double)(-size4.x), 0.0, 0.0, input2);
+				}
+				else if (a == Rot4.South)
+				{
+					input2 = new Rotate(0.0, 90.0, 0.0, input2);
+				}
+				input2 = new ScaleBias(1.0, -1.0, input2);
+				input2 = new Clamp(-1.0, 2.5, input2);
+				NoiseDebugUI.StoreNoiseRender(input2, "BeachMaker axis bias");
+				BeachMaker.beachNoise = new Add(input, input2);
+				NoiseDebugUI.StoreNoiseRender(BeachMaker.beachNoise, "beachNoise");
 			}
-			else if (a == Rot4.East)
-			{
-				moduleBase2 = new Translate((double)(-(double)map.Size.x), 0.0, 0.0, moduleBase2);
-			}
-			else if (a == Rot4.South)
-			{
-				moduleBase2 = new Rotate(0.0, 90.0, 0.0, moduleBase2);
-			}
-			moduleBase2 = new ScaleBias(1.0, -1.0, moduleBase2);
-			moduleBase2 = new Clamp(-1.0, 2.5, moduleBase2);
-			NoiseDebugUI.StoreNoiseRender(moduleBase2, "BeachMaker axis bias");
-			BeachMaker.beachNoise = new Add(moduleBase, moduleBase2);
-			NoiseDebugUI.StoreNoiseRender(BeachMaker.beachNoise, "beachNoise");
 		}
 
 		public static void Cleanup()
@@ -62,15 +69,15 @@ namespace RimWorld
 				return null;
 			}
 			float value = BeachMaker.beachNoise.GetValue(loc);
-			if (value < 0.1f)
+			if (value < 0.10000000149011612)
 			{
 				return TerrainDefOf.WaterOceanDeep;
 			}
-			if (value < 0.45f)
+			if (value < 0.44999998807907104)
 			{
 				return TerrainDefOf.WaterOceanShallow;
 			}
-			if (value < 1f)
+			if (value < 1.0)
 			{
 				return (biome != BiomeDefOf.SeaIce) ? TerrainDefOf.Sand : TerrainDefOf.Ice;
 			}

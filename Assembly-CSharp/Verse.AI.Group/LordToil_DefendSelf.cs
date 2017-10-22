@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse.AI.Group
 {
@@ -7,10 +6,10 @@ namespace Verse.AI.Group
 	{
 		public override void UpdateAllDuties()
 		{
-			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
-				this.lord.ownedPawns[i].mindState.duty = new PawnDuty(DutyDefOf.Defend, this.lord.ownedPawns[i].Position, -1f);
-				this.lord.ownedPawns[i].mindState.duty.radius = 28f;
+				base.lord.ownedPawns[i].mindState.duty = new PawnDuty(DutyDefOf.Defend, base.lord.ownedPawns[i].Position, -1f);
+				base.lord.ownedPawns[i].mindState.duty.radius = 28f;
 			}
 		}
 	}

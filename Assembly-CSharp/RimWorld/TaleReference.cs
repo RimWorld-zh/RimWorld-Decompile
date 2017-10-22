@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.Grammar;
@@ -51,14 +50,7 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"TaleReference(tale=",
-				(this.tale != null) ? this.tale.ToString() : "null",
-				", seed=",
-				this.seed,
-				")"
-			});
+			return "TaleReference(tale=" + ((this.tale != null) ? this.tale.ToString() : "null") + ", seed=" + this.seed + ")";
 		}
 	}
 }

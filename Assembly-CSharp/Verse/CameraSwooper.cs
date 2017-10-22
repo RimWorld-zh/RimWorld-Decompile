@@ -44,7 +44,7 @@ namespace Verse
 				if (this.TimeSinceSwoopStart >= this.TotalSwoopTime)
 				{
 					this.Swooping = false;
-					if (this.SwoopFinishedCallback != null)
+					if ((object)this.SwoopFinishedCallback != null)
 					{
 						this.SwoopFinishedCallback();
 					}
@@ -64,7 +64,7 @@ namespace Verse
 				num = this.TimeSinceSwoopStart / this.TotalSwoopTime;
 				if (this.SwoopingTo)
 				{
-					num = 1f - num;
+					num = (float)(1.0 - num);
 				}
 				num = (float)Math.Pow((double)num, 1.7000000476837158);
 			}

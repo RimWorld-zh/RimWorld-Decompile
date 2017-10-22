@@ -37,38 +37,42 @@ namespace RimWorld
 
 		private static bool CanNameFaction(int ticksPassed)
 		{
-			return !Faction.OfPlayer.HasName && (float)ticksPassed / 60000f >= 3f && NamePlayerFactionAndBaseUtility.CanNameAnythingNow();
+			return !Faction.OfPlayer.HasName && (float)ticksPassed / 60000.0 >= 3.0 && NamePlayerFactionAndBaseUtility.CanNameAnythingNow();
 		}
 
 		private static bool CanNameFactionBase(FactionBase factionBase, int ticksPassed)
 		{
-			return factionBase.Faction == Faction.OfPlayer && !factionBase.namedByPlayer && (float)ticksPassed / 60000f >= 3f && factionBase.HasMap && factionBase.Map.dangerWatcher.DangerRating != StoryDanger.High && factionBase.Map.mapPawns.FreeColonistsSpawnedCount != 0 && NamePlayerFactionAndBaseUtility.CanNameAnythingNow();
+			return ((factionBase.Faction == Faction.OfPlayer) ? ((!factionBase.namedByPlayer) ? (((float)ticksPassed / 60000.0 >= 3.0) ? (factionBase.HasMap ? ((factionBase.Map.dangerWatcher.DangerRating != StoryDanger.High) ? factionBase.Map.mapPawns.FreeColonistsSpawnedCount : 0) : 0) : 0) : 0) : 0) != 0 && NamePlayerFactionAndBaseUtility.CanNameAnythingNow();
 		}
 
 		private static bool CanNameAnythingNow()
 		{
-			if (Find.AnyPlayerHomeMap == null || Find.VisibleMap == null || !Find.VisibleMap.IsPlayerHome || Find.GameEnder.gameEnding)
+			if (Find.AnyPlayerHomeMap != null && Find.VisibleMap != null && Find.VisibleMap.IsPlayerHome && !Find.GameEnder.gameEnding)
 			{
-				return false;
-			}
-			bool flag = false;
-			bool flag2 = false;
-			List<Map> maps = Find.Maps;
-			for (int i = 0; i < maps.Count; i++)
-			{
-				if (maps[i].IsPlayerHome)
+				bool flag = false;
+				bool flag2 = false;
+				List<Map> maps = Find.Maps;
+				for (int i = 0; i < maps.Count; i++)
 				{
-					if (maps[i].mapPawns.FreeColonistsSpawnedCount >= 2)
+					if (maps[i].IsPlayerHome)
 					{
-						flag = true;
-					}
-					if (!maps[i].attackTargetsCache.TargetsHostileToColony.Any((IAttackTarget x) => !x.ThreatDisabled()))
-					{
-						flag2 = true;
+						if (maps[i].mapPawns.FreeColonistsSpawnedCount >= 2)
+						{
+							flag = true;
+						}
+						if (!maps[i].attackTargetsCache.TargetsHostileToColony.Any((Func<IAttackTarget, bool>)((IAttackTarget x) => !x.ThreatDisabled())))
+						{
+							flag2 = true;
+						}
 					}
 				}
+				if (flag && flag2)
+				{
+					return true;
+				}
+				return false;
 			}
-			return flag && flag2;
+			return false;
 		}
 	}
 }

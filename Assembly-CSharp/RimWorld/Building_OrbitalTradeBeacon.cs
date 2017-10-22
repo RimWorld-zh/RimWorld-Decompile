@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
@@ -20,14 +20,23 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_OrbitalTradeBeacon.<GetGizmos>c__Iterator15A <GetGizmos>c__Iterator15A = new Building_OrbitalTradeBeacon.<GetGizmos>c__Iterator15A();
-			<GetGizmos>c__Iterator15A.<>f__this = this;
-			Building_OrbitalTradeBeacon.<GetGizmos>c__Iterator15A expr_0E = <GetGizmos>c__Iterator15A;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			if (DesignatorUtility.FindAllowedDesignator<Designator_ZoneAddStockpile_Resources>() != null)
+			{
+				yield return (Gizmo)new Command_Action
+				{
+					action = new Action(this.MakeMatchingStockpile),
+					hotKey = KeyBindingDefOf.Misc1,
+					defaultDesc = "CommandMakeBeaconStockpileDesc".Translate(),
+					icon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Stockpile", true),
+					defaultLabel = "CommandMakeBeaconStockpileLabel".Translate()
+				};
+			}
 		}
 
 		private void MakeMatchingStockpile()
@@ -50,13 +59,13 @@ namespace RimWorld
 			{
 				return Building_OrbitalTradeBeacon.tradeableCells;
 			}
-			RegionTraverser.BreadthFirstTraverse(region, (Region from, Region r) => r.portal == null, delegate(Region r)
+			RegionTraverser.BreadthFirstTraverse(region, (RegionEntryPredicate)((Region from, Region r) => r.portal == null), (RegionProcessor)delegate(Region r)
 			{
-				foreach (IntVec3 current in r.Cells)
+				foreach (IntVec3 cell in r.Cells)
 				{
-					if (current.InHorDistOf(pos, 7.9f))
+					if (cell.InHorDistOf(pos, 7.9f))
 					{
-						Building_OrbitalTradeBeacon.tradeableCells.Add(current);
+						Building_OrbitalTradeBeacon.tradeableCells.Add(cell);
 					}
 				}
 				return false;
@@ -64,15 +73,16 @@ namespace RimWorld
 			return Building_OrbitalTradeBeacon.tradeableCells;
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<Building_OrbitalTradeBeacon> AllPowered(Map map)
 		{
-			Building_OrbitalTradeBeacon.<AllPowered>c__Iterator15B <AllPowered>c__Iterator15B = new Building_OrbitalTradeBeacon.<AllPowered>c__Iterator15B();
-			<AllPowered>c__Iterator15B.map = map;
-			<AllPowered>c__Iterator15B.<$>map = map;
-			Building_OrbitalTradeBeacon.<AllPowered>c__Iterator15B expr_15 = <AllPowered>c__Iterator15B;
-			expr_15.$PC = -2;
-			return expr_15;
+			foreach (Building_OrbitalTradeBeacon item in map.listerBuildings.AllBuildingsColonistOfClass<Building_OrbitalTradeBeacon>())
+			{
+				CompPowerTrader power = item.GetComp<CompPowerTrader>();
+				if (power == null || power.PowerOn)
+				{
+					yield return item;
+				}
+			}
 		}
 	}
 }

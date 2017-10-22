@@ -1,13 +1,11 @@
-using System;
-
 namespace RimWorld
 {
 	public enum Season : byte
 	{
-		Undefined,
-		Spring,
-		Summer,
-		Fall,
-		Winter
+		Undefined = 0,
+		Spring = 1,
+		Summer = 2,
+		Fall = 3,
+		Winter = 4
 	}
 }

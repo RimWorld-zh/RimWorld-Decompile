@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,8 +6,8 @@ namespace RimWorld
 	{
 		public SectionLayer_ThingsPowerGrid(Section section) : base(section)
 		{
-			this.requireAddToMapMesh = false;
-			this.relevantChangeTypes = MapMeshFlag.PowerGrid;
+			base.requireAddToMapMesh = false;
+			base.relevantChangeTypes = MapMeshFlag.PowerGrid;
 		}
 
 		public override void DrawLayer()

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,18 +6,13 @@ namespace RimWorld
 	{
 		public static void CheckWarnAboutBondedAnimal(Pawn designated)
 		{
-			if (!designated.RaceProps.IsFlesh)
+			if (designated.RaceProps.IsFlesh)
 			{
-				return;
-			}
-			Pawn firstDirectRelationPawn = designated.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Bond, null);
-			if (firstDirectRelationPawn != null)
-			{
-				Messages.Message("MessageSlaughteringBondedAnimal".Translate(new object[]
+				Pawn firstDirectRelationPawn = designated.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Bond, null);
+				if (firstDirectRelationPawn != null)
 				{
-					designated.LabelShort,
-					firstDirectRelationPawn.LabelShort
-				}), designated, MessageSound.Standard);
+					Messages.Message("MessageSlaughteringBondedAnimal".Translate(designated.LabelShort, firstDirectRelationPawn.LabelShort), (Thing)designated, MessageSound.Standard);
+				}
 			}
 		}
 	}

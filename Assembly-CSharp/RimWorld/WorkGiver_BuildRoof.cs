@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -22,7 +21,7 @@ namespace RimWorld
 
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c)
 		{
-			if (!pawn.Map.areaManager.BuildRoof[c])
+			if (!((Area)pawn.Map.areaManager.BuildRoof)[c])
 			{
 				return false;
 			}
@@ -31,7 +30,23 @@ namespace RimWorld
 				return false;
 			}
 			ReservationLayerDef ceiling = ReservationLayerDefOf.Ceiling;
-			return pawn.CanReserve(c, 1, -1, ceiling, false) && (pawn.CanReach(c, PathEndMode.Touch, pawn.NormalMaxDanger(), false, TraverseMode.ByPawn) || this.BuildingToTouchToBeAbleToBuildRoof(c, pawn) != null) && RoofCollapseUtility.WithinRangeOfRoofHolder(c, pawn.Map) && RoofCollapseUtility.ConnectedToRoofHolder(c, pawn.Map, true);
+			if (!pawn.CanReserve(c, 1, -1, ceiling, false))
+			{
+				return false;
+			}
+			if (!pawn.CanReach(c, PathEndMode.Touch, pawn.NormalMaxDanger(), false, TraverseMode.ByPawn) && this.BuildingToTouchToBeAbleToBuildRoof(c, pawn) == null)
+			{
+				return false;
+			}
+			if (!RoofCollapseUtility.WithinRangeOfRoofHolder(c, pawn.Map))
+			{
+				return false;
+			}
+			if (!RoofCollapseUtility.ConnectedToRoofHolder(c, pawn.Map, true))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		private Building BuildingToTouchToBeAbleToBuildRoof(IntVec3 c, Pawn pawn)
@@ -45,7 +60,7 @@ namespace RimWorld
 			{
 				return null;
 			}
-			if (!pawn.CanReach(edifice, PathEndMode.Touch, pawn.NormalMaxDanger(), false, TraverseMode.ByPawn))
+			if (!pawn.CanReach((Thing)edifice, PathEndMode.Touch, pawn.NormalMaxDanger(), false, TraverseMode.ByPawn))
 			{
 				return null;
 			}
@@ -57,7 +72,7 @@ namespace RimWorld
 			LocalTargetInfo targetB = c;
 			if (!pawn.CanReach(c, PathEndMode.Touch, pawn.NormalMaxDanger(), false, TraverseMode.ByPawn))
 			{
-				targetB = this.BuildingToTouchToBeAbleToBuildRoof(c, pawn);
+				targetB = (Thing)this.BuildingToTouchToBeAbleToBuildRoof(c, pawn);
 			}
 			return new Job(JobDefOf.BuildRoof, c, targetB);
 		}

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -27,7 +26,15 @@ namespace RimWorld
 
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c)
 		{
-			return pawn.Map.snowGrid.GetDepth(c) >= 0.2f && pawn.CanReserveAndReach(c, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, null, false);
+			if (pawn.Map.snowGrid.GetDepth(c) < 0.20000000298023224)
+			{
+				return false;
+			}
+			if (!pawn.CanReserveAndReach(c, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, null, false))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 c)

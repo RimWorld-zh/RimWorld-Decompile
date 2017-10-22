@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -27,7 +26,7 @@ namespace RimWorld
 			{
 				return this.ExplanationLabel(req) + ": x" + this.curve.Evaluate(this.CurveXGetter(req)).ToStringPercent();
 			}
-			return null;
+			return (string)null;
 		}
 	}
 }

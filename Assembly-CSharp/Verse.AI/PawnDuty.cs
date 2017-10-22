@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse.AI
 {
@@ -36,13 +35,13 @@ namespace Verse.AI
 			this.def = def;
 		}
 
-		public PawnDuty(DutyDef def, LocalTargetInfo focus, float radius = -1f) : this(def)
+		public PawnDuty(DutyDef def, LocalTargetInfo focus, float radius = -1) : this(def)
 		{
 			this.focus = focus;
 			this.radius = radius;
 		}
 
-		public PawnDuty(DutyDef def, LocalTargetInfo focus, LocalTargetInfo focusSecond, float radius = -1f) : this(def, focus, radius)
+		public PawnDuty(DutyDef def, LocalTargetInfo focus, LocalTargetInfo focusSecond, float radius = -1) : this(def, focus, radius)
 		{
 			this.focusSecond = focusSecond;
 		}
@@ -66,17 +65,8 @@ namespace Verse.AI
 		{
 			string text = (!this.focus.IsValid) ? string.Empty : this.focus.ToString();
 			string text2 = (!this.focusSecond.IsValid) ? string.Empty : (", second=" + this.focusSecond.ToString());
-			string text3 = (this.radius <= 0f) ? string.Empty : (", rad=" + this.radius.ToString("F2"));
-			return string.Concat(new object[]
-			{
-				"(",
-				this.def,
-				" ",
-				text,
-				text2,
-				text3,
-				")"
-			});
+			string text3 = (!(this.radius > 0.0)) ? string.Empty : (", rad=" + this.radius.ToString("F2"));
+			return "(" + this.def + " " + text + text2 + text3 + ")";
 		}
 
 		internal void DrawDebug(Pawn pawn)
@@ -84,7 +74,7 @@ namespace Verse.AI
 			if (this.focus.IsValid)
 			{
 				GenDraw.DrawLineBetween(pawn.DrawPos, this.focus.Cell.ToVector3Shifted());
-				if (this.radius > 0f)
+				if (this.radius > 0.0)
 				{
 					GenDraw.DrawRadiusRing(this.focus.Cell, this.radius);
 				}

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld.Planet
@@ -18,14 +16,16 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			DestroyedFactionBase.<GetGizmos>c__Iterator105 <GetGizmos>c__Iterator = new DestroyedFactionBase.<GetGizmos>c__Iterator105();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			DestroyedFactionBase.<GetGizmos>c__Iterator105 expr_0E = <GetGizmos>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			if (base.HasMap && Find.WorldSelector.SingleSelectedObject == this)
+			{
+				yield return (Gizmo)SettleInExistingMapUtility.SettleCommand(base.Map, false);
+			}
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ namespace Verse
 
 		public static Material MaterialOf(Color col)
 		{
-			Material material;
+			Material material = default(Material);
 			if (DebugSolidColorMats.colorMatDict.TryGetValue(col, out material))
 			{
 				return material;

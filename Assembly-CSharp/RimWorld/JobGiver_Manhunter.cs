@@ -23,7 +23,7 @@ namespace RimWorld
 				return null;
 			}
 			Pawn pawn2 = this.FindPawnTarget(pawn);
-			if (pawn2 != null && pawn.CanReach(pawn2, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+			if (pawn2 != null && pawn.CanReach((Thing)pawn2, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
 			{
 				return this.MeleeAttackJob(pawn, pawn2);
 			}
@@ -36,27 +36,23 @@ namespace RimWorld
 			{
 				using (PawnPath pawnPath = pawn.Map.pathFinder.FindPath(pawn.Position, pawn2.Position, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.PassDoors, false), PathEndMode.OnCell))
 				{
-					Job result;
 					if (!pawnPath.Found)
 					{
-						result = null;
-						return result;
+						return null;
 					}
-					IntVec3 loc;
+					IntVec3 loc = default(IntVec3);
 					if (!pawnPath.TryFindLastCellBeforeBlockingDoor(pawn, out loc))
 					{
 						Log.Error(pawn + " did TryFindLastCellBeforeDoor but found none when it should have been one. Target: " + pawn2.LabelCap);
-						result = null;
-						return result;
+						return null;
 					}
 					IntVec3 randomCell = CellFinder.RandomRegionNear(loc.GetRegion(pawn.Map, RegionType.Set_Passable), 9, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), null, null, RegionType.Set_Passable).RandomCell;
 					if (randomCell == pawn.Position)
 					{
-						result = new Job(JobDefOf.Wait, 30, false);
-						return result;
+						return new Job(JobDefOf.Wait, 30, false);
 					}
-					result = new Job(JobDefOf.Goto, randomCell);
-					return result;
+					return new Job(JobDefOf.Goto, randomCell);
+					IL_0127:;
 				}
 			}
 			return null;
@@ -64,22 +60,21 @@ namespace RimWorld
 
 		private Job MeleeAttackJob(Pawn pawn, Thing target)
 		{
-			return new Job(JobDefOf.AttackMelee, target)
-			{
-				maxNumMeleeAttacks = 1,
-				expiryInterval = Rand.Range(420, 900),
-				attackDoorIfTargetLost = true
-			};
+			Job job = new Job(JobDefOf.AttackMelee, target);
+			job.maxNumMeleeAttacks = 1;
+			job.expiryInterval = Rand.Range(420, 900);
+			job.attackDoorIfTargetLost = true;
+			return job;
 		}
 
 		private Pawn FindPawnTarget(Pawn pawn)
 		{
-			return (Pawn)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedThreat, (Thing x) => x is Pawn && x.def.race.intelligence >= Intelligence.ToolUser, 0f, 9999f, default(IntVec3), 3.40282347E+38f, true);
+			return (Pawn)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedThreat, (Predicate<Thing>)((Thing x) => x is Pawn && (int)x.def.race.intelligence >= 1), 0f, 9999f, default(IntVec3), 3.40282347E+38f, true);
 		}
 
 		private Building FindTurretTarget(Pawn pawn)
 		{
-			return (Building)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedLOSToPawns | TargetScanFlags.NeedLOSToNonPawns | TargetScanFlags.NeedReachable | TargetScanFlags.NeedThreat, (Thing t) => t is Building, 0f, 70f, default(IntVec3), 3.40282347E+38f, false);
+			return (Building)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedLOSToPawns | TargetScanFlags.NeedLOSToNonPawns | TargetScanFlags.NeedReachable | TargetScanFlags.NeedThreat, (Predicate<Thing>)((Thing t) => t is Building), 0f, 70f, default(IntVec3), 3.40282347E+38f, false);
 		}
 	}
 }

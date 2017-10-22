@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -28,19 +27,11 @@ namespace RimWorld
 				Room room = req.Thing.GetRoom(RegionType.Set_Passable);
 				if (room != null)
 				{
-					string labelCap;
-					if (!this.customLabel.NullOrEmpty())
-					{
-						labelCap = this.customLabel;
-					}
-					else
-					{
-						labelCap = this.roomStat.LabelCap;
-					}
-					return labelCap + ": x" + room.GetStat(this.roomStat).ToStringPercent();
+					string str = this.customLabel.NullOrEmpty() ? this.roomStat.LabelCap : this.customLabel;
+					return str + ": x" + room.GetStat(this.roomStat).ToStringPercent();
 				}
 			}
-			return null;
+			return (string)null;
 		}
 	}
 }

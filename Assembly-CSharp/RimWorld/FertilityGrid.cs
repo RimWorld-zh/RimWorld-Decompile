@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -20,7 +19,7 @@ namespace RimWorld
 		private float CalculateFertilityAt(IntVec3 loc)
 		{
 			Thing edifice = loc.GetEdifice(this.map);
-			if (edifice != null && edifice.def.fertility >= 0f)
+			if (edifice != null && edifice.def.fertility >= 0.0)
 			{
 				return edifice.def.fertility;
 			}

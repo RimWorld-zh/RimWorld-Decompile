@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -8,11 +7,11 @@ namespace RimWorld
 		public static string ToHumanString(this FoodTypeFlags ft)
 		{
 			string text = string.Empty;
-			if ((ft & FoodTypeFlags.VegetableOrFruit) != FoodTypeFlags.None)
+			if (((int)ft & 1) != 0)
 			{
 				text += "FoodTypeFlags_VegetableOrFruit".Translate();
 			}
-			if ((ft & FoodTypeFlags.Meat) != FoodTypeFlags.None)
+			if (((int)ft & 2) != 0)
 			{
 				if (text.Length > 0)
 				{
@@ -20,7 +19,7 @@ namespace RimWorld
 				}
 				text += "FoodTypeFlags_Meat".Translate();
 			}
-			if ((ft & FoodTypeFlags.Corpse) != FoodTypeFlags.None)
+			if (((int)ft & 8) != 0)
 			{
 				if (text.Length > 0)
 				{
@@ -28,7 +27,7 @@ namespace RimWorld
 				}
 				text += "FoodTypeFlags_Corpse".Translate();
 			}
-			if ((ft & FoodTypeFlags.Seed) != FoodTypeFlags.None)
+			if (((int)ft & 16) != 0)
 			{
 				if (text.Length > 0)
 				{
@@ -36,7 +35,7 @@ namespace RimWorld
 				}
 				text += "FoodTypeFlags_Seed".Translate();
 			}
-			if ((ft & FoodTypeFlags.AnimalProduct) != FoodTypeFlags.None)
+			if (((int)ft & 32) != 0)
 			{
 				if (text.Length > 0)
 				{
@@ -44,7 +43,7 @@ namespace RimWorld
 				}
 				text += "FoodTypeFlags_AnimalProduct".Translate();
 			}
-			if ((ft & FoodTypeFlags.Plant) != FoodTypeFlags.None)
+			if (((int)ft & 64) != 0)
 			{
 				if (text.Length > 0)
 				{
@@ -52,7 +51,7 @@ namespace RimWorld
 				}
 				text += "FoodTypeFlags_Plant".Translate();
 			}
-			if ((ft & FoodTypeFlags.Tree) != FoodTypeFlags.None)
+			if (((int)ft & 128) != 0)
 			{
 				if (text.Length > 0)
 				{
@@ -60,7 +59,7 @@ namespace RimWorld
 				}
 				text += "FoodTypeFlags_Tree".Translate();
 			}
-			if ((ft & FoodTypeFlags.Meal) != FoodTypeFlags.None)
+			if (((int)ft & 256) != 0)
 			{
 				if (text.Length > 0)
 				{
@@ -68,7 +67,7 @@ namespace RimWorld
 				}
 				text += "FoodTypeFlags_Meal".Translate();
 			}
-			if ((ft & FoodTypeFlags.Processed) != FoodTypeFlags.None)
+			if (((int)ft & 512) != 0)
 			{
 				if (text.Length > 0)
 				{
@@ -76,7 +75,7 @@ namespace RimWorld
 				}
 				text += "FoodTypeFlags_Processed".Translate();
 			}
-			if ((ft & FoodTypeFlags.Liquor) != FoodTypeFlags.None)
+			if (((int)ft & 1024) != 0)
 			{
 				if (text.Length > 0)
 				{
@@ -84,7 +83,7 @@ namespace RimWorld
 				}
 				text += "FoodTypeFlags_Liquor".Translate();
 			}
-			if ((ft & FoodTypeFlags.Kibble) != FoodTypeFlags.None)
+			if (((int)ft & 2048) != 0)
 			{
 				if (text.Length > 0)
 				{

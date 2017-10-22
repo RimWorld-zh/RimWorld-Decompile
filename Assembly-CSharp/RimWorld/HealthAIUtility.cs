@@ -19,17 +19,41 @@ namespace RimWorld
 
 		public static bool ShouldBeTendedNowUrgent(Pawn pawn)
 		{
-			return HealthAIUtility.ShouldBeTendedNow(pawn) && HealthUtility.TicksUntilDeathDueToBloodLoss(pawn) < 15000;
+			if (!HealthAIUtility.ShouldBeTendedNow(pawn))
+			{
+				return false;
+			}
+			return HealthUtility.TicksUntilDeathDueToBloodLoss(pawn) < 15000;
 		}
 
 		public static bool ShouldBeTendedNow(Pawn pawn)
 		{
-			return pawn.playerSettings != null && HealthAIUtility.ShouldEverReceiveMedicalCare(pawn) && pawn.health.HasHediffsNeedingTendByColony(false);
+			if (pawn.playerSettings == null)
+			{
+				return false;
+			}
+			if (!HealthAIUtility.ShouldEverReceiveMedicalCare(pawn))
+			{
+				return false;
+			}
+			return pawn.health.HasHediffsNeedingTendByColony(false);
 		}
 
 		public static bool ShouldEverReceiveMedicalCare(Pawn pawn)
 		{
-			return (pawn.playerSettings == null || pawn.playerSettings.medCare != MedicalCareCategory.NoCare) && (pawn.guest == null || pawn.guest.interactionMode != PrisonerInteractionModeDefOf.Execution) && pawn.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Slaughter) == null;
+			if (pawn.playerSettings != null && pawn.playerSettings.medCare == MedicalCareCategory.NoCare)
+			{
+				return false;
+			}
+			if (pawn.guest != null && pawn.guest.interactionMode == PrisonerInteractionModeDefOf.Execution)
+			{
+				return false;
+			}
+			if (pawn.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Slaughter) != null)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool ShouldHaveSurgeryDoneNow(Pawn pawn)
@@ -42,21 +66,9 @@ namespace RimWorld
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 			for (int i = 0; i < hediffs.Count; i++)
 			{
-				if (!(hediffs[i] is Hediff_Injury))
+				if (!(hediffs[i] is Hediff_Injury) && !(hediffs[i] is Hediff_MissingPart) && hediffs[i].Visible && hediffs[i].IsTended() && hediffs[i].def.PossibleToDevelopImmunityNaturally())
 				{
-					if (!(hediffs[i] is Hediff_MissingPart))
-					{
-						if (hediffs[i].Visible)
-						{
-							if (hediffs[i].IsTended())
-							{
-								if (hediffs[i].def.PossibleToDevelopImmunityNaturally())
-								{
-									return true;
-								}
-							}
-						}
-					}
+					return true;
 				}
 			}
 			return false;
@@ -64,14 +76,21 @@ namespace RimWorld
 
 		public static Thing FindBestMedicine(Pawn healer, Pawn patient)
 		{
-			if (patient.playerSettings == null || patient.playerSettings.medCare <= MedicalCareCategory.NoMeds)
+			if (patient.playerSettings != null && (int)patient.playerSettings.medCare > 1)
 			{
-				return null;
+				Predicate<Thing> predicate = (Predicate<Thing>)delegate(Thing m)
+				{
+					if (!m.IsForbidden(healer) && patient.playerSettings.medCare.AllowsMedicine(m.def) && healer.CanReserve(m, 1, -1, null, false))
+					{
+						return true;
+					}
+					return false;
+				};
+				Func<Thing, float> priorityGetter = (Func<Thing, float>)((Thing t) => t.def.GetStatValueAbstract(StatDefOf.MedicalPotency, null));
+				Predicate<Thing> validator = predicate;
+				return GenClosest.ClosestThing_Global_Reachable(patient.Position, patient.Map, patient.Map.listerThings.ThingsInGroup(ThingRequestGroup.Medicine), PathEndMode.ClosestTouch, TraverseParms.For(healer, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, priorityGetter);
 			}
-			Predicate<Thing> predicate = (Thing m) => !m.IsForbidden(healer) && patient.playerSettings.medCare.AllowsMedicine(m.def) && healer.CanReserve(m, 1, -1, null, false);
-			Func<Thing, float> priorityGetter = (Thing t) => t.def.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
-			Predicate<Thing> validator = predicate;
-			return GenClosest.ClosestThing_Global_Reachable(patient.Position, patient.Map, patient.Map.listerThings.ThingsInGroup(ThingRequestGroup.Medicine), PathEndMode.ClosestTouch, TraverseParms.For(healer, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, priorityGetter);
+			return null;
 		}
 	}
 }

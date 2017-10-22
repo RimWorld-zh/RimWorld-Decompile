@@ -60,13 +60,13 @@ namespace Verse
 		{
 			get
 			{
-				if (this.tutorTag == null)
+				if (base.tutorTag == null)
 				{
-					return null;
+					return (string)null;
 				}
 				if (this.cachedTutorTagSelect == null)
 				{
-					this.cachedTutorTagSelect = "SelectDesignator-" + this.tutorTag;
+					this.cachedTutorTagSelect = "SelectDesignator-" + base.tutorTag;
 				}
 				return this.cachedTutorTagSelect;
 			}
@@ -76,13 +76,13 @@ namespace Verse
 		{
 			get
 			{
-				if (this.tutorTag == null)
+				if (base.tutorTag == null)
 				{
-					return null;
+					return (string)null;
 				}
 				if (this.cachedTutorTagDesignate == null)
 				{
-					this.cachedTutorTagDesignate = "Designate-" + this.tutorTag;
+					this.cachedTutorTagDesignate = "Designate-" + base.tutorTag;
 				}
 				return this.cachedTutorTagDesignate;
 			}
@@ -92,9 +92,9 @@ namespace Verse
 		{
 			get
 			{
-				if (this.cachedHighlightTag == null && this.tutorTag != null)
+				if (this.cachedHighlightTag == null && base.tutorTag != null)
 				{
-					this.cachedHighlightTag = "Designator-" + this.tutorTag;
+					this.cachedHighlightTag = "Designator-" + base.tutorTag;
 				}
 				return this.cachedHighlightTag;
 			}
@@ -102,22 +102,25 @@ namespace Verse
 
 		public Designator()
 		{
-			this.activateSound = SoundDefOf.SelectDesignator;
+			base.activateSound = SoundDefOf.SelectDesignator;
 		}
 
 		protected bool CheckCanInteract()
 		{
-			return !TutorSystem.TutorialMode || TutorSystem.AllowAction(this.TutorTagSelect);
+			if (TutorSystem.TutorialMode && !TutorSystem.AllowAction(this.TutorTagSelect))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void ProcessInput(Event ev)
 		{
-			if (!this.CheckCanInteract())
+			if (this.CheckCanInteract())
 			{
-				return;
+				base.ProcessInput(ev);
+				Find.DesignatorManager.Select(this);
 			}
-			base.ProcessInput(ev);
-			Find.DesignatorManager.Select(this);
 		}
 
 		public virtual AcceptanceReport CanDesignateThing(Thing t)
@@ -135,17 +138,15 @@ namespace Verse
 		public virtual void DesignateMultiCell(IEnumerable<IntVec3> cells)
 		{
 			if (TutorSystem.TutorialMode && !TutorSystem.AllowAction(new EventPack(this.TutorTagDesignate, cells)))
-			{
 				return;
-			}
 			bool flag = false;
 			bool somethingSucceeded = false;
-			foreach (IntVec3 current in cells)
+			foreach (IntVec3 item in cells)
 			{
-				AcceptanceReport acceptanceReport = this.CanDesignateCell(current);
+				AcceptanceReport acceptanceReport = this.CanDesignateCell(item);
 				if (acceptanceReport.Accepted)
 				{
-					this.DesignateSingleCell(current);
+					this.DesignateSingleCell(item);
 					somethingSucceeded = true;
 				}
 				else if (!flag)
@@ -210,14 +211,14 @@ namespace Verse
 
 		public virtual Texture2D IconReverseDesignating(Thing t)
 		{
-			return this.icon;
+			return base.icon;
 		}
 
 		public virtual void DrawMouseAttachments()
 		{
 			if (this.useMouseIcon)
 			{
-				GenUI.DrawMouseAttachment(this.icon, string.Empty);
+				GenUI.DrawMouseAttachment(base.icon, string.Empty);
 			}
 		}
 

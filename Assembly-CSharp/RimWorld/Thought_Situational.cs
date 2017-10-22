@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -43,7 +42,7 @@ namespace RimWorld
 			ThoughtState thoughtState = this.CurrentStateInternal();
 			if (thoughtState.Active)
 			{
-				this.curStageIndex = Mathf.Min(thoughtState.StageIndex, this.def.stages.Count - 1);
+				this.curStageIndex = Mathf.Min(thoughtState.StageIndex, base.def.stages.Count - 1);
 				this.reason = thoughtState.Reason;
 			}
 			else
@@ -54,7 +53,7 @@ namespace RimWorld
 
 		protected virtual ThoughtState CurrentStateInternal()
 		{
-			return this.def.Worker.CurrentState(this.pawn);
+			return base.def.Worker.CurrentState(base.pawn);
 		}
 	}
 }

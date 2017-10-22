@@ -21,16 +21,16 @@ namespace RimWorld
 
 		protected override void ReloadFiles()
 		{
-			this.files.Clear();
-			foreach (FileInfo current in GenFilePaths.AllSavedGameFiles)
+			base.files.Clear();
+			foreach (FileInfo allSavedGameFile in GenFilePaths.AllSavedGameFiles)
 			{
 				try
 				{
-					this.files.Add(new SaveFileInfo(current));
+					base.files.Add(new SaveFileInfo(allSavedGameFile));
 				}
 				catch (Exception ex)
 				{
-					Log.Error("Exception loading " + current.Name + ": " + ex.ToString());
+					Log.Error("Exception loading " + allSavedGameFile.Name + ": " + ex.ToString());
 				}
 			}
 		}

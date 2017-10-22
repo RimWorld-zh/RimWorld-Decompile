@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -23,21 +21,23 @@ namespace RimWorld
 
 		protected abstract CompHasGatherableBodyResource GetComp(Pawn animal);
 
-		[DebuggerHidden]
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			WorkGiver_GatherAnimalBodyResources.<PotentialWorkThingsGlobal>c__Iterator59 <PotentialWorkThingsGlobal>c__Iterator = new WorkGiver_GatherAnimalBodyResources.<PotentialWorkThingsGlobal>c__Iterator59();
-			<PotentialWorkThingsGlobal>c__Iterator.pawn = pawn;
-			<PotentialWorkThingsGlobal>c__Iterator.<$>pawn = pawn;
-			WorkGiver_GatherAnimalBodyResources.<PotentialWorkThingsGlobal>c__Iterator59 expr_15 = <PotentialWorkThingsGlobal>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			List<Pawn> pawns = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
+			for (int i = 0; i < pawns.Count; i++)
+			{
+				yield return (Thing)pawns[i];
+			}
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
-			return pawn2 != null && pawn2.RaceProps.Animal && !pawn2.Downed && pawn2.CanCasuallyInteractNow(false) && this.GetComp(pawn2) != null && this.GetComp(pawn2).ActiveAndFull && pawn.CanReserve(pawn2, 1, -1, null, forced);
+			if (pawn2 != null && pawn2.RaceProps.Animal && !pawn2.Downed && pawn2.CanCasuallyInteractNow(false) && this.GetComp(pawn2) != null && this.GetComp(pawn2).ActiveAndFull && pawn.CanReserve((Thing)pawn2, 1, -1, null, forced))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

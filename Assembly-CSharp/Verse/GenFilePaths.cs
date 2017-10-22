@@ -28,11 +28,11 @@ namespace Verse
 
 		private const string SaveDataFolderCommand = "savedatafolder";
 
-		private static string saveDataPath = null;
+		private static string saveDataPath = (string)null;
 
-		private static string coreModsFolderPath = null;
+		private static string coreModsFolderPath = (string)null;
 
-		private static readonly string[] FilePathRaw = new string[]
+		private static readonly string[] FilePathRaw = new string[73]
 		{
 			"Ž",
 			"ž",
@@ -44,7 +44,7 @@ namespace Verse
 			"¥",
 			"¦",
 			"§",
-			"¨",
+			"\u00a8",
 			"©",
 			"ª",
 			"À",
@@ -109,7 +109,7 @@ namespace Verse
 			"ÿ"
 		};
 
-		private static readonly string[] FilePathSafe = new string[]
+		private static readonly string[] FilePathSafe = new string[73]
 		{
 			"%8E",
 			"%9E",
@@ -192,14 +192,10 @@ namespace Verse
 			{
 				if (GenFilePaths.saveDataPath == null)
 				{
-					string text;
+					string text = default(string);
 					if (GenCommandLine.TryGetCommandLineArg("savedatafolder", out text))
 					{
-						text.TrimEnd(new char[]
-						{
-							'\\',
-							'/'
-						});
+						text.TrimEnd('\\', '/');
 						if (text == string.Empty)
 						{
 							text = string.Empty + Path.DirectorySeparatorChar;
@@ -266,15 +262,7 @@ namespace Verse
 				if (GenFilePaths.coreModsFolderPath == null)
 				{
 					DirectoryInfo directoryInfo = new DirectoryInfo(UnityData.dataPath);
-					DirectoryInfo directoryInfo2;
-					if (UnityData.isEditor)
-					{
-						directoryInfo2 = directoryInfo;
-					}
-					else
-					{
-						directoryInfo2 = directoryInfo.Parent;
-					}
+					DirectoryInfo directoryInfo2 = (!UnityData.isEditor) ? directoryInfo.Parent : directoryInfo;
 					GenFilePaths.coreModsFolderPath = Path.Combine(directoryInfo2.ToString(), "Mods");
 					if (UnityData.isDebugBuild)
 					{
@@ -498,23 +486,18 @@ namespace Verse
 			}
 			if (!fullFolderPath.StartsWith(text))
 			{
-				Log.Error(string.Concat(new string[]
-				{
-					"Can't get relative path. Path \"",
-					fullFolderPath,
-					"\" does not start with \"",
-					text,
-					"\"."
-				}));
-				return null;
+				Log.Error("Can't get relative path. Path \"" + fullFolderPath + "\" does not start with \"" + text + "\".");
+				return (string)null;
 			}
 			if (fullFolderPath == text)
 			{
 				return string.Empty;
 			}
 			string text2 = fullFolderPath.Substring(text.Length);
-			while (text2.StartsWith("/") || text2.StartsWith("\\"))
+			while (true)
 			{
+				if (!text2.StartsWith("/") && !text2.StartsWith("\\"))
+					break;
 				if (text2.Length == 1)
 				{
 					return string.Empty;

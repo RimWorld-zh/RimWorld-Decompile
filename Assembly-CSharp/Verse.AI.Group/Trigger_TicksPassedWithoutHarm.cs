@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI.Group
 {
 	public class Trigger_TicksPassedWithoutHarm : Trigger_TicksPassed

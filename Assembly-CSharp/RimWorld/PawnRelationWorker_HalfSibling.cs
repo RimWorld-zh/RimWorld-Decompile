@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -7,7 +6,23 @@ namespace RimWorld
 	{
 		public override bool InRelation(Pawn me, Pawn other)
 		{
-			return me != other && !PawnRelationDefOf.Sibling.Worker.InRelation(me, other) && ((me.GetMother() != null && me.GetMother() == other.GetMother()) || (me.GetFather() != null && me.GetFather() == other.GetFather()));
+			if (me == other)
+			{
+				return false;
+			}
+			if (PawnRelationDefOf.Sibling.Worker.InRelation(me, other))
+			{
+				return false;
+			}
+			if (me.GetMother() != null && me.GetMother() == other.GetMother())
+			{
+				goto IL_0059;
+			}
+			if (me.GetFather() != null && me.GetFather() == other.GetFather())
+				goto IL_0059;
+			return false;
+			IL_0059:
+			return true;
 		}
 	}
 }

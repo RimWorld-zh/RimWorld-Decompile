@@ -14,7 +14,7 @@ namespace Verse
 			{
 				for (int i = 0; i < Find.WindowStack.Count; i++)
 				{
-					if (this.windows[i].layer == WindowLayer.Dialog && !Find.WindowStack[i].IsDebug)
+					if (base.windows[i].layer == WindowLayer.Dialog && !Find.WindowStack[i].IsDebug)
 					{
 						return false;
 					}
@@ -33,10 +33,10 @@ namespace Verse
 			if (!SteamManager.Initialized)
 			{
 				string text = "SteamClientMissing".Translate();
-				Dialog_MessageBox window = new Dialog_MessageBox(text, "Quit".Translate(), delegate
+				Dialog_MessageBox window = new Dialog_MessageBox(text, "Quit".Translate(), (Action)delegate
 				{
 					Application.Quit();
-				}, "Ignore".Translate(), null, null, false);
+				}, "Ignore".Translate(), null, (string)null, false);
 				Find.WindowStack.Add(window);
 			}
 		}
@@ -53,7 +53,7 @@ namespace Verse
 			{
 				Find.Tutor.TutorOnGUI();
 			}
-			this.windows.WindowStackOnGUI();
+			base.windows.WindowStackOnGUI();
 			ReorderableWidget.ReorderableWidgetOnGUI();
 			if (Find.World != null)
 			{

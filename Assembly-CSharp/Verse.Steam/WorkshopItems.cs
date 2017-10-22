@@ -59,17 +59,16 @@ namespace Verse.Steam
 
 		private static void RebuildItemsList()
 		{
-			if (!SteamManager.Initialized)
+			if (SteamManager.Initialized)
 			{
-				return;
+				WorkshopItems.subbedItems.Clear();
+				foreach (PublishedFileId_t item in Workshop.AllSubscribedItems())
+				{
+					WorkshopItems.subbedItems.Add(WorkshopItem.MakeFrom(item));
+				}
+				ModLister.RebuildModList();
+				ScenarioLister.MarkDirty();
 			}
-			WorkshopItems.subbedItems.Clear();
-			foreach (PublishedFileId_t current in Workshop.AllSubscribedItems())
-			{
-				WorkshopItems.subbedItems.Add(WorkshopItem.MakeFrom(current));
-			}
-			ModLister.RebuildModList();
-			ScenarioLister.MarkDirty();
 		}
 
 		internal static void Notify_Subscribed(PublishedFileId_t pfid)
@@ -91,9 +90,18 @@ namespace Verse.Steam
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("Subscribed items:");
-			foreach (WorkshopItem current in WorkshopItems.subbedItems)
+			List<WorkshopItem>.Enumerator enumerator = WorkshopItems.subbedItems.GetEnumerator();
+			try
 			{
-				stringBuilder.AppendLine("  " + current.ToString());
+				while (enumerator.MoveNext())
+				{
+					WorkshopItem current = enumerator.Current;
+					stringBuilder.AppendLine("  " + current.ToString());
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			return stringBuilder.ToString();
 		}

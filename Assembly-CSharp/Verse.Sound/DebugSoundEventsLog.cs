@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Text;
 
@@ -13,9 +12,9 @@ namespace Verse.Sound
 			get
 			{
 				StringBuilder stringBuilder = new StringBuilder();
-				foreach (LogMessage current in DebugSoundEventsLog.queue.Messages.Reverse<LogMessage>())
+				foreach (LogMessage item in DebugSoundEventsLog.queue.Messages.Reverse())
 				{
-					stringBuilder.AppendLine(current.ToString());
+					stringBuilder.AppendLine(item.ToString());
 				}
 				return stringBuilder.ToString();
 			}
@@ -23,26 +22,13 @@ namespace Verse.Sound
 
 		public static void Notify_SoundEvent(SoundDef def, SoundInfo info)
 		{
-			if (!DebugViewSettings.writeSoundEventsRecord)
+			if (DebugViewSettings.writeSoundEventsRecord)
 			{
-				return;
+				string str = (def != null) ? ((!def.isUndefined) ? ((!def.sustain) ? "OneShot: " : "SustainerSpawn: ") : "Undefined: ") : "null: ";
+				string str2 = (def == null) ? "null" : def.defName;
+				string str3 = str + str2 + " - " + info.ToString();
+				DebugSoundEventsLog.CreateRecord(str3);
 			}
-			string str;
-			if (def == null)
-			{
-				str = "null: ";
-			}
-			else if (def.isUndefined)
-			{
-				str = "Undefined: ";
-			}
-			else
-			{
-				str = ((!def.sustain) ? "OneShot: " : "SustainerSpawn: ");
-			}
-			string str2 = (def == null) ? "null" : def.defName;
-			string str3 = str + str2 + " - " + info.ToString();
-			DebugSoundEventsLog.CreateRecord(str3);
 		}
 
 		public static void Notify_SustainerEnded(Sustainer sustainer, SoundInfo info)

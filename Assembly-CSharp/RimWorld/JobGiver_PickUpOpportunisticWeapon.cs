@@ -15,15 +15,18 @@ namespace RimWorld
 			{
 				List<VerbProperties> verbs = ThingDefOf.Human.Verbs;
 				float num = 0f;
-				for (int i = 0; i < verbs.Count; i++)
+				int num2 = 0;
+				while (num2 < verbs.Count)
 				{
-					if (verbs[i].linkedBodyPartsGroup == BodyPartGroupDefOf.LeftHand || verbs[i].linkedBodyPartsGroup == BodyPartGroupDefOf.RightHand)
+					if (verbs[num2].linkedBodyPartsGroup != BodyPartGroupDefOf.LeftHand && verbs[num2].linkedBodyPartsGroup != BodyPartGroupDefOf.RightHand)
 					{
-						num = (float)verbs[i].meleeDamageBaseAmount;
-						break;
+						num2++;
+						continue;
 					}
+					num = (float)verbs[num2].meleeDamageBaseAmount;
+					break;
 				}
-				return num + 3f;
+				return (float)(num + 3.0);
 			}
 		}
 
@@ -52,11 +55,12 @@ namespace RimWorld
 			{
 				return null;
 			}
-			if (pawn.GetRegion(RegionType.Set_Passable) == null)
+			Region region = pawn.GetRegion(RegionType.Set_Passable);
+			if (region == null)
 			{
 				return null;
 			}
-			Thing thing = GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.Weapon), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 8f, (Thing x) => pawn.CanReserve(x, 1, -1, null, false) && this.ShouldEquip(x, pawn), null, 0, 15, false, RegionType.Set_Passable, false);
+			Thing thing = GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.Weapon), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 8f, (Predicate<Thing>)((Thing x) => pawn.CanReserve(x, 1, -1, null, false) && this.ShouldEquip(x, pawn)), null, 0, 15, false, RegionType.Set_Passable, false);
 			if (thing != null)
 			{
 				return new Job(JobDefOf.Equip, thing);

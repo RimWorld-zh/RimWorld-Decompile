@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -17,14 +16,14 @@ namespace Verse
 			IntVec3 size = map.Size;
 			Vector3 s = new Vector3(500f, 1f, (float)size.z);
 			Matrix4x4 matrix = default(Matrix4x4);
-			matrix.SetTRS(new Vector3(-250f, MapEdgeClipDrawer.ClipAltitude, (float)size.z / 2f), Quaternion.identity, s);
+			matrix.SetTRS(new Vector3(-250f, MapEdgeClipDrawer.ClipAltitude, (float)((float)size.z / 2.0)), Quaternion.identity, s);
 			Graphics.DrawMesh(MeshPool.plane10, matrix, MapEdgeClipDrawer.ClipMat, 0);
 			matrix = default(Matrix4x4);
-			matrix.SetTRS(new Vector3((float)size.x + 250f, MapEdgeClipDrawer.ClipAltitude, (float)size.z / 2f), Quaternion.identity, s);
+			matrix.SetTRS(new Vector3((float)((float)size.x + 250.0), MapEdgeClipDrawer.ClipAltitude, (float)((float)size.z / 2.0)), Quaternion.identity, s);
 			Graphics.DrawMesh(MeshPool.plane10, matrix, MapEdgeClipDrawer.ClipMat, 0);
 			s = new Vector3(1000f, 1f, 500f);
 			matrix = default(Matrix4x4);
-			matrix.SetTRS(new Vector3((float)(size.x / 2), MapEdgeClipDrawer.ClipAltitude, (float)size.z + 250f), Quaternion.identity, s);
+			matrix.SetTRS(new Vector3((float)(size.x / 2), MapEdgeClipDrawer.ClipAltitude, (float)((float)size.z + 250.0)), Quaternion.identity, s);
 			Graphics.DrawMesh(MeshPool.plane10, matrix, MapEdgeClipDrawer.ClipMat, 0);
 			matrix = default(Matrix4x4);
 			matrix.SetTRS(new Vector3((float)(size.x / 2), MapEdgeClipDrawer.ClipAltitude, -250f), Quaternion.identity, s);

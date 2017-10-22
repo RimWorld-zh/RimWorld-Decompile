@@ -17,15 +17,7 @@ namespace RimWorld
 				rec = new ApparelGraphicRecord(null, null);
 				return false;
 			}
-			string path;
-			if (apparel.def.apparel.LastLayer == ApparelLayer.Overhead)
-			{
-				path = apparel.def.apparel.wornGraphicPath;
-			}
-			else
-			{
-				path = apparel.def.apparel.wornGraphicPath + "_" + bodyType.ToString();
-			}
+			string path = (apparel.def.apparel.LastLayer != ApparelLayer.Overhead) ? (apparel.def.apparel.wornGraphicPath + "_" + ((Enum)(object)bodyType).ToString()) : apparel.def.apparel.wornGraphicPath;
 			Graphic graphic = GraphicDatabase.Get<Graphic_Multi>(path, ShaderDatabase.Cutout, apparel.def.graphicData.drawSize, apparel.DrawColor);
 			rec = new ApparelGraphicRecord(graphic, apparel);
 			return true;

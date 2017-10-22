@@ -16,7 +16,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return DefDatabase<ResearchProjectDef>.AllDefsListForReading.Find((ResearchProjectDef x) => x.CanStartNow) != null;
+				return DefDatabase<ResearchProjectDef>.AllDefsListForReading.Find((Predicate<ResearchProjectDef>)((ResearchProjectDef x) => x.CanStartNow)) != null;
 			}
 		}
 
@@ -28,7 +28,7 @@ namespace RimWorld
 
 		public float GetProgress(ResearchProjectDef proj)
 		{
-			float result;
+			float result = default(float);
 			if (this.progress.TryGetValue(proj, out result))
 			{
 				return result;
@@ -42,47 +42,45 @@ namespace RimWorld
 			if (this.currentProj == null)
 			{
 				Log.Error("Researched without having an active project.");
-				return;
 			}
-			amount *= this.GlobalProgressFactor;
-			if (researcher != null && researcher.Faction != null)
+			else
 			{
-				amount /= this.currentProj.CostFactor(researcher.Faction.def.techLevel);
-			}
-			if (DebugSettings.fastResearch)
-			{
-				amount *= 500f;
-			}
-			if (researcher != null)
-			{
-				researcher.records.AddTo(RecordDefOf.ResearchPointsResearched, amount);
-			}
-			float num = this.GetProgress(this.currentProj);
-			num += amount;
-			this.progress[this.currentProj] = num;
-			if (this.currentProj.IsFinished)
-			{
-				this.ReapplyAllMods();
-				this.DoCompletionDialog(this.currentProj, researcher);
+				amount *= this.GlobalProgressFactor;
+				if (researcher != null && researcher.Faction != null)
+				{
+					amount /= this.currentProj.CostFactor(researcher.Faction.def.techLevel);
+				}
+				if (DebugSettings.fastResearch)
+				{
+					amount = (float)(amount * 500.0);
+				}
 				if (researcher != null)
 				{
-					TaleRecorder.RecordTale(TaleDefOf.FinishedResearchProject, new object[]
-					{
-						researcher,
-						this.currentProj
-					});
+					researcher.records.AddTo(RecordDefOf.ResearchPointsResearched, amount);
 				}
-				this.currentProj = null;
+				float num = this.GetProgress(this.currentProj);
+				num += amount;
+				this.progress[this.currentProj] = num;
+				if (this.currentProj.IsFinished)
+				{
+					this.ReapplyAllMods();
+					this.DoCompletionDialog(this.currentProj, researcher);
+					if (researcher != null)
+					{
+						TaleRecorder.RecordTale(TaleDefOf.FinishedResearchProject, researcher, this.currentProj);
+					}
+					this.currentProj = null;
+				}
 			}
 		}
 
 		public void ReapplyAllMods()
 		{
-			foreach (ResearchProjectDef current in DefDatabase<ResearchProjectDef>.AllDefs)
+			foreach (ResearchProjectDef allDef in DefDatabase<ResearchProjectDef>.AllDefs)
 			{
-				if (current.IsFinished)
+				if (allDef.IsFinished)
 				{
-					current.ReapplyAllMods();
+					allDef.ReapplyAllMods();
 				}
 			}
 		}
@@ -109,28 +107,25 @@ namespace RimWorld
 
 		private void DoCompletionDialog(ResearchProjectDef proj, Pawn researcher)
 		{
-			string text = "ResearchFinished".Translate(new object[]
-			{
-				this.currentProj.LabelCap
-			}) + "\n\n" + this.currentProj.DescriptionDiscovered;
+			string text = "ResearchFinished".Translate(this.currentProj.LabelCap) + "\n\n" + this.currentProj.DescriptionDiscovered;
 			DiaNode diaNode = new DiaNode(text);
 			diaNode.options.Add(DiaOption.DefaultOK);
 			DiaOption diaOption = new DiaOption("ResearchScreen".Translate());
 			diaOption.resolveTree = true;
-			diaOption.action = delegate
+			diaOption.action = (Action)delegate
 			{
 				Find.MainTabsRoot.SetCurrentTab(MainButtonDefOf.Research, true);
 			};
 			diaNode.options.Add(diaOption);
-			Find.WindowStack.Add(new Dialog_NodeTree(diaNode, true, false, null));
+			Find.WindowStack.Add(new Dialog_NodeTree(diaNode, true, false, (string)null));
 		}
 
 		public void DebugSetAllProjectsFinished()
 		{
 			this.progress.Clear();
-			foreach (ResearchProjectDef current in DefDatabase<ResearchProjectDef>.AllDefs)
+			foreach (ResearchProjectDef allDef in DefDatabase<ResearchProjectDef>.AllDefs)
 			{
-				this.progress.Add(current, current.baseCost);
+				this.progress.Add(allDef, allDef.baseCost);
 			}
 			this.ReapplyAllMods();
 		}

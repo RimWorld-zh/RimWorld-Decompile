@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -21,14 +20,14 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_TempControl)this.props;
+				return (CompProperties_TempControl)base.props;
 			}
 		}
 
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
-			if (this.targetTemperature < -2000f)
+			if (this.targetTemperature < -2000.0)
 			{
 				this.targetTemperature = this.Props.defaultTargetTemperature;
 			}
@@ -42,24 +41,83 @@ namespace RimWorld
 
 		private float RoundedToCurrentTempModeOffset(float celsiusTemp)
 		{
-			float num = GenTemperature.CelsiusToOffset(celsiusTemp, Prefs.TemperatureMode);
-			num = (float)Mathf.RoundToInt(num);
-			return GenTemperature.ConvertTemperatureOffset(num, Prefs.TemperatureMode, TemperatureDisplayMode.Celsius);
+			float f = GenTemperature.CelsiusToOffset(celsiusTemp, Prefs.TemperatureMode);
+			f = (float)Mathf.RoundToInt(f);
+			return GenTemperature.ConvertTemperatureOffset(f, Prefs.TemperatureMode, TemperatureDisplayMode.Celsius);
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompTempControl.<CompGetGizmosExtra>c__Iterator16D <CompGetGizmosExtra>c__Iterator16D = new CompTempControl.<CompGetGizmosExtra>c__Iterator16D();
-			<CompGetGizmosExtra>c__Iterator16D.<>f__this = this;
-			CompTempControl.<CompGetGizmosExtra>c__Iterator16D expr_0E = <CompGetGizmosExtra>c__Iterator16D;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo item in base.CompGetGizmosExtra())
+			{
+				yield return item;
+			}
+			float offset4 = this.RoundedToCurrentTempModeOffset(-10f);
+			yield return (Gizmo)new Command_Action
+			{
+				action = (Action)delegate
+				{
+					((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_00e1: stateMachine*/)._003C_003Ef__this.InterfaceChangeTargetTemperature(((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_00e1: stateMachine*/)._003Coffset_003E__2);
+				},
+				defaultLabel = offset4.ToStringTemperatureOffset("F0"),
+				defaultDesc = "CommandLowerTempDesc".Translate(),
+				hotKey = KeyBindingDefOf.Misc5,
+				icon = ContentFinder<Texture2D>.Get("UI/Commands/TempLower", true)
+			};
+			float offset3 = this.RoundedToCurrentTempModeOffset(-1f);
+			yield return (Gizmo)new Command_Action
+			{
+				action = (Action)delegate
+				{
+					((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_0187: stateMachine*/)._003C_003Ef__this.InterfaceChangeTargetTemperature(((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_0187: stateMachine*/)._003Coffset_003E__4);
+				},
+				defaultLabel = offset3.ToStringTemperatureOffset("F0"),
+				defaultDesc = "CommandLowerTempDesc".Translate(),
+				hotKey = KeyBindingDefOf.Misc4,
+				icon = ContentFinder<Texture2D>.Get("UI/Commands/TempLower", true)
+			};
+			yield return (Gizmo)new Command_Action
+			{
+				action = (Action)delegate
+				{
+					((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_0217: stateMachine*/)._003C_003Ef__this.targetTemperature = 21f;
+					SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
+					((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_0217: stateMachine*/)._003C_003Ef__this.ThrowCurrentTemperatureText();
+				},
+				defaultLabel = "CommandResetTemp".Translate(),
+				defaultDesc = "CommandResetTempDesc".Translate(),
+				hotKey = KeyBindingDefOf.Misc1,
+				icon = ContentFinder<Texture2D>.Get("UI/Commands/TempReset", true)
+			};
+			float offset2 = this.RoundedToCurrentTempModeOffset(1f);
+			yield return (Gizmo)new Command_Action
+			{
+				action = (Action)delegate
+				{
+					((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_02b7: stateMachine*/)._003C_003Ef__this.InterfaceChangeTargetTemperature(((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_02b7: stateMachine*/)._003Coffset_003E__7);
+				},
+				defaultLabel = "+" + offset2.ToStringTemperatureOffset("F0"),
+				defaultDesc = "CommandRaiseTempDesc".Translate(),
+				hotKey = KeyBindingDefOf.Misc2,
+				icon = ContentFinder<Texture2D>.Get("UI/Commands/TempRaise", true)
+			};
+			float offset = this.RoundedToCurrentTempModeOffset(10f);
+			yield return (Gizmo)new Command_Action
+			{
+				action = (Action)delegate
+				{
+					((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_0367: stateMachine*/)._003C_003Ef__this.InterfaceChangeTargetTemperature(((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_0367: stateMachine*/)._003Coffset_003E__9);
+				},
+				defaultLabel = "+" + offset.ToStringTemperatureOffset("F0"),
+				defaultDesc = "CommandRaiseTempDesc".Translate(),
+				hotKey = KeyBindingDefOf.Misc3,
+				icon = ContentFinder<Texture2D>.Get("UI/Commands/TempRaise", true)
+			};
 		}
 
 		private void InterfaceChangeTargetTemperature(float offset)
 		{
-			if (offset > 0f)
+			if (offset > 0.0)
 			{
 				SoundDefOf.AmountIncrement.PlayOneShotOnCamera(null);
 			}
@@ -74,7 +132,7 @@ namespace RimWorld
 
 		private void ThrowCurrentTemperatureText()
 		{
-			MoteMaker.ThrowText(this.parent.TrueCenter() + new Vector3(0.5f, 0f, 0.5f), this.parent.Map, this.targetTemperature.ToStringTemperature("F0"), Color.white, -1f);
+			MoteMaker.ThrowText(base.parent.TrueCenter() + new Vector3(0.5f, 0f, 0.5f), base.parent.Map, this.targetTemperature.ToStringTemperature("F0"), Color.white, -1f);
 		}
 
 		public override string CompInspectStringExtra()

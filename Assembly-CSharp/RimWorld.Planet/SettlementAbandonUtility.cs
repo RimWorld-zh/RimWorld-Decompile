@@ -19,7 +19,7 @@ namespace RimWorld.Planet
 			command_Action.defaultLabel = "CommandAbandonHome".Translate();
 			command_Action.defaultDesc = "CommandAbandonHomeDesc".Translate();
 			command_Action.icon = SettlementAbandonUtility.AbandonCommandTex;
-			command_Action.action = delegate
+			command_Action.action = (Action)delegate()
 			{
 				SettlementAbandonUtility.TryAbandonViaInterface(settlement);
 			};
@@ -32,7 +32,7 @@ namespace RimWorld.Planet
 
 		public static bool AllColonistsThere(Settlement settlement)
 		{
-			return !CaravanUtility.PlayerHasAnyCaravan() && !Find.Maps.Any((Map x) => x.info.parent != settlement && x.mapPawns.FreeColonistsSpawned.Any<Pawn>());
+			return !CaravanUtility.PlayerHasAnyCaravan() && !Find.Maps.Any((Predicate<Map>)((Map x) => x.info.parent != settlement && x.mapPawns.FreeColonistsSpawned.Any()));
 		}
 
 		public static void TryAbandonViaInterface(Settlement settlement)
@@ -47,10 +47,10 @@ namespace RimWorld.Planet
 			{
 				StringBuilder stringBuilder = new StringBuilder();
 				IEnumerable<Pawn> source = map.mapPawns.PawnsInFaction(Faction.OfPlayer);
-				if (source.Count<Pawn>() != 0)
+				if (source.Count() != 0)
 				{
 					StringBuilder stringBuilder2 = new StringBuilder();
-					foreach (Pawn current in from x in source
+					foreach (Pawn item in from x in source
 					orderby x.IsColonist descending
 					select x)
 					{
@@ -58,14 +58,11 @@ namespace RimWorld.Planet
 						{
 							stringBuilder2.AppendLine();
 						}
-						stringBuilder2.Append("    " + current.LabelCap);
+						stringBuilder2.Append("    " + item.LabelCap);
 					}
-					stringBuilder.Append("ConfirmAbandonHomeWithColonyPawns".Translate(new object[]
-					{
-						stringBuilder2
-					}));
+					stringBuilder.Append("ConfirmAbandonHomeWithColonyPawns".Translate(stringBuilder2));
 				}
-				PawnDiedOrDownedThoughtsUtility.BuildMoodThoughtsListString(map.mapPawns.AllPawns, PawnDiedOrDownedThoughtsKind.Abandoned, stringBuilder, null, "\n\n" + "ConfirmAbandonHomeNegativeThoughts_Everyone".Translate(), "ConfirmAbandonHomeNegativeThoughts");
+				PawnDiedOrDownedThoughtsUtility.BuildMoodThoughtsListString(map.mapPawns.AllPawns, PawnDiedOrDownedThoughtsKind.Abandoned, stringBuilder, (string)null, "\n\n" + "ConfirmAbandonHomeNegativeThoughts_Everyone".Translate(), "ConfirmAbandonHomeNegativeThoughts");
 				if (stringBuilder.Length == 0)
 				{
 					SettlementAbandonUtility.Abandon(settlement);
@@ -73,10 +70,10 @@ namespace RimWorld.Planet
 				}
 				else
 				{
-					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(stringBuilder.ToString(), delegate
+					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(stringBuilder.ToString(), (Action)delegate()
 					{
 						SettlementAbandonUtility.Abandon(settlement);
-					}, false, null));
+					}, false, (string)null));
 				}
 			}
 		}

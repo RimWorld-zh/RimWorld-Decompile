@@ -89,17 +89,34 @@ namespace RimWorld
 					return false;
 				}
 			}
-			return p.CanReserveAndReach(t, PathEndMode.Touch, (!forced) ? p.NormalMaxDanger() : Danger.Deadly, 1, -1, null, forced) && !t.IsBurning();
+			if (!p.CanReserveAndReach(t, PathEndMode.Touch, (!forced) ? p.NormalMaxDanger() : Danger.Deadly, 1, -1, null, forced))
+			{
+				return false;
+			}
+			if (t.IsBurning())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static int AmountNeededByOf(IConstructible c, ThingDef resDef)
 		{
-			foreach (ThingCountClass current in c.MaterialsNeeded())
+			List<ThingCountClass>.Enumerator enumerator = c.MaterialsNeeded().GetEnumerator();
+			try
 			{
-				if (current.thingDef == resDef)
+				while (enumerator.MoveNext())
 				{
-					return current.count;
+					ThingCountClass current = enumerator.Current;
+					if (current.thingDef == resDef)
+					{
+						return current.count;
+					}
 				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			return 0;
 		}
@@ -129,22 +146,19 @@ namespace RimWorld
 			for (int i = 0; i < thingList.Count; i++)
 			{
 				Thing thing = thingList[i];
-				if (thing != thingToIgnore)
+				if (thing != thingToIgnore && thing.Position == center && thing.Rotation == rot)
 				{
-					if (thing.Position == center && thing.Rotation == rot)
+					if (thing.def == entDef)
 					{
-						if (thing.def == entDef)
+						return new AcceptanceReport("IdenticalThingExists".Translate());
+					}
+					if (thing.def.entityDefToBuild == entDef)
+					{
+						if (thing is Blueprint)
 						{
-							return new AcceptanceReport("IdenticalThingExists".Translate());
+							return new AcceptanceReport("IdenticalBlueprintExists".Translate());
 						}
-						if (thing.def.entityDefToBuild == entDef)
-						{
-							if (thing is Blueprint)
-							{
-								return new AcceptanceReport("IdenticalBlueprintExists".Translate());
-							}
-							return new AcceptanceReport("IdenticalThingExists".Translate());
-						}
+						return new AcceptanceReport("IdenticalThingExists".Translate());
 					}
 				}
 			}
@@ -163,59 +177,50 @@ namespace RimWorld
 					{
 						if (list[j].def.passability == Traversability.Impassable)
 						{
-							return new AcceptanceReport("InteractionSpotBlocked".Translate(new object[]
-							{
-								list[j].LabelNoCount
-							}).CapitalizeFirst());
+							return new AcceptanceReport("InteractionSpotBlocked".Translate(list[j].LabelNoCount).CapitalizeFirst());
 						}
 						Blueprint blueprint = list[j] as Blueprint;
 						if (blueprint != null && blueprint.def.entityDefToBuild.passability == Traversability.Impassable)
 						{
-							return new AcceptanceReport("InteractionSpotWillBeBlocked".Translate(new object[]
-							{
-								blueprint.LabelNoCount
-							}).CapitalizeFirst());
+							return new AcceptanceReport("InteractionSpotWillBeBlocked".Translate(blueprint.LabelNoCount).CapitalizeFirst());
 						}
 					}
 				}
 			}
-			if (entDef.passability != Traversability.Standable)
+			if (entDef.passability != 0)
 			{
-				foreach (IntVec3 current2 in GenAdj.CellsAdjacentCardinal(center, rot, entDef.Size))
+				foreach (IntVec3 item in GenAdj.CellsAdjacentCardinal(center, rot, entDef.Size))
 				{
-					if (current2.InBounds(map))
+					if (item.InBounds(map))
 					{
-						thingList = current2.GetThingList(map);
+						thingList = item.GetThingList(map);
 						for (int k = 0; k < thingList.Count; k++)
 						{
 							Thing thing2 = thingList[k];
+							ThingDef thingDef2;
 							if (thing2 != thingToIgnore)
 							{
+								thingDef2 = null;
 								Blueprint blueprint2 = thing2 as Blueprint;
-								ThingDef thingDef3;
 								if (blueprint2 != null)
 								{
-									ThingDef thingDef2 = blueprint2.def.entityDefToBuild as ThingDef;
-									if (thingDef2 == null)
+									ThingDef thingDef3 = blueprint2.def.entityDefToBuild as ThingDef;
+									if (thingDef3 != null)
 									{
-										goto IL_37E;
+										thingDef2 = thingDef3;
+										goto IL_0316;
 									}
-									thingDef3 = thingDef2;
+									continue;
 								}
-								else
-								{
-									thingDef3 = thing2.def;
-								}
-								if (thingDef3.hasInteractionCell && cellRect.Contains(Thing.InteractionCellWhenAt(thingDef3, thing2.Position, thing2.Rotation, thing2.Map)))
-								{
-									return new AcceptanceReport("WouldBlockInteractionSpot".Translate(new object[]
-									{
-										entDef.label,
-										thingDef3.label
-									}).CapitalizeFirst());
-								}
+								thingDef2 = thing2.def;
+								goto IL_0316;
 							}
-							IL_37E:;
+							continue;
+							IL_0316:
+							if (thingDef2.hasInteractionCell && cellRect.Contains(Thing.InteractionCellWhenAt(thingDef2, thing2.Position, thing2.Rotation, thing2.Map)))
+							{
+								return new AcceptanceReport("WouldBlockInteractionSpot".Translate(entDef.label, thingDef2.label).CapitalizeFirst());
+							}
 						}
 					}
 				}
@@ -225,10 +230,7 @@ namespace RimWorld
 			{
 				if (map.terrainGrid.TerrainAt(center) == terrainDef)
 				{
-					return new AcceptanceReport("TerrainIsAlready".Translate(new object[]
-					{
-						terrainDef.label
-					}));
+					return new AcceptanceReport("TerrainIsAlready".Translate(terrainDef.label));
 				}
 				if (map.designationManager.DesignationAt(center, DesignationDefOf.SmoothFloor) != null)
 				{
@@ -248,12 +250,9 @@ namespace RimWorld
 					for (int l = 0; l < thingList.Count; l++)
 					{
 						Thing thing3 = thingList[l];
-						if (thing3 != thingToIgnore)
+						if (thing3 != thingToIgnore && !GenConstruct.CanPlaceBlueprintOver(entDef, thing3.def))
 						{
-							if (!GenConstruct.CanPlaceBlueprintOver(entDef, thing3.def))
-							{
-								return new AcceptanceReport("SpaceAlreadyOccupied".Translate());
-							}
+							return new AcceptanceReport("SpaceAlreadyOccupied".Translate());
 						}
 					}
 					iterator2.MoveNext();
@@ -307,59 +306,95 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (oldDef.category == ThingCategory.Building || oldDef.IsBlueprint || oldDef.IsFrame)
+			if (oldDef.category != ThingCategory.Building && !oldDef.IsBlueprint && !oldDef.IsFrame)
 			{
-				if (thingDef != null)
-				{
-					if (!thingDef.IsEdifice())
-					{
-						return (oldDef.building == null || oldDef.building.canBuildNonEdificesUnder) && (!thingDef.EverTransmitsPower || !oldDef.EverTransmitsPower);
-					}
-					if (thingDef.IsEdifice() && oldDef != null && oldDef.category == ThingCategory.Building && !oldDef.IsEdifice())
-					{
-						return thingDef.building == null || thingDef.building.canBuildNonEdificesUnder;
-					}
-					if (thingDef2 != null && thingDef2 == ThingDefOf.Wall && thingDef.building != null && thingDef.building.canPlaceOverWall)
-					{
-						return true;
-					}
-					if (newDef != ThingDefOf.PowerConduit && buildableDef == ThingDefOf.PowerConduit)
-					{
-						return true;
-					}
-				}
-				return (newDef is TerrainDef && buildableDef is ThingDef && ((ThingDef)buildableDef).CoexistsWithFloors) || (buildableDef is TerrainDef && !(newDef is TerrainDef));
+				return true;
 			}
-			return true;
+			if (thingDef != null)
+			{
+				if (!thingDef.IsEdifice())
+				{
+					if (oldDef.building != null && !oldDef.building.canBuildNonEdificesUnder)
+					{
+						return false;
+					}
+					if (thingDef.EverTransmitsPower && oldDef.EverTransmitsPower)
+					{
+						return false;
+					}
+					return true;
+				}
+				if (thingDef.IsEdifice() && oldDef != null && oldDef.category == ThingCategory.Building && !oldDef.IsEdifice())
+				{
+					if (thingDef.building != null && !thingDef.building.canBuildNonEdificesUnder)
+					{
+						return false;
+					}
+					return true;
+				}
+				if (thingDef2 != null && thingDef2 == ThingDefOf.Wall && thingDef.building != null && thingDef.building.canPlaceOverWall)
+				{
+					return true;
+				}
+				if (newDef != ThingDefOf.PowerConduit && buildableDef == ThingDefOf.PowerConduit)
+				{
+					return true;
+				}
+			}
+			if (newDef is TerrainDef && buildableDef is ThingDef && ((ThingDef)buildableDef).CoexistsWithFloors)
+			{
+				return true;
+			}
+			if (buildableDef is TerrainDef && !(newDef is TerrainDef))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool BlocksFramePlacement(Blueprint blue, Thing t)
 		{
 			if (t.def.category == ThingCategory.Plant)
 			{
-				return t.def.plant.harvestWork >= 200f;
-			}
-			if (blue.def.entityDefToBuild is TerrainDef || blue.def.entityDefToBuild.passability == Traversability.Standable)
-			{
+				if (t.def.plant.harvestWork >= 200.0)
+				{
+					return true;
+				}
 				return false;
 			}
-			if (t.def == ThingDefOf.SteamGeyser && blue.def.entityDefToBuild.ForceAllowPlaceOver(t.def))
+			if (((!(blue.def.entityDefToBuild is TerrainDef)) ? blue.def.entityDefToBuild.passability : Traversability.Standable) != 0)
 			{
-				return false;
-			}
-			ThingDef thingDef = blue.def.entityDefToBuild as ThingDef;
-			if (thingDef != null)
-			{
-				if (thingDef.EverTransmitsPower && t.def == ThingDefOf.PowerConduit && thingDef != ThingDefOf.PowerConduit)
+				if (t.def == ThingDefOf.SteamGeyser && blue.def.entityDefToBuild.ForceAllowPlaceOver(t.def))
 				{
 					return false;
 				}
-				if (t.def == ThingDefOf.Wall && thingDef.building != null && thingDef.building.canPlaceOverWall)
+				ThingDef thingDef = blue.def.entityDefToBuild as ThingDef;
+				if (thingDef != null)
 				{
+					if (thingDef.EverTransmitsPower && t.def == ThingDefOf.PowerConduit && thingDef != ThingDefOf.PowerConduit)
+					{
+						return false;
+					}
+					if (t.def == ThingDefOf.Wall && thingDef.building != null && thingDef.building.canPlaceOverWall)
+					{
+						return false;
+					}
+				}
+				if (t.def.IsEdifice() && thingDef.IsEdifice())
+				{
+					return true;
+				}
+				if (t.def.category != ThingCategory.Pawn && (t.def.category != ThingCategory.Item || blue.def.entityDefToBuild.passability != Traversability.Impassable))
+				{
+					if ((int)t.def.Fillage >= 1 && thingDef != null && (int)thingDef.Fillage >= 1)
+					{
+						return true;
+					}
 					return false;
 				}
+				return true;
 			}
-			return (t.def.IsEdifice() && thingDef.IsEdifice()) || (t.def.category == ThingCategory.Pawn || (t.def.category == ThingCategory.Item && blue.def.entityDefToBuild.passability == Traversability.Impassable)) || (t.def.Fillage >= FillCategory.Partial && thingDef != null && thingDef.Fillage >= FillCategory.Partial);
+			return false;
 		}
 
 		public static bool TerrainCanSupport(CellRect rect, Map map, ThingDef thing)

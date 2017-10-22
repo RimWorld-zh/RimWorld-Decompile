@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI.Group
 {
 	public class LordJob_TravelAndExit : LordJob
@@ -22,13 +20,9 @@ namespace Verse.AI.Group
 			stateGraph.StartingToil = startingToil;
 			LordToil_ExitMap lordToil_ExitMap = new LordToil_ExitMap(LocomotionUrgency.None, false);
 			stateGraph.AddToil(lordToil_ExitMap);
-			stateGraph.AddTransition(new Transition(startingToil, lordToil_ExitMap)
-			{
-				triggers = 
-				{
-					new Trigger_Memo("TravelArrived")
-				}
-			});
+			Transition transition = new Transition(startingToil, lordToil_ExitMap);
+			transition.triggers.Add(new Trigger_Memo("TravelArrived"));
+			stateGraph.AddTransition(transition);
 			return stateGraph;
 		}
 

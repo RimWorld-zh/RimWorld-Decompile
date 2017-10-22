@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -12,7 +11,19 @@ namespace Verse
 		{
 			get
 			{
-				return this.active && (Event.current.type == EventType.Repaint || Event.current.type == EventType.Layout || (Event.current.type == EventType.MouseDown || Event.current.type == EventType.MouseUp || Event.current.type == EventType.MouseDrag));
+				if (!this.active)
+				{
+					return false;
+				}
+				if (Event.current.type != EventType.Repaint && Event.current.type != EventType.Layout)
+				{
+					if (Event.current.type != 0 && Event.current.type != EventType.MouseUp && Event.current.type != EventType.MouseDrag)
+					{
+						return false;
+					}
+					return true;
+				}
+				return true;
 			}
 		}
 

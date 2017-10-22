@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -29,7 +28,7 @@ namespace RimWorld.BaseGen
 			for (int j = 0; j < SymbolResolver_Refuel.refuelables.Count; j++)
 			{
 				float fuelCapacity = SymbolResolver_Refuel.refuelables[j].Props.fuelCapacity;
-				float amount = Rand.Range(fuelCapacity / 2f, fuelCapacity);
+				float amount = Rand.Range((float)(fuelCapacity / 2.0), fuelCapacity);
 				SymbolResolver_Refuel.refuelables[j].Refuel(amount);
 			}
 			SymbolResolver_Refuel.refuelables.Clear();

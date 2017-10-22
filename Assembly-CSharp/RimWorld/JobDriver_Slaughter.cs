@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -18,14 +17,22 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_Slaughter.<MakeNewToils>c__Iterator7 <MakeNewToils>c__Iterator = new JobDriver_Slaughter.<MakeNewToils>c__Iterator7();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_Slaughter.<MakeNewToils>c__Iterator7 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOnAggroMentalState(TargetIndex.A);
+			this.FailOnThingMissingDesignation(TargetIndex.A, DesignationDefOf.Slaughter);
+			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			yield return Toils_General.WaitWith(TargetIndex.A, 180, true, false);
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+					ExecutionUtility.DoExecutionByCut(((_003CMakeNewToils_003Ec__Iterator7)/*Error near IL_00b0: stateMachine*/)._003Cexecute_003E__0.actor, ((_003CMakeNewToils_003Ec__Iterator7)/*Error near IL_00b0: stateMachine*/)._003C_003Ef__this.Victim);
+					((_003CMakeNewToils_003Ec__Iterator7)/*Error near IL_00b0: stateMachine*/)._003C_003Ef__this.pawn.records.Increment(RecordDefOf.AnimalsSlaughtered);
+				},
+				defaultCompleteMode = ToilCompleteMode.Instant
+			};
 		}
 	}
 }

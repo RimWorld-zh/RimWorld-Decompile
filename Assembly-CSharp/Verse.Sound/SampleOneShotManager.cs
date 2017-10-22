@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Verse.Sound
 {
@@ -32,11 +33,11 @@ namespace Verse.Sound
 		{
 			if (def.priorityMode == VoicePriorityMode.PrioritizeNearest)
 			{
-				return 1f / (this.CameraDistanceSquaredOf(info) + 1f);
+				return (float)(1.0 / (this.CameraDistanceSquaredOf(info) + 1.0));
 			}
 			if (def.priorityMode == VoicePriorityMode.PrioritizeNewest)
 			{
-				return 1f / (ageRealTime + 1f);
+				return (float)(1.0 / (ageRealTime + 1.0));
 			}
 			throw new NotImplementedException();
 		}
@@ -48,20 +49,24 @@ namespace Verse.Sound
 				return false;
 			}
 			if ((from s in this.samples
-			where s.subDef.parentDef == def && s.AgeRealTime < 0.05f
-			select s).Count<SampleOneShot>() >= def.MaxSimultaneousSamples)
+			where s.subDef.parentDef == def && s.AgeRealTime < 0.05000000074505806
+			select s).Count() >= def.MaxSimultaneousSamples)
 			{
 				return false;
 			}
 			SampleOneShot sampleOneShot = this.LeastImportantOf(def);
-			return sampleOneShot == null || this.ImportanceOf(def, info, 0f) >= this.ImportanceOf(sampleOneShot);
+			if (sampleOneShot != null && this.ImportanceOf(def, info, 0f) < this.ImportanceOf(sampleOneShot))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public void TryAddPlayingOneShot(SampleOneShot newSample)
 		{
 			int num = (from s in this.samples
 			where s.subDef == newSample.subDef
-			select s).Count<SampleOneShot>();
+			select s).Count();
 			if (num >= newSample.subDef.parentDef.maxVoices)
 			{
 				SampleOneShot sampleOneShot = this.LeastImportantOf(newSample.subDef.parentDef);
@@ -95,9 +100,9 @@ namespace Verse.Sound
 			for (int j = 0; j < this.samples.Count; j++)
 			{
 				SampleOneShot sampleOneShot = this.samples[j];
-				if (sampleOneShot.source == null || !sampleOneShot.source.isPlaying || !SoundDefHelper.CorrectContextNow(sampleOneShot.subDef.parentDef, sampleOneShot.Map))
+				if ((UnityEngine.Object)sampleOneShot.source == (UnityEngine.Object)null || !sampleOneShot.source.isPlaying || !SoundDefHelper.CorrectContextNow(sampleOneShot.subDef.parentDef, sampleOneShot.Map))
 				{
-					if (sampleOneShot.source != null && sampleOneShot.source.isPlaying)
+					if ((UnityEngine.Object)sampleOneShot.source != (UnityEngine.Object)null && sampleOneShot.source.isPlaying)
 					{
 						sampleOneShot.source.Stop();
 					}
@@ -107,7 +112,7 @@ namespace Verse.Sound
 			}
 			if (this.cleanupList.Count > 0)
 			{
-				this.samples.RemoveAll((SampleOneShot s) => this.cleanupList.Contains(s));
+				this.samples.RemoveAll((Predicate<SampleOneShot>)((SampleOneShot s) => this.cleanupList.Contains(s)));
 			}
 		}
 	}

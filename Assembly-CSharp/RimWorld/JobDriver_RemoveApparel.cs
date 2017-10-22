@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Verse;
 using Verse.AI;
 
 namespace RimWorld
@@ -17,14 +17,67 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_RemoveApparel.<MakeNewToils>c__Iterator53 <MakeNewToils>c__Iterator = new JobDriver_RemoveApparel.<MakeNewToils>c__Iterator53();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_RemoveApparel.<MakeNewToils>c__Iterator53 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+					((_003CMakeNewToils_003Ec__Iterator53)/*Error near IL_004a: stateMachine*/)._003C_003Ef__this.pawn.pather.StopDead();
+				},
+				defaultCompleteMode = ToilCompleteMode.Delay,
+				defaultDuration = 60
+			};
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+					if (((_003CMakeNewToils_003Ec__Iterator53)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.pawn.apparel.WornApparel.Contains(((_003CMakeNewToils_003Ec__Iterator53)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.TargetApparel))
+					{
+						Apparel apparel = default(Apparel);
+						if (((_003CMakeNewToils_003Ec__Iterator53)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.pawn.apparel.TryDrop(((_003CMakeNewToils_003Ec__Iterator53)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.TargetApparel, out apparel))
+						{
+							((_003CMakeNewToils_003Ec__Iterator53)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.CurJob.targetA = (Thing)apparel;
+							if (((_003CMakeNewToils_003Ec__Iterator53)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.CurJob.haulDroppedApparel)
+							{
+								apparel.SetForbidden(false, false);
+								StoragePriority currentPriority = HaulAIUtility.StoragePriorityAtFor(apparel.Position, apparel);
+								IntVec3 c = default(IntVec3);
+								if (StoreUtility.TryFindBestBetterStoreCellFor((Thing)apparel, ((_003CMakeNewToils_003Ec__Iterator53)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.pawn, ((_003CMakeNewToils_003Ec__Iterator53)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.Map, currentPriority, ((_003CMakeNewToils_003Ec__Iterator53)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.pawn.Faction, out c, true))
+								{
+									((_003CMakeNewToils_003Ec__Iterator53)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.CurJob.count = apparel.stackCount;
+									((_003CMakeNewToils_003Ec__Iterator53)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.CurJob.targetB = c;
+								}
+								else
+								{
+									((_003CMakeNewToils_003Ec__Iterator53)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.EndJobWith(JobCondition.Incompletable);
+								}
+							}
+							else
+							{
+								((_003CMakeNewToils_003Ec__Iterator53)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.EndJobWith(JobCondition.Succeeded);
+							}
+						}
+						else
+						{
+							((_003CMakeNewToils_003Ec__Iterator53)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.EndJobWith(JobCondition.Incompletable);
+						}
+					}
+					else
+					{
+						((_003CMakeNewToils_003Ec__Iterator53)/*Error near IL_009d: stateMachine*/)._003C_003Ef__this.EndJobWith(JobCondition.Incompletable);
+					}
+				}
+			};
+			if (base.CurJob.haulDroppedApparel)
+			{
+				yield return Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
+				yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+				yield return Toils_Haul.StartCarryThing(TargetIndex.A, false, false).FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator53)/*Error near IL_011a: stateMachine*/)._003C_003Ef__this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation)));
+				Toil carryToCell = Toils_Haul.CarryHauledThingToCell(TargetIndex.B);
+				yield return carryToCell;
+				yield return Toils_Haul.PlaceHauledThingInCell(TargetIndex.B, carryToCell, true);
+			}
 		}
 	}
 }

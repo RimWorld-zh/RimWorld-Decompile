@@ -30,23 +30,23 @@ namespace Verse
 
 		public static float RoundedHundredth(float f)
 		{
-			return Mathf.Round(f * 100f) / 100f;
+			return (float)(Mathf.Round((float)(f * 100.0)) / 100.0);
 		}
 
 		public static float ChanceEitherHappens(float chanceA, float chanceB)
 		{
-			return chanceA + (1f - chanceA) * chanceB;
+			return (float)(chanceA + (1.0 - chanceA) * chanceB);
 		}
 
 		public static float SmootherStep(float edge0, float edge1, float x)
 		{
 			x = Mathf.Clamp01((x - edge0) / (edge1 - edge0));
-			return x * x * x * (x * (x * 6f - 15f) + 10f);
+			return (float)(x * x * x * (x * (x * 6.0 - 15.0) + 10.0));
 		}
 
 		public static int RoundRandom(float f)
 		{
-			return (int)f + ((Rand.Value >= f % 1f) ? 0 : 1);
+			return (int)f + ((Rand.Value < f % 1.0) ? 1 : 0);
 		}
 
 		public static float WeightedAverage(float A, float weightA, float B, float weightB)
@@ -81,24 +81,17 @@ namespace Verse
 			{
 				return 0f;
 			}
-			if (x <= min || x >= max)
+			if (!(x <= min) && !(x >= max))
 			{
-				return 0f;
+				if (x == mid)
+				{
+					return 1f;
+				}
+				float num = 0f;
+				num = (float)((!(x < mid)) ? (1.0 - (x - mid) / (max - mid)) : (1.0 - (mid - x) / (mid - min)));
+				return Mathf.Pow(num, power);
 			}
-			if (x == mid)
-			{
-				return 1f;
-			}
-			float f;
-			if (x < mid)
-			{
-				f = 1f - (mid - x) / (mid - min);
-			}
-			else
-			{
-				f = 1f - (x - mid) / (max - mid);
-			}
-			return Mathf.Pow(f, power);
+			return 0f;
 		}
 
 		public static float FlatHill(float min, float lower, float upper, float max, float x)
@@ -150,11 +143,11 @@ namespace Verse
 
 		public static float UnboundedValueToFactor(float val)
 		{
-			if (val > 0f)
+			if (val > 0.0)
 			{
-				return 1f + val;
+				return (float)(1.0 + val);
 			}
-			return 1f / (1f - val);
+			return (float)(1.0 / (1.0 - val));
 		}
 
 		public static void LogTestMathPerf()
@@ -165,49 +158,31 @@ namespace Verse
 			float num = 0f;
 			Stopwatch stopwatch = Stopwatch.StartNew();
 			int num2 = 0;
-			while ((float)num2 < 1E+07f)
+			while ((float)num2 < 10000000.0)
 			{
 				num += (float)Math.Sqrt(101.20999908447266);
 				num2++;
 			}
-			stringBuilder.AppendLine(string.Concat(new object[]
-			{
-				"(float)System.Math.Sqrt(",
-				101.21f,
-				"): ",
-				stopwatch.ElapsedTicks
-			}));
+			stringBuilder.AppendLine("(float)System.Math.Sqrt(" + 101.21f + "): " + stopwatch.ElapsedTicks);
 			Stopwatch stopwatch2 = Stopwatch.StartNew();
 			int num3 = 0;
-			while ((float)num3 < 1E+07f)
+			while ((float)num3 < 10000000.0)
 			{
 				num += Mathf.Sqrt(101.21f);
 				num3++;
 			}
-			stringBuilder.AppendLine(string.Concat(new object[]
-			{
-				"UnityEngine.Mathf.Sqrt(",
-				101.21f,
-				"): ",
-				stopwatch2.ElapsedTicks
-			}));
+			stringBuilder.AppendLine("UnityEngine.Mathf.Sqrt(" + 101.21f + "): " + stopwatch2.ElapsedTicks);
 			Stopwatch stopwatch3 = Stopwatch.StartNew();
 			int num4 = 0;
-			while ((float)num4 < 1E+07f)
+			while ((float)num4 < 10000000.0)
 			{
 				num += GenMath.Sqrt(101.21f);
 				num4++;
 			}
-			stringBuilder.AppendLine(string.Concat(new object[]
-			{
-				"Verse.GenMath.Sqrt(",
-				101.21f,
-				"): ",
-				stopwatch3.ElapsedTicks
-			}));
+			stringBuilder.AppendLine("Verse.GenMath.Sqrt(" + 101.21f + "): " + stopwatch3.ElapsedTicks);
 			Stopwatch stopwatch4 = Stopwatch.StartNew();
 			int num5 = 0;
-			while ((float)num5 < 1E+07f)
+			while ((float)num5 < 10000000.0)
 			{
 				num += (float)intVec.LengthManhattan;
 				num5++;
@@ -215,7 +190,7 @@ namespace Verse
 			stringBuilder.AppendLine("Verse.IntVec3.LengthManhattan: " + stopwatch4.ElapsedTicks);
 			Stopwatch stopwatch5 = Stopwatch.StartNew();
 			int num6 = 0;
-			while ((float)num6 < 1E+07f)
+			while ((float)num6 < 10000000.0)
 			{
 				num += intVec.LengthHorizontal;
 				num6++;
@@ -223,7 +198,7 @@ namespace Verse
 			stringBuilder.AppendLine("Verse.IntVec3.LengthHorizontal: " + stopwatch5.ElapsedTicks);
 			Stopwatch stopwatch6 = Stopwatch.StartNew();
 			int num7 = 0;
-			while ((float)num7 < 1E+07f)
+			while ((float)num7 < 10000000.0)
 			{
 				num += (float)intVec.LengthHorizontalSquared;
 				num7++;
@@ -243,14 +218,11 @@ namespace Verse
 				}
 				return c;
 			}
-			else
+			if (b < c)
 			{
-				if (b < c)
-				{
-					return b;
-				}
-				return c;
+				return b;
 			}
+			return c;
 		}
 
 		public static int Max(int a, int b, int c)
@@ -263,14 +235,11 @@ namespace Verse
 				}
 				return c;
 			}
-			else
+			if (b > c)
 			{
-				if (b > c)
-				{
-					return b;
-				}
-				return c;
+				return b;
 			}
+			return c;
 		}
 
 		public static float SphericalDistance(Vector3 normalizedA, Vector3 normalizedB)
@@ -293,14 +262,16 @@ namespace Verse
 				GenMath.tmpScores.Add(item);
 				GenMath.tmpCalcList.Add(item);
 			}
-			for (int j = 0; j < numToDistribute; j++)
+			for (int num = 0; num < numToDistribute; num++)
 			{
-				int num = GenMath.tmpCalcList.IndexOf(GenMath.tmpCalcList.Max());
-				int num2;
-				int expr_72 = num2 = num;
-				num2 = candidates[num2];
-				candidates[expr_72] = num2 + 1;
-				GenMath.tmpCalcList[num] = GenMath.tmpScores[num] / ((float)candidates[num] + 1f);
+				int num2 = GenMath.tmpCalcList.IndexOf(GenMath.tmpCalcList.Max());
+				List<int> list;
+				List<int> obj = list = candidates;
+				int index;
+				int index2 = index = num2;
+				index = list[index];
+				obj[index2] = index + 1;
+				GenMath.tmpCalcList[num2] = (float)(GenMath.tmpScores[num2] / ((float)candidates[num2] + 1.0));
 			}
 		}
 
@@ -309,7 +280,7 @@ namespace Verse
 			return (x % m + m) % m;
 		}
 
-		public static Vector3 BezierCubicEvaluate(float t, GenMath.BezierCubicControls bcc)
+		public static Vector3 BezierCubicEvaluate(float t, BezierCubicControls bcc)
 		{
 			return GenMath.BezierCubicEvaluate(t, bcc.w0, bcc.w1, bcc.w2, bcc.w3);
 		}
@@ -317,7 +288,7 @@ namespace Verse
 		public static Vector3 BezierCubicEvaluate(float t, Vector3 w0, Vector3 w1, Vector3 w2, Vector3 w3)
 		{
 			float d = t * t;
-			float num = 1f - t;
+			float num = (float)(1.0 - t);
 			float d2 = num * num;
 			return w0 * d2 * num + 3f * w1 * d2 * t + 3f * w2 * num * d + w3 * d * t;
 		}
@@ -335,16 +306,16 @@ namespace Verse
 			}
 			if (num2 <= num5 && r1 >= r2)
 			{
-				return 3.14159274f * num4;
+				return (float)(3.1415927410125732 * num4);
 			}
 			if (num2 <= num5 && r2 >= r1)
 			{
-				return 3.14159274f * num3;
+				return (float)(3.1415927410125732 * num3);
 			}
-			float num6 = Mathf.Acos((num3 - num4 + num) / (2f * r1 * num2)) * 2f;
-			float num7 = Mathf.Acos((num4 - num3 + num) / (2f * r2 * num2)) * 2f;
-			float num8 = (num7 * num4 - num4 * Mathf.Sin(num7)) * 0.5f;
-			float num9 = (num6 * num3 - num3 * Mathf.Sin(num6)) * 0.5f;
+			float num6 = (float)(Mathf.Acos((float)((num3 - num4 + num) / (2.0 * r1 * num2))) * 2.0);
+			float num7 = (float)(Mathf.Acos((float)((num4 - num3 + num) / (2.0 * r2 * num2))) * 2.0);
+			float num8 = (float)((num7 * num4 - num4 * Mathf.Sin(num7)) * 0.5);
+			float num9 = (float)((num6 * num3 - num3 * Mathf.Sin(num6)) * 0.5);
 			return num8 + num9;
 		}
 	}

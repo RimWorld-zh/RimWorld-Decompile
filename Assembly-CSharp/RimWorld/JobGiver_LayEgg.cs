@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -11,12 +10,12 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			CompEggLayer compEggLayer = pawn.TryGetComp<CompEggLayer>();
-			if (compEggLayer == null || !compEggLayer.CanLayNow)
+			if (compEggLayer != null && compEggLayer.CanLayNow)
 			{
-				return null;
+				IntVec3 c = RCellFinder.RandomWanderDestFor(pawn, pawn.Position, 5f, null, Danger.Some);
+				return new Job(JobDefOf.LayEgg, c);
 			}
-			IntVec3 c = RCellFinder.RandomWanderDestFor(pawn, pawn.Position, 5f, null, Danger.Some);
-			return new Job(JobDefOf.LayEgg, c);
+			return null;
 		}
 	}
 }

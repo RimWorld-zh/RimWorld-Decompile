@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using Verse;
 
 namespace RimWorld
@@ -11,41 +11,83 @@ namespace RimWorld
 
 		private static List<Building> openSet = new List<Building>();
 
-		[DebuggerHidden]
 		public static IEnumerable<string> LaunchFailReasons(Building rootBuilding)
 		{
-			ShipUtility.<LaunchFailReasons>c__Iterator171 <LaunchFailReasons>c__Iterator = new ShipUtility.<LaunchFailReasons>c__Iterator171();
-			<LaunchFailReasons>c__Iterator.rootBuilding = rootBuilding;
-			<LaunchFailReasons>c__Iterator.<$>rootBuilding = rootBuilding;
-			ShipUtility.<LaunchFailReasons>c__Iterator171 expr_15 = <LaunchFailReasons>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			List<Building> shipParts = ShipUtility.ShipBuildingsAttachedTo(rootBuilding).ToList();
+			List<ThingDef>.Enumerator enumerator = new List<ThingDef>
+			{
+				ThingDefOf.Ship_CryptosleepCasket,
+				ThingDefOf.Ship_ComputerCore,
+				ThingDefOf.Ship_Reactor,
+				ThingDefOf.Ship_Engine
+			}.GetEnumerator();
+			try
+			{
+				while (enumerator.MoveNext())
+				{
+					ThingDef partDef = enumerator.Current;
+					if (!shipParts.Any((Predicate<Building>)((Building pa) => pa.def == ((_003CLaunchFailReasons_003Ec__Iterator171)/*Error near IL_00c4: stateMachine*/)._003CpartDef_003E__3)))
+					{
+						yield return "ShipReportMissingPart".Translate() + ": " + partDef.label;
+					}
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			bool fullPodFound = false;
+			List<Building>.Enumerator enumerator2 = shipParts.GetEnumerator();
+			try
+			{
+				while (enumerator2.MoveNext())
+				{
+					Building part = enumerator2.Current;
+					if (part.def == ThingDefOf.Ship_CryptosleepCasket)
+					{
+						Building_CryptosleepCasket pod = part as Building_CryptosleepCasket;
+						if (pod != null && pod.HasAnyContents)
+						{
+							fullPodFound = true;
+							break;
+						}
+					}
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
+			}
+			if (!fullPodFound)
+			{
+				yield return "ShipReportNoFullPods".Translate();
+			}
 		}
 
 		public static List<Building> ShipBuildingsAttachedTo(Building root)
 		{
-			if (root == null || root.Destroyed)
+			if (root != null && !root.Destroyed)
 			{
-				return new List<Building>();
-			}
-			ShipUtility.closedSet.Clear();
-			ShipUtility.openSet.Clear();
-			ShipUtility.openSet.Add(root);
-			while (ShipUtility.openSet.Count > 0)
-			{
-				Building building = ShipUtility.openSet[ShipUtility.openSet.Count - 1];
-				ShipUtility.openSet.Remove(building);
-				ShipUtility.closedSet.Add(building);
-				foreach (IntVec3 current in GenAdj.CellsAdjacentCardinal(building))
+				ShipUtility.closedSet.Clear();
+				ShipUtility.openSet.Clear();
+				ShipUtility.openSet.Add(root);
+				while (ShipUtility.openSet.Count > 0)
 				{
-					Building edifice = current.GetEdifice(building.Map);
-					if (edifice != null && edifice.def.building.shipPart && !ShipUtility.closedSet.Contains(edifice) && !ShipUtility.openSet.Contains(edifice))
+					Building building = ShipUtility.openSet[ShipUtility.openSet.Count - 1];
+					ShipUtility.openSet.Remove(building);
+					ShipUtility.closedSet.Add(building);
+					foreach (IntVec3 item in GenAdj.CellsAdjacentCardinal(building))
 					{
-						ShipUtility.openSet.Add(edifice);
+						Building edifice = item.GetEdifice(building.Map);
+						if (edifice != null && edifice.def.building.shipPart && !ShipUtility.closedSet.Contains(edifice) && !ShipUtility.openSet.Contains(edifice))
+						{
+							ShipUtility.openSet.Add(edifice);
+						}
 					}
 				}
+				return ShipUtility.closedSet;
 			}
-			return ShipUtility.closedSet;
+			return new List<Building>();
 		}
 	}
 }

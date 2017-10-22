@@ -63,17 +63,16 @@ namespace RimWorld
 
 		public virtual void Open()
 		{
-			if (!this.HasAnyContents)
+			if (this.HasAnyContents)
 			{
-				return;
+				this.EjectContents();
 			}
-			this.EjectContents();
 		}
 
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Deep.Look<ThingOwner>(ref this.innerContainer, "innerContainer", new object[]
+			Scribe_Deep.Look<ThingOwner>(ref this.innerContainer, "innerContainer", new object[1]
 			{
 				this
 			});
@@ -116,7 +115,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			bool flag;
+			bool flag = false;
 			if (thing.holdingOwner != null)
 			{
 				thing.holdingOwner.TryTransferToContainer(thing, this.innerContainer, thing.stackCount, true);
@@ -144,17 +143,26 @@ namespace RimWorld
 				if (mode != DestroyMode.Deconstruct)
 				{
 					List<Pawn> list = new List<Pawn>();
-					foreach (Thing current in ((IEnumerable<Thing>)this.innerContainer))
+					foreach (Thing item in (IEnumerable<Thing>)this.innerContainer)
 					{
-						Pawn pawn = current as Pawn;
+						Pawn pawn = item as Pawn;
 						if (pawn != null)
 						{
 							list.Add(pawn);
 						}
 					}
-					foreach (Pawn current2 in list)
+					List<Pawn>.Enumerator enumerator2 = list.GetEnumerator();
+					try
 					{
-						HealthUtility.DamageUntilDowned(current2);
+						while (enumerator2.MoveNext())
+						{
+							Pawn current2 = enumerator2.Current;
+							HealthUtility.DamageUntilDowned(current2);
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator2).Dispose();
 					}
 				}
 				this.EjectContents();
@@ -172,15 +180,7 @@ namespace RimWorld
 		public override string GetInspectString()
 		{
 			string text = base.GetInspectString();
-			string str;
-			if (!this.contentsKnown)
-			{
-				str = "UnknownLower".Translate();
-			}
-			else
-			{
-				str = this.innerContainer.ContentsString;
-			}
+			string str = this.contentsKnown ? this.innerContainer.ContentsString : "UnknownLower".Translate();
 			if (!text.NullOrEmpty())
 			{
 				text += "\n";
@@ -191,6 +191,12 @@ namespace RimWorld
 		virtual IThingHolder get_ParentHolder()
 		{
 			return base.ParentHolder;
+		}
+
+		IThingHolder IThingHolder.get_ParentHolder()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
+			return this.get_ParentHolder();
 		}
 	}
 }

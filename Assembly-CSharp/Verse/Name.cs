@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public abstract class Name : IExposable
@@ -23,9 +21,9 @@ namespace Verse
 		{
 			get
 			{
-				foreach (Name current in NameUseChecker.AllPawnsNamesEverUsed)
+				foreach (Name item in NameUseChecker.AllPawnsNamesEverUsed)
 				{
-					if (current.ConfusinglySimilarTo(this))
+					if (item.ConfusinglySimilarTo(this))
 					{
 						return true;
 					}

@@ -28,7 +28,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.action != null;
+				return (object)this.action != null;
 			}
 		}
 
@@ -91,9 +91,9 @@ namespace RimWorld
 			{
 				Vector2 mousePosition = Event.current.mousePosition;
 				Texture2D image = this.mouseAttachment ?? TexCommand.Attack;
-				Rect position = new Rect(mousePosition.x + 8f, mousePosition.y + 8f, 32f, 32f);
+				Rect position = new Rect((float)(mousePosition.x + 8.0), (float)(mousePosition.y + 8.0), 32f, 32f);
 				GUI.DrawTexture(position, image);
-				if (this.extraLabelGetter != null)
+				if ((object)this.extraLabelGetter != null)
 				{
 					string text = this.extraLabelGetter(this.CurrentTargetUnderMouse());
 					if (!text.NullOrEmpty())
@@ -122,9 +122,9 @@ namespace RimWorld
 				}
 				if (globalTargetInfo.IsValid)
 				{
-					WorldRendererUtility.DrawQuadTangentialToPlanet(pos, 0.8f * Find.WorldGrid.averageTileSize, 0.018f, WorldMaterials.CurTargetingMat, false, false, null);
+					WorldRendererUtility.DrawQuadTangentialToPlanet(pos, (float)(0.800000011920929 * Find.WorldGrid.averageTileSize), 0.018f, WorldMaterials.CurTargetingMat, false, false, null);
 				}
-				if (this.onUpdate != null)
+				if ((object)this.onUpdate != null)
 				{
 					this.onUpdate();
 				}
@@ -141,7 +141,11 @@ namespace RimWorld
 			{
 				worldObjectsUnderMouse = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
 			}
-			return worldObjectsUnderMouse.Any<WorldObject>() && o == worldObjectsUnderMouse[0];
+			if (worldObjectsUnderMouse.Any())
+			{
+				return o == worldObjectsUnderMouse[0];
+			}
+			return false;
 		}
 
 		private GlobalTargetInfo CurrentTargetUnderMouse()
@@ -151,18 +155,18 @@ namespace RimWorld
 				return GlobalTargetInfo.Invalid;
 			}
 			List<WorldObject> list = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
-			if (list.Any<WorldObject>())
+			if (list.Any())
 			{
 				return list[0];
 			}
-			if (!this.canTargetTiles)
+			if (this.canTargetTiles)
 			{
+				int num = GenWorld.MouseTile(false);
+				if (num >= 0)
+				{
+					return new GlobalTargetInfo(num);
+				}
 				return GlobalTargetInfo.Invalid;
-			}
-			int num = GenWorld.MouseTile(false);
-			if (num >= 0)
-			{
-				return new GlobalTargetInfo(num);
 			}
 			return GlobalTargetInfo.Invalid;
 		}

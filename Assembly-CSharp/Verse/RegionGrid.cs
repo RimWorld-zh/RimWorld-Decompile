@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -36,11 +35,23 @@ namespace Verse
 		{
 			get
 			{
-				RegionGrid.<>c__Iterator202 <>c__Iterator = new RegionGrid.<>c__Iterator202();
-				<>c__Iterator.<>f__this = this;
-				RegionGrid.<>c__Iterator202 expr_0E = <>c__Iterator;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				RegionGrid.allRegionsYielded.Clear();
+				try
+				{
+					int count = this.map.cellIndices.NumGridCells;
+					for (int i = 0; i < count; i++)
+					{
+						if (this.regionGrid[i] != null && !RegionGrid.allRegionsYielded.Contains(this.regionGrid[i]))
+						{
+							yield return this.regionGrid[i];
+							RegionGrid.allRegionsYielded.Add(this.regionGrid[i]);
+						}
+					}
+				}
+				finally
+				{
+					((_003C_003Ec__Iterator202)/*Error near IL_0106: stateMachine*/)._003C_003E__Finally0();
+				}
 			}
 		}
 
@@ -48,11 +59,28 @@ namespace Verse
 		{
 			get
 			{
-				RegionGrid.<>c__Iterator203 <>c__Iterator = new RegionGrid.<>c__Iterator203();
-				<>c__Iterator.<>f__this = this;
-				RegionGrid.<>c__Iterator203 expr_0E = <>c__Iterator;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				if (!this.map.regionAndRoomUpdater.Enabled && this.map.regionAndRoomUpdater.AnythingToRebuild)
+				{
+					Log.Warning("Trying to get all valid regions but RegionAndRoomUpdater is disabled. The result may be incorrect.");
+				}
+				this.map.regionAndRoomUpdater.TryRebuildDirtyRegionsAndRooms();
+				RegionGrid.allRegionsYielded.Clear();
+				try
+				{
+					int count = this.map.cellIndices.NumGridCells;
+					for (int i = 0; i < count; i++)
+					{
+						if (this.regionGrid[i] != null && this.regionGrid[i].valid && !RegionGrid.allRegionsYielded.Contains(this.regionGrid[i]))
+						{
+							yield return this.regionGrid[i];
+							RegionGrid.allRegionsYielded.Add(this.regionGrid[i]);
+						}
+					}
+				}
+				finally
+				{
+					((_003C_003Ec__Iterator203)/*Error near IL_0175: stateMachine*/)._003C_003E__Finally0();
+				}
 			}
 		}
 
@@ -126,46 +154,44 @@ namespace Verse
 
 		public void DebugDraw()
 		{
-			if (this.map != Find.VisibleMap)
+			if (this.map == Find.VisibleMap)
 			{
-				return;
-			}
-			if (DebugViewSettings.drawRegionTraversal)
-			{
-				CellRect currentViewRect = Find.CameraDriver.CurrentViewRect;
-				currentViewRect.ClipInsideMap(this.map);
-				foreach (IntVec3 current in currentViewRect)
+				if (DebugViewSettings.drawRegionTraversal)
 				{
-					Region validRegionAt = this.GetValidRegionAt(current);
-					if (validRegionAt != null && !this.drawnRegions.Contains(validRegionAt))
+					CellRect currentViewRect = Find.CameraDriver.CurrentViewRect;
+					currentViewRect.ClipInsideMap(this.map);
+					foreach (IntVec3 item in currentViewRect)
 					{
-						validRegionAt.DebugDraw();
-						this.drawnRegions.Add(validRegionAt);
+						Region validRegionAt = this.GetValidRegionAt(item);
+						if (validRegionAt != null && !this.drawnRegions.Contains(validRegionAt))
+						{
+							validRegionAt.DebugDraw();
+							this.drawnRegions.Add(validRegionAt);
+						}
 					}
+					this.drawnRegions.Clear();
 				}
-				this.drawnRegions.Clear();
-			}
-			IntVec3 intVec = UI.MouseCell();
-			if (intVec.InBounds(this.map))
-			{
-				if (DebugViewSettings.drawRooms)
+				IntVec3 intVec = UI.MouseCell();
+				if (intVec.InBounds(this.map))
 				{
-					Room room = intVec.GetRoom(this.map, RegionType.Set_All);
-					if (room != null)
+					if (DebugViewSettings.drawRooms)
 					{
-						room.DebugDraw();
+						Room room = intVec.GetRoom(this.map, RegionType.Set_All);
+						if (room != null)
+						{
+							room.DebugDraw();
+						}
 					}
-				}
-				if (DebugViewSettings.drawRoomGroups)
-				{
-					RoomGroup roomGroup = intVec.GetRoomGroup(this.map);
-					if (roomGroup != null)
+					if (DebugViewSettings.drawRoomGroups)
 					{
-						roomGroup.DebugDraw();
+						RoomGroup roomGroup = intVec.GetRoomGroup(this.map);
+						if (roomGroup != null)
+						{
+							roomGroup.DebugDraw();
+						}
 					}
-				}
-				if (DebugViewSettings.drawRegions || DebugViewSettings.drawRegionLinks || DebugViewSettings.drawRegionThings)
-				{
+					if (!DebugViewSettings.drawRegions && !DebugViewSettings.drawRegionLinks && !DebugViewSettings.drawRegionThings)
+						return;
 					Region regionAt_NoRebuild_InvalidAllowed = this.GetRegionAt_NoRebuild_InvalidAllowed(intVec);
 					if (regionAt_NoRebuild_InvalidAllowed != null)
 					{

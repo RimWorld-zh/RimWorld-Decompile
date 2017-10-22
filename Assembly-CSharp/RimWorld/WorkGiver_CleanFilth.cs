@@ -45,7 +45,23 @@ namespace RimWorld
 				return false;
 			}
 			Filth filth = t as Filth;
-			return filth != null && filth.Map.areaManager.Home[filth.Position] && pawn.CanReserveAndReach(t, PathEndMode.ClosestTouch, pawn.NormalMaxDanger(), 1, -1, null, forced) && filth.TicksSinceThickened >= this.MinTicksSinceThickened;
+			if (filth == null)
+			{
+				return false;
+			}
+			if (!((Area)filth.Map.areaManager.Home)[filth.Position])
+			{
+				return false;
+			}
+			if (!pawn.CanReserveAndReach(t, PathEndMode.ClosestTouch, pawn.NormalMaxDanger(), 1, -1, null, forced))
+			{
+				return false;
+			}
+			if (filth.TicksSinceThickened < this.MinTicksSinceThickened)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -70,14 +86,12 @@ namespace RimWorld
 						}
 					}
 					if (job.GetTargetQueue(TargetIndex.A).Count >= num)
-					{
 						break;
-					}
 				}
 			}
 			if (job.targetQueueA != null && job.targetQueueA.Count >= 5)
 			{
-				job.targetQueueA.SortBy((LocalTargetInfo targ) => targ.Cell.DistanceToSquared(pawn.Position));
+				job.targetQueueA.SortBy((Func<LocalTargetInfo, int>)((LocalTargetInfo targ) => targ.Cell.DistanceToSquared(pawn.Position)));
 			}
 			return job;
 		}

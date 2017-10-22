@@ -57,7 +57,7 @@ namespace Verse
 		{
 			get
 			{
-				return (float)UI.screenHeight * 0.9f;
+				return (float)((float)UI.screenHeight * 0.89999997615814209);
 			}
 		}
 
@@ -65,7 +65,7 @@ namespace Verse
 		{
 			get
 			{
-				return Mathf.Min(this.TotalViewHeight, this.MaxWindowHeight) + 1f;
+				return (float)(Mathf.Min(this.TotalViewHeight, this.MaxWindowHeight) + 1.0);
 			}
 		}
 
@@ -84,7 +84,7 @@ namespace Verse
 						{
 							num = requiredHeight;
 						}
-						num2 += requiredHeight + -1f;
+						num2 = (float)(num2 + (requiredHeight + -1.0));
 					}
 					int columnCount = this.ColumnCount;
 					num2 += (float)columnCount * num;
@@ -104,7 +104,7 @@ namespace Verse
 				for (int i = 0; i < this.options.Count; i++)
 				{
 					float requiredHeight = this.options[i].RequiredHeight;
-					if (num2 + requiredHeight + -1f > maxViewHeight)
+					if (num2 + requiredHeight + -1.0 > maxViewHeight)
 					{
 						if (num2 > num)
 						{
@@ -114,7 +114,7 @@ namespace Verse
 					}
 					else
 					{
-						num2 += requiredHeight + -1f;
+						num2 = (float)(num2 + (requiredHeight + -1.0));
 					}
 				}
 				return Mathf.Max(num, num2);
@@ -128,7 +128,7 @@ namespace Verse
 				float num = (float)this.ColumnCount * this.ColumnWidth;
 				if (this.UsingScrollbar)
 				{
-					num += 16f;
+					num = (float)(num + 16.0);
 				}
 				return num;
 			}
@@ -142,7 +142,7 @@ namespace Verse
 				for (int i = 0; i < this.options.Count; i++)
 				{
 					float requiredWidth = this.options[i].RequiredWidth;
-					if (requiredWidth >= 300f)
+					if (requiredWidth >= 300.0)
 					{
 						return 300f;
 					}
@@ -159,7 +159,7 @@ namespace Verse
 		{
 			get
 			{
-				return Mathf.FloorToInt(((float)UI.screenWidth - 16f) / this.ColumnWidth);
+				return Mathf.FloorToInt((float)(((float)UI.screenWidth - 16.0) / this.ColumnWidth));
 			}
 		}
 
@@ -194,14 +194,14 @@ namespace Verse
 				for (int i = 0; i < this.options.Count; i++)
 				{
 					float requiredHeight = this.options[i].RequiredHeight;
-					if (num2 + requiredHeight + -1f > maxWindowHeight)
+					if (num2 + requiredHeight + -1.0 > maxWindowHeight)
 					{
 						num2 = requiredHeight;
 						num++;
 					}
 					else
 					{
-						num2 += requiredHeight + -1f;
+						num2 = (float)(num2 + (requiredHeight + -1.0));
 					}
 				}
 				return num;
@@ -222,7 +222,7 @@ namespace Verse
 
 		public FloatMenu(List<FloatMenuOption> options)
 		{
-			if (options.NullOrEmpty<FloatMenuOption>())
+			if (options.NullOrEmpty())
 			{
 				Log.Error("Created FloatMenu with no options. Closing.");
 				this.Close(true);
@@ -232,10 +232,10 @@ namespace Verse
 			{
 				options[i].SetSizeMode(this.SizeMode);
 			}
-			this.layer = WindowLayer.Super;
-			this.closeOnClickedOutside = true;
-			this.doWindowBackground = false;
-			this.drawShadow = false;
+			base.layer = WindowLayer.Super;
+			base.closeOnClickedOutside = true;
+			base.doWindowBackground = false;
+			base.drawShadow = false;
 			SoundDefOf.FloatMenuOpen.PlayOneShotOnCamera(null);
 		}
 
@@ -248,15 +248,28 @@ namespace Verse
 		protected override void SetInitialSizeAndPosition()
 		{
 			Vector2 vector = UI.MousePositionOnUIInverted + FloatMenu.InitialPositionShift;
-			if (vector.x + this.InitialSize.x > (float)UI.screenWidth)
+			float x = vector.x;
+			Vector2 initialSize = this.InitialSize;
+			if (x + initialSize.x > (float)UI.screenWidth)
 			{
-				vector.x = (float)UI.screenWidth - this.InitialSize.x;
+				float num = (float)UI.screenWidth;
+				Vector2 initialSize2 = this.InitialSize;
+				vector.x = num - initialSize2.x;
 			}
-			if (vector.y + this.InitialSize.y > (float)UI.screenHeight)
+			float y = vector.y;
+			Vector2 initialSize3 = this.InitialSize;
+			if (y + initialSize3.y > (float)UI.screenHeight)
 			{
-				vector.y = (float)UI.screenHeight - this.InitialSize.y;
+				float num2 = (float)UI.screenHeight;
+				Vector2 initialSize4 = this.InitialSize;
+				vector.y = num2 - initialSize4.y;
 			}
-			this.windowRect = new Rect(vector.x, vector.y, this.InitialSize.x, this.InitialSize.y);
+			float x2 = vector.x;
+			float y2 = vector.y;
+			Vector2 initialSize5 = this.InitialSize;
+			float x3 = initialSize5.x;
+			Vector2 initialSize6 = this.InitialSize;
+			base.windowRect = new Rect(x2, y2, x3, initialSize6.y);
 		}
 
 		public override void ExtraOnGUI()
@@ -264,11 +277,17 @@ namespace Verse
 			base.ExtraOnGUI();
 			if (!this.title.NullOrEmpty())
 			{
-				Vector2 vector = new Vector2(this.windowRect.x, this.windowRect.y);
+				Vector2 vector = new Vector2(base.windowRect.x, base.windowRect.y);
 				Text.Font = GameFont.Small;
-				float width = Mathf.Max(150f, 15f + Text.CalcSize(this.title).x);
-				Rect titleRect = new Rect(vector.x + FloatMenu.TitleOffset.x, vector.y + FloatMenu.TitleOffset.y, width, 23f);
-				Find.WindowStack.ImmediateWindow(6830963, titleRect, WindowLayer.Super, delegate
+				Vector2 vector2 = Text.CalcSize(this.title);
+				float width = Mathf.Max(150f, (float)(15.0 + vector2.x));
+				float x = vector.x;
+				Vector2 titleOffset = FloatMenu.TitleOffset;
+				float x2 = x + titleOffset.x;
+				float y = vector.y;
+				Vector2 titleOffset2 = FloatMenu.TitleOffset;
+				Rect titleRect = new Rect(x2, y + titleOffset2.y, width, 23f);
+				Find.WindowStack.ImmediateWindow(6830963, titleRect, WindowLayer.Super, (Action)delegate
 				{
 					GUI.color = this.baseColor;
 					Text.Font = GameFont.Small;
@@ -289,49 +308,50 @@ namespace Verse
 			if (this.needSelection && Find.Selector.SingleSelectedThing == null)
 			{
 				Find.WindowStack.TryRemove(this, true);
-				return;
 			}
-			this.UpdateBaseColor();
-			bool usingScrollbar = this.UsingScrollbar;
-			GUI.color = this.baseColor;
-			Text.Font = GameFont.Small;
-			Vector2 zero = Vector2.zero;
-			float maxViewHeight = this.MaxViewHeight;
-			float columnWidth = this.ColumnWidth;
-			if (usingScrollbar)
+			else
 			{
-				rect.width -= 10f;
-				Widgets.BeginScrollView(rect, ref this.scrollPosition, new Rect(0f, 0f, this.TotalWidth - 16f, this.TotalViewHeight), true);
-			}
-			foreach (FloatMenuOption current in from op in this.options
-			orderby op.Priority descending
-			select op)
-			{
-				float requiredHeight = current.RequiredHeight;
-				if (zero.y + requiredHeight + -1f > maxViewHeight)
+				this.UpdateBaseColor();
+				bool usingScrollbar = this.UsingScrollbar;
+				GUI.color = this.baseColor;
+				Text.Font = GameFont.Small;
+				Vector2 zero = Vector2.zero;
+				float maxViewHeight = this.MaxViewHeight;
+				float columnWidth = this.ColumnWidth;
+				if (usingScrollbar)
 				{
-					zero.y = 0f;
-					zero.x += columnWidth + -1f;
+					rect.width -= 10f;
+					Widgets.BeginScrollView(rect, ref this.scrollPosition, new Rect(0f, 0f, (float)(this.TotalWidth - 16.0), this.TotalViewHeight), true);
 				}
-				Rect rect2 = new Rect(zero.x, zero.y, columnWidth, requiredHeight);
-				zero.y += requiredHeight + -1f;
-				bool flag = current.DoGUI(rect2, this.givesColonistOrders);
-				if (flag)
+				foreach (FloatMenuOption item in from op in this.options
+				orderby op.Priority descending
+				select op)
 				{
-					Find.WindowStack.TryRemove(this, true);
-					break;
+					float requiredHeight = item.RequiredHeight;
+					if (zero.y + requiredHeight + -1.0 > maxViewHeight)
+					{
+						zero.y = 0f;
+						zero.x += (float)(columnWidth + -1.0);
+					}
+					Rect rect2 = new Rect(zero.x, zero.y, columnWidth, requiredHeight);
+					zero.y += (float)(requiredHeight + -1.0);
+					if (item.DoGUI(rect2, this.givesColonistOrders))
+					{
+						Find.WindowStack.TryRemove(this, true);
+						break;
+					}
 				}
+				if (usingScrollbar)
+				{
+					Widgets.EndScrollView();
+				}
+				if (Event.current.type == EventType.MouseDown)
+				{
+					Event.current.Use();
+					this.Close(true);
+				}
+				GUI.color = Color.white;
 			}
-			if (usingScrollbar)
-			{
-				Widgets.EndScrollView();
-			}
-			if (Event.current.type == EventType.MouseDown)
-			{
-				Event.current.Use();
-				this.Close(true);
-			}
-			GUI.color = Color.white;
 		}
 
 		public void Cancel()
@@ -349,12 +369,11 @@ namespace Verse
 				if (!r.Contains(Event.current.mousePosition))
 				{
 					float num = GenUI.DistFromRect(r, Event.current.mousePosition);
-					this.baseColor = new Color(1f, 1f, 1f, 1f - num / 95f);
-					if (num > 95f)
+					this.baseColor = new Color(1f, 1f, 1f, (float)(1.0 - num / 95.0));
+					if (num > 95.0)
 					{
 						this.Close(false);
 						this.Cancel();
-						return;
 					}
 				}
 			}

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Verse;
 using Verse.AI;
 
 namespace RimWorld
@@ -9,14 +9,24 @@ namespace RimWorld
 	{
 		private const int NuzzleDuration = 100;
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_Nuzzle.<MakeNewToils>c__Iterator2 <MakeNewToils>c__Iterator = new JobDriver_Nuzzle.<MakeNewToils>c__Iterator2();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_Nuzzle.<MakeNewToils>c__Iterator2 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
+			this.FailOnNotCasualInterruptible(TargetIndex.A);
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			yield return Toils_Interpersonal.WaitToBeAbleToInteract(base.pawn);
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			yield return Toils_General.WaitWith(TargetIndex.A, 100, false, true);
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+					Pawn actor = ((_003CMakeNewToils_003Ec__Iterator2)/*Error near IL_00cc: stateMachine*/)._003Cfinalize_003E__0.actor;
+					Pawn recipient = (Pawn)actor.CurJob.targetA.Thing;
+					actor.interactions.TryInteractWith(recipient, InteractionDefOf.Nuzzle);
+				},
+				defaultCompleteMode = ToilCompleteMode.Instant
+			};
 		}
 	}
 }

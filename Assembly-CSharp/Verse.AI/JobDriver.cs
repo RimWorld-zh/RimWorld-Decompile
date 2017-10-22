@@ -47,17 +47,7 @@ namespace Verse.AI
 				}
 				if (this.curToilIndex >= this.toils.Count)
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						this.pawn,
-						" with job ",
-						this.pawn.CurJob,
-						" tried to get CurToil with curToilIndex=",
-						this.curToilIndex,
-						" but only has ",
-						this.toils.Count,
-						" toils."
-					}));
+					Log.Error(this.pawn + " with job " + this.pawn.CurJob + " tried to get CurToil with curToilIndex=" + this.curToilIndex + " but only has " + this.toils.Count + " toils.");
 					return null;
 				}
 				return this.toils[this.curToilIndex];
@@ -77,7 +67,11 @@ namespace Verse.AI
 			get
 			{
 				int num = this.curToilIndex + 1;
-				return num < this.toils.Count && this.toils[num].atomicWithPrevious;
+				if (num >= this.toils.Count)
+				{
+					return false;
+				}
+				return this.toils[num].atomicWithPrevious;
 			}
 		}
 
@@ -85,7 +79,7 @@ namespace Verse.AI
 		{
 			get
 			{
-				return (this.layingDown == LayingDownState.NotLaying) ? PawnPosture.Standing : PawnPosture.LayingAny;
+				return (PawnPosture)((this.layingDown != 0) ? 2 : 0);
 			}
 		}
 
@@ -185,30 +179,9 @@ namespace Verse.AI
 		protected string ReportStringProcessed(string str)
 		{
 			Job curJob = this.CurJob;
-			if (curJob.targetA.HasThing)
-			{
-				str = str.Replace("TargetA", curJob.targetA.Thing.LabelShort);
-			}
-			else
-			{
-				str = str.Replace("TargetA", "AreaLower".Translate());
-			}
-			if (curJob.targetB.HasThing)
-			{
-				str = str.Replace("TargetB", curJob.targetB.Thing.LabelShort);
-			}
-			else
-			{
-				str = str.Replace("TargetB", "AreaLower".Translate());
-			}
-			if (curJob.targetC.HasThing)
-			{
-				str = str.Replace("TargetC", curJob.targetC.Thing.LabelShort);
-			}
-			else
-			{
-				str = str.Replace("TargetC", "AreaLower".Translate());
-			}
+			str = ((!curJob.targetA.HasThing) ? str.Replace("TargetA", "AreaLower".Translate()) : str.Replace("TargetA", curJob.targetA.Thing.LabelShort));
+			str = ((!curJob.targetB.HasThing) ? str.Replace("TargetB", "AreaLower".Translate()) : str.Replace("TargetB", curJob.targetB.Thing.LabelShort));
+			str = ((!curJob.targetC.HasThing) ? str.Replace("TargetC", "AreaLower".Translate()) : str.Replace("TargetC", curJob.targetC.Thing.LabelShort));
 			return str;
 		}
 
@@ -242,17 +215,7 @@ namespace Verse.AI
 				}
 				catch (Exception ex)
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Pawn ",
-						this.pawn,
-						" threw exception while executing a global finish action (",
-						i,
-						"), jobDriver=",
-						base.GetType(),
-						": ",
-						ex
-					}));
+					Log.Error("Pawn " + this.pawn + " threw exception while executing a global finish action (" + i + "), jobDriver=" + base.GetType() + ": " + ex);
 				}
 			}
 			if (this.HaveCurToil)
@@ -266,28 +229,20 @@ namespace Verse.AI
 			try
 			{
 				this.toils.Clear();
-				foreach (Toil current in this.MakeNewToils())
+				foreach (Toil item in this.MakeNewToils())
 				{
-					if (current.defaultCompleteMode == ToilCompleteMode.Undefined)
+					if (item.defaultCompleteMode == ToilCompleteMode.Undefined)
 					{
 						Log.Error("Toil has undefined complete mode.");
-						current.defaultCompleteMode = ToilCompleteMode.Instant;
+						item.defaultCompleteMode = ToilCompleteMode.Instant;
 					}
-					current.actor = this.pawn;
-					this.toils.Add(current);
+					item.actor = this.pawn;
+					this.toils.Add(item);
 				}
 			}
 			catch (Exception ex)
 			{
-				this.pawn.jobs.StartErrorRecoverJob(string.Concat(new object[]
-				{
-					"Exception in SetupToils (pawn=",
-					this.pawn,
-					", job=",
-					this.CurJob,
-					"): ",
-					ex
-				}));
+				this.pawn.jobs.StartErrorRecoverJob("Exception in SetupToils (pawn=" + this.pawn + ", job=" + this.CurJob + "): " + ex);
 			}
 		}
 
@@ -311,13 +266,13 @@ namespace Verse.AI
 						if (this.ticksLeftThisToil <= 0)
 						{
 							this.ReadyForNextToil();
-							return;
+							goto end_IL_0000;
 						}
 					}
 					else if (this.curToilCompleteMode == ToilCompleteMode.FinishedBusy && !this.pawn.stances.FullBodyBusy)
 					{
 						this.ReadyForNextToil();
-						return;
+						goto end_IL_0000;
 					}
 					if (this.wantBeginNextToil)
 					{
@@ -325,14 +280,7 @@ namespace Verse.AI
 					}
 					else if (this.curToilCompleteMode == ToilCompleteMode.Instant && this.debugTicksSpentThisToil > 300)
 					{
-						Log.Error(string.Concat(new object[]
-						{
-							this.pawn,
-							" had to be broken from frozen state. He was doing job ",
-							this.CurJob,
-							", toilindex=",
-							this.curToilIndex
-						}));
+						Log.Error(this.pawn + " had to be broken from frozen state. He was doing job " + this.CurJob + ", toilindex=" + this.curToilIndex);
 						this.ReadyForNextToil();
 					}
 					else
@@ -341,39 +289,29 @@ namespace Verse.AI
 						if (this.CurToil.preTickActions != null)
 						{
 							Toil curToil = this.CurToil;
-							for (int i = 0; i < curToil.preTickActions.Count; i++)
+							int num = 0;
+							while (num < curToil.preTickActions.Count)
 							{
-								curToil.preTickActions[i]();
-								if (this.CurJob != curJob)
+								curToil.preTickActions[num]();
+								if (this.CurJob == curJob && this.CurToil == curToil && !this.wantBeginNextToil)
 								{
-									return;
+									num++;
+									continue;
 								}
-								if (this.CurToil != curToil || this.wantBeginNextToil)
-								{
-									return;
-								}
+								return;
 							}
 						}
-						if (this.CurToil.tickAction != null)
+						if ((object)this.CurToil.tickAction != null)
 						{
 							this.CurToil.tickAction();
 						}
 					}
 				}
+				end_IL_0000:;
 			}
 			catch (Exception ex)
 			{
-				this.pawn.jobs.StartErrorRecoverJob(string.Concat(new object[]
-				{
-					"Exception in Tick (pawn=",
-					this.pawn,
-					", job=",
-					this.CurJob,
-					", CurToil=",
-					this.curToilIndex,
-					"): ",
-					ex
-				}));
+				this.pawn.jobs.StartErrorRecoverJob("Exception in Tick (pawn=" + this.pawn + ", job=" + this.CurJob + ", CurToil=" + this.curToilIndex + "): " + ex);
 			}
 		}
 
@@ -385,77 +323,64 @@ namespace Verse.AI
 
 		private void TryActuallyStartNextToil()
 		{
-			if (!this.pawn.Spawned)
+			if (this.pawn.Spawned && (!this.pawn.stances.FullBodyBusy || this.CanStartNextToilInBusyStance))
 			{
-				return;
-			}
-			if (this.pawn.stances.FullBodyBusy && !this.CanStartNextToilInBusyStance)
-			{
-				return;
-			}
-			if (this.HaveCurToil)
-			{
-				this.CurToil.Cleanup();
-			}
-			this.curToilIndex++;
-			this.wantBeginNextToil = false;
-			if (!this.HaveCurToil)
-			{
-				if (this.pawn.stances != null && this.pawn.stances.curStance.StanceBusy)
+				if (this.HaveCurToil)
 				{
-					Log.ErrorOnce(string.Concat(new object[]
-					{
-						this.pawn,
-						" ended job ",
-						this.CurJob,
-						" due to running out of toils during a busy stance."
-					}), 6453432);
+					this.CurToil.Cleanup();
 				}
-				this.EndJobWith(JobCondition.Succeeded);
-				return;
-			}
-			this.debugTicksSpentThisToil = 0;
-			this.ticksLeftThisToil = this.CurToil.defaultDuration;
-			this.curToilCompleteMode = this.CurToil.defaultCompleteMode;
-			if (!this.CheckCurrentToilEndOrFail())
-			{
-				int num = this.CurToilIndex;
-				if (this.CurToil.preInitActions != null)
+				this.curToilIndex++;
+				this.wantBeginNextToil = false;
+				if (!this.HaveCurToil)
 				{
-					for (int i = 0; i < this.CurToil.preInitActions.Count; i++)
+					if (this.pawn.stances != null && this.pawn.stances.curStance.StanceBusy)
 					{
-						this.CurToil.preInitActions[i]();
-						if (this.CurToilIndex != num)
-						{
-							break;
-						}
+						Log.ErrorOnce(this.pawn + " ended job " + this.CurJob + " due to running out of toils during a busy stance.", 6453432);
 					}
+					this.EndJobWith(JobCondition.Succeeded);
 				}
-				if (this.CurToilIndex == num)
+				else
 				{
-					if (this.CurToil.initAction != null)
+					this.debugTicksSpentThisToil = 0;
+					this.ticksLeftThisToil = this.CurToil.defaultDuration;
+					this.curToilCompleteMode = this.CurToil.defaultCompleteMode;
+					if (!this.CheckCurrentToilEndOrFail())
 					{
-						try
+						int num = this.CurToilIndex;
+						if (this.CurToil.preInitActions != null)
 						{
-							this.CurToil.initAction();
-						}
-						catch (Exception ex)
-						{
-							this.pawn.jobs.StartErrorRecoverJob(string.Concat(new object[]
+							int num2 = 0;
+							while (num2 < this.CurToil.preInitActions.Count)
 							{
-								"JobDriver threw exception in initAction. Pawn=",
-								this.pawn,
-								", Job=",
-								this.CurJob,
-								", Exception: ",
-								ex
-							}));
-							return;
+								this.CurToil.preInitActions[num2]();
+								if (this.CurToilIndex == num)
+								{
+									num2++;
+									continue;
+								}
+								break;
+							}
 						}
-					}
-					if (this.CurToilIndex == num && !this.ended && this.curToilCompleteMode == ToilCompleteMode.Instant)
-					{
-						this.ReadyForNextToil();
+						if (this.CurToilIndex == num)
+						{
+							if ((object)this.CurToil.initAction != null)
+							{
+								try
+								{
+									this.CurToil.initAction();
+								}
+								catch (Exception ex)
+								{
+									this.pawn.jobs.StartErrorRecoverJob("JobDriver threw exception in initAction. Pawn=" + this.pawn + ", Job=" + this.CurJob + ", Exception: " + ex);
+									return;
+									IL_01e4:;
+								}
+							}
+							if (this.CurToilIndex == num && !this.ended && this.curToilCompleteMode == ToilCompleteMode.Instant)
+							{
+								this.ReadyForNextToil();
+							}
+						}
 					}
 				}
 			}
@@ -552,7 +477,7 @@ namespace Verse.AI
 
 		public void AddFailCondition(Func<bool> newFailCondition)
 		{
-			this.globalFailConditions.Add(delegate
+			this.globalFailConditions.Add((Func<JobCondition>)delegate()
 			{
 				if (newFailCondition())
 				{

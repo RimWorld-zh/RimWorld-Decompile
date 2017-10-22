@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -17,11 +16,11 @@ namespace RimWorld
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			Texture2D iconFor = this.GetIconFor(pawn);
-			if (iconFor != null)
+			if ((Object)iconFor != (Object)null)
 			{
 				Vector2 iconSize = this.GetIconSize(pawn);
-				int num = (int)((rect.width - iconSize.x) / 2f);
-				int num2 = Mathf.Max((int)((30f - iconSize.y) / 2f), 0);
+				int num = (int)((rect.width - iconSize.x) / 2.0);
+				int num2 = Mathf.Max((int)((30.0 - iconSize.y) / 2.0), 0);
 				Rect rect2 = new Rect(rect.x + (float)num, rect.y + (float)num2, iconSize.x, iconSize.y);
 				GUI.color = this.GetIconColor(pawn);
 				GUI.DrawTexture(rect2, iconFor);
@@ -53,7 +52,9 @@ namespace RimWorld
 
 		public override int GetMinCellHeight(Pawn pawn)
 		{
-			return Mathf.Max(base.GetMinCellHeight(pawn), Mathf.CeilToInt(this.GetIconSize(pawn).y));
+			int minCellHeight = base.GetMinCellHeight(pawn);
+			Vector2 iconSize = this.GetIconSize(pawn);
+			return Mathf.Max(minCellHeight, Mathf.CeilToInt(iconSize.y));
 		}
 
 		public override int Compare(Pawn a, Pawn b)
@@ -64,14 +65,14 @@ namespace RimWorld
 		private int GetValueToCompare(Pawn pawn)
 		{
 			Texture2D iconFor = this.GetIconFor(pawn);
-			return (!(iconFor != null)) ? -2147483648 : iconFor.GetInstanceID();
+			return (!((Object)iconFor != (Object)null)) ? (-2147483648) : iconFor.GetInstanceID();
 		}
 
 		protected abstract Texture2D GetIconFor(Pawn pawn);
 
 		protected virtual string GetIconTip(Pawn pawn)
 		{
-			return null;
+			return (string)null;
 		}
 
 		protected virtual Color GetIconColor(Pawn pawn)
@@ -86,7 +87,7 @@ namespace RimWorld
 		protected virtual Vector2 GetIconSize(Pawn pawn)
 		{
 			Texture2D iconFor = this.GetIconFor(pawn);
-			if (iconFor == null)
+			if ((Object)iconFor == (Object)null)
 			{
 				return Vector2.zero;
 			}

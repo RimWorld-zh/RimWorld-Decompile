@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI.Group;
 
@@ -13,7 +12,15 @@ namespace RimWorld
 
 		public override bool CanUseWith(IncidentParms parms)
 		{
-			return base.CanUseWith(parms) && parms.faction.def.canUseAvoidGrid;
+			if (!base.CanUseWith(parms))
+			{
+				return false;
+			}
+			if (!parms.faction.def.canUseAvoidGrid)
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

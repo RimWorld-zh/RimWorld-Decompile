@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.Planet
@@ -11,10 +10,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return "CaravanVisiting".Translate(new object[]
-				{
-					this.settlement.Label
-				});
+				return "CaravanVisiting".Translate(this.settlement.Label);
 			}
 		}
 
@@ -39,11 +35,7 @@ namespace RimWorld.Planet
 		{
 			if (caravan.IsPlayerControlled)
 			{
-				Messages.Message("MessageCaravanIsVisitingSettlement".Translate(new object[]
-				{
-					caravan.Label,
-					this.settlement.Label
-				}).CapitalizeFirst(), caravan, MessageSound.Benefit);
+				Messages.Message("MessageCaravanIsVisitingSettlement".Translate(caravan.Label, this.settlement.Label).CapitalizeFirst(), (WorldObject)caravan, MessageSound.Benefit);
 			}
 		}
 

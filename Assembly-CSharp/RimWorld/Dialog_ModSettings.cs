@@ -26,12 +26,12 @@ namespace RimWorld
 
 		public Dialog_ModSettings()
 		{
-			this.forcePause = true;
-			this.doCloseX = true;
-			this.closeOnEscapeKey = true;
-			this.doCloseButton = true;
-			this.closeOnClickedOutside = true;
-			this.absorbInputAroundWindow = true;
+			base.forcePause = true;
+			base.doCloseX = true;
+			base.closeOnEscapeKey = true;
+			base.doCloseButton = true;
+			base.closeOnClickedOutside = true;
+			base.absorbInputAroundWindow = true;
 		}
 
 		public override void PreClose()
@@ -51,15 +51,15 @@ namespace RimWorld
 				if (Dialog_ModSettings.HasSettings())
 				{
 					List<FloatMenuOption> list = new List<FloatMenuOption>();
-					foreach (Mod current in from mod in LoadedModManager.ModHandles
+					foreach (Mod item in from mod in LoadedModManager.ModHandles
 					where !mod.SettingsCategory().NullOrEmpty()
 					orderby mod.SettingsCategory()
 					select mod)
 					{
-						Mod localMod = current;
-						if (!current.SettingsCategory().NullOrEmpty())
+						Mod localMod = item;
+						if (!item.SettingsCategory().NullOrEmpty())
 						{
-							list.Add(new FloatMenuOption(current.SettingsCategory(), delegate
+							list.Add(new FloatMenuOption(item.SettingsCategory(), (Action)delegate
 							{
 								if (this.selMod != null)
 								{
@@ -81,9 +81,12 @@ namespace RimWorld
 			if (this.selMod != null)
 			{
 				Text.Font = GameFont.Medium;
-				Widgets.Label(new Rect(167f, 0f, inRect.width - 150f - 17f, 35f), this.selMod.SettingsCategory());
+				Widgets.Label(new Rect(167f, 0f, (float)(inRect.width - 150.0 - 17.0), 35f), this.selMod.SettingsCategory());
 				Text.Font = GameFont.Small;
-				Rect inRect2 = new Rect(0f, 40f, inRect.width, inRect.height - 40f - this.CloseButSize.y);
+				float width = inRect.width;
+				double num = inRect.height - 40.0;
+				Vector2 closeButSize = base.CloseButSize;
+				Rect inRect2 = new Rect(0f, 40f, width, (float)(num - closeButSize.y));
 				this.selMod.DoSettingsWindowContents(inRect2);
 			}
 		}
@@ -92,7 +95,7 @@ namespace RimWorld
 		{
 			return (from mod in LoadedModManager.ModHandles
 			where !mod.SettingsCategory().NullOrEmpty()
-			select mod).FirstOrDefault<Mod>() != null;
+			select mod).FirstOrDefault() != null;
 		}
 	}
 }

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -25,7 +23,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.priority <= 0f;
+				return this.priority <= 0.0;
 			}
 		}
 
@@ -40,20 +38,30 @@ namespace RimWorld
 		public override void PostLoad()
 		{
 			base.PostLoad();
-			if (this.defName == "UnnamedDef")
+			if (base.defName == "UnnamedDef")
 			{
-				this.defName = this.defName.ToString();
+				base.defName = base.defName.ToString();
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			ConceptDef.<ConfigErrors>c__Iterator9E <ConfigErrors>c__Iterator9E = new ConceptDef.<ConfigErrors>c__Iterator9E();
-			<ConfigErrors>c__Iterator9E.<>f__this = this;
-			ConceptDef.<ConfigErrors>c__Iterator9E expr_0E = <ConfigErrors>c__Iterator9E;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.priority > 9999999.0)
+			{
+				yield return "priority isn't set";
+			}
+			if (this.helpText.NullOrEmpty())
+			{
+				yield return "no help text";
+			}
+			if (this.TriggeredDirect && base.label.NullOrEmpty())
+			{
+				yield return "no label";
+			}
 		}
 
 		public static ConceptDef Named(string defName)

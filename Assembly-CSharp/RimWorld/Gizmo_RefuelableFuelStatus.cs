@@ -28,23 +28,23 @@ namespace RimWorld
 		public override GizmoResult GizmoOnGUI(Vector2 topLeft)
 		{
 			Rect overRect = new Rect(topLeft.x, topLeft.y, this.Width, 75f);
-			Find.WindowStack.ImmediateWindow(1523289473, overRect, WindowLayer.GameUI, delegate
+			Find.WindowStack.ImmediateWindow(1523289473, overRect, WindowLayer.GameUI, (Action)delegate
 			{
-				Rect rect = overRect.AtZero().ContractedBy(6f);
-				Rect rect2 = rect;
-				rect2.height = overRect.height / 2f;
+				Rect rect;
+				Rect rect2 = rect = overRect.AtZero().ContractedBy(6f);
+				rect.height = (float)(overRect.height / 2.0);
 				Text.Font = GameFont.Tiny;
-				Widgets.Label(rect2, "FuelLevelGizmoLabel".Translate());
-				Rect rect3 = rect;
-				rect3.yMin = overRect.height / 2f;
+				Widgets.Label(rect, "FuelLevelGizmoLabel".Translate());
+				Rect rect3 = rect2;
+				rect3.yMin = (float)(overRect.height / 2.0);
 				float fillPercent = this.refuelable.Fuel / this.refuelable.Props.fuelCapacity;
 				Widgets.FillableBar(rect3, fillPercent, Gizmo_RefuelableFuelStatus.FullBarTex, Gizmo_RefuelableFuelStatus.EmptyBarTex, false);
 				if (this.refuelable.Props.targetFuelLevelConfigurable)
 				{
 					float num = this.refuelable.TargetFuelLevel / this.refuelable.Props.fuelCapacity;
-					float x = rect3.x + num * rect3.width - (float)Gizmo_RefuelableFuelStatus.TargetLevelArrow.width * 0.5f / 2f;
-					float y = rect3.y - (float)Gizmo_RefuelableFuelStatus.TargetLevelArrow.height * 0.5f;
-					GUI.DrawTexture(new Rect(x, y, (float)Gizmo_RefuelableFuelStatus.TargetLevelArrow.width * 0.5f, (float)Gizmo_RefuelableFuelStatus.TargetLevelArrow.height * 0.5f), Gizmo_RefuelableFuelStatus.TargetLevelArrow);
+					float x = (float)(rect3.x + num * rect3.width - (float)Gizmo_RefuelableFuelStatus.TargetLevelArrow.width * 0.5 / 2.0);
+					float y = (float)(rect3.y - (float)Gizmo_RefuelableFuelStatus.TargetLevelArrow.height * 0.5);
+					GUI.DrawTexture(new Rect(x, y, (float)((float)Gizmo_RefuelableFuelStatus.TargetLevelArrow.width * 0.5), (float)((float)Gizmo_RefuelableFuelStatus.TargetLevelArrow.height * 0.5)), Gizmo_RefuelableFuelStatus.TargetLevelArrow);
 				}
 				Text.Font = GameFont.Small;
 				Text.Anchor = TextAnchor.MiddleCenter;

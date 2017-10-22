@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -26,9 +25,9 @@ namespace RimWorld
 		public Designator_AreaBuildRoof(DesignateMode mode)
 		{
 			this.mode = mode;
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.useMouseIcon = true;
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.useMouseIcon = true;
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
@@ -41,7 +40,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			bool flag = base.Map.areaManager.BuildRoof[c];
+			bool flag = ((Area)base.Map.areaManager.BuildRoof)[c];
 			if (this.mode == DesignateMode.Add)
 			{
 				return !flag;
@@ -53,12 +52,12 @@ namespace RimWorld
 		{
 			if (this.mode == DesignateMode.Add)
 			{
-				base.Map.areaManager.BuildRoof[c] = true;
-				base.Map.areaManager.NoRoof[c] = false;
+				((Area)base.Map.areaManager.BuildRoof)[c] = true;
+				((Area)base.Map.areaManager.NoRoof)[c] = false;
 			}
 			else if (this.mode == DesignateMode.Remove)
 			{
-				base.Map.areaManager.BuildRoof[c] = false;
+				((Area)base.Map.areaManager.BuildRoof)[c] = false;
 			}
 		}
 

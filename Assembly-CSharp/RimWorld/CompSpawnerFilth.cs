@@ -11,7 +11,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_SpawnerFilth)this.props;
+				return (CompProperties_SpawnerFilth)base.props;
 			}
 		}
 
@@ -19,13 +19,17 @@ namespace RimWorld
 		{
 			get
 			{
-				Hive hive = this.parent as Hive;
+				Hive hive = base.parent as Hive;
 				if (hive != null && !hive.active)
 				{
 					return false;
 				}
 				RotStage? requiredRotStage = this.Props.requiredRotStage;
-				return !requiredRotStage.HasValue || !(this.parent.GetRotStage() != this.Props.requiredRotStage);
+				if (requiredRotStage.HasValue && base.parent.GetRotStage() != this.Props.requiredRotStage)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -50,33 +54,28 @@ namespace RimWorld
 		{
 			if (this.CanSpawnFilth)
 			{
-				if (this.Props.spawnMtbHours > 0f && Rand.MTBEventOccurs(this.Props.spawnMtbHours, 2500f, 250f))
+				if (this.Props.spawnMtbHours > 0.0 && Rand.MTBEventOccurs(this.Props.spawnMtbHours, 2500f, 250f))
 				{
 					this.TrySpawnFilth();
 				}
-				if (this.Props.spawnEveryDays >= 0f && Find.TickManager.TicksGame >= this.nextSpawnTimestamp)
+				if (this.Props.spawnEveryDays >= 0.0 && Find.TickManager.TicksGame >= this.nextSpawnTimestamp)
 				{
 					if (this.nextSpawnTimestamp != -1)
 					{
 						this.TrySpawnFilth();
 					}
-					this.nextSpawnTimestamp = Find.TickManager.TicksGame + (int)(this.Props.spawnEveryDays * 60000f);
+					this.nextSpawnTimestamp = Find.TickManager.TicksGame + (int)(this.Props.spawnEveryDays * 60000.0);
 				}
 			}
 		}
 
 		public void TrySpawnFilth()
 		{
-			if (this.parent.Map == null)
+			IntVec3 c = default(IntVec3);
+			if (base.parent.Map != null && CellFinder.TryFindRandomReachableCellNear(base.parent.Position, base.parent.Map, this.Props.spawnRadius, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false), (Predicate<IntVec3>)((IntVec3 x) => x.Standable(base.parent.Map)), (Predicate<Region>)((Region x) => true), out c, 999999))
 			{
-				return;
+				FilthMaker.MakeFilth(c, base.parent.Map, this.Props.filthDef, 1);
 			}
-			IntVec3 c;
-			if (!CellFinder.TryFindRandomReachableCellNear(this.parent.Position, this.parent.Map, this.Props.spawnRadius, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false), (IntVec3 x) => x.Standable(this.parent.Map), (Region x) => true, out c, 999999))
-			{
-				return;
-			}
-			FilthMaker.MakeFilth(c, this.parent.Map, this.Props.filthDef, 1);
 		}
 	}
 }

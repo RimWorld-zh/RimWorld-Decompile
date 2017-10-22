@@ -8,7 +8,7 @@ namespace Verse.AI
 		public static Toil TrySetJobToUseAttackVerb()
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
@@ -17,9 +17,11 @@ namespace Verse.AI
 				if (verb == null)
 				{
 					actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
-					return;
 				}
-				curJob.verbToUse = verb;
+				else
+				{
+					curJob.verbToUse = verb;
+				}
 			};
 			return toil;
 		}
@@ -27,13 +29,13 @@ namespace Verse.AI
 		public static Toil GotoCastPosition(TargetIndex targetInd, bool closeIfDowned = false)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
 				Thing thing = curJob.GetTarget(targetInd).Thing;
 				Pawn pawn = thing as Pawn;
-				IntVec3 intVec;
+				IntVec3 intVec = default(IntVec3);
 				if (!CastPositionFinder.TryFindCastPosition(new CastPositionRequest
 				{
 					caster = toil.actor,
@@ -44,10 +46,12 @@ namespace Verse.AI
 				}, out intVec))
 				{
 					toil.actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
-					return;
 				}
-				toil.actor.pather.StartPath(intVec, PathEndMode.OnCell);
-				actor.Map.pawnDestinationManager.ReserveDestinationFor(actor, intVec);
+				else
+				{
+					toil.actor.pather.StartPath(intVec, PathEndMode.OnCell);
+					actor.Map.pawnDestinationManager.ReserveDestinationFor(actor, intVec);
+				}
 			};
 			toil.FailOnDespawnedOrNull(targetInd);
 			toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
@@ -57,11 +61,11 @@ namespace Verse.AI
 		public static Toil CastVerb(TargetIndex targetInd, bool canFreeIntercept = true)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
-				Verb arg_43_0 = toil.actor.jobs.curJob.verbToUse;
+				Verb verbToUse = toil.actor.jobs.curJob.verbToUse;
 				bool canFreeIntercept2 = canFreeIntercept;
-				arg_43_0.TryStartCastOn(toil.actor.jobs.curJob.GetTarget(targetInd), false, canFreeIntercept2);
+				verbToUse.TryStartCastOn(toil.actor.jobs.curJob.GetTarget(targetInd), false, canFreeIntercept2);
 			};
 			toil.defaultCompleteMode = ToilCompleteMode.FinishedBusy;
 			return toil;
@@ -70,7 +74,7 @@ namespace Verse.AI
 		public static Toil FollowAndMeleeAttack(TargetIndex targetInd, Action hitAction)
 		{
 			Toil followAndAttack = new Toil();
-			followAndAttack.tickAction = delegate
+			followAndAttack.tickAction = (Action)delegate()
 			{
 				Pawn actor = followAndAttack.actor;
 				Job curJob = actor.jobs.curJob;
@@ -80,9 +84,8 @@ namespace Verse.AI
 				if (!thing.Spawned)
 				{
 					curDriver.ReadyForNextToil();
-					return;
 				}
-				if (thing != actor.pather.Destination.Thing || (!actor.pather.Moving && !actor.CanReachImmediate(thing, PathEndMode.Touch)))
+				else if (thing != actor.pather.Destination.Thing || (!actor.pather.Moving && !actor.CanReachImmediate(thing, PathEndMode.Touch)))
 				{
 					actor.pather.StartPath(thing, PathEndMode.Touch);
 				}
@@ -91,9 +94,11 @@ namespace Verse.AI
 					if (pawn != null && pawn.Downed && !curJob.killIncappedTarget)
 					{
 						curDriver.ReadyForNextToil();
-						return;
 					}
-					hitAction();
+					else
+					{
+						hitAction();
+					}
 				}
 			};
 			followAndAttack.defaultCompleteMode = ToilCompleteMode.Never;

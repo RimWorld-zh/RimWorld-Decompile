@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,60 +10,48 @@ namespace Verse
 
 		public static Vector3 PawnCollisionPosOffsetFor(Pawn pawn)
 		{
-			if (pawn.GetPosture() != PawnPosture.Standing)
+			if (pawn.GetPosture() != 0)
 			{
 				return Vector3.zero;
 			}
 			bool flag = pawn.Spawned && pawn.pather.MovingNow;
-			if (!flag || pawn.pather.nextCell == pawn.pather.Destination.Cell)
-			{
-				if (!flag && pawn.Drawer.leaner.ShouldLean())
-				{
-					return Vector3.zero;
-				}
-				IntVec3 at;
-				if (flag)
-				{
-					at = pawn.pather.nextCell;
-				}
-				else
-				{
-					at = pawn.Position;
-				}
-				int num = 0;
-				int vertexIndex = 0;
-				PawnCollisionTweenerUtility.GetPawnsStandingAtOrAboutToStandAt(at, pawn.Map, out num, out vertexIndex, pawn);
-				if (num == 0)
-				{
-					return Vector3.zero;
-				}
-				return GenGeo.RegularPolygonVertexPositionVec3(num, vertexIndex) * 0.32f;
-			}
-			else
+			if (flag && !(pawn.pather.nextCell == pawn.pather.Destination.Cell))
 			{
 				IntVec3 nextCell = pawn.pather.nextCell;
 				if (PawnCollisionTweenerUtility.CanGoDirectlyToNextCell(pawn))
 				{
 					return Vector3.zero;
 				}
-				int num2 = pawn.thingIDNumber % 2;
-				if (nextCell.x != pawn.Position.x)
+				int num = pawn.thingIDNumber % 2;
+				int x = nextCell.x;
+				IntVec3 position = pawn.Position;
+				if (x != position.x)
 				{
-					if (num2 == 0)
+					if (num == 0)
 					{
 						return new Vector3(0f, 0f, 0.32f);
 					}
 					return new Vector3(0f, 0f, -0.32f);
 				}
-				else
+				if (num == 0)
 				{
-					if (num2 == 0)
-					{
-						return new Vector3(0.32f, 0f, 0f);
-					}
-					return new Vector3(-0.32f, 0f, 0f);
+					return new Vector3(0.32f, 0f, 0f);
 				}
+				return new Vector3(-0.32f, 0f, 0f);
 			}
+			if (!flag && pawn.Drawer.leaner.ShouldLean())
+			{
+				return Vector3.zero;
+			}
+			IntVec3 at = (!flag) ? pawn.Position : pawn.pather.nextCell;
+			int num2 = 0;
+			int vertexIndex = 0;
+			PawnCollisionTweenerUtility.GetPawnsStandingAtOrAboutToStandAt(at, pawn.Map, out num2, out vertexIndex, pawn);
+			if (num2 == 0)
+			{
+				return Vector3.zero;
+			}
+			return GenGeo.RegularPolygonVertexPositionVec3(num2, vertexIndex) * 0.32f;
 		}
 
 		private static void GetPawnsStandingAtOrAboutToStandAt(IntVec3 at, Map map, out int pawnsCount, out int pawnsWithLowerIdCount, Pawn forPawn)
@@ -81,29 +68,23 @@ namespace Verse
 					for (int i = 0; i < thingList.Count; i++)
 					{
 						Pawn pawn = thingList[i] as Pawn;
-						if (pawn != null)
+						if (pawn != null && pawn.GetPosture() == PawnPosture.Standing)
 						{
-							if (pawn.GetPosture() == PawnPosture.Standing)
+							if (current != at)
 							{
-								if (current != at)
-								{
-									if (!pawn.pather.MovingNow || pawn.pather.nextCell != pawn.pather.Destination.Cell || pawn.pather.Destination.Cell != at)
-									{
-										goto IL_120;
-									}
-								}
-								else if (pawn.pather.MovingNow)
-								{
-									goto IL_120;
-								}
-								pawnsCount++;
-								if (pawn.thingIDNumber < forPawn.thingIDNumber)
-								{
-									pawnsWithLowerIdCount++;
-								}
+								if (pawn.pather.MovingNow && !(pawn.pather.nextCell != pawn.pather.Destination.Cell) && !(pawn.pather.Destination.Cell != at))
+									goto IL_0101;
 							}
+							else if (!pawn.pather.MovingNow)
+								goto IL_0101;
 						}
-						IL_120:;
+						continue;
+						IL_0101:
+						pawnsCount++;
+						if (pawn.thingIDNumber < forPawn.thingIDNumber)
+						{
+							pawnsWithLowerIdCount++;
+						}
 					}
 				}
 				iterator.MoveNext();
@@ -123,21 +104,23 @@ namespace Verse
 					for (int i = 0; i < thingList.Count; i++)
 					{
 						Pawn pawn2 = thingList[i] as Pawn;
-						if (pawn2 != null && pawn2 != pawn)
+						if (pawn2 != null && pawn2 != pawn && pawn2.GetPosture() == PawnPosture.Standing)
 						{
-							if (pawn2.GetPosture() == PawnPosture.Standing)
+							if (!pawn2.pather.MovingNow)
 							{
-								if (pawn2.pather.MovingNow)
+								if (!(pawn2.Position == pawn.Position) && !(pawn2.Position == nextCell))
 								{
-									if (((pawn2.Position == nextCell && PawnCollisionTweenerUtility.WillBeFasterOnNextCell(pawn, pawn2)) || pawn2.pather.nextCell == nextCell || pawn2.Position == pawn.Position || (pawn2.pather.nextCell == pawn.Position && PawnCollisionTweenerUtility.WillBeFasterOnNextCell(pawn2, pawn))) && pawn2.thingIDNumber < pawn.thingIDNumber)
-									{
-										return false;
-									}
+									continue;
 								}
-								else if (pawn2.Position == pawn.Position || pawn2.Position == nextCell)
-								{
-									return false;
-								}
+								return false;
+							}
+							if ((!(pawn2.Position == nextCell) || !PawnCollisionTweenerUtility.WillBeFasterOnNextCell(pawn, pawn2)) && !(pawn2.pather.nextCell == nextCell) && !(pawn2.Position == pawn.Position) && (!(pawn2.pather.nextCell == pawn.Position) || !PawnCollisionTweenerUtility.WillBeFasterOnNextCell(pawn2, pawn)))
+							{
+								continue;
+							}
+							if (pawn2.thingIDNumber < pawn.thingIDNumber)
+							{
+								return false;
 							}
 						}
 					}

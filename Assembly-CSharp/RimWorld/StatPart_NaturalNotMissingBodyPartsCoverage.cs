@@ -7,7 +7,7 @@ namespace RimWorld
 	{
 		public override void TransformValue(StatRequest req, ref float val)
 		{
-			float num;
+			float num = default(float);
 			if (this.TryGetValue(req, out num))
 			{
 				val *= num;
@@ -16,17 +16,17 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			float f;
+			float f = default(float);
 			if (this.TryGetValue(req, out f))
 			{
 				return "StatsReport_MissingBodyParts".Translate() + ": x" + f.ToStringPercent();
 			}
-			return null;
+			return (string)null;
 		}
 
 		private bool TryGetValue(StatRequest req, out float value)
 		{
-			return PawnOrCorpseStatUtility.TryGetPawnOrCorpseStat(req, (Pawn x) => x.health.hediffSet.GetCoverageOfNotMissingNaturalParts(x.RaceProps.body.corePart), (ThingDef x) => 1f, out value);
+			return PawnOrCorpseStatUtility.TryGetPawnOrCorpseStat(req, (Func<Pawn, float>)((Pawn x) => x.health.hediffSet.GetCoverageOfNotMissingNaturalParts(x.RaceProps.body.corePart)), (Func<ThingDef, float>)((ThingDef x) => 1f), out value);
 		}
 	}
 }

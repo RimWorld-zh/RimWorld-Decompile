@@ -28,13 +28,7 @@ namespace Verse
 		{
 			if (count < 0)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Tried to set ThingCount count to ",
-					count,
-					". thingDef=",
-					thingDef
-				}));
+				Log.Warning("Tried to set ThingCount count to " + count + ". thingDef=" + thingDef);
 				count = 0;
 			}
 			this.thingDef = thingDef;
@@ -48,7 +42,11 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			return obj is ThingCount && this.Equals((ThingCount)obj);
+			if (!(obj is ThingCount))
+			{
+				return false;
+			}
+			return this.Equals((ThingCount)obj);
 		}
 
 		public bool Equals(ThingCount other)
@@ -58,7 +56,7 @@ namespace Verse
 
 		public override int GetHashCode()
 		{
-			return Gen.HashCombine<ThingDef>(this.count, this.thingDef);
+			return Gen.HashCombine(this.count, this.thingDef);
 		}
 
 		public static bool operator ==(ThingCount a, ThingCount b)

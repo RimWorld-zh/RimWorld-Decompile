@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Verse;
@@ -14,7 +13,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.def.entityDefToBuild.label + "BlueprintLabelExtra".Translate();
+				return base.def.entityDefToBuild.label + "BlueprintLabelExtra".Translate();
 			}
 		}
 
@@ -26,7 +25,7 @@ namespace RimWorld
 		public override void Tick()
 		{
 			base.Tick();
-			if (!GenConstruct.CanBuildOnTerrain(this.def.entityDefToBuild, base.Position, base.Map, base.Rotation, null))
+			if (!GenConstruct.CanBuildOnTerrain(base.def.entityDefToBuild, base.Position, base.Map, base.Rotation, null))
 			{
 				this.Destroy(DestroyMode.Cancel);
 			}
@@ -34,7 +33,7 @@ namespace RimWorld
 
 		public override void Draw()
 		{
-			if (this.def.drawerType == DrawerType.RealtimeOnly)
+			if (base.def.drawerType == DrawerType.RealtimeOnly)
 			{
 				base.Draw();
 			}
@@ -57,18 +56,7 @@ namespace RimWorld
 			Thing thing = this.FirstBlockingThing(null, null, false);
 			if (thing != null)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					workerPawn,
-					" tried to replace blueprint ",
-					this.ToString(),
-					" at ",
-					base.Position,
-					" with solid thing, but it is blocked by ",
-					thing,
-					" at ",
-					thing.Position
-				}));
+				Log.Error(workerPawn + " tried to replace blueprint " + this.ToString() + " at " + base.Position + " with solid thing, but it is blocked by " + thing + " at " + thing.Position);
 				if (thing != workerPawn)
 				{
 					createdThing = null;
@@ -105,7 +93,7 @@ namespace RimWorld
 
 		public Thing BlockingHaulableOnTop()
 		{
-			if (this.def.entityDefToBuild.passability == Traversability.Standable)
+			if (base.def.entityDefToBuild.passability == Traversability.Standable)
 			{
 				return null;
 			}
@@ -135,12 +123,9 @@ namespace RimWorld
 				for (int i = 0; i < thingList.Count; i++)
 				{
 					Thing thing = thingList[i];
-					if (!haulableOnly || thing.def.EverHaulable)
+					if ((!haulableOnly || thing.def.EverHaulable) && GenConstruct.BlocksFramePlacement(this, thing) && thing != pawnToIgnore && thing != thingToIgnore)
 					{
-						if (GenConstruct.BlocksFramePlacement(this, thing) && thing != pawnToIgnore && thing != thingToIgnore)
-						{
-							return thing;
-						}
+						return thing;
 					}
 				}
 				iterator.MoveNext();

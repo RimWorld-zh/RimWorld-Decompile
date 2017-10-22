@@ -36,7 +36,7 @@ namespace Verse
 		{
 			GizmoResult result = base.GizmoOnGUI(loc);
 			Rect rect = new Rect(loc.x, loc.y, this.Width, 75f);
-			Rect position = new Rect(rect.x + rect.width - 24f, rect.y, 24f, 24f);
+			Rect position = new Rect((float)(rect.x + rect.width - 24.0), rect.y, 24f, 24f);
 			Texture2D image = (!this.isActive()) ? Widgets.CheckboxOffTex : Widgets.CheckboxOnTex;
 			GUI.DrawTexture(position, image);
 			return result;
@@ -45,7 +45,11 @@ namespace Verse
 		public override bool InheritInteractionsFrom(Gizmo other)
 		{
 			Command_Toggle command_Toggle = other as Command_Toggle;
-			return command_Toggle != null && command_Toggle.isActive() == this.isActive();
+			if (command_Toggle != null)
+			{
+				return command_Toggle.isActive() == this.isActive();
+			}
+			return false;
 		}
 	}
 }

@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse.AI.Group
 {
 	public enum AvoidGridMode
 	{
-		Ignore,
-		Basic,
-		Smart
+		Ignore = 0,
+		Basic = 1,
+		Smart = 2
 	}
 }

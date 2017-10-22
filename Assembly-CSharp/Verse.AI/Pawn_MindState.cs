@@ -2,7 +2,7 @@ using RimWorld;
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Verse.AI.Group;
 
 namespace Verse.AI
 {
@@ -119,7 +119,15 @@ namespace Verse.AI
 		{
 			get
 			{
-				return !this.pawn.Downed && this.pawn.Spawned && this.lastJobTag == JobTag.Idle;
+				if (this.pawn.Downed)
+				{
+					return false;
+				}
+				if (!this.pawn.Spawned)
+				{
+					return false;
+				}
+				return this.lastJobTag == JobTag.Idle;
 			}
 		}
 
@@ -127,7 +135,7 @@ namespace Verse.AI
 		{
 			get
 			{
-				return this.meleeThreat != null && this.meleeThreat.Spawned && !this.meleeThreat.Downed && this.pawn.Spawned && Find.TickManager.TicksGame <= this.lastMeleeThreatHarmTick + 400 && (float)(this.pawn.Position - this.meleeThreat.Position).LengthHorizontalSquared <= 9f && GenSight.LineOfSight(this.pawn.Position, this.meleeThreat.Position, this.pawn.Map, false, null, 0, 0);
+				return this.meleeThreat != null && this.meleeThreat.Spawned && !this.meleeThreat.Downed && this.pawn.Spawned && Find.TickManager.TicksGame <= this.lastMeleeThreatHarmTick + 400 && (float)(this.pawn.Position - this.meleeThreat.Position).LengthHorizontalSquared <= 9.0 && GenSight.LineOfSight(this.pawn.Position, this.meleeThreat.Position, this.pawn.Map, false, null, 0, 0);
 			}
 		}
 
@@ -184,7 +192,7 @@ namespace Verse.AI
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
-				this.lastJobGiverKey = ((this.lastJobGiver == null) ? -1 : this.lastJobGiver.UniqueSaveKey);
+				this.lastJobGiverKey = ((this.lastJobGiver == null) ? (-1) : this.lastJobGiver.UniqueSaveKey);
 			}
 			Scribe_Values.Look<int>(ref this.lastJobGiverKey, "lastJobGiverKey", -1, false);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.lastJobGiverKey != -1 && !this.lastJobGiverThinkTree.TryGetThinkNodeWithSaveKey(this.lastJobGiverKey, out this.lastJobGiver))
@@ -219,15 +227,15 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.lastHarmTick, "lastHarmTick", -99999, false);
 			Scribe_Values.Look<bool>(ref this.anyCloseHostilesRecently, "anyCloseHostilesRecently", false, false);
 			Scribe_Deep.Look<PawnDuty>(ref this.duty, "duty", new object[0]);
-			Scribe_Deep.Look<MentalStateHandler>(ref this.mentalStateHandler, "mentalStateHandler", new object[]
+			Scribe_Deep.Look<MentalStateHandler>(ref this.mentalStateHandler, "mentalStateHandler", new object[1]
 			{
 				this.pawn
 			});
-			Scribe_Deep.Look<MentalBreaker>(ref this.mentalBreaker, "mentalBreaker", new object[]
+			Scribe_Deep.Look<MentalBreaker>(ref this.mentalBreaker, "mentalBreaker", new object[1]
 			{
 				this.pawn
 			});
-			Scribe_Deep.Look<PriorityWork>(ref this.priorityWork, "priorityWork", new object[]
+			Scribe_Deep.Look<PriorityWork>(ref this.priorityWork, "priorityWork", new object[1]
 			{
 				this.pawn
 			});
@@ -269,14 +277,28 @@ namespace Verse.AI
 			this.lastDisturbanceTick = -9999999;
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			Pawn_MindState.<GetGizmos>c__Iterator1BE <GetGizmos>c__Iterator1BE = new Pawn_MindState.<GetGizmos>c__Iterator1BE();
-			<GetGizmos>c__Iterator1BE.<>f__this = this;
-			Pawn_MindState.<GetGizmos>c__Iterator1BE expr_0E = <GetGizmos>c__Iterator1BE;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in this.priorityWork.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			Lord lord = this.pawn.GetLord();
+			if (lord != null && lord.LordJob is LordJob_FormAndSendCaravan)
+			{
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "CommandCancelFormingCaravan".Translate(),
+					defaultDesc = "CommandCancelFormingCaravanDesc".Translate(),
+					icon = TexCommand.ClearPrioritizedWork,
+					activateSound = SoundDefOf.TickLow,
+					action = (Action)delegate
+					{
+						CaravanFormingUtility.StopFormingCaravan(((_003CGetGizmos_003Ec__Iterator1BE)/*Error near IL_0140: stateMachine*/)._003Clord_003E__2);
+					},
+					hotKey = KeyBindingDefOf.DesignatorCancel
+				};
+			}
 		}
 
 		public void Notify_OutfitChanged()
@@ -299,7 +321,7 @@ namespace Verse.AI
 			{
 				this.lastHarmTick = Find.TickManager.TicksGame;
 				Pawn pawn = dinfo.Instigator as Pawn;
-				if (!this.mentalStateHandler.InMentalState && dinfo.Instigator != null && (pawn != null || dinfo.Instigator is Building_Turret) && dinfo.Instigator.Faction != null && (dinfo.Instigator.Faction.def.humanlikeFaction || (pawn != null && pawn.def.race.intelligence >= Intelligence.ToolUser)) && this.pawn.Faction == null && (this.pawn.CurJob == null || this.pawn.CurJob.def != JobDefOf.PredatorHunt) && Rand.Value < this.pawn.RaceProps.manhunterOnDamageChance)
+				if (!this.mentalStateHandler.InMentalState && dinfo.Instigator != null && (pawn != null || dinfo.Instigator is Building_Turret) && dinfo.Instigator.Faction != null && (dinfo.Instigator.Faction.def.humanlikeFaction || (pawn != null && (int)pawn.def.race.intelligence >= 1)) && this.pawn.Faction == null && (this.pawn.CurJob == null || this.pawn.CurJob.def != JobDefOf.PredatorHunt) && Rand.Value < this.pawn.RaceProps.manhunterOnDamageChance)
 				{
 					this.StartManhunterBecauseOfPawnAction("AnimalManhunterFromDamage");
 				}
@@ -307,7 +329,7 @@ namespace Verse.AI
 				{
 					this.StartFleeingBecauseOfPawnAction(dinfo.Instigator);
 				}
-				if (this.pawn.GetPosture() != PawnPosture.Standing)
+				if (this.pawn.GetPosture() != 0)
 				{
 					this.lastDisturbanceTick = Find.TickManager.TicksGame;
 				}
@@ -341,68 +363,52 @@ namespace Verse.AI
 
 		internal void Notify_DangerousExploderAboutToExplode(Thing exploder)
 		{
-			if (this.pawn.RaceProps.intelligence >= Intelligence.Humanlike)
+			if ((int)this.pawn.RaceProps.intelligence >= 2)
 			{
 				this.knownExploder = exploder;
 				this.pawn.jobs.CheckForJobOverride();
 			}
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<Pawn> GetPackmates(Pawn pawn, float radius)
 		{
-			Pawn_MindState.<GetPackmates>c__Iterator1BF <GetPackmates>c__Iterator1BF = new Pawn_MindState.<GetPackmates>c__Iterator1BF();
-			<GetPackmates>c__Iterator1BF.pawn = pawn;
-			<GetPackmates>c__Iterator1BF.radius = radius;
-			<GetPackmates>c__Iterator1BF.<$>pawn = pawn;
-			<GetPackmates>c__Iterator1BF.<$>radius = radius;
-			Pawn_MindState.<GetPackmates>c__Iterator1BF expr_23 = <GetPackmates>c__Iterator1BF;
-			expr_23.$PC = -2;
-			return expr_23;
+			Room pawnRoom = pawn.GetRoom(RegionType.Set_Passable);
+			List<Pawn> raceMates = pawn.Map.mapPawns.AllPawnsSpawned;
+			for (int i = 0; i < raceMates.Count; i++)
+			{
+				if (pawn != raceMates[i] && raceMates[i].def == pawn.def && raceMates[i].Faction == pawn.Faction && raceMates[i].Position.InHorDistOf(pawn.Position, radius) && raceMates[i].GetRoom(RegionType.Set_Passable) == pawnRoom)
+				{
+					yield return raceMates[i];
+				}
+			}
 		}
 
 		private void StartManhunterBecauseOfPawnAction(string letterTextKey)
 		{
-			if (!this.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, null, false, false, null))
+			if (this.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, (string)null, false, false, null))
 			{
-				return;
-			}
-			string text = letterTextKey.Translate(new object[]
-			{
-				this.pawn.Label
-			});
-			GlobalTargetInfo lookTarget = this.pawn;
-			if (Rand.Value < 0.5f)
-			{
-				int num = 1;
-				foreach (Pawn current in this.GetPackmates(this.pawn, 24f))
+				string text = letterTextKey.Translate(this.pawn.Label);
+				GlobalTargetInfo lookTarget = (Thing)this.pawn;
+				if (Rand.Value < 0.5)
 				{
-					if (current.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, null, false, false, null))
+					int num = 1;
+					foreach (Pawn packmate in this.GetPackmates(this.pawn, 24f))
 					{
-						num++;
+						if (packmate.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, (string)null, false, false, null))
+						{
+							num++;
+						}
+					}
+					if (num > 1)
+					{
+						lookTarget = new TargetInfo(this.pawn.Position, this.pawn.Map, false);
+						text += "\n\n";
+						text += ((!"AnimalManhunterOthers".CanTranslate()) ? "AnimalManhunterFromDamageOthers".Translate(this.pawn.def.label) : "AnimalManhunterOthers".Translate(this.pawn.def.label));
 					}
 				}
-				if (num > 1)
-				{
-					lookTarget = new TargetInfo(this.pawn.Position, this.pawn.Map, false);
-					text += "\n\n";
-					text += ((!"AnimalManhunterOthers".CanTranslate()) ? "AnimalManhunterFromDamageOthers".Translate(new object[]
-					{
-						this.pawn.def.label
-					}) : "AnimalManhunterOthers".Translate(new object[]
-					{
-						this.pawn.def.label
-					}));
-				}
+				string label = (!"LetterLabelAnimalManhunterRevenge".CanTranslate()) ? "LetterLabelAnimalManhunterFromDamage".Translate(this.pawn.Label).CapitalizeFirst() : "LetterLabelAnimalManhunterRevenge".Translate(this.pawn.Label).CapitalizeFirst();
+				Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.BadNonUrgent, lookTarget, (string)null);
 			}
-			string label = (!"LetterLabelAnimalManhunterRevenge".CanTranslate()) ? "LetterLabelAnimalManhunterFromDamage".Translate(new object[]
-			{
-				this.pawn.Label
-			}).CapitalizeFirst() : "LetterLabelAnimalManhunterRevenge".Translate(new object[]
-			{
-				this.pawn.Label
-			}).CapitalizeFirst();
-			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.BadNonUrgent, lookTarget, null);
 		}
 
 		private static bool CanStartFleeingBecauseOfPawnAction(Pawn p)
@@ -412,25 +418,24 @@ namespace Verse.AI
 
 		private void StartFleeingBecauseOfPawnAction(Thing instigator)
 		{
-			List<Thing> threats = new List<Thing>
-			{
-				instigator
-			};
-			IntVec3 fleeDest = CellFinderLoose.GetFleeDest(this.pawn, threats, this.pawn.Position.DistanceTo(instigator.Position) + 14f);
+			List<Thing> list = new List<Thing>();
+			list.Add(instigator);
+			List<Thing> threats = list;
+			IntVec3 fleeDest = CellFinderLoose.GetFleeDest(this.pawn, threats, (float)(this.pawn.Position.DistanceTo(instigator.Position) + 14.0));
 			if (fleeDest.IsValid)
 			{
-				this.pawn.jobs.StartJob(new Job(JobDefOf.Flee, fleeDest, instigator), JobCondition.InterruptOptional, null, false, true, null, null);
+				this.pawn.jobs.StartJob(new Job(JobDefOf.Flee, fleeDest, instigator), JobCondition.InterruptOptional, null, false, true, null, default(JobTag?));
 			}
 			if (this.pawn.RaceProps.herdAnimal && Rand.Chance(0.1f))
 			{
-				foreach (Pawn current in this.GetPackmates(this.pawn, 24f))
+				foreach (Pawn packmate in this.GetPackmates(this.pawn, 24f))
 				{
-					if (Pawn_MindState.CanStartFleeingBecauseOfPawnAction(current))
+					if (Pawn_MindState.CanStartFleeingBecauseOfPawnAction(packmate))
 					{
-						IntVec3 fleeDest2 = CellFinderLoose.GetFleeDest(this.pawn, threats, this.pawn.Position.DistanceTo(instigator.Position) + 14f);
+						IntVec3 fleeDest2 = CellFinderLoose.GetFleeDest(this.pawn, threats, (float)(this.pawn.Position.DistanceTo(instigator.Position) + 14.0));
 						if (fleeDest2.IsValid)
 						{
-							current.jobs.StartJob(new Job(JobDefOf.Flee, fleeDest2, instigator), JobCondition.InterruptOptional, null, false, true, null, null);
+							packmate.jobs.StartJob(new Job(JobDefOf.Flee, fleeDest2, instigator), JobCondition.InterruptOptional, null, false, true, null, default(JobTag?));
 						}
 					}
 				}

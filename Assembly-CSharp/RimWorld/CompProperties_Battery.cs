@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld
 {
 	public class CompProperties_Battery : CompProperties_Power
@@ -10,7 +8,7 @@ namespace RimWorld
 
 		public CompProperties_Battery()
 		{
-			this.compClass = typeof(CompPowerBattery);
+			base.compClass = typeof(CompPowerBattery);
 		}
 	}
 }

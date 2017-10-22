@@ -42,22 +42,19 @@ namespace Verse
 		{
 			if (req.singleDef != null)
 			{
-				List<Thing> result;
+				List<Thing> result = default(List<Thing>);
 				if (!this.listsByDef.TryGetValue(req.singleDef, out result))
 				{
 					return ListerThings.EmptyList;
 				}
 				return result;
 			}
-			else
+			if (req.group != 0)
 			{
-				if (req.group != ThingRequestGroup.Undefined)
-				{
-					List<Thing> list = this.listsByGroup[(int)req.group];
-					return list ?? ListerThings.EmptyList;
-				}
-				throw new InvalidOperationException("Invalid ThingRequest " + req);
+				List<Thing> list = this.listsByGroup[(uint)req.group];
+				return list ?? ListerThings.EmptyList;
 			}
+			throw new InvalidOperationException("Invalid ThingRequest " + req);
 		}
 
 		public bool Contains(Thing t)
@@ -67,30 +64,25 @@ namespace Verse
 
 		public void Add(Thing t)
 		{
-			if (!ListerThings.EverListable(t.def, this.use))
+			if (ListerThings.EverListable(t.def, this.use))
 			{
-				return;
-			}
-			List<Thing> list;
-			if (!this.listsByDef.TryGetValue(t.def, out list))
-			{
-				list = new List<Thing>();
-				this.listsByDef.Add(t.def, list);
-			}
-			list.Add(t);
-			ThingRequestGroup[] allGroups = ThingListGroupHelper.AllGroups;
-			for (int i = 0; i < allGroups.Length; i++)
-			{
-				ThingRequestGroup thingRequestGroup = allGroups[i];
-				if (this.use != ListerThingsUse.Region || thingRequestGroup.StoreInRegion())
+				List<Thing> list = default(List<Thing>);
+				if (!this.listsByDef.TryGetValue(t.def, out list))
 				{
-					if (thingRequestGroup.Includes(t.def))
+					list = new List<Thing>();
+					this.listsByDef.Add(t.def, list);
+				}
+				list.Add(t);
+				ThingRequestGroup[] allGroups = ThingListGroupHelper.AllGroups;
+				for (int i = 0; i < allGroups.Length; i++)
+				{
+					ThingRequestGroup thingRequestGroup = allGroups[i];
+					if ((this.use != ListerThingsUse.Region || thingRequestGroup.StoreInRegion()) && thingRequestGroup.Includes(t.def))
 					{
-						List<Thing> list2 = this.listsByGroup[(int)thingRequestGroup];
+						List<Thing> list2 = this.listsByGroup[(uint)thingRequestGroup];
 						if (list2 == null)
 						{
-							list2 = new List<Thing>();
-							this.listsByGroup[(int)thingRequestGroup] = list2;
+							list2 = (this.listsByGroup[(uint)thingRequestGroup] = new List<Thing>());
 						}
 						list2.Add(t);
 					}
@@ -100,18 +92,14 @@ namespace Verse
 
 		public void Remove(Thing t)
 		{
-			if (!ListerThings.EverListable(t.def, this.use))
+			if (ListerThings.EverListable(t.def, this.use))
 			{
-				return;
-			}
-			this.listsByDef[t.def].Remove(t);
-			ThingRequestGroup[] allGroups = ThingListGroupHelper.AllGroups;
-			for (int i = 0; i < allGroups.Length; i++)
-			{
-				ThingRequestGroup group = allGroups[i];
-				if (this.use != ListerThingsUse.Region || group.StoreInRegion())
+				this.listsByDef[t.def].Remove(t);
+				ThingRequestGroup[] allGroups = ThingListGroupHelper.AllGroups;
+				for (int i = 0; i < allGroups.Length; i++)
 				{
-					if (group.Includes(t.def))
+					ThingRequestGroup group = allGroups[i];
+					if ((this.use != ListerThingsUse.Region || group.StoreInRegion()) && group.Includes(t.def))
 					{
 						this.listsByGroup[i].Remove(t);
 					}
@@ -121,7 +109,19 @@ namespace Verse
 
 		public static bool EverListable(ThingDef def, ListerThingsUse use)
 		{
-			return (def.category != ThingCategory.Mote || (def.drawGUIOverlay && use != ListerThingsUse.Region)) && (def.category != ThingCategory.Projectile || use != ListerThingsUse.Region) && def.category != ThingCategory.Gas;
+			if (def.category == ThingCategory.Mote && (!def.drawGUIOverlay || use == ListerThingsUse.Region))
+			{
+				return false;
+			}
+			if (def.category == ThingCategory.Projectile && use == ListerThingsUse.Region)
+			{
+				return false;
+			}
+			if (def.category == ThingCategory.Gas)
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

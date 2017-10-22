@@ -20,12 +20,12 @@ namespace RimWorld.Planet
 			Current.CreatingWorld.info.seedString = seedString;
 			Current.CreatingWorld.info.overallRainfall = overallRainfall;
 			Current.CreatingWorld.info.overallTemperature = overallTemperature;
-			Current.CreatingWorld.info.name = NameGenerator.GenerateName(RulePackDefOf.NamerWorld, null, false);
-			foreach (WorldGenStepDef current in from gs in DefDatabase<WorldGenStepDef>.AllDefs
+			Current.CreatingWorld.info.name = NameGenerator.GenerateName(RulePackDefOf.NamerWorld, (Predicate<string>)null, false);
+			foreach (WorldGenStepDef item in from gs in DefDatabase<WorldGenStepDef>.AllDefs
 			orderby gs.order
 			select gs)
 			{
-				current.worldGenStep.GenerateFresh(seedString);
+				item.worldGenStep.GenerateFresh(seedString);
 			}
 			Current.CreatingWorld.FinalizeInit();
 			Find.Scenario.PostWorldGenerate();

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -18,14 +17,28 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_DropEquipment.<MakeNewToils>c__Iterator52 <MakeNewToils>c__Iterator = new JobDriver_DropEquipment.<MakeNewToils>c__Iterator52();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_DropEquipment.<MakeNewToils>c__Iterator52 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+					((_003CMakeNewToils_003Ec__Iterator52)/*Error near IL_0036: stateMachine*/)._003C_003Ef__this.pawn.pather.StopDead();
+				},
+				defaultCompleteMode = ToilCompleteMode.Delay,
+				defaultDuration = 30
+			};
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+					ThingWithComps thingWithComps = default(ThingWithComps);
+					if (!((_003CMakeNewToils_003Ec__Iterator52)/*Error near IL_0089: stateMachine*/)._003C_003Ef__this.pawn.equipment.TryDropEquipment(((_003CMakeNewToils_003Ec__Iterator52)/*Error near IL_0089: stateMachine*/)._003C_003Ef__this.TargetEquipment, out thingWithComps, ((_003CMakeNewToils_003Ec__Iterator52)/*Error near IL_0089: stateMachine*/)._003C_003Ef__this.pawn.Position, true))
+					{
+						((_003CMakeNewToils_003Ec__Iterator52)/*Error near IL_0089: stateMachine*/)._003C_003Ef__this.EndJobWith(JobCondition.Incompletable);
+					}
+				}
+			};
 		}
 	}
 }

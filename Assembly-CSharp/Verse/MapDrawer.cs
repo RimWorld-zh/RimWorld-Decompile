@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -14,11 +13,12 @@ namespace Verse
 		{
 			get
 			{
-				return new IntVec2
-				{
-					x = Mathf.CeilToInt((float)this.map.Size.x / 17f),
-					z = Mathf.CeilToInt((float)this.map.Size.z / 17f)
-				};
+				IntVec2 result = default(IntVec2);
+				IntVec3 size = this.map.Size;
+				result.x = Mathf.CeilToInt((float)((float)size.x / 17.0));
+				IntVec3 size2 = this.map.Size;
+				result.z = Mathf.CeilToInt((float)((float)size2.z / 17.0));
+				return result;
 			}
 		}
 
@@ -31,11 +31,11 @@ namespace Verse
 				sunShadowsViewRect.ClipInsideMap(this.map);
 				IntVec2 intVec = this.SectionCoordsAt(sunShadowsViewRect.BottomLeft);
 				IntVec2 intVec2 = this.SectionCoordsAt(sunShadowsViewRect.TopRight);
-				if (intVec2.x < intVec.x || intVec2.z < intVec.z)
+				if (intVec2.x >= intVec.x && intVec2.z >= intVec.z)
 				{
-					return CellRect.Empty;
+					return CellRect.FromLimits(intVec.x, intVec.z, intVec2.x, intVec2.z);
 				}
-				return CellRect.FromLimits(intVec.x, intVec.z, intVec2.x, intVec2.z);
+				return CellRect.Empty;
 			}
 		}
 
@@ -46,42 +46,41 @@ namespace Verse
 
 		public void MapMeshDirty(IntVec3 loc, MapMeshFlag dirtyFlags)
 		{
-			bool regenAdjacentCells = (dirtyFlags & (MapMeshFlag.FogOfWar | MapMeshFlag.Buildings)) != MapMeshFlag.None;
-			bool regenAdjacentSections = (dirtyFlags & MapMeshFlag.GroundGlow) != MapMeshFlag.None;
+			bool regenAdjacentCells = ((int)dirtyFlags & 6) != 0;
+			bool regenAdjacentSections = ((int)dirtyFlags & 8) != 0;
 			this.MapMeshDirty(loc, dirtyFlags, regenAdjacentCells, regenAdjacentSections);
 		}
 
 		public void MapMeshDirty(IntVec3 loc, MapMeshFlag dirtyFlags, bool regenAdjacentCells, bool regenAdjacentSections)
 		{
-			if (Current.ProgramState != ProgramState.Playing)
+			if (Current.ProgramState == ProgramState.Playing)
 			{
-				return;
-			}
-			Section section = this.SectionAt(loc);
-			section.dirtyFlags |= dirtyFlags;
-			if (regenAdjacentCells)
-			{
-				for (int i = 0; i < 8; i++)
+				Section section = this.SectionAt(loc);
+				section.dirtyFlags |= dirtyFlags;
+				if (regenAdjacentCells)
 				{
-					IntVec3 intVec = loc + GenAdj.AdjacentCells[i];
-					if (intVec.InBounds(this.map))
+					for (int i = 0; i < 8; i++)
 					{
-						this.SectionAt(intVec).dirtyFlags |= dirtyFlags;
+						IntVec3 intVec = loc + GenAdj.AdjacentCells[i];
+						if (intVec.InBounds(this.map))
+						{
+							this.SectionAt(intVec).dirtyFlags |= dirtyFlags;
+						}
 					}
 				}
-			}
-			if (regenAdjacentSections)
-			{
-				IntVec2 a = this.SectionCoordsAt(loc);
-				for (int j = 0; j < 8; j++)
+				if (regenAdjacentSections)
 				{
-					IntVec3 intVec2 = GenAdj.AdjacentCells[j];
-					IntVec2 intVec3 = a + new IntVec2(intVec2.x, intVec2.z);
-					IntVec2 sectionCount = this.SectionCount;
-					if (intVec3.x >= 0 && intVec3.z >= 0 && intVec3.x <= sectionCount.x - 1 && intVec3.z <= sectionCount.z - 1)
+					IntVec2 a = this.SectionCoordsAt(loc);
+					for (int j = 0; j < 8; j++)
 					{
-						Section section2 = this.sections[intVec3.x, intVec3.z];
-						section2.dirtyFlags |= dirtyFlags;
+						IntVec3 intVec2 = GenAdj.AdjacentCells[j];
+						IntVec2 intVec3 = a + new IntVec2(intVec2.x, intVec2.z);
+						IntVec2 sectionCount = this.SectionCount;
+						if (intVec3.x >= 0 && intVec3.z >= 0 && intVec3.x <= sectionCount.x - 1 && intVec3.z <= sectionCount.z - 1)
+						{
+							Section section2 = this.sections[intVec3.x, intVec3.z];
+							section2.dirtyFlags |= dirtyFlags;
+						}
 					}
 				}
 			}
@@ -104,15 +103,33 @@ namespace Verse
 			}
 			if (!flag)
 			{
-				for (int i = 0; i < this.SectionCount.x; i++)
+				int num = 0;
+				while (true)
 				{
-					for (int j = 0; j < this.SectionCount.z; j++)
+					int num2 = num;
+					IntVec2 sectionCount = this.SectionCount;
+					if (num2 < sectionCount.x)
 					{
-						if (this.TryUpdateSection(this.sections[i, j]))
+						int num3 = 0;
+						while (true)
 						{
-							return;
+							int num4 = num3;
+							IntVec2 sectionCount2 = this.SectionCount;
+							if (num4 < sectionCount2.z)
+							{
+								if (!this.TryUpdateSection(this.sections[num, num3]))
+								{
+									num3++;
+									continue;
+								}
+								return;
+							}
+							break;
 						}
+						num++;
+						continue;
 					}
+					break;
 				}
 			}
 		}
@@ -126,7 +143,7 @@ namespace Verse
 			for (int i = 0; i < MapMeshFlagUtility.allFlags.Count; i++)
 			{
 				MapMeshFlag mapMeshFlag = MapMeshFlagUtility.allFlags[i];
-				if ((sect.dirtyFlags & mapMeshFlag) != MapMeshFlag.None)
+				if ((sect.dirtyFlags & mapMeshFlag) != 0)
 				{
 					sect.RegenerateLayers(mapMeshFlag);
 				}
@@ -165,36 +182,75 @@ namespace Verse
 		{
 			if (this.sections == null)
 			{
-				this.sections = new Section[this.SectionCount.x, this.SectionCount.z];
+				IntVec2 sectionCount = this.SectionCount;
+				int x = sectionCount.x;
+				IntVec2 sectionCount2 = this.SectionCount;
+				this.sections = new Section[x, sectionCount2.z];
 			}
-			for (int i = 0; i < this.SectionCount.x; i++)
+			int num = 0;
+			while (true)
 			{
-				for (int j = 0; j < this.SectionCount.z; j++)
+				int num2 = num;
+				IntVec2 sectionCount3 = this.SectionCount;
+				if (num2 < sectionCount3.x)
 				{
-					if (this.sections[i, j] == null)
+					int num3 = 0;
+					while (true)
 					{
-						this.sections[i, j] = new Section(new IntVec3(i, 0, j), this.map);
+						int num4 = num3;
+						IntVec2 sectionCount4 = this.SectionCount;
+						if (num4 < sectionCount4.z)
+						{
+							if (this.sections[num, num3] == null)
+							{
+								this.sections[num, num3] = new Section(new IntVec3(num, 0, num3), this.map);
+							}
+							this.sections[num, num3].RegenerateAllLayers();
+							num3++;
+							continue;
+						}
+						break;
 					}
-					this.sections[i, j].RegenerateAllLayers();
+					num++;
+					continue;
 				}
+				break;
 			}
 		}
 
 		public void WholeMapChanged(MapMeshFlag change)
 		{
-			for (int i = 0; i < this.SectionCount.x; i++)
+			int num = 0;
+			while (true)
 			{
-				for (int j = 0; j < this.SectionCount.z; j++)
+				int num2 = num;
+				IntVec2 sectionCount = this.SectionCount;
+				if (num2 < sectionCount.x)
 				{
-					this.sections[i, j].dirtyFlags |= change;
+					int num3 = 0;
+					while (true)
+					{
+						int num4 = num3;
+						IntVec2 sectionCount2 = this.SectionCount;
+						if (num4 < sectionCount2.z)
+						{
+							this.sections[num, num3].dirtyFlags |= change;
+							num3++;
+							continue;
+						}
+						break;
+					}
+					num++;
+					continue;
 				}
+				break;
 			}
 		}
 
 		private CellRect GetSunShadowsViewRect(CellRect rect)
 		{
 			Vector2 vector = GenCelestial.CurShadowVector(this.map);
-			if (vector.x < 0f)
+			if (vector.x < 0.0)
 			{
 				rect.maxX -= Mathf.FloorToInt(vector.x);
 			}
@@ -202,7 +258,7 @@ namespace Verse
 			{
 				rect.minX -= Mathf.CeilToInt(vector.x);
 			}
-			if (vector.y < 0f)
+			if (vector.y < 0.0)
 			{
 				rect.maxZ -= Mathf.FloorToInt(vector.y);
 			}

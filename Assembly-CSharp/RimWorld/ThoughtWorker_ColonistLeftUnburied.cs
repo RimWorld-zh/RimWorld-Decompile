@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -16,7 +15,7 @@ namespace RimWorld
 			for (int i = 0; i < list.Count; i++)
 			{
 				Corpse corpse = (Corpse)list[i];
-				if ((float)corpse.Age > 90000f && corpse.InnerPawn.Faction == Faction.OfPlayer && corpse.InnerPawn.def.race.Humanlike && !corpse.IsInAnyStorage())
+				if ((float)corpse.Age > 90000.0 && corpse.InnerPawn.Faction == Faction.OfPlayer && corpse.InnerPawn.def.race.Humanlike && !corpse.IsInAnyStorage())
 				{
 					return true;
 				}

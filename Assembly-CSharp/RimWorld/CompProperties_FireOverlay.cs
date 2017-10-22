@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -12,7 +11,7 @@ namespace RimWorld
 
 		public CompProperties_FireOverlay()
 		{
-			this.compClass = typeof(CompFireOverlay);
+			base.compClass = typeof(CompFireOverlay);
 		}
 	}
 }

@@ -44,20 +44,20 @@ namespace RimWorld.Planet
 
 		public WITab_Caravan_Social()
 		{
-			this.labelKey = "TabCaravanSocial";
+			base.labelKey = "TabCaravanSocial";
 		}
 
 		protected override void FillTab()
 		{
 			Text.Font = GameFont.Small;
-			Rect rect = new Rect(0f, 0f, this.size.x, this.size.y).ContractedBy(10f);
-			Rect rect2 = new Rect(0f, 0f, rect.width - 16f, this.scrollViewHeight);
+			Rect rect = new Rect(0f, 0f, base.size.x, base.size.y).ContractedBy(10f);
+			Rect rect2 = new Rect(0f, 0f, (float)(rect.width - 16.0), this.scrollViewHeight);
 			float num = 0f;
 			Widgets.BeginScrollView(rect, ref this.scrollPosition, rect2, true);
 			this.DoRows(ref num, rect2, rect);
 			if (Event.current.type == EventType.Layout)
 			{
-				this.scrollViewHeight = num + 30f;
+				this.scrollViewHeight = (float)(num + 30.0);
 			}
 			Widgets.EndScrollView();
 		}
@@ -65,8 +65,8 @@ namespace RimWorld.Planet
 		protected override void UpdateSize()
 		{
 			base.UpdateSize();
-			this.size.x = 243f;
-			this.size.y = Mathf.Min(550f, this.PaneTopY - 30f);
+			base.size.x = 243f;
+			base.size.y = Mathf.Min(550f, (float)(this.PaneTopY - 30.0));
 		}
 
 		protected override void ExtraOnGUI()
@@ -77,18 +77,17 @@ namespace RimWorld.Planet
 			{
 				Rect tabRect = base.TabRect;
 				float specificSocialTabWidth = this.SpecificSocialTabWidth;
-				Rect rect = new Rect(tabRect.xMax - 1f, tabRect.yMin, specificSocialTabWidth, tabRect.height);
-				Find.WindowStack.ImmediateWindow(1439870015, rect, WindowLayer.GameUI, delegate
+				Rect rect = new Rect((float)(tabRect.xMax - 1.0), tabRect.yMin, specificSocialTabWidth, tabRect.height);
+				Find.WindowStack.ImmediateWindow(1439870015, rect, WindowLayer.GameUI, (Action)delegate
 				{
-					if (localSpecificSocialTabForPawn.DestroyedOrNull())
+					if (!localSpecificSocialTabForPawn.DestroyedOrNull())
 					{
-						return;
-					}
-					SocialCardUtility.DrawSocialCard(rect.AtZero(), localSpecificSocialTabForPawn);
-					if (Widgets.CloseButtonFor(rect.AtZero()))
-					{
-						this.specificSocialTabForPawn = null;
-						SoundDefOf.TabClose.PlayOneShotOnCamera(null);
+						SocialCardUtility.DrawSocialCard(rect.AtZero(), localSpecificSocialTabForPawn);
+						if (Widgets.CloseButtonFor(rect.AtZero()))
+						{
+							this.specificSocialTabForPawn = null;
+							SoundDefOf.TabClose.PlayOneShotOnCamera(null);
+						}
 					}
 				}, true, false, 1f);
 			}
@@ -97,7 +96,9 @@ namespace RimWorld.Planet
 		public override void OnOpen()
 		{
 			base.OnOpen();
-			if ((this.specificSocialTabForPawn == null || !this.Pawns.Contains(this.specificSocialTabForPawn)) && this.Pawns.Any<Pawn>())
+			if (this.specificSocialTabForPawn != null && this.Pawns.Contains(this.specificSocialTabForPawn))
+				return;
+			if (this.Pawns.Any())
 			{
 				this.specificSocialTabForPawn = this.Pawns[0];
 			}
@@ -114,41 +115,35 @@ namespace RimWorld.Planet
 			for (int i = 0; i < pawns.Count; i++)
 			{
 				Pawn pawn = pawns[i];
-				if (pawn.RaceProps.IsFlesh)
+				if (pawn.RaceProps.IsFlesh && pawn.IsColonist)
 				{
-					if (pawn.IsColonist)
+					if (!flag)
 					{
-						if (!flag)
-						{
-							Widgets.ListSeparator(ref curY, scrollViewRect.width, "CaravanColonists".Translate());
-							flag = true;
-						}
-						this.DoRow(ref curY, scrollViewRect, scrollOutRect, pawn);
+						Widgets.ListSeparator(ref curY, scrollViewRect.width, "CaravanColonists".Translate());
+						flag = true;
 					}
+					this.DoRow(ref curY, scrollViewRect, scrollOutRect, pawn);
 				}
 			}
 			bool flag2 = false;
 			for (int j = 0; j < pawns.Count; j++)
 			{
 				Pawn pawn2 = pawns[j];
-				if (pawn2.RaceProps.IsFlesh)
+				if (pawn2.RaceProps.IsFlesh && !pawn2.IsColonist)
 				{
-					if (!pawn2.IsColonist)
+					if (!flag2)
 					{
-						if (!flag2)
-						{
-							Widgets.ListSeparator(ref curY, scrollViewRect.width, "CaravanPrisonersAndAnimals".Translate());
-							flag2 = true;
-						}
-						this.DoRow(ref curY, scrollViewRect, scrollOutRect, pawn2);
+						Widgets.ListSeparator(ref curY, scrollViewRect.width, "CaravanPrisonersAndAnimals".Translate());
+						flag2 = true;
 					}
+					this.DoRow(ref curY, scrollViewRect, scrollOutRect, pawn2);
 				}
 			}
 		}
 
 		private void DoRow(ref float curY, Rect viewRect, Rect scrollOutRect, Pawn p)
 		{
-			float num = this.scrollPosition.y - 50f;
+			float num = (float)(this.scrollPosition.y - 50.0);
 			float num2 = this.scrollPosition.y + scrollOutRect.height;
 			if (curY > num && curY < num2)
 			{
@@ -163,7 +158,7 @@ namespace RimWorld.Planet
 			Rect rect2 = rect.AtZero();
 			CaravanPeopleAndItemsTabUtility.DoAbandonButton(rect2, p, base.SelCaravan);
 			rect2.width -= 24f;
-			Widgets.InfoCardButton(rect2.width - 24f, (rect.height - 24f) / 2f, p);
+			Widgets.InfoCardButton((float)(rect2.width - 24.0), (float)((rect.height - 24.0) / 2.0), p);
 			rect2.width -= 24f;
 			CaravanPeopleAndItemsTabUtility.DoOpenSpecificTabButton(rect2, p, ref this.specificSocialTabForPawn);
 			rect2.width -= 24f;
@@ -171,14 +166,14 @@ namespace RimWorld.Planet
 			{
 				Widgets.DrawHighlight(rect2);
 			}
-			Rect rect3 = new Rect(4f, (rect.height - 27f) / 2f, 27f, 27f);
+			Rect rect3 = new Rect(4f, (float)((rect.height - 27.0) / 2.0), 27f, 27f);
 			Widgets.ThingIcon(rect3, p, 1f);
-			Rect bgRect = new Rect(rect3.xMax + 4f, 16f, 100f, 18f);
+			Rect bgRect = new Rect((float)(rect3.xMax + 4.0), 16f, 100f, 18f);
 			GenMapUI.DrawPawnLabel(p, bgRect, 1f, 100f, null, GameFont.Small, false, false);
 			if (p.Downed)
 			{
 				GUI.color = new Color(1f, 0f, 0f, 0.5f);
-				Widgets.DrawLineHorizontal(0f, rect.height / 2f, rect.width);
+				Widgets.DrawLineHorizontal(0f, (float)(rect.height / 2.0), rect.width);
 				GUI.color = Color.white;
 			}
 			GUI.EndGroup();

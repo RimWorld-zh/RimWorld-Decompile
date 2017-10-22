@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI.Group;
@@ -18,7 +17,15 @@ namespace RimWorld
 
 		public virtual bool CanUseWith(IncidentParms parms)
 		{
-			return (float)GenDate.DaysPassed >= this.def.minDaysPassed && parms.points >= this.MinimumPoints(parms.faction);
+			if ((float)GenDate.DaysPassed < this.def.minDaysPassed)
+			{
+				return false;
+			}
+			if (parms.points < this.MinimumPoints(parms.faction))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public virtual float MinimumPoints(Faction faction)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -18,44 +17,46 @@ namespace RimWorld
 			if (FacilitiesUtility.working)
 			{
 				Log.Warning("Tried to update facilities while already updating.");
-				return;
 			}
-			FacilitiesUtility.working = true;
-			ProfilerThreadCheck.BeginSample("NotifyFacilitiesAboutChangedLOSBlockers()");
-			try
+			else
 			{
-				FacilitiesUtility.visited.Clear();
-				for (int i = 0; i < affectedRegions.Count; i++)
+				FacilitiesUtility.working = true;
+				ProfilerThreadCheck.BeginSample("NotifyFacilitiesAboutChangedLOSBlockers()");
+				try
 				{
-					if (!FacilitiesUtility.visited.Contains(affectedRegions[i]))
+					FacilitiesUtility.visited.Clear();
+					for (int i = 0; i < affectedRegions.Count; i++)
 					{
-						RegionTraverser.BreadthFirstTraverse(affectedRegions[i], (Region from, Region r) => !FacilitiesUtility.visited.Contains(r), delegate(Region x)
+						if (!FacilitiesUtility.visited.Contains(affectedRegions[i]))
 						{
-							FacilitiesUtility.visited.Add(x);
-							List<Thing> list = x.ListerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial);
-							for (int j = 0; j < list.Count; j++)
+							RegionTraverser.BreadthFirstTraverse(affectedRegions[i], (RegionEntryPredicate)((Region from, Region r) => !FacilitiesUtility.visited.Contains(r)), (RegionProcessor)delegate(Region x)
 							{
-								CompFacility compFacility = list[j].TryGetComp<CompFacility>();
-								CompAffectedByFacilities compAffectedByFacilities = list[j].TryGetComp<CompAffectedByFacilities>();
-								if (compFacility != null)
+								FacilitiesUtility.visited.Add(x);
+								List<Thing> list = x.ListerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial);
+								for (int j = 0; j < list.Count; j++)
 								{
-									compFacility.Notify_LOSBlockerSpawnedOrDespawned();
+									CompFacility compFacility = list[j].TryGetComp<CompFacility>();
+									CompAffectedByFacilities compAffectedByFacilities = list[j].TryGetComp<CompAffectedByFacilities>();
+									if (compFacility != null)
+									{
+										compFacility.Notify_LOSBlockerSpawnedOrDespawned();
+									}
+									if (compAffectedByFacilities != null)
+									{
+										compAffectedByFacilities.Notify_LOSBlockerSpawnedOrDespawned();
+									}
 								}
-								if (compAffectedByFacilities != null)
-								{
-									compAffectedByFacilities.Notify_LOSBlockerSpawnedOrDespawned();
-								}
-							}
-							return false;
-						}, FacilitiesUtility.RegionsToSearch, RegionType.Set_Passable);
+								return false;
+							}, FacilitiesUtility.RegionsToSearch, RegionType.Set_Passable);
+						}
 					}
 				}
-			}
-			finally
-			{
-				ProfilerThreadCheck.EndSample();
-				FacilitiesUtility.working = false;
-				FacilitiesUtility.visited.Clear();
+				finally
+				{
+					ProfilerThreadCheck.EndSample();
+					FacilitiesUtility.working = false;
+					FacilitiesUtility.visited.Clear();
+				}
 			}
 		}
 	}

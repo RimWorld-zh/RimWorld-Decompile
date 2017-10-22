@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -32,12 +31,12 @@ namespace Verse
 
 		public static bool NullOrBad(this Material mat)
 		{
-			return mat == null || mat == BaseContent.BadMat;
+			return (Object)mat == (Object)null || (Object)mat == (Object)BaseContent.BadMat;
 		}
 
 		public static bool NullOrBad(this Texture2D tex)
 		{
-			return tex == null || tex == BaseContent.BadTex;
+			return (Object)tex == (Object)null || (Object)tex == (Object)BaseContent.BadTex;
 		}
 	}
 }

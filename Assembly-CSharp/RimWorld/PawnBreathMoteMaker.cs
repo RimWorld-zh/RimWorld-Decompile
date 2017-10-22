@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -29,18 +28,17 @@ namespace RimWorld
 
 		public void BreathMoteMakerTick()
 		{
-			if (!this.pawn.RaceProps.Humanlike || this.pawn.RaceProps.IsMechanoid)
+			if (this.pawn.RaceProps.Humanlike && !this.pawn.RaceProps.IsMechanoid)
 			{
-				return;
-			}
-			int num = (Find.TickManager.TicksGame + this.pawn.HashOffset()) % 320;
-			if (num == 0)
-			{
-				this.doThisBreath = (this.pawn.AmbientTemperature < 0f && this.pawn.GetPosture() != PawnPosture.Standing);
-			}
-			if (this.doThisBreath && num < 80 && num % 8 == 0)
-			{
-				this.TryMakeBreathMote();
+				int num = (Find.TickManager.TicksGame + this.pawn.HashOffset()) % 320;
+				if (num == 0)
+				{
+					this.doThisBreath = (this.pawn.AmbientTemperature < 0.0 && this.pawn.GetPosture() != PawnPosture.Standing);
+				}
+				if (this.doThisBreath && num < 80 && num % 8 == 0)
+				{
+					this.TryMakeBreathMote();
+				}
 			}
 		}
 

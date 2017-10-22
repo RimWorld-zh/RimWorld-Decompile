@@ -40,7 +40,7 @@ namespace RimWorld
 
 		public const float TopAreaWidth = 515f;
 
-		private List<TransferableOneWayWidget.Section> sections = new List<TransferableOneWayWidget.Section>();
+		private List<Section> sections = new List<Section>();
 
 		private string sourceLabel;
 
@@ -87,15 +87,15 @@ namespace RimWorld
 				float num = 315f;
 				if (this.drawMass)
 				{
-					num += 100f;
+					num = (float)(num + 100.0);
 				}
 				if (this.drawMarketValue)
 				{
-					num += 100f;
+					num = (float)(num + 100.0);
 				}
 				if (this.drawDaysUntilRotForTile >= 0)
 				{
-					num += 75f;
+					num = (float)(num + 75.0);
 				}
 				return num;
 			}
@@ -111,7 +111,8 @@ namespace RimWorld
 				}
 				for (int i = 0; i < this.sections.Count; i++)
 				{
-					if (this.sections[i].cachedTransferables.Any<TransferableOneWay>())
+					Section section = this.sections[i];
+					if (section.cachedTransferables.Any())
 					{
 						return true;
 					}
@@ -124,7 +125,7 @@ namespace RimWorld
 		{
 			if (transferables != null)
 			{
-				this.AddSection(null, transferables);
+				this.AddSection((string)null, transferables);
 			}
 			this.sourceLabel = sourceLabel;
 			this.destinationLabel = destinationLabel;
@@ -143,10 +144,12 @@ namespace RimWorld
 
 		public void AddSection(string title, IEnumerable<TransferableOneWay> transferables)
 		{
-			TransferableOneWayWidget.Section item = default(TransferableOneWayWidget.Section);
-			item.title = title;
-			item.transferables = transferables;
-			item.cachedTransferables = new List<TransferableOneWay>();
+			Section item = new Section
+			{
+				title = title,
+				transferables = transferables,
+				cachedTransferables = new List<TransferableOneWay>()
+			};
 			this.sections.Add(item);
 			this.transferablesCached = false;
 		}
@@ -156,15 +159,18 @@ namespace RimWorld
 			this.transferablesCached = true;
 			for (int i = 0; i < this.sections.Count; i++)
 			{
-				List<TransferableOneWay> cachedTransferables = this.sections[i].cachedTransferables;
+				Section section = this.sections[i];
+				List<TransferableOneWay> cachedTransferables = section.cachedTransferables;
 				cachedTransferables.Clear();
-				cachedTransferables.AddRange(this.sections[i].transferables.OrderBy((TransferableOneWay tr) => tr, this.sorter1.Comparer).ThenBy((TransferableOneWay tr) => tr, this.sorter2.Comparer).ThenBy((TransferableOneWay tr) => TransferableUIUtility.DefaultListOrderPriority(tr)).ToList<TransferableOneWay>());
+				List<TransferableOneWay> obj = cachedTransferables;
+				Section section2 = this.sections[i];
+				obj.AddRange(section2.transferables.OrderBy((Func<TransferableOneWay, Transferable>)((TransferableOneWay tr) => tr), this.sorter1.Comparer).ThenBy((Func<TransferableOneWay, Transferable>)((TransferableOneWay tr) => tr), this.sorter2.Comparer).ThenBy((Func<TransferableOneWay, float>)((TransferableOneWay tr) => TransferableUIUtility.DefaultListOrderPriority(tr))).ToList());
 			}
 		}
 
 		public void OnGUI(Rect inRect)
 		{
-			bool flag;
+			bool flag = default(bool);
 			this.OnGUI(inRect, out flag);
 		}
 
@@ -174,29 +180,29 @@ namespace RimWorld
 			{
 				this.CacheTransferables();
 			}
-			TransferableUIUtility.DoTransferableSorters(this.sorter1, this.sorter2, delegate(TransferableSorterDef x)
+			TransferableUIUtility.DoTransferableSorters(this.sorter1, this.sorter2, (Action<TransferableSorterDef>)delegate(TransferableSorterDef x)
 			{
 				this.sorter1 = x;
 				this.CacheTransferables();
-			}, delegate(TransferableSorterDef x)
+			}, (Action<TransferableSorterDef>)delegate(TransferableSorterDef x)
 			{
 				this.sorter2 = x;
 				this.CacheTransferables();
 			});
-			float num = inRect.width - 515f;
+			float num = (float)(inRect.width - 515.0);
 			Rect position = new Rect(inRect.x + num, inRect.y, inRect.width - num, 55f);
 			GUI.BeginGroup(position);
 			Text.Font = GameFont.Medium;
-			Rect rect = new Rect(0f, 0f, position.width / 2f, position.height);
+			Rect rect = new Rect(0f, 0f, (float)(position.width / 2.0), position.height);
 			Text.Anchor = TextAnchor.UpperLeft;
 			Widgets.Label(rect, this.sourceLabel);
-			Rect rect2 = new Rect(position.width / 2f, 0f, position.width / 2f, position.height);
+			Rect rect2 = new Rect((float)(position.width / 2.0), 0f, (float)(position.width / 2.0), position.height);
 			Text.Anchor = TextAnchor.UpperRight;
 			Widgets.Label(rect2, this.destinationLabel);
 			Text.Font = GameFont.Small;
 			Text.Anchor = TextAnchor.UpperLeft;
 			GUI.EndGroup();
-			Rect mainRect = new Rect(inRect.x, inRect.y + 55f + this.extraHeaderSpace, inRect.width, inRect.height - 55f - this.extraHeaderSpace);
+			Rect mainRect = new Rect(inRect.x, (float)(inRect.y + 55.0 + this.extraHeaderSpace), inRect.width, (float)(inRect.height - 55.0 - this.extraHeaderSpace));
 			this.FillMainRect(mainRect, out anythingChanged);
 		}
 
@@ -209,33 +215,40 @@ namespace RimWorld
 				float num = 6f;
 				for (int i = 0; i < this.sections.Count; i++)
 				{
-					num += (float)this.sections[i].cachedTransferables.Count * 30f;
-					if (this.sections[i].title != null)
+					float num2 = num;
+					Section section = this.sections[i];
+					num = (float)(num2 + (float)section.cachedTransferables.Count * 30.0);
+					Section section2 = this.sections[i];
+					if (section2.title != null)
 					{
-						num += 30f;
+						num = (float)(num + 30.0);
 					}
 				}
-				float num2 = 6f;
-				float availableMass = (this.availableMassGetter == null) ? 3.40282347E+38f : this.availableMassGetter();
-				Rect viewRect = new Rect(0f, 0f, mainRect.width - 16f, num);
+				float num3 = 6f;
+				float availableMass = (float)(((object)this.availableMassGetter == null) ? 3.4028234663852886E+38 : this.availableMassGetter());
+				Rect viewRect = new Rect(0f, 0f, (float)(mainRect.width - 16.0), num);
 				Widgets.BeginScrollView(mainRect, ref this.scrollPosition, viewRect, true);
-				float num3 = this.scrollPosition.y - 30f;
-				float num4 = this.scrollPosition.y + mainRect.height;
+				float num4 = (float)(this.scrollPosition.y - 30.0);
+				float num5 = this.scrollPosition.y + mainRect.height;
 				for (int j = 0; j < this.sections.Count; j++)
 				{
-					List<TransferableOneWay> cachedTransferables = this.sections[j].cachedTransferables;
-					if (cachedTransferables.Any<TransferableOneWay>())
+					Section section3 = this.sections[j];
+					List<TransferableOneWay> cachedTransferables = section3.cachedTransferables;
+					if (cachedTransferables.Any())
 					{
-						if (this.sections[j].title != null)
+						Section section4 = this.sections[j];
+						if (section4.title != null)
 						{
-							Widgets.ListSeparator(ref num2, viewRect.width, this.sections[j].title);
-							num2 += 5f;
+							float width = viewRect.width;
+							Section section5 = this.sections[j];
+							Widgets.ListSeparator(ref num3, width, section5.title);
+							num3 = (float)(num3 + 5.0);
 						}
 						for (int k = 0; k < cachedTransferables.Count; k++)
 						{
-							if (num2 > num3 && num2 < num4)
+							if (num3 > num4 && num3 < num5)
 							{
-								Rect rect = new Rect(0f, num2, viewRect.width, 30f);
+								Rect rect = new Rect(0f, num3, viewRect.width, 30f);
 								int countToTransfer = cachedTransferables[k].CountToTransfer;
 								this.DoRow(rect, cachedTransferables[k], k, availableMass);
 								if (countToTransfer != cachedTransferables[k].CountToTransfer)
@@ -243,7 +256,7 @@ namespace RimWorld
 									anythingChanged = true;
 								}
 							}
-							num2 += 30f;
+							num3 = (float)(num3 + 30.0);
 						}
 					}
 				}
@@ -267,41 +280,41 @@ namespace RimWorld
 			}
 			Text.Font = GameFont.Small;
 			GUI.BeginGroup(rect);
-			float num = rect.width;
+			float width = rect.width;
 			int maxCount = trad.MaxCount;
-			Rect rect2 = new Rect(num - 240f, 0f, 240f, rect.height);
+			Rect rect2 = new Rect((float)(width - 240.0), 0f, 240f, rect.height);
 			TransferableOneWayWidget.stoppingPoints.Clear();
-			if (this.availableMassGetter != null && (!(trad.AnyThing is Pawn) || this.includePawnsMassInMassUsage))
+			if ((object)this.availableMassGetter != null && (!(trad.AnyThing is Pawn) || this.includePawnsMassInMassUsage))
 			{
-				float num2 = availableMass + this.GetMass(trad.AnyThing) * (float)trad.CountToTransfer;
-				int threshold = (num2 > 0f) ? Mathf.FloorToInt(num2 / this.GetMass(trad.AnyThing)) : 0;
+				float num = availableMass + this.GetMass(trad.AnyThing) * (float)trad.CountToTransfer;
+				int threshold = (!(num <= 0.0)) ? Mathf.FloorToInt(num / this.GetMass(trad.AnyThing)) : 0;
 				TransferableOneWayWidget.stoppingPoints.Add(new TransferableCountToTransferStoppingPoint(threshold, "M<", ">M"));
 			}
 			List<TransferableCountToTransferStoppingPoint> extraStoppingPoints = TransferableOneWayWidget.stoppingPoints;
 			TransferableUIUtility.DoCountAdjustInterface(rect2, trad, index, 0, maxCount, false, extraStoppingPoints);
-			num -= 240f;
+			width = (float)(width - 240.0);
 			if (this.drawMarketValue)
 			{
-				Rect rect3 = new Rect(num - 100f, 0f, 100f, rect.height);
+				Rect rect3 = new Rect((float)(width - 100.0), 0f, 100f, rect.height);
 				Text.Anchor = TextAnchor.MiddleLeft;
 				this.DrawMarketValue(rect3, trad);
-				num -= 100f;
+				width = (float)(width - 100.0);
 			}
 			if (this.drawMass)
 			{
-				Rect rect4 = new Rect(num - 100f, 0f, 100f, rect.height);
+				Rect rect4 = new Rect((float)(width - 100.0), 0f, 100f, rect.height);
 				Text.Anchor = TextAnchor.MiddleLeft;
 				this.DrawMass(rect4, trad, availableMass);
-				num -= 100f;
+				width = (float)(width - 100.0);
 			}
 			if (this.drawDaysUntilRotForTile >= 0)
 			{
-				Rect rect5 = new Rect(num - 75f, 0f, 75f, rect.height);
+				Rect rect5 = new Rect((float)(width - 75.0), 0f, 75f, rect.height);
 				Text.Anchor = TextAnchor.MiddleLeft;
 				this.DrawDaysUntilRot(rect5, trad);
-				num -= 75f;
+				width = (float)(width - 75.0);
 			}
-			Rect rect6 = new Rect(num - 75f, 0f, 75f, rect.height);
+			Rect rect6 = new Rect((float)(width - 75.0), 0f, 75f, rect.height);
 			if (Mouse.IsOver(rect6))
 			{
 				Widgets.DrawHighlight(rect6);
@@ -312,8 +325,8 @@ namespace RimWorld
 			rect7.xMax -= 5f;
 			Widgets.Label(rect7, maxCount.ToStringCached());
 			TooltipHandler.TipRegion(rect6, this.sourceCountDesc);
-			num -= 75f;
-			Rect idRect = new Rect(0f, 0f, num, rect.height);
+			width = (float)(width - 75.0);
+			Rect idRect = new Rect(0f, 0f, width, rect.height);
 			TransferableUIUtility.DrawTransferableInfo(trad, idRect, Color.white);
 			GenUI.ResetLabelAlign();
 			GUI.EndGroup();
@@ -321,118 +334,108 @@ namespace RimWorld
 
 		private void DrawDaysUntilRot(Rect rect, TransferableOneWay trad)
 		{
-			if (!trad.HasAnyThing)
+			if (trad.HasAnyThing && trad.ThingDef.IsNutritionGivingIngestible)
 			{
-				return;
-			}
-			if (!trad.ThingDef.IsNutritionGivingIngestible)
-			{
-				return;
-			}
-			int num = 2147483647;
-			for (int i = 0; i < trad.things.Count; i++)
-			{
-				CompRottable compRottable = trad.things[i].TryGetComp<CompRottable>();
-				if (compRottable != null)
+				int num = 2147483647;
+				for (int i = 0; i < trad.things.Count; i++)
 				{
-					num = Mathf.Min(num, compRottable.ApproxTicksUntilRotWhenAtTempOfTile(this.drawDaysUntilRotForTile));
+					CompRottable compRottable = trad.things[i].TryGetComp<CompRottable>();
+					if (compRottable != null)
+					{
+						num = Mathf.Min(num, compRottable.ApproxTicksUntilRotWhenAtTempOfTile(this.drawDaysUntilRotForTile));
+					}
+				}
+				if (num < 36000000)
+				{
+					if (Mouse.IsOver(rect))
+					{
+						Widgets.DrawHighlight(rect);
+					}
+					float num2 = (float)((float)num / 60000.0);
+					GUI.color = Color.yellow;
+					Widgets.Label(rect, num2.ToString("0.#"));
+					GUI.color = Color.white;
+					TooltipHandler.TipRegion(rect, "DaysUntilRotTip".Translate());
 				}
 			}
-			if (num >= 36000000)
-			{
-				return;
-			}
-			if (Mouse.IsOver(rect))
-			{
-				Widgets.DrawHighlight(rect);
-			}
-			float num2 = (float)num / 60000f;
-			GUI.color = Color.yellow;
-			Widgets.Label(rect, num2.ToString("0.#"));
-			GUI.color = Color.white;
-			TooltipHandler.TipRegion(rect, "DaysUntilRotTip".Translate());
 		}
 
 		private void DrawMarketValue(Rect rect, TransferableOneWay trad)
 		{
-			if (!trad.HasAnyThing)
+			if (trad.HasAnyThing)
 			{
-				return;
+				if (Mouse.IsOver(rect))
+				{
+					Widgets.DrawHighlight(rect);
+				}
+				Widgets.Label(rect, trad.AnyThing.GetInnerIfMinified().MarketValue.ToStringMoney());
+				TooltipHandler.TipRegion(rect, "MarketValueTip".Translate());
 			}
-			if (Mouse.IsOver(rect))
-			{
-				Widgets.DrawHighlight(rect);
-			}
-			Widgets.Label(rect, trad.AnyThing.GetInnerIfMinified().MarketValue.ToStringMoney());
-			TooltipHandler.TipRegion(rect, "MarketValueTip".Translate());
 		}
 
 		private void DrawMass(Rect rect, TransferableOneWay trad, float availableMass)
 		{
-			if (!trad.HasAnyThing)
+			if (trad.HasAnyThing)
 			{
-				return;
-			}
-			Thing anyThing = trad.AnyThing;
-			Pawn pawn = anyThing as Pawn;
-			if (pawn != null && !this.includePawnsMassInMassUsage && !MassUtility.CanEverCarryAnything(pawn))
-			{
-				return;
-			}
-			if (Mouse.IsOver(rect))
-			{
-				Widgets.DrawHighlight(rect);
-			}
-			if (pawn == null || this.includePawnsMassInMassUsage)
-			{
-				float mass = this.GetMass(anyThing);
-				if (pawn != null)
+				Thing anyThing = trad.AnyThing;
+				Pawn pawn = anyThing as Pawn;
+				if (pawn != null && !this.includePawnsMassInMassUsage && !MassUtility.CanEverCarryAnything(pawn))
+					return;
+				if (Mouse.IsOver(rect))
 				{
-					float gearMass = 0f;
-					float invMass = 0f;
-					gearMass = MassUtility.GearMass(pawn);
-					if (!InventoryCalculatorsUtility.ShouldIgnoreInventoryOf(pawn, this.ignorePawnInventoryMass))
+					Widgets.DrawHighlight(rect);
+				}
+				if (pawn == null || this.includePawnsMassInMassUsage)
+				{
+					float mass = this.GetMass(anyThing);
+					if (pawn != null)
 					{
-						invMass = MassUtility.InventoryMass(pawn);
+						float gearMass = 0f;
+						float invMass = 0f;
+						gearMass = MassUtility.GearMass(pawn);
+						if (!InventoryCalculatorsUtility.ShouldIgnoreInventoryOf(pawn, this.ignorePawnInventoryMass))
+						{
+							invMass = MassUtility.InventoryMass(pawn);
+						}
+						TooltipHandler.TipRegion(rect, (Func<string>)(() => this.GetPawnMassTip(trad, 0f, mass - gearMass - invMass, gearMass, invMass)), trad.GetHashCode() * 59);
 					}
-					TooltipHandler.TipRegion(rect, () => this.GetPawnMassTip(trad, 0f, mass - gearMass - invMass, gearMass, invMass), trad.GetHashCode() * 59);
+					else
+					{
+						TooltipHandler.TipRegion(rect, "ItemWeightTip".Translate());
+					}
+					if (mass > availableMass)
+					{
+						GUI.color = Color.red;
+					}
+					else
+					{
+						GUI.color = TransferableOneWayWidget.ItemMassColor;
+					}
+					Widgets.Label(rect, mass.ToStringMass());
 				}
 				else
 				{
-					TooltipHandler.TipRegion(rect, "ItemWeightTip".Translate());
+					float cap = MassUtility.Capacity(pawn);
+					float gearMass2 = MassUtility.GearMass(pawn);
+					float invMass2 = (float)((!InventoryCalculatorsUtility.ShouldIgnoreInventoryOf(pawn, this.ignorePawnInventoryMass)) ? MassUtility.InventoryMass(pawn) : 0.0);
+					float num = cap - gearMass2 - invMass2;
+					if (num > 0.0)
+					{
+						GUI.color = Color.green;
+					}
+					else if (num < 0.0)
+					{
+						GUI.color = Color.red;
+					}
+					else
+					{
+						GUI.color = Color.gray;
+					}
+					Widgets.Label(rect, num.ToStringMassOffset());
+					TooltipHandler.TipRegion(rect, (Func<string>)(() => this.GetPawnMassTip(trad, cap, 0f, gearMass2, invMass2)), trad.GetHashCode() * 59);
 				}
-				if (mass > availableMass)
-				{
-					GUI.color = Color.red;
-				}
-				else
-				{
-					GUI.color = TransferableOneWayWidget.ItemMassColor;
-				}
-				Widgets.Label(rect, mass.ToStringMass());
+				GUI.color = Color.white;
 			}
-			else
-			{
-				float cap = MassUtility.Capacity(pawn);
-				float gearMass = MassUtility.GearMass(pawn);
-				float invMass = (!InventoryCalculatorsUtility.ShouldIgnoreInventoryOf(pawn, this.ignorePawnInventoryMass)) ? MassUtility.InventoryMass(pawn) : 0f;
-				float num = cap - gearMass - invMass;
-				if (num > 0f)
-				{
-					GUI.color = Color.green;
-				}
-				else if (num < 0f)
-				{
-					GUI.color = Color.red;
-				}
-				else
-				{
-					GUI.color = Color.gray;
-				}
-				Widgets.Label(rect, num.ToStringMassOffset());
-				TooltipHandler.TipRegion(rect, () => this.GetPawnMassTip(trad, cap, 0f, gearMass, invMass), trad.GetHashCode() * 59);
-			}
-			GUI.color = Color.white;
 		}
 
 		private string GetPawnMassTip(TransferableOneWay trad, float capacity, float pawnMass, float gearMass, float invMass)
@@ -442,7 +445,7 @@ namespace RimWorld
 				return string.Empty;
 			}
 			StringBuilder stringBuilder = new StringBuilder();
-			if (capacity != 0f)
+			if (capacity != 0.0)
 			{
 				stringBuilder.Append("MassCapacity".Translate() + ": " + capacity.ToStringMass());
 			}
@@ -450,12 +453,12 @@ namespace RimWorld
 			{
 				stringBuilder.Append("Mass".Translate() + ": " + pawnMass.ToStringMass());
 			}
-			if (gearMass != 0f)
+			if (gearMass != 0.0)
 			{
 				stringBuilder.AppendLine();
 				stringBuilder.Append("EquipmentAndApparelMass".Translate() + ": " + gearMass.ToStringMass());
 			}
-			if (invMass != 0f)
+			if (invMass != 0.0)
 			{
 				stringBuilder.AppendLine();
 				stringBuilder.Append("InventoryMass".Translate() + ": " + invMass.ToStringMass());

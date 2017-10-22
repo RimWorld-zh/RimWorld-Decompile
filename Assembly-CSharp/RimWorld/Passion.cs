@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum Passion : byte
 	{
-		None,
-		Minor,
-		Major
+		None = 0,
+		Minor = 1,
+		Major = 2
 	}
 }

@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class MoteCounter
@@ -20,7 +18,7 @@ namespace Verse
 		{
 			get
 			{
-				return (float)this.moteCount / 250f;
+				return (float)((float)this.moteCount / 250.0);
 			}
 		}
 
@@ -28,7 +26,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.Saturation > 1f;
+				return this.Saturation > 1.0;
 			}
 		}
 
@@ -36,7 +34,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.Saturation > 0.8f;
+				return this.Saturation > 0.800000011920929;
 			}
 		}
 

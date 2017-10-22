@@ -38,7 +38,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (!this.CanUnpause()) ? 0f : 24f;
+				return (float)((!this.CanUnpause()) ? 0.0 : 24.0);
 			}
 		}
 
@@ -56,7 +56,7 @@ namespace RimWorld
 				}
 				if (this.repeatMode == BillRepeatModeDefOf.TargetCount)
 				{
-					return this.recipe.WorkerCounter.CountProducts(this).ToString() + "/" + this.targetCount.ToString();
+					return base.recipe.WorkerCounter.CountProducts(this).ToString() + "/" + this.targetCount.ToString();
 				}
 				throw new InvalidOperationException();
 			}
@@ -101,7 +101,7 @@ namespace RimWorld
 			{
 				this.paused = false;
 			}
-			if (this.suspended)
+			if (base.suspended)
 			{
 				return false;
 			}
@@ -115,7 +115,7 @@ namespace RimWorld
 			}
 			if (this.repeatMode == BillRepeatModeDefOf.TargetCount)
 			{
-				int num = this.recipe.WorkerCounter.CountProducts(this);
+				int num = base.recipe.WorkerCounter.CountProducts(this);
 				if (this.pauseWhenSatisfied && num >= this.targetCount)
 				{
 					this.paused = true;
@@ -124,7 +124,11 @@ namespace RimWorld
 				{
 					this.paused = false;
 				}
-				return !this.paused && num < this.targetCount;
+				if (this.paused)
+				{
+					return false;
+				}
+				return num < this.targetCount;
 			}
 			throw new InvalidOperationException();
 		}
@@ -139,10 +143,7 @@ namespace RimWorld
 				}
 				if (this.repeatCount == 0)
 				{
-					Messages.Message("MessageBillComplete".Translate(new object[]
-					{
-						this.LabelCap
-					}), (Thing)this.billStack.billGiver, MessageSound.Benefit);
+					Messages.Message("MessageBillComplete".Translate(this.LabelCap), (Thing)base.billStack.billGiver, MessageSound.Benefit);
 				}
 			}
 		}
@@ -153,16 +154,16 @@ namespace RimWorld
 			GUI.color = new Color(1f, 1f, 1f, 0.65f);
 			Widgets.Label(rect, this.RepeatInfoText);
 			GUI.color = baseColor;
-			WidgetRow widgetRow = new WidgetRow(baseRect.xMax, baseRect.y + 29f, UIDirection.LeftThenUp, 99999f, 4f);
-			if (widgetRow.ButtonText("Details".Translate() + "...", null, true, false))
+			WidgetRow widgetRow = new WidgetRow(baseRect.xMax, (float)(baseRect.y + 29.0), UIDirection.LeftThenUp, 99999f, 4f);
+			if (widgetRow.ButtonText("Details".Translate() + "...", (string)null, true, false))
 			{
-				Find.WindowStack.Add(new Dialog_BillConfig(this, ((Thing)this.billStack.billGiver).Position));
+				Find.WindowStack.Add(new Dialog_BillConfig(this, ((Thing)base.billStack.billGiver).Position));
 			}
-			if (widgetRow.ButtonText(this.repeatMode.GetLabel().PadRight(20), null, true, false))
+			if (widgetRow.ButtonText(this.repeatMode.GetLabel().PadRight(20), (string)null, true, false))
 			{
 				BillRepeatModeUtility.MakeConfigFloatMenu(this);
 			}
-			if (widgetRow.ButtonIcon(TexButton.Plus, null))
+			if (widgetRow.ButtonIcon(TexButton.Plus, (string)null))
 			{
 				if (this.repeatMode == BillRepeatModeDefOf.Forever)
 				{
@@ -171,7 +172,7 @@ namespace RimWorld
 				}
 				else if (this.repeatMode == BillRepeatModeDefOf.TargetCount)
 				{
-					int num = this.recipe.targetCountAdjustment * GenUI.CurrentAdjustmentMultiplier();
+					int num = base.recipe.targetCountAdjustment * GenUI.CurrentAdjustmentMultiplier();
 					this.targetCount += num;
 					this.unpauseWhenYouHave += num;
 				}
@@ -182,10 +183,10 @@ namespace RimWorld
 				SoundDefOf.AmountIncrement.PlayOneShotOnCamera(null);
 				if (TutorSystem.TutorialMode && this.repeatMode == BillRepeatModeDefOf.RepeatCount)
 				{
-					TutorSystem.Notify_Event(this.recipe.defName + "-RepeatCountSetTo-" + this.repeatCount);
+					TutorSystem.Notify_Event(base.recipe.defName + "-RepeatCountSetTo-" + this.repeatCount);
 				}
 			}
-			if (widgetRow.ButtonIcon(TexButton.Minus, null))
+			if (widgetRow.ButtonIcon(TexButton.Minus, (string)null))
 			{
 				if (this.repeatMode == BillRepeatModeDefOf.Forever)
 				{
@@ -194,7 +195,7 @@ namespace RimWorld
 				}
 				else if (this.repeatMode == BillRepeatModeDefOf.TargetCount)
 				{
-					int num2 = this.recipe.targetCountAdjustment * GenUI.CurrentAdjustmentMultiplier();
+					int num2 = base.recipe.targetCountAdjustment * GenUI.CurrentAdjustmentMultiplier();
 					this.targetCount = Mathf.Max(0, this.targetCount - num2);
 					this.unpauseWhenYouHave = Mathf.Max(0, this.unpauseWhenYouHave - num2);
 				}
@@ -205,14 +206,14 @@ namespace RimWorld
 				SoundDefOf.AmountDecrement.PlayOneShotOnCamera(null);
 				if (TutorSystem.TutorialMode && this.repeatMode == BillRepeatModeDefOf.RepeatCount)
 				{
-					TutorSystem.Notify_Event(this.recipe.defName + "-RepeatCountSetTo-" + this.repeatCount);
+					TutorSystem.Notify_Event(base.recipe.defName + "-RepeatCountSetTo-" + this.repeatCount);
 				}
 			}
 		}
 
 		private bool CanUnpause()
 		{
-			return this.repeatMode == BillRepeatModeDefOf.TargetCount && this.paused && this.pauseWhenSatisfied && this.recipe.WorkerCounter.CountProducts(this) < this.targetCount;
+			return this.repeatMode == BillRepeatModeDefOf.TargetCount && this.paused && this.pauseWhenSatisfied && base.recipe.WorkerCounter.CountProducts(this) < this.targetCount;
 		}
 
 		public override void DoStatusLineInterface(Rect rect)
@@ -220,7 +221,7 @@ namespace RimWorld
 			if (this.paused)
 			{
 				WidgetRow widgetRow = new WidgetRow(rect.xMax, rect.y, UIDirection.LeftThenUp, 99999f, 4f);
-				if (widgetRow.ButtonText("Unpause".Translate(), null, true, false))
+				if (widgetRow.ButtonText("Unpause".Translate(), (string)null, true, false))
 				{
 					this.paused = false;
 				}

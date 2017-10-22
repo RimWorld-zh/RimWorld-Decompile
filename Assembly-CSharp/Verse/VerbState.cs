@@ -1,10 +1,8 @@
-using System;
-
 namespace Verse
 {
 	public enum VerbState : byte
 	{
-		Idle,
-		Bursting
+		Idle = 0,
+		Bursting = 1
 	}
 }

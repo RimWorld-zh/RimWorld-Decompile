@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -16,7 +15,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return GenDate.DayOfYear((long)GenTicks.TicksAbs, 0f);
+				return GenDate.DayOfYear(GenTicks.TicksAbs, 0f);
 			}
 		}
 
@@ -40,7 +39,11 @@ namespace RimWorld.Planet
 
 		public bool Passable(int tile)
 		{
-			return Find.WorldGrid.InBounds(tile) && this.pathGrid[tile] < 1000000;
+			if (!Find.WorldGrid.InBounds(tile))
+			{
+				return false;
+			}
+			return this.pathGrid[tile] < 1000000;
 		}
 
 		public bool PassableFast(int tile)
@@ -55,15 +58,14 @@ namespace RimWorld.Planet
 
 		public void RecalculatePerceivedPathCostAt(int tile, float yearPercent = -1f)
 		{
-			if (!Find.WorldGrid.InBounds(tile))
+			if (Find.WorldGrid.InBounds(tile))
 			{
-				return;
-			}
-			bool flag = this.PassableFast(tile);
-			this.pathGrid[tile] = WorldPathGrid.CalculatedCostAt(tile, true, yearPercent);
-			if (flag != this.PassableFast(tile))
-			{
-				Find.WorldReachability.ClearCache();
+				bool flag = this.PassableFast(tile);
+				this.pathGrid[tile] = WorldPathGrid.CalculatedCostAt(tile, true, yearPercent);
+				if (flag != this.PassableFast(tile))
+				{
+					Find.WorldReachability.ClearCache();
+				}
 			}
 		}
 
@@ -84,14 +86,15 @@ namespace RimWorld.Planet
 			{
 				return 1000000;
 			}
-			if (yearPercent < 0f)
+			if (yearPercent < 0.0)
 			{
-				yearPercent = (float)WorldPathGrid.DayOfYearAt0Long / 60f;
+				yearPercent = (float)((float)WorldPathGrid.DayOfYearAt0Long / 60.0);
 			}
 			float num2 = yearPercent;
-			if (Find.WorldGrid.LongLatOf(tile).y < 0f)
+			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+			if (vector.y < 0.0)
 			{
-				num2 = (num2 + 0.5f) % 1f;
+				num2 = (float)((num2 + 0.5) % 1.0);
 			}
 			num += Mathf.RoundToInt(tile2.biome.pathCost.Evaluate(num2));
 			if (tile2.hilliness == Hilliness.Impassable)
@@ -106,17 +109,29 @@ namespace RimWorld.Planet
 			switch (hilliness)
 			{
 			case Hilliness.Flat:
+			{
 				return 0;
+			}
 			case Hilliness.SmallHills:
+			{
 				return 2000;
+			}
 			case Hilliness.LargeHills:
+			{
 				return 6000;
+			}
 			case Hilliness.Mountainous:
+			{
 				return 30000;
+			}
 			case Hilliness.Impassable:
+			{
 				return 30000;
+			}
 			default:
+			{
 				return 0;
+			}
 			}
 		}
 	}

@@ -1,4 +1,3 @@
-using System;
 using Verse.AI;
 
 namespace Verse
@@ -15,34 +14,37 @@ namespace Verse
 			if (target.HasThing)
 			{
 				Thing thing = target.Thing;
-				if (!thing.Spawned)
+				if (thing.Spawned)
 				{
-					if (pawn != null)
+					if (thing.Map != map)
 					{
-						if (pawn.carryTracker.innerContainer.Contains(thing))
-						{
-							return true;
-						}
-						if (pawn.inventory.innerContainer.Contains(thing))
-						{
-							return true;
-						}
-						if (pawn.apparel != null && pawn.apparel.Contains(thing))
-						{
-							return true;
-						}
-						if (pawn.equipment != null && pawn.equipment.Contains(thing))
-						{
-							return true;
-						}
+						return false;
 					}
-					return false;
+					goto IL_00d3;
 				}
-				if (thing.Map != map)
+				if (pawn != null)
 				{
-					return false;
+					if (pawn.carryTracker.innerContainer.Contains(thing))
+					{
+						return true;
+					}
+					if (pawn.inventory.innerContainer.Contains(thing))
+					{
+						return true;
+					}
+					if (pawn.apparel != null && pawn.apparel.Contains(thing))
+					{
+						return true;
+					}
+					if (pawn.equipment != null && pawn.equipment.Contains(thing))
+					{
+						return true;
+					}
 				}
+				return false;
 			}
+			goto IL_00d3;
+			IL_00d3:
 			if (!target.HasThing || (target.Thing.def.size.x == 1 && target.Thing.def.size.z == 1))
 			{
 				if (start == target.Cell)
@@ -54,17 +56,33 @@ namespace Verse
 			{
 				return true;
 			}
-			return peMode == PathEndMode.Touch && TouchPathEndModeUtility.IsAdjacentOrInsideAndAllowedToTouch(start, target, map);
+			if (peMode == PathEndMode.Touch && TouchPathEndModeUtility.IsAdjacentOrInsideAndAllowedToTouch(start, target, map))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool CanReachImmediate(this Pawn pawn, LocalTargetInfo target, PathEndMode peMode)
 		{
-			return pawn.Spawned && ReachabilityImmediate.CanReachImmediate(pawn.Position, target, pawn.Map, peMode, pawn);
+			if (!pawn.Spawned)
+			{
+				return false;
+			}
+			return ReachabilityImmediate.CanReachImmediate(pawn.Position, target, pawn.Map, peMode, pawn);
 		}
 
 		public static bool CanReachImmediateNonLocal(this Pawn pawn, TargetInfo target, PathEndMode peMode)
 		{
-			return pawn.Spawned && (target.Map == null || target.Map == pawn.Map) && pawn.CanReachImmediate((LocalTargetInfo)target, peMode);
+			if (!pawn.Spawned)
+			{
+				return false;
+			}
+			if (target.Map != null && target.Map != pawn.Map)
+			{
+				return false;
+			}
+			return pawn.CanReachImmediate((LocalTargetInfo)target, peMode);
 		}
 	}
 }

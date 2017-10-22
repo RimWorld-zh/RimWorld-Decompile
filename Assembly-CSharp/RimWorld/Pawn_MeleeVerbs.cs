@@ -40,7 +40,8 @@ namespace RimWorld
 			}
 			else
 			{
-				this.SetCurMeleeVerb(updatedAvailableVerbsList.RandomElementByWeight((VerbEntry ve) => ve.SelectionWeight).verb);
+				VerbEntry verbEntry = updatedAvailableVerbsList.RandomElementByWeight((Func<VerbEntry, float>)((VerbEntry ve) => ve.SelectionWeight));
+				this.SetCurMeleeVerb(verbEntry.verb);
 			}
 		}
 
@@ -58,28 +59,11 @@ namespace RimWorld
 				}
 				if (!(verbToUse is Verb_MeleeAttack))
 				{
-					Log.Warning(string.Concat(new object[]
-					{
-						"Pawn ",
-						this.pawn,
-						" tried to melee attack ",
-						target,
-						" with non melee-attack verb ",
-						verbToUse,
-						"."
-					}));
+					Log.Warning("Pawn " + this.pawn + " tried to melee attack " + target + " with non melee-attack verb " + verbToUse + ".");
 					return false;
 				}
 			}
-			Verb verb;
-			if (verbToUse != null)
-			{
-				verb = verbToUse;
-			}
-			else
-			{
-				verb = this.TryGetMeleeVerb();
-			}
+			Verb verb = (verbToUse == null) ? this.TryGetMeleeVerb() : verbToUse;
 			if (verb == null)
 			{
 				return false;
@@ -93,7 +77,7 @@ namespace RimWorld
 			Pawn_MeleeVerbs.meleeVerbs.Clear();
 			if (this.pawn.equipment != null && this.pawn.equipment.Primary != null)
 			{
-				Verb verb = this.pawn.equipment.PrimaryEq.AllVerbs.Find((Verb x) => x is Verb_MeleeAttack);
+				Verb verb = this.pawn.equipment.PrimaryEq.AllVerbs.Find((Predicate<Verb>)((Verb x) => x is Verb_MeleeAttack));
 				if (verb != null)
 				{
 					Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(verb, this.pawn, this.pawn.equipment.Primary));
@@ -108,11 +92,11 @@ namespace RimWorld
 					Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(allVerbs[i], this.pawn, null));
 				}
 			}
-			foreach (Verb current in this.pawn.health.hediffSet.GetHediffsVerbs())
+			foreach (Verb hediffsVerb in this.pawn.health.hediffSet.GetHediffsVerbs())
 			{
-				if (current is Verb_MeleeAttack && current.IsStillUsableBy(this.pawn))
+				if (hediffsVerb is Verb_MeleeAttack && hediffsVerb.IsStillUsableBy(this.pawn))
 				{
-					Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(current, this.pawn, null));
+					Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(hediffsVerb, this.pawn, null));
 				}
 			}
 			return Pawn_MeleeVerbs.meleeVerbs;

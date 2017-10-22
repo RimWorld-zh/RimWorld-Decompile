@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -10,14 +9,14 @@ namespace RimWorld
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
-			this.powerComp = this.parent.GetComp<CompPowerTrader>();
+			this.powerComp = base.parent.GetComp<CompPowerTrader>();
 		}
 
 		public override void PostDrawExtraSelectionOverlays()
 		{
 			if (this.powerComp.PowerOn)
 			{
-				this.parent.Map.deepResourceGrid.MarkForDraw();
+				base.parent.Map.deepResourceGrid.MarkForDraw();
 			}
 		}
 	}

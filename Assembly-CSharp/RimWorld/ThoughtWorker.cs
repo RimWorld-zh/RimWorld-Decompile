@@ -27,14 +27,7 @@ namespace RimWorld
 		{
 			if (this.def.invert)
 			{
-				if (state.Active)
-				{
-					state = ThoughtState.Inactive;
-				}
-				else
-				{
-					state = ThoughtState.ActiveAtStage(0);
-				}
+				state = ((!state.Active) ? ThoughtState.ActiveAtStage(0) : ThoughtState.Inactive);
 			}
 			return state;
 		}

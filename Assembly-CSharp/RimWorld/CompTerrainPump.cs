@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -16,7 +15,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_TerrainPump)this.props;
+				return (CompProperties_TerrainPump)base.props;
 			}
 		}
 
@@ -24,7 +23,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (float)this.progressTicks / 60000f;
+				return (float)((float)this.progressTicks / 60000.0);
 			}
 		}
 
@@ -49,19 +48,19 @@ namespace RimWorld
 			get
 			{
 				float num = Mathf.Ceil(this.CurrentRadius) - this.CurrentRadius;
-				if (num < 1E-05f)
+				if (num < 9.9999997473787516E-06)
 				{
 					num = 1f;
 				}
 				float num2 = this.Props.radius / this.Props.daysToRadius;
 				float num3 = num / num2;
-				return (int)(num3 * 60000f);
+				return (int)(num3 * 60000.0);
 			}
 		}
 
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
-			this.powerComp = this.parent.TryGetComp<CompPowerTrader>();
+			this.powerComp = base.parent.TryGetComp<CompPowerTrader>();
 		}
 
 		public override void PostDeSpawn(Map map)
@@ -75,9 +74,9 @@ namespace RimWorld
 			{
 				this.progressTicks += 250;
 				int num = GenRadial.NumCellsInRadius(this.CurrentRadius);
-				for (int i = 0; i < num; i++)
+				for (int num2 = 0; num2 < num; num2++)
 				{
-					this.AffectCell(this.parent.Position + GenRadial.RadialPattern[i]);
+					this.AffectCell(base.parent.Position + GenRadial.RadialPattern[num2]);
 				}
 			}
 		}
@@ -91,47 +90,36 @@ namespace RimWorld
 
 		public override void PostDrawExtraSelectionOverlays()
 		{
-			if (this.CurrentRadius < this.Props.radius - 0.0001f)
+			if (this.CurrentRadius < this.Props.radius - 9.9999997473787516E-05)
 			{
-				GenDraw.DrawRadiusRing(this.parent.Position, this.CurrentRadius);
+				GenDraw.DrawRadiusRing(base.parent.Position, this.CurrentRadius);
 			}
 		}
 
 		public override string CompInspectStringExtra()
 		{
-			string text = string.Concat(new string[]
-			{
-				"TimePassed".Translate().CapitalizeFirst(),
-				": ",
-				this.progressTicks.ToStringTicksToPeriod(true, false, true),
-				"\n",
-				"CurrentRadius".Translate().CapitalizeFirst(),
-				": ",
-				this.CurrentRadius.ToString("F1")
-			});
+			string text = "TimePassed".Translate().CapitalizeFirst() + ": " + this.progressTicks.ToStringTicksToPeriod(true, false, true) + "\n" + "CurrentRadius".Translate().CapitalizeFirst() + ": " + this.CurrentRadius.ToString("F1");
 			if (this.ProgressDays < this.Props.daysToRadius && this.Working)
 			{
 				string text2 = text;
-				text = string.Concat(new string[]
-				{
-					text2,
-					"\n",
-					"RadiusExpandsIn".Translate().CapitalizeFirst(),
-					": ",
-					this.TicksUntilRadiusInteger.ToStringTicksToPeriod(true, false, true)
-				});
+				text = text2 + "\n" + "RadiusExpandsIn".Translate().CapitalizeFirst() + ": " + this.TicksUntilRadiusInteger.ToStringTicksToPeriod(true, false, true);
 			}
 			return text;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompTerrainPump.<CompGetGizmosExtra>c__Iterator16E <CompGetGizmosExtra>c__Iterator16E = new CompTerrainPump.<CompGetGizmosExtra>c__Iterator16E();
-			<CompGetGizmosExtra>c__Iterator16E.<>f__this = this;
-			CompTerrainPump.<CompGetGizmosExtra>c__Iterator16E expr_0E = <CompGetGizmosExtra>c__Iterator16E;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (Prefs.DevMode)
+			{
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "DEBUG: Progress 1 day",
+					action = (Action)delegate
+					{
+						((_003CCompGetGizmosExtra_003Ec__Iterator16E)/*Error near IL_004c: stateMachine*/)._003C_003Ef__this.progressTicks += 60000;
+					}
+				};
+			}
 		}
 	}
 }

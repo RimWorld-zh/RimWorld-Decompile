@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -21,40 +20,44 @@ namespace RimWorld
 
 		public void CheckGameOver()
 		{
-			if (Find.TickManager.TicksGame < 300)
+			if (Find.TickManager.TicksGame >= 300 && !this.gameEnding)
 			{
-				return;
-			}
-			if (this.gameEnding)
-			{
-				return;
-			}
-			List<Map> maps = Find.Maps;
-			for (int i = 0; i < maps.Count; i++)
-			{
-				if (maps[i].mapPawns.FreeColonistsSpawnedOrInPlayerEjectablePodsCount >= 1)
+				List<Map> maps = Find.Maps;
+				int num = 0;
+				while (num < maps.Count)
 				{
+					if (maps[num].mapPawns.FreeColonistsSpawnedOrInPlayerEjectablePodsCount < 1)
+					{
+						num++;
+						continue;
+					}
 					return;
 				}
-			}
-			List<Caravan> caravans = Find.WorldObjects.Caravans;
-			for (int j = 0; j < caravans.Count; j++)
-			{
-				if (this.IsPlayerControlledWithFreeColonist(caravans[j]))
+				List<Caravan> caravans = Find.WorldObjects.Caravans;
+				int num2 = 0;
+				while (num2 < caravans.Count)
 				{
+					if (!this.IsPlayerControlledWithFreeColonist(caravans[num2]))
+					{
+						num2++;
+						continue;
+					}
 					return;
 				}
-			}
-			List<TravelingTransportPods> travelingTransportPods = Find.WorldObjects.TravelingTransportPods;
-			for (int k = 0; k < travelingTransportPods.Count; k++)
-			{
-				if (travelingTransportPods[k].PodsHaveAnyFreeColonist)
+				List<TravelingTransportPods> travelingTransportPods = Find.WorldObjects.TravelingTransportPods;
+				int num3 = 0;
+				while (num3 < travelingTransportPods.Count)
 				{
+					if (!travelingTransportPods[num3].PodsHaveAnyFreeColonist)
+					{
+						num3++;
+						continue;
+					}
 					return;
 				}
+				this.gameEnding = true;
+				this.ticksToGameOver = 400;
 			}
-			this.gameEnding = true;
-			this.ticksToGameOver = 400;
 		}
 
 		public void GameEndTick()

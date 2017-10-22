@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -17,32 +16,48 @@ namespace RimWorld
 
 		public static Twelfth GetFirstTwelfth(this Season season, float latitude)
 		{
-			if (latitude >= 0f)
+			if (latitude >= 0.0)
 			{
 				switch (season)
 				{
 				case Season.Spring:
+				{
 					return Twelfth.First;
+				}
 				case Season.Summer:
+				{
 					return Twelfth.Fourth;
+				}
 				case Season.Fall:
+				{
 					return Twelfth.Seventh;
+				}
 				case Season.Winter:
+				{
 					return Twelfth.Tenth;
+				}
 				}
 			}
 			else
 			{
 				switch (season)
 				{
-				case Season.Spring:
-					return Twelfth.Seventh;
-				case Season.Summer:
-					return Twelfth.Tenth;
 				case Season.Fall:
+				{
 					return Twelfth.First;
+				}
 				case Season.Winter:
+				{
 					return Twelfth.Fourth;
+				}
+				case Season.Spring:
+				{
+					return Twelfth.Seventh;
+				}
+				case Season.Summer:
+				{
+					return Twelfth.Tenth;
+				}
 				}
 			}
 			return Twelfth.Undefined;
@@ -50,32 +65,48 @@ namespace RimWorld
 
 		public static Twelfth GetMiddleTwelfth(this Season season, float latitude)
 		{
-			if (latitude >= 0f)
+			if (latitude >= 0.0)
 			{
 				switch (season)
 				{
 				case Season.Spring:
+				{
 					return Twelfth.Second;
+				}
 				case Season.Summer:
+				{
 					return Twelfth.Fifth;
+				}
 				case Season.Fall:
+				{
 					return Twelfth.Eighth;
+				}
 				case Season.Winter:
+				{
 					return Twelfth.Eleventh;
+				}
 				}
 			}
 			else
 			{
 				switch (season)
 				{
-				case Season.Spring:
-					return Twelfth.Eighth;
-				case Season.Summer:
-					return Twelfth.Eleventh;
 				case Season.Fall:
+				{
 					return Twelfth.Second;
+				}
 				case Season.Winter:
+				{
 					return Twelfth.Fifth;
+				}
+				case Season.Spring:
+				{
+					return Twelfth.Eighth;
+				}
+				case Season.Summer:
+				{
+					return Twelfth.Eleventh;
+				}
 				}
 			}
 			return Twelfth.Undefined;
@@ -86,17 +117,29 @@ namespace RimWorld
 			switch (season)
 			{
 			case Season.Undefined:
+			{
 				return Season.Undefined;
+			}
 			case Season.Spring:
+			{
 				return Season.Winter;
+			}
 			case Season.Summer:
+			{
 				return Season.Spring;
+			}
 			case Season.Fall:
+			{
 				return Season.Summer;
+			}
 			case Season.Winter:
+			{
 				return Season.Fall;
+			}
 			default:
+			{
 				return Season.Undefined;
+			}
 			}
 		}
 
@@ -107,7 +150,7 @@ namespace RimWorld
 				return 0.5f;
 			}
 			Twelfth middleTwelfth = season.GetMiddleTwelfth(latitude);
-			return ((float)middleTwelfth + 0.5f) / 12f;
+			return (float)(((float)(int)middleTwelfth + 0.5) / 12.0);
 		}
 
 		public static string Label(this Season season)
@@ -115,15 +158,25 @@ namespace RimWorld
 			switch (season)
 			{
 			case Season.Spring:
+			{
 				return "SeasonSpring".Translate();
+			}
 			case Season.Summer:
+			{
 				return "SeasonSummer".Translate();
+			}
 			case Season.Fall:
+			{
 				return "SeasonFall".Translate();
+			}
 			case Season.Winter:
+			{
 				return "SeasonWinter".Translate();
+			}
 			default:
+			{
 				return "Unknown season";
+			}
 			}
 		}
 
@@ -145,7 +198,7 @@ namespace RimWorld
 			string text = string.Empty;
 			for (int i = 0; i < 12; i++)
 			{
-				Twelfth twelfth = (Twelfth)i;
+				Twelfth twelfth = (Twelfth)(byte)i;
 				if (twelfths.Contains(twelfth))
 				{
 					if (!text.NullOrEmpty())
@@ -162,23 +215,17 @@ namespace RimWorld
 		{
 			Twelfth leftMostTwelfth = TwelfthUtility.GetLeftMostTwelfth(twelfths, rootTwelfth);
 			Twelfth rightMostTwelfth = TwelfthUtility.GetRightMostTwelfth(twelfths, rootTwelfth);
-			for (Twelfth twelfth = leftMostTwelfth; twelfth != rightMostTwelfth; twelfth = TwelfthUtility.TwelfthAfter(twelfth))
+			Twelfth twelfth = leftMostTwelfth;
+			while (twelfth != rightMostTwelfth)
 			{
-				if (!twelfths.Contains(twelfth))
+				if (twelfths.Contains(twelfth))
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Twelfths doesn't contain ",
-						twelfth,
-						" (",
-						leftMostTwelfth,
-						"..",
-						rightMostTwelfth,
-						")"
-					}));
-					break;
+					twelfths.Remove(twelfth);
+					twelfth = TwelfthUtility.TwelfthAfter(twelfth);
+					continue;
 				}
-				twelfths.Remove(twelfth);
+				Log.Error("Twelfths doesn't contain " + twelfth + " (" + leftMostTwelfth + ".." + rightMostTwelfth + ")");
+				break;
 			}
 			twelfths.Remove(rightMostTwelfth);
 			return GenDate.SeasonDateStringAt(leftMostTwelfth, longLat) + " - " + GenDate.SeasonDateStringAt(rightMostTwelfth, longLat);

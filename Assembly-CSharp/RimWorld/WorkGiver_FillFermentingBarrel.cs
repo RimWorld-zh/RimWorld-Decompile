@@ -35,47 +35,58 @@ namespace RimWorld
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Building_FermentingBarrel building_FermentingBarrel = t as Building_FermentingBarrel;
-			if (building_FermentingBarrel == null || building_FermentingBarrel.Fermented || building_FermentingBarrel.SpaceLeftForWort <= 0)
+			if (building_FermentingBarrel != null && !building_FermentingBarrel.Fermented && building_FermentingBarrel.SpaceLeftForWort > 0)
 			{
-				return false;
-			}
-			float ambientTemperature = building_FermentingBarrel.AmbientTemperature;
-			CompProperties_TemperatureRuinable compProperties = building_FermentingBarrel.def.GetCompProperties<CompProperties_TemperatureRuinable>();
-			if (ambientTemperature < compProperties.minSafeTemperature + 2f || ambientTemperature > compProperties.maxSafeTemperature - 2f)
-			{
+				float ambientTemperature = building_FermentingBarrel.AmbientTemperature;
+				CompProperties_TemperatureRuinable compProperties = building_FermentingBarrel.def.GetCompProperties<CompProperties_TemperatureRuinable>();
+				if (!(ambientTemperature < compProperties.minSafeTemperature + 2.0) && !(ambientTemperature > compProperties.maxSafeTemperature - 2.0))
+				{
+					if (!t.IsForbidden(pawn) && pawn.CanReserveAndReach(t, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, null, forced))
+					{
+						if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Deconstruct) != null)
+						{
+							return false;
+						}
+						Thing thing = this.FindWort(pawn, building_FermentingBarrel);
+						if (thing == null)
+						{
+							JobFailReason.Is(WorkGiver_FillFermentingBarrel.NoWortTrans);
+							return false;
+						}
+						if (t.IsBurning())
+						{
+							return false;
+						}
+						return true;
+					}
+					return false;
+				}
 				JobFailReason.Is(WorkGiver_FillFermentingBarrel.TemperatureTrans);
 				return false;
 			}
-			if (t.IsForbidden(pawn) || !pawn.CanReserveAndReach(t, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, null, forced))
-			{
-				return false;
-			}
-			if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Deconstruct) != null)
-			{
-				return false;
-			}
-			if (this.FindWort(pawn, building_FermentingBarrel) == null)
-			{
-				JobFailReason.Is(WorkGiver_FillFermentingBarrel.NoWortTrans);
-				return false;
-			}
-			return !t.IsBurning();
+			return false;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Building_FermentingBarrel building_FermentingBarrel = (Building_FermentingBarrel)t;
 			Thing t2 = this.FindWort(pawn, building_FermentingBarrel);
-			return new Job(JobDefOf.FillFermentingBarrel, t, t2)
-			{
-				count = building_FermentingBarrel.SpaceLeftForWort
-			};
+			Job job = new Job(JobDefOf.FillFermentingBarrel, t, t2);
+			job.count = building_FermentingBarrel.SpaceLeftForWort;
+			return job;
 		}
 
 		private Thing FindWort(Pawn pawn, Building_FermentingBarrel barrel)
 		{
-			Predicate<Thing> predicate = (Thing x) => !x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false);
-			Predicate<Thing> validator = predicate;
+			Predicate<Thing> validator;
+			Predicate<Thing> predicate = validator = (Predicate<Thing>)delegate(Thing x)
+			{
+				if (!x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false))
+				{
+					return true;
+				}
+				return false;
+			};
 			return GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(ThingDefOf.Wort), PathEndMode.ClosestTouch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
 		}
 	}

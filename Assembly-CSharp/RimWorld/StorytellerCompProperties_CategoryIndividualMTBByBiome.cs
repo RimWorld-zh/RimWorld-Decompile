@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld
 {
 	public class StorytellerCompProperties_CategoryIndividualMTBByBiome : StorytellerCompProperties
@@ -8,7 +6,7 @@ namespace RimWorld
 
 		public StorytellerCompProperties_CategoryIndividualMTBByBiome()
 		{
-			this.compClass = typeof(StorytellerComp_CategoryIndividualMTBByBiome);
+			base.compClass = typeof(StorytellerComp_CategoryIndividualMTBByBiome);
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -8,15 +7,15 @@ namespace RimWorld
 	{
 		public Designator_PlantsHarvest()
 		{
-			this.defaultLabel = "DesignatorHarvest".Translate();
-			this.defaultDesc = "DesignatorHarvestDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/Harvest", true);
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.useMouseIcon = true;
-			this.soundSucceeded = SoundDefOf.DesignateHarvest;
-			this.hotKey = KeyBindingDefOf.Misc2;
-			this.designationDef = DesignationDefOf.HarvestPlant;
+			base.defaultLabel = "DesignatorHarvest".Translate();
+			base.defaultDesc = "DesignatorHarvestDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/Harvest", true);
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.useMouseIcon = true;
+			base.soundSucceeded = SoundDefOf.DesignateHarvest;
+			base.hotKey = KeyBindingDefOf.Misc2;
+			base.designationDef = DesignationDefOf.HarvestPlant;
 		}
 
 		public override AcceptanceReport CanDesignateThing(Thing t)
@@ -27,11 +26,11 @@ namespace RimWorld
 				return result;
 			}
 			Plant plant = (Plant)t;
-			if (!plant.HarvestableNow || plant.def.plant.harvestTag != "Standard")
+			if (plant.HarvestableNow && !(plant.def.plant.harvestTag != "Standard"))
 			{
-				return "MessageMustDesignateHarvestable".Translate();
+				return true;
 			}
-			return true;
+			return "MessageMustDesignateHarvestable".Translate();
 		}
 	}
 }

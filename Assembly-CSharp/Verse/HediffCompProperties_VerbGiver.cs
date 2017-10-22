@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -9,7 +8,7 @@ namespace Verse
 
 		public HediffCompProperties_VerbGiver()
 		{
-			this.compClass = typeof(HediffComp_VerbGiver);
+			base.compClass = typeof(HediffComp_VerbGiver);
 		}
 	}
 }

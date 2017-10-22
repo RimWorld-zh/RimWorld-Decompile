@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
@@ -12,20 +12,19 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			IntVec3 c;
+			IntVec3 c = default(IntVec3);
 			if (!RCellFinder.TryFindBestExitSpot(pawn, out c, TraverseMode.ByPawn))
 			{
 				return null;
 			}
-			Pawn t;
-			if (KidnapAIUtility.TryFindGoodKidnapVictim(pawn, 18f, out t, null) && !GenAI.InDangerousCombat(pawn))
+			Pawn t = default(Pawn);
+			if (KidnapAIUtility.TryFindGoodKidnapVictim(pawn, 18f, out t, (List<Thing>)null) && !GenAI.InDangerousCombat(pawn))
 			{
-				return new Job(JobDefOf.Kidnap)
-				{
-					targetA = t,
-					targetB = c,
-					count = 1
-				};
+				Job job = new Job(JobDefOf.Kidnap);
+				job.targetA = (Thing)t;
+				job.targetB = c;
+				job.count = 1;
+				return job;
 			}
 			return null;
 		}

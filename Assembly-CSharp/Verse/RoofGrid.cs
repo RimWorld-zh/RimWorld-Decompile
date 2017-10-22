@@ -18,7 +18,10 @@ namespace Verse
 			{
 				if (this.drawerInt == null)
 				{
-					this.drawerInt = new CellBoolDrawer(this, this.map.Size.x, this.map.Size.z, 0.33f);
+					IntVec3 size = this.map.Size;
+					int x = size.x;
+					IntVec3 size2 = this.map.Size;
+					this.drawerInt = new CellBoolDrawer(this, x, size2.z, 0.33f);
 				}
 				return this.drawerInt;
 			}
@@ -43,13 +46,14 @@ namespace Verse
 			string compressedString = string.Empty;
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
-				compressedString = GridSaveUtility.CompressedStringForShortGrid((IntVec3 c) => this.roofGrid[this.map.cellIndices.CellToIndex(c)], this.map);
+				compressedString = GridSaveUtility.CompressedStringForShortGrid((Func<IntVec3, ushort>)((IntVec3 c) => this.roofGrid[this.map.cellIndices.CellToIndex(c)]), this.map);
 			}
-			Scribe_Values.Look<string>(ref compressedString, "roofs", null, false);
+			Scribe_Values.Look(ref compressedString, "roofs", (string)null, false);
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
-				foreach (GridSaveUtility.LoadedGridShort current in GridSaveUtility.LoadedUShortGrid(compressedString, this.map))
+				foreach (GridSaveUtility.LoadedGridShort item in GridSaveUtility.LoadedUShortGrid(compressedString, this.map))
 				{
+					GridSaveUtility.LoadedGridShort current = item;
 					this.SetRoof(current.cell, DefDatabase<RoofDef>.GetByShortHash(current.val));
 				}
 			}
@@ -91,31 +95,22 @@ namespace Verse
 
 		public void SetRoof(IntVec3 c, RoofDef def)
 		{
-			ushort num;
-			if (def == null)
+			ushort num = (ushort)((def != null) ? def.shortHash : 0);
+			if (this.roofGrid[this.map.cellIndices.CellToIndex(c)] != num)
 			{
-				num = 0;
+				this.roofGrid[this.map.cellIndices.CellToIndex(c)] = num;
+				this.map.glowGrid.MarkGlowGridDirty(c);
+				Region validRegionAt_NoRebuild = this.map.regionGrid.GetValidRegionAt_NoRebuild(c);
+				if (validRegionAt_NoRebuild != null)
+				{
+					validRegionAt_NoRebuild.Room.Notify_RoofChanged();
+				}
+				if (this.drawerInt != null)
+				{
+					this.drawerInt.SetDirty();
+				}
+				this.map.mapDrawer.MapMeshDirty(c, MapMeshFlag.Roofs);
 			}
-			else
-			{
-				num = def.shortHash;
-			}
-			if (this.roofGrid[this.map.cellIndices.CellToIndex(c)] == num)
-			{
-				return;
-			}
-			this.roofGrid[this.map.cellIndices.CellToIndex(c)] = num;
-			this.map.glowGrid.MarkGlowGridDirty(c);
-			Region validRegionAt_NoRebuild = this.map.regionGrid.GetValidRegionAt_NoRebuild(c);
-			if (validRegionAt_NoRebuild != null)
-			{
-				validRegionAt_NoRebuild.Room.Notify_RoofChanged();
-			}
-			if (this.drawerInt != null)
-			{
-				this.drawerInt.SetDirty();
-			}
-			this.map.mapDrawer.MapMeshDirty(c, MapMeshFlag.Roofs);
 		}
 
 		public void RoofGridUpdate()

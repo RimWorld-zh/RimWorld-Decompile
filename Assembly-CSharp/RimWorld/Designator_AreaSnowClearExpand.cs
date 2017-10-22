@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -8,12 +7,12 @@ namespace RimWorld
 	{
 		public Designator_AreaSnowClearExpand() : base(DesignateMode.Add)
 		{
-			this.defaultLabel = "DesignatorAreaSnowClearExpand".Translate();
-			this.defaultDesc = "DesignatorAreaSnowClearExpandDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/SnowClearAreaOn", true);
-			this.soundDragSustain = SoundDefOf.DesignateDragAreaAdd;
-			this.soundDragChanged = SoundDefOf.DesignateDragAreaAddChanged;
-			this.soundSucceeded = SoundDefOf.DesignateAreaAdd;
+			base.defaultLabel = "DesignatorAreaSnowClearExpand".Translate();
+			base.defaultDesc = "DesignatorAreaSnowClearExpandDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/SnowClearAreaOn", true);
+			base.soundDragSustain = SoundDefOf.DesignateDragAreaAdd;
+			base.soundDragChanged = SoundDefOf.DesignateDragAreaAddChanged;
+			base.soundSucceeded = SoundDefOf.DesignateAreaAdd;
 		}
 	}
 }

@@ -69,7 +69,7 @@ namespace RimWorld
 
 			private void CheckRemove(int index)
 			{
-				if (this.counts[index] == 0f)
+				if (this.counts[index] == 0.0)
 				{
 					this.counts.RemoveAt(index);
 					this.defs.RemoveAt(index);
@@ -87,10 +87,12 @@ namespace RimWorld
 				this.Clear();
 				for (int i = 0; i < things.Count; i++)
 				{
+					DefCountList defCountList;
+					DefCountList obj = defCountList = this;
 					ThingDef def;
-					ThingDef expr_1C = def = things[i].def;
-					float num = this[def];
-					this[expr_1C] = num + (float)things[i].stackCount;
+					ThingDef def2 = def = things[i].def;
+					float num = defCountList[def];
+					obj[def2] = num + (float)things[i].stackCount;
 				}
 			}
 		}
@@ -113,7 +115,7 @@ namespace RimWorld
 
 		private static List<Thing> tmpMedicine = new List<Thing>();
 
-		private static WorkGiver_DoBill.DefCountList availableCounts = new WorkGiver_DoBill.DefCountList();
+		private static DefCountList availableCounts = new DefCountList();
 
 		public override PathEndMode PathEndMode
 		{
@@ -127,9 +129,9 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.def.fixedBillGiverDefs != null && this.def.fixedBillGiverDefs.Count == 1)
+				if (base.def.fixedBillGiverDefs != null && base.def.fixedBillGiverDefs.Count == 1)
 				{
-					return ThingRequest.ForDef(this.def.fixedBillGiverDefs[0]);
+					return ThingRequest.ForDef(base.def.fixedBillGiverDefs[0]);
 				}
 				return ThingRequest.ForGroup(ThingRequestGroup.PotentialBillGiver);
 			}
@@ -150,22 +152,22 @@ namespace RimWorld
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
 			IBillGiver billGiver = thing as IBillGiver;
-			if (billGiver == null || !this.ThingIsUsableBillGiver(thing) || !billGiver.CurrentlyUsable() || !billGiver.BillStack.AnyShouldDoNow || !pawn.CanReserve(thing, 1, -1, null, forced) || thing.IsBurning() || thing.IsForbidden(pawn))
+			if (billGiver != null && this.ThingIsUsableBillGiver(thing) && billGiver.CurrentlyUsable() && billGiver.BillStack.AnyShouldDoNow && pawn.CanReserve(thing, 1, -1, null, forced) && !thing.IsBurning() && !thing.IsForbidden(pawn))
 			{
-				return null;
+				if (!pawn.CanReach(thing.InteractionCell, PathEndMode.OnCell, Danger.Some, false, TraverseMode.ByPawn))
+				{
+					return null;
+				}
+				billGiver.BillStack.RemoveIncompletableBills();
+				return this.StartOrResumeBillJob(pawn, billGiver);
 			}
-			if (!pawn.CanReach(thing.InteractionCell, PathEndMode.OnCell, Danger.Some, false, TraverseMode.ByPawn))
-			{
-				return null;
-			}
-			billGiver.BillStack.RemoveIncompletableBills();
-			return this.StartOrResumeBillJob(pawn, billGiver);
+			return null;
 		}
 
 		private static UnfinishedThing ClosestUnfinishedThingForBill(Pawn pawn, Bill_ProductionWithUft bill)
 		{
-			Predicate<Thing> predicate = (Thing t) => !t.IsForbidden(pawn) && ((UnfinishedThing)t).Recipe == bill.recipe && ((UnfinishedThing)t).Creator == pawn && ((UnfinishedThing)t).ingredients.TrueForAll((Thing x) => bill.IsFixedOrAllowedIngredient(x.def)) && pawn.CanReserve(t, 1, -1, null, false);
-			Predicate<Thing> validator = predicate;
+			Predicate<Thing> validator;
+			Predicate<Thing> predicate = validator = (Predicate<Thing>)((Thing t) => !t.IsForbidden(pawn) && ((UnfinishedThing)t).Recipe == bill.recipe && ((UnfinishedThing)t).Creator == pawn && ((UnfinishedThing)t).ingredients.TrueForAll((Predicate<Thing>)((Thing x) => bill.IsFixedOrAllowedIngredient(x.def))) && pawn.CanReserve(t, 1, -1, null, false));
 			return (UnfinishedThing)GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(bill.recipe.unfinishedThingDef), PathEndMode.InteractionCell, TraverseParms.For(pawn, pawn.NormalMaxDanger(), TraverseMode.ByPawn, false), 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
 		}
 
@@ -173,15 +175,7 @@ namespace RimWorld
 		{
 			if (uft.Creator != pawn)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Tried to get FinishUftJob for ",
-					pawn,
-					" finishing ",
-					uft,
-					" but its creator is ",
-					uft.Creator
-				}));
+				Log.Error("Tried to get FinishUftJob for " + pawn + " finishing " + uft + " but its creator is " + uft.Creator);
 				return null;
 			}
 			Job job = WorkGiverUtility.HaulStuffOffBillGiverJob(pawn, bill.billStack.billGiver, uft);
@@ -189,19 +183,18 @@ namespace RimWorld
 			{
 				return job;
 			}
-			return new Job(JobDefOf.DoBill, (Thing)bill.billStack.billGiver)
+			Job job2 = new Job(JobDefOf.DoBill, (Thing)bill.billStack.billGiver);
+			job2.bill = bill;
+			job2.targetQueueB = new List<LocalTargetInfo>
 			{
-				bill = bill,
-				targetQueueB = new List<LocalTargetInfo>
-				{
-					uft
-				},
-				countQueue = new List<int>
-				{
-					1
-				},
-				haulMode = HaulMode.ToCellNonStorage
+				(Thing)uft
 			};
+			job2.countQueue = new List<int>
+			{
+				1
+			};
+			job2.haulMode = HaulMode.ToCellNonStorage;
+			return job2;
 		}
 
 		private Job StartOrResumeBillJob(Pawn pawn, IBillGiver giver)
@@ -209,59 +202,47 @@ namespace RimWorld
 			for (int i = 0; i < giver.BillStack.Count; i++)
 			{
 				Bill bill = giver.BillStack[i];
-				if (bill.recipe.requiredGiverWorkType == null || bill.recipe.requiredGiverWorkType == this.def.workType)
+				if ((bill.recipe.requiredGiverWorkType == null || bill.recipe.requiredGiverWorkType == base.def.workType) && (Find.TickManager.TicksGame >= bill.lastIngredientSearchFailTicks + WorkGiver_DoBill.ReCheckFailedBillTicksRange.RandomInRange || FloatMenuMakerMap.making))
 				{
-					if (Find.TickManager.TicksGame >= bill.lastIngredientSearchFailTicks + WorkGiver_DoBill.ReCheckFailedBillTicksRange.RandomInRange || FloatMenuMakerMap.making)
+					bill.lastIngredientSearchFailTicks = 0;
+					if (bill.ShouldDoNow() && bill.PawnAllowedToStartAnew(pawn))
 					{
-						bill.lastIngredientSearchFailTicks = 0;
-						if (bill.ShouldDoNow())
+						if (bill.recipe.PawnSatisfiesSkillRequirements(pawn))
 						{
-							if (bill.PawnAllowedToStartAnew(pawn))
+							Bill_ProductionWithUft bill_ProductionWithUft = bill as Bill_ProductionWithUft;
+							if (bill_ProductionWithUft != null)
 							{
-								if (!bill.recipe.PawnSatisfiesSkillRequirements(pawn))
+								if (bill_ProductionWithUft.BoundUft != null)
 								{
-									JobFailReason.Is(WorkGiver_DoBill.MissingSkillTranslated);
+									if (bill_ProductionWithUft.BoundWorker == pawn && pawn.CanReserveAndReach((Thing)bill_ProductionWithUft.BoundUft, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false) && !bill_ProductionWithUft.BoundUft.IsForbidden(pawn))
+									{
+										return WorkGiver_DoBill.FinishUftJob(pawn, bill_ProductionWithUft.BoundUft, bill_ProductionWithUft);
+									}
+									continue;
+								}
+								UnfinishedThing unfinishedThing = WorkGiver_DoBill.ClosestUnfinishedThingForBill(pawn, bill_ProductionWithUft);
+								if (unfinishedThing != null)
+								{
+									return WorkGiver_DoBill.FinishUftJob(pawn, unfinishedThing, bill_ProductionWithUft);
+								}
+							}
+							if (!WorkGiver_DoBill.TryFindBestBillIngredients(bill, pawn, (Thing)giver, this.chosenIngThings))
+							{
+								if (!FloatMenuMakerMap.making)
+								{
+									bill.lastIngredientSearchFailTicks = Find.TickManager.TicksGame;
 								}
 								else
 								{
-									Bill_ProductionWithUft bill_ProductionWithUft = bill as Bill_ProductionWithUft;
-									if (bill_ProductionWithUft != null)
-									{
-										if (bill_ProductionWithUft.BoundUft != null)
-										{
-											if (bill_ProductionWithUft.BoundWorker != pawn || !pawn.CanReserveAndReach(bill_ProductionWithUft.BoundUft, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false) || bill_ProductionWithUft.BoundUft.IsForbidden(pawn))
-											{
-												goto IL_18A;
-											}
-											return WorkGiver_DoBill.FinishUftJob(pawn, bill_ProductionWithUft.BoundUft, bill_ProductionWithUft);
-										}
-										else
-										{
-											UnfinishedThing unfinishedThing = WorkGiver_DoBill.ClosestUnfinishedThingForBill(pawn, bill_ProductionWithUft);
-											if (unfinishedThing != null)
-											{
-												return WorkGiver_DoBill.FinishUftJob(pawn, unfinishedThing, bill_ProductionWithUft);
-											}
-										}
-									}
-									if (WorkGiver_DoBill.TryFindBestBillIngredients(bill, pawn, (Thing)giver, this.chosenIngThings))
-									{
-										return this.TryStartNewDoBillJob(pawn, bill, giver);
-									}
-									if (!FloatMenuMakerMap.making)
-									{
-										bill.lastIngredientSearchFailTicks = Find.TickManager.TicksGame;
-									}
-									else
-									{
-										JobFailReason.Is(WorkGiver_DoBill.MissingMaterialsTranslated);
-									}
+									JobFailReason.Is(WorkGiver_DoBill.MissingMaterialsTranslated);
 								}
+								continue;
 							}
+							return this.TryStartNewDoBillJob(pawn, bill, giver);
 						}
+						JobFailReason.Is(WorkGiver_DoBill.MissingSkillTranslated);
 					}
 				}
-				IL_18A:;
 			}
 			return null;
 		}
@@ -278,8 +259,12 @@ namespace RimWorld
 			job2.countQueue = new List<int>(this.chosenIngThings.Count);
 			for (int i = 0; i < this.chosenIngThings.Count; i++)
 			{
-				job2.targetQueueB.Add(this.chosenIngThings[i].thing);
-				job2.countQueue.Add(this.chosenIngThings[i].count);
+				List<LocalTargetInfo> targetQueueB = job2.targetQueueB;
+				ThingAmount thingAmount = this.chosenIngThings[i];
+				targetQueueB.Add(thingAmount.thing);
+				List<int> countQueue = job2.countQueue;
+				ThingAmount thingAmount2 = this.chosenIngThings[i];
+				countQueue.Add(thingAmount2.count);
 			}
 			job2.haulMode = HaulMode.ToCellNonStorage;
 			job2.bill = bill;
@@ -295,36 +280,36 @@ namespace RimWorld
 			{
 				pawn2 = corpse.InnerPawn;
 			}
-			if (this.def.fixedBillGiverDefs != null && this.def.fixedBillGiverDefs.Contains(thing.def))
+			if (base.def.fixedBillGiverDefs != null && base.def.fixedBillGiverDefs.Contains(thing.def))
 			{
 				return true;
 			}
 			if (pawn != null)
 			{
-				if (this.def.billGiversAllHumanlikes && pawn.RaceProps.Humanlike)
+				if (base.def.billGiversAllHumanlikes && pawn.RaceProps.Humanlike)
 				{
 					return true;
 				}
-				if (this.def.billGiversAllMechanoids && pawn.RaceProps.IsMechanoid)
+				if (base.def.billGiversAllMechanoids && pawn.RaceProps.IsMechanoid)
 				{
 					return true;
 				}
-				if (this.def.billGiversAllAnimals && pawn.RaceProps.Animal)
+				if (base.def.billGiversAllAnimals && pawn.RaceProps.Animal)
 				{
 					return true;
 				}
 			}
 			if (corpse != null && pawn2 != null)
 			{
-				if (this.def.billGiversAllHumanlikesCorpses && pawn2.RaceProps.Humanlike)
+				if (base.def.billGiversAllHumanlikesCorpses && pawn2.RaceProps.Humanlike)
 				{
 					return true;
 				}
-				if (this.def.billGiversAllMechanoidsCorpses && pawn2.RaceProps.IsMechanoid)
+				if (base.def.billGiversAllMechanoidsCorpses && pawn2.RaceProps.IsMechanoid)
 				{
 					return true;
 				}
-				if (this.def.billGiversAllAnimalsCorpses && pawn2.RaceProps.Animal)
+				if (base.def.billGiversAllAnimalsCorpses && pawn2.RaceProps.Animal)
 				{
 					return true;
 				}
@@ -350,7 +335,7 @@ namespace RimWorld
 			WorkGiver_DoBill.relevantThings.Clear();
 			WorkGiver_DoBill.processedThings.Clear();
 			bool foundAll = false;
-			Predicate<Thing> baseValidator = (Thing t) => t.Spawned && !t.IsForbidden(pawn) && (float)(t.Position - billGiver.Position).LengthHorizontalSquared < bill.ingredientSearchRadius * bill.ingredientSearchRadius && bill.IsFixedOrAllowedIngredient(t) && bill.recipe.ingredients.Any((IngredientCount ingNeed) => ingNeed.filter.Allows(t)) && pawn.CanReserve(t, 1, -1, null, false);
+			Predicate<Thing> baseValidator = (Predicate<Thing>)((Thing t) => t.Spawned && !t.IsForbidden(pawn) && (float)(t.Position - billGiver.Position).LengthHorizontalSquared < bill.ingredientSearchRadius * bill.ingredientSearchRadius && bill.IsFixedOrAllowedIngredient(t) && bill.recipe.ingredients.Any((Predicate<IngredientCount>)((IngredientCount ingNeed) => ingNeed.filter.Allows(t))) && pawn.CanReserve(t, 1, -1, null, false));
 			bool billGiverIsPawn = billGiver is Pawn;
 			if (billGiverIsPawn)
 			{
@@ -361,32 +346,26 @@ namespace RimWorld
 				}
 			}
 			TraverseParms traverseParams = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
-			RegionEntryPredicate entryCondition = (Region from, Region r) => r.Allows(traverseParams, false);
-			int adjacentRegionsAvailable = rootReg.Neighbors.Count((Region region) => entryCondition(rootReg, region));
+			RegionEntryPredicate entryCondition = (RegionEntryPredicate)((Region from, Region r) => r.Allows(traverseParams, false));
+			int adjacentRegionsAvailable = rootReg.Neighbors.Count((Func<Region, bool>)((Region region) => entryCondition(rootReg, region)));
 			int regionsProcessed = 0;
 			WorkGiver_DoBill.processedThings.AddRange(WorkGiver_DoBill.relevantThings);
-			RegionProcessor regionProcessor = delegate(Region r)
+			RegionProcessor regionProcessor = (RegionProcessor)delegate(Region r)
 			{
 				List<Thing> list = r.ListerThings.ThingsMatching(ThingRequest.ForGroup(ThingRequestGroup.HaulableEver));
 				for (int i = 0; i < list.Count; i++)
 				{
 					Thing thing = list[i];
-					if (!WorkGiver_DoBill.processedThings.Contains(thing))
+					if (!WorkGiver_DoBill.processedThings.Contains(thing) && ReachabilityWithinRegion.ThingFromRegionListerReachable(thing, r, PathEndMode.ClosestTouch, pawn) && baseValidator(thing) && (!thing.def.IsMedicine || !billGiverIsPawn))
 					{
-						if (ReachabilityWithinRegion.ThingFromRegionListerReachable(thing, r, PathEndMode.ClosestTouch, pawn))
-						{
-							if (baseValidator(thing) && (!thing.def.IsMedicine || !billGiverIsPawn))
-							{
-								WorkGiver_DoBill.newRelevantThings.Add(thing);
-								WorkGiver_DoBill.processedThings.Add(thing);
-							}
-						}
+						WorkGiver_DoBill.newRelevantThings.Add(thing);
+						WorkGiver_DoBill.processedThings.Add(thing);
 					}
 				}
 				regionsProcessed++;
 				if (WorkGiver_DoBill.newRelevantThings.Count > 0 && regionsProcessed > adjacentRegionsAvailable)
 				{
-					Comparison<Thing> comparison = delegate(Thing t1, Thing t2)
+					Comparison<Thing> comparison = (Comparison<Thing>)delegate(Thing t1, Thing t2)
 					{
 						float num = (float)(t1.Position - rootCell).LengthHorizontalSquared;
 						float value = (float)(t2.Position - rootCell).LengthHorizontalSquared;
@@ -397,7 +376,7 @@ namespace RimWorld
 					WorkGiver_DoBill.newRelevantThings.Clear();
 					if (WorkGiver_DoBill.TryFindBestBillIngredientsInSet(WorkGiver_DoBill.relevantThings, bill, chosen))
 					{
-						foundAll = true;
+						bool foundAll2 = true;
 						return true;
 					}
 				}
@@ -412,16 +391,16 @@ namespace RimWorld
 		private static IntVec3 GetBillGiverRootCell(Thing billGiver, Pawn forPawn)
 		{
 			Building building = billGiver as Building;
-			if (building == null)
+			if (building != null)
 			{
-				return billGiver.Position;
+				if (building.def.hasInteractionCell)
+				{
+					return building.InteractionCell;
+				}
+				Log.Error("Tried to find bill ingredients for " + billGiver + " which has no interaction cell.");
+				return forPawn.Position;
 			}
-			if (building.def.hasInteractionCell)
-			{
-				return building.InteractionCell;
-			}
-			Log.Error("Tried to find bill ingredients for " + billGiver + " which has no interaction cell.");
-			return forPawn.Position;
+			return billGiver.Position;
 		}
 
 		private static void AddEveryMedicineToRelevantThings(Pawn pawn, Thing billGiver, List<Thing> relevantThings, Predicate<Thing> baseValidator, Map map)
@@ -437,7 +416,7 @@ namespace RimWorld
 					WorkGiver_DoBill.tmpMedicine.Add(thing);
 				}
 			}
-			WorkGiver_DoBill.tmpMedicine.SortBy((Thing x) => -x.GetStatValue(StatDefOf.MedicalPotency, true), (Thing x) => x.Position.DistanceToSquared(billGiver.Position));
+			WorkGiver_DoBill.tmpMedicine.SortBy((Func<Thing, float>)((Thing x) => (float)(0.0 - x.GetStatValue(StatDefOf.MedicalPotency, true))), (Func<Thing, int>)((Thing x) => x.Position.DistanceToSquared(billGiver.Position)));
 			relevantThings.AddRange(WorkGiver_DoBill.tmpMedicine);
 			WorkGiver_DoBill.tmpMedicine.Clear();
 		}
@@ -461,7 +440,7 @@ namespace RimWorld
 			}
 			for (int i = 0; i < bill.recipe.ingredients.Count; i++)
 			{
-				if (!bill.recipe.productHasIngredientStuff || i != 0)
+				if (((!bill.recipe.productHasIngredientStuff) ? 1 : i) != 0)
 				{
 					IngredientCount ingredientCount = bill.recipe.ingredients[i];
 					if (ingredientCount.IsFixedIngredient)
@@ -502,39 +481,31 @@ namespace RimWorld
 				for (int j = 0; j < WorkGiver_DoBill.availableCounts.Count; j++)
 				{
 					float num = (float)ingredientCount.CountRequiredOfFor(WorkGiver_DoBill.availableCounts.GetDef(j), bill.recipe);
-					if (num <= WorkGiver_DoBill.availableCounts.GetCount(j))
+					if (!(num > WorkGiver_DoBill.availableCounts.GetCount(j)) && ingredientCount.filter.Allows(WorkGiver_DoBill.availableCounts.GetDef(j)) && (ingredientCount.IsFixedIngredient || bill.ingredientFilter.Allows(WorkGiver_DoBill.availableCounts.GetDef(j))))
 					{
-						if (ingredientCount.filter.Allows(WorkGiver_DoBill.availableCounts.GetDef(j)))
+						for (int k = 0; k < availableThings.Count; k++)
 						{
-							if (ingredientCount.IsFixedIngredient || bill.ingredientFilter.Allows(WorkGiver_DoBill.availableCounts.GetDef(j)))
+							if (availableThings[k].def == WorkGiver_DoBill.availableCounts.GetDef(j))
 							{
-								for (int k = 0; k < availableThings.Count; k++)
+								int num2 = availableThings[k].stackCount - ThingAmount.CountUsed(chosen, availableThings[k]);
+								if (num2 > 0)
 								{
-									if (availableThings[k].def == WorkGiver_DoBill.availableCounts.GetDef(j))
+									int num3 = Mathf.Min(Mathf.FloorToInt(num), num2);
+									ThingAmount.AddToList(chosen, availableThings[k], num3);
+									num -= (float)num3;
+									if (num < 0.0010000000474974513)
 									{
-										int num2 = availableThings[k].stackCount - ThingAmount.CountUsed(chosen, availableThings[k]);
-										if (num2 > 0)
-										{
-											int num3 = Mathf.Min(Mathf.FloorToInt(num), num2);
-											ThingAmount.AddToList(chosen, availableThings[k], num3);
-											num -= (float)num3;
-											if (num < 0.001f)
-											{
-												flag = true;
-												float num4 = WorkGiver_DoBill.availableCounts.GetCount(j);
-												num4 -= (float)ingredientCount.CountRequiredOfFor(WorkGiver_DoBill.availableCounts.GetDef(j), bill.recipe);
-												WorkGiver_DoBill.availableCounts.SetCount(j, num4);
-												break;
-											}
-										}
+										flag = true;
+										float count = WorkGiver_DoBill.availableCounts.GetCount(j);
+										count -= (float)ingredientCount.CountRequiredOfFor(WorkGiver_DoBill.availableCounts.GetDef(j), bill.recipe);
+										WorkGiver_DoBill.availableCounts.SetCount(j, count);
+										break;
 									}
-								}
-								if (flag)
-								{
-									break;
 								}
 							}
 						}
+						if (flag)
+							break;
 					}
 				}
 				if (!flag)
@@ -555,22 +526,17 @@ namespace RimWorld
 				for (int j = 0; j < availableThings.Count; j++)
 				{
 					Thing thing = availableThings[j];
-					if (ingredientCount.filter.Allows(thing))
+					if (ingredientCount.filter.Allows(thing) && (ingredientCount.IsFixedIngredient || bill.ingredientFilter.Allows(thing)))
 					{
-						if (ingredientCount.IsFixedIngredient || bill.ingredientFilter.Allows(thing))
-						{
-							float num2 = bill.recipe.IngredientValueGetter.ValuePerUnitOf(thing.def);
-							int num3 = Mathf.Min(Mathf.CeilToInt(num / num2), thing.stackCount);
-							ThingAmount.AddToList(chosen, thing, num3);
-							num -= (float)num3 * num2;
-							if (num <= 0.0001f)
-							{
-								break;
-							}
-						}
+						float num2 = bill.recipe.IngredientValueGetter.ValuePerUnitOf(thing.def);
+						int num3 = Mathf.Min(Mathf.CeilToInt(num / num2), thing.stackCount);
+						ThingAmount.AddToList(chosen, thing, num3);
+						num -= (float)num3 * num2;
+						if (num <= 9.9999997473787516E-05)
+							break;
 					}
 				}
-				if (num > 0.0001f)
+				if (num > 9.9999997473787516E-05)
 				{
 					return false;
 				}

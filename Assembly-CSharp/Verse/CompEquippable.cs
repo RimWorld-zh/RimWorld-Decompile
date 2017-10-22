@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,7 +43,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.parent.def.Verbs;
+				return base.parent.def.Verbs;
 			}
 		}
 
@@ -61,7 +60,7 @@ namespace Verse
 		public override void PostDestroy(DestroyMode mode, Map previousMap)
 		{
 			base.PostDestroy(mode, previousMap);
-			if (this.Holder != null && this.Holder.equipment != null && this.Holder.equipment.Primary == this.parent)
+			if (this.Holder != null && this.Holder.equipment != null && this.Holder.equipment.Primary == base.parent)
 			{
 				this.Holder.equipment.Notify_PrimaryDestroyed();
 			}
@@ -70,7 +69,7 @@ namespace Verse
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
-			Scribe_Deep.Look<VerbTracker>(ref this.verbTracker, "verbTracker", new object[]
+			Scribe_Deep.Look<VerbTracker>(ref this.verbTracker, "verbTracker", new object[1]
 			{
 				this
 			});

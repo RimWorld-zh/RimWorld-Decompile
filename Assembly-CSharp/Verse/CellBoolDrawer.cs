@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -155,12 +154,19 @@ namespace Verse
 
 		private void CreateMaterialIfNeeded(bool careAboutVertexColors)
 		{
-			if (this.material == null || this.materialCaresAboutVertexColors != careAboutVertexColors)
-			{
-				this.material = SolidColorMaterials.SimpleSolidColorMaterial(new Color(this.giver.Color.r, this.giver.Color.g, this.giver.Color.b, this.opacity * this.giver.Color.a), careAboutVertexColors);
-				this.materialCaresAboutVertexColors = careAboutVertexColors;
-				this.material.renderQueue = 3600;
-			}
+			if (!((Object)this.material == (Object)null) && this.materialCaresAboutVertexColors == careAboutVertexColors)
+				return;
+			Color color = this.giver.Color;
+			float r = color.r;
+			Color color2 = this.giver.Color;
+			float g = color2.g;
+			Color color3 = this.giver.Color;
+			float b = color3.b;
+			float num = this.opacity;
+			Color color4 = this.giver.Color;
+			this.material = SolidColorMaterials.SimpleSolidColorMaterial(new Color(r, g, b, num * color4.a), careAboutVertexColors);
+			this.materialCaresAboutVertexColors = careAboutVertexColors;
+			this.material.renderQueue = 3600;
 		}
 	}
 }

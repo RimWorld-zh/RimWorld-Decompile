@@ -68,10 +68,12 @@ namespace RimWorld
 				Log.Error("StatRequest for null thing.");
 				return StatRequest.ForEmpty();
 			}
-			StatRequest result = default(StatRequest);
-			result.thingInt = thing;
-			result.defInt = thing.def;
-			result.stuffDefInt = thing.Stuff;
+			StatRequest result = new StatRequest
+			{
+				thingInt = thing,
+				defInt = thing.def,
+				stuffDefInt = thing.Stuff
+			};
 			thing.TryGetQuality(out result.qualityCategoryInt);
 			return result;
 		}
@@ -109,29 +111,22 @@ namespace RimWorld
 			{
 				return "(" + this.Thing + ")";
 			}
-			return string.Concat(new object[]
-			{
-				"(",
-				this.Thing,
-				", ",
-				(this.StuffDef == null) ? "null" : this.StuffDef.defName,
-				")"
-			});
+			return "(" + this.Thing + ", " + ((this.StuffDef == null) ? "null" : this.StuffDef.defName) + ")";
 		}
 
 		public override int GetHashCode()
 		{
-			int num = 0;
-			num = Gen.HashCombineInt(num, (int)this.defInt.shortHash);
+			int seed = 0;
+			seed = Gen.HashCombineInt(seed, this.defInt.shortHash);
 			if (this.thingInt != null)
 			{
-				num = Gen.HashCombineInt(num, this.thingInt.thingIDNumber);
+				seed = Gen.HashCombineInt(seed, this.thingInt.thingIDNumber);
 			}
 			if (this.stuffDefInt != null)
 			{
-				num = Gen.HashCombineInt(num, (int)this.stuffDefInt.shortHash);
+				seed = Gen.HashCombineInt(seed, this.stuffDefInt.shortHash);
 			}
-			return num;
+			return seed;
 		}
 
 		public override bool Equals(object obj)

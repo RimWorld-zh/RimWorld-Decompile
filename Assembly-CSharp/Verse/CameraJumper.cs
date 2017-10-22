@@ -1,6 +1,5 @@
 using RimWorld;
 using RimWorld.Planet;
-using System;
 using Verse.Sound;
 
 namespace Verse
@@ -9,38 +8,32 @@ namespace Verse
 	{
 		public static void TryJumpAndSelect(GlobalTargetInfo target)
 		{
-			if (!target.IsValid)
+			if (target.IsValid)
 			{
-				return;
+				CameraJumper.TryJump(target);
+				CameraJumper.TrySelect(target);
 			}
-			CameraJumper.TryJump(target);
-			CameraJumper.TrySelect(target);
 		}
 
 		public static void TrySelect(GlobalTargetInfo target)
 		{
-			if (!target.IsValid)
+			if (target.IsValid)
 			{
-				return;
-			}
-			target = CameraJumper.GetAdjustedTarget(target);
-			if (target.HasThing)
-			{
-				CameraJumper.TrySelectInternal(target.Thing);
-			}
-			else if (target.HasWorldObject)
-			{
-				CameraJumper.TrySelectInternal(target.WorldObject);
+				target = CameraJumper.GetAdjustedTarget(target);
+				if (target.HasThing)
+				{
+					CameraJumper.TrySelectInternal(target.Thing);
+				}
+				else if (target.HasWorldObject)
+				{
+					CameraJumper.TrySelectInternal(target.WorldObject);
+				}
 			}
 		}
 
 		private static void TrySelectInternal(Thing thing)
 		{
-			if (Current.ProgramState != ProgramState.Playing)
-			{
-				return;
-			}
-			if (thing.Spawned)
+			if (Current.ProgramState == ProgramState.Playing && thing.Spawned)
 			{
 				bool flag = CameraJumper.TryHideWorld();
 				bool flag2 = false;
@@ -64,11 +57,7 @@ namespace Verse
 
 		private static void TrySelectInternal(WorldObject worldObject)
 		{
-			if (Find.World == null)
-			{
-				return;
-			}
-			if (worldObject.Spawned)
+			if (Find.World != null && worldObject.Spawned)
 			{
 				CameraJumper.TryShowWorld();
 				Find.WorldSelector.ClearSelection();
@@ -78,26 +67,25 @@ namespace Verse
 
 		public static void TryJump(GlobalTargetInfo target)
 		{
-			if (!target.IsValid)
+			if (target.IsValid)
 			{
-				return;
-			}
-			target = CameraJumper.GetAdjustedTarget(target);
-			if (target.HasThing)
-			{
-				CameraJumper.TryJumpInternal(target.Thing);
-			}
-			else if (target.HasWorldObject)
-			{
-				CameraJumper.TryJumpInternal(target.WorldObject);
-			}
-			else if (target.Cell.IsValid)
-			{
-				CameraJumper.TryJumpInternal(target.Cell, target.Map);
-			}
-			else
-			{
-				CameraJumper.TryJumpInternal(target.Tile);
+				target = CameraJumper.GetAdjustedTarget(target);
+				if (target.HasThing)
+				{
+					CameraJumper.TryJumpInternal(target.Thing);
+				}
+				else if (target.HasWorldObject)
+				{
+					CameraJumper.TryJumpInternal(target.WorldObject);
+				}
+				else if (target.Cell.IsValid)
+				{
+					CameraJumper.TryJumpInternal(target.Cell, target.Map);
+				}
+				else
+				{
+					CameraJumper.TryJumpInternal(target.Tile);
+				}
 			}
 		}
 
@@ -113,78 +101,58 @@ namespace Verse
 
 		private static void TryJumpInternal(Thing thing)
 		{
-			if (Current.ProgramState != ProgramState.Playing)
+			if (Current.ProgramState == ProgramState.Playing)
 			{
-				return;
-			}
-			Map mapHeld = thing.MapHeld;
-			if (mapHeld != null && thing.PositionHeld.IsValid && thing.PositionHeld.InBounds(mapHeld))
-			{
-				bool flag = CameraJumper.TryHideWorld();
-				if (Current.Game.VisibleMap != mapHeld)
+				Map mapHeld = thing.MapHeld;
+				if (mapHeld != null && thing.PositionHeld.IsValid && thing.PositionHeld.InBounds(mapHeld))
 				{
-					Current.Game.VisibleMap = mapHeld;
-					if (!flag)
+					bool flag = CameraJumper.TryHideWorld();
+					if (Current.Game.VisibleMap != mapHeld)
 					{
-						SoundDefOf.MapSelected.PlayOneShotOnCamera(null);
+						Current.Game.VisibleMap = mapHeld;
+						if (!flag)
+						{
+							SoundDefOf.MapSelected.PlayOneShotOnCamera(null);
+						}
 					}
+					Find.CameraDriver.JumpToVisibleMapLoc(thing.PositionHeld);
 				}
-				Find.CameraDriver.JumpToVisibleMapLoc(thing.PositionHeld);
 			}
 		}
 
 		private static void TryJumpInternal(IntVec3 cell, Map map)
 		{
-			if (Current.ProgramState != ProgramState.Playing)
+			if (Current.ProgramState == ProgramState.Playing && cell.IsValid && map != null && Find.Maps.Contains(map))
 			{
-				return;
-			}
-			if (!cell.IsValid)
-			{
-				return;
-			}
-			if (map == null || !Find.Maps.Contains(map))
-			{
-				return;
-			}
-			bool flag = CameraJumper.TryHideWorld();
-			if (Current.Game.VisibleMap != map)
-			{
-				Current.Game.VisibleMap = map;
-				if (!flag)
+				bool flag = CameraJumper.TryHideWorld();
+				if (Current.Game.VisibleMap != map)
 				{
-					SoundDefOf.MapSelected.PlayOneShotOnCamera(null);
+					Current.Game.VisibleMap = map;
+					if (!flag)
+					{
+						SoundDefOf.MapSelected.PlayOneShotOnCamera(null);
+					}
 				}
+				Find.CameraDriver.JumpToVisibleMapLoc(cell);
 			}
-			Find.CameraDriver.JumpToVisibleMapLoc(cell);
 		}
 
 		private static void TryJumpInternal(WorldObject worldObject)
 		{
-			if (Find.World == null)
+			if (Find.World != null && worldObject.Tile >= 0)
 			{
-				return;
+				CameraJumper.TryShowWorld();
+				Find.WorldCameraDriver.JumpTo(worldObject.Tile);
 			}
-			if (worldObject.Tile < 0)
-			{
-				return;
-			}
-			CameraJumper.TryShowWorld();
-			Find.WorldCameraDriver.JumpTo(worldObject.Tile);
 		}
 
 		private static void TryJumpInternal(int tile)
 		{
-			if (Find.World == null)
+			if (Find.World != null && tile >= 0)
 			{
-				return;
+				CameraJumper.TryShowWorld();
+				Find.WorldCameraDriver.JumpTo(tile);
 			}
-			if (tile < 0)
-			{
-				return;
-			}
-			CameraJumper.TryShowWorld();
-			Find.WorldCameraDriver.JumpTo(tile);
 		}
 
 		public static GlobalTargetInfo GetAdjustedTarget(GlobalTargetInfo target)
@@ -222,22 +190,25 @@ namespace Verse
 					return new GlobalTargetInfo(thing.Tile);
 				}
 			}
-			else if (target.Cell.IsValid && target.Tile >= 0 && target.Map != null && !Find.Maps.Contains(target.Map))
+			else
 			{
-				MapParent parent = target.Map.info.parent;
-				if (parent != null && parent.Spawned)
+				if (target.Cell.IsValid && target.Tile >= 0 && target.Map != null && !Find.Maps.Contains(target.Map))
 				{
-					return parent;
+					MapParent parent = target.Map.info.parent;
+					if (parent != null && parent.Spawned)
+					{
+						return (WorldObject)parent;
+					}
+					if (parent != null && parent.Tile >= 0)
+					{
+						return new GlobalTargetInfo(target.Map.Tile);
+					}
+					return GlobalTargetInfo.Invalid;
 				}
-				if (parent != null && parent.Tile >= 0)
+				if (target.HasWorldObject && !target.WorldObject.Spawned && target.WorldObject.Tile >= 0)
 				{
-					return new GlobalTargetInfo(target.Map.Tile);
+					return new GlobalTargetInfo(target.WorldObject.Tile);
 				}
-				return GlobalTargetInfo.Invalid;
-			}
-			else if (target.HasWorldObject && !target.WorldObject.Spawned && target.WorldObject.Tile >= 0)
-			{
-				return new GlobalTargetInfo(target.WorldObject.Tile);
 			}
 			return target;
 		}
@@ -245,15 +216,15 @@ namespace Verse
 		public static GlobalTargetInfo GetWorldTarget(GlobalTargetInfo target)
 		{
 			GlobalTargetInfo adjustedTarget = CameraJumper.GetAdjustedTarget(target);
-			if (!adjustedTarget.IsValid)
+			if (adjustedTarget.IsValid)
 			{
-				return GlobalTargetInfo.Invalid;
+				if (adjustedTarget.IsWorldTarget)
+				{
+					return adjustedTarget;
+				}
+				return CameraJumper.GetWorldTargetOfMap(adjustedTarget.Map);
 			}
-			if (adjustedTarget.IsWorldTarget)
-			{
-				return adjustedTarget;
-			}
-			return CameraJumper.GetWorldTargetOfMap(adjustedTarget.Map);
+			return GlobalTargetInfo.Invalid;
 		}
 
 		public static GlobalTargetInfo GetWorldTargetOfMap(Map map)
@@ -264,7 +235,7 @@ namespace Verse
 			}
 			if (map.info.parent != null && map.info.parent.Spawned)
 			{
-				return map.info.parent;
+				return (WorldObject)map.info.parent;
 			}
 			if (map.info.parent != null && map.info.parent.Tile >= 0)
 			{
@@ -283,7 +254,7 @@ namespace Verse
 			{
 				return false;
 			}
-			if (Find.World.renderer.wantedMode != WorldRenderMode.None)
+			if (Find.World.renderer.wantedMode != 0)
 			{
 				Find.World.renderer.wantedMode = WorldRenderMode.None;
 				SoundDefOf.TabClose.PlayOneShotOnCamera(null);

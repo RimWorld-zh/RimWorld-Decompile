@@ -16,14 +16,14 @@ namespace RimWorld
 
 		protected override Action GetWaitTickAction()
 		{
-			return delegate
+			return (Action)delegate
 			{
-				float num = this.ArtThing.GetStatValue(StatDefOf.EntertainmentStrengthFactor, true);
-				float num2 = this.ArtThing.GetStatValue(StatDefOf.Beauty, true) / this.ArtThing.def.GetStatValueAbstract(StatDefOf.Beauty, null);
-				num *= ((num2 <= 0f) ? 0f : num2);
-				this.pawn.GainComfortFromCellIfPossible();
-				float extraJoyGainFactor = num;
-				JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.EndJob, extraJoyGainFactor);
+				float statValue = this.ArtThing.GetStatValue(StatDefOf.EntertainmentStrengthFactor, true);
+				float num = this.ArtThing.GetStatValue(StatDefOf.Beauty, true) / this.ArtThing.def.GetStatValueAbstract(StatDefOf.Beauty, null);
+				statValue = (float)(statValue * ((!(num > 0.0)) ? 0.0 : num));
+				base.pawn.GainComfortFromCellIfPossible();
+				float extraJoyGainFactor = statValue;
+				JoyUtility.JoyTickCheckEnd(base.pawn, JoyTickFullJoyAction.EndJob, extraJoyGainFactor);
 			};
 		}
 	}

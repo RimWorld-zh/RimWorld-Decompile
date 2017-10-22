@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -46,7 +45,7 @@ namespace RimWorld
 		{
 			for (int i = 0; i < products.Count; i++)
 			{
-				if (products[i].def.IsNutritionGivingIngestible && products[i].def.ingestible.preferability >= FoodPreferability.MealAwful)
+				if (products[i].def.IsNutritionGivingIngestible && (int)products[i].def.ingestible.preferability >= 5)
 				{
 					billDoer.records.Increment(RecordDefOf.MealsCooked);
 				}

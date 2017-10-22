@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -8,7 +7,7 @@ namespace RimWorld
 		public override void DoEffect(Pawn usedBy)
 		{
 			base.DoEffect(usedBy);
-			this.parent.GetComp<CompExplosive>().StartWick(null);
+			base.parent.GetComp<CompExplosive>().StartWick(null);
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -40,7 +39,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.parent.Faction != null;
+				if (base.parent.Faction == null)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -48,7 +51,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.Active && this.fullness >= 1f;
+				if (!this.Active)
+				{
+					return false;
+				}
+				return this.fullness >= 1.0;
 			}
 		}
 
@@ -62,14 +69,14 @@ namespace RimWorld
 		{
 			if (this.Active)
 			{
-				float num = 1f / (float)(this.GatherResourcesIntervalDays * 60000);
-				Pawn pawn = this.parent as Pawn;
+				float num = (float)(1.0 / (float)(this.GatherResourcesIntervalDays * 60000));
+				Pawn pawn = base.parent as Pawn;
 				if (pawn != null)
 				{
 					num *= PawnUtility.BodyResourceGrowthSpeed(pawn);
 				}
 				this.fullness += num;
-				if (this.fullness > 1f)
+				if (this.fullness > 1.0)
 				{
 					this.fullness = 1f;
 				}
@@ -80,24 +87,26 @@ namespace RimWorld
 		{
 			if (!this.Active)
 			{
-				Log.Error(doer + " gathered body resources while not Active: " + this.parent);
+				Log.Error(doer + " gathered body resources while not Active: " + base.parent);
 			}
 			if (Rand.Value > doer.GetStatValue(StatDefOf.AnimalGatherYield, true))
 			{
-				Vector3 loc = (doer.DrawPos + this.parent.DrawPos) / 2f;
-				MoteMaker.ThrowText(loc, this.parent.Map, "TextMote_ProductWasted".Translate(), 3.65f);
-				return;
+				Vector3 loc = (doer.DrawPos + base.parent.DrawPos) / 2f;
+				MoteMaker.ThrowText(loc, base.parent.Map, "TextMote_ProductWasted".Translate(), 3.65f);
 			}
-			int i = GenMath.RoundRandom((float)this.ResourceAmount * this.fullness);
-			while (i > 0)
+			else
 			{
-				int num = Mathf.Clamp(i, 1, this.ResourceDef.stackLimit);
-				i -= num;
-				Thing thing = ThingMaker.MakeThing(this.ResourceDef, null);
-				thing.stackCount = num;
-				GenPlace.TryPlaceThing(thing, doer.Position, doer.Map, ThingPlaceMode.Near, null);
+				int num = GenMath.RoundRandom((float)this.ResourceAmount * this.fullness);
+				while (num > 0)
+				{
+					int num2 = Mathf.Clamp(num, 1, this.ResourceDef.stackLimit);
+					num -= num2;
+					Thing thing = ThingMaker.MakeThing(this.ResourceDef, null);
+					thing.stackCount = num2;
+					GenPlace.TryPlaceThing(thing, doer.Position, doer.Map, ThingPlaceMode.Near, null);
+				}
+				this.fullness = 0f;
 			}
-			this.fullness = 0f;
 		}
 	}
 }

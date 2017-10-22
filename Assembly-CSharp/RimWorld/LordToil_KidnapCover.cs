@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -22,7 +21,7 @@ namespace RimWorld
 				target = pawn.carryTracker.CarriedThing;
 				return true;
 			}
-			Pawn pawn2;
+			Pawn pawn2 = default(Pawn);
 			bool result = KidnapAIUtility.TryFindGoodKidnapVictim(pawn, 8f, out pawn2, alreadyTakenTargets);
 			target = pawn2;
 			return result;

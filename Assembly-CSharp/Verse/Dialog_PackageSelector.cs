@@ -33,10 +33,10 @@ namespace Verse
 			this.setPackageCallback = setPackageCallback;
 			this.mod = mod;
 			this.relFolder = relFolder;
-			this.doCloseX = true;
-			this.closeOnEscapeKey = true;
-			this.onlyOneOfTypeAllowed = true;
-			this.draggable = true;
+			base.doCloseX = true;
+			base.closeOnEscapeKey = true;
+			base.onlyOneOfTypeAllowed = true;
+			base.draggable = true;
 		}
 
 		public override void DoWindowContents(Rect inRect)
@@ -44,12 +44,12 @@ namespace Verse
 			Listing_Standard listing_Standard = new Listing_Standard();
 			listing_Standard.Begin(inRect.AtZero());
 			listing_Standard.ColumnWidth = 240f;
-			foreach (DefPackage current in this.mod.GetDefPackagesInFolder(this.relFolder))
+			foreach (DefPackage item in this.mod.GetDefPackagesInFolder(this.relFolder))
 			{
-				string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(current.fileName);
-				if (listing_Standard.ButtonText(fileNameWithoutExtension, null))
+				string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(item.fileName);
+				if (listing_Standard.ButtonText(fileNameWithoutExtension, (string)null))
 				{
-					this.setPackageCallback(current);
+					this.setPackageCallback(item);
 					this.Close(true);
 				}
 			}

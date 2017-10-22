@@ -16,17 +16,17 @@ namespace Verse.Grammar
 
 		public Rule_String(string keyword, string output)
 		{
-			this.keyword = keyword;
+			base.keyword = keyword;
 			this.output = output;
 		}
 
 		public Rule_String(string rawString)
 		{
-			string[] array = rawString.Split(new string[]
+			string[] array = rawString.Split(new string[1]
 			{
 				"->"
 			}, StringSplitOptions.None);
-			this.keyword = array[0].Trim();
+			base.keyword = array[0].Trim();
 			this.output = array[1].Trim();
 		}
 
@@ -37,7 +37,7 @@ namespace Verse.Grammar
 
 		public override string ToString()
 		{
-			return this.keyword + "->" + this.output;
+			return base.keyword + "->" + this.output;
 		}
 	}
 }

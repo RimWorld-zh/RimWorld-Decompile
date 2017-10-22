@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -28,7 +26,7 @@ namespace RimWorld
 
 		public MainTabWindow_Menu()
 		{
-			this.forcePause = true;
+			base.forcePause = true;
 		}
 
 		public override void PreOpen()
@@ -36,7 +34,7 @@ namespace RimWorld
 			base.PreOpen();
 			PlayerKnowledgeDatabase.Save();
 			ShipCountdown.CancelCountdown();
-			this.anyGameFiles = GenFilePaths.AllSavedGameFiles.Any<FileInfo>();
+			this.anyGameFiles = GenFilePaths.AllSavedGameFiles.Any();
 		}
 
 		public override void ExtraOnGUI()

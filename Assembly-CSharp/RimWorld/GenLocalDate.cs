@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -77,29 +76,29 @@ namespace RimWorld
 		{
 			if (Current.ProgramState == ProgramState.Playing)
 			{
-				return GenDate.DayOfYear((long)GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
+				return GenDate.DayOfYear(GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
 			}
 			return 0;
 		}
 
 		public static int HourOfDay(Thing thing)
 		{
-			return GenDate.HourOfDay((long)GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
+			return GenDate.HourOfDay(GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
 		}
 
 		public static int DayOfTwelfth(Thing thing)
 		{
-			return GenDate.DayOfTwelfth((long)GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
+			return GenDate.DayOfTwelfth(GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
 		}
 
 		public static Twelfth Twelfth(Thing thing)
 		{
-			return GenDate.Twelfth((long)GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
+			return GenDate.Twelfth(GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
 		}
 
 		public static Season Season(Thing thing)
 		{
-			return GenDate.Season((long)GenLocalDate.TicksAbs, GenLocalDate.LocationForDate(thing));
+			return GenDate.Season(GenLocalDate.TicksAbs, GenLocalDate.LocationForDate(thing));
 		}
 
 		public static int Year(Thing thing)
@@ -108,61 +107,69 @@ namespace RimWorld
 			{
 				return 5500;
 			}
-			return GenDate.Year((long)GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
+			return GenDate.Year(GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
 		}
 
 		public static int DayOfSeason(Thing thing)
 		{
-			return GenDate.DayOfSeason((long)GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
+			return GenDate.DayOfSeason(GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
 		}
 
 		public static int DayOfQuadrum(Thing thing)
 		{
-			return GenDate.DayOfQuadrum((long)GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
+			return GenDate.DayOfQuadrum(GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
 		}
 
 		public static float DayPercent(Thing thing)
 		{
-			return GenDate.DayPercent((long)GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
+			return GenDate.DayPercent(GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
 		}
 
 		public static int HourInteger(Thing thing)
 		{
-			return GenDate.HourInteger((long)GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
+			return GenDate.HourInteger(GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
 		}
 
 		public static float HourFloat(Thing thing)
 		{
-			return GenDate.HourFloat((long)GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
+			return GenDate.HourFloat(GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
 		}
 
 		public static int DayOfYear(int tile)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
 			{
-				return GenDate.DayOfYear((long)GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile).x);
+				long absTicks = GenLocalDate.TicksAbs;
+				Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+				return GenDate.DayOfYear(absTicks, vector.x);
 			}
 			return 0;
 		}
 
 		public static int HourOfDay(int tile)
 		{
-			return GenDate.HourOfDay((long)GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile).x);
+			long absTicks = GenLocalDate.TicksAbs;
+			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+			return GenDate.HourOfDay(absTicks, vector.x);
 		}
 
 		public static int DayOfTwelfth(int tile)
 		{
-			return GenDate.DayOfTwelfth((long)GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile).x);
+			long absTicks = GenLocalDate.TicksAbs;
+			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+			return GenDate.DayOfTwelfth(absTicks, vector.x);
 		}
 
 		public static Twelfth Twelfth(int tile)
 		{
-			return GenDate.Twelfth((long)GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile).x);
+			long absTicks = GenLocalDate.TicksAbs;
+			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+			return GenDate.Twelfth(absTicks, vector.x);
 		}
 
 		public static Season Season(int tile)
 		{
-			return GenDate.Season((long)GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile));
+			return GenDate.Season(GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile));
 		}
 
 		public static int Year(int tile)
@@ -171,37 +178,50 @@ namespace RimWorld
 			{
 				return 5500;
 			}
-			return GenDate.Year((long)GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile).x);
+			long absTicks = GenLocalDate.TicksAbs;
+			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+			return GenDate.Year(absTicks, vector.x);
 		}
 
 		public static int DayOfSeason(int tile)
 		{
-			return GenDate.DayOfSeason((long)GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile).x);
+			long absTicks = GenLocalDate.TicksAbs;
+			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+			return GenDate.DayOfSeason(absTicks, vector.x);
 		}
 
 		public static int DayOfQuadrum(int tile)
 		{
-			return GenDate.DayOfQuadrum((long)GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile).x);
+			long absTicks = GenLocalDate.TicksAbs;
+			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+			return GenDate.DayOfQuadrum(absTicks, vector.x);
 		}
 
 		public static float DayPercent(int tile)
 		{
-			return GenDate.DayPercent((long)GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile).x);
+			long absTicks = GenLocalDate.TicksAbs;
+			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+			return GenDate.DayPercent(absTicks, vector.x);
 		}
 
 		public static int HourInteger(int tile)
 		{
-			return GenDate.HourInteger((long)GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile).x);
+			long absTicks = GenLocalDate.TicksAbs;
+			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+			return GenDate.HourInteger(absTicks, vector.x);
 		}
 
 		public static float HourFloat(int tile)
 		{
-			return GenDate.HourFloat((long)GenLocalDate.TicksAbs, Find.WorldGrid.LongLatOf(tile).x);
+			long absTicks = GenLocalDate.TicksAbs;
+			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+			return GenDate.HourFloat(absTicks, vector.x);
 		}
 
 		private static float LongitudeForDate(Thing thing)
 		{
-			return GenLocalDate.LocationForDate(thing).x;
+			Vector2 vector = GenLocalDate.LocationForDate(thing);
+			return vector.x;
 		}
 
 		private static Vector2 LocationForDate(Thing thing)

@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -30,9 +29,9 @@ namespace Verse
 			get
 			{
 				float num = Rand.Range(45f, 135f);
-				if (Rand.Value < 0.5f)
+				if (Rand.Value < 0.5)
 				{
-					num += 180f;
+					num = (float)(num + 180.0);
 				}
 				return num;
 			}
@@ -76,22 +75,24 @@ namespace Verse
 
 		public void Notify_DamageApplied(DamageInfo dam)
 		{
-			if ((this.pawn.Downed || this.pawn.Dead) && dam.Def.hasForcefulImpact)
+			if (!this.pawn.Downed && !this.pawn.Dead)
+				return;
+			if (dam.Def.hasForcefulImpact)
 			{
-				this.downedAngle += 10f * Rand.Range(-1f, 1f);
+				this.downedAngle += (float)(10.0 * Rand.Range(-1f, 1f));
 				if (!this.usingCustomRotation)
 				{
-					if (this.downedAngle > 315f)
+					if (this.downedAngle > 315.0)
 					{
 						this.downedAngle = 315f;
 					}
-					if (this.downedAngle < 45f)
+					if (this.downedAngle < 45.0)
 					{
 						this.downedAngle = 45f;
 					}
-					if (this.downedAngle > 135f && this.downedAngle < 225f)
+					if (this.downedAngle > 135.0 && this.downedAngle < 225.0)
 					{
-						if (this.downedAngle > 180f)
+						if (this.downedAngle > 180.0)
 						{
 							this.downedAngle = 225f;
 						}
@@ -103,11 +104,11 @@ namespace Verse
 				}
 				else
 				{
-					if (this.downedAngle >= 360f)
+					if (this.downedAngle >= 360.0)
 					{
 						this.downedAngle -= 360f;
 					}
-					if (this.downedAngle < 0f)
+					if (this.downedAngle < 0.0)
 					{
 						this.downedAngle += 360f;
 					}

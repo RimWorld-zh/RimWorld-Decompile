@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -34,28 +33,11 @@ namespace Verse
 			{
 				if (cause == null)
 				{
-					Find.LetterStack.ReceiveLetter("LetterHediffFromRandomHediffGiverLabel".Translate(new object[]
-					{
-						pawn.LabelShort,
-						this.hediff.LabelCap
-					}), "LetterHediffFromRandomHediffGiver".Translate(new object[]
-					{
-						pawn.LabelShort,
-						this.hediff.LabelCap
-					}), LetterDefOf.BadNonUrgent, pawn, null);
+					Find.LetterStack.ReceiveLetter("LetterHediffFromRandomHediffGiverLabel".Translate(pawn.LabelShort, this.hediff.LabelCap), "LetterHediffFromRandomHediffGiver".Translate(pawn.LabelShort, this.hediff.LabelCap), LetterDefOf.BadNonUrgent, (Thing)pawn, (string)null);
 				}
 				else
 				{
-					Find.LetterStack.ReceiveLetter("LetterHealthComplicationsLabel".Translate(new object[]
-					{
-						pawn.LabelShort,
-						this.hediff.LabelCap
-					}), "LetterHealthComplications".Translate(new object[]
-					{
-						pawn.LabelShort,
-						this.hediff.LabelCap,
-						cause.LabelCap
-					}), LetterDefOf.BadNonUrgent, pawn, null);
+					Find.LetterStack.ReceiveLetter("LetterHealthComplicationsLabel".Translate(pawn.LabelShort, this.hediff.LabelCap), "LetterHealthComplications".Translate(pawn.LabelShort, this.hediff.LabelCap, cause.LabelCap), LetterDefOf.BadNonUrgent, (Thing)pawn, (string)null);
 				}
 			}
 		}

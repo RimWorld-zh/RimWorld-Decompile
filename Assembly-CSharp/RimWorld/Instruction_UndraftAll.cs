@@ -11,7 +11,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return 1f - (float)this.DraftedPawns().Count<Pawn>() / (float)base.Map.mapPawns.FreeColonistsSpawnedCount;
+				return (float)(1.0 - (float)this.DraftedPawns().Count() / (float)base.Map.mapPawns.FreeColonistsSpawnedCount);
 			}
 		}
 
@@ -24,11 +24,11 @@ namespace RimWorld
 
 		public override void LessonUpdate()
 		{
-			foreach (Pawn current in this.DraftedPawns())
+			foreach (Pawn item in this.DraftedPawns())
 			{
-				GenDraw.DrawArrowPointingAt(current.DrawPos, false);
+				GenDraw.DrawArrowPointingAt(item.DrawPos, false);
 			}
-			if (this.ProgressPercent > 0.9999f)
+			if (this.ProgressPercent > 0.99989998340606689)
 			{
 				Find.ActiveLesson.Deactivate();
 			}

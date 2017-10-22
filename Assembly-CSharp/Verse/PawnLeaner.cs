@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -33,7 +32,7 @@ namespace Verse
 			if (this.ShouldLean())
 			{
 				this.leanOffsetCurPct += 0.075f;
-				if (this.leanOffsetCurPct > 1f)
+				if (this.leanOffsetCurPct > 1.0)
 				{
 					this.leanOffsetCurPct = 1f;
 				}
@@ -41,7 +40,7 @@ namespace Verse
 			else
 			{
 				this.leanOffsetCurPct -= 0.075f;
-				if (this.leanOffsetCurPct < 0f)
+				if (this.leanOffsetCurPct < 0.0)
 				{
 					this.leanOffsetCurPct = 0f;
 				}
@@ -51,7 +50,15 @@ namespace Verse
 		public bool ShouldLean()
 		{
 			Stance_Busy stance_Busy = this.pawn.stances.curStance as Stance_Busy;
-			return stance_Busy != null && !(this.shootSourceOffset == new IntVec3(0, 0, 0));
+			if (stance_Busy != null)
+			{
+				if (this.shootSourceOffset == new IntVec3(0, 0, 0))
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		public void Notify_WarmingCastAlongLine(ShootLine newShootLine, IntVec3 ShootPosition)

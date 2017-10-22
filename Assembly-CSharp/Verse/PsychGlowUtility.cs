@@ -9,13 +9,21 @@ namespace Verse
 			switch (gl)
 			{
 			case PsychGlow.Dark:
+			{
 				return "Dark".Translate();
+			}
 			case PsychGlow.Lit:
+			{
 				return "Lit".Translate();
+			}
 			case PsychGlow.Overlit:
+			{
 				return "LitBrightly".Translate();
+			}
 			default:
+			{
 				throw new ArgumentException();
+			}
 			}
 		}
 	}

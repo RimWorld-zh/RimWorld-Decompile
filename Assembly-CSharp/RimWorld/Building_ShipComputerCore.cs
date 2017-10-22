@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
@@ -12,18 +12,33 @@ namespace RimWorld
 		{
 			get
 			{
-				return !ShipUtility.LaunchFailReasons(this).Any<string>();
+				return !ShipUtility.LaunchFailReasons(this).Any();
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Building_ShipComputerCore.<GetGizmos>c__Iterator149 <GetGizmos>c__Iterator = new Building_ShipComputerCore.<GetGizmos>c__Iterator149();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			Building_ShipComputerCore.<GetGizmos>c__Iterator149 expr_0E = <GetGizmos>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			Command_Action launch = new Command_Action
+			{
+				action = new Action(this.TryLaunch),
+				defaultLabel = "CommandShipLaunch".Translate(),
+				defaultDesc = "CommandShipLaunchDesc".Translate()
+			};
+			if (!this.CanLaunchNow)
+			{
+				launch.Disable(ShipUtility.LaunchFailReasons(this).First());
+			}
+			if (ShipCountdown.CountingDown)
+			{
+				launch.Disable((string)null);
+			}
+			launch.hotKey = KeyBindingDefOf.Misc1;
+			launch.icon = ContentFinder<Texture2D>.Get("UI/Commands/LaunchShip", true);
+			yield return (Gizmo)launch;
 		}
 
 		private void TryLaunch()

@@ -25,7 +25,7 @@ namespace RimWorld
 
 		public List<RoadDefGenStep> roadGenSteps;
 
-		public List<RoadDef.WorldRenderStep> worldRenderSteps;
+		public List<WorldRenderStep> worldRenderSteps;
 
 		public string worldTransitionGroup = string.Empty;
 
@@ -46,17 +46,26 @@ namespace RimWorld
 					RoadWorldLayerDef roadWorldLayerDef = DefDatabase<RoadWorldLayerDef>.AllDefsListForReading[i];
 					if (this.worldRenderSteps != null)
 					{
-						foreach (RoadDef.WorldRenderStep current in this.worldRenderSteps)
+						List<WorldRenderStep>.Enumerator enumerator = this.worldRenderSteps.GetEnumerator();
+						try
 						{
-							if (current.layer == roadWorldLayerDef)
+							while (enumerator.MoveNext())
 							{
-								this.cachedLayerWidth[(int)roadWorldLayerDef.index] = current.width;
+								WorldRenderStep current = enumerator.Current;
+								if (current.layer == roadWorldLayerDef)
+								{
+									this.cachedLayerWidth[roadWorldLayerDef.index] = current.width;
+								}
 							}
+						}
+						finally
+						{
+							((IDisposable)(object)enumerator).Dispose();
 						}
 					}
 				}
 			}
-			return this.cachedLayerWidth[(int)def.index];
+			return this.cachedLayerWidth[def.index];
 		}
 
 		public override void ClearCachedData()

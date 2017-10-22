@@ -49,7 +49,11 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			return obj is TraverseParms && this.Equals((TraverseParms)obj);
+			if (!(obj is TraverseParms))
+			{
+				return false;
+			}
+			return this.Equals((TraverseParms)obj);
 		}
 
 		public bool Equals(TraverseParms other)
@@ -59,16 +63,9 @@ namespace Verse
 
 		public override int GetHashCode()
 		{
-			int seed = (!this.canBash) ? 0 : 1;
-			if (this.pawn != null)
-			{
-				seed = Gen.HashCombine<Pawn>(seed, this.pawn);
-			}
-			else
-			{
-				seed = Gen.HashCombineStruct<TraverseMode>(seed, this.mode);
-			}
-			return Gen.HashCombineStruct<Danger>(seed, this.maxDanger);
+			int seed = this.canBash ? 1 : 0;
+			seed = ((this.pawn == null) ? Gen.HashCombineStruct(seed, this.mode) : Gen.HashCombine(seed, this.pawn));
+			return Gen.HashCombineStruct(seed, this.maxDanger);
 		}
 
 		public override string ToString()
@@ -76,27 +73,9 @@ namespace Verse
 			string text = (!this.canBash) ? string.Empty : " canBash";
 			if (this.mode == TraverseMode.ByPawn)
 			{
-				return string.Concat(new object[]
-				{
-					"(",
-					this.mode,
-					" ",
-					this.maxDanger,
-					" ",
-					this.pawn,
-					text,
-					")"
-				});
+				return "(" + this.mode + " " + this.maxDanger + " " + this.pawn + text + ")";
 			}
-			return string.Concat(new object[]
-			{
-				"(",
-				this.mode,
-				" ",
-				this.maxDanger,
-				text,
-				")"
-			});
+			return "(" + this.mode + " " + this.maxDanger + text + ")";
 		}
 
 		public static implicit operator TraverseParms(TraverseMode m)

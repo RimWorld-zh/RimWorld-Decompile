@@ -59,9 +59,9 @@ namespace RimWorld
 			base.DrawPageTitle(rect);
 			Rect mainRect = base.GetMainRect(rect, 0f, false);
 			GUI.BeginGroup(mainRect);
-			Rect rect2 = new Rect(0f, 0f, mainRect.width * 0.35f, mainRect.height).Rounded();
+			Rect rect2 = new Rect(0f, 0f, (float)(mainRect.width * 0.34999999403953552), mainRect.height).Rounded();
 			this.DoConfigControls(rect2);
-			Rect rect3 = new Rect(rect2.xMax + 17f, 0f, mainRect.width - rect2.width - 17f, mainRect.height).Rounded();
+			Rect rect3 = new Rect((float)(rect2.xMax + 17.0), 0f, (float)(mainRect.width - rect2.width - 17.0), mainRect.height).Rounded();
 			if (!this.editMode)
 			{
 				ScenarioUI.DrawScenarioInfo(rect3, this.curScen, ref this.infoScrollPosition);
@@ -71,7 +71,7 @@ namespace RimWorld
 				ScenarioUI.DrawScenarioEditInterface(rect3, this.curScen, ref this.infoScrollPosition);
 			}
 			GUI.EndGroup();
-			base.DoBottomButtons(rect, null, null, null, true);
+			base.DoBottomButtons(rect, (string)null, (string)null, null, true);
 		}
 
 		private void RandomizeSeedAndScenario()
@@ -85,19 +85,19 @@ namespace RimWorld
 			Listing_Standard listing_Standard = new Listing_Standard();
 			listing_Standard.ColumnWidth = 200f;
 			listing_Standard.Begin(rect);
-			if (listing_Standard.ButtonText("Load".Translate(), null))
+			if (listing_Standard.ButtonText("Load".Translate(), (string)null))
 			{
-				Find.WindowStack.Add(new Dialog_ScenarioList_Load(delegate(Scenario loadedScen)
+				Find.WindowStack.Add(new Dialog_ScenarioList_Load((Action<Scenario>)delegate(Scenario loadedScen)
 				{
 					this.curScen = loadedScen;
 					this.seedIsValid = false;
 				}));
 			}
-			if (listing_Standard.ButtonText("Save".Translate(), null) && Page_ScenarioEditor.CheckAllPartsCompatible(this.curScen))
+			if (listing_Standard.ButtonText("Save".Translate(), (string)null) && Page_ScenarioEditor.CheckAllPartsCompatible(this.curScen))
 			{
 				Find.WindowStack.Add(new Dialog_ScenarioList_Save(this.curScen));
 			}
-			if (listing_Standard.ButtonText("RandomizeSeed".Translate(), null))
+			if (listing_Standard.ButtonText("RandomizeSeed".Translate(), (string)null))
 			{
 				SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
 				this.RandomizeSeedAndScenario();
@@ -115,17 +115,17 @@ namespace RimWorld
 			}
 			else
 			{
-				listing_Standard.Gap(Text.LineHeight + Text.LineHeight + 2f);
+				listing_Standard.Gap((float)(Text.LineHeight + Text.LineHeight + 2.0));
 			}
-			listing_Standard.CheckboxLabeled("EditMode".Translate().CapitalizeFirst(), ref this.editMode, null);
+			listing_Standard.CheckboxLabeled("EditMode".Translate().CapitalizeFirst(), ref this.editMode, (string)null);
 			if (this.editMode)
 			{
 				this.seedIsValid = false;
-				if (listing_Standard.ButtonText("AddPart".Translate(), null))
+				if (listing_Standard.ButtonText("AddPart".Translate(), (string)null))
 				{
 					this.OpenAddScenPartMenu();
 				}
-				if (SteamManager.Initialized && (this.curScen.Category == ScenarioCategory.CustomLocal || this.curScen.Category == ScenarioCategory.SteamWorkshop) && listing_Standard.ButtonText(Workshop.UploadButtonLabel(this.curScen.GetPublishedFileId()), null) && Page_ScenarioEditor.CheckAllPartsCompatible(this.curScen))
+				if (SteamManager.Initialized && (this.curScen.Category == ScenarioCategory.CustomLocal || this.curScen.Category == ScenarioCategory.SteamWorkshop) && listing_Standard.ButtonText(Workshop.UploadButtonLabel(this.curScen.GetPublishedFileId()), (string)null) && Page_ScenarioEditor.CheckAllPartsCompatible(this.curScen))
 				{
 					AcceptanceReport acceptanceReport = this.curScen.TryUploadReport();
 					if (!acceptanceReport.Accepted)
@@ -135,15 +135,15 @@ namespace RimWorld
 					else
 					{
 						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
-						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmSteamWorkshopUpload".Translate(), delegate
+						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmSteamWorkshopUpload".Translate(), (Action)delegate
 						{
 							SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
-							Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmContentAuthor".Translate(), delegate
+							Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmContentAuthor".Translate(), (Action)delegate
 							{
 								SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 								Workshop.Upload(this.curScen);
-							}, true, null));
-						}, true, null));
+							}, true, (string)null));
+						}, true, (string)null));
 					}
 				}
 			}
@@ -152,36 +152,24 @@ namespace RimWorld
 
 		private static bool CheckAllPartsCompatible(Scenario scen)
 		{
-			foreach (ScenPart current in scen.AllParts)
+			foreach (ScenPart allPart in scen.AllParts)
 			{
 				int num = 0;
-				foreach (ScenPart current2 in scen.AllParts)
+				foreach (ScenPart allPart2 in scen.AllParts)
 				{
-					if (current2.def == current.def)
+					if (allPart2.def == allPart.def)
 					{
 						num++;
 					}
-					if (num > current.def.maxUses)
+					if (num > allPart.def.maxUses)
 					{
-						Messages.Message("TooMany".Translate(new object[]
-						{
-							current.def.maxUses
-						}) + ": " + current.def.label, MessageSound.RejectInput);
-						bool result = false;
-						return result;
+						Messages.Message("TooMany".Translate(allPart.def.maxUses) + ": " + allPart.def.label, MessageSound.RejectInput);
+						return false;
 					}
-					if (current != current2 && !current.CanCoexistWith(current2))
+					if (allPart != allPart2 && !allPart.CanCoexistWith(allPart2))
 					{
-						Messages.Message(string.Concat(new string[]
-						{
-							"Incompatible".Translate(),
-							": ",
-							current.def.label,
-							", ",
-							current2.def.label
-						}), MessageSound.RejectInput);
-						bool result = false;
-						return result;
+						Messages.Message("Incompatible".Translate() + ": " + allPart.def.label + ", " + allPart2.def.label, MessageSound.RejectInput);
+						return false;
 					}
 				}
 			}
@@ -190,13 +178,13 @@ namespace RimWorld
 
 		private void OpenAddScenPartMenu()
 		{
-			FloatMenuUtility.MakeMenu<ScenPartDef>(from p in ScenarioMaker.AddableParts(this.curScen)
+			FloatMenuUtility.MakeMenu(from p in ScenarioMaker.AddableParts(this.curScen)
 			where p.category != ScenPartCategory.Fixed
 			orderby p.label
-			select p, (ScenPartDef p) => p.LabelCap, (ScenPartDef p) => delegate
+			select p, (Func<ScenPartDef, string>)((ScenPartDef p) => p.LabelCap), (Func<ScenPartDef, Action>)((ScenPartDef p) => (Action)delegate()
 			{
 				this.AddScenPart(p);
-			});
+			}));
 		}
 
 		private void AddScenPart(ScenPartDef def)

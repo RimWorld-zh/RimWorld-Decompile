@@ -60,29 +60,28 @@ namespace RimWorld
 
 		public void InitializeIfNeeded()
 		{
-			if (this.entriesInt != null)
+			if (this.entriesInt == null)
 			{
-				return;
-			}
-			this.entriesInt = new List<DrugPolicyEntry>();
-			List<ThingDef> allDefsListForReading = DefDatabase<ThingDef>.AllDefsListForReading;
-			for (int i = 0; i < allDefsListForReading.Count; i++)
-			{
-				if (allDefsListForReading[i].category == ThingCategory.Item && allDefsListForReading[i].IsDrug)
+				this.entriesInt = new List<DrugPolicyEntry>();
+				List<ThingDef> allDefsListForReading = DefDatabase<ThingDef>.AllDefsListForReading;
+				for (int i = 0; i < allDefsListForReading.Count; i++)
 				{
-					DrugPolicyEntry drugPolicyEntry = new DrugPolicyEntry();
-					drugPolicyEntry.drug = allDefsListForReading[i];
-					drugPolicyEntry.allowedForAddiction = true;
-					this.entriesInt.Add(drugPolicyEntry);
+					if (allDefsListForReading[i].category == ThingCategory.Item && allDefsListForReading[i].IsDrug)
+					{
+						DrugPolicyEntry drugPolicyEntry = new DrugPolicyEntry();
+						drugPolicyEntry.drug = allDefsListForReading[i];
+						drugPolicyEntry.allowedForAddiction = true;
+						this.entriesInt.Add(drugPolicyEntry);
+					}
 				}
+				this.entriesInt.SortBy((Func<DrugPolicyEntry, float>)((DrugPolicyEntry e) => e.drug.GetCompProperties<CompProperties_Drug>().listOrder));
 			}
-			this.entriesInt.SortBy((DrugPolicyEntry e) => e.drug.GetCompProperties<CompProperties_Drug>().listOrder);
 		}
 
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.uniqueId, "uniqueId", 0, false);
-			Scribe_Values.Look<string>(ref this.label, "label", null, false);
+			Scribe_Values.Look<string>(ref this.label, "label", (string)null, false);
 			Scribe_Collections.Look<DrugPolicyEntry>(ref this.entriesInt, "drugs", LookMode.Deep, new object[0]);
 		}
 

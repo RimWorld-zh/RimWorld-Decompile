@@ -15,7 +15,7 @@ namespace RimWorld
 
 		public override Job TryGiveJobInPartyArea(Pawn pawn, IntVec3 partySpot)
 		{
-			return this.TryGiveJobInternal(pawn, (Thing x) => !x.Spawned || PartyUtility.InPartyArea(x.Position, partySpot, pawn.Map));
+			return this.TryGiveJobInternal(pawn, (Predicate<Thing>)((Thing x) => !x.Spawned || PartyUtility.InPartyArea(x.Position, partySpot, pawn.Map)));
 		}
 
 		private Job TryGiveJobInternal(Pawn pawn, Predicate<Thing> extraValidator)
@@ -30,7 +30,18 @@ namespace RimWorld
 
 		protected virtual Thing BestIngestItem(Pawn pawn, Predicate<Thing> extraValidator)
 		{
-			Predicate<Thing> predicate = (Thing t) => this.CanIngestForJoy(pawn, t) && (extraValidator == null || extraValidator(t));
+			Predicate<Thing> predicate = (Predicate<Thing>)delegate(Thing t)
+			{
+				if (!this.CanIngestForJoy(pawn, t))
+				{
+					return false;
+				}
+				if ((object)extraValidator != null && !extraValidator(t))
+				{
+					return false;
+				}
+				return true;
+			};
 			ThingOwner<Thing> innerContainer = pawn.inventory.innerContainer;
 			for (int i = 0; i < innerContainer.Count; i++)
 			{
@@ -50,47 +61,50 @@ namespace RimWorld
 
 		protected virtual bool CanIngestForJoy(Pawn pawn, Thing t)
 		{
-			if (!t.def.IsIngestible || t.def.ingestible.joyKind == null || t.def.ingestible.joy <= 0f)
+			if (t.def.IsIngestible && t.def.ingestible.joyKind != null && !(t.def.ingestible.joy <= 0.0))
 			{
-				return false;
+				if (t.Spawned)
+				{
+					if (!pawn.CanReserve(t, 1, -1, null, false))
+					{
+						return false;
+					}
+					if (t.IsForbidden(pawn))
+					{
+						return false;
+					}
+					if (!t.IsSociallyProper(pawn))
+					{
+						return false;
+					}
+				}
+				if (t.def.IsDrug && pawn.drugs != null && !pawn.drugs.CurrentPolicy[t.def].allowedForJoy && pawn.story != null)
+				{
+					int num = pawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire);
+					if (num <= 0 && !pawn.InMentalState)
+					{
+						return false;
+					}
+				}
+				return true;
 			}
-			if (t.Spawned)
-			{
-				if (!pawn.CanReserve(t, 1, -1, null, false))
-				{
-					return false;
-				}
-				if (t.IsForbidden(pawn))
-				{
-					return false;
-				}
-				if (!t.IsSociallyProper(pawn))
-				{
-					return false;
-				}
-			}
-			if (t.def.IsDrug && pawn.drugs != null && !pawn.drugs.CurrentPolicy[t.def].allowedForJoy && pawn.story != null)
-			{
-				int num = pawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire);
-				if (num <= 0 && !pawn.InMentalState)
-				{
-					return false;
-				}
-			}
-			return true;
+			return false;
 		}
 
 		protected virtual bool SearchSetWouldInclude(Thing thing)
 		{
-			return this.def.thingDefs != null && this.def.thingDefs.Contains(thing.def);
+			if (base.def.thingDefs == null)
+			{
+				return false;
+			}
+			return base.def.thingDefs.Contains(thing.def);
 		}
 
 		protected virtual Job CreateIngestJob(Thing ingestible, Pawn pawn)
 		{
-			return new Job(JobDefOf.Ingest, ingestible)
-			{
-				count = Mathf.Min(ingestible.stackCount, ingestible.def.ingestible.maxNumToIngestAtOnce)
-			};
+			Job job = new Job(JobDefOf.Ingest, ingestible);
+			job.count = Mathf.Min(ingestible.stackCount, ingestible.def.ingestible.maxNumToIngestAtOnce);
+			return job;
 		}
 	}
 }

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace Verse
@@ -41,18 +39,20 @@ namespace Verse
 		{
 			get
 			{
-				return this.oldInjuryBaseChance >= 0.8f;
+				return this.oldInjuryBaseChance >= 0.800000011920929;
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			BodyPartDef.<ConfigErrors>c__Iterator1C6 <ConfigErrors>c__Iterator1C = new BodyPartDef.<ConfigErrors>c__Iterator1C6();
-			<ConfigErrors>c__Iterator1C.<>f__this = this;
-			BodyPartDef.<ConfigErrors>c__Iterator1C6 expr_0E = <ConfigErrors>c__Iterator1C;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.frostbiteVulnerability > 10.0)
+			{
+				yield return "frostbitePriority > max 10: " + this.frostbiteVulnerability;
+			}
 		}
 
 		public bool IsSolid(BodyPartRecord part, List<Hediff> hediffs)
@@ -72,7 +72,11 @@ namespace Verse
 
 		public bool IsSkinCovered(BodyPartRecord part, HediffSet body)
 		{
-			return !body.PartOrAnyAncestorHasDirectlyAddedParts(part) && this.skinCovered;
+			if (body.PartOrAnyAncestorHasDirectlyAddedParts(part))
+			{
+				return false;
+			}
+			return this.skinCovered;
 		}
 
 		public float GetMaxHealth(Pawn pawn)
@@ -90,7 +94,7 @@ namespace Verse
 			{
 				return 1f;
 			}
-			float result;
+			float result = default(float);
 			if (this.hitChanceFactors.TryGetValue(damage, out result))
 			{
 				return result;

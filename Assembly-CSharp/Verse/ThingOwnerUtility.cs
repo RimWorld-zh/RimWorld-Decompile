@@ -1,6 +1,5 @@
 using RimWorld;
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -59,7 +58,7 @@ namespace Verse
 			if (thingHolder != null)
 			{
 				thingHolder.GetChildHolders(ThingOwnerUtility.tmpHolders);
-				if (ThingOwnerUtility.tmpHolders.Any<IThingHolder>())
+				if (ThingOwnerUtility.tmpHolders.Any())
 				{
 					ThingOwner directlyHeldThings3 = ThingOwnerUtility.tmpHolders[0].GetDirectlyHeldThings();
 					if (directlyHeldThings3 != null)
@@ -77,7 +76,7 @@ namespace Verse
 					if (thingHolder3 != null)
 					{
 						thingHolder3.GetChildHolders(ThingOwnerUtility.tmpHolders);
-						if (ThingOwnerUtility.tmpHolders.Any<IThingHolder>())
+						if (ThingOwnerUtility.tmpHolders.Any())
 						{
 							ThingOwner directlyHeldThings4 = ThingOwnerUtility.tmpHolders[0].GetDirectlyHeldThings();
 							if (directlyHeldThings4 != null)
@@ -184,33 +183,32 @@ namespace Verse
 
 		public static void AppendThingHoldersFromThings(List<IThingHolder> outThingsHolders, ThingOwner container)
 		{
-			if (container == null)
+			if (container != null)
 			{
-				return;
-			}
-			int i = 0;
-			int count = container.Count;
-			while (i < count)
-			{
-				IThingHolder thingHolder = container[i] as IThingHolder;
-				if (thingHolder != null)
+				int num = 0;
+				int count = container.Count;
+				while (num < count)
 				{
-					outThingsHolders.Add(thingHolder);
-				}
-				ThingWithComps thingWithComps = container[i] as ThingWithComps;
-				if (thingWithComps != null)
-				{
-					List<ThingComp> allComps = thingWithComps.AllComps;
-					for (int j = 0; j < allComps.Count; j++)
+					IThingHolder thingHolder = container[num] as IThingHolder;
+					if (thingHolder != null)
 					{
-						IThingHolder thingHolder2 = allComps[j] as IThingHolder;
-						if (thingHolder2 != null)
+						outThingsHolders.Add(thingHolder);
+					}
+					ThingWithComps thingWithComps = container[num] as ThingWithComps;
+					if (thingWithComps != null)
+					{
+						List<ThingComp> allComps = thingWithComps.AllComps;
+						for (int i = 0; i < allComps.Count; i++)
 						{
-							outThingsHolders.Add(thingHolder2);
+							IThingHolder thingHolder2 = allComps[i] as IThingHolder;
+							if (thingHolder2 != null)
+							{
+								outThingsHolders.Add(thingHolder2);
+							}
 						}
 					}
+					num++;
 				}
-				i++;
 			}
 		}
 
@@ -281,18 +279,18 @@ namespace Verse
 				temperature = 14f;
 				return true;
 			}
-			if (holder is CompLaunchable || holder is ActiveDropPodInfo || holder is TravelingTransportPods)
+			if (!(holder is CompLaunchable) && !(holder is ActiveDropPodInfo) && !(holder is TravelingTransportPods))
 			{
+				if (!(holder is Settlement_TraderTracker) && !(holder is TradeShip))
+				{
+					temperature = 21f;
+					return false;
+				}
 				temperature = 14f;
 				return true;
 			}
-			if (holder is Settlement_TraderTracker || holder is TradeShip)
-			{
-				temperature = 14f;
-				return true;
-			}
-			temperature = 21f;
-			return false;
+			temperature = 14f;
+			return true;
 		}
 	}
 }

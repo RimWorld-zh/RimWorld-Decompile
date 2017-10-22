@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI.Group;
 
@@ -39,12 +38,8 @@ namespace RimWorld
 			transition2.AddTrigger(new Trigger_Memo("NoArtillery"));
 			transition2.AddTrigger(new Trigger_PawnHarmed(0.08f, false));
 			transition2.AddTrigger(new Trigger_FractionPawnsLost(0.3f));
-			transition2.AddTrigger(new Trigger_TicksPassed((int)(60000f * Rand.Range(1.5f, 3f))));
-			transition2.AddPreAction(new TransitionAction_Message("MessageSiegersAssaulting".Translate(new object[]
-			{
-				this.faction.def.pawnsPlural,
-				this.faction
-			}), MessageSound.SeriousAlert));
+			transition2.AddTrigger(new Trigger_TicksPassed((int)(60000.0 * Rand.Range(1.5f, 3f))));
+			transition2.AddPreAction(new TransitionAction_Message("MessageSiegersAssaulting".Translate(this.faction.def.pawnsPlural, this.faction), MessageSound.SeriousAlert));
 			transition2.AddPostAction(new TransitionAction_WakeAll());
 			stateGraph.AddTransition(transition2);
 			return stateGraph;

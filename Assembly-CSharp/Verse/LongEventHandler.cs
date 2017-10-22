@@ -54,9 +54,9 @@ namespace Verse
 			}
 		}
 
-		private static Queue<LongEventHandler.QueuedLongEvent> eventQueue = new Queue<LongEventHandler.QueuedLongEvent>();
+		private static Queue<QueuedLongEvent> eventQueue = new Queue<QueuedLongEvent>();
 
-		private static LongEventHandler.QueuedLongEvent currentEvent = null;
+		private static QueuedLongEvent currentEvent = null;
 
 		private static Thread eventThread = null;
 
@@ -82,9 +82,9 @@ namespace Verse
 				{
 					return true;
 				}
-				if (LongEventHandler.currentEvent == null && LongEventHandler.eventQueue.Any<LongEventHandler.QueuedLongEvent>())
+				if (LongEventHandler.currentEvent == null && LongEventHandler.eventQueue.Any())
 				{
-					LongEventHandler.QueuedLongEvent queuedLongEvent = LongEventHandler.eventQueue.Peek();
+					QueuedLongEvent queuedLongEvent = LongEventHandler.eventQueue.Peek();
 					if (queuedLongEvent.doAsynchronously)
 					{
 						return true;
@@ -94,7 +94,11 @@ namespace Verse
 						return true;
 					}
 				}
-				return Find.UIRoot == null || Find.WindowStack == null;
+				if (Find.UIRoot != null && Find.WindowStack != null)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -116,7 +120,7 @@ namespace Verse
 
 		public static void QueueLongEvent(Action action, string textKey, bool doAsynchronously, Action<Exception> exceptionHandler)
 		{
-			LongEventHandler.QueuedLongEvent queuedLongEvent = new LongEventHandler.QueuedLongEvent();
+			QueuedLongEvent queuedLongEvent = new QueuedLongEvent();
 			queuedLongEvent.eventAction = action;
 			queuedLongEvent.eventTextKey = textKey;
 			queuedLongEvent.doAsynchronously = doAsynchronously;
@@ -126,7 +130,7 @@ namespace Verse
 
 		public static void QueueLongEvent(IEnumerable action, string textKey, Action<Exception> exceptionHandler = null)
 		{
-			LongEventHandler.QueuedLongEvent queuedLongEvent = new LongEventHandler.QueuedLongEvent();
+			QueuedLongEvent queuedLongEvent = new QueuedLongEvent();
 			queuedLongEvent.eventActionEnumerator = action.GetEnumerator();
 			queuedLongEvent.eventTextKey = textKey;
 			queuedLongEvent.doAsynchronously = false;
@@ -136,7 +140,7 @@ namespace Verse
 
 		public static void QueueLongEvent(Action preLoadLevelAction, string levelToLoad, string textKey, bool doAsynchronously, Action<Exception> exceptionHandler)
 		{
-			LongEventHandler.QueuedLongEvent queuedLongEvent = new LongEventHandler.QueuedLongEvent();
+			QueuedLongEvent queuedLongEvent = new QueuedLongEvent();
 			queuedLongEvent.eventAction = preLoadLevelAction;
 			queuedLongEvent.levelToLoad = levelToLoad;
 			queuedLongEvent.eventTextKey = textKey;
@@ -152,36 +156,49 @@ namespace Verse
 
 		public static void LongEventsOnGUI()
 		{
-			if (LongEventHandler.currentEvent == null)
+			if (LongEventHandler.currentEvent != null)
 			{
-				return;
-			}
-			float num = LongEventHandler.GUIRectSize.x;
-			object currentEventTextLock = LongEventHandler.CurrentEventTextLock;
-			lock (currentEventTextLock)
-			{
-				Text.Font = GameFont.Small;
-				num = Mathf.Max(num, Text.CalcSize(LongEventHandler.currentEvent.eventText + "...").x + 40f);
-			}
-			Rect rect = new Rect(((float)UI.screenWidth - num) / 2f, ((float)UI.screenHeight - LongEventHandler.GUIRectSize.y) / 2f, num, LongEventHandler.GUIRectSize.y);
-			rect = rect.Rounded();
-			if (!LongEventHandler.currentEvent.UseStandardWindow || Find.UIRoot == null || Find.WindowStack == null)
-			{
-				if (UIMenuBackgroundManager.background == null)
+				Vector2 gUIRectSize = LongEventHandler.GUIRectSize;
+				float num = gUIRectSize.x;
+				object currentEventTextLock = LongEventHandler.CurrentEventTextLock;
+				Monitor.Enter(currentEventTextLock);
+				try
 				{
-					UIMenuBackgroundManager.background = new UI_BackgroundMain();
+					Text.Font = GameFont.Small;
+					float a = num;
+					Vector2 vector = Text.CalcSize(LongEventHandler.currentEvent.eventText + "...");
+					num = Mathf.Max(a, (float)(vector.x + 40.0));
 				}
-				UIMenuBackgroundManager.background.BackgroundOnGUI();
-				Widgets.DrawShadowAround(rect);
-				Widgets.DrawWindowBackground(rect);
-				LongEventHandler.DrawLongEventWindowContents(rect);
-			}
-			else
-			{
-				Find.WindowStack.ImmediateWindow(62893994, rect, WindowLayer.Super, delegate
+				finally
 				{
-					LongEventHandler.DrawLongEventWindowContents(rect.AtZero());
-				}, true, false, 1f);
+					Monitor.Exit(currentEventTextLock);
+				}
+				double x = ((float)UI.screenWidth - num) / 2.0;
+				float num2 = (float)UI.screenHeight;
+				Vector2 gUIRectSize2 = LongEventHandler.GUIRectSize;
+				double y = (num2 - gUIRectSize2.y) / 2.0;
+				float width = num;
+				Vector2 gUIRectSize3 = LongEventHandler.GUIRectSize;
+				Rect rect = new Rect((float)x, (float)y, width, gUIRectSize3.y);
+				rect = rect.Rounded();
+				if (!LongEventHandler.currentEvent.UseStandardWindow || Find.UIRoot == null || Find.WindowStack == null)
+				{
+					if (UIMenuBackgroundManager.background == null)
+					{
+						UIMenuBackgroundManager.background = new UI_BackgroundMain();
+					}
+					UIMenuBackgroundManager.background.BackgroundOnGUI();
+					Widgets.DrawShadowAround(rect);
+					Widgets.DrawWindowBackground(rect);
+					LongEventHandler.DrawLongEventWindowContents(rect);
+				}
+				else
+				{
+					Find.WindowStack.ImmediateWindow(62893994, rect, WindowLayer.Super, (Action)delegate
+					{
+						LongEventHandler.DrawLongEventWindowContents(rect.AtZero());
+					}, true, false, 1f);
+				}
 			}
 		}
 
@@ -220,7 +237,9 @@ namespace Verse
 		public static void ExecuteWhenFinished(Action action)
 		{
 			LongEventHandler.toExecuteWhenFinished.Add(action);
-			if ((LongEventHandler.currentEvent == null || LongEventHandler.currentEvent.ShouldWaitUntilDisplayed) && !LongEventHandler.executingToExecuteWhenFinished)
+			if (LongEventHandler.currentEvent != null && !LongEventHandler.currentEvent.ShouldWaitUntilDisplayed)
+				return;
+			if (!LongEventHandler.executingToExecuteWhenFinished)
 			{
 				LongEventHandler.ExecuteToExecuteWhenFinished();
 			}
@@ -229,12 +248,17 @@ namespace Verse
 		public static void SetCurrentEventText(string newText)
 		{
 			object currentEventTextLock = LongEventHandler.CurrentEventTextLock;
-			lock (currentEventTextLock)
+			Monitor.Enter(currentEventTextLock);
+			try
 			{
 				if (LongEventHandler.currentEvent != null)
 				{
 					LongEventHandler.currentEvent.eventText = newText;
 				}
+			}
+			finally
+			{
+				Monitor.Exit(currentEventTextLock);
 			}
 		}
 
@@ -242,13 +266,11 @@ namespace Verse
 		{
 			try
 			{
-				float num = Time.realtimeSinceStartup + 0.1f;
+				float num = (float)(Time.realtimeSinceStartup + 0.10000000149011612);
 				while (LongEventHandler.currentEvent.eventActionEnumerator.MoveNext())
 				{
 					if (num <= Time.realtimeSinceStartup)
-					{
 						return;
-					}
 				}
 				IDisposable disposable = LongEventHandler.currentEvent.eventActionEnumerator as IDisposable;
 				if (disposable != null)
@@ -270,7 +292,7 @@ namespace Verse
 					{
 						disposable2.Dispose();
 					}
-					if (LongEventHandler.currentEvent.exceptionHandler != null)
+					if ((object)LongEventHandler.currentEvent.exceptionHandler != null)
 					{
 						LongEventHandler.currentEvent.exceptionHandler(ex);
 					}
@@ -285,7 +307,7 @@ namespace Verse
 		{
 			if (LongEventHandler.eventThread == null)
 			{
-				LongEventHandler.eventThread = new Thread(delegate
+				LongEventHandler.eventThread = new Thread((ThreadStart)delegate
 				{
 					LongEventHandler.RunEventFromAnotherThread(LongEventHandler.currentEvent.eventAction);
 				});
@@ -322,36 +344,35 @@ namespace Verse
 		private static void UpdateCurrentSynchronousEvent(out bool sceneChanged)
 		{
 			sceneChanged = false;
-			if (LongEventHandler.currentEvent.ShouldWaitUntilDisplayed)
+			if (!LongEventHandler.currentEvent.ShouldWaitUntilDisplayed)
 			{
-				return;
-			}
-			try
-			{
-				if (LongEventHandler.currentEvent.eventAction != null)
+				try
 				{
-					LongEventHandler.currentEvent.eventAction();
+					if ((object)LongEventHandler.currentEvent.eventAction != null)
+					{
+						LongEventHandler.currentEvent.eventAction();
+					}
+					if (!LongEventHandler.currentEvent.levelToLoad.NullOrEmpty())
+					{
+						SceneManager.LoadScene(LongEventHandler.currentEvent.levelToLoad);
+						sceneChanged = true;
+					}
+					LongEventHandler.currentEvent = null;
+					LongEventHandler.eventThread = null;
+					LongEventHandler.levelLoadOp = null;
+					LongEventHandler.ExecuteToExecuteWhenFinished();
 				}
-				if (!LongEventHandler.currentEvent.levelToLoad.NullOrEmpty())
+				catch (Exception ex)
 				{
-					SceneManager.LoadScene(LongEventHandler.currentEvent.levelToLoad);
-					sceneChanged = true;
+					Log.Error("Exception from long event: " + ex);
+					if (LongEventHandler.currentEvent != null && (object)LongEventHandler.currentEvent.exceptionHandler != null)
+					{
+						LongEventHandler.currentEvent.exceptionHandler(ex);
+					}
+					LongEventHandler.currentEvent = null;
+					LongEventHandler.eventThread = null;
+					LongEventHandler.levelLoadOp = null;
 				}
-				LongEventHandler.currentEvent = null;
-				LongEventHandler.eventThread = null;
-				LongEventHandler.levelLoadOp = null;
-				LongEventHandler.ExecuteToExecuteWhenFinished();
-			}
-			catch (Exception ex)
-			{
-				Log.Error("Exception from long event: " + ex);
-				if (LongEventHandler.currentEvent != null && LongEventHandler.currentEvent.exceptionHandler != null)
-				{
-					LongEventHandler.currentEvent.exceptionHandler(ex);
-				}
-				LongEventHandler.currentEvent = null;
-				LongEventHandler.eventThread = null;
-				LongEventHandler.levelLoadOp = null;
 			}
 		}
 
@@ -359,7 +380,7 @@ namespace Verse
 		{
 			try
 			{
-				if (action != null)
+				if ((object)action != null)
 				{
 					action();
 				}
@@ -369,7 +390,7 @@ namespace Verse
 				Log.Error("Exception from asynchronous event: " + ex);
 				try
 				{
-					if (LongEventHandler.currentEvent != null && LongEventHandler.currentEvent.exceptionHandler != null)
+					if (LongEventHandler.currentEvent != null && (object)LongEventHandler.currentEvent.exceptionHandler != null)
 					{
 						LongEventHandler.currentEvent.exceptionHandler(ex);
 					}
@@ -386,61 +407,70 @@ namespace Verse
 			if (LongEventHandler.executingToExecuteWhenFinished)
 			{
 				Log.Warning("Already executing.");
-				return;
 			}
-			LongEventHandler.executingToExecuteWhenFinished = true;
-			for (int i = 0; i < LongEventHandler.toExecuteWhenFinished.Count; i++)
+			else
 			{
-				try
+				LongEventHandler.executingToExecuteWhenFinished = true;
+				for (int i = 0; i < LongEventHandler.toExecuteWhenFinished.Count; i++)
 				{
-					LongEventHandler.toExecuteWhenFinished[i]();
+					try
+					{
+						LongEventHandler.toExecuteWhenFinished[i]();
+					}
+					catch (Exception arg)
+					{
+						Log.Error("Could not execute post-long-event action. Exception: " + arg);
+					}
 				}
-				catch (Exception arg)
-				{
-					Log.Error("Could not execute post-long-event action. Exception: " + arg);
-				}
+				LongEventHandler.toExecuteWhenFinished.Clear();
+				LongEventHandler.executingToExecuteWhenFinished = false;
 			}
-			LongEventHandler.toExecuteWhenFinished.Clear();
-			LongEventHandler.executingToExecuteWhenFinished = false;
 		}
 
 		private static void DrawLongEventWindowContents(Rect rect)
 		{
-			if (LongEventHandler.currentEvent == null)
+			if (LongEventHandler.currentEvent != null)
 			{
-				return;
-			}
-			if (Event.current.type == EventType.Repaint)
-			{
-				LongEventHandler.currentEvent.alreadyDisplayed = true;
-			}
-			Text.Font = GameFont.Small;
-			Text.Anchor = TextAnchor.MiddleCenter;
-			float num = 0f;
-			if (LongEventHandler.levelLoadOp != null)
-			{
-				float f = 1f;
-				if (!LongEventHandler.levelLoadOp.isDone)
+				if (Event.current.type == EventType.Repaint)
 				{
-					f = LongEventHandler.levelLoadOp.progress;
+					LongEventHandler.currentEvent.alreadyDisplayed = true;
 				}
-				string text = "LoadingAssets".Translate() + " " + f.ToStringPercent();
-				num = Text.CalcSize(text).x;
-				Widgets.Label(rect, text);
-			}
-			else
-			{
-				object currentEventTextLock = LongEventHandler.CurrentEventTextLock;
-				lock (currentEventTextLock)
+				Text.Font = GameFont.Small;
+				Text.Anchor = TextAnchor.MiddleCenter;
+				float num = 0f;
+				if (LongEventHandler.levelLoadOp != null)
 				{
-					num = Text.CalcSize(LongEventHandler.currentEvent.eventText).x;
-					Widgets.Label(rect, LongEventHandler.currentEvent.eventText);
+					float f = 1f;
+					if (!LongEventHandler.levelLoadOp.isDone)
+					{
+						f = LongEventHandler.levelLoadOp.progress;
+					}
+					string text = "LoadingAssets".Translate() + " " + f.ToStringPercent();
+					Vector2 vector = Text.CalcSize(text);
+					num = vector.x;
+					Widgets.Label(rect, text);
 				}
+				else
+				{
+					object currentEventTextLock = LongEventHandler.CurrentEventTextLock;
+					Monitor.Enter(currentEventTextLock);
+					try
+					{
+						Vector2 vector2 = Text.CalcSize(LongEventHandler.currentEvent.eventText);
+						num = vector2.x;
+						Widgets.Label(rect, LongEventHandler.currentEvent.eventText);
+					}
+					finally
+					{
+						Monitor.Exit(currentEventTextLock);
+					}
+				}
+				Text.Anchor = TextAnchor.MiddleLeft;
+				Vector2 center = rect.center;
+				rect.xMin = (float)(center.x + num / 2.0);
+				Widgets.Label(rect, LongEventHandler.currentEvent.UseAnimatedDots ? GenText.MarchingEllipsis(0f) : "...");
+				Text.Anchor = TextAnchor.UpperLeft;
 			}
-			Text.Anchor = TextAnchor.MiddleLeft;
-			rect.xMin = rect.center.x + num / 2f;
-			Widgets.Label(rect, LongEventHandler.currentEvent.UseAnimatedDots ? GenText.MarchingEllipsis(0f) : "...");
-			Text.Anchor = TextAnchor.UpperLeft;
 		}
 	}
 }

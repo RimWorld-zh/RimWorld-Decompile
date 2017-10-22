@@ -25,11 +25,11 @@ namespace Verse
 		public override void PostLoad()
 		{
 			base.PostLoad();
-			if (this.defName == "UnnamedDef")
+			if (base.defName == "UnnamedDef")
 			{
-				this.defName = "Scatterable_" + this.texturePath;
+				base.defName = "Scatterable_" + this.texturePath;
 			}
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				this.mat = MaterialPool.MatFrom(this.texturePath, ShaderDatabase.Transparent);
 			});

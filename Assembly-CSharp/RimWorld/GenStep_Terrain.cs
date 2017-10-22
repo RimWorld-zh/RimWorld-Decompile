@@ -19,30 +19,32 @@ namespace RimWorld
 			MapGenFloatGrid mapGenFloatGrid = MapGenerator.FloatGridNamed("Elevation", map);
 			MapGenFloatGrid mapGenFloatGrid2 = MapGenerator.FloatGridNamed("Fertility", map);
 			TerrainGrid terrainGrid = map.terrainGrid;
-			foreach (IntVec3 current in map.AllCells)
+			foreach (IntVec3 allCell in map.AllCells)
 			{
-				Building edifice = current.GetEdifice(map);
-				TerrainDef terrainDef;
-				if (edifice != null && edifice.def.Fillage == FillCategory.Full)
-				{
-					terrainDef = this.TerrainFrom(current, map, mapGenFloatGrid[current], mapGenFloatGrid2[current], river, true);
-				}
-				else
-				{
-					terrainDef = this.TerrainFrom(current, map, mapGenFloatGrid[current], mapGenFloatGrid2[current], river, false);
-				}
+				Building edifice = allCell.GetEdifice(map);
+				TerrainDef terrainDef = null;
+				terrainDef = ((edifice == null || edifice.def.Fillage != FillCategory.Full) ? this.TerrainFrom(allCell, map, mapGenFloatGrid[allCell], mapGenFloatGrid2[allCell], river, false) : this.TerrainFrom(allCell, map, mapGenFloatGrid[allCell], mapGenFloatGrid2[allCell], river, true));
 				if ((terrainDef == TerrainDefOf.WaterMovingShallow || terrainDef == TerrainDefOf.WaterMovingDeep) && edifice != null)
 				{
 					list.Add(edifice.Position);
 					edifice.Destroy(DestroyMode.Vanish);
 				}
-				terrainGrid.SetTerrain(current, terrainDef);
+				terrainGrid.SetTerrain(allCell, terrainDef);
 			}
 			RoofCollapseCellsFinder.RemoveBulkCollapsingRoofs(list, map);
 			BeachMaker.Cleanup();
-			foreach (TerrainPatchMaker current2 in map.Biome.terrainPatchMakers)
+			List<TerrainPatchMaker>.Enumerator enumerator2 = map.Biome.terrainPatchMakers.GetEnumerator();
+			try
 			{
-				current2.Cleanup();
+				while (enumerator2.MoveNext())
+				{
+					TerrainPatchMaker current2 = enumerator2.Current;
+					current2.Cleanup();
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
 			}
 		}
 
@@ -62,82 +64,92 @@ namespace RimWorld
 			{
 				return terrainDef2;
 			}
-			if (terrainDef == TerrainDefOf.WaterMovingShallow || terrainDef == TerrainDefOf.WaterMovingDeep)
+			if (terrainDef != TerrainDefOf.WaterMovingShallow && terrainDef != TerrainDefOf.WaterMovingDeep)
 			{
-				return terrainDef;
-			}
-			if (terrainDef2 != null)
-			{
-				return terrainDef2;
-			}
-			if (terrainDef != null)
-			{
-				return terrainDef;
-			}
-			for (int i = 0; i < map.Biome.terrainPatchMakers.Count; i++)
-			{
-				terrainDef2 = map.Biome.terrainPatchMakers[i].TerrainAt(c, map);
 				if (terrainDef2 != null)
 				{
 					return terrainDef2;
 				}
-			}
-			if (elevation > 0.55f && elevation < 0.61f)
-			{
-				return TerrainDefOf.Gravel;
-			}
-			if (elevation >= 0.61f)
-			{
-				return GenStep_RocksFromGrid.RockDefAt(c).naturalTerrain;
-			}
-			terrainDef2 = TerrainThreshold.TerrainAtValue(map.Biome.terrainsByFertility, fertility);
-			if (terrainDef2 != null)
-			{
-				return terrainDef2;
-			}
-			if (!GenStep_Terrain.debug_WarnedMissingTerrain)
-			{
-				Log.Error(string.Concat(new object[]
+				if (terrainDef != null)
 				{
-					"No terrain found in biome ",
-					map.Biome.defName,
-					" for elevation=",
-					elevation,
-					", fertility=",
-					fertility
-				}));
-				GenStep_Terrain.debug_WarnedMissingTerrain = true;
+					return terrainDef;
+				}
+				for (int i = 0; i < map.Biome.terrainPatchMakers.Count; i++)
+				{
+					terrainDef2 = map.Biome.terrainPatchMakers[i].TerrainAt(c, map);
+					if (terrainDef2 != null)
+					{
+						return terrainDef2;
+					}
+				}
+				if (elevation > 0.550000011920929 && elevation < 0.61000001430511475)
+				{
+					return TerrainDefOf.Gravel;
+				}
+				if (elevation >= 0.61000001430511475)
+				{
+					return GenStep_RocksFromGrid.RockDefAt(c).naturalTerrain;
+				}
+				terrainDef2 = TerrainThreshold.TerrainAtValue(map.Biome.terrainsByFertility, fertility);
+				if (terrainDef2 != null)
+				{
+					return terrainDef2;
+				}
+				if (!GenStep_Terrain.debug_WarnedMissingTerrain)
+				{
+					Log.Error("No terrain found in biome " + map.Biome.defName + " for elevation=" + elevation + ", fertility=" + fertility);
+					GenStep_Terrain.debug_WarnedMissingTerrain = true;
+				}
+				return TerrainDefOf.Sand;
 			}
-			return TerrainDefOf.Sand;
+			return terrainDef;
 		}
 
 		private RiverMaker GenerateRiver(Map map)
 		{
 			Tile tile = Find.WorldGrid[map.Tile];
 			List<Tile.RiverLink> visibleRivers = tile.VisibleRivers;
-			if (visibleRivers == null || visibleRivers.Count == 0)
+			if (((visibleRivers != null) ? visibleRivers.Count : 0) != 0)
 			{
-				return null;
-			}
-			float headingFromTo;
-			float angleB;
-			if (visibleRivers.Count == 1)
-			{
-				headingFromTo = Find.WorldGrid.GetHeadingFromTo(map.Tile, visibleRivers[0].neighbor);
-				angleB = headingFromTo + 180f;
-			}
-			else
-			{
-				List<Tile.RiverLink> list = (from rl in visibleRivers
+				float num = 0f;
+				float num2 = 0f;
+				if (visibleRivers.Count == 1)
+				{
+					WorldGrid worldGrid = Find.WorldGrid;
+					int tile2 = map.Tile;
+					Tile.RiverLink riverLink = visibleRivers[0];
+					num = worldGrid.GetHeadingFromTo(tile2, riverLink.neighbor);
+					num2 = (float)(num + 180.0);
+				}
+				else
+				{
+					List<Tile.RiverLink> list = (from rl in visibleRivers
+					orderby -rl.river.degradeThreshold
+					select rl).ToList();
+					WorldGrid worldGrid2 = Find.WorldGrid;
+					int tile3 = map.Tile;
+					Tile.RiverLink riverLink2 = list[0];
+					num = worldGrid2.GetHeadingFromTo(tile3, riverLink2.neighbor);
+					WorldGrid worldGrid3 = Find.WorldGrid;
+					int tile4 = map.Tile;
+					Tile.RiverLink riverLink3 = list[1];
+					num2 = worldGrid3.GetHeadingFromTo(tile4, riverLink3.neighbor);
+				}
+				float num3 = Rand.Range(0.3f, 0.7f);
+				IntVec3 size = map.Size;
+				float x = num3 * (float)size.x;
+				float num4 = Rand.Range(0.3f, 0.7f);
+				IntVec3 size2 = map.Size;
+				Vector3 vector = new Vector3(x, 0f, num4 * (float)size2.z);
+				Vector3 center = vector;
+				float angleA = num;
+				float angleB = num2;
+				Tile.RiverLink riverLink4 = (from rl in visibleRivers
 				orderby -rl.river.degradeThreshold
-				select rl).ToList<Tile.RiverLink>();
-				headingFromTo = Find.WorldGrid.GetHeadingFromTo(map.Tile, list[0].neighbor);
-				angleB = Find.WorldGrid.GetHeadingFromTo(map.Tile, list[1].neighbor);
+				select rl).FirstOrDefault();
+				return new RiverMaker(center, angleA, angleB, riverLink4.river);
 			}
-			Vector3 center = new Vector3(Rand.Range(0.3f, 0.7f) * (float)map.Size.x, 0f, Rand.Range(0.3f, 0.7f) * (float)map.Size.z);
-			return new RiverMaker(center, headingFromTo, angleB, (from rl in visibleRivers
-			orderby -rl.river.degradeThreshold
-			select rl).FirstOrDefault<Tile.RiverLink>().river);
+			return null;
 		}
 	}
 }

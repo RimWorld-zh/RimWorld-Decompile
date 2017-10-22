@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -23,7 +22,7 @@ namespace Verse
 					if (apparel.def.apparel.CoversBodyPart(part))
 					{
 						ArmorUtility.ApplyArmor(ref num, apparel.GetStatValue(deflectionStat, true), apparel, damageDef);
-						if (num < 0.001f)
+						if (num < 0.0010000000474974513)
 						{
 							return 0;
 						}
@@ -43,36 +42,28 @@ namespace Verse
 				num = armorRating;
 				num2 = 0f;
 			}
-			else if (armorRating < 1f)
+			else if (armorRating < 1.0)
 			{
 				num = 0.5f;
-				num2 = armorRating - 0.5f;
+				num2 = (float)(armorRating - 0.5);
 			}
 			else
 			{
-				num = 0.5f + (armorRating - 1f) * 0.25f;
-				num2 = 0.5f + (armorRating - 1f) * 0.25f;
+				num = (float)(0.5 + (armorRating - 1.0) * 0.25);
+				num2 = (float)(0.5 + (armorRating - 1.0) * 0.25);
 			}
-			if (num > 0.9f)
+			if (num > 0.89999997615814209)
 			{
 				num = 0.9f;
 			}
-			if (num2 > 0.9f)
+			if (num2 > 0.89999997615814209)
 			{
 				num2 = 0.9f;
 			}
-			float num3;
-			if (Rand.Value < num2)
-			{
-				num3 = damAmount;
-			}
-			else
-			{
-				num3 = damAmount * num;
-			}
+			float num3 = (!(Rand.Value < num2)) ? (damAmount * num) : damAmount;
 			if (armorThing != null)
 			{
-				float f = damAmount * 0.25f;
+				float f = (float)(damAmount * 0.25);
 				armorThing.TakeDamage(new DamageInfo(damageDef, GenMath.RoundRandom(f), -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
 			}
 			damAmount -= num3;

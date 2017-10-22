@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld
 {
 	public struct ThoughtState

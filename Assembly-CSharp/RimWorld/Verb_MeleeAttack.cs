@@ -1,6 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using UnityEngine;
 using Verse;
 using Verse.Sound;
 
@@ -17,19 +16,13 @@ namespace RimWorld
 			{
 				return false;
 			}
-			Thing thing = this.currentTarget.Thing;
+			Thing thing = base.currentTarget.Thing;
 			if (!base.CanHitTarget(thing))
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					casterPawn,
-					" meleed ",
-					thing,
-					" from out of melee position."
-				}));
+				Log.Warning(casterPawn + " meleed " + thing + " from out of melee position.");
 			}
 			casterPawn.Drawer.rotator.Face(thing.DrawPos);
-			if (!this.IsTargetImmobile(this.currentTarget) && casterPawn.skills != null)
+			if (!this.IsTargetImmobile(base.currentTarget) && casterPawn.skills != null)
 			{
 				casterPawn.skills.Learn(SkillDefOf.Melee, 250f, false);
 			}
@@ -40,15 +33,8 @@ namespace RimWorld
 				if (Rand.Value > this.GetDodgeChance(thing))
 				{
 					result = true;
-					this.ApplyMeleeDamageToTarget(this.currentTarget);
-					if (thing.def.category == ThingCategory.Building)
-					{
-						soundDef = this.SoundHitBuilding();
-					}
-					else
-					{
-						soundDef = this.SoundHitPawn();
-					}
+					this.ApplyMeleeDamageToTarget(base.currentTarget);
+					soundDef = ((thing.def.category != ThingCategory.Building) ? this.SoundHitPawn() : this.SoundHitBuilding());
 				}
 				else
 				{
@@ -82,21 +68,58 @@ namespace RimWorld
 			return result;
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<DamageInfo> DamageInfosToApply(LocalTargetInfo target)
 		{
-			Verb_MeleeAttack.<DamageInfosToApply>c__Iterator1B0 <DamageInfosToApply>c__Iterator1B = new Verb_MeleeAttack.<DamageInfosToApply>c__Iterator1B0();
-			<DamageInfosToApply>c__Iterator1B.target = target;
-			<DamageInfosToApply>c__Iterator1B.<$>target = target;
-			<DamageInfosToApply>c__Iterator1B.<>f__this = this;
-			Verb_MeleeAttack.<DamageInfosToApply>c__Iterator1B0 expr_1C = <DamageInfosToApply>c__Iterator1B;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			float damAmount = (float)base.verbProps.AdjustedMeleeDamageAmount(this, base.CasterPawn, base.ownerEquipment);
+			DamageDef damDef = base.verbProps.meleeDamageDef;
+			BodyPartGroupDef bodyPartGroupDef = null;
+			HediffDef hediffDef = null;
+			if (base.CasterIsPawn)
+			{
+				if (damAmount >= 1.0)
+				{
+					bodyPartGroupDef = base.verbProps.linkedBodyPartsGroup;
+					if (base.ownerHediffComp != null)
+					{
+						hediffDef = base.ownerHediffComp.Def;
+					}
+				}
+				else
+				{
+					damAmount = 1f;
+					damDef = DamageDefOf.Blunt;
+				}
+			}
+			ThingDef source = (base.ownerEquipment == null) ? base.CasterPawn.def : base.ownerEquipment.def;
+			Vector3 direction = (target.Thing.Position - base.CasterPawn.Position).ToVector3();
+			Thing caster = base.caster;
+			DamageInfo mainDinfo = new DamageInfo(damDef, GenMath.RoundRandom(damAmount), -1f, caster, null, source, DamageInfo.SourceCategory.ThingOrUnknown);
+			mainDinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
+			mainDinfo.SetWeaponBodyPartGroup(bodyPartGroupDef);
+			mainDinfo.SetWeaponHediff(hediffDef);
+			mainDinfo.SetAngle(direction);
+			yield return mainDinfo;
+			if (base.surpriseAttack && base.verbProps.surpriseAttack != null && base.verbProps.surpriseAttack.extraMeleeDamages != null)
+			{
+				List<ExtraMeleeDamage> extraDamages = base.verbProps.surpriseAttack.extraMeleeDamages;
+				for (int i = 0; i < extraDamages.Count; i++)
+				{
+					ExtraMeleeDamage extraDamage = extraDamages[i];
+					int amount = GenMath.RoundRandom((float)extraDamage.amount * base.GetDamageFactorFor(base.CasterPawn));
+					caster = base.caster;
+					DamageInfo extraDinfo = new DamageInfo(extraDamage.def, amount, -1f, caster, null, source, DamageInfo.SourceCategory.ThingOrUnknown);
+					extraDinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
+					extraDinfo.SetWeaponBodyPartGroup(bodyPartGroupDef);
+					extraDinfo.SetWeaponHediff(hediffDef);
+					extraDinfo.SetAngle(direction);
+					yield return extraDinfo;
+				}
+			}
 		}
 
 		private float GetNonMissChance(LocalTargetInfo target)
 		{
-			if (this.surpriseAttack)
+			if (base.surpriseAttack)
 			{
 				return 1f;
 			}
@@ -109,7 +132,7 @@ namespace RimWorld
 
 		private float GetDodgeChance(LocalTargetInfo target)
 		{
-			if (this.surpriseAttack)
+			if (base.surpriseAttack)
 			{
 				return 0f;
 			}
@@ -139,30 +162,31 @@ namespace RimWorld
 
 		private void ApplyMeleeDamageToTarget(LocalTargetInfo target)
 		{
-			foreach (DamageInfo current in this.DamageInfosToApply(target))
+			foreach (DamageInfo item in this.DamageInfosToApply(target))
 			{
-				if (target.ThingDestroyed)
+				if (!target.ThingDestroyed)
 				{
-					break;
+					target.Thing.TakeDamage(item);
+					continue;
 				}
-				target.Thing.TakeDamage(current);
+				break;
 			}
 		}
 
 		private SoundDef SoundHitPawn()
 		{
-			if (this.ownerEquipment != null && this.ownerEquipment.Stuff != null)
+			if (base.ownerEquipment != null && base.ownerEquipment.Stuff != null)
 			{
-				if (this.verbProps.meleeDamageDef.armorCategory == DamageArmorCategoryDefOf.Sharp)
+				if (base.verbProps.meleeDamageDef.armorCategory == DamageArmorCategoryDefOf.Sharp)
 				{
-					if (!this.ownerEquipment.Stuff.stuffProps.soundMeleeHitSharp.NullOrUndefined())
+					if (!base.ownerEquipment.Stuff.stuffProps.soundMeleeHitSharp.NullOrUndefined())
 					{
-						return this.ownerEquipment.Stuff.stuffProps.soundMeleeHitSharp;
+						return base.ownerEquipment.Stuff.stuffProps.soundMeleeHitSharp;
 					}
 				}
-				else if (!this.ownerEquipment.Stuff.stuffProps.soundMeleeHitBlunt.NullOrUndefined())
+				else if (!base.ownerEquipment.Stuff.stuffProps.soundMeleeHitBlunt.NullOrUndefined())
 				{
-					return this.ownerEquipment.Stuff.stuffProps.soundMeleeHitBlunt;
+					return base.ownerEquipment.Stuff.stuffProps.soundMeleeHitBlunt;
 				}
 			}
 			if (base.CasterPawn != null && !base.CasterPawn.def.race.soundMeleeHitPawn.NullOrUndefined())
@@ -174,18 +198,18 @@ namespace RimWorld
 
 		private SoundDef SoundHitBuilding()
 		{
-			if (this.ownerEquipment != null && this.ownerEquipment.Stuff != null)
+			if (base.ownerEquipment != null && base.ownerEquipment.Stuff != null)
 			{
-				if (this.verbProps.meleeDamageDef.armorCategory == DamageArmorCategoryDefOf.Sharp)
+				if (base.verbProps.meleeDamageDef.armorCategory == DamageArmorCategoryDefOf.Sharp)
 				{
-					if (!this.ownerEquipment.Stuff.stuffProps.soundMeleeHitSharp.NullOrUndefined())
+					if (!base.ownerEquipment.Stuff.stuffProps.soundMeleeHitSharp.NullOrUndefined())
 					{
-						return this.ownerEquipment.Stuff.stuffProps.soundMeleeHitSharp;
+						return base.ownerEquipment.Stuff.stuffProps.soundMeleeHitSharp;
 					}
 				}
-				else if (!this.ownerEquipment.Stuff.stuffProps.soundMeleeHitBlunt.NullOrUndefined())
+				else if (!base.ownerEquipment.Stuff.stuffProps.soundMeleeHitBlunt.NullOrUndefined())
 				{
-					return this.ownerEquipment.Stuff.stuffProps.soundMeleeHitBlunt;
+					return base.ownerEquipment.Stuff.stuffProps.soundMeleeHitBlunt;
 				}
 			}
 			if (base.CasterPawn != null && !base.CasterPawn.def.race.soundMeleeHitBuilding.NullOrUndefined())

@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class SubEffecter_SprayerChance : SubEffecter_Sprayer
@@ -10,8 +8,8 @@ namespace Verse
 
 		public override void SubEffectTick(TargetInfo A, TargetInfo B)
 		{
-			float num = this.def.chancePerTick;
-			if (this.def.spawnLocType == MoteSpawnLocType.RandomCellOnTarget && B.HasThing)
+			float num = base.def.chancePerTick;
+			if (base.def.spawnLocType == MoteSpawnLocType.RandomCellOnTarget && B.HasThing)
 			{
 				num *= (float)(B.Thing.def.size.x * B.Thing.def.size.z);
 			}

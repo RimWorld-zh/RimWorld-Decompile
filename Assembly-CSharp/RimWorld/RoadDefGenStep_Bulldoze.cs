@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
@@ -9,13 +10,22 @@ namespace RimWorld
 		{
 			while (tile.Impassable(map))
 			{
-				foreach (Thing current in tile.GetThingList(map))
+				List<Thing>.Enumerator enumerator = tile.GetThingList(map).GetEnumerator();
+				try
 				{
-					if (current.def.passability == Traversability.Impassable)
+					while (enumerator.MoveNext())
 					{
-						current.Destroy(DestroyMode.Vanish);
-						break;
+						Thing current = enumerator.Current;
+						if (current.def.passability == Traversability.Impassable)
+						{
+							current.Destroy(DestroyMode.Vanish);
+							break;
+						}
 					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 		}

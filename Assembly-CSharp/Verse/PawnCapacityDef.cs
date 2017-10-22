@@ -56,7 +56,7 @@ namespace Verse
 		{
 			if (isHumanlike)
 			{
-				return this.label;
+				return base.label;
 			}
 			if (isFlesh)
 			{
@@ -64,16 +64,13 @@ namespace Verse
 				{
 					return this.labelAnimals;
 				}
-				return this.label;
+				return base.label;
 			}
-			else
+			if (!this.labelMechanoids.NullOrEmpty())
 			{
-				if (!this.labelMechanoids.NullOrEmpty())
-				{
-					return this.labelMechanoids;
-				}
-				return this.label;
+				return this.labelMechanoids;
 			}
+			return base.label;
 		}
 	}
 }

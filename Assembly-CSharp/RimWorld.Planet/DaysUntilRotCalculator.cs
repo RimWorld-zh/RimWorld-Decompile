@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -24,7 +23,7 @@ namespace RimWorld.Planet
 					CompRottable compRottable = thing.TryGetComp<CompRottable>();
 					if (compRottable != null)
 					{
-						num = Mathf.Min(num, (float)compRottable.ApproxTicksUntilRotWhenAtTempOfTile(assumingTile) / 60000f);
+						num = Mathf.Min(num, (float)((float)compRottable.ApproxTicksUntilRotWhenAtTempOfTile(assumingTile) / 60000.0));
 					}
 				}
 			}
@@ -80,15 +79,15 @@ namespace RimWorld.Planet
 				{
 					if (transferableOneWay.AnyThing is Pawn)
 					{
-						for (int j = transferableOneWay.things.Count - 1; j >= transferableOneWay.CountToTransfer; j--)
+						for (int num = transferableOneWay.things.Count - 1; num >= transferableOneWay.CountToTransfer; num--)
 						{
-							Pawn pawn = (Pawn)transferableOneWay.things[j];
+							Pawn pawn = (Pawn)transferableOneWay.things[num];
 							if (!InventoryCalculatorsUtility.ShouldIgnoreInventoryOf(pawn, ignoreInventory))
 							{
 								ThingOwner<Thing> innerContainer = pawn.inventory.innerContainer;
-								for (int k = 0; k < innerContainer.Count; k++)
+								for (int j = 0; j < innerContainer.Count; j++)
 								{
-									DaysUntilRotCalculator.tmpThings.Add(innerContainer[k]);
+									DaysUntilRotCalculator.tmpThings.Add(innerContainer[j]);
 								}
 							}
 						}
@@ -108,25 +107,25 @@ namespace RimWorld.Planet
 		{
 			TransferableUtility.SimulateTradeableTransfer(allCurrentThings, tradeables, DaysUntilRotCalculator.tmpThingStackParts);
 			DaysUntilRotCalculator.tmpThings.Clear();
-			for (int i = DaysUntilRotCalculator.tmpThingStackParts.Count - 1; i >= 0; i--)
+			for (int num = DaysUntilRotCalculator.tmpThingStackParts.Count - 1; num >= 0; num--)
 			{
-				if (DaysUntilRotCalculator.tmpThingStackParts[i].Count > 0)
+				if (DaysUntilRotCalculator.tmpThingStackParts[num].Count > 0)
 				{
-					Pawn pawn = DaysUntilRotCalculator.tmpThingStackParts[i].Thing as Pawn;
+					Pawn pawn = DaysUntilRotCalculator.tmpThingStackParts[num].Thing as Pawn;
 					if (pawn != null)
 					{
 						if (!InventoryCalculatorsUtility.ShouldIgnoreInventoryOf(pawn, ignoreInventory))
 						{
 							ThingOwner<Thing> innerContainer = pawn.inventory.innerContainer;
-							for (int j = 0; j < innerContainer.Count; j++)
+							for (int i = 0; i < innerContainer.Count; i++)
 							{
-								DaysUntilRotCalculator.tmpThings.Add(innerContainer[j]);
+								DaysUntilRotCalculator.tmpThings.Add(innerContainer[i]);
 							}
 						}
 					}
 					else
 					{
-						DaysUntilRotCalculator.tmpThings.Add(DaysUntilRotCalculator.tmpThingStackParts[i].Thing);
+						DaysUntilRotCalculator.tmpThings.Add(DaysUntilRotCalculator.tmpThingStackParts[num].Thing);
 					}
 				}
 			}

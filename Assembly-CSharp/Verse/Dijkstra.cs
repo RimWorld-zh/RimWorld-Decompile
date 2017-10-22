@@ -16,7 +16,7 @@ namespace Verse
 
 		private static Dictionary<T, float> distances = new Dictionary<T, float>();
 
-		private static FastPriorityQueue<KeyValuePair<T, float>> queue = new FastPriorityQueue<KeyValuePair<T, float>>(new Dijkstra<T>.DistanceComparer());
+		private static FastPriorityQueue<KeyValuePair<T, float>> queue = new FastPriorityQueue<KeyValuePair<T, float>>((IComparer<KeyValuePair<T, float>>)new DistanceComparer());
 
 		private static List<T> singleNodeList = new List<T>();
 
@@ -26,7 +26,7 @@ namespace Verse
 		{
 			Dijkstra<T>.singleNodeList.Clear();
 			Dijkstra<T>.singleNodeList.Add(startingNode);
-			Dijkstra<T>.Run(Dijkstra<T>.singleNodeList, neighborsGetter, distanceGetter, ref outDistances);
+			Dijkstra<T>.Run((IEnumerable<T>)Dijkstra<T>.singleNodeList, neighborsGetter, distanceGetter, ref outDistances);
 		}
 
 		public static void Run(IEnumerable<T> startingNodes, Func<T, IEnumerable<T>> neighborsGetter, Func<T, T, float> distanceGetter, ref List<KeyValuePair<T, float>> outDistances)
@@ -37,7 +37,7 @@ namespace Verse
 			IList<T> list = startingNodes as IList<T>;
 			if (list != null)
 			{
-				for (int i = 0; i < list.Count; i++)
+				for (int i = 0; i < ((ICollection<T>)list).Count; i++)
 				{
 					T key = list[i];
 					if (!Dijkstra<T>.distances.ContainsKey(key))
@@ -49,12 +49,12 @@ namespace Verse
 			}
 			else
 			{
-				foreach (T current in startingNodes)
+				foreach (T item in startingNodes)
 				{
-					if (!Dijkstra<T>.distances.ContainsKey(current))
+					if (!Dijkstra<T>.distances.ContainsKey(item))
 					{
-						Dijkstra<T>.distances.Add(current, 0f);
-						Dijkstra<T>.queue.Push(new KeyValuePair<T, float>(current, 0f));
+						Dijkstra<T>.distances.Add(item, 0f);
+						Dijkstra<T>.queue.Push(new KeyValuePair<T, float>(item, 0f));
 					}
 				}
 			}
@@ -70,24 +70,33 @@ namespace Verse
 						IList<T> list2 = enumerable as IList<T>;
 						if (list2 != null)
 						{
-							for (int j = 0; j < list2.Count; j++)
+							for (int j = 0; j < ((ICollection<T>)list2).Count; j++)
 							{
 								Dijkstra<T>.HandleNeighbor(list2[j], num, node, distanceGetter);
 							}
 						}
 						else
 						{
-							foreach (T current2 in enumerable)
+							foreach (T item2 in enumerable)
 							{
-								Dijkstra<T>.HandleNeighbor(current2, num, node, distanceGetter);
+								Dijkstra<T>.HandleNeighbor(item2, num, node, distanceGetter);
 							}
 						}
 					}
 				}
 			}
-			foreach (KeyValuePair<T, float> current3 in Dijkstra<T>.distances)
+			Dictionary<T, float>.Enumerator enumerator3 = Dijkstra<T>.distances.GetEnumerator();
+			try
 			{
-				outDistances.Add(current3);
+				while (enumerator3.MoveNext())
+				{
+					KeyValuePair<T, float> current3 = enumerator3.Current;
+					outDistances.Add(current3);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator3).Dispose();
 			}
 			Dijkstra<T>.distances.Clear();
 		}
@@ -106,7 +115,7 @@ namespace Verse
 		private static void HandleNeighbor(T n, float nodeDist, KeyValuePair<T, float> node, Func<T, T, float> distanceGetter)
 		{
 			float num = nodeDist + Mathf.Max(distanceGetter(node.Key, n), 0f);
-			float num2;
+			float num2 = default(float);
 			if (Dijkstra<T>.distances.TryGetValue(n, out num2))
 			{
 				if (num < num2)

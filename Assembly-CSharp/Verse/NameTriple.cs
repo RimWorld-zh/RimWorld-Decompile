@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 
 namespace Verse
@@ -44,18 +43,11 @@ namespace Verse
 		{
 			get
 			{
-				if (this.First == this.Nick || this.Last == this.Nick)
+				if (!(this.First == this.Nick) && !(this.Last == this.Nick))
 				{
-					return this.First + " " + this.Last;
+					return this.First + " '" + this.Nick + "' " + this.Last;
 				}
-				return string.Concat(new string[]
-				{
-					this.First,
-					" '",
-					this.Nick,
-					"' ",
-					this.Last
-				});
+				return this.First + " " + this.Last;
 			}
 		}
 
@@ -104,9 +96,9 @@ namespace Verse
 
 		public override void ExposeData()
 		{
-			Scribe_Values.Look<string>(ref this.firstInt, "first", null, false);
-			Scribe_Values.Look<string>(ref this.nickInt, "nick", null, false);
-			Scribe_Values.Look<string>(ref this.lastInt, "last", null, false);
+			Scribe_Values.Look<string>(ref this.firstInt, "first", (string)null, false);
+			Scribe_Values.Look<string>(ref this.nickInt, "nick", (string)null, false);
+			Scribe_Values.Look<string>(ref this.lastInt, "last", (string)null, false);
 		}
 
 		public void ResolveMissingPieces(string overrideLastName = null)
@@ -115,37 +107,39 @@ namespace Verse
 			{
 				Log.Error("Cannot resolve misssing pieces in PawnName: No name data.");
 				this.firstInt = (this.nickInt = (this.lastInt = "Empty"));
-				return;
 			}
-			if (this.First == null)
+			else
 			{
-				this.firstInt = string.Empty;
-			}
-			if (this.Last == null)
-			{
-				this.lastInt = string.Empty;
-			}
-			if (overrideLastName != null)
-			{
-				this.lastInt = overrideLastName;
-			}
-			if (this.Nick.NullOrEmpty())
-			{
-				if (this.Last == string.Empty)
+				if (this.First == null)
 				{
-					this.nickInt = this.First;
+					this.firstInt = string.Empty;
 				}
-				else
+				if (this.Last == null)
 				{
-					if (Rand.ValueSeeded(Gen.HashCombine<string>(this.First.GetHashCode(), this.Last)) < 0.5f)
+					this.lastInt = string.Empty;
+				}
+				if (overrideLastName != null)
+				{
+					this.lastInt = overrideLastName;
+				}
+				if (this.Nick.NullOrEmpty())
+				{
+					if (this.Last == string.Empty)
 					{
 						this.nickInt = this.First;
 					}
 					else
 					{
-						this.nickInt = this.Last;
+						if (Rand.ValueSeeded(Gen.HashCombine(this.First.GetHashCode(), this.Last)) < 0.5)
+						{
+							this.nickInt = this.First;
+						}
+						else
+						{
+							this.nickInt = this.Last;
+						}
+						this.CapitalizeNick();
 					}
-					this.CapitalizeNick();
 				}
 			}
 		}
@@ -165,7 +159,11 @@ namespace Verse
 				}
 			}
 			NameSingle nameSingle = other as NameSingle;
-			return nameSingle != null && nameSingle.Name == this.Nick;
+			if (nameSingle != null && nameSingle.Name == this.Nick)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static NameTriple FromString(string rawName)
@@ -197,10 +195,7 @@ namespace Verse
 				}
 				else
 				{
-					string[] array = rawName.Split(new char[]
-					{
-						' '
-					});
+					string[] array = rawName.Split(' ');
 					if (array.Length == 1)
 					{
 						nameTriple.nickInt = array[0].Trim();
@@ -216,12 +211,12 @@ namespace Verse
 						nameTriple.lastInt = string.Empty;
 						for (int j = 1; j < array.Length; j++)
 						{
-							NameTriple expr_137 = nameTriple;
-							expr_137.lastInt += array[j];
+							NameTriple obj = nameTriple;
+							obj.lastInt += array[j];
 							if (j < array.Length - 1)
 							{
-								NameTriple expr_15A = nameTriple;
-								expr_15A.lastInt += " ";
+								NameTriple obj2 = nameTriple;
+								obj2.lastInt += " ";
 							}
 						}
 					}
@@ -246,14 +241,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Concat(new string[]
-			{
-				this.First,
-				" '",
-				this.Nick,
-				"' ",
-				this.Last
-			});
+			return this.First + " '" + this.Nick + "' " + this.Last;
 		}
 
 		public override bool Equals(object obj)
@@ -273,9 +261,9 @@ namespace Verse
 		public override int GetHashCode()
 		{
 			int seed = 0;
-			seed = Gen.HashCombine<string>(seed, this.First);
-			seed = Gen.HashCombine<string>(seed, this.Last);
-			return Gen.HashCombine<string>(seed, this.Nick);
+			seed = Gen.HashCombine(seed, this.First);
+			seed = Gen.HashCombine(seed, this.Last);
+			return Gen.HashCombine(seed, this.Nick);
 		}
 	}
 }

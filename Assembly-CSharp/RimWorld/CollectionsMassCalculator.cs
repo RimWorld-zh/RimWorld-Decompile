@@ -40,14 +40,7 @@ namespace RimWorld
 					Pawn pawn = thing as Pawn;
 					if (pawn != null)
 					{
-						if (includePawnsMass)
-						{
-							num += pawn.GetStatValue(StatDefOf.Mass, true) * (float)count;
-						}
-						else
-						{
-							num += MassUtility.GearAndInventoryMass(pawn) * (float)count;
-						}
+						num = ((!includePawnsMass) ? (num + MassUtility.GearAndInventoryMass(pawn) * (float)count) : (num + pawn.GetStatValue(StatDefOf.Mass, true) * (float)count));
 						if (InventoryCalculatorsUtility.ShouldIgnoreInventoryOf(pawn, ignoreInventory))
 						{
 							num -= MassUtility.InventoryMass(pawn) * (float)count;
@@ -76,15 +69,12 @@ namespace RimWorld
 			CollectionsMassCalculator.tmpThingStackParts.Clear();
 			for (int i = 0; i < transferables.Count; i++)
 			{
-				if (transferables[i].HasAnyThing)
+				if (transferables[i].HasAnyThing && transferables[i].AnyThing is Pawn)
 				{
-					if (transferables[i].AnyThing is Pawn)
+					TransferableUtility.TransferNoSplit(transferables[i].things, transferables[i].CountToTransfer, (Action<Thing, int>)delegate(Thing originalThing, int toTake)
 					{
-						TransferableUtility.TransferNoSplit(transferables[i].things, transferables[i].CountToTransfer, delegate(Thing originalThing, int toTake)
-						{
-							CollectionsMassCalculator.tmpThingStackParts.Add(new ThingStackPart(originalThing, toTake));
-						}, false, false);
-					}
+						CollectionsMassCalculator.tmpThingStackParts.Add(new ThingStackPart(originalThing, toTake));
+					}, false, false);
 				}
 			}
 			float result = CollectionsMassCalculator.Capacity(CollectionsMassCalculator.tmpThingStackParts);
@@ -97,18 +87,15 @@ namespace RimWorld
 			CollectionsMassCalculator.tmpThingStackParts.Clear();
 			for (int i = 0; i < transferables.Count; i++)
 			{
-				if (transferables[i].HasAnyThing)
+				if (transferables[i].HasAnyThing && transferables[i].AnyThing is Pawn)
 				{
-					if (transferables[i].AnyThing is Pawn)
+					CollectionsMassCalculator.thingsInReverse.Clear();
+					CollectionsMassCalculator.thingsInReverse.AddRange(transferables[i].things);
+					CollectionsMassCalculator.thingsInReverse.Reverse();
+					TransferableUtility.TransferNoSplit(CollectionsMassCalculator.thingsInReverse, transferables[i].MaxCount - transferables[i].CountToTransfer, (Action<Thing, int>)delegate(Thing originalThing, int toTake)
 					{
-						CollectionsMassCalculator.thingsInReverse.Clear();
-						CollectionsMassCalculator.thingsInReverse.AddRange(transferables[i].things);
-						CollectionsMassCalculator.thingsInReverse.Reverse();
-						TransferableUtility.TransferNoSplit(CollectionsMassCalculator.thingsInReverse, transferables[i].MaxCount - transferables[i].CountToTransfer, delegate(Thing originalThing, int toTake)
-						{
-							CollectionsMassCalculator.tmpThingStackParts.Add(new ThingStackPart(originalThing, toTake));
-						}, false, false);
-					}
+						CollectionsMassCalculator.tmpThingStackParts.Add(new ThingStackPart(originalThing, toTake));
+					}, false, false);
 				}
 			}
 			CollectionsMassCalculator.thingsInReverse.Clear();
@@ -130,7 +117,7 @@ namespace RimWorld
 			CollectionsMassCalculator.tmpThingStackParts.Clear();
 			for (int i = 0; i < things.Count; i++)
 			{
-				CollectionsMassCalculator.tmpThingStackParts.Add(new ThingStackPart(things[i], things[i].stackCount));
+				CollectionsMassCalculator.tmpThingStackParts.Add(new ThingStackPart((Thing)(object)things[i], ((Thing)(object)things[i]).stackCount));
 			}
 			float result = CollectionsMassCalculator.Capacity(CollectionsMassCalculator.tmpThingStackParts);
 			CollectionsMassCalculator.tmpThingStackParts.Clear();
@@ -142,7 +129,7 @@ namespace RimWorld
 			CollectionsMassCalculator.tmpThingStackParts.Clear();
 			for (int i = 0; i < transferables.Count; i++)
 			{
-				TransferableUtility.TransferNoSplit(transferables[i].things, transferables[i].CountToTransfer, delegate(Thing originalThing, int toTake)
+				TransferableUtility.TransferNoSplit(transferables[i].things, transferables[i].CountToTransfer, (Action<Thing, int>)delegate(Thing originalThing, int toTake)
 				{
 					CollectionsMassCalculator.tmpThingStackParts.Add(new ThingStackPart(originalThing, toTake));
 				}, false, false);
@@ -160,7 +147,7 @@ namespace RimWorld
 				CollectionsMassCalculator.thingsInReverse.Clear();
 				CollectionsMassCalculator.thingsInReverse.AddRange(transferables[i].things);
 				CollectionsMassCalculator.thingsInReverse.Reverse();
-				TransferableUtility.TransferNoSplit(CollectionsMassCalculator.thingsInReverse, transferables[i].MaxCount - transferables[i].CountToTransfer, delegate(Thing originalThing, int toTake)
+				TransferableUtility.TransferNoSplit(CollectionsMassCalculator.thingsInReverse, transferables[i].MaxCount - transferables[i].CountToTransfer, (Action<Thing, int>)delegate(Thing originalThing, int toTake)
 				{
 					CollectionsMassCalculator.tmpThingStackParts.Add(new ThingStackPart(originalThing, toTake));
 				}, false, false);
@@ -175,7 +162,7 @@ namespace RimWorld
 			CollectionsMassCalculator.tmpThingStackParts.Clear();
 			for (int i = 0; i < things.Count; i++)
 			{
-				CollectionsMassCalculator.tmpThingStackParts.Add(new ThingStackPart(things[i], things[i].stackCount));
+				CollectionsMassCalculator.tmpThingStackParts.Add(new ThingStackPart((Thing)(object)things[i], ((Thing)(object)things[i]).stackCount));
 			}
 			float result = CollectionsMassCalculator.MassUsage(CollectionsMassCalculator.tmpThingStackParts, ignoreInventory, includePawnsMass, ignoreCorpsesGearAndInventory);
 			CollectionsMassCalculator.tmpThingStackParts.Clear();

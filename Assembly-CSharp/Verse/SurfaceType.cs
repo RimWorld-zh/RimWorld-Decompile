@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum SurfaceType : byte
 	{
-		None,
-		Item,
-		Eat
+		None = 0,
+		Item = 1,
+		Eat = 2
 	}
 }

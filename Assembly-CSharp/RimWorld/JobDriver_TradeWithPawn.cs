@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -16,14 +15,22 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_TradeWithPawn.<MakeNewToils>c__Iterator3F <MakeNewToils>c__Iterator3F = new JobDriver_TradeWithPawn.<MakeNewToils>c__Iterator3F();
-			<MakeNewToils>c__Iterator3F.<>f__this = this;
-			JobDriver_TradeWithPawn.<MakeNewToils>c__Iterator3F expr_0E = <MakeNewToils>c__Iterator3F;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOnDespawnedOrNull(TargetIndex.A);
+			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator3F)/*Error near IL_0059: stateMachine*/)._003C_003Ef__this.Trader.CanTradeNow));
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+					Pawn actor = ((_003CMakeNewToils_003Ec__Iterator3F)/*Error near IL_008c: stateMachine*/)._003Ctrade_003E__0.actor;
+					if (((_003CMakeNewToils_003Ec__Iterator3F)/*Error near IL_008c: stateMachine*/)._003C_003Ef__this.Trader.CanTradeNow)
+					{
+						Find.WindowStack.Add(new Dialog_Trade(actor, ((_003CMakeNewToils_003Ec__Iterator3F)/*Error near IL_008c: stateMachine*/)._003C_003Ef__this.Trader));
+					}
+				}
+			};
 		}
 	}
 }

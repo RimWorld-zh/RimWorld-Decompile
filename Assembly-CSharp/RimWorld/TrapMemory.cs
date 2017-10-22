@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -49,7 +48,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return 1f - (float)this.Age / 1680000f;
+				return (float)(1.0 - (float)this.Age / 1680000.0);
 			}
 		}
 

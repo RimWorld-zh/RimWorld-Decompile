@@ -1,6 +1,6 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -40,60 +40,44 @@ namespace Verse
 			try
 			{
 				XDocument xDocument = XDocument.Load(file.FullName);
-				foreach (XElement current in xDocument.Root.Elements())
+				foreach (XElement item in xDocument.Root.Elements())
 				{
-					if (current.Name == "rep")
+					if (item.Name == "rep")
 					{
-						string key = this.ProcessedPath(current.Elements("path").First<XElement>().Value);
-						string translation = this.ProcessedTranslation(current.Elements("trans").First<XElement>().Value);
+						string key = this.ProcessedPath(item.Elements("path").First().Value);
+						string translation = this.ProcessedTranslation(item.Elements("trans").First().Value);
 						this.TryAddInjection(file, key, translation);
 					}
 					else
 					{
-						string key2 = this.ProcessedPath(current.Name.ToString());
-						string translation2 = this.ProcessedTranslation(current.Value);
+						string key2 = this.ProcessedPath(item.Name.ToString());
+						string translation2 = this.ProcessedTranslation(item.Value);
 						this.TryAddInjection(file, key2, translation2);
 					}
 				}
 			}
 			catch (Exception ex)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Exception loading translation data from file ",
-					file,
-					": ",
-					ex
-				}));
+				Log.Warning("Exception loading translation data from file " + file + ": " + ex);
 			}
 		}
 
 		private void TryAddInjection(FileInfo file, string key, string translation)
 		{
-			string[] array = key.Split(new char[]
-			{
-				'.'
-			});
+			string[] array = key.Split('.');
 			array[0] = BackCompatibility.BackCompatibleDefName(this.defType, array[0]);
 			key = string.Join(".", array);
-			if (this.HasError(file, key))
+			if (!this.HasError(file, key))
 			{
-				return;
+				this.injections.Add(key, translation);
 			}
-			this.injections.Add(key, translation);
 		}
 
 		private bool HasError(FileInfo file, string key)
 		{
 			if (!key.Contains('.'))
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Error loading DefInjection from file ",
-					file,
-					": Key lacks a dot: ",
-					key
-				}));
+				Log.Warning("Error loading DefInjection from file " + file + ": Key lacks a dot: " + key);
 				return true;
 			}
 			if (this.injections.ContainsKey(key))
@@ -106,33 +90,29 @@ namespace Verse
 
 		public void InjectIntoDefs()
 		{
-			foreach (KeyValuePair<string, string> current in this.injections)
+			Dictionary<string, string>.Enumerator enumerator = this.injections.GetEnumerator();
+			try
 			{
-				string[] array = current.Key.Split(new char[]
+				while (enumerator.MoveNext())
 				{
-					'.'
-				});
-				string text = array[0];
-				text = BackCompatibility.BackCompatibleDefName(this.defType, text);
-				if (GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), this.defType, "GetNamedSilentFail", new object[]
-				{
-					text
-				}) == null)
-				{
-					Log.Warning(string.Concat(new object[]
+					KeyValuePair<string, string> current = enumerator.Current;
+					string[] array = current.Key.Split('.');
+					string defName = array[0];
+					defName = BackCompatibility.BackCompatibleDefName(this.defType, defName);
+					object obj = GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), this.defType, "GetNamedSilentFail", defName);
+					if (obj == null)
 					{
-						"Def-linked translation error: Found no ",
-						this.defType,
-						" named ",
-						text,
-						" to match ",
-						current.Key
-					}));
+						Log.Warning("Def-linked translation error: Found no " + this.defType + " named " + defName + " to match " + current.Key);
+					}
+					else
+					{
+						this.SetDefFieldAtPath(this.defType, current.Key, current.Value);
+					}
 				}
-				else
-				{
-					this.SetDefFieldAtPath(this.defType, current.Key, current.Value);
-				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), this.defType, "ClearCachedData");
 		}
@@ -142,34 +122,22 @@ namespace Verse
 			path = BackCompatibility.BackCompatibleModifiedTranslationPath(defType, path);
 			try
 			{
-				List<string> list = path.Split(new char[]
-				{
-					'.'
-				}).ToList<string>();
-				object obj = GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), defType, "GetNamedSilentFail", new object[]
-				{
-					list[0]
-				});
+				List<string> list = path.Split('.').ToList();
+				object obj = GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), defType, "GetNamedSilentFail", list[0]);
 				if (obj == null)
 				{
 					throw new InvalidOperationException("Def named " + list[0] + " not found.");
 				}
 				list.RemoveAt(0);
-				DefInjectionPathPartKind defInjectionPathPartKind;
-				string text;
-				int num;
 				while (true)
 				{
-					defInjectionPathPartKind = DefInjectionPathPartKind.Field;
-					text = list[0];
-					num = -1;
+					DefInjectionPathPartKind defInjectionPathPartKind = DefInjectionPathPartKind.Field;
+					string text = list[0];
+					int num = -1;
 					if (text.Contains('['))
 					{
 						defInjectionPathPartKind = DefInjectionPathPartKind.FieldWithListIndex;
-						string[] array = text.Split(new char[]
-						{
-							'['
-						});
+						string[] array = text.Split('[');
 						string text2 = array[1];
 						text2 = text2.Substring(0, text2.Length - 1);
 						num = (int)ParseHelper.FromString(text2, typeof(int));
@@ -181,161 +149,111 @@ namespace Verse
 					}
 					if (list.Count == 1)
 					{
-						break;
-					}
-					if (defInjectionPathPartKind == DefInjectionPathPartKind.ListIndex)
-					{
-						PropertyInfo property = obj.GetType().GetProperty("Item");
+						object obj2;
+						switch (defInjectionPathPartKind)
+						{
+						case DefInjectionPathPartKind.Field:
+						{
+							FieldInfo fieldNamed = this.GetFieldNamed(obj.GetType(), text);
+							if (fieldNamed == null)
+							{
+								throw new InvalidOperationException("Field " + text + " does not exist in type " + obj.GetType() + ".");
+							}
+							if (fieldNamed.HasAttribute<NoTranslateAttribute>())
+							{
+								Log.Error("Translated untranslateable field " + fieldNamed.Name + " of type " + fieldNamed.FieldType + " at path " + path + ". Translating this field will break the game.");
+							}
+							else if (fieldNamed.FieldType != typeof(string))
+							{
+								Log.Error("Translated non-string field " + fieldNamed.Name + " of type " + fieldNamed.FieldType + " at path " + path + ". Only string fields should be translated.");
+							}
+							else
+							{
+								fieldNamed.SetValue(obj, value);
+							}
+							return;
+						}
+						case DefInjectionPathPartKind.FieldWithListIndex:
+						{
+							FieldInfo field = obj.GetType().GetField(text, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+							if (field == null)
+							{
+								throw new InvalidOperationException("Field " + text + " does not exist.");
+							}
+							obj2 = field.GetValue(obj);
+							break;
+						}
+						default:
+						{
+							obj2 = obj;
+							break;
+						}
+						}
+						Type type = obj2.GetType();
+						PropertyInfo property = type.GetProperty("Count");
 						if (property == null)
 						{
-							goto Block_17;
+							throw new InvalidOperationException("Tried to use index on non-list (missing 'Count' property).");
 						}
-						obj = property.GetValue(obj, new object[]
+						int num2 = (int)property.GetValue(obj2, null);
+						if (num >= num2)
+						{
+							throw new InvalidOperationException("Trying to translate " + defType + "." + path + " at index " + num + " but the original list only has " + num2 + " entries (so the max index is " + (num2 - 1).ToString() + ").");
+						}
+						PropertyInfo property2 = type.GetProperty("Item");
+						if (property2 == null)
+						{
+							throw new InvalidOperationException("Tried to use index on non-list (missing 'Item' property).");
+						}
+						property2.SetValue(obj2, value, new object[1]
 						{
 							num
 						});
+						return;
 					}
-					else
+					if (defInjectionPathPartKind == DefInjectionPathPartKind.ListIndex)
 					{
-						FieldInfo field = obj.GetType().GetField(text, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-						if (field == null)
+						PropertyInfo property3 = obj.GetType().GetProperty("Item");
+						if (property3 == null)
 						{
-							goto Block_18;
+							throw new InvalidOperationException("Tried to use index on non-list (missing 'Item' property).");
 						}
-						if (defInjectionPathPartKind == DefInjectionPathPartKind.Field)
+						obj = property3.GetValue(obj, new object[1]
 						{
-							obj = field.GetValue(obj);
-						}
-						else
-						{
-							object value2 = field.GetValue(obj);
-							PropertyInfo property2 = value2.GetType().GetProperty("Item");
-							if (property2 == null)
-							{
-								goto Block_20;
-							}
-							obj = property2.GetValue(value2, new object[]
-							{
-								num
-							});
-						}
+							num
+						});
+						goto IL_041b;
 					}
+					FieldInfo field2 = obj.GetType().GetField(text, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+					if (field2 == null)
+					{
+						throw new InvalidOperationException("Field " + text + " does not exist.");
+					}
+					if (defInjectionPathPartKind == DefInjectionPathPartKind.Field)
+					{
+						obj = field2.GetValue(obj);
+						goto IL_041b;
+					}
+					object value2 = field2.GetValue(obj);
+					PropertyInfo property4 = value2.GetType().GetProperty("Item");
+					if (property4 != null)
+					{
+						obj = property4.GetValue(value2, new object[1]
+						{
+							num
+						});
+						goto IL_041b;
+					}
+					break;
+					IL_041b:
 					list.RemoveAt(0);
 				}
-				if (defInjectionPathPartKind == DefInjectionPathPartKind.Field)
-				{
-					FieldInfo fieldNamed = this.GetFieldNamed(obj.GetType(), text);
-					if (fieldNamed == null)
-					{
-						throw new InvalidOperationException(string.Concat(new object[]
-						{
-							"Field ",
-							text,
-							" does not exist in type ",
-							obj.GetType(),
-							"."
-						}));
-					}
-					if (fieldNamed.HasAttribute<NoTranslateAttribute>())
-					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Translated untranslateable field ",
-							fieldNamed.Name,
-							" of type ",
-							fieldNamed.FieldType,
-							" at path ",
-							path,
-							". Translating this field will break the game."
-						}));
-					}
-					else if (fieldNamed.FieldType != typeof(string))
-					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Translated non-string field ",
-							fieldNamed.Name,
-							" of type ",
-							fieldNamed.FieldType,
-							" at path ",
-							path,
-							". Only string fields should be translated."
-						}));
-					}
-					else
-					{
-						fieldNamed.SetValue(obj, value);
-					}
-				}
-				else
-				{
-					object obj2;
-					if (defInjectionPathPartKind == DefInjectionPathPartKind.FieldWithListIndex)
-					{
-						FieldInfo field2 = obj.GetType().GetField(text, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-						if (field2 == null)
-						{
-							throw new InvalidOperationException("Field " + text + " does not exist.");
-						}
-						obj2 = field2.GetValue(obj);
-					}
-					else
-					{
-						obj2 = obj;
-					}
-					Type type = obj2.GetType();
-					PropertyInfo property3 = type.GetProperty("Count");
-					if (property3 == null)
-					{
-						throw new InvalidOperationException("Tried to use index on non-list (missing 'Count' property).");
-					}
-					int num2 = (int)property3.GetValue(obj2, null);
-					if (num >= num2)
-					{
-						throw new InvalidOperationException(string.Concat(new object[]
-						{
-							"Trying to translate ",
-							defType,
-							".",
-							path,
-							" at index ",
-							num,
-							" but the original list only has ",
-							num2,
-							" entries (so the max index is ",
-							(num2 - 1).ToString(),
-							")."
-						}));
-					}
-					PropertyInfo property4 = type.GetProperty("Item");
-					if (property4 == null)
-					{
-						throw new InvalidOperationException("Tried to use index on non-list (missing 'Item' property).");
-					}
-					property4.SetValue(obj2, value, new object[]
-					{
-						num
-					});
-				}
-				return;
-				Block_17:
 				throw new InvalidOperationException("Tried to use index on non-list (missing 'Item' property).");
-				Block_18:
-				throw new InvalidOperationException("Field " + text + " does not exist.");
-				Block_20:
-				throw new InvalidOperationException("Tried to use index on non-list (missing 'Item' property).");
+				IL_0427:;
 			}
 			catch (Exception ex)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Def-linked translation error: Exception getting field at path ",
-					path,
-					" in ",
-					defType,
-					": ",
-					ex.ToString()
-				}));
+				Log.Warning("Def-linked translation error: Exception getting field at path " + path + " in " + defType + ": " + ex.ToString());
 			}
 		}
 
@@ -364,26 +282,56 @@ namespace Verse
 			return field;
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<string> MissingInjections()
 		{
-			DefInjectionPackage.<MissingInjections>c__Iterator1EF <MissingInjections>c__Iterator1EF = new DefInjectionPackage.<MissingInjections>c__Iterator1EF();
-			<MissingInjections>c__Iterator1EF.<>f__this = this;
-			DefInjectionPackage.<MissingInjections>c__Iterator1EF expr_0E = <MissingInjections>c__Iterator1EF;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			Type databaseType = typeof(DefDatabase<>).MakeGenericType(this.defType);
+			PropertyInfo allDefsProperty = databaseType.GetProperty("AllDefs");
+			MethodInfo allDefsMethod = allDefsProperty.GetGetMethod();
+			IEnumerable allDefsEnum = (IEnumerable)allDefsMethod.Invoke(null, null);
+			foreach (Def item in allDefsEnum)
+			{
+				foreach (string item2 in this.MissingInjectionsFromDef(item))
+				{
+					yield return item2;
+				}
+			}
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<string> MissingInjectionsFromDef(Def def)
 		{
-			DefInjectionPackage.<MissingInjectionsFromDef>c__Iterator1F0 <MissingInjectionsFromDef>c__Iterator1F = new DefInjectionPackage.<MissingInjectionsFromDef>c__Iterator1F0();
-			<MissingInjectionsFromDef>c__Iterator1F.def = def;
-			<MissingInjectionsFromDef>c__Iterator1F.<$>def = def;
-			<MissingInjectionsFromDef>c__Iterator1F.<>f__this = this;
-			DefInjectionPackage.<MissingInjectionsFromDef>c__Iterator1F0 expr_1C = <MissingInjectionsFromDef>c__Iterator1F;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (!def.label.NullOrEmpty())
+			{
+				string path3 = def.defName + ".label";
+				if (!this.injections.ContainsKey(path3))
+				{
+					yield return path3 + " '" + def.label + "'";
+				}
+			}
+			if (!def.description.NullOrEmpty())
+			{
+				string path2 = def.defName + ".description";
+				if (!this.injections.ContainsKey(path2))
+				{
+					yield return path2 + " '" + def.description + "'";
+				}
+			}
+			FieldInfo[] fields = def.GetType().GetFields();
+			for (int i = 0; i < fields.Length; i++)
+			{
+				FieldInfo fi = fields[i];
+				if (fi.FieldType == typeof(string))
+				{
+					string val = (string)fi.GetValue(def);
+					if (!val.NullOrEmpty() && !(fi.Name == "defName") && !(fi.Name == "label") && !(fi.Name == "description") && !fi.HasAttribute<NoTranslateAttribute>() && !fi.HasAttribute<UnsavedAttribute>() && (fi.HasAttribute<MustTranslateAttribute>() || (val != null && val.Contains(' '))))
+					{
+						string path = def.defName + "." + fi.Name;
+						if (!this.injections.ContainsKey(path))
+						{
+							yield return path + " '" + val + "'";
+						}
+					}
+				}
+			}
 		}
 	}
 }

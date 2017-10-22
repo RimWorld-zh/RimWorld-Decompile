@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -27,7 +26,7 @@ namespace Verse
 				{
 					this.effecter.Cleanup();
 				}
-				FullPool<PawnStatusEffecters.LiveEffecter>.Return(this);
+				FullPool<LiveEffecter>.Return(this);
 			}
 
 			public void Reset()
@@ -48,18 +47,18 @@ namespace Verse
 				{
 					this.effecter = this.def.Spawn();
 				}
-				this.effecter.EffectTick(pawn, null);
+				this.effecter.EffectTick((Thing)pawn, (Thing)null);
 			}
 		}
 
 		public Pawn pawn;
 
-		private List<PawnStatusEffecters.LiveEffecter> pairs;
+		private List<LiveEffecter> pairs;
 
 		public PawnStatusEffecters(Pawn pawn)
 		{
 			this.pawn = pawn;
-			this.pairs = new List<PawnStatusEffecters.LiveEffecter>();
+			this.pairs = new List<LiveEffecter>();
 		}
 
 		public void EffectersTick()
@@ -85,16 +84,16 @@ namespace Verse
 					this.AddOrMaintain(effecterDef2);
 				}
 			}
-			for (int j = this.pairs.Count - 1; j >= 0; j--)
+			for (int num = this.pairs.Count - 1; num >= 0; num--)
 			{
-				if (this.pairs[j].Expired)
+				if (this.pairs[num].Expired)
 				{
-					this.pairs[j].Cleanup();
-					this.pairs.RemoveAt(j);
+					this.pairs[num].Cleanup();
+					this.pairs.RemoveAt(num);
 				}
 				else
 				{
-					this.pairs[j].Tick(this.pawn);
+					this.pairs[num].Tick(this.pawn);
 				}
 			}
 		}
@@ -109,7 +108,7 @@ namespace Verse
 					return;
 				}
 			}
-			PawnStatusEffecters.LiveEffecter liveEffecter = FullPool<PawnStatusEffecters.LiveEffecter>.Get();
+			LiveEffecter liveEffecter = FullPool<LiveEffecter>.Get();
 			liveEffecter.def = def;
 			liveEffecter.Maintain();
 			this.pairs.Add(liveEffecter);

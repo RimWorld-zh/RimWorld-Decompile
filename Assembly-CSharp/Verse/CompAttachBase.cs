@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,7 +13,7 @@ namespace Verse
 			{
 				for (int i = 0; i < this.attachments.Count; i++)
 				{
-					this.attachments[i].Position = this.parent.Position;
+					this.attachments[i].Position = base.parent.Position;
 				}
 			}
 		}
@@ -24,9 +23,9 @@ namespace Verse
 			base.PostDestroy(mode, previousMap);
 			if (this.attachments != null)
 			{
-				for (int i = this.attachments.Count - 1; i >= 0; i--)
+				for (int num = this.attachments.Count - 1; num >= 0; num--)
 				{
-					this.attachments[i].Destroy(DestroyMode.Vanish);
+					this.attachments[num].Destroy(DestroyMode.Vanish);
 				}
 			}
 		}
@@ -42,7 +41,7 @@ namespace Verse
 				}
 				return stringBuilder.ToString().TrimEndNewlines();
 			}
-			return null;
+			return (string)null;
 		}
 
 		public Thing GetAttachment(ThingDef def)

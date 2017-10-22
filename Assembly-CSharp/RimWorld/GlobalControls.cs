@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -12,68 +11,80 @@ namespace RimWorld
 
 		public void GlobalControlsOnGUI()
 		{
-			if (Event.current.type == EventType.Layout)
+			if (Event.current.type != EventType.Layout)
 			{
-				return;
-			}
-			float num = (float)UI.screenWidth - 200f;
-			float num2 = (float)UI.screenHeight;
-			num2 -= 35f;
-			GenUI.DrawTextWinterShadow(new Rect((float)(UI.screenWidth - 270), (float)(UI.screenHeight - 450), 270f, 450f));
-			num2 -= 4f;
-			GlobalControlsUtility.DoPlaySettings(this.rowVisibility, false, ref num2);
-			num2 -= 4f;
-			GlobalControlsUtility.DoTimespeedControls(num, 200f, ref num2);
-			num2 -= 4f;
-			GlobalControlsUtility.DoDate(num, 200f, ref num2);
-			Rect rect = new Rect(num - 30f, num2 - 26f, 230f, 26f);
-			Find.VisibleMap.weatherManager.DoWeatherGUI(rect);
-			num2 -= rect.height;
-			Rect rect2 = new Rect(num - 100f, num2 - 26f, 293f, 26f);
-			Text.Anchor = TextAnchor.MiddleRight;
-			Widgets.Label(rect2, GlobalControls.TemperatureString());
-			Text.Anchor = TextAnchor.UpperLeft;
-			num2 -= 26f;
-			float num3 = 230f;
-			float num4 = Find.VisibleMap.gameConditionManager.TotalHeightAt(num3 - 15f);
-			Rect rect3 = new Rect(num - 30f, num2 - num4, num3, num4);
-			Find.VisibleMap.gameConditionManager.DoConditionsUI(rect3);
-			num2 -= rect3.height;
-			if (Prefs.ShowRealtimeClock)
-			{
-				GlobalControlsUtility.DoRealtimeClock(num, 200f, ref num2);
-			}
-			if (Find.VisibleMap.info.parent.ForceExitAndRemoveMapCountdownActive)
-			{
-				Rect rect4 = new Rect(num, num2 - 26f, 193f, 26f);
+				float num = (float)((float)UI.screenWidth - 200.0);
+				float num2 = (float)UI.screenHeight;
+				num2 = (float)(num2 - 35.0);
+				GenUI.DrawTextWinterShadow(new Rect((float)(UI.screenWidth - 270), (float)(UI.screenHeight - 450), 270f, 450f));
+				num2 = (float)(num2 - 4.0);
+				GlobalControlsUtility.DoPlaySettings(this.rowVisibility, false, ref num2);
+				num2 = (float)(num2 - 4.0);
+				GlobalControlsUtility.DoTimespeedControls(num, 200f, ref num2);
+				num2 = (float)(num2 - 4.0);
+				GlobalControlsUtility.DoDate(num, 200f, ref num2);
+				Rect rect = new Rect((float)(num - 30.0), (float)(num2 - 26.0), 230f, 26f);
+				Find.VisibleMap.weatherManager.DoWeatherGUI(rect);
+				num2 -= rect.height;
+				Rect rect2 = new Rect((float)(num - 100.0), (float)(num2 - 26.0), 293f, 26f);
 				Text.Anchor = TextAnchor.MiddleRight;
-				GlobalControls.DoCountdownTimer(rect4);
+				Widgets.Label(rect2, GlobalControls.TemperatureString());
 				Text.Anchor = TextAnchor.UpperLeft;
-				num2 -= 26f;
+				num2 = (float)(num2 - 26.0);
+				float num3 = 230f;
+				float num4 = Find.VisibleMap.gameConditionManager.TotalHeightAt((float)(num3 - 15.0));
+				Rect rect3 = new Rect((float)(num - 30.0), num2 - num4, num3, num4);
+				Find.VisibleMap.gameConditionManager.DoConditionsUI(rect3);
+				num2 -= rect3.height;
+				if (Prefs.ShowRealtimeClock)
+				{
+					GlobalControlsUtility.DoRealtimeClock(num, 200f, ref num2);
+				}
+				if (Find.VisibleMap.info.parent.ForceExitAndRemoveMapCountdownActive)
+				{
+					Rect rect4 = new Rect(num, (float)(num2 - 26.0), 193f, 26f);
+					Text.Anchor = TextAnchor.MiddleRight;
+					GlobalControls.DoCountdownTimer(rect4);
+					Text.Anchor = TextAnchor.UpperLeft;
+					num2 = (float)(num2 - 26.0);
+				}
+				num2 = (float)(num2 - 10.0);
+				Find.LetterStack.LettersOnGUI(num2);
 			}
-			num2 -= 10f;
-			Find.LetterStack.LettersOnGUI(num2);
 		}
 
 		private static string TemperatureString()
 		{
-			IntVec3 intVec = UI.MouseCell();
-			IntVec3 c = intVec;
+			IntVec3 c;
+			IntVec3 intVec = c = UI.MouseCell();
 			Room room = intVec.GetRoom(Find.VisibleMap, RegionType.Set_All);
 			if (room == null)
 			{
 				for (int i = 0; i < 9; i++)
 				{
 					IntVec3 intVec2 = intVec + GenAdj.AdjacentCellsAndInside[i];
+					Room room2;
 					if (intVec2.InBounds(Find.VisibleMap))
 					{
-						Room room2 = intVec2.GetRoom(Find.VisibleMap, RegionType.Set_All);
-						if (room2 != null && ((!room2.PsychologicallyOutdoors && !room2.UsesOutdoorTemperature) || (!room2.PsychologicallyOutdoors && (room == null || room.PsychologicallyOutdoors)) || (room2.PsychologicallyOutdoors && room == null)))
+						room2 = intVec2.GetRoom(Find.VisibleMap, RegionType.Set_All);
+						if (room2 != null)
 						{
-							c = intVec2;
-							room = room2;
+							if (!room2.PsychologicallyOutdoors && !room2.UsesOutdoorTemperature)
+							{
+								goto IL_00a8;
+							}
+							if (!room2.PsychologicallyOutdoors && (room == null || room.PsychologicallyOutdoors))
+							{
+								goto IL_00a8;
+							}
+							if (room2.PsychologicallyOutdoors && room == null)
+								goto IL_00a8;
 						}
 					}
+					continue;
+					IL_00a8:
+					c = intVec2;
+					room = room2;
 				}
 			}
 			if (room == null && intVec.InBounds(Find.VisibleMap))
@@ -95,22 +106,7 @@ namespace RimWorld
 					}
 				}
 			}
-			string str;
-			if (c.InBounds(Find.VisibleMap) && !c.Fogged(Find.VisibleMap) && room != null && !room.PsychologicallyOutdoors)
-			{
-				if (room.OpenRoofCount == 0)
-				{
-					str = "Indoors".Translate();
-				}
-				else
-				{
-					str = "IndoorsUnroofed".Translate() + " (" + room.OpenRoofCount.ToStringCached() + ")";
-				}
-			}
-			else
-			{
-				str = "Outdoors".Translate();
-			}
+			string str = (!c.InBounds(Find.VisibleMap) || c.Fogged(Find.VisibleMap) || room == null || room.PsychologicallyOutdoors) ? "Outdoors".Translate() : ((room.OpenRoofCount != 0) ? ("IndoorsUnroofed".Translate() + " (" + room.OpenRoofCount.ToStringCached() + ")") : "Indoors".Translate());
 			float celsiusTemp = (room != null && !c.Fogged(Find.VisibleMap)) ? room.Temperature : Find.VisibleMap.mapTemperature.OutdoorTemp;
 			return str + " " + celsiusTemp.ToStringTemperature("F0");
 		}
@@ -118,20 +114,15 @@ namespace RimWorld
 		private static void DoCountdownTimer(Rect rect)
 		{
 			string forceExitAndRemoveMapCountdownTimeLeftString = Find.VisibleMap.info.parent.ForceExitAndRemoveMapCountdownTimeLeftString;
-			string text = "ForceExitAndRemoveMapCountdown".Translate(new object[]
-			{
-				forceExitAndRemoveMapCountdownTimeLeftString
-			});
-			float x = Text.CalcSize(text).x;
+			string text = "ForceExitAndRemoveMapCountdown".Translate(forceExitAndRemoveMapCountdownTimeLeftString);
+			Vector2 vector = Text.CalcSize(text);
+			float x = vector.x;
 			Rect rect2 = new Rect(rect.xMax - x, rect.y, x, rect.height);
 			if (Mouse.IsOver(rect2))
 			{
 				Widgets.DrawHighlight(rect2);
 			}
-			TooltipHandler.TipRegion(rect2, "ForceExitAndRemoveMapCountdownTip".Translate(new object[]
-			{
-				forceExitAndRemoveMapCountdownTimeLeftString
-			}));
+			TooltipHandler.TipRegion(rect2, "ForceExitAndRemoveMapCountdownTip".Translate(forceExitAndRemoveMapCountdownTimeLeftString));
 			Widgets.Label(rect2, text);
 		}
 	}

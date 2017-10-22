@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.BaseGen
@@ -19,10 +18,8 @@ namespace RimWorld.BaseGen
 			if (rp.rect.Width < 9 && rp.rect.Height < 9)
 			{
 				Log.Warning("Too small rect. params=" + rp);
-				return;
 			}
-			bool flag = (Rand.Bool && rp.rect.Height >= 9) || rp.rect.Width < 9;
-			if (flag)
+			else if ((Rand.Bool && rp.rect.Height >= 9) || rp.rect.Width < 9)
 			{
 				int num = Rand.RangeInclusive(4, rp.rect.Height - 5);
 				ResolveParams resolveParams = rp;

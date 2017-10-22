@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse
 {
@@ -22,7 +21,11 @@ namespace Verse
 
 		public bool CanCoexistWith(GameConditionDef other)
 		{
-			return this != other && (this.exclusiveConditions == null || !this.exclusiveConditions.Contains(other));
+			if (this == other)
+			{
+				return false;
+			}
+			return this.exclusiveConditions == null || !this.exclusiveConditions.Contains(other);
 		}
 
 		public static GameConditionDef Named(string defName)
@@ -30,14 +33,16 @@ namespace Verse
 			return DefDatabase<GameConditionDef>.GetNamed(defName, true);
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			GameConditionDef.<ConfigErrors>c__Iterator1CE <ConfigErrors>c__Iterator1CE = new GameConditionDef.<ConfigErrors>c__Iterator1CE();
-			<ConfigErrors>c__Iterator1CE.<>f__this = this;
-			GameConditionDef.<ConfigErrors>c__Iterator1CE expr_0E = <ConfigErrors>c__Iterator1CE;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.conditionClass == null)
+			{
+				yield return "conditionClass is null";
+			}
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -25,7 +24,7 @@ namespace RimWorld.Planet
 		private static GameObject CreateGameObject()
 		{
 			GameObject gameObject = new GameObject("WorldTerrainCollider");
-			UnityEngine.Object.DontDestroyOnLoad(gameObject);
+			Object.DontDestroyOnLoad(gameObject);
 			gameObject.layer = WorldCameraManager.WorldLayer;
 			return gameObject;
 		}

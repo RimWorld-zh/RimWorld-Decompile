@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -11,13 +10,13 @@ namespace RimWorld
 
 		public WeatherOverlay_Fallout()
 		{
-			this.worldOverlayMat = WeatherOverlay_Fallout.FalloutOverlayWorld;
-			this.worldOverlayPanSpeed1 = 0.0008f;
-			this.worldPanDir1 = new Vector2(-0.25f, -1f);
-			this.worldPanDir1.Normalize();
-			this.worldOverlayPanSpeed2 = 0.0012f;
-			this.worldPanDir2 = new Vector2(-0.24f, -1f);
-			this.worldPanDir2.Normalize();
+			base.worldOverlayMat = WeatherOverlay_Fallout.FalloutOverlayWorld;
+			base.worldOverlayPanSpeed1 = 0.0008f;
+			base.worldPanDir1 = new Vector2(-0.25f, -1f);
+			base.worldPanDir1.Normalize();
+			base.worldOverlayPanSpeed2 = 0.0012f;
+			base.worldPanDir2 = new Vector2(-0.24f, -1f);
+			base.worldPanDir2.Normalize();
 		}
 	}
 }

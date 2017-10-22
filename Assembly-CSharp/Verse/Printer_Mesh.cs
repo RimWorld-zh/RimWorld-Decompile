@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -13,20 +12,20 @@ namespace Verse
 			Vector3[] vertices = mesh.vertices;
 			Color32[] colors = mesh.colors32;
 			Vector2[] uv = mesh.uv;
-			for (int i = 0; i < vertexCount; i++)
+			for (int num = 0; num < vertexCount; num++)
 			{
-				subMesh.verts.Add(vertices[i] + center);
-				if (colors.Length > i)
+				subMesh.verts.Add(vertices[num] + center);
+				if (colors.Length > num)
 				{
-					subMesh.colors.Add(colors[i]);
+					subMesh.colors.Add(colors[num]);
 				}
 				else
 				{
-					subMesh.colors.Add(new Color32(255, 255, 255, 255));
+					subMesh.colors.Add(new Color32((byte)255, (byte)255, (byte)255, (byte)255));
 				}
-				if (uv.Length > i)
+				if (uv.Length > num)
 				{
-					subMesh.uvs.Add(uv[i]);
+					subMesh.uvs.Add(uv[num]);
 				}
 				else
 				{
@@ -34,10 +33,10 @@ namespace Verse
 				}
 			}
 			int[] triangles = mesh.triangles;
-			for (int j = 0; j < triangles.Length; j++)
+			for (int i = 0; i < triangles.Length; i++)
 			{
-				int num = triangles[j];
-				subMesh.tris.Add(count + num);
+				int num2 = triangles[i];
+				subMesh.tris.Add(count + num2);
 			}
 		}
 	}

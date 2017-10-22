@@ -103,11 +103,11 @@ namespace RimWorld.BaseGen
 			}
 			else
 			{
-				this.custom = new Dictionary<string, object>(this.custom);
+				this.custom = new Dictionary<string, object>((IDictionary<string, object>)this.custom);
 			}
 			if (!this.custom.ContainsKey(name))
 			{
-				this.custom.Add(name, obj);
+				this.custom.Add(name, (object)obj);
 			}
 			else if (!inherit)
 			{
@@ -117,176 +117,234 @@ namespace RimWorld.BaseGen
 
 		public void RemoveCustom(string name)
 		{
-			if (this.custom == null)
+			if (this.custom != null)
 			{
-				return;
+				this.custom = new Dictionary<string, object>(this.custom);
+				this.custom.Remove(name);
 			}
-			this.custom = new Dictionary<string, object>(this.custom);
-			this.custom.Remove(name);
 		}
 
 		public bool TryGetCustom<T>(string name, out T obj)
 		{
-			object obj2;
-			if (this.custom == null || !this.custom.TryGetValue(name, out obj2))
+			object obj2 = default(object);
+			if (this.custom != null && this.custom.TryGetValue(name, out obj2))
 			{
-				obj = default(T);
-				return false;
+				obj = (T)obj2;
+				return true;
 			}
-			obj = (T)((object)obj2);
-			return true;
+			obj = default(T);
+			return false;
 		}
 
 		public T GetCustom<T>(string name)
 		{
-			object obj;
-			if (this.custom == null || !this.custom.TryGetValue(name, out obj))
+			object obj = default(object);
+			if (this.custom != null && this.custom.TryGetValue(name, out obj))
 			{
-				return default(T);
+				return (T)obj;
 			}
-			return (T)((object)obj);
+			return default(T);
 		}
 
 		public override string ToString()
 		{
-			object[] expr_07 = new object[88];
-			expr_07[0] = "rect=";
-			expr_07[1] = this.rect;
-			expr_07[2] = ", faction=";
-			expr_07[3] = ((this.faction == null) ? "null" : this.faction.ToString());
-			expr_07[4] = ", custom=";
-			expr_07[5] = ((this.custom == null) ? "null" : this.custom.Count.ToString());
-			expr_07[6] = ", ancientTempleEntranceHeight=";
-			int arg_AD_1 = 7;
-			int? num = this.ancientTempleEntranceHeight;
-			expr_07[arg_AD_1] = ((!num.HasValue) ? "null" : this.ancientTempleEntranceHeight.ToString());
-			expr_07[8] = ", pawnGroupMakerParams=";
-			expr_07[9] = ((this.pawnGroupMakerParams == null) ? "null" : this.pawnGroupMakerParams.ToString());
-			expr_07[10] = ", pawnGroupKindDef=";
-			expr_07[11] = ((this.pawnGroupKindDef == null) ? "null" : this.pawnGroupKindDef.ToString());
-			expr_07[12] = ", roofDef=";
-			expr_07[13] = ((this.roofDef == null) ? "null" : this.roofDef.ToString());
-			expr_07[14] = ", noRoof=";
-			int arg_168_1 = 15;
-			bool? flag = this.noRoof;
-			expr_07[arg_168_1] = ((!flag.HasValue) ? "null" : this.noRoof.ToString());
-			expr_07[16] = ", addRoomCenterToRootsToUnfog=";
-			int arg_19D_1 = 17;
-			bool? flag2 = this.addRoomCenterToRootsToUnfog;
-			expr_07[arg_19D_1] = ((!flag2.HasValue) ? "null" : this.addRoomCenterToRootsToUnfog.ToString());
-			expr_07[18] = ", singleThingToSpawn=";
-			expr_07[19] = ((this.singleThingToSpawn == null) ? "null" : this.singleThingToSpawn.ToString());
-			expr_07[20] = ", singleThingDef=";
-			expr_07[21] = ((this.singleThingDef == null) ? "null" : this.singleThingDef.ToString());
-			expr_07[22] = ", singleThingStuff=";
-			expr_07[23] = ((this.singleThingStuff == null) ? "null" : this.singleThingStuff.ToString());
-			expr_07[24] = ", singleThingStackCount=";
-			int arg_25A_1 = 25;
-			int? num2 = this.singleThingStackCount;
-			expr_07[arg_25A_1] = ((!num2.HasValue) ? "null" : this.singleThingStackCount.ToString());
-			expr_07[26] = ", singlePawnToSpawn=";
-			expr_07[27] = ((this.singlePawnToSpawn == null) ? "null" : this.singlePawnToSpawn.ToString());
-			expr_07[28] = ", singlePawnKindDef=";
-			expr_07[29] = ((this.singlePawnKindDef == null) ? "null" : this.singlePawnKindDef.ToString());
-			expr_07[30] = ", disableSinglePawn=";
-			int arg_2EA_1 = 31;
-			bool? flag3 = this.disableSinglePawn;
-			expr_07[arg_2EA_1] = ((!flag3.HasValue) ? "null" : this.disableSinglePawn.ToString());
-			expr_07[32] = ", singlePawnLord=";
-			expr_07[33] = ((this.singlePawnLord == null) ? "null" : this.singlePawnLord.ToString());
-			expr_07[34] = ", singlePawnSpawnCellExtraPredicate=";
-			expr_07[35] = ((this.singlePawnSpawnCellExtraPredicate == null) ? "null" : this.singlePawnSpawnCellExtraPredicate.ToString());
-			expr_07[36] = ", singlePawnGenerationRequest=";
-			int arg_37A_1 = 37;
-			PawnGenerationRequest? pawnGenerationRequest = this.singlePawnGenerationRequest;
-			expr_07[arg_37A_1] = ((!pawnGenerationRequest.HasValue) ? "null" : this.singlePawnGenerationRequest.ToString());
-			expr_07[38] = ", mechanoidsCount=";
-			int arg_3B0_1 = 39;
-			int? num3 = this.mechanoidsCount;
-			expr_07[arg_3B0_1] = ((!num3.HasValue) ? "null" : this.mechanoidsCount.ToString());
-			expr_07[40] = ", hivesCount=";
-			int arg_3E6_1 = 41;
-			int? num4 = this.hivesCount;
-			expr_07[arg_3E6_1] = ((!num4.HasValue) ? "null" : this.hivesCount.ToString());
-			expr_07[42] = ", disableHives=";
-			int arg_41C_1 = 43;
-			bool? flag4 = this.disableHives;
-			expr_07[arg_41C_1] = ((!flag4.HasValue) ? "null" : this.disableHives.ToString());
-			expr_07[44] = ", thingRot=";
-			int arg_452_1 = 45;
-			Rot4? rot = this.thingRot;
-			expr_07[arg_452_1] = ((!rot.HasValue) ? "null" : this.thingRot.ToString());
-			expr_07[46] = ", wallStuff=";
-			expr_07[47] = ((this.wallStuff == null) ? "null" : this.wallStuff.ToString());
-			expr_07[48] = ", chanceToSkipWallBlock=";
-			int arg_4B5_1 = 49;
-			float? num5 = this.chanceToSkipWallBlock;
-			expr_07[arg_4B5_1] = ((!num5.HasValue) ? "null" : this.chanceToSkipWallBlock.ToString());
-			expr_07[50] = ", floorDef=";
-			expr_07[51] = ((this.floorDef == null) ? "null" : this.floorDef.ToString());
-			expr_07[52] = ", clearEdificeOnly=";
-			int arg_518_1 = 53;
-			bool? flag5 = this.clearEdificeOnly;
-			expr_07[arg_518_1] = ((!flag5.HasValue) ? "null" : this.clearEdificeOnly.ToString());
-			expr_07[54] = ", ancientCryptosleepCasketGroupID=";
-			int arg_54E_1 = 55;
-			int? num6 = this.ancientCryptosleepCasketGroupID;
-			expr_07[arg_54E_1] = ((!num6.HasValue) ? "null" : this.ancientCryptosleepCasketGroupID.ToString());
-			expr_07[56] = ", podContentsType=";
-			int arg_584_1 = 57;
-			PodContentsType? podContentsType = this.podContentsType;
-			expr_07[arg_584_1] = ((!podContentsType.HasValue) ? "null" : this.podContentsType.ToString());
-			expr_07[58] = ", itemCollectionGeneratorDef=";
-			expr_07[59] = ((this.itemCollectionGeneratorDef == null) ? "null" : this.itemCollectionGeneratorDef.ToString());
-			expr_07[60] = ", itemCollectionGeneratorParams=";
-			int arg_5E7_1 = 61;
-			ItemCollectionGeneratorParams? itemCollectionGeneratorParams = this.itemCollectionGeneratorParams;
-			expr_07[arg_5E7_1] = ((!itemCollectionGeneratorParams.HasValue) ? "null" : this.itemCollectionGeneratorParams.ToString());
-			expr_07[62] = ", stockpileConcreteContents=";
-			expr_07[63] = ((this.stockpileConcreteContents == null) ? "null" : this.stockpileConcreteContents.Count.ToString());
-			expr_07[64] = ", stockpileMarketValue=";
-			int arg_653_1 = 65;
-			float? num7 = this.stockpileMarketValue;
-			expr_07[arg_653_1] = ((!num7.HasValue) ? "null" : this.stockpileMarketValue.ToString());
-			expr_07[66] = ", edgeDefenseWidth=";
-			int arg_689_1 = 67;
-			int? num8 = this.edgeDefenseWidth;
-			expr_07[arg_689_1] = ((!num8.HasValue) ? "null" : this.edgeDefenseWidth.ToString());
-			expr_07[68] = ", edgeDefenseTurretsCount=";
-			int arg_6BF_1 = 69;
-			int? num9 = this.edgeDefenseTurretsCount;
-			expr_07[arg_6BF_1] = ((!num9.HasValue) ? "null" : this.edgeDefenseTurretsCount.ToString());
-			expr_07[70] = ", edgeDefenseMortarsCount=";
-			int arg_6F5_1 = 71;
-			int? num10 = this.edgeDefenseMortarsCount;
-			expr_07[arg_6F5_1] = ((!num10.HasValue) ? "null" : this.edgeDefenseMortarsCount.ToString());
-			expr_07[72] = ", edgeDefenseGuardsCount=";
-			int arg_72B_1 = 73;
-			int? num11 = this.edgeDefenseGuardsCount;
-			expr_07[arg_72B_1] = ((!num11.HasValue) ? "null" : this.edgeDefenseGuardsCount.ToString());
-			expr_07[74] = ", mortarDef=";
-			expr_07[75] = ((this.mortarDef == null) ? "null" : this.mortarDef.ToString());
-			expr_07[76] = ", pathwayFloorDef=";
-			expr_07[77] = ((this.pathwayFloorDef == null) ? "null" : this.pathwayFloorDef.ToString());
-			expr_07[78] = ", cultivatedPlantDef=";
-			expr_07[79] = ((this.cultivatedPlantDef == null) ? "null" : this.cultivatedPlantDef.ToString());
-			expr_07[80] = ", fillWithThingsPadding=";
-			int arg_7E8_1 = 81;
-			int? num12 = this.fillWithThingsPadding;
-			expr_07[arg_7E8_1] = ((!num12.HasValue) ? "null" : this.fillWithThingsPadding.ToString());
-			expr_07[82] = ", factionBasePawnGroupPointsFactor=";
-			int arg_81E_1 = 83;
-			float? num13 = this.factionBasePawnGroupPointsFactor;
-			expr_07[arg_81E_1] = ((!num13.HasValue) ? "null" : this.factionBasePawnGroupPointsFactor.ToString());
-			expr_07[84] = ", streetHorizontal=";
-			int arg_854_1 = 85;
-			bool? flag6 = this.streetHorizontal;
-			expr_07[arg_854_1] = ((!flag6.HasValue) ? "null" : this.streetHorizontal.ToString());
-			expr_07[86] = ", edgeThingAvoidOtherEdgeThings=";
-			int arg_88A_1 = 87;
-			bool? flag7 = this.edgeThingAvoidOtherEdgeThings;
-			expr_07[arg_88A_1] = ((!flag7.HasValue) ? "null" : this.edgeThingAvoidOtherEdgeThings.ToString());
-			return string.Concat(expr_07);
+			object[] obj = new object[88]
+			{
+				"rect=",
+				this.rect,
+				", faction=",
+				(this.faction == null) ? "null" : this.faction.ToString(),
+				", custom=",
+				(this.custom == null) ? "null" : this.custom.Count.ToString(),
+				", ancientTempleEntranceHeight=",
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null
+			};
+			int? nullable = this.ancientTempleEntranceHeight;
+			obj[7] = ((!nullable.HasValue) ? "null" : this.ancientTempleEntranceHeight.ToString());
+			obj[8] = ", pawnGroupMakerParams=";
+			obj[9] = ((this.pawnGroupMakerParams == null) ? "null" : this.pawnGroupMakerParams.ToString());
+			obj[10] = ", pawnGroupKindDef=";
+			obj[11] = ((this.pawnGroupKindDef == null) ? "null" : this.pawnGroupKindDef.ToString());
+			obj[12] = ", roofDef=";
+			obj[13] = ((this.roofDef == null) ? "null" : this.roofDef.ToString());
+			obj[14] = ", noRoof=";
+			bool? nullable2 = this.noRoof;
+			obj[15] = ((!nullable2.HasValue) ? "null" : this.noRoof.ToString());
+			obj[16] = ", addRoomCenterToRootsToUnfog=";
+			bool? nullable3 = this.addRoomCenterToRootsToUnfog;
+			obj[17] = ((!nullable3.HasValue) ? "null" : this.addRoomCenterToRootsToUnfog.ToString());
+			obj[18] = ", singleThingToSpawn=";
+			obj[19] = ((this.singleThingToSpawn == null) ? "null" : this.singleThingToSpawn.ToString());
+			obj[20] = ", singleThingDef=";
+			obj[21] = ((this.singleThingDef == null) ? "null" : this.singleThingDef.ToString());
+			obj[22] = ", singleThingStuff=";
+			obj[23] = ((this.singleThingStuff == null) ? "null" : this.singleThingStuff.ToString());
+			obj[24] = ", singleThingStackCount=";
+			int? nullable4 = this.singleThingStackCount;
+			obj[25] = ((!nullable4.HasValue) ? "null" : this.singleThingStackCount.ToString());
+			obj[26] = ", singlePawnToSpawn=";
+			obj[27] = ((this.singlePawnToSpawn == null) ? "null" : this.singlePawnToSpawn.ToString());
+			obj[28] = ", singlePawnKindDef=";
+			obj[29] = ((this.singlePawnKindDef == null) ? "null" : this.singlePawnKindDef.ToString());
+			obj[30] = ", disableSinglePawn=";
+			bool? nullable5 = this.disableSinglePawn;
+			obj[31] = ((!nullable5.HasValue) ? "null" : this.disableSinglePawn.ToString());
+			obj[32] = ", singlePawnLord=";
+			obj[33] = ((this.singlePawnLord == null) ? "null" : this.singlePawnLord.ToString());
+			obj[34] = ", singlePawnSpawnCellExtraPredicate=";
+			obj[35] = (((object)this.singlePawnSpawnCellExtraPredicate == null) ? "null" : this.singlePawnSpawnCellExtraPredicate.ToString());
+			obj[36] = ", singlePawnGenerationRequest=";
+			PawnGenerationRequest? nullable6 = this.singlePawnGenerationRequest;
+			obj[37] = ((!nullable6.HasValue) ? "null" : this.singlePawnGenerationRequest.ToString());
+			obj[38] = ", mechanoidsCount=";
+			int? nullable7 = this.mechanoidsCount;
+			obj[39] = ((!nullable7.HasValue) ? "null" : this.mechanoidsCount.ToString());
+			obj[40] = ", hivesCount=";
+			int? nullable8 = this.hivesCount;
+			obj[41] = ((!nullable8.HasValue) ? "null" : this.hivesCount.ToString());
+			obj[42] = ", disableHives=";
+			bool? nullable9 = this.disableHives;
+			obj[43] = ((!nullable9.HasValue) ? "null" : this.disableHives.ToString());
+			obj[44] = ", thingRot=";
+			Rot4? nullable10 = this.thingRot;
+			obj[45] = ((!nullable10.HasValue) ? "null" : this.thingRot.ToString());
+			obj[46] = ", wallStuff=";
+			obj[47] = ((this.wallStuff == null) ? "null" : this.wallStuff.ToString());
+			obj[48] = ", chanceToSkipWallBlock=";
+			float? nullable11 = this.chanceToSkipWallBlock;
+			obj[49] = ((!nullable11.HasValue) ? "null" : this.chanceToSkipWallBlock.ToString());
+			obj[50] = ", floorDef=";
+			obj[51] = ((this.floorDef == null) ? "null" : this.floorDef.ToString());
+			obj[52] = ", clearEdificeOnly=";
+			bool? nullable12 = this.clearEdificeOnly;
+			obj[53] = ((!nullable12.HasValue) ? "null" : this.clearEdificeOnly.ToString());
+			obj[54] = ", ancientCryptosleepCasketGroupID=";
+			int? nullable13 = this.ancientCryptosleepCasketGroupID;
+			obj[55] = ((!nullable13.HasValue) ? "null" : this.ancientCryptosleepCasketGroupID.ToString());
+			obj[56] = ", podContentsType=";
+			PodContentsType? nullable14 = this.podContentsType;
+			obj[57] = ((!nullable14.HasValue) ? "null" : this.podContentsType.ToString());
+			obj[58] = ", itemCollectionGeneratorDef=";
+			obj[59] = ((this.itemCollectionGeneratorDef == null) ? "null" : this.itemCollectionGeneratorDef.ToString());
+			obj[60] = ", itemCollectionGeneratorParams=";
+			ItemCollectionGeneratorParams? nullable15 = this.itemCollectionGeneratorParams;
+			obj[61] = ((!nullable15.HasValue) ? "null" : this.itemCollectionGeneratorParams.ToString());
+			obj[62] = ", stockpileConcreteContents=";
+			obj[63] = ((this.stockpileConcreteContents == null) ? "null" : this.stockpileConcreteContents.Count.ToString());
+			obj[64] = ", stockpileMarketValue=";
+			float? nullable16 = this.stockpileMarketValue;
+			obj[65] = ((!nullable16.HasValue) ? "null" : this.stockpileMarketValue.ToString());
+			obj[66] = ", edgeDefenseWidth=";
+			int? nullable17 = this.edgeDefenseWidth;
+			obj[67] = ((!nullable17.HasValue) ? "null" : this.edgeDefenseWidth.ToString());
+			obj[68] = ", edgeDefenseTurretsCount=";
+			int? nullable18 = this.edgeDefenseTurretsCount;
+			obj[69] = ((!nullable18.HasValue) ? "null" : this.edgeDefenseTurretsCount.ToString());
+			obj[70] = ", edgeDefenseMortarsCount=";
+			int? nullable19 = this.edgeDefenseMortarsCount;
+			obj[71] = ((!nullable19.HasValue) ? "null" : this.edgeDefenseMortarsCount.ToString());
+			obj[72] = ", edgeDefenseGuardsCount=";
+			int? nullable20 = this.edgeDefenseGuardsCount;
+			obj[73] = ((!nullable20.HasValue) ? "null" : this.edgeDefenseGuardsCount.ToString());
+			obj[74] = ", mortarDef=";
+			obj[75] = ((this.mortarDef == null) ? "null" : this.mortarDef.ToString());
+			obj[76] = ", pathwayFloorDef=";
+			obj[77] = ((this.pathwayFloorDef == null) ? "null" : this.pathwayFloorDef.ToString());
+			obj[78] = ", cultivatedPlantDef=";
+			obj[79] = ((this.cultivatedPlantDef == null) ? "null" : this.cultivatedPlantDef.ToString());
+			obj[80] = ", fillWithThingsPadding=";
+			int? nullable21 = this.fillWithThingsPadding;
+			obj[81] = ((!nullable21.HasValue) ? "null" : this.fillWithThingsPadding.ToString());
+			obj[82] = ", factionBasePawnGroupPointsFactor=";
+			float? nullable22 = this.factionBasePawnGroupPointsFactor;
+			obj[83] = ((!nullable22.HasValue) ? "null" : this.factionBasePawnGroupPointsFactor.ToString());
+			obj[84] = ", streetHorizontal=";
+			bool? nullable23 = this.streetHorizontal;
+			obj[85] = ((!nullable23.HasValue) ? "null" : this.streetHorizontal.ToString());
+			obj[86] = ", edgeThingAvoidOtherEdgeThings=";
+			bool? nullable24 = this.edgeThingAvoidOtherEdgeThings;
+			obj[87] = ((!nullable24.HasValue) ? "null" : this.edgeThingAvoidOtherEdgeThings.ToString());
+			return string.Concat(obj);
 		}
 	}
 }

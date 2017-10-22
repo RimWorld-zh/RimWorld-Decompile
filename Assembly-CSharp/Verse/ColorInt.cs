@@ -19,10 +19,10 @@ namespace Verse
 			{
 				return new Color
 				{
-					r = (float)this.r / 255f,
-					g = (float)this.g / 255f,
-					b = (float)this.b / 255f,
-					a = (float)this.a / 255f
+					r = (float)((float)this.r / 255.0),
+					g = (float)((float)this.g / 255.0),
+					b = (float)((float)this.b / 255.0),
+					a = (float)((float)this.a / 255.0)
 				};
 			}
 		}
@@ -34,7 +34,7 @@ namespace Verse
 				Color32 result = default(Color32);
 				if (this.a > 255)
 				{
-					result.a = 255;
+					result.a = (byte)255;
 				}
 				else
 				{
@@ -42,7 +42,7 @@ namespace Verse
 				}
 				if (this.r > 255)
 				{
-					result.r = 255;
+					result.r = (byte)255;
 				}
 				else
 				{
@@ -50,7 +50,7 @@ namespace Verse
 				}
 				if (this.g > 255)
 				{
-					result.g = 255;
+					result.g = (byte)255;
 				}
 				else
 				{
@@ -58,7 +58,7 @@ namespace Verse
 				}
 				if (this.b > 255)
 				{
-					result.b = 255;
+					result.b = (byte)255;
 				}
 				else
 				{
@@ -86,15 +86,19 @@ namespace Verse
 
 		public ColorInt(Color32 col)
 		{
-			this.r = (int)col.r;
-			this.g = (int)col.g;
-			this.b = (int)col.b;
-			this.a = (int)col.a;
+			this.r = col.r;
+			this.g = col.g;
+			this.b = col.b;
+			this.a = col.a;
 		}
 
 		public override bool Equals(object o)
 		{
-			return o is ColorInt && this.Equals((ColorInt)o);
+			if (!(o is ColorInt))
+			{
+				return false;
+			}
+			return this.Equals((ColorInt)o);
 		}
 
 		public bool Equals(ColorInt other)
@@ -134,7 +138,7 @@ namespace Verse
 
 		public static ColorInt operator +(ColorInt colA, Color32 colB)
 		{
-			return new ColorInt(colA.r + (int)colB.r, colA.g + (int)colB.g, colA.b + (int)colB.b, colA.a + (int)colB.a);
+			return new ColorInt(colA.r + colB.r, colA.g + colB.g, colA.b + colB.b, colA.a + colB.a);
 		}
 
 		public static ColorInt operator -(ColorInt a, ColorInt b)

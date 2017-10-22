@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -17,20 +16,19 @@ namespace RimWorld
 			}
 			set
 			{
-				if (value == this.active)
+				if (value != this.active)
 				{
-					return;
-				}
-				this.active = value;
-				if (this.parent.Spawned)
-				{
-					if (this.active)
+					this.active = value;
+					if (base.parent.Spawned)
 					{
-						this.parent.Map.gatherSpotLister.RegisterActivated(this);
-					}
-					else
-					{
-						this.parent.Map.gatherSpotLister.RegisterDeactivated(this);
+						if (this.active)
+						{
+							base.parent.Map.gatherSpotLister.RegisterActivated(this);
+						}
+						else
+						{
+							base.parent.Map.gatherSpotLister.RegisterDeactivated(this);
+						}
 					}
 				}
 			}
@@ -46,7 +44,7 @@ namespace RimWorld
 			base.PostSpawnSetup(respawningAfterLoad);
 			if (this.Active)
 			{
-				this.parent.Map.gatherSpotLister.RegisterActivated(this);
+				base.parent.Map.gatherSpotLister.RegisterActivated(this);
 			}
 		}
 
@@ -59,14 +57,28 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompGatherSpot.<CompGetGizmosExtra>c__Iterator165 <CompGetGizmosExtra>c__Iterator = new CompGatherSpot.<CompGetGizmosExtra>c__Iterator165();
-			<CompGetGizmosExtra>c__Iterator.<>f__this = this;
-			CompGatherSpot.<CompGetGizmosExtra>c__Iterator165 expr_0E = <CompGetGizmosExtra>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			Command_Toggle com = new Command_Toggle
+			{
+				hotKey = KeyBindingDefOf.CommandTogglePower,
+				defaultLabel = "CommandGatherSpotToggleLabel".Translate(),
+				icon = TexCommand.GatherSpotActive,
+				isActive = (Func<bool>)(() => ((_003CCompGetGizmosExtra_003Ec__Iterator165)/*Error near IL_0067: stateMachine*/)._003C_003Ef__this.Active),
+				toggleAction = (Action)delegate
+				{
+					((_003CCompGetGizmosExtra_003Ec__Iterator165)/*Error near IL_007e: stateMachine*/)._003C_003Ef__this.Active = !((_003CCompGetGizmosExtra_003Ec__Iterator165)/*Error near IL_007e: stateMachine*/)._003C_003Ef__this.Active;
+				}
+			};
+			if (this.Active)
+			{
+				com.defaultDesc = "CommandGatherSpotToggleDescActive".Translate();
+			}
+			else
+			{
+				com.defaultDesc = "CommandGatherSpotToggleDescInactive".Translate();
+			}
+			yield return (Gizmo)com;
 		}
 	}
 }

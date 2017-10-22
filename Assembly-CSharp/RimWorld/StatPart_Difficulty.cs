@@ -29,18 +29,30 @@ namespace RimWorld
 		{
 			switch (d.index)
 			{
-			case 0:
+			case (ushort)0:
+			{
 				return this.factorRelax;
-			case 1:
+			}
+			case (ushort)1:
+			{
 				return this.factorBasebuilder;
-			case 2:
+			}
+			case (ushort)2:
+			{
 				return this.factorRough;
-			case 3:
+			}
+			case (ushort)3:
+			{
 				return this.factorChallenge;
-			case 4:
+			}
+			case (ushort)4:
+			{
 				return this.factorExtreme;
+			}
 			default:
+			{
 				throw new ArgumentOutOfRangeException();
+			}
 			}
 		}
 	}

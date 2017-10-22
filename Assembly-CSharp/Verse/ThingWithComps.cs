@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 using UnityEngine;
 
@@ -59,23 +58,25 @@ namespace Verse
 		{
 			for (int i = 0; i < this.comps.Count; i++)
 			{
-				T t = this.comps[i] as T;
-				if (t != null)
+				T val = (T)(this.comps[i] as T);
+				if (val != null)
 				{
-					return t;
+					return val;
 				}
 			}
-			return (T)((object)null);
+			return (T)null;
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<T> GetComps<T>() where T : ThingComp
 		{
-			ThingWithComps.<GetComps>c__Iterator13E<T> <GetComps>c__Iterator13E = new ThingWithComps.<GetComps>c__Iterator13E<T>();
-			<GetComps>c__Iterator13E.<>f__this = this;
-			ThingWithComps.<GetComps>c__Iterator13E<T> expr_0E = <GetComps>c__Iterator13E;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			for (int i = 0; i < this.comps.Count; i++)
+			{
+				T cT = (T)(this.comps[i] as T);
+				if (cT != null)
+				{
+					yield return cT;
+				}
+			}
 		}
 
 		public ThingComp GetCompByDef(CompProperties def)
@@ -92,12 +93,12 @@ namespace Verse
 
 		public void InitializeComps()
 		{
-			for (int i = 0; i < this.def.comps.Count; i++)
+			for (int i = 0; i < base.def.comps.Count; i++)
 			{
-				ThingComp thingComp = (ThingComp)Activator.CreateInstance(this.def.comps[i].compClass);
+				ThingComp thingComp = (ThingComp)Activator.CreateInstance(base.def.comps[i].compClass);
 				thingComp.parent = this;
 				this.comps.Add(thingComp);
-				thingComp.Initialize(this.def.comps[i]);
+				thingComp.Initialize(base.def.comps[i]);
 			}
 		}
 
@@ -175,16 +176,18 @@ namespace Verse
 		public override void PreApplyDamage(DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(dinfo, out absorbed);
-			if (absorbed)
+			if (!absorbed)
 			{
-				return;
-			}
-			for (int i = 0; i < this.comps.Count; i++)
-			{
-				this.comps[i].PostPreApplyDamage(dinfo, out absorbed);
-				if (absorbed)
+				int num = 0;
+				while (num < this.comps.Count)
 				{
-					return;
+					this.comps[num].PostPreApplyDamage(dinfo, out absorbed);
+					if (!absorbed)
+					{
+						num++;
+						continue;
+					}
+					break;
 				}
 			}
 		}
@@ -238,14 +241,15 @@ namespace Verse
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			ThingWithComps.<GetGizmos>c__Iterator13F <GetGizmos>c__Iterator13F = new ThingWithComps.<GetGizmos>c__Iterator13F();
-			<GetGizmos>c__Iterator13F.<>f__this = this;
-			ThingWithComps.<GetGizmos>c__Iterator13F expr_0E = <GetGizmos>c__Iterator13F;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			for (int i = 0; i < this.comps.Count; i++)
+			{
+				foreach (Gizmo item in this.comps[i].CompGetGizmosExtra())
+				{
+					yield return item;
+				}
+			}
 		}
 
 		public override bool TryAbsorbStack(Thing other, bool respectStackLimit)
@@ -350,16 +354,19 @@ namespace Verse
 			return stringBuilder.ToString();
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn selPawn)
 		{
-			ThingWithComps.<GetFloatMenuOptions>c__Iterator140 <GetFloatMenuOptions>c__Iterator = new ThingWithComps.<GetFloatMenuOptions>c__Iterator140();
-			<GetFloatMenuOptions>c__Iterator.selPawn = selPawn;
-			<GetFloatMenuOptions>c__Iterator.<$>selPawn = selPawn;
-			<GetFloatMenuOptions>c__Iterator.<>f__this = this;
-			ThingWithComps.<GetFloatMenuOptions>c__Iterator140 expr_1C = <GetFloatMenuOptions>c__Iterator;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			foreach (FloatMenuOption floatMenuOption in base.GetFloatMenuOptions(selPawn))
+			{
+				yield return floatMenuOption;
+			}
+			for (int i = 0; i < this.comps.Count; i++)
+			{
+				foreach (FloatMenuOption item in this.comps[i].CompFloatMenuOptions(selPawn))
+				{
+					yield return item;
+				}
+			}
 		}
 
 		public override void PreTraded(TradeAction action, Pawn playerNegotiator, ITrader trader)

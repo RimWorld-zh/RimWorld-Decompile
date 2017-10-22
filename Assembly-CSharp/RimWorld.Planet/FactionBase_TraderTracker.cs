@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -11,7 +10,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (FactionBase)this.settlement;
+				return (FactionBase)base.settlement;
 			}
 		}
 
@@ -21,7 +20,7 @@ namespace RimWorld.Planet
 			{
 				FactionBase factionBase = this.FactionBase;
 				List<TraderKindDef> baseTraderKinds = factionBase.Faction.def.baseTraderKinds;
-				if (baseTraderKinds.NullOrEmpty<TraderKindDef>())
+				if (baseTraderKinds.NullOrEmpty())
 				{
 					return null;
 				}

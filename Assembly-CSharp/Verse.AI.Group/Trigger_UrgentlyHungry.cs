@@ -1,6 +1,3 @@
-using RimWorld;
-using System;
-
 namespace Verse.AI.Group
 {
 	public class Trigger_UrgentlyHungry : Trigger
@@ -11,7 +8,7 @@ namespace Verse.AI.Group
 			{
 				for (int i = 0; i < lord.ownedPawns.Count; i++)
 				{
-					if (lord.ownedPawns[i].needs.food.CurCategory >= HungerCategory.UrgentlyHungry)
+					if ((int)lord.ownedPawns[i].needs.food.CurCategory >= 2)
 					{
 						return true;
 					}

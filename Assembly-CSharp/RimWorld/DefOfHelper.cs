@@ -11,9 +11,9 @@ namespace RimWorld
 		public static void RebindAllDefOfs(bool earlyTryMode)
 		{
 			DefOfHelper.earlyTry = earlyTryMode;
-			foreach (Type current in GenTypes.AllTypesWithAttribute<DefOf>())
+			foreach (Type item in GenTypes.AllTypesWithAttribute<DefOf>())
 			{
-				DefOfHelper.BindDefsFor(current);
+				DefOfHelper.BindDefsFor(item);
 			}
 		}
 

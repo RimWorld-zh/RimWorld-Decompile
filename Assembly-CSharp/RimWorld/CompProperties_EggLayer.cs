@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -21,7 +20,7 @@ namespace RimWorld
 
 		public CompProperties_EggLayer()
 		{
-			this.compClass = typeof(CompEggLayer);
+			base.compClass = typeof(CompEggLayer);
 		}
 	}
 }

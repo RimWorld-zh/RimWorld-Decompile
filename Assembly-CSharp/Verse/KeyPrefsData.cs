@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace Verse
@@ -17,32 +16,37 @@ namespace Verse
 
 		public void AddMissingDefaultBindings()
 		{
-			foreach (KeyBindingDef current in DefDatabase<KeyBindingDef>.AllDefs)
+			foreach (KeyBindingDef allDef in DefDatabase<KeyBindingDef>.AllDefs)
 			{
-				if (!this.keyPrefs.ContainsKey(current))
+				if (!this.keyPrefs.ContainsKey(allDef))
 				{
-					this.keyPrefs.Add(current, new KeyBindingData(current.defaultKeyCodeA, current.defaultKeyCodeB));
+					this.keyPrefs.Add(allDef, new KeyBindingData(allDef.defaultKeyCodeA, allDef.defaultKeyCodeB));
 				}
 			}
 		}
 
 		public bool SetBinding(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot, KeyCode keyCode)
 		{
-			KeyBindingData keyBindingData;
+			KeyBindingData keyBindingData = default(KeyBindingData);
 			if (this.keyPrefs.TryGetValue(keyDef, out keyBindingData))
 			{
-				if (slot != KeyPrefs.BindingSlot.A)
+				switch (slot)
 				{
-					if (slot != KeyPrefs.BindingSlot.B)
-					{
-						Log.Error("Tried to set a key binding for \"" + keyDef.LabelCap + "\" on a nonexistent slot: " + slot.ToString());
-						return false;
-					}
-					keyBindingData.keyBindingB = keyCode;
-				}
-				else
+				case KeyPrefs.BindingSlot.A:
 				{
 					keyBindingData.keyBindingA = keyCode;
+					break;
+				}
+				case KeyPrefs.BindingSlot.B:
+				{
+					keyBindingData.keyBindingB = keyCode;
+					break;
+				}
+				default:
+				{
+					Log.Error("Tried to set a key binding for \"" + keyDef.LabelCap + "\" on a nonexistent slot: " + ((Enum)(object)slot).ToString());
+					return false;
+				}
 				}
 				return true;
 			}
@@ -52,42 +56,46 @@ namespace Verse
 
 		public KeyCode GetBoundKeyCode(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
-			KeyBindingData keyBindingData;
+			KeyBindingData keyBindingData = default(KeyBindingData);
 			if (!this.keyPrefs.TryGetValue(keyDef, out keyBindingData))
 			{
 				Log.Error("Key not found in keyprefs: \"" + keyDef.LabelCap + "\"");
 				return KeyCode.None;
 			}
-			if (slot == KeyPrefs.BindingSlot.A)
+			switch (slot)
+			{
+			case KeyPrefs.BindingSlot.A:
 			{
 				return keyBindingData.keyBindingA;
 			}
-			if (slot != KeyPrefs.BindingSlot.B)
+			case KeyPrefs.BindingSlot.B:
+			{
+				return keyBindingData.keyBindingB;
+			}
+			default:
 			{
 				throw new InvalidOperationException();
 			}
-			return keyBindingData.keyBindingB;
+			}
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<KeyBindingDef> ConflictingBindings(KeyBindingDef keyDef, KeyCode code)
 		{
-			KeyPrefsData.<ConflictingBindings>c__Iterator255 <ConflictingBindings>c__Iterator = new KeyPrefsData.<ConflictingBindings>c__Iterator255();
-			<ConflictingBindings>c__Iterator.keyDef = keyDef;
-			<ConflictingBindings>c__Iterator.code = code;
-			<ConflictingBindings>c__Iterator.<$>keyDef = keyDef;
-			<ConflictingBindings>c__Iterator.<$>code = code;
-			<ConflictingBindings>c__Iterator.<>f__this = this;
-			KeyPrefsData.<ConflictingBindings>c__Iterator255 expr_2A = <ConflictingBindings>c__Iterator;
-			expr_2A.$PC = -2;
-			return expr_2A;
+			foreach (KeyBindingDef allDef in DefDatabase<KeyBindingDef>.AllDefs)
+			{
+				KeyBindingData prefData;
+				if (allDef != keyDef && (allDef.category == keyDef.category || keyDef.category.checkForConflicts.Contains(allDef.category)) && this.keyPrefs.TryGetValue(allDef, out prefData) && (prefData.keyBindingA == code || prefData.keyBindingB == code))
+				{
+					yield return allDef;
+				}
+			}
 		}
 
 		public void EraseConflictingBindingsForKeyCode(KeyBindingDef keyDef, KeyCode keyCode, Action<KeyBindingDef> callBackOnErase = null)
 		{
-			foreach (KeyBindingDef current in this.ConflictingBindings(keyDef, keyCode))
+			foreach (KeyBindingDef item in this.ConflictingBindings(keyDef, keyCode))
 			{
-				KeyBindingData keyBindingData = this.keyPrefs[current];
+				KeyBindingData keyBindingData = this.keyPrefs[item];
 				if (keyBindingData.keyBindingA == keyCode)
 				{
 					keyBindingData.keyBindingA = KeyCode.None;
@@ -96,9 +104,9 @@ namespace Verse
 				{
 					keyBindingData.keyBindingB = KeyCode.None;
 				}
-				if (callBackOnErase != null)
+				if ((object)callBackOnErase != null)
 				{
-					callBackOnErase(current);
+					callBackOnErase(item);
 				}
 			}
 		}
@@ -106,7 +114,7 @@ namespace Verse
 		public void CheckConflictsFor(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			KeyCode boundKeyCode = this.GetBoundKeyCode(keyDef, slot);
-			if (boundKeyCode != KeyCode.None)
+			if (boundKeyCode != 0)
 			{
 				this.EraseConflictingBindingsForKeyCode(keyDef, boundKeyCode, null);
 				this.SetBinding(keyDef, slot, boundKeyCode);
@@ -116,38 +124,39 @@ namespace Verse
 		public KeyPrefsData Clone()
 		{
 			KeyPrefsData keyPrefsData = new KeyPrefsData();
-			foreach (KeyValuePair<KeyBindingDef, KeyBindingData> current in this.keyPrefs)
+			Dictionary<KeyBindingDef, KeyBindingData>.Enumerator enumerator = this.keyPrefs.GetEnumerator();
+			try
 			{
-				keyPrefsData.keyPrefs[current.Key] = new KeyBindingData(current.Value.keyBindingA, current.Value.keyBindingB);
+				while (enumerator.MoveNext())
+				{
+					KeyValuePair<KeyBindingDef, KeyBindingData> current = enumerator.Current;
+					keyPrefsData.keyPrefs[current.Key] = new KeyBindingData(current.Value.keyBindingA, current.Value.keyBindingB);
+				}
+				return keyPrefsData;
 			}
-			return keyPrefsData;
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
 		}
 
 		public void ErrorCheck()
 		{
-			foreach (KeyBindingDef current in DefDatabase<KeyBindingDef>.AllDefs)
+			foreach (KeyBindingDef allDef in DefDatabase<KeyBindingDef>.AllDefs)
 			{
-				this.ErrorCheckOn(current, KeyPrefs.BindingSlot.A);
-				this.ErrorCheckOn(current, KeyPrefs.BindingSlot.B);
+				this.ErrorCheckOn(allDef, KeyPrefs.BindingSlot.A);
+				this.ErrorCheckOn(allDef, KeyPrefs.BindingSlot.B);
 			}
 		}
 
 		private void ErrorCheckOn(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			KeyCode boundKeyCode = this.GetBoundKeyCode(keyDef, KeyPrefs.BindingSlot.A);
-			if (boundKeyCode != KeyCode.None)
+			if (boundKeyCode != 0)
 			{
-				foreach (KeyBindingDef current in this.ConflictingBindings(keyDef, boundKeyCode))
+				foreach (KeyBindingDef item in this.ConflictingBindings(keyDef, boundKeyCode))
 				{
-					Log.Error(string.Concat(new object[]
-					{
-						"Key binding conflict: ",
-						current,
-						" and ",
-						keyDef,
-						" are both bound to ",
-						boundKeyCode
-					}));
+					Log.Error("Key binding conflict: " + item + " and " + keyDef + " are both bound to " + boundKeyCode);
 				}
 			}
 		}

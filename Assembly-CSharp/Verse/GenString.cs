@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public static class GenString
@@ -30,11 +28,11 @@ namespace Verse
 
 		public static string TrimmedToLength(this string str, int length)
 		{
-			if (str == null || str.Length <= length)
+			if (str != null && str.Length > length)
 			{
-				return str;
+				return str.Substring(0, length);
 			}
-			return str.Substring(0, length);
+			return str;
 		}
 	}
 }

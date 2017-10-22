@@ -24,18 +24,17 @@ namespace RimWorld
 			{
 				Log.Error("thingsBeingGeneratedNow is not null. Nested calls are not allowed.");
 			}
-			List<Thing> list = new List<Thing>();
-			ItemCollectionGenerator.thingsBeingGeneratedNow = list;
+			List<Thing> list = ItemCollectionGenerator.thingsBeingGeneratedNow = new List<Thing>();
 			try
 			{
 				this.Generate(parms, list);
 				this.PostProcess(list);
+				return list;
 			}
 			finally
 			{
 				ItemCollectionGenerator.thingsBeingGeneratedNow = null;
 			}
-			return list;
 		}
 
 		public List<Thing> GenerateRandomTestItems()
@@ -47,7 +46,7 @@ namespace RimWorld
 
 		private void PostProcess(List<Thing> things)
 		{
-			if (things.RemoveAll((Thing x) => x == null) != 0)
+			if (things.RemoveAll((Predicate<Thing>)((Thing x) => x == null)) != 0)
 			{
 				Log.Error(this.def + " generated null things.");
 			}

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace Verse
@@ -23,13 +21,15 @@ namespace Verse
 			ZoneColorUtility.storageZoneColors = new List<Color>();
 			ZoneColorUtility.nextGrowingZoneColorIndex = 0;
 			ZoneColorUtility.nextStorageZoneColorIndex = 0;
-			foreach (Color current in ZoneColorUtility.GrowingZoneColors())
+			foreach (Color item3 in ZoneColorUtility.GrowingZoneColors())
 			{
+				Color current = item3;
 				Color item = new Color(current.r, current.g, current.b, 0.09f);
 				ZoneColorUtility.growingZoneColors.Add(item);
 			}
-			foreach (Color current2 in ZoneColorUtility.StorageZoneColors())
+			foreach (Color item4 in ZoneColorUtility.StorageZoneColors())
 			{
+				Color current2 = item4;
 				Color item2 = new Color(current2.r, current2.g, current2.b, 0.09f);
 				ZoneColorUtility.storageZoneColors.Add(item2);
 			}
@@ -57,22 +57,23 @@ namespace Verse
 			return result;
 		}
 
-		[DebuggerHidden]
 		private static IEnumerable<Color> GrowingZoneColors()
 		{
-			ZoneColorUtility.<GrowingZoneColors>c__Iterator20C <GrowingZoneColors>c__Iterator20C = new ZoneColorUtility.<GrowingZoneColors>c__Iterator20C();
-			ZoneColorUtility.<GrowingZoneColors>c__Iterator20C expr_07 = <GrowingZoneColors>c__Iterator20C;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield return Color.Lerp(new Color(0f, 1f, 0f), Color.gray, 0.5f);
+			yield return Color.Lerp(new Color(1f, 1f, 0f), Color.gray, 0.5f);
+			yield return Color.Lerp(new Color(0.5f, 1f, 0f), Color.gray, 0.5f);
+			yield return Color.Lerp(new Color(1f, 1f, 0.5f), Color.gray, 0.5f);
+			yield return Color.Lerp(new Color(0.5f, 1f, 0.5f), Color.gray, 0.5f);
 		}
 
-		[DebuggerHidden]
 		private static IEnumerable<Color> StorageZoneColors()
 		{
-			ZoneColorUtility.<StorageZoneColors>c__Iterator20D <StorageZoneColors>c__Iterator20D = new ZoneColorUtility.<StorageZoneColors>c__Iterator20D();
-			ZoneColorUtility.<StorageZoneColors>c__Iterator20D expr_07 = <StorageZoneColors>c__Iterator20D;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield return Color.Lerp(new Color(1f, 0f, 0f), Color.gray, 0.5f);
+			yield return Color.Lerp(new Color(1f, 0f, 1f), Color.gray, 0.5f);
+			yield return Color.Lerp(new Color(0f, 0f, 1f), Color.gray, 0.5f);
+			yield return Color.Lerp(new Color(1f, 0f, 0.5f), Color.gray, 0.5f);
+			yield return Color.Lerp(new Color(0f, 0.5f, 1f), Color.gray, 0.5f);
+			yield return Color.Lerp(new Color(0.5f, 0f, 1f), Color.gray, 0.5f);
 		}
 	}
 }

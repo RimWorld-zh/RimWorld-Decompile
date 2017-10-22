@@ -16,78 +16,78 @@ namespace RimWorld.Planet
 			Pawn p = t as Pawn;
 			if (p != null)
 			{
-				if (!caravan.PawnsListForReading.Any((Pawn x) => x != p && caravan.IsOwner(x)))
+				if (!caravan.PawnsListForReading.Any((Predicate<Pawn>)((Pawn x) => x != p && caravan.IsOwner(x))))
 				{
-					Messages.Message("MessageCantAbandonLastColonist".Translate(), caravan, MessageSound.RejectInput);
-					return;
+					Messages.Message("MessageCantAbandonLastColonist".Translate(), (WorldObject)caravan, MessageSound.RejectInput);
 				}
-				Dialog_MessageBox window = Dialog_MessageBox.CreateConfirmation(CaravanPawnsAndItemsAbandonUtility.GetAbandonPawnDialogText(p, caravan), delegate
+				else
 				{
-					bool flag = CaravanPawnsAndItemsAbandonUtility.WouldBeLeftToDie(p, caravan);
-					PawnDiedOrDownedThoughtsUtility.TryGiveThoughts(p, null, (!flag) ? PawnDiedOrDownedThoughtsKind.Abandoned : PawnDiedOrDownedThoughtsKind.AbandonedToDie);
-					CaravanInventoryUtility.MoveAllInventoryToSomeoneElse(p, caravan.PawnsListForReading, null);
-					caravan.RemovePawn(p);
-					if (flag)
+					Dialog_MessageBox window = Dialog_MessageBox.CreateConfirmation(CaravanPawnsAndItemsAbandonUtility.GetAbandonPawnDialogText(p, caravan), (Action)delegate()
 					{
-						if (Rand.Value < 0.8f)
+						bool flag = CaravanPawnsAndItemsAbandonUtility.WouldBeLeftToDie(p, caravan);
+						PawnDiedOrDownedThoughtsUtility.TryGiveThoughts(p, default(DamageInfo?), (PawnDiedOrDownedThoughtsKind)((!flag) ? 1 : 2));
+						CaravanInventoryUtility.MoveAllInventoryToSomeoneElse(p, caravan.PawnsListForReading, null);
+						caravan.RemovePawn(p);
+						if (flag)
 						{
-							p.Destroy(DestroyMode.Vanish);
+							if (Rand.Value < 0.800000011920929)
+							{
+								p.Destroy(DestroyMode.Vanish);
+							}
+							else
+							{
+								CaravanPawnsAndItemsAbandonUtility.HealIfPossible(p);
+							}
 						}
-						else
-						{
-							CaravanPawnsAndItemsAbandonUtility.HealIfPossible(p);
-						}
-					}
-					Find.WorldPawns.DiscardIfUnimportant(p);
-				}, true, null);
-				Find.WindowStack.Add(window);
+						Find.WorldPawns.DiscardIfUnimportant(p);
+					}, true, (string)null);
+					Find.WindowStack.Add(window);
+				}
 			}
 			else
 			{
-				Dialog_MessageBox window2 = Dialog_MessageBox.CreateConfirmation("ConfirmAbandonItemDialog".Translate(new object[]
-				{
-					t.Label
-				}), delegate
+				Dialog_MessageBox window2 = Dialog_MessageBox.CreateConfirmation("ConfirmAbandonItemDialog".Translate(t.Label), (Action)delegate()
 				{
 					Pawn ownerOf = CaravanInventoryUtility.GetOwnerOf(caravan, t);
 					if (ownerOf == null)
 					{
 						Log.Error("Could not find owner of " + t);
-						return;
 					}
-					ownerOf.inventory.innerContainer.Remove(t);
-					t.Destroy(DestroyMode.Vanish);
-					caravan.RecacheImmobilizedNow();
-					caravan.RecacheDaysWorthOfFood();
-				}, true, null);
+					else
+					{
+						ownerOf.inventory.innerContainer.Remove(t);
+						t.Destroy(DestroyMode.Vanish);
+						caravan.RecacheImmobilizedNow();
+						caravan.RecacheDaysWorthOfFood();
+					}
+				}, true, (string)null);
 				Find.WindowStack.Add(window2);
 			}
 		}
 
 		public static void TryAbandonSpecificCountViaInterface(Thing t, Caravan caravan)
 		{
-			Find.WindowStack.Add(new Dialog_Slider("AbandonSliderText".Translate(new object[]
-			{
-				t.LabelNoCount
-			}), 1, t.stackCount, delegate(int x)
+			Find.WindowStack.Add(new Dialog_Slider("AbandonSliderText".Translate(t.LabelNoCount), 1, t.stackCount, (Action<int>)delegate(int x)
 			{
 				Pawn ownerOf = CaravanInventoryUtility.GetOwnerOf(caravan, t);
 				if (ownerOf == null)
 				{
 					Log.Error("Could not find owner of " + t);
-					return;
-				}
-				if (x == t.stackCount)
-				{
-					ownerOf.inventory.innerContainer.Remove(t);
-					t.Destroy(DestroyMode.Vanish);
 				}
 				else
 				{
-					t.SplitOff(x).Destroy(DestroyMode.Vanish);
+					if (x == t.stackCount)
+					{
+						ownerOf.inventory.innerContainer.Remove(t);
+						t.Destroy(DestroyMode.Vanish);
+					}
+					else
+					{
+						t.SplitOff(x).Destroy(DestroyMode.Vanish);
+					}
+					caravan.RecacheImmobilizedNow();
+					caravan.RecacheDaysWorthOfFood();
 				}
-				caravan.RecacheImmobilizedNow();
-				caravan.RecacheDaysWorthOfFood();
 			}, -2147483648));
 		}
 
@@ -102,10 +102,7 @@ namespace RimWorld.Planet
 				{
 					stringBuilder.AppendLine();
 					stringBuilder.AppendLine();
-					stringBuilder.Append("AbandonTipWillDie".Translate(new object[]
-					{
-						pawn.LabelShort
-					}).CapitalizeFirst());
+					stringBuilder.Append("AbandonTipWillDie".Translate(pawn.LabelShort).CapitalizeFirst());
 				}
 			}
 			else
@@ -154,29 +151,20 @@ namespace RimWorld.Planet
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			bool flag = CaravanPawnsAndItemsAbandonUtility.WouldBeLeftToDie(abandonedPawn, caravan);
-			stringBuilder.Append("ConfirmAbandonPawnDialog".Translate(new object[]
-			{
-				abandonedPawn.Label
-			}));
+			stringBuilder.Append("ConfirmAbandonPawnDialog".Translate(abandonedPawn.Label));
 			if (flag)
 			{
 				stringBuilder.AppendLine();
 				stringBuilder.AppendLine();
-				stringBuilder.Append("ConfirmAbandonPawnDialog_LeftToDie".Translate(new object[]
-				{
-					abandonedPawn.LabelShort
-				}).CapitalizeFirst());
+				stringBuilder.Append("ConfirmAbandonPawnDialog_LeftToDie".Translate(abandonedPawn.LabelShort).CapitalizeFirst());
 			}
 			List<ThingWithComps> list = (abandonedPawn.equipment == null) ? null : abandonedPawn.equipment.AllEquipmentListForReading;
 			List<Apparel> list2 = (abandonedPawn.apparel == null) ? null : abandonedPawn.apparel.WornApparel;
-			if (!list.NullOrEmpty<ThingWithComps>() || !list2.NullOrEmpty<Apparel>())
+			if (!list.NullOrEmpty() || !list2.NullOrEmpty())
 			{
 				stringBuilder.AppendLine();
 				stringBuilder.AppendLine();
-				stringBuilder.Append("ConfirmAbandonPawnDialog_EquipmentAndApparel".Translate(new object[]
-				{
-					abandonedPawn.LabelShort
-				}).CapitalizeFirst().AdjustedFor(abandonedPawn));
+				stringBuilder.Append("ConfirmAbandonPawnDialog_EquipmentAndApparel".Translate(abandonedPawn.LabelShort).CapitalizeFirst().AdjustedFor(abandonedPawn));
 				stringBuilder.AppendLine();
 				if (list != null)
 				{
@@ -195,10 +183,7 @@ namespace RimWorld.Planet
 					}
 				}
 			}
-			PawnDiedOrDownedThoughtsUtility.BuildMoodThoughtsListString(abandonedPawn, null, (!flag) ? PawnDiedOrDownedThoughtsKind.Abandoned : PawnDiedOrDownedThoughtsKind.AbandonedToDie, stringBuilder, "\n\n" + "ConfirmAbandonPawnDialog_IndividualThoughts".Translate(new object[]
-			{
-				abandonedPawn.LabelShort
-			}), "\n\n" + "ConfirmAbandonPawnDialog_AllColonistsThoughts".Translate());
+			PawnDiedOrDownedThoughtsUtility.BuildMoodThoughtsListString(abandonedPawn, default(DamageInfo?), (PawnDiedOrDownedThoughtsKind)((!flag) ? 1 : 2), stringBuilder, "\n\n" + "ConfirmAbandonPawnDialog_IndividualThoughts".Translate(abandonedPawn.LabelShort), "\n\n" + "ConfirmAbandonPawnDialog_AllColonistsThoughts".Translate());
 			return stringBuilder.ToString();
 		}
 
@@ -208,7 +193,7 @@ namespace RimWorld.Planet
 			{
 				return true;
 			}
-			if (p.health.hediffSet.BleedRateTotal > 0.4f)
+			if (p.health.hediffSet.BleedRateTotal > 0.40000000596046448)
 			{
 				return true;
 			}

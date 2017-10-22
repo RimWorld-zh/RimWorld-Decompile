@@ -19,12 +19,21 @@ namespace Verse
 			{
 				ThingCategoryDef stoneBlocks = ThingCategoryDefOf.StoneBlocks;
 				this.stoneBlocksDefs = new List<ThingDef>(16);
-				foreach (ThingDef current in DefDatabase<ThingDef>.AllDefsListForReading)
+				List<ThingDef>.Enumerator enumerator = DefDatabase<ThingDef>.AllDefsListForReading.GetEnumerator();
+				try
 				{
-					if (current.thingCategories != null && current.thingCategories.Contains(stoneBlocks))
+					while (enumerator.MoveNext())
 					{
-						this.stoneBlocksDefs.Add(current);
+						ThingDef current = enumerator.Current;
+						if (current.thingCategories != null && current.thingCategories.Contains(stoneBlocks))
+						{
+							this.stoneBlocksDefs.Add(current);
+						}
 					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 			int num = 0;

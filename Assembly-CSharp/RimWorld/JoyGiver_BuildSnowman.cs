@@ -14,7 +14,7 @@ namespace RimWorld
 			{
 				return null;
 			}
-			if (pawn.Map.snowGrid.TotalDepth < 200f)
+			if (pawn.Map.snowGrid.TotalDepth < 200.0)
 			{
 				return null;
 			}
@@ -23,18 +23,18 @@ namespace RimWorld
 			{
 				return null;
 			}
-			return new Job(this.def.jobDef, c);
+			return new Job(base.def.jobDef, c);
 		}
 
 		private static IntVec3 TryFindSnowmanBuildCell(Pawn pawn)
 		{
 			Region rootReg;
-			if (!CellFinder.TryFindClosestRegionWith(pawn.GetRegion(RegionType.Set_Passable), TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), (Region r) => r.Room.PsychologicallyOutdoors, 100, out rootReg, RegionType.Set_Passable))
+			if (!CellFinder.TryFindClosestRegionWith(pawn.GetRegion(RegionType.Set_Passable), TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), (Predicate<Region>)((Region r) => r.Room.PsychologicallyOutdoors), 100, out rootReg, RegionType.Set_Passable))
 			{
 				return IntVec3.Invalid;
 			}
 			IntVec3 result = IntVec3.Invalid;
-			RegionTraverser.BreadthFirstTraverse(rootReg, (Region from, Region r) => r.Room == rootReg.Room, delegate(Region r)
+			RegionTraverser.BreadthFirstTraverse(rootReg, (RegionEntryPredicate)((Region from, Region r) => r.Room == rootReg.Room), (RegionProcessor)delegate(Region r)
 			{
 				for (int i = 0; i < 5; i++)
 				{
@@ -52,7 +52,7 @@ namespace RimWorld
 
 		private static bool IsGoodSnowmanCell(IntVec3 c, Pawn pawn)
 		{
-			if (pawn.Map.snowGrid.GetDepth(c) < 0.5f)
+			if (pawn.Map.snowGrid.GetDepth(c) < 0.5)
 			{
 				return false;
 			}

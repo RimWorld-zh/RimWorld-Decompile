@@ -13,14 +13,14 @@ namespace RimWorld
 
 		public ITab_Pawn_Visitor()
 		{
-			this.size = new Vector2(280f, 450f);
+			base.size = new Vector2(280f, 450f);
 		}
 
 		protected override void FillTab()
 		{
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.PrisonerTab, KnowledgeAmount.FrameDisplayed);
 			Text.Font = GameFont.Small;
-			Rect rect = new Rect(0f, 0f, this.size.x, this.size.y);
+			Rect rect = new Rect(0f, 0f, base.size.x, base.size.y);
 			Rect rect2 = rect.ContractedBy(10f);
 			rect2.yMin += 24f;
 			bool isPrisonerOfColony = base.SelPawn.IsPrisonerOfColony;
@@ -41,10 +41,7 @@ namespace RimWorld
 				listing_Standard.Label("RecruitmentDifficulty".Translate() + ": " + base.SelPawn.RecruitDifficulty(Faction.OfPlayer, false).ToStringPercent(), -1f);
 				if (base.SelPawn.guilt.IsGuilty)
 				{
-					listing_Standard.Label("ConsideredGuilty".Translate(new object[]
-					{
-						base.SelPawn.guilt.TicksUntilInnocent.ToStringTicksToPeriod(true, false, true)
-					}), -1f);
+					listing_Standard.Label("ConsideredGuilty".Translate(base.SelPawn.guilt.TicksUntilInnocent.ToStringTicksToPeriod(true, false, true)), -1f);
 				}
 				if (Prefs.DevMode)
 				{
@@ -55,16 +52,16 @@ namespace RimWorld
 				Rect position = rect5.ContractedBy(10f);
 				GUI.BeginGroup(position);
 				Rect rect6 = new Rect(0f, 0f, position.width, 30f);
-				foreach (PrisonerInteractionModeDef current in from pim in DefDatabase<PrisonerInteractionModeDef>.AllDefs
+				foreach (PrisonerInteractionModeDef item in from pim in DefDatabase<PrisonerInteractionModeDef>.AllDefs
 				orderby pim.listOrder
 				select pim)
 				{
-					if (Widgets.RadioButtonLabeled(rect6, current.GetLabel(), base.SelPawn.guest.interactionMode == current))
+					if (Widgets.RadioButtonLabeled(rect6, item.GetLabel(), base.SelPawn.guest.interactionMode == item))
 					{
-						base.SelPawn.guest.interactionMode = current;
-						if (current == PrisonerInteractionModeDefOf.Execution && base.SelPawn.MapHeld != null && !this.ColonyHasAnyWardenCapableOfViolence(base.SelPawn.MapHeld))
+						base.SelPawn.guest.interactionMode = item;
+						if (item == PrisonerInteractionModeDefOf.Execution && base.SelPawn.MapHeld != null && !this.ColonyHasAnyWardenCapableOfViolence(base.SelPawn.MapHeld))
 						{
-							Messages.Message("MessageCantDoExecutionBecauseNoWardenCapableOfViolence".Translate(), base.SelPawn, MessageSound.SeriousAlert);
+							Messages.Message("MessageCantDoExecutionBecauseNoWardenCapableOfViolence".Translate(), (Thing)base.SelPawn, MessageSound.SeriousAlert);
 						}
 					}
 					rect6.y += 28f;
@@ -76,9 +73,9 @@ namespace RimWorld
 
 		private bool ColonyHasAnyWardenCapableOfViolence(Map map)
 		{
-			foreach (Pawn current in map.mapPawns.FreeColonistsSpawned)
+			foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
 			{
-				if (current.workSettings.WorkIsActive(WorkTypeDefOf.Warden) && (current.story == null || !current.story.WorkTagIsDisabled(WorkTags.Violent)))
+				if (item.workSettings.WorkIsActive(WorkTypeDefOf.Warden) && (item.story == null || !item.story.WorkTagIsDisabled(WorkTags.Violent)))
 				{
 					return true;
 				}

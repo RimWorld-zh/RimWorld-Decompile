@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -20,15 +19,7 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"(",
-				this.other,
-				", goodwill=",
-				this.goodwill.ToString("F1"),
-				(!this.hostile) ? string.Empty : " hostile",
-				")"
-			});
+			return "(" + this.other + ", goodwill=" + this.goodwill.ToString("F1") + ((!this.hostile) ? string.Empty : " hostile") + ")";
 		}
 	}
 }

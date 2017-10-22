@@ -10,18 +10,30 @@ namespace RimWorld.Planet
 			switch (h)
 			{
 			case Hilliness.Flat:
+			{
 				return "Hilliness_Flat".Translate();
+			}
 			case Hilliness.SmallHills:
+			{
 				return "Hilliness_SmallHills".Translate();
+			}
 			case Hilliness.LargeHills:
+			{
 				return "Hilliness_LargeHills".Translate();
+			}
 			case Hilliness.Mountainous:
+			{
 				return "Hilliness_Mountainous".Translate();
+			}
 			case Hilliness.Impassable:
+			{
 				return "Hilliness_Impassable".Translate();
+			}
 			default:
-				Log.ErrorOnce("Hilliness label unknown: " + h.ToString(), 694362);
-				return h.ToString();
+			{
+				Log.ErrorOnce("Hilliness label unknown: " + ((Enum)(object)h).ToString(), 694362);
+				return ((Enum)(object)h).ToString();
+			}
 			}
 		}
 

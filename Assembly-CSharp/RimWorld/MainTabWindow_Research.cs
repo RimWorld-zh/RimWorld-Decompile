@@ -70,15 +70,14 @@ namespace RimWorld
 			}
 			set
 			{
-				if (value == this.curTabInt)
+				if (value != this.curTabInt)
 				{
-					return;
+					this.curTabInt = value;
+					Vector2 vector = this.ViewSize(this.CurTab);
+					this.rightViewWidth = vector.x;
+					this.rightViewHeight = vector.y;
+					this.rightScrollPosition = Vector2.zero;
 				}
-				this.curTabInt = value;
-				Vector2 vector = this.ViewSize(this.CurTab);
-				this.rightViewWidth = vector.x;
-				this.rightViewHeight = vector.y;
-				this.rightScrollPosition = Vector2.zero;
 			}
 		}
 
@@ -88,7 +87,11 @@ namespace RimWorld
 			{
 				Vector2 initialSize = base.InitialSize;
 				float b = (float)(UI.screenHeight - 35);
-				float b2 = this.Margin + 10f + 32f + 10f + DefDatabase<ResearchTabDef>.AllDefs.Max((ResearchTabDef tab) => this.ViewSize(tab).y) + 10f + 10f + this.Margin;
+				float b2 = (float)(this.Margin + 10.0 + 32.0 + 10.0 + DefDatabase<ResearchTabDef>.AllDefs.Max((Func<ResearchTabDef, float>)delegate(ResearchTabDef tab)
+				{
+					Vector2 vector = this.ViewSize(tab);
+					return vector.y;
+				}) + 10.0 + 10.0 + this.Margin);
 				float a = Mathf.Max(initialSize.y, b2);
 				initialSize.y = Mathf.Min(a, b);
 				return initialSize;
@@ -108,11 +111,11 @@ namespace RimWorld
 				{
 					Rect rect = new Rect(0f, 0f, 140f, 0f);
 					Widgets.LabelCacheHeight(ref rect, this.GetLabel(researchProjectDef), false, false);
-					num = Mathf.Max(num, this.PosX(researchProjectDef) + 140f);
+					num = Mathf.Max(num, (float)(this.PosX(researchProjectDef) + 140.0));
 					num2 = Mathf.Max(num2, this.PosY(researchProjectDef) + rect.height);
 				}
 			}
-			return new Vector2(num + 20f, num2 + 20f);
+			return new Vector2((float)(num + 20.0), (float)(num2 + 20.0));
 		}
 
 		public override void PreOpen()
@@ -135,29 +138,32 @@ namespace RimWorld
 		public override void DoWindowContents(Rect inRect)
 		{
 			base.DoWindowContents(inRect);
-			this.windowRect.width = (float)UI.screenWidth;
+			base.windowRect.width = (float)UI.screenWidth;
 			if (!this.noBenchWarned)
 			{
 				bool flag = false;
 				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				int num = 0;
+				while (num < maps.Count)
 				{
-					if (maps[i].listerBuildings.ColonistsHaveResearchBench())
+					if (!maps[num].listerBuildings.ColonistsHaveResearchBench())
 					{
-						flag = true;
-						break;
+						num++;
+						continue;
 					}
+					flag = true;
+					break;
 				}
 				if (!flag)
 				{
-					Find.WindowStack.Add(new Dialog_MessageBox("ResearchMenuWithoutBench".Translate(), null, null, null, null, null, false));
+					Find.WindowStack.Add(new Dialog_MessageBox("ResearchMenuWithoutBench".Translate(), (string)null, null, (string)null, null, (string)null, false));
 				}
 				this.noBenchWarned = true;
 			}
 			Text.Anchor = TextAnchor.UpperLeft;
 			Text.Font = GameFont.Small;
 			Rect leftOutRect = new Rect(0f, 0f, 200f, inRect.height);
-			Rect rightOutRect = new Rect(leftOutRect.xMax + 10f, 0f, inRect.width - leftOutRect.width - 10f, inRect.height);
+			Rect rightOutRect = new Rect((float)(leftOutRect.xMax + 10.0), 0f, (float)(inRect.width - leftOutRect.width - 10.0), inRect.height);
 			this.DrawLeftRect(leftOutRect);
 			this.DrawRightRect(rightOutRect);
 		}
@@ -169,7 +175,7 @@ namespace RimWorld
 			if (this.selectedProject != null)
 			{
 				Rect outRect = new Rect(0f, 0f, position.width, 500f);
-				Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, this.leftScrollViewHeight);
+				Rect viewRect = new Rect(0f, 0f, (float)(outRect.width - 16.0), this.leftScrollViewHeight);
 				Widgets.BeginScrollView(outRect, ref this.leftScrollPosition, viewRect, true);
 				float num = 0f;
 				Text.Font = GameFont.Medium;
@@ -181,52 +187,32 @@ namespace RimWorld
 				num += rect.height;
 				Rect rect2 = new Rect(0f, num, viewRect.width, 0f);
 				Widgets.LabelCacheHeight(ref rect2, this.selectedProject.description, true, false);
-				num += rect2.height + 10f;
-				string label = string.Concat(new string[]
-				{
-					"ProjectTechLevel".Translate().CapitalizeFirst(),
-					": ",
-					this.selectedProject.techLevel.ToStringHuman(),
-					"\n",
-					"YourTechLevel".Translate().CapitalizeFirst(),
-					": ",
-					Faction.OfPlayer.def.techLevel.ToStringHuman(),
-					"\n",
-					"ResearchCostMultiplier".Translate().CapitalizeFirst(),
-					": ",
-					this.selectedProject.CostFactor(Faction.OfPlayer.def.techLevel).ToStringPercent(),
-					"\n",
-					"ResearchCostComparison".Translate(new object[]
-					{
-						this.selectedProject.baseCost.ToString("F0"),
-						this.selectedProject.CostApparent.ToString("F0")
-					})
-				});
+				num = (float)(num + (rect2.height + 10.0));
+				string label = "ProjectTechLevel".Translate().CapitalizeFirst() + ": " + this.selectedProject.techLevel.ToStringHuman() + "\n" + "YourTechLevel".Translate().CapitalizeFirst() + ": " + Faction.OfPlayer.def.techLevel.ToStringHuman() + "\n" + "ResearchCostMultiplier".Translate().CapitalizeFirst() + ": " + this.selectedProject.CostFactor(Faction.OfPlayer.def.techLevel).ToStringPercent() + "\n" + "ResearchCostComparison".Translate(this.selectedProject.baseCost.ToString("F0"), this.selectedProject.CostApparent.ToString("F0"));
 				Rect rect3 = new Rect(0f, num, viewRect.width, 0f);
 				Widgets.LabelCacheHeight(ref rect3, label, true, false);
-				num = rect3.yMax + 10f;
+				num = (float)(rect3.yMax + 10.0);
 				Rect rect4 = new Rect(0f, num, viewRect.width, 500f);
 				float num2 = this.DrawResearchPrereqs(this.selectedProject, rect4);
-				if (num2 > 0f)
+				if (num2 > 0.0)
 				{
-					num += num2 + 15f;
+					num = (float)(num + (num2 + 15.0));
 				}
 				Rect rect5 = new Rect(0f, num, viewRect.width, 500f);
 				num += this.DrawResearchBenchRequirements(this.selectedProject, rect5);
-				num += 3f;
-				this.leftScrollViewHeight = num;
+				num = (this.leftScrollViewHeight = (float)(num + 3.0));
 				Widgets.EndScrollView();
 				bool flag = Prefs.DevMode && this.selectedProject.PrerequisitesCompleted && this.selectedProject != Find.ResearchManager.currentProj && !this.selectedProject.IsFinished;
 				Rect rect6 = new Rect(0f, 0f, 90f, 50f);
 				if (flag)
 				{
-					rect6.x = (outRect.width - (rect6.width * 2f + 20f)) / 2f;
+					rect6.x = (float)((outRect.width - (rect6.width * 2.0 + 20.0)) / 2.0);
 				}
 				else
 				{
-					rect6.x = (outRect.width - rect6.width) / 2f;
+					rect6.x = (float)((outRect.width - rect6.width) / 2.0);
 				}
-				rect6.y = outRect.y + outRect.height + 20f;
+				rect6.y = (float)(outRect.y + outRect.height + 20.0);
 				if (this.selectedProject.IsFinished)
 				{
 					Widgets.DrawMenuSection(rect6, true);
@@ -257,14 +243,14 @@ namespace RimWorld
 				if (flag)
 				{
 					Rect rect7 = rect6;
-					rect7.x += rect7.width + 20f;
+					rect7.x += (float)(rect7.width + 20.0);
 					if (Widgets.ButtonText(rect7, "Debug Insta-finish", true, false, true))
 					{
 						Find.ResearchManager.currentProj = this.selectedProject;
 						Find.ResearchManager.InstantFinish(this.selectedProject, false);
 					}
 				}
-				Rect rect8 = new Rect(15f, rect6.y + rect6.height + 20f, position.width - 30f, 35f);
+				Rect rect8 = new Rect(15f, (float)(rect6.y + rect6.height + 20.0), (float)(position.width - 30.0), 35f);
 				Widgets.FillableBar(rect8, this.selectedProject.ProgressPercent, MainTabWindow_Research.ResearchBarFillTex, MainTabWindow_Research.ResearchBarBGTex, true);
 				Text.Anchor = TextAnchor.MiddleCenter;
 				Widgets.Label(rect8, this.selectedProject.ProgressApparent.ToString("F0") + " / " + this.selectedProject.CostApparent.ToString("F0"));
@@ -275,12 +261,12 @@ namespace RimWorld
 
 		private float CoordToPixelsX(float x)
 		{
-			return x * 190f;
+			return (float)(x * 190.0);
 		}
 
 		private float CoordToPixelsY(float y)
 		{
-			return y * 100f;
+			return (float)(y * 100.0);
 		}
 
 		private float PosX(ResearchProjectDef d)
@@ -298,10 +284,10 @@ namespace RimWorld
 			rightOutRect.yMin += 32f;
 			Widgets.DrawMenuSection(rightOutRect, true);
 			List<TabRecord> list = new List<TabRecord>();
-			foreach (ResearchTabDef current in DefDatabase<ResearchTabDef>.AllDefs)
+			foreach (ResearchTabDef allDef in DefDatabase<ResearchTabDef>.AllDefs)
 			{
-				ResearchTabDef localTabDef = current;
-				list.Add(new TabRecord(localTabDef.LabelCap, delegate
+				ResearchTabDef localTabDef = allDef;
+				list.Add(new TabRecord(localTabDef.LabelCap, (Action)delegate
 				{
 					this.CurTab = localTabDef;
 				}, this.CurTab == localTabDef));
@@ -309,14 +295,14 @@ namespace RimWorld
 			TabDrawer.DrawTabs(rightOutRect, list);
 			Rect outRect = rightOutRect.ContractedBy(10f);
 			Rect rect = new Rect(0f, 0f, this.rightViewWidth, this.rightViewHeight);
-			Rect position = rect.ContractedBy(10f);
+			Rect rect2 = rect.ContractedBy(10f);
 			rect.width = this.rightViewWidth;
-			position = rect.ContractedBy(10f);
+			rect2 = rect.ContractedBy(10f);
 			Vector2 start = default(Vector2);
 			Vector2 end = default(Vector2);
 			Widgets.ScrollHorizontal(outRect, ref this.rightScrollPosition, rect, 20f);
 			Widgets.BeginScrollView(outRect, ref this.rightScrollPosition, rect, true);
-			GUI.BeginGroup(position);
+			GUI.BeginGroup(rect2);
 			List<ResearchProjectDef> allDefsListForReading = DefDatabase<ResearchProjectDef>.AllDefsListForReading;
 			for (int i = 0; i < 2; i++)
 			{
@@ -326,14 +312,14 @@ namespace RimWorld
 					if (researchProjectDef.tab == this.CurTab)
 					{
 						start.x = this.PosX(researchProjectDef);
-						start.y = this.PosY(researchProjectDef) + 25f;
-						for (int k = 0; k < researchProjectDef.prerequisites.CountAllowNull<ResearchProjectDef>(); k++)
+						start.y = (float)(this.PosY(researchProjectDef) + 25.0);
+						for (int k = 0; k < researchProjectDef.prerequisites.CountAllowNull(); k++)
 						{
 							ResearchProjectDef researchProjectDef2 = researchProjectDef.prerequisites[k];
 							if (researchProjectDef2 != null && researchProjectDef2.tab == this.CurTab)
 							{
-								end.x = this.PosX(researchProjectDef2) + 140f;
-								end.y = this.PosY(researchProjectDef2) + 25f;
+								end.x = (float)(this.PosX(researchProjectDef2) + 140.0);
+								end.y = (float)(this.PosY(researchProjectDef2) + 25.0);
 								if (this.selectedProject == researchProjectDef || this.selectedProject == researchProjectDef2)
 								{
 									if (i == 1)
@@ -357,10 +343,10 @@ namespace RimWorld
 				{
 					Rect source = new Rect(this.PosX(researchProjectDef3), this.PosY(researchProjectDef3), 140f, 50f);
 					string label = this.GetLabel(researchProjectDef3);
-					Rect rect2 = new Rect(source);
+					Rect rect3 = new Rect(source);
 					Color textColor = Widgets.NormalOptionColor;
 					Color color = default(Color);
-					Color borderColor = default(Color);
+					Color color2 = default(Color);
 					bool flag = !researchProjectDef3.IsFinished && !researchProjectDef3.CanStartNow;
 					if (researchProjectDef3 == Find.ResearchManager.currentProj)
 					{
@@ -381,36 +367,36 @@ namespace RimWorld
 					if (this.selectedProject == researchProjectDef3)
 					{
 						color += TexUI.HighlightBgResearchColor;
-						borderColor = TexUI.HighlightBorderResearchColor;
+						color2 = TexUI.HighlightBorderResearchColor;
 					}
 					else
 					{
-						borderColor = TexUI.DefaultBorderResearchColor;
+						color2 = TexUI.DefaultBorderResearchColor;
 					}
 					if (flag)
 					{
 						textColor = MainTabWindow_Research.ProjectWithMissingPrerequisiteLabelColor;
 					}
-					for (int m = 0; m < researchProjectDef3.prerequisites.CountAllowNull<ResearchProjectDef>(); m++)
+					for (int m = 0; m < researchProjectDef3.prerequisites.CountAllowNull(); m++)
 					{
 						ResearchProjectDef researchProjectDef4 = researchProjectDef3.prerequisites[m];
 						if (researchProjectDef4 != null && this.selectedProject == researchProjectDef4)
 						{
-							borderColor = TexUI.HighlightLineResearchColor;
+							color2 = TexUI.HighlightLineResearchColor;
 						}
 					}
 					if (this.requiredByThisFound)
 					{
-						for (int n = 0; n < researchProjectDef3.requiredByThis.CountAllowNull<ResearchProjectDef>(); n++)
+						for (int n = 0; n < researchProjectDef3.requiredByThis.CountAllowNull(); n++)
 						{
 							ResearchProjectDef researchProjectDef5 = researchProjectDef3.requiredByThis[n];
 							if (this.selectedProject == researchProjectDef5)
 							{
-								borderColor = TexUI.HighlightLineResearchColor;
+								color2 = TexUI.HighlightLineResearchColor;
 							}
 						}
 					}
-					if (Widgets.CustomButtonText(ref rect2, label, color, textColor, borderColor, true, 1, true, true))
+					if (Widgets.CustomButtonText(ref rect3, label, color, textColor, color2, true, 1, true, true))
 					{
 						SoundDefOf.Click.PlayOneShotOnCamera(null);
 						this.selectedProject = researchProjectDef3;
@@ -423,7 +409,7 @@ namespace RimWorld
 
 		private float DrawResearchPrereqs(ResearchProjectDef project, Rect rect)
 		{
-			if (project.prerequisites.NullOrEmpty<ResearchProjectDef>())
+			if (project.prerequisites.NullOrEmpty())
 			{
 				return 0f;
 			}
@@ -447,13 +433,16 @@ namespace RimWorld
 			{
 				bool present = false;
 				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				int num = 0;
+				while (num < maps.Count)
 				{
-					if (maps[i].listerBuildings.allBuildingsColonist.Find((Building x) => x.def == project.requiredResearchBuilding) != null)
+					if (maps[num].listerBuildings.allBuildingsColonist.Find((Predicate<Building>)((Building x) => x.def == project.requiredResearchBuilding)) == null)
 					{
-						present = true;
-						break;
+						num++;
+						continue;
 					}
+					present = true;
+					break;
 				}
 				Widgets.LabelCacheHeight(ref rect, "RequiredResearchBench".Translate() + ":", true, false);
 				rect.yMin += rect.height;
@@ -462,7 +451,7 @@ namespace RimWorld
 				rect.yMin += rect.height;
 				GUI.color = Color.white;
 			}
-			if (!project.requiredResearchFacilities.NullOrEmpty<ThingDef>())
+			if (!project.requiredResearchFacilities.NullOrEmpty())
 			{
 				Widgets.LabelCacheHeight(ref rect, "RequiredResearchBenchFacilities".Translate() + ":", true, false);
 				rect.yMin += rect.height;
@@ -472,9 +461,9 @@ namespace RimWorld
 				{
 					bestMatchingBench = building_ResearchBench.TryGetComp<CompAffectedByFacilities>();
 				}
-				for (int j = 0; j < project.requiredResearchFacilities.Count; j++)
+				for (int i = 0; i < project.requiredResearchFacilities.Count; i++)
 				{
-					this.DrawResearchBenchFacilityRequirement(project.requiredResearchFacilities[j], bestMatchingBench, project, ref rect);
+					this.DrawResearchBenchFacilityRequirement(project.requiredResearchFacilities[i], bestMatchingBench, project, ref rect);
 					rect.yMin += 15f;
 				}
 			}
@@ -489,17 +478,16 @@ namespace RimWorld
 
 		private void SetPrerequisiteStatusColor(bool present, ResearchProjectDef project)
 		{
-			if (project.IsFinished)
+			if (!project.IsFinished)
 			{
-				return;
-			}
-			if (present)
-			{
-				GUI.color = MainTabWindow_Research.FulfilledPrerequisiteColor;
-			}
-			else
-			{
-				GUI.color = MainTabWindow_Research.MissingPrerequisiteColor;
+				if (present)
+				{
+					GUI.color = MainTabWindow_Research.FulfilledPrerequisiteColor;
+				}
+				else
+				{
+					GUI.color = MainTabWindow_Research.MissingPrerequisiteColor;
+				}
 			}
 		}
 
@@ -509,8 +497,8 @@ namespace RimWorld
 			Thing thing2 = null;
 			if (bestMatchingBench != null)
 			{
-				thing = bestMatchingBench.LinkedFacilitiesListForReading.Find((Thing x) => x.def == requiredFacility);
-				thing2 = bestMatchingBench.LinkedFacilitiesListForReading.Find((Thing x) => x.def == requiredFacility && bestMatchingBench.IsFacilityActive(x));
+				thing = bestMatchingBench.LinkedFacilitiesListForReading.Find((Predicate<Thing>)((Thing x) => x.def == requiredFacility));
+				thing2 = bestMatchingBench.LinkedFacilitiesListForReading.Find((Predicate<Thing>)((Thing x) => x.def == requiredFacility && bestMatchingBench.IsFacilityActive(x)));
 			}
 			this.SetPrerequisiteStatusColor(thing2 != null, project);
 			string text = requiredFacility.LabelCap;
@@ -534,16 +522,13 @@ namespace RimWorld
 			for (int j = 0; j < MainTabWindow_Research.tmpAllBuildings.Count; j++)
 			{
 				Building_ResearchBench building_ResearchBench2 = MainTabWindow_Research.tmpAllBuildings[j] as Building_ResearchBench;
-				if (building_ResearchBench2 != null)
+				if (building_ResearchBench2 != null && (requiredResearchBench == null || building_ResearchBench2.def == requiredResearchBench))
 				{
-					if (requiredResearchBench == null || building_ResearchBench2.def == requiredResearchBench)
+					float researchBenchRequirementsScore = this.GetResearchBenchRequirementsScore(building_ResearchBench2, requiredFacilities);
+					if (building_ResearchBench == null || researchBenchRequirementsScore > num)
 					{
-						float researchBenchRequirementsScore = this.GetResearchBenchRequirementsScore(building_ResearchBench2, requiredFacilities);
-						if (building_ResearchBench == null || researchBenchRequirementsScore > num)
-						{
-							num = researchBenchRequirementsScore;
-							building_ResearchBench = building_ResearchBench2;
-						}
+						num = researchBenchRequirementsScore;
+						building_ResearchBench = building_ResearchBench2;
 					}
 				}
 			}
@@ -561,13 +546,13 @@ namespace RimWorld
 				if (benchComp != null)
 				{
 					List<Thing> linkedFacilitiesListForReading = benchComp.LinkedFacilitiesListForReading;
-					if (linkedFacilitiesListForReading.Find((Thing x) => x.def == requiredFacilities[i] && benchComp.IsFacilityActive(x)) != null)
+					if (linkedFacilitiesListForReading.Find((Predicate<Thing>)((Thing x) => x.def == requiredFacilities[i] && benchComp.IsFacilityActive(x))) != null)
 					{
-						num += 1f;
+						num = (float)(num + 1.0);
 					}
-					else if (linkedFacilitiesListForReading.Find((Thing x) => x.def == requiredFacilities[i]) != null)
+					else if (linkedFacilitiesListForReading.Find((Predicate<Thing>)((Thing x) => x.def == requiredFacilities[i])) != null)
 					{
-						num += 0.6f;
+						num = (float)(num + 0.60000002384185791);
 					}
 				}
 			}

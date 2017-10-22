@@ -10,14 +10,14 @@ namespace Verse.Noise
 
 		public PowerKeepSign(ModuleBase lhs, ModuleBase rhs) : base(2)
 		{
-			this.modules[0] = lhs;
-			this.modules[1] = rhs;
+			base.modules[0] = lhs;
+			base.modules[1] = rhs;
 		}
 
 		public override double GetValue(double x, double y, double z)
 		{
-			double value = this.modules[0].GetValue(x, y, z);
-			return (double)Math.Sign(value) * Math.Pow(Math.Abs(value), this.modules[1].GetValue(x, y, z));
+			double value = base.modules[0].GetValue(x, y, z);
+			return (double)Math.Sign(value) * Math.Pow(Math.Abs(value), base.modules[1].GetValue(x, y, z));
 		}
 	}
 }

@@ -48,16 +48,24 @@ namespace RimWorld
 
 		private void CancelLoadingProcess()
 		{
-			List<Thing> list = this.lord.Map.listerThings.ThingsInGroup(ThingRequestGroup.Transporter);
-			for (int i = 0; i < list.Count; i++)
+			List<Thing> list = base.lord.Map.listerThings.ThingsInGroup(ThingRequestGroup.Transporter);
+			int num = 0;
+			CompTransporter compTransporter;
+			while (true)
 			{
-				CompTransporter compTransporter = list[i].TryGetComp<CompTransporter>();
-				if (compTransporter.groupID == this.transportersGroup)
+				if (num < list.Count)
 				{
-					compTransporter.CancelLoad();
+					compTransporter = list[num].TryGetComp<CompTransporter>();
+					if (compTransporter.groupID != this.transportersGroup)
+					{
+						num++;
+						continue;
+					}
 					break;
 				}
+				return;
 			}
+			compTransporter.CancelLoad();
 		}
 	}
 }

@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld
 {
 	public class StorytellerCompProperties_SingleMTB : StorytellerCompProperties
@@ -10,7 +8,7 @@ namespace RimWorld
 
 		public StorytellerCompProperties_SingleMTB()
 		{
-			this.compClass = typeof(StorytellerComp_SingleMTB);
+			base.compClass = typeof(StorytellerComp_SingleMTB);
 		}
 	}
 }

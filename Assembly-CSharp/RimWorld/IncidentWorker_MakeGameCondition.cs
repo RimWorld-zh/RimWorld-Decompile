@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -15,14 +14,14 @@ namespace RimWorld
 				Log.ErrorOnce(string.Format("Couldn't find condition manager for incident target {0}", target), 70849667);
 				return false;
 			}
-			if (gameConditionManager.ConditionIsActive(this.def.gameCondition))
+			if (gameConditionManager.ConditionIsActive(base.def.gameCondition))
 			{
 				return false;
 			}
 			List<GameCondition> activeConditions = gameConditionManager.ActiveConditions;
 			for (int i = 0; i < activeConditions.Count; i++)
 			{
-				if (!this.def.gameCondition.CanCoexistWith(activeConditions[i].def))
+				if (!base.def.gameCondition.CanCoexistWith(activeConditions[i].def))
 				{
 					return false;
 				}
@@ -33,8 +32,8 @@ namespace RimWorld
 		public override bool TryExecute(IncidentParms parms)
 		{
 			GameConditionManager gameConditionManager = parms.target.GameConditionManager;
-			int duration = Mathf.RoundToInt(this.def.durationDays.RandomInRange * 60000f);
-			GameCondition cond = GameConditionMaker.MakeCondition(this.def.gameCondition, duration, 0);
+			int duration = Mathf.RoundToInt((float)(base.def.durationDays.RandomInRange * 60000.0));
+			GameCondition cond = GameConditionMaker.MakeCondition(base.def.gameCondition, duration, 0);
 			gameConditionManager.RegisterCondition(cond);
 			base.SendStandardLetter();
 			return true;

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -8,14 +7,14 @@ namespace RimWorld
 	{
 		public Designator_AreaAllowedExpand() : base(DesignateMode.Add)
 		{
-			this.defaultLabel = "DesignatorExpandAreaAllowed".Translate();
-			this.defaultDesc = "DesignatorExpandAreaAllowedDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/AreaAllowedExpand", true);
-			this.soundDragSustain = SoundDefOf.DesignateDragAreaAdd;
-			this.soundDragChanged = SoundDefOf.DesignateDragAreaAddChanged;
-			this.soundSucceeded = SoundDefOf.DesignateAreaAdd;
-			this.hotKey = KeyBindingDefOf.Misc8;
-			this.tutorTag = "AreaAllowedExpand";
+			base.defaultLabel = "DesignatorExpandAreaAllowed".Translate();
+			base.defaultDesc = "DesignatorExpandAreaAllowedDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/AreaAllowedExpand", true);
+			base.soundDragSustain = SoundDefOf.DesignateDragAreaAdd;
+			base.soundDragChanged = SoundDefOf.DesignateDragAreaAddChanged;
+			base.soundSucceeded = SoundDefOf.DesignateAreaAdd;
+			base.hotKey = KeyBindingDefOf.Misc8;
+			base.tutorTag = "AreaAllowedExpand";
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)

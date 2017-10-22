@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI.Group;
 
@@ -12,7 +11,7 @@ namespace RimWorld
 			{
 				return new LordJob_AssaultColony(parms.faction, true, true, false, false, true);
 			}
-			IntVec3 fallbackLocation;
+			IntVec3 fallbackLocation = default(IntVec3);
 			RCellFinder.TryFindRandomSpotJustOutsideColony(parms.spawnCenter, map, out fallbackLocation);
 			return new LordJob_AssistColony(parms.faction, fallbackLocation);
 		}

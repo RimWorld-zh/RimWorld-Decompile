@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Reflection;
 using UnityEngine;
 
@@ -17,7 +16,7 @@ namespace Verse
 
 		public Dialog_DebugSettingsMenu()
 		{
-			this.forcePause = true;
+			base.forcePause = true;
 		}
 
 		protected override void DoListingItems()
@@ -28,16 +27,16 @@ namespace Verse
 				this.Close(true);
 			}
 			Text.Font = GameFont.Small;
-			this.listing.Label("Gameplay", -1f);
+			base.listing.Label("Gameplay", -1f);
 			FieldInfo[] fields = typeof(DebugSettings).GetFields();
 			for (int i = 0; i < fields.Length; i++)
 			{
 				FieldInfo fi = fields[i];
 				this.DoField(fi);
 			}
-			this.listing.Gap(36f);
+			base.listing.Gap(36f);
 			Text.Font = GameFont.Small;
-			this.listing.Label("View", -1f);
+			base.listing.Label("View", -1f);
 			FieldInfo[] fields2 = typeof(DebugViewSettings).GetFields();
 			for (int j = 0; j < fields2.Length; j++)
 			{
@@ -48,17 +47,16 @@ namespace Verse
 
 		private void DoField(FieldInfo fi)
 		{
-			if (fi.IsLiteral)
+			if (!fi.IsLiteral)
 			{
-				return;
-			}
-			string label = GenText.SplitCamelCase(fi.Name).CapitalizeFirst();
-			bool flag = (bool)fi.GetValue(null);
-			bool flag2 = flag;
-			base.CheckboxLabeledDebug(label, ref flag);
-			if (flag != flag2)
-			{
-				fi.SetValue(null, flag);
+				string label = GenText.SplitCamelCase(fi.Name).CapitalizeFirst();
+				bool flag;
+				bool flag2 = flag = (bool)fi.GetValue(null);
+				base.CheckboxLabeledDebug(label, ref flag2);
+				if (flag2 != flag)
+				{
+					fi.SetValue(null, flag2);
+				}
 			}
 		}
 	}

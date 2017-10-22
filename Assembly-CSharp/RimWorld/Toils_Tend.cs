@@ -10,7 +10,7 @@ namespace RimWorld
 		public static Toil PickupMedicine(TargetIndex ind, Pawn injured)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
@@ -39,12 +39,12 @@ namespace RimWorld
 		public static Toil FinalizeTend(Pawn patient)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				Pawn actor = toil.actor;
 				Medicine medicine = (Medicine)actor.jobs.curJob.targetB.Thing;
-				float num = (!patient.RaceProps.Animal) ? 500f : 175f;
-				float num2 = (medicine != null) ? medicine.def.MedicineTendXpGainFactor : 0.5f;
+				float num = (float)((!patient.RaceProps.Animal) ? 500.0 : 175.0);
+				float num2 = (float)((medicine != null) ? medicine.def.MedicineTendXpGainFactor : 0.5);
 				actor.skills.Learn(SkillDefOf.Medicine, num * num2, false);
 				TendUtility.DoTend(actor, patient, medicine);
 				if (medicine != null && medicine.Destroyed)

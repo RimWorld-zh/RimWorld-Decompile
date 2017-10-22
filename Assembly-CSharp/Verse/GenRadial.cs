@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse
 {
@@ -94,7 +93,7 @@ namespace Verse
 					list.Add(new IntVec3(i, 0, j));
 				}
 			}
-			list.Sort(delegate(IntVec3 A, IntVec3 B)
+			list.Sort((Comparison<IntVec3>)delegate(IntVec3 A, IntVec3 B)
 			{
 				float num = (float)A.LengthHorizontalSquared;
 				float num2 = (float)B.LengthHorizontalSquared;
@@ -117,40 +116,40 @@ namespace Verse
 
 		public static int NumCellsToFillForRadius_ManualRadialPattern(int radius)
 		{
-			if (radius == 0)
+			switch (radius)
+			{
+			case 0:
 			{
 				return 1;
 			}
-			if (radius == 1)
+			case 1:
 			{
 				return 9;
 			}
-			if (radius == 2)
+			case 2:
 			{
 				return 21;
 			}
-			if (radius == 3)
+			case 3:
 			{
 				return 37;
 			}
-			Log.Error("NumSquares radius error");
-			return 0;
+			default:
+			{
+				Log.Error("NumSquares radius error");
+				return 0;
+			}
+			}
 		}
 
 		public static int NumCellsInRadius(float radius)
 		{
 			if (radius >= GenRadial.MaxRadialPatternRadius)
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Not enough squares to get to radius ",
-					radius,
-					". Max is ",
-					GenRadial.MaxRadialPatternRadius
-				}));
+				Log.Error("Not enough squares to get to radius " + radius + ". Max is " + GenRadial.MaxRadialPatternRadius);
 				return 10000;
 			}
-			float num = radius + 1.401298E-45f;
+			float num = (float)(radius + 1.4012984643248171E-45);
 			for (int i = 0; i < 10000; i++)
 			{
 				if (GenRadial.RadialPatternRadii[i] > num)
@@ -166,47 +165,56 @@ namespace Verse
 			return GenRadial.RadialPatternRadii[numCells];
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<IntVec3> RadialPatternInRadius(float radius)
 		{
-			GenRadial.<RadialPatternInRadius>c__Iterator24A <RadialPatternInRadius>c__Iterator24A = new GenRadial.<RadialPatternInRadius>c__Iterator24A();
-			<RadialPatternInRadius>c__Iterator24A.radius = radius;
-			<RadialPatternInRadius>c__Iterator24A.<$>radius = radius;
-			GenRadial.<RadialPatternInRadius>c__Iterator24A expr_15 = <RadialPatternInRadius>c__Iterator24A;
-			expr_15.$PC = -2;
-			return expr_15;
+			int numSquares = GenRadial.NumCellsInRadius(radius);
+			for (int i = 0; i < numSquares; i++)
+			{
+				yield return GenRadial.RadialPattern[i];
+			}
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<IntVec3> RadialCellsAround(IntVec3 center, float radius, bool useCenter)
 		{
-			GenRadial.<RadialCellsAround>c__Iterator24B <RadialCellsAround>c__Iterator24B = new GenRadial.<RadialCellsAround>c__Iterator24B();
-			<RadialCellsAround>c__Iterator24B.radius = radius;
-			<RadialCellsAround>c__Iterator24B.useCenter = useCenter;
-			<RadialCellsAround>c__Iterator24B.center = center;
-			<RadialCellsAround>c__Iterator24B.<$>radius = radius;
-			<RadialCellsAround>c__Iterator24B.<$>useCenter = useCenter;
-			<RadialCellsAround>c__Iterator24B.<$>center = center;
-			GenRadial.<RadialCellsAround>c__Iterator24B expr_31 = <RadialCellsAround>c__Iterator24B;
-			expr_31.$PC = -2;
-			return expr_31;
+			int numSquares = GenRadial.NumCellsInRadius(radius);
+			for (int i = (!useCenter) ? 1 : 0; i < numSquares; i++)
+			{
+				yield return GenRadial.RadialPattern[i] + center;
+			}
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<Thing> RadialDistinctThingsAround(IntVec3 center, Map map, float radius, bool useCenter)
 		{
-			GenRadial.<RadialDistinctThingsAround>c__Iterator24C <RadialDistinctThingsAround>c__Iterator24C = new GenRadial.<RadialDistinctThingsAround>c__Iterator24C();
-			<RadialDistinctThingsAround>c__Iterator24C.radius = radius;
-			<RadialDistinctThingsAround>c__Iterator24C.useCenter = useCenter;
-			<RadialDistinctThingsAround>c__Iterator24C.center = center;
-			<RadialDistinctThingsAround>c__Iterator24C.map = map;
-			<RadialDistinctThingsAround>c__Iterator24C.<$>radius = radius;
-			<RadialDistinctThingsAround>c__Iterator24C.<$>useCenter = useCenter;
-			<RadialDistinctThingsAround>c__Iterator24C.<$>center = center;
-			<RadialDistinctThingsAround>c__Iterator24C.<$>map = map;
-			GenRadial.<RadialDistinctThingsAround>c__Iterator24C expr_3F = <RadialDistinctThingsAround>c__Iterator24C;
-			expr_3F.$PC = -2;
-			return expr_3F;
+			int numCells = GenRadial.NumCellsInRadius(radius);
+			HashSet<Thing> returnedThings = null;
+			for (int j = (!useCenter) ? 1 : 0; j < numCells; j++)
+			{
+				IntVec3 cell = GenRadial.RadialPattern[j] + center;
+				if (cell.InBounds(map))
+				{
+					List<Thing> thingList = cell.GetThingList(map);
+					for (int i = 0; i < thingList.Count; i++)
+					{
+						Thing t = thingList[i];
+						if (t.def.size.x > 1 && t.def.size.z > 1)
+						{
+							if (returnedThings == null)
+							{
+								returnedThings = new HashSet<Thing>();
+							}
+							if (!returnedThings.Contains(t))
+							{
+								returnedThings.Add(t);
+								goto IL_014a;
+							}
+							continue;
+						}
+						goto IL_014a;
+						IL_014a:
+						yield return t;
+					}
+				}
+			}
 		}
 	}
 }

@@ -21,7 +21,7 @@ namespace Verse.AI
 
 		private Map map;
 
-		private List<AttackTargetReservationManager.AttackTargetReservation> reservations = new List<AttackTargetReservationManager.AttackTargetReservation>();
+		private List<AttackTargetReservation> reservations = new List<AttackTargetReservation>();
 
 		public AttackTargetReservationManager(Map map)
 		{
@@ -33,16 +33,14 @@ namespace Verse.AI
 			if (target == null)
 			{
 				Log.Warning(claimant + " tried to reserve null attack target.");
-				return;
 			}
-			if (this.IsReservedBy(claimant, target))
+			else if (!this.IsReservedBy(claimant, target))
 			{
-				return;
+				AttackTargetReservation attackTargetReservation = new AttackTargetReservation();
+				attackTargetReservation.target = target;
+				attackTargetReservation.claimant = claimant;
+				this.reservations.Add(attackTargetReservation);
 			}
-			AttackTargetReservationManager.AttackTargetReservation attackTargetReservation = new AttackTargetReservationManager.AttackTargetReservation();
-			attackTargetReservation.target = target;
-			attackTargetReservation.claimant = claimant;
-			this.reservations.Add(attackTargetReservation);
 		}
 
 		public void Release(Pawn claimant, IAttackTarget target)
@@ -50,24 +48,20 @@ namespace Verse.AI
 			if (target == null)
 			{
 				Log.Warning(claimant + " tried to release reservation on null attack target.");
-				return;
 			}
-			for (int i = 0; i < this.reservations.Count; i++)
+			else
 			{
-				AttackTargetReservationManager.AttackTargetReservation attackTargetReservation = this.reservations[i];
-				if (attackTargetReservation.target == target && attackTargetReservation.claimant == claimant)
+				for (int i = 0; i < this.reservations.Count; i++)
 				{
-					this.reservations.RemoveAt(i);
-					return;
+					AttackTargetReservation attackTargetReservation = this.reservations[i];
+					if (attackTargetReservation.target == target && attackTargetReservation.claimant == claimant)
+					{
+						this.reservations.RemoveAt(i);
+						return;
+					}
 				}
+				Log.Warning(claimant + " tried to release reservation on target " + target + ", but it's not reserved by him.");
 			}
-			Log.Warning(string.Concat(new object[]
-			{
-				claimant,
-				" tried to release reservation on target ",
-				target,
-				", but it's not reserved by him."
-			}));
 		}
 
 		public bool CanReserve(Pawn claimant, IAttackTarget target)
@@ -85,7 +79,7 @@ namespace Verse.AI
 		{
 			for (int i = 0; i < this.reservations.Count; i++)
 			{
-				AttackTargetReservationManager.AttackTargetReservation attackTargetReservation = this.reservations[i];
+				AttackTargetReservation attackTargetReservation = this.reservations[i];
 				if (attackTargetReservation.target == target && attackTargetReservation.claimant == claimant)
 				{
 					return true;
@@ -96,26 +90,26 @@ namespace Verse.AI
 
 		public void ReleaseAllForTarget(IAttackTarget target)
 		{
-			this.reservations.RemoveAll((AttackTargetReservationManager.AttackTargetReservation x) => x.target == target);
+			this.reservations.RemoveAll((Predicate<AttackTargetReservation>)((AttackTargetReservation x) => x.target == target));
 		}
 
 		public void ReleaseAllClaimedBy(Pawn claimant)
 		{
-			for (int i = this.reservations.Count - 1; i >= 0; i--)
+			for (int num = this.reservations.Count - 1; num >= 0; num--)
 			{
-				if (this.reservations[i].claimant == claimant)
+				if (this.reservations[num].claimant == claimant)
 				{
-					this.reservations.RemoveAt(i);
+					this.reservations.RemoveAt(num);
 				}
 			}
 		}
 
 		public void ExposeData()
 		{
-			Scribe_Collections.Look<AttackTargetReservationManager.AttackTargetReservation>(ref this.reservations, "reservations", LookMode.Deep, new object[0]);
+			Scribe_Collections.Look<AttackTargetReservation>(ref this.reservations, "reservations", LookMode.Deep, new object[0]);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.reservations.RemoveAll((AttackTargetReservationManager.AttackTargetReservation x) => x.target == null);
+				this.reservations.RemoveAll((Predicate<AttackTargetReservation>)((AttackTargetReservation x) => x.target == null));
 			}
 		}
 
@@ -124,7 +118,7 @@ namespace Verse.AI
 			int num = 0;
 			for (int i = 0; i < this.reservations.Count; i++)
 			{
-				AttackTargetReservationManager.AttackTargetReservation attackTargetReservation = this.reservations[i];
+				AttackTargetReservation attackTargetReservation = this.reservations[i];
 				if (attackTargetReservation.target == target && attackTargetReservation.claimant.Faction == faction)
 				{
 					num++;
@@ -138,17 +132,11 @@ namespace Verse.AI
 			int num = 0;
 			Thing thing = target.Thing;
 			CellRect cellRect = thing.OccupiedRect();
-			foreach (IntVec3 current in cellRect.ExpandedBy(1))
+			foreach (IntVec3 item in cellRect.ExpandedBy(1))
 			{
-				if (!cellRect.Contains(current))
+				if (!cellRect.Contains(item) && item.InBounds(this.map) && item.Standable(this.map))
 				{
-					if (current.InBounds(this.map))
-					{
-						if (current.Standable(this.map))
-						{
-							num++;
-						}
-					}
+					num++;
 				}
 			}
 			return num;

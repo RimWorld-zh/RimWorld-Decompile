@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.Planet
@@ -23,8 +22,8 @@ namespace RimWorld.Planet
 
 		private void GenerateAncientSites()
 		{
-			int num = GenMath.RoundRandom((float)Find.WorldGrid.TilesCount / 100000f * this.ancientSitesPer100kTiles.RandomInRange);
-			for (int i = 0; i < num; i++)
+			int num = GenMath.RoundRandom((float)((float)Find.WorldGrid.TilesCount / 100000.0 * this.ancientSitesPer100kTiles.RandomInRange));
+			for (int num2 = 0; num2 < num; num2++)
 			{
 				Find.World.genData.ancientSites.Add(TileFinder.RandomFactionBaseTileFor(null, false));
 			}

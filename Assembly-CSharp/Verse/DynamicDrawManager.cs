@@ -22,7 +22,7 @@ namespace Verse
 
 		public void RegisterDrawable(Thing t)
 		{
-			if (t.def.drawerType != DrawerType.None)
+			if (t.def.drawerType != 0)
 			{
 				if (this.drawingNow)
 				{
@@ -41,7 +41,7 @@ namespace Verse
 
 		public void DeRegisterDrawable(Thing t)
 		{
-			if (t.def.drawerType != DrawerType.None)
+			if (t.def.drawerType != 0)
 			{
 				if (this.drawingNow)
 				{
@@ -54,27 +54,25 @@ namespace Verse
 
 		public void DrawDynamicThings(DrawTargetDef drawTarget)
 		{
-			if (!DebugViewSettings.drawThingsDynamic)
+			if (DebugViewSettings.drawThingsDynamic)
 			{
-				return;
-			}
-			this.drawingNow = true;
-			HashSet<Thing> hashSet = (drawTarget != DrawTargetDefOf.WaterHeight) ? this.drawThings : this.drawThingsWater;
-			try
-			{
-				bool[] fogGrid = this.map.fogGrid.fogGrid;
-				CellRect cellRect = Find.CameraDriver.CurrentViewRect;
-				cellRect.ClipInsideMap(this.map);
-				cellRect = cellRect.ExpandedBy(1);
-				CellIndices cellIndices = this.map.cellIndices;
-				foreach (Thing current in hashSet)
+				this.drawingNow = true;
+				HashSet<Thing> hashSet = (drawTarget != DrawTargetDefOf.WaterHeight) ? this.drawThings : this.drawThingsWater;
+				try
 				{
-					IntVec3 position = current.Position;
-					if (cellRect.Contains(position) || current.def.drawOffscreen)
+					bool[] fogGrid = this.map.fogGrid.fogGrid;
+					CellRect cellRect = Find.CameraDriver.CurrentViewRect;
+					cellRect.ClipInsideMap(this.map);
+					cellRect = cellRect.ExpandedBy(1);
+					CellIndices cellIndices = this.map.cellIndices;
+					HashSet<Thing>.Enumerator enumerator = hashSet.GetEnumerator();
+					try
 					{
-						if (!fogGrid[cellIndices.CellToIndex(position)] || current.def.seeThroughFog)
+						while (enumerator.MoveNext())
 						{
-							if (current.def.hideAtSnowDepth >= 1f || this.map.snowGrid.GetDepth(current.Position) <= current.def.hideAtSnowDepth)
+							Thing current = enumerator.Current;
+							IntVec3 position = current.Position;
+							if ((cellRect.Contains(position) || current.def.drawOffscreen) && (!fogGrid[cellIndices.CellToIndex(position)] || current.def.seeThroughFog) && (!(current.def.hideAtSnowDepth < 1.0) || !(this.map.snowGrid.GetDepth(current.Position) > current.def.hideAtSnowDepth)))
 							{
 								try
 								{
@@ -82,24 +80,22 @@ namespace Verse
 								}
 								catch (Exception ex)
 								{
-									Log.Error(string.Concat(new object[]
-									{
-										"Exception drawing ",
-										current,
-										": ",
-										ex.ToString()
-									}));
+									Log.Error("Exception drawing " + current + ": " + ex.ToString());
 								}
 							}
 						}
 					}
+					finally
+					{
+						((IDisposable)(object)enumerator).Dispose();
+					}
 				}
+				catch (Exception arg)
+				{
+					Log.Error("Exception drawing dynamic things: " + arg);
+				}
+				this.drawingNow = false;
 			}
-			catch (Exception arg)
-			{
-				Log.Error("Exception drawing dynamic things: " + arg);
-			}
-			this.drawingNow = false;
 		}
 
 		public void LogDynamicDrawThings()

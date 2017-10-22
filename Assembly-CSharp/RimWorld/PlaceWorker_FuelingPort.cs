@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -11,15 +10,10 @@ namespace RimWorld
 
 		public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot)
 		{
-			if (def.building == null || !def.building.hasFuelingPort)
+			if (def.building != null && def.building.hasFuelingPort && FuelingPortUtility.GetFuelingPortCell(center, rot).Standable(Find.VisibleMap))
 			{
-				return;
+				PlaceWorker_FuelingPort.DrawFuelingPortCell(center, rot);
 			}
-			if (!FuelingPortUtility.GetFuelingPortCell(center, rot).Standable(Find.VisibleMap))
-			{
-				return;
-			}
-			PlaceWorker_FuelingPort.DrawFuelingPortCell(center, rot);
 		}
 
 		public static void DrawFuelingPortCell(IntVec3 center, Rot4 rot)

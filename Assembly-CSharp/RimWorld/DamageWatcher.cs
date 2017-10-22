@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -47,23 +46,22 @@ namespace RimWorld
 
 		public void Notify_DamageTaken(Thing damagee, float amount)
 		{
-			if (damagee.Faction != Faction.OfPlayer)
+			if (damagee.Faction == Faction.OfPlayer)
 			{
-				return;
-			}
-			if (damagee.def.category == ThingCategory.Pawn && damagee.def.race.Humanlike)
-			{
-				amount *= 5f;
-			}
-			this.recentDamage += amount;
-			this.everDamage += amount;
-			if (this.recentDamage > 8000f)
-			{
-				this.recentDamage = 8000f;
-			}
-			if (this.recentDamage >= 7500f)
-			{
-				this.lastSeriousDamageTick = Find.TickManager.TicksGame;
+				if (damagee.def.category == ThingCategory.Pawn && damagee.def.race.Humanlike)
+				{
+					amount = (float)(amount * 5.0);
+				}
+				this.recentDamage += amount;
+				this.everDamage += amount;
+				if (this.recentDamage > 8000.0)
+				{
+					this.recentDamage = 8000f;
+				}
+				if (this.recentDamage >= 7500.0)
+				{
+					this.lastSeriousDamageTick = Find.TickManager.TicksGame;
+				}
 			}
 		}
 
@@ -72,7 +70,7 @@ namespace RimWorld
 			if (Find.TickManager.TicksGame % 2000 == 0)
 			{
 				this.recentDamage -= 70f;
-				if (this.recentDamage < 0f)
+				if (this.recentDamage < 0.0)
 				{
 					this.recentDamage = 0f;
 				}

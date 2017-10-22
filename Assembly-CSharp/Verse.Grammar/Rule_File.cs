@@ -21,7 +21,7 @@ namespace Verse.Grammar
 
 		public override string Generate()
 		{
-			return this.cachedStrings.RandomElement<string>();
+			return this.cachedStrings.RandomElement();
 		}
 
 		public override void Init()
@@ -30,20 +30,38 @@ namespace Verse.Grammar
 			{
 				this.LoadStringsFromFile(this.path);
 			}
-			foreach (string current in this.pathList)
+			List<string>.Enumerator enumerator = this.pathList.GetEnumerator();
+			try
 			{
-				this.LoadStringsFromFile(current);
+				while (enumerator.MoveNext())
+				{
+					string current = enumerator.Current;
+					this.LoadStringsFromFile(current);
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 
 		private void LoadStringsFromFile(string filePath)
 		{
-			List<string> list;
+			List<string> list = default(List<string>);
 			if (Translator.TryGetTranslatedStringsForFile(filePath, out list))
 			{
-				foreach (string current in list)
+				List<string>.Enumerator enumerator = list.GetEnumerator();
+				try
 				{
-					this.cachedStrings.Add(current);
+					while (enumerator.MoveNext())
+					{
+						string current = enumerator.Current;
+						this.cachedStrings.Add(current);
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 		}
@@ -52,29 +70,13 @@ namespace Verse.Grammar
 		{
 			if (!this.path.NullOrEmpty())
 			{
-				return string.Concat(new object[]
-				{
-					this.keyword,
-					"->(",
-					this.cachedStrings.Count,
-					" strings from file: ",
-					this.path,
-					")"
-				});
+				return base.keyword + "->(" + this.cachedStrings.Count + " strings from file: " + this.path + ")";
 			}
 			if (this.pathList.Count > 0)
 			{
-				return string.Concat(new object[]
-				{
-					this.keyword,
-					"->(",
-					this.cachedStrings.Count,
-					" strings from ",
-					this.pathList.Count,
-					" files)"
-				});
+				return base.keyword + "->(" + this.cachedStrings.Count + " strings from " + this.pathList.Count + " files)";
 			}
-			return this.keyword + "->(Rule_File with no configuration)";
+			return base.keyword + "->(Rule_File with no configuration)";
 		}
 	}
 }

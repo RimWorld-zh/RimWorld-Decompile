@@ -1,10 +1,8 @@
-using System;
-
 namespace Verse
 {
 	public enum ThingPlaceMode : byte
 	{
-		Direct,
-		Near
+		Direct = 0,
+		Near = 1
 	}
 }

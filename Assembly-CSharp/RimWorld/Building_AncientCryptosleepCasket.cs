@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Verse;
 using Verse.AI.Group;
@@ -20,56 +19,55 @@ namespace RimWorld
 		public override void PreApplyDamage(DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(dinfo, out absorbed);
-			if (absorbed)
+			if (!absorbed)
 			{
-				return;
-			}
-			if (!this.contentsKnown && this.innerContainer.Count > 0 && dinfo.Def.harmsHealth && dinfo.Instigator != null && dinfo.Instigator.Faction != null)
-			{
-				bool flag = false;
-				foreach (Thing current in ((IEnumerable<Thing>)this.innerContainer))
+				if (!base.contentsKnown && base.innerContainer.Count > 0 && dinfo.Def.harmsHealth && dinfo.Instigator != null && dinfo.Instigator.Faction != null)
 				{
-					Pawn pawn = current as Pawn;
-					if (pawn != null)
+					bool flag = false;
+					foreach (Thing item in (IEnumerable<Thing>)base.innerContainer)
 					{
-						flag = true;
-						break;
+						Pawn pawn = item as Pawn;
+						if (pawn != null)
+						{
+							flag = true;
+							break;
+						}
+					}
+					if (flag)
+					{
+						this.EjectContents();
 					}
 				}
-				if (flag)
-				{
-					this.EjectContents();
-				}
+				absorbed = false;
 			}
-			absorbed = false;
 		}
 
 		public override void EjectContents()
 		{
 			List<Thing> list = new List<Thing>();
-			if (!this.contentsKnown)
+			if (!base.contentsKnown)
 			{
-				list.AddRange(this.innerContainer);
-				list.AddRange(this.UnopenedCasketsInGroup().SelectMany((Building_AncientCryptosleepCasket c) => c.innerContainer));
+				list.AddRange(base.innerContainer);
+				list.AddRange(this.UnopenedCasketsInGroup().SelectMany((Func<Building_AncientCryptosleepCasket, IEnumerable<Thing>>)((Building_AncientCryptosleepCasket c) => c.innerContainer)));
 			}
-			bool contentsKnown = this.contentsKnown;
+			bool contentsKnown = base.contentsKnown;
 			base.EjectContents();
 			if (!contentsKnown)
 			{
 				ThingDef filthSlime = ThingDefOf.FilthSlime;
 				FilthMaker.MakeFilth(base.Position, base.Map, filthSlime, Rand.Range(8, 12));
 				this.SetFaction(null, null);
-				foreach (Building_AncientCryptosleepCasket current in this.UnopenedCasketsInGroup())
+				foreach (Building_AncientCryptosleepCasket item in this.UnopenedCasketsInGroup())
 				{
-					current.EjectContents();
+					item.EjectContents();
 				}
 				List<Pawn> source = (from t in list
 				where t is Pawn
-				select t).Cast<Pawn>().ToList<Pawn>();
+				select t).Cast<Pawn>().ToList();
 				IEnumerable<Pawn> enumerable = from p in source
 				where p.RaceProps.Humanlike && p.GetLord() == null && p.Faction.def == FactionDefOf.SpacerHostile
 				select p;
-				if (enumerable.Any<Pawn>())
+				if (enumerable.Any())
 				{
 					Faction faction = Find.FactionManager.FirstFactionOfDef(FactionDefOf.SpacerHostile);
 					LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction, false, false, false, false, false), base.Map, enumerable);
@@ -77,14 +75,29 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<Building_AncientCryptosleepCasket> UnopenedCasketsInGroup()
 		{
-			Building_AncientCryptosleepCasket.<UnopenedCasketsInGroup>c__Iterator152 <UnopenedCasketsInGroup>c__Iterator = new Building_AncientCryptosleepCasket.<UnopenedCasketsInGroup>c__Iterator152();
-			<UnopenedCasketsInGroup>c__Iterator.<>f__this = this;
-			Building_AncientCryptosleepCasket.<UnopenedCasketsInGroup>c__Iterator152 expr_0E = <UnopenedCasketsInGroup>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			yield return this;
+			if (this.groupID != -1)
+			{
+				List<Thing>.Enumerator enumerator = base.Map.listerThings.ThingsOfDef(ThingDefOf.AncientCryptosleepCasket).GetEnumerator();
+				try
+				{
+					while (enumerator.MoveNext())
+					{
+						Thing t = enumerator.Current;
+						Building_AncientCryptosleepCasket casket = t as Building_AncientCryptosleepCasket;
+						if (casket.groupID == this.groupID && !casket.contentsKnown)
+						{
+							yield return casket;
+						}
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
+				}
+			}
 		}
 	}
 }

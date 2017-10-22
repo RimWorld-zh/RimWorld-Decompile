@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse
 {
@@ -115,45 +113,57 @@ namespace Verse
 					GenAdj.adjRandomOrderList.Add(GenAdj.AdjacentCells[i]);
 				}
 			}
-			GenAdj.adjRandomOrderList.Shuffle<IntVec3>();
+			GenAdj.adjRandomOrderList.Shuffle();
 			return GenAdj.adjRandomOrderList;
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<IntVec3> CellsOccupiedBy(Thing t)
 		{
-			GenAdj.<CellsOccupiedBy>c__Iterator241 <CellsOccupiedBy>c__Iterator = new GenAdj.<CellsOccupiedBy>c__Iterator241();
-			<CellsOccupiedBy>c__Iterator.t = t;
-			<CellsOccupiedBy>c__Iterator.<$>t = t;
-			GenAdj.<CellsOccupiedBy>c__Iterator241 expr_15 = <CellsOccupiedBy>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			if (t.def.size.x == 1 && t.def.size.z == 1)
+			{
+				yield return t.Position;
+			}
+			else
+			{
+				foreach (IntVec3 item in GenAdj.CellsOccupiedBy(t.Position, t.Rotation, t.def.size))
+				{
+					yield return item;
+				}
+			}
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<IntVec3> CellsOccupiedBy(IntVec3 center, Rot4 rotation, IntVec2 size)
 		{
-			GenAdj.<CellsOccupiedBy>c__Iterator242 <CellsOccupiedBy>c__Iterator = new GenAdj.<CellsOccupiedBy>c__Iterator242();
-			<CellsOccupiedBy>c__Iterator.center = center;
-			<CellsOccupiedBy>c__Iterator.size = size;
-			<CellsOccupiedBy>c__Iterator.rotation = rotation;
-			<CellsOccupiedBy>c__Iterator.<$>center = center;
-			<CellsOccupiedBy>c__Iterator.<$>size = size;
-			<CellsOccupiedBy>c__Iterator.<$>rotation = rotation;
-			GenAdj.<CellsOccupiedBy>c__Iterator242 expr_31 = <CellsOccupiedBy>c__Iterator;
-			expr_31.$PC = -2;
-			return expr_31;
+			GenAdj.AdjustForRotation(ref center, ref size, rotation);
+			int minX = center.x - (size.x - 1) / 2;
+			int minZ = center.z - (size.z - 1) / 2;
+			int maxX = minX + size.x - 1;
+			int maxZ = minZ + size.z - 1;
+			for (int j = minX; j <= maxX; j++)
+			{
+				for (int i = minZ; i <= maxZ; i++)
+				{
+					yield return new IntVec3(j, 0, i);
+				}
+			}
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<IntVec3> CellsAdjacent8Way(TargetInfo pack)
 		{
-			GenAdj.<CellsAdjacent8Way>c__Iterator243 <CellsAdjacent8Way>c__Iterator = new GenAdj.<CellsAdjacent8Way>c__Iterator243();
-			<CellsAdjacent8Way>c__Iterator.pack = pack;
-			<CellsAdjacent8Way>c__Iterator.<$>pack = pack;
-			GenAdj.<CellsAdjacent8Way>c__Iterator243 expr_15 = <CellsAdjacent8Way>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			if (pack.HasThing)
+			{
+				foreach (IntVec3 item in GenAdj.CellsAdjacent8Way(pack.Thing))
+				{
+					yield return item;
+				}
+			}
+			else
+			{
+				for (int i = 0; i < 8; i++)
+				{
+					yield return pack.Cell + GenAdj.AdjacentCells[i];
+				}
+			}
 		}
 
 		public static IEnumerable<IntVec3> CellsAdjacent8Way(Thing t)
@@ -161,19 +171,42 @@ namespace Verse
 			return GenAdj.CellsAdjacent8Way(t.Position, t.Rotation, t.def.size);
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<IntVec3> CellsAdjacent8Way(IntVec3 thingCenter, Rot4 thingRot, IntVec2 thingSize)
 		{
-			GenAdj.<CellsAdjacent8Way>c__Iterator244 <CellsAdjacent8Way>c__Iterator = new GenAdj.<CellsAdjacent8Way>c__Iterator244();
-			<CellsAdjacent8Way>c__Iterator.thingCenter = thingCenter;
-			<CellsAdjacent8Way>c__Iterator.thingSize = thingSize;
-			<CellsAdjacent8Way>c__Iterator.thingRot = thingRot;
-			<CellsAdjacent8Way>c__Iterator.<$>thingCenter = thingCenter;
-			<CellsAdjacent8Way>c__Iterator.<$>thingSize = thingSize;
-			<CellsAdjacent8Way>c__Iterator.<$>thingRot = thingRot;
-			GenAdj.<CellsAdjacent8Way>c__Iterator244 expr_31 = <CellsAdjacent8Way>c__Iterator;
-			expr_31.$PC = -2;
-			return expr_31;
+			GenAdj.AdjustForRotation(ref thingCenter, ref thingSize, thingRot);
+			int minX = thingCenter.x - (thingSize.x - 1) / 2 - 1;
+			int maxX = minX + thingSize.x + 1;
+			int minZ = thingCenter.z - (thingSize.z - 1) / 2 - 1;
+			int maxZ = minZ + thingSize.z + 1;
+			IntVec3 cur = new IntVec3(minX - 1, 0, minZ);
+			while (true)
+			{
+				cur.x++;
+				yield return cur;
+				if (cur.x >= maxX)
+					break;
+			}
+			while (true)
+			{
+				cur.z++;
+				yield return cur;
+				if (cur.z >= maxZ)
+					break;
+			}
+			while (true)
+			{
+				cur.x--;
+				yield return cur;
+				if (cur.x <= minX)
+					break;
+			}
+			while (true)
+			{
+				cur.z--;
+				yield return cur;
+				if (cur.z <= minZ + 1)
+					break;
+			}
 		}
 
 		public static IEnumerable<IntVec3> CellsAdjacentCardinal(Thing t)
@@ -181,47 +214,79 @@ namespace Verse
 			return GenAdj.CellsAdjacentCardinal(t.Position, t.Rotation, t.def.size);
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<IntVec3> CellsAdjacentCardinal(IntVec3 center, Rot4 rot, IntVec2 size)
 		{
-			GenAdj.<CellsAdjacentCardinal>c__Iterator245 <CellsAdjacentCardinal>c__Iterator = new GenAdj.<CellsAdjacentCardinal>c__Iterator245();
-			<CellsAdjacentCardinal>c__Iterator.center = center;
-			<CellsAdjacentCardinal>c__Iterator.size = size;
-			<CellsAdjacentCardinal>c__Iterator.rot = rot;
-			<CellsAdjacentCardinal>c__Iterator.<$>center = center;
-			<CellsAdjacentCardinal>c__Iterator.<$>size = size;
-			<CellsAdjacentCardinal>c__Iterator.<$>rot = rot;
-			GenAdj.<CellsAdjacentCardinal>c__Iterator245 expr_31 = <CellsAdjacentCardinal>c__Iterator;
-			expr_31.$PC = -2;
-			return expr_31;
+			GenAdj.AdjustForRotation(ref center, ref size, rot);
+			int minX = center.x - (size.x - 1) / 2 - 1;
+			int minZ = center.z - (size.z - 1) / 2 - 1;
+			int maxX = minX + size.x + 1;
+			int maxZ = minZ + size.z + 1;
+			for (int j = minX; j <= maxX; j++)
+			{
+				for (int i = minZ; i <= maxZ; i++)
+				{
+					if ((j == minX || j == maxX || i == minZ || i == maxZ) && (j != minX || i != minZ) && (j != minX || i != maxZ) && (j != maxX || i != maxZ) && (j != maxX || i != minZ))
+					{
+						yield return new IntVec3(j, 0, i);
+					}
+				}
+			}
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<IntVec3> CellsAdjacentAlongEdge(IntVec3 thingCent, Rot4 thingRot, IntVec2 thingSize, LinkDirections dir)
 		{
-			GenAdj.<CellsAdjacentAlongEdge>c__Iterator246 <CellsAdjacentAlongEdge>c__Iterator = new GenAdj.<CellsAdjacentAlongEdge>c__Iterator246();
-			<CellsAdjacentAlongEdge>c__Iterator.thingCent = thingCent;
-			<CellsAdjacentAlongEdge>c__Iterator.thingSize = thingSize;
-			<CellsAdjacentAlongEdge>c__Iterator.thingRot = thingRot;
-			<CellsAdjacentAlongEdge>c__Iterator.dir = dir;
-			<CellsAdjacentAlongEdge>c__Iterator.<$>thingCent = thingCent;
-			<CellsAdjacentAlongEdge>c__Iterator.<$>thingSize = thingSize;
-			<CellsAdjacentAlongEdge>c__Iterator.<$>thingRot = thingRot;
-			<CellsAdjacentAlongEdge>c__Iterator.<$>dir = dir;
-			GenAdj.<CellsAdjacentAlongEdge>c__Iterator246 expr_3F = <CellsAdjacentAlongEdge>c__Iterator;
-			expr_3F.$PC = -2;
-			return expr_3F;
+			GenAdj.AdjustForRotation(ref thingCent, ref thingSize, thingRot);
+			int minX = thingCent.x - (thingSize.x - 1) / 2 - 1;
+			int minZ = thingCent.z - (thingSize.z - 1) / 2 - 1;
+			int maxX = minX + thingSize.x + 1;
+			int maxZ = minZ + thingSize.z + 1;
+			if (dir == LinkDirections.Down)
+			{
+				for (int x2 = minX; x2 <= maxX; x2++)
+				{
+					yield return new IntVec3(x2, thingCent.y, minZ - 1);
+				}
+			}
+			if (dir == LinkDirections.Up)
+			{
+				for (int x = minX; x <= maxX; x++)
+				{
+					yield return new IntVec3(x, thingCent.y, maxZ + 1);
+				}
+			}
+			if (dir == LinkDirections.Left)
+			{
+				for (int z2 = minZ; z2 <= maxZ; z2++)
+				{
+					yield return new IntVec3(minX - 1, thingCent.y, z2);
+				}
+			}
+			if (dir == LinkDirections.Right)
+			{
+				for (int z = minZ; z <= maxZ; z++)
+				{
+					yield return new IntVec3(maxX + 1, thingCent.y, z);
+				}
+			}
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<IntVec3> CellsAdjacent8WayAndInside(this Thing thing)
 		{
-			GenAdj.<CellsAdjacent8WayAndInside>c__Iterator247 <CellsAdjacent8WayAndInside>c__Iterator = new GenAdj.<CellsAdjacent8WayAndInside>c__Iterator247();
-			<CellsAdjacent8WayAndInside>c__Iterator.thing = thing;
-			<CellsAdjacent8WayAndInside>c__Iterator.<$>thing = thing;
-			GenAdj.<CellsAdjacent8WayAndInside>c__Iterator247 expr_15 = <CellsAdjacent8WayAndInside>c__Iterator;
-			expr_15.$PC = -2;
-			return expr_15;
+			IntVec3 center = thing.Position;
+			IntVec2 size = thing.def.size;
+			Rot4 rotation = thing.Rotation;
+			GenAdj.AdjustForRotation(ref center, ref size, rotation);
+			int minX = center.x - (size.x - 1) / 2 - 1;
+			int minZ = center.z - (size.z - 1) / 2 - 1;
+			int maxX = minX + size.x + 1;
+			int maxZ = minZ + size.z + 1;
+			for (int j = minX; j <= maxX; j++)
+			{
+				for (int i = minZ; i <= maxZ; i++)
+				{
+					yield return new IntVec3(j, 0, i);
+				}
+			}
 		}
 
 		public static void GetAdjacentCorners(LocalTargetInfo target, out IntVec3 BL, out IntVec3 TL, out IntVec3 TR, out IntVec3 BR)
@@ -259,11 +324,12 @@ namespace Verse
 			CellRect cellRect = t.OccupiedRect();
 			CellRect cellRect2 = cellRect.ExpandedBy(1);
 			IntVec3 randomCell;
-			do
+			while (true)
 			{
 				randomCell = cellRect2.RandomCell;
+				if (!cellRect.Contains(randomCell))
+					break;
 			}
-			while (cellRect.Contains(randomCell));
 			return randomCell;
 		}
 
@@ -271,9 +337,9 @@ namespace Verse
 		{
 			CellRect cellRect = t.OccupiedRect();
 			IntVec3 randomCell = cellRect.RandomCell;
-			if (Rand.Value < 0.5f)
+			if (Rand.Value < 0.5)
 			{
-				if (Rand.Value < 0.5f)
+				if (Rand.Value < 0.5)
 				{
 					randomCell.x = cellRect.minX - 1;
 				}
@@ -282,7 +348,7 @@ namespace Verse
 					randomCell.x = cellRect.maxX + 1;
 				}
 			}
-			else if (Rand.Value < 0.5f)
+			else if (Rand.Value < 0.5)
 			{
 				randomCell.z = cellRect.minZ - 1;
 			}
@@ -302,14 +368,14 @@ namespace Verse
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
 			GenAdj.validCells.Clear();
-			foreach (IntVec3 current in GenAdj.CellsAdjacent8Way(center, rot, size))
+			foreach (IntVec3 item in GenAdj.CellsAdjacent8Way(center, rot, size))
 			{
-				if (current.InBounds(map) && current.GetRoomGroup(map) != null)
+				if (item.InBounds(map) && item.GetRoomGroup(map) != null)
 				{
-					GenAdj.validCells.Add(current);
+					GenAdj.validCells.Add(item);
 				}
 			}
-			return GenAdj.validCells.TryRandomElement(out result);
+			return ((IEnumerable<IntVec3>)GenAdj.validCells).TryRandomElement<IntVec3>(out result);
 		}
 
 		public static bool AdjacentTo8WayOrInside(this IntVec3 me, LocalTargetInfo other)
@@ -363,36 +429,36 @@ namespace Verse
 			int maxX = cellRect.maxX;
 			int minZ = cellRect.minZ;
 			int maxZ = cellRect.maxZ;
-			int i = minX;
-			int j = minZ;
-			while (i <= maxX)
+			int num = minX;
+			int num2 = minZ;
+			while (num <= maxX)
 			{
-				if (cellRect2.Contains(new IntVec3(i, 0, j)) && (i != minX || j != minZ) && (i != minX || j != maxZ) && (i != maxX || j != minZ) && (i != maxX || j != maxZ))
+				if (cellRect2.Contains(new IntVec3(num, 0, num2)) && (num != minX || num2 != minZ) && (num != minX || num2 != maxZ) && (num != maxX || num2 != minZ) && (num != maxX || num2 != maxZ))
 				{
 					return true;
 				}
-				i++;
+				num++;
 			}
-			i--;
-			for (j++; j <= maxZ; j++)
+			num--;
+			for (num2++; num2 <= maxZ; num2++)
 			{
-				if (cellRect2.Contains(new IntVec3(i, 0, j)) && (i != minX || j != minZ) && (i != minX || j != maxZ) && (i != maxX || j != minZ) && (i != maxX || j != maxZ))
-				{
-					return true;
-				}
-			}
-			j--;
-			for (i--; i >= minX; i--)
-			{
-				if (cellRect2.Contains(new IntVec3(i, 0, j)) && (i != minX || j != minZ) && (i != minX || j != maxZ) && (i != maxX || j != minZ) && (i != maxX || j != maxZ))
+				if (cellRect2.Contains(new IntVec3(num, 0, num2)) && (num != minX || num2 != minZ) && (num != minX || num2 != maxZ) && (num != maxX || num2 != minZ) && (num != maxX || num2 != maxZ))
 				{
 					return true;
 				}
 			}
-			i++;
-			for (j--; j > minZ; j--)
+			num2--;
+			for (num--; num >= minX; num--)
 			{
-				if (cellRect2.Contains(new IntVec3(i, 0, j)) && (i != minX || j != minZ) && (i != minX || j != maxZ) && (i != maxX || j != minZ) && (i != maxX || j != maxZ))
+				if (cellRect2.Contains(new IntVec3(num, 0, num2)) && (num != minX || num2 != minZ) && (num != minX || num2 != maxZ) && (num != maxX || num2 != minZ) && (num != maxX || num2 != maxZ))
+				{
+					return true;
+				}
+			}
+			num++;
+			for (num2--; num2 > minZ; num2--)
+			{
+				if (cellRect2.Contains(new IntVec3(num, 0, num2)) && (num != minX || num2 != minZ) && (num != minX || num2 != maxZ) && (num != maxX || num2 != minZ) && (num != maxX || num2 != maxZ))
 				{
 					return true;
 				}
@@ -412,7 +478,11 @@ namespace Verse
 			int num2 = center.z - (size.z - 1) / 2 - 1;
 			int num3 = num + size.x + 1;
 			int num4 = num2 + size.z + 1;
-			return root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4;
+			if (root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool IsInside(this IntVec3 root, Thing t)
@@ -427,7 +497,11 @@ namespace Verse
 			int num2 = center.z - (size.z - 1) / 2;
 			int num3 = num + size.x - 1;
 			int num4 = num2 + size.z - 1;
-			return root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4;
+			if (root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static CellRect OccupiedRect(this Thing t)
@@ -444,9 +518,7 @@ namespace Verse
 		public static void AdjustForRotation(ref IntVec3 center, ref IntVec2 size, Rot4 rot)
 		{
 			if (size.x == 1 && size.z == 1)
-			{
 				return;
-			}
 			if (rot.IsHorizontal)
 			{
 				int x = size.x;
@@ -456,12 +528,15 @@ namespace Verse
 			switch (rot.AsInt)
 			{
 			case 1:
+			{
 				if (size.z % 2 == 0)
 				{
 					center.z--;
 				}
 				break;
+			}
 			case 2:
+			{
 				if (size.x % 2 == 0)
 				{
 					center.x--;
@@ -471,12 +546,17 @@ namespace Verse
 					center.z--;
 				}
 				break;
+			}
 			case 3:
+			{
 				if (size.x % 2 == 0)
 				{
 					center.x--;
 				}
 				break;
+			}
+			case 0:
+				return;
 			}
 		}
 	}

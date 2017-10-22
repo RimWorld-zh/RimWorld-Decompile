@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -56,7 +55,8 @@ namespace Verse.Sound
 		{
 			get
 			{
-				return this.subSustainer.Info.testPlay;
+				SoundInfo info = this.subSustainer.Info;
+				return info.testPlay;
 			}
 		}
 
@@ -69,22 +69,16 @@ namespace Verse.Sound
 			SampleSustainer sampleSustainer = new SampleSustainer(subSus.subDef);
 			sampleSustainer.subSustainer = subSus;
 			sampleSustainer.scheduledEndTime = scheduledEndTime;
-			GameObject gameObject = new GameObject(string.Concat(new object[]
-			{
-				"SampleSource_",
-				sampleSustainer.subDef.name,
-				"_",
-				sampleSustainer.startRealTime
-			}));
+			GameObject gameObject = new GameObject("SampleSource_" + sampleSustainer.subDef.name + "_" + sampleSustainer.startRealTime);
 			GameObject gameObject2 = (!subSus.subDef.onCamera) ? subSus.parent.worldRootObject : Find.Camera.gameObject;
 			gameObject.transform.parent = gameObject2.transform;
 			gameObject.transform.localPosition = Vector3.zero;
 			sampleSustainer.source = AudioSourceMaker.NewAudioSourceOn(gameObject);
-			if (sampleSustainer.source == null)
+			if ((Object)sampleSustainer.source == (Object)null)
 			{
-				if (gameObject != null)
+				if ((Object)gameObject != (Object)null)
 				{
-					UnityEngine.Object.Destroy(gameObject);
+					Object.Destroy(gameObject);
 				}
 				return null;
 			}
@@ -112,53 +106,53 @@ namespace Verse.Sound
 
 		public void UpdateSourceVolume()
 		{
-			float num = this.resolvedVolume * this.subSustainer.parent.scopeFader.inScopePercent * base.MappedVolumeMultiplier * base.ContextVolumeMultiplier;
-			if (base.AgeRealTime < this.subDef.sustainAttack)
+			float num = base.resolvedVolume * this.subSustainer.parent.scopeFader.inScopePercent * base.MappedVolumeMultiplier * base.ContextVolumeMultiplier;
+			if (base.AgeRealTime < base.subDef.sustainAttack)
 			{
-				if (this.resolvedSkipAttack || this.subDef.sustainAttack < 0.01f)
+				if (this.resolvedSkipAttack || base.subDef.sustainAttack < 0.0099999997764825821)
 				{
-					this.source.volume = num;
+					base.source.volume = num;
 				}
 				else
 				{
-					float num2 = base.AgeRealTime / this.subDef.sustainAttack;
-					num2 = Mathf.Sqrt(num2);
-					this.source.volume = Mathf.Lerp(0f, num, num2);
+					float f = base.AgeRealTime / base.subDef.sustainAttack;
+					f = Mathf.Sqrt(f);
+					base.source.volume = Mathf.Lerp(0f, num, f);
 				}
 			}
-			else if (Time.realtimeSinceStartup > this.scheduledEndTime - this.subDef.sustainRelease)
+			else if (Time.realtimeSinceStartup > this.scheduledEndTime - base.subDef.sustainRelease)
 			{
-				float num3 = (Time.realtimeSinceStartup - (this.scheduledEndTime - this.subDef.sustainRelease)) / this.subDef.sustainRelease;
-				num3 = 1f - num3;
-				num3 = Mathf.Sqrt(num3);
-				num3 = 1f - num3;
-				this.source.volume = Mathf.Lerp(num, 0f, num3);
+				float num2 = (Time.realtimeSinceStartup - (this.scheduledEndTime - base.subDef.sustainRelease)) / base.subDef.sustainRelease;
+				num2 = (float)(1.0 - num2);
+				num2 = Mathf.Sqrt(num2);
+				num2 = (float)(1.0 - num2);
+				base.source.volume = Mathf.Lerp(num, 0f, num2);
 			}
 			else
 			{
-				this.source.volume = num;
+				base.source.volume = num;
 			}
 			if (this.subSustainer.parent.Ended)
 			{
-				float num4 = 1f - this.subSustainer.parent.TimeSinceEnd / this.subDef.parentDef.sustainFadeoutTime;
-				this.source.volume *= num4;
+				float num3 = (float)(1.0 - this.subSustainer.parent.TimeSinceEnd / base.subDef.parentDef.sustainFadeoutTime);
+				base.source.volume *= num3;
 			}
-			if (this.source.volume < 0.001f)
+			if (base.source.volume < 0.0010000000474974513)
 			{
-				this.source.mute = true;
+				base.source.mute = true;
 			}
 			else
 			{
-				this.source.mute = false;
+				base.source.mute = false;
 			}
 		}
 
 		public override void SampleCleanup()
 		{
 			base.SampleCleanup();
-			if (this.source != null && this.source.gameObject != null)
+			if ((Object)base.source != (Object)null && (Object)base.source.gameObject != (Object)null)
 			{
-				UnityEngine.Object.Destroy(this.source.gameObject);
+				Object.Destroy(base.source.gameObject);
 			}
 		}
 	}

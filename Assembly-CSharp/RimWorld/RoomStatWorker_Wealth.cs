@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -18,9 +17,9 @@ namespace RimWorld
 					num += (float)thing.stackCount * thing.GetInnerIfMinified().MarketValue;
 				}
 			}
-			foreach (IntVec3 current in room.Cells)
+			foreach (IntVec3 cell in room.Cells)
 			{
-				num += current.GetTerrain(room.Map).GetStatValueAbstract(StatDefOf.MarketValue, null);
+				num += cell.GetTerrain(room.Map).GetStatValueAbstract(StatDefOf.MarketValue, null);
 			}
 			return num;
 		}

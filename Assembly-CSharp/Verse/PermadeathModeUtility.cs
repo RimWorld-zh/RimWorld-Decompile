@@ -7,10 +7,10 @@ namespace Verse
 	{
 		public static string GeneratePermadeathSaveName()
 		{
-			string text = NameGenerator.GenerateName(RulePackDefOf.NamerFactionPlayerRandomized, null, false);
+			string text = NameGenerator.GenerateName(RulePackDefOf.NamerFactionPlayerRandomized, (Predicate<string>)null, false);
 			int num = 0;
 			string text2;
-			do
+			while (true)
 			{
 				num++;
 				text2 = text;
@@ -19,8 +19,9 @@ namespace Verse
 					text2 += num;
 				}
 				text2 = PermadeathModeUtility.AppendPermadeathModeSuffix(text2);
+				if (!SaveGameFilesUtility.SavedGameNamedExists(text2))
+					break;
 			}
-			while (SaveGameFilesUtility.SavedGameNamedExists(text2));
 			return text2;
 		}
 

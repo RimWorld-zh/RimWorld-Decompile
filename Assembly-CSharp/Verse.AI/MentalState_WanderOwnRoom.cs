@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse.AI
 {
@@ -10,13 +9,13 @@ namespace Verse.AI
 		public override void PostStart(string reason)
 		{
 			base.PostStart(reason);
-			if (this.pawn.ownership.OwnedBed != null)
+			if (base.pawn.ownership.OwnedBed != null)
 			{
-				this.target = this.pawn.ownership.OwnedBed.Position;
+				this.target = base.pawn.ownership.OwnedBed.Position;
 			}
 			else
 			{
-				this.target = this.pawn.Position;
+				this.target = base.pawn.Position;
 			}
 		}
 

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Verse;
 
 namespace RimWorld
 {
@@ -10,7 +10,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (StorytellerCompProperties_AllyAssistance)this.props;
+				return (StorytellerCompProperties_AllyAssistance)base.props;
 			}
 		}
 
@@ -22,16 +22,21 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			StorytellerComp_AllyAssistance.<MakeIntervalIncidents>c__IteratorA5 <MakeIntervalIncidents>c__IteratorA = new StorytellerComp_AllyAssistance.<MakeIntervalIncidents>c__IteratorA5();
-			<MakeIntervalIncidents>c__IteratorA.target = target;
-			<MakeIntervalIncidents>c__IteratorA.<$>target = target;
-			<MakeIntervalIncidents>c__IteratorA.<>f__this = this;
-			StorytellerComp_AllyAssistance.<MakeIntervalIncidents>c__IteratorA5 expr_1C = <MakeIntervalIncidents>c__IteratorA;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			float mtb = this.IncidentMTBDays;
+			if (!(mtb < 0.0) && Rand.MTBEventOccurs(mtb, 60000f, 1000f))
+			{
+				Map map = target as Map;
+				if (map != null && (int)map.dangerWatcher.DangerRating >= 2)
+				{
+					IncidentDef incident = null;
+					if (this.UsableIncidentsInCategory(IncidentCategory.AllyAssistance, target).TryRandomElementByWeight<IncidentDef>((Func<IncidentDef, float>)((IncidentDef d) => d.baseChance), out incident))
+					{
+						yield return new FiringIncident(incident, this, this.GenerateParms(incident.category, target));
+					}
+				}
+			}
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -8,15 +7,15 @@ namespace RimWorld
 	{
 		public Designator_PlantsCut()
 		{
-			this.defaultLabel = "DesignatorCutPlants".Translate();
-			this.defaultDesc = "DesignatorCutPlantsDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/CutPlants", true);
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.useMouseIcon = true;
-			this.soundSucceeded = SoundDefOf.DesignateCutPlants;
-			this.hotKey = KeyBindingDefOf.Misc3;
-			this.designationDef = DesignationDefOf.CutPlant;
+			base.defaultLabel = "DesignatorCutPlants".Translate();
+			base.defaultDesc = "DesignatorCutPlantsDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/CutPlants", true);
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.useMouseIcon = true;
+			base.soundSucceeded = SoundDefOf.DesignateCutPlants;
+			base.hotKey = KeyBindingDefOf.Misc3;
+			base.designationDef = DesignationDefOf.CutPlant;
 		}
 
 		public override Texture2D IconReverseDesignating(Thing t)

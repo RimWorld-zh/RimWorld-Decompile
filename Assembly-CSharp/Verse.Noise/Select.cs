@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Noise
 {
 	public class Select : ModuleBase
@@ -16,11 +14,11 @@ namespace Verse.Noise
 		{
 			get
 			{
-				return this.modules[2];
+				return base.modules[2];
 			}
 			set
 			{
-				this.modules[2] = value;
+				base.modules[2] = value;
 			}
 		}
 
@@ -34,7 +32,7 @@ namespace Verse.Noise
 			{
 				double num = this.m_max - this.m_min;
 				this.m_raw = value;
-				this.m_fallOff = ((value <= num / 2.0) ? value : (num / 2.0));
+				this.m_fallOff = ((!(value > num / 2.0)) ? value : (num / 2.0));
 			}
 		}
 
@@ -70,9 +68,9 @@ namespace Verse.Noise
 
 		public Select(ModuleBase inputA, ModuleBase inputB, ModuleBase controller) : base(3)
 		{
-			this.modules[0] = inputA;
-			this.modules[1] = inputB;
-			this.modules[2] = controller;
+			base.modules[0] = inputA;
+			base.modules[1] = inputB;
+			base.modules[2] = controller;
 		}
 
 		public Select(double min, double max, double fallOff, ModuleBase inputA, ModuleBase inputB) : this(inputA, inputB, null)
@@ -91,41 +89,38 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
-			double value = this.modules[2].GetValue(x, y, z);
+			double value = base.modules[2].GetValue(x, y, z);
 			if (this.m_fallOff > 0.0)
 			{
 				if (value < this.m_min - this.m_fallOff)
 				{
-					return this.modules[0].GetValue(x, y, z);
+					return base.modules[0].GetValue(x, y, z);
 				}
 				if (value < this.m_min + this.m_fallOff)
 				{
 					double num = this.m_min - this.m_fallOff;
 					double num2 = this.m_min + this.m_fallOff;
 					double position = Utils.MapCubicSCurve((value - num) / (num2 - num));
-					return Utils.InterpolateLinear(this.modules[0].GetValue(x, y, z), this.modules[1].GetValue(x, y, z), position);
+					return Utils.InterpolateLinear(base.modules[0].GetValue(x, y, z), base.modules[1].GetValue(x, y, z), position);
 				}
 				if (value < this.m_max - this.m_fallOff)
 				{
-					return this.modules[1].GetValue(x, y, z);
+					return base.modules[1].GetValue(x, y, z);
 				}
 				if (value < this.m_max + this.m_fallOff)
 				{
 					double num3 = this.m_max - this.m_fallOff;
 					double num4 = this.m_max + this.m_fallOff;
 					double position = Utils.MapCubicSCurve((value - num3) / (num4 - num3));
-					return Utils.InterpolateLinear(this.modules[1].GetValue(x, y, z), this.modules[0].GetValue(x, y, z), position);
+					return Utils.InterpolateLinear(base.modules[1].GetValue(x, y, z), base.modules[0].GetValue(x, y, z), position);
 				}
-				return this.modules[0].GetValue(x, y, z);
+				return base.modules[0].GetValue(x, y, z);
 			}
-			else
+			if (!(value < this.m_min) && !(value > this.m_max))
 			{
-				if (value < this.m_min || value > this.m_max)
-				{
-					return this.modules[0].GetValue(x, y, z);
-				}
-				return this.modules[1].GetValue(x, y, z);
+				return base.modules[1].GetValue(x, y, z);
 			}
+			return base.modules[0].GetValue(x, y, z);
 		}
 	}
 }

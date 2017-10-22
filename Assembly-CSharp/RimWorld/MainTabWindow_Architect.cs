@@ -26,7 +26,7 @@ namespace RimWorld
 				{
 					this.CacheDesPanels();
 				}
-				return (float)Mathf.CeilToInt((float)this.desPanelsCached.Count / 2f) * 32f;
+				return (float)((float)Mathf.CeilToInt((float)((float)this.desPanelsCached.Count / 2.0)) * 32.0);
 			}
 		}
 
@@ -79,14 +79,14 @@ namespace RimWorld
 		{
 			base.DoWindowContents(inRect);
 			Text.Font = GameFont.Small;
-			float num = inRect.width / 2f;
+			float num = (float)(inRect.width / 2.0);
 			float num2 = 0f;
 			float num3 = 0f;
 			for (int i = 0; i < this.desPanelsCached.Count; i++)
 			{
-				Rect rect = new Rect(num2 * num, num3 * 32f, num, 32f);
+				Rect rect = new Rect(num2 * num, (float)(num3 * 32.0), num, 32f);
 				rect.height += 1f;
-				if (num2 == 0f)
+				if (num2 == 0.0)
 				{
 					rect.width += 1f;
 				}
@@ -98,11 +98,11 @@ namespace RimWorld
 				{
 					UIHighlighter.HighlightOpportunity(rect, this.desPanelsCached[i].def.cachedHighlightClosedTag);
 				}
-				num2 += 1f;
-				if (num2 > 1f)
+				num2 = (float)(num2 + 1.0);
+				if (num2 > 1.0)
 				{
 					num2 = 0f;
-					num3 += 1f;
+					num3 = (float)(num3 + 1.0);
 				}
 			}
 		}
@@ -110,11 +110,11 @@ namespace RimWorld
 		private void CacheDesPanels()
 		{
 			this.desPanelsCached = new List<ArchitectCategoryTab>();
-			foreach (DesignationCategoryDef current in from dc in DefDatabase<DesignationCategoryDef>.AllDefs
+			foreach (DesignationCategoryDef item in from dc in DefDatabase<DesignationCategoryDef>.AllDefs
 			orderby dc.order descending
 			select dc)
 			{
-				this.desPanelsCached.Add(new ArchitectCategoryTab(current));
+				this.desPanelsCached.Add(new ArchitectCategoryTab(item));
 			}
 		}
 

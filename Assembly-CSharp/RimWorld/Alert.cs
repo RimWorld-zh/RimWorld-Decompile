@@ -52,7 +52,8 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.GetReport().active;
+				AlertReport report = this.GetReport();
+				return report.active;
 			}
 		}
 
@@ -70,14 +71,14 @@ namespace RimWorld
 
 		public void Notify_Started()
 		{
-			if (this.Priority >= AlertPriority.High)
+			if ((int)this.Priority >= 1)
 			{
 				if (this.alertBounce == null)
 				{
 					this.alertBounce = new AlertBounce();
 				}
 				this.alertBounce.DoAlertStartEffect();
-				if (Time.timeSinceLevelLoad > 1f && Time.realtimeSinceStartup > this.lastBellTime + 0.5f)
+				if (Time.timeSinceLevelLoad > 1.0 && Time.realtimeSinceStartup > this.lastBellTime + 0.5)
 				{
 					SoundDefOf.TinyBell.PlayOneShotOnCamera(null);
 					this.lastBellTime = Time.realtimeSinceStartup;
@@ -94,7 +95,7 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 			string label = this.GetLabel();
 			float height = Text.CalcHeight(label, 148f);
-			Rect rect = new Rect((float)UI.screenWidth - 154f, topY, 154f, height);
+			Rect rect = new Rect((float)((float)UI.screenWidth - 154.0), topY, 154f, height);
 			if (this.alertBounce != null)
 			{
 				rect.x -= this.alertBounce.CalculateHorizontalOffset();
@@ -110,9 +111,14 @@ namespace RimWorld
 			{
 				GUI.DrawTexture(rect, Alert.AlertBGTexHighlight);
 			}
-			if (Widgets.ButtonInvisible(rect, false) && this.GetReport().culprit.IsValid)
+			if (Widgets.ButtonInvisible(rect, false))
 			{
-				CameraJumper.TryJumpAndSelect(this.GetReport().culprit);
+				AlertReport report = this.GetReport();
+				if (report.culprit.IsValid)
+				{
+					AlertReport report2 = this.GetReport();
+					CameraJumper.TryJumpAndSelect(report2.culprit);
+				}
 			}
 			Text.Anchor = TextAnchor.UpperLeft;
 			return rect;
@@ -120,34 +126,35 @@ namespace RimWorld
 
 		public void DrawInfoPane()
 		{
-			Alert.<DrawInfoPane>c__AnonStorey3E9 <DrawInfoPane>c__AnonStorey3E = new Alert.<DrawInfoPane>c__AnonStorey3E9();
 			Text.Font = GameFont.Small;
 			Text.Anchor = TextAnchor.UpperLeft;
-			<DrawInfoPane>c__AnonStorey3E.expString = this.GetExplanation();
-			if (this.GetReport().culprit.IsValid)
+			string expString = this.GetExplanation();
+			AlertReport report = this.GetReport();
+			if (report.culprit.IsValid)
 			{
-				<DrawInfoPane>c__AnonStorey3E.expString = <DrawInfoPane>c__AnonStorey3E.expString + "\n\n(" + "ClickToJumpToProblem".Translate() + ")";
+				expString = expString + "\n\n(" + "ClickToJumpToProblem".Translate() + ")";
 			}
-			float num = Text.CalcHeight(<DrawInfoPane>c__AnonStorey3E.expString, 310f);
-			num += 20f;
-			<DrawInfoPane>c__AnonStorey3E.infoRect = new Rect((float)UI.screenWidth - 154f - 330f - 8f, Mathf.Max(Mathf.Min(Event.current.mousePosition.y, (float)UI.screenHeight - num), 0f), 330f, num);
-			if (<DrawInfoPane>c__AnonStorey3E.infoRect.yMax > (float)UI.screenHeight)
+			float num = Text.CalcHeight(expString, 310f);
+			num = (float)(num + 20.0);
+			double x = (float)UI.screenWidth - 154.0 - 330.0 - 8.0;
+			Vector2 mousePosition = Event.current.mousePosition;
+			Rect infoRect = new Rect((float)x, Mathf.Max(Mathf.Min(mousePosition.y, (float)UI.screenHeight - num), 0f), 330f, num);
+			if (infoRect.yMax > (float)UI.screenHeight)
 			{
-				Alert.<DrawInfoPane>c__AnonStorey3E9 expr_E2_cp_0 = <DrawInfoPane>c__AnonStorey3E;
-				expr_E2_cp_0.infoRect.y = expr_E2_cp_0.infoRect.y - ((float)UI.screenHeight - <DrawInfoPane>c__AnonStorey3E.infoRect.yMax);
+				infoRect.y -= (float)UI.screenHeight - infoRect.yMax;
 			}
-			if (<DrawInfoPane>c__AnonStorey3E.infoRect.y < 0f)
+			if (infoRect.y < 0.0)
 			{
-				<DrawInfoPane>c__AnonStorey3E.infoRect.y = 0f;
+				infoRect.y = 0f;
 			}
-			Find.WindowStack.ImmediateWindow(138956, <DrawInfoPane>c__AnonStorey3E.infoRect, WindowLayer.GameUI, delegate
+			Find.WindowStack.ImmediateWindow(138956, infoRect, WindowLayer.GameUI, (Action)delegate
 			{
 				Text.Font = GameFont.Small;
-				Rect rect = <DrawInfoPane>c__AnonStorey3E.infoRect.AtZero();
+				Rect rect = infoRect.AtZero();
 				Widgets.DrawWindowBackground(rect);
 				Rect position = rect.ContractedBy(10f);
 				GUI.BeginGroup(position);
-				Widgets.Label(new Rect(0f, 0f, position.width, position.height), <DrawInfoPane>c__AnonStorey3E.expString);
+				Widgets.Label(new Rect(0f, 0f, position.width, position.height), expString);
 				GUI.EndGroup();
 			}, false, false, 1f);
 		}

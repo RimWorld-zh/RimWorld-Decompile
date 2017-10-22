@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse
 {
@@ -8,16 +7,19 @@ namespace Verse
 	{
 		public Type compClass;
 
-		[DebuggerHidden]
 		public IEnumerable<string> ConfigErrors(HediffDef parentDef)
 		{
-			HediffCompProperties.<ConfigErrors>c__Iterator1C9 <ConfigErrors>c__Iterator1C = new HediffCompProperties.<ConfigErrors>c__Iterator1C9();
-			<ConfigErrors>c__Iterator1C.parentDef = parentDef;
-			<ConfigErrors>c__Iterator1C.<$>parentDef = parentDef;
-			<ConfigErrors>c__Iterator1C.<>f__this = this;
-			HediffCompProperties.<ConfigErrors>c__Iterator1C9 expr_1C = <ConfigErrors>c__Iterator1C;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (this.compClass == null)
+			{
+				yield return "compClass is null";
+			}
+			for (int i = 0; i < parentDef.comps.Count; i++)
+			{
+				if (parentDef.comps[i] != this && parentDef.comps[i].compClass == this.compClass)
+				{
+					yield return "two comps with same compClass: " + this.compClass;
+				}
+			}
 		}
 	}
 }

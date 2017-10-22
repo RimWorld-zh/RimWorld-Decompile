@@ -134,14 +134,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Concat(new string[]
-			{
-				"(",
-				this.x.ToString(),
-				", ",
-				this.z.ToString(),
-				")"
-			});
+			return "(" + this.x.ToString() + ", " + this.z.ToString() + ")";
 		}
 
 		public string ToStringCross()
@@ -151,18 +144,9 @@ namespace Verse
 
 		public static IntVec2 FromString(string str)
 		{
-			str = str.TrimStart(new char[]
-			{
-				'('
-			});
-			str = str.TrimEnd(new char[]
-			{
-				')'
-			});
-			string[] array = str.Split(new char[]
-			{
-				','
-			});
+			str = str.TrimStart('(');
+			str = str.TrimEnd(')');
+			string[] array = str.Split(',');
 			int newX = Convert.ToInt32(array[0]);
 			int newZ = Convert.ToInt32(array[1]);
 			return new IntVec2(newX, newZ);
@@ -170,12 +154,16 @@ namespace Verse
 
 		public Vector2 ToVector2Shifted()
 		{
-			return new Vector2((float)this.x + 0.5f, (float)this.z + 0.5f);
+			return new Vector2((float)((float)this.x + 0.5), (float)((float)this.z + 0.5));
 		}
 
 		public override bool Equals(object obj)
 		{
-			return obj is IntVec2 && this.Equals((IntVec2)obj);
+			if (!(obj is IntVec2))
+			{
+				return false;
+			}
+			return this.Equals((IntVec2)obj);
 		}
 
 		public bool Equals(IntVec2 other)
@@ -210,12 +198,20 @@ namespace Verse
 
 		public static bool operator ==(IntVec2 a, IntVec2 b)
 		{
-			return a.x == b.x && a.z == b.z;
+			if (a.x == b.x && a.z == b.z)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool operator !=(IntVec2 a, IntVec2 b)
 		{
-			return a.x != b.x || a.z != b.z;
+			if (a.x == b.x && a.z == b.z)
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

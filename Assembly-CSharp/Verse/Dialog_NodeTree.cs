@@ -1,5 +1,6 @@
 using RimWorld;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Verse
@@ -44,19 +45,19 @@ namespace Verse
 		{
 			this.title = title;
 			this.GotoNode(nodeRoot);
-			this.forcePause = true;
-			this.absorbInputAroundWindow = true;
-			this.closeOnEscapeKey = false;
+			base.forcePause = true;
+			base.absorbInputAroundWindow = true;
+			base.closeOnEscapeKey = false;
 			if (delayInteractivity)
 			{
-				this.makeInteractiveAtTime = Time.realtimeSinceStartup + 0.5f;
-				this.closeOnEscapeKey = false;
+				this.makeInteractiveAtTime = (float)(Time.realtimeSinceStartup + 0.5);
+				base.closeOnEscapeKey = false;
 			}
-			this.soundAppear = SoundDefOf.CommsWindow_Open;
-			this.soundClose = SoundDefOf.CommsWindow_Close;
+			base.soundAppear = SoundDefOf.CommsWindow_Open;
+			base.soundClose = SoundDefOf.CommsWindow_Close;
 			if (radioMode)
 			{
-				this.soundAmbient = SoundDefOf.RadioComms_Ambience;
+				base.soundAmbient = SoundDefOf.RadioComms_Ambience;
 			}
 		}
 
@@ -69,7 +70,7 @@ namespace Verse
 		public override void PostClose()
 		{
 			base.PostClose();
-			if (this.closeAction != null)
+			if ((object)this.closeAction != null)
 			{
 				this.closeAction();
 			}
@@ -106,12 +107,12 @@ namespace Verse
 		{
 			if (this.InteractiveNow)
 			{
-				this.closeOnEscapeKey = true;
+				base.closeOnEscapeKey = true;
 			}
 			GUI.BeginGroup(rect);
 			Text.Font = GameFont.Small;
 			Rect outRect = new Rect(0f, 0f, rect.width, rect.height - this.optTotalHeight);
-			float width = rect.width - 16f;
+			float width = (float)(rect.width - 16.0);
 			Rect rect2 = new Rect(0f, 0f, width, Text.CalcHeight(this.curNode.text, width));
 			Widgets.BeginScrollView(outRect, ref this.scrollPosition, rect2, true);
 			Widgets.Label(rect2, this.curNode.text);
@@ -120,10 +121,10 @@ namespace Verse
 			float num2 = 0f;
 			for (int i = 0; i < this.curNode.options.Count; i++)
 			{
-				Rect rect3 = new Rect(15f, num, rect.width - 30f, 999f);
+				Rect rect3 = new Rect(15f, num, (float)(rect.width - 30.0), 999f);
 				float num3 = this.curNode.options[i].OptOnGUI(rect3, this.InteractiveNow);
-				num += num3 + 7f;
-				num2 += num3 + 7f;
+				num = (float)(num + (num3 + 7.0));
+				num2 = (float)(num2 + (num3 + 7.0));
 			}
 			if (Event.current.type == EventType.Layout)
 			{
@@ -134,9 +135,18 @@ namespace Verse
 
 		public void GotoNode(DiaNode node)
 		{
-			foreach (DiaOption current in node.options)
+			List<DiaOption>.Enumerator enumerator = node.options.GetEnumerator();
+			try
 			{
-				current.dialog = this;
+				while (enumerator.MoveNext())
+				{
+					DiaOption current = enumerator.Current;
+					current.dialog = this;
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			this.curNode = node;
 		}

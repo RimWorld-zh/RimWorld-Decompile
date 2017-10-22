@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.BaseGen
@@ -8,9 +7,7 @@ namespace RimWorld.BaseGen
 		public override void Resolve(ResolveParams rp)
 		{
 			if (rp.noRoof.HasValue && rp.noRoof.Value)
-			{
 				return;
-			}
 			RoofGrid roofGrid = BaseGen.globalSettings.map.roofGrid;
 			RoofDef def = rp.roofDef ?? RoofDefOf.RoofConstructed;
 			CellRect.CellRectIterator iterator = rp.rect.GetIterator();

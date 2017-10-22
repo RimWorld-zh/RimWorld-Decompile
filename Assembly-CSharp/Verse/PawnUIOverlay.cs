@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -23,35 +22,36 @@ namespace Verse
 
 		public void DrawPawnGUIOverlay()
 		{
-			if (!this.pawn.Spawned || this.pawn.Map.fogGrid.IsFogged(this.pawn.Position))
+			if (this.pawn.Spawned && !this.pawn.Map.fogGrid.IsFogged(this.pawn.Position))
 			{
-				return;
-			}
-			if (!this.pawn.RaceProps.Humanlike)
-			{
-				switch (Prefs.AnimalNameMode)
+				if (!this.pawn.RaceProps.Humanlike)
 				{
-				case AnimalNameDisplayMode.None:
-					return;
-				case AnimalNameDisplayMode.TameNamed:
-					if (this.pawn.Name == null || this.pawn.Name.Numerical)
+					switch (Prefs.AnimalNameMode)
 					{
+					case AnimalNameDisplayMode.None:
 						return;
-					}
-					break;
-				case AnimalNameDisplayMode.TameAll:
-					if (this.pawn.Name == null)
+					case AnimalNameDisplayMode.TameAll:
 					{
-						return;
+						if (this.pawn.Name == null)
+							return;
+						break;
 					}
-					break;
+					case AnimalNameDisplayMode.TameNamed:
+					{
+						if (this.pawn.Name == null)
+							return;
+						if (this.pawn.Name.Numerical)
+							return;
+						break;
+					}
+					}
 				}
-			}
-			Vector2 pos = GenMapUI.LabelDrawPosFor(this.pawn, -0.6f);
-			GenMapUI.DrawPawnLabel(this.pawn, pos, 1f, 9999f, null, GameFont.Tiny, true, true);
-			if (this.pawn.CanTradeNow)
-			{
-				this.pawn.Map.overlayDrawer.DrawOverlay(this.pawn, OverlayTypes.QuestionMark);
+				Vector2 pos = GenMapUI.LabelDrawPosFor(this.pawn, -0.6f);
+				GenMapUI.DrawPawnLabel(this.pawn, pos, 1f, 9999f, null, GameFont.Tiny, true, true);
+				if (this.pawn.CanTradeNow)
+				{
+					this.pawn.Map.overlayDrawer.DrawOverlay(this.pawn, OverlayTypes.QuestionMark);
+				}
 			}
 		}
 	}

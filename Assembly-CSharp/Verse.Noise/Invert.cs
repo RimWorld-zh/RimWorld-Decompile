@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Noise
 {
 	public class Invert : ModuleBase
@@ -10,12 +8,12 @@ namespace Verse.Noise
 
 		public Invert(ModuleBase input) : base(1)
 		{
-			this.modules[0] = input;
+			base.modules[0] = input;
 		}
 
 		public override double GetValue(double x, double y, double z)
 		{
-			return -this.modules[0].GetValue(x, y, z);
+			return 0.0 - base.modules[0].GetValue(x, y, z);
 		}
 	}
 }

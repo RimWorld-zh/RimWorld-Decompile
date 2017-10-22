@@ -9,8 +9,10 @@ namespace RimWorld
 
 		public static void CreateVersionUpdateDialogIfNecessary()
 		{
-			if (!VersionUpdateDialogMaker.dialogDone && LastPlayedVersion.Version != null && (VersionControl.CurrentMajor != LastPlayedVersion.Version.Major || VersionControl.CurrentMinor != LastPlayedVersion.Version.Minor))
+			if (!VersionUpdateDialogMaker.dialogDone && LastPlayedVersion.Version != (Version)null)
 			{
+				if (VersionControl.CurrentMajor == LastPlayedVersion.Version.Major && VersionControl.CurrentMinor == LastPlayedVersion.Version.Minor)
+					return;
 				VersionUpdateDialogMaker.CreateNewVersionDialog();
 			}
 		}
@@ -19,23 +21,12 @@ namespace RimWorld
 		{
 			string text = LastPlayedVersion.Version.Major + "." + LastPlayedVersion.Version.Minor;
 			string text2 = VersionControl.CurrentMajor + "." + VersionControl.CurrentMinor;
-			string text3 = "GameUpdatedToNewVersionInitial".Translate(new object[]
-			{
-				text,
-				text2
-			});
-			text3 += "\n\n";
-			if (BackCompatibility.IsSaveCompatibleWith(LastPlayedVersion.Version.ToString()))
-			{
-				text3 += "GameUpdatedToNewVersionSavesCompatible".Translate();
-			}
-			else
-			{
-				text3 += "GameUpdatedToNewVersionSavesIncompatible".Translate();
-			}
-			text3 += "\n\n";
-			text3 += "GameUpdatedToNewVersionSteam".Translate();
-			Find.WindowStack.Add(new Dialog_MessageBox(text3, null, null, null, null, null, false));
+			string str = "GameUpdatedToNewVersionInitial".Translate(text, text2);
+			str += "\n\n";
+			str = ((!BackCompatibility.IsSaveCompatibleWith(LastPlayedVersion.Version.ToString())) ? (str + "GameUpdatedToNewVersionSavesIncompatible".Translate()) : (str + "GameUpdatedToNewVersionSavesCompatible".Translate()));
+			str += "\n\n";
+			str += "GameUpdatedToNewVersionSteam".Translate();
+			Find.WindowStack.Add(new Dialog_MessageBox(str, (string)null, null, (string)null, null, (string)null, false));
 			VersionUpdateDialogMaker.dialogDone = true;
 		}
 	}

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -24,9 +23,9 @@ namespace Verse
 
 		public void MoteListUpdate()
 		{
-			for (int i = this.allMotes.Count - 1; i >= 0; i--)
+			for (int num = this.allMotes.Count - 1; num >= 0; num--)
 			{
-				this.allMotes[i].RealtimeUpdate();
+				this.allMotes[num].RealtimeUpdate();
 			}
 		}
 	}

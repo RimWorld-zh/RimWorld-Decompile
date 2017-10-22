@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using Verse;
@@ -31,18 +30,18 @@ namespace RimWorld
 		public static void RecacheData()
 		{
 			ScenarioFiles.scenariosLocal.Clear();
-			foreach (FileInfo current in GenFilePaths.AllCustomScenarioFiles)
+			foreach (FileInfo allCustomScenarioFile in GenFilePaths.AllCustomScenarioFiles)
 			{
-				Scenario item;
-				if (GameDataSaveLoader.TryLoadScenario(current.FullName, ScenarioCategory.CustomLocal, out item))
+				Scenario item = default(Scenario);
+				if (GameDataSaveLoader.TryLoadScenario(allCustomScenarioFile.FullName, ScenarioCategory.CustomLocal, out item))
 				{
 					ScenarioFiles.scenariosLocal.Add(item);
 				}
 			}
 			ScenarioFiles.scenariosWorkshop.Clear();
-			foreach (WorkshopItem current2 in WorkshopItems.AllSubscribedItems)
+			foreach (WorkshopItem allSubscribedItem in WorkshopItems.AllSubscribedItems)
 			{
-				WorkshopItem_Scenario workshopItem_Scenario = current2 as WorkshopItem_Scenario;
+				WorkshopItem_Scenario workshopItem_Scenario = allSubscribedItem as WorkshopItem_Scenario;
 				if (workshopItem_Scenario != null)
 				{
 					ScenarioFiles.scenariosWorkshop.Add(workshopItem_Scenario.GetScenario());

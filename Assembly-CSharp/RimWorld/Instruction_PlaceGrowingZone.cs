@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -21,12 +20,12 @@ namespace RimWorld
 		{
 			base.OnActivated();
 			this.growingZoneRect = TutorUtility.FindUsableRect(10, 8, base.Map, 0.5f, false);
-			this.cachedCells = this.growingZoneRect.Cells.ToList<IntVec3>();
+			this.cachedCells = this.growingZoneRect.Cells.ToList();
 		}
 
 		public override void LessonOnGUI()
 		{
-			TutorUtility.DrawCellRectOnGUI(this.growingZoneRect, this.def.onMapInstruction);
+			TutorUtility.DrawCellRectOnGUI(this.growingZoneRect, base.def.onMapInstruction);
 			base.LessonOnGUI();
 		}
 

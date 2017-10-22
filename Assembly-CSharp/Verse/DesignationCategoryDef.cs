@@ -26,11 +26,15 @@ namespace Verse
 		{
 			get
 			{
-				DesignationCategoryDef.<>c__Iterator1CD <>c__Iterator1CD = new DesignationCategoryDef.<>c__Iterator1CD();
-				<>c__Iterator1CD.<>f__this = this;
-				DesignationCategoryDef.<>c__Iterator1CD expr_0E = <>c__Iterator1CD;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				GameRules rules = Current.Game.Rules;
+				for (int i = 0; i < this.resolvedDesignators.Count; i++)
+				{
+					Designator des = this.resolvedDesignators[i];
+					if (rules.DesignatorAllowed(des))
+					{
+						yield return des;
+					}
+				}
 			}
 		}
 
@@ -45,46 +49,47 @@ namespace Verse
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				this.ResolveDesignators();
 			});
-			this.cachedHighlightClosedTag = "DesignationCategoryButton-" + this.defName + "-Closed";
+			this.cachedHighlightClosedTag = "DesignationCategoryButton-" + base.defName + "-Closed";
 		}
 
 		private void ResolveDesignators()
 		{
 			this.resolvedDesignators.Clear();
-			foreach (Type current in this.specialDesignatorClasses)
+			List<Type>.Enumerator enumerator = this.specialDesignatorClasses.GetEnumerator();
+			try
 			{
-				Designator designator = null;
-				try
+				while (enumerator.MoveNext())
 				{
-					designator = (Designator)Activator.CreateInstance(current);
-				}
-				catch (Exception ex)
-				{
-					Log.Error(string.Concat(new object[]
+					Type current = enumerator.Current;
+					Designator designator = null;
+					try
 					{
-						"DesignationCategoryDef",
-						this.defName,
-						" could not instantiate special designator from class ",
-						current,
-						".\n Exception: \n",
-						ex.ToString()
-					}));
+						designator = (Designator)Activator.CreateInstance(current);
+					}
+					catch (Exception ex)
+					{
+						Log.Error("DesignationCategoryDef" + base.defName + " could not instantiate special designator from class " + current + ".\n Exception: \n" + ex.ToString());
+					}
+					if (designator != null)
+					{
+						this.resolvedDesignators.Add(designator);
+					}
 				}
-				if (designator != null)
-				{
-					this.resolvedDesignators.Add(designator);
-				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			IEnumerable<BuildableDef> enumerable = from tDef in DefDatabase<ThingDef>.AllDefs.Cast<BuildableDef>().Concat(DefDatabase<TerrainDef>.AllDefs.Cast<BuildableDef>())
 			where tDef.designationCategory == this
 			select tDef;
-			foreach (BuildableDef current2 in enumerable)
+			foreach (BuildableDef item in enumerable)
 			{
-				this.resolvedDesignators.Add(new Designator_Build(current2));
+				this.resolvedDesignators.Add(new Designator_Build(item));
 			}
 		}
 	}

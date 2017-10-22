@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -9,7 +8,7 @@ namespace Verse
 
 		public HediffCompProperties_DrugEffectFactor()
 		{
-			this.compClass = typeof(HediffComp_DrugEffectFactor);
+			base.compClass = typeof(HediffComp_DrugEffectFactor);
 		}
 	}
 }

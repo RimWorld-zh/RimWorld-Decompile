@@ -15,7 +15,7 @@ namespace RimWorld
 			public int count;
 		}
 
-		private struct LabelRequest : IEquatable<GenLabel.LabelRequest>
+		private struct LabelRequest : IEquatable<LabelRequest>
 		{
 			public Thing thing;
 
@@ -35,45 +35,49 @@ namespace RimWorld
 
 			public override bool Equals(object obj)
 			{
-				return obj is GenLabel.LabelRequest && this.Equals((GenLabel.LabelRequest)obj);
+				if (!(obj is LabelRequest))
+				{
+					return false;
+				}
+				return this.Equals((LabelRequest)obj);
 			}
 
-			public bool Equals(GenLabel.LabelRequest other)
+			public bool Equals(LabelRequest other)
 			{
 				return this.thing == other.thing && this.entDef == other.entDef && this.stuffDef == other.stuffDef && this.stackCount == other.stackCount && this.quality == other.quality && this.health == other.health && this.maxHealth == other.maxHealth && this.wornByCorpse == other.wornByCorpse;
 			}
 
 			public override int GetHashCode()
 			{
-				int num = 0;
-				num = Gen.HashCombine<Thing>(num, this.thing);
-				num = Gen.HashCombine<BuildableDef>(num, this.entDef);
-				num = Gen.HashCombine<ThingDef>(num, this.stuffDef);
+				int seed = 0;
+				seed = Gen.HashCombine(seed, this.thing);
+				seed = Gen.HashCombine(seed, this.entDef);
+				seed = Gen.HashCombine(seed, this.stuffDef);
 				ThingDef thingDef = this.entDef as ThingDef;
 				if (thingDef != null)
 				{
-					num = Gen.HashCombineInt(num, this.stackCount);
-					QualityCategory qualityCategory;
+					seed = Gen.HashCombineInt(seed, this.stackCount);
+					QualityCategory qualityCategory = default(QualityCategory);
 					if (this.thing != null && this.thing.TryGetQuality(out qualityCategory))
 					{
-						num = Gen.HashCombineStruct<QualityCategory>(num, this.quality);
+						seed = Gen.HashCombineStruct(seed, this.quality);
 					}
 					if (thingDef.useHitPoints)
 					{
-						num = Gen.HashCombineInt(num, this.health);
-						num = Gen.HashCombineInt(num, this.maxHealth);
+						seed = Gen.HashCombineInt(seed, this.health);
+						seed = Gen.HashCombineInt(seed, this.maxHealth);
 					}
-					num = Gen.HashCombineInt(num, (!this.wornByCorpse) ? 0 : 1);
+					seed = Gen.HashCombineInt(seed, this.wornByCorpse ? 1 : 0);
 				}
-				return num;
+				return seed;
 			}
 
-			public static bool operator ==(GenLabel.LabelRequest lhs, GenLabel.LabelRequest rhs)
+			public static bool operator ==(LabelRequest lhs, LabelRequest rhs)
 			{
 				return lhs.Equals(rhs);
 			}
 
-			public static bool operator !=(GenLabel.LabelRequest lhs, GenLabel.LabelRequest rhs)
+			public static bool operator !=(LabelRequest lhs, LabelRequest rhs)
 			{
 				return !(lhs == rhs);
 			}
@@ -81,9 +85,9 @@ namespace RimWorld
 
 		private const int LabelDictionaryMaxCount = 2000;
 
-		private static Dictionary<GenLabel.LabelRequest, string> labelDictionary = new Dictionary<GenLabel.LabelRequest, string>();
+		private static Dictionary<LabelRequest, string> labelDictionary = new Dictionary<LabelRequest, string>();
 
-		private static List<GenLabel.LabelElement> tmpThingsLabelElements = new List<GenLabel.LabelElement>();
+		private static List<LabelElement> tmpThingsLabelElements = new List<LabelElement>();
 
 		public static void ClearCache()
 		{
@@ -92,11 +96,13 @@ namespace RimWorld
 
 		public static string ThingLabel(BuildableDef entDef, ThingDef stuffDef, int stackCount = 1)
 		{
-			GenLabel.LabelRequest key = default(GenLabel.LabelRequest);
-			key.entDef = entDef;
-			key.stuffDef = stuffDef;
-			key.stackCount = stackCount;
-			string text;
+			LabelRequest key = new LabelRequest
+			{
+				entDef = entDef,
+				stuffDef = stuffDef,
+				stackCount = stackCount
+			};
+			string text = default(string);
 			if (!GenLabel.labelDictionary.TryGetValue(key, out text))
 			{
 				if (GenLabel.labelDictionary.Count > 2000)
@@ -111,19 +117,7 @@ namespace RimWorld
 
 		private static string NewThingLabel(BuildableDef entDef, ThingDef stuffDef, int stackCount)
 		{
-			string text;
-			if (stuffDef == null)
-			{
-				text = entDef.label;
-			}
-			else
-			{
-				text = "ThingMadeOfStuffLabel".Translate(new object[]
-				{
-					stuffDef.LabelAsStuff,
-					entDef.label
-				});
-			}
+			string text = (stuffDef != null) ? "ThingMadeOfStuffLabel".Translate(stuffDef.LabelAsStuff, entDef.label) : entDef.label;
 			if (stackCount != 1)
 			{
 				text = text + " x" + stackCount.ToStringCached();
@@ -133,11 +127,13 @@ namespace RimWorld
 
 		public static string ThingLabel(Thing t)
 		{
-			GenLabel.LabelRequest key = default(GenLabel.LabelRequest);
-			key.thing = t;
-			key.entDef = t.def;
-			key.stuffDef = t.Stuff;
-			key.stackCount = t.stackCount;
+			LabelRequest key = new LabelRequest
+			{
+				thing = t,
+				entDef = t.def,
+				stuffDef = t.Stuff,
+				stackCount = t.stackCount
+			};
 			t.TryGetQuality(out key.quality);
 			if (t.def.useHitPoints)
 			{
@@ -149,7 +145,7 @@ namespace RimWorld
 			{
 				key.wornByCorpse = apparel.WornByCorpse;
 			}
-			string text;
+			string text = default(string);
 			if (!GenLabel.labelDictionary.TryGetValue(key, out text))
 			{
 				if (GenLabel.labelDictionary.Count > 2000)
@@ -165,7 +161,7 @@ namespace RimWorld
 		private static string NewThingLabel(Thing t)
 		{
 			string text = GenLabel.ThingLabel(t.def, t.Stuff, 1);
-			QualityCategory cat;
+			QualityCategory cat = default(QualityCategory);
 			bool flag = t.TryGetQuality(out cat);
 			int hitPoints = t.HitPoints;
 			int maxHitPoints = t.MaxHitPoints;
@@ -199,25 +195,35 @@ namespace RimWorld
 		public static string ThingsLabel(List<Thing> things)
 		{
 			GenLabel.tmpThingsLabelElements.Clear();
-			foreach (Thing thing in things)
+			List<Thing>.Enumerator enumerator = things.GetEnumerator();
+			try
 			{
-				GenLabel.LabelElement labelElement = (from elem in GenLabel.tmpThingsLabelElements
-				where thing.def.stackLimit > 1 && elem.thingTemplate.def == thing.def && elem.thingTemplate.Stuff == thing.Stuff
-				select elem).FirstOrDefault<GenLabel.LabelElement>();
-				if (labelElement != null)
+				Thing thing;
+				while (enumerator.MoveNext())
 				{
-					labelElement.count += thing.stackCount;
-				}
-				else
-				{
-					GenLabel.tmpThingsLabelElements.Add(new GenLabel.LabelElement
+					thing = enumerator.Current;
+					LabelElement labelElement = (from elem in GenLabel.tmpThingsLabelElements
+					where thing.def.stackLimit > 1 && elem.thingTemplate.def == thing.def && elem.thingTemplate.Stuff == thing.Stuff
+					select elem).FirstOrDefault();
+					if (labelElement != null)
 					{
-						thingTemplate = thing,
-						count = thing.stackCount
-					});
+						labelElement.count += thing.stackCount;
+					}
+					else
+					{
+						GenLabel.tmpThingsLabelElements.Add(new LabelElement
+						{
+							thingTemplate = thing,
+							count = thing.stackCount
+						});
+					}
 				}
 			}
-			GenLabel.tmpThingsLabelElements.Sort(delegate(GenLabel.LabelElement lhs, GenLabel.LabelElement rhs)
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			GenLabel.tmpThingsLabelElements.Sort((Comparison<LabelElement>)delegate(LabelElement lhs, LabelElement rhs)
 			{
 				int num = TransferableComparer_Category.Compare(lhs.thingTemplate.def, rhs.thingTemplate.def);
 				if (num != 0)
@@ -227,31 +233,34 @@ namespace RimWorld
 				return lhs.thingTemplate.MarketValue.CompareTo(rhs.thingTemplate.MarketValue);
 			});
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (GenLabel.LabelElement current in GenLabel.tmpThingsLabelElements)
+			List<LabelElement>.Enumerator enumerator2 = GenLabel.tmpThingsLabelElements.GetEnumerator();
+			try
 			{
-				string str = string.Empty;
-				if (current.thingTemplate.ParentHolder is Pawn_ApparelTracker)
+				while (enumerator2.MoveNext())
 				{
-					str = " (" + "WornBy".Translate(new object[]
+					LabelElement current = enumerator2.Current;
+					string str = string.Empty;
+					if (current.thingTemplate.ParentHolder is Pawn_ApparelTracker)
 					{
-						(current.thingTemplate.ParentHolder.ParentHolder as Pawn).LabelShort
-					}) + ")";
-				}
-				else if (current.thingTemplate.ParentHolder is Pawn_EquipmentTracker)
-				{
-					str = " (" + "EquippedBy".Translate(new object[]
+						str = " (" + "WornBy".Translate((current.thingTemplate.ParentHolder.ParentHolder as Pawn).LabelShort) + ")";
+					}
+					else if (current.thingTemplate.ParentHolder is Pawn_EquipmentTracker)
 					{
-						(current.thingTemplate.ParentHolder.ParentHolder as Pawn).LabelShort
-					}) + ")";
+						str = " (" + "EquippedBy".Translate((current.thingTemplate.ParentHolder.ParentHolder as Pawn).LabelShort) + ")";
+					}
+					if (current.count == 1)
+					{
+						stringBuilder.AppendLine("  " + current.thingTemplate.LabelCap + str);
+					}
+					else
+					{
+						stringBuilder.AppendLine("  " + GenLabel.ThingLabel(current.thingTemplate.def, current.thingTemplate.Stuff, current.count).CapitalizeFirst() + str);
+					}
 				}
-				if (current.count == 1)
-				{
-					stringBuilder.AppendLine("  " + current.thingTemplate.LabelCap + str);
-				}
-				else
-				{
-					stringBuilder.AppendLine("  " + GenLabel.ThingLabel(current.thingTemplate.def, current.thingTemplate.Stuff, current.count).CapitalizeFirst() + str);
-				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator2).Dispose();
 			}
 			GenLabel.tmpThingsLabelElements.Clear();
 			return stringBuilder.ToString();
@@ -261,10 +270,11 @@ namespace RimWorld
 		{
 			bool flag = false;
 			bool flag2 = false;
-			string text = null;
+			string text = (string)null;
 			switch (pawn.gender)
 			{
 			case Gender.None:
+			{
 				if (plural && !pawn.RaceProps.Humanlike && pawn.ageTracker.CurKindLifeStage.labelPlural != null)
 				{
 					text = pawn.ageTracker.CurKindLifeStage.labelPlural;
@@ -292,7 +302,9 @@ namespace RimWorld
 					}
 				}
 				break;
+			}
 			case Gender.Male:
+			{
 				if (plural && !pawn.RaceProps.Humanlike && pawn.ageTracker.CurKindLifeStage.labelMalePlural != null)
 				{
 					text = pawn.ageTracker.CurKindLifeStage.labelMalePlural;
@@ -350,7 +362,9 @@ namespace RimWorld
 					}
 				}
 				break;
+			}
 			case Gender.Female:
+			{
 				if (plural && !pawn.RaceProps.Humanlike && pawn.ageTracker.CurKindLifeStage.labelFemalePlural != null)
 				{
 					text = pawn.ageTracker.CurKindLifeStage.labelFemalePlural;
@@ -409,21 +423,14 @@ namespace RimWorld
 				}
 				break;
 			}
-			if (mustNoteGender && !flag && pawn.gender != Gender.None)
+			}
+			if ((mustNoteGender ? ((!flag) ? pawn.gender : Gender.None) : Gender.None) != 0)
 			{
-				text = "PawnMainDescGendered".Translate(new object[]
-				{
-					pawn.gender.GetLabel(),
-					text
-				});
+				text = "PawnMainDescGendered".Translate(pawn.gender.GetLabel(), text);
 			}
 			if (mustNoteLifeStage && !flag2 && pawn.ageTracker != null && pawn.ageTracker.CurLifeStage.visible)
 			{
-				text = "PawnMainDescLifestageWrap".Translate(new object[]
-				{
-					text,
-					pawn.ageTracker.CurLifeStage.Adjective
-				});
+				text = "PawnMainDescLifestageWrap".Translate(text, pawn.ageTracker.CurLifeStage.Adjective);
 			}
 			return text;
 		}

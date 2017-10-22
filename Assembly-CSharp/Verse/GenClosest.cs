@@ -19,19 +19,21 @@ namespace Verse
 			}
 			if (!start.InBounds(map))
 			{
-				Log.Error(string.Concat(new object[]
-				{
-					"Did FindClosestThing with start out of bounds (",
-					start,
-					"), thingReq=",
-					thingReq
-				}));
+				Log.Error("Did FindClosestThing with start out of bounds (" + start + "), thingReq=" + thingReq);
 				return true;
 			}
-			return thingReq.group == ThingRequestGroup.Nothing || (customGlobalSearchSet == null && !thingReq.IsUndefined && map.listerThings.ThingsMatching(thingReq).Count == 0);
+			if (thingReq.group == ThingRequestGroup.Nothing)
+			{
+				return true;
+			}
+			if (customGlobalSearchSet == null && !thingReq.IsUndefined && map.listerThings.ThingsMatching(thingReq).Count == 0)
+			{
+				return true;
+			}
+			return false;
 		}
 
-		public static Thing ClosestThingReachable(IntVec3 root, Map map, ThingRequest thingReq, PathEndMode peMode, TraverseParms traverseParams, float maxDistance = 9999f, Predicate<Thing> validator = null, IEnumerable<Thing> customGlobalSearchSet = null, int searchRegionsMin = 0, int searchRegionsMax = -1, bool forceGlobalSearch = false, RegionType traversableRegionTypes = RegionType.Set_Passable, bool ignoreEntirelyForbiddenRegions = false)
+		public static Thing ClosestThingReachable(IntVec3 root, Map map, ThingRequest thingReq, PathEndMode peMode, TraverseParms traverseParams, float maxDistance = 9999, Predicate<Thing> validator = null, IEnumerable<Thing> customGlobalSearchSet = null, int searchRegionsMin = 0, int searchRegionsMax = -1, bool forceGlobalSearch = false, RegionType traversableRegionTypes = RegionType.Set_Passable, bool ignoreEntirelyForbiddenRegions = false)
 		{
 			ProfilerThreadCheck.BeginSample("ClosestThingReachable");
 			if (searchRegionsMax > 0 && customGlobalSearchSet != null && !forceGlobalSearch)
@@ -55,7 +57,18 @@ namespace Verse
 				{
 					Log.ErrorOnce("ClosestThingReachable had to do a global search, but traversableRegionTypes is not set to passable only. It's not supported, because Reachability is based on passable regions only.", 14384767);
 				}
-				Predicate<Thing> validator2 = (Thing t) => map.reachability.CanReach(root, t, peMode, traverseParams) && (validator == null || validator(t));
+				Predicate<Thing> validator2 = (Predicate<Thing>)delegate(Thing t)
+				{
+					if (!map.reachability.CanReach(root, t, peMode, traverseParams))
+					{
+						return false;
+					}
+					if ((object)validator != null && !validator(t))
+					{
+						return false;
+					}
+					return true;
+				};
 				IEnumerable<Thing> searchSet = customGlobalSearchSet ?? map.listerThings.ThingsMatching(thingReq);
 				thing = GenClosest.ClosestThing_Global(root, searchSet, maxDistance, validator2);
 			}
@@ -63,7 +76,7 @@ namespace Verse
 			return thing;
 		}
 
-		public static Thing ClosestThing_Regionwise_ReachablePrioritized(IntVec3 root, Map map, ThingRequest thingReq, PathEndMode peMode, TraverseParms traverseParams, float maxDistance = 9999f, Predicate<Thing> validator = null, Func<Thing, float> priorityGetter = null, int minRegions = 24, int maxRegions = 30)
+		public static Thing ClosestThing_Regionwise_ReachablePrioritized(IntVec3 root, Map map, ThingRequest thingReq, PathEndMode peMode, TraverseParms traverseParams, float maxDistance = 9999, Predicate<Thing> validator = null, Func<Thing, float> priorityGetter = null, int minRegions = 24, int maxRegions = 30)
 		{
 			if (GenClosest.EarlyOutSearch(root, map, thingReq, null))
 			{
@@ -98,12 +111,19 @@ namespace Verse
 				return null;
 			}
 			float maxDistSquared = maxDistance * maxDistance;
-			RegionEntryPredicate entryCondition = (Region from, Region to) => to.Allows(traverseParams, false) && (maxDistance > 5000f || to.extentsClose.ClosestDistSquaredTo(root) < maxDistSquared);
+			RegionEntryPredicate entryCondition = (RegionEntryPredicate)delegate(Region from, Region to)
+			{
+				if (!to.Allows(traverseParams, false))
+				{
+					return false;
+				}
+				return maxDistance > 5000.0 || to.extentsClose.ClosestDistSquaredTo(root) < maxDistSquared;
+			};
 			Thing closestThing = null;
 			float closestDistSquared = 9999999f;
 			float bestPrio = -3.40282347E+38f;
 			int regionsSeen = 0;
-			RegionProcessor regionProcessor = delegate(Region r)
+			RegionProcessor regionProcessor = (RegionProcessor)delegate(Region r)
 			{
 				if (r.portal == null && !r.Allows(traverseParams, true))
 				{
@@ -117,11 +137,11 @@ namespace Verse
 						Thing thing = list[i];
 						if (ReachabilityWithinRegion.ThingFromRegionListerReachable(thing, r, peMode, traverseParams.pawn))
 						{
-							float num = (priorityGetter == null) ? 0f : priorityGetter(thing);
-							if (num >= bestPrio)
+							float num = (float)(((object)priorityGetter == null) ? 0.0 : priorityGetter(thing));
+							if (!(num < bestPrio))
 							{
 								float num2 = (float)(thing.Position - root).LengthHorizontalSquared;
-								if ((num > bestPrio || num2 < closestDistSquared) && num2 < maxDistSquared && (validator == null || validator(thing)))
+								if ((num > bestPrio || num2 < closestDistSquared) && num2 < maxDistSquared && ((object)validator == null || validator(thing)))
 								{
 									closestThing = thing;
 									closestDistSquared = num2;
@@ -139,7 +159,7 @@ namespace Verse
 			return closestThing;
 		}
 
-		public static Thing ClosestThing_Global(IntVec3 center, IEnumerable searchSet, float maxDistance = 99999f, Predicate<Thing> validator = null)
+		public static Thing ClosestThing_Global(IntVec3 center, IEnumerable searchSet, float maxDistance = 99999, Predicate<Thing> validator = null)
 		{
 			ProfilerThreadCheck.BeginSample("ClosestThing_Global");
 			if (searchSet == null)
@@ -149,22 +169,22 @@ namespace Verse
 			float num = 2.14748365E+09f;
 			Thing result = null;
 			float num2 = maxDistance * maxDistance;
-			foreach (Thing thing in searchSet)
+			foreach (Thing item in searchSet)
 			{
-				float num3 = (float)(center - thing.Position).LengthHorizontalSquared;
+				float num3 = (float)(center - item.Position).LengthHorizontalSquared;
 				if (num3 < num && num3 <= num2)
 				{
 					ProfilerThreadCheck.BeginSample("validator");
-					if (validator != null && !validator(thing))
+					if ((object)validator != null && !validator(item))
 					{
 						ProfilerThreadCheck.EndSample();
 					}
 					else
 					{
 						ProfilerThreadCheck.EndSample();
-						if (thing.Spawned)
+						if (item.Spawned)
 						{
-							result = thing;
+							result = item;
 							num = num3;
 						}
 					}
@@ -174,7 +194,7 @@ namespace Verse
 			return result;
 		}
 
-		public static Thing ClosestThing_Global_Reachable(IntVec3 center, Map map, IEnumerable<Thing> searchSet, PathEndMode peMode, TraverseParms traverseParams, float maxDistance = 9999f, Predicate<Thing> validator = null, Func<Thing, float> priorityGetter = null)
+		public static Thing ClosestThing_Global_Reachable(IntVec3 center, Map map, IEnumerable<Thing> searchSet, PathEndMode peMode, TraverseParms traverseParams, float maxDistance = 9999, Predicate<Thing> validator = null, Func<Thing, float> priorityGetter = null)
 		{
 			ProfilerThreadCheck.BeginSample("ClosestThing_Global_Reachable");
 			if (searchSet == null)
@@ -188,45 +208,31 @@ namespace Verse
 			float num4 = 0f;
 			float num5 = maxDistance * maxDistance;
 			float num6 = 2.14748365E+09f;
-			foreach (Thing current in searchSet)
+			foreach (Thing item in searchSet)
 			{
 				num2++;
-				float num7 = (float)(center - current.Position).LengthHorizontalSquared;
-				if (num7 <= num5)
+				float num7 = (float)(center - item.Position).LengthHorizontalSquared;
+				if (!(num7 > num5))
 				{
-					if (priorityGetter != null)
+					if ((object)priorityGetter == null)
 					{
-						num4 = priorityGetter(current);
-						if (num4 < num3)
-						{
-							continue;
-						}
+						goto IL_0093;
 					}
-					if (num4 > num3 || num7 < num6)
-					{
-						if (map.reachability.CanReach(center, current, peMode, traverseParams))
-						{
-							if (current.Spawned)
-							{
-								if (validator == null || validator(current))
-								{
-									result = current;
-									num6 = num7;
-									num3 = num4;
-									num++;
-								}
-							}
-						}
-					}
+					num4 = priorityGetter(item);
+					if (!(num4 < num3))
+						goto IL_0093;
+				}
+				continue;
+				IL_0093:
+				if ((num4 > num3 || num7 < num6) && map.reachability.CanReach(center, item, peMode, traverseParams) && item.Spawned && ((object)validator == null || validator(item)))
+				{
+					result = item;
+					num6 = num7;
+					num3 = num4;
+					num++;
 				}
 			}
-			ProfilerThreadCheck.BeginSample(string.Concat(new object[]
-			{
-				"changedCount: ",
-				num,
-				" scanCount: ",
-				num2
-			}));
+			ProfilerThreadCheck.BeginSample("changedCount: " + num + " scanCount: " + num2);
 			ProfilerThreadCheck.EndSample();
 			ProfilerThreadCheck.EndSample();
 			return result;

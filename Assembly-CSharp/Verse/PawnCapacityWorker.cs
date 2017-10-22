@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -18,7 +17,7 @@ namespace Verse
 		protected float CalculateCapacityAndRecord(HediffSet diffSet, PawnCapacityDef capacity, List<PawnCapacityUtility.CapacityImpactor> impactors)
 		{
 			float level = diffSet.pawn.health.capacities.GetLevel(capacity);
-			if (impactors != null && level != 1f)
+			if (impactors != null && level != 1.0)
 			{
 				impactors.Add(new PawnCapacityUtility.CapacityImpactorCapacity
 				{

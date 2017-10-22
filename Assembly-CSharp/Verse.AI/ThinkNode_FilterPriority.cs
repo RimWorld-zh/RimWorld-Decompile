@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI
 {
 	public class ThinkNode_FilterPriority : ThinkNode
@@ -15,12 +13,12 @@ namespace Verse.AI
 
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
-			int count = this.subNodes.Count;
-			for (int i = 0; i < count; i++)
+			int count = base.subNodes.Count;
+			for (int num = 0; num < count; num++)
 			{
-				if (this.subNodes[i].GetPriority(pawn) > this.minPriority)
+				if (base.subNodes[num].GetPriority(pawn) > this.minPriority)
 				{
-					ThinkResult result = this.subNodes[i].TryIssueJobPackage(pawn, jobParams);
+					ThinkResult result = base.subNodes[num].TryIssueJobPackage(pawn, jobParams);
 					if (result.IsValid)
 					{
 						return result;

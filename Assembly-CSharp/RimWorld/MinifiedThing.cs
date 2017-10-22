@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -31,15 +29,14 @@ namespace RimWorld
 			}
 			set
 			{
-				if (value == this.InnerThing)
+				if (value != this.InnerThing)
 				{
-					return;
+					if (this.innerContainer.Count != 0)
+					{
+						this.innerContainer.ClearAndDestroyContents(DestroyMode.Vanish);
+					}
+					this.innerContainer.TryAdd(value, true);
 				}
-				if (this.innerContainer.Count != 0)
-				{
-					this.innerContainer.ClearAndDestroyContents(DestroyMode.Vanish);
-				}
-				this.innerContainer.TryAdd(value, true);
 			}
 		}
 
@@ -50,7 +47,7 @@ namespace RimWorld
 				if (this.cachedGraphic == null)
 				{
 					this.cachedGraphic = this.InnerThing.Graphic.ExtractInnerGraphicFor(this.InnerThing);
-					if ((float)this.InnerThing.def.size.x > 1.1f || (float)this.InnerThing.def.size.z > 1.1f)
+					if ((float)this.InnerThing.def.size.x > 1.1000000238418579 || (float)this.InnerThing.def.size.z > 1.1000000238418579)
 					{
 						Vector2 minifiedDrawSize = this.GetMinifiedDrawSize(this.InnerThing.def.size.ToVector2(), 1.1f);
 						Vector2 newDrawSize = new Vector2(minifiedDrawSize.x / (float)this.InnerThing.def.size.x * this.cachedGraphic.drawSize.x, minifiedDrawSize.y / (float)this.InnerThing.def.size.z * this.cachedGraphic.drawSize.y);
@@ -105,13 +102,17 @@ namespace RimWorld
 		public override bool CanStackWith(Thing other)
 		{
 			MinifiedThing minifiedThing = other as MinifiedThing;
-			return minifiedThing != null && base.CanStackWith(other) && this.InnerThing.CanStackWith(minifiedThing.InnerThing);
+			if (minifiedThing == null)
+			{
+				return false;
+			}
+			return base.CanStackWith(other) && this.InnerThing.CanStackWith(minifiedThing.InnerThing);
 		}
 
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Deep.Look<ThingOwner>(ref this.innerContainer, "innerContainer", new object[]
+			Scribe_Deep.Look<ThingOwner>(ref this.innerContainer, "innerContainer", new object[1]
 			{
 				this
 			});
@@ -166,14 +167,13 @@ namespace RimWorld
 			InstallBlueprintUtility.CancelBlueprintsFor(this);
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			MinifiedThing.<GetGizmos>c__Iterator142 <GetGizmos>c__Iterator = new MinifiedThing.<GetGizmos>c__Iterator142();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			MinifiedThing.<GetGizmos>c__Iterator142 expr_0E = <GetGizmos>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			yield return (Gizmo)InstallationDesignatorDatabase.DesignatorFor(base.def);
 		}
 
 		public override string GetInspectString()
@@ -186,7 +186,7 @@ namespace RimWorld
 		private Vector2 GetMinifiedDrawSize(Vector2 drawSize, float maxSideLength)
 		{
 			float num = maxSideLength / Mathf.Max(drawSize.x, drawSize.y);
-			if (num >= 1f)
+			if (num >= 1.0)
 			{
 				return drawSize;
 			}
@@ -196,6 +196,12 @@ namespace RimWorld
 		virtual IThingHolder get_ParentHolder()
 		{
 			return base.ParentHolder;
+		}
+
+		IThingHolder IThingHolder.get_ParentHolder()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
+			return this.get_ParentHolder();
 		}
 	}
 }

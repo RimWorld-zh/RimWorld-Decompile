@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -45,23 +44,29 @@ namespace Verse
 		{
 			get
 			{
-				return this.data == null || this.data.drawRotated;
+				if (base.data != null && !base.data.drawRotated)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
 		public override void Init(GraphicRequest req)
 		{
-			this.data = req.graphicData;
-			this.path = req.path;
-			this.color = req.color;
-			this.colorTwo = req.colorTwo;
-			this.drawSize = req.drawSize;
-			MaterialRequest req2 = default(MaterialRequest);
-			req2.mainTex = ContentFinder<Texture2D>.Get(req.path, true);
-			req2.shader = req.shader;
-			req2.color = this.color;
-			req2.colorTwo = this.colorTwo;
-			req2.renderQueue = req.renderQueue;
+			base.data = req.graphicData;
+			base.path = req.path;
+			base.color = req.color;
+			base.colorTwo = req.colorTwo;
+			base.drawSize = req.drawSize;
+			MaterialRequest req2 = new MaterialRequest
+			{
+				mainTex = ContentFinder<Texture2D>.Get(req.path, true),
+				shader = req.shader,
+				color = base.color,
+				colorTwo = base.colorTwo,
+				renderQueue = req.renderQueue
+			};
 			if (req.shader.SupportsMaskTex())
 			{
 				req2.maskTex = ContentFinder<Texture2D>.Get(req.path + Graphic_Single.MaskSuffix, false);
@@ -71,7 +76,7 @@ namespace Verse
 
 		public override Graphic GetColoredVersion(Shader newShader, Color newColor, Color newColorTwo)
 		{
-			return GraphicDatabase.Get<Graphic_Single>(this.path, newShader, this.drawSize, newColor, newColorTwo, this.data);
+			return GraphicDatabase.Get<Graphic_Single>(base.path, newShader, base.drawSize, newColor, newColorTwo, base.data);
 		}
 
 		public override Material MatAt(Rot4 rot, Thing thing = null)
@@ -81,16 +86,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"Single(path=",
-				this.path,
-				", color=",
-				this.color,
-				", colorTwo=",
-				this.colorTwo,
-				")"
-			});
+			return "Single(path=" + base.path + ", color=" + base.color + ", colorTwo=" + base.colorTwo + ")";
 		}
 	}
 }

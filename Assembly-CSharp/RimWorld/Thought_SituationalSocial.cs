@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -11,7 +10,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.VisibleInNeedsTab && this.MoodOffset() != 0f;
+				return base.VisibleInNeedsTab && this.MoodOffset() != 0.0;
 			}
 		}
 
@@ -28,12 +27,16 @@ namespace RimWorld
 		public override bool GroupsWith(Thought other)
 		{
 			Thought_SituationalSocial thought_SituationalSocial = other as Thought_SituationalSocial;
-			return thought_SituationalSocial != null && base.GroupsWith(other) && this.otherPawn == thought_SituationalSocial.otherPawn;
+			if (thought_SituationalSocial == null)
+			{
+				return false;
+			}
+			return base.GroupsWith(other) && this.otherPawn == thought_SituationalSocial.otherPawn;
 		}
 
 		protected override ThoughtState CurrentStateInternal()
 		{
-			return this.def.Worker.CurrentSocialState(this.pawn, this.otherPawn);
+			return base.def.Worker.CurrentSocialState(base.pawn, this.otherPawn);
 		}
 	}
 }

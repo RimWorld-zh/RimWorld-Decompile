@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum BoolUnknown : byte
 	{
-		True,
-		False,
-		Unknown
+		True = 0,
+		False = 1,
+		Unknown = 2
 	}
 }

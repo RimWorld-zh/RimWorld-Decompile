@@ -1,10 +1,8 @@
-using System;
-
 namespace RimWorld
 {
 	public enum PawnNameCategory : byte
 	{
-		NoName,
-		HumanStandard
+		NoName = 0,
+		HumanStandard = 1
 	}
 }

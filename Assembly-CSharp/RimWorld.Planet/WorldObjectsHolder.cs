@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld.Planet
@@ -146,12 +144,12 @@ namespace RimWorld.Planet
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
 				WorldObjectsHolder.tmpUnsavedWorldObjects.Clear();
-				for (int i = this.worldObjects.Count - 1; i >= 0; i--)
+				for (int num = this.worldObjects.Count - 1; num >= 0; num--)
 				{
-					if (!this.worldObjects[i].def.saved)
+					if (!this.worldObjects[num].def.saved)
 					{
-						WorldObjectsHolder.tmpUnsavedWorldObjects.Add(this.worldObjects[i]);
-						this.worldObjects.RemoveAt(i);
+						WorldObjectsHolder.tmpUnsavedWorldObjects.Add(this.worldObjects[num]);
+						this.worldObjects.RemoveAt(num);
 					}
 				}
 			}
@@ -163,9 +161,9 @@ namespace RimWorld.Planet
 			}
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				for (int j = 0; j < this.worldObjects.Count; j++)
+				for (int i = 0; i < this.worldObjects.Count; i++)
 				{
-					this.worldObjects[j].SpawnSetup();
+					this.worldObjects[i].SpawnSetup();
 				}
 				this.Recache();
 			}
@@ -176,17 +174,19 @@ namespace RimWorld.Planet
 			if (this.worldObjects.Contains(o))
 			{
 				Log.Error("Tried to add world object " + o + " to world, but it's already here.");
-				return;
 			}
-			if (o.Tile < 0)
+			else
 			{
-				Log.Error("Tried to add world object " + o + " but its tile is not set. Setting to 0.");
-				o.Tile = 0;
+				if (o.Tile < 0)
+				{
+					Log.Error("Tried to add world object " + o + " but its tile is not set. Setting to 0.");
+					o.Tile = 0;
+				}
+				this.worldObjects.Add(o);
+				this.AddToCache(o);
+				o.SpawnSetup();
+				o.PostAdd();
 			}
-			this.worldObjects.Add(o);
-			this.AddToCache(o);
-			o.SpawnSetup();
-			o.PostAdd();
 		}
 
 		public void Remove(WorldObject o)
@@ -194,11 +194,13 @@ namespace RimWorld.Planet
 			if (!this.worldObjects.Contains(o))
 			{
 				Log.Error("Tried to remove world object " + o + " from world, but it's not here.");
-				return;
 			}
-			this.worldObjects.Remove(o);
-			this.RemoveFromCache(o);
-			o.PostRemove();
+			else
+			{
+				this.worldObjects.Remove(o);
+				this.RemoveFromCache(o);
+				o.PostRemove();
+			}
 		}
 
 		public void WorldObjectsHolderTick()
@@ -316,16 +318,18 @@ namespace RimWorld.Planet
 			return this.worldObjects.Contains(o);
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<WorldObject> ObjectsAt(int tileID)
 		{
-			WorldObjectsHolder.<ObjectsAt>c__Iterator110 <ObjectsAt>c__Iterator = new WorldObjectsHolder.<ObjectsAt>c__Iterator110();
-			<ObjectsAt>c__Iterator.tileID = tileID;
-			<ObjectsAt>c__Iterator.<$>tileID = tileID;
-			<ObjectsAt>c__Iterator.<>f__this = this;
-			WorldObjectsHolder.<ObjectsAt>c__Iterator110 expr_1C = <ObjectsAt>c__Iterator;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (tileID >= 0)
+			{
+				for (int i = 0; i < this.worldObjects.Count; i++)
+				{
+					if (this.worldObjects[i].Tile == tileID)
+					{
+						yield return this.worldObjects[i];
+					}
+				}
+			}
 		}
 
 		public bool AnyWorldObjectAt(int tile)
@@ -346,10 +350,10 @@ namespace RimWorld.Planet
 			{
 				if (this.worldObjects[i].Tile == tile && this.worldObjects[i] is T)
 				{
-					return this.worldObjects[i] as T;
+					return (T)(((object)this.worldObjects[i]) as T);
 				}
 			}
-			return (T)((object)null);
+			return (T)null;
 		}
 
 		public bool AnyFactionBaseAt(int tile)

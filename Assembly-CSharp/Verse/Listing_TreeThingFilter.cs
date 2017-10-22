@@ -25,11 +25,11 @@ namespace Verse
 			this.parentFilter = parentFilter;
 			if (forceHiddenDefs != null)
 			{
-				this.forceHiddenDefs = forceHiddenDefs.ToList<ThingDef>();
+				this.forceHiddenDefs = forceHiddenDefs.ToList();
 			}
 			if (forceHiddenFilters != null)
 			{
-				this.tempForceHiddenSpecialFilters = forceHiddenFilters.ToList<SpecialThingFilterDef>();
+				this.tempForceHiddenSpecialFilters = forceHiddenFilters.ToList();
 			}
 			this.suppressSmallVolumeTags = suppressSmallVolumeTags;
 		}
@@ -38,11 +38,11 @@ namespace Verse
 		{
 			if (isRoot)
 			{
-				foreach (SpecialThingFilterDef current in node.catDef.ParentsSpecialThingFilterDefs)
+				foreach (SpecialThingFilterDef parentsSpecialThingFilterDef in node.catDef.ParentsSpecialThingFilterDefs)
 				{
-					if (this.Visible(current))
+					if (this.Visible(parentsSpecialThingFilterDef))
 					{
-						this.DoSpecialFilter(current, indentLevel);
+						this.DoSpecialFilter(parentsSpecialThingFilterDef, indentLevel);
 					}
 				}
 			}
@@ -54,39 +54,38 @@ namespace Verse
 					this.DoSpecialFilter(childSpecialFilters[i], indentLevel);
 				}
 			}
-			foreach (TreeNode_ThingCategory current2 in node.ChildCategoryNodes)
+			foreach (TreeNode_ThingCategory childCategoryNode in node.ChildCategoryNodes)
 			{
-				if (this.Visible(current2))
+				if (this.Visible(childCategoryNode))
 				{
-					this.DoCategory(current2, indentLevel, openMask);
+					this.DoCategory(childCategoryNode, indentLevel, openMask);
 				}
 			}
-			foreach (ThingDef current3 in from n in node.catDef.childThingDefs
+			foreach (ThingDef item in from n in node.catDef.childThingDefs
 			orderby n.label
 			select n)
 			{
-				if (this.Visible(current3))
+				if (this.Visible(item))
 				{
-					this.DoThingDef(current3, indentLevel);
+					this.DoThingDef(item, indentLevel);
 				}
 			}
 		}
 
 		private void DoSpecialFilter(SpecialThingFilterDef sfDef, int nestLevel)
 		{
-			if (!sfDef.configurable)
+			if (sfDef.configurable)
 			{
-				return;
+				base.LabelLeft("*" + sfDef.LabelCap, sfDef.description, nestLevel);
+				bool flag;
+				bool flag2 = flag = this.filter.Allows(sfDef);
+				Widgets.Checkbox(new Vector2(this.LabelWidth, base.curY), ref flag2, base.lineHeight, false);
+				if (flag2 != flag)
+				{
+					this.filter.SetAllow(sfDef, flag2);
+				}
+				base.EndLine();
 			}
-			base.LabelLeft("*" + sfDef.LabelCap, sfDef.description, nestLevel);
-			bool flag = this.filter.Allows(sfDef);
-			bool flag2 = flag;
-			Widgets.Checkbox(new Vector2(this.LabelWidth, this.curY), ref flag, this.lineHeight, false);
-			if (flag != flag2)
-			{
-				this.filter.SetAllow(sfDef, flag);
-			}
-			base.EndLine();
 		}
 
 		public void DoCategory(TreeNode_ThingCategory node, int indentLevel, int openMask)
@@ -94,9 +93,9 @@ namespace Verse
 			base.OpenCloseWidget(node, indentLevel, openMask);
 			base.LabelLeft(node.LabelCap, node.catDef.description, indentLevel);
 			MultiCheckboxState multiCheckboxState = this.AllowanceStateOf(node);
-			if (Widgets.CheckboxMulti(new Vector2(this.LabelWidth, this.curY), multiCheckboxState, this.lineHeight))
+			if (Widgets.CheckboxMulti(new Vector2(this.LabelWidth, base.curY), multiCheckboxState, base.lineHeight))
 			{
-				bool allow = multiCheckboxState == MultiCheckboxState.Off;
+				bool allow = (byte)((multiCheckboxState == MultiCheckboxState.Off) ? 1 : 0) != 0;
 				this.filter.SetAllow(node.catDef, allow, this.forceHiddenDefs, this.hiddenSpecialFilters);
 			}
 			base.EndLine();
@@ -108,31 +107,37 @@ namespace Verse
 
 		private void DoThingDef(ThingDef tDef, int nestLevel)
 		{
-			bool flag = (this.suppressSmallVolumeTags == null || !this.suppressSmallVolumeTags.Contains(tDef)) && tDef.IsStuff && tDef.smallVolume;
+			int num;
+			if ((this.suppressSmallVolumeTags == null || !this.suppressSmallVolumeTags.Contains(tDef)) && tDef.IsStuff)
+			{
+				num = (tDef.smallVolume ? 1 : 0);
+				goto IL_0030;
+			}
+			num = 0;
+			goto IL_0030;
+			IL_0030:
+			bool flag = (byte)num != 0;
 			string text = tDef.description;
 			if (flag)
 			{
-				text = text + "\n\n" + "ThisIsSmallVolume".Translate(new object[]
-				{
-					10.ToStringCached()
-				});
+				text = text + "\n\n" + "ThisIsSmallVolume".Translate(10.ToStringCached());
 			}
 			base.LabelLeft(tDef.LabelCap, text, nestLevel);
 			if (flag)
 			{
-				Rect rect = new Rect(this.LabelWidth - 30f, this.curY, 30f, 30f);
+				Rect rect = new Rect((float)(this.LabelWidth - 30.0), base.curY, 30f, 30f);
 				Text.Font = GameFont.Tiny;
 				GUI.color = Color.gray;
 				Widgets.Label(rect, "x" + 10.ToStringCached());
 				Text.Font = GameFont.Small;
 				GUI.color = Color.white;
 			}
-			bool flag2 = this.filter.Allows(tDef);
-			bool flag3 = flag2;
-			Widgets.Checkbox(new Vector2(this.LabelWidth, this.curY), ref flag2, this.lineHeight, false);
-			if (flag2 != flag3)
+			bool flag2;
+			bool flag3 = flag2 = this.filter.Allows(tDef);
+			Widgets.Checkbox(new Vector2(this.LabelWidth, base.curY), ref flag3, base.lineHeight, false);
+			if (flag3 != flag2)
 			{
-				this.filter.SetAllow(tDef, flag2);
+				this.filter.SetAllow(tDef, flag3);
 			}
 			base.EndLine();
 		}
@@ -141,23 +146,23 @@ namespace Verse
 		{
 			int num = 0;
 			int num2 = 0;
-			foreach (ThingDef current in cat.catDef.DescendantThingDefs)
+			foreach (ThingDef descendantThingDef in cat.catDef.DescendantThingDefs)
 			{
-				if (this.Visible(current))
+				if (this.Visible(descendantThingDef))
 				{
 					num++;
-					if (this.filter.Allows(current))
+					if (this.filter.Allows(descendantThingDef))
 					{
 						num2++;
 					}
 				}
 			}
-			foreach (SpecialThingFilterDef current2 in cat.catDef.DescendantSpecialThingFilterDefs)
+			foreach (SpecialThingFilterDef descendantSpecialThingFilterDef in cat.catDef.DescendantSpecialThingFilterDefs)
 			{
-				if (this.Visible(current2))
+				if (this.Visible(descendantSpecialThingFilterDef))
 				{
 					num++;
-					if (this.filter.Allows(current2))
+					if (this.filter.Allows(descendantSpecialThingFilterDef))
 					{
 						num2++;
 					}
@@ -238,12 +243,12 @@ namespace Verse
 				where this.parentFilter.Allows(x)
 				select x;
 			}
-			foreach (SpecialThingFilterDef current in enumerable)
+			foreach (SpecialThingFilterDef item in enumerable)
 			{
 				bool flag = false;
-				foreach (ThingDef current2 in enumerable2)
+				foreach (ThingDef item2 in enumerable2)
 				{
-					if (current.Worker.CanEverMatch(current2))
+					if (item.Worker.CanEverMatch(item2))
 					{
 						flag = true;
 						break;
@@ -251,7 +256,7 @@ namespace Verse
 				}
 				if (!flag)
 				{
-					this.hiddenSpecialFilters.Add(current);
+					this.hiddenSpecialFilters.Add(item);
 				}
 			}
 		}

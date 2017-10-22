@@ -32,17 +32,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			string[] expr_06 = new string[5];
-			expr_06[0] = "(";
-			int arg_24_1 = 1;
-			T1 t = this.First;
-			expr_06[arg_24_1] = t.ToString();
-			expr_06[2] = ", ";
-			int arg_43_1 = 3;
-			T2 t2 = this.Second;
-			expr_06[arg_43_1] = t2.ToString();
-			expr_06[4] = ")";
-			return string.Concat(expr_06);
+			return "(" + this.First.ToString() + ", " + this.Second.ToString() + ")";
 		}
 
 		public override int GetHashCode()
@@ -54,7 +44,11 @@ namespace Verse
 
 		public override bool Equals(object other)
 		{
-			return other is Pair<T1, T2> && this.Equals((Pair<T1, T2>)other);
+			if (!(other is Pair<T1, T2>))
+			{
+				return false;
+			}
+			return this.Equals((Pair<T1, T2>)other);
 		}
 
 		public bool Equals(Pair<T1, T2> other)

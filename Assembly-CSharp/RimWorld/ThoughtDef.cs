@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -66,11 +65,11 @@ namespace RimWorld
 		{
 			get
 			{
-				if (!this.label.NullOrEmpty())
+				if (!base.label.NullOrEmpty())
 				{
-					return this.label;
+					return base.label;
 				}
-				if (this.stages.NullOrEmpty<ThoughtStage>())
+				if (this.stages.NullOrEmpty())
 				{
 					if (!this.stages[0].label.NullOrEmpty())
 					{
@@ -81,8 +80,8 @@ namespace RimWorld
 						return this.stages[0].labelSocial;
 					}
 				}
-				Log.Error("Cannot get good label for ThoughtDef " + this.defName);
-				return this.defName;
+				Log.Error("Cannot get good label for ThoughtDef " + base.defName);
+				return base.defName;
 			}
 		}
 
@@ -90,7 +89,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (int)(this.durationDays * 60000f);
+				return (int)(this.durationDays * 60000.0);
 			}
 		}
 
@@ -98,7 +97,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.durationDays > 0f || typeof(Thought_Memory).IsAssignableFrom(this.thoughtClass);
+				return this.durationDays > 0.0 || typeof(Thought_Memory).IsAssignableFrom(this.thoughtClass);
 			}
 		}
 
@@ -159,7 +158,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.iconInt == null)
+				if ((UnityEngine.Object)this.iconInt == (UnityEngine.Object)null)
 				{
 					if (this.icon == null)
 					{
@@ -171,14 +170,28 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			ThoughtDef.<ConfigErrors>c__Iterator9A <ConfigErrors>c__Iterator9A = new ThoughtDef.<ConfigErrors>c__Iterator9A();
-			<ConfigErrors>c__Iterator9A.<>f__this = this;
-			ThoughtDef.<ConfigErrors>c__Iterator9A expr_0E = <ConfigErrors>c__Iterator9A;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
+			if (this.stages.NullOrEmpty())
+			{
+				yield return "no stages";
+			}
+			if (this.workerClass != null && this.nextThought != null)
+			{
+				yield return "has a nextThought but also has a workerClass. nextThought only works for memories";
+			}
+			if (this.IsMemory && this.workerClass != null)
+			{
+				yield return "has a workerClass but is a memory. workerClass only works for situational thoughts, not memories";
+			}
+			if (!this.IsMemory && this.workerClass == null && this.IsSituational)
+			{
+				yield return "is a situational thought but has no workerClass. Situational thoughts require workerClasses to analyze the situation";
+			}
 		}
 
 		public static ThoughtDef Named(string defName)

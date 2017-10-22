@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 namespace RimWorld
@@ -11,17 +10,29 @@ namespace RimWorld
 			switch (pType)
 			{
 			case PriceType.VeryCheap:
+			{
 				return 0.4f;
+			}
 			case PriceType.Cheap:
+			{
 				return 0.7f;
+			}
 			case PriceType.Normal:
+			{
 				return 1f;
+			}
 			case PriceType.Expensive:
+			{
 				return 2f;
+			}
 			case PriceType.Exorbitant:
+			{
 				return 5f;
+			}
 			default:
+			{
 				return -1f;
+			}
 			}
 		}
 
@@ -29,17 +40,13 @@ namespace RimWorld
 		{
 			float num = 99999f;
 			PriceType priceType = PriceType.Undefined;
-			using (IEnumerator enumerator = Enum.GetValues(typeof(PriceType)).GetEnumerator())
+			foreach (byte value in Enum.GetValues(typeof(PriceType)))
 			{
-				while (enumerator.MoveNext())
+				float num2 = Mathf.Abs(priceFactor - ((PriceType)value).PriceMultiplier());
+				if (num2 < num)
 				{
-					PriceType priceType2 = (PriceType)((byte)enumerator.Current);
-					float num2 = Mathf.Abs(priceFactor - priceType2.PriceMultiplier());
-					if (num2 < num)
-					{
-						num = num2;
-						priceType = priceType2;
-					}
+					num = num2;
+					priceType = (PriceType)value;
 				}
 			}
 			if (priceType == PriceType.Undefined)

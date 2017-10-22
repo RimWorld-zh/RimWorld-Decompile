@@ -16,8 +16,12 @@ namespace RimWorld
 		{
 			get
 			{
-				CompPowerTrader compPowerTrader = this.parent.TryGetComp<CompPowerTrader>();
-				return compPowerTrader == null || compPowerTrader.PowerOn;
+				CompPowerTrader compPowerTrader = base.parent.TryGetComp<CompPowerTrader>();
+				if (compPowerTrader != null && !compPowerTrader.PowerOn)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -25,7 +29,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_Facility)this.props;
+				return (CompProperties_Facility)base.props;
 			}
 		}
 
@@ -35,14 +39,23 @@ namespace RimWorld
 			Vector3 a = Gen.TrueCenter(myPos, myRot, myDef.size, myDef.Altitude);
 			for (int i = 0; i < compProperties.linkableBuildings.Count; i++)
 			{
-				foreach (Thing current in map.listerThings.ThingsOfDef(compProperties.linkableBuildings[i]))
+				List<Thing>.Enumerator enumerator = map.listerThings.ThingsOfDef(compProperties.linkableBuildings[i]).GetEnumerator();
+				try
 				{
-					CompAffectedByFacilities compAffectedByFacilities = current.TryGetComp<CompAffectedByFacilities>();
-					if (compAffectedByFacilities != null && compAffectedByFacilities.CanPotentiallyLinkTo(myDef, myPos, myRot))
+					while (enumerator.MoveNext())
 					{
-						GenDraw.DrawLineBetween(a, current.TrueCenter());
-						compAffectedByFacilities.DrawRedLineToPotentiallySupplantedFacility(myDef, myPos, myRot);
+						Thing current = enumerator.Current;
+						CompAffectedByFacilities compAffectedByFacilities = current.TryGetComp<CompAffectedByFacilities>();
+						if (compAffectedByFacilities != null && compAffectedByFacilities.CanPotentiallyLinkTo(myDef, myPos, myRot))
+						{
+							GenDraw.DrawLineBetween(a, current.TrueCenter());
+							compAffectedByFacilities.DrawRedLineToPotentiallySupplantedFacility(myDef, myPos, myRot);
+						}
 					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 		}
@@ -96,9 +109,18 @@ namespace RimWorld
 				this.thingsToNotify.Add(this.linkedBuildings[i]);
 			}
 			this.UnlinkAll();
-			foreach (Thing current in this.thingsToNotify)
+			HashSet<Thing>.Enumerator enumerator = this.thingsToNotify.GetEnumerator();
+			try
 			{
-				current.TryGetComp<CompAffectedByFacilities>().Notify_FacilityDespawned();
+				while (enumerator.MoveNext())
+				{
+					Thing current = enumerator.Current;
+					current.TryGetComp<CompAffectedByFacilities>().Notify_FacilityDespawned();
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 
@@ -107,13 +129,13 @@ namespace RimWorld
 			for (int i = 0; i < this.linkedBuildings.Count; i++)
 			{
 				CompAffectedByFacilities compAffectedByFacilities = this.linkedBuildings[i].TryGetComp<CompAffectedByFacilities>();
-				if (compAffectedByFacilities.IsFacilityActive(this.parent))
+				if (compAffectedByFacilities.IsFacilityActive(base.parent))
 				{
-					GenDraw.DrawLineBetween(this.parent.TrueCenter(), this.linkedBuildings[i].TrueCenter());
+					GenDraw.DrawLineBetween(base.parent.TrueCenter(), this.linkedBuildings[i].TrueCenter());
 				}
 				else
 				{
-					GenDraw.DrawLineBetween(this.parent.TrueCenter(), this.linkedBuildings[i].TrueCenter(), CompAffectedByFacilities.InactiveFacilityLineMat);
+					GenDraw.DrawLineBetween(base.parent.TrueCenter(), this.linkedBuildings[i].TrueCenter(), CompAffectedByFacilities.InactiveFacilityLineMat);
 				}
 			}
 		}
@@ -123,7 +145,7 @@ namespace RimWorld
 			CompProperties_Facility props = this.Props;
 			if (props.statOffsets == null)
 			{
-				return null;
+				return (string)null;
 			}
 			bool flag = this.AmIActiveForAnyone();
 			StringBuilder stringBuilder = new StringBuilder();
@@ -157,19 +179,27 @@ namespace RimWorld
 		{
 			this.UnlinkAll();
 			CompProperties_Facility props = this.Props;
-			if (props.linkableBuildings == null)
+			if (props.linkableBuildings != null)
 			{
-				return;
-			}
-			for (int i = 0; i < props.linkableBuildings.Count; i++)
-			{
-				foreach (Thing current in this.parent.Map.listerThings.ThingsOfDef(props.linkableBuildings[i]))
+				for (int i = 0; i < props.linkableBuildings.Count; i++)
 				{
-					CompAffectedByFacilities compAffectedByFacilities = current.TryGetComp<CompAffectedByFacilities>();
-					if (compAffectedByFacilities != null && compAffectedByFacilities.CanLinkTo(this.parent))
+					List<Thing>.Enumerator enumerator = base.parent.Map.listerThings.ThingsOfDef(props.linkableBuildings[i]).GetEnumerator();
+					try
 					{
-						this.linkedBuildings.Add(current);
-						compAffectedByFacilities.Notify_NewLink(this.parent);
+						while (enumerator.MoveNext())
+						{
+							Thing current = enumerator.Current;
+							CompAffectedByFacilities compAffectedByFacilities = current.TryGetComp<CompAffectedByFacilities>();
+							if (compAffectedByFacilities != null && compAffectedByFacilities.CanLinkTo(base.parent))
+							{
+								this.linkedBuildings.Add(current);
+								compAffectedByFacilities.Notify_NewLink(base.parent);
+							}
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator).Dispose();
 					}
 				}
 			}
@@ -180,7 +210,7 @@ namespace RimWorld
 			for (int i = 0; i < this.linkedBuildings.Count; i++)
 			{
 				CompAffectedByFacilities compAffectedByFacilities = this.linkedBuildings[i].TryGetComp<CompAffectedByFacilities>();
-				if (compAffectedByFacilities.IsFacilityActive(this.parent))
+				if (compAffectedByFacilities.IsFacilityActive(base.parent))
 				{
 					return true;
 				}
@@ -192,7 +222,7 @@ namespace RimWorld
 		{
 			for (int i = 0; i < this.linkedBuildings.Count; i++)
 			{
-				this.linkedBuildings[i].TryGetComp<CompAffectedByFacilities>().Notify_LinkRemoved(this.parent);
+				this.linkedBuildings[i].TryGetComp<CompAffectedByFacilities>().Notify_LinkRemoved(base.parent);
 			}
 			this.linkedBuildings.Clear();
 		}

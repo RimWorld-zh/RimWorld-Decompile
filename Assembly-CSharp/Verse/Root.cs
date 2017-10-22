@@ -27,7 +27,7 @@ namespace Verse
 		{
 			Current.Notify_LoadedSceneChanged();
 			Root.CheckGlobalInit();
-			Action action = delegate
+			Action action = (Action)delegate
 			{
 				this.soundRoot = new SoundRoot();
 				if (GenScene.InPlayScene)
@@ -43,10 +43,10 @@ namespace Verse
 			};
 			if (!PlayDataLoader.Loaded)
 			{
-				LongEventHandler.QueueLongEvent(delegate
+				LongEventHandler.QueueLongEvent((Action)delegate
 				{
 					PlayDataLoader.LoadAllPlayData(false);
-				}, null, true, null);
+				}, (string)null, true, null);
 				LongEventHandler.QueueLongEvent(action, "InitializingInterface", false, null);
 			}
 			else
@@ -57,32 +57,31 @@ namespace Verse
 
 		private static void CheckGlobalInit()
 		{
-			if (Root.globalInitDone)
+			if (!Root.globalInitDone)
 			{
-				return;
+				CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+				if (currentCulture.Name != "en-US")
+				{
+					Log.Warning("Unexpected culture: " + currentCulture + ". Resetting to en-US.");
+					Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+				}
+				SteamManager.InitIfNeeded();
+				string[] commandLineArgs = Environment.GetCommandLineArgs();
+				if (commandLineArgs != null && commandLineArgs.Length > 1)
+				{
+					Log.Message("Command line arguments: " + GenText.ToSpaceList(commandLineArgs.Skip(1)));
+				}
+				UnityData.CopyUnityData();
+				VersionControl.LogVersionNumber();
+				Application.targetFrameRate = 60;
+				Prefs.Init();
+				if (Prefs.DevMode)
+				{
+					StaticConstructorOnStartupUtility.ReportProbablyMissingAttributes();
+				}
+				LongEventHandler.QueueLongEvent(new Action(StaticConstructorOnStartupUtility.CallAll), (string)null, false, null);
+				Root.globalInitDone = true;
 			}
-			CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
-			if (currentCulture.Name != "en-US")
-			{
-				Log.Warning("Unexpected culture: " + currentCulture + ". Resetting to en-US.");
-				Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-			}
-			SteamManager.InitIfNeeded();
-			string[] commandLineArgs = Environment.GetCommandLineArgs();
-			if (commandLineArgs != null && commandLineArgs.Length > 1)
-			{
-				Log.Message("Command line arguments: " + GenText.ToSpaceList(commandLineArgs.Skip(1)));
-			}
-			UnityData.CopyUnityData();
-			VersionControl.LogVersionNumber();
-			Application.targetFrameRate = 60;
-			Prefs.Init();
-			if (Prefs.DevMode)
-			{
-				StaticConstructorOnStartupUtility.ReportProbablyMissingAttributes();
-			}
-			LongEventHandler.QueueLongEvent(new Action(StaticConstructorOnStartupUtility.CallAll), null, false, null);
-			Root.globalInitDone = true;
 		}
 
 		public virtual void Update()
@@ -90,7 +89,7 @@ namespace Verse
 			try
 			{
 				RealTime.Update();
-				bool flag;
+				bool flag = default(bool);
 				LongEventHandler.LongEventsUpdate(out flag);
 				if (flag)
 				{
@@ -115,6 +114,7 @@ namespace Verse
 			{
 				Log.Notify_Exception(e);
 				throw;
+				IL_0085:;
 			}
 		}
 
@@ -142,6 +142,7 @@ namespace Verse
 			{
 				Log.Notify_Exception(e);
 				throw;
+				IL_0075:;
 			}
 		}
 

@@ -11,7 +11,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.windowRect.size;
+				return base.windowRect.size;
 			}
 		}
 
@@ -25,14 +25,14 @@ namespace Verse
 
 		public ImmediateWindow()
 		{
-			this.doCloseButton = false;
-			this.doCloseX = false;
-			this.soundAppear = null;
-			this.soundClose = null;
-			this.closeOnClickedOutside = false;
-			this.closeOnEscapeKey = false;
-			this.focusWhenOpened = false;
-			this.preventCameraMotion = false;
+			base.doCloseButton = false;
+			base.doCloseX = false;
+			base.soundAppear = null;
+			base.soundClose = null;
+			base.closeOnClickedOutside = false;
+			base.closeOnEscapeKey = false;
+			base.focusWhenOpened = false;
+			base.preventCameraMotion = false;
 		}
 
 		public override void DoWindowContents(Rect inRect)

@@ -7,20 +7,17 @@ namespace RimWorld
 	{
 		public Alert_ShieldUserHasRangedWeapon()
 		{
-			this.defaultLabel = "ShieldUserHasRangedWeapon".Translate();
-			this.defaultExplanation = "ShieldUserHasRangedWeaponDesc".Translate();
+			base.defaultLabel = "ShieldUserHasRangedWeapon".Translate();
+			base.defaultExplanation = "ShieldUserHasRangedWeaponDesc".Translate();
 		}
 
 		public override AlertReport GetReport()
 		{
-			foreach (Pawn current in PawnsFinder.AllMaps_FreeColonistsSpawned)
+			foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
 			{
-				if (current.equipment.Primary != null && current.equipment.Primary.def.IsRangedWeapon)
+				if (item.equipment.Primary != null && item.equipment.Primary.def.IsRangedWeapon && item.apparel.WornApparel.Any((Predicate<Apparel>)((Apparel ap) => ap.def == ThingDefOf.Apparel_ShieldBelt)))
 				{
-					if (current.apparel.WornApparel.Any((Apparel ap) => ap.def == ThingDefOf.Apparel_ShieldBelt))
-					{
-						return current;
-					}
+					return (Thing)item;
 				}
 			}
 			return false;

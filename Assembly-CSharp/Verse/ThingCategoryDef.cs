@@ -32,11 +32,14 @@ namespace Verse
 		{
 			get
 			{
-				ThingCategoryDef.<>c__Iterator1E1 <>c__Iterator1E = new ThingCategoryDef.<>c__Iterator1E1();
-				<>c__Iterator1E.<>f__this = this;
-				ThingCategoryDef.<>c__Iterator1E1 expr_0E = <>c__Iterator1E;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				if (this.parent != null)
+				{
+					yield return this.parent;
+					foreach (ThingCategoryDef parent2 in this.parent.Parents)
+					{
+						yield return parent2;
+					}
+				}
 			}
 		}
 
@@ -44,11 +47,23 @@ namespace Verse
 		{
 			get
 			{
-				ThingCategoryDef.<>c__Iterator1E2 <>c__Iterator1E = new ThingCategoryDef.<>c__Iterator1E2();
-				<>c__Iterator1E.<>f__this = this;
-				ThingCategoryDef.<>c__Iterator1E2 expr_0E = <>c__Iterator1E;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				yield return this;
+				List<ThingCategoryDef>.Enumerator enumerator = this.childCategories.GetEnumerator();
+				try
+				{
+					while (enumerator.MoveNext())
+					{
+						ThingCategoryDef child = enumerator.Current;
+						foreach (ThingCategoryDef thisAndChildCategoryDef in child.ThisAndChildCategoryDefs)
+						{
+							yield return thisAndChildCategoryDef;
+						}
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
+				}
 			}
 		}
 
@@ -56,11 +71,22 @@ namespace Verse
 		{
 			get
 			{
-				ThingCategoryDef.<>c__Iterator1E3 <>c__Iterator1E = new ThingCategoryDef.<>c__Iterator1E3();
-				<>c__Iterator1E.<>f__this = this;
-				ThingCategoryDef.<>c__Iterator1E3 expr_0E = <>c__Iterator1E;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				foreach (ThingCategoryDef thisAndChildCategoryDef in this.ThisAndChildCategoryDefs)
+				{
+					List<ThingDef>.Enumerator enumerator2 = thisAndChildCategoryDef.childThingDefs.GetEnumerator();
+					try
+					{
+						while (enumerator2.MoveNext())
+						{
+							ThingDef def = enumerator2.Current;
+							yield return def;
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator2).Dispose();
+					}
+				}
 			}
 		}
 
@@ -68,11 +94,22 @@ namespace Verse
 		{
 			get
 			{
-				ThingCategoryDef.<>c__Iterator1E4 <>c__Iterator1E = new ThingCategoryDef.<>c__Iterator1E4();
-				<>c__Iterator1E.<>f__this = this;
-				ThingCategoryDef.<>c__Iterator1E4 expr_0E = <>c__Iterator1E;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				foreach (ThingCategoryDef thisAndChildCategoryDef in this.ThisAndChildCategoryDefs)
+				{
+					List<SpecialThingFilterDef>.Enumerator enumerator2 = thisAndChildCategoryDef.childSpecialFilters.GetEnumerator();
+					try
+					{
+						while (enumerator2.MoveNext())
+						{
+							SpecialThingFilterDef sf = enumerator2.Current;
+							yield return sf;
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator2).Dispose();
+					}
+				}
 			}
 		}
 
@@ -80,11 +117,22 @@ namespace Verse
 		{
 			get
 			{
-				ThingCategoryDef.<>c__Iterator1E5 <>c__Iterator1E = new ThingCategoryDef.<>c__Iterator1E5();
-				<>c__Iterator1E.<>f__this = this;
-				ThingCategoryDef.<>c__Iterator1E5 expr_0E = <>c__Iterator1E;
-				expr_0E.$PC = -2;
-				return expr_0E;
+				foreach (ThingCategoryDef parent2 in this.Parents)
+				{
+					List<SpecialThingFilterDef>.Enumerator enumerator2 = parent2.childSpecialFilters.GetEnumerator();
+					try
+					{
+						while (enumerator2.MoveNext())
+						{
+							SpecialThingFilterDef filter = enumerator2.Current;
+							yield return filter;
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator2).Dispose();
+					}
+				}
 			}
 		}
 
@@ -93,7 +141,7 @@ namespace Verse
 			this.treeNode = new TreeNode_ThingCategory(this);
 			if (!this.iconPath.NullOrEmpty())
 			{
-				LongEventHandler.ExecuteWhenFinished(delegate
+				LongEventHandler.ExecuteWhenFinished((Action)delegate
 				{
 					this.icon = ContentFinder<Texture2D>.Get(this.iconPath, true);
 				});
@@ -107,7 +155,7 @@ namespace Verse
 
 		public override int GetHashCode()
 		{
-			return this.defName.GetHashCode();
+			return base.defName.GetHashCode();
 		}
 	}
 }

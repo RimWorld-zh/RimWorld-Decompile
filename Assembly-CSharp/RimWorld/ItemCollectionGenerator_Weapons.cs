@@ -20,14 +20,14 @@ namespace RimWorld
 		protected override IEnumerable<ThingDef> AllowedDefs(ItemCollectionGeneratorParams parms)
 		{
 			TechLevel techLevel = parms.techLevel;
-			if (techLevel >= TechLevel.Spacer)
+			if ((int)techLevel >= 5)
 			{
 				return from x in ItemCollectionGenerator_Weapons.weapons
-				where x.techLevel >= TechLevel.Industrial && x.techLevel <= techLevel
+				where (int)x.techLevel >= 4 && (int)x.techLevel <= (int)techLevel
 				select x;
 			}
 			return from x in ItemCollectionGenerator_Weapons.weapons
-			where x.techLevel <= techLevel
+			where (int)x.techLevel <= (int)techLevel
 			select x;
 		}
 	}

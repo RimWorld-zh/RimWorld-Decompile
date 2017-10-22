@@ -18,11 +18,10 @@ namespace RimWorld
 		public void Tick()
 		{
 			int ticksGame = Find.TickManager.TicksGame;
-			if (ticksGame % this.def.recordTicksFrequency == 0 || !this.records.Any<float>())
-			{
-				float item = this.def.Worker.PullRecord();
-				this.records.Add(item);
-			}
+			if (ticksGame % this.def.recordTicksFrequency != 0 && this.records.Any())
+				return;
+			float item = this.def.Worker.PullRecord();
+			this.records.Add(item);
 		}
 
 		public void ExposeData()
@@ -46,9 +45,9 @@ namespace RimWorld
 			{
 				int num = array.Length / 4;
 				this.records.Clear();
-				for (int k = 0; k < num; k++)
+				for (int num2 = 0; num2 < num; num2++)
 				{
-					float item = BitConverter.ToSingle(array, k * 4);
+					float item = BitConverter.ToSingle(array, num2 * 4);
 					this.records.Add(item);
 				}
 			}

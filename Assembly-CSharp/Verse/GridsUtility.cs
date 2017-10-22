@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -89,12 +88,15 @@ namespace Verse
 		public static Thing GetRoofHolderOrImpassable(this IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
-			for (int i = 0; i < thingList.Count; i++)
+			int num = 0;
+			while (num < thingList.Count)
 			{
-				if (thingList[i].def.holdsRoof || thingList[i].def.passability == Traversability.Impassable)
+				if (!thingList[num].def.holdsRoof && thingList[num].def.passability != Traversability.Impassable)
 				{
-					return thingList[i];
+					num++;
+					continue;
 				}
+				return thingList[num];
 			}
 			return null;
 		}
@@ -247,7 +249,7 @@ namespace Verse
 			Building edifice = c.GetEdifice(map);
 			if (edifice != null)
 			{
-				IntVec3[] array = GenAdj.CellsAdjacent8Way(edifice).ToArray<IntVec3>();
+				IntVec3[] array = GenAdj.CellsAdjacent8Way(edifice).ToArray();
 				for (int i = 0; i < array.Length; i++)
 				{
 					if (array[i].InBounds(map))

@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Text;
 using UnityEngine;
 
@@ -16,19 +15,19 @@ namespace Verse
 
 		private int tendedCount;
 
-		private static readonly Color UntendedColor;
+		private static readonly Color UntendedColor = new ColorInt(116, 101, 72).ToColor;
 
-		private static readonly Texture2D TendedIcon_Need_General;
+		private static readonly Texture2D TendedIcon_Need_General = ContentFinder<Texture2D>.Get("UI/Icons/Medical/TendedNeed", true);
 
-		private static readonly Texture2D TendedIcon_Well_General;
+		private static readonly Texture2D TendedIcon_Well_General = ContentFinder<Texture2D>.Get("UI/Icons/Medical/TendedWell", true);
 
-		private static readonly Texture2D TendedIcon_Well_Injury;
+		private static readonly Texture2D TendedIcon_Well_Injury = ContentFinder<Texture2D>.Get("UI/Icons/Medical/BandageWell", true);
 
 		public HediffCompProperties_TendDuration TProps
 		{
 			get
 			{
-				return (HediffCompProperties_TendDuration)this.props;
+				return (HediffCompProperties_TendDuration)base.props;
 			}
 		}
 
@@ -36,7 +35,11 @@ namespace Verse
 		{
 			get
 			{
-				return base.CompShouldRemove || (this.TProps.disappearsAtTendedCount >= 0 && this.tendedCount >= this.TProps.disappearsAtTendedCount);
+				if (base.CompShouldRemove)
+				{
+					return true;
+				}
+				return this.TProps.disappearsAtTendedCount >= 0 && this.tendedCount >= this.TProps.disappearsAtTendedCount;
 			}
 		}
 
@@ -60,63 +63,31 @@ namespace Verse
 		{
 			get
 			{
-				if (this.parent.IsOld())
+				if (base.parent.IsOld())
 				{
-					return null;
+					return (string)null;
 				}
 				StringBuilder stringBuilder = new StringBuilder();
 				if (!this.IsTended)
 				{
-					if (!base.Pawn.Dead && this.parent.TendableNow)
+					if (!base.Pawn.Dead && base.parent.TendableNow)
 					{
 						stringBuilder.AppendLine("NeedsTendingNow".Translate());
 					}
 				}
 				else
 				{
-					string text;
-					if (this.parent.Part != null && this.parent.Part.def.IsSolid(this.parent.Part, base.Pawn.health.hediffSet.hediffs))
-					{
-						text = this.TProps.labelSolidTendedWell;
-					}
-					else if (this.parent.Part != null && this.parent.Part.depth == BodyPartDepth.Inside)
-					{
-						text = this.TProps.labelTendedWellInner;
-					}
-					else
-					{
-						text = this.TProps.labelTendedWell;
-					}
+					string text = (string)null;
+					text = ((base.parent.Part == null || !base.parent.Part.def.IsSolid(base.parent.Part, base.Pawn.health.hediffSet.hediffs)) ? ((base.parent.Part == null || base.parent.Part.depth != BodyPartDepth.Inside) ? this.TProps.labelTendedWell : this.TProps.labelTendedWellInner) : this.TProps.labelSolidTendedWell);
 					if (text != null)
 					{
-						stringBuilder.AppendLine(string.Concat(new string[]
-						{
-							text.CapitalizeFirst(),
-							" (",
-							"Quality".Translate().ToLower(),
-							" ",
-							this.tendQuality.ToStringPercent("F0"),
-							")"
-						}));
+						stringBuilder.AppendLine(text.CapitalizeFirst() + " (" + "Quality".Translate().ToLower() + " " + this.tendQuality.ToStringPercent("F0") + ")");
 					}
 					if (!base.Pawn.Dead && this.TProps.tendDuration > 0)
 					{
 						int numTicks = this.tendTick + this.TProps.tendDuration - Find.TickManager.TicksGame;
 						string text2 = numTicks.ToStringTicksToPeriod(true, false, true);
-						if ("NextTendIn".CanTranslate())
-						{
-							text2 = "NextTendIn".Translate(new object[]
-							{
-								text2
-							});
-						}
-						else
-						{
-							text2 = "NextTreatmentIn".Translate(new object[]
-							{
-								text2
-							});
-						}
+						text2 = ((!"NextTendIn".CanTranslate()) ? "NextTreatmentIn".Translate(text2) : "NextTendIn".Translate(text2));
 						stringBuilder.AppendLine(text2);
 					}
 				}
@@ -128,38 +99,25 @@ namespace Verse
 		{
 			get
 			{
-				if (this.parent is Hediff_Injury)
+				if (base.parent is Hediff_Injury)
 				{
-					if (this.IsTended && !this.parent.IsOld())
+					if (this.IsTended && !base.parent.IsOld())
 					{
 						Color color = Color.Lerp(HediffComp_TendDuration.UntendedColor, Color.white, Mathf.Clamp01(this.tendQuality));
 						return new TextureAndColor(HediffComp_TendDuration.TendedIcon_Well_Injury, color);
 					}
 				}
-				else if (!(this.parent is Hediff_MissingPart))
+				else if (!(base.parent is Hediff_MissingPart) && !base.parent.FullyImmune())
 				{
-					if (!this.parent.FullyImmune())
+					if (this.IsTended)
 					{
-						if (this.IsTended)
-						{
-							Color color2 = Color.Lerp(HediffComp_TendDuration.UntendedColor, Color.white, Mathf.Clamp01(this.tendQuality));
-							return new TextureAndColor(HediffComp_TendDuration.TendedIcon_Well_General, color2);
-						}
-						return HediffComp_TendDuration.TendedIcon_Need_General;
+						Color color2 = Color.Lerp(HediffComp_TendDuration.UntendedColor, Color.white, Mathf.Clamp01(this.tendQuality));
+						return new TextureAndColor(HediffComp_TendDuration.TendedIcon_Well_General, color2);
 					}
+					return HediffComp_TendDuration.TendedIcon_Need_General;
 				}
 				return TextureAndColor.None;
 			}
-		}
-
-		static HediffComp_TendDuration()
-		{
-			// Note: this type is marked as 'beforefieldinit'.
-			ColorInt colorInt = new ColorInt(116, 101, 72);
-			HediffComp_TendDuration.UntendedColor = colorInt.ToColor;
-			HediffComp_TendDuration.TendedIcon_Need_General = ContentFinder<Texture2D>.Get("UI/Icons/Medical/TendedNeed", true);
-			HediffComp_TendDuration.TendedIcon_Well_General = ContentFinder<Texture2D>.Get("UI/Icons/Medical/TendedWell", true);
-			HediffComp_TendDuration.TendedIcon_Well_Injury = ContentFinder<Texture2D>.Get("UI/Icons/Medical/BandageWell", true);
 		}
 
 		public override void CompExposeData()
@@ -185,20 +143,10 @@ namespace Verse
 			this.tendedCount++;
 			if (batchPosition == 0 && base.Pawn.Spawned)
 			{
-				string text = string.Concat(new string[]
-				{
-					"TextMote_Tended".Translate(new object[]
-					{
-						this.parent.Label
-					}).CapitalizeFirst(),
-					"\n",
-					"Quality".Translate(),
-					" ",
-					this.tendQuality.ToStringPercent()
-				});
+				string text = "TextMote_Tended".Translate(base.parent.Label).CapitalizeFirst() + "\n" + "Quality".Translate() + " " + this.tendQuality.ToStringPercent();
 				MoteMaker.ThrowText(base.Pawn.DrawPos, base.Pawn.Map, text, Color.white, 3.65f);
 			}
-			base.Pawn.health.Notify_HediffChanged(this.parent);
+			base.Pawn.health.Notify_HediffChanged(base.parent);
 		}
 
 		public override string CompDebugString()
@@ -221,13 +169,7 @@ namespace Verse
 			}
 			if (this.TProps.disappearsAtTendedCount >= 0)
 			{
-				stringBuilder.AppendLine(string.Concat(new object[]
-				{
-					"tended count: ",
-					this.tendedCount,
-					" / ",
-					this.TProps.disappearsAtTendedCount
-				}));
+				stringBuilder.AppendLine("tended count: " + this.tendedCount + " / " + this.TProps.disappearsAtTendedCount);
 			}
 			return stringBuilder.ToString().Trim();
 		}

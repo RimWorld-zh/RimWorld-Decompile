@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -21,14 +19,14 @@ namespace RimWorld
 
 		public Designator_Slaughter()
 		{
-			this.defaultLabel = "DesignatorSlaughter".Translate();
-			this.defaultDesc = "DesignatorSlaughterDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/Slaughter", true);
-			this.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			this.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			this.useMouseIcon = true;
-			this.soundSucceeded = SoundDefOf.DesignateHunt;
-			this.hotKey = KeyBindingDefOf.Misc11;
+			base.defaultLabel = "DesignatorSlaughter".Translate();
+			base.defaultDesc = "DesignatorSlaughterDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/Slaughter", true);
+			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
+			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.useMouseIcon = true;
+			base.soundSucceeded = SoundDefOf.DesignateHunt;
+			base.hotKey = KeyBindingDefOf.Misc11;
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
@@ -37,7 +35,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (!this.SlaughterablesInCell(c).Any<Pawn>())
+			if (!this.SlaughterablesInCell(c).Any())
 			{
 				return "MessageMustDesignateSlaughterable".Translate();
 			}
@@ -46,9 +44,9 @@ namespace RimWorld
 
 		public override void DesignateSingleCell(IntVec3 loc)
 		{
-			foreach (Pawn current in this.SlaughterablesInCell(loc))
+			foreach (Pawn item in this.SlaughterablesInCell(loc))
 			{
-				this.DesignateThing(current);
+				this.DesignateThing(item);
 			}
 		}
 
@@ -78,16 +76,19 @@ namespace RimWorld
 			this.justDesignated.Clear();
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<Pawn> SlaughterablesInCell(IntVec3 c)
 		{
-			Designator_Slaughter.<SlaughterablesInCell>c__Iterator192 <SlaughterablesInCell>c__Iterator = new Designator_Slaughter.<SlaughterablesInCell>c__Iterator192();
-			<SlaughterablesInCell>c__Iterator.c = c;
-			<SlaughterablesInCell>c__Iterator.<$>c = c;
-			<SlaughterablesInCell>c__Iterator.<>f__this = this;
-			Designator_Slaughter.<SlaughterablesInCell>c__Iterator192 expr_1C = <SlaughterablesInCell>c__Iterator;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (!c.Fogged(base.Map))
+			{
+				List<Thing> thingList = c.GetThingList(base.Map);
+				for (int i = 0; i < thingList.Count; i++)
+				{
+					if (this.CanDesignateThing(thingList[i]).Accepted)
+					{
+						yield return (Pawn)thingList[i];
+					}
+				}
+			}
 		}
 	}
 }

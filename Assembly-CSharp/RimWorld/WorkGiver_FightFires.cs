@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -42,11 +41,11 @@ namespace RimWorld
 				{
 					return false;
 				}
-				if ((pawn2.Faction == pawn.Faction || pawn2.HostFaction == pawn.Faction || pawn2.HostFaction == pawn.HostFaction) && !pawn.Map.areaManager.Home[fire.Position] && IntVec3Utility.ManhattanDistanceFlat(pawn.Position, pawn2.Position) > 15)
+				if ((pawn2.Faction == pawn.Faction || pawn2.HostFaction == pawn.Faction || pawn2.HostFaction == pawn.HostFaction) && !((Area)pawn.Map.areaManager.Home)[fire.Position] && IntVec3Utility.ManhattanDistanceFlat(pawn.Position, pawn2.Position) > 15)
 				{
 					return false;
 				}
-				if (!pawn.CanReach(pawn2, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+				if (!pawn.CanReach((Thing)pawn2, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
 				{
 					return false;
 				}
@@ -57,7 +56,7 @@ namespace RimWorld
 				{
 					return false;
 				}
-				if (!pawn.Map.areaManager.Home[fire.Position])
+				if (!((Area)pawn.Map.areaManager.Home)[fire.Position])
 				{
 					JobFailReason.Is(WorkGiver_FixBrokenDownBuilding.NotInHomeAreaTrans);
 					return false;
@@ -67,7 +66,15 @@ namespace RimWorld
 					return false;
 				}
 			}
-			return ((pawn.Position - fire.Position).LengthHorizontalSquared <= 225 || pawn.CanReserve(fire, 1, -1, null, forced)) && !WorkGiver_FightFires.FireIsBeingHandled(fire, pawn);
+			if ((pawn.Position - fire.Position).LengthHorizontalSquared > 225 && !pawn.CanReserve((Thing)fire, 1, -1, null, forced))
+			{
+				return false;
+			}
+			if (WorkGiver_FightFires.FireIsBeingHandled(fire, pawn))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -81,7 +88,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			Pawn pawn = f.Map.reservationManager.FirstReserverWhoseReservationsRespects(f, potentialHandler);
+			Pawn pawn = f.Map.reservationManager.FirstReserverWhoseReservationsRespects((Thing)f, potentialHandler);
 			return pawn != null && pawn.Position.InHorDistOf(f.Position, 5f);
 		}
 	}

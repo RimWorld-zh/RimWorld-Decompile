@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld
 {
 	public class TransferableComparer_MarketValue : TransferableComparer

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Verse;
 
@@ -31,9 +30,9 @@ namespace RimWorld
 			int int2 = Rand.Int;
 			ScenarioMaker.scen = new Scenario();
 			ScenarioMaker.scen.Category = ScenarioCategory.CustomLocal;
-			ScenarioMaker.scen.name = NameGenerator.GenerateName(RulePackDefOf.NamerScenario, null, false);
-			ScenarioMaker.scen.description = null;
-			ScenarioMaker.scen.summary = null;
+			ScenarioMaker.scen.name = NameGenerator.GenerateName(RulePackDefOf.NamerScenario, (Predicate<string>)null, false);
+			ScenarioMaker.scen.description = (string)null;
+			ScenarioMaker.scen.summary = (string)null;
 			Rand.Seed = @int;
 			ScenarioMaker.scen.playerFaction = (ScenPart_PlayerFaction)ScenarioMaker.MakeScenPart(ScenPartDefOf.PlayerFaction);
 			ScenarioMaker.scen.parts.Add(ScenarioMaker.MakeScenPart(ScenPartDefOf.ConfigPage_ConfigureStartingPawns));
@@ -53,24 +52,21 @@ namespace RimWorld
 			Rand.Seed = array[6];
 			ScenarioMaker.AddCategoryScenParts(ScenarioMaker.scen, ScenPartCategory.GameCondition, Rand.RangeInclusive(-1, 2));
 			Rand.Seed = int2;
-			foreach (ScenPart current in ScenarioMaker.scen.AllParts)
+			foreach (ScenPart allPart in ScenarioMaker.scen.AllParts)
 			{
-				current.Randomize();
+				allPart.Randomize();
 			}
 			for (int j = 0; j < ScenarioMaker.scen.parts.Count; j++)
 			{
 				for (int k = 0; k < ScenarioMaker.scen.parts.Count; k++)
 				{
-					if (j != k)
+					if (j != k && ScenarioMaker.scen.parts[j].TryMerge(ScenarioMaker.scen.parts[k]))
 					{
-						if (ScenarioMaker.scen.parts[j].TryMerge(ScenarioMaker.scen.parts[k]))
+						ScenarioMaker.scen.parts.RemoveAt(k);
+						k--;
+						if (j > k)
 						{
-							ScenarioMaker.scen.parts.RemoveAt(k);
-							k--;
-							if (j > k)
-							{
-								j--;
-							}
+							j--;
 						}
 					}
 				}
@@ -79,23 +75,20 @@ namespace RimWorld
 			{
 				for (int m = 0; m < ScenarioMaker.scen.parts.Count; m++)
 				{
-					if (l != m)
+					if (l != m && !ScenarioMaker.scen.parts[l].CanCoexistWith(ScenarioMaker.scen.parts[m]))
 					{
-						if (!ScenarioMaker.scen.parts[l].CanCoexistWith(ScenarioMaker.scen.parts[m]))
+						ScenarioMaker.scen.parts.RemoveAt(m);
+						m--;
+						if (l > m)
 						{
-							ScenarioMaker.scen.parts.RemoveAt(m);
-							m--;
-							if (l > m)
-							{
-								l--;
-							}
+							l--;
 						}
 					}
 				}
 			}
-			foreach (string current2 in ScenarioMaker.scen.ConfigErrors())
+			foreach (string item in ScenarioMaker.scen.ConfigErrors())
 			{
-				Log.Error(current2);
+				Log.Error(item);
 			}
 			Rand.PopState();
 			Scenario result = ScenarioMaker.scen;
@@ -108,25 +101,41 @@ namespace RimWorld
 			scen.parts.AddRange(ScenarioMaker.RandomScenPartsOfCategory(scen, cat, count));
 		}
 
-		[DebuggerHidden]
 		private static IEnumerable<ScenPart> RandomScenPartsOfCategory(Scenario scen, ScenPartCategory cat, int count)
 		{
-			ScenarioMaker.<RandomScenPartsOfCategory>c__Iterator129 <RandomScenPartsOfCategory>c__Iterator = new ScenarioMaker.<RandomScenPartsOfCategory>c__Iterator129();
-			<RandomScenPartsOfCategory>c__Iterator.count = count;
-			<RandomScenPartsOfCategory>c__Iterator.scen = scen;
-			<RandomScenPartsOfCategory>c__Iterator.cat = cat;
-			<RandomScenPartsOfCategory>c__Iterator.<$>count = count;
-			<RandomScenPartsOfCategory>c__Iterator.<$>scen = scen;
-			<RandomScenPartsOfCategory>c__Iterator.<$>cat = cat;
-			ScenarioMaker.<RandomScenPartsOfCategory>c__Iterator129 expr_31 = <RandomScenPartsOfCategory>c__Iterator;
-			expr_31.$PC = -2;
-			return expr_31;
+			if (count > 0)
+			{
+				IEnumerable<ScenPartDef> allowedParts = from d in ScenarioMaker.AddableParts(scen)
+				where d.category == ((_003CRandomScenPartsOfCategory_003Ec__Iterator129)/*Error near IL_003e: stateMachine*/).cat
+				select d;
+				int numYielded = 0;
+				int numTries = 0;
+				while (true)
+				{
+					if (numYielded < count && allowedParts.Any())
+					{
+						ScenPartDef def = allowedParts.RandomElementByWeight((Func<ScenPartDef, float>)((ScenPartDef d) => d.selectionWeight));
+						ScenPart newPart = ScenarioMaker.MakeScenPart(def);
+						if (ScenarioMaker.CanAddPart(scen, newPart))
+						{
+							yield return newPart;
+							numYielded++;
+						}
+						numTries++;
+						if (numTries > 100)
+							break;
+						continue;
+					}
+					yield break;
+				}
+				Log.Error("Could not add ScenPart of category " + cat + " to scenario " + scen + " after 50 tries.");
+			}
 		}
 
 		public static IEnumerable<ScenPartDef> AddableParts(Scenario scen)
 		{
 			return from d in DefDatabase<ScenPartDef>.AllDefs
-			where scen.AllParts.Count((ScenPart p) => p.def == d) < d.maxUses
+			where scen.AllParts.Count((Func<ScenPart, bool>)((ScenPart p) => p.def == d)) < d.maxUses
 			select d;
 		}
 

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -15,7 +14,7 @@ namespace RimWorld
 			{
 				return false;
 			}
-			if (LovePartnerRelationUtility.IncestOpinionOffsetFor(other, pawn) == 0f)
+			if (LovePartnerRelationUtility.IncestOpinionOffsetFor(other, pawn) == 0.0)
 			{
 				return false;
 			}

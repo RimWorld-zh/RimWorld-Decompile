@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.Noise
 {
 	public class Translate : ModuleBase
@@ -52,12 +50,12 @@ namespace Verse.Noise
 
 		public Translate(ModuleBase input) : base(1)
 		{
-			this.modules[0] = input;
+			base.modules[0] = input;
 		}
 
 		public Translate(double x, double y, double z, ModuleBase input) : base(1)
 		{
-			this.modules[0] = input;
+			base.modules[0] = input;
 			this.X = x;
 			this.Y = y;
 			this.Z = z;
@@ -65,7 +63,7 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
-			return this.modules[0].GetValue(x + this.m_x, y + this.m_y, z + this.m_z);
+			return base.modules[0].GetValue(x + this.m_x, y + this.m_y, z + this.m_z);
 		}
 	}
 }

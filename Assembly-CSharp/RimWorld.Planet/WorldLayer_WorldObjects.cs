@@ -1,6 +1,7 @@
-using System;
 using System.Collections;
-using System.Diagnostics;
+using System.Collections.Generic;
+using UnityEngine;
+using Verse;
 
 namespace RimWorld.Planet
 {
@@ -8,14 +9,34 @@ namespace RimWorld.Planet
 	{
 		protected abstract bool ShouldSkip(WorldObject worldObject);
 
-		[DebuggerHidden]
 		public override IEnumerable Regenerate()
 		{
-			WorldLayer_WorldObjects.<Regenerate>c__IteratorFA <Regenerate>c__IteratorFA = new WorldLayer_WorldObjects.<Regenerate>c__IteratorFA();
-			<Regenerate>c__IteratorFA.<>f__this = this;
-			WorldLayer_WorldObjects.<Regenerate>c__IteratorFA expr_0E = <Regenerate>c__IteratorFA;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (object item in base.Regenerate())
+			{
+				yield return item;
+			}
+			List<WorldObject> allObjects = Find.WorldObjects.AllWorldObjects;
+			for (int i = 0; i < allObjects.Count; i++)
+			{
+				WorldObject o = allObjects[i];
+				if (!o.def.useDynamicDrawer && !this.ShouldSkip(o))
+				{
+					Material mat = o.Material;
+					if ((Object)mat == (Object)null)
+					{
+						Log.ErrorOnce("World object " + o + " returned null material.", Gen.HashCombineInt(1948576891, o.ID));
+					}
+					else
+					{
+						LayerSubMesh subMesh = base.GetSubMesh(mat);
+						Rand.PushState();
+						Rand.Seed = o.ID;
+						o.Print(subMesh);
+						Rand.PopState();
+					}
+				}
+			}
+			base.FinalizeMesh(MeshParts.All, false);
 		}
 	}
 }

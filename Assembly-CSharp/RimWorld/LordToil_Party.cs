@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -16,14 +15,14 @@ namespace RimWorld
 		{
 			get
 			{
-				return (LordToilData_Party)this.data;
+				return (LordToilData_Party)base.data;
 			}
 		}
 
 		public LordToil_Party(IntVec3 spot)
 		{
 			this.spot = spot;
-			this.data = new LordToilData_Party();
+			base.data = new LordToilData_Party();
 			this.Data.ticksToNextPulse = 600;
 		}
 
@@ -34,9 +33,9 @@ namespace RimWorld
 
 		public override void UpdateAllDuties()
 		{
-			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
-				this.lord.ownedPawns[i].mindState.duty = new PawnDuty(DutyDefOf.Party, this.spot, -1f);
+				base.lord.ownedPawns[i].mindState.duty = new PawnDuty(DutyDefOf.Party, this.spot, -1f);
 			}
 		}
 
@@ -45,7 +44,7 @@ namespace RimWorld
 			if (--this.Data.ticksToNextPulse <= 0)
 			{
 				this.Data.ticksToNextPulse = 600;
-				List<Pawn> ownedPawns = this.lord.ownedPawns;
+				List<Pawn> ownedPawns = base.lord.ownedPawns;
 				for (int i = 0; i < ownedPawns.Count; i++)
 				{
 					if (PartyUtility.InPartyArea(ownedPawns[i].Position, this.spot, base.Map))

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -16,14 +15,14 @@ namespace Verse
 				for (int j = cellRect.minZ; j <= cellRect.maxZ; j++)
 				{
 					sm.verts.Add(new Vector3((float)i, y, (float)j));
-					sm.verts.Add(new Vector3((float)i, y, (float)j + 0.5f));
+					sm.verts.Add(new Vector3((float)i, y, (float)((float)j + 0.5)));
 					sm.verts.Add(new Vector3((float)i, y, (float)(j + 1)));
-					sm.verts.Add(new Vector3((float)i + 0.5f, y, (float)(j + 1)));
+					sm.verts.Add(new Vector3((float)((float)i + 0.5), y, (float)(j + 1)));
 					sm.verts.Add(new Vector3((float)(i + 1), y, (float)(j + 1)));
-					sm.verts.Add(new Vector3((float)(i + 1), y, (float)j + 0.5f));
+					sm.verts.Add(new Vector3((float)(i + 1), y, (float)((float)j + 0.5)));
 					sm.verts.Add(new Vector3((float)(i + 1), y, (float)j));
-					sm.verts.Add(new Vector3((float)i + 0.5f, y, (float)j));
-					sm.verts.Add(new Vector3((float)i + 0.5f, y, (float)j + 0.5f));
+					sm.verts.Add(new Vector3((float)((float)i + 0.5), y, (float)j));
+					sm.verts.Add(new Vector3((float)((float)i + 0.5), y, (float)((float)j + 0.5)));
 				}
 			}
 			int num = cellRect.Area * 8 * 3;

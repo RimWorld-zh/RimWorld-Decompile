@@ -208,19 +208,34 @@ namespace RimWorld.Planet
 			switch (overallTemperature)
 			{
 			case OverallTemperature.VeryCold:
+			{
 				return OverallTemperatureUtility.Curve_VeryCold;
+			}
 			case OverallTemperature.Cold:
+			{
 				return OverallTemperatureUtility.Curve_Cold;
+			}
 			case OverallTemperature.LittleBitColder:
+			{
 				return OverallTemperatureUtility.Curve_LittleBitColder;
+			}
 			case OverallTemperature.LittleBitWarmer:
+			{
 				return OverallTemperatureUtility.Curve_LittleBitWarmer;
+			}
 			case OverallTemperature.Hot:
+			{
 				return OverallTemperatureUtility.Curve_Hot;
+			}
 			case OverallTemperature.VeryHot:
+			{
 				return OverallTemperatureUtility.Curve_VeryHot;
 			}
-			return null;
+			default:
+			{
+				return null;
+			}
+			}
 		}
 	}
 }

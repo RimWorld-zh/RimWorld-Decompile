@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse.Sound;
 
@@ -14,7 +13,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.airTimeLeft > 0f;
+				return this.airTimeLeft > 0.0;
 			}
 		}
 
@@ -22,7 +21,7 @@ namespace Verse
 		{
 			get
 			{
-				return !this.Flying && this.Speed > 0.01f;
+				return !this.Flying && this.Speed > 0.0099999997764825821;
 			}
 		}
 
@@ -58,80 +57,76 @@ namespace Verse
 			}
 			set
 			{
-				if (value == 0f)
+				if (value == 0.0)
 				{
 					this.velocity = Vector3.zero;
-					return;
 				}
-				if (this.velocity == Vector3.zero)
+				else if (this.velocity == Vector3.zero)
 				{
 					this.velocity = new Vector3(value, 0f, 0f);
-					return;
 				}
-				this.velocity = this.velocity.normalized * value;
+				else
+				{
+					this.velocity = this.velocity.normalized * value;
+				}
 			}
 		}
 
 		protected override void TimeInterval(float deltaTime)
 		{
 			base.TimeInterval(deltaTime);
-			if (base.Destroyed)
+			if (!base.Destroyed && (this.Flying || this.Skidding))
 			{
-				return;
-			}
-			if (!this.Flying && !this.Skidding)
-			{
-				return;
-			}
-			Vector3 vector = this.NextExactPosition(deltaTime);
-			IntVec3 intVec = new IntVec3(vector);
-			if (intVec != base.Position)
-			{
-				if (!intVec.InBounds(base.Map))
+				Vector3 vector = this.NextExactPosition(deltaTime);
+				IntVec3 intVec = new IntVec3(vector);
+				if (intVec != base.Position)
 				{
-					this.Destroy(DestroyMode.Vanish);
-					return;
+					if (!intVec.InBounds(base.Map))
+					{
+						this.Destroy(DestroyMode.Vanish);
+						return;
+					}
+					if (base.def.mote.collide && intVec.Filled(base.Map))
+					{
+						this.WallHit();
+						return;
+					}
 				}
-				if (this.def.mote.collide && intVec.Filled(base.Map))
+				base.Position = intVec;
+				base.exactPosition = vector;
+				base.exactRotation += base.rotationRate * deltaTime;
+				this.velocity += base.def.mote.acceleration * deltaTime;
+				if (base.def.mote.speedPerTime != 0.0)
 				{
-					this.WallHit();
-					return;
+					this.Speed = Mathf.Max(this.Speed + base.def.mote.speedPerTime * deltaTime, 0f);
 				}
-			}
-			base.Position = intVec;
-			this.exactPosition = vector;
-			this.exactRotation += this.rotationRate * deltaTime;
-			this.velocity += this.def.mote.acceleration * deltaTime;
-			if (this.def.mote.speedPerTime != 0f)
-			{
-				this.Speed = Mathf.Max(this.Speed + this.def.mote.speedPerTime * deltaTime, 0f);
-			}
-			if (this.airTimeLeft > 0f)
-			{
-				this.airTimeLeft -= deltaTime;
-				if (this.airTimeLeft < 0f)
+				if (this.airTimeLeft > 0.0)
 				{
-					this.airTimeLeft = 0f;
+					this.airTimeLeft -= deltaTime;
+					if (this.airTimeLeft < 0.0)
+					{
+						this.airTimeLeft = 0f;
+					}
+					if (this.airTimeLeft <= 0.0 && !base.def.mote.landSound.NullOrUndefined())
+					{
+						base.def.mote.landSound.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
+					}
 				}
-				if (this.airTimeLeft <= 0f && !this.def.mote.landSound.NullOrUndefined())
+				if (this.Skidding)
 				{
-					this.def.mote.landSound.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
-				}
-			}
-			if (this.Skidding)
-			{
-				this.Speed *= this.skidSpeedMultiplierPerTick;
-				this.rotationRate *= this.skidSpeedMultiplierPerTick;
-				if (this.Speed < 0.02f)
-				{
-					this.Speed = 0f;
+					this.Speed *= base.skidSpeedMultiplierPerTick;
+					base.rotationRate *= base.skidSpeedMultiplierPerTick;
+					if (this.Speed < 0.019999999552965164)
+					{
+						this.Speed = 0f;
+					}
 				}
 			}
 		}
 
 		protected virtual Vector3 NextExactPosition(float deltaTime)
 		{
-			return this.exactPosition + this.velocity * deltaTime;
+			return base.exactPosition + this.velocity * deltaTime;
 		}
 
 		public void SetVelocity(float angle, float speed)
@@ -143,7 +138,7 @@ namespace Verse
 		{
 			this.airTimeLeft = 0f;
 			this.Speed = 0f;
-			this.rotationRate = 0f;
+			base.rotationRate = 0f;
 		}
 	}
 }

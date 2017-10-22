@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 
 namespace RimWorld
 {
@@ -16,7 +15,7 @@ namespace RimWorld
 
 		public static float PermaIceScore(Tile tile)
 		{
-			return -20f + -tile.temperature * 2f;
+			return (float)(-20.0 + (0.0 - tile.temperature) * 2.0);
 		}
 	}
 }

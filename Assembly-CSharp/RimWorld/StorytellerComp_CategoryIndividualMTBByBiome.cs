@@ -1,6 +1,7 @@
+using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Verse;
 
 namespace RimWorld
 {
@@ -10,20 +11,32 @@ namespace RimWorld
 		{
 			get
 			{
-				return (StorytellerCompProperties_CategoryIndividualMTBByBiome)this.props;
+				return (StorytellerCompProperties_CategoryIndividualMTBByBiome)base.props;
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			StorytellerComp_CategoryIndividualMTBByBiome.<MakeIntervalIncidents>c__IteratorA7 <MakeIntervalIncidents>c__IteratorA = new StorytellerComp_CategoryIndividualMTBByBiome.<MakeIntervalIncidents>c__IteratorA7();
-			<MakeIntervalIncidents>c__IteratorA.target = target;
-			<MakeIntervalIncidents>c__IteratorA.<$>target = target;
-			<MakeIntervalIncidents>c__IteratorA.<>f__this = this;
-			StorytellerComp_CategoryIndividualMTBByBiome.<MakeIntervalIncidents>c__IteratorA7 expr_1C = <MakeIntervalIncidents>c__IteratorA;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (!(target is World))
+			{
+				List<IncidentDef> allIncidents = DefDatabase<IncidentDef>.AllDefsListForReading;
+				for (int i = 0; i < allIncidents.Count; i++)
+				{
+					IncidentDef inc = allIncidents[i];
+					if (inc.category == this.Props.category)
+					{
+						BiomeDef biome = Find.WorldGrid[target.Tile].biome;
+						if (inc.mtbDaysByBiome != null)
+						{
+							MTBByBiome entry = inc.mtbDaysByBiome.Find((Predicate<MTBByBiome>)((MTBByBiome x) => x.biome == ((_003CMakeIntervalIncidents_003Ec__IteratorA7)/*Error near IL_00c5: stateMachine*/)._003Cbiome_003E__3));
+							if (entry != null && Rand.MTBEventOccurs(entry.mtbDays, 60000f, 1000f) && inc.Worker.CanFireNow(target))
+							{
+								yield return new FiringIncident(inc, this, this.GenerateParms(inc.category, target));
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

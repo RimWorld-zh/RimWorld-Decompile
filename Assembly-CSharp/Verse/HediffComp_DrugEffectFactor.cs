@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -21,7 +20,7 @@ namespace Verse
 		{
 			get
 			{
-				return (HediffCompProperties_DrugEffectFactor)this.props;
+				return (HediffCompProperties_DrugEffectFactor)base.props;
 			}
 		}
 
@@ -29,7 +28,7 @@ namespace Verse
 		{
 			get
 			{
-				return HediffComp_DrugEffectFactor.EffectFactorSeverityCurve.Evaluate(this.parent.Severity);
+				return HediffComp_DrugEffectFactor.EffectFactorSeverityCurve.Evaluate(base.parent.Severity);
 			}
 		}
 
@@ -37,11 +36,7 @@ namespace Verse
 		{
 			get
 			{
-				return "DrugEffectMultiplier".Translate(new object[]
-				{
-					this.Props.chemical.label,
-					this.CurrentFactor.ToStringPercent()
-				}).CapitalizeFirst();
+				return "DrugEffectMultiplier".Translate(this.Props.chemical.label, this.CurrentFactor.ToStringPercent()).CapitalizeFirst();
 			}
 		}
 

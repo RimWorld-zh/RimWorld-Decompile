@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public static class ThingCompUtility
@@ -9,7 +7,7 @@ namespace Verse
 			ThingWithComps thingWithComps = thing as ThingWithComps;
 			if (thingWithComps == null)
 			{
-				return (T)((object)null);
+				return (T)null;
 			}
 			return thingWithComps.GetComp<T>();
 		}

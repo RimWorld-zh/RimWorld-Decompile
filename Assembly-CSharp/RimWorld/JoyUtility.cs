@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using Verse;
 using Verse.AI;
@@ -12,7 +11,7 @@ namespace RimWorld
 
 		public static bool EnjoyableOutsideNow(Map map, StringBuilder outFailReason = null)
 		{
-			if (map.weatherManager.RainRate >= 0.25f)
+			if (map.weatherManager.RainRate >= 0.25)
 			{
 				if (outFailReason != null)
 				{
@@ -20,7 +19,7 @@ namespace RimWorld
 				}
 				return false;
 			}
-			GameConditionDef gameConditionDef;
+			GameConditionDef gameConditionDef = default(GameConditionDef);
 			if (!map.gameConditionManager.AllowEnjoyableOutsideNow(out gameConditionDef))
 			{
 				if (outFailReason != null)
@@ -60,26 +59,33 @@ namespace RimWorld
 			if (curJob.def.joyKind == null)
 			{
 				Log.Warning("This method can only be called for jobs with joyKind.");
-				return;
 			}
-			pawn.needs.joy.GainJoy(extraJoyGainFactor * curJob.def.joyGainRate * 0.000144f, curJob.def.joyKind);
-			if (curJob.def.joySkill != null)
+			else
 			{
-				pawn.skills.GetSkill(curJob.def.joySkill).Learn(curJob.def.joyXpPerTick, false);
-			}
-			if (!curJob.ignoreJoyTimeAssignment && !pawn.GetTimeAssignment().allowJoy)
-			{
-				pawn.jobs.curDriver.EndJobWith(JobCondition.InterruptForced);
-			}
-			if (pawn.needs.joy.CurLevel > 0.9999f)
-			{
-				if (fullJoyAction == JoyTickFullJoyAction.EndJob)
+				pawn.needs.joy.GainJoy((float)(extraJoyGainFactor * curJob.def.joyGainRate * 0.00014400000509340316), curJob.def.joyKind);
+				if (curJob.def.joySkill != null)
 				{
-					pawn.jobs.curDriver.EndJobWith(JobCondition.Succeeded);
+					pawn.skills.GetSkill(curJob.def.joySkill).Learn(curJob.def.joyXpPerTick, false);
 				}
-				else if (fullJoyAction == JoyTickFullJoyAction.GoToNextToil)
+				if (!curJob.ignoreJoyTimeAssignment && !pawn.GetTimeAssignment().allowJoy)
 				{
-					pawn.jobs.curDriver.ReadyForNextToil();
+					pawn.jobs.curDriver.EndJobWith(JobCondition.InterruptForced);
+				}
+				if (pawn.needs.joy.CurLevel > 0.99989998340606689)
+				{
+					switch (fullJoyAction)
+					{
+					case JoyTickFullJoyAction.EndJob:
+					{
+						pawn.jobs.curDriver.EndJobWith(JobCondition.Succeeded);
+						break;
+					}
+					case JoyTickFullJoyAction.GoToNextToil:
+					{
+						pawn.jobs.curDriver.ReadyForNextToil();
+						break;
+					}
+					}
 				}
 			}
 		}
@@ -100,13 +106,21 @@ namespace RimWorld
 		public static bool LordPreventsGettingJoy(Pawn pawn)
 		{
 			Lord lord = pawn.GetLord();
-			return lord != null && !lord.CurLordToil.AllowSatisfyLongNeeds;
+			if (lord != null && !lord.CurLordToil.AllowSatisfyLongNeeds)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool TimetablePreventsGettingJoy(Pawn pawn)
 		{
 			TimeAssignmentDef timeAssignmentDef = (pawn.timetable != null) ? pawn.timetable.CurrentAssignment : TimeAssignmentDefOf.Anything;
-			return !timeAssignmentDef.allowJoy;
+			if (!timeAssignmentDef.allowJoy)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

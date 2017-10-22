@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -40,34 +39,35 @@ namespace Verse
 
 		public override void StanceDraw()
 		{
-			if (Find.Selector.IsSelected(this.stanceTracker.pawn))
+			if (Find.Selector.IsSelected(base.stanceTracker.pawn))
 			{
-				GenDraw.DrawAimPie(this.stanceTracker.pawn, this.focusTarg, (int)((float)this.ticksLeft * this.pieSizeFactor), 0.2f);
+				GenDraw.DrawAimPie(base.stanceTracker.pawn, base.focusTarg, (int)((float)base.ticksLeft * base.pieSizeFactor), 0.2f);
 			}
 		}
 
 		public override void StanceTick()
 		{
-			if (!this.targetStartedDowned && this.focusTarg.HasThing && this.focusTarg.Thing is Pawn && ((Pawn)this.focusTarg.Thing).Downed)
+			if (!this.targetStartedDowned && base.focusTarg.HasThing && base.focusTarg.Thing is Pawn && ((Pawn)base.focusTarg.Thing).Downed)
 			{
-				this.stanceTracker.SetStance(new Stance_Mobile());
-				return;
+				base.stanceTracker.SetStance(new Stance_Mobile());
 			}
-			if (this.focusTarg.HasThing && (!this.focusTarg.Thing.Spawned || !this.verb.CanHitTargetFrom(base.Pawn.Position, this.focusTarg)))
+			else if (base.focusTarg.HasThing && (!base.focusTarg.Thing.Spawned || !base.verb.CanHitTargetFrom(base.Pawn.Position, base.focusTarg)))
 			{
-				this.stanceTracker.SetStance(new Stance_Mobile());
-				return;
+				base.stanceTracker.SetStance(new Stance_Mobile());
 			}
-			if (this.focusTarg == base.Pawn.mindState.enemyTarget)
+			else
 			{
-				base.Pawn.mindState.Notify_EngagedTarget();
+				if (base.focusTarg == base.Pawn.mindState.enemyTarget)
+				{
+					base.Pawn.mindState.Notify_EngagedTarget();
+				}
+				base.StanceTick();
 			}
-			base.StanceTick();
 		}
 
 		protected override void Expire()
 		{
-			this.verb.WarmupComplete();
+			base.verb.WarmupComplete();
 			base.Expire();
 		}
 	}

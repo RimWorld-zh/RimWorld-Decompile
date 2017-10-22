@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -33,8 +32,7 @@ namespace RimWorld.Planet
 		public static void UpdateWorldShadersParams()
 		{
 			Vector3 v = -GenCelestial.CurSunPositionInWorldSpace();
-			bool usePlanetDayNightSystem = Find.PlaySettings.usePlanetDayNightSystem;
-			float value = (!usePlanetDayNightSystem) ? 0f : 1f;
+			float value = (float)((!Find.PlaySettings.usePlanetDayNightSystem) ? 0.0 : 1.0);
 			Shader.SetGlobalVector(ShaderPropertyIDs.PlanetSunLightDirection, v);
 			Shader.SetGlobalFloat(ShaderPropertyIDs.PlanetSunLightEnabled, value);
 			WorldMaterials.PlanetGlow.SetFloat(ShaderPropertyIDs.PlanetRadius, 100f);
@@ -48,11 +46,11 @@ namespace RimWorld.Planet
 
 		public static void PrintQuadTangentialToPlanet(Vector3 pos, Vector3 posForTangents, float size, float altOffset, LayerSubMesh subMesh, bool counterClockwise = false, bool randomizeRotation = false, bool printUVs = true)
 		{
-			Vector3 a;
-			Vector3 a2;
+			Vector3 a = default(Vector3);
+			Vector3 a2 = default(Vector3);
 			WorldRendererUtility.GetTangentsToPlanet(posForTangents, out a, out a2, randomizeRotation);
 			Vector3 normalized = posForTangents.normalized;
-			float d = size * 0.5f;
+			float d = (float)(size * 0.5);
 			Vector3 item = pos - a * d - a2 * d + normalized * altOffset;
 			Vector3 item2 = pos - a * d + a2 * d + normalized * altOffset;
 			Vector3 item3 = pos + a * d + a2 * d + normalized * altOffset;
@@ -91,47 +89,33 @@ namespace RimWorld.Planet
 
 		public static void DrawQuadTangentialToPlanet(Vector3 pos, float size, float altOffset, Material material, bool counterClockwise = false, bool useSkyboxLayer = false, MaterialPropertyBlock propertyBlock = null)
 		{
-			if (material == null)
+			if ((Object)material == (Object)null)
 			{
 				Log.Warning("Tried to draw quad with null material.");
-				return;
-			}
-			Vector3 normalized = pos.normalized;
-			Vector3 vector;
-			if (counterClockwise)
-			{
-				vector = -normalized;
 			}
 			else
 			{
-				vector = normalized;
-			}
-			Quaternion q = Quaternion.LookRotation(Vector3.Cross(vector, Vector3.up), vector);
-			Vector3 s = new Vector3(size, 1f, size);
-			Matrix4x4 matrix = default(Matrix4x4);
-			matrix.SetTRS(pos + normalized * altOffset, q, s);
-			int layer = (!useSkyboxLayer) ? WorldCameraManager.WorldLayer : WorldCameraManager.WorldSkyboxLayer;
-			if (propertyBlock != null)
-			{
-				Graphics.DrawMesh(MeshPool.plane10, matrix, material, layer, null, 0, propertyBlock);
-			}
-			else
-			{
-				Graphics.DrawMesh(MeshPool.plane10, matrix, material, layer);
+				Vector3 normalized = pos.normalized;
+				Vector3 vector = (!counterClockwise) ? normalized : (-normalized);
+				Quaternion q = Quaternion.LookRotation(Vector3.Cross(vector, Vector3.up), vector);
+				Vector3 s = new Vector3(size, 1f, size);
+				Matrix4x4 matrix = default(Matrix4x4);
+				matrix.SetTRS(pos + normalized * altOffset, q, s);
+				int layer = (!useSkyboxLayer) ? WorldCameraManager.WorldLayer : WorldCameraManager.WorldSkyboxLayer;
+				if (propertyBlock != null)
+				{
+					Graphics.DrawMesh(MeshPool.plane10, matrix, material, layer, null, 0, propertyBlock);
+				}
+				else
+				{
+					Graphics.DrawMesh(MeshPool.plane10, matrix, material, layer);
+				}
 			}
 		}
 
 		public static void GetTangentsToPlanet(Vector3 pos, out Vector3 first, out Vector3 second, bool randomizeRotation = false)
 		{
-			Vector3 upwards;
-			if (randomizeRotation)
-			{
-				upwards = Rand.PointOnSphere;
-			}
-			else
-			{
-				upwards = Vector3.up;
-			}
+			Vector3 upwards = (!randomizeRotation) ? Vector3.up : Rand.PointOnSphere;
 			Quaternion rotation = Quaternion.LookRotation(pos.normalized, upwards);
 			first = rotation * Vector3.up;
 			second = rotation * Vector3.right;
@@ -139,8 +123,8 @@ namespace RimWorld.Planet
 
 		public static Vector3 ProjectOnQuadTangentialToPlanet(Vector3 center, Vector2 point)
 		{
-			Vector3 a;
-			Vector3 a2;
+			Vector3 a = default(Vector3);
+			Vector3 a2 = default(Vector3);
 			WorldRendererUtility.GetTangentsToPlanet(center, out a, out a2, false);
 			return point.x * a + point.y * a2;
 		}
@@ -154,8 +138,8 @@ namespace RimWorld.Planet
 
 		public static void PrintTextureAtlasUVs(int indexX, int indexY, int numX, int numY, LayerSubMesh subMesh)
 		{
-			float num = 1f / (float)numX;
-			float num2 = 1f / (float)numY;
+			float num = (float)(1.0 / (float)numX);
+			float num2 = (float)(1.0 / (float)numY);
 			float num3 = (float)indexX * num;
 			float num4 = (float)indexY * num2;
 			subMesh.uvs.Add(new Vector2(num3, num4));

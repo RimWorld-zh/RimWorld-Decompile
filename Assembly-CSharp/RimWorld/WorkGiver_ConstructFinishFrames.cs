@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -21,19 +20,19 @@ namespace RimWorld
 				return null;
 			}
 			Frame frame = t as Frame;
-			if (frame == null)
+			if (frame != null)
 			{
-				return null;
+				if (!GenConstruct.CanConstruct(frame, pawn, forced))
+				{
+					return null;
+				}
+				if (frame.MaterialsNeeded().Count > 0)
+				{
+					return null;
+				}
+				return new Job(JobDefOf.FinishFrame, (Thing)frame);
 			}
-			if (!GenConstruct.CanConstruct(frame, pawn, forced))
-			{
-				return null;
-			}
-			if (frame.MaterialsNeeded().Count > 0)
-			{
-				return null;
-			}
-			return new Job(JobDefOf.FinishFrame, frame);
+			return null;
 		}
 	}
 }

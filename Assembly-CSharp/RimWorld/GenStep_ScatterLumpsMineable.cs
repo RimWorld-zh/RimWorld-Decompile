@@ -15,20 +15,23 @@ namespace RimWorld
 
 		public override void Generate(Map map)
 		{
-			this.minSpacing = 5f;
-			this.warnOnFail = false;
+			base.minSpacing = 5f;
+			base.warnOnFail = false;
 			int num = base.CalculateFinalCount(map);
-			for (int i = 0; i < num; i++)
+			int num2 = 0;
+			while (num2 < num)
 			{
-				IntVec3 intVec;
-				if (!this.TryFindScatterCell(map, out intVec))
+				IntVec3 intVec = default(IntVec3);
+				if (((GenStep_Scatterer)this).TryFindScatterCell(map, out intVec))
 				{
-					return;
+					this.ScatterAt(intVec, map, 1);
+					base.usedSpots.Add(intVec);
+					num2++;
+					continue;
 				}
-				this.ScatterAt(intVec, map, 1);
-				this.usedSpots.Add(intVec);
+				return;
 			}
-			this.usedSpots.Clear();
+			base.usedSpots.Clear();
 		}
 
 		protected ThingDef ChooseThingDef()
@@ -37,7 +40,7 @@ namespace RimWorld
 			{
 				return this.forcedDefToScatter;
 			}
-			return DefDatabase<ThingDef>.AllDefs.RandomElementByWeight(delegate(ThingDef d)
+			return DefDatabase<ThingDef>.AllDefs.RandomElementByWeight((Func<ThingDef, float>)delegate(ThingDef d)
 			{
 				if (d.building == null)
 				{
@@ -49,12 +52,16 @@ namespace RimWorld
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
-			if (base.NearUsedSpot(c, this.minSpacing))
+			if (base.NearUsedSpot(c, base.minSpacing))
 			{
 				return false;
 			}
 			Building edifice = c.GetEdifice(map);
-			return edifice != null && edifice.def.building.isNaturalRock;
+			if (edifice != null && edifice.def.building.isNaturalRock)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
@@ -62,10 +69,10 @@ namespace RimWorld
 			ThingDef thingDef = this.ChooseThingDef();
 			int numCells = (this.forcedLumpSize <= 0) ? thingDef.building.mineableScatterLumpSizeRange.RandomInRange : this.forcedLumpSize;
 			this.recentLumpCells.Clear();
-			foreach (IntVec3 current in GridShapeMaker.IrregularLump(c, map, numCells))
+			foreach (IntVec3 item in GridShapeMaker.IrregularLump(c, map, numCells))
 			{
-				GenSpawn.Spawn(thingDef, current, map);
-				this.recentLumpCells.Add(current);
+				GenSpawn.Spawn(thingDef, item, map);
+				this.recentLumpCells.Add(item);
 			}
 		}
 	}

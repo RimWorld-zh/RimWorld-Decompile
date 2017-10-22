@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public abstract class WorldGenStep

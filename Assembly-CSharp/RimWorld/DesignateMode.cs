@@ -1,10 +1,8 @@
-using System;
-
 namespace RimWorld
 {
 	public enum DesignateMode : byte
 	{
-		Add,
-		Remove
+		Add = 0,
+		Remove = 1
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -8,14 +7,14 @@ namespace RimWorld
 	{
 		public Designator_AreaBuildRoofExpand() : base(DesignateMode.Add)
 		{
-			this.defaultLabel = "DesignatorAreaBuildRoofExpand".Translate();
-			this.defaultDesc = "DesignatorAreaBuildRoofExpandDesc".Translate();
-			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/BuildRoofAreaExpand", true);
-			this.hotKey = KeyBindingDefOf.Misc10;
-			this.soundDragSustain = SoundDefOf.DesignateDragAreaAdd;
-			this.soundDragChanged = SoundDefOf.DesignateDragAreaAddChanged;
-			this.soundSucceeded = SoundDefOf.DesignateAreaAdd;
-			this.tutorTag = "AreaBuildRoofExpand";
+			base.defaultLabel = "DesignatorAreaBuildRoofExpand".Translate();
+			base.defaultDesc = "DesignatorAreaBuildRoofExpandDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/BuildRoofAreaExpand", true);
+			base.hotKey = KeyBindingDefOf.Misc10;
+			base.soundDragSustain = SoundDefOf.DesignateDragAreaAdd;
+			base.soundDragChanged = SoundDefOf.DesignateDragAreaAddChanged;
+			base.soundSucceeded = SoundDefOf.DesignateAreaAdd;
+			base.tutorTag = "AreaBuildRoofExpand";
 		}
 	}
 }

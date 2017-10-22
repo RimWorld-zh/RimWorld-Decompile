@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -13,16 +12,15 @@ namespace RimWorld
 				return null;
 			}
 			Pawn otherPawn = ((MentalState_SocialFighting)pawn.MentalState).otherPawn;
-			Verb verbToUse;
+			Verb verbToUse = default(Verb);
 			if (!InteractionUtility.TryGetRandomVerbForSocialFight(pawn, out verbToUse))
 			{
 				return null;
 			}
-			return new Job(JobDefOf.SocialFight, otherPawn)
-			{
-				maxNumMeleeAttacks = 1,
-				verbToUse = verbToUse
-			};
+			Job job = new Job(JobDefOf.SocialFight, (Thing)otherPawn);
+			job.maxNumMeleeAttacks = 1;
+			job.verbToUse = verbToUse;
+			return job;
 		}
 	}
 }

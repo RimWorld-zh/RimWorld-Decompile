@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace RimWorld.Planet
 {
@@ -59,10 +59,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				MapParent.<>c__Iterator102 <>c__Iterator = new MapParent.<>c__Iterator102();
-				MapParent.<>c__Iterator102 expr_07 = <>c__Iterator;
-				expr_07.$PC = -2;
-				return expr_07;
+				yield break;
 			}
 		}
 
@@ -114,7 +111,7 @@ namespace RimWorld.Planet
 			if (!this.anyCaravanEverFormed)
 			{
 				this.anyCaravanEverFormed = true;
-				if (this.def.isTempIncidentMapOwner && this.HasMap)
+				if (base.def.isTempIncidentMapOwner && this.HasMap)
 				{
 					this.Map.StoryState.CopyTo(caravan.StoryState);
 				}
@@ -153,26 +150,88 @@ namespace RimWorld.Planet
 			this.CheckRemoveMapNow();
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			MapParent.<GetGizmos>c__Iterator103 <GetGizmos>c__Iterator = new MapParent.<GetGizmos>c__Iterator103();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			MapParent.<GetGizmos>c__Iterator103 expr_0E = <GetGizmos>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			if (this.HasMap)
+			{
+				yield return (Gizmo)new Command_Action
+				{
+					defaultLabel = "CommandShowMap".Translate(),
+					defaultDesc = "CommandShowMapDesc".Translate(),
+					icon = MapParent.ShowMapCommand,
+					hotKey = KeyBindingDefOf.Misc1,
+					action = (Action)delegate
+					{
+						Current.Game.VisibleMap = ((_003CGetGizmos_003Ec__Iterator103)/*Error near IL_011d: stateMachine*/)._003C_003Ef__this.Map;
+						if (!CameraJumper.TryHideWorld())
+						{
+							SoundDefOf.TabClose.PlayOneShotOnCamera(null);
+						}
+					}
+				};
+				if (this is FactionBase && base.Faction == Faction.OfPlayer)
+				{
+					yield return (Gizmo)new Command_Action
+					{
+						defaultLabel = "CommandFormCaravan".Translate(),
+						defaultDesc = "CommandFormCaravanDesc".Translate(),
+						icon = MapParent.FormCaravanCommand,
+						hotKey = KeyBindingDefOf.Misc2,
+						tutorTag = "FormCaravan",
+						action = (Action)delegate
+						{
+							Find.WindowStack.Add(new Dialog_FormCaravan(((_003CGetGizmos_003Ec__Iterator103)/*Error near IL_01d6: stateMachine*/)._003C_003Ef__this.Map, false, null, true));
+						}
+					};
+				}
+				else if (this.Map.mapPawns.FreeColonistsSpawnedCount != 0)
+				{
+					Command_Action reformCaravan = new Command_Action
+					{
+						defaultLabel = "CommandReformCaravan".Translate(),
+						defaultDesc = "CommandReformCaravanDesc".Translate(),
+						icon = MapParent.FormCaravanCommand,
+						hotKey = KeyBindingDefOf.Misc2,
+						tutorTag = "ReformCaravan",
+						action = (Action)delegate
+						{
+							Find.WindowStack.Add(new Dialog_FormCaravan(((_003CGetGizmos_003Ec__Iterator103)/*Error near IL_0289: stateMachine*/)._003C_003Ef__this.Map, true, null, true));
+						}
+					};
+					if (GenHostility.AnyHostileActiveThreat(this.Map))
+					{
+						reformCaravan.Disable("CommandReformCaravanFailHostilePawns".Translate());
+					}
+					yield return (Gizmo)reformCaravan;
+				}
+			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			MapParent.<GetFloatMenuOptions>c__Iterator104 <GetFloatMenuOptions>c__Iterator = new MapParent.<GetFloatMenuOptions>c__Iterator104();
-			<GetFloatMenuOptions>c__Iterator.caravan = caravan;
-			<GetFloatMenuOptions>c__Iterator.<$>caravan = caravan;
-			<GetFloatMenuOptions>c__Iterator.<>f__this = this;
-			MapParent.<GetFloatMenuOptions>c__Iterator104 expr_1C = <GetFloatMenuOptions>c__Iterator;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			foreach (FloatMenuOption floatMenuOption in base.GetFloatMenuOptions(caravan))
+			{
+				yield return floatMenuOption;
+			}
+			if (this.HasMap && this.UseGenericEnterMapFloatMenuOption)
+			{
+				yield return new FloatMenuOption("EnterMap".Translate(this.Label), (Action)delegate
+				{
+					((_003CGetFloatMenuOptions_003Ec__Iterator104)/*Error near IL_00fa: stateMachine*/).caravan.pather.StartPath(((_003CGetFloatMenuOptions_003Ec__Iterator104)/*Error near IL_00fa: stateMachine*/)._003C_003Ef__this.Tile, new CaravanArrivalAction_Enter(((_003CGetFloatMenuOptions_003Ec__Iterator104)/*Error near IL_00fa: stateMachine*/)._003C_003Ef__this), true);
+				}, MenuOptionPriority.Default, null, null, 0f, null, this);
+				if (Prefs.DevMode)
+				{
+					yield return new FloatMenuOption("EnterMap".Translate(this.Label) + " (Dev: instantly)", (Action)delegate
+					{
+						((_003CGetFloatMenuOptions_003Ec__Iterator104)/*Error near IL_0160: stateMachine*/).caravan.Tile = ((_003CGetFloatMenuOptions_003Ec__Iterator104)/*Error near IL_0160: stateMachine*/)._003C_003Ef__this.Tile;
+						new CaravanArrivalAction_Enter(((_003CGetFloatMenuOptions_003Ec__Iterator104)/*Error near IL_0160: stateMachine*/)._003C_003Ef__this).Arrived(((_003CGetFloatMenuOptions_003Ec__Iterator104)/*Error near IL_0160: stateMachine*/).caravan);
+					}, MenuOptionPriority.Default, null, null, 0f, null, this);
+				}
+			}
 		}
 
 		public override string GetInspectString()
@@ -184,10 +243,7 @@ namespace RimWorld.Planet
 				{
 					text += "\n";
 				}
-				text = text + "ForceExitAndRemoveMapCountdown".Translate(new object[]
-				{
-					this.ForceExitAndRemoveMapCountdownTimeLeftString
-				}) + ".";
+				text = text + "ForceExitAndRemoveMapCountdown".Translate(this.ForceExitAndRemoveMapCountdownTimeLeftString) + ".";
 			}
 			return text;
 		}
@@ -210,11 +266,11 @@ namespace RimWorld.Planet
 					this.ticksLeftToForceExitAndRemoveMap--;
 					if (this.ticksLeftToForceExitAndRemoveMap == 0)
 					{
-						if (Dialog_FormCaravan.AllSendablePawns(this.Map, true).Any((Pawn x) => x.IsColonist))
+						if (Dialog_FormCaravan.AllSendablePawns(this.Map, true).Any((Predicate<Pawn>)((Pawn x) => x.IsColonist)))
 						{
 							Messages.Message("MessageYouHaveToReformCaravanNow".Translate(), new GlobalTargetInfo(base.Tile), MessageSound.Standard);
 							Current.Game.VisibleMap = this.Map;
-							Dialog_FormCaravan window = new Dialog_FormCaravan(this.Map, true, delegate
+							Dialog_FormCaravan window = new Dialog_FormCaravan(this.Map, true, (Action)delegate
 							{
 								if (this.HasMap)
 								{
@@ -230,12 +286,12 @@ namespace RimWorld.Planet
 							MapParent.tmpPawns.AddRange(from x in this.Map.mapPawns.AllPawns
 							where x.Faction == Faction.OfPlayer || x.HostFaction == Faction.OfPlayer
 							select x);
-							if (MapParent.tmpPawns.Any<Pawn>())
+							if (MapParent.tmpPawns.Any())
 							{
-								if (MapParent.tmpPawns.Any((Pawn x) => CaravanUtility.IsOwner(x, Faction.OfPlayer)))
+								if (MapParent.tmpPawns.Any((Predicate<Pawn>)((Pawn x) => CaravanUtility.IsOwner(x, Faction.OfPlayer))))
 								{
 									Caravan o = CaravanExitMapUtility.ExitMapAndCreateCaravan(MapParent.tmpPawns, Faction.OfPlayer, base.Tile);
-									Messages.Message("MessageAutomaticallyReformedCaravan".Translate(), o, MessageSound.Benefit);
+									Messages.Message("MessageAutomaticallyReformedCaravan".Translate(), (WorldObject)o, MessageSound.Benefit);
 								}
 								else
 								{
@@ -244,10 +300,7 @@ namespace RimWorld.Planet
 									{
 										stringBuilder.AppendLine("    " + MapParent.tmpPawns[i].LabelCap);
 									}
-									Find.LetterStack.ReceiveLetter("LetterLabelPawnsLostDueToMapCountdown".Translate(), "LetterPawnsLostDueToMapCountdown".Translate(new object[]
-									{
-										stringBuilder.ToString().TrimEndNewlines()
-									}), LetterDefOf.BadNonUrgent, new GlobalTargetInfo(base.Tile), null);
+									Find.LetterStack.ReceiveLetter("LetterLabelPawnsLostDueToMapCountdown".Translate(), "LetterPawnsLostDueToMapCountdown".Translate(stringBuilder.ToString().TrimEndNewlines()), LetterDefOf.BadNonUrgent, new GlobalTargetInfo(base.Tile), (string)null);
 								}
 								MapParent.tmpPawns.Clear();
 							}
@@ -265,7 +318,7 @@ namespace RimWorld.Planet
 
 		public void CheckRemoveMapNow()
 		{
-			bool flag;
+			bool flag = default(bool);
 			if (this.HasMap && this.ShouldRemoveMapNow(out flag))
 			{
 				Map map = this.Map;
@@ -303,6 +356,12 @@ namespace RimWorld.Planet
 		virtual IThingHolder get_ParentHolder()
 		{
 			return base.ParentHolder;
+		}
+
+		IThingHolder IThingHolder.get_ParentHolder()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
+			return this.get_ParentHolder();
 		}
 	}
 }

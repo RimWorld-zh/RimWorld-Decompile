@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI
 {
 	public abstract class ThinkNode_ChancePerHour : ThinkNode_Priority
@@ -12,7 +10,7 @@ namespace Verse.AI
 			}
 			this.SetLastTryTick(pawn, Find.TickManager.TicksGame);
 			float num = this.MtbHours(pawn);
-			if (num <= 0f)
+			if (num <= 0.0)
 			{
 				return ThinkResult.NoJob;
 			}
@@ -32,7 +30,7 @@ namespace Verse.AI
 
 		private int GetLastTryTick(Pawn pawn)
 		{
-			int result;
+			int result = default(int);
 			if (pawn.mindState.thinkData.TryGetValue(base.UniqueSaveKey, out result))
 			{
 				return result;

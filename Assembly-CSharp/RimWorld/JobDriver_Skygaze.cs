@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -14,18 +13,23 @@ namespace RimWorld
 		{
 			get
 			{
-				return (base.CurToil != this.gaze) ? PawnPosture.Standing : PawnPosture.LayingFaceUp;
+				return (PawnPosture)((base.CurToil == this.gaze) ? 1 : 0);
 			}
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_Skygaze.<MakeNewToils>c__Iterator20 <MakeNewToils>c__Iterator = new JobDriver_Skygaze.<MakeNewToils>c__Iterator20();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_Skygaze.<MakeNewToils>c__Iterator20 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
+			this.gaze = new Toil();
+			this.gaze.tickAction = (Action)delegate
+			{
+				JoyUtility.JoyTickCheckEnd(((_003CMakeNewToils_003Ec__Iterator20)/*Error near IL_0059: stateMachine*/)._003C_003Ef__this.pawn, JoyTickFullJoyAction.EndJob, 1f);
+			};
+			this.gaze.defaultCompleteMode = ToilCompleteMode.Delay;
+			this.gaze.defaultDuration = base.CurJob.def.joyDuration;
+			this.gaze.FailOn((Func<bool>)(() => ((_003CMakeNewToils_003Ec__Iterator20)/*Error near IL_00ab: stateMachine*/)._003C_003Ef__this.pawn.Position.Roofed(((_003CMakeNewToils_003Ec__Iterator20)/*Error near IL_00ab: stateMachine*/)._003C_003Ef__this.pawn.Map)));
+			this.gaze.FailOn((Func<bool>)(() => !JoyUtility.EnjoyableOutsideNow(((_003CMakeNewToils_003Ec__Iterator20)/*Error near IL_00c8: stateMachine*/)._003C_003Ef__this.pawn, null)));
+			yield return this.gaze;
 		}
 
 		public override string GetReport()
@@ -35,19 +39,19 @@ namespace RimWorld
 				return "WatchingEclipse".Translate();
 			}
 			float num = GenCelestial.CurCelestialSunGlow(base.Map);
-			if (num < 0.1f)
+			if (num < 0.10000000149011612)
 			{
 				return "Stargazing".Translate();
 			}
-			if (num >= 0.65f)
+			if (num < 0.64999997615814209)
 			{
-				return "CloudWatching".Translate();
+				if (GenLocalDate.DayPercent(base.pawn) < 0.5)
+				{
+					return "WatchingSunrise".Translate();
+				}
+				return "WatchingSunset".Translate();
 			}
-			if (GenLocalDate.DayPercent(this.pawn) < 0.5f)
-			{
-				return "WatchingSunrise".Translate();
-			}
-			return "WatchingSunset".Translate();
+			return "CloudWatching".Translate();
 		}
 	}
 }

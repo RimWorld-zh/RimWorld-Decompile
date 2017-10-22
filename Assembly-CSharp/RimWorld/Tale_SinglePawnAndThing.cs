@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.Grammar;
 
@@ -30,14 +28,16 @@ namespace RimWorld
 			Scribe_Deep.Look<TaleData_Thing>(ref this.thingData, "thingData", new object[0]);
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
-			Tale_SinglePawnAndThing.<SpecialTextGenerationRules>c__Iterator137 <SpecialTextGenerationRules>c__Iterator = new Tale_SinglePawnAndThing.<SpecialTextGenerationRules>c__Iterator137();
-			<SpecialTextGenerationRules>c__Iterator.<>f__this = this;
-			Tale_SinglePawnAndThing.<SpecialTextGenerationRules>c__Iterator137 expr_0E = <SpecialTextGenerationRules>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Rule item in base.SpecialTextGenerationRules())
+			{
+				yield return item;
+			}
+			foreach (Rule rule in this.thingData.GetRules("thing"))
+			{
+				yield return rule;
+			}
 		}
 
 		public override void GenerateTestData()

@@ -8,53 +8,56 @@ namespace Verse
 	{
 		public static bool TryApply(Pawn pawn, HediffDef hediff, List<BodyPartDef> partsToAffect, bool canAffectAnyLivePart = false, int countToAffect = 1, List<Hediff> outAddedHediffs = null)
 		{
-			if (canAffectAnyLivePart || partsToAffect != null)
+			if (!canAffectAnyLivePart && partsToAffect == null)
 			{
-				bool result = false;
-				for (int i = 0; i < countToAffect; i++)
+				if (!pawn.health.hediffSet.HasHediff(hediff))
 				{
-					IEnumerable<BodyPartRecord> source = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined);
-					if (partsToAffect != null)
-					{
-						source = from p in source
-						where partsToAffect.Contains(p.def)
-						select p;
-					}
-					if (canAffectAnyLivePart)
-					{
-						source = from p in source
-						where p.def.isAlive
-						select p;
-					}
-					source = from p in source
-					where !pawn.health.hediffSet.HasHediff(hediff, p) && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(p)
-					select p;
-					if (!source.Any<BodyPartRecord>())
-					{
-						break;
-					}
-					BodyPartRecord partRecord = source.RandomElementByWeight((BodyPartRecord x) => x.coverageAbs);
-					Hediff hediff2 = HediffMaker.MakeHediff(hediff, pawn, partRecord);
-					pawn.health.AddHediff(hediff2, null, null);
+					Hediff hediff2 = HediffMaker.MakeHediff(hediff, pawn, null);
+					pawn.health.AddHediff(hediff2, null, default(DamageInfo?));
 					if (outAddedHediffs != null)
 					{
 						outAddedHediffs.Add(hediff2);
 					}
-					result = true;
+					return true;
 				}
-				return result;
+				return false;
 			}
-			if (!pawn.health.hediffSet.HasHediff(hediff))
+			bool result = false;
+			int num = 0;
+			while (num < countToAffect)
 			{
-				Hediff hediff3 = HediffMaker.MakeHediff(hediff, pawn, null);
-				pawn.health.AddHediff(hediff3, null, null);
-				if (outAddedHediffs != null)
+				IEnumerable<BodyPartRecord> source = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined);
+				if (partsToAffect != null)
 				{
-					outAddedHediffs.Add(hediff3);
+					source = from p in source
+					where partsToAffect.Contains(p.def)
+					select p;
 				}
-				return true;
+				if (canAffectAnyLivePart)
+				{
+					source = from p in source
+					where p.def.isAlive
+					select p;
+				}
+				source = from p in source
+				where !pawn.health.hediffSet.HasHediff(hediff, p) && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(p)
+				select p;
+				if (source.Any())
+				{
+					BodyPartRecord partRecord = source.RandomElementByWeight((Func<BodyPartRecord, float>)((BodyPartRecord x) => x.coverageAbs));
+					Hediff hediff3 = HediffMaker.MakeHediff(hediff, pawn, partRecord);
+					pawn.health.AddHediff(hediff3, null, default(DamageInfo?));
+					if (outAddedHediffs != null)
+					{
+						outAddedHediffs.Add(hediff3);
+					}
+					result = true;
+					num++;
+					continue;
+				}
+				break;
 			}
-			return false;
+			return result;
 		}
 	}
 }

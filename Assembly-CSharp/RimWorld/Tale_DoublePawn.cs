@@ -1,7 +1,5 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.Grammar;
 
@@ -25,7 +23,7 @@ namespace RimWorld
 		{
 			get
 			{
-				string text = this.def.LabelCap + ": " + this.firstPawnData.name;
+				string text = base.def.LabelCap + ": " + this.firstPawnData.name;
 				if (this.secondPawnData != null)
 				{
 					text = text + ", " + this.secondPawnData.name;
@@ -47,13 +45,17 @@ namespace RimWorld
 			}
 			if (firstPawn.SpawnedOrAnyParentSpawned)
 			{
-				this.surroundings = TaleData_Surroundings.GenerateFrom(firstPawn.PositionHeld, firstPawn.MapHeld);
+				base.surroundings = TaleData_Surroundings.GenerateFrom(firstPawn.PositionHeld, firstPawn.MapHeld);
 			}
 		}
 
 		public override bool Concerns(Thing th)
 		{
-			return (this.secondPawnData != null && this.secondPawnData.pawn == th) || base.Concerns(th) || this.firstPawnData.pawn == th;
+			if (this.secondPawnData != null && this.secondPawnData.pawn == th)
+			{
+				return true;
+			}
+			return base.Concerns(th) || this.firstPawnData.pawn == th;
 		}
 
 		public override void PostRemove()
@@ -77,14 +79,27 @@ namespace RimWorld
 			Scribe_Deep.Look<TaleData_Pawn>(ref this.secondPawnData, "secondPawnData", new object[0]);
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
-			Tale_DoublePawn.<SpecialTextGenerationRules>c__Iterator132 <SpecialTextGenerationRules>c__Iterator = new Tale_DoublePawn.<SpecialTextGenerationRules>c__Iterator132();
-			<SpecialTextGenerationRules>c__Iterator.<>f__this = this;
-			Tale_DoublePawn.<SpecialTextGenerationRules>c__Iterator132 expr_0E = <SpecialTextGenerationRules>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Rule rule in this.firstPawnData.GetRules("anyPawn"))
+			{
+				yield return rule;
+			}
+			foreach (Rule rule2 in this.firstPawnData.GetRules(base.def.firstPawnSymbol))
+			{
+				yield return rule2;
+			}
+			if (this.secondPawnData != null)
+			{
+				foreach (Rule rule3 in this.firstPawnData.GetRules("anyPawn"))
+				{
+					yield return rule3;
+				}
+				foreach (Rule rule4 in this.secondPawnData.GetRules(base.def.secondPawnSymbol))
+				{
+					yield return rule4;
+				}
+			}
 		}
 
 		public override void GenerateTestData()

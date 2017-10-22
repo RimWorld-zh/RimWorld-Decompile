@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -34,13 +33,15 @@ namespace RimWorld
 		{
 			base.Draw();
 			CompPowerBattery comp = base.GetComp<CompPowerBattery>();
-			GenDraw.FillableBarRequest r = default(GenDraw.FillableBarRequest);
-			r.center = this.DrawPos + Vector3.up * 0.1f;
-			r.size = Building_Battery.BarSize;
-			r.fillPercent = comp.StoredEnergy / comp.Props.storedEnergyMax;
-			r.filledMat = Building_Battery.BatteryBarFilledMat;
-			r.unfilledMat = Building_Battery.BatteryBarUnfilledMat;
-			r.margin = 0.15f;
+			GenDraw.FillableBarRequest r = new GenDraw.FillableBarRequest
+			{
+				center = this.DrawPos + Vector3.up * 0.1f,
+				size = Building_Battery.BarSize,
+				fillPercent = comp.StoredEnergy / comp.Props.storedEnergyMax,
+				filledMat = Building_Battery.BatteryBarFilledMat,
+				unfilledMat = Building_Battery.BatteryBarUnfilledMat,
+				margin = 0.15f
+			};
 			Rot4 rotation = base.Rotation;
 			rotation.Rotate(RotationDirection.Clockwise);
 			r.rotation = rotation;
@@ -68,7 +69,7 @@ namespace RimWorld
 				if (this.ticksToExplode == 0)
 				{
 					IntVec3 randomCell = this.OccupiedRect().RandomCell;
-					float radius = Rand.Range(0.5f, 1f) * 3f;
+					float radius = (float)(Rand.Range(0.5f, 1f) * 3.0);
 					GenExplosion.DoExplosion(randomCell, base.Map, radius, DamageDefOf.Flame, null, null, null, null, null, 0f, 1, false, null, 0f, 1);
 					base.GetComp<CompPowerBattery>().DrawPower(400f);
 				}
@@ -77,7 +78,7 @@ namespace RimWorld
 
 		public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
-			if (!base.Destroyed && this.ticksToExplode == 0 && dinfo.Def == DamageDefOf.Flame && Rand.Value < 0.05f && base.GetComp<CompPowerBattery>().StoredEnergy > 500f)
+			if (!base.Destroyed && this.ticksToExplode == 0 && dinfo.Def == DamageDefOf.Flame && Rand.Value < 0.05000000074505806 && base.GetComp<CompPowerBattery>().StoredEnergy > 500.0)
 			{
 				this.ticksToExplode = Rand.Range(70, 150);
 				this.StartWickSustainer();
@@ -86,7 +87,7 @@ namespace RimWorld
 
 		private void StartWickSustainer()
 		{
-			SoundInfo info = SoundInfo.InMap(this, MaintenanceType.PerTick);
+			SoundInfo info = SoundInfo.InMap((Thing)this, MaintenanceType.PerTick);
 			this.wickSustainer = SoundDefOf.HissSmall.TrySpawnSustainer(info);
 		}
 	}

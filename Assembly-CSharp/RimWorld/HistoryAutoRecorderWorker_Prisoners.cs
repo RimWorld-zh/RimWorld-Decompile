@@ -1,6 +1,4 @@
-using System;
 using System.Linq;
-using Verse;
 
 namespace RimWorld
 {
@@ -8,7 +6,7 @@ namespace RimWorld
 	{
 		public override float PullRecord()
 		{
-			return (float)PawnsFinder.AllMapsCaravansAndTravelingTransportPods_PrisonersOfColony.Count<Pawn>();
+			return (float)PawnsFinder.AllMapsCaravansAndTravelingTransportPods_PrisonersOfColony.Count();
 		}
 	}
 }

@@ -17,14 +17,14 @@ namespace RimWorld.Planet
 			SphereGenerator.middlePointsCache.Clear();
 			outVerts = new List<Vector3>();
 			IcosahedronGenerator.GenerateIcosahedron(outVerts, SphereGenerator.tris, radius, viewCenter, viewAngle);
-			for (int i = 0; i < subdivisionsCount; i++)
+			for (int num = 0; num < subdivisionsCount; num++)
 			{
 				SphereGenerator.newTris.Clear();
-				int j = 0;
+				int num2 = 0;
 				int count = SphereGenerator.tris.Count;
-				while (j < count)
+				while (num2 < count)
 				{
-					TriangleIndices triangleIndices = SphereGenerator.tris[j];
+					TriangleIndices triangleIndices = SphereGenerator.tris[num2];
 					int middlePoint = SphereGenerator.GetMiddlePoint(triangleIndices.v1, triangleIndices.v2, outVerts, radius);
 					int middlePoint2 = SphereGenerator.GetMiddlePoint(triangleIndices.v2, triangleIndices.v3, outVerts, radius);
 					int middlePoint3 = SphereGenerator.GetMiddlePoint(triangleIndices.v3, triangleIndices.v1, outVerts, radius);
@@ -32,29 +32,29 @@ namespace RimWorld.Planet
 					SphereGenerator.newTris.Add(new TriangleIndices(triangleIndices.v2, middlePoint2, middlePoint));
 					SphereGenerator.newTris.Add(new TriangleIndices(triangleIndices.v3, middlePoint3, middlePoint2));
 					SphereGenerator.newTris.Add(new TriangleIndices(middlePoint, middlePoint2, middlePoint3));
-					j++;
+					num2++;
 				}
 				SphereGenerator.tris.Clear();
 				SphereGenerator.tris.AddRange(SphereGenerator.newTris);
 			}
-			MeshUtility.RemoveVertices(outVerts, SphereGenerator.tris, (Vector3 x) => !MeshUtility.Visible(x, radius, viewCenter, viewAngle));
+			MeshUtility.RemoveVertices(outVerts, SphereGenerator.tris, (Predicate<Vector3>)((Vector3 x) => !MeshUtility.Visible(x, radius, viewCenter, viewAngle)));
 			outIndices = new List<int>();
-			int k = 0;
+			int num3 = 0;
 			int count2 = SphereGenerator.tris.Count;
-			while (k < count2)
+			while (num3 < count2)
 			{
-				TriangleIndices triangleIndices2 = SphereGenerator.tris[k];
+				TriangleIndices triangleIndices2 = SphereGenerator.tris[num3];
 				outIndices.Add(triangleIndices2.v1);
 				outIndices.Add(triangleIndices2.v2);
 				outIndices.Add(triangleIndices2.v3);
-				k++;
+				num3++;
 			}
 		}
 
 		private static int GetMiddlePoint(int p1, int p2, List<Vector3> verts, float radius)
 		{
-			long key = ((long)Mathf.Min(p1, p2) << 32) + (long)Mathf.Max(p1, p2);
-			int result;
+			long key = ((long)Mathf.Min(p1, p2) << 32) + Mathf.Max(p1, p2);
+			int result = default(int);
 			if (SphereGenerator.middlePointsCache.TryGetValue(key, out result))
 			{
 				return result;

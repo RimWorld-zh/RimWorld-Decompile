@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -8,16 +7,16 @@ namespace RimWorld
 	{
 		public override Job TryGiveJob(Pawn pawn)
 		{
-			if (!JoyUtility.EnjoyableOutsideNow(pawn, null) || pawn.Map.weatherManager.curWeather.rainRate > 0.1f)
+			if (JoyUtility.EnjoyableOutsideNow(pawn, null) && !(pawn.Map.weatherManager.curWeather.rainRate > 0.10000000149011612))
 			{
-				return null;
+				IntVec3 c = default(IntVec3);
+				if (!RCellFinder.TryFindSkygazeCell(pawn.Position, pawn, out c))
+				{
+					return null;
+				}
+				return new Job(base.def.jobDef, c);
 			}
-			IntVec3 c;
-			if (!RCellFinder.TryFindSkygazeCell(pawn.Position, pawn, out c))
-			{
-				return null;
-			}
-			return new Job(this.def.jobDef, c);
+			return null;
 		}
 	}
 }

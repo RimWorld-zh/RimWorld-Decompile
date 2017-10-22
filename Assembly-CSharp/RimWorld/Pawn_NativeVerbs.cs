@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -56,32 +55,28 @@ namespace RimWorld
 		{
 			if (this.IgniteVerb == null)
 			{
-				Log.ErrorOnce(string.Concat(new object[]
-				{
-					this.pawn,
-					" tried to ignite ",
-					target,
-					" but has no ignite verb."
-				}), 76453432);
+				Log.ErrorOnce(this.pawn + " tried to ignite " + target + " but has no ignite verb.", 76453432);
 				return false;
 			}
-			return !this.pawn.stances.FullBodyBusy && this.IgniteVerb.TryStartCastOn(target, false, true);
+			if (this.pawn.stances.FullBodyBusy)
+			{
+				return false;
+			}
+			return this.IgniteVerb.TryStartCastOn(target, false, true);
 		}
 
 		public bool TryBeatFire(Fire targetFire)
 		{
 			if (this.BeatFireVerb == null)
 			{
-				Log.ErrorOnce(string.Concat(new object[]
-				{
-					this.pawn,
-					" tried to beat fire ",
-					targetFire,
-					" but has no beat fire verb."
-				}), 935137531);
+				Log.ErrorOnce(this.pawn + " tried to beat fire " + targetFire + " but has no beat fire verb.", 935137531);
 				return false;
 			}
-			return !this.pawn.stances.FullBodyBusy && this.BeatFireVerb.TryStartCastOn(targetFire, false, true);
+			if (this.pawn.stances.FullBodyBusy)
+			{
+				return false;
+			}
+			return this.BeatFireVerb.TryStartCastOn((Thing)targetFire, false, true);
 		}
 
 		public void ExposeData()
@@ -96,7 +91,7 @@ namespace RimWorld
 
 		private void CreateVerbs()
 		{
-			if (this.pawn.RaceProps.intelligence >= Intelligence.ToolUser)
+			if ((int)this.pawn.RaceProps.intelligence >= 1)
 			{
 				UniqueIDsManager uniqueIDsManager = Find.World.uniqueIDsManager;
 				this.beatFireVerb = new Verb_BeatFire();

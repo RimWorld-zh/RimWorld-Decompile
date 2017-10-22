@@ -16,27 +16,36 @@ namespace Verse
 
 		public static void LogList<T>(IEnumerable<T> list)
 		{
-			foreach (T current in list)
+			foreach (T item in list)
 			{
-				Log.Message("    " + current.ToString());
+				Log.Message("    " + item.ToString());
 			}
 		}
 
 		public static void ClearArea(CellRect r, Map map)
 		{
 			r.ClipInsideMap(map);
-			foreach (IntVec3 current in r)
+			foreach (IntVec3 item in r)
 			{
-				map.roofGrid.SetRoof(current, null);
+				map.roofGrid.SetRoof(item, null);
 			}
-			foreach (IntVec3 current2 in r)
+			foreach (IntVec3 item2 in r)
 			{
-				foreach (Thing current3 in current2.GetThingList(map).ToList<Thing>())
+				List<Thing>.Enumerator enumerator3 = item2.GetThingList(map).ToList().GetEnumerator();
+				try
 				{
-					if (current3.def.destroyable)
+					while (enumerator3.MoveNext())
 					{
-						current3.Destroy(DestroyMode.Vanish);
+						Thing current3 = enumerator3.Current;
+						if (current3.def.destroyable)
+						{
+							current3.Destroy(DestroyMode.Vanish);
+						}
 					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator3).Dispose();
 				}
 			}
 		}

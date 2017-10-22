@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
+using Verse.AI.Group;
 
 namespace RimWorld
 {
@@ -18,27 +18,25 @@ namespace RimWorld
 			}
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_PrepareCaravan_GatherPawns.<MakeNewToils>c__IteratorA <MakeNewToils>c__IteratorA = new JobDriver_PrepareCaravan_GatherPawns.<MakeNewToils>c__IteratorA();
-			<MakeNewToils>c__IteratorA.<>f__this = this;
-			JobDriver_PrepareCaravan_GatherPawns.<MakeNewToils>c__IteratorA expr_0E = <MakeNewToils>c__IteratorA;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__IteratorA)/*Error near IL_002f: stateMachine*/)._003C_003Ef__this.Map.lordManager.lords.Contains(((_003CMakeNewToils_003Ec__IteratorA)/*Error near IL_002f: stateMachine*/)._003C_003Ef__this.CurJob.lord)));
+			this.FailOn((Func<bool>)(() => ((_003CMakeNewToils_003Ec__IteratorA)/*Error near IL_0047: stateMachine*/)._003C_003Ef__this.AnimalOrSlave.GetLord() != ((_003CMakeNewToils_003Ec__IteratorA)/*Error near IL_0047: stateMachine*/)._003C_003Ef__this.CurJob.lord));
+			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOnDespawnedOrNull(TargetIndex.A).FailOn((Func<bool>)(() => GatherAnimalsAndSlavesForCaravanUtility.IsFollowingAnyone(((_003CMakeNewToils_003Ec__IteratorA)/*Error near IL_0082: stateMachine*/)._003C_003Ef__this.AnimalOrSlave)));
+			yield return this.SetFollowerToil();
 		}
 
 		private Toil SetFollowerToil()
 		{
-			return new Toil
+			Toil toil = new Toil();
+			toil.initAction = (Action)delegate
 			{
-				initAction = delegate
-				{
-					GatherAnimalsAndSlavesForCaravanUtility.SetFollower(this.AnimalOrSlave, this.pawn);
-					RestUtility.WakeUp(this.pawn);
-				},
-				defaultCompleteMode = ToilCompleteMode.Instant
+				GatherAnimalsAndSlavesForCaravanUtility.SetFollower(this.AnimalOrSlave, base.pawn);
+				RestUtility.WakeUp(base.pawn);
 			};
+			toil.defaultCompleteMode = ToilCompleteMode.Instant;
+			return toil;
 		}
 	}
 }

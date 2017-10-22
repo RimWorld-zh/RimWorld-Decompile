@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Verse
@@ -6,6 +8,9 @@ namespace Verse
 	public struct Rot4 : IEquatable<Rot4>
 	{
 		private byte rotInt;
+
+		[CompilerGenerated]
+		private static Dictionary<string, int> _003C_003Ef__switch_0024map0;
 
 		public bool IsValid
 		{
@@ -23,7 +28,7 @@ namespace Verse
 			}
 			set
 			{
-				this.rotInt = value % 4;
+				this.rotInt = (byte)((int)value % 4);
 			}
 		}
 
@@ -31,7 +36,7 @@ namespace Verse
 		{
 			get
 			{
-				return (int)this.rotInt;
+				return this.rotInt;
 			}
 			set
 			{
@@ -50,15 +55,25 @@ namespace Verse
 				switch (this.AsInt)
 				{
 				case 0:
+				{
 					return 0f;
+				}
 				case 1:
+				{
 					return 90f;
+				}
 				case 2:
+				{
 					return 180f;
+				}
 				case 3:
+				{
 					return 270f;
+				}
 				default:
+				{
 					return 0f;
+				}
 				}
 			}
 		}
@@ -69,17 +84,27 @@ namespace Verse
 			{
 				switch (this.rotInt)
 				{
-				case 0:
+				case (byte)0:
+				{
 					return Quaternion.identity;
-				case 1:
+				}
+				case (byte)1:
+				{
 					return Quaternion.LookRotation(Vector3.right);
-				case 2:
+				}
+				case (byte)2:
+				{
 					return Quaternion.LookRotation(Vector3.back);
-				case 3:
+				}
+				case (byte)3:
+				{
 					return Quaternion.LookRotation(Vector3.left);
+				}
 				default:
+				{
 					Log.Error("ToQuat with Rot = " + this.AsInt);
 					return Quaternion.identity;
+				}
 				}
 			}
 		}
@@ -138,7 +163,7 @@ namespace Verse
 			{
 				return new Rot4
 				{
-					rotInt = 200
+					rotInt = (byte)200
 				};
 			}
 		}
@@ -150,15 +175,25 @@ namespace Verse
 				switch (this.AsInt)
 				{
 				case 0:
+				{
 					return new IntVec3(0, 0, 1);
+				}
 				case 1:
+				{
 					return new IntVec3(1, 0, 0);
+				}
 				case 2:
+				{
 					return new IntVec3(0, 0, -1);
+				}
 				case 3:
+				{
 					return new IntVec3(-1, 0, 0);
+				}
 				default:
+				{
 					return default(IntVec3);
+				}
 				}
 			}
 		}
@@ -170,15 +205,25 @@ namespace Verse
 				switch (this.AsInt)
 				{
 				case 0:
+				{
 					return new Rot4(2);
+				}
 				case 1:
+				{
 					return new Rot4(3);
+				}
 				case 2:
+				{
 					return new Rot4(0);
+				}
 				case 3:
+				{
 					return new Rot4(1);
+				}
 				default:
+				{
 					return default(Rot4);
+				}
 				}
 			}
 		}
@@ -207,19 +252,19 @@ namespace Verse
 
 		public static Rot4 FromAngleFlat(float angle)
 		{
-			if (angle < 45f)
+			if (angle < 45.0)
 			{
 				return Rot4.North;
 			}
-			if (angle < 135f)
+			if (angle < 135.0)
 			{
 				return Rot4.East;
 			}
-			if (angle < 225f)
+			if (angle < 225.0)
 			{
 				return Rot4.South;
 			}
-			if (angle < 315f)
+			if (angle < 315.0)
 			{
 				return Rot4.West;
 			}
@@ -257,16 +302,26 @@ namespace Verse
 		{
 			switch (this.rotInt)
 			{
-			case 0:
+			case (byte)0:
+			{
 				return 235515;
-			case 1:
+			}
+			case (byte)1:
+			{
 				return 5612938;
-			case 2:
+			}
+			case (byte)2:
+			{
 				return 1215650;
-			case 3:
+			}
+			case (byte)3:
+			{
 				return 9231792;
+			}
 			default:
+			{
 				throw new InvalidOperationException("IntRot out of range.");
+			}
 			}
 		}
 
@@ -279,22 +334,32 @@ namespace Verse
 		{
 			switch (this.rotInt)
 			{
-			case 0:
+			case (byte)0:
+			{
 				return "North".Translate();
-			case 1:
+			}
+			case (byte)1:
+			{
 				return "East".Translate();
-			case 2:
+			}
+			case (byte)2:
+			{
 				return "South".Translate();
-			case 3:
+			}
+			case (byte)3:
+			{
 				return "West".Translate();
+			}
 			default:
+			{
 				return "error";
+			}
 			}
 		}
 
 		public static Rot4 FromString(string str)
 		{
-			int num;
+			int num = default(int);
 			byte newRot;
 			if (int.TryParse(str, out num))
 			{
@@ -302,31 +367,60 @@ namespace Verse
 			}
 			else
 			{
-				switch (str)
+				if (str != null)
 				{
-				case "North":
-					newRot = 0;
-					goto IL_C5;
-				case "East":
-					newRot = 1;
-					goto IL_C5;
-				case "South":
-					newRot = 2;
-					goto IL_C5;
-				case "West":
-					newRot = 3;
-					goto IL_C5;
+					if (Rot4._003C_003Ef__switch_0024map0 == null)
+					{
+						Dictionary<string, int> dictionary = new Dictionary<string, int>(4);
+						dictionary.Add("North", 0);
+						dictionary.Add("East", 1);
+						dictionary.Add("South", 2);
+						dictionary.Add("West", 3);
+						Rot4._003C_003Ef__switch_0024map0 = dictionary;
+					}
+					int num2 = default(int);
+					if (Rot4._003C_003Ef__switch_0024map0.TryGetValue(str, out num2))
+					{
+						switch (num2)
+						{
+						case 0:
+						{
+							newRot = (byte)0;
+							goto IL_00c5;
+						}
+						case 1:
+						{
+							newRot = (byte)1;
+							goto IL_00c5;
+						}
+						case 2:
+						{
+							newRot = (byte)2;
+							goto IL_00c5;
+						}
+						case 3:
+						{
+							newRot = (byte)3;
+							goto IL_00c5;
+						}
+						}
+					}
 				}
-				newRot = 0;
+				newRot = (byte)0;
 				Log.Error("Invalid rotation: " + str);
 			}
-			IL_C5:
+			goto IL_00c5;
+			IL_00c5:
 			return new Rot4(newRot);
 		}
 
 		public override bool Equals(object obj)
 		{
-			return obj is Rot4 && this.Equals((Rot4)obj);
+			if (!(obj is Rot4))
+			{
+				return false;
+			}
+			return this.Equals((Rot4)obj);
 		}
 
 		public bool Equals(Rot4 other)

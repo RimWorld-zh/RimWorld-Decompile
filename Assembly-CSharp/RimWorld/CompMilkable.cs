@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -41,7 +40,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_Milkable)this.props;
+				return (CompProperties_Milkable)base.props;
 			}
 		}
 
@@ -53,8 +52,16 @@ namespace RimWorld
 				{
 					return false;
 				}
-				Pawn pawn = this.parent as Pawn;
-				return (!this.Props.milkFemaleOnly || pawn == null || pawn.gender == Gender.Female) && (pawn == null || pawn.ageTracker.CurLifeStage.milkable);
+				Pawn pawn = base.parent as Pawn;
+				if (this.Props.milkFemaleOnly && pawn != null && pawn.gender != Gender.Female)
+				{
+					return false;
+				}
+				if (pawn != null && !pawn.ageTracker.CurLifeStage.milkable)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -62,7 +69,7 @@ namespace RimWorld
 		{
 			if (!this.Active)
 			{
-				return null;
+				return (string)null;
 			}
 			return "MilkFullness".Translate() + ": " + base.Fullness.ToStringPercent();
 		}

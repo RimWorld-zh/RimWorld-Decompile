@@ -31,10 +31,9 @@ namespace Verse
 		{
 			get
 			{
-				return new DiaOption("OK".Translate())
-				{
-					resolveTree = true
-				};
+				DiaOption diaOption = new DiaOption("OK".Translate());
+				diaOption.resolveTree = true;
+				return diaOption;
 			}
 		}
 
@@ -102,11 +101,11 @@ namespace Verse
 			{
 				this.OwningDialog.Close(true);
 			}
-			if (this.action != null)
+			if ((object)this.action != null)
 			{
 				this.action();
 			}
-			if (this.linkLateBind != null)
+			if ((object)this.linkLateBind != null)
 			{
 				this.OwningDialog.GotoNode(this.linkLateBind());
 			}

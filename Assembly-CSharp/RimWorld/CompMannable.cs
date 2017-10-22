@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
+using Verse.AI;
 
 namespace RimWorld
 {
@@ -35,7 +35,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_Mannable)this.props;
+				return (CompProperties_Mannable)base.props;
 			}
 		}
 
@@ -43,19 +43,20 @@ namespace RimWorld
 		{
 			this.lastManTick = Find.TickManager.TicksGame;
 			this.lastManPawn = pawn;
-			pawn.mindState.lastMannedThing = this.parent;
+			pawn.mindState.lastMannedThing = base.parent;
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn pawn)
 		{
-			CompMannable.<CompFloatMenuOptions>c__Iterator168 <CompFloatMenuOptions>c__Iterator = new CompMannable.<CompFloatMenuOptions>c__Iterator168();
-			<CompFloatMenuOptions>c__Iterator.pawn = pawn;
-			<CompFloatMenuOptions>c__Iterator.<$>pawn = pawn;
-			<CompFloatMenuOptions>c__Iterator.<>f__this = this;
-			CompMannable.<CompFloatMenuOptions>c__Iterator168 expr_1C = <CompFloatMenuOptions>c__Iterator;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			if (pawn.RaceProps.ToolUser && pawn.CanReserveAndReach((Thing)base.parent, PathEndMode.InteractionCell, Danger.Deadly, 1, -1, null, false) && (this.Props.manWorkType == WorkTags.None || pawn.story == null || !pawn.story.WorkTagIsDisabled(this.Props.manWorkType)))
+			{
+				FloatMenuOption opt = new FloatMenuOption("OrderManThing".Translate(base.parent.LabelShort), (Action)delegate
+				{
+					Job job = new Job(JobDefOf.ManTurret, (Thing)((_003CCompFloatMenuOptions_003Ec__Iterator168)/*Error near IL_00d9: stateMachine*/)._003C_003Ef__this.parent);
+					((_003CCompFloatMenuOptions_003Ec__Iterator168)/*Error near IL_00d9: stateMachine*/).pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+				}, MenuOptionPriority.Default, null, null, 0f, null, null);
+				yield return opt;
+			}
 		}
 	}
 }

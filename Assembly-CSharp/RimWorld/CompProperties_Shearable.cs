@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -13,7 +12,7 @@ namespace RimWorld
 
 		public CompProperties_Shearable()
 		{
-			this.compClass = typeof(CompShearable);
+			base.compClass = typeof(CompShearable);
 		}
 	}
 }

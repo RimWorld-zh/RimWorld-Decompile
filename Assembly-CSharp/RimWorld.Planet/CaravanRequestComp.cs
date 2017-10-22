@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -31,14 +30,9 @@ namespace RimWorld.Planet
 		{
 			if (this.ActiveRequest)
 			{
-				return "CaravanRequestInfo".Translate(new object[]
-				{
-					GenLabel.ThingLabel(this.requestThingDef, null, this.requestCount).CapitalizeFirst(),
-					this.rewards[0].LabelCap,
-					(this.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F1")
-				});
+				return "CaravanRequestInfo".Translate(GenLabel.ThingLabel(this.requestThingDef, null, this.requestCount).CapitalizeFirst(), this.rewards[0].LabelCap, (this.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F1"));
 			}
-			return null;
+			return (string)null;
 		}
 
 		public void GetChildHolders(List<IThingHolder> outChildren)
@@ -61,7 +55,7 @@ namespace RimWorld.Planet
 			base.PostExposeData();
 			Scribe_Defs.Look<ThingDef>(ref this.requestThingDef, "requestThingDef");
 			Scribe_Values.Look<int>(ref this.requestCount, "requestCount", 0, false);
-			Scribe_Deep.Look<ThingOwner>(ref this.rewards, "rewards", new object[]
+			Scribe_Deep.Look<ThingOwner>(ref this.rewards, "rewards", new object[1]
 			{
 				this
 			});
@@ -77,6 +71,12 @@ namespace RimWorld.Planet
 		virtual IThingHolder get_ParentHolder()
 		{
 			return base.ParentHolder;
+		}
+
+		IThingHolder IThingHolder.get_ParentHolder()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
+			return this.get_ParentHolder();
 		}
 	}
 }

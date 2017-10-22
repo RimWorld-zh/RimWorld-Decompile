@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum EditTreeNodeType : byte
 	{
-		ComplexObject,
-		ListRoot,
-		TerminalValue
+		ComplexObject = 0,
+		ListRoot = 1,
+		TerminalValue = 2
 	}
 }

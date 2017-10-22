@@ -30,7 +30,7 @@ namespace Verse.Noise
 
 		public Curve(ModuleBase input) : base(1)
 		{
-			this.modules[0] = input;
+			base.modules[0] = input;
 		}
 
 		public void Add(double input, double output)
@@ -40,7 +40,7 @@ namespace Verse.Noise
 			{
 				this.m_data.Add(item);
 			}
-			this.m_data.Sort((KeyValuePair<double, double> lhs, KeyValuePair<double, double> rhs) => lhs.Key.CompareTo(rhs.Key));
+			this.m_data.Sort((Comparison<KeyValuePair<double, double>>)((KeyValuePair<double, double> lhs, KeyValuePair<double, double> rhs) => lhs.Key.CompareTo(rhs.Key)));
 		}
 
 		public void Clear()
@@ -50,27 +50,24 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
-			double value = this.modules[0].GetValue(x, y, z);
-			int i;
-			for (i = 0; i < this.m_data.Count; i++)
+			double value = base.modules[0].GetValue(x, y, z);
+			int num = 0;
+			while (num < this.m_data.Count && !(value < this.m_data[num].Key))
 			{
-				if (value < this.m_data[i].Key)
-				{
-					break;
-				}
+				num++;
 			}
-			int index = Mathf.Clamp(i - 2, 0, this.m_data.Count - 1);
-			int num = Mathf.Clamp(i - 1, 0, this.m_data.Count - 1);
-			int num2 = Mathf.Clamp(i, 0, this.m_data.Count - 1);
-			int index2 = Mathf.Clamp(i + 1, 0, this.m_data.Count - 1);
-			if (num == num2)
+			int index = Mathf.Clamp(num - 2, 0, this.m_data.Count - 1);
+			int num2 = Mathf.Clamp(num - 1, 0, this.m_data.Count - 1);
+			int num3 = Mathf.Clamp(num, 0, this.m_data.Count - 1);
+			int index2 = Mathf.Clamp(num + 1, 0, this.m_data.Count - 1);
+			if (num2 == num3)
 			{
-				return this.m_data[num].Value;
+				return this.m_data[num2].Value;
 			}
-			double key = this.m_data[num].Key;
-			double key2 = this.m_data[num2].Key;
+			double key = this.m_data[num2].Key;
+			double key2 = this.m_data[num3].Key;
 			double position = (value - key) / (key2 - key);
-			return Utils.InterpolateCubic(this.m_data[index].Value, this.m_data[num].Value, this.m_data[num2].Value, this.m_data[index2].Value, position);
+			return Utils.InterpolateCubic(this.m_data[index].Value, this.m_data[num2].Value, this.m_data[num3].Value, this.m_data[index2].Value, position);
 		}
 	}
 }

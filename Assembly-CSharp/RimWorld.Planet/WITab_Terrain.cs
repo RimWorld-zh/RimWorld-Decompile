@@ -19,18 +19,21 @@ namespace RimWorld.Planet
 
 		public WITab_Terrain()
 		{
-			this.size = WITab_Terrain.WinSize;
-			this.labelKey = "TabTerrain";
-			this.tutorTag = "Terrain";
+			base.size = WITab_Terrain.WinSize;
+			base.labelKey = "TabTerrain";
+			base.tutorTag = "Terrain";
 		}
 
 		protected override void FillTab()
 		{
-			Rect rect = new Rect(0f, 0f, WITab_Terrain.WinSize.x, WITab_Terrain.WinSize.y).ContractedBy(10f);
-			Rect rect2 = rect;
+			Vector2 winSize = WITab_Terrain.WinSize;
+			float x = winSize.x;
+			Vector2 winSize2 = WITab_Terrain.WinSize;
+			Rect rect;
+			Rect rect2 = rect = new Rect(0f, 0f, x, winSize2.y).ContractedBy(10f);
 			Text.Font = GameFont.Medium;
-			Widgets.Label(rect2, base.SelTile.biome.LabelCap);
-			Rect rect3 = rect;
+			Widgets.Label(rect, base.SelTile.biome.LabelCap);
+			Rect rect3 = rect2;
 			rect3.yMin += 35f;
 			Text.Font = GameFont.Small;
 			Listing_Standard listing_Standard = new Listing_Standard();
@@ -38,7 +41,8 @@ namespace RimWorld.Planet
 			listing_Standard.Begin(rect3);
 			Tile selTile = base.SelTile;
 			int selTileID = base.SelTileID;
-			float y = Find.WorldGrid.LongLatOf(selTileID).y;
+			Vector2 vector = Find.WorldGrid.LongLatOf(selTileID);
+			float y = vector.y;
 			listing_Standard.Label(selTile.biome.description, -1f);
 			listing_Standard.Gap(8f);
 			listing_Standard.GapLine(12f);
@@ -50,11 +54,14 @@ namespace RimWorld.Planet
 			if (selTile.VisibleRoads != null)
 			{
 				listing_Standard.LabelDouble("Road".Translate(), GenText.ToCommaList((from roadlink in selTile.VisibleRoads
-				select roadlink.road.label).Distinct<string>(), true).CapitalizeFirst());
+				select roadlink.road.label).Distinct(), true).CapitalizeFirst());
 			}
 			if (selTile.VisibleRivers != null)
 			{
-				listing_Standard.LabelDouble("River".Translate(), selTile.VisibleRivers.MaxBy((Tile.RiverLink riverlink) => riverlink.river.degradeThreshold).river.LabelCap);
+				Listing_Standard obj = listing_Standard;
+				string leftLabel = "River".Translate();
+				Tile.RiverLink riverLink = selTile.VisibleRivers.MaxBy((Func<Tile.RiverLink, int>)((Tile.RiverLink riverlink) => riverlink.river.degradeThreshold));
+				obj.LabelDouble(leftLabel, riverLink.river.LabelCap);
 			}
 			if (!Find.World.Impassable(selTileID))
 			{
@@ -82,7 +89,10 @@ namespace RimWorld.Planet
 			listing_Standard.LabelDouble("Rainfall".Translate(), selTile.rainfall.ToString("F0") + "mm");
 			listing_Standard.LabelDouble("AnimalsCanGrazeNow".Translate(), (!VirtualPlantsUtility.EnvironmentAllowsEatingVirtualPlantsNowAt(selTileID)) ? "No".Translate() : "Yes".Translate());
 			listing_Standard.GapLine(12f);
-			listing_Standard.LabelDouble("TimeZone".Translate(), GenDate.TimeZoneAt(Find.WorldGrid.LongLatOf(selTileID).x).ToStringWithSign());
+			Listing_Standard obj2 = listing_Standard;
+			string leftLabel2 = "TimeZone".Translate();
+			Vector2 vector2 = Find.WorldGrid.LongLatOf(selTileID);
+			obj2.LabelDouble(leftLabel2, GenDate.TimeZoneAt(vector2.x).ToStringWithSign());
 			Rot4 rot = Find.World.CoastDirectionAt(selTileID);
 			if (rot.IsValid)
 			{

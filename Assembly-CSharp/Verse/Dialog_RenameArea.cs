@@ -9,7 +9,7 @@ namespace Verse
 		public Dialog_RenameArea(Area area)
 		{
 			this.area = area;
-			this.curName = area.Label;
+			base.curName = area.Label;
 		}
 
 		protected override AcceptanceReport NameIsValid(string name)
@@ -19,7 +19,7 @@ namespace Verse
 			{
 				return result;
 			}
-			if (this.area.Map.areaManager.AllAreas.Any((Area a) => a.Label == name))
+			if (this.area.Map.areaManager.AllAreas.Any((Predicate<Area>)((Area a) => a.Label == name)))
 			{
 				return "NameIsInUse".Translate();
 			}
@@ -28,7 +28,7 @@ namespace Verse
 
 		protected override void SetName(string name)
 		{
-			this.area.SetLabel(this.curName);
+			this.area.SetLabel(base.curName);
 		}
 	}
 }

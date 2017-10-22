@@ -39,25 +39,28 @@ namespace RimWorld.Planet
 			this.drawingNow = true;
 			try
 			{
-				foreach (WorldObject current in this.drawObjects)
+				HashSet<WorldObject>.Enumerator enumerator = this.drawObjects.GetEnumerator();
+				try
 				{
-					try
+					while (enumerator.MoveNext())
 					{
-						if (!current.def.expandingIcon || ExpandableWorldObjectsUtility.TransitionPct < 1f)
+						WorldObject current = enumerator.Current;
+						try
 						{
-							current.Draw();
+							if (!current.def.expandingIcon || !(ExpandableWorldObjectsUtility.TransitionPct >= 1.0))
+							{
+								current.Draw();
+							}
+						}
+						catch (Exception ex)
+						{
+							Log.Error("Exception drawing " + current + ": " + ex);
 						}
 					}
-					catch (Exception ex)
-					{
-						Log.Error(string.Concat(new object[]
-						{
-							"Exception drawing ",
-							current,
-							": ",
-							ex
-						}));
-					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 			catch (Exception arg)

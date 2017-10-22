@@ -1,12 +1,10 @@
-using System;
-
 namespace Verse
 {
 	public enum DiaNodeType : byte
 	{
-		Undefined,
-		Special,
-		BaseEncounters,
-		InsanityBattles
+		Undefined = 0,
+		Special = 1,
+		BaseEncounters = 2,
+		InsanityBattles = 3
 	}
 }

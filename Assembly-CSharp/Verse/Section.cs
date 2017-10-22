@@ -39,26 +39,20 @@ namespace Verse
 		{
 			this.botLeft = sectCoords * 17;
 			this.map = map;
-			foreach (Type current in typeof(SectionLayer).AllSubclassesNonAbstract())
+			foreach (Type item in typeof(SectionLayer).AllSubclassesNonAbstract())
 			{
-				this.layers.Add((SectionLayer)Activator.CreateInstance(current, new object[]
-				{
-					this
-				}));
+				this.layers.Add((SectionLayer)Activator.CreateInstance(item, this));
 			}
 		}
 
 		public void DrawSection(SectionLayerPhaseDef phase, bool drawSunShadowsOnly)
 		{
 			int count = this.layers.Count;
-			for (int i = 0; i < count; i++)
+			for (int num = 0; num < count; num++)
 			{
-				if (this.layers[i].Phase == phase)
+				if (this.layers[num].Phase == phase && (!drawSunShadowsOnly || this.layers[num] is SectionLayer_SunShadows))
 				{
-					if (!drawSunShadowsOnly || this.layers[i] is SectionLayer_SunShadows)
-					{
-						this.layers[i].DrawLayer();
-					}
+					this.layers[num].DrawLayer();
 				}
 			}
 			if (!drawSunShadowsOnly && DebugViewSettings.drawSectionEdges)
@@ -84,7 +78,7 @@ namespace Verse
 			for (int i = 0; i < this.layers.Count; i++)
 			{
 				SectionLayer sectionLayer = this.layers[i];
-				if ((sectionLayer.relevantChangeTypes & changeType) != MapMeshFlag.None)
+				if ((sectionLayer.relevantChangeTypes & changeType) != 0)
 				{
 					sectionLayer.Regenerate();
 				}
@@ -95,7 +89,7 @@ namespace Verse
 		{
 			return (from sect in this.layers
 			where sect.GetType() == type
-			select sect).FirstOrDefault<SectionLayer>();
+			select sect).FirstOrDefault();
 		}
 	}
 }

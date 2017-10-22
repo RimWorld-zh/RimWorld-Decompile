@@ -1,20 +1,41 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
 	public class JobDriver_GoForWalk : JobDriver
 	{
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_GoForWalk.<MakeNewToils>c__Iterator1B <MakeNewToils>c__Iterator1B = new JobDriver_GoForWalk.<MakeNewToils>c__Iterator1B();
-			<MakeNewToils>c__Iterator1B.<>f__this = this;
-			JobDriver_GoForWalk.<MakeNewToils>c__Iterator1B expr_0E = <MakeNewToils>c__Iterator1B;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOn((Func<bool>)(() => !JoyUtility.EnjoyableOutsideNow(((_003CMakeNewToils_003Ec__Iterator1B)/*Error near IL_002b: stateMachine*/)._003C_003Ef__this.pawn, null)));
+			Toil goToil = Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
+			goToil.tickAction = (Action)delegate
+			{
+				if (Find.TickManager.TicksGame > ((_003CMakeNewToils_003Ec__Iterator1B)/*Error near IL_0050: stateMachine*/)._003C_003Ef__this.startTick + ((_003CMakeNewToils_003Ec__Iterator1B)/*Error near IL_0050: stateMachine*/)._003C_003Ef__this.CurJob.def.joyDuration)
+				{
+					((_003CMakeNewToils_003Ec__Iterator1B)/*Error near IL_0050: stateMachine*/)._003C_003Ef__this.EndJobWith(JobCondition.Succeeded);
+				}
+				else
+				{
+					JoyUtility.JoyTickCheckEnd(((_003CMakeNewToils_003Ec__Iterator1B)/*Error near IL_0050: stateMachine*/)._003C_003Ef__this.pawn, JoyTickFullJoyAction.EndJob, 1f);
+				}
+			};
+			yield return goToil;
+			yield return new Toil
+			{
+				initAction = (Action)delegate
+				{
+					if (((_003CMakeNewToils_003Ec__Iterator1B)/*Error near IL_008a: stateMachine*/)._003C_003Ef__this.CurJob.targetQueueA.Count > 0)
+					{
+						LocalTargetInfo targetA = ((_003CMakeNewToils_003Ec__Iterator1B)/*Error near IL_008a: stateMachine*/)._003C_003Ef__this.CurJob.targetQueueA[0];
+						((_003CMakeNewToils_003Ec__Iterator1B)/*Error near IL_008a: stateMachine*/)._003C_003Ef__this.CurJob.targetQueueA.RemoveAt(0);
+						((_003CMakeNewToils_003Ec__Iterator1B)/*Error near IL_008a: stateMachine*/)._003C_003Ef__this.CurJob.targetA = targetA;
+						((_003CMakeNewToils_003Ec__Iterator1B)/*Error near IL_008a: stateMachine*/)._003C_003Ef__this.JumpToToil(((_003CMakeNewToils_003Ec__Iterator1B)/*Error near IL_008a: stateMachine*/)._003CgoToil_003E__0);
+					}
+				}
+			};
 		}
 	}
 }

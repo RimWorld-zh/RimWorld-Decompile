@@ -27,23 +27,23 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.CurLevel < 0.01f)
+				if (this.CurLevel < 0.0099999997764825821)
 				{
 					return JoyCategory.Empty;
 				}
-				if (this.CurLevel < 0.15f)
+				if (this.CurLevel < 0.15000000596046448)
 				{
 					return JoyCategory.VeryLow;
 				}
-				if (this.CurLevel < 0.3f)
+				if (this.CurLevel < 0.30000001192092896)
 				{
 					return JoyCategory.Low;
 				}
-				if (this.CurLevel < 0.7f)
+				if (this.CurLevel < 0.699999988079071)
 				{
 					return JoyCategory.Satisfied;
 				}
-				if (this.CurLevel < 0.85f)
+				if (this.CurLevel < 0.85000002384185791)
 				{
 					return JoyCategory.High;
 				}
@@ -58,19 +58,33 @@ namespace RimWorld
 				switch (this.CurCategory)
 				{
 				case JoyCategory.Empty:
+				{
 					return 1.00000007E-05f;
+				}
 				case JoyCategory.VeryLow:
+				{
 					return 4.00000044E-06f;
+				}
 				case JoyCategory.Low:
+				{
 					return 7.00000055E-06f;
+				}
 				case JoyCategory.Satisfied:
+				{
 					return 1.00000007E-05f;
+				}
 				case JoyCategory.High:
+				{
 					return 1.00000007E-05f;
+				}
 				case JoyCategory.Extreme:
+				{
 					return 1.00000007E-05f;
+				}
 				default:
+				{
 					throw new InvalidOperationException();
+				}
 				}
 			}
 		}
@@ -79,7 +93,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (!this.GainingJoy) ? -1 : 1;
+				return this.GainingJoy ? 1 : (-1);
 			}
 		}
 
@@ -93,11 +107,11 @@ namespace RimWorld
 
 		public Need_Joy(Pawn pawn) : base(pawn)
 		{
-			this.threshPercents = new List<float>();
-			this.threshPercents.Add(0.15f);
-			this.threshPercents.Add(0.3f);
-			this.threshPercents.Add(0.7f);
-			this.threshPercents.Add(0.85f);
+			base.threshPercents = new List<float>();
+			base.threshPercents.Add(0.15f);
+			base.threshPercents.Add(0.3f);
+			base.threshPercents.Add(0.7f);
+			base.threshPercents.Add(0.85f);
 		}
 
 		public override void ExposeData()
@@ -121,8 +135,8 @@ namespace RimWorld
 			{
 				amount *= this.tolerances.JoyFactorFromTolerance(joyKind);
 			}
-			amount = Mathf.Min(amount, 1f - this.CurLevel);
-			this.curLevelInt += amount;
+			amount = Mathf.Min(amount, (float)(1.0 - this.CurLevel));
+			base.curLevelInt += amount;
 			if (joyKind != null)
 			{
 				this.tolerances.Notify_JoyGained(amount, joyKind);
@@ -137,9 +151,9 @@ namespace RimWorld
 				this.tolerances.NeedInterval();
 				if (!this.GainingJoy)
 				{
-					this.CurLevel -= this.FallPerTick * 150f;
+					this.CurLevel -= (float)(this.FallPerTick * 150.0);
 				}
-				if (this.pawn.Downed && this.CurLevel < 0.25f)
+				if (base.pawn.Downed && this.CurLevel < 0.25)
 				{
 					this.CurLevel = 0.25f;
 				}

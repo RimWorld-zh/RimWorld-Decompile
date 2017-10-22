@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 namespace Verse
@@ -73,7 +72,7 @@ namespace Verse
 		{
 			get
 			{
-				return Text.lineHeights[(int)Text.Font];
+				return Text.lineHeights[(uint)Text.Font];
 			}
 		}
 
@@ -81,20 +80,28 @@ namespace Verse
 		{
 			get
 			{
-				GUIStyle gUIStyle;
+				GUIStyle gUIStyle = null;
 				switch (Text.fontInt)
 				{
 				case GameFont.Tiny:
+				{
 					gUIStyle = Text.fontStyles[0];
 					break;
+				}
 				case GameFont.Small:
+				{
 					gUIStyle = Text.fontStyles[1];
 					break;
+				}
 				case GameFont.Medium:
+				{
 					gUIStyle = Text.fontStyles[2];
 					break;
+				}
 				default:
+				{
 					throw new NotImplementedException();
+				}
 				}
 				gUIStyle.alignment = Text.anchorInt;
 				gUIStyle.wordWrap = Text.wordWrapInt;
@@ -109,13 +116,21 @@ namespace Verse
 				switch (Text.fontInt)
 				{
 				case GameFont.Tiny:
+				{
 					return Text.textFieldStyles[0];
+				}
 				case GameFont.Small:
+				{
 					return Text.textFieldStyles[1];
+				}
 				case GameFont.Medium:
+				{
 					return Text.textFieldStyles[2];
+				}
 				default:
+				{
 					throw new NotImplementedException();
+				}
 				}
 			}
 		}
@@ -127,13 +142,21 @@ namespace Verse
 				switch (Text.fontInt)
 				{
 				case GameFont.Tiny:
+				{
 					return Text.textAreaStyles[0];
+				}
 				case GameFont.Small:
+				{
 					return Text.textAreaStyles[1];
+				}
 				case GameFont.Medium:
+				{
 					return Text.textAreaStyles[2];
+				}
 				default:
+				{
 					throw new NotImplementedException();
+				}
 				}
 			}
 		}
@@ -145,13 +168,21 @@ namespace Verse
 				switch (Text.fontInt)
 				{
 				case GameFont.Tiny:
+				{
 					return Text.textAreaReadOnlyStyles[0];
+				}
 				case GameFont.Small:
+				{
 					return Text.textAreaReadOnlyStyles[1];
+				}
 				case GameFont.Medium:
+				{
 					return Text.textAreaReadOnlyStyles[2];
+				}
 				default:
+				{
 					throw new NotImplementedException();
+				}
 				}
 			}
 		}
@@ -204,16 +235,11 @@ namespace Verse
 			}
 			GUI.skin.settings.doubleClickSelectsWord = true;
 			int num = 0;
-			using (IEnumerator enumerator = Enum.GetValues(typeof(GameFont)).GetEnumerator())
+			foreach (byte value in Enum.GetValues(typeof(GameFont)))
 			{
-				while (enumerator.MoveNext())
-				{
-					GameFont font4 = (GameFont)((byte)enumerator.Current);
-					Text.Font = font4;
-					float num2 = Text.CalcHeight("W", 999f);
-					Text.lineHeights[num] = num2;
-					num++;
-				}
+				Text.Font = (GameFont)value;
+				float num2 = Text.lineHeights[num] = Text.CalcHeight("W", 999f);
+				num++;
 			}
 			Text.Font = GameFont.Small;
 		}
@@ -237,7 +263,7 @@ namespace Verse
 				Log.ErrorOnce("Word wrap was false at end of frame.", 764362);
 				Text.WordWrap = true;
 			}
-			if (Text.Anchor != TextAnchor.UpperLeft)
+			if (Text.Anchor != 0)
 			{
 				Log.ErrorOnce("Alignment was " + Text.Anchor + " at end of frame.", 15558);
 				Text.Anchor = TextAnchor.UpperLeft;

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,19 +39,15 @@ namespace Verse.Sound
 			if (widgetRow.ButtonText("Setup from preset...", "Set up the reverb filter from a preset.", true, false))
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				using (IEnumerator enumerator = Enum.GetValues(typeof(AudioReverbPreset)).GetEnumerator())
+				foreach (int value in Enum.GetValues(typeof(AudioReverbPreset)))
 				{
-					while (enumerator.MoveNext())
+					if (value != 27)
 					{
-						AudioReverbPreset audioReverbPreset = (AudioReverbPreset)((int)enumerator.Current);
-						if (audioReverbPreset != AudioReverbPreset.User)
+						AudioReverbPreset localPreset = (AudioReverbPreset)value;
+						list.Add(new FloatMenuOption(((Enum)(object)(AudioReverbPreset)value).ToString(), (Action)delegate
 						{
-							AudioReverbPreset localPreset = audioReverbPreset;
-							list.Add(new FloatMenuOption(audioReverbPreset.ToString(), delegate
-							{
-								this.SetupAs(localPreset);
-							}, MenuOptionPriority.Default, null, null, 0f, null, null));
-						}
+							this.SetupAs(localPreset);
+						}, MenuOptionPriority.Default, null, null, 0f, null, null));
 					}
 				}
 				Find.WindowStack.Add(new FloatMenu(list));
@@ -79,23 +74,22 @@ namespace Verse.Sound
 
 		public static ReverbSetup Lerp(ReverbSetup A, ReverbSetup B, float t)
 		{
-			return new ReverbSetup
-			{
-				dryLevel = Mathf.Lerp(A.dryLevel, B.dryLevel, t),
-				room = Mathf.Lerp(A.room, B.room, t),
-				roomHF = Mathf.Lerp(A.roomHF, B.roomHF, t),
-				roomLF = Mathf.Lerp(A.roomLF, B.roomLF, t),
-				decayTime = Mathf.Lerp(A.decayTime, B.decayTime, t),
-				decayHFRatio = Mathf.Lerp(A.decayHFRatio, B.decayHFRatio, t),
-				reflectionsLevel = Mathf.Lerp(A.reflectionsLevel, B.reflectionsLevel, t),
-				reflectionsDelay = Mathf.Lerp(A.reflectionsDelay, B.reflectionsDelay, t),
-				reverbLevel = Mathf.Lerp(A.reverbLevel, B.reverbLevel, t),
-				reverbDelay = Mathf.Lerp(A.reverbDelay, B.reverbDelay, t),
-				hfReference = Mathf.Lerp(A.hfReference, B.hfReference, t),
-				lfReference = Mathf.Lerp(A.lfReference, B.lfReference, t),
-				diffusion = Mathf.Lerp(A.diffusion, B.diffusion, t),
-				density = Mathf.Lerp(A.density, B.density, t)
-			};
+			ReverbSetup reverbSetup = new ReverbSetup();
+			reverbSetup.dryLevel = Mathf.Lerp(A.dryLevel, B.dryLevel, t);
+			reverbSetup.room = Mathf.Lerp(A.room, B.room, t);
+			reverbSetup.roomHF = Mathf.Lerp(A.roomHF, B.roomHF, t);
+			reverbSetup.roomLF = Mathf.Lerp(A.roomLF, B.roomLF, t);
+			reverbSetup.decayTime = Mathf.Lerp(A.decayTime, B.decayTime, t);
+			reverbSetup.decayHFRatio = Mathf.Lerp(A.decayHFRatio, B.decayHFRatio, t);
+			reverbSetup.reflectionsLevel = Mathf.Lerp(A.reflectionsLevel, B.reflectionsLevel, t);
+			reverbSetup.reflectionsDelay = Mathf.Lerp(A.reflectionsDelay, B.reflectionsDelay, t);
+			reverbSetup.reverbLevel = Mathf.Lerp(A.reverbLevel, B.reverbLevel, t);
+			reverbSetup.reverbDelay = Mathf.Lerp(A.reverbDelay, B.reverbDelay, t);
+			reverbSetup.hfReference = Mathf.Lerp(A.hfReference, B.hfReference, t);
+			reverbSetup.lfReference = Mathf.Lerp(A.lfReference, B.lfReference, t);
+			reverbSetup.diffusion = Mathf.Lerp(A.diffusion, B.diffusion, t);
+			reverbSetup.density = Mathf.Lerp(A.density, B.density, t);
+			return reverbSetup;
 		}
 	}
 }

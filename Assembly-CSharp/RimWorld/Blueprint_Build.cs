@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 using Verse;
 
@@ -17,11 +16,7 @@ namespace RimWorld
 				string label = base.Label;
 				if (this.stuffToUse != null)
 				{
-					return "ThingMadeOfStuffLabel".Translate(new object[]
-					{
-						this.stuffToUse.LabelAsStuff,
-						label
-					});
+					return "ThingMadeOfStuffLabel".Translate(this.stuffToUse.LabelAsStuff, label);
 				}
 				return label;
 			}
@@ -31,7 +26,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.def.entityDefToBuild.GetStatValueAbstract(StatDefOf.WorkToBuild, this.stuffToUse);
+				return base.def.entityDefToBuild.GetStatValueAbstract(StatDefOf.WorkToBuild, this.stuffToUse);
 			}
 		}
 
@@ -48,22 +43,25 @@ namespace RimWorld
 
 		public override List<ThingCountClass> MaterialsNeeded()
 		{
-			return this.def.entityDefToBuild.CostListAdjusted(this.stuffToUse, true);
+			return base.def.entityDefToBuild.CostListAdjusted(this.stuffToUse, true);
 		}
 
 		protected override Thing MakeSolidThing()
 		{
-			return ThingMaker.MakeThing(this.def.entityDefToBuild.frameDef, this.stuffToUse);
+			return ThingMaker.MakeThing(base.def.entityDefToBuild.frameDef, this.stuffToUse);
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			Blueprint_Build.<GetGizmos>c__Iterator143 <GetGizmos>c__Iterator = new Blueprint_Build.<GetGizmos>c__Iterator143();
-			<GetGizmos>c__Iterator.<>f__this = this;
-			Blueprint_Build.<GetGizmos>c__Iterator143 expr_0E = <GetGizmos>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo gizmo in base.GetGizmos())
+			{
+				yield return gizmo;
+			}
+			Command buildCopy = BuildCopyCommandUtility.BuildCopyCommand(base.def.entityDefToBuild, this.stuffToUse);
+			if (buildCopy != null)
+			{
+				yield return (Gizmo)buildCopy;
+			}
 		}
 
 		public override string GetInspectString()
@@ -76,14 +74,23 @@ namespace RimWorld
 			}
 			stringBuilder.AppendLine("ContainedResources".Translate() + ":");
 			bool flag = true;
-			foreach (ThingCountClass current in this.MaterialsNeeded())
+			List<ThingCountClass>.Enumerator enumerator = this.MaterialsNeeded().GetEnumerator();
+			try
 			{
-				if (!flag)
+				while (enumerator.MoveNext())
 				{
-					stringBuilder.AppendLine();
+					ThingCountClass current = enumerator.Current;
+					if (!flag)
+					{
+						stringBuilder.AppendLine();
+					}
+					stringBuilder.Append(current.thingDef.LabelCap + ": 0 / " + current.count);
+					flag = false;
 				}
-				stringBuilder.Append(current.thingDef.LabelCap + ": 0 / " + current.count);
-				flag = false;
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			return stringBuilder.ToString().Trim();
 		}

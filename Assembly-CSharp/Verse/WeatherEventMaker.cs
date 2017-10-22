@@ -10,12 +10,9 @@ namespace Verse
 
 		public void WeatherEventMakerTick(Map map, float strength)
 		{
-			if (Rand.Value < 1f / this.averageInterval * strength)
+			if (Rand.Value < 1.0 / this.averageInterval * strength)
 			{
-				WeatherEvent newEvent = (WeatherEvent)Activator.CreateInstance(this.eventClass, new object[]
-				{
-					map
-				});
+				WeatherEvent newEvent = (WeatherEvent)Activator.CreateInstance(this.eventClass, map);
 				map.weatherManager.eventHandler.AddEvent(newEvent);
 			}
 		}

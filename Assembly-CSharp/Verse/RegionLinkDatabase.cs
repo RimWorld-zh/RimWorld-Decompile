@@ -11,7 +11,7 @@ namespace Verse
 		public RegionLink LinkFrom(EdgeSpan span)
 		{
 			ulong key = span.UniqueHashCode();
-			RegionLink regionLink;
+			RegionLink regionLink = default(RegionLink);
 			if (!this.links.TryGetValue(key, out regionLink))
 			{
 				regionLink = new RegionLink();
@@ -29,9 +29,17 @@ namespace Verse
 		public void DebugLog()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (KeyValuePair<ulong, RegionLink> current in this.links)
+			Dictionary<ulong, RegionLink>.Enumerator enumerator = this.links.GetEnumerator();
+			try
 			{
-				stringBuilder.AppendLine(current.ToString());
+				while (enumerator.MoveNext())
+				{
+					stringBuilder.AppendLine(enumerator.Current.ToString());
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
 			}
 			Log.Message(stringBuilder.ToString());
 		}

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -10,37 +9,36 @@ namespace RimWorld
 	{
 		public static void DoAllowedAreaSelectors(Rect rect, Pawn p, AllowedAreaMode mode)
 		{
-			if (Find.VisibleMap == null)
+			if (Find.VisibleMap != null)
 			{
-				return;
-			}
-			List<Area> allAreas = Find.VisibleMap.areaManager.AllAreas;
-			int num = 1;
-			for (int i = 0; i < allAreas.Count; i++)
-			{
-				if (allAreas[i].AssignableAsAllowed(mode))
+				List<Area> allAreas = Find.VisibleMap.areaManager.AllAreas;
+				int num = 1;
+				for (int i = 0; i < allAreas.Count; i++)
 				{
-					num++;
+					if (allAreas[i].AssignableAsAllowed(mode))
+					{
+						num++;
+					}
 				}
-			}
-			float num2 = rect.width / (float)num;
-			Text.WordWrap = false;
-			Text.Font = GameFont.Tiny;
-			Rect rect2 = new Rect(rect.x, rect.y, num2, rect.height);
-			AreaAllowedGUI.DoAreaSelector(rect2, p, null);
-			int num3 = 1;
-			for (int j = 0; j < allAreas.Count; j++)
-			{
-				if (allAreas[j].AssignableAsAllowed(mode))
+				float num2 = rect.width / (float)num;
+				Text.WordWrap = false;
+				Text.Font = GameFont.Tiny;
+				Rect rect2 = new Rect(rect.x, rect.y, num2, rect.height);
+				AreaAllowedGUI.DoAreaSelector(rect2, p, null);
+				int num3 = 1;
+				for (int j = 0; j < allAreas.Count; j++)
 				{
-					float num4 = (float)num3 * num2;
-					Rect rect3 = new Rect(rect.x + num4, rect.y, num2, rect.height);
-					AreaAllowedGUI.DoAreaSelector(rect3, p, allAreas[j]);
-					num3++;
+					if (allAreas[j].AssignableAsAllowed(mode))
+					{
+						float num4 = (float)num3 * num2;
+						Rect rect3 = new Rect(rect.x + num4, rect.y, num2, rect.height);
+						AreaAllowedGUI.DoAreaSelector(rect3, p, allAreas[j]);
+						num3++;
+					}
 				}
+				Text.WordWrap = true;
+				Text.Font = GameFont.Small;
 			}
-			Text.WordWrap = true;
-			Text.Font = GameFont.Small;
 		}
 
 		private static void DoAreaSelector(Rect rect, Pawn p, Area area)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -27,7 +26,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.pawn.RaceProps.FoodLevelPercentageWantEat * 0.4f;
+				return (float)(base.pawn.RaceProps.FoodLevelPercentageWantEat * 0.40000000596046448);
 			}
 		}
 
@@ -35,7 +34,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.pawn.RaceProps.FoodLevelPercentageWantEat * 0.8f;
+				return (float)(base.pawn.RaceProps.FoodLevelPercentageWantEat * 0.800000011920929);
 			}
 		}
 
@@ -43,7 +42,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (1f - this.PercentageThreshHungry) * this.MaxLevel;
+				return (float)((1.0 - this.PercentageThreshHungry) * this.MaxLevel);
 			}
 		}
 
@@ -51,7 +50,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (base.CurLevelPercentage <= 0f)
+				if (base.CurLevelPercentage <= 0.0)
 				{
 					return HungerCategory.Starving;
 				}
@@ -95,7 +94,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.pawn.BodySize * this.pawn.ageTracker.CurLifeStage.foodMaxFactor;
+				return base.pawn.BodySize * base.pawn.ageTracker.CurLifeStage.foodMaxFactor;
 			}
 		}
 
@@ -111,8 +110,8 @@ namespace RimWorld
 		{
 			get
 			{
-				float num = this.pawn.ageTracker.CurLifeStage.hungerRateFactor * this.pawn.RaceProps.baseHungerRate;
-				List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
+				float num = base.pawn.ageTracker.CurLifeStage.hungerRateFactor * base.pawn.RaceProps.baseHungerRate;
+				List<Hediff> hediffs = base.pawn.health.hediffSet.hediffs;
 				for (int i = 0; i < hediffs.Count; i++)
 				{
 					HediffStage curStage = hediffs[i].CurStage;
@@ -148,15 +147,25 @@ namespace RimWorld
 			switch (cat)
 			{
 			case HungerCategory.Fed:
-				return 2.66666666E-05f * this.HungerRate;
+			{
+				return (float)(2.6666666599339806E-05 * this.HungerRate);
+			}
 			case HungerCategory.Hungry:
-				return 2.66666666E-05f * this.HungerRate * 0.5f;
+			{
+				return (float)(2.6666666599339806E-05 * this.HungerRate * 0.5);
+			}
 			case HungerCategory.UrgentlyHungry:
-				return 2.66666666E-05f * this.HungerRate * 0.25f;
+			{
+				return (float)(2.6666666599339806E-05 * this.HungerRate * 0.25);
+			}
 			case HungerCategory.Starving:
-				return 2.66666666E-05f * this.HungerRate * 0.15f;
+			{
+				return (float)(2.6666666599339806E-05 * this.HungerRate * 0.15000000596046448);
+			}
 			default:
+			{
 				return 999f;
+			}
 			}
 		}
 
@@ -164,7 +173,7 @@ namespace RimWorld
 		{
 			if (!base.IsFrozen)
 			{
-				this.CurLevel -= this.FoodFallPerTick * 150f;
+				this.CurLevel -= (float)(this.FoodFallPerTick * 150.0);
 			}
 			if (!this.Starving)
 			{
@@ -174,18 +183,18 @@ namespace RimWorld
 			{
 				if (this.Starving)
 				{
-					HealthUtility.AdjustSeverity(this.pawn, HediffDefOf.Malnutrition, 0.00113333331f);
+					HealthUtility.AdjustSeverity(base.pawn, HediffDefOf.Malnutrition, 0.00113333331f);
 				}
 				else
 				{
-					HealthUtility.AdjustSeverity(this.pawn, HediffDefOf.Malnutrition, -0.00113333331f);
+					HealthUtility.AdjustSeverity(base.pawn, HediffDefOf.Malnutrition, -0.00113333331f);
 				}
 			}
 		}
 
 		public override void SetInitialLevel()
 		{
-			if (this.pawn.RaceProps.Humanlike)
+			if (base.pawn.RaceProps.Humanlike)
 			{
 				base.CurLevelPercentage = 0.8f;
 			}
@@ -201,29 +210,18 @@ namespace RimWorld
 
 		public override string GetTipString()
 		{
-			return string.Concat(new string[]
-			{
-				base.LabelCap,
-				": ",
-				base.CurLevelPercentage.ToStringPercent(),
-				" (",
-				this.CurLevel.ToString("0.##"),
-				" / ",
-				this.MaxLevel.ToString("0.##"),
-				")\n",
-				this.def.description
-			});
+			return base.LabelCap + ": " + base.CurLevelPercentage.ToStringPercent() + " (" + this.CurLevel.ToString("0.##") + " / " + this.MaxLevel.ToString("0.##") + ")\n" + base.def.description;
 		}
 
 		public override void DrawOnGUI(Rect rect, int maxThresholdMarkers = 2147483647, float customMargin = -1f, bool drawArrows = true, bool doTooltip = true)
 		{
-			if (this.threshPercents == null)
+			if (base.threshPercents == null)
 			{
-				this.threshPercents = new List<float>();
+				base.threshPercents = new List<float>();
 			}
-			this.threshPercents.Clear();
-			this.threshPercents.Add(this.PercentageThreshHungry);
-			this.threshPercents.Add(this.PercentageThreshUrgentlyHungry);
+			base.threshPercents.Clear();
+			base.threshPercents.Add(this.PercentageThreshHungry);
+			base.threshPercents.Add(this.PercentageThreshUrgentlyHungry);
 			base.DrawOnGUI(rect, maxThresholdMarkers, customMargin, drawArrows, doTooltip);
 		}
 	}

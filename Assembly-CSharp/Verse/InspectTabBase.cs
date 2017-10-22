@@ -37,7 +37,7 @@ namespace Verse
 			{
 				if (this.tutorTag == null)
 				{
-					return null;
+					return (string)null;
 				}
 				if (this.cachedTutorHighlightTagClosed == null)
 				{
@@ -52,7 +52,7 @@ namespace Verse
 			get
 			{
 				this.UpdateSize();
-				float y = this.PaneTopY - 30f - this.size.y;
+				float y = (float)(this.PaneTopY - 30.0 - this.size.y);
 				return new Rect(0f, y, this.size.x, this.size.y);
 			}
 		}
@@ -60,29 +60,22 @@ namespace Verse
 		public void DoTabGUI()
 		{
 			Rect rect = this.TabRect;
-			Find.WindowStack.ImmediateWindow(235086, rect, WindowLayer.GameUI, delegate
+			Find.WindowStack.ImmediateWindow(235086, rect, WindowLayer.GameUI, (Action)delegate
 			{
-				if (!this.StillValid || !this.IsVisible)
+				if (this.StillValid && this.IsVisible)
 				{
-					return;
-				}
-				if (Widgets.CloseButtonFor(rect.AtZero()))
-				{
-					this.CloseTab();
-				}
-				try
-				{
-					this.FillTab();
-				}
-				catch (Exception ex)
-				{
-					Log.ErrorOnce(string.Concat(new object[]
+					if (Widgets.CloseButtonFor(rect.AtZero()))
 					{
-						"Exception filling tab ",
-						this.GetType(),
-						": ",
-						ex
-					}), 49827);
+						this.CloseTab();
+					}
+					try
+					{
+						this.FillTab();
+					}
+					catch (Exception ex)
+					{
+						Log.ErrorOnce("Exception filling tab " + base.GetType() + ": " + ex, 49827);
+					}
 				}
 			}, true, false, 1f);
 			this.ExtraOnGUI();

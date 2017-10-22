@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -9,15 +8,7 @@ namespace Verse
 		public override float CommonalityFor(Pawn pawn)
 		{
 			int num = this.BingeableAddictionsCount(pawn);
-			float num2;
-			if (num == 0)
-			{
-				num2 = this.def.baseCommonality * 1f;
-			}
-			else
-			{
-				num2 = this.def.baseCommonality * 1.4f * (float)num;
-			}
+			float num2 = (float)((num != 0) ? (base.def.baseCommonality * 1.3999999761581421 * (float)num) : (base.def.baseCommonality * 1.0));
 			if (pawn.story != null)
 			{
 				Trait trait = pawn.story.traits.GetTrait(TraitDefOf.DrugDesire);
@@ -25,11 +16,11 @@ namespace Verse
 				{
 					if (trait.Degree == 1)
 					{
-						num2 *= 2.5f;
+						num2 = (float)(num2 * 2.5);
 					}
 					else if (trait.Degree == 2)
 					{
-						num2 *= 5f;
+						num2 = (float)(num2 * 5.0);
 					}
 				}
 			}

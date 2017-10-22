@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace RimWorld
 {
@@ -23,7 +24,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return ((Building)this.parent).TransmitsPowerNow;
+				return ((Building)base.parent).TransmitsPowerNow;
 			}
 		}
 
@@ -47,7 +48,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_Power)this.props;
+				return (CompProperties_Power)base.props;
 			}
 		}
 
@@ -71,7 +72,7 @@ namespace RimWorld
 			{
 				thing = this.connectParent.parent;
 			}
-			Scribe_References.Look<Thing>(ref thing, "parentThing", false);
+			Scribe_References.Look(ref thing, "parentThing", false);
 			if (thing != null)
 			{
 				this.connectParent = ((ThingWithComps)thing).GetComp<CompPower>();
@@ -85,51 +86,49 @@ namespace RimWorld
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
-			if (this.Props.transmitsPower || this.parent.def.ConnectToPower)
+			if (!this.Props.transmitsPower && !base.parent.def.ConnectToPower)
+				return;
+			base.parent.Map.mapDrawer.MapMeshDirty(base.parent.Position, MapMeshFlag.PowerGrid, true, false);
+			if (this.Props.transmitsPower)
 			{
-				this.parent.Map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.PowerGrid, true, false);
-				if (this.Props.transmitsPower)
-				{
-					this.parent.Map.powerNetManager.Notify_TransmitterSpawned(this);
-				}
-				if (this.parent.def.ConnectToPower)
-				{
-					this.parent.Map.powerNetManager.Notify_ConnectorWantsConnect(this);
-				}
-				this.SetUpPowerVars();
+				base.parent.Map.powerNetManager.Notify_TransmitterSpawned(this);
 			}
+			if (base.parent.def.ConnectToPower)
+			{
+				base.parent.Map.powerNetManager.Notify_ConnectorWantsConnect(this);
+			}
+			this.SetUpPowerVars();
 		}
 
 		public override void PostDeSpawn(Map map)
 		{
 			base.PostDeSpawn(map);
-			if (this.Props.transmitsPower || this.parent.def.ConnectToPower)
+			if (!this.Props.transmitsPower && !base.parent.def.ConnectToPower)
+				return;
+			if (this.Props.transmitsPower)
 			{
-				if (this.Props.transmitsPower)
+				if (this.connectChildren != null)
 				{
-					if (this.connectChildren != null)
+					for (int i = 0; i < this.connectChildren.Count; i++)
 					{
-						for (int i = 0; i < this.connectChildren.Count; i++)
-						{
-							this.connectChildren[i].LostConnectParent();
-						}
+						this.connectChildren[i].LostConnectParent();
 					}
-					map.powerNetManager.Notify_TransmitterDespawned(this);
 				}
-				if (this.parent.def.ConnectToPower)
-				{
-					map.powerNetManager.Notify_ConnectorDespawned(this);
-				}
-				map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.PowerGrid, true, false);
+				map.powerNetManager.Notify_TransmitterDespawned(this);
 			}
+			if (base.parent.def.ConnectToPower)
+			{
+				map.powerNetManager.Notify_ConnectorDespawned(this);
+			}
+			map.mapDrawer.MapMeshDirty(base.parent.Position, MapMeshFlag.PowerGrid, true, false);
 		}
 
 		public virtual void LostConnectParent()
 		{
 			this.connectParent = null;
-			if (this.parent.Spawned)
+			if (base.parent.Spawned)
 			{
-				this.parent.Map.powerNetManager.Notify_ConnectorWantsConnect(this);
+				base.parent.Map.powerNetManager.Notify_ConnectorWantsConnect(this);
 			}
 		}
 
@@ -138,7 +137,7 @@ namespace RimWorld
 			base.PostPrintOnto(layer);
 			if (this.connectParent != null)
 			{
-				PowerNetGraphics.PrintWirePieceConnecting(layer, this.parent, this.connectParent.parent, false);
+				PowerNetGraphics.PrintWirePieceConnecting(layer, base.parent, this.connectParent.parent, false);
 			}
 		}
 
@@ -146,26 +145,39 @@ namespace RimWorld
 		{
 			if (this.TransmitsPowerNow)
 			{
-				PowerOverlayMats.LinkedOverlayGraphic.Print(layer, this.parent);
+				PowerOverlayMats.LinkedOverlayGraphic.Print(layer, base.parent);
 			}
-			if (this.parent.def.ConnectToPower)
+			if (base.parent.def.ConnectToPower)
 			{
-				PowerNetGraphics.PrintOverlayConnectorBaseFor(layer, this.parent);
+				PowerNetGraphics.PrintOverlayConnectorBaseFor(layer, base.parent);
 			}
 			if (this.connectParent != null)
 			{
-				PowerNetGraphics.PrintWirePieceConnecting(layer, this.parent, this.connectParent.parent, true);
+				PowerNetGraphics.PrintWirePieceConnecting(layer, base.parent, this.connectParent.parent, true);
 			}
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			CompPower.<CompGetGizmosExtra>c__IteratorB2 <CompGetGizmosExtra>c__IteratorB = new CompPower.<CompGetGizmosExtra>c__IteratorB2();
-			<CompGetGizmosExtra>c__IteratorB.<>f__this = this;
-			CompPower.<CompGetGizmosExtra>c__IteratorB2 expr_0E = <CompGetGizmosExtra>c__IteratorB;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (Gizmo item in base.CompGetGizmosExtra())
+			{
+				yield return item;
+			}
+			if (this.connectParent != null && base.parent.Faction == Faction.OfPlayer)
+			{
+				yield return (Gizmo)new Command_Action
+				{
+					action = (Action)delegate
+					{
+						SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
+						((_003CCompGetGizmosExtra_003Ec__IteratorB2)/*Error near IL_00e5: stateMachine*/)._003C_003Ef__this.TryManualReconnect();
+					},
+					hotKey = KeyBindingDefOf.Misc1,
+					defaultDesc = "CommandTryReconnectDesc".Translate(),
+					icon = ContentFinder<Texture2D>.Get("UI/Commands/TryReconnect", true),
+					defaultLabel = "CommandTryReconnectLabel".Translate()
+				};
+			}
 		}
 
 		private void TryManualReconnect()
@@ -179,11 +191,11 @@ namespace RimWorld
 			{
 				CompPower.recentlyConnectedNets.Add(this.PowerNet);
 			}
-			CompPower compPower = PowerConnectionMaker.BestTransmitterForConnector(this.parent.Position, this.parent.Map, CompPower.recentlyConnectedNets);
+			CompPower compPower = PowerConnectionMaker.BestTransmitterForConnector(base.parent.Position, base.parent.Map, CompPower.recentlyConnectedNets);
 			if (compPower == null)
 			{
 				CompPower.recentlyConnectedNets.Clear();
-				compPower = PowerConnectionMaker.BestTransmitterForConnector(this.parent.Position, this.parent.Map, null);
+				compPower = PowerConnectionMaker.BestTransmitterForConnector(base.parent.Position, base.parent.Map, null);
 			}
 			if (compPower != null)
 			{
@@ -193,8 +205,8 @@ namespace RimWorld
 				{
 					MoteMaker.ThrowMetaPuff(compPower.parent.Position.ToVector3Shifted(), compPower.parent.Map);
 				}
-				this.parent.Map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.PowerGrid);
-				this.parent.Map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
+				base.parent.Map.mapDrawer.MapMeshDirty(base.parent.Position, MapMeshFlag.PowerGrid);
+				base.parent.Map.mapDrawer.MapMeshDirty(base.parent.Position, MapMeshFlag.Things);
 			}
 		}
 
@@ -202,28 +214,21 @@ namespace RimWorld
 		{
 			if (this.connectParent != null && (!reconnectingAfterLoading || this.connectParent != transmitter))
 			{
-				Log.Error(string.Concat(new object[]
+				Log.Error("Tried to connect " + this + " to transmitter " + transmitter + " but it's already connected to " + this.connectParent + ".");
+			}
+			else
+			{
+				this.connectParent = transmitter;
+				if (this.connectParent.connectChildren == null)
 				{
-					"Tried to connect ",
-					this,
-					" to transmitter ",
-					transmitter,
-					" but it's already connected to ",
-					this.connectParent,
-					"."
-				}));
-				return;
-			}
-			this.connectParent = transmitter;
-			if (this.connectParent.connectChildren == null)
-			{
-				this.connectParent.connectChildren = new List<CompPower>();
-			}
-			transmitter.connectChildren.Add(this);
-			PowerNet powerNet = this.PowerNet;
-			if (powerNet != null)
-			{
-				powerNet.RegisterConnector(this);
+					this.connectParent.connectChildren = new List<CompPower>();
+				}
+				transmitter.connectChildren.Add(this);
+				PowerNet powerNet = this.PowerNet;
+				if (powerNet != null)
+				{
+					powerNet.RegisterConnector(this);
+				}
 			}
 		}
 
@@ -235,11 +240,7 @@ namespace RimWorld
 			}
 			string text = (this.PowerNet.CurrentEnergyGainRate() / CompPower.WattsToWattDaysPerTick).ToString("F0");
 			string text2 = this.PowerNet.CurrentStoredEnergy().ToString("F0");
-			return "PowerConnectedRateStored".Translate(new object[]
-			{
-				text,
-				text2
-			});
+			return "PowerConnectedRateStored".Translate(text, text2);
 		}
 	}
 }

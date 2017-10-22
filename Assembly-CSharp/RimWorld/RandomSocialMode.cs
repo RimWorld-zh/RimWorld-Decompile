@@ -1,12 +1,10 @@
-using System;
-
 namespace RimWorld
 {
 	public enum RandomSocialMode
 	{
-		Off,
-		Quiet,
-		Normal,
-		SuperActive
+		Off = 0,
+		Quiet = 1,
+		Normal = 2,
+		SuperActive = 3
 	}
 }

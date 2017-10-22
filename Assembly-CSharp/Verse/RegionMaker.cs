@@ -13,7 +13,7 @@ namespace Verse
 
 		private bool working;
 
-		private HashSet<IntVec3>[] linksProcessedAt = new HashSet<IntVec3>[]
+		private HashSet<IntVec3>[] linksProcessedAt = new HashSet<IntVec3>[4]
 		{
 			new HashSet<IntVec3>(),
 			new HashSet<IntVec3>(),
@@ -43,7 +43,6 @@ namespace Verse
 				return null;
 			}
 			this.working = true;
-			Region result;
 			try
 			{
 				this.regionGrid = this.map.regionGrid;
@@ -56,13 +55,15 @@ namespace Verse
 				this.FloodFillAndAddCells(root);
 				this.CreateLinks();
 				this.RegisterThingsInRegionListers();
-				result = this.newReg;
+				return this.newReg;
+				IL_00a9:
+				Region result;
+				return result;
 			}
 			finally
 			{
 				this.working = false;
 			}
-			return result;
 		}
 
 		private void FloodFillAndAddCells(IntVec3 root)
@@ -74,7 +75,7 @@ namespace Verse
 			}
 			else
 			{
-				this.map.floodFiller.FloodFill(root, (IntVec3 x) => this.newReg.extentsLimit.Contains(x) && x.GetExpectedRegionType(this.map) == this.newReg.type, delegate(IntVec3 x)
+				this.map.floodFiller.FloodFill(root, (Predicate<IntVec3>)((IntVec3 x) => this.newReg.extentsLimit.Contains(x) && x.GetExpectedRegionType(this.map) == this.newReg.type), (Action<IntVec3>)delegate(IntVec3 x)
 				{
 					this.AddCell(x);
 				}, false);
@@ -101,10 +102,19 @@ namespace Verse
 			{
 				this.newReg.extentsClose.maxZ = c.z;
 			}
-			if (c.x == 0 || c.x == this.map.Size.x - 1 || c.z == 0 || c.z == this.map.Size.z - 1)
+			if (c.x != 0)
 			{
-				this.newReg.touchesMapEdge = true;
+				int x = c.x;
+				IntVec3 size = this.map.Size;
+				if (((x != size.x - 1) ? c.z : 0) != 0)
+				{
+					int z = c.z;
+					IntVec3 size2 = this.map.Size;
+					if (z != size2.z - 1)
+						return;
+				}
 			}
+			this.newReg.touchesMapEdge = true;
 		}
 
 		private void CreateLinks()
@@ -125,88 +135,85 @@ namespace Verse
 
 		private void SweepInTwoDirectionsAndTryToCreateLink(Rot4 potentialOtherRegionDir, IntVec3 c)
 		{
-			if (!potentialOtherRegionDir.IsValid)
+			if (potentialOtherRegionDir.IsValid)
 			{
-				return;
-			}
-			HashSet<IntVec3> hashSet = this.linksProcessedAt[potentialOtherRegionDir.AsInt];
-			if (hashSet.Contains(c))
-			{
-				return;
-			}
-			IntVec3 c2 = c + potentialOtherRegionDir.FacingCell;
-			if (c2.InBounds(this.map) && this.regionGrid.GetRegionAt_NoRebuild_InvalidAllowed(c2) == this.newReg)
-			{
-				return;
-			}
-			RegionType expectedRegionType = c2.GetExpectedRegionType(this.map);
-			if (expectedRegionType == RegionType.None)
-			{
-				return;
-			}
-			Rot4 rot = potentialOtherRegionDir;
-			rot.Rotate(RotationDirection.Clockwise);
-			int num = 0;
-			int num2 = 0;
-			hashSet.Add(c);
-			if (!expectedRegionType.IsOneCellRegion())
-			{
-				while (true)
+				HashSet<IntVec3> hashSet = this.linksProcessedAt[potentialOtherRegionDir.AsInt];
+				if (!hashSet.Contains(c))
 				{
-					IntVec3 intVec = c + rot.FacingCell * (num + 1);
-					if (!intVec.InBounds(this.map) || this.regionGrid.GetRegionAt_NoRebuild_InvalidAllowed(intVec) != this.newReg || (intVec + potentialOtherRegionDir.FacingCell).GetExpectedRegionType(this.map) != expectedRegionType)
+					IntVec3 c2 = c + potentialOtherRegionDir.FacingCell;
+					if (c2.InBounds(this.map) && this.regionGrid.GetRegionAt_NoRebuild_InvalidAllowed(c2) == this.newReg)
+						return;
+					RegionType expectedRegionType = c2.GetExpectedRegionType(this.map);
+					if (expectedRegionType != 0)
 					{
-						break;
+						Rot4 rot = potentialOtherRegionDir;
+						rot.Rotate(RotationDirection.Clockwise);
+						int num = 0;
+						int num2 = 0;
+						hashSet.Add(c);
+						if (!expectedRegionType.IsOneCellRegion())
+						{
+							while (true)
+							{
+								IntVec3 intVec = c + rot.FacingCell * (num + 1);
+								if (intVec.InBounds(this.map) && this.regionGrid.GetRegionAt_NoRebuild_InvalidAllowed(intVec) == this.newReg && (intVec + potentialOtherRegionDir.FacingCell).GetExpectedRegionType(this.map) == expectedRegionType)
+								{
+									if (!hashSet.Add(intVec))
+									{
+										Log.Error("We've processed the same cell twice.");
+									}
+									num++;
+									continue;
+								}
+								break;
+							}
+							while (true)
+							{
+								IntVec3 intVec2 = c - rot.FacingCell * (num2 + 1);
+								if (intVec2.InBounds(this.map) && this.regionGrid.GetRegionAt_NoRebuild_InvalidAllowed(intVec2) == this.newReg && (intVec2 + potentialOtherRegionDir.FacingCell).GetExpectedRegionType(this.map) == expectedRegionType)
+								{
+									if (!hashSet.Add(intVec2))
+									{
+										Log.Error("We've processed the same cell twice.");
+									}
+									num2++;
+									continue;
+								}
+								break;
+							}
+						}
+						int length = num + num2 + 1;
+						SpanDirection dir;
+						IntVec3 root;
+						if (potentialOtherRegionDir == Rot4.North)
+						{
+							dir = SpanDirection.East;
+							root = c - rot.FacingCell * num2;
+							root.z++;
+						}
+						else if (potentialOtherRegionDir == Rot4.South)
+						{
+							dir = SpanDirection.East;
+							root = c + rot.FacingCell * num;
+						}
+						else if (potentialOtherRegionDir == Rot4.East)
+						{
+							dir = SpanDirection.North;
+							root = c + rot.FacingCell * num;
+							root.x++;
+						}
+						else
+						{
+							dir = SpanDirection.North;
+							root = c - rot.FacingCell * num2;
+						}
+						EdgeSpan span = new EdgeSpan(root, dir, length);
+						RegionLink regionLink = this.map.regionLinkDatabase.LinkFrom(span);
+						regionLink.Register(this.newReg);
+						this.newReg.links.Add(regionLink);
 					}
-					if (!hashSet.Add(intVec))
-					{
-						Log.Error("We've processed the same cell twice.");
-					}
-					num++;
 				}
-				while (true)
-				{
-					IntVec3 intVec2 = c - rot.FacingCell * (num2 + 1);
-					if (!intVec2.InBounds(this.map) || this.regionGrid.GetRegionAt_NoRebuild_InvalidAllowed(intVec2) != this.newReg || (intVec2 + potentialOtherRegionDir.FacingCell).GetExpectedRegionType(this.map) != expectedRegionType)
-					{
-						break;
-					}
-					if (!hashSet.Add(intVec2))
-					{
-						Log.Error("We've processed the same cell twice.");
-					}
-					num2++;
-				}
 			}
-			int length = num + num2 + 1;
-			SpanDirection dir;
-			IntVec3 root;
-			if (potentialOtherRegionDir == Rot4.North)
-			{
-				dir = SpanDirection.East;
-				root = c - rot.FacingCell * num2;
-				root.z++;
-			}
-			else if (potentialOtherRegionDir == Rot4.South)
-			{
-				dir = SpanDirection.East;
-				root = c + rot.FacingCell * num;
-			}
-			else if (potentialOtherRegionDir == Rot4.East)
-			{
-				dir = SpanDirection.North;
-				root = c + rot.FacingCell * num;
-				root.x++;
-			}
-			else
-			{
-				dir = SpanDirection.North;
-				root = c - rot.FacingCell * num2;
-			}
-			EdgeSpan span = new EdgeSpan(root, dir, length);
-			RegionLink regionLink = this.map.regionLinkDatabase.LinkFrom(span);
-			regionLink.Register(this.newReg);
-			this.newReg.links.Add(regionLink);
 		}
 
 		private void RegisterThingsInRegionListers()
@@ -223,13 +230,10 @@ namespace Verse
 				for (int i = 0; i < 9; i++)
 				{
 					IntVec3 c = current + GenAdj.AdjacentCellsAndInside[i];
-					if (c.InBounds(this.map))
+					if (c.InBounds(this.map) && this.regionGrid.GetValidRegionAt(c) == this.newReg)
 					{
-						if (this.regionGrid.GetValidRegionAt(c) == this.newReg)
-						{
-							flag = true;
-							break;
-						}
+						flag = true;
+						break;
 					}
 				}
 				if (flag)

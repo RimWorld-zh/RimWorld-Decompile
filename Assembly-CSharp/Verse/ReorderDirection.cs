@@ -1,10 +1,8 @@
-using System;
-
 namespace Verse
 {
 	public enum ReorderDirection
 	{
-		Up,
-		Down
+		Up = 0,
+		Down = 1
 	}
 }

@@ -83,59 +83,33 @@ namespace RimWorld
 		static VersionControl()
 		{
 			Version version = Assembly.GetExecutingAssembly().GetName().Version;
-			DateTime dateTime = new DateTime(2000, 1, 1);
-			VersionControl.buildDate = dateTime.AddDays((double)version.Build);
+			VersionControl.buildDate = new DateTime(2000, 1, 1).AddDays((double)version.Build);
 			int build = version.Build - 4805;
 			int revision = version.Revision * 2 / 60;
 			VersionControl.version = new Version(version.Major, version.Minor, build, revision);
-			VersionControl.versionStringWithRev = string.Concat(new object[]
-			{
-				VersionControl.version.Major,
-				".",
-				VersionControl.version.Minor,
-				".",
-				VersionControl.version.Build,
-				" rev",
-				VersionControl.version.Revision
-			});
-			VersionControl.versionString = string.Concat(new object[]
-			{
-				VersionControl.version.Major,
-				".",
-				VersionControl.version.Minor,
-				".",
-				VersionControl.version.Build
-			});
+			VersionControl.versionStringWithRev = VersionControl.version.Major + "." + VersionControl.version.Minor + "." + VersionControl.version.Build + " rev" + VersionControl.version.Revision;
+			VersionControl.versionString = VersionControl.version.Major + "." + VersionControl.version.Minor + "." + VersionControl.version.Build;
 		}
 
 		public static void DrawInfoInCorner()
 		{
 			Text.Font = GameFont.Small;
 			GUI.color = new Color(1f, 1f, 1f, 0.5f);
-			string text = "VersionIndicator".Translate(new object[]
-			{
-				VersionControl.versionString
-			});
+			string str = "VersionIndicator".Translate(VersionControl.versionString);
 			if (UnityData.isDebugBuild)
 			{
-				text = text + " (" + "DevelopmentBuildLower".Translate() + ")";
+				str = str + " (" + "DevelopmentBuildLower".Translate() + ")";
 			}
-			text = text + "\n" + "CompiledOn".Translate(new object[]
-			{
-				VersionControl.buildDate.ToString("MMM d yyyy")
-			});
+			str = str + "\n" + "CompiledOn".Translate(VersionControl.buildDate.ToString("MMM d yyyy"));
 			if (SteamManager.Initialized)
 			{
-				text = text + "\n" + "LoggedIntoSteamAs".Translate(new object[]
-				{
-					SteamUtility.SteamPersonaName
-				});
+				str = str + "\n" + "LoggedIntoSteamAs".Translate(SteamUtility.SteamPersonaName);
 			}
-			Rect rect = new Rect(10f, 10f, 330f, Text.CalcHeight(text, 330f));
-			Widgets.Label(rect, text);
+			Rect rect = new Rect(10f, 10f, 330f, Text.CalcHeight(str, 330f));
+			Widgets.Label(rect, str);
 			GUI.color = Color.white;
 			LatestVersionGetter component = Current.Root.gameObject.GetComponent<LatestVersionGetter>();
-			Rect rect2 = new Rect(10f, rect.yMax - 5f, 330f, 999f);
+			Rect rect2 = new Rect(10f, (float)(rect.yMax - 5.0), 330f, 999f);
 			component.DrawAt(rect2);
 		}
 
@@ -146,17 +120,14 @@ namespace RimWorld
 
 		public static bool IsWellFormattedVersionString(string str)
 		{
-			string[] array = str.Split(new char[]
-			{
-				'.'
-			});
+			string[] array = str.Split('.');
 			if (array.Length != 3)
 			{
 				return false;
 			}
 			for (int i = 0; i < 3; i++)
 			{
-				int num;
+				int num = default(int);
 				if (!int.TryParse(array[i], out num))
 				{
 					return false;
@@ -173,10 +144,7 @@ namespace RimWorld
 		{
 			str = VersionControl.VersionStringWithoutRev(str);
 			int result = 0;
-			string[] array = str.Split(new char[]
-			{
-				'.'
-			});
+			string[] array = str.Split('.');
 			if (array.Length < 3 || !int.TryParse(array[2], out result))
 			{
 				Log.Warning("Could not get build from version string " + str);
@@ -188,10 +156,7 @@ namespace RimWorld
 		{
 			str = VersionControl.VersionStringWithoutRev(str);
 			int result = 0;
-			string[] array = str.Split(new char[]
-			{
-				'.'
-			});
+			string[] array = str.Split('.');
 			if (array.Length < 2 || !int.TryParse(array[1], out result))
 			{
 				Log.Warning("Could not get minor version from version string " + str);
@@ -203,10 +168,7 @@ namespace RimWorld
 		{
 			str = VersionControl.VersionStringWithoutRev(str);
 			int result = 0;
-			if (!int.TryParse(str.Split(new char[]
-			{
-				'.'
-			})[0], out result))
+			if (!int.TryParse(str.Split('.')[0], out result))
 			{
 				Log.Warning("Could not get major version from version string " + str);
 			}
@@ -215,10 +177,7 @@ namespace RimWorld
 
 		public static string VersionStringWithoutRev(string str)
 		{
-			return str.Split(new char[]
-			{
-				' '
-			})[0];
+			return str.Split(' ')[0];
 		}
 
 		public static Version VersionFromString(string str)
@@ -227,10 +186,7 @@ namespace RimWorld
 			{
 				throw new ArgumentException("str");
 			}
-			string[] array = str.Split(new char[]
-			{
-				'.'
-			});
+			string[] array = str.Split('.');
 			if (array.Length > 3)
 			{
 				throw new ArgumentException("str");
@@ -240,7 +196,7 @@ namespace RimWorld
 			int build = 0;
 			for (int i = 0; i < 3; i++)
 			{
-				int num;
+				int num = default(int);
 				if (!int.TryParse(array[i], out num))
 				{
 					throw new ArgumentException("str");
@@ -252,14 +208,20 @@ namespace RimWorld
 				switch (i)
 				{
 				case 0:
+				{
 					major = num;
 					break;
+				}
 				case 1:
+				{
 					minor = num;
 					break;
+				}
 				case 2:
+				{
 					build = num;
 					break;
+				}
 				}
 			}
 			return new Version(major, minor, build);

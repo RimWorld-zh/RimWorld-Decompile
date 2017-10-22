@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld
 {
 	public abstract class ScenPart_Rule : ScenPart

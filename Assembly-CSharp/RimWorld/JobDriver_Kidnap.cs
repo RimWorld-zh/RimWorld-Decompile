@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 using Verse.AI;
 
@@ -18,21 +17,20 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			if (this.pawn.HostileTo(this.Takee))
+			if (base.pawn.HostileTo(this.Takee))
 			{
 				return base.GetReport();
 			}
 			return JobDefOf.Rescue.reportString.Replace("TargetA", this.Takee.LabelShort);
 		}
 
-		[DebuggerHidden]
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			JobDriver_Kidnap.<MakeNewToils>c__Iterator31 <MakeNewToils>c__Iterator = new JobDriver_Kidnap.<MakeNewToils>c__Iterator31();
-			<MakeNewToils>c__Iterator.<>f__this = this;
-			JobDriver_Kidnap.<MakeNewToils>c__Iterator31 expr_0E = <MakeNewToils>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			this.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator31)/*Error near IL_0029: stateMachine*/)._003C_003Ef__this.Takee.Downed && ((_003CMakeNewToils_003Ec__Iterator31)/*Error near IL_0029: stateMachine*/)._003C_003Ef__this.Takee.Awake()));
+			foreach (Toil item in base.MakeNewToils())
+			{
+				yield return item;
+			}
 		}
 	}
 }

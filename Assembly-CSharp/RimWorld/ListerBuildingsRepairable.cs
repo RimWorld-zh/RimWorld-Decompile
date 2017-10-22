@@ -23,67 +23,62 @@ namespace RimWorld
 
 		public void Notify_BuildingSpawned(Building b)
 		{
-			if (b.Faction == null)
+			if (b.Faction != null)
 			{
-				return;
+				this.UpdateBuilding(b);
 			}
-			this.UpdateBuilding(b);
 		}
 
 		public void Notify_BuildingDeSpawned(Building b)
 		{
-			if (b.Faction == null)
+			if (b.Faction != null)
 			{
-				return;
+				this.ListFor(b.Faction).Remove(b);
+				this.HashSetFor(b.Faction).Remove(b);
 			}
-			this.ListFor(b.Faction).Remove(b);
-			this.HashSetFor(b.Faction).Remove(b);
 		}
 
 		public void Notify_BuildingTookDamage(Building b)
 		{
-			if (b.Faction == null)
+			if (b.Faction != null)
 			{
-				return;
+				this.UpdateBuilding(b);
 			}
-			this.UpdateBuilding(b);
 		}
 
 		public void Notify_BuildingRepaired(Building b)
 		{
-			if (b.Faction == null)
+			if (b.Faction != null)
 			{
-				return;
+				this.UpdateBuilding(b);
 			}
-			this.UpdateBuilding(b);
 		}
 
 		private void UpdateBuilding(Building b)
 		{
-			if (b.Faction == null || !b.def.building.repairable)
+			if (b.Faction != null && b.def.building.repairable)
 			{
-				return;
-			}
-			List<Thing> list = this.ListFor(b.Faction);
-			HashSet<Thing> hashSet = this.HashSetFor(b.Faction);
-			if (b.HitPoints < b.MaxHitPoints)
-			{
-				if (!list.Contains(b))
+				List<Thing> list = this.ListFor(b.Faction);
+				HashSet<Thing> hashSet = this.HashSetFor(b.Faction);
+				if (b.HitPoints < b.MaxHitPoints)
 				{
-					list.Add(b);
+					if (!list.Contains(b))
+					{
+						list.Add(b);
+					}
+					hashSet.Add(b);
 				}
-				hashSet.Add(b);
-			}
-			else
-			{
-				list.Remove(b);
-				hashSet.Remove(b);
+				else
+				{
+					list.Remove(b);
+					hashSet.Remove(b);
+				}
 			}
 		}
 
 		private List<Thing> ListFor(Faction fac)
 		{
-			List<Thing> list;
+			List<Thing> list = default(List<Thing>);
 			if (!this.repairables.TryGetValue(fac, out list))
 			{
 				list = new List<Thing>();
@@ -94,7 +89,7 @@ namespace RimWorld
 
 		private HashSet<Thing> HashSetFor(Faction fac)
 		{
-			HashSet<Thing> hashSet;
+			HashSet<Thing> hashSet = default(HashSet<Thing>);
 			if (!this.repairablesSet.TryGetValue(fac, out hashSet))
 			{
 				hashSet = new HashSet<Thing>();
@@ -106,22 +101,24 @@ namespace RimWorld
 		internal string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (Faction current in Find.FactionManager.AllFactions)
+			foreach (Faction allFaction in Find.FactionManager.AllFactions)
 			{
-				List<Thing> list = this.ListFor(current);
-				if (!list.NullOrEmpty<Thing>())
+				List<Thing> list = this.ListFor(allFaction);
+				if (!list.NullOrEmpty())
 				{
-					stringBuilder.AppendLine(string.Concat(new object[]
+					stringBuilder.AppendLine("=======" + allFaction.Name + " (" + allFaction.def + ")");
+					List<Thing>.Enumerator enumerator2 = list.GetEnumerator();
+					try
 					{
-						"=======",
-						current.Name,
-						" (",
-						current.def,
-						")"
-					}));
-					foreach (Thing current2 in list)
+						while (enumerator2.MoveNext())
+						{
+							Thing current2 = enumerator2.Current;
+							stringBuilder.AppendLine(current2.ThingID);
+						}
+					}
+					finally
 					{
-						stringBuilder.AppendLine(current2.ThingID);
+						((IDisposable)(object)enumerator2).Dispose();
 					}
 				}
 			}

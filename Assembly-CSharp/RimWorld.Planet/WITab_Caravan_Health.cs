@@ -49,7 +49,7 @@ namespace RimWorld.Planet
 						WITab_Caravan_Health.capacitiesToDisplay.Add(allDefsListForReading[i]);
 					}
 				}
-				WITab_Caravan_Health.capacitiesToDisplay.SortBy((PawnCapacityDef x) => x.listOrder);
+				WITab_Caravan_Health.capacitiesToDisplay.SortBy((Func<PawnCapacityDef, int>)((PawnCapacityDef x) => x.listOrder));
 				return WITab_Caravan_Health.capacitiesToDisplay;
 			}
 		}
@@ -68,21 +68,21 @@ namespace RimWorld.Planet
 
 		public WITab_Caravan_Health()
 		{
-			this.labelKey = "TabCaravanHealth";
+			base.labelKey = "TabCaravanHealth";
 		}
 
 		protected override void FillTab()
 		{
 			Text.Font = GameFont.Small;
-			Rect rect = new Rect(0f, 0f, this.size.x, this.size.y).ContractedBy(10f);
-			Rect rect2 = new Rect(0f, 0f, rect.width - 16f, this.scrollViewHeight);
+			Rect rect = new Rect(0f, 0f, base.size.x, base.size.y).ContractedBy(10f);
+			Rect rect2 = new Rect(0f, 0f, (float)(rect.width - 16.0), this.scrollViewHeight);
 			float num = 0f;
 			Widgets.BeginScrollView(rect, ref this.scrollPosition, rect2, true);
 			this.DoColumnHeaders(ref num);
 			this.DoRows(ref num, rect2, rect);
 			if (Event.current.type == EventType.Layout)
 			{
-				this.scrollViewHeight = num + 30f;
+				this.scrollViewHeight = (float)(num + 30.0);
 			}
 			Widgets.EndScrollView();
 		}
@@ -90,11 +90,11 @@ namespace RimWorld.Planet
 		protected override void UpdateSize()
 		{
 			base.UpdateSize();
-			this.size = this.GetRawSize(false);
-			if (this.size.x + this.SpecificHealthTabWidth > (float)UI.screenWidth)
+			base.size = this.GetRawSize(false);
+			if (base.size.x + this.SpecificHealthTabWidth > (float)UI.screenWidth)
 			{
 				this.compactMode = true;
-				this.size = this.GetRawSize(true);
+				base.size = this.GetRawSize(true);
 			}
 			else
 			{
@@ -110,19 +110,18 @@ namespace RimWorld.Planet
 			{
 				Rect tabRect = base.TabRect;
 				float specificHealthTabWidth = this.SpecificHealthTabWidth;
-				Rect rect = new Rect(tabRect.xMax - 1f, tabRect.yMin, specificHealthTabWidth, tabRect.height);
-				Find.WindowStack.ImmediateWindow(1439870015, rect, WindowLayer.GameUI, delegate
+				Rect rect = new Rect((float)(tabRect.xMax - 1.0), tabRect.yMin, specificHealthTabWidth, tabRect.height);
+				Find.WindowStack.ImmediateWindow(1439870015, rect, WindowLayer.GameUI, (Action)delegate
 				{
-					if (localSpecificHealthTabForPawn.DestroyedOrNull())
+					if (!localSpecificHealthTabForPawn.DestroyedOrNull())
 					{
-						return;
-					}
-					Rect outRect = new Rect(0f, 20f, rect.width, rect.height - 20f);
-					HealthCardUtility.DrawPawnHealthCard(outRect, localSpecificHealthTabForPawn, false, true, localSpecificHealthTabForPawn);
-					if (Widgets.CloseButtonFor(rect.AtZero()))
-					{
-						this.specificHealthTabForPawn = null;
-						SoundDefOf.TabClose.PlayOneShotOnCamera(null);
+						Rect outRect = new Rect(0f, 20f, rect.width, (float)(rect.height - 20.0));
+						HealthCardUtility.DrawPawnHealthCard(outRect, localSpecificHealthTabForPawn, false, true, localSpecificHealthTabForPawn);
+						if (Widgets.CloseButtonFor(rect.AtZero()))
+						{
+							this.specificHealthTabForPawn = null;
+							SoundDefOf.TabClose.PlayOneShotOnCamera(null);
+						}
 					}
 				}, true, false, 1f);
 			}
@@ -139,7 +138,7 @@ namespace RimWorld.Planet
 				List<PawnCapacityDef> list = this.CapacitiesToDisplay;
 				for (int i = 0; i < list.Count; i++)
 				{
-					num += 100f;
+					num = (float)(num + 100.0);
 					Widgets.Label(new Rect(num, 3f, 100f, 100f), list[i].LabelCap);
 				}
 				Text.Anchor = TextAnchor.UpperLeft;
@@ -189,18 +188,18 @@ namespace RimWorld.Planet
 			float num = 100f;
 			if (!compactMode)
 			{
-				num += 100f;
-				num += (float)this.CapacitiesToDisplay.Count * 100f;
+				num = (float)(num + 100.0);
+				num = (float)(num + (float)this.CapacitiesToDisplay.Count * 100.0);
 			}
-			Vector2 result;
-			result.x = 127f + num + 16f;
-			result.y = Mathf.Min(550f, this.PaneTopY - 30f);
+			Vector2 result = default(Vector2);
+			result.x = (float)(127.0 + num + 16.0);
+			result.y = Mathf.Min(550f, (float)(this.PaneTopY - 30.0));
 			return result;
 		}
 
 		private void DoRow(ref float curY, Rect viewRect, Rect scrollOutRect, Pawn p)
 		{
-			float num = this.scrollPosition.y - 50f;
+			float num = (float)(this.scrollPosition.y - 50.0);
 			float num2 = this.scrollPosition.y + scrollOutRect.height;
 			if (curY > num && curY < num2)
 			{
@@ -215,7 +214,7 @@ namespace RimWorld.Planet
 			Rect rect2 = rect.AtZero();
 			CaravanPeopleAndItemsTabUtility.DoAbandonButton(rect2, p, base.SelCaravan);
 			rect2.width -= 24f;
-			Widgets.InfoCardButton(rect2.width - 24f, (rect.height - 24f) / 2f, p);
+			Widgets.InfoCardButton((float)(rect2.width - 24.0), (float)((rect.height - 24.0) / 2.0), p);
 			rect2.width -= 24f;
 			CaravanPeopleAndItemsTabUtility.DoOpenSpecificTabButton(rect2, p, ref this.specificHealthTabForPawn);
 			rect2.width -= 24f;
@@ -223,9 +222,9 @@ namespace RimWorld.Planet
 			{
 				Widgets.DrawHighlight(rect2);
 			}
-			Rect rect3 = new Rect(4f, (rect.height - 27f) / 2f, 27f, 27f);
+			Rect rect3 = new Rect(4f, (float)((rect.height - 27.0) / 2.0), 27f, 27f);
 			Widgets.ThingIcon(rect3, p, 1f);
-			Rect bgRect = new Rect(rect3.xMax + 4f, 16f, 100f, 18f);
+			Rect bgRect = new Rect((float)(rect3.xMax + 4.0), 16f, 100f, 18f);
 			GenMapUI.DrawPawnLabel(p, bgRect, 1f, 100f, null, GameFont.Small, false, false);
 			if (!this.compactMode)
 			{
@@ -238,27 +237,18 @@ namespace RimWorld.Planet
 				List<PawnCapacityDef> list = this.CapacitiesToDisplay;
 				for (int i = 0; i < list.Count; i++)
 				{
-					num += 100f;
+					num = (float)(num + 100.0);
 					Rect rect5 = new Rect(num, 0f, 100f, 50f);
-					if (!p.RaceProps.Humanlike || list[i].showOnHumanlikes)
+					if ((!p.RaceProps.Humanlike || list[i].showOnHumanlikes) && (!p.RaceProps.Animal || list[i].showOnAnimals) && (!p.RaceProps.IsMechanoid || list[i].showOnMechanoids) && PawnCapacityUtility.BodyCanEverDoCapacity(p.RaceProps.body, list[i]))
 					{
-						if (!p.RaceProps.Animal || list[i].showOnAnimals)
-						{
-							if (!p.RaceProps.IsMechanoid || list[i].showOnMechanoids)
-							{
-								if (PawnCapacityUtility.BodyCanEverDoCapacity(p.RaceProps.body, list[i]))
-								{
-									this.DoCapacity(rect5, p, list[i]);
-								}
-							}
-						}
+						this.DoCapacity(rect5, p, list[i]);
 					}
 				}
 			}
 			if (p.Downed)
 			{
 				GUI.color = new Color(1f, 0f, 0f, 0.5f);
-				Widgets.DrawLineHorizontal(0f, rect.height / 2f, rect.width);
+				Widgets.DrawLineHorizontal(0f, (float)(rect.height / 2.0), rect.width);
 				GUI.color = Color.white;
 			}
 			GUI.EndGroup();

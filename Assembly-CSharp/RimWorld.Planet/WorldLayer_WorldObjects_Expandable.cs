@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld.Planet
 {
 	public class WorldLayer_WorldObjects_Expandable : WorldLayer_WorldObjects
@@ -8,7 +6,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return 1f - ExpandableWorldObjectsUtility.TransitionPct;
+				return (float)(1.0 - ExpandableWorldObjectsUtility.TransitionPct);
 			}
 		}
 

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -18,21 +17,21 @@ namespace RimWorld
 		public override void Init()
 		{
 			base.Init();
-			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
-				Pawn pawn = this.lord.ownedPawns[i];
+				Pawn pawn = base.lord.ownedPawns[i];
 				if (!this.HasFleeingDuty(pawn) || pawn.mindState.duty.def == DutyDefOf.ExitMapRandom)
 				{
-					pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.PanicFlee, null, false, false, null);
+					pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.PanicFlee, (string)null, false, false, null);
 				}
 			}
 		}
 
 		public override void UpdateAllDuties()
 		{
-			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
+			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
-				Pawn pawn = this.lord.ownedPawns[i];
+				Pawn pawn = base.lord.ownedPawns[i];
 				if (!this.HasFleeingDuty(pawn))
 				{
 					pawn.mindState.duty = new PawnDuty(DutyDefOf.ExitMapRandom);
@@ -42,7 +41,15 @@ namespace RimWorld
 
 		private bool HasFleeingDuty(Pawn pawn)
 		{
-			return pawn.mindState.duty != null && (pawn.mindState.duty.def == DutyDefOf.ExitMapRandom || pawn.mindState.duty.def == DutyDefOf.Steal || pawn.mindState.duty.def == DutyDefOf.Kidnap);
+			if (pawn.mindState.duty == null)
+			{
+				return false;
+			}
+			if (pawn.mindState.duty.def != DutyDefOf.ExitMapRandom && pawn.mindState.duty.def != DutyDefOf.Steal && pawn.mindState.duty.def != DutyDefOf.Kidnap)
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

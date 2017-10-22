@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Verse
 {
@@ -18,14 +17,44 @@ namespace Verse
 
 		public List<PawnInventoryOption> subOptionsChooseOne;
 
-		[DebuggerHidden]
 		public IEnumerable<Thing> GenerateThings()
 		{
-			PawnInventoryOption.<GenerateThings>c__Iterator1D4 <GenerateThings>c__Iterator1D = new PawnInventoryOption.<GenerateThings>c__Iterator1D4();
-			<GenerateThings>c__Iterator1D.<>f__this = this;
-			PawnInventoryOption.<GenerateThings>c__Iterator1D4 expr_0E = <GenerateThings>c__Iterator1D;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			if (!(Rand.Value < this.skipChance))
+			{
+				if (this.thingDef != null && this.countRange.max > 0)
+				{
+					Thing thing = ThingMaker.MakeThing(this.thingDef, null);
+					thing.stackCount = this.countRange.RandomInRange;
+					yield return thing;
+				}
+				if (this.subOptionsTakeAll != null)
+				{
+					List<PawnInventoryOption>.Enumerator enumerator = this.subOptionsTakeAll.GetEnumerator();
+					try
+					{
+						while (enumerator.MoveNext())
+						{
+							PawnInventoryOption opt = enumerator.Current;
+							foreach (Thing item in opt.GenerateThings())
+							{
+								yield return item;
+							}
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator).Dispose();
+					}
+				}
+				if (this.subOptionsChooseOne != null)
+				{
+					PawnInventoryOption chosen = this.subOptionsChooseOne.RandomElementByWeight((Func<PawnInventoryOption, float>)((PawnInventoryOption o) => o.choiceChance));
+					foreach (Thing item2 in chosen.GenerateThings())
+					{
+						yield return item2;
+					}
+				}
+			}
 		}
 	}
 }

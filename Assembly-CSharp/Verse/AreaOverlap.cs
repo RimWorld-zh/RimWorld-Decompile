@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum AreaOverlap
 	{
-		None,
-		Entire,
-		Partial
+		None = 0,
+		Entire = 1,
+		Partial = 2
 	}
 }

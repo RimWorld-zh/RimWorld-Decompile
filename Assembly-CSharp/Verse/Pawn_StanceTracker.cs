@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -54,7 +53,7 @@ namespace Verse
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.staggerUntilTick, "staggerUntilTick", 0, false);
-			Scribe_Deep.Look<StunHandler>(ref this.stunner, "stunner", new object[]
+			Scribe_Deep.Look<StunHandler>(ref this.stunner, "stunner", new object[1]
 			{
 				this.pawn
 			});
@@ -87,16 +86,7 @@ namespace Verse
 		{
 			if (this.debugLog)
 			{
-				Log.Message(string.Concat(new object[]
-				{
-					Find.TickManager.TicksGame,
-					" ",
-					this.pawn,
-					" SetStance ",
-					this.curStance,
-					" -> ",
-					newStance
-				}));
+				Log.Message(Find.TickManager.TicksGame + " " + this.pawn + " SetStance " + this.curStance + " -> " + newStance);
 			}
 			newStance.stanceTracker = this;
 			this.curStance = newStance;

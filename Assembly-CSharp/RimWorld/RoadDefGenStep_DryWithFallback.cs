@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -19,10 +18,9 @@ namespace RimWorld
 				map.terrainGrid.SetTerrain(position, map.terrainGrid.TerrainAt(position).driesTo);
 			}
 			TerrainDef terrainDef = map.terrainGrid.TerrainAt(position);
-			if (terrainDef.passability == Traversability.Impassable || terrainDef == TerrainDefOf.WaterDeep || terrainDef == TerrainDefOf.WaterMovingShallow || terrainDef == TerrainDefOf.WaterMovingDeep)
-			{
-				map.terrainGrid.SetTerrain(position, fallback);
-			}
+			if (terrainDef.passability != Traversability.Impassable && terrainDef != TerrainDefOf.WaterDeep && terrainDef != TerrainDefOf.WaterMovingShallow && terrainDef != TerrainDefOf.WaterMovingDeep)
+				return;
+			map.terrainGrid.SetTerrain(position, fallback);
 		}
 	}
 }

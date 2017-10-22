@@ -20,26 +20,26 @@ namespace RimWorld
 		private static IEnumerable<ThingDef> PossiblePodContentsDefs()
 		{
 			return from d in DefDatabase<ThingDef>.AllDefs
-			where d.category == ThingCategory.Item && d.tradeability == Tradeability.Stockable && d.equipmentType == EquipmentType.None && d.BaseMarketValue >= 1f && d.BaseMarketValue < 40f && !d.HasComp(typeof(CompHatcher))
+			where d.category == ThingCategory.Item && d.tradeability == Tradeability.Stockable && d.equipmentType == EquipmentType.None && d.BaseMarketValue >= 1.0 && d.BaseMarketValue < 40.0 && !d.HasComp(typeof(CompHatcher))
 			select d;
 		}
 
 		private static ThingDef RandomPodContentsDef()
 		{
-			Func<ThingDef, bool> isLeather = (ThingDef d) => d.category == ThingCategory.Item && d.thingCategories != null && d.thingCategories.Contains(ThingCategoryDefOf.Leathers);
-			Func<ThingDef, bool> isMeat = (ThingDef d) => d.category == ThingCategory.Item && d.thingCategories != null && d.thingCategories.Contains(ThingCategoryDefOf.MeatRaw);
-			int numLeathers = DefDatabase<ThingDef>.AllDefs.Where(isLeather).Count<ThingDef>();
-			int numMeats = DefDatabase<ThingDef>.AllDefs.Where(isMeat).Count<ThingDef>();
-			return IncidentWorker_ResourcePodCrash.PossiblePodContentsDefs().RandomElementByWeight(delegate(ThingDef d)
+			Func<ThingDef, bool> isLeather = (Func<ThingDef, bool>)((ThingDef d) => d.category == ThingCategory.Item && d.thingCategories != null && d.thingCategories.Contains(ThingCategoryDefOf.Leathers));
+			Func<ThingDef, bool> isMeat = (Func<ThingDef, bool>)((ThingDef d) => d.category == ThingCategory.Item && d.thingCategories != null && d.thingCategories.Contains(ThingCategoryDefOf.MeatRaw));
+			int numLeathers = DefDatabase<ThingDef>.AllDefs.Where(isLeather).Count();
+			int numMeats = DefDatabase<ThingDef>.AllDefs.Where(isMeat).Count();
+			return IncidentWorker_ResourcePodCrash.PossiblePodContentsDefs().RandomElementByWeight((Func<ThingDef, float>)delegate(ThingDef d)
 			{
 				float num = 100f;
 				if (isLeather(d))
 				{
-					num *= 5f / (float)numLeathers;
+					num = (float)(num * (5.0 / (float)numLeathers));
 				}
 				if (isMeat(d))
 				{
-					num *= 5f / (float)numMeats;
+					num = (float)(num * (5.0 / (float)numMeats));
 				}
 				return num;
 			});
@@ -51,7 +51,7 @@ namespace RimWorld
 			ThingDef thingDef = IncidentWorker_ResourcePodCrash.RandomPodContentsDef();
 			List<Thing> list = new List<Thing>();
 			float num = Rand.Range(150f, 600f);
-			do
+			while (true)
 			{
 				Thing thing = ThingMaker.MakeThing(thingDef, null);
 				int num2 = Rand.Range(20, 40);
@@ -70,11 +70,14 @@ namespace RimWorld
 				thing.stackCount = num2;
 				list.Add(thing);
 				num -= (float)num2 * thingDef.BaseMarketValue;
+				if (list.Count >= 7)
+					break;
+				if (num <= thingDef.BaseMarketValue)
+					break;
 			}
-			while (list.Count < 7 && num > thingDef.BaseMarketValue);
 			IntVec3 intVec = DropCellFinder.RandomDropSpot(map);
 			DropPodUtility.DropThingsNear(intVec, map, list, 110, false, true, true);
-			Find.LetterStack.ReceiveLetter("LetterLabelCargoPodCrash".Translate(), "CargoPodCrash".Translate(), LetterDefOf.Good, new TargetInfo(intVec, map, false), null);
+			Find.LetterStack.ReceiveLetter("LetterLabelCargoPodCrash".Translate(), "CargoPodCrash".Translate(), LetterDefOf.Good, new TargetInfo(intVec, map, false), (string)null);
 			return true;
 		}
 
@@ -82,9 +85,9 @@ namespace RimWorld
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("ThingDefs that can go in the resource pod crash incident.");
-			foreach (ThingDef current in IncidentWorker_ResourcePodCrash.PossiblePodContentsDefs())
+			foreach (ThingDef item in IncidentWorker_ResourcePodCrash.PossiblePodContentsDefs())
 			{
-				stringBuilder.AppendLine(current.defName);
+				stringBuilder.AppendLine(item.defName);
 			}
 			Log.Message(stringBuilder.ToString());
 		}

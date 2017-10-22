@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI
 {
 	public class ThinkNode_ConditionalNoTarget : ThinkNode_Priority

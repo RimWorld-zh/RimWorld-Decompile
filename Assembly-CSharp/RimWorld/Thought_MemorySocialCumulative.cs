@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.opinionOffset == 0f;
+				return base.opinionOffset == 0.0;
 			}
 		}
 
@@ -22,46 +21,46 @@ namespace RimWorld
 			{
 				return 0f;
 			}
-			return Mathf.Min(this.opinionOffset, this.def.maxCumulatedOpinionOffset);
+			return Mathf.Min(base.opinionOffset, base.def.maxCumulatedOpinionOffset);
 		}
 
 		public override void ThoughtInterval()
 		{
 			base.ThoughtInterval();
-			if (this.age >= 60000)
+			if (base.age >= 60000)
 			{
-				if (this.opinionOffset < 0f)
+				if (base.opinionOffset < 0.0)
 				{
-					this.opinionOffset += 1f;
-					if (this.opinionOffset > 0f)
+					base.opinionOffset += 1f;
+					if (base.opinionOffset > 0.0)
 					{
-						this.opinionOffset = 0f;
+						base.opinionOffset = 0f;
 					}
 				}
-				else if (this.opinionOffset > 0f)
+				else if (base.opinionOffset > 0.0)
 				{
-					this.opinionOffset -= 1f;
-					if (this.opinionOffset < 0f)
+					base.opinionOffset -= 1f;
+					if (base.opinionOffset < 0.0)
 					{
-						this.opinionOffset = 0f;
+						base.opinionOffset = 0f;
 					}
 				}
-				this.age = 0;
+				base.age = 0;
 			}
 		}
 
 		public override bool TryMergeWithExistingMemory(out bool showBubble)
 		{
 			showBubble = false;
-			List<Thought_Memory> memories = this.pawn.needs.mood.thoughts.memories.Memories;
+			List<Thought_Memory> memories = base.pawn.needs.mood.thoughts.memories.Memories;
 			for (int i = 0; i < memories.Count; i++)
 			{
-				if (memories[i].def == this.def)
+				if (memories[i].def == base.def)
 				{
 					Thought_MemorySocialCumulative thought_MemorySocialCumulative = (Thought_MemorySocialCumulative)memories[i];
-					if (thought_MemorySocialCumulative.OtherPawn() == this.otherPawn)
+					if (thought_MemorySocialCumulative.OtherPawn() == base.otherPawn)
 					{
-						thought_MemorySocialCumulative.opinionOffset += this.opinionOffset;
+						thought_MemorySocialCumulative.opinionOffset += base.opinionOffset;
 						return true;
 					}
 				}

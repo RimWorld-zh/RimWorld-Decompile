@@ -11,18 +11,18 @@ namespace RimWorld
 		public Dialog_NamePlayerFactionAndBase(FactionBase factionBase)
 		{
 			this.factionBase = factionBase;
-			if (factionBase.HasMap && factionBase.Map.mapPawns.FreeColonistsSpawnedCount != 0)
+			if ((factionBase.HasMap ? factionBase.Map.mapPawns.FreeColonistsSpawnedCount : 0) != 0)
 			{
-				this.suggestingPawn = factionBase.Map.mapPawns.FreeColonistsSpawned.RandomElement<Pawn>();
+				base.suggestingPawn = factionBase.Map.mapPawns.FreeColonistsSpawned.RandomElement();
 			}
-			this.curName = NameGenerator.GenerateName(RulePackDefOf.NamerFactionPlayerRandomized, null, false);
-			this.nameMessageKey = "NamePlayerFactionMessage";
-			this.invalidNameMessageKey = "PlayerFactionNameIsInvalid";
-			this.useSecondName = true;
-			this.curSecondName = NameGenerator.GenerateName(RulePackDefOf.NamerFactionBasePlayerRandomized, null, false);
-			this.secondNameMessageKey = "NamePlayerFactionBaseMessage_NameFactionContinuation";
-			this.invalidSecondNameMessageKey = "PlayerFactionBaseNameIsInvalid";
-			this.gainedNameMessageKey = "PlayerFactionAndBaseGainsName";
+			base.curName = NameGenerator.GenerateName(RulePackDefOf.NamerFactionPlayerRandomized, (Predicate<string>)null, false);
+			base.nameMessageKey = "NamePlayerFactionMessage";
+			base.invalidNameMessageKey = "PlayerFactionNameIsInvalid";
+			base.useSecondName = true;
+			base.curSecondName = NameGenerator.GenerateName(RulePackDefOf.NamerFactionBasePlayerRandomized, (Predicate<string>)null, false);
+			base.secondNameMessageKey = "NamePlayerFactionBaseMessage_NameFactionContinuation";
+			base.invalidSecondNameMessageKey = "PlayerFactionBaseNameIsInvalid";
+			base.gainedNameMessageKey = "PlayerFactionAndBaseGainsName";
 		}
 
 		public override void PostOpen()

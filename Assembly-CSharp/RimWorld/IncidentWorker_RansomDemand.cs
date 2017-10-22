@@ -12,7 +12,11 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
-			return this.RandomKidnappedColonist() != null && base.CanFireNowSub(target);
+			if (this.RandomKidnappedColonist() == null)
+			{
+				return false;
+			}
+			return base.CanFireNowSub(target);
 		}
 
 		public override bool TryExecute(IncidentParms parms)
@@ -25,23 +29,15 @@ namespace RimWorld
 			}
 			Faction faction = this.FactionWhichKidnapped(pawn);
 			int num = this.RandomFee(pawn);
-			ChoiceLetter_RansomDemand choiceLetter_RansomDemand = (ChoiceLetter_RansomDemand)LetterMaker.MakeLetter(this.def.letterLabel, "RansomDemand".Translate(new object[]
-			{
-				pawn.LabelShort,
-				faction.Name,
-				num
-			}).AdjustedFor(pawn), this.def.letterDef);
-			choiceLetter_RansomDemand.title = "RansomDemandTitle".Translate(new object[]
-			{
-				map.info.parent.Label
-			});
+			ChoiceLetter_RansomDemand choiceLetter_RansomDemand = (ChoiceLetter_RansomDemand)LetterMaker.MakeLetter(base.def.letterLabel, "RansomDemand".Translate(pawn.LabelShort, faction.Name, num).AdjustedFor(pawn), base.def.letterDef);
+			choiceLetter_RansomDemand.title = "RansomDemandTitle".Translate(map.info.parent.Label);
 			choiceLetter_RansomDemand.radioMode = true;
 			choiceLetter_RansomDemand.kidnapped = pawn;
 			choiceLetter_RansomDemand.faction = faction;
 			choiceLetter_RansomDemand.map = map;
 			choiceLetter_RansomDemand.fee = num;
 			choiceLetter_RansomDemand.StartTimeout(60000);
-			Find.LetterStack.ReceiveLetter(choiceLetter_RansomDemand, null);
+			Find.LetterStack.ReceiveLetter(choiceLetter_RansomDemand, (string)null);
 			return true;
 		}
 
@@ -69,8 +65,8 @@ namespace RimWorld
 					IncidentWorker_RansomDemand.candidates.Remove(choiceLetter_RansomDemand.kidnapped);
 				}
 			}
-			Pawn result;
-			if (!IncidentWorker_RansomDemand.candidates.TryRandomElement(out result))
+			Pawn result = default(Pawn);
+			if (!((IEnumerable<Pawn>)IncidentWorker_RansomDemand.candidates).TryRandomElement<Pawn>(out result))
 			{
 				return null;
 			}
@@ -80,7 +76,7 @@ namespace RimWorld
 
 		private Faction FactionWhichKidnapped(Pawn pawn)
 		{
-			return Find.FactionManager.AllFactionsListForReading.Find((Faction x) => x.kidnapped.KidnappedPawnsListForReading.Contains(pawn));
+			return Find.FactionManager.AllFactionsListForReading.Find((Predicate<Faction>)((Faction x) => x.kidnapped.KidnappedPawnsListForReading.Contains(pawn)));
 		}
 
 		private int RandomFee(Pawn pawn)

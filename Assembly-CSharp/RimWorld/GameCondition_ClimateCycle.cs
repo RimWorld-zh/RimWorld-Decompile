@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -14,7 +13,7 @@ namespace RimWorld
 
 		public override void Init()
 		{
-			this.ticksOffset = ((Rand.Value >= 0.5f) ? 7200000 : 0);
+			this.ticksOffset = ((!(Rand.Value < 0.5)) ? 7200000 : 0);
 		}
 
 		public override void ExposeData()
@@ -25,7 +24,7 @@ namespace RimWorld
 
 		public override float TemperatureOffset()
 		{
-			return Mathf.Sin(GenDate.YearsPassedFloat / 4f * 3.14159274f * 2f) * 20f;
+			return (float)(Mathf.Sin((float)(GenDate.YearsPassedFloat / 4.0 * 3.1415927410125732 * 2.0)) * 20.0);
 		}
 	}
 }

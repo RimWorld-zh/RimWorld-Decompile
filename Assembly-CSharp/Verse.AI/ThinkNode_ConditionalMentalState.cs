@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI
 {
 	public class ThinkNode_ConditionalMentalState : ThinkNode_Priority

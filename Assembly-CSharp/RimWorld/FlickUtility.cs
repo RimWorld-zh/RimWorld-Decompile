@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -41,7 +40,11 @@ namespace RimWorld
 				return false;
 			}
 			CompSchedule compSchedule = t.TryGetComp<CompSchedule>();
-			return compSchedule == null || compSchedule.Allowed;
+			if (compSchedule != null && !compSchedule.Allowed)
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

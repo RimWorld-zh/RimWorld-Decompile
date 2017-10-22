@@ -37,7 +37,7 @@ namespace Verse.AI.Group
 		public TriggerSignal(TriggerSignalType type)
 		{
 			this.type = type;
-			this.memo = null;
+			this.memo = (string)null;
 			this.thing = null;
 			this.dinfo = default(DamageInfo);
 			this.condition = PawnLostCondition.Undefined;
@@ -56,7 +56,7 @@ namespace Verse.AI.Group
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append("(");
-			stringBuilder.Append(this.type.ToString());
+			stringBuilder.Append(((Enum)(object)this.type).ToString());
 			if (this.memo != null)
 			{
 				stringBuilder.Append(", memo=" + this.memo);
@@ -69,7 +69,7 @@ namespace Verse.AI.Group
 			{
 				stringBuilder.Append(", dinfo=" + this.dinfo);
 			}
-			if (this.condition != PawnLostCondition.Undefined)
+			if (this.condition != 0)
 			{
 				stringBuilder.Append(", condition=" + this.condition);
 			}

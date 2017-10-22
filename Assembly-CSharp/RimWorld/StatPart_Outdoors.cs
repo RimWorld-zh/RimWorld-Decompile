@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -21,19 +20,11 @@ namespace RimWorld
 				Room room = req.Thing.GetRoom(RegionType.Set_All);
 				if (room != null)
 				{
-					string str;
-					if (room.PsychologicallyOutdoors)
-					{
-						str = "Outdoors".Translate();
-					}
-					else
-					{
-						str = "Indoors".Translate();
-					}
+					string str = (!room.PsychologicallyOutdoors) ? "Indoors".Translate() : "Outdoors".Translate();
 					return str + ": x" + this.OutdoorsFactor(req).ToStringPercent();
 				}
 			}
-			return null;
+			return (string)null;
 		}
 
 		private float OutdoorsFactor(StatRequest req)

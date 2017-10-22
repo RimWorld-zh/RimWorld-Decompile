@@ -11,35 +11,37 @@ namespace Verse
 
 		public override void Init(GraphicRequest req)
 		{
-			this.data = req.graphicData;
+			base.data = req.graphicData;
 			if (req.path.NullOrEmpty())
 			{
 				throw new ArgumentNullException("folderPath");
 			}
-			if (req.shader == null)
+			if ((UnityEngine.Object)req.shader == (UnityEngine.Object)null)
 			{
 				throw new ArgumentNullException("shader");
 			}
-			this.path = req.path;
-			this.color = req.color;
-			this.drawSize = req.drawSize;
+			base.path = req.path;
+			base.color = req.color;
+			base.drawSize = req.drawSize;
 			List<Texture2D> list = (from x in ContentFinder<Texture2D>.GetAllInFolder(req.path)
 			where !x.name.EndsWith(Graphic_Single.MaskSuffix)
-			select x).ToList<Texture2D>();
-			if (list.NullOrEmpty<Texture2D>())
+			select x).ToList();
+			if (list.NullOrEmpty())
 			{
 				Log.Error("Collection cannot init: No textures found at path " + req.path);
-				this.subGraphics = new Graphic[]
+				this.subGraphics = new Graphic[1]
 				{
 					BaseContent.BadGraphic
 				};
-				return;
 			}
-			this.subGraphics = new Graphic[list.Count];
-			for (int i = 0; i < list.Count; i++)
+			else
 			{
-				string path = req.path + "/" + list[i].name;
-				this.subGraphics[i] = GraphicDatabase.Get<Graphic_Single>(path, req.shader, this.drawSize, this.color);
+				this.subGraphics = new Graphic[list.Count];
+				for (int i = 0; i < list.Count; i++)
+				{
+					string path = req.path + "/" + list[i].name;
+					this.subGraphics[i] = GraphicDatabase.Get<Graphic_Single>(path, req.shader, base.drawSize, base.color);
+				}
 			}
 		}
 	}

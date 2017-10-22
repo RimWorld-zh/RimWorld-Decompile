@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -68,30 +67,54 @@ namespace Verse
 			switch (sType)
 			{
 			case ShaderType.Cutout:
+			{
 				return ShaderDatabase.Cutout;
-			case ShaderType.CutoutFlying:
-				return ShaderDatabase.CutoutFlying;
+			}
 			case ShaderType.CutoutPlant:
+			{
 				return ShaderDatabase.CutoutPlant;
+			}
 			case ShaderType.CutoutComplex:
+			{
 				return ShaderDatabase.CutoutComplex;
+			}
 			case ShaderType.CutoutSkin:
+			{
 				return ShaderDatabase.CutoutSkin;
+			}
+			case ShaderType.CutoutFlying:
+			{
+				return ShaderDatabase.CutoutFlying;
+			}
 			case ShaderType.Transparent:
+			{
 				return ShaderDatabase.Transparent;
-			case ShaderType.TransparentPostLight:
-				return ShaderDatabase.TransparentPostLight;
+			}
 			case ShaderType.MetaOverlay:
+			{
 				return ShaderDatabase.MetaOverlay;
+			}
 			case ShaderType.Mote:
+			{
 				return ShaderDatabase.Mote;
+			}
 			case ShaderType.MoteGlow:
+			{
 				return ShaderDatabase.MoteGlow;
+			}
+			case ShaderType.TransparentPostLight:
+			{
+				return ShaderDatabase.TransparentPostLight;
+			}
 			case ShaderType.MoteWater:
+			{
 				return ShaderDatabase.MoteWater;
+			}
 			default:
+			{
 				Log.ErrorOnce("Unknown ShaderType " + sType, 2766893);
 				return ShaderDatabase.DefaultShader;
+			}
 			}
 		}
 
@@ -106,7 +129,7 @@ namespace Verse
 				ShaderDatabase.lookup[shaderPath] = (Shader)Resources.Load("Materials/" + shaderPath, typeof(Shader));
 			}
 			Shader shader = ShaderDatabase.lookup[shaderPath];
-			if (shader == null)
+			if ((Object)shader == (Object)null)
 			{
 				Log.Warning("Could not load shader " + shaderPath);
 				return ShaderDatabase.DefaultShader;

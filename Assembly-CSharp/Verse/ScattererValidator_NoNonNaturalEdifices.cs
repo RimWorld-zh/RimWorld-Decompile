@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class ScattererValidator_NoNonNaturalEdifices : ScattererValidator

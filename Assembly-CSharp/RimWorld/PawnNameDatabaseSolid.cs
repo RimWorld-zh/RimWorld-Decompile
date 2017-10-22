@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse;
 
 namespace RimWorld
@@ -15,13 +13,9 @@ namespace RimWorld
 		static PawnNameDatabaseSolid()
 		{
 			PawnNameDatabaseSolid.solidNames = new Dictionary<GenderPossibility, List<NameTriple>>();
-			using (IEnumerator enumerator = Enum.GetValues(typeof(GenderPossibility)).GetEnumerator())
+			foreach (byte value in Enum.GetValues(typeof(GenderPossibility)))
 			{
-				while (enumerator.MoveNext())
-				{
-					GenderPossibility key = (GenderPossibility)((byte)enumerator.Current);
-					PawnNameDatabaseSolid.solidNames.Add(key, new List<NameTriple>());
-				}
+				PawnNameDatabaseSolid.solidNames.Add((GenderPossibility)value, new List<NameTriple>());
 			}
 		}
 
@@ -35,13 +29,32 @@ namespace RimWorld
 			return PawnNameDatabaseSolid.solidNames[gp];
 		}
 
-		[DebuggerHidden]
 		public static IEnumerable<NameTriple> AllNames()
 		{
-			PawnNameDatabaseSolid.<AllNames>c__IteratorE0 <AllNames>c__IteratorE = new PawnNameDatabaseSolid.<AllNames>c__IteratorE0();
-			PawnNameDatabaseSolid.<AllNames>c__IteratorE0 expr_07 = <AllNames>c__IteratorE;
-			expr_07.$PC = -2;
-			return expr_07;
+			Dictionary<GenderPossibility, List<NameTriple>>.Enumerator enumerator = PawnNameDatabaseSolid.solidNames.GetEnumerator();
+			try
+			{
+				while (enumerator.MoveNext())
+				{
+					List<NameTriple>.Enumerator enumerator2 = enumerator.Current.Value.GetEnumerator();
+					try
+					{
+						while (enumerator2.MoveNext())
+						{
+							NameTriple name = enumerator2.Current;
+							yield return name;
+						}
+					}
+					finally
+					{
+						((IDisposable)(object)enumerator2).Dispose();
+					}
+				}
+			}
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
 		}
 	}
 }

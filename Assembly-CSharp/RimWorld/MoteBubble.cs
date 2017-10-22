@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -22,27 +21,30 @@ namespace RimWorld
 		public override void Draw()
 		{
 			base.Draw();
-			if (this.iconMat != null)
+			if ((Object)this.iconMat != (Object)null)
 			{
 				Vector3 drawPos = this.DrawPos;
 				drawPos.y += 0.01f;
 				float num = Graphic_Mote.CalculateMoteAlpha(this);
-				if (num <= 0f)
+				if (!(num <= 0.0))
 				{
-					return;
+					Color instanceColor = base.instanceColor;
+					instanceColor.a *= num;
+					Material material = this.iconMat;
+					if (instanceColor != material.color)
+					{
+						material = MaterialPool.MatFrom((Texture2D)material.mainTexture, material.shader, instanceColor);
+					}
+					Vector3 s = new Vector3((float)(base.def.graphicData.drawSize.x * 0.63999998569488525), 1f, (float)(base.def.graphicData.drawSize.y * 0.63999998569488525));
+					Matrix4x4 matrix = default(Matrix4x4);
+					matrix.SetTRS(drawPos, Quaternion.identity, s);
+					Graphics.DrawMesh(MeshPool.plane10, matrix, material, 0);
+					goto IL_00f1;
 				}
-				Color instanceColor = this.instanceColor;
-				instanceColor.a *= num;
-				Material material = this.iconMat;
-				if (instanceColor != material.color)
-				{
-					material = MaterialPool.MatFrom((Texture2D)material.mainTexture, material.shader, instanceColor);
-				}
-				Vector3 s = new Vector3(this.def.graphicData.drawSize.x * 0.64f, 1f, this.def.graphicData.drawSize.y * 0.64f);
-				Matrix4x4 matrix = default(Matrix4x4);
-				matrix.SetTRS(drawPos, Quaternion.identity, s);
-				Graphics.DrawMesh(MeshPool.plane10, matrix, material, 0);
+				return;
 			}
+			goto IL_00f1;
+			IL_00f1:
 			if (this.arrowTarget != null)
 			{
 				Vector3 a = this.arrowTarget.TrueCenter();

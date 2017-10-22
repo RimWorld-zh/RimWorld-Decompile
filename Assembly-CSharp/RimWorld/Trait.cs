@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Verse;
@@ -124,29 +123,38 @@ namespace RimWorld
 				stringBuilder.AppendLine();
 			}
 			int num = 0;
-			foreach (KeyValuePair<SkillDef, int> current in this.CurrentData.skillGains)
+			Dictionary<SkillDef, int>.Enumerator enumerator = this.CurrentData.skillGains.GetEnumerator();
+			try
 			{
-				if (current.Value != 0)
+				while (enumerator.MoveNext())
 				{
-					string value = "    " + current.Key.skillLabel + ":   " + current.Value.ToString("+##;-##");
-					if (num < count - 1)
+					KeyValuePair<SkillDef, int> current = enumerator.Current;
+					if (current.Value != 0)
 					{
-						stringBuilder.AppendLine(value);
+						string value = "    " + current.Key.skillLabel + ":   " + current.Value.ToString("+##;-##");
+						if (num < count - 1)
+						{
+							stringBuilder.AppendLine(value);
+						}
+						else
+						{
+							stringBuilder.Append(value);
+						}
+						num++;
 					}
-					else
-					{
-						stringBuilder.Append(value);
-					}
-					num++;
 				}
 			}
-			if (this.GetPermaThoughts().Any<ThoughtDef>())
+			finally
+			{
+				((IDisposable)(object)enumerator).Dispose();
+			}
+			if (this.GetPermaThoughts().Any())
 			{
 				stringBuilder.AppendLine();
-				foreach (ThoughtDef current2 in this.GetPermaThoughts())
+				foreach (ThoughtDef permaThought in this.GetPermaThoughts())
 				{
 					stringBuilder.AppendLine();
-					stringBuilder.Append("    " + "PermanentMoodEffect".Translate() + " " + current2.stages[0].baseMoodEffect.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Offset));
+					stringBuilder.Append("    " + "PermanentMoodEffect".Translate() + " " + permaThought.stages[0].baseMoodEffect.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Offset));
 				}
 			}
 			if (currentData.statOffsets != null)
@@ -192,24 +200,20 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"Trait(",
-				this.def.ToString(),
-				"-",
-				this.degree,
-				")"
-			});
+			return "Trait(" + this.def.ToString() + "-" + this.degree + ")";
 		}
 
-		[DebuggerHidden]
 		private IEnumerable<ThoughtDef> GetPermaThoughts()
 		{
-			Trait.<GetPermaThoughts>c__IteratorEA <GetPermaThoughts>c__IteratorEA = new Trait.<GetPermaThoughts>c__IteratorEA();
-			<GetPermaThoughts>c__IteratorEA.<>f__this = this;
-			Trait.<GetPermaThoughts>c__IteratorEA expr_0E = <GetPermaThoughts>c__IteratorEA;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			TraitDegreeData degree = this.CurrentData;
+			List<ThoughtDef> allThoughts = DefDatabase<ThoughtDef>.AllDefsListForReading;
+			for (int i = 0; i < allThoughts.Count; i++)
+			{
+				if (allThoughts[i].IsSituational && allThoughts[i].Worker is ThoughtWorker_AlwaysActive && allThoughts[i].requiredTraits != null && allThoughts[i].requiredTraits.Contains(this.def) && (!allThoughts[i].RequiresSpecificTraitsDegree || allThoughts[i].requiredTraitsDegree == degree.degree))
+				{
+					yield return allThoughts[i];
+				}
+			}
 		}
 
 		private bool AllowsWorkType(WorkTypeDef workDef)
@@ -217,14 +221,21 @@ namespace RimWorld
 			return (this.def.disabledWorkTags & workDef.workTags) == WorkTags.None;
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<WorkTypeDef> GetDisabledWorkTypes()
 		{
-			Trait.<GetDisabledWorkTypes>c__IteratorEB <GetDisabledWorkTypes>c__IteratorEB = new Trait.<GetDisabledWorkTypes>c__IteratorEB();
-			<GetDisabledWorkTypes>c__IteratorEB.<>f__this = this;
-			Trait.<GetDisabledWorkTypes>c__IteratorEB expr_0E = <GetDisabledWorkTypes>c__IteratorEB;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			for (int j = 0; j < this.def.disabledWorkTypes.Count; j++)
+			{
+				yield return this.def.disabledWorkTypes[j];
+			}
+			List<WorkTypeDef> workTypeDefList = DefDatabase<WorkTypeDef>.AllDefsListForReading;
+			for (int i = 0; i < workTypeDefList.Count; i++)
+			{
+				WorkTypeDef w = workTypeDefList[i];
+				if (!this.AllowsWorkType(w))
+				{
+					yield return w;
+				}
+			}
 		}
 	}
 }

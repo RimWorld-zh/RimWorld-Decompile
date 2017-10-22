@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -78,7 +77,7 @@ namespace RimWorld
 			num *= NegativeInteractionUtility.CompatibilityFactorCurve.Evaluate(initiator.relations.CompatibilityWith(recipient));
 			if (initiator.story.traits.HasTrait(TraitDefOf.Abrasive))
 			{
-				num *= 2.3f;
+				num = (float)(num * 2.2999999523162842);
 			}
 			return num;
 		}

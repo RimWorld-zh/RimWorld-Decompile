@@ -24,15 +24,53 @@ namespace RimWorld
 			{
 				return null;
 			}
-			return new Job(JobDefOf.Ingest, thing)
-			{
-				count = FoodUtility.WillIngestStackCountOf(pawn, thing.def)
-			};
+			Job job = new Job(JobDefOf.Ingest, thing);
+			job.count = FoodUtility.WillIngestStackCountOf(pawn, thing.def);
+			return job;
 		}
 
 		private Thing FindFood(Pawn pawn, IntVec3 partySpot)
 		{
-			Predicate<Thing> validator = (Thing x) => x.IngestibleNow && x.def.IsNutritionGivingIngestible && PartyUtility.InPartyArea(x.Position, partySpot, pawn.Map) && !x.def.IsDrug && x.def.ingestible.preferability > FoodPreferability.RawBad && pawn.RaceProps.WillAutomaticallyEat(x) && !x.IsForbidden(pawn) && x.IsSociallyProper(pawn) && pawn.CanReserve(x, 1, -1, null, false);
+			Predicate<Thing> validator = (Predicate<Thing>)delegate(Thing x)
+			{
+				if (!x.IngestibleNow)
+				{
+					return false;
+				}
+				if (!x.def.IsNutritionGivingIngestible)
+				{
+					return false;
+				}
+				if (!PartyUtility.InPartyArea(x.Position, partySpot, pawn.Map))
+				{
+					return false;
+				}
+				if (x.def.IsDrug)
+				{
+					return false;
+				}
+				if ((int)x.def.ingestible.preferability <= 3)
+				{
+					return false;
+				}
+				if (!pawn.RaceProps.WillAutomaticallyEat(x))
+				{
+					return false;
+				}
+				if (x.IsForbidden(pawn))
+				{
+					return false;
+				}
+				if (!x.IsSociallyProper(pawn))
+				{
+					return false;
+				}
+				if (!pawn.CanReserve(x, 1, -1, null, false))
+				{
+					return false;
+				}
+				return true;
+			};
 			return GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.FoodSourceNotPlantOrTree), PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false), 14f, validator, null, 0, 12, false, RegionType.Set_Passable, false);
 		}
 	}

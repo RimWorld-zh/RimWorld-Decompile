@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -10,28 +9,29 @@ namespace Verse
 		{
 			get
 			{
-				NameUseChecker.<>c__Iterator1FC <>c__Iterator1FC = new NameUseChecker.<>c__Iterator1FC();
-				NameUseChecker.<>c__Iterator1FC expr_07 = <>c__Iterator1FC;
-				expr_07.$PC = -2;
-				return expr_07;
+				foreach (Pawn item in PawnsFinder.AllMapsAndWorld_AliveOrDead)
+				{
+					if (item.Name != null)
+					{
+						yield return item.Name;
+					}
+				}
 			}
 		}
 
 		public static bool NameWordIsUsed(string singleName)
 		{
-			foreach (Name current in NameUseChecker.AllPawnsNamesEverUsed)
+			foreach (Name item in NameUseChecker.AllPawnsNamesEverUsed)
 			{
-				NameTriple nameTriple = current as NameTriple;
+				NameTriple nameTriple = item as NameTriple;
 				if (nameTriple != null && (singleName == nameTriple.First || singleName == nameTriple.Nick || singleName == nameTriple.Last))
 				{
-					bool result = true;
-					return result;
+					return true;
 				}
-				NameSingle nameSingle = current as NameSingle;
+				NameSingle nameSingle = item as NameSingle;
 				if (nameSingle != null && nameSingle.Name == singleName)
 				{
-					bool result = true;
-					return result;
+					return true;
 				}
 			}
 			return false;
@@ -39,9 +39,9 @@ namespace Verse
 
 		public static bool NameSingleIsUsed(string candidate)
 		{
-			foreach (Pawn current in PawnsFinder.AllMapsAndWorld_AliveOrDead)
+			foreach (Pawn item in PawnsFinder.AllMapsAndWorld_AliveOrDead)
 			{
-				NameSingle nameSingle = current.Name as NameSingle;
+				NameSingle nameSingle = item.Name as NameSingle;
 				if (nameSingle != null && nameSingle.Name == candidate)
 				{
 					return true;

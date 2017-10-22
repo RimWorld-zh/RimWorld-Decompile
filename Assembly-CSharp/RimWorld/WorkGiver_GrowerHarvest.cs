@@ -17,7 +17,23 @@ namespace RimWorld
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c)
 		{
 			Plant plant = c.GetPlant(pawn.Map);
-			return plant != null && !plant.IsForbidden(pawn) && plant.def.plant.Harvestable && plant.LifeStage == PlantLifeStage.Mature && pawn.CanReserve(plant, 1, -1, null, false);
+			if (plant == null)
+			{
+				return false;
+			}
+			if (plant.IsForbidden(pawn))
+			{
+				return false;
+			}
+			if (plant.def.plant.Harvestable && plant.LifeStage == PlantLifeStage.Mature)
+			{
+				if (!pawn.CanReserve((Thing)plant, 1, -1, null, false))
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 c)
@@ -29,23 +45,21 @@ namespace RimWorld
 			for (int i = 0; i < 40; i++)
 			{
 				IntVec3 c2 = c + GenRadial.RadialPattern[i];
-				if (c.GetRoom(map, RegionType.Set_Passable) == room)
+				if (c.GetRoom(map, RegionType.Set_Passable) == room && this.HasJobOnCell(pawn, c2))
 				{
-					if (this.HasJobOnCell(pawn, c2))
+					Plant plant = c2.GetPlant(map);
+					num += plant.def.plant.harvestWork;
+					if (!(num > 2400.0))
 					{
-						Plant plant = c2.GetPlant(map);
-						num += plant.def.plant.harvestWork;
-						if (num > 2400f)
-						{
-							break;
-						}
-						job.AddQueuedTarget(TargetIndex.A, plant);
+						job.AddQueuedTarget(TargetIndex.A, (Thing)plant);
+						continue;
 					}
+					break;
 				}
 			}
 			if (job.targetQueueA != null && job.targetQueueA.Count >= 3)
 			{
-				job.targetQueueA.SortBy((LocalTargetInfo targ) => targ.Cell.DistanceToSquared(pawn.Position));
+				job.targetQueueA.SortBy((Func<LocalTargetInfo, int>)((LocalTargetInfo targ) => targ.Cell.DistanceToSquared(pawn.Position)));
 			}
 			return job;
 		}

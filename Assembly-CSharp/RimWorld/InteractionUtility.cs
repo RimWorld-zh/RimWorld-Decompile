@@ -11,22 +11,62 @@ namespace RimWorld
 
 		public static bool CanInitiateInteraction(Pawn pawn)
 		{
-			return pawn.interactions != null && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking) && pawn.Awake() && !pawn.IsBurning();
+			if (pawn.interactions == null)
+			{
+				return false;
+			}
+			if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking))
+			{
+				return false;
+			}
+			if (!pawn.Awake())
+			{
+				return false;
+			}
+			if (pawn.IsBurning())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool CanReceiveInteraction(Pawn pawn)
 		{
-			return pawn.Awake() && !pawn.IsBurning();
+			if (!pawn.Awake())
+			{
+				return false;
+			}
+			if (pawn.IsBurning())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool CanInitiateRandomInteraction(Pawn p)
 		{
-			return InteractionUtility.CanInitiateInteraction(p) && p.RaceProps.Humanlike && !p.Downed && !p.InAggroMentalState;
+			if (!InteractionUtility.CanInitiateInteraction(p))
+			{
+				return false;
+			}
+			if (p.RaceProps.Humanlike && !p.Downed && !p.InAggroMentalState)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool CanReceiveRandomInteraction(Pawn p)
 		{
-			return InteractionUtility.CanReceiveInteraction(p) && p.RaceProps.Humanlike && !p.Downed && !p.InAggroMentalState;
+			if (!InteractionUtility.CanReceiveInteraction(p))
+			{
+				return false;
+			}
+			if (p.RaceProps.Humanlike && !p.Downed && !p.InAggroMentalState)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool HasAnyVerbForSocialFight(Pawn p)
@@ -56,12 +96,12 @@ namespace RimWorld
 			List<Verb> allVerbs = p.verbTracker.AllVerbs;
 			return (from x in allVerbs
 			where x is Verb_MeleeAttack && x.IsStillUsableBy(p)
-			select x).TryRandomElementByWeight((Verb x) => (float)x.verbProps.AdjustedMeleeDamageAmount(x, p, null), out verb);
+			select x).TryRandomElementByWeight<Verb>((Func<Verb, float>)((Verb x) => (float)x.verbProps.AdjustedMeleeDamageAmount(x, p, null)), out verb);
 		}
 
 		public static bool HasAnySocialFightProvokingThought(Pawn pawn, Pawn otherPawn)
 		{
-			Thought thought;
+			Thought thought = default(Thought);
 			return InteractionUtility.TryGetRandomSocialFightProvokingThought(pawn, otherPawn, out thought);
 		}
 
@@ -73,12 +113,16 @@ namespace RimWorld
 				return false;
 			}
 			pawn.needs.mood.thoughts.GetSocialThoughts(otherPawn, InteractionUtility.tmpSocialThoughts);
-			ISocialThought socialThought;
-			bool result = InteractionUtility.tmpSocialThoughts.Where(delegate(ISocialThought x)
+			ISocialThought socialThought = default(ISocialThought);
+			bool result = InteractionUtility.tmpSocialThoughts.Where((Func<ISocialThought, bool>)delegate(ISocialThought x)
 			{
 				ThoughtDef def = ((Thought)x).def;
-				return def != ThoughtDefOf.HadAngeringFight && def != ThoughtDefOf.HadCatharticFight && x.OpinionOffset() < 0f;
-			}).TryRandomElementByWeight((ISocialThought x) => -x.OpinionOffset(), out socialThought);
+				if (def != ThoughtDefOf.HadAngeringFight && def != ThoughtDefOf.HadCatharticFight)
+				{
+					return x.OpinionOffset() < 0.0;
+				}
+				return false;
+			}).TryRandomElementByWeight<ISocialThought>((Func<ISocialThought, float>)((ISocialThought x) => (float)(0.0 - x.OpinionOffset())), out socialThought);
 			InteractionUtility.tmpSocialThoughts.Clear();
 			thought = (Thought)socialThought;
 			return result;

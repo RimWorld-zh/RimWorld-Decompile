@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class CompProperties_HeatPusher : CompProperties
@@ -12,7 +10,7 @@ namespace Verse
 
 		public CompProperties_HeatPusher()
 		{
-			this.compClass = typeof(CompHeatPusher);
+			base.compClass = typeof(CompHeatPusher);
 		}
 	}
 }

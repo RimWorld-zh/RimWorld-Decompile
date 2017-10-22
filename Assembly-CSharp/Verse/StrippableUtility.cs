@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public static class StrippableUtility
@@ -16,7 +14,19 @@ namespace Verse
 				return false;
 			}
 			Pawn pawn = th as Pawn;
-			return pawn == null || pawn.Downed || (pawn.IsPrisonerOfColony && pawn.guest.PrisonerIsSecure);
+			if (pawn == null)
+			{
+				return true;
+			}
+			if (pawn.Downed)
+			{
+				return true;
+			}
+			if (pawn.IsPrisonerOfColony && pawn.guest.PrisonerIsSecure)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

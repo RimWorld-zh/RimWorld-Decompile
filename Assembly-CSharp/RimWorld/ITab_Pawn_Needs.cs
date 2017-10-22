@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace RimWorld
@@ -17,8 +16,8 @@ namespace RimWorld
 
 		public ITab_Pawn_Needs()
 		{
-			this.labelKey = "TabNeeds";
-			this.tutorTag = "Needs";
+			base.labelKey = "TabNeeds";
+			base.tutorTag = "Needs";
 		}
 
 		public override void OnOpen()
@@ -28,12 +27,12 @@ namespace RimWorld
 
 		protected override void FillTab()
 		{
-			NeedsCardUtility.DoNeedsMoodAndThoughts(new Rect(0f, 0f, this.size.x, this.size.y), base.SelPawn, ref this.thoughtScrollPosition);
+			NeedsCardUtility.DoNeedsMoodAndThoughts(new Rect(0f, 0f, base.size.x, base.size.y), base.SelPawn, ref this.thoughtScrollPosition);
 		}
 
 		protected override void UpdateSize()
 		{
-			this.size = NeedsCardUtility.GetSize(base.SelPawn);
+			base.size = NeedsCardUtility.GetSize(base.SelPawn);
 		}
 	}
 }

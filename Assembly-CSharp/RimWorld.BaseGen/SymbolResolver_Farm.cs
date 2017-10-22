@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -14,13 +13,12 @@ namespace RimWorld.BaseGen
 		public override void Resolve(ResolveParams rp)
 		{
 			ThingDef thingDef = rp.cultivatedPlantDef ?? SymbolResolver_CultivatedPlants.DeterminePlantDef(rp.rect);
-			bool flag = rp.rect.Width >= 7 && rp.rect.Height >= 7 && (rp.rect.Width > 12 || rp.rect.Height > 12 || Rand.Bool) && thingDef.plant.Harvestable;
-			if (flag)
+			if (rp.rect.Width >= 7 && rp.rect.Height >= 7 && (rp.rect.Width > 12 || rp.rect.Height > 12 || Rand.Bool) && thingDef.plant.Harvestable)
 			{
 				CellRect rect = new CellRect(rp.rect.maxX - 3, rp.rect.maxZ - 3, 4, 4);
 				ThingDef harvestedThingDef = thingDef.plant.harvestedThingDef;
 				int num = Rand.RangeInclusive(2, 3);
-				for (int i = 0; i < num; i++)
+				for (int num2 = 0; num2 < num; num2++)
 				{
 					ResolveParams resolveParams = rp;
 					resolveParams.rect = rect.ContractedBy(1);

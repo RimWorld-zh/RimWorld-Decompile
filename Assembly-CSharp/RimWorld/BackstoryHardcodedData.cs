@@ -1,5 +1,3 @@
-using System;
-
 namespace RimWorld
 {
 	internal static class BackstoryHardcodedData

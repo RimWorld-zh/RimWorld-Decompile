@@ -1,20 +1,24 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
 	public abstract class StockGenerator_MiscItems : StockGenerator
 	{
-		[DebuggerHidden]
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
-			StockGenerator_MiscItems.<GenerateThings>c__Iterator180 <GenerateThings>c__Iterator = new StockGenerator_MiscItems.<GenerateThings>c__Iterator180();
-			<GenerateThings>c__Iterator.<>f__this = this;
-			StockGenerator_MiscItems.<GenerateThings>c__Iterator180 expr_0E = <GenerateThings>c__Iterator;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			int count = base.countRange.RandomInRange;
+			int i = 0;
+			ThingDef finalDef;
+			while (i < count && (from t in DefDatabase<ThingDef>.AllDefs
+			where ((_003CGenerateThings_003Ec__Iterator180)/*Error near IL_0048: stateMachine*/)._003C_003Ef__this.HandlesThingDef(t) && (int)t.techLevel <= (int)((_003CGenerateThings_003Ec__Iterator180)/*Error near IL_0048: stateMachine*/)._003C_003Ef__this.maxTechLevelGenerate
+			select t).TryRandomElementByWeight<ThingDef>(new Func<ThingDef, float>(this.SelectionWeight), out finalDef))
+			{
+				yield return this.MakeThing(finalDef);
+				i++;
+			}
 		}
 
 		protected virtual Thing MakeThing(ThingDef def)
@@ -24,7 +28,7 @@ namespace RimWorld
 
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
-			return thingDef.tradeability == Tradeability.Stockable && thingDef.techLevel <= this.maxTechLevelBuy;
+			return thingDef.tradeability == Tradeability.Stockable && (int)thingDef.techLevel <= (int)base.maxTechLevelBuy;
 		}
 
 		protected virtual float SelectionWeight(ThingDef thingDef)

@@ -1,11 +1,9 @@
-using System;
-
 namespace Verse
 {
 	public enum BodyPartDepth : byte
 	{
-		Undefined,
-		Inside,
-		Outside
+		Undefined = 0,
+		Inside = 1,
+		Outside = 2
 	}
 }

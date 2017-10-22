@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -13,16 +12,16 @@ namespace RimWorld
 		{
 			get
 			{
-				return (CompProperties_FireOverlay)this.props;
+				return (CompProperties_FireOverlay)base.props;
 			}
 		}
 
 		public override void PostDraw()
 		{
 			base.PostDraw();
-			Vector3 drawPos = this.parent.DrawPos;
+			Vector3 drawPos = base.parent.DrawPos;
 			drawPos.y += 0.046875f;
-			CompFireOverlay.FireGraphic.Draw(drawPos, Rot4.North, this.parent);
+			CompFireOverlay.FireGraphic.Draw(drawPos, Rot4.North, base.parent);
 		}
 	}
 }

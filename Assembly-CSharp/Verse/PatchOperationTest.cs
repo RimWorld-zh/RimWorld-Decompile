@@ -1,4 +1,3 @@
-using System;
 using System.Xml;
 
 namespace Verse
@@ -7,7 +6,7 @@ namespace Verse
 	{
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
-			return xml.SelectSingleNode(this.xpath) != null;
+			return xml.SelectSingleNode(base.xpath) != null;
 		}
 	}
 }

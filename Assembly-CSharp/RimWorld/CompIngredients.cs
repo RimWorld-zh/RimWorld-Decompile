@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Verse;
@@ -28,7 +27,7 @@ namespace RimWorld
 		public override void PostSplitOff(Thing piece)
 		{
 			base.PostSplitOff(piece);
-			if (piece != this.parent)
+			if (piece != base.parent)
 			{
 				CompIngredients compIngredients = piece.TryGetComp<CompIngredients>();
 				for (int i = 0; i < this.ingredients.Count; i++)
@@ -52,7 +51,7 @@ namespace RimWorld
 			}
 			if (this.ingredients.Count > 3)
 			{
-				this.ingredients.Shuffle<ThingDef>();
+				this.ingredients.Shuffle();
 				while (this.ingredients.Count > 3)
 				{
 					this.ingredients.Remove(this.ingredients[this.ingredients.Count - 1]);

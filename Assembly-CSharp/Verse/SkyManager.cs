@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -18,7 +17,7 @@ namespace Verse
 
 		private List<Pair<SkyOverlay, float>> tempOverlays = new List<Pair<SkyOverlay, float>>();
 
-		private static readonly Color FogOfWarBaseColor = new Color32(77, 69, 66, 255);
+		private static readonly Color FogOfWarBaseColor = new Color32((byte)77, (byte)69, (byte)66, (byte)255);
 
 		public float CurSkyGlow
 		{
@@ -56,7 +55,7 @@ namespace Verse
 					this.SetSunShadowVector(GenCelestial.CurShadowVector(this.map));
 					color2 = Color.Lerp(Color.white, color2, GenCelestial.CurShadowStrength(this.map));
 				}
-				Shader.SetGlobalFloat("_LightsourceShineSizeReduction", 20f * (1f / curSky.lightsourceShineSize));
+				Shader.SetGlobalFloat("_LightsourceShineSizeReduction", (float)(20.0 * (1.0 / curSky.lightsourceShineSize)));
 				Shader.SetGlobalFloat("_LightsourceShineIntensity", curSky.lightsourceShineIntensity);
 				MatBases.SunShadow.color = color2;
 				this.UpdateOverlays(curSky);
@@ -79,7 +78,7 @@ namespace Verse
 			List<SkyOverlay> overlays2 = this.map.weatherManager.lastWeather.Worker.overlays;
 			for (int j = 0; j < overlays2.Count; j++)
 			{
-				this.AddTempOverlay(new Pair<SkyOverlay, float>(overlays2[j], 1f - this.map.weatherManager.TransitionLerpFactor));
+				this.AddTempOverlay(new Pair<SkyOverlay, float>(overlays2[j], (float)(1.0 - this.map.weatherManager.TransitionLerpFactor)));
 			}
 			for (int k = 0; k < this.map.gameConditionManager.ActiveConditions.Count; k++)
 			{
@@ -125,7 +124,7 @@ namespace Verse
 			SkyTarget a = this.map.weatherManager.lastWeather.Worker.CurSkyTarget(this.map);
 			SkyTarget skyTarget = SkyTarget.Lerp(a, b, this.map.weatherManager.TransitionLerpFactor);
 			float num = this.map.gameConditionManager.AggregateSkyTargetLerpFactor();
-			if (num > 0.0001f)
+			if (num > 9.9999997473787516E-05)
 			{
 				SkyTarget value = this.map.gameConditionManager.AggregateSkyTarget().Value;
 				skyTarget = SkyTarget.LerpDarken(skyTarget, value, num);

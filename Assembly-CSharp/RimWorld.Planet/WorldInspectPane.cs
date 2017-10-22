@@ -9,7 +9,7 @@ namespace RimWorld.Planet
 {
 	public class WorldInspectPane : Window, IInspectPane
 	{
-		private static readonly WITab[] TileTabs = new WITab[]
+		private static readonly WITab[] TileTabs = new WITab[2]
 		{
 			new WITab_Terrain(),
 			new WITab_Planet()
@@ -81,12 +81,14 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				float num = (float)UI.screenHeight - InspectPaneUtility.PaneSize.y;
+				float num = (float)UI.screenHeight;
+				Vector2 paneSize = InspectPaneUtility.PaneSize;
+				float num2 = num - paneSize.y;
 				if (Current.ProgramState == ProgramState.Playing)
 				{
-					num -= 35f;
+					num2 = (float)(num2 - 35.0);
 				}
-				return num;
+				return num2;
 			}
 		}
 
@@ -159,7 +161,7 @@ namespace RimWorld.Planet
 				if (tile.VisibleRoads != null)
 				{
 					stringBuilder.Append("\n" + (from rl in tile.VisibleRoads
-					select rl.road).MaxBy((RoadDef road) => road.priority).LabelCap);
+					select rl.road).MaxBy((Func<RoadDef, int>)((RoadDef road) => road.priority)).LabelCap);
 				}
 				return stringBuilder.ToString();
 			}
@@ -167,19 +169,19 @@ namespace RimWorld.Planet
 
 		public WorldInspectPane()
 		{
-			this.layer = WindowLayer.GameUI;
-			this.soundAppear = null;
-			this.soundClose = null;
-			this.closeOnClickedOutside = false;
-			this.closeOnEscapeKey = false;
-			this.preventCameraMotion = false;
+			base.layer = WindowLayer.GameUI;
+			base.soundAppear = null;
+			base.soundClose = null;
+			base.closeOnClickedOutside = false;
+			base.closeOnEscapeKey = false;
+			base.preventCameraMotion = false;
 		}
 
 		protected override void SetInitialSizeAndPosition()
 		{
 			base.SetInitialSizeAndPosition();
-			this.windowRect.x = 0f;
-			this.windowRect.y = this.PaneTopY;
+			base.windowRect.x = 0f;
+			base.windowRect.y = this.PaneTopY;
 		}
 
 		public void DrawInspectGizmos()
@@ -213,17 +215,16 @@ namespace RimWorld.Planet
 
 		public void SelectNextInCell()
 		{
-			if (!this.AnythingSelected)
+			if (this.AnythingSelected)
 			{
-				return;
-			}
-			if (this.NumSelectedObjects > 0)
-			{
-				Find.WorldSelector.SelectFirstOrNextAt(this.Selected[0].Tile);
-			}
-			else
-			{
-				Find.WorldSelector.SelectFirstOrNextAt(this.SelectedTile);
+				if (this.NumSelectedObjects > 0)
+				{
+					Find.WorldSelector.SelectFirstOrNextAt(this.Selected[0].Tile);
+				}
+				else
+				{
+					Find.WorldSelector.SelectFirstOrNextAt(this.SelectedTile);
+				}
 			}
 		}
 
@@ -245,19 +246,18 @@ namespace RimWorld.Planet
 		public void DoInspectPaneButtons(Rect rect, ref float lineEndWidth)
 		{
 			WorldObject singleSelectedObject = Find.WorldSelector.SingleSelectedObject;
-			if (singleSelectedObject != null || this.SelectedTile >= 0)
+			if (singleSelectedObject == null && this.SelectedTile < 0)
+				return;
+			float x = (float)(rect.width - 48.0);
+			if (singleSelectedObject != null)
 			{
-				float x = rect.width - 48f;
-				if (singleSelectedObject != null)
-				{
-					Widgets.InfoCardButton(x, 0f, singleSelectedObject);
-				}
-				else
-				{
-					Widgets.InfoCardButton(x, 0f, Find.WorldGrid[this.SelectedTile].biome);
-				}
-				lineEndWidth += 24f;
+				Widgets.InfoCardButton(x, 0f, singleSelectedObject);
 			}
+			else
+			{
+				Widgets.InfoCardButton(x, 0f, Find.WorldGrid[this.SelectedTile].biome);
+			}
+			lineEndWidth += 24f;
 		}
 
 		public override void DoWindowContents(Rect rect)

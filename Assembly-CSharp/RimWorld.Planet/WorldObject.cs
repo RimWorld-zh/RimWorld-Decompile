@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -179,10 +178,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				WorldObject.<>c__IteratorFC <>c__IteratorFC = new WorldObject.<>c__IteratorFC();
-				WorldObject.<>c__IteratorFC expr_07 = <>c__IteratorFC;
-				expr_07.$PC = -2;
-				return expr_07;
+				yield break;
 			}
 		}
 
@@ -218,17 +214,12 @@ namespace RimWorld.Planet
 		{
 			if (!this.def.canHaveFaction && newFaction != null)
 			{
-				Log.Warning(string.Concat(new object[]
-				{
-					"Tried to set faction to ",
-					newFaction,
-					" but this world object (",
-					this,
-					") cannot have faction."
-				}));
-				return;
+				Log.Warning("Tried to set faction to " + newFaction + " but this world object (" + this + ") cannot have faction.");
 			}
-			this.factionInt = newFaction;
+			else
+			{
+				this.factionInt = newFaction;
+			}
 		}
 
 		public virtual string GetInspectString()
@@ -319,24 +310,24 @@ namespace RimWorld.Planet
 		public virtual void Print(LayerSubMesh subMesh)
 		{
 			float averageTileSize = Find.WorldGrid.averageTileSize;
-			WorldRendererUtility.PrintQuadTangentialToPlanet(this.DrawPos, 0.7f * averageTileSize, 0.015f, subMesh, false, true, true);
+			WorldRendererUtility.PrintQuadTangentialToPlanet(this.DrawPos, (float)(0.699999988079071 * averageTileSize), 0.015f, subMesh, false, true, true);
 		}
 
 		public virtual void Draw()
 		{
 			float averageTileSize = Find.WorldGrid.averageTileSize;
 			float transitionPct = ExpandableWorldObjectsUtility.TransitionPct;
-			if (this.def.expandingIcon && transitionPct > 0f)
+			if (this.def.expandingIcon && transitionPct > 0.0)
 			{
 				Color color = this.Material.color;
-				float num = 1f - transitionPct;
+				float num = (float)(1.0 - transitionPct);
 				WorldObject.propertyBlock.SetColor(ShaderPropertyIDs.Color, new Color(color.r, color.g, color.b, color.a * num));
 				MaterialPropertyBlock materialPropertyBlock = WorldObject.propertyBlock;
-				WorldRendererUtility.DrawQuadTangentialToPlanet(this.DrawPos, 0.7f * averageTileSize, 0.015f, this.Material, false, false, materialPropertyBlock);
+				WorldRendererUtility.DrawQuadTangentialToPlanet(this.DrawPos, (float)(0.699999988079071 * averageTileSize), 0.015f, this.Material, false, false, materialPropertyBlock);
 			}
 			else
 			{
-				WorldRendererUtility.DrawQuadTangentialToPlanet(this.DrawPos, 0.7f * averageTileSize, 0.015f, this.Material, false, false, null);
+				WorldRendererUtility.DrawQuadTangentialToPlanet(this.DrawPos, (float)(0.699999988079071 * averageTileSize), 0.015f, this.Material, false, false, null);
 			}
 		}
 
@@ -344,13 +335,13 @@ namespace RimWorld.Planet
 		{
 			for (int i = 0; i < this.comps.Count; i++)
 			{
-				T t = this.comps[i] as T;
-				if (t != null)
+				T val = (T)(this.comps[i] as T);
+				if (val != null)
 				{
-					return t;
+					return val;
 				}
 			}
-			return (T)((object)null);
+			return (T)null;
 		}
 
 		public WorldObjectComp GetComponent(Type type)
@@ -365,26 +356,26 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable<Gizmo> GetGizmos()
 		{
-			WorldObject.<GetGizmos>c__IteratorFD <GetGizmos>c__IteratorFD = new WorldObject.<GetGizmos>c__IteratorFD();
-			<GetGizmos>c__IteratorFD.<>f__this = this;
-			WorldObject.<GetGizmos>c__IteratorFD expr_0E = <GetGizmos>c__IteratorFD;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			for (int i = 0; i < this.comps.Count; i++)
+			{
+				foreach (Gizmo gizmo in this.comps[i].GetGizmos())
+				{
+					yield return gizmo;
+				}
+			}
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			WorldObject.<GetFloatMenuOptions>c__IteratorFE <GetFloatMenuOptions>c__IteratorFE = new WorldObject.<GetFloatMenuOptions>c__IteratorFE();
-			<GetFloatMenuOptions>c__IteratorFE.caravan = caravan;
-			<GetFloatMenuOptions>c__IteratorFE.<$>caravan = caravan;
-			<GetFloatMenuOptions>c__IteratorFE.<>f__this = this;
-			WorldObject.<GetFloatMenuOptions>c__IteratorFE expr_1C = <GetFloatMenuOptions>c__IteratorFE;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			for (int i = 0; i < this.comps.Count; i++)
+			{
+				foreach (FloatMenuOption floatMenuOption in this.comps[i].GetFloatMenuOptions(caravan))
+				{
+					yield return floatMenuOption;
+				}
+			}
 		}
 
 		public virtual IEnumerable<InspectTabBase> GetInspectTabs()
@@ -398,15 +389,7 @@ namespace RimWorld.Planet
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				base.GetType().Name,
-				" ",
-				this.LabelCap,
-				" (tile=",
-				this.Tile,
-				")"
-			});
+			return base.GetType().Name + " " + this.LabelCap + " (tile=" + this.Tile + ")";
 		}
 
 		public override int GetHashCode()

@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace Verse
@@ -85,7 +84,7 @@ namespace Verse
 		{
 			get
 			{
-				return !this.stuffCategories.NullOrEmpty<StuffCategoryDef>();
+				return !this.stuffCategories.NullOrEmpty();
 			}
 		}
 
@@ -123,9 +122,18 @@ namespace Verse
 					return null;
 				}
 				this.placeWorkersInstantiatedInt = new List<PlaceWorker>();
-				foreach (Type current in this.placeWorkers)
+				List<Type>.Enumerator enumerator = this.placeWorkers.GetEnumerator();
+				try
 				{
-					this.placeWorkersInstantiatedInt.Add((PlaceWorker)Activator.CreateInstance(current));
+					while (enumerator.MoveNext())
+					{
+						Type current = enumerator.Current;
+						this.placeWorkersInstantiatedInt.Add((PlaceWorker)Activator.CreateInstance(current));
+					}
+				}
+				finally
+				{
+					((IDisposable)(object)enumerator).Dispose();
 				}
 				return this.placeWorkersInstantiatedInt;
 			}
@@ -150,13 +158,13 @@ namespace Verse
 		public override void PostLoad()
 		{
 			base.PostLoad();
-			LongEventHandler.ExecuteWhenFinished(delegate
+			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				if (!this.uiIconPath.NullOrEmpty())
 				{
 					this.uiIcon = ContentFinder<Texture2D>.Get(this.uiIconPath, true);
 				}
-				else if (this.DrawMatSingle != null && this.DrawMatSingle != BaseContent.BadMat)
+				else if ((UnityEngine.Object)this.DrawMatSingle != (UnityEngine.Object)null && (UnityEngine.Object)this.DrawMatSingle != (UnityEngine.Object)BaseContent.BadMat)
 				{
 					this.uiIcon = (Texture2D)this.DrawMatSingle.mainTexture;
 				}
@@ -168,24 +176,22 @@ namespace Verse
 			base.ResolveReferences();
 		}
 
-		[DebuggerHidden]
 		public override IEnumerable<string> ConfigErrors()
 		{
-			BuildableDef.<ConfigErrors>c__Iterator1C7 <ConfigErrors>c__Iterator1C = new BuildableDef.<ConfigErrors>c__Iterator1C7();
-			<ConfigErrors>c__Iterator1C.<>f__this = this;
-			BuildableDef.<ConfigErrors>c__Iterator1C7 expr_0E = <ConfigErrors>c__Iterator1C;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			foreach (string item in base.ConfigErrors())
+			{
+				yield return item;
+			}
 		}
 
 		public override string ToString()
 		{
-			return this.defName;
+			return base.defName;
 		}
 
 		public override int GetHashCode()
 		{
-			return this.defName.GetHashCode();
+			return base.defName.GetHashCode();
 		}
 	}
 }

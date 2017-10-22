@@ -8,7 +8,7 @@ namespace Verse.AI
 		public static Toil Reserve(TargetIndex ind, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				if (!toil.actor.Reserve(toil.actor.jobs.curJob.GetTarget(ind), maxPawns, stackCount, layer))
 				{
@@ -23,7 +23,7 @@ namespace Verse.AI
 		public static Toil ReserveQueue(TargetIndex ind, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				List<LocalTargetInfo> targetQueue = toil.actor.jobs.curJob.GetTargetQueue(ind);
 				if (targetQueue != null)
@@ -45,7 +45,7 @@ namespace Verse.AI
 		public static Toil Release(TargetIndex ind)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = (Action)delegate()
 			{
 				toil.actor.Map.reservationManager.Release(toil.actor.jobs.curJob.GetTarget(ind), toil.actor);
 			};

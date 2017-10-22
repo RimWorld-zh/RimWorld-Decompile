@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -10,26 +9,26 @@ namespace Verse
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
-			if (this.link1.Linked)
+			if (base.link1.Linked)
 			{
-				this.attacheeLastPosition = this.link1.LastDrawPos;
+				this.attacheeLastPosition = base.link1.LastDrawPos;
 			}
-			this.exactPosition += this.def.mote.attachedDrawOffset;
+			base.exactPosition += base.def.mote.attachedDrawOffset;
 		}
 
 		protected override Vector3 NextExactPosition(float deltaTime)
 		{
 			Vector3 vector = base.NextExactPosition(deltaTime);
-			if (this.link1.Linked)
+			if (base.link1.Linked)
 			{
-				if (!this.link1.Target.ThingDestroyed)
+				if (!base.link1.Target.ThingDestroyed)
 				{
-					this.link1.UpdateDrawPos();
+					base.link1.UpdateDrawPos();
 				}
-				Vector3 b = this.link1.LastDrawPos - this.attacheeLastPosition;
+				Vector3 b = base.link1.LastDrawPos - this.attacheeLastPosition;
 				vector += b;
 				vector.y = Altitudes.AltitudeFor(AltitudeLayer.MoteOverhead);
-				this.attacheeLastPosition = this.link1.LastDrawPos;
+				this.attacheeLastPosition = base.link1.LastDrawPos;
 			}
 			return vector;
 		}

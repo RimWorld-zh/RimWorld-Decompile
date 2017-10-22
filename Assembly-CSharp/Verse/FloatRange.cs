@@ -37,7 +37,7 @@ namespace Verse
 		{
 			get
 			{
-				return (this.min + this.max) / 2f;
+				return (float)((this.min + this.max) / 2.0);
 			}
 		}
 
@@ -81,7 +81,7 @@ namespace Verse
 
 		public float LerpThroughRange(float lerpPct)
 		{
-			return (1f - lerpPct) * this.min + lerpPct * this.max;
+			return (float)((1.0 - lerpPct) * this.min + lerpPct * this.max);
 		}
 
 		public float InverseLerpThroughRange(float f)
@@ -96,7 +96,7 @@ namespace Verse
 
 		public bool IncludesEpsilon(float f)
 		{
-			return f >= this.min - 1E-05f && f <= this.max + 1E-05f;
+			return f >= this.min - 9.9999997473787516E-06 && f <= this.max + 9.9999997473787516E-06;
 		}
 
 		public FloatRange ExpandedBy(float f)
@@ -106,10 +106,7 @@ namespace Verse
 
 		public static FloatRange FromString(string s)
 		{
-			string[] array = s.Split(new char[]
-			{
-				'~'
-			});
+			string[] array = s.Split('~');
 			if (array.Length == 1)
 			{
 				float num = Convert.ToSingle(array[0]);
@@ -125,12 +122,16 @@ namespace Verse
 
 		public override int GetHashCode()
 		{
-			return Gen.HashCombineStruct<float>(this.min.GetHashCode(), this.max);
+			return Gen.HashCombineStruct(this.min.GetHashCode(), this.max);
 		}
 
 		public override bool Equals(object obj)
 		{
-			return obj is FloatRange && this.Equals((FloatRange)obj);
+			if (!(obj is FloatRange))
+			{
+				return false;
+			}
+			return this.Equals((FloatRange)obj);
 		}
 
 		public bool Equals(FloatRange other)

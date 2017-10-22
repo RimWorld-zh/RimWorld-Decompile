@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Verse.AI;
 
 namespace Verse
@@ -17,9 +16,7 @@ namespace Verse
 		public void Add(Building b)
 		{
 			if (b.def.building != null && b.def.building.isNaturalRock)
-			{
 				return;
-			}
 			if (b.Faction == Faction.OfPlayer)
 			{
 				this.allBuildingsColonist.Add(b);
@@ -92,35 +89,37 @@ namespace Verse
 				if (this.allBuildingsColonist[i].def == def)
 				{
 					CompPowerTrader compPowerTrader = this.allBuildingsColonist[i].TryGetComp<CompPowerTrader>();
-					if (compPowerTrader == null || compPowerTrader.PowerOn)
+					if (compPowerTrader != null && !compPowerTrader.PowerOn)
 					{
-						return true;
+						continue;
 					}
+					return true;
 				}
 			}
 			return false;
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<Building> AllBuildingsColonistOfDef(ThingDef def)
 		{
-			ListerBuildings.<AllBuildingsColonistOfDef>c__Iterator1F8 <AllBuildingsColonistOfDef>c__Iterator1F = new ListerBuildings.<AllBuildingsColonistOfDef>c__Iterator1F8();
-			<AllBuildingsColonistOfDef>c__Iterator1F.def = def;
-			<AllBuildingsColonistOfDef>c__Iterator1F.<$>def = def;
-			<AllBuildingsColonistOfDef>c__Iterator1F.<>f__this = this;
-			ListerBuildings.<AllBuildingsColonistOfDef>c__Iterator1F8 expr_1C = <AllBuildingsColonistOfDef>c__Iterator1F;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
+			{
+				if (this.allBuildingsColonist[i].def == def)
+				{
+					yield return this.allBuildingsColonist[i];
+				}
+			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<T> AllBuildingsColonistOfClass<T>() where T : Building
 		{
-			ListerBuildings.<AllBuildingsColonistOfClass>c__Iterator1F9<T> <AllBuildingsColonistOfClass>c__Iterator1F = new ListerBuildings.<AllBuildingsColonistOfClass>c__Iterator1F9<T>();
-			<AllBuildingsColonistOfClass>c__Iterator1F.<>f__this = this;
-			ListerBuildings.<AllBuildingsColonistOfClass>c__Iterator1F9<T> expr_0E = <AllBuildingsColonistOfClass>c__Iterator1F;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
+			{
+				T casted = (T)(this.allBuildingsColonist[i] as T);
+				if (casted != null)
+				{
+					yield return casted;
+				}
+			}
 		}
 	}
 }

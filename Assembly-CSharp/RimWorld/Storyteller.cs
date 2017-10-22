@@ -1,7 +1,6 @@
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -81,7 +80,7 @@ namespace RimWorld
 			Scribe_Defs.Look<StorytellerDef>(ref this.def, "def");
 			Scribe_Defs.Look<DifficultyDef>(ref this.difficulty, "difficulty");
 			Scribe_Deep.Look<IncidentQueue>(ref this.incidentQueue, "incidentQueue", new object[0]);
-			Scribe_Deep.Look<StoryIntender_Population>(ref this.intenderPopulation, "intenderPopulation", new object[]
+			Scribe_Deep.Look<StoryIntender_Population>(ref this.intenderPopulation, "intenderPopulation", new object[1]
 			{
 				this
 			});
@@ -99,35 +98,49 @@ namespace RimWorld
 		public void StorytellerTick()
 		{
 			this.incidentQueue.IncidentQueueTick();
-			if (Find.TickManager.TicksGame % 1000 == 0)
+			if (Find.TickManager.TicksGame % 1000 == 0 && DebugSettings.enableStoryteller)
 			{
-				if (!DebugSettings.enableStoryteller)
+				foreach (FiringIncident item in this.MakeIncidentsForInterval())
 				{
-					return;
-				}
-				foreach (FiringIncident current in this.MakeIncidentsForInterval())
-				{
-					this.TryFire(current);
+					this.TryFire(item);
 				}
 			}
 		}
 
 		public void TryFire(FiringIncident fi)
 		{
-			if ((fi.parms.forced || fi.def.Worker.CanFireNow(fi.parms.target)) && fi.def.Worker.TryExecute(fi.parms))
+			if (!fi.parms.forced && !fi.def.Worker.CanFireNow(fi.parms.target))
+				return;
+			if (fi.def.Worker.TryExecute(fi.parms))
 			{
 				fi.parms.target.StoryState.Notify_IncidentFired(fi);
 			}
 		}
 
-		[DebuggerHidden]
 		public IEnumerable<FiringIncident> MakeIncidentsForInterval()
 		{
-			Storyteller.<MakeIncidentsForInterval>c__IteratorA4 <MakeIncidentsForInterval>c__IteratorA = new Storyteller.<MakeIncidentsForInterval>c__IteratorA4();
-			<MakeIncidentsForInterval>c__IteratorA.<>f__this = this;
-			Storyteller.<MakeIncidentsForInterval>c__IteratorA4 expr_0E = <MakeIncidentsForInterval>c__IteratorA;
-			expr_0E.$PC = -2;
-			return expr_0E;
+			List<IIncidentTarget> targets = this.AllIncidentTargets;
+			for (int j = 0; j < this.storytellerComps.Count; j++)
+			{
+				StorytellerComp c = this.storytellerComps[j];
+				if (!(GenDate.DaysPassedFloat <= c.props.minDaysPassed))
+				{
+					for (int i = 0; i < targets.Count; i++)
+					{
+						IIncidentTarget targ = targets[i];
+						if ((c.props.allowedTargetTypes & targ.Type) != 0)
+						{
+							foreach (FiringIncident item in c.MakeIntervalIncidents(targ))
+							{
+								if (Find.Storyteller.difficulty.allowBigThreats || item.def.category != IncidentCategory.ThreatBig)
+								{
+									yield return item;
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 
 		public void Notify_DefChanged()
@@ -150,13 +163,7 @@ namespace RimWorld
 			for (int i = 0; i < this.storytellerComps.Count; i++)
 			{
 				IncidentParms incidentParms = this.storytellerComps[i].GenerateParms(IncidentCategory.ThreatBig, Find.VisibleMap);
-				stringBuilder.AppendLine(string.Concat(new object[]
-				{
-					"      ",
-					this.storytellerComps[i].GetType(),
-					": ",
-					incidentParms.points
-				}));
+				stringBuilder.AppendLine("      " + this.storytellerComps[i].GetType() + ": " + incidentParms.points);
 			}
 			if (Find.VisibleMap != null)
 			{

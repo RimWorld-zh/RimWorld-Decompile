@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -26,13 +24,9 @@ namespace RimWorld
 			this.trader = trader;
 		}
 
-		[DebuggerHidden]
 		public virtual IEnumerable<string> ConfigErrors(TraderKindDef parentDef)
 		{
-			StockGenerator.<ConfigErrors>c__Iterator174 <ConfigErrors>c__Iterator = new StockGenerator.<ConfigErrors>c__Iterator174();
-			StockGenerator.<ConfigErrors>c__Iterator174 expr_07 = <ConfigErrors>c__Iterator;
-			expr_07.$PC = -2;
-			return expr_07;
+			yield break;
 		}
 
 		public abstract IEnumerable<Thing> GenerateThings(int forTile);
@@ -52,26 +46,26 @@ namespace RimWorld
 
 		protected int RandomCountOf(ThingDef def)
 		{
-			if (this.countRange.max > 0 && this.totalPriceRange.max <= 0f)
+			if (this.countRange.max > 0 && this.totalPriceRange.max <= 0.0)
 			{
 				return this.countRange.RandomInRange;
 			}
-			if (this.countRange.max <= 0 && this.totalPriceRange.max > 0f)
+			if (this.countRange.max <= 0 && this.totalPriceRange.max > 0.0)
 			{
 				return Mathf.RoundToInt(this.totalPriceRange.RandomInRange / def.BaseMarketValue);
 			}
 			int num = 0;
 			int randomInRange;
-			do
+			while (true)
 			{
 				randomInRange = this.countRange.RandomInRange;
 				num++;
-				if (num > 100)
+				if (num <= 100 && !this.totalPriceRange.Includes((float)randomInRange * def.BaseMarketValue))
 				{
-					break;
+					continue;
 				}
+				break;
 			}
-			while (!this.totalPriceRange.Includes((float)randomInRange * def.BaseMarketValue));
 			return randomInRange;
 		}
 	}

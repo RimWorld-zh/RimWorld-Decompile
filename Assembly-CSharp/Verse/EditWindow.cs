@@ -30,38 +30,36 @@ namespace Verse
 
 		public EditWindow()
 		{
-			this.resizeable = true;
-			this.draggable = true;
-			this.preventCameraMotion = false;
-			this.doCloseX = true;
-			this.windowRect.x = 5f;
-			this.windowRect.y = 5f;
+			base.resizeable = true;
+			base.draggable = true;
+			base.preventCameraMotion = false;
+			base.doCloseX = true;
+			base.windowRect.x = 5f;
+			base.windowRect.y = 5f;
 		}
 
 		public override void PostOpen()
 		{
-			while (this.windowRect.x <= (float)UI.screenWidth - 200f && this.windowRect.y <= (float)UI.screenHeight - 200f)
+			while (!(base.windowRect.x > (float)UI.screenWidth - 200.0) && !(base.windowRect.y > (float)UI.screenHeight - 200.0))
 			{
 				bool flag = false;
-				foreach (EditWindow current in (from di in Find.WindowStack.Windows
+				foreach (EditWindow item in (from di in Find.WindowStack.Windows
 				where di is EditWindow
 				select di).Cast<EditWindow>())
 				{
-					if (current != this)
+					if (item != this && Mathf.Abs(item.windowRect.x - base.windowRect.x) < 8.0 && Mathf.Abs(item.windowRect.y - base.windowRect.y) < 8.0)
 					{
-						if (Mathf.Abs(current.windowRect.x - this.windowRect.x) < 8f && Mathf.Abs(current.windowRect.y - this.windowRect.y) < 8f)
-						{
-							flag = true;
-							break;
-						}
+						flag = true;
+						break;
 					}
 				}
-				if (!flag)
+				if (flag)
 				{
-					return;
+					base.windowRect.x += 16f;
+					base.windowRect.y += 16f;
+					continue;
 				}
-				this.windowRect.x = this.windowRect.x + 16f;
-				this.windowRect.y = this.windowRect.y + 16f;
+				break;
 			}
 		}
 	}

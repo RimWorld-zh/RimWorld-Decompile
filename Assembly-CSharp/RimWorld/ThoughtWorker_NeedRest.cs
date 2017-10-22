@@ -14,15 +14,25 @@ namespace RimWorld
 			switch (p.needs.rest.CurCategory)
 			{
 			case RestCategory.Rested:
+			{
 				return ThoughtState.Inactive;
+			}
 			case RestCategory.Tired:
+			{
 				return ThoughtState.ActiveAtStage(0);
+			}
 			case RestCategory.VeryTired:
+			{
 				return ThoughtState.ActiveAtStage(1);
+			}
 			case RestCategory.Exhausted:
+			{
 				return ThoughtState.ActiveAtStage(2);
+			}
 			default:
+			{
 				throw new NotImplementedException();
+			}
 			}
 		}
 	}

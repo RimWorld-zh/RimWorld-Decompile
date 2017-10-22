@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -18,7 +17,7 @@ namespace RimWorld
 			pawnGroupMakerParms.generateFightersOnly = true;
 			pawnGroupMakerParms.faction = this.randomFaction;
 			pawnGroupMakerParms.points = points;
-			return PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, pawnGroupMakerParms, true).ToList<Pawn>();
+			return PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, pawnGroupMakerParms, true).ToList();
 		}
 
 		protected override LordJob CreateLordJob(List<Pawn> generatedPawns, out Faction faction)
@@ -31,11 +30,7 @@ namespace RimWorld
 
 		protected override void SendAmbushLetter(Pawn anyPawn, Faction enemyFaction)
 		{
-			base.SendStandardLetter(anyPawn, new string[]
-			{
-				enemyFaction.def.pawnsPlural,
-				enemyFaction.Name
-			});
+			base.SendStandardLetter((Thing)anyPawn, enemyFaction.def.pawnsPlural, enemyFaction.Name);
 		}
 	}
 }

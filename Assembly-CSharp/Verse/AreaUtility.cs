@@ -12,21 +12,21 @@ namespace Verse
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
 			if (addNullAreaOption)
 			{
-				list.Add(new FloatMenuOption("NoAreaAllowed".Translate(), delegate
+				list.Add(new FloatMenuOption("NoAreaAllowed".Translate(), (Action)delegate()
 				{
 					selAction(null);
 				}, MenuOptionPriority.High, null, null, 0f, null, null));
 			}
-			foreach (Area current in from a in map.areaManager.AllAreas
+			foreach (Area item2 in from a in map.areaManager.AllAreas
 			where a.AssignableAsAllowed(mode)
 			select a)
 			{
-				Area localArea = current;
-				Action mouseoverGuiAction = delegate
+				Area localArea = item2;
+				Action mouseoverGuiAction = (Action)delegate
 				{
 					localArea.MarkForDraw();
 				};
-				FloatMenuOption item = new FloatMenuOption(localArea.Label, delegate
+				FloatMenuOption item = new FloatMenuOption(localArea.Label, (Action)delegate()
 				{
 					selAction(localArea);
 				}, MenuOptionPriority.Default, mouseoverGuiAction, null, 0f, null, null);
@@ -34,7 +34,7 @@ namespace Verse
 			}
 			if (addManageOption)
 			{
-				list.Add(new FloatMenuOption("ManageAreas".Translate(), delegate
+				list.Add(new FloatMenuOption("ManageAreas".Translate(), (Action)delegate()
 				{
 					Find.WindowStack.Add(new Dialog_ManageAreas(map));
 				}, MenuOptionPriority.Low, null, null, 0f, null, null));

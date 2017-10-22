@@ -16,17 +16,17 @@ namespace RimWorld
 
 		protected override Action GetWaitTickAction()
 		{
-			return delegate
+			return (Action)delegate
 			{
 				float num = this.Grave.GetStatValue(StatDefOf.EntertainmentStrengthFactor, true);
-				Room room = this.pawn.GetRoom(RegionType.Set_Passable);
+				Room room = base.pawn.GetRoom(RegionType.Set_Passable);
 				if (room != null)
 				{
 					num *= room.GetStat(RoomStatDefOf.GraveVisitingJoyGainFactor);
 				}
-				this.pawn.GainComfortFromCellIfPossible();
+				base.pawn.GainComfortFromCellIfPossible();
 				float extraJoyGainFactor = num;
-				JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.EndJob, extraJoyGainFactor);
+				JoyUtility.JoyTickCheckEnd(base.pawn, JoyTickFullJoyAction.EndJob, extraJoyGainFactor);
 			};
 		}
 	}

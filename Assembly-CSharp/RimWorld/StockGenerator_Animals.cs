@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using Verse;
 
@@ -42,16 +42,28 @@ namespace RimWorld
 			}
 		};
 
-		[DebuggerHidden]
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
-			StockGenerator_Animals.<GenerateThings>c__Iterator17F <GenerateThings>c__Iterator17F = new StockGenerator_Animals.<GenerateThings>c__Iterator17F();
-			<GenerateThings>c__Iterator17F.forTile = forTile;
-			<GenerateThings>c__Iterator17F.<$>forTile = forTile;
-			<GenerateThings>c__Iterator17F.<>f__this = this;
-			StockGenerator_Animals.<GenerateThings>c__Iterator17F expr_1C = <GenerateThings>c__Iterator17F;
-			expr_1C.$PC = -2;
-			return expr_1C;
+			int numKinds = this.kindCountRange.RandomInRange;
+			int count = base.countRange.RandomInRange;
+			List<PawnKindDef> kinds = new List<PawnKindDef>();
+			int i = 0;
+			PawnKindDef kind;
+			while (i < numKinds && (from k in DefDatabase<PawnKindDef>.AllDefs
+			where !((_003CGenerateThings_003Ec__Iterator17F)/*Error near IL_0069: stateMachine*/)._003Ckinds_003E__2.Contains(k) && ((_003CGenerateThings_003Ec__Iterator17F)/*Error near IL_0069: stateMachine*/)._003C_003Ef__this.PawnKindAllowed(k, ((_003CGenerateThings_003Ec__Iterator17F)/*Error near IL_0069: stateMachine*/).forTile)
+			select k).TryRandomElementByWeight<PawnKindDef>((Func<PawnKindDef, float>)((PawnKindDef k) => ((_003CGenerateThings_003Ec__Iterator17F)/*Error near IL_007a: stateMachine*/)._003C_003Ef__this.SelectionChance(k)), out kind))
+			{
+				kinds.Add(kind);
+				i++;
+			}
+			int j = 0;
+			PawnKindDef kind2;
+			while (j < count && ((IEnumerable<PawnKindDef>)kinds).TryRandomElement<PawnKindDef>(out kind2))
+			{
+				PawnGenerationRequest request = new PawnGenerationRequest(kind2, null, PawnGenerationContext.NonPlayer, forTile, false, false, false, false, true, false, 1f, false, true, true, false, false, null, default(float?), default(float?), default(Gender?), default(float?), (string)null);
+				yield return (Thing)PawnGenerator.GeneratePawn(request);
+				j++;
+			}
 		}
 
 		private float SelectionChance(PawnKindDef k)
@@ -66,46 +78,50 @@ namespace RimWorld
 
 		private bool PawnKindAllowed(PawnKindDef kind, int forTile)
 		{
-			if (!kind.RaceProps.Animal || kind.RaceProps.wildness < this.minWildness || kind.RaceProps.wildness > this.maxWildness || kind.RaceProps.wildness > 1f)
+			if (kind.RaceProps.Animal && !(kind.RaceProps.wildness < this.minWildness) && !(kind.RaceProps.wildness > this.maxWildness) && !(kind.RaceProps.wildness > 1.0))
 			{
-				return false;
-			}
-			if (this.checkTemperature)
-			{
-				int num = forTile;
-				if (num == -1 && Find.AnyPlayerHomeMap != null)
+				if (this.checkTemperature)
 				{
-					num = Find.AnyPlayerHomeMap.Tile;
+					int num = forTile;
+					if (num == -1 && Find.AnyPlayerHomeMap != null)
+					{
+						num = Find.AnyPlayerHomeMap.Tile;
+					}
+					if (num != -1 && !Find.World.tileTemperatures.SeasonAndOutdoorTemperatureAcceptableFor(num, kind.race))
+					{
+						return false;
+					}
 				}
-				if (num != -1 && !Find.World.tileTemperatures.SeasonAndOutdoorTemperatureAcceptableFor(num, kind.race))
+				if (kind.race.tradeTags == null)
 				{
 					return false;
 				}
+				if (this.tradeTags.Find((Predicate<string>)((string x) => kind.race.tradeTags.Contains(x))) == null)
+				{
+					return false;
+				}
+				return true;
 			}
-			return kind.race.tradeTags != null && this.tradeTags.Find((string x) => kind.race.tradeTags.Contains(x)) != null;
+			return false;
 		}
 
 		public void LogAnimalChances()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (PawnKindDef current in DefDatabase<PawnKindDef>.AllDefs)
+			foreach (PawnKindDef allDef in DefDatabase<PawnKindDef>.AllDefs)
 			{
-				stringBuilder.AppendLine(current.defName + ": " + this.SelectionChance(current).ToString("F2"));
+				stringBuilder.AppendLine(allDef.defName + ": " + this.SelectionChance(allDef).ToString("F2"));
 			}
 			Log.Message(stringBuilder.ToString());
 		}
 
 		internal static void LogStockGeneration()
 		{
-			new StockGenerator_Animals
-			{
-				tradeTags = new List<string>(),
-				tradeTags = 
-				{
-					"StandardAnimal",
-					"BadassAnimal"
-				}
-			}.LogAnimalChances();
+			StockGenerator_Animals stockGenerator_Animals = new StockGenerator_Animals();
+			stockGenerator_Animals.tradeTags = new List<string>();
+			stockGenerator_Animals.tradeTags.Add("StandardAnimal");
+			stockGenerator_Animals.tradeTags.Add("BadassAnimal");
+			stockGenerator_Animals.LogAnimalChances();
 		}
 	}
 }

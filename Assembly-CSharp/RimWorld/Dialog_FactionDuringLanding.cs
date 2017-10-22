@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -20,10 +19,10 @@ namespace RimWorld
 
 		public Dialog_FactionDuringLanding()
 		{
-			this.doCloseButton = true;
-			this.closeOnEscapeKey = true;
-			this.forcePause = true;
-			this.absorbInputAroundWindow = true;
+			base.doCloseButton = true;
+			base.closeOnEscapeKey = true;
+			base.forcePause = true;
+			base.absorbInputAroundWindow = true;
 		}
 
 		public override void DoWindowContents(Rect inRect)

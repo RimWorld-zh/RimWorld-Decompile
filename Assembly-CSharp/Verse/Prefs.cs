@@ -131,7 +131,11 @@ namespace Verse
 		{
 			get
 			{
-				return Prefs.data == null || Prefs.data.devMode;
+				if (Prefs.data == null)
+				{
+					return true;
+				}
+				return Prefs.data.devMode;
 			}
 			set
 			{
@@ -277,12 +281,11 @@ namespace Verse
 			}
 			set
 			{
-				if (value == Prefs.data.resourceReadoutCategorized)
+				if (value != Prefs.data.resourceReadoutCategorized)
 				{
-					return;
+					Prefs.data.resourceReadoutCategorized = value;
+					Prefs.Save();
 				}
-				Prefs.data.resourceReadoutCategorized = value;
-				Prefs.Save();
 			}
 		}
 
@@ -333,11 +336,7 @@ namespace Verse
 			}
 			catch (Exception ex)
 			{
-				GenUI.ErrorDialog("ProblemSavingFile".Translate(new object[]
-				{
-					GenFilePaths.PrefsFilePath,
-					ex.ToString()
-				}));
+				GenUI.ErrorDialog("ProblemSavingFile".Translate(GenFilePaths.PrefsFilePath, ex.ToString()));
 				Log.Error("Exception saving prefs: " + ex);
 			}
 		}
@@ -349,10 +348,10 @@ namespace Verse
 
 		public static NameTriple RandomPreferredName()
 		{
-			string rawName;
+			string rawName = default(string);
 			if ((from name in Prefs.PreferredNames
 			where !name.NullOrEmpty()
-			select name).TryRandomElement(out rawName))
+			select name).TryRandomElement<string>(out rawName))
 			{
 				return NameTriple.FromString(rawName);
 			}

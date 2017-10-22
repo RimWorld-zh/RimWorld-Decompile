@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -44,7 +43,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.cachedMat == null)
+				if ((Object)this.cachedMat == (Object)null)
 				{
 					this.cachedMat = MaterialPool.MatFrom(base.Faction.def.homeIconPath, ShaderDatabase.WorldOverlayTransparentLit, base.Faction.Color, WorldMaterials.WorldObjectRenderQueue);
 				}
@@ -66,13 +65,13 @@ namespace RimWorld.Planet
 
 		public FactionBase()
 		{
-			this.trader = new FactionBase_TraderTracker(this);
+			base.trader = new FactionBase_TraderTracker(this);
 		}
 
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Values.Look<string>(ref this.nameInt, "nameInt", null, false);
+			Scribe_Values.Look<string>(ref this.nameInt, "nameInt", (string)null, false);
 			Scribe_Values.Look<bool>(ref this.namedByPlayer, "namedByPlayer", false, false);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{

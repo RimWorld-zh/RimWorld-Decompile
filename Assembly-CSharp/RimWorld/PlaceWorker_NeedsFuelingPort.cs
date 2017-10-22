@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -8,7 +7,8 @@ namespace RimWorld
 	{
 		public override AcceptanceReport AllowsPlacing(BuildableDef def, IntVec3 center, Rot4 rot, Thing thingToIgnore = null)
 		{
-			if (FuelingPortUtility.FuelingPortGiverAtFuelingPortCell(center, Find.VisibleMap) == null)
+			Building building = FuelingPortUtility.FuelingPortGiverAtFuelingPortCell(center, Find.VisibleMap);
+			if (building == null)
 			{
 				return "MustPlaceNearFuelingPort".Translate();
 			}

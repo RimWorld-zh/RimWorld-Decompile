@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -18,8 +17,8 @@ namespace RimWorld
 
 		public Page_SelectStorytellerInGame()
 		{
-			this.doCloseButton = true;
-			this.doCloseX = true;
+			base.doCloseButton = true;
+			base.doCloseX = true;
 		}
 
 		public override void DoWindowContents(Rect rect)

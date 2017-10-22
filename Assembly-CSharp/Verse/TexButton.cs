@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -128,7 +127,7 @@ namespace Verse
 
 		public static readonly Texture2D ExpandingIcons = ContentFinder<Texture2D>.Get("UI/Buttons/ExpandingIcons", true);
 
-		public static readonly Texture2D[] SpeedButtonTextures = new Texture2D[]
+		public static readonly Texture2D[] SpeedButtonTextures = new Texture2D[5]
 		{
 			ContentFinder<Texture2D>.Get("UI/TimeControls/TimeSpeedButton_Pause", true),
 			ContentFinder<Texture2D>.Get("UI/TimeControls/TimeSpeedButton_Normal", true),

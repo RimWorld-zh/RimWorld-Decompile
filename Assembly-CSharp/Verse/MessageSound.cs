@@ -1,14 +1,12 @@
-using System;
-
 namespace Verse
 {
 	public enum MessageSound : byte
 	{
-		Silent,
-		Standard,
-		RejectInput,
-		Benefit,
-		Negative,
-		SeriousAlert
+		Silent = 0,
+		Standard = 1,
+		RejectInput = 2,
+		Benefit = 3,
+		Negative = 4,
+		SeriousAlert = 5
 	}
 }

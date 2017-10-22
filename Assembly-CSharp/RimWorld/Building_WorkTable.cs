@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -18,7 +17,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.powerComp == null || this.def.building.unpoweredWorkTableWorkSpeedFactor > 0f;
+				if (this.powerComp == null)
+				{
+					return true;
+				}
+				if (base.def.building.unpoweredWorkTableWorkSpeedFactor > 0.0)
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -26,7 +33,19 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.CanWorkWithoutPower || (this.powerComp != null && this.powerComp.PowerOn)) && (this.refuelableComp == null || this.refuelableComp.HasFuel) && (this.breakdownableComp == null || !this.breakdownableComp.BrokenDown);
+				if (!this.CanWorkWithoutPower && (this.powerComp == null || !this.powerComp.PowerOn))
+				{
+					return false;
+				}
+				if (this.refuelableComp != null && !this.refuelableComp.HasFuel)
+				{
+					return false;
+				}
+				if (this.breakdownableComp != null && this.breakdownableComp.BrokenDown)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -62,7 +81,7 @@ namespace RimWorld
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Deep.Look<BillStack>(ref this.billStack, "billStack", new object[]
+			Scribe_Deep.Look<BillStack>(ref this.billStack, "billStack", new object[1]
 			{
 				this
 			});
@@ -92,6 +111,12 @@ namespace RimWorld
 		virtual Map get_Map()
 		{
 			return base.Map;
+		}
+
+		Map IBillGiver.get_Map()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in get_Map
+			return this.get_Map();
 		}
 	}
 }

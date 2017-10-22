@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class Graphic_Terrain : Graphic_Single
@@ -11,16 +9,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return string.Concat(new object[]
-			{
-				"Terrain(path=",
-				this.path,
-				", shader=",
-				base.Shader,
-				", color=",
-				this.color,
-				")"
-			});
+			return "Terrain(path=" + base.path + ", shader=" + base.Shader + ", color=" + base.color + ")";
 		}
 	}
 }

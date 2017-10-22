@@ -1,11 +1,9 @@
-using System;
-
 namespace RimWorld
 {
 	public enum PawnExecutionKind
 	{
-		GenericBrutal,
-		GenericHumane,
-		OrganHarvesting
+		GenericBrutal = 0,
+		GenericHumane = 1,
+		OrganHarvesting = 2
 	}
 }

@@ -129,7 +129,7 @@ namespace Verse
 				{
 					this.comps[i].CompPostTick(ref num);
 				}
-				if (num != 0f)
+				if (num != 0.0)
 				{
 					this.Severity += num;
 				}
@@ -202,13 +202,13 @@ namespace Verse
 
 		private void InitializeComps()
 		{
-			if (this.def.comps != null)
+			if (base.def.comps != null)
 			{
 				this.comps = new List<HediffComp>();
-				for (int i = 0; i < this.def.comps.Count; i++)
+				for (int i = 0; i < base.def.comps.Count; i++)
 				{
-					HediffComp hediffComp = (HediffComp)Activator.CreateInstance(this.def.comps[i].compClass);
-					hediffComp.props = this.def.comps[i];
+					HediffComp hediffComp = (HediffComp)Activator.CreateInstance(base.def.comps[i].compClass);
+					hediffComp.props = base.def.comps[i];
 					hediffComp.parent = this;
 					this.comps.Add(hediffComp);
 				}
@@ -223,23 +223,12 @@ namespace Verse
 			{
 				for (int i = 0; i < this.comps.Count; i++)
 				{
-					string str;
-					if (this.comps[i].ToString().Contains('_'))
-					{
-						str = this.comps[i].ToString().Split(new char[]
-						{
-							'_'
-						})[1];
-					}
-					else
-					{
-						str = this.comps[i].ToString();
-					}
+					string str = (!this.comps[i].ToString().Contains('_')) ? this.comps[i].ToString() : this.comps[i].ToString().Split('_')[1];
 					stringBuilder.AppendLine("--" + str);
 					string text = this.comps[i].CompDebugString();
 					if (!text.NullOrEmpty())
 					{
-						stringBuilder.AppendLine(text.TrimEnd(new char[0]).Indented());
+						stringBuilder.AppendLine(text.TrimEnd().Indented());
 					}
 				}
 			}

@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 
 namespace Verse
@@ -11,7 +10,7 @@ namespace Verse
 		{
 			get
 			{
-				return (HediffCompProperties_SeverityPerDay)this.props;
+				return (HediffCompProperties_SeverityPerDay)base.props;
 			}
 		}
 
@@ -21,7 +20,7 @@ namespace Verse
 			if (base.Pawn.IsHashIntervalTick(200))
 			{
 				float num = this.SeverityChangePerDay();
-				num *= 0.00333333341f;
+				num = (float)(num * 0.0033333334140479565);
 				severityAdjustment += num;
 			}
 		}

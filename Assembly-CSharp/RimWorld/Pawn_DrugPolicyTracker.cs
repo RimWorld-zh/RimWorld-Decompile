@@ -28,11 +28,10 @@ namespace RimWorld
 			}
 			set
 			{
-				if (this.curPolicy == value)
+				if (this.curPolicy != value)
 				{
-					return;
+					this.curPolicy = value;
 				}
-				this.curPolicy = value;
 			}
 		}
 
@@ -49,24 +48,24 @@ namespace RimWorld
 					return GenLocalDate.DayPercent(this.pawn);
 				}
 				float hoursPerDayNotSleeping = this.HoursPerDayNotSleeping;
-				if (hoursPerDayNotSleeping == 0f)
+				if (hoursPerDayNotSleeping == 0.0)
 				{
 					return 1f;
 				}
 				float num = 0f;
 				int num2 = GenLocalDate.HourOfDay(this.pawn);
-				for (int i = 0; i < num2; i++)
+				for (int num3 = 0; num3 < num2; num3++)
 				{
-					if (this.pawn.timetable.times[i] != TimeAssignmentDefOf.Sleep)
+					if (this.pawn.timetable.times[num3] != TimeAssignmentDefOf.Sleep)
 					{
-						num += 1f;
+						num = (float)(num + 1.0);
 					}
 				}
 				TimeAssignmentDef currentAssignment = this.pawn.timetable.CurrentAssignment;
 				if (currentAssignment != TimeAssignmentDefOf.Sleep)
 				{
-					float num3 = (float)(Find.TickManager.TicksAbs % 2500) / 2500f;
-					num += num3;
+					float num4 = (float)((float)(Find.TickManager.TicksAbs % 2500) / 2500.0);
+					num += num4;
 				}
 				return num / hoursPerDayNotSleeping;
 			}
@@ -114,7 +113,7 @@ namespace RimWorld
 				Log.Warning(drug + " is not a drug.");
 				return false;
 			}
-			return this.drugTakeRecords.Any((DrugTakeRecord x) => x.drug == drug);
+			return this.drugTakeRecords.Any((Predicate<DrugTakeRecord>)((DrugTakeRecord x) => x.drug == drug));
 		}
 
 		public bool AllowedToTakeScheduledEver(ThingDef thingDef)
@@ -130,7 +129,15 @@ namespace RimWorld
 				return false;
 			}
 			DrugPolicyEntry drugPolicyEntry = this.CurrentPolicy[thingDef];
-			return drugPolicyEntry.allowScheduled && (!thingDef.IsPleasureDrug || !this.pawn.IsTeetotaler());
+			if (!drugPolicyEntry.allowScheduled)
+			{
+				return false;
+			}
+			if (thingDef.IsPleasureDrug && this.pawn.IsTeetotaler())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public bool AllowedToTakeScheduledNow(ThingDef thingDef)
@@ -150,20 +157,20 @@ namespace RimWorld
 				return false;
 			}
 			DrugPolicyEntry drugPolicyEntry = this.CurrentPolicy[thingDef];
-			if (drugPolicyEntry.onlyIfMoodBelow < 1f && this.pawn.needs.mood != null && this.pawn.needs.mood.CurLevelPercentage >= drugPolicyEntry.onlyIfMoodBelow)
+			if (drugPolicyEntry.onlyIfMoodBelow < 1.0 && this.pawn.needs.mood != null && this.pawn.needs.mood.CurLevelPercentage >= drugPolicyEntry.onlyIfMoodBelow)
 			{
 				return false;
 			}
-			if (drugPolicyEntry.onlyIfJoyBelow < 1f && this.pawn.needs.joy != null && this.pawn.needs.joy.CurLevelPercentage >= drugPolicyEntry.onlyIfJoyBelow)
+			if (drugPolicyEntry.onlyIfJoyBelow < 1.0 && this.pawn.needs.joy != null && this.pawn.needs.joy.CurLevelPercentage >= drugPolicyEntry.onlyIfJoyBelow)
 			{
 				return false;
 			}
-			DrugTakeRecord drugTakeRecord = this.drugTakeRecords.Find((DrugTakeRecord x) => x.drug == thingDef);
+			DrugTakeRecord drugTakeRecord = this.drugTakeRecords.Find((Predicate<DrugTakeRecord>)((DrugTakeRecord x) => x.drug == thingDef));
 			if (drugTakeRecord != null)
 			{
-				if (drugPolicyEntry.daysFrequency < 1f)
+				if (drugPolicyEntry.daysFrequency < 1.0)
 				{
-					int num = Mathf.RoundToInt(1f / drugPolicyEntry.daysFrequency);
+					int num = Mathf.RoundToInt((float)(1.0 / drugPolicyEntry.daysFrequency));
 					if (drugTakeRecord.TimesTakenThisDay >= num)
 					{
 						return false;
@@ -193,7 +200,7 @@ namespace RimWorld
 				return false;
 			}
 			Hediff firstHediffOfDef = this.pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.DrugOverdose, false);
-			if (firstHediffOfDef != null && firstHediffOfDef.Severity > 0.5f && this.CanCauseOverdose(ingestible))
+			if (firstHediffOfDef != null && firstHediffOfDef.Severity > 0.5 && this.CanCauseOverdose(ingestible))
 			{
 				int num = this.LastTicksWhenTakenDrugWhichCanCauseOverdose();
 				if (Find.TickManager.TicksGame - num < 1250)
@@ -201,26 +208,34 @@ namespace RimWorld
 					return false;
 				}
 			}
-			DrugTakeRecord drugTakeRecord = this.drugTakeRecords.Find((DrugTakeRecord x) => x.drug == ingestible);
+			DrugTakeRecord drugTakeRecord = this.drugTakeRecords.Find((Predicate<DrugTakeRecord>)((DrugTakeRecord x) => x.drug == ingestible));
 			if (drugTakeRecord == null)
 			{
 				return true;
 			}
 			DrugPolicyEntry drugPolicyEntry = this.CurrentPolicy[ingestible];
-			if (drugPolicyEntry.daysFrequency < 1f)
+			if (drugPolicyEntry.daysFrequency < 1.0)
 			{
-				int num2 = Mathf.RoundToInt(1f / drugPolicyEntry.daysFrequency);
-				float num3 = 1f / (float)(num2 + 1);
+				int num2 = Mathf.RoundToInt((float)(1.0 / drugPolicyEntry.daysFrequency));
+				float num3 = (float)(1.0 / (float)(num2 + 1));
 				int num4 = 0;
 				float dayPercentNotSleeping = this.DayPercentNotSleeping;
-				for (int i = 0; i < num2; i++)
+				for (int num5 = 0; num5 < num2; num5++)
 				{
-					if (dayPercentNotSleeping > (float)(i + 1) * num3 - num3 * 0.5f)
+					if (dayPercentNotSleeping > (float)(num5 + 1) * num3 - num3 * 0.5)
 					{
 						num4++;
 					}
 				}
-				return drugTakeRecord.TimesTakenThisDay < num4 && (drugTakeRecord.TimesTakenThisDay == 0 || (float)(Find.TickManager.TicksGame - drugTakeRecord.lastTakenTicks) / (this.HoursPerDayNotSleeping * 2500f) >= 0.6f * num3);
+				if (drugTakeRecord.TimesTakenThisDay >= num4)
+				{
+					return false;
+				}
+				if (drugTakeRecord.TimesTakenThisDay != 0 && (float)(Find.TickManager.TicksGame - drugTakeRecord.lastTakenTicks) / (this.HoursPerDayNotSleeping * 2500.0) < 0.60000002384185791 * num3)
+				{
+					return false;
+				}
+				return true;
 			}
 			float dayPercentNotSleeping2 = this.DayPercentNotSleeping;
 			Rand.PushState();
@@ -232,7 +247,7 @@ namespace RimWorld
 
 		public void Notify_DrugIngested(Thing drug)
 		{
-			DrugTakeRecord drugTakeRecord = this.drugTakeRecords.Find((DrugTakeRecord x) => x.drug == drug.def);
+			DrugTakeRecord drugTakeRecord = this.drugTakeRecords.Find((Predicate<DrugTakeRecord>)((DrugTakeRecord x) => x.drug == drug.def));
 			if (drugTakeRecord == null)
 			{
 				drugTakeRecord = new DrugTakeRecord();
@@ -259,7 +274,11 @@ namespace RimWorld
 		private bool CanCauseOverdose(ThingDef drug)
 		{
 			CompProperties_Drug compProperties = drug.GetCompProperties<CompProperties_Drug>();
-			return compProperties != null && compProperties.CanCauseOverdose;
+			if (compProperties == null)
+			{
+				return false;
+			}
+			return compProperties.CanCauseOverdose;
 		}
 	}
 }
