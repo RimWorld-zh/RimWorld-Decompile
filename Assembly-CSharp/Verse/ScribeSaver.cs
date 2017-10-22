@@ -37,7 +37,6 @@ namespace Verse
 				Log.Error("Exception while init saving file: " + filePath + "\n" + ex);
 				this.ForceStop();
 				throw;
-				IL_00b2:;
 			}
 		}
 
@@ -74,7 +73,6 @@ namespace Verse
 					Log.Error("Exception in FinalizeLoading(): " + arg);
 					this.ForceStop();
 					throw;
-					IL_00bc:;
 				}
 			}
 		}
@@ -108,7 +106,7 @@ namespace Verse
 			if (Scribe.mode != 0)
 			{
 				Log.Error("DebugOutput needs current mode to be Inactive");
-				return string.Empty;
+				return "";
 			}
 			try
 			{
@@ -126,9 +124,6 @@ namespace Verse
 							this.savingForDebug = true;
 							Scribe_Deep.Look(ref saveable, "saveable");
 							return stringWriter.ToString();
-							IL_007e:
-							string result;
-							return result;
 						}
 					}
 					finally
@@ -141,21 +136,23 @@ namespace Verse
 			{
 				Log.Error("Exception while getting debug output: " + arg);
 				this.ForceStop();
-				return string.Empty;
-				IL_00d6:
-				string result;
-				return result;
+				return "";
 			}
 		}
 
 		public bool EnterNode(string nodeName)
 		{
+			bool result;
 			if (this.writer == null)
 			{
-				return false;
+				result = false;
 			}
-			this.writer.WriteStartElement(nodeName);
-			return true;
+			else
+			{
+				this.writer.WriteStartElement(nodeName);
+				result = true;
+			}
+			return result;
 		}
 
 		public void ExitNode()

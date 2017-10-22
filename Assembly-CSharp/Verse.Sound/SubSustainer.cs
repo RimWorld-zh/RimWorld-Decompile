@@ -7,8 +7,6 @@ namespace Verse.Sound
 {
 	public class SubSustainer
 	{
-		private const float MinSampleStartInterval = 0.01f;
-
 		public Sustainer parent;
 
 		public SubSoundDef subDef;
@@ -22,6 +20,8 @@ namespace Verse.Sound
 		public int creationTick = -1;
 
 		public float creationRealTime = -1f;
+
+		private const float MinSampleStartInterval = 0.01f;
 
 		public SoundInfo Info
 		{
@@ -109,11 +109,7 @@ namespace Verse.Sound
 			}
 			for (int i = 0; i < this.samples.Count; i++)
 			{
-				this.samples[i].ApplyMappedParameters();
-			}
-			for (int j = 0; j < this.samples.Count; j++)
-			{
-				this.samples[j].UpdateSourceVolume();
+				this.samples[i].Update();
 			}
 		}
 
@@ -144,18 +140,9 @@ namespace Verse.Sound
 		public string SamplesDebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			List<SampleSustainer>.Enumerator enumerator = this.samples.GetEnumerator();
-			try
+			foreach (SampleSustainer sample in this.samples)
 			{
-				while (enumerator.MoveNext())
-				{
-					SampleSustainer current = enumerator.Current;
-					stringBuilder.AppendLine(current.ToString());
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				stringBuilder.AppendLine(sample.ToString());
 			}
 			return stringBuilder.ToString();
 		}

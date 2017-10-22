@@ -7,66 +7,109 @@ namespace RimWorld
 {
 	public static class ShipUtility
 	{
+		private static Dictionary<ThingDef, int> requiredParts;
+
 		private static List<Building> closedSet = new List<Building>();
 
 		private static List<Building> openSet = new List<Building>();
 
+		public static Dictionary<ThingDef, int> RequiredParts()
+		{
+			if (ShipUtility.requiredParts == null)
+			{
+				ShipUtility.requiredParts = new Dictionary<ThingDef, int>();
+				ShipUtility.requiredParts[ThingDefOf.Ship_CryptosleepCasket] = 1;
+				ShipUtility.requiredParts[ThingDefOf.Ship_ComputerCore] = 1;
+				ShipUtility.requiredParts[ThingDefOf.Ship_Reactor] = 1;
+				ShipUtility.requiredParts[ThingDefOf.Ship_Engine] = 3;
+				ShipUtility.requiredParts[ThingDefOf.Ship_Beam] = 1;
+				ShipUtility.requiredParts[ThingDefOf.Ship_SensorCluster] = 1;
+			}
+			return ShipUtility.requiredParts;
+		}
+
 		public static IEnumerable<string> LaunchFailReasons(Building rootBuilding)
 		{
 			List<Building> shipParts = ShipUtility.ShipBuildingsAttachedTo(rootBuilding).ToList();
-			List<ThingDef>.Enumerator enumerator = new List<ThingDef>
+			foreach (KeyValuePair<ThingDef, int> item in ShipUtility.RequiredParts())
 			{
-				ThingDefOf.Ship_CryptosleepCasket,
-				ThingDefOf.Ship_ComputerCore,
-				ThingDefOf.Ship_Reactor,
-				ThingDefOf.Ship_Engine
-			}.GetEnumerator();
-			try
-			{
-				while (enumerator.MoveNext())
+				int shipPartCount = shipParts.Count((Func<Building, bool>)((Building pa) => pa.def == item.Key));
+				if (shipPartCount < item.Value)
 				{
-					ThingDef partDef = enumerator.Current;
-					if (!shipParts.Any((Predicate<Building>)((Building pa) => pa.def == ((_003CLaunchFailReasons_003Ec__Iterator171)/*Error near IL_00c4: stateMachine*/)._003CpartDef_003E__3)))
-					{
-						yield return "ShipReportMissingPart".Translate() + ": " + partDef.label;
-					}
+					yield return string.Format("{0}: {1}x {2} ({3} {4})", "ShipReportMissingPart".Translate(), item.Value - shipPartCount, item.Key.label, "ShipReportMissingPartRequires".Translate(), item.Value);
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			bool fullPodFound = false;
-			List<Building>.Enumerator enumerator2 = shipParts.GetEnumerator();
-			try
+			foreach (Building item2 in shipParts)
 			{
-				while (enumerator2.MoveNext())
+				if (item2.def == ThingDefOf.Ship_CryptosleepCasket)
 				{
-					Building part = enumerator2.Current;
-					if (part.def == ThingDefOf.Ship_CryptosleepCasket)
+					Building_CryptosleepCasket building_CryptosleepCasket = item2 as Building_CryptosleepCasket;
+					if (building_CryptosleepCasket != null && building_CryptosleepCasket.HasAnyContents)
 					{
-						Building_CryptosleepCasket pod = part as Building_CryptosleepCasket;
-						if (pod != null && pod.HasAnyContents)
-						{
-							fullPodFound = true;
-							break;
-						}
+						fullPodFound = true;
+						break;
 					}
 				}
 			}
-			finally
+			foreach (Building item3 in shipParts)
 			{
-				((IDisposable)(object)enumerator2).Dispose();
+				CompHibernatable hibernatable = item3.TryGetComp<CompHibernatable>();
+				if (hibernatable != null && hibernatable.State == HibernatableStateDefOf.Hibernating)
+				{
+					yield return string.Format("{0}: {1}", "ShipReportHibernating".Translate(), item3.Label);
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+				if (hibernatable != null && !hibernatable.Running)
+				{
+					yield return string.Format("{0}: {1}", "ShipReportNotReady".Translate(), item3.Label);
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			if (!fullPodFound)
+			if (fullPodFound)
+				yield break;
+			yield return "ShipReportNoFullPods".Translate();
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_037c:
+			/*Error near IL_037d: Unexpected return in MoveNext()*/;
+		}
+
+		public static bool HasHibernatingParts(Building rootBuilding)
+		{
+			List<Building> list = ShipUtility.ShipBuildingsAttachedTo(rootBuilding).ToList();
+			foreach (Building item in list)
 			{
-				yield return "ShipReportNoFullPods".Translate();
+				CompHibernatable compHibernatable = item.TryGetComp<CompHibernatable>();
+				if (compHibernatable != null && compHibernatable.State == HibernatableStateDefOf.Hibernating)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public static void StartupHibernatingParts(Building rootBuilding)
+		{
+			List<Building> list = ShipUtility.ShipBuildingsAttachedTo(rootBuilding).ToList();
+			foreach (Building item in list)
+			{
+				CompHibernatable compHibernatable = item.TryGetComp<CompHibernatable>();
+				if (compHibernatable != null && compHibernatable.State == HibernatableStateDefOf.Hibernating)
+				{
+					compHibernatable.Startup();
+				}
 			}
 		}
 
 		public static List<Building> ShipBuildingsAttachedTo(Building root)
 		{
-			if (root != null && !root.Destroyed)
+			List<Building> result;
+			if (root == null || root.Destroyed)
+			{
+				result = new List<Building>();
+			}
+			else
 			{
 				ShipUtility.closedSet.Clear();
 				ShipUtility.openSet.Clear();
@@ -85,9 +128,9 @@ namespace RimWorld
 						}
 					}
 				}
-				return ShipUtility.closedSet;
+				result = ShipUtility.closedSet;
 			}
-			return new List<Building>();
+			return result;
 		}
 	}
 }

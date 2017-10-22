@@ -93,11 +93,7 @@ namespace RimWorld
 
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
-			if (ep.Tag == "Designate-Door")
-			{
-				return TutorUtility.EventCellsAreWithin(ep, this.allowedPlaceCells);
-			}
-			return base.AllowAction(ep);
+			return (!(ep.Tag == "Designate-Door")) ? base.AllowAction(ep) : TutorUtility.EventCellsAreWithin(ep, this.allowedPlaceCells);
 		}
 
 		public override void Notify_Event(EventPack ep)

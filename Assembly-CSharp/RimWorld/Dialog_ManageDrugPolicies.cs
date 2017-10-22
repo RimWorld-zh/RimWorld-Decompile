@@ -9,6 +9,10 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Dialog_ManageDrugPolicies : Window
 	{
+		private Vector2 scrollPosition;
+
+		private DrugPolicy selPolicy;
+
 		private const float TopAreaHeight = 40f;
 
 		private const float TopButtonHeight = 35f;
@@ -25,12 +29,6 @@ namespace RimWorld
 
 		private const float CellsPadding = 4f;
 
-		private const float UsageSpacing = 12f;
-
-		private Vector2 scrollPosition;
-
-		private DrugPolicy selPolicy;
-
 		private static readonly Texture2D IconForAddiction = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/ForAddiction", true);
 
 		private static readonly Texture2D IconForJoy = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/ForJoy", true);
@@ -38,6 +36,8 @@ namespace RimWorld
 		private static readonly Texture2D IconScheduled = ContentFinder<Texture2D>.Get("UI/Icons/DrugPolicy/Scheduled", true);
 
 		private static readonly Regex ValidNameRegex = Outfit.ValidNameRegex;
+
+		private const float UsageSpacing = 12f;
 
 		private DrugPolicy SelectedPolicy
 		{
@@ -87,22 +87,13 @@ namespace RimWorld
 			if (Widgets.ButtonText(rect, "SelectDrugPolicy".Translate(), true, false, true))
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				List<DrugPolicy>.Enumerator enumerator = Current.Game.drugPolicyDatabase.AllPolicies.GetEnumerator();
-				try
+				foreach (DrugPolicy allPolicy in Current.Game.drugPolicyDatabase.AllPolicies)
 				{
-					while (enumerator.MoveNext())
+					DrugPolicy localAssignedDrugs = allPolicy;
+					list.Add(new FloatMenuOption(localAssignedDrugs.label, (Action)delegate
 					{
-						DrugPolicy current = enumerator.Current;
-						DrugPolicy localAssignedDrugs = current;
-						list.Add(new FloatMenuOption(localAssignedDrugs.label, (Action)delegate
-						{
-							this.SelectedPolicy = localAssignedDrugs;
-						}, MenuOptionPriority.Default, null, null, 0f, null, null));
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+						this.SelectedPolicy = localAssignedDrugs;
+					}, MenuOptionPriority.Default, null, null, 0f, null, null));
 				}
 				Find.WindowStack.Add(new FloatMenu(list));
 			}
@@ -119,30 +110,21 @@ namespace RimWorld
 			if (Widgets.ButtonText(rect3, "DeleteDrugPolicy".Translate(), true, false, true))
 			{
 				List<FloatMenuOption> list2 = new List<FloatMenuOption>();
-				List<DrugPolicy>.Enumerator enumerator2 = Current.Game.drugPolicyDatabase.AllPolicies.GetEnumerator();
-				try
+				foreach (DrugPolicy allPolicy2 in Current.Game.drugPolicyDatabase.AllPolicies)
 				{
-					while (enumerator2.MoveNext())
+					DrugPolicy localAssignedDrugs2 = allPolicy2;
+					list2.Add(new FloatMenuOption(localAssignedDrugs2.label, (Action)delegate
 					{
-						DrugPolicy current2 = enumerator2.Current;
-						DrugPolicy localAssignedDrugs2 = current2;
-						list2.Add(new FloatMenuOption(localAssignedDrugs2.label, (Action)delegate
+						AcceptanceReport acceptanceReport = Current.Game.drugPolicyDatabase.TryDelete(localAssignedDrugs2);
+						if (!acceptanceReport.Accepted)
 						{
-							AcceptanceReport acceptanceReport = Current.Game.drugPolicyDatabase.TryDelete(localAssignedDrugs2);
-							if (!acceptanceReport.Accepted)
-							{
-								Messages.Message(acceptanceReport.Reason, MessageSound.RejectInput);
-							}
-							else if (localAssignedDrugs2 == this.SelectedPolicy)
-							{
-								this.SelectedPolicy = null;
-							}
-						}, MenuOptionPriority.Default, null, null, 0f, null, null));
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
+							Messages.Message(acceptanceReport.Reason, MessageTypeDefOf.RejectInput);
+						}
+						else if (localAssignedDrugs2 == this.SelectedPolicy)
+						{
+							this.SelectedPolicy = null;
+						}
+					}, MenuOptionPriority.Default, null, null, 0f, null, null));
 				}
 				Find.WindowStack.Add(new FloatMenu(list2));
 			}
@@ -190,7 +172,7 @@ namespace RimWorld
 			Rect rect4 = rect;
 			rect4.yMin = (float)(rect4.yMax - 50.0);
 			this.DoColumnLabels(rect2);
-			Widgets.DrawMenuSection(rect3, true);
+			Widgets.DrawMenuSection(rect3);
 			if (this.SelectedPolicy.Count == 0)
 			{
 				GUI.color = Color.grey;

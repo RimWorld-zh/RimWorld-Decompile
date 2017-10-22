@@ -6,19 +6,17 @@ namespace Verse
 {
 	public class Def : Editable
 	{
-		public const string DefaultDefName = "UnnamedDef";
-
 		[Description("The name of this Def. It is used as an identifier by the game code.")]
 		[NoTranslate]
 		public string defName = "UnnamedDef";
 
-		[DefaultValue(null)]
 		[Description("A human-readable label used to identify this in game.")]
-		public string label;
+		[DefaultValue(null)]
+		public string label = (string)null;
 
 		[Description("A human-readable description given when the Def is inspected by players.")]
 		[DefaultValue(null)]
-		public string description;
+		public string description = (string)null;
 
 		[Description("Mod-specific data. Not used by core game code.")]
 		[DefaultValue(null)]
@@ -31,10 +29,12 @@ namespace Verse
 		public ushort index = (ushort)65535;
 
 		[Unsaved]
-		private string cachedLabelCap;
+		private string cachedLabelCap = (string)null;
 
 		[Unsaved]
 		public ushort debugRandomId = (ushort)Rand.RangeInclusive(0, 65535);
+
+		public const string DefaultDefName = "UnnamedDef";
 
 		private static Regex AllowedDefnamesRegex = new Regex("^[a-zA-Z0-9\\-_]*$");
 
@@ -42,15 +42,20 @@ namespace Verse
 		{
 			get
 			{
+				string result;
 				if (this.label.NullOrEmpty())
 				{
-					return (string)null;
+					result = (string)null;
 				}
-				if (this.cachedLabelCap.NullOrEmpty())
+				else
 				{
-					this.cachedLabelCap = this.label.CapitalizeFirst();
+					if (this.cachedLabelCap.NullOrEmpty())
+					{
+						this.cachedLabelCap = this.label.CapitalizeFirst();
+					}
+					result = this.cachedLabelCap;
 				}
-				return this.cachedLabelCap;
+				return result;
 			}
 		}
 
@@ -64,15 +69,36 @@ namespace Verse
 			if (this.defName == "UnnamedDef")
 			{
 				yield return base.GetType() + " lacks defName. Label=" + this.label;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.defName == "null")
 			{
 				yield return "defName cannot be the string 'null'.";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (!Def.AllowedDefnamesRegex.IsMatch(this.defName))
 			{
 				yield return "defName " + this.defName + " should only contain letters, numbers, underscores, or dashes.";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			if (this.modExtensions != null)
+			{
+				for (int i = 0; i < this.modExtensions.Count; i++)
+				{
+					using (IEnumerator<string> enumerator = this.modExtensions[i].ConfigErrors().GetEnumerator())
+					{
+						if (enumerator.MoveNext())
+						{
+							string err = enumerator.Current;
+							yield return err;
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
+					}
+				}
+			}
+			yield break;
+			IL_01fd:
+			/*Error near IL_01fe: Unexpected return in MoveNext()*/;
 		}
 
 		public virtual void ClearCachedData()
@@ -92,18 +118,27 @@ namespace Verse
 
 		public T GetModExtension<T>() where T : DefModExtension
 		{
+			T result;
+			int i;
 			if (this.modExtensions == null)
 			{
-				return (T)null;
+				result = (T)null;
 			}
-			for (int i = 0; i < this.modExtensions.Count; i++)
+			else
 			{
-				if (this.modExtensions[i] is T)
+				for (i = 0; i < this.modExtensions.Count; i++)
 				{
-					return (T)(this.modExtensions[i] as T);
+					if (this.modExtensions[i] is T)
+						goto IL_0036;
 				}
+				result = (T)null;
 			}
-			return (T)null;
+			goto IL_0074;
+			IL_0036:
+			result = (T)(this.modExtensions[i] as T);
+			goto IL_0074;
+			IL_0074:
+			return result;
 		}
 
 		public bool HasModExtension<T>() where T : DefModExtension

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Verse.AI;
 
 namespace RimWorld
@@ -10,13 +9,9 @@ namespace RimWorld
 			base.xpPerTick = 0.11f;
 		}
 
-		protected override IEnumerable<Toil> MakeNewToils()
+		protected override Toil PlantWorkDoneToil()
 		{
-			foreach (Toil item in base.MakeNewToils())
-			{
-				yield return item;
-			}
-			yield return Toils_General.RemoveDesignationsOnThing(TargetIndex.A, DesignationDefOf.HarvestPlant);
+			return Toils_General.RemoveDesignationsOnThing(TargetIndex.A, DesignationDefOf.HarvestPlant);
 		}
 	}
 }

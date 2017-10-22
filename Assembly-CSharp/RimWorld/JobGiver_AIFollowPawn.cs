@@ -21,42 +21,54 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Pawn followee = this.GetFollowee(pawn);
+			Job result;
+			float radius;
 			if (followee == null)
 			{
 				Log.Error(base.GetType() + "has null followee.");
-				return null;
+				result = null;
 			}
-			if (!GenAI.CanInteractPawn(pawn, followee))
+			else if (!GenAI.CanInteractPawn(pawn, followee))
 			{
-				return null;
+				result = null;
 			}
-			float radius = this.GetRadius(pawn);
-			if (followee.pather.Moving && (float)followee.pather.Destination.Cell.DistanceToSquared(pawn.Position) > radius * radius)
+			else
 			{
-				goto IL_00c0;
+				radius = this.GetRadius(pawn);
+				if (followee.pather.Moving && (float)followee.pather.Destination.Cell.DistanceToSquared(pawn.Position) > radius * radius)
+				{
+					goto IL_00cb;
+				}
+				if (followee.GetRoom(RegionType.Set_Passable) != pawn.GetRoom(RegionType.Set_Passable) && !GenSight.LineOfSight(pawn.Position, followee.Position, followee.Map, false, null, 0, 0))
+				{
+					goto IL_00cb;
+				}
+				if ((float)followee.Position.DistanceToSquared(pawn.Position) > radius * radius)
+					goto IL_00cb;
+				result = null;
 			}
-			if (followee.GetRoom(RegionType.Set_Passable) != pawn.GetRoom(RegionType.Set_Passable) && !GenSight.LineOfSight(pawn.Position, followee.Position, followee.Map, false, null, 0, 0))
-			{
-				goto IL_00c0;
-			}
-			if ((float)followee.Position.DistanceToSquared(pawn.Position) > radius * radius)
-				goto IL_00c0;
-			return null;
-			IL_00c0:
+			goto IL_01bb;
+			IL_00cb:
 			IntVec3 root = (!followee.pather.Moving || followee.pather.curPath == null) ? followee.Position : followee.pather.curPath.FinalWalkableNonDoorCell(followee.Map);
 			IntVec3 intVec = CellFinder.RandomClosewalkCellNear(root, followee.Map, Mathf.RoundToInt((float)(radius * 0.699999988079071)), null);
 			if (intVec == pawn.Position)
 			{
-				return null;
+				result = null;
 			}
-			Job job = new Job(JobDefOf.Goto, intVec);
-			job.expiryInterval = this.FollowJobExpireInterval;
-			job.checkOverrideOnExpire = true;
-			if (((pawn.mindState.duty != null) ? pawn.mindState.duty.locomotion : LocomotionUrgency.None) != 0)
+			else
 			{
-				job.locomotionUrgency = pawn.mindState.duty.locomotion;
+				Job job = new Job(JobDefOf.Goto, intVec);
+				job.expiryInterval = this.FollowJobExpireInterval;
+				job.checkOverrideOnExpire = true;
+				if (((pawn.mindState.duty != null) ? pawn.mindState.duty.locomotion : LocomotionUrgency.None) != 0)
+				{
+					job.locomotionUrgency = pawn.mindState.duty.locomotion;
+				}
+				result = job;
 			}
-			return job;
+			goto IL_01bb;
+			IL_01bb:
+			return result;
 		}
 	}
 }

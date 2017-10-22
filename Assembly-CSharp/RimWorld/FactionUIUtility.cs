@@ -74,7 +74,7 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 			Text.Anchor = TextAnchor.UpperLeft;
 			Widgets.DrawRectFast(position, faction.Color, null);
-			string label = faction.Name + "\n" + faction.def.LabelCap + "\n" + ((faction.leader == null) ? string.Empty : (faction.def.leaderTitle.CapitalizeFirst() + ": " + faction.leader.Name.ToStringFull));
+			string label = faction.Name + "\n" + faction.def.LabelCap + "\n" + ((faction.leader == null) ? "" : (faction.def.leaderTitle.CapitalizeFirst() + ": " + faction.leader.Name.ToStringFull));
 			Widgets.Label(rect, label);
 			Rect rect3 = new Rect(rect.xMax, rowY, 60f, 80f);
 			Widgets.InfoCardButton(rect3.x, rect3.y, faction.def);

@@ -23,10 +23,14 @@ namespace RimWorld
 							if (item.mindState.IsIdle)
 							{
 								yield return item;
+								/*Error: Unable to find new state assignment for yield return*/;
 							}
 						}
 					}
 				}
+				yield break;
+				IL_013c:
+				/*Error near IL_013d: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -47,11 +51,7 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			if (GenDate.DaysPassed < 1)
-			{
-				return AlertReport.Inactive;
-			}
-			return (Thing)this.IdleColonists.FirstOrDefault();
+			return (GenDate.DaysPassed >= 1) ? ((Thing)this.IdleColonists.FirstOrDefault()) : AlertReport.Inactive;
 		}
 	}
 }

@@ -92,6 +92,7 @@ namespace RimWorld
 							if (thingList[i].def.ConnectToPower)
 							{
 								yield return ((Building)thingList[i]).PowerComp;
+								/*Error: Unable to find new state assignment for yield return*/;
 							}
 						}
 					}

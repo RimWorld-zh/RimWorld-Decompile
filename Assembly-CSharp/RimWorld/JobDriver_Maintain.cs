@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using Verse;
 using Verse.AI;
 
 namespace RimWorld
@@ -9,25 +7,16 @@ namespace RimWorld
 	{
 		private const int MaintainTicks = 180;
 
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve(base.job.targetA, base.job, 1, -1, null);
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			this.FailOnDespawnedOrNull(TargetIndex.A);
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-			Toil prepare = Toils_General.Wait(180);
-			prepare.WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
-			prepare.FailOnDespawnedNullOrForbidden(TargetIndex.A);
-			prepare.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
-			yield return prepare;
-			yield return new Toil
-			{
-				initAction = (Action)delegate
-				{
-					Pawn actor = ((_003CMakeNewToils_003Ec__Iterator33)/*Error near IL_00c8: stateMachine*/)._003Cmaintain_003E__1.actor;
-					CompMaintainable compMaintainable = actor.CurJob.targetA.Thing.TryGetComp<CompMaintainable>();
-					compMaintainable.Maintained();
-				},
-				defaultCompleteMode = ToilCompleteMode.Instant
-			};
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

@@ -63,35 +63,45 @@ namespace RimWorld
 
 		public static StatRequest For(Thing thing)
 		{
+			StatRequest result;
 			if (thing == null)
 			{
 				Log.Error("StatRequest for null thing.");
-				return StatRequest.ForEmpty();
+				result = StatRequest.ForEmpty();
 			}
-			StatRequest result = new StatRequest
+			else
 			{
-				thingInt = thing,
-				defInt = thing.def,
-				stuffDefInt = thing.Stuff
-			};
-			thing.TryGetQuality(out result.qualityCategoryInt);
+				StatRequest statRequest = new StatRequest
+				{
+					thingInt = thing,
+					defInt = thing.def,
+					stuffDefInt = thing.Stuff
+				};
+				thing.TryGetQuality(out statRequest.qualityCategoryInt);
+				result = statRequest;
+			}
 			return result;
 		}
 
 		public static StatRequest For(BuildableDef def, ThingDef stuffDef, QualityCategory quality = QualityCategory.Normal)
 		{
+			StatRequest result;
 			if (def == null)
 			{
 				Log.Error("StatRequest for null def.");
-				return StatRequest.ForEmpty();
+				result = StatRequest.ForEmpty();
 			}
-			return new StatRequest
+			else
 			{
-				thingInt = null,
-				defInt = def,
-				stuffDefInt = stuffDef,
-				qualityCategoryInt = quality
-			};
+				result = new StatRequest
+				{
+					thingInt = null,
+					defInt = def,
+					stuffDefInt = stuffDef,
+					qualityCategoryInt = quality
+				};
+			}
+			return result;
 		}
 
 		public static StatRequest ForEmpty()
@@ -107,11 +117,7 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			if (this.Thing != null)
-			{
-				return "(" + this.Thing + ")";
-			}
-			return "(" + this.Thing + ", " + ((this.StuffDef == null) ? "null" : this.StuffDef.defName) + ")";
+			return (this.Thing == null) ? ("(" + this.Thing + ", " + ((this.StuffDef == null) ? "null" : this.StuffDef.defName) + ")") : ("(" + this.Thing + ")");
 		}
 
 		public override int GetHashCode()
@@ -131,12 +137,17 @@ namespace RimWorld
 
 		public override bool Equals(object obj)
 		{
+			bool result;
 			if (!(obj is StatRequest))
 			{
-				return false;
+				result = false;
 			}
-			StatRequest statRequest = (StatRequest)obj;
-			return statRequest.defInt == this.defInt && statRequest.thingInt == this.thingInt && statRequest.stuffDefInt == this.stuffDefInt;
+			else
+			{
+				StatRequest statRequest = (StatRequest)obj;
+				result = (statRequest.defInt == this.defInt && statRequest.thingInt == this.thingInt && statRequest.stuffDefInt == this.stuffDefInt);
+			}
+			return result;
 		}
 
 		public bool Equals(StatRequest other)

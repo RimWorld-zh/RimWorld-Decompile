@@ -55,26 +55,19 @@ namespace Verse
 			{
 				p.TakeDamage(new DamageInfo(def, 5, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
 			}));
-			List<BodyPartRecord>.Enumerator enumerator = p.RaceProps.body.AllParts.GetEnumerator();
-			try
+			foreach (BodyPartRecord allPart in p.RaceProps.body.AllParts)
 			{
-				while (enumerator.MoveNext())
+				BodyPartRecord localPart = allPart;
+				list.Add(new DebugMenuOption(localPart.def.LabelCap, DebugMenuOptionMode.Action, (Action)delegate()
 				{
-					BodyPartRecord current = enumerator.Current;
-					BodyPartRecord localPart = current;
-					list.Add(new DebugMenuOption(localPart.def.LabelCap, DebugMenuOptionMode.Action, (Action)delegate()
-					{
-						Pawn obj = p;
-						BodyPartRecord forceHitPart = localPart;
-						obj.TakeDamage(new DamageInfo(def, 5, -1f, null, forceHitPart, null, DamageInfo.SourceCategory.ThingOrUnknown));
-					}));
-				}
-				return list;
+					Pawn obj = p;
+					DamageDef def2 = def;
+					int amount = 5;
+					BodyPartRecord hitPart = localPart;
+					obj.TakeDamage(new DamageInfo(def2, amount, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown));
+				}));
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
+			return list;
 		}
 
 		public static List<DebugMenuOption> Options_AddHediff()
@@ -128,24 +121,15 @@ namespace Verse
 			{
 				p.health.AddHediff(def, null, default(DamageInfo?));
 			}));
-			List<BodyPartRecord>.Enumerator enumerator = p.RaceProps.body.AllParts.GetEnumerator();
-			try
+			foreach (BodyPartRecord allPart in p.RaceProps.body.AllParts)
 			{
-				while (enumerator.MoveNext())
+				BodyPartRecord localPart = allPart;
+				list.Add(new DebugMenuOption(localPart.def.LabelCap, DebugMenuOptionMode.Action, (Action)delegate()
 				{
-					BodyPartRecord current = enumerator.Current;
-					BodyPartRecord localPart = current;
-					list.Add(new DebugMenuOption(localPart.def.LabelCap, DebugMenuOptionMode.Action, (Action)delegate()
-					{
-						p.health.AddHediff(def, localPart, default(DamageInfo?));
-					}));
-				}
-				return list;
+					p.health.AddHediff(def, localPart, default(DamageInfo?));
+				}));
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
+			return list;
 		}
 	}
 }

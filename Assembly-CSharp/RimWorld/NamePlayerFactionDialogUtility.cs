@@ -6,15 +6,7 @@ namespace RimWorld
 	{
 		public static bool IsValidName(string s)
 		{
-			if (s.Length == 0)
-			{
-				return false;
-			}
-			if (!GenText.IsValidFilename(s))
-			{
-				return false;
-			}
-			return true;
+			return (byte)((s.Length != 0) ? (GenText.IsValidFilename(s) ? 1 : 0) : 0) != 0;
 		}
 
 		public static void Named(string s)

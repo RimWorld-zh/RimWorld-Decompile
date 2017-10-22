@@ -8,12 +8,17 @@ namespace Verse
 
 		public static T Get()
 		{
+			T result;
 			if (SimplePool<T>.freeItems.Count == 0)
 			{
-				return new T();
+				result = new T();
 			}
-			T result = SimplePool<T>.freeItems[SimplePool<T>.freeItems.Count - 1];
-			SimplePool<T>.freeItems.RemoveAt(SimplePool<T>.freeItems.Count - 1);
+			else
+			{
+				T val = SimplePool<T>.freeItems[SimplePool<T>.freeItems.Count - 1];
+				SimplePool<T>.freeItems.RemoveAt(SimplePool<T>.freeItems.Count - 1);
+				result = val;
+			}
 			return result;
 		}
 

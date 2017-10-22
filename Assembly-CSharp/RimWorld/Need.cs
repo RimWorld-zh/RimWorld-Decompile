@@ -9,19 +9,21 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public abstract class Need : IExposable
 	{
-		public const float MaxDrawHeight = 70f;
-
-		private const float BarInstantMarkerSize = 12f;
-
 		public NeedDef def;
 
 		protected Pawn pawn;
 
 		protected float curLevelInt;
 
-		protected List<float> threshPercents;
+		protected List<float> threshPercents = null;
+
+		public const float MaxDrawHeight = 70f;
 
 		private static readonly Texture2D BarInstantMarkerTex = ContentFinder<Texture2D>.Get("UI/Misc/BarInstantMarker", true);
+
+		private static readonly Texture2D NeedUnitDividerTex = ContentFinder<Texture2D>.Get("UI/Misc/NeedUnitDivider", true);
+
+		private const float BarInstantMarkerSize = 12f;
 
 		public string LabelCap
 		{
@@ -91,15 +93,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (ThingOwnerUtility.ContentsFrozen(this.pawn.ParentHolder))
-				{
-					return true;
-				}
-				if (this.def.freezeWhileSleeping && !this.pawn.Awake())
-				{
-					return true;
-				}
-				return !this.IsPawnInteractableOrVisible;
+				return ThingOwnerUtility.ContentsFrozen(this.pawn.ParentHolder) || (this.def.freezeWhileSleeping && !this.pawn.Awake()) || !this.IsPawnInteractableOrVisible;
 			}
 		}
 
@@ -107,19 +101,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.pawn.SpawnedOrAnyParentSpawned)
-				{
-					return true;
-				}
-				if (this.pawn.IsCaravanMember())
-				{
-					return true;
-				}
-				if (PawnUtility.IsTravelingInTransportPodWorldObject(this.pawn))
-				{
-					return true;
-				}
-				return false;
+				return (byte)(this.pawn.SpawnedOrAnyParentSpawned ? 1 : (this.pawn.IsCaravanMember() ? 1 : (PawnUtility.IsTravelingInTransportPodWorldObject(this.pawn) ? 1 : 0))) != 0;
 			}
 		}
 
@@ -183,9 +165,16 @@ namespace RimWorld
 			Rect rect2 = new Rect((float)(rect.x + num3 + rect.width * 0.10000000149011612), rect.y, (float)(rect.width - num3 - rect.width * 0.10000000149011612), (float)(rect.height / 2.0));
 			Widgets.Label(rect2, this.LabelCap);
 			Text.Anchor = TextAnchor.UpperLeft;
-			Rect rect3 = new Rect(rect.x, (float)(rect.y + rect.height / 2.0), rect.width, (float)(rect.height / 2.0));
-			rect3 = new Rect(rect3.x + num3, rect3.y, (float)(rect3.width - num3 * 2.0), rect3.height - num2);
-			Widgets.FillableBar(rect3, this.CurLevelPercentage);
+			Rect barRect = new Rect(rect.x, (float)(rect.y + rect.height / 2.0), rect.width, (float)(rect.height / 2.0));
+			Rect rect3;
+			barRect = (rect3 = new Rect(barRect.x + num3, barRect.y, (float)(barRect.width - num3 * 2.0), barRect.height - num2));
+			float num4 = 1f;
+			if (this.def.scaleBar && this.MaxLevel < 1.0)
+			{
+				num4 = this.MaxLevel;
+			}
+			rect3.width *= num4;
+			Rect barRect2 = Widgets.FillableBar(rect3, this.CurLevelPercentage);
 			if (drawArrows)
 			{
 				Widgets.FillableBarChangeArrows(rect3, this.GUIChangeArrow);
@@ -194,13 +183,22 @@ namespace RimWorld
 			{
 				for (int i = 0; i < Mathf.Min(this.threshPercents.Count, maxThresholdMarkers); i++)
 				{
-					this.DrawBarThreshold(rect3, this.threshPercents[i]);
+					this.DrawBarThreshold(barRect2, this.threshPercents[i] * num4);
+				}
+			}
+			if (this.def.scaleBar)
+			{
+				int num5 = 1;
+				while ((float)num5 < this.MaxLevel)
+				{
+					this.DrawBarDivision(barRect2, (float)num5 / this.MaxLevel * num4);
+					num5++;
 				}
 			}
 			float curInstantLevelPercentage = this.CurInstantLevelPercentage;
 			if (curInstantLevelPercentage >= 0.0)
 			{
-				this.DrawBarInstantMarkerAt(rect3, curInstantLevelPercentage);
+				this.DrawBarInstantMarkerAt(barRect, curInstantLevelPercentage * num4);
 			}
 			if (!this.def.tutorHighlightTag.NullOrEmpty())
 			{
@@ -241,6 +239,34 @@ namespace RimWorld
 				GUI.color = new Color(1f, 1f, 1f, 0.5f);
 			}
 			GUI.DrawTexture(position, image);
+			GUI.color = Color.white;
+		}
+
+		private void DrawBarDivision(Rect barRect, float threshPct)
+		{
+			float num = 5f;
+			Rect rect = new Rect((float)(barRect.x + barRect.width * threshPct - (num - 1.0)), barRect.y, num, barRect.height);
+			if (threshPct < this.CurLevelPercentage)
+			{
+				GUI.color = new Color(0f, 0f, 0f, 0.9f);
+			}
+			else
+			{
+				GUI.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+			}
+			Rect position = rect;
+			position.yMax = (float)(position.yMin + 4.0);
+			GUI.DrawTextureWithTexCoords(position, Need.NeedUnitDividerTex, new Rect(0f, 0.5f, 1f, 0.5f));
+			Rect position2 = rect;
+			position2.yMin = (float)(position2.yMax - 4.0);
+			GUI.DrawTextureWithTexCoords(position2, Need.NeedUnitDividerTex, new Rect(0f, 0f, 1f, 0.5f));
+			Rect position3 = rect;
+			position3.yMin = position.yMax;
+			position3.yMax = position2.yMin;
+			if (position3.height > 0.0)
+			{
+				GUI.DrawTextureWithTexCoords(position3, Need.NeedUnitDividerTex, new Rect(0f, 0.4f, 1f, 0.2f));
+			}
 			GUI.color = Color.white;
 		}
 	}

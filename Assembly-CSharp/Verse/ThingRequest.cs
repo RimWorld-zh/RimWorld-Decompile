@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public struct ThingRequest
@@ -45,20 +43,12 @@ namespace Verse
 
 		public bool Accepts(Thing t)
 		{
-			if (this.singleDef != null)
-			{
-				return t.def == this.singleDef;
-			}
-			if (this.group != ThingRequestGroup.Everything)
-			{
-				return this.group.Includes(t.def);
-			}
-			return true;
+			return (this.singleDef == null) ? (this.group == ThingRequestGroup.Everything || this.group.Includes(t.def)) : (t.def == this.singleDef);
 		}
 
 		public override string ToString()
 		{
-			string str = (this.singleDef == null) ? ("group " + ((Enum)(object)this.group).ToString()) : ("singleDef " + this.singleDef.defName);
+			string str = (this.singleDef == null) ? ("group " + this.group.ToString()) : ("singleDef " + this.singleDef.defName);
 			return "ThingRequest(" + str + ")";
 		}
 	}

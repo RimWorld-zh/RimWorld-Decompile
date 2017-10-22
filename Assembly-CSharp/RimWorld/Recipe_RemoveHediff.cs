@@ -9,20 +9,27 @@ namespace RimWorld
 		public override IEnumerable<BodyPartRecord> GetPartsToApplyOn(Pawn pawn, RecipeDef recipe)
 		{
 			List<Hediff> allHediffs = pawn.health.hediffSet.hediffs;
-			for (int i = 0; i < allHediffs.Count; i++)
+			int i = 0;
+			while (true)
 			{
-				if (allHediffs[i].Part != null && allHediffs[i].def == recipe.removesHediff && allHediffs[i].Visible)
+				if (i < allHediffs.Count)
 				{
-					yield return allHediffs[i].Part;
+					if (allHediffs[i].Part != null && allHediffs[i].def == recipe.removesHediff && allHediffs[i].Visible)
+						break;
+					i++;
+					continue;
 				}
+				yield break;
 			}
+			yield return allHediffs[i].Part;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
-		public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients)
+		public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
 		{
 			if (billDoer != null)
 			{
-				if (base.CheckSurgeryFail(billDoer, pawn, ingredients, part))
+				if (base.CheckSurgeryFail(billDoer, pawn, ingredients, part, bill))
 				{
 					return;
 				}
@@ -30,7 +37,7 @@ namespace RimWorld
 				if (PawnUtility.ShouldSendNotificationAbout(pawn) || PawnUtility.ShouldSendNotificationAbout(billDoer))
 				{
 					string text = base.recipe.successfullyRemovedHediffMessage.NullOrEmpty() ? "MessageSuccessfullyRemovedHediff".Translate(billDoer.LabelShort, pawn.LabelShort, base.recipe.removesHediff.label) : string.Format(base.recipe.successfullyRemovedHediffMessage, billDoer.LabelShort, pawn.LabelShort);
-					Messages.Message(text, (Thing)pawn, MessageSound.Benefit);
+					Messages.Message(text, (Thing)pawn, MessageTypeDefOf.PositiveEvent);
 				}
 			}
 			Hediff hediff = pawn.health.hediffSet.hediffs.Find((Predicate<Hediff>)((Hediff x) => x.def == base.recipe.removesHediff && x.Part == part && x.Visible));

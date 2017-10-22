@@ -18,10 +18,6 @@ namespace RimWorld
 			Items = 1
 		}
 
-		private const float TitleRectHeight = 40f;
-
-		private const float BottomAreaHeight = 55f;
-
 		private Map map;
 
 		private List<CompTransporter> transporters;
@@ -32,7 +28,7 @@ namespace RimWorld
 
 		private TransferableOneWayWidget itemsTransfer;
 
-		private Tab tab;
+		private Tab tab = Tab.Pawns;
 
 		private float lastMassFlashTime = -9999f;
 
@@ -43,6 +39,10 @@ namespace RimWorld
 		private bool daysWorthOfFoodDirty = true;
 
 		private Pair<float, float> cachedDaysWorthOfFood;
+
+		private const float TitleRectHeight = 40f;
+
+		private const float BottomAreaHeight = 55f;
 
 		private readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
 
@@ -81,7 +81,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return Find.ActiveLanguageWorker.Pluralize(this.transporters[0].parent.Label);
+				return Find.ActiveLanguageWorker.Pluralize(this.transporters[0].parent.Label, -1);
 			}
 		}
 
@@ -162,7 +162,7 @@ namespace RimWorld
 				this.tab = Tab.Items;
 			}, this.tab == Tab.Items));
 			inRect.yMin += 72f;
-			Widgets.DrawMenuSection(inRect, true);
+			Widgets.DrawMenuSection(inRect);
 			TabDrawer.DrawTabs(inRect, Dialog_LoadTransporters.tabsList);
 			inRect = inRect.ContractedBy(17f);
 			GUI.BeginGroup(inRect);
@@ -300,36 +300,41 @@ namespace RimWorld
 		private bool TryAccept()
 		{
 			List<Pawn> pawnsFromTransferables = TransferableUtility.GetPawnsFromTransferables(this.transferables);
+			bool result;
 			if (!this.CheckForErrors(pawnsFromTransferables))
 			{
-				return false;
+				result = false;
 			}
-			int transportersGroup = this.CreateAndAssignNewTransportersGroup();
-			this.AssignTransferablesToRandomTransporters();
-			IEnumerable<Pawn> enumerable = from x in pawnsFromTransferables
-			where x.IsColonist && !x.Downed
-			select x;
-			if (enumerable.Any())
+			else
 			{
-				foreach (Pawn item in enumerable)
+				int transportersGroup = this.CreateAndAssignNewTransportersGroup();
+				this.AssignTransferablesToRandomTransporters();
+				IEnumerable<Pawn> enumerable = from x in pawnsFromTransferables
+				where x.IsColonist && !x.Downed
+				select x;
+				if (enumerable.Any())
 				{
-					Lord lord = item.GetLord();
-					if (lord != null)
+					foreach (Pawn item in enumerable)
 					{
-						lord.Notify_PawnLost(item, PawnLostCondition.ForcedToJoinOtherLord);
+						Lord lord = item.GetLord();
+						if (lord != null)
+						{
+							lord.Notify_PawnLost(item, PawnLostCondition.ForcedToJoinOtherLord);
+						}
+					}
+					LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_LoadAndEnterTransporters(transportersGroup), this.map, enumerable);
+					foreach (Pawn item2 in enumerable)
+					{
+						if (item2.Spawned)
+						{
+							item2.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+						}
 					}
 				}
-				LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_LoadAndEnterTransporters(transportersGroup), this.map, enumerable);
-				foreach (Pawn item2 in enumerable)
-				{
-					if (item2.Spawned)
-					{
-						item2.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
-					}
-				}
+				Messages.Message("MessageTransportersLoadingProcessStarted".Translate(), (Thing)this.transporters[0].parent, MessageTypeDefOf.TaskCompletion);
+				result = true;
 			}
-			Messages.Message("MessageTransportersLoadingProcessStarted".Translate(), (Thing)this.transporters[0].parent, MessageSound.Benefit);
-			return true;
+			return result;
 		}
 
 		private void AssignTransferablesToRandomTransporters()
@@ -376,58 +381,71 @@ namespace RimWorld
 
 		private bool CheckForErrors(List<Pawn> pawns)
 		{
+			bool result;
+			int i;
+			int countToTransfer;
 			if (!this.transferables.Any((Predicate<TransferableOneWay>)((TransferableOneWay x) => x.CountToTransfer != 0)))
 			{
-				Messages.Message("CantSendEmptyTransportPods".Translate(), MessageSound.RejectInput);
-				return false;
+				Messages.Message("CantSendEmptyTransportPods".Translate(), MessageTypeDefOf.RejectInput);
+				result = false;
 			}
-			if (this.MassUsage > this.MassCapacity)
+			else if (this.MassUsage > this.MassCapacity)
 			{
 				this.FlashMass();
-				Messages.Message("TooBigTransportersMassUsage".Translate(), MessageSound.RejectInput);
-				return false;
+				Messages.Message("TooBigTransportersMassUsage".Translate(), MessageTypeDefOf.RejectInput);
+				result = false;
 			}
-			Pawn pawn = pawns.Find((Predicate<Pawn>)((Pawn x) => !x.MapHeld.reachability.CanReach(x.PositionHeld, (Thing)this.transporters[0].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false))));
-			if (pawn != null)
+			else
 			{
-				Messages.Message("PawnCantReachTransporters".Translate(pawn.LabelShort).CapitalizeFirst(), MessageSound.RejectInput);
-				return false;
-			}
-			Map map = this.transporters[0].parent.Map;
-			for (int i = 0; i < this.transferables.Count; i++)
-			{
-				if (this.transferables[i].ThingDef.category == ThingCategory.Item)
+				Pawn pawn = pawns.Find((Predicate<Pawn>)((Pawn x) => !x.MapHeld.reachability.CanReach(x.PositionHeld, (Thing)this.transporters[0].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false))));
+				if (pawn != null)
 				{
-					int countToTransfer = this.transferables[i].CountToTransfer;
-					int num = 0;
-					if (countToTransfer > 0)
+					Messages.Message("PawnCantReachTransporters".Translate(pawn.LabelShort).CapitalizeFirst(), MessageTypeDefOf.RejectInput);
+					result = false;
+				}
+				else
+				{
+					Map map = this.transporters[0].parent.Map;
+					for (i = 0; i < this.transferables.Count; i++)
 					{
-						for (int j = 0; j < this.transferables[i].things.Count; j++)
+						if (this.transferables[i].ThingDef.category == ThingCategory.Item)
 						{
-							Thing thing = this.transferables[i].things[j];
-							if (map.reachability.CanReach(thing.Position, (Thing)this.transporters[0].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
+							countToTransfer = this.transferables[i].CountToTransfer;
+							int num = 0;
+							if (countToTransfer > 0)
 							{
-								num += thing.stackCount;
-								if (num >= countToTransfer)
-									break;
+								for (int j = 0; j < this.transferables[i].things.Count; j++)
+								{
+									Thing thing = this.transferables[i].things[j];
+									if (map.reachability.CanReach(thing.Position, (Thing)this.transporters[0].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
+									{
+										num += thing.stackCount;
+										if (num >= countToTransfer)
+											break;
+									}
+								}
+								if (num < countToTransfer)
+									goto IL_01c7;
 							}
-						}
-						if (num < countToTransfer)
-						{
-							if (countToTransfer == 1)
-							{
-								Messages.Message("TransporterItemIsUnreachableSingle".Translate(this.transferables[i].ThingDef.label), MessageSound.RejectInput);
-							}
-							else
-							{
-								Messages.Message("TransporterItemIsUnreachableMulti".Translate(countToTransfer, this.transferables[i].ThingDef.label), MessageSound.RejectInput);
-							}
-							return false;
 						}
 					}
+					result = true;
 				}
 			}
-			return true;
+			goto IL_026a;
+			IL_026a:
+			return result;
+			IL_01c7:
+			if (countToTransfer == 1)
+			{
+				Messages.Message("TransporterItemIsUnreachableSingle".Translate(this.transferables[i].ThingDef.label), MessageTypeDefOf.RejectInput);
+			}
+			else
+			{
+				Messages.Message("TransporterItemIsUnreachableMulti".Translate(countToTransfer, this.transferables[i].ThingDef.label), MessageTypeDefOf.RejectInput);
+			}
+			result = false;
+			goto IL_026a;
 		}
 
 		private void AddPawnsToTransferables()

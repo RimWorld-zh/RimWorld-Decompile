@@ -17,19 +17,7 @@ namespace RimWorld
 
 		protected virtual bool FactionCanBeGroupSource(Faction f, Map map, bool desperate = false)
 		{
-			if (f.IsPlayer)
-			{
-				return false;
-			}
-			if (f.defeated)
-			{
-				return false;
-			}
-			if (!desperate && (!f.def.allowedArrivalTemperatureRange.Includes(map.mapTemperature.OutdoorTemp) || !f.def.allowedArrivalTemperatureRange.Includes(map.mapTemperature.SeasonalTemp)))
-			{
-				return false;
-			}
-			return true;
+			return (byte)((!f.IsPlayer) ? ((!f.defeated) ? ((desperate || (f.def.allowedArrivalTemperatureRange.Includes(map.mapTemperature.OutdoorTemp) && f.def.allowedArrivalTemperatureRange.Includes(map.mapTemperature.SeasonalTemp))) ? 1 : 0) : 0) : 0) != 0;
 		}
 
 		protected override bool CanFireNowSub(IIncidentTarget target)

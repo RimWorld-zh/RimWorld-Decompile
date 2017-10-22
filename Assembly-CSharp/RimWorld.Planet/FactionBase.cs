@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -55,17 +56,35 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (base.Faction == Faction.OfPlayer)
-				{
-					return null;
-				}
-				return MapGeneratorDefOf.FactionBase;
+				return (base.Faction != Faction.OfPlayer) ? MapGeneratorDefOf.FactionBase : null;
 			}
 		}
 
 		public FactionBase()
 		{
 			base.trader = new FactionBase_TraderTracker(this);
+		}
+
+		public override IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
+		{
+			using (IEnumerator<IncidentTargetTypeDef> enumerator = this._003CAcceptedTypes_003E__BaseCallProxy0().GetEnumerator())
+			{
+				if (enumerator.MoveNext())
+				{
+					IncidentTargetTypeDef type = enumerator.Current;
+					yield return type;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+			}
+			if (base.Faction == Faction.OfPlayer)
+			{
+				yield return IncidentTargetTypeDefOf.MapPlayerHome;
+				/*Error: Unable to find new state assignment for yield return*/;
+			}
+			yield return IncidentTargetTypeDefOf.MapMisc;
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0121:
+			/*Error near IL_0122: Unexpected return in MoveNext()*/;
 		}
 
 		public override void ExposeData()

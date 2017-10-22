@@ -1,7 +1,6 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Verse.Grammar
@@ -14,7 +13,11 @@ namespace Verse.Grammar
 
 			public bool knownUnresolvable;
 
-			public int uses;
+			public bool constantConstraintsChecked;
+
+			public bool constantConstraintsValid;
+
+			public int uses = 0;
 
 			public float SelectionWeight
 			{
@@ -35,23 +38,53 @@ namespace Verse.Grammar
 				this.knownUnresolvable = true;
 			}
 
+			public bool ValidateConstantConstraints(Dictionary<string, string> constraints)
+			{
+				if (!this.constantConstraintsChecked)
+				{
+					this.constantConstraintsValid = true;
+					if (this.rule.constantConstraints != null)
+					{
+						for (int i = 0; i < this.rule.constantConstraints.Count; i++)
+						{
+							Rule.ConstrantConstraint constrantConstraint = this.rule.constantConstraints[i];
+							if (!(constrantConstraint.value == "") || constraints != null)
+							{
+								if (constraints == null)
+								{
+									this.constantConstraintsValid = false;
+									break;
+								}
+								if (constraints.TryGetValue(constrantConstraint.key) != constrantConstraint.value)
+								{
+									this.constantConstraintsValid = false;
+									break;
+								}
+							}
+						}
+					}
+					this.constantConstraintsChecked = true;
+				}
+				return this.constantConstraintsValid;
+			}
+
 			public override string ToString()
 			{
 				return this.rule.ToString();
 			}
 		}
 
-		private const int DepthLimit = 50;
+		private static SimpleLinearPool<List<RuleEntry>> rulePool = new SimpleLinearPool<List<RuleEntry>>();
 
-		private const int LoopsLimit = 100;
-
-		private static List<RuleEntry> rules = new List<RuleEntry>();
+		private static Dictionary<string, List<RuleEntry>> rules = new Dictionary<string, List<RuleEntry>>();
 
 		private static int loopCount;
 
 		private static StringBuilder logSb;
 
-		private static List<RuleEntry> matchingRules = new List<RuleEntry>();
+		private const int DepthLimit = 50;
+
+		private const int LoopsLimit = 1000;
 
 		private static bool LogOn
 		{
@@ -61,35 +94,45 @@ namespace Verse.Grammar
 			}
 		}
 
-		public static string Resolve(string rootKeyword, List<Rule> rawRules, string debugLabel = null)
+		private static void AddRule(Rule rule)
+		{
+			List<RuleEntry> list = null;
+			if (!GrammarResolver.rules.TryGetValue(rule.keyword, out list))
+			{
+				list = GrammarResolver.rulePool.Get();
+				list.Clear();
+				GrammarResolver.rules[rule.keyword] = list;
+			}
+			list.Add(new RuleEntry(rule));
+		}
+
+		public static string Resolve(string rootKeyword, List<Rule> rawRules, Dictionary<string, string> constants = null, string debugLabel = null)
 		{
 			GrammarResolver.rules.Clear();
+			GrammarResolver.rulePool.Clear();
 			for (int i = 0; i < rawRules.Count; i++)
 			{
-				GrammarResolver.rules.Add(new RuleEntry(rawRules[i]));
+				GrammarResolver.AddRule(rawRules[i]);
 			}
 			for (int j = 0; j < RulePackDefOf.GlobalUtility.Rules.Count; j++)
 			{
-				GrammarResolver.rules.Add(new RuleEntry(RulePackDefOf.GlobalUtility.Rules[j]));
+				GrammarResolver.AddRule(RulePackDefOf.GlobalUtility.Rules[j]);
 			}
 			GrammarResolver.loopCount = 0;
 			if (GrammarResolver.LogOn)
 			{
 				GrammarResolver.logSb = new StringBuilder();
-			}
-			string text = "err";
-			bool flag = false;
-			foreach (RuleEntry item in (from r in GrammarResolver.rules
-			where r.rule.keyword == rootKeyword
-			select r).InRandomOrder(null))
-			{
-				if (GrammarResolver.TryResolveRecursive(item, 0, out text))
+				if (constants != null)
 				{
-					flag = true;
-					break;
+					GrammarResolver.logSb.AppendLine("Constants:");
+					foreach (KeyValuePair<string, string> item in constants)
+					{
+						GrammarResolver.logSb.AppendLine(string.Format("  {0}: {1}", item.Key, item.Value));
+					}
 				}
 			}
-			if (!flag)
+			string text = "err";
+			if (!GrammarResolver.TryResolveRecursive(new RuleEntry(new Rule_String("", "[" + rootKeyword + "]")), 0, constants, out text))
 			{
 				text = "Could not resolve any root: " + rootKeyword;
 				if (!debugLabel.NullOrEmpty())
@@ -109,7 +152,7 @@ namespace Verse.Grammar
 			return text;
 		}
 
-		private static bool TryResolveRecursive(RuleEntry entry, int depth, out string output)
+		private static bool TryResolveRecursive(RuleEntry entry, int depth, Dictionary<string, string> constants, out string output)
 		{
 			if (GrammarResolver.LogOn)
 			{
@@ -122,7 +165,8 @@ namespace Verse.Grammar
 				GrammarResolver.logSb.Append(entry + " ");
 			}
 			GrammarResolver.loopCount++;
-			if (GrammarResolver.loopCount > 100)
+			bool result;
+			if (GrammarResolver.loopCount > 1000)
 			{
 				Log.Error("Hit loops limit resolving grammar.");
 				output = "HIT_LOOPS_LIMIT";
@@ -130,9 +174,9 @@ namespace Verse.Grammar
 				{
 					GrammarResolver.logSb.Append("UNRESOLVABLE: Hit loops limit");
 				}
-				return false;
+				result = false;
 			}
-			if (depth > 50)
+			else if (depth > 50)
 			{
 				Log.Error("Grammar recurred too deep while resolving keyword (>" + 50 + " deep)");
 				output = "DEPTH_LIMIT_REACHED";
@@ -140,80 +184,73 @@ namespace Verse.Grammar
 				{
 					GrammarResolver.logSb.Append("UNRESOLVABLE: Depth limit reached");
 				}
-				return false;
+				result = false;
 			}
-			string text = entry.rule.Generate();
-			bool flag = false;
-			int num2 = -1;
-			for (int i = 0; i < text.Length; i++)
+			else
 			{
-				char c = text[i];
-				if (c == '[')
+				string text = entry.rule.Generate();
+				bool flag = false;
+				int num2 = -1;
+				for (int i = 0; i < text.Length; i++)
 				{
-					num2 = i;
-				}
-				string str = default(string);
-				if (c == ']')
-				{
-					if (num2 == -1)
+					char c = text[i];
+					if (c == '[')
 					{
-						Log.Error("Could not resolve rule " + text + ": mismatched brackets.");
-						output = "MISMATCHED_BRACKETS";
-						if (GrammarResolver.LogOn)
-						{
-							GrammarResolver.logSb.Append("UNRESOLVABLE: Mismatched brackets");
-						}
-						flag = true;
+						num2 = i;
 					}
-					else
+					string str = default(string);
+					if (c == ']')
 					{
-						string text2 = text.Substring(num2 + 1, i - num2 - 1);
-						while (true)
+						if (num2 == -1)
 						{
-							RuleEntry ruleEntry = GrammarResolver.RandomPossiblyResolvableEntry(text2);
-							if (ruleEntry != null)
+							Log.Error("Could not resolve rule " + text + ": mismatched brackets.");
+							output = "MISMATCHED_BRACKETS";
+							if (GrammarResolver.LogOn)
 							{
-								ruleEntry.uses++;
-								if (GrammarResolver.TryResolveRecursive(ruleEntry, depth + 1, out str))
-									goto IL_01f0;
-								ruleEntry.MarkKnownUnresolvable();
-								continue;
+								GrammarResolver.logSb.Append("UNRESOLVABLE: Mismatched brackets");
 							}
-							break;
+							flag = true;
 						}
-						entry.MarkKnownUnresolvable();
-						output = "CANNOT_RESOLVE_SUBKEYWORD:" + text2;
-						if (GrammarResolver.LogOn)
+						else
 						{
-							GrammarResolver.logSb.Append("UNRESOLVABLE: Cannot resolve sub-keyword '" + text2 + "'");
+							string text2 = text.Substring(num2 + 1, i - num2 - 1);
+							while (true)
+							{
+								RuleEntry ruleEntry = GrammarResolver.RandomPossiblyResolvableEntry(text2, constants);
+								if (ruleEntry != null)
+								{
+									ruleEntry.uses++;
+									if (GrammarResolver.TryResolveRecursive(ruleEntry, depth + 1, constants, out str))
+										goto IL_0211;
+									ruleEntry.MarkKnownUnresolvable();
+									continue;
+								}
+								break;
+							}
+							entry.MarkKnownUnresolvable();
+							output = "CANNOT_RESOLVE_SUBKEYWORD:" + text2;
+							if (GrammarResolver.LogOn)
+							{
+								GrammarResolver.logSb.Append("UNRESOLVABLE: Cannot resolve sub-keyword '" + text2 + "'");
+							}
+							flag = true;
 						}
-						flag = true;
 					}
+					continue;
+					IL_0211:
+					text = text.Substring(0, num2) + str + text.Substring(i + 1);
+					i = num2;
 				}
-				continue;
-				IL_01f0:
-				text = text.Substring(0, num2) + str + text.Substring(i + 1);
-				i = num2;
+				output = text;
+				result = !flag;
 			}
-			output = text;
-			return !flag;
+			return result;
 		}
 
-		private static RuleEntry RandomPossiblyResolvableEntry(string keyword)
+		private static RuleEntry RandomPossiblyResolvableEntry(string keyword, Dictionary<string, string> constants)
 		{
-			GrammarResolver.matchingRules.Clear();
-			for (int i = 0; i < GrammarResolver.rules.Count; i++)
-			{
-				if (GrammarResolver.rules[i].rule.keyword == keyword && !GrammarResolver.rules[i].knownUnresolvable)
-				{
-					GrammarResolver.matchingRules.Add(GrammarResolver.rules[i]);
-				}
-			}
-			if (GrammarResolver.matchingRules.Count == 0)
-			{
-				return null;
-			}
-			return GrammarResolver.matchingRules.RandomElementByWeight((Func<RuleEntry, float>)((RuleEntry r) => r.SelectionWeight));
+			List<RuleEntry> list = GrammarResolver.rules.TryGetValue(keyword);
+			return (list != null) ? list.RandomElementByWeightWithFallback((Func<RuleEntry, float>)((RuleEntry rule) => (float)((!rule.knownUnresolvable && rule.ValidateConstantConstraints(constants)) ? rule.SelectionWeight : 0.0)), null) : null;
 		}
 	}
 }

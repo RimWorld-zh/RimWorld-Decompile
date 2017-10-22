@@ -4,6 +4,10 @@ namespace Verse
 {
 	public class HediffComp_Infecter : HediffComp
 	{
+		private int ticksUntilInfect = -1;
+
+		private float infectionChanceFactorFromTendRoom = 1f;
+
 		private const int UninitializedValue = -1;
 
 		private const int WillNotInfectValue = -2;
@@ -11,10 +15,6 @@ namespace Verse
 		private const int FailedToMakeInfectionValue = -3;
 
 		private const int AlreadyMadeInfectionValue = -4;
-
-		private int ticksUntilInfect = -1;
-
-		private float infectionChanceFactorFromTendRoom = 1f;
 
 		private static readonly SimpleCurve InfectionChanceFactorFromTendQualityCurve = new SimpleCurve
 		{
@@ -131,27 +131,7 @@ namespace Verse
 
 		public override string CompDebugString()
 		{
-			if (this.ticksUntilInfect <= 0)
-			{
-				if (this.ticksUntilInfect == -4)
-				{
-					return "already created infection";
-				}
-				if (this.ticksUntilInfect == -3)
-				{
-					return "failed to make infection";
-				}
-				if (this.ticksUntilInfect == -2)
-				{
-					return "will not make infection";
-				}
-				if (this.ticksUntilInfect == -1)
-				{
-					return "uninitialized data!";
-				}
-				return "unexpected ticksUntilInfect = " + this.ticksUntilInfect;
-			}
-			return "infection may appear in: " + this.ticksUntilInfect + " ticks\ninfectChnceFactorFromTendRoom: " + this.infectionChanceFactorFromTendRoom.ToStringPercent();
+			return (this.ticksUntilInfect > 0) ? ("infection may appear in: " + this.ticksUntilInfect + " ticks\ninfectChnceFactorFromTendRoom: " + this.infectionChanceFactorFromTendRoom.ToStringPercent()) : ((this.ticksUntilInfect != -4) ? ((this.ticksUntilInfect != -3) ? ((this.ticksUntilInfect != -2) ? ((this.ticksUntilInfect != -1) ? ("unexpected ticksUntilInfect = " + this.ticksUntilInfect) : "uninitialized data!") : "will not make infection") : "failed to make infection") : "already created infection");
 		}
 	}
 }

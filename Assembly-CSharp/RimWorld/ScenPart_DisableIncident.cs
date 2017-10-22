@@ -15,11 +15,7 @@ namespace RimWorld
 		protected override IEnumerable<IncidentDef> RandomizableIncidents()
 		{
 			yield return IncidentDefOf.TraderCaravanArrival;
-			yield return IncidentDefOf.OrbitalTraderArrival;
-			yield return IncidentDefOf.WandererJoin;
-			yield return IncidentDefOf.Eclipse;
-			yield return IncidentDefOf.ToxicFallout;
-			yield return IncidentDefOf.SolarFlare;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

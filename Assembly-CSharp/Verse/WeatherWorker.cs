@@ -28,19 +28,10 @@ namespace Verse
 		public WeatherWorker(WeatherDef def)
 		{
 			this.def = def;
-			List<Type>.Enumerator enumerator = def.overlayClasses.GetEnumerator();
-			try
+			foreach (Type overlayClass in def.overlayClasses)
 			{
-				while (enumerator.MoveNext())
-				{
-					Type current = enumerator.Current;
-					SkyOverlay item = (SkyOverlay)GenGeneric.InvokeStaticGenericMethod(typeof(WeatherPartPool), current, "GetInstanceOf");
-					this.overlays.Add(item);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				SkyOverlay item = (SkyOverlay)GenGeneric.InvokeStaticGenericMethod(typeof(WeatherPartPool), overlayClass, "GetInstanceOf");
+				this.overlays.Add(item);
 			}
 			this.skyTargets[0] = new SkyThreshold(def.skyColorsNightMid, 0f);
 			this.skyTargets[1] = new SkyThreshold(def.skyColorsNightEdge, 0.1f);

@@ -3,6 +3,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEngine;
 using Verse.Profile;
@@ -13,15 +14,18 @@ namespace Verse
 {
 	public abstract class Root : MonoBehaviour
 	{
-		private static bool globalInitDone;
+		private static bool globalInitDone = false;
 
-		private static bool prefsApplied;
+		private static bool prefsApplied = false;
 
 		protected bool destroyed;
 
 		public SoundRoot soundRoot;
 
 		public UIRoot uiRoot;
+
+		[CompilerGenerated]
+		private static Action _003C_003Ef__mg_0024cache0;
 
 		public virtual void Start()
 		{
@@ -40,6 +44,10 @@ namespace Verse
 				}
 				this.uiRoot.Init();
 				Messages.Notify_LoadedLevelChanged();
+				if ((UnityEngine.Object)Current.SubcameraDriver != (UnityEngine.Object)null)
+				{
+					Current.SubcameraDriver.Init();
+				}
 			};
 			if (!PlayDataLoader.Loaded)
 			{
@@ -114,7 +122,6 @@ namespace Verse
 			{
 				Log.Notify_Exception(e);
 				throw;
-				IL_0085:;
 			}
 		}
 
@@ -142,7 +149,6 @@ namespace Verse
 			{
 				Log.Notify_Exception(e);
 				throw;
-				IL_0075:;
 			}
 		}
 

@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class CompProperties_AffectedByFacilities : CompProperties
 	{
-		public List<ThingDef> linkableFacilities;
+		public List<ThingDef> linkableFacilities = null;
 
 		public CompProperties_AffectedByFacilities()
 		{

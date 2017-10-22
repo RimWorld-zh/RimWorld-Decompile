@@ -4,15 +4,15 @@ namespace Verse
 {
 	public class PawnCapacityDef : Def
 	{
-		public int listOrder;
+		public int listOrder = 0;
 
 		public Type workerClass = typeof(PawnCapacityWorker);
 
 		[MustTranslate]
-		public string labelMechanoids = string.Empty;
+		public string labelMechanoids = "";
 
 		[MustTranslate]
-		public string labelAnimals = string.Empty;
+		public string labelAnimals = "";
 
 		public bool showOnHumanlikes = true;
 
@@ -20,17 +20,17 @@ namespace Verse
 
 		public bool showOnMechanoids = true;
 
-		public bool lethalFlesh;
+		public bool lethalFlesh = false;
 
-		public bool lethalMechanoids;
+		public bool lethalMechanoids = false;
 
-		public float minForCapable;
+		public float minForCapable = 0f;
 
-		public float minValue;
+		public float minValue = 0f;
 
-		public bool zeroIfCannotBeAwake;
+		public bool zeroIfCannotBeAwake = false;
 
-		public bool showOnCaravanHealthTab;
+		public bool showOnCaravanHealthTab = false;
 
 		[Unsaved]
 		private PawnCapacityWorker workerInt;
@@ -54,23 +54,7 @@ namespace Verse
 
 		public string GetLabelFor(bool isFlesh, bool isHumanlike)
 		{
-			if (isHumanlike)
-			{
-				return base.label;
-			}
-			if (isFlesh)
-			{
-				if (!this.labelAnimals.NullOrEmpty())
-				{
-					return this.labelAnimals;
-				}
-				return base.label;
-			}
-			if (!this.labelMechanoids.NullOrEmpty())
-			{
-				return this.labelMechanoids;
-			}
-			return base.label;
+			return (!isHumanlike) ? ((!isFlesh) ? (this.labelMechanoids.NullOrEmpty() ? base.label : this.labelMechanoids) : (this.labelAnimals.NullOrEmpty() ? base.label : this.labelAnimals)) : base.label;
 		}
 	}
 }

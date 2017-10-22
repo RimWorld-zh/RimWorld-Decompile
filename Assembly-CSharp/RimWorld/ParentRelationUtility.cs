@@ -8,20 +8,12 @@ namespace RimWorld
 	{
 		public static Pawn GetFather(this Pawn pawn)
 		{
-			if (!pawn.RaceProps.IsFlesh)
-			{
-				return null;
-			}
-			return pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Parent, (Predicate<Pawn>)((Pawn x) => x.gender != Gender.Female));
+			return pawn.RaceProps.IsFlesh ? pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Parent, (Predicate<Pawn>)((Pawn x) => x.gender != Gender.Female)) : null;
 		}
 
 		public static Pawn GetMother(this Pawn pawn)
 		{
-			if (!pawn.RaceProps.IsFlesh)
-			{
-				return null;
-			}
-			return pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Parent, (Predicate<Pawn>)((Pawn x) => x.gender == Gender.Female));
+			return pawn.RaceProps.IsFlesh ? pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Parent, (Predicate<Pawn>)((Pawn x) => x.gender == Gender.Female)) : null;
 		}
 
 		public static void SetFather(this Pawn pawn, Pawn newFather)

@@ -29,15 +29,7 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			if (!c.InBounds(base.Map))
-			{
-				return false;
-			}
-			if (!this.RearmablesInCell(c).Any())
-			{
-				return false;
-			}
-			return true;
+			return c.InBounds(base.Map) ? (this.RearmablesInCell(c).Any() ? true : false) : false;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)
@@ -64,13 +56,22 @@ namespace RimWorld
 			if (!c.Fogged(base.Map))
 			{
 				List<Thing> thingList = c.GetThingList(base.Map);
-				for (int i = 0; i < thingList.Count; i++)
+				int i = 0;
+				while (true)
 				{
-					if (this.CanDesignateThing(thingList[i]).Accepted)
+					if (i < thingList.Count)
 					{
-						yield return thingList[i];
+						if (!this.CanDesignateThing(thingList[i]).Accepted)
+						{
+							i++;
+							continue;
+						}
+						break;
 					}
+					yield break;
 				}
+				yield return thingList[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 	}

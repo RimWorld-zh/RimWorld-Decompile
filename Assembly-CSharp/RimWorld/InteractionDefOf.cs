@@ -17,6 +17,8 @@ namespace RimWorld
 
 		public static InteractionDef RecruitAttempt;
 
+		public static InteractionDef SparkJailbreak;
+
 		public static InteractionDef AnimalChat;
 
 		public static InteractionDef TrainAttempt;

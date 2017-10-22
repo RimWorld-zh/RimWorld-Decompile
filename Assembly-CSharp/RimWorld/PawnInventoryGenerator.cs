@@ -57,33 +57,33 @@ namespace RimWorld
 			if (p.RaceProps.Humanlike)
 			{
 				IEnumerable<Hediff_Addiction> hediffs = p.health.hediffSet.GetHediffs<Hediff_Addiction>();
-				using (IEnumerator<Hediff_Addiction> enumerator = hediffs.GetEnumerator())
+				foreach (Hediff_Addiction item in hediffs)
 				{
-					Hediff_Addiction addiction;
-					while (enumerator.MoveNext())
+					IEnumerable<ThingDef> source = DefDatabase<ThingDef>.AllDefsListForReading.Where((Func<ThingDef, bool>)delegate(ThingDef x)
 					{
-						addiction = enumerator.Current;
-						IEnumerable<ThingDef> source = DefDatabase<ThingDef>.AllDefsListForReading.Where((Func<ThingDef, bool>)delegate(ThingDef x)
+						bool result;
+						if (x.category != ThingCategory.Item)
 						{
-							if (x.category != ThingCategory.Item)
-							{
-								return false;
-							}
-							if (p.Faction != null && (int)x.techLevel > (int)p.Faction.def.techLevel)
-							{
-								return false;
-							}
-							CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
-							return compProperties != null && compProperties.chemical != null && compProperties.chemical.addictionHediff == addiction.def;
-						});
-						ThingDef def = default(ThingDef);
-						if (source.TryRandomElement<ThingDef>(out def))
-						{
-							int stackCount = Rand.RangeInclusive(2, 5);
-							Thing thing = ThingMaker.MakeThing(def, null);
-							thing.stackCount = stackCount;
-							p.inventory.TryAddItemNotForSale(thing);
+							result = false;
 						}
+						else if (p.Faction != null && (int)x.techLevel > (int)p.Faction.def.techLevel)
+						{
+							result = false;
+						}
+						else
+						{
+							CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
+							result = (compProperties != null && compProperties.chemical != null && compProperties.chemical.addictionHediff == item.def);
+						}
+						return result;
+					});
+					ThingDef def = default(ThingDef);
+					if (source.TryRandomElement<ThingDef>(out def))
+					{
+						int stackCount = Rand.RangeInclusive(2, 5);
+						Thing thing = ThingMaker.MakeThing(def, null);
+						thing.stackCount = stackCount;
+						p.inventory.TryAddItemNotForSale(thing);
 					}
 				}
 			}
@@ -104,20 +104,21 @@ namespace RimWorld
 				{
 					IEnumerable<ThingDef> source = DefDatabase<ThingDef>.AllDefsListForReading.Where((Func<ThingDef, bool>)delegate(ThingDef x)
 					{
+						bool result;
 						if (x.category != ThingCategory.Item)
 						{
-							return false;
+							result = false;
 						}
-						if (pawn.Faction != null && (int)x.techLevel > (int)pawn.Faction.def.techLevel)
+						else if (pawn.Faction != null && (int)x.techLevel > (int)pawn.Faction.def.techLevel)
 						{
-							return false;
+							result = false;
 						}
-						CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
-						if (compProperties != null && compProperties.isCombatEnhancingDrug)
+						else
 						{
-							return true;
+							CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
+							result = ((byte)((compProperties != null && compProperties.isCombatEnhancingDrug) ? 1 : 0) != 0);
 						}
-						return false;
+						return result;
 					});
 					int num = 0;
 					ThingDef def = default(ThingDef);

@@ -15,15 +15,22 @@ namespace RimWorld
 		{
 			Fire fire = (Fire)base.currentTarget.Thing;
 			Pawn casterPawn = base.CasterPawn;
+			bool result;
 			if (casterPawn.stances.FullBodyBusy)
 			{
-				return false;
+				result = false;
 			}
-			Fire obj = fire;
-			Thing caster = base.caster;
-			obj.TakeDamage(new DamageInfo(DamageDefOf.Extinguish, 32, -1f, caster, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
-			casterPawn.Drawer.Notify_MeleeAttackOn(fire);
-			return true;
+			else
+			{
+				Fire obj = fire;
+				DamageDef extinguish = DamageDefOf.Extinguish;
+				int amount = 32;
+				Thing caster = base.caster;
+				obj.TakeDamage(new DamageInfo(extinguish, amount, -1f, caster, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
+				casterPawn.Drawer.Notify_MeleeAttackOn(fire);
+				result = true;
+			}
+			return result;
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -41,7 +40,7 @@ namespace RimWorld
 			if (!qi.parms.forced && qi.parms.target == this.target)
 			{
 				int ticksGame = Find.TickManager.TicksGame;
-				if (qi.def.category == IncidentCategory.ThreatBig)
+				if (qi.def.category == IncidentCategory.ThreatBig || qi.def.category == IncidentCategory.RaidBeacon)
 				{
 					if (this.lastThreatBigTick <= ticksGame)
 					{
@@ -68,18 +67,9 @@ namespace RimWorld
 		{
 			other.lastThreatBigTick = this.lastThreatBigTick;
 			other.lastFireTicks.Clear();
-			Dictionary<IncidentDef, int>.Enumerator enumerator = this.lastFireTicks.GetEnumerator();
-			try
+			foreach (KeyValuePair<IncidentDef, int> lastFireTick in this.lastFireTicks)
 			{
-				while (enumerator.MoveNext())
-				{
-					KeyValuePair<IncidentDef, int> current = enumerator.Current;
-					other.lastFireTicks.Add(current.Key, current.Value);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				other.lastFireTicks.Add(lastFireTick.Key, lastFireTick.Value);
 			}
 		}
 	}

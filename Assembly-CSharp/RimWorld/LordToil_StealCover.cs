@@ -16,12 +16,17 @@ namespace RimWorld
 
 		protected override bool TryFindGoodOpportunisticTaskTarget(Pawn pawn, out Thing target, List<Thing> alreadyTakenTargets)
 		{
+			bool result;
 			if (pawn.mindState.duty != null && pawn.mindState.duty.def == this.DutyDef && pawn.carryTracker.CarriedThing != null)
 			{
 				target = pawn.carryTracker.CarriedThing;
-				return true;
+				result = true;
 			}
-			return StealAIUtility.TryFindBestItemToSteal(pawn.Position, pawn.Map, 7f, out target, pawn, alreadyTakenTargets);
+			else
+			{
+				result = StealAIUtility.TryFindBestItemToSteal(pawn.Position, pawn.Map, 7f, out target, pawn, alreadyTakenTargets);
+			}
+			return result;
 		}
 	}
 }

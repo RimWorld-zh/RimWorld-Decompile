@@ -7,8 +7,6 @@ namespace Verse
 {
 	public class GenStep_ScatterThings : GenStep_Scatterer
 	{
-		private const int ClusterRadius = 4;
-
 		public ThingDef thingDef;
 
 		public ThingDef stuff;
@@ -17,7 +15,7 @@ namespace Verse
 
 		public int clusterSize = 1;
 
-		public float terrainValidationRadius;
+		public float terrainValidationRadius = 0f;
 
 		[NoTranslate]
 		private List<string> terrainValidationDisallowed;
@@ -26,7 +24,9 @@ namespace Verse
 		private IntVec3 clusterCenter;
 
 		[Unsaved]
-		private int leftInCluster;
+		private int leftInCluster = 0;
+
+		private const int ClusterRadius = 4;
 
 		private List<Rot4> possibleRotationsInt;
 
@@ -66,7 +66,7 @@ namespace Verse
 			while (num < list.Count)
 			{
 				IntVec3 intVec = default(IntVec3);
-				if (this.TryFindScatterCell(map, out intVec))
+				if (((GenStep_Scatterer)this).TryFindScatterCell(map, out intVec))
 				{
 					this.ScatterAt(intVec, map, list[num]);
 					base.usedSpots.Add(intVec);
@@ -82,6 +82,7 @@ namespace Verse
 
 		protected override bool TryFindScatterCell(Map map, out IntVec3 result)
 		{
+			bool result2;
 			if (this.clusterSize > 1)
 			{
 				if (this.leftInCluster <= 0)
@@ -95,9 +96,13 @@ namespace Verse
 				this.leftInCluster--;
 				Rot4 rot = default(Rot4);
 				result = CellFinder.RandomClosewalkCellNear(this.clusterCenter, map, 4, (Predicate<IntVec3>)((IntVec3 x) => this.TryGetRandomValidRotation(x, map, out rot)));
-				return result.IsValid;
+				result2 = result.IsValid;
 			}
-			return base.TryFindScatterCell(map, out result);
+			else
+			{
+				result2 = base.TryFindScatterCell(map, out result);
+			}
+			return result2;
 		}
 
 		protected override void ScatterAt(IntVec3 loc, Map map, int stackCount = 1)
@@ -145,33 +150,38 @@ namespace Verse
 
 		protected override bool CanScatterAt(IntVec3 loc, Map map)
 		{
+			bool result;
+			Rot4 rot = default(Rot4);
 			if (!base.CanScatterAt(loc, map))
 			{
-				return false;
+				result = false;
 			}
-			Rot4 rot = default(Rot4);
-			if (!this.TryGetRandomValidRotation(loc, map, out rot))
+			else if (!this.TryGetRandomValidRotation(loc, map, out rot))
 			{
-				return false;
+				result = false;
 			}
-			if (this.terrainValidationRadius > 0.0)
+			else
 			{
-				foreach (IntVec3 item in GenRadial.RadialCellsAround(loc, this.terrainValidationRadius, true))
+				if (this.terrainValidationRadius > 0.0)
 				{
-					if (item.InBounds(map))
+					foreach (IntVec3 item in GenRadial.RadialCellsAround(loc, this.terrainValidationRadius, true))
 					{
-						TerrainDef terrain = item.GetTerrain(map);
-						for (int i = 0; i < this.terrainValidationDisallowed.Count; i++)
+						if (item.InBounds(map))
 						{
-							if (terrain.HasTag(this.terrainValidationDisallowed[i]))
+							TerrainDef terrain = item.GetTerrain(map);
+							for (int i = 0; i < this.terrainValidationDisallowed.Count; i++)
 							{
-								return false;
+								if (terrain.HasTag(this.terrainValidationDisallowed[i]))
+								{
+									return false;
+								}
 							}
 						}
 					}
 				}
+				result = true;
 			}
-			return true;
+			return result;
 		}
 
 		private bool TryGetRandomValidRotation(IntVec3 loc, Map map, out Rot4 rot)
@@ -184,26 +194,23 @@ namespace Verse
 					GenStep_ScatterThings.tmpRotations.Add(possibleRotations[i]);
 				}
 			}
+			bool result;
 			if (((IEnumerable<Rot4>)GenStep_ScatterThings.tmpRotations).TryRandomElement<Rot4>(out rot))
 			{
 				GenStep_ScatterThings.tmpRotations.Clear();
-				return true;
+				result = true;
 			}
-			rot = Rot4.Invalid;
-			return false;
+			else
+			{
+				rot = Rot4.Invalid;
+				result = false;
+			}
+			return result;
 		}
 
 		private bool IsRotationValid(IntVec3 loc, Rot4 rot, Map map)
 		{
-			if (!GenAdj.OccupiedRect(loc, rot, this.thingDef.size).InBounds(map))
-			{
-				return false;
-			}
-			if (GenSpawn.WouldWipeAnythingWith(loc, rot, this.thingDef, map, (Predicate<Thing>)((Thing x) => x.def == this.thingDef || (x.def.category != ThingCategory.Plant && x.def.category != ThingCategory.Filth))))
-			{
-				return false;
-			}
-			return true;
+			return (byte)(GenAdj.OccupiedRect(loc, rot, this.thingDef.size).InBounds(map) ? ((!GenSpawn.WouldWipeAnythingWith(loc, rot, this.thingDef, map, (Predicate<Thing>)((Thing x) => x.def == this.thingDef || (x.def.category != ThingCategory.Plant && x.def.category != ThingCategory.Filth)))) ? 1 : 0) : 0) != 0;
 		}
 
 		public static List<int> CountDividedIntoStacks(int count, IntRange stackSizeRange)
@@ -224,17 +231,11 @@ namespace Verse
 					if (num2 != num3 && list[num2] > list[num3])
 					{
 						int num4 = (int)((float)(list[num2] - list[num3]) * Rand.Value);
-						List<int> list2;
-						List<int> obj = list2 = list;
 						int index;
-						int index2 = index = num2;
-						index = list2[index];
-						obj[index2] = index - num4;
-						List<int> list3;
-						List<int> obj2 = list3 = list;
-						int index3 = index = num3;
-						index = list3[index];
-						obj2[index3] = index + num4;
+						List<int> list2;
+						(list2 = list)[index = num2] = list2[index] - num4;
+						int index2;
+						(list2 = list)[index2 = num3] = list2[index2] + num4;
 					}
 				}
 			}

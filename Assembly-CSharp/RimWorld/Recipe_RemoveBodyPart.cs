@@ -11,43 +11,50 @@ namespace RimWorld
 		public override IEnumerable<BodyPartRecord> GetPartsToApplyOn(Pawn pawn, RecipeDef recipe)
 		{
 			IEnumerable<BodyPartRecord> parts = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined);
-			foreach (BodyPartRecord item in parts)
+			using (IEnumerator<BodyPartRecord> enumerator = parts.GetEnumerator())
 			{
-				if (pawn.health.hediffSet.HasDirectlyAddedPartFor(item))
+				BodyPartRecord part;
+				while (true)
 				{
-					yield return item;
+					if (enumerator.MoveNext())
+					{
+						_003CGetPartsToApplyOn_003Ec__Iterator0 _003CGetPartsToApplyOn_003Ec__Iterator = (_003CGetPartsToApplyOn_003Ec__Iterator0)/*Error near IL_0088: stateMachine*/;
+						part = enumerator.Current;
+						if (pawn.health.hediffSet.HasDirectlyAddedPartFor(part))
+						{
+							yield return part;
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
+						if (MedicalRecipesUtility.IsCleanAndDroppable(pawn, part))
+						{
+							yield return part;
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
+						if (part != pawn.RaceProps.body.corePart && !part.def.dontSuggestAmputation && pawn.health.hediffSet.hediffs.Any((Predicate<Hediff>)((Hediff d) => !(d is Hediff_Injury) && d.def.isBad && d.Visible && d.Part == part)))
+							break;
+						continue;
+					}
+					yield break;
 				}
-				else if (MedicalRecipesUtility.IsCleanAndDroppable(pawn, item))
-				{
-					yield return item;
-				}
-				else if (item != pawn.RaceProps.body.corePart && !item.def.dontSuggestAmputation && pawn.health.hediffSet.hediffs.Any((Predicate<Hediff>)((Hediff d) => !(d is Hediff_Injury) && d.def.isBad && d.Visible && d.Part == ((_003CGetPartsToApplyOn_003Ec__IteratorC4)/*Error near IL_0144: stateMachine*/)._003Cpart_003E__2)))
-				{
-					yield return item;
-				}
+				yield return part;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			IL_0213:
+			/*Error near IL_0214: Unexpected return in MoveNext()*/;
 		}
 
 		public override bool IsViolationOnPawn(Pawn pawn, BodyPartRecord part, Faction billDoerFaction)
 		{
-			if (pawn.Faction == billDoerFaction)
-			{
-				return false;
-			}
-			if (HealthUtility.PartRemovalIntent(pawn, part) == BodyPartRemovalIntent.Harvest)
-			{
-				return true;
-			}
-			return false;
+			return (byte)((pawn.Faction != billDoerFaction) ? ((HealthUtility.PartRemovalIntent(pawn, part) == BodyPartRemovalIntent.Harvest) ? 1 : 0) : 0) != 0;
 		}
 
-		public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients)
+		public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
 		{
 			bool flag = MedicalRecipesUtility.IsClean(pawn, part);
 			bool flag2 = this.IsViolationOnPawn(pawn, part, Faction.OfPlayer);
 			if (billDoer != null)
 			{
-				if (base.CheckSurgeryFail(billDoer, pawn, ingredients, part))
+				if (base.CheckSurgeryFail(billDoer, pawn, ingredients, part, bill))
 				{
 					return;
 				}
@@ -55,7 +62,9 @@ namespace RimWorld
 				MedicalRecipesUtility.SpawnNaturalPartIfClean(pawn, part, billDoer.Position, billDoer.Map);
 				MedicalRecipesUtility.SpawnThingsFromHediffs(pawn, part, billDoer.Position, billDoer.Map);
 			}
-			pawn.TakeDamage(new DamageInfo(DamageDefOf.SurgicalCut, 99999, -1f, null, part, null, DamageInfo.SourceCategory.ThingOrUnknown));
+			DamageDef surgicalCut = DamageDefOf.SurgicalCut;
+			int amount = 99999;
+			pawn.TakeDamage(new DamageInfo(surgicalCut, amount, -1f, null, part, null, DamageInfo.SourceCategory.ThingOrUnknown));
 			if (flag)
 			{
 				if (pawn.Dead)
@@ -75,21 +84,20 @@ namespace RimWorld
 
 		public override string GetLabelWhenUsedOn(Pawn pawn, BodyPartRecord part)
 		{
+			string result;
 			if (!pawn.RaceProps.IsMechanoid && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(part))
 			{
 				switch (HealthUtility.PartRemovalIntent(pawn, part))
 				{
 				case BodyPartRemovalIntent.Amputate:
 				{
-					if (part.depth != BodyPartDepth.Inside && !part.def.useDestroyedOutLabel)
-					{
-						return "Amputate".Translate();
-					}
-					return "RemoveOrgan".Translate();
+					result = ((part.depth != BodyPartDepth.Inside && !part.def.useDestroyedOutLabel) ? "Amputate".Translate() : "RemoveOrgan".Translate());
+					break;
 				}
 				case BodyPartRemovalIntent.Harvest:
 				{
-					return "Harvest".Translate();
+					result = "Harvest".Translate();
+					break;
 				}
 				default:
 				{
@@ -97,7 +105,11 @@ namespace RimWorld
 				}
 				}
 			}
-			return RecipeDefOf.RemoveBodyPart.LabelCap;
+			else
+			{
+				result = RecipeDefOf.RemoveBodyPart.LabelCap;
+			}
+			return result;
 		}
 	}
 }

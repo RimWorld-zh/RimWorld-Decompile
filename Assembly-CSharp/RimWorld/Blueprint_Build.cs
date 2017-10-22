@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Verse;
@@ -7,18 +6,14 @@ namespace RimWorld
 {
 	public class Blueprint_Build : Blueprint
 	{
-		public ThingDef stuffToUse;
+		public ThingDef stuffToUse = null;
 
 		public override string Label
 		{
 			get
 			{
 				string label = base.Label;
-				if (this.stuffToUse != null)
-				{
-					return "ThingMadeOfStuffLabel".Translate(this.stuffToUse.LabelAsStuff, label);
-				}
-				return label;
+				return (this.stuffToUse == null) ? label : "ThingMadeOfStuffLabel".Translate(this.stuffToUse.LabelAsStuff, label);
 			}
 		}
 
@@ -53,15 +48,22 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return gizmo;
+				if (enumerator.MoveNext())
+				{
+					Gizmo c = enumerator.Current;
+					yield return c;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			Command buildCopy = BuildCopyCommandUtility.BuildCopyCommand(base.def.entityDefToBuild, this.stuffToUse);
-			if (buildCopy != null)
-			{
-				yield return (Gizmo)buildCopy;
-			}
+			if (buildCopy == null)
+				yield break;
+			yield return (Gizmo)buildCopy;
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0112:
+			/*Error near IL_0113: Unexpected return in MoveNext()*/;
 		}
 
 		public override string GetInspectString()
@@ -74,23 +76,14 @@ namespace RimWorld
 			}
 			stringBuilder.AppendLine("ContainedResources".Translate() + ":");
 			bool flag = true;
-			List<ThingCountClass>.Enumerator enumerator = this.MaterialsNeeded().GetEnumerator();
-			try
+			foreach (ThingCountClass item in this.MaterialsNeeded())
 			{
-				while (enumerator.MoveNext())
+				if (!flag)
 				{
-					ThingCountClass current = enumerator.Current;
-					if (!flag)
-					{
-						stringBuilder.AppendLine();
-					}
-					stringBuilder.Append(current.thingDef.LabelCap + ": 0 / " + current.count);
-					flag = false;
+					stringBuilder.AppendLine();
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				stringBuilder.Append(item.thingDef.LabelCap + ": 0 / " + item.count);
+				flag = false;
 			}
 			return stringBuilder.ToString().Trim();
 		}

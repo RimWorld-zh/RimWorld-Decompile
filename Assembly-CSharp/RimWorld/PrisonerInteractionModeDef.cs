@@ -4,6 +4,6 @@ namespace RimWorld
 {
 	public class PrisonerInteractionModeDef : Def
 	{
-		public int listOrder;
+		public int listOrder = 0;
 	}
 }

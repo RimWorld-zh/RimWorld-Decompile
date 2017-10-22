@@ -13,6 +13,8 @@ namespace Verse
 
 		private const float ScoreStageLabelColumnWidth = 160f;
 
+		private static readonly Color RelatedStatColor = new Color(0.85f, 0.85f, 0.85f);
+
 		private const float DistFromMouse = 26f;
 
 		private const float WindowPadding = 18f;
@@ -22,8 +24,6 @@ namespace Verse
 		private const float SpaceBetweenLines = 2f;
 
 		private const float SpaceBetweenColumns = 35f;
-
-		private static readonly Color RelatedStatColor = new Color(0.85f, 0.85f, 0.85f);
 
 		private static int DisplayedRoomStatsCount
 		{
@@ -44,19 +44,7 @@ namespace Verse
 
 		private static bool ShouldShow()
 		{
-			if (!Find.PlaySettings.showEnvironment)
-			{
-				return false;
-			}
-			if (Mouse.IsInputBlockedNow)
-			{
-				return false;
-			}
-			if (UI.MouseCell().InBounds(Find.VisibleMap) && !UI.MouseCell().Fogged(Find.VisibleMap))
-			{
-				return true;
-			}
-			return false;
+			return (byte)(Find.PlaySettings.showEnvironment ? ((!Mouse.IsInputBlockedNow) ? ((UI.MouseCell().InBounds(Find.VisibleMap) && !UI.MouseCell().Fogged(Find.VisibleMap)) ? 1 : 0) : 0) : 0) != 0;
 		}
 
 		public static void EnvironmentInspectOnGUI()
@@ -137,7 +125,7 @@ namespace Verse
 							string label = roomStatDef.ScoreToString(stat);
 							Widgets.Label(rect4, label);
 							Rect rect5 = new Rect((float)(rect4.xMax + 35.0), num, 160f, 23f);
-							Widgets.Label(rect5, (scoreStage != null) ? scoreStage.label : string.Empty);
+							Widgets.Label(rect5, (scoreStage != null) ? scoreStage.label : "");
 							num = (float)(num + 25.0);
 						}
 					}

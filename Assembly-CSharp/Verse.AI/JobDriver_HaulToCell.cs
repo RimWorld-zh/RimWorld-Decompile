@@ -1,64 +1,75 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse.AI
 {
 	public class JobDriver_HaulToCell : JobDriver
 	{
+		private bool forbiddenInitially;
+
 		private const TargetIndex HaulableInd = TargetIndex.A;
 
 		private const TargetIndex StoreCellInd = TargetIndex.B;
 
+		public override void ExposeData()
+		{
+			base.ExposeData();
+			Scribe_Values.Look<bool>(ref this.forbiddenInitially, "forbiddenInitially", false, false);
+		}
+
 		public override string GetReport()
 		{
-			IntVec3 cell = base.pawn.jobs.curJob.targetB.Cell;
+			IntVec3 cell = base.job.targetB.Cell;
 			Thing thing = null;
-			thing = ((base.pawn.carryTracker.CarriedThing == null) ? base.TargetThingA : base.pawn.carryTracker.CarriedThing);
-			string text = (string)null;
-			SlotGroup slotGroup = cell.GetSlotGroup(base.Map);
-			if (slotGroup != null)
+			thing = ((base.pawn.CurJob != base.job || base.pawn.carryTracker.CarriedThing == null) ? base.TargetThingA : base.pawn.carryTracker.CarriedThing);
+			string result;
+			if (thing == null)
 			{
-				text = slotGroup.parent.SlotYielderLabel();
+				result = "ReportHaulingUnknown".Translate();
 			}
-			return (text == null) ? "ReportHauling".Translate(thing.LabelCap) : "ReportHaulingTo".Translate(thing.LabelCap, text);
+			else
+			{
+				string text = (string)null;
+				SlotGroup slotGroup = cell.GetSlotGroup(base.Map);
+				if (slotGroup != null)
+				{
+					text = slotGroup.parent.SlotYielderLabel();
+				}
+				result = ((text == null) ? "ReportHauling".Translate(thing.LabelCap) : "ReportHaulingTo".Translate(thing.LabelCap, text));
+			}
+			return result;
+		}
+
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve(base.job.GetTarget(TargetIndex.B), base.job, 1, -1, null) && base.pawn.Reserve(base.job.GetTarget(TargetIndex.A), base.job, 1, -1, null);
+		}
+
+		public override void Notify_Starting()
+		{
+			base.Notify_Starting();
+			if (base.TargetThingA != null)
+			{
+				this.forbiddenInitially = base.TargetThingA.IsForbidden(base.pawn);
+			}
+			else
+			{
+				this.forbiddenInitially = false;
+			}
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
+			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/;
 			this.FailOnDestroyedOrNull(TargetIndex.A);
 			this.FailOnBurningImmobile(TargetIndex.B);
-			if (!base.TargetThingA.IsForbidden(base.pawn))
+			if (!this.forbiddenInitially)
 			{
 				this.FailOnForbidden(TargetIndex.A);
 			}
-			yield return Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
 			Toil reserveTargetA = Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
 			yield return reserveTargetA;
-			Toil toilGoto = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(TargetIndex.A).FailOn((Func<bool>)delegate
-			{
-				Pawn actor = ((_003CMakeNewToils_003Ec__Iterator1BA)/*Error near IL_00d7: stateMachine*/)._003CtoilGoto_003E__1.actor;
-				Job curJob = actor.jobs.curJob;
-				if (curJob.haulMode == HaulMode.ToCellStorage)
-				{
-					Thing thing = curJob.GetTarget(TargetIndex.A).Thing;
-					IntVec3 cell = actor.jobs.curJob.GetTarget(TargetIndex.B).Cell;
-					if (!cell.IsValidStorageFor(((_003CMakeNewToils_003Ec__Iterator1BA)/*Error near IL_00d7: stateMachine*/)._003C_003Ef__this.Map, thing))
-					{
-						return true;
-					}
-				}
-				return false;
-			});
-			yield return toilGoto;
-			yield return Toils_Haul.StartCarryThing(TargetIndex.A, false, true);
-			if (base.CurJob.haulOpportunisticDuplicates)
-			{
-				yield return Toils_Haul.CheckForGetOpportunityDuplicate(reserveTargetA, TargetIndex.A, TargetIndex.B, false, null);
-			}
-			Toil carryToCell = Toils_Haul.CarryHauledThingToCell(TargetIndex.B);
-			yield return carryToCell;
-			yield return Toils_Haul.PlaceHauledThingInCell(TargetIndex.B, carryToCell, true);
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

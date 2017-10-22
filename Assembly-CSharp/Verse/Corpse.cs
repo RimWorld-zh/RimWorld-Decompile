@@ -1,5 +1,4 @@
 using RimWorld;
-using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,38 +7,41 @@ using UnityEngine;
 
 namespace Verse
 {
-	public class Corpse : ThingWithComps, IBillGiver, IThoughtGiver, IStrippable, IThingHolder
+	public class Corpse : ThingWithComps, IThingHolder, IThoughtGiver, IStrippable, IBillGiver
 	{
-		private const int VanishAfterTicksSinceDessicated = 6000000;
-
 		private ThingOwner<Pawn> innerContainer;
 
 		private int timeOfDeath = -1000;
 
 		private int vanishAfterTimestamp = -1000;
 
-		private BillStack operationsBillStack;
+		private BillStack operationsBillStack = null;
 
 		public bool everBuriedInSarcophagus;
+
+		private const int VanishAfterTicksSinceDessicated = 6000000;
 
 		public Pawn InnerPawn
 		{
 			get
 			{
-				if (this.innerContainer.Count > 0)
-				{
-					return this.innerContainer[0];
-				}
-				return null;
+				return (this.innerContainer.Count <= 0) ? null : this.innerContainer[0];
 			}
 			set
 			{
-				if (this.innerContainer.Count > 0)
+				if (value == null)
 				{
-					Log.Error("Setting InnerPawn in corpse that already has one.");
 					this.innerContainer.Clear();
 				}
-				this.innerContainer.TryAdd(value, true);
+				else
+				{
+					if (this.innerContainer.Count > 0)
+					{
+						Log.Error("Setting InnerPawn in corpse that already has one.");
+						this.innerContainer.Clear();
+					}
+					this.innerContainer.TryAdd(value, true);
+				}
 			}
 		}
 
@@ -67,24 +69,17 @@ namespace Verse
 		{
 			get
 			{
+				bool result;
 				if (this.Bugged)
 				{
 					Log.Error("IngestibleNow on Corpse while Bugged.");
-					return false;
+					result = false;
 				}
-				if (!base.IngestibleNow)
+				else
 				{
-					return false;
+					result = ((byte)(base.IngestibleNow ? (this.InnerPawn.RaceProps.IsFlesh ? ((this.GetRotStage() == RotStage.Fresh) ? 1 : 0) : 0) : 0) != 0);
 				}
-				if (!this.InnerPawn.RaceProps.IsFlesh)
-				{
-					return false;
-				}
-				if (this.GetRotStage() != 0)
-				{
-					return false;
-				}
-				return true;
+				return result;
 			}
 		}
 
@@ -93,18 +88,24 @@ namespace Verse
 			get
 			{
 				CompRottable comp = base.GetComp<CompRottable>();
+				RotDrawMode result;
 				if (comp != null)
 				{
 					if (comp.Stage == RotStage.Rotting)
 					{
-						return RotDrawMode.Rotting;
+						result = RotDrawMode.Rotting;
+						goto IL_003d;
 					}
 					if (comp.Stage == RotStage.Dessicated)
 					{
-						return RotDrawMode.Dessicated;
+						result = RotDrawMode.Dessicated;
+						goto IL_003d;
 					}
 				}
-				return RotDrawMode.Fresh;
+				result = RotDrawMode.Fresh;
+				goto IL_003d;
+				IL_003d:
+				return result;
 			}
 		}
 
@@ -120,18 +121,21 @@ namespace Verse
 		{
 			get
 			{
-				foreach (StatDrawEntry specialDisplayStat in base.SpecialDisplayStats)
+				using (IEnumerator<StatDrawEntry> enumerator = this._003Cget_SpecialDisplayStats_003E__BaseCallProxy0().GetEnumerator())
 				{
-					yield return specialDisplayStat;
+					if (enumerator.MoveNext())
+					{
+						StatDrawEntry s = enumerator.Current;
+						yield return s;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
-				if (this.GetRotStage() == RotStage.Fresh)
-				{
-					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Nutrition".Translate(), FoodUtility.GetBodyPartNutrition(this.InnerPawn, this.InnerPawn.RaceProps.body.corePart).ToString("0.##"), 0);
-					StatDef meatAmount = StatDefOf.MeatAmount;
-					yield return new StatDrawEntry(meatAmount.category, meatAmount, this.InnerPawn.GetStatValue(meatAmount, true), StatRequest.For(this.InnerPawn), ToStringNumberSense.Undefined);
-					StatDef leatherAmount = StatDefOf.LeatherAmount;
-					yield return new StatDrawEntry(leatherAmount.category, leatherAmount, this.InnerPawn.GetStatValue(leatherAmount, true), StatRequest.For(this.InnerPawn), ToStringNumberSense.Undefined);
-				}
+				if (this.GetRotStage() != 0)
+					yield break;
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Nutrition".Translate(), FoodUtility.GetBodyPartNutrition(this.InnerPawn, this.InnerPawn.RaceProps.body.corePart).ToString("0.##"), 0, "");
+				/*Error: Unable to find new state assignment for yield return*/;
+				IL_020c:
+				/*Error near IL_020d: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -148,6 +152,7 @@ namespace Verse
 			get
 			{
 				yield return this.InteractionCell;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -165,7 +170,7 @@ namespace Verse
 			this.innerContainer = new ThingOwner<Pawn>(this, true, LookMode.Reference);
 		}
 
-		public bool CurrentlyUsable()
+		public bool CurrentlyUsableForBills()
 		{
 			return this.InteractionCell.IsValid;
 		}
@@ -243,10 +248,6 @@ namespace Verse
 			{
 				pawn.apparel.DestroyAll(DestroyMode.Vanish);
 			}
-			if (pawn.IsWorldPawn())
-			{
-				Find.WorldPawns.DiscardIfUnimportant(pawn);
-			}
 		}
 
 		public override void TickRare()
@@ -287,7 +288,7 @@ namespace Verse
 			{
 				if (PawnUtility.ShouldSendNotificationAbout(this.InnerPawn) && this.InnerPawn.RaceProps.Humanlike)
 				{
-					Messages.Message("MessageEatenByPredator".Translate(this.InnerPawn.LabelShort, ingester.LabelIndefinite()).CapitalizeFirst(), (Thing)ingester, MessageSound.Negative);
+					Messages.Message("MessageEatenByPredator".Translate(this.InnerPawn.LabelShort, ingester.LabelIndefinite()).CapitalizeFirst(), (Thing)ingester, MessageTypeDefOf.NegativeEvent);
 				}
 				numTaken = 1;
 			}
@@ -308,9 +309,14 @@ namespace Verse
 
 		public override IEnumerable<Thing> ButcherProducts(Pawn butcher, float efficiency)
 		{
-			foreach (Thing item in this.InnerPawn.ButcherProducts(butcher, efficiency))
+			using (IEnumerator<Thing> enumerator = this.InnerPawn.ButcherProducts(butcher, efficiency).GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					Thing t = enumerator.Current;
+					yield return t;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			if (this.InnerPawn.RaceProps.BloodDef != null)
 			{
@@ -319,24 +325,18 @@ namespace Verse
 			if (this.InnerPawn.RaceProps.Humanlike)
 			{
 				butcher.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.ButcheredHumanlikeCorpse, null);
-				List<Pawn>.Enumerator enumerator2 = butcher.Map.mapPawns.SpawnedPawnsInFaction(butcher.Faction).GetEnumerator();
-				try
+				foreach (Pawn item in butcher.Map.mapPawns.SpawnedPawnsInFaction(butcher.Faction))
 				{
-					while (enumerator2.MoveNext())
+					if (item != butcher && item.needs != null && item.needs.mood != null && item.needs.mood.thoughts != null)
 					{
-						Pawn p = enumerator2.Current;
-						if (p != butcher && p.needs != null && p.needs.mood != null && p.needs.mood.thoughts != null)
-						{
-							p.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.KnowButcheredHumanlikeCorpse, null);
-						}
+						item.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.KnowButcheredHumanlikeCorpse, null);
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
 				}
 				TaleRecorder.RecordTale(TaleDefOf.ButcheredHumanlikeCorpse, butcher);
 			}
+			yield break;
+			IL_023a:
+			/*Error near IL_023b: Unexpected return in MoveNext()*/;
 		}
 
 		public override void ExposeData()
@@ -370,18 +370,26 @@ namespace Verse
 
 		public Thought_Memory GiveObservedThought()
 		{
+			Thought_Memory result;
 			if (!this.InnerPawn.RaceProps.Humanlike)
 			{
-				return null;
+				result = null;
 			}
-			Thing thing = this.StoringBuilding();
-			if (thing == null)
+			else
 			{
-				Thought_MemoryObservation thought_MemoryObservation = (!this.IsNotFresh()) ? ((Thought_MemoryObservation)ThoughtMaker.MakeThought(ThoughtDefOf.ObservedLayingCorpse)) : ((Thought_MemoryObservation)ThoughtMaker.MakeThought(ThoughtDefOf.ObservedLayingRottingCorpse));
-				thought_MemoryObservation.Target = this;
-				return thought_MemoryObservation;
+				Thing thing = this.StoringBuilding();
+				if (thing == null)
+				{
+					Thought_MemoryObservation thought_MemoryObservation = (!this.IsNotFresh()) ? ((Thought_MemoryObservation)ThoughtMaker.MakeThought(ThoughtDefOf.ObservedLayingCorpse)) : ((Thought_MemoryObservation)ThoughtMaker.MakeThought(ThoughtDefOf.ObservedLayingRottingCorpse));
+					thought_MemoryObservation.Target = this;
+					result = thought_MemoryObservation;
+				}
+				else
+				{
+					result = null;
+				}
 			}
-			return null;
+			return result;
 		}
 
 		public override string GetInspectString()
@@ -412,11 +420,7 @@ namespace Verse
 			IEnumerable<BodyPartRecord> source = from x in this.InnerPawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined)
 			where x.depth == BodyPartDepth.Outside && FoodUtility.GetBodyPartNutrition(this.InnerPawn, x) > 0.0010000000474974513
 			select x;
-			if (!source.Any())
-			{
-				return null;
-			}
-			return source.MinBy((Func<BodyPartRecord, float>)((BodyPartRecord x) => Mathf.Abs(FoodUtility.GetBodyPartNutrition(this.InnerPawn, x) - nutritionWanted)));
+			return source.Any() ? source.MinBy((Func<BodyPartRecord, float>)((BodyPartRecord x) => Mathf.Abs(FoodUtility.GetBodyPartNutrition(this.InnerPawn, x) - nutritionWanted))) : null;
 		}
 
 		private void NotifyColonistBar()
@@ -425,28 +429,6 @@ namespace Verse
 			{
 				Find.ColonistBar.MarkColonistsDirty();
 			}
-		}
-
-		virtual IThingHolder get_ParentHolder()
-		{
-			return base.ParentHolder;
-		}
-
-		IThingHolder IThingHolder.get_ParentHolder()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
-			return this.get_ParentHolder();
-		}
-
-		virtual Map get_Map()
-		{
-			return base.Map;
-		}
-
-		Map IBillGiver.get_Map()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_Map
-			return this.get_Map();
 		}
 	}
 }

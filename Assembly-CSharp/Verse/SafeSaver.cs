@@ -45,7 +45,6 @@ namespace Verse
 					{
 						Log.Warning("Could not move file from \"" + SafeSaver.GetFileFullPath(path) + "\" to \"" + SafeSaver.GetOldFileFullPath(path) + "\": " + ex);
 						throw;
-						IL_008c:;
 					}
 					try
 					{
@@ -65,7 +64,6 @@ namespace Verse
 							Log.Warning("Could not move file from \"" + SafeSaver.GetOldFileFullPath(path) + "\" back to \"" + SafeSaver.GetFileFullPath(path) + "\": " + ex3);
 						}
 						throw;
-						IL_015a:;
 					}
 					SafeSaver.RemoveFileIfExists(SafeSaver.GetOldFileFullPath(path), true);
 				}
@@ -74,7 +72,6 @@ namespace Verse
 			{
 				GenUI.ErrorDialog("ProblemSavingFile".Translate(SafeSaver.GetFileFullPath(path), ex4.ToString()));
 				throw;
-				IL_019a:;
 			}
 		}
 
@@ -98,7 +95,6 @@ namespace Verse
 				Scribe.saver.ForceStop();
 				SafeSaver.RemoveFileIfExists(fullPath, false);
 				throw;
-				IL_005d:;
 			}
 		}
 
@@ -115,9 +111,9 @@ namespace Verse
 			{
 				Log.Warning("Could not remove file \"" + path + "\": " + ex);
 				if (!rethrow)
-					goto end_IL_0016;
+					goto end_IL_0019;
 				throw;
-				end_IL_0016:;
+				end_IL_0019:;
 			}
 		}
 
@@ -130,7 +126,6 @@ namespace Verse
 				{
 					File.Move(from, to);
 					return;
-					IL_0015:;
 				}
 				catch (Exception ex2)
 				{

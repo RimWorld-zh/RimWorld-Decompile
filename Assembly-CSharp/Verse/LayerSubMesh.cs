@@ -5,9 +5,9 @@ namespace Verse
 {
 	public class LayerSubMesh
 	{
-		public bool finalized;
+		public bool finalized = false;
 
-		public bool disabled;
+		public bool disabled = false;
 
 		public Material material;
 
@@ -48,8 +48,12 @@ namespace Verse
 			this.finalized = false;
 		}
 
-		public void FinalizeMesh(MeshParts parts, bool optimize = false)
+		public void FinalizeMesh(MeshParts parts)
 		{
+			if (this.finalized)
+			{
+				Log.Warning("Finalizing mesh which is already finalized. Did you forget to call Clear()?");
+			}
 			if ((((byte)((int)parts & 1) != 0) ? 1 : ((byte)((int)parts & 2))) != 0)
 			{
 				this.mesh.Clear();
@@ -83,10 +87,6 @@ namespace Verse
 			if ((byte)((int)parts & 8) != 0 && this.uvs.Count > 0)
 			{
 				this.mesh.SetUVs(0, this.uvs);
-			}
-			if (optimize)
-			{
-				this.mesh.Optimize();
 			}
 			this.finalized = true;
 		}

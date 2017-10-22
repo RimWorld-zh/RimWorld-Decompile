@@ -7,28 +7,24 @@ namespace RimWorld.Planet
 {
 	public static class ExpandableWorldObjectsUtility
 	{
-		private const float WorldObjectSize = 30f;
-
 		private static float transitionPct;
 
 		private static List<WorldObject> tmpWorldObjects = new List<WorldObject>();
+
+		private const float WorldObjectSize = 30f;
 
 		public static float TransitionPct
 		{
 			get
 			{
-				if (!Find.PlaySettings.expandingIcons)
-				{
-					return 0f;
-				}
-				return ExpandableWorldObjectsUtility.transitionPct;
+				return (float)(Find.PlaySettings.showExpandingIcons ? ExpandableWorldObjectsUtility.transitionPct : 0.0);
 			}
 		}
 
 		public static void ExpandableWorldObjectsUpdate()
 		{
 			float num = (float)(Time.deltaTime * 3.0);
-			if (Find.WorldCameraDriver.CurrentZoom == WorldCameraZoomRange.Close)
+			if ((int)Find.WorldCameraDriver.CurrentZoom <= 0)
 			{
 				ExpandableWorldObjectsUtility.transitionPct -= num;
 			}

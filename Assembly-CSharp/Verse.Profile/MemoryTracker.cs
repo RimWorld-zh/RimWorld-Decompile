@@ -41,9 +41,9 @@ namespace Verse.Profile
 		{
 		}
 
-		private const int updatesPerCull = 10;
-
 		private static Dictionary<Type, HashSet<WeakReference>> tracked = new Dictionary<Type, HashSet<WeakReference>>();
+
+		private static List<WeakReference> foundCollections = new List<WeakReference>();
 
 		private static bool trackedLocked = false;
 
@@ -51,9 +51,31 @@ namespace Verse.Profile
 
 		private static List<RuntimeTypeHandle> trackedTypeQueue = new List<RuntimeTypeHandle>();
 
+		private const int updatesPerCull = 10;
+
 		private static int updatesSinceLastCull = 0;
 
 		private static int cullTargetIndex = 0;
+
+		public static bool AnythingTracked
+		{
+			get
+			{
+				return MemoryTracker.tracked.Count > 0;
+			}
+		}
+
+		public static IEnumerable<WeakReference> FoundCollections
+		{
+			get
+			{
+				if (MemoryTracker.foundCollections.Count == 0)
+				{
+					MemoryTracker.LogObjectHoldPathsFor(null, null);
+				}
+				return MemoryTracker.foundCollections;
+			}
+		}
 
 		public static void RegisterObject(object obj)
 		{
@@ -106,32 +128,14 @@ namespace Verse.Profile
 				throw new NotImplementedException();
 			}
 			MemoryTracker.trackedLocked = false;
-			List<object>.Enumerator enumerator = MemoryTracker.trackedQueue.GetEnumerator();
-			try
+			foreach (object item in MemoryTracker.trackedQueue)
 			{
-				while (enumerator.MoveNext())
-				{
-					object current = enumerator.Current;
-					MemoryTracker.RegisterObject(current);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				MemoryTracker.RegisterObject(item);
 			}
 			MemoryTracker.trackedQueue.Clear();
-			List<RuntimeTypeHandle>.Enumerator enumerator2 = MemoryTracker.trackedTypeQueue.GetEnumerator();
-			try
+			foreach (RuntimeTypeHandle item2 in MemoryTracker.trackedTypeQueue)
 			{
-				while (enumerator2.MoveNext())
-				{
-					RuntimeTypeHandle current2 = enumerator2.Current;
-					MemoryTracker.RegisterType(current2);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
+				MemoryTracker.RegisterType(item2);
 			}
 			MemoryTracker.trackedTypeQueue.Clear();
 		}
@@ -148,18 +152,9 @@ namespace Verse.Profile
 				MemoryTracker.LockTracking();
 				try
 				{
-					Dictionary<Type, HashSet<WeakReference>>.ValueCollection.Enumerator enumerator = MemoryTracker.tracked.Values.GetEnumerator();
-					try
+					foreach (HashSet<WeakReference> value in MemoryTracker.tracked.Values)
 					{
-						while (enumerator.MoveNext())
-						{
-							HashSet<WeakReference> current = enumerator.Current;
-							MemoryTracker.CullNulls(current);
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
+						MemoryTracker.CullNulls(value);
 					}
 					StringBuilder stringBuilder = new StringBuilder();
 					foreach (KeyValuePair<Type, HashSet<WeakReference>> item in from kvp in MemoryTracker.tracked
@@ -189,18 +184,9 @@ namespace Verse.Profile
 				MemoryTracker.LockTracking();
 				try
 				{
-					Dictionary<Type, HashSet<WeakReference>>.ValueCollection.Enumerator enumerator = MemoryTracker.tracked.Values.GetEnumerator();
-					try
+					foreach (HashSet<WeakReference> value in MemoryTracker.tracked.Values)
 					{
-						while (enumerator.MoveNext())
-						{
-							HashSet<WeakReference> current = enumerator.Current;
-							MemoryTracker.CullNulls(current);
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
+						MemoryTracker.CullNulls(value);
 					}
 					List<FloatMenuOption> list = new List<FloatMenuOption>();
 					foreach (KeyValuePair<Type, HashSet<WeakReference>> item in from kvp in MemoryTracker.tracked
@@ -210,7 +196,7 @@ namespace Verse.Profile
 						KeyValuePair<Type, HashSet<WeakReference>> elementLocal = item;
 						list.Add(new FloatMenuOption(string.Format("{0} ({1})", item.Key, item.Value.Count), (Action)delegate
 						{
-							MemoryTracker.LogObjectHoldPathsFor(elementLocal.Key, elementLocal.Value);
+							MemoryTracker.LogObjectHoldPathsFor(elementLocal.Value, (Func<WeakReference, int>)((WeakReference _) => 1));
 						}, MenuOptionPriority.Default, null, null, 0f, null, null));
 						if (list.Count == 30)
 							break;
@@ -224,7 +210,7 @@ namespace Verse.Profile
 			}
 		}
 
-		public static void LogObjectHoldPathsFor(Type type, HashSet<WeakReference> elements)
+		public static void LogObjectHoldPathsFor(IEnumerable<WeakReference> elements, Func<WeakReference, int> weight)
 		{
 			GC.Collect();
 			MemoryTracker.LockTracking();
@@ -232,6 +218,7 @@ namespace Verse.Profile
 			{
 				Dictionary<object, ReferenceData> dictionary = new Dictionary<object, ReferenceData>();
 				HashSet<object> hashSet = new HashSet<object>();
+				MemoryTracker.foundCollections.Clear();
 				Queue<object> queue = new Queue<object>();
 				foreach (object item in from weakref in MemoryTracker.tracked.SelectMany((Func<KeyValuePair<Type, HashSet<WeakReference>>, IEnumerable<WeakReference>>)((KeyValuePair<Type, HashSet<WeakReference>> kvp) => kvp.Value))
 				where weakref.IsAlive
@@ -245,7 +232,7 @@ namespace Verse.Profile
 				}
 				foreach (Type item2 in GenTypes.AllTypes.Union(MemoryTracker.tracked.Keys))
 				{
-					if (!item2.FullName.Contains("MemoryTracker") && !item2.ContainsGenericParameters)
+					if (!item2.FullName.Contains("MemoryTracker") && !item2.FullName.Contains("CollectionsTracker") && !item2.ContainsGenericParameters)
 					{
 						MemoryTracker.AccumulateStaticMembers(item2, dictionary, hashSet, queue);
 					}
@@ -260,62 +247,50 @@ namespace Verse.Profile
 					num++;
 					MemoryTracker.AccumulateReferences(queue.Dequeue(), dictionary, hashSet, queue);
 				}
-				int num2 = 0;
-				MemoryTracker.CalculateReferencePaths(dictionary, from kvp in dictionary
-				where !kvp.Value.path.NullOrEmpty()
-				select kvp.Key, num2);
-				num2 += 1000;
-				MemoryTracker.CalculateReferencePaths(dictionary, from kvp in dictionary
-				where kvp.Value.path.NullOrEmpty() && kvp.Value.referredBy.Count == 0
-				select kvp.Key, num2);
-				foreach (object item3 in from kvp in dictionary
-				where kvp.Value.path.NullOrEmpty()
-				select kvp.Key)
+				if (elements != null && (object)weight != null)
 				{
+					int num2 = 0;
+					MemoryTracker.CalculateReferencePaths(dictionary, from kvp in dictionary
+					where !kvp.Value.path.NullOrEmpty()
+					select kvp.Key, num2);
 					num2 += 1000;
-					MemoryTracker.CalculateReferencePaths(dictionary, new object[1]
+					MemoryTracker.CalculateReferencePaths(dictionary, from kvp in dictionary
+					where kvp.Value.path.NullOrEmpty() && kvp.Value.referredBy.Count == 0
+					select kvp.Key, num2);
+					foreach (object item3 in from kvp in dictionary
+					where kvp.Value.path.NullOrEmpty()
+					select kvp.Key)
 					{
-						item3
-					}, num2);
-				}
-				Dictionary<string, int> dictionary2 = new Dictionary<string, int>();
-				HashSet<WeakReference>.Enumerator enumerator4 = elements.GetEnumerator();
-				try
-				{
-					while (enumerator4.MoveNext())
-					{
-						WeakReference current4 = enumerator4.Current;
-						if (current4.IsAlive)
+						num2 += 1000;
+						MemoryTracker.CalculateReferencePaths(dictionary, new object[1]
 						{
-							string path = dictionary[current4.Target].path;
-							if (dictionary2.ContainsKey(path))
+							item3
+						}, num2);
+					}
+					Dictionary<string, int> dictionary2 = new Dictionary<string, int>();
+					foreach (WeakReference item4 in elements)
+					{
+						if (item4.IsAlive)
+						{
+							string path = dictionary[item4.Target].path;
+							if (!dictionary2.ContainsKey(path))
 							{
-								Dictionary<string, int> dictionary3;
-								Dictionary<string, int> obj = dictionary3 = dictionary2;
-								string key;
-								string key2 = key = path;
-								int num3 = dictionary3[key];
-								obj[key2] = num3 + 1;
+								dictionary2[path] = 0;
 							}
-							else
-							{
-								dictionary2[path] = 1;
-							}
+							Dictionary<string, int> dictionary3;
+							string key;
+							(dictionary3 = dictionary2)[key = path] = dictionary3[key] + weight(item4);
 						}
 					}
+					StringBuilder stringBuilder = new StringBuilder();
+					foreach (KeyValuePair<string, int> item5 in from kvp in dictionary2
+					orderby -kvp.Value
+					select kvp)
+					{
+						stringBuilder.AppendLine(string.Format("{0}: {1}", item5.Value, item5.Key));
+					}
+					Log.Message(stringBuilder.ToString());
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator4).Dispose();
-				}
-				StringBuilder stringBuilder = new StringBuilder();
-				foreach (KeyValuePair<string, int> item4 in from kvp in dictionary2
-				orderby -kvp.Value
-				select kvp)
-				{
-					stringBuilder.AppendLine(string.Format("{0}: {1}", item4.Value, item4.Key));
-				}
-				Log.Message(stringBuilder.ToString());
 			}
 			finally
 			{
@@ -331,7 +306,7 @@ namespace Verse.Profile
 				referenceData = new ReferenceData();
 				references[obj] = referenceData;
 			}
-			using (IEnumerator<ChildReference> enumerator = MemoryTracker.GetAllReferencedClassesFromClassOrStruct(obj, MemoryTracker.GetFieldsFromHierarchy(obj.GetType(), BindingFlags.Instance), obj, string.Empty).GetEnumerator())
+			using (IEnumerator<ChildReference> enumerator = MemoryTracker.GetAllReferencedClassesFromClassOrStruct(obj, MemoryTracker.GetFieldsFromHierarchy(obj.GetType(), BindingFlags.Instance), obj, "").GetEnumerator())
 			{
 				while (true)
 				{
@@ -416,26 +391,54 @@ namespace Verse.Profile
 					object referenced = item.GetValue(current);
 					if (referenced != null)
 					{
-						foreach (ChildReference item2 in MemoryTracker.DistillChildReferencesFromObject(referenced, parent, currentPath + item.Name))
+						using (IEnumerator<ChildReference> enumerator2 = MemoryTracker.DistillChildReferencesFromObject(referenced, parent, currentPath + item.Name).GetEnumerator())
 						{
-							yield return item2;
+							if (enumerator2.MoveNext())
+							{
+								ChildReference child2 = enumerator2.Current;
+								yield return child2;
+								/*Error: Unable to find new state assignment for yield return*/;
+							}
 						}
 					}
 				}
 			}
 			if (current != null && current is ICollection)
 			{
-				foreach (object item3 in current as IEnumerable)
+				MemoryTracker.foundCollections.Add(new WeakReference(current));
+				IEnumerator enumerator3 = (current as IEnumerable).GetEnumerator();
+				try
 				{
-					if (item3 != null && !item3.GetType().IsPrimitive)
+					while (enumerator3.MoveNext())
 					{
-						foreach (ChildReference item4 in MemoryTracker.DistillChildReferencesFromObject(item3, parent, currentPath + "[]"))
+						object entry = enumerator3.Current;
+						if (entry != null && !entry.GetType().IsPrimitive)
 						{
-							yield return item4;
+							using (IEnumerator<ChildReference> enumerator4 = MemoryTracker.DistillChildReferencesFromObject(entry, parent, currentPath + "[]").GetEnumerator())
+							{
+								if (enumerator4.MoveNext())
+								{
+									ChildReference child = enumerator4.Current;
+									yield return child;
+									/*Error: Unable to find new state assignment for yield return*/;
+								}
+							}
 						}
 					}
 				}
+				finally
+				{
+					IDisposable disposable;
+					IDisposable disposable2 = disposable = (enumerator3 as IDisposable);
+					if (disposable != null)
+					{
+						disposable2.Dispose();
+					}
+				}
 			}
+			yield break;
+			IL_0306:
+			/*Error near IL_0307: Unexpected return in MoveNext()*/;
 		}
 
 		private static IEnumerable<ChildReference> DistillChildReferencesFromObject(object current, object parent, string currentPath)
@@ -448,40 +451,59 @@ namespace Verse.Profile
 					child = current,
 					path = currentPath
 				};
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			else if (!type.IsPrimitive)
+			if (!type.IsPrimitive)
 			{
 				if (!type.IsValueType)
 				{
 					throw new NotImplementedException();
 				}
 				string structPath = currentPath + ".";
-				foreach (ChildReference item in MemoryTracker.GetAllReferencedClassesFromClassOrStruct(current, MemoryTracker.GetFieldsFromHierarchy(type, BindingFlags.Instance), parent, structPath))
+				using (IEnumerator<ChildReference> enumerator = MemoryTracker.GetAllReferencedClassesFromClassOrStruct(current, MemoryTracker.GetFieldsFromHierarchy(type, BindingFlags.Instance), parent, structPath).GetEnumerator())
 				{
-					yield return item;
+					if (enumerator.MoveNext())
+					{
+						ChildReference childReference = enumerator.Current;
+						yield return childReference;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
+			yield break;
+			IL_0185:
+			/*Error near IL_0186: Unexpected return in MoveNext()*/;
 		}
 
 		private static IEnumerable<FieldInfo> GetFieldsFromHierarchy(Type type, BindingFlags bindingFlags)
 		{
 			while (type != null)
 			{
-				foreach (FieldInfo field in MemoryTracker.GetFields(type, bindingFlags))
+				using (IEnumerator<FieldInfo> enumerator = MemoryTracker.GetFields(type, bindingFlags).GetEnumerator())
 				{
-					yield return field;
+					if (enumerator.MoveNext())
+					{
+						FieldInfo field = enumerator.Current;
+						yield return field;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 				type = type.BaseType;
 			}
+			yield break;
+			IL_00e6:
+			/*Error near IL_00e7: Unexpected return in MoveNext()*/;
 		}
 
 		private static IEnumerable<FieldInfo> GetFields(Type type, BindingFlags bindingFlags)
 		{
 			FieldInfo[] fields = type.GetFields((BindingFlags)((int)bindingFlags | 16 | 32));
-			for (int i = 0; i < fields.Length; i++)
+			int num = 0;
+			if (num < fields.Length)
 			{
-				FieldInfo field = fields[i];
+				FieldInfo field = fields[num];
 				yield return field;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -503,8 +525,7 @@ namespace Verse.Profile
 		private static void CalculateObjectReferencePath(object obj, Dictionary<object, ReferenceData> references, Queue<object> queue)
 		{
 			ReferenceData referenceData = references[obj];
-			List<ReferenceData.Link>.Enumerator enumerator = referenceData.refers.GetEnumerator();
-			try
+			using (List<ReferenceData.Link>.Enumerator enumerator = referenceData.refers.GetEnumerator())
 			{
 				while (true)
 				{
@@ -531,10 +552,6 @@ namespace Verse.Profile
 					return;
 				}
 				throw new ApplicationException();
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 

@@ -3,19 +3,19 @@ using Verse;
 
 namespace RimWorld
 {
-	public class ActiveDropPodInfo : IExposable, IThingHolder
+	public class ActiveDropPodInfo : IThingHolder, IExposable
 	{
-		public const int DefaultOpenDelay = 110;
-
 		public IThingHolder parent;
 
 		public ThingOwner innerContainer;
 
 		public int openDelay = 110;
 
-		public bool leaveSlag;
+		public bool leaveSlag = false;
 
 		public bool savePawnsWithReferenceMode;
+
+		public const int DefaultOpenDelay = 110;
 
 		private List<Thing> tmpThings = new List<Thing>();
 
@@ -25,15 +25,20 @@ namespace RimWorld
 		{
 			get
 			{
+				Thing result;
 				if (this.innerContainer.Count == 0)
 				{
-					return null;
+					result = null;
 				}
-				if (this.innerContainer.Count > 1)
+				else
 				{
-					Log.Error("ContainedThing used on a DropPodInfo holding > 1 thing.");
+					if (this.innerContainer.Count > 1)
+					{
+						Log.Error("ContainedThing used on a DropPodInfo holding > 1 thing.");
+					}
+					result = this.innerContainer[0];
 				}
-				return this.innerContainer[0];
+				return result;
 			}
 			set
 			{

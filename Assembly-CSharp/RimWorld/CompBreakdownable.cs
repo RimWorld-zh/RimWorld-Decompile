@@ -4,13 +4,13 @@ namespace RimWorld
 {
 	public class CompBreakdownable : ThingComp
 	{
-		private const int BreakdownMTBTicks = 13680000;
-
-		public const string BreakdownSignal = "Breakdown";
-
 		private bool brokenDownInt;
 
 		private CompPowerTrader powerComp;
+
+		private const int BreakdownMTBTicks = 13679999;
+
+		public const string BreakdownSignal = "Breakdown";
 
 		public bool BrokenDown
 		{
@@ -49,7 +49,7 @@ namespace RimWorld
 
 		public void CheckForBreakdown()
 		{
-			if (this.CanBreakdownNow() && Rand.MTBEventOccurs(1.368E+07f, 1f, 1041f))
+			if (this.CanBreakdownNow() && Rand.MTBEventOccurs(13679999f, 1f, 1041f))
 			{
 				this.DoBreakdown();
 			}
@@ -77,17 +77,13 @@ namespace RimWorld
 			base.parent.Map.GetComponent<BreakdownManager>().Notify_BrokenDown(base.parent);
 			if (base.parent.Faction == Faction.OfPlayer)
 			{
-				Find.LetterStack.ReceiveLetter("LetterLabelBuildingBrokenDown".Translate(base.parent.LabelShort), "LetterBuildingBrokenDown".Translate(base.parent.LabelShort), LetterDefOf.BadNonUrgent, (Thing)base.parent, (string)null);
+				Find.LetterStack.ReceiveLetter("LetterLabelBuildingBrokenDown".Translate(base.parent.LabelShort), "LetterBuildingBrokenDown".Translate(base.parent.LabelShort), LetterDefOf.NegativeEvent, (Thing)base.parent, (string)null);
 			}
 		}
 
 		public override string CompInspectStringExtra()
 		{
-			if (this.BrokenDown)
-			{
-				return "BrokenDown".Translate();
-			}
-			return (string)null;
+			return (!this.BrokenDown) ? null : "BrokenDown".Translate();
 		}
 	}
 }

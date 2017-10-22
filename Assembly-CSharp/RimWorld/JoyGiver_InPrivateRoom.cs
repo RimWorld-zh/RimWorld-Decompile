@@ -9,23 +9,20 @@ namespace RimWorld
 	{
 		public override Job TryGiveJob(Pawn pawn)
 		{
+			Job result;
 			if (pawn.ownership == null)
 			{
-				return null;
+				result = null;
 			}
-			Room ownedRoom = pawn.ownership.OwnedRoom;
-			if (ownedRoom == null)
+			else
 			{
-				return null;
+				Room ownedRoom = pawn.ownership.OwnedRoom;
+				IntVec3 c2 = default(IntVec3);
+				result = ((ownedRoom != null) ? ((from c in ownedRoom.Cells
+				where c.Standable(pawn.Map) && !c.IsForbidden(pawn) && pawn.CanReserveAndReach(c, PathEndMode.OnCell, Danger.None, 1, -1, null, false)
+				select c).TryRandomElement<IntVec3>(out c2) ? new Job(base.def.jobDef, c2) : null) : null);
 			}
-			IntVec3 c2 = default(IntVec3);
-			if (!(from c in ownedRoom.Cells
-			where c.Standable(pawn.Map) && !c.IsForbidden(pawn) && pawn.CanReserveAndReach(c, PathEndMode.OnCell, Danger.None, 1, -1, null, false)
-			select c).TryRandomElement<IntVec3>(out c2))
-			{
-				return null;
-			}
-			return new Job(base.def.jobDef, c2);
+			return result;
 		}
 	}
 }

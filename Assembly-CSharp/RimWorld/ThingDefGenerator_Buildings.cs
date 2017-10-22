@@ -20,37 +20,40 @@ namespace RimWorld
 
 		public static IEnumerable<ThingDef> ImpliedBlueprintAndFrameDefs()
 		{
-			List<ThingDef>.Enumerator enumerator = DefDatabase<ThingDef>.AllDefs.ToList().GetEnumerator();
-			try
+			foreach (ThingDef item in DefDatabase<ThingDef>.AllDefs.ToList())
 			{
-				while (enumerator.MoveNext())
+				ThingDef blueprint2 = null;
+				if (item.designationCategory != null)
 				{
-					ThingDef def = enumerator.Current;
-					ThingDef blueprint = null;
-					if (def.designationCategory != null)
-					{
-						blueprint = ThingDefGenerator_Buildings.NewBlueprintDef_Thing(def, false, null);
-						yield return blueprint;
-						yield return ThingDefGenerator_Buildings.NewFrameDef_Thing(def);
-					}
-					if (def.Minifiable)
-					{
-						yield return ThingDefGenerator_Buildings.NewBlueprintDef_Thing(def, true, blueprint);
-					}
+					blueprint2 = ThingDefGenerator_Buildings.NewBlueprintDef_Thing(item, false, null);
+					yield return blueprint2;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+				if (item.Minifiable)
+				{
+					yield return ThingDefGenerator_Buildings.NewBlueprintDef_Thing(item, true, blueprint2);
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
-			finally
+			using (IEnumerator<TerrainDef> enumerator2 = DefDatabase<TerrainDef>.AllDefs.GetEnumerator())
 			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
-			foreach (TerrainDef allDef in DefDatabase<TerrainDef>.AllDefs)
-			{
-				if (allDef.designationCategory != null)
+				TerrainDef terrDef;
+				while (true)
 				{
-					yield return ThingDefGenerator_Buildings.NewBlueprintDef_Terrain(allDef);
-					yield return ThingDefGenerator_Buildings.NewFrameDef_Terrain(allDef);
+					if (enumerator2.MoveNext())
+					{
+						terrDef = enumerator2.Current;
+						if (terrDef.designationCategory != null)
+							break;
+						continue;
+					}
+					yield break;
 				}
+				yield return ThingDefGenerator_Buildings.NewBlueprintDef_Terrain(terrDef);
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			IL_0231:
+			/*Error near IL_0232: Unexpected return in MoveNext()*/;
 		}
 
 		private static ThingDef BaseBlueprintDef()
@@ -90,6 +93,8 @@ namespace RimWorld
 			thingDef.defName = def.defName + ThingDefGenerator_Buildings.BlueprintDefNameSuffix;
 			thingDef.label = def.label + "BlueprintLabelExtra".Translate();
 			thingDef.size = def.size;
+			thingDef.constructionSkillPrerequisite = def.constructionSkillPrerequisite;
+			thingDef.clearBuildingArea = def.clearBuildingArea;
 			thingDef.drawPlaceWorkersWhileSelected = def.drawPlaceWorkersWhileSelected;
 			if (def.placeWorkers != null)
 			{
@@ -182,6 +187,8 @@ namespace RimWorld
 			thingDef.selectable = def.selectable;
 			thingDef.constructEffect = def.constructEffect;
 			thingDef.building.isEdifice = def.building.isEdifice;
+			thingDef.constructionSkillPrerequisite = def.constructionSkillPrerequisite;
+			thingDef.clearBuildingArea = def.clearBuildingArea;
 			thingDef.drawPlaceWorkersWhileSelected = def.drawPlaceWorkersWhileSelected;
 			if (def.placeWorkers != null)
 			{
@@ -207,6 +214,8 @@ namespace RimWorld
 			thingDef.graphicData.shaderType = ShaderType.MetaOverlay;
 			thingDef.graphicData.texPath = ThingDefGenerator_Buildings.TerrainBlueprintGraphicPath;
 			thingDef.graphicData.graphicClass = typeof(Graphic_Single);
+			thingDef.constructionSkillPrerequisite = terrDef.constructionSkillPrerequisite;
+			thingDef.clearBuildingArea = false;
 			thingDef.entityDefToBuild = terrDef;
 			terrDef.blueprintDef = thingDef;
 			return thingDef;
@@ -225,6 +234,8 @@ namespace RimWorld
 			thingDef.selectable = true;
 			thingDef.constructEffect = terrDef.constructEffect;
 			thingDef.building.isEdifice = false;
+			thingDef.constructionSkillPrerequisite = terrDef.constructionSkillPrerequisite;
+			thingDef.clearBuildingArea = false;
 			thingDef.category = ThingCategory.Ethereal;
 			thingDef.entityDefToBuild = terrDef;
 			terrDef.frameDef = thingDef;

@@ -1,11 +1,10 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Verse
 {
-	public class Pawn_EquipmentTracker : IExposable, IThingHolder
+	public class Pawn_EquipmentTracker : IThingHolder, IExposable
 	{
 		private Pawn pawn;
 
@@ -15,14 +14,24 @@ namespace Verse
 		{
 			get
 			{
-				for (int i = 0; i < this.equipment.Count; i++)
+				int num = 0;
+				ThingWithComps result;
+				while (true)
 				{
-					if (this.equipment[i].def.equipmentType == EquipmentType.Primary)
+					if (num < this.equipment.Count)
 					{
-						return this.equipment[i];
+						if (this.equipment[num].def.equipmentType == EquipmentType.Primary)
+						{
+							result = this.equipment[num];
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = null;
+					break;
 				}
-				return null;
+				return result;
 			}
 			private set
 			{
@@ -72,15 +81,25 @@ namespace Verse
 			get
 			{
 				List<ThingWithComps> list = this.AllEquipmentListForReading;
-				for (int j = 0; j < list.Count; j++)
+				int j = 0;
+				List<Verb> verbs;
+				int i;
+				while (true)
 				{
-					ThingWithComps eq = list[j];
-					List<Verb> verbs = eq.GetComp<CompEquippable>().AllVerbs;
-					for (int i = 0; i < verbs.Count; i++)
+					if (j < list.Count)
 					{
-						yield return verbs[i];
+						ThingWithComps eq = list[j];
+						verbs = eq.GetComp<CompEquippable>().AllVerbs;
+						i = 0;
+						if (i < verbs.Count)
+							break;
+						j++;
+						continue;
 					}
+					yield break;
 				}
+				yield return verbs[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -104,25 +123,16 @@ namespace Verse
 			{
 				this
 			});
-			if (Scribe.mode == LoadSaveMode.LoadingVars)
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
 				List<ThingWithComps> allEquipmentListForReading = this.AllEquipmentListForReading;
 				for (int i = 0; i < allEquipmentListForReading.Count; i++)
 				{
 					ThingWithComps thingWithComps = allEquipmentListForReading[i];
-					List<Verb>.Enumerator enumerator = thingWithComps.GetComp<CompEquippable>().AllVerbs.GetEnumerator();
-					try
+					foreach (Verb allVerb in thingWithComps.GetComp<CompEquippable>().AllVerbs)
 					{
-						while (enumerator.MoveNext())
-						{
-							Verb current = enumerator.Current;
-							current.caster = this.pawn;
-							current.ownerEquipment = thingWithComps;
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
+						allVerb.caster = this.pawn;
+						allVerb.ownerEquipment = thingWithComps;
 					}
 				}
 			}
@@ -169,21 +179,26 @@ namespace Verse
 
 		public bool TryDropEquipment(ThingWithComps eq, out ThingWithComps resultingEq, IntVec3 pos, bool forbid = true)
 		{
+			bool result;
 			if (!pos.IsValid)
 			{
 				Log.Error(this.pawn + " tried to drop " + eq + " at invalid cell.");
 				resultingEq = null;
-				return false;
+				result = false;
 			}
-			if (this.equipment.TryDrop((Thing)eq, pos, this.pawn.MapHeld, ThingPlaceMode.Near, out resultingEq, (Action<ThingWithComps, int>)null))
+			else if (this.equipment.TryDrop((Thing)eq, pos, this.pawn.MapHeld, ThingPlaceMode.Near, out resultingEq, (Action<ThingWithComps, int>)null))
 			{
 				if (resultingEq != null)
 				{
 					resultingEq.SetForbidden(forbid, false);
 				}
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		public void DropAllEquipment(IntVec3 pos, bool forbid = true)
@@ -249,138 +264,52 @@ namespace Verse
 
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			if (this.ShouldUseSquadAttackGizmo())
-			{
-				yield return this.GetSquadAttackGizmo();
-			}
-			else
+			if (PawnAttackGizmoUtility.CanShowEquipmentGizmos())
 			{
 				List<ThingWithComps> list = this.AllEquipmentListForReading;
 				for (int i = 0; i < list.Count; i++)
 				{
 					ThingWithComps eq = list[i];
-					foreach (Command verbsCommand in eq.GetComp<CompEquippable>().GetVerbsCommands())
+					using (IEnumerator<Command> enumerator = eq.GetComp<CompEquippable>().GetVerbsCommands().GetEnumerator())
 					{
-						switch (i)
+						if (enumerator.MoveNext())
 						{
-						case 0:
-						{
-							verbsCommand.hotKey = KeyBindingDefOf.Misc1;
-							break;
+							Command command = enumerator.Current;
+							switch (i)
+							{
+							case 0:
+							{
+								command.hotKey = KeyBindingDefOf.Misc1;
+								break;
+							}
+							case 1:
+							{
+								command.hotKey = KeyBindingDefOf.Misc2;
+								break;
+							}
+							case 2:
+							{
+								command.hotKey = KeyBindingDefOf.Misc3;
+								break;
+							}
+							}
+							yield return (Gizmo)command;
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
-						case 1:
-						{
-							verbsCommand.hotKey = KeyBindingDefOf.Misc2;
-							break;
-						}
-						case 2:
-						{
-							verbsCommand.hotKey = KeyBindingDefOf.Misc3;
-							break;
-						}
-						}
-						yield return (Gizmo)verbsCommand;
 					}
 				}
 			}
-		}
-
-		public bool TryStartAttack(LocalTargetInfo targ)
-		{
-			if (this.pawn.stances.FullBodyBusy)
-			{
-				return false;
-			}
-			if (this.pawn.story != null && this.pawn.story.WorkTagIsDisabled(WorkTags.Violent))
-			{
-				return false;
-			}
-			bool allowManualCastWeapons = !this.pawn.IsColonist;
-			Verb verb = this.pawn.TryGetAttackVerb(allowManualCastWeapons);
-			if (verb == null)
-			{
-				return false;
-			}
-			return verb.TryStartCastOn(targ, false, true);
-		}
-
-		private bool ShouldUseSquadAttackGizmo()
-		{
-			if (Find.Selector.NumSelected <= 1)
-			{
-				return false;
-			}
-			ThingDef thingDef = null;
-			bool flag = false;
-			List<object> selectedObjectsListForReading = Find.Selector.SelectedObjectsListForReading;
-			for (int i = 0; i < selectedObjectsListForReading.Count; i++)
-			{
-				Pawn pawn = selectedObjectsListForReading[i] as Pawn;
-				if (pawn != null && pawn.IsColonist)
-				{
-					ThingDef thingDef2 = (pawn.equipment.Primary != null) ? pawn.equipment.Primary.def : null;
-					if (!flag)
-					{
-						thingDef = thingDef2;
-						flag = true;
-					}
-					else if (thingDef2 != thingDef)
-					{
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-
-		private Gizmo GetSquadAttackGizmo()
-		{
-			Command_Target command_Target = new Command_Target();
-			command_Target.defaultLabel = "CommandSquadAttack".Translate();
-			command_Target.defaultDesc = "CommandSquadAttackDesc".Translate();
-			command_Target.targetingParams = TargetingParameters.ForAttackAny();
-			command_Target.hotKey = KeyBindingDefOf.Misc1;
-			command_Target.icon = TexCommand.SquadAttack;
-			string str = default(string);
-			if ((object)FloatMenuUtility.GetAttackAction(this.pawn, LocalTargetInfo.Invalid, out str) == null)
-			{
-				command_Target.Disable(str.CapitalizeFirst() + ".");
-			}
-			command_Target.action = (Action<Thing>)delegate(Thing target)
-			{
-				IEnumerable<Pawn> enumerable = Find.Selector.SelectedObjects.Where((Func<object, bool>)delegate(object x)
-				{
-					Pawn pawn = x as Pawn;
-					return pawn != null && pawn.IsColonistPlayerControlled && pawn.Drafted;
-				}).Cast<Pawn>();
-				foreach (Pawn item in enumerable)
-				{
-					string text = default(string);
-					Action attackAction = FloatMenuUtility.GetAttackAction(item, target, out text);
-					if ((object)attackAction != null)
-					{
-						attackAction();
-					}
-				}
-			};
-			return command_Target;
+			yield break;
+			IL_018f:
+			/*Error near IL_0190: Unexpected return in MoveNext()*/;
 		}
 
 		public void Notify_EquipmentAdded(ThingWithComps eq)
 		{
-			List<Verb>.Enumerator enumerator = eq.GetComp<CompEquippable>().AllVerbs.GetEnumerator();
-			try
+			foreach (Verb allVerb in eq.GetComp<CompEquippable>().AllVerbs)
 			{
-				while (enumerator.MoveNext())
-				{
-					Verb current = enumerator.Current;
-					current.caster = this.pawn;
-					current.Notify_PickedUp();
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				allVerb.caster = this.pawn;
+				allVerb.Notify_PickedUp();
 			}
 		}
 

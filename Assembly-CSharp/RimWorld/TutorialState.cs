@@ -14,7 +14,7 @@ namespace RimWorld
 
 		public int endTick = -1;
 
-		public bool introDone;
+		public bool introDone = false;
 
 		public void ExposeData()
 		{

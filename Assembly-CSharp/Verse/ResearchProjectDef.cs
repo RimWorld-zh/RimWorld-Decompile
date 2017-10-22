@@ -7,25 +7,25 @@ namespace Verse
 {
 	public class ResearchProjectDef : Def
 	{
-		public TechLevel techLevel;
+		public TechLevel techLevel = TechLevel.Undefined;
 
 		[MustTranslate]
-		private string descriptionDiscovered;
+		private string descriptionDiscovered = (string)null;
 
 		public float baseCost = 100f;
 
-		public List<ResearchProjectDef> prerequisites;
+		public List<ResearchProjectDef> prerequisites = null;
 
-		public List<ResearchProjectDef> requiredByThis;
+		public List<ResearchProjectDef> requiredByThis = null;
 
-		private List<ResearchMod> researchMods;
+		private List<ResearchMod> researchMods = null;
 
-		public ThingDef requiredResearchBuilding;
+		public ThingDef requiredResearchBuilding = null;
 
-		public List<ThingDef> requiredResearchFacilities;
+		public List<ThingDef> requiredResearchFacilities = null;
 
 		[NoTranslate]
-		public List<string> tags;
+		public List<string> tags = null;
 
 		public ResearchTabDef tab;
 
@@ -110,12 +110,16 @@ namespace Verse
 					for (int i = 0; i < this.prerequisites.Count; i++)
 					{
 						if (!this.prerequisites[i].IsFinished)
-						{
-							return false;
-						}
+							goto IL_002b;
 					}
 				}
-				return true;
+				bool result = true;
+				goto IL_0050;
+				IL_002b:
+				result = false;
+				goto IL_0050;
+				IL_0050:
+				return result;
 			}
 		}
 
@@ -123,11 +127,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.descriptionDiscovered != null)
-				{
-					return this.descriptionDiscovered;
-				}
-				return base.description;
+				return (this.descriptionDiscovered == null) ? base.description : this.descriptionDiscovered;
 			}
 		}
 
@@ -136,19 +136,29 @@ namespace Verse
 			get
 			{
 				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				int num = 0;
+				bool result;
+				while (true)
 				{
-					List<Building> allBuildingsColonist = maps[i].listerBuildings.allBuildingsColonist;
-					for (int j = 0; j < allBuildingsColonist.Count; j++)
+					if (num < maps.Count)
 					{
-						Building_ResearchBench building_ResearchBench = allBuildingsColonist[j] as Building_ResearchBench;
-						if (building_ResearchBench != null && this.CanBeResearchedAt(building_ResearchBench, true))
+						List<Building> allBuildingsColonist = maps[num].listerBuildings.allBuildingsColonist;
+						for (int i = 0; i < allBuildingsColonist.Count; i++)
 						{
-							return true;
+							Building_ResearchBench building_ResearchBench = allBuildingsColonist[i] as Building_ResearchBench;
+							if (building_ResearchBench != null && this.CanBeResearchedAt(building_ResearchBench, true))
+								goto IL_004c;
 						}
+						num++;
+						continue;
 					}
+					result = false;
+					break;
+					IL_004c:
+					result = true;
+					break;
 				}
-				return false;
+				return result;
 			}
 		}
 
@@ -162,79 +172,106 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string e = enumerator.Current;
+					yield return e;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			if (this.techLevel == TechLevel.Undefined)
 			{
 				yield return "techLevel is Undefined";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (this.ResearchViewX < 0.0 || this.ResearchViewY < 0.0)
+			if (!(this.ResearchViewX < 0.0) && !(this.ResearchViewY < 0.0))
 			{
-				yield return "researchViewX and/or researchViewY not set";
-			}
-			List<ResearchProjectDef> rpDefs = DefDatabase<ResearchProjectDef>.AllDefsListForReading;
-			for (int i = 0; i < rpDefs.Count; i++)
-			{
-				if (rpDefs[i] != this && rpDefs[i].tab == this.tab && rpDefs[i].ResearchViewX == this.ResearchViewX && rpDefs[i].ResearchViewY == this.ResearchViewY)
+				List<ResearchProjectDef> rpDefs = DefDatabase<ResearchProjectDef>.AllDefsListForReading;
+				int i = 0;
+				while (true)
 				{
-					yield return "same research view coords and tab as " + rpDefs[i] + ": " + this.ResearchViewX + ", " + this.ResearchViewY + "(" + this.tab + ")";
+					if (i < rpDefs.Count)
+					{
+						if (rpDefs[i] != this && rpDefs[i].tab == this.tab && rpDefs[i].ResearchViewX == this.ResearchViewX && rpDefs[i].ResearchViewY == this.ResearchViewY)
+							break;
+						i++;
+						continue;
+					}
+					yield break;
 				}
+				yield return "same research view coords and tab as " + rpDefs[i] + ": " + this.ResearchViewX + ", " + this.ResearchViewY + "(" + this.tab + ")";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			yield return "researchViewX and/or researchViewY not set";
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_02a2:
+			/*Error near IL_02a3: Unexpected return in MoveNext()*/;
 		}
 
 		public float CostFactor(TechLevel researcherTechLevel)
 		{
+			float result;
 			if ((int)researcherTechLevel >= (int)this.techLevel)
 			{
-				return 1f;
+				result = 1f;
 			}
-			int num = this.techLevel - researcherTechLevel;
-			return (float)(1.0 + (float)num);
+			else
+			{
+				int num = this.techLevel - researcherTechLevel;
+				result = (float)(1.0 + (float)num);
+			}
+			return result;
 		}
 
 		public bool HasTag(string tag)
 		{
-			if (this.tags == null)
-			{
-				return false;
-			}
-			return this.tags.Contains(tag);
+			return this.tags != null && this.tags.Contains(tag);
 		}
 
 		public bool CanBeResearchedAt(Building_ResearchBench bench, bool ignoreResearchBenchPowerStatus)
 		{
+			bool result;
 			if (this.requiredResearchBuilding != null && bench.def != this.requiredResearchBuilding)
 			{
-				return false;
+				result = false;
 			}
-			if (!ignoreResearchBenchPowerStatus)
+			else
 			{
-				CompPowerTrader comp = bench.GetComp<CompPowerTrader>();
-				if (comp != null && !comp.PowerOn)
+				if (!ignoreResearchBenchPowerStatus)
 				{
-					return false;
-				}
-			}
-			if (!this.requiredResearchFacilities.NullOrEmpty())
-			{
-				CompAffectedByFacilities affectedByFacilities = bench.TryGetComp<CompAffectedByFacilities>();
-				if (affectedByFacilities == null)
-				{
-					return false;
-				}
-				List<Thing> linkedFacilitiesListForReading = affectedByFacilities.LinkedFacilitiesListForReading;
-				int i;
-				for (i = 0; i < this.requiredResearchFacilities.Count; i++)
-				{
-					if (linkedFacilitiesListForReading.Find((Predicate<Thing>)((Thing x) => x.def == this.requiredResearchFacilities[i] && affectedByFacilities.IsFacilityActive(x))) == null)
+					CompPowerTrader comp = bench.GetComp<CompPowerTrader>();
+					if (comp != null && !comp.PowerOn)
 					{
-						return false;
+						result = false;
+						goto IL_00ff;
 					}
 				}
+				if (!this.requiredResearchFacilities.NullOrEmpty())
+				{
+					CompAffectedByFacilities affectedByFacilities = bench.TryGetComp<CompAffectedByFacilities>();
+					if (affectedByFacilities == null)
+					{
+						result = false;
+						goto IL_00ff;
+					}
+					List<Thing> linkedFacilitiesListForReading = affectedByFacilities.LinkedFacilitiesListForReading;
+					int i;
+					for (i = 0; i < this.requiredResearchFacilities.Count; i++)
+					{
+						if (linkedFacilitiesListForReading.Find((Predicate<Thing>)((Thing x) => x.def == this.requiredResearchFacilities[i] && affectedByFacilities.IsFacilityActive(x))) == null)
+							goto IL_00c8;
+					}
+				}
+				result = true;
 			}
-			return true;
+			goto IL_00ff;
+			IL_00c8:
+			result = false;
+			goto IL_00ff;
+			IL_00ff:
+			return result;
 		}
 
 		public void ReapplyAllMods()
@@ -262,82 +299,55 @@ namespace Verse
 
 		public static void GenerateNonOverlappingCoordinates()
 		{
-			List<ResearchProjectDef>.Enumerator enumerator = DefDatabase<ResearchProjectDef>.AllDefsListForReading.GetEnumerator();
-			try
+			foreach (ResearchProjectDef item in DefDatabase<ResearchProjectDef>.AllDefsListForReading)
 			{
-				while (enumerator.MoveNext())
-				{
-					ResearchProjectDef current = enumerator.Current;
-					current.x = current.researchViewX;
-					current.y = current.researchViewY;
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				item.x = item.researchViewX;
+				item.y = item.researchViewY;
 			}
 			int num = 0;
 			while (true)
 			{
 				bool flag = false;
-				List<ResearchProjectDef>.Enumerator enumerator2 = DefDatabase<ResearchProjectDef>.AllDefsListForReading.GetEnumerator();
-				try
+				foreach (ResearchProjectDef item2 in DefDatabase<ResearchProjectDef>.AllDefsListForReading)
 				{
-					while (enumerator2.MoveNext())
+					foreach (ResearchProjectDef item3 in DefDatabase<ResearchProjectDef>.AllDefsListForReading)
 					{
-						ResearchProjectDef current2 = enumerator2.Current;
-						List<ResearchProjectDef>.Enumerator enumerator3 = DefDatabase<ResearchProjectDef>.AllDefsListForReading.GetEnumerator();
-						try
+						if (item2 != item3 && item2.tab == item3.tab)
 						{
-							while (enumerator3.MoveNext())
+							bool flag2 = Mathf.Abs(item2.x - item3.x) < 0.5;
+							bool flag3 = Mathf.Abs(item2.y - item3.y) < 0.25;
+							if (flag2 && flag3)
 							{
-								ResearchProjectDef current3 = enumerator3.Current;
-								if (current2 != current3 && current2.tab == current3.tab)
+								flag = true;
+								if (item2.x <= item3.x)
 								{
-									bool flag2 = Mathf.Abs(current2.x - current3.x) < 0.5;
-									bool flag3 = Mathf.Abs(current2.y - current3.y) < 0.25;
-									if (flag2 && flag3)
-									{
-										flag = true;
-										if (current2.x <= current3.x)
-										{
-											current2.x -= 0.1f;
-											current3.x += 0.1f;
-										}
-										else
-										{
-											current2.x += 0.1f;
-											current3.x -= 0.1f;
-										}
-										if (current2.y <= current3.y)
-										{
-											current2.y -= 0.1f;
-											current3.y += 0.1f;
-										}
-										else
-										{
-											current2.y += 0.1f;
-											current3.y -= 0.1f;
-										}
-										current2.x += 0.001f;
-										current2.y += 0.001f;
-										current3.x -= 0.001f;
-										current3.y -= 0.001f;
-										ResearchProjectDef.ClampInCoordinateLimits(current2);
-										ResearchProjectDef.ClampInCoordinateLimits(current3);
-									}
+									item2.x -= 0.1f;
+									item3.x += 0.1f;
 								}
+								else
+								{
+									item2.x += 0.1f;
+									item3.x -= 0.1f;
+								}
+								if (item2.y <= item3.y)
+								{
+									item2.y -= 0.1f;
+									item3.y += 0.1f;
+								}
+								else
+								{
+									item2.y += 0.1f;
+									item3.y -= 0.1f;
+								}
+								item2.x += 0.001f;
+								item2.y += 0.001f;
+								item3.x -= 0.001f;
+								item3.y -= 0.001f;
+								ResearchProjectDef.ClampInCoordinateLimits(item2);
+								ResearchProjectDef.ClampInCoordinateLimits(item3);
 							}
 						}
-						finally
-						{
-							((IDisposable)(object)enumerator3).Dispose();
-						}
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
 				}
 				if (flag)
 				{

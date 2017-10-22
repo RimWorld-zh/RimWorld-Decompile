@@ -6,11 +6,11 @@ namespace RimWorld
 {
 	public sealed class GameEnder : IExposable
 	{
-		private const int GameEndCountdownDuration = 400;
-
-		public bool gameEnding;
+		public bool gameEnding = false;
 
 		private int ticksToGameOver = -1;
+
+		private const int GameEndCountdownDuration = 400;
 
 		public void ExposeData()
 		{
@@ -74,20 +74,28 @@ namespace RimWorld
 
 		private bool IsPlayerControlledWithFreeColonist(Caravan caravan)
 		{
+			bool result;
 			if (!caravan.IsPlayerControlled)
 			{
-				return false;
+				result = false;
 			}
-			List<Pawn> pawnsListForReading = caravan.PawnsListForReading;
-			for (int i = 0; i < pawnsListForReading.Count; i++)
+			else
 			{
-				Pawn pawn = pawnsListForReading[i];
-				if (pawn.IsColonist && pawn.HostFaction == null)
+				List<Pawn> pawnsListForReading = caravan.PawnsListForReading;
+				for (int i = 0; i < pawnsListForReading.Count; i++)
 				{
-					return true;
+					Pawn pawn = pawnsListForReading[i];
+					if (pawn.IsColonist && pawn.HostFaction == null)
+						goto IL_0040;
 				}
+				result = false;
 			}
-			return false;
+			goto IL_005f;
+			IL_005f:
+			return result;
+			IL_0040:
+			result = true;
+			goto IL_005f;
 		}
 	}
 }

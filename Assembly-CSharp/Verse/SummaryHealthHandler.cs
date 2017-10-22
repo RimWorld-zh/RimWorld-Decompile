@@ -15,34 +15,37 @@ namespace Verse
 		{
 			get
 			{
+				float result;
 				if (this.pawn.Dead)
 				{
-					return 0f;
+					result = 0f;
 				}
-				if (this.dirty)
+				else
 				{
-					ProfilerThreadCheck.BeginSample("Recache summary health percent");
-					List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
-					float num = 1f;
-					for (int i = 0; i < hediffs.Count; i++)
+					if (this.dirty)
 					{
-						if (!(hediffs[i] is Hediff_MissingPart))
+						List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
+						float num = 1f;
+						for (int i = 0; i < hediffs.Count; i++)
 						{
-							float num2 = Mathf.Min(hediffs[i].SummaryHealthPercentImpact, 0.95f);
-							num = (float)(num * (1.0 - num2));
+							if (!(hediffs[i] is Hediff_MissingPart))
+							{
+								float num2 = Mathf.Min(hediffs[i].SummaryHealthPercentImpact, 0.95f);
+								num = (float)(num * (1.0 - num2));
+							}
 						}
+						List<Hediff_MissingPart> missingPartsCommonAncestors = this.pawn.health.hediffSet.GetMissingPartsCommonAncestors();
+						for (int j = 0; j < missingPartsCommonAncestors.Count; j++)
+						{
+							float num3 = Mathf.Min(missingPartsCommonAncestors[j].SummaryHealthPercentImpact, 0.95f);
+							num = (float)(num * (1.0 - num3));
+						}
+						this.cachedSummaryHealthPercent = Mathf.Clamp(num, 0.05f, 1f);
+						this.dirty = false;
 					}
-					List<Hediff_MissingPart> missingPartsCommonAncestors = this.pawn.health.hediffSet.GetMissingPartsCommonAncestors();
-					for (int j = 0; j < missingPartsCommonAncestors.Count; j++)
-					{
-						float num3 = Mathf.Min(missingPartsCommonAncestors[j].SummaryHealthPercentImpact, 0.95f);
-						num = (float)(num * (1.0 - num3));
-					}
-					this.cachedSummaryHealthPercent = Mathf.Clamp(num, 0.05f, 1f);
-					ProfilerThreadCheck.EndSample();
-					this.dirty = false;
+					result = this.cachedSummaryHealthPercent;
 				}
-				return this.cachedSummaryHealthPercent;
+				return result;
 			}
 		}
 

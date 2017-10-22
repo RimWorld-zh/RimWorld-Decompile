@@ -6,59 +6,68 @@ namespace RimWorld
 {
 	public class IncidentWorker_AmbrosiaSprout : IncidentWorker
 	{
+		private static readonly IntRange CountRange = new IntRange(10, 20);
+
 		private const int MinRoomCells = 64;
 
 		private const int SpawnRadius = 6;
 
-		private static readonly IntRange CountRange = new IntRange(10, 20);
-
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
+			bool result;
 			if (!base.CanFireNowSub(target))
 			{
-				return false;
+				result = false;
 			}
-			Map map = (Map)target;
-			if (!map.weatherManager.growthSeasonMemory.GrowthSeasonOutdoorsNow)
+			else
 			{
-				return false;
+				Map map = (Map)target;
+				IntVec3 intVec = default(IntVec3);
+				result = (map.weatherManager.growthSeasonMemory.GrowthSeasonOutdoorsNow && this.TryFindRootCell(map, out intVec));
 			}
-			IntVec3 intVec = default(IntVec3);
-			return this.TryFindRootCell(map, out intVec);
+			return result;
 		}
 
-		public override bool TryExecute(IncidentParms parms)
+		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			IntVec3 root = default(IntVec3);
+			bool result;
 			if (!this.TryFindRootCell(map, out root))
 			{
-				return false;
+				result = false;
 			}
-			Thing thing = null;
-			int randomInRange = IncidentWorker_AmbrosiaSprout.CountRange.RandomInRange;
-			int num = 0;
-			IntVec3 intVec = default(IntVec3);
-			while (num < randomInRange && CellFinder.TryRandomClosewalkCellNear(root, map, 6, out intVec, (Predicate<IntVec3>)((IntVec3 x) => this.CanSpawnAt(x, map))))
+			else
 			{
-				Plant plant = intVec.GetPlant(map);
-				if (plant != null)
+				Thing thing = null;
+				int randomInRange = IncidentWorker_AmbrosiaSprout.CountRange.RandomInRange;
+				int num = 0;
+				IntVec3 intVec = default(IntVec3);
+				while (num < randomInRange && CellFinder.TryRandomClosewalkCellNear(root, map, 6, out intVec, (Predicate<IntVec3>)((IntVec3 x) => this.CanSpawnAt(x, map))))
 				{
-					plant.Destroy(DestroyMode.Vanish);
+					Plant plant = intVec.GetPlant(map);
+					if (plant != null)
+					{
+						plant.Destroy(DestroyMode.Vanish);
+					}
+					Thing thing2 = GenSpawn.Spawn(ThingDefOf.PlantAmbrosia, intVec, map);
+					if (thing == null)
+					{
+						thing = thing2;
+					}
+					num++;
 				}
-				Thing thing2 = GenSpawn.Spawn(ThingDefOf.PlantAmbrosia, intVec, map);
 				if (thing == null)
 				{
-					thing = thing2;
+					result = false;
 				}
-				num++;
+				else
+				{
+					base.SendStandardLetter(thing);
+					result = true;
+				}
 			}
-			if (thing == null)
-			{
-				return false;
-			}
-			base.SendStandardLetter(thing);
-			return true;
+			return result;
 		}
 
 		private bool TryFindRootCell(Map map, out IntVec3 cell)
@@ -68,24 +77,35 @@ namespace RimWorld
 
 		private bool CanSpawnAt(IntVec3 c, Map map)
 		{
-			if (c.Standable(map) && !c.Fogged(map) && !(map.fertilityGrid.FertilityAt(c) < ThingDefOf.PlantAmbrosia.plant.fertilityMin) && c.GetRoom(map, RegionType.Set_Passable).PsychologicallyOutdoors && c.GetEdifice(map) == null && GenPlant.GrowthSeasonNow(c, map))
+			bool result;
+			if (!c.Standable(map) || c.Fogged(map) || map.fertilityGrid.FertilityAt(c) < ThingDefOf.PlantAmbrosia.plant.fertilityMin || !c.GetRoom(map, RegionType.Set_Passable).PsychologicallyOutdoors || c.GetEdifice(map) != null || !GenPlant.GrowthSeasonNow(c, map))
+			{
+				result = false;
+			}
+			else
 			{
 				Plant plant = c.GetPlant(map);
 				if (plant != null && plant.def.plant.growDays > 10.0)
 				{
-					return false;
+					result = false;
 				}
-				List<Thing> thingList = c.GetThingList(map);
-				for (int i = 0; i < thingList.Count; i++)
+				else
 				{
-					if (thingList[i].def == ThingDefOf.PlantAmbrosia)
+					List<Thing> thingList = c.GetThingList(map);
+					for (int i = 0; i < thingList.Count; i++)
 					{
-						return false;
+						if (thingList[i].def == ThingDefOf.PlantAmbrosia)
+							goto IL_00c0;
 					}
+					result = true;
 				}
-				return true;
 			}
-			return false;
+			goto IL_00df;
+			IL_00c0:
+			result = false;
+			goto IL_00df;
+			IL_00df:
+			return result;
 		}
 	}
 }

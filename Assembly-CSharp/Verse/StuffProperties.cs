@@ -6,45 +6,55 @@ namespace Verse
 {
 	public class StuffProperties
 	{
-		public string stuffAdjective;
+		public string stuffAdjective = (string)null;
 
 		public float commonality = 1f;
 
 		public List<StuffCategoryDef> categories = new List<StuffCategoryDef>();
 
-		public bool smeltable;
+		public bool smeltable = false;
 
-		public List<StatModifier> statOffsets;
+		public List<StatModifier> statOffsets = null;
 
-		public List<StatModifier> statFactors;
+		public List<StatModifier> statFactors = null;
 
 		public Color color = new Color(0.8f, 0.8f, 0.8f);
 
-		public EffecterDef constructEffect;
+		public EffecterDef constructEffect = null;
 
 		public StuffAppearanceDef appearance = StuffAppearanceDefOf.Smooth;
 
-		public bool allowColorGenerators;
+		public bool allowColorGenerators = false;
 
-		public SoundDef soundImpactStuff;
+		public SoundDef soundImpactStuff = null;
 
-		public SoundDef soundMeleeHitSharp;
+		public SoundDef soundMeleeHitSharp = null;
 
-		public SoundDef soundMeleeHitBlunt;
+		public SoundDef soundMeleeHitBlunt = null;
 
 		public bool CanMake(ThingDef t)
 		{
-			for (int i = 0; i < t.stuffCategories.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				for (int j = 0; j < this.categories.Count; j++)
+				if (num < t.stuffCategories.Count)
 				{
-					if (t.stuffCategories[i] == this.categories[j])
+					for (int i = 0; i < this.categories.Count; i++)
 					{
-						return true;
+						if (t.stuffCategories[num] == this.categories[i])
+							goto IL_002e;
 					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
+				IL_002e:
+				result = true;
+				break;
 			}
-			return false;
+			return result;
 		}
 	}
 }

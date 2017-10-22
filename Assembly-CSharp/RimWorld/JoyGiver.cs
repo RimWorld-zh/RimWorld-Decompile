@@ -17,21 +17,26 @@ namespace RimWorld
 
 		protected virtual List<Thing> GetSearchSet(Pawn pawn)
 		{
+			List<Thing> result;
 			if (this.def.thingDefs == null)
 			{
 				JoyGiver.tmpCandidates.Clear();
-				return JoyGiver.tmpCandidates;
+				result = JoyGiver.tmpCandidates;
 			}
-			if (this.def.thingDefs.Count == 1)
+			else if (this.def.thingDefs.Count == 1)
 			{
-				return pawn.Map.listerThings.ThingsOfDef(this.def.thingDefs[0]);
+				result = pawn.Map.listerThings.ThingsOfDef(this.def.thingDefs[0]);
 			}
-			JoyGiver.tmpCandidates.Clear();
-			for (int i = 0; i < this.def.thingDefs.Count; i++)
+			else
 			{
-				JoyGiver.tmpCandidates.AddRange(pawn.Map.listerThings.ThingsOfDef(this.def.thingDefs[i]));
+				JoyGiver.tmpCandidates.Clear();
+				for (int i = 0; i < this.def.thingDefs.Count; i++)
+				{
+					JoyGiver.tmpCandidates.AddRange(pawn.Map.listerThings.ThingsOfDef(this.def.thingDefs[i]));
+				}
+				result = JoyGiver.tmpCandidates;
 			}
-			return JoyGiver.tmpCandidates;
+			return result;
 		}
 
 		public abstract Job TryGiveJob(Pawn pawn);
@@ -48,14 +53,24 @@ namespace RimWorld
 
 		public PawnCapacityDef MissingRequiredCapacity(Pawn pawn)
 		{
-			for (int i = 0; i < this.def.requiredCapacities.Count; i++)
+			int num = 0;
+			PawnCapacityDef result;
+			while (true)
 			{
-				if (!pawn.health.capacities.CapableOf(this.def.requiredCapacities[i]))
+				if (num < this.def.requiredCapacities.Count)
 				{
-					return this.def.requiredCapacities[i];
+					if (!pawn.health.capacities.CapableOf(this.def.requiredCapacities[num]))
+					{
+						result = this.def.requiredCapacities[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 	}
 }

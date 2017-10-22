@@ -75,97 +75,238 @@ namespace Verse
 		public static Plant GetPlant(this IntVec3 c, Map map)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
-			for (int i = 0; i < list.Count; i++)
+			int num = 0;
+			Plant result;
+			while (true)
 			{
-				if (list[i].def.category == ThingCategory.Plant)
+				if (num < list.Count)
 				{
-					return (Plant)list[i];
+					if (list[num].def.category == ThingCategory.Plant)
+					{
+						result = (Plant)list[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public static Thing GetRoofHolderOrImpassable(this IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
 			int num = 0;
-			while (num < thingList.Count)
+			Thing result;
+			while (true)
 			{
-				if (!thingList[num].def.holdsRoof && thingList[num].def.passability != Traversability.Impassable)
+				if (num < thingList.Count)
 				{
-					num++;
-					continue;
+					if (!thingList[num].def.holdsRoof && thingList[num].def.passability != Traversability.Impassable)
+					{
+						num++;
+						continue;
+					}
+					result = thingList[num];
 				}
-				return thingList[num];
+				else
+				{
+					result = null;
+				}
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public static Thing GetFirstThing(this IntVec3 c, Map map, ThingDef def)
 		{
 			List<Thing> thingList = c.GetThingList(map);
-			for (int i = 0; i < thingList.Count; i++)
+			int num = 0;
+			Thing result;
+			while (true)
 			{
-				if (thingList[i].def == def)
+				if (num < thingList.Count)
 				{
-					return thingList[i];
+					if (thingList[num].def == def)
+					{
+						result = thingList[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public static Thing GetFirstHaulable(this IntVec3 c, Map map)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
-			for (int i = 0; i < list.Count; i++)
+			int num = 0;
+			Thing result;
+			while (true)
 			{
-				if (list[i].def.designateHaulable)
+				if (num < list.Count)
 				{
-					return list[i];
+					if (list[num].def.designateHaulable)
+					{
+						result = list[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public static Thing GetFirstItem(this IntVec3 c, Map map)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
-			for (int i = 0; i < list.Count; i++)
+			int num = 0;
+			Thing result;
+			while (true)
 			{
-				if (list[i].def.category == ThingCategory.Item)
+				if (num < list.Count)
 				{
-					return list[i];
+					if (list[num].def.category == ThingCategory.Item)
+					{
+						result = list[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public static Building GetFirstBuilding(this IntVec3 c, Map map)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
-			for (int i = 0; i < list.Count; i++)
+			int num = 0;
+			Building result;
+			while (true)
 			{
-				Building building = list[i] as Building;
-				if (building != null)
+				if (num < list.Count)
 				{
-					return building;
+					Building building = list[num] as Building;
+					if (building != null)
+					{
+						result = building;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public static Pawn GetFirstPawn(this IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
-			for (int i = 0; i < thingList.Count; i++)
+			int num = 0;
+			Pawn result;
+			while (true)
 			{
-				Pawn pawn = thingList[i] as Pawn;
-				if (pawn != null)
+				if (num < thingList.Count)
 				{
-					return pawn;
+					Pawn pawn = thingList[num] as Pawn;
+					if (pawn != null)
+					{
+						result = pawn;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
+		}
+
+		public static Mineable GetFirstMineable(this IntVec3 c, Map map)
+		{
+			List<Thing> thingList = c.GetThingList(map);
+			int num = 0;
+			Mineable result;
+			while (true)
+			{
+				if (num < thingList.Count)
+				{
+					Mineable mineable = thingList[num] as Mineable;
+					if (mineable != null)
+					{
+						result = mineable;
+						break;
+					}
+					num++;
+					continue;
+				}
+				result = null;
+				break;
+			}
+			return result;
+		}
+
+		public static Blight GetFirstBlight(this IntVec3 c, Map map)
+		{
+			List<Thing> thingList = c.GetThingList(map);
+			int num = 0;
+			Blight result;
+			while (true)
+			{
+				if (num < thingList.Count)
+				{
+					Blight blight = thingList[num] as Blight;
+					if (blight != null)
+					{
+						result = blight;
+						break;
+					}
+					num++;
+					continue;
+				}
+				result = null;
+				break;
+			}
+			return result;
+		}
+
+		public static Skyfaller GetFirstSkyfaller(this IntVec3 c, Map map)
+		{
+			List<Thing> thingList = c.GetThingList(map);
+			int num = 0;
+			Skyfaller result;
+			while (true)
+			{
+				if (num < thingList.Count)
+				{
+					Skyfaller skyfaller = thingList[num] as Skyfaller;
+					if (skyfaller != null)
+					{
+						result = skyfaller;
+						break;
+					}
+					num++;
+					continue;
+				}
+				result = null;
+				break;
+			}
+			return result;
 		}
 
 		public static IPlantToGrowSettable GetPlantToGrowSettable(this IntVec3 c, Map map)
@@ -181,28 +322,48 @@ namespace Verse
 		public static Building GetTransmitter(this IntVec3 c, Map map)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
-			for (int i = 0; i < list.Count; i++)
+			int num = 0;
+			Building result;
+			while (true)
 			{
-				if (list[i].def.EverTransmitsPower)
+				if (num < list.Count)
 				{
-					return (Building)list[i];
+					if (list[num].def.EverTransmitsPower)
+					{
+						result = (Building)list[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public static Building_Door GetDoor(this IntVec3 c, Map map)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
-			for (int i = 0; i < list.Count; i++)
+			int num = 0;
+			Building_Door result;
+			while (true)
 			{
-				Building_Door building_Door = list[i] as Building_Door;
-				if (building_Door != null)
+				if (num < list.Count)
 				{
-					return building_Door;
+					Building_Door building_Door = list[num] as Building_Door;
+					if (building_Door != null)
+					{
+						result = building_Door;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public static Building GetEdifice(this IntVec3 c, Map map)
@@ -215,55 +376,81 @@ namespace Verse
 			return map.coverGrid[c];
 		}
 
-		public static Thing GetGas(this IntVec3 c, Map map)
+		public static Gas GetGas(this IntVec3 c, Map map)
 		{
-			List<Thing> list = map.thingGrid.ThingsListAt(c);
-			for (int i = 0; i < list.Count; i++)
+			List<Thing> thingList = c.GetThingList(map);
+			int num = 0;
+			Gas result;
+			while (true)
 			{
-				if (list[i].def.category == ThingCategory.Gas)
+				if (num < thingList.Count)
 				{
-					return list[i];
+					if (thingList[num].def.category == ThingCategory.Gas)
+					{
+						result = (Gas)thingList[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public static bool IsInPrisonCell(this IntVec3 c, Map map)
 		{
 			Room roomOrAdjacent = c.GetRoomOrAdjacent(map, RegionType.Set_Passable);
+			bool result;
 			if (roomOrAdjacent != null)
 			{
-				return roomOrAdjacent.isPrisonCell;
+				result = roomOrAdjacent.isPrisonCell;
 			}
-			Log.Error("Checking prison cell status of " + c + " which is not in or adjacent to a room.");
-			return false;
+			else
+			{
+				Log.Error("Checking prison cell status of " + c + " which is not in or adjacent to a room.");
+				result = false;
+			}
+			return result;
 		}
 
 		public static bool UsesOutdoorTemperature(this IntVec3 c, Map map)
 		{
 			Room room = c.GetRoom(map, RegionType.Set_All);
+			bool result;
 			if (room != null)
 			{
-				return room.UsesOutdoorTemperature;
+				result = room.UsesOutdoorTemperature;
 			}
-			Building edifice = c.GetEdifice(map);
-			if (edifice != null)
+			else
 			{
-				IntVec3[] array = GenAdj.CellsAdjacent8Way(edifice).ToArray();
-				for (int i = 0; i < array.Length; i++)
+				Building edifice = c.GetEdifice(map);
+				if (edifice != null)
 				{
-					if (array[i].InBounds(map))
+					IntVec3[] array = GenAdj.CellsAdjacent8Way(edifice).ToArray();
+					for (int i = 0; i < array.Length; i++)
 					{
-						room = array[i].GetRoom(map, RegionType.Set_All);
-						if (room != null && room.UsesOutdoorTemperature)
+						if (array[i].InBounds(map))
 						{
-							return true;
+							room = array[i].GetRoom(map, RegionType.Set_All);
+							if (room != null && room.UsesOutdoorTemperature)
+								goto IL_0081;
 						}
 					}
+					result = false;
 				}
-				return false;
+				else
+				{
+					result = false;
+				}
 			}
-			return false;
+			goto IL_00a8;
+			IL_0081:
+			result = true;
+			goto IL_00a8;
+			IL_00a8:
+			return result;
 		}
 	}
 }

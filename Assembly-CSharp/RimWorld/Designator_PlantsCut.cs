@@ -18,31 +18,29 @@ namespace RimWorld
 			base.designationDef = DesignationDefOf.CutPlant;
 		}
 
-		public override Texture2D IconReverseDesignating(Thing t)
+		public override Texture2D IconReverseDesignating(Thing t, out float angle)
 		{
+			Texture2D result;
 			if (!t.def.plant.IsTree)
 			{
-				return base.IconReverseDesignating(t);
+				result = base.IconReverseDesignating(t, out angle);
 			}
-			return TexCommand.TreeChop;
+			else
+			{
+				angle = 0f;
+				result = TexCommand.TreeChop;
+			}
+			return result;
 		}
 
 		public override string LabelCapReverseDesignating(Thing t)
 		{
-			if (!t.def.plant.IsTree)
-			{
-				return base.LabelCapReverseDesignating(t);
-			}
-			return "DesignatorHarvestWood".Translate();
+			return t.def.plant.IsTree ? "DesignatorHarvestWood".Translate() : base.LabelCapReverseDesignating(t);
 		}
 
 		public override string DescReverseDesignating(Thing t)
 		{
-			if (!t.def.plant.IsTree)
-			{
-				return base.DescReverseDesignating(t);
-			}
-			return "DesignatorHarvestWoodDesc".Translate();
+			return t.def.plant.IsTree ? "DesignatorHarvestWoodDesc".Translate() : base.DescReverseDesignating(t);
 		}
 	}
 }

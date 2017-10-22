@@ -19,22 +19,13 @@ namespace Verse
 		{
 			if (typeof(UnityEngine.Object).IsAssignableFrom(typeof(T)))
 			{
-				Dictionary<string, T>.ValueCollection.Enumerator enumerator = this.contentList.Values.GetEnumerator();
-				try
+				foreach (T value in this.contentList.Values)
 				{
-					while (enumerator.MoveNext())
+					T localObj = value;
+					LongEventHandler.ExecuteWhenFinished((Action)delegate
 					{
-						T current = enumerator.Current;
-						T localObj = current;
-						LongEventHandler.ExecuteWhenFinished((Action)delegate
-						{
-							UnityEngine.Object.Destroy((UnityEngine.Object)(object)localObj);
-						});
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+						UnityEngine.Object.Destroy((UnityEngine.Object)(object)localObj);
+					});
 				}
 			}
 			this.contentList.Clear();
@@ -57,32 +48,31 @@ namespace Verse
 
 		public T Get(string path)
 		{
-			T result = default(T);
-			if (this.contentList.TryGetValue(path, out result))
-			{
-				return result;
-			}
-			return (T)null;
+			T val = default(T);
+			return (!this.contentList.TryGetValue(path, out val)) ? ((T)null) : val;
 		}
 
 		public IEnumerable<T> GetAllUnderPath(string pathRoot)
 		{
-			Dictionary<string, T>.Enumerator enumerator = this.contentList.GetEnumerator();
-			try
+			using (Dictionary<string, T>.Enumerator enumerator = this.contentList.GetEnumerator())
 			{
-				while (enumerator.MoveNext())
+				KeyValuePair<string, T> kvp;
+				while (true)
 				{
-					KeyValuePair<string, T> kvp = enumerator.Current;
-					if (kvp.Key.StartsWith(pathRoot))
+					if (enumerator.MoveNext())
 					{
-						yield return kvp.Value;
+						kvp = enumerator.Current;
+						if (kvp.Key.StartsWith(pathRoot))
+							break;
+						continue;
 					}
+					yield break;
 				}
+				yield return kvp.Value;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
+			IL_00da:
+			/*Error near IL_00db: Unexpected return in MoveNext()*/;
 		}
 	}
 }

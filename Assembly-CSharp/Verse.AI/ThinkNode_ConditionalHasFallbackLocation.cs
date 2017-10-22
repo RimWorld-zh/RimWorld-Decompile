@@ -1,14 +1,10 @@
 namespace Verse.AI
 {
-	public class ThinkNode_ConditionalHasFallbackLocation : ThinkNode_Priority
+	public class ThinkNode_ConditionalHasFallbackLocation : ThinkNode_Conditional
 	{
-		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
+		protected override bool Satisfied(Pawn pawn)
 		{
-			if (pawn.mindState.duty != null && pawn.mindState.duty.focusSecond.IsValid)
-			{
-				return base.TryIssueJobPackage(pawn, jobParams);
-			}
-			return ThinkResult.NoJob;
+			return pawn.mindState.duty != null && pawn.mindState.duty.focusSecond.IsValid;
 		}
 	}
 }

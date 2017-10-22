@@ -22,10 +22,10 @@ namespace RimWorld
 
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
-			if (tag == "PlayerStartsWith")
-			{
-				yield return GenLabel.ThingLabel(base.thingDef, base.stuff, base.count).CapitalizeFirst();
-			}
+			if (!(tag == "PlayerStartsWith"))
+				yield break;
+			yield return GenLabel.ThingLabel(base.thingDef, base.stuff, base.count).CapitalizeFirst();
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override IEnumerable<Thing> PlayerStartingThings()
@@ -37,6 +37,7 @@ namespace RimWorld
 			}
 			t.stackCount = base.count;
 			yield return t;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

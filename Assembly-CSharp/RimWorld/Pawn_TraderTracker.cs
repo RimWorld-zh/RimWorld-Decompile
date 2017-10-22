@@ -28,35 +28,48 @@ namespace RimWorld
 						if (!this.pawn.inventory.NotForSale(t))
 						{
 							yield return t;
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
 				}
-				if (lord != null)
+				if (lord == null)
+					yield break;
+				int j = 0;
+				Pawn p;
+				while (true)
 				{
-					for (int j = 0; j < lord.ownedPawns.Count; j++)
+					if (j < lord.ownedPawns.Count)
 					{
-						Pawn p = lord.ownedPawns[j];
+						p = lord.ownedPawns[j];
 						switch (p.GetTraderCaravanRole())
 						{
 						case TraderCaravanRole.Carrier:
 						{
-							for (int i = 0; i < p.inventory.innerContainer.Count; i++)
+							int i = 0;
+							if (i < p.inventory.innerContainer.Count)
 							{
 								yield return p.inventory.innerContainer[i];
+								/*Error: Unable to find new state assignment for yield return*/;
 							}
 							break;
 						}
 						case TraderCaravanRole.Chattel:
 						{
 							if (!this.soldPrisoners.Contains(p))
-							{
-								yield return (Thing)p;
-							}
+								goto end_IL_023d;
 							break;
 						}
 						}
+						j++;
+						continue;
 					}
+					yield break;
+					continue;
+					end_IL_023d:
+					break;
 				}
+				yield return (Thing)p;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -102,21 +115,34 @@ namespace RimWorld
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
 			IEnumerable<Thing> items = from x in this.pawn.Map.listerThings.AllThings
-			where TradeUtility.EverTradeable(x.def) && x.def.category == ThingCategory.Item && !x.Position.Fogged(x.Map) && (((Area)((_003CColonyThingsWillingToBuy_003Ec__IteratorE5)/*Error near IL_0042: stateMachine*/)._003C_003Ef__this.pawn.Map.areaManager.Home)[x.Position] || x.IsInAnyStorage()) && TradeUtility.TradeableNow(x) && ((_003CColonyThingsWillingToBuy_003Ec__IteratorE5)/*Error near IL_0042: stateMachine*/)._003C_003Ef__this.ReachableForTrade(x)
+			where TradeUtility.EverTradeable(x.def) && x.def.category == ThingCategory.Item && !x.Position.Fogged(x.Map) && (((Area)((_003CColonyThingsWillingToBuy_003Ec__Iterator1)/*Error near IL_0043: stateMachine*/)._0024this.pawn.Map.areaManager.Home)[x.Position] || x.IsInAnyStorage()) && TradeUtility.TradeableNow(x) && ((_003CColonyThingsWillingToBuy_003Ec__Iterator1)/*Error near IL_0043: stateMachine*/)._0024this.ReachableForTrade(x)
 			select x;
-			foreach (Thing item in items)
+			using (IEnumerator<Thing> enumerator = items.GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					Thing t = enumerator.Current;
+					yield return t;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			if (this.pawn.GetLord() != null)
 			{
-				foreach (Pawn item2 in from x in TradeUtility.AllSellableColonyPawns(this.pawn.Map)
-				where !x.Downed && ((_003CColonyThingsWillingToBuy_003Ec__IteratorE5)/*Error near IL_0113: stateMachine*/)._003C_003Ef__this.ReachableForTrade(x)
-				select x)
+				using (IEnumerator<Pawn> enumerator2 = (from x in TradeUtility.AllSellableColonyPawns(this.pawn.Map)
+				where !x.Downed && ((_003CColonyThingsWillingToBuy_003Ec__Iterator1)/*Error near IL_0123: stateMachine*/)._0024this.ReachableForTrade(x)
+				select x).GetEnumerator())
 				{
-					yield return (Thing)item2;
+					if (enumerator2.MoveNext())
+					{
+						Pawn p = enumerator2.Current;
+						yield return (Thing)p;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
+			yield break;
+			IL_01c1:
+			/*Error near IL_01c2: Unexpected return in MoveNext()*/;
 		}
 
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
@@ -246,11 +272,7 @@ namespace RimWorld
 
 		private bool ReachableForTrade(Thing thing)
 		{
-			if (this.pawn.Map != thing.Map)
-			{
-				return false;
-			}
-			return this.pawn.Map.reachability.CanReach(this.pawn.Position, thing, PathEndMode.Touch, TraverseMode.PassDoors, Danger.Some);
+			return this.pawn.Map == thing.Map && this.pawn.Map.reachability.CanReach(this.pawn.Position, thing, PathEndMode.Touch, TraverseMode.PassDoors, Danger.Some);
 		}
 	}
 }

@@ -4,15 +4,15 @@ namespace Verse
 {
 	public class PawnLeaner
 	{
-		private const float LeanOffsetPctChangeRate = 0.075f;
-
-		private const float LeanOffsetDistanceMultiplier = 0.5f;
-
 		private Pawn pawn;
 
 		private IntVec3 shootSourceOffset = new IntVec3(0, 0, 0);
 
-		private float leanOffsetCurPct;
+		private float leanOffsetCurPct = 0f;
+
+		private const float LeanOffsetPctChangeRate = 0.075f;
+
+		private const float LeanOffsetDistanceMultiplier = 0.5f;
 
 		public Vector3 LeanOffset
 		{
@@ -50,15 +50,7 @@ namespace Verse
 		public bool ShouldLean()
 		{
 			Stance_Busy stance_Busy = this.pawn.stances.curStance as Stance_Busy;
-			if (stance_Busy != null)
-			{
-				if (this.shootSourceOffset == new IntVec3(0, 0, 0))
-				{
-					return false;
-				}
-				return true;
-			}
-			return false;
+			return (byte)((stance_Busy != null) ? ((!(this.shootSourceOffset == new IntVec3(0, 0, 0))) ? 1 : 0) : 0) != 0;
 		}
 
 		public void Notify_WarmingCastAlongLine(ShootLine newShootLine, IntVec3 ShootPosition)

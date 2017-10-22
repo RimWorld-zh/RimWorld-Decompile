@@ -14,7 +14,7 @@ namespace RimWorld.BaseGen
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
-			Faction faction = rp.faction ?? Find.FactionManager.RandomEnemyFaction(false, false, true);
+			Faction faction = rp.faction ?? Find.FactionManager.RandomEnemyFaction(false, false, true, TechLevel.Undefined);
 			int? edgeDefenseGuardsCount = rp.edgeDefenseGuardsCount;
 			int num = edgeDefenseGuardsCount.HasValue ? edgeDefenseGuardsCount.Value : 0;
 			int width;
@@ -91,7 +91,7 @@ namespace RimWorld.BaseGen
 				Lord singlePawnLord = rp.singlePawnLord ?? LordMaker.MakeNewLord(faction, new LordJob_DefendBase(faction, rp.rect.CenterCell), map, null);
 				for (int num4 = 0; num4 < num; num4++)
 				{
-					PawnGenerationRequest value = new PawnGenerationRequest(faction.RandomPawnKind(), faction, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, true, 1f, false, true, true, false, false, null, default(float?), default(float?), default(Gender?), default(float?), (string)null);
+					PawnGenerationRequest value = new PawnGenerationRequest(faction.RandomPawnKind(), faction, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, true, 1f, false, true, true, false, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
 					ResolveParams resolveParams = rp;
 					resolveParams.faction = faction;
 					resolveParams.singlePawnLord = singlePawnLord;
@@ -100,15 +100,25 @@ namespace RimWorld.BaseGen
 					obj = (resolveParams.singlePawnSpawnCellExtraPredicate = (Predicate<IntVec3>)delegate(IntVec3 x)
 					{
 						CellRect cellRect = rp.rect;
-						for (int num8 = 0; num8 < width; num8++)
+						int num8 = 0;
+						bool result;
+						while (true)
 						{
-							if (cellRect.IsOnEdge(x))
+							if (num8 < width)
 							{
-								return true;
+								if (cellRect.IsOnEdge(x))
+								{
+									result = true;
+									break;
+								}
+								cellRect = cellRect.ContractedBy(1);
+								num8++;
+								continue;
 							}
-							cellRect = cellRect.ContractedBy(1);
+							result = true;
+							break;
 						}
-						return true;
+						return result;
 					});
 					BaseGen.symbolStack.Push("pawn", resolveParams);
 				}

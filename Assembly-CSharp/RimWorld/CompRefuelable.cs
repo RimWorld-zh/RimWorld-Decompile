@@ -9,15 +9,15 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class CompRefuelable : ThingComp
 	{
-		public const string RefueledSignal = "Refueled";
-
-		public const string RanOutOfFuelSignal = "RanOutOfFuel";
-
 		private float fuel;
 
 		private float configuredTargetFuelLevel = -1f;
 
 		private CompFlickable flickComp;
+
+		public const string RefueledSignal = "Refueled";
+
+		public const string RanOutOfFuelSignal = "RanOutOfFuel";
 
 		private static readonly Texture2D SetTargetFuelLevelCommand = ContentFinder<Texture2D>.Get("UI/Commands/SetTargetFuelLevel", true);
 
@@ -31,15 +31,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.configuredTargetFuelLevel >= 0.0)
-				{
-					return this.configuredTargetFuelLevel;
-				}
-				if (this.Props.targetFuelLevelConfigurable)
-				{
-					return this.Props.initialConfigurableTargetFuelLevel;
-				}
-				return this.Props.fuelCapacity;
+				return (!(this.configuredTargetFuelLevel >= 0.0)) ? ((!this.Props.targetFuelLevelConfigurable) ? this.Props.fuelCapacity : this.Props.initialConfigurableTargetFuelLevel) : this.configuredTargetFuelLevel;
 			}
 			set
 			{
@@ -218,8 +210,12 @@ namespace RimWorld
 
 		public void Refuel(Thing fuelThing)
 		{
-			this.Refuel((float)fuelThing.stackCount);
-			fuelThing.Destroy(DestroyMode.Vanish);
+			int num = Mathf.Min(fuelThing.stackCount, Mathf.CeilToInt(this.Props.fuelCapacity - this.fuel));
+			if (num > 0)
+			{
+				this.Refuel((float)num);
+				fuelThing.SplitOff(num).Destroy(DestroyMode.Vanish);
+			}
 		}
 
 		public void Refuel(float amount)
@@ -254,6 +250,7 @@ namespace RimWorld
 					defaultDesc = "CommandSetTargetFuelLevelDesc".Translate(),
 					icon = CompRefuelable.SetTargetFuelLevelCommand
 				};
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.Props.showFuelGizmo && Find.Selector.SingleSelectedThing == base.parent)
 			{
@@ -261,28 +258,20 @@ namespace RimWorld
 				{
 					refuelable = this
 				};
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (Prefs.DevMode)
+			if (!Prefs.DevMode)
+				yield break;
+			yield return (Gizmo)new Command_Action
 			{
-				yield return (Gizmo)new Command_Action
+				defaultLabel = "Debug: Set fuel to 0.1",
+				action = (Action)delegate
 				{
-					defaultLabel = "Debug: Set fuel to 0.1",
-					action = (Action)delegate
-					{
-						((_003CCompGetGizmosExtra_003Ec__Iterator16A)/*Error near IL_013e: stateMachine*/)._003C_003Ef__this.fuel = 0.1f;
-						((_003CCompGetGizmosExtra_003Ec__Iterator16A)/*Error near IL_013e: stateMachine*/)._003C_003Ef__this.parent.BroadcastCompSignal("Refueled");
-					}
-				};
-				yield return (Gizmo)new Command_Action
-				{
-					defaultLabel = "Debug: Set fuel to max",
-					action = (Action)delegate
-					{
-						((_003CCompGetGizmosExtra_003Ec__Iterator16A)/*Error near IL_0188: stateMachine*/)._003C_003Ef__this.fuel = ((_003CCompGetGizmosExtra_003Ec__Iterator16A)/*Error near IL_0188: stateMachine*/)._003C_003Ef__this.Props.fuelCapacity;
-						((_003CCompGetGizmosExtra_003Ec__Iterator16A)/*Error near IL_0188: stateMachine*/)._003C_003Ef__this.parent.BroadcastCompSignal("Refueled");
-					}
-				};
-			}
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0154: stateMachine*/)._0024this.fuel = 0.1f;
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0154: stateMachine*/)._0024this.parent.BroadcastCompSignal("Refueled");
+				}
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

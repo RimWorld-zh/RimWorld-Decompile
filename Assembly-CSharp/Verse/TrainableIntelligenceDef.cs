@@ -2,6 +2,6 @@ namespace Verse
 {
 	public class TrainableIntelligenceDef : Def
 	{
-		public int intelligenceOrder;
+		public int intelligenceOrder = 0;
 	}
 }

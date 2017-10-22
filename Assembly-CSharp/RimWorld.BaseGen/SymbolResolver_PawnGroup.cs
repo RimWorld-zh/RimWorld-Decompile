@@ -10,17 +10,9 @@ namespace RimWorld.BaseGen
 
 		public override bool CanResolve(ResolveParams rp)
 		{
-			if (!base.CanResolve(rp))
-			{
-				return false;
-			}
-			if (!(from x in rp.rect.Cells
+			return (byte)(base.CanResolve(rp) ? ((from x in rp.rect.Cells
 			where x.Standable(BaseGen.globalSettings.map)
-			select x).Any())
-			{
-				return false;
-			}
-			return true;
+			select x).Any() ? 1 : 0) : 0) != 0;
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -31,7 +23,7 @@ namespace RimWorld.BaseGen
 			{
 				pawnGroupMakerParms = new PawnGroupMakerParms();
 				pawnGroupMakerParms.tile = map.Tile;
-				pawnGroupMakerParms.faction = Find.FactionManager.RandomEnemyFaction(false, false, true);
+				pawnGroupMakerParms.faction = Find.FactionManager.RandomEnemyFaction(false, false, true, TechLevel.Undefined);
 				pawnGroupMakerParms.points = 250f;
 			}
 			PawnGroupKindDef groupKind = rp.pawnGroupKindDef ?? PawnGroupKindDefOf.Normal;

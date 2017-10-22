@@ -13,37 +13,43 @@ namespace RimWorld
 			int transportersGroup = pawn.mindState.duty.transportersGroup;
 			TransporterUtility.GetTransportersInGroup(transportersGroup, pawn.Map, JobGiver_EnterTransporter.tmpTransporters);
 			CompTransporter compTransporter = this.FindMyTransporter(JobGiver_EnterTransporter.tmpTransporters, pawn);
-			if (compTransporter != null && pawn.CanReserveAndReach((Thing)compTransporter.parent, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false))
-			{
-				return new Job(JobDefOf.EnterTransporter, (Thing)compTransporter.parent);
-			}
-			return null;
+			return (compTransporter != null && pawn.CanReserveAndReach((Thing)compTransporter.parent, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false)) ? new Job(JobDefOf.EnterTransporter, (Thing)compTransporter.parent) : null;
 		}
 
 		private CompTransporter FindMyTransporter(List<CompTransporter> transporters, Pawn me)
 		{
-			for (int i = 0; i < transporters.Count; i++)
+			int num = 0;
+			CompTransporter result;
+			while (true)
 			{
-				List<TransferableOneWay> leftToLoad = transporters[i].leftToLoad;
-				if (leftToLoad != null)
+				if (num < transporters.Count)
 				{
-					for (int j = 0; j < leftToLoad.Count; j++)
+					List<TransferableOneWay> leftToLoad = transporters[num].leftToLoad;
+					if (leftToLoad != null)
 					{
-						if (leftToLoad[j].AnyThing is Pawn)
+						for (int i = 0; i < leftToLoad.Count; i++)
 						{
-							List<Thing> things = leftToLoad[j].things;
-							for (int k = 0; k < things.Count; k++)
+							if (leftToLoad[i].AnyThing is Pawn)
 							{
-								if (things[k] == me)
+								List<Thing> things = leftToLoad[i].things;
+								for (int j = 0; j < things.Count; j++)
 								{
-									return transporters[i];
+									if (things[j] == me)
+										goto IL_0064;
 								}
 							}
 						}
 					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
+				IL_0064:
+				result = transporters[num];
+				break;
 			}
-			return null;
+			return result;
 		}
 	}
 }

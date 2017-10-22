@@ -34,56 +34,38 @@ namespace Verse
 			{
 				LogSimple.Message("==================Register the saveables all so we can find them later");
 			}
-			List<IExposable>.Enumerator enumerator = this.crossReferencingExposables.GetEnumerator();
-			try
+			foreach (IExposable crossReferencingExposable in this.crossReferencingExposables)
 			{
-				while (enumerator.MoveNext())
+				ILoadReferenceable loadReferenceable = crossReferencingExposable as ILoadReferenceable;
+				if (loadReferenceable != null)
 				{
-					IExposable current = enumerator.Current;
-					ILoadReferenceable loadReferenceable = current as ILoadReferenceable;
-					if (loadReferenceable != null)
+					if (DebugViewSettings.logMapLoad)
 					{
-						if (DebugViewSettings.logMapLoad)
-						{
-							LogSimple.Message("RegisterLoaded " + loadReferenceable.GetType());
-						}
-						this.loadedObjectDirectory.RegisterLoaded(loadReferenceable);
+						LogSimple.Message("RegisterLoaded " + loadReferenceable.GetType());
 					}
+					this.loadedObjectDirectory.RegisterLoaded(loadReferenceable);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			if (DebugViewSettings.logMapLoad)
 			{
 				LogSimple.Message("==================Fill all cross-references to the saveables");
 			}
-			List<IExposable>.Enumerator enumerator2 = this.crossReferencingExposables.GetEnumerator();
-			try
+			foreach (IExposable crossReferencingExposable2 in this.crossReferencingExposables)
 			{
-				while (enumerator2.MoveNext())
+				if (DebugViewSettings.logMapLoad)
 				{
-					IExposable current2 = enumerator2.Current;
-					if (DebugViewSettings.logMapLoad)
-					{
-						LogSimple.Message("ResolvingCrossRefs ExposeData " + current2.GetType());
-					}
-					try
-					{
-						Scribe.loader.curParent = current2;
-						Scribe.loader.curPathRelToParent = (string)null;
-						current2.ExposeData();
-					}
-					catch (Exception arg)
-					{
-						Log.Error("Could not resolve cross refs: " + arg);
-					}
+					LogSimple.Message("ResolvingCrossRefs ExposeData " + crossReferencingExposable2.GetType());
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
+				try
+				{
+					Scribe.loader.curParent = crossReferencingExposable2;
+					Scribe.loader.curPathRelToParent = (string)null;
+					crossReferencingExposable2.ExposeData();
+				}
+				catch (Exception arg)
+				{
+					Log.Error("Could not resolve cross refs: " + arg);
+				}
 			}
 			Scribe.loader.curParent = null;
 			Scribe.loader.curPathRelToParent = (string)null;

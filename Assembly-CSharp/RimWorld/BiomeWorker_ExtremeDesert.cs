@@ -6,15 +6,7 @@ namespace RimWorld
 	{
 		public override float GetScore(Tile tile)
 		{
-			if (tile.WaterCovered)
-			{
-				return -100f;
-			}
-			if (tile.rainfall >= 340.0)
-			{
-				return 0f;
-			}
-			return (float)(tile.temperature * 2.7000000476837158 - 13.0 - tile.rainfall * 0.14000000059604645);
+			return (float)((!tile.WaterCovered) ? ((!(tile.rainfall >= 340.0)) ? (tile.temperature * 2.7000000476837158 - 13.0 - tile.rainfall * 0.14000000059604645) : 0.0) : -100.0);
 		}
 	}
 }

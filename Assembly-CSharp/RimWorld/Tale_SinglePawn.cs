@@ -1,4 +1,3 @@
-using RimWorld.Planet;
 using System.Collections.Generic;
 using Verse;
 using Verse.Grammar;
@@ -43,16 +42,6 @@ namespace RimWorld
 			return base.Concerns(th) || this.pawnData.pawn == th;
 		}
 
-		public override void PostRemove()
-		{
-			base.PostRemove();
-			WorldPawns worldPawns = Find.WorldPawns;
-			if (worldPawns.Contains(this.pawnData.pawn))
-			{
-				worldPawns.DiscardIfUnimportant(this.pawnData.pawn);
-			}
-		}
-
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -61,14 +50,27 @@ namespace RimWorld
 
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
-			foreach (Rule rule in this.pawnData.GetRules("anyPawn"))
+			using (IEnumerator<Rule> enumerator = this.pawnData.GetRules("anyPawn").GetEnumerator())
 			{
-				yield return rule;
+				if (enumerator.MoveNext())
+				{
+					Rule r2 = enumerator.Current;
+					yield return r2;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			foreach (Rule rule2 in this.pawnData.GetRules("pawn"))
+			using (IEnumerator<Rule> enumerator2 = this.pawnData.GetRules("pawn").GetEnumerator())
 			{
-				yield return rule2;
+				if (enumerator2.MoveNext())
+				{
+					Rule r = enumerator2.Current;
+					yield return r;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_0165:
+			/*Error near IL_0166: Unexpected return in MoveNext()*/;
 		}
 
 		public override void GenerateTestData()

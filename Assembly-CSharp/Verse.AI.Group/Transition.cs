@@ -14,7 +14,7 @@ namespace Verse.AI.Group
 
 		public List<TransitionAction> postActions = new List<TransitionAction>();
 
-		public bool canMoveToSameState;
+		public bool canMoveToSameState = false;
 
 		public Map Map
 		{
@@ -88,39 +88,48 @@ namespace Verse.AI.Group
 
 		public bool CheckSignal(Lord lord, TriggerSignal signal)
 		{
-			for (int i = 0; i < this.triggers.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (this.triggers[i].ActivateOn(lord, signal))
+				if (num < this.triggers.Count)
 				{
-					if (this.triggers[i].filters == null)
+					if (this.triggers[num].ActivateOn(lord, signal))
 					{
-						goto IL_0093;
-					}
-					bool flag = true;
-					int num = 0;
-					while (num < this.triggers[i].filters.Count)
-					{
-						if (this.triggers[i].filters[num].AllowActivation(lord, signal))
+						if (this.triggers[num].filters == null)
 						{
-							num++;
-							continue;
+							goto IL_009b;
 						}
-						flag = false;
-						break;
+						bool flag = true;
+						int num2 = 0;
+						while (num2 < this.triggers[num].filters.Count)
+						{
+							if (this.triggers[num].filters[num2].AllowActivation(lord, signal))
+							{
+								num2++;
+								continue;
+							}
+							flag = false;
+							break;
+						}
+						if (flag)
+							goto IL_009b;
 					}
-					if (flag)
-						goto IL_0093;
+					num++;
+					continue;
 				}
-				continue;
-				IL_0093:
+				result = false;
+				break;
+				IL_009b:
 				if (DebugViewSettings.logLordToilTransitions)
 				{
-					Log.Message("Transitioning " + this.sources + " to " + this.target + " by trigger " + this.triggers[i] + " on signal " + signal);
+					Log.Message("Transitioning " + this.sources + " to " + this.target + " by trigger " + this.triggers[num] + " on signal " + signal);
 				}
 				this.Execute(lord);
-				return true;
+				result = true;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public void Execute(Lord lord)

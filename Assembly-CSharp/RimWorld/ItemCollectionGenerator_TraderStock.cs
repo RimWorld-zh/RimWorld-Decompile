@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Verse;
@@ -7,35 +6,24 @@ namespace RimWorld
 {
 	public class ItemCollectionGenerator_TraderStock : ItemCollectionGenerator
 	{
-		protected override ItemCollectionGeneratorParams RandomTestParams
-		{
-			get
-			{
-				ItemCollectionGeneratorParams randomTestParams = base.RandomTestParams;
-				randomTestParams.traderDef = DefDatabase<TraderKindDef>.AllDefsListForReading.RandomElement();
-				randomTestParams.forTile = ((Find.VisibleMap == null) ? (-1) : Find.VisibleMap.Tile);
-				randomTestParams.forFaction = (Find.FactionManager.RandomAlliedFaction(false, false, true) ?? Find.FactionManager.RandomEnemyFaction(false, false, true));
-				return randomTestParams;
-			}
-		}
-
 		protected override void Generate(ItemCollectionGeneratorParams parms, List<Thing> outThings)
 		{
-			TraderKindDef traderDef = parms.traderDef;
-			int forTile = parms.forTile;
-			Faction forFaction = parms.forFaction;
-			for (int i = 0; i < traderDef.stockGenerators.Count; i++)
+			TraderKindDef traderKindDef = parms.traderDef ?? DefDatabase<TraderKindDef>.AllDefsListForReading.RandomElement();
+			Faction traderFaction = parms.traderFaction;
+			int? tile = parms.tile;
+			int forTile = (!tile.HasValue) ? ((Find.AnyPlayerHomeMap == null) ? ((Find.VisibleMap == null) ? (-1) : Find.VisibleMap.Tile) : Find.AnyPlayerHomeMap.Tile) : parms.tile.Value;
+			for (int i = 0; i < traderKindDef.stockGenerators.Count; i++)
 			{
-				StockGenerator stockGenerator = traderDef.stockGenerators[i];
+				StockGenerator stockGenerator = traderKindDef.stockGenerators[i];
 				foreach (Thing item in stockGenerator.GenerateThings(forTile))
 				{
 					if (item.def.tradeability != Tradeability.Stockable)
 					{
-						Log.Error(traderDef + " generated carrying " + item + " which has is not Stockable. Ignoring...");
+						Log.Error(traderKindDef + " generated carrying " + item + " which has is not Stockable. Ignoring...");
 					}
 					else
 					{
-						item.PostGeneratedForTrader(traderDef, forTile, forFaction);
+						item.PostGeneratedForTrader(traderKindDef, forTile, traderFaction);
 						outThings.Add(item);
 					}
 				}
@@ -47,23 +35,14 @@ namespace RimWorld
 			ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
 			{
 				traderDef = td,
-				forTile = -1
+				tile = new int?(-1)
 			};
 			float num = 0f;
 			for (int i = 0; i < 50; i++)
 			{
-				List<Thing>.Enumerator enumerator = base.Generate(parms).GetEnumerator();
-				try
+				foreach (Thing item in base.Generate(parms))
 				{
-					while (enumerator.MoveNext())
-					{
-						Thing current = enumerator.Current;
-						num += current.MarketValue * (float)current.stackCount;
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					num += item.MarketValue * (float)item.stackCount;
 				}
 			}
 			return (float)(num / 50.0);
@@ -77,25 +56,16 @@ namespace RimWorld
 			ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
 			{
 				traderDef = td,
-				forTile = -1
+				tile = new int?(-1)
 			};
 			stringBuilder.AppendLine("Example generated stock:\n\n");
-			List<Thing>.Enumerator enumerator = base.Generate(parms).GetEnumerator();
-			try
+			foreach (Thing item in base.Generate(parms))
 			{
-				while (enumerator.MoveNext())
-				{
-					Thing current = enumerator.Current;
-					MinifiedThing minifiedThing = current as MinifiedThing;
-					Thing thing = (minifiedThing == null) ? current : minifiedThing.InnerThing;
-					string labelCap = thing.LabelCap;
-					labelCap = labelCap + " [" + (thing.MarketValue * (float)thing.stackCount).ToString("F0") + "]";
-					stringBuilder.AppendLine(labelCap);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				MinifiedThing minifiedThing = item as MinifiedThing;
+				Thing thing = (minifiedThing == null) ? item : minifiedThing.InnerThing;
+				string labelCap = thing.LabelCap;
+				labelCap = labelCap + " [" + (thing.MarketValue * (float)thing.stackCount).ToString("F0") + "]";
+				stringBuilder.AppendLine(labelCap);
 			}
 			return stringBuilder.ToString();
 		}

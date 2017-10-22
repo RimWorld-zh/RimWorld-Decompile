@@ -17,11 +17,7 @@ namespace RimWorld
 		public override string ExplanationPart(StatRequest req)
 		{
 			float f = default(float);
-			if (this.TryGetBodySize(req, out f))
-			{
-				return "StatsReport_BodySize".Translate(f.ToString("F2")) + ": x" + f.ToStringPercent();
-			}
-			return (string)null;
+			return (!this.TryGetBodySize(req, out f)) ? null : ("StatsReport_BodySize".Translate(f.ToString("F2")) + ": x" + f.ToStringPercent());
 		}
 
 		private bool TryGetBodySize(StatRequest req, out float bodySize)

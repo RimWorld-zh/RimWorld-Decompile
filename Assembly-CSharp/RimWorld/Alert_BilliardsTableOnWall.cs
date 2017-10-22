@@ -14,28 +14,36 @@ namespace RimWorld
 		private Thing BadTable()
 		{
 			List<Map> maps = Find.Maps;
-			for (int i = 0; i < maps.Count; i++)
+			int num = 0;
+			Thing result;
+			while (true)
 			{
-				List<Thing> list = maps[i].listerThings.ThingsOfDef(ThingDefOf.BilliardsTable);
-				for (int j = 0; j < list.Count; j++)
+				List<Thing> list;
+				int i;
+				if (num < maps.Count)
 				{
-					if (list[j].Faction == Faction.OfPlayer && !JoyGiver_PlayBilliards.ThingHasStandableSpaceOnAllSides(list[j]))
+					list = maps[num].listerThings.ThingsOfDef(ThingDefOf.BilliardsTable);
+					for (i = 0; i < list.Count; i++)
 					{
-						return list[j];
+						if (list[i].Faction == Faction.OfPlayer && !JoyGiver_PlayBilliards.ThingHasStandableSpaceOnAllSides(list[i]))
+							goto IL_0055;
 					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
+				IL_0055:
+				result = list[i];
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public override AlertReport GetReport()
 		{
 			Thing thing = this.BadTable();
-			if (thing == null)
-			{
-				return false;
-			}
-			return AlertReport.CulpritIs(thing);
+			return (thing != null) ? AlertReport.CulpritIs(thing) : false;
 		}
 	}
 }

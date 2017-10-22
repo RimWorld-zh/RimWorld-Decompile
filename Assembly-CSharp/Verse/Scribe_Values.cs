@@ -20,6 +20,10 @@ namespace Verse
 				{
 					Log.Error("Using Scribe_Values with a IExposable reference " + label + ". Use Scribe_References or Scribe_Deep instead.");
 				}
+				else if (typeof(Def).IsAssignableFrom(typeof(T)))
+				{
+					Log.Error("Using Scribe_Values with a Def " + label + ". Use Scribe_Defs instead.");
+				}
 				else
 				{
 					if (!forceSave && (value != null || defaultValue == null))

@@ -8,7 +8,7 @@ namespace Verse.AI
 
 		public ThinkNode constantThinkNode;
 
-		public bool alwaysShowWeapon;
+		public bool alwaysShowWeapon = false;
 
 		public ThinkTreeDutyHook hook = ThinkTreeDutyHook.HighPriority;
 

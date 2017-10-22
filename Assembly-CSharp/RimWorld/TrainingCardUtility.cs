@@ -17,7 +17,7 @@ namespace RimWorld
 		public static void DrawTrainingCard(Rect rect, Pawn pawn)
 		{
 			GUI.BeginGroup(rect);
-			string label = "TrainableIntelligence".Translate() + ": " + pawn.RaceProps.TrainableIntelligence.GetLabel();
+			string label = "TrainableIntelligence".Translate() + ": " + pawn.RaceProps.TrainableIntelligence.label;
 			Widgets.Label(new Rect(0f, 0f, rect.width, 25f), label);
 			if (pawn.training.IsCompleted(TrainableDefOf.Obedience))
 			{
@@ -48,46 +48,51 @@ namespace RimWorld
 			bool flag = pawn.training.IsCompleted(td);
 			bool flag2 = default(bool);
 			AcceptanceReport canTrain = pawn.training.CanAssignToTrain(td, out flag2);
+			bool result;
 			if (!flag2)
 			{
-				return false;
-			}
-			Widgets.DrawHighlightIfMouseover(rect);
-			Rect rect2 = rect;
-			rect2.width -= 50f;
-			rect2.xMin += (float)((float)td.indent * 10.0);
-			Rect rect3 = rect;
-			rect3.xMin = (float)(rect3.xMax - 50.0 + 17.0);
-			if (!flag)
-			{
-				TrainingCardUtility.DoTrainableCheckbox(rect2, pawn, td, canTrain, true, false);
+				result = false;
 			}
 			else
 			{
-				Text.Anchor = TextAnchor.MiddleLeft;
-				Widgets.Label(rect2, td.LabelCap);
-				Text.Anchor = TextAnchor.UpperLeft;
-			}
-			if (flag)
-			{
-				GUI.color = Color.green;
-			}
-			Text.Anchor = TextAnchor.MiddleLeft;
-			Widgets.Label(rect3, pawn.training.GetSteps(td) + " / " + td.steps);
-			Text.Anchor = TextAnchor.UpperLeft;
-			if (DebugSettings.godMode && !pawn.training.IsCompleted(td))
-			{
-				Rect rect4 = rect3;
-				rect4.yMin = (float)(rect4.yMax - 10.0);
-				rect4.xMin = (float)(rect4.xMax - 10.0);
-				if (Widgets.ButtonText(rect4, "+", true, false, true))
+				Widgets.DrawHighlightIfMouseover(rect);
+				Rect rect2 = rect;
+				rect2.width -= 50f;
+				rect2.xMin += (float)((float)td.indent * 10.0);
+				Rect rect3 = rect;
+				rect3.xMin = (float)(rect3.xMax - 50.0 + 17.0);
+				if (!flag)
 				{
-					pawn.training.Train(td, pawn.Map.mapPawns.FreeColonistsSpawned.RandomElement());
+					TrainingCardUtility.DoTrainableCheckbox(rect2, pawn, td, canTrain, true, false);
 				}
+				else
+				{
+					Text.Anchor = TextAnchor.MiddleLeft;
+					Widgets.Label(rect2, td.LabelCap);
+					Text.Anchor = TextAnchor.UpperLeft;
+				}
+				if (flag)
+				{
+					GUI.color = Color.green;
+				}
+				Text.Anchor = TextAnchor.MiddleLeft;
+				Widgets.Label(rect3, pawn.training.GetSteps(td) + " / " + td.steps);
+				Text.Anchor = TextAnchor.UpperLeft;
+				if (DebugSettings.godMode && !pawn.training.IsCompleted(td))
+				{
+					Rect rect4 = rect3;
+					rect4.yMin = (float)(rect4.yMax - 10.0);
+					rect4.xMin = (float)(rect4.xMax - 10.0);
+					if (Widgets.ButtonText(rect4, "+", true, false, true))
+					{
+						pawn.training.Train(td, pawn.Map.mapPawns.FreeColonistsSpawned.RandomElement());
+					}
+				}
+				TrainingCardUtility.DoTrainableTooltip(rect, pawn, td, canTrain);
+				GUI.color = Color.white;
+				result = true;
 			}
-			TrainingCardUtility.DoTrainableTooltip(rect, pawn, td, canTrain);
-			GUI.color = Color.white;
-			return true;
+			return result;
 		}
 
 		public static void DoTrainableCheckbox(Rect rect, Pawn pawn, TrainableDef td, AcceptanceReport canTrain, bool drawLabel, bool doTooltip)

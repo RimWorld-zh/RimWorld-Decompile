@@ -1,8 +1,8 @@
 namespace Verse.AI
 {
-	public class ThinkNode_ConditionalMentalState : ThinkNode_Priority
+	public class ThinkNode_ConditionalMentalState : ThinkNode_Conditional
 	{
-		private MentalStateDef state;
+		public MentalStateDef state;
 
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -11,13 +11,9 @@ namespace Verse.AI
 			return thinkNode_ConditionalMentalState;
 		}
 
-		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
+		protected override bool Satisfied(Pawn pawn)
 		{
-			if (pawn.MentalStateDef != this.state)
-			{
-				return ThinkResult.NoJob;
-			}
-			return base.TryIssueJobPackage(pawn, jobParams);
+			return pawn.MentalStateDef == this.state;
 		}
 	}
 }

@@ -25,20 +25,33 @@ namespace RimWorld
 
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
-			foreach (Rule item in base.SpecialTextGenerationRules())
+			using (IEnumerator<Rule> enumerator = this._003CSpecialTextGenerationRules_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					Rule r2 = enumerator.Current;
+					yield return r2;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			foreach (Rule rule in this.defData.GetRules(base.def.defSymbol))
+			using (IEnumerator<Rule> enumerator2 = this.defData.GetRules(base.def.defSymbol).GetEnumerator())
 			{
-				yield return rule;
+				if (enumerator2.MoveNext())
+				{
+					Rule r = enumerator2.Current;
+					yield return r;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_0166:
+			/*Error near IL_0167: Unexpected return in MoveNext()*/;
 		}
 
 		public override void GenerateTestData()
 		{
 			base.GenerateTestData();
-			this.defData = TaleData_Def.GenerateFrom(DefDatabase<TrainableDef>.GetRandom());
+			this.defData = TaleData_Def.GenerateFrom((Def)GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), base.def.defType, "GetRandom"));
 		}
 	}
 }

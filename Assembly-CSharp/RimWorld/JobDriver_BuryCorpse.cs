@@ -15,7 +15,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (Corpse)base.CurJob.GetTarget(TargetIndex.A).Thing;
+				return (Corpse)base.job.GetTarget(TargetIndex.A).Thing;
 			}
 		}
 
@@ -23,7 +23,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (Building_Grave)base.CurJob.GetTarget(TargetIndex.B).Thing;
+				return (Building_Grave)base.job.GetTarget(TargetIndex.B).Thing;
 			}
 		}
 
@@ -32,33 +32,26 @@ namespace RimWorld
 			base.rotateToFace = TargetIndex.B;
 		}
 
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve((Thing)this.Corpse, base.job, 1, -1, null) && base.pawn.Reserve((Thing)this.Grave, base.job, 1, -1, null);
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedNullOrForbidden(TargetIndex.A);
 			this.FailOnDestroyedNullOrForbidden(TargetIndex.B);
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
-			yield return Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
+			this.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0052: stateMachine*/)._0024this.Grave.Accepts(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0052: stateMachine*/)._0024this.Corpse)));
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
-			yield return Toils_Haul.StartCarryThing(TargetIndex.A, false, false);
-			yield return Toils_Haul.CarryHauledThingToContainer();
-			Toil prepare = Toils_General.Wait(250);
-			prepare.WithProgressBarToilDelay(TargetIndex.B, false, -0.5f);
-			yield return prepare;
-			yield return new Toil
+			/*Error: Unable to find new state assignment for yield return*/;
+		}
+
+		public override object[] TaleParameters()
+		{
+			return new object[2]
 			{
-				initAction = (Action)delegate
-				{
-					if (((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.pawn.carryTracker.CarriedThing == null)
-					{
-						Log.Error(((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.pawn + " tried to place hauled corpse in grave but is not hauling anything.");
-					}
-					else if (((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.Grave.TryAcceptThing(((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.Corpse, true))
-					{
-						((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.pawn.carryTracker.innerContainer.Remove(((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.Corpse);
-						((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.Grave.Notify_CorpseBuried(((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.pawn);
-						((_003CMakeNewToils_003Ec__Iterator24)/*Error near IL_0125: stateMachine*/)._003C_003Ef__this.pawn.records.Increment(RecordDefOf.CorpsesBuried);
-					}
-				}
+				base.pawn,
+				(this.Grave.Corpse == null) ? null : this.Grave.Corpse.InnerPawn
 			};
 		}
 	}

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -30,14 +31,6 @@ namespace RimWorld
 			get;
 		}
 
-		protected virtual IEnumerable<Pawn> Pawns
-		{
-			get
-			{
-				return Find.VisibleMap.mapPawns.FreeColonists;
-			}
-		}
-
 		protected override float Margin
 		{
 			get
@@ -50,14 +43,29 @@ namespace RimWorld
 		{
 			get
 			{
+				Vector2 result;
 				if (this.table == null)
 				{
-					return Vector2.zero;
+					result = Vector2.zero;
 				}
-				Vector2 size = this.table.Size;
-				double x = size.x + this.Margin * 2.0;
-				Vector2 size2 = this.table.Size;
-				return new Vector2((float)x, (float)(size2.y + this.ExtraBottomSpace + this.ExtraTopSpace + this.Margin * 2.0));
+				else
+				{
+					Vector2 size = this.table.Size;
+					double x = size.x + this.Margin * 2.0;
+					Vector2 size2 = this.table.Size;
+					result = new Vector2((float)x, (float)(size2.y + this.ExtraBottomSpace + this.ExtraTopSpace + this.Margin * 2.0));
+				}
+				return result;
+			}
+		}
+
+		protected virtual IEnumerable<Pawn> Pawns
+		{
+			get
+			{
+				return from x in Find.VisibleMap.mapPawns.FreeColonists
+				orderby x.Label
+				select x;
 			}
 		}
 

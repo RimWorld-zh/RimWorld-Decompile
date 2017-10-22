@@ -9,30 +9,36 @@ namespace RimWorld.Planet
 		public static IEnumerable<WorldObject> MultiSelectableWorldObjectsInScreenRectDistinct(Rect rect)
 		{
 			List<WorldObject> allObjects = Find.WorldObjects.AllWorldObjects;
-			for (int i = 0; i < allObjects.Count; i++)
+			int i = 0;
+			while (true)
 			{
-				if (!allObjects[i].NeverMultiSelect && !allObjects[i].HiddenBehindTerrainNow())
+				if (i < allObjects.Count)
 				{
-					if (ExpandableWorldObjectsUtility.IsExpanded(allObjects[i]))
+					if (!allObjects[i].NeverMultiSelect && !allObjects[i].HiddenBehindTerrainNow())
 					{
-						if (rect.Overlaps(ExpandableWorldObjectsUtility.ExpandedIconScreenRect(allObjects[i])))
+						if (ExpandableWorldObjectsUtility.IsExpanded(allObjects[i]))
 						{
-							yield return allObjects[i];
+							if (rect.Overlaps(ExpandableWorldObjectsUtility.ExpandedIconScreenRect(allObjects[i])))
+							{
+								yield return allObjects[i];
+								/*Error: Unable to find new state assignment for yield return*/;
+							}
 						}
+						else if (rect.Contains(allObjects[i].ScreenPos()))
+							break;
 					}
-					else if (rect.Contains(allObjects[i].ScreenPos()))
-					{
-						yield return allObjects[i];
-					}
+					i++;
+					continue;
 				}
+				yield break;
 			}
+			yield return allObjects[i];
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public static bool HiddenBehindTerrainNow(this WorldObject o)
 		{
-			Vector3 normalized = o.DrawPos.normalized;
-			Vector3 currentlyLookingAtPointOnSphere = Find.WorldCameraDriver.CurrentlyLookingAtPointOnSphere;
-			return Vector3.Angle(normalized, currentlyLookingAtPointOnSphere) > 73.0;
+			return WorldRendererUtility.HiddenBehindTerrainNow(o.DrawPos);
 		}
 
 		public static Vector2 ScreenPos(this WorldObject o)
@@ -43,16 +49,21 @@ namespace RimWorld.Planet
 
 		public static bool VisibleToCameraNow(this WorldObject o)
 		{
+			bool result;
 			if (!WorldRendererUtility.WorldRenderedNow)
 			{
-				return false;
+				result = false;
 			}
-			if (o.HiddenBehindTerrainNow())
+			else if (o.HiddenBehindTerrainNow())
 			{
-				return false;
+				result = false;
 			}
-			Vector2 point = o.ScreenPos();
-			return new Rect(0f, 0f, (float)UI.screenWidth, (float)UI.screenHeight).Contains(point);
+			else
+			{
+				Vector2 point = o.ScreenPos();
+				result = new Rect(0f, 0f, (float)UI.screenWidth, (float)UI.screenHeight).Contains(point);
+			}
+			return result;
 		}
 
 		public static float DistanceToMouse(this WorldObject o, Vector2 mousePos)
@@ -60,11 +71,7 @@ namespace RimWorld.Planet
 			Ray ray = Find.WorldCamera.ScreenPointToRay(mousePos * Prefs.UIScale);
 			int worldLayerMask = WorldCameraManager.WorldLayerMask;
 			RaycastHit raycastHit = default(RaycastHit);
-			if (Physics.Raycast(ray, out raycastHit, 1500f, worldLayerMask))
-			{
-				return Vector3.Distance(raycastHit.point, o.DrawPos);
-			}
-			return Vector3.Cross(ray.direction, o.DrawPos - ray.origin).magnitude;
+			return (!Physics.Raycast(ray, out raycastHit, 1500f, worldLayerMask)) ? Vector3.Cross(ray.direction, o.DrawPos - ray.origin).magnitude : Vector3.Distance(raycastHit.point, o.DrawPos);
 		}
 	}
 }

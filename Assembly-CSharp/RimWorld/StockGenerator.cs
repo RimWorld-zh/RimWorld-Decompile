@@ -35,38 +35,48 @@ namespace RimWorld
 
 		public bool TryGetPriceType(ThingDef thingDef, TradeAction action, out PriceType priceType)
 		{
+			bool result;
 			if (!this.HandlesThingDef(thingDef))
 			{
 				priceType = PriceType.Undefined;
-				return false;
+				result = false;
 			}
-			priceType = this.price;
-			return true;
+			else
+			{
+				priceType = this.price;
+				result = true;
+			}
+			return result;
 		}
 
 		protected int RandomCountOf(ThingDef def)
 		{
+			int result;
 			if (this.countRange.max > 0 && this.totalPriceRange.max <= 0.0)
 			{
-				return this.countRange.RandomInRange;
+				result = this.countRange.RandomInRange;
 			}
-			if (this.countRange.max <= 0 && this.totalPriceRange.max > 0.0)
+			else if (this.countRange.max <= 0 && this.totalPriceRange.max > 0.0)
 			{
-				return Mathf.RoundToInt(this.totalPriceRange.RandomInRange / def.BaseMarketValue);
+				result = Mathf.RoundToInt(this.totalPriceRange.RandomInRange / def.BaseMarketValue);
 			}
-			int num = 0;
-			int randomInRange;
-			while (true)
+			else
 			{
-				randomInRange = this.countRange.RandomInRange;
-				num++;
-				if (num <= 100 && !this.totalPriceRange.Includes((float)randomInRange * def.BaseMarketValue))
+				int num = 0;
+				int randomInRange;
+				while (true)
 				{
-					continue;
+					randomInRange = this.countRange.RandomInRange;
+					num++;
+					if (num <= 100 && !this.totalPriceRange.Includes((float)randomInRange * def.BaseMarketValue))
+					{
+						continue;
+					}
+					break;
 				}
-				break;
+				result = randomInRange;
 			}
-			return randomInRange;
+			return result;
 		}
 	}
 }

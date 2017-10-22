@@ -1,6 +1,5 @@
 using RimWorld;
 using Steamworks;
-using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -42,14 +41,24 @@ namespace Verse.Steam
 
 		public static WorkshopItem GetItem(PublishedFileId_t pfid)
 		{
-			for (int i = 0; i < WorkshopItems.subbedItems.Count; i++)
+			int num = 0;
+			WorkshopItem result;
+			while (true)
 			{
-				if (WorkshopItems.subbedItems[i].PublishedFileId == pfid)
+				if (num < WorkshopItems.subbedItems.Count)
 				{
-					return WorkshopItems.subbedItems[i];
+					if (WorkshopItems.subbedItems[num].PublishedFileId == pfid)
+					{
+						result = WorkshopItems.subbedItems[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public static bool HasItem(PublishedFileId_t pfid)
@@ -90,18 +99,9 @@ namespace Verse.Steam
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("Subscribed items:");
-			List<WorkshopItem>.Enumerator enumerator = WorkshopItems.subbedItems.GetEnumerator();
-			try
+			foreach (WorkshopItem subbedItem in WorkshopItems.subbedItems)
 			{
-				while (enumerator.MoveNext())
-				{
-					WorkshopItem current = enumerator.Current;
-					stringBuilder.AppendLine("  " + current.ToString());
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				stringBuilder.AppendLine("  " + subbedItem.ToString());
 			}
 			return stringBuilder.ToString();
 		}

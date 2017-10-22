@@ -11,11 +11,7 @@ namespace Verse.AI.Group
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
-			if (signal.type == TriggerSignalType.PawnLost)
-			{
-				return lord.numPawnsLostViolently >= this.count;
-			}
-			return false;
+			return signal.type == TriggerSignalType.PawnLost && lord.numPawnsLostViolently >= this.count;
 		}
 	}
 }

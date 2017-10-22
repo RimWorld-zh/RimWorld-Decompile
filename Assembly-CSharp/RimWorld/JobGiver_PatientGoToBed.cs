@@ -7,25 +7,33 @@ namespace RimWorld
 	{
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
+			ThinkResult result;
 			if (!HealthAIUtility.ShouldSeekMedicalRest(pawn))
 			{
-				return ThinkResult.NoJob;
+				result = ThinkResult.NoJob;
 			}
-			if (RestUtility.TimetablePreventsLayDown(pawn) && !HealthAIUtility.ShouldHaveSurgeryDoneNow(pawn) && !HealthAIUtility.ShouldBeTendedNow(pawn))
+			else if (RestUtility.TimetablePreventsLayDown(pawn) && !HealthAIUtility.ShouldHaveSurgeryDoneNow(pawn) && !HealthAIUtility.ShouldBeTendedNow(pawn))
 			{
-				return ThinkResult.NoJob;
+				result = ThinkResult.NoJob;
 			}
-			if (RestUtility.DisturbancePreventsLyingDown(pawn))
+			else if (RestUtility.DisturbancePreventsLyingDown(pawn))
 			{
-				return ThinkResult.NoJob;
+				result = ThinkResult.NoJob;
 			}
-			Thing thing = RestUtility.FindPatientBedFor(pawn);
-			if (thing == null)
+			else
 			{
-				return ThinkResult.NoJob;
+				Thing thing = RestUtility.FindPatientBedFor(pawn);
+				if (thing == null)
+				{
+					result = ThinkResult.NoJob;
+				}
+				else
+				{
+					Job job = new Job(JobDefOf.LayDown, thing);
+					result = new ThinkResult(job, this, default(JobTag?), false);
+				}
 			}
-			Job job = new Job(JobDefOf.LayDown, thing);
-			return new ThinkResult(job, this, default(JobTag?));
+			return result;
 		}
 	}
 }

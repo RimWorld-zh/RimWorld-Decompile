@@ -12,43 +12,61 @@ namespace Verse
 			List<KeyBindingCategoryDef> gameUniversalCats = (from d in DefDatabase<KeyBindingCategoryDef>.AllDefs
 			where d.isGameUniversal
 			select d).ToList();
-			foreach (DesignationCategoryDef allDef in DefDatabase<DesignationCategoryDef>.AllDefs)
+			using (IEnumerator<DesignationCategoryDef> enumerator = DefDatabase<DesignationCategoryDef>.AllDefs.GetEnumerator())
 			{
-				KeyBindingCategoryDef catDef = new KeyBindingCategoryDef
+				if (enumerator.MoveNext())
 				{
-					defName = "Architect_" + allDef.defName,
-					label = allDef.label + " tab",
-					description = "Key bindings for the \"" + allDef.LabelCap + "\" section of the Architect menu"
-				};
-				catDef.checkForConflicts.AddRange(gameUniversalCats);
-				for (int i = 0; i < gameUniversalCats.Count; i++)
-				{
-					gameUniversalCats[i].checkForConflicts.Add(catDef);
+					DesignationCategoryDef def = enumerator.Current;
+					KeyBindingCategoryDef catDef = new KeyBindingCategoryDef
+					{
+						defName = "Architect_" + def.defName,
+						label = def.label + " tab",
+						description = "Key bindings for the \"" + def.LabelCap + "\" section of the Architect menu"
+					};
+					catDef.checkForConflicts.AddRange(gameUniversalCats);
+					for (int i = 0; i < gameUniversalCats.Count; i++)
+					{
+						gameUniversalCats[i].checkForConflicts.Add(catDef);
+					}
+					def.bindingCatDef = catDef;
+					yield return catDef;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				allDef.bindingCatDef = catDef;
-				yield return catDef;
 			}
+			yield break;
+			IL_01ba:
+			/*Error near IL_01bb: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<KeyBindingDef> ImpliedKeyBindingDefs()
 		{
-			foreach (MainButtonDef item in from td in DefDatabase<MainButtonDef>.AllDefs
+			using (IEnumerator<MainButtonDef> enumerator = (from td in DefDatabase<MainButtonDef>.AllDefs
 			orderby td.order
-			select td)
+			select td).GetEnumerator())
 			{
-				if (item.defaultHotKey != 0)
+				MainButtonDef mainTab;
+				while (true)
 				{
-					KeyBindingDef keyDef = new KeyBindingDef
+					if (enumerator.MoveNext())
 					{
-						label = "Toggle " + item.label + " tab",
-						defName = "MainTab_" + item.defName,
-						category = KeyBindingCategoryDefOf.MainTabs,
-						defaultKeyCodeA = item.defaultHotKey
-					};
-					item.hotKey = keyDef;
-					yield return keyDef;
+						mainTab = enumerator.Current;
+						if (mainTab.defaultHotKey != 0)
+							break;
+						continue;
+					}
+					yield break;
 				}
+				yield return mainTab.hotKey = new KeyBindingDef
+				{
+					label = "Toggle " + mainTab.label + " tab",
+					defName = "MainTab_" + mainTab.defName,
+					category = KeyBindingCategoryDefOf.MainTabs,
+					defaultKeyCodeA = mainTab.defaultHotKey
+				};
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			IL_0175:
+			/*Error near IL_0176: Unexpected return in MoveNext()*/;
 		}
 	}
 }

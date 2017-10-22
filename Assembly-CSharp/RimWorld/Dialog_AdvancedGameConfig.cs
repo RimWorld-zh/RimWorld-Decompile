@@ -5,9 +5,9 @@ namespace RimWorld
 {
 	public class Dialog_AdvancedGameConfig : Window
 	{
-		private const float ColumnWidth = 200f;
-
 		private int selTile = -1;
+
+		private const float ColumnWidth = 200f;
 
 		private static readonly int[] MapSizes = new int[8]
 		{

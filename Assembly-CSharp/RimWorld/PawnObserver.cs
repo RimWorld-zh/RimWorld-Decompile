@@ -5,13 +5,13 @@ namespace RimWorld
 {
 	public class PawnObserver
 	{
-		private const int IntervalsBetweenObservations = 4;
-
-		private const float SampleNumCells = 100f;
-
 		private Pawn pawn;
 
 		private int intervalsUntilObserve;
+
+		private const int IntervalsBetweenObservations = 4;
+
+		private const float SampleNumCells = 100f;
 
 		public PawnObserver(Pawn pawn)
 		{
@@ -36,13 +36,12 @@ namespace RimWorld
 		{
 			if (this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight))
 			{
-				RoomGroup roomGroup = this.pawn.GetRoomGroup();
 				Map map = this.pawn.Map;
 				int num = 0;
 				while ((float)num < 100.0)
 				{
 					IntVec3 intVec = this.pawn.Position + GenRadial.RadialPattern[num];
-					if (intVec.InBounds(map) && intVec.GetRoomGroup(map) == roomGroup && GenSight.LineOfSight(intVec, this.pawn.Position, map, true, null, 0, 0))
+					if (intVec.InBounds(map) && GenSight.LineOfSight(intVec, this.pawn.Position, map, true, null, 0, 0))
 					{
 						List<Thing> thingList = intVec.GetThingList(map);
 						for (int i = 0; i < thingList.Count; i++)

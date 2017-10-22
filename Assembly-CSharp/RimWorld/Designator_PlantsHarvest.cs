@@ -20,17 +20,18 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
-			AcceptanceReport result = base.CanDesignateThing(t);
-			if (!result.Accepted)
+			AcceptanceReport acceptanceReport = base.CanDesignateThing(t);
+			AcceptanceReport result;
+			if (!acceptanceReport.Accepted)
 			{
-				return result;
+				result = acceptanceReport;
 			}
-			Plant plant = (Plant)t;
-			if (plant.HarvestableNow && !(plant.def.plant.harvestTag != "Standard"))
+			else
 			{
-				return true;
+				Plant plant = (Plant)t;
+				result = ((plant.HarvestableNow && !(plant.def.plant.harvestTag != "Standard")) ? true : "MessageMustDesignateHarvestable".Translate());
 			}
-			return "MessageMustDesignateHarvestable".Translate();
+			return result;
 		}
 	}
 }

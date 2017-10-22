@@ -7,15 +7,25 @@ namespace Verse.AI.Group
 		public static Lord GetLord(this Pawn p)
 		{
 			List<Map> maps = Find.Maps;
-			for (int i = 0; i < maps.Count; i++)
+			int num = 0;
+			Lord result;
+			while (true)
 			{
-				Lord lord = maps[i].lordManager.LordOf(p);
-				if (lord != null)
+				if (num < maps.Count)
 				{
-					return lord;
+					Lord lord = maps[num].lordManager.LordOf(p);
+					if (lord != null)
+					{
+						result = lord;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 	}
 }

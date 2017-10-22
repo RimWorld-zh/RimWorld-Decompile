@@ -15,13 +15,13 @@ namespace Verse
 
 		public Func<DiaNode> linkLateBind;
 
-		public bool resolveTree;
+		public bool resolveTree = false;
 
 		public Action action;
 
-		public bool disabled;
+		public bool disabled = false;
 
-		public string disabledReason;
+		public string disabledReason = (string)null;
 
 		public SoundDef clickSound = SoundDefOf.PageChange;
 

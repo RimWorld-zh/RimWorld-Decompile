@@ -4,13 +4,13 @@ namespace Verse
 {
 	public class WindowResizer
 	{
-		private const float ResizeButtonSize = 24f;
-
 		public Vector2 minWindowSize = new Vector2(150f, 150f);
 
-		private bool isResizing;
+		private bool isResizing = false;
 
 		private Rect resizeStart = default(Rect);
+
+		private const float ResizeButtonSize = 24f;
 
 		public Rect DoResizeControl(Rect winRect)
 		{

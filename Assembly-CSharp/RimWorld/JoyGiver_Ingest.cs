@@ -21,61 +21,77 @@ namespace RimWorld
 		private Job TryGiveJobInternal(Pawn pawn, Predicate<Thing> extraValidator)
 		{
 			Thing thing = this.BestIngestItem(pawn, extraValidator);
-			if (thing != null)
-			{
-				return this.CreateIngestJob(thing, pawn);
-			}
-			return null;
+			return (thing == null) ? null : this.CreateIngestJob(thing, pawn);
 		}
 
 		protected virtual Thing BestIngestItem(Pawn pawn, Predicate<Thing> extraValidator)
 		{
-			Predicate<Thing> predicate = (Predicate<Thing>)delegate(Thing t)
-			{
-				if (!this.CanIngestForJoy(pawn, t))
-				{
-					return false;
-				}
-				if ((object)extraValidator != null && !extraValidator(t))
-				{
-					return false;
-				}
-				return true;
-			};
+			Predicate<Thing> predicate = (Predicate<Thing>)((Thing t) => (byte)(this.CanIngestForJoy(pawn, t) ? (((object)extraValidator == null || extraValidator(t)) ? 1 : 0) : 0) != 0);
 			ThingOwner<Thing> innerContainer = pawn.inventory.innerContainer;
-			for (int i = 0; i < innerContainer.Count; i++)
+			int num = 0;
+			Thing result;
+			while (true)
 			{
-				if (this.SearchSetWouldInclude(innerContainer[i]) && predicate(innerContainer[i]))
+				if (num < innerContainer.Count)
 				{
-					return innerContainer[i];
+					if (this.SearchSetWouldInclude(innerContainer[num]) && predicate(innerContainer[num]))
+					{
+						result = innerContainer[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				List<Thing> searchSet = this.GetSearchSet(pawn);
+				if (searchSet.Count == 0)
+				{
+					result = null;
+				}
+				else
+				{
+					IntVec3 position = pawn.Position;
+					Map map = pawn.Map;
+					List<Thing> searchSet2 = searchSet;
+					PathEndMode peMode = PathEndMode.OnCell;
+					TraverseParms traverseParams = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
+					Predicate<Thing> validator = predicate;
+					result = GenClosest.ClosestThing_Global_Reachable(position, map, searchSet2, peMode, traverseParams, 9999f, validator, null);
+				}
+				break;
 			}
-			List<Thing> searchSet = this.GetSearchSet(pawn);
-			if (searchSet.Count == 0)
-			{
-				return null;
-			}
-			Predicate<Thing> validator = predicate;
-			return GenClosest.ClosestThing_Global_Reachable(pawn.Position, pawn.Map, searchSet, PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null);
+			return result;
 		}
 
 		protected virtual bool CanIngestForJoy(Pawn pawn, Thing t)
 		{
-			if (t.def.IsIngestible && t.def.ingestible.joyKind != null && !(t.def.ingestible.joy <= 0.0))
+			bool result;
+			if (!t.def.IsIngestible || t.def.ingestible.joyKind == null || t.def.ingestible.joy <= 0.0)
+			{
+				result = false;
+			}
+			else
 			{
 				if (t.Spawned)
 				{
 					if (!pawn.CanReserve(t, 1, -1, null, false))
 					{
-						return false;
+						result = false;
+						goto IL_0127;
 					}
 					if (t.IsForbidden(pawn))
 					{
-						return false;
+						result = false;
+						goto IL_0127;
 					}
 					if (!t.IsSociallyProper(pawn))
 					{
-						return false;
+						result = false;
+						goto IL_0127;
+					}
+					if (!t.IsPoliticallyProper(pawn))
+					{
+						result = false;
+						goto IL_0127;
 					}
 				}
 				if (t.def.IsDrug && pawn.drugs != null && !pawn.drugs.CurrentPolicy[t.def].allowedForJoy && pawn.story != null)
@@ -83,21 +99,20 @@ namespace RimWorld
 					int num = pawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire);
 					if (num <= 0 && !pawn.InMentalState)
 					{
-						return false;
+						result = false;
+						goto IL_0127;
 					}
 				}
-				return true;
+				result = true;
 			}
-			return false;
+			goto IL_0127;
+			IL_0127:
+			return result;
 		}
 
 		protected virtual bool SearchSetWouldInclude(Thing thing)
 		{
-			if (base.def.thingDefs == null)
-			{
-				return false;
-			}
-			return base.def.thingDefs.Contains(thing.def);
+			return base.def.thingDefs != null && base.def.thingDefs.Contains(thing.def);
 		}
 
 		protected virtual Job CreateIngestJob(Thing ingestible, Pawn pawn)

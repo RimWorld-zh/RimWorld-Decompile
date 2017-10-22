@@ -18,36 +18,47 @@ namespace RimWorld
 
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
+			float result;
 			if (LovePartnerRelationUtility.LovePartnerRelationExists(initiator, recipient))
 			{
-				return 0f;
+				result = 0f;
 			}
-			float num = initiator.relations.SecondaryRomanceChanceFactor(recipient);
-			if (num < 0.25)
+			else
 			{
-				return 0f;
+				float num = initiator.relations.SecondaryRomanceChanceFactor(recipient);
+				if (num < 0.25)
+				{
+					result = 0f;
+				}
+				else
+				{
+					int num2 = initiator.relations.OpinionOf(recipient);
+					if (num2 < 5)
+					{
+						result = 0f;
+					}
+					else if (recipient.relations.OpinionOf(initiator) < 5)
+					{
+						result = 0f;
+					}
+					else
+					{
+						float num3 = 1f;
+						Pawn pawn = LovePartnerRelationUtility.ExistingMostLikedLovePartner(initiator, false);
+						if (pawn != null)
+						{
+							float value = (float)initiator.relations.OpinionOf(pawn);
+							num3 = Mathf.InverseLerp(50f, -50f, value);
+						}
+						float num4 = (float)((!initiator.story.traits.HasTrait(TraitDefOf.Gay)) ? ((initiator.gender != Gender.Female) ? 1.0 : 0.15000000596046448) : 1.0);
+						float num5 = Mathf.InverseLerp(0.25f, 1f, num);
+						float num6 = Mathf.InverseLerp(5f, 100f, (float)num2);
+						float num7 = (float)((initiator.gender != recipient.gender) ? ((initiator.story.traits.HasTrait(TraitDefOf.Gay) || recipient.story.traits.HasTrait(TraitDefOf.Gay)) ? 0.15000000596046448 : 1.0) : ((!initiator.story.traits.HasTrait(TraitDefOf.Gay) || !recipient.story.traits.HasTrait(TraitDefOf.Gay)) ? 0.15000000596046448 : 1.0));
+						result = (float)(1.1499999761581421 * num4 * num5 * num6 * num3 * num7);
+					}
+				}
 			}
-			int num2 = initiator.relations.OpinionOf(recipient);
-			if (num2 < 5)
-			{
-				return 0f;
-			}
-			if (recipient.relations.OpinionOf(initiator) < 5)
-			{
-				return 0f;
-			}
-			float num3 = 1f;
-			Pawn pawn = LovePartnerRelationUtility.ExistingMostLikedLovePartner(initiator, false);
-			if (pawn != null)
-			{
-				float value = (float)initiator.relations.OpinionOf(pawn);
-				num3 = Mathf.InverseLerp(50f, -50f, value);
-			}
-			float num4 = (float)((!initiator.story.traits.HasTrait(TraitDefOf.Gay)) ? ((initiator.gender != Gender.Female) ? 1.0 : 0.15000000596046448) : 1.0);
-			float num5 = Mathf.InverseLerp(0.25f, 1f, num);
-			float num6 = Mathf.InverseLerp(5f, 100f, (float)num2);
-			float num7 = (float)((initiator.gender != recipient.gender) ? ((initiator.story.traits.HasTrait(TraitDefOf.Gay) || recipient.story.traits.HasTrait(TraitDefOf.Gay)) ? 0.15000000596046448 : 1.0) : ((!initiator.story.traits.HasTrait(TraitDefOf.Gay) || !recipient.story.traits.HasTrait(TraitDefOf.Gay)) ? 0.15000000596046448 : 1.0));
-			return (float)(1.1499999761581421 * num4 * num5 * num6 * num3 * num7);
+			return result;
 		}
 
 		public float SuccessChance(Pawn initiator, Pawn recipient)
@@ -128,8 +139,8 @@ namespace RimWorld
 		private void BreakLoverAndFianceRelations(Pawn pawn, out List<Pawn> oldLoversAndFiances)
 		{
 			oldLoversAndFiances = new List<Pawn>();
-			goto IL_0007;
-			IL_0007:
+			goto IL_0008;
+			IL_0008:
 			while (true)
 			{
 				Pawn firstDirectRelationPawn = pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Lover, null);
@@ -150,8 +161,8 @@ namespace RimWorld
 				}
 			}
 			return;
-			IL_009a:
-			goto IL_0007;
+			IL_009f:
+			goto IL_0008;
 		}
 
 		private void TryAddCheaterThought(Pawn pawn, Pawn cheater)
@@ -167,21 +178,21 @@ namespace RimWorld
 			bool flag = false;
 			if (initiator.GetSpouse() != null && !initiator.GetSpouse().Dead)
 			{
-				goto IL_0038;
+				goto IL_0039;
 			}
 			if (recipient.GetSpouse() != null && !recipient.GetSpouse().Dead)
-				goto IL_0038;
+				goto IL_0039;
 			string label = "LetterLabelNewLovers".Translate();
-			LetterDef textLetterDef = LetterDefOf.Good;
+			LetterDef textLetterDef = LetterDefOf.PositiveEvent;
 			Pawn t = initiator;
-			goto IL_0087;
-			IL_0038:
+			goto IL_008c;
+			IL_0039:
 			label = "LetterLabelAffair".Translate();
-			textLetterDef = LetterDefOf.BadNonUrgent;
+			textLetterDef = LetterDefOf.NegativeEvent;
 			t = ((initiator.GetSpouse() == null || initiator.GetSpouse().Dead) ? recipient : initiator);
 			flag = true;
-			goto IL_0087;
-			IL_0087:
+			goto IL_008c;
+			IL_008c:
 			StringBuilder stringBuilder = new StringBuilder();
 			if (flag)
 			{

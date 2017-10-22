@@ -1,3 +1,4 @@
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +10,7 @@ namespace Verse
 	{
 		public string fileName = "NamelessPackage";
 
-		public string relFolder = string.Empty;
+		public string relFolder = "";
 
 		public List<Def> defs = new List<Def>();
 
@@ -51,30 +52,20 @@ namespace Verse
 			xDocument.Add(xElement);
 			try
 			{
-				List<Def>.Enumerator enumerator = this.defs.GetEnumerator();
-				try
+				foreach (Def def in this.defs)
 				{
-					while (enumerator.MoveNext())
-					{
-						Def current = enumerator.Current;
-						XElement content = DirectXmlSaver.XElementFromObject(current, current.GetType());
-						xElement.Add(content);
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					XElement content = DirectXmlSaver.XElementFromObject(def, def.GetType());
+					xElement.Add(content);
 				}
 				DirectXmlSaveFormatter.AddWhitespaceFromRoot(xElement);
 				SaveOptions options = SaveOptions.DisableFormatting;
 				xDocument.Save(str, options);
-				Messages.Message("Saved in " + str, MessageSound.Benefit);
+				Messages.Message("Saved in " + str, MessageTypeDefOf.PositiveEvent);
 			}
 			catch (Exception ex)
 			{
-				Messages.Message("Exception saving XML: " + ex.ToString(), MessageSound.Negative);
+				Messages.Message("Exception saving XML: " + ex.ToString(), MessageTypeDefOf.NegativeEvent);
 				throw;
-				IL_00c6:;
 			}
 		}
 

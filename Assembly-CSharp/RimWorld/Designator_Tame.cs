@@ -33,15 +33,7 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			if (!c.InBounds(base.Map))
-			{
-				return false;
-			}
-			if (!this.TameablesInCell(c).Any())
-			{
-				return "MessageMustDesignateTameable".Translate();
-			}
-			return true;
+			return c.InBounds(base.Map) ? (this.TameablesInCell(c).Any() ? true : "MessageMustDesignateTameable".Translate()) : false;
 		}
 
 		public override void DesignateSingleCell(IntVec3 loc)
@@ -55,27 +47,18 @@ namespace RimWorld
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Pawn pawn = t as Pawn;
-			if (pawn != null && pawn.def.race.Animal && pawn.Faction == null && pawn.RaceProps.wildness < 1.0 && !pawn.HostileTo(t) && base.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Tame) == null)
-			{
-				return true;
-			}
-			return false;
+			return (pawn == null || !pawn.AnimalOrWildMan() || pawn.Faction != null || !(pawn.RaceProps.wildness < 1.0) || pawn.HostileTo(t) || base.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Tame) != null) ? false : true;
 		}
 
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();
-			using (IEnumerator<PawnKindDef> enumerator = (from p in this.justDesignated
-			select p.kindDef).Distinct().GetEnumerator())
+			foreach (PawnKindDef item in (from p in this.justDesignated
+			select p.kindDef).Distinct())
 			{
-				PawnKindDef kind;
-				while (enumerator.MoveNext())
+				if (item.RaceProps.manhunterOnTameFailChance > 0.0)
 				{
-					kind = enumerator.Current;
-					if (kind.RaceProps.manhunterOnTameFailChance > 0.0)
-					{
-						Messages.Message("MessageAnimalManhuntsOnTameFailed".Translate(kind.label, kind.RaceProps.manhunterOnTameFailChance.ToStringPercent("F2")), (Thing)this.justDesignated.First((Func<Pawn, bool>)((Pawn x) => x.kindDef == kind)), MessageSound.Standard);
-					}
+					Messages.Message("MessageAnimalManhuntsOnTameFailed".Translate(item.GetLabelPlural(-1), item.RaceProps.manhunterOnTameFailChance.ToStringPercent("F2")), (Thing)this.justDesignated.First((Func<Pawn, bool>)((Pawn x) => x.kindDef == item)), MessageTypeDefOf.CautionInput);
 				}
 			}
 			IEnumerable<Pawn> source = from c in base.Map.mapPawns.FreeColonistsSpawned
@@ -89,18 +72,13 @@ namespace RimWorld
 			{
 				Pawn pawn = source.MaxBy((Func<Pawn, int>)((Pawn c) => c.skills.GetSkill(SkillDefOf.Animals).Level));
 				int level = pawn.skills.GetSkill(SkillDefOf.Animals).Level;
-				using (IEnumerator<ThingDef> enumerator2 = (from t in this.justDesignated
-				select t.def).Distinct().GetEnumerator())
+				foreach (ThingDef item2 in (from t in this.justDesignated
+				select t.def).Distinct())
 				{
-					ThingDef ad;
-					while (enumerator2.MoveNext())
+					int num = Mathf.RoundToInt(item2.GetStatValueAbstract(StatDefOf.MinimumHandlingSkill, null));
+					if (num > level)
 					{
-						ad = enumerator2.Current;
-						int num = Mathf.RoundToInt(ad.GetStatValueAbstract(StatDefOf.MinimumHandlingSkill, null));
-						if (num > level)
-						{
-							Messages.Message("MessageNoHandlerSkilledEnough".Translate(ad.label, num.ToStringCached(), SkillDefOf.Animals.LabelCap, pawn.LabelShort, level), (Thing)this.justDesignated.First((Func<Pawn, bool>)((Pawn x) => x.def == ad)), MessageSound.Negative);
-						}
+						Messages.Message("MessageNoHandlerSkilledEnough".Translate(item2.label, num.ToStringCached(), SkillDefOf.Animals.LabelCap, pawn.LabelShort, level), (Thing)this.justDesignated.First((Func<Pawn, bool>)((Pawn x) => x.def == item2)), MessageTypeDefOf.CautionInput);
 					}
 				}
 			}
@@ -120,13 +98,22 @@ namespace RimWorld
 			if (!c.Fogged(base.Map))
 			{
 				List<Thing> thingList = c.GetThingList(base.Map);
-				for (int i = 0; i < thingList.Count; i++)
+				int i = 0;
+				while (true)
 				{
-					if (this.CanDesignateThing(thingList[i]).Accepted)
+					if (i < thingList.Count)
 					{
-						yield return (Pawn)thingList[i];
+						if (!this.CanDesignateThing(thingList[i]).Accepted)
+						{
+							i++;
+							continue;
+						}
+						break;
 					}
+					yield break;
 				}
+				yield return (Pawn)thingList[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 	}

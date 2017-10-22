@@ -4,21 +4,17 @@ namespace RimWorld
 {
 	public class PredatorThreat : IExposable
 	{
-		private const int ExpireAfterTicks = 600;
-
 		public Pawn predator;
 
 		public int lastAttackTicks;
+
+		private const int ExpireAfterTicks = 600;
 
 		public bool Expired
 		{
 			get
 			{
-				if (!this.predator.Spawned)
-				{
-					return true;
-				}
-				return Find.TickManager.TicksGame >= this.lastAttackTicks + 600;
+				return !this.predator.Spawned || Find.TickManager.TicksGame >= this.lastAttackTicks + 600;
 			}
 		}
 

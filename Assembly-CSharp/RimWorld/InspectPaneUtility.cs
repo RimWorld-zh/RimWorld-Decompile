@@ -10,23 +10,21 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class InspectPaneUtility
 	{
+		private static Dictionary<string, string> truncatedLabelsCached = new Dictionary<string, string>();
+
 		public const float TabWidth = 72f;
 
 		public const float TabHeight = 30f;
 
-		public const float CornerButtonsSize = 24f;
+		private static readonly Texture2D InspectTabButtonFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.07450981f, 0.08627451f, 0.105882354f, 1f));
 
-		public const float PaneWidth = 432f;
+		public const float CornerButtonsSize = 24f;
 
 		public const float PaneInnerMargin = 12f;
 
-		private static Dictionary<string, string> truncatedLabelsCached = new Dictionary<string, string>();
+		public const float PaneHeight = 165f;
 
-		private static readonly Texture2D InspectTabButtonFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.07450981f, 0.08627451f, 0.105882354f, 1f));
-
-		public static readonly Vector2 PaneSize = new Vector2(432f, 165f);
-
-		public static readonly Vector2 PaneInnerSize = new Vector2((float)(InspectPaneUtility.PaneSize.x - 24.0), (float)(InspectPaneUtility.PaneSize.y - 24.0));
+		private const int TabMinimum = 6;
 
 		private static List<Thing> selectedThings = new List<Thing>();
 
@@ -35,19 +33,38 @@ namespace RimWorld
 			InspectPaneUtility.truncatedLabelsCached.Clear();
 		}
 
+		public static float PaneWidthFor(IInspectPane pane)
+		{
+			float result;
+			if (pane == null)
+			{
+				result = 432f;
+			}
+			else
+			{
+				int num = 0;
+				foreach (InspectTabBase curTab in pane.CurTabs)
+				{
+					if (curTab.IsVisible)
+					{
+						num++;
+					}
+				}
+				result = (float)(72.0 * (float)Mathf.Max(6, num));
+			}
+			return result;
+		}
+
+		public static Vector2 PaneSizeFor(IInspectPane pane)
+		{
+			return new Vector2(InspectPaneUtility.PaneWidthFor(pane), 165f);
+		}
+
 		public static bool CanInspectTogether(object A, object B)
 		{
 			Thing thing = A as Thing;
 			Thing thing2 = B as Thing;
-			if (thing != null && thing2 != null)
-			{
-				if (thing.def.category == ThingCategory.Pawn)
-				{
-					return false;
-				}
-				return thing.def == thing2.def;
-			}
-			return false;
+			return thing != null && thing2 != null && thing.def.category != ThingCategory.Pawn && thing.def == thing2.def;
 		}
 
 		public static string AdjustedLabelFor(IEnumerable<object> selected, Rect rect)
@@ -129,8 +146,7 @@ namespace RimWorld
 
 		public static void InspectPaneOnGUI(Rect inRect, IInspectPane pane)
 		{
-			Vector2 paneSize = InspectPaneUtility.PaneSize;
-			pane.RecentHeight = paneSize.y;
+			pane.RecentHeight = 165f;
 			if (pane.AnythingSelected)
 			{
 				try
@@ -180,7 +196,7 @@ namespace RimWorld
 			try
 			{
 				float y = (float)(pane.PaneTopY - 30.0);
-				float num = 360f;
+				float num = (float)(InspectPaneUtility.PaneWidthFor(pane) - 72.0);
 				float width = 0f;
 				bool flag = false;
 				foreach (InspectTabBase curTab in pane.CurTabs)

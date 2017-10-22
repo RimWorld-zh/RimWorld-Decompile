@@ -4,6 +4,14 @@ namespace Verse
 {
 	public class PawnDownedWiggler
 	{
+		private Pawn pawn;
+
+		public float downedAngle = PawnDownedWiggler.RandomDownedAngle;
+
+		public int ticksToIncapIcon = 0;
+
+		private bool usingCustomRotation = false;
+
 		private const float DownedAngleWidth = 45f;
 
 		private const float DamageTakenDownedAngleShift = 10f;
@@ -15,14 +23,6 @@ namespace Verse
 		private const float IncapWiggleSpeed = 0.35f;
 
 		private const int TicksBetweenIncapIcons = 200;
-
-		private Pawn pawn;
-
-		public float downedAngle = PawnDownedWiggler.RandomDownedAngle;
-
-		public int ticksToIncapIcon;
-
-		private bool usingCustomRotation;
 
 		private static float RandomDownedAngle
 		{

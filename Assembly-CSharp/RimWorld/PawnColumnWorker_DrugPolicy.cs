@@ -47,22 +47,13 @@ namespace RimWorld
 				if (Widgets.ButtonText(rect2, text, true, false, true))
 				{
 					List<FloatMenuOption> list = new List<FloatMenuOption>();
-					List<DrugPolicy>.Enumerator enumerator = Current.Game.drugPolicyDatabase.AllPolicies.GetEnumerator();
-					try
+					foreach (DrugPolicy allPolicy in Current.Game.drugPolicyDatabase.AllPolicies)
 					{
-						while (enumerator.MoveNext())
+						DrugPolicy localAssignedDrugs = allPolicy;
+						list.Add(new FloatMenuOption(allPolicy.label, (Action)delegate()
 						{
-							DrugPolicy current = enumerator.Current;
-							DrugPolicy localAssignedDrugs = current;
-							list.Add(new FloatMenuOption(current.label, (Action)delegate()
-							{
-								pawn.drugs.CurrentPolicy = localAssignedDrugs;
-							}, MenuOptionPriority.Default, null, null, 0f, null, null));
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
+							pawn.drugs.CurrentPolicy = localAssignedDrugs;
+						}, MenuOptionPriority.Default, null, null, 0f, null, null));
 					}
 					Find.WindowStack.Add(new FloatMenu(list));
 					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.DrugPolicies, KnowledgeAmount.Total);

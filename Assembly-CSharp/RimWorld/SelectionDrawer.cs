@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -34,23 +33,14 @@ namespace RimWorld
 
 		public static void DrawSelectionOverlays()
 		{
-			List<object>.Enumerator enumerator = Find.Selector.SelectedObjects.GetEnumerator();
-			try
+			foreach (object selectedObject in Find.Selector.SelectedObjects)
 			{
-				while (enumerator.MoveNext())
+				SelectionDrawer.DrawSelectionBracketFor(selectedObject);
+				Thing thing = selectedObject as Thing;
+				if (thing != null)
 				{
-					object current = enumerator.Current;
-					SelectionDrawer.DrawSelectionBracketFor(current);
-					Thing thing = current as Thing;
-					if (thing != null)
-					{
-						thing.DrawExtraSelectionOverlays();
-					}
+					thing.DrawExtraSelectionOverlays();
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 

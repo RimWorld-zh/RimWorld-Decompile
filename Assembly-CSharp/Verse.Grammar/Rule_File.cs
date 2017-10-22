@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse.Grammar
 {
 	public class Rule_File : Rule
 	{
-		private string path;
+		private string path = (string)null;
 
 		private List<string> pathList = new List<string>();
 
@@ -30,18 +29,9 @@ namespace Verse.Grammar
 			{
 				this.LoadStringsFromFile(this.path);
 			}
-			List<string>.Enumerator enumerator = this.pathList.GetEnumerator();
-			try
+			foreach (string path2 in this.pathList)
 			{
-				while (enumerator.MoveNext())
-				{
-					string current = enumerator.Current;
-					this.LoadStringsFromFile(current);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				this.LoadStringsFromFile(path2);
 			}
 		}
 
@@ -50,33 +40,16 @@ namespace Verse.Grammar
 			List<string> list = default(List<string>);
 			if (Translator.TryGetTranslatedStringsForFile(filePath, out list))
 			{
-				List<string>.Enumerator enumerator = list.GetEnumerator();
-				try
+				foreach (string item in list)
 				{
-					while (enumerator.MoveNext())
-					{
-						string current = enumerator.Current;
-						this.cachedStrings.Add(current);
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					this.cachedStrings.Add(item);
 				}
 			}
 		}
 
 		public override string ToString()
 		{
-			if (!this.path.NullOrEmpty())
-			{
-				return base.keyword + "->(" + this.cachedStrings.Count + " strings from file: " + this.path + ")";
-			}
-			if (this.pathList.Count > 0)
-			{
-				return base.keyword + "->(" + this.cachedStrings.Count + " strings from " + this.pathList.Count + " files)";
-			}
-			return base.keyword + "->(Rule_File with no configuration)";
+			return this.path.NullOrEmpty() ? ((this.pathList.Count <= 0) ? (base.keyword + "->(Rule_File with no configuration)") : (base.keyword + "->(" + this.cachedStrings.Count + " strings from " + this.pathList.Count + " files)")) : (base.keyword + "->(" + this.cachedStrings.Count + " strings from file: " + this.path + ")");
 		}
 	}
 }

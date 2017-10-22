@@ -6,23 +6,13 @@ namespace RimWorld.Planet
 {
 	public class Caravan_PathFollower : IExposable
 	{
-		public const int MaxMoveTicks = 120000;
-
-		private const int MaxCheckAheadNodes = 20;
-
-		private const int MinCostWalk = 50;
-
-		private const int MinCostAmble = 60;
-
-		public const float DefaultPathCostToPayPerTick = 1f;
-
 		private Caravan caravan;
 
 		private bool moving;
 
 		public int nextTile = -1;
 
-		public float nextTileCostLeft;
+		public float nextTileCostLeft = 0f;
 
 		public float nextTileCostTotal = 1f;
 
@@ -33,6 +23,16 @@ namespace RimWorld.Planet
 		public WorldPath curPath;
 
 		public int lastPathedTargetTile;
+
+		public const int MaxMoveTicks = 120000;
+
+		private const int MaxCheckAheadNodes = 20;
+
+		private const int MinCostWalk = 50;
+
+		private const int MinCostAmble = 60;
+
+		public const float DefaultPathCostToPayPerTick = 1f;
 
 		public int Destination
 		{
@@ -164,6 +164,7 @@ namespace RimWorld.Planet
 		private bool TryRecoverFromUnwalkablePosition(int originalDest, CaravanArrivalAction originalArrivalAction)
 		{
 			int num = default(int);
+			bool result;
 			if (GenWorldClosest.TryFindClosestTile(this.caravan.Tile, (Predicate<int>)((int t) => this.IsPassable(t)), out num, 2147483647, true))
 			{
 				Log.Warning(this.caravan + " on unwalkable tile " + this.caravan.Tile + ". Teleporting to " + num);
@@ -171,11 +172,15 @@ namespace RimWorld.Planet
 				this.moving = false;
 				this.nextTile = this.caravan.Tile;
 				this.StartPath(originalDest, originalArrivalAction, false);
-				return true;
+				result = true;
 			}
-			Find.WorldObjects.Remove(this.caravan);
-			Log.Error(this.caravan + " on unwalkable tile " + this.caravan.Tile + ". Could not find walkable position nearby. Removed.");
-			return false;
+			else
+			{
+				Find.WorldObjects.Remove(this.caravan);
+				Log.Error(this.caravan + " on unwalkable tile " + this.caravan.Tile + ". Could not find walkable position nearby. Removed.");
+				result = false;
+			}
+			return result;
 		}
 
 		private void PatherArrived()
@@ -188,7 +193,7 @@ namespace RimWorld.Planet
 			}
 			else if (this.caravan.IsPlayerControlled && !this.caravan.VisibleToCameraNow())
 			{
-				Messages.Message("MessageCaravanArrivedAtDestination".Translate(this.caravan.Label).CapitalizeFirst(), (WorldObject)this.caravan, MessageSound.Benefit);
+				Messages.Message("MessageCaravanArrivedAtDestination".Translate(this.caravan.Label).CapitalizeFirst(), (WorldObject)this.caravan, MessageTypeDefOf.TaskCompletion);
 			}
 		}
 
@@ -263,24 +268,29 @@ namespace RimWorld.Planet
 
 		public static int CostToDisplay(Caravan caravan, int start, int end, float yearPercent = -1f)
 		{
+			int result;
 			if (start != end && end != -1)
 			{
-				return Caravan_PathFollower.CostToMove(caravan.TicksPerMove, start, end, yearPercent);
+				result = Caravan_PathFollower.CostToMove(caravan.TicksPerMove, start, end, yearPercent);
 			}
-			int ticksPerMove = caravan.TicksPerMove;
-			ticksPerMove += WorldPathGrid.CalculatedCostAt(start, false, yearPercent);
-			Tile tile = Find.WorldGrid[start];
-			float num = 1f;
-			if (tile.roads != null)
+			else
 			{
-				for (int i = 0; i < tile.roads.Count; i++)
+				int ticksPerMove = caravan.TicksPerMove;
+				ticksPerMove += WorldPathGrid.CalculatedCostAt(start, false, yearPercent);
+				Tile tile = Find.WorldGrid[start];
+				float num = 1f;
+				if (tile.roads != null)
 				{
-					float a = num;
-					Tile.RoadLink roadLink = tile.roads[i];
-					num = Mathf.Min(a, roadLink.road.movementCostMultiplier);
+					for (int i = 0; i < tile.roads.Count; i++)
+					{
+						float a = num;
+						Tile.RoadLink roadLink = tile.roads[i];
+						num = Mathf.Min(a, roadLink.road.movementCostMultiplier);
+					}
 				}
+				result = Mathf.RoundToInt((float)ticksPerMove * num);
 			}
-			return Mathf.RoundToInt((float)ticksPerMove * num);
+			return result;
 		}
 
 		private float CostToPayThisTick()
@@ -300,17 +310,22 @@ namespace RimWorld.Planet
 		private bool TrySetNewPath()
 		{
 			WorldPath worldPath = this.GenerateNewPath();
+			bool result;
 			if (!worldPath.Found)
 			{
 				this.PatherFailed();
-				return false;
+				result = false;
 			}
-			if (this.curPath != null)
+			else
 			{
-				this.curPath.ReleaseToPool();
+				if (this.curPath != null)
+				{
+					this.curPath.ReleaseToPool();
+				}
+				this.curPath = worldPath;
+				result = true;
 			}
-			this.curPath = worldPath;
-			return true;
+			return result;
 		}
 
 		private WorldPath GenerateNewPath()
@@ -332,25 +347,33 @@ namespace RimWorld.Planet
 
 		private bool NeedNewPath()
 		{
+			bool result;
 			if (!this.moving)
 			{
-				return false;
+				result = false;
 			}
-			if (((this.curPath != null) ? (this.curPath.Found ? this.curPath.NodesLeftCount : 0) : 0) != 0)
+			else if (this.curPath == null || !this.curPath.Found || this.curPath.NodesLeftCount == 0)
+			{
+				result = true;
+			}
+			else
 			{
 				int num = 0;
 				while (num < 20 && num < this.curPath.NodesLeftCount)
 				{
 					int tileID = this.curPath.Peek(num);
 					if (Find.World.Impassable(tileID))
-					{
-						return true;
-					}
+						goto IL_006a;
 					num++;
 				}
-				return false;
+				result = false;
 			}
-			return true;
+			goto IL_0096;
+			IL_0096:
+			return result;
+			IL_006a:
+			result = true;
+			goto IL_0096;
 		}
 	}
 }

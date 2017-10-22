@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public class StatDef : Def
 	{
-		public StatCategoryDef category;
+		public StatCategoryDef category = null;
 
 		public Type workerClass = typeof(StatWorker);
 
@@ -24,39 +24,55 @@ namespace RimWorld
 
 		public bool showOnMechanoids = true;
 
-		public int displayPriorityInCategory;
+		public bool showOnNonWorkTables = true;
+
+		public bool neverDisabled = false;
+
+		public int displayPriorityInCategory = 0;
 
 		public ToStringNumberSense toStringNumberSense = ToStringNumberSense.Absolute;
 
-		public ToStringStyle toStringStyle;
+		public ToStringStyle toStringStyle = ToStringStyle.Integer;
 
-		public string formatString;
+		public ToStringStyle? toStringStyleUnfinalized;
+
+		public string formatString = (string)null;
 
 		public float defaultBaseValue = 1f;
 
-		public float minValue;
+		public List<SkillNeed> skillNeedOffsets = null;
 
-		public float maxValue = 9999999f;
+		public float noSkillOffset = 0f;
 
-		public bool roundValue;
+		public List<PawnCapacityOffset> capacityOffsets = null;
 
-		public float roundToFiveOver = 3.40282347E+38f;
-
-		public List<StatDef> statFactors;
+		public List<StatDef> statFactors = null;
 
 		public bool applyFactorsIfNegative = true;
 
+		public List<SkillNeed> skillNeedFactors = null;
+
 		public float noSkillFactor = 1f;
 
-		public List<SkillNeed> skillNeedFactors;
+		public List<PawnCapacityFactor> capacityFactors = null;
 
-		public List<PawnCapacityFactor> capacityFactors;
+		public SimpleCurve postProcessCurve = null;
 
-		public SimpleCurve postProcessCurve;
+		public float minValue = -9999999f;
 
-		public List<StatPart> parts;
+		public float maxValue = 9999999f;
 
-		private StatWorker workerInt;
+		public bool roundValue = false;
+
+		public float roundToFiveOver = 3.40282347E+38f;
+
+		public bool minifiedThingInherits;
+
+		public bool scenarioRandomizable = false;
+
+		public List<StatPart> parts = null;
+
+		private StatWorker workerInt = null;
 
 		public StatWorker Worker
 		{
@@ -78,51 +94,60 @@ namespace RimWorld
 			}
 		}
 
+		public ToStringStyle ToStringStyleUnfinalized
+		{
+			get
+			{
+				ToStringStyle? nullable = this.toStringStyleUnfinalized;
+				return (!nullable.HasValue) ? this.toStringStyle : this.toStringStyleUnfinalized.Value;
+			}
+		}
+
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string err2 = enumerator.Current;
+					yield return err2;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			if (this.capacityFactors != null)
 			{
-				List<PawnCapacityFactor>.Enumerator enumerator2 = this.capacityFactors.GetEnumerator();
-				try
+				foreach (PawnCapacityFactor capacityFactor in this.capacityFactors)
 				{
-					while (enumerator2.MoveNext())
+					if (capacityFactor.weight > 1.0)
 					{
-						PawnCapacityFactor afac = enumerator2.Current;
-						if (afac.weight > 1.0)
-						{
-							yield return base.defName + " has activity factor with weight > 1";
-						}
+						yield return base.defName + " has activity factor with weight > 1";
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
 				}
 			}
 			if (this.parts != null)
 			{
 				for (int i = 0; i < this.parts.Count; i++)
 				{
-					foreach (string item2 in this.parts[i].ConfigErrors())
+					using (IEnumerator<string> enumerator3 = this.parts[i].ConfigErrors().GetEnumerator())
 					{
-						yield return base.defName + " has error in StatPart " + this.parts[i].ToString() + ": " + item2;
+						if (enumerator3.MoveNext())
+						{
+							string err = enumerator3.Current;
+							yield return base.defName + " has error in StatPart " + this.parts[i].ToString() + ": " + err;
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
 					}
 				}
 			}
+			yield break;
+			IL_02b9:
+			/*Error near IL_02ba: Unexpected return in MoveNext()*/;
 		}
 
 		public string ValueToString(float val, ToStringNumberSense numberSense = ToStringNumberSense.Absolute)
 		{
-			string text = val.ToStringByStyle(this.toStringStyle, numberSense);
-			if (!this.formatString.NullOrEmpty())
-			{
-				text = string.Format(this.formatString, text);
-			}
-			return text;
+			return this.Worker.ValueToString(val, true, numberSense);
 		}
 
 		public static StatDef Named(string defName)

@@ -9,7 +9,7 @@ namespace RimWorld
 
 		public bool visible = true;
 
-		public bool summarized;
+		public bool summarized = false;
 
 		public static float RowHeight
 		{
@@ -126,10 +126,10 @@ namespace RimWorld
 
 		public virtual IEnumerable<string> ConfigErrors()
 		{
-			if (this.def == null)
-			{
-				yield return base.GetType().ToString() + " has null def.";
-			}
+			if (this.def != null)
+				yield break;
+			yield return base.GetType().ToString() + " has null def.";
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

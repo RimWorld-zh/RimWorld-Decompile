@@ -16,11 +16,11 @@ namespace Verse
 
 		public float commonality = 1f;
 
-		public bool tense;
+		public bool tense = false;
 
 		public TimeOfDay allowedTimeOfDay = TimeOfDay.Any;
 
-		public List<Season> allowedSeasons;
+		public List<Season> allowedSeasons = null;
 
 		[Unsaved]
 		public AudioClip clip;

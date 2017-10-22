@@ -28,43 +28,28 @@ namespace Verse
 		{
 			Func<ThingDef, string> ingredients = (Func<ThingDef, string>)delegate(ThingDef d)
 			{
+				string result;
 				if (d.costList == null)
 				{
-					return "-";
+					result = "-";
 				}
-				StringBuilder stringBuilder = new StringBuilder();
-				List<ThingCountClass>.Enumerator enumerator = d.costList.GetEnumerator();
-				try
+				else
 				{
-					while (enumerator.MoveNext())
+					StringBuilder stringBuilder = new StringBuilder();
+					foreach (ThingCountClass cost in d.costList)
 					{
-						ThingCountClass current = enumerator.Current;
 						if (stringBuilder.Length > 0)
 						{
 							stringBuilder.Append(", ");
 						}
-						string text = (!DataAnalysisTableMaker.RequiresBuying(current.thingDef)) ? string.Empty : "*";
-						stringBuilder.Append(current.thingDef.defName + text + " x" + current.count);
+						string text = (!DataAnalysisTableMaker.RequiresBuying(cost.thingDef)) ? "" : "*";
+						stringBuilder.Append(cost.thingDef.defName + text + " x" + cost.count);
 					}
+					result = stringBuilder.ToString().TrimEndNewlines();
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
-				}
-				return stringBuilder.ToString().TrimEndNewlines();
+				return result;
 			};
-			Func<ThingDef, float> workAmount = (Func<ThingDef, float>)delegate(ThingDef d)
-			{
-				if (d.recipeMaker == null)
-				{
-					return -1f;
-				}
-				if (d.recipeMaker.workAmount >= 0)
-				{
-					return (float)d.recipeMaker.workAmount;
-				}
-				return Mathf.Max(d.GetStatValueAbstract(StatDefOf.WorkToMake, null), d.GetStatValueAbstract(StatDefOf.WorkToBuild, null));
-			};
+			Func<ThingDef, float> workAmount = (Func<ThingDef, float>)((ThingDef d) => (float)((d.recipeMaker != null) ? ((d.recipeMaker.workAmount < 0) ? Mathf.Max(d.GetStatValueAbstract(StatDefOf.WorkToMake, null), d.GetStatValueAbstract(StatDefOf.WorkToBuild, null)) : ((float)d.recipeMaker.workAmount)) : -1.0));
 			Func<ThingDef, float> realIngredientCost = (Func<ThingDef, float>)((ThingDef d) => DataAnalysisTableMaker.CostToMake(d, true));
 			Func<ThingDef, float> realSellPrice = (Func<ThingDef, float>)((ThingDef d) => (float)(d.BaseMarketValue * 0.5));
 			Func<ThingDef, float> realBuyPrice = (Func<ThingDef, float>)((ThingDef d) => (float)(d.BaseMarketValue * 1.5));
@@ -88,12 +73,17 @@ namespace Verse
 		{
 			Func<ThingDef, float> gestDays = (Func<ThingDef, float>)delegate(ThingDef d)
 			{
+				float result;
 				if (d.HasComp(typeof(CompEggLayer)))
 				{
 					CompProperties_EggLayer compProperties2 = d.GetCompProperties<CompProperties_EggLayer>();
-					return compProperties2.eggLayIntervalDays / compProperties2.eggCountRange.Average;
+					result = compProperties2.eggLayIntervalDays / compProperties2.eggCountRange.Average;
 				}
-				return d.race.gestationPeriodDays;
+				else
+				{
+					result = d.race.gestationPeriodDays;
+				}
+				return result;
 			};
 			Func<ThingDef, float> nutritionToGestate = (Func<ThingDef, float>)delegate(ThingDef d)
 			{
@@ -130,29 +120,26 @@ namespace Verse
 			Func<ThingDef, string> eggNut = (Func<ThingDef, string>)delegate(ThingDef d)
 			{
 				CompProperties_EggLayer compProperties = d.GetCompProperties<CompProperties_EggLayer>();
-				if (compProperties == null)
-				{
-					return string.Empty;
-				}
-				return compProperties.eggFertilizedDef.ingestible.nutrition.ToString("F2");
+				return (compProperties != null) ? compProperties.eggFertilizedDef.ingestible.nutrition.ToString("F2") : "";
 			};
 			DebugTables.MakeTablesDialog(from d in DefDatabase<ThingDef>.AllDefs
 			where d.category == ThingCategory.Pawn && d.race.IsFlesh
 			orderby bestMeatPerInput(d) descending
-			select d, new TableDataGetter<ThingDef>("animal", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("hungerRate", (Func<ThingDef, string>)((ThingDef d) => d.race.baseHungerRate.ToString("F2"))), new TableDataGetter<ThingDef>("gestDays", (Func<ThingDef, string>)((ThingDef d) => gestDays(d).ToString("F2"))), new TableDataGetter<ThingDef>("herbiv", (Func<ThingDef, string>)((ThingDef d) => (((int)d.race.foodType & 64) == 0) ? string.Empty : "Y")), new TableDataGetter<ThingDef>("eggs", (Func<ThingDef, string>)((ThingDef d) => (!d.HasComp(typeof(CompEggLayer))) ? string.Empty : d.GetCompProperties<CompProperties_EggLayer>().eggCountRange.ToString())), new TableDataGetter<ThingDef>("|", (Func<ThingDef, string>)((ThingDef d) => "|")), new TableDataGetter<ThingDef>("bodySize", (Func<ThingDef, string>)((ThingDef d) => d.race.baseBodySize.ToString("F2"))), new TableDataGetter<ThingDef>("age Adult", (Func<ThingDef, string>)((ThingDef d) => d.race.lifeStageAges[d.race.lifeStageAges.Count - 1].minAge.ToString("F2"))), new TableDataGetter<ThingDef>("nutrition to adulthood", (Func<ThingDef, string>)((ThingDef d) => nutritionToAdulthood(d).ToString("F2"))), new TableDataGetter<ThingDef>("adult meat-nut", (Func<ThingDef, string>)((ThingDef d) => ((float)(d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05000000074505806)).ToString("F2"))), new TableDataGetter<ThingDef>("adult meat-nut / input-nut", (Func<ThingDef, string>)((ThingDef d) => adultMeatNutPerInput(d).ToString("F3"))), new TableDataGetter<ThingDef>("|", (Func<ThingDef, string>)((ThingDef d) => "|")), new TableDataGetter<ThingDef>("baby size", (Func<ThingDef, string>)((ThingDef d) => (d.race.lifeStageAges[0].def.bodySizeFactor * d.race.baseBodySize).ToString("F2"))), new TableDataGetter<ThingDef>("nutrition to gestate", (Func<ThingDef, string>)((ThingDef d) => nutritionToGestate(d).ToString("F2"))), new TableDataGetter<ThingDef>("egg nut", (Func<ThingDef, string>)((ThingDef d) => eggNut(d))), new TableDataGetter<ThingDef>("baby meat-nut", (Func<ThingDef, string>)((ThingDef d) => babyMeatNut(d).ToString("F2"))), new TableDataGetter<ThingDef>("baby meat-nut / input-nut", (Func<ThingDef, string>)((ThingDef d) => babyMeatNutPerInput(d).ToString("F2"))), new TableDataGetter<ThingDef>("baby wins", (Func<ThingDef, string>)((ThingDef d) => (!(babyMeatNutPerInput(d) > adultMeatNutPerInput(d))) ? string.Empty : "B")));
+			select d, new TableDataGetter<ThingDef>("animal", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("hungerRate", (Func<ThingDef, string>)((ThingDef d) => d.race.baseHungerRate.ToString("F2"))), new TableDataGetter<ThingDef>("gestDays", (Func<ThingDef, string>)((ThingDef d) => gestDays(d).ToString("F2"))), new TableDataGetter<ThingDef>("herbiv", (Func<ThingDef, string>)((ThingDef d) => (((int)d.race.foodType & 64) == 0) ? "" : "Y")), new TableDataGetter<ThingDef>("eggs", (Func<ThingDef, string>)((ThingDef d) => (!d.HasComp(typeof(CompEggLayer))) ? "" : d.GetCompProperties<CompProperties_EggLayer>().eggCountRange.ToString())), new TableDataGetter<ThingDef>("|", (Func<ThingDef, string>)((ThingDef d) => "|")), new TableDataGetter<ThingDef>("bodySize", (Func<ThingDef, string>)((ThingDef d) => d.race.baseBodySize.ToString("F2"))), new TableDataGetter<ThingDef>("age Adult", (Func<ThingDef, string>)((ThingDef d) => d.race.lifeStageAges[d.race.lifeStageAges.Count - 1].minAge.ToString("F2"))), new TableDataGetter<ThingDef>("nutrition to adulthood", (Func<ThingDef, string>)((ThingDef d) => nutritionToAdulthood(d).ToString("F2"))), new TableDataGetter<ThingDef>("adult meat-nut", (Func<ThingDef, string>)((ThingDef d) => ((float)(d.GetStatValueAbstract(StatDefOf.MeatAmount, null) * 0.05000000074505806)).ToString("F2"))), new TableDataGetter<ThingDef>("adult meat-nut / input-nut", (Func<ThingDef, string>)((ThingDef d) => adultMeatNutPerInput(d).ToString("F3"))), new TableDataGetter<ThingDef>("|", (Func<ThingDef, string>)((ThingDef d) => "|")), new TableDataGetter<ThingDef>("baby size", (Func<ThingDef, string>)((ThingDef d) => (d.race.lifeStageAges[0].def.bodySizeFactor * d.race.baseBodySize).ToString("F2"))), new TableDataGetter<ThingDef>("nutrition to gestate", (Func<ThingDef, string>)((ThingDef d) => nutritionToGestate(d).ToString("F2"))), new TableDataGetter<ThingDef>("egg nut", (Func<ThingDef, string>)((ThingDef d) => eggNut(d))), new TableDataGetter<ThingDef>("baby meat-nut", (Func<ThingDef, string>)((ThingDef d) => babyMeatNut(d).ToString("F2"))), new TableDataGetter<ThingDef>("baby meat-nut / input-nut", (Func<ThingDef, string>)((ThingDef d) => babyMeatNutPerInput(d).ToString("F2"))), new TableDataGetter<ThingDef>("baby wins", (Func<ThingDef, string>)((ThingDef d) => (!(babyMeatNutPerInput(d) > adultMeatNutPerInput(d))) ? "" : "B")));
 		}
 
 		public static void DoTable_CropEconomy()
 		{
-			Func<ThingDef, float> calculatedProductionCost = (Func<ThingDef, float>)delegate(ThingDef d)
+			Func<ThingDef, float> workCost = (Func<ThingDef, float>)delegate(ThingDef d)
 			{
 				float num = 1.1f;
-				num = (float)(num + d.plant.growDays * 2.7999999523162842);
-				return (float)(num + (d.plant.sowWork + d.plant.harvestWork) * 0.0060000000521540642);
+				num = (float)(num + d.plant.growDays * 1.0);
+				return (float)(num + (d.plant.sowWork + d.plant.harvestWork) * 0.006120000034570694);
 			};
 			DebugTables.MakeTablesDialog(from d in DefDatabase<ThingDef>.AllDefs
-			where d.category == ThingCategory.Plant && d.plant.Harvestable && d.plant.Sowable && !d.plant.IsTree
-			select d, new TableDataGetter<ThingDef>("plant", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("product", (Func<ThingDef, string>)((ThingDef d) => d.plant.harvestedThingDef.defName)), new TableDataGetter<ThingDef>("grow time", (Func<ThingDef, string>)((ThingDef d) => d.plant.growDays.ToString("F1"))), new TableDataGetter<ThingDef>("work", (Func<ThingDef, string>)((ThingDef d) => (d.plant.sowWork + d.plant.harvestWork).ToString("F0"))), new TableDataGetter<ThingDef>("yield", (Func<ThingDef, string>)((ThingDef d) => d.plant.harvestYield.ToString("F1"))), new TableDataGetter<ThingDef>("yield value", (Func<ThingDef, string>)((ThingDef d) => (d.plant.harvestYield * d.plant.harvestedThingDef.BaseMarketValue).ToString("F1"))), new TableDataGetter<ThingDef>("calculated production cost total", (Func<ThingDef, string>)((ThingDef d) => calculatedProductionCost(d).ToString("F2"))), new TableDataGetter<ThingDef>("calculated production cost", (Func<ThingDef, string>)((ThingDef d) => (calculatedProductionCost(d) / d.plant.harvestYield).ToString("F2"))), new TableDataGetter<ThingDef>("value", (Func<ThingDef, string>)((ThingDef d) => d.plant.harvestedThingDef.BaseMarketValue.ToString("F1"))), new TableDataGetter<ThingDef>("nutrition", (Func<ThingDef, string>)((ThingDef d) => (d.plant.harvestedThingDef.ingestible == null) ? string.Empty : d.plant.harvestedThingDef.ingestible.nutrition.ToString("F2"))));
+			where d.category == ThingCategory.Plant && d.plant.Harvestable && d.plant.Sowable
+			orderby d.plant.IsTree
+			select d, new TableDataGetter<ThingDef>("plant", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("product", (Func<ThingDef, string>)((ThingDef d) => d.plant.harvestedThingDef.defName)), new TableDataGetter<ThingDef>("grow time", (Func<ThingDef, string>)((ThingDef d) => d.plant.growDays.ToString("F1"))), new TableDataGetter<ThingDef>("work", (Func<ThingDef, string>)((ThingDef d) => (d.plant.sowWork + d.plant.harvestWork).ToString("F0"))), new TableDataGetter<ThingDef>("harvestCount", (Func<ThingDef, string>)((ThingDef d) => d.plant.harvestYield.ToString("F1"))), new TableDataGetter<ThingDef>("work-cost per cycle", (Func<ThingDef, string>)((ThingDef d) => workCost(d).ToString("F2"))), new TableDataGetter<ThingDef>("work-cost per harvestCount", (Func<ThingDef, string>)((ThingDef d) => (workCost(d) / d.plant.harvestYield).ToString("F2"))), new TableDataGetter<ThingDef>("value each", (Func<ThingDef, string>)((ThingDef d) => d.plant.harvestedThingDef.BaseMarketValue.ToString("F2"))), new TableDataGetter<ThingDef>("harvestValueTotal", (Func<ThingDef, string>)((ThingDef d) => (d.plant.harvestYield * d.plant.harvestedThingDef.BaseMarketValue).ToString("F2"))), new TableDataGetter<ThingDef>("profit per growDay", (Func<ThingDef, string>)((ThingDef d) => ((d.plant.harvestYield * d.plant.harvestedThingDef.BaseMarketValue - workCost(d)) / d.plant.growDays).ToString("F2"))), new TableDataGetter<ThingDef>("nutrition per growDay", (Func<ThingDef, string>)((ThingDef d) => (d.plant.harvestedThingDef.ingestible == null) ? "" : (d.plant.harvestYield * d.plant.harvestedThingDef.ingestible.nutrition / d.plant.growDays).ToString("F2"))), new TableDataGetter<ThingDef>("nutrition", (Func<ThingDef, string>)((ThingDef d) => (d.plant.harvestedThingDef.ingestible == null) ? "" : d.plant.harvestedThingDef.ingestible.nutrition.ToString("F2"))));
 		}
 
 		public static void DoTable_ItemNutritions()
@@ -182,18 +169,7 @@ namespace Verse
 
 		private static void DoItemMarketValues(bool stackable)
 		{
-			Func<ThingDef, float> workAmountGetter = (Func<ThingDef, float>)delegate(ThingDef d)
-			{
-				if (d.recipeMaker == null)
-				{
-					return -1f;
-				}
-				if (d.recipeMaker.workAmount >= 0)
-				{
-					return (float)d.recipeMaker.workAmount;
-				}
-				return Mathf.Max(d.GetStatValueAbstract(StatDefOf.WorkToMake, null), d.GetStatValueAbstract(StatDefOf.WorkToBuild, null));
-			};
+			Func<ThingDef, float> workAmountGetter = (Func<ThingDef, float>)((ThingDef d) => (float)((d.recipeMaker != null) ? ((d.recipeMaker.workAmount < 0) ? Mathf.Max(d.GetStatValueAbstract(StatDefOf.WorkToMake, null), d.GetStatValueAbstract(StatDefOf.WorkToBuild, null)) : ((float)d.recipeMaker.workAmount)) : -1.0));
 			DebugTables.MakeTablesDialog(from d in DefDatabase<ThingDef>.AllDefs
 			where d.category == ThingCategory.Item && d.BaseMarketValue > 0.0099999997764825821 && d.stackLimit > 1 == stackable
 			orderby d.BaseMarketValue
@@ -204,16 +180,17 @@ namespace Verse
 		{
 			Func<ThingDef, StatDef, string> workGetter = (Func<ThingDef, StatDef, string>)delegate(ThingDef d, StatDef stat)
 			{
+				string result;
 				if (d.stuffProps.statFactors == null)
 				{
-					return string.Empty;
+					result = "";
 				}
-				StatModifier statModifier = d.stuffProps.statFactors.FirstOrDefault((Func<StatModifier, bool>)((StatModifier fa) => fa.stat == stat));
-				if (statModifier == null)
+				else
 				{
-					return string.Empty;
+					StatModifier statModifier = d.stuffProps.statFactors.FirstOrDefault((Func<StatModifier, bool>)((StatModifier fa) => fa.stat == stat));
+					result = ((statModifier != null) ? statModifier.value.ToString() : "");
 				}
-				return statModifier.value.ToString();
+				return result;
 			};
 			DebugTables.MakeTablesDialog(from d in DefDatabase<ThingDef>.AllDefs
 			where d.IsStuff
@@ -221,120 +198,90 @@ namespace Verse
 			select d, new TableDataGetter<ThingDef>("defName", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("base market value", (Func<ThingDef, string>)((ThingDef d) => d.BaseMarketValue.ToString("F1"))), new TableDataGetter<ThingDef>("fac-WorkToMake", (Func<ThingDef, string>)((ThingDef d) => workGetter(d, StatDefOf.WorkToMake))), new TableDataGetter<ThingDef>("fac-WorkToBuild", (Func<ThingDef, string>)((ThingDef d) => workGetter(d, StatDefOf.WorkToBuild))));
 		}
 
-		public static void DoTable_Recipes()
+		public static void DoTable_ProductionRecipes()
 		{
 			Func<RecipeDef, float> trueWork = (Func<RecipeDef, float>)((RecipeDef d) => d.WorkAmountTotal(null));
 			Func<RecipeDef, float> cheapestIngredientVal = (Func<RecipeDef, float>)delegate(RecipeDef d)
 			{
 				float num2 = 0f;
-				List<IngredientCount>.Enumerator enumerator2 = d.ingredients.GetEnumerator();
-				try
+				foreach (IngredientCount ingredient in d.ingredients)
 				{
-					while (enumerator2.MoveNext())
-					{
-						IngredientCount current2 = enumerator2.Current;
-						num2 += current2.filter.AllowedThingDefs.Min((Func<ThingDef, float>)((ThingDef td) => td.BaseMarketValue)) * current2.GetBaseCount();
-					}
-					return num2;
+					num2 += ingredient.filter.AllowedThingDefs.Min((Func<ThingDef, float>)((ThingDef td) => td.BaseMarketValue)) * ingredient.GetBaseCount();
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
-				}
+				return num2;
 			};
 			Func<RecipeDef, float> workVal = (Func<RecipeDef, float>)((RecipeDef d) => (float)(trueWork(d) * 0.0099999997764825821));
 			Func<RecipeDef, float> cheapestProductsVal = (Func<RecipeDef, float>)delegate(RecipeDef d)
 			{
 				ThingDef thingDef = d.ingredients.First().filter.AllowedThingDefs.MinBy((Func<ThingDef, float>)((ThingDef td) => td.BaseMarketValue));
 				float num = 0f;
-				List<ThingCountClass>.Enumerator enumerator = d.products.GetEnumerator();
-				try
+				foreach (ThingCountClass product in d.products)
 				{
-					while (enumerator.MoveNext())
-					{
-						ThingCountClass current = enumerator.Current;
-						num += current.thingDef.GetStatValueAbstract(StatDefOf.MarketValue, (!current.thingDef.MadeFromStuff) ? null : thingDef) * (float)current.count;
-					}
-					return num;
+					num += product.thingDef.GetStatValueAbstract(StatDefOf.MarketValue, (!product.thingDef.MadeFromStuff) ? null : thingDef) * (float)product.count;
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
-				}
+				return num;
 			};
 			DebugTables.MakeTablesDialog(from d in DefDatabase<RecipeDef>.AllDefs
-			where !d.products.NullOrEmpty()
+			where !d.products.NullOrEmpty() && !d.ingredients.NullOrEmpty()
 			select d, new TableDataGetter<RecipeDef>("defName", (Func<RecipeDef, string>)((RecipeDef d) => d.defName)), new TableDataGetter<RecipeDef>("work", (Func<RecipeDef, string>)((RecipeDef d) => trueWork(d).ToString("F0"))), new TableDataGetter<RecipeDef>("cheapest ingredients value", (Func<RecipeDef, string>)((RecipeDef d) => cheapestIngredientVal(d).ToString("F1"))), new TableDataGetter<RecipeDef>("work value", (Func<RecipeDef, string>)((RecipeDef d) => workVal(d).ToString("F1"))), new TableDataGetter<RecipeDef>("cheapest products value", (Func<RecipeDef, string>)((RecipeDef d) => cheapestProductsVal(d).ToString("F1"))), new TableDataGetter<RecipeDef>("profit raw", (Func<RecipeDef, string>)((RecipeDef d) => (cheapestProductsVal(d) - cheapestIngredientVal(d)).ToString("F1"))), new TableDataGetter<RecipeDef>("profit with work", (Func<RecipeDef, string>)((RecipeDef d) => (cheapestProductsVal(d) - workVal(d) - cheapestIngredientVal(d)).ToString("F1"))), new TableDataGetter<RecipeDef>("profit per work day", (Func<RecipeDef, string>)((RecipeDef d) => ((float)((cheapestProductsVal(d) - cheapestIngredientVal(d)) * 60000.0 / trueWork(d))).ToString("F0"))));
 		}
 
 		private static string CostToMakeString(ThingDef d, bool real = false)
 		{
-			if (d.recipeMaker == null)
-			{
-				return "-";
-			}
-			return DataAnalysisTableMaker.CostToMake(d, real).ToString("F1");
+			return (d.recipeMaker != null) ? DataAnalysisTableMaker.CostToMake(d, real).ToString("F1") : "-";
 		}
 
 		private static float CostToMake(ThingDef d, bool real = false)
 		{
+			float result;
 			if (d.recipeMaker == null)
 			{
-				return d.BaseMarketValue;
+				result = d.BaseMarketValue;
 			}
-			float num = 0f;
-			if (d.costList != null)
+			else
 			{
-				List<ThingCountClass>.Enumerator enumerator = d.costList.GetEnumerator();
-				try
+				float num = 0f;
+				if (d.costList != null)
 				{
-					while (enumerator.MoveNext())
+					foreach (ThingCountClass cost in d.costList)
 					{
-						ThingCountClass current = enumerator.Current;
 						float num2 = 1f;
 						if (real)
 						{
-							num2 = (float)((!DataAnalysisTableMaker.RequiresBuying(current.thingDef)) ? 0.5 : 1.5);
+							num2 = (float)((!DataAnalysisTableMaker.RequiresBuying(cost.thingDef)) ? 0.5 : 1.5);
 						}
-						num += (float)current.count * DataAnalysisTableMaker.CostToMake(current.thingDef, true) * num2;
+						num += (float)cost.count * DataAnalysisTableMaker.CostToMake(cost.thingDef, true) * num2;
 					}
 				}
-				finally
+				if (d.costStuffCount > 0)
 				{
-					((IDisposable)(object)enumerator).Dispose();
+					ThingDef thingDef = GenStuff.DefaultStuffFor(d);
+					num += (float)d.costStuffCount * thingDef.BaseMarketValue;
 				}
+				result = num;
 			}
-			if (d.costStuffCount > 0)
-			{
-				ThingDef thingDef = GenStuff.DefaultStuffFor(d);
-				num += (float)d.costStuffCount * thingDef.BaseMarketValue;
-			}
-			return num;
+			return result;
 		}
 
 		private static bool RequiresBuying(ThingDef def)
 		{
+			bool result;
 			if (def.costList != null)
 			{
-				List<ThingCountClass>.Enumerator enumerator = def.costList.GetEnumerator();
-				try
+				foreach (ThingCountClass cost in def.costList)
 				{
-					while (enumerator.MoveNext())
+					if (DataAnalysisTableMaker.RequiresBuying(cost.thingDef))
 					{
-						ThingCountClass current = enumerator.Current;
-						if (DataAnalysisTableMaker.RequiresBuying(current.thingDef))
-						{
-							return true;
-						}
+						return true;
 					}
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
-				}
-				return false;
+				result = false;
 			}
-			return !DefDatabase<ThingDef>.AllDefs.Any((Func<ThingDef, bool>)((ThingDef d) => d.plant != null && d.plant.harvestedThingDef == def && d.plant.Sowable));
+			else
+			{
+				result = !DefDatabase<ThingDef>.AllDefs.Any((Func<ThingDef, bool>)((ThingDef d) => d.plant != null && d.plant.harvestedThingDef == def && d.plant.Sowable));
+			}
+			return result;
 		}
 
 		public static void DoTable_RacesBasics()
@@ -356,25 +303,25 @@ namespace Verse
 				if (d.RaceProps.TrainableIntelligence == TrainableIntelligenceDefOf.None)
 				{
 					num = (float)(num * 0.5);
-					goto IL_00a3;
+					goto IL_00a4;
 				}
 				if (d.RaceProps.TrainableIntelligence == TrainableIntelligenceDefOf.Simple)
 				{
 					num = (float)(num * 0.800000011920929);
-					goto IL_00a3;
+					goto IL_00a4;
 				}
 				if (d.RaceProps.TrainableIntelligence == TrainableIntelligenceDefOf.Intermediate)
 				{
 					num = num;
-					goto IL_00a3;
+					goto IL_00a4;
 				}
 				if (d.RaceProps.TrainableIntelligence == TrainableIntelligenceDefOf.Advanced)
 				{
 					num = (float)(num + 250.0);
-					goto IL_00a3;
+					goto IL_00a4;
 				}
 				throw new InvalidOperationException();
-				IL_00a3:
+				IL_00a4:
 				num = (float)(num + d.RaceProps.baseBodySize * 80.0);
 				if (d.race.HasComp(typeof(CompMilkable)))
 				{
@@ -393,49 +340,69 @@ namespace Verse
 			};
 			DebugTables.MakeTablesDialog(from d in DefDatabase<PawnKindDef>.AllDefs
 			where d.race != null && !d.RaceProps.Humanlike
-			select d, new TableDataGetter<PawnKindDef>("defName", (Func<PawnKindDef, string>)((PawnKindDef d) => d.defName)), new TableDataGetter<PawnKindDef>("points", (Func<PawnKindDef, string>)((PawnKindDef d) => d.combatPower.ToString("F0"))), new TableDataGetter<PawnKindDef>("points guess", (Func<PawnKindDef, string>)((PawnKindDef d) => pointsGuess(d).ToString("F0"))), new TableDataGetter<PawnKindDef>("mktval", (Func<PawnKindDef, string>)((PawnKindDef d) => d.race.GetStatValueAbstract(StatDefOf.MarketValue, null).ToString("F0"))), new TableDataGetter<PawnKindDef>("mktval guess", (Func<PawnKindDef, string>)((PawnKindDef d) => mktValGuess(d).ToString("F0"))), new TableDataGetter<PawnKindDef>("healthScale", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.baseHealthScale.ToString("F2"))), new TableDataGetter<PawnKindDef>("bodySize", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.baseBodySize.ToString("F2"))), new TableDataGetter<PawnKindDef>("hunger rate", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.baseHungerRate.ToString("F2"))), new TableDataGetter<PawnKindDef>("speed", (Func<PawnKindDef, string>)((PawnKindDef d) => d.race.GetStatValueAbstract(StatDefOf.MoveSpeed, null).ToString("F2"))), new TableDataGetter<PawnKindDef>("melee dps", (Func<PawnKindDef, string>)((PawnKindDef d) => dps(d).ToString("F2"))), new TableDataGetter<PawnKindDef>("wildness", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.wildness.ToStringPercent())), new TableDataGetter<PawnKindDef>("life expec.", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.lifeExpectancy.ToString("F1"))), new TableDataGetter<PawnKindDef>("train-int", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.TrainableIntelligence.GetLabel())), new TableDataGetter<PawnKindDef>("temps", (Func<PawnKindDef, string>)((PawnKindDef d) => d.race.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null).ToString("F0") + ".." + d.race.GetStatValueAbstract(StatDefOf.ComfyTemperatureMax, null).ToString("F0"))), new TableDataGetter<PawnKindDef>("mateMtb", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.mateMtbHours.ToStringEmptyZero("F0"))), new TableDataGetter<PawnKindDef>("nuzzMtb", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.nuzzleMtbHours.ToStringEmptyZero("F0"))), new TableDataGetter<PawnKindDef>("mhChDam", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.manhunterOnDamageChance.ToStringPercentEmptyZero("F2"))), new TableDataGetter<PawnKindDef>("mhChTam", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.manhunterOnTameFailChance.ToStringPercentEmptyZero("F2"))));
+			select d, new TableDataGetter<PawnKindDef>("defName", (Func<PawnKindDef, string>)((PawnKindDef d) => d.defName)), new TableDataGetter<PawnKindDef>("points", (Func<PawnKindDef, string>)((PawnKindDef d) => d.combatPower.ToString("F0"))), new TableDataGetter<PawnKindDef>("points guess", (Func<PawnKindDef, string>)((PawnKindDef d) => pointsGuess(d).ToString("F0"))), new TableDataGetter<PawnKindDef>("mktval", (Func<PawnKindDef, string>)((PawnKindDef d) => d.race.GetStatValueAbstract(StatDefOf.MarketValue, null).ToString("F0"))), new TableDataGetter<PawnKindDef>("mktval guess", (Func<PawnKindDef, string>)((PawnKindDef d) => mktValGuess(d).ToString("F0"))), new TableDataGetter<PawnKindDef>("healthScale", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.baseHealthScale.ToString("F2"))), new TableDataGetter<PawnKindDef>("bodySize", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.baseBodySize.ToString("F2"))), new TableDataGetter<PawnKindDef>("hunger rate", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.baseHungerRate.ToString("F2"))), new TableDataGetter<PawnKindDef>("speed", (Func<PawnKindDef, string>)((PawnKindDef d) => d.race.GetStatValueAbstract(StatDefOf.MoveSpeed, null).ToString("F2"))), new TableDataGetter<PawnKindDef>("melee dps", (Func<PawnKindDef, string>)((PawnKindDef d) => dps(d).ToString("F2"))), new TableDataGetter<PawnKindDef>("wildness", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.wildness.ToStringPercent())), new TableDataGetter<PawnKindDef>("life expec.", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.lifeExpectancy.ToString("F1"))), new TableDataGetter<PawnKindDef>("train-int", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.TrainableIntelligence.label)), new TableDataGetter<PawnKindDef>("temps", (Func<PawnKindDef, string>)((PawnKindDef d) => d.race.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null).ToString("F0") + ".." + d.race.GetStatValueAbstract(StatDefOf.ComfyTemperatureMax, null).ToString("F0"))), new TableDataGetter<PawnKindDef>("mateMtb", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.mateMtbHours.ToStringEmptyZero("F0"))), new TableDataGetter<PawnKindDef>("nuzzMtb", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.nuzzleMtbHours.ToStringEmptyZero("F0"))), new TableDataGetter<PawnKindDef>("mhChDam", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.manhunterOnDamageChance.ToStringPercentEmptyZero("F2"))), new TableDataGetter<PawnKindDef>("mhChTam", (Func<PawnKindDef, string>)((PawnKindDef d) => d.RaceProps.manhunterOnTameFailChance.ToStringPercentEmptyZero("F2"))));
 		}
 
 		private static float RaceMeleeDpsEstimate(ThingDef race)
 		{
+			float result;
 			if (race.Verbs.NullOrEmpty())
 			{
-				return 0f;
+				result = 0f;
 			}
-			IEnumerable<VerbProperties> list = from v in race.Verbs
-			where (float)v.meleeDamageBaseAmount > 0.0010000000474974513
-			select v;
-			return list.AverageWeighted((Func<VerbProperties, float>)((VerbProperties v) => v.BaseSelectionWeight), (Func<VerbProperties, float>)((VerbProperties v) => (float)v.meleeDamageBaseAmount / (v.defaultCooldownTime + v.warmupTime)));
+			else
+			{
+				IEnumerable<VerbProperties> list = from v in race.Verbs
+				where (float)v.meleeDamageBaseAmount > 0.0010000000474974513
+				select v;
+				result = list.AverageWeighted((Func<VerbProperties, float>)((VerbProperties v) => v.BaseMeleeSelectionWeight), (Func<VerbProperties, float>)((VerbProperties v) => (float)v.meleeDamageBaseAmount / (v.defaultCooldownTime + v.warmupTime)));
+			}
+			return result;
 		}
 
 		public static void DoTable_RacesFoodConsumption()
 		{
 			Func<ThingDef, int, string> lsName = (Func<ThingDef, int, string>)delegate(ThingDef d, int lsIndex)
 			{
+				string result3;
 				if (d.race.lifeStageAges.Count <= lsIndex)
 				{
-					return string.Empty;
+					result3 = "";
 				}
-				LifeStageDef def3 = d.race.lifeStageAges[lsIndex].def;
-				return def3.defName;
+				else
+				{
+					LifeStageDef def3 = d.race.lifeStageAges[lsIndex].def;
+					result3 = def3.defName;
+				}
+				return result3;
 			};
 			Func<ThingDef, int, string> maxFood = (Func<ThingDef, int, string>)delegate(ThingDef d, int lsIndex)
 			{
+				string result2;
 				if (d.race.lifeStageAges.Count <= lsIndex)
 				{
-					return string.Empty;
+					result2 = "";
 				}
-				LifeStageDef def2 = d.race.lifeStageAges[lsIndex].def;
-				return (d.race.baseBodySize * def2.bodySizeFactor * def2.foodMaxFactor).ToString("F2");
+				else
+				{
+					LifeStageDef def2 = d.race.lifeStageAges[lsIndex].def;
+					result2 = (d.race.baseBodySize * def2.bodySizeFactor * def2.foodMaxFactor).ToString("F2");
+				}
+				return result2;
 			};
 			Func<ThingDef, int, string> hungerRate = (Func<ThingDef, int, string>)delegate(ThingDef d, int lsIndex)
 			{
+				string result;
 				if (d.race.lifeStageAges.Count <= lsIndex)
 				{
-					return string.Empty;
+					result = "";
 				}
-				LifeStageDef def = d.race.lifeStageAges[lsIndex].def;
-				return (d.race.baseHungerRate * def.hungerRateFactor).ToString("F2");
+				else
+				{
+					LifeStageDef def = d.race.lifeStageAges[lsIndex].def;
+					result = (d.race.baseHungerRate * def.hungerRateFactor).ToString("F2");
+				}
+				return result;
 			};
 			DebugTables.MakeTablesDialog(from d in DefDatabase<ThingDef>.AllDefs
 			where d.race != null && d.race.EatsFood
@@ -443,12 +410,64 @@ namespace Verse
 			select d, new TableDataGetter<ThingDef>("defName", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("Lifestage 0", (Func<ThingDef, string>)((ThingDef d) => lsName(d, 0))), new TableDataGetter<ThingDef>("maxFood", (Func<ThingDef, string>)((ThingDef d) => maxFood(d, 0))), new TableDataGetter<ThingDef>("hungerRate", (Func<ThingDef, string>)((ThingDef d) => hungerRate(d, 0))), new TableDataGetter<ThingDef>("Lifestage 1", (Func<ThingDef, string>)((ThingDef d) => lsName(d, 1))), new TableDataGetter<ThingDef>("maxFood", (Func<ThingDef, string>)((ThingDef d) => maxFood(d, 1))), new TableDataGetter<ThingDef>("hungerRate", (Func<ThingDef, string>)((ThingDef d) => hungerRate(d, 1))), new TableDataGetter<ThingDef>("Lifestage 2", (Func<ThingDef, string>)((ThingDef d) => lsName(d, 2))), new TableDataGetter<ThingDef>("maxFood", (Func<ThingDef, string>)((ThingDef d) => maxFood(d, 2))), new TableDataGetter<ThingDef>("hungerRate", (Func<ThingDef, string>)((ThingDef d) => hungerRate(d, 2))), new TableDataGetter<ThingDef>("Lifestage 3", (Func<ThingDef, string>)((ThingDef d) => lsName(d, 3))), new TableDataGetter<ThingDef>("maxFood", (Func<ThingDef, string>)((ThingDef d) => maxFood(d, 3))), new TableDataGetter<ThingDef>("hungerRate", (Func<ThingDef, string>)((ThingDef d) => hungerRate(d, 3))));
 		}
 
+		public static void DoTable_AnimalBiomeCommonalities()
+		{
+			List<TableDataGetter<PawnKindDef>> list = (from b in DefDatabase<BiomeDef>.AllDefs
+			where b.implemented && b.canBuildBase
+			orderby b.animalDensity
+			select new TableDataGetter<PawnKindDef>(b.defName, (Func<PawnKindDef, string>)delegate(PawnKindDef k)
+			{
+				float num = DefDatabase<PawnKindDef>.AllDefs.Sum((Func<PawnKindDef, float>)((PawnKindDef ki) => b.CommonalityOfAnimal(ki)));
+				float num2 = b.CommonalityOfAnimal(k);
+				float num3 = num2 / num;
+				return (num3 != 0.0) ? num3.ToStringPercent("F1") : "";
+			})).ToList();
+			list.Insert(0, new TableDataGetter<PawnKindDef>("animal", (Func<PawnKindDef, string>)((PawnKindDef k) => k.defName + ((!k.race.race.predator) ? "" : "*"))));
+			DebugTables.MakeTablesDialog(from d in DefDatabase<PawnKindDef>.AllDefs
+			where d.race != null && d.RaceProps.Animal
+			orderby d.defName
+			select d, list.ToArray());
+		}
+
+		public static void DoTable_AnimalCombatBalance()
+		{
+			Func<PawnKindDef, float> meleeDps = (Func<PawnKindDef, float>)delegate(PawnKindDef k)
+			{
+				Pawn pawn2 = PawnGenerator.GeneratePawn(k, null);
+				while (pawn2.health.hediffSet.hediffs.Count > 0)
+				{
+					pawn2.health.RemoveHediff(pawn2.health.hediffSet.hediffs[0]);
+				}
+				return pawn2.GetStatValue(StatDefOf.MeleeDPS, true);
+			};
+			Func<PawnKindDef, float> averageArmor = (Func<PawnKindDef, float>)delegate(PawnKindDef k)
+			{
+				Pawn pawn = PawnGenerator.GeneratePawn(k, null);
+				while (pawn.health.hediffSet.hediffs.Count > 0)
+				{
+					pawn.health.RemoveHediff(pawn.health.hediffSet.hediffs[0]);
+				}
+				return (float)((pawn.GetStatValue(StatDefOf.ArmorRating_Blunt, true) + pawn.GetStatValue(StatDefOf.ArmorRating_Sharp, true)) / 2.0);
+			};
+			Func<PawnKindDef, float> combatPowerCalculated = (Func<PawnKindDef, float>)delegate(PawnKindDef k)
+			{
+				float num = (float)(1.0 + meleeDps(k) * 2.0);
+				float num2 = (float)(1.0 + (k.RaceProps.baseHealthScale + averageArmor(k) * 1.7999999523162842) * 2.0);
+				float num3 = (float)(num * num2 * 2.5 + 10.0);
+				return (float)(num3 + k.race.GetStatValueAbstract(StatDefOf.MoveSpeed, null) * 2.0);
+			};
+			DebugTables.MakeTablesDialog(from d in DefDatabase<PawnKindDef>.AllDefs
+			where d.race != null && d.RaceProps.Animal
+			orderby d.combatPower
+			select d, new TableDataGetter<PawnKindDef>("animal", (Func<PawnKindDef, string>)((PawnKindDef k) => k.defName)), new TableDataGetter<PawnKindDef>("meleeDps", (Func<PawnKindDef, string>)((PawnKindDef k) => meleeDps(k).ToString("F1"))), new TableDataGetter<PawnKindDef>("baseHealthScale", (Func<PawnKindDef, string>)((PawnKindDef k) => k.RaceProps.baseHealthScale.ToString())), new TableDataGetter<PawnKindDef>("moveSpeed", (Func<PawnKindDef, string>)((PawnKindDef k) => k.race.GetStatValueAbstract(StatDefOf.MoveSpeed, null).ToString())), new TableDataGetter<PawnKindDef>("averageArmor", (Func<PawnKindDef, string>)((PawnKindDef k) => averageArmor(k).ToStringPercent())), new TableDataGetter<PawnKindDef>("combatPowerCalculated", (Func<PawnKindDef, string>)((PawnKindDef k) => combatPowerCalculated(k).ToString("F0"))), new TableDataGetter<PawnKindDef>("combatPower", (Func<PawnKindDef, string>)((PawnKindDef k) => k.combatPower.ToString())));
+		}
+
 		public static void DoTable_PlantsBasics()
 		{
 			DebugTables.MakeTablesDialog(from d in DefDatabase<ThingDef>.AllDefs
 			where d.category == ThingCategory.Plant
 			orderby d.plant.fertilitySensitivity
-			select d, new TableDataGetter<ThingDef>("defName", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("growDays", (Func<ThingDef, string>)((ThingDef d) => d.plant.growDays.ToString("F2"))), new TableDataGetter<ThingDef>("reproduceMtb", (Func<ThingDef, string>)((ThingDef d) => d.plant.reproduceMtbDays.ToString("F2"))), new TableDataGetter<ThingDef>("nutrition", (Func<ThingDef, string>)((ThingDef d) => (d.ingestible == null) ? "-" : d.ingestible.nutrition.ToString("F2"))), new TableDataGetter<ThingDef>("nut/day", (Func<ThingDef, string>)((ThingDef d) => (d.ingestible == null) ? "-" : (d.ingestible.nutrition / d.plant.growDays).ToString("F4"))), new TableDataGetter<ThingDef>("fertilityMin", (Func<ThingDef, string>)((ThingDef d) => d.plant.fertilityMin.ToString("F2"))), new TableDataGetter<ThingDef>("fertilitySensitivity", (Func<ThingDef, string>)((ThingDef d) => d.plant.fertilitySensitivity.ToString("F2"))));
+			select d, new TableDataGetter<ThingDef>("defName", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("growDays", (Func<ThingDef, string>)((ThingDef d) => d.plant.growDays.ToString("F2"))), new TableDataGetter<ThingDef>("reproduceMtb", (Func<ThingDef, string>)((ThingDef d) => d.plant.reproduceMtbDays.ToString("F2"))), new TableDataGetter<ThingDef>("nutrition", (Func<ThingDef, string>)((ThingDef d) => (d.ingestible == null) ? "-" : d.ingestible.nutrition.ToString("F2"))), new TableDataGetter<ThingDef>("nut/day", (Func<ThingDef, string>)((ThingDef d) => (d.ingestible == null) ? "-" : (d.ingestible.nutrition / d.plant.growDays).ToString("F4"))), new TableDataGetter<ThingDef>("fertilityMin", (Func<ThingDef, string>)((ThingDef d) => d.plant.fertilityMin.ToString("F2"))), new TableDataGetter<ThingDef>("fertilitySensitivity", (Func<ThingDef, string>)((ThingDef d) => d.plant.fertilitySensitivity.ToString("F2"))), new TableDataGetter<ThingDef>("blightable", (Func<ThingDef, string>)((ThingDef d) => (!d.plant.Blightable) ? "" : "blightable")));
 		}
 
 		public static void DoTable_WeaponPairs()
@@ -463,33 +482,33 @@ namespace Verse
 
 		public static void DoTable_WeaponsRanged()
 		{
-			Func<ThingDef, int> damageGetter = (Func<ThingDef, int>)((ThingDef d) => (d.Verbs[0].projectileDef != null) ? d.Verbs[0].projectileDef.projectile.damageAmountBase : 0);
-			Func<ThingDef, float> warmupGetter = (Func<ThingDef, float>)((ThingDef d) => d.Verbs[0].warmupTime);
-			Func<ThingDef, float> cooldownGetter = (Func<ThingDef, float>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.RangedWeapon_Cooldown, null));
-			Func<ThingDef, int> burstShotsGetter = (Func<ThingDef, int>)((ThingDef d) => d.Verbs[0].burstShotCount);
-			Func<ThingDef, float> dpsRawGetter = (Func<ThingDef, float>)delegate(ThingDef d)
+			Func<ThingDef, int> damage = (Func<ThingDef, int>)((ThingDef d) => (d.Verbs[0].defaultProjectile != null) ? d.Verbs[0].defaultProjectile.projectile.damageAmountBase : 0);
+			Func<ThingDef, float> warmup = (Func<ThingDef, float>)((ThingDef d) => d.Verbs[0].warmupTime);
+			Func<ThingDef, float> cooldown = (Func<ThingDef, float>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.RangedWeapon_Cooldown, null));
+			Func<ThingDef, int> burstShots = (Func<ThingDef, int>)((ThingDef d) => d.Verbs[0].burstShotCount);
+			Func<ThingDef, float> dpsMissless = (Func<ThingDef, float>)delegate(ThingDef d)
 			{
-				int num2 = burstShotsGetter(d);
-				float num3 = warmupGetter(d) + cooldownGetter(d);
+				int num2 = burstShots(d);
+				float num3 = warmup(d) + cooldown(d);
 				num3 = (float)(num3 + (float)(num2 - 1) * ((float)d.Verbs[0].ticksBetweenBurstShots / 60.0));
-				return (float)(damageGetter(d) * num2) / num3;
+				return (float)(damage(d) * num2) / num3;
 			};
-			Func<ThingDef, float> accTouchGetter = (Func<ThingDef, float>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.AccuracyTouch, null));
-			Func<ThingDef, float> accShortGetter = (Func<ThingDef, float>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.AccuracyShort, null));
-			Func<ThingDef, float> accMedGetter = (Func<ThingDef, float>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.AccuracyMedium, null));
-			Func<ThingDef, float> accLongGetter = (Func<ThingDef, float>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.AccuracyLong, null));
-			Func<ThingDef, float> dpsAvgGetter = (Func<ThingDef, float>)delegate(ThingDef d)
+			Func<ThingDef, float> accTouch = (Func<ThingDef, float>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.AccuracyTouch, null));
+			Func<ThingDef, float> accShort = (Func<ThingDef, float>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.AccuracyShort, null));
+			Func<ThingDef, float> accMed = (Func<ThingDef, float>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.AccuracyMedium, null));
+			Func<ThingDef, float> accLong = (Func<ThingDef, float>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.AccuracyLong, null));
+			Func<ThingDef, float> dpsAvg = (Func<ThingDef, float>)delegate(ThingDef d)
 			{
 				float num = 0f;
-				num += dpsRawGetter(d) * accShortGetter(d);
-				num += dpsRawGetter(d) * accMedGetter(d);
-				num += dpsRawGetter(d) * accLongGetter(d);
-				return (float)(num / 3.0);
+				num += dpsMissless(d) * accShort(d);
+				num += dpsMissless(d) * accMed(d);
+				num += dpsMissless(d) * accMed(d);
+				num += dpsMissless(d) * accLong(d);
+				return (float)(num / 4.0);
 			};
-			DebugTables.MakeTablesDialog(from d in DefDatabase<ThingDef>.AllDefs
+			DebugTables.MakeTablesDialog((from d in DefDatabase<ThingDef>.AllDefs
 			where d.IsRangedWeapon
-			orderby d.GetStatValueAbstract(StatDefOf.MarketValue, null)
-			select d, new TableDataGetter<ThingDef>("defName", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("damage", (Func<ThingDef, string>)((ThingDef d) => damageGetter(d).ToString())), new TableDataGetter<ThingDef>("warmup", (Func<ThingDef, string>)((ThingDef d) => warmupGetter(d).ToString("F2"))), new TableDataGetter<ThingDef>("burst", (Func<ThingDef, string>)((ThingDef d) => burstShotsGetter(d).ToString())), new TableDataGetter<ThingDef>("cooldown", (Func<ThingDef, string>)((ThingDef d) => cooldownGetter(d).ToString("F2"))), new TableDataGetter<ThingDef>("dpsRaw", (Func<ThingDef, string>)((ThingDef d) => dpsRawGetter(d).ToString("F3"))), new TableDataGetter<ThingDef>("accTouch", (Func<ThingDef, string>)((ThingDef d) => accTouchGetter(d).ToStringPercent())), new TableDataGetter<ThingDef>("accShort", (Func<ThingDef, string>)((ThingDef d) => accShortGetter(d).ToStringPercent())), new TableDataGetter<ThingDef>("accMed", (Func<ThingDef, string>)((ThingDef d) => accMedGetter(d).ToStringPercent())), new TableDataGetter<ThingDef>("accLong", (Func<ThingDef, string>)((ThingDef d) => accLongGetter(d).ToStringPercent())), new TableDataGetter<ThingDef>("dpsTouch", (Func<ThingDef, string>)((ThingDef d) => (dpsRawGetter(d) * accTouchGetter(d)).ToString("F2"))), new TableDataGetter<ThingDef>("dpsShort", (Func<ThingDef, string>)((ThingDef d) => (dpsRawGetter(d) * accShortGetter(d)).ToString("F2"))), new TableDataGetter<ThingDef>("dpsMed", (Func<ThingDef, string>)((ThingDef d) => (dpsRawGetter(d) * accMedGetter(d)).ToString("F2"))), new TableDataGetter<ThingDef>("dpsLong", (Func<ThingDef, string>)((ThingDef d) => (dpsRawGetter(d) * accLongGetter(d)).ToString("F2"))), new TableDataGetter<ThingDef>("dpsAvg", (Func<ThingDef, string>)((ThingDef d) => dpsAvgGetter(d).ToString("F2"))), new TableDataGetter<ThingDef>("mktval", (Func<ThingDef, string>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.MarketValue, null).ToString("F0"))), new TableDataGetter<ThingDef>("work", (Func<ThingDef, string>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.WorkToMake, null).ToString("F0"))));
+			select d).OrderByDescending(dpsAvg), new TableDataGetter<ThingDef>("defName", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("damage", (Func<ThingDef, string>)((ThingDef d) => damage(d).ToString())), new TableDataGetter<ThingDef>("warmup", (Func<ThingDef, string>)((ThingDef d) => warmup(d).ToString("F2"))), new TableDataGetter<ThingDef>("burst", (Func<ThingDef, string>)((ThingDef d) => burstShots(d).ToString())), new TableDataGetter<ThingDef>("cooldown", (Func<ThingDef, string>)((ThingDef d) => cooldown(d).ToString("F2"))), new TableDataGetter<ThingDef>("range", (Func<ThingDef, string>)((ThingDef d) => d.Verbs[0].range.ToString("F0"))), new TableDataGetter<ThingDef>("dpsMissless", (Func<ThingDef, string>)((ThingDef d) => dpsMissless(d).ToString("F2"))), new TableDataGetter<ThingDef>("accTouch", (Func<ThingDef, string>)((ThingDef d) => accTouch(d).ToStringPercent())), new TableDataGetter<ThingDef>("accShort", (Func<ThingDef, string>)((ThingDef d) => accShort(d).ToStringPercent())), new TableDataGetter<ThingDef>("accMed", (Func<ThingDef, string>)((ThingDef d) => accMed(d).ToStringPercent())), new TableDataGetter<ThingDef>("accLong", (Func<ThingDef, string>)((ThingDef d) => accLong(d).ToStringPercent())), new TableDataGetter<ThingDef>("dpsTouch", (Func<ThingDef, string>)((ThingDef d) => (dpsMissless(d) * accTouch(d)).ToString("F2"))), new TableDataGetter<ThingDef>("dpsShort", (Func<ThingDef, string>)((ThingDef d) => (dpsMissless(d) * accShort(d)).ToString("F2"))), new TableDataGetter<ThingDef>("dpsMed", (Func<ThingDef, string>)((ThingDef d) => (dpsMissless(d) * accMed(d)).ToString("F2"))), new TableDataGetter<ThingDef>("dpsLong", (Func<ThingDef, string>)((ThingDef d) => (dpsMissless(d) * accLong(d)).ToString("F2"))), new TableDataGetter<ThingDef>("dpsAvg", (Func<ThingDef, string>)((ThingDef d) => dpsAvg(d).ToString("F2"))), new TableDataGetter<ThingDef>("mktVal", (Func<ThingDef, string>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.MarketValue, null).ToString("F0"))), new TableDataGetter<ThingDef>("work", (Func<ThingDef, string>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.WorkToMake, null).ToString("F0"))), new TableDataGetter<ThingDef>("mktVal/dpsAvg", (Func<ThingDef, string>)((ThingDef d) => (d.GetStatValueAbstract(StatDefOf.MarketValue, null) / dpsAvg(d)).ToString("F2"))));
 		}
 
 		public static void DoTable_WeaponsMeleeStuffless()
@@ -519,74 +538,57 @@ namespace Verse
 
 		private static void DoTablesInternal_Melee(ThingDef stuff, bool doRaces = false)
 		{
-			Func<Def, float> damageGetter = (Func<Def, float>)delegate(Def d)
+			Func<Def, float> meleeDamageGetter = (Func<Def, float>)delegate(Def d)
 			{
-				ThingDef thingDef5 = d as ThingDef;
-				if (thingDef5 != null)
-				{
-					if (thingDef5.race != null)
-					{
-						return thingDef5.Verbs.AverageWeighted((Func<VerbProperties, float>)((VerbProperties v) => v.BaseSelectionWeight), (Func<VerbProperties, float>)((VerbProperties v) => (float)v.meleeDamageBaseAmount));
-					}
-					return thingDef5.GetStatValueAbstract(StatDefOf.MeleeWeapon_DamageAmount, stuff);
-				}
-				HediffDef hediffDef4 = d as HediffDef;
-				if (hediffDef4 != null)
-				{
-					return (float)hediffDef4.CompProps<HediffCompProperties_VerbGiver>().verbs[0].meleeDamageBaseAmount;
-				}
-				return -1f;
+				Thing owner2;
+				List<Verb> concreteExampleVerbs5 = VerbUtility.GetConcreteExampleVerbs(d, out owner2, stuff);
+				return (float)((!concreteExampleVerbs5.OfType<Verb_MeleeAttack>().Any()) ? -1.0 : concreteExampleVerbs5.OfType<Verb_MeleeAttack>().AverageWeighted((Func<Verb_MeleeAttack, float>)((Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeSelectionWeight(v, null, owner2)), (Func<Verb_MeleeAttack, float>)((Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeDamageAmount(v, null, owner2))));
 			};
-			Func<Def, float> warmupGetter = (Func<Def, float>)delegate(Def d)
+			Func<Def, float> rangedDamageGetter = (Func<Def, float>)delegate(Def d)
 			{
-				ThingDef thingDef4 = d as ThingDef;
-				if (thingDef4 != null)
-				{
-					return thingDef4.Verbs.AverageWeighted((Func<VerbProperties, float>)((VerbProperties v) => v.BaseSelectionWeight), (Func<VerbProperties, float>)((VerbProperties v) => v.warmupTime));
-				}
-				HediffDef hediffDef3 = d as HediffDef;
-				if (hediffDef3 != null)
-				{
-					return hediffDef3.CompProps<HediffCompProperties_VerbGiver>().verbs[0].warmupTime;
-				}
-				return -1f;
+				Thing thing3 = default(Thing);
+				List<Verb> concreteExampleVerbs4 = VerbUtility.GetConcreteExampleVerbs(d, out thing3, stuff);
+				Verb verb3 = concreteExampleVerbs4.OfType<Verb_LaunchProjectile>().FirstOrDefault();
+				return (float)((verb3 == null || verb3.GetProjectile() == null) ? -1.0 : ((float)verb3.GetProjectile().projectile.damageAmountBase));
 			};
-			Func<Def, float> cooldownGetter = (Func<Def, float>)delegate(Def d)
+			Func<Def, float> meleeWarmupGetter = (Func<Def, float>)((Def d) => 0f);
+			Func<Def, float> rangedWarmupGetter = (Func<Def, float>)delegate(Def d)
 			{
-				ThingDef thingDef3 = d as ThingDef;
-				if (thingDef3 != null)
-				{
-					if (thingDef3.race != null)
-					{
-						return thingDef3.Verbs.AverageWeighted((Func<VerbProperties, float>)((VerbProperties v) => v.BaseSelectionWeight), (Func<VerbProperties, float>)((VerbProperties v) => v.defaultCooldownTime));
-					}
-					return thingDef3.GetStatValueAbstract(StatDefOf.MeleeWeapon_Cooldown, stuff);
-				}
-				HediffDef hediffDef2 = d as HediffDef;
-				if (hediffDef2 != null)
-				{
-					return hediffDef2.CompProps<HediffCompProperties_VerbGiver>().verbs[0].defaultCooldownTime;
-				}
-				return -1f;
+				Thing thing2 = default(Thing);
+				List<Verb> concreteExampleVerbs3 = VerbUtility.GetConcreteExampleVerbs(d, out thing2, stuff);
+				Verb verb2 = concreteExampleVerbs3.OfType<Verb_LaunchProjectile>().FirstOrDefault();
+				return (float)((verb2 == null) ? -1.0 : verb2.verbProps.warmupTime);
 			};
-			Func<Def, float> dpsGetter = (Func<Def, float>)((Def d) => damageGetter(d) / (warmupGetter(d) + cooldownGetter(d)));
+			Func<Def, float> meleeCooldownGetter = (Func<Def, float>)delegate(Def d)
+			{
+				Thing owner;
+				List<Verb> concreteExampleVerbs2 = VerbUtility.GetConcreteExampleVerbs(d, out owner, stuff);
+				return (float)((!concreteExampleVerbs2.OfType<Verb_MeleeAttack>().Any()) ? -1.0 : concreteExampleVerbs2.OfType<Verb_MeleeAttack>().AverageWeighted((Func<Verb_MeleeAttack, float>)((Verb_MeleeAttack v) => v.verbProps.AdjustedMeleeSelectionWeight(v, null, owner)), (Func<Verb_MeleeAttack, float>)((Verb_MeleeAttack v) => v.verbProps.AdjustedCooldown(v, null, owner))));
+			};
+			Func<Def, float> rangedCooldownGetter = (Func<Def, float>)delegate(Def d)
+			{
+				Thing thing = default(Thing);
+				List<Verb> concreteExampleVerbs = VerbUtility.GetConcreteExampleVerbs(d, out thing, stuff);
+				Verb verb = concreteExampleVerbs.OfType<Verb_LaunchProjectile>().FirstOrDefault();
+				return (float)((verb == null) ? -1.0 : verb.verbProps.defaultCooldownTime);
+			};
+			Func<Def, float> meleeDpsGetter = (Func<Def, float>)((Def d) => meleeDamageGetter(d) / (meleeWarmupGetter(d) + meleeCooldownGetter(d)));
+			Func<Def, float> rangedDpsGetter = (Func<Def, float>)((Def d) => rangedDamageGetter(d) / (rangedWarmupGetter(d) + rangedCooldownGetter(d)));
+			Func<Def, float> dpsGetter = (Func<Def, float>)((Def d) => Mathf.Max(meleeDpsGetter(d), rangedDpsGetter(d)));
 			Func<Def, float> marketValueGetter = (Func<Def, float>)delegate(Def d)
 			{
 				ThingDef thingDef2 = d as ThingDef;
+				float result;
 				if (thingDef2 != null)
 				{
-					return thingDef2.GetStatValueAbstract(StatDefOf.MarketValue, stuff);
+					result = thingDef2.GetStatValueAbstract(StatDefOf.MarketValue, stuff);
 				}
-				HediffDef hediffDef = d as HediffDef;
-				if (hediffDef != null)
+				else
 				{
-					if (hediffDef.spawnThingOnRemoved == null)
-					{
-						return 0f;
-					}
-					return hediffDef.spawnThingOnRemoved.GetStatValueAbstract(StatDefOf.MarketValue, null);
+					HediffDef hediffDef = d as HediffDef;
+					result = (float)((hediffDef == null) ? -1.0 : ((hediffDef.spawnThingOnRemoved != null) ? hediffDef.spawnThingOnRemoved.GetStatValueAbstract(StatDefOf.MarketValue, null) : 0.0));
 				}
-				return -1f;
+				return result;
 			};
 			IEnumerable<Def> enumerable = (from d in DefDatabase<ThingDef>.AllDefs
 			where d.IsMeleeWeapon
@@ -602,15 +604,29 @@ namespace Verse
 			enumerable = from h in enumerable
 			orderby dpsGetter(h) descending
 			select h;
-			DebugTables.MakeTablesDialog(enumerable, new TableDataGetter<Def>("defName", (Func<Def, string>)((Def d) => d.defName)), new TableDataGetter<Def>("damage", (Func<Def, string>)((Def d) => damageGetter(d).ToString())), new TableDataGetter<Def>("warmup", (Func<Def, string>)((Def d) => warmupGetter(d).ToString("F2"))), new TableDataGetter<Def>("cooldown", (Func<Def, string>)((Def d) => cooldownGetter(d).ToString("F2"))), new TableDataGetter<Def>("dps", (Func<Def, string>)((Def d) => dpsGetter(d).ToString("F2"))), new TableDataGetter<Def>("mktval", (Func<Def, string>)((Def d) => marketValueGetter(d).ToString("F0"))), new TableDataGetter<Def>("work", (Func<Def, string>)delegate(Def d)
+			DebugTables.MakeTablesDialog(enumerable, new TableDataGetter<Def>("defName", (Func<Def, string>)((Def d) => d.defName)), new TableDataGetter<Def>("mDamage", (Func<Def, string>)((Def d) => meleeDamageGetter(d).ToString())), new TableDataGetter<Def>("mWarmup", (Func<Def, string>)((Def d) => meleeWarmupGetter(d).ToString("F2"))), new TableDataGetter<Def>("mCooldown", (Func<Def, string>)((Def d) => meleeCooldownGetter(d).ToString("F2"))), new TableDataGetter<Def>("mDps", (Func<Def, string>)((Def d) => meleeDpsGetter(d).ToString("F2"))), new TableDataGetter<Def>("rDamage", (Func<Def, string>)((Def d) => rangedDamageGetter(d).ToString())), new TableDataGetter<Def>("rWarmup", (Func<Def, string>)((Def d) => rangedWarmupGetter(d).ToString("F2"))), new TableDataGetter<Def>("rCooldown", (Func<Def, string>)((Def d) => rangedCooldownGetter(d).ToString("F2"))), new TableDataGetter<Def>("rDps", (Func<Def, string>)((Def d) => rangedDpsGetter(d).ToString("F2"))), new TableDataGetter<Def>("dps", (Func<Def, string>)((Def d) => dpsGetter(d).ToString("F2"))), new TableDataGetter<Def>("mktval", (Func<Def, string>)((Def d) => marketValueGetter(d).ToString("F0"))), new TableDataGetter<Def>("work", (Func<Def, string>)delegate(Def d)
 			{
 				ThingDef thingDef = d as ThingDef;
-				if (thingDef == null)
-				{
-					return "-";
-				}
-				return thingDef.GetStatValueAbstract(StatDefOf.WorkToMake, stuff).ToString("F0");
+				return (thingDef != null) ? thingDef.GetStatValueAbstract(StatDefOf.WorkToMake, stuff).ToString("F0") : "-";
 			}));
+		}
+
+		public static void DoTable_WeaponUsage()
+		{
+			List<TableDataGetter<PawnKindDef>> list = new List<TableDataGetter<PawnKindDef>>();
+			list.Add(new TableDataGetter<PawnKindDef>("defName", (Func<PawnKindDef, string>)((PawnKindDef x) => x.defName)));
+			list.AddRange(from x in DefDatabase<ThingDef>.AllDefs
+			where x.IsWeapon && !x.weaponTags.NullOrEmpty() && x.canBeSpawningInventory
+			orderby x.IsMeleeWeapon descending, x.techLevel, x.BaseMarketValue
+			select new TableDataGetter<PawnKindDef>(GenText.WithoutVowelsIfLong(x.label), (Func<PawnKindDef, string>)((PawnKindDef y) => (!x.weaponTags.Any((Predicate<string>)((string z) => y.weaponTags.Contains(z)))) ? "" : ((!(y.weaponMoney.max < PawnWeaponGenerator.CheapestNonDerpPriceFor(x))) ? "   ✓" : "  no $"))));
+			list.Add(new TableDataGetter<PawnKindDef>("avg $", (Func<PawnKindDef, string>)((PawnKindDef x) => x.weaponMoney.Average.ToString())));
+			list.Add(new TableDataGetter<PawnKindDef>("min $", (Func<PawnKindDef, string>)((PawnKindDef x) => x.weaponMoney.min.ToString())));
+			list.Add(new TableDataGetter<PawnKindDef>("max $", (Func<PawnKindDef, string>)((PawnKindDef x) => x.weaponMoney.max.ToString())));
+			list.Add(new TableDataGetter<PawnKindDef>("points", (Func<PawnKindDef, string>)((PawnKindDef x) => x.combatPower.ToString())));
+			DebugTables.MakeTablesDialog(from x in DefDatabase<PawnKindDef>.AllDefs
+			where !x.weaponTags.NullOrEmpty()
+			orderby (x.defaultFactionType == null) ? 2147483647 : ((int)x.defaultFactionType.techLevel), x.combatPower
+			select x, list.ToArray());
 		}
 
 		public static void DoTable_ApparelPairs()
@@ -643,23 +659,11 @@ namespace Verse
 					for (int i = 0; i < 200; i++)
 					{
 						Pawn pawn = PawnGenerator.GeneratePawn(kind, faction);
-						List<Apparel>.Enumerator enumerator2 = pawn.apparel.WornApparel.GetEnumerator();
-						try
+						foreach (Apparel item in pawn.apparel.WornApparel)
 						{
-							while (enumerator2.MoveNext())
-							{
-								Apparel current2 = enumerator2.Current;
-								DefMap<ThingDef, int> defMap;
-								DefMap<ThingDef, int> obj = defMap = appCounts;
-								ThingDef def;
-								ThingDef def2 = def = current2.def;
-								int num = defMap[def];
-								obj[def2] = num + 1;
-							}
-						}
-						finally
-						{
-							((IDisposable)(object)enumerator2).Dispose();
+							DefMap<ThingDef, int> defMap;
+							ThingDef def;
+							(defMap = appCounts)[def = item.def] = defMap[def] + 1;
 						}
 					}
 					DebugTables.MakeTablesDialog(DefDatabase<ThingDef>.AllDefs.Where((Func<ThingDef, bool>)((ThingDef d) => d.IsApparel && appCounts[d] > 0)).OrderByDescending((Func<ThingDef, int>)((ThingDef d) => appCounts[d])), new TableDataGetter<ThingDef>("defName", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("count of " + 200, (Func<ThingDef, string>)((ThingDef d) => appCounts[d].ToString())), new TableDataGetter<ThingDef>("percent of pawns", (Func<ThingDef, string>)((ThingDef d) => ((float)((float)appCounts[d] / 200.0)).ToStringPercent("F2"))));
@@ -692,7 +696,7 @@ namespace Verse
 		{
 			DebugTables.MakeTablesDialog(from d in DefDatabase<ThingDef>.AllDefs
 			where d.IsApparel
-			select d, new TableDataGetter<ThingDef>("defName", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("bodyParts", (Func<ThingDef, string>)((ThingDef d) => GenText.ToSpaceList(d.apparel.bodyPartGroups.Select((Func<BodyPartGroupDef, string>)((BodyPartGroupDef bp) => bp.defName))))), new TableDataGetter<ThingDef>("layers", (Func<ThingDef, string>)((ThingDef d) => GenText.ToSpaceList(d.apparel.layers.Select((Func<ApparelLayer, string>)((ApparelLayer l) => ((Enum)(object)l).ToString()))))), new TableDataGetter<ThingDef>("tags", (Func<ThingDef, string>)((ThingDef d) => GenText.ToSpaceList(d.apparel.tags.Select((Func<string, string>)((string t) => t.ToString()))))), new TableDataGetter<ThingDef>("insCold", (Func<ThingDef, string>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.Insulation_Cold, stuff).ToString("F0"))), new TableDataGetter<ThingDef>("insHeat", (Func<ThingDef, string>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.Insulation_Heat, stuff).ToString("F0"))), new TableDataGetter<ThingDef>("mktval", (Func<ThingDef, string>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.MarketValue, stuff).ToString("F0"))), new TableDataGetter<ThingDef>("work", (Func<ThingDef, string>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.WorkToMake, stuff).ToString("F0"))));
+			select d, new TableDataGetter<ThingDef>("defName", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("bodyParts", (Func<ThingDef, string>)((ThingDef d) => GenText.ToSpaceList(d.apparel.bodyPartGroups.Select((Func<BodyPartGroupDef, string>)((BodyPartGroupDef bp) => bp.defName))))), new TableDataGetter<ThingDef>("layers", (Func<ThingDef, string>)((ThingDef d) => GenText.ToSpaceList(d.apparel.layers.Select((Func<ApparelLayer, string>)((ApparelLayer l) => l.ToString()))))), new TableDataGetter<ThingDef>("tags", (Func<ThingDef, string>)((ThingDef d) => GenText.ToSpaceList(d.apparel.tags.Select((Func<string, string>)((string t) => t.ToString()))))), new TableDataGetter<ThingDef>("insCold", (Func<ThingDef, string>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.Insulation_Cold, stuff).ToString("F0"))), new TableDataGetter<ThingDef>("insHeat", (Func<ThingDef, string>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.Insulation_Heat, stuff).ToString("F0"))), new TableDataGetter<ThingDef>("blunt", (Func<ThingDef, string>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, stuff).ToString("F2"))), new TableDataGetter<ThingDef>("sharp", (Func<ThingDef, string>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, stuff).ToString("F2"))), new TableDataGetter<ThingDef>("mktval", (Func<ThingDef, string>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.MarketValue, stuff).ToString("F0"))), new TableDataGetter<ThingDef>("work", (Func<ThingDef, string>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.WorkToMake, stuff).ToString("F0"))));
 		}
 
 		public static void DoTable_HitPoints()
@@ -700,7 +704,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog(from d in DefDatabase<ThingDef>.AllDefs
 			where d.useHitPoints
 			orderby d.GetStatValueAbstract(StatDefOf.MaxHitPoints, null) descending
-			select d, new TableDataGetter<ThingDef>("defName", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("hp", (Func<ThingDef, string>)((ThingDef d) => d.BaseMaxHitPoints.ToString())), new TableDataGetter<ThingDef>("category", (Func<ThingDef, string>)((ThingDef d) => ((Enum)(object)d.category).ToString())));
+			select d, new TableDataGetter<ThingDef>("defName", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("hp", (Func<ThingDef, string>)((ThingDef d) => d.BaseMaxHitPoints.ToString())), new TableDataGetter<ThingDef>("category", (Func<ThingDef, string>)((ThingDef d) => d.category.ToString())));
 		}
 
 		public static void DoTable_FillPercent()
@@ -708,7 +712,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog(from d in DefDatabase<ThingDef>.AllDefs
 			where d.fillPercent > 0.0
 			orderby d.fillPercent descending
-			select d, new TableDataGetter<ThingDef>("defName", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("fillPercent", (Func<ThingDef, string>)((ThingDef d) => d.fillPercent.ToStringPercent())), new TableDataGetter<ThingDef>("category", (Func<ThingDef, string>)((ThingDef d) => ((Enum)(object)d.category).ToString())));
+			select d, new TableDataGetter<ThingDef>("defName", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("fillPercent", (Func<ThingDef, string>)((ThingDef d) => d.fillPercent.ToStringPercent())), new TableDataGetter<ThingDef>("category", (Func<ThingDef, string>)((ThingDef d) => d.category.ToString())));
 		}
 
 		public static void DoTable_DeteriorationRates()
@@ -730,19 +734,10 @@ namespace Verse
 					float value = TraitDef.Named("ShootingAccuracy").DataAtDegree(traitDegree).statOffsets.First((Func<StatModifier, bool>)((StatModifier so) => so.stat == stat)).value;
 					num += value;
 				}
-				List<SkillNeed>.Enumerator enumerator = stat.skillNeedFactors.GetEnumerator();
-				try
+				foreach (SkillNeed skillNeedFactor in stat.skillNeedFactors)
 				{
-					while (enumerator.MoveNext())
-					{
-						SkillNeed current = enumerator.Current;
-						SkillNeed_Direct skillNeed_Direct = current as SkillNeed_Direct;
-						num *= skillNeed_Direct.factorsPerLevel[level];
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					SkillNeed_Direct skillNeed_Direct = skillNeedFactor as SkillNeed_Direct;
+					num *= skillNeed_Direct.valuesPerLevel[level];
 				}
 				num = stat.postProcessCurve.Evaluate(num);
 				return Mathf.Pow(num, dist);
@@ -778,7 +773,7 @@ namespace Verse
 				{
 					DebugTables.MakeTablesDialog(from d in localBd.AllParts
 					orderby d.height descending
-					select d, new TableDataGetter<BodyPartRecord>("defName", (Func<BodyPartRecord, string>)((BodyPartRecord d) => d.def.defName)), new TableDataGetter<BodyPartRecord>("coverage", (Func<BodyPartRecord, string>)((BodyPartRecord d) => d.coverage.ToStringPercent())), new TableDataGetter<BodyPartRecord>("coverageAbsWithChildren", (Func<BodyPartRecord, string>)((BodyPartRecord d) => d.coverageAbsWithChildren.ToStringPercent())), new TableDataGetter<BodyPartRecord>("coverageAbs", (Func<BodyPartRecord, string>)((BodyPartRecord d) => d.coverageAbs.ToStringPercent())), new TableDataGetter<BodyPartRecord>("depth", (Func<BodyPartRecord, string>)((BodyPartRecord d) => ((Enum)(object)d.depth).ToString())), new TableDataGetter<BodyPartRecord>("height", (Func<BodyPartRecord, string>)((BodyPartRecord d) => ((Enum)(object)d.height).ToString())));
+					select d, new TableDataGetter<BodyPartRecord>("defName", (Func<BodyPartRecord, string>)((BodyPartRecord d) => d.def.defName)), new TableDataGetter<BodyPartRecord>("coverage", (Func<BodyPartRecord, string>)((BodyPartRecord d) => d.coverage.ToStringPercent())), new TableDataGetter<BodyPartRecord>("coverageAbsWithChildren", (Func<BodyPartRecord, string>)((BodyPartRecord d) => d.coverageAbsWithChildren.ToStringPercent())), new TableDataGetter<BodyPartRecord>("coverageAbs", (Func<BodyPartRecord, string>)((BodyPartRecord d) => d.coverageAbs.ToStringPercent())), new TableDataGetter<BodyPartRecord>("depth", (Func<BodyPartRecord, string>)((BodyPartRecord d) => d.depth.ToString())), new TableDataGetter<BodyPartRecord>("height", (Func<BodyPartRecord, string>)((BodyPartRecord d) => d.height.ToString())));
 				}, MenuOptionPriority.Default, null, null, 0f, null, null));
 			}
 			Find.WindowStack.Add(new FloatMenu(list));
@@ -791,29 +786,6 @@ namespace Verse
 			select d, new TableDataGetter<ThingDef>("defName", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("fillPercent", (Func<ThingDef, string>)((ThingDef d) => d.fillPercent.ToStringPercent())));
 		}
 
-		public static void DoTable_AnimalBiomeCommonalities()
-		{
-			List<TableDataGetter<PawnKindDef>> list = (from b in DefDatabase<BiomeDef>.AllDefs
-			where b.implemented && b.canBuildBase
-			orderby b.animalDensity
-			select new TableDataGetter<PawnKindDef>(b.defName, (Func<PawnKindDef, string>)delegate(PawnKindDef k)
-			{
-				float num = DefDatabase<PawnKindDef>.AllDefs.Sum((Func<PawnKindDef, float>)((PawnKindDef ki) => b.CommonalityOfAnimal(ki)));
-				float num2 = b.CommonalityOfAnimal(k);
-				float num3 = num2 / num;
-				if (num3 == 0.0)
-				{
-					return string.Empty;
-				}
-				return num3.ToStringPercent("F1");
-			})).ToList();
-			list.Insert(0, new TableDataGetter<PawnKindDef>("animal", (Func<PawnKindDef, string>)((PawnKindDef k) => k.defName + ((!k.race.race.predator) ? string.Empty : "*"))));
-			DebugTables.MakeTablesDialog(from d in DefDatabase<PawnKindDef>.AllDefs
-			where d.race != null && d.RaceProps.Animal
-			orderby d.defName
-			select d, list.ToArray());
-		}
-
 		public static void DoTable_ThingMasses()
 		{
 			IOrderedEnumerable<ThingDef> dataSources = from x in DefDatabase<ThingDef>.AllDefsListForReading
@@ -822,27 +794,25 @@ namespace Verse
 			orderby x.GetStatValueAbstract(StatDefOf.Mass, null), x.GetStatValueAbstract(StatDefOf.MarketValue, null)
 			select x;
 			Func<ThingDef, float, string> perPawn = (Func<ThingDef, float, string>)((ThingDef d, float bodySize) => ((float)(bodySize * 35.0 / d.GetStatValueAbstract(StatDefOf.Mass, null))).ToString("F0"));
-			Func<ThingDef, string> perNutrition = (Func<ThingDef, string>)delegate(ThingDef d)
-			{
-				if (d.ingestible != null && d.ingestible.nutrition != 0.0)
-				{
-					return (d.GetStatValueAbstract(StatDefOf.Mass, null) / d.ingestible.nutrition).ToString("F2");
-				}
-				return string.Empty;
-			};
+			Func<ThingDef, string> perNutrition = (Func<ThingDef, string>)((ThingDef d) => (d.ingestible != null && d.ingestible.nutrition != 0.0) ? (d.GetStatValueAbstract(StatDefOf.Mass, null) / d.ingestible.nutrition).ToString("F2") : "");
 			DebugTables.MakeTablesDialog(dataSources, new TableDataGetter<ThingDef>("defName", (Func<ThingDef, string>)delegate(ThingDef d)
 			{
+				string result;
 				if (d.Minifiable)
 				{
-					return d.defName + " (minified)";
+					result = d.defName + " (minified)";
 				}
-				string text = d.defName;
-				if (!d.EverHaulable)
+				else
 				{
-					text += " (not haulable)";
+					string text = d.defName;
+					if (!d.EverHaulable)
+					{
+						text += " (not haulable)";
+					}
+					result = text;
 				}
-				return text;
-			}), new TableDataGetter<ThingDef>("mass", (Func<ThingDef, string>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.Mass, null).ToString())), new TableDataGetter<ThingDef>("per human", (Func<ThingDef, string>)((ThingDef d) => perPawn(d, ThingDefOf.Human.race.baseBodySize))), new TableDataGetter<ThingDef>("per muffalo", (Func<ThingDef, string>)((ThingDef d) => perPawn(d, ThingDefOf.Muffalo.race.baseBodySize))), new TableDataGetter<ThingDef>("per dromedary", (Func<ThingDef, string>)((ThingDef d) => perPawn(d, ThingDefOf.Dromedary.race.baseBodySize))), new TableDataGetter<ThingDef>("per nutrition", (Func<ThingDef, string>)((ThingDef d) => perNutrition(d))), new TableDataGetter<ThingDef>("small volume", (Func<ThingDef, string>)((ThingDef d) => (!d.smallVolume) ? string.Empty : "small")));
+				return result;
+			}), new TableDataGetter<ThingDef>("mass", (Func<ThingDef, string>)((ThingDef d) => d.GetStatValueAbstract(StatDefOf.Mass, null).ToString())), new TableDataGetter<ThingDef>("per human", (Func<ThingDef, string>)((ThingDef d) => perPawn(d, ThingDefOf.Human.race.baseBodySize))), new TableDataGetter<ThingDef>("per muffalo", (Func<ThingDef, string>)((ThingDef d) => perPawn(d, ThingDefOf.Muffalo.race.baseBodySize))), new TableDataGetter<ThingDef>("per dromedary", (Func<ThingDef, string>)((ThingDef d) => perPawn(d, ThingDefOf.Dromedary.race.baseBodySize))), new TableDataGetter<ThingDef>("per nutrition", (Func<ThingDef, string>)((ThingDef d) => perNutrition(d))), new TableDataGetter<ThingDef>("small volume", (Func<ThingDef, string>)((ThingDef d) => (!d.smallVolume) ? "" : "small")));
 		}
 
 		public static void DoTable_MedicalPotencyPerMedicine()
@@ -879,7 +849,7 @@ namespace Verse
 			};
 			for (int i = 0; i < 20; i++)
 			{
-				float factor = skillNeed_Direct.factorsPerLevel[i];
+				float factor = skillNeed_Direct.valuesPerLevel[i];
 				array[i + 1] = new TableDataGetter<float>((i + 1).ToString(), (Func<float, string>)((float p) => (p * factor).ToStringPercent()));
 			}
 			DebugTables.MakeTablesDialog(list, array);
@@ -909,7 +879,7 @@ namespace Verse
 				defName = defName.Replace("Neolithic", "N");
 				defName = defName.Replace("Outlander", "O");
 				defName = GenText.WithoutVowels(defName);
-				list.Add(new TableDataGetter<ThingDef>(defName, (Func<ThingDef, string>)((ThingDef td) => (!localTk.WillTrade(td)) ? string.Empty : "✓")));
+				list.Add(new TableDataGetter<ThingDef>(defName, (Func<ThingDef, string>)((ThingDef td) => (!localTk.WillTrade(td)) ? "" : "✓")));
 			}
 			DebugTables.MakeTablesDialog(from d in DefDatabase<ThingDef>.AllDefs
 			where (d.category == ThingCategory.Item && d.BaseMarketValue > 0.0010000000474974513 && !d.isUnfinishedThing && !d.IsCorpse && !d.destroyOnDrop && d != ThingDefOf.Silver && !d.thingCategories.NullOrEmpty()) || (d.category == ThingCategory.Building && d.Minifiable)
@@ -917,22 +887,161 @@ namespace Verse
 			select d, list.ToArray());
 		}
 
+		public static void DoTable_Surgeries()
+		{
+			Func<RecipeDef, float> trueWork = (Func<RecipeDef, float>)((RecipeDef d) => d.WorkAmountTotal(null));
+			DebugTables.MakeTablesDialog((from d in DefDatabase<RecipeDef>.AllDefs
+			where d.IsSurgery
+			select d).OrderByDescending(trueWork), new TableDataGetter<RecipeDef>("defName", (Func<RecipeDef, string>)((RecipeDef d) => d.defName)), new TableDataGetter<RecipeDef>("work", (Func<RecipeDef, string>)((RecipeDef d) => trueWork(d).ToString("F0"))), new TableDataGetter<RecipeDef>("ingredients", (Func<RecipeDef, string>)((RecipeDef d) => GenText.ToCommaList(from ing in d.ingredients
+			select ing.ToString(), false))), new TableDataGetter<RecipeDef>("skillRequirements", (Func<RecipeDef, string>)((RecipeDef d) => (d.skillRequirements != null) ? GenText.ToCommaList(from ing in d.skillRequirements
+			select ing.ToString(), false) : "-")), new TableDataGetter<RecipeDef>("surgerySuccessChanceFactor", (Func<RecipeDef, string>)((RecipeDef d) => d.surgerySuccessChanceFactor.ToStringPercent())), new TableDataGetter<RecipeDef>("deathOnFailChance", (Func<RecipeDef, string>)((RecipeDef d) => d.deathOnFailedSurgeryChance.ToStringPercent())));
+		}
+
+		public static void DoTable_Terrains()
+		{
+			DebugTables.MakeTablesDialog(DefDatabase<TerrainDef>.AllDefs, new TableDataGetter<TerrainDef>("defName", (Func<TerrainDef, string>)((TerrainDef d) => d.defName)), new TableDataGetter<TerrainDef>("beauty", (Func<TerrainDef, string>)((TerrainDef d) => d.GetStatValueAbstract(StatDefOf.Beauty, null).ToString())), new TableDataGetter<TerrainDef>("cleanliness", (Func<TerrainDef, string>)((TerrainDef d) => d.GetStatValueAbstract(StatDefOf.Cleanliness, null).ToString())), new TableDataGetter<TerrainDef>("pathCost", (Func<TerrainDef, string>)((TerrainDef d) => d.pathCost.ToString())));
+		}
+
+		public static void DoTable_MentalBreaksMinor()
+		{
+			DataAnalysisTableMaker.DoMentalBreaksTable(from x in DefDatabase<MentalBreakDef>.AllDefs
+			where x.intensity == MentalBreakIntensity.Minor
+			select x);
+		}
+
+		public static void DoTable_MentalBreaksMajor()
+		{
+			DataAnalysisTableMaker.DoMentalBreaksTable(from x in DefDatabase<MentalBreakDef>.AllDefs
+			where x.intensity == MentalBreakIntensity.Major
+			select x);
+		}
+
+		public static void DoTable_MentalBreaksExtreme()
+		{
+			DataAnalysisTableMaker.DoMentalBreaksTable(from x in DefDatabase<MentalBreakDef>.AllDefs
+			where x.intensity == MentalBreakIntensity.Extreme
+			select x);
+		}
+
+		public static void DoTable_BestThingRequestGroup()
+		{
+			DebugTables.MakeTablesDialog(from x in DefDatabase<ThingDef>.AllDefs
+			where ListerThings.EverListable(x, ListerThingsUse.Global) || ListerThings.EverListable(x, ListerThingsUse.Region)
+			orderby x.label
+			select x, new TableDataGetter<ThingDef>("defName", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("best local", (Func<ThingDef, string>)delegate(ThingDef d)
+			{
+				IEnumerable<ThingRequestGroup> source2 = ListerThings.EverListable(d, ListerThingsUse.Region) ? ((ThingRequestGroup[])Enum.GetValues(typeof(ThingRequestGroup))).Where((Func<ThingRequestGroup, bool>)((ThingRequestGroup x) => x.StoreInRegion() && x.Includes(d))) : Enumerable.Empty<ThingRequestGroup>();
+				string result2;
+				if (!source2.Any())
+				{
+					result2 = "-";
+				}
+				else
+				{
+					ThingRequestGroup best2 = source2.MinBy((Func<ThingRequestGroup, int>)((ThingRequestGroup x) => DefDatabase<ThingDef>.AllDefs.Count((Func<ThingDef, bool>)((ThingDef y) => ListerThings.EverListable(y, ListerThingsUse.Region) && x.Includes(y)))));
+					result2 = best2 + " (defs: " + DefDatabase<ThingDef>.AllDefs.Count((Func<ThingDef, bool>)((ThingDef x) => ListerThings.EverListable(x, ListerThingsUse.Region) && best2.Includes(x))) + ")";
+				}
+				return result2;
+			}), new TableDataGetter<ThingDef>("best global", (Func<ThingDef, string>)delegate(ThingDef d)
+			{
+				IEnumerable<ThingRequestGroup> source = ListerThings.EverListable(d, ListerThingsUse.Global) ? ((ThingRequestGroup[])Enum.GetValues(typeof(ThingRequestGroup))).Where((Func<ThingRequestGroup, bool>)((ThingRequestGroup x) => x.Includes(d))) : Enumerable.Empty<ThingRequestGroup>();
+				string result;
+				if (!source.Any())
+				{
+					result = "-";
+				}
+				else
+				{
+					ThingRequestGroup best = source.MinBy((Func<ThingRequestGroup, int>)((ThingRequestGroup x) => DefDatabase<ThingDef>.AllDefs.Count((Func<ThingDef, bool>)((ThingDef y) => ListerThings.EverListable(y, ListerThingsUse.Global) && x.Includes(y)))));
+					result = best + " (defs: " + DefDatabase<ThingDef>.AllDefs.Count((Func<ThingDef, bool>)((ThingDef x) => ListerThings.EverListable(x, ListerThingsUse.Global) && best.Includes(x))) + ")";
+				}
+				return result;
+			}));
+		}
+
+		public static void DoTable_Drugs()
+		{
+			DebugTables.MakeTablesDialog(from d in DefDatabase<ThingDef>.AllDefs
+			where d.IsDrug
+			select d, new TableDataGetter<ThingDef>("defName", (Func<ThingDef, string>)((ThingDef d) => d.defName)), new TableDataGetter<ThingDef>("pleasue", (Func<ThingDef, string>)((ThingDef d) => (!d.IsPleasureDrug) ? "" : "pleasure")), new TableDataGetter<ThingDef>("non-medical", (Func<ThingDef, string>)((ThingDef d) => (!d.IsNonMedicalDrug) ? "" : "non-medical")));
+		}
+
+		public static void DoTable_PawnGroupsMadeRepeated()
+		{
+			List<DebugMenuOption> list = new List<DebugMenuOption>();
+			foreach (Faction allFaction in Find.FactionManager.AllFactions)
+			{
+				if (allFaction.def.pawnGroupMakers != null && allFaction.def.pawnGroupMakers.Any((Predicate<PawnGroupMaker>)((PawnGroupMaker x) => x.kindDef == PawnGroupKindDefOf.Normal)))
+				{
+					Faction localFac = allFaction;
+					list.Add(new DebugMenuOption(localFac.Name + " (" + localFac.def.defName + ")", DebugMenuOptionMode.Action, (Action)delegate()
+					{
+						List<DebugMenuOption> list2 = new List<DebugMenuOption>();
+						foreach (float item in Dialog_DebugActionsMenu.PointsOptions())
+						{
+							float num = item;
+							float localP = num;
+							list2.Add(new DebugMenuOption(localP.ToString(), DebugMenuOptionMode.Action, (Action)delegate()
+							{
+								Dictionary<ThingDef, int>[] weaponsCount = new Dictionary<ThingDef, int>[20];
+								string[] pawnKinds = new string[20];
+								for (int i = 0; i < 20; i++)
+								{
+									weaponsCount[i] = new Dictionary<ThingDef, int>();
+									PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
+									pawnGroupMakerParms.tile = Find.VisibleMap.Tile;
+									pawnGroupMakerParms.points = localP;
+									pawnGroupMakerParms.faction = localFac;
+									List<Pawn> list3 = PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, pawnGroupMakerParms, false).ToList();
+									pawnKinds[i] = PawnUtility.PawnKindsToCommaList(list3);
+									foreach (Pawn item in list3)
+									{
+										if (item.equipment.Primary != null)
+										{
+											if (!weaponsCount[i].ContainsKey(item.equipment.Primary.def))
+											{
+												weaponsCount[i].Add(item.equipment.Primary.def, 0);
+											}
+											Dictionary<ThingDef, int> dictionary;
+											ThingDef def;
+											(dictionary = weaponsCount[i])[def = item.equipment.Primary.def] = dictionary[def] + 1;
+										}
+										item.Destroy(DestroyMode.Vanish);
+									}
+								}
+								int totalPawns = weaponsCount.Sum((Func<Dictionary<ThingDef, int>, int>)((Dictionary<ThingDef, int> x) => x.Sum((Func<KeyValuePair<ThingDef, int>, int>)((KeyValuePair<ThingDef, int> y) => y.Value))));
+								List<TableDataGetter<int>> list4 = new List<TableDataGetter<int>>();
+								list4.Add(new TableDataGetter<int>("", (Func<int, string>)((int x) => (x != 20) ? (x + 1).ToString() : "avg")));
+								list4.Add(new TableDataGetter<int>("pawns", (Func<int, string>)((int x) => " " + ((x != 20) ? weaponsCount[x].Sum((Func<KeyValuePair<ThingDef, int>, int>)((KeyValuePair<ThingDef, int> y) => y.Value)).ToString() : ((float)((float)totalPawns / 20.0)).ToString("0.#")))));
+								list4.AddRange(from x in DefDatabase<ThingDef>.AllDefs
+								where x.IsWeapon && !x.weaponTags.NullOrEmpty() && x.canBeSpawningInventory
+								orderby x.IsMeleeWeapon descending, x.techLevel, x.BaseMarketValue
+								select new TableDataGetter<int>(GenText.WithoutVowelsIfLong(x.label), (Func<int, string>)((int y) => (y != 20) ? ((!weaponsCount[y].ContainsKey(x)) ? "" : (" " + weaponsCount[y][x] + " (" + ((float)weaponsCount[y][x] / (float)weaponsCount[y].Sum((Func<KeyValuePair<ThingDef, int>, int>)((KeyValuePair<ThingDef, int> z) => z.Value))).ToStringPercent("F0") + ")")) : (" " + ((float)((float)weaponsCount.Sum((Func<Dictionary<ThingDef, int>, int>)((Dictionary<ThingDef, int> z) => z.ContainsKey(x) ? z[x] : 0)) / 20.0)).ToString("0.#")))));
+								list4.Add(new TableDataGetter<int>("kinds", (Func<int, string>)((int x) => (x != 20) ? pawnKinds[x] : "")));
+								DebugTables.MakeTablesDialog(Enumerable.Range(0, 21), list4.ToArray());
+							}));
+						}
+						Find.WindowStack.Add(new Dialog_DebugOptionListLister(list2));
+					}));
+				}
+			}
+			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+		}
+
 		private static string ToStringEmptyZero(this float f, string format)
 		{
-			if (f <= 0.0)
-			{
-				return string.Empty;
-			}
-			return f.ToString(format);
+			return (!(f <= 0.0)) ? f.ToString(format) : "";
 		}
 
 		private static string ToStringPercentEmptyZero(this float f, string format = "F0")
 		{
-			if (f <= 0.0)
-			{
-				return string.Empty;
-			}
-			return f.ToStringPercent(format);
+			return (!(f <= 0.0)) ? f.ToStringPercent(format) : "";
+		}
+
+		private static void DoMentalBreaksTable(IEnumerable<MentalBreakDef> breaks)
+		{
+			float sumWeights = breaks.Sum((Func<MentalBreakDef, float>)((MentalBreakDef x) => x.baseCommonality));
+			DebugTables.MakeTablesDialog(breaks, new TableDataGetter<MentalBreakDef>("defName", (Func<MentalBreakDef, string>)((MentalBreakDef d) => d.defName)), new TableDataGetter<MentalBreakDef>("chance", (Func<MentalBreakDef, string>)((MentalBreakDef d) => (d.baseCommonality / sumWeights).ToStringPercent())), new TableDataGetter<MentalBreakDef>("min duration (days)", (Func<MentalBreakDef, string>)((MentalBreakDef d) => (d.mentalState != null) ? ((float)((float)d.mentalState.minTicksBeforeRecovery / 60000.0)).ToString("0.##") : "")), new TableDataGetter<MentalBreakDef>("avg duration (days)", (Func<MentalBreakDef, string>)((MentalBreakDef d) => (d.mentalState != null) ? ((float)(Mathf.Min((float)((float)d.mentalState.minTicksBeforeRecovery + d.mentalState.recoveryMtbDays * 60000.0), (float)d.mentalState.maxTicksBeforeRecovery) / 60000.0)).ToString("0.##") : "")), new TableDataGetter<MentalBreakDef>("max duration (days)", (Func<MentalBreakDef, string>)((MentalBreakDef d) => (d.mentalState != null) ? ((float)((float)d.mentalState.maxTicksBeforeRecovery / 60000.0)).ToString("0.##") : "")), new TableDataGetter<MentalBreakDef>("recoverFromSleep", (Func<MentalBreakDef, string>)((MentalBreakDef d) => (d.mentalState == null || !d.mentalState.recoverFromSleep) ? "" : "recoverFromSleep")), new TableDataGetter<MentalBreakDef>("recoveryThought", (Func<MentalBreakDef, string>)((MentalBreakDef d) => (d.mentalState != null) ? d.mentalState.moodRecoveryThought.ToStringSafe() : "")), new TableDataGetter<MentalBreakDef>("aggro", (Func<MentalBreakDef, string>)((MentalBreakDef d) => (d.mentalState == null || !d.mentalState.IsAggro) ? "" : "aggro")), new TableDataGetter<MentalBreakDef>("blockNormalThoughts", (Func<MentalBreakDef, string>)((MentalBreakDef d) => (d.mentalState == null || !d.mentalState.blockNormalThoughts) ? "" : "blockNormalThoughts")), new TableDataGetter<MentalBreakDef>("allowBeatfire", (Func<MentalBreakDef, string>)((MentalBreakDef d) => (d.mentalState == null || !d.mentalState.allowBeatfire) ? "" : "allowBeatfire")));
 		}
 	}
 }

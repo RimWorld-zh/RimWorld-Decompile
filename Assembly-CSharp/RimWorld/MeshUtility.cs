@@ -75,11 +75,26 @@ namespace RimWorld
 
 		public static bool Visible(Vector3 point, float radius, Vector3 viewCenter, float viewAngle)
 		{
+			return viewAngle >= 180.0 || Vector3.Angle(viewCenter * radius, point) <= viewAngle;
+		}
+
+		public static bool VisibleForWorldgen(Vector3 point, float radius, Vector3 viewCenter, float viewAngle)
+		{
+			bool result;
 			if (viewAngle >= 180.0)
 			{
-				return true;
+				result = true;
 			}
-			return Vector3.Angle(viewCenter * radius, point) <= viewAngle;
+			else
+			{
+				float num = (float)(Vector3.Angle(viewCenter * radius, point) + -9.9999997473787516E-06);
+				if (Mathf.Abs(num - viewAngle) < 9.9999999747524271E-07)
+				{
+					Log.Warning(string.Format("Angle difference {0} is within epsilon; recommend adjusting visibility tweak", num - viewAngle));
+				}
+				result = (num <= viewAngle);
+			}
+			return result;
 		}
 
 		public static Color32 MutateAlpha(this Color32 input, byte newAlpha)

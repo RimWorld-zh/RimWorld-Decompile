@@ -36,6 +36,19 @@ namespace Verse
 			}
 		}
 
+		public static float VolumeAmbient
+		{
+			get
+			{
+				return Prefs.data.volumeAmbient;
+			}
+			set
+			{
+				Prefs.data.volumeAmbient = value;
+				Prefs.Apply();
+			}
+		}
+
 		public static bool AdaptiveTrainingEnabled
 		{
 			get
@@ -131,11 +144,7 @@ namespace Verse
 		{
 			get
 			{
-				if (Prefs.data == null)
-				{
-					return true;
-				}
-				return Prefs.data.devMode;
+				return Prefs.data == null || Prefs.data.devMode;
 			}
 			set
 			{
@@ -144,6 +153,7 @@ namespace Verse
 				{
 					Prefs.data.logVerbose = false;
 					Prefs.data.resetModsConfigOnCrash = true;
+					DebugSettings.godMode = false;
 				}
 				Prefs.Apply();
 			}
@@ -349,13 +359,9 @@ namespace Verse
 		public static NameTriple RandomPreferredName()
 		{
 			string rawName = default(string);
-			if ((from name in Prefs.PreferredNames
+			return (!(from name in Prefs.PreferredNames
 			where !name.NullOrEmpty()
-			select name).TryRandomElement<string>(out rawName))
-			{
-				return NameTriple.FromString(rawName);
-			}
-			return null;
+			select name).TryRandomElement<string>(out rawName)) ? null : NameTriple.FromString(rawName);
 		}
 	}
 }

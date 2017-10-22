@@ -10,7 +10,7 @@ namespace Verse
 				{
 					Log.Error("Giving ID to " + t + " which already has id " + t.thingIDNumber);
 				}
-				t.thingIDNumber = Find.World.uniqueIDsManager.GetNextThingID();
+				t.thingIDNumber = Find.UniqueIDsManager.GetNextThingID();
 			}
 		}
 	}

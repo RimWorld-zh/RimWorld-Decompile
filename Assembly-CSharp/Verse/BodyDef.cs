@@ -5,13 +5,13 @@ namespace Verse
 {
 	public class BodyDef : Def
 	{
-		public BodyPartRecord corePart;
+		public BodyPartRecord corePart = null;
 
 		[Unsaved]
 		private List<BodyPartRecord> cachedAllParts = new List<BodyPartRecord>();
 
 		[Unsaved]
-		private List<BodyPartRecord> cachedPartsVulnerableToFrostbite;
+		private List<BodyPartRecord> cachedPartsVulnerableToFrostbite = null;
 
 		public List<BodyPartRecord> AllParts
 		{
@@ -31,27 +31,47 @@ namespace Verse
 
 		public IEnumerable<BodyPartRecord> GetPartsWithTag(string tag)
 		{
-			for (int i = 0; i < this.AllParts.Count; i++)
+			int i = 0;
+			BodyPartRecord part;
+			while (true)
 			{
-				BodyPartRecord part = this.AllParts[i];
-				if (part.def.tags.Contains(tag))
+				if (i < this.AllParts.Count)
 				{
-					yield return part;
+					part = this.AllParts[i];
+					if (!part.def.tags.Contains(tag))
+					{
+						i++;
+						continue;
+					}
+					break;
 				}
+				yield break;
 			}
+			yield return part;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public bool HasPartWithTag(string tag)
 		{
-			for (int i = 0; i < this.AllParts.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				BodyPartRecord bodyPartRecord = this.AllParts[i];
-				if (bodyPartRecord.def.tags.Contains(tag))
+				if (num < this.AllParts.Count)
 				{
-					return true;
+					BodyPartRecord bodyPartRecord = this.AllParts[num];
+					if (bodyPartRecord.def.tags.Contains(tag))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public BodyPartRecord GetPartAtIndex(int index)
@@ -73,30 +93,39 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string e = enumerator.Current;
+					yield return e;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			if (this.cachedPartsVulnerableToFrostbite.NullOrEmpty())
 			{
 				yield return "no parts vulnerable to frostbite";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			List<BodyPartRecord>.Enumerator enumerator2 = this.AllParts.GetEnumerator();
-			try
+			using (List<BodyPartRecord>.Enumerator enumerator2 = this.AllParts.GetEnumerator())
 			{
-				while (enumerator2.MoveNext())
+				BodyPartRecord part;
+				while (true)
 				{
-					BodyPartRecord part = enumerator2.Current;
-					if (part.def.isConceptual && part.coverageAbs != 0.0)
+					if (enumerator2.MoveNext())
 					{
-						yield return string.Format("part {0} is tagged conceptual, but has nonzero coverage", part);
+						part = enumerator2.Current;
+						if (part.def.isConceptual && part.coverageAbs != 0.0)
+							break;
+						continue;
 					}
+					yield break;
 				}
+				yield return string.Format("part {0} is tagged conceptual, but has nonzero coverage", part);
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
-			}
+			IL_01b8:
+			/*Error near IL_01b9: Unexpected return in MoveNext()*/;
 		}
 
 		public override void ResolveReferences()

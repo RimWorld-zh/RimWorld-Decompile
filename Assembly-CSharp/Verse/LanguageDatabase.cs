@@ -120,20 +120,21 @@ namespace Verse
 
 		public static string SystemLanguageFolderName()
 		{
+			string result;
 			if (SteamManager.Initialized)
 			{
 				string text = SteamApps.GetCurrentGameLanguage().CapitalizeFirst();
 				if (LanguageDatabase.SupportedAutoSelectLanguages.Contains(text))
 				{
-					return text;
+					result = text;
+					goto IL_0067;
 				}
 			}
-			string text2 = ((Enum)(object)Application.systemLanguage).ToString();
-			if (LanguageDatabase.SupportedAutoSelectLanguages.Contains(text2))
-			{
-				return text2;
-			}
-			return LanguageDatabase.DefaultLangFolderName;
+			string text2 = Application.systemLanguage.ToString();
+			result = ((!LanguageDatabase.SupportedAutoSelectLanguages.Contains(text2)) ? LanguageDatabase.DefaultLangFolderName : text2);
+			goto IL_0067;
+			IL_0067:
+			return result;
 		}
 	}
 }

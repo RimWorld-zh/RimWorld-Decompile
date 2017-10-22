@@ -93,14 +93,23 @@ namespace RimWorld
 		{
 			get
 			{
-				for (int i = 0; i < this.things.Count; i++)
+				int i = 0;
+				while (true)
 				{
-					Pawn p = this.things[i] as Pawn;
-					if (p == null || !this.soldPrisoners.Contains(p))
+					if (i < this.things.Count)
 					{
-						yield return this.things[i];
+						Pawn p = this.things[i] as Pawn;
+						if (p == null)
+							break;
+						if (!this.soldPrisoners.Contains(p))
+							break;
+						i++;
+						continue;
 					}
+					yield break;
 				}
+				yield return this.things[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -119,21 +128,34 @@ namespace RimWorld
 				TradeShip.tmpExtantNames.AddRange(from x in maps[i].passingShipManager.passingShips
 				select x.name);
 			}
-			base.name = NameGenerator.GenerateName(RulePackDefOf.NamerTraderGeneral, TradeShip.tmpExtantNames, false);
+			base.name = NameGenerator.GenerateName(RulePackDefOf.NamerTraderGeneral, TradeShip.tmpExtantNames, false, (string)null);
 			this.randomPriceFactorSeed = Rand.RangeInclusive(1, 10000000);
-			base.loadID = Find.World.uniqueIDsManager.GetNextPassingShipID();
+			base.loadID = Find.UniqueIDsManager.GetNextPassingShipID();
 		}
 
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
-			foreach (Thing item in TradeUtility.AllLaunchableThings(base.Map))
+			using (IEnumerator<Thing> enumerator = TradeUtility.AllLaunchableThings(base.Map).GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					Thing t = enumerator.Current;
+					yield return t;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			foreach (Pawn item2 in TradeUtility.AllSellableColonyPawns(base.Map))
+			using (IEnumerator<Pawn> enumerator2 = TradeUtility.AllSellableColonyPawns(base.Map).GetEnumerator())
 			{
-				yield return (Thing)item2;
+				if (enumerator2.MoveNext())
+				{
+					Pawn p = enumerator2.Current;
+					yield return (Thing)p;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_015b:
+			/*Error near IL_015c: Unexpected return in MoveNext()*/;
 		}
 
 		public void GenerateThings()
@@ -141,9 +163,9 @@ namespace RimWorld
 			ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
 			{
 				traderDef = this.def,
-				forTile = base.Map.Tile
+				tile = new int?(base.Map.Tile)
 			};
-			this.things.TryAddRange(ItemCollectionGeneratorDefOf.TraderStock.Worker.Generate(parms), true);
+			this.things.TryAddRangeOrTransfer(ItemCollectionGeneratorDefOf.TraderStock.Worker.Generate(parms), true, false);
 		}
 
 		public override void PassingShipTick()
@@ -185,12 +207,12 @@ namespace RimWorld
 			{
 				Find.WindowStack.Add(new Dialog_Trade(negotiator, this));
 				LessonAutoActivator.TeachOpportunity(ConceptDefOf.BuildOrbitalTradeBeacon, OpportunityType.Critical);
-				string empty = string.Empty;
-				string empty2 = string.Empty;
-				PawnRelationUtility.Notify_PawnsSeenByPlayer(this.Goods.OfType<Pawn>(), ref empty, ref empty2, "LetterRelatedPawnsTradeShip".Translate(), false);
-				if (!empty2.NullOrEmpty())
+				string label = "";
+				string text = "";
+				PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter(this.Goods.OfType<Pawn>(), ref label, ref text, "LetterRelatedPawnsTradeShip".Translate(), false, true);
+				if (!text.NullOrEmpty())
 				{
-					Find.LetterStack.ReceiveLetter(empty, empty2, LetterDefOf.Good, (string)null);
+					Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.PositiveEvent, (string)null);
 				}
 				TutorUtility.DoModalDialogIfNotKnown(ConceptDefOf.TradeGoodsMustBeNearBeacon);
 			}
@@ -211,11 +233,7 @@ namespace RimWorld
 		public int CountHeldOf(ThingDef thingDef, ThingDef stuffDef = null)
 		{
 			Thing thing = this.HeldThingMatching(thingDef, stuffDef);
-			if (thing != null)
-			{
-				return thing.stackCount;
-			}
-			return 0;
+			return (thing != null) ? thing.stackCount : 0;
 		}
 
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
@@ -255,14 +273,24 @@ namespace RimWorld
 
 		private Thing HeldThingMatching(ThingDef thingDef, ThingDef stuffDef)
 		{
-			for (int i = 0; i < this.things.Count; i++)
+			int num = 0;
+			Thing result;
+			while (true)
 			{
-				if (this.things[i].def == thingDef && this.things[i].Stuff == stuffDef)
+				if (num < this.things.Count)
 				{
-					return this.things[i];
+					if (this.things[num].def == thingDef && this.things[num].Stuff == stuffDef)
+					{
+						result = this.things[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public void ChangeCountHeldOf(ThingDef thingDef, ThingDef stuffDef, int count)

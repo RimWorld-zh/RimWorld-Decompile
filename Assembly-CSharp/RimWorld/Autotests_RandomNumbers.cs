@@ -37,9 +37,11 @@ namespace RimWorld
 
 		private static IEnumerable<float> RandomFloats(int count)
 		{
-			for (int i = 0; i < count; i++)
+			int i = 0;
+			if (i < count)
 			{
 				yield return Rand.Value;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -79,11 +81,8 @@ namespace RimWorld
 					if (dictionary.ContainsKey(num5))
 					{
 						Dictionary<int, int> dictionary2;
-						Dictionary<int, int> obj = dictionary2 = dictionary;
 						int key;
-						int key2 = key = num5;
-						key = dictionary2[key];
-						obj[key2] = key + 1;
+						(dictionary2 = dictionary)[key = num5] = dictionary2[key] + 1;
 					}
 					else
 					{

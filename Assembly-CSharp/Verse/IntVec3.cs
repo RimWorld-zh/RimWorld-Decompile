@@ -55,12 +55,17 @@ namespace Verse
 		{
 			get
 			{
+				float result;
 				if (this.x == 0 && this.z == 0)
 				{
-					return 0f;
+					result = 0f;
 				}
-				Vector3 eulerAngles = Quaternion.LookRotation(this.ToVector3()).eulerAngles;
-				return eulerAngles.y;
+				else
+				{
+					Vector3 eulerAngles = Quaternion.LookRotation(this.ToVector3()).eulerAngles;
+					result = eulerAngles.y;
+				}
+				return result;
 			}
 		}
 
@@ -104,6 +109,38 @@ namespace Verse
 			}
 		}
 
+		public static IntVec3 NorthWest
+		{
+			get
+			{
+				return new IntVec3(-1, 0, 1);
+			}
+		}
+
+		public static IntVec3 NorthEast
+		{
+			get
+			{
+				return new IntVec3(1, 0, 1);
+			}
+		}
+
+		public static IntVec3 SouthWest
+		{
+			get
+			{
+				return new IntVec3(-1, 0, -1);
+			}
+		}
+
+		public static IntVec3 SouthEast
+		{
+			get
+			{
+				return new IntVec3(1, 0, -1);
+			}
+		}
+
 		public static IntVec3 Invalid
 		{
 			get
@@ -144,17 +181,11 @@ namespace Verse
 				int newY = Convert.ToInt32(array[1]);
 				int newZ = Convert.ToInt32(array[2]);
 				return new IntVec3(newX, newY, newZ);
-				IL_0062:
-				IntVec3 result;
-				return result;
 			}
 			catch (Exception arg)
 			{
 				Log.Warning(str + " is not a valid IntVec3 format. Exception: " + arg);
 				return IntVec3.Invalid;
-				IL_0087:
-				IntVec3 result;
-				return result;
 			}
 		}
 
@@ -202,51 +233,71 @@ namespace Verse
 
 		public bool AdjacentToCardinal(IntVec3 other)
 		{
-			if (!this.IsValid)
-			{
-				return false;
-			}
-			if (other.z == this.z && (other.x == this.x + 1 || other.x == this.x - 1))
-			{
-				return true;
-			}
-			if (other.x == this.x && (other.z == this.z + 1 || other.z == this.z - 1))
-			{
-				return true;
-			}
-			return false;
+			return (byte)(this.IsValid ? ((other.z == this.z && (other.x == this.x + 1 || other.x == this.x - 1)) ? 1 : ((other.x == this.x && (other.z == this.z + 1 || other.z == this.z - 1)) ? 1 : 0)) : 0) != 0;
 		}
 
 		public bool AdjacentToDiagonal(IntVec3 other)
 		{
-			if (!this.IsValid)
-			{
-				return false;
-			}
-			return Mathf.Abs(this.x - other.x) == 1 && Mathf.Abs(this.z - other.z) == 1;
+			return this.IsValid && Mathf.Abs(this.x - other.x) == 1 && Mathf.Abs(this.z - other.z) == 1;
 		}
 
 		public bool AdjacentToCardinal(Room room)
 		{
+			bool result;
 			if (!this.IsValid)
 			{
-				return false;
+				result = false;
 			}
-			Map map = room.Map;
-			if (this.InBounds(map) && this.GetRoom(map, RegionType.Set_All) == room)
+			else
 			{
-				return true;
-			}
-			IntVec3[] cardinalDirections = GenAdj.CardinalDirections;
-			for (int i = 0; i < cardinalDirections.Length; i++)
-			{
-				IntVec3 intVec = this + cardinalDirections[i];
-				if (intVec.InBounds(map) && intVec.GetRoom(map, RegionType.Set_All) == room)
+				Map map = room.Map;
+				if (this.InBounds(map) && this.GetRoom(map, RegionType.Set_All) == room)
 				{
-					return true;
+					result = true;
+				}
+				else
+				{
+					IntVec3[] cardinalDirections = GenAdj.CardinalDirections;
+					for (int i = 0; i < cardinalDirections.Length; i++)
+					{
+						IntVec3 intVec = this + cardinalDirections[i];
+						if (intVec.InBounds(map) && intVec.GetRoom(map, RegionType.Set_All) == room)
+							goto IL_0088;
+					}
+					result = false;
 				}
 			}
-			return false;
+			goto IL_00a4;
+			IL_00a4:
+			return result;
+			IL_0088:
+			result = true;
+			goto IL_00a4;
+		}
+
+		public static IntVec3 operator +(IntVec3 a, IntVec3 b)
+		{
+			return new IntVec3(a.x + b.x, a.y + b.y, a.z + b.z);
+		}
+
+		public static IntVec3 operator -(IntVec3 a, IntVec3 b)
+		{
+			return new IntVec3(a.x - b.x, a.y - b.y, a.z - b.z);
+		}
+
+		public static IntVec3 operator *(IntVec3 a, int i)
+		{
+			return new IntVec3(a.x * i, a.y * i, a.z * i);
+		}
+
+		public static bool operator ==(IntVec3 a, IntVec3 b)
+		{
+			return (byte)((a.x == b.x && a.z == b.z && a.y == b.y) ? 1 : 0) != 0;
+		}
+
+		public static bool operator !=(IntVec3 a, IntVec3 b)
+		{
+			return (byte)((a.x != b.x || a.z != b.z || a.y != b.y) ? 1 : 0) != 0;
 		}
 
 		public override bool Equals(object obj)
@@ -270,7 +321,7 @@ namespace Verse
 		public ulong UniqueHashCode()
 		{
 			ulong num = 0uL;
-			num = (ulong)((long)num + 1L * (long)this.x);
+			num = (ulong)((long)num + (long)this.x);
 			num = (ulong)((long)num + 4096L * (long)this.z);
 			return (ulong)((long)num + 16777216L * (long)this.y);
 		}
@@ -278,39 +329,6 @@ namespace Verse
 		public override string ToString()
 		{
 			return "(" + this.x.ToString() + ", " + this.y.ToString() + ", " + this.z.ToString() + ")";
-		}
-
-		public static IntVec3 operator +(IntVec3 a, IntVec3 b)
-		{
-			return new IntVec3(a.x + b.x, a.y + b.y, a.z + b.z);
-		}
-
-		public static IntVec3 operator -(IntVec3 a, IntVec3 b)
-		{
-			return new IntVec3(a.x - b.x, a.y - b.y, a.z - b.z);
-		}
-
-		public static IntVec3 operator *(IntVec3 a, int i)
-		{
-			return new IntVec3(a.x * i, a.y * i, a.z * i);
-		}
-
-		public static bool operator ==(IntVec3 a, IntVec3 b)
-		{
-			if (a.x == b.x && a.z == b.z && a.y == b.y)
-			{
-				return true;
-			}
-			return false;
-		}
-
-		public static bool operator !=(IntVec3 a, IntVec3 b)
-		{
-			if (a.x == b.x && a.z == b.z && a.y == b.y)
-			{
-				return false;
-			}
-			return true;
 		}
 	}
 }

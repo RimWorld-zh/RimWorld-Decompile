@@ -1,8 +1,10 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	public class JobQueue : IExposable
+	public class JobQueue : IExposable, IEnumerable<QueuedJob>, IEnumerable
 	{
 		private List<QueuedJob> jobs = new List<QueuedJob>();
 
@@ -26,14 +28,24 @@ namespace Verse.AI
 		{
 			get
 			{
-				for (int i = 0; i < this.jobs.Count; i++)
+				int num = 0;
+				bool result;
+				while (true)
 				{
-					if (this.jobs[i].job.playerForced)
+					if (num < this.jobs.Count)
 					{
-						return true;
+						if (this.jobs[num].job.playerForced)
+						{
+							result = true;
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = false;
+					break;
 				}
-				return false;
+				return result;
 			}
 		}
 
@@ -52,14 +64,36 @@ namespace Verse.AI
 			this.jobs.Add(new QueuedJob(j, tag));
 		}
 
+		public QueuedJob Extract(Job j)
+		{
+			int num = this.jobs.FindIndex((Predicate<QueuedJob>)((QueuedJob qj) => qj.job == j));
+			QueuedJob result;
+			if (num >= 0)
+			{
+				QueuedJob queuedJob = this.jobs[num];
+				this.jobs.RemoveAt(num);
+				result = queuedJob;
+			}
+			else
+			{
+				result = null;
+			}
+			return result;
+		}
+
 		public QueuedJob Dequeue()
 		{
+			QueuedJob result;
 			if (this.jobs.NullOrEmpty())
 			{
-				return null;
+				result = null;
 			}
-			QueuedJob result = this.jobs[0];
-			this.jobs.RemoveAt(0);
+			else
+			{
+				QueuedJob queuedJob = this.jobs[0];
+				this.jobs.RemoveAt(0);
+				result = queuedJob;
+			}
 			return result;
 		}
 
@@ -68,9 +102,14 @@ namespace Verse.AI
 			return this.jobs[0];
 		}
 
-		public void Clear()
+		public IEnumerator<QueuedJob> GetEnumerator()
 		{
-			this.jobs.Clear();
+			return (IEnumerator<QueuedJob>)(object)this.jobs.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return (IEnumerator)(object)this.jobs.GetEnumerator();
 		}
 	}
 }

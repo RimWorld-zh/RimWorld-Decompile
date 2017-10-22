@@ -7,6 +7,10 @@ namespace RimWorld
 {
 	public class Need_Joy : Need
 	{
+		public JoyToleranceSet tolerances = new JoyToleranceSet();
+
+		private int lastGainTick = -999;
+
 		private const float BaseFallPerTick = 1.00000007E-05f;
 
 		private const float ThreshLow = 0.15f;
@@ -19,35 +23,11 @@ namespace RimWorld
 
 		private const float MinDownedJoy = 0.25f;
 
-		public JoyToleranceSet tolerances = new JoyToleranceSet();
-
-		private int lastGainTick = -999;
-
 		public JoyCategory CurCategory
 		{
 			get
 			{
-				if (this.CurLevel < 0.0099999997764825821)
-				{
-					return JoyCategory.Empty;
-				}
-				if (this.CurLevel < 0.15000000596046448)
-				{
-					return JoyCategory.VeryLow;
-				}
-				if (this.CurLevel < 0.30000001192092896)
-				{
-					return JoyCategory.Low;
-				}
-				if (this.CurLevel < 0.699999988079071)
-				{
-					return JoyCategory.Satisfied;
-				}
-				if (this.CurLevel < 0.85000002384185791)
-				{
-					return JoyCategory.High;
-				}
-				return JoyCategory.Extreme;
+				return (JoyCategory)((!(this.CurLevel < 0.0099999997764825821)) ? ((this.CurLevel < 0.15000000596046448) ? 1 : ((!(this.CurLevel < 0.30000001192092896)) ? ((!(this.CurLevel < 0.699999988079071)) ? ((!(this.CurLevel < 0.85000002384185791)) ? 5 : 4) : 3) : 2)) : 0);
 			}
 		}
 
@@ -55,37 +35,45 @@ namespace RimWorld
 		{
 			get
 			{
+				float result;
 				switch (this.CurCategory)
 				{
 				case JoyCategory.Empty:
 				{
-					return 1.00000007E-05f;
+					result = 1.00000007E-05f;
+					break;
 				}
 				case JoyCategory.VeryLow:
 				{
-					return 4.00000044E-06f;
+					result = 4.00000044E-06f;
+					break;
 				}
 				case JoyCategory.Low:
 				{
-					return 7.00000055E-06f;
+					result = 7.00000055E-06f;
+					break;
 				}
 				case JoyCategory.Satisfied:
 				{
-					return 1.00000007E-05f;
+					result = 1.00000007E-05f;
+					break;
 				}
 				case JoyCategory.High:
 				{
-					return 1.00000007E-05f;
+					result = 1.00000007E-05f;
+					break;
 				}
 				case JoyCategory.Extreme:
 				{
-					return 1.00000007E-05f;
+					result = 1.00000007E-05f;
+					break;
 				}
 				default:
 				{
 					throw new InvalidOperationException();
 				}
 				}
+				return result;
 			}
 		}
 

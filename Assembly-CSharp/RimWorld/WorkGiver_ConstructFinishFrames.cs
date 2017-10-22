@@ -5,6 +5,14 @@ namespace RimWorld
 {
 	public class WorkGiver_ConstructFinishFrames : WorkGiver_Scanner
 	{
+		public override PathEndMode PathEndMode
+		{
+			get
+			{
+				return PathEndMode.Touch;
+			}
+		}
+
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -13,26 +21,24 @@ namespace RimWorld
 			}
 		}
 
+		public override Danger MaxPathDanger(Pawn pawn)
+		{
+			return Danger.Deadly;
+		}
+
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
+			Job result;
 			if (t.Faction != pawn.Faction)
 			{
-				return null;
+				result = null;
 			}
-			Frame frame = t as Frame;
-			if (frame != null)
+			else
 			{
-				if (!GenConstruct.CanConstruct(frame, pawn, forced))
-				{
-					return null;
-				}
-				if (frame.MaterialsNeeded().Count > 0)
-				{
-					return null;
-				}
-				return new Job(JobDefOf.FinishFrame, (Thing)frame);
+				Frame frame = t as Frame;
+				result = ((frame == null) ? null : (GenConstruct.CanConstruct(frame, pawn, forced) ? ((frame.MaterialsNeeded().Count <= 0) ? new Job(JobDefOf.FinishFrame, (Thing)frame) : null) : null));
 			}
-			return null;
+			return result;
 		}
 	}
 }

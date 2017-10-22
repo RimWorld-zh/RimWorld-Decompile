@@ -6,13 +6,13 @@ namespace Verse.Sound
 	public class SoundParamSource_Perlin : SoundParamSource
 	{
 		[Description("The type of time on which this perlin randomizer will work. If you use Ticks, it will freeze when paused and speed up in fast forward.")]
-		public TimeType timeType;
+		public TimeType timeType = TimeType.Ticks;
 
 		[Description("The frequency of the perlin output. The input time is multiplied by this amount.")]
 		public float perlinFrequency = 1f;
 
 		[Description("Whether to synchronize the Perlin output across different samples. If set to desync, each playing sample will get a separate Perlin output.")]
-		public PerlinMappingSyncType syncType;
+		public PerlinMappingSyncType syncType = PerlinMappingSyncType.Sync;
 
 		private static Perlin perlin = new Perlin(0.0099999997764825821, 2.0, 0.5, 4, Rand.Range(0, 2147483647), QualityMode.Medium);
 

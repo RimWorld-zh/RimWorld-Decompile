@@ -10,7 +10,9 @@ namespace RimWorld
 
 		public bool usuallyDefinedInBackstories = true;
 
-		public WorkTags disablingWorkTags;
+		public bool pawnCreatorSummaryVisible = false;
+
+		public WorkTags disablingWorkTags = WorkTags.None;
 
 		public override void PostLoad()
 		{
@@ -22,32 +24,36 @@ namespace RimWorld
 
 		public bool IsDisabled(WorkTags combinedDisabledWorkTags, IEnumerable<WorkTypeDef> disabledWorkTypes)
 		{
+			bool result;
 			if ((combinedDisabledWorkTags & this.disablingWorkTags) != 0)
 			{
-				return true;
+				result = true;
 			}
-			List<WorkTypeDef> allDefsListForReading = DefDatabase<WorkTypeDef>.AllDefsListForReading;
-			bool flag = false;
-			for (int i = 0; i < allDefsListForReading.Count; i++)
+			else
 			{
-				WorkTypeDef workTypeDef = allDefsListForReading[i];
-				for (int j = 0; j < workTypeDef.relevantSkills.Count; j++)
+				List<WorkTypeDef> allDefsListForReading = DefDatabase<WorkTypeDef>.AllDefsListForReading;
+				bool flag = false;
+				for (int i = 0; i < allDefsListForReading.Count; i++)
 				{
-					if (workTypeDef.relevantSkills[j] == this)
+					WorkTypeDef workTypeDef = allDefsListForReading[i];
+					for (int j = 0; j < workTypeDef.relevantSkills.Count; j++)
 					{
-						if (!disabledWorkTypes.Contains(workTypeDef))
+						if (workTypeDef.relevantSkills[j] == this)
 						{
-							return false;
+							if (!disabledWorkTypes.Contains(workTypeDef))
+								goto IL_0059;
+							flag = true;
 						}
-						flag = true;
 					}
 				}
+				result = ((byte)(flag ? 1 : 0) != 0);
 			}
-			if (!flag)
-			{
-				return false;
-			}
-			return true;
+			goto IL_00a2;
+			IL_00a2:
+			return result;
+			IL_0059:
+			result = false;
+			goto IL_00a2;
 		}
 	}
 }

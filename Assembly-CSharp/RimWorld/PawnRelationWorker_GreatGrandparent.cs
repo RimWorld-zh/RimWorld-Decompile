@@ -6,11 +6,7 @@ namespace RimWorld
 	{
 		public override bool InRelation(Pawn me, Pawn other)
 		{
-			if (me == other)
-			{
-				return false;
-			}
-			return PawnRelationDefOf.GreatGrandchild.Worker.InRelation(other, me);
+			return me != other && PawnRelationDefOf.GreatGrandchild.Worker.InRelation(other, me);
 		}
 	}
 }

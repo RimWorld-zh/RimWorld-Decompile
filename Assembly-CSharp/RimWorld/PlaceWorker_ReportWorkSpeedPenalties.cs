@@ -16,7 +16,7 @@ namespace RimWorld
 				string str = "WillGetWorkSpeedPenalty".Translate(def.label).CapitalizeFirst() + ": ";
 				if (flag)
 				{
-					str += "Outdoors".Translate().ToLower();
+					str += "Outdoors".Translate().CapitalizeFirst();
 				}
 				if (flag2)
 				{
@@ -24,10 +24,10 @@ namespace RimWorld
 					{
 						str += ", ";
 					}
-					str += "BadTemperature".Translate().ToLower();
+					str += "BadTemperature".Translate().CapitalizeFirst();
 				}
 				str += ".";
-				Messages.Message(str, MessageSound.Negative);
+				Messages.Message(str, MessageTypeDefOf.CautionInput);
 			}
 		}
 	}

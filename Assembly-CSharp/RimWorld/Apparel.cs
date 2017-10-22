@@ -32,6 +32,11 @@ namespace RimWorld
 			}
 		}
 
+		public void Notify_PawnResurrected()
+		{
+			this.wornByCorpseInt = false;
+		}
+
 		public override void ExposeData()
 		{
 			base.ExposeData();

@@ -9,12 +9,12 @@ namespace RimWorld
 {
 	public class CompTempControl : ThingComp
 	{
-		private const float DefaultTargetTemperature = 21f;
-
 		[Unsaved]
-		public bool operatingAtHighPower;
+		public bool operatingAtHighPower = false;
 
 		public float targetTemperature = -99999f;
+
+		private const float DefaultTargetTemperature = 21f;
 
 		public CompProperties_TempControl Props
 		{
@@ -48,71 +48,31 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			foreach (Gizmo item in base.CompGetGizmosExtra())
+			using (IEnumerator<Gizmo> enumerator = this._003CCompGetGizmosExtra_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					Gizmo c = enumerator.Current;
+					yield return c;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			float offset4 = this.RoundedToCurrentTempModeOffset(-10f);
+			_003CCompGetGizmosExtra_003Ec__Iterator0 _003CCompGetGizmosExtra_003Ec__Iterator = (_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_00d9: stateMachine*/;
+			float offset = this.RoundedToCurrentTempModeOffset(-10f);
 			yield return (Gizmo)new Command_Action
 			{
 				action = (Action)delegate
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_00e1: stateMachine*/)._003C_003Ef__this.InterfaceChangeTargetTemperature(((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_00e1: stateMachine*/)._003Coffset_003E__2);
+					_003CCompGetGizmosExtra_003Ec__Iterator._0024this.InterfaceChangeTargetTemperature(offset);
 				},
-				defaultLabel = offset4.ToStringTemperatureOffset("F0"),
+				defaultLabel = offset.ToStringTemperatureOffset("F0"),
 				defaultDesc = "CommandLowerTempDesc".Translate(),
 				hotKey = KeyBindingDefOf.Misc5,
 				icon = ContentFinder<Texture2D>.Get("UI/Commands/TempLower", true)
 			};
-			float offset3 = this.RoundedToCurrentTempModeOffset(-1f);
-			yield return (Gizmo)new Command_Action
-			{
-				action = (Action)delegate
-				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_0187: stateMachine*/)._003C_003Ef__this.InterfaceChangeTargetTemperature(((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_0187: stateMachine*/)._003Coffset_003E__4);
-				},
-				defaultLabel = offset3.ToStringTemperatureOffset("F0"),
-				defaultDesc = "CommandLowerTempDesc".Translate(),
-				hotKey = KeyBindingDefOf.Misc4,
-				icon = ContentFinder<Texture2D>.Get("UI/Commands/TempLower", true)
-			};
-			yield return (Gizmo)new Command_Action
-			{
-				action = (Action)delegate
-				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_0217: stateMachine*/)._003C_003Ef__this.targetTemperature = 21f;
-					SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
-					((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_0217: stateMachine*/)._003C_003Ef__this.ThrowCurrentTemperatureText();
-				},
-				defaultLabel = "CommandResetTemp".Translate(),
-				defaultDesc = "CommandResetTempDesc".Translate(),
-				hotKey = KeyBindingDefOf.Misc1,
-				icon = ContentFinder<Texture2D>.Get("UI/Commands/TempReset", true)
-			};
-			float offset2 = this.RoundedToCurrentTempModeOffset(1f);
-			yield return (Gizmo)new Command_Action
-			{
-				action = (Action)delegate
-				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_02b7: stateMachine*/)._003C_003Ef__this.InterfaceChangeTargetTemperature(((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_02b7: stateMachine*/)._003Coffset_003E__7);
-				},
-				defaultLabel = "+" + offset2.ToStringTemperatureOffset("F0"),
-				defaultDesc = "CommandRaiseTempDesc".Translate(),
-				hotKey = KeyBindingDefOf.Misc2,
-				icon = ContentFinder<Texture2D>.Get("UI/Commands/TempRaise", true)
-			};
-			float offset = this.RoundedToCurrentTempModeOffset(10f);
-			yield return (Gizmo)new Command_Action
-			{
-				action = (Action)delegate
-				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_0367: stateMachine*/)._003C_003Ef__this.InterfaceChangeTargetTemperature(((_003CCompGetGizmosExtra_003Ec__Iterator16D)/*Error near IL_0367: stateMachine*/)._003Coffset_003E__9);
-				},
-				defaultLabel = "+" + offset.ToStringTemperatureOffset("F0"),
-				defaultDesc = "CommandRaiseTempDesc".Translate(),
-				hotKey = KeyBindingDefOf.Misc3,
-				icon = ContentFinder<Texture2D>.Get("UI/Commands/TempRaise", true)
-			};
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_04d1:
+			/*Error near IL_04d2: Unexpected return in MoveNext()*/;
 		}
 
 		private void InterfaceChangeTargetTemperature(float offset)

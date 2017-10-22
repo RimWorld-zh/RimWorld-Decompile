@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public class HistoryAutoRecorder : IExposable
 	{
-		public HistoryAutoRecorderDef def;
+		public HistoryAutoRecorderDef def = null;
 
 		public List<float> records;
 
@@ -40,7 +40,7 @@ namespace RimWorld
 					}
 				}
 			}
-			ArrayExposeUtility.ExposeByteArray(ref array, "records");
+			DataExposeUtility.ByteArray(ref array, "records");
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
 				int num = array.Length / 4;

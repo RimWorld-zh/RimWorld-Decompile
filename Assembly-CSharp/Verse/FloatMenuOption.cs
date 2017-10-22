@@ -8,6 +8,32 @@ namespace Verse
 {
 	public class FloatMenuOption
 	{
+		private string labelInt = (string)null;
+
+		public Action action = null;
+
+		private MenuOptionPriority priorityInt = MenuOptionPriority.Default;
+
+		public bool autoTakeable = false;
+
+		public Action mouseoverGuiAction = null;
+
+		public Thing revalidateClickTarget = null;
+
+		public WorldObject revalidateWorldClickTarget = null;
+
+		public float extraPartWidth = 0f;
+
+		public Func<Rect, bool> extraPartOnGUI = null;
+
+		public string tutorTag = (string)null;
+
+		private FloatMenuSizeMode sizeMode = FloatMenuSizeMode.Undefined;
+
+		private float cachedRequiredHeight;
+
+		private float cachedRequiredWidth;
+
 		public const float MaxWidth = 300f;
 
 		private const float NormalVerticalMargin = 4f;
@@ -20,34 +46,6 @@ namespace Verse
 
 		private const float MouseOverLabelShift = 4f;
 
-		public const float ExtraPartHeight = 30f;
-
-		private string labelInt;
-
-		public Action action;
-
-		private MenuOptionPriority priorityInt = MenuOptionPriority.Default;
-
-		public bool autoTakeable;
-
-		public Action mouseoverGuiAction;
-
-		public Thing revalidateClickTarget;
-
-		public WorldObject revalidateWorldClickTarget;
-
-		public float extraPartWidth;
-
-		public Func<Rect, bool> extraPartOnGUI;
-
-		public string tutorTag;
-
-		private FloatMenuSizeMode sizeMode;
-
-		private float cachedRequiredHeight;
-
-		private float cachedRequiredWidth;
-
 		private static readonly Color ColorBGActive = new ColorInt(21, 25, 29).ToColor;
 
 		private static readonly Color ColorBGActiveMouseover = new ColorInt(29, 45, 50).ToColor;
@@ -57,6 +55,8 @@ namespace Verse
 		private static readonly Color ColorTextActive = Color.white;
 
 		private static readonly Color ColorTextDisabled = new Color(0.9f, 0.9f, 0.9f);
+
+		public const float ExtraPartHeight = 30f;
 
 		public string Label
 		{
@@ -134,11 +134,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.Disabled)
-				{
-					return MenuOptionPriority.DisabledOption;
-				}
-				return this.priorityInt;
+				return (!this.Disabled) ? this.priorityInt : MenuOptionPriority.DisabledOption;
 			}
 			set
 			{
@@ -199,29 +195,31 @@ namespace Verse
 
 		public virtual bool DoGUI(Rect rect, bool colonistOrdering)
 		{
-			bool flag = !this.Disabled && Mouse.IsOver(rect);
+			Rect rect2 = rect;
+			rect2.height -= 1f;
+			bool flag = !this.Disabled && Mouse.IsOver(rect2);
 			bool flag2 = false;
 			Text.Font = this.CurrentFont;
-			Rect rect2 = rect;
-			rect2.xMin += this.HorizontalMargin;
-			rect2.xMax -= this.HorizontalMargin;
-			rect2.xMax -= 4f;
-			rect2.xMax -= this.extraPartWidth;
+			Rect rect3 = rect;
+			rect3.xMin += this.HorizontalMargin;
+			rect3.xMax -= this.HorizontalMargin;
+			rect3.xMax -= 4f;
+			rect3.xMax -= this.extraPartWidth;
 			if (flag)
 			{
-				rect2.x += 4f;
+				rect3.x += 4f;
 			}
-			Rect rect3 = default(Rect);
+			Rect rect4 = default(Rect);
 			if (this.extraPartWidth != 0.0)
 			{
 				Vector2 vector = Text.CalcSize(this.Label);
-				float num = Mathf.Min(vector.x, (float)(rect2.width - 4.0));
-				rect3 = new Rect(rect2.xMin + num, rect2.yMin, this.extraPartWidth, 30f);
-				flag2 = Mouse.IsOver(rect3);
+				float num = Mathf.Min(vector.x, (float)(rect3.width - 4.0));
+				rect4 = new Rect(rect3.xMin + num, rect3.yMin, this.extraPartWidth, 30f);
+				flag2 = Mouse.IsOver(rect4);
 			}
 			if (!this.Disabled)
 			{
-				MouseoverSounds.DoRegion(rect);
+				MouseoverSounds.DoRegion(rect2);
 			}
 			Color color = GUI.color;
 			if (this.Disabled)
@@ -240,20 +238,22 @@ namespace Verse
 			GUI.color = (this.Disabled ? FloatMenuOption.ColorTextDisabled : FloatMenuOption.ColorTextActive) * color;
 			if (this.sizeMode == FloatMenuSizeMode.Tiny)
 			{
-				rect2.y += 1f;
+				rect3.y += 1f;
 			}
 			Widgets.DrawAtlas(rect, TexUI.FloatMenuOptionBG);
 			Text.Anchor = TextAnchor.MiddleLeft;
-			Widgets.Label(rect2, this.Label);
+			Widgets.Label(rect3, this.Label);
 			Text.Anchor = TextAnchor.UpperLeft;
 			GUI.color = color;
+			bool result;
 			if ((object)this.extraPartOnGUI != null)
 			{
-				bool flag3 = this.extraPartOnGUI(rect3);
+				bool flag3 = this.extraPartOnGUI(rect4);
 				GUI.color = color;
 				if (flag3)
 				{
-					return true;
+					result = true;
+					goto IL_02c1;
 				}
 			}
 			if (flag && (object)this.mouseoverGuiAction != null)
@@ -264,20 +264,29 @@ namespace Verse
 			{
 				UIHighlighter.HighlightOpportunity(rect, this.tutorTag);
 			}
-			if (Widgets.ButtonInvisible(rect, false))
+			if (Widgets.ButtonInvisible(rect2, false))
 			{
 				if (this.tutorTag != null && !TutorSystem.AllowAction(this.tutorTag))
 				{
-					return false;
+					result = false;
 				}
-				this.Chosen(colonistOrdering);
-				if (this.tutorTag != null)
+				else
 				{
-					TutorSystem.Notify_Event(this.tutorTag);
+					this.Chosen(colonistOrdering);
+					if (this.tutorTag != null)
+					{
+						TutorSystem.Notify_Event(this.tutorTag);
+					}
+					result = true;
 				}
-				return true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			goto IL_02c1;
+			IL_02c1:
+			return result;
 		}
 
 		public override string ToString()

@@ -2,7 +2,7 @@ namespace Verse
 {
 	public class CompProperties_HeatPusher : CompProperties
 	{
-		public float heatPerSecond;
+		public float heatPerSecond = 0f;
 
 		public float heatPushMaxTemperature = 99999f;
 

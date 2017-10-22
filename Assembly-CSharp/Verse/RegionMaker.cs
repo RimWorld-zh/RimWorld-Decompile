@@ -33,14 +33,17 @@ namespace Verse
 		public Region TryGenerateRegionFrom(IntVec3 root)
 		{
 			RegionType expectedRegionType = root.GetExpectedRegionType(this.map);
+			Region result;
 			if (expectedRegionType == RegionType.None)
 			{
-				return null;
+				result = null;
+				goto IL_00c0;
 			}
 			if (this.working)
 			{
 				Log.Error("Trying to generate a new region but we are currently generating one. Nested calls are not allowed.");
-				return null;
+				result = null;
+				goto IL_00c0;
 			}
 			this.working = true;
 			try
@@ -56,14 +59,13 @@ namespace Verse
 				this.CreateLinks();
 				this.RegisterThingsInRegionListers();
 				return this.newReg;
-				IL_00a9:
-				Region result;
-				return result;
 			}
 			finally
 			{
 				this.working = false;
 			}
+			IL_00c0:
+			return result;
 		}
 
 		private void FloodFillAndAddCells(IntVec3 root)
@@ -78,7 +80,7 @@ namespace Verse
 				this.map.floodFiller.FloodFill(root, (Predicate<IntVec3>)((IntVec3 x) => this.newReg.extentsLimit.Contains(x) && x.GetExpectedRegionType(this.map) == this.newReg.type), (Action<IntVec3>)delegate(IntVec3 x)
 				{
 					this.AddCell(x);
-				}, false);
+				}, 2147483647, false, null);
 			}
 		}
 

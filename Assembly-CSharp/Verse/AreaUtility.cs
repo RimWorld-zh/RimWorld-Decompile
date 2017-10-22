@@ -22,14 +22,13 @@ namespace Verse
 			select a)
 			{
 				Area localArea = item2;
-				Action mouseoverGuiAction = (Action)delegate
-				{
-					localArea.MarkForDraw();
-				};
 				FloatMenuOption item = new FloatMenuOption(localArea.Label, (Action)delegate()
 				{
 					selAction(localArea);
-				}, MenuOptionPriority.Default, mouseoverGuiAction, null, 0f, null, null);
+				}, MenuOptionPriority.Default, (Action)delegate
+				{
+					localArea.MarkForDraw();
+				}, null, 0f, null, null);
 				list.Add(item);
 			}
 			if (addManageOption)
@@ -44,20 +43,12 @@ namespace Verse
 
 		public static string AreaAllowedLabel(Pawn pawn)
 		{
-			if (pawn.playerSettings != null)
-			{
-				return AreaUtility.AreaAllowedLabel_Area(pawn.playerSettings.EffectiveAreaRestriction);
-			}
-			return AreaUtility.AreaAllowedLabel_Area(null);
+			return (pawn.playerSettings == null) ? AreaUtility.AreaAllowedLabel_Area(null) : AreaUtility.AreaAllowedLabel_Area(pawn.playerSettings.EffectiveAreaRestriction);
 		}
 
 		public static string AreaAllowedLabel_Area(Area area)
 		{
-			if (area != null)
-			{
-				return area.Label;
-			}
-			return "NoAreaAllowed".Translate();
+			return (area == null) ? "NoAreaAllowed".Translate() : area.Label;
 		}
 	}
 }

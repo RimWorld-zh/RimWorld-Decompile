@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Verse;
@@ -107,18 +106,9 @@ namespace RimWorld
 				if (!list.NullOrEmpty())
 				{
 					stringBuilder.AppendLine("=======" + allFaction.Name + " (" + allFaction.def + ")");
-					List<Thing>.Enumerator enumerator2 = list.GetEnumerator();
-					try
+					foreach (Thing item in list)
 					{
-						while (enumerator2.MoveNext())
-						{
-							Thing current2 = enumerator2.Current;
-							stringBuilder.AppendLine(current2.ThingID);
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator2).Dispose();
+						stringBuilder.AppendLine(item.ThingID);
 					}
 				}
 			}

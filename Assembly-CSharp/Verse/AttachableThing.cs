@@ -10,11 +10,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.parent != null)
-				{
-					return this.parent.DrawPos + Vector3.up * 0.046875f * 0.9f;
-				}
-				return base.DrawPos;
+				return (this.parent == null) ? base.DrawPos : (this.parent.DrawPos + Vector3.up * 0.046875f * 0.9f);
 			}
 		}
 

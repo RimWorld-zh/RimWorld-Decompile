@@ -10,38 +10,43 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
+			Job result;
 			if (pawn.inventory == null)
 			{
-				return null;
+				result = null;
 			}
-			if (!((Area)pawn.Map.areaManager.Home)[pawn.Position])
+			else if (!((Area)pawn.Map.areaManager.Home)[pawn.Position])
 			{
-				return null;
+				result = null;
 			}
-			if (pawn.Faction != Faction.OfPlayer)
+			else if (pawn.Faction != Faction.OfPlayer)
 			{
-				return null;
+				result = null;
 			}
-			if (Find.TickManager.TicksGame > pawn.mindState.lastInventoryRawFoodUseTick + 150000)
+			else
 			{
-				for (int num = pawn.inventory.innerContainer.Count - 1; num >= 0; num--)
+				if (Find.TickManager.TicksGame > pawn.mindState.lastInventoryRawFoodUseTick + 150000)
 				{
-					Thing thing = pawn.inventory.innerContainer[num];
-					if (thing.def.IsIngestible && !thing.def.IsDrug && (int)thing.def.ingestible.preferability <= 4)
+					for (int num = pawn.inventory.innerContainer.Count - 1; num >= 0; num--)
 					{
-						this.Drop(pawn, thing);
+						Thing thing = pawn.inventory.innerContainer[num];
+						if (thing.def.IsIngestible && !thing.def.IsDrug && (int)thing.def.ingestible.preferability <= 5)
+						{
+							this.Drop(pawn, thing);
+						}
 					}
 				}
-			}
-			for (int num2 = pawn.inventory.innerContainer.Count - 1; num2 >= 0; num2--)
-			{
-				Thing thing2 = pawn.inventory.innerContainer[num2];
-				if (thing2.def.IsDrug && pawn.drugs != null && !pawn.drugs.AllowedToTakeScheduledEver(thing2.def) && pawn.drugs.HasEverTaken(thing2.def) && !AddictionUtility.IsAddicted(pawn, thing2))
+				for (int num2 = pawn.inventory.innerContainer.Count - 1; num2 >= 0; num2--)
 				{
-					this.Drop(pawn, thing2);
+					Thing thing2 = pawn.inventory.innerContainer[num2];
+					if (thing2.def.IsDrug && pawn.drugs != null && !pawn.drugs.AllowedToTakeScheduledEver(thing2.def) && pawn.drugs.HasEverTaken(thing2.def) && !AddictionUtility.IsAddicted(pawn, thing2))
+					{
+						this.Drop(pawn, thing2);
+					}
 				}
+				result = null;
 			}
-			return null;
+			return result;
 		}
 
 		private void Drop(Pawn pawn, Thing thing)

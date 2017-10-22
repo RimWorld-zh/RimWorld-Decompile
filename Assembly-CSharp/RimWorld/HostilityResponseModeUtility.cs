@@ -15,52 +15,60 @@ namespace RimWorld
 
 		public static Texture2D GetIcon(this HostilityResponseMode response)
 		{
+			Texture2D result;
 			switch (response)
 			{
 			case HostilityResponseMode.Ignore:
 			{
-				return HostilityResponseModeUtility.IgnoreIcon;
+				result = HostilityResponseModeUtility.IgnoreIcon;
+				break;
 			}
 			case HostilityResponseMode.Attack:
 			{
-				return HostilityResponseModeUtility.AttackIcon;
+				result = HostilityResponseModeUtility.AttackIcon;
+				break;
 			}
 			case HostilityResponseMode.Flee:
 			{
-				return HostilityResponseModeUtility.FleeIcon;
+				result = HostilityResponseModeUtility.FleeIcon;
+				break;
 			}
 			default:
 			{
-				return BaseContent.BadTex;
+				result = BaseContent.BadTex;
+				break;
 			}
 			}
+			return result;
 		}
 
 		public static HostilityResponseMode GetNextResponse(Pawn pawn)
 		{
+			HostilityResponseMode result;
 			switch (pawn.playerSettings.hostilityResponse)
 			{
 			case HostilityResponseMode.Ignore:
 			{
-				if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
-				{
-					return HostilityResponseMode.Flee;
-				}
-				return HostilityResponseMode.Attack;
+				result = (HostilityResponseMode)((pawn.story == null || !pawn.story.WorkTagIsDisabled(WorkTags.Violent)) ? 1 : 2);
+				break;
 			}
 			case HostilityResponseMode.Attack:
 			{
-				return HostilityResponseMode.Flee;
+				result = HostilityResponseMode.Flee;
+				break;
 			}
 			case HostilityResponseMode.Flee:
 			{
-				return HostilityResponseMode.Ignore;
+				result = HostilityResponseMode.Ignore;
+				break;
 			}
 			default:
 			{
-				return HostilityResponseMode.Ignore;
+				result = HostilityResponseMode.Ignore;
+				break;
 			}
 			}
+			return result;
 		}
 
 		public static string GetLabel(this HostilityResponseMode response)

@@ -8,6 +8,7 @@ namespace RimWorld
 		public override float OpinionOffset()
 		{
 			Tale latestTale = Find.TaleManager.GetLatestTale(base.def.taleDef, base.otherPawn);
+			float result;
 			if (latestTale != null)
 			{
 				float num = 1f;
@@ -16,9 +17,13 @@ namespace RimWorld
 					float value = (float)((float)latestTale.AgeTicks / (latestTale.def.expireDays * 60000.0));
 					num = Mathf.InverseLerp(1f, base.def.lerpOpinionToZeroAfterDurationPct, value);
 				}
-				return base.CurStage.baseOpinionOffset * num;
+				result = base.CurStage.baseOpinionOffset * num;
 			}
-			return 0f;
+			else
+			{
+				result = 0f;
+			}
+			return result;
 		}
 	}
 }

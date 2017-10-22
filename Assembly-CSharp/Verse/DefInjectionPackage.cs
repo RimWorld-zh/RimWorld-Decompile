@@ -10,11 +10,11 @@ namespace Verse
 {
 	public class DefInjectionPackage
 	{
-		private const BindingFlags FieldBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
-
 		public Type defType;
 
 		private Dictionary<string, string> injections = new Dictionary<string, string>();
+
+		private const BindingFlags FieldBindingFlags = BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
 
 		public DefInjectionPackage(Type defType)
 		{
@@ -23,11 +23,7 @@ namespace Verse
 
 		private string ProcessedPath(string path)
 		{
-			if (!path.Contains('[') && !path.Contains(']'))
-			{
-				return path;
-			}
-			return path.Replace("]", string.Empty).Replace('[', '.');
+			return (path.Contains('[') || path.Contains(']')) ? path.Replace("]", "").Replace('[', '.') : path;
 		}
 
 		private string ProcessedTranslation(string rawTranslation)
@@ -75,44 +71,40 @@ namespace Verse
 
 		private bool HasError(FileInfo file, string key)
 		{
+			bool result;
 			if (!key.Contains('.'))
 			{
 				Log.Warning("Error loading DefInjection from file " + file + ": Key lacks a dot: " + key);
-				return true;
+				result = true;
 			}
-			if (this.injections.ContainsKey(key))
+			else if (this.injections.ContainsKey(key))
 			{
 				Log.Warning("Duplicate def-linked translation key: " + key);
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		public void InjectIntoDefs()
 		{
-			Dictionary<string, string>.Enumerator enumerator = this.injections.GetEnumerator();
-			try
+			foreach (KeyValuePair<string, string> injection in this.injections)
 			{
-				while (enumerator.MoveNext())
+				string[] array = injection.Key.Split('.');
+				string defName = array[0];
+				defName = BackCompatibility.BackCompatibleDefName(this.defType, defName);
+				object obj = GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), this.defType, "GetNamedSilentFail", defName);
+				if (obj == null)
 				{
-					KeyValuePair<string, string> current = enumerator.Current;
-					string[] array = current.Key.Split('.');
-					string defName = array[0];
-					defName = BackCompatibility.BackCompatibleDefName(this.defType, defName);
-					object obj = GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), this.defType, "GetNamedSilentFail", defName);
-					if (obj == null)
-					{
-						Log.Warning("Def-linked translation error: Found no " + this.defType + " named " + defName + " to match " + current.Key);
-					}
-					else
-					{
-						this.SetDefFieldAtPath(this.defType, current.Key, current.Value);
-					}
+					Log.Warning("Def-linked translation error: Found no " + this.defType + " named " + defName + " to match " + injection.Key);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				else
+				{
+					this.SetDefFieldAtPath(this.defType, injection.Key, injection.Value);
+				}
 			}
 			GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), this.defType, "ClearCachedData");
 		}
@@ -222,7 +214,7 @@ namespace Verse
 						{
 							num
 						});
-						goto IL_041b;
+						goto IL_043b;
 					}
 					FieldInfo field2 = obj.GetType().GetField(text, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
 					if (field2 == null)
@@ -232,7 +224,7 @@ namespace Verse
 					if (defInjectionPathPartKind == DefInjectionPathPartKind.Field)
 					{
 						obj = field2.GetValue(obj);
-						goto IL_041b;
+						goto IL_043b;
 					}
 					object value2 = field2.GetValue(obj);
 					PropertyInfo property4 = value2.GetType().GetProperty("Item");
@@ -242,14 +234,13 @@ namespace Verse
 						{
 							num
 						});
-						goto IL_041b;
+						goto IL_043b;
 					}
 					break;
-					IL_041b:
+					IL_043b:
 					list.RemoveAt(0);
 				}
 				throw new InvalidOperationException("Tried to use index on non-list (missing 'Item' property).");
-				IL_0427:;
 			}
 			catch (Exception ex)
 			{
@@ -260,10 +251,12 @@ namespace Verse
 		private FieldInfo GetFieldNamed(Type type, string name)
 		{
 			FieldInfo field = type.GetField(name, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+			FieldInfo[] fields;
+			int i;
 			if (field == null)
 			{
-				FieldInfo[] fields = type.GetFields(BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-				for (int i = 0; i < fields.Length; i++)
+				fields = type.GetFields(BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+				for (i = 0; i < fields.Length; i++)
 				{
 					object[] customAttributes = fields[i].GetCustomAttributes(typeof(LoadAliasAttribute), false);
 					if (customAttributes != null && customAttributes.Length > 0)
@@ -272,14 +265,18 @@ namespace Verse
 						{
 							LoadAliasAttribute loadAliasAttribute = (LoadAliasAttribute)customAttributes[j];
 							if (loadAliasAttribute.alias == name)
-							{
-								return fields[i];
-							}
+								goto IL_006d;
 						}
 					}
 				}
 			}
-			return field;
+			FieldInfo result = field;
+			goto IL_00a0;
+			IL_00a0:
+			return result;
+			IL_006d:
+			result = fields[i];
+			goto IL_00a0;
 		}
 
 		public IEnumerable<string> MissingInjections()
@@ -288,13 +285,35 @@ namespace Verse
 			PropertyInfo allDefsProperty = databaseType.GetProperty("AllDefs");
 			MethodInfo allDefsMethod = allDefsProperty.GetGetMethod();
 			IEnumerable allDefsEnum = (IEnumerable)allDefsMethod.Invoke(null, null);
-			foreach (Def item in allDefsEnum)
+			IEnumerator enumerator = allDefsEnum.GetEnumerator();
+			try
 			{
-				foreach (string item2 in this.MissingInjectionsFromDef(item))
+				while (enumerator.MoveNext())
 				{
-					yield return item2;
+					Def def = (Def)enumerator.Current;
+					using (IEnumerator<string> enumerator2 = this.MissingInjectionsFromDef(def).GetEnumerator())
+					{
+						if (enumerator2.MoveNext())
+						{
+							string mi = enumerator2.Current;
+							yield return mi;
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
+					}
 				}
 			}
+			finally
+			{
+				IDisposable disposable;
+				IDisposable disposable2 = disposable = (enumerator as IDisposable);
+				if (disposable != null)
+				{
+					disposable2.Dispose();
+				}
+			}
+			yield break;
+			IL_01a7:
+			/*Error near IL_01a8: Unexpected return in MoveNext()*/;
 		}
 
 		private IEnumerable<string> MissingInjectionsFromDef(Def def)
@@ -305,6 +324,7 @@ namespace Verse
 				if (!this.injections.ContainsKey(path3))
 				{
 					yield return path3 + " '" + def.label + "'";
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			if (!def.description.NullOrEmpty())
@@ -313,25 +333,35 @@ namespace Verse
 				if (!this.injections.ContainsKey(path2))
 				{
 					yield return path2 + " '" + def.description + "'";
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			FieldInfo[] fields = def.GetType().GetFields();
-			for (int i = 0; i < fields.Length; i++)
+			int num = 0;
+			string val;
+			string path;
+			while (true)
 			{
-				FieldInfo fi = fields[i];
-				if (fi.FieldType == typeof(string))
+				if (num < fields.Length)
 				{
-					string val = (string)fi.GetValue(def);
-					if (!val.NullOrEmpty() && !(fi.Name == "defName") && !(fi.Name == "label") && !(fi.Name == "description") && !fi.HasAttribute<NoTranslateAttribute>() && !fi.HasAttribute<UnsavedAttribute>() && (fi.HasAttribute<MustTranslateAttribute>() || (val != null && val.Contains(' '))))
+					FieldInfo fi = fields[num];
+					if (fi.FieldType == typeof(string))
 					{
-						string path = def.defName + "." + fi.Name;
-						if (!this.injections.ContainsKey(path))
+						val = (string)fi.GetValue(def);
+						if (!val.NullOrEmpty() && !(fi.Name == "defName") && !(fi.Name == "label") && !(fi.Name == "description") && !fi.HasAttribute<NoTranslateAttribute>() && !fi.HasAttribute<UnsavedAttribute>() && (fi.HasAttribute<MustTranslateAttribute>() || (val != null && val.Contains(' '))))
 						{
-							yield return path + " '" + val + "'";
+							path = def.defName + "." + fi.Name;
+							if (!this.injections.ContainsKey(path))
+								break;
 						}
 					}
+					num++;
+					continue;
 				}
+				yield break;
 			}
+			yield return path + " '" + val + "'";
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

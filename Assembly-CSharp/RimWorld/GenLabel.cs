@@ -33,13 +33,19 @@ namespace RimWorld
 
 			public bool wornByCorpse;
 
+			public static bool operator ==(LabelRequest lhs, LabelRequest rhs)
+			{
+				return lhs.Equals(rhs);
+			}
+
+			public static bool operator !=(LabelRequest lhs, LabelRequest rhs)
+			{
+				return !(lhs == rhs);
+			}
+
 			public override bool Equals(object obj)
 			{
-				if (!(obj is LabelRequest))
-				{
-					return false;
-				}
-				return this.Equals((LabelRequest)obj);
+				return obj is LabelRequest && this.Equals((LabelRequest)obj);
 			}
 
 			public bool Equals(LabelRequest other)
@@ -71,21 +77,11 @@ namespace RimWorld
 				}
 				return seed;
 			}
-
-			public static bool operator ==(LabelRequest lhs, LabelRequest rhs)
-			{
-				return lhs.Equals(rhs);
-			}
-
-			public static bool operator !=(LabelRequest lhs, LabelRequest rhs)
-			{
-				return !(lhs == rhs);
-			}
 		}
 
-		private const int LabelDictionaryMaxCount = 2000;
-
 		private static Dictionary<LabelRequest, string> labelDictionary = new Dictionary<LabelRequest, string>();
+
+		private const int LabelDictionaryMaxCount = 2000;
 
 		private static List<LabelElement> tmpThingsLabelElements = new List<LabelElement>();
 
@@ -195,78 +191,55 @@ namespace RimWorld
 		public static string ThingsLabel(List<Thing> things)
 		{
 			GenLabel.tmpThingsLabelElements.Clear();
-			List<Thing>.Enumerator enumerator = things.GetEnumerator();
-			try
+			foreach (Thing item in things)
 			{
-				Thing thing;
-				while (enumerator.MoveNext())
+				LabelElement labelElement = (from elem in GenLabel.tmpThingsLabelElements
+				where item.def.stackLimit > 1 && elem.thingTemplate.def == item.def && elem.thingTemplate.Stuff == item.Stuff
+				select elem).FirstOrDefault();
+				if (labelElement != null)
 				{
-					thing = enumerator.Current;
-					LabelElement labelElement = (from elem in GenLabel.tmpThingsLabelElements
-					where thing.def.stackLimit > 1 && elem.thingTemplate.def == thing.def && elem.thingTemplate.Stuff == thing.Stuff
-					select elem).FirstOrDefault();
-					if (labelElement != null)
-					{
-						labelElement.count += thing.stackCount;
-					}
-					else
-					{
-						GenLabel.tmpThingsLabelElements.Add(new LabelElement
-						{
-							thingTemplate = thing,
-							count = thing.stackCount
-						});
-					}
+					labelElement.count += item.stackCount;
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				else
+				{
+					GenLabel.tmpThingsLabelElements.Add(new LabelElement
+					{
+						thingTemplate = item,
+						count = item.stackCount
+					});
+				}
 			}
 			GenLabel.tmpThingsLabelElements.Sort((Comparison<LabelElement>)delegate(LabelElement lhs, LabelElement rhs)
 			{
 				int num = TransferableComparer_Category.Compare(lhs.thingTemplate.def, rhs.thingTemplate.def);
-				if (num != 0)
-				{
-					return num;
-				}
-				return lhs.thingTemplate.MarketValue.CompareTo(rhs.thingTemplate.MarketValue);
+				return (num == 0) ? lhs.thingTemplate.MarketValue.CompareTo(rhs.thingTemplate.MarketValue) : num;
 			});
 			StringBuilder stringBuilder = new StringBuilder();
-			List<LabelElement>.Enumerator enumerator2 = GenLabel.tmpThingsLabelElements.GetEnumerator();
-			try
+			foreach (LabelElement tmpThingsLabelElement in GenLabel.tmpThingsLabelElements)
 			{
-				while (enumerator2.MoveNext())
+				string str = "";
+				if (tmpThingsLabelElement.thingTemplate.ParentHolder is Pawn_ApparelTracker)
 				{
-					LabelElement current = enumerator2.Current;
-					string str = string.Empty;
-					if (current.thingTemplate.ParentHolder is Pawn_ApparelTracker)
-					{
-						str = " (" + "WornBy".Translate((current.thingTemplate.ParentHolder.ParentHolder as Pawn).LabelShort) + ")";
-					}
-					else if (current.thingTemplate.ParentHolder is Pawn_EquipmentTracker)
-					{
-						str = " (" + "EquippedBy".Translate((current.thingTemplate.ParentHolder.ParentHolder as Pawn).LabelShort) + ")";
-					}
-					if (current.count == 1)
-					{
-						stringBuilder.AppendLine("  " + current.thingTemplate.LabelCap + str);
-					}
-					else
-					{
-						stringBuilder.AppendLine("  " + GenLabel.ThingLabel(current.thingTemplate.def, current.thingTemplate.Stuff, current.count).CapitalizeFirst() + str);
-					}
+					str = " (" + "WornBy".Translate((tmpThingsLabelElement.thingTemplate.ParentHolder.ParentHolder as Pawn).LabelShort) + ")";
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
+				else if (tmpThingsLabelElement.thingTemplate.ParentHolder is Pawn_EquipmentTracker)
+				{
+					str = " (" + "EquippedBy".Translate((tmpThingsLabelElement.thingTemplate.ParentHolder.ParentHolder as Pawn).LabelShort) + ")";
+				}
+				if (tmpThingsLabelElement.count == 1)
+				{
+					stringBuilder.AppendLine("  " + tmpThingsLabelElement.thingTemplate.LabelCap + str);
+				}
+				else
+				{
+					stringBuilder.AppendLine("  " + GenLabel.ThingLabel(tmpThingsLabelElement.thingTemplate.def, tmpThingsLabelElement.thingTemplate.Stuff, tmpThingsLabelElement.count).CapitalizeFirst() + str);
+				}
 			}
 			GenLabel.tmpThingsLabelElements.Clear();
 			return stringBuilder.ToString();
 		}
 
-		public static string BestKindLabel(Pawn pawn, bool mustNoteGender = false, bool mustNoteLifeStage = false, bool plural = false)
+		public static string BestKindLabel(Pawn pawn, bool mustNoteGender = false, bool mustNoteLifeStage = false, bool plural = false, int pluralCount = -1)
 		{
 			bool flag = false;
 			bool flag2 = false;
@@ -286,7 +259,7 @@ namespace RimWorld
 					flag2 = true;
 					if (plural)
 					{
-						text = Find.ActiveLanguageWorker.Pluralize(text);
+						text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
 					}
 				}
 				else if (plural && pawn.kindDef.labelPlural != null)
@@ -298,7 +271,7 @@ namespace RimWorld
 					text = pawn.kindDef.label;
 					if (plural)
 					{
-						text = Find.ActiveLanguageWorker.Pluralize(text);
+						text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
 					}
 				}
 				break;
@@ -318,7 +291,7 @@ namespace RimWorld
 					flag = true;
 					if (plural)
 					{
-						text = Find.ActiveLanguageWorker.Pluralize(text);
+						text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
 					}
 				}
 				else if (plural && !pawn.RaceProps.Humanlike && pawn.ageTracker.CurKindLifeStage.labelPlural != null)
@@ -332,7 +305,7 @@ namespace RimWorld
 					flag2 = true;
 					if (plural)
 					{
-						text = Find.ActiveLanguageWorker.Pluralize(text);
+						text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
 					}
 				}
 				else if (plural && pawn.kindDef.labelMalePlural != null)
@@ -346,7 +319,7 @@ namespace RimWorld
 					flag = true;
 					if (plural)
 					{
-						text = Find.ActiveLanguageWorker.Pluralize(text);
+						text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
 					}
 				}
 				else if (plural && pawn.kindDef.labelPlural != null)
@@ -358,7 +331,7 @@ namespace RimWorld
 					text = pawn.kindDef.label;
 					if (plural)
 					{
-						text = Find.ActiveLanguageWorker.Pluralize(text);
+						text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
 					}
 				}
 				break;
@@ -378,7 +351,7 @@ namespace RimWorld
 					flag = true;
 					if (plural)
 					{
-						text = Find.ActiveLanguageWorker.Pluralize(text);
+						text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
 					}
 				}
 				else if (plural && !pawn.RaceProps.Humanlike && pawn.ageTracker.CurKindLifeStage.labelPlural != null)
@@ -392,7 +365,7 @@ namespace RimWorld
 					flag2 = true;
 					if (plural)
 					{
-						text = Find.ActiveLanguageWorker.Pluralize(text);
+						text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
 					}
 				}
 				else if (plural && pawn.kindDef.labelFemalePlural != null)
@@ -406,7 +379,7 @@ namespace RimWorld
 					flag = true;
 					if (plural)
 					{
-						text = Find.ActiveLanguageWorker.Pluralize(text);
+						text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
 					}
 				}
 				else if (plural && pawn.kindDef.labelPlural != null)
@@ -418,7 +391,7 @@ namespace RimWorld
 					text = pawn.kindDef.label;
 					if (plural)
 					{
-						text = Find.ActiveLanguageWorker.Pluralize(text);
+						text = Find.ActiveLanguageWorker.Pluralize(text, pluralCount);
 					}
 				}
 				break;

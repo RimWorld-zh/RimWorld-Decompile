@@ -7,23 +7,32 @@ namespace RimWorld
 	{
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
+			Job result;
 			if (!base.ShouldTakeCareOfPrisoner(pawn, t))
 			{
-				return null;
+				result = null;
 			}
-			Pawn pawn2 = (Pawn)t;
-			if ((pawn2.guest.interactionMode == PrisonerInteractionModeDefOf.Chat || pawn2.guest.interactionMode == PrisonerInteractionModeDefOf.AttemptRecruit) && pawn2.guest.ScheduledForInteraction && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking) && (!pawn2.Downed || pawn2.InBed()) && pawn.CanReserve(t, 1, -1, null, false) && pawn2.Awake())
+			else
 			{
-				if (pawn2.guest.interactionMode == PrisonerInteractionModeDefOf.Chat)
+				Pawn pawn2 = (Pawn)t;
+				if ((pawn2.guest.interactionMode == PrisonerInteractionModeDefOf.Chat || pawn2.guest.interactionMode == PrisonerInteractionModeDefOf.AttemptRecruit) && pawn2.guest.ScheduledForInteraction && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking) && (!pawn2.Downed || pawn2.InBed()) && pawn.CanReserve(t, 1, -1, null, false) && pawn2.Awake())
 				{
-					return new Job(JobDefOf.PrisonerFriendlyChat, t);
+					if (pawn2.guest.interactionMode == PrisonerInteractionModeDefOf.Chat)
+					{
+						result = new Job(JobDefOf.PrisonerFriendlyChat, t);
+						goto IL_0105;
+					}
+					if (pawn2.guest.interactionMode == PrisonerInteractionModeDefOf.AttemptRecruit)
+					{
+						result = new Job(JobDefOf.PrisonerAttemptRecruit, t);
+						goto IL_0105;
+					}
 				}
-				if (pawn2.guest.interactionMode == PrisonerInteractionModeDefOf.AttemptRecruit)
-				{
-					return new Job(JobDefOf.PrisonerAttemptRecruit, t);
-				}
+				result = null;
 			}
-			return null;
+			goto IL_0105;
+			IL_0105:
+			return result;
 		}
 	}
 }

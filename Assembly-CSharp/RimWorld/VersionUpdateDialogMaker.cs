@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public static class VersionUpdateDialogMaker
 	{
-		private static bool dialogDone;
+		private static bool dialogDone = false;
 
 		public static void CreateVersionUpdateDialogIfNecessary()
 		{

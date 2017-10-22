@@ -10,16 +10,8 @@ namespace RimWorld.BaseGen
 
 		public override bool CanResolve(ResolveParams rp)
 		{
-			if (!base.CanResolve(rp))
-			{
-				return false;
-			}
 			IntVec3 intVec = default(IntVec3);
-			if (!this.TryFindFirstHivePos(rp.rect, out intVec))
-			{
-				return false;
-			}
-			return true;
+			return (byte)(base.CanResolve(rp) ? (this.TryFindFirstHivePos(rp.rect, out intVec) ? 1 : 0) : 0) != 0;
 		}
 
 		public override void Resolve(ResolveParams rp)

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace RimWorld
@@ -7,46 +8,67 @@ namespace RimWorld
 	{
 		public static float PriceMultiplier(this PriceType pType)
 		{
+			float result;
 			switch (pType)
 			{
 			case PriceType.VeryCheap:
 			{
-				return 0.4f;
+				result = 0.4f;
+				break;
 			}
 			case PriceType.Cheap:
 			{
-				return 0.7f;
+				result = 0.7f;
+				break;
 			}
 			case PriceType.Normal:
 			{
-				return 1f;
+				result = 1f;
+				break;
 			}
 			case PriceType.Expensive:
 			{
-				return 2f;
+				result = 2f;
+				break;
 			}
 			case PriceType.Exorbitant:
 			{
-				return 5f;
+				result = 5f;
+				break;
 			}
 			default:
 			{
-				return -1f;
+				result = -1f;
+				break;
 			}
 			}
+			return result;
 		}
 
 		public static PriceType ClosestPriceType(float priceFactor)
 		{
 			float num = 99999f;
 			PriceType priceType = PriceType.Undefined;
-			foreach (byte value in Enum.GetValues(typeof(PriceType)))
+			IEnumerator enumerator = Enum.GetValues(typeof(PriceType)).GetEnumerator();
+			try
 			{
-				float num2 = Mathf.Abs(priceFactor - ((PriceType)value).PriceMultiplier());
-				if (num2 < num)
+				while (enumerator.MoveNext())
 				{
-					num = num2;
-					priceType = (PriceType)value;
+					PriceType priceType2 = (PriceType)enumerator.Current;
+					float num2 = Mathf.Abs(priceFactor - priceType2.PriceMultiplier());
+					if (num2 < num)
+					{
+						num = num2;
+						priceType = priceType2;
+					}
+				}
+			}
+			finally
+			{
+				IDisposable disposable;
+				if ((disposable = (enumerator as IDisposable)) != null)
+				{
+					disposable.Dispose();
 				}
 			}
 			if (priceType == PriceType.Undefined)

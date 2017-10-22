@@ -5,10 +5,6 @@ namespace Verse
 {
 	public class Pawn_CallTracker
 	{
-		private const float AngryCallOnMeleeChance = 0.5f;
-
-		private const int AggressiveDurationAfterEngagingTarget = 360;
-
 		public Pawn pawn;
 
 		private int ticksToNextCall = -1;
@@ -17,23 +13,15 @@ namespace Verse
 
 		private static readonly IntRange CallOnMeleeDelayRange = new IntRange(0, 20);
 
+		private const float AngryCallOnMeleeChance = 0.5f;
+
+		private const int AggressiveDurationAfterEngagingTarget = 360;
+
 		private bool PawnAggressive
 		{
 			get
 			{
-				if (this.pawn.InAggroMentalState)
-				{
-					return true;
-				}
-				if (this.pawn.mindState.enemyTarget != null && this.pawn.mindState.enemyTarget.Spawned && Find.TickManager.TicksGame - this.pawn.mindState.lastEngageTargetTick <= 360)
-				{
-					return true;
-				}
-				if (this.pawn.CurJob != null && this.pawn.CurJob.def == JobDefOf.AttackMelee)
-				{
-					return true;
-				}
-				return false;
+				return (byte)(this.pawn.InAggroMentalState ? 1 : ((this.pawn.mindState.enemyTarget != null && this.pawn.mindState.enemyTarget.Spawned && Find.TickManager.TicksGame - this.pawn.mindState.lastEngageTargetTick <= 360) ? 1 : ((this.pawn.CurJob != null && this.pawn.CurJob.def == JobDefOf.AttackMelee) ? 1 : 0))) != 0;
 			}
 		}
 
@@ -41,33 +29,40 @@ namespace Verse
 		{
 			get
 			{
+				float result;
 				switch (Find.TickManager.CurTimeSpeed)
 				{
 				case TimeSpeed.Paused:
 				{
-					return 1f;
+					result = 1f;
+					break;
 				}
 				case TimeSpeed.Normal:
 				{
-					return 1f;
+					result = 1f;
+					break;
 				}
 				case TimeSpeed.Fast:
 				{
-					return 1f;
+					result = 1f;
+					break;
 				}
 				case TimeSpeed.Superfast:
 				{
-					return 0.25f;
+					result = 0.25f;
+					break;
 				}
 				case TimeSpeed.Ultrafast:
 				{
-					return 0.25f;
+					result = 0.25f;
+					break;
 				}
 				default:
 				{
 					throw new NotImplementedException();
 				}
 				}
+				return result;
 			}
 		}
 

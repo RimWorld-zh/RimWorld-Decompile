@@ -14,23 +14,38 @@ namespace RimWorld.Planet
 
 		public static World GenerateWorld(float planetCoverage, string seedString, OverallRainfall overallRainfall, OverallTemperature overallTemperature)
 		{
+			DeepProfiler.Start("GenerateWorld");
 			Rand.Seed = (GenText.StableStringHash(seedString) ^ 4323276);
 			Current.CreatingWorld = new World();
 			Current.CreatingWorld.info.planetCoverage = planetCoverage;
 			Current.CreatingWorld.info.seedString = seedString;
 			Current.CreatingWorld.info.overallRainfall = overallRainfall;
 			Current.CreatingWorld.info.overallTemperature = overallTemperature;
-			Current.CreatingWorld.info.name = NameGenerator.GenerateName(RulePackDefOf.NamerWorld, (Predicate<string>)null, false);
+			Current.CreatingWorld.info.name = NameGenerator.GenerateName(RulePackDefOf.NamerWorld, (Predicate<string>)null, false, (string)null);
 			foreach (WorldGenStepDef item in from gs in DefDatabase<WorldGenStepDef>.AllDefs
 			orderby gs.order
 			select gs)
 			{
-				item.worldGenStep.GenerateFresh(seedString);
+				DeepProfiler.Start("WorldGenStep - " + item);
+				try
+				{
+					item.worldGenStep.GenerateFresh(seedString);
+				}
+				catch (Exception arg)
+				{
+					Log.Error("Error in WorldGenStep: " + arg);
+				}
+				finally
+				{
+					DeepProfiler.End();
+				}
 			}
+			Current.CreatingWorld.grid.StandardizeTileData();
 			Current.CreatingWorld.FinalizeInit();
 			Find.Scenario.PostWorldGenerate();
 			World creatingWorld = Current.CreatingWorld;
 			Current.CreatingWorld = null;
+			DeepProfiler.End();
 			return creatingWorld;
 		}
 	}

@@ -7,6 +7,12 @@ namespace Verse.AI
 {
 	public class JobDriver_DoBill : JobDriver
 	{
+		public float workLeft;
+
+		public int billStartTick;
+
+		public int ticksSpentDoingRecipeWork;
+
 		public const PathEndMode GotoIngredientPathEndMode = PathEndMode.ClosestTouch;
 
 		public const TargetIndex BillGiverInd = TargetIndex.A;
@@ -15,17 +21,11 @@ namespace Verse.AI
 
 		public const TargetIndex IngredientPlaceCellInd = TargetIndex.C;
 
-		public float workLeft;
-
-		public int billStartTick;
-
-		public int ticksSpentDoingRecipeWork;
-
 		public IBillGiver BillGiver
 		{
 			get
 			{
-				IBillGiver billGiver = base.pawn.jobs.curJob.GetTarget(TargetIndex.A).Thing as IBillGiver;
+				IBillGiver billGiver = base.job.GetTarget(TargetIndex.A).Thing as IBillGiver;
 				if (billGiver == null)
 				{
 					throw new InvalidOperationException("DoBill on non-Billgiver.");
@@ -36,11 +36,7 @@ namespace Verse.AI
 
 		public override string GetReport()
 		{
-			if (base.pawn.jobs.curJob.RecipeDef != null)
-			{
-				return base.ReportStringProcessed(base.pawn.jobs.curJob.RecipeDef.jobString);
-			}
-			return base.GetReport();
+			return (base.job.RecipeDef == null) ? base.GetReport() : base.ReportStringProcessed(base.job.RecipeDef.jobString);
 		}
 
 		public override void ExposeData()
@@ -51,84 +47,58 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.ticksSpentDoingRecipeWork, "ticksSpentDoingRecipeWork", 0, false);
 		}
 
+		public override bool TryMakePreToilReservations()
+		{
+			base.pawn.ReserveAsManyAsPossible(base.job.GetTargetQueue(TargetIndex.B), base.job, 1, -1, null);
+			return base.pawn.Reserve(base.job.GetTarget(TargetIndex.A), base.job, 1, -1, null);
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			this.AddEndCondition((Func<JobCondition>)delegate
+			base.AddEndCondition((Func<JobCondition>)delegate
 			{
-				Thing thing = ((_003CMakeNewToils_003Ec__Iterator1B9)/*Error near IL_0073: stateMachine*/)._003C_003Ef__this.GetActor().jobs.curJob.GetTarget(TargetIndex.A).Thing;
-				if (thing is Building && !thing.Spawned)
-				{
-					return JobCondition.Incompletable;
-				}
-				return JobCondition.Ongoing;
+				Thing thing = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006c: stateMachine*/)._0024this.GetActor().jobs.curJob.GetTarget(TargetIndex.A).Thing;
+				return (JobCondition)((!(thing is Building) || thing.Spawned) ? 1 : 3);
 			});
 			this.FailOnBurningImmobile(TargetIndex.A);
 			this.FailOn((Func<bool>)delegate
 			{
-				IBillGiver billGiver = ((_003CMakeNewToils_003Ec__Iterator1B9)/*Error near IL_0097: stateMachine*/)._003C_003Ef__this.pawn.jobs.curJob.GetTarget(TargetIndex.A).Thing as IBillGiver;
+				IBillGiver billGiver = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0090: stateMachine*/)._0024this.job.GetTarget(TargetIndex.A).Thing as IBillGiver;
+				bool result;
 				if (billGiver != null)
 				{
-					if (((_003CMakeNewToils_003Ec__Iterator1B9)/*Error near IL_0097: stateMachine*/)._003C_003Ef__this.pawn.jobs.curJob.bill.DeletedOrDereferenced)
+					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0090: stateMachine*/)._0024this.job.bill.DeletedOrDereferenced)
 					{
-						return true;
+						result = true;
+						goto IL_0062;
 					}
-					if (!billGiver.CurrentlyUsable())
+					if (!billGiver.CurrentlyUsableForBills())
 					{
-						return true;
+						result = true;
+						goto IL_0062;
 					}
 				}
-				return false;
+				result = false;
+				goto IL_0062;
+				IL_0062:
+				return result;
 			});
 			Toil gotoBillGiver = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell);
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
-			yield return Toils_Reserve.ReserveQueue(TargetIndex.B, 1, -1, null);
 			yield return new Toil
 			{
 				initAction = (Action)delegate
 				{
-					if (((_003CMakeNewToils_003Ec__Iterator1B9)/*Error near IL_00fd: stateMachine*/)._003C_003Ef__this.CurJob.targetQueueB != null && ((_003CMakeNewToils_003Ec__Iterator1B9)/*Error near IL_00fd: stateMachine*/)._003C_003Ef__this.CurJob.targetQueueB.Count == 1)
+					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00c0: stateMachine*/)._0024this.job.targetQueueB != null && ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00c0: stateMachine*/)._0024this.job.targetQueueB.Count == 1)
 					{
-						UnfinishedThing unfinishedThing = ((_003CMakeNewToils_003Ec__Iterator1B9)/*Error near IL_00fd: stateMachine*/)._003C_003Ef__this.CurJob.targetQueueB[0].Thing as UnfinishedThing;
+						UnfinishedThing unfinishedThing = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00c0: stateMachine*/)._0024this.job.targetQueueB[0].Thing as UnfinishedThing;
 						if (unfinishedThing != null)
 						{
-							unfinishedThing.BoundBill = (Bill_ProductionWithUft)((_003CMakeNewToils_003Ec__Iterator1B9)/*Error near IL_00fd: stateMachine*/)._003C_003Ef__this.CurJob.bill;
+							unfinishedThing.BoundBill = (Bill_ProductionWithUft)((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00c0: stateMachine*/)._0024this.job.bill;
 						}
 					}
 				}
 			};
-			yield return Toils_Jump.JumpIf(gotoBillGiver, (Func<bool>)(() => ((_003CMakeNewToils_003Ec__Iterator1B9)/*Error near IL_012d: stateMachine*/)._003C_003Ef__this.CurJob.GetTargetQueue(TargetIndex.B).NullOrEmpty()));
-			Toil extract = Toils_JobTransforms.ExtractNextTargetFromQueue(TargetIndex.B);
-			yield return extract;
-			Toil getToHaulTarget = Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.ClosestTouch).FailOnDespawnedNullOrForbidden(TargetIndex.B).FailOnSomeonePhysicallyInteracting(TargetIndex.B);
-			yield return getToHaulTarget;
-			yield return Toils_Haul.StartCarryThing(TargetIndex.B, true, false);
-			yield return JobDriver_DoBill.JumpToCollectNextIntoHandsForBill(getToHaulTarget, TargetIndex.B);
-			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell).FailOnDestroyedOrNull(TargetIndex.B);
-			Toil findPlaceTarget = Toils_JobTransforms.SetTargetToIngredientPlaceCell(TargetIndex.A, TargetIndex.B, TargetIndex.C);
-			yield return findPlaceTarget;
-			yield return Toils_Haul.PlaceHauledThingInCell(TargetIndex.C, findPlaceTarget, false);
-			yield return Toils_Jump.JumpIfHaveTargetInQueue(TargetIndex.B, extract);
-			yield return gotoBillGiver;
-			yield return Toils_Recipe.MakeUnfinishedThingIfNeeded();
-			yield return Toils_Recipe.DoRecipeWork().FailOnDespawnedOrForbiddenPlacedThings().FailOnCannotTouch(TargetIndex.A, PathEndMode.InteractionCell);
-			yield return Toils_Recipe.FinishRecipeAndStartStoringProduct();
-			if (base.CurJob.RecipeDef.products.NullOrEmpty() && base.CurJob.RecipeDef.specialProducts.NullOrEmpty())
-				yield break;
-			yield return Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
-			Toil carryToCell = Toils_Haul.CarryHauledThingToCell(TargetIndex.B);
-			yield return carryToCell;
-			yield return Toils_Haul.PlaceHauledThingInCell(TargetIndex.B, carryToCell, true);
-			yield return new Toil
-			{
-				initAction = (Action)delegate
-				{
-					Bill_Production bill_Production = ((_003CMakeNewToils_003Ec__Iterator1B9)/*Error near IL_037f: stateMachine*/)._003Crecount_003E__6.actor.jobs.curJob.bill as Bill_Production;
-					if (bill_Production != null && bill_Production.repeatMode == BillRepeatModeDefOf.TargetCount)
-					{
-						((_003CMakeNewToils_003Ec__Iterator1B9)/*Error near IL_037f: stateMachine*/)._003C_003Ef__this.Map.resourceCounter.UpdateResourceCounts();
-					}
-				}
-			};
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		private static Toil JumpToCollectNextIntoHandsForBill(Toil gotoGetTargetToil, TargetIndex ind)
@@ -170,12 +140,9 @@ namespace Verse.AI
 						curJob.count = a;
 						curJob.SetTarget(ind, targetQueue[num].Thing);
 						List<int> countQueue;
-						List<int> obj = countQueue = curJob.countQueue;
 						int index;
-						int index2 = index = num;
-						index = countQueue[index];
-						obj[index2] = index - a;
-						if (curJob.countQueue[num] == 0)
+						(countQueue = curJob.countQueue)[index = num] = countQueue[index] - a;
+						if (curJob.countQueue[num] <= 0)
 						{
 							curJob.countQueue.RemoveAt(num);
 							targetQueue.RemoveAt(num);

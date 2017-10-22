@@ -9,15 +9,7 @@ namespace Verse.Sound
 
 		public float scheduledEndTime;
 
-		public bool resolvedSkipAttack;
-
-		public override Map Map
-		{
-			get
-			{
-				return this.subSustainer.Info.Maker.Map;
-			}
-		}
+		public bool resolvedSkipAttack = false;
 
 		public override float ParentStartRealTime
 		{
@@ -51,12 +43,53 @@ namespace Verse.Sound
 			}
 		}
 
-		protected override bool TestPlaying
+		public override SoundInfo Info
 		{
 			get
 			{
-				SoundInfo info = this.subSustainer.Info;
-				return info.testPlay;
+				return this.subSustainer.Info;
+			}
+		}
+
+		protected override float Volume
+		{
+			get
+			{
+				float num = base.Volume * this.subSustainer.parent.scopeFader.inScopePercent;
+				float num2 = 1f;
+				if (this.subSustainer.parent.Ended)
+				{
+					num2 = (float)(1.0 - Mathf.Min(this.subSustainer.parent.TimeSinceEnd / base.subDef.parentDef.sustainFadeoutTime, 1f));
+				}
+				float realtimeSinceStartup = Time.realtimeSinceStartup;
+				float result;
+				if (base.AgeRealTime < base.subDef.sustainAttack)
+				{
+					if (this.resolvedSkipAttack || base.subDef.sustainAttack < 0.0099999997764825821)
+					{
+						result = num * num2;
+					}
+					else
+					{
+						float f = base.AgeRealTime / base.subDef.sustainAttack;
+						f = Mathf.Sqrt(f);
+						result = Mathf.Lerp(0f, num, f) * num2;
+					}
+				}
+				else if (realtimeSinceStartup > this.scheduledEndTime - base.subDef.sustainRelease)
+				{
+					float num3 = (realtimeSinceStartup - (this.scheduledEndTime - base.subDef.sustainRelease)) / base.subDef.sustainRelease;
+					num3 = (float)(1.0 - num3);
+					num3 = Mathf.Max(num3, 0f);
+					num3 = Mathf.Sqrt(num3);
+					num3 = (float)(1.0 - num3);
+					result = Mathf.Lerp(num, 0f, num3) * num2;
+				}
+				else
+				{
+					result = num * num2;
+				}
+				return result;
 			}
 		}
 
@@ -74,77 +107,38 @@ namespace Verse.Sound
 			gameObject.transform.parent = gameObject2.transform;
 			gameObject.transform.localPosition = Vector3.zero;
 			sampleSustainer.source = AudioSourceMaker.NewAudioSourceOn(gameObject);
+			SampleSustainer result;
 			if ((Object)sampleSustainer.source == (Object)null)
 			{
 				if ((Object)gameObject != (Object)null)
 				{
 					Object.Destroy(gameObject);
 				}
-				return null;
-			}
-			sampleSustainer.source.clip = clip;
-			sampleSustainer.source.volume = sampleSustainer.resolvedVolume;
-			sampleSustainer.source.pitch = sampleSustainer.resolvedPitch;
-			sampleSustainer.source.minDistance = sampleSustainer.subDef.distRange.TrueMin;
-			sampleSustainer.source.maxDistance = sampleSustainer.subDef.distRange.TrueMax;
-			sampleSustainer.source.spatialBlend = 1f;
-			List<SoundFilter> filters = sampleSustainer.subDef.filters;
-			for (int i = 0; i < filters.Count; i++)
-			{
-				filters[i].SetupOn(sampleSustainer.source);
-			}
-			if (sampleSustainer.subDef.sustainLoop)
-			{
-				sampleSustainer.source.loop = true;
-			}
-			sampleSustainer.ApplyMappedParameters();
-			sampleSustainer.UpdateSourceVolume();
-			sampleSustainer.source.Play();
-			sampleSustainer.source.Play();
-			return sampleSustainer;
-		}
-
-		public void UpdateSourceVolume()
-		{
-			float num = base.resolvedVolume * this.subSustainer.parent.scopeFader.inScopePercent * base.MappedVolumeMultiplier * base.ContextVolumeMultiplier;
-			if (base.AgeRealTime < base.subDef.sustainAttack)
-			{
-				if (this.resolvedSkipAttack || base.subDef.sustainAttack < 0.0099999997764825821)
-				{
-					base.source.volume = num;
-				}
-				else
-				{
-					float f = base.AgeRealTime / base.subDef.sustainAttack;
-					f = Mathf.Sqrt(f);
-					base.source.volume = Mathf.Lerp(0f, num, f);
-				}
-			}
-			else if (Time.realtimeSinceStartup > this.scheduledEndTime - base.subDef.sustainRelease)
-			{
-				float num2 = (Time.realtimeSinceStartup - (this.scheduledEndTime - base.subDef.sustainRelease)) / base.subDef.sustainRelease;
-				num2 = (float)(1.0 - num2);
-				num2 = Mathf.Sqrt(num2);
-				num2 = (float)(1.0 - num2);
-				base.source.volume = Mathf.Lerp(num, 0f, num2);
+				result = null;
 			}
 			else
 			{
-				base.source.volume = num;
+				sampleSustainer.source.clip = clip;
+				sampleSustainer.source.volume = sampleSustainer.SanitizedVolume;
+				sampleSustainer.source.pitch = sampleSustainer.SanitizedPitch;
+				sampleSustainer.source.minDistance = sampleSustainer.subDef.distRange.TrueMin;
+				sampleSustainer.source.maxDistance = sampleSustainer.subDef.distRange.TrueMax;
+				sampleSustainer.source.spatialBlend = 1f;
+				List<SoundFilter> filters = sampleSustainer.subDef.filters;
+				for (int i = 0; i < filters.Count; i++)
+				{
+					filters[i].SetupOn(sampleSustainer.source);
+				}
+				if (sampleSustainer.subDef.sustainLoop)
+				{
+					sampleSustainer.source.loop = true;
+				}
+				sampleSustainer.Update();
+				sampleSustainer.source.Play();
+				sampleSustainer.source.Play();
+				result = sampleSustainer;
 			}
-			if (this.subSustainer.parent.Ended)
-			{
-				float num3 = (float)(1.0 - this.subSustainer.parent.TimeSinceEnd / base.subDef.parentDef.sustainFadeoutTime);
-				base.source.volume *= num3;
-			}
-			if (base.source.volume < 0.0010000000474974513)
-			{
-				base.source.mute = true;
-			}
-			else
-			{
-				base.source.mute = false;
-			}
+			return result;
 		}
 
 		public override void SampleCleanup()

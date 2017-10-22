@@ -43,47 +43,53 @@ namespace RimWorld.Planet
 
 		public static Caravan ExitMapAndCreateCaravan(IEnumerable<Pawn> pawns, Faction faction, int startingTile)
 		{
+			Caravan result;
 			if (!GenWorldClosest.TryFindClosestPassableTile(startingTile, out startingTile))
 			{
 				Log.Error("Could not find any passable tile for a new caravan.");
-				return null;
+				result = null;
 			}
-			CaravanExitMapUtility.tmpPawns.Clear();
-			CaravanExitMapUtility.tmpPawns.AddRange(pawns);
-			Map map = null;
-			int num = 0;
-			while (num < CaravanExitMapUtility.tmpPawns.Count)
+			else
 			{
-				map = CaravanExitMapUtility.tmpPawns[num].MapHeld;
-				if (map == null)
+				CaravanExitMapUtility.tmpPawns.Clear();
+				CaravanExitMapUtility.tmpPawns.AddRange(pawns);
+				Map map = null;
+				int num = 0;
+				while (num < CaravanExitMapUtility.tmpPawns.Count)
 				{
-					num++;
-					continue;
+					map = CaravanExitMapUtility.tmpPawns[num].MapHeld;
+					if (map == null)
+					{
+						num++;
+						continue;
+					}
+					break;
 				}
-				break;
-			}
-			Caravan caravan = CaravanMaker.MakeCaravan(CaravanExitMapUtility.tmpPawns, faction, startingTile, false);
-			for (int i = 0; i < CaravanExitMapUtility.tmpPawns.Count; i++)
-			{
-				CaravanExitMapUtility.tmpPawns[i].ExitMap(false);
-			}
-			List<Pawn> pawnsListForReading = caravan.PawnsListForReading;
-			for (int j = 0; j < pawnsListForReading.Count; j++)
-			{
-				if (!pawnsListForReading[j].IsWorldPawn())
+				Caravan caravan = CaravanMaker.MakeCaravan(CaravanExitMapUtility.tmpPawns, faction, startingTile, false);
+				for (int i = 0; i < CaravanExitMapUtility.tmpPawns.Count; i++)
 				{
-					Find.WorldPawns.PassToWorld(pawnsListForReading[j], PawnDiscardDecideMode.Decide);
+					CaravanExitMapUtility.tmpPawns[i].ExitMap(false);
 				}
+				List<Pawn> pawnsListForReading = caravan.PawnsListForReading;
+				for (int j = 0; j < pawnsListForReading.Count; j++)
+				{
+					if (!pawnsListForReading[j].IsWorldPawn())
+					{
+						Find.WorldPawns.PassToWorld(pawnsListForReading[j], PawnDiscardDecideMode.Decide);
+					}
+				}
+				if (map != null)
+				{
+					map.info.parent.Notify_CaravanFormed(caravan);
+				}
+				result = caravan;
 			}
-			if (map != null)
-			{
-				map.info.parent.Notify_CaravanFormed(caravan);
-			}
-			return caravan;
+			return result;
 		}
 
 		public static void ExitMapAndJoinOrCreateCaravan(Pawn pawn)
 		{
+			CaravanExitMapUtility.GenerateCaravanExitTale(pawn);
 			Caravan caravan = CaravanExitMapUtility.FindCaravanToJoinFor(pawn);
 			if (caravan != null)
 			{
@@ -98,7 +104,7 @@ namespace RimWorld.Planet
 				caravan2.autoJoinable = true;
 				if (pawn.Faction == Faction.OfPlayer)
 				{
-					Messages.Message("MessagePawnLeftMapAndCreatedCaravan".Translate(pawn.LabelShort).CapitalizeFirst(), (WorldObject)caravan2, MessageSound.Benefit);
+					Messages.Message("MessagePawnLeftMapAndCreatedCaravan".Translate(pawn.LabelShort).CapitalizeFirst(), (WorldObject)caravan2, MessageTypeDefOf.TaskCompletion);
 				}
 			}
 			else
@@ -109,15 +115,7 @@ namespace RimWorld.Planet
 
 		public static bool CanExitMapAndJoinOrCreateCaravanNow(Pawn pawn)
 		{
-			if (!pawn.Spawned)
-			{
-				return false;
-			}
-			if (!pawn.Map.exitMapGrid.MapUsesExitGrid)
-			{
-				return false;
-			}
-			return pawn.IsColonist || CaravanExitMapUtility.FindCaravanToJoinFor(pawn) != null;
+			return pawn.Spawned && pawn.Map.exitMapGrid.MapUsesExitGrid && (pawn.IsColonist || CaravanExitMapUtility.FindCaravanToJoinFor(pawn) != null);
 		}
 
 		public static List<int> AvailableExitTilesAt(Map map)
@@ -148,55 +146,63 @@ namespace RimWorld.Planet
 		{
 			Tile tile = map.TileInfo;
 			List<int> options = CaravanExitMapUtility.AvailableExitTilesAt(map);
+			int result;
 			if (!options.Any())
 			{
-				return -1;
+				result = -1;
 			}
-			if (tile.roads == null)
+			else if (tile.roads == null)
 			{
-				return options.RandomElement();
+				result = options.RandomElement();
 			}
-			int bestRoadIndex = -1;
-			for (int i = 0; i < tile.roads.Count; i++)
+			else
 			{
-				List<int> obj = options;
-				Tile.RoadLink roadLink = tile.roads[i];
-				if (obj.Contains(roadLink.neighbor))
+				int bestRoadIndex = -1;
+				for (int i = 0; i < tile.roads.Count; i++)
 				{
-					if (bestRoadIndex == -1)
+					List<int> obj = options;
+					Tile.RoadLink roadLink = tile.roads[i];
+					if (obj.Contains(roadLink.neighbor))
 					{
-						goto IL_00e9;
+						if (bestRoadIndex == -1)
+						{
+							goto IL_00f7;
+						}
+						Tile.RoadLink roadLink2 = tile.roads[i];
+						int priority = roadLink2.road.priority;
+						Tile.RoadLink roadLink3 = tile.roads[bestRoadIndex];
+						if (priority > roadLink3.road.priority)
+							goto IL_00f7;
 					}
-					Tile.RoadLink roadLink2 = tile.roads[i];
-					int priority = roadLink2.road.priority;
-					Tile.RoadLink roadLink3 = tile.roads[bestRoadIndex];
-					if (priority > roadLink3.road.priority)
-						goto IL_00e9;
+					continue;
+					IL_00f7:
+					bestRoadIndex = i;
 				}
-				continue;
-				IL_00e9:
-				bestRoadIndex = i;
-			}
-			if (bestRoadIndex == -1)
-			{
-				return options.RandomElement();
-			}
-			Tile.RoadLink roadLink4 = tile.roads.Where((Func<Tile.RoadLink, bool>)delegate(Tile.RoadLink rl)
-			{
-				int result;
-				if (options.Contains(rl.neighbor))
+				if (bestRoadIndex == -1)
 				{
-					RoadDef road = rl.road;
-					Tile.RoadLink roadLink5 = tile.roads[bestRoadIndex];
-					result = ((road == roadLink5.road) ? 1 : 0);
+					result = options.RandomElement();
 				}
 				else
 				{
-					result = 0;
+					Tile.RoadLink roadLink4 = tile.roads.Where((Func<Tile.RoadLink, bool>)delegate(Tile.RoadLink rl)
+					{
+						int result2;
+						if (options.Contains(rl.neighbor))
+						{
+							RoadDef road = rl.road;
+							Tile.RoadLink roadLink5 = tile.roads[bestRoadIndex];
+							result2 = ((road == roadLink5.road) ? 1 : 0);
+						}
+						else
+						{
+							result2 = 0;
+						}
+						return (byte)result2 != 0;
+					}).RandomElement();
+					result = roadLink4.neighbor;
 				}
-				return (byte)result != 0;
-			}).RandomElement();
-			return roadLink4.neighbor;
+			}
+			return result;
 		}
 
 		private static int FindRandomStartingTileBasedOnExitDir(int tileID, Direction8Way exitDir)
@@ -213,18 +219,10 @@ namespace RimWorld.Planet
 					CaravanExitMapUtility.tileCandidates.Add(num);
 				}
 			}
-			if (CaravanExitMapUtility.tileCandidates.Count == 0)
-			{
-				return tileID;
-			}
-			int result = default(int);
-			if ((from x in CaravanExitMapUtility.tileCandidates
+			int num2 = default(int);
+			return (CaravanExitMapUtility.tileCandidates.Count != 0) ? ((!(from x in CaravanExitMapUtility.tileCandidates
 			where CaravanExitMapUtility.IsGoodCaravanStartingTile(x)
-			select x).TryRandomElement<int>(out result))
-			{
-				return result;
-			}
-			return CaravanExitMapUtility.tileCandidates.RandomElement();
+			select x).TryRandomElement<int>(out num2)) ? CaravanExitMapUtility.tileCandidates.RandomElement() : num2) : tileID;
 		}
 
 		private static bool IsGoodCaravanStartingTile(int tile)
@@ -234,76 +232,109 @@ namespace RimWorld.Planet
 
 		public static Caravan FindCaravanToJoinFor(Pawn pawn)
 		{
+			Caravan result;
+			Caravan caravan;
 			if (pawn.Faction != Faction.OfPlayer && pawn.HostFaction != Faction.OfPlayer)
 			{
-				return null;
+				result = null;
 			}
-			int tile = pawn.Map.Tile;
-			Find.WorldGrid.GetTileNeighbors(tile, CaravanExitMapUtility.tmpNeighbors);
-			CaravanExitMapUtility.tmpNeighbors.Add(tile);
-			List<Caravan> caravans = Find.WorldObjects.Caravans;
-			for (int i = 0; i < caravans.Count; i++)
+			else
 			{
-				Caravan caravan = caravans[i];
-				if (CaravanExitMapUtility.tmpNeighbors.Contains(caravan.Tile) && caravan.autoJoinable)
+				int tile = pawn.Map.Tile;
+				Find.WorldGrid.GetTileNeighbors(tile, CaravanExitMapUtility.tmpNeighbors);
+				CaravanExitMapUtility.tmpNeighbors.Add(tile);
+				List<Caravan> caravans = Find.WorldObjects.Caravans;
+				for (int i = 0; i < caravans.Count; i++)
 				{
-					if (pawn.HostFaction == null)
+					caravan = caravans[i];
+					if (CaravanExitMapUtility.tmpNeighbors.Contains(caravan.Tile) && caravan.autoJoinable)
 					{
-						if (caravan.Faction == pawn.Faction)
+						if (pawn.HostFaction == null)
 						{
-							return caravan;
+							if (caravan.Faction == pawn.Faction)
+								goto IL_00b5;
 						}
-					}
-					else if (caravan.Faction == pawn.HostFaction)
-					{
-						return caravan;
+						else if (caravan.Faction == pawn.HostFaction)
+							goto IL_00d6;
 					}
 				}
+				result = null;
 			}
-			return null;
+			goto IL_00f7;
+			IL_00d6:
+			result = caravan;
+			goto IL_00f7;
+			IL_00b5:
+			result = caravan;
+			goto IL_00f7;
+			IL_00f7:
+			return result;
 		}
 
 		public static bool IsTheOnlyJoinableCaravanForAnyPrisonerOrAnimal(Caravan c)
 		{
+			bool result;
 			if (!c.autoJoinable)
 			{
 				Log.Warning("This caravan is not auto joinable.");
-				return false;
+				result = false;
 			}
-			if (c.Faction != Faction.OfPlayer)
+			else if (c.Faction != Faction.OfPlayer)
 			{
 				Log.Warning("Only player caravans supported.");
-				return false;
+				result = false;
 			}
-			List<Map> maps = Find.Maps;
-			List<Caravan> caravans = Find.WorldObjects.Caravans;
-			for (int i = 0; i < maps.Count; i++)
+			else
 			{
-				Map map = maps[i];
-				if (!map.IsPlayerHome && Find.WorldGrid.IsNeighborOrSame(c.Tile, map.Tile) && map.mapPawns.FreeColonistsCount == 0 && map.mapPawns.AllPawns.Any((Func<Pawn, bool>)((Pawn x) => x.Faction == Faction.OfPlayer || x.HostFaction == Faction.OfPlayer)))
+				List<Map> maps = Find.Maps;
+				List<Caravan> caravans = Find.WorldObjects.Caravans;
+				for (int i = 0; i < maps.Count; i++)
 				{
-					bool flag = false;
-					for (int j = 0; j < caravans.Count; j++)
+					Map map = maps[i];
+					if (!map.IsPlayerHome && Find.WorldGrid.IsNeighborOrSame(c.Tile, map.Tile) && map.mapPawns.FreeColonistsCount == 0 && map.mapPawns.AllPawns.Any((Func<Pawn, bool>)((Pawn x) => x.Faction == Faction.OfPlayer || x.HostFaction == Faction.OfPlayer)))
 					{
-						Caravan caravan = caravans[j];
-						if (c != caravan && caravan.autoJoinable && caravan.Faction == c.Faction && Find.WorldGrid.IsNeighborOrSame(caravan.Tile, map.Tile))
+						bool flag = false;
+						for (int j = 0; j < caravans.Count; j++)
 						{
-							flag = true;
-							break;
+							Caravan caravan = caravans[j];
+							if (c != caravan && caravan.autoJoinable && caravan.Faction == c.Faction && Find.WorldGrid.IsNeighborOrSame(caravan.Tile, map.Tile))
+							{
+								flag = true;
+								break;
+							}
 						}
-					}
-					if (!flag)
-					{
-						return true;
+						if (!flag)
+							goto IL_015a;
 					}
 				}
+				result = false;
 			}
-			return false;
+			goto IL_0178;
+			IL_015a:
+			result = true;
+			goto IL_0178;
+			IL_0178:
+			return result;
 		}
 
 		public static void OpenTheOnlyJoinableCaravanForPrisonerOrAnimalDialog(Caravan c, Action confirmAction)
 		{
 			Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmLeavePrisonersOrAnimalsBehind".Translate(), confirmAction, false, (string)null));
+		}
+
+		public static void GenerateCaravanExitTale(Pawn pawn)
+		{
+			if (pawn.Spawned && pawn.IsFreeColonist)
+			{
+				if (pawn.Map.IsPlayerHome)
+				{
+					TaleRecorder.RecordTale(TaleDefOf.CaravanFormed, pawn);
+				}
+				else if (GenHostility.AnyHostileActiveThreatToPlayer(pawn.Map))
+				{
+					TaleRecorder.RecordTale(TaleDefOf.CaravanFled, pawn);
+				}
+			}
 		}
 	}
 }

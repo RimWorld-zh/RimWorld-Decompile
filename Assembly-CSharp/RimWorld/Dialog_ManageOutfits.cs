@@ -7,15 +7,15 @@ namespace RimWorld
 {
 	public class Dialog_ManageOutfits : Window
 	{
+		private Vector2 scrollPosition;
+
+		private Outfit selOutfitInt = null;
+
 		private const float TopAreaHeight = 40f;
 
 		private const float TopButtonHeight = 35f;
 
 		private const float TopButtonWidth = 150f;
-
-		private Vector2 scrollPosition;
-
-		private Outfit selOutfitInt;
 
 		private static ThingFilter apparelGlobalFilter;
 
@@ -72,22 +72,13 @@ namespace RimWorld
 			if (Widgets.ButtonText(rect, "SelectOutfit".Translate(), true, false, true))
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				List<Outfit>.Enumerator enumerator = Current.Game.outfitDatabase.AllOutfits.GetEnumerator();
-				try
+				foreach (Outfit allOutfit in Current.Game.outfitDatabase.AllOutfits)
 				{
-					while (enumerator.MoveNext())
+					Outfit localOut = allOutfit;
+					list.Add(new FloatMenuOption(localOut.label, (Action)delegate
 					{
-						Outfit current = enumerator.Current;
-						Outfit localOut = current;
-						list.Add(new FloatMenuOption(localOut.label, (Action)delegate
-						{
-							this.SelectedOutfit = localOut;
-						}, MenuOptionPriority.Default, null, null, 0f, null, null));
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+						this.SelectedOutfit = localOut;
+					}, MenuOptionPriority.Default, null, null, 0f, null, null));
 				}
 				Find.WindowStack.Add(new FloatMenu(list));
 			}
@@ -104,30 +95,21 @@ namespace RimWorld
 			if (Widgets.ButtonText(rect3, "DeleteOutfit".Translate(), true, false, true))
 			{
 				List<FloatMenuOption> list2 = new List<FloatMenuOption>();
-				List<Outfit>.Enumerator enumerator2 = Current.Game.outfitDatabase.AllOutfits.GetEnumerator();
-				try
+				foreach (Outfit allOutfit2 in Current.Game.outfitDatabase.AllOutfits)
 				{
-					while (enumerator2.MoveNext())
+					Outfit localOut2 = allOutfit2;
+					list2.Add(new FloatMenuOption(localOut2.label, (Action)delegate
 					{
-						Outfit current2 = enumerator2.Current;
-						Outfit localOut2 = current2;
-						list2.Add(new FloatMenuOption(localOut2.label, (Action)delegate
+						AcceptanceReport acceptanceReport = Current.Game.outfitDatabase.TryDelete(localOut2);
+						if (!acceptanceReport.Accepted)
 						{
-							AcceptanceReport acceptanceReport = Current.Game.outfitDatabase.TryDelete(localOut2);
-							if (!acceptanceReport.Accepted)
-							{
-								Messages.Message(acceptanceReport.Reason, MessageSound.RejectInput);
-							}
-							else if (localOut2 == this.SelectedOutfit)
-							{
-								this.SelectedOutfit = null;
-							}
-						}, MenuOptionPriority.Default, null, null, 0f, null, null));
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
+							Messages.Message(acceptanceReport.Reason, MessageTypeDefOf.RejectInput);
+						}
+						else if (localOut2 == this.SelectedOutfit)
+						{
+							this.SelectedOutfit = null;
+						}
+					}, MenuOptionPriority.Default, null, null, 0f, null, null));
 				}
 				Find.WindowStack.Add(new FloatMenu(list2));
 			}
@@ -148,9 +130,14 @@ namespace RimWorld
 				GUI.BeginGroup(rect4);
 				Rect rect5 = new Rect(0f, 0f, 200f, 30f);
 				Dialog_ManageOutfits.DoNameInputRect(rect5, ref this.SelectedOutfit.label);
-				Rect rect6 = new Rect(0f, 40f, 300f, (float)(rect4.height - 45.0 - 10.0));
+				Rect rect6;
+				Rect rect7 = rect6 = new Rect(0f, 40f, 300f, (float)(rect4.height - 45.0 - 10.0));
+				ref Vector2 reference = ref this.scrollPosition;
+				ThingFilter filter = this.SelectedOutfit.filter;
+				ThingFilter parentFilter = Dialog_ManageOutfits.apparelGlobalFilter;
+				int openMask = 16;
 				IEnumerable<SpecialThingFilterDef> forceHiddenFilters = this.HiddenSpecialThingFilters();
-				ThingFilterUI.DoThingFilterConfigWindow(rect6, ref this.scrollPosition, this.SelectedOutfit.filter, Dialog_ManageOutfits.apparelGlobalFilter, 16, (IEnumerable<ThingDef>)null, forceHiddenFilters, (List<ThingDef>)null);
+				ThingFilterUI.DoThingFilterConfigWindow(rect6, ref reference, filter, parentFilter, openMask, (IEnumerable<ThingDef>)null, forceHiddenFilters, (List<ThingDef>)null);
 				GUI.EndGroup();
 			}
 		}
@@ -158,6 +145,7 @@ namespace RimWorld
 		private IEnumerable<SpecialThingFilterDef> HiddenSpecialThingFilters()
 		{
 			yield return SpecialThingFilterDefOf.AllowNonDeadmansApparel;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override void PreClose()

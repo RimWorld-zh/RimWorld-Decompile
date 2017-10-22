@@ -16,34 +16,46 @@ namespace RimWorld
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			foreach (Designation item in pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Strip))
+			using (IEnumerator<Designation> enumerator = pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Strip).GetEnumerator())
 			{
-				if (!item.target.HasThing)
+				Designation des;
+				while (true)
 				{
-					Log.ErrorOnce("Strip designation has no target.", 63126);
+					if (enumerator.MoveNext())
+					{
+						des = enumerator.Current;
+						if (des.target.HasThing)
+							break;
+						Log.ErrorOnce("Strip designation has no target.", 63126);
+						continue;
+					}
+					yield break;
 				}
-				else
-				{
-					yield return item.target.Thing;
-				}
+				yield return des.target.Thing;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			IL_0100:
+			/*Error near IL_0101: Unexpected return in MoveNext()*/;
+		}
+
+		public override Danger MaxPathDanger(Pawn pawn)
+		{
+			return Danger.Deadly;
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
+			bool result;
 			if (t.Map.designationManager.DesignationOn(t, DesignationDefOf.Strip) == null)
 			{
-				return false;
+				result = false;
 			}
-			if (!pawn.CanReserve(t, 1, -1, null, forced))
+			else
 			{
-				return false;
+				LocalTargetInfo target = t;
+				result = ((byte)(pawn.CanReserve(target, 1, -1, null, forced) ? (StrippableUtility.CanBeStrippedByColony(t) ? 1 : 0) : 0) != 0);
 			}
-			if (!StrippableUtility.CanBeStrippedByColony(t))
-			{
-				return false;
-			}
-			return true;
+			return result;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

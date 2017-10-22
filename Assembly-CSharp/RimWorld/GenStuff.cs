@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Verse;
 
 namespace RimWorld
@@ -7,45 +9,53 @@ namespace RimWorld
 	{
 		public static ThingDef DefaultStuffFor(ThingDef td)
 		{
+			ThingDef result;
 			if (!td.MadeFromStuff)
 			{
-				return null;
+				result = null;
 			}
-			if (ThingDefOf.WoodLog.stuffProps.CanMake(td))
+			else if (ThingDefOf.WoodLog.stuffProps.CanMake(td))
 			{
-				return ThingDefOf.WoodLog;
+				result = ThingDefOf.WoodLog;
 			}
-			if (ThingDefOf.Steel.stuffProps.CanMake(td))
+			else if (ThingDefOf.Steel.stuffProps.CanMake(td))
 			{
-				return ThingDefOf.Steel;
+				result = ThingDefOf.Steel;
 			}
-			if (ThingDefOf.Cloth.stuffProps.CanMake(td))
+			else if (ThingDefOf.Cloth.stuffProps.CanMake(td))
 			{
-				return ThingDefOf.Cloth;
+				result = ThingDefOf.Cloth;
 			}
-			ThingDef leatherDef = ThingDefOf.Cow.race.leatherDef;
-			if (leatherDef.stuffProps.CanMake(td))
+			else
 			{
-				return leatherDef;
+				ThingDef leatherDef = ThingDefOf.Cow.race.leatherDef;
+				result = ((!leatherDef.stuffProps.CanMake(td)) ? ((!ThingDefOf.BlocksGranite.stuffProps.CanMake(td)) ? ((!ThingDefOf.Plasteel.stuffProps.CanMake(td)) ? GenStuff.RandomStuffFor(td) : ThingDefOf.Plasteel) : ThingDefOf.BlocksGranite) : leatherDef);
 			}
-			if (ThingDefOf.BlocksGranite.stuffProps.CanMake(td))
-			{
-				return ThingDefOf.BlocksGranite;
-			}
-			if (ThingDefOf.Plasteel.stuffProps.CanMake(td))
-			{
-				return ThingDefOf.Plasteel;
-			}
-			return GenStuff.RandomStuffFor(td);
+			return result;
 		}
 
 		public static ThingDef RandomStuffFor(ThingDef td)
 		{
+			return td.MadeFromStuff ? GenStuff.AllowedStuffsFor(td).RandomElement() : null;
+		}
+
+		public static ThingDef RandomStuffByCommonalityFor(ThingDef td, TechLevel maxTechLevel = TechLevel.Undefined)
+		{
+			ThingDef result;
 			if (!td.MadeFromStuff)
 			{
-				return null;
+				result = null;
 			}
-			return GenStuff.AllowedStuffsFor(td).RandomElement();
+			else
+			{
+				ThingDef thingDef = default(ThingDef);
+				if (!GenStuff.TryRandomStuffByCommonalityFor(td, out thingDef, maxTechLevel))
+				{
+					thingDef = GenStuff.DefaultStuffFor(td);
+				}
+				result = thingDef;
+			}
+			return result;
 		}
 
 		public static IEnumerable<ThingDef> AllowedStuffsFor(ThingDef td)
@@ -53,15 +63,45 @@ namespace RimWorld
 			if (td.MadeFromStuff)
 			{
 				List<ThingDef> allDefs = DefDatabase<ThingDef>.AllDefsListForReading;
-				for (int i = 0; i < allDefs.Count; i++)
+				int i = 0;
+				ThingDef d;
+				while (true)
 				{
-					ThingDef d = allDefs[i];
-					if (d.IsStuff && d.stuffProps.CanMake(td))
+					if (i < allDefs.Count)
 					{
-						yield return d;
+						d = allDefs[i];
+						if (d.IsStuff && d.stuffProps.CanMake(td))
+							break;
+						i++;
+						continue;
 					}
+					yield break;
 				}
+				yield return d;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
+		}
+
+		public static bool TryRandomStuffByCommonalityFor(ThingDef td, out ThingDef stuff, TechLevel maxTechLevel = TechLevel.Undefined)
+		{
+			bool result;
+			if (!td.MadeFromStuff)
+			{
+				stuff = null;
+				result = true;
+			}
+			else
+			{
+				IEnumerable<ThingDef> source = GenStuff.AllowedStuffsFor(td);
+				if (maxTechLevel != 0)
+				{
+					source = from x in source
+					where (int)x.techLevel <= (int)maxTechLevel
+					select x;
+				}
+				result = source.TryRandomElementByWeight<ThingDef>((Func<ThingDef, float>)((ThingDef x) => x.stuffProps.commonality), out stuff);
+			}
+			return result;
 		}
 	}
 }

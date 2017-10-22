@@ -12,23 +12,27 @@ namespace Verse
 
 		public Type workerClass = typeof(MentalStateWorker);
 
-		public MentalStateCategory category;
+		public MentalStateCategory category = MentalStateCategory.Undefined;
 
 		public bool prisonersCanDo = true;
 
-		public bool unspawnedCanDo;
+		public bool unspawnedCanDo = false;
 
-		public bool colonistsOnly;
+		public bool colonistsOnly = false;
 
-		public bool blockNormalThoughts;
+		public List<PawnCapacityDef> requiredCapacities = new List<PawnCapacityDef>();
+
+		public bool blockNormalThoughts = false;
 
 		public EffecterDef stateEffecter;
 
 		public TaleDef tale;
 
-		public bool allowBeatfire;
+		public bool allowBeatfire = false;
 
 		public DrugCategory drugCategory = DrugCategory.Any;
+
+		public bool ignoreDrugPolicy = false;
 
 		public float recoveryMtbDays = 1f;
 
@@ -36,9 +40,7 @@ namespace Verse
 
 		public int maxTicksBeforeRecovery = 99999999;
 
-		public bool recoverFromSleep;
-
-		public bool recoverFromDowned;
+		public bool recoverFromSleep = false;
 
 		public ThoughtDef moodRecoveryThought;
 
@@ -58,7 +60,7 @@ namespace Verse
 		[MustTranslate]
 		public string baseInspectLine;
 
-		private MentalStateWorker workerInt;
+		private MentalStateWorker workerInt = null;
 
 		public MentalStateWorker Worker
 		{
@@ -86,14 +88,24 @@ namespace Verse
 			get
 			{
 				List<MentalBreakDef> allDefsListForReading = DefDatabase<MentalBreakDef>.AllDefsListForReading;
-				for (int i = 0; i < allDefsListForReading.Count; i++)
+				int num = 0;
+				bool result;
+				while (true)
 				{
-					if (allDefsListForReading[i].intensity == MentalBreakIntensity.Extreme && allDefsListForReading[i].mentalState == this)
+					if (num < allDefsListForReading.Count)
 					{
-						return true;
+						if (allDefsListForReading[num].intensity == MentalBreakIntensity.Extreme && allDefsListForReading[num].mentalState == this)
+						{
+							result = true;
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = false;
+					break;
 				}
-				return false;
+				return result;
 			}
 		}
 
@@ -102,20 +114,29 @@ namespace Verse
 			base.ResolveReferences();
 			if (this.beginLetterDef == null)
 			{
-				this.beginLetterDef = LetterDefOf.BadUrgent;
+				this.beginLetterDef = LetterDefOf.NegativeEvent;
 			}
 		}
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string e = enumerator.Current;
+					yield return e;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			if (!this.beginLetter.NullOrEmpty() && this.beginLetterLabel.NullOrEmpty())
-			{
-				yield return "no beginLetter or beginLetterLabel";
-			}
+			if (this.beginLetter.NullOrEmpty())
+				yield break;
+			if (!this.beginLetterLabel.NullOrEmpty())
+				yield break;
+			yield return "no beginLetter or beginLetterLabel";
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_010a:
+			/*Error near IL_010b: Unexpected return in MoveNext()*/;
 		}
 	}
 }

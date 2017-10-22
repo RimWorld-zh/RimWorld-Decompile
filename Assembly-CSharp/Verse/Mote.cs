@@ -4,15 +4,13 @@ namespace Verse
 {
 	public abstract class Mote : Thing
 	{
-		protected const float MinSpeed = 0.02f;
-
 		public Vector3 exactPosition;
 
-		public float exactRotation;
+		public float exactRotation = 0f;
 
 		public Vector3 exactScale = new Vector3(1f, 1f, 1f);
 
-		public float rotationRate;
+		public float rotationRate = 0f;
 
 		public Color instanceColor = Color.white;
 
@@ -26,6 +24,8 @@ namespace Verse
 
 		protected float skidSpeedMultiplierPerTick = Rand.Range(0.3f, 0.95f);
 
+		protected const float MinSpeed = 0.02f;
+
 		public float Scale
 		{
 			set
@@ -38,11 +38,7 @@ namespace Verse
 		{
 			get
 			{
-				if (base.def.mote.realTime)
-				{
-					return Time.realtimeSinceStartup - this.spawnRealTime;
-				}
-				return (float)((float)(Find.TickManager.TicksGame - this.spawnTick) / 60.0);
+				return (float)((!base.def.mote.realTime) ? ((float)(Find.TickManager.TicksGame - this.spawnTick) / 60.0) : (Time.realtimeSinceStartup - this.spawnRealTime));
 			}
 		}
 

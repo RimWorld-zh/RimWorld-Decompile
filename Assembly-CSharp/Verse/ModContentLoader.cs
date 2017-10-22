@@ -36,31 +36,36 @@ namespace Verse
 			if (typeof(T) == typeof(AudioClip))
 			{
 				array = ModContentLoader<T>.AcceptableExtensionsAudio;
-				goto IL_0087;
+				goto IL_008e;
 			}
 			if (typeof(T) == typeof(Texture2D))
 			{
 				array = ModContentLoader<T>.AcceptableExtensionsTexture;
-				goto IL_0087;
+				goto IL_008e;
 			}
 			if (typeof(T) == typeof(string))
 			{
 				array = ModContentLoader<T>.AcceptableExtensionsString;
-				goto IL_0087;
+				goto IL_008e;
 			}
 			Log.Error("Unknown content type " + typeof(T));
-			return false;
-			IL_0087:
+			bool result = false;
+			goto IL_00cf;
+			IL_00cf:
+			return result;
+			IL_008e:
 			string[] array2 = array;
 			for (int i = 0; i < array2.Length; i++)
 			{
 				string b = array2[i];
 				if (extension.ToLower() == b)
-				{
-					return true;
-				}
+					goto IL_00b0;
 			}
-			return false;
+			result = false;
+			goto IL_00cf;
+			IL_00b0:
+			result = true;
+			goto IL_00cf;
 		}
 
 		public static IEnumerable<LoadedContentItem<T>> LoadAllForMod(ModContentPack mod)
@@ -80,6 +85,7 @@ namespace Verse
 						if (loadedItem != null)
 						{
 							yield return loadedItem;
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
 				}
@@ -137,21 +143,22 @@ namespace Verse
 			{
 				Log.Error("Exception loading " + typeof(T) + " from file.\nabsFilePath: " + absFilePath + "\ncontentDirPath: " + contentDirPath + "\nException: " + ex.ToString());
 			}
-			if (typeof(T) == typeof(Texture2D))
-			{
-				return (LoadedContentItem<T>)new LoadedContentItem<Texture2D>(absFilePath, BaseContent.BadTex);
-			}
-			return null;
+			return (typeof(T) != typeof(Texture2D)) ? null : ((LoadedContentItem<T>)new LoadedContentItem<Texture2D>(absFilePath, BaseContent.BadTex));
 		}
 
 		private static bool ShouldStreamAudioClipFromPath(string absPath)
 		{
+			bool result;
 			if (!File.Exists(absPath))
 			{
-				return false;
+				result = false;
 			}
-			FileInfo fileInfo = new FileInfo(absPath);
-			return fileInfo.Length > 307200;
+			else
+			{
+				FileInfo fileInfo = new FileInfo(absPath);
+				result = (fileInfo.Length > 307200);
+			}
+			return result;
 		}
 
 		private static Texture2D LoadPNG(string filePath)

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -24,11 +23,11 @@ namespace Verse
 			string str = "[";
 			if (this.keyBindingA != 0)
 			{
-				str += ((Enum)(object)this.keyBindingA).ToString();
+				str += this.keyBindingA.ToString();
 			}
 			if (this.keyBindingB != 0)
 			{
-				str = str + ", " + ((Enum)(object)this.keyBindingB).ToString();
+				str = str + ", " + this.keyBindingB.ToString();
 			}
 			return str + "]";
 		}

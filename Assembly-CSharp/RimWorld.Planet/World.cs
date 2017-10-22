@@ -1,24 +1,40 @@
+#define ENABLE_PROFILER
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Profiling;
 using Verse;
 using Verse.Noise;
 
 namespace RimWorld.Planet
 {
-	public sealed class World : IIncidentTarget, IExposable, ILoadReferenceable, IThingHolder
+	public sealed class World : IThingHolder, IExposable, IIncidentTarget, ILoadReferenceable
 	{
 		public WorldInfo info = new WorldInfo();
 
 		public List<WorldComponent> components = new List<WorldComponent>();
+
+		public FactionManager factionManager;
+
+		public UniqueIDsManager uniqueIDsManager;
+
+		public WorldPawns worldPawns;
+
+		public WorldObjectsHolder worldObjects;
+
+		public WorldSettings settings;
+
+		public GameConditionManager gameConditionManager;
+
+		public StoryState storyState;
+
+		public WorldFeatures features;
 
 		public WorldGrid grid;
 
 		public WorldPathGrid pathGrid;
 
 		public WorldRenderer renderer;
-
-		public WorldObjectsHolder worldObjects;
 
 		public WorldInterface UI;
 
@@ -32,19 +48,9 @@ namespace RimWorld.Planet
 
 		public WorldReachability reachability;
 
-		public WorldSettings settings;
-
-		public FactionManager factionManager;
-
-		public UniqueIDsManager uniqueIDsManager;
-
-		public WorldPawns worldPawns;
-
 		public WorldFloodFiller floodFiller;
 
-		public GameConditionManager gameConditionManager;
-
-		public StoryState storyState;
+		public ConfiguredTicksAbsAtGameStartCache ticksAbsCache;
 
 		public TileTemperaturesComp tileTemperatures;
 
@@ -94,24 +100,65 @@ namespace RimWorld.Planet
 			}
 		}
 
-		public IncidentTargetType Type
+		public float PlayerWealthForStoryteller
 		{
 			get
 			{
-				return IncidentTargetType.World;
+				float num = 0f;
+				List<Map> maps = Find.Maps;
+				for (int i = 0; i < maps.Count; i++)
+				{
+					num += maps[i].PlayerWealthForStoryteller;
+				}
+				List<Caravan> caravans = Find.WorldObjects.Caravans;
+				for (int j = 0; j < caravans.Count; j++)
+				{
+					num += caravans[j].PlayerWealthForStoryteller;
+				}
+				return num;
 			}
+		}
+
+		public IEnumerable<Pawn> FreeColonistsForStoryteller
+		{
+			get
+			{
+				return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_FreeColonists;
+			}
+		}
+
+		public FloatRange IncidentPointsRandomFactorRange
+		{
+			get
+			{
+				return FloatRange.One;
+			}
+		}
+
+		public IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
+		{
+			yield return IncidentTargetTypeDefOf.World;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<WorldInfo>(ref this.info, "info", new object[0]);
+			Scribe_Deep.Look<WorldGrid>(ref this.grid, "grid", new object[0]);
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
 				foreach (WorldGenStepDef item in from gs in DefDatabase<WorldGenStepDef>.AllDefs
 				orderby gs.order
 				select gs)
 				{
-					item.worldGenStep.GenerateFromScribe(this.info.seedString);
+					if (this.grid == null || !this.grid.HasWorldData)
+					{
+						item.worldGenStep.GenerateWithoutWorldData(this.info.seedString);
+					}
+					else
+					{
+						item.worldGenStep.GenerateFromScribe(this.info.seedString);
+					}
 				}
 			}
 			else
@@ -132,6 +179,7 @@ namespace RimWorld.Planet
 			{
 				this
 			});
+			Scribe_Deep.Look<WorldFeatures>(ref this.features, "features", new object[0]);
 			Scribe_Collections.Look<WorldComponent>(ref this.components, "components", LookMode.Deep, new object[1]
 			{
 				this
@@ -145,21 +193,22 @@ namespace RimWorld.Planet
 
 		public void ConstructComponents()
 		{
-			this.renderer = new WorldRenderer();
 			this.worldObjects = new WorldObjectsHolder();
+			this.factionManager = new FactionManager();
+			this.uniqueIDsManager = new UniqueIDsManager();
+			this.worldPawns = new WorldPawns();
+			this.settings = new WorldSettings();
+			this.gameConditionManager = new GameConditionManager(null);
+			this.storyState = new StoryState(this);
+			this.renderer = new WorldRenderer();
 			this.UI = new WorldInterface();
 			this.debugDrawer = new WorldDebugDrawer();
 			this.dynamicDrawManager = new WorldDynamicDrawManager();
 			this.pathFinder = new WorldPathFinder();
 			this.pathPool = new WorldPathPool();
 			this.reachability = new WorldReachability();
-			this.factionManager = new FactionManager();
-			this.uniqueIDsManager = new UniqueIDsManager();
-			this.worldPawns = new WorldPawns();
 			this.floodFiller = new WorldFloodFiller();
-			this.settings = new WorldSettings();
-			this.gameConditionManager = new GameConditionManager(null);
-			this.storyState = new StoryState(this);
+			this.ticksAbsCache = new ConfiguredTicksAbsAtGameStartCache();
 			this.components.Clear();
 			this.FillComponents();
 		}
@@ -188,16 +237,29 @@ namespace RimWorld.Planet
 
 		public void WorldTick()
 		{
+			Profiler.BeginSample("WorldPawnsTick()");
 			this.worldPawns.WorldPawnsTick();
+			Profiler.EndSample();
+			Profiler.BeginSample("FactionManagerTick()");
 			this.factionManager.FactionManagerTick();
+			Profiler.EndSample();
+			Profiler.BeginSample("WorldObjectsHolderTick()");
 			this.worldObjects.WorldObjectsHolderTick();
+			Profiler.EndSample();
+			Profiler.BeginSample("WorldDebugDrawerTick()");
 			this.debugDrawer.WorldDebugDrawerTick();
+			Profiler.EndSample();
+			Profiler.BeginSample("WorldPathGridTick()");
 			this.pathGrid.WorldPathGridTick();
+			Profiler.EndSample();
+			Profiler.BeginSample("WorldComponentTick()");
 			WorldComponentUtility.WorldComponentTick(this);
+			Profiler.EndSample();
 		}
 
 		public void WorldPostTick()
 		{
+			Profiler.BeginSample("GameConditionManager.GameConditionManagerTick()");
 			try
 			{
 				this.gameConditionManager.GameConditionManagerTick();
@@ -206,6 +268,7 @@ namespace RimWorld.Planet
 			{
 				Log.Error(ex.ToString());
 			}
+			Profiler.EndSample();
 		}
 
 		public void WorldUpdate()
@@ -214,72 +277,136 @@ namespace RimWorld.Planet
 			this.renderer.CheckActivateWorldCamera();
 			if (worldRenderedNow)
 			{
+				Profiler.BeginSample("ExpandableWorldObjectsUpdate()");
 				ExpandableWorldObjectsUtility.ExpandableWorldObjectsUpdate();
+				Profiler.EndSample();
+				Profiler.BeginSample("World.renderer.DrawWorldLayers()");
 				this.renderer.DrawWorldLayers();
+				Profiler.EndSample();
+				Profiler.BeginSample("World.dynamicDrawManager.DrawDynamicWorldObjects()");
 				this.dynamicDrawManager.DrawDynamicWorldObjects();
+				Profiler.EndSample();
+				Profiler.BeginSample("World.features.UpdateFeatures()");
+				this.features.UpdateFeatures();
+				Profiler.EndSample();
+				Profiler.BeginSample("NoiseDebugUI.RenderPlanetNoise()");
 				NoiseDebugUI.RenderPlanetNoise();
+				Profiler.EndSample();
 			}
+			Profiler.BeginSample("WorldComponentUpdate()");
 			WorldComponentUtility.WorldComponentUpdate(this);
+			Profiler.EndSample();
 		}
 
 		public T GetComponent<T>() where T : WorldComponent
 		{
-			for (int i = 0; i < this.components.Count; i++)
+			int num = 0;
+			T result;
+			while (true)
 			{
-				T val = (T)(this.components[i] as T);
-				if (val != null)
+				if (num < this.components.Count)
 				{
-					return val;
+					T val = (T)(this.components[num] as T);
+					if (val != null)
+					{
+						result = val;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = (T)null;
+				break;
 			}
-			return (T)null;
+			return result;
 		}
 
 		public WorldComponent GetComponent(Type type)
 		{
-			for (int i = 0; i < this.components.Count; i++)
+			int num = 0;
+			WorldComponent result;
+			while (true)
 			{
-				if (type.IsAssignableFrom(this.components[i].GetType()))
+				if (num < this.components.Count)
 				{
-					return this.components[i];
+					if (type.IsAssignableFrom(this.components[num].GetType()))
+					{
+						result = this.components[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public Rot4 CoastDirectionAt(int tileID)
 		{
 			Tile tile = this.grid[tileID];
+			Rot4 result;
 			if (!tile.biome.canBuildBase)
 			{
-				return Rot4.Invalid;
+				result = Rot4.Invalid;
 			}
-			World.tmpOceanDirs.Clear();
-			this.grid.GetTileNeighbors(tileID, World.tmpNeighbors);
-			int num = 0;
-			int count = World.tmpNeighbors.Count;
-			while (num < count)
+			else
 			{
-				Tile tile2 = this.grid[World.tmpNeighbors[num]];
-				if (tile2.biome == BiomeDefOf.Ocean)
+				World.tmpOceanDirs.Clear();
+				this.grid.GetTileNeighbors(tileID, World.tmpNeighbors);
+				int num = 0;
+				int count = World.tmpNeighbors.Count;
+				while (num < count)
 				{
-					Rot4 rotFromTo = this.grid.GetRotFromTo(tileID, World.tmpNeighbors[num]);
-					if (!World.tmpOceanDirs.Contains(rotFromTo))
+					Tile tile2 = this.grid[World.tmpNeighbors[num]];
+					if (tile2.biome == BiomeDefOf.Ocean)
 					{
-						World.tmpOceanDirs.Add(rotFromTo);
+						Rot4 rotFromTo = this.grid.GetRotFromTo(tileID, World.tmpNeighbors[num]);
+						if (!World.tmpOceanDirs.Contains(rotFromTo))
+						{
+							World.tmpOceanDirs.Add(rotFromTo);
+						}
 					}
+					num++;
 				}
-				num++;
+				if (World.tmpOceanDirs.Count == 0)
+				{
+					result = Rot4.Invalid;
+				}
+				else
+				{
+					Rand.PushState();
+					Rand.Seed = tileID;
+					int index = Rand.Range(0, World.tmpOceanDirs.Count);
+					Rand.PopState();
+					result = World.tmpOceanDirs[index];
+				}
 			}
-			if (World.tmpOceanDirs.Count == 0)
+			return result;
+		}
+
+		public bool HasCaves(int tile)
+		{
+			Tile tile2 = this.grid[tile];
+			float chance;
+			if ((int)tile2.hilliness >= 4)
 			{
-				return Rot4.Invalid;
+				chance = 0.5f;
+				goto IL_0043;
 			}
-			Rand.PushState();
-			Rand.Seed = tileID;
-			int index = Rand.Range(0, World.tmpOceanDirs.Count);
-			Rand.PopState();
-			return World.tmpOceanDirs[index];
+			if ((int)tile2.hilliness >= 3)
+			{
+				chance = 0.25f;
+				goto IL_0043;
+			}
+			bool result = false;
+			goto IL_0064;
+			IL_0043:
+			result = Rand.ChanceSeeded(chance, Gen.HashCombineInt(Find.World.info.Seed, tile));
+			goto IL_0064;
+			IL_0064:
+			return result;
 		}
 
 		public IEnumerable<ThingDef> NaturalRockTypesIn(int tile)

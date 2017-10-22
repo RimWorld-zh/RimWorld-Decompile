@@ -1,6 +1,6 @@
 namespace RimWorld
 {
-	public interface IBillGiverWithTickAction
+	public interface IBillGiverWithTickAction : IBillGiver
 	{
 		void UsedThisTick();
 	}

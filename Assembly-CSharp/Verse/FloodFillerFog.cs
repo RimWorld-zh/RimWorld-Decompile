@@ -5,15 +5,14 @@ namespace Verse
 {
 	public static class FloodFillerFog
 	{
-		private const int MaxNumTestUnfog = 500;
-
 		private static bool testMode = false;
 
 		private static List<IntVec3> cellsToUnfog = new List<IntVec3>(1024);
 
+		private const int MaxNumTestUnfog = 500;
+
 		public static FloodUnfogResult FloodUnfog(IntVec3 root, Map map)
 		{
-			ProfilerThreadCheck.BeginSample("FloodUnfog");
 			FloodFillerFog.cellsToUnfog.Clear();
 			FloodUnfogResult result = default(FloodUnfogResult);
 			bool[] fogGridDirect = map.fogGrid.fogGrid;
@@ -23,20 +22,17 @@ namespace Verse
 			bool expanding = false;
 			Predicate<IntVec3> predicate = (Predicate<IntVec3>)delegate(IntVec3 c)
 			{
+				bool result2;
 				if (!fogGridDirect[map.cellIndices.CellToIndex(c)])
 				{
-					return false;
+					result2 = false;
 				}
-				Thing edifice = c.GetEdifice(map);
-				if (edifice != null && edifice.def.MakeFog)
+				else
 				{
-					return false;
+					Thing edifice = c.GetEdifice(map);
+					result2 = ((byte)((edifice == null || !edifice.def.MakeFog) ? ((!FloodFillerFog.testMode || expanding || numUnfogged <= 500) ? 1 : 0) : 0) != 0);
 				}
-				if (FloodFillerFog.testMode && !expanding && numUnfogged > 500)
-				{
-					return false;
-				}
-				return true;
+				return result2;
 			};
 			Action<IntVec3> processor = (Action<IntVec3>)delegate(IntVec3 c)
 			{
@@ -58,10 +54,10 @@ namespace Verse
 				if (FloodFillerFog.testMode)
 				{
 					numUnfogged++;
-					map.debugDrawer.FlashCell(c, (float)((float)numUnfogged / 200.0), numUnfogged.ToStringCached());
+					map.debugDrawer.FlashCell(c, (float)((float)numUnfogged / 200.0), numUnfogged.ToStringCached(), 50);
 				}
 			};
-			map.floodFiller.FloodFill(root, predicate, processor, false);
+			map.floodFiller.FloodFill(root, predicate, processor, 2147483647, false, null);
 			expanding = true;
 			for (int i = 0; i < newlyUnfoggedCells.Count; i++)
 			{
@@ -80,11 +76,10 @@ namespace Verse
 				fogGrid.Unfog(FloodFillerFog.cellsToUnfog[k]);
 				if (FloodFillerFog.testMode)
 				{
-					map.debugDrawer.FlashCell(FloodFillerFog.cellsToUnfog[k], 0.3f, "x");
+					map.debugDrawer.FlashCell(FloodFillerFog.cellsToUnfog[k], 0.3f, "x", 50);
 				}
 			}
 			FloodFillerFog.cellsToUnfog.Clear();
-			ProfilerThreadCheck.EndSample();
 			return result;
 		}
 

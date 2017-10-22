@@ -9,7 +9,7 @@ namespace Verse
 	{
 		public Type workerClass = typeof(DamageWorker);
 
-		public bool externalViolence;
+		public bool externalViolence = false;
 
 		public bool hasForcefulImpact = true;
 
@@ -22,15 +22,17 @@ namespace Verse
 		[MustTranslate]
 		public string deathMessage = "{0} has been killed.";
 
-		public ImpactSoundTypeDef impactSoundType;
+		public ImpactSoundTypeDef impactSoundType = null;
 
-		public DamageArmorCategoryDef armorCategory;
+		public DamageArmorCategoryDef armorCategory = null;
 
-		public bool spreadOut;
+		public bool spreadOut = false;
 
-		public bool execution;
+		public bool execution = false;
 
-		public bool isExplosive;
+		public RulePackDef combatLogRules = null;
+
+		public bool isExplosive = false;
 
 		public int explosionDamage = 10;
 
@@ -40,7 +42,7 @@ namespace Verse
 
 		public bool explosionAffectOutsidePartsOnly = true;
 
-		public ThingDef explosionCellMote;
+		public ThingDef explosionCellMote = null;
 
 		public Color explosionColorCenter = Color.white;
 
@@ -48,24 +50,40 @@ namespace Verse
 
 		public ThingDef explosionInteriorMote;
 
-		public float explosionHeatEnergyPerCell;
+		public float explosionHeatEnergyPerCell = 0f;
 
-		public SoundDef soundExplosion;
+		public SoundDef soundExplosion = null;
 
-		public bool harmAllLayersUntilOutside;
+		public bool harmAllLayersUntilOutside = false;
 
-		public bool hasChanceToAdditionallyDamageInnerSolidParts;
+		public HediffDef hediff = null;
 
-		public HediffDef hediff;
+		public HediffDef hediffSkin = null;
 
-		public HediffDef hediffSkin;
+		public HediffDef hediffSolid = null;
 
-		public HediffDef hediffSolid;
+		public float stabChanceOfForcedInternal = 0f;
 
-		public List<DamageDefAdditionalHediff> additionalHediffs;
+		public float stabPierceBonus = 0f;
+
+		public SimpleCurve cutExtraTargetsCurve;
+
+		public float cutCleaveBonus;
+
+		public float bluntInnerHitFrequency = 0f;
+
+		public FloatRange bluntInnerHitConverted;
+
+		public FloatRange bluntInnerHitAdded;
+
+		public float scratchSplitPercentage = 0.5f;
+
+		public float biteDamageMultiplier = 1f;
+
+		public List<DamageDefAdditionalHediff> additionalHediffs = null;
 
 		[Unsaved]
-		private DamageWorker workerInt;
+		private DamageWorker workerInt = null;
 
 		public DamageWorker Worker
 		{

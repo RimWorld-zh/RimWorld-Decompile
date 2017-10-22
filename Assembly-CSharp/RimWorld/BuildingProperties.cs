@@ -11,51 +11,51 @@ namespace RimWorld
 
 		public List<string> buildingTags = new List<string>();
 
-		public bool isInert;
+		public bool isInert = false;
 
 		private bool deconstructible = true;
 
-		public bool alwaysDeconstructible;
+		public bool alwaysDeconstructible = false;
 
 		public bool claimable = true;
 
-		public bool isSittable;
+		public bool isSittable = false;
 
 		public SoundDef soundAmbient;
 
-		public ConceptDef spawnedConceptLearnOpportunity;
+		public ConceptDef spawnedConceptLearnOpportunity = null;
 
-		public ConceptDef boughtConceptLearnOpportunity;
+		public ConceptDef boughtConceptLearnOpportunity = null;
 
 		public bool expandHomeArea = true;
 
-		public bool wantsHopperAdjacent;
-
-		public bool ignoreNeedsPower;
+		public bool wantsHopperAdjacent = false;
 
 		public bool allowWireConnection = true;
 
-		public bool shipPart;
+		public bool shipPart = false;
 
 		public bool canPlaceOverImpassablePlant = true;
 
-		public float heatPerTickWhileWorking;
+		public float heatPerTickWhileWorking = 0f;
 
 		public bool canBuildNonEdificesUnder = true;
 
-		public bool canPlaceOverWall;
+		public bool canPlaceOverWall = false;
 
 		public bool allowAutoroof = true;
 
-		public bool preventDeterioration;
+		public bool preventDeteriorationOnTop = false;
 
-		public bool isMealSource;
+		public bool preventDeteriorationInside = false;
 
-		public bool isJoySource;
+		public bool isMealSource = false;
 
-		public bool isNaturalRock;
+		public bool isJoySource = false;
 
-		public bool isResourceRock;
+		public bool isNaturalRock = false;
+
+		public bool isResourceRock = false;
 
 		public bool repairable = true;
 
@@ -63,15 +63,15 @@ namespace RimWorld
 
 		public bool hasFuelingPort;
 
-		public bool isPlayerEjectable;
+		public bool isPlayerEjectable = false;
 
-		public GraphicData fullGraveGraphicData;
+		public GraphicData fullGraveGraphicData = null;
 
-		public float bed_healPerDay;
+		public float bed_healPerDay = 0f;
 
-		public bool bed_defaultMedical;
+		public bool bed_defaultMedical = false;
 
-		public bool bed_showSleeperBody;
+		public bool bed_showSleeperBody = false;
 
 		public bool bed_humanlike = true;
 
@@ -83,18 +83,16 @@ namespace RimWorld
 
 		public ThingDef turretGunDef;
 
-		public ThingDef turretShellDef;
-
-		public float turretBurstWarmupTime;
+		public float turretBurstWarmupTime = 0f;
 
 		public float turretBurstCooldownTime = -1f;
 
-		public string turretTopGraphicPath;
+		public string turretTopGraphicPath = (string)null;
 
 		[Unsaved]
 		public Material turretTopMat;
 
-		public bool ai_combatDangerous;
+		public bool ai_combatDangerous = false;
 
 		public bool ai_chillDestination = true;
 
@@ -106,11 +104,11 @@ namespace RimWorld
 
 		public SoundDef soundDoorCloseManual = SoundDefOf.DoorCloseManual;
 
-		public string sowTag;
+		public string sowTag = (string)null;
 
-		public ThingDef defaultPlantToGrow;
+		public ThingDef defaultPlantToGrow = null;
 
-		public ThingDef mineableThing;
+		public ThingDef mineableThing = null;
 
 		public int mineableYield = 1;
 
@@ -120,17 +118,17 @@ namespace RimWorld
 
 		public bool mineableYieldWasteable = true;
 
-		public float mineableScatterCommonality;
+		public float mineableScatterCommonality = 0f;
 
 		public IntRange mineableScatterLumpSizeRange = new IntRange(20, 40);
 
-		public StorageSettings fixedStorageSettings;
+		public StorageSettings fixedStorageSettings = null;
 
-		public StorageSettings defaultStorageSettings;
+		public StorageSettings defaultStorageSettings = null;
 
 		public bool ignoreStoredThingsBeauty;
 
-		public bool isTrap;
+		public bool isTrap = false;
 
 		public DamageArmorCategoryDef trapDamageCategory;
 
@@ -139,11 +137,11 @@ namespace RimWorld
 		[Unsaved]
 		public Graphic trapUnarmedGraphic;
 
-		public float unpoweredWorkTableWorkSpeedFactor;
+		public float unpoweredWorkTableWorkSpeedFactor = 0f;
 
-		public bool workSpeedPenaltyOutdoors;
+		public bool workSpeedPenaltyOutdoors = false;
 
-		public bool workSpeedPenaltyTemperature;
+		public bool workSpeedPenaltyTemperature = false;
 
 		public IntRange watchBuildingStandDistanceRange = IntRange.one;
 
@@ -177,19 +175,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (!this.IsTurret)
-				{
-					return false;
-				}
-				List<VerbProperties> verbs = this.turretGunDef.Verbs;
-				for (int i = 0; i < verbs.Count; i++)
-				{
-					if (verbs[i].projectileDef != null && verbs[i].projectileDef.projectile.flyOverhead)
-					{
-						return true;
-					}
-				}
-				return false;
+				return this.IsTurret && this.turretGunDef.HasComp(typeof(CompChangeableProjectile)) && this.turretGunDef.building.fixedStorageSettings.filter.Allows(ThingDefOf.Shell_HighExplosive);
 			}
 		}
 
@@ -198,15 +184,19 @@ namespace RimWorld
 			if (this.isTrap && !this.isEdifice)
 			{
 				yield return "isTrap but is not edifice. Code will break.";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.alwaysDeconstructible && !this.deconstructible)
 			{
 				yield return "alwaysDeconstructible=true but deconstructible=false";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (parent.holdsRoof && !this.isEdifice)
-			{
-				yield return "holds roof but is not an edifice.";
-			}
+			if (!parent.holdsRoof)
+				yield break;
+			if (this.isEdifice)
+				yield break;
+			yield return "holds roof but is not an edifice.";
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public void PostLoadSpecial(ThingDef parent)

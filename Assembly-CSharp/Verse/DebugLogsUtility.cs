@@ -9,33 +9,35 @@ namespace Verse
 	{
 		public static string ThingListToUniqueCountString(IEnumerable<Thing> things)
 		{
+			string result;
 			if (things == null)
 			{
-				return "null";
+				result = "null";
 			}
-			Dictionary<ThingDef, int> dictionary = new Dictionary<ThingDef, int>();
-			foreach (Thing item in things)
+			else
 			{
-				if (!dictionary.ContainsKey(item.def))
+				Dictionary<ThingDef, int> dictionary = new Dictionary<ThingDef, int>();
+				foreach (Thing item in things)
 				{
-					dictionary.Add(item.def, 0);
+					if (!dictionary.ContainsKey(item.def))
+					{
+						dictionary.Add(item.def, 0);
+					}
+					Dictionary<ThingDef, int> dictionary2;
+					ThingDef def;
+					(dictionary2 = dictionary)[def = item.def] = dictionary2[def] + 1;
 				}
-				Dictionary<ThingDef, int> dictionary2;
-				Dictionary<ThingDef, int> obj = dictionary2 = dictionary;
-				ThingDef def;
-				ThingDef key = def = item.def;
-				int num = dictionary2[def];
-				obj[key] = num + 1;
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.AppendLine("Registered things in dynamic draw list:");
+				foreach (KeyValuePair<ThingDef, int> item2 in from k in dictionary
+				orderby k.Value descending
+				select k)
+				{
+					stringBuilder.AppendLine(item2.Key + " - " + item2.Value);
+				}
+				result = stringBuilder.ToString();
 			}
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.AppendLine("Registered things in dynamic draw list:");
-			foreach (KeyValuePair<ThingDef, int> item2 in from k in dictionary
-			orderby k.Value descending
-			select k)
-			{
-				stringBuilder.AppendLine(item2.Key + " - " + item2.Value);
-			}
-			return stringBuilder.ToString();
+			return result;
 		}
 	}
 }

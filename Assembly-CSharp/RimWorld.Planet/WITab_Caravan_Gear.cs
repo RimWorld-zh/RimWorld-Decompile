@@ -8,22 +8,6 @@ namespace RimWorld.Planet
 {
 	public class WITab_Caravan_Gear : WITab
 	{
-		private const float PawnRowHeight = 50f;
-
-		private const float ItemRowHeight = 30f;
-
-		private const float PawnLabelHeight = 18f;
-
-		private const float PawnLabelColumnWidth = 100f;
-
-		private const float GearLabelColumnWidth = 250f;
-
-		private const float SpaceAroundIcon = 4f;
-
-		private const float EquippedGearColumnWidth = 250f;
-
-		private const float EquippedGearIconSize = 32f;
-
 		private Vector2 leftPaneScrollPosition;
 
 		private float leftPaneScrollViewHeight;
@@ -41,6 +25,22 @@ namespace RimWorld.Planet
 		private float leftPaneWidth;
 
 		private float rightPaneWidth;
+
+		private const float PawnRowHeight = 50f;
+
+		private const float ItemRowHeight = 30f;
+
+		private const float PawnLabelHeight = 18f;
+
+		private const float PawnLabelColumnWidth = 100f;
+
+		private const float GearLabelColumnWidth = 250f;
+
+		private const float SpaceAroundIcon = 4f;
+
+		private const float EquippedGearColumnWidth = 250f;
+
+		private const float EquippedGearIconSize = 32f;
 
 		private static List<Apparel> tmpApparel = new List<Apparel>();
 
@@ -206,12 +206,12 @@ namespace RimWorld.Planet
 			bool flag = this.draggedItem != null && rect2.Contains(Event.current.mousePosition) && this.CurrentWearerOf(this.draggedItem) != p;
 			if (Mouse.IsOver(rect2) && this.draggedItem == null)
 			{
-				goto IL_00ba;
+				goto IL_00bc;
 			}
 			if (flag)
-				goto IL_00ba;
-			goto IL_00c0;
-			IL_00c0:
+				goto IL_00bc;
+			goto IL_00c2;
+			IL_00c2:
 			if (flag && this.droppedDraggedItem)
 			{
 				this.TryEquipDraggedItem(p);
@@ -248,9 +248,9 @@ namespace RimWorld.Planet
 			}
 			GUI.EndGroup();
 			return;
-			IL_00ba:
+			IL_00bc:
 			Widgets.DrawHighlight(rect2);
-			goto IL_00c0;
+			goto IL_00c2;
 		}
 
 		private void DoInventoryRows(ref float curY, Rect scrollViewRect, Rect scrollOutRect)
@@ -390,11 +390,7 @@ namespace RimWorld.Planet
 		private Pawn CurrentWearerOf(Thing t)
 		{
 			IThingHolder parentHolder = t.ParentHolder;
-			if (!(parentHolder is Pawn_EquipmentTracker) && !(parentHolder is Pawn_ApparelTracker))
-			{
-				return null;
-			}
-			return (Pawn)parentHolder.ParentHolder;
+			return (!(parentHolder is Pawn_EquipmentTracker) && !(parentHolder is Pawn_ApparelTracker)) ? null : ((Pawn)parentHolder.ParentHolder);
 		}
 
 		private void MoveDraggedItemToInventory()
@@ -419,13 +415,13 @@ namespace RimWorld.Planet
 			{
 				if (p.story != null && p.story.WorkTagIsDisabled(WorkTags.Violent))
 				{
-					Messages.Message("MessageCantEquipIncapableOfViolence".Translate(p.LabelShort), (Thing)p, MessageSound.RejectInput);
+					Messages.Message("MessageCantEquipIncapableOfViolence".Translate(p.LabelShort), (Thing)p, MessageTypeDefOf.RejectInput);
 					this.draggedItem = null;
 					return;
 				}
 				if (!p.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
 				{
-					Messages.Message("MessageCantEquipIncapableOfManipulation".Translate(), (Thing)p, MessageSound.RejectInput);
+					Messages.Message("MessageCantEquipIncapableOfManipulation".Translate(), (Thing)p, MessageTypeDefOf.RejectInput);
 					this.draggedItem = null;
 					return;
 				}
@@ -438,7 +434,7 @@ namespace RimWorld.Planet
 				WITab_Caravan_Gear.tmpExistingApparel.AddRange(p.apparel.WornApparel);
 				for (int i = 0; i < WITab_Caravan_Gear.tmpExistingApparel.Count; i++)
 				{
-					if (!ApparelUtility.CanWearTogether(apparel.def, WITab_Caravan_Gear.tmpExistingApparel[i].def))
+					if (!ApparelUtility.CanWearTogether(apparel.def, WITab_Caravan_Gear.tmpExistingApparel[i].def, p.RaceProps.body))
 					{
 						p.apparel.Remove(WITab_Caravan_Gear.tmpExistingApparel[i]);
 						Pawn pawn = CaravanInventoryUtility.FindPawnToMoveInventoryTo(WITab_Caravan_Gear.tmpExistingApparel[i], this.Pawns, null, null);

@@ -12,12 +12,12 @@ namespace RimWorld
 			int count = base.countRange.RandomInRange;
 			int i = 0;
 			ThingDef finalDef;
-			while (i < count && (from t in DefDatabase<ThingDef>.AllDefs
-			where ((_003CGenerateThings_003Ec__Iterator180)/*Error near IL_0048: stateMachine*/)._003C_003Ef__this.HandlesThingDef(t) && (int)t.techLevel <= (int)((_003CGenerateThings_003Ec__Iterator180)/*Error near IL_0048: stateMachine*/)._003C_003Ef__this.maxTechLevelGenerate
+			if (i < count && (from t in DefDatabase<ThingDef>.AllDefs
+			where ((_003CGenerateThings_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.HandlesThingDef(t) && t.tradeability == Tradeability.Stockable && (int)t.techLevel <= (int)((_003CGenerateThings_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.maxTechLevelGenerate
 			select t).TryRandomElementByWeight<ThingDef>(new Func<ThingDef, float>(this.SelectionWeight), out finalDef))
 			{
 				yield return this.MakeThing(finalDef);
-				i++;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -28,7 +28,7 @@ namespace RimWorld
 
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
-			return thingDef.tradeability == Tradeability.Stockable && (int)thingDef.techLevel <= (int)base.maxTechLevelBuy;
+			return thingDef.tradeability != 0 && (int)thingDef.techLevel <= (int)base.maxTechLevelBuy;
 		}
 
 		protected virtual float SelectionWeight(ThingDef thingDef)

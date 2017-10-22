@@ -2,24 +2,20 @@ using System.Collections.Generic;
 
 namespace Verse.AI
 {
-	public class ThinkNode_ConditionalMentalStates : ThinkNode_Priority
+	public class ThinkNode_ConditionalMentalStates : ThinkNode_Conditional
 	{
-		private List<MentalStateDef> states;
+		public List<MentalStateDef> states;
 
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_ConditionalMentalStates thinkNode_ConditionalMentalStates = (ThinkNode_ConditionalMentalStates)base.DeepCopy(resolve);
-			thinkNode_ConditionalMentalStates.states = this.states.ListFullCopyOrNull();
+			thinkNode_ConditionalMentalStates.states = this.states;
 			return thinkNode_ConditionalMentalStates;
 		}
 
-		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
+		protected override bool Satisfied(Pawn pawn)
 		{
-			if (!this.states.Contains(pawn.MentalStateDef))
-			{
-				return ThinkResult.NoJob;
-			}
-			return base.TryIssueJobPackage(pawn, jobParams);
+			return this.states.Contains(pawn.MentalStateDef);
 		}
 	}
 }

@@ -24,7 +24,7 @@ namespace RimWorld
 			Vector2 vector = Text.CalcSize(text2);
 			Rect rect2 = (!alignRight) ? new Rect(rect.x, rect.y, vector.x, vector.y) : new Rect(rect.xMax - vector.x, rect.y, vector.x, vector.y);
 			Widgets.Label(rect2, text2);
-			string str = string.Empty;
+			string str = "";
 			if (truncToWidth != 3.4028234663852886E+38)
 			{
 				Vector2 vector2 = Text.CalcSize(text);

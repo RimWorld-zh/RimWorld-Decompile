@@ -1,5 +1,7 @@
+#define ENABLE_PROFILER
 using System;
 using System.Collections.Generic;
+using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 
@@ -34,47 +36,59 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
+			Job result;
+			Job job;
 			if (!this.CanDoDuringMedicalRest && pawn.InBed() && HealthAIUtility.ShouldSeekMedicalRest(pawn))
 			{
-				return null;
+				result = null;
 			}
-			List<JoyGiverDef> allDefsListForReading = DefDatabase<JoyGiverDef>.AllDefsListForReading;
-			JoyToleranceSet tolerances = pawn.needs.joy.tolerances;
-			for (int i = 0; i < allDefsListForReading.Count; i++)
+			else
 			{
-				JoyGiverDef joyGiverDef = allDefsListForReading[i];
-				this.joyGiverChances[joyGiverDef] = 0f;
-				if (this.JoyGiverAllowed(joyGiverDef) && joyGiverDef.Worker.MissingRequiredCapacity(pawn) == null)
+				Profiler.BeginSample("GetJoy");
+				List<JoyGiverDef> allDefsListForReading = DefDatabase<JoyGiverDef>.AllDefsListForReading;
+				JoyToleranceSet tolerances = pawn.needs.joy.tolerances;
+				for (int i = 0; i < allDefsListForReading.Count; i++)
 				{
-					if (joyGiverDef.pctPawnsEverDo < 1.0)
+					JoyGiverDef joyGiverDef = allDefsListForReading[i];
+					this.joyGiverChances[joyGiverDef] = 0f;
+					if (this.JoyGiverAllowed(joyGiverDef) && joyGiverDef.Worker.MissingRequiredCapacity(pawn) == null)
 					{
-						Rand.PushState(pawn.thingIDNumber ^ 63216713);
-						if (Rand.Value >= joyGiverDef.pctPawnsEverDo)
+						if (joyGiverDef.pctPawnsEverDo < 1.0)
 						{
+							Rand.PushState(pawn.thingIDNumber ^ 63216713);
+							if (Rand.Value >= joyGiverDef.pctPawnsEverDo)
+							{
+								Rand.PopState();
+								continue;
+							}
 							Rand.PopState();
-							continue;
 						}
-						Rand.PopState();
+						float chance = joyGiverDef.Worker.GetChance(pawn);
+						float num = (float)(1.0 - tolerances[joyGiverDef.joyKind]);
+						chance *= num * num;
+						this.joyGiverChances[joyGiverDef] = chance;
 					}
-					float chance = joyGiverDef.Worker.GetChance(pawn);
-					float num = (float)(1.0 - tolerances[joyGiverDef.joyKind]);
-					chance *= num * num;
-					this.joyGiverChances[joyGiverDef] = chance;
 				}
-			}
-			int num2 = 0;
-			JoyGiverDef def = default(JoyGiverDef);
-			while (num2 < this.joyGiverChances.Count && ((IEnumerable<JoyGiverDef>)allDefsListForReading).TryRandomElementByWeight<JoyGiverDef>((Func<JoyGiverDef, float>)((JoyGiverDef d) => this.joyGiverChances[d]), out def))
-			{
-				Job job = this.TryGiveJobFromJoyGiverDefDirect(def, pawn);
-				if (job != null)
+				int num2 = 0;
+				JoyGiverDef def = default(JoyGiverDef);
+				while (num2 < this.joyGiverChances.Count && ((IEnumerable<JoyGiverDef>)allDefsListForReading).TryRandomElementByWeight<JoyGiverDef>((Func<JoyGiverDef, float>)((JoyGiverDef d) => this.joyGiverChances[d]), out def))
 				{
-					return job;
+					job = this.TryGiveJobFromJoyGiverDefDirect(def, pawn);
+					if (job != null)
+						goto IL_0162;
+					this.joyGiverChances[def] = 0f;
+					num2++;
 				}
-				this.joyGiverChances[def] = 0f;
-				num2++;
+				Profiler.EndSample();
+				result = null;
 			}
-			return null;
+			goto IL_01a7;
+			IL_0162:
+			Profiler.EndSample();
+			result = job;
+			goto IL_01a7;
+			IL_01a7:
+			return result;
 		}
 	}
 }

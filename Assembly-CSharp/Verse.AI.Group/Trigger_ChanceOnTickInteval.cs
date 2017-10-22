@@ -14,11 +14,7 @@ namespace Verse.AI.Group
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
-			if (signal.type == TriggerSignalType.Tick && Find.TickManager.TicksGame % this.interval == 0)
-			{
-				return Rand.Value < this.chancePerInterval;
-			}
-			return false;
+			return signal.type == TriggerSignalType.Tick && Find.TickManager.TicksGame % this.interval == 0 && Rand.Value < this.chancePerInterval;
 		}
 	}
 }

@@ -7,9 +7,9 @@ namespace Verse
 	{
 		public HediffDef hediff;
 
-		public List<BodyPartDef> partsToAffect;
+		public List<BodyPartDef> partsToAffect = null;
 
-		public bool canAffectAnyLivePart;
+		public bool canAffectAnyLivePart = false;
 
 		public int countToAffect = 1;
 
@@ -33,11 +33,11 @@ namespace Verse
 			{
 				if (cause == null)
 				{
-					Find.LetterStack.ReceiveLetter("LetterHediffFromRandomHediffGiverLabel".Translate(pawn.LabelShort, this.hediff.LabelCap), "LetterHediffFromRandomHediffGiver".Translate(pawn.LabelShort, this.hediff.LabelCap), LetterDefOf.BadNonUrgent, (Thing)pawn, (string)null);
+					Find.LetterStack.ReceiveLetter("LetterHediffFromRandomHediffGiverLabel".Translate(pawn.LabelShort, this.hediff.LabelCap), "LetterHediffFromRandomHediffGiver".Translate(pawn.LabelShort, this.hediff.LabelCap), LetterDefOf.NegativeEvent, (Thing)pawn, (string)null);
 				}
 				else
 				{
-					Find.LetterStack.ReceiveLetter("LetterHealthComplicationsLabel".Translate(pawn.LabelShort, this.hediff.LabelCap), "LetterHealthComplications".Translate(pawn.LabelShort, this.hediff.LabelCap, cause.LabelCap), LetterDefOf.BadNonUrgent, (Thing)pawn, (string)null);
+					Find.LetterStack.ReceiveLetter("LetterHealthComplicationsLabel".Translate(pawn.LabelShort, this.hediff.LabelCap), "LetterHealthComplications".Translate(pawn.LabelShort, this.hediff.LabelCap, cause.LabelCap), LetterDefOf.NegativeEvent, (Thing)pawn, (string)null);
 				}
 			}
 		}

@@ -17,6 +17,7 @@ namespace RimWorld
 
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
+			_003CMakeIntervalIncidents_003Ec__Iterator0 _003CMakeIntervalIncidents_003Ec__Iterator = (_003CMakeIntervalIncidents_003Ec__Iterator0)/*Error near IL_003e: stateMachine*/;
 			if (target == Find.Maps.Find((Predicate<Map>)((Map x) => x.IsPlayerHome)))
 			{
 				if (this.IntervalsPassed == 150)
@@ -32,49 +33,54 @@ namespace RimWorld
 								points = (float)Rand.Range(40, 100)
 							}
 						};
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
 				if (this.IntervalsPassed == 204)
 				{
+					_003CMakeIntervalIncidents_003Ec__Iterator0 _003CMakeIntervalIncidents_003Ec__Iterator2 = (_003CMakeIntervalIncidents_003Ec__Iterator0)/*Error near IL_0165: stateMachine*/;
 					IncidentCategory threatCategory = (IncidentCategory)((!Find.Storyteller.difficulty.allowIntroThreats) ? 1 : 2);
 					IncidentDef incDef2;
 					if ((from def in DefDatabase<IncidentDef>.AllDefs
-					where def.TargetAllowed(((_003CMakeIntervalIncidents_003Ec__IteratorA9)/*Error near IL_0135: stateMachine*/).target) && def.category == ((_003CMakeIntervalIncidents_003Ec__IteratorA9)/*Error near IL_0135: stateMachine*/)._003CthreatCategory_003E__2
+					where def.TargetAllowed(target) && def.category == threatCategory
 					select def).TryRandomElementByWeight<IncidentDef>(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incDef2))
 					{
 						yield return new FiringIncident(incDef2, this, null)
 						{
 							parms = StorytellerUtility.DefaultParmsNow(Find.Storyteller.def, incDef2.category, target)
 						};
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
 				IncidentDef incDef;
 				if (this.IntervalsPassed == 264 && (from def in DefDatabase<IncidentDef>.AllDefs
-				where def.TargetAllowed(((_003CMakeIntervalIncidents_003Ec__IteratorA9)/*Error near IL_01dc: stateMachine*/).target) && def.category == IncidentCategory.Misc
+				where def.TargetAllowed(target) && def.category == IncidentCategory.Misc
 				select def).TryRandomElementByWeight<IncidentDef>(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incDef))
 				{
 					yield return new FiringIncident(incDef, this, null)
 					{
 						parms = StorytellerUtility.DefaultParmsNow(Find.Storyteller.def, incDef.category, target)
 					};
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				if (this.IntervalsPassed == 324)
+				if (this.IntervalsPassed != 324)
+					yield break;
+				IncidentDef inc = IncidentDefOf.RaidEnemy;
+				if (!Find.Storyteller.difficulty.allowIntroThreats)
 				{
-					IncidentDef inc = IncidentDefOf.RaidEnemy;
-					if (!Find.Storyteller.difficulty.allowIntroThreats)
-					{
-						inc = (from def in DefDatabase<IncidentDef>.AllDefs
-						where def.TargetAllowed(((_003CMakeIntervalIncidents_003Ec__IteratorA9)/*Error near IL_02a3: stateMachine*/).target) && def.category == IncidentCategory.Misc
-						select def).RandomElementByWeightWithFallback(new Func<IncidentDef, float>(base.IncidentChanceFinal), null);
-					}
-					if (inc != null && inc.TargetAllowed(target))
-					{
-						yield return new FiringIncident(inc, this, null)
-						{
-							parms = this.GenerateParms(inc.category, target)
-						};
-					}
+					inc = (from def in DefDatabase<IncidentDef>.AllDefs
+					where def.TargetAllowed(target) && def.category == IncidentCategory.Misc
+					select def).RandomElementByWeightWithFallback(new Func<IncidentDef, float>(base.IncidentChanceFinal), null);
 				}
+				if (inc == null)
+					yield break;
+				if (!inc.TargetAllowed(target))
+					yield break;
+				yield return new FiringIncident(inc, this, null)
+				{
+					parms = this.GenerateParms(inc.category, target)
+				};
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 	}

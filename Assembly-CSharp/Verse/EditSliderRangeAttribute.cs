@@ -5,7 +5,7 @@ namespace Verse
 	[AttributeUsage(AttributeTargets.Field)]
 	public class EditSliderRangeAttribute : Attribute
 	{
-		public float min;
+		public float min = 0f;
 
 		public float max = 1f;
 

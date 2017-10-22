@@ -89,12 +89,14 @@ namespace Verse.AI
 		{
 			Region region = this.regionGrid[cellIndex];
 			IntVec3 cell = this.map.cellIndices.IndexToCell(cellIndex);
+			int result;
 			if (region != this.cachedRegion)
 			{
 				this.cachedRegionIsDestination = this.destRegions.Contains(region);
 				if (this.cachedRegionIsDestination)
 				{
-					return this.OctileDistanceToEnd(cell);
+					result = this.OctileDistanceToEnd(cell);
+					goto IL_0140;
 				}
 				this.cachedBestLinkCost = this.regionCostCalculator.GetRegionBestDistances(region, out this.cachedBestLink, out this.cachedSecondBestLink, out this.cachedSecondBestLinkCost);
 				this.cachedRegionCellPathCost = this.regionCostCalculator.RegionMedianPathCost(region);
@@ -102,19 +104,31 @@ namespace Verse.AI
 			}
 			else if (this.cachedRegionIsDestination)
 			{
-				return this.OctileDistanceToEnd(cell);
+				result = this.OctileDistanceToEnd(cell);
+				goto IL_0140;
 			}
 			if (this.cachedBestLink != null)
 			{
 				int num = this.regionCostCalculator.RegionLinkDistance(cell, this.cachedBestLink, this.cachedRegionCellPathCost);
+				int num3;
 				if (this.cachedSecondBestLink != null)
 				{
 					int num2 = this.regionCostCalculator.RegionLinkDistance(cell, this.cachedSecondBestLink, this.cachedRegionCellPathCost);
-					return Mathf.Min(this.cachedSecondBestLinkCost + num2, this.cachedBestLinkCost + num);
+					num3 = Mathf.Min(this.cachedSecondBestLinkCost + num2, this.cachedBestLinkCost + num);
 				}
-				return this.cachedBestLinkCost + num;
+				else
+				{
+					num3 = this.cachedBestLinkCost + num;
+				}
+				num3 = (result = num3 + this.OctileDistanceToEndEps(cell));
 			}
-			return 10000;
+			else
+			{
+				result = 10000;
+			}
+			goto IL_0140;
+			IL_0140:
+			return result;
 		}
 
 		private int OctileDistanceToEnd(IntVec3 cell)
@@ -122,6 +136,13 @@ namespace Verse.AI
 			int dx = Mathf.Abs(cell.x - this.endCell.x);
 			int dz = Mathf.Abs(cell.z - this.endCell.z);
 			return GenMath.OctileDistance(dx, dz, this.moveTicksCardinal, this.moveTicksDiagonal);
+		}
+
+		private int OctileDistanceToEndEps(IntVec3 cell)
+		{
+			int dx = Mathf.Abs(cell.x - this.endCell.x);
+			int dz = Mathf.Abs(cell.z - this.endCell.z);
+			return GenMath.OctileDistance(dx, dz, 2, 3);
 		}
 	}
 }

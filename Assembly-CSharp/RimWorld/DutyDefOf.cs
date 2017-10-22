@@ -5,7 +5,9 @@ namespace RimWorld
 	[DefOf]
 	public static class DutyDefOf
 	{
-		public static DutyDef Travel;
+		public static DutyDef TravelOrLeave;
+
+		public static DutyDef TravelOrWait;
 
 		public static DutyDef Kidnap;
 
@@ -24,6 +26,8 @@ namespace RimWorld
 		public static DutyDef LoadAndEnterTransporters;
 
 		public static DutyDef ManClosestTurret;
+
+		public static DutyDef SleepForever;
 
 		public static DutyDef AssaultColony;
 
@@ -44,6 +48,8 @@ namespace RimWorld
 		public static DutyDef ExitMapBest;
 
 		public static DutyDef ExitMapBestAndDefendSelf;
+
+		public static DutyDef ExitMapNearDutyTarget;
 
 		public static DutyDef MarryPawn;
 

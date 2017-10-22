@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class StockGenerator_BuySingleDef : StockGenerator
 	{
-		public ThingDef thingDef;
+		public ThingDef thingDef = null;
 
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{

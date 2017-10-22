@@ -10,7 +10,7 @@ namespace RimWorld
 	{
 		public Pawn pawn;
 
-		private bool draftedInt;
+		private bool draftedInt = false;
 
 		private bool fireAtWillInt = true;
 
@@ -31,7 +31,7 @@ namespace RimWorld
 					this.draftedInt = value;
 					if (!value && this.pawn.Spawned)
 					{
-						this.pawn.Map.pawnDestinationManager.UnreserveAllFor(this.pawn);
+						this.pawn.Map.pawnDestinationReservationManager.ReleaseAllClaimedBy(this.pawn);
 					}
 					if (this.pawn.jobs.curJob != null && this.pawn.jobs.IsCurrentJobPlayerInterruptible())
 					{
@@ -48,6 +48,7 @@ namespace RimWorld
 						{
 							lord.Notify_PawnLost(this.pawn, PawnLostCondition.Drafted);
 						}
+						this.autoUndrafter.Notify_Drafted();
 					}
 					else if (this.pawn.playerSettings != null)
 					{
@@ -99,10 +100,10 @@ namespace RimWorld
 			Command_Toggle draft = new Command_Toggle
 			{
 				hotKey = KeyBindingDefOf.CommandColonistDraft,
-				isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__IteratorE1)/*Error near IL_0046: stateMachine*/)._003C_003Ef__this.Drafted),
+				isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0048: stateMachine*/)._0024this.Drafted),
 				toggleAction = (Action)delegate
 				{
-					((_003CGetGizmos_003Ec__IteratorE1)/*Error near IL_005d: stateMachine*/)._003C_003Ef__this.Drafted = !((_003CGetGizmos_003Ec__IteratorE1)/*Error near IL_005d: stateMachine*/)._003C_003Ef__this.Drafted;
+					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_005f: stateMachine*/)._0024this.Drafted = !((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_005f: stateMachine*/)._0024this.Drafted;
 					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Drafting, KnowledgeAmount.SpecificInteraction);
 				},
 				defaultDesc = "CommandToggleDraftDesc".Translate(),
@@ -127,22 +128,7 @@ namespace RimWorld
 				draft.tutorTag = "Undraft";
 			}
 			yield return (Gizmo)draft;
-			if (this.Drafted && this.pawn.equipment.Primary != null && this.pawn.equipment.Primary.def.IsRangedWeapon)
-			{
-				yield return (Gizmo)new Command_Toggle
-				{
-					hotKey = KeyBindingDefOf.Misc6,
-					isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__IteratorE1)/*Error near IL_01d7: stateMachine*/)._003C_003Ef__this.FireAtWill),
-					toggleAction = (Action)delegate
-					{
-						((_003CGetGizmos_003Ec__IteratorE1)/*Error near IL_01ee: stateMachine*/)._003C_003Ef__this.FireAtWill = !((_003CGetGizmos_003Ec__IteratorE1)/*Error near IL_01ee: stateMachine*/)._003C_003Ef__this.FireAtWill;
-					},
-					icon = TexCommand.FireAtWill,
-					defaultLabel = "CommandFireAtWillLabel".Translate(),
-					defaultDesc = "CommandFireAtWillDesc".Translate(),
-					tutorTag = "FireAtWillToggle"
-				};
-			}
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		internal void Notify_PrimaryWeaponChanged()

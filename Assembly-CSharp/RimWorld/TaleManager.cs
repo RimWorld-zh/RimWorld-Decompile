@@ -8,9 +8,9 @@ namespace RimWorld
 {
 	public sealed class TaleManager : IExposable
 	{
-		private const int MaxUnusedVolatileTales = 350;
-
 		private List<Tale> tales = new List<Tale>();
+
+		private const int MaxUnusedVolatileTales = 350;
 
 		public List<Tale> AllTalesListForReading
 		{
@@ -45,7 +45,6 @@ namespace RimWorld
 			else
 			{
 				this.tales.Remove(tale);
-				tale.PostRemove();
 			}
 		}
 
@@ -125,44 +124,54 @@ namespace RimWorld
 
 		public TaleReference GetRandomTaleReferenceForArt(ArtGenerationContext source)
 		{
+			TaleReference result;
+			Tale tale = default(Tale);
 			if (source == ArtGenerationContext.Outsider)
 			{
-				return TaleReference.Taleless;
+				result = TaleReference.Taleless;
 			}
-			if (this.tales.Count == 0)
+			else if (this.tales.Count == 0)
 			{
-				return TaleReference.Taleless;
+				result = TaleReference.Taleless;
 			}
-			if (Rand.Value < 0.25)
+			else if (Rand.Value < 0.25)
 			{
-				return TaleReference.Taleless;
+				result = TaleReference.Taleless;
 			}
-			Tale tale = default(Tale);
-			if (!(from x in this.tales
+			else if (!(from x in this.tales
 			where x.def.usableForArt
 			select x).TryRandomElementByWeight<Tale>((Func<Tale, float>)((Tale ta) => ta.InterestLevel), out tale))
 			{
-				return TaleReference.Taleless;
+				result = TaleReference.Taleless;
 			}
-			tale.Notify_NewlyUsed();
-			return new TaleReference(tale);
+			else
+			{
+				tale.Notify_NewlyUsed();
+				result = new TaleReference(tale);
+			}
+			return result;
 		}
 
 		public TaleReference GetRandomTaleReferenceForArtConcerning(Thing th)
 		{
+			TaleReference result;
+			Tale tale = default(Tale);
 			if (this.tales.Count == 0)
 			{
-				return TaleReference.Taleless;
+				result = TaleReference.Taleless;
 			}
-			Tale tale = default(Tale);
-			if (!(from x in this.tales
+			else if (!(from x in this.tales
 			where x.def.usableForArt && x.Concerns(th)
 			select x).TryRandomElementByWeight<Tale>((Func<Tale, float>)((Tale x) => x.InterestLevel), out tale))
 			{
-				return TaleReference.Taleless;
+				result = TaleReference.Taleless;
 			}
-			tale.Notify_NewlyUsed();
-			return new TaleReference(tale);
+			else
+			{
+				tale.Notify_NewlyUsed();
+				result = new TaleReference(tale);
+			}
+			return result;
 		}
 
 		public Tale GetLatestTale(TaleDef def, Pawn pawn)
@@ -191,28 +200,67 @@ namespace RimWorld
 			}
 		}
 
-		public void Notify_PawnDiscarded(Pawn p)
+		public void Notify_PawnDiscarded(Pawn p, bool silentlyRemoveReferences)
 		{
 			for (int num = this.tales.Count - 1; num >= 0; num--)
 			{
 				if (this.tales[num].Concerns(p))
 				{
-					Log.Warning("Discarding pawn " + p + ", but he is referenced by a tale " + this.tales[num] + ".");
+					if (!silentlyRemoveReferences)
+					{
+						Log.Warning("Discarding pawn " + p + ", but he is referenced by a tale " + this.tales[num] + ".");
+					}
+					else if (!this.tales[num].Unused)
+					{
+						Log.Warning("Discarding pawn " + p + ", but he is referenced by an active tale " + this.tales[num] + ".");
+					}
 					this.RemoveTale(this.tales[num]);
 				}
 			}
 		}
 
+		public bool AnyActiveTaleConcerns(Pawn p)
+		{
+			int num = 0;
+			bool result;
+			while (true)
+			{
+				if (num < this.tales.Count)
+				{
+					if (!this.tales[num].Unused && this.tales[num].Concerns(p))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
+				}
+				result = false;
+				break;
+			}
+			return result;
+		}
+
 		public bool AnyTaleConcerns(Pawn p)
 		{
-			for (int i = 0; i < this.tales.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (this.tales[i].Concerns(p))
+				if (num < this.tales.Count)
 				{
-					return true;
+					if (this.tales[num].Concerns(p))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public float GetMaxHistoricalTaleDay()
@@ -286,19 +334,12 @@ namespace RimWorld
 			Func<TaleDef, float> defInterest = (Func<TaleDef, float>)((TaleDef def) => (from t in this.tales
 			where t.def == def
 			select t).Sum((Func<Tale, float>)((Tale t) => t.InterestLevel)));
-			using (IEnumerator<TaleDef> enumerator = (from def in DefDatabase<TaleDef>.AllDefs
+			foreach (TaleDef item in from def in DefDatabase<TaleDef>.AllDefs
 			where def.usableForArt
 			orderby defInterest(def) descending
-			select def).GetEnumerator())
+			select def)
 			{
-				TaleDef def2;
-				while (enumerator.MoveNext())
-				{
-					def2 = enumerator.Current;
-					stringBuilder.AppendLine(def2.label + ":   [" + (from t in this.tales
-					where t.def == def2
-					select t).Count() + "]   " + (defInterest(def2) / num).ToStringPercent("F2"));
-				}
+				stringBuilder.AppendLine(item.defName + ":   [" + this.tales.Where((Func<Tale, bool>)((Tale t) => t.def == item)).Count() + "]   " + (defInterest(item) / num).ToStringPercent("F2"));
 			}
 			Log.Message(stringBuilder.ToString());
 		}

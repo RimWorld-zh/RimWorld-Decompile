@@ -6,13 +6,13 @@ namespace RimWorld.Planet
 {
 	public static class DaysWorthOfFoodCalculator
 	{
-		public const float InfiniteDaysWorthOfFood = 1000f;
-
 		private static List<Pawn> tmpPawns = new List<Pawn>();
 
 		private static List<ThingCount> tmpThingCounts = new List<ThingCount>();
 
 		private static List<ThingStackPart> tmpThingStackParts = new List<ThingStackPart>();
+
+		public const float InfiniteDaysWorthOfFood = 1000f;
 
 		private static List<float> tmpDaysWorthOfFoodPerPawn = new List<float>();
 
@@ -22,91 +22,96 @@ namespace RimWorld.Planet
 
 		private static float ApproxDaysWorthOfFood(List<Pawn> pawns, List<ThingCount> extraFood, bool assumeCanEatLocalPlants, IgnorePawnsInventoryMode ignoreInventory)
 		{
+			float result;
 			if (!DaysWorthOfFoodCalculator.AnyNonLocalPlantsEatingPawn(pawns, assumeCanEatLocalPlants))
 			{
-				return 1000f;
+				result = 1000f;
 			}
-			DaysWorthOfFoodCalculator.tmpFood.Clear();
-			if (extraFood != null)
+			else
 			{
-				for (int i = 0; i < extraFood.Count; i++)
+				DaysWorthOfFoodCalculator.tmpFood.Clear();
+				if (extraFood != null)
 				{
-					if (extraFood[i].ThingDef.IsNutritionGivingIngestible && extraFood[i].Count > 0)
+					for (int i = 0; i < extraFood.Count; i++)
 					{
-						DaysWorthOfFoodCalculator.tmpFood.Add(extraFood[i]);
-					}
-				}
-			}
-			for (int j = 0; j < pawns.Count; j++)
-			{
-				if (!InventoryCalculatorsUtility.ShouldIgnoreInventoryOf(pawns[j], ignoreInventory))
-				{
-					ThingOwner<Thing> innerContainer = pawns[j].inventory.innerContainer;
-					for (int k = 0; k < innerContainer.Count; k++)
-					{
-						if (innerContainer[k].def.IsNutritionGivingIngestible)
+						if (extraFood[i].ThingDef.IsNutritionGivingIngestible && extraFood[i].Count > 0)
 						{
-							DaysWorthOfFoodCalculator.tmpFood.Add(new ThingCount(innerContainer[k].def, innerContainer[k].stackCount));
+							DaysWorthOfFoodCalculator.tmpFood.Add(extraFood[i]);
 						}
 					}
 				}
-			}
-			if (!DaysWorthOfFoodCalculator.tmpFood.Any())
-			{
-				return 0f;
-			}
-			DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn.Clear();
-			DaysWorthOfFoodCalculator.tmpAnyFoodLeftIngestibleByPawn.Clear();
-			for (int l = 0; l < pawns.Count; l++)
-			{
-				DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn.Add(0f);
-				DaysWorthOfFoodCalculator.tmpAnyFoodLeftIngestibleByPawn.Add(true);
-			}
-			float num = 0f;
-			while (true)
-			{
-				bool flag = false;
-				for (int m = 0; m < pawns.Count; m++)
+				for (int j = 0; j < pawns.Count; j++)
 				{
-					Pawn pawn = pawns[m];
-					if (DaysWorthOfFoodCalculator.tmpAnyFoodLeftIngestibleByPawn[m] && pawn.RaceProps.EatsFood && (!assumeCanEatLocalPlants || !VirtualPlantsUtility.CanEverEatVirtualPlants(pawn)))
+					if (!InventoryCalculatorsUtility.ShouldIgnoreInventoryOf(pawns[j], ignoreInventory))
 					{
-						while (true)
+						ThingOwner<Thing> innerContainer = pawns[j].inventory.innerContainer;
+						for (int k = 0; k < innerContainer.Count; k++)
 						{
-							int num2 = DaysWorthOfFoodCalculator.BestEverEdibleFoodIndexFor(pawns[m], DaysWorthOfFoodCalculator.tmpFood);
-							if (num2 < 0)
+							if (innerContainer[k].def.IsNutritionGivingIngestible)
 							{
-								DaysWorthOfFoodCalculator.tmpAnyFoodLeftIngestibleByPawn[m] = false;
-								break;
+								DaysWorthOfFoodCalculator.tmpFood.Add(new ThingCount(innerContainer[k].def, innerContainer[k].stackCount));
 							}
-							float num3 = Mathf.Min(DaysWorthOfFoodCalculator.tmpFood[num2].ThingDef.ingestible.nutrition, pawn.needs.food.NutritionBetweenHungryAndFed);
-							float num4 = (float)(num3 / pawn.needs.food.NutritionBetweenHungryAndFed * (float)pawn.needs.food.TicksUntilHungryWhenFed / 60000.0);
-							List<float> list;
-							List<float> obj = list = DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn;
-							int index;
-							int index2 = index = m;
-							float num5 = list[index];
-							obj[index2] = num5 + num4;
-							DaysWorthOfFoodCalculator.tmpFood[num2] = DaysWorthOfFoodCalculator.tmpFood[num2].WithCount(DaysWorthOfFoodCalculator.tmpFood[num2].Count - 1);
-							flag = true;
-							if (!(DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn[m] < num))
-								break;
 						}
-						num = Mathf.Max(num, DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn[m]);
 					}
 				}
-				if (!flag)
-					break;
-			}
-			float num6 = 1000f;
-			for (int n = 0; n < pawns.Count; n++)
-			{
-				if (pawns[n].RaceProps.EatsFood && (!assumeCanEatLocalPlants || !VirtualPlantsUtility.CanEverEatVirtualPlants(pawns[n])))
+				if (!DaysWorthOfFoodCalculator.tmpFood.Any())
 				{
-					num6 = Mathf.Min(num6, DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn[n]);
+					result = 0f;
+				}
+				else
+				{
+					DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn.Clear();
+					DaysWorthOfFoodCalculator.tmpAnyFoodLeftIngestibleByPawn.Clear();
+					for (int l = 0; l < pawns.Count; l++)
+					{
+						DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn.Add(0f);
+						DaysWorthOfFoodCalculator.tmpAnyFoodLeftIngestibleByPawn.Add(true);
+					}
+					float num = 0f;
+					while (true)
+					{
+						bool flag = false;
+						for (int m = 0; m < pawns.Count; m++)
+						{
+							Pawn pawn = pawns[m];
+							if (DaysWorthOfFoodCalculator.tmpAnyFoodLeftIngestibleByPawn[m] && pawn.RaceProps.EatsFood && (!assumeCanEatLocalPlants || !VirtualPlantsUtility.CanEverEatVirtualPlants(pawn)))
+							{
+								while (true)
+								{
+									int num2 = DaysWorthOfFoodCalculator.BestEverEdibleFoodIndexFor(pawns[m], DaysWorthOfFoodCalculator.tmpFood);
+									if (num2 < 0)
+									{
+										DaysWorthOfFoodCalculator.tmpAnyFoodLeftIngestibleByPawn[m] = false;
+										break;
+									}
+									float num3 = Mathf.Min(DaysWorthOfFoodCalculator.tmpFood[num2].ThingDef.ingestible.nutrition, pawn.needs.food.NutritionBetweenHungryAndFed);
+									float num4 = (float)(num3 / pawn.needs.food.NutritionBetweenHungryAndFed * (float)pawn.needs.food.TicksUntilHungryWhenFed / 60000.0);
+									List<float> list;
+									int index;
+									(list = DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn)[index = m] = list[index] + num4;
+									DaysWorthOfFoodCalculator.tmpFood[num2] = DaysWorthOfFoodCalculator.tmpFood[num2].WithCount(DaysWorthOfFoodCalculator.tmpFood[num2].Count - 1);
+									flag = true;
+									if (!(DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn[m] < num))
+										break;
+								}
+								num = Mathf.Max(num, DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn[m]);
+							}
+						}
+						if (!flag)
+							break;
+					}
+					float num5 = 1000f;
+					for (int n = 0; n < pawns.Count; n++)
+					{
+						if (pawns[n].RaceProps.EatsFood && (!assumeCanEatLocalPlants || !VirtualPlantsUtility.CanEverEatVirtualPlants(pawns[n])))
+						{
+							num5 = Mathf.Min(num5, DaysWorthOfFoodCalculator.tmpDaysWorthOfFoodPerPawn[n]);
+						}
+					}
+					result = num5;
 				}
 			}
-			return num6;
+			return result;
 		}
 
 		public static float ApproxDaysWorthOfFood(Caravan caravan)
@@ -241,14 +246,24 @@ namespace RimWorld.Planet
 
 		private static bool AnyNonLocalPlantsEatingPawn(List<Pawn> pawns, bool assumeCanEatLocalPlants)
 		{
-			for (int i = 0; i < pawns.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (pawns[i].RaceProps.EatsFood && (!assumeCanEatLocalPlants || !VirtualPlantsUtility.CanEverEatVirtualPlants(pawns[i])))
+				if (num < pawns.Count)
 				{
-					return true;
+					if (pawns[num].RaceProps.EatsFood && (!assumeCanEatLocalPlants || !VirtualPlantsUtility.CanEverEatVirtualPlants(pawns[num])))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		private static int BestEverEdibleFoodIndexFor(Pawn pawn, List<ThingCount> food)

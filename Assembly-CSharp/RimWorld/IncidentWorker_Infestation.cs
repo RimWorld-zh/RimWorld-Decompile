@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -15,7 +15,7 @@ namespace RimWorld
 			return base.CanFireNowSub(target) && HivesUtility.TotalSpawnedHivesCount(map) < 30 && InfestationCellFinder.TryFindCell(out intVec, map);
 		}
 
-		public override bool TryExecute(IncidentParms parms)
+		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			Hive t = null;
@@ -33,35 +33,47 @@ namespace RimWorld
 		private Hive SpawnHiveCluster(int hiveCount, Map map)
 		{
 			IntVec3 loc = default(IntVec3);
+			Hive result;
 			if (!InfestationCellFinder.TryFindCell(out loc, map))
 			{
-				return null;
+				result = null;
 			}
-			Hive hive = (Hive)GenSpawn.Spawn(ThingMaker.MakeThing(ThingDefOf.Hive, null), loc, map);
-			hive.SetFaction(Faction.OfInsects, null);
-			IncidentWorker_Infestation.SpawnInsectJellyInstantly(hive);
-			for (int i = 0; i < hiveCount - 1; i++)
+			else
 			{
-				Hive hive2 = default(Hive);
-				if (hive.GetComp<CompSpawnerHives>().TrySpawnChildHive(false, out hive2))
+				Hive hive = (Hive)GenSpawn.Spawn(ThingMaker.MakeThing(ThingDefOf.Hive, null), loc, map);
+				hive.SetFaction(Faction.OfInsects, null);
+				IncidentWorker_Infestation.SpawnInsectJellyInstantly(hive);
+				for (int i = 0; i < hiveCount - 1; i++)
 				{
-					IncidentWorker_Infestation.SpawnInsectJellyInstantly(hive2);
-					hive = hive2;
+					Hive hive2 = default(Hive);
+					if (hive.GetComp<CompSpawnerHives>().TrySpawnChildHive(false, out hive2))
+					{
+						IncidentWorker_Infestation.SpawnInsectJellyInstantly(hive2);
+						hive = hive2;
+					}
 				}
+				result = hive;
 			}
-			return hive;
+			return result;
 		}
 
 		private static void SpawnInsectJellyInstantly(Hive hive)
 		{
-			CompSpawner compSpawner = (CompSpawner)hive.AllComps.Find((Predicate<ThingComp>)delegate(ThingComp x)
+			using (IEnumerator<CompSpawner> enumerator = hive.GetComps<CompSpawner>().GetEnumerator())
 			{
-				CompSpawner compSpawner2 = x as CompSpawner;
-				return compSpawner2 != null && compSpawner2.PropsSpawner.thingToSpawn == ThingDefOf.InsectJelly;
-			});
-			if (compSpawner != null)
-			{
-				compSpawner.TryDoSpawn();
+				CompSpawner current;
+				while (true)
+				{
+					if (enumerator.MoveNext())
+					{
+						current = enumerator.Current;
+						if (current.PropsSpawner.thingToSpawn == ThingDefOf.InsectJelly)
+							break;
+						continue;
+					}
+					return;
+				}
+				current.TryDoSpawn();
 			}
 		}
 	}

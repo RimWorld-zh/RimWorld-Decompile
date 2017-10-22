@@ -5,7 +5,7 @@ namespace Verse.AI
 {
 	public class ThinkNode_PrioritySorter : ThinkNode
 	{
-		public float minPriority;
+		public float minPriority = 0f;
 
 		private static List<ThinkNode> workingNodes = new List<ThinkNode>();
 
@@ -24,48 +24,54 @@ namespace Verse.AI
 			{
 				ThinkNode_PrioritySorter.workingNodes.Insert(Rand.Range(0, ThinkNode_PrioritySorter.workingNodes.Count - 1), base.subNodes[num]);
 			}
-			while (ThinkNode_PrioritySorter.workingNodes.Count > 0)
+			ThinkResult result;
+			while (true)
 			{
-				float num2 = 0f;
-				int num3 = -1;
-				for (int i = 0; i < ThinkNode_PrioritySorter.workingNodes.Count; i++)
+				if (ThinkNode_PrioritySorter.workingNodes.Count > 0)
 				{
-					float num4 = 0f;
-					try
+					float num2 = 0f;
+					int num3 = -1;
+					for (int i = 0; i < ThinkNode_PrioritySorter.workingNodes.Count; i++)
 					{
-						num4 = ThinkNode_PrioritySorter.workingNodes[i].GetPriority(pawn);
+						float num4 = 0f;
+						try
+						{
+							num4 = ThinkNode_PrioritySorter.workingNodes[i].GetPriority(pawn);
+						}
+						catch (Exception ex)
+						{
+							Log.Error("Exception in " + base.GetType() + " GetPriority: " + ex.ToString());
+						}
+						if (!(num4 <= 0.0) && !(num4 < this.minPriority) && num4 > num2)
+						{
+							num2 = num4;
+							num3 = i;
+						}
 					}
-					catch (Exception ex)
+					if (num3 != -1)
 					{
-						Log.Error("Exception in " + base.GetType() + " GetPriority: " + ex.ToString());
-					}
-					if (!(num4 <= 0.0) && !(num4 < this.minPriority) && num4 > num2)
-					{
-						num2 = num4;
-						num3 = i;
+						ThinkResult thinkResult = ThinkResult.NoJob;
+						try
+						{
+							thinkResult = ThinkNode_PrioritySorter.workingNodes[num3].TryIssueJobPackage(pawn, jobParams);
+						}
+						catch (Exception ex2)
+						{
+							Log.Error("Exception in " + base.GetType() + " TryIssueJobPackage: " + ex2.ToString());
+						}
+						if (thinkResult.IsValid)
+						{
+							result = thinkResult;
+							break;
+						}
+						ThinkNode_PrioritySorter.workingNodes.RemoveAt(num3);
+						continue;
 					}
 				}
-				if (num3 != -1)
-				{
-					ThinkResult result = ThinkResult.NoJob;
-					try
-					{
-						result = ThinkNode_PrioritySorter.workingNodes[num3].TryIssueJobPackage(pawn, jobParams);
-					}
-					catch (Exception ex2)
-					{
-						Log.Error("Exception in " + base.GetType() + " TryIssueJobPackage: " + ex2.ToString());
-					}
-					if (result.IsValid)
-					{
-						return result;
-					}
-					ThinkNode_PrioritySorter.workingNodes.RemoveAt(num3);
-					continue;
-				}
+				result = ThinkResult.NoJob;
 				break;
 			}
-			return ThinkResult.NoJob;
+			return result;
 		}
 	}
 }

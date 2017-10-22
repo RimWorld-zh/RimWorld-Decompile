@@ -17,18 +17,23 @@ namespace Verse.AI.Group
 					{
 						Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Heatstroke, false);
 						if (firstHediffOfDef != null && firstHediffOfDef.Severity > this.temperatureHediffThreshold)
-						{
-							return true;
-						}
+							goto IL_008d;
 						Hediff firstHediffOfDef2 = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Hypothermia, false);
 						if (firstHediffOfDef2 != null && firstHediffOfDef2.Severity > this.temperatureHediffThreshold)
-						{
-							return true;
-						}
+							goto IL_00c5;
 					}
 				}
 			}
-			return false;
+			bool result = false;
+			goto IL_00ea;
+			IL_00ea:
+			return result;
+			IL_008d:
+			result = true;
+			goto IL_00ea;
+			IL_00c5:
+			result = true;
+			goto IL_00ea;
 		}
 	}
 }

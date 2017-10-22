@@ -17,24 +17,33 @@ namespace RimWorld
 		public static Blueprint_Install ExistingBlueprintFor(Thing th)
 		{
 			ThingDef installBlueprintDef = th.GetInnerIfMinified().def.installBlueprintDef;
+			Blueprint_Install result;
+			Blueprint_Install blueprint_Install;
 			if (installBlueprintDef == null)
 			{
-				return null;
+				result = null;
 			}
-			List<Map> maps = Find.Maps;
-			for (int i = 0; i < maps.Count; i++)
+			else
 			{
-				List<Thing> list = maps[i].listerThings.ThingsMatching(ThingRequest.ForDef(installBlueprintDef));
-				for (int j = 0; j < list.Count; j++)
+				List<Map> maps = Find.Maps;
+				for (int i = 0; i < maps.Count; i++)
 				{
-					Blueprint_Install blueprint_Install = list[j] as Blueprint_Install;
-					if (blueprint_Install != null && blueprint_Install.MiniToInstallOrBuildingToReinstall == th)
+					List<Thing> list = maps[i].listerThings.ThingsMatching(ThingRequest.ForDef(installBlueprintDef));
+					for (int j = 0; j < list.Count; j++)
 					{
-						return blueprint_Install;
+						blueprint_Install = (list[j] as Blueprint_Install);
+						if (blueprint_Install != null && blueprint_Install.MiniToInstallOrBuildingToReinstall == th)
+							goto IL_0073;
 					}
 				}
+				result = null;
 			}
-			return null;
+			goto IL_00a8;
+			IL_0073:
+			result = blueprint_Install;
+			goto IL_00a8;
+			IL_00a8:
+			return result;
 		}
 	}
 }

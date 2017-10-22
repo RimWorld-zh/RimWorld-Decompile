@@ -22,12 +22,11 @@ namespace Verse
 
 		protected override void DoListingItems()
 		{
-			base.listing.Label("Logs", -1f);
+			base.DoLabel("Logs");
 			MethodInfo[] methods = typeof(DataAnalysisLogger).GetMethods(BindingFlags.Static | BindingFlags.Public);
-			MethodInfo mi;
 			for (int i = 0; i < methods.Length; i++)
 			{
-				mi = methods[i];
+				MethodInfo mi = methods[i];
 				string name = mi.Name;
 				if (name.StartsWith("DoLog_"))
 				{
@@ -87,9 +86,29 @@ namespace Verse
 				{
 					Find.FactionManager.LogKidnappedPawns();
 				});
-				base.DebugAction("World pawns", (Action)delegate
+				base.DebugAction("World pawn list", (Action)delegate
 				{
 					Find.WorldPawns.LogWorldPawns();
+				});
+				base.DebugAction("World pawn mothball info", (Action)delegate
+				{
+					Find.WorldPawns.LogWorldPawnMothballPrevention();
+				});
+				base.DebugAction("World pawn GC breakdown", (Action)delegate
+				{
+					Find.WorldPawns.gc.LogGC();
+				});
+				base.DebugAction("World pawn dotgraph", (Action)delegate
+				{
+					Find.WorldPawns.gc.LogDotgraph();
+				});
+				base.DebugAction("Run world pawn GC", (Action)delegate
+				{
+					Find.WorldPawns.gc.RunGC();
+				});
+				base.DebugAction("Run world pawn mothball", (Action)delegate
+				{
+					Find.WorldPawns.DebugRunMothballProcessing();
 				});
 				base.DebugAction("Draw list", (Action)delegate
 				{
@@ -103,19 +122,22 @@ namespace Verse
 				{
 					StorytellerUtility.DebugLogTestFutureIncidents(true);
 				});
+				base.DebugAction("Incident targets", (Action)delegate
+				{
+					StorytellerUtility.DebugLogTestIncidentTargets();
+				});
 				base.DebugAction("Map pawns", (Action)delegate
 				{
 					Find.VisibleMap.mapPawns.LogListedPawns();
 				});
 			}
-			base.listing.Gap(12f);
+			base.DoGap();
 			Text.Font = GameFont.Small;
-			base.listing.Label("Tables", -1f);
+			base.DoLabel("Tables");
 			MethodInfo[] methods2 = typeof(DataAnalysisTableMaker).GetMethods(BindingFlags.Static | BindingFlags.Public);
-			MethodInfo mi2;
 			for (int j = 0; j < methods2.Length; j++)
 			{
-				mi2 = methods2[j];
+				MethodInfo mi2 = methods2[j];
 				string name2 = mi2.Name;
 				if (name2.StartsWith("DoTable_"))
 				{
@@ -125,8 +147,8 @@ namespace Verse
 					});
 				}
 			}
-			base.listing.Gap(12f);
-			base.listing.Label("UI", -1f);
+			base.DoGap();
+			base.DoLabel("UI");
 			base.DebugAction("Pawn column", (Action)delegate
 			{
 				List<DebugMenuOption> list = new List<DebugMenuOption>();

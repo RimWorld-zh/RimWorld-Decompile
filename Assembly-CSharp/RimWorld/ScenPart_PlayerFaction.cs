@@ -72,10 +72,10 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			if (this.factionDef == null)
-			{
-				yield return "factionDef is null";
-			}
+			if (this.factionDef != null)
+				yield break;
+			yield return "factionDef is null";
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

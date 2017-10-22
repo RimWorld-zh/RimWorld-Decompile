@@ -5,9 +5,9 @@ namespace RimWorld
 {
 	public abstract class Lesson : IExposable
 	{
-		public const float KnowledgeForAutoVanish = 0.2f;
-
 		public float startRealTime = -999f;
+
+		public const float KnowledgeForAutoVanish = 0.2f;
 
 		protected float AgeSeconds
 		{

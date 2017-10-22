@@ -7,7 +7,7 @@ namespace Verse
 	{
 		public string name = "Unnamed";
 
-		public bool unique;
+		public bool unique = false;
 
 		public List<string> texts = new List<string>();
 
@@ -17,52 +17,25 @@ namespace Verse
 		public bool isRoot = true;
 
 		[Unsaved]
-		public bool used;
+		public bool used = false;
 
 		[Unsaved]
-		public DiaNodeType nodeType;
+		public DiaNodeType nodeType = DiaNodeType.Undefined;
 
 		public void PostLoad()
 		{
 			int num = 0;
-			List<string>.Enumerator enumerator = this.texts.ListFullCopy().GetEnumerator();
-			try
+			foreach (string item in this.texts.ListFullCopy())
 			{
-				while (enumerator.MoveNext())
+				this.texts[num] = item.Replace("\\n", Environment.NewLine);
+				num++;
+			}
+			foreach (DiaOptionMold option in this.optionList)
+			{
+				foreach (DiaNodeMold childNode in option.ChildNodes)
 				{
-					string current = enumerator.Current;
-					this.texts[num] = current.Replace("\\n", Environment.NewLine);
-					num++;
+					childNode.PostLoad();
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
-			List<DiaOptionMold>.Enumerator enumerator2 = this.optionList.GetEnumerator();
-			try
-			{
-				while (enumerator2.MoveNext())
-				{
-					DiaOptionMold current2 = enumerator2.Current;
-					List<DiaNodeMold>.Enumerator enumerator3 = current2.ChildNodes.GetEnumerator();
-					try
-					{
-						while (enumerator3.MoveNext())
-						{
-							DiaNodeMold current3 = enumerator3.Current;
-							current3.PostLoad();
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator3).Dispose();
-					}
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
 			}
 		}
 	}

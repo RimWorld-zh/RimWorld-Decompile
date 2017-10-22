@@ -5,26 +5,36 @@ namespace RimWorld
 {
 	public class PlaceWorker_NextToHopperAccepter : PlaceWorker
 	{
-		public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Thing thingToIgnore = null)
+		public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
-			for (int i = 0; i < 4; i++)
+			int num = 0;
+			AcceptanceReport result;
+			while (true)
 			{
-				IntVec3 c = loc + GenAdj.CardinalDirections[i];
-				if (c.InBounds(base.Map))
+				if (num < 4)
 				{
-					List<Thing> thingList = c.GetThingList(base.Map);
-					for (int j = 0; j < thingList.Count; j++)
+					IntVec3 c = loc + GenAdj.CardinalDirections[num];
+					if (c.InBounds(map))
 					{
-						Thing thing = thingList[j];
-						ThingDef thingDef = GenConstruct.BuiltDefOf(thing.def) as ThingDef;
-						if (thingDef != null && thingDef.building != null && thingDef.building.wantsHopperAdjacent)
+						List<Thing> thingList = c.GetThingList(map);
+						for (int i = 0; i < thingList.Count; i++)
 						{
-							return true;
+							Thing thing = thingList[i];
+							ThingDef thingDef = GenConstruct.BuiltDefOf(thing.def) as ThingDef;
+							if (thingDef != null && thingDef.building != null && thingDef.building.wantsHopperAdjacent)
+								goto IL_0088;
 						}
 					}
+					num++;
+					continue;
 				}
+				result = "MustPlaceNextToHopperAccepter".Translate();
+				break;
+				IL_0088:
+				result = true;
+				break;
 			}
-			return "MustPlaceNextToHopperAccepter".Translate();
+			return result;
 		}
 	}
 }

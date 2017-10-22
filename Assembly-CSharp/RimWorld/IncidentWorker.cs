@@ -7,7 +7,7 @@ namespace RimWorld
 {
 	public class IncidentWorker
 	{
-		public IncidentDef def;
+		public IncidentDef def = null;
 
 		public virtual float AdjustedChance
 		{
@@ -19,69 +19,76 @@ namespace RimWorld
 
 		public bool CanFireNow(IIncidentTarget target)
 		{
+			bool result;
 			if (!this.def.TargetAllowed(target))
 			{
-				return false;
+				result = false;
 			}
-			if (GenDate.DaysPassed < this.def.earliestDay)
+			else if (GenDate.DaysPassed < this.def.earliestDay)
 			{
-				return false;
+				result = false;
 			}
-			if (PawnsFinder.AllMapsCaravansAndTravelingTransportPods_FreeColonists.Count() < this.def.minPopulation)
+			else if (this.def.minPopulation > 0 && PawnsFinder.AllMapsCaravansAndTravelingTransportPods_FreeColonists.Count() < this.def.minPopulation)
 			{
-				return false;
+				result = false;
 			}
-			if (Find.Storyteller.difficulty.difficulty < this.def.minDifficulty)
+			else if (Find.Storyteller.difficulty.difficulty < this.def.minDifficulty)
 			{
-				return false;
+				result = false;
 			}
-			if (this.def.allowedBiomes != null)
+			else
 			{
-				BiomeDef biome = Find.WorldGrid[target.Tile].biome;
-				if (!this.def.allowedBiomes.Contains(biome))
+				if (this.def.allowedBiomes != null)
 				{
-					return false;
-				}
-			}
-			for (int i = 0; i < Find.Scenario.parts.Count; i++)
-			{
-				ScenPart_DisableIncident scenPart_DisableIncident = Find.Scenario.parts[i] as ScenPart_DisableIncident;
-				if (scenPart_DisableIncident != null && scenPart_DisableIncident.Incident == this.def)
-				{
-					return false;
-				}
-			}
-			Dictionary<IncidentDef, int> lastFireTicks = target.StoryState.lastFireTicks;
-			int ticksGame = Find.TickManager.TicksGame;
-			int num = default(int);
-			if (lastFireTicks.TryGetValue(this.def, out num))
-			{
-				float num2 = (float)((float)(ticksGame - num) / 60000.0);
-				if (num2 < this.def.minRefireDays)
-				{
-					return false;
-				}
-			}
-			List<IncidentDef> refireCheckIncidents = this.def.RefireCheckIncidents;
-			if (refireCheckIncidents != null)
-			{
-				for (int j = 0; j < refireCheckIncidents.Count; j++)
-				{
-					if (lastFireTicks.TryGetValue(refireCheckIncidents[j], out num))
+					BiomeDef biome = Find.WorldGrid[target.Tile].biome;
+					if (!this.def.allowedBiomes.Contains(biome))
 					{
-						float num3 = (float)((float)(ticksGame - num) / 60000.0);
-						if (num3 < this.def.minRefireDays)
+						result = false;
+						goto IL_020c;
+					}
+				}
+				for (int i = 0; i < Find.Scenario.parts.Count; i++)
+				{
+					ScenPart_DisableIncident scenPart_DisableIncident = Find.Scenario.parts[i] as ScenPart_DisableIncident;
+					if (scenPart_DisableIncident != null && scenPart_DisableIncident.Incident == this.def)
+						goto IL_0107;
+				}
+				Dictionary<IncidentDef, int> lastFireTicks = target.StoryState.lastFireTicks;
+				int ticksGame = Find.TickManager.TicksGame;
+				int num = default(int);
+				if (lastFireTicks.TryGetValue(this.def, out num))
+				{
+					float num2 = (float)((float)(ticksGame - num) / 60000.0);
+					if (num2 < this.def.minRefireDays)
+					{
+						result = false;
+						goto IL_020c;
+					}
+				}
+				List<IncidentDef> refireCheckIncidents = this.def.RefireCheckIncidents;
+				if (refireCheckIncidents != null)
+				{
+					for (int j = 0; j < refireCheckIncidents.Count; j++)
+					{
+						if (lastFireTicks.TryGetValue(refireCheckIncidents[j], out num))
 						{
-							return false;
+							float num3 = (float)((float)(ticksGame - num) / 60000.0);
+							if (num3 < this.def.minRefireDays)
+								goto IL_01d4;
 						}
 					}
 				}
+				result = ((byte)(this.CanFireNowSub(target) ? 1 : 0) != 0);
 			}
-			if (!this.CanFireNowSub(target))
-			{
-				return false;
-			}
-			return true;
+			goto IL_020c;
+			IL_0107:
+			result = false;
+			goto IL_020c;
+			IL_01d4:
+			result = false;
+			goto IL_020c;
+			IL_020c:
+			return result;
 		}
 
 		protected virtual bool CanFireNowSub(IIncidentTarget target)
@@ -89,7 +96,33 @@ namespace RimWorld
 			return true;
 		}
 
-		public virtual bool TryExecute(IncidentParms parms)
+		public bool TryExecute(IncidentParms parms)
+		{
+			bool flag = this.TryExecuteWorker(parms);
+			if (flag && this.def.tale != null)
+			{
+				Pawn pawn = null;
+				if (parms.target is Caravan)
+				{
+					pawn = (parms.target as Caravan).RandomOwner();
+				}
+				else if (parms.target is Map)
+				{
+					pawn = (parms.target as Map).mapPawns.FreeColonistsSpawned.RandomElementWithFallback(null);
+				}
+				else if (parms.target is World)
+				{
+					pawn = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_FreeColonists.RandomElementWithFallback(null);
+				}
+				if (pawn != null)
+				{
+					TaleRecorder.RecordTale(this.def.tale, pawn);
+				}
+			}
+			return flag;
+		}
+
+		protected virtual bool TryExecuteWorker(IncidentParms parms)
 		{
 			Log.Error("Unimplemented incident " + this);
 			return false;

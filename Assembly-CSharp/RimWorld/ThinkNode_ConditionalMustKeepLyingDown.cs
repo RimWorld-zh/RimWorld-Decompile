@@ -7,29 +7,39 @@ namespace RimWorld
 	{
 		protected override bool Satisfied(Pawn pawn)
 		{
-			if (((pawn.CurJob != null) ? pawn.jobs.curDriver.layingDown : LayingDownState.NotLaying) != 0)
+			bool result;
+			if (pawn.CurJob == null || pawn.jobs.curDriver.layingDown == LayingDownState.NotLaying)
+			{
+				result = false;
+			}
+			else
 			{
 				if (!pawn.Downed)
 				{
 					if (RestUtility.DisturbancePreventsLyingDown(pawn))
 					{
-						return false;
+						result = false;
+						goto IL_00ab;
 					}
 					if (!pawn.CurJob.restUntilHealed || !HealthAIUtility.ShouldSeekMedicalRest(pawn))
 					{
 						if (!pawn.jobs.curDriver.asleep)
 						{
-							return false;
+							result = false;
+							goto IL_00ab;
 						}
 						if (!pawn.CurJob.playerForced && RestUtility.TimetablePreventsLayDown(pawn))
 						{
-							return false;
+							result = false;
+							goto IL_00ab;
 						}
 					}
 				}
-				return true;
+				result = true;
 			}
-			return false;
+			goto IL_00ab;
+			IL_00ab:
+			return result;
 		}
 	}
 }

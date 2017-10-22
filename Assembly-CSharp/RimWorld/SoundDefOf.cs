@@ -91,14 +91,6 @@ namespace RimWorld
 
 		public static SoundDef ColonistOrdered;
 
-		public static SoundDef MessageAlert;
-
-		public static SoundDef MessageBenefit;
-
-		public static SoundDef MessageAlertNegative;
-
-		public static SoundDef MessageSeriousAlert;
-
 		public static SoundDef LetterArriveBadUrgent;
 
 		public static SoundDef LetterArrive;
@@ -234,6 +226,8 @@ namespace RimWorld
 		public static SoundDef ArtilleryShellLoaded;
 
 		public static SoundDef TechMedicineUsed;
+
+		public static SoundDef OrbitalBeam;
 
 		public static SoundDef GameStartSting;
 

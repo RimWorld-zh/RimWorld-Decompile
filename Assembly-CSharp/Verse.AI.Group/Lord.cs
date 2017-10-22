@@ -10,8 +10,6 @@ namespace Verse.AI.Group
 	[StaticConstructorOnStartup]
 	public class Lord : IExposable, ILoadReferenceable
 	{
-		private const int AttackTargetCacheInterval = 60;
-
 		public LordManager lordManager;
 
 		private LordToil curLordToil;
@@ -30,15 +28,17 @@ namespace Verse.AI.Group
 
 		private bool initialized;
 
-		public int ticksInToil;
+		public int ticksInToil = 0;
 
-		public int numPawnsLostViolently;
+		public int numPawnsLostViolently = 0;
 
-		public int numPawnsEverGained;
+		public int numPawnsEverGained = 0;
 
-		public int initialColonyHealthTotal;
+		public int initialColonyHealthTotal = 0;
 
 		public int lastPawnHarmTick = -99999;
+
+		private const int AttackTargetCacheInterval = 60;
 
 		private static readonly Material FlagTex = MaterialPool.MatFrom("UI/Overlays/SquadFlag");
 
@@ -160,47 +160,29 @@ namespace Verse.AI.Group
 					LordJob job = this.curJob;
 					this.curJob = null;
 					this.SetJob(job);
-					Dictionary<int, LordToilData>.Enumerator enumerator = this.tmpLordToilData.GetEnumerator();
-					try
+					foreach (KeyValuePair<int, LordToilData> tmpLordToilDatum in this.tmpLordToilData)
 					{
-						while (enumerator.MoveNext())
+						if (tmpLordToilDatum.Key < 0 || tmpLordToilDatum.Key >= this.graph.lordToils.Count)
 						{
-							KeyValuePair<int, LordToilData> current = enumerator.Current;
-							if (current.Key < 0 || current.Key >= this.graph.lordToils.Count)
-							{
-								Log.Error("Could not find lord toil for lord toil data of type \"" + current.Value.GetType() + "\" (lord job: \"" + this.curJob.GetType() + "\"), because lord toil index is out of bounds: " + current.Key);
-							}
-							else
-							{
-								this.graph.lordToils[current.Key].data = current.Value;
-							}
+							Log.Error("Could not find lord toil for lord toil data of type \"" + tmpLordToilDatum.Value.GetType() + "\" (lord job: \"" + this.curJob.GetType() + "\"), because lord toil index is out of bounds: " + tmpLordToilDatum.Key);
 						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
+						else
+						{
+							this.graph.lordToils[tmpLordToilDatum.Key].data = tmpLordToilDatum.Value;
+						}
 					}
 					this.tmpLordToilData.Clear();
-					Dictionary<int, TriggerData>.Enumerator enumerator2 = this.tmpTriggerData.GetEnumerator();
-					try
+					foreach (KeyValuePair<int, TriggerData> tmpTriggerDatum in this.tmpTriggerData)
 					{
-						while (enumerator2.MoveNext())
+						Trigger triggerByIndex = this.GetTriggerByIndex(tmpTriggerDatum.Key);
+						if (triggerByIndex == null)
 						{
-							KeyValuePair<int, TriggerData> current2 = enumerator2.Current;
-							Trigger triggerByIndex = this.GetTriggerByIndex(current2.Key);
-							if (triggerByIndex == null)
-							{
-								Log.Error("Could not find trigger for trigger data of type \"" + current2.Value.GetType() + "\" (lord job: \"" + this.curJob.GetType() + "\"), because trigger index is out of bounds: " + current2.Key);
-							}
-							else
-							{
-								triggerByIndex.data = current2.Value;
-							}
+							Log.Error("Could not find trigger for trigger data of type \"" + tmpTriggerDatum.Value.GetType() + "\" (lord job: \"" + this.curJob.GetType() + "\"), because trigger index is out of bounds: " + tmpTriggerDatum.Key);
 						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator2).Dispose();
+						else
+						{
+							triggerByIndex.data = tmpTriggerDatum.Value;
+						}
 					}
 					this.tmpTriggerData.Clear();
 					if (this.tmpCurLordToilIdx < 0 || this.tmpCurLordToilIdx >= this.graph.lordToils.Count)
@@ -229,7 +211,7 @@ namespace Verse.AI.Group
 			this.graph = lordJob.CreateGraph();
 			Rand.PopState();
 			this.graph.ErrorCheck();
-			if (this.faction.def.autoFlee)
+			if (this.faction != null && this.faction.def.autoFlee)
 			{
 				LordToil_PanicFlee lordToil_PanicFlee = new LordToil_PanicFlee();
 				lordToil_PanicFlee.avoidGridMode = AvoidGridMode.Smart;
@@ -277,7 +259,7 @@ namespace Verse.AI.Group
 		{
 			if (this.ownedPawns.Contains(p))
 			{
-				Log.Error("Lord for " + this.faction + " tried to add " + p + " whom it already controls.");
+				Log.Error("Lord for " + this.faction.ToStringSafe() + " tried to add " + p + " whom it already controls.");
 			}
 			else if (p.GetLord() != null)
 			{
@@ -342,18 +324,29 @@ namespace Verse.AI.Group
 		private Trigger GetTriggerByIndex(int index)
 		{
 			int num = 0;
-			for (int i = 0; i < this.graph.transitions.Count; i++)
+			int num2 = 0;
+			Trigger result;
+			while (true)
 			{
-				for (int j = 0; j < this.graph.transitions[i].triggers.Count; j++)
+				int i;
+				if (num2 < this.graph.transitions.Count)
 				{
-					if (num == index)
+					for (i = 0; i < this.graph.transitions[num2].triggers.Count; i++)
 					{
-						return this.graph.transitions[i].triggers[j];
+						if (num == index)
+							goto IL_001a;
+						num++;
 					}
-					num++;
+					num2++;
+					continue;
 				}
+				result = null;
+				break;
+				IL_001a:
+				result = this.graph.transitions[num2].triggers[i];
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public void ReceiveMemo(string memo)
@@ -450,14 +443,24 @@ namespace Verse.AI.Group
 			{
 				this.lastPawnHarmTick = Find.TickManager.TicksGame;
 			}
-			for (int i = 0; i < this.graph.transitions.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (this.graph.transitions[i].sources.Contains(this.curLordToil) && this.graph.transitions[i].CheckSignal(this, signal))
+				if (num < this.graph.transitions.Count)
 				{
-					return true;
+					if (this.graph.transitions[num].sources.Contains(this.curLordToil) && this.graph.transitions[num].CheckSignal(this, signal))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		private Vector3 DebugCenter()
@@ -494,19 +497,10 @@ namespace Verse.AI.Group
 				Graphics.DrawMesh(MeshPool.plane14, flagLoc.ToVector3ShiftedWithAltitude(AltitudeLayer.Building), Quaternion.identity, Lord.FlagTex, 0);
 			}
 			GenDraw.DrawLineBetween(a, flagLoc.ToVector3Shifted(), SimpleColor.Red);
-			List<Pawn>.Enumerator enumerator = this.ownedPawns.GetEnumerator();
-			try
+			foreach (Pawn ownedPawn in this.ownedPawns)
 			{
-				while (enumerator.MoveNext())
-				{
-					Pawn current = enumerator.Current;
-					SimpleColor color = (SimpleColor)(current.InMentalState ? 5 : 0);
-					GenDraw.DrawLineBetween(a, current.DrawPos, color);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				SimpleColor color = (SimpleColor)(ownedPawn.InMentalState ? 5 : 0);
+				GenDraw.DrawLineBetween(a, ownedPawn.DrawPos, color);
 			}
 		}
 
@@ -525,21 +519,15 @@ namespace Verse.AI.Group
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("Start steal threshold: " + StealAIUtility.StartStealingMarketValueThreshold(this).ToString("F0"));
 			stringBuilder.AppendLine("Duties:");
-			List<Pawn>.Enumerator enumerator = this.ownedPawns.GetEnumerator();
-			try
+			foreach (Pawn ownedPawn in this.ownedPawns)
 			{
-				while (enumerator.MoveNext())
-				{
-					Pawn current = enumerator.Current;
-					stringBuilder.AppendLine("   " + current.LabelCap + " - " + current.mindState.duty);
-				}
+				stringBuilder.AppendLine("   " + ownedPawn.LabelCap + " - " + ownedPawn.mindState.duty);
 			}
-			finally
+			if (this.faction != null)
 			{
-				((IDisposable)(object)enumerator).Dispose();
+				stringBuilder.AppendLine("Faction data:");
+				stringBuilder.AppendLine(this.faction.DebugString());
 			}
-			stringBuilder.AppendLine("Faction data:");
-			stringBuilder.AppendLine(this.faction.DebugString());
 			stringBuilder.AppendLine("Raw save data:");
 			stringBuilder.AppendLine(Scribe.saver.DebugOutputFor(this));
 			return stringBuilder.ToString();
@@ -549,18 +537,26 @@ namespace Verse.AI.Group
 		{
 			IntVec3 a = UI.MouseCell();
 			IntVec3 flagLoc = this.curLordToil.FlagLoc;
+			bool result;
 			if (flagLoc.IsValid && a == flagLoc)
 			{
-				return true;
+				result = true;
 			}
-			for (int i = 0; i < this.ownedPawns.Count; i++)
+			else
 			{
-				if (a == this.ownedPawns[i].Position)
+				for (int i = 0; i < this.ownedPawns.Count; i++)
 				{
-					return true;
+					if (a == this.ownedPawns[i].Position)
+						goto IL_0056;
 				}
+				result = false;
 			}
-			return false;
+			goto IL_007a;
+			IL_007a:
+			return result;
+			IL_0056:
+			result = true;
+			goto IL_007a;
 		}
 	}
 }

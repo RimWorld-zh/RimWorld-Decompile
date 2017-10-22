@@ -33,7 +33,7 @@ namespace Verse
 			if (text == null)
 			{
 				Log.Error("TipSignal with null text.");
-				text = string.Empty;
+				text = "";
 			}
 			this.text = text;
 			this.textGetter = null;
@@ -43,7 +43,7 @@ namespace Verse
 
 		public TipSignal(Func<string> textGetter, int uniqueId)
 		{
-			this.text = string.Empty;
+			this.text = "";
 			this.textGetter = textGetter;
 			this.uniqueId = uniqueId;
 			this.priority = TooltipPriority.Default;
@@ -57,14 +57,14 @@ namespace Verse
 			this.uniqueId = cloneSource.uniqueId;
 		}
 
-		public override string ToString()
-		{
-			return "Tip(" + this.text + ", " + this.uniqueId + ")";
-		}
-
 		public static implicit operator TipSignal(string str)
 		{
 			return new TipSignal(str);
+		}
+
+		public override string ToString()
+		{
+			return "Tip(" + this.text + ", " + this.uniqueId + ")";
 		}
 	}
 }

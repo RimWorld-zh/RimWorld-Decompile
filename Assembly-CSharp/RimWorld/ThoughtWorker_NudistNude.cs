@@ -8,22 +8,33 @@ namespace RimWorld
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			List<Apparel> wornApparel = p.apparel.WornApparel;
-			for (int i = 0; i < wornApparel.Count; i++)
+			int num = 0;
+			ThoughtState result;
+			while (true)
 			{
-				Apparel apparel = wornApparel[i];
-				for (int j = 0; j < apparel.def.apparel.bodyPartGroups.Count; j++)
+				if (num < wornApparel.Count)
 				{
-					if (apparel.def.apparel.bodyPartGroups[j] == BodyPartGroupDefOf.Torso)
+					Apparel apparel = wornApparel[num];
+					for (int i = 0; i < apparel.def.apparel.bodyPartGroups.Count; i++)
 					{
-						return false;
+						if (apparel.def.apparel.bodyPartGroups[i] == BodyPartGroupDefOf.Torso)
+							goto IL_0045;
+						if (apparel.def.apparel.bodyPartGroups[i] == BodyPartGroupDefOf.Legs)
+							goto IL_0072;
 					}
-					if (apparel.def.apparel.bodyPartGroups[j] == BodyPartGroupDefOf.Legs)
-					{
-						return false;
-					}
+					num++;
+					continue;
 				}
+				result = true;
+				break;
+				IL_0045:
+				result = false;
+				break;
+				IL_0072:
+				result = false;
+				break;
 			}
-			return true;
+			return result;
 		}
 	}
 }

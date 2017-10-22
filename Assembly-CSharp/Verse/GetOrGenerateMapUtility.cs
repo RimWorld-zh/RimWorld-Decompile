@@ -8,6 +8,7 @@ namespace Verse
 		public static Map GetOrGenerateMap(int tile, IntVec3 size, WorldObjectDef suggestedMapParentDef)
 		{
 			Map map = Current.Game.FindMap(tile);
+			Map result;
 			if (map == null)
 			{
 				MapParent mapParent = Find.WorldObjects.MapParentAt(tile);
@@ -16,7 +17,8 @@ namespace Verse
 					if (suggestedMapParentDef == null)
 					{
 						Log.Error("Tried to get or generate map at " + tile + ", but there isn't any MapParent world object here and map parent def argument is null.");
-						return null;
+						result = null;
+						goto IL_0092;
 					}
 					mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(suggestedMapParentDef);
 					mapParent.Tile = tile;
@@ -24,7 +26,10 @@ namespace Verse
 				}
 				map = MapGenerator.GenerateMap(size, mapParent, mapParent.MapGeneratorDef, mapParent.ExtraGenStepDefs, null);
 			}
-			return map;
+			result = map;
+			goto IL_0092;
+			IL_0092:
+			return result;
 		}
 
 		public static Map GetOrGenerateMap(int tile, WorldObjectDef suggestedMapParentDef)

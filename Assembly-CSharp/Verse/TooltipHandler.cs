@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Verse
 {
 	public static class TooltipHandler
 	{
-		private const float SpaceBetweenTooltips = 2f;
-
 		private static Dictionary<int, ActiveTip> activeTips = new Dictionary<int, ActiveTip>();
 
 		private static int frame = 0;
@@ -16,26 +15,22 @@ namespace Verse
 
 		private static float TooltipDelay = 0.45f;
 
+		private const float SpaceBetweenTooltips = 2f;
+
+		[CompilerGenerated]
+		private static Comparison<ActiveTip> _003C_003Ef__mg_0024cache0;
+
 		public static void ClearTooltipsFrom(Rect rect)
 		{
 			if (Event.current.type == EventType.Repaint && Mouse.IsOver(rect))
 			{
 				TooltipHandler.dyingTips.Clear();
-				Dictionary<int, ActiveTip>.Enumerator enumerator = TooltipHandler.activeTips.GetEnumerator();
-				try
+				foreach (KeyValuePair<int, ActiveTip> activeTip in TooltipHandler.activeTips)
 				{
-					while (enumerator.MoveNext())
+					if (activeTip.Value.lastTriggerFrame == TooltipHandler.frame)
 					{
-						KeyValuePair<int, ActiveTip> current = enumerator.Current;
-						if (current.Value.lastTriggerFrame == TooltipHandler.frame)
-						{
-							TooltipHandler.dyingTips.Add(current.Key);
-						}
+						TooltipHandler.dyingTips.Add(activeTip.Key);
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
 				}
 				for (int i = 0; i < TooltipHandler.dyingTips.Count; i++)
 				{
@@ -82,21 +77,12 @@ namespace Verse
 		private static void DrawActiveTips()
 		{
 			List<ActiveTip> list = new List<ActiveTip>();
-			Dictionary<int, ActiveTip>.Enumerator enumerator = TooltipHandler.activeTips.GetEnumerator();
-			try
+			foreach (KeyValuePair<int, ActiveTip> activeTip in TooltipHandler.activeTips)
 			{
-				while (enumerator.MoveNext())
+				if ((double)Time.realtimeSinceStartup > activeTip.Value.firstTriggerTime + (double)TooltipHandler.TooltipDelay)
 				{
-					KeyValuePair<int, ActiveTip> current = enumerator.Current;
-					if ((double)Time.realtimeSinceStartup > current.Value.firstTriggerTime + (double)TooltipHandler.TooltipDelay)
-					{
-						list.Add(current.Value);
-					}
+					list.Add(activeTip.Value);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			list.Sort(new Comparison<ActiveTip>(TooltipHandler.CompareTooltipsByPriority));
 			Vector2 pos = TooltipHandler.CalculateInitialTipPosition(list);
@@ -110,21 +96,12 @@ namespace Verse
 		private static void CleanActiveTooltips()
 		{
 			TooltipHandler.dyingTips.Clear();
-			Dictionary<int, ActiveTip>.Enumerator enumerator = TooltipHandler.activeTips.GetEnumerator();
-			try
+			foreach (KeyValuePair<int, ActiveTip> activeTip in TooltipHandler.activeTips)
 			{
-				while (enumerator.MoveNext())
+				if (activeTip.Value.lastTriggerFrame != TooltipHandler.frame)
 				{
-					KeyValuePair<int, ActiveTip> current = enumerator.Current;
-					if (current.Value.lastTriggerFrame != TooltipHandler.frame)
-					{
-						TooltipHandler.dyingTips.Add(current.Key);
-					}
+					TooltipHandler.dyingTips.Add(activeTip.Key);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			for (int i = 0; i < TooltipHandler.dyingTips.Count; i++)
 			{
@@ -156,19 +133,7 @@ namespace Verse
 
 		private static int CompareTooltipsByPriority(ActiveTip A, ActiveTip B)
 		{
-			if (A.signal.priority == B.signal.priority)
-			{
-				return 0;
-			}
-			if (A.signal.priority == TooltipPriority.Pawn)
-			{
-				return -1;
-			}
-			if (B.signal.priority == TooltipPriority.Pawn)
-			{
-				return 1;
-			}
-			return 0;
+			return (A.signal.priority != B.signal.priority) ? ((A.signal.priority != TooltipPriority.Pawn) ? ((B.signal.priority == TooltipPriority.Pawn) ? 1 : 0) : (-1)) : 0;
 		}
 	}
 }

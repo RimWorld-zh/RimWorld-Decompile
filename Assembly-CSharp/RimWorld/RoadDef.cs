@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -13,28 +12,28 @@ namespace RimWorld
 			public float width;
 		}
 
-		public int priority;
+		public int priority = 0;
 
-		public bool ancientOnly;
+		public bool ancientOnly = false;
 
 		public float movementCostMultiplier = 1f;
 
 		public int tilesPerSegment = 15;
 
-		public RoadPathingDef pathingMode;
+		public RoadPathingDef pathingMode = null;
 
 		public List<RoadDefGenStep> roadGenSteps;
 
 		public List<WorldRenderStep> worldRenderSteps;
 
-		public string worldTransitionGroup = string.Empty;
+		public string worldTransitionGroup = "";
 
 		public float distortionFrequency = 1f;
 
-		public float distortionIntensity;
+		public float distortionIntensity = 0f;
 
 		[Unsaved]
-		private float[] cachedLayerWidth;
+		private float[] cachedLayerWidth = null;
 
 		public float GetLayerWidth(RoadWorldLayerDef def)
 		{
@@ -46,21 +45,12 @@ namespace RimWorld
 					RoadWorldLayerDef roadWorldLayerDef = DefDatabase<RoadWorldLayerDef>.AllDefsListForReading[i];
 					if (this.worldRenderSteps != null)
 					{
-						List<WorldRenderStep>.Enumerator enumerator = this.worldRenderSteps.GetEnumerator();
-						try
+						foreach (WorldRenderStep worldRenderStep in this.worldRenderSteps)
 						{
-							while (enumerator.MoveNext())
+							if (worldRenderStep.layer == roadWorldLayerDef)
 							{
-								WorldRenderStep current = enumerator.Current;
-								if (current.layer == roadWorldLayerDef)
-								{
-									this.cachedLayerWidth[roadWorldLayerDef.index] = current.width;
-								}
+								this.cachedLayerWidth[roadWorldLayerDef.index] = worldRenderStep.width;
 							}
-						}
-						finally
-						{
-							((IDisposable)(object)enumerator).Dispose();
 						}
 					}
 				}

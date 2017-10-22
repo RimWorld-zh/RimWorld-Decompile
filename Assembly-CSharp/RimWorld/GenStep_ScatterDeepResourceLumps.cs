@@ -38,11 +38,7 @@ namespace RimWorld
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
-			if (base.NearUsedSpot(c, base.minSpacing))
-			{
-				return false;
-			}
-			return true;
+			return (byte)((!base.NearUsedSpot(c, base.minSpacing)) ? 1 : 0) != 0;
 		}
 
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
@@ -58,14 +54,24 @@ namespace RimWorld
 		private IntRange GetScatterLumpSizeRange(ThingDef def)
 		{
 			List<ThingDef> allDefsListForReading = DefDatabase<ThingDef>.AllDefsListForReading;
-			for (int i = 0; i < allDefsListForReading.Count; i++)
+			int num = 0;
+			IntRange result;
+			while (true)
 			{
-				if (allDefsListForReading[i].building != null && allDefsListForReading[i].building.mineableThing == def)
+				if (num < allDefsListForReading.Count)
 				{
-					return allDefsListForReading[i].building.mineableScatterLumpSizeRange;
+					if (allDefsListForReading[num].building != null && allDefsListForReading[num].building.mineableThing == def)
+					{
+						result = allDefsListForReading[num].building.mineableScatterLumpSizeRange;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = new IntRange(2, 30);
+				break;
 			}
-			return new IntRange(2, 30);
+			return result;
 		}
 	}
 }

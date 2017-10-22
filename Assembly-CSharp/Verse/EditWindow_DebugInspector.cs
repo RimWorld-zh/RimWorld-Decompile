@@ -1,10 +1,12 @@
 using RimWorld;
 using RimWorld.Planet;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Profiling;
 using Verse.AI;
 using Verse.AI.Group;
 using Verse.Sound;
@@ -16,7 +18,7 @@ namespace Verse
 	{
 		private StringBuilder debugStringBuilder = new StringBuilder();
 
-		public bool fullMode;
+		public bool fullMode = false;
 
 		private float columnWidth = 360f;
 
@@ -116,18 +118,9 @@ namespace Verse
 				{
 					stringBuilder.AppendLine("---");
 					stringBuilder.AppendLine("Sustainers:");
-					List<Sustainer>.Enumerator enumerator = Find.SoundRoot.sustainerManager.AllSustainers.GetEnumerator();
-					try
+					foreach (Sustainer allSustainer in Find.SoundRoot.sustainerManager.AllSustainers)
 					{
-						while (enumerator.MoveNext())
-						{
-							Sustainer current = enumerator.Current;
-							stringBuilder.AppendLine(current.DebugString());
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
+						stringBuilder.AppendLine(allSustainer.DebugString());
 					}
 					stringBuilder.AppendLine();
 					stringBuilder.AppendLine("OneShots:");
@@ -160,11 +153,11 @@ namespace Verse
 				if (DebugViewSettings.writeMemoryUsage)
 				{
 					stringBuilder.AppendLine("---");
-					stringBuilder.AppendLine("Total allocated: " + Profiler.GetTotalAllocatedMemory().ToStringBytes("F2"));
-					stringBuilder.AppendLine("Total reserved: " + Profiler.GetTotalReservedMemory().ToStringBytes("F2"));
-					stringBuilder.AppendLine("Total reserved unused: " + Profiler.GetTotalUnusedReservedMemory().ToStringBytes("F2"));
-					stringBuilder.AppendLine("Mono heap size: " + Profiler.GetMonoHeapSize().ToStringBytes("F2"));
-					stringBuilder.AppendLine("Mono used size: " + Profiler.GetMonoUsedSize().ToStringBytes("F2"));
+					stringBuilder.AppendLine("Total allocated: " + Profiler.GetTotalAllocatedMemoryLong().ToStringBytes("F2"));
+					stringBuilder.AppendLine("Total reserved: " + Profiler.GetTotalReservedMemoryLong().ToStringBytes("F2"));
+					stringBuilder.AppendLine("Total reserved unused: " + Profiler.GetTotalUnusedReservedMemoryLong().ToStringBytes("F2"));
+					stringBuilder.AppendLine("Mono heap size: " + Profiler.GetMonoHeapSizeLong().ToStringBytes("F2"));
+					stringBuilder.AppendLine("Mono used size: " + Profiler.GetMonoUsedSizeLong().ToStringBytes("F2"));
 				}
 				if (Current.ProgramState == ProgramState.Playing)
 				{
@@ -283,22 +276,13 @@ namespace Verse
 						stringBuilder.AppendLine("---");
 						if (intVec.InBounds(Find.VisibleMap))
 						{
-							List<Thing>.Enumerator enumerator8 = intVec.GetThingList(Find.VisibleMap).GetEnumerator();
-							try
+							foreach (Thing thing3 in intVec.GetThingList(Find.VisibleMap))
 							{
-								while (enumerator8.MoveNext())
+								Apparel apparel2 = thing3 as Apparel;
+								if (apparel2 != null)
 								{
-									Thing current8 = enumerator8.Current;
-									Apparel apparel2 = current8 as Apparel;
-									if (apparel2 != null)
-									{
-										stringBuilder.AppendLine(apparel2.Label + ": " + JobGiver_OptimizeApparel.ApparelScoreRaw(null, apparel2).ToString("F2"));
-									}
+									stringBuilder.AppendLine(apparel2.Label + ": " + JobGiver_OptimizeApparel.ApparelScoreRaw(null, apparel2).ToString("F2"));
 								}
-							}
-							finally
-							{
-								((IDisposable)(object)enumerator8).Dispose();
 							}
 						}
 					}
@@ -336,19 +320,10 @@ namespace Verse
 					}
 					if (DebugViewSettings.drawLords)
 					{
-						List<Lord>.Enumerator enumerator9 = Find.VisibleMap.lordManager.lords.GetEnumerator();
-						try
+						foreach (Lord lord in Find.VisibleMap.lordManager.lords)
 						{
-							while (enumerator9.MoveNext())
-							{
-								Lord current9 = enumerator9.Current;
-								stringBuilder.AppendLine("---");
-								stringBuilder.AppendLine(current9.DebugString());
-							}
-						}
-						finally
-						{
-							((IDisposable)(object)enumerator9).Dispose();
+							stringBuilder.AppendLine("---");
+							stringBuilder.AppendLine(lord.DebugString());
 						}
 					}
 					if (DebugViewSettings.writeMusicManagerPlay)
@@ -366,7 +341,7 @@ namespace Verse
 							for (int i = 0; i < potentialTargetsFor.Count; i++)
 							{
 								Thing thing = (Thing)potentialTargetsFor[i];
-								stringBuilder.AppendLine(thing.LabelShort + ", " + thing.Faction + ((!potentialTargetsFor[i].ThreatDisabled()) ? string.Empty : " (threat disabled)"));
+								stringBuilder.AppendLine(thing.LabelShort + ", " + thing.Faction + ((!potentialTargetsFor[i].ThreatDisabled()) ? "" : " (threat disabled)"));
 							}
 						}
 					}
@@ -407,7 +382,7 @@ namespace Verse
 						if (DebugViewSettings.drawGlow)
 						{
 							stringBuilder.AppendLine("---");
-							stringBuilder.AppendLine("Game glow: " + Find.VisibleMap.glowGrid.GameGlowAt(intVec));
+							stringBuilder.AppendLine("Game glow: " + Find.VisibleMap.glowGrid.GameGlowAt(intVec, false));
 							stringBuilder.AppendLine("Psych glow: " + Find.VisibleMap.glowGrid.PsychGlowAt(intVec));
 							stringBuilder.AppendLine("Visual Glow: " + Find.VisibleMap.glowGrid.VisualGlowAt(intVec));
 							stringBuilder.AppendLine("GlowReport:\n" + ((SectionLayer_LightingOverlay)Find.VisibleMap.mapDrawer.SectionAt(intVec).GetLayer(typeof(SectionLayer_LightingOverlay))).GlowReportAt(intVec));
@@ -428,11 +403,24 @@ namespace Verse
 						{
 							stringBuilder.AppendLine("---");
 							stringBuilder.AppendLine("\nLinkFlags: ");
-							foreach (object value in Enum.GetValues(typeof(LinkFlags)))
+							IEnumerator enumerator11 = Enum.GetValues(typeof(LinkFlags)).GetEnumerator();
+							try
 							{
-								if (((int)Find.VisibleMap.linkGrid.LinkFlagsAt(intVec) & (int)value) != 0)
+								while (enumerator11.MoveNext())
 								{
-									stringBuilder.Append(" " + value);
+									object current11 = enumerator11.Current;
+									if ((Find.VisibleMap.linkGrid.LinkFlagsAt(intVec) & (LinkFlags)current11) != 0)
+									{
+										stringBuilder.Append(" " + current11);
+									}
+								}
+							}
+							finally
+							{
+								IDisposable disposable;
+								if ((disposable = (enumerator11 as IDisposable)) != null)
+								{
+									disposable.Dispose();
 								}
 							}
 						}
@@ -469,7 +457,7 @@ namespace Verse
 							PowerNet powerNet = Find.VisibleMap.powerNetGrid.TransmittedPowerNetAt(intVec);
 							if (powerNet != null)
 							{
-								stringBuilder.AppendLine(string.Empty + powerNet.DebugString());
+								stringBuilder.AppendLine("" + powerNet.DebugString());
 							}
 							else
 							{
@@ -486,17 +474,20 @@ namespace Verse
 								{
 									pawn3 = (thingList[j] as Pawn);
 									if (pawn3 != null)
-										goto IL_105f;
+										goto IL_1109;
 								}
 							}
 						}
 					}
 				}
-				goto IL_10c2;
+				goto IL_1172;
 			}
 			stringBuilder.AppendLine("World view");
-			return stringBuilder.ToString();
-			IL_105f:
+			string result = stringBuilder.ToString();
+			goto IL_117e;
+			IL_117e:
+			return result;
+			IL_1109:
 			stringBuilder.AppendLine("---");
 			if (FoodUtility.IsAcceptablePreyFor(pawn2, pawn3))
 			{
@@ -506,9 +497,10 @@ namespace Verse
 			{
 				stringBuilder.AppendLine("Prey score: None");
 			}
-			goto IL_10c2;
-			IL_10c2:
-			return stringBuilder.ToString();
+			goto IL_1172;
+			IL_1172:
+			result = stringBuilder.ToString();
+			goto IL_117e;
 		}
 	}
 }

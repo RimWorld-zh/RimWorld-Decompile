@@ -1,5 +1,7 @@
 using RimWorld;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse.Sound;
 
@@ -11,9 +13,12 @@ namespace Verse
 
 		public static void DropRoofInCells(IntVec3 c, Map map)
 		{
-			RoofCollapserImmediate.DropRoofInCellPhaseOne(c, map);
-			RoofCollapserImmediate.DropRoofInCellPhaseTwo(c, map);
-			SoundDefOf.RoofCollapse.PlayOneShot(new TargetInfo(c, map, false));
+			if (c.Roofed(map))
+			{
+				RoofCollapserImmediate.DropRoofInCellPhaseOne(c, map);
+				RoofCollapserImmediate.DropRoofInCellPhaseTwo(c, map);
+				SoundDefOf.RoofCollapse.PlayOneShot(new TargetInfo(c, map, false));
+			}
 		}
 
 		public static void DropRoofInCells(IEnumerable<IntVec3> cells, Map map)
@@ -21,12 +26,18 @@ namespace Verse
 			IntVec3 cell = IntVec3.Invalid;
 			foreach (IntVec3 item in cells)
 			{
-				RoofCollapserImmediate.DropRoofInCellPhaseOne(item, map);
+				if (item.Roofed(map))
+				{
+					RoofCollapserImmediate.DropRoofInCellPhaseOne(item, map);
+				}
 			}
 			foreach (IntVec3 item2 in cells)
 			{
-				RoofCollapserImmediate.DropRoofInCellPhaseTwo(item2, map);
-				cell = item2;
+				if (item2.Roofed(map))
+				{
+					RoofCollapserImmediate.DropRoofInCellPhaseTwo(item2, map);
+					cell = item2;
+				}
 			}
 			if (cell.IsValid)
 			{
@@ -38,15 +49,26 @@ namespace Verse
 		{
 			if (!cells.NullOrEmpty())
 			{
+				IntVec3 cell = IntVec3.Invalid;
 				for (int i = 0; i < cells.Count; i++)
 				{
-					RoofCollapserImmediate.DropRoofInCellPhaseOne(cells[i], map);
+					if (cells[i].Roofed(map))
+					{
+						RoofCollapserImmediate.DropRoofInCellPhaseOne(cells[i], map);
+					}
 				}
 				for (int j = 0; j < cells.Count; j++)
 				{
-					RoofCollapserImmediate.DropRoofInCellPhaseTwo(cells[j], map);
+					if (cells[j].Roofed(map))
+					{
+						RoofCollapserImmediate.DropRoofInCellPhaseTwo(cells[j], map);
+						cell = cells[j];
+					}
 				}
-				SoundDefOf.RoofCollapse.PlayOneShot(new TargetInfo(cells[0], map, false));
+				if (cell.IsValid)
+				{
+					SoundDefOf.RoofCollapse.PlayOneShot(new TargetInfo(cell, map, false));
+				}
 			}
 		}
 
@@ -68,15 +90,23 @@ namespace Verse
 							DamageInfo dinfo = default(DamageInfo);
 							if (pawn != null)
 							{
+								DamageDef crush = DamageDefOf.Crush;
+								int amount = 99999;
 								BodyPartRecord brain = pawn.health.hediffSet.GetBrain();
-								dinfo = new DamageInfo(DamageDefOf.Crush, 99999, -1f, null, brain, null, DamageInfo.SourceCategory.Collapse);
+								dinfo = new DamageInfo(crush, amount, -1f, null, brain, null, DamageInfo.SourceCategory.Collapse);
 							}
 							else
 							{
 								dinfo = new DamageInfo(DamageDefOf.Crush, 99999, -1f, null, null, null, DamageInfo.SourceCategory.Collapse);
 								dinfo.SetBodyRegion(BodyPartHeight.Top, BodyPartDepth.Outside);
 							}
-							thing.TakeDamage(dinfo);
+							BattleLogEntry_DamageTaken battleLogEntry_DamageTaken = null;
+							if (i == 0 && pawn != null)
+							{
+								battleLogEntry_DamageTaken = new BattleLogEntry_DamageTaken(pawn, RulePackDefOf.DamageEvent_Ceiling);
+								Find.BattleLog.Add(battleLogEntry_DamageTaken);
+							}
+							thing.TakeDamage(dinfo).InsertIntoLog(battleLogEntry_DamageTaken);
 							if (!thing.Destroyed && thing.def.destroyable)
 							{
 								thing.Destroy(DestroyMode.Vanish);
@@ -98,9 +128,15 @@ namespace Verse
 							{
 								num3 *= thing2.def.building.roofCollapseDamageMultiplier;
 							}
+							BattleLogEntry_DamageTaken battleLogEntry_DamageTaken2 = null;
+							if (thing2 is Pawn)
+							{
+								battleLogEntry_DamageTaken2 = new BattleLogEntry_DamageTaken(thing2 as Pawn, RulePackDefOf.DamageEvent_Ceiling);
+								Find.BattleLog.Add(battleLogEntry_DamageTaken2);
+							}
 							DamageInfo dinfo2 = new DamageInfo(DamageDefOf.Crush, GenMath.RoundRandom(num3), -1f, null, null, null, DamageInfo.SourceCategory.Collapse);
 							dinfo2.SetBodyRegion(BodyPartHeight.Top, BodyPartDepth.Outside);
-							thing2.TakeDamage(dinfo2);
+							thing2.TakeDamage(dinfo2).InsertIntoLog(battleLogEntry_DamageTaken2);
 						}
 					}
 				}
@@ -133,6 +169,13 @@ namespace Verse
 				if (!roofDef.isThickRoof)
 				{
 					map.roofGrid.SetRoof(c, null);
+				}
+				CellRect bound = CellRect.CenteredOn(c, 2);
+				foreach (Pawn item in from pawn in map.mapPawns.AllPawnsSpawned
+				where bound.Contains(pawn.Position)
+				select pawn)
+				{
+					TaleRecorder.RecordTale(TaleDefOf.CollapseDodged, item);
 				}
 			}
 		}

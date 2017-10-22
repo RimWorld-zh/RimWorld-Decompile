@@ -8,7 +8,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return 1200;
+				return 1400;
 			}
 		}
 
@@ -37,6 +37,7 @@ namespace RimWorld
 		{
 			TerrainDef smoothedTerrain = base.TargetLocA.GetTerrain(base.Map).smoothedTerrain;
 			base.Map.terrainGrid.SetTerrain(base.TargetLocA, smoothedTerrain);
+			FilthMaker.RemoveAllFilth(base.TargetLocA, base.Map);
 		}
 	}
 }

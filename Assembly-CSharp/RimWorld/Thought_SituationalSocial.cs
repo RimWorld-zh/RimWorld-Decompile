@@ -27,11 +27,7 @@ namespace RimWorld
 		public override bool GroupsWith(Thought other)
 		{
 			Thought_SituationalSocial thought_SituationalSocial = other as Thought_SituationalSocial;
-			if (thought_SituationalSocial == null)
-			{
-				return false;
-			}
-			return base.GroupsWith(other) && this.otherPawn == thought_SituationalSocial.otherPawn;
+			return thought_SituationalSocial != null && base.GroupsWith(other) && this.otherPawn == thought_SituationalSocial.otherPawn;
 		}
 
 		protected override ThoughtState CurrentStateInternal()

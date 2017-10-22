@@ -7,29 +7,34 @@ namespace Verse
 {
 	public class PriorityWork : IExposable
 	{
-		private const int Timeout = 30000;
-
 		private Pawn pawn;
 
 		private IntVec3 prioritizedCell = IntVec3.Invalid;
 
-		private WorkTypeDef prioritizedWorkType;
+		private WorkTypeDef prioritizedWorkType = null;
 
 		private int prioritizeTick = Find.TickManager.TicksGame;
+
+		private const int Timeout = 30000;
 
 		public bool IsPrioritized
 		{
 			get
 			{
+				bool result;
 				if (this.prioritizedCell.IsValid)
 				{
 					if (Find.TickManager.TicksGame < this.prioritizeTick + 30000)
 					{
-						return true;
+						result = true;
+						goto IL_0042;
 					}
 					this.Clear();
 				}
-				return false;
+				result = false;
+				goto IL_0042;
+				IL_0042:
+				return result;
 			}
 		}
 
@@ -82,42 +87,33 @@ namespace Verse
 		public void ClearPrioritizedWorkAndJobQueue()
 		{
 			this.Clear();
-			this.pawn.jobs.jobQueue.Clear();
-			this.pawn.ClearReservations(false);
-		}
-
-		public void DrawExtraSelectionOverlays()
-		{
-			if (this.IsPrioritized)
-			{
-				GenDraw.DrawLineBetween(this.pawn.DrawPos, this.Cell.ToVector3Shifted());
-			}
+			this.pawn.jobs.ClearQueuedJobs();
 		}
 
 		public IEnumerable<Gizmo> GetGizmos()
 		{
 			if (!this.IsPrioritized && (this.pawn.CurJob == null || !this.pawn.CurJob.playerForced) && !this.pawn.jobs.jobQueue.AnyPlayerForced)
 				yield break;
-			if (!this.pawn.Drafted)
+			if (this.pawn.Drafted)
+				yield break;
+			yield return (Gizmo)new Command_Action
 			{
-				yield return (Gizmo)new Command_Action
+				defaultLabel = "CommandClearPrioritizedWork".Translate(),
+				defaultDesc = "CommandClearPrioritizedWorkDesc".Translate(),
+				icon = TexCommand.ClearPrioritizedWork,
+				activateSound = SoundDefOf.TickLow,
+				action = (Action)delegate
 				{
-					defaultLabel = "CommandClearPrioritizedWork".Translate(),
-					defaultDesc = "CommandClearPrioritizedWorkDesc".Translate(),
-					icon = TexCommand.ClearPrioritizedWork,
-					activateSound = SoundDefOf.TickLow,
-					action = (Action)delegate
+					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00f1: stateMachine*/)._0024this.ClearPrioritizedWorkAndJobQueue();
+					if (((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00f1: stateMachine*/)._0024this.pawn.CurJob.playerForced)
 					{
-						((_003CGetGizmos_003Ec__Iterator1C0)/*Error near IL_00ef: stateMachine*/)._003C_003Ef__this.ClearPrioritizedWorkAndJobQueue();
-						if (((_003CGetGizmos_003Ec__Iterator1C0)/*Error near IL_00ef: stateMachine*/)._003C_003Ef__this.pawn.CurJob.playerForced)
-						{
-							((_003CGetGizmos_003Ec__Iterator1C0)/*Error near IL_00ef: stateMachine*/)._003C_003Ef__this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
-						}
-					},
-					hotKey = KeyBindingDefOf.DesignatorCancel,
-					groupKey = 6165612
-				};
-			}
+						((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00f1: stateMachine*/)._0024this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+					}
+				},
+				hotKey = KeyBindingDefOf.DesignatorCancel,
+				groupKey = 6165612
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

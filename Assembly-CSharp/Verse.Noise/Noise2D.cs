@@ -26,32 +26,33 @@ namespace Verse.Noise
 
 		public static readonly double Bottom = 1.0;
 
-		private int m_width;
+		private int m_width = 0;
 
-		private int m_height;
+		private int m_height = 0;
 
-		private float[,] m_data;
+		private float[,] m_data = null;
 
-		private int m_ucWidth;
+		private int m_ucWidth = 0;
 
-		private int m_ucHeight;
+		private int m_ucHeight = 0;
 
 		private int m_ucBorder = 1;
 
-		private float[,] m_ucData;
+		private float[,] m_ucData = null;
 
 		private float m_borderValue = float.NaN;
 
-		private ModuleBase m_generator;
+		private ModuleBase m_generator = null;
 
 		[NonSerialized]
 		[XmlIgnore]
-		private bool m_disposed;
+		private bool m_disposed = false;
 
 		public float this[int x, int y, bool isCropped = true]
 		{
 			get
 			{
+				float result;
 				if (isCropped)
 				{
 					if (x < 0 && x >= this.m_width)
@@ -62,17 +63,21 @@ namespace Verse.Noise
 					{
 						throw new ArgumentOutOfRangeException("Inavlid y position");
 					}
-					return this.m_data[x, y];
+					result = this.m_data[x, y];
 				}
-				if (x < 0 && x >= this.m_ucWidth)
+				else
 				{
-					throw new ArgumentOutOfRangeException("Invalid x position");
+					if (x < 0 && x >= this.m_ucWidth)
+					{
+						throw new ArgumentOutOfRangeException("Invalid x position");
+					}
+					if (y < 0 && y >= this.m_ucHeight)
+					{
+						throw new ArgumentOutOfRangeException("Inavlid y position");
+					}
+					result = this.m_ucData[x, y];
 				}
-				if (y < 0 && y >= this.m_ucHeight)
-				{
-					throw new ArgumentOutOfRangeException("Inavlid y position");
-				}
-				return this.m_ucData[x, y];
+				return result;
 			}
 			set
 			{

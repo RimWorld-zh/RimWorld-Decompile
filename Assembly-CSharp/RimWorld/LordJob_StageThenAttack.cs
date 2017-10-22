@@ -28,7 +28,7 @@ namespace RimWorld
 			Transition transition = new Transition(lordToil_Stage, startingToil);
 			transition.AddTrigger(new Trigger_TicksPassed(Rand.Range(5000, 15000)));
 			transition.AddTrigger(new Trigger_FractionPawnsLost(0.3f));
-			transition.AddPreAction(new TransitionAction_Message("MessageRaidersBeginningAssault".Translate(this.faction.def.pawnsPlural.CapitalizeFirst(), this.faction.Name), MessageSound.SeriousAlert));
+			transition.AddPreAction(new TransitionAction_Message("MessageRaidersBeginningAssault".Translate(this.faction.def.pawnsPlural.CapitalizeFirst(), this.faction.Name), MessageTypeDefOf.ThreatBig));
 			transition.AddPostAction(new TransitionAction_WakeAll());
 			stateGraph.AddTransition(transition);
 			return stateGraph;

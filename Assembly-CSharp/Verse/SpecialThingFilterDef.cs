@@ -9,14 +9,14 @@ namespace Verse
 
 		public string saveKey;
 
-		public bool allowedByDefault;
+		public bool allowedByDefault = false;
 
 		public bool configurable = true;
 
-		public Type workerClass;
+		public Type workerClass = null;
 
 		[Unsaved]
-		private SpecialThingFilterWorker workerInt;
+		private SpecialThingFilterWorker workerInt = null;
 
 		public SpecialThingFilterWorker Worker
 		{
@@ -32,14 +32,21 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string err = enumerator.Current;
+					yield return err;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			if (this.workerClass == null)
-			{
-				yield return "SpecialThingFilterDef " + base.defName + " has no worker class.";
-			}
+			if (this.workerClass != null)
+				yield break;
+			yield return "SpecialThingFilterDef " + base.defName + " has no worker class.";
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0103:
+			/*Error near IL_0104: Unexpected return in MoveNext()*/;
 		}
 
 		public static SpecialThingFilterDef Named(string defName)

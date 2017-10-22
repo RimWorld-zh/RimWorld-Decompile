@@ -8,11 +8,11 @@ namespace RimWorld
 {
 	public class ColonistBarDrawLocsFinder
 	{
-		private const float MarginTop = 21f;
-
 		private List<int> entriesInGroup = new List<int>();
 
 		private List<int> horizontalSlotsPerGroup = new List<int>();
+
+		private const float MarginTop = 21f;
 
 		private ColonistBar ColonistBar
 		{
@@ -62,9 +62,7 @@ namespace RimWorld
 				List<int> obj = list = this.entriesInGroup;
 				ColonistBar.Entry entry = entries[i];
 				int group;
-				int index = group = entry.group;
-				group = list[group];
-				obj[index] = group + 1;
+				obj[group = entry.group] = list[group] + 1;
 			}
 		}
 
@@ -146,43 +144,39 @@ namespace RimWorld
 				this.horizontalSlotsPerGroup.Add(0);
 			}
 			GenMath.DHondtDistribution(this.horizontalSlotsPerGroup, (Func<int, float>)((int i) => (float)this.entriesInGroup[i]), maxPerGlobalRow);
-			for (int j = 0; j < this.horizontalSlotsPerGroup.Count; j++)
+			int num3 = 0;
+			bool result;
+			while (true)
 			{
-				if (this.horizontalSlotsPerGroup[j] == 0)
+				if (num3 < this.horizontalSlotsPerGroup.Count)
 				{
-					int num3 = this.horizontalSlotsPerGroup.Max();
-					if (num3 <= 1)
+					if (this.horizontalSlotsPerGroup[num3] == 0)
 					{
-						return false;
+						int num4 = this.horizontalSlotsPerGroup.Max();
+						if (num4 <= 1)
+						{
+							result = false;
+							break;
+						}
+						int num5 = this.horizontalSlotsPerGroup.IndexOf(num4);
+						int index;
+						List<int> list;
+						(list = this.horizontalSlotsPerGroup)[index = num5] = list[index] - 1;
+						int index2;
+						(list = this.horizontalSlotsPerGroup)[index2 = num3] = list[index2] + 1;
 					}
-					int num4 = this.horizontalSlotsPerGroup.IndexOf(num3);
-					List<int> list;
-					List<int> obj = list = this.horizontalSlotsPerGroup;
-					int index;
-					int index2 = index = num4;
-					index = list[index];
-					obj[index2] = index - 1;
-					List<int> list2;
-					List<int> obj2 = list2 = this.horizontalSlotsPerGroup;
-					int index3 = index = j;
-					index = list2[index];
-					obj2[index3] = index + 1;
+					num3++;
+					continue;
 				}
+				result = true;
+				break;
 			}
-			return true;
+			return result;
 		}
 
 		private static int GetAllowedRowsCountForScale(float scale)
 		{
-			if (scale > 0.57999998331069946)
-			{
-				return 1;
-			}
-			if (scale > 0.41999998688697815)
-			{
-				return 2;
-			}
-			return 3;
+			return (scale > 0.57999998331069946) ? 1 : ((!(scale > 0.41999998688697815)) ? 3 : 2);
 		}
 
 		private void CalculateDrawLocs(List<Vector2> outDrawLocs, float scale, bool onlyOneRow, int maxPerGlobalRow)

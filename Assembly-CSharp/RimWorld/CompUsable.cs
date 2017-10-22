@@ -8,7 +8,7 @@ namespace RimWorld
 {
 	public class CompUsable : ThingComp
 	{
-		protected CompProperties_Usable Props
+		public CompProperties_Usable Props
 		{
 			get
 			{
@@ -26,26 +26,26 @@ namespace RimWorld
 
 		public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn myPawn)
 		{
+			_003CCompFloatMenuOptions_003Ec__Iterator0 _003CCompFloatMenuOptions_003Ec__Iterator = (_003CCompFloatMenuOptions_003Ec__Iterator0)/*Error near IL_0036: stateMachine*/;
 			if (!myPawn.CanReserve((Thing)base.parent, 1, -1, null, false))
 			{
 				yield return new FloatMenuOption(this.FloatMenuOptionLabel + " (" + "Reserved".Translate() + ")", null, MenuOptionPriority.Default, null, null, 0f, null, null);
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			else
+			FloatMenuOption useopt = new FloatMenuOption(this.FloatMenuOptionLabel, (Action)delegate()
 			{
-				FloatMenuOption useopt = new FloatMenuOption(this.FloatMenuOptionLabel, (Action)delegate
+				if (myPawn.CanReserveAndReach((Thing)_003CCompFloatMenuOptions_003Ec__Iterator._0024this.parent, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false))
 				{
-					if (((_003CCompFloatMenuOptions_003Ec__Iterator169)/*Error near IL_00a0: stateMachine*/).myPawn.CanReserveAndReach((Thing)((_003CCompFloatMenuOptions_003Ec__Iterator169)/*Error near IL_00a0: stateMachine*/)._003C_003Ef__this.parent, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false))
+					foreach (CompUseEffect comp in _003CCompFloatMenuOptions_003Ec__Iterator._0024this.parent.GetComps<CompUseEffect>())
 					{
-						foreach (CompUseEffect comp in ((_003CCompFloatMenuOptions_003Ec__Iterator169)/*Error near IL_00a0: stateMachine*/)._003C_003Ef__this.parent.GetComps<CompUseEffect>())
-						{
-							if (comp.SelectedUseOption(((_003CCompFloatMenuOptions_003Ec__Iterator169)/*Error near IL_00a0: stateMachine*/).myPawn))
-								return;
-						}
-						((_003CCompFloatMenuOptions_003Ec__Iterator169)/*Error near IL_00a0: stateMachine*/)._003C_003Ef__this.TryStartUseJob(((_003CCompFloatMenuOptions_003Ec__Iterator169)/*Error near IL_00a0: stateMachine*/).myPawn);
+						if (comp.SelectedUseOption(myPawn))
+							return;
 					}
-				}, MenuOptionPriority.Default, null, null, 0f, null, null);
-				yield return useopt;
-			}
+					_003CCompFloatMenuOptions_003Ec__Iterator._0024this.TryStartUseJob(myPawn);
+				}
+			}, MenuOptionPriority.Default, null, null, 0f, null, null);
+			yield return useopt;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public void TryStartUseJob(Pawn user)

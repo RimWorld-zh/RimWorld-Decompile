@@ -8,13 +8,13 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class WorldLayer
 	{
-		private const int MaxVerticesPerMesh = 40000;
-
 		protected List<LayerSubMesh> subMeshes = new List<LayerSubMesh>();
 
 		private bool dirty = true;
 
 		private static MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+
+		private const int MaxVerticesPerMesh = 40000;
 
 		public virtual bool ShouldRegenerate
 		{
@@ -64,33 +64,43 @@ namespace RimWorld.Planet
 
 		protected LayerSubMesh GetSubMesh(Material material, out int subMeshIndex)
 		{
-			for (int i = 0; i < this.subMeshes.Count; i++)
+			int num = 0;
+			LayerSubMesh result;
+			while (true)
 			{
-				LayerSubMesh layerSubMesh = this.subMeshes[i];
-				if ((Object)layerSubMesh.material == (Object)material && layerSubMesh.verts.Count < 40000)
+				if (num < this.subMeshes.Count)
 				{
-					subMeshIndex = i;
-					return layerSubMesh;
+					LayerSubMesh layerSubMesh = this.subMeshes[num];
+					if ((Object)layerSubMesh.material == (Object)material && layerSubMesh.verts.Count < 40000)
+					{
+						subMeshIndex = num;
+						result = layerSubMesh;
+						break;
+					}
+					num++;
+					continue;
 				}
+				Mesh mesh = new Mesh();
+				if (UnityData.isEditor)
+				{
+					mesh.name = "WorldLayerSubMesh_" + base.GetType().Name + "_" + Find.World.info.seedString;
+				}
+				LayerSubMesh layerSubMesh2 = new LayerSubMesh(mesh, material);
+				subMeshIndex = this.subMeshes.Count;
+				this.subMeshes.Add(layerSubMesh2);
+				result = layerSubMesh2;
+				break;
 			}
-			Mesh mesh = new Mesh();
-			if (UnityData.isEditor)
-			{
-				mesh.name = "WorldLayerSubMesh_" + base.GetType().Name + "_" + Find.World.info.seedString;
-			}
-			LayerSubMesh layerSubMesh2 = new LayerSubMesh(mesh, material);
-			subMeshIndex = this.subMeshes.Count;
-			this.subMeshes.Add(layerSubMesh2);
-			return layerSubMesh2;
+			return result;
 		}
 
-		protected void FinalizeMesh(MeshParts tags, bool optimize = false)
+		protected void FinalizeMesh(MeshParts tags)
 		{
 			for (int i = 0; i < this.subMeshes.Count; i++)
 			{
 				if (this.subMeshes[i].verts.Count > 0)
 				{
-					this.subMeshes[i].FinalizeMesh(tags, optimize);
+					this.subMeshes[i].FinalizeMesh(tags);
 				}
 			}
 		}

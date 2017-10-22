@@ -13,22 +13,17 @@ namespace RimWorld
 		{
 			ItemCollectionGenerator_Weapons.weapons.Clear();
 			ItemCollectionGenerator_Weapons.weapons.AddRange(from x in ItemCollectionGeneratorUtility.allGeneratableItems
-			where x.IsWeapon && !x.IsIngestible && x != ThingDefOf.WoodLog && x != ThingDefOf.ElephantTusk
+			where x.IsWeapon && !x.IsIngestible && x != ThingDefOf.WoodLog && x != ThingDefOf.ElephantTusk && (x.itemGeneratorTags == null || !x.itemGeneratorTags.Contains(ItemCollectionGeneratorUtility.SpecialRewardTag))
 			select x);
 		}
 
 		protected override IEnumerable<ThingDef> AllowedDefs(ItemCollectionGeneratorParams parms)
 		{
-			TechLevel techLevel = parms.techLevel;
-			if ((int)techLevel >= 5)
-			{
-				return from x in ItemCollectionGenerator_Weapons.weapons
-				where (int)x.techLevel >= 4 && (int)x.techLevel <= (int)techLevel
-				select x;
-			}
-			return from x in ItemCollectionGenerator_Weapons.weapons
+			TechLevel? techLevel2 = parms.techLevel;
+			TechLevel techLevel = (!techLevel2.HasValue) ? TechLevel.Spacer : techLevel2.Value;
+			return ((int)techLevel < 5) ? (from x in ItemCollectionGenerator_Weapons.weapons
 			where (int)x.techLevel <= (int)techLevel
-			select x;
+			select x) : ItemCollectionGenerator_Weapons.weapons.Where((Func<ThingDef, bool>)((ThingDef x) => (int)x.techLevel >= 4 && (int)x.techLevel <= (int)techLevel));
 		}
 	}
 }

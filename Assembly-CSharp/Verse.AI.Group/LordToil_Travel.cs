@@ -4,7 +4,7 @@ namespace Verse.AI.Group
 {
 	public class LordToil_Travel : LordToil
 	{
-		public Danger maxDanger;
+		public Danger maxDanger = Danger.Unspecified;
 
 		public override IntVec3 FlagLoc
 		{
@@ -49,7 +49,7 @@ namespace Verse.AI.Group
 			LordToilData_Travel data = this.Data;
 			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
-				PawnDuty pawnDuty = new PawnDuty(DutyDefOf.Travel, data.dest, -1f);
+				PawnDuty pawnDuty = new PawnDuty(DutyDefOf.TravelOrLeave, data.dest, -1f);
 				pawnDuty.maxDanger = this.maxDanger;
 				base.lord.ownedPawns[i].mindState.duty = pawnDuty;
 			}

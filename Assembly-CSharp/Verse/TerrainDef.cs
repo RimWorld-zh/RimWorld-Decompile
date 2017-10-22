@@ -18,51 +18,53 @@ namespace Verse
 		[NoTranslate]
 		public string texturePath;
 
-		public TerrainEdgeType edgeType;
+		public TerrainEdgeType edgeType = TerrainEdgeType.Hard;
 
 		[NoTranslate]
-		public string waterDepthShader;
+		public string waterDepthShader = (string)null;
 
-		public List<ShaderParameter> waterDepthShaderParameters;
+		public List<ShaderParameter> waterDepthShaderParameters = null;
 
-		public int renderPrecedence;
+		public int renderPrecedence = 0;
 
 		public List<TerrainAffordance> affordances = new List<TerrainAffordance>();
 
-		public bool layerable;
+		public bool layerable = false;
 
 		[NoTranslate]
-		public string scatterType;
+		public string scatterType = (string)null;
 
-		public bool takeFootprints;
+		public bool takeFootprints = false;
 
-		public bool takeSplashes;
+		public bool takeSplashes = false;
 
-		public bool avoidWander;
+		public bool avoidWander = false;
 
 		public bool changeable = true;
 
-		public TerrainDef smoothedTerrain;
+		public TerrainDef smoothedTerrain = null;
 
 		public bool holdSnow = true;
 
+		public bool extinguishesFire = false;
+
 		public Color color = Color.white;
 
-		public TerrainDef driesTo;
+		public TerrainDef driesTo = null;
 
 		[NoTranslate]
-		public List<string> tags;
+		public List<string> tags = null;
 
-		public TerrainDef burnedDef;
+		public TerrainDef burnedDef = null;
 
-		public ThingDef terrainFilthDef;
+		public ThingDef terrainFilthDef = null;
 
-		public bool acceptTerrainSourceFilth;
+		public bool acceptTerrainSourceFilth = false;
 
 		public bool acceptFilth = true;
 
 		[Unsaved]
-		public Material waterDepthMaterial;
+		public Material waterDepthMaterial = null;
 
 		public override Color IconDrawColor
 		{
@@ -141,34 +143,48 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string err = enumerator.Current;
+					yield return err;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			if (this.texturePath.NullOrEmpty())
 			{
 				yield return "missing texturePath";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (base.fertility < 0.0)
 			{
 				yield return "Terrain Def " + this + " has no fertility value set.";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.renderPrecedence > 400)
 			{
 				yield return "Render order " + this.renderPrecedence + " is out of range (must be < 400)";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.terrainFilthDef != null && this.acceptTerrainSourceFilth)
 			{
 				yield return base.defName + " makes terrain filth and also accepts it.";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.Flammable() && this.burnedDef == null)
 			{
 				yield return "flammable but burnedDef is null";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (this.burnedDef != null && this.burnedDef.Flammable())
-			{
-				yield return "burnedDef is flammable";
-			}
+			if (this.burnedDef == null)
+				yield break;
+			if (!this.burnedDef.Flammable())
+				yield break;
+			yield return "burnedDef is flammable";
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_026d:
+			/*Error near IL_026e: Unexpected return in MoveNext()*/;
 		}
 
 		public static TerrainDef Named(string defName)

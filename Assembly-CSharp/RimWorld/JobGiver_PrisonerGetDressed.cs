@@ -8,6 +8,7 @@ namespace RimWorld
 	{
 		protected override Job TryGiveJob(Pawn pawn)
 		{
+			Job result;
 			if (pawn.guest.PrisonerIsSecure && pawn.apparel != null)
 			{
 				if (!pawn.apparel.BodyPartGroupIsCovered(BodyPartGroupDefOf.Legs))
@@ -17,7 +18,8 @@ namespace RimWorld
 					{
 						Job job = new Job(JobDefOf.Wear, (Thing)apparel);
 						job.ignoreForbidden = true;
-						return job;
+						result = job;
+						goto IL_00bc;
 					}
 				}
 				if (!pawn.apparel.BodyPartGroupIsCovered(BodyPartGroupDefOf.Torso))
@@ -27,11 +29,15 @@ namespace RimWorld
 					{
 						Job job2 = new Job(JobDefOf.Wear, (Thing)apparel2);
 						job2.ignoreForbidden = true;
-						return job2;
+						result = job2;
+						goto IL_00bc;
 					}
 				}
 			}
-			return null;
+			result = null;
+			goto IL_00bc;
+			IL_00bc:
+			return result;
 		}
 
 		private Apparel FindGarmentCoveringPart(Pawn pawn, BodyPartGroupDef bodyPartGroupDef)

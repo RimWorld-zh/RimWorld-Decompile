@@ -1,12 +1,11 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse
 {
 	public class RecipeWorkerCounter_MakeStoneBlocks : RecipeWorkerCounter
 	{
-		private List<ThingDef> stoneBlocksDefs;
+		private List<ThingDef> stoneBlocksDefs = null;
 
 		public override bool CanCountProducts(Bill_Production bill)
 		{
@@ -19,21 +18,12 @@ namespace Verse
 			{
 				ThingCategoryDef stoneBlocks = ThingCategoryDefOf.StoneBlocks;
 				this.stoneBlocksDefs = new List<ThingDef>(16);
-				List<ThingDef>.Enumerator enumerator = DefDatabase<ThingDef>.AllDefsListForReading.GetEnumerator();
-				try
+				foreach (ThingDef item in DefDatabase<ThingDef>.AllDefsListForReading)
 				{
-					while (enumerator.MoveNext())
+					if (item.thingCategories != null && item.thingCategories.Contains(stoneBlocks))
 					{
-						ThingDef current = enumerator.Current;
-						if (current.thingCategories != null && current.thingCategories.Contains(stoneBlocks))
-						{
-							this.stoneBlocksDefs.Add(current);
-						}
+						this.stoneBlocksDefs.Add(item);
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 			int num = 0;

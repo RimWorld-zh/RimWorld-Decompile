@@ -11,11 +11,7 @@ namespace Verse.AI.Group
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
-			if (signal.type == TriggerSignalType.Memo)
-			{
-				return signal.memo == this.memo;
-			}
-			return false;
+			return signal.type == TriggerSignalType.Memo && signal.memo == this.memo;
 		}
 	}
 }

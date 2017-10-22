@@ -11,17 +11,29 @@ namespace RimWorld
 		{
 			get
 			{
-				foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
+				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMaps_FreeColonistsSpawned.GetEnumerator())
 				{
-					if (item.health.HasHediffsNeedingTendByColony(true))
+					Pawn p;
+					while (true)
 					{
-						Building_Bed curBed = item.CurrentBed();
-						if ((curBed == null || !curBed.Medical) && !Alert_ColonistNeedsRescuing.NeedsRescue(item))
+						if (enumerator.MoveNext())
 						{
-							yield return item;
+							p = enumerator.Current;
+							if (p.health.HasHediffsNeedingTendByColony(true))
+							{
+								Building_Bed curBed = p.CurrentBed();
+								if ((curBed == null || !curBed.Medical) && !Alert_ColonistNeedsRescuing.NeedsRescue(p))
+									break;
+							}
+							continue;
 						}
+						yield break;
 					}
+					yield return p;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
+				IL_0118:
+				/*Error near IL_0119: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -44,11 +56,7 @@ namespace RimWorld
 		public override AlertReport GetReport()
 		{
 			Pawn pawn = this.NeedingColonists.FirstOrDefault();
-			if (pawn == null)
-			{
-				return false;
-			}
-			return AlertReport.CulpritIs((Thing)pawn);
+			return (pawn != null) ? AlertReport.CulpritIs((Thing)pawn) : false;
 		}
 	}
 }

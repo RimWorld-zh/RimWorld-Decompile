@@ -18,6 +18,12 @@ namespace RimWorld.BaseGen
 			public bool merged;
 		}
 
+		private List<Pair<int, int>> optionsX = new List<Pair<int, int>>();
+
+		private List<Pair<int, int>> optionsZ = new List<Pair<int, int>>();
+
+		private List<Child> children = new List<Child>();
+
 		private const int MinWidthOrHeight = 13;
 
 		private const int MinRoomsPerRow = 2;
@@ -32,26 +38,25 @@ namespace RimWorld.BaseGen
 
 		private const float AllowNonSquareRoomsInTheFirstStepChance = 0.2f;
 
-		private List<Pair<int, int>> optionsX = new List<Pair<int, int>>();
-
-		private List<Pair<int, int>> optionsZ = new List<Pair<int, int>>();
-
-		private List<Child> children = new List<Child>();
-
 		private static List<Pair<Pair<int, int>, Pair<int, int>>> options = new List<Pair<Pair<int, int>, Pair<int, int>>>();
 
 		public override bool CanResolve(ResolveParams rp)
 		{
+			bool result;
 			if (!base.CanResolve(rp))
 			{
-				return false;
+				result = false;
 			}
-			if (rp.rect.Width < 13 && rp.rect.Height < 13)
+			else if (rp.rect.Width < 13 && rp.rect.Height < 13)
 			{
-				return false;
+				result = false;
 			}
-			this.FillOptions(rp.rect);
-			return this.optionsX.Any() && this.optionsZ.Any();
+			else
+			{
+				this.FillOptions(rp.rect);
+				result = (this.optionsX.Any() && this.optionsZ.Any());
+			}
+			return result;
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -96,11 +101,7 @@ namespace RimWorld.BaseGen
 		private int GetRoomSize(int roomsPerRow, int pathwayWidth, int totalLength)
 		{
 			int num = totalLength - (roomsPerRow - 1) * pathwayWidth;
-			if (num % roomsPerRow != 0)
-			{
-				return -1;
-			}
-			return num / roomsPerRow;
+			return (num % roomsPerRow == 0) ? (num / roomsPerRow) : (-1);
 		}
 
 		private bool TryResolveRandomOption(int maxWidthHeightDiff, int maxPathwayWidthDiff, ResolveParams rp)
@@ -122,13 +123,18 @@ namespace RimWorld.BaseGen
 					}
 				}
 			}
+			bool result;
 			if (SymbolResolver_BasePart_Outdoors_Division_Grid.options.Any())
 			{
 				Pair<Pair<int, int>, Pair<int, int>> pair = SymbolResolver_BasePart_Outdoors_Division_Grid.options.RandomElement();
 				this.ResolveOption(pair.First.First, pair.First.Second, pair.Second.First, pair.Second.Second, rp);
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		private void ResolveOption(int roomsPerRowX, int pathwayWidthX, int roomsPerRowZ, int pathwayWidthZ, ResolveParams rp)

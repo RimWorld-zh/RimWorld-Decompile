@@ -7,7 +7,7 @@ namespace Verse
 	{
 		private bool[] arr;
 
-		private int trueCountInt;
+		private int trueCountInt = 0;
 
 		private int mapSizeX;
 
@@ -28,16 +28,22 @@ namespace Verse
 				if (this.trueCountInt != 0)
 				{
 					int yieldedCount = 0;
-					for (int i = 0; i < this.arr.Length; i++)
+					int i = 0;
+					while (true)
 					{
-						if (this.arr[i])
+						if (i < this.arr.Length)
 						{
-							yield return CellIndicesUtility.IndexToCell(i, this.mapSizeX);
-							yieldedCount++;
-							if (yieldedCount >= this.trueCountInt)
-								break;
+							if (!this.arr[i])
+							{
+								i++;
+								continue;
+							}
+							break;
 						}
+						yield break;
 					}
+					yield return CellIndicesUtility.IndexToCell(i, this.mapSizeX);
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 		}
@@ -126,7 +132,7 @@ namespace Verse
 			Scribe_Values.Look<int>(ref this.trueCountInt, "trueCount", 0, false);
 			Scribe_Values.Look<int>(ref this.mapSizeX, "mapSizeX", 0, false);
 			Scribe_Values.Look<int>(ref this.mapSizeZ, "mapSizeZ", 0, false);
-			ArrayExposeUtility.ExposeBoolArray(ref this.arr, this.mapSizeX, this.mapSizeZ, "arr");
+			DataExposeUtility.BoolArray(ref this.arr, this.mapSizeX * this.mapSizeZ, "arr");
 		}
 
 		public void Clear()

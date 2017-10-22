@@ -9,6 +9,8 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class TransferableUIUtility
 	{
+		private static List<TransferableCountToTransferStoppingPoint> stoppingPoints = new List<TransferableCountToTransferStoppingPoint>();
+
 		private const float AmountAreaWidth = 90f;
 
 		private const float AmountAreaHeight = 25f;
@@ -18,8 +20,6 @@ namespace RimWorld
 		public const float ResourceIconSize = 27f;
 
 		public const float SortersHeight = 27f;
-
-		private static List<TransferableCountToTransferStoppingPoint> stoppingPoints = new List<TransferableCountToTransferStoppingPoint>();
 
 		public static readonly Color ZeroCountColor = new Color(0.5f, 0.5f, 0.5f);
 
@@ -239,16 +239,16 @@ namespace RimWorld
 			TransferablePositiveCountDirection positiveCountDirection2 = trad.PositiveCountDirection;
 			if (positiveCountDirection2 == TransferablePositiveCountDirection.Source && trad.CountToTransfer > 0)
 			{
-				goto IL_0646;
+				goto IL_0680;
 			}
 			if (positiveCountDirection2 == TransferablePositiveCountDirection.Destination && trad.CountToTransfer < 0)
-				goto IL_0646;
-			goto IL_066e;
-			IL_0646:
+				goto IL_0680;
+			goto IL_06aa;
+			IL_0680:
 			position.x += position.width;
 			position.width *= -1f;
-			goto IL_066e;
-			IL_066e:
+			goto IL_06aa;
+			IL_06aa:
 			GUI.DrawTexture(position, TransferableUIUtility.TradeArrow);
 		}
 
@@ -294,59 +294,34 @@ namespace RimWorld
 				Text.WordWrap = true;
 				TooltipHandler.TipRegion(idRect, new TipSignal((Func<string>)delegate()
 				{
+					string result;
 					if (!trad.HasAnyThing)
 					{
-						return string.Empty;
+						result = "";
 					}
-					return trad.Label + ": " + trad.TipDescription;
+					else
+					{
+						string text = trad.Label;
+						string tipDescription = trad.TipDescription;
+						if (!tipDescription.NullOrEmpty())
+						{
+							text = text + ": " + tipDescription;
+						}
+						result = text;
+					}
+					return result;
 				}, trad.GetHashCode()));
 			}
 		}
 
 		public static float DefaultListOrderPriority(Transferable transferable)
 		{
-			if (!transferable.HasAnyThing)
-			{
-				return 0f;
-			}
-			return TransferableUIUtility.DefaultListOrderPriority(transferable.ThingDef);
+			return (float)(transferable.HasAnyThing ? TransferableUIUtility.DefaultListOrderPriority(transferable.ThingDef) : 0.0);
 		}
 
 		public static float DefaultListOrderPriority(ThingDef def)
 		{
-			if (def == ThingDefOf.Silver)
-			{
-				return 100f;
-			}
-			if (def == ThingDefOf.Gold)
-			{
-				return 99f;
-			}
-			if (def.Minifiable)
-			{
-				return 90f;
-			}
-			if (def.IsApparel)
-			{
-				return 80f;
-			}
-			if (def.IsRangedWeapon)
-			{
-				return 70f;
-			}
-			if (def.IsMeleeWeapon)
-			{
-				return 60f;
-			}
-			if (def.isBodyPartOrImplant)
-			{
-				return 50f;
-			}
-			if (def.CountAsResource)
-			{
-				return -10f;
-			}
-			return 20f;
+			return (float)((def != ThingDefOf.Silver) ? ((def != ThingDefOf.Gold) ? ((!def.Minifiable) ? ((!def.IsApparel) ? ((!def.IsRangedWeapon) ? ((!def.IsMeleeWeapon) ? ((!def.isBodyPartOrImplant) ? ((!def.CountAsResource) ? 20.0 : -10.0) : 50.0) : 60.0) : 70.0) : 80.0) : 90.0) : 99.0) : 100.0);
 		}
 
 		public static void DoTransferableSorters(TransferableSorterDef sorter1, TransferableSorterDef sorter2, Action<TransferableSorterDef> sorter1Setter, Action<TransferableSorterDef> sorter2Setter)

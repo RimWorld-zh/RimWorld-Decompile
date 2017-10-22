@@ -51,7 +51,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return InspectPaneUtility.PaneSize;
+				return InspectPaneUtility.PaneSizeFor(this);
 			}
 		}
 
@@ -91,9 +91,7 @@ namespace RimWorld
 		{
 			get
 			{
-				float num = (float)UI.screenHeight;
-				Vector2 paneSize = InspectPaneUtility.PaneSize;
-				return (float)(num - paneSize.y - 35.0);
+				return (float)((float)UI.screenHeight - 165.0 - 35.0);
 			}
 		}
 
@@ -125,18 +123,24 @@ namespace RimWorld
 		{
 			get
 			{
+				IEnumerable<InspectTabBase> result;
 				if (this.NumSelected == 1)
 				{
 					if (this.SelThing != null && this.SelThing.def.inspectorTabsResolved != null)
 					{
-						return this.SelThing.GetInspectTabs();
+						result = this.SelThing.GetInspectTabs();
+						goto IL_0067;
 					}
 					if (this.SelZone != null)
 					{
-						return this.SelZone.GetInspectTabs();
+						result = this.SelZone.GetInspectTabs();
+						goto IL_0067;
 					}
 				}
-				return Enumerable.Empty<InspectTabBase>();
+				result = Enumerable.Empty<InspectTabBase>();
+				goto IL_0067;
+				IL_0067:
+				return result;
 			}
 		}
 

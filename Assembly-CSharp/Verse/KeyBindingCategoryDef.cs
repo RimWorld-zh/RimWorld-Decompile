@@ -4,9 +4,11 @@ namespace Verse
 {
 	public class KeyBindingCategoryDef : Def
 	{
-		public bool isGameUniversal;
+		public bool isGameUniversal = false;
 
 		public List<KeyBindingCategoryDef> checkForConflicts = new List<KeyBindingCategoryDef>();
+
+		public bool selfConflicting = true;
 
 		public static KeyBindingCategoryDef Named(string defName)
 		{

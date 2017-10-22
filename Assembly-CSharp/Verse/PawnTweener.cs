@@ -4,8 +4,6 @@ namespace Verse
 {
 	public class PawnTweener
 	{
-		private const float SpringTightness = 0.09f;
-
 		private Pawn pawn;
 
 		private Vector3 tweenedPos = new Vector3(0f, 0f, 0f);
@@ -13,6 +11,8 @@ namespace Verse
 		private int lastDrawFrame = -1;
 
 		private Vector3 lastTickSpringPos;
+
+		private const float SpringTightness = 0.09f;
 
 		public Vector3 TweenedPos
 		{
@@ -69,37 +69,22 @@ namespace Verse
 
 		private Vector3 TweenedPosRoot()
 		{
+			Vector3 result;
 			if (!this.pawn.Spawned)
 			{
-				return this.pawn.Position.ToVector3Shifted();
+				result = this.pawn.Position.ToVector3Shifted();
 			}
-			float num = this.MovedPercent();
-			return this.pawn.pather.nextCell.ToVector3Shifted() * num + this.pawn.Position.ToVector3Shifted() * (float)(1.0 - num) + PawnCollisionTweenerUtility.PawnCollisionPosOffsetFor(this.pawn);
+			else
+			{
+				float num = this.MovedPercent();
+				result = this.pawn.pather.nextCell.ToVector3Shifted() * num + this.pawn.Position.ToVector3Shifted() * (float)(1.0 - num) + PawnCollisionTweenerUtility.PawnCollisionPosOffsetFor(this.pawn);
+			}
+			return result;
 		}
 
 		private float MovedPercent()
 		{
-			if (!this.pawn.pather.Moving)
-			{
-				return 0f;
-			}
-			if (this.pawn.stances.FullBodyBusy)
-			{
-				return 0f;
-			}
-			if (this.pawn.pather.BuildingBlockingNextPathCell() != null)
-			{
-				return 0f;
-			}
-			if (this.pawn.pather.NextCellDoorToManuallyOpen() != null)
-			{
-				return 0f;
-			}
-			if (this.pawn.pather.WillCollideWithPawnOnNextPathCell())
-			{
-				return 0f;
-			}
-			return (float)(1.0 - this.pawn.pather.nextCellCostLeft / this.pawn.pather.nextCellCostTotal);
+			return (float)(this.pawn.pather.Moving ? ((!this.pawn.stances.FullBodyBusy) ? ((this.pawn.pather.BuildingBlockingNextPathCell() == null) ? ((this.pawn.pather.NextCellDoorToManuallyOpen() == null) ? ((!this.pawn.pather.WillCollideWithPawnOnNextPathCell()) ? (1.0 - this.pawn.pather.nextCellCostLeft / this.pawn.pather.nextCellCostTotal) : 0.0) : 0.0) : 0.0) : 0.0) : 0.0);
 		}
 	}
 }

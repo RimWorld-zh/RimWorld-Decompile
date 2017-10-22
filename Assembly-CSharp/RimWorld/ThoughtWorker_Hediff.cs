@@ -8,12 +8,17 @@ namespace RimWorld
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			Hediff firstHediffOfDef = p.health.hediffSet.GetFirstHediffOfDef(base.def.hediff, false);
-			if (firstHediffOfDef != null && firstHediffOfDef.def.stages != null)
+			ThoughtState result;
+			if (firstHediffOfDef == null || firstHediffOfDef.def.stages == null)
+			{
+				result = ThoughtState.Inactive;
+			}
+			else
 			{
 				int stageIndex = Mathf.Min(firstHediffOfDef.CurStageIndex, firstHediffOfDef.def.stages.Count - 1, base.def.stages.Count - 1);
-				return ThoughtState.ActiveAtStage(stageIndex);
+				result = ThoughtState.ActiveAtStage(stageIndex);
 			}
-			return ThoughtState.Inactive;
+			return result;
 		}
 	}
 }

@@ -79,21 +79,33 @@ namespace RimWorld
 
 		private Pawn GetLeader()
 		{
-			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
+			int num = 0;
+			Pawn result;
+			while (true)
 			{
-				if (!base.lord.ownedPawns[i].Downed && this.IsSapper(base.lord.ownedPawns[i]))
+				if (num < base.lord.ownedPawns.Count)
 				{
-					return base.lord.ownedPawns[i];
+					if (!base.lord.ownedPawns[num].Downed && this.IsSapper(base.lord.ownedPawns[num]))
+					{
+						result = base.lord.ownedPawns[num];
+						break;
+					}
+					num++;
+					continue;
 				}
-			}
-			for (int j = 0; j < base.lord.ownedPawns.Count; j++)
-			{
-				if (!base.lord.ownedPawns[j].Downed)
+				int i;
+				for (i = 0; i < base.lord.ownedPawns.Count; i++)
 				{
-					return base.lord.ownedPawns[j];
+					if (!base.lord.ownedPawns[i].Downed)
+						goto IL_0095;
 				}
+				result = null;
+				break;
+				IL_0095:
+				result = base.lord.ownedPawns[i];
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		private bool IsSapper(Pawn p)

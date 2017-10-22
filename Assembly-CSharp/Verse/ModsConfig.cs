@@ -22,9 +22,11 @@ namespace Verse
 			get
 			{
 				ModLister.EnsureInit();
-				for (int i = 0; i < ModsConfig.data.activeMods.Count; i++)
+				int i = 0;
+				if (i < ModsConfig.data.activeMods.Count)
 				{
 					yield return ModLister.GetModWithIdentifier(ModsConfig.data.activeMods[i]);
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 		}
@@ -104,9 +106,24 @@ namespace Verse
 			}
 		}
 
+		public static void SetActiveToList(List<string> mods)
+		{
+			ModsConfig.data.activeMods = (from mod in mods
+			where ModLister.GetModWithIdentifier(mod) != null
+			select mod).ToList();
+		}
+
 		public static void Save()
 		{
 			DirectXmlSaver.SaveDataObject(ModsConfig.data, GenFilePaths.ModsConfigFilePath);
+		}
+
+		public static void RestartFromChangedMods()
+		{
+			Find.WindowStack.Add(new Dialog_MessageBox("ModsChanged".Translate(), (string)null, (Action)delegate
+			{
+				GenCommandLine.Restart();
+			}, (string)null, null, (string)null, false));
 		}
 	}
 }

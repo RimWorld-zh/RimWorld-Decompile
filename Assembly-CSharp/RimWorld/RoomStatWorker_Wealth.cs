@@ -14,7 +14,7 @@ namespace RimWorld
 				Thing thing = containedAndAdjacentThings[i];
 				if (thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Plant)
 				{
-					num += (float)thing.stackCount * thing.GetInnerIfMinified().MarketValue;
+					num += (float)thing.stackCount * thing.MarketValue;
 				}
 			}
 			foreach (IntVec3 cell in room.Cells)

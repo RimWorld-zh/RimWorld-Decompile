@@ -24,9 +24,6 @@ namespace Verse
 					return threadLocalDeepProfiler;
 				}
 				return threadLocalDeepProfiler;
-				IL_0049:
-				ThreadLocalDeepProfiler result;
-				return result;
 			}
 			finally
 			{

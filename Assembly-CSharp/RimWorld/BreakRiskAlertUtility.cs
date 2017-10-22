@@ -11,13 +11,25 @@ namespace RimWorld
 		{
 			get
 			{
-				foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
+				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMaps_FreeColonistsSpawned.GetEnumerator())
 				{
-					if (!item.Downed && item.mindState.mentalBreaker.BreakExtremeIsImminent)
+					Pawn p;
+					while (true)
 					{
-						yield return item;
+						if (enumerator.MoveNext())
+						{
+							p = enumerator.Current;
+							if (!p.Downed && p.mindState.mentalBreaker.BreakExtremeIsImminent)
+								break;
+							continue;
+						}
+						yield break;
 					}
+					yield return p;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
+				IL_00e1:
+				/*Error near IL_00e2: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -25,13 +37,25 @@ namespace RimWorld
 		{
 			get
 			{
-				foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
+				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMaps_FreeColonistsSpawned.GetEnumerator())
 				{
-					if (!item.Downed && item.mindState.mentalBreaker.BreakMajorIsImminent)
+					Pawn p;
+					while (true)
 					{
-						yield return item;
+						if (enumerator.MoveNext())
+						{
+							p = enumerator.Current;
+							if (!p.Downed && p.mindState.mentalBreaker.BreakMajorIsImminent)
+								break;
+							continue;
+						}
+						yield break;
 					}
+					yield return p;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
+				IL_00e1:
+				/*Error near IL_00e2: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -39,13 +63,25 @@ namespace RimWorld
 		{
 			get
 			{
-				foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
+				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMaps_FreeColonistsSpawned.GetEnumerator())
 				{
-					if (!item.Downed && item.mindState.mentalBreaker.BreakMinorIsImminent)
+					Pawn p;
+					while (true)
 					{
-						yield return item;
+						if (enumerator.MoveNext())
+						{
+							p = enumerator.Current;
+							if (!p.Downed && p.mindState.mentalBreaker.BreakMinorIsImminent)
+								break;
+							continue;
+						}
+						yield break;
 					}
+					yield return p;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
+				IL_00e1:
+				/*Error near IL_00e2: Unexpected return in MoveNext()*/;
 			}
 		}
 

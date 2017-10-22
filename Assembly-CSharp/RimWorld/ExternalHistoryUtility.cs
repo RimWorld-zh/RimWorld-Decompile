@@ -19,9 +19,11 @@ namespace RimWorld
 		{
 			get
 			{
-				for (int i = 0; i < ExternalHistoryUtility.cachedFiles.Count; i++)
+				int i = 0;
+				if (i < ExternalHistoryUtility.cachedFiles.Count)
 				{
 					yield return ExternalHistoryUtility.cachedFiles[i];
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 		}
@@ -51,23 +53,19 @@ namespace RimWorld
 				{
 					Scribe_Deep.Look(ref result, "externalHistory");
 					Scribe.loader.FinalizeLoading();
-					return result;
 				}
 				catch
 				{
 					Scribe.ForceStop();
 					throw;
-					IL_003c:
-					return result;
 				}
 			}
 			catch (Exception ex)
 			{
 				Log.Error("Could not load external history (" + path + "): " + ex.Message);
 				return null;
-				IL_0069:
-				return result;
 			}
+			return result;
 		}
 
 		public static string GetRandomGameplayID()
@@ -83,7 +81,12 @@ namespace RimWorld
 
 		public static bool IsValidGameplayID(string ID)
 		{
-			if (!ID.NullOrEmpty() && ID.Length == ExternalHistoryUtility.gameplayIDLength)
+			bool result;
+			if (ID.NullOrEmpty() || ID.Length != ExternalHistoryUtility.gameplayIDLength)
+			{
+				result = false;
+			}
+			else
 			{
 				for (int i = 0; i < ID.Length; i++)
 				{
@@ -100,13 +103,16 @@ namespace RimWorld
 						break;
 					}
 					if (!flag)
-					{
-						return false;
-					}
+						goto IL_006f;
 				}
-				return true;
+				result = true;
 			}
-			return false;
+			goto IL_008e;
+			IL_008e:
+			return result;
+			IL_006f:
+			result = false;
+			goto IL_008e;
 		}
 
 		public static string GetCurrentUploadDate()

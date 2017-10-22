@@ -6,7 +6,7 @@ namespace Verse
 	{
 		public float oldDamageThreshold = 9999f;
 
-		public bool isOldInt;
+		public bool isOldInt = false;
 
 		public float painFactor = 1f;
 

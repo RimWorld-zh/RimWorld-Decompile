@@ -6,7 +6,7 @@ namespace RimWorld
 	{
 		public float chance = 0.02f;
 
-		public bool humanlikeOnly;
+		public bool humanlikeOnly = false;
 
 		public CompProperties_FoodPoisoningChance()
 		{

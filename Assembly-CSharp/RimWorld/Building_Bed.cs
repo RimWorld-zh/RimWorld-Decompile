@@ -11,11 +11,11 @@ namespace RimWorld
 {
 	public class Building_Bed : Building, IAssignableBuilding
 	{
-		private bool forPrisonersInt;
+		private bool forPrisonersInt = false;
 
-		private bool medicalInt;
+		private bool medicalInt = false;
 
-		private bool alreadySetDefaultMed;
+		private bool alreadySetDefaultMed = false;
 
 		public List<Pawn> owners = new List<Pawn>();
 
@@ -41,7 +41,7 @@ namespace RimWorld
 			{
 				if (value != this.forPrisonersInt && base.def.building.bed_humanlike)
 				{
-					if (Current.ProgramState != ProgramState.Playing)
+					if (((Current.ProgramState != ProgramState.Playing) ? Scribe.mode : LoadSaveMode.Inactive) != 0)
 					{
 						Log.Error("Tried to set ForPrisoners while game mode was " + Current.ProgramState);
 					}
@@ -87,12 +87,17 @@ namespace RimWorld
 		{
 			get
 			{
+				bool result;
 				if (this.Medical)
 				{
 					Log.Warning("Tried to check for unowned sleeping slot on medical bed " + this);
-					return false;
+					result = false;
 				}
-				return this.owners.Count < this.SleepingSlotsCount;
+				else
+				{
+					result = (this.owners.Count < this.SleepingSlotsCount);
+				}
+				return result;
 			}
 		}
 
@@ -100,14 +105,24 @@ namespace RimWorld
 		{
 			get
 			{
-				for (int i = 0; i < this.SleepingSlotsCount; i++)
+				int num = 0;
+				bool result;
+				while (true)
 				{
-					if (this.GetCurOccupant(i) == null)
+					if (num < this.SleepingSlotsCount)
 					{
-						return true;
+						if (this.GetCurOccupant(num) == null)
+						{
+							result = true;
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = false;
+					break;
 				}
-				return false;
+				return result;
 			}
 		}
 
@@ -115,14 +130,24 @@ namespace RimWorld
 		{
 			get
 			{
-				for (int i = 0; i < this.SleepingSlotsCount; i++)
+				int i = 0;
+				Pawn occupant;
+				while (true)
 				{
-					Pawn occupant = this.GetCurOccupant(i);
-					if (occupant != null)
+					if (i < this.SleepingSlotsCount)
 					{
-						yield return occupant;
+						occupant = this.GetCurOccupant(i);
+						if (occupant == null)
+						{
+							i++;
+							continue;
+						}
+						break;
 					}
+					yield break;
 				}
+				yield return occupant;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -130,11 +155,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (base.def.MadeFromStuff)
-				{
-					return base.DrawColor;
-				}
-				return this.DrawColorTwo;
+				return (!base.def.MadeFromStuff) ? this.DrawColorTwo : base.DrawColor;
 			}
 		}
 
@@ -142,29 +163,18 @@ namespace RimWorld
 		{
 			get
 			{
+				Color result;
 				if (!base.def.building.bed_humanlike)
 				{
-					return base.DrawColorTwo;
+					result = base.DrawColorTwo;
 				}
-				bool forPrisoners = this.ForPrisoners;
-				bool medical = this.Medical;
-				if (forPrisoners && medical)
+				else
 				{
-					return Building_Bed.SheetColorMedicalForPrisoner;
+					bool forPrisoners = this.ForPrisoners;
+					bool medical = this.Medical;
+					result = ((!forPrisoners || !medical) ? ((!forPrisoners) ? ((!medical) ? ((base.def != ThingDefOf.RoyalBed) ? Building_Bed.SheetColorNormal : Building_Bed.SheetColorRoyal) : Building_Bed.SheetColorMedical) : Building_Bed.SheetColorForPrisoner) : Building_Bed.SheetColorMedicalForPrisoner);
 				}
-				if (forPrisoners)
-				{
-					return Building_Bed.SheetColorForPrisoner;
-				}
-				if (medical)
-				{
-					return Building_Bed.SheetColorMedical;
-				}
-				if (base.def == ThingDefOf.RoyalBed)
-				{
-					return Building_Bed.SheetColorRoyal;
-				}
-				return Building_Bed.SheetColorNormal;
+				return result;
 			}
 		}
 
@@ -172,7 +182,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.def.size.x;
+				return BedUtility.GetSleepingSlotsCount(base.def.size);
 			}
 		}
 
@@ -180,11 +190,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (!base.Spawned)
-				{
-					return Enumerable.Empty<Pawn>();
-				}
-				return base.Map.mapPawns.FreeColonists;
+				return base.Spawned ? base.Map.mapPawns.FreeColonists : Enumerable.Empty<Pawn>();
 			}
 		}
 
@@ -208,21 +214,31 @@ namespace RimWorld
 		{
 			get
 			{
+				bool result;
 				if (base.Faction == Faction.OfPlayer)
 				{
-					return true;
+					result = true;
 				}
-				int num = 0;
-				while (num < this.owners.Count)
+				else
 				{
-					if (this.owners[num].Faction != Faction.OfPlayer && this.owners[num].HostFaction != Faction.OfPlayer)
+					int num = 0;
+					while (num < this.owners.Count)
 					{
-						num++;
-						continue;
+						if (this.owners[num].Faction != Faction.OfPlayer && this.owners[num].HostFaction != Faction.OfPlayer)
+						{
+							num++;
+							continue;
+						}
+						goto IL_0056;
 					}
-					return true;
+					result = false;
 				}
-				return false;
+				goto IL_007a;
+				IL_0056:
+				result = true;
+				goto IL_007a;
+				IL_007a:
+				return result;
 			}
 		}
 
@@ -296,58 +312,41 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return gizmo;
-			}
-			if (base.def.building.bed_humanlike && base.Faction == Faction.OfPlayer)
-			{
-				Command_Toggle pris = new Command_Toggle
+				if (enumerator.MoveNext())
 				{
-					defaultLabel = "CommandBedSetForPrisonersLabel".Translate(),
-					defaultDesc = "CommandBedSetForPrisonersDesc".Translate(),
-					icon = ContentFinder<Texture2D>.Get("UI/Commands/ForPrisoners", true),
-					isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__Iterator154)/*Error near IL_0132: stateMachine*/)._003C_003Ef__this.ForPrisoners),
-					toggleAction = (Action)delegate
-					{
-						((_003CGetGizmos_003Ec__Iterator154)/*Error near IL_0149: stateMachine*/)._003C_003Ef__this.ToggleForPrisonersByInterface();
-					}
-				};
-				if (!Building_Bed.RoomCanBePrisonCell(this.GetRoom(RegionType.Set_Passable)) && !this.ForPrisoners)
-				{
-					pris.Disable("CommandBedSetForPrisonersFailOutdoors".Translate());
-				}
-				pris.hotKey = KeyBindingDefOf.Misc3;
-				pris.turnOffSound = null;
-				pris.turnOnSound = null;
-				yield return (Gizmo)pris;
-				yield return (Gizmo)new Command_Toggle
-				{
-					defaultLabel = "CommandBedSetAsMedicalLabel".Translate(),
-					defaultDesc = "CommandBedSetAsMedicalDesc".Translate(),
-					icon = ContentFinder<Texture2D>.Get("UI/Commands/AsMedical", true),
-					isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__Iterator154)/*Error near IL_0226: stateMachine*/)._003C_003Ef__this.Medical),
-					toggleAction = (Action)delegate
-					{
-						((_003CGetGizmos_003Ec__Iterator154)/*Error near IL_023d: stateMachine*/)._003C_003Ef__this.Medical = !((_003CGetGizmos_003Ec__Iterator154)/*Error near IL_023d: stateMachine*/)._003C_003Ef__this.Medical;
-					},
-					hotKey = KeyBindingDefOf.Misc2
-				};
-				if (!this.ForPrisoners && !this.Medical)
-				{
-					yield return (Gizmo)new Command_Action
-					{
-						defaultLabel = "CommandBedSetOwnerLabel".Translate(),
-						icon = ContentFinder<Texture2D>.Get("UI/Commands/AssignOwner", true),
-						defaultDesc = "CommandBedSetOwnerDesc".Translate(),
-						action = (Action)delegate
-						{
-							Find.WindowStack.Add(new Dialog_AssignBuildingOwner(((_003CGetGizmos_003Ec__Iterator154)/*Error near IL_02e7: stateMachine*/)._003C_003Ef__this));
-						},
-						hotKey = KeyBindingDefOf.Misc3
-					};
+					Gizmo g = enumerator.Current;
+					yield return g;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
+			if (!base.def.building.bed_humanlike)
+				yield break;
+			if (base.Faction != Faction.OfPlayer)
+				yield break;
+			Command_Toggle pris = new Command_Toggle
+			{
+				defaultLabel = "CommandBedSetForPrisonersLabel".Translate(),
+				defaultDesc = "CommandBedSetForPrisonersDesc".Translate(),
+				icon = ContentFinder<Texture2D>.Get("UI/Commands/ForPrisoners", true),
+				isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__Iterator1)/*Error near IL_0142: stateMachine*/)._0024this.ForPrisoners),
+				toggleAction = (Action)delegate
+				{
+					((_003CGetGizmos_003Ec__Iterator1)/*Error near IL_0159: stateMachine*/)._0024this.ToggleForPrisonersByInterface();
+				}
+			};
+			if (!Building_Bed.RoomCanBePrisonCell(this.GetRoom(RegionType.Set_Passable)) && !this.ForPrisoners)
+			{
+				pris.Disable("CommandBedSetForPrisonersFailOutdoors".Translate());
+			}
+			pris.hotKey = KeyBindingDefOf.Misc3;
+			pris.turnOffSound = null;
+			pris.turnOnSound = null;
+			yield return (Gizmo)pris;
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0357:
+			/*Error near IL_0358: Unexpected return in MoveNext()*/;
 		}
 
 		private void ToggleForPrisonersByInterface()
@@ -385,44 +384,26 @@ namespace RimWorld
 				Action action = (Action)delegate
 				{
 					List<Room> list = new List<Room>();
-					List<Building_Bed>.Enumerator enumerator4 = bedsToAffect.GetEnumerator();
-					try
+					foreach (Building_Bed item in bedsToAffect)
 					{
-						while (enumerator4.MoveNext())
+						Room room2 = item.GetRoom(RegionType.Set_Passable);
+						item.ForPrisoners = (newForPrisoners && !room2.TouchesMapEdge);
+						for (int j = 0; j < this.SleepingSlotsCount; j++)
 						{
-							Building_Bed current4 = enumerator4.Current;
-							Room room2 = current4.GetRoom(RegionType.Set_Passable);
-							current4.ForPrisoners = (newForPrisoners && !room2.TouchesMapEdge);
-							for (int j = 0; j < this.SleepingSlotsCount; j++)
+							Pawn curOccupant = this.GetCurOccupant(j);
+							if (curOccupant != null)
 							{
-								Pawn curOccupant = this.GetCurOccupant(j);
-								if (curOccupant != null)
-								{
-									curOccupant.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
-								}
-							}
-							if (!list.Contains(room2) && !room2.TouchesMapEdge)
-							{
-								list.Add(room2);
+								curOccupant.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
 							}
 						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator4).Dispose();
-					}
-					List<Room>.Enumerator enumerator5 = list.GetEnumerator();
-					try
-					{
-						while (enumerator5.MoveNext())
+						if (!list.Contains(room2) && !room2.TouchesMapEdge)
 						{
-							Room current5 = enumerator5.Current;
-							current5.Notify_RoomShapeOrContainedBedsChanged();
+							list.Add(room2);
 						}
 					}
-					finally
+					foreach (Room item2 in list)
 					{
-						((IDisposable)(object)enumerator5).Dispose();
+						item2.Notify_RoomShapeOrContainedBedsChanged();
 					}
 				};
 				if ((from b in bedsToAffect
@@ -443,30 +424,21 @@ namespace RimWorld
 						stringBuilder.Append("TurningOffPrisonerBedWarning".Translate());
 					}
 					stringBuilder.AppendLine();
-					List<Building_Bed>.Enumerator enumerator3 = bedsToAffect.GetEnumerator();
-					try
+					foreach (Building_Bed item3 in bedsToAffect)
 					{
-						while (enumerator3.MoveNext())
+						if (newForPrisoners && !item3.ForPrisoners)
 						{
-							Building_Bed current3 = enumerator3.Current;
-							if (newForPrisoners && !current3.ForPrisoners)
-							{
-								goto IL_0242;
-							}
-							if (!newForPrisoners && current3.ForPrisoners)
-								goto IL_0242;
-							continue;
-							IL_0242:
-							for (int i = 0; i < current3.owners.Count; i++)
-							{
-								stringBuilder.AppendLine();
-								stringBuilder.Append(current3.owners[i].NameStringShort);
-							}
+							goto IL_024d;
 						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator3).Dispose();
+						if (!newForPrisoners && item3.ForPrisoners)
+							goto IL_024d;
+						continue;
+						IL_024d:
+						for (int i = 0; i < item3.owners.Count; i++)
+						{
+							stringBuilder.AppendLine();
+							stringBuilder.Append(item3.owners[i].NameStringShort);
+						}
 					}
 					stringBuilder.AppendLine();
 					stringBuilder.AppendLine();
@@ -494,8 +466,10 @@ namespace RimWorld
 				if (this.Medical)
 				{
 					stringBuilder.AppendLine("MedicalBed".Translate());
-					stringBuilder.AppendLine("RoomSurgerySuccessChanceFactor".Translate() + ": " + this.GetRoom(RegionType.Set_Passable).GetStat(RoomStatDefOf.SurgerySuccessChanceFactor).ToStringPercent());
-					stringBuilder.AppendLine("RoomInfectionChanceFactor".Translate() + ": " + this.GetRoom(RegionType.Set_Passable).GetStat(RoomStatDefOf.InfectionChanceFactor).ToStringPercent());
+					if (base.Spawned)
+					{
+						stringBuilder.AppendLine("RoomInfectionChanceFactor".Translate() + ": " + this.GetRoom(RegionType.Set_Passable).GetStat(RoomStatDefOf.InfectionChanceFactor).ToStringPercent());
+					}
 				}
 				else if (this.PlayerCanSeeOwners)
 				{
@@ -529,34 +503,41 @@ namespace RimWorld
 
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn myPawn)
 		{
-			if (myPawn.RaceProps.Humanlike && !this.ForPrisoners && this.Medical && !myPawn.Drafted && base.Faction == Faction.OfPlayer)
+			_003CGetFloatMenuOptions_003Ec__Iterator2 _003CGetFloatMenuOptions_003Ec__Iterator = (_003CGetFloatMenuOptions_003Ec__Iterator2)/*Error near IL_003a: stateMachine*/;
+			if (!myPawn.RaceProps.Humanlike)
+				yield break;
+			if (this.ForPrisoners)
+				yield break;
+			if (!this.Medical)
+				yield break;
+			if (myPawn.Drafted)
+				yield break;
+			if (base.Faction != Faction.OfPlayer)
+				yield break;
+			if (!RestUtility.CanUseBedEver(myPawn, base.def))
+				yield break;
+			if (!HealthAIUtility.ShouldSeekMedicalRest(myPawn) && !HealthAIUtility.ShouldSeekMedicalRestUrgent(myPawn))
 			{
-				if (!HealthAIUtility.ShouldSeekMedicalRest(myPawn) && !HealthAIUtility.ShouldSeekMedicalRestUrgent(myPawn))
-				{
-					yield return new FloatMenuOption("UseMedicalBed".Translate() + " (" + "NotInjured".Translate() + ")", null, MenuOptionPriority.Default, null, null, 0f, null, null);
-				}
-				else
-				{
-					Action sleep = (Action)delegate
-					{
-						if (!((_003CGetFloatMenuOptions_003Ec__Iterator155)/*Error near IL_00ee: stateMachine*/)._003C_003Ef__this.ForPrisoners && ((_003CGetFloatMenuOptions_003Ec__Iterator155)/*Error near IL_00ee: stateMachine*/)._003C_003Ef__this.Medical && ((_003CGetFloatMenuOptions_003Ec__Iterator155)/*Error near IL_00ee: stateMachine*/).myPawn.CanReserveAndReach((Thing)((_003CGetFloatMenuOptions_003Ec__Iterator155)/*Error near IL_00ee: stateMachine*/)._003C_003Ef__this, PathEndMode.ClosestTouch, Danger.Deadly, ((_003CGetFloatMenuOptions_003Ec__Iterator155)/*Error near IL_00ee: stateMachine*/)._003C_003Ef__this.SleepingSlotsCount, -1, null, true))
-						{
-							Job job = new Job(JobDefOf.LayDown, (Thing)((_003CGetFloatMenuOptions_003Ec__Iterator155)/*Error near IL_00ee: stateMachine*/)._003C_003Ef__this);
-							job.restUntilHealed = true;
-							((_003CGetFloatMenuOptions_003Ec__Iterator155)/*Error near IL_00ee: stateMachine*/).myPawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-							((_003CGetFloatMenuOptions_003Ec__Iterator155)/*Error near IL_00ee: stateMachine*/).myPawn.mindState.ResetLastDisturbanceTick();
-						}
-					};
-					if (this.AnyUnoccupiedSleepingSlot)
-					{
-						yield return FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("UseMedicalBed".Translate(), sleep, MenuOptionPriority.Default, null, null, 0f, null, null), myPawn, (Thing)this, "ReservedBy");
-					}
-					else
-					{
-						yield return FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("UseMedicalBed".Translate(), sleep, MenuOptionPriority.Default, null, null, 0f, null, null), myPawn, (Thing)this, "SomeoneElseSleeping");
-					}
-				}
+				yield return new FloatMenuOption("UseMedicalBed".Translate() + " (" + "NotInjured".Translate() + ")", null, MenuOptionPriority.Default, null, null, 0f, null, null);
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			Action sleep = (Action)delegate()
+			{
+				if (!_003CGetFloatMenuOptions_003Ec__Iterator._0024this.ForPrisoners && _003CGetFloatMenuOptions_003Ec__Iterator._0024this.Medical && myPawn.CanReserveAndReach((Thing)_003CGetFloatMenuOptions_003Ec__Iterator._0024this, PathEndMode.ClosestTouch, Danger.Deadly, _003CGetFloatMenuOptions_003Ec__Iterator._0024this.SleepingSlotsCount, -1, null, true))
+				{
+					Job job = new Job(JobDefOf.LayDown, (Thing)_003CGetFloatMenuOptions_003Ec__Iterator._0024this);
+					job.restUntilHealed = true;
+					myPawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+					myPawn.mindState.ResetLastDisturbanceTick();
+				}
+			};
+			if (this.AnyUnoccupiedSleepingSlot)
+			{
+				yield return FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("UseMedicalBed".Translate(), sleep, MenuOptionPriority.Default, null, null, 0f, null, null), myPawn, (Thing)this, "ReservedBy");
+				/*Error: Unable to find new state assignment for yield return*/;
+			}
+			yield return FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("UseMedicalBed".Translate(), sleep, MenuOptionPriority.Default, null, null, 0f, null, null), myPawn, (Thing)this, "SomeoneElseSleeping");
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override void DrawGUIOverlay()
@@ -590,77 +571,80 @@ namespace RimWorld
 
 		public Pawn GetCurOccupant(int slotIndex)
 		{
+			Pawn result;
+			Pawn pawn;
 			if (!base.Spawned)
 			{
-				return null;
+				result = null;
 			}
-			IntVec3 sleepingSlotPos = this.GetSleepingSlotPos(slotIndex);
-			List<Thing> list = base.Map.thingGrid.ThingsListAt(sleepingSlotPos);
-			for (int i = 0; i < list.Count; i++)
+			else
 			{
-				Pawn pawn = list[i] as Pawn;
-				if (pawn != null && pawn.CurJob != null && pawn.jobs.curDriver.layingDown == LayingDownState.LayingInBed)
+				IntVec3 sleepingSlotPos = this.GetSleepingSlotPos(slotIndex);
+				List<Thing> list = base.Map.thingGrid.ThingsListAt(sleepingSlotPos);
+				for (int i = 0; i < list.Count; i++)
 				{
-					return pawn;
+					pawn = (list[i] as Pawn);
+					if (pawn != null && pawn.CurJob != null && pawn.jobs.curDriver.layingDown == LayingDownState.LayingInBed)
+						goto IL_0073;
 				}
+				result = null;
 			}
-			return null;
+			goto IL_0094;
+			IL_0094:
+			return result;
+			IL_0073:
+			result = pawn;
+			goto IL_0094;
 		}
 
 		public int GetCurOccupantSlotIndex(Pawn curOccupant)
 		{
-			for (int i = 0; i < this.SleepingSlotsCount; i++)
+			int num = 0;
+			int result;
+			while (true)
 			{
-				if (this.GetCurOccupant(i) == curOccupant)
+				if (num < this.SleepingSlotsCount)
 				{
-					return i;
+					if (this.GetCurOccupant(num) == curOccupant)
+					{
+						result = num;
+						break;
+					}
+					num++;
+					continue;
 				}
+				Log.Error("Could not find pawn " + curOccupant + " on any of sleeping slots.");
+				result = 0;
+				break;
 			}
-			Log.Error("Could not find pawn " + curOccupant + " on any of sleeping slots.");
-			return 0;
+			return result;
 		}
 
 		public Pawn GetCurOccupantAt(IntVec3 pos)
 		{
-			for (int i = 0; i < this.SleepingSlotsCount; i++)
+			int num = 0;
+			Pawn result;
+			while (true)
 			{
-				if (this.GetSleepingSlotPos(i) == pos)
+				if (num < this.SleepingSlotsCount)
 				{
-					return this.GetCurOccupant(i);
+					if (this.GetSleepingSlotPos(num) == pos)
+					{
+						result = this.GetCurOccupant(num);
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public IntVec3 GetSleepingSlotPos(int index)
 		{
-			if (index >= 0 && index < this.SleepingSlotsCount)
-			{
-				CellRect cellRect = this.OccupiedRect();
-				if (base.Rotation == Rot4.North)
-				{
-					int newX = cellRect.minX + index;
-					IntVec3 position = base.Position;
-					return new IntVec3(newX, position.y, cellRect.minZ);
-				}
-				if (base.Rotation == Rot4.East)
-				{
-					int minX = cellRect.minX;
-					IntVec3 position2 = base.Position;
-					return new IntVec3(minX, position2.y, cellRect.maxZ - index);
-				}
-				if (base.Rotation == Rot4.South)
-				{
-					int newX2 = cellRect.minX + index;
-					IntVec3 position3 = base.Position;
-					return new IntVec3(newX2, position3.y, cellRect.maxZ);
-				}
-				int maxX = cellRect.maxX;
-				IntVec3 position4 = base.Position;
-				return new IntVec3(maxX, position4.y, cellRect.maxZ - index);
-			}
-			Log.Error("Tried to get sleeping slot pos with index " + index + ", but there are only " + this.SleepingSlotsCount + " sleeping slots available.");
-			return base.Position;
+			return BedUtility.GetSleepingSlotPos(index, base.Position, base.Rotation, base.def.size);
 		}
 
 		public void SortOwners()

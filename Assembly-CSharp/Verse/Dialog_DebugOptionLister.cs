@@ -1,6 +1,5 @@
 using RimWorld.Planet;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -8,6 +7,8 @@ namespace Verse
 {
 	public abstract class Dialog_DebugOptionLister : Dialog_OptionLister
 	{
+		private const float DebugOptionsGap = 7f;
+
 		protected void DebugAction(string label, Action action)
 		{
 			if (!base.FilterAllows(label))
@@ -53,20 +54,11 @@ namespace Verse
 			{
 				if (UI.MouseCell().InBounds(Find.VisibleMap))
 				{
-					List<Pawn>.Enumerator enumerator = (from t in Find.VisibleMap.thingGrid.ThingsAt(UI.MouseCell())
+					foreach (Pawn item in (from t in Find.VisibleMap.thingGrid.ThingsAt(UI.MouseCell())
 					where t is Pawn
-					select t).Cast<Pawn>().ToList().GetEnumerator();
-					try
+					select t).Cast<Pawn>().ToList())
 					{
-						while (enumerator.MoveNext())
-						{
-							Pawn current = enumerator.Current;
-							pawnAction(current);
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
+						pawnAction(item);
 					}
 				}
 			});
@@ -105,6 +97,18 @@ namespace Verse
 			{
 				base.totalOptionsHeight += 24f;
 			}
+		}
+
+		protected void DoLabel(string label)
+		{
+			base.listing.Label(label, -1f);
+			base.totalOptionsHeight += (float)(Text.CalcHeight(label, 300f) + 2.0);
+		}
+
+		protected void DoGap()
+		{
+			base.listing.Gap(7f);
+			base.totalOptionsHeight += 7f;
 		}
 	}
 }

@@ -44,6 +44,10 @@ namespace RimWorld
 			if (Widgets.ButtonInvisible(rect2, false))
 			{
 				CameraJumper.TryJumpAndSelect((Thing)pawn);
+				if (Current.ProgramState == ProgramState.Playing && Event.current.button == 0)
+				{
+					Find.MainTabsRoot.EscapeCurrentTab(false);
+				}
 			}
 			else
 			{

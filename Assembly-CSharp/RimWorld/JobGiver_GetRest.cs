@@ -7,7 +7,7 @@ namespace RimWorld
 {
 	public class JobGiver_GetRest : ThinkNode_JobGiver
 	{
-		private RestCategory minCategory;
+		private RestCategory minCategory = RestCategory.Rested;
 
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -19,22 +19,27 @@ namespace RimWorld
 		public override float GetPriority(Pawn pawn)
 		{
 			Need_Rest rest = pawn.needs.rest;
+			float result;
 			if (rest == null)
 			{
-				return 0f;
+				result = 0f;
+				goto IL_019b;
 			}
 			if ((int)rest.CurCategory < (int)this.minCategory)
 			{
-				return 0f;
+				result = 0f;
+				goto IL_019b;
 			}
 			if (Find.TickManager.TicksGame < pawn.mindState.canSleepTick)
 			{
-				return 0f;
+				result = 0f;
+				goto IL_019b;
 			}
 			Lord lord = pawn.GetLord();
 			if (lord != null && !lord.CurLordToil.AllowSatisfyLongNeeds)
 			{
-				return 0f;
+				result = 0f;
+				goto IL_019b;
 			}
 			TimeAssignmentDef timeAssignmentDef;
 			if (pawn.RaceProps.Humanlike)
@@ -49,68 +54,93 @@ namespace RimWorld
 			float curLevel = rest.CurLevel;
 			if (timeAssignmentDef == TimeAssignmentDefOf.Anything)
 			{
-				if (curLevel < 0.30000001192092896)
-				{
-					return 8f;
-				}
-				return 0f;
+				result = (float)((!(curLevel < 0.30000001192092896)) ? 0.0 : 8.0);
+				goto IL_019b;
 			}
 			if (timeAssignmentDef == TimeAssignmentDefOf.Work)
 			{
-				return 0f;
+				result = 0f;
+				goto IL_019b;
 			}
 			if (timeAssignmentDef == TimeAssignmentDefOf.Joy)
 			{
-				if (curLevel < 0.30000001192092896)
-				{
-					return 8f;
-				}
-				return 0f;
+				result = (float)((!(curLevel < 0.30000001192092896)) ? 0.0 : 8.0);
+				goto IL_019b;
 			}
 			if (timeAssignmentDef == TimeAssignmentDefOf.Sleep)
 			{
-				if (curLevel < RestUtility.FallAsleepMaxLevel(pawn))
-				{
-					return 8f;
-				}
-				return 0f;
+				result = (float)((!(curLevel < RestUtility.FallAsleepMaxLevel(pawn))) ? 0.0 : 8.0);
+				goto IL_019b;
 			}
 			throw new NotImplementedException();
+			IL_019b:
+			return result;
 		}
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Need_Rest rest = pawn.needs.rest;
+			Job result;
+			Building_Bed building_Bed;
 			if (rest != null && (int)rest.CurCategory >= (int)this.minCategory)
 			{
 				if (RestUtility.DisturbancePreventsLyingDown(pawn))
 				{
-					return null;
+					result = null;
+					goto IL_00bc;
 				}
 				Lord lord = pawn.GetLord();
-				Building_Bed building_Bed = (lord == null || lord.CurLordToil == null || lord.CurLordToil.AllowRestingInBed) ? RestUtility.FindBedFor(pawn) : null;
-				if (building_Bed != null)
+				if (lord != null && lord.CurLordToil != null && !lord.CurLordToil.AllowRestingInBed)
 				{
-					return new Job(JobDefOf.LayDown, (Thing)building_Bed);
+					goto IL_0070;
 				}
-				return new Job(JobDefOf.LayDown, this.FindGroundSleepSpotFor(pawn));
+				if (pawn.IsWildMan())
+					goto IL_0070;
+				building_Bed = RestUtility.FindBedFor(pawn);
+				goto IL_007e;
 			}
-			return null;
+			result = null;
+			goto IL_00bc;
+			IL_007e:
+			if (building_Bed != null)
+			{
+				Job job = result = new Job(JobDefOf.LayDown, (Thing)building_Bed);
+			}
+			else
+			{
+				result = new Job(JobDefOf.LayDown, this.FindGroundSleepSpotFor(pawn));
+			}
+			goto IL_00bc;
+			IL_00bc:
+			return result;
+			IL_0070:
+			building_Bed = null;
+			goto IL_007e;
 		}
 
 		private IntVec3 FindGroundSleepSpotFor(Pawn pawn)
 		{
 			Map map = pawn.Map;
-			for (int i = 0; i < 2; i++)
+			int num = 0;
+			IntVec3 result;
+			while (true)
 			{
-				int radius = (i != 0) ? 12 : 4;
-				IntVec3 result = default(IntVec3);
-				if (CellFinder.TryRandomClosewalkCellNear(pawn.Position, map, radius, out result, (Predicate<IntVec3>)((IntVec3 x) => !x.IsForbidden(pawn) && !x.GetTerrain(map).avoidWander)))
+				if (num < 2)
 				{
-					return result;
+					int radius = (num != 0) ? 12 : 4;
+					IntVec3 intVec = default(IntVec3);
+					if (CellFinder.TryRandomClosewalkCellNear(pawn.Position, map, radius, out intVec, (Predicate<IntVec3>)((IntVec3 x) => !x.IsForbidden(pawn) && !x.GetTerrain(map).avoidWander)))
+					{
+						result = intVec;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = CellFinder.RandomClosewalkCellNearNotForbidden(pawn.Position, map, 4, pawn);
+				break;
 			}
-			return CellFinder.RandomClosewalkCellNearNotForbidden(pawn.Position, map, 4, pawn);
+			return result;
 		}
 	}
 }

@@ -23,18 +23,23 @@ namespace Verse
 
 		public T GetSettings<T>() where T : ModSettings, new()
 		{
+			T result;
 			if (this.modSettings != null && this.modSettings.GetType() != typeof(T))
 			{
 				Log.Error(string.Format("Mod {0} attempted to read two different settings classes (was {1}, is now {2})", this.Content.Name, this.modSettings.GetType(), typeof(T)));
-				return (T)null;
+				result = (T)null;
 			}
-			if (this.modSettings != null)
+			else if (this.modSettings != null)
 			{
-				return (T)this.modSettings;
+				result = (T)this.modSettings;
 			}
-			this.modSettings = (ModSettings)(object)LoadedModManager.ReadModSettings<T>(this.intContent.Identifier, base.GetType().Name);
-			this.modSettings.Mod = this;
-			return (T)(this.modSettings as T);
+			else
+			{
+				this.modSettings = (ModSettings)(object)LoadedModManager.ReadModSettings<T>(this.intContent.Identifier, base.GetType().Name);
+				this.modSettings.Mod = this;
+				result = (T)(this.modSettings as T);
+			}
+			return result;
 		}
 
 		public virtual void WriteSettings()
@@ -51,7 +56,7 @@ namespace Verse
 
 		public virtual string SettingsCategory()
 		{
-			return string.Empty;
+			return "";
 		}
 	}
 }

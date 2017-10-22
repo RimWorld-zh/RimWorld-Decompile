@@ -7,45 +7,57 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
+			ThoughtState result;
 			if (p.needs.beauty == null)
 			{
-				return ThoughtState.Inactive;
+				result = ThoughtState.Inactive;
 			}
-			switch (p.needs.beauty.CurCategory)
+			else
 			{
-			case BeautyCategory.Hideous:
-			{
-				return ThoughtState.ActiveAtStage(0);
+				switch (p.needs.beauty.CurCategory)
+				{
+				case BeautyCategory.Hideous:
+				{
+					result = ThoughtState.ActiveAtStage(0);
+					break;
+				}
+				case BeautyCategory.VeryUgly:
+				{
+					result = ThoughtState.ActiveAtStage(1);
+					break;
+				}
+				case BeautyCategory.Ugly:
+				{
+					result = ThoughtState.ActiveAtStage(2);
+					break;
+				}
+				case BeautyCategory.Neutral:
+				{
+					result = ThoughtState.Inactive;
+					break;
+				}
+				case BeautyCategory.Pretty:
+				{
+					result = ThoughtState.ActiveAtStage(3);
+					break;
+				}
+				case BeautyCategory.VeryPretty:
+				{
+					result = ThoughtState.ActiveAtStage(4);
+					break;
+				}
+				case BeautyCategory.Beautiful:
+				{
+					result = ThoughtState.ActiveAtStage(5);
+					break;
+				}
+				default:
+				{
+					throw new InvalidOperationException("Unknown BeautyCategory");
+				}
+				}
 			}
-			case BeautyCategory.VeryUgly:
-			{
-				return ThoughtState.ActiveAtStage(1);
-			}
-			case BeautyCategory.Ugly:
-			{
-				return ThoughtState.ActiveAtStage(2);
-			}
-			case BeautyCategory.Neutral:
-			{
-				return ThoughtState.Inactive;
-			}
-			case BeautyCategory.Pretty:
-			{
-				return ThoughtState.ActiveAtStage(3);
-			}
-			case BeautyCategory.VeryPretty:
-			{
-				return ThoughtState.ActiveAtStage(4);
-			}
-			case BeautyCategory.Beautiful:
-			{
-				return ThoughtState.ActiveAtStage(5);
-			}
-			default:
-			{
-				throw new InvalidOperationException("Unknown BeautyCategory");
-			}
-			}
+			return result;
 		}
 	}
 }

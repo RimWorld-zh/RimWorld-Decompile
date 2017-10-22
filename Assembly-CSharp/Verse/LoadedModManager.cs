@@ -11,6 +11,14 @@ namespace Verse
 
 		private static Dictionary<Type, Mod> runningModClasses = new Dictionary<Type, Mod>();
 
+		public static List<ModContentPack> RunningModsListForReading
+		{
+			get
+			{
+				return LoadedModManager.runningMods;
+			}
+		}
+
 		public static IEnumerable<ModContentPack> RunningMods
 		{
 			get
@@ -31,31 +39,22 @@ namespace Verse
 		{
 			XmlInheritance.Clear();
 			int num = 0;
-			List<ModMetaData>.Enumerator enumerator = ModsConfig.ActiveModsInLoadOrder.ToList().GetEnumerator();
-			try
+			foreach (ModMetaData item2 in ModsConfig.ActiveModsInLoadOrder.ToList())
 			{
-				while (enumerator.MoveNext())
+				DeepProfiler.Start("Initializing " + item2);
+				if (!item2.RootDir.Exists)
 				{
-					ModMetaData current = enumerator.Current;
-					DeepProfiler.Start("Initializing " + current);
-					if (!current.RootDir.Exists)
-					{
-						ModsConfig.SetActive(current.Identifier, false);
-						Log.Warning("Failed to find active mod " + current.Name + "(" + current.Identifier + ") at " + current.RootDir);
-						DeepProfiler.End();
-					}
-					else
-					{
-						ModContentPack item = new ModContentPack(current.RootDir, num, current.Name);
-						num++;
-						LoadedModManager.runningMods.Add(item);
-						DeepProfiler.End();
-					}
+					ModsConfig.SetActive(item2.Identifier, false);
+					Log.Warning("Failed to find active mod " + item2.Name + "(" + item2.Identifier + ") at " + item2.RootDir);
+					DeepProfiler.End();
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				else
+				{
+					ModContentPack item = new ModContentPack(item2.RootDir, num, item2.Name);
+					num++;
+					LoadedModManager.runningMods.Add(item);
+					DeepProfiler.End();
+				}
 			}
 			for (int i = 0; i < LoadedModManager.runningMods.Count; i++)
 			{
@@ -64,62 +63,39 @@ namespace Verse
 				modContentPack.ReloadContent();
 				DeepProfiler.End();
 			}
+			foreach (Type item3 in typeof(Mod).InstantiableDescendantsAndSelf())
+			{
+				if (!LoadedModManager.runningModClasses.ContainsKey(item3))
+				{
+					ModContentPack modContentPack2 = (from modpack in LoadedModManager.runningMods
+					where modpack.assemblies.loadedAssemblies.Contains(item3.Assembly)
+					select modpack).FirstOrDefault();
+					LoadedModManager.runningModClasses[item3] = (Mod)Activator.CreateInstance(item3, modContentPack2);
+				}
+			}
 			for (int j = 0; j < LoadedModManager.runningMods.Count; j++)
 			{
-				ModContentPack modContentPack2 = LoadedModManager.runningMods[j];
-				DeepProfiler.Start("Loading " + modContentPack2);
-				modContentPack2.LoadDefs(LoadedModManager.runningMods.SelectMany((Func<ModContentPack, IEnumerable<PatchOperation>>)((ModContentPack rm) => rm.Patches)));
+				ModContentPack modContentPack3 = LoadedModManager.runningMods[j];
+				DeepProfiler.Start("Loading " + modContentPack3);
+				modContentPack3.LoadDefs(LoadedModManager.runningMods.SelectMany((Func<ModContentPack, IEnumerable<PatchOperation>>)((ModContentPack rm) => rm.Patches)));
 				DeepProfiler.End();
 			}
-			List<ModContentPack>.Enumerator enumerator2 = LoadedModManager.runningMods.GetEnumerator();
-			try
+			foreach (ModContentPack runningMod in LoadedModManager.runningMods)
 			{
-				while (enumerator2.MoveNext())
+				foreach (PatchOperation patch in runningMod.Patches)
 				{
-					ModContentPack current2 = enumerator2.Current;
-					foreach (PatchOperation patch in current2.Patches)
-					{
-						patch.Complete(current2.Name);
-					}
-					current2.ClearPatchesCache();
+					patch.Complete(runningMod.Name);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
-			}
-			using (IEnumerator<Type> enumerator4 = typeof(Mod).InstantiableDescendantsAndSelf().GetEnumerator())
-			{
-				Type type;
-				while (enumerator4.MoveNext())
-				{
-					type = enumerator4.Current;
-					if (!LoadedModManager.runningModClasses.ContainsKey(type))
-					{
-						ModContentPack modContentPack3 = (from modpack in LoadedModManager.runningMods
-						where modpack.assemblies.loadedAssemblies.Contains(type.Assembly)
-						select modpack).FirstOrDefault();
-						LoadedModManager.runningModClasses[type] = (Mod)Activator.CreateInstance(type, modContentPack3);
-					}
-				}
+				runningMod.ClearPatchesCache();
 			}
 			XmlInheritance.Clear();
 		}
 
 		public static void ClearDestroy()
 		{
-			List<ModContentPack>.Enumerator enumerator = LoadedModManager.runningMods.GetEnumerator();
-			try
+			foreach (ModContentPack runningMod in LoadedModManager.runningMods)
 			{
-				while (enumerator.MoveNext())
-				{
-					ModContentPack current = enumerator.Current;
-					current.ClearDestroy();
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				runningMod.ClearDestroy();
 			}
 			LoadedModManager.runningMods.Clear();
 		}
@@ -131,13 +107,9 @@ namespace Verse
 
 		public static Mod GetMod(Type type)
 		{
-			if (LoadedModManager.runningModClasses.ContainsKey(type))
-			{
-				return LoadedModManager.runningModClasses[type];
-			}
-			return (from kvp in LoadedModManager.runningModClasses
+			return (!LoadedModManager.runningModClasses.ContainsKey(type)) ? (from kvp in LoadedModManager.runningModClasses
 			where type.IsAssignableFrom(kvp.Key)
-			select kvp).FirstOrDefault().Value;
+			select kvp).FirstOrDefault().Value : LoadedModManager.runningModClasses[type];
 		}
 
 		private static string GetSettingsFilename(string modIdentifier, string modHandleName)

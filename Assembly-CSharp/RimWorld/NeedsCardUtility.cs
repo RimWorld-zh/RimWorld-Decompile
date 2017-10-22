@@ -8,6 +8,14 @@ namespace RimWorld
 {
 	public static class NeedsCardUtility
 	{
+		private static List<Need> displayNeeds = new List<Need>();
+
+		private static readonly Color MoodColor = new Color(0.1f, 1f, 0.1f);
+
+		private static readonly Color MoodColorNegative = new Color(0.8f, 0.4f, 0.4f);
+
+		private static readonly Color NoEffectColor = new Color(0.5f, 0.5f, 0.5f, 0.75f);
+
 		private const float ThoughtHeight = 20f;
 
 		private const float ThoughtSpacing = 4f;
@@ -20,14 +28,6 @@ namespace RimWorld
 
 		private const float NeedsColumnWidth = 225f;
 
-		private static List<Need> displayNeeds = new List<Need>();
-
-		private static readonly Color MoodColor = new Color(0.1f, 1f, 0.1f);
-
-		private static readonly Color MoodColorNegative = new Color(0.8f, 0.4f, 0.4f);
-
-		private static readonly Color NoEffectColor = new Color(0.5f, 0.5f, 0.5f, 0.75f);
-
 		public static readonly Vector2 FullSize = new Vector2(580f, 520f);
 
 		private static List<Thought> thoughtGroupsPresent = new List<Thought>();
@@ -37,13 +37,18 @@ namespace RimWorld
 		public static Vector2 GetSize(Pawn pawn)
 		{
 			NeedsCardUtility.UpdateDisplayNeeds(pawn);
+			Vector2 result;
 			if (pawn.needs.mood != null)
 			{
-				return NeedsCardUtility.FullSize;
+				result = NeedsCardUtility.FullSize;
 			}
-			float num = (float)NeedsCardUtility.displayNeeds.Count;
-			Vector2 fullSize = NeedsCardUtility.FullSize;
-			return new Vector2(225f, num * Mathf.Min(70f, fullSize.y / (float)NeedsCardUtility.displayNeeds.Count));
+			else
+			{
+				float num = (float)NeedsCardUtility.displayNeeds.Count;
+				Vector2 fullSize = NeedsCardUtility.FullSize;
+				result = new Vector2(225f, num * Mathf.Min(70f, fullSize.y / (float)NeedsCardUtility.displayNeeds.Count));
+			}
+			return result;
 		}
 
 		public static void DoNeedsMoodAndThoughts(Rect rect, Pawn pawn, ref Vector2 thoughtScrollPosition)

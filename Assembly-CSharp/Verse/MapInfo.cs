@@ -1,11 +1,10 @@
 using RimWorld.Planet;
-using UnityEngine;
 
 namespace Verse
 {
 	public sealed class MapInfo : IExposable
 	{
-		private IntVec3 sizeInt = default(IntVec3);
+		private IntVec3 sizeInt;
 
 		public MapParent parent;
 
@@ -39,19 +38,6 @@ namespace Verse
 			set
 			{
 				this.sizeInt = value;
-			}
-		}
-
-		public int PowerOfTwoOverMapSize
-		{
-			get
-			{
-				int num = Mathf.Max(this.sizeInt.x, this.sizeInt.z);
-				int num2;
-				for (num2 = 1; num2 <= num; num2 *= 2)
-				{
-				}
-				return num2;
 			}
 		}
 

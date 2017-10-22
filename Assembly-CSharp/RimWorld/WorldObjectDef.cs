@@ -20,9 +20,13 @@ namespace RimWorld
 
 		public bool isTempIncidentMapOwner;
 
+		public List<IncidentTargetTypeDef> incidentTargetTypes;
+
 		public bool selectable = true;
 
 		public bool neverMultiSelect;
+
+		public MapGeneratorDef mapGenerator = null;
 
 		public List<Type> inspectorTabs;
 
@@ -53,15 +57,20 @@ namespace RimWorld
 		{
 			get
 			{
+				Material result;
 				if (this.texture.NullOrEmpty())
 				{
-					return null;
+					result = null;
 				}
-				if ((UnityEngine.Object)this.material == (UnityEngine.Object)null)
+				else
 				{
-					this.material = MaterialPool.MatFrom(this.texture, ShaderDatabase.WorldOverlayTransparentLit, WorldMaterials.WorldObjectRenderQueue);
+					if ((UnityEngine.Object)this.material == (UnityEngine.Object)null)
+					{
+						this.material = MaterialPool.MatFrom(this.texture, ShaderDatabase.WorldOverlayTransparentLit, WorldMaterials.WorldObjectRenderQueue);
+					}
+					result = this.material;
 				}
-				return this.material;
+				return result;
 			}
 		}
 
@@ -69,15 +78,20 @@ namespace RimWorld
 		{
 			get
 			{
+				Texture2D result;
 				if ((UnityEngine.Object)this.expandingIconTextureInt == (UnityEngine.Object)null)
 				{
 					if (this.expandingIconTexture.NullOrEmpty())
 					{
-						return null;
+						result = null;
+						goto IL_0049;
 					}
 					this.expandingIconTextureInt = ContentFinder<Texture2D>.Get(this.expandingIconTexture, true);
 				}
-				return this.expandingIconTextureInt;
+				result = this.expandingIconTextureInt;
+				goto IL_0049;
+				IL_0049:
+				return result;
 			}
 		}
 
@@ -115,17 +129,30 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string e2 = enumerator.Current;
+					yield return e2;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			for (int i = 0; i < this.comps.Count; i++)
 			{
-				foreach (string item2 in this.comps[i].ConfigErrors(this))
+				using (IEnumerator<string> enumerator2 = this.comps[i].ConfigErrors(this).GetEnumerator())
 				{
-					yield return item2;
+					if (enumerator2.MoveNext())
+					{
+						string e = enumerator2.Current;
+						yield return e;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
+			yield break;
+			IL_019e:
+			/*Error near IL_019f: Unexpected return in MoveNext()*/;
 		}
 	}
 }

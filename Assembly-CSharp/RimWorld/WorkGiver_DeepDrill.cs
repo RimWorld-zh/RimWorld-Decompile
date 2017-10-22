@@ -23,6 +23,11 @@ namespace RimWorld
 			}
 		}
 
+		public override Danger MaxPathDanger(Pawn pawn)
+		{
+			return Danger.Deadly;
+		}
+
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			return pawn.Map.listerBuildings.AllBuildingsColonistOfDef(ThingDefOf.DeepDrill).Cast<Thing>();
@@ -31,50 +36,65 @@ namespace RimWorld
 		public override bool ShouldSkip(Pawn pawn)
 		{
 			List<Building> allBuildingsColonist = pawn.Map.listerBuildings.allBuildingsColonist;
-			for (int i = 0; i < allBuildingsColonist.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (allBuildingsColonist[i].def == ThingDefOf.DeepDrill)
+				if (num < allBuildingsColonist.Count)
 				{
-					CompPowerTrader comp = allBuildingsColonist[i].GetComp<CompPowerTrader>();
-					if (comp != null && !comp.PowerOn)
+					if (allBuildingsColonist[num].def == ThingDefOf.DeepDrill)
 					{
-						continue;
+						CompPowerTrader comp = allBuildingsColonist[num].GetComp<CompPowerTrader>();
+						if (comp != null && !comp.PowerOn)
+						{
+							goto IL_0057;
+						}
+						result = false;
+						break;
 					}
-					return false;
+					goto IL_0057;
 				}
+				result = true;
+				break;
+				IL_0057:
+				num++;
 			}
-			return true;
+			return result;
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
+			bool result;
 			if (t.Faction != pawn.Faction)
 			{
-				return false;
+				result = false;
 			}
-			Building building = t as Building;
-			if (building == null)
+			else
 			{
-				return false;
+				Building building = t as Building;
+				if (building == null)
+				{
+					result = false;
+				}
+				else if (building.IsForbidden(pawn))
+				{
+					result = false;
+				}
+				else
+				{
+					LocalTargetInfo target = (Thing)building;
+					if (!pawn.CanReserve(target, 1, -1, null, forced))
+					{
+						result = false;
+					}
+					else
+					{
+						CompDeepDrill compDeepDrill = building.TryGetComp<CompDeepDrill>();
+						result = ((byte)(compDeepDrill.CanDrillNow() ? ((!building.IsBurning()) ? 1 : 0) : 0) != 0);
+					}
+				}
 			}
-			if (building.IsForbidden(pawn))
-			{
-				return false;
-			}
-			if (!pawn.CanReserve((Thing)building, 1, -1, null, forced))
-			{
-				return false;
-			}
-			CompDeepDrill compDeepDrill = building.TryGetComp<CompDeepDrill>();
-			if (!compDeepDrill.CanDrillNow())
-			{
-				return false;
-			}
-			if (building.IsBurning())
-			{
-				return false;
-			}
-			return true;
+			return result;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

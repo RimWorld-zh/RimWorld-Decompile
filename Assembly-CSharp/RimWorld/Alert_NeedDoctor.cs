@@ -31,17 +31,21 @@ namespace RimWorld
 							{
 								if (item2.Downed && (int)item2.needs.food.CurCategory < 0 && item2.InBed())
 								{
-									goto IL_01b3;
+									goto IL_01a9;
 								}
 								if (HealthAIUtility.ShouldBeTendedNow(item2))
-									goto IL_01b3;
+									goto IL_01a9;
 								continue;
-								IL_01b3:
+								IL_01a9:
 								yield return item2;
+								/*Error: Unable to find new state assignment for yield return*/;
 							}
 						}
 					}
 				}
+				yield break;
+				IL_022c:
+				/*Error near IL_022d: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -63,16 +67,17 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
+			AlertReport result;
 			if (Find.AnyPlayerHomeMap == null)
 			{
-				return false;
+				result = false;
 			}
-			Pawn pawn = this.Patients.FirstOrDefault();
-			if (pawn == null)
+			else
 			{
-				return false;
+				Pawn pawn = this.Patients.FirstOrDefault();
+				result = ((pawn != null) ? AlertReport.CulpritIs((Thing)pawn) : false);
 			}
-			return AlertReport.CulpritIs((Thing)pawn);
+			return result;
 		}
 	}
 }

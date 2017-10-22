@@ -18,20 +18,12 @@ namespace RimWorld
 
 		protected override Pawn GetFollowee(Pawn pawn)
 		{
-			if (pawn.playerSettings == null)
-			{
-				return null;
-			}
-			return pawn.playerSettings.master;
+			return (pawn.playerSettings != null) ? pawn.playerSettings.master : null;
 		}
 
 		protected override float GetRadius(Pawn pawn)
 		{
-			if (pawn.playerSettings.master.playerSettings.animalsReleased && pawn.training.IsCompleted(TrainableDefOf.Release))
-			{
-				return 50f;
-			}
-			return 3f;
+			return (float)((!pawn.playerSettings.master.playerSettings.animalsReleased || !pawn.training.IsCompleted(TrainableDefOf.Release)) ? 3.0 : 50.0);
 		}
 	}
 }

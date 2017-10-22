@@ -1,6 +1,8 @@
+#define ENABLE_PROFILER
 using RimWorld;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 using Verse.AI.Group;
 
 namespace Verse.AI
@@ -13,11 +15,13 @@ namespace Verse.AI
 		{
 			if (faction.def.canUseAvoidGrid)
 			{
+				Profiler.BeginSample("RegenerateAllAvoidGridsFor " + faction);
 				List<Map> maps = Find.Maps;
 				for (int i = 0; i < maps.Count; i++)
 				{
 					AvoidGridMaker.RegenerateAvoidGridsFor(faction, maps[i]);
 				}
+				Profiler.EndSample();
 			}
 		}
 
@@ -25,6 +29,7 @@ namespace Verse.AI
 		{
 			if (faction.def.canUseAvoidGrid)
 			{
+				Profiler.BeginSample("RegenerateAvoidGridsFor " + faction);
 				ByteGrid byteGrid = default(ByteGrid);
 				if (faction.avoidGridsSmart.TryGetValue(map, out byteGrid))
 				{
@@ -47,6 +52,7 @@ namespace Verse.AI
 				}
 				AvoidGridMaker.GenerateAvoidGridInternal(byteGrid, faction, map, AvoidGridMode.Smart);
 				AvoidGridMaker.GenerateAvoidGridInternal(byteGrid2, faction, map, AvoidGridMode.Basic);
+				Profiler.EndSample();
 			}
 		}
 

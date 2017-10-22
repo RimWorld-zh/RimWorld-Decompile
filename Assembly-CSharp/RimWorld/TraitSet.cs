@@ -9,21 +9,31 @@ namespace RimWorld
 
 		public List<Trait> allTraits = new List<Trait>();
 
-		public IEnumerable<MentalBreakDef> AllowedMentalBreaks
+		public IEnumerable<MentalBreakDef> TheOnlyAllowedMentalBreaks
 		{
 			get
 			{
-				for (int j = 0; j < this.allTraits.Count; j++)
+				int j = 0;
+				Trait trait;
+				int i;
+				while (true)
 				{
-					Trait trait = this.allTraits[j];
-					if (trait.CurrentData.allowedMentalBreaks != null)
+					if (j < this.allTraits.Count)
 					{
-						for (int i = 0; i < trait.CurrentData.allowedMentalBreaks.Count; i++)
+						trait = this.allTraits[j];
+						if (trait.CurrentData.theOnlyAllowedMentalBreaks != null)
 						{
-							yield return trait.CurrentData.allowedMentalBreaks[i];
+							i = 0;
+							if (i < trait.CurrentData.theOnlyAllowedMentalBreaks.Count)
+								break;
 						}
+						j++;
+						continue;
 					}
+					yield break;
 				}
+				yield return trait.CurrentData.theOnlyAllowedMentalBreaks[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -64,38 +74,68 @@ namespace RimWorld
 
 		public bool HasTrait(TraitDef tDef)
 		{
-			for (int i = 0; i < this.allTraits.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (this.allTraits[i].def == tDef)
+				if (num < this.allTraits.Count)
 				{
-					return true;
+					if (this.allTraits[num].def == tDef)
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public Trait GetTrait(TraitDef tDef)
 		{
-			for (int i = 0; i < this.allTraits.Count; i++)
+			int num = 0;
+			Trait result;
+			while (true)
 			{
-				if (this.allTraits[i].def == tDef)
+				if (num < this.allTraits.Count)
 				{
-					return this.allTraits[i];
+					if (this.allTraits[num].def == tDef)
+					{
+						result = this.allTraits[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public int DegreeOfTrait(TraitDef tDef)
 		{
-			for (int i = 0; i < this.allTraits.Count; i++)
+			int num = 0;
+			int result;
+			while (true)
 			{
-				if (this.allTraits[i].def == tDef)
+				if (num < this.allTraits.Count)
 				{
-					return this.allTraits[i].Degree;
+					if (this.allTraits[num].def == tDef)
+					{
+						result = this.allTraits[num].Degree;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = 0;
+				break;
 			}
-			return 0;
+			return result;
 		}
 	}
 }

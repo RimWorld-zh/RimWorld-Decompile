@@ -7,29 +7,49 @@ namespace RimWorld.Planet
 	{
 		public static string GenerateCaravanName(Caravan caravan)
 		{
-			for (int i = 1; i <= 1000; i++)
+			int num = 1;
+			string result;
+			while (true)
 			{
-				string text = caravan.def.label + " " + i;
-				if (!CaravanNameGenerator.CaravanNameInUse(text))
+				if (num <= 1000)
 				{
-					return text;
+					string text = caravan.def.label + " " + num;
+					if (!CaravanNameGenerator.CaravanNameInUse(text))
+					{
+						result = text;
+						break;
+					}
+					num++;
+					continue;
 				}
+				Log.Error("Ran out of caravan names.");
+				result = caravan.def.label;
+				break;
 			}
-			Log.Error("Ran out of caravan names.");
-			return caravan.def.label;
+			return result;
 		}
 
 		private static bool CaravanNameInUse(string name)
 		{
 			List<Caravan> caravans = Find.WorldObjects.Caravans;
-			for (int i = 0; i < caravans.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (caravans[i].Name == name)
+				if (num < caravans.Count)
 				{
-					return true;
+					if (caravans[num].Name == name)
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 	}
 }

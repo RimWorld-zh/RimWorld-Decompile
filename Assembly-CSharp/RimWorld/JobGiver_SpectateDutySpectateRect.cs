@@ -9,22 +9,23 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			PawnDuty duty = pawn.mindState.duty;
+			Job result;
+			IntVec3 c = default(IntVec3);
 			if (duty == null)
 			{
-				return null;
+				result = null;
 			}
-			IntVec3 c = default(IntVec3);
-			if (!SpectatorCellFinder.TryFindSpectatorCellFor(pawn, duty.spectateRect, pawn.Map, out c, duty.spectateRectAllowedSides, 1, (List<IntVec3>)null))
+			else if (!SpectatorCellFinder.TryFindSpectatorCellFor(pawn, duty.spectateRect, pawn.Map, out c, duty.spectateRectAllowedSides, 1, (List<IntVec3>)null))
 			{
-				return null;
+				result = null;
 			}
-			IntVec3 centerCell = duty.spectateRect.CenterCell;
-			Building edifice = c.GetEdifice(pawn.Map);
-			if (edifice != null && edifice.def.category == ThingCategory.Building && edifice.def.building.isSittable && pawn.CanReserve((Thing)edifice, 1, -1, null, false))
+			else
 			{
-				return new Job(JobDefOf.SpectateCeremony, (Thing)edifice, centerCell);
+				IntVec3 centerCell = duty.spectateRect.CenterCell;
+				Building edifice = c.GetEdifice(pawn.Map);
+				result = ((edifice == null || edifice.def.category != ThingCategory.Building || !edifice.def.building.isSittable || !pawn.CanReserve((Thing)edifice, 1, -1, null, false)) ? new Job(JobDefOf.SpectateCeremony, c, centerCell) : new Job(JobDefOf.SpectateCeremony, (Thing)edifice, centerCell));
 			}
-			return new Job(JobDefOf.SpectateCeremony, c, centerCell);
+			return result;
 		}
 	}
 }

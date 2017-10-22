@@ -22,12 +22,17 @@ namespace RimWorld
 						pawn = corpse.InnerPawn;
 					}
 				}
+				Pawn result;
 				if (pawn == null)
 				{
 					Log.Error("Character tab found no selected pawn to display.");
-					return null;
+					result = null;
 				}
-				return pawn;
+				else
+				{
+					result = pawn;
+				}
+				return result;
 			}
 		}
 
@@ -49,7 +54,7 @@ namespace RimWorld
 		protected override void FillTab()
 		{
 			Rect rect = new Rect(17f, 17f, CharacterCardUtility.PawnCardSize.x, CharacterCardUtility.PawnCardSize.y);
-			CharacterCardUtility.DrawCharacterCard(rect, this.PawnToShowInfoAbout);
+			CharacterCardUtility.DrawCharacterCard(rect, this.PawnToShowInfoAbout, null, default(Rect));
 		}
 	}
 }

@@ -1,6 +1,7 @@
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -9,10 +10,6 @@ namespace RimWorld
 {
 	public class Storyteller : IExposable
 	{
-		public const int IntervalsPerDay = 60;
-
-		public const int CheckInterval = 1000;
-
 		public StorytellerDef def;
 
 		public DifficultyDef difficulty;
@@ -26,6 +23,10 @@ namespace RimWorld
 		public static readonly Vector2 PortraitSizeTiny = new Vector2(116f, 124f);
 
 		public static readonly Vector2 PortraitSizeLarge = new Vector2(580f, 620f);
+
+		public const int IntervalsPerDay = 60;
+
+		public const int CheckInterval = 1000;
 
 		private static List<IIncidentTarget> tmpAllIncidentTargets = new List<IIncidentTarget>();
 
@@ -128,19 +129,24 @@ namespace RimWorld
 					for (int i = 0; i < targets.Count; i++)
 					{
 						IIncidentTarget targ = targets[i];
-						if ((c.props.allowedTargetTypes & targ.Type) != 0)
+						if (c.props.allowedTargetTypes == null || c.props.allowedTargetTypes.Count == 0 || c.props.allowedTargetTypes.Intersect(targ.AcceptedTypes()).Any())
 						{
 							foreach (FiringIncident item in c.MakeIntervalIncidents(targ))
 							{
-								if (Find.Storyteller.difficulty.allowBigThreats || item.def.category != IncidentCategory.ThreatBig)
+								if (!Find.Storyteller.difficulty.allowBigThreats && (item.def.category == IncidentCategory.ThreatBig || item.def.category == IncidentCategory.RaidBeacon))
 								{
-									yield return item;
+									continue;
 								}
+								yield return item;
+								/*Error: Unable to find new state assignment for yield return*/;
 							}
 						}
 					}
 				}
 			}
+			yield break;
+			IL_0230:
+			/*Error near IL_0231: Unexpected return in MoveNext()*/;
 		}
 
 		public void Notify_DefChanged()

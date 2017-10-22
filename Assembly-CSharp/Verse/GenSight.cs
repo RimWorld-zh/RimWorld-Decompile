@@ -8,6 +8,7 @@ namespace Verse
 	{
 		public static bool LineOfSight(IntVec3 start, IntVec3 end, Map map, bool skipFirstCell = false, Func<IntVec3, bool> validator = null, int halfXOffset = 0, int halfZOffset = 0)
 		{
+			bool result;
 			if (start.InBounds(map) && end.InBounds(map))
 			{
 				bool flag = (start.x != end.x) ? (start.x < end.x) : (start.z < end.z);
@@ -31,13 +32,9 @@ namespace Verse
 					if (!skipFirstCell || !(intVec == start))
 					{
 						if (!intVec.CanBeSeenOverFast(map))
-						{
-							return false;
-						}
+							goto IL_0135;
 						if ((object)validator != null && !validator(intVec))
-						{
-							return false;
-						}
+							goto IL_0151;
 					}
 					if (num8 > 0 || (num8 == 0 && flag))
 					{
@@ -51,13 +48,26 @@ namespace Verse
 					}
 					num5--;
 				}
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			goto IL_01a7;
+			IL_0135:
+			result = false;
+			goto IL_01a7;
+			IL_0151:
+			result = false;
+			goto IL_01a7;
+			IL_01a7:
+			return result;
 		}
 
-		public static bool LineOfSight(IntVec3 start, IntVec3 end, Map map, CellRect startRect, CellRect endRect)
+		public static bool LineOfSight(IntVec3 start, IntVec3 end, Map map, CellRect startRect, CellRect endRect, Func<IntVec3, bool> validator = null)
 		{
+			bool result;
 			if (start.InBounds(map) && end.InBounds(map))
 			{
 				bool flag = (start.x != end.x) ? (start.x < end.x) : (start.z < end.z);
@@ -71,18 +81,19 @@ namespace Verse
 				int num8 = num - num2;
 				num *= 2;
 				num2 *= 2;
-				IntVec3 c = default(IntVec3);
+				IntVec3 intVec = default(IntVec3);
 				while (num5 > 1)
 				{
-					c.x = num3;
-					c.z = num4;
-					if (endRect.Contains(c))
+					intVec.x = num3;
+					intVec.z = num4;
+					if (endRect.Contains(intVec))
+						goto IL_0110;
+					if (!startRect.Contains(intVec))
 					{
-						return true;
-					}
-					if (!startRect.Contains(c) && !c.CanBeSeenOverFast(map))
-					{
-						return false;
+						if (!intVec.CanBeSeenOverFast(map))
+							goto IL_0133;
+						if ((object)validator != null && !validator(intVec))
+							goto IL_014f;
 					}
 					if (num8 > 0 || (num8 == 0 && flag))
 					{
@@ -96,14 +107,36 @@ namespace Verse
 					}
 					num5--;
 				}
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			goto IL_01a5;
+			IL_0133:
+			result = false;
+			goto IL_01a5;
+			IL_014f:
+			result = false;
+			goto IL_01a5;
+			IL_0110:
+			result = true;
+			goto IL_01a5;
+			IL_01a5:
+			return result;
 		}
 
 		public static IEnumerable<IntVec3> PointsOnLineOfSight(IntVec3 start, IntVec3 end)
 		{
-			bool sideOnEqual = (start.x != end.x) ? (start.x < end.x) : (start.z < end.z);
+			if (start.x == end.x)
+			{
+				bool sideOnEqual = start.z < end.z;
+			}
+			else
+			{
+				bool sideOnEqual = start.x < end.x;
+			}
 			int dx2 = Mathf.Abs(end.x - start.x);
 			int dz2 = Mathf.Abs(end.z - start.z);
 			int x = start.x;
@@ -115,40 +148,38 @@ namespace Verse
 			dx2 *= 2;
 			dz2 *= 2;
 			IntVec3 c = default(IntVec3);
-			while (i > 1)
+			if (i > 1)
 			{
 				c.x = x;
 				c.z = z;
 				yield return c;
-				if (error <= 0 && (error != 0 || !sideOnEqual))
-				{
-					z += z_inc;
-					error += dx2;
-				}
-				else
-				{
-					x += x_inc;
-					error -= dz2;
-				}
-				i--;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
 		public static bool LineOfSightToEdges(IntVec3 start, IntVec3 end, Map map, bool skipFirstCell = false, Func<IntVec3, bool> validator = null)
 		{
+			bool result;
 			if (GenSight.LineOfSight(start, end, map, skipFirstCell, validator, 0, 0))
 			{
-				return true;
+				result = true;
 			}
-			int num = (start * 2).DistanceToSquared(end * 2);
-			for (int i = 0; i < 4; i++)
+			else
 			{
-				if ((start * 2).DistanceToSquared(end * 2 + GenAdj.CardinalDirections[i]) <= num && GenSight.LineOfSight(start, end, map, skipFirstCell, validator, GenAdj.CardinalDirections[i].x, GenAdj.CardinalDirections[i].z))
+				int num = (start * 2).DistanceToSquared(end * 2);
+				for (int i = 0; i < 4; i++)
 				{
-					return true;
+					if ((start * 2).DistanceToSquared(end * 2 + GenAdj.CardinalDirections[i]) <= num && GenSight.LineOfSight(start, end, map, skipFirstCell, validator, GenAdj.CardinalDirections[i].x, GenAdj.CardinalDirections[i].z))
+						goto IL_0099;
 				}
+				result = false;
 			}
-			return false;
+			goto IL_00b3;
+			IL_00b3:
+			return result;
+			IL_0099:
+			result = true;
+			goto IL_00b3;
 		}
 	}
 }

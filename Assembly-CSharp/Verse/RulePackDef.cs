@@ -5,11 +5,11 @@ namespace Verse
 {
 	public class RulePackDef : Def
 	{
-		public List<RulePackDef> include;
+		public List<RulePackDef> include = null;
 
-		private RulePack rulePack;
+		private RulePack rulePack = null;
 
-		private List<Rule> cachedRules;
+		private List<Rule> cachedRules = null;
 
 		public List<Rule> Rules
 		{
@@ -36,20 +36,33 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
-			}
-			if (this.include != null)
-			{
-				for (int i = 0; i < this.include.Count; i++)
+				if (enumerator.MoveNext())
 				{
-					if (this.include[i].include != null && this.include[i].include.Contains(this))
-					{
-						yield return "includes other RulePackDef which includes it: " + this.include[i].defName;
-					}
+					string err = enumerator.Current;
+					yield return err;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
+			if (this.include == null)
+				yield break;
+			int i = 0;
+			while (true)
+			{
+				if (i < this.include.Count)
+				{
+					if (this.include[i].include != null && this.include[i].include.Contains(this))
+						break;
+					i++;
+					continue;
+				}
+				yield break;
+			}
+			yield return "includes other RulePackDef which includes it: " + this.include[i].defName;
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0194:
+			/*Error near IL_0195: Unexpected return in MoveNext()*/;
 		}
 
 		public static RulePackDef Named(string defName)

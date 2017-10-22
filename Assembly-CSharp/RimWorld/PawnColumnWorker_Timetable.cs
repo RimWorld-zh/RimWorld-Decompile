@@ -66,11 +66,7 @@ namespace RimWorld
 
 		private int GetValueToCompare(Pawn pawn)
 		{
-			if (pawn.timetable == null)
-			{
-				return -2147483648;
-			}
-			return pawn.timetable.times.FirstIndexOf((Func<TimeAssignmentDef, bool>)((TimeAssignmentDef x) => x == TimeAssignmentDefOf.Work));
+			return (pawn.timetable != null) ? pawn.timetable.times.FirstIndexOf((Func<TimeAssignmentDef, bool>)((TimeAssignmentDef x) => x == TimeAssignmentDefOf.Work)) : (-2147483648);
 		}
 
 		private void DoTimeAssignment(Rect rect, Pawn p, int hour)

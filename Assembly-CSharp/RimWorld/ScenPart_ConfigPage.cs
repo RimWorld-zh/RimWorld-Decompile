@@ -9,6 +9,7 @@ namespace RimWorld
 		public override IEnumerable<Page> GetConfigPages()
 		{
 			yield return (Page)Activator.CreateInstance(base.def.pageClass);
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override void DoEditInterface(Listing_ScenEdit listing)

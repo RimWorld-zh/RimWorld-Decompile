@@ -4,25 +4,31 @@ namespace Verse.AI
 	{
 		public static IntVec3 BestCloseWanderRoot(IntVec3 trueWanderRoot, Pawn pawn)
 		{
-			for (int i = 0; i < 50; i++)
+			int num = 0;
+			IntVec3 result;
+			while (true)
 			{
-				IntVec3 intVec = (i >= 8) ? (trueWanderRoot + GenRadial.RadialPattern[i - 8 + 1] * 7) : (trueWanderRoot + GenRadial.RadialPattern[i]);
-				if (intVec.InBounds(pawn.Map) && intVec.Walkable(pawn.Map) && pawn.CanReach(intVec, PathEndMode.OnCell, Danger.Some, false, TraverseMode.ByPawn))
+				if (num < 50)
 				{
-					return intVec;
+					IntVec3 intVec = (num >= 8) ? (trueWanderRoot + GenRadial.RadialPattern[num - 8 + 1] * 7) : (trueWanderRoot + GenRadial.RadialPattern[num]);
+					if (intVec.InBounds(pawn.Map) && intVec.Walkable(pawn.Map) && pawn.CanReach(intVec, PathEndMode.OnCell, Danger.Some, false, TraverseMode.ByPawn))
+					{
+						result = intVec;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = IntVec3.Invalid;
+				break;
 			}
-			return IntVec3.Invalid;
+			return result;
 		}
 
 		public static bool InSameRoom(IntVec3 locA, IntVec3 locB, Map map)
 		{
 			Room room = locA.GetRoom(map, RegionType.Set_All);
-			if (room == null)
-			{
-				return true;
-			}
-			return room == locB.GetRoom(map, RegionType.Set_All);
+			return room == null || room == locB.GetRoom(map, RegionType.Set_All);
 		}
 	}
 }

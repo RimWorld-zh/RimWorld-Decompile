@@ -31,42 +31,41 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
+			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			if (this.CancelableDesignationsAt(c).Count() > 0)
+			else if (this.CancelableDesignationsAt(c).Count() > 0)
 			{
-				return true;
+				result = true;
 			}
-			List<Thing> thingList = c.GetThingList(base.Map);
-			for (int i = 0; i < thingList.Count; i++)
+			else
 			{
-				if (this.CanDesignateThing(thingList[i]).Accepted)
+				List<Thing> thingList = c.GetThingList(base.Map);
+				for (int i = 0; i < thingList.Count; i++)
 				{
-					return true;
+					if (this.CanDesignateThing(thingList[i]).Accepted)
+						goto IL_006b;
 				}
+				result = false;
 			}
-			return false;
+			goto IL_0094;
+			IL_0094:
+			return result;
+			IL_006b:
+			result = true;
+			goto IL_0094;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)
 		{
-			List<Designation>.Enumerator enumerator = this.CancelableDesignationsAt(c).ToList().GetEnumerator();
-			try
+			foreach (Designation item in this.CancelableDesignationsAt(c).ToList())
 			{
-				while (enumerator.MoveNext())
+				if (item.def.designateCancelable)
 				{
-					Designation current = enumerator.Current;
-					if (current.def.designateCancelable)
-					{
-						base.Map.designationManager.RemoveDesignation(current);
-					}
+					base.Map.designationManager.RemoveDesignation(item);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			List<Thing> thingList = c.GetThingList(base.Map);
 			for (int num = thingList.Count - 1; num >= 0; num--)
@@ -90,11 +89,7 @@ namespace RimWorld
 					}
 				}
 			}
-			if (t.def.mineable && base.Map.designationManager.DesignationAt(t.Position, DesignationDefOf.Mine) != null)
-			{
-				return true;
-			}
-			return t.Faction == Faction.OfPlayer && (t is Frame || t is Blueprint);
+			return (!t.def.mineable || base.Map.designationManager.DesignationAt(t.Position, DesignationDefOf.Mine) == null) ? (t.Faction == Faction.OfPlayer && (t is Frame || t is Blueprint)) : true;
 		}
 
 		public override void DesignateThing(Thing t)

@@ -27,13 +27,9 @@ namespace Verse
 			public Vector2 preRotationOffset;
 		}
 
-		private const float TargetPulseFrequency = 8f;
-
-		private const float LineWidth = 0.2f;
-
-		private const float BaseWorldLineWidth = 0.2f;
-
 		private static readonly Material TargetSquareMatSingle = MaterialPool.MatFrom("UI/Overlays/TargetHighlight_Square", ShaderDatabase.Transparent);
+
+		private const float TargetPulseFrequency = 8f;
 
 		public static readonly string LineTexPath = "UI/Overlays/ThingLine";
 
@@ -58,6 +54,10 @@ namespace Verse
 		private static readonly Material WorldLineMatWhite = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.WorldOverlayTransparent, Color.white, WorldMaterials.WorldLineRenderQueue);
 
 		private static readonly Material OneSidedWorldLineMatWhite = MaterialPool.MatFrom(GenDraw.OneSidedLineTexPath, ShaderDatabase.WorldOverlayTransparent, Color.white, WorldMaterials.WorldLineRenderQueue);
+
+		private const float LineWidth = 0.2f;
+
+		private const float BaseWorldLineWidth = 0.2f;
 
 		public static readonly Material InteractionCellMaterial = MaterialPool.MatFrom("UI/Overlays/InteractionCell", ShaderDatabase.Transparent);
 
@@ -128,6 +128,11 @@ namespace Verse
 		public static void DrawLineBetween(Vector3 A, Vector3 B)
 		{
 			GenDraw.DrawLineBetween(A, B, GenDraw.LineMatWhite);
+		}
+
+		public static void DrawLineBetween(Vector3 A, Vector3 B, float layer)
+		{
+			GenDraw.DrawLineBetween(A + Vector3.up * layer, B + Vector3.up * layer, GenDraw.LineMatWhite);
 		}
 
 		public static void DrawLineBetween(Vector3 A, Vector3 B, SimpleColor color)
@@ -231,31 +236,28 @@ namespace Verse
 					GenDraw.cachedEdgeTiles.Clear();
 					Find.WorldFloodFiller.FloodFill(center, (Predicate<int>)((int tile) => true), (Func<int, int, bool>)delegate(int tile, int dist)
 					{
+						bool result;
 						if (dist > radius + 1)
 						{
-							return true;
+							result = true;
 						}
-						if (dist == radius + 1)
+						else
 						{
-							GenDraw.cachedEdgeTiles.Add(tile);
+							if (dist == radius + 1)
+							{
+								GenDraw.cachedEdgeTiles.Add(tile);
+							}
+							result = false;
 						}
-						return false;
-					}, 2147483647);
+						return result;
+					}, 2147483647, null);
 					WorldGrid worldGrid = Find.WorldGrid;
 					Vector3 c = worldGrid.GetTileCenter(center);
 					Vector3 i = c.normalized;
 					GenDraw.cachedEdgeTiles.Sort((Comparison<int>)delegate(int a, int b)
 					{
 						float num = Vector3.Dot(i, Vector3.Cross(worldGrid.GetTileCenter(a) - c, worldGrid.GetTileCenter(b) - c));
-						if (Mathf.Abs(num) < 9.9999997473787516E-05)
-						{
-							return 0;
-						}
-						if (num < 0.0)
-						{
-							return -1;
-						}
-						return 1;
+						return (!(Mathf.Abs(num) < 9.9999997473787516E-05)) ? ((!(num < 0.0)) ? 1 : (-1)) : 0;
 					});
 				}
 				GenDraw.DrawWorldLineStrip(GenDraw.cachedEdgeTiles, GenDraw.OneSidedWorldLineMatWhite, 5f);
@@ -317,7 +319,7 @@ namespace Verse
 		{
 			if (tDef.hasInteractionCell)
 			{
-				Vector3 position = Thing.InteractionCellWhenAt(tDef, center, placingRot, Find.VisibleMap).ToVector3ShiftedWithAltitude(AltitudeLayer.MetaOverlays);
+				Vector3 position = ThingUtility.InteractionCellWhenAt(tDef, center, placingRot, Find.VisibleMap).ToVector3ShiftedWithAltitude(AltitudeLayer.MetaOverlays);
 				Graphics.DrawMesh(MeshPool.plane10, position, Quaternion.identity, GenDraw.InteractionCellMaterial, 0);
 			}
 		}

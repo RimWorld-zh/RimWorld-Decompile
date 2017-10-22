@@ -5,11 +5,12 @@ namespace Verse
 		Integer = 0,
 		FloatOne = 1,
 		FloatTwo = 2,
-		PercentZero = 3,
-		PercentOne = 4,
-		PercentTwo = 5,
-		Temperature = 6,
-		TemperatureOffset = 7,
-		WorkAmount = 8
+		FloatMaxTwo = 3,
+		PercentZero = 4,
+		PercentOne = 5,
+		PercentTwo = 6,
+		Temperature = 7,
+		TemperatureOffset = 8,
+		WorkAmount = 9
 	}
 }

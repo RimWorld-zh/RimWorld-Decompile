@@ -10,33 +10,53 @@ namespace RimWorld
 		public override Job NonScanJob(Pawn pawn)
 		{
 			List<Lord> lords = pawn.Map.lordManager.lords;
-			for (int i = 0; i < lords.Count; i++)
+			int num = 0;
+			Job result;
+			while (true)
 			{
-				LordJob_FormAndSendCaravan lordJob_FormAndSendCaravan = lords[i].LordJob as LordJob_FormAndSendCaravan;
-				if (lordJob_FormAndSendCaravan != null && lordJob_FormAndSendCaravan.GatheringItemsNow)
+				if (num < lords.Count)
 				{
-					Thing thing = GatherItemsForCaravanUtility.FindThingToHaul(pawn, lords[i]);
-					if (thing != null && this.AnyReachableCarrierOrColonist(pawn, lords[i]))
+					LordJob_FormAndSendCaravan lordJob_FormAndSendCaravan = lords[num].LordJob as LordJob_FormAndSendCaravan;
+					if (lordJob_FormAndSendCaravan != null && lordJob_FormAndSendCaravan.GatheringItemsNow)
 					{
-						Job job = new Job(JobDefOf.PrepareCaravan_GatherItems, thing);
-						job.lord = lords[i];
-						return job;
+						Thing thing = GatherItemsForCaravanUtility.FindThingToHaul(pawn, lords[num]);
+						if (thing != null && this.AnyReachableCarrierOrColonist(pawn, lords[num]))
+						{
+							Job job = new Job(JobDefOf.PrepareCaravan_GatherItems, thing);
+							job.lord = lords[num];
+							result = job;
+							break;
+						}
 					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		private bool AnyReachableCarrierOrColonist(Pawn forPawn, Lord lord)
 		{
-			for (int i = 0; i < lord.ownedPawns.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier(lord.ownedPawns[i], forPawn, false) && !lord.ownedPawns[i].IsForbidden(forPawn) && forPawn.CanReach((Thing)lord.ownedPawns[i], PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+				if (num < lord.ownedPawns.Count)
 				{
-					return true;
+					if (JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier(lord.ownedPawns[num], forPawn, false) && !lord.ownedPawns[num].IsForbidden(forPawn) && forPawn.CanReach((Thing)lord.ownedPawns[num], PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 	}
 }

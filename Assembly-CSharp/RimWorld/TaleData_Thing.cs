@@ -30,17 +30,7 @@ namespace RimWorld
 		public override IEnumerable<Rule> GetRules(string prefix)
 		{
 			yield return (Rule)new Rule_String(prefix + "_label", this.thingDef.label);
-			yield return (Rule)new Rule_String(prefix + "_labelDefinite", Find.ActiveLanguageWorker.WithDefiniteArticle(this.thingDef.label));
-			yield return (Rule)new Rule_String(prefix + "_labelIndefinite", Find.ActiveLanguageWorker.WithIndefiniteArticle(this.thingDef.label));
-			if (this.stuff != null)
-			{
-				yield return (Rule)new Rule_String(prefix + "_stuffLabel", this.stuff.label);
-			}
-			if (this.title != null)
-			{
-				yield return (Rule)new Rule_String(prefix + "_title", this.title);
-			}
-			yield return (Rule)new Rule_String(prefix + "_quality", this.quality.GetLabel());
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public static TaleData_Thing GenerateFrom(Thing t)

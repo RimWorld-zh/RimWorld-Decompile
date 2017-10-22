@@ -8,7 +8,7 @@ namespace Verse
 
 		private Queue<LogMessage> messages = new Queue<LogMessage>();
 
-		private LogMessage lastMessage;
+		private LogMessage lastMessage = null;
 
 		public IEnumerable<LogMessage> Messages
 		{

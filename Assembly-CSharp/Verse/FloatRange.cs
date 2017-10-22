@@ -81,12 +81,12 @@ namespace Verse
 
 		public float LerpThroughRange(float lerpPct)
 		{
-			return (float)((1.0 - lerpPct) * this.min + lerpPct * this.max);
+			return Mathf.Lerp(this.min, this.max, lerpPct);
 		}
 
 		public float InverseLerpThroughRange(float f)
 		{
-			return (f - this.min) / (this.max - this.min);
+			return Mathf.InverseLerp(this.min, this.max, f);
 		}
 
 		public bool Includes(float f)
@@ -104,15 +104,30 @@ namespace Verse
 			return new FloatRange(this.min - f, this.max + f);
 		}
 
+		public static bool operator ==(FloatRange a, FloatRange b)
+		{
+			return a.min == b.min && a.max == b.max;
+		}
+
+		public static bool operator !=(FloatRange a, FloatRange b)
+		{
+			return a.min != b.min || a.max != b.max;
+		}
+
 		public static FloatRange FromString(string s)
 		{
 			string[] array = s.Split('~');
+			FloatRange result;
 			if (array.Length == 1)
 			{
 				float num = Convert.ToSingle(array[0]);
-				return new FloatRange(num, num);
+				result = new FloatRange(num, num);
 			}
-			return new FloatRange(Convert.ToSingle(array[0]), Convert.ToSingle(array[1]));
+			else
+			{
+				result = new FloatRange(Convert.ToSingle(array[0]), Convert.ToSingle(array[1]));
+			}
+			return result;
 		}
 
 		public override string ToString()
@@ -127,26 +142,12 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			if (!(obj is FloatRange))
-			{
-				return false;
-			}
-			return this.Equals((FloatRange)obj);
+			return obj is FloatRange && this.Equals((FloatRange)obj);
 		}
 
 		public bool Equals(FloatRange other)
 		{
 			return other.min == this.min && other.max == this.max;
-		}
-
-		public static bool operator ==(FloatRange a, FloatRange b)
-		{
-			return a.min == b.min && a.max == b.max;
-		}
-
-		public static bool operator !=(FloatRange a, FloatRange b)
-		{
-			return a.min != b.min || a.max != b.max;
 		}
 	}
 }

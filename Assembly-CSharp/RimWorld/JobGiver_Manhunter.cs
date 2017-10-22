@@ -18,44 +18,54 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
+			Job result;
 			if (pawn.TryGetAttackVerb(false) == null)
 			{
-				return null;
+				result = null;
 			}
-			Pawn pawn2 = this.FindPawnTarget(pawn);
-			if (pawn2 != null && pawn.CanReach((Thing)pawn2, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+			else
 			{
-				return this.MeleeAttackJob(pawn, pawn2);
-			}
-			Building building = this.FindTurretTarget(pawn);
-			if (building != null)
-			{
-				return this.MeleeAttackJob(pawn, building);
-			}
-			if (pawn2 != null)
-			{
-				using (PawnPath pawnPath = pawn.Map.pathFinder.FindPath(pawn.Position, pawn2.Position, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.PassDoors, false), PathEndMode.OnCell))
+				Pawn pawn2 = this.FindPawnTarget(pawn);
+				if (pawn2 != null && pawn.CanReach((Thing)pawn2, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
 				{
-					if (!pawnPath.Found)
+					result = this.MeleeAttackJob(pawn, pawn2);
+				}
+				else
+				{
+					Building building = this.FindTurretTarget(pawn);
+					if (building != null)
 					{
-						return null;
+						result = this.MeleeAttackJob(pawn, building);
 					}
-					IntVec3 loc = default(IntVec3);
-					if (!pawnPath.TryFindLastCellBeforeBlockingDoor(pawn, out loc))
+					else
 					{
-						Log.Error(pawn + " did TryFindLastCellBeforeDoor but found none when it should have been one. Target: " + pawn2.LabelCap);
-						return null;
+						if (pawn2 != null)
+						{
+							using (PawnPath pawnPath = pawn.Map.pathFinder.FindPath(pawn.Position, pawn2.Position, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.PassDoors, false), PathEndMode.OnCell))
+							{
+								if (!pawnPath.Found)
+								{
+									return null;
+								}
+								IntVec3 loc = default(IntVec3);
+								if (!pawnPath.TryFindLastCellBeforeBlockingDoor(pawn, out loc))
+								{
+									Log.Error(pawn + " did TryFindLastCellBeforeDoor but found none when it should have been one. Target: " + pawn2.LabelCap);
+									return null;
+								}
+								IntVec3 randomCell = CellFinder.RandomRegionNear(loc.GetRegion(pawn.Map, RegionType.Set_Passable), 9, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), null, null, RegionType.Set_Passable).RandomCell;
+								if (randomCell == pawn.Position)
+								{
+									return new Job(JobDefOf.Wait, 30, false);
+								}
+								return new Job(JobDefOf.Goto, randomCell);
+							}
+						}
+						result = null;
 					}
-					IntVec3 randomCell = CellFinder.RandomRegionNear(loc.GetRegion(pawn.Map, RegionType.Set_Passable), 9, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), null, null, RegionType.Set_Passable).RandomCell;
-					if (randomCell == pawn.Position)
-					{
-						return new Job(JobDefOf.Wait, 30, false);
-					}
-					return new Job(JobDefOf.Goto, randomCell);
-					IL_0127:;
 				}
 			}
-			return null;
+			return result;
 		}
 
 		private Job MeleeAttackJob(Pawn pawn, Thing target)

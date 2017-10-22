@@ -9,7 +9,7 @@ namespace RimWorld
 	{
 		public StatCategoryDef category;
 
-		private int displayOrderWithinCategory;
+		private int displayOrderWithinCategory = 0;
 
 		public StatDef stat;
 
@@ -23,7 +23,7 @@ namespace RimWorld
 
 		private string valueStringInt;
 
-		public string overrideReportText;
+		public string overrideReportText = (string)null;
 
 		private ToStringNumberSense numberSense;
 
@@ -31,11 +31,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.stat != null)
-				{
-					return !Mathf.Approximately(this.value, this.stat.hideAtValue);
-				}
-				return true;
+				return this.stat == null || !Mathf.Approximately(this.value, this.stat.hideAtValue);
 			}
 		}
 
@@ -43,11 +39,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.labelInt != null)
-				{
-					return this.labelInt.CapitalizeFirst();
-				}
-				return this.stat.LabelCap;
+				return (this.labelInt == null) ? this.stat.LabelCap : this.labelInt.CapitalizeFirst();
 			}
 		}
 
@@ -55,15 +47,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.numberSense == ToStringNumberSense.Factor)
-				{
-					return this.value.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Absolute);
-				}
-				if (this.stat != null)
-				{
-					return this.stat.Worker.GetStatDrawEntryLabel(this.stat, this.value, this.numberSense, this.optionalReq);
-				}
-				return this.valueStringInt;
+				return (this.numberSense != ToStringNumberSense.Factor) ? ((this.valueStringInt != null) ? this.valueStringInt : this.stat.Worker.GetStatDrawEntryLabel(this.stat, this.value, this.numberSense, this.optionalReq)) : this.value.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Absolute);
 			}
 		}
 
@@ -71,11 +55,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.stat != null)
-				{
-					return this.stat.displayPriorityInCategory;
-				}
-				return this.displayOrderWithinCategory;
+				return (this.stat == null) ? this.displayOrderWithinCategory : this.stat.displayPriorityInCategory;
 			}
 		}
 
@@ -99,7 +79,7 @@ namespace RimWorld
 			}
 		}
 
-		public StatDrawEntry(StatCategoryDef category, string label, string valueString, int displayPriorityWithinCategory = 0)
+		public StatDrawEntry(StatCategoryDef category, string label, string valueString, int displayPriorityWithinCategory = 0, string overrideReportText = "")
 		{
 			this.category = category;
 			this.stat = null;
@@ -108,29 +88,54 @@ namespace RimWorld
 			this.valueStringInt = valueString;
 			this.displayOrderWithinCategory = displayPriorityWithinCategory;
 			this.numberSense = ToStringNumberSense.Absolute;
+			this.overrideReportText = overrideReportText;
+		}
+
+		public StatDrawEntry(StatCategoryDef category, StatDef stat)
+		{
+			this.category = category;
+			this.stat = stat;
+			this.labelInt = (string)null;
+			this.value = 0f;
+			this.valueStringInt = "-";
+			this.displayOrderWithinCategory = 0;
+			this.numberSense = ToStringNumberSense.Undefined;
 		}
 
 		public string GetExplanationText(StatRequest optionalReq)
 		{
+			string result;
 			if (!this.overrideReportText.NullOrEmpty())
 			{
-				return this.overrideReportText;
+				result = this.overrideReportText;
 			}
-			if (this.stat == null)
+			else if (this.stat == null)
 			{
-				return string.Empty;
+				result = "";
 			}
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.AppendLine(this.stat.LabelCap);
-			stringBuilder.AppendLine();
-			stringBuilder.AppendLine(this.stat.description);
-			stringBuilder.AppendLine();
-			if (!optionalReq.Empty)
+			else
 			{
-				stringBuilder.AppendLine(this.stat.Worker.GetExplanation(optionalReq, this.numberSense));
-				this.stat.Worker.FinalizeExplanation(stringBuilder, optionalReq, this.numberSense, this.value);
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.AppendLine(this.stat.LabelCap);
+				stringBuilder.AppendLine();
+				stringBuilder.AppendLine(this.stat.description);
+				stringBuilder.AppendLine();
+				if (!optionalReq.Empty)
+				{
+					if (this.stat.Worker.IsDisabledFor(optionalReq.Thing))
+					{
+						stringBuilder.AppendLine("StatsReport_PermanentlyDisabled".Translate());
+					}
+					else
+					{
+						stringBuilder.AppendLine(this.stat.Worker.GetExplanationUnfinalized(optionalReq, this.numberSense).TrimEndNewlines());
+						stringBuilder.AppendLine();
+						stringBuilder.AppendLine(this.stat.Worker.GetExplanationFinalizePart(optionalReq, this.numberSense, this.value));
+					}
+				}
+				result = stringBuilder.ToString().TrimEndNewlines();
 			}
-			return stringBuilder.ToString();
+			return result;
 		}
 
 		public float Draw(float x, float y, float width, bool selected, Action clickedCallback)

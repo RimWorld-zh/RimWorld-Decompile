@@ -8,13 +8,13 @@ namespace RimWorld
 {
 	public class Dialog_ModSettings : Window
 	{
+		private Mod selMod = null;
+
 		private const float TopAreaHeight = 40f;
 
 		private const float TopButtonHeight = 35f;
 
 		private const float TopButtonWidth = 150f;
-
-		private Mod selMod;
 
 		public override Vector2 InitialSize
 		{
@@ -57,17 +57,14 @@ namespace RimWorld
 					select mod)
 					{
 						Mod localMod = item;
-						if (!item.SettingsCategory().NullOrEmpty())
+						list.Add(new FloatMenuOption(item.SettingsCategory(), (Action)delegate
 						{
-							list.Add(new FloatMenuOption(item.SettingsCategory(), (Action)delegate
+							if (this.selMod != null)
 							{
-								if (this.selMod != null)
-								{
-									this.selMod.WriteSettings();
-								}
-								this.selMod = localMod;
-							}, MenuOptionPriority.Default, null, null, 0f, null, null));
-						}
+								this.selMod.WriteSettings();
+							}
+							this.selMod = localMod;
+						}, MenuOptionPriority.Default, null, null, 0f, null, null));
 					}
 					Find.WindowStack.Add(new FloatMenu(list));
 				}
@@ -93,9 +90,7 @@ namespace RimWorld
 
 		public static bool HasSettings()
 		{
-			return (from mod in LoadedModManager.ModHandles
-			where !mod.SettingsCategory().NullOrEmpty()
-			select mod).FirstOrDefault() != null;
+			return LoadedModManager.ModHandles.Any((Func<Mod, bool>)((Mod mod) => !mod.SettingsCategory().NullOrEmpty()));
 		}
 	}
 }

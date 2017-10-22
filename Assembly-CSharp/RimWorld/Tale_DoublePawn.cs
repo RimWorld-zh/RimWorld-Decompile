@@ -1,4 +1,3 @@
-using RimWorld.Planet;
 using System.Collections.Generic;
 using Verse;
 using Verse.Grammar;
@@ -51,25 +50,7 @@ namespace RimWorld
 
 		public override bool Concerns(Thing th)
 		{
-			if (this.secondPawnData != null && this.secondPawnData.pawn == th)
-			{
-				return true;
-			}
-			return base.Concerns(th) || this.firstPawnData.pawn == th;
-		}
-
-		public override void PostRemove()
-		{
-			base.PostRemove();
-			WorldPawns worldPawns = Find.WorldPawns;
-			if (worldPawns.Contains(this.firstPawnData.pawn))
-			{
-				worldPawns.DiscardIfUnimportant(this.firstPawnData.pawn);
-			}
-			if (this.secondPawnData != null && worldPawns.Contains(this.secondPawnData.pawn))
-			{
-				worldPawns.DiscardIfUnimportant(this.secondPawnData.pawn);
-			}
+			return (this.secondPawnData != null && this.secondPawnData.pawn == th) || base.Concerns(th) || this.firstPawnData.pawn == th;
 		}
 
 		public override void ExposeData()
@@ -81,25 +62,48 @@ namespace RimWorld
 
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
-			foreach (Rule rule in this.firstPawnData.GetRules("anyPawn"))
+			using (IEnumerator<Rule> enumerator = this.firstPawnData.GetRules("anyPawn").GetEnumerator())
 			{
-				yield return rule;
+				if (enumerator.MoveNext())
+				{
+					Rule r4 = enumerator.Current;
+					yield return r4;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			foreach (Rule rule2 in this.firstPawnData.GetRules(base.def.firstPawnSymbol))
+			using (IEnumerator<Rule> enumerator2 = this.firstPawnData.GetRules(base.def.firstPawnSymbol).GetEnumerator())
 			{
-				yield return rule2;
+				if (enumerator2.MoveNext())
+				{
+					Rule r3 = enumerator2.Current;
+					yield return r3;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			if (this.secondPawnData != null)
 			{
-				foreach (Rule rule3 in this.firstPawnData.GetRules("anyPawn"))
+				using (IEnumerator<Rule> enumerator3 = this.firstPawnData.GetRules("anyPawn").GetEnumerator())
 				{
-					yield return rule3;
+					if (enumerator3.MoveNext())
+					{
+						Rule r2 = enumerator3.Current;
+						yield return r2;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
-				foreach (Rule rule4 in this.secondPawnData.GetRules(base.def.secondPawnSymbol))
+				using (IEnumerator<Rule> enumerator4 = this.secondPawnData.GetRules(base.def.secondPawnSymbol).GetEnumerator())
 				{
-					yield return rule4;
+					if (enumerator4.MoveNext())
+					{
+						Rule r = enumerator4.Current;
+						yield return r;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
+			yield break;
+			IL_02c9:
+			/*Error near IL_02ca: Unexpected return in MoveNext()*/;
 		}
 
 		public override void GenerateTestData()

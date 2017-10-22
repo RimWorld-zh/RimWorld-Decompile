@@ -30,14 +30,27 @@ namespace RimWorld
 
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
-			foreach (Rule item in base.SpecialTextGenerationRules())
+			using (IEnumerator<Rule> enumerator = this._003CSpecialTextGenerationRules_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					Rule r2 = enumerator.Current;
+					yield return r2;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			foreach (Rule rule in this.thingData.GetRules("thing"))
+			using (IEnumerator<Rule> enumerator2 = this.thingData.GetRules("thing").GetEnumerator())
 			{
-				yield return rule;
+				if (enumerator2.MoveNext())
+				{
+					Rule r = enumerator2.Current;
+					yield return r;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_015b:
+			/*Error near IL_015c: Unexpected return in MoveNext()*/;
 		}
 
 		public override void GenerateTestData()

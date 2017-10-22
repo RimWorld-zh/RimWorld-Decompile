@@ -5,11 +5,11 @@ namespace Verse.Sound
 {
 	public class AudioSourcePoolCamera
 	{
-		private const int NumSourcesCamera = 16;
-
 		public GameObject cameraSourcesContainer;
 
 		private List<AudioSource> sourcesCamera = new List<AudioSource>();
+
+		private const int NumSourcesCamera = 16;
 
 		public AudioSourcePoolCamera()
 		{
@@ -33,17 +33,27 @@ namespace Verse.Sound
 
 		public AudioSource GetSourceCamera()
 		{
-			for (int i = 0; i < this.sourcesCamera.Count; i++)
+			int num = 0;
+			AudioSource result;
+			while (true)
 			{
-				AudioSource audioSource = this.sourcesCamera[i];
-				if (!audioSource.isPlaying)
+				if (num < this.sourcesCamera.Count)
 				{
-					audioSource.clip = null;
-					SoundFilterUtility.DisableAllFiltersOn(audioSource);
-					return audioSource;
+					AudioSource audioSource = this.sourcesCamera[num];
+					if (!audioSource.isPlaying)
+					{
+						audioSource.clip = null;
+						SoundFilterUtility.DisableAllFiltersOn(audioSource);
+						result = audioSource;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 	}
 }

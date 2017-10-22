@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -27,10 +26,18 @@ namespace Verse
 		{
 			get
 			{
-				foreach (ThingCategoryDef thisAndChildCategoryDef in this.catDef.ThisAndChildCategoryDefs)
+				using (IEnumerator<ThingCategoryDef> enumerator = this.catDef.ThisAndChildCategoryDefs.GetEnumerator())
 				{
-					yield return thisAndChildCategoryDef.treeNode;
+					if (enumerator.MoveNext())
+					{
+						ThingCategoryDef other = enumerator.Current;
+						yield return other.treeNode;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
+				yield break;
+				IL_00c7:
+				/*Error near IL_00c8: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -38,19 +45,18 @@ namespace Verse
 		{
 			get
 			{
-				List<ThingCategoryDef>.Enumerator enumerator = this.catDef.childCategories.GetEnumerator();
-				try
+				using (List<ThingCategoryDef>.Enumerator enumerator = this.catDef.childCategories.GetEnumerator())
 				{
-					while (enumerator.MoveNext())
+					if (enumerator.MoveNext())
 					{
 						ThingCategoryDef other = enumerator.Current;
 						yield return other.treeNode;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
-				}
+				yield break;
+				IL_00c2:
+				/*Error near IL_00c3: Unexpected return in MoveNext()*/;
 			}
 		}
 

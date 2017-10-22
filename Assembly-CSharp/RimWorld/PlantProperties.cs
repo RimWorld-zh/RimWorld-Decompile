@@ -6,9 +6,7 @@ namespace RimWorld
 {
 	public class PlantProperties
 	{
-		public const int MaxMaxMeshCount = 25;
-
-		public List<PlantBiomeRecord> wildBiomes;
+		public List<PlantBiomeRecord> wildBiomes = null;
 
 		public float wildCommonalityMaxFraction = 1.25f;
 
@@ -20,29 +18,29 @@ namespace RimWorld
 
 		public float sowWork = 250f;
 
-		public int sowMinSkill;
+		public int sowMinSkill = 0;
 
-		public bool blockAdjacentSow;
+		public bool blockAdjacentSow = false;
 
-		public List<ResearchProjectDef> sowResearchPrerequisites;
+		public List<ResearchProjectDef> sowResearchPrerequisites = null;
 
 		public float harvestWork = 150f;
 
-		public float harvestYield;
+		public float harvestYield = 0f;
 
-		public ThingDef harvestedThingDef;
+		public ThingDef harvestedThingDef = null;
 
 		public string harvestTag;
 
 		public float harvestMinGrowth = 0.65f;
 
-		public float harvestAfterGrowth;
+		public float harvestAfterGrowth = 0f;
 
 		public bool harvestFailable = true;
 
-		public SoundDef soundHarvesting;
+		public SoundDef soundHarvesting = null;
 
-		public SoundDef soundHarvestFinish;
+		public SoundDef soundHarvestFinish = null;
 
 		public float growDays = 2f;
 
@@ -51,8 +49,6 @@ namespace RimWorld
 		public float growMinGlow = 0.51f;
 
 		public float growOptimalGlow = 1f;
-
-		public bool dieIfLeafless;
 
 		public float fertilityMin = 0.9f;
 
@@ -64,21 +60,29 @@ namespace RimWorld
 
 		public float reproduceMtbDays = 10f;
 
+		public bool dieIfLeafless = false;
+
+		public bool neverBlightable;
+
+		public bool cavePlant;
+
 		public float topWindExposure = 0.25f;
 
 		public int maxMeshCount = 1;
 
 		public FloatRange visualSizeRange = new FloatRange(0.9f, 1.1f);
 
-		private string leaflessGraphicPath;
+		private string leaflessGraphicPath = (string)null;
 
 		[Unsaved]
-		public Graphic leaflessGraphic;
+		public Graphic leaflessGraphic = null;
 
-		private string immatureGraphicPath;
+		private string immatureGraphicPath = (string)null;
 
 		[Unsaved]
-		public Graphic immatureGraphic;
+		public Graphic immatureGraphic = null;
+
+		public const int MaxMaxMeshCount = 25;
 
 		public bool Sowable
 		{
@@ -108,11 +112,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.wildClusterRadius > 0.0)
-				{
-					return this.wildClusterRadius;
-				}
-				return this.reproduceRadius;
+				return (!(this.wildClusterRadius > 0.0)) ? this.reproduceRadius : this.wildClusterRadius;
 			}
 		}
 
@@ -148,6 +148,14 @@ namespace RimWorld
 			}
 		}
 
+		public bool Blightable
+		{
+			get
+			{
+				return this.Sowable && this.Harvestable && !this.neverBlightable;
+			}
+		}
+
 		public void PostLoadSpecial(ThingDef parentDef)
 		{
 			if (!this.leaflessGraphicPath.NullOrEmpty())
@@ -168,50 +176,41 @@ namespace RimWorld
 
 		public IEnumerable<string> ConfigErrors()
 		{
-			if (this.maxMeshCount > 25)
-			{
-				yield return "maxMeshCount > MaxMaxMeshCount";
-			}
+			if (this.maxMeshCount <= 25)
+				yield break;
+			yield return "maxMeshCount > MaxMaxMeshCount";
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		internal IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			if (this.sowMinSkill > 0)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "MinGrowingSkillToSow".Translate(), this.sowMinSkill.ToString(), 0);
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "MinGrowingSkillToSow".Translate(), this.sowMinSkill.ToString(), 0, "");
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			string attributes = string.Empty;
+			string attributes2 = "";
 			if (this.Harvestable)
 			{
-				if (!attributes.NullOrEmpty())
+				if (!attributes2.NullOrEmpty())
 				{
-					attributes += ", ";
+					attributes2 += ", ";
 				}
-				attributes += "Harvestable".Translate();
+				attributes2 += "Harvestable".Translate();
 			}
 			if (this.LimitedLifespan)
 			{
-				if (!attributes.NullOrEmpty())
+				if (!attributes2.NullOrEmpty())
 				{
-					attributes += ", ";
+					attributes2 += ", ";
 				}
-				attributes += "LimitedLifespan".Translate();
+				attributes2 += "LimitedLifespan".Translate();
 			}
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "GrowingTime".Translate(), this.growDays.ToString("0.##") + " " + "Days".Translate(), 0)
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "GrowingTime".Translate(), this.growDays.ToString("0.##") + " " + "Days".Translate(), 0, "")
 			{
 				overrideReportText = "GrowingTimeDesc".Translate()
 			};
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "FertilityRequirement".Translate(), this.fertilityMin.ToStringPercent(), 0);
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "FertilitySensitivity".Translate(), this.fertilitySensitivity.ToStringPercent(), 0);
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "LightRequirement".Translate(), this.growMinGlow.ToStringPercent(), 0);
-			if (!attributes.NullOrEmpty())
-			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Attributes".Translate(), attributes, 0);
-			}
-			if (this.LimitedLifespan)
-			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "LifeSpan".Translate(), this.LifespanDays.ToString("0.##") + " " + "Days".Translate(), 0);
-			}
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

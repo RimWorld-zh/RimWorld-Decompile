@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -29,17 +28,9 @@ namespace Verse
 		public void DebugLog()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			Dictionary<ulong, RegionLink>.Enumerator enumerator = this.links.GetEnumerator();
-			try
+			foreach (KeyValuePair<ulong, RegionLink> link in this.links)
 			{
-				while (enumerator.MoveNext())
-				{
-					stringBuilder.AppendLine(enumerator.Current.ToString());
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				stringBuilder.AppendLine(link.ToString());
 			}
 			Log.Message(stringBuilder.ToString());
 		}

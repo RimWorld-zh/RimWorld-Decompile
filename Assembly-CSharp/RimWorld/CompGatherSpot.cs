@@ -64,10 +64,10 @@ namespace RimWorld
 				hotKey = KeyBindingDefOf.CommandTogglePower,
 				defaultLabel = "CommandGatherSpotToggleLabel".Translate(),
 				icon = TexCommand.GatherSpotActive,
-				isActive = (Func<bool>)(() => ((_003CCompGetGizmosExtra_003Ec__Iterator165)/*Error near IL_0067: stateMachine*/)._003C_003Ef__this.Active),
+				isActive = (Func<bool>)(() => ((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0068: stateMachine*/)._0024this.Active),
 				toggleAction = (Action)delegate
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator165)/*Error near IL_007e: stateMachine*/)._003C_003Ef__this.Active = !((_003CCompGetGizmosExtra_003Ec__Iterator165)/*Error near IL_007e: stateMachine*/)._003C_003Ef__this.Active;
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_007f: stateMachine*/)._0024this.Active = !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_007f: stateMachine*/)._0024this.Active;
 				}
 			};
 			if (this.Active)
@@ -79,6 +79,7 @@ namespace RimWorld
 				com.defaultDesc = "CommandGatherSpotToggleDescInactive".Translate();
 			}
 			yield return (Gizmo)com;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

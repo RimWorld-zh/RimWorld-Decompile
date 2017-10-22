@@ -5,19 +5,19 @@ namespace RimWorld
 {
 	public class StoryWatcher_RampUp : IExposable
 	{
+		private float shortTermFactor = 1f;
+
+		private float longTermFactor = 1f;
+
 		private const int UpdateInterval = 5000;
 
 		private const float ShortFactor_GameStartGraceDays = 21f;
 
-		private const float ShortFactor_DaysToDouble = 162f;
+		private const float ShortFactor_DaysToDouble = 234f;
 
 		private const float LongFactor_GameStartGraceDays = 42f;
 
 		private const float LongFactor_DaysToDouble = 360f;
-
-		private float shortTermFactor = 1f;
-
-		private float longTermFactor = 1f;
 
 		public float TotalThreatPointsFactor
 		{
@@ -43,13 +43,14 @@ namespace RimWorld
 			}
 		}
 
-		public void Notify_PlayerPawnIncappedOrKilled(Pawn p)
+		public void Notify_ColonistViolentlyDownedOrKilled(Pawn p)
 		{
 			if (p.RaceProps.Humanlike)
 			{
 				float num = (float)(this.shortTermFactor - 1.0);
 				float num2 = (float)(this.longTermFactor - 1.0);
-				switch (PawnsFinder.AllMapsCaravansAndTravelingTransportPods_FreeColonists.Count())
+				int num3 = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_FreeColonists.Count();
+				switch (num3)
 				{
 				case 0:
 				{
@@ -149,8 +150,8 @@ namespace RimWorld
 				}
 				default:
 				{
-					num = (float)(num * 0.800000011920929);
-					num2 = (float)(num2 * 0.949999988079071);
+					num *= GenMath.LerpDoubleClamped(16f, 30f, 0.8f, 1f, (float)num3);
+					num2 *= GenMath.LerpDoubleClamped(16f, 30f, 0.95f, 1f, (float)num3);
 					break;
 				}
 				}
@@ -165,7 +166,7 @@ namespace RimWorld
 			{
 				if ((float)GenDate.DaysPassed >= 21.0)
 				{
-					this.shortTermFactor += 0.000514403335f;
+					this.shortTermFactor += 0.000356125354f;
 				}
 				if ((float)GenDate.DaysPassed >= 42.0)
 				{

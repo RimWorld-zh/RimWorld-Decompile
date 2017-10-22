@@ -3,8 +3,8 @@ namespace RimWorld
 	public enum PawnDiedOrDownedThoughtsKind
 	{
 		Died = 0,
-		Abandoned = 1,
-		AbandonedToDie = 2,
+		Banished = 1,
+		BanishedToDie = 2,
 		Downed = 3
 	}
 }

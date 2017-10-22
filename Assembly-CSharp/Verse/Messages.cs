@@ -12,10 +12,6 @@ namespace Verse
 	{
 		private class LiveMessage
 		{
-			private const float DefaultMessageLifespan = 13f;
-
-			private const float FadeoutDuration = 0.6f;
-
 			private int ID;
 
 			public string text;
@@ -31,6 +27,10 @@ namespace Verse
 			public Rect lastDrawRect;
 
 			private static int uniqueID;
+
+			private const float DefaultMessageLifespan = 13f;
+
+			private const float FadeoutDuration = 0.6f;
 
 			protected float Age
 			{
@@ -60,11 +60,7 @@ namespace Verse
 			{
 				get
 				{
-					if (this.TimeLeft < 0.60000002384185791)
-					{
-						return (float)(this.TimeLeft / 0.60000002384185791);
-					}
-					return 1f;
+					return (float)((!(this.TimeLeft < 0.60000002384185791)) ? 1.0 : (this.TimeLeft / 0.60000002384185791));
 				}
 			}
 
@@ -132,33 +128,41 @@ namespace Verse
 			}
 		}
 
-		private const int MessageYInterval = 26;
-
-		private const int MaxLiveMessages = 12;
-
 		private static List<LiveMessage> liveMessages = new List<LiveMessage>();
 
 		private static int mouseoverMessageIndex = -1;
 
 		public static readonly Vector2 MessagesTopLeftStandard = new Vector2(140f, 16f);
 
+		private const int MessageYInterval = 26;
+
+		private const int MaxLiveMessages = 12;
+
 		private static bool ShouldDrawMessageBackground
 		{
 			get
 			{
+				bool result;
 				if (Current.ProgramState != ProgramState.Playing)
 				{
-					return true;
+					result = true;
 				}
-				WindowStack windowStack = Find.WindowStack;
-				for (int i = 0; i < windowStack.Count; i++)
+				else
 				{
-					if (windowStack[i].CausesMessageBackground())
+					WindowStack windowStack = Find.WindowStack;
+					for (int i = 0; i < windowStack.Count; i++)
 					{
-						return true;
+						if (windowStack[i].CausesMessageBackground())
+							goto IL_0033;
 					}
+					result = false;
 				}
-				return false;
+				goto IL_0053;
+				IL_0033:
+				result = true;
+				goto IL_0053;
+				IL_0053:
+				return result;
 			}
 		}
 
@@ -176,21 +180,21 @@ namespace Verse
 			Messages.liveMessages.RemoveAll((Predicate<LiveMessage>)((LiveMessage m) => m.Expired));
 		}
 
-		public static void Message(string text, GlobalTargetInfo lookTarget, MessageSound sound)
+		public static void Message(string text, GlobalTargetInfo lookTarget, MessageTypeDef type)
 		{
 			if (Messages.AcceptsMessage(text, lookTarget))
 			{
 				LiveMessage msg = new LiveMessage(text, lookTarget);
-				Messages.Message(msg, sound);
+				Messages.Message(msg, type);
 			}
 		}
 
-		public static void Message(string text, MessageSound sound)
+		public static void Message(string text, MessageTypeDef type)
 		{
 			if (Messages.AcceptsMessage(text, TargetInfo.Invalid))
 			{
 				LiveMessage msg = new LiveMessage(text);
-				Messages.Message(msg, sound);
+				Messages.Message(msg, type);
 			}
 		}
 
@@ -244,59 +248,38 @@ namespace Verse
 
 		private static bool AcceptsMessage(string text, GlobalTargetInfo lookTarget)
 		{
+			bool result;
 			if (text.NullOrEmpty())
 			{
-				return false;
+				result = false;
 			}
-			for (int i = 0; i < Messages.liveMessages.Count; i++)
+			else
 			{
-				if (Messages.liveMessages[i].text == text && Messages.liveMessages[i].lookTarget == lookTarget && Messages.liveMessages[i].startingFrame == RealTime.frameCount)
+				for (int i = 0; i < Messages.liveMessages.Count; i++)
 				{
-					return false;
+					if (Messages.liveMessages[i].text == text && Messages.liveMessages[i].lookTarget == lookTarget && Messages.liveMessages[i].startingFrame == RealTime.frameCount)
+						goto IL_006b;
 				}
+				result = true;
 			}
-			return true;
+			goto IL_008f;
+			IL_008f:
+			return result;
+			IL_006b:
+			result = false;
+			goto IL_008f;
 		}
 
-		private static void Message(LiveMessage msg, MessageSound sound)
+		private static void Message(LiveMessage msg, MessageTypeDef type)
 		{
 			Messages.liveMessages.Add(msg);
 			while (Messages.liveMessages.Count > 12)
 			{
 				Messages.liveMessages.RemoveAt(0);
 			}
-			if (sound != 0)
+			if (type.sound != null)
 			{
-				SoundDef soundDef = null;
-				switch (sound)
-				{
-				case MessageSound.Standard:
-				{
-					soundDef = SoundDefOf.MessageAlert;
-					break;
-				}
-				case MessageSound.RejectInput:
-				{
-					soundDef = SoundDefOf.ClickReject;
-					break;
-				}
-				case MessageSound.Benefit:
-				{
-					soundDef = SoundDefOf.MessageBenefit;
-					break;
-				}
-				case MessageSound.Negative:
-				{
-					soundDef = SoundDefOf.MessageAlertNegative;
-					break;
-				}
-				case MessageSound.SeriousAlert:
-				{
-					soundDef = SoundDefOf.MessageSeriousAlert;
-					break;
-				}
-				}
-				soundDef.PlayOneShotOnCamera(null);
+				type.sound.PlayOneShotOnCamera(null);
 			}
 		}
 	}

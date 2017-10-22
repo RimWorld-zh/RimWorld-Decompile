@@ -18,7 +18,7 @@ namespace Verse
 		public float selectionWeight = 100f;
 
 		[NoTranslate]
-		public string scatterType = string.Empty;
+		public string scatterType = "";
 
 		public Material mat;
 

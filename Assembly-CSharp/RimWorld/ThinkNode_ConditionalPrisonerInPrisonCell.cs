@@ -1,4 +1,5 @@
 using Verse;
+using Verse.AI;
 
 namespace RimWorld
 {
@@ -6,12 +7,17 @@ namespace RimWorld
 	{
 		protected override bool Satisfied(Pawn pawn)
 		{
+			bool result;
 			if (!pawn.IsPrisoner)
 			{
-				return false;
+				result = false;
 			}
-			Room room = pawn.GetRoom(RegionType.Set_Passable);
-			return room != null && room.isPrisonCell;
+			else
+			{
+				Room room = pawn.GetRoom(RegionType.Set_Passable);
+				result = (room != null && room.isPrisonCell);
+			}
+			return result;
 		}
 	}
 }

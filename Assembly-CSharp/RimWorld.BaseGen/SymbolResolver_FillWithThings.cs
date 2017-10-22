@@ -8,13 +8,16 @@ namespace RimWorld.BaseGen
 	{
 		public override bool CanResolve(ResolveParams rp)
 		{
+			bool result;
 			if (!base.CanResolve(rp))
 			{
-				return false;
+				result = false;
+				goto IL_00b7;
 			}
 			if (rp.singleThingToSpawn != null)
 			{
-				return false;
+				result = false;
+				goto IL_00b7;
 			}
 			if (rp.singleThingDef != null)
 			{
@@ -25,13 +28,17 @@ namespace RimWorld.BaseGen
 				GenAdj.AdjustForRotation(ref zero, ref size, rot);
 				if (rp.rect.Width >= size.x && rp.rect.Height >= size.z)
 				{
-					goto IL_009d;
+					goto IL_00b0;
 				}
-				return false;
+				result = false;
+				goto IL_00b7;
 			}
-			goto IL_009d;
-			IL_009d:
-			return true;
+			goto IL_00b0;
+			IL_00b7:
+			return result;
+			IL_00b0:
+			result = true;
+			goto IL_00b7;
 		}
 
 		public override void Resolve(ResolveParams rp)

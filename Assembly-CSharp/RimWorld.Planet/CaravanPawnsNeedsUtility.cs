@@ -8,6 +8,8 @@ namespace RimWorld.Planet
 	{
 		private const float AutoRefillMiscNeedsIfBelowLevel = 0.3f;
 
+		private const float ExtraJoyFromEatingFood = 0.5f;
+
 		private static List<Thing> tmpInvFood = new List<Thing>();
 
 		public static void TrySatisfyPawnsNeeds(Caravan caravan)
@@ -31,43 +33,53 @@ namespace RimWorld.Planet
 				}
 			}
 			List<Pawn> pawnsListForReading = c.PawnsListForReading;
-			for (int j = 0; j < pawnsListForReading.Count; j++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				Pawn pawn = pawnsListForReading[j];
-				if (pawn.RaceProps.EatsFood && !VirtualPlantsUtility.CanEatVirtualPlantsNow(pawn))
+				if (num < pawnsListForReading.Count)
 				{
-					bool flag = false;
-					int num = 0;
-					while (num < CaravanPawnsNeedsUtility.tmpInvFood.Count)
+					Pawn pawn = pawnsListForReading[num];
+					if (pawn.RaceProps.EatsFood && !VirtualPlantsUtility.CanEatVirtualPlantsNow(pawn))
 					{
-						if (!CaravanPawnsNeedsUtility.CanEverEatForNutrition(CaravanPawnsNeedsUtility.tmpInvFood[num].def, pawn))
+						bool flag = false;
+						int num2 = 0;
+						while (num2 < CaravanPawnsNeedsUtility.tmpInvFood.Count)
 						{
-							num++;
-							continue;
-						}
-						flag = true;
-						break;
-					}
-					if (!flag)
-					{
-						int num2 = -1;
-						string text = (string)null;
-						for (int k = 0; k < pawnsListForReading.Count; k++)
-						{
-							Hediff firstHediffOfDef = pawnsListForReading[k].health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Malnutrition, false);
-							if (firstHediffOfDef != null && (text == null || firstHediffOfDef.CurStageIndex > num2))
+							if (!CaravanPawnsNeedsUtility.CanEverEatForNutrition(CaravanPawnsNeedsUtility.tmpInvFood[num2].def, pawn))
 							{
-								num2 = firstHediffOfDef.CurStageIndex;
-								text = firstHediffOfDef.LabelCap;
+								num2++;
+								continue;
 							}
+							flag = true;
+							break;
 						}
-						malnutritionHediff = text;
-						return true;
+						if (!flag)
+						{
+							int num3 = -1;
+							string text = (string)null;
+							for (int j = 0; j < pawnsListForReading.Count; j++)
+							{
+								Hediff firstHediffOfDef = pawnsListForReading[j].health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Malnutrition, false);
+								if (firstHediffOfDef != null && (text == null || firstHediffOfDef.CurStageIndex > num3))
+								{
+									num3 = firstHediffOfDef.CurStageIndex;
+									text = firstHediffOfDef.LabelCap;
+								}
+							}
+							malnutritionHediff = text;
+							result = true;
+							break;
+						}
 					}
+					num++;
+					continue;
 				}
+				malnutritionHediff = (string)null;
+				result = false;
+				break;
 			}
-			malnutritionHediff = (string)null;
-			return false;
+			return result;
 		}
 
 		private static void TrySatisfyPawnNeeds(Pawn pawn, Caravan caravan)
@@ -129,7 +141,7 @@ namespace RimWorld.Planet
 						}
 						if (!CaravanInventoryUtility.TryGetBestFood(caravan, pawn, out thing, out pawn2))
 						{
-							Messages.Message("MessageCaravanRunOutOfFood".Translate(caravan.LabelCap, pawn.Label), (WorldObject)caravan, MessageSound.SeriousAlert);
+							Messages.Message("MessageCaravanRunOutOfFood".Translate(caravan.LabelCap, pawn.Label), (WorldObject)caravan, MessageTypeDefOf.ThreatBig);
 						}
 					}
 				}
@@ -169,28 +181,12 @@ namespace RimWorld.Planet
 
 		public static bool CanNowEatForNutrition(ThingDef food, Pawn pawn)
 		{
-			if (!CaravanPawnsNeedsUtility.CanEverEatForNutrition(food, pawn))
-			{
-				return false;
-			}
-			if ((int)pawn.needs.food.CurCategory < 3 && (int)food.ingestible.preferability <= 2)
-			{
-				return false;
-			}
-			return true;
+			return (byte)(CaravanPawnsNeedsUtility.CanEverEatForNutrition(food, pawn) ? ((!pawn.RaceProps.Humanlike || (int)pawn.needs.food.CurCategory >= 3 || (int)food.ingestible.preferability > 3) ? 1 : 0) : 0) != 0;
 		}
 
 		public static bool CanNowEatForNutrition(Thing food, Pawn pawn)
 		{
-			if (!food.IngestibleNow)
-			{
-				return false;
-			}
-			if (!CaravanPawnsNeedsUtility.CanNowEatForNutrition(food.def, pawn))
-			{
-				return false;
-			}
-			return true;
+			return (byte)(food.IngestibleNow ? (CaravanPawnsNeedsUtility.CanNowEatForNutrition(food.def, pawn) ? 1 : 0) : 0) != 0;
 		}
 
 		public static float GetFoodScore(Thing food, Pawn pawn)
@@ -208,28 +204,59 @@ namespace RimWorld.Planet
 
 		public static float GetFoodScore(ThingDef food, Pawn pawn)
 		{
+			float result;
 			if (pawn.RaceProps.Humanlike)
 			{
-				return (float)(int)food.ingestible.preferability;
+				result = (float)(int)food.ingestible.preferability;
 			}
-			float num = 0f;
-			if (food == ThingDefOf.Kibble || food == ThingDefOf.Hay)
+			else
 			{
-				num = 4f;
+				float num = 0f;
+				if (food == ThingDefOf.Kibble || food == ThingDefOf.Hay)
+				{
+					num = 5f;
+				}
+				else if (food.ingestible.preferability == FoodPreferability.DesperateOnlyForHumanlikes)
+				{
+					num = 4f;
+				}
+				else if (food.ingestible.preferability == FoodPreferability.RawBad)
+				{
+					num = 3f;
+				}
+				else if (food.ingestible.preferability == FoodPreferability.RawTasty)
+				{
+					num = 2f;
+				}
+				else if ((int)food.ingestible.preferability < 6)
+				{
+					num = 1f;
+				}
+				result = num + Mathf.Min((float)(food.ingestible.nutrition / 100.0), 0.999f);
 			}
-			else if (food.ingestible.preferability == FoodPreferability.RawBad)
+			return result;
+		}
+
+		public static void Notify_CaravanMemberIngestedFood(Pawn p, ThingDef foodDef)
+		{
+			if (!p.Dead && p.needs.joy != null && !(foodDef.ingestible.nutrition <= 0.0))
 			{
-				num = 3f;
+				bool flag = false;
+				List<Pawn> pawnsListForReading = p.GetCaravan().PawnsListForReading;
+				int num = 0;
+				while (num < pawnsListForReading.Count)
+				{
+					if (pawnsListForReading[num] == p || !pawnsListForReading[num].RaceProps.Humanlike || pawnsListForReading[num].Downed || pawnsListForReading[num].InMentalState || p.IsPrisoner != pawnsListForReading[num].IsPrisoner)
+					{
+						num++;
+						continue;
+					}
+					flag = true;
+					break;
+				}
+				JoyKindDef joyKind = (!flag) ? JoyKindDefOf.Meditative : Rand.Element(JoyKindDefOf.Meditative, JoyKindDefOf.Social);
+				p.needs.joy.GainJoy(0.5f, joyKind);
 			}
-			else if (food.ingestible.preferability == FoodPreferability.RawTasty)
-			{
-				num = 2f;
-			}
-			else if ((int)food.ingestible.preferability < 5)
-			{
-				num = 1f;
-			}
-			return num + Mathf.Min((float)(food.ingestible.nutrition / 100.0), 0.999f);
 		}
 	}
 }

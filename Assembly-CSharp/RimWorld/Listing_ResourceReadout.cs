@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -72,21 +71,12 @@ namespace RimWorld
 					this.DoCategory(childCategoryNode, indentLevel, openMask);
 				}
 			}
-			List<ThingDef>.Enumerator enumerator2 = node.catDef.childThingDefs.GetEnumerator();
-			try
+			foreach (ThingDef childThingDef in node.catDef.childThingDefs)
 			{
-				while (enumerator2.MoveNext())
+				if (!childThingDef.menuHidden)
 				{
-					ThingDef current2 = enumerator2.Current;
-					if (!current2.menuHidden)
-					{
-						this.DoThingDef(current2, indentLevel + 1);
-					}
+					this.DoThingDef(childThingDef, indentLevel + 1);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
 			}
 		}
 

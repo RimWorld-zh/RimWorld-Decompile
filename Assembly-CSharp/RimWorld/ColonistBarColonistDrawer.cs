@@ -10,16 +10,6 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class ColonistBarColonistDrawer
 	{
-		private const float PawnTextureCameraZoom = 1.28205f;
-
-		private const float PawnTextureHorizontalPadding = 1f;
-
-		private const float BaseIconSize = 20f;
-
-		private const float BaseGroupFrameMargin = 12f;
-
-		public const float DoubleClickTime = 0.5f;
-
 		private Dictionary<string, string> pawnLabelsCache = new Dictionary<string, string>();
 
 		private static readonly Texture2D MoodBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.4f, 0.47f, 0.53f, 0.44f));
@@ -42,11 +32,21 @@ namespace RimWorld
 
 		private static readonly Texture2D Icon_Burning = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Burning", true);
 
-		public static readonly Vector2 PawnTextureSize = new Vector2((float)(ColonistBar.BaseSize.x - 2.0), 75f);
+		public static readonly Vector2 PawnTextureSize;
 
-		private static readonly Vector3 PawnTextureCameraOffset = new Vector3(0f, 0f, 0.3f);
+		private static readonly Vector3 PawnTextureCameraOffset;
 
-		private static Vector2[] bracketLocs = new Vector2[4];
+		private const float PawnTextureCameraZoom = 1.28205f;
+
+		private const float PawnTextureHorizontalPadding = 1f;
+
+		private const float BaseIconSize = 20f;
+
+		private const float BaseGroupFrameMargin = 12f;
+
+		public const float DoubleClickTime = 0.5f;
+
+		private static Vector2[] bracketLocs;
 
 		private ColonistBar ColonistBar
 		{
@@ -175,13 +175,13 @@ namespace RimWorld
 				bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
 				if (!worldRenderedNow && !Find.Selector.dragBox.IsValidAndActive)
 				{
-					goto IL_0096;
+					goto IL_0095;
 				}
 				if (worldRenderedNow && !Find.WorldSelector.dragBox.IsValidAndActive)
-					goto IL_0096;
+					goto IL_0095;
 			}
-			goto IL_014c;
-			IL_0096:
+			goto IL_0155;
+			IL_0095:
 			Find.Selector.dragBox.active = false;
 			Find.WorldSelector.dragBox.active = false;
 			ColonistBar.Entry entry = this.ColonistBar.Entries.Find((Predicate<ColonistBar.Entry>)((ColonistBar.Entry x) => x.group == group));
@@ -205,8 +205,8 @@ namespace RimWorld
 				}
 				Current.Game.VisibleMap = map;
 			}
-			goto IL_014c;
-			IL_014c:
+			goto IL_0155;
+			IL_0155:
 			if (Event.current.button == 1 && Widgets.ButtonInvisible(rect, false))
 			{
 				ColonistBar.Entry entry2 = this.ColonistBar.Entries.Find((Predicate<ColonistBar.Entry>)((ColonistBar.Entry x) => x.group == group));
@@ -333,6 +333,14 @@ namespace RimWorld
 				Widgets.DrawTextureRotated(bracketLocs[i], SelectionDrawerUtility.SelectedTexGUI, (float)num, selectedTexScale);
 				num += 90;
 			}
+		}
+
+		static ColonistBarColonistDrawer()
+		{
+			Vector2 baseSize = ColonistBar.BaseSize;
+			ColonistBarColonistDrawer.PawnTextureSize = new Vector2((float)(baseSize.x - 2.0), 75f);
+			ColonistBarColonistDrawer.PawnTextureCameraOffset = new Vector3(0f, 0f, 0.3f);
+			ColonistBarColonistDrawer.bracketLocs = new Vector2[4];
 		}
 	}
 }

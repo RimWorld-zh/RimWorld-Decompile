@@ -30,7 +30,7 @@ namespace RimWorld
 			int int2 = Rand.Int;
 			ScenarioMaker.scen = new Scenario();
 			ScenarioMaker.scen.Category = ScenarioCategory.CustomLocal;
-			ScenarioMaker.scen.name = NameGenerator.GenerateName(RulePackDefOf.NamerScenario, (Predicate<string>)null, false);
+			ScenarioMaker.scen.name = NameGenerator.GenerateName(RulePackDefOf.NamerScenario, (Predicate<string>)null, false, (string)null);
 			ScenarioMaker.scen.description = (string)null;
 			ScenarioMaker.scen.summary = (string)null;
 			Rand.Seed = @int;
@@ -103,10 +103,11 @@ namespace RimWorld
 
 		private static IEnumerable<ScenPart> RandomScenPartsOfCategory(Scenario scen, ScenPartCategory cat, int count)
 		{
+			_003CRandomScenPartsOfCategory_003Ec__Iterator0 _003CRandomScenPartsOfCategory_003Ec__Iterator = (_003CRandomScenPartsOfCategory_003Ec__Iterator0)/*Error near IL_0032: stateMachine*/;
 			if (count > 0)
 			{
 				IEnumerable<ScenPartDef> allowedParts = from d in ScenarioMaker.AddableParts(scen)
-				where d.category == ((_003CRandomScenPartsOfCategory_003Ec__Iterator129)/*Error near IL_003e: stateMachine*/).cat
+				where d.category == cat
 				select d;
 				int numYielded = 0;
 				int numTries = 0;
@@ -119,7 +120,7 @@ namespace RimWorld
 						if (ScenarioMaker.CanAddPart(scen, newPart))
 						{
 							yield return newPart;
-							numYielded++;
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
 						numTries++;
 						if (numTries > 100)
@@ -141,14 +142,24 @@ namespace RimWorld
 
 		private static bool CanAddPart(Scenario scen, ScenPart newPart)
 		{
-			for (int i = 0; i < scen.parts.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (!newPart.CanCoexistWith(scen.parts[i]))
+				if (num < scen.parts.Count)
 				{
-					return false;
+					if (!newPart.CanCoexistWith(scen.parts[num]))
+					{
+						result = false;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = true;
+				break;
 			}
-			return true;
+			return result;
 		}
 
 		public static ScenPart MakeScenPart(ScenPartDef def)

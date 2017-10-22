@@ -6,6 +6,10 @@ namespace RimWorld
 {
 	public class Need_Comfort : Need_Seeker
 	{
+		public float lastComfortUsed;
+
+		public int lastComfortUseTick;
+
 		private const float MinNormal = 0.1f;
 
 		private const float MinComfortable = 0.6f;
@@ -18,23 +22,11 @@ namespace RimWorld
 
 		public const int ComfortUseInterval = 10;
 
-		public float lastComfortUsed;
-
-		public int lastComfortUseTick;
-
 		public override float CurInstantLevel
 		{
 			get
 			{
-				if (!base.pawn.Spawned)
-				{
-					return 0.5f;
-				}
-				if (this.lastComfortUseTick > Find.TickManager.TicksGame - 10)
-				{
-					return Mathf.Clamp01(this.lastComfortUsed);
-				}
-				return 0f;
+				return (float)(base.pawn.Spawned ? ((this.lastComfortUseTick <= Find.TickManager.TicksGame - 10) ? 0.0 : Mathf.Clamp01(this.lastComfortUsed)) : 0.5);
 			}
 		}
 
@@ -42,27 +34,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.CurLevel < 0.10000000149011612)
-				{
-					return ComfortCategory.Uncomfortable;
-				}
-				if (this.CurLevel < 0.60000002384185791)
-				{
-					return ComfortCategory.Normal;
-				}
-				if (this.CurLevel < 0.699999988079071)
-				{
-					return ComfortCategory.Comfortable;
-				}
-				if (this.CurLevel < 0.800000011920929)
-				{
-					return ComfortCategory.VeryComfortable;
-				}
-				if (this.CurLevel < 0.89999997615814209)
-				{
-					return ComfortCategory.ExtremelyComfortable;
-				}
-				return ComfortCategory.LuxuriantlyComfortable;
+				return (ComfortCategory)((!(this.CurLevel < 0.10000000149011612)) ? ((this.CurLevel < 0.60000002384185791) ? 1 : ((!(this.CurLevel < 0.699999988079071)) ? ((!(this.CurLevel < 0.800000011920929)) ? ((!(this.CurLevel < 0.89999997615814209)) ? 5 : 4) : 3) : 2)) : 0);
 			}
 		}
 

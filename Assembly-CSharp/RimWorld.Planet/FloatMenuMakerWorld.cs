@@ -8,19 +8,27 @@ namespace RimWorld.Planet
 	{
 		public static bool TryMakeFloatMenu(Caravan caravan)
 		{
+			bool result;
 			if (!caravan.IsPlayerControlled)
 			{
-				return false;
+				result = false;
 			}
-			Vector2 mousePositionOnUI = UI.MousePositionOnUI;
-			List<FloatMenuOption> list = FloatMenuMakerWorld.ChoicesAtFor(mousePositionOnUI, caravan);
-			if (list.Count == 0)
+			else
 			{
-				return false;
+				Vector2 mousePositionOnUI = UI.MousePositionOnUI;
+				List<FloatMenuOption> list = FloatMenuMakerWorld.ChoicesAtFor(mousePositionOnUI, caravan);
+				if (list.Count == 0)
+				{
+					result = false;
+				}
+				else
+				{
+					FloatMenuWorld window = new FloatMenuWorld(list, caravan.LabelCap, mousePositionOnUI);
+					Find.WindowStack.Add(window);
+					result = true;
+				}
 			}
-			FloatMenuWorld window = new FloatMenuWorld(list, caravan.LabelCap, mousePositionOnUI);
-			Find.WindowStack.Add(window);
-			return true;
+			return result;
 		}
 
 		public static List<FloatMenuOption> ChoicesAtFor(Vector2 mousePos, Caravan caravan)

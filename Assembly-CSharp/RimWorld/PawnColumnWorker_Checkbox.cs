@@ -57,15 +57,7 @@ namespace RimWorld
 
 		private int GetValueToCompare(Pawn pawn)
 		{
-			if (!this.HasCheckbox(pawn))
-			{
-				return 0;
-			}
-			if (!this.GetValue(pawn))
-			{
-				return 1;
-			}
-			return 2;
+			return this.HasCheckbox(pawn) ? ((!this.GetValue(pawn)) ? 1 : 2) : 0;
 		}
 
 		protected virtual string GetTip(Pawn pawn)

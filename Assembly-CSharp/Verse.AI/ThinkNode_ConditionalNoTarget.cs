@@ -1,14 +1,10 @@
 namespace Verse.AI
 {
-	public class ThinkNode_ConditionalNoTarget : ThinkNode_Priority
+	public class ThinkNode_ConditionalNoTarget : ThinkNode_Conditional
 	{
-		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
+		protected override bool Satisfied(Pawn pawn)
 		{
-			if (pawn.mindState.enemyTarget != null)
-			{
-				return ThinkResult.NoJob;
-			}
-			return base.TryIssueJobPackage(pawn, jobParams);
+			return pawn.mindState.enemyTarget == null;
 		}
 	}
 }

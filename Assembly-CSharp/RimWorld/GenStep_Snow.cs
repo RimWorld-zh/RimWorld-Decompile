@@ -24,8 +24,6 @@ namespace RimWorld
 			float num4 = 0f;
 			switch (num)
 			{
-			case 0:
-				return;
 			case 1:
 			{
 				num4 = 0.3f;
@@ -41,6 +39,8 @@ namespace RimWorld
 				num4 = 1f;
 				break;
 			}
+			case 0:
+				return;
 			}
 			if (map.mapTemperature.SeasonalTemp > 0.0)
 			{

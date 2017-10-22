@@ -14,59 +14,83 @@ namespace RimWorld
 			}
 		}
 
+		public override Danger MaxPathDanger(Pawn pawn)
+		{
+			return Danger.Deadly;
+		}
+
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			List<Designation> desList = pawn.Map.designationManager.allDesignations;
-			for (int i = 0; i < desList.Count; i++)
+			int i = 0;
+			Designation des;
+			while (true)
 			{
-				Designation des = desList[i];
-				if (des.def == DesignationDefOf.CutPlant || des.def == DesignationDefOf.HarvestPlant)
+				if (i < desList.Count)
 				{
-					yield return des.target.Thing;
+					des = desList[i];
+					if (des.def != DesignationDefOf.CutPlant && des.def != DesignationDefOf.HarvestPlant)
+					{
+						i++;
+						continue;
+					}
+					break;
 				}
+				yield break;
 			}
+			yield return des.target.Thing;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
+			Job result;
 			if (t.def.category != ThingCategory.Plant)
 			{
-				return null;
+				result = null;
 			}
-			if (!pawn.CanReserve(t, 1, -1, null, false))
+			else
 			{
-				return null;
-			}
-			if (t.IsForbidden(pawn))
-			{
-				return null;
-			}
-			if (t.IsBurning())
-			{
-				return null;
-			}
-			using (IEnumerator<Designation> enumerator = pawn.Map.designationManager.AllDesignationsOn(t).GetEnumerator())
-			{
-				while (enumerator.MoveNext())
+				LocalTargetInfo target = t;
+				if (!pawn.CanReserve(target, 1, -1, null, forced))
 				{
-					Designation current = enumerator.Current;
-					if (current.def == DesignationDefOf.HarvestPlant)
-						goto IL_0078;
-					if (current.def == DesignationDefOf.CutPlant)
+					result = null;
+				}
+				else if (t.IsForbidden(pawn))
+				{
+					result = null;
+				}
+				else if (t.IsBurning())
+				{
+					result = null;
+				}
+				else
+				{
+					using (IEnumerator<Designation> enumerator = pawn.Map.designationManager.AllDesignationsOn(t).GetEnumerator())
 					{
-						return new Job(JobDefOf.CutPlant, t);
+						while (enumerator.MoveNext())
+						{
+							Designation current = enumerator.Current;
+							if (current.def == DesignationDefOf.HarvestPlant)
+								goto IL_0099;
+							if (current.def == DesignationDefOf.CutPlant)
+							{
+								return new Job(JobDefOf.CutPlant, t);
+							}
+						}
+						goto end_IL_0079;
+						IL_0099:
+						if (!((Plant)t).HarvestableNow)
+						{
+							return null;
+						}
+						return new Job(JobDefOf.Harvest, t);
+						end_IL_0079:;
 					}
+					result = null;
 				}
-				goto end_IL_005c;
-				IL_0078:
-				if (!((Plant)t).HarvestableNow)
-				{
-					return null;
-				}
-				return new Job(JobDefOf.Harvest, t);
-				end_IL_005c:;
 			}
-			return null;
+			return result;
 		}
 	}
 }

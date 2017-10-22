@@ -7,8 +7,6 @@ namespace RimWorld
 {
 	public sealed class WeatherManager : IExposable
 	{
-		public const float TransitionTicks = 4000f;
-
 		public Map map;
 
 		public WeatherEventHandler eventHandler = new WeatherEventHandler();
@@ -17,11 +15,13 @@ namespace RimWorld
 
 		public WeatherDef lastWeather = WeatherDefOf.Clear;
 
-		public int curWeatherAge;
+		public int curWeatherAge = 0;
 
 		private List<Sustainer> ambienceSustainers = new List<Sustainer>();
 
 		public TemperatureMemory growthSeasonMemory;
+
+		public const float TransitionTicks = 4000f;
 
 		public float TransitionLerpFactor
 		{
@@ -76,6 +76,29 @@ namespace RimWorld
 			}
 		}
 
+		public WeatherDef CurPerceivedWeather
+		{
+			get
+			{
+				WeatherDef result;
+				if (this.curWeather == null)
+				{
+					result = this.lastWeather;
+				}
+				else if (this.lastWeather == null)
+				{
+					result = this.curWeather;
+				}
+				else
+				{
+					float num = 0f;
+					num = (float)((!(this.curWeather.perceivePriority > this.lastWeather.perceivePriority)) ? ((!(this.lastWeather.perceivePriority > this.curWeather.perceivePriority)) ? 0.5 : 0.81999999284744263) : 0.18000000715255737);
+					result = ((!(this.TransitionLerpFactor < num)) ? this.curWeather : this.lastWeather);
+				}
+				return result;
+			}
+		}
+
 		public WeatherManager(Map map)
 		{
 			this.map = map;
@@ -106,14 +129,15 @@ namespace RimWorld
 
 		public void DoWeatherGUI(Rect rect)
 		{
+			WeatherDef curPerceivedWeather = this.CurPerceivedWeather;
 			Text.Anchor = TextAnchor.MiddleRight;
 			Rect rect2 = new Rect(rect);
 			rect2.width -= 15f;
 			Text.Font = GameFont.Small;
-			Widgets.Label(rect2, this.curWeather.LabelCap);
-			if (!this.curWeather.description.NullOrEmpty())
+			Widgets.Label(rect2, curPerceivedWeather.LabelCap);
+			if (!curPerceivedWeather.description.NullOrEmpty())
 			{
-				TooltipHandler.TipRegion(rect, this.curWeather.description);
+				TooltipHandler.TipRegion(rect, curPerceivedWeather.description);
 			}
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
@@ -184,33 +208,41 @@ namespace RimWorld
 
 		private float VolumeOfAmbientSound(SoundDef soundDef)
 		{
+			float result;
 			if (this.map != Find.VisibleMap)
 			{
-				return 0f;
+				result = 0f;
 			}
-			for (int i = 0; i < Find.WindowStack.Count; i++)
+			else
 			{
-				if (Find.WindowStack[i].silenceAmbientSound)
+				for (int i = 0; i < Find.WindowStack.Count; i++)
 				{
-					return 0f;
+					if (Find.WindowStack[i].silenceAmbientSound)
+						goto IL_0039;
 				}
-			}
-			float num = 0f;
-			for (int j = 0; j < this.lastWeather.ambientSounds.Count; j++)
-			{
-				if (this.lastWeather.ambientSounds[j] == soundDef)
+				float num = 0f;
+				for (int j = 0; j < this.lastWeather.ambientSounds.Count; j++)
 				{
-					num = (float)(num + (1.0 - this.TransitionLerpFactor));
+					if (this.lastWeather.ambientSounds[j] == soundDef)
+					{
+						num = (float)(num + (1.0 - this.TransitionLerpFactor));
+					}
 				}
-			}
-			for (int k = 0; k < this.curWeather.ambientSounds.Count; k++)
-			{
-				if (this.curWeather.ambientSounds[k] == soundDef)
+				for (int k = 0; k < this.curWeather.ambientSounds.Count; k++)
 				{
-					num += this.TransitionLerpFactor;
+					if (this.curWeather.ambientSounds[k] == soundDef)
+					{
+						num += this.TransitionLerpFactor;
+					}
 				}
+				result = num;
 			}
-			return num;
+			goto IL_00f7;
+			IL_00f7:
+			return result;
+			IL_0039:
+			result = 0f;
+			goto IL_00f7;
 		}
 
 		public void DrawAllWeather()

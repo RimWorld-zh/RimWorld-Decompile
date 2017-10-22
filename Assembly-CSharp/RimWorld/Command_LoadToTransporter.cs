@@ -37,13 +37,13 @@ namespace RimWorld
 					map.floodFiller.FloodFill(fuelingPortSource.Position, (Predicate<IntVec3>)((IntVec3 x) => FuelingPortUtility.AnyFuelingPortGiverAt(x, map)), (Action<IntVec3>)delegate(IntVec3 x)
 					{
 						Command_LoadToTransporter.tmpFuelingPortGivers.Add(FuelingPortUtility.FuelingPortGiverAt(x, map));
-					}, false);
+					}, 2147483647, false, null);
 					for (int i = 0; i < this.transporters.Count; i++)
 					{
 						Building fuelingPortSource2 = this.transporters[i].Launchable.FuelingPortSource;
 						if (fuelingPortSource2 != null && !Command_LoadToTransporter.tmpFuelingPortGivers.Contains(fuelingPortSource2))
 						{
-							Messages.Message("MessageTransportersNotAdjacent".Translate(), (Thing)fuelingPortSource2, MessageSound.RejectInput);
+							Messages.Message("MessageTransportersNotAdjacent".Translate(), (Thing)fuelingPortSource2, MessageTypeDefOf.RejectInput);
 							return;
 						}
 					}
@@ -53,7 +53,7 @@ namespace RimWorld
 			{
 				if (this.transporters[j] != this.transComp && !this.transComp.Map.reachability.CanReach(this.transComp.parent.Position, (Thing)this.transporters[j].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
 				{
-					Messages.Message("MessageTransporterUnreachable".Translate(), (Thing)this.transporters[j].parent, MessageSound.RejectInput);
+					Messages.Message("MessageTransporterUnreachable".Translate(), (Thing)this.transporters[j].parent, MessageTypeDefOf.RejectInput);
 					return;
 				}
 			}
@@ -63,16 +63,21 @@ namespace RimWorld
 		public override bool InheritInteractionsFrom(Gizmo other)
 		{
 			Command_LoadToTransporter command_LoadToTransporter = (Command_LoadToTransporter)other;
+			bool result;
 			if (command_LoadToTransporter.transComp.parent.def != this.transComp.parent.def)
 			{
-				return false;
+				result = false;
 			}
-			if (this.transporters == null)
+			else
 			{
-				this.transporters = new List<CompTransporter>();
+				if (this.transporters == null)
+				{
+					this.transporters = new List<CompTransporter>();
+				}
+				this.transporters.Add(command_LoadToTransporter.transComp);
+				result = false;
 			}
-			this.transporters.Add(command_LoadToTransporter.transComp);
-			return false;
+			return result;
 		}
 	}
 }

@@ -6,11 +6,7 @@ namespace RimWorld
 	{
 		public static TimeAssignmentDef GetTimeAssignment(this Pawn pawn)
 		{
-			if (pawn.timetable == null)
-			{
-				return TimeAssignmentDefOf.Anything;
-			}
-			return pawn.timetable.CurrentAssignment;
+			return (pawn.timetable != null) ? pawn.timetable.CurrentAssignment : TimeAssignmentDefOf.Anything;
 		}
 	}
 }

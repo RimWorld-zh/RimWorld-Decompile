@@ -1,15 +1,16 @@
+#define ENABLE_PROFILER
 using RimWorld;
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using UnityEngine.Profiling;
 using Verse.AI;
 using Verse.AI.Group;
 
 namespace Verse
 {
-	public sealed class Map : IIncidentTarget, IExposable, ILoadReferenceable, IThingHolder
+	public sealed class Map : IIncidentTarget, IThingHolder, IExposable, ILoadReferenceable
 	{
 		public MapFileCompressor compressor;
 
@@ -35,7 +36,7 @@ namespace Verse
 
 		public MapDrawer mapDrawer;
 
-		public PawnDestinationManager pawnDestinationManager;
+		public PawnDestinationReservationManager pawnDestinationReservationManager;
 
 		public TooltipGiverList tooltipGiverList;
 
@@ -173,6 +174,8 @@ namespace Verse
 
 		public RoadInfo roadInfo;
 
+		public WaterInfo waterInfo;
+
 		public int Index
 		{
 			get
@@ -246,17 +249,12 @@ namespace Verse
 							if (num2 < size2.y)
 							{
 								int x = 0;
-								while (true)
+								int num3 = x;
+								IntVec3 size3 = this.Size;
+								if (num3 < size3.x)
 								{
-									int num3 = x;
-									IntVec3 size3 = this.Size;
-									if (num3 < size3.x)
-									{
-										yield return new IntVec3(x, y, z);
-										x++;
-										continue;
-									}
-									break;
+									yield return new IntVec3(x, y, z);
+									/*Error: Unable to find new state assignment for yield return*/;
 								}
 								y++;
 								continue;
@@ -327,28 +325,63 @@ namespace Verse
 			}
 		}
 
-		public IncidentTargetType Type
+		public float PlayerWealthForStoryteller
 		{
 			get
 			{
+				float result;
 				if (this.IsPlayerHome)
 				{
-					return IncidentTargetType.MapPlayerHome;
+					result = (float)(this.wealthWatcher.WealthItems + this.wealthWatcher.WealthBuildings * 0.5);
 				}
-				if (this.IsTempIncidentMap)
+				else
 				{
-					return IncidentTargetType.MapTempIncident;
+					float num = 0f;
+					foreach (Pawn freeColonist in this.mapPawns.FreeColonists)
+					{
+						num += WealthWatcher.GetEquipmentApparelAndInventoryWealth(freeColonist);
+					}
+					result = num;
 				}
-				return IncidentTargetType.MapMisc;
+				return result;
+			}
+		}
+
+		public IEnumerable<Pawn> FreeColonistsForStoryteller
+		{
+			get
+			{
+				return this.mapPawns.FreeColonists;
+			}
+		}
+
+		public FloatRange IncidentPointsRandomFactorRange
+		{
+			get
+			{
+				return FloatRange.One;
 			}
 		}
 
 		public IEnumerator<IntVec3> GetEnumerator()
 		{
-			foreach (IntVec3 allCell in this.AllCells)
+			using (IEnumerator<IntVec3> enumerator = this.AllCells.GetEnumerator())
 			{
-				yield return allCell;
+				if (enumerator.MoveNext())
+				{
+					IntVec3 c = enumerator.Current;
+					yield return c;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_00bd:
+			/*Error near IL_00be: Unexpected return in MoveNext()*/;
+		}
+
+		public IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
+		{
+			return this.info.parent.AcceptedTypes();
 		}
 
 		public void ConstructComponents()
@@ -361,7 +394,7 @@ namespace Verse
 			this.dynamicDrawManager = new DynamicDrawManager(this);
 			this.mapDrawer = new MapDrawer(this);
 			this.tooltipGiverList = new TooltipGiverList();
-			this.pawnDestinationManager = new PawnDestinationManager();
+			this.pawnDestinationReservationManager = new PawnDestinationReservationManager();
 			this.reservationManager = new ReservationManager(this);
 			this.physicalInteractionReservationManager = new PhysicalInteractionReservationManager();
 			this.designationManager = new DesignationManager(this);
@@ -447,37 +480,28 @@ namespace Verse
 				{
 					try
 					{
-						List<Thing>.Enumerator enumerator = this.listerThings.AllThings.GetEnumerator();
-						try
+						foreach (Thing allThing in this.listerThings.AllThings)
 						{
-							while (enumerator.MoveNext())
+							try
 							{
-								Thing current = enumerator.Current;
-								try
+								if (allThing.def.isSaveable && !allThing.IsSaveCompressible())
 								{
-									if (current.def.isSaveable && !current.IsSaveCompressible())
+									if (hashSet.Contains(allThing.ThingID))
 									{
-										if (hashSet.Contains(current.ThingID))
-										{
-											Log.Error("Saving Thing with already-used ID " + current.ThingID);
-										}
-										else
-										{
-											hashSet.Add(current.ThingID);
-										}
-										Thing thing = current;
-										Scribe_Deep.Look(ref thing, "thing");
+										Log.Error("Saving Thing with already-used ID " + allThing.ThingID);
 									}
-								}
-								catch (Exception ex)
-								{
-									Log.Error("Exception saving " + current + ": " + ex);
+									else
+									{
+										hashSet.Add(allThing.ThingID);
+									}
+									Thing thing = allThing;
+									Scribe_Deep.Look(ref thing, "thing");
 								}
 							}
-						}
-						finally
-						{
-							((IDisposable)(object)enumerator).Dispose();
+							catch (Exception ex)
+							{
+								Log.Error("Exception saving " + allThing + ": " + ex);
+							}
 						}
 					}
 					finally
@@ -521,6 +545,7 @@ namespace Verse
 				}
 			}
 			this.roadInfo = this.GetComponent<RoadInfo>();
+			this.waterInfo = this.GetComponent<WaterInfo>();
 		}
 
 		public void FinalizeLoading()
@@ -536,25 +561,32 @@ namespace Verse
 			this.loadedFullThings.Clear();
 			DeepProfiler.End();
 			DeepProfiler.Start("Spawn everything into the map");
-			List<Thing>.Enumerator enumerator2 = list2.GetEnumerator();
-			try
+			foreach (Thing item2 in list2)
 			{
-				while (enumerator2.MoveNext())
+				if (!(item2 is Building))
 				{
-					Thing current2 = enumerator2.Current;
 					try
 					{
-						GenSpawn.Spawn(current2, current2.Position, this, current2.Rotation, true);
+						GenSpawn.Spawn(item2, item2.Position, this, item2.Rotation, true);
 					}
 					catch (Exception ex)
 					{
-						Log.Error("Exception spawning loaded thing " + current2 + ": " + ex);
+						Log.Error("Exception spawning loaded thing " + item2 + ": " + ex);
 					}
 				}
 			}
-			finally
+			foreach (Building item3 in from t in list2.OfType<Building>()
+			orderby t.def.size.Magnitude
+			select t)
 			{
-				((IDisposable)(object)enumerator2).Dispose();
+				try
+				{
+					GenSpawn.SpawnBuildingAsPossible(item3, this, true);
+				}
+				catch (Exception ex2)
+				{
+					Log.Error("Exception spawning loaded thing " + item3 + ": " + ex2);
+				}
 			}
 			DeepProfiler.End();
 			this.FinalizeInit();
@@ -567,25 +599,16 @@ namespace Verse
 			this.regionAndRoomUpdater.RebuildAllRegionsAndRooms();
 			this.powerNetManager.UpdatePowerNetsAndConnections_First();
 			this.temperatureCache.temperatureSaveLoad.ApplyLoadedDataToRegions();
-			List<Thing>.Enumerator enumerator = this.listerThings.AllThings.ToList().GetEnumerator();
-			try
+			foreach (Thing item in this.listerThings.AllThings.ToList())
 			{
-				while (enumerator.MoveNext())
+				try
 				{
-					Thing current = enumerator.Current;
-					try
-					{
-						current.PostMapInit();
-					}
-					catch (Exception ex)
-					{
-						Log.Error("Exception PostMapInit in " + current + ": " + ex);
-					}
+					item.PostMapInit();
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				catch (Exception ex)
+				{
+					Log.Error("Exception PostMapInit in " + item + ": " + ex);
+				}
 			}
 			this.listerFilthInHomeArea.RebuildAll();
 			LongEventHandler.ExecuteWhenFinished((Action)delegate
@@ -612,6 +635,7 @@ namespace Verse
 			{
 				this
 			});
+			Scribe_Deep.Look<PawnDestinationReservationManager>(ref this.pawnDestinationReservationManager, "pawnDestinationReservationManager", new object[0]);
 			Scribe_Deep.Look<LordManager>(ref this.lordManager, "lordManager", new object[1]
 			{
 				this
@@ -691,8 +715,13 @@ namespace Verse
 
 		public void MapPreTick()
 		{
+			Profiler.BeginSample("ItemAvailabilityUtility.Tick()");
 			this.itemAvailability.Tick();
+			Profiler.EndSample();
+			Profiler.BeginSample("ListerHaulables.ListerHaulablesTick");
 			this.listerHaulables.ListerHaulablesTick();
+			Profiler.EndSample();
+			Profiler.BeginSample("AutoBuildRoofAreaSetter.AutoBuildRoofAreaSetterTick()");
 			try
 			{
 				this.autoBuildRoofAreaSetter.AutoBuildRoofAreaSetterTick_First();
@@ -701,8 +730,14 @@ namespace Verse
 			{
 				Log.Error(ex.ToString());
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("RoofCollapseChecker.RoofCollapseCheckerTick_First()");
 			this.roofCollapseBufferResolver.CollapseRoofsMarkedToCollapse();
+			Profiler.EndSample();
+			Profiler.BeginSample("WindManager.WindManagerTick()");
 			this.windManager.WindManagerTick();
+			Profiler.EndSample();
+			Profiler.BeginSample("MapTemperature.MapTemperatureTick()");
 			try
 			{
 				this.mapTemperature.MapTemperatureTick();
@@ -711,10 +746,12 @@ namespace Verse
 			{
 				Log.Error(ex2.ToString());
 			}
+			Profiler.EndSample();
 		}
 
 		public void MapPostTick()
 		{
+			Profiler.BeginSample("WildSpawnerTick()");
 			try
 			{
 				this.wildSpawner.WildSpawnerTick();
@@ -723,6 +760,8 @@ namespace Verse
 			{
 				Log.Error(ex.ToString());
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("PowerNetManager.PowerNetsTick()");
 			try
 			{
 				this.powerNetManager.PowerNetsTick();
@@ -731,6 +770,8 @@ namespace Verse
 			{
 				Log.Error(ex2.ToString());
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("SteadyAtmosphereEffects.SteadyAtmosphereEffectsTick()");
 			try
 			{
 				this.steadyAtmosphereEffects.SteadyAtmosphereEffectsTick();
@@ -739,6 +780,8 @@ namespace Verse
 			{
 				Log.Error(ex3.ToString());
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("LordManagerTick()");
 			try
 			{
 				this.lordManager.LordManagerTick();
@@ -747,6 +790,8 @@ namespace Verse
 			{
 				Log.Error(ex4.ToString());
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("PassingShipManagerTick()");
 			try
 			{
 				this.passingShipManager.PassingShipManagerTick();
@@ -755,6 +800,8 @@ namespace Verse
 			{
 				Log.Error(ex5.ToString());
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("DebugDrawer.DebugDrawerTick()");
 			try
 			{
 				this.debugDrawer.DebugDrawerTick();
@@ -763,6 +810,8 @@ namespace Verse
 			{
 				Log.Error(ex6.ToString());
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("VoluntarilyJoinableLordsStarterTick()");
 			try
 			{
 				this.lordsStarter.VoluntarilyJoinableLordsStarterTick();
@@ -771,6 +820,8 @@ namespace Verse
 			{
 				Log.Error(ex7.ToString());
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("GameConditionManager.GameConditionManagerTick()");
 			try
 			{
 				this.gameConditionManager.GameConditionManagerTick();
@@ -779,6 +830,8 @@ namespace Verse
 			{
 				Log.Error(ex8.ToString());
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("WeatherManager.WeatherManagerTick()");
 			try
 			{
 				this.weatherManager.WeatherManagerTick();
@@ -787,6 +840,8 @@ namespace Verse
 			{
 				Log.Error(ex9.ToString());
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("ResourceCounter.ResourceCounterTick()");
 			try
 			{
 				this.resourceCounter.ResourceCounterTick();
@@ -795,6 +850,8 @@ namespace Verse
 			{
 				Log.Error(ex10.ToString());
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("WeatherDecided.WeatherDeciderTick()");
 			try
 			{
 				this.weatherDecider.WeatherDeciderTick();
@@ -803,6 +860,8 @@ namespace Verse
 			{
 				Log.Error(ex11.ToString());
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("FireWatcher.FireWatcherTick()");
 			try
 			{
 				this.fireWatcher.FireWatcherTick();
@@ -811,6 +870,8 @@ namespace Verse
 			{
 				Log.Error(ex12.ToString());
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("DamageWatcher.DamageWatcherTick()");
 			try
 			{
 				this.damageWatcher.DamageWatcherTick();
@@ -819,31 +880,70 @@ namespace Verse
 			{
 				Log.Error(ex13.ToString());
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("MapComponentTick()");
 			MapComponentUtility.MapComponentTick(this);
+			Profiler.EndSample();
 		}
 
 		public void MapUpdate()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
+			Profiler.BeginSample("SkyManagerUpdate()");
 			this.skyManager.SkyManagerUpdate();
+			Profiler.EndSample();
+			Profiler.BeginSample("PowerNetManager.UpdatePowerNetsAndConnections_First()");
 			this.powerNetManager.UpdatePowerNetsAndConnections_First();
+			Profiler.EndSample();
+			Profiler.BeginSample("regionGrid.UpdateClean()");
 			this.regionGrid.UpdateClean();
+			Profiler.EndSample();
+			Profiler.BeginSample("RegionAndRoomUpdater.TryRebuildDirtyRegionsAndRooms()");
 			this.regionAndRoomUpdater.TryRebuildDirtyRegionsAndRooms();
+			Profiler.EndSample();
+			Profiler.BeginSample("glowGrid.GlowGridUpdate_First()");
 			this.glowGrid.GlowGridUpdate_First();
+			Profiler.EndSample();
+			Profiler.BeginSample("LordManagerUpdate()");
 			this.lordManager.LordManagerUpdate();
+			Profiler.EndSample();
 			if (!worldRenderedNow && Find.VisibleMap == this)
 			{
+				Profiler.BeginSample("waterInfo.SetTextures()");
+				this.waterInfo.SetTextures();
+				Profiler.EndSample();
+				Profiler.BeginSample("FactionsDebugDrawOnMap()");
 				Find.FactionManager.FactionsDebugDrawOnMap();
+				Profiler.EndSample();
+				Profiler.BeginSample("mapDrawer.MapMeshDrawerUpdate_First");
 				this.mapDrawer.MapMeshDrawerUpdate_First();
+				Profiler.EndSample();
+				Profiler.BeginSample("PowerNetGrid.DrawDebugPowerNetGrid()");
 				this.powerNetGrid.DrawDebugPowerNetGrid();
+				Profiler.EndSample();
+				Profiler.BeginSample("DoorsDebugDrawer.DrawDebug()");
 				DoorsDebugDrawer.DrawDebug();
-				this.mapDrawer.DrawMapMesh(SectionLayerPhaseDefOf.Main);
-				this.dynamicDrawManager.DrawDynamicThings(DrawTargetDefOf.Main);
+				Profiler.EndSample();
+				Profiler.BeginSample("mapDrawer.DrawMapMesh");
+				this.mapDrawer.DrawMapMesh();
+				Profiler.EndSample();
+				Profiler.BeginSample("drawManager.DrawDynamicThings");
+				this.dynamicDrawManager.DrawDynamicThings();
+				Profiler.EndSample();
+				Profiler.BeginSample("GameConditionManagerDraw");
 				this.gameConditionManager.GameConditionManagerDraw();
+				Profiler.EndSample();
+				Profiler.BeginSample("DrawClippers");
 				MapEdgeClipDrawer.DrawClippers(this);
+				Profiler.EndSample();
+				Profiler.BeginSample("designationManager.DrawDesignations()");
 				this.designationManager.DrawDesignations();
+				Profiler.EndSample();
+				Profiler.BeginSample("OverlayDrawer.DrawAllOverlays()");
 				this.overlayDrawer.DrawAllOverlays();
+				Profiler.EndSample();
 			}
+			Profiler.BeginSample("AreaManagerUpdate()");
 			try
 			{
 				this.areaManager.AreaManagerUpdate();
@@ -852,55 +952,58 @@ namespace Verse
 			{
 				Log.Error(ex.ToString());
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("WeatherManagerUpdate()");
 			this.weatherManager.WeatherManagerUpdate();
+			Profiler.EndSample();
+			Profiler.BeginSample("MapComponentUpdate()");
 			MapComponentUtility.MapComponentUpdate(this);
-		}
-
-		public void GenerateWaterMap()
-		{
-			GL.PushMatrix();
-			GL.LoadIdentity();
-			GL.LoadProjectionMatrix(Matrix4x4.identity);
-			GL.modelview = Matrix4x4.identity;
-			try
-			{
-				RenderTexture waterLight = GlobalRenderTexture.WaterLight;
-				Graphics.SetRenderTarget(waterLight);
-				GL.Clear(false, true, Color.black);
-				this.mapDrawer.DrawMapMesh(SectionLayerPhaseDefOf.WaterGeneration);
-				this.dynamicDrawManager.DrawDynamicThings(DrawTargetDefOf.WaterHeight);
-				Shader.SetGlobalTexture("_WaterOutputTex", waterLight);
-			}
-			finally
-			{
-				Graphics.SetRenderTarget(null);
-				GL.PopMatrix();
-			}
+			Profiler.EndSample();
 		}
 
 		public T GetComponent<T>() where T : MapComponent
 		{
-			for (int i = 0; i < this.components.Count; i++)
+			int num = 0;
+			T result;
+			while (true)
 			{
-				T val = (T)(this.components[i] as T);
-				if (val != null)
+				if (num < this.components.Count)
 				{
-					return val;
+					T val = (T)(this.components[num] as T);
+					if (val != null)
+					{
+						result = val;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = (T)null;
+				break;
 			}
-			return (T)null;
+			return result;
 		}
 
 		public MapComponent GetComponent(Type type)
 		{
-			for (int i = 0; i < this.components.Count; i++)
+			int num = 0;
+			MapComponent result;
+			while (true)
 			{
-				if (type.IsAssignableFrom(this.components[i].GetType()))
+				if (num < this.components.Count)
 				{
-					return this.components[i];
+					if (type.IsAssignableFrom(this.components[num].GetType()))
+					{
+						result = this.components[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public string GetUniqueLoadID()

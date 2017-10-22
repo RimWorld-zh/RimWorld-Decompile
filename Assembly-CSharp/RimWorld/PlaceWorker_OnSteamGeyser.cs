@@ -4,14 +4,10 @@ namespace RimWorld
 {
 	public class PlaceWorker_OnSteamGeyser : PlaceWorker
 	{
-		public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Thing thingToIgnore = null)
+		public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
-			Thing thing = base.Map.thingGrid.ThingAt(loc, ThingDefOf.SteamGeyser);
-			if (thing != null && !(thing.Position != loc))
-			{
-				return true;
-			}
-			return "MustPlaceOnSteamGeyser".Translate();
+			Thing thing = map.thingGrid.ThingAt(loc, ThingDefOf.SteamGeyser);
+			return (thing != null && !(thing.Position != loc)) ? true : "MustPlaceOnSteamGeyser".Translate();
 		}
 
 		public override bool ForceAllowPlaceOver(BuildableDef otherDef)

@@ -9,15 +9,20 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
+			Job result;
 			if (Rand.Value < 0.10000000149011612)
 			{
 				Fire fire = (Fire)pawn.GetAttachment(ThingDefOf.Fire);
 				if (fire != null)
 				{
-					return new Job(JobDefOf.ExtinguishSelf, (Thing)fire);
+					result = new Job(JobDefOf.ExtinguishSelf, (Thing)fire);
+					goto IL_0046;
 				}
 			}
-			return null;
+			result = null;
+			goto IL_0046;
+			IL_0046:
+			return result;
 		}
 	}
 }

@@ -10,7 +10,8 @@ namespace RimWorld
 
 		public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot)
 		{
-			if (def.building != null && def.building.hasFuelingPort && FuelingPortUtility.GetFuelingPortCell(center, rot).Standable(Find.VisibleMap))
+			Map visibleMap = Find.VisibleMap;
+			if (def.building != null && def.building.hasFuelingPort && FuelingPortUtility.GetFuelingPortCell(center, rot).Standable(visibleMap))
 			{
 				PlaceWorker_FuelingPort.DrawFuelingPortCell(center, rot);
 			}

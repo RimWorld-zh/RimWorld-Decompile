@@ -4,17 +4,22 @@ namespace Verse
 {
 	internal static class QuickStarter
 	{
-		private static bool quickStarted;
+		private static bool quickStarted = false;
 
 		public static bool CheckQuickStart()
 		{
+			bool result;
 			if (GenCommandLine.CommandLineArgPassed("quicktest") && !QuickStarter.quickStarted && GenScene.InEntryScene)
 			{
 				QuickStarter.quickStarted = true;
 				SceneManager.LoadScene("Play");
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 	}
 }

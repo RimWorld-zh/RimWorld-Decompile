@@ -12,23 +12,23 @@ namespace RimWorld
 
 		public Rot4 spawnRotation = Rot4.South;
 
-		public Faction faction;
+		public Faction faction = null;
 
-		public bool forced;
+		public bool forced = false;
 
-		public TraderKindDef traderKind;
+		public TraderKindDef traderKind = null;
 
-		public bool generateFightersOnly;
+		public bool generateFightersOnly = false;
 
-		public RaidStrategyDef raidStrategy;
+		public RaidStrategyDef raidStrategy = null;
 
-		public PawnsArriveMode raidArrivalMode;
+		public PawnsArriveMode raidArrivalMode = PawnsArriveMode.Undecided;
 
 		public int raidPodOpenDelay = 140;
 
-		public bool raidForceOneIncap;
+		public bool raidForceOneIncap = false;
 
-		public bool raidNeverFleeIndividual;
+		public bool raidNeverFleeIndividual = false;
 
 		public void ExposeData()
 		{

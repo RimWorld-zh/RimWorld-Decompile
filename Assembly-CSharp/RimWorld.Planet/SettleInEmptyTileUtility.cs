@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Verse;
 using Verse.Sound;
@@ -10,6 +11,12 @@ namespace RimWorld.Planet
 		private const int MinStartingLocCellsCount = 600;
 
 		private static StringBuilder tmpSettleFailReason = new StringBuilder();
+
+		[CompilerGenerated]
+		private static Action<Exception> _003C_003Ef__mg_0024cache0;
+
+		[CompilerGenerated]
+		private static Action<Exception> _003C_003Ef__mg_0024cache1;
 
 		public static void Settle(Caravan caravan)
 		{
@@ -29,8 +36,7 @@ namespace RimWorld.Planet
 				{
 					Map map = newHome.Map;
 					Pawn t = caravan.PawnsListForReading[0];
-					Predicate<IntVec3> extraCellValidator = (Predicate<IntVec3>)((IntVec3 x) => x.GetRoom(map, RegionType.Set_Passable).CellCount >= 600);
-					CaravanEnterMapUtility.Enter(caravan, map, CaravanEnterMode.Center, CaravanDropInventoryMode.DropInstantly, false, extraCellValidator);
+					CaravanEnterMapUtility.Enter(caravan, map, CaravanEnterMode.Center, CaravanDropInventoryMode.DropInstantly, false, (Predicate<IntVec3>)((IntVec3 x) => x.GetRoom(map, RegionType.Set_Passable).CellCount >= 600));
 					CameraJumper.TryJump((Thing)t);
 				}, "SpawningColonists", true, new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap));
 			}

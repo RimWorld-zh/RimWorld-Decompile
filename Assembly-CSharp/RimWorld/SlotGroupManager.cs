@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
@@ -12,6 +13,12 @@ namespace RimWorld
 		private List<SlotGroup> allGroups = new List<SlotGroup>();
 
 		private SlotGroup[,,] groupGrid;
+
+		[CompilerGenerated]
+		private static Comparison<SlotGroup> _003C_003Ef__mg_0024cache0;
+
+		[CompilerGenerated]
+		private static Comparison<SlotGroup> _003C_003Ef__mg_0024cache1;
 
 		public IEnumerable<SlotGroup> AllGroups
 		{
@@ -41,16 +48,24 @@ namespace RimWorld
 		{
 			get
 			{
-				for (int j = 0; j < this.allGroups.Count; j++)
+				int j = 0;
+				List<IntVec3> cellsList;
+				int i;
+				while (true)
 				{
-					List<IntVec3> cellsList = this.allGroups[j].CellsList;
-					int i = 0;
-					while (i < cellsList.Count)
+					if (j < this.allGroups.Count)
 					{
-						yield return cellsList[i];
+						cellsList = this.allGroups[j].CellsList;
+						i = 0;
+						if (i < cellsList.Count)
+							break;
 						j++;
+						continue;
 					}
+					yield break;
 				}
+				yield return cellsList[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 

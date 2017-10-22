@@ -68,21 +68,12 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			if (!(obj is MaterialRequest))
-			{
-				return false;
-			}
-			return this.Equals((MaterialRequest)obj);
+			return obj is MaterialRequest && this.Equals((MaterialRequest)obj);
 		}
 
 		public bool Equals(MaterialRequest other)
 		{
 			return (UnityEngine.Object)other.shader == (UnityEngine.Object)this.shader && (UnityEngine.Object)other.mainTex == (UnityEngine.Object)this.mainTex && other.color == this.color && other.colorTwo == this.colorTwo && (UnityEngine.Object)other.maskTex == (UnityEngine.Object)this.maskTex && other.renderQueue == this.renderQueue;
-		}
-
-		public override string ToString()
-		{
-			return "MaterialRequest(" + this.shader.name + ", " + this.mainTex.name + ", " + this.color.ToString() + ", " + this.colorTwo.ToString() + ", " + this.maskTex.ToString() + ", " + this.renderQueue.ToString() + ")";
 		}
 
 		public static bool operator ==(MaterialRequest lhs, MaterialRequest rhs)
@@ -93,6 +84,11 @@ namespace Verse
 		public static bool operator !=(MaterialRequest lhs, MaterialRequest rhs)
 		{
 			return !(lhs == rhs);
+		}
+
+		public override string ToString()
+		{
+			return "MaterialRequest(" + this.shader.name + ", " + this.mainTex.name + ", " + this.color.ToString() + ", " + this.colorTwo.ToString() + ", " + this.maskTex.ToString() + ", " + this.renderQueue.ToString() + ")";
 		}
 	}
 }

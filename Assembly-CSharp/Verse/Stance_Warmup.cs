@@ -1,9 +1,12 @@
 using RimWorld;
+using Verse.Sound;
 
 namespace Verse
 {
 	public class Stance_Warmup : Stance_Busy
 	{
+		private Sustainer sustainer;
+
 		private bool targetStartedDowned;
 
 		public Stance_Warmup()
@@ -29,6 +32,15 @@ namespace Verse
 					}
 				}
 			}
+			if (verb != null && verb.verbProps.soundAiming != null)
+			{
+				SoundInfo info = SoundInfo.InMap(verb.caster, MaintenanceType.PerTick);
+				if (verb.CasterIsPawn)
+				{
+					info.pitchFactor = (float)(1.0 / verb.CasterPawn.GetStatValue(StatDefOf.AimingDelayFactor, true));
+				}
+				this.sustainer = verb.verbProps.soundAiming.TrySpawnSustainer(info);
+			}
 		}
 
 		public override void ExposeData()
@@ -47,6 +59,10 @@ namespace Verse
 
 		public override void StanceTick()
 		{
+			if (this.sustainer != null && !this.sustainer.Ended)
+			{
+				this.sustainer.Maintain();
+			}
 			if (!this.targetStartedDowned && base.focusTarg.HasThing && base.focusTarg.Thing is Pawn && ((Pawn)base.focusTarg.Thing).Downed)
 			{
 				base.stanceTracker.SetStance(new Stance_Mobile());

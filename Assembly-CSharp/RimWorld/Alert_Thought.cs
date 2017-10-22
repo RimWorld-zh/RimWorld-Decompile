@@ -24,40 +24,36 @@ namespace RimWorld
 				{
 					Log.Error("Dead pawn in PawnsFinder.AllMaps_FreeColonists:" + allMaps_FreeColonist);
 				}
-				else
+				else if (!ThingOwnerUtility.ContentsFrozen(allMaps_FreeColonist.ParentHolder))
 				{
 					allMaps_FreeColonist.needs.mood.thoughts.GetAllMoodThoughts(Alert_Thought.tmpThoughts);
 					try
 					{
 						ThoughtDef requiredDef = this.Thought;
-						int i = 0;
-						while (i < Alert_Thought.tmpThoughts.Count)
+						for (int i = 0; i < Alert_Thought.tmpThoughts.Count; i++)
 						{
-							if (Alert_Thought.tmpThoughts[i].def != requiredDef)
+							if (Alert_Thought.tmpThoughts[i].def == requiredDef)
 							{
-								i++;
-								continue;
+								yield return allMaps_FreeColonist;
+								/*Error: Unable to find new state assignment for yield return*/;
 							}
-							yield return allMaps_FreeColonist;
-							break;
 						}
 					}
 					finally
 					{
-						((_003CAffectedPawns_003Ec__Iterator18B)/*Error near IL_0138: stateMachine*/)._003C_003E__Finally0();
+						((_003CAffectedPawns_003Ec__Iterator0)/*Error near IL_0163: stateMachine*/)._003C_003E__Finally0();
 					}
 				}
 			}
+			yield break;
+			IL_01a4:
+			/*Error near IL_01a5: Unexpected return in MoveNext()*/;
 		}
 
 		public override AlertReport GetReport()
 		{
 			Pawn pawn = this.AffectedPawns().FirstOrDefault();
-			if (pawn != null)
-			{
-				return AlertReport.CulpritIs((Thing)pawn);
-			}
-			return AlertReport.Inactive;
+			return (pawn == null) ? AlertReport.Inactive : AlertReport.CulpritIs((Thing)pawn);
 		}
 
 		public override string GetExplanation()

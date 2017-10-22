@@ -8,8 +8,6 @@ namespace Verse
 {
 	public class Pawn_AgeTracker : IExposable
 	{
-		private const float BornAtLongitude = 0f;
-
 		private Pawn pawn;
 
 		private long ageBiologicalTicksInt = -1L;
@@ -19,6 +17,8 @@ namespace Verse
 		private int cachedLifeStageIndex = -1;
 
 		private int nextLifeStageChangeTick = -1;
+
+		private const float BornAtLongitude = 0f;
 
 		public long BirthAbsTicks
 		{
@@ -194,12 +194,17 @@ namespace Verse
 		{
 			get
 			{
+				PawnKindLifeStage result;
 				if (this.pawn.RaceProps.Humanlike)
 				{
 					Log.ErrorOnce("Tried to get CurKindLifeStage from humanlike pawn " + this.pawn, 8888811);
-					return null;
+					result = null;
 				}
-				return this.pawn.kindDef.lifeStages[this.CurLifeStageIndex];
+				else
+				{
+					result = this.pawn.kindDef.lifeStages[this.CurLifeStageIndex];
+				}
+				return result;
 			}
 		}
 
@@ -221,20 +226,27 @@ namespace Verse
 		public void AgeTick()
 		{
 			this.ageBiologicalTicksInt += 1L;
-			if (Find.TickManager.TicksGame == this.nextLifeStageChangeTick)
+			if (Find.TickManager.TicksGame >= this.nextLifeStageChangeTick)
 			{
 				this.RecalculateLifeStageIndex();
 			}
-			if (Find.TickManager.TicksGame % 60000 == 20000)
+			if (this.ageBiologicalTicksInt % 3600000 == 0)
 			{
-				if (GenLocalDate.DayOfYear(this.pawn) == this.BirthDayOfYear)
-				{
-					this.BirthdayChronological();
-				}
-				if (this.ageBiologicalTicksInt % 3600000 < 60000)
-				{
-					this.BirthdayBiological();
-				}
+				this.BirthdayBiological();
+			}
+		}
+
+		public void AgeTickMothballed(int interval)
+		{
+			long num = this.ageBiologicalTicksInt;
+			this.ageBiologicalTicksInt += (long)interval;
+			while (Find.TickManager.TicksGame >= this.nextLifeStageChangeTick)
+			{
+				this.RecalculateLifeStageIndex();
+			}
+			for (int num2 = (int)(num / 3600000); num2 < this.ageBiologicalTicksInt / 3600000; num2 += 3600000)
+			{
+				this.BirthdayBiological();
 			}
 		}
 
@@ -273,6 +285,10 @@ namespace Verse
 				int num4 = (Current.ProgramState == ProgramState.Playing) ? Find.TickManager.TicksGame : 0;
 				this.nextLifeStageChangeTick = num4 + Mathf.CeilToInt((float)(num3 * 3600000.0));
 			}
+			else
+			{
+				this.nextLifeStageChangeTick = 2147483647;
+			}
 		}
 
 		private void BirthdayBiological()
@@ -292,12 +308,8 @@ namespace Verse
 			if (this.pawn.RaceProps.Humanlike && PawnUtility.ShouldSendNotificationAbout(this.pawn) && stringBuilder.Length > 0)
 			{
 				string text = "BirthdayBiologicalAgeInjuries".Translate(this.pawn, this.AgeBiologicalYears, stringBuilder).AdjustedFor(this.pawn);
-				Find.LetterStack.ReceiveLetter("LetterLabelBirthday".Translate(), text, LetterDefOf.BadNonUrgent, (Thing)this.pawn, (string)null);
+				Find.LetterStack.ReceiveLetter("LetterLabelBirthday".Translate(), text, LetterDefOf.NegativeEvent, (Thing)this.pawn, (string)null);
 			}
-		}
-
-		private void BirthdayChronological()
-		{
 		}
 
 		public void DebugForceBirthdayBiological()

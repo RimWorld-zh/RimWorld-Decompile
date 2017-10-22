@@ -28,25 +28,38 @@ namespace RimWorld
 
 		private Bill_Production RelevantBill()
 		{
+			Bill_Production result;
 			if (Find.Selector.SingleSelectedThing != null && Find.Selector.SingleSelectedThing.def == base.def.thingDef)
 			{
 				IBillGiver billGiver = Find.Selector.SingleSelectedThing as IBillGiver;
 				if (billGiver != null)
 				{
-					return (Bill_Production)billGiver.BillStack.Bills.FirstOrDefault((Func<Bill, bool>)((Bill b) => b.recipe == base.def.recipeDef));
+					result = (Bill_Production)billGiver.BillStack.Bills.FirstOrDefault((Func<Bill, bool>)((Bill b) => b.recipe == base.def.recipeDef));
+					goto IL_0076;
 				}
 			}
-			return null;
+			result = null;
+			goto IL_0076;
+			IL_0076:
+			return result;
 		}
 
 		private IEnumerable<Thing> ThingsToSelect()
 		{
 			if (Find.Selector.SingleSelectedThing != null && Find.Selector.SingleSelectedThing.def == base.def.thingDef)
 				yield break;
-			foreach (Building item in base.Map.listerBuildings.AllBuildingsColonistOfDef(base.def.thingDef))
+			using (IEnumerator<Building> enumerator = base.Map.listerBuildings.AllBuildingsColonistOfDef(base.def.thingDef).GetEnumerator())
 			{
-				yield return (Thing)item;
+				if (enumerator.MoveNext())
+				{
+					Building billGiver = enumerator.Current;
+					yield return (Thing)billGiver;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_0116:
+			/*Error near IL_0117: Unexpected return in MoveNext()*/;
 		}
 
 		public override void LessonOnGUI()

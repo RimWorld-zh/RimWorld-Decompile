@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace Verse
 {
 	public static class GenString
@@ -15,24 +18,28 @@ namespace Verse
 
 		public static string ToStringCached(this int num)
 		{
-			if (num < -4999)
-			{
-				return num.ToString();
-			}
-			if (num > 4999)
-			{
-				return num.ToString();
-			}
-			return GenString.numberStrings[num + 5000];
+			return (num >= -4999) ? ((num <= 4999) ? GenString.numberStrings[num + 5000] : num.ToString()) : num.ToString();
 		}
 
-		public static string TrimmedToLength(this string str, int length)
+		public static IEnumerable<string> SplitBy(this string str, int chunkLength)
 		{
-			if (str != null && str.Length > length)
+			if (!str.NullOrEmpty())
 			{
-				return str.Substring(0, length);
+				if (chunkLength < 1)
+				{
+					throw new ArgumentException();
+				}
+				int i = 0;
+				if (i < str.Length)
+				{
+					if (chunkLength > str.Length - i)
+					{
+						chunkLength = str.Length - i;
+					}
+					yield return str.Substring(i, chunkLength);
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			return str;
 		}
 	}
 }

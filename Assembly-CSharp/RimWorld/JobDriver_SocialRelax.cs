@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -18,7 +17,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.CurJob.GetTarget(TargetIndex.A).Thing;
+				return base.job.GetTarget(TargetIndex.A).Thing;
 			}
 		}
 
@@ -26,7 +25,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.CurJob.GetTarget(TargetIndex.B).HasThing;
+				return base.job.GetTarget(TargetIndex.B).HasThing;
 			}
 		}
 
@@ -34,7 +33,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.CurJob.GetTarget(TargetIndex.C).HasThing;
+				return base.job.GetTarget(TargetIndex.C).HasThing;
 			}
 		}
 
@@ -46,6 +45,11 @@ namespace RimWorld
 			}
 		}
 
+		public override bool TryMakePreToilReservations()
+		{
+			return (byte)(base.pawn.Reserve(base.job.GetTarget(TargetIndex.B), base.job, 1, -1, null) ? ((!this.HasDrink || base.pawn.Reserve(base.job.GetTarget(TargetIndex.C), base.job, 1, -1, null)) ? 1 : 0) : 0) != 0;
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.EndOnDespawnedOrNull(TargetIndex.A, JobCondition.Incompletable);
@@ -53,37 +57,14 @@ namespace RimWorld
 			{
 				this.EndOnDespawnedOrNull(TargetIndex.B, JobCondition.Incompletable);
 			}
-			yield return Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
 			if (this.HasDrink)
 			{
 				this.FailOnDestroyedNullOrForbidden(TargetIndex.C);
-				yield return Toils_Reserve.Reserve(TargetIndex.C, 1, -1, null);
 				yield return Toils_Goto.GotoThing(TargetIndex.C, PathEndMode.OnCell).FailOnSomeonePhysicallyInteracting(TargetIndex.C);
-				yield return Toils_Haul.StartCarryThing(TargetIndex.C, false, false);
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			yield return Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.OnCell);
-			Toil chew = new Toil
-			{
-				tickAction = (Action)delegate
-				{
-					((_003CMakeNewToils_003Ec__Iterator21)/*Error near IL_011b: stateMachine*/)._003C_003Ef__this.pawn.Drawer.rotator.FaceCell(((_003CMakeNewToils_003Ec__Iterator21)/*Error near IL_011b: stateMachine*/)._003C_003Ef__this.ClosestGatherSpotParentCell);
-					((_003CMakeNewToils_003Ec__Iterator21)/*Error near IL_011b: stateMachine*/)._003C_003Ef__this.pawn.GainComfortFromCellIfPossible();
-					JoyUtility.JoyTickCheckEnd(((_003CMakeNewToils_003Ec__Iterator21)/*Error near IL_011b: stateMachine*/)._003C_003Ef__this.pawn, JoyTickFullJoyAction.GoToNextToil, 1f);
-				},
-				defaultCompleteMode = ToilCompleteMode.Delay,
-				defaultDuration = base.CurJob.def.joyDuration
-			};
-			chew.AddFinishAction((Action)delegate
-			{
-				JoyUtility.TryGainRecRoomThought(((_003CMakeNewToils_003Ec__Iterator21)/*Error near IL_015e: stateMachine*/)._003C_003Ef__this.pawn);
-			});
-			chew.socialMode = RandomSocialMode.SuperActive;
-			Toils_Ingest.AddIngestionEffects(chew, base.pawn, TargetIndex.C, TargetIndex.None);
-			yield return chew;
-			if (this.HasDrink)
-			{
-				yield return Toils_Ingest.FinalizeIngest(base.pawn, TargetIndex.C);
-			}
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override bool ModifyCarriedThingDrawPos(ref Vector3 drawPos, ref bool behind, ref bool flip)

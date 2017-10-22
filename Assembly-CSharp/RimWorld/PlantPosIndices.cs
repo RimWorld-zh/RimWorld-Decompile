@@ -4,12 +4,13 @@ namespace RimWorld
 {
 	internal static class PlantPosIndices
 	{
-		private const int ListCount = 8;
-
 		private static int[][][] rootList;
+
+		private const int ListCount = 8;
 
 		static PlantPosIndices()
 		{
+			PlantPosIndices.rootList = null;
 			PlantPosIndices.rootList = new int[25][][];
 			for (int i = 0; i < 25; i++)
 			{

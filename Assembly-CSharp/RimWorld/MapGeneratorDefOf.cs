@@ -8,5 +8,7 @@ namespace RimWorld
 		public static MapGeneratorDef MainMap;
 
 		public static MapGeneratorDef FactionBase;
+
+		public static MapGeneratorDef EscapeShipMap;
 	}
 }

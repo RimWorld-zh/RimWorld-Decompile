@@ -1,4 +1,3 @@
-using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +15,15 @@ namespace RimWorld
 
 		private const float PointsPerColonist = 42f;
 
+		private const float PointsPerColonistFactorInContainer = 0.3f;
+
+		private const float PointsPerColonistHealthSummaryLerpAmount = 0.5f;
+
 		private const float MinMaxSquadCost = 50f;
 
-		private const float BuildingWealthFactor = 0.5f;
+		public const float BuildingWealthFactor = 0.5f;
+
+		public const float CaravanWealthFactor = 0.5f;
 
 		private const float HalveLimitLo = 1000f;
 
@@ -30,39 +35,27 @@ namespace RimWorld
 		{
 			IncidentParms incidentParms = new IncidentParms();
 			incidentParms.target = target;
-			switch (incCat)
+			if (incCat == IncidentCategory.ThreatSmall || incCat == IncidentCategory.ThreatBig || incCat == IncidentCategory.RaidBeacon)
 			{
-			case IncidentCategory.ThreatSmall:
-			case IncidentCategory.ThreatBig:
-			{
-				Map map = target as Map;
-				float num = 0f;
-				if (map != null)
+				float playerWealthForStoryteller = target.PlayerWealthForStoryteller;
+				playerWealthForStoryteller = (float)(playerWealthForStoryteller - 2000.0);
+				playerWealthForStoryteller = Mathf.Max(playerWealthForStoryteller, 0f);
+				float num = (float)(playerWealthForStoryteller / 1000.0 * 10.0);
+				float num2 = 0f;
+				foreach (Pawn item in target.FreeColonistsForStoryteller)
 				{
-					num = (float)(map.wealthWatcher.WealthItems + map.wealthWatcher.WealthBuildings * 0.5);
-				}
-				num = (float)(num - 2000.0);
-				if (num < 0.0)
-				{
-					num = 0f;
-				}
-				float num2 = (float)(num / 1000.0 * 10.0);
-				float num3 = 0f;
-				if (map != null)
-				{
-					num3 = (float)((float)map.mapPawns.FreeColonistsCount * 42.0);
-				}
-				else
-				{
-					Caravan caravan = target as Caravan;
-					if (caravan != null)
+					float num3 = 1f;
+					if (item.ParentHolder != null && item.ParentHolder is Building_CryptosleepCasket)
 					{
-						num3 = (float)((float)caravan.PawnsListForReading.Count((Func<Pawn, bool>)((Pawn x) => x.IsColonist && x.HostFaction == null)) * 42.0);
+						num3 = (float)(num3 * 0.30000001192092896);
 					}
+					num3 = Mathf.Lerp(num3, num3 * item.health.summaryHealth.SummaryHealthPercent, 0.5f);
+					num2 = (float)(num2 + 42.0 * num3);
 				}
-				incidentParms.points = num2 + num3;
+				incidentParms.points = num + num2;
 				incidentParms.points *= Find.StoryWatcher.watcherRampUp.TotalThreatPointsFactor;
 				incidentParms.points *= Find.Storyteller.difficulty.threatScale;
+				incidentParms.points *= target.IncidentPointsRandomFactorRange.RandomInRange;
 				switch (Find.StoryWatcher.statsRecord.numThreatBigs)
 				{
 				case 0:
@@ -110,26 +103,6 @@ namespace RimWorld
 					}
 					incidentParms.points = (float)(1000.0 + (incidentParms.points - 1000.0) * 0.5);
 				}
-				break;
-			}
-			case IncidentCategory.CaravanTarget:
-			{
-				Caravan caravan2 = incidentParms.target as Caravan;
-				IEnumerable<Pawn> playerPawns;
-				if (caravan2 != null)
-				{
-					playerPawns = caravan2.PawnsListForReading;
-				}
-				else
-				{
-					Faction playerFaction = Faction.OfPlayer;
-					playerPawns = from x in ((Map)incidentParms.target).mapPawns.AllPawnsSpawned
-					where x.Faction == playerFaction || x.HostFaction == playerFaction
-					select x;
-				}
-				incidentParms.points = CaravanIncidentUtility.CalculateIncidentPoints(playerPawns);
-				break;
-			}
 			}
 			return incidentParms;
 		}
@@ -153,12 +126,17 @@ namespace RimWorld
 					}
 				}
 			}
+			float result;
 			if (num == 0)
 			{
-				return -1f;
+				result = -1f;
 			}
-			float num3 = (float)num / Mathf.Max((float)num2, 1f);
-			return (float)(1.0 / num3);
+			else
+			{
+				float num3 = (float)num / Mathf.Max((float)num2, 1f);
+				result = (float)(1.0 / num3);
+			}
+			return result;
 		}
 
 		public static void DebugLogTestFutureIncidents(bool visibleMapOnly)
@@ -177,6 +155,7 @@ namespace RimWorld
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("Test future incidents for " + Find.Storyteller.def + ":");
 			int[] array = new int[Find.Storyteller.storytellerComps.Count];
+			Dictionary<IIncidentTarget, int> dictionary = new Dictionary<IIncidentTarget, int>();
 			int num = 0;
 			for (int j = 0; j < 6000; j++)
 			{
@@ -184,8 +163,15 @@ namespace RimWorld
 				{
 					if (!visibleMapOnly || item.parms.target == Find.VisibleMap)
 					{
+						if (!dictionary.ContainsKey(item.parms.target))
+						{
+							dictionary[item.parms.target] = 0;
+						}
+						Dictionary<IIncidentTarget, int> dictionary2;
+						IIncidentTarget target;
+						(dictionary2 = dictionary)[target = item.parms.target] = dictionary2[target] + 1;
 						string text = "  ";
-						if (item.def.category == IncidentCategory.ThreatBig)
+						if (item.def.category == IncidentCategory.ThreatBig || item.def.category == IncidentCategory.RaidBeacon)
 						{
 							num++;
 							text = "T";
@@ -197,6 +183,14 @@ namespace RimWorld
 					}
 				}
 				Find.TickManager.DebugSetTicksGame(Find.TickManager.TicksGame + 1000);
+			}
+			stringBuilder.AppendLine();
+			stringBuilder.AppendLine("Target totals:");
+			foreach (KeyValuePair<IIncidentTarget, int> item2 in from kvp in dictionary
+			orderby kvp.Value
+			select kvp)
+			{
+				stringBuilder.AppendLine(string.Format("  {0}: {1}", item2.Value, item2.Key));
 			}
 			stringBuilder.AppendLine();
 			stringBuilder.AppendLine("Incident totals:");
@@ -219,6 +213,22 @@ namespace RimWorld
 				StorytellerUtility.tmpOldStoryStates[allIncidentTargets[l]].CopyTo(allIncidentTargets[l].StoryState);
 			}
 			StorytellerUtility.tmpOldStoryStates.Clear();
+		}
+
+		public static void DebugLogTestIncidentTargets()
+		{
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.AppendLine("Available incident targets:\n");
+			foreach (IIncidentTarget allIncidentTarget in Find.Storyteller.AllIncidentTargets)
+			{
+				stringBuilder.AppendLine(allIncidentTarget.ToString());
+				foreach (IncidentTargetTypeDef item in allIncidentTarget.AcceptedTypes())
+				{
+					stringBuilder.AppendLine("  " + item);
+				}
+				stringBuilder.AppendLine("");
+			}
+			Log.Message(stringBuilder.ToString());
 		}
 	}
 }

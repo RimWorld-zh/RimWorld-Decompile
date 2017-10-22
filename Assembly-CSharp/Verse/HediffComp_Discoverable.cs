@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class HediffComp_Discoverable : HediffComp
 	{
-		private bool discovered;
+		private bool discovered = false;
 
 		public HediffCompProperties_Discoverable Props
 		{
@@ -39,14 +39,7 @@ namespace Verse
 
 		private void CheckDiscovered()
 		{
-			if (this.discovered)
-			{
-				if (!base.parent.CurStage.everVisible)
-				{
-					this.discovered = false;
-				}
-			}
-			else if (base.parent.CurStage.everVisible)
+			if (!this.discovered && base.parent.CurStage.becomeVisible)
 			{
 				this.discovered = true;
 				if (this.Props.sendLetterWhenDiscovered && PawnUtility.ShouldSendNotificationAbout(base.Pawn))
@@ -55,11 +48,11 @@ namespace Verse
 					string text = this.Props.discoverLetterText.NullOrEmpty() ? ((base.parent.Part != null) ? "NewPartDisease".Translate(base.Pawn.LabelIndefinite(), base.parent.Part.def.label, base.Pawn.LabelDefinite(), base.Def.LabelCap).AdjustedFor(base.Pawn).CapitalizeFirst() : "NewDisease".Translate(base.Pawn.LabelIndefinite(), base.Def.label, base.Pawn.LabelDefinite()).AdjustedFor(base.Pawn).CapitalizeFirst()) : string.Format(this.Props.discoverLetterText, base.Pawn.LabelIndefinite()).AdjustedFor(base.Pawn).CapitalizeFirst();
 					if (base.Pawn.RaceProps.Humanlike)
 					{
-						Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.BadNonUrgent, (Thing)base.Pawn, (string)null);
+						Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.NegativeEvent, (Thing)base.Pawn, (string)null);
 					}
 					else
 					{
-						Messages.Message(text, (Thing)base.Pawn, MessageSound.Standard);
+						Messages.Message(text, (Thing)base.Pawn, MessageTypeDefOf.NeutralEvent);
 					}
 				}
 			}

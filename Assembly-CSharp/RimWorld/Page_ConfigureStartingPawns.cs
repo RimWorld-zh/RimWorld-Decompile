@@ -3,20 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace RimWorld
 {
 	public class Page_ConfigureStartingPawns : Page
 	{
-		private const float TabAreaHeight = 30f;
+		private Pawn curPawn;
 
-		private const float RectAreaWidth = 100f;
+		private const float TabAreaWidth = 140f;
 
 		private const float RightRectLeftPadding = 5f;
 
-		private Pawn curPawn;
+		private const float PawnEntryHeight = 60f;
+
+		private const float SkillSummaryHeight = 141f;
+
+		private const int SkillSummaryColumns = 4;
+
+		private const int TeamSkillExtraInset = 10;
 
 		private static readonly Vector2 PawnPortraitSize = new Vector2(100f, 140f);
+
+		private static readonly Vector2 PawnSelectorPortraitSize = new Vector2(70f, 110f);
+
+		private int SkillsPerColumn = -1;
 
 		public override string PageTitle
 		{
@@ -44,91 +55,215 @@ namespace RimWorld
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
-			Rect mainRect = base.GetMainRect(rect, 30f, false);
-			Widgets.DrawMenuSection(mainRect, true);
-			TabDrawer.DrawTabs(mainRect, from c in Find.GameInitData.startingPawns
-			select new TabRecord(c.LabelCap, (Action)delegate()
-			{
-				this.SelectPawn(c);
-			}, c == this.curPawn));
-			Rect rect2;
-			Rect rect3 = rect2 = mainRect.ContractedBy(17f);
-			rect2.width = 100f;
-			float xMin = rect2.xMin;
-			float width = rect2.width;
-			Vector2 pawnPortraitSize = Page_ConfigureStartingPawns.PawnPortraitSize;
-			double x = xMin + (width - pawnPortraitSize.x) / 2.0 - 10.0;
-			double y = rect2.yMin + 20.0;
-			Vector2 pawnPortraitSize2 = Page_ConfigureStartingPawns.PawnPortraitSize;
-			float x2 = pawnPortraitSize2.x;
-			Vector2 pawnPortraitSize3 = Page_ConfigureStartingPawns.PawnPortraitSize;
-			GUI.DrawTexture(new Rect((float)x, (float)y, x2, pawnPortraitSize3.y), PortraitsCache.Get(this.curPawn, Page_ConfigureStartingPawns.PawnPortraitSize, default(Vector3), 1f));
-			Rect rect4 = rect3;
-			rect4.xMin = rect2.xMax;
-			Rect rect5 = rect4;
-			rect5.width = 475f;
-			CharacterCardUtility.DrawCharacterCard(rect5, this.curPawn, new Action(this.RandomizeCurPawn));
-			Rect rect6 = new Rect((float)(rect5.xMax + 5.0), (float)(rect4.y + 100.0), (float)(rect4.width - rect5.width - 5.0), 200f);
-			Text.Font = GameFont.Medium;
-			Widgets.Label(rect6, "Health".Translate());
-			Text.Font = GameFont.Small;
-			rect6.yMin += 35f;
-			HealthCardUtility.DrawHediffListing(rect6, this.curPawn, true);
-			Rect rect7 = new Rect(rect6.x, rect6.yMax, rect6.width, 200f);
-			Text.Font = GameFont.Medium;
-			Widgets.Label(rect7, "Relations".Translate());
-			Text.Font = GameFont.Small;
-			rect7.yMin += 35f;
-			SocialCardUtility.DrawRelationsAndOpinions(rect7, this.curPawn);
+			rect.yMin += 45f;
 			base.DoBottomButtons(rect, "Start".Translate(), (string)null, null, true);
+			rect.yMax -= 38f;
+			Rect rect2 = rect;
+			rect2.width = 140f;
+			this.DrawPawnList(rect2);
+			UIHighlighter.HighlightOpportunity(rect2, "ReorderPawn");
+			Rect rect3 = rect;
+			rect3.xMin += 140f;
+			Rect rect4 = rect3.BottomPartPixels(141f);
+			rect3.yMax = rect4.yMin;
+			rect3 = rect3.ContractedBy(4f);
+			rect4 = rect4.ContractedBy(4f);
+			this.DrawPortraitArea(rect3);
+			this.DrawSkillSummaries(rect4);
+		}
+
+		private void DrawPawnList(Rect rect)
+		{
+			Rect rect2 = rect;
+			rect2.height = 60f;
+			rect2 = rect2.ContractedBy(4f);
+			int groupID = ReorderableWidget.NewGroup((Action<int, int>)delegate(int from, int to)
+			{
+				if (TutorSystem.AllowAction("ReorderPawn"))
+				{
+					Pawn item = Find.GameInitData.startingPawns[from];
+					Find.GameInitData.startingPawns.RemoveAt(from);
+					Find.GameInitData.startingPawns.Insert(to, item);
+					TutorSystem.Notify_Event("ReorderPawn");
+				}
+			});
+			rect2.y += 15f;
+			this.DrawPawnListLabelAbove(rect2, "StartingPawnsSelected".Translate());
+			for (int i = 0; i < Find.GameInitData.startingPawns.Count; i++)
+			{
+				if (i == Find.GameInitData.startingPawnCount)
+				{
+					rect2.y += 30f;
+					this.DrawPawnListLabelAbove(rect2, "StartingPawnsLeftBehind".Translate());
+				}
+				Pawn pawn = Find.GameInitData.startingPawns[i];
+				GUI.BeginGroup(rect2);
+				Rect rect3 = new Rect(Vector2.zero, rect2.size);
+				Widgets.DrawOptionBackground(rect3, this.curPawn == pawn);
+				MouseoverSounds.DoRegion(rect3);
+				GUI.color = new Color(1f, 1f, 1f, 0.2f);
+				Vector2 pawnSelectorPortraitSize = Page_ConfigureStartingPawns.PawnSelectorPortraitSize;
+				double x = 110.0 - pawnSelectorPortraitSize.x / 2.0;
+				Vector2 pawnSelectorPortraitSize2 = Page_ConfigureStartingPawns.PawnSelectorPortraitSize;
+				double y = 40.0 - pawnSelectorPortraitSize2.y / 2.0;
+				Vector2 pawnSelectorPortraitSize3 = Page_ConfigureStartingPawns.PawnSelectorPortraitSize;
+				float x2 = pawnSelectorPortraitSize3.x;
+				Vector2 pawnSelectorPortraitSize4 = Page_ConfigureStartingPawns.PawnSelectorPortraitSize;
+				GUI.DrawTexture(new Rect((float)x, (float)y, x2, pawnSelectorPortraitSize4.y), PortraitsCache.Get(pawn, Page_ConfigureStartingPawns.PawnSelectorPortraitSize, default(Vector3), 1f));
+				GUI.color = Color.white;
+				Rect rect4 = rect3.ContractedBy(4f).Rounded();
+				Widgets.Label(rect4.TopPart(0.5f).Rounded(), pawn.LabelShort);
+				Vector2 vector = Text.CalcSize(pawn.story.Title);
+				if (vector.x > rect4.width)
+				{
+					Widgets.Label(rect4.BottomPart(0.5f).Rounded(), pawn.story.TitleShort);
+				}
+				else
+				{
+					Widgets.Label(rect4.BottomPart(0.5f).Rounded(), pawn.story.Title);
+				}
+				if (Event.current.type == EventType.MouseDown && Mouse.IsOver(rect3))
+				{
+					this.curPawn = pawn;
+					SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
+				}
+				GUI.EndGroup();
+				if (ReorderableWidget.Reorderable(groupID, rect2.ExpandedBy(4f)))
+				{
+					Widgets.DrawRectFast(rect2, Widgets.WindowBGFillColor * new Color(1f, 1f, 1f, 0.5f), null);
+				}
+				TooltipHandler.TipRegion(rect2, new TipSignal("DragToReorder".Translate(), pawn.GetHashCode() * 3499));
+				rect2.y += 60f;
+			}
+		}
+
+		private void DrawPawnListLabelAbove(Rect rect, string label)
+		{
+			rect.yMax = rect.yMin;
+			rect.yMin -= 30f;
+			rect.xMin -= 4f;
+			Text.Font = GameFont.Tiny;
+			Text.Anchor = TextAnchor.LowerLeft;
+			Widgets.Label(rect, label);
+			Text.Anchor = TextAnchor.UpperLeft;
+			Text.Font = GameFont.Small;
+		}
+
+		private void DrawPortraitArea(Rect rect)
+		{
+			Widgets.DrawMenuSection(rect);
+			rect = rect.ContractedBy(17f);
+			Vector2 center = rect.center;
+			float x = center.x;
+			Vector2 pawnPortraitSize = Page_ConfigureStartingPawns.PawnPortraitSize;
+			double x2 = x - pawnPortraitSize.x / 2.0;
+			double y = rect.yMin - 20.0;
+			Vector2 pawnPortraitSize2 = Page_ConfigureStartingPawns.PawnPortraitSize;
+			float x3 = pawnPortraitSize2.x;
+			Vector2 pawnPortraitSize3 = Page_ConfigureStartingPawns.PawnPortraitSize;
+			GUI.DrawTexture(new Rect((float)x2, (float)y, x3, pawnPortraitSize3.y), PortraitsCache.Get(this.curPawn, Page_ConfigureStartingPawns.PawnPortraitSize, default(Vector3), 1f));
+			Rect rect2 = rect;
+			rect2.width = 500f;
+			CharacterCardUtility.DrawCharacterCard(rect2, this.curPawn, new Action(this.RandomizeCurPawn), rect);
+			Rect rect3 = rect;
+			rect3.yMin += 100f;
+			rect3.xMin = (float)(rect2.xMax + 5.0);
+			rect3.height = 200f;
+			Text.Font = GameFont.Medium;
+			Widgets.Label(rect3, "Health".Translate());
+			Text.Font = GameFont.Small;
+			rect3.yMin += 35f;
+			HealthCardUtility.DrawHediffListing(rect3, this.curPawn, true);
+			Rect rect4 = new Rect(rect3.x, rect3.yMax, rect3.width, 200f);
+			Text.Font = GameFont.Medium;
+			Widgets.Label(rect4, "Relations".Translate());
+			Text.Font = GameFont.Small;
+			rect4.yMin += 35f;
+			SocialCardUtility.DrawRelationsAndOpinions(rect4, this.curPawn);
+		}
+
+		private void DrawSkillSummaries(Rect rect)
+		{
+			rect.xMin += 10f;
+			rect.xMax -= 10f;
+			Widgets.DrawMenuSection(rect);
+			rect = rect.ContractedBy(17f);
+			Text.Font = GameFont.Medium;
+			Widgets.Label(new Rect(rect.min, new Vector2(rect.width, 45f)), "TeamSkills".Translate());
+			Text.Font = GameFont.Small;
+			rect.yMin += 45f;
+			rect = rect.LeftPart(0.25f);
+			rect.height = 27f;
+			List<SkillDef> allDefsListForReading = DefDatabase<SkillDef>.AllDefsListForReading;
+			if (this.SkillsPerColumn < 0)
+			{
+				this.SkillsPerColumn = Mathf.CeilToInt((float)((float)(from sd in allDefsListForReading
+				where sd.pawnCreatorSummaryVisible
+				select sd).Count() / 4.0));
+			}
+			int num = 0;
+			for (int i = 0; i < allDefsListForReading.Count; i++)
+			{
+				SkillDef skillDef = allDefsListForReading[i];
+				if (skillDef.pawnCreatorSummaryVisible)
+				{
+					Rect r = rect;
+					r.x = rect.x + rect.width * (float)(num / this.SkillsPerColumn);
+					r.y = rect.y + rect.height * (float)(num % this.SkillsPerColumn);
+					r.height = 24f;
+					r.width -= 4f;
+					Pawn pawn = this.FindBestSkillOwner(skillDef);
+					SkillUI.DrawSkill(pawn.skills.GetSkill(skillDef), r.Rounded(), SkillUI.SkillDrawMode.Menu, pawn.Name.ToString());
+					num++;
+				}
+			}
+		}
+
+		private Pawn FindBestSkillOwner(SkillDef skill)
+		{
+			Pawn pawn = Find.GameInitData.startingPawns[0];
+			SkillRecord skill2 = pawn.skills.GetSkill(skill);
+			for (int i = 1; i < Find.GameInitData.startingPawnCount; i++)
+			{
+				SkillRecord skill3 = Find.GameInitData.startingPawns[i].skills.GetSkill(skill);
+				if (skill3.Level > skill2.Level || (skill3.Level == skill2.Level && (int)skill3.passion > (int)skill2.passion))
+				{
+					pawn = Find.GameInitData.startingPawns[i];
+				}
+			}
+			return pawn;
 		}
 
 		private void RandomizeCurPawn()
 		{
 			if (TutorSystem.AllowAction("RandomizePawn"))
 			{
-				int num = 0;
-				while (true)
-				{
-					this.curPawn = StartingPawnUtility.RandomizeInPlace(this.curPawn);
-					num++;
-					if (num <= 15)
-					{
-						if (StartingPawnUtility.WorkTypeRequirementsSatisfied())
-							break;
-						continue;
-					}
-					return;
-				}
+				this.curPawn = StartingPawnUtility.RandomizeInPlace(this.curPawn);
 				TutorSystem.Notify_Event("RandomizePawn");
 			}
 		}
 
 		protected override bool CanDoNext()
 		{
+			bool result;
 			if (!base.CanDoNext())
 			{
-				return false;
+				result = false;
 			}
-			List<Pawn>.Enumerator enumerator = Find.GameInitData.startingPawns.GetEnumerator();
-			try
+			else
 			{
-				while (enumerator.MoveNext())
+				foreach (Pawn startingPawn in Find.GameInitData.startingPawns)
 				{
-					Pawn current = enumerator.Current;
-					if (!current.Name.IsValid)
+					if (!startingPawn.Name.IsValid)
 					{
-						Messages.Message("EveryoneNeedsValidName".Translate(), MessageSound.RejectInput);
+						Messages.Message("EveryoneNeedsValidName".Translate(), MessageTypeDefOf.RejectInput);
 						return false;
 					}
 				}
+				PortraitsCache.Clear();
+				result = true;
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
-			PortraitsCache.Clear();
-			return true;
+			return result;
 		}
 
 		public void SelectPawn(Pawn c)

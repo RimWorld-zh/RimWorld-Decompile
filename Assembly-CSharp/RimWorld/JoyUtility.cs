@@ -11,46 +11,56 @@ namespace RimWorld
 
 		public static bool EnjoyableOutsideNow(Map map, StringBuilder outFailReason = null)
 		{
+			bool result;
+			GameConditionDef gameConditionDef = default(GameConditionDef);
 			if (map.weatherManager.RainRate >= 0.25)
 			{
 				if (outFailReason != null)
 				{
 					outFailReason.Append(map.weatherManager.curWeather.label);
 				}
-				return false;
+				result = false;
 			}
-			GameConditionDef gameConditionDef = default(GameConditionDef);
-			if (!map.gameConditionManager.AllowEnjoyableOutsideNow(out gameConditionDef))
+			else if (!map.gameConditionManager.AllowEnjoyableOutsideNow(out gameConditionDef))
 			{
 				if (outFailReason != null)
 				{
 					outFailReason.Append(gameConditionDef.label);
 				}
-				return false;
+				result = false;
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
 		public static bool EnjoyableOutsideNow(Pawn pawn, StringBuilder outFailReason = null)
 		{
 			Map mapHeld = pawn.MapHeld;
+			bool result;
 			if (mapHeld == null)
 			{
-				return true;
+				result = true;
 			}
-			if (!JoyUtility.EnjoyableOutsideNow(mapHeld, outFailReason))
+			else if (!JoyUtility.EnjoyableOutsideNow(mapHeld, outFailReason))
 			{
-				return false;
+				result = false;
 			}
-			if (!pawn.ComfortableTemperatureRange().Includes(mapHeld.mapTemperature.OutdoorTemp))
+			else if (!pawn.ComfortableTemperatureRange().Includes(mapHeld.mapTemperature.OutdoorTemp))
 			{
 				if (outFailReason != null)
 				{
 					outFailReason.Append("NotEnjoyableOutsideTemperature".Translate());
 				}
-				return false;
+				result = false;
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
 		public static void JoyTickCheckEnd(Pawn pawn, JoyTickFullJoyAction fullJoyAction = JoyTickFullJoyAction.EndJob, float extraJoyGainFactor = 1f)
@@ -106,21 +116,13 @@ namespace RimWorld
 		public static bool LordPreventsGettingJoy(Pawn pawn)
 		{
 			Lord lord = pawn.GetLord();
-			if (lord != null && !lord.CurLordToil.AllowSatisfyLongNeeds)
-			{
-				return true;
-			}
-			return false;
+			return (byte)((lord != null && !lord.CurLordToil.AllowSatisfyLongNeeds) ? 1 : 0) != 0;
 		}
 
 		public static bool TimetablePreventsGettingJoy(Pawn pawn)
 		{
 			TimeAssignmentDef timeAssignmentDef = (pawn.timetable != null) ? pawn.timetable.CurrentAssignment : TimeAssignmentDefOf.Anything;
-			if (!timeAssignmentDef.allowJoy)
-			{
-				return true;
-			}
-			return false;
+			return (byte)((!timeAssignmentDef.allowJoy) ? 1 : 0) != 0;
 		}
 	}
 }

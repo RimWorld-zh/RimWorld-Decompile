@@ -6,11 +6,11 @@ namespace RimWorld
 {
 	public class JoyGiverDef : Def
 	{
-		public Type giverClass;
+		public Type giverClass = null;
 
-		public float baseChance;
+		public float baseChance = 0f;
 
-		public List<ThingDef> thingDefs;
+		public List<ThingDef> thingDefs = null;
 
 		public JobDef jobDef;
 
@@ -18,7 +18,7 @@ namespace RimWorld
 
 		public float pctPawnsEverDo = 1f;
 
-		public bool unroofedOnly;
+		public bool unroofedOnly = false;
 
 		public JoyKindDef joyKind;
 
@@ -26,7 +26,7 @@ namespace RimWorld
 
 		public bool canDoWhileInBed;
 
-		private JoyGiver workerInt;
+		private JoyGiver workerInt = null;
 
 		public JoyGiver Worker
 		{
@@ -43,14 +43,23 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string e = enumerator.Current;
+					yield return e;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			if (this.jobDef != null && this.jobDef.joyKind != this.joyKind)
-			{
-				yield return "jobDef " + this.jobDef + " has joyKind " + this.jobDef.joyKind + " which does not match our joyKind " + this.joyKind;
-			}
+			if (this.jobDef == null)
+				yield break;
+			if (this.jobDef.joyKind == this.joyKind)
+				yield break;
+			yield return "jobDef " + this.jobDef + " has joyKind " + this.jobDef.joyKind + " which does not match our joyKind " + this.joyKind;
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_015d:
+			/*Error near IL_015e: Unexpected return in MoveNext()*/;
 		}
 	}
 }

@@ -8,6 +8,20 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class CompPowerPlantWind : CompPowerPlant
 	{
+		public int updateWeatherEveryXTicks = 250;
+
+		private int ticksSinceWeatherUpdate;
+
+		private float cachedPowerOutput = 0f;
+
+		private List<IntVec3> windPathCells = new List<IntVec3>();
+
+		private List<Thing> windPathBlockedByThings = new List<Thing>();
+
+		private List<IntVec3> windPathBlockedCells = new List<IntVec3>();
+
+		private float spinPosition = 0f;
+
 		private const float MaxUsableWindIntensity = 1.5f;
 
 		private const float SpinRateFactor = 0.05f;
@@ -17,20 +31,6 @@ namespace RimWorld
 		private const string TranslateWindPathIsBlockedBy = "WindTurbine_WindPathIsBlockedBy";
 
 		private const string TranslateWindPathIsBlockedByRoof = "WindTurbine_WindPathIsBlockedByRoof";
-
-		public int updateWeatherEveryXTicks = 250;
-
-		private int ticksSinceWeatherUpdate;
-
-		private float cachedPowerOutput;
-
-		private List<IntVec3> windPathCells = new List<IntVec3>();
-
-		private List<Thing> windPathBlockedByThings = new List<Thing>();
-
-		private List<IntVec3> windPathBlockedCells = new List<IntVec3>();
-
-		private float spinPosition;
 
 		private static Vector2 BarSize;
 
@@ -111,19 +111,19 @@ namespace RimWorld
 		public override void PostDraw()
 		{
 			base.PostDraw();
-			GenDraw.FillableBarRequest fillableBarRequest = default(GenDraw.FillableBarRequest);
-			GenDraw.FillableBarRequest fillableBarRequest2 = fillableBarRequest;
-			fillableBarRequest2.center = base.parent.DrawPos + Vector3.up * 0.1f;
-			fillableBarRequest2.size = CompPowerPlantWind.BarSize;
-			fillableBarRequest2.fillPercent = this.PowerPercent;
-			fillableBarRequest2.filledMat = CompPowerPlantWind.WindTurbineBarFilledMat;
-			fillableBarRequest2.unfilledMat = CompPowerPlantWind.WindTurbineBarUnfilledMat;
-			fillableBarRequest2.margin = 0.15f;
-			fillableBarRequest = fillableBarRequest2;
+			GenDraw.FillableBarRequest r = new GenDraw.FillableBarRequest
+			{
+				center = base.parent.DrawPos + Vector3.up * 0.1f,
+				size = CompPowerPlantWind.BarSize,
+				fillPercent = this.PowerPercent,
+				filledMat = CompPowerPlantWind.WindTurbineBarFilledMat,
+				unfilledMat = CompPowerPlantWind.WindTurbineBarUnfilledMat,
+				margin = 0.15f
+			};
 			Rot4 rotation = base.parent.Rotation;
 			rotation.Rotate(RotationDirection.Clockwise);
-			fillableBarRequest.rotation = rotation;
-			GenDraw.DrawFillableBar(fillableBarRequest);
+			r.rotation = rotation;
+			GenDraw.DrawFillableBar(r);
 			Vector3 vector = base.parent.TrueCenter();
 			vector += base.parent.Rotation.FacingCell.ToVector3() * 0.7f;
 			vector.y += 0.046875f;

@@ -60,6 +60,7 @@ namespace RimWorld
 			{
 				Pawn actor = f.GetActor();
 				Pawn pawn = (claimantIndex != 0) ? ((Pawn)actor.CurJob.GetTarget(claimantIndex).Thing) : actor;
+				JobCondition result;
 				if (pawn.ownership != null)
 				{
 					Building_Bed building_Bed = (Building_Bed)actor.CurJob.GetTarget(bedIndex).Thing;
@@ -67,29 +68,35 @@ namespace RimWorld
 					{
 						if ((!pawn.InBed() || pawn.CurrentBed() != building_Bed) && !building_Bed.AnyUnoccupiedSleepingSlot)
 						{
-							return JobCondition.Incompletable;
+							result = JobCondition.Incompletable;
+							goto IL_011e;
 						}
 					}
 					else
 					{
 						if (!building_Bed.owners.Contains(pawn))
 						{
-							return JobCondition.Incompletable;
+							result = JobCondition.Incompletable;
+							goto IL_011e;
 						}
 						if (pawn.InBed() && pawn.CurrentBed() == building_Bed)
 						{
 							int curOccupantSlotIndex = building_Bed.GetCurOccupantSlotIndex(pawn);
 							if (curOccupantSlotIndex < building_Bed.owners.Count && building_Bed.owners[curOccupantSlotIndex] == pawn)
 							{
-								goto IL_00f9;
+								goto IL_0116;
 							}
-							return JobCondition.Incompletable;
+							result = JobCondition.Incompletable;
+							goto IL_011e;
 						}
 					}
 				}
-				goto IL_00f9;
-				IL_00f9:
-				return JobCondition.Ongoing;
+				goto IL_0116;
+				IL_011e:
+				return result;
+				IL_0116:
+				result = JobCondition.Ongoing;
+				goto IL_011e;
 			});
 			return f;
 		}

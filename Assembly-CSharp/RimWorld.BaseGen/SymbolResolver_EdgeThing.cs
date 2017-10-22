@@ -20,50 +20,60 @@ namespace RimWorld.BaseGen
 
 		public override bool CanResolve(ResolveParams rp)
 		{
+			bool result;
 			if (!base.CanResolve(rp))
 			{
-				return false;
+				result = false;
 			}
-			if (rp.singleThingDef != null)
+			else
 			{
-				bool? edgeThingAvoidOtherEdgeThings = rp.edgeThingAvoidOtherEdgeThings;
-				bool avoidOtherEdgeThings = edgeThingAvoidOtherEdgeThings.HasValue && edgeThingAvoidOtherEdgeThings.Value;
-				IntVec3 intVec = default(IntVec3);
-				if (rp.thingRot.HasValue)
+				if (rp.singleThingDef != null)
 				{
-					if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, rp.thingRot.Value, avoidOtherEdgeThings, out intVec))
+					bool? edgeThingAvoidOtherEdgeThings = rp.edgeThingAvoidOtherEdgeThings;
+					bool avoidOtherEdgeThings = edgeThingAvoidOtherEdgeThings.HasValue && edgeThingAvoidOtherEdgeThings.Value;
+					IntVec3 intVec = default(IntVec3);
+					if (rp.thingRot.HasValue)
 					{
-						return false;
-					}
-				}
-				else if (!rp.singleThingDef.rotatable)
-				{
-					if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, Rot4.North, avoidOtherEdgeThings, out intVec))
-					{
-						return false;
-					}
-				}
-				else
-				{
-					bool flag = false;
-					int num = 0;
-					while (num < 4)
-					{
-						if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, new Rot4(num), avoidOtherEdgeThings, out intVec))
+						if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, rp.thingRot.Value, avoidOtherEdgeThings, out intVec))
 						{
-							num++;
-							continue;
+							result = false;
+							goto IL_0129;
 						}
-						flag = true;
-						break;
 					}
-					if (!flag)
+					else if (!rp.singleThingDef.rotatable)
 					{
-						return false;
+						if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, Rot4.North, avoidOtherEdgeThings, out intVec))
+						{
+							result = false;
+							goto IL_0129;
+						}
+					}
+					else
+					{
+						bool flag = false;
+						int num = 0;
+						while (num < 4)
+						{
+							if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, new Rot4(num), avoidOtherEdgeThings, out intVec))
+							{
+								num++;
+								continue;
+							}
+							flag = true;
+							break;
+						}
+						if (!flag)
+						{
+							result = false;
+							goto IL_0129;
+						}
 					}
 				}
+				result = true;
 			}
-			return true;
+			goto IL_0129;
+			IL_0129:
+			return result;
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -90,7 +100,7 @@ namespace RimWorld.BaseGen
 				if (this.TryFindSpawnCell(rp.rect, thingDef, rp.thingRot.Value, avoidOtherEdgeThings, out invalid))
 				{
 					value = rp.thingRot.Value;
-					goto IL_0183;
+					goto IL_0192;
 				}
 				return;
 			}
@@ -99,7 +109,7 @@ namespace RimWorld.BaseGen
 				if (this.TryFindSpawnCell(rp.rect, thingDef, Rot4.North, avoidOtherEdgeThings, out invalid))
 				{
 					value = Rot4.North;
-					goto IL_0183;
+					goto IL_0192;
 				}
 				return;
 			}
@@ -119,8 +129,8 @@ namespace RimWorld.BaseGen
 			}
 			if (!flag)
 				return;
-			goto IL_0183;
-			IL_0183:
+			goto IL_0192;
+			IL_0192:
 			ResolveParams resolveParams = rp;
 			resolveParams.rect = CellRect.SingleCell(invalid);
 			resolveParams.thingRot = new Rot4?(value);
@@ -130,6 +140,7 @@ namespace RimWorld.BaseGen
 
 		private bool TryFindSpawnCell(CellRect rect, ThingDef thingDef, Rot4 rot, bool avoidOtherEdgeThings, out IntVec3 spawnCell)
 		{
+			bool result;
 			if (avoidOtherEdgeThings)
 			{
 				spawnCell = IntVec3.Invalid;
@@ -149,9 +160,13 @@ namespace RimWorld.BaseGen
 						}
 					}
 				}
-				return spawnCell.IsValid;
+				result = spawnCell.IsValid;
 			}
-			return this.TryFindSpawnCell(rect, thingDef, rot, out spawnCell);
+			else
+			{
+				result = this.TryFindSpawnCell(rect, thingDef, rot, out spawnCell);
+			}
+			return result;
 		}
 
 		private bool TryFindSpawnCell(CellRect rect, ThingDef thingDef, Rot4 rot, out IntVec3 spawnCell)
@@ -165,30 +180,39 @@ namespace RimWorld.BaseGen
 			bool flag = false;
 			if (thingDef.category == ThingCategory.Building)
 			{
-				flag = rect.TryFindRandomInnerRectTouchingEdge(size, out empty, (Predicate<CellRect>)((CellRect x) => basePredicate(x) && !BaseGenUtility.AnyDoorCardinalAdjacentTo(x, map) && GenConstruct.TerrainCanSupport(x, map, thingDef)));
+				flag = rect.TryFindRandomInnerRectTouchingEdge(size, out empty, (Predicate<CellRect>)((CellRect x) => basePredicate(x) && !BaseGenUtility.AnyDoorAdjacentCardinalTo(x, map) && GenConstruct.TerrainCanSupport(x, map, thingDef)));
 				if (!flag)
 				{
-					flag = rect.TryFindRandomInnerRectTouchingEdge(size, out empty, (Predicate<CellRect>)((CellRect x) => basePredicate(x) && !BaseGenUtility.AnyDoorCardinalAdjacentTo(x, map)));
+					flag = rect.TryFindRandomInnerRectTouchingEdge(size, out empty, (Predicate<CellRect>)((CellRect x) => basePredicate(x) && !BaseGenUtility.AnyDoorAdjacentCardinalTo(x, map)));
 				}
 			}
+			bool result;
+			CellRect.CellRectIterator iterator;
 			if (!flag && !rect.TryFindRandomInnerRectTouchingEdge(size, out empty, basePredicate))
 			{
 				spawnCell = IntVec3.Invalid;
-				return false;
+				result = false;
 			}
-			CellRect.CellRectIterator iterator = empty.GetIterator();
-			while (!iterator.Done())
+			else
 			{
-				if (GenAdj.OccupiedRect(iterator.Current, rot, thingDef.size) == empty)
+				iterator = empty.GetIterator();
+				while (!iterator.Done())
 				{
-					spawnCell = iterator.Current;
-					return true;
+					if (GenAdj.OccupiedRect(iterator.Current, rot, thingDef.size) == empty)
+						goto IL_0102;
+					iterator.MoveNext();
 				}
-				iterator.MoveNext();
+				Log.Error("We found a valid rect but we couldn't find the root position. This should never happen.");
+				spawnCell = IntVec3.Invalid;
+				result = false;
 			}
-			Log.Error("We found a valid rect but we couldn't find the root position. This should never happen.");
-			spawnCell = IntVec3.Invalid;
-			return false;
+			goto IL_014b;
+			IL_014b:
+			return result;
+			IL_0102:
+			spawnCell = iterator.Current;
+			result = true;
+			goto IL_014b;
 		}
 
 		private int GetDistanceSquaredToExistingEdgeThing(IntVec3 cell, CellRect rect, ThingDef thingDef)

@@ -12,22 +12,30 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
+			Job result;
 			if (pawn.RaceProps.nuzzleMtbHours <= 0.0)
 			{
-				return null;
+				result = null;
 			}
-			List<Pawn> source = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
-			Pawn t = default(Pawn);
-			if (!(from p in source
-			where p.RaceProps.Humanlike && p.Position.InHorDistOf(pawn.Position, 15f) && pawn.GetRoom(RegionType.Set_Passable) == p.GetRoom(RegionType.Set_Passable) && !p.Position.IsForbidden(pawn) && p.CanCasuallyInteractNow(false)
-			select p).TryRandomElement<Pawn>(out t))
+			else
 			{
-				return null;
+				List<Pawn> source = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
+				Pawn t = default(Pawn);
+				if (!(from p in source
+				where !p.NonHumanlikeOrWildMan() && p != pawn && p.Position.InHorDistOf(pawn.Position, 15f) && pawn.GetRoom(RegionType.Set_Passable) == p.GetRoom(RegionType.Set_Passable) && !p.Position.IsForbidden(pawn) && p.CanCasuallyInteractNow(false)
+				select p).TryRandomElement<Pawn>(out t))
+				{
+					result = null;
+				}
+				else
+				{
+					Job job = new Job(JobDefOf.Nuzzle, (Thing)t);
+					job.locomotionUrgency = LocomotionUrgency.Walk;
+					job.expiryInterval = 3000;
+					result = job;
+				}
 			}
-			Job job = new Job(JobDefOf.Nuzzle, (Thing)t);
-			job.locomotionUrgency = LocomotionUrgency.Walk;
-			job.expiryInterval = 3000;
-			return job;
+			return result;
 		}
 	}
 }

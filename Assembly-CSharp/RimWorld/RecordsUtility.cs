@@ -45,7 +45,7 @@ namespace RimWorld
 		{
 			for (int i = 0; i < products.Count; i++)
 			{
-				if (products[i].def.IsNutritionGivingIngestible && (int)products[i].def.ingestible.preferability >= 5)
+				if (products[i].def.IsNutritionGivingIngestible && (int)products[i].def.ingestible.preferability >= 6)
 				{
 					billDoer.records.Increment(RecordDefOf.MealsCooked);
 				}

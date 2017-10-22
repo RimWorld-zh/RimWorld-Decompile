@@ -35,7 +35,7 @@ namespace RimWorld.Planet
 			this.requestingFaction = requestingFaction;
 			this.relationsImprovement = relationsImprovement;
 			this.rewards.ClearAndDestroyContents(DestroyMode.Vanish);
-			this.rewards.TryAddRange(rewards, true);
+			this.rewards.TryAddRangeOrTransfer(rewards, true, false);
 		}
 
 		public void StopQuest()
@@ -60,7 +60,7 @@ namespace RimWorld.Planet
 
 		private void CheckAllEnemiesDefeated(MapParent mapParent)
 		{
-			if (mapParent.HasMap && !GenHostility.AnyHostileActiveThreat(mapParent.Map))
+			if (mapParent.HasMap && !GenHostility.AnyHostileActiveThreatToPlayer(mapParent.Map))
 			{
 				this.GiveRewardsAndSendLetter();
 				this.StopQuest();
@@ -85,9 +85,9 @@ namespace RimWorld.Planet
 			DefeatAllEnemiesQuestComp.tmpRewards.AddRange(this.rewards);
 			this.rewards.Clear();
 			IntVec3 intVec = DropCellFinder.TradeDropSpot(map);
-			DropPodUtility.DropThingsNear(intVec, map, DefeatAllEnemiesQuestComp.tmpRewards, 110, false, false, true);
+			DropPodUtility.DropThingsNear(intVec, map, DefeatAllEnemiesQuestComp.tmpRewards, 110, false, false, true, false);
 			DefeatAllEnemiesQuestComp.tmpRewards.Clear();
-			Find.LetterStack.ReceiveLetter("LetterLabelDefeatAllEnemiesQuestCompleted".Translate(), "LetterDefeatAllEnemiesQuestCompleted".Translate(this.requestingFaction.Name, this.relationsImprovement.ToString("F0")), LetterDefOf.Good, new GlobalTargetInfo(intVec, map, false), (string)null);
+			Find.LetterStack.ReceiveLetter("LetterLabelDefeatAllEnemiesQuestCompleted".Translate(), "LetterDefeatAllEnemiesQuestCompleted".Translate(this.requestingFaction.Name, this.relationsImprovement.ToString("F0")), LetterDefOf.PositiveEvent, new GlobalTargetInfo(intVec, map, false), (string)null);
 		}
 
 		public void GetChildHolders(List<IThingHolder> outChildren)
@@ -108,22 +108,7 @@ namespace RimWorld.Planet
 
 		public override string CompInspectStringExtra()
 		{
-			if (this.active)
-			{
-				return "QuestTargetDestroyInspectString".Translate(this.requestingFaction.Name, this.rewards[0].LabelCap).CapitalizeFirst();
-			}
-			return (string)null;
-		}
-
-		virtual IThingHolder get_ParentHolder()
-		{
-			return base.ParentHolder;
-		}
-
-		IThingHolder IThingHolder.get_ParentHolder()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
-			return this.get_ParentHolder();
+			return (!this.active) ? null : "QuestTargetDestroyInspectString".Translate(this.requestingFaction.Name, this.rewards[0].LabelCap).CapitalizeFirst();
 		}
 	}
 }

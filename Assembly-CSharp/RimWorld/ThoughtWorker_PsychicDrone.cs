@@ -9,57 +9,61 @@ namespace RimWorld
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			PsychicDroneLevel psychicDroneLevel = PsychicDroneLevel.None;
-			Building_PsychicEmanator building_PsychicEmanator = ThoughtWorker_PsychicDrone.ExtantShipPart(p.Map);
-			if (building_PsychicEmanator != null)
+			CompPsychicDrone compPsychicDrone = ThoughtWorker_PsychicDrone.PsychicDroneEmanator(p.Map);
+			if (compPsychicDrone != null)
 			{
-				psychicDroneLevel = building_PsychicEmanator.droneLevel;
+				psychicDroneLevel = compPsychicDrone.DroneLevel;
 			}
 			GameCondition_PsychicEmanation activeCondition = p.Map.gameConditionManager.GetActiveCondition<GameCondition_PsychicEmanation>();
 			if (activeCondition != null && activeCondition.gender == p.gender && (int)activeCondition.def.droneLevel > (int)psychicDroneLevel)
 			{
 				psychicDroneLevel = activeCondition.def.droneLevel;
 			}
+			ThoughtState result;
 			switch (psychicDroneLevel)
 			{
 			case PsychicDroneLevel.None:
 			{
-				return false;
+				result = false;
+				break;
 			}
 			case PsychicDroneLevel.GoodMedium:
 			{
-				return ThoughtState.ActiveAtStage(0);
+				result = ThoughtState.ActiveAtStage(0);
+				break;
 			}
 			case PsychicDroneLevel.BadLow:
 			{
-				return ThoughtState.ActiveAtStage(1);
+				result = ThoughtState.ActiveAtStage(1);
+				break;
 			}
 			case PsychicDroneLevel.BadMedium:
 			{
-				return ThoughtState.ActiveAtStage(2);
+				result = ThoughtState.ActiveAtStage(2);
+				break;
 			}
 			case PsychicDroneLevel.BadHigh:
 			{
-				return ThoughtState.ActiveAtStage(3);
+				result = ThoughtState.ActiveAtStage(3);
+				break;
 			}
 			case PsychicDroneLevel.BadExtreme:
 			{
-				return ThoughtState.ActiveAtStage(4);
+				result = ThoughtState.ActiveAtStage(4);
+				break;
 			}
 			default:
 			{
 				throw new NotImplementedException();
 			}
 			}
+			return result;
 		}
 
-		private static Building_PsychicEmanator ExtantShipPart(Map map)
+		private static CompPsychicDrone PsychicDroneEmanator(Map map)
 		{
-			List<Thing> list = map.listerThings.ThingsOfDef(ThingDefOf.CrashedPsychicEmanatorShipPart);
-			if (list.Count == 0)
-			{
-				return null;
-			}
-			return (Building_PsychicEmanator)list[0];
+			List<Thing> list = map.listerThings.ThingsInGroup(ThingRequestGroup.PsychicDroneEmanator);
+			return list.Any() ? list[0].TryGetComp<CompPsychicDrone>() : null;
 		}
 	}
 }

@@ -4,6 +4,7 @@ namespace RimWorld
 	{
 		MapGenCluster = 0,
 		Reproduce = 1,
-		MapEdge = 2
+		MapEdge = 2,
+		Cave = 3
 	}
 }

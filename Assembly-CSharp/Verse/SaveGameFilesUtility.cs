@@ -8,11 +8,7 @@ namespace Verse
 	{
 		public static bool IsAutoSave(string fileName)
 		{
-			if (fileName.Length < 8)
-			{
-				return false;
-			}
-			return fileName.Substring(0, 8) == "Autosave";
+			return fileName.Length >= 8 && fileName.Substring(0, 8) == "Autosave";
 		}
 
 		public static bool SavedGameNamedExists(string fileName)
@@ -30,16 +26,16 @@ namespace Verse
 
 		public static string UnusedDefaultFileName(string factionLabel)
 		{
-			string empty = string.Empty;
+			string text = "";
 			int num = 1;
 			while (true)
 			{
-				empty = factionLabel + num.ToString();
+				text = factionLabel + num.ToString();
 				num++;
-				if (!SaveGameFilesUtility.SavedGameNamedExists(empty))
+				if (!SaveGameFilesUtility.SavedGameNamedExists(text))
 					break;
 			}
-			return empty;
+			return text;
 		}
 	}
 }

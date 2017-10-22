@@ -1,3 +1,4 @@
+using RimWorld;
 using System;
 using UnityEngine;
 
@@ -5,11 +6,11 @@ namespace Verse
 {
 	public class Dialog_ChangeNameTriple : Window
 	{
-		private const int MaxNameLength = 16;
-
 		private Pawn pawn;
 
 		private string curName;
+
+		private const int MaxNameLength = 16;
 
 		private NameTriple CurPawnName
 		{
@@ -43,6 +44,12 @@ namespace Verse
 
 		public override void DoWindowContents(Rect inRect)
 		{
+			bool flag = false;
+			if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Return)
+			{
+				flag = true;
+				Event.current.Use();
+			}
 			Text.Font = GameFont.Medium;
 			Widgets.Label(new Rect(15f, 15f, 500f, 50f), this.CurPawnName.ToString().Replace(" '' ", " "));
 			Text.Font = GameFont.Small;
@@ -51,20 +58,15 @@ namespace Verse
 			{
 				this.curName = text;
 			}
-			if (!Widgets.ButtonText(new Rect((float)(inRect.width / 2.0 + 20.0), (float)(inRect.height - 35.0), (float)(inRect.width / 2.0 - 20.0), 35f), "OK", true, false, true))
-			{
-				if (Event.current.type != EventType.KeyDown)
-					return;
-				if (Event.current.keyCode != KeyCode.Return)
-					return;
-			}
+			if (!Widgets.ButtonText(new Rect((float)(inRect.width / 2.0 + 20.0), (float)(inRect.height - 35.0), (float)(inRect.width / 2.0 - 20.0), 35f), "OK", true, false, true) && !flag)
+				return;
 			if (this.curName.Length < 1)
 			{
 				this.curName = ((NameTriple)this.pawn.Name).First;
 			}
 			this.pawn.Name = this.CurPawnName;
 			Find.WindowStack.TryRemove(this, true);
-			Messages.Message("PawnGainsName".Translate(this.curName), (Thing)this.pawn, MessageSound.Benefit);
+			Messages.Message("PawnGainsName".Translate(this.curName), (Thing)this.pawn, MessageTypeDefOf.PositiveEvent);
 		}
 	}
 }

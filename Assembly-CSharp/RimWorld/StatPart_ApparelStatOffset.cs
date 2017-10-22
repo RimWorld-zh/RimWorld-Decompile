@@ -24,6 +24,7 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
+			string result;
 			if (req.HasThing && req.Thing != null)
 			{
 				Pawn pawn = req.Thing as Pawn;
@@ -40,10 +41,14 @@ namespace RimWorld
 							stringBuilder.AppendLine(this.InfoTextLineFrom(gear));
 						}
 					}
-					return stringBuilder.ToString();
+					result = stringBuilder.ToString();
+					goto IL_00be;
 				}
 			}
-			return (string)null;
+			result = (string)null;
+			goto IL_00be;
+			IL_00be:
+			return result;
 		}
 
 		private string InfoTextLineFrom(Thing gear)
@@ -59,12 +64,16 @@ namespace RimWorld
 				{
 					Apparel thing = pawn.apparel.WornApparel[i];
 					if (thing.GetStatValue(this.apparelStat, true) != 0.0)
-					{
-						return true;
-					}
+						goto IL_003e;
 				}
 			}
-			return false;
+			bool result = false;
+			goto IL_0068;
+			IL_003e:
+			result = true;
+			goto IL_0068;
+			IL_0068:
+			return result;
 		}
 	}
 }

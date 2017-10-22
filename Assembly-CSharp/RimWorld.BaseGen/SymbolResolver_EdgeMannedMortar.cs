@@ -29,15 +29,7 @@ namespace RimWorld.BaseGen
 		{
 			Map map = BaseGen.globalSettings.map;
 			IntVec2 size = new IntVec2(3, 3);
-			if (rect.TryFindRandomInnerRectTouchingEdge(size, out mortarRect, (Predicate<CellRect>)((CellRect x) => x.Cells.All((Func<IntVec3, bool>)((IntVec3 y) => y.Standable(map) && y.GetEdifice(map) == null)) && GenConstruct.TerrainCanSupport(x, map, ThingDefOf.Turret_MortarBomb))))
-			{
-				return true;
-			}
-			if (rect.TryFindRandomInnerRectTouchingEdge(size, out mortarRect, (Predicate<CellRect>)((CellRect x) => x.Cells.All((Func<IntVec3, bool>)((IntVec3 y) => y.Standable(map) && y.GetEdifice(map) == null)))))
-			{
-				return true;
-			}
-			return false;
+			return (byte)(rect.TryFindRandomInnerRectTouchingEdge(size, out mortarRect, (Predicate<CellRect>)((CellRect x) => x.Cells.All((Func<IntVec3, bool>)((IntVec3 y) => y.Standable(map) && y.GetEdifice(map) == null)) && GenConstruct.TerrainCanSupport(x, map, ThingDefOf.Turret_Mortar))) ? 1 : (rect.TryFindRandomInnerRectTouchingEdge(size, out mortarRect, (Predicate<CellRect>)((CellRect x) => x.Cells.All((Func<IntVec3, bool>)((IntVec3 y) => y.Standable(map) && y.GetEdifice(map) == null)))) ? 1 : 0)) != 0;
 		}
 	}
 }

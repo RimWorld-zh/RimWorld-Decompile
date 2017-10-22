@@ -7,22 +7,14 @@ namespace RimWorld
 {
 	public abstract class Bill : IExposable, ILoadReferenceable
 	{
-		public const int MaxIngredientSearchRadius = 999;
-
-		public const float ButSize = 24f;
-
-		private const float InterfaceBaseHeight = 53f;
-
-		private const float InterfaceStatusLineHeight = 17f;
-
 		[Unsaved]
-		public BillStack billStack;
+		public BillStack billStack = null;
 
 		private int loadID = -1;
 
 		public RecipeDef recipe;
 
-		public bool suspended;
+		public bool suspended = false;
 
 		public ThingFilter ingredientFilter;
 
@@ -30,9 +22,17 @@ namespace RimWorld
 
 		public IntRange allowedSkillRange = new IntRange(0, 20);
 
-		public bool deleted;
+		public bool deleted = false;
 
 		public int lastIngredientSearchFailTicks = -99999;
+
+		public const int MaxIngredientSearchRadius = 999;
+
+		public const float ButSize = 24f;
+
+		private const float InterfaceBaseHeight = 53f;
+
+		private const float InterfaceStatusLineHeight = 17f;
 
 		public Map Map
 		{
@@ -94,16 +94,17 @@ namespace RimWorld
 		{
 			get
 			{
+				bool result;
 				if (this.deleted)
 				{
-					return true;
+					result = true;
 				}
-				Thing thing = this.billStack.billGiver as Thing;
-				if (thing != null && thing.Destroyed)
+				else
 				{
-					return true;
+					Thing thing = this.billStack.billGiver as Thing;
+					result = ((byte)((thing != null && thing.Destroyed) ? 1 : 0) != 0);
 				}
-				return false;
+				return result;
 			}
 		}
 
@@ -116,7 +117,7 @@ namespace RimWorld
 			this.recipe = recipe;
 			this.ingredientFilter = new ThingFilter();
 			this.ingredientFilter.CopyAllowancesFrom(recipe.defaultIngredientFilter);
-			this.loadID = Find.World.uniqueIDsManager.GetNextBillID();
+			this.loadID = Find.UniqueIDsManager.GetNextBillID();
 		}
 
 		public virtual void ExposeData()
@@ -141,18 +142,23 @@ namespace RimWorld
 
 		public virtual bool PawnAllowedToStartAnew(Pawn p)
 		{
+			bool result;
 			if (this.recipe.workSkill != null)
 			{
 				int level = p.skills.GetSkill(this.recipe.workSkill).Level;
 				if (level >= this.allowedSkillRange.min && level <= this.allowedSkillRange.max)
 				{
-					goto IL_0050;
+					goto IL_0058;
 				}
-				return false;
+				result = false;
+				goto IL_005f;
 			}
-			goto IL_0050;
-			IL_0050:
-			return true;
+			goto IL_0058;
+			IL_0058:
+			result = true;
+			goto IL_005f;
+			IL_005f:
+			return result;
 		}
 
 		public virtual void Notify_PawnDidWork(Pawn p)
@@ -171,6 +177,11 @@ namespace RimWorld
 
 		protected virtual void DoConfigInterface(Rect rect, Color baseColor)
 		{
+			rect.yMin += 29f;
+			Vector2 center = rect.center;
+			float y = center.y;
+			float num = rect.xMax - (rect.yMax - y);
+			Widgets.InfoCardButton((float)(num - 12.0), (float)(y - 12.0), this.recipe);
 		}
 
 		public virtual void DoStatusLineInterface(Rect rect)
@@ -213,7 +224,7 @@ namespace RimWorld
 					SoundDefOf.TickLow.PlayOneShotOnCamera(null);
 				}
 			}
-			Rect rect2 = new Rect(28f, 0f, (float)(rect.width - 48.0 - 20.0), 48f);
+			Rect rect2 = new Rect(28f, 0f, (float)(rect.width - 48.0 - 20.0), (float)(rect.height + 5.0));
 			Widgets.Label(rect2, this.LabelCap);
 			this.DoConfigInterface(rect.AtZero(), color);
 			Rect rect3 = new Rect((float)(rect.width - 24.0), 0f, 24f, 24f);
@@ -252,28 +263,48 @@ namespace RimWorld
 
 		public bool IsFixedOrAllowedIngredient(Thing thing)
 		{
-			for (int i = 0; i < this.recipe.ingredients.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				IngredientCount ingredientCount = this.recipe.ingredients[i];
-				if (ingredientCount.IsFixedIngredient && ingredientCount.filter.Allows(thing))
+				if (num < this.recipe.ingredients.Count)
 				{
-					return true;
+					IngredientCount ingredientCount = this.recipe.ingredients[num];
+					if (ingredientCount.IsFixedIngredient && ingredientCount.filter.Allows(thing))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = (this.recipe.fixedIngredientFilter.Allows(thing) && this.ingredientFilter.Allows(thing));
+				break;
 			}
-			return this.recipe.fixedIngredientFilter.Allows(thing) && this.ingredientFilter.Allows(thing);
+			return result;
 		}
 
 		public bool IsFixedOrAllowedIngredient(ThingDef def)
 		{
-			for (int i = 0; i < this.recipe.ingredients.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				IngredientCount ingredientCount = this.recipe.ingredients[i];
-				if (ingredientCount.IsFixedIngredient && ingredientCount.filter.Allows(def))
+				if (num < this.recipe.ingredients.Count)
 				{
-					return true;
+					IngredientCount ingredientCount = this.recipe.ingredients[num];
+					if (ingredientCount.IsFixedIngredient && ingredientCount.filter.Allows(def))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = (this.recipe.fixedIngredientFilter.Allows(def) && this.ingredientFilter.Allows(def));
+				break;
 			}
-			return this.recipe.fixedIngredientFilter.Allows(def) && this.ingredientFilter.Allows(def);
+			return result;
 		}
 
 		public static void CreateNoPawnsWithSkillDialog(RecipeDef recipe)

@@ -6,9 +6,15 @@ namespace RimWorld
 {
 	public class Need_Rest : Need
 	{
+		private int lastRestTick = -999;
+
+		private float lastRestEffectiveness = 1f;
+
+		private int ticksAtZero = 0;
+
 		private const float FullSleepHours = 10.5f;
 
-		public const float BaseRestGainPerTick = 3.809524E-05f;
+		public const float BaseRestGainPerTick = 3.8095237E-05f;
 
 		private const float BaseRestFallPerTick = 1.58333332E-05f;
 
@@ -24,29 +30,11 @@ namespace RimWorld
 
 		private const float BaseInvoluntarySleepMTBDays = 0.25f;
 
-		private int lastRestTick = -999;
-
-		private float lastRestEffectiveness = 1f;
-
-		private int ticksAtZero;
-
 		public RestCategory CurCategory
 		{
 			get
 			{
-				if (this.CurLevel < 0.0099999997764825821)
-				{
-					return RestCategory.Exhausted;
-				}
-				if (this.CurLevel < 0.14000000059604645)
-				{
-					return RestCategory.VeryTired;
-				}
-				if (this.CurLevel < 0.2800000011920929)
-				{
-					return RestCategory.Tired;
-				}
-				return RestCategory.Rested;
+				return (RestCategory)((!(this.CurLevel < 0.0099999997764825821)) ? ((!(this.CurLevel < 0.14000000059604645)) ? ((this.CurLevel < 0.2800000011920929) ? 1 : 0) : 2) : 3);
 			}
 		}
 
@@ -54,29 +42,36 @@ namespace RimWorld
 		{
 			get
 			{
+				float result;
 				switch (this.CurCategory)
 				{
 				case RestCategory.Rested:
 				{
-					return (float)(1.5833333236514591E-05 * this.RestFallFactor);
+					result = (float)(1.5833333236514591E-05 * this.RestFallFactor);
+					break;
 				}
 				case RestCategory.Tired:
 				{
-					return (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.699999988079071);
+					result = (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.699999988079071);
+					break;
 				}
 				case RestCategory.VeryTired:
 				{
-					return (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.30000001192092896);
+					result = (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.30000001192092896);
+					break;
 				}
 				case RestCategory.Exhausted:
 				{
-					return (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.60000002384185791);
+					result = (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.60000002384185791);
+					break;
 				}
 				default:
 				{
-					return 999f;
+					result = 999f;
+					break;
 				}
 				}
+				return result;
 			}
 		}
 
@@ -84,17 +79,7 @@ namespace RimWorld
 		{
 			get
 			{
-				float num = 1f;
-				List<Hediff> hediffs = base.pawn.health.hediffSet.hediffs;
-				for (int i = 0; i < hediffs.Count; i++)
-				{
-					HediffStage curStage = hediffs[i].CurStage;
-					if (curStage != null)
-					{
-						num *= curStage.restFallFactor;
-					}
-				}
-				return num;
+				return base.pawn.health.hediffSet.RestFallFactor;
 			}
 		}
 
@@ -102,11 +87,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.Resting)
-				{
-					return 1;
-				}
-				return -1;
+				return this.Resting ? 1 : (-1);
 			}
 		}
 
@@ -150,7 +131,7 @@ namespace RimWorld
 			{
 				if (this.Resting)
 				{
-					this.CurLevel += (float)(0.0057142861187458038 * this.lastRestEffectiveness);
+					this.CurLevel += (float)(0.0057142856530845165 * this.lastRestEffectiveness);
 				}
 				else
 				{
@@ -170,11 +151,12 @@ namespace RimWorld
 				float mtb = (float)((this.ticksAtZero >= 15000) ? ((this.ticksAtZero >= 30000) ? ((this.ticksAtZero >= 45000) ? 0.0625 : 0.0833333358168602) : 0.125) : 0.25);
 				if (Rand.MTBEventOccurs(mtb, 60000f, 150f))
 				{
-					base.pawn.jobs.StartJob(new Job(JobDefOf.LayDown, base.pawn.Position), JobCondition.InterruptForced, null, false, true, null, default(JobTag?));
+					base.pawn.jobs.StartJob(new Job(JobDefOf.LayDown, base.pawn.Position), JobCondition.InterruptForced, null, false, true, null, default(JobTag?), false);
 					if (PawnUtility.ShouldSendNotificationAbout(base.pawn))
 					{
-						Messages.Message("MessageInvoluntarySleep".Translate(base.pawn.LabelShort), (Thing)base.pawn, MessageSound.Negative);
+						Messages.Message("MessageInvoluntarySleep".Translate(base.pawn.LabelShort), (Thing)base.pawn, MessageTypeDefOf.NegativeEvent);
 					}
+					TaleRecorder.RecordTale(TaleDefOf.Exhausted, base.pawn);
 				}
 			}
 		}

@@ -21,6 +21,7 @@ namespace RimWorld
 			}
 			com.defaultLabel = "CommandDetonateLabel".Translate();
 			yield return (Gizmo)com;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		private void Command_Detonate()

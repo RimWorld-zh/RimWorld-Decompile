@@ -8,11 +8,11 @@ namespace RimWorld
 {
 	public abstract class CompPower : ThingComp
 	{
-		public PowerNet transNet;
+		public PowerNet transNet = null;
 
-		public CompPower connectParent;
+		public CompPower connectParent = null;
 
-		public List<CompPower> connectChildren;
+		public List<CompPower> connectChildren = null;
 
 		private static List<PowerNet> recentlyConnectedNets = new List<PowerNet>();
 
@@ -32,15 +32,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.transNet != null)
-				{
-					return this.transNet;
-				}
-				if (this.connectParent != null)
-				{
-					return this.connectParent.transNet;
-				}
-				return null;
+				return (this.transNet == null) ? ((this.connectParent == null) ? null : this.connectParent.transNet) : this.transNet;
 			}
 		}
 
@@ -159,25 +151,34 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			foreach (Gizmo item in base.CompGetGizmosExtra())
+			using (IEnumerator<Gizmo> enumerator = this._003CCompGetGizmosExtra_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
-			}
-			if (this.connectParent != null && base.parent.Faction == Faction.OfPlayer)
-			{
-				yield return (Gizmo)new Command_Action
+				if (enumerator.MoveNext())
 				{
-					action = (Action)delegate
-					{
-						SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
-						((_003CCompGetGizmosExtra_003Ec__IteratorB2)/*Error near IL_00e5: stateMachine*/)._003C_003Ef__this.TryManualReconnect();
-					},
-					hotKey = KeyBindingDefOf.Misc1,
-					defaultDesc = "CommandTryReconnectDesc".Translate(),
-					icon = ContentFinder<Texture2D>.Get("UI/Commands/TryReconnect", true),
-					defaultLabel = "CommandTryReconnectLabel".Translate()
-				};
+					Gizmo c = enumerator.Current;
+					yield return c;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			if (this.connectParent == null)
+				yield break;
+			if (base.parent.Faction != Faction.OfPlayer)
+				yield break;
+			yield return (Gizmo)new Command_Action
+			{
+				action = (Action)delegate
+				{
+					SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_00f4: stateMachine*/)._0024this.TryManualReconnect();
+				},
+				hotKey = KeyBindingDefOf.Misc1,
+				defaultDesc = "CommandTryReconnectDesc".Translate(),
+				icon = ContentFinder<Texture2D>.Get("UI/Commands/TryReconnect", true),
+				defaultLabel = "CommandTryReconnectLabel".Translate()
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_017f:
+			/*Error near IL_0180: Unexpected return in MoveNext()*/;
 		}
 
 		private void TryManualReconnect()
@@ -234,13 +235,18 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
+			string result;
 			if (this.PowerNet == null)
 			{
-				return "PowerNotConnected".Translate();
+				result = "PowerNotConnected".Translate();
 			}
-			string text = (this.PowerNet.CurrentEnergyGainRate() / CompPower.WattsToWattDaysPerTick).ToString("F0");
-			string text2 = this.PowerNet.CurrentStoredEnergy().ToString("F0");
-			return "PowerConnectedRateStored".Translate(text, text2);
+			else
+			{
+				string text = (this.PowerNet.CurrentEnergyGainRate() / CompPower.WattsToWattDaysPerTick).ToString("F0");
+				string text2 = this.PowerNet.CurrentStoredEnergy().ToString("F0");
+				string text3 = result = "PowerConnectedRateStored".Translate(text, text2);
+			}
+			return result;
 		}
 	}
 }

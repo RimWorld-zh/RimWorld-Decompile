@@ -6,21 +6,26 @@ namespace RimWorld
 {
 	public static class LightningBoltMeshPool
 	{
-		private const int NumBoltMeshesMax = 20;
-
 		private static List<Mesh> boltMeshes = new List<Mesh>();
+
+		private const int NumBoltMeshesMax = 20;
 
 		public static Mesh RandomBoltMesh
 		{
 			get
 			{
+				Mesh result;
 				if (LightningBoltMeshPool.boltMeshes.Count < 20)
 				{
 					Mesh mesh = LightningBoltMeshMaker.NewBoltMesh();
 					LightningBoltMeshPool.boltMeshes.Add(mesh);
-					return mesh;
+					result = mesh;
 				}
-				return LightningBoltMeshPool.boltMeshes.RandomElement();
+				else
+				{
+					result = LightningBoltMeshPool.boltMeshes.RandomElement();
+				}
+				return result;
 			}
 		}
 	}

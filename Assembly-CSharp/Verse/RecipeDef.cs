@@ -15,84 +15,91 @@ namespace Verse
 		[MustTranslate]
 		public string jobString = "Doing an unknown recipe.";
 
-		public WorkTypeDef requiredGiverWorkType;
+		public WorkTypeDef requiredGiverWorkType = null;
 
 		public float workAmount = -1f;
 
-		public StatDef workSpeedStat;
+		public StatDef workSpeedStat = null;
 
-		public StatDef efficiencyStat;
+		public StatDef efficiencyStat = null;
 
 		public List<IngredientCount> ingredients = new List<IngredientCount>();
 
 		public ThingFilter fixedIngredientFilter = new ThingFilter();
 
-		public ThingFilter defaultIngredientFilter;
+		public ThingFilter defaultIngredientFilter = null;
 
-		public bool allowMixingIngredients;
+		public bool allowMixingIngredients = false;
 
 		private Type ingredientValueGetterClass = typeof(IngredientValueGetter_Volume);
 
-		public List<SpecialThingFilterDef> forceHiddenSpecialFilters;
+		public List<SpecialThingFilterDef> forceHiddenSpecialFilters = null;
 
 		public List<ThingCountClass> products = new List<ThingCountClass>();
 
-		public List<SpecialProductType> specialProducts;
+		public List<SpecialProductType> specialProducts = null;
 
-		public bool productHasIngredientStuff;
+		public bool productHasIngredientStuff = false;
 
 		public int targetCountAdjustment = 1;
 
-		public ThingDef unfinishedThingDef;
+		public ThingDef unfinishedThingDef = null;
 
-		public List<SkillRequirement> skillRequirements;
+		public List<SkillRequirement> skillRequirements = null;
 
-		public SkillDef workSkill;
+		public SkillDef workSkill = null;
 
 		public float workSkillLearnFactor = 1f;
 
-		public EffecterDef effectWorking;
+		public EffecterDef effectWorking = null;
 
-		public SoundDef soundWorking;
+		public SoundDef soundWorking = null;
 
-		public List<ThingDef> recipeUsers;
+		public List<ThingDef> recipeUsers = null;
 
 		public List<BodyPartDef> appliedOnFixedBodyParts = new List<BodyPartDef>();
 
-		public HediffDef addsHediff;
+		public HediffDef addsHediff = null;
 
-		public HediffDef removesHediff;
+		public HediffDef removesHediff = null;
 
-		public bool hideBodyPartNames;
+		public bool hideBodyPartNames = false;
 
-		public bool isViolation;
+		public bool isViolation = false;
 
 		[MustTranslate]
-		public string successfullyRemovedHediffMessage;
+		public string successfullyRemovedHediffMessage = (string)null;
 
 		public float surgerySuccessChanceFactor = 1f;
 
-		public float deathOnFailedSurgeryChance;
+		public float deathOnFailedSurgeryChance = 0f;
 
 		public bool targetsBodyPart = true;
 
 		public bool anesthetize = true;
 
-		public ResearchProjectDef researchPrerequisite;
+		public bool requireBed = true;
 
-		public ConceptDef conceptLearned;
+		public ResearchProjectDef researchPrerequisite = null;
 
-		[Unsaved]
-		private RecipeWorker workerInt;
+		[NoTranslate]
+		public List<string> factionPrerequisiteTags = null;
 
-		[Unsaved]
-		private RecipeWorkerCounter workerCounterInt;
+		public ConceptDef conceptLearned = null;
 
-		[Unsaved]
-		private IngredientValueGetter ingredientValueGetterInt;
+		public bool dontShowIfAnyIngredientMissing;
 
 		[Unsaved]
-		private List<ThingDef> premultipliedSmallIngredients;
+		private RecipeWorker workerInt = null;
+
+		[Unsaved]
+		private RecipeWorkerCounter workerCounterInt = null;
+
+		[Unsaved]
+		private IngredientValueGetter ingredientValueGetterInt = null;
+
+		[Unsaved]
+		private List<ThingDef> premultipliedSmallIngredients = null;
 
 		public RecipeWorker Worker
 		{
@@ -136,7 +143,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.researchPrerequisite == null || this.researchPrerequisite.IsFinished;
+				return (byte)((this.researchPrerequisite == null || this.researchPrerequisite.IsFinished) ? ((this.factionPrerequisiteTags == null || !this.factionPrerequisiteTags.Any((Predicate<string>)((string tag) => Faction.OfPlayer.def.recipePrerequisiteTags == null || !Faction.OfPlayer.def.recipePrerequisiteTags.Contains(tag)))) ? 1 : 0) : 0) != 0;
 			}
 		}
 
@@ -151,7 +158,7 @@ namespace Verse
 					for (int i = 0; i < this.skillRequirements.Count; i++)
 					{
 						SkillRequirement skillRequirement = this.skillRequirements[i];
-						stringBuilder.AppendLine("   " + skillRequirement.skill.skillLabel + ": " + skillRequirement.minLevel);
+						stringBuilder.AppendLine("   " + skillRequirement.skill.skillLabel.CapitalizeFirst() + ": " + skillRequirement.minLevel);
 						flag = true;
 					}
 				}
@@ -167,18 +174,30 @@ namespace Verse
 		{
 			get
 			{
-				for (int j = 0; j < this.recipeUsers.Count; j++)
+				if (this.recipeUsers != null)
 				{
-					yield return this.recipeUsers[j];
-				}
-				List<ThingDef> thingDefs = DefDatabase<ThingDef>.AllDefsListForReading;
-				for (int i = 0; i < thingDefs.Count; i++)
-				{
-					if (thingDefs[i].recipes != null && thingDefs[i].recipes.Contains(this))
+					int j = 0;
+					if (j < this.recipeUsers.Count)
 					{
-						yield return thingDefs[i];
+						yield return this.recipeUsers[j];
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
+				List<ThingDef> thingDefs = DefDatabase<ThingDef>.AllDefsListForReading;
+				int i = 0;
+				while (true)
+				{
+					if (i < thingDefs.Count)
+					{
+						if (thingDefs[i].recipes != null && thingDefs[i].recipes.Contains(this))
+							break;
+						i++;
+						continue;
+					}
+					yield break;
+				}
+				yield return thingDefs[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -190,73 +209,114 @@ namespace Verse
 			}
 		}
 
+		public bool IsSurgery
+		{
+			get
+			{
+				foreach (ThingDef allRecipeUser in this.AllRecipeUsers)
+				{
+					if (allRecipeUser.category == ThingCategory.Pawn)
+					{
+						return true;
+					}
+				}
+				return false;
+			}
+		}
+
 		public float WorkAmountTotal(ThingDef stuffDef)
 		{
-			if (this.workAmount >= 0.0)
-			{
-				return this.workAmount;
-			}
-			return this.products[0].thingDef.GetStatValueAbstract(StatDefOf.WorkToMake, stuffDef);
+			return (!(this.workAmount >= 0.0)) ? this.products[0].thingDef.GetStatValueAbstract(StatDefOf.WorkToMake, stuffDef) : this.workAmount;
 		}
 
 		public IEnumerable<ThingDef> PotentiallyMissingIngredients(Pawn billDoer, Map map)
 		{
-			for (int j = 0; j < this.ingredients.Count; j++)
+			int i = 0;
+			ThingDef def;
+			while (true)
 			{
-				IngredientCount ing = this.ingredients[j];
-				bool foundIng = false;
-				List<Thing> thingList = map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver);
-				for (int i = 0; i < thingList.Count; i++)
+				if (i < this.ingredients.Count)
 				{
-					Thing t = thingList[i];
-					if ((billDoer == null || !t.IsForbidden(billDoer)) && !t.Position.Fogged(map) && (ing.IsFixedIngredient || this.fixedIngredientFilter.Allows(t)) && ing.filter.Allows(t))
+					IngredientCount ing = this.ingredients[i];
+					bool foundIng = false;
+					List<Thing> thingList = map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver);
+					for (int j = 0; j < thingList.Count; j++)
 					{
-						foundIng = true;
-						break;
-					}
-				}
-				if (!foundIng)
-				{
-					if (ing.IsFixedIngredient)
-					{
-						yield return ing.filter.AllowedThingDefs.First();
-					}
-					else
-					{
-						ThingDef def = (from x in ing.filter.AllowedThingDefs
-						orderby x.BaseMarketValue
-						select x).FirstOrDefault((Func<ThingDef, bool>)((ThingDef x) => ((_003CPotentiallyMissingIngredients_003Ec__Iterator1D7)/*Error near IL_01ba: stateMachine*/)._003C_003Ef__this.fixedIngredientFilter.Allows(x)));
-						if (def != null)
+						Thing thing = thingList[j];
+						if ((billDoer == null || !thing.IsForbidden(billDoer)) && !thing.Position.Fogged(map) && (ing.IsFixedIngredient || this.fixedIngredientFilter.Allows(thing)) && ing.filter.Allows(thing))
 						{
-							yield return def;
+							foundIng = true;
+							break;
 						}
 					}
+					if (!foundIng)
+					{
+						if (ing.IsFixedIngredient)
+						{
+							yield return ing.filter.AllowedThingDefs.First();
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
+						def = (from x in ing.filter.AllowedThingDefs
+						orderby x.BaseMarketValue
+						select x).FirstOrDefault((Func<ThingDef, bool>)((ThingDef x) => ((_003CPotentiallyMissingIngredients_003Ec__Iterator1)/*Error near IL_0197: stateMachine*/)._0024this.fixedIngredientFilter.Allows(x)));
+						if (def != null)
+							break;
+					}
+					i++;
+					continue;
 				}
+				yield break;
 			}
+			yield return def;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public bool IsIngredient(ThingDef th)
 		{
-			for (int i = 0; i < this.ingredients.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (this.ingredients[i].filter.Allows(th) && (this.ingredients[i].IsFixedIngredient || this.fixedIngredientFilter.Allows(th)))
+				if (num < this.ingredients.Count)
 				{
-					return true;
+					if (this.ingredients[num].filter.Allows(th) && (this.ingredients[num].IsFixedIngredient || this.fixedIngredientFilter.Allows(th)))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string e = enumerator.Current;
+					yield return e;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			if (this.workerClass == null)
 			{
 				yield return "workerClass is null.";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			if (!(this.surgerySuccessChanceFactor < 99999.0))
+				yield break;
+			if (this.requireBed)
+				yield break;
+			yield return "failable surgery does not require bed";
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0138:
+			/*Error near IL_0139: Unexpected return in MoveNext()*/;
 		}
 
 		public override void ResolveReferences()
@@ -288,29 +348,80 @@ namespace Verse
 
 		public List<ThingDef> GetPremultipliedSmallIngredients()
 		{
+			List<ThingDef> result;
 			if (this.premultipliedSmallIngredients != null)
 			{
-				return this.premultipliedSmallIngredients;
+				result = this.premultipliedSmallIngredients;
 			}
-			this.premultipliedSmallIngredients = (from td in this.ingredients.SelectMany((Func<IngredientCount, IEnumerable<ThingDef>>)((IngredientCount ingredient) => ingredient.filter.AllowedThingDefs))
-			where td.smallVolume
-			select td).Distinct().ToList();
-			bool flag = true;
-			while (flag)
+			else
 			{
-				flag = false;
-				for (int i = 0; i < this.ingredients.Count; i++)
+				this.premultipliedSmallIngredients = (from td in this.ingredients.SelectMany((Func<IngredientCount, IEnumerable<ThingDef>>)((IngredientCount ingredient) => ingredient.filter.AllowedThingDefs))
+				where td.smallVolume
+				select td).Distinct().ToList();
+				bool flag = true;
+				while (flag)
 				{
-					if (this.ingredients[i].filter.AllowedThingDefs.Any((Func<ThingDef, bool>)((ThingDef td) => !this.premultipliedSmallIngredients.Contains(td))))
+					flag = false;
+					for (int i = 0; i < this.ingredients.Count; i++)
 					{
-						foreach (ThingDef allowedThingDef in this.ingredients[i].filter.AllowedThingDefs)
+						if (this.ingredients[i].filter.AllowedThingDefs.Any((Func<ThingDef, bool>)((ThingDef td) => !this.premultipliedSmallIngredients.Contains(td))))
 						{
-							flag |= this.premultipliedSmallIngredients.Remove(allowedThingDef);
+							foreach (ThingDef allowedThingDef in this.ingredients[i].filter.AllowedThingDefs)
+							{
+								flag |= this.premultipliedSmallIngredients.Remove(allowedThingDef);
+							}
 						}
 					}
 				}
+				result = this.premultipliedSmallIngredients;
 			}
-			return this.premultipliedSmallIngredients;
+			return result;
+		}
+
+		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
+		{
+			if (this.workSkill != null)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Skill".Translate(), this.workSkill.LabelCap, 0, "");
+				/*Error: Unable to find new state assignment for yield return*/;
+			}
+			if (this.ingredients != null && this.ingredients.Count > 0)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Ingredients".Translate(), GenText.ToCommaList(from ic in this.ingredients
+				select ic.Summary, true), 0, "");
+				/*Error: Unable to find new state assignment for yield return*/;
+			}
+			if (this.skillRequirements != null && this.skillRequirements.Count > 0)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "SkillRequirements".Translate(), GenText.ToCommaList(from sr in this.skillRequirements
+				select sr.Summary, true), 0, "");
+				/*Error: Unable to find new state assignment for yield return*/;
+			}
+			if (this.products != null && this.products.Count > 0)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Products".Translate(), GenText.ToCommaList(from pr in this.products
+				select pr.Summary, true), 0, "");
+				/*Error: Unable to find new state assignment for yield return*/;
+			}
+			if (this.workSpeedStat != null)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "WorkSpeedStat".Translate(), this.workSpeedStat.LabelCap, 0, "");
+				/*Error: Unable to find new state assignment for yield return*/;
+			}
+			if (this.efficiencyStat != null)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "EfficiencyStat".Translate(), this.efficiencyStat.LabelCap, 0, "");
+				/*Error: Unable to find new state assignment for yield return*/;
+			}
+			if (!this.IsSurgery)
+				yield break;
+			if (this.surgerySuccessChanceFactor >= 99999.0)
+			{
+				yield return new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgerySuccessChanceFactor".Translate(), "Always", 0, "");
+				/*Error: Unable to find new state assignment for yield return*/;
+			}
+			yield return new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgerySuccessChanceFactor".Translate(), this.surgerySuccessChanceFactor.ToStringPercent(), 0, "");
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

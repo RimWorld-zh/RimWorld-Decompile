@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Xml;
 
 namespace Verse
@@ -10,16 +12,29 @@ namespace Verse
 		{
 			XmlNode node = this.value.node;
 			bool result = false;
-			foreach (object item in xml.SelectNodes(base.xpath))
+			IEnumerator enumerator = xml.SelectNodes(base.xpath).GetEnumerator();
+			try
 			{
-				result = true;
-				XmlNode xmlNode = item as XmlNode;
-				XmlNode parentNode = xmlNode.ParentNode;
-				for (int i = 0; i < node.ChildNodes.Count; i++)
+				while (enumerator.MoveNext())
 				{
-					parentNode.InsertBefore(parentNode.OwnerDocument.ImportNode(node.ChildNodes[i], true), xmlNode);
+					object current = enumerator.Current;
+					result = true;
+					XmlNode xmlNode = current as XmlNode;
+					XmlNode parentNode = xmlNode.ParentNode;
+					for (int i = 0; i < node.ChildNodes.Count; i++)
+					{
+						parentNode.InsertBefore(parentNode.OwnerDocument.ImportNode(node.ChildNodes[i], true), xmlNode);
+					}
+					parentNode.RemoveChild(xmlNode);
 				}
-				parentNode.RemoveChild(xmlNode);
+			}
+			finally
+			{
+				IDisposable disposable;
+				if ((disposable = (enumerator as IDisposable)) != null)
+				{
+					disposable.Dispose();
+				}
 			}
 			return result;
 		}

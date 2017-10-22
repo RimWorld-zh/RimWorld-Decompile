@@ -8,6 +8,18 @@ namespace RimWorld
 {
 	public class Screen_Credits : Window
 	{
+		private List<CreditsEntry> creds;
+
+		public bool wonGame = false;
+
+		private float timeUntilAutoScroll;
+
+		private float scrollPosition = 0f;
+
+		private bool playedMusic = false;
+
+		public float creationRealtime = -1f;
+
 		private const int ColumnWidth = 800;
 
 		private const float InitialAutoScrollDelay = 1f;
@@ -19,18 +31,6 @@ namespace RimWorld
 		private const float SongStartDelay = 5f;
 
 		private const GameFont Font = GameFont.Medium;
-
-		private List<CreditsEntry> creds;
-
-		public bool wonGame;
-
-		private float timeUntilAutoScroll;
-
-		private float scrollPosition;
-
-		private bool playedMusic;
-
-		public float creationRealtime = -1f;
 
 		public override Vector2 InitialSize
 		{
@@ -80,16 +80,21 @@ namespace RimWorld
 		{
 			get
 			{
+				float result;
 				if (this.wonGame)
 				{
 					float num = (float)(SongDefOf.EndCreditsSong.clip.length + 5.0 - 6.0);
-					return this.MaxScrollPosition / num;
+					result = this.MaxScrollPosition / num;
 				}
-				return 30f;
+				else
+				{
+					result = 30f;
+				}
+				return result;
 			}
 		}
 
-		public Screen_Credits() : this(string.Empty)
+		public Screen_Credits() : this("")
 		{
 		}
 
@@ -163,21 +168,12 @@ namespace RimWorld
 			GUI.BeginGroup(position2);
 			Text.Font = GameFont.Medium;
 			float num = 0f;
-			List<CreditsEntry>.Enumerator enumerator = this.creds.GetEnumerator();
-			try
+			foreach (CreditsEntry cred in this.creds)
 			{
-				while (enumerator.MoveNext())
-				{
-					CreditsEntry current = enumerator.Current;
-					float num2 = current.DrawHeight(position2.width);
-					Rect rect2 = new Rect(0f, num, position2.width, num2);
-					current.Draw(rect2);
-					num += num2;
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				float num2 = cred.DrawHeight(position2.width);
+				Rect rect2 = new Rect(0f, num, position2.width, num2);
+				cred.Draw(rect2);
+				num += num2;
 			}
 			GUI.EndGroup();
 			GUI.EndGroup();

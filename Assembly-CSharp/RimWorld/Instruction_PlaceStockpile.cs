@@ -46,11 +46,7 @@ namespace RimWorld
 
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
-			if (ep.Tag == "Designate-ZoneAddStockpile_Resources")
-			{
-				return TutorUtility.EventCellsMatchExactly(ep, this.cachedCells);
-			}
-			return base.AllowAction(ep);
+			return (!(ep.Tag == "Designate-ZoneAddStockpile_Resources")) ? base.AllowAction(ep) : TutorUtility.EventCellsMatchExactly(ep, this.cachedCells);
 		}
 	}
 }

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Verse;
 
 namespace RimWorld
@@ -11,46 +9,56 @@ namespace RimWorld
 		{
 			if (thingDef.MadeFromStuff)
 			{
-				for (int i = 0; i < count; i++)
+				int i = 0;
+				Thing th2;
+				while (true)
 				{
-					Thing th2 = StockGeneratorUtility.TryMakeForStockSingle(thingDef, 1);
-					if (th2 != null)
+					if (i < count)
 					{
-						yield return th2;
+						th2 = StockGeneratorUtility.TryMakeForStockSingle(thingDef, 1);
+						if (th2 == null)
+						{
+							i++;
+							continue;
+						}
+						break;
 					}
+					yield break;
 				}
+				yield return th2;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			else
-			{
-				Thing th = StockGeneratorUtility.TryMakeForStockSingle(thingDef, count);
-				if (th != null)
-				{
-					yield return th;
-				}
-			}
+			Thing th = StockGeneratorUtility.TryMakeForStockSingle(thingDef, count);
+			if (th == null)
+				yield break;
+			yield return th;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public static Thing TryMakeForStockSingle(ThingDef thingDef, int stackCount)
 		{
+			Thing result;
 			if (stackCount <= 0)
 			{
-				return null;
+				result = null;
 			}
-			if (thingDef.tradeability != Tradeability.Stockable)
+			else if (thingDef.tradeability != Tradeability.Stockable)
 			{
 				Log.Error("Tried to make non-Stockable thing for trader stock: " + thingDef);
-				return null;
+				result = null;
 			}
-			ThingDef stuff = null;
-			if (thingDef.MadeFromStuff)
+			else
 			{
-				stuff = (from st in DefDatabase<ThingDef>.AllDefs
-				where st.IsStuff && st.stuffProps.CanMake(thingDef)
-				select st).RandomElementByWeight((Func<ThingDef, float>)((ThingDef st) => st.stuffProps.commonality));
+				ThingDef stuff = null;
+				if (thingDef.MadeFromStuff)
+				{
+					stuff = GenStuff.RandomStuffByCommonalityFor(thingDef, TechLevel.Undefined);
+				}
+				Thing thing = ThingMaker.MakeThing(thingDef, stuff);
+				thing.stackCount = stackCount;
+				result = thing;
 			}
-			Thing thing = ThingMaker.MakeThing(thingDef, stuff);
-			thing.stackCount = stackCount;
-			return thing;
+			return result;
 		}
 	}
 }

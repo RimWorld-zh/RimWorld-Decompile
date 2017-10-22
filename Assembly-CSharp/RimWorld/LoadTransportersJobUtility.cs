@@ -13,28 +13,29 @@ namespace RimWorld
 
 		public static bool HasJobOnTransporter(Pawn pawn, CompTransporter transporter)
 		{
+			bool result;
 			if (transporter.parent.IsForbidden(pawn))
 			{
-				return false;
+				result = false;
 			}
-			if (!transporter.AnythingLeftToLoad)
+			else if (!transporter.AnythingLeftToLoad)
 			{
-				return false;
+				result = false;
 			}
-			if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
+			else if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
 			{
-				return false;
+				result = false;
 			}
-			if (!pawn.CanReserveAndReach((Thing)transporter.parent, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, null, false))
+			else if (!pawn.CanReserveAndReach((Thing)transporter.parent, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, null, false))
 			{
-				return false;
+				result = false;
 			}
-			Thing thing = LoadTransportersJobUtility.FindThingToLoad(pawn, transporter);
-			if (thing == null)
+			else
 			{
-				return false;
+				Thing thing = LoadTransportersJobUtility.FindThingToLoad(pawn, transporter);
+				result = ((byte)((thing != null) ? 1 : 0) != 0);
 			}
-			return true;
+			return result;
 		}
 
 		public static Job JobOnTransporter(Pawn p, CompTransporter transporter)
@@ -65,34 +66,29 @@ namespace RimWorld
 					}
 				}
 			}
+			Thing result;
 			if (!LoadTransportersJobUtility.neededThings.Any())
 			{
-				return null;
+				result = null;
 			}
-			Predicate<Thing> validator = (Predicate<Thing>)((Thing x) => LoadTransportersJobUtility.neededThings.Contains(x) && p.CanReserve(x, 1, -1, null, false));
-			Thing thing = GenClosest.ClosestThingReachable(p.Position, p.Map, ThingRequest.ForGroup(ThingRequestGroup.HaulableEver), PathEndMode.Touch, TraverseParms.For(p, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
-			if (thing == null)
+			else
 			{
-				HashSet<Thing>.Enumerator enumerator = LoadTransportersJobUtility.neededThings.GetEnumerator();
-				try
+				Thing thing = GenClosest.ClosestThingReachable(p.Position, p.Map, ThingRequest.ForGroup(ThingRequestGroup.HaulableEver), PathEndMode.Touch, TraverseParms.For(p, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, (Predicate<Thing>)((Thing x) => LoadTransportersJobUtility.neededThings.Contains(x) && p.CanReserve(x, 1, -1, null, false)), null, 0, -1, false, RegionType.Set_Passable, false);
+				if (thing == null)
 				{
-					while (enumerator.MoveNext())
+					foreach (Thing neededThing in LoadTransportersJobUtility.neededThings)
 					{
-						Thing current = enumerator.Current;
-						Pawn pawn = current as Pawn;
-						if (pawn != null && (!pawn.IsColonist || pawn.Downed) && p.CanReserveAndReach((Thing)pawn, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false))
+						Pawn pawn = neededThing as Pawn;
+						if (pawn != null && (!pawn.IsColonist || pawn.Downed) && !pawn.inventory.UnloadEverything && p.CanReserveAndReach((Thing)pawn, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false))
 						{
 							return pawn;
 						}
 					}
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
-				}
+				LoadTransportersJobUtility.neededThings.Clear();
+				result = thing;
 			}
-			LoadTransportersJobUtility.neededThings.Clear();
-			return thing;
+			return result;
 		}
 	}
 }

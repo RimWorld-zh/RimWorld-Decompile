@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse.AI
@@ -59,38 +58,20 @@ namespace Verse.AI
 				{
 					this.Debug_AssertHostile(faction, this.TargetsHostileToFaction(faction));
 				}
-				HashSet<IAttackTarget>.Enumerator enumerator = this.TargetsHostileToFaction(faction).GetEnumerator();
-				try
+				foreach (IAttackTarget item in this.TargetsHostileToFaction(faction))
 				{
-					while (enumerator.MoveNext())
+					if (thing.HostileTo(item.Thing))
 					{
-						IAttackTarget current = enumerator.Current;
-						if (thing.HostileTo(current.Thing))
-						{
-							AttackTargetsCache.targets.Add(current);
-						}
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
-				}
-			}
-			HashSet<Pawn>.Enumerator enumerator2 = this.pawnsInAggroMentalState.GetEnumerator();
-			try
-			{
-				while (enumerator2.MoveNext())
-				{
-					Pawn current2 = enumerator2.Current;
-					if (thing.HostileTo(current2))
-					{
-						AttackTargetsCache.targets.Add(current2);
+						AttackTargetsCache.targets.Add(item);
 					}
 				}
 			}
-			finally
+			foreach (Pawn item2 in this.pawnsInAggroMentalState)
 			{
-				((IDisposable)(object)enumerator2).Dispose();
+				if (thing.HostileTo(item2))
+				{
+					AttackTargetsCache.targets.Add(item2);
+				}
 			}
 			Pawn pawn = th as Pawn;
 			if (pawn != null && PrisonBreakUtility.IsPrisonBreaking(pawn))
@@ -110,16 +91,17 @@ namespace Verse.AI
 
 		public HashSet<IAttackTarget> TargetsHostileToFaction(Faction f)
 		{
+			HashSet<IAttackTarget> result;
 			if (f == null)
 			{
 				Log.Warning("Called TargetsHostileToFaction with null faction.");
-				return AttackTargetsCache.emptySet;
+				result = AttackTargetsCache.emptySet;
 			}
-			if (this.targetsHostileToFaction.ContainsKey(f))
+			else
 			{
-				return this.targetsHostileToFaction[f];
+				result = ((!this.targetsHostileToFaction.ContainsKey(f)) ? AttackTargetsCache.emptySet : this.targetsHostileToFaction[f]);
 			}
-			return AttackTargetsCache.emptySet;
+			return result;
 		}
 
 		public void Notify_ThingSpawned(Thing th)
@@ -143,22 +125,13 @@ namespace Verse.AI
 		public void Notify_FactionHostilityChanged(Faction f1, Faction f2)
 		{
 			AttackTargetsCache.tmpTargets.Clear();
-			HashSet<IAttackTarget>.Enumerator enumerator = this.allTargets.GetEnumerator();
-			try
+			foreach (IAttackTarget allTarget in this.allTargets)
 			{
-				while (enumerator.MoveNext())
+				Thing thing = allTarget.Thing;
+				if (thing.Faction == f1 || thing.Faction == f2)
 				{
-					IAttackTarget current = enumerator.Current;
-					Thing thing = current.Thing;
-					if (thing.Faction == f1 || thing.Faction == f2)
-					{
-						AttackTargetsCache.tmpTargets.Add(current);
-					}
+					AttackTargetsCache.tmpTargets.Add(allTarget);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			for (int i = 0; i < AttackTargetsCache.tmpTargets.Count; i++)
 			{
@@ -217,18 +190,10 @@ namespace Verse.AI
 			else
 			{
 				this.allTargets.Remove(target);
-				Dictionary<Faction, HashSet<IAttackTarget>>.Enumerator enumerator = this.targetsHostileToFaction.GetEnumerator();
-				try
+				foreach (KeyValuePair<Faction, HashSet<IAttackTarget>> item in this.targetsHostileToFaction)
 				{
-					while (enumerator.MoveNext())
-					{
-						HashSet<IAttackTarget> value = enumerator.Current.Value;
-						value.Remove(target);
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					HashSet<IAttackTarget> value = item.Value;
+					value.Remove(target);
 				}
 				Pawn pawn = target as Pawn;
 				if (pawn != null)
@@ -241,22 +206,13 @@ namespace Verse.AI
 		private void Debug_AssertHostile(Faction f, HashSet<IAttackTarget> targets)
 		{
 			AttackTargetsCache.tmpToUpdate.Clear();
-			HashSet<IAttackTarget>.Enumerator enumerator = targets.GetEnumerator();
-			try
+			foreach (IAttackTarget item in targets)
 			{
-				while (enumerator.MoveNext())
+				if (!item.Thing.HostileTo(f))
 				{
-					IAttackTarget current = enumerator.Current;
-					if (!current.Thing.HostileTo(f))
-					{
-						AttackTargetsCache.tmpToUpdate.Add(current);
-						Log.Error("Target " + ((current == null) ? "null" : current.ToString()) + " is not hostile to " + ((f == null) ? "null" : f.ToString()) + " (in " + base.GetType().Name + ") but it's in the list (forgot to update the target somewhere?). Trying to update the target...");
-					}
+					AttackTargetsCache.tmpToUpdate.Add(item);
+					Log.Error("Target " + ((item == null) ? "null" : item.ToString()) + " is not hostile to " + ((f == null) ? "null" : f.ToString()) + " (in " + base.GetType().Name + ") but it's in the list (forgot to update the target somewhere?). Trying to update the target...");
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			for (int i = 0; i < AttackTargetsCache.tmpToUpdate.Count; i++)
 			{

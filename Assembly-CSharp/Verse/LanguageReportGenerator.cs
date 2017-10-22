@@ -1,3 +1,4 @@
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Verse
 			LoadedLanguage defaultLanguage = LanguageDatabase.defaultLanguage;
 			if (activeLanguage == defaultLanguage)
 			{
-				Messages.Message("Please activate a non-English language to scan.", MessageSound.RejectInput);
+				Messages.Message("Please activate a non-English language to scan.", MessageTypeDefOf.RejectInput);
 			}
 			else
 			{
@@ -35,58 +36,31 @@ namespace Verse
 				}
 				stringBuilder.AppendLine();
 				stringBuilder.AppendLine("========== Missing keyed translations =========");
-				Dictionary<string, string>.Enumerator enumerator2 = defaultLanguage.keyedReplacements.GetEnumerator();
-				try
+				foreach (KeyValuePair<string, string> keyedReplacement in defaultLanguage.keyedReplacements)
 				{
-					while (enumerator2.MoveNext())
+					if (!activeLanguage.HaveTextForKey(keyedReplacement.Key))
 					{
-						KeyValuePair<string, string> current2 = enumerator2.Current;
-						if (!activeLanguage.HaveTextForKey(current2.Key))
-						{
-							stringBuilder.AppendLine(current2.Key + " - '" + current2.Value + "'");
-						}
+						stringBuilder.AppendLine(keyedReplacement.Key + " - '" + keyedReplacement.Value + "'");
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
 				}
 				stringBuilder.AppendLine();
 				stringBuilder.AppendLine("========== Unnecessary keyed translations (will never be used) =========");
-				Dictionary<string, string>.Enumerator enumerator3 = activeLanguage.keyedReplacements.GetEnumerator();
-				try
+				foreach (KeyValuePair<string, string> keyedReplacement2 in activeLanguage.keyedReplacements)
 				{
-					while (enumerator3.MoveNext())
+					if (!defaultLanguage.HaveTextForKey(keyedReplacement2.Key))
 					{
-						KeyValuePair<string, string> current3 = enumerator3.Current;
-						if (!defaultLanguage.HaveTextForKey(current3.Key))
-						{
-							stringBuilder.AppendLine(current3.Key + " - '" + current3.Value + "'");
-						}
+						stringBuilder.AppendLine(keyedReplacement2.Key + " - '" + keyedReplacement2.Value + "'");
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator3).Dispose();
 				}
 				stringBuilder.AppendLine();
 				stringBuilder.AppendLine("========== Def-injected translations missing =========");
 				stringBuilder.AppendLine("Note: This does NOT return any kind of sub-fields. So if there's a list of strings, or a sub-member of the def with a string in it or something, they won't be reported here.");
-				List<DefInjectionPackage>.Enumerator enumerator4 = activeLanguage.defInjections.GetEnumerator();
-				try
+				foreach (DefInjectionPackage defInjection in activeLanguage.defInjections)
 				{
-					while (enumerator4.MoveNext())
+					foreach (string item2 in defInjection.MissingInjections())
 					{
-						DefInjectionPackage current4 = enumerator4.Current;
-						foreach (string item2 in current4.MissingInjections())
-						{
-							stringBuilder.AppendLine(current4.defType.Name + ": " + item2);
-						}
+						stringBuilder.AppendLine(defInjection.defType.Name + ": " + item2);
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator4).Dispose();
 				}
 				stringBuilder.AppendLine();
 				stringBuilder.AppendLine("========== Backstory translations missing =========");
@@ -95,18 +69,14 @@ namespace Verse
 					stringBuilder.AppendLine(item3);
 				}
 				Log.Message(stringBuilder.ToString());
-				Messages.Message("Translation report about " + activeLanguage.ToString() + " written to console. Hit ` to see it.", MessageSound.Standard);
+				Messages.Message("Translation report about " + activeLanguage.ToString() + " written to console. Hit ` to see it.", MessageTypeDefOf.NeutralEvent);
 			}
 		}
 
 		public static int CountParametersInString(string input)
 		{
 			MatchCollection matchCollection = Regex.Matches(input, "(?<!\\{)\\{([0-9]+).*?\\}(?!})");
-			if (matchCollection.Count == 0)
-			{
-				return 0;
-			}
-			return matchCollection.Cast<Match>().Max((Func<Match, int>)((Match m) => int.Parse(m.Groups[1].Value))) + 1;
+			return (matchCollection.Count != 0) ? (matchCollection.Cast<Match>().Max((Func<Match, int>)((Match m) => int.Parse(m.Groups[1].Value))) + 1) : 0;
 		}
 	}
 }

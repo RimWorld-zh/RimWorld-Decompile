@@ -10,11 +10,17 @@ namespace RimWorld
 {
 	public class LordToil_Siege : LordToil
 	{
+		public Dictionary<Pawn, DutyDef> rememberedDuties = new Dictionary<Pawn, DutyDef>();
+
 		private const float BaseRadiusMin = 14f;
 
 		private const float BaseRadiusMax = 25f;
 
+		private static readonly FloatRange MealCountRangePerRaider = new FloatRange(1f, 3f);
+
 		private const int StartBuildingDelay = 450;
+
+		private static readonly FloatRange BuilderCountFraction = new FloatRange(0.25f, 0.4f);
 
 		private const float FractionLossesToAssault = 0.4f;
 
@@ -27,12 +33,6 @@ namespace RimWorld
 		private const int ReplenishAtMeals = 5;
 
 		private const int MealReplenishCount = 12;
-
-		public Dictionary<Pawn, DutyDef> rememberedDuties = new Dictionary<Pawn, DutyDef>();
-
-		private static readonly FloatRange MealCountRangePerRaider = new FloatRange(1f, 3f);
-
-		private static readonly FloatRange BuilderCountFraction = new FloatRange(0.25f, 0.4f);
 
 		public override IntVec3 FlagLoc
 		{
@@ -59,14 +59,22 @@ namespace RimWorld
 				List<Thing> framesList = base.Map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingFrame);
 				if (framesList.Count != 0)
 				{
-					for (int i = 0; i < framesList.Count; i++)
+					int i = 0;
+					Frame frame;
+					while (true)
 					{
-						Frame frame = (Frame)framesList[i];
-						if (frame.Faction == base.lord.faction && (float)(frame.Position - data.siegeCenter).LengthHorizontalSquared < radSquared)
+						if (i < framesList.Count)
 						{
-							yield return frame;
+							frame = (Frame)framesList[i];
+							if (frame.Faction == base.lord.faction && (float)(frame.Position - data.siegeCenter).LengthHorizontalSquared < radSquared)
+								break;
+							i++;
+							continue;
 						}
+						yield break;
 					}
+					yield return frame;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 		}
@@ -88,36 +96,33 @@ namespace RimWorld
 			foreach (Blueprint_Build item2 in SiegeBlueprintPlacer.PlaceBlueprints(data.siegeCenter, base.Map, base.lord.faction, data.blueprintPoints))
 			{
 				data.blueprints.Add(item2);
-				List<ThingCountClass>.Enumerator enumerator2 = item2.MaterialsNeeded().GetEnumerator();
-				try
+				foreach (ThingCountClass item3 in item2.MaterialsNeeded())
 				{
-					ThingCountClass cost;
-					while (enumerator2.MoveNext())
+					Thing thing = list.FirstOrDefault((Func<Thing, bool>)((Thing t) => t.def == item3.thingDef));
+					if (thing != null)
 					{
-						cost = enumerator2.Current;
-						Thing thing = list.FirstOrDefault((Func<Thing, bool>)((Thing t) => t.def == cost.thingDef));
-						if (thing != null)
-						{
-							thing.stackCount += cost.count;
-						}
-						else
-						{
-							Thing thing2 = ThingMaker.MakeThing(cost.thingDef, null);
-							thing2.stackCount = cost.count;
-							list.Add(thing2);
-						}
+						thing.stackCount += item3.count;
+					}
+					else
+					{
+						Thing thing2 = ThingMaker.MakeThing(item3.thingDef, null);
+						thing2.stackCount = item3.count;
+						list.Add(thing2);
 					}
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
-				}
 				ThingDef thingDef = item2.def.entityDefToBuild as ThingDef;
-				if (thingDef != null && thingDef.building != null && thingDef.building.turretShellDef != null)
+				if (thingDef != null)
 				{
-					Thing thing3 = ThingMaker.MakeThing(thingDef.building.turretShellDef, null);
-					thing3.stackCount = 5;
-					list.Add(thing3);
+					ThingDef turret = thingDef;
+					bool allowEMP = false;
+					TechLevel techLevel = base.lord.faction.def.techLevel;
+					ThingDef thingDef2 = TurretGunUtility.TryFindRandomShellDef(turret, allowEMP, true, techLevel, false, 250f);
+					if (thingDef2 != null)
+					{
+						Thing thing3 = ThingMaker.MakeThing(thingDef2, null);
+						thing3.stackCount = 5;
+						list.Add(thing3);
+					}
 				}
 			}
 			for (int i = 0; i < list.Count; i++)
@@ -154,7 +159,7 @@ namespace RimWorld
 				list4.Add(item);
 			}
 			list2.Add(list4);
-			DropPodUtility.DropThingGroupsNear(data.siegeCenter, base.Map, list2, 110, false, false, true);
+			DropPodUtility.DropThingGroupsNear(data.siegeCenter, base.Map, list2, 110, false, false, true, false);
 			data.desiredBuilderFraction = LordToil_Siege.BuilderCountFraction.RandomInRange;
 		}
 
@@ -240,11 +245,7 @@ namespace RimWorld
 
 		private bool CanBeBuilder(Pawn p)
 		{
-			if (!p.story.WorkTypeIsDisabled(WorkTypeDefOf.Construction) && !p.story.WorkTypeIsDisabled(WorkTypeDefOf.Firefighter))
-			{
-				return true;
-			}
-			return false;
+			return (byte)((!p.story.WorkTypeIsDisabled(WorkTypeDefOf.Construction) && !p.story.WorkTypeIsDisabled(WorkTypeDefOf.Firefighter)) ? 1 : 0) != 0;
 		}
 
 		private void SetAsBuilder(Pawn p)
@@ -310,7 +311,7 @@ namespace RimWorld
 							List<Thing> thingList = c.GetThingList(base.Map);
 							for (int i = 0; i < thingList.Count; i++)
 							{
-								if (thingList[i].def == ThingDefOf.MortarShell)
+								if (thingList[i].def.IsShell)
 								{
 									num2 += thingList[i].stackCount;
 								}
@@ -323,7 +324,14 @@ namespace RimWorld
 					}
 					if (num2 < 4)
 					{
-						this.DropSupplies(ThingDefOf.MortarShell, 10);
+						ThingDef turret_Mortar = ThingDefOf.Turret_Mortar;
+						bool allowEMP = false;
+						TechLevel techLevel = base.lord.faction.def.techLevel;
+						ThingDef thingDef = TurretGunUtility.TryFindRandomShellDef(turret_Mortar, allowEMP, true, techLevel, false, 250f);
+						if (thingDef != null)
+						{
+							this.DropSupplies(thingDef, 10);
+						}
 					}
 					if (num3 < 5)
 					{
@@ -339,7 +347,7 @@ namespace RimWorld
 			Thing thing = ThingMaker.MakeThing(thingDef, null);
 			thing.stackCount = count;
 			list.Add(thing);
-			DropPodUtility.DropThingsNear(this.Data.siegeCenter, base.Map, list, 110, false, false, true);
+			DropPodUtility.DropThingsNear(this.Data.siegeCenter, base.Map, list, 110, false, false, true, false);
 		}
 
 		public override void Cleanup()
@@ -350,18 +358,9 @@ namespace RimWorld
 			{
 				data.blueprints[i].Destroy(DestroyMode.Cancel);
 			}
-			List<Frame>.Enumerator enumerator = this.Frames.ToList().GetEnumerator();
-			try
+			foreach (Frame item in this.Frames.ToList())
 			{
-				while (enumerator.MoveNext())
-				{
-					Frame current = enumerator.Current;
-					current.Destroy(DestroyMode.Cancel);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				item.Destroy(DestroyMode.Cancel);
 			}
 		}
 	}

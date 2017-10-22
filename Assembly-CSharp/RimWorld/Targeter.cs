@@ -43,7 +43,7 @@ namespace RimWorld
 			{
 				Job job = new Job(JobDefOf.UseVerbOnThing);
 				job.verbToUse = verb;
-				verb.CasterPawn.jobs.StartJob(job, JobCondition.None, null, false, true, null, default(JobTag?));
+				verb.CasterPawn.jobs.StartJob(job, JobCondition.None, null, false, true, null, default(JobTag?), false);
 			}
 			this.action = null;
 			this.caster = null;
@@ -130,11 +130,15 @@ namespace RimWorld
 			{
 				if (!this.targetingVerb.verbProps.MeleeRange)
 				{
-					if (this.targetingVerb.verbProps.minRange < GenRadial.MaxRadialPatternRadius)
+					if (this.targetingVerb.verbProps.minRange > 0.0 && this.targetingVerb.verbProps.minRange < GenRadial.MaxRadialPatternRadius)
 					{
 						GenDraw.DrawRadiusRing(this.targetingVerb.caster.Position, this.targetingVerb.verbProps.minRange);
 					}
-					if (this.targetingVerb.verbProps.range < GenRadial.MaxRadialPatternRadius)
+					float range = this.targetingVerb.verbProps.range;
+					IntVec3 size = Find.VisibleMap.Size;
+					int x2 = size.x;
+					IntVec3 size2 = Find.VisibleMap.Size;
+					if (range < (float)(x2 + size2.z) && this.targetingVerb.verbProps.range < GenRadial.MaxRadialPatternRadius)
 					{
 						GenDraw.DrawRadiusRing(this.targetingVerb.caster.Position, this.targetingVerb.verbProps.range);
 					}
@@ -143,10 +147,21 @@ namespace RimWorld
 				if (targ.IsValid)
 				{
 					GenDraw.DrawTargetHighlight(targ);
+					bool flag = default(bool);
+					float num = this.targetingVerb.HighlightFieldRadiusAroundTarget(out flag);
 					ShootLine shootLine = default(ShootLine);
-					if (this.targetingVerb.HighlightFieldRadiusAroundTarget() > 0.20000000298023224 && this.targetingVerb.TryFindShootLineFromTo(this.targetingVerb.caster.Position, targ, out shootLine))
+					if (num > 0.20000000298023224 && this.targetingVerb.TryFindShootLineFromTo(this.targetingVerb.caster.Position, targ, out shootLine))
 					{
-						GenExplosion.RenderPredictedAreaOfEffect(shootLine.Dest, this.targetingVerb.HighlightFieldRadiusAroundTarget());
+						if (flag)
+						{
+							GenExplosion.RenderPredictedAreaOfEffect(shootLine.Dest, num);
+						}
+						else
+						{
+							GenDraw.DrawFieldEdges((from x in GenRadial.RadialCellsAround(shootLine.Dest, num, true)
+							where x.InBounds(Find.VisibleMap)
+							select x).ToList());
+						}
 					}
 				}
 			}
@@ -162,25 +177,34 @@ namespace RimWorld
 
 		public bool IsPawnTargeting(Pawn p)
 		{
+			bool result;
 			if (this.caster == p)
 			{
-				return true;
+				result = true;
 			}
-			if (this.targetingVerb != null && this.targetingVerb.CasterIsPawn)
+			else
 			{
-				if (this.targetingVerb.CasterPawn == p)
+				if (this.targetingVerb != null && this.targetingVerb.CasterIsPawn)
 				{
-					return true;
-				}
-				for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
-				{
-					if (this.targetingVerbAdditionalPawns[i] == p)
+					if (this.targetingVerb.CasterPawn == p)
 					{
-						return true;
+						result = true;
+						goto IL_0089;
+					}
+					for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
+					{
+						if (this.targetingVerbAdditionalPawns[i] == p)
+							goto IL_0063;
 					}
 				}
+				result = false;
 			}
-			return false;
+			goto IL_0089;
+			IL_0063:
+			result = true;
+			goto IL_0089;
+			IL_0089:
+			return result;
 		}
 
 		private void ConfirmStillValid()
@@ -276,44 +300,49 @@ namespace RimWorld
 
 		private LocalTargetInfo CurrentTargetUnderMouse(bool mustBeHittableNowIfNotMelee)
 		{
+			LocalTargetInfo result;
 			if (!this.IsTargeting)
 			{
-				return LocalTargetInfo.Invalid;
+				result = LocalTargetInfo.Invalid;
 			}
-			TargetingParameters clickParams = (this.targetingVerb == null) ? this.targetParams : this.targetingVerb.verbProps.targetParams;
-			LocalTargetInfo localTargetInfo = LocalTargetInfo.Invalid;
-			using (IEnumerator<LocalTargetInfo> enumerator = GenUI.TargetsAtMouse(clickParams, false).GetEnumerator())
+			else
 			{
-				if (enumerator.MoveNext())
+				TargetingParameters clickParams = (this.targetingVerb == null) ? this.targetParams : this.targetingVerb.verbProps.targetParams;
+				LocalTargetInfo localTargetInfo = LocalTargetInfo.Invalid;
+				using (IEnumerator<LocalTargetInfo> enumerator = GenUI.TargetsAtMouse(clickParams, false).GetEnumerator())
 				{
-					LocalTargetInfo localTargetInfo2 = localTargetInfo = enumerator.Current;
-				}
-			}
-			if (localTargetInfo.IsValid && mustBeHittableNowIfNotMelee && !(localTargetInfo.Thing is Pawn) && this.targetingVerb != null && !this.targetingVerb.verbProps.MeleeRange)
-			{
-				if (this.targetingVerbAdditionalPawns != null && this.targetingVerbAdditionalPawns.Any())
-				{
-					bool flag = false;
-					for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
+					if (enumerator.MoveNext())
 					{
-						Verb verb = this.GetTargetingVerb(this.targetingVerbAdditionalPawns[i]);
-						if (verb != null && verb.CanHitTarget(localTargetInfo))
+						LocalTargetInfo localTargetInfo2 = localTargetInfo = enumerator.Current;
+					}
+				}
+				if (localTargetInfo.IsValid && mustBeHittableNowIfNotMelee && !(localTargetInfo.Thing is Pawn) && this.targetingVerb != null && !this.targetingVerb.verbProps.MeleeRange)
+				{
+					if (this.targetingVerbAdditionalPawns != null && this.targetingVerbAdditionalPawns.Any())
+					{
+						bool flag = false;
+						for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
 						{
-							flag = true;
-							break;
+							Verb verb = this.GetTargetingVerb(this.targetingVerbAdditionalPawns[i]);
+							if (verb != null && verb.CanHitTarget(localTargetInfo))
+							{
+								flag = true;
+								break;
+							}
+						}
+						if (!flag)
+						{
+							localTargetInfo = LocalTargetInfo.Invalid;
 						}
 					}
-					if (!flag)
+					else if (!this.targetingVerb.CanHitTarget(localTargetInfo))
 					{
 						localTargetInfo = LocalTargetInfo.Invalid;
 					}
 				}
-				else if (!this.targetingVerb.CanHitTarget(localTargetInfo))
-				{
-					localTargetInfo = LocalTargetInfo.Invalid;
-				}
+				result = localTargetInfo;
 			}
-			return localTargetInfo;
+			return result;
 		}
 
 		private Verb GetTargetingVerb(Pawn pawn)

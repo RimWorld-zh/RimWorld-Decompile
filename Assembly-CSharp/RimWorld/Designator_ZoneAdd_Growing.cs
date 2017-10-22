@@ -25,15 +25,7 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			if (!base.CanDesignateCell(c).Accepted)
-			{
-				return false;
-			}
-			if (base.Map.fertilityGrid.FertilityAt(c) < ThingDefOf.PlantPotato.plant.fertilityMin)
-			{
-				return false;
-			}
-			return true;
+			return base.CanDesignateCell(c).Accepted ? ((!(base.Map.fertilityGrid.FertilityAt(c) < ThingDefOf.PlantPotato.plant.fertilityMin)) ? true : false) : false;
 		}
 
 		protected override Zone MakeNewZone()

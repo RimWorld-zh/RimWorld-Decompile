@@ -11,7 +11,7 @@ namespace RimWorld
 			return !map.gameConditionManager.ConditionIsActive(GameConditionDefOf.Flashstorm);
 		}
 
-		public override bool TryExecute(IncidentParms parms)
+		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			int duration = Mathf.RoundToInt((float)(base.def.durationDays.RandomInRange * 60000.0));

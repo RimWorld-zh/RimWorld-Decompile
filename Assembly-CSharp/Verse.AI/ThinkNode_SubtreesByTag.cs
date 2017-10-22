@@ -9,7 +9,7 @@ namespace Verse.AI
 		public string insertTag;
 
 		[Unsaved]
-		private List<ThinkTreeDef> matchedTrees;
+		private List<ThinkTreeDef> matchedTrees = null;
 
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -38,15 +38,25 @@ namespace Verse.AI
 				orderby tDef.insertPriority descending
 				select tDef).ToList();
 			}
-			for (int i = 0; i < this.matchedTrees.Count; i++)
+			int num = 0;
+			ThinkResult result;
+			while (true)
 			{
-				ThinkResult result = this.matchedTrees[i].thinkRoot.TryIssueJobPackage(pawn, jobParams);
-				if (result.IsValid)
+				if (num < this.matchedTrees.Count)
 				{
-					return result;
+					ThinkResult thinkResult = this.matchedTrees[num].thinkRoot.TryIssueJobPackage(pawn, jobParams);
+					if (thinkResult.IsValid)
+					{
+						result = thinkResult;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = ThinkResult.NoJob;
+				break;
 			}
-			return ThinkResult.NoJob;
+			return result;
 		}
 	}
 }

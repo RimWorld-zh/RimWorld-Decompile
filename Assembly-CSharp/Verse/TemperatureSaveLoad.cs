@@ -17,7 +17,7 @@ namespace Verse
 
 		public void DoExposeWork()
 		{
-			string compressedString = string.Empty;
+			byte[] arr = null;
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
 				int num = Mathf.RoundToInt(this.map.mapTemperature.OutdoorTemp);
@@ -38,17 +38,16 @@ namespace Verse
 						}
 					}
 				}
-				compressedString = GridSaveUtility.CompressedStringForShortGrid((Func<IntVec3, ushort>)((IntVec3 c) => tempGrid[this.map.cellIndices.CellToIndex(c)]), this.map);
+				arr = MapSerializeUtility.SerializeUshort(this.map, (Func<IntVec3, ushort>)((IntVec3 c) => tempGrid[this.map.cellIndices.CellToIndex(c)]));
 			}
-			Scribe_Values.Look(ref compressedString, "temperatures", (string)null, false);
+			DataExposeUtility.ByteArray(ref arr, "temperatures");
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
 				this.tempGrid = new ushort[this.map.cellIndices.NumGridCells];
-				foreach (GridSaveUtility.LoadedGridShort item2 in GridSaveUtility.LoadedUShortGrid(compressedString, this.map))
+				MapSerializeUtility.LoadUshort(arr, this.map, (Action<IntVec3, ushort>)delegate(IntVec3 c, ushort val)
 				{
-					GridSaveUtility.LoadedGridShort current3 = item2;
-					this.tempGrid[this.map.cellIndices.CellToIndex(current3.cell)] = current3.val;
-				}
+					this.tempGrid[this.map.cellIndices.CellToIndex(c)] = val;
+				});
 			}
 		}
 

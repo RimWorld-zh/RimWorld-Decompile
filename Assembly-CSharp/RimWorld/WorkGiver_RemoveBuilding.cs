@@ -26,34 +26,41 @@ namespace RimWorld
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			foreach (Designation item in pawn.Map.designationManager.SpawnedDesignationsOfDef(this.Designation))
+			using (IEnumerator<Designation> enumerator = pawn.Map.designationManager.SpawnedDesignationsOfDef(this.Designation).GetEnumerator())
 			{
-				yield return item.target.Thing;
+				if (enumerator.MoveNext())
+				{
+					Designation des = enumerator.Current;
+					yield return des.target.Thing;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_00dc:
+			/*Error near IL_00dd: Unexpected return in MoveNext()*/;
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
+			bool result;
 			if (t.def.Claimable)
 			{
 				if (t.Faction != pawn.Faction)
 				{
-					return false;
+					result = false;
+					goto IL_0095;
 				}
 			}
 			else if (pawn.Faction != Faction.OfPlayer)
 			{
-				return false;
+				result = false;
+				goto IL_0095;
 			}
-			if (!pawn.CanReserve(t, 1, -1, null, forced))
-			{
-				return false;
-			}
-			if (pawn.Map.designationManager.DesignationOn(t, this.Designation) == null)
-			{
-				return false;
-			}
-			return true;
+			LocalTargetInfo target = t;
+			result = ((byte)(pawn.CanReserve(target, 1, -1, null, forced) ? ((pawn.Map.designationManager.DesignationOn(t, this.Designation) != null) ? 1 : 0) : 0) != 0);
+			goto IL_0095;
+			IL_0095:
+			return result;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

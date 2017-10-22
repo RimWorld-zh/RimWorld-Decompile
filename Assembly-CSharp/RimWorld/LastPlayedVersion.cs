@@ -6,9 +6,9 @@ namespace RimWorld
 {
 	public static class LastPlayedVersion
 	{
-		private static bool initialized;
+		private static bool initialized = false;
 
-		private static Version lastPlayedVersionInt;
+		private static Version lastPlayedVersionInt = null;
 
 		public static Version Version
 		{

@@ -22,11 +22,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.FullyImmune)
-				{
-					return "DevelopedImmunityLower".Translate();
-				}
-				return (string)null;
+				return (!this.FullyImmune) ? null : "DevelopedImmunityLower".Translate();
 			}
 		}
 
@@ -34,11 +30,7 @@ namespace Verse
 		{
 			get
 			{
-				if (base.Def.PossibleToDevelopImmunityNaturally() && !this.FullyImmune)
-				{
-					return "Immunity".Translate() + ": " + ((float)(Mathf.Floor((float)(this.Immunity * 100.0)) / 100.0)).ToStringPercent();
-				}
-				return (string)null;
+				return (!base.Def.PossibleToDevelopImmunityNaturally() || this.FullyImmune) ? null : ("Immunity".Translate() + ": " + ((float)(Mathf.Floor((float)(this.Immunity * 100.0)) / 100.0)).ToStringPercent());
 			}
 		}
 
@@ -62,11 +54,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.FullyImmune)
-				{
-					return HediffComp_Immunizable.IconImmune;
-				}
-				return TextureAndColor.None;
+				return (!this.FullyImmune) ? TextureAndColor.None : HediffComp_Immunizable.IconImmune;
 			}
 		}
 

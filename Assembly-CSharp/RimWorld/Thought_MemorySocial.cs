@@ -41,11 +41,7 @@ namespace RimWorld
 
 		public virtual float OpinionOffset()
 		{
-			if (this.ShouldDiscard)
-			{
-				return 0f;
-			}
-			return this.opinionOffset * this.AgeFactor;
+			return (float)((!this.ShouldDiscard) ? (this.opinionOffset * this.AgeFactor) : 0.0);
 		}
 
 		public Pawn OtherPawn()
@@ -74,11 +70,7 @@ namespace RimWorld
 		public override bool GroupsWith(Thought other)
 		{
 			Thought_MemorySocial thought_MemorySocial = other as Thought_MemorySocial;
-			if (thought_MemorySocial == null)
-			{
-				return false;
-			}
-			return base.GroupsWith(other) && base.otherPawn == thought_MemorySocial.otherPawn;
+			return thought_MemorySocial != null && base.GroupsWith(other) && base.otherPawn == thought_MemorySocial.otherPawn;
 		}
 	}
 }

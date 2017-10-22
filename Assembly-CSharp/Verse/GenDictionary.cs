@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,18 +8,9 @@ namespace Verse
 		public static string ToStringFullContents<K, V>(this Dictionary<K, V> dict)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			Dictionary<K, V>.Enumerator enumerator = dict.GetEnumerator();
-			try
+			foreach (KeyValuePair<K, V> item in dict)
 			{
-				while (enumerator.MoveNext())
-				{
-					KeyValuePair<K, V> current = enumerator.Current;
-					stringBuilder.AppendLine(current.Key.ToString() + ": " + current.Value.ToString());
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				stringBuilder.AppendLine(item.Key.ToString() + ": " + item.Value.ToString());
 			}
 			return stringBuilder.ToString();
 		}

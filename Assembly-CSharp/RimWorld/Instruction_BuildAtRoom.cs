@@ -13,11 +13,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (base.def.targetCount <= 1)
-				{
-					return -1f;
-				}
-				return (float)this.NumPlaced() / (float)base.def.targetCount;
+				return (float)((base.def.targetCount > 1) ? ((float)this.NumPlaced() / (float)base.def.targetCount) : -1.0);
 			}
 		}
 
@@ -47,11 +43,7 @@ namespace RimWorld
 
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
-			if (ep.Tag == "Designate-" + base.def.thingDef.defName)
-			{
-				return this.AllowBuildAt(ep.Cell);
-			}
-			return base.AllowAction(ep);
+			return (!(ep.Tag == "Designate-" + base.def.thingDef.defName)) ? base.AllowAction(ep) : this.AllowBuildAt(ep.Cell);
 		}
 
 		protected virtual bool AllowBuildAt(IntVec3 c)

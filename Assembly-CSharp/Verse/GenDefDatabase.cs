@@ -14,37 +14,45 @@ namespace Verse
 
 		public static Def GetDefSilentFail(Type type, string targetDefName)
 		{
-			if (type == typeof(SoundDef))
-			{
-				return SoundDef.Named(targetDefName);
-			}
-			return (Def)GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), type, "GetNamedSilentFail", targetDefName);
+			return (type != typeof(SoundDef)) ? ((Def)GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), type, "GetNamedSilentFail", targetDefName)) : SoundDef.Named(targetDefName);
 		}
 
 		public static IEnumerable<Type> AllDefTypesWithDatabases()
 		{
-			foreach (Type item in typeof(Def).AllSubclasses())
+			using (IEnumerator<Type> enumerator = typeof(Def).AllSubclasses().GetEnumerator())
 			{
-				if (!item.IsAbstract && item != typeof(Def))
+				Type defType;
+				while (true)
 				{
-					bool foundNonAbstractAncestor = false;
-					Type parent = item.BaseType;
-					while (parent != null && parent != typeof(Def))
+					if (enumerator.MoveNext())
 					{
-						if (parent.IsAbstract)
+						defType = enumerator.Current;
+						if (!defType.IsAbstract && defType != typeof(Def))
 						{
-							parent = parent.BaseType;
-							continue;
+							bool foundNonAbstractAncestor = false;
+							Type parent = defType.BaseType;
+							while (parent != null && parent != typeof(Def))
+							{
+								if (parent.IsAbstract)
+								{
+									parent = parent.BaseType;
+									continue;
+								}
+								foundNonAbstractAncestor = true;
+								break;
+							}
+							if (!foundNonAbstractAncestor)
+								break;
 						}
-						foundNonAbstractAncestor = true;
-						break;
+						continue;
 					}
-					if (!foundNonAbstractAncestor)
-					{
-						yield return item;
-					}
+					yield break;
 				}
+				yield return defType;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			IL_016d:
+			/*Error near IL_016e: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<T> DefsToGoInDatabase<T>(ModContentPack mod)

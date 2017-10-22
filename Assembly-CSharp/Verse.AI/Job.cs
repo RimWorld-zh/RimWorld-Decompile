@@ -5,7 +5,7 @@ using Verse.AI.Group;
 
 namespace Verse.AI
 {
-	public class Job : IExposable
+	public class Job : IExposable, ILoadReferenceable
 	{
 		public JobDef def;
 
@@ -15,23 +15,25 @@ namespace Verse.AI
 
 		public LocalTargetInfo targetC = LocalTargetInfo.Invalid;
 
-		public List<LocalTargetInfo> targetQueueA;
+		public List<LocalTargetInfo> targetQueueA = null;
 
-		public List<LocalTargetInfo> targetQueueB;
+		public List<LocalTargetInfo> targetQueueB = null;
 
 		public int count = -1;
 
-		public List<int> countQueue;
+		public List<int> countQueue = null;
+
+		public int loadID;
 
 		public int startTick = -1;
 
 		public int expiryInterval = -1;
 
-		public bool checkOverrideOnExpire;
+		public bool checkOverrideOnExpire = false;
 
-		public bool playerForced;
+		public bool playerForced = false;
 
-		public List<ThingStackPartClass> placedThings;
+		public List<ThingStackPartClass> placedThings = null;
 
 		public int maxNumMeleeAttacks = 2147483647;
 
@@ -39,47 +41,55 @@ namespace Verse.AI
 
 		public LocomotionUrgency locomotionUrgency = LocomotionUrgency.Jog;
 
-		public HaulMode haulMode;
+		public HaulMode haulMode = HaulMode.Undefined;
 
-		public Bill bill;
+		public Bill bill = null;
 
-		public ICommunicable commTarget;
+		public ICommunicable commTarget = null;
 
-		public ThingDef plantDefToSow;
+		public ThingDef plantDefToSow = null;
 
 		public Verb verbToUse;
 
-		public bool haulOpportunisticDuplicates;
+		public bool haulOpportunisticDuplicates = false;
 
-		public bool exitMapOnArrival;
+		public bool exitMapOnArrival = false;
 
-		public bool failIfCantJoinOrCreateCaravan;
+		public bool failIfCantJoinOrCreateCaravan = false;
 
-		public bool killIncappedTarget;
+		public bool killIncappedTarget = false;
 
-		public bool ignoreForbidden;
+		public bool ignoreForbidden = false;
 
-		public bool ignoreDesignations;
+		public bool ignoreDesignations = false;
 
-		public bool canBash;
+		public bool canBash = false;
 
-		public bool haulDroppedApparel;
+		public bool haulDroppedApparel = false;
 
-		public bool restUntilHealed;
+		public bool restUntilHealed = false;
 
-		public bool ignoreJoyTimeAssignment;
+		public bool ignoreJoyTimeAssignment = false;
 
-		public bool overeat;
+		public bool overeat = false;
 
-		public bool attackDoorIfTargetLost;
+		public bool attackDoorIfTargetLost = false;
 
-		public int takeExtraIngestibles;
+		public int takeExtraIngestibles = 0;
 
-		public bool expireRequiresEnemiesNearby;
+		public bool expireRequiresEnemiesNearby = false;
 
-		public Lord lord;
+		public Lord lord = null;
 
 		public bool collideWithPawns;
+
+		public bool forceSleep;
+
+		public InteractionDef interaction;
+
+		public bool endIfCantShootTargetFromCurPos;
+
+		private JobDriver cachedDriver;
 
 		public RecipeDef RecipeDef
 		{
@@ -106,6 +116,7 @@ namespace Verse.AI
 			this.def = def;
 			this.targetA = targetA;
 			this.targetB = targetB;
+			this.loadID = Find.UniqueIDsManager.GetNextJobID();
 		}
 
 		public Job(JobDef def, LocalTargetInfo targetA, LocalTargetInfo targetB, LocalTargetInfo targetC)
@@ -114,6 +125,7 @@ namespace Verse.AI
 			this.targetA = targetA;
 			this.targetB = targetB;
 			this.targetC = targetC;
+			this.loadID = Find.UniqueIDsManager.GetNextJobID();
 		}
 
 		public Job(JobDef def, LocalTargetInfo targetA, int expiryInterval, bool checkOverrideOnExpiry = false)
@@ -122,6 +134,7 @@ namespace Verse.AI
 			this.targetA = targetA;
 			this.expiryInterval = expiryInterval;
 			this.checkOverrideOnExpire = checkOverrideOnExpiry;
+			this.loadID = Find.UniqueIDsManager.GetNextJobID();
 		}
 
 		public Job(JobDef def, int expiryInterval, bool checkOverrideOnExpiry = false)
@@ -129,33 +142,40 @@ namespace Verse.AI
 			this.def = def;
 			this.expiryInterval = expiryInterval;
 			this.checkOverrideOnExpire = checkOverrideOnExpiry;
+			this.loadID = Find.UniqueIDsManager.GetNextJobID();
 		}
 
 		public LocalTargetInfo GetTarget(TargetIndex ind)
 		{
+			LocalTargetInfo result;
 			switch (ind)
 			{
 			case TargetIndex.A:
 			{
-				return this.targetA;
+				result = this.targetA;
+				break;
 			}
 			case TargetIndex.B:
 			{
-				return this.targetB;
+				result = this.targetB;
+				break;
 			}
 			case TargetIndex.C:
 			{
-				return this.targetC;
+				result = this.targetC;
+				break;
 			}
 			default:
 			{
 				throw new ArgumentException();
 			}
 			}
+			return result;
 		}
 
 		public List<LocalTargetInfo> GetTargetQueue(TargetIndex ind)
 		{
+			List<LocalTargetInfo> result;
 			switch (ind)
 			{
 			case TargetIndex.A:
@@ -164,7 +184,8 @@ namespace Verse.AI
 				{
 					this.targetQueueA = new List<LocalTargetInfo>();
 				}
-				return this.targetQueueA;
+				result = this.targetQueueA;
+				break;
 			}
 			case TargetIndex.B:
 			{
@@ -172,13 +193,15 @@ namespace Verse.AI
 				{
 					this.targetQueueB = new List<LocalTargetInfo>();
 				}
-				return this.targetQueueB;
+				result = this.targetQueueB;
+				break;
 			}
 			default:
 			{
 				throw new ArgumentException();
 			}
 			}
+			return result;
 		}
 
 		public void SetTarget(TargetIndex ind, LocalTargetInfo pack)
@@ -221,6 +244,7 @@ namespace Verse.AI
 			Scribe_References.Look<Bill>(ref this.bill, "bill", false);
 			Scribe_References.Look<Lord>(ref this.lord, "lord", false);
 			Scribe_Defs.Look<JobDef>(ref this.def, "def");
+			Scribe_Values.Look<int>(ref this.loadID, "loadID", 0, false);
 			Scribe_TargetInfo.Look(ref this.targetA, "targetA");
 			Scribe_TargetInfo.Look(ref this.targetB, "targetB");
 			Scribe_TargetInfo.Look(ref this.targetC, "targetC");
@@ -252,57 +276,61 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.takeExtraIngestibles, "takeExtraIngestibles", 0, false);
 			Scribe_Values.Look<bool>(ref this.expireRequiresEnemiesNearby, "expireRequiresEnemiesNearby", false, false);
 			Scribe_Values.Look<bool>(ref this.collideWithPawns, "collideWithPawns", false, false);
+			Scribe_Values.Look<bool>(ref this.forceSleep, "forceSleep", false, false);
+			Scribe_Defs.Look<InteractionDef>(ref this.interaction, "interaction");
+			Scribe_Values.Look<bool>(ref this.endIfCantShootTargetFromCurPos, "endIfCantShootTargetFromCurPos", false, false);
 		}
 
 		public JobDriver MakeDriver(Pawn driverPawn)
 		{
 			JobDriver jobDriver = (JobDriver)Activator.CreateInstance(this.def.driverClass);
 			jobDriver.pawn = driverPawn;
+			jobDriver.job = this;
 			return jobDriver;
+		}
+
+		private JobDriver GetCachedDriver(Pawn driverPawn)
+		{
+			if (this.cachedDriver == null)
+			{
+				this.cachedDriver = this.MakeDriver(driverPawn);
+			}
+			return this.cachedDriver;
+		}
+
+		public bool TryMakePreToilReservations(Pawn driverPawn)
+		{
+			return this.GetCachedDriver(driverPawn).TryMakePreToilReservations();
+		}
+
+		public string GetReport(Pawn driverPawn)
+		{
+			return this.GetCachedDriver(driverPawn).GetReport();
+		}
+
+		public LocalTargetInfo GetDestination(Pawn driverPawn)
+		{
+			return this.targetA;
 		}
 
 		public bool CanBeginNow(Pawn pawn)
 		{
-			if (pawn.Downed)
-			{
-				if (this.def != JobDefOf.LayDown)
-				{
-					return false;
-				}
-				if (this.targetA.HasThing)
-				{
-					return RestUtility.GetBedSleepingSlotPosFor(pawn, (Building_Bed)this.targetA.Thing) == pawn.Position;
-				}
-				return this.targetA.Cell == pawn.Position;
-			}
-			return true;
+			return !pawn.Downed || (this.def == JobDefOf.LayDown && ((!this.targetA.HasThing) ? (this.targetA.Cell == pawn.Position) : (RestUtility.GetBedSleepingSlotPosFor(pawn, (Building_Bed)this.targetA.Thing) == pawn.Position)));
 		}
 
 		public bool JobIsSameAs(Job other)
 		{
-			if (other == null)
-			{
-				return false;
-			}
-			if (this.def == other.def && !(this.targetA != other.targetA) && !(this.targetB != other.targetB) && this.verbToUse == other.verbToUse && !(this.targetC != other.targetC) && this.commTarget == other.commTarget && this.bill == other.bill)
-			{
-				return true;
-			}
-			return false;
+			return (byte)((other != null) ? ((this == other) ? 1 : ((this.def == other.def && !(this.targetA != other.targetA) && !(this.targetB != other.targetB) && this.verbToUse == other.verbToUse && !(this.targetC != other.targetC) && this.commTarget == other.commTarget && this.bill == other.bill) ? 1 : 0)) : 0) != 0;
 		}
 
 		public bool AnyTargetIs(LocalTargetInfo target)
 		{
-			if (!target.IsValid)
-			{
-				return false;
-			}
-			return this.targetA == target || this.targetB == target || this.targetC == target || (this.targetQueueA != null && this.targetQueueA.Contains(target)) || (this.targetQueueB != null && this.targetQueueB.Contains(target));
+			return target.IsValid && (this.targetA == target || this.targetB == target || this.targetC == target || (this.targetQueueA != null && this.targetQueueA.Contains(target)) || (this.targetQueueB != null && this.targetQueueB.Contains(target)));
 		}
 
 		public override string ToString()
 		{
-			string text = this.def.ToString();
+			string text = this.def.ToString() + " (" + this.GetUniqueLoadID() + ")";
 			if (this.targetA.IsValid)
 			{
 				text = text + " A=" + this.targetA.ToString();
@@ -316,6 +344,11 @@ namespace Verse.AI
 				text = text + " C=" + this.targetC.ToString();
 			}
 			return text;
+		}
+
+		public string GetUniqueLoadID()
+		{
+			return "Job_" + this.loadID;
 		}
 	}
 }

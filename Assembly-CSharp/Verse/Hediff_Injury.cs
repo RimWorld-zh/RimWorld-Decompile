@@ -25,18 +25,24 @@ namespace Verse
 			get
 			{
 				HediffComp_GetsOld hediffComp_GetsOld = this.TryGetComp<HediffComp_GetsOld>();
+				string result;
 				if (hediffComp_GetsOld != null && hediffComp_GetsOld.IsOld)
 				{
 					if (base.Part.def.IsDelicate && !hediffComp_GetsOld.Props.instantlyOldLabel.NullOrEmpty())
 					{
-						return hediffComp_GetsOld.Props.instantlyOldLabel;
+						result = hediffComp_GetsOld.Props.instantlyOldLabel;
+						goto IL_0088;
 					}
 					if (!hediffComp_GetsOld.Props.oldLabel.NullOrEmpty())
 					{
-						return hediffComp_GetsOld.Props.oldLabel;
+						result = hediffComp_GetsOld.Props.oldLabel;
+						goto IL_0088;
 					}
 				}
-				return base.LabelBase;
+				result = base.LabelBase;
+				goto IL_0088;
+				IL_0088:
+				return result;
 			}
 		}
 
@@ -75,11 +81,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.IsOld())
-				{
-					return Hediff_Injury.OldInjuryColor;
-				}
-				return Color.white;
+				return (!this.IsOld()) ? Color.white : Hediff_Injury.OldInjuryColor;
 			}
 		}
 
@@ -87,11 +89,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.Severity == 0.0)
-				{
-					return (string)null;
-				}
-				return this.Severity.ToString("0.##");
+				return (this.Severity != 0.0) ? this.Severity.ToString("0.##") : null;
 			}
 		}
 
@@ -99,11 +97,7 @@ namespace Verse
 		{
 			get
 			{
-				if (!this.IsOld() && this.Visible)
-				{
-					return (float)(this.Severity / (75.0 * base.pawn.HealthScale));
-				}
-				return 0f;
+				return (float)((!this.IsOld() && this.Visible) ? (this.Severity / (75.0 * base.pawn.HealthScale)) : 0.0);
 			}
 		}
 
@@ -111,16 +105,17 @@ namespace Verse
 		{
 			get
 			{
-				if (!base.pawn.Dead && !base.pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(base.Part) && !base.causesNoPain)
+				float result;
+				if (base.pawn.Dead || base.pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(base.Part) || base.causesNoPain)
+				{
+					result = 0f;
+				}
+				else
 				{
 					HediffComp_GetsOld hediffComp_GetsOld = this.TryGetComp<HediffComp_GetsOld>();
-					if (hediffComp_GetsOld != null && hediffComp_GetsOld.IsOld)
-					{
-						return this.Severity * base.def.injuryProps.averagePainPerSeverityOld * hediffComp_GetsOld.painFactor;
-					}
-					return this.Severity * base.def.injuryProps.painPerSeverity;
+					result = ((hediffComp_GetsOld == null || !hediffComp_GetsOld.IsOld) ? (this.Severity * base.def.injuryProps.painPerSeverity) : (this.Severity * base.def.injuryProps.averagePainPerSeverityOld * hediffComp_GetsOld.painFactor));
 				}
-				return 0f;
+				return result;
 			}
 		}
 
@@ -128,28 +123,33 @@ namespace Verse
 		{
 			get
 			{
+				float result;
 				if (base.pawn.Dead)
 				{
-					return 0f;
+					result = 0f;
 				}
-				if (this.BleedingStoppedDueToAge)
+				else if (this.BleedingStoppedDueToAge)
 				{
-					return 0f;
+					result = 0f;
 				}
-				if (!base.Part.def.IsSolid(base.Part, base.pawn.health.hediffSet.hediffs) && !this.IsTended() && !this.IsOld())
+				else if (base.Part.def.IsSolid(base.Part, base.pawn.health.hediffSet.hediffs) || this.IsTended() || this.IsOld())
 				{
-					if (base.pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(base.Part))
-					{
-						return 0f;
-					}
+					result = 0f;
+				}
+				else if (base.pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(base.Part))
+				{
+					result = 0f;
+				}
+				else
+				{
 					float num = this.Severity * base.def.injuryProps.bleedRate;
 					if (base.Part != null)
 					{
 						num *= base.Part.def.bleedingRateMultiplier;
 					}
-					return num;
+					result = num;
 				}
-				return 0f;
+				return result;
 			}
 		}
 
@@ -198,11 +198,7 @@ namespace Verse
 		public override bool TryMergeWith(Hediff other)
 		{
 			Hediff_Injury hediff_Injury = other as Hediff_Injury;
-			if (hediff_Injury != null && hediff_Injury.def == base.def && hediff_Injury.Part == base.Part && !hediff_Injury.IsTended() && !hediff_Injury.IsOld() && !this.IsTended() && !this.IsOld() && base.def.injuryProps.canMerge)
-			{
-				return base.TryMergeWith(other);
-			}
-			return false;
+			return hediff_Injury != null && hediff_Injury.def == base.def && hediff_Injury.Part == base.Part && !hediff_Injury.IsTended() && !hediff_Injury.IsOld() && !this.IsTended() && !this.IsOld() && base.def.injuryProps.canMerge && base.TryMergeWith(other);
 		}
 	}
 }

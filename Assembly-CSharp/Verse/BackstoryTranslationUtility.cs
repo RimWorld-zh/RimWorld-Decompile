@@ -24,19 +24,25 @@ namespace Verse
 					}
 					catch (Exception ex)
 					{
-						Exception e;
-						Exception ex2 = e = ex;
-						Log.Warning("Exception loading backstory translation data from file " + fi + ": " + e);
+						Log.Warning("Exception loading backstory translation data from file " + fi + ": " + ex);
 						yield break;
 					}
-					foreach (XElement item in doc.Root.Elements())
+					using (IEnumerator<XElement> enumerator2 = doc.Root.Elements().GetEnumerator())
 					{
-						yield return item;
+						if (enumerator2.MoveNext())
+						{
+							XElement element = enumerator2.Current;
+							yield return element;
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
 					}
 					continue;
 				}
 				break;
 			}
+			yield break;
+			IL_01c2:
+			/*Error near IL_01c3: Unexpected return in MoveNext()*/;
 		}
 
 		public static void LoadAndInjectBackstoryData(LoadedLanguage lang)
@@ -98,34 +104,35 @@ namespace Verse
 					if (title.NullOrEmpty())
 					{
 						yield return identifier + ".title missing";
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 					if (titleShort.NullOrEmpty())
 					{
 						yield return identifier + ".titleShort missing";
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 					if (desc.NullOrEmpty())
 					{
 						yield return identifier + ".desc missing";
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
+					continue;
 				}
-				else
-				{
-					yield return "Translation doesn't correspond to any backstory: " + identifier;
-				}
+				yield return "Translation doesn't correspond to any backstory: " + identifier;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			List<string>.Enumerator enumerator2 = neededTranslations.GetEnumerator();
-			try
+			using (List<string>.Enumerator enumerator2 = neededTranslations.GetEnumerator())
 			{
-				while (enumerator2.MoveNext())
+				if (enumerator2.MoveNext())
 				{
 					string tra = enumerator2.Current;
 					yield return "Missing backstory: " + tra;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
-			}
+			yield break;
+			IL_0302:
+			/*Error near IL_0303: Unexpected return in MoveNext()*/;
 		}
 	}
 }

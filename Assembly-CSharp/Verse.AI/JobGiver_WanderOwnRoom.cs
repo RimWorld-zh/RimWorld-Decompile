@@ -15,11 +15,7 @@ namespace Verse.AI
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
 			MentalState_WanderOwnRoom mentalState_WanderOwnRoom = pawn.MentalState as MentalState_WanderOwnRoom;
-			if (mentalState_WanderOwnRoom != null)
-			{
-				return mentalState_WanderOwnRoom.target;
-			}
-			return pawn.Position;
+			return (mentalState_WanderOwnRoom == null) ? pawn.Position : mentalState_WanderOwnRoom.target;
 		}
 	}
 }

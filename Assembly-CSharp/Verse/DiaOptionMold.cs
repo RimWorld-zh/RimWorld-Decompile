@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
@@ -18,40 +17,18 @@ namespace Verse
 		public DiaNodeMold RandomLinkNode()
 		{
 			List<DiaNodeMold> list = this.ChildNodes.ListFullCopy();
-			List<string>.Enumerator enumerator = this.ChildNodeNames.GetEnumerator();
-			try
+			foreach (string childNodeName in this.ChildNodeNames)
 			{
-				while (enumerator.MoveNext())
+				list.Add(DialogDatabase.GetNodeNamed(childNodeName));
+			}
+			foreach (DiaNodeMold item in list)
+			{
+				if (item.unique && item.used)
 				{
-					string current = enumerator.Current;
-					list.Add(DialogDatabase.GetNodeNamed(current));
+					list.Remove(item);
 				}
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
-			List<DiaNodeMold>.Enumerator enumerator2 = list.GetEnumerator();
-			try
-			{
-				while (enumerator2.MoveNext())
-				{
-					DiaNodeMold current2 = enumerator2.Current;
-					if (current2.unique && current2.used)
-					{
-						list.Remove(current2);
-					}
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
-			}
-			if (list.Count == 0)
-			{
-				return null;
-			}
-			return list.RandomElement();
+			return (list.Count != 0) ? list.RandomElement() : null;
 		}
 	}
 }

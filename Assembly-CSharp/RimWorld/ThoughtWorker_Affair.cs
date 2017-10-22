@@ -7,19 +7,29 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentSocialStateInternal(Pawn p, Pawn otherPawn)
 		{
+			ThoughtState result;
 			if (!p.relations.DirectRelationExists(PawnRelationDefOf.Spouse, otherPawn))
 			{
-				return false;
+				result = false;
 			}
-			List<DirectPawnRelation> directRelations = otherPawn.relations.DirectRelations;
-			for (int i = 0; i < directRelations.Count; i++)
+			else
 			{
-				if (directRelations[i].otherPawn != p && !directRelations[i].otherPawn.Dead && (directRelations[i].def == PawnRelationDefOf.Lover || directRelations[i].def == PawnRelationDefOf.Fiance))
+				List<DirectPawnRelation> directRelations = otherPawn.relations.DirectRelations;
+				for (int i = 0; i < directRelations.Count; i++)
 				{
-					return true;
+					if (directRelations[i].otherPawn != p && !directRelations[i].otherPawn.Dead && (directRelations[i].def == PawnRelationDefOf.Lover || directRelations[i].def == PawnRelationDefOf.Fiance))
+					{
+						goto IL_0097;
+					}
 				}
+				result = false;
 			}
-			return false;
+			goto IL_00c0;
+			IL_0097:
+			result = true;
+			goto IL_00c0;
+			IL_00c0:
+			return result;
 		}
 	}
 }

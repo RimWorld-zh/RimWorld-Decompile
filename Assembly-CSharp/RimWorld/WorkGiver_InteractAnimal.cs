@@ -29,24 +29,29 @@ namespace RimWorld
 
 		protected virtual bool CanInteractWithAnimal(Pawn pawn, Pawn animal)
 		{
+			bool result;
 			if (!pawn.CanReserve((Thing)animal, 1, -1, null, false))
 			{
-				return false;
+				result = false;
 			}
-			if (animal.Downed)
+			else if (animal.Downed)
 			{
-				return false;
+				result = false;
 			}
-			if (!animal.CanCasuallyInteractNow(false))
+			else if (!animal.CanCasuallyInteractNow(false))
 			{
-				return false;
+				result = false;
 			}
-			if (Mathf.RoundToInt(animal.GetStatValue(StatDefOf.MinimumHandlingSkill, true)) > pawn.skills.GetSkill(SkillDefOf.Animals).Level)
+			else if (Mathf.RoundToInt(animal.GetStatValue(StatDefOf.MinimumHandlingSkill, true)) > pawn.skills.GetSkill(SkillDefOf.Animals).Level)
 			{
 				JobFailReason.Is(WorkGiver_InteractAnimal.AnimalsSkillTooLowTrans);
-				return false;
+				result = false;
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
 		protected bool HasFoodToInteractAnimal(Pawn pawn, Pawn tamee)
@@ -55,40 +60,56 @@ namespace RimWorld
 			int num = 0;
 			float num2 = JobDriver_InteractAnimal.RequiredNutritionPerFeed(tamee);
 			float num3 = 0f;
-			for (int i = 0; i < innerContainer.Count; i++)
+			int num4 = 0;
+			bool result;
+			while (true)
 			{
-				Thing thing = innerContainer[i];
-				if (tamee.RaceProps.CanEverEat(thing) && (int)thing.def.ingestible.preferability <= 4 && !thing.def.IsDrug)
+				if (num4 < innerContainer.Count)
 				{
-					for (int j = 0; j < thing.stackCount; j++)
+					Thing thing = innerContainer[num4];
+					if (tamee.RaceProps.CanEverEat(thing) && (int)thing.def.ingestible.preferability <= 5 && !thing.def.IsDrug)
 					{
-						num3 += thing.def.ingestible.nutrition;
-						if (num3 >= num2)
+						for (int i = 0; i < thing.stackCount; i++)
 						{
-							num++;
-							num3 = 0f;
-						}
-						if (num >= 2)
-						{
-							return true;
+							num3 += thing.def.ingestible.nutrition;
+							if (num3 >= num2)
+							{
+								num++;
+								num3 = 0f;
+							}
+							if (num >= 2)
+								goto IL_00a1;
 						}
 					}
+					num4++;
+					continue;
 				}
+				result = false;
+				break;
+				IL_00a1:
+				result = true;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		protected Job TakeFoodForAnimalInteractJob(Pawn pawn, Pawn tamee)
 		{
 			float num = (float)(JobDriver_InteractAnimal.RequiredNutritionPerFeed(tamee) * 2.0 * 4.0);
-			Thing thing = FoodUtility.BestFoodSourceOnMap(pawn, tamee, false, FoodPreferability.RawTasty, false, false, false, false, false, false, false);
+			ThingDef thingDef = default(ThingDef);
+			Thing thing = FoodUtility.BestFoodSourceOnMap(pawn, tamee, false, out thingDef, FoodPreferability.RawTasty, false, false, false, false, false, false, false, false);
+			Job result;
 			if (thing == null)
 			{
-				return null;
+				result = null;
 			}
-			Job job = new Job(JobDefOf.TakeInventory, thing);
-			job.count = Mathf.CeilToInt(num / thing.def.ingestible.nutrition);
-			return job;
+			else
+			{
+				Job job = new Job(JobDefOf.TakeInventory, thing);
+				job.count = Mathf.CeilToInt(num / thingDef.ingestible.nutrition);
+				result = job;
+			}
+			return result;
 		}
 	}
 }

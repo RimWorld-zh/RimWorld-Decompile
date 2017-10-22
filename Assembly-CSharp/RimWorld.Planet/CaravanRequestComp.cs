@@ -28,11 +28,7 @@ namespace RimWorld.Planet
 
 		public override string CompInspectStringExtra()
 		{
-			if (this.ActiveRequest)
-			{
-				return "CaravanRequestInfo".Translate(GenLabel.ThingLabel(this.requestThingDef, null, this.requestCount).CapitalizeFirst(), this.rewards[0].LabelCap, (this.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F1"));
-			}
-			return (string)null;
+			return (!this.ActiveRequest) ? null : "CaravanRequestInfo".Translate(GenLabel.ThingLabel(this.requestThingDef, null, this.requestCount).CapitalizeFirst(), this.rewards[0].LabelCap, (this.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F1"));
 		}
 
 		public void GetChildHolders(List<IThingHolder> outChildren)
@@ -66,17 +62,6 @@ namespace RimWorld.Planet
 		{
 			base.PostPostRemove();
 			this.rewards.ClearAndDestroyContents(DestroyMode.Vanish);
-		}
-
-		virtual IThingHolder get_ParentHolder()
-		{
-			return base.ParentHolder;
-		}
-
-		IThingHolder IThingHolder.get_ParentHolder()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
-			return this.get_ParentHolder();
 		}
 	}
 }

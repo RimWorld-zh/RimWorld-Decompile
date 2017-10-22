@@ -69,11 +69,7 @@ namespace RimWorld
 
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
-			if (ep.Tag == "Designate-Wall")
-			{
-				return TutorUtility.EventCellsAreWithin(ep, this.cachedEdgeCells);
-			}
-			return base.AllowAction(ep);
+			return (!(ep.Tag == "Designate-Wall")) ? base.AllowAction(ep) : TutorUtility.EventCellsAreWithin(ep, this.cachedEdgeCells);
 		}
 	}
 }

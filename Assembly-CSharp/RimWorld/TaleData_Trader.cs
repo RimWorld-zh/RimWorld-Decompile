@@ -33,12 +33,7 @@ namespace RimWorld
 		{
 			string nameFull = (!this.IsPawn) ? Find.ActiveLanguageWorker.WithIndefiniteArticle(this.name) : this.name;
 			yield return (Rule)new Rule_String(prefix + "_nameFull", nameFull);
-			string nameShortIndefinite = (!this.IsPawn) ? Find.ActiveLanguageWorker.WithIndefiniteArticle(this.name) : this.name;
-			yield return (Rule)new Rule_String(prefix + "_nameShortIndefinite", nameShortIndefinite);
-			string nameShortDefinite = (!this.IsPawn) ? Find.ActiveLanguageWorker.WithDefiniteArticle(this.name) : this.name;
-			yield return (Rule)new Rule_String(prefix + "_nameShortDefinite", nameShortDefinite);
-			yield return (Rule)new Rule_String(prefix + "_pronoun", this.gender.GetPronoun());
-			yield return (Rule)new Rule_String(prefix + "_possessive", this.gender.GetPossessive());
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public static TaleData_Trader GenerateFrom(ITrader trader)

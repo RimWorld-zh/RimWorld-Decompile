@@ -2,7 +2,7 @@ namespace Verse
 {
 	public class SubEffecter_DrifterEmoteContinuous : SubEffecter_DrifterEmote
 	{
-		private int ticksUntilMote;
+		private int ticksUntilMote = 0;
 
 		public SubEffecter_DrifterEmoteContinuous(SubEffecterDef def) : base(def)
 		{

@@ -56,12 +56,17 @@ namespace RimWorld
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_SetNeedLevel scenPart_SetNeedLevel = other as ScenPart_SetNeedLevel;
+			bool result;
 			if (scenPart_SetNeedLevel != null && this.need == scenPart_SetNeedLevel.need)
 			{
 				base.chance = GenMath.ChanceEitherHappens(base.chance, scenPart_SetNeedLevel.chance);
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		protected override void ModifyPawn(Pawn p)

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Verse;
 
@@ -6,16 +7,29 @@ namespace RimWorld
 {
 	public static class PawnNameDatabaseSolid
 	{
-		private const float PreferredNameChance = 0.5f;
-
 		private static Dictionary<GenderPossibility, List<NameTriple>> solidNames;
+
+		private const float PreferredNameChance = 0.5f;
 
 		static PawnNameDatabaseSolid()
 		{
 			PawnNameDatabaseSolid.solidNames = new Dictionary<GenderPossibility, List<NameTriple>>();
-			foreach (byte value in Enum.GetValues(typeof(GenderPossibility)))
+			IEnumerator enumerator = Enum.GetValues(typeof(GenderPossibility)).GetEnumerator();
+			try
 			{
-				PawnNameDatabaseSolid.solidNames.Add((GenderPossibility)value, new List<NameTriple>());
+				while (enumerator.MoveNext())
+				{
+					GenderPossibility key = (GenderPossibility)enumerator.Current;
+					PawnNameDatabaseSolid.solidNames.Add(key, new List<NameTriple>());
+				}
+			}
+			finally
+			{
+				IDisposable disposable;
+				if ((disposable = (enumerator as IDisposable)) != null)
+				{
+					disposable.Dispose();
+				}
 			}
 		}
 
@@ -31,30 +45,21 @@ namespace RimWorld
 
 		public static IEnumerable<NameTriple> AllNames()
 		{
-			Dictionary<GenderPossibility, List<NameTriple>>.Enumerator enumerator = PawnNameDatabaseSolid.solidNames.GetEnumerator();
-			try
+			foreach (KeyValuePair<GenderPossibility, List<NameTriple>> solidName in PawnNameDatabaseSolid.solidNames)
 			{
-				while (enumerator.MoveNext())
+				using (List<NameTriple>.Enumerator enumerator2 = solidName.Value.GetEnumerator())
 				{
-					List<NameTriple>.Enumerator enumerator2 = enumerator.Current.Value.GetEnumerator();
-					try
+					if (enumerator2.MoveNext())
 					{
-						while (enumerator2.MoveNext())
-						{
-							NameTriple name = enumerator2.Current;
-							yield return name;
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator2).Dispose();
+						NameTriple name = enumerator2.Current;
+						yield return name;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
+			yield break;
+			IL_011b:
+			/*Error near IL_011c: Unexpected return in MoveNext()*/;
 		}
 	}
 }

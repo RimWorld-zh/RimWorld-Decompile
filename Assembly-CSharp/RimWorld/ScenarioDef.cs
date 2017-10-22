@@ -26,11 +26,20 @@ namespace RimWorld
 			if (this.scenario == null)
 			{
 				yield return "null scenario";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			foreach (string item in this.scenario.ConfigErrors())
+			using (IEnumerator<string> enumerator = this.scenario.ConfigErrors().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string se = enumerator.Current;
+					yield return se;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_00f5:
+			/*Error near IL_00f6: Unexpected return in MoveNext()*/;
 		}
 	}
 }

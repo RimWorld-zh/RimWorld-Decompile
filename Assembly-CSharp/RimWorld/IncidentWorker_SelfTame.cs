@@ -20,24 +20,29 @@ namespace RimWorld
 			return this.Candidates(map).Any();
 		}
 
-		public override bool TryExecute(IncidentParms parms)
+		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			Pawn pawn = null;
+			bool result;
 			if (!this.Candidates(map).TryRandomElementByWeight<Pawn>((Func<Pawn, float>)((Pawn x) => x.RaceProps.wildness), out pawn))
 			{
-				return false;
+				result = false;
 			}
-			if (pawn.guest != null)
+			else
 			{
-				pawn.guest.SetGuestStatus(null, false);
+				if (pawn.guest != null)
+				{
+					pawn.guest.SetGuestStatus(null, false);
+				}
+				string text = pawn.LabelIndefinite();
+				bool flag = pawn.Name != null;
+				pawn.SetFaction(Faction.OfPlayer, null);
+				string text2 = (flag || pawn.Name == null) ? "LetterAnimalSelfTame".Translate(pawn.LabelIndefinite()).CapitalizeFirst() : ((!pawn.Name.Numerical) ? "LetterAnimalSelfTameAndName".Translate(text, pawn.Name.ToStringFull).CapitalizeFirst() : "LetterAnimalSelfTameAndNameNumerical".Translate(text, pawn.Name.ToStringFull).CapitalizeFirst());
+				Find.LetterStack.ReceiveLetter("LetterLabelAnimalSelfTame".Translate(pawn.KindLabel).CapitalizeFirst(), text2, LetterDefOf.PositiveEvent, (Thing)pawn, (string)null);
+				result = true;
 			}
-			string text = pawn.LabelIndefinite();
-			bool flag = pawn.Name != null;
-			pawn.SetFaction(Faction.OfPlayer, null);
-			string text2 = (flag || pawn.Name == null) ? "LetterAnimalSelfTame".Translate(pawn.LabelIndefinite()).CapitalizeFirst() : ((!pawn.Name.Numerical) ? "LetterAnimalSelfTameAndName".Translate(text, pawn.Name.ToStringFull).CapitalizeFirst() : "LetterAnimalSelfTameAndNameNumerical".Translate(text, pawn.Name.ToStringFull).CapitalizeFirst());
-			Find.LetterStack.ReceiveLetter("LetterLabelAnimalSelfTame".Translate(GenLabel.BestKindLabel(pawn, false, false, false)).CapitalizeFirst(), text2, LetterDefOf.Good, (Thing)pawn, (string)null);
-			return true;
+			return result;
 		}
 	}
 }

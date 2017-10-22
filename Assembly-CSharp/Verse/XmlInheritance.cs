@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
@@ -59,7 +60,7 @@ namespace Verse
 				for (int i = 0; i < list.Count; i++)
 				{
 					if (list[i].mod == mod)
-						goto IL_0067;
+						goto IL_006e;
 				}
 			}
 			XmlInheritanceNode xmlInheritanceNode = new XmlInheritanceNode();
@@ -80,7 +81,7 @@ namespace Verse
 				}
 			}
 			return;
-			IL_0067:
+			IL_006e:
 			if (mod == null)
 			{
 				Log.Error("XML error: Could not register node named \"" + xmlAttribute.Value + "\" because this name is already used.");
@@ -99,12 +100,14 @@ namespace Verse
 
 		public static XmlNode GetResolvedNodeFor(XmlNode originalNode)
 		{
+			XmlNode result;
 			if (originalNode.Attributes[XmlInheritance.ParentNameAttributeName] != null)
 			{
 				XmlInheritanceNode xmlInheritanceNode = default(XmlInheritanceNode);
 				if (XmlInheritance.resolvedNodes.TryGetValue(originalNode, out xmlInheritanceNode))
 				{
-					return xmlInheritanceNode.resolvedXmlNode;
+					result = xmlInheritanceNode.resolvedXmlNode;
+					goto IL_00b7;
 				}
 				if (XmlInheritance.unresolvedNodes.Any((Predicate<XmlInheritanceNode>)((XmlInheritanceNode x) => x.xmlNode == originalNode)))
 				{
@@ -115,7 +118,10 @@ namespace Verse
 					Log.Error("XML error: Tried to get resolved node for node \"" + originalNode.Name + "\" which uses a ParentName attribute, but it is not in a resolved nodes collection, which means that it was never registered or there was an error while resolving it.");
 				}
 			}
-			return originalNode;
+			result = originalNode;
+			goto IL_00b7;
+			IL_00b7:
+			return result;
 		}
 
 		public static void Clear()
@@ -235,12 +241,17 @@ namespace Verse
 					}
 				}
 			}
+			XmlInheritanceNode result;
 			if (xmlInheritanceNode == null)
 			{
 				Log.Error("XML error: Could not find parent node named \"" + parentName + "\" for node \"" + node.xmlNode.Name + "\". Full node: " + node.xmlNode.OuterXml);
-				return null;
+				result = null;
 			}
-			return xmlInheritanceNode;
+			else
+			{
+				result = xmlInheritanceNode;
+			}
+			return result;
 		}
 
 		private static void ResolveXmlNodeFor(XmlInheritanceNode node)
@@ -302,25 +313,38 @@ namespace Verse
 			}
 			else
 			{
-				foreach (XmlNode item in source)
+				IEnumerator enumerator = source.GetEnumerator();
+				try
 				{
-					if (item.Name == "li")
+					while (enumerator.MoveNext())
 					{
-						XmlNode newChild2 = target.OwnerDocument.ImportNode(item, true);
-						target.AppendChild(newChild2);
-					}
-					else
-					{
-						XmlElement xmlElement = target[item.Name];
-						if (xmlElement != null)
+						XmlNode xmlNode = (XmlNode)enumerator.Current;
+						if (xmlNode.Name == "li")
 						{
-							XmlInheritance.RecursiveNodeCopyOverwriteElements(item, xmlElement);
+							XmlNode newChild2 = target.OwnerDocument.ImportNode(xmlNode, true);
+							target.AppendChild(newChild2);
 						}
 						else
 						{
-							XmlNode newChild3 = target.OwnerDocument.ImportNode(item, true);
-							target.AppendChild(newChild3);
+							XmlElement xmlElement = target[xmlNode.Name];
+							if (xmlElement != null)
+							{
+								XmlInheritance.RecursiveNodeCopyOverwriteElements(xmlNode, xmlElement);
+							}
+							else
+							{
+								XmlNode newChild3 = target.OwnerDocument.ImportNode(xmlNode, true);
+								target.AppendChild(newChild3);
+							}
 						}
+					}
+				}
+				finally
+				{
+					IDisposable disposable;
+					if ((disposable = (enumerator as IDisposable)) != null)
+					{
+						disposable.Dispose();
 					}
 				}
 			}
@@ -329,18 +353,31 @@ namespace Verse
 		private static void CheckForDuplicateNodes(XmlNode originalNode)
 		{
 			XmlInheritance.tempUsedNodeNames.Clear();
-			foreach (XmlNode childNode in originalNode.ChildNodes)
+			IEnumerator enumerator = originalNode.ChildNodes.GetEnumerator();
+			try
 			{
-				if (!(childNode.Name == "li"))
+				while (enumerator.MoveNext())
 				{
-					if (XmlInheritance.tempUsedNodeNames.Contains(childNode.Name))
+					XmlNode xmlNode = (XmlNode)enumerator.Current;
+					if (xmlNode.NodeType == XmlNodeType.Element && !(xmlNode.Name == "li"))
 					{
-						Log.Error("XML error: Duplicate XML node name " + childNode.Name + " in this XML block: " + originalNode.OuterXml);
+						if (XmlInheritance.tempUsedNodeNames.Contains(xmlNode.Name))
+						{
+							Log.Error("XML error: Duplicate XML node name " + xmlNode.Name + " in this XML block: " + originalNode.OuterXml);
+						}
+						else
+						{
+							XmlInheritance.tempUsedNodeNames.Add(xmlNode.Name);
+						}
 					}
-					else
-					{
-						XmlInheritance.tempUsedNodeNames.Add(childNode.Name);
-					}
+				}
+			}
+			finally
+			{
+				IDisposable disposable;
+				if ((disposable = (enumerator as IDisposable)) != null)
+				{
+					disposable.Dispose();
 				}
 			}
 			XmlInheritance.tempUsedNodeNames.Clear();

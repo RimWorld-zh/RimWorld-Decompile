@@ -6,7 +6,7 @@ namespace Verse
 {
 	public class HediffComp_HealOldWounds : HediffComp
 	{
-		private int ticksToHeal;
+		private int ticksToHeal = 0;
 
 		public HediffCompProperties_HealOldWounds Props
 		{
@@ -47,7 +47,7 @@ namespace Verse
 				hediff.Severity = 0f;
 				if (PawnUtility.ShouldSendNotificationAbout(base.Pawn))
 				{
-					Messages.Message("MessageOldWoundHealed".Translate(base.parent.Label, base.Pawn.LabelShort, hediff.Label), MessageSound.Benefit);
+					Messages.Message("MessageOldWoundHealed".Translate(base.parent.Label, base.Pawn.LabelShort, hediff.Label), MessageTypeDefOf.PositiveEvent);
 				}
 			}
 		}

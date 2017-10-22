@@ -1,3 +1,4 @@
+using RimWorld;
 using UnityEngine;
 
 namespace Verse
@@ -33,11 +34,7 @@ namespace Verse
 
 		protected virtual AcceptanceReport NameIsValid(string name)
 		{
-			if (name.Length == 0)
-			{
-				return false;
-			}
-			return true;
+			return (name.Length != 0) ? true : false;
 		}
 
 		public override void DoWindowContents(Rect inRect)
@@ -61,11 +58,11 @@ namespace Verse
 			{
 				if (acceptanceReport.Reason == null)
 				{
-					Messages.Message("NameIsInvalid".Translate(), MessageSound.RejectInput);
+					Messages.Message("NameIsInvalid".Translate(), MessageTypeDefOf.RejectInput);
 				}
 				else
 				{
-					Messages.Message(acceptanceReport.Reason, MessageSound.RejectInput);
+					Messages.Message(acceptanceReport.Reason, MessageTypeDefOf.RejectInput);
 				}
 			}
 			else

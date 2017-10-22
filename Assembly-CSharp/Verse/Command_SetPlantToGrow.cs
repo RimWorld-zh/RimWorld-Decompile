@@ -19,27 +19,18 @@ namespace Verse
 			base.tutorTag = "GrowingZoneSetPlant";
 			ThingDef thingDef = null;
 			bool flag = false;
-			List<object>.Enumerator enumerator = Find.Selector.SelectedObjects.GetEnumerator();
-			try
+			foreach (object selectedObject in Find.Selector.SelectedObjects)
 			{
-				while (enumerator.MoveNext())
+				IPlantToGrowSettable plantToGrowSettable = selectedObject as IPlantToGrowSettable;
+				if (plantToGrowSettable != null)
 				{
-					object current = enumerator.Current;
-					IPlantToGrowSettable plantToGrowSettable = current as IPlantToGrowSettable;
-					if (plantToGrowSettable != null)
+					if (thingDef != null && thingDef != plantToGrowSettable.GetPlantDefToGrow())
 					{
-						if (thingDef != null && thingDef != plantToGrowSettable.GetPlantDefToGrow())
-						{
-							flag = true;
-							break;
-						}
-						thingDef = plantToGrowSettable.GetPlantDefToGrow();
+						flag = true;
+						break;
 					}
+					thingDef = plantToGrowSettable.GetPlantDefToGrow();
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			if (flag)
 			{
@@ -49,6 +40,7 @@ namespace Verse
 			else
 			{
 				base.icon = thingDef.uiIcon;
+				base.iconAngle = thingDef.uiIconAngle;
 				base.defaultLabel = "CommandSelectPlantToGrow".Translate(thingDef.label);
 			}
 		}
@@ -76,9 +68,7 @@ namespace Verse
 						string text2 = text;
 						text = text2 + " (" + "MinSkill".Translate() + ": " + item.plant.sowMinSkill + ")";
 					}
-					List<FloatMenuOption> obj = list;
-					Func<Rect, bool> extraPartOnGUI = (Func<Rect, bool>)((Rect rect) => Widgets.InfoCardButton((float)(rect.x + 5.0), (float)(rect.y + (rect.height - 24.0) / 2.0), localPlantDef));
-					obj.Add(new FloatMenuOption(text, (Action)delegate
+					list.Add(new FloatMenuOption(text, (Action)delegate
 					{
 						string s = base.tutorTag + "-" + localPlantDef.defName;
 						if (TutorSystem.AllowAction(s))
@@ -91,7 +81,7 @@ namespace Verse
 							this.WarnAsAppropriate(localPlantDef);
 							TutorSystem.Notify_Event(s);
 						}
-					}, MenuOptionPriority.Default, null, null, 29f, extraPartOnGUI, null));
+					}, MenuOptionPriority.Default, null, null, 29f, (Func<Rect, bool>)((Rect rect) => Widgets.InfoCardButton((float)(rect.x + 5.0), (float)(rect.y + (rect.height - 24.0) / 2.0), localPlantDef)), null));
 				}
 			}
 			Find.WindowStack.Add(new FloatMenu(list));
@@ -118,23 +108,58 @@ namespace Verse
 				}
 				Find.WindowStack.Add(new Dialog_MessageBox("NoGrowerCanPlant".Translate(plantDef.label, plantDef.plant.sowMinSkill).CapitalizeFirst(), (string)null, null, (string)null, null, (string)null, false));
 			}
+			if (plantDef.plant.cavePlant)
+			{
+				IntVec3 cell = IntVec3.Invalid;
+				int num = 0;
+				while (num < this.settables.Count)
+				{
+					foreach (IntVec3 cell2 in this.settables[num].Cells)
+					{
+						if (cell2.Roofed(this.settables[num].Map) && !(this.settables[num].Map.glowGrid.GameGlowAt(cell2, true) > 0.0))
+						{
+							continue;
+						}
+						cell = cell2;
+						break;
+					}
+					if (!cell.IsValid)
+					{
+						num++;
+						continue;
+					}
+					break;
+				}
+				if (cell.IsValid)
+				{
+					Messages.Message("MessageWarningCavePlantsExposedToLight".Translate(plantDef.label).CapitalizeFirst(), new TargetInfo(cell, this.settable.Map, false), MessageTypeDefOf.RejectInput);
+				}
+			}
 		}
 
 		private bool IsPlantAvailable(ThingDef plantDef)
 		{
 			List<ResearchProjectDef> sowResearchPrerequisites = plantDef.plant.sowResearchPrerequisites;
+			bool result;
 			if (sowResearchPrerequisites == null)
 			{
-				return true;
+				result = true;
 			}
-			for (int i = 0; i < sowResearchPrerequisites.Count; i++)
+			else
 			{
-				if (!sowResearchPrerequisites[i].IsFinished)
+				for (int i = 0; i < sowResearchPrerequisites.Count; i++)
 				{
-					return false;
+					if (!sowResearchPrerequisites[i].IsFinished)
+						goto IL_0033;
 				}
+				result = true;
 			}
-			return true;
+			goto IL_0052;
+			IL_0033:
+			result = false;
+			goto IL_0052;
+			IL_0052:
+			return result;
 		}
 	}
 }

@@ -40,11 +40,7 @@ namespace Verse.Sound
 
 			public override string ToString()
 			{
-				if (!this.IsValid)
-				{
-					return "(Invalid)";
-				}
-				return "(rect=" + this.rect + ((!this.mouseIsOver) ? string.Empty : "mouseIsOver") + ")";
+				return this.IsValid ? ("(rect=" + this.rect + ((!this.mouseIsOver) ? "" : "mouseIsOver") + ")") : "(Invalid)";
 			}
 		}
 

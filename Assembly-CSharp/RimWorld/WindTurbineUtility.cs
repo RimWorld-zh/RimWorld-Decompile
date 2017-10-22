@@ -43,18 +43,29 @@ namespace RimWorld
 			}
 			for (int z2 = rectA.minZ; z2 <= rectA.maxZ; z2++)
 			{
-				for (int x = rectA.minX; x <= rectA.maxX; x++)
+				int x = rectA.minX;
+				if (x <= rectA.maxX)
 				{
 					yield return new IntVec3(x, 0, z2);
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
-			for (int z = rectB.minZ; z <= rectB.maxZ; z++)
+			int z = rectB.minZ;
+			int x2;
+			while (true)
 			{
-				for (int x2 = rectB.minX; x2 <= rectB.maxX; x2++)
+				if (z <= rectB.maxZ)
 				{
-					yield return new IntVec3(x2, 0, z);
+					x2 = rectB.minX;
+					if (x2 <= rectB.maxX)
+						break;
+					z++;
+					continue;
 				}
+				yield break;
 			}
+			yield return new IntVec3(x2, 0, z);
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

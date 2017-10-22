@@ -4,7 +4,7 @@ namespace Verse.AI.Group
 	{
 		private LocomotionUrgency locomotion = LocomotionUrgency.Jog;
 
-		private bool canDig;
+		private bool canDig = false;
 
 		public LordJob_ExitMapBest()
 		{

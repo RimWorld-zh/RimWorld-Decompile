@@ -26,17 +26,15 @@ namespace RimWorld
 			return !InteractionUtility.CanInitiateInteraction(pawn);
 		}
 
-		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
+		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
-			if (pawn2 == null)
-			{
-				return null;
-			}
-			if (!SickPawnVisitUtility.CanVisit(pawn, pawn2, JoyCategory.VeryLow))
-			{
-				return null;
-			}
+			return pawn2 != null && SickPawnVisitUtility.CanVisit(pawn, pawn2, JoyCategory.VeryLow);
+		}
+
+		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
+		{
+			Pawn pawn2 = (Pawn)t;
 			Job job = new Job(JobDefOf.VisitSickPawn, (Thing)pawn2, SickPawnVisitUtility.FindChair(pawn, pawn2));
 			job.ignoreJoyTimeAssignment = true;
 			return job;

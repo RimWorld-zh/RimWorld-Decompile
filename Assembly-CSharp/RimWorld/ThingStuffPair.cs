@@ -17,6 +17,8 @@ namespace RimWorld
 
 		private float cachedInsulationCold;
 
+		private float cachedInsulationHeat;
+
 		public float Price
 		{
 			get
@@ -30,6 +32,14 @@ namespace RimWorld
 			get
 			{
 				return this.cachedInsulationCold;
+			}
+		}
+
+		public float InsulationHeat
+		{
+			get
+			{
+				return this.cachedInsulationHeat;
 			}
 		}
 
@@ -57,7 +67,8 @@ namespace RimWorld
 			this.stuff = stuff;
 			this.commonalityMultiplier = commonalityMultiplier;
 			this.cachedPrice = thing.GetStatValueAbstract(StatDefOf.MarketValue, stuff);
-			this.cachedInsulationCold = thing.GetStatValueAbstract(StatDefOf.Insulation_Cold, null);
+			this.cachedInsulationCold = thing.GetStatValueAbstract(StatDefOf.Insulation_Cold, stuff);
+			this.cachedInsulationHeat = thing.GetStatValueAbstract(StatDefOf.Insulation_Heat, stuff);
 		}
 
 		public static List<ThingStuffPair> AllWith(Predicate<ThingDef> thingValidator)
@@ -95,12 +106,17 @@ namespace RimWorld
 
 		public override string ToString()
 		{
+			string result;
 			if (this.thing == null)
 			{
-				return "(null)";
+				result = "(null)";
 			}
-			string text = (this.stuff != null) ? (this.thing.label + " " + this.stuff.LabelAsStuff) : this.thing.label;
-			return text + " $" + this.Price.ToString("F0") + " c=" + this.Commonality.ToString("F4");
+			else
+			{
+				string text = (this.stuff != null) ? (this.thing.label + " " + this.stuff.LabelAsStuff) : this.thing.label;
+				result = text + " $" + this.Price.ToString("F0") + " c=" + this.Commonality.ToString("F4");
+			}
+			return result;
 		}
 	}
 }

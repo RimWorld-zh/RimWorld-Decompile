@@ -8,11 +8,11 @@ namespace RimWorld
 
 		public RulePackDef descriptionMaker;
 
-		public QualityCategory minQualityForArtistic;
+		public QualityCategory minQualityForArtistic = QualityCategory.Awful;
 
-		public bool mustBeFullGrave;
+		public bool mustBeFullGrave = false;
 
-		public bool canBeEnjoyedAsArt;
+		public bool canBeEnjoyedAsArt = false;
 
 		public CompProperties_Art()
 		{

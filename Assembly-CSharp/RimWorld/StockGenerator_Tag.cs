@@ -7,32 +7,41 @@ namespace RimWorld
 {
 	public class StockGenerator_Tag : StockGenerator
 	{
-		private string tradeTag;
+		private string tradeTag = (string)null;
 
 		private IntRange thingDefCountRange = IntRange.one;
 
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
+			_003CGenerateThings_003Ec__Iterator0 _003CGenerateThings_003Ec__Iterator = (_003CGenerateThings_003Ec__Iterator0)/*Error near IL_0034: stateMachine*/;
 			List<ThingDef> generatedDefs = new List<ThingDef>();
 			int numThingDefsToUse = this.thingDefCountRange.RandomInRange;
 			int i = 0;
 			ThingDef chosenThingDef;
 			while (i < numThingDefsToUse && (from d in DefDatabase<ThingDef>.AllDefs
-			where ((_003CGenerateThings_003Ec__Iterator17D)/*Error near IL_0055: stateMachine*/)._003C_003Ef__this.HandlesThingDef(d) && !((_003CGenerateThings_003Ec__Iterator17D)/*Error near IL_0055: stateMachine*/)._003CgeneratedDefs_003E__0.Contains(d)
+			where _003CGenerateThings_003Ec__Iterator._0024this.HandlesThingDef(d) && d.tradeability == Tradeability.Stockable && !generatedDefs.Contains(d)
 			select d).TryRandomElement<ThingDef>(out chosenThingDef))
 			{
-				foreach (Thing item in StockGeneratorUtility.TryMakeForStock(chosenThingDef, base.RandomCountOf(chosenThingDef)))
+				using (IEnumerator<Thing> enumerator = StockGeneratorUtility.TryMakeForStock(chosenThingDef, base.RandomCountOf(chosenThingDef)).GetEnumerator())
 				{
-					yield return item;
+					if (enumerator.MoveNext())
+					{
+						Thing th = enumerator.Current;
+						yield return th;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 				generatedDefs.Add(chosenThingDef);
 				i++;
 			}
+			yield break;
+			IL_017e:
+			/*Error near IL_017f: Unexpected return in MoveNext()*/;
 		}
 
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
-			return thingDef.tradeTags != null && thingDef.tradeability == Tradeability.Stockable && (int)thingDef.techLevel <= (int)base.maxTechLevelBuy && thingDef.tradeTags.Contains(this.tradeTag);
+			return thingDef.tradeTags != null && thingDef.tradeability != 0 && (int)thingDef.techLevel <= (int)base.maxTechLevelBuy && thingDef.tradeTags.Contains(this.tradeTag);
 		}
 	}
 }

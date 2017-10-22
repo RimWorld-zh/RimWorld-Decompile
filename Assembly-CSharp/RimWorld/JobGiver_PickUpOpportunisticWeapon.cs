@@ -9,24 +9,24 @@ namespace RimWorld
 	{
 		private bool preferBuildingDestroyers;
 
-		private float MinMeleeWeaponDamageThreshold
+		private float MinMeleeWeaponDPSThreshold
 		{
 			get
 			{
-				List<VerbProperties> verbs = ThingDefOf.Human.Verbs;
+				List<Tool> tools = ThingDefOf.Human.tools;
 				float num = 0f;
 				int num2 = 0;
-				while (num2 < verbs.Count)
+				while (num2 < tools.Count)
 				{
-					if (verbs[num2].linkedBodyPartsGroup != BodyPartGroupDefOf.LeftHand && verbs[num2].linkedBodyPartsGroup != BodyPartGroupDefOf.RightHand)
+					if (tools[num2].linkedBodyPartsGroup != BodyPartGroupDefOf.LeftHand && tools[num2].linkedBodyPartsGroup != BodyPartGroupDefOf.RightHand)
 					{
 						num2++;
 						continue;
 					}
-					num = (float)verbs[num2].meleeDamageBaseAmount;
+					num = tools[num2].power / tools[num2].cooldownTime;
 					break;
 				}
-				return (float)(num + 3.0);
+				return (float)(num + 2.0);
 			}
 		}
 
@@ -39,54 +39,67 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
+			Job result;
 			if (pawn.equipment == null)
 			{
-				return null;
+				result = null;
 			}
-			if (this.AlreadySatisfiedWithCurrentWeapon(pawn))
+			else if (this.AlreadySatisfiedWithCurrentWeapon(pawn))
 			{
-				return null;
+				result = null;
 			}
-			if (pawn.RaceProps.Humanlike && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+			else if (pawn.RaceProps.Humanlike && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 			{
-				return null;
+				result = null;
 			}
-			if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
+			else if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
 			{
-				return null;
+				result = null;
 			}
-			Region region = pawn.GetRegion(RegionType.Set_Passable);
-			if (region == null)
+			else
 			{
-				return null;
+				Region region = pawn.GetRegion(RegionType.Set_Passable);
+				if (region == null)
+				{
+					result = null;
+				}
+				else
+				{
+					Thing thing = GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.Weapon), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 8f, (Predicate<Thing>)((Thing x) => pawn.CanReserve(x, 1, -1, null, false) && this.ShouldEquip(x, pawn)), null, 0, 15, false, RegionType.Set_Passable, false);
+					result = ((thing == null) ? null : new Job(JobDefOf.Equip, thing));
+				}
 			}
-			Thing thing = GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.Weapon), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 8f, (Predicate<Thing>)((Thing x) => pawn.CanReserve(x, 1, -1, null, false) && this.ShouldEquip(x, pawn)), null, 0, 15, false, RegionType.Set_Passable, false);
-			if (thing != null)
-			{
-				return new Job(JobDefOf.Equip, thing);
-			}
-			return null;
+			return result;
 		}
 
 		private bool AlreadySatisfiedWithCurrentWeapon(Pawn pawn)
 		{
 			ThingWithComps primary = pawn.equipment.Primary;
+			bool result;
 			if (primary == null)
 			{
-				return false;
+				result = false;
 			}
-			if (this.preferBuildingDestroyers)
+			else
 			{
-				if (!pawn.equipment.PrimaryEq.PrimaryVerb.verbProps.ai_IsBuildingDestroyer)
+				if (this.preferBuildingDestroyers)
 				{
-					return false;
+					if (!pawn.equipment.PrimaryEq.PrimaryVerb.verbProps.ai_IsBuildingDestroyer)
+					{
+						result = false;
+						goto IL_0072;
+					}
 				}
+				else if (!primary.def.IsRangedWeapon)
+				{
+					result = false;
+					goto IL_0072;
+				}
+				result = true;
 			}
-			else if (!primary.def.IsRangedWeapon)
-			{
-				return false;
-			}
-			return true;
+			goto IL_0072;
+			IL_0072:
+			return result;
 		}
 
 		private bool ShouldEquip(Thing newWep, Pawn pawn)
@@ -96,23 +109,7 @@ namespace RimWorld
 
 		private int GetWeaponScore(Thing wep)
 		{
-			if (wep == null)
-			{
-				return 0;
-			}
-			if (wep.def.IsMeleeWeapon && wep.GetStatValue(StatDefOf.MeleeWeapon_DamageAmount, true) < this.MinMeleeWeaponDamageThreshold)
-			{
-				return 0;
-			}
-			if (this.preferBuildingDestroyers && wep.TryGetComp<CompEquippable>().PrimaryVerb.verbProps.ai_IsBuildingDestroyer)
-			{
-				return 3;
-			}
-			if (wep.def.IsRangedWeapon)
-			{
-				return 2;
-			}
-			return 1;
+			return (wep != null) ? ((!wep.def.IsMeleeWeapon || !(wep.GetStatValue(StatDefOf.MeleeWeapon_AverageDPS, true) < this.MinMeleeWeaponDPSThreshold)) ? ((!this.preferBuildingDestroyers || !wep.TryGetComp<CompEquippable>().PrimaryVerb.verbProps.ai_IsBuildingDestroyer) ? ((!wep.def.IsRangedWeapon) ? 1 : 2) : 3) : 0) : 0;
 		}
 	}
 }

@@ -8,11 +8,9 @@ namespace RimWorld.Planet
 	{
 		private class CachedTileTemperatureData
 		{
-			private const int CachedTempUpdateInterval = 60;
-
 			private int tile;
 
-			private int tickCachesNeedReset;
+			private int tickCachesNeedReset = 0;
 
 			private float cachedOutdoorTemp = -3.40282347E+38f;
 
@@ -22,11 +20,13 @@ namespace RimWorld.Planet
 
 			private Perlin dailyVariationPerlinCached;
 
+			private const int CachedTempUpdateInterval = 60;
+
 			public CachedTileTemperatureData(int tile)
 			{
 				this.tile = tile;
 				int seed = Gen.HashCombineInt(tile, 199372327);
-				this.dailyVariationPerlinCached = new Perlin(4.9999998736893758E-06, 2.0, 0.5, 3, seed, QualityMode.Medium);
+				this.dailyVariationPerlinCached = new Perlin(5.0000000745058062E-06, 2.0, 0.5, 3, seed, QualityMode.Medium);
 				this.twelfthlyTempAverages = new float[12];
 				for (int i = 0; i < 12; i++)
 				{
@@ -163,13 +163,18 @@ namespace RimWorld.Planet
 
 		private CachedTileTemperatureData RetrieveCachedData(int tile)
 		{
+			CachedTileTemperatureData result;
 			if (this.cache[tile] != null)
 			{
-				return this.cache[tile];
+				result = this.cache[tile];
 			}
-			this.cache[tile] = new CachedTileTemperatureData(tile);
-			this.usedSlots.Add(tile);
-			return this.cache[tile];
+			else
+			{
+				this.cache[tile] = new CachedTileTemperatureData(tile);
+				this.usedSlots.Add(tile);
+				result = this.cache[tile];
+			}
+			return result;
 		}
 	}
 }

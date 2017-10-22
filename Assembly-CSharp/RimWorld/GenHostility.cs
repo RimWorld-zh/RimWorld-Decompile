@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
+using Verse.AI.Group;
 
 namespace RimWorld
 {
@@ -9,207 +9,253 @@ namespace RimWorld
 	{
 		public static bool HostileTo(this Thing a, Thing b)
 		{
-			if (!a.Destroyed && !b.Destroyed && a != b)
+			bool result;
+			if (a.Destroyed || b.Destroyed || a == b)
+			{
+				result = false;
+			}
+			else
 			{
 				Pawn pawn = a as Pawn;
 				Pawn pawn2 = b as Pawn;
 				if (pawn != null && pawn.MentalState != null && pawn.MentalState.ForceHostileTo(b))
 				{
-					goto IL_0071;
+					goto IL_0077;
 				}
 				if (pawn2 != null && pawn2.MentalState != null && pawn2.MentalState.ForceHostileTo(a))
-					goto IL_0071;
+					goto IL_0077;
 				if (pawn != null && pawn2 != null && (GenHostility.IsPredatorHostileTo(pawn, pawn2) || GenHostility.IsPredatorHostileTo(pawn2, pawn)))
 				{
-					return true;
+					result = true;
 				}
-				if (a.Faction != null && pawn2 != null && pawn2.HostFaction == a.Faction && (pawn == null || pawn.HostFaction == null) && PrisonBreakUtility.IsPrisonBreaking(pawn2))
+				else
 				{
-					goto IL_0115;
-				}
-				if (b.Faction != null && pawn != null && pawn.HostFaction == b.Faction && (pawn2 == null || pawn2.HostFaction == null) && PrisonBreakUtility.IsPrisonBreaking(pawn))
-					goto IL_0115;
-				if (a.Faction != null && pawn2 != null && pawn2.HostFaction == a.Faction)
-				{
-					goto IL_015b;
-				}
-				if (b.Faction != null && pawn != null && pawn.HostFaction == b.Faction)
-					goto IL_015b;
-				if (pawn != null && pawn.IsPrisoner && pawn2 != null && pawn2.IsPrisoner)
-				{
-					return false;
-				}
-				if (pawn != null && pawn2 != null)
-				{
-					if (pawn.IsPrisoner && pawn.HostFaction == pawn2.HostFaction && !PrisonBreakUtility.IsPrisonBreaking(pawn))
+					if (a.Faction != null && pawn2 != null && pawn2.HostFaction == a.Faction && (pawn == null || pawn.HostFaction == null) && PrisonBreakUtility.IsPrisonBreaking(pawn2))
 					{
-						goto IL_01db;
+						goto IL_0127;
 					}
-					if (pawn2.IsPrisoner && pawn2.HostFaction == pawn.HostFaction && !PrisonBreakUtility.IsPrisonBreaking(pawn2))
-						goto IL_01db;
-				}
-				if (pawn != null && pawn2 != null)
-				{
-					if (pawn.HostFaction != null && pawn2.Faction != null && !pawn.HostFaction.HostileTo(pawn2.Faction) && !PrisonBreakUtility.IsPrisonBreaking(pawn))
+					if (b.Faction != null && pawn != null && pawn.HostFaction == b.Faction && (pawn2 == null || pawn2.HostFaction == null) && PrisonBreakUtility.IsPrisonBreaking(pawn))
+						goto IL_0127;
+					if (a.Faction != null && pawn2 != null && pawn2.HostFaction == a.Faction)
 					{
-						goto IL_0257;
+						goto IL_0173;
 					}
-					if (pawn2.HostFaction != null && pawn.Faction != null && !pawn2.HostFaction.HostileTo(pawn.Faction) && !PrisonBreakUtility.IsPrisonBreaking(pawn2))
-						goto IL_0257;
+					if (b.Faction != null && pawn != null && pawn.HostFaction == b.Faction)
+						goto IL_0173;
+					if (pawn != null && pawn.IsPrisoner && pawn2 != null && pawn2.IsPrisoner)
+					{
+						result = false;
+					}
+					else
+					{
+						if (pawn != null && pawn2 != null)
+						{
+							if (pawn.IsPrisoner && pawn.HostFaction == pawn2.HostFaction && !PrisonBreakUtility.IsPrisonBreaking(pawn))
+							{
+								goto IL_01ff;
+							}
+							if (pawn2.IsPrisoner && pawn2.HostFaction == pawn.HostFaction && !PrisonBreakUtility.IsPrisonBreaking(pawn2))
+								goto IL_01ff;
+						}
+						if (pawn != null && pawn2 != null)
+						{
+							if (pawn.HostFaction != null && pawn2.Faction != null && !pawn.HostFaction.HostileTo(pawn2.Faction) && !PrisonBreakUtility.IsPrisonBreaking(pawn))
+							{
+								goto IL_0281;
+							}
+							if (pawn2.HostFaction != null && pawn.Faction != null && !pawn2.HostFaction.HostileTo(pawn.Faction) && !PrisonBreakUtility.IsPrisonBreaking(pawn2))
+								goto IL_0281;
+						}
+						result = (a.Faction != null && b.Faction != null && a.Faction.HostileTo(b.Faction));
+					}
 				}
-				if (a.Faction != null && b.Faction != null)
-				{
-					return a.Faction.HostileTo(b.Faction);
-				}
-				return false;
 			}
-			return false;
-			IL_0257:
-			return false;
-			IL_0115:
-			return true;
-			IL_0071:
-			return true;
-			IL_015b:
-			return false;
-			IL_01db:
-			return false;
+			goto IL_02bd;
+			IL_02bd:
+			return result;
+			IL_0077:
+			result = true;
+			goto IL_02bd;
+			IL_01ff:
+			result = false;
+			goto IL_02bd;
+			IL_0127:
+			result = true;
+			goto IL_02bd;
+			IL_0173:
+			result = false;
+			goto IL_02bd;
+			IL_0281:
+			result = false;
+			goto IL_02bd;
 		}
 
 		public static bool HostileTo(this Thing t, Faction fac)
 		{
+			bool result;
 			if (t.Destroyed)
 			{
-				return false;
+				result = false;
 			}
-			Pawn pawn = t as Pawn;
-			if (pawn != null)
+			else
 			{
-				MentalState mentalState = pawn.MentalState;
-				if (mentalState != null && mentalState.ForceHostileTo(fac))
+				Pawn pawn = t as Pawn;
+				if (pawn != null)
 				{
-					return true;
+					MentalState mentalState = pawn.MentalState;
+					if (mentalState != null && mentalState.ForceHostileTo(fac))
+					{
+						result = true;
+						goto IL_00d8;
+					}
+					if (GenHostility.IsPredatorHostileTo(pawn, fac))
+					{
+						result = true;
+						goto IL_00d8;
+					}
+					if (pawn.HostFaction == fac && PrisonBreakUtility.IsPrisonBreaking(pawn))
+					{
+						result = true;
+						goto IL_00d8;
+					}
+					if (pawn.HostFaction == fac)
+					{
+						result = false;
+						goto IL_00d8;
+					}
+					if (pawn.HostFaction != null && !pawn.HostFaction.HostileTo(fac) && !PrisonBreakUtility.IsPrisonBreaking(pawn))
+					{
+						result = false;
+						goto IL_00d8;
+					}
 				}
-				if (GenHostility.IsPredatorHostileTo(pawn, fac))
-				{
-					return true;
-				}
-				if (pawn.HostFaction == fac && PrisonBreakUtility.IsPrisonBreaking(pawn))
-				{
-					return true;
-				}
-				if (pawn.HostFaction == fac)
-				{
-					return false;
-				}
-				if (pawn.HostFaction != null && !pawn.HostFaction.HostileTo(fac) && !PrisonBreakUtility.IsPrisonBreaking(pawn))
-				{
-					return false;
-				}
+				result = (t.Faction != null && t.Faction.HostileTo(fac));
 			}
-			if (t.Faction == null)
-			{
-				return false;
-			}
-			return t.Faction.HostileTo(fac);
+			goto IL_00d8;
+			IL_00d8:
+			return result;
 		}
 
 		private static bool IsPredatorHostileTo(Pawn predator, Pawn toPawn)
 		{
+			bool result;
 			if (toPawn.Faction == null)
 			{
-				return false;
+				result = false;
 			}
-			if (toPawn.Faction.HasPredatorRecentlyAttackedAnyone(predator))
+			else if (toPawn.Faction.HasPredatorRecentlyAttackedAnyone(predator))
 			{
-				return true;
+				result = true;
 			}
-			Pawn preyOfMyFaction = GenHostility.GetPreyOfMyFaction(predator, toPawn.Faction);
-			if (preyOfMyFaction != null && predator.Position.InHorDistOf(preyOfMyFaction.Position, 12f))
+			else
 			{
-				return true;
+				Pawn preyOfMyFaction = GenHostility.GetPreyOfMyFaction(predator, toPawn.Faction);
+				result = ((byte)((preyOfMyFaction != null && predator.Position.InHorDistOf(preyOfMyFaction.Position, 12f)) ? 1 : 0) != 0);
 			}
-			return false;
+			return result;
 		}
 
 		private static bool IsPredatorHostileTo(Pawn predator, Faction toFaction)
 		{
-			if (toFaction.HasPredatorRecentlyAttackedAnyone(predator))
-			{
-				return true;
-			}
-			if (GenHostility.GetPreyOfMyFaction(predator, toFaction) != null)
-			{
-				return true;
-			}
-			return false;
+			return (byte)(toFaction.HasPredatorRecentlyAttackedAnyone(predator) ? 1 : ((GenHostility.GetPreyOfMyFaction(predator, toFaction) != null) ? 1 : 0)) != 0;
 		}
 
 		private static Pawn GetPreyOfMyFaction(Pawn predator, Faction myFaction)
 		{
 			Job curJob = predator.CurJob;
+			Pawn result;
 			if (curJob != null && curJob.def == JobDefOf.PredatorHunt && !predator.jobs.curDriver.ended)
 			{
 				Pawn pawn = curJob.GetTarget(TargetIndex.A).Thing as Pawn;
 				if (pawn != null && pawn.Faction == myFaction)
 				{
-					return pawn;
+					result = pawn;
+					goto IL_006a;
 				}
 			}
-			return null;
+			result = null;
+			goto IL_006a;
+			IL_006a:
+			return result;
 		}
 
-		public static bool AnyHostileActiveThreat(Map map)
+		public static bool AnyHostileActiveThreatToPlayer(Map map)
 		{
-			HashSet<IAttackTarget> targetsHostileToColony = map.attackTargetsCache.TargetsHostileToColony;
-			HashSet<IAttackTarget>.Enumerator enumerator = targetsHostileToColony.GetEnumerator();
-			try
+			return GenHostility.AnyHostileActiveThreatTo(map, Faction.OfPlayer);
+		}
+
+		public static bool AnyHostileActiveThreatTo(Map map, Faction faction)
+		{
+			HashSet<IAttackTarget> hashSet = map.attackTargetsCache.TargetsHostileToFaction(faction);
+			foreach (IAttackTarget item in hashSet)
 			{
-				while (enumerator.MoveNext())
+				if (GenHostility.IsActiveThreatTo(item, faction))
 				{
-					IAttackTarget current = enumerator.Current;
-					if (GenHostility.IsActiveThreat(current))
-					{
-						return true;
-					}
+					return true;
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			return false;
 		}
 
-		public static bool IsActiveThreat(IAttackTarget target)
+		public static bool IsActiveThreatToPlayer(IAttackTarget target)
 		{
-			if (!(target.Thing is IAttackTargetSearcher))
+			return GenHostility.IsActiveThreatTo(target, Faction.OfPlayer);
+		}
+
+		public static bool IsActiveThreatTo(IAttackTarget target, Faction faction)
+		{
+			bool result;
+			if (!target.Thing.HostileTo(faction))
 			{
-				return false;
+				result = false;
 			}
-			if (target.ThreatDisabled())
+			else if (!(target.Thing is IAttackTargetSearcher))
 			{
-				return false;
+				result = false;
 			}
-			Pawn pawn = target.Thing as Pawn;
-			if (pawn != null && (pawn.MentalStateDef == MentalStateDefOf.PanicFlee || pawn.IsPrisoner))
+			else if (target.ThreatDisabled())
 			{
-				return false;
+				result = false;
 			}
-			if (target.Thing.Spawned)
+			else
 			{
-				TraverseParms traverseParms = (pawn == null) ? TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false) : TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
-				if (!target.Thing.Map.reachability.CanReachUnfogged(target.Thing.Position, traverseParms))
+				Pawn pawn = target.Thing as Pawn;
+				if (pawn != null)
 				{
-					return false;
+					Lord lord = pawn.GetLord();
+					if (lord != null && lord.LordJob is LordJob_DefendAndExpandHive && (pawn.mindState.duty == null || pawn.mindState.duty.def != DutyDefOf.AssaultColony))
+					{
+						result = false;
+						goto IL_013e;
+					}
+				}
+				Pawn pawn2 = target.Thing as Pawn;
+				if (pawn2 != null && (pawn2.MentalStateDef == MentalStateDefOf.PanicFlee || pawn2.IsPrisoner))
+				{
+					result = false;
+				}
+				else
+				{
+					if (target.Thing.Spawned)
+					{
+						TraverseParms traverseParms = (pawn2 == null) ? TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false) : TraverseParms.For(pawn2, Danger.Deadly, TraverseMode.ByPawn, false);
+						if (!target.Thing.Map.reachability.CanReachUnfogged(target.Thing.Position, traverseParms))
+						{
+							result = false;
+							goto IL_013e;
+						}
+					}
+					result = true;
 				}
 			}
-			return true;
+			goto IL_013e;
+			IL_013e:
+			return result;
 		}
 
 		public static void Notify_PawnLostForTutor(Pawn pawn, Map map)
 		{
-			if (!map.IsPlayerHome && map.mapPawns.FreeColonistsSpawnedCount != 0 && !GenHostility.AnyHostileActiveThreat(map))
+			if (!map.IsPlayerHome && map.mapPawns.FreeColonistsSpawnedCount != 0 && !GenHostility.AnyHostileActiveThreatToPlayer(map))
 			{
 				LessonAutoActivator.TeachOpportunity(ConceptDefOf.ReformCaravan, OpportunityType.Important);
 			}

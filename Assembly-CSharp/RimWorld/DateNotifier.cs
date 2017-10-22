@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public class DateNotifier : IExposable
 	{
-		private Season lastSeason;
+		private Season lastSeason = Season.Undefined;
 
 		public void ExposeData()
 		{
@@ -47,11 +47,11 @@ namespace RimWorld
 				{
 					if (GenDate.YearsPassed == 0 && season == Season.Summer && this.AnyPlayerHomeAvgTempIsLowInWinter())
 					{
-						Find.LetterStack.ReceiveLetter("LetterLabelFirstSummerWarning".Translate(), "FirstSummerWarning".Translate(), LetterDefOf.Good, (string)null);
+						Find.LetterStack.ReceiveLetter("LetterLabelFirstSummerWarning".Translate(), "FirstSummerWarning".Translate(), LetterDefOf.NeutralEvent, (string)null);
 					}
 					else if (GenDate.DaysPassed > 5)
 					{
-						Messages.Message("MessageSeasonBegun".Translate(season.Label()).CapitalizeFirst(), MessageSound.Standard);
+						Messages.Message("MessageSeasonBegun".Translate(season.Label()).CapitalizeFirst(), MessageTypeDefOf.NeutralEvent);
 					}
 				}
 				this.lastSeason = season;
@@ -82,32 +82,52 @@ namespace RimWorld
 		private bool AnyPlayerHomeSeasonsAreMeaningful()
 		{
 			List<Map> maps = Find.Maps;
-			for (int i = 0; i < maps.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (maps[i].IsPlayerHome && maps[i].mapTemperature.LocalSeasonsAreMeaningful())
+				if (num < maps.Count)
 				{
-					return true;
+					if (maps[num].IsPlayerHome && maps[num].mapTemperature.LocalSeasonsAreMeaningful())
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		private bool AnyPlayerHomeAvgTempIsLowInWinter()
 		{
 			List<Map> maps = Find.Maps;
-			for (int i = 0; i < maps.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (maps[i].IsPlayerHome)
+				if (num < maps.Count)
 				{
-					int tile = maps[i].Tile;
-					Vector2 vector = Find.WorldGrid.LongLatOf(maps[i].Tile);
-					if (GenTemperature.AverageTemperatureAtTileForTwelfth(tile, Season.Winter.GetMiddleTwelfth(vector.y)) < 8.0)
+					if (maps[num].IsPlayerHome)
 					{
-						return true;
+						int tile = maps[num].Tile;
+						Vector2 vector = Find.WorldGrid.LongLatOf(maps[num].Tile);
+						if (GenTemperature.AverageTemperatureAtTileForTwelfth(tile, Season.Winter.GetMiddleTwelfth(vector.y)) < 8.0)
+						{
+							result = true;
+							break;
+						}
 					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 	}
 }

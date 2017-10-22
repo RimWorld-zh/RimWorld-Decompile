@@ -9,76 +9,83 @@ namespace RimWorld
 	{
 		private const float TraderChance = 0.75f;
 
-		public override bool TryExecute(IncidentParms parms)
+		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
+			bool result;
 			if (!base.TryResolveParms(parms))
 			{
-				return false;
-			}
-			List<Pawn> list = base.SpawnPawns(parms);
-			if (list.Count == 0)
-			{
-				return false;
-			}
-			IntVec3 chillSpot = default(IntVec3);
-			RCellFinder.TryFindRandomSpotJustOutsideColony(list[0], out chillSpot);
-			LordJob_VisitColony lordJob = new LordJob_VisitColony(parms.faction, chillSpot);
-			LordMaker.MakeNewLord(parms.faction, lordJob, map, list);
-			bool flag = false;
-			if (Rand.Value < 0.75)
-			{
-				flag = this.TryConvertOnePawnToSmallTrader(list, parms.faction, map);
-			}
-			Pawn pawn = list.Find((Predicate<Pawn>)((Pawn x) => parms.faction.leader == x));
-			string label;
-			string text3;
-			if (list.Count == 1)
-			{
-				string text = (!flag) ? string.Empty : "SingleVisitorArrivesTraderInfo".Translate();
-				string text2 = (pawn == null) ? string.Empty : "SingleVisitorArrivesLeaderInfo".Translate();
-				label = "LetterLabelSingleVisitorArrives".Translate();
-				text3 = "SingleVisitorArrives".Translate(list[0].story.Title.ToLower(), parms.faction.Name, list[0].Name, text, text2);
-				text3 = text3.AdjustedFor(list[0]);
+				result = false;
 			}
 			else
 			{
-				string text4 = (!flag) ? string.Empty : "GroupVisitorsArriveTraderInfo".Translate();
-				string text5 = (pawn == null) ? string.Empty : "GroupVisitorsArriveLeaderInfo".Translate(pawn.LabelShort);
-				label = "LetterLabelGroupVisitorsArrive".Translate();
-				text3 = "GroupVisitorsArrive".Translate(parms.faction.Name, text4, text5);
+				List<Pawn> list = base.SpawnPawns(parms);
+				if (list.Count == 0)
+				{
+					result = false;
+				}
+				else
+				{
+					IntVec3 chillSpot = default(IntVec3);
+					RCellFinder.TryFindRandomSpotJustOutsideColony(list[0], out chillSpot);
+					LordJob_VisitColony lordJob = new LordJob_VisitColony(parms.faction, chillSpot);
+					LordMaker.MakeNewLord(parms.faction, lordJob, map, list);
+					bool flag = false;
+					if (Rand.Value < 0.75)
+					{
+						flag = this.TryConvertOnePawnToSmallTrader(list, parms.faction, map);
+					}
+					Pawn pawn = list.Find((Predicate<Pawn>)((Pawn x) => parms.faction.leader == x));
+					string label;
+					string text3;
+					if (list.Count == 1)
+					{
+						string text = (!flag) ? "" : "SingleVisitorArrivesTraderInfo".Translate();
+						string text2 = (pawn == null) ? "" : "SingleVisitorArrivesLeaderInfo".Translate();
+						label = "LetterLabelSingleVisitorArrives".Translate();
+						text3 = "SingleVisitorArrives".Translate(list[0].story.Title.ToLower(), parms.faction.Name, list[0].Name, text, text2);
+						text3 = text3.AdjustedFor(list[0]);
+					}
+					else
+					{
+						string text4 = (!flag) ? "" : "GroupVisitorsArriveTraderInfo".Translate();
+						string text5 = (pawn == null) ? "" : "GroupVisitorsArriveLeaderInfo".Translate(pawn.LabelShort);
+						label = "LetterLabelGroupVisitorsArrive".Translate();
+						text3 = "GroupVisitorsArrive".Translate(parms.faction.Name, text4, text5);
+					}
+					PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter(list, ref label, ref text3, "LetterRelatedPawnsNeutralGroup".Translate(), true, true);
+					Find.LetterStack.ReceiveLetter(label, text3, LetterDefOf.NeutralEvent, (Thing)list[0], (string)null);
+					result = true;
+				}
 			}
-			PawnRelationUtility.Notify_PawnsSeenByPlayer(list, ref label, ref text3, "LetterRelatedPawnsNeutralGroup".Translate(), true);
-			Find.LetterStack.ReceiveLetter(label, text3, LetterDefOf.Good, (Thing)list[0], (string)null);
-			return true;
+			return result;
 		}
 
 		private bool TryConvertOnePawnToSmallTrader(List<Pawn> pawns, Faction faction, Map map)
 		{
+			bool result;
 			if (faction.def.visitorTraderKinds.NullOrEmpty())
 			{
-				return false;
+				result = false;
 			}
-			Pawn pawn = pawns.RandomElement();
-			Lord lord = pawn.GetLord();
-			pawn.mindState.wantsToTradeWithColony = true;
-			PawnComponentsUtility.AddAndRemoveDynamicComponents(pawn, true);
-			List<TraderKindDef> visitorTraderKinds = faction.def.visitorTraderKinds;
-			TraderKindDef traderDef2 = pawn.trader.traderKind = visitorTraderKinds.RandomElementByWeight((Func<TraderKindDef, float>)((TraderKindDef traderDef) => traderDef.commonality));
-			pawn.inventory.DestroyAll(DestroyMode.Vanish);
-			ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
+			else
 			{
-				traderDef = traderDef2,
-				forTile = map.Tile,
-				forFaction = faction
-			};
-			List<Thing>.Enumerator enumerator = ItemCollectionGeneratorDefOf.TraderStock.Worker.Generate(parms).GetEnumerator();
-			try
-			{
-				while (enumerator.MoveNext())
+				Pawn pawn = pawns.RandomElement();
+				Lord lord = pawn.GetLord();
+				pawn.mindState.wantsToTradeWithColony = true;
+				PawnComponentsUtility.AddAndRemoveDynamicComponents(pawn, true);
+				List<TraderKindDef> visitorTraderKinds = faction.def.visitorTraderKinds;
+				TraderKindDef traderDef2 = pawn.trader.traderKind = visitorTraderKinds.RandomElementByWeight((Func<TraderKindDef, float>)((TraderKindDef traderDef) => traderDef.commonality));
+				pawn.inventory.DestroyAll(DestroyMode.Vanish);
+				ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
 				{
-					Thing current = enumerator.Current;
-					Pawn pawn2 = current as Pawn;
+					traderDef = traderDef2,
+					tile = new int?(map.Tile),
+					traderFaction = faction
+				};
+				foreach (Thing item in ItemCollectionGeneratorDefOf.TraderStock.Worker.Generate(parms))
+				{
+					Pawn pawn2 = item as Pawn;
 					if (pawn2 != null)
 					{
 						if (pawn2.Faction != pawn.Faction)
@@ -89,18 +96,15 @@ namespace RimWorld
 						GenSpawn.Spawn(pawn2, loc, map);
 						lord.AddPawn(pawn2);
 					}
-					else if (!pawn.inventory.innerContainer.TryAdd(current, true))
+					else if (!pawn.inventory.innerContainer.TryAdd(item, true))
 					{
-						current.Destroy(DestroyMode.Vanish);
+						item.Destroy(DestroyMode.Vanish);
 					}
 				}
+				PawnInventoryGenerator.GiveRandomFood(pawn);
+				result = true;
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
-			PawnInventoryGenerator.GiveRandomFood(pawn);
-			return true;
+			return result;
 		}
 	}
 }

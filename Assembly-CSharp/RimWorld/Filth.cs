@@ -6,17 +6,17 @@ namespace RimWorld
 {
 	public class Filth : Thing
 	{
+		public int thickness = 1;
+
+		public List<string> sources = null;
+
+		private int growTick;
+
 		private const int MaxThickness = 5;
 
 		private const int MinAgeToPickUp = 400;
 
 		private const int MaxNumSources = 3;
-
-		public int thickness = 1;
-
-		public List<string> sources;
-
-		private int growTick;
 
 		public bool CanFilthAttachNow
 		{
@@ -166,15 +166,7 @@ namespace RimWorld
 		public bool CanDropAt(IntVec3 c, Map map)
 		{
 			TerrainDef terrainDef = map.terrainGrid.TerrainAt(c);
-			if (!terrainDef.acceptFilth)
-			{
-				return false;
-			}
-			if (base.def.filth.terrainSourced && !terrainDef.acceptTerrainSourceFilth)
-			{
-				return false;
-			}
-			return true;
+			return (byte)(terrainDef.acceptFilth ? ((!base.def.filth.terrainSourced || terrainDef.acceptTerrainSourceFilth) ? 1 : 0) : 0) != 0;
 		}
 	}
 }

@@ -18,35 +18,28 @@ namespace RimWorld
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			Thing thing = this.FindBestGame(pawn, false, IntVec3.Invalid);
-			if (thing != null)
-			{
-				return this.TryGivePlayJob(pawn, thing);
-			}
-			return null;
+			return (thing == null) ? null : this.TryGivePlayJob(pawn, thing);
 		}
 
 		public override Job TryGiveJobWhileInBed(Pawn pawn)
 		{
 			Thing thing = this.FindBestGame(pawn, true, IntVec3.Invalid);
-			if (thing != null)
-			{
-				return this.TryGivePlayJobWhileInBed(pawn, thing);
-			}
-			return null;
+			return (thing == null) ? null : this.TryGivePlayJobWhileInBed(pawn, thing);
 		}
 
 		public override Job TryGiveJobInPartyArea(Pawn pawn, IntVec3 partySpot)
 		{
+			Job result;
 			if (!this.CanDoDuringParty)
 			{
-				return null;
+				result = null;
 			}
-			Thing thing = this.FindBestGame(pawn, false, partySpot);
-			if (thing != null)
+			else
 			{
-				return this.TryGivePlayJob(pawn, thing);
+				Thing thing = this.FindBestGame(pawn, false, partySpot);
+				result = ((thing == null) ? null : this.TryGivePlayJob(pawn, thing));
 			}
-			return null;
+			return result;
 		}
 
 		private Thing FindBestGame(Pawn pawn, bool inBed, IntVec3 partySpot)
@@ -58,34 +51,40 @@ namespace RimWorld
 				Predicate<Thing> oldValidator = predicate;
 				predicate = (Predicate<Thing>)((Thing x) => PartyUtility.InPartyArea(x.Position, partySpot, pawn.Map) && oldValidator(x));
 			}
+			IntVec3 position = pawn.Position;
+			Map map = pawn.Map;
+			List<Thing> searchSet2 = searchSet;
+			PathEndMode peMode = PathEndMode.OnCell;
+			TraverseParms traverseParams = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
 			Predicate<Thing> validator = predicate;
-			return GenClosest.ClosestThing_Global_Reachable(pawn.Position, pawn.Map, searchSet, PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null);
+			return GenClosest.ClosestThing_Global_Reachable(position, map, searchSet2, peMode, traverseParams, 9999f, validator, null);
 		}
 
 		protected virtual bool CanInteractWith(Pawn pawn, Thing t, bool inBed)
 		{
+			bool result;
 			if (!pawn.CanReserve(t, base.def.jobDef.joyMaxParticipants, -1, null, false))
 			{
-				return false;
+				result = false;
 			}
-			if (t.IsForbidden(pawn))
+			else if (t.IsForbidden(pawn))
 			{
-				return false;
+				result = false;
 			}
-			if (!t.IsSociallyProper(pawn))
+			else if (!t.IsSociallyProper(pawn))
 			{
-				return false;
+				result = false;
 			}
-			CompPowerTrader compPowerTrader = t.TryGetComp<CompPowerTrader>();
-			if (compPowerTrader != null && !compPowerTrader.PowerOn)
+			else if (!t.IsPoliticallyProper(pawn))
 			{
-				return false;
+				result = false;
 			}
-			if (base.def.unroofedOnly && t.Position.Roofed(t.Map))
+			else
 			{
-				return false;
+				CompPowerTrader compPowerTrader = t.TryGetComp<CompPowerTrader>();
+				result = ((byte)((compPowerTrader == null || compPowerTrader.PowerOn) ? ((!base.def.unroofedOnly || !t.Position.Roofed(t.Map)) ? 1 : 0) : 0) != 0);
 			}
-			return true;
+			return result;
 		}
 
 		protected abstract Job TryGivePlayJob(Pawn pawn, Thing bestGame);

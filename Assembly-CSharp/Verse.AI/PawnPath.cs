@@ -8,11 +8,11 @@ namespace Verse.AI
 	{
 		private List<IntVec3> nodes = new List<IntVec3>(128);
 
-		private float totalCostInt;
+		private float totalCostInt = 0f;
 
 		private int curNodeIndex;
 
-		public bool inUse;
+		public bool inUse = false;
 
 		public bool Found
 		{
@@ -124,15 +124,7 @@ namespace Verse.AI
 
 		public override string ToString()
 		{
-			if (!this.Found)
-			{
-				return "PawnPath(not found)";
-			}
-			if (!this.inUse)
-			{
-				return "PawnPath(not in use)";
-			}
-			return "PawnPath(nodeCount= " + this.nodes.Count + ((this.nodes.Count <= 0) ? string.Empty : (" first=" + this.FirstNode + " last=" + this.LastNode)) + " cost=" + this.totalCostInt + " )";
+			return this.Found ? (this.inUse ? ("PawnPath(nodeCount= " + this.nodes.Count + ((this.nodes.Count <= 0) ? "" : (" first=" + this.FirstNode + " last=" + this.LastNode)) + " cost=" + this.totalCostInt + " )") : "PawnPath(not in use)") : "PawnPath(not found)";
 		}
 
 		public void DrawPath(Pawn pathingPawn)

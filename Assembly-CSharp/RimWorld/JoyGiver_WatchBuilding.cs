@@ -7,27 +7,28 @@ namespace RimWorld
 	{
 		protected override bool CanInteractWith(Pawn pawn, Thing t, bool inBed)
 		{
+			bool result;
 			if (!base.CanInteractWith(pawn, t, inBed))
 			{
-				return false;
+				result = false;
 			}
-			if (inBed)
+			else if (inBed)
 			{
 				Building_Bed bed = pawn.CurrentBed();
-				return WatchBuildingUtility.CanWatchFromBed(pawn, bed, t);
+				result = WatchBuildingUtility.CanWatchFromBed(pawn, bed, t);
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
 		protected override Job TryGivePlayJob(Pawn pawn, Thing t)
 		{
 			IntVec3 c = default(IntVec3);
 			Building t2 = default(Building);
-			if (!WatchBuildingUtility.TryFindBestWatchCell(t, pawn, base.def.desireSit, out c, out t2))
-			{
-				return null;
-			}
-			return new Job(base.def.jobDef, t, c, (Thing)t2);
+			return WatchBuildingUtility.TryFindBestWatchCell(t, pawn, base.def.desireSit, out c, out t2) ? new Job(base.def.jobDef, t, c, (Thing)t2) : null;
 		}
 	}
 }

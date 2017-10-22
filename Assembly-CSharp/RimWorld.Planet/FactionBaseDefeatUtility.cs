@@ -14,7 +14,7 @@ namespace RimWorld.Planet
 				if (map != null && FactionBaseDefeatUtility.IsDefeated(map, factionBase.Faction))
 				{
 					StringBuilder stringBuilder = new StringBuilder();
-					stringBuilder.Append("LetterFactionBaseDefeated".Translate(factionBase.Label, MapParent.GetForceExitAndRemoveMapCountdownTimeLeftString(60000)));
+					stringBuilder.Append("LetterFactionBaseDefeated".Translate(factionBase.Label, TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(60000)));
 					if (!FactionBaseDefeatUtility.HasAnyOtherBase(factionBase))
 					{
 						factionBase.Faction.defeated = true;
@@ -22,13 +22,14 @@ namespace RimWorld.Planet
 						stringBuilder.AppendLine();
 						stringBuilder.Append("LetterFactionBaseDefeated_FactionDestroyed".Translate(factionBase.Faction.Name));
 					}
-					Find.LetterStack.ReceiveLetter("LetterLabelFactionBaseDefeated".Translate(), stringBuilder.ToString(), LetterDefOf.Good, new GlobalTargetInfo(factionBase.Tile), (string)null);
+					Find.LetterStack.ReceiveLetter("LetterLabelFactionBaseDefeated".Translate(), stringBuilder.ToString(), LetterDefOf.PositiveEvent, new GlobalTargetInfo(factionBase.Tile), (string)null);
 					DestroyedFactionBase destroyedFactionBase = (DestroyedFactionBase)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.DestroyedFactionBase);
 					destroyedFactionBase.Tile = factionBase.Tile;
 					Find.WorldObjects.Add(destroyedFactionBase);
 					map.info.parent = destroyedFactionBase;
 					Find.WorldObjects.Remove(factionBase);
-					destroyedFactionBase.StartForceExitAndRemoveMapCountdown();
+					((WorldObject)destroyedFactionBase).GetComponent<TimedForcedExit>().StartForceExitAndRemoveMapCountdown();
+					TaleRecorder.RecordTale(TaleDefOf.CaravanAssaultSuccessful, map.mapPawns.FreeColonists.RandomElement());
 				}
 			}
 		}
@@ -36,29 +37,49 @@ namespace RimWorld.Planet
 		private static bool IsDefeated(Map map, Faction faction)
 		{
 			List<Pawn> list = map.mapPawns.SpawnedPawnsInFaction(faction);
-			for (int i = 0; i < list.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				Pawn pawn = list[i];
-				if (pawn.RaceProps.Humanlike && GenHostility.IsActiveThreat(pawn))
+				if (num < list.Count)
 				{
-					return false;
+					Pawn pawn = list[num];
+					if (pawn.RaceProps.Humanlike && GenHostility.IsActiveThreatToPlayer(pawn))
+					{
+						result = false;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = true;
+				break;
 			}
-			return true;
+			return result;
 		}
 
 		private static bool HasAnyOtherBase(FactionBase defeatedFactionBase)
 		{
 			List<FactionBase> factionBases = Find.WorldObjects.FactionBases;
-			for (int i = 0; i < factionBases.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				FactionBase factionBase = factionBases[i];
-				if (factionBase.Faction == defeatedFactionBase.Faction && factionBase != defeatedFactionBase)
+				if (num < factionBases.Count)
 				{
-					return true;
+					FactionBase factionBase = factionBases[num];
+					if (factionBase.Faction == defeatedFactionBase.Faction && factionBase != defeatedFactionBase)
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 	}
 }

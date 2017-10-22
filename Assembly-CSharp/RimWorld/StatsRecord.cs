@@ -4,13 +4,13 @@ namespace RimWorld
 {
 	public class StatsRecord : IExposable
 	{
-		public int numRaidsEnemy;
+		public int numRaidsEnemy = 0;
 
-		public int numThreatBigs;
+		public int numThreatBigs = 0;
 
-		public int colonistsKilled;
+		public int colonistsKilled = 0;
 
-		public int colonistsLaunched;
+		public int colonistsLaunched = 0;
 
 		public void ExposeData()
 		{

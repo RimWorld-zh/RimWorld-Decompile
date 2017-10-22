@@ -1,5 +1,4 @@
 using Verse;
-using Verse.AI;
 using Verse.AI.Group;
 
 namespace RimWorld
@@ -29,44 +28,43 @@ namespace RimWorld
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
+			StateGraph result;
 			if (!this.defSpot.IsValid)
 			{
 				Log.Warning("LordJob_MechanoidsDefendShip defSpot is invalid. Returning graph for LordJob_AssaultColony.");
 				stateGraph.AttachSubgraph(new LordJob_AssaultColony(this.faction, true, true, false, false, true).CreateGraph());
-				return stateGraph;
+				result = stateGraph;
 			}
-			LordToil_DefendPoint lordToil_DefendPoint = new LordToil_DefendPoint(this.defSpot, this.defendRadius);
-			stateGraph.StartingToil = lordToil_DefendPoint;
-			LordToil_AssaultColony lordToil_AssaultColony = new LordToil_AssaultColony();
-			stateGraph.AddToil(lordToil_AssaultColony);
-			LordToil_AssaultColony lordToil_AssaultColony2 = new LordToil_AssaultColony();
-			stateGraph.AddToil(lordToil_AssaultColony2);
-			LordToil_ExitMap lordToil_ExitMap = new LordToil_ExitMap(LocomotionUrgency.Walk, true);
-			stateGraph.AddToil(lordToil_ExitMap);
-			Transition transition = new Transition(lordToil_DefendPoint, lordToil_ExitMap);
-			transition.AddSources(lordToil_AssaultColony2, lordToil_AssaultColony);
-			transition.AddTrigger(new Trigger_PawnCannotReachMapEdge());
-			stateGraph.AddTransition(transition);
-			Transition transition2 = new Transition(lordToil_ExitMap, lordToil_AssaultColony2);
-			transition2.AddTrigger(new Trigger_PawnCanReachMapEdge());
-			transition2.AddPostAction(new TransitionAction_EndAllJobs());
-			stateGraph.AddTransition(transition2);
-			Transition transition3 = new Transition(lordToil_DefendPoint, lordToil_AssaultColony);
-			transition3.AddTrigger(new Trigger_PawnHarmed(0.5f, true));
-			transition3.AddTrigger(new Trigger_PawnLostViolently());
-			transition3.AddTrigger(new Trigger_Memo(Building_CrashedShipPart.MemoDamaged));
-			transition3.AddPostAction(new TransitionAction_EndAllJobs());
-			stateGraph.AddTransition(transition3);
-			Transition transition4 = new Transition(lordToil_AssaultColony, lordToil_DefendPoint);
-			transition4.AddTrigger(new Trigger_TicksPassedWithoutHarmOrMemos(1380, Building_CrashedShipPart.MemoDamaged));
-			transition4.AddPostAction(new TransitionAction_EndAttackBuildingJobs());
-			stateGraph.AddTransition(transition4);
-			Transition transition5 = new Transition(lordToil_DefendPoint, lordToil_AssaultColony2);
-			transition5.AddSource(lordToil_AssaultColony);
-			transition5.AddTrigger(new Trigger_ThingDamageTaken(this.shipPart, 0.5f));
-			transition5.AddTrigger(new Trigger_Memo(HediffGiver_Heat.MemoPawnBurnedByAir));
-			stateGraph.AddTransition(transition5);
-			return stateGraph;
+			else
+			{
+				LordToil_DefendPoint lordToil_DefendPoint = new LordToil_DefendPoint(this.defSpot, this.defendRadius);
+				stateGraph.StartingToil = lordToil_DefendPoint;
+				LordToil_AssaultColony lordToil_AssaultColony = new LordToil_AssaultColony();
+				stateGraph.AddToil(lordToil_AssaultColony);
+				LordToil_AssaultColony lordToil_AssaultColony2 = new LordToil_AssaultColony();
+				stateGraph.AddToil(lordToil_AssaultColony2);
+				Transition transition = new Transition(lordToil_DefendPoint, lordToil_AssaultColony2);
+				transition.AddSource(lordToil_AssaultColony);
+				transition.AddTrigger(new Trigger_PawnCannotReachMapEdge());
+				stateGraph.AddTransition(transition);
+				Transition transition2 = new Transition(lordToil_DefendPoint, lordToil_AssaultColony);
+				transition2.AddTrigger(new Trigger_PawnHarmed(0.5f, true));
+				transition2.AddTrigger(new Trigger_PawnLostViolently());
+				transition2.AddTrigger(new Trigger_Memo(CompSpawnerMechanoidsOnDamaged.MemoDamaged));
+				transition2.AddPostAction(new TransitionAction_EndAllJobs());
+				stateGraph.AddTransition(transition2);
+				Transition transition3 = new Transition(lordToil_AssaultColony, lordToil_DefendPoint);
+				transition3.AddTrigger(new Trigger_TicksPassedWithoutHarmOrMemos(1380, CompSpawnerMechanoidsOnDamaged.MemoDamaged));
+				transition3.AddPostAction(new TransitionAction_EndAttackBuildingJobs());
+				stateGraph.AddTransition(transition3);
+				Transition transition4 = new Transition(lordToil_DefendPoint, lordToil_AssaultColony2);
+				transition4.AddSource(lordToil_AssaultColony);
+				transition4.AddTrigger(new Trigger_ThingDamageTaken(this.shipPart, 0.5f));
+				transition4.AddTrigger(new Trigger_Memo(HediffGiver_Heat.MemoPawnBurnedByAir));
+				stateGraph.AddTransition(transition4);
+				result = stateGraph;
+			}
+			return result;
 		}
 
 		public override void ExposeData()

@@ -5,17 +5,17 @@ namespace RimWorld
 	public class ThoughtStage
 	{
 		[MustTranslate]
-		public string label;
+		public string label = (string)null;
 
 		[MustTranslate]
-		public string labelSocial;
+		public string labelSocial = (string)null;
 
 		[MustTranslate]
-		public string description;
+		public string description = (string)null;
 
-		public float baseMoodEffect;
+		public float baseMoodEffect = 0f;
 
-		public float baseOpinionOffset;
+		public float baseOpinionOffset = 0f;
 
 		public bool visible = true;
 	}

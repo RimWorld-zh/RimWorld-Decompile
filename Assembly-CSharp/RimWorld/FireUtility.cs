@@ -8,64 +8,71 @@ namespace RimWorld
 	{
 		public static bool CanEverAttachFire(this Thing t)
 		{
-			if (t.Destroyed)
-			{
-				return false;
-			}
-			if (!t.FlammableNow)
-			{
-				return false;
-			}
-			if (t.def.category != ThingCategory.Pawn)
-			{
-				return false;
-			}
-			return true;
+			return (byte)((!t.Destroyed) ? (t.FlammableNow ? ((t.def.category == ThingCategory.Pawn) ? 1 : 0) : 0) : 0) != 0;
 		}
 
 		public static float ChanceToStartFireIn(IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
 			float num = (float)((!c.TerrainFlammableNow(map)) ? 0.0 : c.GetTerrain(map).GetStatValueAbstract(StatDefOf.Flammability, null));
-			for (int i = 0; i < thingList.Count; i++)
+			int num2 = 0;
+			float result;
+			while (true)
 			{
-				if (thingList[i] is Fire)
+				if (num2 < thingList.Count)
 				{
-					return 0f;
-				}
-				if (thingList[i].FlammableNow)
-				{
-					num = 1f;
-				}
-			}
-			if (num > 0.0)
-			{
-				Building edifice = c.GetEdifice(map);
-				if (edifice != null && edifice.def.passability == Traversability.Impassable && edifice.OccupiedRect().ContractedBy(1).Contains(c))
-				{
-					return 0f;
-				}
-				List<Thing> thingList2 = c.GetThingList(map);
-				for (int j = 0; j < thingList2.Count; j++)
-				{
-					if (thingList2[j].def.category == ThingCategory.Filth && !thingList2[j].def.filth.allowsFire)
+					if (thingList[num2] is Fire)
 					{
-						return 0f;
+						result = 0f;
+						break;
+					}
+					if (thingList[num2].FlammableNow)
+					{
+						num = 1f;
+					}
+					num2++;
+					continue;
+				}
+				if (num > 0.0)
+				{
+					Building edifice = c.GetEdifice(map);
+					if (edifice != null && edifice.def.passability == Traversability.Impassable && edifice.OccupiedRect().ContractedBy(1).Contains(c))
+					{
+						result = 0f;
+						break;
+					}
+					List<Thing> thingList2 = c.GetThingList(map);
+					for (int i = 0; i < thingList2.Count; i++)
+					{
+						if (thingList2[i].def.category == ThingCategory.Filth && !thingList2[i].def.filth.allowsFire)
+							goto IL_0121;
 					}
 				}
+				result = num;
+				break;
+				IL_0121:
+				result = 0f;
+				break;
 			}
-			return num;
+			return result;
 		}
 
-		public static void TryStartFireIn(IntVec3 c, Map map, float fireSize)
+		public static bool TryStartFireIn(IntVec3 c, Map map, float fireSize)
 		{
 			float num = FireUtility.ChanceToStartFireIn(c, map);
-			if (!(num <= 0.0))
+			bool result;
+			if (num <= 0.0)
+			{
+				result = false;
+			}
+			else
 			{
 				Fire fire = (Fire)ThingMaker.MakeThing(ThingDefOf.Fire, null);
 				fire.fireSize = fireSize;
 				GenSpawn.Spawn(fire, c, map, Rot4.North, false);
+				result = true;
 			}
+			return result;
 		}
 
 		public static void TryAttachFire(this Thing t, float fireSize)
@@ -87,51 +94,61 @@ namespace RimWorld
 
 		public static bool IsBurning(this TargetInfo t)
 		{
-			if (t.HasThing)
-			{
-				return t.Thing.IsBurning();
-			}
-			return t.Cell.ContainsStaticFire(t.Map);
+			return (!t.HasThing) ? t.Cell.ContainsStaticFire(t.Map) : t.Thing.IsBurning();
 		}
 
 		public static bool IsBurning(this Thing t)
 		{
-			if (!t.Destroyed && t.Spawned)
+			bool result;
+			if (t.Destroyed || !t.Spawned)
 			{
-				if (t.def.size == IntVec2.One)
-				{
-					if (t is Pawn)
-					{
-						return t.HasAttachment(ThingDefOf.Fire);
-					}
-					return t.Position.ContainsStaticFire(t.Map);
-				}
+				result = false;
+			}
+			else if (t.def.size == IntVec2.One)
+			{
+				result = ((!(t is Pawn)) ? t.Position.ContainsStaticFire(t.Map) : t.HasAttachment(ThingDefOf.Fire));
+			}
+			else
+			{
 				CellRect.CellRectIterator iterator = t.OccupiedRect().GetIterator();
 				while (!iterator.Done())
 				{
 					if (iterator.Current.ContainsStaticFire(t.Map))
-					{
-						return true;
-					}
+						goto IL_0099;
 					iterator.MoveNext();
 				}
-				return false;
+				result = false;
 			}
-			return false;
+			goto IL_00bc;
+			IL_00bc:
+			return result;
+			IL_0099:
+			result = true;
+			goto IL_00bc;
 		}
 
 		public static bool ContainsStaticFire(this IntVec3 c, Map map)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
-			for (int i = 0; i < list.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				Fire fire = list[i] as Fire;
-				if (fire != null && fire.parent == null)
+				if (num < list.Count)
 				{
-					return true;
+					Fire fire = list[num] as Fire;
+					if (fire != null && fire.parent == null)
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public static bool ContainsTrap(this IntVec3 c, Map map)
@@ -148,19 +165,27 @@ namespace RimWorld
 		public static bool TerrainFlammableNow(this IntVec3 c, Map map)
 		{
 			TerrainDef terrain = c.GetTerrain(map);
+			bool result;
 			if (!terrain.Flammable())
 			{
-				return false;
+				result = false;
 			}
-			List<Thing> thingList = c.GetThingList(map);
-			for (int i = 0; i < thingList.Count; i++)
+			else
 			{
-				if (thingList[i].FireBulwark)
+				List<Thing> thingList = c.GetThingList(map);
+				for (int i = 0; i < thingList.Count; i++)
 				{
-					return false;
+					if (thingList[i].FireBulwark)
+						goto IL_003c;
 				}
+				result = true;
 			}
-			return true;
+			goto IL_005b;
+			IL_003c:
+			result = false;
+			goto IL_005b;
+			IL_005b:
+			return result;
 		}
 	}
 }

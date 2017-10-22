@@ -9,10 +9,7 @@ namespace Verse
 			get
 			{
 				yield return base.OK;
-				if (base.lookTarget.IsValid)
-				{
-					yield return base.JumpToLocation;
-				}
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 	}

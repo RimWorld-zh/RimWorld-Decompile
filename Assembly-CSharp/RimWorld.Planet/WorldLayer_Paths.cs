@@ -17,7 +17,7 @@ namespace RimWorld.Planet
 			public float distortionIntensity;
 		}
 
-		protected bool pointyEnds;
+		protected bool pointyEnds = false;
 
 		private List<Vector3> tmpVerts = new List<Vector3>();
 

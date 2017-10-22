@@ -28,23 +28,27 @@ namespace RimWorld
 			if (base.parent.MapHeld != null)
 			{
 				TargetingParameters tp = this.GetTargetingParameters();
-				List<Pawn>.Enumerator enumerator = base.parent.MapHeld.mapPawns.AllPawnsSpawned.GetEnumerator();
-				try
+				using (List<Pawn>.Enumerator enumerator = base.parent.MapHeld.mapPawns.AllPawnsSpawned.GetEnumerator())
 				{
-					while (enumerator.MoveNext())
+					Pawn p;
+					while (true)
 					{
-						Pawn p = enumerator.Current;
-						if (tp.CanTarget((Thing)p))
+						if (enumerator.MoveNext())
 						{
-							yield return (Thing)p;
+							p = enumerator.Current;
+							if (tp.CanTarget((Thing)p))
+								break;
+							continue;
 						}
+						yield break;
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					yield return (Thing)p;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
+			yield break;
+			IL_010d:
+			/*Error near IL_010e: Unexpected return in MoveNext()*/;
 		}
 	}
 }

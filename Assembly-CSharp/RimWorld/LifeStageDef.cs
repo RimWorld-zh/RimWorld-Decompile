@@ -7,15 +7,15 @@ namespace RimWorld
 {
 	public class LifeStageDef : Def
 	{
-		private string adjective;
+		private string adjective = (string)null;
 
 		public bool visible = true;
 
-		public bool reproductive;
+		public bool reproductive = false;
 
-		public bool milkable;
+		public bool milkable = false;
 
-		public bool shearable;
+		public bool shearable = false;
 
 		public float voxPitch = 1f;
 

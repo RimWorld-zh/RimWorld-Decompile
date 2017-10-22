@@ -3,10 +3,8 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	public abstract class Building_Turret : Building, IAttackTargetSearcher, IAttackTarget, ILoadReferenceable
+	public abstract class Building_Turret : Building, IAttackTarget, IAttackTargetSearcher, ILoadReferenceable
 	{
-		private const float SightRadiusTurret = 13.4f;
-
 		protected StunHandler stunner;
 
 		protected LocalTargetInfo forcedTarget = LocalTargetInfo.Invalid;
@@ -14,6 +12,8 @@ namespace RimWorld
 		private LocalTargetInfo lastAttackedTarget;
 
 		private int lastAttackTargetTick;
+
+		private const float SightRadiusTurret = 13.4f;
 
 		Thing IAttackTarget.Thing
 		{
@@ -111,16 +111,17 @@ namespace RimWorld
 		public bool ThreatDisabled()
 		{
 			CompPowerTrader comp = base.GetComp<CompPowerTrader>();
+			bool result;
 			if (comp != null && !comp.PowerOn)
 			{
-				return true;
+				result = true;
 			}
-			CompMannable comp2 = base.GetComp<CompMannable>();
-			if (comp2 != null && !comp2.MannedNow)
+			else
 			{
-				return true;
+				CompMannable comp2 = base.GetComp<CompMannable>();
+				result = ((byte)((comp2 != null && !comp2.MannedNow) ? 1 : 0) != 0);
 			}
-			return false;
+			return result;
 		}
 
 		protected void OnAttackedTarget(LocalTargetInfo target)

@@ -53,48 +53,52 @@ namespace Verse
 		public static Graphic Get(Type graphicClass, string path, Shader shader, Vector2 drawSize, Color color, Color colorTwo, GraphicData data)
 		{
 			GraphicRequest graphicRequest = new GraphicRequest(graphicClass, path, shader, drawSize, color, colorTwo, data, 0);
+			Graphic result;
 			if (graphicRequest.graphicClass == typeof(Graphic_Single))
 			{
-				return GraphicDatabase.GetInner<Graphic_Single>(graphicRequest);
+				result = GraphicDatabase.GetInner<Graphic_Single>(graphicRequest);
 			}
-			if (graphicRequest.graphicClass == typeof(Graphic_Terrain))
+			else if (graphicRequest.graphicClass == typeof(Graphic_Terrain))
 			{
-				return GraphicDatabase.GetInner<Graphic_Terrain>(graphicRequest);
+				result = GraphicDatabase.GetInner<Graphic_Terrain>(graphicRequest);
 			}
-			if (graphicRequest.graphicClass == typeof(Graphic_Multi))
+			else if (graphicRequest.graphicClass == typeof(Graphic_Multi))
 			{
-				return GraphicDatabase.GetInner<Graphic_Multi>(graphicRequest);
+				result = GraphicDatabase.GetInner<Graphic_Multi>(graphicRequest);
 			}
-			if (graphicRequest.graphicClass == typeof(Graphic_Mote))
+			else if (graphicRequest.graphicClass == typeof(Graphic_Mote))
 			{
-				return GraphicDatabase.GetInner<Graphic_Mote>(graphicRequest);
+				result = GraphicDatabase.GetInner<Graphic_Mote>(graphicRequest);
 			}
-			if (graphicRequest.graphicClass == typeof(Graphic_Random))
+			else if (graphicRequest.graphicClass == typeof(Graphic_Random))
 			{
-				return GraphicDatabase.GetInner<Graphic_Random>(graphicRequest);
+				result = GraphicDatabase.GetInner<Graphic_Random>(graphicRequest);
 			}
-			if (graphicRequest.graphicClass == typeof(Graphic_Flicker))
+			else if (graphicRequest.graphicClass == typeof(Graphic_Flicker))
 			{
-				return GraphicDatabase.GetInner<Graphic_Flicker>(graphicRequest);
+				result = GraphicDatabase.GetInner<Graphic_Flicker>(graphicRequest);
 			}
-			if (graphicRequest.graphicClass == typeof(Graphic_Appearances))
+			else if (graphicRequest.graphicClass == typeof(Graphic_Appearances))
 			{
-				return GraphicDatabase.GetInner<Graphic_Appearances>(graphicRequest);
+				result = GraphicDatabase.GetInner<Graphic_Appearances>(graphicRequest);
 			}
-			if (graphicRequest.graphicClass == typeof(Graphic_StackCount))
+			else if (graphicRequest.graphicClass == typeof(Graphic_StackCount))
 			{
-				return GraphicDatabase.GetInner<Graphic_StackCount>(graphicRequest);
+				result = GraphicDatabase.GetInner<Graphic_StackCount>(graphicRequest);
 			}
-			try
+			else
 			{
-				return (Graphic)GenGeneric.InvokeStaticGenericMethod(typeof(GraphicDatabase), graphicRequest.graphicClass, "GetInner", graphicRequest);
-				IL_012f:;
+				try
+				{
+					return (Graphic)GenGeneric.InvokeStaticGenericMethod(typeof(GraphicDatabase), graphicRequest.graphicClass, "GetInner", graphicRequest);
+				}
+				catch (Exception ex)
+				{
+					Log.Error("Exception getting " + graphicClass + " at " + path + ": " + ex.ToString());
+				}
+				result = BaseContent.BadGraphic;
 			}
-			catch (Exception ex)
-			{
-				Log.Error("Exception getting " + graphicClass + " at " + path + ": " + ex.ToString());
-			}
-			return BaseContent.BadGraphic;
+			return result;
 		}
 
 		private static T GetInner<T>(GraphicRequest req) where T : Graphic, new()
@@ -119,24 +123,15 @@ namespace Verse
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("There are " + GraphicDatabase.allGraphics.Count + " graphics loaded.");
 			int num = 0;
-			Dictionary<GraphicRequest, Graphic>.ValueCollection.Enumerator enumerator = GraphicDatabase.allGraphics.Values.GetEnumerator();
-			try
+			foreach (Graphic value in GraphicDatabase.allGraphics.Values)
 			{
-				while (enumerator.MoveNext())
+				stringBuilder.AppendLine(num + " - " + value.ToString());
+				if (num % 50 == 49)
 				{
-					Graphic current = enumerator.Current;
-					stringBuilder.AppendLine(num + " - " + current.ToString());
-					if (num % 50 == 49)
-					{
-						Log.Message(stringBuilder.ToString());
-						stringBuilder = new StringBuilder();
-					}
-					num++;
+					Log.Message(stringBuilder.ToString());
+					stringBuilder = new StringBuilder();
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				num++;
 			}
 			Log.Message(stringBuilder.ToString());
 		}

@@ -10,10 +10,10 @@ namespace RimWorld
 
 		public virtual IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
-			if (this.compClass == null)
-			{
-				yield return parentDef.defName + " has WorldObjectCompProperties with null compClass.";
-			}
+			if (this.compClass != null)
+				yield break;
+			yield return parentDef.defName + " has WorldObjectCompProperties with null compClass.";
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public virtual void ResolveReferences(WorldObjectDef parentDef)

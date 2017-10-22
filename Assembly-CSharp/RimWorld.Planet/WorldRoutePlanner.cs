@@ -10,14 +10,6 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class WorldRoutePlanner
 	{
-		private const int MaxCount = 25;
-
-		private const float BottomWindowBotMargin = 45f;
-
-		private const float BottomWindowEntryExtraBotMargin = 22f;
-
-		private const int DefaultCaravanTicksPerMove = 100;
-
 		private bool active;
 
 		private List<Pawn> caravanPawnsFromFormCaravanDialog = new List<Pawn>();
@@ -32,11 +24,19 @@ namespace RimWorld.Planet
 
 		private bool cantRemoveFirstWaypoint;
 
+		private const int MaxCount = 25;
+
 		private static readonly Texture2D ButtonTex = ContentFinder<Texture2D>.Get("UI/Misc/WorldRoutePlanner", true);
 
 		private static readonly Texture2D MouseAttachment = ContentFinder<Texture2D>.Get("UI/Overlays/WaypointMouseAttachment", true);
 
 		private static readonly Vector2 BottomWindowSize = new Vector2(500f, 95f);
+
+		private const float BottomWindowBotMargin = 45f;
+
+		private const float BottomWindowEntryExtraBotMargin = 22f;
+
+		private const int DefaultCaravanTicksPerMove = 100;
 
 		public bool Active
 		{
@@ -50,19 +50,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (!this.active)
-				{
-					return true;
-				}
-				if (!WorldRendererUtility.WorldRenderedNow)
-				{
-					return true;
-				}
-				if (((Current.ProgramState == ProgramState.Playing) ? Find.TickManager.CurTimeSpeed : TimeSpeed.Paused) != 0)
-				{
-					return true;
-				}
-				return false;
+				return (byte)((!this.active) ? 1 : ((!WorldRendererUtility.WorldRenderedNow) ? 1 : ((((Current.ProgramState == ProgramState.Playing) ? Find.TickManager.CurTimeSpeed : TimeSpeed.Paused) != 0) ? 1 : 0))) != 0;
 			}
 		}
 
@@ -71,11 +59,7 @@ namespace RimWorld.Planet
 			get
 			{
 				List<Pawn> caravanPawns = this.CaravanPawns;
-				if (!caravanPawns.NullOrEmpty())
-				{
-					return CaravanTicksPerMoveUtility.GetTicksPerMove(caravanPawns);
-				}
-				return 3000;
+				return caravanPawns.NullOrEmpty() ? 3000 : CaravanTicksPerMoveUtility.GetTicksPerMove(caravanPawns);
 			}
 		}
 
@@ -83,16 +67,17 @@ namespace RimWorld.Planet
 		{
 			get
 			{
+				List<Pawn> result;
 				if (this.currentFormCaravanDialog != null)
 				{
-					return this.caravanPawnsFromFormCaravanDialog;
+					result = this.caravanPawnsFromFormCaravanDialog;
 				}
-				Caravan caravanAtTheFirstWaypoint = this.CaravanAtTheFirstWaypoint;
-				if (caravanAtTheFirstWaypoint != null)
+				else
 				{
-					return caravanAtTheFirstWaypoint.PawnsListForReading;
+					Caravan caravanAtTheFirstWaypoint = this.CaravanAtTheFirstWaypoint;
+					result = ((caravanAtTheFirstWaypoint == null) ? null : caravanAtTheFirstWaypoint.PawnsListForReading);
 				}
-				return null;
+				return result;
 			}
 		}
 
@@ -100,11 +85,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (!this.waypoints.Any())
-				{
-					return null;
-				}
-				return Find.WorldObjects.PlayerControlledCaravanAt(this.waypoints[0].Tile);
+				return this.waypoints.Any() ? Find.WorldObjects.PlayerControlledCaravanAt(this.waypoints[0].Tile) : null;
 			}
 		}
 
@@ -318,15 +299,15 @@ namespace RimWorld.Planet
 		{
 			if (Find.World.Impassable(tile))
 			{
-				Messages.Message("MessageCantAddWaypointBecauseImpassable".Translate(), MessageSound.RejectInput);
+				Messages.Message("MessageCantAddWaypointBecauseImpassable".Translate(), MessageTypeDefOf.RejectInput);
 			}
 			else if (this.waypoints.Any() && !Find.WorldReachability.CanReach(this.waypoints[this.waypoints.Count - 1].Tile, tile))
 			{
-				Messages.Message("MessageCantAddWaypointBecauseUnreachable".Translate(), MessageSound.RejectInput);
+				Messages.Message("MessageCantAddWaypointBecauseUnreachable".Translate(), MessageTypeDefOf.RejectInput);
 			}
 			else if (this.waypoints.Count >= 25)
 			{
-				Messages.Message("MessageCantAddWaypointBecauseLimit".Translate(25), MessageSound.RejectInput);
+				Messages.Message("MessageCantAddWaypointBecauseLimit".Translate(25), MessageTypeDefOf.RejectInput);
 			}
 			else
 			{
@@ -346,7 +327,7 @@ namespace RimWorld.Planet
 		{
 			if (this.cantRemoveFirstWaypoint && this.waypoints.Any() && point == this.waypoints[0])
 			{
-				Messages.Message("MessageCantRemoveWaypointBecauseFirst".Translate(), MessageSound.RejectInput);
+				Messages.Message("MessageCantRemoveWaypointBecauseFirst".Translate(), MessageTypeDefOf.RejectInput);
 			}
 			else
 			{
@@ -404,14 +385,24 @@ namespace RimWorld.Planet
 
 		private RoutePlannerWaypoint MostRecentWaypointAt(int tile)
 		{
-			for (int num = this.waypoints.Count - 1; num >= 0; num--)
+			int num = this.waypoints.Count - 1;
+			RoutePlannerWaypoint result;
+			while (true)
 			{
-				if (this.waypoints[num].Tile == tile)
+				if (num >= 0)
 				{
-					return this.waypoints[num];
+					if (this.waypoints[num].Tile == tile)
+					{
+						result = this.waypoints[num];
+						break;
+					}
+					num--;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 	}
 }

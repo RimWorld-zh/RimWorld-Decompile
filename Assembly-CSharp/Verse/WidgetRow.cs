@@ -6,12 +6,6 @@ namespace Verse
 {
 	public class WidgetRow
 	{
-		public const float IconSize = 24f;
-
-		public const float DefaultGap = 4f;
-
-		private const float DefaultMaxWidth = 99999f;
-
 		private float startX;
 
 		private float curX;
@@ -23,6 +17,12 @@ namespace Verse
 		private float gap;
 
 		private UIDirection growDirection = UIDirection.RightThenUp;
+
+		public const float IconSize = 24f;
+
+		public const float DefaultGap = 4f;
+
+		private const float DefaultMaxWidth = 99999f;
 
 		public float FinalX
 		{
@@ -61,11 +61,7 @@ namespace Verse
 
 		private float LeftX(float elementWidth)
 		{
-			if (this.growDirection != UIDirection.RightThenUp && this.growDirection != UIDirection.RightThenDown)
-			{
-				return this.curX - elementWidth;
-			}
-			return this.curX;
+			return (this.growDirection != UIDirection.RightThenUp && this.growDirection != UIDirection.RightThenDown) ? (this.curX - elementWidth) : this.curX;
 		}
 
 		private void IncrementPosition(float amount)
@@ -198,7 +194,7 @@ namespace Verse
 			return result;
 		}
 
-		public Rect Label(string text, float width = -1)
+		public Rect Label(string text, float width = -1f)
 		{
 			if (width < 0.0)
 			{

@@ -10,11 +10,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.rect.Width > 2 && this.rect.Height > 2)
-				{
-					return (this.rect.Width - 2) * (this.rect.Height - 2);
-				}
-				return 0;
+				return (this.rect.Width > 2 && this.rect.Height > 2) ? ((this.rect.Width - 2) * (this.rect.Height - 2)) : 0;
 			}
 		}
 

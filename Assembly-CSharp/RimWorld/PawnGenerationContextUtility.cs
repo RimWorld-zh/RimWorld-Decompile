@@ -7,53 +7,46 @@ namespace RimWorld
 	{
 		public static string ToStringHuman(this PawnGenerationContext context)
 		{
+			string result;
 			switch (context)
 			{
 			case PawnGenerationContext.All:
 			{
-				return "PawnGenerationContext_All".Translate();
+				result = "PawnGenerationContext_All".Translate();
+				break;
 			}
 			case PawnGenerationContext.PlayerStarter:
 			{
-				return "PawnGenerationContext_PlayerStarter".Translate();
+				result = "PawnGenerationContext_PlayerStarter".Translate();
+				break;
 			}
 			case PawnGenerationContext.NonPlayer:
 			{
-				return "PawnGenerationContext_NonPlayer".Translate();
+				result = "PawnGenerationContext_NonPlayer".Translate();
+				break;
 			}
 			default:
 			{
 				throw new NotImplementedException();
 			}
 			}
+			return result;
 		}
 
 		public static bool Includes(this PawnGenerationContext includer, PawnGenerationContext other)
 		{
-			if (includer == PawnGenerationContext.All)
-			{
-				return true;
-			}
-			return includer == other;
+			return includer == PawnGenerationContext.All || includer == other;
 		}
 
 		public static PawnGenerationContext GetRandom()
 		{
 			Array values = Enum.GetValues(typeof(PawnGenerationContext));
-			return (PawnGenerationContext)(int)values.GetValue(Rand.Range(0, values.Length));
+			return (PawnGenerationContext)values.GetValue(Rand.Range(0, values.Length));
 		}
 
 		public static bool OverlapsWith(this PawnGenerationContext a, PawnGenerationContext b)
 		{
-			if (((a != 0) ? b : PawnGenerationContext.All) != 0)
-			{
-				if (a == b)
-				{
-					return true;
-				}
-				return false;
-			}
-			return true;
+			return (byte)((a == PawnGenerationContext.All || b == PawnGenerationContext.All) ? 1 : ((a == b) ? 1 : 0)) != 0;
 		}
 	}
 }

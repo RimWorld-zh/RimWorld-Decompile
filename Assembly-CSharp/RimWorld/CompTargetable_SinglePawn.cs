@@ -26,6 +26,7 @@ namespace RimWorld
 		public override IEnumerable<Thing> GetTargets(Thing targetChosenByPlayer = null)
 		{
 			yield return targetChosenByPlayer;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

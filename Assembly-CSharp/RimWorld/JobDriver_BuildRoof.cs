@@ -19,13 +19,21 @@ namespace RimWorld
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			this.FailOn((Func<bool>)(() => !((Area)((_003CMakeNewToils_003Ec__IteratorD)/*Error near IL_0029: stateMachine*/)._003C_003Ef__this.Map.areaManager.BuildRoof)[((_003CMakeNewToils_003Ec__IteratorD)/*Error near IL_0029: stateMachine*/)._003C_003Ef__this.Cell]));
-			this.FailOn((Func<bool>)(() => !RoofCollapseUtility.WithinRangeOfRoofHolder(((_003CMakeNewToils_003Ec__IteratorD)/*Error near IL_0041: stateMachine*/)._003C_003Ef__this.Cell, ((_003CMakeNewToils_003Ec__IteratorD)/*Error near IL_0041: stateMachine*/)._003C_003Ef__this.Map)));
-			this.FailOn((Func<bool>)(() => !RoofCollapseUtility.ConnectedToRoofHolder(((_003CMakeNewToils_003Ec__IteratorD)/*Error near IL_0059: stateMachine*/)._003C_003Ef__this.Cell, ((_003CMakeNewToils_003Ec__IteratorD)/*Error near IL_0059: stateMachine*/)._003C_003Ef__this.Map, true)));
-			foreach (Toil item in base.MakeNewToils())
+			this.FailOn((Func<bool>)(() => !((Area)((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_002a: stateMachine*/)._0024this.Map.areaManager.BuildRoof)[((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_002a: stateMachine*/)._0024this.Cell]));
+			this.FailOn((Func<bool>)(() => !RoofCollapseUtility.WithinRangeOfRoofHolder(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0042: stateMachine*/)._0024this.Cell, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0042: stateMachine*/)._0024this.Map)));
+			this.FailOn((Func<bool>)(() => !RoofCollapseUtility.ConnectedToRoofHolder(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_005a: stateMachine*/)._0024this.Cell, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_005a: stateMachine*/)._0024this.Map, true)));
+			using (IEnumerator<Toil> enumerator = this._003CMakeNewToils_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					Toil t = enumerator.Current;
+					yield return t;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_0105:
+			/*Error near IL_0106: Unexpected return in MoveNext()*/;
 		}
 
 		protected override void DoEffect()

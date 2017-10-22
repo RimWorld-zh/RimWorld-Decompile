@@ -76,72 +76,48 @@ namespace RimWorld
 
 		public Faction FirstFactionOfDef(FactionDef facDef)
 		{
-			for (int i = 0; i < this.allFactions.Count; i++)
+			int num = 0;
+			Faction result;
+			while (true)
 			{
-				if (this.allFactions[i].def == facDef)
+				if (num < this.allFactions.Count)
 				{
-					return this.allFactions[i];
+					if (this.allFactions[num].def == facDef)
+					{
+						result = this.allFactions[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
-		public bool TryGetRandomNonColonyHumanlikeFaction(out Faction faction, bool tryMedievalOrBetter, bool allowDefeated = false)
+		public bool TryGetRandomNonColonyHumanlikeFaction(out Faction faction, bool tryMedievalOrBetter, bool allowDefeated = false, TechLevel minTechLevel = TechLevel.Undefined)
 		{
 			IEnumerable<Faction> source = from x in this.AllFactions
-			where x != Faction.OfPlayer && !x.def.hidden && x.def.humanlikeFaction && (allowDefeated || !x.defeated)
+			where !x.IsPlayer && !x.def.hidden && x.def.humanlikeFaction && (allowDefeated || !x.defeated) && (minTechLevel == TechLevel.Undefined || (int)x.def.techLevel >= (int)minTechLevel)
 			select x;
-			return source.TryRandomElementByWeight<Faction>((Func<Faction, float>)delegate(Faction x)
-			{
-				if (tryMedievalOrBetter && (int)x.def.techLevel < 3)
-				{
-					return 0.1f;
-				}
-				return 1f;
-			}, out faction);
+			return source.TryRandomElementByWeight<Faction>((Func<Faction, float>)((Faction x) => (float)((!tryMedievalOrBetter || (int)x.def.techLevel >= 3) ? 1.0 : 0.10000000149011612)), out faction);
 		}
 
-		public Faction RandomEnemyFaction(bool allowHidden = false, bool allowDefeated = false, bool allowNonHumanlike = true)
+		public Faction RandomEnemyFaction(bool allowHidden = false, bool allowDefeated = false, bool allowNonHumanlike = true, TechLevel minTechLevel = TechLevel.Undefined)
 		{
-			Faction result = default(Faction);
-			if (this.AllFactions.Where((Func<Faction, bool>)delegate(Faction x)
-			{
-				if (!allowHidden && x.def.hidden)
-				{
-					goto IL_0059;
-				}
-				if (!allowDefeated && x.defeated)
-				{
-					goto IL_0059;
-				}
-				if (!allowNonHumanlike && !x.def.humanlikeFaction)
-				{
-					goto IL_0059;
-				}
-				int result2 = x.HostileTo(Faction.OfPlayer) ? 1 : 0;
-				goto IL_005a;
-				IL_005a:
-				return (byte)result2 != 0;
-				IL_0059:
-				result2 = 0;
-				goto IL_005a;
-			}).TryRandomElement<Faction>(out result))
-			{
-				return result;
-			}
-			return null;
+			Faction faction = default(Faction);
+			return (!(from x in this.AllFactions
+			where !x.IsPlayer && (allowHidden || !x.def.hidden) && (allowDefeated || !x.defeated) && (allowNonHumanlike || x.def.humanlikeFaction) && (minTechLevel == TechLevel.Undefined || (int)x.def.techLevel >= (int)minTechLevel) && x.HostileTo(Faction.OfPlayer)
+			select x).TryRandomElement<Faction>(out faction)) ? null : faction;
 		}
 
-		public Faction RandomAlliedFaction(bool allowHidden = false, bool allowDefeated = false, bool allowNonHumanlike = true)
+		public Faction RandomAlliedFaction(bool allowHidden = false, bool allowDefeated = false, bool allowNonHumanlike = true, TechLevel minTechLevel = TechLevel.Undefined)
 		{
-			Faction result = default(Faction);
-			if ((from x in this.AllFactions
-			where !x.IsPlayer && (allowHidden || !x.def.hidden) && (allowDefeated || !x.defeated) && (allowNonHumanlike || x.def.humanlikeFaction) && !x.HostileTo(Faction.OfPlayer)
-			select x).TryRandomElement<Faction>(out result))
-			{
-				return result;
-			}
-			return null;
+			Faction faction = default(Faction);
+			return (!(from x in this.AllFactions
+			where !x.IsPlayer && (allowHidden || !x.def.hidden) && (allowDefeated || !x.defeated) && (allowNonHumanlike || x.def.humanlikeFaction) && (minTechLevel == TechLevel.Undefined || (int)x.def.techLevel >= (int)minTechLevel) && !x.HostileTo(Faction.OfPlayer)
+			select x).TryRandomElement<Faction>(out faction)) ? null : faction;
 		}
 
 		public void LogKidnappedPawns()

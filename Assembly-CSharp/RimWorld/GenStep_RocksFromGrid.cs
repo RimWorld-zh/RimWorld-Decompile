@@ -53,13 +53,17 @@ namespace RimWorld
 				roofThreshold2.minGridVal = (float)(num * 1.0399999618530273);
 				list.Add(roofThreshold2);
 				MapGenFloatGrid elevation = MapGenerator.Elevation;
+				MapGenFloatGrid caves = MapGenerator.Caves;
 				foreach (IntVec3 allCell in map.AllCells)
 				{
 					float num2 = elevation[allCell];
 					if (num2 > num)
 					{
-						ThingDef def = GenStep_RocksFromGrid.RockDefAt(allCell);
-						GenSpawn.Spawn(def, allCell, map);
+						if (caves[allCell] <= 0.0)
+						{
+							ThingDef def = GenStep_RocksFromGrid.RockDefAt(allCell);
+							GenSpawn.Spawn(def, allCell, map);
+						}
 						int num3 = 0;
 						while (num3 < list.Count)
 						{
@@ -84,7 +88,7 @@ namespace RimWorld
 						{
 							visited[x] = true;
 							toRemove.Add(x);
-						}, false);
+						}, 2147483647, false, null);
 						if (toRemove.Count < 20)
 						{
 							for (int i = 0; i < toRemove.Count; i++)

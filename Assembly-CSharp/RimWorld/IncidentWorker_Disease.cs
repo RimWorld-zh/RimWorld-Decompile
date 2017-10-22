@@ -1,3 +1,4 @@
+using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,68 +9,91 @@ namespace RimWorld
 {
 	public class IncidentWorker_Disease : IncidentWorker
 	{
-		private IEnumerable<Pawn> PotentialVictims(Map map)
+		private IEnumerable<Pawn> PotentialVictimCandidates(IIncidentTarget target)
 		{
-			return map.mapPawns.FreeColonistsAndPrisoners.Where((Func<Pawn, bool>)delegate(Pawn p)
+			Map map = target as Map;
+			return (map == null) ? (from x in ((Caravan)target).PawnsListForReading
+			where x.IsFreeColonist || x.IsPrisonerOfColony
+			select x) : map.mapPawns.FreeColonistsAndPrisoners;
+		}
+
+		private IEnumerable<Pawn> PotentialVictims(IIncidentTarget target)
+		{
+			return this.PotentialVictimCandidates(target).Where((Func<Pawn, bool>)delegate(Pawn p)
 			{
+				bool result;
 				if (p.ParentHolder is Building_CryptosleepCasket)
 				{
-					return false;
+					result = false;
 				}
-				if (!base.def.diseasePartsToAffect.NullOrEmpty())
+				else
 				{
-					int num = 0;
-					while (true)
+					if (!base.def.diseasePartsToAffect.NullOrEmpty())
 					{
-						if (num < base.def.diseasePartsToAffect.Count)
+						bool flag = false;
+						int num = 0;
+						while (num < base.def.diseasePartsToAffect.Count)
 						{
 							if (!IncidentWorker_Disease.CanAddHediffToAnyPartOfDef(p, base.def.diseaseIncident, base.def.diseasePartsToAffect[num]))
 							{
 								num++;
 								continue;
 							}
+							flag = true;
 							break;
 						}
-						return false;
+						if (!flag)
+						{
+							result = false;
+							goto IL_00b9;
+						}
 					}
+					result = (p.health.immunity.DiseaseContractChanceFactor(base.def.diseaseIncident, null) > 0.0);
 				}
-				return p.health.immunity.DiseaseContractChanceFactor(base.def.diseaseIncident, null) > 0.0;
+				goto IL_00b9;
+				IL_00b9:
+				return result;
 			});
 		}
 
 		private static bool CanAddHediffToAnyPartOfDef(Pawn pawn, HediffDef hediffDef, BodyPartDef partDef)
 		{
 			List<BodyPartRecord> allParts = pawn.def.race.body.AllParts;
-			for (int i = 0; i < allParts.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				BodyPartRecord bodyPartRecord = allParts[i];
-				if (bodyPartRecord.def == partDef && !pawn.health.hediffSet.PartIsMissing(bodyPartRecord) && !pawn.health.hediffSet.HasHediff(hediffDef, bodyPartRecord))
+				if (num < allParts.Count)
 				{
-					return true;
+					BodyPartRecord bodyPartRecord = allParts[num];
+					if (bodyPartRecord.def == partDef && !pawn.health.hediffSet.PartIsMissing(bodyPartRecord) && !pawn.health.hediffSet.HasHediff(hediffDef, bodyPartRecord, false))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
-			if (!this.PotentialVictims((Map)target).Any())
-			{
-				return false;
-			}
-			return true;
+			return (byte)(this.PotentialVictims(target).Any() ? 1 : 0) != 0;
 		}
 
-		public override bool TryExecute(IncidentParms parms)
+		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
-			Map map = (Map)parms.target;
-			int num = map.mapPawns.FreeColonistsAndPrisoners.Count();
+			int num = this.PotentialVictimCandidates(parms.target).Count();
 			int randomInRange = new IntRange(Mathf.RoundToInt((float)num * base.def.diseaseVictimFractionRange.min), Mathf.RoundToInt((float)num * base.def.diseaseVictimFractionRange.max)).RandomInRange;
 			randomInRange = Mathf.Clamp(randomInRange, 1, base.def.diseaseMaxVictims);
 			int num2 = 0;
-			while (num2 < randomInRange && this.PotentialVictims(map).Any())
+			Pawn pawn = default(Pawn);
+			while (num2 < randomInRange && this.PotentialVictims(parms.target).TryRandomElementByWeight<Pawn>((Func<Pawn, float>)((Pawn x) => x.health.immunity.DiseaseContractChanceFactor(base.def.diseaseIncident, null)), out pawn))
 			{
-				Pawn pawn = this.PotentialVictims(map).RandomElementByWeight((Func<Pawn, float>)((Pawn x) => x.health.immunity.DiseaseContractChanceFactor(base.def.diseaseIncident, null)));
 				HediffGiveUtility.TryApply(pawn, base.def.diseaseIncident, base.def.diseasePartsToAffect, false, 1, null);
 				num2++;
 			}

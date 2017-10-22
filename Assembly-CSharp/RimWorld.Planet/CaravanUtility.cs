@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Verse;
 
 namespace RimWorld.Planet
@@ -8,12 +9,17 @@ namespace RimWorld.Planet
 	{
 		public static bool IsOwner(Pawn pawn, Faction caravanFaction)
 		{
+			bool result;
 			if (caravanFaction == null)
 			{
 				Log.Warning("Called IsOwner with null faction.");
-				return false;
+				result = false;
 			}
-			return pawn.RaceProps.Humanlike && pawn.Faction == caravanFaction && pawn.HostFaction == null;
+			else
+			{
+				result = (!pawn.NonHumanlikeOrWildMan() && pawn.Faction == caravanFaction && pawn.HostFaction == null);
+			}
+			return result;
 		}
 
 		public static Caravan GetCaravan(this Pawn pawn)
@@ -34,38 +40,49 @@ namespace RimWorld.Planet
 
 		public static int BestGotoDestNear(int tile, Caravan c)
 		{
-			Predicate<int> predicate = (Predicate<int>)delegate(int t)
-			{
-				if (Find.World.Impassable(t))
-				{
-					return false;
-				}
-				if (!c.CanReach(t))
-				{
-					return false;
-				}
-				return true;
-			};
+			Predicate<int> predicate = (Predicate<int>)((int t) => (byte)((!Find.World.Impassable(t)) ? (c.CanReach(t) ? 1 : 0) : 0) != 0);
+			int result;
 			if (predicate(tile))
 			{
-				return tile;
+				result = tile;
 			}
-			int result = default(int);
-			GenWorldClosest.TryFindClosestTile(tile, predicate, out result, 50, true);
+			else
+			{
+				int num = default(int);
+				GenWorldClosest.TryFindClosestTile(tile, predicate, out num, 50, true);
+				result = num;
+			}
 			return result;
 		}
 
 		public static bool PlayerHasAnyCaravan()
 		{
 			List<Caravan> caravans = Find.WorldObjects.Caravans;
-			for (int i = 0; i < caravans.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (caravans[i].IsPlayerControlled)
+				if (num < caravans.Count)
 				{
-					return true;
+					if (caravans[num].IsPlayerControlled)
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
+		}
+
+		public static Pawn RandomOwner(this Caravan caravan)
+		{
+			return (from p in caravan.PawnsListForReading
+			where caravan.IsOwner(p)
+			select p).RandomElement();
 		}
 	}
 }

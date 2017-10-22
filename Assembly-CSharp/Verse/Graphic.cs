@@ -14,18 +14,16 @@ namespace Verse
 
 		public Vector2 drawSize = Vector2.one;
 
-		private Graphic_Shadow cachedShadowGraphicInt;
+		private Graphic_Shadow cachedShadowGraphicInt = null;
+
+		private Graphic cachedShadowlessGraphicInt;
 
 		public Shader Shader
 		{
 			get
 			{
 				Material matSingle = this.MatSingle;
-				if ((Object)matSingle != (Object)null)
-				{
-					return matSingle.shader;
-				}
-				return ShaderDatabase.Cutout;
+				return (!((Object)matSingle != (Object)null)) ? ShaderDatabase.Cutout : matSingle.shader;
 			}
 		}
 
@@ -104,47 +102,55 @@ namespace Verse
 
 		public virtual Material MatAt(Rot4 rot, Thing thing = null)
 		{
+			Material result;
 			switch (rot.AsInt)
 			{
 			case 0:
 			{
-				return this.MatBack;
+				result = this.MatBack;
+				break;
 			}
 			case 1:
 			{
-				return this.MatSide;
+				result = this.MatSide;
+				break;
 			}
 			case 2:
 			{
-				return this.MatFront;
+				result = this.MatFront;
+				break;
 			}
 			case 3:
 			{
-				return this.MatSide;
+				result = this.MatSide;
+				break;
 			}
 			default:
 			{
-				return BaseContent.BadMat;
+				result = BaseContent.BadMat;
+				break;
 			}
 			}
+			return result;
 		}
 
 		public virtual Mesh MeshAt(Rot4 rot)
 		{
+			Mesh result;
 			if (this.ShouldDrawRotated)
 			{
-				return MeshPool.GridPlane(this.drawSize);
+				result = MeshPool.GridPlane(this.drawSize);
 			}
-			Vector2 vector = this.drawSize;
-			if (rot.IsHorizontal)
+			else
 			{
-				vector = vector.Rotated();
+				Vector2 vector = this.drawSize;
+				if (rot.IsHorizontal)
+				{
+					vector = vector.Rotated();
+				}
+				result = ((!(rot == Rot4.West) || (this.data != null && !this.data.allowFlip)) ? MeshPool.GridPlane(vector) : MeshPool.GridPlaneFlip(vector));
 			}
-			if (rot == Rot4.West && (this.data == null || this.data.allowFlip))
-			{
-				return MeshPool.GridPlaneFlip(vector);
-			}
-			return MeshPool.GridPlane(vector);
+			return result;
 		}
 
 		public virtual Material MatSingleFor(Thing thing)
@@ -152,25 +158,29 @@ namespace Verse
 			return this.MatSingle;
 		}
 
-		public void Draw(Vector3 loc, Rot4 rot, Thing thing)
+		public void Draw(Vector3 loc, Rot4 rot, Thing thing, float extraRotation = 0f)
 		{
-			this.DrawWorker(loc, rot, thing.def, thing);
+			this.DrawWorker(loc, rot, thing.def, thing, extraRotation);
 		}
 
-		public void DrawFromDef(Vector3 loc, Rot4 rot, ThingDef thingDef)
+		public void DrawFromDef(Vector3 loc, Rot4 rot, ThingDef thingDef, float extraRotation = 0f)
 		{
-			this.DrawWorker(loc, rot, thingDef, null);
+			this.DrawWorker(loc, rot, thingDef, null, extraRotation);
 		}
 
-		public virtual void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing)
+		public virtual void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			Mesh mesh = this.MeshAt(rot);
-			Quaternion rotation = this.QuatFromRot(rot);
+			Quaternion quaternion = this.QuatFromRot(rot);
+			if (extraRotation != 0.0)
+			{
+				quaternion *= Quaternion.Euler(Vector3.up * extraRotation);
+			}
 			Material material = this.MatAt(rot, thing);
-			Graphics.DrawMesh(mesh, loc, rotation, material, 0);
+			Graphics.DrawMesh(mesh, loc, quaternion, material, 0);
 			if (this.ShadowGraphic != null)
 			{
-				this.ShadowGraphic.DrawWorker(loc, rot, thingDef, thing);
+				this.ShadowGraphic.DrawWorker(loc, rot, thingDef, thing, extraRotation);
 			}
 		}
 
@@ -219,17 +229,30 @@ namespace Verse
 			return GraphicDatabase.Get(base.GetType(), this.path, this.Shader, newDrawSize, this.color, this.colorTwo);
 		}
 
+		public virtual Graphic GetShadowlessGraphic()
+		{
+			Graphic result;
+			if (this.data == null || this.data.shadowData == null)
+			{
+				result = this;
+			}
+			else
+			{
+				if (this.cachedShadowlessGraphicInt == null)
+				{
+					GraphicData graphicData = new GraphicData();
+					graphicData.CopyFrom(this.data);
+					graphicData.shadowData = null;
+					this.cachedShadowlessGraphicInt = graphicData.Graphic;
+				}
+				result = this.cachedShadowlessGraphicInt;
+			}
+			return result;
+		}
+
 		protected Quaternion QuatFromRot(Rot4 rot)
 		{
-			if (this.data != null && !this.data.drawRotated)
-			{
-				return Quaternion.identity;
-			}
-			if (this.ShouldDrawRotated)
-			{
-				return rot.AsQuat;
-			}
-			return Quaternion.identity;
+			return (this.data == null || this.data.drawRotated) ? ((!this.ShouldDrawRotated) ? Quaternion.identity : rot.AsQuat) : Quaternion.identity;
 		}
 	}
 }

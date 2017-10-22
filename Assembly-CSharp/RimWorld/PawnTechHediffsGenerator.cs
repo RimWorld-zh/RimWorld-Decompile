@@ -28,7 +28,7 @@ namespace RimWorld
 						RecipeDef recipeDef = source2.RandomElement();
 						if (recipeDef.Worker.GetPartsToApplyOn(pawn, recipeDef).Any())
 						{
-							recipeDef.Worker.ApplyOnPawn(pawn, recipeDef.Worker.GetPartsToApplyOn(pawn, recipeDef).RandomElement(), null, PawnTechHediffsGenerator.emptyIngredientsList);
+							recipeDef.Worker.ApplyOnPawn(pawn, recipeDef.Worker.GetPartsToApplyOn(pawn, recipeDef).RandomElement(), null, PawnTechHediffsGenerator.emptyIngredientsList, null);
 						}
 					}
 				}

@@ -8,21 +8,26 @@ namespace RimWorld
 		protected override bool TryFindShootingPosition(Pawn pawn, out IntVec3 dest)
 		{
 			Verb verb = pawn.TryGetAttackVerb(!pawn.IsColonist);
+			bool result;
 			if (verb == null)
 			{
 				dest = IntVec3.Invalid;
-				return false;
+				result = false;
 			}
-			return CastPositionFinder.TryFindCastPosition(new CastPositionRequest
+			else
 			{
-				caster = pawn,
-				target = pawn.mindState.enemyTarget,
-				verb = verb,
-				maxRangeFromTarget = 9999f,
-				locus = (IntVec3)pawn.mindState.duty.focus,
-				maxRangeFromLocus = pawn.mindState.duty.radius,
-				wantCoverFromTarget = (verb.verbProps.range > 7.0)
-			}, out dest);
+				result = CastPositionFinder.TryFindCastPosition(new CastPositionRequest
+				{
+					caster = pawn,
+					target = pawn.mindState.enemyTarget,
+					verb = verb,
+					maxRangeFromTarget = 9999f,
+					locus = (IntVec3)pawn.mindState.duty.focus,
+					maxRangeFromLocus = pawn.mindState.duty.radius,
+					wantCoverFromTarget = (verb.verbProps.range > 7.0)
+				}, out dest);
+			}
+			return result;
 		}
 	}
 }

@@ -6,38 +6,56 @@ namespace Verse
 	{
 		public float speed = 4f;
 
-		public bool flyOverhead;
+		public bool flyOverhead = false;
 
-		public bool alwaysFreeIntercept;
+		public bool alwaysFreeIntercept = false;
 
-		public DamageDef damageDef;
+		public DamageDef damageDef = null;
 
 		public int damageAmountBase = 1;
 
-		public SoundDef soundHitThickRoof;
+		public SoundDef soundHitThickRoof = null;
 
-		public SoundDef soundExplode;
+		public SoundDef soundExplode = null;
 
-		public SoundDef soundImpactAnticipate;
+		public SoundDef soundImpactAnticipate = null;
 
-		public SoundDef soundAmbient;
+		public SoundDef soundAmbient = null;
 
-		public float explosionRadius;
+		public float explosionRadius = 0f;
 
-		public int explosionDelay;
+		public int explosionDelay = 0;
 
-		public ThingDef preExplosionSpawnThingDef;
+		public ThingDef preExplosionSpawnThingDef = null;
 
-		public ThingDef postExplosionSpawnThingDef;
+		public float preExplosionSpawnChance = 1f;
 
-		public float explosionSpawnChance = 1f;
+		public int preExplosionSpawnThingCount = 1;
+
+		public ThingDef postExplosionSpawnThingDef = null;
+
+		public float postExplosionSpawnChance = 1f;
+
+		public int postExplosionSpawnThingCount = 1;
+
+		public bool applyDamageToExplosionCellsNeighbors;
+
+		public float explosionChanceToStartFire;
+
+		public bool explosionDealMoreDamageAtCenter;
+
+		public EffecterDef explosionEffect;
+
+		public bool ai_IsIncendiary = false;
 
 		public IEnumerable<string> ConfigErrors(ThingDef parent)
 		{
-			if (this.alwaysFreeIntercept && this.flyOverhead)
-			{
-				yield return "alwaysFreeIntercept and flyOverhead are both true";
-			}
+			if (!this.alwaysFreeIntercept)
+				yield break;
+			if (!this.flyOverhead)
+				yield break;
+			yield return "alwaysFreeIntercept and flyOverhead are both true";
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

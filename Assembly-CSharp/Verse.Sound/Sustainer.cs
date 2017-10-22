@@ -44,19 +44,24 @@ namespace Verse.Sound
 		{
 			get
 			{
+				float result;
 				if (this.info.IsOnCamera)
 				{
-					return 0f;
+					result = 0f;
 				}
-				if ((UnityEngine.Object)this.worldRootObject == (UnityEngine.Object)null)
+				else if ((UnityEngine.Object)this.worldRootObject == (UnityEngine.Object)null)
 				{
 					if (Prefs.DevMode)
 					{
 						Log.Error("Sustainer " + this.def + " info is " + this.info + " but its worldRootObject is null");
 					}
-					return 0f;
+					result = 0f;
 				}
-				return (float)(Find.CameraDriver.MapPosition - this.worldRootObject.transform.position.ToIntVec3()).LengthHorizontalSquared;
+				else
+				{
+					result = (float)(Find.CameraDriver.MapPosition - this.worldRootObject.transform.position.ToIntVec3()).LengthHorizontalSquared;
+				}
+				return result;
 			}
 		}
 
@@ -179,7 +184,7 @@ namespace Verse.Sound
 					this.subSustainers[i].Cleanup();
 				}
 			}
-			if (this.def.sustainStopSound != string.Empty)
+			if (this.def.sustainStopSound != "")
 			{
 				if ((UnityEngine.Object)this.worldRootObject != (UnityEngine.Object)null)
 				{
@@ -207,20 +212,11 @@ namespace Verse.Sound
 			string defName = this.def.defName;
 			defName = defName + "\n  inScopePercent=" + this.scopeFader.inScopePercent;
 			defName = defName + "\n  CameraDistanceSquared=" + this.CameraDistanceSquared;
-			List<SubSustainer>.Enumerator enumerator = this.subSustainers.GetEnumerator();
-			try
+			foreach (SubSustainer subSustainer in this.subSustainers)
 			{
-				while (enumerator.MoveNext())
-				{
-					SubSustainer current = enumerator.Current;
-					defName = defName + "\n  sub: " + current;
-				}
-				return defName;
+				defName = defName + "\n  sub: " + subSustainer;
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
+			return defName;
 		}
 	}
 }

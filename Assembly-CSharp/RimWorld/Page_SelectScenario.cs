@@ -12,11 +12,11 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Page_SelectScenario : Page
 	{
-		private const float ScenarioEntryHeight = 62f;
-
-		private Scenario curScen;
+		private Scenario curScen = null;
 
 		private Vector2 infoScrollPosition = Vector2.zero;
+
+		private const float ScenarioEntryHeight = 62f;
 
 		private static readonly Texture2D CanUploadIcon = ContentFinder<Texture2D>.Get("UI/Icons/ContentSources/CanUpload", true);
 
@@ -56,15 +56,7 @@ namespace RimWorld
 
 		private bool CanEditScenario(Scenario scen)
 		{
-			if (scen.Category == ScenarioCategory.CustomLocal)
-			{
-				return true;
-			}
-			if (scen.CanToUploadToWorkshop())
-			{
-				return true;
-			}
-			return false;
+			return (byte)((scen.Category == ScenarioCategory.CustomLocal) ? 1 : (scen.CanToUploadToWorkshop() ? 1 : 0)) != 0;
 		}
 
 		private void GoToScenarioEditor()
@@ -130,12 +122,7 @@ namespace RimWorld
 		private void DoScenarioListEntry(Rect rect, Scenario scen)
 		{
 			bool flag = this.curScen == scen;
-			Color color = flag ? new Color(0.32f, 0.28f, 0.21f) : new Color(0.21f, 0.21f, 0.21f);
-			Widgets.DrawBoxSolid(rect, color);
-			GUI.color = color * 1.8f;
-			Widgets.DrawBox(rect, 1);
-			GUI.color = Color.white;
-			Widgets.DrawHighlightIfMouseover(rect);
+			Widgets.DrawOptionBackground(rect, flag);
 			MouseoverSounds.DoRegion(rect);
 			Rect rect2 = rect.ContractedBy(4f);
 			Text.Font = GameFont.Small;
@@ -191,16 +178,21 @@ namespace RimWorld
 
 		protected override bool CanDoNext()
 		{
+			bool result;
 			if (!base.CanDoNext())
 			{
-				return false;
+				result = false;
 			}
-			if (this.curScen == null)
+			else if (this.curScen == null)
 			{
-				return false;
+				result = false;
 			}
-			Page_SelectScenario.BeginScenarioConfiguration(this.curScen, this);
-			return true;
+			else
+			{
+				Page_SelectScenario.BeginScenarioConfiguration(this.curScen, this);
+				result = true;
+			}
+			return result;
 		}
 
 		public static void BeginScenarioConfiguration(Scenario scen, Page originPage)

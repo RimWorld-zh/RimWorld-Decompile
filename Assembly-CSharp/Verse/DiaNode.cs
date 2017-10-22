@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -31,18 +30,9 @@ namespace Verse
 			this.text = this.def.texts.RandomElement();
 			if (this.def.optionList.Count > 0)
 			{
-				List<DiaOptionMold>.Enumerator enumerator = this.def.optionList.GetEnumerator();
-				try
+				foreach (DiaOptionMold option in this.def.optionList)
 				{
-					while (enumerator.MoveNext())
-					{
-						DiaOptionMold current = enumerator.Current;
-						this.options.Add(new DiaOption(current));
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					this.options.Add(new DiaOption(option));
 				}
 			}
 			else

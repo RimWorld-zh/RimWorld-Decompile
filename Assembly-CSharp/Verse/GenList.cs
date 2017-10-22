@@ -27,11 +27,7 @@ namespace Verse
 
 		public static List<T> ListFullCopyOrNull<T>(this List<T> source)
 		{
-			if (source == null)
-			{
-				return null;
-			}
-			return source.ListFullCopy<T>();
+			return (source != null) ? source.ListFullCopy<T>() : null;
 		}
 
 		public static void RemoveDuplicates<T>(this List<T> list) where T : class

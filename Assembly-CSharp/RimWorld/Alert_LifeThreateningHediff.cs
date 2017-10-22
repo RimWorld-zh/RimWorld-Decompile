@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,24 +13,18 @@ namespace RimWorld
 			{
 				foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsAndPrisonersSpawned)
 				{
-					List<Hediff>.Enumerator enumerator2 = item.health.hediffSet.hediffs.GetEnumerator();
-					try
+					foreach (Hediff hediff in item.health.hediffSet.hediffs)
 					{
-						while (enumerator2.MoveNext())
+						if (hediff.CurStage != null && hediff.CurStage.lifeThreatening && !hediff.FullyImmune())
 						{
-							Hediff diff = enumerator2.Current;
-							if (diff.CurStage != null && diff.CurStage.lifeThreatening && !diff.FullyImmune())
-							{
-								yield return item;
-								break;
-							}
+							yield return item;
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
-					finally
-					{
-						((IDisposable)(object)enumerator2).Dispose();
-					}
 				}
+				yield break;
+				IL_0165:
+				/*Error near IL_0166: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -47,29 +40,16 @@ namespace RimWorld
 			foreach (Pawn sickPawn in this.SickPawns)
 			{
 				stringBuilder.AppendLine("    " + sickPawn.NameStringShort);
-				List<Hediff>.Enumerator enumerator2 = sickPawn.health.hediffSet.hediffs.GetEnumerator();
-				try
+				foreach (Hediff hediff in sickPawn.health.hediffSet.hediffs)
 				{
-					while (enumerator2.MoveNext())
+					if (hediff.CurStage != null && hediff.CurStage.lifeThreatening && hediff.Part != null && hediff.Part != sickPawn.RaceProps.body.corePart)
 					{
-						Hediff current2 = enumerator2.Current;
-						if (current2.CurStage != null && current2.CurStage.lifeThreatening && current2.Part != null && current2.Part != sickPawn.RaceProps.body.corePart)
-						{
-							flag = true;
-							break;
-						}
+						flag = true;
+						break;
 					}
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
-				}
 			}
-			if (flag)
-			{
-				return string.Format("PawnsWithLifeThreateningDiseaseAmputationDesc".Translate(), stringBuilder.ToString());
-			}
-			return string.Format("PawnsWithLifeThreateningDiseaseDesc".Translate(), stringBuilder.ToString());
+			return (!flag) ? string.Format("PawnsWithLifeThreateningDiseaseDesc".Translate(), stringBuilder.ToString()) : string.Format("PawnsWithLifeThreateningDiseaseAmputationDesc".Translate(), stringBuilder.ToString());
 		}
 
 		public override AlertReport GetReport()

@@ -18,11 +18,11 @@ namespace RimWorld
 			}
 		}
 
-		public override bool Dying
+		public override float CurrentDyingDamagePerTick
 		{
 			get
 			{
-				return false;
+				return 0f;
 			}
 		}
 
@@ -49,7 +49,7 @@ namespace RimWorld
 
 		public override string GetInspectString()
 		{
-			return string.Empty;
+			return "";
 		}
 
 		public override void CropBlighted()

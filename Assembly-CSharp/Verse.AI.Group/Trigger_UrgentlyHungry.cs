@@ -9,12 +9,16 @@ namespace Verse.AI.Group
 				for (int i = 0; i < lord.ownedPawns.Count; i++)
 				{
 					if ((int)lord.ownedPawns[i].needs.food.CurCategory >= 2)
-					{
-						return true;
-					}
+						goto IL_0038;
 				}
 			}
-			return false;
+			bool result = false;
+			goto IL_005d;
+			IL_0038:
+			result = true;
+			goto IL_005d;
+			IL_005d:
+			return result;
 		}
 	}
 }

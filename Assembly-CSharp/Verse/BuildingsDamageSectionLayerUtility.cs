@@ -175,23 +175,28 @@ namespace Verse
 			BuildingsDamageSectionLayerUtility.overlays.Clear();
 			BuildingsDamageSectionLayerUtility.overlaysWorkingList.Clear();
 			BuildingsDamageSectionLayerUtility.overlaysWorkingList.AddRange(BuildingsDamageSectionLayerUtility.GetAvailableOverlays(b));
+			List<DamageOverlay> result;
 			if (!BuildingsDamageSectionLayerUtility.overlaysWorkingList.Any())
 			{
-				return BuildingsDamageSectionLayerUtility.overlays;
+				result = BuildingsDamageSectionLayerUtility.overlays;
 			}
-			Rand.PushState();
-			Rand.Seed = Gen.HashCombineInt(b.thingIDNumber, 1958376471);
-			int damageOverlaysCount = BuildingsDamageSectionLayerUtility.GetDamageOverlaysCount(b, b.HitPoints);
-			int num = 0;
-			while (num < damageOverlaysCount && BuildingsDamageSectionLayerUtility.overlaysWorkingList.Any())
+			else
 			{
-				DamageOverlay item = BuildingsDamageSectionLayerUtility.overlaysWorkingList.RandomElement();
-				BuildingsDamageSectionLayerUtility.overlaysWorkingList.Remove(item);
-				BuildingsDamageSectionLayerUtility.overlays.Add(item);
-				num++;
+				Rand.PushState();
+				Rand.Seed = Gen.HashCombineInt(b.thingIDNumber, 1958376471);
+				int damageOverlaysCount = BuildingsDamageSectionLayerUtility.GetDamageOverlaysCount(b, b.HitPoints);
+				int num = 0;
+				while (num < damageOverlaysCount && BuildingsDamageSectionLayerUtility.overlaysWorkingList.Any())
+				{
+					DamageOverlay item = BuildingsDamageSectionLayerUtility.overlaysWorkingList.RandomElement();
+					BuildingsDamageSectionLayerUtility.overlaysWorkingList.Remove(item);
+					BuildingsDamageSectionLayerUtility.overlays.Add(item);
+					num++;
+				}
+				Rand.PopState();
+				result = BuildingsDamageSectionLayerUtility.overlays;
 			}
-			Rand.PopState();
-			return BuildingsDamageSectionLayerUtility.overlays;
+			return result;
 		}
 
 		public static Rect GetDamageRect(Building b)
@@ -271,37 +276,53 @@ namespace Verse
 		private static bool DifferentAt(Building b, int x, int z)
 		{
 			IntVec3 c = new IntVec3(x, 0, z);
+			bool result;
 			if (!c.InBounds(b.Map))
 			{
-				return true;
+				result = true;
 			}
-			List<Thing> thingList = c.GetThingList(b.Map);
-			for (int i = 0; i < thingList.Count; i++)
+			else
 			{
-				if (thingList[i].def == b.def)
+				List<Thing> thingList = c.GetThingList(b.Map);
+				for (int i = 0; i < thingList.Count; i++)
 				{
-					return false;
+					if (thingList[i].def == b.def)
+						goto IL_004f;
 				}
+				result = true;
 			}
-			return true;
+			goto IL_006e;
+			IL_004f:
+			result = false;
+			goto IL_006e;
+			IL_006e:
+			return result;
 		}
 
 		private static bool SameAndDamagedAt(Building b, int x, int z)
 		{
 			IntVec3 c = new IntVec3(x, 0, z);
+			bool result;
 			if (!c.InBounds(b.Map))
 			{
-				return false;
+				result = false;
 			}
-			List<Thing> thingList = c.GetThingList(b.Map);
-			for (int i = 0; i < thingList.Count; i++)
+			else
 			{
-				if (thingList[i].def == b.def && thingList[i].HitPoints < thingList[i].MaxHitPoints)
+				List<Thing> thingList = c.GetThingList(b.Map);
+				for (int i = 0; i < thingList.Count; i++)
 				{
-					return true;
+					if (thingList[i].def == b.def && thingList[i].HitPoints < thingList[i].MaxHitPoints)
+						goto IL_006c;
 				}
+				result = false;
 			}
-			return false;
+			goto IL_008b;
+			IL_008b:
+			return result;
+			IL_006c:
+			result = true;
+			goto IL_008b;
 		}
 	}
 }

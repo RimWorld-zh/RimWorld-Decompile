@@ -11,12 +11,6 @@ namespace RimWorld
 {
 	public class Scenario : IExposable, WorkshopUploadable
 	{
-		public const int NameMaxLength = 55;
-
-		public const int SummaryMaxLength = 300;
-
-		public const int DescriptionMaxLength = 1000;
-
 		public string name;
 
 		public string summary;
@@ -29,7 +23,7 @@ namespace RimWorld
 
 		private PublishedFileId_t publishedFileIdInt = PublishedFileId_t.Invalid;
 
-		private ScenarioCategory categoryInt;
+		private ScenarioCategory categoryInt = ScenarioCategory.Undefined;
 
 		public string fileName;
 
@@ -38,6 +32,12 @@ namespace RimWorld
 		private string tempUploadDir;
 
 		public bool enabled = true;
+
+		public const int NameMaxLength = 55;
+
+		public const int SummaryMaxLength = 300;
+
+		public const int DescriptionMaxLength = 1000;
 
 		public FileInfo File
 		{
@@ -52,10 +52,7 @@ namespace RimWorld
 			get
 			{
 				yield return (ScenPart)this.playerFaction;
-				for (int i = 0; i < this.parts.Count; i++)
-				{
-					yield return this.parts[i];
-				}
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -90,22 +87,33 @@ namespace RimWorld
 			if (this.name.NullOrEmpty())
 			{
 				yield return "no title";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.parts.NullOrEmpty())
 			{
 				yield return "no parts";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.playerFaction == null)
 			{
 				yield return "no playerFaction";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			foreach (ScenPart allPart in this.AllParts)
 			{
-				foreach (string item in allPart.ConfigErrors())
+				using (IEnumerator<string> enumerator2 = allPart.ConfigErrors().GetEnumerator())
 				{
-					yield return item;
+					if (enumerator2.MoveNext())
+					{
+						string e = enumerator2.Current;
+						yield return e;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
+			yield break;
+			IL_01ce:
+			/*Error near IL_01cf: Unexpected return in MoveNext()*/;
 		}
 
 		public string GetFullInformationText()
@@ -131,17 +139,11 @@ namespace RimWorld
 					}
 				}
 				return stringBuilder.ToString().TrimEndNewlines();
-				IL_0122:
-				string result;
-				return result;
 			}
 			catch (Exception ex)
 			{
 				Log.ErrorOnce("Exception in Scenario.GetFullInformationText():\n" + ex.ToString(), 10395878);
 				return "Cannot read data.";
-				IL_0150:
-				string result;
-				return result;
 			}
 		}
 
@@ -298,34 +300,33 @@ namespace RimWorld
 
 		public bool CanReorder(ScenPart part, ReorderDirection dir)
 		{
+			bool result;
 			if (!part.def.PlayerAddRemovable)
 			{
-				return false;
+				result = false;
 			}
-			int num = this.parts.IndexOf(part);
-			switch (dir)
+			else
 			{
-			case ReorderDirection.Up:
-			{
-				if (num == 0)
+				int num = this.parts.IndexOf(part);
+				switch (dir)
 				{
-					return false;
-				}
-				if (num > 0 && !this.parts[num - 1].def.PlayerAddRemovable)
+				case ReorderDirection.Up:
 				{
-					return false;
+					result = ((byte)((num != 0) ? ((num <= 0 || this.parts[num - 1].def.PlayerAddRemovable) ? 1 : 0) : 0) != 0);
+					break;
 				}
-				return true;
+				case ReorderDirection.Down:
+				{
+					result = (num != this.parts.Count - 1);
+					break;
+				}
+				default:
+				{
+					throw new NotImplementedException();
+				}
+				}
 			}
-			case ReorderDirection.Down:
-			{
-				return num != this.parts.Count - 1;
-			}
-			default:
-			{
-				throw new NotImplementedException();
-			}
-			}
+			return result;
 		}
 
 		public void Reorder(ScenPart part, ReorderDirection dir)
@@ -344,19 +345,7 @@ namespace RimWorld
 
 		public bool CanToUploadToWorkshop()
 		{
-			if (this.Category == ScenarioCategory.FromDef)
-			{
-				return false;
-			}
-			if (!this.TryUploadReport().Accepted)
-			{
-				return false;
-			}
-			if (this.GetWorkshopItemHook().MayHaveAuthorNotCurrentUser)
-			{
-				return false;
-			}
-			return true;
+			return (byte)((this.Category != ScenarioCategory.FromDef) ? (this.TryUploadReport().Accepted ? ((!this.GetWorkshopItemHook().MayHaveAuthorNotCurrentUser) ? 1 : 0) : 0) : 0) != 0;
 		}
 
 		public void PrepareForWorkshopUpload()
@@ -376,11 +365,7 @@ namespace RimWorld
 
 		public AcceptanceReport TryUploadReport()
 		{
-			if (this.name != null && this.name.Length >= 3 && this.summary != null && this.summary.Length >= 3 && this.description != null && this.description.Length >= 3)
-			{
-				return AcceptanceReport.WasAccepted;
-			}
-			return "TextFieldsMustBeFilled".Translate();
+			return (this.name != null && this.name.Length >= 3 && this.summary != null && this.summary.Length >= 3 && this.description != null && this.description.Length >= 3) ? AcceptanceReport.WasAccepted : "TextFieldsMustBeFilled".Translate();
 		}
 
 		public PublishedFileId_t GetPublishedFileId()

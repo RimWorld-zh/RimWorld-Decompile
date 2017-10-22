@@ -1,16 +1,13 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Verse.Sound;
 
 namespace Verse
 {
-	public class Explosion : IExposable
+	public class Explosion : Thing
 	{
-		public ExplosionManager explosionManager;
-
-		public IntVec3 position;
-
 		public float radius;
 
 		public DamageDef damType;
@@ -19,23 +16,27 @@ namespace Verse
 
 		public Thing instigator;
 
-		public ThingDef weaponGear;
+		public ThingDef weapon;
+
+		public ThingDef projectile;
 
 		public bool applyDamageToExplosionCellsNeighbors;
 
-		public ThingDef preExplosionSpawnThingDef;
+		public ThingDef preExplosionSpawnThingDef = null;
 
-		public float preExplosionSpawnChance;
+		public float preExplosionSpawnChance = 0f;
 
 		public int preExplosionSpawnThingCount = 1;
 
-		public ThingDef postExplosionSpawnThingDef;
+		public ThingDef postExplosionSpawnThingDef = null;
 
-		public float postExplosionSpawnChance;
+		public float postExplosionSpawnChance = 0f;
 
 		public int postExplosionSpawnThingCount = 1;
 
-		public bool finished;
+		public float chanceToStartFire;
+
+		public bool dealMoreDamageAtCenter;
 
 		private int startTick;
 
@@ -45,37 +46,72 @@ namespace Verse
 
 		private HashSet<IntVec3> addedCellsAffectedOnlyByDamage;
 
+		private const float DamageFactorAtEdge = 0.2f;
+
 		private static HashSet<IntVec3> tmpCells = new HashSet<IntVec3>();
 
-		public Map Map
+		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
-			get
+			base.SpawnSetup(map, respawningAfterLoad);
+			if (!respawningAfterLoad)
 			{
-				return this.explosionManager.map;
+				this.cellsToAffect = SimplePool<List<IntVec3>>.Get();
+				this.cellsToAffect.Clear();
+				this.damagedThings = SimplePool<List<Thing>>.Get();
+				this.damagedThings.Clear();
+				this.addedCellsAffectedOnlyByDamage = SimplePool<HashSet<IntVec3>>.Get();
+				this.addedCellsAffectedOnlyByDamage.Clear();
 			}
 		}
 
-		public void StartExplosion(SoundDef explosionSound)
+		public override void DeSpawn()
 		{
-			this.startTick = Find.TickManager.TicksGame;
-			this.cellsToAffect = SimplePool<List<IntVec3>>.Get();
+			base.DeSpawn();
 			this.cellsToAffect.Clear();
-			this.damagedThings = SimplePool<List<Thing>>.Get();
+			SimplePool<List<IntVec3>>.Return(this.cellsToAffect);
+			this.cellsToAffect = null;
 			this.damagedThings.Clear();
-			this.addedCellsAffectedOnlyByDamage = SimplePool<HashSet<IntVec3>>.Get();
+			SimplePool<List<Thing>>.Return(this.damagedThings);
+			this.damagedThings = null;
 			this.addedCellsAffectedOnlyByDamage.Clear();
-			this.cellsToAffect.AddRange(this.damType.Worker.ExplosionCellsToHit(this));
-			if (this.applyDamageToExplosionCellsNeighbors)
-			{
-				this.AddCellsNeighbors(this.cellsToAffect);
-			}
-			this.damType.Worker.ExplosionStart(this, this.cellsToAffect);
-			this.PlayExplosionSound(explosionSound);
-			MoteMaker.MakeWaterSplash(this.position.ToVector3Shifted(), this.Map, (float)(this.radius * 6.0), 20f);
-			this.cellsToAffect.Sort((Comparison<IntVec3>)((IntVec3 a, IntVec3 b) => this.GetCellAffectTick(b).CompareTo(this.GetCellAffectTick(a))));
+			SimplePool<HashSet<IntVec3>>.Return(this.addedCellsAffectedOnlyByDamage);
+			this.addedCellsAffectedOnlyByDamage = null;
 		}
 
-		public void Tick()
+		public virtual void StartExplosion(SoundDef explosionSound)
+		{
+			if (!base.Spawned)
+			{
+				Log.Error("Called StartExplosion() on unspawned thing.");
+			}
+			else
+			{
+				this.startTick = Find.TickManager.TicksGame;
+				this.cellsToAffect.Clear();
+				this.damagedThings.Clear();
+				this.addedCellsAffectedOnlyByDamage.Clear();
+				this.cellsToAffect.AddRange(this.damType.Worker.ExplosionCellsToHit(this));
+				if (this.applyDamageToExplosionCellsNeighbors)
+				{
+					this.AddCellsNeighbors(this.cellsToAffect);
+				}
+				this.damType.Worker.ExplosionStart(this, this.cellsToAffect);
+				this.PlayExplosionSound(explosionSound);
+				MoteMaker.MakeWaterSplash(base.Position.ToVector3Shifted(), base.Map, (float)(this.radius * 6.0), 20f);
+				this.cellsToAffect.Sort((Comparison<IntVec3>)((IntVec3 a, IntVec3 b) => this.GetCellAffectTick(b).CompareTo(this.GetCellAffectTick(a))));
+				RegionTraverser.BreadthFirstTraverse(base.Position, base.Map, (RegionEntryPredicate)((Region from, Region to) => true), (RegionProcessor)delegate(Region x)
+				{
+					List<Thing> list = x.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn);
+					for (int num = list.Count - 1; num >= 0; num--)
+					{
+						((Pawn)list[num]).mindState.Notify_Explosion(this);
+					}
+					return false;
+				}, 25, RegionType.Set_Passable);
+			}
+		}
+
+		public override void Tick()
 		{
 			int ticksGame = Find.TickManager.TicksGame;
 			int count = this.cellsToAffect.Count;
@@ -95,35 +131,35 @@ namespace Verse
 			}
 			if (!this.cellsToAffect.Any())
 			{
-				this.Finished();
+				this.Destroy(DestroyMode.Vanish);
 			}
 		}
 
-		public void Finished()
+		public int GetDamageAmountAt(IntVec3 c)
 		{
-			if (!this.finished)
+			int result;
+			if (!this.dealMoreDamageAtCenter)
 			{
-				this.cellsToAffect.Clear();
-				SimplePool<List<IntVec3>>.Return(this.cellsToAffect);
-				this.cellsToAffect = null;
-				this.damagedThings.Clear();
-				SimplePool<List<Thing>>.Return(this.damagedThings);
-				this.damagedThings = null;
-				this.addedCellsAffectedOnlyByDamage.Clear();
-				SimplePool<HashSet<IntVec3>>.Return(this.addedCellsAffectedOnlyByDamage);
-				this.addedCellsAffectedOnlyByDamage = null;
-				this.finished = true;
+				result = this.damAmount;
 			}
+			else
+			{
+				float t = c.DistanceTo(base.Position) / this.radius;
+				int a = GenMath.RoundRandom(Mathf.Lerp((float)this.damAmount, (float)((float)this.damAmount * 0.20000000298023224), t));
+				result = Mathf.Max(a, 1);
+			}
+			return result;
 		}
 
-		public void ExposeData()
+		public override void ExposeData()
 		{
-			Scribe_Values.Look<IntVec3>(ref this.position, "position", default(IntVec3), false);
+			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.radius, "radius", 0f, false);
 			Scribe_Defs.Look<DamageDef>(ref this.damType, "damType");
 			Scribe_Values.Look<int>(ref this.damAmount, "damAmount", 0, false);
 			Scribe_References.Look<Thing>(ref this.instigator, "instigator", false);
-			Scribe_Defs.Look<ThingDef>(ref this.weaponGear, "weaponGear");
+			Scribe_Defs.Look<ThingDef>(ref this.weapon, "weapon");
+			Scribe_Defs.Look<ThingDef>(ref this.projectile, "projectile");
 			Scribe_Values.Look<bool>(ref this.applyDamageToExplosionCellsNeighbors, "applyDamageToExplosionCellsNeighbors", false, false);
 			Scribe_Defs.Look<ThingDef>(ref this.preExplosionSpawnThingDef, "preExplosionSpawnThingDef");
 			Scribe_Values.Look<float>(ref this.preExplosionSpawnChance, "preExplosionSpawnChance", 0f, false);
@@ -131,7 +167,8 @@ namespace Verse
 			Scribe_Defs.Look<ThingDef>(ref this.postExplosionSpawnThingDef, "postExplosionSpawnThingDef");
 			Scribe_Values.Look<float>(ref this.postExplosionSpawnChance, "postExplosionSpawnChance", 0f, false);
 			Scribe_Values.Look<int>(ref this.postExplosionSpawnThingCount, "postExplosionSpawnThingCount", 1, false);
-			Scribe_Values.Look<bool>(ref this.finished, "finished", false, false);
+			Scribe_Values.Look<float>(ref this.chanceToStartFire, "chanceToStartFire", 0f, false);
+			Scribe_Values.Look<bool>(ref this.dealMoreDamageAtCenter, "dealMoreDamageAtCenter", false, false);
 			Scribe_Values.Look<int>(ref this.startTick, "startTick", 0, false);
 			Scribe_Collections.Look<IntVec3>(ref this.cellsToAffect, "cellsToAffect", LookMode.Value, new object[0]);
 			Scribe_Collections.Look<Thing>(ref this.damagedThings, "damagedThings", LookMode.Reference, new object[0]);
@@ -144,20 +181,29 @@ namespace Verse
 
 		private int GetCellAffectTick(IntVec3 cell)
 		{
-			return this.startTick + (int)((cell - this.position).LengthHorizontal * 1.5);
+			return this.startTick + (int)((cell - base.Position).LengthHorizontal * 1.5);
 		}
 
 		private void AffectCell(IntVec3 c)
 		{
 			bool flag = this.ShouldCellBeAffectedOnlyByDamage(c);
-			if (!flag && c.Walkable(this.Map) && Rand.Value < this.preExplosionSpawnChance)
+			if (!flag && Rand.Chance(this.preExplosionSpawnChance) && c.Walkable(base.Map))
 			{
 				this.TrySpawnExplosionThing(this.preExplosionSpawnThingDef, c, this.preExplosionSpawnThingCount);
 			}
 			this.damType.Worker.ExplosionAffectCell(this, c, this.damagedThings, !flag);
-			if (!flag && c.Walkable(this.Map) && Rand.Value < this.postExplosionSpawnChance)
+			if (!flag && Rand.Chance(this.postExplosionSpawnChance) && c.Walkable(base.Map))
 			{
 				this.TrySpawnExplosionThing(this.postExplosionSpawnThingDef, c, this.postExplosionSpawnThingCount);
+			}
+			float num = this.chanceToStartFire;
+			if (this.dealMoreDamageAtCenter)
+			{
+				num *= Mathf.Lerp(1f, 0.2f, c.DistanceTo(base.Position) / this.radius);
+			}
+			if (Rand.Chance(num))
+			{
+				FireUtility.TryStartFireIn(c, base.Map, Rand.Range(0.1f, 0.925f));
 			}
 		}
 
@@ -167,13 +213,13 @@ namespace Verse
 			{
 				if (thingDef.IsFilth)
 				{
-					FilthMaker.MakeFilth(c, this.Map, thingDef, count);
+					FilthMaker.MakeFilth(c, base.Map, thingDef, count);
 				}
 				else
 				{
 					Thing thing = ThingMaker.MakeThing(thingDef, null);
 					thing.stackCount = count;
-					GenSpawn.Spawn(thing, c, this.Map);
+					GenSpawn.Spawn(thing, c, base.Map);
 				}
 			}
 		}
@@ -182,11 +228,11 @@ namespace Verse
 		{
 			if ((!Prefs.DevMode) ? (!explosionSound.NullOrUndefined()) : (explosionSound != null))
 			{
-				explosionSound.PlayOneShot(new TargetInfo(this.position, this.Map, false));
+				explosionSound.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 			}
 			else
 			{
-				this.damType.soundExplosion.PlayOneShot(new TargetInfo(this.position, this.Map, false));
+				this.damType.soundExplosion.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 			}
 		}
 
@@ -200,12 +246,12 @@ namespace Verse
 			}
 			for (int j = 0; j < cells.Count; j++)
 			{
-				if (cells[j].Walkable(this.Map))
+				if (cells[j].Walkable(base.Map))
 				{
 					for (int k = 0; k < GenAdj.AdjacentCells.Length; k++)
 					{
 						IntVec3 intVec = cells[j] + GenAdj.AdjacentCells[k];
-						if (intVec.InBounds(this.Map) && Explosion.tmpCells.Add(intVec))
+						if (intVec.InBounds(base.Map) && Explosion.tmpCells.Add(intVec))
 						{
 							this.addedCellsAffectedOnlyByDamage.Add(intVec);
 						}
@@ -213,29 +259,16 @@ namespace Verse
 				}
 			}
 			cells.Clear();
-			HashSet<IntVec3>.Enumerator enumerator = Explosion.tmpCells.GetEnumerator();
-			try
+			foreach (IntVec3 tmpCell in Explosion.tmpCells)
 			{
-				while (enumerator.MoveNext())
-				{
-					IntVec3 current = enumerator.Current;
-					cells.Add(current);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				cells.Add(tmpCell);
 			}
 			Explosion.tmpCells.Clear();
 		}
 
 		private bool ShouldCellBeAffectedOnlyByDamage(IntVec3 c)
 		{
-			if (!this.applyDamageToExplosionCellsNeighbors)
-			{
-				return false;
-			}
-			return this.addedCellsAffectedOnlyByDamage.Contains(c);
+			return this.applyDamageToExplosionCellsNeighbors && this.addedCellsAffectedOnlyByDamage.Contains(c);
 		}
 	}
 }

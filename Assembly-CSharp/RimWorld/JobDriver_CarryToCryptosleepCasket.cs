@@ -15,7 +15,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (Pawn)base.CurJob.GetTarget(TargetIndex.A).Thing;
+				return (Pawn)base.job.GetTarget(TargetIndex.A).Thing;
 			}
 		}
 
@@ -23,8 +23,13 @@ namespace RimWorld
 		{
 			get
 			{
-				return (Building_CryptosleepCasket)base.CurJob.GetTarget(TargetIndex.B).Thing;
+				return (Building_CryptosleepCasket)base.job.GetTarget(TargetIndex.B).Thing;
 			}
+		}
+
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve((Thing)this.Takee, base.job, 1, -1, null) && base.pawn.Reserve((Thing)this.DropPod, base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -32,22 +37,17 @@ namespace RimWorld
 			this.FailOnDestroyedOrNull(TargetIndex.A);
 			this.FailOnDestroyedOrNull(TargetIndex.B);
 			this.FailOnAggroMentalState(TargetIndex.A);
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
-			yield return Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
-			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.OnCell).FailOnDestroyedNullOrForbidden(TargetIndex.A).FailOnDespawnedNullOrForbidden(TargetIndex.B).FailOn((Func<bool>)(() => ((_003CMakeNewToils_003Ec__Iterator25)/*Error near IL_00aa: stateMachine*/)._003C_003Ef__this.DropPod.GetDirectlyHeldThings().Count > 0)).FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator25)/*Error near IL_00bb: stateMachine*/)._003C_003Ef__this.Takee.Downed)).FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator25)/*Error near IL_00cc: stateMachine*/)._003C_003Ef__this.pawn.CanReach((Thing)((_003CMakeNewToils_003Ec__Iterator25)/*Error near IL_00cc: stateMachine*/)._003C_003Ef__this.Takee, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
-			yield return Toils_Haul.StartCarryThing(TargetIndex.A, false, false);
-			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.InteractionCell);
-			Toil prepare = Toils_General.Wait(500);
-			prepare.FailOnCannotTouch(TargetIndex.B, PathEndMode.InteractionCell);
-			prepare.WithProgressBarToilDelay(TargetIndex.B, false, -0.5f);
-			yield return prepare;
-			yield return new Toil
+			this.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_005f: stateMachine*/)._0024this.DropPod.Accepts(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_005f: stateMachine*/)._0024this.Takee)));
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.OnCell).FailOnDestroyedNullOrForbidden(TargetIndex.A).FailOnDespawnedNullOrForbidden(TargetIndex.B).FailOn((Func<bool>)(() => ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0085: stateMachine*/)._0024this.DropPod.GetDirectlyHeldThings().Count > 0)).FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0096: stateMachine*/)._0024this.Takee.Downed)).FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00a7: stateMachine*/)._0024this.pawn.CanReach((Thing)((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00a7: stateMachine*/)._0024this.Takee, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
+			/*Error: Unable to find new state assignment for yield return*/;
+		}
+
+		public override object[] TaleParameters()
+		{
+			return new object[2]
 			{
-				initAction = (Action)delegate
-				{
-					((_003CMakeNewToils_003Ec__Iterator25)/*Error near IL_0181: stateMachine*/)._003C_003Ef__this.DropPod.TryAcceptThing(((_003CMakeNewToils_003Ec__Iterator25)/*Error near IL_0181: stateMachine*/)._003C_003Ef__this.Takee, true);
-				},
-				defaultCompleteMode = ToilCompleteMode.Instant
+				base.pawn,
+				this.Takee
 			};
 		}
 	}

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +10,14 @@ namespace RimWorld
 		private ThingDef plantDefToGrow = ThingDefOf.PlantPotato;
 
 		public bool allowSow = true;
+
+		IEnumerable<IntVec3> IPlantToGrowSettable.Cells
+		{
+			get
+			{
+				return base.Cells;
+			}
+		}
 
 		public override bool IsMultiselectable
 		{
@@ -45,7 +52,7 @@ namespace RimWorld
 
 		public override string GetInspectString()
 		{
-			string text = string.Empty;
+			string text = "";
 			if (!base.Cells.NullOrEmpty())
 			{
 				IntVec3 c = base.Cells.First();
@@ -62,36 +69,24 @@ namespace RimWorld
 		public static string GrowingQuadrumsDescription(int tile)
 		{
 			List<Twelfth> list = GenTemperature.TwelfthsInAverageTemperatureRange(tile, 10f, 42f);
-			if (list.NullOrEmpty())
-			{
-				return "NoGrowingPeriod".Translate();
-			}
-			if (list.Count == 12)
-			{
-				return "GrowYearRound".Translate();
-			}
-			return "PeriodDays".Translate(list.Count * 5) + " (" + QuadrumUtility.QuadrumsRangeLabel(list) + ")";
+			return (!list.NullOrEmpty()) ? ((list.Count != 12) ? ("PeriodDays".Translate(list.Count * 5 + "/" + 60) + " (" + QuadrumUtility.QuadrumsRangeLabel(list) + ")") : "GrowYearRound".Translate()) : "NoGrowingPeriod".Translate();
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return gizmo;
+				if (enumerator.MoveNext())
+				{
+					Gizmo g = enumerator.Current;
+					yield return g;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			yield return (Gizmo)PlantToGrowSettableUtility.SetPlantToGrowCommand(this);
-			yield return (Gizmo)new Command_Toggle
-			{
-				defaultLabel = "CommandAllowSow".Translate(),
-				defaultDesc = "CommandAllowSowDesc".Translate(),
-				hotKey = KeyBindingDefOf.CommandItemForbid,
-				icon = TexCommand.Forbidden,
-				isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__IteratorBB)/*Error near IL_0126: stateMachine*/)._003C_003Ef__this.allowSow),
-				toggleAction = (Action)delegate
-				{
-					((_003CGetGizmos_003Ec__IteratorBB)/*Error near IL_013d: stateMachine*/)._003C_003Ef__this.allowSow = !((_003CGetGizmos_003Ec__IteratorBB)/*Error near IL_013d: stateMachine*/)._003C_003Ef__this.allowSow;
-				}
-			};
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_018f:
+			/*Error near IL_0190: Unexpected return in MoveNext()*/;
 		}
 
 		public ThingDef GetPlantDefToGrow()
@@ -107,17 +102,6 @@ namespace RimWorld
 		public bool CanAcceptSowNow()
 		{
 			return true;
-		}
-
-		virtual Map get_Map()
-		{
-			return base.Map;
-		}
-
-		Map IPlantToGrowSettable.get_Map()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_Map
-			return this.get_Map();
 		}
 	}
 }

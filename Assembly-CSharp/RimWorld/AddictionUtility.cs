@@ -19,16 +19,17 @@ namespace RimWorld
 
 		public static Hediff_Addiction FindAddictionHediff(Pawn pawn, Thing drug)
 		{
+			Hediff_Addiction result;
 			if (!drug.def.IsDrug)
 			{
-				return null;
+				result = null;
 			}
-			CompDrug compDrug = drug.TryGetComp<CompDrug>();
-			if (!compDrug.Props.Addictive)
+			else
 			{
-				return null;
+				CompDrug compDrug = drug.TryGetComp<CompDrug>();
+				result = (compDrug.Props.Addictive ? AddictionUtility.FindAddictionHediff(pawn, compDrug.Props.chemical) : null);
 			}
-			return AddictionUtility.FindAddictionHediff(pawn, compDrug.Props.chemical);
+			return result;
 		}
 
 		public static Hediff_Addiction FindAddictionHediff(Pawn pawn, ChemicalDef chemical)
@@ -38,11 +39,7 @@ namespace RimWorld
 
 		public static Hediff FindToleranceHediff(Pawn pawn, ChemicalDef chemical)
 		{
-			if (chemical.toleranceHediff == null)
-			{
-				return null;
-			}
-			return pawn.health.hediffSet.hediffs.Find((Predicate<Hediff>)((Hediff x) => x.def == chemical.toleranceHediff));
+			return (chemical.toleranceHediff != null) ? pawn.health.hediffSet.hediffs.Find((Predicate<Hediff>)((Hediff x) => x.def == chemical.toleranceHediff)) : null;
 		}
 
 		public static void ModifyChemicalEffectForToleranceAndBodySize(Pawn pawn, ChemicalDef chemicalDef, ref float effect)
@@ -69,39 +66,57 @@ namespace RimWorld
 		public static bool AddictedToAnything(Pawn pawn)
 		{
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
-			for (int i = 0; i < hediffs.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (hediffs[i] is Hediff_Addiction)
+				if (num < hediffs.Count)
 				{
-					return true;
+					if (hediffs[num] is Hediff_Addiction)
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public static bool CanBingeOnNow(Pawn pawn, ChemicalDef chemical, DrugCategory drugCategory)
 		{
+			bool result;
 			if (!chemical.canBinge)
 			{
-				return false;
+				result = false;
 			}
-			if (!pawn.Spawned)
+			else if (!pawn.Spawned)
 			{
-				return false;
+				result = false;
 			}
-			List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.Drug);
-			for (int i = 0; i < list.Count; i++)
+			else
 			{
-				if (!list[i].Position.Fogged(list[i].Map) && (drugCategory == DrugCategory.Any || list[i].def.ingestible.drugCategory == drugCategory))
+				List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.Drug);
+				for (int i = 0; i < list.Count; i++)
 				{
-					CompDrug compDrug = list[i].TryGetComp<CompDrug>();
-					if (compDrug.Props.chemical == chemical && (list[i].Position.Roofed(list[i].Map) || list[i].Position.InHorDistOf(pawn.Position, 45f)) && pawn.CanReach(list[i], PathEndMode.ClosestTouch, Danger.Deadly, false, TraverseMode.ByPawn))
+					if (!list[i].Position.Fogged(list[i].Map) && (drugCategory == DrugCategory.Any || list[i].def.ingestible.drugCategory == drugCategory))
 					{
-						return true;
+						CompDrug compDrug = list[i].TryGetComp<CompDrug>();
+						if (compDrug.Props.chemical == chemical && (list[i].Position.Roofed(list[i].Map) || list[i].Position.InHorDistOf(pawn.Position, 45f)) && pawn.CanReach(list[i], PathEndMode.ClosestTouch, Danger.Deadly, false, TraverseMode.ByPawn))
+							goto IL_011e;
 					}
 				}
+				result = false;
 			}
-			return false;
+			goto IL_013c;
+			IL_013c:
+			return result;
+			IL_011e:
+			result = true;
+			goto IL_013c;
 		}
 	}
 }

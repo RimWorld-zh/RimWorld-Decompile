@@ -5,7 +5,7 @@ namespace Verse
 {
 	public class DefMap<D, V> : IExposable where D : Def, new() where V : new()
 	{
-		private List<V> values;
+		private List<V> values = null;
 
 		public int Count
 		{

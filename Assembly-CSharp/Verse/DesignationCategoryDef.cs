@@ -9,9 +9,9 @@ namespace Verse
 	{
 		public List<Type> specialDesignatorClasses = new List<Type>();
 
-		public int order;
+		public int order = 0;
 
-		public bool showPowerGrid;
+		public bool showPowerGrid = false;
 
 		[Unsaved]
 		private List<Designator> resolvedDesignators = new List<Designator>();
@@ -27,14 +27,24 @@ namespace Verse
 			get
 			{
 				GameRules rules = Current.Game.Rules;
-				for (int i = 0; i < this.resolvedDesignators.Count; i++)
+				int i = 0;
+				Designator des;
+				while (true)
 				{
-					Designator des = this.resolvedDesignators[i];
-					if (rules.DesignatorAllowed(des))
+					if (i < this.resolvedDesignators.Count)
 					{
-						yield return des;
+						des = this.resolvedDesignators[i];
+						if (!rules.DesignatorAllowed(des))
+						{
+							i++;
+							continue;
+						}
+						break;
 					}
+					yield break;
 				}
+				yield return des;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -59,30 +69,21 @@ namespace Verse
 		private void ResolveDesignators()
 		{
 			this.resolvedDesignators.Clear();
-			List<Type>.Enumerator enumerator = this.specialDesignatorClasses.GetEnumerator();
-			try
+			foreach (Type specialDesignatorClass in this.specialDesignatorClasses)
 			{
-				while (enumerator.MoveNext())
+				Designator designator = null;
+				try
 				{
-					Type current = enumerator.Current;
-					Designator designator = null;
-					try
-					{
-						designator = (Designator)Activator.CreateInstance(current);
-					}
-					catch (Exception ex)
-					{
-						Log.Error("DesignationCategoryDef" + base.defName + " could not instantiate special designator from class " + current + ".\n Exception: \n" + ex.ToString());
-					}
-					if (designator != null)
-					{
-						this.resolvedDesignators.Add(designator);
-					}
+					designator = (Designator)Activator.CreateInstance(specialDesignatorClass);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				catch (Exception ex)
+				{
+					Log.Error("DesignationCategoryDef" + base.defName + " could not instantiate special designator from class " + specialDesignatorClass + ".\n Exception: \n" + ex.ToString());
+				}
+				if (designator != null)
+				{
+					this.resolvedDesignators.Add(designator);
+				}
 			}
 			IEnumerable<BuildableDef> enumerable = from tDef in DefDatabase<ThingDef>.AllDefs.Cast<BuildableDef>().Concat(DefDatabase<TerrainDef>.AllDefs.Cast<BuildableDef>())
 			where tDef.designationCategory == this

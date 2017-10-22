@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class SlotGroup
 	{
-		public ISlotGroupParent parent;
+		public ISlotGroupParent parent = null;
 
 		private Map Map
 		{
@@ -36,6 +36,7 @@ namespace RimWorld
 						if (thingList[i].def.EverStoreable)
 						{
 							yield return thingList[i];
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
 				}
@@ -58,9 +59,11 @@ namespace RimWorld
 
 		public IEnumerator<IntVec3> GetEnumerator()
 		{
-			for (int i = 0; i < this.CellsList.Count; i++)
+			int i = 0;
+			if (i < this.CellsList.Count)
 			{
 				yield return this.CellsList[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -83,11 +86,7 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			if (this.parent != null)
-			{
-				return this.parent.ToString();
-			}
-			return "NullParent";
+			return (this.parent == null) ? "NullParent" : this.parent.ToString();
 		}
 	}
 }

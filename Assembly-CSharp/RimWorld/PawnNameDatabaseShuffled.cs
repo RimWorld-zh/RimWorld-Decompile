@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Verse;
 
@@ -12,11 +13,24 @@ namespace RimWorld
 		static PawnNameDatabaseShuffled()
 		{
 			PawnNameDatabaseShuffled.banks = new Dictionary<PawnNameCategory, NameBank>();
-			foreach (byte value in Enum.GetValues(typeof(PawnNameCategory)))
+			IEnumerator enumerator = Enum.GetValues(typeof(PawnNameCategory)).GetEnumerator();
+			try
 			{
-				if (value != 0)
+				while (enumerator.MoveNext())
 				{
-					PawnNameDatabaseShuffled.banks.Add((PawnNameCategory)value, new NameBank((PawnNameCategory)value));
+					PawnNameCategory pawnNameCategory = (PawnNameCategory)enumerator.Current;
+					if (pawnNameCategory != 0)
+					{
+						PawnNameDatabaseShuffled.banks.Add(pawnNameCategory, new NameBank(pawnNameCategory));
+					}
+				}
+			}
+			finally
+			{
+				IDisposable disposable;
+				if ((disposable = (enumerator as IDisposable)) != null)
+				{
+					disposable.Dispose();
 				}
 			}
 			NameBank nameBank = PawnNameDatabaseShuffled.BankOf(PawnNameCategory.HumanStandard);
@@ -26,18 +40,9 @@ namespace RimWorld
 			nameBank.AddNamesFromFile(PawnNameSlot.Nick, Gender.Female, "Nick_Female");
 			nameBank.AddNamesFromFile(PawnNameSlot.Nick, Gender.None, "Nick_Unisex");
 			nameBank.AddNamesFromFile(PawnNameSlot.Last, Gender.None, "Last");
-			Dictionary<PawnNameCategory, NameBank>.ValueCollection.Enumerator enumerator2 = PawnNameDatabaseShuffled.banks.Values.GetEnumerator();
-			try
+			foreach (NameBank value in PawnNameDatabaseShuffled.banks.Values)
 			{
-				while (enumerator2.MoveNext())
-				{
-					NameBank current = enumerator2.Current;
-					current.ErrorCheck();
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
+				value.ErrorCheck();
 			}
 		}
 

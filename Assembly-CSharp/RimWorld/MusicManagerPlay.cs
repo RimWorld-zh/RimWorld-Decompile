@@ -15,11 +15,9 @@ namespace RimWorld
 			Fadeout = 1
 		}
 
-		private const float FadeoutDuration = 10f;
-
 		private AudioSource audioSource;
 
-		private MusicManagerState state;
+		private MusicManagerState state = MusicManagerState.Normal;
 
 		private float fadeoutFactor = 1f;
 
@@ -29,13 +27,13 @@ namespace RimWorld
 
 		private Queue<SongDef> recentSongs = new Queue<SongDef>();
 
-		public bool disabled;
+		public bool disabled = false;
 
-		private SongDef forcedNextSong;
+		private SongDef forcedNextSong = null;
 
-		private bool songWasForced;
+		private bool songWasForced = false;
 
-		private bool ignorePrefsVolumeThisSong;
+		private bool ignorePrefsVolumeThisSong = false;
 
 		public float subtleAmbienceSoundVolumeMultiplier = 1f;
 
@@ -44,6 +42,8 @@ namespace RimWorld
 		private static readonly FloatRange SongIntervalRelax = new FloatRange(85f, 105f);
 
 		private static readonly FloatRange SongIntervalTension = new FloatRange(2f, 5f);
+
+		private const float FadeoutDuration = 10f;
 
 		private float CurTime
 		{
@@ -58,27 +58,41 @@ namespace RimWorld
 			get
 			{
 				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				int num = 0;
+				bool result;
+				while (true)
 				{
-					if (maps[i].IsPlayerHome && maps[i].dangerWatcher.DangerRating == StoryDanger.High)
+					if (num < maps.Count)
 					{
-						return true;
+						if (maps[num].IsPlayerHome && maps[num].dangerWatcher.DangerRating == StoryDanger.High)
+						{
+							result = true;
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = false;
+					break;
 				}
-				return false;
+				return result;
 			}
 		}
 
-		public float CurVolume
+		private float CurVolume
 		{
 			get
 			{
 				float num = (float)((!this.ignorePrefsVolumeThisSong) ? Prefs.VolumeMusic : 1.0);
-				if (this.lastStartedSong == null)
-				{
-					return num;
-				}
-				return this.lastStartedSong.volume * num * this.fadeoutFactor;
+				return (this.lastStartedSong != null) ? (this.lastStartedSong.volume * num * this.fadeoutFactor) : num;
+			}
+		}
+
+		public float CurSanitizedVolume
+		{
+			get
+			{
+				return AudioSourceUtility.GetSanitizedVolume(this.CurVolume, "MusicManagerPlay");
 			}
 		}
 
@@ -120,16 +134,16 @@ namespace RimWorld
 				{
 					if (this.DangerMusicMode && !this.lastStartedSong.tense)
 					{
-						goto IL_0102;
+						goto IL_010c;
 					}
 					if (!this.DangerMusicMode && this.lastStartedSong.tense)
-						goto IL_0102;
+						goto IL_010c;
 				}
-				goto IL_0109;
+				goto IL_0116;
 			}
 			return;
-			IL_0109:
-			this.audioSource.volume = this.CurVolume;
+			IL_0116:
+			this.audioSource.volume = this.CurSanitizedVolume;
 			if (this.audioSource.isPlaying)
 			{
 				if (this.state == MusicManagerState.Fadeout)
@@ -138,7 +152,6 @@ namespace RimWorld
 					if (this.fadeoutFactor <= 0.0)
 					{
 						this.audioSource.Stop();
-						this.ignorePrefsVolumeThisSong = false;
 						this.state = MusicManagerState.Normal;
 						this.fadeoutFactor = 1f;
 					}
@@ -163,18 +176,19 @@ namespace RimWorld
 				}
 				if (this.CurTime >= this.nextSongStartTime)
 				{
+					this.ignorePrefsVolumeThisSong = false;
 					this.StartNewSong();
 				}
 			}
 			return;
-			IL_0102:
+			IL_010c:
 			this.state = MusicManagerState.Fadeout;
-			goto IL_0109;
+			goto IL_0116;
 		}
 
 		private void UpdateSubtleAmbienceSoundVolumeMultiplier()
 		{
-			if (this.IsPlaying && this.CurVolume > 0.0010000000474974513)
+			if (this.IsPlaying && this.CurSanitizedVolume > 0.0010000000474974513)
 			{
 				this.subtleAmbienceSoundVolumeMultiplier -= (float)(Time.deltaTime * 0.10000000149011612);
 			}
@@ -189,7 +203,7 @@ namespace RimWorld
 		{
 			this.lastStartedSong = this.ChooseNextSong();
 			this.audioSource.clip = this.lastStartedSong.clip;
-			this.audioSource.volume = this.CurVolume;
+			this.audioSource.volume = this.CurSanitizedVolume;
 			this.audioSource.spatialBlend = 0f;
 			this.audioSource.Play();
 			this.recentSongs.Enqueue(this.lastStartedSong);
@@ -205,79 +219,82 @@ namespace RimWorld
 		private SongDef ChooseNextSong()
 		{
 			this.songWasForced = false;
+			SongDef result;
 			if (this.forcedNextSong != null)
 			{
-				SongDef result = this.forcedNextSong;
+				SongDef songDef = this.forcedNextSong;
 				this.forcedNextSong = null;
 				this.songWasForced = true;
-				return result;
+				result = songDef;
 			}
-			IEnumerable<SongDef> source = from song in DefDatabase<SongDef>.AllDefs
-			where this.AppropriateNow(song)
-			select song;
-			while (this.recentSongs.Count > 7)
+			else
 			{
-				this.recentSongs.Dequeue();
+				IEnumerable<SongDef> source = from song in DefDatabase<SongDef>.AllDefs
+				where this.AppropriateNow(song)
+				select song;
+				while (this.recentSongs.Count > 7)
+				{
+					this.recentSongs.Dequeue();
+				}
+				while (!source.Any() && this.recentSongs.Count > 0)
+				{
+					this.recentSongs.Dequeue();
+				}
+				if (!source.Any())
+				{
+					Log.Error("Could not get any appropriate song. Getting random and logging song selection data.");
+					this.LogSongSelectionData();
+					result = DefDatabase<SongDef>.GetRandom();
+				}
+				else
+				{
+					result = source.RandomElementByWeight((Func<SongDef, float>)((SongDef s) => s.commonality));
+				}
 			}
-			while (!source.Any() && this.recentSongs.Count > 0)
-			{
-				this.recentSongs.Dequeue();
-			}
-			if (!source.Any())
-			{
-				Log.Error("Could not get any appropriate song. Getting random and logging song selection data.");
-				this.LogSongSelectionData();
-				return DefDatabase<SongDef>.GetRandom();
-			}
-			return source.RandomElementByWeight((Func<SongDef, float>)((SongDef s) => s.commonality));
+			return result;
 		}
 
 		private bool AppropriateNow(SongDef song)
 		{
+			bool result;
 			if (!song.playOnMap)
 			{
-				return false;
+				result = false;
 			}
-			if (this.DangerMusicMode)
+			else
 			{
-				if (!song.tense)
+				if (this.DangerMusicMode)
 				{
-					return false;
+					if (!song.tense)
+					{
+						result = false;
+						goto IL_0129;
+					}
 				}
-			}
-			else if (song.tense)
-			{
-				return false;
-			}
-			Map map = Find.AnyPlayerHomeMap ?? Find.VisibleMap;
-			if (!song.allowedSeasons.NullOrEmpty())
-			{
-				if (map == null)
+				else if (song.tense)
 				{
-					return false;
+					result = false;
+					goto IL_0129;
 				}
-				if (!song.allowedSeasons.Contains(GenLocalDate.Season(map)))
+				Map map = Find.AnyPlayerHomeMap ?? Find.VisibleMap;
+				if (!song.allowedSeasons.NullOrEmpty())
 				{
-					return false;
+					if (map == null)
+					{
+						result = false;
+						goto IL_0129;
+					}
+					if (!song.allowedSeasons.Contains(GenLocalDate.Season(map)))
+					{
+						result = false;
+						goto IL_0129;
+					}
 				}
+				result = (!this.recentSongs.Contains(song) && (song.allowedTimeOfDay == TimeOfDay.Any || map == null || ((song.allowedTimeOfDay != 0) ? (GenLocalDate.DayPercent(map) > 0.20000000298023224 && GenLocalDate.DayPercent(map) < 0.699999988079071) : (GenLocalDate.DayPercent(map) < 0.20000000298023224 || GenLocalDate.DayPercent(map) > 0.699999988079071))));
 			}
-			if (this.recentSongs.Contains(song))
-			{
-				return false;
-			}
-			if (song.allowedTimeOfDay != TimeOfDay.Any)
-			{
-				if (map == null)
-				{
-					return true;
-				}
-				if (song.allowedTimeOfDay == TimeOfDay.Night)
-				{
-					return GenLocalDate.DayPercent(map) < 0.20000000298023224 || GenLocalDate.DayPercent(map) > 0.699999988079071;
-				}
-				return GenLocalDate.DayPercent(map) > 0.20000000298023224 && GenLocalDate.DayPercent(map) < 0.699999988079071;
-			}
-			return true;
+			goto IL_0129;
+			IL_0129:
+			return result;
 		}
 
 		public string DebugString()
@@ -309,18 +326,9 @@ namespace RimWorld
 			}
 			stringBuilder.AppendLine();
 			stringBuilder.AppendLine("Recently played songs:");
-			Queue<SongDef>.Enumerator enumerator2 = this.recentSongs.GetEnumerator();
-			try
+			foreach (SongDef recentSong in this.recentSongs)
 			{
-				while (enumerator2.MoveNext())
-				{
-					SongDef current2 = enumerator2.Current;
-					stringBuilder.AppendLine("   " + current2.defName);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
+				stringBuilder.AppendLine("   " + recentSong.defName);
 			}
 			Log.Message(stringBuilder.ToString());
 		}

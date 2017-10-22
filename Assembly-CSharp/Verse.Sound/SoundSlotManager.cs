@@ -9,21 +9,22 @@ namespace Verse.Sound
 
 		public static bool CanPlayNow(string slotName)
 		{
-			if (slotName == string.Empty)
+			bool result;
+			if (slotName == "")
 			{
-				return true;
+				result = true;
 			}
-			float num = 0f;
-			if (SoundSlotManager.allowedPlayTimes.TryGetValue(slotName, out num) && Time.realtimeSinceStartup < SoundSlotManager.allowedPlayTimes[slotName])
+			else
 			{
-				return false;
+				float num = 0f;
+				result = ((byte)((!SoundSlotManager.allowedPlayTimes.TryGetValue(slotName, out num) || !(Time.realtimeSinceStartup < SoundSlotManager.allowedPlayTimes[slotName])) ? 1 : 0) != 0);
 			}
-			return true;
+			return result;
 		}
 
 		public static void Notify_Played(string slot, float duration)
 		{
-			if (!(slot == string.Empty))
+			if (!(slot == ""))
 			{
 				float a = default(float);
 				if (SoundSlotManager.allowedPlayTimes.TryGetValue(slot, out a))

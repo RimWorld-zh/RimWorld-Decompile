@@ -10,7 +10,7 @@ namespace RimWorld
 
 		public string text;
 
-		public bool startCentered;
+		public bool startCentered = false;
 
 		public bool tutorialModeOnly = true;
 
@@ -18,11 +18,11 @@ namespace RimWorld
 
 		public List<string> eventTagsEnd;
 
-		public List<string> actionTagsAllowed;
+		public List<string> actionTagsAllowed = null;
 
-		public string rejectInputMessage;
+		public string rejectInputMessage = (string)null;
 
-		public ConceptDef concept;
+		public ConceptDef concept = null;
 
 		public List<string> highlightTags;
 
@@ -40,28 +40,37 @@ namespace RimWorld
 
 		public int giveOnActivateCount;
 
-		public bool endTutorial;
+		public bool endTutorial = false;
 
-		public bool resetBuildDesignatorStuffs;
+		public bool resetBuildDesignatorStuffs = false;
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string e = enumerator.Current;
+					yield return e;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			if (this.instructionClass == null)
 			{
 				yield return "no instruction class";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.text.NullOrEmpty())
 			{
 				yield return "no text";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (this.eventTagInitiate.NullOrEmpty())
-			{
-				yield return "no eventTagInitiate";
-			}
+			if (!this.eventTagInitiate.NullOrEmpty())
+				yield break;
+			yield return "no eventTagInitiate";
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0160:
+			/*Error near IL_0161: Unexpected return in MoveNext()*/;
 		}
 	}
 }

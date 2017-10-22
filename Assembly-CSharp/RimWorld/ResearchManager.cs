@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public sealed class ResearchManager : IExposable
 	{
-		public ResearchProjectDef currentProj;
+		public ResearchProjectDef currentProj = null;
 
 		private Dictionary<ResearchProjectDef, float> progress = new Dictionary<ResearchProjectDef, float>();
 
@@ -28,13 +28,18 @@ namespace RimWorld
 
 		public float GetProgress(ResearchProjectDef proj)
 		{
-			float result = default(float);
-			if (this.progress.TryGetValue(proj, out result))
+			float num = default(float);
+			float result;
+			if (this.progress.TryGetValue(proj, out num))
 			{
-				return result;
+				result = num;
 			}
-			this.progress.Add(proj, 0f);
-			return 0f;
+			else
+			{
+				this.progress.Add(proj, 0f);
+				result = 0f;
+			}
+			return result;
 		}
 
 		public void ResearchPerformed(float amount, Pawn researcher)
@@ -102,6 +107,10 @@ namespace RimWorld
 			if (doCompletionDialog)
 			{
 				this.DoCompletionDialog(proj, null);
+			}
+			if (this.currentProj == proj)
+			{
+				this.currentProj = null;
 			}
 		}
 

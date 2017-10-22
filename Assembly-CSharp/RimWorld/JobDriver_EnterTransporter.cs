@@ -13,30 +13,22 @@ namespace RimWorld
 		{
 			get
 			{
-				Thing thing = base.CurJob.GetTarget(this.TransporterInd).Thing;
-				if (thing == null)
-				{
-					return null;
-				}
-				return thing.TryGetComp<CompTransporter>();
+				Thing thing = base.job.GetTarget(this.TransporterInd).Thing;
+				return (thing != null) ? thing.TryGetComp<CompTransporter>() : null;
 			}
+		}
+
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve(base.job.GetTarget(this.TransporterInd), base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(this.TransporterInd);
-			this.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator29)/*Error near IL_0046: stateMachine*/)._003C_003Ef__this.Transporter.LoadingInProgressOrReadyToLaunch));
-			yield return Toils_Reserve.Reserve(this.TransporterInd, 1, -1, null);
+			this.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0043: stateMachine*/)._0024this.Transporter.LoadingInProgressOrReadyToLaunch));
 			yield return Toils_Goto.GotoThing(this.TransporterInd, PathEndMode.Touch);
-			yield return new Toil
-			{
-				initAction = (Action)delegate
-				{
-					CompTransporter transporter = ((_003CMakeNewToils_003Ec__Iterator29)/*Error near IL_00b1: stateMachine*/)._003C_003Ef__this.Transporter;
-					((_003CMakeNewToils_003Ec__Iterator29)/*Error near IL_00b1: stateMachine*/)._003C_003Ef__this.pawn.DeSpawn();
-					transporter.GetDirectlyHeldThings().TryAdd(((_003CMakeNewToils_003Ec__Iterator29)/*Error near IL_00b1: stateMachine*/)._003C_003Ef__this.pawn, true);
-				}
-			};
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

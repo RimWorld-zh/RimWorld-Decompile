@@ -18,28 +18,42 @@ namespace RimWorld.BaseGen
 		{
 			Map map = BaseGen.globalSettings.map;
 			List<Thing> thingList = c.GetThingList(map);
-			for (int i = 0; i < thingList.Count; i++)
+			int num = 0;
+			Thing result;
+			while (true)
 			{
-				if (!thingList[i].def.destroyable)
+				if (num < thingList.Count)
 				{
-					return null;
+					if (!thingList[num].def.destroyable)
+					{
+						result = null;
+						break;
+					}
+					if (thingList[num] is Building_Door)
+					{
+						result = null;
+						break;
+					}
+					num++;
+					continue;
 				}
-				if (thingList[i] is Building_Door)
+				for (int num2 = thingList.Count - 1; num2 >= 0; num2--)
 				{
-					return null;
+					thingList[num2].Destroy(DestroyMode.Vanish);
 				}
+				if (rp.chanceToSkipWallBlock.HasValue && Rand.Chance(rp.chanceToSkipWallBlock.Value))
+				{
+					result = null;
+				}
+				else
+				{
+					Thing thing = ThingMaker.MakeThing(ThingDefOf.Wall, wallStuff);
+					thing.SetFaction(rp.faction, null);
+					result = GenSpawn.Spawn(thing, c, map);
+				}
+				break;
 			}
-			for (int num = thingList.Count - 1; num >= 0; num--)
-			{
-				thingList[num].Destroy(DestroyMode.Vanish);
-			}
-			if (rp.chanceToSkipWallBlock.HasValue && Rand.Chance(rp.chanceToSkipWallBlock.Value))
-			{
-				return null;
-			}
-			Thing thing = ThingMaker.MakeThing(ThingDefOf.Wall, wallStuff);
-			thing.SetFaction(rp.faction, null);
-			return GenSpawn.Spawn(thing, c, map);
+			return result;
 		}
 	}
 }

@@ -18,21 +18,28 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return gizmo;
-			}
-			if (DesignatorUtility.FindAllowedDesignator<Designator_ZoneAdd_Growing>() != null)
-			{
-				yield return (Gizmo)new Command_Action
+				if (enumerator.MoveNext())
 				{
-					action = new Action(this.MakeMatchingGrowZone),
-					hotKey = KeyBindingDefOf.Misc2,
-					defaultDesc = "CommandSunLampMakeGrowingZoneDesc".Translate(),
-					icon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Growing", true),
-					defaultLabel = "CommandSunLampMakeGrowingZoneLabel".Translate()
-				};
+					Gizmo baseGizmo = enumerator.Current;
+					yield return baseGizmo;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			if (DesignatorUtility.FindAllowedDesignator<Designator_ZoneAdd_Growing>() == null)
+				yield break;
+			yield return (Gizmo)new Command_Action
+			{
+				action = new Action(this.MakeMatchingGrowZone),
+				hotKey = KeyBindingDefOf.Misc2,
+				defaultDesc = "CommandSunLampMakeGrowingZoneDesc".Translate(),
+				icon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Growing", true),
+				defaultLabel = "CommandSunLampMakeGrowingZoneLabel".Translate()
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0164:
+			/*Error near IL_0165: Unexpected return in MoveNext()*/;
 		}
 
 		private void MakeMatchingGrowZone()

@@ -6,8 +6,6 @@ namespace RimWorld.Planet
 {
 	public static class PlanetShapeGenerator
 	{
-		private const int MaxTileVertices = 6;
-
 		private static int subdivisionsCount;
 
 		private static float radius;
@@ -51,6 +49,8 @@ namespace RimWorld.Planet
 		private static List<int> tileIDToVerts_offsets = new List<int>();
 
 		private static List<int> tileIDToVerts_values = new List<int>();
+
+		private const int MaxTileVertices = 6;
 
 		public static void Generate(int subdivisionsCount, out List<Vector3> outVerts, out List<int> outTileIDToVerts_offsets, out List<int> outTileIDToNeighbors_offsets, out List<int> outTileIDToNeighbors_values, float radius, Vector3 viewCenter, float viewAngle)
 		{
@@ -197,9 +197,9 @@ namespace RimWorld.Planet
 					{
 						int item = count + PlanetShapeGenerator.adjacentTris[num8];
 						PlanetShapeGenerator.generatedTileVerts.Add(item);
-						int nextAdjancetTriangle = PlanetShapeGenerator.GetNextAdjancetTriangle(num8, currentTriangleVertex, PlanetShapeGenerator.adjacentTris);
-						int nextOrderedVertex3 = PlanetShapeGenerator.tris[PlanetShapeGenerator.adjacentTris[nextAdjancetTriangle]].GetNextOrderedVertex(num3);
-						num8 = nextAdjancetTriangle;
+						int nextAdjacentTriangle = PlanetShapeGenerator.GetNextAdjacentTriangle(num8, currentTriangleVertex, PlanetShapeGenerator.adjacentTris);
+						int nextOrderedVertex3 = PlanetShapeGenerator.tris[PlanetShapeGenerator.adjacentTris[nextAdjacentTriangle]].GetNextOrderedVertex(num3);
+						num8 = nextAdjacentTriangle;
 						currentTriangleVertex = nextOrderedVertex3;
 					}
 					PlanetShapeGenerator.FinalizeGeneratedTile(PlanetShapeGenerator.generatedTileVerts);
@@ -213,10 +213,10 @@ namespace RimWorld.Planet
 		{
 			if (generatedTileVerts.Count != 5 && generatedTileVerts.Count != 6)
 			{
-				goto IL_0024;
+				goto IL_0025;
 			}
 			if (generatedTileVerts.Count > 6)
-				goto IL_0024;
+				goto IL_0025;
 			if (!PlanetShapeGenerator.ShouldDiscardGeneratedTile(generatedTileVerts))
 			{
 				int count = PlanetShapeGenerator.tileIDToFinalVerts_offsets.Count;
@@ -233,7 +233,7 @@ namespace RimWorld.Planet
 				PackedListOfLists.AddList(PlanetShapeGenerator.tileIDToVerts_offsets, PlanetShapeGenerator.tileIDToVerts_values, generatedTileVerts);
 			}
 			return;
-			IL_0024:
+			IL_0025:
 			Log.Error("Planet shape generation internal error: generated a tile with " + generatedTileVerts.Count + " vertices. Only 5 and 6 are allowed.");
 		}
 
@@ -247,7 +247,7 @@ namespace RimWorld.Planet
 				a += PlanetShapeGenerator.verts[generatedTileVerts[num]];
 				num++;
 			}
-			return !MeshUtility.Visible(a / (float)generatedTileVerts.Count, PlanetShapeGenerator.radius, PlanetShapeGenerator.viewCenter, PlanetShapeGenerator.viewAngle);
+			return !MeshUtility.VisibleForWorldgen(a / (float)generatedTileVerts.Count, PlanetShapeGenerator.radius, PlanetShapeGenerator.viewCenter, PlanetShapeGenerator.viewAngle);
 		}
 
 		private static void CalculateTileNeighbors()
@@ -283,24 +283,34 @@ namespace RimWorld.Planet
 			}
 		}
 
-		private static int GetNextAdjancetTriangle(int currentAdjTriangleIndex, int currentTriangleVertex, List<int> adjacentTris)
+		private static int GetNextAdjacentTriangle(int currentAdjTriangleIndex, int currentTriangleVertex, List<int> adjacentTris)
 		{
-			int i = 0;
+			int num = 0;
 			int count = adjacentTris.Count;
-			for (; i < count; i++)
+			int result;
+			while (true)
 			{
-				if (currentAdjTriangleIndex != i)
+				if (num < count)
 				{
-					TriangleIndices triangleIndices = PlanetShapeGenerator.tris[adjacentTris[i]];
-					if (triangleIndices.v1 != currentTriangleVertex && triangleIndices.v2 != currentTriangleVertex && triangleIndices.v3 != currentTriangleVertex)
+					if (currentAdjTriangleIndex != num)
 					{
-						continue;
+						TriangleIndices triangleIndices = PlanetShapeGenerator.tris[adjacentTris[num]];
+						if (triangleIndices.v1 != currentTriangleVertex && triangleIndices.v2 != currentTriangleVertex && triangleIndices.v3 != currentTriangleVertex)
+						{
+							goto IL_005e;
+						}
+						result = num;
+						break;
 					}
-					return i;
+					goto IL_005e;
 				}
+				Log.Error("Planet shape generation internal error: could not find next adjacent triangle.");
+				result = -1;
+				break;
+				IL_005e:
+				num++;
 			}
-			Log.Error("Planet shape generation internal error: could not find next adjacent triangle.");
-			return -1;
+			return result;
 		}
 	}
 }

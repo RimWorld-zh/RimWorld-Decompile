@@ -8,20 +8,28 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			IntVec3 c = default(IntVec3);
+			Job result;
 			if (!RCellFinder.TryFindBestExitSpot(pawn, out c, TraverseMode.ByPawn))
 			{
-				return null;
+				result = null;
 			}
-			Pawn pawn2 = KidnapAIUtility.ReachableWoundedGuest(pawn);
-			if (pawn2 == null)
+			else
 			{
-				return null;
+				Pawn pawn2 = KidnapAIUtility.ReachableWoundedGuest(pawn);
+				if (pawn2 == null)
+				{
+					result = null;
+				}
+				else
+				{
+					Job job = new Job(JobDefOf.Kidnap);
+					job.targetA = (Thing)pawn2;
+					job.targetB = c;
+					job.count = 1;
+					result = job;
+				}
 			}
-			Job job = new Job(JobDefOf.Kidnap);
-			job.targetA = (Thing)pawn2;
-			job.targetB = c;
-			job.count = 1;
-			return job;
+			return result;
 		}
 	}
 }

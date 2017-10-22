@@ -63,18 +63,9 @@ namespace Verse
 		private static string CompiledLog()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			List<string>.Enumerator enumerator = LogSimple.messages.GetEnumerator();
-			try
+			foreach (string message in LogSimple.messages)
 			{
-				while (enumerator.MoveNext())
-				{
-					string current = enumerator.Current;
-					stringBuilder.AppendLine(current);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				stringBuilder.AppendLine(message);
 			}
 			return stringBuilder.ToString().TrimEnd();
 		}

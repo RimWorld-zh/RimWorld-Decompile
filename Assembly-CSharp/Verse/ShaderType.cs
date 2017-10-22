@@ -10,9 +10,10 @@ namespace Verse
 		CutoutSkin = 5,
 		Transparent = 6,
 		TransparentPostLight = 7,
-		MetaOverlay = 8,
-		Mote = 9,
-		MoteGlow = 10,
-		MoteWater = 11
+		TransparentPlant = 8,
+		MetaOverlay = 9,
+		Mote = 10,
+		MoteGlow = 11,
+		MoteWater = 12
 	}
 }

@@ -7,29 +7,35 @@ namespace RimWorld
 	{
 		public static string GetLabel(this RestCategory fatigue)
 		{
+			string result;
 			switch (fatigue)
 			{
 			case RestCategory.Exhausted:
 			{
-				return "HungerLevel_Exhausted".Translate();
+				result = "HungerLevel_Exhausted".Translate();
+				break;
 			}
 			case RestCategory.VeryTired:
 			{
-				return "HungerLevel_VeryTired".Translate();
+				result = "HungerLevel_VeryTired".Translate();
+				break;
 			}
 			case RestCategory.Tired:
 			{
-				return "HungerLevel_Tired".Translate();
+				result = "HungerLevel_Tired".Translate();
+				break;
 			}
 			case RestCategory.Rested:
 			{
-				return "HungerLevel_Rested".Translate();
+				result = "HungerLevel_Rested".Translate();
+				break;
 			}
 			default:
 			{
 				throw new InvalidOperationException();
 			}
 			}
+			return result;
 		}
 	}
 }

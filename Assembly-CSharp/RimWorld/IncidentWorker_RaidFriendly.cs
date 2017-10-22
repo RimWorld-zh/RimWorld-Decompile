@@ -17,37 +17,43 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
+			bool result;
 			if (!base.CanFireNowSub(target))
 			{
-				return false;
+				result = false;
 			}
-			Map map = (Map)target;
-			return (from p in map.attackTargetsCache.TargetsHostileToColony
-			where !p.ThreatDisabled()
-			select p).Sum((Func<IAttackTarget, float>)delegate(IAttackTarget p)
+			else
 			{
-				Pawn pawn = p as Pawn;
-				if (pawn != null)
+				Map map = (Map)target;
+				result = ((from p in map.attackTargetsCache.TargetsHostileToColony
+				where GenHostility.IsActiveThreatToPlayer(p)
+				select p).Sum((Func<IAttackTarget, float>)delegate(IAttackTarget p)
 				{
-					return pawn.kindDef.combatPower;
-				}
-				return 0f;
-			}) > 120.0;
+					Pawn pawn = p as Pawn;
+					return (float)((pawn == null) ? 0.0 : pawn.kindDef.combatPower);
+				}) > 120.0);
+			}
+			return result;
 		}
 
 		protected override bool TryResolveRaidFaction(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
+			bool result;
 			if (parms.faction != null)
 			{
-				return true;
+				result = true;
 			}
-			if (!base.CandidateFactions(map, false).Any())
+			else if (!base.CandidateFactions(map, false).Any())
 			{
-				return false;
+				result = false;
 			}
-			parms.faction = base.CandidateFactions(map, false).RandomElementByWeight((Func<Faction, float>)((Faction fac) => (float)(fac.PlayerGoodwill + 120.00000762939453)));
-			return true;
+			else
+			{
+				parms.faction = base.CandidateFactions(map, false).RandomElementByWeight((Func<Faction, float>)((Faction fac) => (float)(fac.PlayerGoodwill + 120.00000762939453)));
+				result = true;
+			}
+			return result;
 		}
 
 		protected override void ResolveRaidStrategy(IncidentParms parms)
@@ -102,7 +108,7 @@ namespace RimWorld
 
 		protected override LetterDef GetLetterDef()
 		{
-			return LetterDefOf.BadNonUrgent;
+			return LetterDefOf.PositiveEvent;
 		}
 
 		protected override string GetRelatedPawnsInfoLetterText(IncidentParms parms)

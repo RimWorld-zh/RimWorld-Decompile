@@ -4,9 +4,9 @@ namespace Verse
 {
 	public class Listing_Tree : Listing_Lines
 	{
-		protected const float OpenCloseWidgetSize = 18f;
-
 		public float nestIndentWidth = 11f;
+
+		protected const float OpenCloseWidgetSize = 18f;
 
 		protected virtual float LabelWidth
 		{
@@ -68,20 +68,28 @@ namespace Verse
 
 		protected bool OpenCloseWidget(TreeNode node, int indentLevel, int openMask)
 		{
+			bool result;
 			if (!node.Openable)
 			{
-				return false;
+				result = false;
 			}
-			float x = this.XAtIndentLevel(indentLevel);
-			float y = (float)(base.curY + base.lineHeight / 2.0 - 9.0);
-			Rect butRect = new Rect(x, y, 18f, 18f);
-			Texture2D tex = (!node.IsOpen(openMask)) ? TexButton.Reveal : TexButton.Collapse;
-			if (Widgets.ButtonImage(butRect, tex))
+			else
 			{
-				node.SetOpen(openMask, !node.IsOpen(openMask));
-				return true;
+				float x = this.XAtIndentLevel(indentLevel);
+				float y = (float)(base.curY + base.lineHeight / 2.0 - 9.0);
+				Rect butRect = new Rect(x, y, 18f, 18f);
+				Texture2D tex = (!node.IsOpen(openMask)) ? TexButton.Reveal : TexButton.Collapse;
+				if (Widgets.ButtonImage(butRect, tex))
+				{
+					node.SetOpen(openMask, !node.IsOpen(openMask));
+					result = true;
+				}
+				else
+				{
+					result = false;
+				}
 			}
-			return false;
+			return result;
 		}
 
 		public void InfoText(string text, int indentLevel)

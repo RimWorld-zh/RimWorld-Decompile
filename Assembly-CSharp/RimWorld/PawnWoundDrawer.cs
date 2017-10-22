@@ -19,22 +19,11 @@ namespace RimWorld
 
 			public Wound(Pawn pawn)
 			{
-				if (pawn.RaceProps.FleshType == FleshTypeDefOf.Normal)
-				{
-					this.mat = PawnWoundDrawer.WoundOverlays_Flesh.RandomElement();
-				}
-				else if (pawn.RaceProps.FleshType == FleshTypeDefOf.Mechanoid)
-				{
-					this.mat = PawnWoundDrawer.WoundOverlays_Mech.RandomElement();
-				}
-				else if (pawn.RaceProps.FleshType == FleshTypeDefOf.Insectoid)
-				{
-					this.mat = PawnWoundDrawer.WoundOverlays_Insect.RandomElement();
-				}
-				else
+				this.mat = pawn.RaceProps.FleshType.ChooseWoundOverlay();
+				if ((Object)this.mat == (Object)null)
 				{
 					Log.ErrorOnce(string.Format("No wound graphics data available for flesh type {0}", pawn.RaceProps.FleshType), 76591733);
-					this.mat = PawnWoundDrawer.WoundOverlays_Flesh.RandomElement();
+					this.mat = FleshTypeDefOf.Normal.ChooseWoundOverlay();
 				}
 				this.quat = Quaternion.AngleAxis((float)Rand.Range(0, 360), Vector3.up);
 				for (int i = 0; i < 4; i++)
@@ -63,29 +52,6 @@ namespace RimWorld
 		private List<Wound> wounds = new List<Wound>();
 
 		private int MaxDisplayWounds = 3;
-
-		private static readonly List<Material> WoundOverlays_Flesh = new List<Material>
-		{
-			MaterialPool.MatFrom("Things/Pawn/Wounds/WoundFleshA"),
-			MaterialPool.MatFrom("Things/Pawn/Wounds/WoundFleshB"),
-			MaterialPool.MatFrom("Things/Pawn/Wounds/WoundFleshC")
-		};
-
-		private static readonly List<Material> WoundOverlays_Mech = new List<Material>
-		{
-			MaterialPool.MatFrom("Things/Pawn/Wounds/WoundMechA"),
-			MaterialPool.MatFrom("Things/Pawn/Wounds/WoundMechB"),
-			MaterialPool.MatFrom("Things/Pawn/Wounds/WoundMechC")
-		};
-
-		private static readonly Color InsectWoundColor = new ColorInt(60, 50, 40).ToColor;
-
-		private static readonly List<Material> WoundOverlays_Insect = new List<Material>
-		{
-			MaterialPool.MatFrom("Things/Pawn/Wounds/WoundA", ShaderDatabase.Cutout, PawnWoundDrawer.InsectWoundColor),
-			MaterialPool.MatFrom("Things/Pawn/Wounds/WoundB", ShaderDatabase.Cutout, PawnWoundDrawer.InsectWoundColor),
-			MaterialPool.MatFrom("Things/Pawn/Wounds/WoundC", ShaderDatabase.Cutout, PawnWoundDrawer.InsectWoundColor)
-		};
 
 		public PawnWoundDrawer(Pawn pawn)
 		{

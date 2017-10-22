@@ -9,40 +9,36 @@ namespace RimWorld
 	{
 		private const int StripTicks = 60;
 
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve(base.job.targetA, base.job, 1, -1, null);
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
+			this.FailOnDespawnedOrNull(TargetIndex.A);
 			this.FailOnAggroMentalState(TargetIndex.A);
-			this.FailOn((Func<bool>)(() => !StrippableUtility.CanBeStrippedByColony(((_003CMakeNewToils_003Ec__Iterator3C)/*Error near IL_0040: stateMachine*/)._003C_003Ef__this.TargetThingA)));
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			this.FailOn((Func<bool>)(() => !StrippableUtility.CanBeStrippedByColony(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.TargetThingA)));
 			Toil gotoThing = new Toil
 			{
 				initAction = (Action)delegate
 				{
-					((_003CMakeNewToils_003Ec__Iterator3C)/*Error near IL_007e: stateMachine*/)._003C_003Ef__this.pawn.pather.StartPath(((_003CMakeNewToils_003Ec__Iterator3C)/*Error near IL_007e: stateMachine*/)._003C_003Ef__this.TargetThingA, PathEndMode.ClosestTouch);
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006e: stateMachine*/)._0024this.pawn.pather.StartPath(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006e: stateMachine*/)._0024this.TargetThingA, PathEndMode.ClosestTouch);
 				},
 				defaultCompleteMode = ToilCompleteMode.PatherArrival
 			};
 			gotoThing.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 			yield return gotoThing;
-			yield return Toils_General.Wait(60).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
-			yield return new Toil
+			/*Error: Unable to find new state assignment for yield return*/;
+		}
+
+		public override object[] TaleParameters()
+		{
+			Corpse corpse = base.TargetA.Thing as Corpse;
+			return new object[2]
 			{
-				initAction = (Action)delegate
-				{
-					Thing thing = ((_003CMakeNewToils_003Ec__Iterator3C)/*Error near IL_00f6: stateMachine*/)._003C_003Ef__this.CurJob.targetA.Thing;
-					Designation designation = ((_003CMakeNewToils_003Ec__Iterator3C)/*Error near IL_00f6: stateMachine*/)._003C_003Ef__this.Map.designationManager.DesignationOn(thing, DesignationDefOf.Strip);
-					if (designation != null)
-					{
-						designation.Delete();
-					}
-					IStrippable strippable = thing as IStrippable;
-					if (strippable != null)
-					{
-						strippable.Strip();
-					}
-					((_003CMakeNewToils_003Ec__Iterator3C)/*Error near IL_00f6: stateMachine*/)._003C_003Ef__this.pawn.records.Increment(RecordDefOf.BodiesStripped);
-				},
-				defaultCompleteMode = ToilCompleteMode.Instant
+				base.pawn,
+				(corpse == null) ? base.TargetA.Thing : corpse.InnerPawn
 			};
 		}
 	}

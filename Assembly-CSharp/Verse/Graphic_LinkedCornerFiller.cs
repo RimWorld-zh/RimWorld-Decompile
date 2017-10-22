@@ -6,9 +6,9 @@ namespace Verse
 	{
 		private const float ShiftUp = 0.09f;
 
-		private const float CoverSize = 0.45f;
+		private const float CoverSize = 0.5f;
 
-		private static readonly float CoverSizeCornerCorner = new Vector2(0.45f, 0.45f).magnitude;
+		private static readonly float CoverSizeCornerCorner = new Vector2(0.5f, 0.5f).magnitude;
 
 		private static readonly float DistCenterCorner = new Vector2(0.5f, 0.5f).magnitude;
 
@@ -50,9 +50,13 @@ namespace Verse
 				IntVec3 c = thing.Position + GenAdj.DiagonalDirectionsAround[i];
 				if (this.ShouldLinkWith(c, thing) && (i != 0 || (this.ShouldLinkWith(position + IntVec3.West, thing) && this.ShouldLinkWith(position + IntVec3.South, thing))) && (i != 1 || (this.ShouldLinkWith(position + IntVec3.West, thing) && this.ShouldLinkWith(position + IntVec3.North, thing))) && (i != 2 || (this.ShouldLinkWith(position + IntVec3.East, thing) && this.ShouldLinkWith(position + IntVec3.North, thing))) && (i != 3 || (this.ShouldLinkWith(position + IntVec3.East, thing) && this.ShouldLinkWith(position + IntVec3.South, thing))))
 				{
-					Vector3 center = thing.DrawPos + GenAdj.DiagonalDirectionsAround[i].ToVector3().normalized * Graphic_LinkedCornerFiller.CoverOffsetDist + Altitudes.AltIncVect + new Vector3(0f, 0f, 0.09f);
+					Vector3 vector = thing.DrawPos + GenAdj.DiagonalDirectionsAround[i].ToVector3().normalized * Graphic_LinkedCornerFiller.CoverOffsetDist + Altitudes.AltIncVect + new Vector3(0f, 0f, 0.09f);
+					Vector3 center = vector;
+					Vector2 size = new Vector2(0.5f, 0.5f);
+					Material mat = base.LinkedDrawMatFrom(thing, thing.Position);
+					float rot = 0f;
 					Vector2[] cornerFillUVs = Graphic_LinkedCornerFiller.CornerFillUVs;
-					Printer_Plane.PrintPlane(layer, center, new Vector2(0.45f, 0.45f), base.LinkedDrawMatFrom(thing, thing.Position), 0f, false, cornerFillUVs, null, 0.01f);
+					Printer_Plane.PrintPlane(layer, center, size, mat, rot, false, cornerFillUVs, null, 0.01f);
 				}
 			}
 		}

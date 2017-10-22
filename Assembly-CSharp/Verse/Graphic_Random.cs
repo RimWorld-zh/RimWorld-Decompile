@@ -23,31 +23,28 @@ namespace Verse
 
 		public override Material MatAt(Rot4 rot, Thing thing = null)
 		{
-			if (thing == null)
-			{
-				return this.MatSingle;
-			}
-			return this.MatSingleFor(thing);
+			return (thing != null) ? this.MatSingleFor(thing) : this.MatSingle;
 		}
 
 		public override Material MatSingleFor(Thing thing)
 		{
-			if (thing == null)
-			{
-				return this.MatSingle;
-			}
-			return this.SubGraphicFor(thing).MatSingle;
+			return (thing != null) ? this.SubGraphicFor(thing).MatSingle : this.MatSingle;
 		}
 
-		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing)
+		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			Graphic graphic = (thing == null) ? base.subGraphics[0] : this.SubGraphicFor(thing);
-			graphic.DrawWorker(loc, rot, thingDef, thing);
+			graphic.DrawWorker(loc, rot, thingDef, thing, extraRotation);
 		}
 
 		public Graphic SubGraphicFor(Thing thing)
 		{
 			return base.subGraphics[thing.thingIDNumber % base.subGraphics.Length];
+		}
+
+		public Graphic FirstSubgraphic()
+		{
+			return base.subGraphics[0];
 		}
 
 		public override string ToString()

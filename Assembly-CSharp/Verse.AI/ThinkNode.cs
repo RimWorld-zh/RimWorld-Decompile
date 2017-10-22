@@ -5,10 +5,6 @@ namespace Verse.AI
 {
 	public abstract class ThinkNode
 	{
-		public const int InvalidSaveKey = -1;
-
-		protected const int UnresolvedSaveKey = -2;
-
 		public List<ThinkNode> subNodes = new List<ThinkNode>();
 
 		public bool leaveJoinableLordIfIssuesJob;
@@ -20,6 +16,10 @@ namespace Verse.AI
 
 		[Unsaved]
 		public ThinkNode parent;
+
+		public const int InvalidSaveKey = -1;
+
+		protected const int UnresolvedSaveKey = -2;
 
 		public int UniqueSaveKey
 		{
@@ -34,10 +34,7 @@ namespace Verse.AI
 			get
 			{
 				yield return this;
-				foreach (ThinkNode item in this.ChildrenRecursive)
-				{
-					yield return item;
-				}
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -47,22 +44,35 @@ namespace Verse.AI
 			{
 				for (int i = 0; i < this.subNodes.Count; i++)
 				{
-					foreach (ThinkNode item in this.subNodes[i].ThisAndChildrenRecursive)
+					using (IEnumerator<ThinkNode> enumerator = this.subNodes[i].ThisAndChildrenRecursive.GetEnumerator())
 					{
-						yield return item;
+						if (enumerator.MoveNext())
+						{
+							ThinkNode subSubNode = enumerator.Current;
+							yield return subSubNode;
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
 					}
 				}
+				yield break;
+				IL_0104:
+				/*Error near IL_0105: Unexpected return in MoveNext()*/;
 			}
 		}
 
 		public virtual float GetPriority(Pawn pawn)
 		{
+			float result;
 			if (this.priority < 0.0)
 			{
 				Log.ErrorOnce("ThinkNode_PrioritySorter has child node which didn't give a priority: " + this, this.GetHashCode());
-				return 0f;
+				result = 0f;
 			}
-			return this.priority;
+			else
+			{
+				result = this.priority;
+			}
+			return result;
 		}
 
 		public abstract ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams);

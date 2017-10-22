@@ -4,21 +4,21 @@ namespace Verse
 {
 	public abstract class Listing
 	{
-		public const float ColumnSpacing = 17f;
-
-		private const float DefaultGap = 12f;
-
 		public float verticalSpacing = 2f;
 
 		protected Rect listingRect;
 
-		protected float curY;
+		protected float curY = 0f;
 
-		protected float curX;
+		protected float curX = 0f;
 
 		private float columnWidthInt;
 
 		private bool hasCustomColumnWidth;
+
+		public const float ColumnSpacing = 17f;
+
+		private const float DefaultGap = 12f;
 
 		public float CurHeight
 		{

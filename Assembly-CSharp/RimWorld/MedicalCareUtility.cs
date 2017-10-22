@@ -8,11 +8,11 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class MedicalCareUtility
 	{
+		private static Texture2D[] careTextures;
+
 		public const float CareSetterHeight = 28f;
 
 		public const float CareSetterWidth = 140f;
-
-		private static Texture2D[] careTextures;
 
 		public static void Reset()
 		{
@@ -56,33 +56,40 @@ namespace RimWorld
 
 		public static bool AllowsMedicine(this MedicalCareCategory cat, ThingDef meds)
 		{
+			bool result;
 			switch (cat)
 			{
 			case MedicalCareCategory.NoCare:
 			{
-				return false;
+				result = false;
+				break;
 			}
 			case MedicalCareCategory.NoMeds:
 			{
-				return false;
+				result = false;
+				break;
 			}
 			case MedicalCareCategory.HerbalOrWorse:
 			{
-				return meds.GetStatValueAbstract(StatDefOf.MedicalPotency, null) <= ThingDefOf.HerbalMedicine.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
+				result = (meds.GetStatValueAbstract(StatDefOf.MedicalPotency, null) <= ThingDefOf.HerbalMedicine.GetStatValueAbstract(StatDefOf.MedicalPotency, null));
+				break;
 			}
 			case MedicalCareCategory.NormalOrWorse:
 			{
-				return meds.GetStatValueAbstract(StatDefOf.MedicalPotency, null) <= ThingDefOf.Medicine.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
+				result = (meds.GetStatValueAbstract(StatDefOf.MedicalPotency, null) <= ThingDefOf.Medicine.GetStatValueAbstract(StatDefOf.MedicalPotency, null));
+				break;
 			}
 			case MedicalCareCategory.Best:
 			{
-				return true;
+				result = true;
+				break;
 			}
 			default:
 			{
 				throw new InvalidOperationException();
 			}
 			}
+			return result;
 		}
 	}
 }

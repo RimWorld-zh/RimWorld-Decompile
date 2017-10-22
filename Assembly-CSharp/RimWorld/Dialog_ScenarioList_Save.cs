@@ -29,7 +29,7 @@ namespace RimWorld
 			{
 				GameDataSaveLoader.SaveScenario(this.savingScen, absPath);
 			}, "SavingLongEvent", false, null);
-			Messages.Message("SavedAs".Translate(fileName), MessageSound.Silent);
+			Messages.Message("SavedAs".Translate(fileName), MessageTypeDefOf.SilentInput);
 			this.Close(true);
 		}
 	}

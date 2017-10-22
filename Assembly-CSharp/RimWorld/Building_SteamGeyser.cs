@@ -8,9 +8,9 @@ namespace RimWorld
 	{
 		private IntermittentSteamSprayer steamSprayer;
 
-		public Building harvester;
+		public Building harvester = null;
 
-		private Sustainer spraySustainer;
+		private Sustainer spraySustainer = null;
 
 		private int spraySustainerStartTick = -999;
 

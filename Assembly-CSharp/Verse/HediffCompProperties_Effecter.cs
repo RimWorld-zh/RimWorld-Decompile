@@ -2,7 +2,7 @@ namespace Verse
 {
 	public class HediffCompProperties_Effecter : HediffCompProperties
 	{
-		public EffecterDef stateEffecter;
+		public EffecterDef stateEffecter = null;
 
 		public IntRange severityIndices = new IntRange(-1, -1);
 

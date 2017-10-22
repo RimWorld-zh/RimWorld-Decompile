@@ -5,17 +5,17 @@ namespace Verse
 {
 	public abstract class Dialog_OptionLister : Window
 	{
-		protected const float ButSpacing = 0f;
-
 		protected Vector2 scrollPosition;
 
-		protected string filter = string.Empty;
+		protected string filter = "";
 
-		protected float totalOptionsHeight;
+		protected float totalOptionsHeight = 0f;
 
 		protected Listing_Standard listing;
 
 		protected static readonly Vector2 ButSize = new Vector2(230f, 27f);
+
+		protected const float ButSpacing = 0f;
 
 		protected readonly float ColumnSpacing = 20f;
 
@@ -79,15 +79,7 @@ namespace Verse
 
 		protected bool FilterAllows(string label)
 		{
-			if (this.filter.NullOrEmpty())
-			{
-				return true;
-			}
-			if (label.NullOrEmpty())
-			{
-				return true;
-			}
-			return label.IndexOf(this.filter, StringComparison.OrdinalIgnoreCase) >= 0;
+			return this.filter.NullOrEmpty() || label.NullOrEmpty() || label.IndexOf(this.filter, StringComparison.OrdinalIgnoreCase) >= 0;
 		}
 	}
 }

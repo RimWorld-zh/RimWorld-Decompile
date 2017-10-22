@@ -12,7 +12,7 @@ namespace Verse
 
 		public List<Assembly> loadedAssemblies = new List<Assembly>();
 
-		private static bool globalResolverIsSet;
+		private static bool globalResolverIsSet = false;
 
 		public ModAssemblyHandler(ModContentPack mod)
 		{
@@ -59,7 +59,6 @@ namespace Verse
 						{
 							Log.Error("Exception loading " + fileInfo.Name + ": " + ex.ToString());
 							return;
-							IL_0164:;
 						}
 						if (assembly != null && this.AssemblyIsUsable(assembly))
 						{
@@ -93,13 +92,11 @@ namespace Verse
 				}
 				Log.Error(stringBuilder.ToString());
 				return false;
-				IL_00b3:;
 			}
 			catch (Exception ex3)
 			{
 				Log.Error("Exception getting types in assembly " + asm.GetName().Name + ": " + ex3);
 				return false;
-				IL_00f5:;
 			}
 			return true;
 		}

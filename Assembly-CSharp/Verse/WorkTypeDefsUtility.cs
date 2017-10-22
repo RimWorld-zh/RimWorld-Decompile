@@ -18,92 +18,121 @@ namespace Verse
 
 		public static string LabelTranslated(this WorkTags tags)
 		{
+			string result;
 			switch (tags)
 			{
 			case WorkTags.None:
 			{
-				return "WorkTagNone".Translate();
+				result = "WorkTagNone".Translate();
+				break;
 			}
 			case WorkTags.Intellectual:
 			{
-				return "WorkTagIntellectual".Translate();
+				result = "WorkTagIntellectual".Translate();
+				break;
 			}
 			case WorkTags.ManualDumb:
 			{
-				return "WorkTagManualDumb".Translate();
+				result = "WorkTagManualDumb".Translate();
+				break;
 			}
 			case WorkTags.ManualSkilled:
 			{
-				return "WorkTagManualSkilled".Translate();
+				result = "WorkTagManualSkilled".Translate();
+				break;
 			}
 			case WorkTags.Violent:
 			{
-				return "WorkTagViolent".Translate();
+				result = "WorkTagViolent".Translate();
+				break;
 			}
 			case WorkTags.Caring:
 			{
-				return "WorkTagCaring".Translate();
+				result = "WorkTagCaring".Translate();
+				break;
 			}
 			case WorkTags.Social:
 			{
-				return "WorkTagSocial".Translate();
+				result = "WorkTagSocial".Translate();
+				break;
 			}
 			case WorkTags.Animals:
 			{
-				return "WorkTagAnimals".Translate();
+				result = "WorkTagAnimals".Translate();
+				break;
 			}
 			case WorkTags.Artistic:
 			{
-				return "WorkTagArtistic".Translate();
+				result = "WorkTagArtistic".Translate();
+				break;
 			}
 			case WorkTags.Crafting:
 			{
-				return "WorkTagCrafting".Translate();
+				result = "WorkTagCrafting".Translate();
+				break;
 			}
 			case WorkTags.Cooking:
 			{
-				return "WorkTagCooking".Translate();
+				result = "WorkTagCooking".Translate();
+				break;
 			}
 			case WorkTags.Firefighting:
 			{
-				return "WorkTagFirefighting".Translate();
+				result = "WorkTagFirefighting".Translate();
+				break;
 			}
 			case WorkTags.Cleaning:
 			{
-				return "WorkTagCleaning".Translate();
+				result = "WorkTagCleaning".Translate();
+				break;
 			}
 			case WorkTags.Hauling:
 			{
-				return "WorkTagHauling".Translate();
+				result = "WorkTagHauling".Translate();
+				break;
 			}
 			case WorkTags.PlantWork:
 			{
-				return "WorkTagPlantWork".Translate();
+				result = "WorkTagPlantWork".Translate();
+				break;
 			}
 			case WorkTags.Mining:
 			{
-				return "WorkTagMining".Translate();
+				result = "WorkTagMining".Translate();
+				break;
 			}
 			default:
 			{
 				Log.Error("Unknown or mixed worktags for naming: " + (int)tags);
-				return "Worktag";
+				result = "Worktag";
+				break;
 			}
 			}
+			return result;
 		}
 
 		public static bool OverlapsWithOnAnyWorkType(this WorkTags a, WorkTags b)
 		{
 			List<WorkTypeDef> allDefsListForReading = DefDatabase<WorkTypeDef>.AllDefsListForReading;
-			for (int i = 0; i < allDefsListForReading.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				WorkTypeDef workTypeDef = allDefsListForReading[i];
-				if ((((workTypeDef.workTags & a) != 0) ? (workTypeDef.workTags & b) : WorkTags.None) != 0)
+				if (num < allDefsListForReading.Count)
 				{
-					return true;
+					WorkTypeDef workTypeDef = allDefsListForReading[num];
+					if ((((workTypeDef.workTags & a) != 0) ? (workTypeDef.workTags & b) : WorkTags.None) != 0)
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 	}
 }

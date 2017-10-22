@@ -9,58 +9,42 @@ namespace Verse.AI
 	{
 		public static bool CanInteractPawn(Pawn assister, Pawn assistee)
 		{
-			if (assistee.Spawned && assister.CanReach((Thing)assistee, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
-			{
-				return true;
-			}
-			return false;
+			return (byte)((assistee.Spawned && assister.CanReach((Thing)assistee, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn)) ? 1 : 0) != 0;
 		}
 
 		public static bool MachinesLike(Faction machineFaction, Pawn p)
 		{
-			if (p.Faction == null)
-			{
-				return false;
-			}
-			if (p.IsPrisoner && p.HostFaction == machineFaction)
-			{
-				return false;
-			}
-			if (p.Faction.HostileTo(machineFaction))
-			{
-				return false;
-			}
-			return true;
+			return (byte)((p.Faction != null) ? ((!p.IsPrisoner || p.HostFaction != machineFaction) ? ((!p.Faction.HostileTo(machineFaction)) ? 1 : 0) : 0) : 0) != 0;
 		}
 
 		public static bool CanUseItemForWork(Pawn p, Thing item)
 		{
-			if (item.IsForbidden(p))
-			{
-				return false;
-			}
-			if (!p.CanReserveAndReach(item, PathEndMode.ClosestTouch, p.NormalMaxDanger(), 1, -1, null, false))
-			{
-				return false;
-			}
-			return true;
+			return (byte)((!item.IsForbidden(p)) ? (p.CanReserveAndReach(item, PathEndMode.ClosestTouch, p.NormalMaxDanger(), 1, -1, null, false) ? 1 : 0) : 0) != 0;
 		}
 
-		public static bool CanBeArrested(this Pawn pawn)
+		public static bool CanBeArrestedBy(this Pawn pawn, Pawn arrester)
 		{
-			if (!pawn.RaceProps.Humanlike)
+			bool result;
+			if (pawn.NonHumanlikeOrWildMan())
 			{
-				return false;
+				result = false;
 			}
-			if (!pawn.InAggroMentalState && !pawn.HostileTo(Faction.OfPlayer))
+			else
 			{
-				if (pawn.IsPrisonerOfColony && pawn.Position.IsInPrisonCell(pawn.Map))
+				if (pawn.InAggroMentalState && pawn.HostileTo(arrester))
 				{
-					return false;
+					goto IL_003a;
 				}
-				return true;
+				if (pawn.HostileTo(Faction.OfPlayer))
+					goto IL_003a;
+				result = ((byte)((!pawn.IsPrisonerOfColony || !pawn.Position.IsInPrisonCell(pawn.Map)) ? 1 : 0) != 0);
 			}
-			return false;
+			goto IL_0070;
+			IL_003a:
+			result = false;
+			goto IL_0070;
+			IL_0070:
+			return result;
 		}
 
 		public static bool InDangerousCombat(Pawn pawn)
@@ -70,12 +54,17 @@ namespace Verse.AI
 			RegionTraverser.BreadthFirstTraverse(root, (RegionEntryPredicate)((Region r1, Region r2) => r2.Room == root.Room), (RegionProcessor)((Region r) => r.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn).Any((Predicate<Thing>)delegate(Thing t)
 			{
 				Pawn pawn2 = t as Pawn;
+				bool result;
 				if (pawn2 != null && !pawn2.Downed && (float)(pawn.Position - pawn2.Position).LengthHorizontalSquared < 144.0 && pawn2.HostileTo(pawn.Faction))
 				{
 					bool found2 = true;
-					return true;
+					result = true;
 				}
-				return false;
+				else
+				{
+					result = false;
+				}
+				return result;
 			})), 9, RegionType.Set_Passable);
 			return found;
 		}
@@ -95,56 +84,66 @@ namespace Verse.AI
 				}
 			}
 			Building building = default(Building);
+			IntVec3 result;
+			IntVec3 intVec;
 			if (((IEnumerable<Building>)list).TryRandomElement<Building>(out building))
 			{
-				return building.Position;
+				result = building.Position;
 			}
-			IEnumerable<Building> source = from b in map.listerBuildings.allBuildingsColonist
-			where !b.def.building.ai_combatDangerous && !b.def.building.isInert
-			select b;
-			if (source.Any())
+			else
 			{
-				for (int j = 0; j < 500; j++)
+				IEnumerable<Building> source = from b in map.listerBuildings.allBuildingsColonist
+				where !b.def.building.ai_combatDangerous && !b.def.building.isInert
+				select b;
+				if (source.Any())
 				{
-					Building t = source.RandomElement();
-					IntVec3 intVec = t.RandomAdjacentCell8Way();
-					if (intVec.Walkable(map) && map.reachability.CanReach(raidSpawnLoc, intVec, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly))
+					for (int j = 0; j < 500; j++)
 					{
-						return intVec;
+						Building t = source.RandomElement();
+						intVec = t.RandomAdjacentCell8Way();
+						if (intVec.Walkable(map) && map.reachability.CanReach(raidSpawnLoc, intVec, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly))
+							goto IL_018c;
 					}
 				}
+				Pawn pawn = default(Pawn);
+				IntVec3 intVec2 = default(IntVec3);
+				result = ((!(from x in map.mapPawns.FreeColonistsSpawned
+				where map.reachability.CanReach(raidSpawnLoc, (Thing)x, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly)
+				select x).TryRandomElement<Pawn>(out pawn)) ? ((!CellFinderLoose.TryGetRandomCellWith((Predicate<IntVec3>)((IntVec3 x) => map.reachability.CanReach(raidSpawnLoc, x, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly)), map, 1000, out intVec2)) ? map.Center : intVec2) : pawn.Position);
 			}
-			Pawn pawn = default(Pawn);
-			if ((from x in map.mapPawns.FreeColonistsSpawned
-			where map.reachability.CanReach(raidSpawnLoc, (Thing)x, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly)
-			select x).TryRandomElement<Pawn>(out pawn))
-			{
-				return pawn.Position;
-			}
-			IntVec3 result = default(IntVec3);
-			if (CellFinderLoose.TryGetRandomCellWith((Predicate<IntVec3>)((IntVec3 x) => map.reachability.CanReach(raidSpawnLoc, x, PathEndMode.OnCell, TraverseMode.PassAllDestroyableThings, Danger.Deadly)), map, 1000, out result))
-			{
-				return result;
-			}
-			return map.Center;
+			goto IL_0225;
+			IL_0225:
+			return result;
+			IL_018c:
+			result = intVec;
+			goto IL_0225;
 		}
 
 		public static bool EnemyIsNear(Pawn p, float radius)
 		{
+			bool result;
 			if (!p.Spawned)
 			{
-				return false;
+				result = false;
 			}
-			List<IAttackTarget> potentialTargetsFor = p.Map.attackTargetsCache.GetPotentialTargetsFor(p);
-			for (int i = 0; i < potentialTargetsFor.Count; i++)
+			else
 			{
-				IAttackTarget attackTarget = potentialTargetsFor[i];
-				if (!attackTarget.ThreatDisabled() && p.Position.InHorDistOf(((Thing)attackTarget).Position, radius))
+				bool flag = p.Position.Fogged(p.Map);
+				List<IAttackTarget> potentialTargetsFor = p.Map.attackTargetsCache.GetPotentialTargetsFor(p);
+				for (int i = 0; i < potentialTargetsFor.Count; i++)
 				{
-					return true;
+					IAttackTarget attackTarget = potentialTargetsFor[i];
+					if (!attackTarget.ThreatDisabled() && (flag || !attackTarget.Thing.Position.Fogged(attackTarget.Thing.Map)) && p.Position.InHorDistOf(((Thing)attackTarget).Position, radius))
+						goto IL_00a7;
 				}
+				result = false;
 			}
-			return false;
+			goto IL_00c6;
+			IL_00c6:
+			return result;
+			IL_00a7:
+			result = true;
+			goto IL_00c6;
 		}
 	}
 }

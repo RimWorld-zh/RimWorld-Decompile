@@ -14,8 +14,8 @@ namespace RimWorld.BaseGen
 			ItemCollectionGeneratorParams? itemCollectionGeneratorParams = rp.itemCollectionGeneratorParams;
 			ItemCollectionGeneratorParams parms = (!itemCollectionGeneratorParams.HasValue) ? new ItemCollectionGeneratorParams
 			{
-				count = rp.rect.Cells.Count((Func<IntVec3, bool>)((IntVec3 x) => x.Standable(map) && x.GetFirstItem(map) == null)),
-				techLevel = TechLevel.Spacer
+				count = new int?(rp.rect.Cells.Count((Func<IntVec3, bool>)((IntVec3 x) => x.Standable(map) && x.GetFirstItem(map) == null))),
+				techLevel = new TechLevel?((rp.faction == null) ? TechLevel.Spacer : rp.faction.def.techLevel)
 			} : rp.itemCollectionGeneratorParams.Value;
 			List<Thing> list = itemCollectionGeneratorDef.Worker.Generate(parms);
 			for (int i = 0; i < list.Count; i++)

@@ -6,7 +6,7 @@ namespace RimWorld
 	{
 		public BuildableDef place;
 
-		public int proximitySpacing;
+		public int proximitySpacing = 0;
 
 		public override void Place(Map map, IntVec3 position, TerrainDef rockDef)
 		{
@@ -35,7 +35,7 @@ namespace RimWorld
 			}
 			else if (this.place is ThingDef)
 			{
-				if (this.proximitySpacing > 0 && GenClosest.ClosestThing_Global(position, map.listerThings.ThingsOfDef(this.place as ThingDef), (float)this.proximitySpacing, null) != null)
+				if (this.proximitySpacing > 0 && GenClosest.ClosestThing_Global(position, map.listerThings.ThingsOfDef(this.place as ThingDef), (float)this.proximitySpacing, null, null) != null)
 					return;
 				while (position.GetThingList(map).Count > 0)
 				{

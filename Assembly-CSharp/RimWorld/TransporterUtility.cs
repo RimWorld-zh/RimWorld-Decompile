@@ -26,25 +26,31 @@ namespace RimWorld
 		public static Lord FindLord(int transportersGroup, Map map)
 		{
 			List<Lord> lords = map.lordManager.lords;
-			for (int i = 0; i < lords.Count; i++)
+			int num = 0;
+			Lord result;
+			while (true)
 			{
-				LordJob_LoadAndEnterTransporters lordJob_LoadAndEnterTransporters = lords[i].LordJob as LordJob_LoadAndEnterTransporters;
-				if (lordJob_LoadAndEnterTransporters != null && lordJob_LoadAndEnterTransporters.transportersGroup == transportersGroup)
+				if (num < lords.Count)
 				{
-					return lords[i];
+					LordJob_LoadAndEnterTransporters lordJob_LoadAndEnterTransporters = lords[num].LordJob as LordJob_LoadAndEnterTransporters;
+					if (lordJob_LoadAndEnterTransporters != null && lordJob_LoadAndEnterTransporters.transportersGroup == transportersGroup)
+					{
+						result = lords[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public static bool WasLoadingCanceled(Thing transporter)
 		{
 			CompTransporter compTransporter = transporter.TryGetComp<CompTransporter>();
-			if (compTransporter != null && !compTransporter.LoadingInProgressOrReadyToLaunch)
-			{
-				return true;
-			}
-			return false;
+			return (byte)((compTransporter != null && !compTransporter.LoadingInProgressOrReadyToLaunch) ? 1 : 0) != 0;
 		}
 	}
 }

@@ -21,56 +21,32 @@ namespace Verse
 
 		public static string Possessive(this Pawn p)
 		{
-			if (p.gender == Gender.Male)
-			{
-				return "Prohis".Translate();
-			}
-			return "Proher".Translate();
+			return (p.gender != Gender.Male) ? "Proher".Translate() : "Prohis".Translate();
 		}
 
 		public static string PossessiveCap(this Pawn p)
 		{
-			if (p.gender == Gender.Male)
-			{
-				return "ProhisCap".Translate();
-			}
-			return "ProherCap".Translate();
+			return (p.gender != Gender.Male) ? "ProherCap".Translate() : "ProhisCap".Translate();
 		}
 
 		public static string ProObj(this Pawn p)
 		{
-			if (p.gender == Gender.Male)
-			{
-				return "ProhimObj".Translate();
-			}
-			return "ProherObj".Translate();
+			return (p.gender != Gender.Male) ? "ProherObj".Translate() : "ProhimObj".Translate();
 		}
 
 		public static string ProObjCap(this Pawn p)
 		{
-			if (p.gender == Gender.Male)
-			{
-				return "ProhimObjCap".Translate();
-			}
-			return "ProherObjCap".Translate();
+			return (p.gender != Gender.Male) ? "ProherObjCap".Translate() : "ProhimObjCap".Translate();
 		}
 
 		public static string ProSubj(this Pawn p)
 		{
-			if (p.gender == Gender.Male)
-			{
-				return "Prohe".Translate();
-			}
-			return "Proshe".Translate();
+			return (p.gender != Gender.Male) ? "Proshe".Translate() : "Prohe".Translate();
 		}
 
 		public static string ProSubjCap(this Pawn p)
 		{
-			if (p.gender == Gender.Male)
-			{
-				return "ProheCap".Translate();
-			}
-			return "ProsheCap".Translate();
+			return (p.gender != Gender.Male) ? "ProsheCap".Translate() : "ProheCap".Translate();
 		}
 
 		public static string AdjustedFor(this string text, Pawn p)
@@ -80,6 +56,7 @@ namespace Verse
 
 		public static string AdjustedForKeys(this string text)
 		{
+			string result;
 			while (true)
 			{
 				int num = text.IndexOf("{Key:");
@@ -90,10 +67,7 @@ namespace Verse
 					{
 						num2++;
 						if (num2 == text.Length - 1)
-						{
-							Log.Error("Cannot adjust for keys (mismatched braces): '" + text + "'");
-							return text;
-						}
+							goto IL_0035;
 					}
 					string defName = text.Substring(num + 5, num2 - (num + 5));
 					KeyBindingDef namedSilentFail = DefDatabase<KeyBindingDef>.GetNamedSilentFail(defName);
@@ -103,34 +77,49 @@ namespace Verse
 					}
 					continue;
 				}
+				result = text;
+				break;
+				IL_0035:
+				Log.Error("Cannot adjust for keys (mismatched braces): '" + text + "'");
+				result = text;
 				break;
 			}
-			return text;
+			return result;
 		}
 
 		public static string LabelIndefinite(this Pawn pawn)
 		{
+			string result;
 			if (pawn.Name != null && !pawn.Name.Numerical)
 			{
-				return pawn.LabelShort;
+				result = pawn.LabelShort;
 			}
-			string str = Find.ActiveLanguageWorker.WithIndefiniteArticle(GenLabel.BestKindLabel(pawn, false, false, false));
-			return Find.ActiveLanguageWorker.PostProcessed(str);
+			else
+			{
+				string str = Find.ActiveLanguageWorker.WithIndefiniteArticle(pawn.KindLabel);
+				str = (result = Find.ActiveLanguageWorker.PostProcessed(str));
+			}
+			return result;
 		}
 
 		public static string LabelDefinite(this Pawn pawn)
 		{
+			string result;
 			if (pawn.Name != null && !pawn.Name.Numerical)
 			{
-				return pawn.LabelShort;
+				result = pawn.LabelShort;
 			}
-			string str = Find.ActiveLanguageWorker.WithDefiniteArticle(GenLabel.BestKindLabel(pawn, false, false, false));
-			return Find.ActiveLanguageWorker.PostProcessed(str);
+			else
+			{
+				string str = Find.ActiveLanguageWorker.WithDefiniteArticle(pawn.KindLabel);
+				str = (result = Find.ActiveLanguageWorker.PostProcessed(str));
+			}
+			return result;
 		}
 
 		public static string RandomSeedString()
 		{
-			return GrammarResolver.Resolve("seed", RulePackDefOf.SeedGenerator.Rules, (string)null).ToLower();
+			return GrammarResolver.Resolve("seed", RulePackDefOf.SeedGenerator.Rules, null, (string)null).ToLower();
 		}
 
 		public static string WithoutVowels(string s)
@@ -141,27 +130,37 @@ namespace Verse
 			select c).ToArray());
 		}
 
-		public static string MarchingEllipsis(float offset = 0)
+		public static string WithoutVowelsIfLong(string s)
 		{
+			return (!s.NullOrEmpty() && s.Length > 5) ? (s.Substring(0, 2) + GenText.WithoutVowels(s.Substring(2))) : s;
+		}
+
+		public static string MarchingEllipsis(float offset = 0f)
+		{
+			string result;
 			switch (Mathf.FloorToInt(Time.realtimeSinceStartup + offset) % 3)
 			{
 			case 0:
 			{
-				return ".";
+				result = ".";
+				break;
 			}
 			case 1:
 			{
-				return "..";
+				result = "..";
+				break;
 			}
 			case 2:
 			{
-				return "...";
+				result = "...";
+				break;
 			}
 			default:
 			{
 				throw new Exception();
 			}
 			}
+			return result;
 		}
 
 		public static void SetTextSizeToFit(string text, Rect r)
@@ -181,44 +180,54 @@ namespace Verse
 
 		public static string Indented(this string s)
 		{
-			if (s.NullOrEmpty())
-			{
-				return s;
-			}
-			return "    " + s.Replace("\r", string.Empty).Replace("\n", "\n    ");
+			return (!s.NullOrEmpty()) ? ("    " + s.Replace("\r", "").Replace("\n", "\n    ")) : s;
 		}
 
 		public static string ReplaceFirst(this string source, string key, string replacement)
 		{
 			int num = source.IndexOf(key);
-			if (num < 0)
-			{
-				return source;
-			}
-			return source.Substring(0, num) + replacement + source.Substring(num + key.Length);
+			return (num >= 0) ? (source.Substring(0, num) + replacement + source.Substring(num + key.Length)) : source;
 		}
 
 		public static int StableStringHash(string str)
 		{
+			int result;
 			if (str == null)
 			{
-				return 0;
+				result = 0;
 			}
-			int num = 23;
-			int length = str.Length;
-			for (int num2 = 0; num2 < length; num2++)
+			else
 			{
-				num = num * 31 + str[num2];
+				int num = 23;
+				int length = str.Length;
+				for (int num2 = 0; num2 < length; num2++)
+				{
+					num = num * 31 + str[num2];
+				}
+				result = num;
 			}
-			return num;
+			return result;
 		}
 
 		public static string StringFromEnumerable(IEnumerable source)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (object item in source)
+			IEnumerator enumerator = source.GetEnumerator();
+			try
 			{
-				stringBuilder.AppendLine("� " + item.ToString());
+				while (enumerator.MoveNext())
+				{
+					object current = enumerator.Current;
+					stringBuilder.AppendLine("� " + current.ToString());
+				}
+			}
+			finally
+			{
+				IDisposable disposable;
+				if ((disposable = (enumerator as IDisposable)) != null)
+				{
+					disposable.Dispose();
+				}
 			}
 			return stringBuilder.ToString();
 		}
@@ -231,22 +240,30 @@ namespace Verse
 				"\n"
 			};
 			string[] array = text.Split(lineSeparators, StringSplitOptions.RemoveEmptyEntries);
-			for (int i = 0; i < array.Length; i++)
+			int num = 0;
+			string doneStr2;
+			while (true)
 			{
-				string str = array[i];
-				string doneStr2 = str.Trim();
-				if (!doneStr2.StartsWith("//"))
+				if (num < array.Length)
 				{
-					doneStr2 = doneStr2.Split(new string[1]
+					string str = array[num];
+					doneStr2 = str.Trim();
+					if (!doneStr2.StartsWith("//"))
 					{
-						"//"
-					}, StringSplitOptions.None)[0];
-					if (doneStr2.Length != 0)
-					{
-						yield return doneStr2;
+						doneStr2 = doneStr2.Split(new string[1]
+						{
+							"//"
+						}, StringSplitOptions.None)[0];
+						if (doneStr2.Length != 0)
+							break;
 					}
+					num++;
+					continue;
 				}
+				yield break;
 			}
+			yield return doneStr2;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public static string GetInvalidFilenameCharacters()
@@ -256,12 +273,17 @@ namespace Verse
 
 		public static bool IsValidFilename(string str)
 		{
+			bool result;
 			if (str.Length > 30)
 			{
-				return false;
+				result = false;
 			}
-			Regex regex = new Regex("[" + Regex.Escape(GenText.GetInvalidFilenameCharacters()) + "]");
-			return !regex.IsMatch(str);
+			else
+			{
+				Regex regex = new Regex("[" + Regex.Escape(GenText.GetInvalidFilenameCharacters()) + "]");
+				result = !regex.IsMatch(str);
+			}
+			return result;
 		}
 
 		public static string SanitizeFilename(string str)
@@ -329,32 +351,30 @@ namespace Verse
 			string[] array = A.Split(' ');
 			string[] source = B.Split(' ');
 			string[] array2 = array;
-			for (int i = 0; i < array2.Length; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				string text = array2[i];
-				if (TitleCaseHelper.IsUppercaseTitleWord(text) && source.Contains(text))
+				if (num < array2.Length)
 				{
-					return true;
+					string text = array2[num];
+					if (TitleCaseHelper.IsUppercaseTitleWord(text) && source.Contains(text))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public static string CapitalizeFirst(this string str)
 		{
-			if (str.NullOrEmpty())
-			{
-				return str;
-			}
-			if (char.IsUpper(str[0]))
-			{
-				return str;
-			}
-			if (str.Length == 1)
-			{
-				return str.ToUpper();
-			}
-			return str[0].ToString().ToUpper() + str.Substring(1);
+			return (!str.NullOrEmpty()) ? ((!char.IsUpper(str[0])) ? ((str.Length != 1) ? (char.ToUpper(str[0]) + str.Substring(1)) : str.ToUpper()) : str) : str;
 		}
 
 		public static string ToNewsCase(string str)
@@ -396,45 +416,44 @@ namespace Verse
 
 		public static string CapitalizeSentences(string input)
 		{
+			string result;
 			if (input.NullOrEmpty())
 			{
-				return input;
+				result = input;
 			}
-			if (input.Length == 1)
+			else if (input.Length == 1)
 			{
-				return input.ToUpper();
+				result = input.ToUpper();
 			}
-			input = Regex.Replace(input, "\\s+", " ");
-			input = input.Trim();
-			input = char.ToUpper(input[0]) + input.Substring(1);
-			string[] array;
-			string[] array2 = array = new string[3]
+			else
 			{
-				". ",
-				"! ",
-				"? "
-			};
-			for (int i = 0; i < array.Length; i++)
-			{
-				string text = array[i];
-				int length = text.Length;
-				for (int num = input.IndexOf(text, 0); num > -1; num = input.IndexOf(text, num + 1))
+				input = Regex.Replace(input, "\\s+", " ");
+				input = input.Trim();
+				input = char.ToUpper(input[0]) + input.Substring(1);
+				string[] array;
+				string[] array2 = array = new string[3]
 				{
-					input = input.Substring(0, num + length) + input[num + length].ToString().ToUpper() + input.Substring(num + length + 1);
+					". ",
+					"! ",
+					"? "
+				};
+				for (int i = 0; i < array.Length; i++)
+				{
+					string text = array[i];
+					int length = text.Length;
+					for (int num = input.IndexOf(text, 0); num > -1; num = input.IndexOf(text, num + 1))
+					{
+						input = input.Substring(0, num + length) + input[num + length].ToString().ToUpper() + input.Substring(num + length + 1);
+					}
 				}
+				result = input;
 			}
-			return input;
+			return result;
 		}
 
 		public static string CapitalizeAsTitle(string str)
 		{
 			return Find.ActiveLanguageWorker.ToTitleCase(str);
-		}
-
-		public static string ToCommaList(IEnumerable<object> items, bool useAnd = true)
-		{
-			return GenText.ToCommaList(from it in items
-			select it.ToString(), useAnd);
 		}
 
 		public static string ToCommaList(IEnumerable<string> items, bool useAnd = true)
@@ -483,15 +502,18 @@ namespace Verse
 					}
 				}
 			}
+			string result;
 			switch (num)
 			{
 			case 0:
 			{
-				return "NoneLower".Translate();
+				result = "NoneLower".Translate();
+				break;
 			}
 			case 1:
 			{
-				return text;
+				result = text;
+				break;
 			}
 			default:
 			{
@@ -499,15 +521,28 @@ namespace Verse
 				{
 					if (num == 2)
 					{
-						return text2 + " " + "AndLower".Translate() + " " + text;
+						result = text2 + " " + "AndLower".Translate() + " " + text;
 					}
-					stringBuilder.Append("AndLower".Translate() + " " + text);
-					return stringBuilder.ToString();
+					else
+					{
+						stringBuilder.Append("AndLower".Translate() + " " + text);
+						result = stringBuilder.ToString();
+					}
 				}
-				stringBuilder.Append(text);
-				return stringBuilder.ToString();
+				else
+				{
+					stringBuilder.Append(text);
+					result = stringBuilder.ToString();
+				}
+				break;
 			}
 			}
+			return result;
+		}
+
+		public static string ToLineList(IEnumerable<string> entries, string prefix = "")
+		{
+			return GenText.ToTextList(entries, "\n" + prefix);
 		}
 
 		public static string ToSpaceList(IEnumerable<string> entries)
@@ -540,56 +575,53 @@ namespace Verse
 		public static string Truncate(this string str, float width, Dictionary<string, string> cache = null)
 		{
 			string text = default(string);
+			string result;
 			if (cache != null && cache.TryGetValue(str, out text))
 			{
-				return text;
+				result = text;
 			}
-			Vector2 vector = Text.CalcSize(str);
-			if (vector.x <= width)
+			else
 			{
-				if (cache != null)
+				Vector2 vector = Text.CalcSize(str);
+				if (vector.x <= width)
 				{
-					cache.Add(str, str);
+					if (cache != null)
+					{
+						cache.Add(str, str);
+					}
+					result = str;
 				}
-				return str;
+				else
+				{
+					text = str;
+					while (true)
+					{
+						text = text.Substring(0, text.Length - 1);
+						if (text.Length <= 0)
+							break;
+						Vector2 vector2 = Text.CalcSize(text + "...");
+						if (!(vector2.x > width))
+							break;
+					}
+					text += "...";
+					if (cache != null)
+					{
+						cache.Add(str, text);
+					}
+					result = text;
+				}
 			}
-			text = str;
-			while (true)
-			{
-				text = text.Substring(0, text.Length - 1);
-				if (text.Length <= 0)
-					break;
-				Vector2 vector2 = Text.CalcSize(text + "...");
-				if (!(vector2.x > width))
-					break;
-			}
-			text += "...";
-			if (cache != null)
-			{
-				cache.Add(str, text);
-			}
-			return text;
+			return result;
+		}
+
+		public static string TrimmedToLength(this string str, int length)
+		{
+			return (str != null && str.Length > length) ? str.Substring(0, length) : str;
 		}
 
 		public static bool ContainsEmptyLines(string str)
 		{
-			if (str.NullOrEmpty())
-			{
-				return true;
-			}
-			if (str[0] != '\n' && str[0] != '\r')
-			{
-				if (str[str.Length - 1] != '\n' && str[str.Length - 1] != '\r')
-				{
-					if (!str.Contains("\n\n") && !str.Contains("\r\n\r\n") && !str.Contains("\r\r"))
-					{
-						return false;
-					}
-					return true;
-				}
-				return true;
-			}
-			return true;
+			return (byte)(str.NullOrEmpty() ? 1 : ((str[0] == '\n' || str[0] == '\r') ? 1 : ((str[str.Length - 1] == '\n' || str[str.Length - 1] == '\r') ? 1 : ((str.Contains("\n\n") || str.Contains("\r\n\r\n") || str.Contains("\r\r")) ? 1 : 0)))) != 0;
 		}
 
 		public static string ToStringByStyle(this float f, ToStringStyle style, ToStringNumberSense numberSense = ToStringNumberSense.Absolute)
@@ -597,6 +629,10 @@ namespace Verse
 			if (style == ToStringStyle.Temperature && numberSense == ToStringNumberSense.Offset)
 			{
 				style = ToStringStyle.TemperatureOffset;
+			}
+			if (numberSense == ToStringNumberSense.Factor)
+			{
+				style = (ToStringStyle)((!(f >= 10.0)) ? 4 : 3);
 			}
 			string text;
 			switch (style)
@@ -614,6 +650,11 @@ namespace Verse
 			case ToStringStyle.FloatTwo:
 			{
 				text = f.ToString("F2");
+				break;
+			}
+			case ToStringStyle.FloatMaxTwo:
+			{
+				text = f.ToString("0.##");
 				break;
 			}
 			case ToStringStyle.PercentZero:
@@ -674,15 +715,7 @@ namespace Verse
 
 		public static string ToStringDecimalIfSmall(this float f)
 		{
-			if (Mathf.Abs(f) < 1.0)
-			{
-				return Math.Round((double)f, 2).ToString("0.##");
-			}
-			if (Mathf.Abs(f) < 10.0)
-			{
-				return Math.Round((double)f, 1).ToString("0.#");
-			}
-			return Mathf.RoundToInt(f).ToStringCached();
+			return (!(Mathf.Abs(f) < 1.0)) ? ((!(Mathf.Abs(f) < 10.0)) ? Mathf.RoundToInt(f).ToStringCached() : Math.Round((double)f, 1).ToString("0.#")) : Math.Round((double)f, 2).ToString("0.##");
 		}
 
 		public static string ToStringPercent(this float f)
@@ -710,6 +743,11 @@ namespace Verse
 			return ((float)((float)bytes / 1024.0)).ToString(format) + "Kb";
 		}
 
+		public static string ToStringYesNo(this bool b)
+		{
+			return (!b) ? "No".Translate() : "Yes".Translate();
+		}
+
 		public static string ToStringLongitude(this float longitude)
 		{
 			bool flag = longitude < 0.0;
@@ -732,43 +770,44 @@ namespace Verse
 
 		public static string ToStringMass(this float mass)
 		{
+			string result;
 			if (mass == 0.0)
 			{
-				return "0 g";
+				result = "0 g";
 			}
-			float num = Mathf.Abs(mass);
-			if (num >= 100.0)
+			else
 			{
-				return mass.ToString("F0") + " kg";
+				float num = Mathf.Abs(mass);
+				if (num >= 100.0)
+				{
+					result = mass.ToString("F0") + " kg";
+				}
+				else if (num >= 10.0)
+				{
+					result = mass.ToString("0.#") + " kg";
+				}
+				else if (num >= 0.10000000149011612)
+				{
+					result = mass.ToString("0.##") + " kg";
+				}
+				else
+				{
+					float num2 = (float)(mass * 1000.0);
+					result = ((!(num >= 0.0099999997764825821)) ? ((!(num >= 0.0010000000474974513)) ? (num2.ToString("0.##") + " g") : (num2.ToString("0.#") + " g")) : (num2.ToString("F0") + " g"));
+				}
 			}
-			if (num >= 10.0)
-			{
-				return mass.ToString("0.#") + " kg";
-			}
-			if (num >= 0.10000000149011612)
-			{
-				return mass.ToString("0.##") + " kg";
-			}
-			float num2 = (float)(mass * 1000.0);
-			if (num >= 0.0099999997764825821)
-			{
-				return num2.ToString("F0") + " g";
-			}
-			if (num >= 0.0010000000474974513)
-			{
-				return num2.ToString("0.#") + " g";
-			}
-			return num2.ToString("0.##") + " g";
+			return result;
 		}
 
 		public static string ToStringMassOffset(this float mass)
 		{
 			string text = mass.ToStringMass();
-			if (mass > 0.0)
-			{
-				return "+" + text;
-			}
-			return text;
+			return (!(mass > 0.0)) ? text : ("+" + text);
+		}
+
+		public static string ToStringSign(this float val)
+		{
+			return (!(val >= 0.0)) ? "" : "+";
 		}
 
 		public static string ToStringTemperature(this float celsiusTemp, string format = "F1")
@@ -785,25 +824,30 @@ namespace Verse
 
 		public static string ToStringTemperatureRaw(this float temp, string format = "F1")
 		{
+			string result;
 			switch (Prefs.TemperatureMode)
 			{
 			case TemperatureDisplayMode.Celsius:
 			{
-				return temp.ToString(format) + "C";
+				result = temp.ToString(format) + "C";
+				break;
 			}
 			case TemperatureDisplayMode.Fahrenheit:
 			{
-				return temp.ToString(format) + "F";
+				result = temp.ToString(format) + "F";
+				break;
 			}
 			case TemperatureDisplayMode.Kelvin:
 			{
-				return temp.ToString(format) + "K";
+				result = temp.ToString(format) + "K";
+				break;
 			}
 			default:
 			{
 				throw new InvalidOperationException();
 			}
 			}
+			return result;
 		}
 
 		public static string ToStringTwoDigits(this Vector2 v)
@@ -826,358 +870,474 @@ namespace Verse
 			return ((float)((float)(double)b / 8.0 / 1024.0)).ToString(format) + "kb";
 		}
 
+		public static string ToStringBytes(this long b, string format = "F2")
+		{
+			return ((float)((float)b / 8.0 / 1024.0)).ToString(format) + "kb";
+		}
+
+		public static string ToStringBytes(this ulong b, string format = "F2")
+		{
+			return ((float)((float)(double)b / 8.0 / 1024.0)).ToString(format) + "kb";
+		}
+
 		public static string ToStringReadable(this KeyCode k)
 		{
+			string result;
 			switch (k)
 			{
 			case KeyCode.Keypad0:
 			{
-				return "Kp0";
+				result = "Kp0";
+				break;
 			}
 			case KeyCode.Keypad1:
 			{
-				return "Kp1";
+				result = "Kp1";
+				break;
 			}
 			case KeyCode.Keypad2:
 			{
-				return "Kp2";
+				result = "Kp2";
+				break;
 			}
 			case KeyCode.Keypad3:
 			{
-				return "Kp3";
+				result = "Kp3";
+				break;
 			}
 			case KeyCode.Keypad4:
 			{
-				return "Kp4";
+				result = "Kp4";
+				break;
 			}
 			case KeyCode.Keypad5:
 			{
-				return "Kp5";
+				result = "Kp5";
+				break;
 			}
 			case KeyCode.Keypad6:
 			{
-				return "Kp6";
+				result = "Kp6";
+				break;
 			}
 			case KeyCode.Keypad7:
 			{
-				return "Kp7";
+				result = "Kp7";
+				break;
 			}
 			case KeyCode.Keypad8:
 			{
-				return "Kp8";
+				result = "Kp8";
+				break;
 			}
 			case KeyCode.Keypad9:
 			{
-				return "Kp9";
+				result = "Kp9";
+				break;
 			}
 			case KeyCode.KeypadDivide:
 			{
-				return "Kp/";
+				result = "Kp/";
+				break;
 			}
 			case KeyCode.KeypadEnter:
 			{
-				return "KpEnt";
+				result = "KpEnt";
+				break;
 			}
 			case KeyCode.KeypadEquals:
 			{
-				return "Kp=";
+				result = "Kp=";
+				break;
 			}
 			case KeyCode.KeypadMinus:
 			{
-				return "Kp-";
+				result = "Kp-";
+				break;
 			}
 			case KeyCode.KeypadMultiply:
 			{
-				return "Kp*";
+				result = "Kp*";
+				break;
 			}
 			case KeyCode.KeypadPeriod:
 			{
-				return "Kp.";
+				result = "Kp.";
+				break;
 			}
 			case KeyCode.KeypadPlus:
 			{
-				return "Kp+";
+				result = "Kp+";
+				break;
 			}
 			case KeyCode.Alpha0:
 			{
-				return "0";
+				result = "0";
+				break;
 			}
 			case KeyCode.Alpha1:
 			{
-				return "1";
+				result = "1";
+				break;
 			}
 			case KeyCode.Alpha2:
 			{
-				return "2";
+				result = "2";
+				break;
 			}
 			case KeyCode.Alpha3:
 			{
-				return "3";
+				result = "3";
+				break;
 			}
 			case KeyCode.Alpha4:
 			{
-				return "4";
+				result = "4";
+				break;
 			}
 			case KeyCode.Alpha5:
 			{
-				return "5";
+				result = "5";
+				break;
 			}
 			case KeyCode.Alpha6:
 			{
-				return "6";
+				result = "6";
+				break;
 			}
 			case KeyCode.Alpha7:
 			{
-				return "7";
+				result = "7";
+				break;
 			}
 			case KeyCode.Alpha8:
 			{
-				return "8";
+				result = "8";
+				break;
 			}
 			case KeyCode.Alpha9:
 			{
-				return "9";
+				result = "9";
+				break;
 			}
 			case KeyCode.Clear:
 			{
-				return "Clr";
+				result = "Clr";
+				break;
 			}
 			case KeyCode.Backspace:
 			{
-				return "Bksp";
+				result = "Bksp";
+				break;
 			}
 			case KeyCode.Return:
 			{
-				return "Ent";
+				result = "Ent";
+				break;
 			}
 			case KeyCode.Escape:
 			{
-				return "Esc";
+				result = "Esc";
+				break;
 			}
 			case KeyCode.DoubleQuote:
 			{
-				return "\"";
+				result = "\"";
+				break;
 			}
 			case KeyCode.Exclaim:
 			{
-				return "!";
+				result = "!";
+				break;
 			}
 			case KeyCode.Hash:
 			{
-				return "#";
+				result = "#";
+				break;
 			}
 			case KeyCode.Dollar:
 			{
-				return "$";
+				result = "$";
+				break;
 			}
 			case KeyCode.Ampersand:
 			{
-				return "&";
+				result = "&";
+				break;
 			}
 			case KeyCode.Quote:
 			{
-				return "'";
+				result = "'";
+				break;
 			}
 			case KeyCode.LeftParen:
 			{
-				return "(";
+				result = "(";
+				break;
 			}
 			case KeyCode.RightParen:
 			{
-				return ")";
+				result = ")";
+				break;
 			}
 			case KeyCode.Asterisk:
 			{
-				return "*";
+				result = "*";
+				break;
 			}
 			case KeyCode.Plus:
 			{
-				return "+";
+				result = "+";
+				break;
 			}
 			case KeyCode.Minus:
 			{
-				return "-";
+				result = "-";
+				break;
 			}
 			case KeyCode.Comma:
 			{
-				return ",";
+				result = ",";
+				break;
 			}
 			case KeyCode.Period:
 			{
-				return ".";
+				result = ".";
+				break;
 			}
 			case KeyCode.Slash:
 			{
-				return "/";
+				result = "/";
+				break;
 			}
 			case KeyCode.Colon:
 			{
-				return ":";
+				result = ":";
+				break;
 			}
 			case KeyCode.Semicolon:
 			{
-				return ";";
+				result = ";";
+				break;
 			}
 			case KeyCode.Less:
 			{
-				return "<";
+				result = "<";
+				break;
 			}
 			case KeyCode.Greater:
 			{
-				return ">";
+				result = ">";
+				break;
 			}
 			case KeyCode.Question:
 			{
-				return "?";
+				result = "?";
+				break;
 			}
 			case KeyCode.At:
 			{
-				return "@";
+				result = "@";
+				break;
 			}
 			case KeyCode.LeftBracket:
 			{
-				return "[";
+				result = "[";
+				break;
 			}
 			case KeyCode.RightBracket:
 			{
-				return "]";
+				result = "]";
+				break;
 			}
 			case KeyCode.Backslash:
 			{
-				return "\\";
+				result = "\\";
+				break;
 			}
 			case KeyCode.Caret:
 			{
-				return "^";
+				result = "^";
+				break;
 			}
 			case KeyCode.Underscore:
 			{
-				return "_";
+				result = "_";
+				break;
 			}
 			case KeyCode.BackQuote:
 			{
-				return "`";
+				result = "`";
+				break;
 			}
 			case KeyCode.Delete:
 			{
-				return "Del";
+				result = "Del";
+				break;
 			}
 			case KeyCode.UpArrow:
 			{
-				return "Up";
+				result = "Up";
+				break;
 			}
 			case KeyCode.DownArrow:
 			{
-				return "Down";
+				result = "Down";
+				break;
 			}
 			case KeyCode.LeftArrow:
 			{
-				return "Left";
+				result = "Left";
+				break;
 			}
 			case KeyCode.RightArrow:
 			{
-				return "Right";
+				result = "Right";
+				break;
 			}
 			case KeyCode.Insert:
 			{
-				return "Ins";
+				result = "Ins";
+				break;
 			}
 			case KeyCode.Home:
 			{
-				return "Home";
+				result = "Home";
+				break;
 			}
 			case KeyCode.End:
 			{
-				return "End";
+				result = "End";
+				break;
 			}
 			case KeyCode.PageDown:
 			{
-				return "PgDn";
+				result = "PgDn";
+				break;
 			}
 			case KeyCode.PageUp:
 			{
-				return "PgUp";
+				result = "PgUp";
+				break;
 			}
 			case KeyCode.Numlock:
 			{
-				return "NumL";
+				result = "NumL";
+				break;
 			}
 			case KeyCode.CapsLock:
 			{
-				return "CapL";
+				result = "CapL";
+				break;
 			}
 			case KeyCode.ScrollLock:
 			{
-				return "ScrL";
+				result = "ScrL";
+				break;
 			}
 			case KeyCode.RightShift:
 			{
-				return "RShf";
+				result = "RShf";
+				break;
 			}
 			case KeyCode.LeftShift:
 			{
-				return "LShf";
+				result = "LShf";
+				break;
 			}
 			case KeyCode.RightControl:
 			{
-				return "RCtrl";
+				result = "RCtrl";
+				break;
 			}
 			case KeyCode.LeftControl:
 			{
-				return "LCtrl";
+				result = "LCtrl";
+				break;
 			}
 			case KeyCode.RightAlt:
 			{
-				return "RAlt";
+				result = "RAlt";
+				break;
 			}
 			case KeyCode.LeftAlt:
 			{
-				return "LAlt";
+				result = "LAlt";
+				break;
 			}
 			case KeyCode.RightCommand:
 			{
-				return "Appl";
+				result = "Appl";
+				break;
 			}
 			case KeyCode.LeftCommand:
 			{
-				return "Cmd";
+				result = "Cmd";
+				break;
 			}
 			case KeyCode.LeftWindows:
 			{
-				return "Win";
+				result = "Win";
+				break;
 			}
 			case KeyCode.RightWindows:
 			{
-				return "Win";
+				result = "Win";
+				break;
 			}
 			case KeyCode.AltGr:
 			{
-				return "AltGr";
+				result = "AltGr";
+				break;
 			}
 			case KeyCode.Help:
 			{
-				return "Help";
+				result = "Help";
+				break;
 			}
 			case KeyCode.Print:
 			{
-				return "Prnt";
+				result = "Prnt";
+				break;
 			}
 			case KeyCode.SysReq:
 			{
-				return "SysReq";
+				result = "SysReq";
+				break;
 			}
 			case KeyCode.Break:
 			{
-				return "Brk";
+				result = "Brk";
+				break;
 			}
 			case KeyCode.Menu:
 			{
-				return "Menu";
+				result = "Menu";
+				break;
 			}
 			default:
 			{
-				return ((Enum)(object)k).ToString();
+				result = k.ToString();
+				break;
 			}
+			}
+			return result;
+		}
+
+		public static void AppendWithComma(this StringBuilder sb, string text)
+		{
+			sb.AppendWithSeparator(text, ", ");
+		}
+
+		public static void AppendWithSeparator(this StringBuilder sb, string text, string separator)
+		{
+			if (!text.NullOrEmpty())
+			{
+				if (sb.Length > 0)
+				{
+					sb.Append(separator);
+				}
+				sb.Append(text);
 			}
 		}
 	}

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,32 +12,50 @@ namespace RimWorld.Planet
 
 		public override IEnumerable Regenerate()
 		{
-			foreach (object item in base.Regenerate())
+			IEnumerator enumerator = this._003CRegenerate_003E__BaseCallProxy0().GetEnumerator();
+			try
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					object result = enumerator.Current;
+					yield return result;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+			}
+			finally
+			{
+				IDisposable disposable;
+				IDisposable disposable2 = disposable = (enumerator as IDisposable);
+				if (disposable != null)
+				{
+					disposable2.Dispose();
+				}
 			}
 			List<WorldObject> allObjects = Find.WorldObjects.AllWorldObjects;
 			for (int i = 0; i < allObjects.Count; i++)
 			{
-				WorldObject o = allObjects[i];
-				if (!o.def.useDynamicDrawer && !this.ShouldSkip(o))
+				WorldObject worldObject = allObjects[i];
+				if (!worldObject.def.useDynamicDrawer && !this.ShouldSkip(worldObject))
 				{
-					Material mat = o.Material;
-					if ((Object)mat == (Object)null)
+					Material material = worldObject.Material;
+					if ((UnityEngine.Object)material == (UnityEngine.Object)null)
 					{
-						Log.ErrorOnce("World object " + o + " returned null material.", Gen.HashCombineInt(1948576891, o.ID));
+						Log.ErrorOnce("World object " + worldObject + " returned null material.", Gen.HashCombineInt(1948576891, worldObject.ID));
 					}
 					else
 					{
-						LayerSubMesh subMesh = base.GetSubMesh(mat);
+						LayerSubMesh subMesh = base.GetSubMesh(material);
 						Rand.PushState();
-						Rand.Seed = o.ID;
-						o.Print(subMesh);
+						Rand.Seed = worldObject.ID;
+						worldObject.Print(subMesh);
 						Rand.PopState();
 					}
 				}
 			}
-			base.FinalizeMesh(MeshParts.All, false);
+			base.FinalizeMesh(MeshParts.All);
+			yield break;
+			IL_01b2:
+			/*Error near IL_01b3: Unexpected return in MoveNext()*/;
 		}
 	}
 }

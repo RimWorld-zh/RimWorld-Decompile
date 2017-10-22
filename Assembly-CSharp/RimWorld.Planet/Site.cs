@@ -27,15 +27,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (!this.customLabel.NullOrEmpty())
-				{
-					return this.customLabel;
-				}
-				if (this.core == SiteCoreDefOf.Nothing && this.parts.Any())
-				{
-					return this.parts[0].label;
-				}
-				return this.core.label;
+				return this.customLabel.NullOrEmpty() ? ((this.core != SiteCoreDefOf.Nothing || !this.parts.Any()) ? this.core.label : this.parts[0].label) : this.customLabel;
 			}
 		}
 
@@ -55,25 +47,41 @@ namespace RimWorld.Planet
 			}
 		}
 
+		public override IntVec3 MapSizeGeneratedByTransportPodsArrival
+		{
+			get
+			{
+				return SiteCoreWorker.MapSize;
+			}
+		}
+
 		public bool KnownDanger
 		{
 			get
 			{
+				bool result;
 				if (this.LeadingSiteDef.knownDanger)
 				{
-					return true;
+					result = true;
 				}
-				if (this.writeSiteParts)
+				else
 				{
-					for (int i = 0; i < this.parts.Count; i++)
+					if (this.writeSiteParts)
 					{
-						if (this.parts[i].knownDanger)
+						for (int i = 0; i < this.parts.Count; i++)
 						{
-							return true;
+							if (this.parts[i].knownDanger)
+								goto IL_0042;
 						}
 					}
+					result = false;
 				}
-				return false;
+				goto IL_0067;
+				IL_0067:
+				return result;
+				IL_0042:
+				result = true;
+				goto IL_0067;
 			}
 		}
 
@@ -102,11 +110,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.core == SiteCoreDefOf.Nothing && this.parts.Any())
-				{
-					return this.parts[0];
-				}
-				return this.core;
+				return (SiteDefBase)((this.core != SiteCoreDefOf.Nothing || !this.parts.Any()) ? ((object)this.core) : ((object)this.parts[0]));
 			}
 		}
 
@@ -114,23 +118,42 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				foreach (GenStepDef extraGenStepDef in base.ExtraGenStepDefs)
+				using (IEnumerator<GenStepDef> enumerator = this._003Cget_ExtraGenStepDefs_003E__BaseCallProxy0().GetEnumerator())
 				{
-					yield return extraGenStepDef;
-				}
-				List<GenStepDef> coreGenStepDefs = this.core.ExtraGenSteps;
-				for (int k = 0; k < coreGenStepDefs.Count; k++)
-				{
-					yield return coreGenStepDefs[k];
-				}
-				for (int j = 0; j < this.parts.Count; j++)
-				{
-					List<GenStepDef> partGenStepDefs = this.parts[j].ExtraGenSteps;
-					for (int i = 0; i < partGenStepDefs.Count; i++)
+					if (enumerator.MoveNext())
 					{
-						yield return partGenStepDefs[i];
+						GenStepDef g = enumerator.Current;
+						yield return g;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
+				List<GenStepDef> coreGenStepDefs = this.core.ExtraGenSteps;
+				int k = 0;
+				if (k < coreGenStepDefs.Count)
+				{
+					yield return coreGenStepDefs[k];
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+				int j = 0;
+				List<GenStepDef> partGenStepDefs;
+				int i;
+				while (true)
+				{
+					if (j < this.parts.Count)
+					{
+						partGenStepDefs = this.parts[j].ExtraGenSteps;
+						i = 0;
+						if (i < partGenStepDefs.Count)
+							break;
+						j++;
+						continue;
+					}
+					yield break;
+				}
+				yield return partGenStepDefs[i];
+				/*Error: Unable to find new state assignment for yield return*/;
+				IL_01ed:
+				/*Error near IL_01ee: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -168,7 +191,7 @@ namespace RimWorld.Planet
 			{
 				this.parts[i].Worker.PostMapGenerate(map);
 			}
-			this.anyEnemiesInitially = GenHostility.AnyHostileActiveThreat(base.Map);
+			this.anyEnemiesInitially = GenHostility.AnyHostileActiveThreatToPlayer(base.Map);
 		}
 
 		public override bool ShouldRemoveMapNow(out bool alsoRemoveWorldObject)
@@ -179,37 +202,60 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			foreach (FloatMenuOption floatMenuOption in base.GetFloatMenuOptions(caravan))
+			using (IEnumerator<FloatMenuOption> enumerator = this._003CGetFloatMenuOptions_003E__BaseCallProxy1(caravan).GetEnumerator())
 			{
-				yield return floatMenuOption;
+				if (enumerator.MoveNext())
+				{
+					FloatMenuOption f2 = enumerator.Current;
+					yield return f2;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			foreach (FloatMenuOption floatMenuOption2 in this.core.Worker.GetFloatMenuOptions(caravan, this))
+			using (IEnumerator<FloatMenuOption> enumerator2 = this.core.Worker.GetFloatMenuOptions(caravan, this).GetEnumerator())
 			{
-				yield return floatMenuOption2;
+				if (enumerator2.MoveNext())
+				{
+					FloatMenuOption f = enumerator2.Current;
+					yield return f;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_016d:
+			/*Error near IL_016e: Unexpected return in MoveNext()*/;
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy2().GetEnumerator())
 			{
-				yield return gizmo;
+				if (enumerator.MoveNext())
+				{
+					Gizmo g = enumerator.Current;
+					yield return g;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			if (base.HasMap && Find.WorldSelector.SingleSelectedObject == this)
-			{
-				yield return (Gizmo)SettleInExistingMapUtility.SettleCommand(base.Map, true);
-			}
+			if (!base.HasMap)
+				yield break;
+			if (Find.WorldSelector.SingleSelectedObject != this)
+				yield break;
+			yield return (Gizmo)SettleInExistingMapUtility.SettleCommand(base.Map, true);
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0111:
+			/*Error near IL_0112: Unexpected return in MoveNext()*/;
 		}
 
 		private void CheckStartForceExitAndRemoveMapCountdown()
 		{
-			if (!this.startedCountdown && !GenHostility.AnyHostileActiveThreat(base.Map))
+			if (!this.startedCountdown && !GenHostility.AnyHostileActiveThreatToPlayer(base.Map))
 			{
 				this.startedCountdown = true;
 				int num = Mathf.RoundToInt((float)(this.core.forceExitAndRemoveMapCountdownDurationDays * 60000.0));
-				string text = (!this.anyEnemiesInitially) ? "MessageSiteCountdownBecauseNoEnemiesInitially".Translate(MapParent.GetForceExitAndRemoveMapCountdownTimeLeftString(num)) : "MessageSiteCountdownBecauseNoMoreEnemies".Translate(MapParent.GetForceExitAndRemoveMapCountdownTimeLeftString(num));
-				Messages.Message(text, (WorldObject)this, MessageSound.Benefit);
-				base.StartForceExitAndRemoveMapCountdown(num);
+				string text = (!this.anyEnemiesInitially) ? "MessageSiteCountdownBecauseNoEnemiesInitially".Translate(TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(num)) : "MessageSiteCountdownBecauseNoMoreEnemies".Translate(TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(num));
+				Messages.Message(text, (WorldObject)this, MessageTypeDefOf.PositiveEvent);
+				base.GetComponent<TimedForcedExit>().StartForceExitAndRemoveMapCountdown(num);
+				TaleRecorder.RecordTale(TaleDefOf.CaravanAssaultSuccessful, base.Map.mapPawns.FreeColonists.RandomElement());
 			}
 		}
 

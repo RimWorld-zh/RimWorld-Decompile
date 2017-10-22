@@ -3,7 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
-	public class PassingShip : ICommunicable, IExposable, ILoadReferenceable
+	public class PassingShip : IExposable, ICommunicable, ILoadReferenceable
 	{
 		public PassingShipManager passingShipManager;
 
@@ -57,7 +57,7 @@ namespace RimWorld
 		{
 			if (this.Map.listerBuildings.ColonistsHaveBuilding((Func<Thing, bool>)((Thing b) => b.def.IsCommsConsole)))
 			{
-				Messages.Message("MessageShipHasLeftCommsRange".Translate(this.FullTitle), MessageSound.Silent);
+				Messages.Message("MessageShipHasLeftCommsRange".Translate(this.FullTitle), MessageTypeDefOf.SituationResolved);
 			}
 			this.passingShipManager.RemoveShip(this);
 		}

@@ -12,15 +12,25 @@ namespace RimWorld
 		{
 			int transportersGroup = pawn.mindState.duty.transportersGroup;
 			TransporterUtility.GetTransportersInGroup(transportersGroup, pawn.Map, JobGiver_LoadTransporters.tmpTransporters);
-			for (int i = 0; i < JobGiver_LoadTransporters.tmpTransporters.Count; i++)
+			int num = 0;
+			Job result;
+			while (true)
 			{
-				CompTransporter transporter = JobGiver_LoadTransporters.tmpTransporters[i];
-				if (LoadTransportersJobUtility.HasJobOnTransporter(pawn, transporter))
+				if (num < JobGiver_LoadTransporters.tmpTransporters.Count)
 				{
-					return LoadTransportersJobUtility.JobOnTransporter(pawn, transporter);
+					CompTransporter transporter = JobGiver_LoadTransporters.tmpTransporters[num];
+					if (LoadTransportersJobUtility.HasJobOnTransporter(pawn, transporter))
+					{
+						result = LoadTransportersJobUtility.JobOnTransporter(pawn, transporter);
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 	}
 }

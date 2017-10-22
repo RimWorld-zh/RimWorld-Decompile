@@ -12,33 +12,29 @@ namespace RimWorld
 		{
 			get
 			{
-				return (Building_Bed)base.CurJob.GetTarget(TargetIndex.A).Thing;
+				return (Building_Bed)base.job.GetTarget(TargetIndex.A).Thing;
 			}
+		}
+
+		public override bool TryMakePreToilReservations()
+		{
+			return (byte)((!base.job.GetTarget(TargetIndex.A).HasThing || base.pawn.Reserve((Thing)this.Bed, base.job, this.Bed.SleepingSlotsCount, 0, null)) ? 1 : 0) != 0;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			bool hasBed = base.pawn.CurJob.GetTarget(TargetIndex.A).HasThing;
-			if (hasBed)
+			if (base.job.GetTarget(TargetIndex.A).HasThing)
 			{
-				yield return Toils_Reserve.Reserve(TargetIndex.A, this.Bed.SleepingSlotsCount, 0, null);
 				yield return Toils_Bed.ClaimBedIfNonMedical(TargetIndex.A, TargetIndex.None);
-				yield return Toils_Bed.GotoBed(TargetIndex.A);
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			else
-			{
-				yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
-			}
-			yield return Toils_LayDown.LayDown(TargetIndex.A, hasBed, true, true, true);
+			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override string GetReport()
 		{
-			if (base.asleep)
-			{
-				return "ReportSleeping".Translate();
-			}
-			return "ReportResting".Translate();
+			return (!base.asleep) ? "ReportResting".Translate() : "ReportSleeping".Translate();
 		}
 	}
 }

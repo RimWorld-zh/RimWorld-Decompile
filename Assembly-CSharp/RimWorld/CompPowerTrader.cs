@@ -7,23 +7,23 @@ namespace RimWorld
 {
 	public class CompPowerTrader : CompPower
 	{
-		public const string PowerTurnedOnSignal = "PowerTurnedOn";
-
-		public const string PowerTurnedOffSignal = "PowerTurnedOff";
-
 		public Action powerStartedAction;
 
 		public Action powerStoppedAction;
 
-		private bool powerOnInt;
+		private bool powerOnInt = false;
 
-		public float powerOutputInt;
+		public float powerOutputInt = 0f;
 
-		private bool powerLastOutputted;
+		private bool powerLastOutputted = false;
 
-		private Sustainer sustainerPowered;
+		private Sustainer sustainerPowered = null;
 
 		protected CompFlickable flickableComp;
+
+		public const string PowerTurnedOnSignal = "PowerTurnedOn";
+
+		public const string PowerTurnedOffSignal = "PowerTurnedOff";
 
 		public float PowerOutput
 		{

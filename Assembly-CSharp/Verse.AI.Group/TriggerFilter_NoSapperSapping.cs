@@ -6,20 +6,29 @@ namespace Verse.AI.Group
 	{
 		public override bool AllowActivation(Lord lord, TriggerSignal signal)
 		{
-			for (int i = 0; i < lord.ownedPawns.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				Pawn pawn = lord.ownedPawns[i];
-				if (pawn.mindState.duty != null && pawn.mindState.duty.def == DutyDefOf.Sapper && pawn.CurJob != null && pawn.CurJob.def == JobDefOf.Mine && pawn.CurJob.targetA.Cell.InHorDistOf(pawn.Position, 5f))
+				if (num < lord.ownedPawns.Count)
 				{
-					goto IL_00c3;
+					Pawn pawn = lord.ownedPawns[num];
+					if (pawn.mindState.duty != null && pawn.mindState.duty.def == DutyDefOf.Sapper && pawn.CurJob != null && pawn.CurJob.def == JobDefOf.Mine && pawn.CurJob.targetA.Cell.InHorDistOf(pawn.Position, 5f))
+					{
+						goto IL_00c5;
+					}
+					if (pawn.CurJob.def == JobDefOf.UseVerbOnThing && pawn.CurJob.targetA.Cell.InHorDistOf(pawn.Position, 20f))
+						goto IL_00c5;
+					num++;
+					continue;
 				}
-				if (pawn.CurJob.def == JobDefOf.UseVerbOnThing && pawn.CurJob.targetA.Cell.InHorDistOf(pawn.Position, 20f))
-					goto IL_00c3;
-				continue;
-				IL_00c3:
-				return false;
+				result = true;
+				break;
+				IL_00c5:
+				result = false;
+				break;
 			}
-			return true;
+			return result;
 		}
 	}
 }

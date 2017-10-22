@@ -8,9 +8,9 @@ namespace RimWorld
 
 		public Pawn otherPawn;
 
-		public int age;
+		public int age = 0;
 
-		private int forcedStage;
+		private int forcedStage = 0;
 
 		private string cachedLabelCap;
 
@@ -90,6 +90,7 @@ namespace RimWorld
 		public virtual bool TryMergeWithExistingMemory(out bool showBubble)
 		{
 			ThoughtHandler thoughts = base.pawn.needs.mood.thoughts;
+			bool result;
 			if (thoughts.memories.NumMemoriesInGroup(this) >= base.def.stackLimit)
 			{
 				Thought_Memory thought_Memory = thoughts.memories.OldestMemoryInGroup(this);
@@ -97,21 +98,21 @@ namespace RimWorld
 				{
 					showBubble = (thought_Memory.age > thought_Memory.def.DurationTicks / 2);
 					thought_Memory.Renew();
-					return true;
+					result = true;
+					goto IL_0077;
 				}
 			}
 			showBubble = true;
-			return false;
+			result = false;
+			goto IL_0077;
+			IL_0077:
+			return result;
 		}
 
 		public override bool GroupsWith(Thought other)
 		{
 			Thought_Memory thought_Memory = other as Thought_Memory;
-			if (thought_Memory == null)
-			{
-				return false;
-			}
-			return base.GroupsWith(other) && (this.otherPawn == thought_Memory.otherPawn || this.LabelCap == thought_Memory.LabelCap);
+			return thought_Memory != null && base.GroupsWith(other) && (this.otherPawn == thought_Memory.otherPawn || this.LabelCap == thought_Memory.LabelCap);
 		}
 
 		public override float MoodOffset()

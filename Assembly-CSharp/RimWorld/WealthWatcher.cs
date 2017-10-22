@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -7,17 +6,17 @@ namespace RimWorld
 {
 	public class WealthWatcher
 	{
-		private const int MinCountInterval = 5000;
-
 		private Map map;
 
-		private float wealthItems;
+		private float wealthItems = 0f;
 
-		private float wealthBuildings;
+		private float wealthBuildings = 0f;
 
-		private int totalHealth;
+		private int totalHealth = 0;
 
 		private float lastCountTick = -99999f;
+
+		private const int MinCountInterval = 5000;
 
 		public int HealthTotal
 		{
@@ -90,51 +89,21 @@ namespace RimWorld
 				}
 				foreach (Pawn freeColonist in this.map.mapPawns.FreeColonists)
 				{
-					if (freeColonist.equipment != null)
+					this.wealthItems += WealthWatcher.GetEquipmentApparelAndInventoryWealth(freeColonist);
+				}
+				List<Thing> list2 = this.map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingFrame);
+				for (int j = 0; j < list2.Count; j++)
+				{
+					ThingOwner resourceContainer = ((Frame)list2[j]).resourceContainer;
+					for (int k = 0; k < resourceContainer.Count; k++)
 					{
-						List<ThingWithComps>.Enumerator enumerator2 = freeColonist.equipment.AllEquipmentListForReading.GetEnumerator();
-						try
-						{
-							while (enumerator2.MoveNext())
-							{
-								ThingWithComps current2 = enumerator2.Current;
-								this.wealthItems += current2.MarketValue;
-							}
-						}
-						finally
-						{
-							((IDisposable)(object)enumerator2).Dispose();
-						}
-					}
-					if (freeColonist.apparel != null)
-					{
-						List<Apparel> wornApparel = freeColonist.apparel.WornApparel;
-						for (int j = 0; j < wornApparel.Count; j++)
-						{
-							this.wealthItems += wornApparel[j].MarketValue;
-						}
+						this.wealthItems += (float)resourceContainer[k].stackCount * resourceContainer[k].MarketValue;
 					}
 				}
-				List<Thing>.Enumerator enumerator3 = this.map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingFrame).GetEnumerator();
-				try
+				List<Thing> list3 = this.map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial);
+				for (int l = 0; l < list3.Count; l++)
 				{
-					while (enumerator3.MoveNext())
-					{
-						Frame frame = (Frame)enumerator3.Current;
-						foreach (Thing item in (IEnumerable<Thing>)frame.resourceContainer)
-						{
-							this.wealthItems += (float)item.stackCount * item.MarketValue;
-						}
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator3).Dispose();
-				}
-				List<Thing> list2 = this.map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial);
-				for (int k = 0; k < list2.Count; k++)
-				{
-					Thing thing2 = list2[k];
+					Thing thing2 = list3[l];
 					if (thing2.Faction == Faction.OfPlayer)
 					{
 						this.wealthBuildings += thing2.MarketValue;
@@ -147,6 +116,36 @@ namespace RimWorld
 				}
 				this.lastCountTick = (float)Find.TickManager.TicksGame;
 			}
+		}
+
+		public static float GetEquipmentApparelAndInventoryWealth(Pawn p)
+		{
+			float num = 0f;
+			if (p.equipment != null)
+			{
+				List<ThingWithComps> allEquipmentListForReading = p.equipment.AllEquipmentListForReading;
+				for (int i = 0; i < allEquipmentListForReading.Count; i++)
+				{
+					num += allEquipmentListForReading[i].MarketValue * (float)allEquipmentListForReading[i].stackCount;
+				}
+			}
+			if (p.apparel != null)
+			{
+				List<Apparel> wornApparel = p.apparel.WornApparel;
+				for (int j = 0; j < wornApparel.Count; j++)
+				{
+					num += wornApparel[j].MarketValue * (float)wornApparel[j].stackCount;
+				}
+			}
+			if (p.inventory != null)
+			{
+				ThingOwner<Thing> innerContainer = p.inventory.innerContainer;
+				for (int k = 0; k < innerContainer.Count; k++)
+				{
+					num += innerContainer[k].MarketValue * (float)innerContainer[k].stackCount;
+				}
+			}
+			return num;
 		}
 	}
 }

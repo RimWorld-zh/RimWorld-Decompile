@@ -5,7 +5,7 @@ namespace Verse.Sound
 {
 	public class AudioGrain_Clip : AudioGrain
 	{
-		public string clipPath = string.Empty;
+		public string clipPath = "";
 
 		public override IEnumerable<ResolvedGrain> GetResolvedGrains()
 		{
@@ -13,11 +13,9 @@ namespace Verse.Sound
 			if ((Object)clip != (Object)null)
 			{
 				yield return (ResolvedGrain)new ResolvedGrain_Clip(clip);
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			else
-			{
-				Log.Error("Grain couldn't resolve: Clip not found at " + this.clipPath);
-			}
+			Log.Error("Grain couldn't resolve: Clip not found at " + this.clipPath);
 		}
 	}
 }

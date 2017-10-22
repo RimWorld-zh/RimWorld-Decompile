@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Verse;
@@ -90,18 +89,9 @@ namespace RimWorld
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("======= Filth in home area");
-			List<Thing>.Enumerator enumerator = this.filthInHomeArea.GetEnumerator();
-			try
+			foreach (Thing item in this.filthInHomeArea)
 			{
-				while (enumerator.MoveNext())
-				{
-					Thing current = enumerator.Current;
-					stringBuilder.AppendLine(current.ThingID + " " + current.Position);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				stringBuilder.AppendLine(item.ThingID + " " + item.Position);
 			}
 			return stringBuilder.ToString();
 		}

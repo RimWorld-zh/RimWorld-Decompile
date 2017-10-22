@@ -17,30 +17,28 @@ namespace Verse
 				try
 				{
 					return (T)ParseHelper.FromString(subNode.InnerText, typeof(T));
-					IL_0028:;
 				}
 				catch (Exception ex)
 				{
 					Log.Error("Exception parsing node " + subNode.OuterXml + " into a " + typeof(T) + ":\n" + ex.ToString());
 				}
 				return default(T);
-				IL_0089:
-				T result;
-				return result;
 			}
 			catch (Exception arg)
 			{
 				Log.Error("Exception loading XML: " + arg);
 				return defaultValue;
-				IL_00a6:
-				T result;
-				return result;
 			}
 		}
 
 		public static T DefFromNode<T>(XmlNode subNode) where T : Def, new()
 		{
-			if (subNode != null && subNode.InnerText != null && !(subNode.InnerText == "null"))
+			T result;
+			if (subNode == null || subNode.InnerText == null || subNode.InnerText == "null")
+			{
+				result = (T)null;
+			}
+			else
 			{
 				string defName = BackCompatibility.BackCompatibleDefName(typeof(T), subNode.InnerText);
 				T namedSilentFail = DefDatabase<T>.GetNamedSilentFail(defName);
@@ -48,9 +46,9 @@ namespace Verse
 				{
 					Log.Error("Could not load reference to " + typeof(T) + " named " + subNode.InnerText);
 				}
-				return namedSilentFail;
+				result = namedSilentFail;
 			}
-			return (T)null;
+			return result;
 		}
 
 		public static T DefFromNodeUnsafe<T>(XmlNode subNode)
@@ -60,75 +58,77 @@ namespace Verse
 
 		public static T SaveableFromNode<T>(XmlNode subNode, object[] ctorArgs)
 		{
+			T result;
 			if (Scribe.mode != LoadSaveMode.LoadingVars)
 			{
 				Log.Error("Called SaveableFromNode(), but mode is " + Scribe.mode);
-				return default(T);
+				result = default(T);
 			}
-			if (subNode == null)
+			else if (subNode == null)
 			{
-				return default(T);
+				result = default(T);
 			}
-			XmlAttribute xmlAttribute = subNode.Attributes["IsNull"];
-			if (xmlAttribute != null && xmlAttribute.Value == "True")
+			else
 			{
-				return default(T);
-			}
-			try
-			{
-				Type type = null;
-				XmlAttribute xmlAttribute2 = subNode.Attributes["Class"];
-				if (xmlAttribute2 != null)
+				XmlAttribute xmlAttribute = subNode.Attributes["IsNull"];
+				T val;
+				if (xmlAttribute != null && xmlAttribute.Value == "True")
 				{
-					type = GenTypes.GetTypeInAnyAssembly(xmlAttribute2.Value);
-					if (type == null)
-					{
-						Log.Error("Could not find class " + xmlAttribute2.Value + " while resolving node " + subNode.Name + ". Trying to use " + typeof(T) + " instead. Full node: " + subNode.OuterXml);
-						type = typeof(T);
-					}
+					val = default(T);
 				}
 				else
 				{
-					type = typeof(T);
+					try
+					{
+						XmlAttribute xmlAttribute2 = subNode.Attributes["Class"];
+						string text = (xmlAttribute2 == null) ? typeof(T).FullName : xmlAttribute2.Value;
+						Type type = BackCompatibility.GetBackCompatibleType(typeof(T), text, subNode);
+						if (type == null)
+						{
+							Log.Error("Could not find class " + text + " while resolving node " + subNode.Name + ". Trying to use " + typeof(T) + " instead. Full node: " + subNode.OuterXml);
+							type = typeof(T);
+						}
+						if (type.IsAbstract)
+						{
+							throw new ArgumentException("Can't load abstract class " + type);
+						}
+						IExposable exposable = (IExposable)Activator.CreateInstance(type, ctorArgs);
+						bool flag = typeof(T).IsValueType || typeof(Name).IsAssignableFrom(typeof(T));
+						if (!flag)
+						{
+							Scribe.loader.crossRefs.RegisterForCrossRefResolve(exposable);
+						}
+						XmlNode curXmlParent = Scribe.loader.curXmlParent;
+						IExposable curParent = Scribe.loader.curParent;
+						string curPathRelToParent = Scribe.loader.curPathRelToParent;
+						Scribe.loader.curXmlParent = subNode;
+						Scribe.loader.curParent = exposable;
+						Scribe.loader.curPathRelToParent = (string)null;
+						try
+						{
+							exposable.ExposeData();
+						}
+						finally
+						{
+							Scribe.loader.curXmlParent = curXmlParent;
+							Scribe.loader.curParent = curParent;
+							Scribe.loader.curPathRelToParent = curPathRelToParent;
+						}
+						if (!flag)
+						{
+							Scribe.loader.initer.RegisterForPostLoadInit(exposable);
+						}
+						val = (T)exposable;
+					}
+					catch (Exception ex)
+					{
+						val = default(T);
+						Log.Error("SaveableFromNode exception: " + ex + "\nSubnode:\n" + subNode.OuterXml);
+					}
 				}
-				if (type.IsAbstract)
-				{
-					throw new ArgumentException("Can't load abstract class " + type);
-				}
-				IExposable exposable = (IExposable)Activator.CreateInstance(type, ctorArgs);
-				bool flag = typeof(T).IsValueType || typeof(Name).IsAssignableFrom(typeof(T));
-				if (!flag)
-				{
-					Scribe.loader.crossRefs.RegisterForCrossRefResolve(exposable);
-				}
-				XmlNode curXmlParent = Scribe.loader.curXmlParent;
-				IExposable curParent = Scribe.loader.curParent;
-				string curPathRelToParent = Scribe.loader.curPathRelToParent;
-				Scribe.loader.curXmlParent = subNode;
-				Scribe.loader.curParent = exposable;
-				Scribe.loader.curPathRelToParent = (string)null;
-				try
-				{
-					exposable.ExposeData();
-				}
-				finally
-				{
-					Scribe.loader.curXmlParent = curXmlParent;
-					Scribe.loader.curParent = curParent;
-					Scribe.loader.curPathRelToParent = curPathRelToParent;
-				}
-				if (!flag)
-				{
-					Scribe.loader.initer.RegisterForPostLoadInit(exposable);
-				}
-				return (T)exposable;
+				result = val;
 			}
-			catch (Exception ex)
-			{
-				T result = default(T);
-				Log.Error("SaveableFromNode exception: " + ex + "\nSubnode:\n" + subNode.OuterXml);
-				return result;
-			}
+			return result;
 		}
 
 		public static LocalTargetInfo LocalTargetInfoFromNode(XmlNode node, string label, LocalTargetInfo defaultValue)
@@ -146,7 +146,6 @@ namespace Verse
 					}
 					loadIDs.RegisterLoadIDReadFromXml(innerText, typeof(Thing), "thing");
 					return LocalTargetInfo.Invalid;
-					IL_0089:;
 				}
 				finally
 				{
@@ -177,7 +176,6 @@ namespace Verse
 					loadIDs.RegisterLoadIDReadFromXml(innerText, typeof(Thing), "thing");
 					loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Map), "map");
 					return TargetInfo.Invalid;
-					IL_00c3:;
 				}
 				finally
 				{
@@ -226,7 +224,6 @@ namespace Verse
 					loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Map), "map");
 					loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(WorldObject), "worldObject");
 					return GlobalTargetInfo.Invalid;
-					IL_01b9:;
 				}
 				finally
 				{
@@ -252,8 +249,6 @@ namespace Verse
 						return new LocalTargetInfo(thing);
 					}
 					return new LocalTargetInfo(cell);
-					IL_0046:
-					return loaded;
 				}
 				finally
 				{
@@ -281,8 +276,6 @@ namespace Verse
 						return new TargetInfo(cell, map, false);
 					}
 					return TargetInfo.Invalid;
-					IL_007a:
-					return loaded;
 				}
 				finally
 				{
@@ -324,8 +317,6 @@ namespace Verse
 						return new GlobalTargetInfo(tile);
 					}
 					return GlobalTargetInfo.Invalid;
-					IL_00d0:
-					return loaded;
 				}
 				finally
 				{

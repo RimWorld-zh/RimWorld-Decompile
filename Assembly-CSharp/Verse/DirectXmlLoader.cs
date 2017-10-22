@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -18,11 +19,13 @@ namespace Verse
 			{
 				FileInfo[] files2;
 				FileInfo[] files = files2 = di.GetFiles("*.xml", SearchOption.AllDirectories);
-				for (int i = 0; i < files2.Length; i++)
+				int num = 0;
+				if (num < files2.Length)
 				{
-					FileInfo file = files2[i];
+					FileInfo file = files2[num];
 					LoadableXmlAsset asset = new LoadableXmlAsset(file.Name, file.Directory.FullName, File.ReadAllText(file.FullName));
 					yield return asset;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 		}
@@ -35,20 +38,28 @@ namespace Verse
 			object[] textObjects = array = Resources.LoadAll<TextAsset>(folderPath);
 			for (int j = 0; j < array.Length; j++)
 			{
-				TextAsset text = (TextAsset)array[j];
-				LoadableXmlAsset asset = new LoadableXmlAsset(text.name, string.Empty, text.text);
-				XmlInheritance.TryRegisterAllFrom(asset, null);
-				assets.Add(asset);
+				TextAsset textAsset = (TextAsset)array[j];
+				LoadableXmlAsset loadableXmlAsset = new LoadableXmlAsset(textAsset.name, "", textAsset.text);
+				XmlInheritance.TryRegisterAllFrom(loadableXmlAsset, null);
+				assets.Add(loadableXmlAsset);
 			}
 			XmlInheritance.Resolve();
 			for (int i = 0; i < assets.Count; i++)
 			{
-				foreach (T item in DirectXmlLoader.AllGameItemsFromAsset<T>(assets[i]))
+				using (IEnumerator<T> enumerator = DirectXmlLoader.AllGameItemsFromAsset<T>(assets[i]).GetEnumerator())
 				{
-					yield return item;
+					if (enumerator.MoveNext())
+					{
+						T item = enumerator.Current;
+						yield return item;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
 			XmlInheritance.Clear();
+			yield break;
+			IL_019e:
+			/*Error near IL_019f: Unexpected return in MoveNext()*/;
 		}
 
 		public static T ItemFromXmlFile<T>(string filePath, bool resolveCrossRefs = true) where T : new()
@@ -72,17 +83,11 @@ namespace Verse
 					DirectXmlCrossRefLoader.ResolveAllWantedCrossReferences(FailMode.LogErrors);
 				}
 				return result;
-				IL_008a:
-				T result2;
-				return result2;
 			}
 			catch (Exception ex)
 			{
 				Log.Error("Exception loading file at " + filePath + ". Loading defaults instead. Exception was: " + ex.ToString());
 				return new T();
-				IL_00d7:
-				T result2;
-				return result2;
 			}
 		}
 
@@ -97,44 +102,57 @@ namespace Verse
 				DirectXmlLoader.loadingAsset = asset;
 				XmlNodeList assetNodes = asset.xmlDoc.DocumentElement.ChildNodes;
 				bool gotData = false;
-				foreach (XmlNode item in assetNodes)
+				IEnumerator enumerator = assetNodes.GetEnumerator();
+				try
 				{
-					if (item.NodeType == XmlNodeType.Element)
+					while (enumerator.MoveNext())
 					{
-						XmlAttribute abstractAtt = item.Attributes["Abstract"];
-						if (abstractAtt != null && abstractAtt.Value.ToLower() == "true")
+						XmlNode node = (XmlNode)enumerator.Current;
+						if (node.NodeType == XmlNodeType.Element)
 						{
-							gotData = true;
-						}
-						else
-						{
-							Type defType = GenTypes.GetTypeInAnyAssembly(item.Name);
-							if (defType != null && typeof(Def).IsAssignableFrom(defType))
+							XmlAttribute abstractAtt = node.Attributes["Abstract"];
+							if (abstractAtt != null && abstractAtt.Value.ToLower() == "true")
 							{
-								MethodInfo method = typeof(DirectXmlToObject).GetMethod("ObjectFromXml");
-								MethodInfo gen = method.MakeGenericMethod(defType);
-								Def def = null;
-								try
+								gotData = true;
+							}
+							else
+							{
+								Type defType = GenTypes.GetTypeInAnyAssembly(node.Name);
+								if (defType != null && typeof(Def).IsAssignableFrom(defType))
 								{
-									def = (Def)gen.Invoke(null, new object[2]
+									MethodInfo method = typeof(DirectXmlToObject).GetMethod("ObjectFromXml");
+									MethodInfo gen = method.MakeGenericMethod(defType);
+									Def def = null;
+									try
 									{
-										item,
-										true
-									});
-									gotData = true;
-								}
-								catch (Exception ex)
-								{
-									Exception e;
-									Exception ex2 = e = ex;
-									Log.Error("Exception loading def from file " + asset.name + ": " + e);
-								}
-								if (def != null)
-								{
-									yield return def;
+										def = (Def)gen.Invoke(null, new object[2]
+										{
+											node,
+											true
+										});
+										gotData = true;
+									}
+									catch (Exception ex)
+									{
+										Log.Error("Exception loading def from file " + asset.name + ": " + ex);
+									}
+									if (def != null)
+									{
+										yield return def;
+										/*Error: Unable to find new state assignment for yield return*/;
+									}
 								}
 							}
 						}
+					}
+				}
+				finally
+				{
+					IDisposable disposable;
+					IDisposable disposable2 = disposable = (enumerator as IDisposable);
+					if (disposable != null)
+					{
+						disposable2.Dispose();
 					}
 				}
 				if (!gotData)
@@ -143,6 +161,9 @@ namespace Verse
 				}
 				DirectXmlLoader.loadingAsset = null;
 			}
+			yield break;
+			IL_02eb:
+			/*Error near IL_02ec: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<T> AllGameItemsFromAsset<T>(LoadableXmlAsset asset) where T : new()
@@ -156,25 +177,39 @@ namespace Verse
 				DirectXmlLoader.loadingAsset = asset;
 				XmlNodeList assetNodes = asset.xmlDoc.DocumentElement.SelectNodes(typeof(T).Name);
 				bool gotData = false;
-				foreach (XmlNode item2 in assetNodes)
+				IEnumerator enumerator = assetNodes.GetEnumerator();
+				try
 				{
-					XmlAttribute abstractAtt = item2.Attributes["Abstract"];
-					if (abstractAtt == null || !(abstractAtt.Value.ToLower() == "true"))
+					while (enumerator.MoveNext())
 					{
+						XmlNode node = (XmlNode)enumerator.Current;
+						XmlAttribute abstractAtt = node.Attributes["Abstract"];
+						if (abstractAtt != null && abstractAtt.Value.ToLower() == "true")
+						{
+							continue;
+						}
 						T item;
 						try
 						{
-							item = DirectXmlToObject.ObjectFromXml<T>(item2, true);
+							item = DirectXmlToObject.ObjectFromXml<T>(node, true);
 							gotData = true;
 						}
 						catch (Exception ex)
 						{
-							Exception e;
-							Exception ex2 = e = ex;
-							Log.Error("Exception loading data from file " + asset.name + ": " + e);
+							Log.Error("Exception loading data from file " + asset.name + ": " + ex);
 							continue;
 						}
 						yield return item;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
+				}
+				finally
+				{
+					IDisposable disposable;
+					IDisposable disposable2 = disposable = (enumerator as IDisposable);
+					if (disposable != null)
+					{
+						disposable2.Dispose();
 					}
 				}
 				if (!gotData)
@@ -183,6 +218,9 @@ namespace Verse
 				}
 				DirectXmlLoader.loadingAsset = null;
 			}
+			yield break;
+			IL_024e:
+			/*Error near IL_024f: Unexpected return in MoveNext()*/;
 		}
 	}
 }

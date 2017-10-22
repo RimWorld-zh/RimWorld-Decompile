@@ -4,9 +4,9 @@ namespace RimWorld
 {
 	public class StatPart_RoomStat : StatPart
 	{
-		private RoomStatDef roomStat;
+		private RoomStatDef roomStat = null;
 
-		private string customLabel;
+		private string customLabel = (string)null;
 
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -22,16 +22,21 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
+			string result;
 			if (req.HasThing)
 			{
 				Room room = req.Thing.GetRoom(RegionType.Set_Passable);
 				if (room != null)
 				{
 					string str = this.customLabel.NullOrEmpty() ? this.roomStat.LabelCap : this.customLabel;
-					return str + ": x" + room.GetStat(this.roomStat).ToStringPercent();
+					result = str + ": x" + room.GetStat(this.roomStat).ToStringPercent();
+					goto IL_0075;
 				}
 			}
-			return (string)null;
+			result = (string)null;
+			goto IL_0075;
+			IL_0075:
+			return result;
 		}
 	}
 }

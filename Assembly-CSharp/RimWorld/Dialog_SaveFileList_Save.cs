@@ -33,7 +33,7 @@ namespace RimWorld
 			{
 				GameDataSaveLoader.SaveGame(mapName);
 			}, "SavingLongEvent", false, null);
-			Messages.Message("SavedAs".Translate(mapName), MessageSound.Silent);
+			Messages.Message("SavedAs".Translate(mapName), MessageTypeDefOf.SilentInput);
 			PlayerKnowledgeDatabase.Save();
 			this.Close(true);
 		}

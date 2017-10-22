@@ -14,15 +14,25 @@ namespace Verse.AI
 				ThinkNode_Random.tempList.Add(base.subNodes[i]);
 			}
 			ThinkNode_Random.tempList.Shuffle();
-			for (int j = 0; j < ThinkNode_Random.tempList.Count; j++)
+			int num = 0;
+			ThinkResult result;
+			while (true)
 			{
-				ThinkResult result = ThinkNode_Random.tempList[j].TryIssueJobPackage(pawn, jobParams);
-				if (result.IsValid)
+				if (num < ThinkNode_Random.tempList.Count)
 				{
-					return result;
+					ThinkResult thinkResult = ThinkNode_Random.tempList[num].TryIssueJobPackage(pawn, jobParams);
+					if (thinkResult.IsValid)
+					{
+						result = thinkResult;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = ThinkResult.NoJob;
+				break;
 			}
-			return ThinkResult.NoJob;
+			return result;
 		}
 	}
 }

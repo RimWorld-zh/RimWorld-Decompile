@@ -11,36 +11,36 @@ namespace RimWorld
 		{
 			get
 			{
-				foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
+				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMaps_FreeColonistsSpawned.GetEnumerator())
 				{
-					if (Alert_ColonistNeedsRescuing.NeedsRescue(item))
+					Pawn p;
+					while (true)
 					{
-						yield return item;
+						if (enumerator.MoveNext())
+						{
+							p = enumerator.Current;
+							if (Alert_ColonistNeedsRescuing.NeedsRescue(p))
+								break;
+							continue;
+						}
+						yield break;
 					}
+					yield return p;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
+				IL_00c7:
+				/*Error near IL_00c8: Unexpected return in MoveNext()*/;
 			}
 		}
 
 		public static bool NeedsRescue(Pawn p)
 		{
-			if (p.Downed && !p.InBed() && !(p.ParentHolder is Pawn_CarryTracker))
-			{
-				if (p.jobs.jobQueue != null && p.jobs.jobQueue.Count > 0 && p.jobs.jobQueue.Peek().job.CanBeginNow(p))
-				{
-					return false;
-				}
-				return true;
-			}
-			return false;
+			return (byte)((p.Downed && !p.InBed() && !(p.ParentHolder is Pawn_CarryTracker)) ? ((p.jobs.jobQueue == null || p.jobs.jobQueue.Count <= 0 || !p.jobs.jobQueue.Peek().job.CanBeginNow(p)) ? 1 : 0) : 0) != 0;
 		}
 
 		public override string GetLabel()
 		{
-			if (this.ColonistsNeedingRescue.Count() == 1)
-			{
-				return "ColonistNeedsRescue".Translate();
-			}
-			return "ColonistsNeedRescue".Translate();
+			return (this.ColonistsNeedingRescue.Count() != 1) ? "ColonistsNeedRescue".Translate() : "ColonistNeedsRescue".Translate();
 		}
 
 		public override string GetExplanation()

@@ -5,25 +5,26 @@ namespace RimWorld
 {
 	public class IncidentWorker_Ambush_ManhunterPack : IncidentWorker_Ambush
 	{
-		public override bool TryExecute(IncidentParms parms)
+		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			PawnKindDef pawnKindDef = default(PawnKindDef);
-			if (!ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(parms.points, -1, out pawnKindDef))
-			{
-				return false;
-			}
-			return base.TryExecute(parms);
+			return ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(parms.points, -1, out pawnKindDef) && base.TryExecuteWorker(parms);
 		}
 
-		protected override List<Pawn> GeneratePawns(IIncidentTarget target, float points, int tile)
+		protected override List<Pawn> GeneratePawns(IncidentParms parms)
 		{
 			PawnKindDef animalKind = default(PawnKindDef);
-			if (!ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(points, tile, out animalKind) && !ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(points, -1, out animalKind))
+			List<Pawn> result;
+			if (!ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(parms.points, parms.target.Tile, out animalKind) && !ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(parms.points, -1, out animalKind))
 			{
 				Log.Error("Could not find any valid animal kind for " + base.def + " incident.");
-				return new List<Pawn>();
+				result = new List<Pawn>();
 			}
-			return ManhunterPackIncidentUtility.GenerateAnimals(animalKind, tile, points);
+			else
+			{
+				result = ManhunterPackIncidentUtility.GenerateAnimals(animalKind, parms.target.Tile, parms.points);
+			}
+			return result;
 		}
 
 		protected override void PostProcessGeneratedPawnsAfterSpawning(List<Pawn> generatedPawns)
@@ -34,9 +35,9 @@ namespace RimWorld
 			}
 		}
 
-		protected override void SendAmbushLetter(Pawn anyPawn, Faction enemyFaction)
+		protected override void SendAmbushLetter(Pawn anyPawn, IncidentParms parms)
 		{
-			base.SendStandardLetter((Thing)anyPawn, anyPawn.KindLabelPlural);
+			base.SendStandardLetter((Thing)anyPawn, anyPawn.GetKindLabelPlural(-1));
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public class CompForbiddable : ThingComp
 	{
-		private bool forbiddenInt;
+		private bool forbiddenInt = false;
 
 		public bool Forbidden
 		{
@@ -82,7 +82,7 @@ namespace RimWorld
 			{
 				hotKey = KeyBindingDefOf.CommandItemForbid,
 				icon = TexCommand.Forbidden,
-				isActive = (Func<bool>)(() => !((_003CCompGetGizmosExtra_003Ec__Iterator164)/*Error near IL_0086: stateMachine*/)._003C_003Ef__this.forbiddenInt),
+				isActive = (Func<bool>)(() => !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0087: stateMachine*/)._0024this.forbiddenInt),
 				defaultLabel = "CommandForbid".Translate()
 			};
 			if (this.forbiddenInt)
@@ -98,7 +98,7 @@ namespace RimWorld
 				com.tutorTag = "ToggleForbidden-Door";
 				com.toggleAction = (Action)delegate
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator164)/*Error near IL_011b: stateMachine*/)._003C_003Ef__this.Forbidden = !((_003CCompGetGizmosExtra_003Ec__Iterator164)/*Error near IL_011b: stateMachine*/)._003C_003Ef__this.Forbidden;
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_011d: stateMachine*/)._0024this.Forbidden = !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_011d: stateMachine*/)._0024this.Forbidden;
 					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.ForbiddingDoors, KnowledgeAmount.SpecificInteraction);
 				};
 			}
@@ -107,11 +107,12 @@ namespace RimWorld
 				com.tutorTag = "ToggleForbidden";
 				com.toggleAction = (Action)delegate
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator164)/*Error near IL_0147: stateMachine*/)._003C_003Ef__this.Forbidden = !((_003CCompGetGizmosExtra_003Ec__Iterator164)/*Error near IL_0147: stateMachine*/)._003C_003Ef__this.Forbidden;
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_014b: stateMachine*/)._0024this.Forbidden = !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_014b: stateMachine*/)._0024this.Forbidden;
 					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Forbidding, KnowledgeAmount.SpecificInteraction);
 				};
 			}
 			yield return (Gizmo)com;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

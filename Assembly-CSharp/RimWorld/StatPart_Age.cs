@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class StatPart_Age : StatPart
 	{
-		private SimpleCurve curve;
+		private SimpleCurve curve = null;
 
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -21,15 +21,20 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
+			string result;
 			if (req.HasThing)
 			{
 				Pawn pawn = req.Thing as Pawn;
 				if (pawn != null && pawn.ageTracker != null)
 				{
-					return "StatsReport_AgeMultiplier".Translate(pawn.ageTracker.AgeBiologicalYears) + ": x" + this.AgeMultiplier(pawn).ToStringPercent();
+					result = "StatsReport_AgeMultiplier".Translate(pawn.ageTracker.AgeBiologicalYears) + ": x" + this.AgeMultiplier(pawn).ToStringPercent();
+					goto IL_0073;
 				}
 			}
-			return (string)null;
+			result = (string)null;
+			goto IL_0073;
+			IL_0073:
+			return result;
 		}
 
 		private float AgeMultiplier(Pawn pawn)
@@ -39,10 +44,10 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			if (this.curve == null)
-			{
-				yield return "curve is null.";
-			}
+			if (this.curve != null)
+				yield break;
+			yield return "curve is null.";
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

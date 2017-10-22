@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -19,18 +18,9 @@ namespace Verse
 
 		private static void CheckThingRegisteredTwice(Map map)
 		{
-			Dictionary<Region, List<Thing>>.Enumerator enumerator = Autotests_RegionListers.expectedListers.GetEnumerator();
-			try
+			foreach (KeyValuePair<Region, List<Thing>> expectedLister in Autotests_RegionListers.expectedListers)
 			{
-				while (enumerator.MoveNext())
-				{
-					KeyValuePair<Region, List<Thing>> current = enumerator.Current;
-					Autotests_RegionListers.CheckDuplicates(current.Value, current.Key, true);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				Autotests_RegionListers.CheckDuplicates(expectedLister.Value, expectedLister.Key, true);
 			}
 			foreach (Region allRegion in map.regionGrid.AllRegions)
 			{
@@ -61,26 +51,17 @@ namespace Verse
 
 		private static void CheckThingNotRegisteredButShould()
 		{
-			Dictionary<Region, List<Thing>>.Enumerator enumerator = Autotests_RegionListers.expectedListers.GetEnumerator();
-			try
+			foreach (KeyValuePair<Region, List<Thing>> expectedLister in Autotests_RegionListers.expectedListers)
 			{
-				while (enumerator.MoveNext())
+				List<Thing> value = expectedLister.Value;
+				List<Thing> allThings = expectedLister.Key.ListerThings.AllThings;
+				for (int i = 0; i < value.Count; i++)
 				{
-					KeyValuePair<Region, List<Thing>> current = enumerator.Current;
-					List<Thing> value = current.Value;
-					List<Thing> allThings = current.Key.ListerThings.AllThings;
-					for (int i = 0; i < value.Count; i++)
+					if (!allThings.Contains(value[i]))
 					{
-						if (!allThings.Contains(value[i]))
-						{
-							Log.Error("Region error: thing " + value[i] + " at " + value[i].Position + " should be registered in " + current.Key + " but it's not.");
-						}
+						Log.Error("Region error: thing " + value[i] + " at " + value[i].Position + " should be registered in " + expectedLister.Key + " but it's not.");
 					}
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 

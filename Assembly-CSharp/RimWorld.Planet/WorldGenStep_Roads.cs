@@ -23,13 +23,13 @@ namespace RimWorld.Planet
 
 			public Connectedness Group()
 			{
-				if (this.parent == null)
-				{
-					return this;
-				}
-				return this.parent.Group();
+				return (this.parent != null) ? this.parent.Group() : this;
 			}
 		}
+
+		private static readonly FloatRange ExtraRoadNodesPer100kTiles = new FloatRange(30f, 50f);
+
+		private static readonly IntRange RoadDistanceFromSettlement = new IntRange(-4, 4);
 
 		private const float ChanceExtraNonSpanningTreeLink = 0.015f;
 
@@ -38,10 +38,6 @@ namespace RimWorld.Planet
 		private const float ChanceWorldObjectReclusive = 0.05f;
 
 		private const int PotentialSpanningTreeLinksPerSettlement = 8;
-
-		private static readonly FloatRange ExtraRoadNodesPer100kTiles = new FloatRange(30f, 50f);
-
-		private static readonly IntRange RoadDistanceFromSettlement = new IntRange(-4, 4);
 
 		public override void GenerateFresh(string seed)
 		{
@@ -52,7 +48,7 @@ namespace RimWorld.Planet
 			Rand.RandomizeStateFromTime();
 		}
 
-		public override void GenerateFromScribe(string seed)
+		public override void GenerateWithoutWorldData(string seed)
 		{
 			Rand.Seed = GenText.StableStringHash(seed);
 			this.GenerateRoadNetwork();
@@ -67,7 +63,7 @@ namespace RimWorld.Planet
 			int num = GenMath.RoundRandom((float)((float)Find.WorldGrid.TilesCount / 100000.0 * WorldGenStep_Roads.ExtraRoadNodesPer100kTiles.RandomInRange));
 			for (int num2 = 0; num2 < num; num2++)
 			{
-				list.Add(TileFinder.RandomFactionBaseTileFor(null, false));
+				list.Add(TileFinder.RandomFactionBaseTileFor(null, false, null));
 			}
 			List<int> list2 = new List<int>();
 			for (int i = 0; i < list.Count; i++)
@@ -111,8 +107,7 @@ namespace RimWorld.Planet
 				list.Clear();
 				list.Add(srcTile);
 				int found = 0;
-				WorldPathFinder worldPathFinder = Find.WorldPathFinder;
-				Func<int, float, bool> terminator = (Func<int, float, bool>)delegate(int tile, float distance)
+				Find.WorldPathFinder.FloodPathsWithCost(list, (Func<int, int, int>)((int src, int dst) => WorldPathFinder.StandardPathCost(src, dst, null)), null, (Func<int, float, bool>)delegate(int tile, float distance)
 				{
 					if (tile != srcTile && tileToIndexLookup.ContainsKey(tile))
 					{
@@ -125,8 +120,7 @@ namespace RimWorld.Planet
 						});
 					}
 					return found >= 8;
-				};
-				worldPathFinder.FloodPathsWithCost(list, (Func<int, int, int>)((int src, int dst) => WorldPathFinder.StandardPathCost(src, dst, null)), null, terminator);
+				});
 			}
 			linkProspective.Sort((Comparison<Link>)((Link lhs, Link rhs) => lhs.distance.CompareTo(rhs.distance)));
 			return linkProspective;
@@ -161,27 +155,19 @@ namespace RimWorld.Planet
 
 		private void DrawLinksOnWorld(List<Link> linkFinal, List<int> indexToTile)
 		{
-			List<Link>.Enumerator enumerator = linkFinal.GetEnumerator();
-			try
+			foreach (Link item in linkFinal)
 			{
-				while (enumerator.MoveNext())
+				Link current = item;
+				WorldPath worldPath = Find.WorldPathFinder.FindPath(indexToTile[current.indexA], indexToTile[current.indexB], null, null);
+				List<int> nodesReversed = worldPath.NodesReversed;
+				RoadDef roadDef = (from rd in DefDatabase<RoadDef>.AllDefsListForReading
+				where !rd.ancientOnly
+				select rd).RandomElementWithFallback(null);
+				for (int i = 0; i < nodesReversed.Count - 1; i++)
 				{
-					Link current = enumerator.Current;
-					WorldPath worldPath = Find.WorldPathFinder.FindPath(indexToTile[current.indexA], indexToTile[current.indexB], null, null);
-					List<int> nodesReversed = worldPath.NodesReversed;
-					RoadDef roadDef = (from rd in DefDatabase<RoadDef>.AllDefsListForReading
-					where !rd.ancientOnly
-					select rd).RandomElementWithFallback(null);
-					for (int i = 0; i < nodesReversed.Count - 1; i++)
-					{
-						Find.WorldGrid.OverlayRoad(nodesReversed[i], nodesReversed[i + 1], roadDef);
-					}
-					worldPath.ReleaseToPool();
+					Find.WorldGrid.OverlayRoad(nodesReversed[i], nodesReversed[i + 1], roadDef);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				worldPath.ReleaseToPool();
 			}
 		}
 	}

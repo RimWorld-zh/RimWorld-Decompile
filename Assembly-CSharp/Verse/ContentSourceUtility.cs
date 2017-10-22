@@ -14,25 +14,30 @@ namespace Verse
 
 		public static Texture2D GetIcon(this ContentSource s)
 		{
+			Texture2D result;
 			switch (s)
 			{
 			case ContentSource.Undefined:
 			{
-				return BaseContent.BadTex;
+				result = BaseContent.BadTex;
+				break;
 			}
 			case ContentSource.LocalFolder:
 			{
-				return ContentSourceUtility.ContentSourceIcon_LocalFolder;
+				result = ContentSourceUtility.ContentSourceIcon_LocalFolder;
+				break;
 			}
 			case ContentSource.SteamWorkshop:
 			{
-				return ContentSourceUtility.ContentSourceIcon_SteamWorkshop;
+				result = ContentSourceUtility.ContentSourceIcon_SteamWorkshop;
+				break;
 			}
 			default:
 			{
 				throw new NotImplementedException();
 			}
 			}
+			return result;
 		}
 
 		public static void DrawContentSource(Rect r, ContentSource source, Action clickAction = null)
@@ -49,7 +54,7 @@ namespace Verse
 
 		public static string HumanLabel(this ContentSource s)
 		{
-			return ("ContentSource_" + ((Enum)(object)s).ToString()).Translate();
+			return ("ContentSource_" + s.ToString()).Translate();
 		}
 	}
 }

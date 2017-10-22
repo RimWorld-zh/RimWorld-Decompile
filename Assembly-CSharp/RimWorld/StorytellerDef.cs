@@ -11,15 +11,15 @@ namespace RimWorld
 
 		public bool listVisible = true;
 
-		public bool tutorialMode;
+		public bool tutorialMode = false;
 
-		public bool disableAdaptiveTraining;
+		public bool disableAdaptiveTraining = false;
 
-		public bool disableAlerts;
+		public bool disableAlerts = false;
 
-		public bool disablePermadeath;
+		public bool disablePermadeath = false;
 
-		public DifficultyDef forcedDifficulty;
+		public DifficultyDef forcedDifficulty = null;
 
 		[NoTranslate]
 		private string portraitLarge;
@@ -64,17 +64,30 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string e2 = enumerator.Current;
+					yield return e2;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			for (int i = 0; i < this.comps.Count; i++)
 			{
-				foreach (string item2 in this.comps[i].ConfigErrors(this))
+				using (IEnumerator<string> enumerator2 = this.comps[i].ConfigErrors(this).GetEnumerator())
 				{
-					yield return item2;
+					if (enumerator2.MoveNext())
+					{
+						string e = enumerator2.Current;
+						yield return e;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
+			yield break;
+			IL_019e:
+			/*Error near IL_019f: Unexpected return in MoveNext()*/;
 		}
 	}
 }

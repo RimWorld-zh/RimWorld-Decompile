@@ -13,5 +13,12 @@ namespace Verse
 		{
 			get;
 		}
+
+		List<Tool> Tools
+		{
+			get;
+		}
+
+		string UniqueVerbOwnerID();
 	}
 }

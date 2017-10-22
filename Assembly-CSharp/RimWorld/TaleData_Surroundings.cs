@@ -45,21 +45,7 @@ namespace RimWorld
 		public override IEnumerable<Rule> GetRules()
 		{
 			yield return (Rule)new Rule_String("biome", Find.WorldGrid[this.tile].biome.label);
-			if (this.roomRole != null && this.roomRole != RoomRoleDefOf.None)
-			{
-				yield return (Rule)new Rule_String("room_role", this.roomRole.label);
-				yield return (Rule)new Rule_String("room_roleDefinite", Find.ActiveLanguageWorker.WithDefiniteArticle(this.roomRole.label));
-				yield return (Rule)new Rule_String("room_roleIndefinite", Find.ActiveLanguageWorker.WithIndefiniteArticle(this.roomRole.label));
-				RoomStatScoreStage impressiveness = RoomStatDefOf.Impressiveness.GetScoreStage(this.roomImpressiveness);
-				RoomStatScoreStage beauty = RoomStatDefOf.Beauty.GetScoreStage(this.roomBeauty);
-				RoomStatScoreStage cleanliness = RoomStatDefOf.Cleanliness.GetScoreStage(this.roomCleanliness);
-				yield return (Rule)new Rule_String("room_impressiveness", impressiveness.label);
-				yield return (Rule)new Rule_String("room_impressivenessIndefinite", Find.ActiveLanguageWorker.WithIndefiniteArticle(impressiveness.label));
-				yield return (Rule)new Rule_String("room_beauty", beauty.label);
-				yield return (Rule)new Rule_String("room_beautyIndefinite", Find.ActiveLanguageWorker.WithIndefiniteArticle(beauty.label));
-				yield return (Rule)new Rule_String("room_cleanliness", cleanliness.label);
-				yield return (Rule)new Rule_String("room_cleanlinessIndefinite", Find.ActiveLanguageWorker.WithIndefiniteArticle(cleanliness.label));
-			}
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public static TaleData_Surroundings GenerateFrom(IntVec3 c, Map map)
@@ -71,7 +57,7 @@ namespace RimWorld
 			{
 				if (roomOrAdjacent.PsychologicallyOutdoors)
 				{
-					taleData_Surroundings.weather = map.weatherManager.curWeather;
+					taleData_Surroundings.weather = map.weatherManager.CurPerceivedWeather;
 				}
 				taleData_Surroundings.roomRole = roomOrAdjacent.Role;
 				taleData_Surroundings.roomImpressiveness = roomOrAdjacent.GetStat(RoomStatDefOf.Impressiveness);

@@ -17,15 +17,14 @@ namespace RimWorld
 
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			if (this.IntervalsPassed == 840)
-			{
-				IncidentDef inc = IncidentDefOf.JourneyOffer;
-				if (inc.TargetAllowed(target))
-				{
-					FiringIncident fi = new FiringIncident(inc, this, this.GenerateParms(inc.category, target));
-					yield return fi;
-				}
-			}
+			if (this.IntervalsPassed != 840)
+				yield break;
+			IncidentDef inc = IncidentDefOf.JourneyOffer;
+			if (!inc.TargetAllowed(target))
+				yield break;
+			FiringIncident fi = new FiringIncident(inc, this, this.GenerateParms(inc.category, target));
+			yield return fi;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

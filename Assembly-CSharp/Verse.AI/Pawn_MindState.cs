@@ -8,27 +8,19 @@ namespace Verse.AI
 {
 	public class Pawn_MindState : IExposable
 	{
-		private const int UpdateAnyCloseHostilesRecentlyEveryTicks = 100;
-
-		private const int AnyCloseHostilesRecentlyRegionsToScan_ToActivate = 18;
-
-		private const int AnyCloseHostilesRecentlyRegionsToScan_ToDeactivate = 24;
-
-		private const float HarmForgetDistance = 3f;
-
-		private const int MeleeHarmForgetDelay = 400;
-
 		public Pawn pawn;
 
 		public MentalStateHandler mentalStateHandler;
 
 		public MentalBreaker mentalBreaker;
 
+		public InspirationHandler inspirationHandler;
+
 		public PriorityWork priorityWork;
 
 		private bool activeInt = true;
 
-		public JobTag lastJobTag;
+		public JobTag lastJobTag = JobTag.Misc;
 
 		public int lastIngestTick = -99999;
 
@@ -48,7 +40,7 @@ namespace Verse.AI
 
 		public IntVec3 forcedGotoPosition = IntVec3.Invalid;
 
-		public Thing knownExploder;
+		public Thing knownExploder = null;
 
 		public bool wantsToTradeWithColony;
 
@@ -58,7 +50,7 @@ namespace Verse.AI
 
 		public int canSleepTick = -99999;
 
-		public Pawn meleeThreat;
+		public Pawn meleeThreat = null;
 
 		public int lastMeleeThreatHarmTick;
 
@@ -70,15 +62,15 @@ namespace Verse.AI
 
 		public Thing enemyTarget;
 
-		public PawnDuty duty;
+		public PawnDuty duty = null;
 
 		public Dictionary<int, int> thinkData = new Dictionary<int, int>();
 
 		public int lastAssignedInteractTime = -99999;
 
-		public int lastInventoryRawFoodUseTick;
+		public int lastInventoryRawFoodUseTick = 0;
 
-		public bool nextMoveOrderIsWait;
+		public bool nextMoveOrderIsWait = false;
 
 		public int lastTakeCombatEnhancingDrugTick = -99999;
 
@@ -90,11 +82,25 @@ namespace Verse.AI
 
 		public bool applyBedThoughtsOnLeave;
 
-		public bool awokeVoluntarily;
+		public bool willJoinColonyIfRescued;
+
+		public bool wildManEverReachedOutside;
 
 		public float maxDistToSquadFlag = -1f;
 
 		private int lastJobGiverKey = -1;
+
+		private const int UpdateAnyCloseHostilesRecentlyEveryTicks = 100;
+
+		private const int AnyCloseHostilesRecentlyRegionsToScan_ToActivate = 18;
+
+		private const int AnyCloseHostilesRecentlyRegionsToScan_ToDeactivate = 24;
+
+		private const float HarmForgetDistance = 3f;
+
+		private const int MeleeHarmForgetDelay = 400;
+
+		private const int CheckJoinColonyIfRescuedIntervalTicks = 30;
 
 		public bool Active
 		{
@@ -119,15 +125,7 @@ namespace Verse.AI
 		{
 			get
 			{
-				if (this.pawn.Downed)
-				{
-					return false;
-				}
-				if (!this.pawn.Spawned)
-				{
-					return false;
-				}
-				return this.lastJobTag == JobTag.Idle;
+				return !this.pawn.Downed && this.pawn.Spawned && this.lastJobTag == JobTag.Idle;
 			}
 		}
 
@@ -148,6 +146,7 @@ namespace Verse.AI
 			this.pawn = pawn;
 			this.mentalStateHandler = new MentalStateHandler(pawn);
 			this.mentalBreaker = new MentalBreaker(pawn);
+			this.inspirationHandler = new InspirationHandler(pawn);
 			this.priorityWork = new PriorityWork(pawn);
 		}
 
@@ -155,6 +154,7 @@ namespace Verse.AI
 		{
 			this.mentalStateHandler.Reset();
 			this.mentalBreaker.Reset();
+			this.inspirationHandler.Reset();
 			this.activeInt = true;
 			this.lastJobTag = JobTag.Misc;
 			this.lastIngestTick = -99999;
@@ -186,6 +186,7 @@ namespace Verse.AI
 			this.lastTakeCombatEnhancingDrugTick = -99999;
 			this.lastHarmTick = -99999;
 			this.anyCloseHostilesRecently = false;
+			this.willJoinColonyIfRescued = false;
 		}
 
 		public void ExposeData()
@@ -235,11 +236,22 @@ namespace Verse.AI
 			{
 				this.pawn
 			});
+			Scribe_Deep.Look<InspirationHandler>(ref this.inspirationHandler, "inspirationHandler", new object[1]
+			{
+				this.pawn
+			});
 			Scribe_Deep.Look<PriorityWork>(ref this.priorityWork, "priorityWork", new object[1]
 			{
 				this.pawn
 			});
 			Scribe_Values.Look<int>(ref this.applyBedThoughtsTick, "applyBedThoughtsTick", 0, false);
+			Scribe_Values.Look<bool>(ref this.applyBedThoughtsOnLeave, "applyBedThoughtsOnLeave", false, false);
+			Scribe_Values.Look<bool>(ref this.willJoinColonyIfRescued, "willJoinColonyIfRescued", false, false);
+			Scribe_Values.Look<bool>(ref this.wildManEverReachedOutside, "wildManEverReachedOutside", false, false);
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			{
+				BackCompatibility.MindStatePostLoadInit(this);
+			}
 		}
 
 		public void MindStateTick()
@@ -253,7 +265,8 @@ namespace Verse.AI
 				this.meleeThreat = null;
 			}
 			this.mentalStateHandler.MentalStateHandlerTick();
-			this.mentalBreaker.MentalStateStarterTick();
+			this.mentalBreaker.MentalBreakerTick();
+			this.inspirationHandler.InspirationHandlerTick();
 			if (this.pawn.CurJob == null || this.pawn.jobs.curDriver.layingDown == LayingDownState.NotLaying)
 			{
 				this.applyBedThoughtsTick = 0;
@@ -270,6 +283,53 @@ namespace Verse.AI
 					this.anyCloseHostilesRecently = false;
 				}
 			}
+			if (this.willJoinColonyIfRescued && this.pawn.Spawned && this.pawn.IsHashIntervalTick(30))
+			{
+				if (this.pawn.Faction == Faction.OfPlayer)
+				{
+					this.willJoinColonyIfRescued = false;
+				}
+				else if (this.pawn.CanReachMapEdge())
+				{
+					foreach (Pawn item in this.pawn.Map.mapPawns.FreeColonistsSpawned)
+					{
+						if (item.IsColonistPlayerControlled)
+						{
+							this.PrisonerRescued(item);
+							break;
+						}
+					}
+				}
+				else
+				{
+					Room room = this.pawn.GetRoom(RegionType.Set_Passable);
+					if (room != null)
+					{
+						List<Thing> containedAndAdjacentThings = room.ContainedAndAdjacentThings;
+						for (int i = 0; i < containedAndAdjacentThings.Count; i++)
+						{
+							Pawn pawn = containedAndAdjacentThings[i] as Pawn;
+							if (pawn != null && pawn.IsColonistPlayerControlled)
+							{
+								this.PrisonerRescued(pawn);
+								break;
+							}
+						}
+					}
+				}
+			}
+			if (this.pawn.Spawned && this.pawn.IsWildMan() && !this.wildManEverReachedOutside && this.pawn.GetRoom(RegionType.Set_Passable) != null && this.pawn.GetRoom(RegionType.Set_Passable).TouchesMapEdge)
+			{
+				this.wildManEverReachedOutside = true;
+				this.pawn.Map.reachability.ClearCache();
+			}
+		}
+
+		private void PrisonerRescued(Pawn by)
+		{
+			this.willJoinColonyIfRescued = false;
+			InteractionWorker_RecruitAttempt.DoRecruit(by, this.pawn, 1f, false);
+			Messages.Message("MessagePrisonerRescued".Translate().AdjustedFor(this.pawn).CapitalizeFirst(), (Thing)this.pawn, MessageTypeDefOf.PositiveEvent);
 		}
 
 		public void ResetLastDisturbanceTick()
@@ -279,26 +339,36 @@ namespace Verse.AI
 
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in this.priorityWork.GetGizmos())
+			_003CGetGizmos_003Ec__Iterator0 _003CGetGizmos_003Ec__Iterator = (_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0038: stateMachine*/;
+			using (IEnumerator<Gizmo> enumerator = this.priorityWork.GetGizmos().GetEnumerator())
 			{
-				yield return gizmo;
+				if (enumerator.MoveNext())
+				{
+					Gizmo g = enumerator.Current;
+					yield return g;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			Lord lord = this.pawn.GetLord();
-			if (lord != null && lord.LordJob is LordJob_FormAndSendCaravan)
+			if (lord == null)
+				yield break;
+			if (!(lord.LordJob is LordJob_FormAndSendCaravan))
+				yield break;
+			yield return (Gizmo)new Command_Action
 			{
-				yield return (Gizmo)new Command_Action
+				defaultLabel = "CommandCancelFormingCaravan".Translate(),
+				defaultDesc = "CommandCancelFormingCaravanDesc".Translate(),
+				icon = TexCommand.ClearPrioritizedWork,
+				activateSound = SoundDefOf.TickLow,
+				action = (Action)delegate
 				{
-					defaultLabel = "CommandCancelFormingCaravan".Translate(),
-					defaultDesc = "CommandCancelFormingCaravanDesc".Translate(),
-					icon = TexCommand.ClearPrioritizedWork,
-					activateSound = SoundDefOf.TickLow,
-					action = (Action)delegate
-					{
-						CaravanFormingUtility.StopFormingCaravan(((_003CGetGizmos_003Ec__Iterator1BE)/*Error near IL_0140: stateMachine*/)._003Clord_003E__2);
-					},
-					hotKey = KeyBindingDefOf.DesignatorCancel
-				};
-			}
+					CaravanFormingUtility.StopFormingCaravan(lord);
+				},
+				hotKey = KeyBindingDefOf.DesignatorCancel
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_01c5:
+			/*Error near IL_01c6: Unexpected return in MoveNext()*/;
 		}
 
 		public void Notify_OutfitChanged()
@@ -321,7 +391,7 @@ namespace Verse.AI
 			{
 				this.lastHarmTick = Find.TickManager.TicksGame;
 				Pawn pawn = dinfo.Instigator as Pawn;
-				if (!this.mentalStateHandler.InMentalState && dinfo.Instigator != null && (pawn != null || dinfo.Instigator is Building_Turret) && dinfo.Instigator.Faction != null && (dinfo.Instigator.Faction.def.humanlikeFaction || (pawn != null && (int)pawn.def.race.intelligence >= 1)) && this.pawn.Faction == null && (this.pawn.CurJob == null || this.pawn.CurJob.def != JobDefOf.PredatorHunt) && Rand.Value < this.pawn.RaceProps.manhunterOnDamageChance)
+				if (!this.mentalStateHandler.InMentalState && dinfo.Instigator != null && (pawn != null || dinfo.Instigator is Building_Turret) && dinfo.Instigator.Faction != null && (dinfo.Instigator.Faction.def.humanlikeFaction || (pawn != null && (int)pawn.def.race.intelligence >= 1)) && this.pawn.Faction == null && (this.pawn.CurJob == null || this.pawn.CurJob.def != JobDefOf.PredatorHunt) && Rand.Chance(this.GetManhunterOnDamageChance(this.pawn) * Find.Storyteller.difficulty.manhunterChanceOnDamageFactor))
 				{
 					this.StartManhunterBecauseOfPawnAction("AnimalManhunterFromDamage");
 				}
@@ -334,6 +404,11 @@ namespace Verse.AI
 					this.lastDisturbanceTick = Find.TickManager.TicksGame;
 				}
 			}
+		}
+
+		private float GetManhunterOnDamageChance(Pawn pawn)
+		{
+			return (float)((pawn.kindDef != PawnKindDefOf.WildMan) ? pawn.RaceProps.manhunterOnDamageChance : 0.5);
 		}
 
 		internal void Notify_EngagedTarget()
@@ -349,16 +424,21 @@ namespace Verse.AI
 
 		internal bool CheckStartMentalStateBecauseRecruitAttempted(Pawn tamer)
 		{
+			bool result;
 			if (!this.pawn.RaceProps.Animal)
 			{
-				return false;
+				result = false;
 			}
-			if (!this.mentalStateHandler.InMentalState && this.pawn.Faction == null && Rand.Value < this.pawn.RaceProps.manhunterOnTameFailChance)
+			else if (!this.mentalStateHandler.InMentalState && this.pawn.Faction == null && Rand.Value < this.pawn.RaceProps.manhunterOnTameFailChance)
 			{
 				this.StartManhunterBecauseOfPawnAction("AnimalManhunterFromTaming");
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		internal void Notify_DangerousExploderAboutToExplode(Thing exploder)
@@ -370,17 +450,32 @@ namespace Verse.AI
 			}
 		}
 
+		public void Notify_Explosion(Explosion explosion)
+		{
+			if (this.pawn.Faction == null && !(explosion.radius < 3.5) && this.pawn.Position.InHorDistOf(explosion.Position, (float)(explosion.radius + 7.0)) && Pawn_MindState.CanStartFleeingBecauseOfPawnAction(this.pawn))
+			{
+				this.StartFleeingBecauseOfPawnAction(explosion);
+			}
+		}
+
 		private IEnumerable<Pawn> GetPackmates(Pawn pawn, float radius)
 		{
 			Room pawnRoom = pawn.GetRoom(RegionType.Set_Passable);
 			List<Pawn> raceMates = pawn.Map.mapPawns.AllPawnsSpawned;
-			for (int i = 0; i < raceMates.Count; i++)
+			int i = 0;
+			while (true)
 			{
-				if (pawn != raceMates[i] && raceMates[i].def == pawn.def && raceMates[i].Faction == pawn.Faction && raceMates[i].Position.InHorDistOf(pawn.Position, radius) && raceMates[i].GetRoom(RegionType.Set_Passable) == pawnRoom)
+				if (i < raceMates.Count)
 				{
-					yield return raceMates[i];
+					if (pawn != raceMates[i] && raceMates[i].def == pawn.def && raceMates[i].Faction == pawn.Faction && raceMates[i].Position.InHorDistOf(pawn.Position, radius) && raceMates[i].GetRoom(RegionType.Set_Passable) == pawnRoom)
+						break;
+					i++;
+					continue;
 				}
+				yield break;
 			}
+			yield return raceMates[i];
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		private void StartManhunterBecauseOfPawnAction(string letterTextKey)
@@ -389,9 +484,9 @@ namespace Verse.AI
 			{
 				string text = letterTextKey.Translate(this.pawn.Label);
 				GlobalTargetInfo lookTarget = (Thing)this.pawn;
-				if (Rand.Value < 0.5)
+				int num = 1;
+				if (Find.Storyteller.difficulty.allowBigThreats && Rand.Value < 0.5)
 				{
-					int num = 1;
 					foreach (Pawn packmate in this.GetPackmates(this.pawn, 24f))
 					{
 						if (packmate.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, (string)null, false, false, null))
@@ -403,11 +498,11 @@ namespace Verse.AI
 					{
 						lookTarget = new TargetInfo(this.pawn.Position, this.pawn.Map, false);
 						text += "\n\n";
-						text += ((!"AnimalManhunterOthers".CanTranslate()) ? "AnimalManhunterFromDamageOthers".Translate(this.pawn.def.label) : "AnimalManhunterOthers".Translate(this.pawn.def.label));
+						text += ((!"AnimalManhunterOthers".CanTranslate()) ? "AnimalManhunterFromDamageOthers".Translate(this.pawn.def.label) : "AnimalManhunterOthers".Translate(this.pawn.kindDef.GetLabelPlural(-1)));
 					}
 				}
 				string label = (!"LetterLabelAnimalManhunterRevenge".CanTranslate()) ? "LetterLabelAnimalManhunterFromDamage".Translate(this.pawn.Label).CapitalizeFirst() : "LetterLabelAnimalManhunterRevenge".Translate(this.pawn.Label).CapitalizeFirst();
-				Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.BadNonUrgent, lookTarget, (string)null);
+				Find.LetterStack.ReceiveLetter(label, text, (num != 1) ? LetterDefOf.ThreatBig : LetterDefOf.ThreatSmall, lookTarget, (string)null);
 			}
 		}
 
@@ -422,9 +517,9 @@ namespace Verse.AI
 			list.Add(instigator);
 			List<Thing> threats = list;
 			IntVec3 fleeDest = CellFinderLoose.GetFleeDest(this.pawn, threats, (float)(this.pawn.Position.DistanceTo(instigator.Position) + 14.0));
-			if (fleeDest.IsValid)
+			if (fleeDest != this.pawn.Position)
 			{
-				this.pawn.jobs.StartJob(new Job(JobDefOf.Flee, fleeDest, instigator), JobCondition.InterruptOptional, null, false, true, null, default(JobTag?));
+				this.pawn.jobs.StartJob(new Job(JobDefOf.Flee, fleeDest, instigator), JobCondition.InterruptOptional, null, false, true, null, default(JobTag?), false);
 			}
 			if (this.pawn.RaceProps.herdAnimal && Rand.Chance(0.1f))
 			{
@@ -432,10 +527,10 @@ namespace Verse.AI
 				{
 					if (Pawn_MindState.CanStartFleeingBecauseOfPawnAction(packmate))
 					{
-						IntVec3 fleeDest2 = CellFinderLoose.GetFleeDest(this.pawn, threats, (float)(this.pawn.Position.DistanceTo(instigator.Position) + 14.0));
-						if (fleeDest2.IsValid)
+						IntVec3 fleeDest2 = CellFinderLoose.GetFleeDest(packmate, threats, (float)(packmate.Position.DistanceTo(instigator.Position) + 14.0));
+						if (fleeDest2 != packmate.Position)
 						{
-							packmate.jobs.StartJob(new Job(JobDefOf.Flee, fleeDest2, instigator), JobCondition.InterruptOptional, null, false, true, null, default(JobTag?));
+							packmate.jobs.StartJob(new Job(JobDefOf.Flee, fleeDest2, instigator), JobCondition.InterruptOptional, null, false, true, null, default(JobTag?), false);
 						}
 					}
 				}

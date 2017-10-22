@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -15,7 +14,7 @@ namespace Verse
 				Log.Error("Getting naked body graphic with undefined body type.");
 				bodyType = BodyType.Male;
 			}
-			string str = "Naked_" + ((Enum)(object)bodyType).ToString();
+			string str = "Naked_" + bodyType.ToString();
 			string path = "Things/Pawn/Humanlike/Bodies/" + str;
 			return GraphicDatabase.Get<Graphic_Multi>(path, shader, Vector2.one, skinColor);
 		}

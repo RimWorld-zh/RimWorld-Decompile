@@ -19,12 +19,17 @@ namespace Verse
 			Material material = (from mat in MaterialLoader.MatsFromTexturesInFolder(dirPath)
 			where mat.mainTexture.name.ToLower().EndsWith(ending)
 			select mat).FirstOrDefault();
+			Material result;
 			if ((UnityEngine.Object)material == (UnityEngine.Object)null)
 			{
 				Log.Warning("MatWithEnding: Dir " + dirPath + " lacks texture ending in " + ending);
-				return BaseContent.BadMat;
+				result = BaseContent.BadMat;
 			}
-			return material;
+			else
+			{
+				result = material;
+			}
+			return result;
 		}
 	}
 }

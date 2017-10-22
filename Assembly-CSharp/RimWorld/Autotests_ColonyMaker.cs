@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,11 +9,11 @@ namespace RimWorld
 {
 	public static class Autotests_ColonyMaker
 	{
-		private const int OverRectSize = 100;
-
 		private static CellRect overRect;
 
 		private static BoolGrid usedCells;
+
+		private const int OverRectSize = 100;
 
 		private static Map Map
 		{
@@ -153,18 +154,9 @@ namespace RimWorld
 					Building_WorkTable building_WorkTable = thing3 as Building_WorkTable;
 					if (building_WorkTable != null)
 					{
-						List<RecipeDef>.Enumerator enumerator4 = building_WorkTable.def.AllRecipes.GetEnumerator();
-						try
+						foreach (RecipeDef allRecipe in building_WorkTable.def.AllRecipes)
 						{
-							while (enumerator4.MoveNext())
-							{
-								RecipeDef current4 = enumerator4.Current;
-								building_WorkTable.billStack.AddBill(current4.MakeNewBill());
-							}
-						}
-						finally
-						{
-							((IDisposable)(object)enumerator4).Dispose();
+							building_WorkTable.billStack.AddBill(allRecipe.MakeNewBill());
 						}
 					}
 				}
@@ -248,7 +240,7 @@ namespace RimWorld
 					IntVec3 current9 = item7;
 					if (current9.x % 7 == 0 && current9.z % 7 == 0)
 					{
-						GenExplosion.DoExplosion(current9, Find.VisibleMap, 3.9f, DamageDefOf.Flame, null, null, null, null, null, 0f, 1, false, null, 0f, 1);
+						GenExplosion.DoExplosion(current9, Find.VisibleMap, 3.9f, DamageDefOf.Flame, null, -1, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 					}
 				}
 			}
@@ -310,14 +302,27 @@ namespace RimWorld
 			if (flags.Contains(ColonyMakerFlag.Stockpiles))
 			{
 				Designator_ZoneAddStockpile_Resources designator_ZoneAddStockpile_Resources = new Designator_ZoneAddStockpile_Resources();
-				foreach (byte value in Enum.GetValues(typeof(StoragePriority)))
+				IEnumerator enumerator11 = Enum.GetValues(typeof(StoragePriority)).GetEnumerator();
+				try
 				{
-					CellRect cellRect5 = default(CellRect);
-					Autotests_ColonyMaker.TryGetFreeRect(7, 7, out cellRect5);
-					cellRect5 = cellRect5.ContractedBy(1);
-					designator_ZoneAddStockpile_Resources.DesignateMultiCell(cellRect5.Cells);
-					Zone_Stockpile zone_Stockpile = (Zone_Stockpile)Autotests_ColonyMaker.Map.zoneManager.ZoneAt(cellRect5.CenterCell);
-					zone_Stockpile.settings.Priority = (StoragePriority)value;
+					while (enumerator11.MoveNext())
+					{
+						StoragePriority priority = (StoragePriority)enumerator11.Current;
+						CellRect cellRect5 = default(CellRect);
+						Autotests_ColonyMaker.TryGetFreeRect(7, 7, out cellRect5);
+						cellRect5 = cellRect5.ContractedBy(1);
+						designator_ZoneAddStockpile_Resources.DesignateMultiCell(cellRect5.Cells);
+						Zone_Stockpile zone_Stockpile = (Zone_Stockpile)Autotests_ColonyMaker.Map.zoneManager.ZoneAt(cellRect5.CenterCell);
+						zone_Stockpile.settings.Priority = priority;
+					}
+				}
+				finally
+				{
+					IDisposable disposable;
+					if ((disposable = (enumerator11 as IDisposable)) != null)
+					{
+						disposable.Dispose();
+					}
 				}
 			}
 			if (flags.Contains(ColonyMakerFlag.GrowingZones))
@@ -372,69 +377,85 @@ namespace RimWorld
 		private static Thing TryMakeBuilding(ThingDef def)
 		{
 			CellRect cellRect = default(CellRect);
+			Thing result;
 			if (!Autotests_ColonyMaker.TryGetFreeRect(def.size.x + 2, def.size.z + 2, out cellRect))
 			{
-				return null;
+				result = null;
 			}
-			foreach (IntVec3 item in cellRect)
+			else
 			{
-				Autotests_ColonyMaker.Map.terrainGrid.SetTerrain(item, TerrainDefOf.Concrete);
+				foreach (IntVec3 item in cellRect)
+				{
+					Autotests_ColonyMaker.Map.terrainGrid.SetTerrain(item, TerrainDefOf.Concrete);
+				}
+				Designator_Build designator_Build = new Designator_Build(def);
+				designator_Build.DesignateSingleCell(cellRect.CenterCell);
+				Thing thing = result = cellRect.CenterCell.GetEdifice(Find.VisibleMap);
 			}
-			Designator_Build designator_Build = new Designator_Build(def);
-			designator_Build.DesignateSingleCell(cellRect.CenterCell);
-			return cellRect.CenterCell.GetEdifice(Find.VisibleMap);
+			return result;
 		}
 
 		private static bool TryGetFreeRect(int width, int height, out CellRect result)
 		{
-			for (int i = Autotests_ColonyMaker.overRect.minZ; i <= Autotests_ColonyMaker.overRect.maxZ - height; i++)
+			int num = Autotests_ColonyMaker.overRect.minZ;
+			bool result2;
+			while (true)
 			{
-				for (int j = Autotests_ColonyMaker.overRect.minX; j <= Autotests_ColonyMaker.overRect.maxX - width; j++)
+				CellRect cellRect;
+				if (num <= Autotests_ColonyMaker.overRect.maxZ - height)
 				{
-					CellRect cellRect = new CellRect(j, i, width, height);
-					bool flag = true;
-					int num = cellRect.minZ;
-					while (num <= cellRect.maxZ)
+					for (int i = Autotests_ColonyMaker.overRect.minX; i <= Autotests_ColonyMaker.overRect.maxX - width; i++)
 					{
-						int num2 = cellRect.minX;
-						while (num2 <= cellRect.maxX)
+						cellRect = new CellRect(i, num, width, height);
+						bool flag = true;
+						int num2 = cellRect.minZ;
+						while (num2 <= cellRect.maxZ)
 						{
-							if (!Autotests_ColonyMaker.usedCells[num2, num])
+							int num3 = cellRect.minX;
+							while (num3 <= cellRect.maxX)
+							{
+								if (!Autotests_ColonyMaker.usedCells[num3, num2])
+								{
+									num3++;
+									continue;
+								}
+								flag = false;
+								break;
+							}
+							if (flag)
 							{
 								num2++;
 								continue;
 							}
-							flag = false;
 							break;
 						}
 						if (flag)
-						{
-							num++;
-							continue;
-						}
-						break;
+							goto IL_00a4;
 					}
-					if (flag)
+					num++;
+					continue;
+				}
+				result = new CellRect(0, 0, width, height);
+				result2 = false;
+				break;
+				IL_00a4:
+				result = cellRect;
+				for (int j = cellRect.minZ; j <= cellRect.maxZ; j++)
+				{
+					for (int k = cellRect.minX; k <= cellRect.maxX; k++)
 					{
-						result = cellRect;
-						for (int k = cellRect.minZ; k <= cellRect.maxZ; k++)
+						IntVec3 c = new IntVec3(k, 0, j);
+						Autotests_ColonyMaker.usedCells.Set(c, true);
+						if (c.GetTerrain(Find.VisibleMap).passability == Traversability.Impassable)
 						{
-							for (int l = cellRect.minX; l <= cellRect.maxX; l++)
-							{
-								IntVec3 c = new IntVec3(l, 0, k);
-								Autotests_ColonyMaker.usedCells.Set(c, true);
-								if (c.GetTerrain(Find.VisibleMap).passability == Traversability.Impassable)
-								{
-									Autotests_ColonyMaker.Map.terrainGrid.SetTerrain(c, TerrainDefOf.Concrete);
-								}
-							}
+							Autotests_ColonyMaker.Map.terrainGrid.SetTerrain(c, TerrainDefOf.Concrete);
 						}
-						return true;
 					}
 				}
+				result2 = true;
+				break;
 			}
-			result = new CellRect(0, 0, width, height);
-			return false;
+			return result2;
 		}
 
 		private static void DoToColonists(float fraction, Action<Pawn> funcToDo)
@@ -470,19 +491,10 @@ namespace RimWorld
 
 		private static void DeleteAllSpawnedPawns()
 		{
-			List<Pawn>.Enumerator enumerator = Autotests_ColonyMaker.Map.mapPawns.AllPawnsSpawned.ToList().GetEnumerator();
-			try
+			foreach (Pawn item in Autotests_ColonyMaker.Map.mapPawns.AllPawnsSpawned.ToList())
 			{
-				while (enumerator.MoveNext())
-				{
-					Pawn current = enumerator.Current;
-					current.Destroy(DestroyMode.Vanish);
-					current.relations.ClearAllRelations();
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				item.Destroy(DestroyMode.Vanish);
+				item.relations.ClearAllRelations();
 			}
 			Find.GameEnder.gameEnding = false;
 		}

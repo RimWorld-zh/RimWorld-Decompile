@@ -15,22 +15,17 @@ namespace RimWorld
 			}
 		}
 
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve((Thing)this.Trader, base.job, 1, -1, null);
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
+			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0036: stateMachine*/;
 			this.FailOnDespawnedOrNull(TargetIndex.A);
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
-			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator3F)/*Error near IL_0059: stateMachine*/)._003C_003Ef__this.Trader.CanTradeNow));
-			yield return new Toil
-			{
-				initAction = (Action)delegate
-				{
-					Pawn actor = ((_003CMakeNewToils_003Ec__Iterator3F)/*Error near IL_008c: stateMachine*/)._003Ctrade_003E__0.actor;
-					if (((_003CMakeNewToils_003Ec__Iterator3F)/*Error near IL_008c: stateMachine*/)._003C_003Ef__this.Trader.CanTradeNow)
-					{
-						Find.WindowStack.Add(new Dialog_Trade(actor, ((_003CMakeNewToils_003Ec__Iterator3F)/*Error near IL_008c: stateMachine*/)._003C_003Ef__this.Trader));
-					}
-				}
-			};
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOn((Func<bool>)(() => !_003CMakeNewToils_003Ec__Iterator._0024this.Trader.CanTradeNow));
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

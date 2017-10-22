@@ -14,19 +14,19 @@ namespace RimWorld
 			Menu = 1
 		}
 
+		private static float levelLabelWidth = -1f;
+
 		private const float SkillWidth = 240f;
 
-		private const float SkillHeight = 24f;
+		public const float SkillHeight = 24f;
 
-		private const float SkillYSpacing = 3f;
+		public const float SkillYSpacing = 3f;
 
 		private const float LeftEdgeMargin = 6f;
 
 		private const float IncButX = 205f;
 
 		private const float IncButSpacing = 10f;
-
-		private static float levelLabelWidth = -1f;
 
 		private static readonly Color DisabledSkillColor = new Color(1f, 1f, 1f, 0.5f);
 
@@ -42,7 +42,7 @@ namespace RimWorld
 			List<SkillDef> allDefsListForReading = DefDatabase<SkillDef>.AllDefsListForReading;
 			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
-				Vector2 vector = Text.CalcSize(allDefsListForReading[i].skillLabel);
+				Vector2 vector = Text.CalcSize(allDefsListForReading[i].skillLabel.CapitalizeFirst());
 				float x = vector.x;
 				if (x > SkillUI.levelLabelWidth)
 				{
@@ -52,22 +52,26 @@ namespace RimWorld
 			for (int j = 0; j < p.skills.skills.Count; j++)
 			{
 				float y = (float)((float)j * 27.0 + offset.y);
-				SkillUI.DrawSkill(p.skills.skills[j], new Vector2(offset.x, y), mode);
+				SkillUI.DrawSkill(p.skills.skills[j], new Vector2(offset.x, y), mode, "");
 			}
 		}
 
-		private static void DrawSkill(SkillRecord skill, Vector2 topLeft, SkillDrawMode mode)
+		public static void DrawSkill(SkillRecord skill, Vector2 topLeft, SkillDrawMode mode, string tooltipPrefix = "")
 		{
-			Rect rect = new Rect(topLeft.x, topLeft.y, 240f, 24f);
-			if (Mouse.IsOver(rect))
+			SkillUI.DrawSkill(skill, new Rect(topLeft.x, topLeft.y, 240f, 24f), mode, "");
+		}
+
+		public static void DrawSkill(SkillRecord skill, Rect holdingRect, SkillDrawMode mode, string tooltipPrefix = "")
+		{
+			if (Mouse.IsOver(holdingRect))
 			{
-				GUI.DrawTexture(rect, TexUI.HighlightTex);
+				GUI.DrawTexture(holdingRect, TexUI.HighlightTex);
 			}
-			GUI.BeginGroup(rect);
+			GUI.BeginGroup(holdingRect);
 			Text.Anchor = TextAnchor.MiddleLeft;
-			Rect rect2 = new Rect(6f, 0f, (float)(SkillUI.levelLabelWidth + 6.0), rect.height);
-			Widgets.Label(rect2, skill.def.skillLabel);
-			Rect position = new Rect(rect2.xMax, 0f, 24f, 24f);
+			Rect rect = new Rect(6f, 0f, (float)(SkillUI.levelLabelWidth + 6.0), holdingRect.height);
+			Widgets.Label(rect, skill.def.skillLabel.CapitalizeFirst());
+			Rect position = new Rect(rect.xMax, 0f, 24f, 24f);
 			if ((int)skill.passion > 0)
 			{
 				Texture2D image = (skill.passion != Passion.Major) ? SkillUI.PassionMinorIcon : SkillUI.PassionMajorIcon;
@@ -75,12 +79,12 @@ namespace RimWorld
 			}
 			if (!skill.TotallyDisabled)
 			{
-				Rect rect3 = new Rect(position.xMax, 0f, rect.width - position.xMax, rect.height);
+				Rect rect2 = new Rect(position.xMax, 0f, holdingRect.width - position.xMax, holdingRect.height);
 				float fillPercent = Mathf.Max(0.01f, (float)((float)skill.Level / 20.0));
-				Widgets.FillableBar(rect3, fillPercent, SkillUI.SkillBarFillTex, null, false);
+				Widgets.FillableBar(rect2, fillPercent, SkillUI.SkillBarFillTex, null, false);
 			}
-			Rect rect4 = new Rect((float)(position.xMax + 4.0), 0f, 999f, rect.height);
-			rect4.yMin += 3f;
+			Rect rect3 = new Rect((float)(position.xMax + 4.0), 0f, 999f, holdingRect.height);
+			rect3.yMin += 3f;
 			string label;
 			if (skill.TotallyDisabled)
 			{
@@ -92,11 +96,16 @@ namespace RimWorld
 				label = skill.Level.ToStringCached();
 			}
 			GenUI.SetLabelAlign(TextAnchor.MiddleLeft);
-			Widgets.Label(rect4, label);
+			Widgets.Label(rect3, label);
 			GenUI.ResetLabelAlign();
 			GUI.color = Color.white;
 			GUI.EndGroup();
-			TooltipHandler.TipRegion(rect, new TipSignal(SkillUI.GetSkillDescription(skill), skill.def.GetHashCode() * 397945));
+			string text = SkillUI.GetSkillDescription(skill);
+			if (tooltipPrefix != "")
+			{
+				text = tooltipPrefix + "\n\n" + text;
+			}
+			TooltipHandler.TipRegion(holdingRect, new TipSignal(text, skill.def.GetHashCode() * 397945));
 		}
 
 		private static string GetSkillDescription(SkillRecord sk)
@@ -119,7 +128,7 @@ namespace RimWorld
 				{
 				case Passion.None:
 				{
-					stringBuilder.Append("PassionNone".Translate(0.333f.ToStringPercent("F0")));
+					stringBuilder.Append("PassionNone".Translate(0.35f.ToStringPercent("F0")));
 					break;
 				}
 				case Passion.Minor:

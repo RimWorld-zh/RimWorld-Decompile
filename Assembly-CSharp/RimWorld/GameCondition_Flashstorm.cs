@@ -7,17 +7,17 @@ namespace RimWorld
 {
 	public class GameCondition_Flashstorm : GameCondition
 	{
-		private const int RainDisableTicksAfterConditionEnds = 30000;
-
 		private static readonly IntRange AreaRadiusRange = new IntRange(45, 60);
 
 		private static readonly IntRange TicksBetweenStrikes = new IntRange(320, 800);
 
+		private const int RainDisableTicksAfterConditionEnds = 30000;
+
 		public IntVec2 centerLocation;
 
-		private int areaRadius;
+		private int areaRadius = 0;
 
-		private int nextLightningTicks;
+		private int nextLightningTicks = 0;
 
 		public override void ExposeData()
 		{
@@ -38,10 +38,8 @@ namespace RimWorld
 		{
 			if (Find.TickManager.TicksGame > this.nextLightningTicks)
 			{
-				Vector2 a = new Vector2(Rand.Gaussian(0f, 1f), Rand.Gaussian(0f, 1f));
-				a.Normalize();
-				a *= Rand.Range(0f, (float)this.areaRadius);
-				IntVec3 intVec = new IntVec3((int)Math.Round((double)a.x) + this.centerLocation.x, 0, (int)Math.Round((double)a.y) + this.centerLocation.z);
+				Vector2 vector = Rand.UnitVector2 * Rand.Range(0f, (float)this.areaRadius);
+				IntVec3 intVec = new IntVec3((int)Math.Round((double)vector.x) + this.centerLocation.x, 0, (int)Math.Round((double)vector.y) + this.centerLocation.z);
 				if (this.IsGoodLocationForStrike(intVec))
 				{
 					base.Map.weatherManager.eventHandler.AddEvent(new WeatherEvent_LightningStrike(base.Map, intVec));
@@ -63,7 +61,7 @@ namespace RimWorld
 			{
 				IntVec3 size2 = base.Map.Size;
 				if (size2.z <= 16)
-					goto IL_0034;
+					goto IL_0035;
 				int num = 0;
 				while (num < 10)
 				{
@@ -80,8 +78,8 @@ namespace RimWorld
 				}
 				return;
 			}
-			goto IL_0034;
-			IL_0034:
+			goto IL_0035;
+			IL_0035:
 			throw new Exception("Map too small for flashstorm.");
 		}
 
@@ -115,6 +113,7 @@ namespace RimWorld
 					if ((center.x - x) * (center.x - x) + (center.z - z) * (center.z - z) <= this.areaRadius * this.areaRadius)
 					{
 						yield return new IntVec3(x, 0, z);
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
 			}

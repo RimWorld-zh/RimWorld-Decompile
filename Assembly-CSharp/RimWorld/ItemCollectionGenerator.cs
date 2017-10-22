@@ -8,38 +8,31 @@ namespace RimWorld
 	{
 		public ItemCollectionGeneratorDef def;
 
-		public static List<Thing> thingsBeingGeneratedNow;
-
-		protected virtual ItemCollectionGeneratorParams RandomTestParams
-		{
-			get
-			{
-				return default(ItemCollectionGeneratorParams);
-			}
-		}
+		public static List<List<Thing>> thingsBeingGeneratedNow = new List<List<Thing>>();
 
 		public List<Thing> Generate(ItemCollectionGeneratorParams parms)
 		{
-			if (ItemCollectionGenerator.thingsBeingGeneratedNow != null)
-			{
-				Log.Error("thingsBeingGeneratedNow is not null. Nested calls are not allowed.");
-			}
-			List<Thing> list = ItemCollectionGenerator.thingsBeingGeneratedNow = new List<Thing>();
+			List<Thing> list = new List<Thing>();
+			ItemCollectionGenerator.thingsBeingGeneratedNow.Add(list);
 			try
 			{
 				this.Generate(parms, list);
 				this.PostProcess(list);
-				return list;
+			}
+			catch (Exception arg)
+			{
+				Log.Error("Exception while generating item collection: " + arg);
+				for (int i = 0; i < list.Count; i++)
+				{
+					list[i].Destroy(DestroyMode.Vanish);
+				}
+				list.Clear();
 			}
 			finally
 			{
-				ItemCollectionGenerator.thingsBeingGeneratedNow = null;
+				ItemCollectionGenerator.thingsBeingGeneratedNow.Remove(list);
 			}
-		}
-
-		public List<Thing> GenerateRandomTestItems()
-		{
-			return this.Generate(this.RandomTestParams);
+			return list;
 		}
 
 		protected abstract void Generate(ItemCollectionGeneratorParams parms, List<Thing> outThings);

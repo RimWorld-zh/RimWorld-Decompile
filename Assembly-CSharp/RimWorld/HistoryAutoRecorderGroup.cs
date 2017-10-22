@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -7,7 +6,7 @@ namespace RimWorld
 {
 	public class HistoryAutoRecorderGroup : IExposable
 	{
-		public HistoryAutoRecorderGroupDef def;
+		public HistoryAutoRecorderGroupDef def = null;
 
 		public List<HistoryAutoRecorder> recorders;
 
@@ -23,48 +22,30 @@ namespace RimWorld
 
 		public void CreateRecorders()
 		{
-			List<HistoryAutoRecorderDef>.Enumerator enumerator = this.def.historyAutoRecorderDefs.GetEnumerator();
-			try
+			foreach (HistoryAutoRecorderDef historyAutoRecorderDef in this.def.historyAutoRecorderDefs)
 			{
-				while (enumerator.MoveNext())
-				{
-					HistoryAutoRecorderDef current = enumerator.Current;
-					HistoryAutoRecorder historyAutoRecorder = new HistoryAutoRecorder();
-					historyAutoRecorder.def = current;
-					this.recorders.Add(historyAutoRecorder);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				HistoryAutoRecorder historyAutoRecorder = new HistoryAutoRecorder();
+				historyAutoRecorder.def = historyAutoRecorderDef;
+				this.recorders.Add(historyAutoRecorder);
 			}
 		}
 
 		public float GetMaxDay()
 		{
 			float num = 0f;
-			List<HistoryAutoRecorder>.Enumerator enumerator = this.recorders.GetEnumerator();
-			try
+			foreach (HistoryAutoRecorder recorder in this.recorders)
 			{
-				while (enumerator.MoveNext())
+				int count = recorder.records.Count;
+				if (count != 0)
 				{
-					HistoryAutoRecorder current = enumerator.Current;
-					int count = current.records.Count;
-					if (count != 0)
+					float num2 = (float)((float)((count - 1) * recorder.def.recordTicksFrequency) / 60000.0);
+					if (num2 > num)
 					{
-						float num2 = (float)((float)((count - 1) * current.def.recordTicksFrequency) / 60000.0);
-						if (num2 > num)
-						{
-							num = num2;
-						}
+						num = num2;
 					}
 				}
-				return num;
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
+			return num;
 		}
 
 		public void Tick()
@@ -75,7 +56,7 @@ namespace RimWorld
 			}
 		}
 
-		public void DrawGraph(Rect graphRect, Rect legendRect, Vector2 section, SimpleCurveDrawerStyle curveDrawerStyle, List<CurveMark> marks)
+		public void DrawGraph(Rect graphRect, Rect legendRect, FloatRange section, List<CurveMark> marks)
 		{
 			int ticksGame = Find.TickManager.TicksGame;
 			if (ticksGame != this.cachedGraphTickCount)
@@ -88,6 +69,7 @@ namespace RimWorld
 					SimpleCurveDrawInfo simpleCurveDrawInfo = new SimpleCurveDrawInfo();
 					simpleCurveDrawInfo.color = historyAutoRecorder.def.graphColor;
 					simpleCurveDrawInfo.label = historyAutoRecorder.def.LabelCap;
+					simpleCurveDrawInfo.labelY = historyAutoRecorder.def.GraphLabelY;
 					simpleCurveDrawInfo.curve = new SimpleCurve();
 					for (int j = 0; j < historyAutoRecorder.records.Count; j++)
 					{
@@ -101,14 +83,15 @@ namespace RimWorld
 					this.curves.Add(simpleCurveDrawInfo);
 				}
 			}
-			if (Mathf.Approximately(section.x, section.y))
+			if (Mathf.Approximately(section.min, section.max))
 			{
-				section.y += 1.66666669E-05f;
+				section.max += 1.66666669E-05f;
 			}
+			SimpleCurveDrawerStyle curveDrawerStyle = Find.History.curveDrawerStyle;
 			curveDrawerStyle.FixedSection = section;
-			curveDrawerStyle.LabelY = this.def.graphLabelY;
 			curveDrawerStyle.UseFixedScale = this.def.useFixedScale;
 			curveDrawerStyle.FixedScale = this.def.fixedScale;
+			curveDrawerStyle.YIntegersOnly = this.def.integersOnly;
 			SimpleCurveDrawer.DrawCurves(graphRect, this.curves, curveDrawerStyle, marks, legendRect);
 			Text.Anchor = TextAnchor.UpperLeft;
 		}

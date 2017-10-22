@@ -40,22 +40,30 @@ namespace RimWorld
 
 		protected override bool CanDoNext()
 		{
+			bool result;
 			if (!base.CanDoNext())
 			{
-				return false;
+				result = false;
 			}
-			if (this.difficulty == null)
+			else
 			{
-				if (!Prefs.DevMode)
+				if (this.difficulty == null)
 				{
-					Messages.Message("MustChooseDifficulty".Translate(), MessageSound.RejectInput);
-					return false;
+					if (!Prefs.DevMode)
+					{
+						Messages.Message("MustChooseDifficulty".Translate(), MessageTypeDefOf.RejectInput);
+						result = false;
+						goto IL_0089;
+					}
+					Messages.Message("Difficulty has been automatically selected (debug mode only)", MessageTypeDefOf.SilentInput);
+					this.difficulty = DifficultyDefOf.Hard;
 				}
-				Messages.Message("Difficulty has been automatically selected (debug mode only)", MessageSound.Silent);
-				this.difficulty = DifficultyDefOf.Hard;
+				Current.Game.storyteller = new Storyteller(this.storyteller, this.difficulty);
+				result = true;
 			}
-			Current.Game.storyteller = new Storyteller(this.storyteller, this.difficulty);
-			return true;
+			goto IL_0089;
+			IL_0089:
+			return result;
 		}
 	}
 }

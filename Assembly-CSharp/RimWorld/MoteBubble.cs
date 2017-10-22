@@ -39,12 +39,12 @@ namespace RimWorld
 					Matrix4x4 matrix = default(Matrix4x4);
 					matrix.SetTRS(drawPos, Quaternion.identity, s);
 					Graphics.DrawMesh(MeshPool.plane10, matrix, material, 0);
-					goto IL_00f1;
+					goto IL_00f8;
 				}
 				return;
 			}
-			goto IL_00f1;
-			IL_00f1:
+			goto IL_00f8;
+			IL_00f8:
 			if (this.arrowTarget != null)
 			{
 				Vector3 a = this.arrowTarget.TrueCenter();

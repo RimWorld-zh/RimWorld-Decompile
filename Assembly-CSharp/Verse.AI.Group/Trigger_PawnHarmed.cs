@@ -4,7 +4,7 @@ namespace Verse.AI.Group
 	{
 		public float chance = 1f;
 
-		public bool requireInstigatorWithFaction;
+		public bool requireInstigatorWithFaction = false;
 
 		public Trigger_PawnHarmed(float chance = 1f, bool requireInstigatorWithFaction = false)
 		{
@@ -14,32 +14,12 @@ namespace Verse.AI.Group
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
-			if (!Trigger_PawnHarmed.SignalIsHarm(signal))
-			{
-				return false;
-			}
-			if (this.requireInstigatorWithFaction && (signal.dinfo.Instigator == null || signal.dinfo.Instigator.Faction == null))
-			{
-				return false;
-			}
-			return Rand.Value < this.chance;
+			return Trigger_PawnHarmed.SignalIsHarm(signal) && (!this.requireInstigatorWithFaction || (signal.dinfo.Instigator != null && signal.dinfo.Instigator.Faction != null)) && Rand.Value < this.chance;
 		}
 
 		public static bool SignalIsHarm(TriggerSignal signal)
 		{
-			if (signal.type == TriggerSignalType.PawnDamaged)
-			{
-				return signal.dinfo.Def.externalViolence;
-			}
-			if (signal.type == TriggerSignalType.PawnLost)
-			{
-				return signal.condition == PawnLostCondition.MadePrisoner || signal.condition == PawnLostCondition.IncappedOrKilled;
-			}
-			if (signal.type == TriggerSignalType.PawnArrestAttempted)
-			{
-				return true;
-			}
-			return false;
+			return (byte)((signal.type != TriggerSignalType.PawnDamaged) ? ((signal.type != TriggerSignalType.PawnLost) ? ((signal.type == TriggerSignalType.PawnArrestAttempted) ? 1 : 0) : ((signal.condition == PawnLostCondition.MadePrisoner || signal.condition == PawnLostCondition.IncappedOrKilled) ? 1 : 0)) : (signal.dinfo.Def.externalViolence ? 1 : 0)) != 0;
 		}
 	}
 }

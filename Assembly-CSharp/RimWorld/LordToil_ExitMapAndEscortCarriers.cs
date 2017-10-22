@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -119,19 +120,53 @@ namespace RimWorld
 			{
 				thing3 = thing2;
 			}
+			bool result;
 			if (thing3 == null)
 			{
-				return false;
+				result = false;
 			}
-			if (thing3 is Pawn && !((Pawn)thing3).Downed)
+			else if (thing3 is Pawn && !((Pawn)thing3).Downed)
 			{
 				p.mindState.duty = new PawnDuty(DutyDefOf.Escort, thing3, escortRadius);
+				result = true;
+			}
+			else if (!GenHostility.AnyHostileActiveThreatTo(base.Map, base.lord.faction))
+			{
+				result = false;
 			}
 			else
 			{
 				p.mindState.duty = new PawnDuty(DutyDefOf.Defend, thing3.Position, 16f);
+				result = true;
 			}
-			return true;
+			return result;
+		}
+
+		public static bool IsDefendingPosition(Pawn pawn)
+		{
+			return pawn.mindState.duty != null && pawn.mindState.duty.def == DutyDefOf.Defend;
+		}
+
+		public static bool IsAnyDefendingPosition(List<Pawn> pawns)
+		{
+			int num = 0;
+			bool result;
+			while (true)
+			{
+				if (num < pawns.Count)
+				{
+					if (LordToil_ExitMapAndEscortCarriers.IsDefendingPosition(pawns[num]))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
+				}
+				result = false;
+				break;
+			}
+			return result;
 		}
 
 		private Pawn GetClosestCarrier(Pawn closestTo)

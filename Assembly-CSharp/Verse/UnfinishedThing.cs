@@ -8,8 +8,6 @@ namespace Verse
 {
 	public class UnfinishedThing : ThingWithComps
 	{
-		private const float CancelIngredientRecoveryFraction = 0.75f;
-
 		private Pawn creatorInt;
 
 		private string creatorName = "ErrorCreatorName";
@@ -21,6 +19,8 @@ namespace Verse
 		private Bill_ProductionWithUft boundBillInt;
 
 		public float workLeft = -10000f;
+
+		private const float CancelIngredientRecoveryFraction = 0.75f;
 
 		public Pawn Creator
 		{
@@ -86,17 +86,18 @@ namespace Verse
 		{
 			get
 			{
+				Thing result;
 				if (this.BoundBill == null)
 				{
-					return null;
+					result = null;
 				}
-				IBillGiver billGiver = this.BoundBill.billStack.billGiver;
-				Thing thing = billGiver as Thing;
-				if (thing.Destroyed)
+				else
 				{
-					return null;
+					IBillGiver billGiver = this.BoundBill.billStack.billGiver;
+					Thing thing = billGiver as Thing;
+					result = ((!thing.Destroyed) ? thing : null);
 				}
-				return thing;
+				return result;
 			}
 		}
 
@@ -104,15 +105,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.Recipe == null)
-				{
-					return base.LabelNoCount;
-				}
-				if (base.Stuff == null)
-				{
-					return "UnfinishedItem".Translate(this.Recipe.products[0].thingDef.label);
-				}
-				return "UnfinishedItemWithStuff".Translate(base.Stuff.LabelAsStuff, this.Recipe.products[0].thingDef.label);
+				return (this.Recipe != null) ? ((base.Stuff != null) ? "UnfinishedItemWithStuff".Translate(base.Stuff.LabelAsStuff, this.Recipe.products[0].thingDef.label) : "UnfinishedItem".Translate(this.Recipe.products[0].thingDef.label)) : base.LabelNoCount;
 			}
 		}
 
@@ -160,9 +153,14 @@ namespace Verse
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return gizmo;
+				if (enumerator.MoveNext())
+				{
+					Gizmo c = enumerator.Current;
+					yield return c;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			yield return (Gizmo)new Command_Action
 			{
@@ -172,26 +170,34 @@ namespace Verse
 				hotKey = KeyBindingDefOf.DesignatorCancel,
 				action = (Action)delegate
 				{
-					((_003CGetGizmos_003Ec__Iterator230)/*Error near IL_010b: stateMachine*/)._003C_003Ef__this.Destroy(DestroyMode.Cancel);
+					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0119: stateMachine*/)._0024this.Destroy(DestroyMode.Cancel);
 				}
 			};
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0153:
+			/*Error near IL_0154: Unexpected return in MoveNext()*/;
 		}
 
 		public Bill_ProductionWithUft BillOnTableForMe(Thing workTable)
 		{
+			Bill_ProductionWithUft bill_ProductionWithUft;
 			if (this.Recipe.AllRecipeUsers.Contains(workTable.def))
 			{
 				IBillGiver billGiver = (IBillGiver)workTable;
 				for (int i = 0; i < billGiver.BillStack.Count; i++)
 				{
-					Bill_ProductionWithUft bill_ProductionWithUft = billGiver.BillStack[i] as Bill_ProductionWithUft;
+					bill_ProductionWithUft = (billGiver.BillStack[i] as Bill_ProductionWithUft);
 					if (bill_ProductionWithUft != null && bill_ProductionWithUft.ShouldDoNow() && bill_ProductionWithUft != null && bill_ProductionWithUft.recipe == this.Recipe)
-					{
-						return bill_ProductionWithUft;
-					}
+						goto IL_0070;
 				}
 			}
-			return null;
+			Bill_ProductionWithUft result = null;
+			goto IL_0095;
+			IL_0095:
+			return result;
+			IL_0070:
+			result = bill_ProductionWithUft;
+			goto IL_0095;
 		}
 
 		public override void DrawExtraSelectionOverlays()

@@ -132,9 +132,6 @@ namespace RuntimeAudioClipLoader
 			try
 			{
 				return this.sampleChannel.Read(buffer, offset, count);
-				IL_0021:
-				int result;
-				return result;
 			}
 			finally
 			{

@@ -12,14 +12,26 @@ namespace Verse
 		{
 			get
 			{
-				for (int i = 0; i < Find.WindowStack.Count; i++)
+				bool result;
+				if (LongEventHandler.AnyEventNowOrWaiting)
 				{
-					if (base.windows[i].layer == WindowLayer.Dialog && !Find.WindowStack[i].IsDebug)
-					{
-						return false;
-					}
+					result = false;
 				}
-				return true;
+				else
+				{
+					for (int i = 0; i < Find.WindowStack.Count; i++)
+					{
+						if (base.windows[i].layer == WindowLayer.Dialog && !Find.WindowStack[i].IsDebug)
+							goto IL_0046;
+					}
+					result = true;
+				}
+				goto IL_0069;
+				IL_0069:
+				return result;
+				IL_0046:
+				result = false;
+				goto IL_0069;
 			}
 		}
 

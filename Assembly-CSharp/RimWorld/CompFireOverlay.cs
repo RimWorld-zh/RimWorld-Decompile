@@ -21,7 +21,7 @@ namespace RimWorld
 			base.PostDraw();
 			Vector3 drawPos = base.parent.DrawPos;
 			drawPos.y += 0.046875f;
-			CompFireOverlay.FireGraphic.Draw(drawPos, Rot4.North, base.parent);
+			CompFireOverlay.FireGraphic.Draw(drawPos, Rot4.North, base.parent, 0f);
 		}
 	}
 }

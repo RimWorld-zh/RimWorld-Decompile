@@ -56,18 +56,14 @@ namespace RimWorld
 			this.cellsInt = cells;
 		}
 
-		public override string ToString()
-		{
-			if (this.Cell.IsValid)
-			{
-				return this.Tag + "-" + this.Cell;
-			}
-			return this.Tag;
-		}
-
 		public static implicit operator EventPack(string s)
 		{
 			return new EventPack(s);
+		}
+
+		public override string ToString()
+		{
+			return (!this.Cell.IsValid) ? this.Tag : (this.Tag + "-" + this.Cell);
 		}
 	}
 }

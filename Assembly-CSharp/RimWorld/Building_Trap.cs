@@ -8,6 +8,8 @@ namespace RimWorld
 {
 	public abstract class Building_Trap : Building
 	{
+		private List<Pawn> touchingPawns = new List<Pawn>();
+
 		private const float KnowerSpringChance = 0.004f;
 
 		private const ushort KnowerPathFindCost = 800;
@@ -15,8 +17,6 @@ namespace RimWorld
 		private const ushort KnowerPathWalkCost = 30;
 
 		private const float AnimalSpringChanceFactor = 0.1f;
-
-		private List<Pawn> touchingPawns = new List<Pawn>();
 
 		public virtual bool Armed
 		{
@@ -76,56 +76,41 @@ namespace RimWorld
 				this.Spring(p);
 				if (p.Faction != Faction.OfPlayer && p.HostFaction != Faction.OfPlayer)
 					return;
-				Find.LetterStack.ReceiveLetter("LetterFriendlyTrapSprungLabel".Translate(p.NameStringShort), "LetterFriendlyTrapSprung".Translate(p.NameStringShort), LetterDefOf.BadNonUrgent, new TargetInfo(base.Position, base.Map, false), (string)null);
+				Find.LetterStack.ReceiveLetter("LetterFriendlyTrapSprungLabel".Translate(p.NameStringShort), "LetterFriendlyTrapSprung".Translate(p.NameStringShort), LetterDefOf.NegativeEvent, new TargetInfo(base.Position, base.Map, false), (string)null);
 			}
 		}
 
 		public bool KnowsOfTrap(Pawn p)
 		{
+			bool result;
 			if (p.Faction != null && !p.Faction.HostileTo(base.Faction))
 			{
-				return true;
+				result = true;
 			}
-			if (p.Faction == null && p.RaceProps.Animal && !p.InAggroMentalState)
+			else if (p.Faction == null && p.RaceProps.Animal && !p.InAggroMentalState)
 			{
-				return true;
+				result = true;
 			}
-			if (p.guest != null && p.guest.released)
+			else if (p.guest != null && p.guest.Released)
 			{
-				return true;
+				result = true;
 			}
-			Lord lord = p.GetLord();
-			if (p.guest != null && lord != null && lord.LordJob is LordJob_FormAndSendCaravan)
+			else
 			{
-				return true;
+				Lord lord = p.GetLord();
+				result = ((byte)((p.RaceProps.Humanlike && lord != null && lord.LordJob is LordJob_FormAndSendCaravan) ? 1 : 0) != 0);
 			}
-			return false;
+			return result;
 		}
 
 		public override ushort PathFindCostFor(Pawn p)
 		{
-			if (!this.Armed)
-			{
-				return (ushort)0;
-			}
-			if (this.KnowsOfTrap(p))
-			{
-				return (ushort)800;
-			}
-			return (ushort)0;
+			return (ushort)(this.Armed ? (this.KnowsOfTrap(p) ? 800 : 0) : 0);
 		}
 
 		public override ushort PathWalkCostFor(Pawn p)
 		{
-			if (!this.Armed)
-			{
-				return (ushort)0;
-			}
-			if (this.KnowsOfTrap(p))
-			{
-				return (ushort)30;
-			}
-			return (ushort)0;
+			return (ushort)(this.Armed ? (this.KnowsOfTrap(p) ? 30 : 0) : 0);
 		}
 
 		public override bool IsDangerousFor(Pawn p)

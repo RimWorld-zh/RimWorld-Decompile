@@ -6,11 +6,11 @@ namespace RimWorld.Planet
 {
 	public class WorldDragBox
 	{
-		private const float DragBoxMinDiagonal = 7f;
-
-		public bool active;
+		public bool active = false;
 
 		public Vector2 start;
+
+		private const float DragBoxMinDiagonal = 7f;
 
 		public float LeftX
 		{
@@ -103,11 +103,7 @@ namespace RimWorld.Planet
 
 		public bool Contains(Vector2 screenPoint)
 		{
-			if (screenPoint.x + 0.5 > this.LeftX && screenPoint.x - 0.5 < this.RightX && screenPoint.y + 0.5 > this.BotZ && screenPoint.y - 0.5 < this.TopZ)
-			{
-				return true;
-			}
-			return false;
+			return (byte)((screenPoint.x + 0.5 > this.LeftX && screenPoint.x - 0.5 < this.RightX && screenPoint.y + 0.5 > this.BotZ && screenPoint.y - 0.5 < this.TopZ) ? 1 : 0) != 0;
 		}
 	}
 }

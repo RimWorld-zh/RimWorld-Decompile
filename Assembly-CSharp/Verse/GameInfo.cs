@@ -5,13 +5,13 @@ namespace Verse
 {
 	public sealed class GameInfo : IExposable
 	{
-		public bool permadeathMode;
+		public bool permadeathMode = false;
 
-		public string permadeathModeUniqueName;
+		public string permadeathModeUniqueName = (string)null;
 
-		private float realPlayTimeInteracting;
+		private float realPlayTimeInteracting = 0f;
 
-		private float lastInputRealTime;
+		private float lastInputRealTime = 0f;
 
 		public float RealPlayTimeInteracting
 		{

@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,6 +28,11 @@ namespace Verse
 			return terrain.DrawMatSingle;
 		}
 
+		public bool AllowRenderingFor(TerrainDef terrain)
+		{
+			return DebugViewSettings.drawTerrainWater || !terrain.HasTag("Water");
+		}
+
 		public override void Regenerate()
 		{
 			base.ClearSubMeshes(MeshParts.All);
@@ -43,7 +47,7 @@ namespace Verse
 				hashSet.Clear();
 				TerrainDef terrainDef = terrainGrid.TerrainAt(current);
 				LayerSubMesh subMesh = base.GetSubMesh(this.GetMaterialFor(terrainDef));
-				if (subMesh != null)
+				if (subMesh != null && this.AllowRenderingFor(terrainDef))
 				{
 					int count = subMesh.verts.Count;
 					subMesh.verts.Add(new Vector3((float)current.x, 0f, (float)current.z));
@@ -83,69 +87,60 @@ namespace Verse
 						}
 					}
 				}
-				HashSet<TerrainDef>.Enumerator enumerator2 = hashSet.GetEnumerator();
-				try
+				foreach (TerrainDef item2 in hashSet)
 				{
-					while (enumerator2.MoveNext())
+					LayerSubMesh subMesh2 = base.GetSubMesh(this.GetMaterialFor(item2));
+					if (subMesh2 != null && this.AllowRenderingFor(item2))
 					{
-						TerrainDef current2 = enumerator2.Current;
-						LayerSubMesh subMesh2 = base.GetSubMesh(this.GetMaterialFor(current2));
-						if (subMesh2 != null)
+						int count = subMesh2.verts.Count;
+						subMesh2.verts.Add(new Vector3((float)((float)current.x + 0.5), 0f, (float)current.z));
+						subMesh2.verts.Add(new Vector3((float)current.x, 0f, (float)current.z));
+						subMesh2.verts.Add(new Vector3((float)current.x, 0f, (float)((float)current.z + 0.5)));
+						subMesh2.verts.Add(new Vector3((float)current.x, 0f, (float)(current.z + 1)));
+						subMesh2.verts.Add(new Vector3((float)((float)current.x + 0.5), 0f, (float)(current.z + 1)));
+						subMesh2.verts.Add(new Vector3((float)(current.x + 1), 0f, (float)(current.z + 1)));
+						subMesh2.verts.Add(new Vector3((float)(current.x + 1), 0f, (float)((float)current.z + 0.5)));
+						subMesh2.verts.Add(new Vector3((float)(current.x + 1), 0f, (float)current.z));
+						subMesh2.verts.Add(new Vector3((float)((float)current.x + 0.5), 0f, (float)((float)current.z + 0.5)));
+						for (int j = 0; j < 8; j++)
 						{
-							int count = subMesh2.verts.Count;
-							subMesh2.verts.Add(new Vector3((float)((float)current.x + 0.5), 0f, (float)current.z));
-							subMesh2.verts.Add(new Vector3((float)current.x, 0f, (float)current.z));
-							subMesh2.verts.Add(new Vector3((float)current.x, 0f, (float)((float)current.z + 0.5)));
-							subMesh2.verts.Add(new Vector3((float)current.x, 0f, (float)(current.z + 1)));
-							subMesh2.verts.Add(new Vector3((float)((float)current.x + 0.5), 0f, (float)(current.z + 1)));
-							subMesh2.verts.Add(new Vector3((float)(current.x + 1), 0f, (float)(current.z + 1)));
-							subMesh2.verts.Add(new Vector3((float)(current.x + 1), 0f, (float)((float)current.z + 0.5)));
-							subMesh2.verts.Add(new Vector3((float)(current.x + 1), 0f, (float)current.z));
-							subMesh2.verts.Add(new Vector3((float)((float)current.x + 0.5), 0f, (float)((float)current.z + 0.5)));
-							for (int j = 0; j < 8; j++)
+							array2[j] = false;
+						}
+						for (int k = 0; k < 8; k++)
+						{
+							if (k % 2 == 0)
 							{
-								array2[j] = false;
-							}
-							for (int k = 0; k < 8; k++)
-							{
-								if (k % 2 == 0)
+								if (array[k] == item2)
 								{
-									if (array[k] == current2)
-									{
-										array2[(k - 1 + 8) % 8] = true;
-										array2[k] = true;
-										array2[(k + 1) % 8] = true;
-									}
-								}
-								else if (array[k] == current2)
-								{
+									array2[(k - 1 + 8) % 8] = true;
 									array2[k] = true;
+									array2[(k + 1) % 8] = true;
 								}
 							}
-							for (int l = 0; l < 8; l++)
+							else if (array[k] == item2)
 							{
-								if (array2[l])
-								{
-									subMesh2.colors.Add(SectionLayer_Terrain.ColorWhite);
-								}
-								else
-								{
-									subMesh2.colors.Add(SectionLayer_Terrain.ColorClear);
-								}
-							}
-							subMesh2.colors.Add(SectionLayer_Terrain.ColorClear);
-							for (int m = 0; m < 8; m++)
-							{
-								subMesh2.tris.Add(count + m);
-								subMesh2.tris.Add(count + (m + 1) % 8);
-								subMesh2.tris.Add(count + 8);
+								array2[k] = true;
 							}
 						}
+						for (int l = 0; l < 8; l++)
+						{
+							if (array2[l])
+							{
+								subMesh2.colors.Add(SectionLayer_Terrain.ColorWhite);
+							}
+							else
+							{
+								subMesh2.colors.Add(SectionLayer_Terrain.ColorClear);
+							}
+						}
+						subMesh2.colors.Add(SectionLayer_Terrain.ColorClear);
+						for (int m = 0; m < 8; m++)
+						{
+							subMesh2.tris.Add(count + m);
+							subMesh2.tris.Add(count + (m + 1) % 8);
+							subMesh2.tris.Add(count + 8);
+						}
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
 				}
 			}
 			base.FinalizeMesh(MeshParts.All);

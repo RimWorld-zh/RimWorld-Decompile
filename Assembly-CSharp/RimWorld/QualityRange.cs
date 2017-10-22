@@ -28,37 +28,6 @@ namespace RimWorld
 			return (int)p >= (int)this.min && (int)p <= (int)this.max;
 		}
 
-		public static QualityRange FromString(string s)
-		{
-			string[] array = s.Split('~');
-			return new QualityRange((QualityCategory)(byte)ParseHelper.FromString(array[0], typeof(QualityCategory)), (QualityCategory)(byte)ParseHelper.FromString(array[1], typeof(QualityCategory)));
-		}
-
-		public override string ToString()
-		{
-			return ((Enum)(object)this.min).ToString() + "~" + ((Enum)(object)this.max).ToString();
-		}
-
-		public override int GetHashCode()
-		{
-			return Gen.HashCombineStruct(((Enum)(object)this.min).GetHashCode(), this.max);
-		}
-
-		public override bool Equals(object obj)
-		{
-			if (!(obj is QualityRange))
-			{
-				return false;
-			}
-			QualityRange qualityRange = (QualityRange)obj;
-			return qualityRange.min == this.min && qualityRange.max == this.max;
-		}
-
-		public bool Equals(QualityRange other)
-		{
-			return other.min == this.min && other.max == this.max;
-		}
-
 		public static bool operator ==(QualityRange a, QualityRange b)
 		{
 			return a.min == b.min && a.max == b.max;
@@ -67,6 +36,42 @@ namespace RimWorld
 		public static bool operator !=(QualityRange a, QualityRange b)
 		{
 			return !(a == b);
+		}
+
+		public static QualityRange FromString(string s)
+		{
+			string[] array = s.Split('~');
+			return new QualityRange((QualityCategory)ParseHelper.FromString(array[0], typeof(QualityCategory)), (QualityCategory)ParseHelper.FromString(array[1], typeof(QualityCategory)));
+		}
+
+		public override string ToString()
+		{
+			return this.min.ToString() + "~" + this.max.ToString();
+		}
+
+		public override int GetHashCode()
+		{
+			return Gen.HashCombineStruct(this.min.GetHashCode(), this.max);
+		}
+
+		public override bool Equals(object obj)
+		{
+			bool result;
+			if (!(obj is QualityRange))
+			{
+				result = false;
+			}
+			else
+			{
+				QualityRange qualityRange = (QualityRange)obj;
+				result = (qualityRange.min == this.min && qualityRange.max == this.max);
+			}
+			return result;
+		}
+
+		public bool Equals(QualityRange other)
+		{
+			return other.min == this.min && other.max == this.max;
 		}
 	}
 }

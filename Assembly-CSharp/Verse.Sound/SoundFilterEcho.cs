@@ -16,8 +16,8 @@ namespace Verse.Sound
 		[Description("The volume of the echo signal to pass to output.")]
 		private float wetMix = 1f;
 
-		[Description("The volume of the original signal to pass to output.")]
 		[EditSliderRange(0f, 1f)]
+		[Description("The volume of the original signal to pass to output.")]
 		private float dryMix = 1f;
 
 		public override void SetupOn(AudioSource source)

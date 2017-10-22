@@ -4,6 +4,12 @@ namespace RimWorld
 {
 	public class DamageWatcher : IExposable
 	{
+		private float everDamage = 0f;
+
+		private float recentDamage = 0f;
+
+		private int lastSeriousDamageTick = 0;
+
 		private const int UpdateInterval = 2000;
 
 		private const float ColonistDamageFactor = 5f;
@@ -13,12 +19,6 @@ namespace RimWorld
 		public const float MaxRecentDamage = 8000f;
 
 		private const float SeriousDamageThreshold = 7500f;
-
-		private float everDamage;
-
-		private float recentDamage;
-
-		private int lastSeriousDamageTick;
 
 		public float DamageTakenEver
 		{

@@ -20,7 +20,7 @@ namespace RimWorld
 				labelCap += "\n";
 				string text;
 				labelCap = (text = labelCap + "\n" + base.def.description);
-				labelCap = (text = text + "\n" + "ImpactDate".Translate().CapitalizeFirst() + ": " + GenDate.DateFullStringAt(GenDate.TickGameToAbs(base.startTick + base.duration), Find.WorldGrid.LongLatOf(base.Map.Tile)));
+				labelCap = (text = text + "\n" + "ImpactDate".Translate().CapitalizeFirst() + ": " + GenDate.DateFullStringAt(GenDate.TickGameToAbs(base.startTick + base.Duration), Find.WorldGrid.LongLatOf(base.Map.Tile)));
 				return text + "\n" + "TimeLeft".Translate().CapitalizeFirst() + ": " + base.TicksLeft.ToStringTicksToPeriod(true, false, true);
 			}
 		}

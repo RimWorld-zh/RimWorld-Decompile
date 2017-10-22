@@ -23,13 +23,7 @@ namespace Verse
 			get
 			{
 				yield return Assembly.GetExecutingAssembly();
-				foreach (ModContentPack runningMod in LoadedModManager.RunningMods)
-				{
-					for (int i = 0; i < runningMod.assemblies.loadedAssemblies.Count; i++)
-					{
-						yield return runningMod.assemblies.loadedAssemblies[i];
-					}
-				}
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -37,27 +31,41 @@ namespace Verse
 		{
 			get
 			{
-				foreach (Assembly allActiveAssembly in GenTypes.AllActiveAssemblies)
+				using (IEnumerator<Assembly> enumerator = GenTypes.AllActiveAssemblies.GetEnumerator())
 				{
-					Type[] assemblyTypes = null;
-					try
+					Type[] array;
+					int num;
+					while (true)
 					{
-						assemblyTypes = allActiveAssembly.GetTypes();
-					}
-					catch (ReflectionTypeLoadException)
-					{
-						Log.Error("Exception getting types in assembly " + allActiveAssembly.ToString());
-					}
-					if (assemblyTypes != null)
-					{
-						Type[] array = assemblyTypes;
-						for (int i = 0; i < array.Length; i++)
+						if (enumerator.MoveNext())
 						{
-							Type type = array[i];
-							yield return type;
+							Assembly assembly = enumerator.Current;
+							Type[] assemblyTypes = null;
+							try
+							{
+								assemblyTypes = assembly.GetTypes();
+							}
+							catch (ReflectionTypeLoadException)
+							{
+								Log.Error("Exception getting types in assembly " + assembly.ToString());
+							}
+							if (assemblyTypes != null)
+							{
+								array = assemblyTypes;
+								num = 0;
+								if (num < array.Length)
+									break;
+							}
+							continue;
 						}
+						yield break;
 					}
+					Type type = array[num];
+					yield return type;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
+				IL_0154:
+				/*Error near IL_0155: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -94,33 +102,54 @@ namespace Verse
 			if (!baseType.IsAbstract)
 			{
 				yield return baseType;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			foreach (Type item in baseType.AllSubclasses())
+			using (IEnumerator<Type> enumerator = baseType.AllSubclasses().GetEnumerator())
 			{
-				if (!item.IsAbstract)
+				Type descendant;
+				while (true)
 				{
-					yield return item;
+					if (enumerator.MoveNext())
+					{
+						descendant = enumerator.Current;
+						if (!descendant.IsAbstract)
+							break;
+						continue;
+					}
+					yield break;
 				}
+				yield return descendant;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			IL_0101:
+			/*Error near IL_0102: Unexpected return in MoveNext()*/;
 		}
 
 		public static Type GetTypeInAnyAssembly(string typeName)
 		{
 			Type typeInAnyAssemblyRaw = GenTypes.GetTypeInAnyAssemblyRaw(typeName);
+			Type result;
 			if (typeInAnyAssemblyRaw != null)
 			{
-				return typeInAnyAssemblyRaw;
+				result = typeInAnyAssemblyRaw;
 			}
-			for (int i = 0; i < GenTypes.IgnoredNamespaceNames.Count; i++)
+			else
 			{
-				string typeName2 = GenTypes.IgnoredNamespaceNames[i] + "." + typeName;
-				typeInAnyAssemblyRaw = GenTypes.GetTypeInAnyAssemblyRaw(typeName2);
-				if (typeInAnyAssemblyRaw != null)
+				for (int i = 0; i < GenTypes.IgnoredNamespaceNames.Count; i++)
 				{
-					return typeInAnyAssemblyRaw;
+					string typeName2 = GenTypes.IgnoredNamespaceNames[i] + "." + typeName;
+					typeInAnyAssemblyRaw = GenTypes.GetTypeInAnyAssemblyRaw(typeName2);
+					if (typeInAnyAssemblyRaw != null)
+						goto IL_0041;
 				}
+				result = null;
 			}
-			return null;
+			goto IL_0064;
+			IL_0041:
+			result = typeInAnyAssemblyRaw;
+			goto IL_0064;
+			IL_0064:
+			return result;
 		}
 
 		private static Type GetTypeInAnyAssemblyRaw(string typeName)
@@ -138,18 +167,26 @@ namespace Verse
 
 		public static string GetTypeNameWithoutIgnoredNamespaces(Type type)
 		{
+			string result;
 			if (type.IsGenericType)
 			{
-				return type.ToString();
+				result = type.ToString();
 			}
-			for (int i = 0; i < GenTypes.IgnoredNamespaceNames.Count; i++)
+			else
 			{
-				if (type.Namespace == GenTypes.IgnoredNamespaceNames[i])
+				for (int i = 0; i < GenTypes.IgnoredNamespaceNames.Count; i++)
 				{
-					return type.Name;
+					if (type.Namespace == GenTypes.IgnoredNamespaceNames[i])
+						goto IL_003b;
 				}
+				result = type.FullName;
 			}
-			return type.FullName;
+			goto IL_0068;
+			IL_003b:
+			result = type.Name;
+			goto IL_0068;
+			IL_0068:
+			return result;
 		}
 	}
 }

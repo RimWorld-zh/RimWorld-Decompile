@@ -7,9 +7,9 @@ namespace RimWorld
 {
 	public class ThoughtDef : Def
 	{
-		public Type thoughtClass;
+		public Type thoughtClass = null;
 
-		public Type workerClass;
+		public Type workerClass = null;
 
 		public List<ThoughtStage> stages = new List<ThoughtStage>();
 
@@ -17,47 +17,49 @@ namespace RimWorld
 
 		public float stackedEffectMultiplier = 0.75f;
 
-		public float durationDays;
+		public float durationDays = 0f;
 
-		public bool invert;
+		public bool invert = false;
 
-		public bool validWhileDespawned;
+		public bool validWhileDespawned = false;
 
-		public ThoughtDef nextThought;
+		public ThoughtDef nextThought = null;
 
-		public List<TraitDef> nullifyingTraits;
+		public List<TraitDef> nullifyingTraits = null;
 
-		public List<TaleDef> nullifyingOwnTales;
+		public List<TaleDef> nullifyingOwnTales = null;
 
-		public List<TraitDef> requiredTraits;
+		public List<TraitDef> requiredTraits = null;
 
 		public int requiredTraitsDegree = -2147483648;
 
-		public StatDef effectMultiplyingStat;
+		public StatDef effectMultiplyingStat = null;
 
 		public HediffDef hediff;
 
+		public GameConditionDef gameCondition;
+
 		public bool nullifiedIfNotColonist;
 
-		public ThoughtDef thoughtToMake;
+		public ThoughtDef thoughtToMake = null;
 
 		[NoTranslate]
-		private string icon;
+		private string icon = (string)null;
 
-		public bool showBubble;
+		public bool showBubble = false;
 
 		public int stackLimitPerPawn = -1;
 
 		public float lerpOpinionToZeroAfterDurationPct = 0.7f;
 
-		public bool socialThoughtAffectingMood;
+		public bool socialThoughtAffectingMood = false;
 
 		public float maxCumulatedOpinionOffset = 3.40282347E+38f;
 
 		public TaleDef taleDef;
 
 		[Unsaved]
-		private ThoughtWorker workerInt;
+		private ThoughtWorker workerInt = null;
 
 		private Texture2D iconInt;
 
@@ -65,23 +67,32 @@ namespace RimWorld
 		{
 			get
 			{
+				string result;
 				if (!base.label.NullOrEmpty())
 				{
-					return base.label;
+					result = base.label;
 				}
-				if (this.stages.NullOrEmpty())
+				else
 				{
-					if (!this.stages[0].label.NullOrEmpty())
+					if (this.stages.NullOrEmpty())
 					{
-						return this.stages[0].label;
+						if (!this.stages[0].label.NullOrEmpty())
+						{
+							result = this.stages[0].label;
+							goto IL_00b4;
+						}
+						if (!this.stages[0].labelSocial.NullOrEmpty())
+						{
+							result = this.stages[0].labelSocial;
+							goto IL_00b4;
+						}
 					}
-					if (!this.stages[0].labelSocial.NullOrEmpty())
-					{
-						return this.stages[0].labelSocial;
-					}
+					Log.Error("Cannot get good label for ThoughtDef " + base.defName);
+					result = base.defName;
 				}
-				Log.Error("Cannot get good label for ThoughtDef " + base.defName);
-				return base.defName;
+				goto IL_00b4;
+				IL_00b4:
+				return result;
 			}
 		}
 
@@ -142,15 +153,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.thoughtClass != null)
-				{
-					return this.thoughtClass;
-				}
-				if (this.IsMemory)
-				{
-					return typeof(Thought_Memory);
-				}
-				return typeof(Thought_Situational);
+				return (this.thoughtClass == null) ? ((!this.IsMemory) ? typeof(Thought_Situational) : typeof(Thought_Memory)) : this.thoughtClass;
 			}
 		}
 
@@ -158,40 +161,59 @@ namespace RimWorld
 		{
 			get
 			{
+				Texture2D result;
 				if ((UnityEngine.Object)this.iconInt == (UnityEngine.Object)null)
 				{
 					if (this.icon == null)
 					{
-						return null;
+						result = null;
+						goto IL_0044;
 					}
 					this.iconInt = ContentFinder<Texture2D>.Get(this.icon, true);
 				}
-				return this.iconInt;
+				result = this.iconInt;
+				goto IL_0044;
+				IL_0044:
+				return result;
 			}
 		}
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string error = enumerator.Current;
+					yield return error;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			if (this.stages.NullOrEmpty())
 			{
 				yield return "no stages";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.workerClass != null && this.nextThought != null)
 			{
 				yield return "has a nextThought but also has a workerClass. nextThought only works for memories";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.IsMemory && this.workerClass != null)
 			{
 				yield return "has a workerClass but is a memory. workerClass only works for situational thoughts, not memories";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (!this.IsMemory && this.workerClass == null && this.IsSituational)
-			{
-				yield return "is a situational thought but has no workerClass. Situational thoughts require workerClasses to analyze the situation";
-			}
+			if (this.IsMemory)
+				yield break;
+			if (this.workerClass != null)
+				yield break;
+			if (!this.IsSituational)
+				yield break;
+			yield return "is a situational thought but has no workerClass. Situational thoughts require workerClasses to analyze the situation";
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_01ce:
+			/*Error near IL_01cf: Unexpected return in MoveNext()*/;
 		}
 
 		public static ThoughtDef Named(string defName)

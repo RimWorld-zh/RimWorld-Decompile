@@ -6,6 +6,20 @@ namespace RimWorld
 {
 	public class SkillRecord : IExposable
 	{
+		private Pawn pawn;
+
+		public SkillDef def;
+
+		public int levelInt = 0;
+
+		public Passion passion = Passion.None;
+
+		public float xpSinceLastLevel;
+
+		public float xpSinceMidnight;
+
+		private BoolUnknown cachedTotallyDisabled = BoolUnknown.Unknown;
+
 		public const int IntervalTicks = 200;
 
 		public const int MinLevel = 0;
@@ -14,37 +28,37 @@ namespace RimWorld
 
 		public const int MaxFullRateXpPerDay = 4000;
 
+		public const int MasterSkillThreshold = 14;
+
 		public const float SaturatedLearningFactor = 0.2f;
 
-		public const float LearnFactorPassionNone = 0.333f;
+		public const float LearnFactorPassionNone = 0.35f;
 
 		public const float LearnFactorPassionMinor = 1f;
 
 		public const float LearnFactorPassionMajor = 1.5f;
 
-		private Pawn pawn;
-
-		public SkillDef def;
-
-		public int levelInt;
-
-		public Passion passion;
-
-		public float xpSinceLastLevel;
-
-		public float xpSinceMidnight;
-
-		private BoolUnknown cachedTotallyDisabled = BoolUnknown.Unknown;
+		private static readonly SimpleCurve XpForLevelUpCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 1000f),
+				true
+			},
+			{
+				new CurvePoint(9f, 10000f),
+				true
+			},
+			{
+				new CurvePoint(19f, 30000f),
+				true
+			}
+		};
 
 		public int Level
 		{
 			get
 			{
-				if (this.TotallyDisabled)
-				{
-					return 0;
-				}
-				return this.levelInt;
+				return (!this.TotallyDisabled) ? this.levelInt : 0;
 			}
 			set
 			{
@@ -56,7 +70,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.XpRequiredToLevelUpFrom(this.levelInt);
+				return SkillRecord.XpRequiredToLevelUpFrom(this.levelInt);
 			}
 		}
 
@@ -75,7 +89,7 @@ namespace RimWorld
 				float num = 0f;
 				for (int i = 0; i < this.levelInt; i++)
 				{
-					num += this.XpRequiredToLevelUpFrom(i);
+					num += SkillRecord.XpRequiredToLevelUpFrom(i);
 				}
 				return num;
 			}
@@ -97,97 +111,121 @@ namespace RimWorld
 		{
 			get
 			{
+				string result;
 				switch (this.levelInt)
 				{
 				case 0:
 				{
-					return "Skill0".Translate();
+					result = "Skill0".Translate();
+					break;
 				}
 				case 1:
 				{
-					return "Skill1".Translate();
+					result = "Skill1".Translate();
+					break;
 				}
 				case 2:
 				{
-					return "Skill2".Translate();
+					result = "Skill2".Translate();
+					break;
 				}
 				case 3:
 				{
-					return "Skill3".Translate();
+					result = "Skill3".Translate();
+					break;
 				}
 				case 4:
 				{
-					return "Skill4".Translate();
+					result = "Skill4".Translate();
+					break;
 				}
 				case 5:
 				{
-					return "Skill5".Translate();
+					result = "Skill5".Translate();
+					break;
 				}
 				case 6:
 				{
-					return "Skill6".Translate();
+					result = "Skill6".Translate();
+					break;
 				}
 				case 7:
 				{
-					return "Skill7".Translate();
+					result = "Skill7".Translate();
+					break;
 				}
 				case 8:
 				{
-					return "Skill8".Translate();
+					result = "Skill8".Translate();
+					break;
 				}
 				case 9:
 				{
-					return "Skill9".Translate();
+					result = "Skill9".Translate();
+					break;
 				}
 				case 10:
 				{
-					return "Skill10".Translate();
+					result = "Skill10".Translate();
+					break;
 				}
 				case 11:
 				{
-					return "Skill11".Translate();
+					result = "Skill11".Translate();
+					break;
 				}
 				case 12:
 				{
-					return "Skill12".Translate();
+					result = "Skill12".Translate();
+					break;
 				}
 				case 13:
 				{
-					return "Skill13".Translate();
+					result = "Skill13".Translate();
+					break;
 				}
 				case 14:
 				{
-					return "Skill14".Translate();
+					result = "Skill14".Translate();
+					break;
 				}
 				case 15:
 				{
-					return "Skill15".Translate();
+					result = "Skill15".Translate();
+					break;
 				}
 				case 16:
 				{
-					return "Skill16".Translate();
+					result = "Skill16".Translate();
+					break;
 				}
 				case 17:
 				{
-					return "Skill17".Translate();
+					result = "Skill17".Translate();
+					break;
 				}
 				case 18:
 				{
-					return "Skill18".Translate();
+					result = "Skill18".Translate();
+					break;
 				}
 				case 19:
 				{
-					return "Skill19".Translate();
+					result = "Skill19".Translate();
+					break;
 				}
 				case 20:
 				{
-					return "Skill20".Translate();
+					result = "Skill20".Translate();
+					break;
 				}
 				default:
 				{
-					return "Unknown";
+					result = "Unknown";
+					break;
 				}
 				}
+				return result;
 			}
 		}
 
@@ -244,7 +282,7 @@ namespace RimWorld
 			}
 			case 13:
 			{
-				this.Learn(-0.65f, false);
+				this.Learn(-0.6f, false);
 				break;
 			}
 			case 14:
@@ -254,40 +292,40 @@ namespace RimWorld
 			}
 			case 15:
 			{
-				this.Learn(-1.5f, false);
+				this.Learn(-1.8f, false);
 				break;
 			}
 			case 16:
 			{
-				this.Learn(-2f, false);
+				this.Learn(-2.8f, false);
 				break;
 			}
 			case 17:
 			{
-				this.Learn(-3f, false);
+				this.Learn(-4f, false);
 				break;
 			}
 			case 18:
 			{
-				this.Learn(-4f, false);
+				this.Learn(-6f, false);
 				break;
 			}
 			case 19:
 			{
-				this.Learn(-6f, false);
+				this.Learn(-8f, false);
 				break;
 			}
 			case 20:
 			{
-				this.Learn(-8f, false);
+				this.Learn(-12f, false);
 				break;
 			}
 			}
 		}
 
-		public float XpRequiredToLevelUpFrom(int startingLevel)
+		public static float XpRequiredToLevelUpFrom(int startingLevel)
 		{
-			return (float)(1000 + startingLevel * 1000);
+			return SkillRecord.XpForLevelUpCurve.Evaluate((float)startingLevel);
 		}
 
 		public void Learn(float xp, bool direct = false)
@@ -334,6 +372,17 @@ namespace RimWorld
 				{
 					this.xpSinceLastLevel -= this.XpRequiredForLevelUp;
 					this.levelInt++;
+					if (this.levelInt == 14)
+					{
+						if (this.passion == Passion.None)
+						{
+							TaleRecorder.RecordTale(TaleDefOf.GainedMasterSkillWithoutPassion, this.pawn, this.def);
+						}
+						else
+						{
+							TaleRecorder.RecordTale(TaleDefOf.GainedMasterSkillWithPassion, this.pawn, this.def);
+						}
+					}
 					if (this.levelInt >= 20)
 					{
 						this.levelInt = 20;
@@ -360,42 +409,47 @@ namespace RimWorld
 
 		public float LearnRateFactor(bool direct = false)
 		{
+			float result;
 			if (DebugSettings.fastLearning)
 			{
-				return 200f;
+				result = 200f;
 			}
-			float num;
-			switch (this.passion)
+			else
 			{
-			case Passion.None:
-			{
-				num = 0.333f;
-				break;
-			}
-			case Passion.Minor:
-			{
-				num = 1f;
-				break;
-			}
-			case Passion.Major:
-			{
-				num = 1.5f;
-				break;
-			}
-			default:
-			{
-				throw new NotImplementedException("Passion level " + this.passion);
-			}
-			}
-			if (!direct)
-			{
-				num *= this.pawn.GetStatValue(StatDefOf.GlobalLearningFactor, true);
-				if (this.LearningSaturatedToday)
+				float num;
+				switch (this.passion)
 				{
-					num = (float)(num * 0.20000000298023224);
+				case Passion.None:
+				{
+					num = 0.35f;
+					break;
 				}
+				case Passion.Minor:
+				{
+					num = 1f;
+					break;
+				}
+				case Passion.Major:
+				{
+					num = 1.5f;
+					break;
+				}
+				default:
+				{
+					throw new NotImplementedException("Passion level " + this.passion);
+				}
+				}
+				if (!direct)
+				{
+					num *= this.pawn.GetStatValue(StatDefOf.GlobalLearningFactor, true);
+					if (this.LearningSaturatedToday)
+					{
+						num = (float)(num * 0.20000000298023224);
+					}
+				}
+				result = num;
 			}
-			return num;
+			return result;
 		}
 
 		public void Notify_SkillDisablesChanged()

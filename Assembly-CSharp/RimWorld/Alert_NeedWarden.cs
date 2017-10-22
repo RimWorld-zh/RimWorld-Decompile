@@ -16,27 +16,37 @@ namespace RimWorld
 		public override AlertReport GetReport()
 		{
 			List<Map> maps = Find.Maps;
-			for (int i = 0; i < maps.Count; i++)
+			int num = 0;
+			AlertReport result;
+			while (true)
 			{
-				Map map = maps[i];
-				if (map.IsPlayerHome && map.mapPawns.PrisonersOfColonySpawned.Any())
+				if (num < maps.Count)
 				{
-					bool flag = false;
-					foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
+					Map map = maps[num];
+					if (map.IsPlayerHome && map.mapPawns.PrisonersOfColonySpawned.Any())
 					{
-						if (!item.Downed && item.workSettings != null && item.workSettings.GetPriority(WorkTypeDefOf.Warden) > 0)
+						bool flag = false;
+						foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
 						{
-							flag = true;
+							if (!item.Downed && item.workSettings != null && item.workSettings.GetPriority(WorkTypeDefOf.Warden) > 0)
+							{
+								flag = true;
+								break;
+							}
+						}
+						if (!flag)
+						{
+							result = AlertReport.CulpritIs((Thing)map.mapPawns.PrisonersOfColonySpawned.First());
 							break;
 						}
 					}
-					if (!flag)
-					{
-						return AlertReport.CulpritIs((Thing)map.mapPawns.PrisonersOfColonySpawned.First());
-					}
+					num++;
+					continue;
 				}
+				result = AlertReport.Inactive;
+				break;
 			}
-			return AlertReport.Inactive;
+			return result;
 		}
 	}
 }

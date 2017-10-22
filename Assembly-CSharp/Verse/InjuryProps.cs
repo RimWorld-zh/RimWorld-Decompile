@@ -6,14 +6,14 @@ namespace Verse
 
 		public float averagePainPerSeverityOld = 0.5f;
 
-		public float bleedRate;
+		public float bleedRate = 0f;
 
-		public bool canMerge;
+		public bool canMerge = false;
 
-		public string destroyedLabel;
+		public string destroyedLabel = (string)null;
 
-		public string destroyedOutLabel;
+		public string destroyedOutLabel = (string)null;
 
-		public bool useRemovedLabel;
+		public bool useRemovedLabel = false;
 	}
 }

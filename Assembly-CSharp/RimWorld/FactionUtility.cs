@@ -8,31 +8,20 @@ namespace RimWorld
 	{
 		public static bool HostileTo(this Faction fac, Faction other)
 		{
-			if (fac != null && other != null && other != fac)
-			{
-				return fac.RelationWith(other, false).hostile;
-			}
-			return false;
+			return fac != null && other != null && other != fac && fac.RelationWith(other, false).hostile;
 		}
 
 		public static Faction DefaultFactionFrom(FactionDef ft)
 		{
-			if (ft == null)
-			{
-				return null;
-			}
-			if (ft.isPlayer)
-			{
-				return Faction.OfPlayer;
-			}
-			Faction result = default(Faction);
-			if ((from fac in Find.FactionManager.AllFactions
+			Faction faction = default(Faction);
+			return (ft != null) ? ((!ft.isPlayer) ? ((!(from fac in Find.FactionManager.AllFactions
 			where fac.def == ft
-			select fac).TryRandomElement<Faction>(out result))
-			{
-				return result;
-			}
-			return null;
+			select fac).TryRandomElement<Faction>(out faction)) ? null : faction) : Faction.OfPlayer) : null;
+		}
+
+		public static bool IsPoliticallyProper(this Thing thing, Pawn pawn)
+		{
+			return (byte)((thing.Faction == null) ? 1 : ((pawn.Faction == null) ? 1 : ((thing.Faction == pawn.Faction) ? 1 : ((thing.Faction == pawn.HostFaction) ? 1 : 0)))) != 0;
 		}
 	}
 }

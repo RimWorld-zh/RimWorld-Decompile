@@ -11,12 +11,17 @@ namespace RimWorld
 		public static float ManhunterAnimalWeight(PawnKindDef animal, float points)
 		{
 			points = Mathf.Max(points, 35f);
+			float result;
 			if (animal.combatPower > points)
 			{
-				return 0f;
+				result = 0f;
 			}
-			int num = Mathf.RoundToInt(points / animal.combatPower);
-			return Mathf.Clamp01(Mathf.InverseLerp(30f, 10f, (float)num));
+			else
+			{
+				int num = Mathf.RoundToInt(points / animal.combatPower);
+				result = Mathf.Clamp01(Mathf.InverseLerp(30f, 10f, (float)num));
+			}
+			return result;
 		}
 
 		public static bool TryFindManhunterAnimalKind(float points, int tile, out PawnKindDef animalKind)
@@ -32,7 +37,7 @@ namespace RimWorld
 			List<Pawn> list = new List<Pawn>();
 			for (int num2 = 0; num2 < num; num2++)
 			{
-				PawnGenerationRequest request = new PawnGenerationRequest(animalKind, null, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, null, default(float?), default(float?), default(Gender?), default(float?), (string)null);
+				PawnGenerationRequest request = new PawnGenerationRequest(animalKind, null, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
 				Pawn item = PawnGenerator.GeneratePawn(request);
 				list.Add(item);
 			}
@@ -54,12 +59,8 @@ namespace RimWorld
 			{
 				float num = candidates.Sum((Func<PawnKindDef, float>)((PawnKindDef k) => ManhunterPackIncidentUtility.ManhunterAnimalWeight(k, points)));
 				float num2 = ManhunterPackIncidentUtility.ManhunterAnimalWeight(candidate, points);
-				if (num2 == 0.0)
-				{
-					return "0%";
-				}
-				return string.Format("{0}%, {1}", ((float)(num2 * 100.0 / num)).ToString("F0"), Mathf.Max(Mathf.RoundToInt(points / candidate.combatPower), 1));
-			}, string.Empty);
+				return (num2 != 0.0) ? string.Format("{0}%, {1}", ((float)(num2 * 100.0 / num)).ToString("F0"), Mathf.Max(Mathf.RoundToInt(points / candidate.combatPower), 1)) : "0%";
+			}, "");
 		}
 	}
 }

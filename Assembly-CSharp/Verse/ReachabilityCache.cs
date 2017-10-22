@@ -29,6 +29,7 @@ namespace Verse
 
 			public CachedEntry(int firstRoomID, int secondRoomID, TraverseParms traverseParms)
 			{
+				this = default(CachedEntry);
 				if (firstRoomID < secondRoomID)
 				{
 					this.FirstRoomID = firstRoomID;
@@ -42,13 +43,19 @@ namespace Verse
 				this.TraverseParms = traverseParms;
 			}
 
+			public static bool operator ==(CachedEntry lhs, CachedEntry rhs)
+			{
+				return lhs.Equals(rhs);
+			}
+
+			public static bool operator !=(CachedEntry lhs, CachedEntry rhs)
+			{
+				return !lhs.Equals(rhs);
+			}
+
 			public override bool Equals(object obj)
 			{
-				if (!(obj is CachedEntry))
-				{
-					return false;
-				}
-				return this.Equals((CachedEntry)obj);
+				return obj is CachedEntry && this.Equals((CachedEntry)obj);
 			}
 
 			public bool Equals(CachedEntry other)
@@ -60,16 +67,6 @@ namespace Verse
 			{
 				int seed = Gen.HashCombineInt(this.FirstRoomID, this.SecondRoomID);
 				return Gen.HashCombineStruct(seed, this.TraverseParms);
-			}
-
-			public static bool operator ==(CachedEntry lhs, CachedEntry rhs)
-			{
-				return lhs.Equals(rhs);
-			}
-
-			public static bool operator !=(CachedEntry lhs, CachedEntry rhs)
-			{
-				return !lhs.Equals(rhs);
 			}
 		}
 
@@ -86,11 +83,7 @@ namespace Verse
 		public BoolUnknown CachedResultFor(Room A, Room B, TraverseParms traverseParams)
 		{
 			bool flag = default(bool);
-			if (this.cacheDict.TryGetValue(new CachedEntry(A.ID, B.ID, traverseParams), out flag))
-			{
-				return (BoolUnknown)((!flag) ? 1 : 0);
-			}
-			return BoolUnknown.Unknown;
+			return (BoolUnknown)((!this.cacheDict.TryGetValue(new CachedEntry(A.ID, B.ID, traverseParams), out flag)) ? 2 : ((!flag) ? 1 : 0));
 		}
 
 		public void AddCachedResult(Room A, Room B, TraverseParms traverseParams, bool reachable)

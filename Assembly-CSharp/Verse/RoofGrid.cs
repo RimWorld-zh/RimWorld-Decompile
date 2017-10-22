@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Verse
 {
-	public sealed class RoofGrid : ICellBoolGiver, IExposable
+	public sealed class RoofGrid : IExposable, ICellBoolGiver
 	{
 		private Map map;
 
@@ -43,20 +43,10 @@ namespace Verse
 
 		public void ExposeData()
 		{
-			string compressedString = string.Empty;
-			if (Scribe.mode == LoadSaveMode.Saving)
+			MapExposeUtility.ExposeUshort(this.map, (Func<IntVec3, ushort>)((IntVec3 c) => this.roofGrid[this.map.cellIndices.CellToIndex(c)]), (Action<IntVec3, ushort>)delegate(IntVec3 c, ushort val)
 			{
-				compressedString = GridSaveUtility.CompressedStringForShortGrid((Func<IntVec3, ushort>)((IntVec3 c) => this.roofGrid[this.map.cellIndices.CellToIndex(c)]), this.map);
-			}
-			Scribe_Values.Look(ref compressedString, "roofs", (string)null, false);
-			if (Scribe.mode == LoadSaveMode.LoadingVars)
-			{
-				foreach (GridSaveUtility.LoadedGridShort item in GridSaveUtility.LoadedUShortGrid(compressedString, this.map))
-				{
-					GridSaveUtility.LoadedGridShort current = item;
-					this.SetRoof(current.cell, DefDatabase<RoofDef>.GetByShortHash(current.val));
-				}
-			}
+				this.SetRoof(c, DefDatabase<RoofDef>.GetByShortHash(val));
+			}, "roofs");
 		}
 
 		public bool GetCellBool(int index)
@@ -66,11 +56,7 @@ namespace Verse
 
 		public Color GetCellExtraColor(int index)
 		{
-			if (RoofDefOf.RoofRockThick != null && this.roofGrid[index] == RoofDefOf.RoofRockThick.shortHash)
-			{
-				return Color.gray;
-			}
-			return Color.white;
+			return (RoofDefOf.RoofRockThick == null || this.roofGrid[index] != RoofDefOf.RoofRockThick.shortHash) ? Color.white : Color.gray;
 		}
 
 		public bool Roofed(int x, int z)

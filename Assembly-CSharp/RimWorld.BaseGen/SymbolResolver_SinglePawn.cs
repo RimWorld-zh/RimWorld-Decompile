@@ -9,20 +9,8 @@ namespace RimWorld.BaseGen
 	{
 		public override bool CanResolve(ResolveParams rp)
 		{
-			if (!base.CanResolve(rp))
-			{
-				return false;
-			}
-			if (rp.singlePawnToSpawn != null && rp.singlePawnToSpawn.Spawned)
-			{
-				return true;
-			}
 			IntVec3 intVec = default(IntVec3);
-			if (!SymbolResolver_SinglePawn.TryFindSpawnCell(rp, out intVec))
-			{
-				return false;
-			}
-			return true;
+			return (byte)(base.CanResolve(rp) ? ((rp.singlePawnToSpawn != null && rp.singlePawnToSpawn.Spawned) ? 1 : (SymbolResolver_SinglePawn.TryFindSpawnCell(rp, out intVec) ? 1 : 0)) : 0) != 0;
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -67,10 +55,16 @@ namespace RimWorld.BaseGen
 							select x).TryRandomElement<Faction>(out faction))
 								return;
 						}
+						PawnKindDef kind = pawnKindDef;
+						Faction faction2 = faction;
 						int tile = map.Tile;
-						request = new PawnGenerationRequest(pawnKindDef, faction, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, null, default(float?), default(float?), default(Gender?), default(float?), (string)null);
+						request = new PawnGenerationRequest(kind, faction2, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
 					}
 					pawn = PawnGenerator.GeneratePawn(request);
+					if ((object)rp.postThingGenerate != null)
+					{
+						rp.postThingGenerate(pawn);
+					}
 				}
 				else
 				{
@@ -84,6 +78,10 @@ namespace RimWorld.BaseGen
 				if (rp.singlePawnLord != null)
 				{
 					rp.singlePawnLord.AddPawn(pawn);
+				}
+				if ((object)rp.postThingSpawn != null)
+				{
+					rp.postThingSpawn(pawn);
 				}
 			}
 		}

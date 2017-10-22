@@ -8,19 +8,27 @@ namespace RimWorld
 	{
 		protected override Job TryGiveJob(Pawn pawn)
 		{
+			Job result;
 			if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
 			{
-				return null;
+				result = null;
 			}
-			Lord lord = pawn.GetLord();
-			Thing thing = GatherItemsForCaravanUtility.FindThingToHaul(pawn, lord);
-			if (thing == null)
+			else
 			{
-				return null;
+				Lord lord = pawn.GetLord();
+				Thing thing = GatherItemsForCaravanUtility.FindThingToHaul(pawn, lord);
+				if (thing == null)
+				{
+					result = null;
+				}
+				else
+				{
+					Job job = new Job(JobDefOf.PrepareCaravan_GatherItems, thing);
+					job.lord = lord;
+					result = job;
+				}
 			}
-			Job job = new Job(JobDefOf.PrepareCaravan_GatherItems, thing);
-			job.lord = lord;
-			return job;
+			return result;
 		}
 	}
 }

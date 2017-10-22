@@ -38,98 +38,115 @@ namespace Verse
 		public static XElement XElementFromObject(object obj, Type expectedType, string nodeName, FieldInfo owningField = null, bool saveDefsAsRefs = false)
 		{
 			DefaultValueAttribute defaultValueAttribute = default(DefaultValueAttribute);
+			XElement result;
 			if (owningField != null && ((MemberInfo)owningField).TryGetAttribute<DefaultValueAttribute>(out defaultValueAttribute) && defaultValueAttribute.ObjIsDefault(obj))
 			{
-				return null;
+				result = null;
 			}
-			if (obj == null)
+			else if (obj == null)
 			{
 				XElement xElement = new XElement(nodeName);
 				xElement.SetAttributeValue("IsNull", "True");
-				return xElement;
+				result = xElement;
 			}
-			Type type = obj.GetType();
-			XElement xElement2 = new XElement(nodeName);
-			if (DirectXmlSaver.IsSimpleTextType(type))
+			else
 			{
-				xElement2.Add(new XText(obj.ToString()));
-				goto IL_02ff;
-			}
-			if (saveDefsAsRefs && typeof(Def).IsAssignableFrom(type))
-			{
-				string defName = ((Def)obj).defName;
-				xElement2.Add(new XText(defName));
-				goto IL_02ff;
-			}
-			if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
-			{
-				Type expectedType2 = type.GetGenericArguments()[0];
-				int num = (int)type.GetProperty("Count").GetValue(obj, null);
-				for (int num2 = 0; num2 < num; num2++)
+				Type type = obj.GetType();
+				XElement xElement2 = new XElement(nodeName);
+				if (DirectXmlSaver.IsSimpleTextType(type))
 				{
-					object[] index = new object[1]
-					{
-						num2
-					};
-					object value = type.GetProperty("Item").GetValue(obj, index);
-					XNode content = DirectXmlSaver.XElementFromObject(value, expectedType2, "li", null, true);
-					xElement2.Add(content);
+					xElement2.Add(new XText(obj.ToString()));
 				}
-				goto IL_02ff;
-			}
-			if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<, >))
-			{
-				Type expectedType3 = type.GetGenericArguments()[0];
-				Type expectedType4 = type.GetGenericArguments()[1];
+				else if (saveDefsAsRefs && typeof(Def).IsAssignableFrom(type))
 				{
-					foreach (object item in obj as IEnumerable)
-					{
-						object value2 = item.GetType().GetProperty("Key").GetValue(item, null);
-						object value3 = item.GetType().GetProperty("Value").GetValue(item, null);
-						XElement xElement3 = new XElement("li");
-						xElement3.Add(DirectXmlSaver.XElementFromObject(value2, expectedType3, "key", null, true));
-						xElement3.Add(DirectXmlSaver.XElementFromObject(value3, expectedType4, "value", null, true));
-						xElement2.Add(xElement3);
-					}
-					return xElement2;
+					string defName = ((Def)obj).defName;
+					xElement2.Add(new XText(defName));
 				}
-			}
-			if (type != expectedType)
-			{
-				XAttribute content2 = new XAttribute("Class", GenTypes.GetTypeNameWithoutIgnoredNamespaces(obj.GetType()));
-				xElement2.Add(content2);
-			}
-			foreach (FieldInfo item2 in from f in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-			orderby f.MetadataToken
-			select f)
-			{
-				try
+				else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
 				{
-					XElement xElement4 = DirectXmlSaver.XElementFromField(item2, obj);
-					if (xElement4 != null)
+					Type expectedType2 = type.GetGenericArguments()[0];
+					int num = (int)type.GetProperty("Count").GetValue(obj, null);
+					for (int num2 = 0; num2 < num; num2++)
 					{
-						xElement2.Add(xElement4);
+						object[] index = new object[1]
+						{
+							num2
+						};
+						object value = type.GetProperty("Item").GetValue(obj, index);
+						XNode content = DirectXmlSaver.XElementFromObject(value, expectedType2, "li", null, true);
+						xElement2.Add(content);
 					}
 				}
-				catch
+				else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<, >))
 				{
-					throw;
-					IL_02dc:;
+					Type expectedType3 = type.GetGenericArguments()[0];
+					Type expectedType4 = type.GetGenericArguments()[1];
+					IEnumerator enumerator = (obj as IEnumerable).GetEnumerator();
+					try
+					{
+						while (enumerator.MoveNext())
+						{
+							object current = enumerator.Current;
+							object value2 = current.GetType().GetProperty("Key").GetValue(current, null);
+							object value3 = current.GetType().GetProperty("Value").GetValue(current, null);
+							XElement xElement3 = new XElement("li");
+							xElement3.Add(DirectXmlSaver.XElementFromObject(value2, expectedType3, "key", null, true));
+							xElement3.Add(DirectXmlSaver.XElementFromObject(value3, expectedType4, "value", null, true));
+							xElement2.Add(xElement3);
+						}
+					}
+					finally
+					{
+						IDisposable disposable;
+						if ((disposable = (enumerator as IDisposable)) != null)
+						{
+							disposable.Dispose();
+						}
+					}
 				}
+				else
+				{
+					if (type != expectedType)
+					{
+						XAttribute content2 = new XAttribute("Class", GenTypes.GetTypeNameWithoutIgnoredNamespaces(obj.GetType()));
+						xElement2.Add(content2);
+					}
+					foreach (FieldInfo item in from f in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+					orderby f.MetadataToken
+					select f)
+					{
+						try
+						{
+							XElement xElement4 = DirectXmlSaver.XElementFromField(item, obj);
+							if (xElement4 != null)
+							{
+								xElement2.Add(xElement4);
+							}
+						}
+						catch
+						{
+							throw;
+						}
+					}
+				}
+				result = xElement2;
 			}
-			return xElement2;
-			IL_02ff:
-			return xElement2;
+			return result;
 		}
 
 		private static XElement XElementFromField(FieldInfo fi, object owningObj)
 		{
+			XElement result;
 			if (Attribute.IsDefined(fi, typeof(UnsavedAttribute)))
 			{
-				return null;
+				result = null;
 			}
-			object value = fi.GetValue(owningObj);
-			return DirectXmlSaver.XElementFromObject(value, fi.FieldType, fi.Name, fi, false);
+			else
+			{
+				object value = fi.GetValue(owningObj);
+				result = DirectXmlSaver.XElementFromObject(value, fi.FieldType, fi.Name, fi, false);
+			}
+			return result;
 		}
 	}
 }

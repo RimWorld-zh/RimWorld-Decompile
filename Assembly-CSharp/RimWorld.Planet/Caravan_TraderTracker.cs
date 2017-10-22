@@ -16,15 +16,25 @@ namespace RimWorld.Planet
 			get
 			{
 				List<Pawn> pawnsListForReading = this.caravan.PawnsListForReading;
-				for (int i = 0; i < pawnsListForReading.Count; i++)
+				int num = 0;
+				TraderKindDef result;
+				while (true)
 				{
-					Pawn pawn = pawnsListForReading[i];
-					if (this.caravan.IsOwner(pawn) && pawn.TraderKind != null)
+					if (num < pawnsListForReading.Count)
 					{
-						return pawn.TraderKind;
+						Pawn pawn = pawnsListForReading[num];
+						if (this.caravan.IsOwner(pawn) && pawn.TraderKind != null)
+						{
+							result = pawn.TraderKind;
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = null;
+					break;
 				}
-				return null;
+				return result;
 			}
 		}
 
@@ -33,19 +43,29 @@ namespace RimWorld.Planet
 			get
 			{
 				List<Thing> inv = CaravanInventoryUtility.AllInventoryItems(this.caravan);
-				for (int j = 0; j < inv.Count; j++)
+				int j = 0;
+				if (j < inv.Count)
 				{
 					yield return inv[j];
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 				List<Pawn> pawns = this.caravan.PawnsListForReading;
-				for (int i = 0; i < pawns.Count; i++)
+				int i = 0;
+				Pawn p;
+				while (true)
 				{
-					Pawn p = pawns[i];
-					if (!this.caravan.IsOwner(p) && (!p.RaceProps.packAnimal || p.inventory == null || p.inventory.innerContainer.Count <= 0) && !this.soldPrisoners.Contains(p))
+					if (i < pawns.Count)
 					{
-						yield return (Thing)p;
+						p = pawns[i];
+						if (!this.caravan.IsOwner(p) && (!p.RaceProps.packAnimal || p.inventory == null || p.inventory.innerContainer.Count <= 0) && !this.soldPrisoners.Contains(p))
+							break;
+						i++;
+						continue;
 					}
+					yield break;
 				}
+				yield return (Thing)p;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -90,27 +110,34 @@ namespace RimWorld.Planet
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
 			Caravan playerCaravan = playerNegotiator.GetCaravan();
-			List<Thing>.Enumerator enumerator = CaravanInventoryUtility.AllInventoryItems(playerCaravan).GetEnumerator();
-			try
+			using (List<Thing>.Enumerator enumerator = CaravanInventoryUtility.AllInventoryItems(playerCaravan).GetEnumerator())
 			{
-				while (enumerator.MoveNext())
+				if (enumerator.MoveNext())
 				{
 					Thing item = enumerator.Current;
 					yield return item;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			List<Pawn> pawns = playerCaravan.PawnsListForReading;
-			for (int i = 0; i < pawns.Count; i++)
+			int i = 0;
+			while (true)
 			{
-				if (!playerCaravan.IsOwner(pawns[i]))
+				if (i < pawns.Count)
 				{
-					yield return (Thing)pawns[i];
+					if (playerCaravan.IsOwner(pawns[i]))
+					{
+						i++;
+						continue;
+					}
+					break;
 				}
+				yield break;
 			}
+			yield return (Thing)pawns[i];
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_015c:
+			/*Error near IL_015d: Unexpected return in MoveNext()*/;
 		}
 
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)

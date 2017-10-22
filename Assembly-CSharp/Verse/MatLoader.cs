@@ -15,26 +15,17 @@ namespace Verse
 			{
 				int seed = 0;
 				seed = Gen.HashCombine(seed, this.path);
-				return Gen.HashCombine(seed, this.renderQueue);
+				return Gen.HashCombineInt(seed, this.renderQueue);
 			}
 
 			public override bool Equals(object obj)
 			{
-				if (!(obj is Request))
-				{
-					return false;
-				}
-				return this.Equals((Request)obj);
+				return obj is Request && this.Equals((Request)obj);
 			}
 
 			public bool Equals(Request other)
 			{
 				return other.path == this.path && other.renderQueue == this.renderQueue;
-			}
-
-			public override string ToString()
-			{
-				return "MatLoader.Request(" + this.path + ", " + this.renderQueue + ")";
 			}
 
 			public static bool operator ==(Request lhs, Request rhs)
@@ -45,6 +36,11 @@ namespace Verse
 			public static bool operator !=(Request lhs, Request rhs)
 			{
 				return !(lhs == rhs);
+			}
+
+			public override string ToString()
+			{
+				return "MatLoader.Request(" + this.path + ", " + this.renderQueue + ")";
 			}
 		}
 

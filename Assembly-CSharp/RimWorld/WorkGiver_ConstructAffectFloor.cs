@@ -23,25 +23,39 @@ namespace RimWorld
 		{
 			if (pawn.Faction == Faction.OfPlayer)
 			{
-				foreach (Designation item in pawn.Map.designationManager.SpawnedDesignationsOfDef(this.DesDef))
+				using (IEnumerator<Designation> enumerator = pawn.Map.designationManager.SpawnedDesignationsOfDef(this.DesDef).GetEnumerator())
 				{
-					yield return item.target.Cell;
+					if (enumerator.MoveNext())
+					{
+						Designation des = enumerator.Current;
+						yield return des.target.Cell;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
+			yield break;
+			IL_00f6:
+			/*Error near IL_00f7: Unexpected return in MoveNext()*/;
 		}
 
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c)
 		{
-			if (pawn.Map.designationManager.DesignationAt(c, this.DesDef) != null)
+			bool result;
+			if (!c.IsForbidden(pawn) && pawn.Map.designationManager.DesignationAt(c, this.DesDef) != null)
 			{
+				LocalTargetInfo target = c;
 				ReservationLayerDef floor = ReservationLayerDefOf.Floor;
-				if (!pawn.CanReserveAndReach(c, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, floor, false))
-					goto IL_003e;
-				return true;
+				if (!pawn.CanReserve(target, 1, -1, floor, false))
+					goto IL_0048;
+				result = true;
+				goto IL_0057;
 			}
-			goto IL_003e;
-			IL_003e:
-			return false;
+			goto IL_0048;
+			IL_0057:
+			return result;
+			IL_0048:
+			result = false;
+			goto IL_0057;
 		}
 	}
 }

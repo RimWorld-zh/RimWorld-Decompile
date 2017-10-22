@@ -8,15 +8,15 @@ namespace RimWorld
 {
 	public class CompLongRangeMineralScanner : ThingComp
 	{
-		private const float NoSitePartChance = 0.6f;
-
 		private CompPowerTrader powerComp;
 
 		private List<Pair<Vector3, float>> otherActiveMineralScanners = new List<Pair<Vector3, float>>();
 
 		private float cachedEffectiveAreaPct;
 
-		private List<SitePartDef> possibleSitePartsInt = new List<SitePartDef>();
+		private const float NoSitePartChance = 0.6f;
+
+		private static readonly string MineralScannerPreciousLumpThreatTag = "MineralScannerPreciousLumpThreat";
 
 		public CompProperties_LongRangeMineralScanner Props
 		{
@@ -26,31 +26,11 @@ namespace RimWorld
 			}
 		}
 
-		private List<SitePartDef> PossibleSiteParts
-		{
-			get
-			{
-				this.possibleSitePartsInt.Clear();
-				this.possibleSitePartsInt.Add(SitePartDefOf.Manhunters);
-				this.possibleSitePartsInt.Add(SitePartDefOf.Outpost);
-				this.possibleSitePartsInt.Add(SitePartDefOf.Turrets);
-				return this.possibleSitePartsInt;
-			}
-		}
-
 		public bool Active
 		{
 			get
 			{
-				if (!base.parent.Spawned)
-				{
-					return false;
-				}
-				if (this.powerComp != null && !this.powerComp.PowerOn)
-				{
-					return false;
-				}
-				return base.parent.Faction == Faction.OfPlayer;
+				return base.parent.Spawned && (this.powerComp == null || this.powerComp.PowerOn) && base.parent.Faction == Faction.OfPlayer;
 			}
 		}
 
@@ -60,11 +40,7 @@ namespace RimWorld
 			{
 				CompProperties_LongRangeMineralScanner props = this.Props;
 				float effectiveAreaPct = this.EffectiveAreaPct;
-				if (effectiveAreaPct <= 0.0010000000474974513)
-				{
-					return -1f;
-				}
-				return props.mtbDays / effectiveAreaPct;
+				return (float)((!(effectiveAreaPct <= 0.0010000000474974513)) ? (props.mtbDays / effectiveAreaPct) : -1.0);
 			}
 		}
 
@@ -159,15 +135,16 @@ namespace RimWorld
 
 		private void FoundMinerals()
 		{
-			int tile = default(int);
-			if (TileFinder.TryFindNewSiteTile(out tile))
+			int tile = base.parent.Tile;
+			int tile2 = default(int);
+			if (TileFinder.TryFindNewSiteTile(out tile2, 8, 30, false, true, tile))
 			{
-				Site site = (!Rand.Chance(0.6f)) ? SiteMaker.TryMakeRandomSite(SiteCoreDefOf.PreciousLump, this.PossibleSiteParts, null, true, null) : SiteMaker.TryMakeSite(SiteCoreDefOf.PreciousLump, null, true, null);
+				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.PreciousLump, (!Rand.Chance(0.6f)) ? CompLongRangeMineralScanner.MineralScannerPreciousLumpThreatTag : null, null, true, null);
 				if (site != null)
 				{
-					site.Tile = tile;
+					site.Tile = tile2;
 					Find.WorldObjects.Add(site);
-					Find.LetterStack.ReceiveLetter("LetterLabelFoundPreciousLump".Translate(), "LetterFoundPreciousLump".Translate(), LetterDefOf.Good, (WorldObject)site, (string)null);
+					Find.LetterStack.ReceiveLetter("LetterLabelFoundPreciousLump".Translate(), "LetterFoundPreciousLump".Translate(), LetterDefOf.PositiveEvent, (WorldObject)site, (string)null);
 				}
 			}
 		}
@@ -195,44 +172,37 @@ namespace RimWorld
 
 		private bool InterruptsMe(CompLongRangeMineralScanner otherScanner)
 		{
-			if (otherScanner == this)
-			{
-				return false;
-			}
-			if (!otherScanner.Active)
-			{
-				return false;
-			}
-			if (this.Props.mtbDays != otherScanner.Props.mtbDays)
-			{
-				return otherScanner.Props.mtbDays < this.Props.mtbDays;
-			}
-			return otherScanner.parent.thingIDNumber < base.parent.thingIDNumber;
+			return otherScanner != this && otherScanner.Active && ((this.Props.mtbDays == otherScanner.Props.mtbDays) ? (otherScanner.parent.thingIDNumber < base.parent.thingIDNumber) : (otherScanner.Props.mtbDays < this.Props.mtbDays));
 		}
 
 		public override string CompInspectStringExtra()
 		{
+			string result;
 			if (this.Active)
 			{
 				this.RecacheEffectiveAreaPct();
-				return "LongRangeMineralScannerEfficiency".Translate(this.EffectiveAreaPct.ToStringPercent());
+				result = "LongRangeMineralScannerEfficiency".Translate(this.EffectiveAreaPct.ToStringPercent());
 			}
-			return (string)null;
+			else
+			{
+				result = (string)null;
+			}
+			return result;
 		}
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			if (Prefs.DevMode)
+			if (!Prefs.DevMode)
+				yield break;
+			yield return (Gizmo)new Command_Action
 			{
-				yield return (Gizmo)new Command_Action
+				defaultLabel = "Dev: Find resources now",
+				action = (Action)delegate
 				{
-					defaultLabel = "Dev: Find resources now",
-					action = (Action)delegate
-					{
-						((_003CCompGetGizmosExtra_003Ec__Iterator167)/*Error near IL_004c: stateMachine*/)._003C_003Ef__this.FoundMinerals();
-					}
-				};
-			}
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_004e: stateMachine*/)._0024this.FoundMinerals();
+				}
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

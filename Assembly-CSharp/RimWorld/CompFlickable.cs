@@ -8,12 +8,6 @@ namespace RimWorld
 {
 	public class CompFlickable : ThingComp
 	{
-		private const string OffGraphicSuffix = "_Off";
-
-		public const string FlickedOnSignal = "FlickedOn";
-
-		public const string FlickedOffSignal = "FlickedOff";
-
 		private bool switchOnInt = true;
 
 		private bool wantSwitchOn = true;
@@ -21,6 +15,12 @@ namespace RimWorld
 		private Graphic offGraphic;
 
 		private Texture2D cachedCommandTex;
+
+		private const string OffGraphicSuffix = "_Off";
+
+		public const string FlickedOnSignal = "FlickedOn";
+
+		public const string FlickedOffSignal = "FlickedOff";
 
 		private CompProperties_Flickable Props
 		{
@@ -73,15 +73,20 @@ namespace RimWorld
 		{
 			get
 			{
+				Graphic defaultGraphic;
 				if (this.SwitchIsOn)
 				{
-					return base.parent.DefaultGraphic;
+					defaultGraphic = base.parent.DefaultGraphic;
 				}
-				if (this.offGraphic == null)
+				else
 				{
-					this.offGraphic = GraphicDatabase.Get(base.parent.def.graphicData.graphicClass, base.parent.def.graphicData.texPath + "_Off", ShaderDatabase.ShaderFromType(base.parent.def.graphicData.shaderType), base.parent.def.graphicData.drawSize, base.parent.DrawColor, base.parent.DrawColorTwo);
+					if (this.offGraphic == null)
+					{
+						this.offGraphic = GraphicDatabase.Get(base.parent.def.graphicData.graphicClass, base.parent.def.graphicData.texPath + "_Off", ShaderDatabase.ShaderFromType(base.parent.def.graphicData.shaderType), base.parent.def.graphicData.drawSize, base.parent.DrawColor, base.parent.DrawColorTwo);
+					}
+					defaultGraphic = this.offGraphic;
 				}
-				return this.offGraphic;
+				return defaultGraphic;
 			}
 		}
 
@@ -111,26 +116,33 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			foreach (Gizmo item in base.CompGetGizmosExtra())
+			using (IEnumerator<Gizmo> enumerator = this._003CCompGetGizmosExtra_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
-			}
-			if (base.parent.Faction == Faction.OfPlayer)
-			{
-				yield return (Gizmo)new Command_Toggle
+				if (enumerator.MoveNext())
 				{
-					hotKey = KeyBindingDefOf.CommandTogglePower,
-					icon = this.CommandTex,
-					defaultLabel = this.Props.commandLabelKey.Translate(),
-					defaultDesc = this.Props.commandDescKey.Translate(),
-					isActive = (Func<bool>)(() => ((_003CCompGetGizmosExtra_003Ec__IteratorB4)/*Error near IL_013b: stateMachine*/)._003C_003Ef__this.wantSwitchOn),
-					toggleAction = (Action)delegate
-					{
-						((_003CCompGetGizmosExtra_003Ec__IteratorB4)/*Error near IL_0152: stateMachine*/)._003C_003Ef__this.wantSwitchOn = !((_003CCompGetGizmosExtra_003Ec__IteratorB4)/*Error near IL_0152: stateMachine*/)._003C_003Ef__this.wantSwitchOn;
-						FlickUtility.UpdateFlickDesignation(((_003CCompGetGizmosExtra_003Ec__IteratorB4)/*Error near IL_0152: stateMachine*/)._003C_003Ef__this.parent);
-					}
-				};
+					Gizmo c = enumerator.Current;
+					yield return c;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			if (base.parent.Faction != Faction.OfPlayer)
+				yield break;
+			yield return (Gizmo)new Command_Toggle
+			{
+				hotKey = KeyBindingDefOf.CommandTogglePower,
+				icon = this.CommandTex,
+				defaultLabel = this.Props.commandLabelKey.Translate(),
+				defaultDesc = this.Props.commandDescKey.Translate(),
+				isActive = (Func<bool>)(() => ((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_014a: stateMachine*/)._0024this.wantSwitchOn),
+				toggleAction = (Action)delegate
+				{
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0161: stateMachine*/)._0024this.wantSwitchOn = !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0161: stateMachine*/)._0024this.wantSwitchOn;
+					FlickUtility.UpdateFlickDesignation(((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0161: stateMachine*/)._0024this.parent);
+				}
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_019c:
+			/*Error near IL_019d: Unexpected return in MoveNext()*/;
 		}
 	}
 }

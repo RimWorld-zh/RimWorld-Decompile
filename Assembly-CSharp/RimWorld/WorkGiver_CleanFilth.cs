@@ -13,7 +13,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return PathEndMode.OnCell;
+				return PathEndMode.Touch;
 			}
 		}
 
@@ -40,28 +40,29 @@ namespace RimWorld
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
+			bool result;
 			if (pawn.Faction != Faction.OfPlayer)
 			{
-				return false;
+				result = false;
 			}
-			Filth filth = t as Filth;
-			if (filth == null)
+			else
 			{
-				return false;
+				Filth filth = t as Filth;
+				if (filth == null)
+				{
+					result = false;
+				}
+				else if (!((Area)filth.Map.areaManager.Home)[filth.Position])
+				{
+					result = false;
+				}
+				else
+				{
+					LocalTargetInfo target = t;
+					result = ((byte)(pawn.CanReserve(target, 1, -1, null, forced) ? ((filth.TicksSinceThickened >= this.MinTicksSinceThickened) ? 1 : 0) : 0) != 0);
+				}
 			}
-			if (!((Area)filth.Map.areaManager.Home)[filth.Position])
-			{
-				return false;
-			}
-			if (!pawn.CanReserveAndReach(t, PathEndMode.ClosestTouch, pawn.NormalMaxDanger(), 1, -1, null, forced))
-			{
-				return false;
-			}
-			if (filth.TicksSinceThickened < this.MinTicksSinceThickened)
-			{
-				return false;
-			}
-			return true;
+			return result;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

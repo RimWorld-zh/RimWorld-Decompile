@@ -14,11 +14,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (base.Spawned && base.Map.gameConditionManager.ConditionIsActive(GameConditionDefOf.SolarFlare))
-				{
-					return false;
-				}
-				return this.powerComp.PowerOn;
+				return (!base.Spawned || !base.Map.gameConditionManager.ConditionIsActive(GameConditionDefOf.SolarFlare)) && this.powerComp.PowerOn;
 			}
 		}
 
@@ -40,51 +36,57 @@ namespace RimWorld
 
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn myPawn)
 		{
+			IEnumerable<FloatMenuOption> result;
 			if (!myPawn.CanReach((Thing)this, PathEndMode.InteractionCell, Danger.Some, false, TraverseMode.ByPawn))
 			{
 				FloatMenuOption item = new FloatMenuOption("CannotUseNoPath".Translate(), null, MenuOptionPriority.Default, null, null, 0f, null, null);
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
 				list.Add(item);
-				return list;
+				result = list;
 			}
-			if (base.Spawned && base.Map.gameConditionManager.ConditionIsActive(GameConditionDefOf.SolarFlare))
+			else if (base.Spawned && base.Map.gameConditionManager.ConditionIsActive(GameConditionDefOf.SolarFlare))
 			{
 				FloatMenuOption item2 = new FloatMenuOption("CannotUseSolarFlare".Translate(), null, MenuOptionPriority.Default, null, null, 0f, null, null);
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
 				list.Add(item2);
-				return list;
+				result = list;
 			}
-			if (!this.powerComp.PowerOn)
+			else if (!this.powerComp.PowerOn)
 			{
 				FloatMenuOption item3 = new FloatMenuOption("CannotUseNoPower".Translate(), null, MenuOptionPriority.Default, null, null, 0f, null, null);
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
 				list.Add(item3);
-				return list;
+				result = list;
 			}
-			if (!myPawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking))
+			else if (!myPawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking))
 			{
 				FloatMenuOption item4 = new FloatMenuOption("CannotUseReason".Translate("IncapableOfCapacity".Translate(PawnCapacityDefOf.Talking.label)), null, MenuOptionPriority.Default, null, null, 0f, null, null);
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
 				list.Add(item4);
-				return list;
+				result = list;
 			}
-			if (!this.CanUseCommsNow)
+			else if (myPawn.skills.GetSkill(SkillDefOf.Social).TotallyDisabled)
 			{
-				Log.Error(myPawn + " could not use comm console for unknown reason.");
-				FloatMenuOption item5 = new FloatMenuOption("Cannot use now", null, MenuOptionPriority.Default, null, null, 0f, null, null);
+				FloatMenuOption item5 = new FloatMenuOption("CannotPrioritizeWorkTypeDisabled".Translate(SkillDefOf.Social.LabelCap), null, MenuOptionPriority.Default, null, null, 0f, null, null);
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
 				list.Add(item5);
-				return list;
+				result = list;
 			}
-			List<FloatMenuOption> list2 = new List<FloatMenuOption>();
-			IEnumerable<ICommunicable> enumerable = myPawn.Map.passingShipManager.passingShips.Cast<ICommunicable>().Concat(Find.FactionManager.AllFactionsInViewOrder.Cast<ICommunicable>());
-			using (IEnumerator<ICommunicable> enumerator = enumerable.GetEnumerator())
+			else if (!this.CanUseCommsNow)
 			{
-				ICommunicable commTarget;
-				while (enumerator.MoveNext())
+				Log.Error(myPawn + " could not use comm console for unknown reason.");
+				FloatMenuOption item6 = new FloatMenuOption("Cannot use now", null, MenuOptionPriority.Default, null, null, 0f, null, null);
+				List<FloatMenuOption> list = new List<FloatMenuOption>();
+				list.Add(item6);
+				result = list;
+			}
+			else
+			{
+				List<FloatMenuOption> list2 = new List<FloatMenuOption>();
+				IEnumerable<ICommunicable> enumerable = myPawn.Map.passingShipManager.passingShips.Cast<ICommunicable>().Concat(Find.FactionManager.AllFactionsInViewOrder.Cast<ICommunicable>());
+				foreach (ICommunicable item7 in enumerable)
 				{
-					commTarget = enumerator.Current;
-					ICommunicable localCommTarget = commTarget;
+					ICommunicable localCommTarget = item7;
 					string text = "CallOnRadio".Translate(localCommTarget.GetCallLabel());
 					Faction faction = localCommTarget as Faction;
 					if (faction != null)
@@ -93,21 +95,21 @@ namespace RimWorld
 						{
 							if (Building_CommsConsole.LeaderIsAvailableToTalk(faction))
 							{
-								goto IL_02fe;
+								goto IL_0365;
 							}
 							string str = (faction.leader == null) ? "LeaderUnavailableNoLeader".Translate() : "LeaderUnavailable".Translate(faction.leader.LabelShort);
 							list2.Add(new FloatMenuOption(text + " (" + str + ")", null, MenuOptionPriority.Default, null, null, 0f, null, null));
 						}
 						continue;
 					}
-					goto IL_02fe;
-					IL_02fe:
+					goto IL_0365;
+					IL_0365:
 					Action action = (Action)delegate()
 					{
 						ICommunicable commTarget2 = localCommTarget;
-						if (commTarget is TradeShip && !Building_OrbitalTradeBeacon.AllPowered(base.Map).Any())
+						if (item7 is TradeShip && !Building_OrbitalTradeBeacon.AllPowered(base.Map).Any())
 						{
-							Messages.Message("MessageNeedBeaconToTradeWithShip".Translate(), (Thing)this, MessageSound.RejectInput);
+							Messages.Message("MessageNeedBeaconToTradeWithShip".Translate(), (Thing)this, MessageTypeDefOf.RejectInput);
 						}
 						else
 						{
@@ -119,21 +121,14 @@ namespace RimWorld
 					};
 					list2.Add(FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(text, action, MenuOptionPriority.InitiateSocial, null, null, 0f, null, null), myPawn, (Thing)this, "ReservedBy"));
 				}
-				return list2;
+				result = list2;
 			}
+			return result;
 		}
 
 		public static bool LeaderIsAvailableToTalk(Faction fac)
 		{
-			if (fac.leader == null)
-			{
-				return false;
-			}
-			if (fac.leader.Spawned && (fac.leader.Downed || fac.leader.IsPrisoner || !fac.leader.Awake() || fac.leader.InMentalState))
-			{
-				return false;
-			}
-			return true;
+			return (byte)((fac.leader != null) ? ((!fac.leader.Spawned || (!fac.leader.Downed && !fac.leader.IsPrisoner && fac.leader.Awake() && !fac.leader.InMentalState)) ? 1 : 0) : 0) != 0;
 		}
 	}
 }

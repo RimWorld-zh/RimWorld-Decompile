@@ -6,11 +6,11 @@ namespace RimWorld
 {
 	public class DragBox
 	{
-		private const float DragBoxMinDiagonal = 0.5f;
-
 		public bool active;
 
 		public Vector3 start;
+
+		private const float DragBoxMinDiagonal = 0.5f;
 
 		public float LeftX
 		{
@@ -106,29 +106,33 @@ namespace RimWorld
 
 		public bool Contains(Thing t)
 		{
+			bool result;
 			if (t is Pawn)
 			{
-				return this.Contains((t as Pawn).Drawer.DrawPos);
+				result = this.Contains((t as Pawn).Drawer.DrawPos);
 			}
-			CellRect.CellRectIterator iterator = t.OccupiedRect().GetIterator();
-			while (!iterator.Done())
+			else
 			{
-				if (this.Contains(iterator.Current.ToVector3Shifted()))
+				CellRect.CellRectIterator iterator = t.OccupiedRect().GetIterator();
+				while (!iterator.Done())
 				{
-					return true;
+					if (this.Contains(iterator.Current.ToVector3Shifted()))
+						goto IL_0057;
+					iterator.MoveNext();
 				}
-				iterator.MoveNext();
+				result = false;
 			}
-			return false;
+			goto IL_0079;
+			IL_0057:
+			result = true;
+			goto IL_0079;
+			IL_0079:
+			return result;
 		}
 
 		public bool Contains(Vector3 v)
 		{
-			if (v.x + 0.5 > this.LeftX && v.x - 0.5 < this.RightX && v.z + 0.5 > this.BotZ && v.z - 0.5 < this.TopZ)
-			{
-				return true;
-			}
-			return false;
+			return (byte)((v.x + 0.5 > this.LeftX && v.x - 0.5 < this.RightX && v.z + 0.5 > this.BotZ && v.z - 0.5 < this.TopZ) ? 1 : 0) != 0;
 		}
 	}
 }

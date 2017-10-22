@@ -51,7 +51,7 @@ namespace RimWorld
 				{
 					this.keyPrefsData.EraseConflictingBindingsForKeyCode(this.keyDef, Event.current.keyCode, (Action<KeyBindingDef>)delegate(KeyBindingDef oldDef)
 					{
-						Messages.Message("KeyBindingOverwritten".Translate(oldDef.label), MessageSound.Standard);
+						Messages.Message("KeyBindingOverwritten".Translate(oldDef.label), MessageTypeDefOf.TaskCompletion);
 					});
 					this.keyPrefsData.SetBinding(this.keyDef, this.slot, Event.current.keyCode);
 				}

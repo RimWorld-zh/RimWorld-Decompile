@@ -22,6 +22,11 @@ namespace RimWorld
 			}
 		}
 
+		public override Danger MaxPathDanger(Pawn pawn)
+		{
+			return Danger.Deadly;
+		}
+
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			return pawn.Map.listerBuildingsRepairable.RepairableBuildings(pawn.Faction);
@@ -35,44 +40,38 @@ namespace RimWorld
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Building building = t as Building;
+			bool result;
 			if (building == null)
 			{
-				return false;
+				result = false;
 			}
-			if (!pawn.Map.listerBuildingsRepairable.Contains(pawn.Faction, building))
+			else if (!pawn.Map.listerBuildingsRepairable.Contains(pawn.Faction, building))
 			{
-				return false;
+				result = false;
 			}
-			if (!building.def.building.repairable)
+			else if (!building.def.building.repairable)
 			{
-				return false;
+				result = false;
 			}
-			if (t.Faction != pawn.Faction)
+			else if (t.Faction != pawn.Faction)
 			{
-				return false;
+				result = false;
 			}
-			if (pawn.Faction == Faction.OfPlayer && !((Area)pawn.Map.areaManager.Home)[t.Position])
+			else if (pawn.Faction == Faction.OfPlayer && !((Area)pawn.Map.areaManager.Home)[t.Position])
 			{
 				JobFailReason.Is(WorkGiver_FixBrokenDownBuilding.NotInHomeAreaTrans);
-				return false;
+				result = false;
 			}
-			if (t.def.useHitPoints && t.HitPoints != t.MaxHitPoints)
+			else if (!t.def.useHitPoints || t.HitPoints == t.MaxHitPoints)
 			{
-				if (!pawn.CanReserve((Thing)building, 1, -1, null, forced))
-				{
-					return false;
-				}
-				if (building.Map.designationManager.DesignationOn(building, DesignationDefOf.Deconstruct) != null)
-				{
-					return false;
-				}
-				if (building.IsBurning())
-				{
-					return false;
-				}
-				return true;
+				result = false;
 			}
-			return false;
+			else
+			{
+				LocalTargetInfo target = (Thing)building;
+				result = ((byte)(pawn.CanReserve(target, 1, -1, null, forced) ? ((building.Map.designationManager.DesignationOn(building, DesignationDefOf.Deconstruct) == null) ? ((!building.IsBurning()) ? 1 : 0) : 0) : 0) != 0);
+			}
+			return result;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

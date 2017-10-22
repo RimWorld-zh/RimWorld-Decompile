@@ -16,23 +16,33 @@ namespace RimWorld
 
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			foreach (Designation item in pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Open))
+			using (IEnumerator<Designation> enumerator = pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Open).GetEnumerator())
 			{
-				yield return item.target.Thing;
+				if (enumerator.MoveNext())
+				{
+					Designation des = enumerator.Current;
+					yield return des.target.Thing;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_00d6:
+			/*Error near IL_00d7: Unexpected return in MoveNext()*/;
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
+			bool result;
 			if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Open) == null)
 			{
-				return false;
+				result = false;
 			}
-			if (!pawn.CanReserve(t, 1, -1, null, forced))
+			else
 			{
-				return false;
+				LocalTargetInfo target = t;
+				result = ((byte)(pawn.CanReserve(target, 1, -1, null, forced) ? 1 : 0) != 0);
 			}
-			return true;
+			return result;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

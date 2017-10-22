@@ -4,6 +4,8 @@ namespace RimWorld
 	{
 		public bool psychicSensitiveTargetsOnly;
 
+		public bool fleshCorpsesOnly;
+
 		public CompProperties_Targetable()
 		{
 			base.compClass = typeof(CompTargetable);

@@ -14,6 +14,14 @@ namespace RimWorld
 			}
 		}
 
+		public override bool AllowUnreachable
+		{
+			get
+			{
+				return true;
+			}
+		}
+
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
 		{
 			return pawn.Map.areaManager.BuildRoof.ActiveCells;
@@ -21,50 +29,41 @@ namespace RimWorld
 
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c)
 		{
+			bool result;
 			if (!((Area)pawn.Map.areaManager.BuildRoof)[c])
 			{
-				return false;
+				result = false;
 			}
-			if (c.Roofed(pawn.Map))
+			else if (c.Roofed(pawn.Map))
 			{
-				return false;
+				result = false;
 			}
-			ReservationLayerDef ceiling = ReservationLayerDefOf.Ceiling;
-			if (!pawn.CanReserve(c, 1, -1, ceiling, false))
+			else if (c.IsForbidden(pawn))
 			{
-				return false;
+				result = false;
 			}
-			if (!pawn.CanReach(c, PathEndMode.Touch, pawn.NormalMaxDanger(), false, TraverseMode.ByPawn) && this.BuildingToTouchToBeAbleToBuildRoof(c, pawn) == null)
+			else
 			{
-				return false;
+				LocalTargetInfo target = c;
+				ReservationLayerDef ceiling = ReservationLayerDefOf.Ceiling;
+				result = ((byte)(pawn.CanReserve(target, 1, -1, ceiling, false) ? ((pawn.CanReach(c, PathEndMode.Touch, pawn.NormalMaxDanger(), false, TraverseMode.ByPawn) || this.BuildingToTouchToBeAbleToBuildRoof(c, pawn) != null) ? (RoofCollapseUtility.WithinRangeOfRoofHolder(c, pawn.Map) ? (RoofCollapseUtility.ConnectedToRoofHolder(c, pawn.Map, true) ? 1 : 0) : 0) : 0) : 0) != 0);
 			}
-			if (!RoofCollapseUtility.WithinRangeOfRoofHolder(c, pawn.Map))
-			{
-				return false;
-			}
-			if (!RoofCollapseUtility.ConnectedToRoofHolder(c, pawn.Map, true))
-			{
-				return false;
-			}
-			return true;
+			return result;
 		}
 
 		private Building BuildingToTouchToBeAbleToBuildRoof(IntVec3 c, Pawn pawn)
 		{
+			Building result;
 			if (c.Standable(pawn.Map))
 			{
-				return null;
+				result = null;
 			}
-			Building edifice = c.GetEdifice(pawn.Map);
-			if (edifice == null)
+			else
 			{
-				return null;
+				Building edifice = c.GetEdifice(pawn.Map);
+				result = ((edifice != null) ? (pawn.CanReach((Thing)edifice, PathEndMode.Touch, pawn.NormalMaxDanger(), false, TraverseMode.ByPawn) ? edifice : null) : null);
 			}
-			if (!pawn.CanReach((Thing)edifice, PathEndMode.Touch, pawn.NormalMaxDanger(), false, TraverseMode.ByPawn))
-			{
-				return null;
-			}
-			return edifice;
+			return result;
 		}
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 c)

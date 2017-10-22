@@ -56,7 +56,7 @@ namespace RimWorld
 			{
 				PassingShipManager.tmpPassingShips[i].Depart();
 			}
-			Messages.Message("All passing ships sent away.", MessageSound.Standard);
+			Messages.Message("All passing ships sent away.", MessageTypeDefOf.TaskCompletion);
 		}
 	}
 }

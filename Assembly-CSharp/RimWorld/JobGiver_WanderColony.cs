@@ -19,6 +19,7 @@ namespace RimWorld
 
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
+			IntVec3 result;
 			if (pawn.RaceProps.Humanlike)
 			{
 				JobGiver_WanderColony.gatherSpots.Clear();
@@ -32,47 +33,58 @@ namespace RimWorld
 				}
 				if (JobGiver_WanderColony.gatherSpots.Count > 0)
 				{
-					return JobGiver_WanderColony.gatherSpots.RandomElement();
+					result = JobGiver_WanderColony.gatherSpots.RandomElement();
+					goto IL_0272;
 				}
 			}
 			List<Building> allBuildingsColonist = pawn.Map.listerBuildings.allBuildingsColonist;
 			if (allBuildingsColonist.Count == 0)
 			{
 				Pawn pawn2 = default(Pawn);
-				if ((from c in pawn.Map.mapPawns.FreeColonistsSpawned
+				result = ((!(from c in pawn.Map.mapPawns.FreeColonistsSpawned
 				where !c.Position.IsForbidden(pawn) && pawn.CanReach(c.Position, PathEndMode.Touch, Danger.None, false, TraverseMode.ByPawn)
-				select c).TryRandomElement<Pawn>(out pawn2))
-				{
-					return pawn2.Position;
-				}
-				return pawn.Position;
+				select c).TryRandomElement<Pawn>(out pawn2)) ? pawn.Position : pawn2.Position);
+				goto IL_0272;
 			}
 			int num = 0;
-			goto IL_0142;
-			IL_0142:
+			goto IL_0150;
+			IL_0272:
+			return result;
+			IL_026d:
+			goto IL_0150;
+			IL_0150:
 			IntVec3 intVec;
 			while (true)
 			{
 				num++;
-				if (num > 20)
+				if (num <= 20)
 				{
-					return pawn.Position;
-				}
-				Building building = allBuildingsColonist.RandomElement();
-				if (!building.Position.IsForbidden(pawn) && ((Area)pawn.Map.areaManager.Home)[building.Position])
-				{
+					Building building = allBuildingsColonist.RandomElement();
+					if (building.Position.IsForbidden(pawn))
+						continue;
+					if (!((Area)pawn.Map.areaManager.Home)[building.Position])
+						continue;
 					int num2 = 15 + num * 2;
-					if ((pawn.Position - building.Position).LengthHorizontalSquared <= num2 * num2)
-					{
-						intVec = GenAdjFast.AdjacentCells8Way((Thing)building).RandomElement();
-						if (intVec.Standable(building.Map) && !intVec.IsForbidden(pawn) && pawn.CanReach(intVec, PathEndMode.OnCell, Danger.None, false, TraverseMode.ByPawn) && !intVec.IsInPrisonCell(pawn.Map))
-							break;
-					}
+					if ((pawn.Position - building.Position).LengthHorizontalSquared > num2 * num2)
+						continue;
+					intVec = GenAdjFast.AdjacentCells8Way((Thing)building).RandomElement();
+					if (!intVec.Standable(building.Map))
+						continue;
+					if (intVec.IsForbidden(pawn))
+						continue;
+					if (!pawn.CanReach(intVec, PathEndMode.OnCell, Danger.None, false, TraverseMode.ByPawn))
+						continue;
+					if (intVec.IsInPrisonCell(pawn.Map))
+						continue;
+					goto IL_0265;
 				}
+				break;
 			}
-			return intVec;
-			IL_0258:
-			goto IL_0142;
+			result = pawn.Position;
+			goto IL_0272;
+			IL_0265:
+			result = intVec;
+			goto IL_0272;
 		}
 	}
 }

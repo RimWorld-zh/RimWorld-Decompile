@@ -10,12 +10,16 @@ namespace Verse.AI.Group
 				{
 					Pawn pawn = lord.ownedPawns[i];
 					if (pawn.Spawned && !pawn.Dead && !pawn.Downed && !pawn.CanReachMapEdge())
-					{
-						return true;
-					}
+						goto IL_006a;
 				}
 			}
-			return false;
+			bool result = false;
+			goto IL_008f;
+			IL_008f:
+			return result;
+			IL_006a:
+			result = true;
+			goto IL_008f;
 		}
 	}
 }

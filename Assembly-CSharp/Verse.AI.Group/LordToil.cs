@@ -59,14 +59,24 @@ namespace Verse.AI.Group
 		{
 			get
 			{
-				for (int i = 0; i < this.failConditions.Count; i++)
+				int num = 0;
+				bool result;
+				while (true)
 				{
-					if (this.failConditions[i]())
+					if (num < this.failConditions.Count)
 					{
-						return true;
+						if (this.failConditions[num]())
+						{
+							result = true;
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = false;
+					break;
 				}
-				return false;
+				return result;
 			}
 		}
 

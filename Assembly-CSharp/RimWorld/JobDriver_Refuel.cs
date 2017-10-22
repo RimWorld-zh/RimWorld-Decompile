@@ -17,7 +17,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.CurJob.GetTarget(TargetIndex.A).Thing;
+				return base.job.GetTarget(TargetIndex.A).Thing;
+			}
+		}
+
+		protected CompRefuelable RefuelableComp
+		{
+			get
+			{
+				return this.Refuelable.TryGetComp<CompRefuelable>();
 			}
 		}
 
@@ -25,8 +33,13 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.CurJob.GetTarget(TargetIndex.B).Thing;
+				return base.job.GetTarget(TargetIndex.B).Thing;
 			}
+		}
+
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve(this.Refuelable, base.job, 1, -1, null) && base.pawn.Reserve(this.Fuel, base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -34,26 +47,28 @@ namespace RimWorld
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 			this.FailOn((Func<bool>)delegate
 			{
-				ThingWithComps thingWithComps = ((_003CMakeNewToils_003Ec__Iterator39)/*Error near IL_0050: stateMachine*/)._003C_003Ef__this.pawn.CurJob.GetTarget(TargetIndex.A).Thing as ThingWithComps;
+				ThingWithComps thingWithComps = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0051: stateMachine*/)._0024this.job.GetTarget(TargetIndex.A).Thing as ThingWithComps;
+				bool result;
 				if (thingWithComps != null)
 				{
 					CompFlickable comp = thingWithComps.GetComp<CompFlickable>();
 					if (comp != null && !comp.SwitchIsOn)
 					{
-						return true;
+						result = true;
+						goto IL_004e;
 					}
 				}
-				return false;
+				result = false;
+				goto IL_004e;
+				IL_004e:
+				return result;
 			});
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
-			Toil reserveFuel = Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
-			yield return reserveFuel;
-			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.ClosestTouch).FailOnDespawnedNullOrForbidden(TargetIndex.B).FailOnSomeonePhysicallyInteracting(TargetIndex.B);
-			yield return Toils_Haul.StartCarryThing(TargetIndex.B, false, true).FailOnDestroyedNullOrForbidden(TargetIndex.B);
-			yield return Toils_Haul.CheckForGetOpportunityDuplicate(reserveFuel, TargetIndex.B, TargetIndex.None, true, null);
-			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-			yield return Toils_General.Wait(240).FailOnDestroyedNullOrForbidden(TargetIndex.B).FailOnDestroyedNullOrForbidden(TargetIndex.A).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
-			yield return Toils_Refuel.FinalizeRefueling(TargetIndex.A, TargetIndex.B);
+			base.AddEndCondition((Func<JobCondition>)(() => (JobCondition)((!((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0069: stateMachine*/)._0024this.RefuelableComp.IsFull) ? 1 : 2)));
+			yield return Toils_General.DoAtomic((Action)delegate
+			{
+				((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_007b: stateMachine*/)._0024this.job.count = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_007b: stateMachine*/)._0024this.RefuelableComp.GetFuelCountToFullyRefuel();
+			});
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

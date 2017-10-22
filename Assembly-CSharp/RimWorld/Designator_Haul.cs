@@ -27,21 +27,25 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			if (c.InBounds(base.Map) && !c.Fogged(base.Map))
+			AcceptanceReport result;
+			if (!c.InBounds(base.Map) || c.Fogged(base.Map))
+			{
+				result = false;
+			}
+			else
 			{
 				Thing firstHaulable = c.GetFirstHaulable(base.Map);
 				if (firstHaulable == null)
 				{
-					return "MessageMustDesignateHaulable".Translate();
+					result = "MessageMustDesignateHaulable".Translate();
 				}
-				AcceptanceReport result = this.CanDesignateThing(firstHaulable);
-				if (!result.Accepted)
+				else
 				{
-					return result;
+					AcceptanceReport acceptanceReport = this.CanDesignateThing(firstHaulable);
+					result = (acceptanceReport.Accepted ? true : acceptanceReport);
 				}
-				return true;
 			}
-			return false;
+			return result;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)
@@ -51,19 +55,7 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
-			if (!t.def.designateHaulable)
-			{
-				return false;
-			}
-			if (base.Map.designationManager.DesignationOn(t, DesignationDefOf.Haul) != null)
-			{
-				return false;
-			}
-			if (t.IsInValidStorage())
-			{
-				return "MessageAlreadyInStorage".Translate();
-			}
-			return true;
+			return t.def.designateHaulable ? ((base.Map.designationManager.DesignationOn(t, DesignationDefOf.Haul) == null) ? ((!t.IsInValidStorage()) ? true : "MessageAlreadyInStorage".Translate()) : false) : false;
 		}
 
 		public override void DesignateThing(Thing t)

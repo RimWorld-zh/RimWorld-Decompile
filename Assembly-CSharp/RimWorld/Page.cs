@@ -6,10 +6,6 @@ namespace RimWorld
 {
 	public abstract class Page : Window
 	{
-		public const float TitleAreaHeight = 45f;
-
-		public const float BottomButHeight = 38f;
-
 		public Page prev;
 
 		public Page next;
@@ -17,6 +13,10 @@ namespace RimWorld
 		public Action nextAct;
 
 		public static readonly Vector2 StandardSize = new Vector2(1020f, 764f);
+
+		public const float TitleAreaHeight = 45f;
+
+		public const float BottomButHeight = 38f;
 
 		protected static readonly Vector2 BottomButSize = new Vector2(150f, 38f);
 
@@ -49,7 +49,7 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 		}
 
-		protected Rect GetMainRect(Rect rect, float extraTopSpace = 0, bool ignoreTitle = false)
+		protected Rect GetMainRect(Rect rect, float extraTopSpace = 0f, bool ignoreTitle = false)
 		{
 			float num = 0f;
 			if (!ignoreTitle)
@@ -61,7 +61,7 @@ namespace RimWorld
 
 		protected void DoBottomButtons(Rect rect, string nextLabel = null, string midLabel = null, Action midAct = null, bool showNext = true)
 		{
-			float num = (float)(rect.height - 38.0);
+			float num = (float)(rect.y + rect.height - 38.0);
 			Text.Font = GameFont.Small;
 			string label = "Back".Translate();
 			float x = rect.x;

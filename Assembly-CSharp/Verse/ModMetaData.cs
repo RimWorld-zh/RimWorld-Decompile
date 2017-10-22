@@ -13,24 +13,22 @@ namespace Verse
 	{
 		private class ModMetaDataInternal
 		{
-			public string name = string.Empty;
+			public string name = "";
 
 			public string author = "Anonymous";
 
-			public string url = string.Empty;
+			public string url = "";
 
 			public string targetVersion = "Unknown";
 
 			public string description = "No description provided.";
 		}
 
-		private const string AboutFolderName = "About";
-
 		private DirectoryInfo rootDirInt;
 
 		private ContentSource source;
 
-		public Texture2D previewImage;
+		public Texture2D previewImage = null;
 
 		public bool enabled = true;
 
@@ -39,6 +37,8 @@ namespace Verse
 		private WorkshopItemHook workshopHookInt;
 
 		private PublishedFileId_t publishedFileIdInt = PublishedFileId_t.Invalid;
+
+		private const string AboutFolderName = "About";
 
 		public string Identifier
 		{
@@ -80,15 +80,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.IsCoreMod)
-				{
-					return true;
-				}
-				if (!VersionControl.IsWellFormattedVersionString(this.TargetVersion))
-				{
-					return false;
-				}
-				return VersionControl.MinorFromVersionString(this.TargetVersion) == VersionControl.CurrentMinor;
+				return this.IsCoreMod || (VersionControl.IsWellFormattedVersionString(this.TargetVersion) && VersionControl.MinorFromVersionString(this.TargetVersion) == VersionControl.CurrentMinor);
 			}
 		}
 
@@ -236,19 +228,7 @@ namespace Verse
 
 		public bool CanToUploadToWorkshop()
 		{
-			if (this.IsCoreMod)
-			{
-				return false;
-			}
-			if (this.Source != ContentSource.LocalFolder)
-			{
-				return false;
-			}
-			if (this.GetWorkshopItemHook().MayHaveAuthorNotCurrentUser)
-			{
-				return false;
-			}
-			return true;
+			return (byte)((!this.IsCoreMod) ? ((this.Source == ContentSource.LocalFolder) ? ((!this.GetWorkshopItemHook().MayHaveAuthorNotCurrentUser) ? 1 : 0) : 0) : 0) != 0;
 		}
 
 		public PublishedFileId_t GetPublishedFileId()

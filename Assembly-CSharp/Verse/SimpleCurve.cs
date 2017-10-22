@@ -5,25 +5,14 @@ using UnityEngine;
 
 namespace Verse
 {
-	public class SimpleCurve : IEnumerable, IEnumerable<CurvePoint>
+	public class SimpleCurve : IEnumerable<CurvePoint>, IEnumerable
 	{
 		private List<CurvePoint> points = new List<CurvePoint>();
 
 		[Unsaved]
-		private SimpleCurveView view;
+		private SimpleCurveView view = null;
 
-		private static Comparison<CurvePoint> CurvePointsComparer = (Comparison<CurvePoint>)delegate(CurvePoint a, CurvePoint b)
-		{
-			if (a.x < b.x)
-			{
-				return -1;
-			}
-			if (b.x < a.x)
-			{
-				return 1;
-			}
-			return 0;
-		};
+		private static Comparison<CurvePoint> CurvePointsComparer = (Comparison<CurvePoint>)((CurvePoint a, CurvePoint b) => (!(a.x < b.x)) ? ((b.x < a.x) ? 1 : 0) : (-1));
 
 		public int PointsCount
 		{
@@ -81,19 +70,18 @@ namespace Verse
 
 		public IEnumerator<CurvePoint> GetEnumerator()
 		{
-			List<CurvePoint>.Enumerator enumerator = this.points.GetEnumerator();
-			try
+			using (List<CurvePoint>.Enumerator enumerator = this.points.GetEnumerator())
 			{
-				while (enumerator.MoveNext())
+				if (enumerator.MoveNext())
 				{
 					CurvePoint point = enumerator.Current;
 					yield return point;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
+			yield break;
+			IL_00b8:
+			/*Error near IL_00b9: Unexpected return in MoveNext()*/;
 		}
 
 		public void SetPoints(IEnumerable<CurvePoint> newPoints)
@@ -147,61 +135,71 @@ namespace Verse
 
 		public float Evaluate(float x)
 		{
+			float result;
 			if (this.points.Count == 0)
 			{
 				Log.Error("Evaluating a SimpleCurve with no points.");
-				return 0f;
+				result = 0f;
 			}
-			if (x <= this.points[0].x)
+			else if (x <= this.points[0].x)
 			{
-				return this.points[0].y;
+				result = this.points[0].y;
 			}
-			if (x >= this.points[this.points.Count - 1].x)
+			else if (x >= this.points[this.points.Count - 1].x)
 			{
-				return this.points[this.points.Count - 1].y;
+				result = this.points[this.points.Count - 1].y;
 			}
-			CurvePoint curvePoint = this.points[0];
-			CurvePoint curvePoint2 = this.points[this.points.Count - 1];
-			int num = 0;
-			while (num < this.points.Count)
+			else
 			{
-				if (!(x <= this.points[num].x))
+				CurvePoint curvePoint = this.points[0];
+				CurvePoint curvePoint2 = this.points[this.points.Count - 1];
+				int num = 0;
+				while (num < this.points.Count)
 				{
-					num++;
-					continue;
+					if (!(x <= this.points[num].x))
+					{
+						num++;
+						continue;
+					}
+					curvePoint2 = this.points[num];
+					if (num > 0)
+					{
+						curvePoint = this.points[num - 1];
+					}
+					break;
 				}
-				curvePoint2 = this.points[num];
-				if (num > 0)
-				{
-					curvePoint = this.points[num - 1];
-				}
-				break;
+				float t = (x - curvePoint.x) / (curvePoint2.x - curvePoint.x);
+				result = Mathf.Lerp(curvePoint.y, curvePoint2.y, t);
 			}
-			float t = (x - curvePoint.x) / (curvePoint2.x - curvePoint.x);
-			return Mathf.Lerp(curvePoint.y, curvePoint2.y, t);
+			return result;
 		}
 
 		public float PeriodProbabilityFromCumulative(float startX, float span)
 		{
+			float result;
 			if (this.points.Count < 2)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (this.points[0].y != 0.0)
+			else
 			{
-				Log.Warning("PeriodProbabilityFromCumulative should only run on curves whose first point is 0.");
+				if (this.points[0].y != 0.0)
+				{
+					Log.Warning("PeriodProbabilityFromCumulative should only run on curves whose first point is 0.");
+				}
+				float num = this.Evaluate(startX + span) - this.Evaluate(startX);
+				if (num < 0.0)
+				{
+					Log.Error("PeriodicProbability got negative probability from " + this + ": slope should never be negative.");
+					num = 0f;
+				}
+				if (num > 1.0)
+				{
+					num = 1f;
+				}
+				result = num;
 			}
-			float num = this.Evaluate(startX + span) - this.Evaluate(startX);
-			if (num < 0.0)
-			{
-				Log.Error("PeriodicProbability got negative probability from " + this + ": slope should never be negative.");
-				num = 0f;
-			}
-			if (num > 1.0)
-			{
-				num = 1f;
-			}
-			return num;
+			return result;
 		}
 
 		public IEnumerable<string> ConfigErrors(string prefix)
@@ -221,6 +219,7 @@ namespace Verse
 				yield break;
 			}
 			yield return prefix + ": points are out of order";
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

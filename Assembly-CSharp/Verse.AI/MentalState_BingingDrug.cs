@@ -37,7 +37,7 @@ namespace Verse.AI
 				{
 					text = text + "\n\n" + "FinalStraw".Translate(reason);
 				}
-				Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.BadNonUrgent, (Thing)base.pawn, (string)null);
+				Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.ThreatSmall, (Thing)base.pawn, (string)null);
 			}
 		}
 
@@ -46,7 +46,7 @@ namespace Verse.AI
 			base.PostEnd();
 			if (PawnUtility.ShouldSendNotificationAbout(base.pawn))
 			{
-				Messages.Message("MessageNoLongerBingingOnDrug".Translate(base.pawn.NameStringShort, this.chemical.label), (Thing)base.pawn, MessageSound.Silent);
+				Messages.Message("MessageNoLongerBingingOnDrug".Translate(base.pawn.NameStringShort, this.chemical.label), (Thing)base.pawn, MessageTypeDefOf.SituationResolved);
 			}
 		}
 

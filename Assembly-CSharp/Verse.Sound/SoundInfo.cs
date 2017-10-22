@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse.Sound
@@ -37,20 +36,19 @@ namespace Verse.Sound
 			{
 				if (this.parameters != null)
 				{
-					Dictionary<string, float>.Enumerator enumerator = this.parameters.GetEnumerator();
-					try
+					using (Dictionary<string, float>.Enumerator enumerator = this.parameters.GetEnumerator())
 					{
-						while (enumerator.MoveNext())
+						if (enumerator.MoveNext())
 						{
 							KeyValuePair<string, float> kvp = enumerator.Current;
 							yield return kvp;
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
-					}
 				}
+				yield break;
+				IL_00cb:
+				/*Error near IL_00cc: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -89,25 +87,26 @@ namespace Verse.Sound
 			this.parameters[key] = value;
 		}
 
+		public static implicit operator SoundInfo(TargetInfo source)
+		{
+			return SoundInfo.InMap(source, MaintenanceType.None);
+		}
+
+		public static implicit operator SoundInfo(Thing sourceThing)
+		{
+			return SoundInfo.InMap(sourceThing, MaintenanceType.None);
+		}
+
 		public override string ToString()
 		{
 			string text = (string)null;
 			if (this.parameters != null && this.parameters.Count > 0)
 			{
 				text = "parameters=";
-				Dictionary<string, float>.Enumerator enumerator = this.parameters.GetEnumerator();
-				try
+				foreach (KeyValuePair<string, float> parameter in this.parameters)
 				{
-					while (enumerator.MoveNext())
-					{
-						KeyValuePair<string, float> current = enumerator.Current;
-						string text2 = text;
-						text = text2 + current.Key.ToString() + "-" + current.Value.ToString() + " ";
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					string text2 = text;
+					text = text2 + parameter.Key.ToString() + "-" + parameter.Value.ToString() + " ";
 				}
 			}
 			string text3 = (string)null;
@@ -121,16 +120,6 @@ namespace Verse.Sound
 				text4 = ", Maint=" + this.Maintenance;
 			}
 			return "(" + ((!this.IsOnCamera) ? "World from " : "Camera") + text3 + text + text4 + ")";
-		}
-
-		public static implicit operator SoundInfo(TargetInfo source)
-		{
-			return SoundInfo.InMap(source, MaintenanceType.None);
-		}
-
-		public static implicit operator SoundInfo(Thing sourceThing)
-		{
-			return SoundInfo.InMap(sourceThing, MaintenanceType.None);
 		}
 	}
 }

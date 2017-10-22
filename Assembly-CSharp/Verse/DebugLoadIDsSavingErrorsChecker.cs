@@ -19,11 +19,7 @@ namespace Verse
 
 			public override bool Equals(object obj)
 			{
-				if (!(obj is ReferencedObject))
-				{
-					return false;
-				}
-				return this.Equals((ReferencedObject)obj);
+				return obj is ReferencedObject && this.Equals((ReferencedObject)obj);
 			}
 
 			public bool Equals(ReferencedObject other)
@@ -68,21 +64,13 @@ namespace Verse
 			{
 				if (!Scribe.saver.savingForDebug)
 				{
-					HashSet<ReferencedObject>.Enumerator enumerator = this.referenced.GetEnumerator();
-					try
+					foreach (ReferencedObject item in this.referenced)
 					{
-						while (enumerator.MoveNext())
+						ReferencedObject current = item;
+						if (!this.deepSaved.Contains(current.loadID))
 						{
-							ReferencedObject current = enumerator.Current;
-							if (!this.deepSaved.Contains(current.loadID))
-							{
-								Log.Warning("Object with load ID " + current.loadID + " is referenced (xml node name: " + current.label + ") but is not deep-saved. This will cause errors during loading.");
-							}
+							Log.Warning("Object with load ID " + current.loadID + " is referenced (xml node name: " + current.label + ") but is not deep-saved. This will cause errors during loading.");
 						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
 					}
 				}
 				this.Clear();

@@ -20,50 +20,32 @@ namespace RimWorld
 			PowerNetMaker.openSet.Add(root);
 			while (true)
 			{
-				HashSet<Building>.Enumerator enumerator = PowerNetMaker.openSet.GetEnumerator();
-				try
+				foreach (Building item in PowerNetMaker.openSet)
 				{
-					while (enumerator.MoveNext())
-					{
-						Building current = enumerator.Current;
-						PowerNetMaker.closedSet.Add(current);
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					PowerNetMaker.closedSet.Add(item);
 				}
 				HashSet<Building> hashSet = PowerNetMaker.currentSet;
 				PowerNetMaker.currentSet = PowerNetMaker.openSet;
 				PowerNetMaker.openSet = hashSet;
 				PowerNetMaker.openSet.Clear();
-				HashSet<Building>.Enumerator enumerator2 = PowerNetMaker.currentSet.GetEnumerator();
-				try
+				foreach (Building item2 in PowerNetMaker.currentSet)
 				{
-					while (enumerator2.MoveNext())
+					foreach (IntVec3 item3 in GenAdj.CellsAdjacentCardinal(item2))
 					{
-						Building current2 = enumerator2.Current;
-						foreach (IntVec3 item in GenAdj.CellsAdjacentCardinal(current2))
+						if (item3.InBounds(item2.Map))
 						{
-							if (item.InBounds(current2.Map))
+							List<Thing> thingList = item3.GetThingList(item2.Map);
+							for (int i = 0; i < thingList.Count; i++)
 							{
-								List<Thing> thingList = item.GetThingList(current2.Map);
-								for (int i = 0; i < thingList.Count; i++)
+								Building building = thingList[i] as Building;
+								if (building != null && building.TransmitsPowerNow && !PowerNetMaker.openSet.Contains(building) && !PowerNetMaker.currentSet.Contains(building) && !PowerNetMaker.closedSet.Contains(building))
 								{
-									Building building = thingList[i] as Building;
-									if (building != null && building.TransmitsPowerNow && !PowerNetMaker.openSet.Contains(building) && !PowerNetMaker.currentSet.Contains(building) && !PowerNetMaker.closedSet.Contains(building))
-									{
-										PowerNetMaker.openSet.Add(building);
-										break;
-									}
+									PowerNetMaker.openSet.Add(building);
+									break;
 								}
 							}
 						}
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
 				}
 				if (PowerNetMaker.openSet.Count <= 0)
 					break;

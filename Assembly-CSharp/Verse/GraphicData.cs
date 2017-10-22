@@ -6,11 +6,11 @@ namespace Verse
 {
 	public class GraphicData
 	{
-		public string texPath;
+		public string texPath = (string)null;
 
-		public Type graphicClass;
+		public Type graphicClass = null;
 
-		public ShaderType shaderType;
+		public ShaderType shaderType = ShaderType.None;
 
 		public Color color = Color.white;
 
@@ -18,24 +18,24 @@ namespace Verse
 
 		public Vector2 drawSize = Vector2.one;
 
-		public float onGroundRandomRotateAngle;
+		public float onGroundRandomRotateAngle = 0f;
 
 		public bool drawRotated = true;
 
 		public bool allowFlip = true;
 
-		public float flipExtraRotation;
+		public float flipExtraRotation = 0f;
 
-		public ShadowData shadowData;
+		public ShadowData shadowData = null;
 
-		public DamageGraphicData damageData;
+		public DamageGraphicData damageData = null;
 
-		public LinkDrawerType linkType;
+		public LinkDrawerType linkType = LinkDrawerType.None;
 
-		public LinkFlags linkFlags;
+		public LinkFlags linkFlags = LinkFlags.None;
 
 		[Unsaved]
-		private Graphic cachedGraphic;
+		private Graphic cachedGraphic = null;
 
 		public bool Linked
 		{
@@ -68,6 +68,7 @@ namespace Verse
 			this.onGroundRandomRotateAngle = other.onGroundRandomRotateAngle;
 			this.drawRotated = other.drawRotated;
 			this.allowFlip = other.allowFlip;
+			this.flipExtraRotation = other.flipExtraRotation;
 			this.shadowData = other.shadowData;
 			this.damageData = other.damageData;
 			this.linkType = other.linkType;
@@ -110,11 +111,7 @@ namespace Verse
 
 		public Graphic GraphicColoredFor(Thing t)
 		{
-			if (t.DrawColor.IndistinguishableFrom(this.Graphic.Color) && t.DrawColorTwo.IndistinguishableFrom(this.Graphic.ColorTwo))
-			{
-				return this.Graphic;
-			}
-			return this.Graphic.GetColoredVersion(this.Graphic.Shader, t.DrawColor, t.DrawColorTwo);
+			return (!t.DrawColor.IndistinguishableFrom(this.Graphic.Color) || !t.DrawColorTwo.IndistinguishableFrom(this.Graphic.ColorTwo)) ? this.Graphic.GetColoredVersion(this.Graphic.Shader, t.DrawColor, t.DrawColorTwo) : this.Graphic;
 		}
 
 		internal IEnumerable<string> ConfigErrors(ThingDef thingDef)
@@ -122,23 +119,26 @@ namespace Verse
 			if (this.graphicClass == null)
 			{
 				yield return "graphicClass is null";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.texPath.NullOrEmpty())
 			{
 				yield return "texPath is null or empty";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (thingDef != null && thingDef.drawerType == DrawerType.RealtimeOnly && this.Linked)
 			{
 				yield return "does not add to map mesh but has a link drawer. Link drawers can only work on the map mesh.";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.shaderType != ShaderType.Cutout && this.shaderType != ShaderType.CutoutComplex)
 				yield break;
-			if (thingDef.mote != null)
-			{
-				if (!(thingDef.mote.fadeInTime > 0.0) && !(thingDef.mote.fadeOutTime > 0.0))
-					yield break;
-				yield return "mote fades but uses cutout shader type. It will abruptly disappear when opacity falls under the cutout threshold.";
-			}
+			if (thingDef.mote == null)
+				yield break;
+			if (!(thingDef.mote.fadeInTime > 0.0) && !(thingDef.mote.fadeOutTime > 0.0))
+				yield break;
+			yield return "mote fades but uses cutout shader type. It will abruptly disappear when opacity falls under the cutout threshold.";
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

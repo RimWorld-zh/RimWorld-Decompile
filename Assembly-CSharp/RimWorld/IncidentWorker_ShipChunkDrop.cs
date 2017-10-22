@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -21,28 +20,26 @@ namespace RimWorld
 			{
 				float x2 = (float)((float)Find.TickManager.TicksGame / 3600000.0);
 				float timePassedFactor = Mathf.Clamp(GenMath.LerpDouble(0f, 1.2f, 1f, 0.1f, x2), 0.1f, 1f);
-				return IncidentWorker_ShipChunkDrop.CountChance.RandomElementByWeight((Func<Pair<int, float>, float>)delegate(Pair<int, float> x)
-				{
-					if (x.First == 1)
-					{
-						return x.Second;
-					}
-					return x.Second * timePassedFactor;
-				}).First;
+				return IncidentWorker_ShipChunkDrop.CountChance.RandomElementByWeight((Func<Pair<int, float>, float>)((Pair<int, float> x) => (x.First != 1) ? (x.Second * timePassedFactor) : x.Second)).First;
 			}
 		}
 
-		public override bool TryExecute(IncidentParms parms)
+		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			IntVec3 intVec = default(IntVec3);
-			if (!ShipChunkDropCellFinder.TryFindShipChunkDropCell(map.Center, map, 999999, out intVec))
+			bool result;
+			if (!this.TryFindShipChunkDropCell(map.Center, map, 999999, out intVec))
 			{
-				return false;
+				result = false;
 			}
-			this.SpawnShipChunks(intVec, map, this.RandomCountToDrop);
-			Messages.Message("MessageShipChunkDrop".Translate(), new TargetInfo(intVec, map, false), MessageSound.Standard);
-			return true;
+			else
+			{
+				this.SpawnShipChunks(intVec, map, this.RandomCountToDrop);
+				Messages.Message("MessageShipChunkDrop".Translate(), new TargetInfo(intVec, map, false), MessageTypeDefOf.NeutralEvent);
+				result = true;
+			}
+			return result;
 		}
 
 		private void SpawnShipChunks(IntVec3 firstChunkPos, Map map, int count)
@@ -51,7 +48,7 @@ namespace RimWorld
 			for (int i = 0; i < count - 1; i++)
 			{
 				IntVec3 pos = default(IntVec3);
-				if (ShipChunkDropCellFinder.TryFindShipChunkDropCell(firstChunkPos, map, 5, out pos))
+				if (this.TryFindShipChunkDropCell(firstChunkPos, map, 5, out pos))
 				{
 					this.SpawnChunk(pos, map);
 				}
@@ -60,13 +57,13 @@ namespace RimWorld
 
 		private void SpawnChunk(IntVec3 pos, Map map)
 		{
-			CellRect cr = CellRect.SingleCell(pos);
-			cr.Width++;
-			cr.Height++;
-			RoofCollapserImmediate.DropRoofInCells(from c in cr.ExpandedBy(1).ClipInsideMap(map).Cells
-			where cr.Contains(c) || !map.thingGrid.CellContains(c, ThingCategory.Pawn)
-			select c, map);
-			GenSpawn.Spawn(ThingDefOf.ShipChunk, pos, map);
+			SkyfallerMaker.SpawnSkyfaller(ThingDefOf.ShipChunkIncoming, ThingDefOf.ShipChunk, pos, map);
+		}
+
+		private bool TryFindShipChunkDropCell(IntVec3 nearLoc, Map map, int maxDist, out IntVec3 pos)
+		{
+			ThingDef shipChunkIncoming = ThingDefOf.ShipChunkIncoming;
+			return CellFinderLoose.TryFindSkyfallerCell(shipChunkIncoming, map, out pos, 10, nearLoc, maxDist, true, false, false, false, (Predicate<IntVec3>)null);
 		}
 	}
 }

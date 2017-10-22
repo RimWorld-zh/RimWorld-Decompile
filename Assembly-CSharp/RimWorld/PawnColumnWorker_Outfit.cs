@@ -40,22 +40,13 @@ namespace RimWorld
 				if (Widgets.ButtonText(rect2, label, true, false, true))
 				{
 					List<FloatMenuOption> list = new List<FloatMenuOption>();
-					List<Outfit>.Enumerator enumerator = Current.Game.outfitDatabase.AllOutfits.GetEnumerator();
-					try
+					foreach (Outfit allOutfit in Current.Game.outfitDatabase.AllOutfits)
 					{
-						while (enumerator.MoveNext())
+						Outfit localOut = allOutfit;
+						list.Add(new FloatMenuOption(localOut.label, (Action)delegate()
 						{
-							Outfit current = enumerator.Current;
-							Outfit localOut = current;
-							list.Add(new FloatMenuOption(localOut.label, (Action)delegate()
-							{
-								pawn.outfits.CurrentOutfit = localOut;
-							}, MenuOptionPriority.Default, null, null, 0f, null, null));
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
+							pawn.outfits.CurrentOutfit = localOut;
+						}, MenuOptionPriority.Default, null, null, 0f, null, null));
 					}
 					Find.WindowStack.Add(new FloatMenu(list));
 				}
@@ -71,20 +62,11 @@ namespace RimWorld
 					TooltipHandler.TipRegion(rect3, new TipSignal((Func<string>)delegate()
 					{
 						string text = "ForcedApparel".Translate() + ":\n";
-						List<Apparel>.Enumerator enumerator2 = pawn.outfits.forcedHandler.ForcedApparel.GetEnumerator();
-						try
+						foreach (Apparel item in pawn.outfits.forcedHandler.ForcedApparel)
 						{
-							while (enumerator2.MoveNext())
-							{
-								Apparel current2 = enumerator2.Current;
-								text = text + "\n   " + current2.LabelCap;
-							}
-							return text;
+							text = text + "\n   " + item.LabelCap;
 						}
-						finally
-						{
-							((IDisposable)(object)enumerator2).Dispose();
-						}
+						return text;
 					}, pawn.GetHashCode() * 612));
 					x += (float)num2;
 					x = (float)(x + 4.0);

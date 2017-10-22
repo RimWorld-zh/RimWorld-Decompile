@@ -4,26 +4,28 @@ namespace Verse
 {
 	public class MoteProperties
 	{
-		public bool realTime;
+		public bool realTime = false;
 
-		public float fadeInTime;
+		public float fadeInTime = 0f;
 
 		public float solidTime = 1f;
 
-		public float fadeOutTime;
+		public float fadeOutTime = 0f;
 
 		public Vector3 acceleration = Vector3.zero;
 
 		public float speedPerTime;
 
-		public float growthRate;
+		public float growthRate = 0f;
 
-		public bool collide;
+		public bool collide = false;
 
 		public SoundDef landSound;
 
 		public Vector3 attachedDrawOffset;
 
-		public bool needsMaintenance;
+		public bool needsMaintenance = false;
+
+		public bool rotateTowardsTarget;
 	}
 }

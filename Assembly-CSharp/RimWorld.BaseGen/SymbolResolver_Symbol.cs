@@ -9,26 +9,34 @@ namespace RimWorld.BaseGen
 
 		public override bool CanResolve(ResolveParams rp)
 		{
+			bool result;
 			if (!base.CanResolve(rp))
 			{
-				return false;
+				result = false;
 			}
-			List<RuleDef> allDefsListForReading = DefDatabase<RuleDef>.AllDefsListForReading;
-			for (int i = 0; i < allDefsListForReading.Count; i++)
+			else
 			{
-				RuleDef ruleDef = allDefsListForReading[i];
-				if (!(ruleDef.symbol != this.symbol))
+				List<RuleDef> allDefsListForReading = DefDatabase<RuleDef>.AllDefsListForReading;
+				for (int i = 0; i < allDefsListForReading.Count; i++)
 				{
-					for (int j = 0; j < ruleDef.resolvers.Count; j++)
+					RuleDef ruleDef = allDefsListForReading[i];
+					if (!(ruleDef.symbol != this.symbol))
 					{
-						if (ruleDef.resolvers[j].CanResolve(rp))
+						for (int j = 0; j < ruleDef.resolvers.Count; j++)
 						{
-							return true;
+							if (ruleDef.resolvers[j].CanResolve(rp))
+								goto IL_0066;
 						}
 					}
 				}
+				result = false;
 			}
-			return false;
+			goto IL_009e;
+			IL_009e:
+			return result;
+			IL_0066:
+			result = true;
+			goto IL_009e;
 		}
 
 		public override void Resolve(ResolveParams rp)

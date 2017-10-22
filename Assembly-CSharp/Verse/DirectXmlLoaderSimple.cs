@@ -9,13 +9,21 @@ namespace Verse
 		public static IEnumerable<KeyValuePair<string, string>> ValuesFromXmlFile(FileInfo file)
 		{
 			XDocument doc = XDocument.Load(file.FullName);
-			foreach (XElement item in doc.Root.Elements())
+			using (IEnumerator<XElement> enumerator = doc.Root.Elements().GetEnumerator())
 			{
-				string key = item.Name.ToString();
-				string value2 = item.Value;
-				value2 = value2.Replace("\\n", "\n");
-				yield return new KeyValuePair<string, string>(key, value2);
+				if (enumerator.MoveNext())
+				{
+					XElement element = enumerator.Current;
+					string key = element.Name.ToString();
+					string value2 = element.Value;
+					value2 = value2.Replace("\\n", "\n");
+					yield return new KeyValuePair<string, string>(key, value2);
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_0125:
+			/*Error near IL_0126: Unexpected return in MoveNext()*/;
 		}
 	}
 }

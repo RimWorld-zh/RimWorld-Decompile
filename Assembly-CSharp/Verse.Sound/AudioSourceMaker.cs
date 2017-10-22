@@ -8,16 +8,21 @@ namespace Verse.Sound
 
 		public static AudioSource NewAudioSourceOn(GameObject go)
 		{
+			AudioSource result;
 			if ((Object)go.GetComponent<AudioSource>() != (Object)null)
 			{
 				Log.Warning("Adding audio source on " + go + " that already has one.");
-				return go.GetComponent<AudioSource>();
+				result = go.GetComponent<AudioSource>();
 			}
-			AudioSource audioSource = go.AddComponent<AudioSource>();
-			audioSource.rolloffMode = AudioRolloffMode.Linear;
-			audioSource.dopplerLevel = 0f;
-			audioSource.playOnAwake = false;
-			return audioSource;
+			else
+			{
+				AudioSource audioSource = go.AddComponent<AudioSource>();
+				audioSource.rolloffMode = AudioRolloffMode.Linear;
+				audioSource.dopplerLevel = 0f;
+				audioSource.playOnAwake = false;
+				result = audioSource;
+			}
+			return result;
 		}
 	}
 }

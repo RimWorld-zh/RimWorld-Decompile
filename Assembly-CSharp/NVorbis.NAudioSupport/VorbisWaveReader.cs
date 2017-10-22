@@ -4,14 +4,14 @@ using System.IO;
 
 namespace NVorbis.NAudioSupport
 {
-	internal class VorbisWaveReader : WaveStream, IDisposable, IWaveProvider, ISampleProvider
+	internal class VorbisWaveReader : WaveStream, IDisposable, ISampleProvider, IWaveProvider
 	{
 		private VorbisReader _reader;
 
 		private WaveFormat _waveFormat;
 
 		[ThreadStatic]
-		private static float[] _conversionBuffer;
+		private static float[] _conversionBuffer = null;
 
 		public override WaveFormat WaveFormat
 		{
@@ -191,16 +191,21 @@ namespace NVorbis.NAudioSupport
 
 		public bool GetNextStreamIndex()
 		{
+			bool result;
 			if (!this.NextStreamIndex.HasValue)
 			{
 				int streamCount = this._reader.StreamCount;
 				if (this._reader.FindNextStream())
 				{
 					this.NextStreamIndex = new int?(streamCount);
-					return true;
+					result = true;
+					goto IL_004d;
 				}
 			}
-			return false;
+			result = false;
+			goto IL_004d;
+			IL_004d:
+			return result;
 		}
 	}
 }

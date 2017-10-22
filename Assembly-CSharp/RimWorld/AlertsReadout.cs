@@ -1,5 +1,6 @@
 using RimWorld.Planet;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -8,23 +9,23 @@ namespace RimWorld
 {
 	public class AlertsReadout
 	{
-		private const int StartTickDelay = 600;
-
-		public const float AlertListWidth = 164f;
-
 		private List<Alert> activeAlerts = new List<Alert>(16);
 
-		private int curAlertIndex;
+		private int curAlertIndex = 0;
 
-		private float lastFinalY;
+		private float lastFinalY = 0f;
 
 		private int mouseoverAlertIndex = -1;
 
 		private readonly List<Alert> AllAlerts = new List<Alert>();
 
+		private const int StartTickDelay = 600;
+
+		public const float AlertListWidth = 164f;
+
 		private static int AlertCycleLength = 20;
 
-		private readonly List<AlertPriority> PriosInDrawOrder;
+		private readonly List<AlertPriority> PriosInDrawOrder = null;
 
 		public AlertsReadout()
 		{
@@ -36,9 +37,22 @@ namespace RimWorld
 			if (this.PriosInDrawOrder == null)
 			{
 				this.PriosInDrawOrder = new List<AlertPriority>();
-				foreach (byte value in Enum.GetValues(typeof(AlertPriority)))
+				IEnumerator enumerator2 = Enum.GetValues(typeof(AlertPriority)).GetEnumerator();
+				try
 				{
-					this.PriosInDrawOrder.Add((AlertPriority)value);
+					while (enumerator2.MoveNext())
+					{
+						AlertPriority item = (AlertPriority)enumerator2.Current;
+						this.PriosInDrawOrder.Add(item);
+					}
+				}
+				finally
+				{
+					IDisposable disposable;
+					if ((disposable = (enumerator2 as IDisposable)) != null)
+					{
+						disposable.Dispose();
+					}
 				}
 				this.PriosInDrawOrder.Reverse();
 			}

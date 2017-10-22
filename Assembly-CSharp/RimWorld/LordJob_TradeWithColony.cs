@@ -1,3 +1,4 @@
+using System;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -79,6 +80,7 @@ namespace RimWorld
 			Transition transition9 = new Transition(lordToil_ExitMapAndEscortCarriers, lordToil_ExitMapAndEscortCarriers);
 			transition9.canMoveToSameState = true;
 			transition9.AddTrigger(new Trigger_PawnLost());
+			transition9.AddTrigger(new Trigger_TickCondition((Func<bool>)(() => LordToil_ExitMapAndEscortCarriers.IsAnyDefendingPosition(base.lord.ownedPawns) && !GenHostility.AnyHostileActiveThreatTo(base.Map, this.faction)), 60));
 			stateGraph.AddTransition(transition9);
 			Transition transition10 = new Transition(lordToil_ExitMapAndEscortCarriers, lordToil_ExitMap);
 			transition10.AddTrigger(new Trigger_TicksPassed(60000));

@@ -10,7 +10,7 @@ namespace RimWorld
 	{
 		private TraitDef trait;
 
-		private int degree;
+		private int degree = 0;
 
 		public override void ExposeData()
 		{
@@ -29,24 +29,15 @@ namespace RimWorld
 				orderby td.label
 				select td)
 				{
-					List<TraitDegreeData>.Enumerator enumerator2 = item.degreeDatas.GetEnumerator();
-					try
+					foreach (TraitDegreeData degreeData in item.degreeDatas)
 					{
-						while (enumerator2.MoveNext())
+						TraitDef localDef = item;
+						TraitDegreeData localDeg = degreeData;
+						list.Add(new FloatMenuOption(localDeg.label.CapitalizeFirst(), (Action)delegate
 						{
-							TraitDegreeData current2 = enumerator2.Current;
-							TraitDef localDef = item;
-							TraitDegreeData localDeg = current2;
-							list.Add(new FloatMenuOption(localDeg.label.CapitalizeFirst(), (Action)delegate
-							{
-								this.trait = localDef;
-								this.degree = localDeg.degree;
-							}, MenuOptionPriority.Default, null, null, 0f, null, null));
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator2).Dispose();
+							this.trait = localDef;
+							this.degree = localDeg.degree;
+						}, MenuOptionPriority.Default, null, null, 0f, null, null));
 					}
 				}
 				Find.WindowStack.Add(new FloatMenu(list));
@@ -69,11 +60,7 @@ namespace RimWorld
 		public override bool CanCoexistWith(ScenPart other)
 		{
 			ScenPart_ForcedTrait scenPart_ForcedTrait = other as ScenPart_ForcedTrait;
-			if (scenPart_ForcedTrait != null && this.trait == scenPart_ForcedTrait.trait && base.context.OverlapsWith(scenPart_ForcedTrait.context))
-			{
-				return false;
-			}
-			return true;
+			return (byte)((scenPart_ForcedTrait == null || this.trait != scenPart_ForcedTrait.trait || !base.context.OverlapsWith(scenPart_ForcedTrait.context)) ? 1 : 0) != 0;
 		}
 
 		protected override void ModifyPawn(Pawn pawn)
@@ -110,15 +97,7 @@ namespace RimWorld
 
 		private static bool PawnHasTraitForcedByBackstory(Pawn pawn, TraitDef trait)
 		{
-			if (pawn.story.childhood != null && pawn.story.childhood.forcedTraits != null && pawn.story.childhood.forcedTraits.Any((Predicate<TraitEntry>)((TraitEntry te) => te.def == trait)))
-			{
-				return true;
-			}
-			if (pawn.story.adulthood != null && pawn.story.adulthood.forcedTraits != null && pawn.story.adulthood.forcedTraits.Any((Predicate<TraitEntry>)((TraitEntry te) => te.def == trait)))
-			{
-				return true;
-			}
-			return false;
+			return (byte)((pawn.story.childhood != null && pawn.story.childhood.forcedTraits != null && pawn.story.childhood.forcedTraits.Any((Predicate<TraitEntry>)((TraitEntry te) => te.def == trait))) ? 1 : ((pawn.story.adulthood != null && pawn.story.adulthood.forcedTraits != null && pawn.story.adulthood.forcedTraits.Any((Predicate<TraitEntry>)((TraitEntry te) => te.def == trait))) ? 1 : 0)) != 0;
 		}
 	}
 }

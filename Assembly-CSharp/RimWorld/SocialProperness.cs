@@ -11,24 +11,25 @@ namespace RimWorld
 
 		public static bool IsSociallyProper(this Thing t, Pawn p, bool forPrisoner, bool animalsCare = false)
 		{
+			bool result;
 			if (!animalsCare && !p.RaceProps.Humanlike)
 			{
-				return true;
+				result = true;
 			}
-			if (!t.def.socialPropernessMatters)
+			else if (!t.def.socialPropernessMatters)
 			{
-				return true;
+				result = true;
 			}
-			if (!t.Spawned)
+			else if (!t.Spawned)
 			{
-				return true;
+				result = true;
 			}
-			IntVec3 intVec = (!t.def.hasInteractionCell) ? t.Position : t.InteractionCell;
-			if (forPrisoner)
+			else
 			{
-				return intVec.GetRoom(t.Map, RegionType.Set_Passable) == p.GetRoom(RegionType.Set_Passable);
+				IntVec3 intVec = (!t.def.hasInteractionCell) ? t.Position : t.InteractionCell;
+				result = ((!forPrisoner) ? (!intVec.IsInPrisonCell(t.Map)) : (intVec.GetRoom(t.Map, RegionType.Set_Passable) == p.GetRoom(RegionType.Set_Passable)));
 			}
-			return !intVec.IsInPrisonCell(t.Map);
+			return result;
 		}
 	}
 }

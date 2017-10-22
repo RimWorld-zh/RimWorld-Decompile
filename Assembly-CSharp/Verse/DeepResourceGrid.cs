@@ -34,28 +34,14 @@ namespace Verse
 
 		public void ExposeData()
 		{
-			string compressedString = string.Empty;
-			string compressedString2 = string.Empty;
-			if (Scribe.mode == LoadSaveMode.Saving)
+			MapExposeUtility.ExposeUshort(this.map, (Func<IntVec3, ushort>)((IntVec3 c) => this.defGrid[this.map.cellIndices.CellToIndex(c)]), (Action<IntVec3, ushort>)delegate(IntVec3 c, ushort val)
 			{
-				compressedString = GridSaveUtility.CompressedStringForShortGrid((Func<IntVec3, ushort>)((IntVec3 c) => this.defGrid[this.map.cellIndices.CellToIndex(c)]), this.map);
-				compressedString2 = GridSaveUtility.CompressedStringForShortGrid((Func<IntVec3, ushort>)((IntVec3 c) => this.countGrid[this.map.cellIndices.CellToIndex(c)]), this.map);
-			}
-			Scribe_Values.Look(ref compressedString, "defGrid", (string)null, false);
-			Scribe_Values.Look(ref compressedString2, "countGrid", (string)null, false);
-			if (Scribe.mode == LoadSaveMode.LoadingVars)
+				this.defGrid[this.map.cellIndices.CellToIndex(c)] = val;
+			}, "defGrid");
+			MapExposeUtility.ExposeUshort(this.map, (Func<IntVec3, ushort>)((IntVec3 c) => this.countGrid[this.map.cellIndices.CellToIndex(c)]), (Action<IntVec3, ushort>)delegate(IntVec3 c, ushort val)
 			{
-				foreach (GridSaveUtility.LoadedGridShort item in GridSaveUtility.LoadedUShortGrid(compressedString, this.map))
-				{
-					GridSaveUtility.LoadedGridShort current = item;
-					this.defGrid[this.map.cellIndices.CellToIndex(current.cell)] = current.val;
-				}
-				foreach (GridSaveUtility.LoadedGridShort item2 in GridSaveUtility.LoadedUShortGrid(compressedString2, this.map))
-				{
-					GridSaveUtility.LoadedGridShort current2 = item2;
-					this.countGrid[this.map.cellIndices.CellToIndex(current2.cell)] = current2.val;
-				}
-			}
+				this.countGrid[this.map.cellIndices.CellToIndex(c)] = val;
+			}, "countGrid");
 		}
 
 		public ThingDef ThingDefAt(IntVec3 c)

@@ -930,7 +930,7 @@ namespace Verse.Noise
 			0.322158,
 			-0.946284,
 			0.0,
-			0.018542199999999998,
+			0.0185422,
 			0.716349,
 			0.697496,
 			0.0,
@@ -1129,15 +1129,7 @@ namespace Verse.Noise
 
 		internal static double MakeInt32Range(double value)
 		{
-			if (value >= 1073741824.0)
-			{
-				return 2.0 * Math.IEEERemainder(value, 1073741824.0) - 1073741824.0;
-			}
-			if (value <= -1073741824.0)
-			{
-				return 2.0 * Math.IEEERemainder(value, 1073741824.0) + 1073741824.0;
-			}
-			return value;
+			return (!(value >= 1073741824.0)) ? ((!(value <= -1073741824.0)) ? value : (2.0 * Math.IEEERemainder(value, 1073741824.0) + 1073741824.0)) : (2.0 * Math.IEEERemainder(value, 1073741824.0) - 1073741824.0);
 		}
 
 		internal static double MapCubicSCurve(double value)

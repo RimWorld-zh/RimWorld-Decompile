@@ -19,8 +19,10 @@ namespace RimWorld
 
 		protected override IEnumerable<ThingDef> AllowedDefs(ItemCollectionGeneratorParams parms)
 		{
+			TechLevel? techLevel2 = parms.techLevel;
+			TechLevel techLevel = (!techLevel2.HasValue) ? TechLevel.Spacer : techLevel2.Value;
 			return from x in ItemCollectionGenerator_Artifacts.artifacts
-			where (int)x.techLevel <= (int)parms.techLevel
+			where (int)x.techLevel <= (int)techLevel
 			select x;
 		}
 	}

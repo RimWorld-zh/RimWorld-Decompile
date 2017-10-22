@@ -55,11 +55,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.thingInt != null)
-				{
-					return this.thingInt.PositionHeld;
-				}
-				return this.cellInt;
+				return (this.thingInt == null) ? this.cellInt : this.thingInt.PositionHeld;
 			}
 		}
 
@@ -67,15 +63,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.thingInt != null && this.thingInt.Tile >= 0)
-				{
-					return this.thingInt.Tile;
-				}
-				if (this.cellInt.IsValid && this.mapInt != null)
-				{
-					return this.mapInt.Tile;
-				}
-				return -1;
+				return (this.thingInt == null || this.thingInt.Tile < 0) ? ((!this.cellInt.IsValid || this.mapInt == null) ? (-1) : this.mapInt.Tile) : this.thingInt.Tile;
 			}
 		}
 
@@ -83,11 +71,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.thingInt != null)
-				{
-					return this.thingInt.DrawPos;
-				}
-				return this.cellInt.ToVector3Shifted();
+				return (this.thingInt == null) ? this.cellInt.ToVector3Shifted() : this.thingInt.DrawPos;
 			}
 		}
 
@@ -95,11 +79,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.thingInt != null)
-				{
-					return this.thingInt.MapHeld;
-				}
-				return this.mapInt;
+				return (this.thingInt == null) ? this.mapInt : this.thingInt.MapHeld;
 			}
 		}
 
@@ -121,42 +101,6 @@ namespace Verse
 			this.mapInt = map;
 		}
 
-		public override bool Equals(object obj)
-		{
-			if (!(obj is TargetInfo))
-			{
-				return false;
-			}
-			return this.Equals((TargetInfo)obj);
-		}
-
-		public bool Equals(TargetInfo other)
-		{
-			return this == other;
-		}
-
-		public override int GetHashCode()
-		{
-			if (this.thingInt != null)
-			{
-				return this.thingInt.GetHashCode();
-			}
-			return Gen.HashCombine(this.cellInt.GetHashCode(), this.mapInt);
-		}
-
-		public override string ToString()
-		{
-			if (this.Thing != null)
-			{
-				return this.Thing.GetUniqueLoadID();
-			}
-			if (this.Cell.IsValid)
-			{
-				return this.Cell.ToString() + ", " + ((this.mapInt == null) ? "null" : this.mapInt.GetUniqueLoadID());
-			}
-			return "null";
-		}
-
 		public static implicit operator TargetInfo(Thing t)
 		{
 			return new TargetInfo(t);
@@ -164,11 +108,7 @@ namespace Verse
 
 		public static explicit operator LocalTargetInfo(TargetInfo t)
 		{
-			if (t.HasThing)
-			{
-				return new LocalTargetInfo(t.Thing);
-			}
-			return new LocalTargetInfo(t.Cell);
+			return (!t.HasThing) ? new LocalTargetInfo(t.Cell) : new LocalTargetInfo(t.Thing);
 		}
 
 		public static explicit operator IntVec3(TargetInfo targ)
@@ -191,20 +131,32 @@ namespace Verse
 
 		public static bool operator ==(TargetInfo a, TargetInfo b)
 		{
-			if (a.Thing == null && b.Thing == null)
-			{
-				if (!a.cellInt.IsValid && !b.cellInt.IsValid)
-				{
-					return true;
-				}
-				return a.cellInt == b.cellInt && a.mapInt == b.mapInt;
-			}
-			return a.Thing == b.Thing;
+			return (a.Thing != null || b.Thing != null) ? (a.Thing == b.Thing) : ((!a.cellInt.IsValid && !b.cellInt.IsValid) || (a.cellInt == b.cellInt && a.mapInt == b.mapInt));
 		}
 
 		public static bool operator !=(TargetInfo a, TargetInfo b)
 		{
 			return !(a == b);
+		}
+
+		public override bool Equals(object obj)
+		{
+			return obj is TargetInfo && this.Equals((TargetInfo)obj);
+		}
+
+		public bool Equals(TargetInfo other)
+		{
+			return this == other;
+		}
+
+		public override int GetHashCode()
+		{
+			return (this.thingInt == null) ? Gen.HashCombine(this.cellInt.GetHashCode(), this.mapInt) : this.thingInt.GetHashCode();
+		}
+
+		public override string ToString()
+		{
+			return (this.Thing == null) ? ((!this.Cell.IsValid) ? "null" : (this.Cell.ToString() + ", " + ((this.mapInt == null) ? "null" : this.mapInt.GetUniqueLoadID()))) : this.Thing.GetUniqueLoadID();
 		}
 	}
 }

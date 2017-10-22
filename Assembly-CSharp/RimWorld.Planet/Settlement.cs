@@ -1,28 +1,24 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld.Planet
 {
+	[StaticConstructorOnStartup]
 	public class Settlement : MapParent, ITrader
 	{
 		public Settlement_TraderTracker trader;
 
 		public List<Pawn> previouslyGeneratedInhabitants = new List<Pawn>();
 
+		public static readonly Texture2D FormCaravanCommand = ContentFinder<Texture2D>.Get("UI/Commands/FormCaravan", true);
+
 		protected override bool UseGenericEnterMapFloatMenuOption
 		{
 			get
 			{
 				return !this.Attackable;
-			}
-		}
-
-		public virtual bool Abandonable
-		{
-			get
-			{
-				return base.Faction == Faction.OfPlayer;
 			}
 		}
 
@@ -54,11 +50,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.trader == null)
-				{
-					return null;
-				}
-				return this.trader.TraderKind;
+				return (this.trader != null) ? this.trader.TraderKind : null;
 			}
 		}
 
@@ -66,11 +58,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.trader == null)
-				{
-					return null;
-				}
-				return this.trader.StockListForReading;
+				return (this.trader != null) ? this.trader.StockListForReading : null;
 			}
 		}
 
@@ -78,11 +66,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.trader == null)
-				{
-					return 0;
-				}
-				return this.trader.RandomPriceFactorSeed;
+				return (this.trader != null) ? this.trader.RandomPriceFactorSeed : 0;
 			}
 		}
 
@@ -90,11 +74,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.trader == null)
-				{
-					return (string)null;
-				}
-				return this.trader.TraderName;
+				return (this.trader != null) ? this.trader.TraderName : null;
 			}
 		}
 
@@ -102,11 +82,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.trader == null)
-				{
-					return false;
-				}
-				return this.trader.CanTradeNow;
+				return this.trader != null && this.trader.CanTradeNow;
 			}
 		}
 
@@ -114,21 +90,13 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.trader == null)
-				{
-					return 0f;
-				}
-				return this.trader.TradePriceImprovementOffsetForPlayer;
+				return (float)((this.trader != null) ? this.trader.TradePriceImprovementOffsetForPlayer : 0.0);
 			}
 		}
 
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
-			if (this.trader == null)
-			{
-				return null;
-			}
-			return this.trader.ColonyThingsWillingToBuy(playerNegotiator);
+			return (this.trader != null) ? this.trader.ColonyThingsWillingToBuy(playerNegotiator) : null;
 		}
 
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
@@ -195,67 +163,79 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return gizmo;
-			}
-			if (this.Abandonable)
-			{
-				yield return (Gizmo)SettlementAbandonUtility.AbandonCommand(this);
-			}
-			if (base.Faction != Faction.OfPlayer && !PlayerKnowledgeDatabase.IsComplete(ConceptDefOf.FormCaravan))
-			{
-				yield return (Gizmo)new Command_Action
+				if (enumerator.MoveNext())
 				{
-					defaultLabel = "CommandFormCaravan".Translate(),
-					defaultDesc = "CommandFormCaravanDesc".Translate(),
-					icon = MapParent.FormCaravanCommand,
-					action = (Action)delegate
-					{
-						Find.Tutor.learningReadout.TryActivateConcept(ConceptDefOf.FormCaravan);
-						Messages.Message("MessageSelectOwnBaseToFormCaravan".Translate(), MessageSound.RejectInput);
-					}
-				};
+					Gizmo g = enumerator.Current;
+					yield return g;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			if (base.Faction == Faction.OfPlayer)
+				yield break;
+			if (PlayerKnowledgeDatabase.IsComplete(ConceptDefOf.FormCaravan))
+				yield break;
+			yield return (Gizmo)new Command_Action
+			{
+				defaultLabel = "CommandFormCaravan".Translate(),
+				defaultDesc = "CommandFormCaravanDesc".Translate(),
+				icon = Settlement.FormCaravanCommand,
+				action = (Action)delegate
+				{
+					Find.Tutor.learningReadout.TryActivateConcept(ConceptDefOf.FormCaravan);
+					Messages.Message("MessageSelectOwnBaseToFormCaravan".Translate(), MessageTypeDefOf.RejectInput);
+				}
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0176:
+			/*Error near IL_0177: Unexpected return in MoveNext()*/;
+		}
+
+		public override IEnumerable<Gizmo> GetCaravanGizmos(Caravan caravan)
+		{
+			if (this.CanTradeNow)
+			{
+				yield return (Gizmo)CaravanVisitUtility.TradeCommand(caravan);
+				/*Error: Unable to find new state assignment for yield return*/;
+			}
+			if (base.GetComponent<CaravanRequestComp>() == null)
+				yield break;
+			if (!base.GetComponent<CaravanRequestComp>().ActiveRequest)
+				yield break;
+			yield return (Gizmo)CaravanVisitUtility.FulfillRequestCommand(caravan);
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			foreach (FloatMenuOption floatMenuOption in base.GetFloatMenuOptions(caravan))
+			_003CGetFloatMenuOptions_003Ec__Iterator2 _003CGetFloatMenuOptions_003Ec__Iterator = (_003CGetFloatMenuOptions_003Ec__Iterator2)/*Error near IL_0044: stateMachine*/;
+			using (IEnumerator<FloatMenuOption> enumerator = this._003CGetFloatMenuOptions_003E__BaseCallProxy1(caravan).GetEnumerator())
 			{
-				yield return floatMenuOption;
+				if (enumerator.MoveNext())
+				{
+					FloatMenuOption o = enumerator.Current;
+					yield return o;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			if (this.Visitable && CaravanVisitUtility.SettlementVisitedNow(caravan) != this)
 			{
-				yield return new FloatMenuOption("VisitSettlement".Translate(this.Label), (Action)delegate
+				yield return new FloatMenuOption("VisitSettlement".Translate(this.Label), (Action)delegate()
 				{
-					((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_0108: stateMachine*/).caravan.pather.StartPath(((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_0108: stateMachine*/)._003C_003Ef__this.Tile, new CaravanArrivalAction_VisitSettlement(((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_0108: stateMachine*/)._003C_003Ef__this), true);
+					caravan.pather.StartPath(_003CGetFloatMenuOptions_003Ec__Iterator._0024this.Tile, new CaravanArrivalAction_VisitSettlement(_003CGetFloatMenuOptions_003Ec__Iterator._0024this), true);
 				}, MenuOptionPriority.Default, null, null, 0f, null, this);
-				if (Prefs.DevMode)
-				{
-					yield return new FloatMenuOption("VisitSettlement".Translate(this.Label) + " (Dev: instantly)", (Action)delegate
-					{
-						((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_016e: stateMachine*/).caravan.Tile = ((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_016e: stateMachine*/)._003C_003Ef__this.Tile;
-						((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_016e: stateMachine*/).caravan.pather.StopDead();
-						new CaravanArrivalAction_VisitSettlement(((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_016e: stateMachine*/)._003C_003Ef__this).Arrived(((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_016e: stateMachine*/).caravan);
-					}, MenuOptionPriority.Default, null, null, 0f, null, this);
-				}
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (this.Attackable)
+			if (!this.Attackable)
+				yield break;
+			yield return new FloatMenuOption("AttackSettlement".Translate(this.Label), (Action)delegate()
 			{
-				yield return new FloatMenuOption("AttackSettlement".Translate(this.Label), (Action)delegate
-				{
-					((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_01d0: stateMachine*/).caravan.pather.StartPath(((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_01d0: stateMachine*/)._003C_003Ef__this.Tile, new CaravanArrivalAction_AttackSettlement(((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_01d0: stateMachine*/)._003C_003Ef__this), true);
-				}, MenuOptionPriority.Default, null, null, 0f, null, this);
-				if (Prefs.DevMode)
-				{
-					yield return new FloatMenuOption("AttackSettlement".Translate(this.Label) + " (Dev: instantly)", (Action)delegate
-					{
-						((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_0236: stateMachine*/).caravan.Tile = ((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_0236: stateMachine*/)._003C_003Ef__this.Tile;
-						new CaravanArrivalAction_AttackSettlement(((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_0236: stateMachine*/)._003C_003Ef__this).Arrived(((_003CGetFloatMenuOptions_003Ec__Iterator107)/*Error near IL_0236: stateMachine*/).caravan);
-					}, MenuOptionPriority.Default, null, null, 0f, null, this);
-				}
-			}
+				caravan.pather.StartPath(_003CGetFloatMenuOptions_003Ec__Iterator._0024this.Tile, new CaravanArrivalAction_AttackSettlement(_003CGetFloatMenuOptions_003Ec__Iterator._0024this), true);
+			}, MenuOptionPriority.Default, null, null, 0f, null, this);
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_02df:
+			/*Error near IL_02e0: Unexpected return in MoveNext()*/;
 		}
 
 		public override void GetChildHolders(List<IThingHolder> outChildren)
@@ -265,17 +245,6 @@ namespace RimWorld.Planet
 			{
 				outChildren.Add(this.trader);
 			}
-		}
-
-		virtual Faction get_Faction()
-		{
-			return base.Faction;
-		}
-
-		Faction ITrader.get_Faction()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_Faction
-			return this.get_Faction();
 		}
 	}
 }

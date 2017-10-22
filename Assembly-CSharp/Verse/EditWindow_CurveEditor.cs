@@ -7,19 +7,19 @@ namespace Verse
 {
 	public class EditWindow_CurveEditor : EditWindow
 	{
+		private SimpleCurve curve;
+
+		public List<float> debugInputValues = null;
+
+		private int draggingPointIndex = -1;
+
+		private int draggingButton = -1;
+
 		private const float ViewDragPanSpeed = 0.002f;
 
 		private const float ScrollZoomSpeed = 0.025f;
 
 		private const float PointClickDistanceLimit = 7f;
-
-		private SimpleCurve curve;
-
-		public List<float> debugInputValues;
-
-		private int draggingPointIndex = -1;
-
-		private int draggingButton = -1;
 
 		private bool DraggingView
 		{
@@ -104,7 +104,7 @@ namespace Verse
 
 		private void DoCurveEditor(Rect screenRect)
 		{
-			Widgets.DrawMenuSection(screenRect, true);
+			Widgets.DrawMenuSection(screenRect);
 			SimpleCurveDrawer.DrawCurve(screenRect, this.curve, null, null, default(Rect));
 			Vector2 mousePosition = Event.current.mousePosition;
 			if (Mouse.IsOver(screenRect))
@@ -229,19 +229,30 @@ namespace Verse
 			GUI.BeginGroup(screenRect);
 			try
 			{
-				for (int i = 0; i < this.curve.PointsCount; i++)
+				int i = 0;
+				while (true)
 				{
-					Vector2 screenPoint = SimpleCurveDrawer.CurveToScreenCoordsInsideScreenRect(screenRect, this.curve.View.rect, this.curve[i].Loc);
-					if ((screenPoint - Event.current.mousePosition).sqrMagnitude < 49.0)
+					if (i < this.curve.PointsCount)
 					{
-						yield return i;
+						Vector2 screenPoint = SimpleCurveDrawer.CurveToScreenCoordsInsideScreenRect(screenRect, this.curve.View.rect, this.curve[i].Loc);
+						if (!((screenPoint - Event.current.mousePosition).sqrMagnitude < 49.0))
+						{
+							i++;
+							continue;
+						}
+						break;
 					}
+					yield break;
 				}
+				yield return i;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			finally
 			{
-				((_003CPointsNearMouse_003Ec__Iterator232)/*Error near IL_0100: stateMachine*/)._003C_003E__Finally0();
+				((_003CPointsNearMouse_003Ec__Iterator0)/*Error near IL_010d: stateMachine*/)._003C_003E__Finally0();
 			}
+			IL_011d:
+			/*Error near IL_011e: Unexpected return in MoveNext()*/;
 		}
 	}
 }

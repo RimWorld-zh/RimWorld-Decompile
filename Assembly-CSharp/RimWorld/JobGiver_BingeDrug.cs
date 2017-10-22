@@ -60,39 +60,42 @@ namespace RimWorld
 		protected override Thing BestIngestTarget(Pawn pawn)
 		{
 			ChemicalDef chemical = this.GetChemical(pawn);
+			Thing result;
 			if (chemical == null)
 			{
 				Log.ErrorOnce("Tried to binge on null chemical.", 1393746152);
-				return null;
+				result = null;
 			}
-			Hediff overdose = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.DrugOverdose, false);
-			Predicate<Thing> validator;
-			Predicate<Thing> predicate = validator = (Predicate<Thing>)delegate(Thing t)
+			else
 			{
-				if (!base.IgnoreForbid(pawn) && t.IsForbidden(pawn))
+				Hediff overdose = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.DrugOverdose, false);
+				Predicate<Thing> predicate = (Predicate<Thing>)delegate(Thing t)
 				{
-					return false;
-				}
-				if (!pawn.CanReserve(t, 1, -1, null, false))
-				{
-					return false;
-				}
-				CompDrug compDrug = t.TryGetComp<CompDrug>();
-				if (compDrug.Props.chemical != chemical)
-				{
-					return false;
-				}
-				if (overdose != null && compDrug.Props.CanCauseOverdose && overdose.Severity + compDrug.Props.overdoseSeverityOffset.max >= 0.78600001335144043)
-				{
-					return false;
-				}
-				if (!pawn.Position.InHorDistOf(t.Position, 60f) && !t.Position.Roofed(t.Map) && !((Area)pawn.Map.areaManager.Home)[t.Position] && t.GetSlotGroup() == null)
-				{
-					return false;
-				}
-				return true;
-			};
-			return GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.Drug), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
+					bool result2;
+					if (!base.IgnoreForbid(pawn) && t.IsForbidden(pawn))
+					{
+						result2 = false;
+					}
+					else if (!pawn.CanReserve(t, 1, -1, null, false))
+					{
+						result2 = false;
+					}
+					else
+					{
+						CompDrug compDrug = t.TryGetComp<CompDrug>();
+						result2 = ((byte)((compDrug.Props.chemical == chemical) ? ((overdose == null || !compDrug.Props.CanCauseOverdose || !(overdose.Severity + compDrug.Props.overdoseSeverityOffset.max >= 0.78600001335144043)) ? ((pawn.Position.InHorDistOf(t.Position, 60f) || t.Position.Roofed(t.Map) || ((Area)pawn.Map.areaManager.Home)[t.Position] || t.GetSlotGroup() != null) ? 1 : 0) : 0) : 0) != 0);
+					}
+					return result2;
+				};
+				IntVec3 position = pawn.Position;
+				Map map = pawn.Map;
+				ThingRequest thingReq = ThingRequest.ForGroup(ThingRequestGroup.Drug);
+				PathEndMode peMode = PathEndMode.OnCell;
+				TraverseParms traverseParams = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
+				Predicate<Thing> validator = predicate;
+				result = GenClosest.ClosestThingReachable(position, map, thingReq, peMode, traverseParams, 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
+			}
+			return result;
 		}
 
 		private ChemicalDef GetChemical(Pawn pawn)

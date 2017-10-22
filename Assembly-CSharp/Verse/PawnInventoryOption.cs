@@ -13,9 +13,9 @@ namespace Verse
 
 		public float skipChance;
 
-		public List<PawnInventoryOption> subOptionsTakeAll;
+		public List<PawnInventoryOption> subOptionsTakeAll = null;
 
-		public List<PawnInventoryOption> subOptionsChooseOne;
+		public List<PawnInventoryOption> subOptionsChooseOne = null;
 
 		public IEnumerable<Thing> GenerateThings()
 		{
@@ -26,35 +26,40 @@ namespace Verse
 					Thing thing = ThingMaker.MakeThing(this.thingDef, null);
 					thing.stackCount = this.countRange.RandomInRange;
 					yield return thing;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 				if (this.subOptionsTakeAll != null)
 				{
-					List<PawnInventoryOption>.Enumerator enumerator = this.subOptionsTakeAll.GetEnumerator();
-					try
+					foreach (PawnInventoryOption item in this.subOptionsTakeAll)
 					{
-						while (enumerator.MoveNext())
+						using (IEnumerator<Thing> enumerator2 = item.GenerateThings().GetEnumerator())
 						{
-							PawnInventoryOption opt = enumerator.Current;
-							foreach (Thing item in opt.GenerateThings())
+							if (enumerator2.MoveNext())
 							{
-								yield return item;
+								Thing subThing2 = enumerator2.Current;
+								yield return subThing2;
+								/*Error: Unable to find new state assignment for yield return*/;
 							}
 						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
 					}
 				}
 				if (this.subOptionsChooseOne != null)
 				{
 					PawnInventoryOption chosen = this.subOptionsChooseOne.RandomElementByWeight((Func<PawnInventoryOption, float>)((PawnInventoryOption o) => o.choiceChance));
-					foreach (Thing item2 in chosen.GenerateThings())
+					using (IEnumerator<Thing> enumerator3 = chosen.GenerateThings().GetEnumerator())
 					{
-						yield return item2;
+						if (enumerator3.MoveNext())
+						{
+							Thing subThing = enumerator3.Current;
+							yield return subThing;
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
 					}
 				}
 			}
+			yield break;
+			IL_02a9:
+			/*Error near IL_02aa: Unexpected return in MoveNext()*/;
 		}
 	}
 }

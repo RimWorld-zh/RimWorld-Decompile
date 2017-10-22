@@ -92,14 +92,24 @@ namespace Verse
 
 		internal static ModMetaData GetModWithIdentifier(string identifier)
 		{
-			for (int i = 0; i < ModLister.mods.Count; i++)
+			int num = 0;
+			ModMetaData result;
+			while (true)
 			{
-				if (ModLister.mods[i].Identifier == identifier)
+				if (num < ModLister.mods.Count)
 				{
-					return ModLister.mods[i];
+					if (ModLister.mods[num].Identifier == identifier)
+					{
+						result = ModLister.mods[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 	}
 }

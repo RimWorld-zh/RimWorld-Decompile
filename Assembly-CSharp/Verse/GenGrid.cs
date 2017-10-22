@@ -22,70 +22,45 @@ namespace Verse
 
 		public static bool CloseToEdge(this IntVec3 c, Map map, int edgeDist)
 		{
-			int result;
-			if (c.x >= edgeDist && c.z >= edgeDist)
-			{
-				int x = c.x;
-				IntVec3 size = map.Size;
-				if (x < size.x - edgeDist)
-				{
-					int z = c.z;
-					IntVec3 size2 = map.Size;
-					result = ((z >= size2.z - edgeDist) ? 1 : 0);
-					goto IL_0055;
-				}
-			}
-			result = 1;
-			goto IL_0055;
-			IL_0055:
-			return (byte)result != 0;
+			IntVec3 size = map.Size;
+			return c.x < edgeDist || c.z < edgeDist || c.x >= size.x - edgeDist || c.z >= size.z - edgeDist;
 		}
 
 		public static bool OnEdge(this IntVec3 c, Map map)
 		{
-			int result;
-			if (c.x != 0)
-			{
-				int x = c.x;
-				IntVec3 size = map.Size;
-				if (((x != size.x - 1) ? c.z : 0) != 0)
-				{
-					int z = c.z;
-					IntVec3 size2 = map.Size;
-					result = ((z == size2.z - 1) ? 1 : 0);
-					goto IL_0050;
-				}
-			}
-			result = 1;
-			goto IL_0050;
-			IL_0050:
-			return (byte)result != 0;
+			IntVec3 size = map.Size;
+			return c.x == 0 || c.x == size.x - 1 || c.z == 0 || c.z == size.z - 1;
 		}
 
 		public static bool OnEdge(this IntVec3 c, Map map, Rot4 dir)
 		{
+			bool result;
 			if (dir == Rot4.North)
 			{
-				return c.z == 0;
+				result = (c.z == 0);
 			}
-			if (dir == Rot4.South)
+			else if (dir == Rot4.South)
 			{
 				int z = c.z;
 				IntVec3 size = map.Size;
-				return z == size.z - 1;
+				result = (z == size.z - 1);
 			}
-			if (dir == Rot4.West)
+			else if (dir == Rot4.West)
 			{
-				return c.x == 0;
+				result = (c.x == 0);
 			}
-			if (dir == Rot4.East)
+			else if (dir == Rot4.East)
 			{
 				int x = c.x;
 				IntVec3 size2 = map.Size;
-				return x == size2.x - 1;
+				result = (x == size2.x - 1);
 			}
-			Log.ErrorOnce("Invalid edge direction", 55370769);
-			return false;
+			else
+			{
+				Log.ErrorOnce("Invalid edge direction", 55370769);
+				result = false;
+			}
+			return result;
 		}
 
 		public static bool InBounds(this IntVec3 c, Map map)
@@ -107,32 +82,50 @@ namespace Verse
 
 		public static bool Standable(this IntVec3 c, Map map)
 		{
+			bool result;
 			if (!map.pathGrid.Walkable(c))
 			{
-				return false;
+				result = false;
 			}
-			List<Thing> list = map.thingGrid.ThingsListAt(c);
-			for (int i = 0; i < list.Count; i++)
+			else
 			{
-				if (list[i].def.passability != 0)
+				List<Thing> list = map.thingGrid.ThingsListAt(c);
+				for (int i = 0; i < list.Count; i++)
 				{
-					return false;
+					if (list[i].def.passability != 0)
+						goto IL_0044;
 				}
+				result = true;
 			}
-			return true;
+			goto IL_0063;
+			IL_0044:
+			result = false;
+			goto IL_0063;
+			IL_0063:
+			return result;
 		}
 
 		public static bool Impassable(this IntVec3 c, Map map)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAtFast(c);
-			for (int i = 0; i < list.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (list[i].def.passability == Traversability.Impassable)
+				if (num < list.Count)
 				{
-					return true;
+					if (list[num].def.passability == Traversability.Impassable)
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public static bool SupportsStructureType(this IntVec3 c, Map map, TerrainAffordance surfaceType)
@@ -142,57 +135,65 @@ namespace Verse
 
 		public static bool CanBeSeenOver(this IntVec3 c, Map map)
 		{
+			bool result;
 			if (!c.InBounds(map))
 			{
-				return false;
+				result = false;
 			}
-			Building edifice = c.GetEdifice(map);
-			if (edifice != null && !edifice.CanBeSeenOver())
+			else
 			{
-				return false;
+				Building edifice = c.GetEdifice(map);
+				result = ((byte)((edifice == null || edifice.CanBeSeenOver()) ? 1 : 0) != 0);
 			}
-			return true;
+			return result;
 		}
 
 		public static bool CanBeSeenOverFast(this IntVec3 c, Map map)
 		{
 			Building edifice = c.GetEdifice(map);
-			if (edifice != null && !edifice.CanBeSeenOver())
-			{
-				return false;
-			}
-			return true;
+			return (byte)((edifice == null || edifice.CanBeSeenOver()) ? 1 : 0) != 0;
 		}
 
 		public static bool CanBeSeenOver(this Building b)
 		{
+			bool result;
 			if (b.def.Fillage == FillCategory.Full)
 			{
 				Building_Door building_Door = b as Building_Door;
-				if (building_Door != null && building_Door.Open)
-				{
-					return true;
-				}
-				return false;
+				result = ((byte)((building_Door != null && building_Door.Open) ? 1 : 0) != 0);
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
 		public static SurfaceType GetSurfaceType(this IntVec3 c, Map map)
 		{
+			SurfaceType result;
+			List<Thing> thingList;
+			int i;
 			if (!c.InBounds(map))
 			{
-				return SurfaceType.None;
+				result = SurfaceType.None;
 			}
-			List<Thing> thingList = c.GetThingList(map);
-			for (int i = 0; i < thingList.Count; i++)
+			else
 			{
-				if (thingList[i].def.surfaceType != 0)
+				thingList = c.GetThingList(map);
+				for (i = 0; i < thingList.Count; i++)
 				{
-					return thingList[i].def.surfaceType;
+					if (thingList[i].def.surfaceType != 0)
+						goto IL_003a;
 				}
+				result = SurfaceType.None;
 			}
-			return SurfaceType.None;
+			goto IL_0069;
+			IL_003a:
+			result = thingList[i].def.surfaceType;
+			goto IL_0069;
+			IL_0069:
+			return result;
 		}
 
 		public static bool HasEatSurface(this IntVec3 c, Map map)

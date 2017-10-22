@@ -14,15 +14,7 @@ namespace Verse
 
 		public virtual bool ObjIsDefault(object obj)
 		{
-			if (obj == null)
-			{
-				return this.value == null;
-			}
-			if (this.value == null)
-			{
-				return false;
-			}
-			return this.value.Equals(obj);
+			return (obj != null) ? (this.value != null && this.value.Equals(obj)) : (this.value == null);
 		}
 	}
 }

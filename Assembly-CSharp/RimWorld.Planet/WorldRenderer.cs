@@ -13,20 +13,30 @@ namespace RimWorld.Planet
 
 		public WorldRenderMode wantedMode;
 
-		private bool asynchronousRegenerationActive;
+		private bool asynchronousRegenerationActive = false;
 
 		private bool ShouldRegenerateDirtyLayersInLongEvent
 		{
 			get
 			{
-				for (int i = 0; i < this.layers.Count; i++)
+				int num = 0;
+				bool result;
+				while (true)
 				{
-					if (this.layers[i].Dirty && this.layers[i] is WorldLayer_Terrain)
+					if (num < this.layers.Count)
 					{
-						return true;
+						if (this.layers[num].Dirty && this.layers[num] is WorldLayer_Terrain)
+						{
+							result = true;
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = false;
+					break;
 				}
-				return false;
+				return result;
 			}
 		}
 
@@ -71,14 +81,33 @@ namespace RimWorld.Planet
 			{
 				if (this.layers[i].Dirty)
 				{
-					foreach (object item in this.layers[i].Regenerate())
+					IEnumerator enumerator = this.layers[i].Regenerate().GetEnumerator();
+					try
 					{
-						yield return item;
+						if (enumerator.MoveNext())
+						{
+							object result = enumerator.Current;
+							yield return result;
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
+					}
+					finally
+					{
+						IDisposable disposable;
+						IDisposable disposable2 = disposable = (enumerator as IDisposable);
+						if (disposable != null)
+						{
+							disposable2.Dispose();
+						}
 					}
 					yield return (object)null;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			this.asynchronousRegenerationActive = false;
+			yield break;
+			IL_0162:
+			/*Error near IL_0163: Unexpected return in MoveNext()*/;
 		}
 
 		public void Notify_StaticWorldObjectPosChanged()
@@ -123,16 +152,24 @@ namespace RimWorld.Planet
 		{
 			int num = 0;
 			int count = this.layers.Count;
-			while (num < count)
+			int result;
+			while (true)
 			{
-				WorldLayer_Terrain worldLayer_Terrain = this.layers[num] as WorldLayer_Terrain;
-				if (worldLayer_Terrain != null)
+				if (num < count)
 				{
-					return worldLayer_Terrain.GetTileIDFromRayHit(hit);
+					WorldLayer_Terrain worldLayer_Terrain = this.layers[num] as WorldLayer_Terrain;
+					if (worldLayer_Terrain != null)
+					{
+						result = worldLayer_Terrain.GetTileIDFromRayHit(hit);
+						break;
+					}
+					num++;
+					continue;
 				}
-				num++;
+				result = -1;
+				break;
 			}
-			return -1;
+			return result;
 		}
 	}
 }

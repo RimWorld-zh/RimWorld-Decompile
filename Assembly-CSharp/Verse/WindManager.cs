@@ -13,9 +13,9 @@ namespace Verse
 
 		private float cachedWindSpeed;
 
-		private ModuleBase windNoise;
+		private ModuleBase windNoise = null;
 
-		private float plantSwayHead;
+		private float plantSwayHead = 0f;
 
 		public float WindSpeed
 		{
@@ -33,6 +33,12 @@ namespace Verse
 		public void WindManagerTick()
 		{
 			this.cachedWindSpeed = this.BaseWindSpeedAt(Find.TickManager.TicksAbs) * this.map.weatherManager.CurWindSpeedFactor;
+			List<Thing> list = this.map.listerThings.ThingsInGroup(ThingRequestGroup.WindSource);
+			for (int i = 0; i < list.Count; i++)
+			{
+				CompWindSource compWindSource = list[i].TryGetComp<CompWindSource>();
+				this.cachedWindSpeed = Mathf.Max(this.cachedWindSpeed, compWindSource.wind);
+			}
 			if (Prefs.PlantWindSway)
 			{
 				this.plantSwayHead += Mathf.Min(this.WindSpeed, 1f);
@@ -43,9 +49,9 @@ namespace Verse
 			}
 			if (Find.VisibleMap == this.map)
 			{
-				for (int i = 0; i < WindManager.plantMaterials.Count; i++)
+				for (int j = 0; j < WindManager.plantMaterials.Count; j++)
 				{
-					WindManager.plantMaterials[i].SetFloat(ShaderPropertyIDs.SwayHead, this.plantSwayHead);
+					WindManager.plantMaterials[j].SetFloat(ShaderPropertyIDs.SwayHead, this.plantSwayHead);
 				}
 			}
 		}

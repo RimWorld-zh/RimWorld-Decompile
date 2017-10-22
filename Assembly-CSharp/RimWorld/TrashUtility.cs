@@ -11,89 +11,94 @@ namespace RimWorld
 
 		public static bool ShouldTrashPlant(Pawn pawn, Plant p)
 		{
-			if (p.sown && !p.def.plant.IsTree && p.FlammableNow && TrashUtility.CanTrash(pawn, p))
+			bool result;
+			if (!p.sown || p.def.plant.IsTree || !p.FlammableNow || !TrashUtility.CanTrash(pawn, p))
+			{
+				result = false;
+			}
+			else
 			{
 				CellRect.CellRectIterator iterator = CellRect.CenteredOn(p.Position, 2).ClipInsideMap(p.Map).GetIterator();
 				while (!iterator.Done())
 				{
 					IntVec3 current = iterator.Current;
 					if (current.InBounds(p.Map) && current.ContainsStaticFire(p.Map))
-					{
-						return false;
-					}
+						goto IL_0095;
 					iterator.MoveNext();
 				}
-				if (!p.Position.Roofed(p.Map) && p.Map.weatherManager.RainRate > 0.25)
-				{
-					return false;
-				}
-				return true;
+				result = ((byte)((p.Position.Roofed(p.Map) || !(p.Map.weatherManager.RainRate > 0.25)) ? 1 : 0) != 0);
 			}
-			return false;
+			goto IL_00ee;
+			IL_00ee:
+			return result;
+			IL_0095:
+			result = false;
+			goto IL_00ee;
 		}
 
 		public static bool ShouldTrashBuilding(Pawn pawn, Building b)
 		{
+			bool result;
 			if (!b.def.useHitPoints)
 			{
-				return false;
+				result = false;
 			}
-			if (b.def.building.isInert || b.def.building.isTrap)
+			else
 			{
-				int num = GenLocalDate.HourOfDay(pawn) / 3;
-				int specialSeed = b.GetHashCode() * 612361 ^ pawn.GetHashCode() * 391 ^ num * 734273247;
-				if (!Rand.ChanceSeeded(0.008f, specialSeed))
+				if (b.def.building.isInert || b.def.building.isTrap)
 				{
-					return false;
+					int num = GenLocalDate.HourOfDay(pawn) / 3;
+					int specialSeed = b.GetHashCode() * 612361 ^ pawn.GetHashCode() * 391 ^ num * 734273247;
+					if (!Rand.ChanceSeeded(0.008f, specialSeed))
+					{
+						result = false;
+						goto IL_00d8;
+					}
 				}
+				result = ((byte)((!b.def.building.isTrap || !((Building_Trap)b).Armed) ? ((TrashUtility.CanTrash(pawn, b) && pawn.HostileTo(b)) ? 1 : 0) : 0) != 0);
 			}
-			if (b.def.building.isTrap && ((Building_Trap)b).Armed)
-			{
-				return false;
-			}
-			if (TrashUtility.CanTrash(pawn, b) && pawn.HostileTo(b))
-			{
-				return true;
-			}
-			return false;
+			goto IL_00d8;
+			IL_00d8:
+			return result;
 		}
 
 		private static bool CanTrash(Pawn pawn, Thing t)
 		{
-			if (pawn.CanReach(t, PathEndMode.Touch, Danger.Some, false, TraverseMode.ByPawn) && !t.IsBurning())
-			{
-				return true;
-			}
-			return false;
+			return (byte)((pawn.CanReach(t, PathEndMode.Touch, Danger.Some, false, TraverseMode.ByPawn) && !t.IsBurning()) ? 1 : 0) != 0;
 		}
 
 		public static Job TrashJob(Pawn pawn, Thing t)
 		{
 			Plant plant = t as Plant;
+			Job result;
 			if (plant != null)
 			{
 				Job job = new Job(JobDefOf.Ignite, t);
 				TrashUtility.FinalizeTrashJob(job);
-				return job;
+				result = job;
 			}
-			if (pawn.equipment != null && Rand.Value < 0.699999988079071)
+			else
 			{
-				foreach (Verb allEquipmentVerb in pawn.equipment.AllEquipmentVerbs)
+				if (pawn.equipment != null && Rand.Value < 0.699999988079071)
 				{
-					if (allEquipmentVerb.verbProps.ai_IsBuildingDestroyer)
+					foreach (Verb allEquipmentVerb in pawn.equipment.AllEquipmentVerbs)
 					{
-						Job job2 = new Job(JobDefOf.UseVerbOnThing, t);
-						job2.verbToUse = allEquipmentVerb;
-						TrashUtility.FinalizeTrashJob(job2);
-						return job2;
+						if (allEquipmentVerb.verbProps.ai_IsBuildingDestroyer)
+						{
+							Job job2 = new Job(JobDefOf.UseVerbOnThing, t);
+							job2.verbToUse = allEquipmentVerb;
+							TrashUtility.FinalizeTrashJob(job2);
+							return job2;
+						}
 					}
 				}
+				Job job3 = null;
+				float value = Rand.Value;
+				job3 = ((!(value < 0.34999999403953552) || pawn.natives.IgniteVerb == null || !t.FlammableNow || t.IsBurning() || t is Building_Door) ? new Job(JobDefOf.AttackMelee, t) : new Job(JobDefOf.Ignite, t));
+				TrashUtility.FinalizeTrashJob(job3);
+				result = job3;
 			}
-			Job job3 = null;
-			float value = Rand.Value;
-			job3 = ((!(value < 0.34999999403953552) || pawn.natives.IgniteVerb == null || !t.FlammableNow || t.IsBurning() || t is Building_Door) ? new Job(JobDefOf.AttackMelee, t) : new Job(JobDefOf.Ignite, t));
-			TrashUtility.FinalizeTrashJob(job3);
-			return job3;
+			return result;
 		}
 
 		private static void FinalizeTrashJob(Job job)

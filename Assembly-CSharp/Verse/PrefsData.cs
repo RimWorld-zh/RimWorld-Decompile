@@ -9,45 +9,47 @@ namespace Verse
 
 		public float volumeMusic = 0.4f;
 
+		public float volumeAmbient = 1f;
+
 		public float uiScale = 1f;
 
-		public bool hatsOnlyOnMap;
+		public bool hatsOnlyOnMap = false;
 
 		public bool adaptiveTrainingEnabled = true;
 
 		public List<string> preferredNames = new List<string>();
 
-		public bool resourceReadoutCategorized;
+		public bool resourceReadoutCategorized = false;
 
-		public bool runInBackground;
+		public bool runInBackground = false;
 
 		public bool customCursorEnabled = true;
 
 		public bool edgeScreenScroll = true;
 
-		public TemperatureDisplayMode temperatureMode;
+		public TemperatureDisplayMode temperatureMode = TemperatureDisplayMode.Celsius;
 
 		public float autosaveIntervalDays = 1f;
 
-		public bool showRealtimeClock;
+		public bool showRealtimeClock = false;
 
 		public int maxNumberOfPlayerHomes = 1;
 
 		public bool plantWindSway = true;
 
-		public bool pauseOnLoad;
+		public bool pauseOnLoad = false;
 
-		public bool pauseOnUrgentLetter;
+		public bool pauseOnUrgentLetter = false;
 
-		public AnimalNameDisplayMode animalNameMode;
+		public AnimalNameDisplayMode animalNameMode = AnimalNameDisplayMode.None;
 
-		public bool devMode;
+		public bool devMode = false;
 
 		public string langFolderName = "unknown";
 
-		public bool logVerbose;
+		public bool logVerbose = false;
 
-		public bool pauseOnError;
+		public bool pauseOnError = false;
 
 		public bool resetModsConfigOnCrash = true;
 

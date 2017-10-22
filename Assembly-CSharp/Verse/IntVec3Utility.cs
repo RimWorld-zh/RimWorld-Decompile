@@ -22,29 +22,36 @@ namespace Verse
 
 		public static IntVec3 RotatedBy(this IntVec3 orig, Rot4 rot)
 		{
+			IntVec3 result;
 			switch (rot.AsInt)
 			{
 			case 0:
 			{
-				return orig;
+				result = orig;
+				break;
 			}
 			case 1:
 			{
-				return new IntVec3(orig.z, orig.y, -orig.x);
+				result = new IntVec3(orig.z, orig.y, -orig.x);
+				break;
 			}
 			case 2:
 			{
-				return new IntVec3(-orig.x, orig.y, -orig.z);
+				result = new IntVec3(-orig.x, orig.y, -orig.z);
+				break;
 			}
 			case 3:
 			{
-				return new IntVec3(-orig.z, orig.y, orig.x);
+				result = new IntVec3(-orig.z, orig.y, orig.x);
+				break;
 			}
 			default:
 			{
-				return orig;
+				result = orig;
+				break;
 			}
 			}
+			return result;
 		}
 
 		public static int ManhattanDistanceFlat(IntVec3 a, IntVec3 b)
@@ -55,6 +62,18 @@ namespace Verse
 		public static IntVec3 RandomHorizontalOffset(float maxDist)
 		{
 			return Vector3Utility.RandomHorizontalOffset(maxDist).ToIntVec3();
+		}
+
+		public static int DistanceToEdge(this IntVec3 v, Map map)
+		{
+			int num = Mathf.Min(v.x, v.z);
+			int a = num;
+			IntVec3 size = map.Size;
+			num = Mathf.Min(a, size.x - v.x - 1);
+			int a2 = num;
+			IntVec3 size2 = map.Size;
+			num = Mathf.Min(a2, size2.z - v.z - 1);
+			return Mathf.Max(num, 0);
 		}
 	}
 }

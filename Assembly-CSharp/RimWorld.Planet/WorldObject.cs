@@ -10,8 +10,6 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class WorldObject : IExposable, ILoadReferenceable, ISelectable
 	{
-		private const float BaseDrawSize = 0.7f;
-
 		public WorldObjectDef def;
 
 		public int ID = -1;
@@ -25,6 +23,8 @@ namespace RimWorld.Planet
 		private List<WorldObjectComp> comps = new List<WorldObjectComp>();
 
 		private static MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+
+		private const float BaseDrawSize = 0.7f;
 
 		public List<WorldObjectComp> AllComps
 		{
@@ -182,6 +182,37 @@ namespace RimWorld.Planet
 			}
 		}
 
+		public virtual IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
+		{
+			if (this.def.incidentTargetTypes != null)
+			{
+				using (List<IncidentTargetTypeDef>.Enumerator enumerator = this.def.incidentTargetTypes.GetEnumerator())
+				{
+					if (enumerator.MoveNext())
+					{
+						IncidentTargetTypeDef type2 = enumerator.Current;
+						yield return type2;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
+				}
+			}
+			for (int i = 0; i < this.comps.Count; i++)
+			{
+				using (IEnumerator<IncidentTargetTypeDef> enumerator2 = this.comps[i].AcceptedTypes().GetEnumerator())
+				{
+					if (enumerator2.MoveNext())
+					{
+						IncidentTargetTypeDef type = enumerator2.Current;
+						yield return type;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
+				}
+			}
+			yield break;
+			IL_01af:
+			/*Error near IL_01b0: Unexpected return in MoveNext()*/;
+		}
+
 		public virtual void ExposeData()
 		{
 			Scribe_Defs.Look<WorldObjectDef>(ref this.def, "def");
@@ -322,8 +353,12 @@ namespace RimWorld.Planet
 				Color color = this.Material.color;
 				float num = (float)(1.0 - transitionPct);
 				WorldObject.propertyBlock.SetColor(ShaderPropertyIDs.Color, new Color(color.r, color.g, color.b, color.a * num));
+				Vector3 drawPos = this.DrawPos;
+				float size = (float)(0.699999988079071 * averageTileSize);
+				float altOffset = 0.015f;
+				Material material = this.Material;
 				MaterialPropertyBlock materialPropertyBlock = WorldObject.propertyBlock;
-				WorldRendererUtility.DrawQuadTangentialToPlanet(this.DrawPos, (float)(0.699999988079071 * averageTileSize), 0.015f, this.Material, false, false, materialPropertyBlock);
+				WorldRendererUtility.DrawQuadTangentialToPlanet(drawPos, size, altOffset, material, false, false, materialPropertyBlock);
 			}
 			else
 			{
@@ -333,58 +368,95 @@ namespace RimWorld.Planet
 
 		public T GetComponent<T>() where T : WorldObjectComp
 		{
-			for (int i = 0; i < this.comps.Count; i++)
+			int num = 0;
+			T result;
+			while (true)
 			{
-				T val = (T)(this.comps[i] as T);
-				if (val != null)
+				if (num < this.comps.Count)
 				{
-					return val;
+					T val = (T)(this.comps[num] as T);
+					if (val != null)
+					{
+						result = val;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = (T)null;
+				break;
 			}
-			return (T)null;
+			return result;
 		}
 
 		public WorldObjectComp GetComponent(Type type)
 		{
-			for (int i = 0; i < this.comps.Count; i++)
+			int num = 0;
+			WorldObjectComp result;
+			while (true)
 			{
-				if (type.IsAssignableFrom(this.comps[i].GetType()))
+				if (num < this.comps.Count)
 				{
-					return this.comps[i];
+					if (type.IsAssignableFrom(this.comps[num].GetType()))
+					{
+						result = this.comps[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public virtual IEnumerable<Gizmo> GetGizmos()
 		{
 			for (int i = 0; i < this.comps.Count; i++)
 			{
-				foreach (Gizmo gizmo in this.comps[i].GetGizmos())
+				using (IEnumerator<Gizmo> enumerator = this.comps[i].GetGizmos().GetEnumerator())
 				{
-					yield return gizmo;
+					if (enumerator.MoveNext())
+					{
+						Gizmo gizmo = enumerator.Current;
+						yield return gizmo;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
+			yield break;
+			IL_0104:
+			/*Error near IL_0105: Unexpected return in MoveNext()*/;
+		}
+
+		public virtual IEnumerable<Gizmo> GetCaravanGizmos(Caravan caravan)
+		{
+			yield break;
 		}
 
 		public virtual IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
 			for (int i = 0; i < this.comps.Count; i++)
 			{
-				foreach (FloatMenuOption floatMenuOption in this.comps[i].GetFloatMenuOptions(caravan))
+				using (IEnumerator<FloatMenuOption> enumerator = this.comps[i].GetFloatMenuOptions(caravan).GetEnumerator())
 				{
-					yield return floatMenuOption;
+					if (enumerator.MoveNext())
+					{
+						FloatMenuOption f = enumerator.Current;
+						yield return f;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
+			yield break;
+			IL_010a:
+			/*Error near IL_010b: Unexpected return in MoveNext()*/;
 		}
 
 		public virtual IEnumerable<InspectTabBase> GetInspectTabs()
 		{
-			if (this.def.inspectorTabsResolved != null)
-			{
-				return this.def.inspectorTabsResolved;
-			}
-			return Enumerable.Empty<InspectTabBase>();
+			return (this.def.inspectorTabsResolved == null) ? Enumerable.Empty<InspectTabBase>() : this.def.inspectorTabsResolved;
 		}
 
 		public override string ToString()

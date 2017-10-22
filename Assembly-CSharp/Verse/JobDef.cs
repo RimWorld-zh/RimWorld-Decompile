@@ -15,17 +15,21 @@ namespace Verse
 
 		public CheckJobOverrideOnDamageMode checkOverrideOnDamage = CheckJobOverrideOnDamageMode.Always;
 
-		public bool alwaysShowWeapon;
+		public bool alwaysShowWeapon = false;
 
-		public bool neverShowWeapon;
+		public bool neverShowWeapon = false;
 
 		public bool suspendable = true;
 
 		public bool casualInterruptible = true;
 
-		public bool collideWithPawns;
+		public bool collideWithPawns = false;
 
-		public bool makeTargetPrisoner;
+		public bool isIdle = false;
+
+		public TaleDef taleOnCompletion = null;
+
+		public bool makeTargetPrisoner = false;
 
 		public int joyDuration = 4000;
 
@@ -33,24 +37,33 @@ namespace Verse
 
 		public float joyGainRate = 1f;
 
-		public SkillDef joySkill;
+		public SkillDef joySkill = null;
 
-		public float joyXpPerTick;
+		public float joyXpPerTick = 0f;
 
-		public JoyKindDef joyKind;
+		public JoyKindDef joyKind = null;
 
 		public Rot4 faceDir = Rot4.Invalid;
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string e = enumerator.Current;
+					yield return e;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			if (this.joySkill != null && this.joyXpPerTick == 0.0)
-			{
-				yield return "funSkill is not null but funXpPerTick is zero";
-			}
+			if (this.joySkill == null)
+				yield break;
+			if (this.joyXpPerTick != 0.0)
+				yield break;
+			yield return "funSkill is not null but funXpPerTick is zero";
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0105:
+			/*Error near IL_0106: Unexpected return in MoveNext()*/;
 		}
 	}
 }

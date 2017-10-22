@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
@@ -16,145 +17,102 @@ namespace Verse
 			XPathNavigator xPathNavigator = xPathDocument.CreateNavigator();
 			xPathNavigator.MoveToFirst();
 			xPathNavigator.MoveToFirstChild();
-			foreach (XPathNavigator item2 in xPathNavigator.Select("Node"))
+			IEnumerator enumerator = xPathNavigator.Select("Node").GetEnumerator();
+			try
 			{
-				try
+				while (enumerator.MoveNext())
 				{
-					TextReader textReader2 = new StringReader(item2.OuterXml);
-					XmlSerializer xmlSerializer = new XmlSerializer(typeof(DiaNodeMold));
-					DiaNodeMold diaNodeMold = (DiaNodeMold)xmlSerializer.Deserialize(textReader2);
-					diaNodeMold.nodeType = NodesType;
-					NodeListToFill.Add(diaNodeMold);
-					textReader2.Dispose();
-				}
-				catch (Exception ex)
-				{
-					Log.Message("Exception deserializing " + item2.OuterXml + ":\n" + ex.InnerException);
-					goto end_IL_0096;
-					IL_00d0:
-					end_IL_0096:;
+					XPathNavigator xPathNavigator2 = (XPathNavigator)enumerator.Current;
+					try
+					{
+						TextReader textReader2 = new StringReader(xPathNavigator2.OuterXml);
+						XmlSerializer xmlSerializer = new XmlSerializer(typeof(DiaNodeMold));
+						DiaNodeMold diaNodeMold = (DiaNodeMold)xmlSerializer.Deserialize(textReader2);
+						diaNodeMold.nodeType = NodesType;
+						NodeListToFill.Add(diaNodeMold);
+						textReader2.Dispose();
+					}
+					catch (Exception ex)
+					{
+						Log.Message("Exception deserializing " + xPathNavigator2.OuterXml + ":\n" + ex.InnerException);
+					}
 				}
 			}
-			foreach (XPathNavigator item3 in xPathNavigator.Select("NodeList"))
+			finally
 			{
-				try
+				IDisposable disposable;
+				if ((disposable = (enumerator as IDisposable)) != null)
 				{
-					TextReader textReader3 = new StringReader(item3.OuterXml);
-					XmlSerializer xmlSerializer2 = new XmlSerializer(typeof(DiaNodeList));
-					DiaNodeList item = (DiaNodeList)xmlSerializer2.Deserialize(textReader3);
-					ListListToFill.Add(item);
+					disposable.Dispose();
 				}
-				catch (Exception ex2)
+			}
+			IEnumerator enumerator2 = xPathNavigator.Select("NodeList").GetEnumerator();
+			try
+			{
+				while (enumerator2.MoveNext())
 				{
-					Log.Message("Exception deserializing " + item3.OuterXml + ":\n" + ex2.InnerException);
-					goto end_IL_015d;
-					IL_0198:
-					end_IL_015d:;
+					XPathNavigator xPathNavigator3 = (XPathNavigator)enumerator2.Current;
+					try
+					{
+						TextReader textReader3 = new StringReader(xPathNavigator3.OuterXml);
+						XmlSerializer xmlSerializer2 = new XmlSerializer(typeof(DiaNodeList));
+						DiaNodeList item = (DiaNodeList)xmlSerializer2.Deserialize(textReader3);
+						ListListToFill.Add(item);
+					}
+					catch (Exception ex2)
+					{
+						Log.Message("Exception deserializing " + xPathNavigator3.OuterXml + ":\n" + ex2.InnerException);
+					}
+				}
+			}
+			finally
+			{
+				IDisposable disposable2;
+				if ((disposable2 = (enumerator2 as IDisposable)) != null)
+				{
+					disposable2.Dispose();
 				}
 			}
 		}
 
 		public static void MarkNonRootNodes(List<DiaNodeMold> NodeList)
 		{
-			List<DiaNodeMold>.Enumerator enumerator = NodeList.GetEnumerator();
-			try
+			foreach (DiaNodeMold item in NodeList)
 			{
-				while (enumerator.MoveNext())
-				{
-					DiaNodeMold current = enumerator.Current;
-					LayerLoader.RecursiveSetIsRootFalse(current);
-				}
+				LayerLoader.RecursiveSetIsRootFalse(item);
 			}
-			finally
+			foreach (DiaNodeMold item2 in NodeList)
 			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
-			List<DiaNodeMold>.Enumerator enumerator2 = NodeList.GetEnumerator();
-			try
-			{
-				while (enumerator2.MoveNext())
+				foreach (DiaNodeMold item3 in NodeList)
 				{
-					DiaNodeMold current2 = enumerator2.Current;
-					List<DiaNodeMold>.Enumerator enumerator3 = NodeList.GetEnumerator();
-					try
+					foreach (DiaOptionMold option in item3.optionList)
 					{
-						while (enumerator3.MoveNext())
+						bool flag = false;
+						foreach (string childNodeName in option.ChildNodeNames)
 						{
-							DiaNodeMold current3 = enumerator3.Current;
-							List<DiaOptionMold>.Enumerator enumerator4 = current3.optionList.GetEnumerator();
-							try
+							if (childNodeName == item2.name)
 							{
-								while (enumerator4.MoveNext())
-								{
-									DiaOptionMold current4 = enumerator4.Current;
-									bool flag = false;
-									List<string>.Enumerator enumerator5 = current4.ChildNodeNames.GetEnumerator();
-									try
-									{
-										while (enumerator5.MoveNext())
-										{
-											string current5 = enumerator5.Current;
-											if (current5 == current2.name)
-											{
-												flag = true;
-											}
-										}
-									}
-									finally
-									{
-										((IDisposable)(object)enumerator5).Dispose();
-									}
-									if (flag)
-									{
-										current2.isRoot = false;
-									}
-								}
-							}
-							finally
-							{
-								((IDisposable)(object)enumerator4).Dispose();
+								flag = true;
 							}
 						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator3).Dispose();
+						if (flag)
+						{
+							item2.isRoot = false;
+						}
 					}
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
 			}
 		}
 
 		private static void RecursiveSetIsRootFalse(DiaNodeMold d)
 		{
-			List<DiaOptionMold>.Enumerator enumerator = d.optionList.GetEnumerator();
-			try
+			foreach (DiaOptionMold option in d.optionList)
 			{
-				while (enumerator.MoveNext())
+				foreach (DiaNodeMold childNode in option.ChildNodes)
 				{
-					DiaOptionMold current = enumerator.Current;
-					List<DiaNodeMold>.Enumerator enumerator2 = current.ChildNodes.GetEnumerator();
-					try
-					{
-						while (enumerator2.MoveNext())
-						{
-							DiaNodeMold current2 = enumerator2.Current;
-							current2.isRoot = false;
-							LayerLoader.RecursiveSetIsRootFalse(current2);
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator2).Dispose();
-					}
+					childNode.isRoot = false;
+					LayerLoader.RecursiveSetIsRootFalse(childNode);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 	}

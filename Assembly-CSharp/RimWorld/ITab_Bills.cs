@@ -37,7 +37,7 @@ namespace RimWorld
 			Vector2 winSize = ITab_Bills.WinSize;
 			float x = winSize.x;
 			Vector2 winSize2 = ITab_Bills.WinSize;
-			Rect rect = new Rect(0f, 0f, x, winSize2.y).ContractedBy(10f);
+			Rect rect2 = new Rect(0f, 0f, x, winSize2.y).ContractedBy(10f);
 			Func<List<FloatMenuOption>> recipeOptionsMaker = (Func<List<FloatMenuOption>>)delegate()
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
@@ -62,7 +62,7 @@ namespace RimWorld
 							{
 								TutorSystem.Notify_Event("AddBill-" + recipe.LabelCap);
 							}
-						}, MenuOptionPriority.Default, null, null, 0f, null, null));
+						}, MenuOptionPriority.Default, null, null, 29f, (Func<Rect, bool>)((Rect rect) => Widgets.InfoCardButton((float)(rect.x + 5.0), (float)(rect.y + (rect.height - 24.0) / 2.0), recipe)), null));
 					}
 				}
 				if (!list.Any())
@@ -71,7 +71,7 @@ namespace RimWorld
 				}
 				return list;
 			};
-			this.mouseoverBill = this.SelTable.billStack.DoListing(rect, recipeOptionsMaker, ref this.scrollPosition, ref this.viewHeight);
+			this.mouseoverBill = this.SelTable.billStack.DoListing(rect2, recipeOptionsMaker, ref this.scrollPosition, ref this.viewHeight);
 		}
 
 		public override void TabUpdate()

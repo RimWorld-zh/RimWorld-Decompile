@@ -8,21 +8,21 @@ namespace RimWorld
 {
 	public class Pawn_WorkSettings : IExposable
 	{
-		public const int LowestPriority = 4;
-
-		public const int DefaultPriority = 3;
-
-		private const int MaxInitialActiveWorks = 6;
-
 		private Pawn pawn;
 
-		private DefMap<WorkTypeDef, int> priorities;
+		private DefMap<WorkTypeDef, int> priorities = null;
 
 		private bool workGiversDirty = true;
 
 		private List<WorkGiver> workGiversInOrderEmerg = new List<WorkGiver>();
 
 		private List<WorkGiver> workGiversInOrderNormal = new List<WorkGiver>();
+
+		public const int LowestPriority = 4;
+
+		public const int DefaultPriority = 3;
+
+		private const int MaxInitialActiveWorks = 6;
 
 		private static List<WorkTypeDef> wtsByPrio = new List<WorkTypeDef>();
 
@@ -99,18 +99,9 @@ namespace RimWorld
 					this.SetPriority(item2, 3);
 				}
 			}
-			List<WorkTypeDef>.Enumerator enumerator3 = this.pawn.story.DisabledWorkTypes.GetEnumerator();
-			try
+			foreach (WorkTypeDef disabledWorkType in this.pawn.story.DisabledWorkTypes)
 			{
-				while (enumerator3.MoveNext())
-				{
-					WorkTypeDef current3 = enumerator3.Current;
-					this.Disable(current3);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator3).Dispose();
+				this.Disable(disabledWorkType);
 			}
 		}
 
@@ -149,11 +140,7 @@ namespace RimWorld
 		{
 			this.ConfirmInitializedDebug();
 			int num = this.priorities[w];
-			if (num > 0 && !Find.PlaySettings.useWorkPriorities)
-			{
-				return 3;
-			}
-			return num;
+			return (num <= 0 || Find.PlaySettings.useWorkPriorities) ? num : 3;
 		}
 
 		public bool WorkIsActive(WorkTypeDef w)
@@ -184,18 +171,9 @@ namespace RimWorld
 		{
 			if (this.priorities != null)
 			{
-				List<WorkTypeDef>.Enumerator enumerator = this.pawn.story.DisabledWorkTypes.GetEnumerator();
-				try
+				foreach (WorkTypeDef disabledWorkType in this.pawn.story.DisabledWorkTypes)
 				{
-					while (enumerator.MoveNext())
-					{
-						WorkTypeDef current = enumerator.Current;
-						this.Disable(current);
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					this.Disable(disabledWorkType);
 				}
 			}
 		}

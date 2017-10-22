@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -29,27 +28,19 @@ namespace Verse
 				{
 					xmlWriter.WriteStartDocument();
 					xmlWriter.WriteStartElement("BackstoryTranslations");
-					Dictionary<string, Backstory>.Enumerator enumerator = BackstoryDatabase.allBackstories.GetEnumerator();
-					try
+					foreach (KeyValuePair<string, Backstory> allBackstory in BackstoryDatabase.allBackstories)
 					{
-						while (enumerator.MoveNext())
-						{
-							Backstory value = enumerator.Current.Value;
-							xmlWriter.WriteStartElement(value.identifier);
-							xmlWriter.WriteElementString("title", value.Title);
-							xmlWriter.WriteElementString("titleShort", value.TitleShort);
-							xmlWriter.WriteElementString("desc", value.baseDesc);
-							xmlWriter.WriteEndElement();
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
+						Backstory value = allBackstory.Value;
+						xmlWriter.WriteStartElement(value.identifier);
+						xmlWriter.WriteElementString("title", value.Title);
+						xmlWriter.WriteElementString("titleShort", value.TitleShort);
+						xmlWriter.WriteElementString("desc", value.baseDesc);
+						xmlWriter.WriteEndElement();
 					}
 					xmlWriter.WriteEndElement();
 					xmlWriter.WriteEndDocument();
 				}
-				Messages.Message("Fresh backstory translation file saved to " + GenFilePaths.BackstoryOutputFilePath, MessageSound.Standard);
+				Messages.Message("Fresh backstory translation file saved to " + GenFilePaths.BackstoryOutputFilePath, MessageTypeDefOf.NeutralEvent);
 			}
 		}
 	}

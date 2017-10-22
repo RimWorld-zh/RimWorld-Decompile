@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Text;
 
 namespace Verse.AI.Group
@@ -56,7 +55,7 @@ namespace Verse.AI.Group
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append("(");
-			stringBuilder.Append(((Enum)(object)this.type).ToString());
+			stringBuilder.Append(this.type.ToString());
 			if (this.memo != null)
 			{
 				stringBuilder.Append(", memo=" + this.memo);

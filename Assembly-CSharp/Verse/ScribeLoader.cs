@@ -51,7 +51,6 @@ namespace Verse
 				Log.Error("Exception while init loading file: " + filePath + "\n" + ex);
 				this.ForceStop();
 				throw;
-				IL_00e7:;
 			}
 		}
 
@@ -87,7 +86,6 @@ namespace Verse
 				Log.Error("Exception while init loading meta header: " + filePath + "\n" + ex);
 				this.ForceStop();
 				throw;
-				IL_00f6:;
 			}
 		}
 
@@ -114,13 +112,13 @@ namespace Verse
 					Log.Error("Exception in FinalizeLoading(): " + arg);
 					this.ForceStop();
 					throw;
-					IL_0079:;
 				}
 			}
 		}
 
 		public bool EnterNode(string nodeName)
 		{
+			bool result;
 			if (this.curXmlParent != null)
 			{
 				XmlNode xmlNode = this.curXmlParent[nodeName];
@@ -130,12 +128,16 @@ namespace Verse
 				}
 				if (xmlNode == null)
 				{
-					return false;
+					result = false;
+					goto IL_007d;
 				}
 				this.curXmlParent = xmlNode;
 			}
 			this.curPathRelToParent = this.curPathRelToParent + '/' + nodeName;
-			return true;
+			result = true;
+			goto IL_007d;
+			IL_007d:
+			return result;
 		}
 
 		public void ExitNode()

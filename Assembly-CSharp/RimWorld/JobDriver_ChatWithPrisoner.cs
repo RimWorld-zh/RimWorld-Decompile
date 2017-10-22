@@ -11,8 +11,13 @@ namespace RimWorld
 		{
 			get
 			{
-				return (Pawn)base.CurJob.targetA.Thing;
+				return (Pawn)base.job.targetA.Thing;
 			}
+		}
+
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve(base.job.targetA, base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -20,25 +25,9 @@ namespace RimWorld
 			this.FailOnDespawnedOrNull(TargetIndex.A);
 			this.FailOnMentalState(TargetIndex.A);
 			this.FailOnNotAwake(TargetIndex.A);
-			this.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator49)/*Error near IL_0086: stateMachine*/)._003C_003Ef__this.Talkee.IsPrisonerOfColony || !((_003CMakeNewToils_003Ec__Iterator49)/*Error near IL_0086: stateMachine*/)._003C_003Ef__this.Talkee.guest.PrisonerIsSecure));
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			this.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_009b: stateMachine*/)._0024this.Talkee.IsPrisonerOfColony || !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_009b: stateMachine*/)._0024this.Talkee.guest.PrisonerIsSecure));
 			yield return Toils_Interpersonal.GotoPrisoner(base.pawn, this.Talkee, this.Talkee.guest.interactionMode);
-			yield return Toils_Interpersonal.WaitToBeAbleToInteract(base.pawn);
-			yield return Toils_Interpersonal.ConvinceRecruitee(base.pawn, this.Talkee);
-			yield return Toils_Interpersonal.GotoPrisoner(base.pawn, this.Talkee, this.Talkee.guest.interactionMode);
-			yield return Toils_Interpersonal.ConvinceRecruitee(base.pawn, this.Talkee);
-			yield return Toils_Interpersonal.GotoPrisoner(base.pawn, this.Talkee, this.Talkee.guest.interactionMode);
-			yield return Toils_Interpersonal.ConvinceRecruitee(base.pawn, this.Talkee);
-			yield return Toils_Interpersonal.GotoPrisoner(base.pawn, this.Talkee, this.Talkee.guest.interactionMode);
-			yield return Toils_Interpersonal.ConvinceRecruitee(base.pawn, this.Talkee);
-			yield return Toils_Interpersonal.GotoPrisoner(base.pawn, this.Talkee, this.Talkee.guest.interactionMode);
-			yield return Toils_Interpersonal.ConvinceRecruitee(base.pawn, this.Talkee);
-			yield return Toils_Interpersonal.GotoPrisoner(base.pawn, this.Talkee, this.Talkee.guest.interactionMode);
-			yield return Toils_Interpersonal.SetLastInteractTime(TargetIndex.A);
-			if (base.CurJob.def == JobDefOf.PrisonerAttemptRecruit)
-			{
-				yield return Toils_Interpersonal.TryRecruit(TargetIndex.A);
-			}
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

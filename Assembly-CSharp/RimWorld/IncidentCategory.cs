@@ -9,9 +9,9 @@ namespace RimWorld
 		AllyArrival = 4,
 		OrbitalVisitor = 5,
 		ShipChunkDrop = 6,
-		JourneyOffer = 7,
-		Disease = 8,
-		CaravanTarget = 9,
-		AllyAssistance = 10
+		Disease = 7,
+		AllyAssistance = 8,
+		JourneyOffer = 9,
+		RaidBeacon = 10
 	}
 }

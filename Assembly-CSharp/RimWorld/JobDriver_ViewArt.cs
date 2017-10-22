@@ -10,7 +10,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.CurJob.GetTarget(TargetIndex.A).Thing;
+				return base.job.GetTarget(TargetIndex.A).Thing;
 			}
 		}
 
@@ -22,8 +22,9 @@ namespace RimWorld
 				float num = this.ArtThing.GetStatValue(StatDefOf.Beauty, true) / this.ArtThing.def.GetStatValueAbstract(StatDefOf.Beauty, null);
 				statValue = (float)(statValue * ((!(num > 0.0)) ? 0.0 : num));
 				base.pawn.GainComfortFromCellIfPossible();
+				Pawn pawn = base.pawn;
 				float extraJoyGainFactor = statValue;
-				JoyUtility.JoyTickCheckEnd(base.pawn, JoyTickFullJoyAction.EndJob, extraJoyGainFactor);
+				JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.EndJob, extraJoyGainFactor);
 			};
 		}
 	}

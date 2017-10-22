@@ -1,25 +1,27 @@
+#define ENABLE_PROFILER
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Verse
 {
 	public class Section
 	{
-		public const int Size = 17;
-
 		public IntVec3 botLeft;
 
 		public Map map;
 
-		public MapMeshFlag dirtyFlags;
+		public MapMeshFlag dirtyFlags = MapMeshFlag.None;
 
 		private List<SectionLayer> layers = new List<SectionLayer>();
 
-		private bool foundRect;
+		private bool foundRect = false;
 
 		private CellRect calculatedRect;
+
+		public const int Size = 17;
 
 		public CellRect CellRect
 		{
@@ -45,12 +47,12 @@ namespace Verse
 			}
 		}
 
-		public void DrawSection(SectionLayerPhaseDef phase, bool drawSunShadowsOnly)
+		public void DrawSection(bool drawSunShadowsOnly)
 		{
 			int count = this.layers.Count;
 			for (int num = 0; num < count; num++)
 			{
-				if (this.layers[num].Phase == phase && (!drawSunShadowsOnly || this.layers[num] is SectionLayer_SunShadows))
+				if (!drawSunShadowsOnly || this.layers[num] is SectionLayer_SunShadows)
 				{
 					this.layers[num].DrawLayer();
 				}
@@ -80,7 +82,9 @@ namespace Verse
 				SectionLayer sectionLayer = this.layers[i];
 				if ((sectionLayer.relevantChangeTypes & changeType) != 0)
 				{
+					Profiler.BeginSample("Regen " + sectionLayer.GetType().Name + " " + this.botLeft);
 					sectionLayer.Regenerate();
+					Profiler.EndSample();
 				}
 			}
 		}

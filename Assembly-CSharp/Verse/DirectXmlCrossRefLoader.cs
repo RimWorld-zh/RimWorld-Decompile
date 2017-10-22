@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Xml;
@@ -29,27 +28,35 @@ namespace Verse
 
 			public override bool TryResolve(FailMode failReportMode)
 			{
+				bool result;
 				if (this.fi == null)
 				{
-					Log.Error("Trying to resolve null field for def named " + this.defName);
-					return false;
+					Log.Error("Trying to resolve null field for def named " + this.defName.ToStringSafe());
+					result = false;
 				}
-				Def defSilentFail = GenDefDatabase.GetDefSilentFail(this.fi.FieldType, this.defName);
-				if (defSilentFail == null)
+				else
 				{
-					if (failReportMode == FailMode.LogErrors)
+					Def defSilentFail = GenDefDatabase.GetDefSilentFail(this.fi.FieldType, this.defName);
+					if (defSilentFail == null)
 					{
-						Log.Error("Could not resolve cross-reference: No " + this.fi.FieldType + " named " + this.defName + " found to give to " + base.wanter.GetType() + " " + base.wanter);
+						if (failReportMode == FailMode.LogErrors)
+						{
+							Log.Error("Could not resolve cross-reference: No " + this.fi.FieldType + " named " + this.defName.ToStringSafe() + " found to give to " + base.wanter.GetType() + " " + base.wanter.ToStringSafe());
+						}
+						result = false;
 					}
-					return false;
+					else
+					{
+						SoundDef soundDef = defSilentFail as SoundDef;
+						if (soundDef != null && soundDef.isUndefined)
+						{
+							Log.Warning("Could not resolve cross-reference: No " + this.fi.FieldType + " named " + this.defName.ToStringSafe() + " found to give to " + base.wanter.GetType() + " " + base.wanter.ToStringSafe() + " (using undefined sound instead)");
+						}
+						this.fi.SetValue(base.wanter, defSilentFail);
+						result = true;
+					}
 				}
-				SoundDef soundDef = defSilentFail as SoundDef;
-				if (soundDef != null && soundDef.isUndefined)
-				{
-					Log.Warning("Could not resolve cross-reference: No " + this.fi.FieldType + " named " + this.defName + " found to give to " + base.wanter.GetType() + " " + base.wanter + " (using undefined sound instead)");
-				}
-				this.fi.SetValue(base.wanter, defSilentFail);
-				return true;
+				return result;
 			}
 		}
 
@@ -108,44 +115,26 @@ namespace Verse
 				bool flag = typeof(Def).IsAssignableFrom(typeof(K));
 				bool flag2 = typeof(Def).IsAssignableFrom(typeof(V));
 				List<Pair<K, V>> list = new List<Pair<K, V>>();
-				List<XmlNode>.Enumerator enumerator = this.wantedDictRefs.GetEnumerator();
-				try
+				foreach (XmlNode wantedDictRef in this.wantedDictRefs)
 				{
-					while (enumerator.MoveNext())
-					{
-						XmlNode current = enumerator.Current;
-						XmlNode xmlNode = current["key"];
-						XmlNode xmlNode2 = current["value"];
-						K first = (!flag) ? DirectXmlToObject.ObjectFromXml<K>(xmlNode, true) : DirectXmlCrossRefLoader.TryResolveDef<K>(xmlNode.InnerText, failReportMode);
-						V second = (!flag2) ? DirectXmlToObject.ObjectFromXml<V>(xmlNode2, true) : DirectXmlCrossRefLoader.TryResolveDef<V>(xmlNode2.InnerText, failReportMode);
-						list.Add(new Pair<K, V>(first, second));
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					XmlNode xmlNode = wantedDictRef["key"];
+					XmlNode xmlNode2 = wantedDictRef["value"];
+					K first = (!flag) ? DirectXmlToObject.ObjectFromXml<K>(xmlNode, true) : DirectXmlCrossRefLoader.TryResolveDef<K>(xmlNode.InnerText, failReportMode);
+					V second = (!flag2) ? DirectXmlToObject.ObjectFromXml<V>(xmlNode2, true) : DirectXmlCrossRefLoader.TryResolveDef<V>(xmlNode2.InnerText, failReportMode);
+					list.Add(new Pair<K, V>(first, second));
 				}
 				Dictionary<K, V> dictionary = (Dictionary<K, V>)base.wanter;
 				dictionary.Clear();
-				List<Pair<K, V>>.Enumerator enumerator2 = list.GetEnumerator();
-				try
+				foreach (Pair<K, V> item in list)
 				{
-					while (enumerator2.MoveNext())
+					try
 					{
-						Pair<K, V> current2 = enumerator2.Current;
-						try
-						{
-							dictionary.Add(current2.First, current2.Second);
-						}
-						catch
-						{
-							Log.Error("Failed to load key/value pair: " + current2.First + ", " + current2.Second);
-						}
+						dictionary.Add(item.First, item.Second);
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
+					catch
+					{
+						Log.Error("Failed to load key/value pair: " + item.First + ", " + item.Second);
+					}
 				}
 				return true;
 			}
@@ -176,22 +165,13 @@ namespace Verse
 		public static void RegisterListWantsCrossRef<T>(List<T> wanterList, string targetDefName) where T : new()
 		{
 			WantedRefForList<T> wantedRefForList = null;
-			List<WantedRef>.Enumerator enumerator = DirectXmlCrossRefLoader.wantedRefs.GetEnumerator();
-			try
+			foreach (WantedRef wantedRef in DirectXmlCrossRefLoader.wantedRefs)
 			{
-				while (enumerator.MoveNext())
+				if (wantedRef.wanter == wanterList)
 				{
-					WantedRef current = enumerator.Current;
-					if (current.wanter == wanterList)
-					{
-						wantedRefForList = (WantedRefForList<T>)current;
-						break;
-					}
+					wantedRefForList = (WantedRefForList<T>)wantedRef;
+					break;
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			if (wantedRefForList == null)
 			{
@@ -204,22 +184,13 @@ namespace Verse
 		public static void RegisterDictionaryWantsCrossRef<K, V>(Dictionary<K, V> wanterDict, XmlNode entryNode) where K : new() where V : new()
 		{
 			WantedRefForDictionary<K, V> wantedRefForDictionary = null;
-			List<WantedRef>.Enumerator enumerator = DirectXmlCrossRefLoader.wantedRefs.GetEnumerator();
-			try
+			foreach (WantedRef wantedRef in DirectXmlCrossRefLoader.wantedRefs)
 			{
-				while (enumerator.MoveNext())
+				if (wantedRef.wanter == wanterDict)
 				{
-					WantedRef current = enumerator.Current;
-					if (current.wanter == wanterDict)
-					{
-						wantedRefForDictionary = (WantedRefForDictionary<K, V>)current;
-						break;
-					}
+					wantedRefForDictionary = (WantedRefForDictionary<K, V>)wantedRef;
+					break;
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			if (wantedRefForDictionary == null)
 			{
@@ -232,15 +203,20 @@ namespace Verse
 		public static T TryResolveDef<T>(string defName, FailMode failReportMode)
 		{
 			T val = (T)(object)GenDefDatabase.GetDefSilentFail(typeof(T), defName);
+			T result;
 			if (val != null)
 			{
-				return val;
+				result = val;
 			}
-			if (failReportMode == FailMode.LogErrors)
+			else
 			{
-				Log.Error("Could not resolve cross-reference to " + typeof(T) + " named " + defName);
+				if (failReportMode == FailMode.LogErrors)
+				{
+					Log.Error("Could not resolve cross-reference to " + typeof(T) + " named " + defName);
+				}
+				result = default(T);
 			}
-			return default(T);
+			return result;
 		}
 
 		public static void Clear()
@@ -250,21 +226,12 @@ namespace Verse
 
 		public static void ResolveAllWantedCrossReferences(FailMode failReportMode)
 		{
-			List<WantedRef>.Enumerator enumerator = DirectXmlCrossRefLoader.wantedRefs.ListFullCopy().GetEnumerator();
-			try
+			foreach (WantedRef item in DirectXmlCrossRefLoader.wantedRefs.ListFullCopy())
 			{
-				while (enumerator.MoveNext())
+				if (item.TryResolve(failReportMode))
 				{
-					WantedRef current = enumerator.Current;
-					if (current.TryResolve(failReportMode))
-					{
-						DirectXmlCrossRefLoader.wantedRefs.Remove(current);
-					}
+					DirectXmlCrossRefLoader.wantedRefs.Remove(item);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 	}

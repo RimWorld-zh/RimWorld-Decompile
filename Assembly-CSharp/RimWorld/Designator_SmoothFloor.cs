@@ -35,33 +35,37 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
+			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			if (c.Fogged(base.Map))
+			else if (c.Fogged(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			if (base.Map.designationManager.DesignationAt(c, DesignationDefOf.SmoothFloor) != null)
+			else if (base.Map.designationManager.DesignationAt(c, DesignationDefOf.SmoothFloor) != null)
 			{
-				return "TerrainBeingSmoothed".Translate();
+				result = "TerrainBeingSmoothed".Translate();
 			}
-			if (c.InNoBuildEdgeArea(base.Map))
+			else if (c.InNoBuildEdgeArea(base.Map))
 			{
-				return "TooCloseToMapEdge".Translate();
+				result = "TooCloseToMapEdge".Translate();
 			}
-			Building edifice = c.GetEdifice(base.Map);
-			if (edifice != null && !SmoothFloorDesignatorUtility.CanSmoothFloorUnder(edifice))
+			else
 			{
-				return false;
+				Building edifice = c.GetEdifice(base.Map);
+				if (edifice != null && !SmoothFloorDesignatorUtility.CanSmoothFloorUnder(edifice))
+				{
+					result = false;
+				}
+				else
+				{
+					TerrainDef terrain = c.GetTerrain(base.Map);
+					result = (terrain.affordances.Contains(TerrainAffordance.SmoothableStone) ? AcceptanceReport.WasAccepted : "MessageMustDesignateSmoothableFloor".Translate());
+				}
 			}
-			TerrainDef terrain = c.GetTerrain(base.Map);
-			if (!terrain.affordances.Contains(TerrainAffordance.SmoothableStone))
-			{
-				return "MessageMustDesignateSmoothableFloor".Translate();
-			}
-			return AcceptanceReport.WasAccepted;
+			return result;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)

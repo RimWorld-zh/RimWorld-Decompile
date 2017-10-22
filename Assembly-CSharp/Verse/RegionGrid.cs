@@ -4,17 +4,17 @@ namespace Verse
 {
 	public sealed class RegionGrid
 	{
-		private const int CleanSquaresPerFrame = 16;
-
 		private Map map;
 
 		private Region[] regionGrid;
 
-		private int curCleanIndex;
+		private int curCleanIndex = 0;
 
 		public List<Room> allRooms = new List<Room>();
 
 		public static HashSet<Region> allRegionsYielded = new HashSet<Region>();
+
+		private const int CleanSquaresPerFrame = 16;
 
 		public HashSet<Region> drawnRegions = new HashSet<Region>();
 
@@ -39,19 +39,27 @@ namespace Verse
 				try
 				{
 					int count = this.map.cellIndices.NumGridCells;
-					for (int i = 0; i < count; i++)
+					int i = 0;
+					while (true)
 					{
-						if (this.regionGrid[i] != null && !RegionGrid.allRegionsYielded.Contains(this.regionGrid[i]))
+						if (i < count)
 						{
-							yield return this.regionGrid[i];
-							RegionGrid.allRegionsYielded.Add(this.regionGrid[i]);
+							if (this.regionGrid[i] != null && !RegionGrid.allRegionsYielded.Contains(this.regionGrid[i]))
+								break;
+							i++;
+							continue;
 						}
+						yield break;
 					}
+					yield return this.regionGrid[i];
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 				finally
 				{
-					((_003C_003Ec__Iterator202)/*Error near IL_0106: stateMachine*/)._003C_003E__Finally0();
+					((_003C_003Ec__Iterator0)/*Error near IL_0115: stateMachine*/)._003C_003E__Finally0();
 				}
+				IL_0125:
+				/*Error near IL_0126: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -68,19 +76,27 @@ namespace Verse
 				try
 				{
 					int count = this.map.cellIndices.NumGridCells;
-					for (int i = 0; i < count; i++)
+					int i = 0;
+					while (true)
 					{
-						if (this.regionGrid[i] != null && this.regionGrid[i].valid && !RegionGrid.allRegionsYielded.Contains(this.regionGrid[i]))
+						if (i < count)
 						{
-							yield return this.regionGrid[i];
-							RegionGrid.allRegionsYielded.Add(this.regionGrid[i]);
+							if (this.regionGrid[i] != null && this.regionGrid[i].valid && !RegionGrid.allRegionsYielded.Contains(this.regionGrid[i]))
+								break;
+							i++;
+							continue;
 						}
+						yield break;
 					}
+					yield return this.regionGrid[i];
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 				finally
 				{
-					((_003C_003Ec__Iterator203)/*Error near IL_0175: stateMachine*/)._003C_003E__Finally0();
+					((_003C_003Ec__Iterator1)/*Error near IL_0186: stateMachine*/)._003C_003E__Finally0();
 				}
+				IL_0196:
+				/*Error near IL_0197: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -92,37 +108,39 @@ namespace Verse
 
 		public Region GetValidRegionAt(IntVec3 c)
 		{
+			Region result;
 			if (!c.InBounds(this.map))
 			{
 				Log.Error("Tried to get valid region out of bounds at " + c);
-				return null;
+				result = null;
 			}
-			if (!this.map.regionAndRoomUpdater.Enabled && this.map.regionAndRoomUpdater.AnythingToRebuild)
+			else
 			{
-				Log.Warning("Trying to get valid region at " + c + " but RegionAndRoomUpdater is disabled. The result may be incorrect.");
+				if (!this.map.regionAndRoomUpdater.Enabled && this.map.regionAndRoomUpdater.AnythingToRebuild)
+				{
+					Log.Warning("Trying to get valid region at " + c + " but RegionAndRoomUpdater is disabled. The result may be incorrect.");
+				}
+				this.map.regionAndRoomUpdater.TryRebuildDirtyRegionsAndRooms();
+				Region region = this.regionGrid[this.map.cellIndices.CellToIndex(c)];
+				result = ((region == null || !region.valid) ? null : region);
 			}
-			this.map.regionAndRoomUpdater.TryRebuildDirtyRegionsAndRooms();
-			Region region = this.regionGrid[this.map.cellIndices.CellToIndex(c)];
-			if (region != null && region.valid)
-			{
-				return region;
-			}
-			return null;
+			return result;
 		}
 
 		public Region GetValidRegionAt_NoRebuild(IntVec3 c)
 		{
+			Region result;
 			if (!c.InBounds(this.map))
 			{
 				Log.Error("Tried to get valid region out of bounds at " + c);
-				return null;
+				result = null;
 			}
-			Region region = this.regionGrid[this.map.cellIndices.CellToIndex(c)];
-			if (region != null && region.valid)
+			else
 			{
-				return region;
+				Region region = this.regionGrid[this.map.cellIndices.CellToIndex(c)];
+				result = ((region == null || !region.valid) ? null : region);
 			}
-			return null;
+			return result;
 		}
 
 		public Region GetRegionAt_NoRebuild_InvalidAllowed(IntVec3 c)

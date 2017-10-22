@@ -6,6 +6,8 @@ namespace RimWorld
 {
 	public class ScenPart_PawnFilter_Age : ScenPart
 	{
+		public IntRange allowedAgeRange = new IntRange(0, 999999);
+
 		private const int RangeMin = 15;
 
 		private const int RangeMax = 120;
@@ -13,8 +15,6 @@ namespace RimWorld
 		private const int RangeMinMax = 19;
 
 		private const int RangeMinWidth = 4;
-
-		public IntRange allowedAgeRange = new IntRange(0, 999999);
 
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
@@ -30,19 +30,20 @@ namespace RimWorld
 
 		public override string Summary(Scenario scen)
 		{
+			string result;
 			if (this.allowedAgeRange.min > 15)
 			{
-				if (this.allowedAgeRange.max < 10000)
-				{
-					return "ScenPart_StartingPawnAgeRange".Translate(this.allowedAgeRange.min, this.allowedAgeRange.max);
-				}
-				return "ScenPart_StartingPawnAgeMin".Translate(this.allowedAgeRange.min);
+				result = ((this.allowedAgeRange.max >= 10000) ? "ScenPart_StartingPawnAgeMin".Translate(this.allowedAgeRange.min) : "ScenPart_StartingPawnAgeRange".Translate(this.allowedAgeRange.min, this.allowedAgeRange.max));
+				goto IL_00d2;
 			}
 			if (this.allowedAgeRange.max < 10000)
 			{
-				return "ScenPart_StartingPawnAgeMax".Translate(this.allowedAgeRange.max);
+				result = "ScenPart_StartingPawnAgeMax".Translate(this.allowedAgeRange.max);
+				goto IL_00d2;
 			}
 			throw new Exception();
+			IL_00d2:
+			return result;
 		}
 
 		public override bool AllowPlayerStartingPawn(Pawn pawn)

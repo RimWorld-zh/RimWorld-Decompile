@@ -48,78 +48,138 @@ namespace Verse
 
 		public bool ColonistsHaveBuilding(ThingDef def)
 		{
-			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (this.allBuildingsColonist[i].def == def)
+				if (num < this.allBuildingsColonist.Count)
 				{
-					return true;
+					if (this.allBuildingsColonist[num].def == def)
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public bool ColonistsHaveBuilding(Func<Thing, bool> predicate)
 		{
-			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (predicate(this.allBuildingsColonist[i]))
+				if (num < this.allBuildingsColonist.Count)
 				{
-					return true;
+					if (predicate(this.allBuildingsColonist[num]))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public bool ColonistsHaveResearchBench()
 		{
-			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (this.allBuildingsColonist[i] is Building_ResearchBench)
+				if (num < this.allBuildingsColonist.Count)
 				{
-					return true;
+					if (this.allBuildingsColonist[num] is Building_ResearchBench)
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public bool ColonistsHaveBuildingWithPowerOn(ThingDef def)
 		{
-			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (this.allBuildingsColonist[i].def == def)
+				if (num < this.allBuildingsColonist.Count)
 				{
-					CompPowerTrader compPowerTrader = this.allBuildingsColonist[i].TryGetComp<CompPowerTrader>();
-					if (compPowerTrader != null && !compPowerTrader.PowerOn)
+					if (this.allBuildingsColonist[num].def == def)
 					{
-						continue;
+						CompPowerTrader compPowerTrader = this.allBuildingsColonist[num].TryGetComp<CompPowerTrader>();
+						if (compPowerTrader != null && !compPowerTrader.PowerOn)
+						{
+							goto IL_004c;
+						}
+						result = true;
+						break;
 					}
-					return true;
+					goto IL_004c;
 				}
+				result = false;
+				break;
+				IL_004c:
+				num++;
 			}
-			return false;
+			return result;
 		}
 
 		public IEnumerable<Building> AllBuildingsColonistOfDef(ThingDef def)
 		{
-			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
+			int i = 0;
+			while (true)
 			{
-				if (this.allBuildingsColonist[i].def == def)
+				if (i < this.allBuildingsColonist.Count)
 				{
-					yield return this.allBuildingsColonist[i];
+					if (this.allBuildingsColonist[i].def != def)
+					{
+						i++;
+						continue;
+					}
+					break;
 				}
+				yield break;
 			}
+			yield return this.allBuildingsColonist[i];
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public IEnumerable<T> AllBuildingsColonistOfClass<T>() where T : Building
 		{
-			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
+			int i = 0;
+			T casted;
+			while (true)
 			{
-				T casted = (T)(this.allBuildingsColonist[i] as T);
-				if (casted != null)
+				if (i < this.allBuildingsColonist.Count)
 				{
-					yield return casted;
+					casted = (T)(this.allBuildingsColonist[i] as T);
+					if (casted == null)
+					{
+						i++;
+						continue;
+					}
+					break;
 				}
+				yield break;
 			}
+			yield return casted;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

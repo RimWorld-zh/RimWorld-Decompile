@@ -43,53 +43,70 @@ namespace RimWorld
 			return pawn.Map.GetComponent<BreakdownManager>().brokenDownThings.Count == 0;
 		}
 
+		public override Danger MaxPathDanger(Pawn pawn)
+		{
+			return Danger.Deadly;
+		}
+
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Building building = t as Building;
+			bool result;
 			if (building == null)
 			{
-				return false;
+				result = false;
 			}
-			if (!building.def.building.repairable)
+			else if (!building.def.building.repairable)
 			{
-				return false;
+				result = false;
 			}
-			if (t.Faction != pawn.Faction)
+			else if (t.Faction != pawn.Faction)
 			{
-				return false;
+				result = false;
 			}
-			if (t.IsForbidden(pawn))
+			else if (t.IsForbidden(pawn))
 			{
-				return false;
+				result = false;
 			}
-			if (!t.IsBrokenDown())
+			else if (!t.IsBrokenDown())
 			{
-				return false;
+				result = false;
 			}
-			if (pawn.Faction == Faction.OfPlayer && !((Area)pawn.Map.areaManager.Home)[t.Position])
+			else if (pawn.Faction == Faction.OfPlayer && !((Area)pawn.Map.areaManager.Home)[t.Position])
 			{
 				JobFailReason.Is(WorkGiver_FixBrokenDownBuilding.NotInHomeAreaTrans);
-				return false;
+				result = false;
 			}
-			if (!pawn.CanReserve((Thing)building, 1, -1, null, forced))
+			else
 			{
-				return false;
+				LocalTargetInfo target = (Thing)building;
+				if (!pawn.CanReserve(target, 1, -1, null, forced))
+				{
+					result = false;
+				}
+				else if (pawn.Map.designationManager.DesignationOn(building, DesignationDefOf.Deconstruct) != null)
+				{
+					result = false;
+				}
+				else if (building.IsBurning())
+				{
+					result = false;
+				}
+				else
+				{
+					Thing thing = this.FindClosestComponent(pawn);
+					if (thing == null)
+					{
+						JobFailReason.Is(WorkGiver_FixBrokenDownBuilding.NoComponentsToRepairTrans);
+						result = false;
+					}
+					else
+					{
+						result = true;
+					}
+				}
 			}
-			if (pawn.Map.designationManager.DesignationOn(building, DesignationDefOf.Deconstruct) != null)
-			{
-				return false;
-			}
-			if (building.IsBurning())
-			{
-				return false;
-			}
-			Thing thing = this.FindClosestComponent(pawn);
-			if (thing == null)
-			{
-				JobFailReason.Is(WorkGiver_FixBrokenDownBuilding.NoComponentsToRepairTrans);
-				return false;
-			}
-			return true;
+			return result;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -102,8 +119,7 @@ namespace RimWorld
 
 		private Thing FindClosestComponent(Pawn pawn)
 		{
-			Predicate<Thing> validator = (Predicate<Thing>)((Thing x) => !x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false));
-			return GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(ThingDefOf.Component), PathEndMode.InteractionCell, TraverseParms.For(pawn, pawn.NormalMaxDanger(), TraverseMode.ByPawn, false), 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
+			return GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(ThingDefOf.Component), PathEndMode.InteractionCell, TraverseParms.For(pawn, pawn.NormalMaxDanger(), TraverseMode.ByPawn, false), 9999f, (Predicate<Thing>)((Thing x) => !x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false)), null, 0, -1, false, RegionType.Set_Passable, false);
 		}
 	}
 }

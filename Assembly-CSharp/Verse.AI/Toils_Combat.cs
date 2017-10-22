@@ -50,7 +50,7 @@ namespace Verse.AI
 				else
 				{
 					toil.actor.pather.StartPath(intVec, PathEndMode.OnCell);
-					actor.Map.pawnDestinationManager.ReserveDestinationFor(actor, intVec);
+					actor.Map.pawnDestinationReservationManager.Reserve(actor, curJob, intVec);
 				}
 			};
 			toil.FailOnDespawnedOrNull(targetInd);
@@ -64,8 +64,9 @@ namespace Verse.AI
 			toil.initAction = (Action)delegate()
 			{
 				Verb verbToUse = toil.actor.jobs.curJob.verbToUse;
+				LocalTargetInfo target = toil.actor.jobs.curJob.GetTarget(targetInd);
 				bool canFreeIntercept2 = canFreeIntercept;
-				verbToUse.TryStartCastOn(toil.actor.jobs.curJob.GetTarget(targetInd), false, canFreeIntercept2);
+				verbToUse.TryStartCastOn(target, false, canFreeIntercept2);
 			};
 			toil.defaultCompleteMode = ToilCompleteMode.FinishedBusy;
 			return toil;

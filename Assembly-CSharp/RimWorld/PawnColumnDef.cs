@@ -65,16 +65,17 @@ namespace RimWorld
 		{
 			get
 			{
+				Vector2 result;
 				if (this.headerIconSize != default(Vector2))
 				{
-					return this.headerIconSize;
+					result = this.headerIconSize;
 				}
-				Texture2D texture2D = this.HeaderIcon;
-				if ((UnityEngine.Object)texture2D != (UnityEngine.Object)null)
+				else
 				{
-					return new Vector2((float)texture2D.width, (float)texture2D.height);
+					Texture2D texture2D = this.HeaderIcon;
+					result = ((!((UnityEngine.Object)texture2D != (UnityEngine.Object)null)) ? Vector2.zero : new Vector2((float)texture2D.width, (float)texture2D.height));
 				}
-				return Vector2.zero;
+				return result;
 			}
 		}
 

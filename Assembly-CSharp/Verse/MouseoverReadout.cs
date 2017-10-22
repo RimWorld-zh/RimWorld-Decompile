@@ -1,17 +1,19 @@
+#define ENABLE_PROFILER
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Verse
 {
 	public class MouseoverReadout
 	{
-		private const float YInterval = 19f;
-
 		private TerrainDef cachedTerrain;
 
 		private string cachedTerrainString;
 
 		private string[] glowStrings;
+
+		private const float YInterval = 19f;
 
 		private static readonly Vector2 BotLeft = new Vector2(15f, 65f);
 
@@ -40,6 +42,7 @@ namespace Verse
 				if (c.InBounds(Find.VisibleMap))
 				{
 					float num = 0f;
+					Profiler.BeginSample("fog");
 					Rect rect = default(Rect);
 					if (c.Fogged(Find.VisibleMap))
 					{
@@ -50,17 +53,22 @@ namespace Verse
 						rect = new Rect(x, num2 - botLeft2.y - num, 999f, 999f);
 						Widgets.Label(rect, "Undiscovered".Translate());
 						GUI.color = Color.white;
+						Profiler.EndSample();
 					}
 					else
 					{
+						Profiler.EndSample();
+						Profiler.BeginSample("light");
 						Vector2 botLeft3 = MouseoverReadout.BotLeft;
 						float x2 = botLeft3.x;
 						float num3 = (float)UI.screenHeight;
 						Vector2 botLeft4 = MouseoverReadout.BotLeft;
 						rect = new Rect(x2, num3 - botLeft4.y - num, 999f, 999f);
-						int num4 = Mathf.RoundToInt((float)(Find.VisibleMap.glowGrid.GameGlowAt(c) * 100.0));
+						int num4 = Mathf.RoundToInt((float)(Find.VisibleMap.glowGrid.GameGlowAt(c, false) * 100.0));
 						Widgets.Label(rect, this.glowStrings[num4]);
 						num = (float)(num + 19.0);
+						Profiler.EndSample();
+						Profiler.BeginSample("terrain");
 						Vector2 botLeft5 = MouseoverReadout.BotLeft;
 						float x3 = botLeft5.x;
 						float num5 = (float)UI.screenHeight;
@@ -69,12 +77,14 @@ namespace Verse
 						TerrainDef terrain = c.GetTerrain(Find.VisibleMap);
 						if (terrain != this.cachedTerrain)
 						{
-							string str = (!((double)terrain.fertility > 0.0001)) ? string.Empty : (" " + "FertShort".Translate() + " " + terrain.fertility.ToStringPercent());
+							string str = (!((double)terrain.fertility > 0.0001)) ? "" : (" " + "FertShort".Translate() + " " + terrain.fertility.ToStringPercent());
 							this.cachedTerrainString = terrain.LabelCap + ((terrain.passability == Traversability.Impassable) ? null : (" (" + "WalkSpeed".Translate(this.SpeedPercentString((float)terrain.pathCost)) + str + ")"));
 							this.cachedTerrain = terrain;
 						}
 						Widgets.Label(rect, this.cachedTerrainString);
 						num = (float)(num + 19.0);
+						Profiler.EndSample();
+						Profiler.BeginSample("zone");
 						Zone zone = c.GetZone(Find.VisibleMap);
 						if (zone != null)
 						{
@@ -87,6 +97,7 @@ namespace Verse
 							Widgets.Label(rect, label);
 							num = (float)(num + 19.0);
 						}
+						Profiler.EndSample();
 						float depth = Find.VisibleMap.snowGrid.GetDepth(c);
 						if (depth > 0.029999999329447746)
 						{
@@ -100,6 +111,7 @@ namespace Verse
 							Widgets.Label(rect, label2);
 							num = (float)(num + 19.0);
 						}
+						Profiler.BeginSample("things");
 						List<Thing> thingList = c.GetThingList(Find.VisibleMap);
 						for (int i = 0; i < thingList.Count; i++)
 						{
@@ -116,6 +128,8 @@ namespace Verse
 								num = (float)(num + 19.0);
 							}
 						}
+						Profiler.EndSample();
+						Profiler.BeginSample("roof");
 						RoofDef roof = c.GetRoof(Find.VisibleMap);
 						if (roof != null)
 						{
@@ -127,6 +141,7 @@ namespace Verse
 							Widgets.Label(rect, roof.LabelCap);
 							num = (float)(num + 19.0);
 						}
+						Profiler.EndSample();
 						GUI.color = Color.white;
 					}
 				}

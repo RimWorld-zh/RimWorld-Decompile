@@ -6,11 +6,11 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public static class WorldDebugMatsSpectrum
 	{
+		private static readonly Material[] spectrumMats;
+
 		public const int MaterialCount = 100;
 
 		private const float Opacity = 0.25f;
-
-		private static readonly Material[] spectrumMats;
 
 		private static readonly Color[] DebugSpectrum;
 
@@ -21,6 +21,7 @@ namespace RimWorld.Planet
 			for (int i = 0; i < 100; i++)
 			{
 				WorldDebugMatsSpectrum.spectrumMats[i] = MatsFromSpectrum.Get(WorldDebugMatsSpectrum.DebugSpectrum, (float)((float)i / 100.0), ShaderDatabase.WorldOverlayTransparent);
+				WorldDebugMatsSpectrum.spectrumMats[i].renderQueue = WorldMaterials.DebugTileRenderQueue;
 			}
 		}
 

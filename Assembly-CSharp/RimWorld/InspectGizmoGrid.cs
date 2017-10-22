@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Verse;
 
 namespace RimWorld
@@ -44,7 +43,9 @@ namespace RimWorld
 							{
 								Command_Action command_Action = new Command_Action();
 								command_Action.defaultLabel = des.LabelCapReverseDesignating(t);
-								command_Action.icon = des.IconReverseDesignating(t);
+								float iconAngle = default(float);
+								command_Action.icon = des.IconReverseDesignating(t, out iconAngle);
+								command_Action.iconAngle = iconAngle;
 								command_Action.defaultDesc = des.DescReverseDesignating(t);
 								command_Action.action = (Action)delegate
 								{
@@ -61,9 +62,7 @@ namespace RimWorld
 						}
 					}
 				}
-				List<Gizmo> gizmos = InspectGizmoGrid.gizmoList;
-				Vector2 paneSize = InspectPaneUtility.PaneSize;
-				GizmoGridDrawer.DrawGizmoGrid((IEnumerable<Gizmo>)gizmos, (float)(paneSize.x + 20.0), out InspectGizmoGrid.mouseoverGizmo);
+				GizmoGridDrawer.DrawGizmoGrid((IEnumerable<Gizmo>)InspectGizmoGrid.gizmoList, (float)(InspectPaneUtility.PaneWidthFor(Find.WindowStack.WindowOfType<IInspectPane>()) + 20.0), out InspectGizmoGrid.mouseoverGizmo);
 			}
 			catch (Exception ex)
 			{

@@ -8,6 +8,18 @@ namespace RimWorld
 {
 	public abstract class Dialog_FileList : Window
 	{
+		protected string interactButLabel = "Error";
+
+		protected float bottomAreaHeight = 0f;
+
+		protected List<SaveFileInfo> files = new List<SaveFileInfo>();
+
+		protected Vector2 scrollPosition = Vector2.zero;
+
+		protected string typingName = "";
+
+		private bool focusedNameArea = false;
+
 		protected const float BoxMargin = 20f;
 
 		protected const float EntrySpacing = 3f;
@@ -22,25 +34,13 @@ namespace RimWorld
 
 		protected const float EntryHeight = 36f;
 
+		private static readonly Color DefaultFileTextColor = new Color(1f, 1f, 0.6f);
+
 		protected const float NameTextFieldWidth = 400f;
 
 		protected const float NameTextFieldHeight = 35f;
 
 		protected const float NameTextFieldButtonSpace = 20f;
-
-		protected string interactButLabel = "Error";
-
-		protected float bottomAreaHeight;
-
-		protected List<SaveFileInfo> files = new List<SaveFileInfo>();
-
-		protected Vector2 scrollPosition = Vector2.zero;
-
-		protected string typingName = string.Empty;
-
-		private bool focusedNameArea;
-
-		private static readonly Color DefaultFileTextColor = new Color(1f, 1f, 0.6f);
 
 		public override Vector2 InitialSize
 		{
@@ -81,56 +81,47 @@ namespace RimWorld
 			Widgets.BeginScrollView(outRect, ref this.scrollPosition, viewRect, true);
 			float num2 = 0f;
 			int num3 = 0;
-			List<SaveFileInfo>.Enumerator enumerator = this.files.GetEnumerator();
-			try
+			foreach (SaveFileInfo file in this.files)
 			{
-				while (enumerator.MoveNext())
+				Rect rect = new Rect(0f, num2, vector.x, vector.y);
+				if (num3 % 2 == 0)
 				{
-					SaveFileInfo current = enumerator.Current;
-					Rect rect = new Rect(0f, num2, vector.x, vector.y);
-					if (num3 % 2 == 0)
-					{
-						Widgets.DrawAltRect(rect);
-					}
-					Rect position = rect.ContractedBy(1f);
-					GUI.BeginGroup(position);
-					string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(current.FileInfo.Name);
-					GUI.color = this.FileNameColor(current);
-					Rect rect2 = new Rect(15f, 0f, position.width, position.height);
-					Text.Anchor = TextAnchor.MiddleLeft;
-					Text.Font = GameFont.Small;
-					Widgets.Label(rect2, fileNameWithoutExtension);
-					GUI.color = Color.white;
-					Rect rect3 = new Rect(270f, 0f, 200f, position.height);
-					Dialog_FileList.DrawDateAndVersion(current, rect3);
-					GUI.color = Color.white;
-					Text.Anchor = TextAnchor.UpperLeft;
-					Text.Font = GameFont.Small;
-					float num4 = (float)(vector.x - 2.0 - vector2.x - vector2.y);
-					Rect rect4 = new Rect(num4, 0f, vector2.x, vector2.y);
-					if (Widgets.ButtonText(rect4, this.interactButLabel, true, false, true))
-					{
-						this.DoFileInteraction(Path.GetFileNameWithoutExtension(current.FileInfo.Name));
-					}
-					Rect rect5 = new Rect((float)(num4 + vector2.x + 5.0), 0f, vector2.y, vector2.y);
-					if (Widgets.ButtonImage(rect5, TexButton.DeleteX))
-					{
-						FileInfo localFile = current.FileInfo;
-						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDelete".Translate(localFile.Name), (Action)delegate
-						{
-							localFile.Delete();
-							this.ReloadFiles();
-						}, true, (string)null));
-					}
-					TooltipHandler.TipRegion(rect5, "DeleteThisSavegame".Translate());
-					GUI.EndGroup();
-					num2 = (float)(num2 + (vector.y + 3.0));
-					num3++;
+					Widgets.DrawAltRect(rect);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				Rect position = rect.ContractedBy(1f);
+				GUI.BeginGroup(position);
+				string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.FileInfo.Name);
+				GUI.color = this.FileNameColor(file);
+				Rect rect2 = new Rect(15f, 0f, position.width, position.height);
+				Text.Anchor = TextAnchor.MiddleLeft;
+				Text.Font = GameFont.Small;
+				Widgets.Label(rect2, fileNameWithoutExtension);
+				GUI.color = Color.white;
+				Rect rect3 = new Rect(270f, 0f, 200f, position.height);
+				Dialog_FileList.DrawDateAndVersion(file, rect3);
+				GUI.color = Color.white;
+				Text.Anchor = TextAnchor.UpperLeft;
+				Text.Font = GameFont.Small;
+				float num4 = (float)(vector.x - 2.0 - vector2.x - vector2.y);
+				Rect rect4 = new Rect(num4, 0f, vector2.x, vector2.y);
+				if (Widgets.ButtonText(rect4, this.interactButLabel, true, false, true))
+				{
+					this.DoFileInteraction(Path.GetFileNameWithoutExtension(file.FileInfo.Name));
+				}
+				Rect rect5 = new Rect((float)(num4 + vector2.x + 5.0), 0f, vector2.y, vector2.y);
+				if (Widgets.ButtonImage(rect5, TexButton.DeleteX))
+				{
+					FileInfo localFile = file.FileInfo;
+					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDelete".Translate(localFile.Name), (Action)delegate
+					{
+						localFile.Delete();
+						this.ReloadFiles();
+					}, true, (string)null));
+				}
+				TooltipHandler.TipRegion(rect5, "DeleteThisSavegame".Translate());
+				GUI.EndGroup();
+				num2 = (float)(num2 + (vector.y + 3.0));
+				num3++;
 			}
 			Widgets.EndScrollView();
 			if (this.ShouldDoTypeInField)
@@ -167,7 +158,7 @@ namespace RimWorld
 			{
 				if (this.typingName.NullOrEmpty())
 				{
-					Messages.Message("NeedAName".Translate(), MessageSound.RejectInput);
+					Messages.Message("NeedAName".Translate(), MessageTypeDefOf.RejectInput);
 				}
 				else
 				{

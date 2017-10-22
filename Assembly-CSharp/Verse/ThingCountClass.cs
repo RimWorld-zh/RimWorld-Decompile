@@ -4,9 +4,17 @@ namespace Verse
 {
 	public sealed class ThingCountClass
 	{
-		public ThingDef thingDef;
+		public ThingDef thingDef = null;
 
-		public int count;
+		public int count = 0;
+
+		public string Summary
+		{
+			get
+			{
+				return this.count + "x " + ((this.thingDef == null) ? "null" : this.thingDef.label);
+			}
+		}
 
 		public ThingCountClass()
 		{

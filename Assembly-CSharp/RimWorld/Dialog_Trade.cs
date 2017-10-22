@@ -10,25 +10,13 @@ namespace RimWorld
 {
 	public class Dialog_Trade : Window
 	{
-		private const float TitleAreaHeight = 45f;
-
-		private const float BaseTopAreaHeight = 55f;
-
-		private const float ColumnWidth = 120f;
-
-		private const float FirstCommodityY = 6f;
-
-		private const float RowInterval = 30f;
-
-		private const float SpaceBetweenTraderNameAndTraderKind = 27f;
-
 		private Vector2 scrollPosition = Vector2.zero;
 
 		public static float lastCurrencyFlashTime = -100f;
 
-		private List<Tradeable> cachedTradeables;
+		private List<Tradeable> cachedTradeables = null;
 
-		private Tradeable cachedCurrencyTradeable;
+		private Tradeable cachedCurrencyTradeable = null;
 
 		private TransferableSorterDef sorter1;
 
@@ -49,6 +37,18 @@ namespace RimWorld
 		private bool daysWorthOfFoodDirty = true;
 
 		private Pair<float, float> cachedDaysWorthOfFood;
+
+		private const float TitleAreaHeight = 45f;
+
+		private const float BaseTopAreaHeight = 55f;
+
+		private const float ColumnWidth = 120f;
+
+		private const float FirstCommodityY = 6f;
+
+		private const float RowInterval = 30f;
+
+		private const float SpaceBetweenTraderNameAndTraderKind = 27f;
 
 		protected readonly Vector2 AcceptButtonSize = new Vector2(160f, 40f);
 
@@ -156,7 +156,7 @@ namespace RimWorld
 			base.absorbInputAroundWindow = true;
 			base.soundAppear = SoundDefOf.CommsWindow_Open;
 			base.soundClose = SoundDefOf.CommsWindow_Close;
-			if (!(trader is Pawn))
+			if (trader is PassingShip)
 			{
 				base.soundAmbient = SoundDefOf.RadioComms_Ambience;
 			}
@@ -167,9 +167,14 @@ namespace RimWorld
 		public override void PostOpen()
 		{
 			base.PostOpen();
-			if (TradeSession.playerNegotiator.health.capacities.GetLevel(PawnCapacityDefOf.Talking) < 0.99000000953674316)
+			Pawn playerNegotiator = TradeSession.playerNegotiator;
+			float level = playerNegotiator.health.capacities.GetLevel(PawnCapacityDefOf.Talking);
+			float level2 = playerNegotiator.health.capacities.GetLevel(PawnCapacityDefOf.Hearing);
+			if (level < 0.949999988079071 || level2 < 0.949999988079071)
 			{
-				Find.WindowStack.Add(new Dialog_MessageBox("NegotiatorTalkingImpaired".Translate(TradeSession.playerNegotiator.LabelShort), (string)null, null, (string)null, null, (string)null, false));
+				string str = (!(level < 0.949999988079071)) ? "NegotiatorHearingImpaired".Translate(playerNegotiator.LabelShort) : "NegotiatorTalkingImpaired".Translate(playerNegotiator.LabelShort);
+				str = str + "\n\n" + "NegotiatorCapacityImpaired".Translate();
+				Find.WindowStack.Add(new Dialog_MessageBox(str, (string)null, null, (string)null, null, (string)null, false));
 			}
 			this.CacheTradeables();
 		}
@@ -179,18 +184,11 @@ namespace RimWorld
 			this.cachedCurrencyTradeable = (from x in TradeSession.deal.AllTradeables
 			where x.IsCurrency
 			select x).FirstOrDefault();
+			QualityCategory qualityCategory = default(QualityCategory);
 			this.cachedTradeables = (from tr in TradeSession.deal.AllTradeables
 			where !tr.IsCurrency
 			orderby (!tr.TraderWillTrade) ? (-1) : 0 descending
-			select tr).ThenBy((Func<Tradeable, Transferable>)((Tradeable tr) => tr), this.sorter1.Comparer).ThenBy((Func<Tradeable, Transferable>)((Tradeable tr) => tr), this.sorter2.Comparer).ThenBy((Func<Tradeable, float>)((Tradeable tr) => TransferableUIUtility.DefaultListOrderPriority(tr))).ThenBy((Func<Tradeable, string>)((Tradeable tr) => tr.ThingDef.label)).ThenBy((Func<Tradeable, int>)delegate(Tradeable tr)
-			{
-				QualityCategory result = default(QualityCategory);
-				if (tr.AnyThing.TryGetQuality(out result))
-				{
-					return (int)result;
-				}
-				return -1;
-			}).ThenBy((Func<Tradeable, int>)((Tradeable tr) => tr.AnyThing.HitPoints)).ToList();
+			select tr).ThenBy((Func<Tradeable, Transferable>)((Tradeable tr) => tr), this.sorter1.Comparer).ThenBy((Func<Tradeable, Transferable>)((Tradeable tr) => tr), this.sorter2.Comparer).ThenBy((Func<Tradeable, float>)((Tradeable tr) => TransferableUIUtility.DefaultListOrderPriority(tr))).ThenBy((Func<Tradeable, string>)((Tradeable tr) => tr.ThingDef.label)).ThenBy((Func<Tradeable, int>)((Tradeable tr) => (!tr.AnyThing.TryGetQuality(out qualityCategory)) ? (-1) : ((int)qualityCategory))).ThenBy((Func<Tradeable, int>)((Tradeable tr) => tr.AnyThing.HitPoints)).ToList();
 		}
 
 		public override void DoWindowContents(Rect inRect)
@@ -284,6 +282,7 @@ namespace RimWorld
 							{
 								TaleRecorder.RecordTale(TaleDefOf.TradedWith, TradeSession.playerNegotiator, pawn);
 							}
+							TradeSession.playerNegotiator.mindState.inspirationHandler.EndInspiration(InspirationDefOf.InspiredTrade);
 							this.Close(false);
 						}
 						else

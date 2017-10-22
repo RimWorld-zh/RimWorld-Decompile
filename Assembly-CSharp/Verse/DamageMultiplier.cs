@@ -2,7 +2,7 @@ namespace Verse
 {
 	public class DamageMultiplier
 	{
-		public DamageDef damageDef;
+		public DamageDef damageDef = null;
 
 		public float multiplier = 1f;
 	}

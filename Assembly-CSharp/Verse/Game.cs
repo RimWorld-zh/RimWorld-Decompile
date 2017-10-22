@@ -1,9 +1,11 @@
+#define ENABLE_PROFILER
 using RimWorld;
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine.Profiling;
 using Verse.Profile;
 
 namespace Verse
@@ -44,6 +46,8 @@ namespace Verse
 
 		public PlayLog playLog = new PlayLog();
 
+		public BattleLog battleLog = new BattleLog();
+
 		public OutfitDatabase outfitDatabase = new OutfitDatabase();
 
 		public DrugPolicyDatabase drugPolicyDatabase = new DrugPolicyDatabase();
@@ -55,6 +59,8 @@ namespace Verse
 		public Autosaver autosaver = new Autosaver();
 
 		public DateNotifier dateNotifier = new DateNotifier();
+
+		public SignalManager signalManager = new SignalManager();
 
 		public Scenario Scenario
 		{
@@ -87,11 +93,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.visibleMapIndex < 0)
-				{
-					return null;
-				}
-				return this.maps[this.visibleMapIndex];
+				return (this.visibleMapIndex >= 0) ? this.maps[this.visibleMapIndex] : null;
 			}
 			set
 			{
@@ -122,19 +124,28 @@ namespace Verse
 		{
 			get
 			{
+				Map result;
+				Map map;
 				if (Faction.OfPlayerSilentFail == null)
 				{
-					return null;
+					result = null;
 				}
-				for (int i = 0; i < this.maps.Count; i++)
+				else
 				{
-					Map map = this.maps[i];
-					if (map.IsPlayerHome)
+					for (int i = 0; i < this.maps.Count; i++)
 					{
-						return map;
+						map = this.maps[i];
+						if (map.IsPlayerHome)
+							goto IL_0032;
 					}
+					result = null;
 				}
-				return null;
+				goto IL_0056;
+				IL_0032:
+				result = map;
+				goto IL_0056;
+				IL_0056:
+				return result;
 			}
 		}
 
@@ -202,26 +213,46 @@ namespace Verse
 
 		public Map FindMap(MapParent mapParent)
 		{
-			for (int i = 0; i < this.maps.Count; i++)
+			int num = 0;
+			Map result;
+			while (true)
 			{
-				if (this.maps[i].info.parent == mapParent)
+				if (num < this.maps.Count)
 				{
-					return this.maps[i];
+					if (this.maps[num].info.parent == mapParent)
+					{
+						result = this.maps[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public Map FindMap(int tile)
 		{
-			for (int i = 0; i < this.maps.Count; i++)
+			int num = 0;
+			Map result;
+			while (true)
 			{
-				if (this.maps[i].Tile == tile)
+				if (num < this.maps.Count)
 				{
-					return this.maps[i];
+					if (this.maps[num].Tile == tile)
+					{
+						result = this.maps[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public void ExposeData()
@@ -255,12 +286,20 @@ namespace Verse
 			Scribe_Deep.Look<History>(ref this.history, "history", new object[0]);
 			Scribe_Deep.Look<TaleManager>(ref this.taleManager, "taleManager", new object[0]);
 			Scribe_Deep.Look<PlayLog>(ref this.playLog, "playLog", new object[0]);
+			Scribe_Deep.Look<BattleLog>(ref this.battleLog, "battleLog", new object[0]);
 			Scribe_Deep.Look<OutfitDatabase>(ref this.outfitDatabase, "outfitDatabase", new object[0]);
 			Scribe_Deep.Look<DrugPolicyDatabase>(ref this.drugPolicyDatabase, "drugPolicyDatabase", new object[0]);
 			Scribe_Deep.Look<Tutor>(ref this.tutor, "tutor", new object[0]);
 			Scribe_Deep.Look<DateNotifier>(ref this.dateNotifier, "dateNotifier", new object[0]);
-			Scribe_Collections.Look<GameComponent>(ref this.components, "components", LookMode.Deep, new object[0]);
-			this.FillComponents();
+			Scribe_Collections.Look<GameComponent>(ref this.components, "components", LookMode.Deep, new object[1]
+			{
+				this
+			});
+			if (Scribe.mode == LoadSaveMode.LoadingVars)
+			{
+				this.FillComponents();
+				BackCompatibility.GameLoadingVars(this);
+			}
 		}
 
 		private void FillComponents()
@@ -338,24 +377,15 @@ namespace Verse
 					Find.Scenario.PostGameStart();
 					if (Faction.OfPlayer.def.startingResearchTags != null)
 					{
-						List<string>.Enumerator enumerator = Faction.OfPlayer.def.startingResearchTags.GetEnumerator();
-						try
+						foreach (string startingResearchTag in Faction.OfPlayer.def.startingResearchTags)
 						{
-							while (enumerator.MoveNext())
+							foreach (ResearchProjectDef allDef in DefDatabase<ResearchProjectDef>.AllDefs)
 							{
-								string current = enumerator.Current;
-								foreach (ResearchProjectDef allDef in DefDatabase<ResearchProjectDef>.AllDefs)
+								if (allDef.HasTag(startingResearchTag))
 								{
-									if (allDef.HasTag(current))
-									{
-										this.researchManager.InstantFinish(allDef, false);
-									}
+									this.researchManager.InstantFinish(allDef, false);
 								}
 							}
-						}
-						finally
-						{
-							((IDisposable)(object)enumerator).Dispose();
 						}
 					}
 					GameComponentUtility.StartedNewGame();
@@ -444,40 +474,74 @@ namespace Verse
 
 		public void UpdatePlay()
 		{
+			Profiler.BeginSample("tickManager.TickManagerUpdate()");
 			this.tickManager.TickManagerUpdate();
+			Profiler.EndSample();
+			Profiler.BeginSample("letterStack.LetterStackUpdate()");
 			this.letterStack.LetterStackUpdate();
+			Profiler.EndSample();
+			Profiler.BeginSample("World.WorldUpdate()");
 			this.World.WorldUpdate();
+			Profiler.EndSample();
+			Profiler.BeginSample("Map.MapUpdate()");
 			for (int i = 0; i < this.maps.Count; i++)
 			{
+				Profiler.BeginSample("Map " + i);
 				this.maps[i].MapUpdate();
+				Profiler.EndSample();
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("GameInfoUpdate()");
 			this.Info.GameInfoUpdate();
+			Profiler.EndSample();
+			Profiler.BeginSample("GameComponentUpdate()");
 			GameComponentUtility.GameComponentUpdate();
+			Profiler.EndSample();
 		}
 
 		public T GetComponent<T>() where T : GameComponent
 		{
-			for (int i = 0; i < this.components.Count; i++)
+			int num = 0;
+			T result;
+			while (true)
 			{
-				T val = (T)(this.components[i] as T);
-				if (val != null)
+				if (num < this.components.Count)
 				{
-					return val;
+					T val = (T)(this.components[num] as T);
+					if (val != null)
+					{
+						result = val;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = (T)null;
+				break;
 			}
-			return (T)null;
+			return result;
 		}
 
 		public GameComponent GetComponent(Type type)
 		{
-			for (int i = 0; i < this.components.Count; i++)
+			int num = 0;
+			GameComponent result;
+			while (true)
 			{
-				if (type.IsAssignableFrom(this.components[i].GetType()))
+				if (num < this.components.Count)
 				{
-					return this.components[i];
+					if (type.IsAssignableFrom(this.components[num].GetType()))
+					{
+						result = this.components[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public void FinalizeInit()
@@ -517,6 +581,7 @@ namespace Verse
 						{
 							this.VisibleMap = null;
 						}
+						Find.World.renderer.wantedMode = WorldRenderMode.Planet;
 					}
 					else
 					{

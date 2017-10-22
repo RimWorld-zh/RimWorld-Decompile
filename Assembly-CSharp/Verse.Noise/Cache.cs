@@ -1,16 +1,19 @@
+#define DEBUG
+using System.Diagnostics;
+
 namespace Verse.Noise
 {
 	public class Cache : ModuleBase
 	{
-		private double m_value;
+		private double m_value = 0.0;
 
-		private bool m_cached;
+		private bool m_cached = false;
 
-		private double m_x;
+		private double m_x = 0.0;
 
-		private double m_y;
+		private double m_y = 0.0;
 
-		private double m_z;
+		private double m_z = 0.0;
 
 		public override ModuleBase this[int index]
 		{
@@ -36,6 +39,7 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
+			Debug.Assert(base.modules[0] != null);
 			if (!this.m_cached || this.m_x != x || this.m_y != y || this.m_z != z)
 			{
 				this.m_value = base.modules[0].GetValue(x, y, z);

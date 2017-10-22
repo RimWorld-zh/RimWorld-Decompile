@@ -10,11 +10,7 @@ namespace Verse.AI.Group
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
-			if (base.ActivateOn(lord, signal) && Find.TickManager.TicksGame - lord.lastPawnHarmTick >= 300)
-			{
-				return true;
-			}
-			return false;
+			return (byte)((base.ActivateOn(lord, signal) && Find.TickManager.TicksGame - lord.lastPawnHarmTick >= 300) ? 1 : 0) != 0;
 		}
 	}
 }

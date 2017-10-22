@@ -5,8 +5,6 @@ namespace Verse
 {
 	public sealed class ExitMapGrid : ICellBoolGiver
 	{
-		private const int MaxDistToEdge = 4;
-
 		private Map map;
 
 		private bool dirty = true;
@@ -15,20 +13,23 @@ namespace Verse
 
 		private CellBoolDrawer drawerInt;
 
+		private const int MaxDistToEdge = 2;
+
 		public bool MapUsesExitGrid
 		{
 			get
 			{
+				bool result;
 				if (this.map.IsPlayerHome)
 				{
-					return false;
+					result = false;
 				}
-				CaravansBattlefield caravansBattlefield = this.map.info.parent as CaravansBattlefield;
-				if (caravansBattlefield != null && caravansBattlefield.def.blockExitGridUntilBattleIsWon && !caravansBattlefield.WonBattle)
+				else
 				{
-					return false;
+					CaravansBattlefield caravansBattlefield = this.map.info.parent as CaravansBattlefield;
+					result = ((byte)((caravansBattlefield == null || !caravansBattlefield.def.blockExitGridUntilBattleIsWon || caravansBattlefield.WonBattle) ? 1 : 0) != 0);
 				}
-				return true;
+				return result;
 			}
 		}
 
@@ -36,22 +37,27 @@ namespace Verse
 		{
 			get
 			{
+				CellBoolDrawer result;
 				if (!this.MapUsesExitGrid)
 				{
-					return null;
+					result = null;
 				}
-				if (this.dirty)
+				else
 				{
-					this.Rebuild();
+					if (this.dirty)
+					{
+						this.Rebuild();
+					}
+					if (this.drawerInt == null)
+					{
+						IntVec3 size = this.map.Size;
+						int x = size.x;
+						IntVec3 size2 = this.map.Size;
+						this.drawerInt = new CellBoolDrawer(this, x, size2.z, 0.33f);
+					}
+					result = this.drawerInt;
 				}
-				if (this.drawerInt == null)
-				{
-					IntVec3 size = this.map.Size;
-					int x = size.x;
-					IntVec3 size2 = this.map.Size;
-					this.drawerInt = new CellBoolDrawer(this, x, size2.z, 0.33f);
-				}
-				return this.drawerInt;
+				return result;
 			}
 		}
 
@@ -59,15 +65,20 @@ namespace Verse
 		{
 			get
 			{
+				BoolGrid result;
 				if (!this.MapUsesExitGrid)
 				{
-					return null;
+					result = null;
 				}
-				if (this.dirty)
+				else
 				{
-					this.Rebuild();
+					if (this.dirty)
+					{
+						this.Rebuild();
+					}
+					result = this.exitMapGrid;
 				}
-				return this.exitMapGrid;
+				return result;
 			}
 		}
 
@@ -75,7 +86,7 @@ namespace Verse
 		{
 			get
 			{
-				return new Color(0.35f, 1f, 0.35f, 0.18f);
+				return new Color(0.35f, 1f, 0.35f, 0.12f);
 			}
 		}
 
@@ -96,11 +107,7 @@ namespace Verse
 
 		public bool IsExitCell(IntVec3 c)
 		{
-			if (!this.MapUsesExitGrid)
-			{
-				return false;
-			}
-			return this.Grid[c];
+			return this.MapUsesExitGrid && this.Grid[c];
 		}
 
 		public void ExitMapGridUpdate()
@@ -138,9 +145,9 @@ namespace Verse
 			{
 				for (int j = cellRect.minX; j <= cellRect.maxX; j++)
 				{
-					if (i > 3 && i < cellRect.maxZ - 4 + 1 && j > 3 && j < cellRect.maxX - 4 + 1)
+					if (i > 1 && i < cellRect.maxZ - 2 + 1 && j > 1 && j < cellRect.maxX - 2 + 1)
 					{
-						j = cellRect.maxX - 4 + 1;
+						j = cellRect.maxX - 2 + 1;
 					}
 					IntVec3 intVec = new IntVec3(j, 0, i);
 					if (this.IsGoodExitCell(intVec))
@@ -157,20 +164,28 @@ namespace Verse
 
 		private bool IsGoodExitCell(IntVec3 cell)
 		{
+			bool result;
 			if (!cell.CanBeSeenOver(this.map))
 			{
-				return false;
+				result = false;
 			}
-			int num = GenRadial.NumCellsInRadius(4f);
-			for (int num2 = 0; num2 < num; num2++)
+			else
 			{
-				IntVec3 intVec = cell + GenRadial.RadialPattern[num2];
-				if (intVec.InBounds(this.map) && intVec.OnEdge(this.map) && intVec.CanBeSeenOverFast(this.map) && GenSight.LineOfSight(cell, intVec, this.map, false, null, 0, 0))
+				int num = GenRadial.NumCellsInRadius(2f);
+				for (int num2 = 0; num2 < num; num2++)
 				{
-					return true;
+					IntVec3 intVec = cell + GenRadial.RadialPattern[num2];
+					if (intVec.InBounds(this.map) && intVec.OnEdge(this.map) && intVec.CanBeSeenOverFast(this.map) && GenSight.LineOfSight(cell, intVec, this.map, false, null, 0, 0))
+						goto IL_008c;
 				}
+				result = false;
 			}
-			return false;
+			goto IL_00a6;
+			IL_00a6:
+			return result;
+			IL_008c:
+			result = true;
+			goto IL_00a6;
 		}
 	}
 }

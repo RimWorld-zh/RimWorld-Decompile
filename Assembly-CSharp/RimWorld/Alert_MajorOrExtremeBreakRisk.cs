@@ -18,16 +18,17 @@ namespace RimWorld
 		public override AlertReport GetReport()
 		{
 			Pawn pawn = BreakRiskAlertUtility.PawnsAtRiskExtreme.FirstOrDefault();
+			AlertReport result;
 			if (pawn != null)
 			{
-				return (Thing)pawn;
+				result = (Thing)pawn;
 			}
-			pawn = BreakRiskAlertUtility.PawnsAtRiskMajor.FirstOrDefault();
-			if (pawn != null)
+			else
 			{
-				return (Thing)pawn;
+				pawn = BreakRiskAlertUtility.PawnsAtRiskMajor.FirstOrDefault();
+				result = ((pawn == null) ? false : ((Thing)pawn));
 			}
-			return false;
+			return result;
 		}
 	}
 }

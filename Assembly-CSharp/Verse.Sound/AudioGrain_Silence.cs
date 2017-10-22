@@ -10,6 +10,7 @@ namespace Verse.Sound
 		public override IEnumerable<ResolvedGrain> GetResolvedGrains()
 		{
 			yield return (ResolvedGrain)new ResolvedGrain_Silence(this);
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override int GetHashCode()

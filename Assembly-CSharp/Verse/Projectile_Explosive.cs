@@ -2,7 +2,7 @@ namespace Verse
 {
 	public class Projectile_Explosive : Projectile
 	{
-		private int ticksToDetonation;
+		private int ticksToDetonation = 0;
 
 		public override void ExposeData()
 		{
@@ -41,9 +41,26 @@ namespace Verse
 		{
 			Map map = base.Map;
 			this.Destroy(DestroyMode.Vanish);
+			if (base.def.projectile.explosionEffect != null)
+			{
+				Effecter effecter = base.def.projectile.explosionEffect.Spawn();
+				effecter.Trigger(new TargetInfo(base.Position, map, false), new TargetInfo(base.Position, map, false));
+				effecter.Cleanup();
+			}
+			IntVec3 position = base.Position;
+			Map map2 = map;
+			float explosionRadius = base.def.projectile.explosionRadius;
+			DamageDef damageDef = base.def.projectile.damageDef;
+			Thing launcher = base.launcher;
+			int damageAmountBase = base.def.projectile.damageAmountBase;
+			SoundDef soundExplode = base.def.projectile.soundExplode;
+			ThingDef equipmentDef = base.equipmentDef;
+			ThingDef def = base.def;
+			ThingDef postExplosionSpawnThingDef = base.def.projectile.postExplosionSpawnThingDef;
+			float postExplosionSpawnChance = base.def.projectile.postExplosionSpawnChance;
+			int postExplosionSpawnThingCount = base.def.projectile.postExplosionSpawnThingCount;
 			ThingDef preExplosionSpawnThingDef = base.def.projectile.preExplosionSpawnThingDef;
-			float explosionSpawnChance = base.def.projectile.explosionSpawnChance;
-			GenExplosion.DoExplosion(base.Position, map, base.def.projectile.explosionRadius, base.def.projectile.damageDef, base.launcher, base.def.projectile.soundExplode, base.def, base.equipmentDef, base.def.projectile.postExplosionSpawnThingDef, base.def.projectile.explosionSpawnChance, 1, false, preExplosionSpawnThingDef, explosionSpawnChance, 1);
+			GenExplosion.DoExplosion(position, map2, explosionRadius, damageDef, launcher, damageAmountBase, soundExplode, equipmentDef, def, postExplosionSpawnThingDef, postExplosionSpawnChance, postExplosionSpawnThingCount, base.def.projectile.applyDamageToExplosionCellsNeighbors, preExplosionSpawnThingDef, base.def.projectile.preExplosionSpawnChance, base.def.projectile.preExplosionSpawnThingCount, base.def.projectile.explosionChanceToStartFire, base.def.projectile.explosionDealMoreDamageAtCenter);
 		}
 	}
 }

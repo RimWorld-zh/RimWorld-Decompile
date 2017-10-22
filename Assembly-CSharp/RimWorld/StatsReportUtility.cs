@@ -68,77 +68,21 @@ namespace RimWorld
 
 		private static IEnumerable<StatDrawEntry> StatsToDraw(Def def, ThingDef stuff)
 		{
+			_003CStatsToDraw_003Ec__Iterator0 _003CStatsToDraw_003Ec__Iterator = (_003CStatsToDraw_003Ec__Iterator0)/*Error near IL_0038: stateMachine*/;
 			yield return StatsReportUtility.DescriptionEntry(def);
-			BuildableDef eDef = def as BuildableDef;
-			if (eDef != null)
-			{
-				foreach (StatDef item in from st in DefDatabase<StatDef>.AllDefs
-				where st.Worker.ShouldShowFor(((_003CStatsToDraw_003Ec__Iterator199)/*Error near IL_0066: stateMachine*/)._003CeDef_003E__0)
-				select st)
-				{
-					yield return new StatDrawEntry(item.category, item, eDef.GetStatValueAbstract(item, stuff), StatRequest.For(eDef, stuff, QualityCategory.Normal), ToStringNumberSense.Undefined);
-				}
-			}
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		private static IEnumerable<StatDrawEntry> StatsToDraw(Thing thing)
 		{
 			yield return StatsReportUtility.DescriptionEntry(thing);
-			StatDrawEntry qe = StatsReportUtility.QualityEntry(thing);
-			if (qe != null)
-			{
-				yield return qe;
-			}
-			foreach (StatDef item in from st in DefDatabase<StatDef>.AllDefs
-			where st.Worker.ShouldShowFor(((_003CStatsToDraw_003Ec__Iterator19A)/*Error near IL_0096: stateMachine*/).thing.def)
-			select st)
-			{
-				yield return new StatDrawEntry(item.category, item, thing.GetStatValue(item, true), StatRequest.For(thing), ToStringNumberSense.Undefined);
-			}
-			if (thing.def.useHitPoints)
-			{
-				yield return new StatDrawEntry(StatCategoryDefOf.BasicsNonPawn, "HitPointsBasic".Translate().CapitalizeFirst(), thing.HitPoints.ToString() + " / " + thing.MaxHitPoints.ToString(), 0)
-				{
-					overrideReportText = "HitPointsBasic".Translate().CapitalizeFirst() + ":\n\n" + thing.HitPoints.ToString() + "\n\n" + StatDefOf.MaxHitPoints.LabelCap + ":\n\n" + StatDefOf.MaxHitPoints.Worker.GetExplanation(StatRequest.For(thing), ToStringNumberSense.Absolute)
-				};
-			}
-			foreach (StatDrawEntry specialDisplayStat in thing.SpecialDisplayStats)
-			{
-				yield return specialDisplayStat;
-			}
-			if (!thing.def.equippedStatOffsets.NullOrEmpty())
-			{
-				for (int k = 0; k < thing.def.equippedStatOffsets.Count; k++)
-				{
-					yield return new StatDrawEntry(StatCategoryDefOf.EquippedStatOffsets, thing.def.equippedStatOffsets[k].stat, thing.def.equippedStatOffsets[k].value, StatRequest.ForEmpty(), ToStringNumberSense.Offset);
-				}
-			}
-			if (thing.def.IsStuff)
-			{
-				if (!thing.def.stuffProps.statFactors.NullOrEmpty())
-				{
-					for (int j = 0; j < thing.def.stuffProps.statFactors.Count; j++)
-					{
-						yield return new StatDrawEntry(StatCategoryDefOf.StuffStatFactors, thing.def.stuffProps.statFactors[j].stat, thing.def.stuffProps.statFactors[j].value, StatRequest.ForEmpty(), ToStringNumberSense.Factor);
-					}
-				}
-				if (!thing.def.stuffProps.statOffsets.NullOrEmpty())
-				{
-					for (int i = 0; i < thing.def.stuffProps.statOffsets.Count; i++)
-					{
-						yield return new StatDrawEntry(StatCategoryDefOf.StuffStatOffsets, thing.def.stuffProps.statOffsets[i].stat, thing.def.stuffProps.statOffsets[i].value, StatRequest.ForEmpty(), ToStringNumberSense.Offset);
-					}
-				}
-			}
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		private static IEnumerable<StatDrawEntry> StatsToDraw(WorldObject worldObject)
 		{
 			yield return StatsReportUtility.DescriptionEntry(worldObject);
-			foreach (StatDrawEntry specialDisplayStat in worldObject.SpecialDisplayStats)
-			{
-				yield return specialDisplayStat;
-			}
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		private static void FinalizeCachedDrawEntries(IEnumerable<StatDrawEntry> original)
@@ -154,21 +98,21 @@ namespace RimWorld
 
 		private static StatDrawEntry DescriptionEntry(Def def)
 		{
-			StatDrawEntry statDrawEntry = new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), string.Empty, 99999);
+			StatDrawEntry statDrawEntry = new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), "", 99999, "");
 			statDrawEntry.overrideReportText = def.description;
 			return statDrawEntry;
 		}
 
 		private static StatDrawEntry DescriptionEntry(Thing thing)
 		{
-			StatDrawEntry statDrawEntry = new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), string.Empty, 99999);
+			StatDrawEntry statDrawEntry = new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), "", 99999, "");
 			statDrawEntry.overrideReportText = thing.GetDescription();
 			return statDrawEntry;
 		}
 
 		private static StatDrawEntry DescriptionEntry(WorldObject worldObject)
 		{
-			StatDrawEntry statDrawEntry = new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), string.Empty, 99999);
+			StatDrawEntry statDrawEntry = new StatDrawEntry(StatCategoryDefOf.Basics, "Description".Translate(), "", 99999, "");
 			statDrawEntry.overrideReportText = worldObject.GetDescription();
 			return statDrawEntry;
 		}
@@ -176,13 +120,18 @@ namespace RimWorld
 		private static StatDrawEntry QualityEntry(Thing t)
 		{
 			QualityCategory cat = default(QualityCategory);
+			StatDrawEntry result;
 			if (!t.TryGetQuality(out cat))
 			{
-				return null;
+				result = null;
 			}
-			StatDrawEntry statDrawEntry = new StatDrawEntry(StatCategoryDefOf.Basics, "Quality".Translate(), cat.GetLabel().CapitalizeFirst(), 99999);
-			statDrawEntry.overrideReportText = "QualityDescription".Translate();
-			return statDrawEntry;
+			else
+			{
+				StatDrawEntry statDrawEntry = new StatDrawEntry(StatCategoryDefOf.Basics, "Quality".Translate(), cat.GetLabel().CapitalizeFirst(), 99999, "");
+				statDrawEntry.overrideReportText = "QualityDescription".Translate();
+				result = statDrawEntry;
+			}
+			return result;
 		}
 
 		private static void SelectEntry(StatDrawEntry rec, bool playSound = true)
@@ -208,27 +157,17 @@ namespace RimWorld
 			Widgets.BeginScrollView(outRect, ref StatsReportUtility.scrollPosition, viewRect, true);
 			float num = 0f;
 			string b = (string)null;
-			List<StatDrawEntry>.Enumerator enumerator = StatsReportUtility.cachedDrawEntries.GetEnumerator();
-			try
+			foreach (StatDrawEntry cachedDrawEntry in StatsReportUtility.cachedDrawEntries)
 			{
-				StatDrawEntry ent;
-				while (enumerator.MoveNext())
+				if (cachedDrawEntry.category.LabelCap != b)
 				{
-					ent = enumerator.Current;
-					if (ent.category.LabelCap != b)
-					{
-						Widgets.ListSeparator(ref num, viewRect.width, ent.category.LabelCap);
-						b = ent.category.LabelCap;
-					}
-					num += ent.Draw(8f, num, (float)(viewRect.width - 8.0), StatsReportUtility.selectedEntry == ent, (Action)delegate
-					{
-						StatsReportUtility.SelectEntry(ent, true);
-					});
+					Widgets.ListSeparator(ref num, viewRect.width, cachedDrawEntry.category.LabelCap);
+					b = cachedDrawEntry.category.LabelCap;
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				num += cachedDrawEntry.Draw(8f, num, (float)(viewRect.width - 8.0), StatsReportUtility.selectedEntry == cachedDrawEntry, (Action)delegate
+				{
+					StatsReportUtility.SelectEntry(cachedDrawEntry, true);
+				});
 			}
 			StatsReportUtility.listHeight = (float)(num + 100.0);
 			Widgets.EndScrollView();

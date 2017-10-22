@@ -7,9 +7,9 @@ namespace Verse
 	{
 		private class MaterialAtlas
 		{
-			private const float TexPadding = 0.03125f;
-
 			protected Material[] subMats = new Material[16];
+
+			private const float TexPadding = 0.03125f;
 
 			public MaterialAtlas(Material newRootMat)
 			{
@@ -31,12 +31,17 @@ namespace Verse
 
 			public Material SubMat(LinkDirections linkSet)
 			{
+				Material result;
 				if ((int)linkSet >= this.subMats.Length)
 				{
 					Log.Warning("Cannot get submat of index " + (int)linkSet + ": out of range.");
-					return BaseContent.BadMat;
+					result = BaseContent.BadMat;
 				}
-				return this.subMats[(uint)linkSet];
+				else
+				{
+					result = this.subMats[(uint)linkSet];
+				}
+				return result;
 			}
 		}
 

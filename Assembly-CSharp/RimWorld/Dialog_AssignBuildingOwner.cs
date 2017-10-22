@@ -8,11 +8,11 @@ namespace RimWorld
 {
 	public class Dialog_AssignBuildingOwner : Window
 	{
-		private const float EntryHeight = 35f;
-
 		private IAssignableBuilding assignable;
 
 		private Vector2 scrollPosition;
+
+		private const float EntryHeight = 35f;
 
 		public override Vector2 InitialSize
 		{
@@ -75,12 +75,12 @@ namespace RimWorld
 						rect2.x = rect2.xMax;
 						rect2.width = (float)(viewRect.width * 0.40000000596046448);
 						if (Widgets.ButtonText(rect2, "BuildingAssign".Translate(), true, false, true))
-							goto IL_0217;
+							goto IL_0221;
 						num = (float)(num + 35.0);
 					}
 				}
-				goto end_IL_0185;
-				IL_0217:
+				goto end_IL_018e;
+				IL_0221:
 				this.assignable.TryAssignPawn(current2);
 				if (this.assignable.MaxAssignedPawnsCount == 1)
 				{
@@ -91,7 +91,7 @@ namespace RimWorld
 					SoundDefOf.Click.PlayOneShotOnCamera(null);
 				}
 				return;
-				end_IL_0185:;
+				end_IL_018e:;
 			}
 			Widgets.EndScrollView();
 		}

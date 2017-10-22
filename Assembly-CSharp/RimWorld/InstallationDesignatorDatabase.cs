@@ -10,13 +10,18 @@ namespace RimWorld
 		public static Designator_Install DesignatorFor(ThingDef artDef)
 		{
 			Designator_Install designator_Install = default(Designator_Install);
+			Designator_Install result;
 			if (InstallationDesignatorDatabase.designators.TryGetValue(artDef, out designator_Install))
 			{
-				return designator_Install;
+				result = designator_Install;
 			}
-			designator_Install = InstallationDesignatorDatabase.NewDesignatorFor(artDef);
-			InstallationDesignatorDatabase.designators.Add(artDef, designator_Install);
-			return designator_Install;
+			else
+			{
+				designator_Install = InstallationDesignatorDatabase.NewDesignatorFor(artDef);
+				InstallationDesignatorDatabase.designators.Add(artDef, designator_Install);
+				result = designator_Install;
+			}
+			return result;
 		}
 
 		private static Designator_Install NewDesignatorFor(ThingDef artDef)

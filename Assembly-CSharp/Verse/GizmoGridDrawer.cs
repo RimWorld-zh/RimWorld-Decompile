@@ -23,11 +23,7 @@ namespace Verse
 		{
 			get
 			{
-				if (Time.frameCount > GizmoGridDrawer.heightDrawnFrame + 2)
-				{
-					return 0f;
-				}
-				return GizmoGridDrawer.heightDrawn;
+				return (float)((Time.frameCount <= GizmoGridDrawer.heightDrawnFrame + 2) ? GizmoGridDrawer.heightDrawn : 0.0);
 			}
 		}
 

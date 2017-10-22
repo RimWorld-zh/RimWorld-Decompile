@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -11,7 +12,7 @@ namespace RimWorld
 
 		protected PawnGenerationContext context;
 
-		private bool hideOffMap;
+		private bool hideOffMap = false;
 
 		private string chanceBuf;
 
@@ -41,13 +42,26 @@ namespace RimWorld
 			if (Widgets.ButtonText(rect7, this.context.ToStringHuman(), true, false, true))
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				foreach (int value in Enum.GetValues(typeof(PawnGenerationContext)))
+				IEnumerator enumerator = Enum.GetValues(typeof(PawnGenerationContext)).GetEnumerator();
+				try
 				{
-					PawnGenerationContext localCont = (PawnGenerationContext)value;
-					list.Add(new FloatMenuOption(localCont.ToStringHuman(), (Action)delegate
+					while (enumerator.MoveNext())
 					{
-						this.context = localCont;
-					}, MenuOptionPriority.Default, null, null, 0f, null, null));
+						PawnGenerationContext pawnGenerationContext = (PawnGenerationContext)enumerator.Current;
+						PawnGenerationContext localCont = pawnGenerationContext;
+						list.Add(new FloatMenuOption(localCont.ToStringHuman(), (Action)delegate
+						{
+							this.context = localCont;
+						}, MenuOptionPriority.Default, null, null, 0f, null, null));
+					}
+				}
+				finally
+				{
+					IDisposable disposable;
+					if ((disposable = (enumerator as IDisposable)) != null)
+					{
+						disposable.Dispose();
+					}
 				}
 				Find.WindowStack.Add(new FloatMenu(list));
 			}
@@ -76,21 +90,12 @@ namespace RimWorld
 			{
 				if (((this.context != PawnGenerationContext.PlayerStarter) ? this.context : PawnGenerationContext.All) != 0)
 					return;
-				List<Pawn>.Enumerator enumerator = Find.GameInitData.startingPawns.GetEnumerator();
-				try
+				foreach (Pawn startingPawn in Find.GameInitData.startingPawns)
 				{
-					while (enumerator.MoveNext())
+					if (startingPawn.RaceProps.Humanlike)
 					{
-						Pawn current = enumerator.Current;
-						if (current.RaceProps.Humanlike)
-						{
-							this.ModifyPawn(current);
-						}
+						this.ModifyPawn(startingPawn);
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 		}

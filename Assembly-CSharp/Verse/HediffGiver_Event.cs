@@ -6,11 +6,7 @@ namespace Verse
 
 		public bool EventOccurred(Pawn pawn)
 		{
-			if (Rand.Value < this.chance)
-			{
-				return base.TryApply(pawn, null);
-			}
-			return false;
+			return Rand.Value < this.chance && base.TryApply(pawn, null);
 		}
 	}
 }

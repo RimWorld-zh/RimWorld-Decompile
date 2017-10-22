@@ -5,24 +5,21 @@ namespace RimWorld
 {
 	public class SkillNeed_Direct : SkillNeed
 	{
-		public List<float> factorsPerLevel = new List<float>();
+		public List<float> valuesPerLevel = new List<float>();
 
-		public override float FactorFor(Pawn pawn)
+		public override float ValueFor(Pawn pawn)
 		{
+			float result;
 			if (pawn.skills == null)
 			{
-				return 1f;
+				result = 1f;
 			}
-			int level = pawn.skills.GetSkill(base.skill).Level;
-			if (this.factorsPerLevel.Count > level)
+			else
 			{
-				return this.factorsPerLevel[level];
+				int level = pawn.skills.GetSkill(base.skill).Level;
+				result = (float)((this.valuesPerLevel.Count <= level) ? ((this.valuesPerLevel.Count <= 0) ? 1.0 : this.valuesPerLevel[this.valuesPerLevel.Count - 1]) : this.valuesPerLevel[level]);
 			}
-			if (this.factorsPerLevel.Count > 0)
-			{
-				return this.factorsPerLevel[this.factorsPerLevel.Count - 1];
-			}
-			return 1f;
+			return result;
 		}
 	}
 }

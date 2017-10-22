@@ -14,15 +14,12 @@ namespace RimWorld.Planet
 
 		public static int GetTicksPerMove(Caravan caravan)
 		{
-			if (caravan == null)
-			{
-				return 2500;
-			}
-			return CaravanTicksPerMoveUtility.GetTicksPerMove(caravan.PawnsListForReading);
+			return (caravan != null) ? CaravanTicksPerMoveUtility.GetTicksPerMove(caravan.PawnsListForReading) : 2500;
 		}
 
 		public static int GetTicksPerMove(List<Pawn> pawns)
 		{
+			int result;
 			if (pawns.Any())
 			{
 				float num = 0f;
@@ -32,9 +29,13 @@ namespace RimWorld.Planet
 					num += (float)num2 / (float)pawns.Count;
 				}
 				num = (float)(num * 190.0);
-				return Mathf.Max(Mathf.RoundToInt(num), 1);
+				result = Mathf.Max(Mathf.RoundToInt(num), 1);
 			}
-			return 2500;
+			else
+			{
+				result = 2500;
+			}
+			return result;
 		}
 	}
 }

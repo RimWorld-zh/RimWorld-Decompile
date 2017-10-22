@@ -95,21 +95,28 @@ namespace Verse
 			if (c.InBounds(this.map))
 			{
 				List<Thing> list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
-				for (int i = 0; i < list.Count; i++)
+				int i = 0;
+				if (i < list.Count)
 				{
 					yield return list[i];
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 		}
 
 		public List<Thing> ThingsListAt(IntVec3 c)
 		{
+			List<Thing> result;
 			if (!c.InBounds(this.map))
 			{
 				Log.ErrorOnce("Got ThingsListAt out of bounds: " + c, 495287);
-				return ThingGrid.EmptyThingList;
+				result = ThingGrid.EmptyThingList;
 			}
-			return this.thingGrid[this.map.cellIndices.CellToIndex(c)];
+			else
+			{
+				result = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
+			}
+			return result;
 		}
 
 		public List<Thing> ThingsListAtFast(IntVec3 c)
@@ -129,19 +136,29 @@ namespace Verse
 
 		public Thing ThingAt(IntVec3 c, ThingCategory cat)
 		{
+			Thing result;
+			List<Thing> list;
+			int i;
 			if (!c.InBounds(this.map))
 			{
-				return null;
+				result = null;
 			}
-			List<Thing> list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
-			for (int i = 0; i < list.Count; i++)
+			else
 			{
-				if (list[i].def.category == cat)
+				list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
+				for (i = 0; i < list.Count; i++)
 				{
-					return list[i];
+					if (list[i].def.category == cat)
+						goto IL_0051;
 				}
+				result = null;
 			}
-			return null;
+			goto IL_0076;
+			IL_0051:
+			result = list[i];
+			goto IL_0076;
+			IL_0076:
+			return result;
 		}
 
 		public bool CellContains(IntVec3 c, ThingDef def)
@@ -151,37 +168,56 @@ namespace Verse
 
 		public Thing ThingAt(IntVec3 c, ThingDef def)
 		{
+			Thing result;
+			List<Thing> list;
+			int i;
 			if (!c.InBounds(this.map))
 			{
-				return null;
+				result = null;
 			}
-			List<Thing> list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
-			for (int i = 0; i < list.Count; i++)
+			else
 			{
-				if (list[i].def == def)
+				list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
+				for (i = 0; i < list.Count; i++)
 				{
-					return list[i];
+					if (list[i].def == def)
+						goto IL_004c;
 				}
+				result = null;
 			}
-			return null;
+			goto IL_0071;
+			IL_004c:
+			result = list[i];
+			goto IL_0071;
+			IL_0071:
+			return result;
 		}
 
 		public T ThingAt<T>(IntVec3 c) where T : Thing
 		{
+			T result;
+			T val;
 			if (!c.InBounds(this.map))
 			{
-				return (T)null;
+				result = (T)null;
 			}
-			List<Thing> list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
-			for (int i = 0; i < list.Count; i++)
+			else
 			{
-				T val = (T)(list[i] as T);
-				if (val != null)
+				List<Thing> list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
+				for (int i = 0; i < list.Count; i++)
 				{
-					return val;
+					val = (T)(list[i] as T);
+					if (val != null)
+						goto IL_005c;
 				}
+				result = (T)null;
 			}
-			return (T)null;
+			goto IL_0080;
+			IL_005c:
+			result = val;
+			goto IL_0080;
+			IL_0080:
+			return result;
 		}
 	}
 }

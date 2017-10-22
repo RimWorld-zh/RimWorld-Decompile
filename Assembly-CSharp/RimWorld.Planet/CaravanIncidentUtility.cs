@@ -7,61 +7,68 @@ namespace RimWorld.Planet
 {
 	public static class CaravanIncidentUtility
 	{
-		private const float CaravanPawnsScorePerColonistUndowned = 1f;
+		public static readonly FloatRange IncidentPointsRandomFactorRange = new FloatRange(0.25f, 1.3f);
 
-		private const float CaravanPawnsScorePerColonistDowned = 0.35f;
-
-		private const float CaravanPawnsScorePerPrisoner = 0.35f;
-
-		private const float CaravanPawnsScorePerAnimalBodySize = 0.2f;
-
-		private const int MapCellsPerCaravanPawnsCountScore = 900;
+		private const int MapCellsPerPawn = 900;
 
 		private const int MinMapSize = 75;
 
 		private const int MaxMapSize = 110;
 
-		private const float MinEnemyPoints = 45f;
-
-		private static readonly FloatRange EnemyPointsPerCaravanPawnsScoreRange = new FloatRange(10f, 60f);
-
-		public static float CalculateIncidentPoints(IEnumerable<Pawn> playerPawns)
+		private static readonly SimpleCurve StealthFactorCurve = new SimpleCurve
 		{
-			float num = CaravanIncidentUtility.CalculateCaravanPawnsScore(playerPawns);
-			return Mathf.Max(num * CaravanIncidentUtility.EnemyPointsPerCaravanPawnsScoreRange.RandomInRange, 45f);
-		}
+			{
+				new CurvePoint(1f, 5f),
+				true
+			},
+			{
+				new CurvePoint(6f, 1f),
+				true
+			},
+			{
+				new CurvePoint(12f, 0.9f),
+				true
+			}
+		};
 
-		public static int CalculateIncidentMapSize(Caravan caravan)
+		public static int CalculateIncidentMapSize(List<Pawn> caravanPawns, List<Pawn> enemies)
 		{
-			float num = CaravanIncidentUtility.CalculateCaravanPawnsScore(caravan.PawnsListForReading);
-			int num2 = Mathf.RoundToInt((float)(num * 900.0));
-			return Mathf.Clamp(Mathf.RoundToInt(Mathf.Sqrt((float)num2)), 75, 110);
+			int num = Mathf.RoundToInt((float)((caravanPawns.Count + enemies.Count) * 900));
+			return Mathf.Clamp(Mathf.RoundToInt(Mathf.Sqrt((float)num)), 75, 110);
 		}
 
 		public static bool CanFireIncidentWhichWantsToGenerateMapAt(int tile)
 		{
+			bool result;
 			if (Current.Game.FindMap(tile) != null)
 			{
-				return false;
+				result = false;
 			}
-			if (!Find.WorldGrid[tile].biome.implemented)
+			else if (!Find.WorldGrid[tile].biome.implemented)
 			{
-				return false;
+				result = false;
 			}
-			List<WorldObject> allWorldObjects = Find.WorldObjects.AllWorldObjects;
-			for (int i = 0; i < allWorldObjects.Count; i++)
+			else
 			{
-				if (allWorldObjects[i].Tile == tile && !allWorldObjects[i].def.allowCaravanIncidentsWhichGenerateMap)
+				List<WorldObject> allWorldObjects = Find.WorldObjects.AllWorldObjects;
+				for (int i = 0; i < allWorldObjects.Count; i++)
 				{
-					return false;
+					if (allWorldObjects[i].Tile == tile && !allWorldObjects[i].def.allowCaravanIncidentsWhichGenerateMap)
+						goto IL_0074;
 				}
+				result = true;
 			}
-			return true;
+			goto IL_0094;
+			IL_0074:
+			result = false;
+			goto IL_0094;
+			IL_0094:
+			return result;
 		}
 
 		public static Map SetupCaravanAttackMap(Caravan caravan, List<Pawn> enemies)
 		{
-			int num = CaravanIncidentUtility.CalculateIncidentMapSize(caravan);
+			int num = CaravanIncidentUtility.CalculateIncidentMapSize(caravan.PawnsListForReading, enemies);
 			Map map = CaravanIncidentUtility.GetOrGenerateMapForIncident(caravan, new IntVec3(num, 1, num), WorldObjectDefOf.Ambush);
 			IntVec3 playerStartingSpot;
 			IntVec3 root = default(IntVec3);
@@ -87,14 +94,9 @@ namespace RimWorld.Planet
 			return orGenerateMap;
 		}
 
-		private static float CalculateCaravanPawnsScore(IEnumerable<Pawn> caravanPawns)
+		public static float CalculateCaravanStealthFactor(int pawnCount)
 		{
-			float num = 0f;
-			foreach (Pawn item in caravanPawns)
-			{
-				num = (float)((!item.IsColonist) ? ((!item.RaceProps.Humanlike) ? (num + 0.20000000298023224 * item.BodySize) : (num + 0.34999999403953552)) : (num + (item.Downed ? 0.34999999403953552 : 1.0)));
-			}
-			return num;
+			return CaravanIncidentUtility.StealthFactorCurve.Evaluate((float)pawnCount);
 		}
 	}
 }

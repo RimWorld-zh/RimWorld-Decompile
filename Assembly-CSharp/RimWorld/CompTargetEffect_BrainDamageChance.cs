@@ -14,8 +14,11 @@ namespace RimWorld
 				BodyPartRecord brain = pawn.health.hediffSet.GetBrain();
 				if (brain != null)
 				{
-					int amount = Rand.RangeInclusive(1, 5);
-					pawn.TakeDamage(new DamageInfo(DamageDefOf.Flame, amount, -1f, user, brain, base.parent.def, DamageInfo.SourceCategory.ThingOrUnknown));
+					int num = Rand.RangeInclusive(1, 5);
+					Pawn obj = pawn;
+					DamageDef flame = DamageDefOf.Flame;
+					int amount = num;
+					obj.TakeDamage(new DamageInfo(flame, amount, -1f, user, brain, base.parent.def, DamageInfo.SourceCategory.ThingOrUnknown));
 				}
 			}
 		}

@@ -6,14 +6,6 @@ namespace RimWorld
 	{
 		private const float XPGainAmount = 50000f;
 
-		public override float OrderPriority
-		{
-			get
-			{
-				return -1000f;
-			}
-		}
-
 		public override void DoEffect(Pawn user)
 		{
 			base.DoEffect(user);
@@ -23,9 +15,8 @@ namespace RimWorld
 			int level2 = user.skills.GetSkill(skill).Level;
 			if (PawnUtility.ShouldSendNotificationAbout(user))
 			{
-				Messages.Message("NeurotrainerUsed".Translate(user.LabelShort, skill.label, level, level2), (Thing)user, MessageSound.Benefit);
+				Messages.Message("NeurotrainerUsed".Translate(user.LabelShort, skill.LabelCap, level, level2), (Thing)user, MessageTypeDefOf.PositiveEvent);
 			}
-			base.parent.Destroy(DestroyMode.Vanish);
 		}
 	}
 }

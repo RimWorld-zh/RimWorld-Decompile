@@ -37,6 +37,8 @@ namespace RimWorld
 
 		public static KeyBindingDef NextColonist;
 
+		public static KeyBindingDef QueueOrder;
+
 		public static KeyBindingDef Misc1;
 
 		public static KeyBindingDef Misc2;

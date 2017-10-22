@@ -86,16 +86,17 @@ namespace RimWorld
 		{
 			get
 			{
+				Thing result;
 				if (this.leftToLoad == null)
 				{
-					return null;
+					result = null;
 				}
-				TransferableOneWay transferableOneWay = this.leftToLoad.Find((Predicate<TransferableOneWay>)((TransferableOneWay x) => x.CountToTransfer != 0 && x.HasAnyThing));
-				if (transferableOneWay != null)
+				else
 				{
-					return transferableOneWay.AnyThing;
+					TransferableOneWay transferableOneWay = this.leftToLoad.Find((Predicate<TransferableOneWay>)((TransferableOneWay x) => x.CountToTransfer != 0 && x.HasAnyThing));
+					result = ((transferableOneWay == null) ? null : transferableOneWay.AnyThing);
 				}
-				return null;
+				return result;
 			}
 		}
 
@@ -104,15 +105,25 @@ namespace RimWorld
 			get
 			{
 				List<CompTransporter> list = this.TransportersInGroup(base.parent.Map);
-				for (int i = 0; i < list.Count; i++)
+				int num = 0;
+				Thing result;
+				while (true)
 				{
-					Thing firstThingLeftToLoad = list[i].FirstThingLeftToLoad;
-					if (firstThingLeftToLoad != null)
+					if (num < list.Count)
 					{
-						return firstThingLeftToLoad;
+						Thing firstThingLeftToLoad = list[num].FirstThingLeftToLoad;
+						if (firstThingLeftToLoad != null)
+						{
+							result = firstThingLeftToLoad;
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = null;
+					break;
 				}
-				return null;
+				return result;
 			}
 		}
 
@@ -142,21 +153,37 @@ namespace RimWorld
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
+		public override void CompTick()
+		{
+			base.CompTick();
+			this.innerContainer.ThingOwnerTick(true);
+		}
+
 		public List<CompTransporter> TransportersInGroup(Map map)
 		{
+			List<CompTransporter> result;
 			if (!this.LoadingInProgressOrReadyToLaunch)
 			{
-				return null;
+				result = null;
 			}
-			TransporterUtility.GetTransportersInGroup(this.groupID, map, CompTransporter.tmpTransportersInGroup);
-			return CompTransporter.tmpTransportersInGroup;
+			else
+			{
+				TransporterUtility.GetTransportersInGroup(this.groupID, map, CompTransporter.tmpTransportersInGroup);
+				result = CompTransporter.tmpTransportersInGroup;
+			}
+			return result;
 		}
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			foreach (Gizmo item in base.CompGetGizmosExtra())
+			using (IEnumerator<Gizmo> enumerator = this._003CCompGetGizmosExtra_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					Gizmo g = enumerator.Current;
+					yield return g;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			if (this.LoadingInProgressOrReadyToLaunch)
 			{
@@ -168,74 +195,45 @@ namespace RimWorld
 					action = (Action)delegate
 					{
 						SoundDefOf.DesignateCancel.PlayOneShotOnCamera(null);
-						((_003CCompGetGizmosExtra_003Ec__Iterator16F)/*Error near IL_0115: stateMachine*/)._003C_003Ef__this.CancelLoad();
+						((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0124: stateMachine*/)._0024this.CancelLoad();
 					}
 				};
-				yield return (Gizmo)new Command_Action
-				{
-					defaultLabel = "CommandSelectPreviousTransporter".Translate(),
-					defaultDesc = "CommandSelectPreviousTransporterDesc".Translate(),
-					icon = CompTransporter.SelectPreviousInGroupCommandTex,
-					action = (Action)delegate
-					{
-						((_003CCompGetGizmosExtra_003Ec__Iterator16F)/*Error near IL_0189: stateMachine*/)._003C_003Ef__this.SelectPreviousInGroup();
-					}
-				};
-				yield return (Gizmo)new Command_Action
-				{
-					defaultLabel = "CommandSelectAllTransporters".Translate(),
-					defaultDesc = "CommandSelectAllTransportersDesc".Translate(),
-					icon = CompTransporter.SelectAllInGroupCommandTex,
-					action = (Action)delegate
-					{
-						((_003CCompGetGizmosExtra_003Ec__Iterator16F)/*Error near IL_01fd: stateMachine*/)._003C_003Ef__this.SelectAllInGroup();
-					}
-				};
-				yield return (Gizmo)new Command_Action
-				{
-					defaultLabel = "CommandSelectNextTransporter".Translate(),
-					defaultDesc = "CommandSelectNextTransporterDesc".Translate(),
-					icon = CompTransporter.SelectNextInGroupCommandTex,
-					action = (Action)delegate
-					{
-						((_003CCompGetGizmosExtra_003Ec__Iterator16F)/*Error near IL_0271: stateMachine*/)._003C_003Ef__this.SelectNextInGroup();
-					}
-				};
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			else
+			Command_LoadToTransporter loadGroup = new Command_LoadToTransporter();
+			int selectedTransportersCount = 0;
+			for (int i = 0; i < Find.Selector.NumSelected; i++)
 			{
-				Command_LoadToTransporter loadGroup = new Command_LoadToTransporter();
-				int selectedTransportersCount = 0;
-				for (int i = 0; i < Find.Selector.NumSelected; i++)
+				Thing thing = Find.Selector.SelectedObjectsListForReading[i] as Thing;
+				if (thing != null && thing.def == base.parent.def)
 				{
-					Thing t = Find.Selector.SelectedObjectsListForReading[i] as Thing;
-					if (t != null && t.def == base.parent.def)
+					CompLaunchable compLaunchable = thing.TryGetComp<CompLaunchable>();
+					if (compLaunchable == null || (compLaunchable.FuelingPortSource != null && compLaunchable.FuelingPortSourceHasAnyFuel))
 					{
-						CompLaunchable cl = t.TryGetComp<CompLaunchable>();
-						if (cl == null || (cl.FuelingPortSource != null && cl.FuelingPortSourceHasAnyFuel))
-						{
-							selectedTransportersCount++;
-						}
+						selectedTransportersCount++;
 					}
 				}
-				loadGroup.defaultLabel = "CommandLoadTransporter".Translate(selectedTransportersCount.ToString());
-				loadGroup.defaultDesc = "CommandLoadTransporterDesc".Translate();
-				loadGroup.icon = CompTransporter.LoadCommandTex;
-				loadGroup.transComp = this;
-				CompLaunchable launchable = this.Launchable;
-				if (launchable != null)
-				{
-					if (!launchable.ConnectedToFuelingPort)
-					{
-						loadGroup.Disable("CommandLoadTransporterFailNotConnectedToFuelingPort".Translate());
-					}
-					else if (!launchable.FuelingPortSourceHasAnyFuel)
-					{
-						loadGroup.Disable("CommandLoadTransporterFailNoFuel".Translate());
-					}
-				}
-				yield return (Gizmo)loadGroup;
 			}
+			loadGroup.defaultLabel = "CommandLoadTransporter".Translate(selectedTransportersCount.ToString());
+			loadGroup.defaultDesc = "CommandLoadTransporterDesc".Translate();
+			loadGroup.icon = CompTransporter.LoadCommandTex;
+			loadGroup.transComp = this;
+			CompLaunchable launchable = this.Launchable;
+			if (launchable != null)
+			{
+				if (!launchable.ConnectedToFuelingPort)
+				{
+					loadGroup.Disable("CommandLoadTransporterFailNotConnectedToFuelingPort".Translate());
+				}
+				else if (!launchable.FuelingPortSourceHasAnyFuel)
+				{
+					loadGroup.Disable("CommandLoadTransporterFailNoFuel".Translate());
+				}
+			}
+			yield return (Gizmo)loadGroup;
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0469:
+			/*Error near IL_046a: Unexpected return in MoveNext()*/;
 		}
 
 		public override void PostDeSpawn(Map map)
@@ -243,7 +241,7 @@ namespace RimWorld
 			base.PostDeSpawn(map);
 			if (this.CancelLoad(map))
 			{
-				Messages.Message("MessageTransportersLoadCanceled_TransporterDestroyed".Translate(), MessageSound.Negative);
+				Messages.Message("MessageTransportersLoadCanceled_TransporterDestroyed".Translate(), MessageTypeDefOf.NegativeEvent);
 			}
 			this.innerContainer.TryDropAll(base.parent.Position, map, ThingPlaceMode.Near);
 		}
@@ -287,18 +285,23 @@ namespace RimWorld
 
 		public bool CancelLoad(Map map)
 		{
+			bool result;
 			if (!this.LoadingInProgressOrReadyToLaunch)
 			{
-				return false;
+				result = false;
 			}
-			this.TryRemoveLord(map);
-			List<CompTransporter> list = this.TransportersInGroup(map);
-			for (int i = 0; i < list.Count; i++)
+			else
 			{
-				list[i].CleanUpLoadingVars(map);
+				this.TryRemoveLord(map);
+				List<CompTransporter> list = this.TransportersInGroup(map);
+				for (int i = 0; i < list.Count; i++)
+				{
+					list[i].CleanUpLoadingVars(map);
+				}
+				this.CleanUpLoadingVars(map);
+				result = true;
 			}
-			this.CleanUpLoadingVars(map);
-			return true;
+			return result;
 		}
 
 		public void TryRemoveLord(Map map)
@@ -337,7 +340,7 @@ namespace RimWorld
 					}
 					if (!this.AnyInGroupHasAnythingLeftToLoad)
 					{
-						Messages.Message("MessageFinishedLoadingTransporters".Translate(), (Thing)base.parent, MessageSound.Benefit);
+						Messages.Message("MessageFinishedLoadingTransporters".Translate(), (Thing)base.parent, MessageTypeDefOf.TaskCompletion);
 					}
 				}
 			}
@@ -366,17 +369,6 @@ namespace RimWorld
 			List<CompTransporter> list = this.TransportersInGroup(this.Map);
 			int num = list.IndexOf(this);
 			CameraJumper.TryJumpAndSelect((Thing)list[(num + 1) % list.Count].parent);
-		}
-
-		virtual IThingHolder get_ParentHolder()
-		{
-			return base.ParentHolder;
-		}
-
-		IThingHolder IThingHolder.get_ParentHolder()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
-			return this.get_ParentHolder();
 		}
 	}
 }

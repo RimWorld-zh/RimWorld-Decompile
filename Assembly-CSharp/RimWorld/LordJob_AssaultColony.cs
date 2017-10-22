@@ -12,9 +12,9 @@ namespace RimWorld
 
 		private bool canTimeoutOrFlee = true;
 
-		private bool sappers;
+		private bool sappers = false;
 
-		private bool useAvoidGridSmart;
+		private bool useAvoidGridSmart = false;
 
 		private bool canSteal = true;
 

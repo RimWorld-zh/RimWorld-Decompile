@@ -19,30 +19,39 @@ namespace Verse
 
 		private bool HideRainPrimary(IntVec3 c)
 		{
+			bool result;
 			if (base.Map.fogGrid.IsFogged(c))
 			{
-				return false;
+				result = false;
+				goto IL_009d;
 			}
 			if (c.Roofed(base.Map))
 			{
 				Building edifice = c.GetEdifice(base.Map);
 				if (edifice == null)
 				{
-					return true;
+					result = true;
 				}
-				if (edifice.def.Fillage != FillCategory.Full)
+				else if (edifice.def.Fillage != FillCategory.Full)
 				{
-					return true;
+					result = true;
 				}
-				if (edifice.def.size.x <= 1 && edifice.def.size.z <= 1)
+				else
 				{
-					goto IL_007f;
+					if (edifice.def.size.x <= 1 && edifice.def.size.z <= 1)
+					{
+						goto IL_0096;
+					}
+					result = true;
 				}
-				return true;
+				goto IL_009d;
 			}
-			goto IL_007f;
-			IL_007f:
-			return false;
+			goto IL_0096;
+			IL_009d:
+			return result;
+			IL_0096:
+			result = false;
+			goto IL_009d;
 		}
 
 		public override void Regenerate()
@@ -80,11 +89,11 @@ namespace Verse
 								}
 							}
 							if (flag && flag2)
-								goto IL_016e;
+								goto IL_017c;
 							continue;
 						}
-						goto IL_016e;
-						IL_016e:
+						goto IL_017c;
+						IL_017c:
 						Thing thing = innerArray[cellIndices.CellToIndex(i, j)];
 						float num = (float)((thing == null || (thing.def.passability != Traversability.Impassable && !thing.def.IsDoor)) ? 0.15999999642372131 : 0.0);
 						subMesh.verts.Add(new Vector3((float)i - num, y, (float)j - num));
@@ -102,7 +111,7 @@ namespace Verse
 				}
 				if (subMesh.verts.Count > 0)
 				{
-					subMesh.FinalizeMesh(MeshParts.Verts | MeshParts.Tris, false);
+					subMesh.FinalizeMesh(MeshParts.Verts | MeshParts.Tris);
 				}
 			}
 		}

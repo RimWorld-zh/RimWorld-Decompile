@@ -39,8 +39,14 @@ namespace Verse
 		private static bool TryFindAdjustedCoverInCell(IntVec3 shooterLoc, IntVec3 targetLoc, IntVec3 adjCell, Map map, out CoverInfo result)
 		{
 			Thing cover = adjCell.GetCover(map);
+			bool result2;
 			float num2;
-			if (cover != null && !(shooterLoc == targetLoc))
+			if (cover == null || shooterLoc == targetLoc)
+			{
+				result = CoverInfo.Invalid;
+				result2 = false;
+			}
+			else
 			{
 				float angleFlat = (shooterLoc - targetLoc).AngleFlat;
 				float angleFlat2 = (adjCell - targetLoc).AngleFlat;
@@ -53,34 +59,33 @@ namespace Verse
 				if (num < 15.0)
 				{
 					num2 = (float)(num2 * 1.0);
-					goto IL_0104;
+					goto IL_011a;
 				}
 				if (num < 27.0)
 				{
 					num2 = (float)(num2 * 0.800000011920929);
-					goto IL_0104;
+					goto IL_011a;
 				}
 				if (num < 40.0)
 				{
 					num2 = (float)(num2 * 0.60000002384185791);
-					goto IL_0104;
+					goto IL_011a;
 				}
 				if (num < 52.0)
 				{
 					num2 = (float)(num2 * 0.40000000596046448);
-					goto IL_0104;
+					goto IL_011a;
 				}
 				if (num < 65.0)
 				{
 					num2 = (float)(num2 * 0.20000000298023224);
-					goto IL_0104;
+					goto IL_011a;
 				}
 				result = CoverInfo.Invalid;
-				return false;
+				result2 = false;
 			}
-			result = CoverInfo.Invalid;
-			return false;
-			IL_0104:
+			goto IL_016e;
+			IL_011a:
 			float lengthHorizontal = (shooterLoc - adjCell).LengthHorizontal;
 			if (lengthHorizontal < 1.8999999761581421)
 			{
@@ -91,16 +96,15 @@ namespace Verse
 				num2 = (float)(num2 * 0.66666001081466675);
 			}
 			result = new CoverInfo(cover, num2);
-			return true;
+			result2 = true;
+			goto IL_016e;
+			IL_016e:
+			return result2;
 		}
 
 		public static float BaseBlockChance(this ThingDef def)
 		{
-			if (def.Fillage == FillCategory.Full)
-			{
-				return 0.75f;
-			}
-			return def.fillPercent;
+			return (float)((def.Fillage != FillCategory.Full) ? def.fillPercent : 0.75);
 		}
 
 		public static float TotalSurroundingCoverScore(IntVec3 c, Map map)

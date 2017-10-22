@@ -7,11 +7,13 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public abstract class Command : Gizmo
 	{
-		public string defaultLabel;
+		public string defaultLabel = (string)null;
 
 		public string defaultDesc = "No description.";
 
-		public Texture2D icon;
+		public Texture2D icon = null;
+
+		public float iconAngle;
 
 		public Vector2 iconProportions = Vector2.one;
 
@@ -23,9 +25,9 @@ namespace Verse
 
 		public KeyBindingDef hotKey;
 
-		public SoundDef activateSound;
+		public SoundDef activateSound = null;
 
-		public int groupKey;
+		public int groupKey = 0;
 
 		public string tutorTag = "TutorTagNotSet";
 
@@ -120,7 +122,7 @@ namespace Verse
 			GUI.DrawTexture(rect, Command.BGTex);
 			MouseoverSounds.DoRegion(rect, SoundDefOf.MouseoverCommand);
 			GUI.color = this.IconDrawColor;
-			Widgets.DrawTextureFitted(new Rect(rect), badTex, (float)(this.iconDrawScale * 0.85000002384185791), this.iconProportions, this.iconTexCoords);
+			Widgets.DrawTextureFitted(rect, badTex, (float)(this.iconDrawScale * 0.85000002384185791), this.iconProportions, this.iconTexCoords, this.iconAngle);
 			GUI.color = Color.white;
 			bool flag2 = false;
 			KeyCode keyCode = (this.hotKey != null) ? this.hotKey.MainKey : KeyCode.None;
@@ -166,51 +168,39 @@ namespace Verse
 			{
 				UIHighlighter.HighlightOpportunity(rect, this.HighlightTag);
 			}
+			GizmoResult result;
 			if (flag2)
 			{
 				if (base.disabled)
 				{
 					if (!base.disabledReason.NullOrEmpty())
 					{
-						Messages.Message(base.disabledReason, MessageSound.RejectInput);
+						Messages.Message(base.disabledReason, MessageTypeDefOf.RejectInput);
 					}
-					return new GizmoResult(GizmoState.Mouseover, null);
+					result = new GizmoResult(GizmoState.Mouseover, null);
 				}
-				if (!TutorSystem.AllowAction(this.TutorTagSelect))
+				else if (!TutorSystem.AllowAction(this.TutorTagSelect))
 				{
-					return new GizmoResult(GizmoState.Mouseover, null);
+					result = new GizmoResult(GizmoState.Mouseover, null);
 				}
-				GizmoResult result = new GizmoResult(GizmoState.Interacted, Event.current);
-				TutorSystem.Notify_Event(this.TutorTagSelect);
-				return result;
+				else
+				{
+					GizmoResult gizmoResult = new GizmoResult(GizmoState.Interacted, Event.current);
+					TutorSystem.Notify_Event(this.TutorTagSelect);
+					result = gizmoResult;
+				}
 			}
-			if (flag)
+			else
 			{
-				return new GizmoResult(GizmoState.Mouseover, null);
+				result = ((!flag) ? new GizmoResult(GizmoState.Clear, null) : new GizmoResult(GizmoState.Mouseover, null));
 			}
-			return new GizmoResult(GizmoState.Clear, null);
+			return result;
 		}
 
 		public override bool GroupsWith(Gizmo other)
 		{
 			Command command = other as Command;
-			if (command == null)
-			{
-				return false;
-			}
-			if (this.hotKey == command.hotKey && this.Label == command.Label && (Object)this.icon == (Object)command.icon)
-			{
-				return true;
-			}
-			if (((this.groupKey != 0) ? command.groupKey : 0) != 0)
-			{
-				if (this.groupKey == command.groupKey)
-				{
-					return true;
-				}
-				return false;
-			}
-			return false;
+			return (byte)((command != null) ? ((this.hotKey == command.hotKey && this.Label == command.Label && (Object)this.icon == (Object)command.icon) ? 1 : ((((this.groupKey != 0) ? command.groupKey : 0) != 0) ? ((this.groupKey == command.groupKey) ? 1 : 0) : 0)) : 0) != 0;
 		}
 
 		public override void ProcessInput(Event ev)

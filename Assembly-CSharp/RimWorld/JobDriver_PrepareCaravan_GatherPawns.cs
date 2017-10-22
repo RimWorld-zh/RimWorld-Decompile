@@ -14,17 +14,21 @@ namespace RimWorld
 		{
 			get
 			{
-				return (Pawn)base.CurJob.GetTarget(TargetIndex.A).Thing;
+				return (Pawn)base.job.GetTarget(TargetIndex.A).Thing;
 			}
+		}
+
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve((Thing)this.AnimalOrSlave, base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			this.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__IteratorA)/*Error near IL_002f: stateMachine*/)._003C_003Ef__this.Map.lordManager.lords.Contains(((_003CMakeNewToils_003Ec__IteratorA)/*Error near IL_002f: stateMachine*/)._003C_003Ef__this.CurJob.lord)));
-			this.FailOn((Func<bool>)(() => ((_003CMakeNewToils_003Ec__IteratorA)/*Error near IL_0047: stateMachine*/)._003C_003Ef__this.AnimalOrSlave.GetLord() != ((_003CMakeNewToils_003Ec__IteratorA)/*Error near IL_0047: stateMachine*/)._003C_003Ef__this.CurJob.lord));
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
-			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOnDespawnedOrNull(TargetIndex.A).FailOn((Func<bool>)(() => GatherAnimalsAndSlavesForCaravanUtility.IsFollowingAnyone(((_003CMakeNewToils_003Ec__IteratorA)/*Error near IL_0082: stateMachine*/)._003C_003Ef__this.AnimalOrSlave)));
-			yield return this.SetFollowerToil();
+			this.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_002c: stateMachine*/)._0024this.Map.lordManager.lords.Contains(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_002c: stateMachine*/)._0024this.job.lord)));
+			this.FailOn((Func<bool>)(() => ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.AnimalOrSlave == null || ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.AnimalOrSlave.GetLord() != ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.job.lord));
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOnDespawnedOrNull(TargetIndex.A).FailOn((Func<bool>)(() => GatherAnimalsAndSlavesForCaravanUtility.IsFollowingAnyone(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0064: stateMachine*/)._0024this.AnimalOrSlave)));
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		private Toil SetFollowerToil()

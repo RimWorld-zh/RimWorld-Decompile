@@ -37,7 +37,7 @@ namespace Verse
 		{
 			get
 			{
-				return Rand.Range(this.min, this.max + 1);
+				return Rand.RangeInclusive(this.min, this.max);
 			}
 		}
 
@@ -55,12 +55,17 @@ namespace Verse
 		public static IntRange FromString(string s)
 		{
 			string[] array = s.Split('~');
+			IntRange result;
 			if (array.Length == 1)
 			{
 				int num = Convert.ToInt32(array[0]);
-				return new IntRange(num, num);
+				result = new IntRange(num, num);
 			}
-			return new IntRange(Convert.ToInt32(array[0]), Convert.ToInt32(array[1]));
+			else
+			{
+				result = new IntRange(Convert.ToInt32(array[0]), Convert.ToInt32(array[1]));
+			}
+			return result;
 		}
 
 		public override string ToString()
@@ -75,21 +80,12 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			if (!(obj is IntRange))
-			{
-				return false;
-			}
-			return this.Equals((IntRange)obj);
+			return obj is IntRange && this.Equals((IntRange)obj);
 		}
 
 		public bool Equals(IntRange other)
 		{
 			return this.min == other.min && this.max == other.max;
-		}
-
-		internal bool Includes(int val)
-		{
-			return val > this.min && val < this.max;
 		}
 
 		public static bool operator ==(IntRange lhs, IntRange rhs)
@@ -100,6 +96,11 @@ namespace Verse
 		public static bool operator !=(IntRange lhs, IntRange rhs)
 		{
 			return !(lhs == rhs);
+		}
+
+		internal bool Includes(int val)
+		{
+			return val > this.min && val < this.max;
 		}
 	}
 }

@@ -10,7 +10,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return string.Format(base.Props.useLabel, this.skill.label);
+				return string.Format(base.Props.useLabel, this.skill.LabelCap);
 			}
 		}
 
@@ -28,21 +28,22 @@ namespace RimWorld
 
 		public override string TransformLabel(string label)
 		{
-			return this.skill.label + " " + label;
+			return this.skill.LabelCap + " " + label;
 		}
 
 		public override bool AllowStackWith(Thing other)
 		{
+			bool result;
 			if (!base.AllowStackWith(other))
 			{
-				return false;
+				result = false;
 			}
-			CompNeurotrainer compNeurotrainer = other.TryGetComp<CompNeurotrainer>();
-			if (compNeurotrainer != null && compNeurotrainer.skill == this.skill)
+			else
 			{
-				return true;
+				CompNeurotrainer compNeurotrainer = other.TryGetComp<CompNeurotrainer>();
+				result = ((byte)((compNeurotrainer != null && compNeurotrainer.skill == this.skill) ? 1 : 0) != 0);
 			}
-			return false;
+			return result;
 		}
 
 		public override void PostSplitOff(Thing piece)

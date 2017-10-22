@@ -43,7 +43,6 @@ namespace Verse
 			{
 				if ((root.type & traversableRegionTypes) != 0)
 				{
-					ProfilerThreadCheck.BeginSample("BreadthFirstTraversal");
 					this.closedIndex += 1u;
 					this.open.Clear();
 					this.numRegionsProcessed = 0;
@@ -55,20 +54,15 @@ namespace Verse
 						{
 							region.Debug_Notify_Traversed();
 						}
-						ProfilerThreadCheck.BeginSample("regionProcessor");
 						if ((object)regionProcessor != null && regionProcessor(region))
 						{
 							this.FinalizeSearch();
-							ProfilerThreadCheck.EndSample();
-							ProfilerThreadCheck.EndSample();
 							return;
 						}
-						ProfilerThreadCheck.EndSample();
 						this.numRegionsProcessed++;
 						if (this.numRegionsProcessed >= maxRegions)
 						{
 							this.FinalizeSearch();
-							ProfilerThreadCheck.EndSample();
 							return;
 						}
 						for (int i = 0; i < region.links.Count; i++)
@@ -85,7 +79,6 @@ namespace Verse
 						}
 					}
 					this.FinalizeSearch();
-					ProfilerThreadCheck.EndSample();
 				}
 			}
 		}
@@ -116,18 +109,23 @@ namespace Verse
 				floodingRoom = existingRoom;
 			}
 			root.Room = floodingRoom;
+			Room result;
 			if (!root.type.AllowsMultipleRegionsPerRoom())
 			{
-				return floodingRoom;
+				result = floodingRoom;
 			}
-			RegionEntryPredicate entryCondition = (RegionEntryPredicate)((Region from, Region r) => r.type == root.type && r.Room != floodingRoom);
-			RegionProcessor regionProcessor = (RegionProcessor)delegate(Region r)
+			else
 			{
-				r.Room = floodingRoom;
-				return false;
-			};
-			RegionTraverser.BreadthFirstTraverse(root, entryCondition, regionProcessor, 999999, RegionType.Set_All);
-			return floodingRoom;
+				RegionEntryPredicate entryCondition = (RegionEntryPredicate)((Region from, Region r) => r.type == root.type && r.Room != floodingRoom);
+				RegionProcessor regionProcessor = (RegionProcessor)delegate(Region r)
+				{
+					r.Room = floodingRoom;
+					return false;
+				};
+				RegionTraverser.BreadthFirstTraverse(root, entryCondition, regionProcessor, 999999, RegionType.Set_All);
+				result = floodingRoom;
+			}
+			return result;
 		}
 
 		public static void FloodAndSetNewRegionIndex(Region root, int newRegionGroupIndex)
@@ -152,32 +150,45 @@ namespace Verse
 				throw new ArgumentException("traverseParams (PassAllDestroyableThings not supported)");
 			}
 			Region region = A.GetRegion(map, traversableRegionTypes);
+			bool result;
 			if (region == null)
 			{
-				return false;
+				result = false;
 			}
-			Region regB = B.GetRegion(map, traversableRegionTypes);
-			if (regB == null)
+			else
 			{
-				return false;
-			}
-			if (region == regB)
-			{
-				return true;
-			}
-			RegionEntryPredicate entryCondition = (RegionEntryPredicate)((Region from, Region r) => r.Allows(traverseParams, false));
-			bool found = false;
-			RegionProcessor regionProcessor = (RegionProcessor)delegate(Region r)
-			{
-				if (r == regB)
+				Region regB = B.GetRegion(map, traversableRegionTypes);
+				if (regB == null)
 				{
-					found = true;
-					return true;
+					result = false;
 				}
-				return false;
-			};
-			RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, regionLookCount, traversableRegionTypes);
-			return found;
+				else if (region == regB)
+				{
+					result = true;
+				}
+				else
+				{
+					RegionEntryPredicate entryCondition = (RegionEntryPredicate)((Region from, Region r) => r.Allows(traverseParams, false));
+					bool found = false;
+					RegionProcessor regionProcessor = (RegionProcessor)delegate(Region r)
+					{
+						bool result2;
+						if (r == regB)
+						{
+							found = true;
+							result2 = true;
+						}
+						else
+						{
+							result2 = false;
+						}
+						return result2;
+					};
+					RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, regionLookCount, traversableRegionTypes);
+					result = found;
+				}
+			}
+			return result;
 		}
 
 		public static void MarkRegionsBFS(Region root, RegionEntryPredicate entryCondition, int maxRegions, int inRadiusMark, RegionType traversableRegionTypes = RegionType.Set_Passable)

@@ -2,13 +2,13 @@ namespace Verse
 {
 	public abstract class Stance_Busy : Stance
 	{
-		public int ticksLeft;
+		public int ticksLeft = 0;
 
 		public Verb verb;
 
 		public LocalTargetInfo focusTarg;
 
-		public bool neverAimWeapon;
+		public bool neverAimWeapon = false;
 
 		protected float pieSizeFactor = 1f;
 

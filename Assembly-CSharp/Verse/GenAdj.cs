@@ -22,8 +22,6 @@ namespace Verse
 
 		public static IntVec3[] AdjacentCellsAroundBottom;
 
-		public static IntVec3[] InsideAndAdjacentCells;
-
 		private static List<IntVec3> adjRandomOrderList;
 
 		private static List<IntVec3> validCells;
@@ -39,7 +37,6 @@ namespace Verse
 			GenAdj.AdjacentCellsAndInside = new IntVec3[9];
 			GenAdj.AdjacentCellsAround = new IntVec3[8];
 			GenAdj.AdjacentCellsAroundBottom = new IntVec3[9];
-			GenAdj.InsideAndAdjacentCells = new IntVec3[9];
 			GenAdj.validCells = new List<IntVec3>();
 			GenAdj.SetupAdjacencyTables();
 		}
@@ -122,14 +119,20 @@ namespace Verse
 			if (t.def.size.x == 1 && t.def.size.z == 1)
 			{
 				yield return t.Position;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			else
+			using (IEnumerator<IntVec3> enumerator = GenAdj.CellsOccupiedBy(t.Position, t.Rotation, t.def.size).GetEnumerator())
 			{
-				foreach (IntVec3 item in GenAdj.CellsOccupiedBy(t.Position, t.Rotation, t.def.size))
+				if (enumerator.MoveNext())
 				{
-					yield return item;
+					IntVec3 c = enumerator.Current;
+					yield return c;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
+			yield break;
+			IL_0145:
+			/*Error near IL_0146: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<IntVec3> CellsOccupiedBy(IntVec3 center, Rot4 rotation, IntVec2 size)
@@ -139,31 +142,50 @@ namespace Verse
 			int minZ = center.z - (size.z - 1) / 2;
 			int maxX = minX + size.x - 1;
 			int maxZ = minZ + size.z - 1;
-			for (int j = minX; j <= maxX; j++)
+			int j = minX;
+			int i;
+			while (true)
 			{
-				for (int i = minZ; i <= maxZ; i++)
+				if (j <= maxX)
 				{
-					yield return new IntVec3(j, 0, i);
+					i = minZ;
+					if (i <= maxZ)
+						break;
+					j++;
+					continue;
 				}
+				yield break;
 			}
+			yield return new IntVec3(j, 0, i);
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public static IEnumerable<IntVec3> CellsAdjacent8Way(TargetInfo pack)
 		{
 			if (pack.HasThing)
 			{
-				foreach (IntVec3 item in GenAdj.CellsAdjacent8Way(pack.Thing))
+				using (IEnumerator<IntVec3> enumerator = GenAdj.CellsAdjacent8Way(pack.Thing).GetEnumerator())
 				{
-					yield return item;
+					if (enumerator.MoveNext())
+					{
+						IntVec3 c = enumerator.Current;
+						yield return c;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
 			else
 			{
-				for (int i = 0; i < 8; i++)
+				int i = 0;
+				if (i < 8)
 				{
 					yield return pack.Cell + GenAdj.AdjacentCells[i];
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
+			yield break;
+			IL_0146:
+			/*Error near IL_0147: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<IntVec3> CellsAdjacent8Way(Thing t)
@@ -179,34 +201,9 @@ namespace Verse
 			int minZ = thingCenter.z - (thingSize.z - 1) / 2 - 1;
 			int maxZ = minZ + thingSize.z + 1;
 			IntVec3 cur = new IntVec3(minX - 1, 0, minZ);
-			while (true)
-			{
-				cur.x++;
-				yield return cur;
-				if (cur.x >= maxX)
-					break;
-			}
-			while (true)
-			{
-				cur.z++;
-				yield return cur;
-				if (cur.z >= maxZ)
-					break;
-			}
-			while (true)
-			{
-				cur.x--;
-				yield return cur;
-				if (cur.x <= minX)
-					break;
-			}
-			while (true)
-			{
-				cur.z--;
-				yield return cur;
-				if (cur.z <= minZ + 1)
-					break;
-			}
+			cur.x++;
+			yield return cur;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public static IEnumerable<IntVec3> CellsAdjacentCardinal(Thing t)
@@ -218,19 +215,13 @@ namespace Verse
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
 			int minX = center.x - (size.x - 1) / 2 - 1;
-			int minZ = center.z - (size.z - 1) / 2 - 1;
 			int maxX = minX + size.x + 1;
+			int minZ = center.z - (size.z - 1) / 2 - 1;
 			int maxZ = minZ + size.z + 1;
-			for (int j = minX; j <= maxX; j++)
-			{
-				for (int i = minZ; i <= maxZ; i++)
-				{
-					if ((j == minX || j == maxX || i == minZ || i == maxZ) && (j != minX || i != minZ) && (j != minX || i != maxZ) && (j != maxX || i != maxZ) && (j != maxX || i != minZ))
-					{
-						yield return new IntVec3(j, 0, i);
-					}
-				}
-			}
+			IntVec3 cur = new IntVec3(minX, 0, minZ);
+			cur.x++;
+			yield return cur;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public static IEnumerable<IntVec3> CellsAdjacentAlongEdge(IntVec3 thingCent, Rot4 thingRot, IntVec2 thingSize, LinkDirections dir)
@@ -242,30 +233,38 @@ namespace Verse
 			int maxZ = minZ + thingSize.z + 1;
 			if (dir == LinkDirections.Down)
 			{
-				for (int x2 = minX; x2 <= maxX; x2++)
+				int x2 = minX;
+				if (x2 <= maxX)
 				{
 					yield return new IntVec3(x2, thingCent.y, minZ - 1);
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			if (dir == LinkDirections.Up)
 			{
-				for (int x = minX; x <= maxX; x++)
+				int x = minX;
+				if (x <= maxX)
 				{
 					yield return new IntVec3(x, thingCent.y, maxZ + 1);
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			if (dir == LinkDirections.Left)
 			{
-				for (int z2 = minZ; z2 <= maxZ; z2++)
+				int z2 = minZ;
+				if (z2 <= maxZ)
 				{
 					yield return new IntVec3(minX - 1, thingCent.y, z2);
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			if (dir == LinkDirections.Right)
 			{
-				for (int z = minZ; z <= maxZ; z++)
+				int z = minZ;
+				if (z <= maxZ)
 				{
 					yield return new IntVec3(maxX + 1, thingCent.y, z);
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 		}
@@ -280,13 +279,22 @@ namespace Verse
 			int minZ = center.z - (size.z - 1) / 2 - 1;
 			int maxX = minX + size.x + 1;
 			int maxZ = minZ + size.z + 1;
-			for (int j = minX; j <= maxX; j++)
+			int j = minX;
+			int i;
+			while (true)
 			{
-				for (int i = minZ; i <= maxZ; i++)
+				if (j <= maxX)
 				{
-					yield return new IntVec3(j, 0, i);
+					i = minZ;
+					if (i <= maxZ)
+						break;
+					j++;
+					continue;
 				}
+				yield break;
 			}
+			yield return new IntVec3(j, 0, i);
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public static void GetAdjacentCorners(LocalTargetInfo target, out IntVec3 BL, out IntVec3 TL, out IntVec3 TR, out IntVec3 BR)
@@ -380,30 +388,31 @@ namespace Verse
 
 		public static bool AdjacentTo8WayOrInside(this IntVec3 me, LocalTargetInfo other)
 		{
-			if (other.HasThing)
-			{
-				return me.AdjacentTo8WayOrInside(other.Thing);
-			}
-			return me.AdjacentTo8WayOrInside(other.Cell);
+			return (!other.HasThing) ? me.AdjacentTo8WayOrInside(other.Cell) : me.AdjacentTo8WayOrInside(other.Thing);
 		}
 
 		public static bool AdjacentTo8Way(this IntVec3 me, IntVec3 other)
 		{
 			int num = me.x - other.x;
 			int num2 = me.z - other.z;
+			bool result;
 			if (num == 0 && num2 == 0)
 			{
-				return false;
+				result = false;
 			}
-			if (num < 0)
+			else
 			{
-				num *= -1;
+				if (num < 0)
+				{
+					num *= -1;
+				}
+				if (num2 < 0)
+				{
+					num2 *= -1;
+				}
+				result = (num <= 1 && num2 <= 1);
 			}
-			if (num2 < 0)
-			{
-				num2 *= -1;
-			}
-			return num <= 1 && num2 <= 1;
+			return result;
 		}
 
 		public static bool AdjacentTo8WayOrInside(this IntVec3 me, IntVec3 other)
@@ -421,49 +430,91 @@ namespace Verse
 			return num <= 1 && num2 <= 1;
 		}
 
+		public static bool IsAdjacentToCardinalOrInside(this IntVec3 me, CellRect other)
+		{
+			bool result;
+			if (other.IsEmpty)
+			{
+				result = false;
+			}
+			else
+			{
+				CellRect cellRect = other.ExpandedBy(1);
+				result = (cellRect.Contains(me) && !cellRect.IsCorner(me));
+			}
+			return result;
+		}
+
 		public static bool IsAdjacentToCardinalOrInside(this Thing t1, Thing t2)
 		{
-			CellRect cellRect = t1.OccupiedRect().ExpandedBy(1);
-			CellRect cellRect2 = t2.OccupiedRect();
-			int minX = cellRect.minX;
-			int maxX = cellRect.maxX;
-			int minZ = cellRect.minZ;
-			int maxZ = cellRect.maxZ;
-			int num = minX;
-			int num2 = minZ;
-			while (num <= maxX)
+			return GenAdj.IsAdjacentToCardinalOrInside(t1.OccupiedRect(), t2.OccupiedRect());
+		}
+
+		public static bool IsAdjacentToCardinalOrInside(CellRect rect1, CellRect rect2)
+		{
+			bool result;
+			if (rect1.IsEmpty || rect2.IsEmpty)
 			{
-				if (cellRect2.Contains(new IntVec3(num, 0, num2)) && (num != minX || num2 != minZ) && (num != minX || num2 != maxZ) && (num != maxX || num2 != minZ) && (num != maxX || num2 != maxZ))
+				result = false;
+			}
+			else
+			{
+				CellRect cellRect = rect1.ExpandedBy(1);
+				int minX = cellRect.minX;
+				int maxX = cellRect.maxX;
+				int minZ = cellRect.minZ;
+				int maxZ = cellRect.maxZ;
+				int num = minX;
+				int num2 = minZ;
+				while (num <= maxX)
 				{
-					return true;
+					if (rect2.Contains(new IntVec3(num, 0, num2)) && (num != minX || num2 != minZ) && (num != minX || num2 != maxZ) && (num != maxX || num2 != minZ) && (num != maxX || num2 != maxZ))
+					{
+						goto IL_00b2;
+					}
+					num++;
+				}
+				num--;
+				for (num2++; num2 <= maxZ; num2++)
+				{
+					if (rect2.Contains(new IntVec3(num, 0, num2)) && (num != minX || num2 != minZ) && (num != minX || num2 != maxZ) && (num != maxX || num2 != minZ) && (num != maxX || num2 != maxZ))
+					{
+						goto IL_0135;
+					}
+				}
+				num2--;
+				for (num--; num >= minX; num--)
+				{
+					if (rect2.Contains(new IntVec3(num, 0, num2)) && (num != minX || num2 != minZ) && (num != minX || num2 != maxZ) && (num != maxX || num2 != minZ) && (num != maxX || num2 != maxZ))
+					{
+						goto IL_01b9;
+					}
 				}
 				num++;
-			}
-			num--;
-			for (num2++; num2 <= maxZ; num2++)
-			{
-				if (cellRect2.Contains(new IntVec3(num, 0, num2)) && (num != minX || num2 != minZ) && (num != minX || num2 != maxZ) && (num != maxX || num2 != minZ) && (num != maxX || num2 != maxZ))
+				for (num2--; num2 > minZ; num2--)
 				{
-					return true;
+					if (rect2.Contains(new IntVec3(num, 0, num2)) && (num != minX || num2 != minZ) && (num != minX || num2 != maxZ) && (num != maxX || num2 != minZ) && (num != maxX || num2 != maxZ))
+					{
+						goto IL_023c;
+					}
 				}
+				result = false;
 			}
-			num2--;
-			for (num--; num >= minX; num--)
-			{
-				if (cellRect2.Contains(new IntVec3(num, 0, num2)) && (num != minX || num2 != minZ) && (num != minX || num2 != maxZ) && (num != maxX || num2 != minZ) && (num != maxX || num2 != maxZ))
-				{
-					return true;
-				}
-			}
-			num++;
-			for (num2--; num2 > minZ; num2--)
-			{
-				if (cellRect2.Contains(new IntVec3(num, 0, num2)) && (num != minX || num2 != minZ) && (num != minX || num2 != maxZ) && (num != maxX || num2 != minZ) && (num != maxX || num2 != maxZ))
-				{
-					return true;
-				}
-			}
-			return false;
+			goto IL_025b;
+			IL_023c:
+			result = true;
+			goto IL_025b;
+			IL_00b2:
+			result = true;
+			goto IL_025b;
+			IL_01b9:
+			result = true;
+			goto IL_025b;
+			IL_0135:
+			result = true;
+			goto IL_025b;
+			IL_025b:
+			return result;
 		}
 
 		public static bool AdjacentTo8WayOrInside(this IntVec3 root, Thing t)
@@ -478,11 +529,17 @@ namespace Verse
 			int num2 = center.z - (size.z - 1) / 2 - 1;
 			int num3 = num + size.x + 1;
 			int num4 = num2 + size.z + 1;
-			if (root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4)
-			{
-				return true;
-			}
-			return false;
+			return (byte)((root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4) ? 1 : 0) != 0;
+		}
+
+		public static bool AdjacentTo8WayOrInside(this Thing a, Thing b)
+		{
+			return GenAdj.AdjacentTo8WayOrInside(a.OccupiedRect(), b.OccupiedRect());
+		}
+
+		public static bool AdjacentTo8WayOrInside(CellRect rect1, CellRect rect2)
+		{
+			return !rect1.IsEmpty && !rect2.IsEmpty && rect1.ExpandedBy(1).Overlaps(rect2);
 		}
 
 		public static bool IsInside(this IntVec3 root, Thing t)
@@ -497,11 +554,7 @@ namespace Verse
 			int num2 = center.z - (size.z - 1) / 2;
 			int num3 = num + size.x - 1;
 			int num4 = num2 + size.z - 1;
-			if (root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4)
-			{
-				return true;
-			}
-			return false;
+			return (byte)((root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4) ? 1 : 0) != 0;
 		}
 
 		public static CellRect OccupiedRect(this Thing t)

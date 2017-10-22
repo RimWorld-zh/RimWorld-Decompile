@@ -12,24 +12,21 @@ namespace Verse
 
 		public override bool ObjIsDefault(object obj)
 		{
+			bool result;
 			if (obj == null)
 			{
-				return false;
+				result = false;
 			}
-			if (obj.GetType().GetGenericTypeDefinition() != typeof(List<>))
+			else if (obj.GetType().GetGenericTypeDefinition() != typeof(List<>))
 			{
-				return false;
+				result = false;
 			}
-			Type[] genericArguments = obj.GetType().GetGenericArguments();
-			if (genericArguments.Length == 1 && genericArguments[0] == (Type)base.value)
+			else
 			{
-				if ((int)obj.GetType().GetProperty("Count").GetValue(obj, null) != 0)
-				{
-					return false;
-				}
-				return true;
+				Type[] genericArguments = obj.GetType().GetGenericArguments();
+				result = ((byte)((genericArguments.Length == 1 && genericArguments[0] == (Type)base.value) ? (((int)obj.GetType().GetProperty("Count").GetValue(obj, null) == 0) ? 1 : 0) : 0) != 0);
 			}
-			return false;
+			return result;
 		}
 	}
 }

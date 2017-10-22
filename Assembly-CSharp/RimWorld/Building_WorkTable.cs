@@ -5,27 +5,19 @@ namespace RimWorld
 {
 	public class Building_WorkTable : Building, IBillGiver, IBillGiverWithTickAction
 	{
-		public BillStack billStack;
+		public BillStack billStack = null;
 
-		private CompPowerTrader powerComp;
+		private CompPowerTrader powerComp = null;
 
-		private CompRefuelable refuelableComp;
+		private CompRefuelable refuelableComp = null;
 
-		private CompBreakdownable breakdownableComp;
+		private CompBreakdownable breakdownableComp = null;
 
 		public bool CanWorkWithoutPower
 		{
 			get
 			{
-				if (this.powerComp == null)
-				{
-					return true;
-				}
-				if (base.def.building.unpoweredWorkTableWorkSpeedFactor > 0.0)
-				{
-					return true;
-				}
-				return false;
+				return (byte)((this.powerComp == null) ? 1 : ((base.def.building.unpoweredWorkTableWorkSpeedFactor > 0.0) ? 1 : 0)) != 0;
 			}
 		}
 
@@ -33,19 +25,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (!this.CanWorkWithoutPower && (this.powerComp == null || !this.powerComp.PowerOn))
-				{
-					return false;
-				}
-				if (this.refuelableComp != null && !this.refuelableComp.HasFuel)
-				{
-					return false;
-				}
-				if (this.breakdownableComp != null && this.breakdownableComp.BrokenDown)
-				{
-					return false;
-				}
-				return true;
+				return (byte)((this.CanWorkWithoutPower || (this.powerComp != null && this.powerComp.PowerOn)) ? ((this.refuelableComp == null || this.refuelableComp.HasFuel) ? ((this.breakdownableComp == null || !this.breakdownableComp.BrokenDown) ? 1 : 0) : 0) : 0) != 0;
 			}
 		}
 
@@ -103,20 +83,9 @@ namespace RimWorld
 			}
 		}
 
-		public bool CurrentlyUsable()
+		public bool CurrentlyUsableForBills()
 		{
 			return this.UsableNow;
-		}
-
-		virtual Map get_Map()
-		{
-			return base.Map;
-		}
-
-		Map IBillGiver.get_Map()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_Map
-			return this.get_Map();
 		}
 	}
 }

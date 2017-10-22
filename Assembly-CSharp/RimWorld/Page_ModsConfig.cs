@@ -11,6 +11,16 @@ namespace RimWorld
 {
 	public class Page_ModsConfig : Page
 	{
+		public ModMetaData selectedMod = null;
+
+		private Vector2 modListScrollPosition = Vector2.zero;
+
+		private Vector2 modDescriptionScrollPosition = Vector2.zero;
+
+		private int activeModsWhenOpenedHash = -1;
+
+		private Dictionary<string, string> truncatedModNamesCache = new Dictionary<string, string>();
+
 		private const float ModListAreaWidth = 350f;
 
 		private const float ModsListButtonHeight = 30f;
@@ -27,16 +37,6 @@ namespace RimWorld
 
 		private const float ModRowHeight = 26f;
 
-		public ModMetaData selectedMod;
-
-		private Vector2 modListScrollPosition = Vector2.zero;
-
-		private Vector2 modDescriptionScrollPosition = Vector2.zero;
-
-		private int activeModsWhenOpenedHash = -1;
-
-		private Dictionary<string, string> truncatedModNamesCache = new Dictionary<string, string>();
-
 		public Page_ModsConfig()
 		{
 			base.doCloseButton = true;
@@ -52,19 +52,31 @@ namespace RimWorld
 
 		private IEnumerable<ModMetaData> ModsInListOrder()
 		{
-			foreach (ModMetaData item in ModsConfig.ActiveModsInLoadOrder)
+			using (IEnumerator<ModMetaData> enumerator = ModsConfig.ActiveModsInLoadOrder.GetEnumerator())
 			{
-				yield return item;
-			}
-			foreach (ModMetaData item2 in from m in ModLister.AllInstalledMods
-			orderby m.VersionCompatible descending
-			select m)
-			{
-				if (!item2.Active)
+				if (enumerator.MoveNext())
 				{
-					yield return item2;
+					ModMetaData mod2 = enumerator.Current;
+					yield return mod2;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
+			using (IEnumerator<ModMetaData> enumerator2 = (from x in ModLister.AllInstalledMods
+			where !x.Active
+			select x into m
+			orderby m.VersionCompatible descending
+			select m).GetEnumerator())
+			{
+				if (enumerator2.MoveNext())
+				{
+					ModMetaData mod = enumerator2.Current;
+					yield return mod;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+			}
+			yield break;
+			IL_0189:
+			/*Error near IL_018a: Unexpected return in MoveNext()*/;
 		}
 
 		public override void DoWindowContents(Rect rect)
@@ -87,8 +99,8 @@ namespace RimWorld
 			num = (float)(num + 30.0);
 			num = (float)(num + 17.0);
 			Rect rect4 = new Rect(0f, num, 350f, mainRect.height - num);
-			Widgets.DrawMenuSection(rect4, true);
-			float height = (float)(ModLister.AllInstalledMods.Count() * 34 + 300);
+			Widgets.DrawMenuSection(rect4);
+			float height = (float)((float)ModLister.AllInstalledMods.Count() * 26.0 + 8.0);
 			Rect rect5 = new Rect(0f, 0f, (float)(rect4.width - 16.0), height);
 			Widgets.BeginScrollView(rect4, ref this.modListScrollPosition, rect5, true);
 			Rect rect6 = rect5.ContractedBy(4f);
@@ -98,7 +110,6 @@ namespace RimWorld
 			int reorderableGroup = ReorderableWidget.NewGroup((Action<int, int>)delegate(int from, int to)
 			{
 				ModsConfig.Reorder(from, to);
-				SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 			});
 			int num2 = 0;
 			foreach (ModMetaData item in this.ModsInListOrder())
@@ -106,7 +117,8 @@ namespace RimWorld
 				this.DoModRow(listing_Standard, item, num2, reorderableGroup);
 				num2++;
 			}
-			for (int i = 0; i < WorkshopItems.DownloadingItemsCount; i++)
+			int downloadingItemsCount = WorkshopItems.DownloadingItemsCount;
+			for (int num3 = 0; num3 < downloadingItemsCount; num3++)
 			{
 				this.DoModRowDownloading(listing_Standard, num2);
 				num2++;
@@ -150,18 +162,18 @@ namespace RimWorld
 					GUI.DrawTexture(position2, this.selectedMod.previewImage, ScaleMode.ScaleToFit);
 				}
 				Text.Font = GameFont.Small;
-				float num3 = (float)(position2.yMax + 10.0);
+				float num4 = (float)(position2.yMax + 10.0);
 				if (!this.selectedMod.Author.NullOrEmpty())
 				{
-					Rect rect9 = new Rect(0f, num3, (float)(position.width / 2.0), 25f);
+					Rect rect9 = new Rect(0f, num4, (float)(position.width / 2.0), 25f);
 					Widgets.Label(rect9, "Author".Translate() + ": " + this.selectedMod.Author);
 				}
 				if (!this.selectedMod.Url.NullOrEmpty())
 				{
 					double a = position.width / 2.0;
 					Vector2 vector = Text.CalcSize(this.selectedMod.Url);
-					float num4 = Mathf.Min((float)a, vector.x);
-					Rect rect10 = new Rect(position.width - num4, num3, num4, 25f);
+					float num5 = Mathf.Min((float)a, vector.x);
+					Rect rect10 = new Rect(position.width - num5, num4, num5, 25f);
 					Text.WordWrap = false;
 					if (Widgets.ButtonText(rect10, this.selectedMod.Url, false, false, true))
 					{
@@ -169,7 +181,7 @@ namespace RimWorld
 					}
 					Text.WordWrap = true;
 				}
-				WidgetRow widgetRow = new WidgetRow(position.width, (float)(num3 + 25.0), UIDirection.LeftThenUp, 99999f, 4f);
+				WidgetRow widgetRow = new WidgetRow(position.width, (float)(num4 + 25.0), UIDirection.LeftThenUp, 99999f, 4f);
 				if (SteamManager.Initialized && this.selectedMod.OnSteamWorkshop)
 				{
 					if (widgetRow.ButtonText("Unsubscribe", (string)null, true, false))
@@ -186,8 +198,8 @@ namespace RimWorld
 						SteamUtility.OpenWorkshopPage(this.selectedMod.GetPublishedFileId());
 					}
 				}
-				float num5 = (float)(num3 + 25.0 + 24.0);
-				Rect outRect = new Rect(0f, num5, position.width, (float)(position.height - num5 - 40.0));
+				float num6 = (float)(num4 + 25.0 + 24.0);
+				Rect outRect = new Rect(0f, num6, position.width, (float)(position.height - num6 - 40.0));
 				float width = (float)(outRect.width - 16.0);
 				Rect rect11 = new Rect(0f, 0f, width, Text.CalcHeight(this.selectedMod.Description, width));
 				Widgets.BeginScrollView(outRect, ref this.modDescriptionScrollPosition, rect11, true);
@@ -200,7 +212,7 @@ namespace RimWorld
 					{
 						if (!VersionControl.IsWellFormattedVersionString(this.selectedMod.TargetVersion))
 						{
-							Messages.Message("MessageModNeedsWellFormattedTargetVersion".Translate(VersionControl.CurrentVersionString), MessageSound.RejectInput);
+							Messages.Message("MessageModNeedsWellFormattedTargetVersion".Translate(VersionControl.CurrentVersionString), MessageTypeDefOf.RejectInput);
 						}
 						else
 						{
@@ -247,7 +259,7 @@ namespace RimWorld
 			Rect rect2 = rect;
 			if (mod.enabled)
 			{
-				string text = string.Empty;
+				string text = "";
 				if (mod.Active)
 				{
 					text = text + "DragToReorder".Translate() + ".\n\n";
@@ -274,7 +286,7 @@ namespace RimWorld
 				{
 					this.selectedMod = mod;
 				}
-				if (mod.Active && !active && mod.Name == ModContentPack.CoreModIdentifier)
+				if (mod.Active && !active && mod.IsCoreMod)
 				{
 					ModMetaData coreMod = mod;
 					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDisableCoreMod".Translate(), (Action)delegate
@@ -324,12 +336,7 @@ namespace RimWorld
 			ModsConfig.Save();
 			if (this.activeModsWhenOpenedHash != ModLister.InstalledModsListHash(true))
 			{
-				WindowStack windowStack = Find.WindowStack;
-				Action buttonAAction = (Action)delegate
-				{
-					GenCommandLine.Restart();
-				};
-				windowStack.Add(new Dialog_MessageBox("ModsChanged".Translate(), (string)null, buttonAAction, (string)null, null, (string)null, false));
+				ModsConfig.RestartFromChangedMods();
 			}
 		}
 	}

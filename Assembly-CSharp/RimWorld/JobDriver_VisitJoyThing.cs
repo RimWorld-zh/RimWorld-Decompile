@@ -8,15 +8,16 @@ namespace RimWorld
 	{
 		protected const TargetIndex TargetThingIndex = TargetIndex.A;
 
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve(base.job.GetTarget(TargetIndex.A), base.job, 1, -1, null);
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedNullOrForbidden(TargetIndex.A);
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-			Toil wait = Toils_General.Wait(base.CurJob.def.joyDuration);
-			wait.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
-			wait.tickAction = this.GetWaitTickAction();
-			yield return wait;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		protected abstract Action GetWaitTickAction();

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -17,11 +16,7 @@ namespace RimWorld
 			get
 			{
 				CompPowerTrader compPowerTrader = base.parent.TryGetComp<CompPowerTrader>();
-				if (compPowerTrader != null && !compPowerTrader.PowerOn)
-				{
-					return false;
-				}
-				return true;
+				return (byte)((compPowerTrader == null || compPowerTrader.PowerOn) ? 1 : 0) != 0;
 			}
 		}
 
@@ -39,23 +34,14 @@ namespace RimWorld
 			Vector3 a = Gen.TrueCenter(myPos, myRot, myDef.size, myDef.Altitude);
 			for (int i = 0; i < compProperties.linkableBuildings.Count; i++)
 			{
-				List<Thing>.Enumerator enumerator = map.listerThings.ThingsOfDef(compProperties.linkableBuildings[i]).GetEnumerator();
-				try
+				foreach (Thing item in map.listerThings.ThingsOfDef(compProperties.linkableBuildings[i]))
 				{
-					while (enumerator.MoveNext())
+					CompAffectedByFacilities compAffectedByFacilities = item.TryGetComp<CompAffectedByFacilities>();
+					if (compAffectedByFacilities != null && compAffectedByFacilities.CanPotentiallyLinkTo(myDef, myPos, myRot))
 					{
-						Thing current = enumerator.Current;
-						CompAffectedByFacilities compAffectedByFacilities = current.TryGetComp<CompAffectedByFacilities>();
-						if (compAffectedByFacilities != null && compAffectedByFacilities.CanPotentiallyLinkTo(myDef, myPos, myRot))
-						{
-							GenDraw.DrawLineBetween(a, current.TrueCenter());
-							compAffectedByFacilities.DrawRedLineToPotentiallySupplantedFacility(myDef, myPos, myRot);
-						}
+						GenDraw.DrawLineBetween(a, item.TrueCenter());
+						compAffectedByFacilities.DrawRedLineToPotentiallySupplantedFacility(myDef, myPos, myRot);
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
 				}
 			}
 		}
@@ -109,18 +95,9 @@ namespace RimWorld
 				this.thingsToNotify.Add(this.linkedBuildings[i]);
 			}
 			this.UnlinkAll();
-			HashSet<Thing>.Enumerator enumerator = this.thingsToNotify.GetEnumerator();
-			try
+			foreach (Thing item in this.thingsToNotify)
 			{
-				while (enumerator.MoveNext())
-				{
-					Thing current = enumerator.Current;
-					current.TryGetComp<CompAffectedByFacilities>().Notify_FacilityDespawned();
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				item.TryGetComp<CompAffectedByFacilities>().Notify_FacilityDespawned();
 			}
 		}
 
@@ -143,31 +120,36 @@ namespace RimWorld
 		public override string CompInspectStringExtra()
 		{
 			CompProperties_Facility props = this.Props;
+			string result;
 			if (props.statOffsets == null)
 			{
-				return (string)null;
+				result = (string)null;
 			}
-			bool flag = this.AmIActiveForAnyone();
-			StringBuilder stringBuilder = new StringBuilder();
-			for (int i = 0; i < props.statOffsets.Count; i++)
+			else
 			{
-				StatModifier statModifier = props.statOffsets[i];
-				StatDef stat = statModifier.stat;
-				stringBuilder.Append(stat.LabelCap);
-				stringBuilder.Append(": ");
-				stringBuilder.Append(statModifier.value.ToStringByStyle(stat.toStringStyle, ToStringNumberSense.Offset));
-				if (!flag)
+				bool flag = this.AmIActiveForAnyone();
+				StringBuilder stringBuilder = new StringBuilder();
+				for (int i = 0; i < props.statOffsets.Count; i++)
 				{
-					stringBuilder.Append(" (");
-					stringBuilder.Append("InactiveFacility".Translate());
-					stringBuilder.Append(")");
+					StatModifier statModifier = props.statOffsets[i];
+					StatDef stat = statModifier.stat;
+					stringBuilder.Append(stat.LabelCap);
+					stringBuilder.Append(": ");
+					stringBuilder.Append(statModifier.value.ToStringByStyle(stat.toStringStyle, ToStringNumberSense.Offset));
+					if (!flag)
+					{
+						stringBuilder.Append(" (");
+						stringBuilder.Append("InactiveFacility".Translate());
+						stringBuilder.Append(")");
+					}
+					if (i < props.statOffsets.Count - 1)
+					{
+						stringBuilder.AppendLine();
+					}
 				}
-				if (i < props.statOffsets.Count - 1)
-				{
-					stringBuilder.AppendLine();
-				}
+				result = stringBuilder.ToString();
 			}
-			return stringBuilder.ToString();
+			return result;
 		}
 
 		private void RelinkAll()
@@ -183,23 +165,14 @@ namespace RimWorld
 			{
 				for (int i = 0; i < props.linkableBuildings.Count; i++)
 				{
-					List<Thing>.Enumerator enumerator = base.parent.Map.listerThings.ThingsOfDef(props.linkableBuildings[i]).GetEnumerator();
-					try
+					foreach (Thing item in base.parent.Map.listerThings.ThingsOfDef(props.linkableBuildings[i]))
 					{
-						while (enumerator.MoveNext())
+						CompAffectedByFacilities compAffectedByFacilities = item.TryGetComp<CompAffectedByFacilities>();
+						if (compAffectedByFacilities != null && compAffectedByFacilities.CanLinkTo(base.parent))
 						{
-							Thing current = enumerator.Current;
-							CompAffectedByFacilities compAffectedByFacilities = current.TryGetComp<CompAffectedByFacilities>();
-							if (compAffectedByFacilities != null && compAffectedByFacilities.CanLinkTo(base.parent))
-							{
-								this.linkedBuildings.Add(current);
-								compAffectedByFacilities.Notify_NewLink(base.parent);
-							}
+							this.linkedBuildings.Add(item);
+							compAffectedByFacilities.Notify_NewLink(base.parent);
 						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
 					}
 				}
 			}
@@ -207,15 +180,25 @@ namespace RimWorld
 
 		private bool AmIActiveForAnyone()
 		{
-			for (int i = 0; i < this.linkedBuildings.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				CompAffectedByFacilities compAffectedByFacilities = this.linkedBuildings[i].TryGetComp<CompAffectedByFacilities>();
-				if (compAffectedByFacilities.IsFacilityActive(base.parent))
+				if (num < this.linkedBuildings.Count)
 				{
-					return true;
+					CompAffectedByFacilities compAffectedByFacilities = this.linkedBuildings[num].TryGetComp<CompAffectedByFacilities>();
+					if (compAffectedByFacilities.IsFacilityActive(base.parent))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		private void UnlinkAll()

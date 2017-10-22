@@ -5,17 +5,17 @@ namespace RimWorld
 {
 	public class StunHandler : IExposable
 	{
+		public Thing parent;
+
+		private int stunTicksLeft = 0;
+
+		private Mote moteStun = null;
+
+		private int EMPAdaptedTicksLeft = 0;
+
 		private const float StunDurationFactor_Standard = 20f;
 
 		private const float StunDurationFactor_EMP = 15f;
-
-		public Thing parent;
-
-		private int stunTicksLeft;
-
-		private Mote moteStun;
-
-		private int EMPAdaptedTicksLeft;
 
 		public bool Stunned
 		{
@@ -30,11 +30,7 @@ namespace RimWorld
 			get
 			{
 				Pawn pawn = this.parent as Pawn;
-				if (pawn != null && pawn.RaceProps.IsMechanoid)
-				{
-					return 2200;
-				}
-				return 0;
+				return (pawn != null && pawn.RaceProps.IsMechanoid) ? 2200 : 0;
 			}
 		}
 

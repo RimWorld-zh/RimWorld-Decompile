@@ -1,4 +1,6 @@
+#define DEBUG
 using System;
+using System.Diagnostics;
 
 namespace Verse.Noise
 {
@@ -15,6 +17,7 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
+			Debug.Assert(base.modules[0] != null);
 			return Math.Abs(base.modules[0].GetValue(x, y, z));
 		}
 	}

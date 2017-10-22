@@ -19,14 +19,9 @@ namespace Verse.Sound
 
 		public float resolvedPitch;
 
-		private bool mappingsApplied;
+		private bool mappingsApplied = false;
 
 		private Dictionary<SoundParamTarget, float> volumeInMappings = new Dictionary<SoundParamTarget, float>();
-
-		public abstract Map Map
-		{
-			get;
-		}
 
 		public float AgeRealTime
 		{
@@ -40,11 +35,7 @@ namespace Verse.Sound
 		{
 			get
 			{
-				if (Current.ProgramState == ProgramState.Playing)
-				{
-					return Find.TickManager.TicksGame - this.startTick;
-				}
-				return (int)(this.AgeRealTime * 60.0);
+				return (Current.ProgramState != ProgramState.Playing) ? ((int)(this.AgeRealTime * 60.0)) : (Find.TickManager.TicksGame - this.startTick);
 			}
 		}
 
@@ -68,29 +59,39 @@ namespace Verse.Sound
 			get;
 		}
 
+		public abstract SoundInfo Info
+		{
+			get;
+		}
+
+		public Map Map
+		{
+			get
+			{
+				return this.Info.Maker.Map;
+			}
+		}
+
+		protected bool TestPlaying
+		{
+			get
+			{
+				SoundInfo info = this.Info;
+				return info.testPlay;
+			}
+		}
+
 		protected float MappedVolumeMultiplier
 		{
 			get
 			{
-				if (this.subDef.muteWhenPaused && Find.TickManager.Paused && !this.TestPlaying)
-				{
-					return 0f;
-				}
 				float num = 1f;
-				Dictionary<SoundParamTarget, float>.ValueCollection.Enumerator enumerator = this.volumeInMappings.Values.GetEnumerator();
-				try
+				foreach (float value in this.volumeInMappings.Values)
 				{
-					while (enumerator.MoveNext())
-					{
-						float num2 = enumerator.Current;
-						num *= num2;
-					}
-					return num;
+					float num2 = value;
+					num *= num2;
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
-				}
+				return num;
 			}
 		}
 
@@ -98,17 +99,58 @@ namespace Verse.Sound
 		{
 			get
 			{
-				if (SoundDefHelper.CorrectContextNow(this.subDef.parentDef, this.Map))
-				{
-					return 1f;
-				}
-				return 0f;
+				return (float)((!SoundDefHelper.CorrectContextNow(this.subDef.parentDef, this.Map)) ? 0.0 : 1.0);
 			}
 		}
 
-		protected abstract bool TestPlaying
+		protected virtual float Volume
 		{
-			get;
+			get
+			{
+				float result;
+				if (this.subDef.muteWhenPaused && Current.ProgramState == ProgramState.Playing && Find.TickManager.Paused && !this.TestPlaying)
+				{
+					result = 0f;
+				}
+				else
+				{
+					float num = this.resolvedVolume;
+					SoundInfo info = this.Info;
+					result = num * info.volumeFactor * this.MappedVolumeMultiplier * this.ContextVolumeMultiplier;
+				}
+				return result;
+			}
+		}
+
+		public float SanitizedVolume
+		{
+			get
+			{
+				return AudioSourceUtility.GetSanitizedVolume(this.Volume, this.subDef.parentDef);
+			}
+		}
+
+		protected virtual float Pitch
+		{
+			get
+			{
+				float num = this.resolvedPitch;
+				SoundInfo info = this.Info;
+				float num2 = num * info.pitchFactor;
+				if (this.subDef.tempoAffectedByGameSpeed && Current.ProgramState == ProgramState.Playing && !this.TestPlaying && !Find.TickManager.Paused)
+				{
+					num2 *= Find.TickManager.TickRateMultiplier;
+				}
+				return num2;
+			}
+		}
+
+		public float SanitizedPitch
+		{
+			get
+			{
+				return AudioSourceUtility.GetSanitizedPitch(this.Pitch, this.subDef.parentDef);
+			}
 		}
 
 		public Sample(SubSoundDef def)
@@ -129,6 +171,35 @@ namespace Verse.Sound
 			select m.outParam).OfType<SoundParamTarget_Volume>())
 			{
 				this.volumeInMappings.Add(item, 0f);
+			}
+		}
+
+		public virtual void Update()
+		{
+			this.source.pitch = this.SanitizedPitch;
+			this.ApplyMappedParameters();
+			this.source.volume = this.SanitizedVolume;
+			if (this.source.volume < 0.0010000000474974513)
+			{
+				this.source.mute = true;
+			}
+			else
+			{
+				this.source.mute = false;
+			}
+			if (this.subDef.tempoAffectedByGameSpeed && !this.TestPlaying)
+			{
+				if (Current.ProgramState == ProgramState.Playing && Find.TickManager.Paused)
+				{
+					if (this.source.isPlaying)
+					{
+						this.source.Pause();
+					}
+				}
+				else if (!this.source.isPlaying)
+				{
+					this.source.UnPause();
+				}
 			}
 		}
 

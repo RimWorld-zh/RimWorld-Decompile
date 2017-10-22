@@ -33,6 +33,11 @@ namespace Verse
 			return (float)(Mathf.Round((float)(f * 100.0)) / 100.0);
 		}
 
+		public static int RoundTo(int value, int roundToNearest)
+		{
+			return (int)Math.Round((double)((float)value / (float)roundToNearest)) * roundToNearest;
+		}
+
 		public static float ChanceEitherHappens(float chanceA, float chanceB)
 		{
 			return (float)(chanceA + (1.0 - chanceA) * chanceB);
@@ -65,6 +70,11 @@ namespace Verse
 			return outFrom + (outTo - outFrom) * num;
 		}
 
+		public static float LerpDoubleClamped(float inFrom, float inTo, float outFrom, float outTo, float x)
+		{
+			return GenMath.LerpDouble(inFrom, inTo, outFrom, outTo, Mathf.Clamp(x, Mathf.Min(inFrom, inTo), Mathf.Max(inFrom, inTo)));
+		}
+
 		public static float Reflection(float value, float mirror)
 		{
 			return mirror - (value - mirror);
@@ -77,63 +87,36 @@ namespace Verse
 
 		public static float GetFactorInInterval(float min, float mid, float max, float power, float x)
 		{
+			float result;
 			if (min > max)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (!(x <= min) && !(x >= max))
+			else if (x <= min || x >= max)
 			{
-				if (x == mid)
-				{
-					return 1f;
-				}
+				result = 0f;
+			}
+			else if (x == mid)
+			{
+				result = 1f;
+			}
+			else
+			{
 				float num = 0f;
 				num = (float)((!(x < mid)) ? (1.0 - (x - mid) / (max - mid)) : (1.0 - (mid - x) / (mid - min)));
-				return Mathf.Pow(num, power);
+				result = Mathf.Pow(num, power);
 			}
-			return 0f;
+			return result;
 		}
 
 		public static float FlatHill(float min, float lower, float upper, float max, float x)
 		{
-			if (x < min)
-			{
-				return 0f;
-			}
-			if (x < lower)
-			{
-				return Mathf.InverseLerp(min, lower, x);
-			}
-			if (x < upper)
-			{
-				return 1f;
-			}
-			if (x < max)
-			{
-				return Mathf.InverseLerp(max, upper, x);
-			}
-			return 0f;
+			return (float)((!(x < min)) ? ((!(x < lower)) ? ((!(x < upper)) ? ((!(x < max)) ? 0.0 : Mathf.InverseLerp(max, upper, x)) : 1.0) : Mathf.InverseLerp(min, lower, x)) : 0.0);
 		}
 
 		public static float FlatHill(float minY, float min, float lower, float upper, float max, float maxY, float x)
 		{
-			if (x < min)
-			{
-				return minY;
-			}
-			if (x < lower)
-			{
-				return GenMath.LerpDouble(min, lower, minY, 1f, x);
-			}
-			if (x < upper)
-			{
-				return 1f;
-			}
-			if (x < max)
-			{
-				return GenMath.LerpDouble(upper, max, 1f, maxY, x);
-			}
-			return maxY;
+			return (float)((!(x < min)) ? ((!(x < lower)) ? ((!(x < upper)) ? ((!(x < max)) ? maxY : GenMath.LerpDouble(upper, max, 1f, maxY, x)) : 1.0) : GenMath.LerpDouble(min, lower, minY, 1f, x)) : minY);
 		}
 
 		public static int OctileDistance(int dx, int dz, int cardinal, int diagonal)
@@ -143,11 +126,7 @@ namespace Verse
 
 		public static float UnboundedValueToFactor(float val)
 		{
-			if (val > 0.0)
-			{
-				return (float)(1.0 + val);
-			}
-			return (float)(1.0 / (1.0 - val));
+			return (float)((!(val > 0.0)) ? (1.0 / (1.0 - val)) : (1.0 + val));
 		}
 
 		public static void LogTestMathPerf()
@@ -210,45 +189,17 @@ namespace Verse
 
 		public static float Min(float a, float b, float c)
 		{
-			if (a < b)
-			{
-				if (a < c)
-				{
-					return a;
-				}
-				return c;
-			}
-			if (b < c)
-			{
-				return b;
-			}
-			return c;
+			return (!(a < b)) ? ((!(b < c)) ? c : b) : ((!(a < c)) ? c : a);
 		}
 
 		public static int Max(int a, int b, int c)
 		{
-			if (a > b)
-			{
-				if (a > c)
-				{
-					return a;
-				}
-				return c;
-			}
-			if (b > c)
-			{
-				return b;
-			}
-			return c;
+			return (a <= b) ? ((b <= c) ? c : b) : ((a <= c) ? c : a);
 		}
 
 		public static float SphericalDistance(Vector3 normalizedA, Vector3 normalizedB)
 		{
-			if (normalizedA == normalizedB)
-			{
-				return 0f;
-			}
-			return Mathf.Acos(Vector3.Dot(normalizedA, normalizedB));
+			return (float)((!(normalizedA == normalizedB)) ? Mathf.Acos(Vector3.Dot(normalizedA, normalizedB)) : 0.0);
 		}
 
 		public static void DHondtDistribution(List<int> candidates, Func<int, float> scoreGetter, int numToDistribute)
@@ -266,16 +217,23 @@ namespace Verse
 			{
 				int num2 = GenMath.tmpCalcList.IndexOf(GenMath.tmpCalcList.Max());
 				List<int> list;
-				List<int> obj = list = candidates;
 				int index;
-				int index2 = index = num2;
-				index = list[index];
-				obj[index2] = index + 1;
+				(list = candidates)[index = num2] = list[index] + 1;
 				GenMath.tmpCalcList[num2] = (float)(GenMath.tmpScores[num2] / ((float)candidates[num2] + 1.0));
 			}
 		}
 
 		public static int PositiveMod(int x, int m)
+		{
+			return (x % m + m) % m;
+		}
+
+		public static long PositiveMod(long x, long m)
+		{
+			return (x % m + m) % m;
+		}
+
+		public static float PositiveMod(float x, float m)
 		{
 			return (x % m + m) % m;
 		}
@@ -300,23 +258,107 @@ namespace Verse
 			float num3 = r1 * r1;
 			float num4 = r2 * r2;
 			float num5 = Mathf.Abs(r1 - r2);
+			float result;
 			if (num2 >= r1 + r2)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (num2 <= num5 && r1 >= r2)
+			else if (num2 <= num5 && r1 >= r2)
 			{
-				return (float)(3.1415927410125732 * num4);
+				result = (float)(3.1415927410125732 * num4);
 			}
-			if (num2 <= num5 && r2 >= r1)
+			else if (num2 <= num5 && r2 >= r1)
 			{
-				return (float)(3.1415927410125732 * num3);
+				result = (float)(3.1415927410125732 * num3);
 			}
-			float num6 = (float)(Mathf.Acos((float)((num3 - num4 + num) / (2.0 * r1 * num2))) * 2.0);
-			float num7 = (float)(Mathf.Acos((float)((num4 - num3 + num) / (2.0 * r2 * num2))) * 2.0);
-			float num8 = (float)((num7 * num4 - num4 * Mathf.Sin(num7)) * 0.5);
-			float num9 = (float)((num6 * num3 - num3 * Mathf.Sin(num6)) * 0.5);
-			return num8 + num9;
+			else
+			{
+				float num6 = (float)(Mathf.Acos((float)((num3 - num4 + num) / (2.0 * r1 * num2))) * 2.0);
+				float num7 = (float)(Mathf.Acos((float)((num4 - num3 + num) / (2.0 * r2 * num2))) * 2.0);
+				float num8 = (float)((num7 * num4 - num4 * Mathf.Sin(num7)) * 0.5);
+				float num9 = (float)((num6 * num3 - num3 * Mathf.Sin(num6)) * 0.5);
+				result = num8 + num9;
+			}
+			return result;
+		}
+
+		public static bool AnyIntegerInRange(float min, float max)
+		{
+			return Mathf.Ceil(min) <= max;
+		}
+
+		public static void NormalizeToSum1(ref float a, ref float b, ref float c)
+		{
+			float num = a + b + c;
+			if (num == 0.0)
+			{
+				a = 1f;
+				b = 0f;
+				c = 0f;
+			}
+			else
+			{
+				a /= num;
+				b /= num;
+				c /= num;
+			}
+		}
+
+		public static float InverseLerp(float a, float b, float value)
+		{
+			return (float)((a != b) ? Mathf.InverseLerp(a, b, value) : ((!(value < a)) ? 1.0 : 0.0));
+		}
+
+		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3)
+		{
+			return (!(by1 >= by2) || !(by1 >= by3)) ? ((!(by2 >= by1) || !(by2 >= by3)) ? elem3 : elem2) : elem1;
+		}
+
+		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4)
+		{
+			return (!(by1 >= by2) || !(by1 >= by3) || !(by1 >= by4)) ? ((!(by2 >= by1) || !(by2 >= by3) || !(by2 >= by4)) ? ((!(by3 >= by1) || !(by3 >= by2) || !(by3 >= by4)) ? elem4 : elem3) : elem2) : elem1;
+		}
+
+		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5)
+		{
+			return (!(by1 >= by2) || !(by1 >= by3) || !(by1 >= by4) || !(by1 >= by5)) ? ((!(by2 >= by1) || !(by2 >= by3) || !(by2 >= by4) || !(by2 >= by5)) ? ((!(by3 >= by1) || !(by3 >= by2) || !(by3 >= by4) || !(by3 >= by5)) ? ((!(by4 >= by1) || !(by4 >= by2) || !(by4 >= by3) || !(by4 >= by5)) ? elem5 : elem4) : elem3) : elem2) : elem1;
+		}
+
+		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6)
+		{
+			return (!(by1 >= by2) || !(by1 >= by3) || !(by1 >= by4) || !(by1 >= by5) || !(by1 >= by6)) ? ((!(by2 >= by1) || !(by2 >= by3) || !(by2 >= by4) || !(by2 >= by5) || !(by2 >= by6)) ? ((!(by3 >= by1) || !(by3 >= by2) || !(by3 >= by4) || !(by3 >= by5) || !(by3 >= by6)) ? ((!(by4 >= by1) || !(by4 >= by2) || !(by4 >= by3) || !(by4 >= by5) || !(by4 >= by6)) ? ((!(by5 >= by1) || !(by5 >= by2) || !(by5 >= by3) || !(by5 >= by4) || !(by5 >= by6)) ? elem6 : elem5) : elem4) : elem3) : elem2) : elem1;
+		}
+
+		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6, T elem7, float by7)
+		{
+			return (!(by1 >= by2) || !(by1 >= by3) || !(by1 >= by4) || !(by1 >= by5) || !(by1 >= by6) || !(by1 >= by7)) ? ((!(by2 >= by1) || !(by2 >= by3) || !(by2 >= by4) || !(by2 >= by5) || !(by2 >= by6) || !(by2 >= by7)) ? ((!(by3 >= by1) || !(by3 >= by2) || !(by3 >= by4) || !(by3 >= by5) || !(by3 >= by6) || !(by3 >= by7)) ? ((!(by4 >= by1) || !(by4 >= by2) || !(by4 >= by3) || !(by4 >= by5) || !(by4 >= by6) || !(by4 >= by7)) ? ((!(by5 >= by1) || !(by5 >= by2) || !(by5 >= by3) || !(by5 >= by4) || !(by5 >= by6) || !(by5 >= by7)) ? ((!(by6 >= by1) || !(by6 >= by2) || !(by6 >= by3) || !(by6 >= by4) || !(by6 >= by5) || !(by6 >= by7)) ? elem7 : elem6) : elem5) : elem4) : elem3) : elem2) : elem1;
+		}
+
+		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6, T elem7, float by7, T elem8, float by8)
+		{
+			return (!(by1 >= by2) || !(by1 >= by3) || !(by1 >= by4) || !(by1 >= by5) || !(by1 >= by6) || !(by1 >= by7) || !(by1 >= by8)) ? ((!(by2 >= by1) || !(by2 >= by3) || !(by2 >= by4) || !(by2 >= by5) || !(by2 >= by6) || !(by2 >= by7) || !(by2 >= by8)) ? ((!(by3 >= by1) || !(by3 >= by2) || !(by3 >= by4) || !(by3 >= by5) || !(by3 >= by6) || !(by3 >= by7) || !(by3 >= by8)) ? ((!(by4 >= by1) || !(by4 >= by2) || !(by4 >= by3) || !(by4 >= by5) || !(by4 >= by6) || !(by4 >= by7) || !(by4 >= by8)) ? ((!(by5 >= by1) || !(by5 >= by2) || !(by5 >= by3) || !(by5 >= by4) || !(by5 >= by6) || !(by5 >= by7) || !(by5 >= by8)) ? ((!(by6 >= by1) || !(by6 >= by2) || !(by6 >= by3) || !(by6 >= by4) || !(by6 >= by5) || !(by6 >= by7) || !(by6 >= by8)) ? ((!(by7 >= by1) || !(by7 >= by2) || !(by7 >= by3) || !(by7 >= by4) || !(by7 >= by5) || !(by7 >= by6) || !(by7 >= by8)) ? elem8 : elem7) : elem6) : elem5) : elem4) : elem3) : elem2) : elem1;
+		}
+
+		public static T MaxByRandomIfEqual<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6, T elem7, float by7, T elem8, float by8)
+		{
+			return GenMath.MaxBy<T>(elem1, by1 + Rand.Range(0f, 0.0001f), elem2, by2 + Rand.Range(0f, 0.0001f), elem3, by3 + Rand.Range(0f, 0.0001f), elem4, by4 + Rand.Range(0f, 0.0001f), elem5, by5 + Rand.Range(0f, 0.0001f), elem6, by6 + Rand.Range(0f, 0.0001f), elem7, by7 + Rand.Range(0f, 0.0001f), elem8, by8 + Rand.Range(0f, 0.0001f));
+		}
+
+		public static float Stddev(IEnumerable<float> data)
+		{
+			int num = 0;
+			double num2 = 0.0;
+			double num3 = 0.0;
+			foreach (float item in data)
+			{
+				float num4 = item;
+				num++;
+				num2 += (double)num4;
+				num3 += (double)(num4 * num4);
+			}
+			double num5 = num2 / (double)num;
+			double num6 = num3 / (double)num - num5 * num5;
+			return Mathf.Sqrt((float)num6);
 		}
 	}
 }

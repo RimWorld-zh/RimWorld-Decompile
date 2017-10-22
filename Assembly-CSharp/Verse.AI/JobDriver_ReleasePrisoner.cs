@@ -14,34 +14,25 @@ namespace Verse.AI
 		{
 			get
 			{
-				return (Pawn)base.CurJob.GetTarget(TargetIndex.A).Thing;
+				return (Pawn)base.job.GetTarget(TargetIndex.A).Thing;
 			}
+		}
+
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve((Thing)this.Prisoner, base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
+			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0042: stateMachine*/;
 			this.FailOnDestroyedOrNull(TargetIndex.A);
 			this.FailOnBurningImmobile(TargetIndex.B);
-			this.FailOn((Func<bool>)(() => ((Pawn)(Thing)((_003CMakeNewToils_003Ec__Iterator3A)/*Error near IL_0055: stateMachine*/)._003C_003Ef__this.GetActor().CurJob.GetTarget(TargetIndex.A)).guest.interactionMode != PrisonerInteractionModeDefOf.Release));
+			this.FailOn((Func<bool>)(() => ((Pawn)(Thing)_003CMakeNewToils_003Ec__Iterator._0024this.GetActor().CurJob.GetTarget(TargetIndex.A)).guest.interactionMode != PrisonerInteractionModeDefOf.Release));
 			this.FailOnDowned(TargetIndex.A);
 			this.FailOnAggroMentalState(TargetIndex.A);
-			Toil reserveTargetA = Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
-			yield return reserveTargetA;
-			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator3A)/*Error near IL_00b0: stateMachine*/)._003C_003Ef__this.Prisoner.IsPrisonerOfColony || !((_003CMakeNewToils_003Ec__Iterator3A)/*Error near IL_00b0: stateMachine*/)._003C_003Ef__this.Prisoner.guest.PrisonerIsSecure)).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
-			yield return Toils_Haul.StartCarryThing(TargetIndex.A, false, false);
-			Toil carryToCell = Toils_Haul.CarryHauledThingToCell(TargetIndex.B);
-			yield return carryToCell;
-			yield return Toils_Haul.PlaceHauledThingInCell(TargetIndex.B, carryToCell, false);
-			yield return new Toil
-			{
-				initAction = (Action)delegate
-				{
-					Pawn actor = ((_003CMakeNewToils_003Ec__Iterator3A)/*Error near IL_0146: stateMachine*/)._003CsetReleased_003E__2.actor;
-					Job curJob = actor.jobs.curJob;
-					Pawn p = curJob.targetA.Thing as Pawn;
-					GenGuest.PrisonerRelease(p);
-				}
-			};
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOn((Func<bool>)(() => !_003CMakeNewToils_003Ec__Iterator._0024this.Prisoner.IsPrisonerOfColony || !_003CMakeNewToils_003Ec__Iterator._0024this.Prisoner.guest.PrisonerIsSecure)).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

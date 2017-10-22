@@ -7,11 +7,7 @@ namespace RimWorld
 	{
 		protected override Job TryGivePlayJob(Pawn pawn, Thing t)
 		{
-			if (t.InteractionCell.Standable(t.Map) && !t.IsForbidden(pawn) && !t.InteractionCell.IsForbidden(pawn) && !pawn.Map.pawnDestinationManager.DestinationIsReserved(t.InteractionCell))
-			{
-				return new Job(base.def.jobDef, t, t.InteractionCell);
-			}
-			return null;
+			return (!t.InteractionCell.Standable(t.Map) || t.IsForbidden(pawn) || t.InteractionCell.IsForbidden(pawn) || pawn.Map.pawnDestinationReservationManager.IsReserved(t.InteractionCell)) ? null : new Job(base.def.jobDef, t, t.InteractionCell);
 		}
 	}
 }

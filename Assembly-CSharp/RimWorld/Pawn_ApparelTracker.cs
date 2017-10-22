@@ -5,15 +5,15 @@ using Verse;
 
 namespace RimWorld
 {
-	public class Pawn_ApparelTracker : IExposable, IThingHolder
+	public class Pawn_ApparelTracker : IThingHolder, IExposable
 	{
-		private const int RecordWalkedNakedTaleIntervalTicks = 60000;
-
 		public Pawn pawn;
 
 		private ThingOwner<Apparel> wornApparel;
 
 		private int lastApparelWearoutTick = -1;
+
+		private const int RecordWalkedNakedTaleIntervalTicks = 60000;
 
 		private static List<Apparel> tmpApparelList = new List<Apparel>();
 
@@ -39,9 +39,11 @@ namespace RimWorld
 		{
 			get
 			{
-				for (int i = 0; i < this.wornApparel.Count; i++)
+				int i = 0;
+				if (i < this.wornApparel.Count)
 				{
 					yield return this.wornApparel[i];
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 		}
@@ -58,22 +60,35 @@ namespace RimWorld
 		{
 			get
 			{
+				bool result;
 				if (this.pawn.gender == Gender.None)
 				{
-					return false;
+					result = false;
 				}
-				bool flag = default(bool);
-				bool flag2 = default(bool);
-				this.HasBasicApparel(out flag, out flag2);
-				if (this.pawn.gender == Gender.Male)
+				else
 				{
-					return !flag;
+					bool flag = default(bool);
+					bool flag2 = default(bool);
+					this.HasBasicApparel(out flag, out flag2);
+					if (!flag)
+					{
+						bool flag3 = false;
+						foreach (BodyPartRecord notMissingPart in this.pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined))
+						{
+							if (notMissingPart.IsInGroup(BodyPartGroupDefOf.Legs))
+							{
+								flag3 = true;
+								break;
+							}
+						}
+						if (!flag3)
+						{
+							flag = true;
+						}
+					}
+					result = ((this.pawn.gender != Gender.Male) ? (this.pawn.gender == Gender.Female && (!flag || !flag2)) : (!flag));
 				}
-				if (this.pawn.gender == Gender.Female)
-				{
-					return !flag || !flag2;
-				}
-				return false;
+				return result;
 			}
 		}
 
@@ -133,20 +148,30 @@ namespace RimWorld
 			{
 				string str = "MessageWornApparelDeterioratedAway".Translate(GenLabel.ThingLabel(ap.def, ap.Stuff, 1), this.pawn);
 				str = str.CapitalizeFirst();
-				Messages.Message(str, (Thing)this.pawn, MessageSound.Negative);
+				Messages.Message(str, (Thing)this.pawn, MessageTypeDefOf.NegativeEvent);
 			}
 		}
 
 		public bool CanWearWithoutDroppingAnything(ThingDef apDef)
 		{
-			for (int i = 0; i < this.wornApparel.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (!ApparelUtility.CanWearTogether(apDef, this.wornApparel[i].def))
+				if (num < this.wornApparel.Count)
 				{
-					return false;
+					if (!ApparelUtility.CanWearTogether(apDef, this.wornApparel[num].def, this.pawn.RaceProps.body))
+					{
+						result = false;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = true;
+				break;
 			}
-			return true;
+			return result;
 		}
 
 		public void Wear(Apparel newApparel, bool dropReplacedApparel = true)
@@ -164,7 +189,7 @@ namespace RimWorld
 				for (int num = this.wornApparel.Count - 1; num >= 0; num--)
 				{
 					Apparel apparel = this.wornApparel[num];
-					if (!ApparelUtility.CanWearTogether(newApparel.def, apparel.def))
+					if (!ApparelUtility.CanWearTogether(newApparel.def, apparel.def, this.pawn.RaceProps.body))
 					{
 						if (dropReplacedApparel)
 						{
@@ -202,15 +227,20 @@ namespace RimWorld
 
 		public bool TryDrop(Apparel ap, out Apparel resultingAp, IntVec3 pos, bool forbid = true)
 		{
+			bool result;
 			if (this.wornApparel.TryDrop((Thing)ap, pos, this.pawn.MapHeld, ThingPlaceMode.Near, out resultingAp, (Action<Apparel, int>)null))
 			{
 				if (resultingAp != null)
 				{
 					resultingAp.SetForbidden(forbid, false);
 				}
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		public void DropAll(IntVec3 pos, bool forbid = true)
@@ -275,7 +305,7 @@ namespace RimWorld
 
 		private void SortWornApparelIntoDrawOrder()
 		{
-			this.wornApparel.InnerListForReading.Sort((Comparison<Apparel>)((Apparel a, Apparel b) => ((Enum)(object)a.def.apparel.LastLayer).CompareTo((object)b.def.apparel.LastLayer)));
+			this.wornApparel.InnerListForReading.Sort((Comparison<Apparel>)((Apparel a, Apparel b) => a.def.apparel.LastLayer.CompareTo(b.def.apparel.LastLayer)));
 		}
 
 		public void HasBasicApparel(out bool hasPants, out bool hasShirt)
@@ -303,45 +333,74 @@ namespace RimWorld
 
 		public Apparel FirstApparelOnBodyPartGroup(BodyPartGroupDef g)
 		{
-			for (int i = 0; i < this.wornApparel.Count; i++)
+			int num = 0;
+			Apparel result;
+			while (true)
 			{
-				Apparel apparel = this.wornApparel[i];
-				for (int j = 0; j < apparel.def.apparel.bodyPartGroups.Count; j++)
+				Apparel apparel;
+				if (num < this.wornApparel.Count)
 				{
-					if (apparel.def.apparel.bodyPartGroups[j] == BodyPartGroupDefOf.Torso)
+					apparel = this.wornApparel[num];
+					for (int i = 0; i < apparel.def.apparel.bodyPartGroups.Count; i++)
 					{
-						return apparel;
+						if (apparel.def.apparel.bodyPartGroups[i] == BodyPartGroupDefOf.Torso)
+							goto IL_003e;
 					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
+				IL_003e:
+				result = apparel;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public bool BodyPartGroupIsCovered(BodyPartGroupDef bp)
 		{
-			for (int i = 0; i < this.wornApparel.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				Apparel apparel = this.wornApparel[i];
-				for (int j = 0; j < apparel.def.apparel.bodyPartGroups.Count; j++)
+				if (num < this.wornApparel.Count)
 				{
-					if (apparel.def.apparel.bodyPartGroups[j] == bp)
+					Apparel apparel = this.wornApparel[num];
+					for (int i = 0; i < apparel.def.apparel.bodyPartGroups.Count; i++)
 					{
-						return true;
+						if (apparel.def.apparel.bodyPartGroups[i] == bp)
+							goto IL_003a;
 					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
+				IL_003a:
+				result = true;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public IEnumerable<Gizmo> GetGizmos()
 		{
 			for (int i = 0; i < this.wornApparel.Count; i++)
 			{
-				foreach (Gizmo wornGizmo in this.wornApparel[i].GetWornGizmos())
+				using (IEnumerator<Gizmo> enumerator = this.wornApparel[i].GetWornGizmos().GetEnumerator())
 				{
-					yield return wornGizmo;
+					if (enumerator.MoveNext())
+					{
+						Gizmo g = enumerator.Current;
+						yield return g;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
+			yield break;
+			IL_0104:
+			/*Error near IL_0105: Unexpected return in MoveNext()*/;
 		}
 
 		private void ApparelChanged()

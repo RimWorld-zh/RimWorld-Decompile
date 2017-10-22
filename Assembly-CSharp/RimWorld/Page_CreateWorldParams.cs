@@ -10,7 +10,7 @@ namespace RimWorld
 {
 	public class Page_CreateWorldParams : Page
 	{
-		private bool initialized;
+		private bool initialized = false;
 
 		private string seedString;
 
@@ -105,7 +105,7 @@ namespace RimWorld
 							this.planetCoverage = coverage;
 							if (this.planetCoverage == 1.0)
 							{
-								Messages.Message("MessageMaxPlanetCoveragePerformanceWarning".Translate(), MessageSound.Standard);
+								Messages.Message("MessageMaxPlanetCoveragePerformanceWarning".Translate(), MessageTypeDefOf.CautionInput);
 							}
 						}
 					}, MenuOptionPriority.Default, null, null, 0f, null, null);
@@ -128,26 +128,31 @@ namespace RimWorld
 
 		protected override bool CanDoNext()
 		{
+			bool result;
 			if (!base.CanDoNext())
 			{
-				return false;
+				result = false;
 			}
-			LongEventHandler.QueueLongEvent((Action)delegate
+			else
 			{
-				Find.GameInitData.ResetWorldRelatedMapInitData();
-				Current.Game.World = WorldGenerator.GenerateWorld(this.planetCoverage, this.seedString, this.rainfall, this.temperature);
-				LongEventHandler.ExecuteWhenFinished((Action)delegate
+				LongEventHandler.QueueLongEvent((Action)delegate
 				{
-					if (base.next != null)
+					Find.GameInitData.ResetWorldRelatedMapInitData();
+					Current.Game.World = WorldGenerator.GenerateWorld(this.planetCoverage, this.seedString, this.rainfall, this.temperature);
+					LongEventHandler.ExecuteWhenFinished((Action)delegate
 					{
-						Find.WindowStack.Add(base.next);
-					}
-					MemoryUtility.UnloadUnusedUnityAssets();
-					Find.World.renderer.RegenerateAllLayersNow();
-					this.Close(true);
-				});
-			}, "GeneratingWorld", true, null);
-			return false;
+						if (base.next != null)
+						{
+							Find.WindowStack.Add(base.next);
+						}
+						MemoryUtility.UnloadUnusedUnityAssets();
+						Find.World.renderer.RegenerateAllLayersNow();
+						this.Close(true);
+					});
+				}, "GeneratingWorld", true, null);
+				result = false;
+			}
+			return result;
 		}
 	}
 }

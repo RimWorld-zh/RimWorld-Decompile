@@ -14,18 +14,28 @@ namespace Verse.AI
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			int count = base.subNodes.Count;
-			for (int num = 0; num < count; num++)
+			int num = 0;
+			ThinkResult result;
+			while (true)
 			{
-				if (base.subNodes[num].GetPriority(pawn) > this.minPriority)
+				if (num < count)
 				{
-					ThinkResult result = base.subNodes[num].TryIssueJobPackage(pawn, jobParams);
-					if (result.IsValid)
+					if (base.subNodes[num].GetPriority(pawn) > this.minPriority)
 					{
-						return result;
+						ThinkResult thinkResult = base.subNodes[num].TryIssueJobPackage(pawn, jobParams);
+						if (thinkResult.IsValid)
+						{
+							result = thinkResult;
+							break;
+						}
 					}
+					num++;
+					continue;
 				}
+				result = ThinkResult.NoJob;
+				break;
 			}
-			return ThinkResult.NoJob;
+			return result;
 		}
 	}
 }

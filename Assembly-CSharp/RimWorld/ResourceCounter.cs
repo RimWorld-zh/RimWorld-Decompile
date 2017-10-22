@@ -34,23 +34,14 @@ namespace RimWorld
 			get
 			{
 				float num = 0f;
-				Dictionary<ThingDef, int>.Enumerator enumerator = this.countedAmounts.GetEnumerator();
-				try
+				foreach (KeyValuePair<ThingDef, int> countedAmount in this.countedAmounts)
 				{
-					while (enumerator.MoveNext())
+					if (countedAmount.Key.IsNutritionGivingIngestible && countedAmount.Key.ingestible.HumanEdible)
 					{
-						KeyValuePair<ThingDef, int> current = enumerator.Current;
-						if (current.Key.IsNutritionGivingIngestible && current.Key.ingestible.HumanEdible)
-						{
-							num += current.Key.ingestible.nutrition * (float)current.Value;
-						}
+						num += countedAmount.Key.ingestible.nutrition * (float)countedAmount.Value;
 					}
-					return num;
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
-				}
+				return num;
 			}
 		}
 
@@ -88,40 +79,36 @@ namespace RimWorld
 
 		public int GetCount(ThingDef rDef)
 		{
+			int result;
+			int num = default(int);
 			if (rDef.resourceReadoutPriority == ResourceCountPriority.Uncounted)
 			{
-				return 0;
+				result = 0;
 			}
-			int result = default(int);
-			if (this.countedAmounts.TryGetValue(rDef, out result))
+			else if (this.countedAmounts.TryGetValue(rDef, out num))
 			{
-				return result;
+				result = num;
 			}
-			Log.Error("Looked for nonexistent key " + rDef + " in counted resources.");
-			this.countedAmounts.Add(rDef, 0);
-			return 0;
+			else
+			{
+				Log.Error("Looked for nonexistent key " + rDef + " in counted resources.");
+				this.countedAmounts.Add(rDef, 0);
+				result = 0;
+			}
+			return result;
 		}
 
 		public int GetCountIn(ThingRequestGroup group)
 		{
 			int num = 0;
-			Dictionary<ThingDef, int>.Enumerator enumerator = this.countedAmounts.GetEnumerator();
-			try
+			foreach (KeyValuePair<ThingDef, int> countedAmount in this.countedAmounts)
 			{
-				while (enumerator.MoveNext())
+				if (group.Includes(countedAmount.Key))
 				{
-					KeyValuePair<ThingDef, int> current = enumerator.Current;
-					if (group.Includes(current.Key))
-					{
-						num += current.Value;
-					}
+					num += countedAmount.Value;
 				}
-				return num;
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
+			return num;
 		}
 
 		public int GetCountIn(ThingCategoryDef cat)
@@ -161,11 +148,8 @@ namespace RimWorld
 					if (heldThing.def.CountAsResource && this.ShouldCount(heldThing))
 					{
 						Dictionary<ThingDef, int> dictionary;
-						Dictionary<ThingDef, int> obj = dictionary = this.countedAmounts;
 						ThingDef def;
-						ThingDef key = def = heldThing.def;
-						int num = dictionary[def];
-						obj[key] = num + heldThing.stackCount;
+						(dictionary = this.countedAmounts)[def = heldThing.def] = dictionary[def] + heldThing.stackCount;
 					}
 				}
 			}
@@ -173,11 +157,7 @@ namespace RimWorld
 
 		private bool ShouldCount(Thing t)
 		{
-			if (t.IsNotFresh())
-			{
-				return false;
-			}
-			return true;
+			return (byte)((!t.IsNotFresh()) ? 1 : 0) != 0;
 		}
 	}
 }

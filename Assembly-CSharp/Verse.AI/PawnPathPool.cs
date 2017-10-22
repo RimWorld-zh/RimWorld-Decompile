@@ -30,23 +30,33 @@ namespace Verse.AI
 
 		public PawnPath GetEmptyPawnPath()
 		{
-			for (int i = 0; i < this.paths.Count; i++)
+			int num = 0;
+			PawnPath result;
+			while (true)
 			{
-				if (!this.paths[i].inUse)
+				if (num < this.paths.Count)
 				{
-					this.paths[i].inUse = true;
-					return this.paths[i];
+					if (!this.paths[num].inUse)
+					{
+						this.paths[num].inUse = true;
+						result = this.paths[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				if (this.paths.Count > this.map.mapPawns.AllPawnsSpawnedCount + 2)
+				{
+					Log.ErrorOnce("PawnPathPool leak: more paths than spawned pawns. Force-recovering.", 664788);
+					this.paths.Clear();
+				}
+				PawnPath pawnPath = new PawnPath();
+				this.paths.Add(pawnPath);
+				pawnPath.inUse = true;
+				result = pawnPath;
+				break;
 			}
-			if (this.paths.Count > this.map.mapPawns.AllPawnsSpawnedCount + 2)
-			{
-				Log.ErrorOnce("PawnPathPool leak: more paths than spawned pawns. Force-recovering.", 664788);
-				this.paths.Clear();
-			}
-			PawnPath pawnPath = new PawnPath();
-			this.paths.Add(pawnPath);
-			pawnPath.inUse = true;
-			return pawnPath;
+			return result;
 		}
 	}
 }

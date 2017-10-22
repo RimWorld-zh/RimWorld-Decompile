@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -10,17 +9,17 @@ namespace RimWorld
 {
 	public class DangerWatcher
 	{
-		private const int UpdateInterval = 101;
-
-		private const int ColonistHarmedDangerSeconds = 15;
-
 		private Map map;
 
-		private StoryDanger dangerRatingInt;
+		private StoryDanger dangerRatingInt = StoryDanger.None;
 
 		private int lastUpdateTick = -10000;
 
 		private int lastColonistHarmedTick = -10000;
+
+		private const int UpdateInterval = 101;
+
+		private const int ColonistHarmedDangerSeconds = 15;
 
 		public StoryDanger DangerRating
 		{
@@ -28,7 +27,7 @@ namespace RimWorld
 			{
 				if (Find.TickManager.TicksGame > this.lastUpdateTick + 101)
 				{
-					int num = this.map.attackTargetsCache.TargetsHostileToColony.Count((Func<IAttackTarget, bool>)((IAttackTarget x) => !x.ThreatDisabled()));
+					int num = this.map.attackTargetsCache.TargetsHostileToColony.Count((Func<IAttackTarget, bool>)((IAttackTarget x) => GenHostility.IsActiveThreatToPlayer(x)));
 					if (num == 0)
 					{
 						this.dangerRatingInt = StoryDanger.None;
@@ -46,22 +45,13 @@ namespace RimWorld
 						}
 						else
 						{
-							List<Lord>.Enumerator enumerator = this.map.lordManager.lords.GetEnumerator();
-							try
+							foreach (Lord lord in this.map.lordManager.lords)
 							{
-								while (enumerator.MoveNext())
+								if (lord.CurLordToil is LordToil_AssaultColony)
 								{
-									Lord current = enumerator.Current;
-									if (current.CurLordToil is LordToil_AssaultColony)
-									{
-										this.dangerRatingInt = StoryDanger.High;
-										break;
-									}
+									this.dangerRatingInt = StoryDanger.High;
+									break;
 								}
-							}
-							finally
-							{
-								((IDisposable)(object)enumerator).Dispose();
 							}
 						}
 					}

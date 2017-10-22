@@ -5,39 +5,60 @@ namespace RimWorld
 {
 	public class SkillNeed_BaseBonus : SkillNeed
 	{
-		private float baseFactor = 0.5f;
+		private float baseValue = 0.5f;
 
-		private float bonusFactor = 0.05f;
+		private float bonusPerLevel = 0.05f;
 
-		public override float FactorFor(Pawn pawn)
+		public override float ValueFor(Pawn pawn)
 		{
+			float result;
 			if (pawn.skills == null)
 			{
-				return 1f;
+				result = 1f;
 			}
-			int level = pawn.skills.GetSkill(base.skill).Level;
-			return this.FactorAt(level);
+			else
+			{
+				int level = pawn.skills.GetSkill(base.skill).Level;
+				result = this.ValueAtLevel(level);
+			}
+			return result;
 		}
 
-		private float FactorAt(int level)
+		private float ValueAtLevel(int level)
 		{
-			return this.baseFactor + this.bonusFactor * (float)level;
+			return this.baseValue + this.bonusPerLevel * (float)level;
 		}
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
-			}
-			for (int i = 1; i <= 20; i++)
-			{
-				float factor = this.FactorAt(i);
-				if (factor <= 0.0)
+				if (enumerator.MoveNext())
 				{
-					yield return "SkillNeed yields factor < 0 at skill level " + i;
+					string error = enumerator.Current;
+					yield return error;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
+			int i = 1;
+			while (true)
+			{
+				if (i <= 20)
+				{
+					float factor = this.ValueAtLevel(i);
+					if (!(factor <= 0.0))
+					{
+						i++;
+						continue;
+					}
+					break;
+				}
+				yield break;
+			}
+			yield return "SkillNeed yields factor < 0 at skill level " + i;
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0140:
+			/*Error near IL_0141: Unexpected return in MoveNext()*/;
 		}
 	}
 }

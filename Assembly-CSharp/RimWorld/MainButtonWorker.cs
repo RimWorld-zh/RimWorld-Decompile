@@ -1,4 +1,6 @@
+#define ENABLE_PROFILER
 using UnityEngine;
+using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld
@@ -27,7 +29,9 @@ namespace RimWorld
 		public virtual void DoButton(Rect rect)
 		{
 			Text.Font = GameFont.Small;
+			Profiler.BeginSample("lab");
 			string labelCap = this.def.LabelCap;
+			Profiler.EndSample();
 			if ((!this.def.validWithoutMap || this.def == MainButtonDefOf.World) && Find.VisibleMap == null)
 			{
 				Widgets.DrawAtlas(rect, Widgets.ButtonSubtleAtlas);
@@ -37,11 +41,15 @@ namespace RimWorld
 				}
 				return;
 			}
+			Profiler.BeginSample("ButtonTextSubtle");
+			string label = labelCap;
+			float buttonBarPercent = this.ButtonBarPercent;
 			SoundDef mouseoverCategory = SoundDefOf.MouseoverCategory;
-			if (Widgets.ButtonTextSubtle(rect, labelCap, this.ButtonBarPercent, -1f, mouseoverCategory))
+			if (Widgets.ButtonTextSubtle(rect, label, buttonBarPercent, -1f, mouseoverCategory, default(Vector2)))
 			{
 				this.InterfaceTryActivate();
 			}
+			Profiler.EndSample();
 			if (Find.MainTabsRoot.OpenTab != this.def && !Find.WindowStack.NonImmediateDialogWindowOpen)
 			{
 				UIHighlighter.HighlightOpportunity(rect, this.def.cachedHighlightTagClosed);

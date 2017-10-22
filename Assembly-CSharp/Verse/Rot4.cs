@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Verse
@@ -8,9 +6,6 @@ namespace Verse
 	public struct Rot4 : IEquatable<Rot4>
 	{
 		private byte rotInt;
-
-		[CompilerGenerated]
-		private static Dictionary<string, int> _003C_003Ef__switch_0024map0;
 
 		public bool IsValid
 		{
@@ -52,29 +47,36 @@ namespace Verse
 		{
 			get
 			{
+				float result;
 				switch (this.AsInt)
 				{
 				case 0:
 				{
-					return 0f;
+					result = 0f;
+					break;
 				}
 				case 1:
 				{
-					return 90f;
+					result = 90f;
+					break;
 				}
 				case 2:
 				{
-					return 180f;
+					result = 180f;
+					break;
 				}
 				case 3:
 				{
-					return 270f;
+					result = 270f;
+					break;
 				}
 				default:
 				{
-					return 0f;
+					result = 0f;
+					break;
 				}
 				}
+				return result;
 			}
 		}
 
@@ -82,30 +84,37 @@ namespace Verse
 		{
 			get
 			{
+				Quaternion result;
 				switch (this.rotInt)
 				{
 				case (byte)0:
 				{
-					return Quaternion.identity;
+					result = Quaternion.identity;
+					break;
 				}
 				case (byte)1:
 				{
-					return Quaternion.LookRotation(Vector3.right);
+					result = Quaternion.LookRotation(Vector3.right);
+					break;
 				}
 				case (byte)2:
 				{
-					return Quaternion.LookRotation(Vector3.back);
+					result = Quaternion.LookRotation(Vector3.back);
+					break;
 				}
 				case (byte)3:
 				{
-					return Quaternion.LookRotation(Vector3.left);
+					result = Quaternion.LookRotation(Vector3.left);
+					break;
 				}
 				default:
 				{
 					Log.Error("ToQuat with Rot = " + this.AsInt);
-					return Quaternion.identity;
+					result = Quaternion.identity;
+					break;
 				}
 				}
+				return result;
 			}
 		}
 
@@ -172,29 +181,36 @@ namespace Verse
 		{
 			get
 			{
+				IntVec3 result;
 				switch (this.AsInt)
 				{
 				case 0:
 				{
-					return new IntVec3(0, 0, 1);
+					result = new IntVec3(0, 0, 1);
+					break;
 				}
 				case 1:
 				{
-					return new IntVec3(1, 0, 0);
+					result = new IntVec3(1, 0, 0);
+					break;
 				}
 				case 2:
 				{
-					return new IntVec3(0, 0, -1);
+					result = new IntVec3(0, 0, -1);
+					break;
 				}
 				case 3:
 				{
-					return new IntVec3(-1, 0, 0);
+					result = new IntVec3(-1, 0, 0);
+					break;
 				}
 				default:
 				{
-					return default(IntVec3);
+					result = default(IntVec3);
+					break;
 				}
 				}
+				return result;
 			}
 		}
 
@@ -202,29 +218,36 @@ namespace Verse
 		{
 			get
 			{
+				Rot4 result;
 				switch (this.AsInt)
 				{
 				case 0:
 				{
-					return new Rot4(2);
+					result = new Rot4(2);
+					break;
 				}
 				case 1:
 				{
-					return new Rot4(3);
+					result = new Rot4(3);
+					break;
 				}
 				case 2:
 				{
-					return new Rot4(0);
+					result = new Rot4(0);
+					break;
 				}
 				case 3:
 				{
-					return new Rot4(1);
+					result = new Rot4(1);
+					break;
 				}
 				default:
 				{
-					return default(Rot4);
+					result = default(Rot4);
+					break;
 				}
 				}
+				return result;
 			}
 		}
 
@@ -252,180 +275,40 @@ namespace Verse
 
 		public static Rot4 FromAngleFlat(float angle)
 		{
-			if (angle < 45.0)
-			{
-				return Rot4.North;
-			}
-			if (angle < 135.0)
-			{
-				return Rot4.East;
-			}
-			if (angle < 225.0)
-			{
-				return Rot4.South;
-			}
-			if (angle < 315.0)
-			{
-				return Rot4.West;
-			}
-			return Rot4.North;
+			angle = GenMath.PositiveMod(angle, 360f);
+			return (!(angle < 45.0)) ? ((!(angle < 135.0)) ? ((!(angle < 225.0)) ? ((!(angle < 315.0)) ? Rot4.North : Rot4.West) : Rot4.South) : Rot4.East) : Rot4.North;
 		}
 
 		public static Rot4 FromIntVec3(IntVec3 offset)
 		{
+			Rot4 result;
 			if (offset.x == 1)
 			{
-				return Rot4.East;
+				result = Rot4.East;
 			}
-			if (offset.x == -1)
+			else if (offset.x == -1)
 			{
-				return Rot4.West;
+				result = Rot4.West;
 			}
-			if (offset.z == 1)
+			else if (offset.z == 1)
 			{
-				return Rot4.North;
+				result = Rot4.North;
 			}
-			if (offset.z == -1)
+			else if (offset.z == -1)
 			{
-				return Rot4.South;
+				result = Rot4.South;
 			}
-			Log.Error("FromIntVec3 with bad offset " + offset);
-			return Rot4.North;
+			else
+			{
+				Log.Error("FromIntVec3 with bad offset " + offset);
+				result = Rot4.North;
+			}
+			return result;
 		}
 
 		public static Rot4 FromIntVec2(IntVec2 offset)
 		{
 			return Rot4.FromIntVec3(offset.ToIntVec3);
-		}
-
-		public override int GetHashCode()
-		{
-			switch (this.rotInt)
-			{
-			case (byte)0:
-			{
-				return 235515;
-			}
-			case (byte)1:
-			{
-				return 5612938;
-			}
-			case (byte)2:
-			{
-				return 1215650;
-			}
-			case (byte)3:
-			{
-				return 9231792;
-			}
-			default:
-			{
-				throw new InvalidOperationException("IntRot out of range.");
-			}
-			}
-		}
-
-		public override string ToString()
-		{
-			return this.rotInt.ToString();
-		}
-
-		public string ToStringHuman()
-		{
-			switch (this.rotInt)
-			{
-			case (byte)0:
-			{
-				return "North".Translate();
-			}
-			case (byte)1:
-			{
-				return "East".Translate();
-			}
-			case (byte)2:
-			{
-				return "South".Translate();
-			}
-			case (byte)3:
-			{
-				return "West".Translate();
-			}
-			default:
-			{
-				return "error";
-			}
-			}
-		}
-
-		public static Rot4 FromString(string str)
-		{
-			int num = default(int);
-			byte newRot;
-			if (int.TryParse(str, out num))
-			{
-				newRot = (byte)num;
-			}
-			else
-			{
-				if (str != null)
-				{
-					if (Rot4._003C_003Ef__switch_0024map0 == null)
-					{
-						Dictionary<string, int> dictionary = new Dictionary<string, int>(4);
-						dictionary.Add("North", 0);
-						dictionary.Add("East", 1);
-						dictionary.Add("South", 2);
-						dictionary.Add("West", 3);
-						Rot4._003C_003Ef__switch_0024map0 = dictionary;
-					}
-					int num2 = default(int);
-					if (Rot4._003C_003Ef__switch_0024map0.TryGetValue(str, out num2))
-					{
-						switch (num2)
-						{
-						case 0:
-						{
-							newRot = (byte)0;
-							goto IL_00c5;
-						}
-						case 1:
-						{
-							newRot = (byte)1;
-							goto IL_00c5;
-						}
-						case 2:
-						{
-							newRot = (byte)2;
-							goto IL_00c5;
-						}
-						case 3:
-						{
-							newRot = (byte)3;
-							goto IL_00c5;
-						}
-						}
-					}
-				}
-				newRot = (byte)0;
-				Log.Error("Invalid rotation: " + str);
-			}
-			goto IL_00c5;
-			IL_00c5:
-			return new Rot4(newRot);
-		}
-
-		public override bool Equals(object obj)
-		{
-			if (!(obj is Rot4))
-			{
-				return false;
-			}
-			return this.Equals((Rot4)obj);
-		}
-
-		public bool Equals(Rot4 other)
-		{
-			return this.rotInt == other.rotInt;
 		}
 
 		public static bool operator ==(Rot4 a, Rot4 b)
@@ -436,6 +319,134 @@ namespace Verse
 		public static bool operator !=(Rot4 a, Rot4 b)
 		{
 			return a.AsInt != b.AsInt;
+		}
+
+		public override int GetHashCode()
+		{
+			int result;
+			switch (this.rotInt)
+			{
+			case (byte)0:
+			{
+				result = 235515;
+				break;
+			}
+			case (byte)1:
+			{
+				result = 5612938;
+				break;
+			}
+			case (byte)2:
+			{
+				result = 1215650;
+				break;
+			}
+			case (byte)3:
+			{
+				result = 9231792;
+				break;
+			}
+			default:
+			{
+				throw new InvalidOperationException("IntRot out of range.");
+			}
+			}
+			return result;
+		}
+
+		public override string ToString()
+		{
+			return this.rotInt.ToString();
+		}
+
+		public string ToStringHuman()
+		{
+			string result;
+			switch (this.rotInt)
+			{
+			case (byte)0:
+			{
+				result = "North".Translate();
+				break;
+			}
+			case (byte)1:
+			{
+				result = "East".Translate();
+				break;
+			}
+			case (byte)2:
+			{
+				result = "South".Translate();
+				break;
+			}
+			case (byte)3:
+			{
+				result = "West".Translate();
+				break;
+			}
+			default:
+			{
+				result = "error";
+				break;
+			}
+			}
+			return result;
+		}
+
+		public static Rot4 FromString(string str)
+		{
+			int num = default(int);
+			byte newRot;
+			if (int.TryParse(str, out num))
+			{
+				newRot = (byte)num;
+				goto IL_0096;
+			}
+			if (str != null)
+			{
+				if (!(str == "North"))
+				{
+					if (!(str == "East"))
+					{
+						if (!(str == "South"))
+						{
+							if (str == "West")
+							{
+								newRot = (byte)3;
+								goto IL_0096;
+							}
+							goto IL_007e;
+						}
+						newRot = (byte)2;
+					}
+					else
+					{
+						newRot = (byte)1;
+					}
+				}
+				else
+				{
+					newRot = (byte)0;
+				}
+				goto IL_0096;
+			}
+			goto IL_007e;
+			IL_0096:
+			return new Rot4(newRot);
+			IL_007e:
+			newRot = (byte)0;
+			Log.Error("Invalid rotation: " + str);
+			goto IL_0096;
+		}
+
+		public override bool Equals(object obj)
+		{
+			return obj is Rot4 && this.Equals((Rot4)obj);
+		}
+
+		public bool Equals(Rot4 other)
+		{
+			return this.rotInt == other.rotInt;
 		}
 	}
 }

@@ -15,11 +15,7 @@ namespace RimWorld
 
 		public override float ValueFor(Sample samp)
 		{
-			if (Find.VisibleMap == null)
-			{
-				return 0f;
-			}
-			return GenLocalDate.HourFloat(Find.VisibleMap);
+			return (float)((Find.VisibleMap != null) ? GenLocalDate.HourFloat(Find.VisibleMap) : 0.0);
 		}
 	}
 }

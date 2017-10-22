@@ -32,14 +32,11 @@ namespace Verse
 			}
 			int countUnChosen = ((ICollection<T>)workingList).Count;
 			int rand2 = 0;
-			while (countUnChosen > 0)
+			if (countUnChosen > 0)
 			{
 				rand2 = Rand.Range(0, countUnChosen);
 				yield return workingList[rand2];
-				T temp = workingList[rand2];
-				workingList[rand2] = workingList[countUnChosen - 1];
-				workingList[countUnChosen - 1] = temp;
-				countUnChosen--;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -54,22 +51,23 @@ namespace Verse
 			{
 				list = source.ToList<T>();
 			}
+			T result;
 			if (((ICollection<T>)list).Count == 0)
 			{
 				Log.Warning("Getting random element from empty collection.");
-				return default(T);
+				result = default(T);
 			}
-			return list[Rand.Range(0, ((ICollection<T>)list).Count)];
+			else
+			{
+				result = list[Rand.Range(0, ((ICollection<T>)list).Count)];
+			}
+			return result;
 		}
 
 		public static T RandomElementWithFallback<T>(this IEnumerable<T> source, T fallback = default(T))
 		{
-			T result = default(T);
-			if (source.TryRandomElement<T>(out result))
-			{
-				return result;
-			}
-			return fallback;
+			T val = default(T);
+			return (!source.TryRandomElement<T>(out val)) ? fallback : val;
 		}
 
 		public static bool TryRandomElement<T>(this IEnumerable<T> source, out T result)
@@ -79,117 +77,34 @@ namespace Verse
 				throw new ArgumentNullException("source");
 			}
 			IList<T> list = source as IList<T>;
+			bool result2;
 			if (list != null)
 			{
 				if (((ICollection<T>)list).Count == 0)
 				{
 					result = default(T);
-					return false;
+					result2 = false;
+					goto IL_007f;
 				}
 			}
 			else if (!source.Any<T>())
 			{
 				result = default(T);
-				return false;
+				result2 = false;
+				goto IL_007f;
 			}
 			result = source.RandomElement<T>();
-			return true;
+			result2 = true;
+			goto IL_007f;
+			IL_007f:
+			return result2;
 		}
 
 		public static T RandomElementByWeight<T>(this IEnumerable<T> source, Func<T, float> weightSelector)
 		{
 			float num = 0f;
 			IList<T> list = source as IList<T>;
-			if (list != null)
-			{
-				for (int i = 0; i < ((ICollection<T>)list).Count; i++)
-				{
-					float num2 = weightSelector(list[i]);
-					if (num2 < 0.0)
-					{
-						Log.Error("Negative weight in selector: " + num2 + " from " + list[i]);
-						num2 = 0f;
-					}
-					num += num2;
-				}
-				if (((ICollection<T>)list).Count == 1 && num > 0.0)
-				{
-					return list[0];
-				}
-			}
-			else
-			{
-				int num3 = 0;
-				foreach (T item in source)
-				{
-					num3++;
-					float num4 = weightSelector(item);
-					if (num4 < 0.0)
-					{
-						Log.Error("Negative weight in selector: " + num4 + " from " + item);
-						num4 = 0f;
-					}
-					num += num4;
-				}
-				if (num3 == 1 && num > 0.0)
-				{
-					return source.First<T>();
-				}
-			}
-			if (num <= 0.0)
-			{
-				Log.Error("RandomElementByWeight with totalWeight=" + num + " - use TryRandomElementByWeight.");
-				return default(T);
-			}
-			float num5 = Rand.Value * num;
-			float num6 = 0f;
-			if (list != null)
-			{
-				for (int j = 0; j < ((ICollection<T>)list).Count; j++)
-				{
-					float num7 = weightSelector(list[j]);
-					if (!(num7 <= 0.0))
-					{
-						num6 += num7;
-						if (num6 >= num5)
-						{
-							return list[j];
-						}
-					}
-				}
-			}
-			else
-			{
-				foreach (T item2 in source)
-				{
-					float num8 = weightSelector(item2);
-					if (!(num8 <= 0.0))
-					{
-						num6 += num8;
-						if (num6 >= num5)
-						{
-							return item2;
-						}
-					}
-				}
-			}
-			return default(T);
-		}
-
-		public static T RandomElementByWeightWithFallback<T>(this IEnumerable<T> source, Func<T, float> weightSelector, T fallback = default(T))
-		{
-			T result = default(T);
-			if (source.TryRandomElementByWeight<T>(weightSelector, out result))
-			{
-				return result;
-			}
-			return fallback;
-		}
-
-		public static bool TryRandomElementByWeight<T>(this IEnumerable<T> source, Func<T, float> weightSelector, out T result)
-		{
-			float num = 0f;
-			IList<T> list = source as IList<T>;
+			T result;
 			if (list != null)
 			{
 				for (int i = 0; i < ((ICollection<T>)list).Count; i++)
@@ -205,7 +120,7 @@ namespace Verse
 				if (((ICollection<T>)list).Count == 1 && num > 0.0)
 				{
 					result = list[0];
-					return true;
+					goto IL_02a3;
 				}
 			}
 			else
@@ -225,50 +140,149 @@ namespace Verse
 				if (num3 == 1 && num > 0.0)
 				{
 					result = source.First<T>();
-					return true;
+					goto IL_02a3;
 				}
 			}
+			int j;
 			if (num <= 0.0)
 			{
+				Log.Error("RandomElementByWeight with totalWeight=" + num + " - use TryRandomElementByWeight.");
 				result = default(T);
-				return false;
-			}
-			float num5 = Rand.Value * num;
-			float num6 = 0f;
-			if (list != null)
-			{
-				for (int j = 0; j < ((ICollection<T>)list).Count; j++)
-				{
-					float num7 = weightSelector(list[j]);
-					if (!(num7 <= 0.0))
-					{
-						num6 += num7;
-						if (num6 >= num5)
-						{
-							result = list[j];
-							return true;
-						}
-					}
-				}
 			}
 			else
 			{
-				foreach (T item2 in source)
+				float num5 = Rand.Value * num;
+				float num6 = 0f;
+				if (list != null)
 				{
-					float num8 = weightSelector(item2);
-					if (!(num8 <= 0.0))
+					for (j = 0; j < ((ICollection<T>)list).Count; j++)
 					{
-						num6 += num8;
-						if (num6 >= num5)
+						float num7 = weightSelector(list[j]);
+						if (!(num7 <= 0.0))
 						{
-							result = item2;
-							return true;
+							num6 += num7;
+							if (num6 >= num5)
+								goto IL_01fa;
 						}
 					}
 				}
+				else
+				{
+					foreach (T item2 in source)
+					{
+						float num8 = weightSelector(item2);
+						if (!(num8 <= 0.0))
+						{
+							num6 += num8;
+							if (num6 >= num5)
+							{
+								return item2;
+							}
+						}
+					}
+				}
+				result = default(T);
 			}
+			goto IL_02a3;
+			IL_01fa:
+			result = list[j];
+			goto IL_02a3;
+			IL_02a3:
+			return result;
+		}
+
+		public static T RandomElementByWeightWithFallback<T>(this IEnumerable<T> source, Func<T, float> weightSelector, T fallback = default(T))
+		{
+			T val = default(T);
+			return (!source.TryRandomElementByWeight<T>(weightSelector, out val)) ? fallback : val;
+		}
+
+		public static bool TryRandomElementByWeight<T>(this IEnumerable<T> source, Func<T, float> weightSelector, out T result)
+		{
+			IList<T> list = source as IList<T>;
+			bool result2;
+			int j;
+			if (list != null)
+			{
+				float num = 0f;
+				for (int i = 0; i < ((ICollection<T>)list).Count; i++)
+				{
+					float num2 = weightSelector(list[i]);
+					if (num2 < 0.0)
+					{
+						Log.Error("Negative weight in selector: " + num2 + " from " + list[i]);
+						num2 = 0f;
+					}
+					num += num2;
+				}
+				if (((ICollection<T>)list).Count == 1 && num > 0.0)
+				{
+					result = list[0];
+					result2 = true;
+					goto IL_02b2;
+				}
+				if (num == 0.0)
+				{
+					result = default(T);
+					result2 = false;
+					goto IL_02b2;
+				}
+				num *= Rand.Value;
+				for (j = 0; j < ((ICollection<T>)list).Count; j++)
+				{
+					float num3 = weightSelector(list[j]);
+					if (!(num3 <= 0.0))
+					{
+						num -= num3;
+						if (num <= 0.0)
+							goto IL_011e;
+					}
+				}
+			}
+			IEnumerator<T> enumerator = source.GetEnumerator();
 			result = default(T);
-			return false;
+			float num4 = 0f;
+			while (num4 == 0.0 && enumerator.MoveNext())
+			{
+				result = enumerator.Current;
+				num4 = weightSelector(result);
+				if (num4 < 0.0)
+				{
+					Log.Error("Negative weight in selector: " + num4 + " from " + result);
+					num4 = 0f;
+				}
+			}
+			if (num4 == 0.0)
+			{
+				result = default(T);
+				result2 = false;
+			}
+			else
+			{
+				while (enumerator.MoveNext())
+				{
+					T current = enumerator.Current;
+					float num5 = weightSelector(current);
+					if (num5 < 0.0)
+					{
+						Log.Error("Negative weight in selector: " + num5 + " from " + current);
+						num5 = 0f;
+					}
+					if (Rand.Range(0f, num4 + num5) >= num4)
+					{
+						result = current;
+					}
+					num4 += num5;
+				}
+				result2 = true;
+			}
+			goto IL_02b2;
+			IL_02b2:
+			return result2;
+			IL_011e:
+			result = list[j];
+			result2 = true;
+			goto IL_02b2;
 		}
 
 		public static T RandomElementByWeightWithDefault<T>(this IEnumerable<T> source, Func<T, float> weightSelector, float defaultValueWeight)
@@ -290,21 +304,29 @@ namespace Verse
 				num += num2;
 			}
 			float num3 = defaultValueWeight + num;
+			T result;
 			if (num3 <= 0.0)
 			{
 				Log.Error("RandomElementByWeightWithDefault with totalWeight=" + num3);
-				return default(T);
+				result = default(T);
 			}
-			if (!(Rand.Value < defaultValueWeight / num3) && num != 0.0)
+			else
 			{
-				return source.RandomElementByWeight<T>(weightSelector);
+				result = ((!(Rand.Value < defaultValueWeight / num3) && num != 0.0) ? source.RandomElementByWeight<T>(weightSelector) : default(T));
 			}
-			return default(T);
+			return result;
 		}
 
-		public static T RandomEnumValue<T>()
+		public static T FirstOrFallback<T>(this IEnumerable<T> source, T fallback = default(T))
 		{
-			return ((IEnumerable)Enum.GetValues(typeof(T))).Cast<T>().RandomElement<T>();
+			using (IEnumerator<T> enumerator = source.GetEnumerator())
+			{
+				if (enumerator.MoveNext())
+				{
+					return enumerator.Current;
+				}
+			}
+			return fallback;
 		}
 
 		public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
@@ -345,9 +367,6 @@ namespace Verse
 					}
 				}
 				return val;
-				IL_009b:
-				TSource result;
-				return result;
 			}
 		}
 
@@ -389,9 +408,6 @@ namespace Verse
 					}
 				}
 				return val;
-				IL_0098:
-				TSource result;
-				return result;
 			}
 		}
 
@@ -433,9 +449,6 @@ namespace Verse
 					}
 				}
 				return val;
-				IL_009b:
-				TSource result;
-				return result;
 			}
 		}
 
@@ -455,11 +468,7 @@ namespace Verse
 				{
 					TSortBy val = selector(a);
 					TSortBy other = selector(b);
-					if (!((IEquatable<TSortBy>)val).Equals(other))
-					{
-						return ((IComparable<TSortBy>)val).CompareTo(other);
-					}
-					return ((IComparable<TThenBy>)thenBySelector(a)).CompareTo(thenBySelector(b));
+					return ((IEquatable<TSortBy>)val).Equals(other) ? ((IComparable<TThenBy>)thenBySelector(a)).CompareTo(thenBySelector(b)) : ((IComparable<TSortBy>)val).CompareTo(other);
 				});
 			}
 		}
@@ -480,11 +489,7 @@ namespace Verse
 				{
 					TSortByDescending other = selector(a);
 					TSortByDescending other2 = selector(b);
-					if (!((IEquatable<TSortByDescending>)other).Equals(other2))
-					{
-						return ((IComparable<TSortByDescending>)other2).CompareTo(other);
-					}
-					return ((IComparable<TThenByDescending>)thenByDescendingSelector(b)).CompareTo(thenByDescendingSelector(a));
+					return ((IEquatable<TSortByDescending>)other).Equals(other2) ? ((IComparable<TThenByDescending>)thenByDescendingSelector(b)).CompareTo(thenByDescendingSelector(a)) : ((IComparable<TSortByDescending>)other2).CompareTo(other);
 				});
 			}
 		}
@@ -494,25 +499,16 @@ namespace Verse
 			List<TKey> list = null;
 			try
 			{
-				Dictionary<TKey, TValue>.Enumerator enumerator = dictionary.GetEnumerator();
-				try
+				foreach (KeyValuePair<TKey, TValue> item in dictionary)
 				{
-					while (enumerator.MoveNext())
+					if (predicate(item))
 					{
-						KeyValuePair<TKey, TValue> current = enumerator.Current;
-						if (predicate(current))
+						if (list == null)
 						{
-							if (list == null)
-							{
-								list = SimplePool<List<TKey>>.Get();
-							}
-							list.Add(current.Key);
+							list = SimplePool<List<TKey>>.Get();
 						}
+						list.Add(item.Key);
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
 				}
 				if (list != null)
 				{
@@ -526,9 +522,6 @@ namespace Verse
 					return list.Count;
 				}
 				return 0;
-				IL_009c:
-				int result;
-				return result;
 			}
 			finally
 			{
@@ -588,6 +581,14 @@ namespace Verse
 			}
 		}
 
+		public static void AddRange<T>(this HashSet<T> set, HashSet<T> other)
+		{
+			foreach (T item in other)
+			{
+				set.Add(item);
+			}
+		}
+
 		public static float AverageWeighted<T>(this IEnumerable<T> list, Func<T, float> weight, Func<T, float> value)
 		{
 			float num = 0f;
@@ -603,32 +604,131 @@ namespace Verse
 
 		public static void ExecuteEnumerable(this IEnumerable enumerable)
 		{
-			foreach (object item in enumerable)
+			IEnumerator enumerator = enumerable.GetEnumerator();
+			try
 			{
+				while (enumerator.MoveNext())
+				{
+					object current = enumerator.Current;
+				}
+			}
+			finally
+			{
+				IDisposable disposable;
+				if ((disposable = (enumerator as IDisposable)) != null)
+				{
+					disposable.Dispose();
+				}
 			}
 		}
 
 		public static int FirstIndexOf<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
 		{
 			int num = 0;
-			using (IEnumerator<T> enumerator = enumerable.GetEnumerator())
+			foreach (T item in enumerable)
 			{
+				if (!predicate(item))
+				{
+					num++;
+					continue;
+				}
+				break;
+			}
+			return num;
+		}
+
+		public static V TryGetValue<T, V>(this IDictionary<T, V> dict, T key)
+		{
+			V result = default(V);
+			dict.TryGetValue(key, out result);
+			return result;
+		}
+
+		public static IEnumerable<Pair<T, V>> Cross<T, V>(this IEnumerable<T> lhs, IEnumerable<V> rhs)
+		{
+			T[] lhsv = lhs.ToArray<T>();
+			V[] rhsv = rhs.ToArray<V>();
+			int j = 0;
+			int i;
+			while (true)
+			{
+				if (j < lhsv.Length)
+				{
+					i = 0;
+					if (i < rhsv.Length)
+						break;
+					j++;
+					continue;
+				}
+				yield break;
+			}
+			yield return new Pair<T, V>(lhsv[j], rhsv[i]);
+			/*Error: Unable to find new state assignment for yield return*/;
+		}
+
+		public static IEnumerable<T> Concat<T>(this IEnumerable<T> lhs, T rhs)
+		{
+			using (IEnumerator<T> enumerator = lhs.GetEnumerator())
+			{
+				if (enumerator.MoveNext())
+				{
+					T t = enumerator.Current;
+					yield return t;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+			}
+			yield return rhs;
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_00dc:
+			/*Error near IL_00dd: Unexpected return in MoveNext()*/;
+		}
+
+		public static LocalTargetInfo FirstValid(this List<LocalTargetInfo> source)
+		{
+			LocalTargetInfo result;
+			int i;
+			if (source == null)
+			{
+				result = LocalTargetInfo.Invalid;
+			}
+			else
+			{
+				for (i = 0; i < source.Count; i++)
+				{
+					if (source[i].IsValid)
+						goto IL_002e;
+				}
+				result = LocalTargetInfo.Invalid;
+			}
+			goto IL_0057;
+			IL_002e:
+			result = source[i];
+			goto IL_0057;
+			IL_0057:
+			return result;
+		}
+
+		public static IEnumerable<T> Except<T>(this IEnumerable<T> lhs, T rhs) where T : class
+		{
+			using (IEnumerator<T> enumerator = lhs.GetEnumerator())
+			{
+				T t;
 				while (true)
 				{
 					if (enumerator.MoveNext())
 					{
-						T current = enumerator.Current;
-						if (!predicate(current))
-						{
-							num++;
-							continue;
-						}
-						break;
+						t = enumerator.Current;
+						if ((object)t != (object)rhs)
+							break;
+						continue;
 					}
-					return num;
+					yield break;
 				}
-				return num;
+				yield return t;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			IL_00d3:
+			/*Error near IL_00d4: Unexpected return in MoveNext()*/;
 		}
 	}
 }

@@ -4,15 +4,15 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	public abstract class Settlement_TraderTracker : IExposable, IThingHolder
+	public abstract class Settlement_TraderTracker : IThingHolder, IExposable
 	{
-		private const float DefaultTradePriceImprovement = 0.02f;
-
 		public Settlement settlement;
 
 		private ThingOwner<Thing> stock;
 
 		private int lastStockGenerationTicks = -1;
+
+		private const float DefaultTradePriceImprovement = 0.02f;
 
 		private List<Pawn> tmpSavedPawns = new List<Pawn>();
 
@@ -61,11 +61,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.settlement.Faction == null)
-				{
-					return this.settlement.LabelCap;
-				}
-				return "SettlementTrader".Translate(this.settlement.LabelCap, this.settlement.Faction.Name);
+				return (this.settlement.Faction != null) ? "SettlementTrader".Translate(this.settlement.LabelCap, this.settlement.Faction.Name) : this.settlement.LabelCap;
 			}
 		}
 
@@ -123,27 +119,34 @@ namespace RimWorld.Planet
 		public virtual IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
 			Caravan caravan = playerNegotiator.GetCaravan();
-			List<Thing>.Enumerator enumerator = CaravanInventoryUtility.AllInventoryItems(caravan).GetEnumerator();
-			try
+			using (List<Thing>.Enumerator enumerator = CaravanInventoryUtility.AllInventoryItems(caravan).GetEnumerator())
 			{
-				while (enumerator.MoveNext())
+				if (enumerator.MoveNext())
 				{
 					Thing item = enumerator.Current;
 					yield return item;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			List<Pawn> pawns = caravan.PawnsListForReading;
-			for (int i = 0; i < pawns.Count; i++)
+			int i = 0;
+			while (true)
 			{
-				if (!caravan.IsOwner(pawns[i]))
+				if (i < pawns.Count)
 				{
-					yield return (Thing)pawns[i];
+					if (caravan.IsOwner(pawns[i]))
+					{
+						i++;
+						continue;
+					}
+					break;
 				}
+				yield break;
 			}
+			yield return (Thing)pawns[i];
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_015c:
+			/*Error near IL_015d: Unexpected return in MoveNext()*/;
 		}
 
 		public virtual void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
@@ -155,11 +158,7 @@ namespace RimWorld.Planet
 			if (pawn != null)
 			{
 				CaravanInventoryUtility.MoveAllInventoryToSomeoneElse(pawn, caravan.PawnsListForReading, null);
-				if (pawn.RaceProps.Humanlike)
-				{
-					Find.WorldPawns.DiscardIfUnimportant(pawn);
-				}
-				else if (!this.stock.TryAdd(pawn, false))
+				if (!pawn.RaceProps.Humanlike && !this.stock.TryAdd(pawn, false))
 				{
 					pawn.Destroy(DestroyMode.Vanish);
 				}
@@ -212,7 +211,6 @@ namespace RimWorld.Planet
 						if (pawn != null && pawn.Destroyed)
 						{
 							this.stock.Remove(pawn);
-							Find.WorldPawns.DiscardIfUnimportant(pawn);
 						}
 					}
 					for (int num2 = this.stock.Count - 1; num2 >= 0; num2--)
@@ -236,12 +234,7 @@ namespace RimWorld.Planet
 				{
 					Thing thing = this.stock[num];
 					this.stock.Remove(thing);
-					Pawn pawn = thing as Pawn;
-					if (pawn != null)
-					{
-						Find.WorldPawns.DiscardIfUnimportant(pawn);
-					}
-					else if (!thing.Destroyed)
+					if (!(thing is Pawn) && !thing.Destroyed)
 					{
 						thing.Destroy(DestroyMode.Vanish);
 					}
@@ -252,11 +245,7 @@ namespace RimWorld.Planet
 
 		public bool ContainsPawn(Pawn p)
 		{
-			if (this.stock != null)
-			{
-				return this.stock.Contains(p);
-			}
-			return false;
+			return this.stock != null && this.stock.Contains(p);
 		}
 
 		protected virtual void RegenerateStock()
@@ -268,10 +257,10 @@ namespace RimWorld.Planet
 				ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
 				{
 					traderDef = this.TraderKind,
-					forTile = this.settlement.Tile,
-					forFaction = this.settlement.Faction
+					tile = new int?(this.settlement.Tile),
+					traderFaction = this.settlement.Faction
 				};
-				this.stock.TryAddRange(ItemCollectionGeneratorDefOf.TraderStock.Worker.Generate(parms), true);
+				this.stock.TryAddRangeOrTransfer(ItemCollectionGeneratorDefOf.TraderStock.Worker.Generate(parms), true, false);
 			}
 			for (int i = 0; i < this.stock.Count; i++)
 			{

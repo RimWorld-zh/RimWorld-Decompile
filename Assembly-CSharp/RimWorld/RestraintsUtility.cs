@@ -7,20 +7,21 @@ namespace RimWorld
 	{
 		public static bool InRestraints(Pawn pawn)
 		{
+			bool result;
 			if (!pawn.Spawned)
 			{
-				return false;
+				result = false;
 			}
-			if (pawn.HostFaction == null)
+			else if (pawn.HostFaction == null)
 			{
-				return false;
+				result = false;
 			}
-			Lord lord = pawn.GetLord();
-			if (lord != null && lord.LordJob != null && lord.LordJob.NeverInRestraints)
+			else
 			{
-				return false;
+				Lord lord = pawn.GetLord();
+				result = ((byte)((lord == null || lord.LordJob == null || !lord.LordJob.NeverInRestraints) ? 1 : 0) != 0);
 			}
-			return true;
+			return result;
 		}
 
 		public static bool ShouldShowRestraintsInfo(Pawn pawn)

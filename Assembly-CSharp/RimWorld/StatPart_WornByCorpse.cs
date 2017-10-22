@@ -20,15 +20,20 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
+			string result;
 			if (req.HasThing)
 			{
 				Apparel apparel = req.Thing as Apparel;
 				if (apparel != null && apparel.WornByCorpse)
 				{
-					return "StatsReport_WornByCorpse".Translate() + ": x" + 0.1f.ToStringPercent();
+					result = "StatsReport_WornByCorpse".Translate() + ": x" + 0.1f.ToStringPercent();
+					goto IL_0058;
 				}
 			}
-			return (string)null;
+			result = (string)null;
+			goto IL_0058;
+			IL_0058:
+			return result;
 		}
 	}
 }

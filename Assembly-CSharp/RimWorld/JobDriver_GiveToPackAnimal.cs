@@ -16,7 +16,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.CurJob.GetTarget(TargetIndex.A).Thing;
+				return base.job.GetTarget(TargetIndex.A).Thing;
 			}
 		}
 
@@ -24,20 +24,19 @@ namespace RimWorld
 		{
 			get
 			{
-				return (Pawn)base.CurJob.GetTarget(TargetIndex.B).Thing;
+				return (Pawn)base.job.GetTarget(TargetIndex.B).Thing;
 			}
+		}
+
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve(this.Item, base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch);
-			yield return Toils_Haul.StartCarryThing(TargetIndex.A, false, false);
-			Toil findNearestCarrier = this.FindNearestCarrierToil();
-			yield return findNearestCarrier;
-			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.Touch).FailOnDespawnedNullOrForbidden(TargetIndex.B).JumpIf((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator8)/*Error near IL_00be: stateMachine*/)._003C_003Ef__this.CanCarryAtLeastOne(((_003CMakeNewToils_003Ec__Iterator8)/*Error near IL_00be: stateMachine*/)._003C_003Ef__this.Animal)), findNearestCarrier);
-			yield return this.GiveToCarrierAsMuchAsPossibleToil();
-			yield return Toils_Jump.JumpIf(findNearestCarrier, (Func<bool>)(() => ((_003CMakeNewToils_003Ec__Iterator8)/*Error near IL_010a: stateMachine*/)._003C_003Ef__this.pawn.carryTracker.CarriedThing != null));
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		private Toil FindNearestCarrierToil()
@@ -52,7 +51,7 @@ namespace RimWorld
 				}
 				else
 				{
-					base.CurJob.SetTarget(TargetIndex.B, (Thing)pawn);
+					base.job.SetTarget(TargetIndex.B, (Thing)pawn);
 				}
 			};
 			return toil;

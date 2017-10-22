@@ -13,11 +13,7 @@ namespace RimWorld
 
 		public override bool CanUseWith(IncidentParms parms)
 		{
-			if (!base.CanUseWith(parms))
-			{
-				return false;
-			}
-			return parms.faction.def.canStageAttacks;
+			return base.CanUseWith(parms) && parms.faction.def.canStageAttacks;
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.Planet
@@ -7,34 +6,42 @@ namespace RimWorld.Planet
 	{
 		public static string GetLabel(this Hilliness h)
 		{
+			string result;
 			switch (h)
 			{
 			case Hilliness.Flat:
 			{
-				return "Hilliness_Flat".Translate();
+				result = "Hilliness_Flat".Translate();
+				break;
 			}
 			case Hilliness.SmallHills:
 			{
-				return "Hilliness_SmallHills".Translate();
+				result = "Hilliness_SmallHills".Translate();
+				break;
 			}
 			case Hilliness.LargeHills:
 			{
-				return "Hilliness_LargeHills".Translate();
+				result = "Hilliness_LargeHills".Translate();
+				break;
 			}
 			case Hilliness.Mountainous:
 			{
-				return "Hilliness_Mountainous".Translate();
+				result = "Hilliness_Mountainous".Translate();
+				break;
 			}
 			case Hilliness.Impassable:
 			{
-				return "Hilliness_Impassable".Translate();
+				result = "Hilliness_Impassable".Translate();
+				break;
 			}
 			default:
 			{
-				Log.ErrorOnce("Hilliness label unknown: " + ((Enum)(object)h).ToString(), 694362);
-				return ((Enum)(object)h).ToString();
+				Log.ErrorOnce("Hilliness label unknown: " + h.ToString(), 694362);
+				result = h.ToString();
+				break;
 			}
 			}
+			return result;
 		}
 
 		public static string GetLabelCap(this Hilliness h)

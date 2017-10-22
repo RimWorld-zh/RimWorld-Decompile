@@ -1,3 +1,6 @@
+#define DEBUG
+using System.Diagnostics;
+
 namespace Verse.Noise
 {
 	public class Translate : ModuleBase
@@ -63,6 +66,7 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
+			Debug.Assert(base.modules[0] != null);
 			return base.modules[0].GetValue(x + this.m_x, y + this.m_y, z + this.m_z);
 		}
 	}

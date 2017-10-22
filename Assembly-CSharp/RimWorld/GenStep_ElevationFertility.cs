@@ -55,7 +55,7 @@ namespace RimWorld
 			NoiseDebugUI.StoreNoiseRender(input, "elev world-factored");
 			if (map.TileInfo.hilliness != Hilliness.Mountainous && map.TileInfo.hilliness != Hilliness.Impassable)
 			{
-				goto IL_029c;
+				goto IL_02bf;
 			}
 			IntVec3 size3 = map.Size;
 			ModuleBase input2 = new DistFromAxis((float)((float)size3.x * 0.41999998688697815));
@@ -85,27 +85,27 @@ namespace RimWorld
 				input2 = new Rotate(0.0, 90.0, 0.0, input2);
 			}
 			else if (!(random == Rot4.West))
-				goto IL_027e;
-			goto IL_027e;
-			IL_027e:
+				goto IL_029e;
+			goto IL_029e;
+			IL_029e:
 			NoiseDebugUI.StoreNoiseRender(input2, "mountain");
 			input = new Add(input, input2);
 			NoiseDebugUI.StoreNoiseRender(input, "elev + mountain");
-			goto IL_029c;
-			IL_029c:
+			goto IL_02bf;
+			IL_02bf:
 			float b = (float)((!map.TileInfo.WaterCovered) ? 3.4028234663852886E+38 : 0.0);
-			MapGenFloatGrid mapGenFloatGrid = MapGenerator.FloatGridNamed("Elevation", map);
+			MapGenFloatGrid elevation = MapGenerator.Elevation;
 			foreach (IntVec3 allCell in map.AllCells)
 			{
-				mapGenFloatGrid[allCell] = Mathf.Min(input.GetValue(allCell), b);
+				elevation[allCell] = Mathf.Min(input.GetValue(allCell), b);
 			}
 			ModuleBase input3 = new Perlin(0.020999999716877937, 2.0, 0.5, 6, Rand.Range(0, 2147483647), QualityMode.High);
 			input3 = new ScaleBias(0.5, 0.5, input3);
 			NoiseDebugUI.StoreNoiseRender(input3, "noiseFert base");
-			MapGenFloatGrid mapGenFloatGrid2 = MapGenerator.FloatGridNamed("Fertility", map);
+			MapGenFloatGrid fertility = MapGenerator.Fertility;
 			foreach (IntVec3 allCell2 in map.AllCells)
 			{
-				mapGenFloatGrid2[allCell2] = input3.GetValue(allCell2);
+				fertility[allCell2] = input3.GetValue(allCell2);
 			}
 		}
 	}

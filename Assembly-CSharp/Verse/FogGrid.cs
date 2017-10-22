@@ -1,4 +1,5 @@
 using RimWorld;
+using System.Collections.Generic;
 
 namespace Verse
 {
@@ -15,14 +16,27 @@ namespace Verse
 
 		public void ExposeData()
 		{
-			ref bool[] arr = ref this.fogGrid;
-			IntVec3 size = this.map.Size;
-			int x = size.x;
-			IntVec3 size2 = this.map.Size;
-			ArrayExposeUtility.ExposeBoolArray(ref arr, x, size2.z, "fogGrid");
+			DataExposeUtility.BoolArray(ref this.fogGrid, this.map.Area, "fogGrid");
 		}
 
 		public void Unfog(IntVec3 c)
+		{
+			this.UnfogWorker(c);
+			List<Thing> thingList = c.GetThingList(this.map);
+			for (int i = 0; i < thingList.Count; i++)
+			{
+				Thing thing = thingList[i];
+				if (thing.def.Fillage == FillCategory.Full)
+				{
+					foreach (IntVec3 cell in thing.OccupiedRect().Cells)
+					{
+						this.UnfogWorker(cell);
+					}
+				}
+			}
+		}
+
+		private void UnfogWorker(IntVec3 c)
 		{
 			int num = this.map.cellIndices.CellToIndex(c);
 			if (this.fogGrid[num])
@@ -33,7 +47,7 @@ namespace Verse
 					this.map.mapDrawer.MapMeshDirty(c, MapMeshFlag.FogOfWar);
 				}
 				Designation designation = this.map.designationManager.DesignationAt(c, DesignationDefOf.Mine);
-				if (designation != null && MineUtility.MineableInCell(c, this.map) == null)
+				if (designation != null && c.GetFirstMineable(this.map) == null)
 				{
 					designation.Delete();
 				}
@@ -46,11 +60,7 @@ namespace Verse
 
 		public bool IsFogged(IntVec3 c)
 		{
-			if (c.InBounds(this.map) && this.fogGrid != null)
-			{
-				return this.fogGrid[this.map.cellIndices.CellToIndex(c)];
-			}
-			return false;
+			return c.InBounds(this.map) && this.fogGrid != null && this.fogGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
 		public bool IsFogged(int index)
@@ -170,11 +180,11 @@ namespace Verse
 			{
 				if (floodUnfogResult.mechanoidFound)
 				{
-					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealedWithMechanoids".Translate(), LetterDefOf.BadUrgent, new TargetInfo(c, this.map, false), (string)null);
+					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealedWithMechanoids".Translate(), LetterDefOf.ThreatBig, new TargetInfo(c, this.map, false), (string)null);
 				}
 				else
 				{
-					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealed".Translate(), LetterDefOf.Good, new TargetInfo(c, this.map, false), (string)null);
+					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealed".Translate(), LetterDefOf.NeutralEvent, new TargetInfo(c, this.map, false), (string)null);
 				}
 			}
 		}

@@ -4,12 +4,12 @@ namespace RimWorld
 {
 	public class GasProperties
 	{
-		public bool blockTurretTracking;
+		public bool blockTurretTracking = false;
 
-		public float accuracyPenalty;
+		public float accuracyPenalty = 0f;
 
 		public FloatRange expireSeconds = new FloatRange(30f, 30f);
 
-		public float rotationSpeed;
+		public float rotationSpeed = 0f;
 	}
 }

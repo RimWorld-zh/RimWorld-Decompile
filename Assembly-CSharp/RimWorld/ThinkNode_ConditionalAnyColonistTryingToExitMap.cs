@@ -8,19 +8,24 @@ namespace RimWorld
 		protected override bool Satisfied(Pawn pawn)
 		{
 			Map mapHeld = pawn.MapHeld;
+			bool result;
 			if (mapHeld == null)
 			{
-				return false;
+				result = false;
 			}
-			foreach (Pawn item in mapHeld.mapPawns.FreeColonistsSpawned)
+			else
 			{
-				Job curJob = item.CurJob;
-				if (curJob != null && curJob.exitMapOnArrival)
+				foreach (Pawn item in mapHeld.mapPawns.FreeColonistsSpawned)
 				{
-					return true;
+					Job curJob = item.CurJob;
+					if (curJob != null && curJob.exitMapOnArrival)
+					{
+						return true;
+					}
 				}
+				result = false;
 			}
-			return false;
+			return result;
 		}
 	}
 }

@@ -12,17 +12,13 @@ namespace Verse
 			yield break;
 		}
 
-		public virtual void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients)
+		public virtual void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
 		{
 		}
 
 		public virtual bool IsViolationOnPawn(Pawn pawn, BodyPartRecord part, Faction billDoerFaction)
 		{
-			if (pawn.Faction == billDoerFaction)
-			{
-				return false;
-			}
-			return this.recipe.isViolation;
+			return pawn.Faction != billDoerFaction && this.recipe.isViolation;
 		}
 
 		public virtual string GetLabelWhenUsedOn(Pawn pawn, BodyPartRecord part)

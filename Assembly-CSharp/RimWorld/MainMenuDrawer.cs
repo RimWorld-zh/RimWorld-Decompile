@@ -10,21 +10,21 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class MainMenuDrawer
 	{
+		private static bool anyMapFiles;
+
 		private const float PlayRectWidth = 170f;
 
 		private const float WebRectWidth = 145f;
 
 		private const float RightEdgeMargin = 50f;
 
-		private const float TitleShift = 50f;
-
-		private static bool anyMapFiles;
-
 		private static readonly Vector2 PaneSize = new Vector2(450f, 450f);
 
 		private static readonly Vector2 TitleSize = new Vector2(1032f, 146f);
 
 		private static readonly Texture2D TexTitle = ContentFinder<Texture2D>.Get("UI/HeroArt/GameTitle", true);
+
+		private const float TitleShift = 50f;
 
 		private static readonly Vector2 LudeonLogoSize = new Vector2(200f, 58f);
 
@@ -134,8 +134,9 @@ namespace RimWorld
 				list.Add(new ListableOption("ReviewScenario".Translate(), (Action)delegate
 				{
 					WindowStack windowStack = Find.WindowStack;
+					string fullInformationText = Find.Scenario.GetFullInformationText();
 					string name = Find.Scenario.name;
-					windowStack.Add(new Dialog_MessageBox(Find.Scenario.GetFullInformationText(), (string)null, null, (string)null, null, name, false));
+					windowStack.Add(new Dialog_MessageBox(fullInformationText, (string)null, null, (string)null, null, name, false));
 				}, (string)null));
 			}
 			item = new ListableOption("Options".Translate(), (Action)delegate
@@ -230,7 +231,7 @@ namespace RimWorld
 			OptionListingUtility.DrawOptionListing(rect2, list);
 			Text.Font = GameFont.Small;
 			List<ListableOption> list2 = new List<ListableOption>();
-			ListableOption item2 = new ListableOption_WebLink("FictionPrimer".Translate(), "https://docs.google.com/document/d/1pIZyKif0bFbBWten4drrm7kfSSfvBoJPgG9-ywfN8j8/pub", TexButton.IconBlog);
+			ListableOption item2 = new ListableOption_WebLink("FictionPrimer".Translate(), "http://rimworldgame.com/backstory", TexButton.IconBlog);
 			list2.Add(item2);
 			item2 = new ListableOption_WebLink("LudeonBlog".Translate(), "http://ludeon.com/blog", TexButton.IconBlog);
 			list2.Add(item2);

@@ -1,8 +1,10 @@
+#define ENABLE_PROFILER
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Profiling;
 using Verse;
 using Verse.Profile;
 
@@ -10,11 +12,11 @@ namespace RimWorld
 {
 	public sealed class Autosaver
 	{
+		private int ticksSinceSave = 0;
+
 		private const int NumAutosaves = 5;
 
 		public const float MaxPermadeathModeAutosaveInterval = 1f;
-
-		private int ticksSinceSave;
 
 		private float AutosaveIntervalDays
 		{
@@ -49,15 +51,15 @@ namespace RimWorld
 
 		private void DoAutosave()
 		{
-			ProfilerThreadCheck.BeginSample("DoAutosave");
 			string fileName = (!Current.Game.Info.permadeathMode) ? this.NewAutosaveFileName() : Current.Game.Info.permadeathModeUniqueName;
 			GameDataSaveLoader.SaveGame(fileName);
-			ProfilerThreadCheck.EndSample();
 		}
 
 		private void DoMemoryCleanup()
 		{
+			Profiler.BeginSample("UnloadUnusedAssets");
 			MemoryUtility.UnloadUnusedUnityAssets();
+			Profiler.EndSample();
 		}
 
 		private string NewAutosaveFileName()
@@ -65,18 +67,25 @@ namespace RimWorld
 			string text = (from name in this.AutoSaveNames()
 			where !SaveGameFilesUtility.SavedGameNamedExists(name)
 			select name).FirstOrDefault();
+			string result;
 			if (text != null)
 			{
-				return text;
+				result = text;
 			}
-			return this.AutoSaveNames().MinBy((Func<string, DateTime>)((string name) => new FileInfo(GenFilePaths.FilePathForSavedGame(name)).LastWriteTime));
+			else
+			{
+				string text2 = result = this.AutoSaveNames().MinBy((Func<string, DateTime>)((string name) => new FileInfo(GenFilePaths.FilePathForSavedGame(name)).LastWriteTime));
+			}
+			return result;
 		}
 
 		private IEnumerable<string> AutoSaveNames()
 		{
-			for (int i = 1; i <= 5; i++)
+			int i = 1;
+			if (i <= 5)
 			{
 				yield return "Autosave-" + i;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 	}

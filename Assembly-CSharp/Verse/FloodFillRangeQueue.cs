@@ -10,9 +10,9 @@ namespace Verse
 
 		private int head;
 
-		private int debugNumTimesExpanded;
+		private int debugNumTimesExpanded = 0;
 
-		private int debugMaxUsedSpace;
+		private int debugMaxUsedSpace = 0;
 
 		public int Count
 		{

@@ -19,7 +19,7 @@ namespace Verse
 					Log.Warning("Tried to set ThingStackPartClass stack count to " + value + ". thing=" + this.thing);
 					this.countInt = 0;
 				}
-				else if (value > this.thing.stackCount)
+				else if (this.thing != null && value > this.thing.stackCount)
 				{
 					Log.Warning("Tried to set ThingStackPartClass stack count to " + value + ", but thing's stack count is only " + this.thing.stackCount + ". thing=" + this.thing);
 					this.countInt = this.thing.stackCount;

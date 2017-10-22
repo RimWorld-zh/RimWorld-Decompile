@@ -5,26 +5,34 @@ namespace RimWorld
 {
 	public class CompProperties_Power : CompProperties
 	{
-		public bool transmitsPower;
+		public bool transmitsPower = false;
 
-		public float basePowerConsumption;
+		public float basePowerConsumption = 0f;
 
-		public bool startElectricalFires;
+		public bool startElectricalFires = false;
 
 		public bool shortCircuitInRain = true;
 
-		public SoundDef soundPowerOn;
+		public SoundDef soundPowerOn = null;
 
-		public SoundDef soundPowerOff;
+		public SoundDef soundPowerOff = null;
 
-		public SoundDef soundAmbientPowered;
+		public SoundDef soundAmbientPowered = null;
 
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			foreach (string item in base.ConfigErrors(parentDef))
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0(parentDef).GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string err = enumerator.Current;
+					yield return err;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_00c3:
+			/*Error near IL_00c4: Unexpected return in MoveNext()*/;
 		}
 	}
 }

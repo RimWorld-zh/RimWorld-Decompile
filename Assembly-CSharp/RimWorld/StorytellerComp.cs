@@ -26,31 +26,40 @@ namespace RimWorld
 
 		protected float IncidentChanceFactor_CurrentPopulation(IncidentDef def)
 		{
+			float result;
 			if (def.chanceFactorByPopulationCurve == null)
 			{
-				return 1f;
+				result = 1f;
 			}
-			int num = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Colonists.Count();
-			return def.chanceFactorByPopulationCurve.Evaluate((float)num);
+			else
+			{
+				int num = PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Colonists.Count();
+				result = def.chanceFactorByPopulationCurve.Evaluate((float)num);
+			}
+			return result;
 		}
 
 		protected float IncidentChanceFactor_PopulationIntent(IncidentDef def)
 		{
+			float result;
 			switch (def.populationEffect)
 			{
 			case IncidentPopulationEffect.None:
 			{
-				return 1f;
+				result = 1f;
+				break;
 			}
 			case IncidentPopulationEffect.Increase:
 			{
-				return Mathf.Max(Find.Storyteller.intenderPopulation.PopulationIntent, this.props.minIncChancePopulationIntentFactor);
+				result = Mathf.Max(Find.Storyteller.intenderPopulation.PopulationIntent, this.props.minIncChancePopulationIntentFactor);
+				break;
 			}
 			default:
 			{
 				throw new NotImplementedException();
 			}
 			}
+			return result;
 		}
 
 		protected float IncidentChanceFinal(IncidentDef def)
@@ -66,7 +75,7 @@ namespace RimWorld
 			DebugTables.MakeTablesDialog(from d in DefDatabase<IncidentDef>.AllDefs
 			where d.category == cat
 			orderby this.IncidentChanceFinal(d) descending
-			select d, new TableDataGetter<IncidentDef>("defName", (Func<IncidentDef, string>)((IncidentDef d) => d.defName)), new TableDataGetter<IncidentDef>("baseChance", (Func<IncidentDef, string>)((IncidentDef d) => d.baseChance.ToString())), new TableDataGetter<IncidentDef>("AdjustedChance", (Func<IncidentDef, string>)((IncidentDef d) => d.Worker.AdjustedChance.ToString())), new TableDataGetter<IncidentDef>("Factor-PopCurrent", (Func<IncidentDef, string>)((IncidentDef d) => this.IncidentChanceFactor_CurrentPopulation(d).ToString())), new TableDataGetter<IncidentDef>("Factor-PopIntent", (Func<IncidentDef, string>)((IncidentDef d) => this.IncidentChanceFactor_PopulationIntent(d).ToString())), new TableDataGetter<IncidentDef>("final chance", (Func<IncidentDef, string>)((IncidentDef d) => this.IncidentChanceFinal(d).ToString())), new TableDataGetter<IncidentDef>("vismap-usable", (Func<IncidentDef, string>)((IncidentDef d) => (Find.VisibleMap != null) ? ((!this.UsableIncidentsInCategory(cat, Find.VisibleMap).Contains(d)) ? string.Empty : "V") : "-")), new TableDataGetter<IncidentDef>("world-usable", (Func<IncidentDef, string>)((IncidentDef d) => (!this.UsableIncidentsInCategory(cat, Find.World).Contains(d)) ? string.Empty : "W")), new TableDataGetter<IncidentDef>("pop-current", (Func<IncidentDef, string>)((IncidentDef d) => PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Colonists.Count().ToString())), new TableDataGetter<IncidentDef>("pop-intent", (Func<IncidentDef, string>)((IncidentDef d) => Find.Storyteller.intenderPopulation.PopulationIntent.ToString("F3"))));
+			select d, new TableDataGetter<IncidentDef>("defName", (Func<IncidentDef, string>)((IncidentDef d) => d.defName)), new TableDataGetter<IncidentDef>("baseChance", (Func<IncidentDef, string>)((IncidentDef d) => d.baseChance.ToString())), new TableDataGetter<IncidentDef>("AdjustedChance", (Func<IncidentDef, string>)((IncidentDef d) => d.Worker.AdjustedChance.ToString())), new TableDataGetter<IncidentDef>("Factor-PopCurrent", (Func<IncidentDef, string>)((IncidentDef d) => this.IncidentChanceFactor_CurrentPopulation(d).ToString())), new TableDataGetter<IncidentDef>("Factor-PopIntent", (Func<IncidentDef, string>)((IncidentDef d) => this.IncidentChanceFactor_PopulationIntent(d).ToString())), new TableDataGetter<IncidentDef>("final chance", (Func<IncidentDef, string>)((IncidentDef d) => this.IncidentChanceFinal(d).ToString())), new TableDataGetter<IncidentDef>("vismap-usable", (Func<IncidentDef, string>)((IncidentDef d) => (Find.VisibleMap != null) ? ((!this.UsableIncidentsInCategory(cat, Find.VisibleMap).Contains(d)) ? "" : "V") : "-")), new TableDataGetter<IncidentDef>("world-usable", (Func<IncidentDef, string>)((IncidentDef d) => (!this.UsableIncidentsInCategory(cat, Find.World).Contains(d)) ? "" : "W")), new TableDataGetter<IncidentDef>("pop-current", (Func<IncidentDef, string>)((IncidentDef d) => PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Colonists.Count().ToString())), new TableDataGetter<IncidentDef>("pop-intent", (Func<IncidentDef, string>)((IncidentDef d) => Find.Storyteller.intenderPopulation.PopulationIntent.ToString("F3"))));
 		}
 	}
 }

@@ -7,9 +7,11 @@ namespace Verse
 	{
 		private Map map;
 
+		private bool working;
+
 		private Queue<IntVec3> openSet = new Queue<IntVec3>();
 
-		private BoolGrid queuedGrid;
+		private IntGrid traversalDistance;
 
 		private CellGrid parentGrid;
 
@@ -18,33 +20,52 @@ namespace Verse
 		public FloodFiller(Map map)
 		{
 			this.map = map;
-			this.queuedGrid = new BoolGrid(map);
+			this.traversalDistance = new IntGrid(map);
+			this.traversalDistance.Clear(-1);
 		}
 
-		public void FloodFill(IntVec3 root, Predicate<IntVec3> passCheck, Action<IntVec3> processor, bool rememberParents = false)
+		public void FloodFill(IntVec3 root, Predicate<IntVec3> passCheck, Action<IntVec3> processor, int maxCellsToProcess = 2147483647, bool rememberParents = false, IEnumerable<IntVec3> extraRoots = null)
 		{
-			this.FloodFill(root, passCheck, (Func<IntVec3, bool>)delegate(IntVec3 x)
+			this.FloodFill(root, passCheck, (Func<IntVec3, int, bool>)delegate(IntVec3 cell, int traversalDist)
 			{
-				processor(x);
+				processor(cell);
 				return false;
-			}, rememberParents);
+			}, maxCellsToProcess, rememberParents, extraRoots);
 		}
 
-		public void FloodFill(IntVec3 root, Predicate<IntVec3> passCheck, Func<IntVec3, bool> processor, bool rememberParents = false)
+		public void FloodFill(IntVec3 root, Predicate<IntVec3> passCheck, Action<IntVec3, int> processor, int maxCellsToProcess = 2147483647, bool rememberParents = false, IEnumerable<IntVec3> extraRoots = null)
 		{
-			ProfilerThreadCheck.BeginSample("FloodFill");
+			this.FloodFill(root, passCheck, (Func<IntVec3, int, bool>)delegate(IntVec3 cell, int traversalDist)
+			{
+				processor(cell, traversalDist);
+				return false;
+			}, maxCellsToProcess, rememberParents, extraRoots);
+		}
+
+		public void FloodFill(IntVec3 root, Predicate<IntVec3> passCheck, Func<IntVec3, bool> processor, int maxCellsToProcess = 2147483647, bool rememberParents = false, IEnumerable<IntVec3> extraRoots = null)
+		{
+			this.FloodFill(root, passCheck, (Func<IntVec3, int, bool>)((IntVec3 cell, int traversalDist) => processor(cell)), maxCellsToProcess, rememberParents, extraRoots);
+		}
+
+		public void FloodFill(IntVec3 root, Predicate<IntVec3> passCheck, Func<IntVec3, int, bool> processor, int maxCellsToProcess = 2147483647, bool rememberParents = false, IEnumerable<IntVec3> extraRoots = null)
+		{
+			if (this.working)
+			{
+				Log.Error("Nested FloodFill calls are not allowed. This will cause bugs.");
+			}
+			this.working = true;
 			this.ClearVisited();
 			if (rememberParents && this.parentGrid == null)
 			{
 				this.parentGrid = new CellGrid(this.map);
 			}
-			if (!passCheck(root))
+			if (root.IsValid && extraRoots == null && !passCheck(root))
 			{
 				if (rememberParents)
 				{
 					this.parentGrid[root] = IntVec3.Invalid;
 				}
-				ProfilerThreadCheck.EndSample();
+				this.working = false;
 			}
 			else
 			{
@@ -52,46 +73,83 @@ namespace Verse
 				IntVec3[] cardinalDirectionsAround = GenAdj.CardinalDirectionsAround;
 				int num = cardinalDirectionsAround.Length;
 				CellIndices cellIndices = this.map.cellIndices;
-				int num2 = cellIndices.CellToIndex(root);
-				this.visited.Add(num2);
-				this.queuedGrid.Set(num2, true);
+				int num2 = 0;
+				this.openSet.Clear();
+				if (root.IsValid)
+				{
+					int num3 = cellIndices.CellToIndex(root);
+					this.visited.Add(num3);
+					this.traversalDistance[num3] = 0;
+					this.openSet.Enqueue(root);
+				}
+				if (extraRoots != null)
+				{
+					IList<IntVec3> list = extraRoots as IList<IntVec3>;
+					if (list != null)
+					{
+						for (int i = 0; i < list.Count; i++)
+						{
+							int num4 = cellIndices.CellToIndex(list[i]);
+							this.visited.Add(num4);
+							this.traversalDistance[num4] = 0;
+							this.openSet.Enqueue(list[i]);
+						}
+					}
+					else
+					{
+						foreach (IntVec3 item in extraRoots)
+						{
+							int num5 = cellIndices.CellToIndex(item);
+							this.visited.Add(num5);
+							this.traversalDistance[num5] = 0;
+							this.openSet.Enqueue(item);
+						}
+					}
+				}
 				if (rememberParents)
 				{
-					this.parentGrid[num2] = root;
+					for (int j = 0; j < this.visited.Count; j++)
+					{
+						IntVec3 intVec = cellIndices.IndexToCell(this.visited[j]);
+						this.parentGrid[this.visited[j]] = ((!passCheck(intVec)) ? IntVec3.Invalid : intVec);
+					}
 				}
-				this.openSet.Clear();
-				this.openSet.Enqueue(root);
 				while (this.openSet.Count > 0)
 				{
-					IntVec3 intVec = this.openSet.Dequeue();
-					if (!processor(intVec))
+					IntVec3 intVec2 = this.openSet.Dequeue();
+					int num6 = this.traversalDistance[cellIndices.CellToIndex(intVec2)];
+					if (!processor(intVec2, num6))
 					{
-						for (int num3 = 0; num3 < num; num3++)
+						num2++;
+						if (num2 != maxCellsToProcess)
 						{
-							IntVec3 intVec2 = intVec + cardinalDirectionsAround[num3];
-							int num4 = cellIndices.CellToIndex(intVec2);
-							if (intVec2.InBounds(this.map) && !this.queuedGrid[num4] && passCheck(intVec2))
+							for (int num7 = 0; num7 < num; num7++)
 							{
-								this.visited.Add(num4);
-								this.openSet.Enqueue(intVec2);
-								this.queuedGrid.Set(num4, true);
-								if (rememberParents)
+								IntVec3 intVec3 = intVec2 + cardinalDirectionsAround[num7];
+								int num8 = cellIndices.CellToIndex(intVec3);
+								if (intVec3.InBounds(this.map) && this.traversalDistance[num8] == -1 && passCheck(intVec3))
 								{
-									this.parentGrid[num4] = intVec;
+									this.visited.Add(num8);
+									this.openSet.Enqueue(intVec3);
+									this.traversalDistance[num8] = num6 + 1;
+									if (rememberParents)
+									{
+										this.parentGrid[num8] = intVec2;
+									}
 								}
 							}
+							if (this.openSet.Count > area)
+							{
+								Log.Error("Overflow on flood fill (>" + area + " cells). Make sure we're not flooding over the same area after we check it.");
+								this.working = false;
+								return;
+							}
+							continue;
 						}
-						if (this.openSet.Count > area)
-						{
-							Log.Error("Overflow on flood fill (>" + area + " cells). Make sure we're not flooding over the same area after we check it.");
-							ProfilerThreadCheck.EndSample();
-							return;
-						}
-						continue;
 					}
 					break;
 				}
-				ProfilerThreadCheck.EndSample();
+				this.working = false;
 			}
 		}
 
@@ -132,7 +190,7 @@ namespace Verse
 			while (num < count)
 			{
 				int index = this.visited[num];
-				this.queuedGrid[index] = false;
+				this.traversalDistance[index] = -1;
 				if (this.parentGrid != null)
 				{
 					this.parentGrid[index] = IntVec3.Invalid;

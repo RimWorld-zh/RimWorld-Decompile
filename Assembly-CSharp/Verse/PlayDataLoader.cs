@@ -9,7 +9,7 @@ namespace Verse
 {
 	public static class PlayDataLoader
 	{
-		private static bool loadedInt;
+		private static bool loadedInt = false;
 
 		public static bool Loaded
 		{
@@ -61,7 +61,6 @@ namespace Verse
 					DirectXmlCrossRefLoader.Clear();
 					PlayDataLoader.LoadAllPlayData(true);
 					return;
-					IL_00b1:;
 				}
 				finally
 				{
@@ -169,9 +168,14 @@ namespace Verse
 				ThingCategoryNodeDatabase.FinalizeInit();
 				TrainableUtility.Reset();
 				HaulAIUtility.Reset();
+				GenConstruct.Reset();
 				WorkGiver_FillFermentingBarrel.Reset();
+				WorkGiver_DoBill.Reset();
+				Pawn.Reset();
 				WorkGiver_InteractAnimal.Reset();
 				WorkGiver_Warden_DoExecution.Reset();
+				WorkGiver_GrowerSow.Reset();
+				WorkGiver_Miner.Reset();
 				MedicalCareUtility.Reset();
 				InspectPaneUtility.Reset();
 				GraphicDatabaseHeadRecords.Reset();
@@ -182,6 +186,7 @@ namespace Verse
 				BaseGen.Reset();
 				HealthUtility.Reset();
 				ResourceCounter.ResetDefs();
+				WildSpawner.Reset();
 			}
 			finally
 			{
@@ -194,10 +199,10 @@ namespace Verse
 				{
 					if (item2 != typeof(ThingDef))
 					{
-						GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), item2, "ResolveAllReferences");
+						GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), item2, "ResolveAllReferences", true);
 					}
 				}
-				DefDatabase<ThingDef>.ResolveAllReferences();
+				DefDatabase<ThingDef>.ResolveAllReferences(true);
 			}
 			finally
 			{

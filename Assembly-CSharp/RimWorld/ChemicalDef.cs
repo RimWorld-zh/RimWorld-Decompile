@@ -11,8 +11,8 @@ namespace RimWorld
 
 		public bool canBinge = true;
 
-		public float onGeneratedAddictedToleranceChance;
+		public float onGeneratedAddictedToleranceChance = 0f;
 
-		public List<HediffGiver_Event> onGeneratedAddictedEvents;
+		public List<HediffGiver_Event> onGeneratedAddictedEvents = null;
 	}
 }

@@ -11,78 +11,72 @@ namespace RimWorld
 		{
 			get
 			{
-				return (Fire)base.CurJob.targetA.Thing;
+				return (Fire)base.job.targetA.Thing;
 			}
+		}
+
+		public override bool TryMakePreToilReservations()
+		{
+			return true;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
+			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0036: stateMachine*/;
 			this.FailOnDespawnedOrNull(TargetIndex.A);
 			Toil beat = new Toil();
-			Toil approach = new Toil
+			Toil approach = new Toil();
+			approach.initAction = (Action)delegate
 			{
-				initAction = (Action)delegate
+				if (_003CMakeNewToils_003Ec__Iterator._0024this.Map.reservationManager.CanReserve(_003CMakeNewToils_003Ec__Iterator._0024this.pawn, (Thing)_003CMakeNewToils_003Ec__Iterator._0024this.TargetFire, 1, -1, null, false))
 				{
-					if (((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_004e: stateMachine*/)._003C_003Ef__this.Map.reservationManager.CanReserve(((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_004e: stateMachine*/)._003C_003Ef__this.pawn, (Thing)((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_004e: stateMachine*/)._003C_003Ef__this.TargetFire, 1, -1, null, false))
-					{
-						((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_004e: stateMachine*/)._003C_003Ef__this.pawn.Reserve((Thing)((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_004e: stateMachine*/)._003C_003Ef__this.TargetFire, 1, -1, null);
-					}
-					((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_004e: stateMachine*/)._003C_003Ef__this.pawn.pather.StartPath((Thing)((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_004e: stateMachine*/)._003C_003Ef__this.TargetFire, PathEndMode.Touch);
-				},
-				tickAction = (Action)delegate
+					_003CMakeNewToils_003Ec__Iterator._0024this.pawn.Reserve((Thing)_003CMakeNewToils_003Ec__Iterator._0024this.TargetFire, _003CMakeNewToils_003Ec__Iterator._0024this.job, 1, -1, null);
+				}
+				_003CMakeNewToils_003Ec__Iterator._0024this.pawn.pather.StartPath((Thing)_003CMakeNewToils_003Ec__Iterator._0024this.TargetFire, PathEndMode.Touch);
+			};
+			approach.tickAction = (Action)delegate
+			{
+				if (_003CMakeNewToils_003Ec__Iterator._0024this.pawn.pather.Moving && _003CMakeNewToils_003Ec__Iterator._0024this.pawn.pather.nextCell != _003CMakeNewToils_003Ec__Iterator._0024this.TargetFire.Position)
 				{
-					if (((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.pawn.pather.Moving && ((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.pawn.pather.nextCell != ((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.TargetFire.Position)
-					{
-						((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.StartBeatingFireIfAnyAt(((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.pawn.pather.nextCell, ((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_0065: stateMachine*/)._003Cbeat_003E__0);
-					}
-					if (((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.pawn.Position != ((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.TargetFire.Position)
-					{
-						((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.StartBeatingFireIfAnyAt(((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_0065: stateMachine*/)._003C_003Ef__this.pawn.Position, ((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_0065: stateMachine*/)._003Cbeat_003E__0);
-					}
+					_003CMakeNewToils_003Ec__Iterator._0024this.StartBeatingFireIfAnyAt(_003CMakeNewToils_003Ec__Iterator._0024this.pawn.pather.nextCell, beat);
+				}
+				if (_003CMakeNewToils_003Ec__Iterator._0024this.pawn.Position != _003CMakeNewToils_003Ec__Iterator._0024this.TargetFire.Position)
+				{
+					_003CMakeNewToils_003Ec__Iterator._0024this.StartBeatingFireIfAnyAt(_003CMakeNewToils_003Ec__Iterator._0024this.pawn.Position, beat);
 				}
 			};
 			approach.FailOnDespawnedOrNull(TargetIndex.A);
 			approach.defaultCompleteMode = ToilCompleteMode.PatherArrival;
 			approach.atomicWithPrevious = true;
 			yield return approach;
-			beat.tickAction = (Action)delegate
-			{
-				if (!((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_00b9: stateMachine*/)._003C_003Ef__this.pawn.CanReachImmediate((Thing)((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_00b9: stateMachine*/)._003C_003Ef__this.TargetFire, PathEndMode.Touch))
-				{
-					((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_00b9: stateMachine*/)._003C_003Ef__this.JumpToToil(((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_00b9: stateMachine*/)._003Capproach_003E__1);
-				}
-				else
-				{
-					if (((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_00b9: stateMachine*/)._003C_003Ef__this.pawn.Position != ((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_00b9: stateMachine*/)._003C_003Ef__this.TargetFire.Position && ((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_00b9: stateMachine*/)._003C_003Ef__this.StartBeatingFireIfAnyAt(((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_00b9: stateMachine*/)._003C_003Ef__this.pawn.Position, ((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_00b9: stateMachine*/)._003Cbeat_003E__0))
-						return;
-					((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_00b9: stateMachine*/)._003C_003Ef__this.pawn.natives.TryBeatFire(((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_00b9: stateMachine*/)._003C_003Ef__this.TargetFire);
-					if (((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_00b9: stateMachine*/)._003C_003Ef__this.TargetFire.Destroyed)
-					{
-						((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_00b9: stateMachine*/)._003C_003Ef__this.pawn.records.Increment(RecordDefOf.FiresExtinguished);
-						((_003CMakeNewToils_003Ec__Iterator14)/*Error near IL_00b9: stateMachine*/)._003C_003Ef__this.pawn.jobs.EndCurrentJob(JobCondition.Succeeded, true);
-					}
-				}
-			};
-			beat.FailOnDespawnedOrNull(TargetIndex.A);
-			beat.defaultCompleteMode = ToilCompleteMode.Never;
-			yield return beat;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		private bool StartBeatingFireIfAnyAt(IntVec3 cell, Toil nextToil)
 		{
 			List<Thing> thingList = cell.GetThingList(base.Map);
-			for (int i = 0; i < thingList.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				Fire fire = thingList[i] as Fire;
-				if (fire != null && fire.parent == null)
+				if (num < thingList.Count)
 				{
-					base.pawn.CurJob.targetA = (Thing)fire;
-					base.pawn.pather.StopDead();
-					base.JumpToToil(nextToil);
-					return true;
+					Fire fire = thingList[num] as Fire;
+					if (fire != null && fire.parent == null)
+					{
+						base.job.targetA = (Thing)fire;
+						base.pawn.pather.StopDead();
+						base.JumpToToil(nextToil);
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 	}
 }

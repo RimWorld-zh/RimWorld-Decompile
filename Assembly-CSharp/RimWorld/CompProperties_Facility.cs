@@ -6,15 +6,19 @@ namespace RimWorld
 	public class CompProperties_Facility : CompProperties
 	{
 		[Unsaved]
-		public List<ThingDef> linkableBuildings;
+		public List<ThingDef> linkableBuildings = null;
 
-		public List<StatModifier> statOffsets;
+		public List<StatModifier> statOffsets = null;
 
 		public int maxSimultaneous = 1;
 
-		public bool mustBePlacedAdjacent;
+		public bool mustBePlacedAdjacent = false;
 
-		public bool canLinkToMedBedsOnly;
+		public bool mustBePlacedAdjacentCardinalToBedHead = false;
+
+		public bool canLinkToMedBedsOnly = false;
+
+		public float maxDistance = 8f;
 
 		public CompProperties_Facility()
 		{

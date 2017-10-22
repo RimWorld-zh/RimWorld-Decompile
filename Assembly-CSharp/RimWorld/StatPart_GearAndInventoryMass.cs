@@ -17,11 +17,7 @@ namespace RimWorld
 		public override string ExplanationPart(StatRequest req)
 		{
 			float mass = default(float);
-			if (this.TryGetValue(req, out mass))
-			{
-				return "StatsReport_GearAndInventoryMass".Translate() + ": " + mass.ToStringMassOffset();
-			}
-			return (string)null;
+			return (!this.TryGetValue(req, out mass)) ? null : ("StatsReport_GearAndInventoryMass".Translate() + ": " + mass.ToStringMassOffset());
 		}
 
 		private bool TryGetValue(StatRequest req, out float value)

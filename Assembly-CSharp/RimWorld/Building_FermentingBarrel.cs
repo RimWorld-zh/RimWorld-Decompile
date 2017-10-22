@@ -9,17 +9,17 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Building_FermentingBarrel : Building
 	{
-		public const int MaxCapacity = 25;
-
-		private const int BaseFermentationDuration = 600000;
-
-		public const float MinIdealTemperature = 7f;
-
 		private int wortCount;
 
 		private float progressInt;
 
 		private Material barFilledCachedMat;
+
+		public const int MaxCapacity = 25;
+
+		private const int BaseFermentationDuration = 600000;
+
+		public const float MinIdealTemperature = 7f;
 
 		private static readonly Vector2 BarSize = new Vector2(0.55f, 0.1f);
 
@@ -61,11 +61,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.Fermented)
-				{
-					return 0;
-				}
-				return 25 - this.wortCount;
+				return (!this.Fermented) ? (25 - this.wortCount) : 0;
 			}
 		}
 
@@ -91,15 +87,7 @@ namespace RimWorld
 			{
 				CompProperties_TemperatureRuinable compProperties = base.def.GetCompProperties<CompProperties_TemperatureRuinable>();
 				float ambientTemperature = base.AmbientTemperature;
-				if (ambientTemperature < compProperties.minSafeTemperature)
-				{
-					return 0.1f;
-				}
-				if (ambientTemperature < 7.0)
-				{
-					return GenMath.LerpDouble(compProperties.minSafeTemperature, 7f, 0.1f, 1f, ambientTemperature);
-				}
-				return 1f;
+				return (float)((!(ambientTemperature < compProperties.minSafeTemperature)) ? ((!(ambientTemperature < 7.0)) ? 1.0 : GenMath.LerpDouble(compProperties.minSafeTemperature, 7f, 0.1f, 1f, ambientTemperature)) : 0.10000000149011612);
 			}
 		}
 
@@ -169,8 +157,12 @@ namespace RimWorld
 
 		public void AddWort(Thing wort)
 		{
-			this.AddWort(wort.stackCount);
-			wort.Destroy(DestroyMode.Vanish);
+			int num = Mathf.Min(wort.stackCount, 25 - this.wortCount);
+			if (num > 0)
+			{
+				this.AddWort(num);
+				wort.SplitOff(num).Destroy(DestroyMode.Vanish);
+			}
 		}
 
 		public override string GetInspectString()
@@ -215,15 +207,20 @@ namespace RimWorld
 
 		public Thing TakeOutBeer()
 		{
+			Thing result;
 			if (!this.Fermented)
 			{
 				Log.Warning("Tried to get beer but it's not yet fermented.");
-				return null;
+				result = null;
 			}
-			Thing thing = ThingMaker.MakeThing(ThingDefOf.Beer, null);
-			thing.stackCount = this.wortCount;
-			this.Reset();
-			return thing;
+			else
+			{
+				Thing thing = ThingMaker.MakeThing(ThingDefOf.Beer, null);
+				thing.stackCount = this.wortCount;
+				this.Reset();
+				result = thing;
+			}
+			return result;
 		}
 
 		public override void Draw()
@@ -249,21 +246,30 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return gizmo;
-			}
-			if (Prefs.DevMode && !this.Empty)
-			{
-				yield return (Gizmo)new Command_Action
+				if (enumerator.MoveNext())
 				{
-					defaultLabel = "Debug: Set progress to 1",
-					action = (Action)delegate
-					{
-						((_003CGetGizmos_003Ec__Iterator157)/*Error near IL_00e5: stateMachine*/)._003C_003Ef__this.Progress = 1f;
-					}
-				};
+					Gizmo g = enumerator.Current;
+					yield return g;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			if (!Prefs.DevMode)
+				yield break;
+			if (this.Empty)
+				yield break;
+			yield return (Gizmo)new Command_Action
+			{
+				defaultLabel = "Debug: Set progress to 1",
+				action = (Action)delegate
+				{
+					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00f4: stateMachine*/)._0024this.Progress = 1f;
+				}
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_012f:
+			/*Error near IL_0130: Unexpected return in MoveNext()*/;
 		}
 	}
 }

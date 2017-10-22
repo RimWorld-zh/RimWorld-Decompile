@@ -12,24 +12,41 @@ namespace RimWorld
 
 		public List<ApparelLayer> layers = new List<ApparelLayer>();
 
-		public string wornGraphicPath = string.Empty;
+		public string wornGraphicPath = "";
 
 		public List<string> tags = new List<string>();
 
-		public List<string> defaultOutfitTags;
+		public List<string> defaultOutfitTags = null;
 
 		public float wearPerDay = 0.4f;
 
 		public bool careIfWornByCorpse = true;
 
+		public bool hatRenderedFrontOfFace = false;
+
 		[Unsaved]
 		private float cachedHumanBodyCoverage = -1f;
+
+		[Unsaved]
+		private BodyPartGroupDef[][] interferingBodyPartGroups = null;
+
+		private static BodyPartGroupDef[] apparelRelevantGroups = null;
 
 		public ApparelLayer LastLayer
 		{
 			get
 			{
-				return this.layers[this.layers.Count - 1];
+				ApparelLayer result;
+				if (this.layers.Count > 0)
+				{
+					result = this.layers[this.layers.Count - 1];
+				}
+				else
+				{
+					Log.ErrorOnce("Failed to get last layer on apparel item (see your config errors)", 31234937);
+					result = ApparelLayer.Belt;
+				}
+				return result;
 			}
 		}
 
@@ -55,22 +72,32 @@ namespace RimWorld
 
 		public IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			if (this.layers.NullOrEmpty())
-			{
-				yield return parentDef.defName + " apparel has no layers.";
-			}
+			if (!this.layers.NullOrEmpty())
+				yield break;
+			yield return parentDef.defName + " apparel has no layers.";
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public bool CoversBodyPart(BodyPartRecord partRec)
 		{
-			for (int i = 0; i < partRec.groups.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (this.bodyPartGroups.Contains(partRec.groups[i]))
+				if (num < partRec.groups.Count)
 				{
-					return true;
+					if (this.bodyPartGroups.Contains(partRec.groups[num]))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public string GetCoveredOuterPartsString(BodyDef body)
@@ -90,6 +117,31 @@ namespace RimWorld
 				stringBuilder.Append(item.def.label);
 			}
 			return stringBuilder.ToString().CapitalizeFirst();
+		}
+
+		public BodyPartGroupDef[] GetInterferingBodyPartGroups(BodyDef body)
+		{
+			if (this.interferingBodyPartGroups == null)
+			{
+				this.interferingBodyPartGroups = new BodyPartGroupDef[DefDatabase<BodyPartGroupDef>.DefCount][];
+			}
+			if (this.interferingBodyPartGroups[body.index] == null)
+			{
+				if (ApparelProperties.apparelRelevantGroups == null)
+				{
+					ApparelProperties.apparelRelevantGroups = (from td in DefDatabase<ThingDef>.AllDefs
+					where td.IsApparel
+					select td).SelectMany((Func<ThingDef, IEnumerable<BodyPartGroupDef>>)((ThingDef td) => td.apparel.bodyPartGroups)).Distinct().ToArray();
+				}
+				BodyPartRecord[] source = (from part in body.AllParts
+				where part.groups.Any((Predicate<BodyPartGroupDef>)((BodyPartGroupDef @group) => this.bodyPartGroups.Contains(@group)))
+				select part).ToArray();
+				IEnumerable<BodyPartGroupDef> source2 = source.SelectMany((Func<BodyPartRecord, IEnumerable<BodyPartGroupDef>>)((BodyPartRecord bpr) => bpr.groups)).Distinct();
+				BodyPartGroupDef[] array = this.interferingBodyPartGroups[body.index] = (from bpgd in source2
+				where ApparelProperties.apparelRelevantGroups.Contains(bpgd)
+				select bpgd).ToArray();
+			}
+			return this.interferingBodyPartGroups[body.index];
 		}
 	}
 }

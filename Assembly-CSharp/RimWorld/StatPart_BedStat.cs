@@ -4,7 +4,7 @@ namespace RimWorld
 {
 	public class StatPart_BedStat : StatPart
 	{
-		private StatDef stat;
+		private StatDef stat = null;
 
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -20,24 +20,25 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
+			string result;
 			if (req.HasThing)
 			{
 				Pawn pawn = req.Thing as Pawn;
 				if (pawn != null && pawn.ageTracker != null)
 				{
-					return "StatsReport_InBed".Translate() + ": x" + this.BedMultiplier(pawn).ToStringPercent();
+					result = "StatsReport_InBed".Translate() + ": x" + this.BedMultiplier(pawn).ToStringPercent();
+					goto IL_005b;
 				}
 			}
-			return (string)null;
+			result = (string)null;
+			goto IL_005b;
+			IL_005b:
+			return result;
 		}
 
 		private float BedMultiplier(Pawn pawn)
 		{
-			if (pawn.InBed())
-			{
-				return pawn.CurrentBed().GetStatValue(this.stat, true);
-			}
-			return 1f;
+			return (float)((!pawn.InBed()) ? 1.0 : pawn.CurrentBed().GetStatValue(this.stat, true));
 		}
 	}
 }

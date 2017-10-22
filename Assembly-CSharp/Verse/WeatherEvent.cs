@@ -12,11 +12,11 @@ namespace Verse
 			get;
 		}
 
-		public bool CurrentlyOverridesSky
+		public bool CurrentlyAffectsSky
 		{
 			get
 			{
-				return this.SkyTargetLerpFactor >= 0.0;
+				return this.SkyTargetLerpFactor > 0.0;
 			}
 		}
 

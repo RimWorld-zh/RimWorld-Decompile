@@ -8,48 +8,53 @@ namespace RimWorld.BaseGen
 {
 	public class SymbolResolver_MannedMortar : SymbolResolver
 	{
+		private const float MaxShellDefMarketValue = 250f;
+
 		public override bool CanResolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
+			bool result;
 			if (!base.CanResolve(rp))
 			{
-				return false;
+				result = false;
 			}
-			int num = 0;
-			CellRect.CellRectIterator iterator = rp.rect.GetIterator();
-			while (!iterator.Done())
+			else
 			{
-				if (iterator.Current.Standable(map))
+				int num = 0;
+				CellRect.CellRectIterator iterator = rp.rect.GetIterator();
+				while (!iterator.Done())
 				{
-					num++;
+					if (iterator.Current.Standable(map))
+					{
+						num++;
+					}
+					iterator.MoveNext();
 				}
-				iterator.MoveNext();
+				result = ((byte)((num >= 2) ? 1 : 0) != 0);
 			}
-			if (num < 2)
-			{
-				return false;
-			}
-			return true;
+			return result;
 		}
 
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
-			Faction faction = rp.faction ?? Find.FactionManager.RandomEnemyFaction(false, false, true);
+			Faction faction = rp.faction ?? Find.FactionManager.RandomEnemyFaction(false, false, true, TechLevel.Industrial) ?? Find.FactionManager.RandomEnemyFaction(false, false, true, TechLevel.Undefined);
 			Rot4? thingRot = rp.thingRot;
 			Rot4 rot = (!thingRot.HasValue) ? Rot4.Random : thingRot.Value;
 			ThingDef thingDef = rp.mortarDef ?? (from x in DefDatabase<ThingDef>.AllDefsListForReading
-			where x.category == ThingCategory.Building && x.building.IsMortar && x != ThingDefOf.Turret_MortarEMP
+			where x.category == ThingCategory.Building && x.building.IsMortar
 			select x).RandomElement();
 			IntVec3 intVec = default(IntVec3);
 			if (this.TryFindMortarSpawnCell(rp.rect, rot, thingDef, out intVec))
 			{
 				if (thingDef.HasComp(typeof(CompMannable)))
 				{
-					IntVec3 c = Thing.InteractionCellWhenAt(thingDef, intVec, rot, map);
+					IntVec3 c = ThingUtility.InteractionCellWhenAt(thingDef, intVec, rot, map);
 					Lord singlePawnLord = LordMaker.MakeNewLord(faction, new LordJob_ManTurrets(), map, null);
+					PawnKindDef kind = faction.RandomPawnKind();
+					Faction faction2 = faction;
 					int tile = map.Tile;
-					PawnGenerationRequest value = new PawnGenerationRequest(faction.RandomPawnKind(), faction, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, true, 1f, false, true, true, true, false, null, default(float?), default(float?), default(Gender?), default(float?), (string)null);
+					PawnGenerationRequest value = new PawnGenerationRequest(kind, faction2, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, true, 1f, false, true, true, true, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
 					ResolveParams resolveParams = rp;
 					resolveParams.faction = faction;
 					resolveParams.singlePawnGenerationRequest = new PawnGenerationRequest?(value);
@@ -57,12 +62,16 @@ namespace RimWorld.BaseGen
 					resolveParams.singlePawnLord = singlePawnLord;
 					BaseGen.symbolStack.Push("pawn", resolveParams);
 				}
-				if (thingDef.building.turretShellDef != null)
+				ThingDef turret = thingDef;
+				bool allowEMP = false;
+				TechLevel techLevel = faction.def.techLevel;
+				ThingDef thingDef2 = TurretGunUtility.TryFindRandomShellDef(turret, allowEMP, true, techLevel, false, 250f);
+				if (thingDef2 != null)
 				{
 					ResolveParams resolveParams2 = rp;
 					resolveParams2.faction = faction;
-					resolveParams2.singleThingDef = thingDef.building.turretShellDef;
-					resolveParams2.singleThingStackCount = new int?(Rand.RangeInclusive(5, Mathf.Min(8, thingDef.building.turretShellDef.stackLimit)));
+					resolveParams2.singleThingDef = thingDef2;
+					resolveParams2.singleThingStackCount = new int?(Rand.RangeInclusive(5, Mathf.Min(8, thingDef2.stackLimit)));
 					BaseGen.symbolStack.Push("thing", resolveParams2);
 				}
 				ResolveParams resolveParams3 = rp;
@@ -101,11 +110,7 @@ namespace RimWorld.BaseGen
 			return CellFinder.TryFindRandomCellInsideWith(rect, (Predicate<IntVec3>)delegate(IntVec3 x)
 			{
 				CellRect obj = GenAdj.OccupiedRect(x, rot, mortarDef.size);
-				if (!Thing.InteractionCellWhenAt(mortarDef, x, rot, map).Standable(map))
-				{
-					return false;
-				}
-				return obj.FullyContainedWithin(rect) && edgeTouchCheck(obj);
+				return ThingUtility.InteractionCellWhenAt(mortarDef, x, rot, map).Standable(map) && obj.FullyContainedWithin(rect) && edgeTouchCheck(obj);
 			}, out cell);
 		}
 	}

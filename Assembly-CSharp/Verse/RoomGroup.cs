@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,8 +6,6 @@ namespace Verse
 {
 	public class RoomGroup
 	{
-		private const float UseOutdoorTemperatureUnroofedFraction = 0.25f;
-
 		public int ID = -1;
 
 		private List<Room> rooms = new List<Room>();
@@ -20,6 +17,8 @@ namespace Verse
 		private int cachedCellCount = -1;
 
 		private static int nextRoomGroupID;
+
+		private const float UseOutdoorTemperatureUnroofedFraction = 0.25f;
 
 		public List<Room> Rooms
 		{
@@ -79,11 +78,19 @@ namespace Verse
 			{
 				for (int i = 0; i < this.rooms.Count; i++)
 				{
-					foreach (IntVec3 cell in this.rooms[i].Cells)
+					using (IEnumerator<IntVec3> enumerator = this.rooms[i].Cells.GetEnumerator())
 					{
-						yield return cell;
+						if (enumerator.MoveNext())
+						{
+							IntVec3 c = enumerator.Current;
+							yield return c;
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
 					}
 				}
+				yield break;
+				IL_0104:
+				/*Error near IL_0105: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -109,20 +116,19 @@ namespace Verse
 			{
 				for (int i = 0; i < this.rooms.Count; i++)
 				{
-					List<Region>.Enumerator enumerator = this.rooms[i].Regions.GetEnumerator();
-					try
+					using (List<Region>.Enumerator enumerator = this.rooms[i].Regions.GetEnumerator())
 					{
-						while (enumerator.MoveNext())
+						if (enumerator.MoveNext())
 						{
 							Region r = enumerator.Current;
 							yield return r;
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
-					}
 				}
+				yield break;
+				IL_00ff:
+				/*Error near IL_0100: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -159,14 +165,24 @@ namespace Verse
 		{
 			get
 			{
-				for (int i = 0; i < this.rooms.Count; i++)
+				int num = 0;
+				bool result;
+				while (true)
 				{
-					if (this.rooms[i].TouchesMapEdge)
+					if (num < this.rooms.Count)
 					{
-						return true;
+						if (this.rooms[num].TouchesMapEdge)
+						{
+							result = true;
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = false;
+					break;
 				}
-				return false;
+				return result;
 			}
 		}
 
@@ -205,12 +221,17 @@ namespace Verse
 
 		public bool PushHeat(float energy)
 		{
+			bool result;
 			if (this.UsesOutdoorTemperature)
 			{
-				return false;
+				result = false;
 			}
-			this.Temperature += energy / (float)this.CellCount;
-			return true;
+			else
+			{
+				this.Temperature += energy / (float)this.CellCount;
+				result = true;
+			}
+			return result;
 		}
 
 		public void Notify_RoofChanged()

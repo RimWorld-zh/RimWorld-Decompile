@@ -4,23 +4,19 @@ namespace RimWorld
 {
 	public class TemperatureMemory : IExposable
 	{
-		private const int TicksBuffer = 30000;
-
 		private Map map;
 
 		private int growthSeasonUntilTick = -1;
 
 		private int noGrowUntilTick = -1;
 
+		private const int TicksBuffer = 30000;
+
 		public bool GrowthSeasonOutdoorsNow
 		{
 			get
 			{
-				if (this.noGrowUntilTick > 0 && Find.TickManager.TicksGame < this.noGrowUntilTick)
-				{
-					return false;
-				}
-				return Find.TickManager.TicksGame < this.growthSeasonUntilTick;
+				return (this.noGrowUntilTick <= 0 || Find.TickManager.TicksGame >= this.noGrowUntilTick) && Find.TickManager.TicksGame < this.growthSeasonUntilTick;
 			}
 		}
 

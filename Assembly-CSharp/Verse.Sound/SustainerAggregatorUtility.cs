@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Verse.Sound
 {
 	public static class SustainerAggregatorUtility
@@ -10,22 +7,13 @@ namespace Verse.Sound
 		public static Sustainer AggregateOrSpawnSustainerFor(ISizeReporter reporter, SoundDef def, SoundInfo info)
 		{
 			Sustainer sustainer = null;
-			List<Sustainer>.Enumerator enumerator = Find.SoundRoot.sustainerManager.AllSustainers.GetEnumerator();
-			try
+			foreach (Sustainer allSustainer in Find.SoundRoot.sustainerManager.AllSustainers)
 			{
-				while (enumerator.MoveNext())
+				if (allSustainer.def == def && allSustainer.info.Maker.Map == info.Maker.Map && allSustainer.info.Maker.Cell.InHorDistOf(info.Maker.Cell, SustainerAggregatorUtility.AggregateRadius))
 				{
-					Sustainer current = enumerator.Current;
-					if (current.def == def && current.info.Maker.Map == info.Maker.Map && current.info.Maker.Cell.InHorDistOf(info.Maker.Cell, SustainerAggregatorUtility.AggregateRadius))
-					{
-						sustainer = current;
-						break;
-					}
+					sustainer = allSustainer;
+					break;
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			if (sustainer == null)
 			{

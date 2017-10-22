@@ -23,6 +23,7 @@ namespace Verse
 				if (Find.World != null)
 				{
 					PawnUtility.DestroyStartingColonistFamily(StartingPawnUtility.StartingPawns[num]);
+					PawnComponentsUtility.RemoveComponentsOnDespawned(StartingPawnUtility.StartingPawns[num]);
 					Find.WorldPawns.PassToWorld(StartingPawnUtility.StartingPawns[num], PawnDiscardDecideMode.Discard);
 				}
 				StartingPawnUtility.StartingPawns.RemoveAt(num);
@@ -45,6 +46,7 @@ namespace Verse
 			Pawn pawn = StartingPawnUtility.StartingPawns[index];
 			PawnUtility.TryDestroyStartingColonistFamily(pawn);
 			pawn.relations.ClearAllRelations();
+			PawnComponentsUtility.RemoveComponentsOnDespawned(pawn);
 			Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Discard);
 			StartingPawnUtility.StartingPawns[index] = null;
 			for (int i = 0; i < Find.GameInitData.startingPawns.Count; i++)
@@ -61,7 +63,7 @@ namespace Verse
 
 		public static Pawn NewGeneratedStartingPawn()
 		{
-			PawnGenerationRequest request = new PawnGenerationRequest(Faction.OfPlayer.def.basicMemberKind, Faction.OfPlayer, PawnGenerationContext.PlayerStarter, -1, true, false, false, false, true, false, 26f, false, true, true, false, false, null, default(float?), default(float?), default(Gender?), default(float?), (string)null);
+			PawnGenerationRequest request = new PawnGenerationRequest(Faction.OfPlayer.def.basicMemberKind, Faction.OfPlayer, PawnGenerationContext.PlayerStarter, -1, true, false, false, false, true, false, 26f, false, true, true, false, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
 			Pawn pawn = null;
 			try
 			{
@@ -79,39 +81,43 @@ namespace Verse
 
 		public static bool WorkTypeRequirementsSatisfied()
 		{
+			bool result;
 			if (StartingPawnUtility.StartingPawns.Count == 0)
 			{
-				return false;
+				result = false;
 			}
-			List<WorkTypeDef> allDefsListForReading = DefDatabase<WorkTypeDef>.AllDefsListForReading;
-			for (int i = 0; i < allDefsListForReading.Count; i++)
+			else
 			{
-				WorkTypeDef workTypeDef = allDefsListForReading[i];
-				if (workTypeDef.requireCapableColonist)
+				List<WorkTypeDef> allDefsListForReading = DefDatabase<WorkTypeDef>.AllDefsListForReading;
+				for (int i = 0; i < allDefsListForReading.Count; i++)
 				{
-					bool flag = false;
-					int num = 0;
-					while (num < StartingPawnUtility.StartingPawns.Count)
+					WorkTypeDef workTypeDef = allDefsListForReading[i];
+					if (workTypeDef.requireCapableColonist)
 					{
-						if (StartingPawnUtility.StartingPawns[num].story.WorkTypeIsDisabled(workTypeDef))
+						bool flag = false;
+						int num = 0;
+						while (num < StartingPawnUtility.StartingPawns.Count)
 						{
-							num++;
-							continue;
+							if (StartingPawnUtility.StartingPawns[num].story.WorkTypeIsDisabled(workTypeDef))
+							{
+								num++;
+								continue;
+							}
+							flag = true;
+							break;
 						}
-						flag = true;
-						break;
-					}
-					if (!flag)
-					{
-						return false;
+						if (!flag)
+							goto IL_008d;
 					}
 				}
+				result = ((byte)((!TutorSystem.TutorialMode || !StartingPawnUtility.StartingPawns.Any((Predicate<Pawn>)((Pawn p) => p.story.WorkTagIsDisabled(WorkTags.Violent)))) ? 1 : 0) != 0);
 			}
-			if (TutorSystem.TutorialMode && StartingPawnUtility.StartingPawns.Any((Predicate<Pawn>)((Pawn p) => p.story.WorkTagIsDisabled(WorkTags.Violent))))
-			{
-				return false;
-			}
-			return true;
+			goto IL_00eb;
+			IL_008d:
+			result = false;
+			goto IL_00eb;
+			IL_00eb:
+			return result;
 		}
 	}
 }

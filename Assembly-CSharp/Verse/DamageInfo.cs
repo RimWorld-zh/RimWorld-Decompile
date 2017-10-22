@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -21,13 +20,13 @@ namespace Verse
 
 		private SourceCategory categoryInt;
 
-		private BodyPartRecord forceHitPartInt;
+		private BodyPartRecord hitPartInt;
 
 		private BodyPartHeight heightInt;
 
 		private BodyPartDepth depthInt;
 
-		private ThingDef weaponGearInt;
+		private ThingDef weaponInt;
 
 		private BodyPartGroupDef weaponBodyPartGroupInt;
 
@@ -49,11 +48,7 @@ namespace Verse
 		{
 			get
 			{
-				if (!DebugSettings.enableDamage)
-				{
-					return 0;
-				}
-				return this.amountInt;
+				return DebugSettings.enableDamage ? this.amountInt : 0;
 			}
 		}
 
@@ -81,11 +76,11 @@ namespace Verse
 			}
 		}
 
-		public BodyPartRecord ForceHitPart
+		public BodyPartRecord HitPart
 		{
 			get
 			{
-				return this.forceHitPartInt;
+				return this.hitPartInt;
 			}
 		}
 
@@ -105,11 +100,11 @@ namespace Verse
 			}
 		}
 
-		public ThingDef WeaponGear
+		public ThingDef Weapon
 		{
 			get
 			{
-				return this.weaponGearInt;
+				return this.weaponInt;
 			}
 		}
 
@@ -141,15 +136,11 @@ namespace Verse
 		{
 			get
 			{
-				if (this.InstantOldInjury)
-				{
-					return false;
-				}
-				return this.allowDamagePropagationInt;
+				return !this.InstantOldInjury && this.allowDamagePropagationInt;
 			}
 		}
 
-		public DamageInfo(DamageDef def, int amount, float angle = -1, Thing instigator = null, BodyPartRecord forceHitPart = null, ThingDef weaponGear = null, SourceCategory category = SourceCategory.ThingOrUnknown)
+		public DamageInfo(DamageDef def, int amount, float angle = -1f, Thing instigator = null, BodyPartRecord hitPart = null, ThingDef weapon = null, SourceCategory category = SourceCategory.ThingOrUnknown)
 		{
 			this.defInt = def;
 			this.amountInt = amount;
@@ -163,10 +154,10 @@ namespace Verse
 			}
 			this.instigatorInt = instigator;
 			this.categoryInt = category;
-			this.forceHitPartInt = forceHitPart;
+			this.hitPartInt = hitPart;
 			this.heightInt = BodyPartHeight.Undefined;
 			this.depthInt = BodyPartDepth.Undefined;
-			this.weaponGearInt = weaponGear;
+			this.weaponInt = weapon;
 			this.weaponBodyPartGroupInt = null;
 			this.weaponHediffInt = null;
 			this.instantOldInjuryInt = false;
@@ -180,10 +171,10 @@ namespace Verse
 			this.angleInt = cloneSource.angleInt;
 			this.instigatorInt = cloneSource.instigatorInt;
 			this.categoryInt = cloneSource.categoryInt;
-			this.forceHitPartInt = cloneSource.forceHitPartInt;
+			this.hitPartInt = cloneSource.hitPartInt;
 			this.heightInt = cloneSource.heightInt;
 			this.depthInt = cloneSource.depthInt;
-			this.weaponGearInt = cloneSource.weaponGearInt;
+			this.weaponInt = cloneSource.weaponInt;
 			this.weaponBodyPartGroupInt = cloneSource.weaponBodyPartGroupInt;
 			this.weaponHediffInt = cloneSource.weaponHediffInt;
 			this.instantOldInjuryInt = cloneSource.instantOldInjuryInt;
@@ -201,9 +192,9 @@ namespace Verse
 			this.depthInt = depth;
 		}
 
-		public void SetForcedHitPart(BodyPartRecord forceHitPart)
+		public void SetHitPart(BodyPartRecord forceHitPart)
 		{
-			this.forceHitPartInt = forceHitPart;
+			this.hitPartInt = forceHitPart;
 		}
 
 		public void SetInstantOldInjury(bool val)
@@ -241,7 +232,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return "(def=" + this.defInt + ", amount= " + this.amountInt + ", instigator=" + ((this.instigatorInt == null) ? ((Enum)(object)this.categoryInt).ToString() : this.instigatorInt.ToString()) + ", angle=" + this.angleInt.ToString("F1") + ")";
+			return "(def=" + this.defInt + ", amount= " + this.amountInt + ", instigator=" + ((this.instigatorInt == null) ? this.categoryInt.ToString() : this.instigatorInt.ToString()) + ", angle=" + this.angleInt.ToString("F1") + ")";
 		}
 	}
 }

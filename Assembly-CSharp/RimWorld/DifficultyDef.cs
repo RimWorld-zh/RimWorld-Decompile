@@ -12,7 +12,9 @@ namespace RimWorld
 
 		public bool allowIntroThreats = true;
 
-		public bool peacefulTemples;
+		public bool allowCaveHives = true;
+
+		public bool peacefulTemples = false;
 
 		public float colonistMoodOffset;
 
@@ -25,5 +27,7 @@ namespace RimWorld
 		public float enemyReproductionRateFactor = 1f;
 
 		public float playerPawnInfectionChanceFactor = 1f;
+
+		public float manhunterChanceOnDamageFactor = 1f;
 	}
 }

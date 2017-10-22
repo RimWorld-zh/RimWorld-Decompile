@@ -6,7 +6,7 @@ namespace Verse
 {
 	public static class Current
 	{
-		private static ProgramState programStateInt;
+		private static ProgramState programStateInt = ProgramState.Entry;
 
 		private static Root rootInt;
 
@@ -19,6 +19,8 @@ namespace Verse
 		private static CameraDriver cameraDriverInt;
 
 		private static ColorCorrectionCurves colorCorrectionCurvesInt;
+
+		private static SubcameraDriver subcameraDriverInt;
 
 		private static Game gameInt;
 
@@ -69,6 +71,14 @@ namespace Verse
 			get
 			{
 				return Current.colorCorrectionCurvesInt;
+			}
+		}
+
+		public static SubcameraDriver SubcameraDriver
+		{
+			get
+			{
+				return Current.subcameraDriverInt;
 			}
 		}
 
@@ -128,6 +138,7 @@ namespace Verse
 				Current.rootInt = Current.rootPlayInt;
 				Current.cameraDriverInt = ((Component)Current.cameraInt).GetComponent<CameraDriver>();
 				Current.colorCorrectionCurvesInt = ((Component)Current.cameraInt).GetComponent<ColorCorrectionCurves>();
+				Current.subcameraDriverInt = GameObject.Find("Subcameras").GetComponent<SubcameraDriver>();
 			}
 		}
 	}

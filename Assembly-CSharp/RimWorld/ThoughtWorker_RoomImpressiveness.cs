@@ -6,21 +6,25 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
+			ThoughtState result;
 			if (p.story.traits.HasTrait(TraitDefOf.Ascetic))
 			{
-				return ThoughtState.Inactive;
+				result = ThoughtState.Inactive;
 			}
-			Room room = p.GetRoom(RegionType.Set_Passable);
-			if (room == null)
+			else
 			{
-				return ThoughtState.Inactive;
+				Room room = p.GetRoom(RegionType.Set_Passable);
+				if (room == null)
+				{
+					result = ThoughtState.Inactive;
+				}
+				else
+				{
+					int scoreStageIndex = RoomStatDefOf.Impressiveness.GetScoreStageIndex(room.GetStat(RoomStatDefOf.Impressiveness));
+					result = ((base.def.stages[scoreStageIndex] != null) ? ThoughtState.ActiveAtStage(scoreStageIndex) : ThoughtState.Inactive);
+				}
 			}
-			int scoreStageIndex = RoomStatDefOf.Impressiveness.GetScoreStageIndex(room.GetStat(RoomStatDefOf.Impressiveness));
-			if (base.def.stages[scoreStageIndex] == null)
-			{
-				return ThoughtState.Inactive;
-			}
-			return ThoughtState.ActiveAtStage(scoreStageIndex);
+			return result;
 		}
 	}
 }

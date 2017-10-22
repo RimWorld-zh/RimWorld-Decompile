@@ -38,7 +38,7 @@ namespace RimWorld
 		public ThoughtDef killedThoughtFemale;
 
 		[Unsaved]
-		private PawnRelationWorker workerInt;
+		private PawnRelationWorker workerInt = null;
 
 		public PawnRelationWorker Worker
 		{
@@ -55,11 +55,7 @@ namespace RimWorld
 
 		public string GetGenderSpecificLabel(Pawn pawn)
 		{
-			if (pawn.gender == Gender.Female && !this.labelFemale.NullOrEmpty())
-			{
-				return this.labelFemale;
-			}
-			return base.label;
+			return (pawn.gender != Gender.Female || this.labelFemale.NullOrEmpty()) ? base.label : this.labelFemale;
 		}
 
 		public string GetGenderSpecificLabelCap(Pawn pawn)
@@ -69,33 +65,33 @@ namespace RimWorld
 
 		public ThoughtDef GetGenderSpecificDiedThought(Pawn killed)
 		{
-			if (killed.gender == Gender.Female && this.diedThoughtFemale != null)
-			{
-				return this.diedThoughtFemale;
-			}
-			return this.diedThought;
+			return (killed.gender != Gender.Female || this.diedThoughtFemale == null) ? this.diedThought : this.diedThoughtFemale;
 		}
 
 		public ThoughtDef GetGenderSpecificKilledThought(Pawn killed)
 		{
-			if (killed.gender == Gender.Female && this.killedThoughtFemale != null)
-			{
-				return this.killedThoughtFemale;
-			}
-			return this.killedThought;
+			return (killed.gender != Gender.Female || this.killedThoughtFemale == null) ? this.killedThought : this.killedThoughtFemale;
 		}
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string c = enumerator.Current;
+					yield return c;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			if (this.implied && this.reflexive)
-			{
-				yield return base.defName + ": implied relations can't use the \"reflexive\" option.";
-				this.reflexive = false;
-			}
+			if (!this.implied)
+				yield break;
+			if (!this.reflexive)
+				yield break;
+			yield return base.defName + ": implied relations can't use the \"reflexive\" option.";
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_011e:
+			/*Error near IL_011f: Unexpected return in MoveNext()*/;
 		}
 	}
 }

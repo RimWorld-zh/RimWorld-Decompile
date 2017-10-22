@@ -1,4 +1,3 @@
-using RimWorld;
 using UnityEngine;
 
 namespace Verse
@@ -20,14 +19,6 @@ namespace Verse
 		private float targetSize;
 
 		private float velocity;
-
-		public override DrawTargetDef DrawLayer
-		{
-			get
-			{
-				return DrawTargetDefOf.WaterHeight;
-			}
-		}
 
 		protected override float LifespanSecs
 		{
@@ -52,6 +43,7 @@ namespace Verse
 			{
 				float scale = base.AgeSecs * this.velocity;
 				base.Scale = scale;
+				base.exactPosition += base.Map.waterInfo.GetWaterMovement(base.exactPosition) * deltaTime;
 			}
 		}
 

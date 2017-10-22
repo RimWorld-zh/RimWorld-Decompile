@@ -14,7 +14,7 @@ namespace Verse
 
 		private bool neverSucceeded = true;
 
-		private Success success;
+		private Success success = Success.Normal;
 
 		public bool Apply(XmlDocument xml)
 		{

@@ -9,7 +9,7 @@ namespace RimWorld
 	{
 		private const int FixedPoints = 30;
 
-		public override bool TryExecute(IncidentParms parms)
+		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			int maxPoints = 150;
@@ -20,15 +20,20 @@ namespace RimWorld
 			List<Pawn> list = (from p in map.mapPawns.AllPawnsSpawned
 			where p.RaceProps.Animal && p.kindDef.combatPower <= (float)maxPoints && IncidentWorker_AnimalInsanityMass.AnimalUsable(p)
 			select p).ToList();
+			bool result;
 			if (list.Count == 0)
 			{
-				return false;
+				result = false;
 			}
-			Pawn pawn = list.RandomElement();
-			IncidentWorker_AnimalInsanityMass.DriveInsane(pawn);
-			string text = "AnimalInsanitySingle".Translate(pawn.Label);
-			Find.LetterStack.ReceiveLetter("LetterLabelAnimalInsanitySingle".Translate(), text, LetterDefOf.BadUrgent, (Thing)pawn, (string)null);
-			return true;
+			else
+			{
+				Pawn pawn = list.RandomElement();
+				IncidentWorker_AnimalInsanityMass.DriveInsane(pawn);
+				string text = "AnimalInsanitySingle".Translate(pawn.Label);
+				Find.LetterStack.ReceiveLetter("LetterLabelAnimalInsanitySingle".Translate(), text, LetterDefOf.ThreatSmall, (Thing)pawn, (string)null);
+				result = true;
+			}
+			return result;
 		}
 	}
 }

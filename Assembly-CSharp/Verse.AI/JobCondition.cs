@@ -8,7 +8,8 @@ namespace Verse.AI
 		Incompletable = 3,
 		InterruptOptional = 4,
 		InterruptForced = 5,
-		Errored = 6,
-		ErroredPather = 7
+		QueuedNoLongerValid = 6,
+		Errored = 7,
+		ErroredPather = 8
 	}
 }

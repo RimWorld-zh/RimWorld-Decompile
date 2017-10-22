@@ -29,20 +29,21 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
+			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			if (!DebugSettings.godMode && c.Fogged(base.Map))
+			else if (!DebugSettings.godMode && c.Fogged(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			Thing thing = this.TopUninstallableInCell(c);
-			if (thing == null)
+			else
 			{
-				return false;
+				Thing thing = this.TopUninstallableInCell(c);
+				result = ((thing != null) ? true : false);
 			}
-			return true;
+			return result;
 		}
 
 		public override void DesignateSingleCell(IntVec3 loc)
@@ -83,38 +84,39 @@ namespace RimWorld
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Building building = t as Building;
+			AcceptanceReport result;
 			if (building == null)
 			{
-				return false;
+				result = false;
 			}
-			if (building.def.category != ThingCategory.Building)
+			else if (building.def.category != ThingCategory.Building)
 			{
-				return false;
+				result = false;
 			}
-			if (!building.def.Minifiable)
+			else if (!building.def.Minifiable)
 			{
-				return false;
+				result = false;
 			}
-			if (!DebugSettings.godMode && building.Faction != Faction.OfPlayer)
+			else
 			{
-				if (building.Faction != null)
+				if (!DebugSettings.godMode && building.Faction != Faction.OfPlayer)
 				{
-					return false;
+					if (building.Faction != null)
+					{
+						result = false;
+						goto IL_00fe;
+					}
+					if (!building.ClaimableBy(Faction.OfPlayer))
+					{
+						result = false;
+						goto IL_00fe;
+					}
 				}
-				if (!building.ClaimableBy(Faction.OfPlayer))
-				{
-					return false;
-				}
+				result = ((base.Map.designationManager.DesignationOn(t, DesignationDefOf.Uninstall) == null) ? ((base.Map.designationManager.DesignationOn(t, DesignationDefOf.Deconstruct) == null) ? true : false) : false);
 			}
-			if (base.Map.designationManager.DesignationOn(t, DesignationDefOf.Uninstall) != null)
-			{
-				return false;
-			}
-			if (base.Map.designationManager.DesignationOn(t, DesignationDefOf.Deconstruct) != null)
-			{
-				return false;
-			}
-			return true;
+			goto IL_00fe;
+			IL_00fe:
+			return result;
 		}
 
 		public override void SelectedUpdate()

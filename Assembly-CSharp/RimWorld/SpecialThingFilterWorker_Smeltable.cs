@@ -6,11 +6,7 @@ namespace RimWorld
 	{
 		public override bool Matches(Thing t)
 		{
-			if (!this.CanEverMatch(t.def))
-			{
-				return false;
-			}
-			return t.Smeltable;
+			return this.CanEverMatch(t.def) && t.Smeltable;
 		}
 
 		public override bool CanEverMatch(ThingDef def)

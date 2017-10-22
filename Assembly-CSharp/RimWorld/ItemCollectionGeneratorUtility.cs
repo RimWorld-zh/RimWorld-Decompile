@@ -7,6 +7,8 @@ namespace RimWorld
 	{
 		public static List<ThingDef> allGeneratableItems = new List<ThingDef>();
 
+		public static readonly string SpecialRewardTag = "SpecialReward";
+
 		public static void Reset()
 		{
 			ItemCollectionGeneratorUtility.allGeneratableItems.Clear();
@@ -21,6 +23,7 @@ namespace RimWorld
 			ItemCollectionGenerator_Apparel.Reset();
 			ItemCollectionGenerator_RawResources.Reset();
 			ItemCollectionGenerator_Artifacts.Reset();
+			ItemCollectionGenerator_Food.Reset();
 		}
 
 		public static void AssignRandomBaseGenItemQuality(List<Thing> things)
@@ -33,6 +36,20 @@ namespace RimWorld
 					compQuality.SetQuality(QualityUtility.RandomBaseGenItemQuality(), ArtGenerationContext.Outsider);
 				}
 			}
+		}
+
+		public static float AdjustedSelectionWeight(ThingDef d, int numMeats, int numLeathers)
+		{
+			float num = 100f;
+			if (d.IsMeat)
+			{
+				num = (float)(num * (5.0 / (float)numMeats));
+			}
+			if (d.IsLeather)
+			{
+				num = (float)(num * (5.0 / (float)numLeathers));
+			}
+			return num;
 		}
 	}
 }

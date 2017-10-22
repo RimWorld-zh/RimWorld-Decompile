@@ -6,11 +6,7 @@ namespace Verse.AI
 	{
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			if (pawn.Drafted)
-			{
-				return new Job(JobDefOf.WaitCombat, pawn.Position);
-			}
-			return null;
+			return (!pawn.Drafted) ? null : new Job(JobDefOf.WaitCombat, pawn.Position);
 		}
 	}
 }

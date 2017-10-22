@@ -7,14 +7,19 @@ namespace RimWorld
 {
 	public class JobDriver_Open : JobDriver
 	{
-		private const int OpenTicks = 300;
+		public const int OpenTicks = 300;
 
 		private IOpenable Openable
 		{
 			get
 			{
-				return (IOpenable)base.CurJob.targetA.Thing;
+				return (IOpenable)base.job.targetA.Thing;
 			}
+		}
+
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve(base.job.targetA, base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -23,37 +28,17 @@ namespace RimWorld
 			{
 				initAction = (Action)delegate
 				{
-					if (!((_003CMakeNewToils_003Ec__Iterator36)/*Error near IL_0042: stateMachine*/)._003C_003Ef__this.Openable.CanOpen)
+					if (!((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003f: stateMachine*/)._0024this.Openable.CanOpen)
 					{
-						Designation designation2 = ((_003CMakeNewToils_003Ec__Iterator36)/*Error near IL_0042: stateMachine*/)._003C_003Ef__this.Map.designationManager.DesignationOn(((_003CMakeNewToils_003Ec__Iterator36)/*Error near IL_0042: stateMachine*/)._003C_003Ef__this.CurJob.targetA.Thing, DesignationDefOf.Open);
-						if (designation2 != null)
+						Designation designation = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003f: stateMachine*/)._0024this.Map.designationManager.DesignationOn(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003f: stateMachine*/)._0024this.job.targetA.Thing, DesignationDefOf.Open);
+						if (designation != null)
 						{
-							designation2.Delete();
+							designation.Delete();
 						}
 					}
 				}
-			}.FailOnDestroyedOrNull(TargetIndex.A);
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
-			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell).FailOnThingMissingDesignation(TargetIndex.A, DesignationDefOf.Open).FailOnDestroyedOrNull(TargetIndex.A);
-			yield return Toils_General.Wait(300).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f).FailOnDestroyedOrNull(TargetIndex.A).FailOnCannotTouch(TargetIndex.A, PathEndMode.InteractionCell);
-			yield return new Toil
-			{
-				initAction = (Action)delegate
-				{
-					Thing thing = ((_003CMakeNewToils_003Ec__Iterator36)/*Error near IL_00fc: stateMachine*/)._003C_003Ef__this.CurJob.targetA.Thing;
-					Designation designation = ((_003CMakeNewToils_003Ec__Iterator36)/*Error near IL_00fc: stateMachine*/)._003C_003Ef__this.Map.designationManager.DesignationOn(thing, DesignationDefOf.Open);
-					if (designation != null)
-					{
-						designation.Delete();
-					}
-					if (((_003CMakeNewToils_003Ec__Iterator36)/*Error near IL_00fc: stateMachine*/)._003C_003Ef__this.Openable.CanOpen)
-					{
-						((_003CMakeNewToils_003Ec__Iterator36)/*Error near IL_00fc: stateMachine*/)._003C_003Ef__this.Openable.Open();
-						((_003CMakeNewToils_003Ec__Iterator36)/*Error near IL_00fc: stateMachine*/)._003C_003Ef__this.pawn.records.Increment(RecordDefOf.ContainersOpened);
-					}
-				},
-				defaultCompleteMode = ToilCompleteMode.Instant
-			};
+			}.FailOnDespawnedOrNull(TargetIndex.A);
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

@@ -7,9 +7,9 @@ namespace RimWorld
 	{
 		public NeedDef need;
 
-		public float offset;
+		public float offset = 0f;
 
-		public ChemicalDef toleranceChemical;
+		public ChemicalDef toleranceChemical = null;
 
 		protected override void DoIngestionOutcomeSpecial(Pawn pawn, Thing ingested)
 		{
@@ -27,7 +27,8 @@ namespace RimWorld
 
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, this.need.LabelCap, this.offset.ToStringPercent(), 0);
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, this.need.LabelCap, this.offset.ToStringPercent(), 0, "");
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

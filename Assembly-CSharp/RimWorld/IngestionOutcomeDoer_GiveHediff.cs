@@ -9,9 +9,9 @@ namespace RimWorld
 
 		public float severity = -1f;
 
-		public ChemicalDef toleranceChemical;
+		public ChemicalDef toleranceChemical = null;
 
-		private bool divideByBodySize;
+		private bool divideByBodySize = false;
 
 		protected override void DoIngestionOutcomeSpecial(Pawn pawn, Thing ingested)
 		{
@@ -30,11 +30,19 @@ namespace RimWorld
 		{
 			if (parentDef.IsDrug && base.chance >= 1.0)
 			{
-				foreach (StatDrawEntry item in this.hediffDef.SpecialDisplayStats())
+				using (IEnumerator<StatDrawEntry> enumerator = this.hediffDef.SpecialDisplayStats().GetEnumerator())
 				{
-					yield return item;
+					if (enumerator.MoveNext())
+					{
+						StatDrawEntry s = enumerator.Current;
+						yield return s;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
+			yield break;
+			IL_00e9:
+			/*Error near IL_00ea: Unexpected return in MoveNext()*/;
 		}
 	}
 }

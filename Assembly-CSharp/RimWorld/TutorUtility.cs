@@ -11,25 +11,36 @@ namespace RimWorld
 		public static bool BuildingOrBlueprintOrFrameCenterExists(IntVec3 c, Map map, ThingDef buildingDef)
 		{
 			List<Thing> thingList = c.GetThingList(map);
-			for (int i = 0; i < thingList.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				Thing thing = thingList[i];
-				if (!(thing.Position != c))
+				if (num < thingList.Count)
 				{
-					if (thing.def == buildingDef)
+					Thing thing = thingList[num];
+					if (!(thing.Position != c))
 					{
-						return true;
+						if (thing.def == buildingDef)
+						{
+							result = true;
+							break;
+						}
+						if (thing.def.entityDefToBuild == buildingDef)
+						{
+							result = true;
+							break;
+						}
 					}
-					if (thing.def.entityDefToBuild == buildingDef)
-					{
-						return true;
-					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
-		public static CellRect FindUsableRect(int width, int height, Map map, float minFertility = 0, bool noItems = false)
+		public static CellRect FindUsableRect(int width, int height, Map map, float minFertility = 0f, bool noItems = false)
 		{
 			IntVec3 center = map.Center;
 			float num = 1f;
@@ -67,22 +78,34 @@ namespace RimWorld
 		private static bool ContainsBlockingThing(IntVec3 cell, Map map, bool noItems)
 		{
 			List<Thing> thingList = cell.GetThingList(map);
-			for (int i = 0; i < thingList.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (thingList[i].def.category == ThingCategory.Building)
+				if (num < thingList.Count)
 				{
-					return true;
+					if (thingList[num].def.category == ThingCategory.Building)
+					{
+						result = true;
+						break;
+					}
+					if (thingList[num] is Blueprint)
+					{
+						result = true;
+						break;
+					}
+					if (noItems && thingList[num].def.category == ThingCategory.Item)
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
-				if (thingList[i] is Blueprint)
-				{
-					return true;
-				}
-				if (noItems && thingList[i].def.category == ThingCategory.Item)
-				{
-					return true;
-				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public static void DrawLabelOnThingOnGUI(Thing t, string label)
@@ -140,37 +163,34 @@ namespace RimWorld
 
 		public static bool EventCellsMatchExactly(EventPack ep, List<IntVec3> targetCells)
 		{
+			bool result;
 			if (ep.Cell.IsValid)
 			{
-				return targetCells.Count == 1 && ep.Cell == targetCells[0];
+				result = (targetCells.Count == 1 && ep.Cell == targetCells[0]);
 			}
-			if (ep.Cells == null)
+			else if (ep.Cells == null)
 			{
-				return false;
+				result = false;
 			}
-			int num = 0;
-			foreach (IntVec3 cell in ep.Cells)
+			else
 			{
-				if (!targetCells.Contains(cell))
+				int num = 0;
+				foreach (IntVec3 cell in ep.Cells)
 				{
-					return false;
+					if (!targetCells.Contains(cell))
+					{
+						return false;
+					}
+					num++;
 				}
-				num++;
+				result = (num == targetCells.Count);
 			}
-			return num == targetCells.Count;
+			return result;
 		}
 
 		public static bool EventCellsAreWithin(EventPack ep, List<IntVec3> targetCells)
 		{
-			if (ep.Cell.IsValid)
-			{
-				return targetCells.Contains(ep.Cell);
-			}
-			if (ep.Cells != null)
-			{
-				return !ep.Cells.Any((Func<IntVec3, bool>)((IntVec3 c) => !targetCells.Contains(c)));
-			}
-			return false;
+			return (!ep.Cell.IsValid) ? (ep.Cells != null && !ep.Cells.Any((Func<IntVec3, bool>)((IntVec3 c) => !targetCells.Contains(c)))) : targetCells.Contains(ep.Cell);
 		}
 	}
 }

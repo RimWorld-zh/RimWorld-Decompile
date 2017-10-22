@@ -15,88 +15,146 @@ namespace RimWorld
 
 		public static Twelfth GetFirstTwelfth(this Quadrum quadrum)
 		{
+			Twelfth result;
 			switch (quadrum)
 			{
 			case Quadrum.Aprimay:
 			{
-				return Twelfth.First;
+				result = Twelfth.First;
+				break;
 			}
 			case Quadrum.Jugust:
 			{
-				return Twelfth.Fourth;
+				result = Twelfth.Fourth;
+				break;
 			}
 			case Quadrum.Septober:
 			{
-				return Twelfth.Seventh;
+				result = Twelfth.Seventh;
+				break;
 			}
 			case Quadrum.Decembary:
 			{
-				return Twelfth.Tenth;
+				result = Twelfth.Tenth;
+				break;
 			}
 			default:
 			{
-				return Twelfth.Undefined;
+				result = Twelfth.Undefined;
+				break;
 			}
 			}
+			return result;
+		}
+
+		public static Twelfth GetMiddleTwelfth(this Quadrum quadrum)
+		{
+			Twelfth result;
+			switch (quadrum)
+			{
+			case Quadrum.Aprimay:
+			{
+				result = Twelfth.Second;
+				break;
+			}
+			case Quadrum.Jugust:
+			{
+				result = Twelfth.Fifth;
+				break;
+			}
+			case Quadrum.Septober:
+			{
+				result = Twelfth.Eighth;
+				break;
+			}
+			case Quadrum.Decembary:
+			{
+				result = Twelfth.Eleventh;
+				break;
+			}
+			default:
+			{
+				result = Twelfth.Undefined;
+				break;
+			}
+			}
+			return result;
+		}
+
+		public static float GetMiddleYearPct(this Quadrum quadrum)
+		{
+			return quadrum.GetMiddleTwelfth().GetMiddleYearPct();
 		}
 
 		public static string Label(this Quadrum quadrum)
 		{
+			string result;
 			switch (quadrum)
 			{
 			case Quadrum.Aprimay:
 			{
-				return "QuadrumAprimay".Translate();
+				result = "QuadrumAprimay".Translate();
+				break;
 			}
 			case Quadrum.Jugust:
 			{
-				return "QuadrumJugust".Translate();
+				result = "QuadrumJugust".Translate();
+				break;
 			}
 			case Quadrum.Septober:
 			{
-				return "QuadrumSeptober".Translate();
+				result = "QuadrumSeptober".Translate();
+				break;
 			}
 			case Quadrum.Decembary:
 			{
-				return "QuadrumDecembary".Translate();
+				result = "QuadrumDecembary".Translate();
+				break;
 			}
 			default:
 			{
-				return "Unknown quadrum";
+				result = "Unknown quadrum";
+				break;
 			}
 			}
+			return result;
 		}
 
 		public static Season GetSeason(this Quadrum q, float latitude)
 		{
-			Twelfth firstTwelfth = q.GetFirstTwelfth();
-			return firstTwelfth.GetSeason(latitude);
+			float middleYearPct = q.GetMiddleYearPct();
+			return SeasonUtility.GetReportedSeason(middleYearPct, latitude);
 		}
 
 		public static string QuadrumsRangeLabel(List<Twelfth> twelfths)
 		{
+			string result;
 			if (twelfths.Count == 0)
 			{
-				return string.Empty;
+				result = "";
 			}
-			if (twelfths.Count == 12)
+			else if (twelfths.Count == 12)
 			{
-				return "WholeYear".Translate();
+				result = "WholeYear".Translate();
 			}
-			string text = string.Empty;
-			for (int i = 0; i < 12; i++)
+			else
 			{
-				Twelfth twelfth = (Twelfth)(byte)i;
-				if (twelfths.Contains(twelfth))
+				string text = "";
+				for (int i = 0; i < 12; i++)
 				{
-					if (!text.NullOrEmpty())
+					Twelfth twelfth = (Twelfth)(byte)i;
+					if (twelfths.Contains(twelfth))
 					{
-						text += ", ";
+						if (!text.NullOrEmpty())
+						{
+							text += ", ";
+						}
+						text += QuadrumUtility.QuadrumsContinuousRangeLabel(twelfths, twelfth);
 					}
-					text += QuadrumUtility.QuadrumsContinuousRangeLabel(twelfths, twelfth);
 				}
+				result = text;
 			}
-			return text;
+			return result;
 		}
 
 		private static string QuadrumsContinuousRangeLabel(List<Twelfth> twelfths, Twelfth rootTwelfth)

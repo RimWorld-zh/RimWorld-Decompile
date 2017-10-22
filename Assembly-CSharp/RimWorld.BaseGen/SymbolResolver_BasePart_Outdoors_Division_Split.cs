@@ -11,17 +11,9 @@ namespace RimWorld.BaseGen
 
 		public override bool CanResolve(ResolveParams rp)
 		{
-			if (!base.CanResolve(rp))
-			{
-				return false;
-			}
 			int num = default(int);
 			int num2 = default(int);
-			if (!this.TryFindSplitPoint(false, rp.rect, out num, out num2) && !this.TryFindSplitPoint(true, rp.rect, out num, out num2))
-			{
-				return false;
-			}
-			return true;
+			return (byte)(base.CanResolve(rp) ? ((this.TryFindSplitPoint(false, rp.rect, out num, out num2) || this.TryFindSplitPoint(true, rp.rect, out num, out num2)) ? 1 : 0) : 0) != 0;
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -33,16 +25,16 @@ namespace RimWorld.BaseGen
 			if (this.TryFindSplitPoint(@bool, rp.rect, out num, out num2))
 			{
 				flag = @bool;
-				goto IL_0053;
+				goto IL_0059;
 			}
 			if (this.TryFindSplitPoint(!@bool, rp.rect, out num, out num2))
 			{
 				flag = !@bool;
-				goto IL_0053;
+				goto IL_0059;
 			}
 			Log.Warning("Could not find split point.");
 			return;
-			IL_0053:
+			IL_0059:
 			TerrainDef floorDef = rp.pathwayFloorDef ?? BaseGenUtility.RandomBasicFloorDef(rp.faction, false);
 			ResolveParams resolveParams3;
 			ResolveParams resolveParams5;
@@ -93,13 +85,18 @@ namespace RimWorld.BaseGen
 			spaceBetween = Mathf.Min(spaceBetween, num - 10);
 			int num2 = spaceBetween;
 			IntRange spaceBetweenRange = SymbolResolver_BasePart_Outdoors_Division_Split.SpaceBetweenRange;
+			bool result;
 			if (num2 < spaceBetweenRange.min)
 			{
 				splitPoint = -1;
-				return false;
+				result = false;
 			}
-			splitPoint = Rand.RangeInclusive(5, num - 5 - spaceBetween);
-			return true;
+			else
+			{
+				splitPoint = Rand.RangeInclusive(5, num - 5 - spaceBetween);
+				result = true;
+			}
+			return result;
 		}
 	}
 }

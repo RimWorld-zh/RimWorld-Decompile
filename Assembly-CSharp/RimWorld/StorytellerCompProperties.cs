@@ -7,9 +7,9 @@ namespace RimWorld
 	{
 		public Type compClass;
 
-		public float minDaysPassed;
+		public float minDaysPassed = 0f;
 
-		public IncidentTargetType allowedTargetTypes = IncidentTargetType.All;
+		public List<IncidentTargetTypeDef> allowedTargetTypes = null;
 
 		public float minIncChancePopulationIntentFactor = 0.05f;
 
@@ -24,10 +24,10 @@ namespace RimWorld
 
 		public virtual IEnumerable<string> ConfigErrors(StorytellerDef parentDef)
 		{
-			if (this.compClass == null)
-			{
-				yield return parentDef.defName + " has StorytellerCompProperties with null compClass.";
-			}
+			if (this.compClass != null)
+				yield break;
+			yield return parentDef.defName + " has StorytellerCompProperties with null compClass.";
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public virtual void ResolveReferences(StorytellerDef parentDef)

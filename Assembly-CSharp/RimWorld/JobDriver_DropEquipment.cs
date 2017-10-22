@@ -17,28 +17,24 @@ namespace RimWorld
 			}
 		}
 
+		public override bool TryMakePreToilReservations()
+		{
+			return true;
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
+			this.FailOnDestroyedOrNull(TargetIndex.A);
 			yield return new Toil
 			{
 				initAction = (Action)delegate
 				{
-					((_003CMakeNewToils_003Ec__Iterator52)/*Error near IL_0036: stateMachine*/)._003C_003Ef__this.pawn.pather.StopDead();
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0045: stateMachine*/)._0024this.pawn.pather.StopDead();
 				},
 				defaultCompleteMode = ToilCompleteMode.Delay,
 				defaultDuration = 30
 			};
-			yield return new Toil
-			{
-				initAction = (Action)delegate
-				{
-					ThingWithComps thingWithComps = default(ThingWithComps);
-					if (!((_003CMakeNewToils_003Ec__Iterator52)/*Error near IL_0089: stateMachine*/)._003C_003Ef__this.pawn.equipment.TryDropEquipment(((_003CMakeNewToils_003Ec__Iterator52)/*Error near IL_0089: stateMachine*/)._003C_003Ef__this.TargetEquipment, out thingWithComps, ((_003CMakeNewToils_003Ec__Iterator52)/*Error near IL_0089: stateMachine*/)._003C_003Ef__this.pawn.Position, true))
-					{
-						((_003CMakeNewToils_003Ec__Iterator52)/*Error near IL_0089: stateMachine*/)._003C_003Ef__this.EndJobWith(JobCondition.Incompletable);
-					}
-				}
-			};
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

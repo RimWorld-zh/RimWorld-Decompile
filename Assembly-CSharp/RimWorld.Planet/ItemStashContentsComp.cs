@@ -45,11 +45,12 @@ namespace RimWorld.Planet
 
 		public override string CompInspectStringExtra()
 		{
+			string result;
 			if (this.contents.Any)
 			{
 				ItemStashContentsComp.tmpContents.Clear();
 				ItemStashContentsComp.tmpContents.AddRange(this.contents);
-				ItemStashContentsComp.tmpContents.SortByDescending((Func<Thing, float>)((Thing x) => x.GetInnerIfMinified().MarketValue * (float)x.stackCount));
+				ItemStashContentsComp.tmpContents.SortByDescending((Func<Thing, float>)((Thing x) => x.MarketValue * (float)x.stackCount));
 				ItemStashContentsComp.tmpContentsStr.Clear();
 				for (int i = 0; i < Mathf.Min(5, ItemStashContentsComp.tmpContents.Count); i++)
 				{
@@ -59,24 +60,13 @@ namespace RimWorld.Planet
 				int count = ItemStashContentsComp.tmpContents.Count;
 				ItemStashContentsComp.tmpContents.Clear();
 				ItemStashContentsComp.tmpContentsStr.Clear();
-				if (count > 5)
-				{
-					return "SomeItemStashContents".Translate(text);
-				}
-				return "ItemStashContents".Translate(text);
+				result = ((count <= 5) ? "ItemStashContents".Translate(text) : "SomeItemStashContents".Translate(text));
 			}
-			return (string)null;
-		}
-
-		virtual IThingHolder get_ParentHolder()
-		{
-			return base.ParentHolder;
-		}
-
-		IThingHolder IThingHolder.get_ParentHolder()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
-			return this.get_ParentHolder();
+			else
+			{
+				result = (string)null;
+			}
+			return result;
 		}
 	}
 }

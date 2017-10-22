@@ -82,19 +82,25 @@ namespace Verse
 			set;
 		}
 
+		public bool XIntegersOnly
+		{
+			get;
+			set;
+		}
+
+		public bool YIntegersOnly
+		{
+			get;
+			set;
+		}
+
 		public string LabelX
 		{
 			get;
 			set;
 		}
 
-		public string LabelY
-		{
-			get;
-			set;
-		}
-
-		public Vector2 FixedSection
+		public FloatRange FixedSection
 		{
 			get;
 			set;
@@ -121,8 +127,9 @@ namespace Verse
 			this.PointsRemoveOptimization = false;
 			this.MeasureLabelsXCount = 5;
 			this.MeasureLabelsYCount = 5;
+			this.XIntegersOnly = false;
+			this.YIntegersOnly = false;
 			this.LabelX = "x";
-			this.LabelY = "y";
 		}
 	}
 }

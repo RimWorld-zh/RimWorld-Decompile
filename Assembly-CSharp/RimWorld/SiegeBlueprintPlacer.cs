@@ -9,17 +9,17 @@ namespace RimWorld
 {
 	public static class SiegeBlueprintPlacer
 	{
-		private const int MaxArtyCount = 2;
-
-		public const float ArtyCost = 60f;
-
-		private const int MinSandbagDistSquared = 36;
-
 		private static IntVec3 center;
 
 		private static Faction faction;
 
 		private static List<IntVec3> placedSandbagLocs = new List<IntVec3>();
+
+		private const int MaxArtyCount = 2;
+
+		public const float ArtyCost = 60f;
+
+		private const int MinSandbagDistSquared = 36;
 
 		private static readonly IntRange NumSandbagRange = new IntRange(2, 4);
 
@@ -29,14 +29,27 @@ namespace RimWorld
 		{
 			SiegeBlueprintPlacer.center = placeCenter;
 			SiegeBlueprintPlacer.faction = placeFaction;
-			foreach (Blueprint_Build item in SiegeBlueprintPlacer.PlaceSandbagBlueprints(map))
+			using (IEnumerator<Blueprint_Build> enumerator = SiegeBlueprintPlacer.PlaceSandbagBlueprints(map).GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					Blueprint_Build blue2 = enumerator.Current;
+					yield return blue2;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			foreach (Blueprint_Build item2 in SiegeBlueprintPlacer.PlaceArtilleryBlueprints(points, map))
+			using (IEnumerator<Blueprint_Build> enumerator2 = SiegeBlueprintPlacer.PlaceArtilleryBlueprints(points, map).GetEnumerator())
 			{
-				yield return item2;
+				if (enumerator2.MoveNext())
+				{
+					Blueprint_Build blue = enumerator2.Current;
+					yield return blue;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_016d:
+			/*Error near IL_016e: Unexpected return in MoveNext()*/;
 		}
 
 		private static bool CanPlaceBlueprintAt(IntVec3 root, Rot4 rot, ThingDef buildingDef, Map map)
@@ -56,32 +69,42 @@ namespace RimWorld
 				{
 					Rot4 growDirA = (bagRoot.x <= SiegeBlueprintPlacer.center.x) ? Rot4.East : Rot4.West;
 					Rot4 growDirB = (bagRoot.z <= SiegeBlueprintPlacer.center.z) ? Rot4.North : Rot4.South;
-					foreach (Blueprint_Build item in SiegeBlueprintPlacer.MakeSandbagLine(bagRoot, map, growDirA, SiegeBlueprintPlacer.SandbagLengthRange.RandomInRange))
+					using (IEnumerator<Blueprint_Build> enumerator = SiegeBlueprintPlacer.MakeSandbagLine(bagRoot, map, growDirA, SiegeBlueprintPlacer.SandbagLengthRange.RandomInRange).GetEnumerator())
 					{
-						yield return item;
+						if (enumerator.MoveNext())
+						{
+							Blueprint_Build bag2 = enumerator.Current;
+							yield return bag2;
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
 					}
 					bagRoot += growDirB.FacingCell;
-					foreach (Blueprint_Build item2 in SiegeBlueprintPlacer.MakeSandbagLine(bagRoot, map, growDirB, SiegeBlueprintPlacer.SandbagLengthRange.RandomInRange))
+					using (IEnumerator<Blueprint_Build> enumerator2 = SiegeBlueprintPlacer.MakeSandbagLine(bagRoot, map, growDirB, SiegeBlueprintPlacer.SandbagLengthRange.RandomInRange).GetEnumerator())
 					{
-						yield return item2;
+						if (enumerator2.MoveNext())
+						{
+							Blueprint_Build bag = enumerator2.Current;
+							yield return bag;
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
 					}
 					i++;
 					continue;
 				}
 				break;
 			}
+			yield break;
+			IL_027a:
+			/*Error near IL_027b: Unexpected return in MoveNext()*/;
 		}
 
 		private static IEnumerable<Blueprint_Build> MakeSandbagLine(IntVec3 root, Map map, Rot4 growDir, int maxLength)
 		{
-			IntVec3 cur = root;
 			int i = 0;
-			while (i < maxLength && SiegeBlueprintPlacer.CanPlaceBlueprintAt(cur, Rot4.North, ThingDefOf.Sandbags, map))
+			if (i < maxLength && SiegeBlueprintPlacer.CanPlaceBlueprintAt(root, Rot4.North, ThingDefOf.Sandbags, map))
 			{
-				yield return GenConstruct.PlaceBlueprintForBuild(ThingDefOf.Sandbags, cur, map, Rot4.North, SiegeBlueprintPlacer.faction, null);
-				SiegeBlueprintPlacer.placedSandbagLocs.Add(cur);
-				cur += growDir.FacingCell;
-				i++;
+				yield return GenConstruct.PlaceBlueprintForBuild(ThingDefOf.Sandbags, root, map, Rot4.North, SiegeBlueprintPlacer.faction, null);
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -93,7 +116,7 @@ namespace RimWorld
 			int numArtillery2 = Mathf.RoundToInt((float)(points / 60.0));
 			numArtillery2 = Mathf.Clamp(numArtillery2, 1, 2);
 			int i = 0;
-			while (i < numArtillery2)
+			if (i < numArtillery2)
 			{
 				Rot4 rot = Rot4.Random;
 				ThingDef artyDef = artyDefs.RandomElement();
@@ -101,11 +124,8 @@ namespace RimWorld
 				if (artySpot.IsValid)
 				{
 					yield return GenConstruct.PlaceBlueprintForBuild(artyDef, artySpot, map, rot, SiegeBlueprintPlacer.faction, ThingDefOf.Steel);
-					points = (float)(points - 60.0);
-					i++;
-					continue;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				break;
 			}
 		}
 
@@ -116,19 +136,25 @@ namespace RimWorld
 			CellRect cellRect2 = CellRect.CenteredOn(SiegeBlueprintPlacer.center, 8);
 			cellRect2.ClipInsideMap(map);
 			int num = 0;
-			goto IL_002d;
-			IL_002d:
-			IntVec3 randomCell;
+			goto IL_002e;
+			IL_002e:
+			IntVec3 result;
 			while (true)
 			{
 				num++;
 				if (num > 200)
 				{
-					return IntVec3.Invalid;
+					result = IntVec3.Invalid;
 				}
-				randomCell = cellRect.RandomCell;
-				if (!cellRect2.Contains(randomCell) && map.reachability.CanReach(randomCell, SiegeBlueprintPlacer.center, PathEndMode.OnCell, TraverseMode.NoPassClosedDoors, Danger.Deadly) && SiegeBlueprintPlacer.CanPlaceBlueprintAt(randomCell, Rot4.North, ThingDefOf.Sandbags, map))
+				else
 				{
+					IntVec3 randomCell = cellRect.RandomCell;
+					if (cellRect2.Contains(randomCell))
+						continue;
+					if (!map.reachability.CanReach(randomCell, SiegeBlueprintPlacer.center, PathEndMode.OnCell, TraverseMode.NoPassClosedDoors, Danger.Deadly))
+						continue;
+					if (!SiegeBlueprintPlacer.CanPlaceBlueprintAt(randomCell, Rot4.North, ThingDefOf.Sandbags, map))
+						continue;
 					bool flag = false;
 					for (int i = 0; i < SiegeBlueprintPlacer.placedSandbagLocs.Count; i++)
 					{
@@ -138,13 +164,15 @@ namespace RimWorld
 							flag = true;
 						}
 					}
-					if (!flag)
-						break;
+					if (flag)
+						continue;
+					result = randomCell;
 				}
+				break;
 			}
-			return randomCell;
-			IL_00f7:
-			goto IL_002d;
+			return result;
+			IL_010c:
+			goto IL_002e;
 		}
 
 		private static IntVec3 FindArtySpot(ThingDef artyDef, Rot4 rot, Map map)
@@ -152,23 +180,32 @@ namespace RimWorld
 			CellRect cellRect = CellRect.CenteredOn(SiegeBlueprintPlacer.center, 8);
 			cellRect.ClipInsideMap(map);
 			int num = 0;
-			goto IL_0017;
-			IL_0017:
-			IntVec3 randomCell;
+			goto IL_0018;
+			IL_0018:
+			IntVec3 result;
 			while (true)
 			{
 				num++;
 				if (num > 200)
 				{
-					return IntVec3.Invalid;
+					result = IntVec3.Invalid;
 				}
-				randomCell = cellRect.RandomCell;
-				if (map.reachability.CanReach(randomCell, SiegeBlueprintPlacer.center, PathEndMode.OnCell, TraverseMode.NoPassClosedDoors, Danger.Deadly) && !randomCell.Roofed(map) && SiegeBlueprintPlacer.CanPlaceBlueprintAt(randomCell, rot, artyDef, map))
-					break;
+				else
+				{
+					IntVec3 randomCell = cellRect.RandomCell;
+					if (!map.reachability.CanReach(randomCell, SiegeBlueprintPlacer.center, PathEndMode.OnCell, TraverseMode.NoPassClosedDoors, Danger.Deadly))
+						continue;
+					if (randomCell.Roofed(map))
+						continue;
+					if (!SiegeBlueprintPlacer.CanPlaceBlueprintAt(randomCell, rot, artyDef, map))
+						continue;
+					result = randomCell;
+				}
+				break;
 			}
-			return randomCell;
-			IL_007d:
-			goto IL_0017;
+			return result;
+			IL_008a:
+			goto IL_0018;
 		}
 	}
 }

@@ -5,12 +5,8 @@ using Verse;
 
 namespace RimWorld.Planet
 {
-	public class WorldGrid
+	public class WorldGrid : IExposable
 	{
-		private const int SubdivisionsCount = 10;
-
-		public const float PlanetRadius = 100f;
-
 		public List<Tile> tiles = new List<Tile>();
 
 		public List<Vector3> verts;
@@ -27,9 +23,43 @@ namespace RimWorld.Planet
 
 		public float viewAngle;
 
-		private List<int> tileIndices;
+		private byte[] tileBiome;
+
+		private byte[] tileElevation;
+
+		private byte[] tileHilliness;
+
+		private byte[] tileTemperature;
+
+		private byte[] tileRainfall;
+
+		private byte[] tileSwampiness;
+
+		public byte[] tileFeature;
+
+		private byte[] tileRoadOrigins;
+
+		private byte[] tileRoadAdjacency;
+
+		private byte[] tileRoadDef;
+
+		private byte[] tileRiverOrigins;
+
+		private byte[] tileRiverAdjacency;
+
+		private byte[] tileRiverDef;
 
 		private static List<int> tmpNeighbors = new List<int>();
+
+		private const int SubdivisionsCount = 10;
+
+		public const float PlanetRadius = 100f;
+
+		public const int ElevationOffset = 8192;
+
+		public const int TemperatureOffset = 300;
+
+		public const float TemperatureMultiplier = 10f;
 
 		private int cachedTraversalDistance = -1;
 
@@ -53,28 +83,19 @@ namespace RimWorld.Planet
 			}
 		}
 
-		public List<int> TileIndices
-		{
-			get
-			{
-				if (this.tileIndices == null)
-				{
-					int tilesCount = this.TilesCount;
-					this.tileIndices = new List<int>();
-					for (int num = 0; num < tilesCount; num++)
-					{
-						this.tileIndices.Add(num);
-					}
-				}
-				return this.tileIndices;
-			}
-		}
-
 		public Tile this[int tileID]
 		{
 			get
 			{
-				return (tileID < 0 || tileID >= this.tiles.Count) ? null : this.tiles[tileID];
+				return ((uint)tileID >= this.TilesCount) ? null : this.tiles[tileID];
+			}
+		}
+
+		public bool HasWorldData
+		{
+			get
+			{
+				return this.tileBiome != null;
 			}
 		}
 
@@ -100,87 +121,57 @@ namespace RimWorld.Planet
 
 		public float GetHeadingFromTo(Vector3 from, Vector3 to)
 		{
+			float result;
 			if (from == to)
 			{
-				return 0f;
+				result = 0f;
 			}
-			Vector3 northPolePos = this.NorthPolePos;
-			Vector3 from2 = default(Vector3);
-			Vector3 rhs = default(Vector3);
-			WorldRendererUtility.GetTangentialVectorFacing(from, northPolePos, out from2, out rhs);
-			Vector3 vector = default(Vector3);
-			Vector3 vector2 = default(Vector3);
-			WorldRendererUtility.GetTangentialVectorFacing(from, to, out vector, out vector2);
-			float num = Vector3.Angle(from2, vector);
-			float num2 = Vector3.Dot(vector, rhs);
-			if (num2 < 0.0)
+			else
 			{
-				num = (float)(360.0 - num);
+				Vector3 northPolePos = this.NorthPolePos;
+				Vector3 from2 = default(Vector3);
+				Vector3 rhs = default(Vector3);
+				WorldRendererUtility.GetTangentialVectorFacing(from, northPolePos, out from2, out rhs);
+				Vector3 vector = default(Vector3);
+				Vector3 vector2 = default(Vector3);
+				WorldRendererUtility.GetTangentialVectorFacing(from, to, out vector, out vector2);
+				float num = Vector3.Angle(from2, vector);
+				float num2 = Vector3.Dot(vector, rhs);
+				if (num2 < 0.0)
+				{
+					num = (float)(360.0 - num);
+				}
+				result = num;
 			}
-			return num;
+			return result;
 		}
 
 		public float GetHeadingFromTo(int fromTileID, int toTileID)
 		{
+			float result;
 			if (fromTileID == toTileID)
 			{
-				return 0f;
+				result = 0f;
 			}
-			Vector3 tileCenter = this.GetTileCenter(fromTileID);
-			Vector3 tileCenter2 = this.GetTileCenter(toTileID);
-			return this.GetHeadingFromTo(tileCenter, tileCenter2);
+			else
+			{
+				Vector3 tileCenter = this.GetTileCenter(fromTileID);
+				Vector3 tileCenter2 = this.GetTileCenter(toTileID);
+				result = this.GetHeadingFromTo(tileCenter, tileCenter2);
+			}
+			return result;
 		}
 
 		public Direction8Way GetDirection8WayFromTo(int fromTileID, int toTileID)
 		{
 			float headingFromTo = this.GetHeadingFromTo(fromTileID, toTileID);
-			if (!(headingFromTo >= 337.5) && !(headingFromTo < 22.5))
-			{
-				if (headingFromTo < 67.5)
-				{
-					return Direction8Way.NorthEast;
-				}
-				if (headingFromTo < 112.5)
-				{
-					return Direction8Way.East;
-				}
-				if (headingFromTo < 157.5)
-				{
-					return Direction8Way.SouthEast;
-				}
-				if (headingFromTo < 202.5)
-				{
-					return Direction8Way.South;
-				}
-				if (headingFromTo < 247.5)
-				{
-					return Direction8Way.SouthWest;
-				}
-				if (headingFromTo < 292.5)
-				{
-					return Direction8Way.West;
-				}
-				return Direction8Way.NorthWest;
-			}
-			return Direction8Way.North;
+			return (Direction8Way)((!(headingFromTo >= 337.5) && !(headingFromTo < 22.5)) ? ((headingFromTo < 67.5) ? 1 : ((!(headingFromTo < 112.5)) ? ((!(headingFromTo < 157.5)) ? ((!(headingFromTo < 202.5)) ? ((!(headingFromTo < 247.5)) ? ((!(headingFromTo < 292.5)) ? 7 : 6) : 5) : 4) : 3) : 2)) : 0);
 		}
 
 		public Rot4 GetRotFromTo(int fromTileID, int toTileID)
 		{
 			float headingFromTo = this.GetHeadingFromTo(fromTileID, toTileID);
-			if (!(headingFromTo >= 315.0) && !(headingFromTo < 45.0))
-			{
-				if (headingFromTo < 135.0)
-				{
-					return Rot4.East;
-				}
-				if (headingFromTo < 225.0)
-				{
-					return Rot4.South;
-				}
-				return Rot4.West;
-			}
-			return Rot4.North;
+			return (headingFromTo >= 315.0 || headingFromTo < 45.0) ? Rot4.North : ((!(headingFromTo < 135.0)) ? ((!(headingFromTo < 225.0)) ? Rot4.West : Rot4.South) : Rot4.East);
 		}
 
 		public void GetTileVertices(int tileID, List<Vector3> outVerts)
@@ -190,22 +181,22 @@ namespace RimWorld.Planet
 
 		public void GetTileVerticesIndices(int tileID, List<int> outVertsIndices)
 		{
-			outVertsIndices.Clear();
-			int num = this.tileIDToVerts_offsets[tileID];
-			int num2 = this.verts.Count;
-			if (tileID + 1 < this.tileIDToVerts_offsets.Count)
-			{
-				num2 = this.tileIDToVerts_offsets[tileID + 1];
-			}
-			for (int num3 = num; num3 < num2; num3++)
-			{
-				outVertsIndices.Add(num3);
-			}
+			PackedListOfLists.GetListValuesIndices(this.tileIDToVerts_offsets, this.verts, tileID, outVertsIndices);
 		}
 
 		public void GetTileNeighbors(int tileID, List<int> outNeighbors)
 		{
 			PackedListOfLists.GetList(this.tileIDToNeighbors_offsets, this.tileIDToNeighbors_values, tileID, outNeighbors);
+		}
+
+		public int GetTileNeighborCount(int tileID)
+		{
+			return PackedListOfLists.GetListCount(this.tileIDToNeighbors_offsets, this.tileIDToNeighbors_values, tileID);
+		}
+
+		public int GetMaxTileNeighborCountEver(int tileID)
+		{
+			return PackedListOfLists.GetListCount(this.tileIDToVerts_offsets, this.verts, tileID);
 		}
 
 		public bool IsNeighbor(int tile1, int tile2)
@@ -217,6 +208,18 @@ namespace RimWorld.Planet
 		public bool IsNeighborOrSame(int tile1, int tile2)
 		{
 			return tile1 == tile2 || this.IsNeighbor(tile1, tile2);
+		}
+
+		public int GetNeighborId(int tile1, int tile2)
+		{
+			this.GetTileNeighbors(tile1, WorldGrid.tmpNeighbors);
+			return WorldGrid.tmpNeighbors.IndexOf(tile2);
+		}
+
+		public int GetTileNeighbor(int tileID, int adjacentId)
+		{
+			this.GetTileNeighbors(tileID, WorldGrid.tmpNeighbors);
+			return WorldGrid.tmpNeighbors[adjacentId];
 		}
 
 		public Vector3 GetTileCenter(int tileID)
@@ -234,7 +237,12 @@ namespace RimWorld.Planet
 
 		public float TileRadiusToAngle(float radius)
 		{
-			return (float)(radius / (628.31854248046875 / this.averageTileSize) * 360.0);
+			return this.DistOnSurfaceToAngle(radius * this.averageTileSize);
+		}
+
+		public float DistOnSurfaceToAngle(float dist)
+		{
+			return (float)(dist / 628.31854248046875 * 360.0);
 		}
 
 		public float DistanceFromEquatorNormalized(int tile)
@@ -301,27 +309,40 @@ namespace RimWorld.Planet
 
 		public RoadDef GetRoadDef(int fromTile, int toTile, bool visibleOnly = true)
 		{
+			RoadDef result;
+			List<Tile.RoadLink> list;
+			int i;
 			if (!this.IsNeighbor(fromTile, toTile))
 			{
 				Log.ErrorOnce("Tried to find road information between non-neighboring tiles", 12390444);
-				return null;
+				result = null;
 			}
-			Tile tile = this.tiles[fromTile];
-			List<Tile.RoadLink> list = (!visibleOnly) ? tile.roads : tile.VisibleRoads;
-			if (list == null)
+			else
 			{
-				return null;
-			}
-			for (int i = 0; i < list.Count; i++)
-			{
-				Tile.RoadLink roadLink = list[i];
-				if (roadLink.neighbor == toTile)
+				Tile tile = this.tiles[fromTile];
+				list = ((!visibleOnly) ? tile.roads : tile.VisibleRoads);
+				if (list == null)
 				{
-					Tile.RoadLink roadLink2 = list[i];
-					return roadLink2.road;
+					result = null;
+				}
+				else
+				{
+					for (i = 0; i < list.Count; i++)
+					{
+						Tile.RoadLink roadLink = list[i];
+						if (roadLink.neighbor == toTile)
+							goto IL_0075;
+					}
+					result = null;
 				}
 			}
-			return null;
+			goto IL_00a3;
+			IL_0075:
+			Tile.RoadLink roadLink2 = list[i];
+			result = roadLink2.road;
+			goto IL_00a3;
+			IL_00a3:
+			return result;
 		}
 
 		public void OverlayRiver(int fromTile, int toTile, RiverDef riverDef)
@@ -370,77 +391,117 @@ namespace RimWorld.Planet
 
 		public RiverDef GetRiverDef(int fromTile, int toTile, bool visibleOnly = true)
 		{
+			RiverDef result;
+			List<Tile.RiverLink> list;
+			int i;
 			if (!this.IsNeighbor(fromTile, toTile))
 			{
 				Log.ErrorOnce("Tried to find river information between non-neighboring tiles", 12390444);
-				return null;
+				result = null;
 			}
-			Tile tile = this.tiles[fromTile];
-			List<Tile.RiverLink> list = (!visibleOnly) ? tile.rivers : tile.VisibleRivers;
-			if (list == null)
+			else
 			{
-				return null;
-			}
-			for (int i = 0; i < list.Count; i++)
-			{
-				Tile.RiverLink riverLink = list[i];
-				if (riverLink.neighbor == toTile)
+				Tile tile = this.tiles[fromTile];
+				list = ((!visibleOnly) ? tile.rivers : tile.VisibleRivers);
+				if (list == null)
 				{
-					Tile.RiverLink riverLink2 = list[i];
-					return riverLink2.river;
+					result = null;
+				}
+				else
+				{
+					for (i = 0; i < list.Count; i++)
+					{
+						Tile.RiverLink riverLink = list[i];
+						if (riverLink.neighbor == toTile)
+							goto IL_0075;
+					}
+					result = null;
 				}
 			}
-			return null;
+			goto IL_00a3;
+			IL_0075:
+			Tile.RiverLink riverLink2 = list[i];
+			result = riverLink2.river;
+			goto IL_00a3;
+			IL_00a3:
+			return result;
 		}
 
 		public float GetRoadMovementMultiplierFast(int fromTile, int toTile)
 		{
 			List<Tile.RoadLink> roads = this.tiles[fromTile].roads;
+			float result;
+			int i;
 			if (roads == null)
 			{
-				return 1f;
+				result = 1f;
 			}
-			for (int i = 0; i < roads.Count; i++)
+			else
 			{
-				Tile.RoadLink roadLink = roads[i];
-				if (roadLink.neighbor == toTile)
+				for (i = 0; i < roads.Count; i++)
 				{
-					Tile.RoadLink roadLink2 = roads[i];
-					return roadLink2.road.movementCostMultiplier;
+					Tile.RoadLink roadLink = roads[i];
+					if (roadLink.neighbor == toTile)
+						goto IL_0041;
 				}
+				result = 1f;
 			}
-			return 1f;
+			goto IL_0078;
+			IL_0041:
+			Tile.RoadLink roadLink2 = roads[i];
+			result = roadLink2.road.movementCostMultiplier;
+			goto IL_0078;
+			IL_0078:
+			return result;
 		}
 
 		public int TraversalDistanceBetween(int start, int end)
 		{
-			if (start >= 0 && end >= 0)
+			int result;
+			if (start < 0 || end < 0)
 			{
-				if (this.cachedTraversalDistanceForStart == start && this.cachedTraversalDistanceForEnd == end)
-				{
-					return this.cachedTraversalDistance;
-				}
+				result = 0;
+			}
+			else if (this.cachedTraversalDistanceForStart == start && this.cachedTraversalDistanceForEnd == end)
+			{
+				result = this.cachedTraversalDistance;
+			}
+			else
+			{
 				int finalDist = -1;
 				Find.WorldFloodFiller.FloodFill(start, (Predicate<int>)((int x) => true), (Func<int, int, bool>)delegate(int tile, int dist)
 				{
+					bool result2;
 					if (tile == end)
 					{
 						finalDist = dist;
-						return true;
+						result2 = true;
 					}
-					return false;
-				}, 2147483647);
+					else
+					{
+						result2 = false;
+					}
+					return result2;
+				}, 2147483647, null);
 				if (finalDist < 0)
 				{
 					Log.Error("Could not reach tile " + end + " from " + start);
-					return 0;
+					result = 0;
 				}
-				this.cachedTraversalDistance = finalDist;
-				this.cachedTraversalDistanceForStart = start;
-				this.cachedTraversalDistanceForEnd = end;
-				return finalDist;
+				else
+				{
+					this.cachedTraversalDistance = finalDist;
+					this.cachedTraversalDistanceForStart = start;
+					this.cachedTraversalDistanceForEnd = end;
+					result = finalDist;
+				}
 			}
-			return 0;
+			return result;
+		}
+
+		public bool IsOnEdge(int tileID)
+		{
+			return this.InBounds(tileID) && this.GetTileNeighborCount(tileID) < this.GetMaxTileNeighborCountEver(tileID);
 		}
 
 		private void CalculateAverageTileSize()
@@ -473,6 +534,214 @@ namespace RimWorld.Planet
 				angle = Mathf.Max((float)(90.0 - this.viewAngle), 0f);
 			}
 			this.viewCenter = Quaternion.AngleAxis(angle, Vector3.right) * this.viewCenter;
+		}
+
+		public void ExposeData()
+		{
+			if (Scribe.mode == LoadSaveMode.Saving)
+			{
+				this.TilesToRawData();
+			}
+			DataExposeUtility.ByteArray(ref this.tileBiome, "tileBiome");
+			DataExposeUtility.ByteArray(ref this.tileElevation, "tileElevation");
+			DataExposeUtility.ByteArray(ref this.tileHilliness, "tileHilliness");
+			DataExposeUtility.ByteArray(ref this.tileTemperature, "tileTemperature");
+			DataExposeUtility.ByteArray(ref this.tileRainfall, "tileRainfall");
+			DataExposeUtility.ByteArray(ref this.tileSwampiness, "tileSwampiness");
+			DataExposeUtility.ByteArray(ref this.tileFeature, "tileFeature");
+			DataExposeUtility.ByteArray(ref this.tileRoadOrigins, "tileRoadOrigins");
+			DataExposeUtility.ByteArray(ref this.tileRoadAdjacency, "tileRoadAdjacency");
+			DataExposeUtility.ByteArray(ref this.tileRoadDef, "tileRoadDef");
+			DataExposeUtility.ByteArray(ref this.tileRiverOrigins, "tileRiverOrigins");
+			DataExposeUtility.ByteArray(ref this.tileRiverAdjacency, "tileRiverAdjacency");
+			DataExposeUtility.ByteArray(ref this.tileRiverDef, "tileRiverDef");
+			if (Scribe.mode == LoadSaveMode.LoadingVars)
+			{
+				this.RawDataToTiles();
+			}
+		}
+
+		public void StandardizeTileData()
+		{
+			this.TilesToRawData();
+			this.RawDataToTiles();
+		}
+
+		private void TilesToRawData()
+		{
+			this.tileBiome = DataSerializeUtility.SerializeUshort(this.TilesCount, (Func<int, ushort>)((int i) => this.tiles[i].biome.shortHash));
+			this.tileElevation = DataSerializeUtility.SerializeUshort(this.TilesCount, (Func<int, ushort>)((int i) => (ushort)Mathf.Clamp(Mathf.RoundToInt((float)(this.tiles[i].elevation + 8192.0)), 0, 65535)));
+			this.tileHilliness = DataSerializeUtility.SerializeByte(this.TilesCount, (Func<int, byte>)((int i) => (byte)this.tiles[i].hilliness));
+			this.tileTemperature = DataSerializeUtility.SerializeUshort(this.TilesCount, (Func<int, ushort>)((int i) => (ushort)Mathf.Clamp(Mathf.RoundToInt((float)((this.tiles[i].temperature + 300.0) * 10.0)), 0, 65535)));
+			this.tileRainfall = DataSerializeUtility.SerializeUshort(this.TilesCount, (Func<int, ushort>)((int i) => (ushort)Mathf.Clamp(Mathf.RoundToInt(this.tiles[i].rainfall), 0, 65535)));
+			this.tileSwampiness = DataSerializeUtility.SerializeByte(this.TilesCount, (Func<int, byte>)((int i) => (byte)Mathf.Clamp(Mathf.RoundToInt((float)(this.tiles[i].swampiness * 255.0)), 0, 255)));
+			this.tileFeature = DataSerializeUtility.SerializeUshort(this.TilesCount, (Func<int, ushort>)((int i) => (ushort)((this.tiles[i].feature != null) ? ((ushort)this.tiles[i].feature.uniqueID) : 65535)));
+			List<int> list = new List<int>();
+			List<byte> list2 = new List<byte>();
+			List<ushort> list3 = new List<ushort>();
+			for (int j = 0; j < this.TilesCount; j++)
+			{
+				List<Tile.RoadLink> roads = this.tiles[j].roads;
+				if (roads != null)
+				{
+					for (int k = 0; k < roads.Count; k++)
+					{
+						Tile.RoadLink roadLink = roads[k];
+						if (roadLink.neighbor >= j)
+						{
+							byte b = (byte)this.GetNeighborId(j, roadLink.neighbor);
+							if (b < 0)
+							{
+								Log.ErrorOnce("Couldn't find valid neighbor for road piece", 81637014);
+							}
+							else
+							{
+								list.Add(j);
+								list2.Add(b);
+								list3.Add(roadLink.road.shortHash);
+							}
+						}
+					}
+				}
+			}
+			this.tileRoadOrigins = DataSerializeUtility.SerializeInt(list.ToArray());
+			this.tileRoadAdjacency = DataSerializeUtility.SerializeByte(list2.ToArray());
+			this.tileRoadDef = DataSerializeUtility.SerializeUshort(list3.ToArray());
+			List<int> list4 = new List<int>();
+			List<byte> list5 = new List<byte>();
+			List<ushort> list6 = new List<ushort>();
+			for (int l = 0; l < this.TilesCount; l++)
+			{
+				List<Tile.RiverLink> rivers = this.tiles[l].rivers;
+				if (rivers != null)
+				{
+					for (int m = 0; m < rivers.Count; m++)
+					{
+						Tile.RiverLink riverLink = rivers[m];
+						if (riverLink.neighbor >= l)
+						{
+							byte b2 = (byte)this.GetNeighborId(l, riverLink.neighbor);
+							if (b2 < 0)
+							{
+								Log.ErrorOnce("Couldn't find valid neighbor for river piece", 81637014);
+							}
+							else
+							{
+								list4.Add(l);
+								list5.Add(b2);
+								list6.Add(riverLink.river.shortHash);
+							}
+						}
+					}
+				}
+			}
+			this.tileRiverOrigins = DataSerializeUtility.SerializeInt(list4.ToArray());
+			this.tileRiverAdjacency = DataSerializeUtility.SerializeByte(list5.ToArray());
+			this.tileRiverDef = DataSerializeUtility.SerializeUshort(list6.ToArray());
+		}
+
+		private void RawDataToTiles()
+		{
+			if (this.tiles.Count != this.TilesCount)
+			{
+				this.tiles.Clear();
+				for (int j = 0; j < this.TilesCount; j++)
+				{
+					this.tiles.Add(new Tile());
+				}
+			}
+			else
+			{
+				for (int k = 0; k < this.TilesCount; k++)
+				{
+					this.tiles[k].roads = null;
+					this.tiles[k].rivers = null;
+				}
+			}
+			DataSerializeUtility.LoadUshort(this.tileBiome, this.TilesCount, (Action<int, ushort>)delegate(int i, ushort data)
+			{
+				this.tiles[i].biome = DefDatabase<BiomeDef>.GetByShortHash(data);
+			});
+			DataSerializeUtility.LoadUshort(this.tileElevation, this.TilesCount, (Action<int, ushort>)delegate(int i, ushort data)
+			{
+				this.tiles[i].elevation = (float)(data - 8192);
+			});
+			DataSerializeUtility.LoadByte(this.tileHilliness, this.TilesCount, (Action<int, byte>)delegate(int i, byte data)
+			{
+				this.tiles[i].hilliness = (Hilliness)data;
+			});
+			DataSerializeUtility.LoadUshort(this.tileTemperature, this.TilesCount, (Action<int, ushort>)delegate(int i, ushort data)
+			{
+				this.tiles[i].temperature = (float)((float)(int)data / 10.0 - 300.0);
+			});
+			DataSerializeUtility.LoadUshort(this.tileRainfall, this.TilesCount, (Action<int, ushort>)delegate(int i, ushort data)
+			{
+				this.tiles[i].rainfall = (float)(int)data;
+			});
+			DataSerializeUtility.LoadByte(this.tileSwampiness, this.TilesCount, (Action<int, byte>)delegate(int i, byte data)
+			{
+				this.tiles[i].swampiness = (float)((float)(int)data / 255.0);
+			});
+			int[] array = DataSerializeUtility.DeserializeInt(this.tileRoadOrigins);
+			byte[] array2 = DataSerializeUtility.DeserializeByte(this.tileRoadAdjacency);
+			ushort[] array3 = DataSerializeUtility.DeserializeUshort(this.tileRoadDef);
+			for (int l = 0; l < array.Length; l++)
+			{
+				int num = array[l];
+				int tileNeighbor = this.GetTileNeighbor(num, array2[l]);
+				RoadDef byShortHash = DefDatabase<RoadDef>.GetByShortHash(array3[l]);
+				if (byShortHash != null)
+				{
+					if (this.tiles[num].roads == null)
+					{
+						this.tiles[num].roads = new List<Tile.RoadLink>();
+					}
+					if (this.tiles[tileNeighbor].roads == null)
+					{
+						this.tiles[tileNeighbor].roads = new List<Tile.RoadLink>();
+					}
+					this.tiles[num].roads.Add(new Tile.RoadLink
+					{
+						neighbor = tileNeighbor,
+						road = byShortHash
+					});
+					this.tiles[tileNeighbor].roads.Add(new Tile.RoadLink
+					{
+						neighbor = num,
+						road = byShortHash
+					});
+				}
+			}
+			int[] array4 = DataSerializeUtility.DeserializeInt(this.tileRiverOrigins);
+			byte[] array5 = DataSerializeUtility.DeserializeByte(this.tileRiverAdjacency);
+			ushort[] array6 = DataSerializeUtility.DeserializeUshort(this.tileRiverDef);
+			for (int m = 0; m < array4.Length; m++)
+			{
+				int num2 = array4[m];
+				int tileNeighbor2 = this.GetTileNeighbor(num2, array5[m]);
+				RiverDef byShortHash2 = DefDatabase<RiverDef>.GetByShortHash(array6[m]);
+				if (byShortHash2 != null)
+				{
+					if (this.tiles[num2].rivers == null)
+					{
+						this.tiles[num2].rivers = new List<Tile.RiverLink>();
+					}
+					if (this.tiles[tileNeighbor2].rivers == null)
+					{
+						this.tiles[tileNeighbor2].rivers = new List<Tile.RiverLink>();
+					}
+					this.tiles[num2].rivers.Add(new Tile.RiverLink
+					{
+						neighbor = tileNeighbor2,
+						river = byShortHash2
+					});
+					this.tiles[tileNeighbor2].rivers.Add(new Tile.RiverLink
+					{
+						neighbor = num2,
+						river = byShortHash2
+					});
+				}
+			}
 		}
 	}
 }

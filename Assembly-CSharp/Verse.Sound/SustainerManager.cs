@@ -1,6 +1,8 @@
+#define ENABLE_PROFILER
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Profiling;
 
 namespace Verse.Sound
 {
@@ -30,28 +32,39 @@ namespace Verse.Sound
 
 		public bool SustainerExists(SoundDef def)
 		{
-			for (int i = 0; i < this.allSustainers.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (this.allSustainers[i].def == def)
+				if (num < this.allSustainers.Count)
 				{
-					return true;
+					if (this.allSustainers[num].def == def)
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public void SustainerManagerUpdate()
 		{
+			Profiler.BeginSample("Updating sustainers");
 			for (int num = this.allSustainers.Count - 1; num >= 0; num--)
 			{
 				this.allSustainers[num].SustainerUpdate();
 			}
+			Profiler.EndSample();
 			this.UpdateAllSustainerScopes();
 		}
 
 		public void UpdateAllSustainerScopes()
 		{
-			ProfilerThreadCheck.BeginSample("UpdateAllSustainerScopes");
 			for (int i = 0; i < this.allSustainers.Count; i++)
 			{
 				Sustainer sustainer = this.allSustainers[i];
@@ -66,73 +79,60 @@ namespace Verse.Sound
 					SustainerManager.playingPerDef[sustainer.def].Add(sustainer);
 				}
 			}
-			Dictionary<SoundDef, List<Sustainer>>.Enumerator enumerator = SustainerManager.playingPerDef.GetEnumerator();
-			try
+			foreach (KeyValuePair<SoundDef, List<Sustainer>> item in SustainerManager.playingPerDef)
 			{
-				while (enumerator.MoveNext())
+				SoundDef key = item.Key;
+				List<Sustainer> value = item.Value;
+				int num = value.Count - key.maxVoices;
+				if (num < 0)
 				{
-					KeyValuePair<SoundDef, List<Sustainer>> current = enumerator.Current;
-					SoundDef key = current.Key;
-					List<Sustainer> value = current.Value;
-					int num = value.Count - key.maxVoices;
-					if (num < 0)
+					for (int j = 0; j < value.Count; j++)
 					{
-						for (int j = 0; j < value.Count; j++)
-						{
-							value[j].scopeFader.inScope = true;
-						}
+						value[j].scopeFader.inScope = true;
 					}
-					else
+				}
+				else
+				{
+					for (int k = 0; k < value.Count; k++)
 					{
-						for (int k = 0; k < value.Count; k++)
+						value[k].scopeFader.inScope = false;
+					}
+					int num2 = 0;
+					foreach (Sustainer item2 in from lo in value
+					orderby lo.CameraDistanceSquared
+					select lo)
+					{
+						item2.scopeFader.inScope = true;
+						num2++;
+						if (num2 >= key.maxVoices)
+							break;
+					}
+					for (int l = 0; l < value.Count; l++)
+					{
+						if (!value[l].scopeFader.inScope)
 						{
-							value[k].scopeFader.inScope = false;
-						}
-						int num2 = 0;
-						foreach (Sustainer item in from lo in value
-						orderby lo.CameraDistanceSquared
-						select lo)
-						{
-							item.scopeFader.inScope = true;
-							num2++;
-							if (num2 >= key.maxVoices)
-								break;
-						}
-						for (int l = 0; l < value.Count; l++)
-						{
-							if (!value[l].scopeFader.inScope)
-							{
-								value[l].scopeFader.inScopePercent = 0f;
-							}
+							value[l].scopeFader.inScopePercent = 0f;
 						}
 					}
 				}
 			}
-			finally
+			foreach (KeyValuePair<SoundDef, List<Sustainer>> item3 in SustainerManager.playingPerDef)
 			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
-			Dictionary<SoundDef, List<Sustainer>>.Enumerator enumerator3 = SustainerManager.playingPerDef.GetEnumerator();
-			try
-			{
-				while (enumerator3.MoveNext())
-				{
-					KeyValuePair<SoundDef, List<Sustainer>> current3 = enumerator3.Current;
-					current3.Value.Clear();
-					SimplePool<List<Sustainer>>.Return(current3.Value);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator3).Dispose();
+				item3.Value.Clear();
+				SimplePool<List<Sustainer>>.Return(item3.Value);
 			}
 			SustainerManager.playingPerDef.Clear();
-			ProfilerThreadCheck.EndSample();
 		}
 
-		public void RemoveAllFromMap(Map map)
+		public void EndAllInMap(Map map)
 		{
-			this.allSustainers.RemoveAll((Predicate<Sustainer>)((Sustainer sustainer) => sustainer.info.Maker.Map == map));
+			for (int num = this.allSustainers.Count - 1; num >= 0; num--)
+			{
+				if (this.allSustainers[num].info.Maker.Map == map)
+				{
+					this.allSustainers[num].End();
+				}
+			}
 		}
 	}
 }

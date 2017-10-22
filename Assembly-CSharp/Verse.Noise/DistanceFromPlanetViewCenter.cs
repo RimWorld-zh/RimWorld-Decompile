@@ -24,21 +24,22 @@ namespace Verse.Noise
 		public override double GetValue(double x, double y, double z)
 		{
 			float valueInt = this.GetValueInt(x, y, z);
-			if (this.invert)
-			{
-				return 1.0 - valueInt;
-			}
-			return (double)valueInt;
+			return (!this.invert) ? ((double)valueInt) : (1.0 - valueInt);
 		}
 
 		private float GetValueInt(double x, double y, double z)
 		{
+			float result;
 			if (this.viewAngle >= 180.0)
 			{
-				return 0f;
+				result = 0f;
 			}
-			float num = Vector3.Angle(this.viewCenter, new Vector3((float)x, (float)y, (float)z));
-			return Mathf.Min(num / this.viewAngle, 1f);
+			else
+			{
+				float num = Vector3.Angle(this.viewCenter, new Vector3((float)x, (float)y, (float)z));
+				result = Mathf.Min(num / this.viewAngle, 1f);
+			}
+			return result;
 		}
 	}
 }

@@ -31,11 +31,13 @@ namespace RimWorld
 			if (!(mtb < 0.0) && Rand.MTBEventOccurs(mtb, 60000f, 1000f) && this.TryChooseIncident(target, out incDef))
 			{
 				yield return new FiringIncident(incDef, this, this.GenerateParms(incDef.category, target));
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
 		private bool TryChooseIncident(IIncidentTarget target, out IncidentDef result)
 		{
+			bool result2;
 			if (IncidentDefOf.TraderCaravanArrival.TargetAllowed(target))
 			{
 				int num = 0;
@@ -46,10 +48,14 @@ namespace RimWorld
 				if (Find.TickManager.TicksGame > num + 780000)
 				{
 					result = IncidentDefOf.TraderCaravanArrival;
-					return true;
+					result2 = true;
+					goto IL_009a;
 				}
 			}
-			return this.UsableIncidentsInCategory(IncidentCategory.AllyArrival, target).TryRandomElementByWeight<IncidentDef>((Func<IncidentDef, float>)((IncidentDef d) => d.baseChance), out result);
+			result2 = this.UsableIncidentsInCategory(IncidentCategory.AllyArrival, target).TryRandomElementByWeight<IncidentDef>((Func<IncidentDef, float>)((IncidentDef d) => d.baseChance), out result);
+			goto IL_009a;
+			IL_009a:
+			return result2;
 		}
 	}
 }

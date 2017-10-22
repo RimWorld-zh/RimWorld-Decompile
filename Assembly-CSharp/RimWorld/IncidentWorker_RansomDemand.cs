@@ -12,33 +12,35 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
-			if (this.RandomKidnappedColonist() == null)
-			{
-				return false;
-			}
-			return base.CanFireNowSub(target);
+			Map map = (Map)target;
+			return CommsConsoleUtility.PlayerHasPoweredCommsConsole(map) && this.RandomKidnappedColonist() != null && base.CanFireNowSub(target);
 		}
 
-		public override bool TryExecute(IncidentParms parms)
+		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			Pawn pawn = this.RandomKidnappedColonist();
+			bool result;
 			if (pawn == null)
 			{
-				return false;
+				result = false;
 			}
-			Faction faction = this.FactionWhichKidnapped(pawn);
-			int num = this.RandomFee(pawn);
-			ChoiceLetter_RansomDemand choiceLetter_RansomDemand = (ChoiceLetter_RansomDemand)LetterMaker.MakeLetter(base.def.letterLabel, "RansomDemand".Translate(pawn.LabelShort, faction.Name, num).AdjustedFor(pawn), base.def.letterDef);
-			choiceLetter_RansomDemand.title = "RansomDemandTitle".Translate(map.info.parent.Label);
-			choiceLetter_RansomDemand.radioMode = true;
-			choiceLetter_RansomDemand.kidnapped = pawn;
-			choiceLetter_RansomDemand.faction = faction;
-			choiceLetter_RansomDemand.map = map;
-			choiceLetter_RansomDemand.fee = num;
-			choiceLetter_RansomDemand.StartTimeout(60000);
-			Find.LetterStack.ReceiveLetter(choiceLetter_RansomDemand, (string)null);
-			return true;
+			else
+			{
+				Faction faction = this.FactionWhichKidnapped(pawn);
+				int num = this.RandomFee(pawn);
+				ChoiceLetter_RansomDemand choiceLetter_RansomDemand = (ChoiceLetter_RansomDemand)LetterMaker.MakeLetter(base.def.letterLabel, "RansomDemand".Translate(pawn.LabelShort, faction.Name, num).AdjustedFor(pawn), base.def.letterDef);
+				choiceLetter_RansomDemand.title = "RansomDemandTitle".Translate(map.info.parent.Label);
+				choiceLetter_RansomDemand.radioMode = true;
+				choiceLetter_RansomDemand.kidnapped = pawn;
+				choiceLetter_RansomDemand.faction = faction;
+				choiceLetter_RansomDemand.map = map;
+				choiceLetter_RansomDemand.fee = num;
+				choiceLetter_RansomDemand.StartTimeout(60000);
+				Find.LetterStack.ReceiveLetter(choiceLetter_RansomDemand, (string)null);
+				result = true;
+			}
+			return result;
 		}
 
 		private Pawn RandomKidnappedColonist()
@@ -65,12 +67,17 @@ namespace RimWorld
 					IncidentWorker_RansomDemand.candidates.Remove(choiceLetter_RansomDemand.kidnapped);
 				}
 			}
-			Pawn result = default(Pawn);
-			if (!((IEnumerable<Pawn>)IncidentWorker_RansomDemand.candidates).TryRandomElement<Pawn>(out result))
+			Pawn pawn = default(Pawn);
+			Pawn result;
+			if (!((IEnumerable<Pawn>)IncidentWorker_RansomDemand.candidates).TryRandomElement<Pawn>(out pawn))
 			{
-				return null;
+				result = null;
 			}
-			IncidentWorker_RansomDemand.candidates.Clear();
+			else
+			{
+				IncidentWorker_RansomDemand.candidates.Clear();
+				result = pawn;
+			}
 			return result;
 		}
 

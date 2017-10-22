@@ -1,4 +1,7 @@
+#define ENABLE_PROFILER
+using RimWorld.Planet;
 using UnityEngine;
+using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld
@@ -18,38 +21,57 @@ namespace RimWorld
 				num2 = (float)(num2 - 35.0);
 				GenUI.DrawTextWinterShadow(new Rect((float)(UI.screenWidth - 270), (float)(UI.screenHeight - 450), 270f, 450f));
 				num2 = (float)(num2 - 4.0);
+				Profiler.BeginSample("Play settings");
 				GlobalControlsUtility.DoPlaySettings(this.rowVisibility, false, ref num2);
+				Profiler.EndSample();
 				num2 = (float)(num2 - 4.0);
+				Profiler.BeginSample("Timespeed controls");
 				GlobalControlsUtility.DoTimespeedControls(num, 200f, ref num2);
+				Profiler.EndSample();
 				num2 = (float)(num2 - 4.0);
+				Profiler.BeginSample("Date");
 				GlobalControlsUtility.DoDate(num, 200f, ref num2);
+				Profiler.EndSample();
+				Profiler.BeginSample("Weather");
 				Rect rect = new Rect((float)(num - 30.0), (float)(num2 - 26.0), 230f, 26f);
 				Find.VisibleMap.weatherManager.DoWeatherGUI(rect);
 				num2 -= rect.height;
+				Profiler.EndSample();
+				Profiler.BeginSample("Temperature");
 				Rect rect2 = new Rect((float)(num - 100.0), (float)(num2 - 26.0), 293f, 26f);
 				Text.Anchor = TextAnchor.MiddleRight;
 				Widgets.Label(rect2, GlobalControls.TemperatureString());
 				Text.Anchor = TextAnchor.UpperLeft;
 				num2 = (float)(num2 - 26.0);
+				Profiler.EndSample();
+				Profiler.BeginSample("Conditions");
 				float num3 = 230f;
 				float num4 = Find.VisibleMap.gameConditionManager.TotalHeightAt((float)(num3 - 15.0));
 				Rect rect3 = new Rect((float)(num - 30.0), num2 - num4, num3, num4);
 				Find.VisibleMap.gameConditionManager.DoConditionsUI(rect3);
 				num2 -= rect3.height;
+				Profiler.EndSample();
 				if (Prefs.ShowRealtimeClock)
 				{
+					Profiler.BeginSample("RealtimeClock");
 					GlobalControlsUtility.DoRealtimeClock(num, 200f, ref num2);
+					Profiler.EndSample();
 				}
-				if (Find.VisibleMap.info.parent.ForceExitAndRemoveMapCountdownActive)
+				TimedForcedExit component = ((WorldObject)Find.VisibleMap.info.parent).GetComponent<TimedForcedExit>();
+				if (component != null && component.ForceExitAndRemoveMapCountdownActive)
 				{
+					Profiler.BeginSample("ForceExitAndRemoveMapCountdown");
 					Rect rect4 = new Rect(num, (float)(num2 - 26.0), 193f, 26f);
 					Text.Anchor = TextAnchor.MiddleRight;
-					GlobalControls.DoCountdownTimer(rect4);
+					GlobalControls.DoCountdownTimer(rect4, component);
 					Text.Anchor = TextAnchor.UpperLeft;
 					num2 = (float)(num2 - 26.0);
+					Profiler.EndSample();
 				}
+				Profiler.BeginSample("Letters");
 				num2 = (float)(num2 - 10.0);
 				Find.LetterStack.LettersOnGUI(num2);
+				Profiler.EndSample();
 			}
 		}
 
@@ -71,18 +93,18 @@ namespace RimWorld
 						{
 							if (!room2.PsychologicallyOutdoors && !room2.UsesOutdoorTemperature)
 							{
-								goto IL_00a8;
+								goto IL_00ad;
 							}
 							if (!room2.PsychologicallyOutdoors && (room == null || room.PsychologicallyOutdoors))
 							{
-								goto IL_00a8;
+								goto IL_00ad;
 							}
 							if (room2.PsychologicallyOutdoors && room == null)
-								goto IL_00a8;
+								goto IL_00ad;
 						}
 					}
 					continue;
-					IL_00a8:
+					IL_00ad:
 					c = intVec2;
 					room = room2;
 				}
@@ -111,9 +133,9 @@ namespace RimWorld
 			return str + " " + celsiusTemp.ToStringTemperature("F0");
 		}
 
-		private static void DoCountdownTimer(Rect rect)
+		private static void DoCountdownTimer(Rect rect, TimedForcedExit timedForcedExit)
 		{
-			string forceExitAndRemoveMapCountdownTimeLeftString = Find.VisibleMap.info.parent.ForceExitAndRemoveMapCountdownTimeLeftString;
+			string forceExitAndRemoveMapCountdownTimeLeftString = timedForcedExit.ForceExitAndRemoveMapCountdownTimeLeftString;
 			string text = "ForceExitAndRemoveMapCountdown".Translate(forceExitAndRemoveMapCountdownTimeLeftString);
 			Vector2 vector = Text.CalcSize(text);
 			float x = vector.x;

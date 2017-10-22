@@ -6,11 +6,7 @@ namespace RimWorld
 	{
 		public override float GetScore(Tile tile)
 		{
-			if (tile.WaterCovered)
-			{
-				return -100f;
-			}
-			return BiomeWorker_IceSheet.PermaIceScore(tile);
+			return (float)((!tile.WaterCovered) ? BiomeWorker_IceSheet.PermaIceScore(tile) : -100.0);
 		}
 
 		public static float PermaIceScore(Tile tile)

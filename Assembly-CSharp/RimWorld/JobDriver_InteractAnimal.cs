@@ -30,7 +30,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (Pawn)base.CurJob.targetA.Thing;
+				return (Pawn)base.job.targetA.Thing;
 			}
 		}
 
@@ -42,33 +42,18 @@ namespace RimWorld
 
 		protected abstract Toil FinalInteractToil();
 
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve((Thing)this.Animal, base.job, 1, -1, null);
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 			this.FailOnDowned(TargetIndex.A);
 			this.FailOnNotCasualInterruptible(TargetIndex.A);
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-			yield return Toils_Interpersonal.WaitToBeAbleToInteract(base.pawn);
-			yield return JobDriver_InteractAnimal.TalkToAnimal(TargetIndex.A);
-			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-			yield return Toils_Interpersonal.WaitToBeAbleToInteract(base.pawn);
-			yield return JobDriver_InteractAnimal.TalkToAnimal(TargetIndex.A);
-			foreach (Toil item in this.FeedToils())
-			{
-				yield return item;
-			}
-			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-			yield return Toils_Interpersonal.WaitToBeAbleToInteract(base.pawn);
-			yield return JobDriver_InteractAnimal.TalkToAnimal(TargetIndex.A);
-			foreach (Toil item2 in this.FeedToils())
-			{
-				yield return item2;
-			}
-			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-			yield return Toils_Interpersonal.SetLastInteractTime(TargetIndex.A);
-			yield return Toils_Interpersonal.WaitToBeAbleToInteract(base.pawn);
-			yield return this.FinalInteractToil();
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public static float RequiredNutritionPerFeed(Pawn animal)
@@ -82,17 +67,11 @@ namespace RimWorld
 			{
 				initAction = (Action)delegate
 				{
-					((_003CFeedToils_003Ec__Iterator6)/*Error near IL_004a: stateMachine*/)._003C_003Ef__this.feedNutritionLeft = JobDriver_InteractAnimal.RequiredNutritionPerFeed(((_003CFeedToils_003Ec__Iterator6)/*Error near IL_004a: stateMachine*/)._003C_003Ef__this.Animal);
+					((_003CFeedToils_003Ec__Iterator1)/*Error near IL_004b: stateMachine*/)._0024this.feedNutritionLeft = JobDriver_InteractAnimal.RequiredNutritionPerFeed(((_003CFeedToils_003Ec__Iterator1)/*Error near IL_004b: stateMachine*/)._0024this.Animal);
 				},
 				defaultCompleteMode = ToilCompleteMode.Instant
 			};
-			Toil gotoAnimal = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-			yield return gotoAnimal;
-			yield return this.StartFeedAnimal(TargetIndex.A);
-			yield return Toils_Ingest.FinalizeIngest(this.Animal, TargetIndex.B);
-			yield return Toils_General.PutCarriedThingInInventory();
-			yield return Toils_General.ClearTarget(TargetIndex.B);
-			yield return Toils_Jump.JumpIf(gotoAnimal, (Func<bool>)(() => ((_003CFeedToils_003Ec__Iterator6)/*Error near IL_011b: stateMachine*/)._003C_003Ef__this.feedNutritionLeft > 0.0));
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		private static Toil TalkToAnimal(TargetIndex tameeInd)

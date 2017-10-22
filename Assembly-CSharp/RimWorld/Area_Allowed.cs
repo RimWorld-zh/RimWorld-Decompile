@@ -39,19 +39,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.mode == AllowedAreaMode.Any)
-				{
-					return 1000;
-				}
-				if (this.mode == AllowedAreaMode.Humanlike)
-				{
-					return 900;
-				}
-				if (this.mode == AllowedAreaMode.Animal)
-				{
-					return 800;
-				}
-				return 500;
+				return (this.mode != AllowedAreaMode.Any) ? ((this.mode != AllowedAreaMode.Humanlike) ? ((this.mode != AllowedAreaMode.Animal) ? 500 : 800) : 900) : 1000;
 			}
 		}
 

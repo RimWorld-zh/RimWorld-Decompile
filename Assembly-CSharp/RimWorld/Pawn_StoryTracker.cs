@@ -16,27 +16,23 @@ namespace RimWorld
 
 		public Color hairColor = Color.white;
 
-		public CrownType crownType;
+		public CrownType crownType = CrownType.Undefined;
 
-		public BodyType bodyType;
+		public BodyType bodyType = BodyType.Undefined;
 
-		private string headGraphicPath;
+		private string headGraphicPath = (string)null;
 
-		public HairDef hairDef;
+		public HairDef hairDef = null;
 
 		public TraitSet traits;
 
-		private List<WorkTypeDef> cachedDisabledWorkTypes;
+		private List<WorkTypeDef> cachedDisabledWorkTypes = null;
 
 		public string Title
 		{
 			get
 			{
-				if (this.adulthood != null)
-				{
-					return this.adulthood.Title;
-				}
-				return this.childhood.Title;
+				return (this.adulthood == null) ? this.childhood.Title : this.adulthood.Title;
 			}
 		}
 
@@ -44,11 +40,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.adulthood != null)
-				{
-					return this.adulthood.TitleShort;
-				}
-				return this.childhood.TitleShort;
+				return (this.adulthood == null) ? this.childhood.TitleShort : this.adulthood.TitleShort;
 			}
 		}
 
@@ -67,11 +59,12 @@ namespace RimWorld
 				if (this.childhood != null)
 				{
 					yield return this.childhood;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				if (this.adulthood != null)
-				{
-					yield return this.adulthood;
-				}
+				if (this.adulthood == null)
+					yield break;
+				yield return this.adulthood;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -180,11 +173,7 @@ namespace RimWorld
 
 		public Backstory GetBackstory(BackstorySlot slot)
 		{
-			if (slot == BackstorySlot.Childhood)
-			{
-				return this.childhood;
-			}
-			return this.adulthood;
+			return (slot != 0) ? this.adulthood : this.childhood;
 		}
 
 		public bool WorkTypeIsDisabled(WorkTypeDef w)
@@ -194,14 +183,24 @@ namespace RimWorld
 
 		public bool OneOfWorkTypesIsDisabled(List<WorkTypeDef> wts)
 		{
-			for (int i = 0; i < wts.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (this.WorkTypeIsDisabled(wts[i]))
+				if (num < wts.Count)
 				{
-					return true;
+					if (this.WorkTypeIsDisabled(wts[num]))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public bool WorkTagIsDisabled(WorkTags w)

@@ -8,25 +8,25 @@ namespace Verse
 {
 	public abstract class Zone : IExposable, ISelectable
 	{
-		private const int StaticFireCheckInterval = 1000;
-
 		public ZoneManager zoneManager;
 
 		public string label;
 
 		public List<IntVec3> cells = new List<IntVec3>();
 
-		private bool cellsShuffled;
+		private bool cellsShuffled = false;
 
 		public Color color = Color.white;
 
-		private Material materialInt;
+		private Material materialInt = null;
 
-		public bool hidden;
+		public bool hidden = false;
 
 		private int lastStaticFireCheckTick = -9999;
 
-		private bool lastStaticFireCheckResult;
+		private bool lastStaticFireCheckResult = false;
+
+		private const int StaticFireCheckInterval = 1000;
 
 		private static BoolGrid extantGrid;
 
@@ -71,14 +71,24 @@ namespace Verse
 			get
 			{
 				ThingGrid grids = this.Map.thingGrid;
-				for (int j = 0; j < this.cells.Count; j++)
+				int j = 0;
+				List<Thing> thingList;
+				int i;
+				while (true)
 				{
-					List<Thing> thingList = grids.ThingsListAt(this.cells[j]);
-					for (int i = 0; i < thingList.Count; i++)
+					if (j < this.cells.Count)
 					{
-						yield return thingList[i];
+						thingList = grids.ThingsListAt(this.cells[j]);
+						i = 0;
+						if (i < thingList.Count)
+							break;
+						j++;
+						continue;
 					}
+					yield break;
 				}
+				yield return thingList[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -132,9 +142,11 @@ namespace Verse
 
 		public IEnumerator<IntVec3> GetEnumerator()
 		{
-			for (int i = 0; i < this.cells.Count; i++)
+			int i = 0;
+			if (i < this.cells.Count)
 			{
 				yield return this.cells[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -215,19 +227,29 @@ namespace Verse
 
 		public bool ContainsCell(IntVec3 c)
 		{
-			for (int i = 0; i < this.cells.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (this.cells[i] == c)
+				if (num < this.cells.Count)
 				{
-					return true;
+					if (this.cells[num] == c)
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public virtual string GetInspectString()
 		{
-			return string.Empty;
+			return "";
 		}
 
 		public virtual IEnumerable<InspectTabBase> GetInspectTabs()
@@ -244,43 +266,11 @@ namespace Verse
 				defaultDesc = "CommandRenameZoneDesc".Translate(),
 				action = (Action)delegate
 				{
-					Find.WindowStack.Add(new Dialog_RenameZone(((_003CGetGizmos_003Ec__IteratorBA)/*Error near IL_007a: stateMachine*/)._003C_003Ef__this));
+					Find.WindowStack.Add(new Dialog_RenameZone(((_003CGetGizmos_003Ec__Iterator3)/*Error near IL_007c: stateMachine*/)._0024this));
 				},
 				hotKey = KeyBindingDefOf.Misc1
 			};
-			yield return (Gizmo)new Command_Toggle
-			{
-				icon = ContentFinder<Texture2D>.Get("UI/Commands/HideZone", true),
-				defaultLabel = ((!this.hidden) ? "CommandHideZoneLabel".Translate() : "CommandUnhideZoneLabel".Translate()),
-				defaultDesc = "CommandHideZoneDesc".Translate(),
-				isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__IteratorBA)/*Error near IL_0123: stateMachine*/)._003C_003Ef__this.hidden),
-				toggleAction = (Action)delegate
-				{
-					((_003CGetGizmos_003Ec__IteratorBA)/*Error near IL_013a: stateMachine*/)._003C_003Ef__this.hidden = !((_003CGetGizmos_003Ec__IteratorBA)/*Error near IL_013a: stateMachine*/)._003C_003Ef__this.hidden;
-					List<IntVec3>.Enumerator enumerator = ((_003CGetGizmos_003Ec__IteratorBA)/*Error near IL_013a: stateMachine*/)._003C_003Ef__this.Cells.GetEnumerator();
-					try
-					{
-						while (enumerator.MoveNext())
-						{
-							IntVec3 current = enumerator.Current;
-							((_003CGetGizmos_003Ec__IteratorBA)/*Error near IL_013a: stateMachine*/)._003C_003Ef__this.Map.mapDrawer.MapMeshDirty(current, MapMeshFlag.Zone);
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
-					}
-				},
-				hotKey = KeyBindingDefOf.Misc2
-			};
-			yield return (Gizmo)new Command_Action
-			{
-				icon = ContentFinder<Texture2D>.Get("UI/Buttons/Delete", true),
-				defaultLabel = "CommandDeleteZoneLabel".Translate(),
-				defaultDesc = "CommandDeleteZoneDesc".Translate(),
-				action = new Action(this.Delete),
-				hotKey = KeyBindingDefOf.Misc3
-			};
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public void CheckContiguous()
@@ -307,25 +297,14 @@ namespace Verse
 				{
 					Zone.extantGrid.Set(this.cells[i], true);
 				}
-				Predicate<IntVec3> passCheck = (Predicate<IntVec3>)delegate(IntVec3 c)
-				{
-					if (!Zone.extantGrid[c])
-					{
-						return false;
-					}
-					if (Zone.foundGrid[c])
-					{
-						return false;
-					}
-					return true;
-				};
+				Predicate<IntVec3> passCheck = (Predicate<IntVec3>)((IntVec3 c) => (byte)(Zone.extantGrid[c] ? ((!Zone.foundGrid[c]) ? 1 : 0) : 0) != 0);
 				int numFound = 0;
 				Action<IntVec3> processor = (Action<IntVec3>)delegate(IntVec3 c)
 				{
 					Zone.foundGrid.Set(c, true);
 					numFound++;
 				};
-				this.Map.floodFiller.FloodFill(this.cells[0], passCheck, processor, false);
+				this.Map.floodFiller.FloodFill(this.cells[0], passCheck, processor, 2147483647, false, null);
 				if (numFound < this.cells.Count)
 				{
 					foreach (IntVec3 allCell in this.Map.AllCells)

@@ -30,27 +30,18 @@ namespace Verse
 		public void DoAllPostLoadInits()
 		{
 			Scribe.mode = LoadSaveMode.PostLoadInit;
-			HashSet<IExposable>.Enumerator enumerator = this.saveablesToPostLoad.GetEnumerator();
-			try
+			foreach (IExposable item in this.saveablesToPostLoad)
 			{
-				while (enumerator.MoveNext())
+				try
 				{
-					IExposable current = enumerator.Current;
-					try
-					{
-						Scribe.loader.curParent = current;
-						Scribe.loader.curPathRelToParent = (string)null;
-						current.ExposeData();
-					}
-					catch (Exception arg)
-					{
-						Log.Error("Could not do PostLoadInit: " + arg);
-					}
+					Scribe.loader.curParent = item;
+					Scribe.loader.curPathRelToParent = (string)null;
+					item.ExposeData();
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				catch (Exception arg)
+				{
+					Log.Error("Could not do PostLoadInit: " + arg);
+				}
 			}
 			this.Clear();
 			Scribe.loader.curParent = null;

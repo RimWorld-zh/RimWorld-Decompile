@@ -1,12 +1,11 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse
 {
 	public static class ThingCategoryNodeDatabase
 	{
-		public static bool initialized;
+		public static bool initialized = false;
 
 		private static TreeNode_ThingCategory rootNode;
 
@@ -47,18 +46,9 @@ namespace Verse
 			{
 				if (allDef2.thingCategories != null)
 				{
-					List<ThingCategoryDef>.Enumerator enumerator3 = allDef2.thingCategories.GetEnumerator();
-					try
+					foreach (ThingCategoryDef thingCategory in allDef2.thingCategories)
 					{
-						while (enumerator3.MoveNext())
-						{
-							ThingCategoryDef current3 = enumerator3.Current;
-							current3.childThingDefs.Add(allDef2);
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator3).Dispose();
+						thingCategory.childThingDefs.Add(allDef2);
 					}
 				}
 			}
@@ -72,19 +62,10 @@ namespace Verse
 
 		private static void SetNestLevelRecursive(TreeNode_ThingCategory node, int nestDepth)
 		{
-			List<ThingCategoryDef>.Enumerator enumerator = node.catDef.childCategories.GetEnumerator();
-			try
+			foreach (ThingCategoryDef childCategory in node.catDef.childCategories)
 			{
-				while (enumerator.MoveNext())
-				{
-					ThingCategoryDef current = enumerator.Current;
-					current.treeNode.nestDepth = nestDepth;
-					ThingCategoryNodeDatabase.SetNestLevelRecursive(current.treeNode, nestDepth + 1);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				childCategory.treeNode.nestDepth = nestDepth;
+				ThingCategoryNodeDatabase.SetNestLevelRecursive(childCategory.treeNode, nestDepth + 1);
 			}
 		}
 	}

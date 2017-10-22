@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -185,24 +184,35 @@ namespace RimWorld
 
 		private bool HasRegisterConnectorDuplicate(CompPower compPower)
 		{
-			for (int num = this.delayedActions.Count - 1; num >= 0; num--)
+			int num = this.delayedActions.Count - 1;
+			bool result;
+			while (true)
 			{
-				DelayedAction delayedAction = this.delayedActions[num];
-				if (delayedAction.compPower == compPower)
+				if (num >= 0)
 				{
-					DelayedAction delayedAction2 = this.delayedActions[num];
-					if (delayedAction2.type == DelayedActionType.DeregisterConnector)
+					DelayedAction delayedAction = this.delayedActions[num];
+					if (delayedAction.compPower == compPower)
 					{
-						return false;
+						DelayedAction delayedAction2 = this.delayedActions[num];
+						if (delayedAction2.type == DelayedActionType.DeregisterConnector)
+						{
+							result = false;
+							break;
+						}
+						DelayedAction delayedAction3 = this.delayedActions[num];
+						if (delayedAction3.type == DelayedActionType.RegisterConnector)
+						{
+							result = true;
+							break;
+						}
 					}
-					DelayedAction delayedAction3 = this.delayedActions[num];
-					if (delayedAction3.type == DelayedActionType.RegisterConnector)
-					{
-						return true;
-					}
+					num--;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		private void TryCreateNetAt(IntVec3 cell)
@@ -236,28 +246,19 @@ namespace RimWorld
 
 		private void DrawDebugPowerNets()
 		{
-			if (Current.ProgramState == ProgramState.Playing)
+			if (Current.ProgramState == ProgramState.Playing && Find.VisibleMap == this.map)
 			{
 				int num = 0;
-				List<PowerNet>.Enumerator enumerator = this.allNets.GetEnumerator();
-				try
+				foreach (PowerNet allNet in this.allNets)
 				{
-					while (enumerator.MoveNext())
+					foreach (CompPower item in allNet.transmitters.Concat(allNet.connectors))
 					{
-						PowerNet current = enumerator.Current;
-						foreach (CompPower item in current.transmitters.Concat(current.connectors))
+						foreach (IntVec3 item2 in GenAdj.CellsOccupiedBy(item.parent))
 						{
-							foreach (IntVec3 item2 in GenAdj.CellsOccupiedBy(item.parent))
-							{
-								CellRenderer.RenderCell(item2, (float)((float)num * 0.43999999761581421));
-							}
+							CellRenderer.RenderCell(item2, (float)((float)num * 0.43999999761581421));
 						}
-						num++;
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					num++;
 				}
 			}
 		}

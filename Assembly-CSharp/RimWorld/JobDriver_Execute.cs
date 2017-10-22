@@ -11,25 +11,21 @@ namespace RimWorld
 		{
 			get
 			{
-				return (Pawn)base.CurJob.targetA.Thing;
+				return (Pawn)base.job.targetA.Thing;
 			}
+		}
+
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve((Thing)this.Victim, base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
+			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0036: stateMachine*/;
 			this.FailOnAggroMentalState(TargetIndex.A);
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
-			yield return Toils_Interpersonal.GotoPrisoner(base.pawn, this.Victim, PrisonerInteractionModeDefOf.Execution).FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator4A)/*Error near IL_0072: stateMachine*/)._003C_003Ef__this.Victim.IsPrisonerOfColony || !((_003CMakeNewToils_003Ec__Iterator4A)/*Error near IL_0072: stateMachine*/)._003C_003Ef__this.Victim.guest.PrisonerIsSecure));
-			yield return new Toil
-			{
-				initAction = (Action)delegate
-				{
-					ExecutionUtility.DoExecutionByCut(((_003CMakeNewToils_003Ec__Iterator4A)/*Error near IL_00a5: stateMachine*/)._003Cexecute_003E__0.actor, ((_003CMakeNewToils_003Ec__Iterator4A)/*Error near IL_00a5: stateMachine*/)._003C_003Ef__this.Victim);
-					ThoughtUtility.GiveThoughtsForPawnExecuted(((_003CMakeNewToils_003Ec__Iterator4A)/*Error near IL_00a5: stateMachine*/)._003C_003Ef__this.Victim, PawnExecutionKind.GenericBrutal);
-					TaleRecorder.RecordTale(TaleDefOf.ExecutedPrisoner, ((_003CMakeNewToils_003Ec__Iterator4A)/*Error near IL_00a5: stateMachine*/)._003C_003Ef__this.pawn, ((_003CMakeNewToils_003Ec__Iterator4A)/*Error near IL_00a5: stateMachine*/)._003C_003Ef__this.Victim);
-				},
-				defaultCompleteMode = ToilCompleteMode.Instant
-			};
+			yield return Toils_Interpersonal.GotoPrisoner(base.pawn, this.Victim, PrisonerInteractionModeDefOf.Execution).FailOn((Func<bool>)(() => !_003CMakeNewToils_003Ec__Iterator._0024this.Victim.IsPrisonerOfColony || !_003CMakeNewToils_003Ec__Iterator._0024this.Victim.guest.PrisonerIsSecure));
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

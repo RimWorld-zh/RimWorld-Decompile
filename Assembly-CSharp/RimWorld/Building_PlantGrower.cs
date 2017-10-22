@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -10,6 +9,14 @@ namespace RimWorld
 		private ThingDef plantDefToGrow;
 
 		private CompPowerTrader compPower;
+
+		IEnumerable<IntVec3> IPlantToGrowSettable.Cells
+		{
+			get
+			{
+				return this.OccupiedRect().Cells;
+			}
+		}
 
 		public IEnumerable<Plant> PlantsOnMe
 		{
@@ -27,6 +34,7 @@ namespace RimWorld
 							if (p != null)
 							{
 								yield return p;
+								/*Error: Unable to find new state assignment for yield return*/;
 							}
 						}
 						cri.MoveNext();
@@ -37,11 +45,19 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return gizmo;
+				if (enumerator.MoveNext())
+				{
+					Gizmo g = enumerator.Current;
+					yield return g;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			yield return (Gizmo)PlantToGrowSettableUtility.SetPlantToGrowCommand(this);
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_00e6:
+			/*Error near IL_00e7: Unexpected return in MoveNext()*/;
 		}
 
 		public override void PostMake()
@@ -77,18 +93,9 @@ namespace RimWorld
 
 		public override void DeSpawn()
 		{
-			List<Plant>.Enumerator enumerator = this.PlantsOnMe.ToList().GetEnumerator();
-			try
+			foreach (Plant item in this.PlantsOnMe.ToList())
 			{
-				while (enumerator.MoveNext())
-				{
-					Plant current = enumerator.Current;
-					current.Destroy(DestroyMode.Vanish);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				item.Destroy(DestroyMode.Vanish);
 			}
 			base.DeSpawn();
 		}
@@ -115,22 +122,7 @@ namespace RimWorld
 
 		public bool CanAcceptSowNow()
 		{
-			if (this.compPower != null && !this.compPower.PowerOn)
-			{
-				return false;
-			}
-			return true;
-		}
-
-		virtual Map get_Map()
-		{
-			return base.Map;
-		}
-
-		Map IPlantToGrowSettable.get_Map()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_Map
-			return this.get_Map();
+			return (byte)((this.compPower == null || this.compPower.PowerOn) ? 1 : 0) != 0;
 		}
 	}
 }

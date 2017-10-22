@@ -1,5 +1,4 @@
 using RimWorld;
-using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +6,7 @@ using Verse.Grammar;
 
 namespace Verse
 {
-	public class PlayLogEntry_Interaction : PlayLogEntry
+	public class PlayLogEntry_Interaction : LogEntry
 	{
 		private InteractionDef intDef;
 
@@ -15,7 +14,7 @@ namespace Verse
 
 		private Pawn recipient;
 
-		private List<RulePackDef> extraSentencePacks;
+		private List<RulePackDef> extraSentencePacks = null;
 
 		public override Texture2D Icon
 		{
@@ -47,7 +46,6 @@ namespace Verse
 
 		public PlayLogEntry_Interaction(InteractionDef intDef, Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks)
 		{
-			base.ticksAbs = Find.TickManager.TicksAbs;
 			this.intDef = intDef;
 			this.initiator = initiator;
 			this.recipient = recipient;
@@ -76,10 +74,16 @@ namespace Verse
 
 		public override string ToGameStringFromPOV(Thing pov)
 		{
-			if (this.initiator != null && this.recipient != null)
+			string result;
+			if (this.initiator == null || this.recipient == null)
+			{
+				Log.ErrorOnce("PlayLogEntry_Interaction has a null pawn reference.", 34422);
+				result = "[" + this.intDef.label + " error: null pawn reference]";
+			}
+			else
 			{
 				Rand.PushState();
-				Rand.Seed = base.ticksAbs * 61261;
+				Rand.Seed = base.randSeed;
 				List<Rule> list = new List<Rule>();
 				string text;
 				if (pov == this.initiator)
@@ -87,7 +91,7 @@ namespace Verse
 					list.AddRange(this.intDef.logRulesInitiator.Rules);
 					list.AddRange(GrammarUtility.RulesForPawn("me", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
 					list.AddRange(GrammarUtility.RulesForPawn("other", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
-					text = GrammarResolver.Resolve("logentry", list, "interaction from initiator");
+					text = GrammarResolver.Resolve("logentry", list, null, "interaction from initiator");
 				}
 				else if (pov == this.recipient)
 				{
@@ -101,7 +105,7 @@ namespace Verse
 					}
 					list.AddRange(GrammarUtility.RulesForPawn("me", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
 					list.AddRange(GrammarUtility.RulesForPawn("other", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
-					text = GrammarResolver.Resolve("logentry", list, "interaction from recipient");
+					text = GrammarResolver.Resolve("logentry", list, null, "interaction from recipient");
 				}
 				else
 				{
@@ -116,28 +120,13 @@ namespace Verse
 						list.AddRange(this.extraSentencePacks[i].Rules);
 						list.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
 						list.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
-						text = text + " " + GrammarResolver.Resolve(this.extraSentencePacks[i].Rules[0].keyword, list, "extraSentencePack");
+						text = text + " " + GrammarResolver.Resolve(this.extraSentencePacks[i].Rules[0].keyword, list, null, "extraSentencePack");
 					}
 				}
 				Rand.PopState();
-				return text;
+				result = text;
 			}
-			Log.ErrorOnce("PlayLogEntry_Interaction has a null pawn reference.", 34422);
-			return "[" + this.intDef.label + " error: null pawn reference]";
-		}
-
-		public override void PostRemove()
-		{
-			base.PostRemove();
-			WorldPawns worldPawns = Find.WorldPawns;
-			if (worldPawns.Contains(this.initiator))
-			{
-				worldPawns.DiscardIfUnimportant(this.initiator);
-			}
-			if (worldPawns.Contains(this.recipient))
-			{
-				worldPawns.DiscardIfUnimportant(this.recipient);
-			}
+			return result;
 		}
 
 		public override void ExposeData()

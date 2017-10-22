@@ -15,27 +15,80 @@ namespace RimWorld.Planet
 
 		private static List<Caravan> tmpCaravansOnSameTile = new List<Caravan>();
 
+		public static bool ShouldShowMergeCommand
+		{
+			get
+			{
+				return CaravanMergeUtility.CanMergeAnySelectedCaravans || CaravanMergeUtility.AnySelectedCaravanCloseToAnyOtherMergeableCaravan;
+			}
+		}
+
 		public static bool CanMergeAnySelectedCaravans
 		{
 			get
 			{
 				List<WorldObject> selectedObjects = Find.WorldSelector.SelectedObjects;
-				for (int i = 0; i < selectedObjects.Count; i++)
+				int num = 0;
+				bool result;
+				while (true)
 				{
-					Caravan caravan = selectedObjects[i] as Caravan;
-					if (caravan != null && caravan.IsPlayerControlled)
+					if (num < selectedObjects.Count)
 					{
-						for (int j = i + 1; j < selectedObjects.Count; j++)
+						Caravan caravan = selectedObjects[num] as Caravan;
+						if (caravan != null && caravan.IsPlayerControlled)
 						{
-							Caravan caravan2 = selectedObjects[j] as Caravan;
-							if (caravan2 != null && caravan2.IsPlayerControlled && CaravanMergeUtility.CloseToEachOther(caravan, caravan2))
+							for (int i = num + 1; i < selectedObjects.Count; i++)
 							{
-								return true;
+								Caravan caravan2 = selectedObjects[i] as Caravan;
+								if (caravan2 != null && caravan2.IsPlayerControlled && CaravanMergeUtility.CloseToEachOther(caravan, caravan2))
+									goto IL_006b;
 							}
 						}
+						num++;
+						continue;
 					}
+					result = false;
+					break;
+					IL_006b:
+					result = true;
+					break;
 				}
-				return false;
+				return result;
+			}
+		}
+
+		public static bool AnySelectedCaravanCloseToAnyOtherMergeableCaravan
+		{
+			get
+			{
+				List<WorldObject> selectedObjects = Find.WorldSelector.SelectedObjects;
+				List<Caravan> caravans = Find.WorldObjects.Caravans;
+				int num = 0;
+				bool result;
+				while (true)
+				{
+					if (num < selectedObjects.Count)
+					{
+						Caravan caravan = selectedObjects[num] as Caravan;
+						if (caravan != null && caravan.IsPlayerControlled)
+						{
+							for (int i = 0; i < caravans.Count; i++)
+							{
+								Caravan caravan2 = caravans[i];
+								if (caravan2 != caravan && caravan2.IsPlayerControlled && CaravanMergeUtility.CloseToEachOther(caravan, caravan2))
+									goto IL_0077;
+							}
+						}
+						num++;
+						continue;
+					}
+					result = false;
+					break;
+					IL_0077:
+					result = true;
+					break;
+				}
+				return result;
 			}
 		}
 
@@ -50,6 +103,10 @@ namespace RimWorld.Planet
 				CaravanMergeUtility.TryMergeSelectedCaravans();
 				SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 			};
+			if (!CaravanMergeUtility.CanMergeAnySelectedCaravans)
+			{
+				command_Action.Disable("CommandMergeCaravansFailCaravansNotSelected".Translate());
+			}
 			return command_Action;
 		}
 
@@ -88,18 +145,19 @@ namespace RimWorld.Planet
 
 		private static bool CloseToEachOther(Caravan c1, Caravan c2)
 		{
+			bool result;
 			if (c1.Tile == c2.Tile)
 			{
-				return true;
+				result = true;
 			}
-			Vector3 drawPos = c1.DrawPos;
-			Vector3 drawPos2 = c2.DrawPos;
-			float num = (float)(Find.WorldGrid.averageTileSize * 0.5);
-			if ((drawPos - drawPos2).sqrMagnitude < num * num)
+			else
 			{
-				return true;
+				Vector3 drawPos = c1.DrawPos;
+				Vector3 drawPos2 = c2.DrawPos;
+				float num = (float)(Find.WorldGrid.averageTileSize * 0.5);
+				result = ((byte)(((drawPos - drawPos2).sqrMagnitude < num * num) ? 1 : 0) != 0);
 			}
-			return false;
+			return result;
 		}
 
 		private static void MergeCaravans(List<Caravan> caravans)

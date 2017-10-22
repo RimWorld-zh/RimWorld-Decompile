@@ -7,10 +7,10 @@ namespace Verse
 	{
 		public Type workerClass;
 
-		private List<RoomStatDef> relatedStats;
+		private List<RoomStatDef> relatedStats = null;
 
 		[Unsaved]
-		private RoomRoleWorker workerInt;
+		private RoomRoleWorker workerInt = null;
 
 		public RoomRoleWorker Worker
 		{
@@ -26,18 +26,26 @@ namespace Verse
 
 		public bool IsStatRelated(RoomStatDef def)
 		{
+			bool result;
 			if (this.relatedStats == null)
 			{
-				return false;
+				result = false;
 			}
-			for (int i = 0; i < this.relatedStats.Count; i++)
+			else
 			{
-				if (this.relatedStats[i] == def)
+				for (int i = 0; i < this.relatedStats.Count; i++)
 				{
-					return true;
+					if (this.relatedStats[i] == def)
+						goto IL_002d;
 				}
+				result = false;
 			}
-			return false;
+			goto IL_0051;
+			IL_002d:
+			result = true;
+			goto IL_0051;
+			IL_0051:
+			return result;
 		}
 	}
 }

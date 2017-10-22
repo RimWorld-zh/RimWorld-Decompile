@@ -8,6 +8,10 @@ namespace Verse
 {
 	public static class GenFilePaths
 	{
+		private static string saveDataPath = (string)null;
+
+		private static string coreModsFolderPath = (string)null;
+
 		public const string SoundsFolder = "Sounds/";
 
 		public const string TexturesFolder = "Textures/";
@@ -27,10 +31,6 @@ namespace Verse
 		public const string ExternalHistoryFileExtension = ".rwh";
 
 		private const string SaveDataFolderCommand = "savedatafolder";
-
-		private static string saveDataPath = (string)null;
-
-		private static string coreModsFolderPath = (string)null;
 
 		private static readonly string[] FilePathRaw = new string[73]
 		{
@@ -196,9 +196,9 @@ namespace Verse
 					if (GenCommandLine.TryGetCommandLineArg("savedatafolder", out text))
 					{
 						text.TrimEnd('\\', '/');
-						if (text == string.Empty)
+						if (text == "")
 						{
-							text = string.Empty + Path.DirectorySeparatorChar;
+							text = "" + Path.DirectorySeparatorChar;
 						}
 						GenFilePaths.saveDataPath = text;
 						Log.Message("Save data folder overridden to " + GenFilePaths.saveDataPath);
@@ -239,11 +239,7 @@ namespace Verse
 		{
 			get
 			{
-				if (!UnityData.isEditor)
-				{
-					return Path.Combine(GenFilePaths.ExecutibleDir.FullName, "ScenarioPreview.jpg");
-				}
-				return Path.Combine(Path.Combine(Path.Combine(GenFilePaths.ExecutibleDir.FullName, "PlatformSpecific"), "All"), "ScenarioPreview.jpg");
+				return UnityData.isEditor ? Path.Combine(Path.Combine(Path.Combine(GenFilePaths.ExecutibleDir.FullName, "PlatformSpecific"), "All"), "ScenarioPreview.jpg") : Path.Combine(GenFilePaths.ExecutibleDir.FullName, "ScenarioPreview.jpg");
 			}
 		}
 
@@ -457,19 +453,25 @@ namespace Verse
 
 		public static string ContentPath<T>()
 		{
+			string result;
 			if (typeof(T) == typeof(AudioClip))
 			{
-				return "Sounds/";
+				result = "Sounds/";
+				goto IL_0073;
 			}
 			if (typeof(T) == typeof(Texture2D))
 			{
-				return "Textures/";
+				result = "Textures/";
+				goto IL_0073;
 			}
 			if (typeof(T) == typeof(string))
 			{
-				return "Strings/";
+				result = "Strings/";
+				goto IL_0073;
 			}
 			throw new ArgumentException();
+			IL_0073:
+			return result;
 		}
 
 		public static string FolderPathRelativeToDefsFolder(string fullFolderPath, ModContentPack mod)
@@ -484,27 +486,35 @@ namespace Verse
 			{
 				text += Path.DirectorySeparatorChar;
 			}
+			string result;
 			if (!fullFolderPath.StartsWith(text))
 			{
 				Log.Error("Can't get relative path. Path \"" + fullFolderPath + "\" does not start with \"" + text + "\".");
-				return (string)null;
+				result = (string)null;
 			}
-			if (fullFolderPath == text)
+			else if (fullFolderPath == text)
 			{
-				return string.Empty;
+				result = "";
 			}
-			string text2 = fullFolderPath.Substring(text.Length);
-			while (true)
+			else
 			{
-				if (!text2.StartsWith("/") && !text2.StartsWith("\\"))
-					break;
-				if (text2.Length == 1)
+				string text2 = fullFolderPath.Substring(text.Length);
+				while (true)
 				{
-					return string.Empty;
+					if (!text2.StartsWith("/") && !text2.StartsWith("\\"))
+						break;
+					if (text2.Length == 1)
+						goto IL_012a;
+					text2 = text2.Substring(1);
 				}
-				text2 = text2.Substring(1);
+				result = text2;
 			}
-			return text2;
+			goto IL_016a;
+			IL_016a:
+			return result;
+			IL_012a:
+			result = "";
+			goto IL_016a;
 		}
 
 		public static string SafeURIForUnityWWWFromPath(string rawPath)

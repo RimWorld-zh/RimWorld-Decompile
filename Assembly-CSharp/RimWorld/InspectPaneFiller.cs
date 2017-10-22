@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -10,19 +9,19 @@ namespace RimWorld
 	{
 		private const float BarHeight = 16f;
 
-		private const float BarWidth = 93f;
-
-		private const float BarSpacing = 6f;
-
 		private static readonly Texture2D MoodTex = SolidColorMaterials.NewSolidColorTexture(new ColorInt(26, 52, 52).ToColor);
 
 		private static readonly Texture2D BarBGTex = SolidColorMaterials.NewSolidColorTexture(new ColorInt(10, 10, 10).ToColor);
 
 		private static readonly Texture2D HealthTex = SolidColorMaterials.NewSolidColorTexture(new ColorInt(35, 35, 35).ToColor);
 
-		private static bool debug_inspectLengthWarned = false;
+		private const float BarWidth = 93f;
+
+		private const float BarSpacing = 6f;
 
 		private static bool debug_inspectStringExceptionErrored = false;
+
+		private static Vector2 inspectStringScrollPos;
 
 		public static void DoPaneContentsFor(ISelectable sel, Rect rect)
 		{
@@ -48,7 +47,9 @@ namespace RimWorld
 					}
 					num = (float)(num + 18.0);
 				}
-				InspectPaneFiller.DrawInspectStringFor(sel, ref num);
+				Rect rect2 = rect.AtZero();
+				rect2.yMin = num;
+				InspectPaneFiller.DrawInspectStringFor(sel, rect2);
 			}
 			catch (Exception ex)
 			{
@@ -87,15 +88,15 @@ namespace RimWorld
 					}
 					fillPct = (float)t.HitPoints / (float)t.MaxHitPoints;
 					label = t.HitPoints.ToStringCached() + " / " + t.MaxHitPoints.ToStringCached();
-					goto IL_00e4;
+					goto IL_00ed;
 				}
 				return;
 			}
 			GUI.color = Color.white;
 			fillPct = pawn.health.summaryHealth.SummaryHealthPercent;
 			label = HealthUtility.GetGeneralConditionLabel(pawn, true);
-			goto IL_00e4;
-			IL_00e4:
+			goto IL_00ed;
+			IL_00ed:
 			row.FillableBar(93f, 16f, fillPct, label, InspectPaneFiller.HealthTex, InspectPaneFiller.BarBGTex);
 			GUI.color = Color.white;
 		}
@@ -143,7 +144,7 @@ namespace RimWorld
 			}
 		}
 
-		public static void DrawInspectStringFor(ISelectable sel, ref float y)
+		public static void DrawInspectStringFor(ISelectable sel, Rect rect)
 		{
 			string text;
 			try
@@ -176,25 +177,13 @@ namespace RimWorld
 			{
 				Log.ErrorOnce("Inspect string for " + sel + " contains empty lines.", 837163521);
 			}
-			InspectPaneFiller.DrawInspectString(text, ref y);
-			if (Prefs.DevMode)
-			{
-				text = text.Trim();
-				if (!InspectPaneFiller.debug_inspectLengthWarned && text.Count((Func<char, bool>)((char f) => f == '\n')) > 5)
-				{
-					Log.ErrorOnce(sel + " gave an inspect string over six lines (some may be empty):\n" + text + "END", 778772);
-					InspectPaneFiller.debug_inspectLengthWarned = true;
-				}
-			}
+			InspectPaneFiller.DrawInspectString(text, rect);
 		}
 
-		public static void DrawInspectString(string str, ref float y)
+		public static void DrawInspectString(string str, Rect rect)
 		{
 			Text.Font = GameFont.Small;
-			float y2 = y;
-			Vector2 paneInnerSize = InspectPaneUtility.PaneInnerSize;
-			Rect rect = new Rect(0f, y2, paneInnerSize.x, 200f);
-			Widgets.Label(rect, str);
+			Widgets.LabelScrollable(rect, str, ref InspectPaneFiller.inspectStringScrollPos, true);
 		}
 	}
 }

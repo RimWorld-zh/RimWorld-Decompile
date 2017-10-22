@@ -19,177 +19,223 @@ namespace Verse.AI
 
 		private static List<IntVec3> tempSourceList = new List<IntVec3>();
 
-		public static IAttackTarget BestAttackTarget(IAttackTargetSearcher searcher, TargetScanFlags flags, Predicate<Thing> validator = null, float minDist = 0, float maxDist = 9999, IntVec3 locus = default(IntVec3), float maxTravelRadiusFromLocus = 3.40282347E+38f, bool canBash = false)
+		public static IAttackTarget BestAttackTarget(IAttackTargetSearcher searcher, TargetScanFlags flags, Predicate<Thing> validator = null, float minDist = 0f, float maxDist = 9999f, IntVec3 locus = default(IntVec3), float maxTravelRadiusFromLocus = 3.40282347E+38f, bool canBash = false)
 		{
 			Thing searcherThing = searcher.Thing;
 			Pawn searcherPawn = searcher as Pawn;
 			Verb verb = searcher.CurrentEffectiveVerb;
+			IAttackTarget result;
 			if (verb == null)
 			{
 				Log.Error("BestAttackTarget with " + searcher + " who has no attack verb.");
-				return null;
+				result = null;
 			}
-			bool onlyTargetMachines = verb != null && verb.verbProps.projectileDef != null && verb.verbProps.projectileDef.projectile.damageDef == DamageDefOf.EMP;
-			float minDistanceSquared = minDist * minDist;
-			float num = maxTravelRadiusFromLocus + verb.verbProps.range;
-			float maxLocusDistSquared = num * num;
-			Func<IntVec3, bool> losValidator = null;
-			if ((byte)((int)flags & 64) != 0)
+			else
 			{
-				losValidator = (Func<IntVec3, bool>)delegate(IntVec3 vec3)
+				bool onlyTargetMachines = verb != null && verb.IsEMP();
+				float minDistanceSquared = minDist * minDist;
+				float num = maxTravelRadiusFromLocus + verb.verbProps.range;
+				float maxLocusDistSquared = num * num;
+				Func<IntVec3, bool> losValidator = null;
+				if ((byte)((int)flags & 64) != 0)
 				{
-					Thing gas = vec3.GetGas(searcherThing.Map);
-					if (gas != null && gas.def.gas.blockTurretTracking)
+					losValidator = (Func<IntVec3, bool>)delegate(IntVec3 vec3)
 					{
-						return false;
+						Gas gas = vec3.GetGas(searcherThing.Map);
+						return gas == null || !gas.def.gas.blockTurretTracking;
+					};
+				}
+				Predicate<IAttackTarget> innerValidator = (Predicate<IAttackTarget>)delegate(IAttackTarget t)
+				{
+					Thing thing = t.Thing;
+					bool result2;
+					if (t == searcher)
+					{
+						result2 = false;
 					}
-					return true;
+					else if (minDistanceSquared > 0.0 && (float)(searcherThing.Position - thing.Position).LengthHorizontalSquared < minDistanceSquared)
+					{
+						result2 = false;
+					}
+					else if (maxTravelRadiusFromLocus < 9999.0 && (float)(thing.Position - locus).LengthHorizontalSquared > maxLocusDistSquared)
+					{
+						result2 = false;
+					}
+					else if (!searcherThing.HostileTo(thing))
+					{
+						result2 = false;
+					}
+					else if ((object)validator != null && !validator(thing))
+					{
+						result2 = false;
+					}
+					else
+					{
+						if ((byte)((int)flags & 3) != 0 && !searcherThing.CanSee(thing, losValidator))
+						{
+							if (t is Pawn)
+							{
+								if ((byte)((int)flags & 1) != 0)
+								{
+									result2 = false;
+									goto IL_02bb;
+								}
+							}
+							else if ((byte)((int)flags & 2) != 0)
+							{
+								result2 = false;
+								goto IL_02bb;
+							}
+						}
+						if ((byte)((int)flags & 32) != 0 && t.ThreatDisabled())
+						{
+							result2 = false;
+						}
+						else
+						{
+							Pawn pawn2 = t as Pawn;
+							if (onlyTargetMachines && pawn2 != null && pawn2.RaceProps.IsFlesh)
+							{
+								result2 = false;
+							}
+							else if ((byte)((int)flags & 16) != 0 && thing.IsBurning())
+							{
+								result2 = false;
+							}
+							else
+							{
+								if (searcherThing.def.race != null && (int)searcherThing.def.race.intelligence >= 2)
+								{
+									CompExplosive compExplosive = thing.TryGetComp<CompExplosive>();
+									if (compExplosive != null && compExplosive.wickStarted)
+									{
+										result2 = false;
+										goto IL_02bb;
+									}
+								}
+								if (thing.def.size.x == 1 && thing.def.size.z == 1)
+								{
+									if (thing.Position.Fogged(thing.Map))
+									{
+										result2 = false;
+										goto IL_02bb;
+									}
+								}
+								else
+								{
+									bool flag2 = false;
+									CellRect.CellRectIterator iterator = thing.OccupiedRect().GetIterator();
+									while (!iterator.Done())
+									{
+										if (iterator.Current.Fogged(thing.Map))
+										{
+											iterator.MoveNext();
+											continue;
+										}
+										flag2 = true;
+										break;
+									}
+									if (!flag2)
+									{
+										result2 = false;
+										goto IL_02bb;
+									}
+								}
+								result2 = true;
+							}
+						}
+					}
+					goto IL_02bb;
+					IL_02bb:
+					return result2;
 				};
-			}
-			Predicate<IAttackTarget> innerValidator = (Predicate<IAttackTarget>)delegate(IAttackTarget t)
-			{
-				Thing thing = t.Thing;
-				if (t == searcher)
+				if (AttackTargetFinder.HasRangedAttack(searcher))
 				{
-					return false;
-				}
-				if (minDistanceSquared > 0.0 && (float)(searcherThing.Position - thing.Position).LengthHorizontalSquared < minDistanceSquared)
-				{
-					return false;
-				}
-				if (maxTravelRadiusFromLocus < 9999.0 && (float)(thing.Position - locus).LengthHorizontalSquared > maxLocusDistSquared)
-				{
-					return false;
-				}
-				if (!searcherThing.HostileTo(thing))
-				{
-					return false;
-				}
-				if ((object)validator != null && !validator(thing))
-				{
-					return false;
-				}
-				if ((byte)((int)flags & 3) != 0 && !searcherThing.CanSee(thing, losValidator))
-				{
-					if (t is Pawn)
+					AttackTargetFinder.tmpTargets.Clear();
+					AttackTargetFinder.tmpTargets.AddRange(searcherThing.Map.attackTargetsCache.GetPotentialTargetsFor(searcher));
+					if ((byte)((int)flags & 4) != 0)
 					{
-						if ((byte)((int)flags & 1) != 0)
+						Predicate<IAttackTarget> oldValidator = innerValidator;
+						_003CBestAttackTarget_003Ec__AnonStorey0 _003CBestAttackTarget_003Ec__AnonStorey;
+						innerValidator = (Predicate<IAttackTarget>)((IAttackTarget t) => oldValidator(t) && AttackTargetFinder.CanReach(_003CBestAttackTarget_003Ec__AnonStorey.searcherThing, t.Thing, canBash));
+					}
+					bool flag = false;
+					if (searcherThing.Faction != Faction.OfPlayer)
+					{
+						for (int i = 0; i < AttackTargetFinder.tmpTargets.Count; i++)
 						{
-							return false;
+							IAttackTarget attackTarget = AttackTargetFinder.tmpTargets[i];
+							if (attackTarget.Thing.Position.InHorDistOf(searcherThing.Position, maxDist) && innerValidator(attackTarget) && AttackTargetFinder.CanShootAtFromCurrentPosition(attackTarget, searcher, verb))
+							{
+								flag = true;
+								break;
+							}
 						}
 					}
-					else if ((byte)((int)flags & 2) != 0)
+					IAttackTarget attackTarget2;
+					if (flag)
 					{
-						return false;
+						AttackTargetFinder.tmpTargets.RemoveAll((Predicate<IAttackTarget>)((IAttackTarget x) => !x.Thing.Position.InHorDistOf(searcherThing.Position, maxDist) || !innerValidator(x)));
+						attackTarget2 = AttackTargetFinder.GetRandomShootingTargetByScore(AttackTargetFinder.tmpTargets, searcher, verb);
 					}
-				}
-				if ((byte)((int)flags & 32) != 0 && t.ThreatDisabled())
-				{
-					return false;
-				}
-				Pawn pawn = t as Pawn;
-				if (onlyTargetMachines && pawn != null && pawn.RaceProps.IsFlesh)
-				{
-					return false;
-				}
-				if ((byte)((int)flags & 16) != 0 && thing.IsBurning())
-				{
-					return false;
-				}
-				if (searcherThing.def.race != null && (int)searcherThing.def.race.intelligence >= 2)
-				{
-					CompExplosive compExplosive = thing.TryGetComp<CompExplosive>();
-					if (compExplosive != null && compExplosive.wickStarted)
+					else
 					{
-						return false;
+						Predicate<Thing> validator2 = ((((byte)((int)flags & 8) == 0) ? 1 : ((byte)((int)flags & 4))) != 0) ? ((Predicate<Thing>)((Thing t) => innerValidator((IAttackTarget)t))) : ((Predicate<Thing>)((Thing t) => innerValidator((IAttackTarget)t) && (AttackTargetFinder.CanReach(searcherThing, t, canBash) || AttackTargetFinder.CanShootAtFromCurrentPosition((IAttackTarget)t, searcher, verb))));
+						attackTarget2 = (IAttackTarget)GenClosest.ClosestThing_Global(searcherThing.Position, AttackTargetFinder.tmpTargets, maxDist, validator2, null);
 					}
-				}
-				return true;
-			};
-			if (AttackTargetFinder.HasRangedAttack(searcher))
-			{
-				AttackTargetFinder.tmpTargets.Clear();
-				AttackTargetFinder.tmpTargets.AddRange(searcherThing.Map.attackTargetsCache.GetPotentialTargetsFor(searcher));
-				if ((byte)((int)flags & 4) != 0)
-				{
-					Predicate<IAttackTarget> oldValidator = innerValidator;
-					_003CBestAttackTarget_003Ec__AnonStorey502 _003CBestAttackTarget_003Ec__AnonStorey;
-					innerValidator = (Predicate<IAttackTarget>)((IAttackTarget t) => oldValidator(t) && AttackTargetFinder.CanReach(_003CBestAttackTarget_003Ec__AnonStorey.searcherThing, t.Thing, canBash));
-				}
-				bool flag = false;
-				if (searcherThing.Faction != Faction.OfPlayer)
-				{
-					for (int i = 0; i < AttackTargetFinder.tmpTargets.Count; i++)
-					{
-						IAttackTarget attackTarget = AttackTargetFinder.tmpTargets[i];
-						if (attackTarget.Thing.Position.InHorDistOf(searcherThing.Position, maxDist) && innerValidator(attackTarget) && AttackTargetFinder.CanShootAtFromCurrentPosition(attackTarget, searcher, verb))
-						{
-							flag = true;
-							break;
-						}
-					}
-				}
-				IAttackTarget result;
-				if (flag)
-				{
-					AttackTargetFinder.tmpTargets.RemoveAll((Predicate<IAttackTarget>)((IAttackTarget x) => !x.Thing.Position.InHorDistOf(searcherThing.Position, maxDist) || !innerValidator(x)));
-					result = AttackTargetFinder.GetRandomShootingTargetByScore(AttackTargetFinder.tmpTargets, searcher, verb);
+					AttackTargetFinder.tmpTargets.Clear();
+					result = attackTarget2;
 				}
 				else
 				{
-					Predicate<Thing> validator2 = ((((byte)((int)flags & 8) == 0) ? 1 : ((byte)((int)flags & 4))) != 0) ? ((Predicate<Thing>)((Thing t) => innerValidator((IAttackTarget)t))) : ((Predicate<Thing>)((Thing t) => innerValidator((IAttackTarget)t) && (AttackTargetFinder.CanReach(searcherThing, t, canBash) || AttackTargetFinder.CanShootAtFromCurrentPosition((IAttackTarget)t, searcher, verb))));
-					result = (IAttackTarget)GenClosest.ClosestThing_Global(searcherThing.Position, AttackTargetFinder.tmpTargets, maxDist, validator2);
-				}
-				AttackTargetFinder.tmpTargets.Clear();
-				return result;
-			}
-			if (searcherPawn != null && searcherPawn.mindState.duty != null && searcherPawn.mindState.duty.radius > 0.0)
-			{
-				Predicate<IAttackTarget> oldValidator2 = innerValidator;
-				innerValidator = (Predicate<IAttackTarget>)delegate(IAttackTarget t)
-				{
-					if (!oldValidator2(t))
+					if (searcherPawn != null && searcherPawn.mindState.duty != null && searcherPawn.mindState.duty.radius > 0.0 && !searcherPawn.InMentalState)
 					{
-						return false;
+						Predicate<IAttackTarget> oldValidator2 = innerValidator;
+						_003CBestAttackTarget_003Ec__AnonStorey0 _003CBestAttackTarget_003Ec__AnonStorey2;
+						innerValidator = (Predicate<IAttackTarget>)((IAttackTarget t) => (byte)(oldValidator2(t) ? (t.Thing.Position.InHorDistOf(_003CBestAttackTarget_003Ec__AnonStorey2.searcherPawn.mindState.duty.focus.Cell, _003CBestAttackTarget_003Ec__AnonStorey2.searcherPawn.mindState.duty.radius) ? 1 : 0) : 0) != 0);
 					}
-					_003CBestAttackTarget_003Ec__AnonStorey502 _003CBestAttackTarget_003Ec__AnonStorey2;
-					if (!t.Thing.Position.InHorDistOf(_003CBestAttackTarget_003Ec__AnonStorey2.searcherPawn.mindState.duty.focus.Cell, _003CBestAttackTarget_003Ec__AnonStorey2.searcherPawn.mindState.duty.radius))
+					IntVec3 root = searcherThing.Position;
+					Map map = searcherThing.Map;
+					ThingRequest thingReq = ThingRequest.ForGroup(ThingRequestGroup.AttackTarget);
+					PathEndMode peMode = PathEndMode.Touch;
+					Pawn pawn = searcherPawn;
+					Danger maxDanger = Danger.Deadly;
+					bool canBash2 = canBash;
+					TraverseParms traverseParams = TraverseParms.For(pawn, maxDanger, TraverseMode.ByPawn, canBash2);
+					float maxDistance = maxDist;
+					Predicate<Thing> validator3 = (Predicate<Thing>)((Thing x) => innerValidator((IAttackTarget)x));
+					int searchRegionsMax = (!(maxDist > 800.0)) ? 40 : (-1);
+					IAttackTarget attackTarget3 = (IAttackTarget)GenClosest.ClosestThingReachable(root, map, thingReq, peMode, traverseParams, maxDistance, validator3, null, 0, searchRegionsMax, false, RegionType.Set_Passable, false);
+					if (attackTarget3 != null && PawnUtility.ShouldCollideWithPawns(searcherPawn))
 					{
-						return false;
+						IAttackTarget attackTarget4 = AttackTargetFinder.FindBestReachableMeleeTarget(innerValidator, searcherPawn, maxDist, canBash);
+						if (attackTarget4 != null)
+						{
+							root = searcherPawn.Position - attackTarget3.Thing.Position;
+							float lengthHorizontal = root.LengthHorizontal;
+							float lengthHorizontal2 = (searcherPawn.Position - attackTarget4.Thing.Position).LengthHorizontal;
+							if (Mathf.Abs(lengthHorizontal - lengthHorizontal2) < 50.0)
+							{
+								attackTarget3 = attackTarget4;
+							}
+						}
 					}
-					return true;
-				};
-			}
-			int searchRegionsMax = (!(maxDist > 800.0)) ? 40 : (-1);
-			IntVec3 position = searcherThing.Position;
-			Map map = searcherThing.Map;
-			ThingRequest thingReq = ThingRequest.ForGroup(ThingRequestGroup.AttackTarget);
-			bool canBash2 = canBash;
-			IAttackTarget attackTarget2 = (IAttackTarget)GenClosest.ClosestThingReachable(position, map, thingReq, PathEndMode.Touch, TraverseParms.For(searcherPawn, Danger.Deadly, TraverseMode.ByPawn, canBash2), maxDist, (Predicate<Thing>)((Thing x) => innerValidator((IAttackTarget)x)), null, 0, searchRegionsMax, false, RegionType.Set_Passable, false);
-			if (attackTarget2 != null && PawnUtility.ShouldCollideWithPawns(searcherPawn))
-			{
-				IAttackTarget attackTarget3 = AttackTargetFinder.FindBestReachableMeleeTarget(innerValidator, searcherPawn, maxDist, canBash);
-				if (attackTarget3 != null)
-				{
-					float lengthHorizontal = (searcherPawn.Position - attackTarget2.Thing.Position).LengthHorizontal;
-					float lengthHorizontal2 = (searcherPawn.Position - attackTarget3.Thing.Position).LengthHorizontal;
-					if (Mathf.Abs(lengthHorizontal - lengthHorizontal2) < 50.0)
-					{
-						attackTarget2 = attackTarget3;
-					}
+					result = attackTarget3;
 				}
 			}
-			return attackTarget2;
+			return result;
 		}
 
 		private static bool CanReach(Thing searcher, Thing target, bool canBash)
 		{
 			Pawn pawn = searcher as Pawn;
+			bool result;
 			if (pawn != null)
 			{
 				if (!pawn.CanReach(target, PathEndMode.Touch, Danger.Some, canBash, TraverseMode.ByPawn))
 				{
-					return false;
+					result = false;
+					goto IL_0079;
 				}
 			}
 			else
@@ -197,10 +243,14 @@ namespace Verse.AI
 				TraverseMode mode = (TraverseMode)(canBash ? 1 : 2);
 				if (!searcher.Map.reachability.CanReach(searcher.Position, target, PathEndMode.Touch, TraverseParms.For(mode, Danger.Deadly, false)))
 				{
-					return false;
+					result = false;
+					goto IL_0079;
 				}
 			}
-			return true;
+			result = true;
+			goto IL_0079;
+			IL_0079:
+			return result;
 		}
 
 		private static IAttackTarget FindBestReachableMeleeTarget(Predicate<IAttackTarget> validator, Pawn searcherPawn, float maxTargDist, bool canBash)
@@ -210,40 +260,54 @@ namespace Verse.AI
 			Func<IntVec3, IAttackTarget> bestTargetOnCell = (Func<IntVec3, IAttackTarget>)delegate(IntVec3 x)
 			{
 				List<Thing> thingList = x.GetThingList(searcherPawn.Map);
-				for (int j = 0; j < thingList.Count; j++)
+				int num = 0;
+				IAttackTarget result2;
+				while (true)
 				{
-					Thing thing = thingList[j];
-					IAttackTarget attackTarget2 = thing as IAttackTarget;
-					if (attackTarget2 != null && validator(attackTarget2) && ReachabilityImmediate.CanReachImmediate(x, thing, searcherPawn.Map, PathEndMode.Touch, searcherPawn) && (searcherPawn.CanReachImmediate(thing, PathEndMode.Touch) || searcherPawn.Map.attackTargetReservationManager.CanReserve(searcherPawn, attackTarget2)))
+					if (num < thingList.Count)
 					{
-						return attackTarget2;
+						Thing thing = thingList[num];
+						IAttackTarget attackTarget2 = thing as IAttackTarget;
+						if (attackTarget2 != null && validator(attackTarget2) && ReachabilityImmediate.CanReachImmediate(x, thing, searcherPawn.Map, PathEndMode.Touch, searcherPawn) && (searcherPawn.CanReachImmediate(thing, PathEndMode.Touch) || searcherPawn.Map.attackTargetReservationManager.CanReserve(searcherPawn, attackTarget2)))
+						{
+							result2 = attackTarget2;
+							break;
+						}
+						num++;
+						continue;
 					}
+					result2 = null;
+					break;
 				}
-				return null;
+				return result2;
 			};
 			searcherPawn.Map.floodFiller.FloodFill(searcherPawn.Position, (Predicate<IntVec3>)delegate(IntVec3 x)
 			{
+				bool result;
 				if (!x.Walkable(searcherPawn.Map))
 				{
-					return false;
+					result = false;
 				}
-				if ((float)x.DistanceToSquared(searcherPawn.Position) > maxTargDist * maxTargDist)
+				else if ((float)x.DistanceToSquared(searcherPawn.Position) > maxTargDist * maxTargDist)
 				{
-					return false;
+					result = false;
 				}
-				if (!canBash)
+				else
 				{
-					Building_Door building_Door = x.GetEdifice(searcherPawn.Map) as Building_Door;
-					if (building_Door != null && !building_Door.CanPhysicallyPass(searcherPawn))
+					if (!canBash)
 					{
-						return false;
+						Building_Door building_Door = x.GetEdifice(searcherPawn.Map) as Building_Door;
+						if (building_Door != null && !building_Door.CanPhysicallyPass(searcherPawn))
+						{
+							result = false;
+							goto IL_00ac;
+						}
 					}
+					result = ((byte)((!PawnUtility.AnyPawnBlockingPathAt(x, searcherPawn, true, false)) ? 1 : 0) != 0);
 				}
-				if (PawnUtility.AnyPawnBlockingPathAt(x, searcherPawn, true, false))
-				{
-					return false;
-				}
-				return true;
+				goto IL_00ac;
+				IL_00ac:
+				return result;
 			}, (Func<IntVec3, bool>)delegate(IntVec3 x)
 			{
 				for (int i = 0; i < 8; i++)
@@ -260,7 +324,7 @@ namespace Verse.AI
 					}
 				}
 				return reachableTarget != null;
-			}, false);
+			}, 2147483647, false, null);
 			return reachableTarget;
 		}
 
@@ -272,78 +336,75 @@ namespace Verse.AI
 
 		private static bool CanShootAtFromCurrentPosition(IAttackTarget target, IAttackTargetSearcher searcher, Verb verb)
 		{
-			if (verb == null)
-			{
-				return false;
-			}
-			return verb.CanHitTargetFrom(searcher.Thing.Position, target.Thing);
+			return verb != null && verb.CanHitTargetFrom(searcher.Thing.Position, target.Thing);
 		}
 
 		private static IAttackTarget GetRandomShootingTargetByScore(List<IAttackTarget> targets, IAttackTargetSearcher searcher, Verb verb)
 		{
 			Pair<IAttackTarget, float> pair = default(Pair<IAttackTarget, float>);
-			if (((IEnumerable<Pair<IAttackTarget, float>>)AttackTargetFinder.GetAvailableShootingTargetsByScore(targets, searcher, verb)).TryRandomElementByWeight<Pair<IAttackTarget, float>>((Func<Pair<IAttackTarget, float>, float>)((Pair<IAttackTarget, float> x) => x.Second), out pair))
-			{
-				return pair.First;
-			}
-			return null;
+			return (!((IEnumerable<Pair<IAttackTarget, float>>)AttackTargetFinder.GetAvailableShootingTargetsByScore(targets, searcher, verb)).TryRandomElementByWeight<Pair<IAttackTarget, float>>((Func<Pair<IAttackTarget, float>, float>)((Pair<IAttackTarget, float> x) => x.Second), out pair)) ? null : pair.First;
 		}
 
 		private static List<Pair<IAttackTarget, float>> GetAvailableShootingTargetsByScore(List<IAttackTarget> rawTargets, IAttackTargetSearcher searcher, Verb verb)
 		{
 			AttackTargetFinder.availableShootingTargets.Clear();
+			List<Pair<IAttackTarget, float>> result;
 			if (rawTargets.Count == 0)
 			{
-				return AttackTargetFinder.availableShootingTargets;
-			}
-			AttackTargetFinder.tmpTargetScores.Clear();
-			AttackTargetFinder.tmpCanShootAtTarget.Clear();
-			float num = 0f;
-			IAttackTarget attackTarget = null;
-			for (int i = 0; i < rawTargets.Count; i++)
-			{
-				AttackTargetFinder.tmpTargetScores.Add(-3.40282347E+38f);
-				AttackTargetFinder.tmpCanShootAtTarget.Add(false);
-				if (rawTargets[i] != searcher)
-				{
-					bool flag = AttackTargetFinder.CanShootAtFromCurrentPosition(rawTargets[i], searcher, verb);
-					AttackTargetFinder.tmpCanShootAtTarget[i] = flag;
-					if (flag)
-					{
-						float shootingTargetScore = AttackTargetFinder.GetShootingTargetScore(rawTargets[i], searcher, verb);
-						AttackTargetFinder.tmpTargetScores[i] = shootingTargetScore;
-						if (attackTarget == null || shootingTargetScore > num)
-						{
-							attackTarget = rawTargets[i];
-							num = shootingTargetScore;
-						}
-					}
-				}
-			}
-			if (num < 1.0)
-			{
-				if (attackTarget != null)
-				{
-					AttackTargetFinder.availableShootingTargets.Add(new Pair<IAttackTarget, float>(attackTarget, 1f));
-				}
+				result = AttackTargetFinder.availableShootingTargets;
 			}
 			else
 			{
-				float num2 = (float)(num - 30.0);
-				for (int j = 0; j < rawTargets.Count; j++)
+				AttackTargetFinder.tmpTargetScores.Clear();
+				AttackTargetFinder.tmpCanShootAtTarget.Clear();
+				float num = 0f;
+				IAttackTarget attackTarget = null;
+				for (int i = 0; i < rawTargets.Count; i++)
 				{
-					if (rawTargets[j] != searcher && AttackTargetFinder.tmpCanShootAtTarget[j])
+					AttackTargetFinder.tmpTargetScores.Add(-3.40282347E+38f);
+					AttackTargetFinder.tmpCanShootAtTarget.Add(false);
+					if (rawTargets[i] != searcher)
 					{
-						float num3 = AttackTargetFinder.tmpTargetScores[j];
-						if (num3 >= num2)
+						bool flag = AttackTargetFinder.CanShootAtFromCurrentPosition(rawTargets[i], searcher, verb);
+						AttackTargetFinder.tmpCanShootAtTarget[i] = flag;
+						if (flag)
 						{
-							float second = Mathf.InverseLerp((float)(num - 30.0), num, num3);
-							AttackTargetFinder.availableShootingTargets.Add(new Pair<IAttackTarget, float>(rawTargets[j], second));
+							float shootingTargetScore = AttackTargetFinder.GetShootingTargetScore(rawTargets[i], searcher, verb);
+							AttackTargetFinder.tmpTargetScores[i] = shootingTargetScore;
+							if (attackTarget == null || shootingTargetScore > num)
+							{
+								attackTarget = rawTargets[i];
+								num = shootingTargetScore;
+							}
 						}
 					}
 				}
+				if (num < 1.0)
+				{
+					if (attackTarget != null)
+					{
+						AttackTargetFinder.availableShootingTargets.Add(new Pair<IAttackTarget, float>(attackTarget, 1f));
+					}
+				}
+				else
+				{
+					float num2 = (float)(num - 30.0);
+					for (int j = 0; j < rawTargets.Count; j++)
+					{
+						if (rawTargets[j] != searcher && AttackTargetFinder.tmpCanShootAtTarget[j])
+						{
+							float num3 = AttackTargetFinder.tmpTargetScores[j];
+							if (num3 >= num2)
+							{
+								float second = Mathf.InverseLerp((float)(num - 30.0), num, num3);
+								AttackTargetFinder.availableShootingTargets.Add(new Pair<IAttackTarget, float>(rawTargets[j], second));
+							}
+						}
+					}
+				}
+				result = AttackTargetFinder.availableShootingTargets;
 			}
-			return AttackTargetFinder.availableShootingTargets;
+			return result;
 		}
 
 		private static float GetShootingTargetScore(IAttackTarget target, IAttackTargetSearcher searcher, Verb verb)
@@ -369,40 +430,45 @@ namespace Verse.AI
 
 		private static float FriendlyFireShootingTargetScoreOffset(IAttackTarget target, IAttackTargetSearcher searcher, Verb verb)
 		{
+			float result;
 			if (verb.verbProps.ai_AvoidFriendlyFireRadius <= 0.0)
 			{
-				return 0f;
+				result = 0f;
 			}
-			Map map = target.Thing.Map;
-			IntVec3 position = target.Thing.Position;
-			int num = GenRadial.NumCellsInRadius(verb.verbProps.ai_AvoidFriendlyFireRadius);
-			float num2 = 0f;
-			for (int num3 = 0; num3 < num; num3++)
+			else
 			{
-				IntVec3 intVec = position + GenRadial.RadialPattern[num3];
-				if (intVec.InBounds(map))
+				Map map = target.Thing.Map;
+				IntVec3 position = target.Thing.Position;
+				int num = GenRadial.NumCellsInRadius(verb.verbProps.ai_AvoidFriendlyFireRadius);
+				float num2 = 0f;
+				for (int num3 = 0; num3 < num; num3++)
 				{
-					bool flag = true;
-					List<Thing> thingList = intVec.GetThingList(map);
-					for (int i = 0; i < thingList.Count; i++)
+					IntVec3 intVec = position + GenRadial.RadialPattern[num3];
+					if (intVec.InBounds(map))
 					{
-						if (thingList[i] is IAttackTarget && thingList[i] != target)
+						bool flag = true;
+						List<Thing> thingList = intVec.GetThingList(map);
+						for (int i = 0; i < thingList.Count; i++)
 						{
-							if (flag)
+							if (thingList[i] is IAttackTarget && thingList[i] != target)
 							{
-								if (!GenSight.LineOfSight(position, intVec, map, true, null, 0, 0))
+								if (flag)
 								{
-									break;
+									if (!GenSight.LineOfSight(position, intVec, map, true, null, 0, 0))
+									{
+										break;
+									}
+									flag = false;
 								}
-								flag = false;
+								float num4 = (float)((thingList[i] != searcher) ? ((!(thingList[i] is Pawn)) ? 10.0 : ((!thingList[i].def.race.Animal) ? 18.0 : 7.0)) : 40.0);
+								num2 = (float)((!searcher.Thing.HostileTo(thingList[i])) ? (num2 - num4) : (num2 + num4 * 0.60000002384185791));
 							}
-							float num4 = (float)((thingList[i] != searcher) ? ((!(thingList[i] is Pawn)) ? 10.0 : ((!thingList[i].def.race.Animal) ? 18.0 : 7.0)) : 40.0);
-							num2 = (float)((!searcher.Thing.HostileTo(thingList[i])) ? (num2 - num4) : (num2 + num4 * 0.60000002384185791));
 						}
 					}
 				}
+				result = Mathf.Min(num2, 0f);
 			}
-			return Mathf.Min(num2, 0f);
+			return result;
 		}
 
 		public static IAttackTarget BestShootTargetFromCurrentPosition(IAttackTargetSearcher searcher, Predicate<Thing> validator, float maxDistance, float minDistance, TargetScanFlags flags)
@@ -413,25 +479,36 @@ namespace Verse.AI
 		public static bool CanSee(this Thing seer, Thing target, Func<IntVec3, bool> validator = null)
 		{
 			ShootLeanUtility.CalcShootableCellsOf(AttackTargetFinder.tempDestList, target);
-			for (int i = 0; i < AttackTargetFinder.tempDestList.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (GenSight.LineOfSight(seer.Position, AttackTargetFinder.tempDestList[i], seer.Map, true, validator, 0, 0))
+				if (num < AttackTargetFinder.tempDestList.Count)
 				{
-					return true;
-				}
-			}
-			ShootLeanUtility.LeanShootingSourcesFromTo(seer.Position, target.Position, seer.Map, AttackTargetFinder.tempSourceList);
-			for (int j = 0; j < AttackTargetFinder.tempSourceList.Count; j++)
-			{
-				for (int k = 0; k < AttackTargetFinder.tempDestList.Count; k++)
-				{
-					if (GenSight.LineOfSight(AttackTargetFinder.tempSourceList[j], AttackTargetFinder.tempDestList[k], seer.Map, true, validator, 0, 0))
+					if (GenSight.LineOfSight(seer.Position, AttackTargetFinder.tempDestList[num], seer.Map, true, validator, 0, 0))
 					{
-						return true;
+						result = true;
+						break;
+					}
+					num++;
+					continue;
+				}
+				ShootLeanUtility.LeanShootingSourcesFromTo(seer.Position, target.Position, seer.Map, AttackTargetFinder.tempSourceList);
+				for (int i = 0; i < AttackTargetFinder.tempSourceList.Count; i++)
+				{
+					for (int j = 0; j < AttackTargetFinder.tempDestList.Count; j++)
+					{
+						if (GenSight.LineOfSight(AttackTargetFinder.tempSourceList[i], AttackTargetFinder.tempDestList[j], seer.Map, true, validator, 0, 0))
+							goto IL_00ab;
 					}
 				}
+				result = false;
+				break;
+				IL_00ab:
+				result = true;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public static void DebugDrawAttackTargetScores_Update()

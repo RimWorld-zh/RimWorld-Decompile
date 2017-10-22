@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -23,17 +22,27 @@ namespace Verse
 		{
 			get
 			{
-				for (int i = 0; i < this.length; i++)
+				int i = 0;
+				while (true)
 				{
-					if (this.dir == SpanDirection.North)
+					if (i < this.length)
 					{
-						yield return new IntVec3(this.root.x, 0, this.root.z + i);
+						if (this.dir == SpanDirection.North)
+						{
+							yield return new IntVec3(this.root.x, 0, this.root.z + i);
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
+						if (this.dir != SpanDirection.East)
+						{
+							i++;
+							continue;
+						}
+						break;
 					}
-					else if (this.dir == SpanDirection.East)
-					{
-						yield return new IntVec3(this.root.x + i, 0, this.root.z);
-					}
+					yield break;
 				}
+				yield return new IntVec3(this.root.x + i, 0, this.root.z);
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -46,7 +55,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return "(root=" + this.root + ", dir=" + ((Enum)(object)this.dir).ToString() + " + length=" + this.length + ")";
+			return "(root=" + this.root + ", dir=" + this.dir.ToString() + " + length=" + this.length + ")";
 		}
 
 		public ulong UniqueHashCode()

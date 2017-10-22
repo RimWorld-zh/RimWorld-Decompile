@@ -7,13 +7,15 @@ namespace RimWorld
 {
 	public class WeatherDecider : IExposable
 	{
-		private const int FirstWeatherDuration = 10000;
-
 		private Map map;
 
 		private int curWeatherDuration = 10000;
 
-		private int ticksWhenRainAllowedAgain;
+		private int ticksWhenRainAllowedAgain = 0;
+
+		private const int FirstWeatherDuration = 10000;
+
+		private const float ChanceFactorRainOnFire = 15f;
 
 		public WeatherDecider(Map map)
 		{
@@ -46,17 +48,42 @@ namespace RimWorld
 			this.curWeatherDuration = weatherDef.durationRange.RandomInRange;
 		}
 
+		public void StartInitialWeather()
+		{
+			if (Find.GameInitData != null)
+			{
+				this.map.weatherManager.curWeather = WeatherDefOf.Clear;
+				this.curWeatherDuration = 10000;
+				this.map.weatherManager.curWeatherAge = 0;
+			}
+			else
+			{
+				this.map.weatherManager.curWeather = null;
+				WeatherDef weatherDef = this.ChooseNextWeather();
+				WeatherDef lastWeather = this.ChooseNextWeather();
+				this.map.weatherManager.curWeather = weatherDef;
+				this.map.weatherManager.lastWeather = lastWeather;
+				this.curWeatherDuration = weatherDef.durationRange.RandomInRange;
+				this.map.weatherManager.curWeatherAge = Rand.Range(0, this.curWeatherDuration);
+			}
+		}
+
 		private WeatherDef ChooseNextWeather()
 		{
+			WeatherDef result;
+			WeatherDef weatherDef = default(WeatherDef);
 			if (TutorSystem.TutorialMode)
 			{
-				return WeatherDefOf.Clear;
+				result = WeatherDefOf.Clear;
 			}
-			WeatherDef result = default(WeatherDef);
-			if (!DefDatabase<WeatherDef>.AllDefs.TryRandomElementByWeight<WeatherDef>((Func<WeatherDef, float>)((WeatherDef w) => this.CurrentWeatherCommonality(w)), out result))
+			else if (!DefDatabase<WeatherDef>.AllDefs.TryRandomElementByWeight<WeatherDef>((Func<WeatherDef, float>)((WeatherDef w) => this.CurrentWeatherCommonality(w)), out weatherDef))
 			{
 				Log.Warning("All weather commonalities were zero. Defaulting to " + WeatherDefOf.Clear.defName + ".");
-				return WeatherDefOf.Clear;
+				result = WeatherDefOf.Clear;
+			}
+			else
+			{
+				result = weatherDef;
 			}
 			return result;
 		}
@@ -68,45 +95,54 @@ namespace RimWorld
 
 		private float CurrentWeatherCommonality(WeatherDef weather)
 		{
-			if (!this.map.weatherManager.curWeather.repeatable && weather == this.map.weatherManager.curWeather)
+			float result;
+			WeatherCommonalityRecord weatherCommonalityRecord;
+			if (this.map.weatherManager.curWeather != null && !this.map.weatherManager.curWeather.repeatable && weather == this.map.weatherManager.curWeather)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (!weather.temperatureRange.Includes(this.map.mapTemperature.OutdoorTemp))
+			else if (!weather.temperatureRange.Includes(this.map.mapTemperature.OutdoorTemp))
 			{
-				return 0f;
+				result = 0f;
 			}
-			if ((int)weather.favorability < 2 && GenDate.DaysPassed < 8)
+			else if ((int)weather.favorability < 2 && GenDate.DaysPassed < 8)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (weather.rainRate > 0.10000000149011612 && Find.TickManager.TicksGame < this.ticksWhenRainAllowedAgain)
+			else if (weather.rainRate > 0.10000000149011612 && Find.TickManager.TicksGame < this.ticksWhenRainAllowedAgain)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (weather.rainRate > 0.10000000149011612 && this.map.gameConditionManager.ActiveConditions.Any((Predicate<GameCondition>)((GameCondition x) => x.def.preventRain)))
+			else if (weather.rainRate > 0.10000000149011612 && this.map.gameConditionManager.ActiveConditions.Any((Predicate<GameCondition>)((GameCondition x) => x.def.preventRain)))
 			{
-				return 0f;
+				result = 0f;
 			}
-			BiomeDef biome = this.map.Biome;
-			for (int i = 0; i < biome.baseWeatherCommonalities.Count; i++)
+			else
 			{
-				WeatherCommonalityRecord weatherCommonalityRecord = biome.baseWeatherCommonalities[i];
-				if (weatherCommonalityRecord.weather == weather)
+				BiomeDef biome = this.map.Biome;
+				for (int i = 0; i < biome.baseWeatherCommonalities.Count; i++)
 				{
-					float num = weatherCommonalityRecord.commonality;
-					if (this.map.fireWatcher.LargeFireDangerPresent && weather.rainRate > 0.10000000149011612)
-					{
-						num = (float)(num * 20.0);
-					}
-					if (weatherCommonalityRecord.weather.commonalityRainfallFactor != null)
-					{
-						num *= weatherCommonalityRecord.weather.commonalityRainfallFactor.Evaluate(this.map.TileInfo.rainfall);
-					}
-					return num;
+					weatherCommonalityRecord = biome.baseWeatherCommonalities[i];
+					if (weatherCommonalityRecord.weather == weather)
+						goto IL_014d;
 				}
+				result = 0f;
 			}
-			return 0f;
+			goto IL_01e3;
+			IL_014d:
+			float num = weatherCommonalityRecord.commonality;
+			if (this.map.fireWatcher.LargeFireDangerPresent && weather.rainRate > 0.10000000149011612)
+			{
+				num = (float)(num * 15.0);
+			}
+			if (weatherCommonalityRecord.weather.commonalityRainfallFactor != null)
+			{
+				num *= weatherCommonalityRecord.weather.commonalityRainfallFactor.Evaluate(this.map.TileInfo.rainfall);
+			}
+			result = num;
+			goto IL_01e3;
+			IL_01e3:
+			return result;
 		}
 
 		public void LogWeatherChances()

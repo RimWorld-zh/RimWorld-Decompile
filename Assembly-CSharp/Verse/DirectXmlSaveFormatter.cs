@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -12,34 +10,16 @@ namespace Verse
 		{
 			if (root.Elements().Any())
 			{
-				List<XElement>.Enumerator enumerator = root.Elements().ToList().GetEnumerator();
-				try
+				foreach (XElement item in root.Elements().ToList())
 				{
-					while (enumerator.MoveNext())
-					{
-						XElement current = enumerator.Current;
-						XText content = new XText("\n");
-						current.AddAfterSelf(content);
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					XText content = new XText("\n");
+					item.AddAfterSelf(content);
 				}
 				root.Elements().First().AddBeforeSelf(new XText("\n"));
 				root.Elements().Last().AddAfterSelf(new XText("\n"));
-				List<XElement>.Enumerator enumerator2 = root.Elements().ToList().GetEnumerator();
-				try
+				foreach (XElement item2 in root.Elements().ToList())
 				{
-					while (enumerator2.MoveNext())
-					{
-						XElement current2 = enumerator2.Current;
-						DirectXmlSaveFormatter.IndentXml(current2, 1);
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
+					DirectXmlSaveFormatter.IndentXml(item2, 1);
 				}
 			}
 		}
@@ -49,18 +29,9 @@ namespace Verse
 			element.AddBeforeSelf(new XText(DirectXmlSaveFormatter.IndentString(depth, true)));
 			bool startWithNewline = element.NextNode == null;
 			element.AddAfterSelf(new XText(DirectXmlSaveFormatter.IndentString(depth - 1, startWithNewline)));
-			List<XElement>.Enumerator enumerator = element.Elements().ToList().GetEnumerator();
-			try
+			foreach (XElement item in element.Elements().ToList())
 			{
-				while (enumerator.MoveNext())
-				{
-					XElement current = enumerator.Current;
-					DirectXmlSaveFormatter.IndentXml(current, depth + 1);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				DirectXmlSaveFormatter.IndentXml(item, depth + 1);
 			}
 		}
 

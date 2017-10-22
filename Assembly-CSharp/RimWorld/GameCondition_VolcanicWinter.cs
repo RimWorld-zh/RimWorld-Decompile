@@ -5,21 +5,21 @@ namespace RimWorld
 {
 	public class GameCondition_VolcanicWinter : GameCondition
 	{
+		private int LerpTicks = 50000;
+
+		private float MaxTempOffset = -7f;
+
 		private const float AnimalDensityImpact = 0.5f;
 
 		private const float SkyGlow = 0.55f;
 
 		private const float MaxSkyLerpFactor = 0.3f;
 
-		private int LerpTicks = 50000;
-
-		private float MaxTempOffset = -7f;
-
 		private SkyColorSet VolcanicWinterColors = new SkyColorSet(new ColorInt(0, 0, 0).ToColor, Color.white, new Color(0.6f, 0.6f, 0.6f), 0.65f);
 
 		public override float SkyTargetLerpFactor()
 		{
-			return GameConditionUtility.LerpInOutValue((float)base.TicksPassed, (float)base.TicksLeft, (float)this.LerpTicks, 0.3f);
+			return GameConditionUtility.LerpInOutValue(this, (float)this.LerpTicks, 0.3f);
 		}
 
 		public override SkyTarget? SkyTarget()
@@ -29,12 +29,12 @@ namespace RimWorld
 
 		public override float TemperatureOffset()
 		{
-			return GameConditionUtility.LerpInOutValue((float)base.TicksPassed, (float)base.TicksLeft, (float)this.LerpTicks, this.MaxTempOffset);
+			return GameConditionUtility.LerpInOutValue(this, (float)this.LerpTicks, this.MaxTempOffset);
 		}
 
 		public override float AnimalDensityFactor()
 		{
-			return (float)(1.0 - GameConditionUtility.LerpInOutValue((float)base.TicksPassed, (float)base.TicksLeft, (float)this.LerpTicks, 0.5f));
+			return (float)(1.0 - GameConditionUtility.LerpInOutValue(this, (float)this.LerpTicks, 0.5f));
 		}
 
 		public override bool AllowEnjoyableOutsideNow()

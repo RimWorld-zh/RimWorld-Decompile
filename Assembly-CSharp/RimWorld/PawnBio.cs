@@ -3,6 +3,7 @@ using Verse;
 
 namespace RimWorld
 {
+	[CaseInsensitiveXMLParsing]
 	public class PawnBio
 	{
 		public GenderPossibility gender;
@@ -13,21 +14,13 @@ namespace RimWorld
 
 		public Backstory adulthood;
 
-		public bool pirateKing;
+		public bool pirateKing = false;
 
 		public PawnBioType BioType
 		{
 			get
 			{
-				if (this.pirateKing)
-				{
-					return PawnBioType.PirateKing;
-				}
-				if (this.adulthood != null)
-				{
-					return PawnBioType.BackstoryInGame;
-				}
-				return PawnBioType.Undefined;
+				return (PawnBioType)((!this.pirateKing) ? ((this.adulthood != null) ? 1 : 0) : 2);
 			}
 		}
 
@@ -63,18 +56,31 @@ namespace RimWorld
 		{
 			if (this.childhood != null)
 			{
-				foreach (string item in this.childhood.ConfigErrors(true))
+				using (IEnumerator<string> enumerator = this.childhood.ConfigErrors(true).GetEnumerator())
 				{
-					yield return this.name + ", " + this.childhood.Title + ": " + item;
+					if (enumerator.MoveNext())
+					{
+						string error2 = enumerator.Current;
+						yield return this.name + ", " + this.childhood.Title + ": " + error2;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
 			if (this.adulthood != null)
 			{
-				foreach (string item2 in this.adulthood.ConfigErrors(false))
+				using (IEnumerator<string> enumerator2 = this.adulthood.ConfigErrors(false).GetEnumerator())
 				{
-					yield return this.name + ", " + this.adulthood.Title + ": " + item2;
+					if (enumerator2.MoveNext())
+					{
+						string error = enumerator2.Current;
+						yield return this.name + ", " + this.adulthood.Title + ": " + error;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
+			yield break;
+			IL_01ff:
+			/*Error near IL_0200: Unexpected return in MoveNext()*/;
 		}
 
 		public override string ToString()

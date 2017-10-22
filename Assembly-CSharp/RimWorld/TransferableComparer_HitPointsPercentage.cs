@@ -13,15 +13,7 @@ namespace RimWorld
 		{
 			Thing anyThing = t.AnyThing;
 			Pawn pawn = anyThing as Pawn;
-			if (pawn != null)
-			{
-				return pawn.health.summaryHealth.SummaryHealthPercent;
-			}
-			if (!anyThing.def.useHitPoints)
-			{
-				return 1f;
-			}
-			return (float)anyThing.HitPoints / (float)anyThing.MaxHitPoints;
+			return (float)((pawn == null) ? (anyThing.def.useHitPoints ? ((float)anyThing.HitPoints / (float)anyThing.MaxHitPoints) : 1.0) : pawn.health.summaryHealth.SummaryHealthPercent);
 		}
 	}
 }

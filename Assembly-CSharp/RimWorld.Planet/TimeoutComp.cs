@@ -26,7 +26,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return this.Passed && !this.ParentHasMap;
+				return this.Passed && !base.ParentHasMap;
 			}
 		}
 
@@ -35,15 +35,6 @@ namespace RimWorld.Planet
 			get
 			{
 				return this.Active ? (this.timeoutEndTick - Find.TickManager.TicksGame) : 0;
-			}
-		}
-
-		private bool ParentHasMap
-		{
-			get
-			{
-				MapParent mapParent = base.parent as MapParent;
-				return mapParent != null && mapParent.HasMap;
 			}
 		}
 
@@ -69,11 +60,7 @@ namespace RimWorld.Planet
 
 		public override string CompInspectStringExtra()
 		{
-			if (this.Active && !this.ParentHasMap)
-			{
-				return "WorldObjectTimeout".Translate(this.TicksLeft.ToStringTicksToPeriod(false, false, false));
-			}
-			return (string)null;
+			return (!this.Active || base.ParentHasMap) ? null : "WorldObjectTimeout".Translate(this.TicksLeft.ToStringTicksToPeriod(false, false, false));
 		}
 	}
 }

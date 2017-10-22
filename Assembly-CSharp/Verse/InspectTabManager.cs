@@ -10,13 +10,18 @@ namespace Verse
 		public static InspectTabBase GetSharedInstance(Type tabType)
 		{
 			InspectTabBase inspectTabBase = default(InspectTabBase);
+			InspectTabBase result;
 			if (InspectTabManager.sharedInstances.TryGetValue(tabType, out inspectTabBase))
 			{
-				return inspectTabBase;
+				result = inspectTabBase;
 			}
-			inspectTabBase = (InspectTabBase)Activator.CreateInstance(tabType);
-			InspectTabManager.sharedInstances.Add(tabType, inspectTabBase);
-			return inspectTabBase;
+			else
+			{
+				inspectTabBase = (InspectTabBase)Activator.CreateInstance(tabType);
+				InspectTabManager.sharedInstances.Add(tabType, inspectTabBase);
+				result = inspectTabBase;
+			}
+			return result;
 		}
 	}
 }

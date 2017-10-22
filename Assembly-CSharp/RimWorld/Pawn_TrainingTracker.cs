@@ -51,10 +51,7 @@ namespace RimWorld
 				for (int i = 0; i < this.pawn.RaceProps.untrainableTags.Count; i++)
 				{
 					if (td.MatchesTag(this.pawn.RaceProps.untrainableTags[i]))
-					{
-						visible = false;
-						return false;
-					}
+						goto IL_0040;
 				}
 			}
 			if (this.pawn.RaceProps.trainableTags != null)
@@ -62,57 +59,79 @@ namespace RimWorld
 				for (int j = 0; j < this.pawn.RaceProps.trainableTags.Count; j++)
 				{
 					if (td.MatchesTag(this.pawn.RaceProps.trainableTags[j]))
-						goto IL_00a3;
+						goto IL_00b0;
 				}
 			}
+			AcceptanceReport result;
 			if (!td.defaultTrainable)
 			{
 				visible = false;
-				return false;
+				result = false;
 			}
+			else if (this.pawn.BodySize < td.minBodySize)
+			{
+				visible = true;
+				result = new AcceptanceReport("CannotTrainTooSmall".Translate(this.pawn.LabelCapNoCount));
+			}
+			else if (this.pawn.RaceProps.TrainableIntelligence.intelligenceOrder < td.requiredTrainableIntelligence.intelligenceOrder)
+			{
+				visible = true;
+				result = new AcceptanceReport("CannotTrainNotSmartEnough".Translate(td.requiredTrainableIntelligence));
+			}
+			else
+			{
+				visible = true;
+				result = true;
+			}
+			goto IL_01de;
+			IL_01de:
+			return result;
+			IL_0040:
+			visible = false;
+			result = false;
+			goto IL_01de;
+			IL_00b0:
 			if (this.pawn.BodySize < td.minBodySize)
 			{
 				visible = true;
-				return new AcceptanceReport("CannotTrainTooSmall".Translate(this.pawn.LabelCapNoCount));
+				result = new AcceptanceReport("CannotTrainTooSmall".Translate(this.pawn.LabelCapNoCount));
 			}
-			if (this.pawn.RaceProps.TrainableIntelligence.intelligenceOrder < td.requiredTrainableIntelligence.intelligenceOrder)
+			else
 			{
 				visible = true;
-				return new AcceptanceReport("CannotTrainNotSmartEnough".Translate(td.requiredTrainableIntelligence));
+				result = true;
 			}
-			visible = true;
-			return true;
-			IL_00a3:
-			if (this.pawn.BodySize < td.minBodySize)
-			{
-				visible = true;
-				return new AcceptanceReport("CannotTrainTooSmall".Translate(this.pawn.LabelCapNoCount));
-			}
-			visible = true;
-			return true;
+			goto IL_01de;
 		}
 
 		public TrainableDef NextTrainableToTrain()
 		{
 			List<TrainableDef> trainableDefsInListOrder = TrainableUtility.TrainableDefsInListOrder;
-			for (int i = 0; i < trainableDefsInListOrder.Count; i++)
+			int num = 0;
+			TrainableDef result;
+			while (true)
 			{
-				if (this.GetWanted(trainableDefsInListOrder[i]) && !this.IsCompleted(trainableDefsInListOrder[i]))
+				if (num < trainableDefsInListOrder.Count)
 				{
-					return trainableDefsInListOrder[i];
+					if (this.GetWanted(trainableDefsInListOrder[num]) && !this.IsCompleted(trainableDefsInListOrder[num]))
+					{
+						result = trainableDefsInListOrder[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public void Train(TrainableDef td, Pawn trainer)
 		{
 			DefMap<TrainableDef, int> defMap;
-			DefMap<TrainableDef, int> obj = defMap = this.steps;
 			TrainableDef def;
-			TrainableDef def2 = def = td;
-			int num = defMap[def];
-			obj[def2] = num + 1;
+			(defMap = this.steps)[def = td] = defMap[def] + 1;
 			if (this.IsCompleted(td) && td == TrainableDefOf.Obedience)
 			{
 				this.pawn.playerSettings.master = trainer;

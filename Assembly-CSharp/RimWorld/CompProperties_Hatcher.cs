@@ -6,7 +6,7 @@ namespace RimWorld
 	{
 		public float hatcherDaystoHatch = 1f;
 
-		public PawnKindDef hatcherPawn;
+		public PawnKindDef hatcherPawn = null;
 
 		public CompProperties_Hatcher()
 		{

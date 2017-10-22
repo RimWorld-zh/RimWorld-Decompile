@@ -17,7 +17,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.CurJob.targetA.Thing;
+				return base.job.targetA.Thing;
 			}
 		}
 
@@ -25,42 +25,36 @@ namespace RimWorld
 		{
 			get
 			{
-				return (Pawn)base.CurJob.targetB.Thing;
+				return (Pawn)base.job.targetB.Thing;
 			}
 		}
 
 		public override string GetReport()
 		{
-			if (base.CurJob.GetTarget(TargetIndex.A).Thing is Building_NutrientPasteDispenser)
-			{
-				return base.CurJob.def.reportString.Replace("TargetA", ThingDefOf.MealNutrientPaste.label).Replace("TargetB", ((Pawn)(Thing)base.CurJob.targetB).LabelShort);
-			}
-			return base.GetReport();
+			return (!(base.job.GetTarget(TargetIndex.A).Thing is Building_NutrientPasteDispenser) || this.Deliveree == null) ? base.GetReport() : base.job.def.reportString.Replace("TargetA", ThingDefOf.MealNutrientPaste.label).Replace("TargetB", this.Deliveree.LabelShort);
+		}
+
+		public override bool TryMakePreToilReservations()
+		{
+			return (byte)(base.pawn.Reserve((Thing)this.Deliveree, base.job, 1, -1, null) ? ((base.TargetThingA is Building_NutrientPasteDispenser || (base.pawn.inventory != null && base.pawn.inventory.Contains(base.TargetThingA)) || base.pawn.Reserve(this.Food, base.job, 1, -1, null)) ? 1 : 0) : 0) != 0;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.B);
-			this.FailOn((Func<bool>)(() => !FoodUtility.ShouldBeFedBySomeone(((_003CMakeNewToils_003Ec__Iterator4C)/*Error near IL_0058: stateMachine*/)._003C_003Ef__this.Deliveree)));
-			yield return Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
+			this.FailOn((Func<bool>)(() => !FoodUtility.ShouldBeFedBySomeone(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0051: stateMachine*/)._0024this.Deliveree)));
 			if (base.pawn.inventory != null && base.pawn.inventory.Contains(base.TargetThingA))
 			{
 				yield return Toils_Misc.TakeItemFromInventoryToCarrier(base.pawn, TargetIndex.A);
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			else if (base.TargetThingA is Building_NutrientPasteDispenser)
+			if (base.TargetThingA is Building_NutrientPasteDispenser)
 			{
 				yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell).FailOnForbidden(TargetIndex.A);
-				yield return Toils_Ingest.TakeMealFromDispenser(TargetIndex.A, base.pawn);
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			else
-			{
-				yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
-				yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnForbidden(TargetIndex.A);
-				yield return Toils_Ingest.PickupIngestible(TargetIndex.A, this.Deliveree);
-			}
-			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.Touch);
-			yield return Toils_Ingest.ChewIngestible(this.Deliveree, 1.5f, TargetIndex.A, TargetIndex.None).FailOnCannotTouch(TargetIndex.B, PathEndMode.Touch);
-			yield return Toils_Ingest.FinalizeIngest(this.Deliveree, TargetIndex.A);
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnForbidden(TargetIndex.A);
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

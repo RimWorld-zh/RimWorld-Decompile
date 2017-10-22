@@ -18,9 +18,24 @@ namespace RimWorld.Planet
 
 		public override IEnumerable Regenerate()
 		{
-			foreach (object item2 in base.Regenerate())
+			IEnumerator enumerator = this._003CRegenerate_003E__BaseCallProxy0().GetEnumerator();
+			try
 			{
-				yield return item2;
+				if (enumerator.MoveNext())
+				{
+					object result = enumerator.Current;
+					yield return result;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+			}
+			finally
+			{
+				IDisposable disposable;
+				IDisposable disposable2 = disposable = (enumerator as IDisposable);
+				if (disposable != null)
+				{
+					disposable2.Dispose();
+				}
 			}
 			LayerSubMesh subMesh = base.GetSubMesh(WorldMaterials.Roads);
 			WorldGrid grid = Find.WorldGrid;
@@ -32,6 +47,7 @@ namespace RimWorld.Planet
 				if (i % 1000 == 0)
 				{
 					yield return (object)null;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 				if (subMesh.verts.Count > 60000)
 				{
@@ -43,48 +59,51 @@ namespace RimWorld.Planet
 					List<OutputDirection> outputs = new List<OutputDirection>();
 					if (tile.roads != null)
 					{
-						bool allowSmoothTransitions = true;
-						for (int rc2 = 0; rc2 < tile.roads.Count - 1; rc2++)
+						bool allowSmoothTransition = true;
+						for (int j = 0; j < tile.roads.Count - 1; j++)
 						{
-							Tile.RoadLink roadLink = tile.roads[rc2];
+							Tile.RoadLink roadLink = tile.roads[j];
 							string worldTransitionGroup = roadLink.road.worldTransitionGroup;
-							Tile.RoadLink roadLink2 = tile.roads[rc2 + 1];
+							Tile.RoadLink roadLink2 = tile.roads[j + 1];
 							if (worldTransitionGroup != roadLink2.road.worldTransitionGroup)
 							{
-								allowSmoothTransitions = false;
+								allowSmoothTransition = false;
 							}
 						}
-						for (int roadLayer = 0; roadLayer < roadLayerDefs.Count; roadLayer++)
+						for (int k = 0; k < roadLayerDefs.Count; k++)
 						{
-							bool hasWidth = false;
+							bool flag = false;
 							outputs.Clear();
-							for (int rc = 0; rc < tile.roads.Count; rc++)
+							for (int l = 0; l < tile.roads.Count; l++)
 							{
-								Tile.RoadLink roadLink3 = tile.roads[rc];
-								RoadDef roadDef = roadLink3.road;
-								float layerWidth = roadDef.GetLayerWidth(roadLayerDefs[roadLayer]);
+								Tile.RoadLink roadLink3 = tile.roads[l];
+								RoadDef road = roadLink3.road;
+								float layerWidth = road.GetLayerWidth(roadLayerDefs[k]);
 								if (layerWidth > 0.0)
 								{
-									hasWidth = true;
+									flag = true;
 								}
 								List<OutputDirection> obj = outputs;
 								OutputDirection item = default(OutputDirection);
-								Tile.RoadLink roadLink4 = tile.roads[rc];
+								Tile.RoadLink roadLink4 = tile.roads[l];
 								item.neighbor = roadLink4.neighbor;
 								item.width = layerWidth;
-								item.distortionFrequency = roadDef.distortionFrequency;
-								item.distortionIntensity = roadDef.distortionIntensity;
+								item.distortionFrequency = road.distortionFrequency;
+								item.distortionIntensity = road.distortionIntensity;
 								obj.Add(item);
 							}
-							if (hasWidth)
+							if (flag)
 							{
-								base.GeneratePaths(subMesh, i, outputs, roadLayerDefs[roadLayer].color, allowSmoothTransitions);
+								base.GeneratePaths(subMesh, i, outputs, roadLayerDefs[k].color, allowSmoothTransition);
 							}
 						}
 					}
 				}
 			}
-			base.FinalizeMesh(MeshParts.All, false);
+			base.FinalizeMesh(MeshParts.All);
+			yield break;
+			IL_03b0:
+			/*Error near IL_03b1: Unexpected return in MoveNext()*/;
 		}
 
 		public override Vector3 FinalizePoint(Vector3 inp, float distortionFrequency, float distortionIntensity)

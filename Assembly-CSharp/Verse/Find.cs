@@ -205,23 +205,31 @@ namespace Verse
 		{
 			get
 			{
+				Scenario result;
 				if (Current.Game != null && Current.Game.Scenario != null)
 				{
-					return Current.Game.Scenario;
+					result = Current.Game.Scenario;
 				}
-				if (ScenarioMaker.GeneratingScenario != null)
+				else if (ScenarioMaker.GeneratingScenario != null)
 				{
-					return ScenarioMaker.GeneratingScenario;
+					result = ScenarioMaker.GeneratingScenario;
 				}
-				if (Find.UIRoot != null)
+				else
 				{
-					Page_ScenarioEditor page_ScenarioEditor = Find.WindowStack.WindowOfType<Page_ScenarioEditor>();
-					if (page_ScenarioEditor != null)
+					if (Find.UIRoot != null)
 					{
-						return page_ScenarioEditor.EditingScenario;
+						Page_ScenarioEditor page_ScenarioEditor = Find.WindowStack.WindowOfType<Page_ScenarioEditor>();
+						if (page_ScenarioEditor != null)
+						{
+							result = page_ScenarioEditor.EditingScenario;
+							goto IL_006f;
+						}
 					}
+					result = null;
 				}
-				return null;
+				goto IL_006f;
+				IL_006f:
+				return result;
 			}
 		}
 
@@ -277,11 +285,7 @@ namespace Verse
 		{
 			get
 			{
-				if (Current.Game == null)
-				{
-					return null;
-				}
-				return Current.Game.storyteller;
+				return (Current.Game != null) ? Current.Game.storyteller : null;
 			}
 		}
 
@@ -333,6 +337,14 @@ namespace Verse
 			}
 		}
 
+		public static BattleLog BattleLog
+		{
+			get
+			{
+				return Current.Game.battleLog;
+			}
+		}
+
 		public static TickManager TickManager
 		{
 			get
@@ -345,11 +357,7 @@ namespace Verse
 		{
 			get
 			{
-				if (Current.Game == null)
-				{
-					return null;
-				}
-				return Current.Game.tutor;
+				return (Current.Game != null) ? Current.Game.tutor : null;
 			}
 		}
 
@@ -365,11 +373,7 @@ namespace Verse
 		{
 			get
 			{
-				if (Current.Game == null)
-				{
-					return null;
-				}
-				return Current.Game.tutor.activeLesson;
+				return (Current.Game != null) ? Current.Game.tutor.activeLesson : null;
 			}
 		}
 
@@ -386,6 +390,14 @@ namespace Verse
 			get
 			{
 				return Current.Game.dateNotifier;
+			}
+		}
+
+		public static SignalManager SignalManager
+		{
+			get
+			{
+				return Current.Game.signalManager;
 			}
 		}
 
@@ -482,6 +494,14 @@ namespace Verse
 			get
 			{
 				return Find.World.floodFiller;
+			}
+		}
+
+		public static WorldFeatures WorldFeatures
+		{
+			get
+			{
+				return Find.World.features;
 			}
 		}
 

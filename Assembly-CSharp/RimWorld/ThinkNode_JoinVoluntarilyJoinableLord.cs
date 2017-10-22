@@ -20,11 +20,7 @@ namespace RimWorld
 		{
 			this.CheckLeaveCurrentVoluntarilyJoinableLord(pawn);
 			this.JoinVoluntarilyJoinableLord(pawn);
-			if (pawn.GetLord() != null && (pawn.mindState.duty == null || pawn.mindState.duty.def.hook == this.dutyHook))
-			{
-				return base.TryIssueJobPackage(pawn, jobParams);
-			}
-			return ThinkResult.NoJob;
+			return (pawn.GetLord() == null || (pawn.mindState.duty != null && pawn.mindState.duty.def.hook != this.dutyHook)) ? ThinkResult.NoJob : base.TryIssueJobPackage(pawn, jobParams);
 		}
 
 		private void CheckLeaveCurrentVoluntarilyJoinableLord(Pawn pawn)

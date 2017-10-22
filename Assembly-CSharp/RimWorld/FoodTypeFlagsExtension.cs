@@ -6,7 +6,7 @@ namespace RimWorld
 	{
 		public static string ToHumanString(this FoodTypeFlags ft)
 		{
-			string text = string.Empty;
+			string text = "";
 			if (((int)ft & 1) != 0)
 			{
 				text += "FoodTypeFlags_VegetableOrFruit".Translate();

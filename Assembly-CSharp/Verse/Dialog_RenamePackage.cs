@@ -1,3 +1,4 @@
+using RimWorld;
 using System.IO;
 using UnityEngine;
 
@@ -46,18 +47,23 @@ namespace Verse
 
 		private bool TrySave()
 		{
+			bool result;
 			if (string.IsNullOrEmpty(this.proposedName) || this.proposedName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
 			{
-				Messages.Message("Invalid filename.", MessageSound.RejectInput);
-				return false;
+				Messages.Message("Invalid filename.", MessageTypeDefOf.RejectInput);
+				result = false;
 			}
-			if (Path.GetExtension(this.proposedName) != ".xml")
+			else if (Path.GetExtension(this.proposedName) != ".xml")
 			{
-				Messages.Message("Data package file names must end with .xml", MessageSound.RejectInput);
-				return false;
+				Messages.Message("Data package file names must end with .xml", MessageTypeDefOf.RejectInput);
+				result = false;
 			}
-			this.renamingPackage.fileName = this.proposedName;
-			return true;
+			else
+			{
+				this.renamingPackage.fileName = this.proposedName;
+				result = true;
+			}
+			return result;
 		}
 	}
 }

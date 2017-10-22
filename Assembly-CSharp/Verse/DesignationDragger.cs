@@ -7,13 +7,11 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public class DesignationDragger
 	{
-		private const int MaxSquareWidth = 50;
-
-		private bool dragging;
+		private bool dragging = false;
 
 		private IntVec3 startDragCell;
 
-		private int lastFrameDragCellsDrawn;
+		private int lastFrameDragCellsDrawn = 0;
 
 		private Sustainer sustainer;
 
@@ -21,9 +19,11 @@ namespace Verse
 
 		private List<IntVec3> dragCells = new List<IntVec3>();
 
-		private string failureReasonInt;
+		private string failureReasonInt = (string)null;
 
 		private int lastUpdateFrame = -1;
+
+		private const int MaxSquareWidth = 50;
 
 		private static readonly Material DragHighlightCellMat = MaterialPool.MatFrom("UI/Overlays/DragHighlightCell", ShaderDatabase.MetaOverlay);
 
@@ -243,7 +243,7 @@ namespace Verse
 			{
 				this.dragCells.Add(c);
 			}
-			else
+			else if (!acceptanceReport.Reason.NullOrEmpty())
 			{
 				this.failureReasonInt = acceptanceReport.Reason;
 			}

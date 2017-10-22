@@ -56,6 +56,11 @@ namespace Verse
 				if (flag2 != flag)
 				{
 					fi.SetValue(null, flag2);
+					MethodInfo method = fi.DeclaringType.GetMethod(fi.Name + "Toggled", BindingFlags.Static | BindingFlags.Public);
+					if (method != null)
+					{
+						method.Invoke(null, null);
+					}
 				}
 			}
 		}

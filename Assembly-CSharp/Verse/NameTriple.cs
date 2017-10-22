@@ -43,11 +43,7 @@ namespace Verse
 		{
 			get
 			{
-				if (!(this.First == this.Nick) && !(this.Last == this.Nick))
-				{
-					return this.First + " '" + this.Nick + "' " + this.Last;
-				}
-				return this.First + " " + this.Last;
+				return (!(this.First == this.Nick) && !(this.Last == this.Nick)) ? (this.First + " '" + this.Nick + "' " + this.Last) : (this.First + " " + this.Last);
 			}
 		}
 
@@ -101,6 +97,22 @@ namespace Verse
 			Scribe_Values.Look<string>(ref this.lastInt, "last", (string)null, false);
 		}
 
+		public void PostLoad()
+		{
+			if (this.firstInt != null)
+			{
+				this.firstInt = this.firstInt.Trim();
+			}
+			if (this.nickInt != null)
+			{
+				this.nickInt = this.nickInt.Trim();
+			}
+			if (this.lastInt != null)
+			{
+				this.lastInt = this.lastInt.Trim();
+			}
+		}
+
 		public void ResolveMissingPieces(string overrideLastName = null)
 		{
 			if (this.First.NullOrEmpty() && this.Nick.NullOrEmpty() && this.Last.NullOrEmpty())
@@ -112,11 +124,11 @@ namespace Verse
 			{
 				if (this.First == null)
 				{
-					this.firstInt = string.Empty;
+					this.firstInt = "";
 				}
 				if (this.Last == null)
 				{
-					this.lastInt = string.Empty;
+					this.lastInt = "";
 				}
 				if (overrideLastName != null)
 				{
@@ -124,7 +136,7 @@ namespace Verse
 				}
 				if (this.Nick.NullOrEmpty())
 				{
-					if (this.Last == string.Empty)
+					if (this.Last == "")
 					{
 						this.nickInt = this.First;
 					}
@@ -147,88 +159,95 @@ namespace Verse
 		public override bool ConfusinglySimilarTo(Name other)
 		{
 			NameTriple nameTriple = other as NameTriple;
+			bool result;
 			if (nameTriple != null)
 			{
 				if (this.Nick != null && this.Nick == nameTriple.Nick)
 				{
-					return true;
+					result = true;
+					goto IL_009c;
 				}
 				if (this.First == nameTriple.First && this.Last == nameTriple.Last)
 				{
-					return true;
+					result = true;
+					goto IL_009c;
 				}
 			}
 			NameSingle nameSingle = other as NameSingle;
-			if (nameSingle != null && nameSingle.Name == this.Nick)
-			{
-				return true;
-			}
-			return false;
+			result = ((byte)((nameSingle != null && nameSingle.Name == this.Nick) ? 1 : 0) != 0);
+			goto IL_009c;
+			IL_009c:
+			return result;
 		}
 
 		public static NameTriple FromString(string rawName)
 		{
+			NameTriple result;
 			if (rawName.Trim().Length == 0)
 			{
 				Log.Error("Tried to parse PawnName from empty or whitespace string.");
-				return NameTriple.Invalid;
+				result = NameTriple.Invalid;
 			}
-			NameTriple nameTriple = new NameTriple();
-			int num = -1;
-			int num2 = -1;
-			for (int i = 0; i < rawName.Length - 1; i++)
+			else
 			{
-				if (rawName[i] == ' ' && rawName[i + 1] == '\'' && num == -1)
+				NameTriple nameTriple = new NameTriple();
+				int num = -1;
+				int num2 = -1;
+				for (int i = 0; i < rawName.Length - 1; i++)
 				{
-					num = i;
-				}
-				if (rawName[i] == '\'' && rawName[i + 1] == ' ')
-				{
-					num2 = i;
-				}
-			}
-			if (num == -1 || num2 == -1)
-			{
-				if (!rawName.Contains(' '))
-				{
-					nameTriple.nickInt = rawName.Trim();
-				}
-				else
-				{
-					string[] array = rawName.Split(' ');
-					if (array.Length == 1)
+					if (rawName[i] == ' ' && rawName[i + 1] == '\'' && num == -1)
 					{
-						nameTriple.nickInt = array[0].Trim();
+						num = i;
 					}
-					else if (array.Length == 2)
+					if (rawName[i] == '\'' && rawName[i + 1] == ' ')
 					{
-						nameTriple.firstInt = array[0].Trim();
-						nameTriple.lastInt = array[1].Trim();
+						num2 = i;
+					}
+				}
+				if (num == -1 || num2 == -1)
+				{
+					if (!rawName.Contains(' '))
+					{
+						nameTriple.nickInt = rawName.Trim();
 					}
 					else
 					{
-						nameTriple.firstInt = array[0].Trim();
-						nameTriple.lastInt = string.Empty;
-						for (int j = 1; j < array.Length; j++)
+						string[] array = rawName.Split(' ');
+						if (array.Length == 1)
 						{
-							NameTriple obj = nameTriple;
-							obj.lastInt += array[j];
-							if (j < array.Length - 1)
+							nameTriple.nickInt = array[0].Trim();
+						}
+						else if (array.Length == 2)
+						{
+							nameTriple.firstInt = array[0].Trim();
+							nameTriple.lastInt = array[1].Trim();
+						}
+						else
+						{
+							nameTriple.firstInt = array[0].Trim();
+							nameTriple.lastInt = "";
+							for (int j = 1; j < array.Length; j++)
 							{
-								NameTriple obj2 = nameTriple;
-								obj2.lastInt += " ";
+								NameTriple obj = nameTriple;
+								obj.lastInt += array[j];
+								if (j < array.Length - 1)
+								{
+									NameTriple obj2 = nameTriple;
+									obj2.lastInt += " ";
+								}
 							}
 						}
 					}
 				}
+				else
+				{
+					nameTriple.firstInt = rawName.Substring(0, num).Trim();
+					nameTriple.nickInt = rawName.Substring(num + 2, num2 - num - 2).Trim();
+					nameTriple.lastInt = ((num2 >= rawName.Length - 2) ? "" : rawName.Substring(num2 + 2).Trim());
+				}
+				result = nameTriple;
 			}
-			else
-			{
-				nameTriple.firstInt = rawName.Substring(0, num).Trim();
-				nameTriple.nickInt = rawName.Substring(num + 2, num2 - num - 2).Trim();
-				nameTriple.lastInt = ((num2 >= rawName.Length - 2) ? string.Empty : rawName.Substring(num2 + 2).Trim());
-			}
-			return nameTriple;
+			return result;
 		}
 
 		public void CapitalizeNick()
@@ -246,16 +265,21 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
+			bool result;
 			if (obj == null)
 			{
-				return false;
+				result = false;
 			}
-			if (!(obj is NameTriple))
+			else if (!(obj is NameTriple))
 			{
-				return false;
+				result = false;
 			}
-			NameTriple nameTriple = (NameTriple)obj;
-			return this.First == nameTriple.First && this.Last == nameTriple.Last && this.Nick == nameTriple.Nick;
+			else
+			{
+				NameTriple nameTriple = (NameTriple)obj;
+				result = (this.First == nameTriple.First && this.Last == nameTriple.Last && this.Nick == nameTriple.Nick);
+			}
+			return result;
 		}
 
 		public override int GetHashCode()

@@ -6,38 +6,43 @@ namespace RimWorld.BaseGen
 {
 	public class SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant : SymbolResolver
 	{
-		private const float MaxCoverage = 0.09f;
-
 		private static List<ThingDef> availablePowerPlants = new List<ThingDef>();
+
+		private const float MaxCoverage = 0.09f;
 
 		public override bool CanResolve(ResolveParams rp)
 		{
+			bool result;
 			if (!base.CanResolve(rp))
 			{
-				return false;
+				result = false;
 			}
-			if (BaseGen.globalSettings.basePart_buildingsResolved < BaseGen.globalSettings.minBuildings)
+			else if (BaseGen.globalSettings.basePart_buildingsResolved < BaseGen.globalSettings.minBuildings)
 			{
-				return false;
+				result = false;
 			}
-			if (BaseGen.globalSettings.basePart_emptyNodesResolved < BaseGen.globalSettings.minEmptyNodes)
+			else if (BaseGen.globalSettings.basePart_emptyNodesResolved < BaseGen.globalSettings.minEmptyNodes)
 			{
-				return false;
+				result = false;
 			}
-			if (BaseGen.globalSettings.basePart_powerPlantsCoverage + (float)rp.rect.Area / (float)BaseGen.globalSettings.mainRect.Area >= 0.090000003576278687)
+			else if (BaseGen.globalSettings.basePart_powerPlantsCoverage + (float)rp.rect.Area / (float)BaseGen.globalSettings.mainRect.Area >= 0.090000003576278687)
 			{
-				return false;
+				result = false;
 			}
-			if (rp.faction != null && (int)rp.faction.def.techLevel < 4)
+			else if (rp.faction != null && (int)rp.faction.def.techLevel < 4)
 			{
-				return false;
+				result = false;
 			}
-			if (rp.rect.Width <= 13 && rp.rect.Height <= 13)
+			else if (rp.rect.Width > 13 || rp.rect.Height > 13)
+			{
+				result = false;
+			}
+			else
 			{
 				this.CalculateAvailablePowerPlants(rp.rect);
-				return SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Any();
+				result = SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Any();
 			}
-			return false;
+			return result;
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -77,9 +82,9 @@ namespace RimWorld.BaseGen
 					SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Add(ThingDefOf.SolarGenerator);
 				}
 			}
-			if (rect.Width >= ThingDefOf.FueledGenerator.size.x && rect.Height >= ThingDefOf.FueledGenerator.size.z)
+			if (rect.Width >= ThingDefOf.WoodFiredGenerator.size.x && rect.Height >= ThingDefOf.WoodFiredGenerator.size.z)
 			{
-				SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Add(ThingDefOf.FueledGenerator);
+				SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Add(ThingDefOf.WoodFiredGenerator);
 			}
 		}
 	}

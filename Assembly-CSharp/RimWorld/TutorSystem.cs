@@ -18,15 +18,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (!Prefs.AdaptiveTrainingEnabled)
-				{
-					return false;
-				}
-				if (Find.Storyteller != null && Find.Storyteller.def != null && Find.Storyteller.def.disableAdaptiveTraining)
-				{
-					return false;
-				}
-				return true;
+				return (byte)(Prefs.AdaptiveTrainingEnabled ? ((Find.Storyteller == null || Find.Storyteller.def == null || !Find.Storyteller.def.disableAdaptiveTraining) ? 1 : 0) : 0) != 0;
 			}
 		}
 
@@ -76,29 +68,40 @@ namespace RimWorld
 
 		public static bool AllowAction(EventPack ep)
 		{
+			bool result;
 			if (!TutorSystem.TutorialMode)
 			{
-				return true;
+				result = true;
 			}
-			if (DebugViewSettings.logTutor)
+			else
 			{
-				Log.Message("AllowAction: " + ep);
-			}
-			if (ep.Cells != null && ep.Cells.Count() == 1)
-			{
-				return TutorSystem.AllowAction(new EventPack(ep.Tag, ep.Cells.First()));
-			}
-			if (Find.ActiveLesson.Current != null)
-			{
-				AcceptanceReport acceptanceReport = Find.ActiveLesson.Current.AllowAction(ep);
-				if (!acceptanceReport.Accepted)
+				if (DebugViewSettings.logTutor)
 				{
-					string text = acceptanceReport.Reason.NullOrEmpty() ? Find.ActiveLesson.Current.DefaultRejectInputMessage : acceptanceReport.Reason;
-					Messages.Message(text, MessageSound.RejectInput);
-					return false;
+					Log.Message("AllowAction: " + ep);
+				}
+				if (ep.Cells != null && ep.Cells.Count() == 1)
+				{
+					result = TutorSystem.AllowAction(new EventPack(ep.Tag, ep.Cells.First()));
+				}
+				else
+				{
+					if (Find.ActiveLesson.Current != null)
+					{
+						AcceptanceReport acceptanceReport = Find.ActiveLesson.Current.AllowAction(ep);
+						if (!acceptanceReport.Accepted)
+						{
+							string text = acceptanceReport.Reason.NullOrEmpty() ? Find.ActiveLesson.Current.DefaultRejectInputMessage : acceptanceReport.Reason;
+							Messages.Message(text, MessageTypeDefOf.RejectInput);
+							result = false;
+							goto IL_00e7;
+						}
+					}
+					result = true;
 				}
 			}
-			return true;
+			goto IL_00e7;
+			IL_00e7:
+			return result;
 		}
 	}
 }

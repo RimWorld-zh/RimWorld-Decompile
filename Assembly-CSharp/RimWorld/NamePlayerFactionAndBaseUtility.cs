@@ -47,7 +47,12 @@ namespace RimWorld
 
 		private static bool CanNameAnythingNow()
 		{
-			if (Find.AnyPlayerHomeMap != null && Find.VisibleMap != null && Find.VisibleMap.IsPlayerHome && !Find.GameEnder.gameEnding)
+			bool result;
+			if (Find.AnyPlayerHomeMap == null || Find.VisibleMap == null || !Find.VisibleMap.IsPlayerHome || Find.GameEnder.gameEnding)
+			{
+				result = false;
+			}
+			else
 			{
 				bool flag = false;
 				bool flag2 = false;
@@ -60,19 +65,15 @@ namespace RimWorld
 						{
 							flag = true;
 						}
-						if (!maps[i].attackTargetsCache.TargetsHostileToColony.Any((Func<IAttackTarget, bool>)((IAttackTarget x) => !x.ThreatDisabled())))
+						if (!maps[i].attackTargetsCache.TargetsHostileToColony.Any((Func<IAttackTarget, bool>)((IAttackTarget x) => GenHostility.IsActiveThreatToPlayer(x))))
 						{
 							flag2 = true;
 						}
 					}
 				}
-				if (flag && flag2)
-				{
-					return true;
-				}
-				return false;
+				result = ((byte)((flag && flag2) ? 1 : 0) != 0);
 			}
-			return false;
+			return result;
 		}
 	}
 }

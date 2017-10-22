@@ -21,6 +21,7 @@ namespace RimWorld
 
 		private string UsableNowStatus()
 		{
+			string result;
 			if (!this.AnyCoupleForWhichIsValid())
 			{
 				StringBuilder stringBuilder = new StringBuilder();
@@ -29,15 +30,20 @@ namespace RimWorld
 				{
 					if (!MarriageSpotUtility.IsValidMarriageSpotFor(base.Position, pair.First, pair.Second, stringBuilder))
 					{
-						return "MarriageSpotNotUsable".Translate(stringBuilder);
+						result = "MarriageSpotNotUsable".Translate(stringBuilder);
+						goto IL_00a2;
 					}
 				}
 				else if (!MarriageSpotUtility.IsValidMarriageSpot(base.Position, base.Map, stringBuilder))
 				{
-					return "MarriageSpotNotUsable".Translate(stringBuilder);
+					result = "MarriageSpotNotUsable".Translate(stringBuilder);
+					goto IL_00a2;
 				}
 			}
-			return "MarriageSpotUsable".Translate();
+			result = "MarriageSpotUsable".Translate();
+			goto IL_00a2;
+			IL_00a2:
+			return result;
 		}
 
 		private bool AnyCoupleForWhichIsValid()

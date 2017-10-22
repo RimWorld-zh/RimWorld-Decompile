@@ -40,7 +40,7 @@ namespace Verse
 			HashSet<string> hashSet = new HashSet<string>();
 			foreach (ModContentPack item in (IEnumerable<ModContentPack>)(from m in LoadedModManager.RunningMods
 			orderby m.OverwritePriority
-			select m))
+			select m).ThenBy<ModContentPack, int>((Func<ModContentPack, int>)((ModContentPack x) => LoadedModManager.RunningModsListForReading.IndexOf(x))))
 			{
 				hashSet.Clear();
 				foreach (T item2 in GenDefDatabase.DefsToGoInDatabase<T>(item))
@@ -115,15 +115,25 @@ namespace Verse
 			}
 		}
 
-		public static void ResolveAllReferences()
+		public static void ResolveAllReferences(bool onlyExactlyMyType = true)
 		{
 			DefDatabase<T>.SetIndices();
 			for (int i = 0; i < DefDatabase<T>.defsList.Count; i++)
 			{
 				try
 				{
-					T val = DefDatabase<T>.defsList[i];
-					val.ResolveReferences();
+					if (onlyExactlyMyType)
+					{
+						T val = DefDatabase<T>.defsList[i];
+						if (val.GetType() == typeof(T))
+							goto IL_0042;
+						goto end_IL_000e;
+					}
+					goto IL_0042;
+					IL_0042:
+					T val2 = DefDatabase<T>.defsList[i];
+					val2.ResolveReferences();
+					end_IL_000e:;
 				}
 				catch (Exception ex)
 				{
@@ -155,22 +165,26 @@ namespace Verse
 
 		public static T GetNamed(string defName, bool errorOnFail = true)
 		{
+			T result;
 			if (errorOnFail)
 			{
-				T result = default(T);
-				if (DefDatabase<T>.defsByName.TryGetValue(defName, out result))
+				T val = default(T);
+				if (DefDatabase<T>.defsByName.TryGetValue(defName, out val))
 				{
-					return result;
+					result = val;
 				}
-				Log.Error("Failed to find " + typeof(T) + " named " + defName + ". There are " + DefDatabase<T>.defsList.Count + " defs of this type loaded.");
-				return (T)null;
+				else
+				{
+					Log.Error("Failed to find " + typeof(T) + " named " + defName + ". There are " + DefDatabase<T>.defsList.Count + " defs of this type loaded.");
+					result = (T)null;
+				}
 			}
-			T result2 = default(T);
-			if (DefDatabase<T>.defsByName.TryGetValue(defName, out result2))
+			else
 			{
-				return result2;
+				T val2 = default(T);
+				result = ((!DefDatabase<T>.defsByName.TryGetValue(defName, out val2)) ? ((T)null) : val2);
 			}
-			return (T)null;
+			return result;
 		}
 
 		public static T GetNamedSilentFail(string defName)
@@ -180,14 +194,24 @@ namespace Verse
 
 		public static T GetByShortHash(ushort shortHash)
 		{
-			for (int i = 0; i < DefDatabase<T>.defsList.Count; i++)
+			int num = 0;
+			T result;
+			while (true)
 			{
-				if (((Def)(object)DefDatabase<T>.defsList[i]).shortHash == shortHash)
+				if (num < DefDatabase<T>.defsList.Count)
 				{
-					return DefDatabase<T>.defsList[i];
+					if (((Def)(object)DefDatabase<T>.defsList[num]).shortHash == shortHash)
+					{
+						result = DefDatabase<T>.defsList[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = (T)null;
+				break;
 			}
-			return (T)null;
+			return result;
 		}
 
 		public static T GetRandom()

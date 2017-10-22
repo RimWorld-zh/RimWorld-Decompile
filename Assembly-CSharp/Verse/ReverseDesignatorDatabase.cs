@@ -31,15 +31,25 @@ namespace Verse
 			{
 				this.InitDesignators();
 			}
-			for (int i = 0; i < this.desList.Count; i++)
+			int num = 0;
+			T result;
+			while (true)
 			{
-				T val = (T)(this.desList[i] as T);
-				if (val != null)
+				if (num < this.desList.Count)
 				{
-					return val;
+					T val = (T)(this.desList[num] as T);
+					if (val != null)
+					{
+						result = val;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = (T)null;
+				break;
 			}
-			return (T)null;
+			return result;
 		}
 
 		private void InitDesignators()

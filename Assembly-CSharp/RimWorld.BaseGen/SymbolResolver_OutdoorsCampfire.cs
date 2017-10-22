@@ -7,16 +7,8 @@ namespace RimWorld.BaseGen
 	{
 		public override bool CanResolve(ResolveParams rp)
 		{
-			if (!base.CanResolve(rp))
-			{
-				return false;
-			}
 			IntVec3 intVec = default(IntVec3);
-			if (!this.TryFindSpawnCell(rp.rect, out intVec))
-			{
-				return false;
-			}
-			return true;
+			return (byte)(base.CanResolve(rp) ? (this.TryFindSpawnCell(rp.rect, out intVec) ? 1 : 0) : 0) != 0;
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -33,7 +25,7 @@ namespace RimWorld.BaseGen
 		private bool TryFindSpawnCell(CellRect rect, out IntVec3 result)
 		{
 			Map map = BaseGen.globalSettings.map;
-			return CellFinder.TryFindRandomCellInsideWith(rect, (Predicate<IntVec3>)((IntVec3 c) => c.Standable(map) && !c.Roofed(map) && !BaseGenUtility.AnyDoorCardinalAdjacentTo(c, map) && c.GetFirstItem(map) == null && !GenSpawn.WouldWipeAnythingWith(c, Rot4.North, ThingDefOf.Campfire, map, (Predicate<Thing>)((Thing x) => x.def.category == ThingCategory.Building))), out result);
+			return CellFinder.TryFindRandomCellInsideWith(rect, (Predicate<IntVec3>)((IntVec3 c) => c.Standable(map) && !c.Roofed(map) && !BaseGenUtility.AnyDoorAdjacentCardinalTo(c, map) && c.GetFirstItem(map) == null && !GenSpawn.WouldWipeAnythingWith(c, Rot4.North, ThingDefOf.Campfire, map, (Predicate<Thing>)((Thing x) => x.def.category == ThingCategory.Building))), out result);
 		}
 	}
 }

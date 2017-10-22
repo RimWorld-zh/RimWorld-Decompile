@@ -31,7 +31,7 @@ namespace RimWorld
 
 		public static void DoDate(float leftX, float width, ref float curBaseY)
 		{
-			Rect dateRect = new Rect(leftX, (float)(curBaseY - 48.0), width, 48f);
+			Rect dateRect = new Rect(leftX, curBaseY - DateReadout.Height, width, DateReadout.Height);
 			DateReadout.DateOnGUI(dateRect);
 			curBaseY -= dateRect.height;
 		}

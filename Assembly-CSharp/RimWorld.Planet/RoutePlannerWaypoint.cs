@@ -12,15 +12,20 @@ namespace RimWorld.Planet
 			get
 			{
 				WorldRoutePlanner worldRoutePlanner = Find.WorldRoutePlanner;
+				string result;
 				if (worldRoutePlanner.Active)
 				{
 					int num = worldRoutePlanner.waypoints.IndexOf(this);
 					if (num >= 0)
 					{
-						return base.Label + ' ' + (num + 1);
+						result = base.Label + ' ' + (num + 1);
+						goto IL_0054;
 					}
 				}
-				return base.Label;
+				result = base.Label;
+				goto IL_0054;
+				IL_0054:
+				return result;
 			}
 		}
 
@@ -53,9 +58,14 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return gizmo;
+				if (enumerator.MoveNext())
+				{
+					Gizmo g = enumerator.Current;
+					yield return g;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			yield return (Gizmo)new Command_Action
 			{
@@ -64,9 +74,12 @@ namespace RimWorld.Planet
 				icon = TexCommand.RemoveRoutePlannerWaypoint,
 				action = (Action)delegate
 				{
-					Find.WorldRoutePlanner.TryRemoveWaypoint(((_003CGetGizmos_003Ec__Iterator109)/*Error near IL_00f5: stateMachine*/)._003C_003Ef__this, true);
+					Find.WorldRoutePlanner.TryRemoveWaypoint(((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0104: stateMachine*/)._0024this, true);
 				}
 			};
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_013f:
+			/*Error near IL_0140: Unexpected return in MoveNext()*/;
 		}
 	}
 }

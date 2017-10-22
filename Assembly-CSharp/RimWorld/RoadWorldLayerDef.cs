@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class RoadWorldLayerDef : Def
 	{
-		public int order;
+		public int order = 0;
 
 		public Color color;
 	}

@@ -4,7 +4,7 @@ namespace Verse.Sound
 {
 	public class SoundParamSource_SourceAge : SoundParamSource
 	{
-		public TimeType timeType;
+		public TimeType timeType = TimeType.Ticks;
 
 		public override string Label
 		{
@@ -16,15 +16,7 @@ namespace Verse.Sound
 
 		public override float ValueFor(Sample samp)
 		{
-			if (this.timeType == TimeType.RealtimeSeconds)
-			{
-				return Time.realtimeSinceStartup - samp.ParentStartRealTime;
-			}
-			if (this.timeType == TimeType.Ticks && Find.TickManager != null)
-			{
-				return (float)Find.TickManager.TicksGame - samp.ParentStartTick;
-			}
-			return 0f;
+			return (float)((this.timeType != TimeType.RealtimeSeconds) ? ((this.timeType != 0 || Find.TickManager == null) ? 0.0 : ((float)Find.TickManager.TicksGame - samp.ParentStartTick)) : (Time.realtimeSinceStartup - samp.ParentStartRealTime));
 		}
 	}
 }

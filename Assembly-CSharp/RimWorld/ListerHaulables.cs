@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -8,13 +7,13 @@ namespace RimWorld
 {
 	public class ListerHaulables
 	{
-		private const int CellsPerTick = 4;
-
 		private Map map;
 
 		private List<Thing> haulables = new List<Thing>();
 
-		private static int groupCycleIndex;
+		private const int CellsPerTick = 4;
+
+		private static int groupCycleIndex = 0;
 
 		private List<int> cellCycleIndices = new List<int>();
 
@@ -94,11 +93,8 @@ namespace RimWorld
 				for (int i = 0; i < 4; i++)
 				{
 					List<int> list;
-					List<int> obj = list = this.cellCycleIndices;
 					int index;
-					int index2 = index = num;
-					index = list[index];
-					obj[index2] = index + 1;
+					(list = this.cellCycleIndices)[index = num] = list[index] + 1;
 					IntVec3 c = slotGroup.CellsList[this.cellCycleIndices[num] % slotGroup.CellsList.Count];
 					List<Thing> thingList = c.GetThingList(this.map);
 					int num2 = 0;
@@ -142,26 +138,31 @@ namespace RimWorld
 
 		private bool ShouldBeHaulable(Thing t)
 		{
+			bool result;
 			if (t.IsForbidden(Faction.OfPlayer))
 			{
-				return false;
+				result = false;
 			}
-			if (!t.def.alwaysHaulable)
+			else
 			{
-				if (!t.def.EverHaulable)
+				if (!t.def.alwaysHaulable)
 				{
-					return false;
+					if (!t.def.EverHaulable)
+					{
+						result = false;
+						goto IL_0087;
+					}
+					if (this.map.designationManager.DesignationOn(t, DesignationDefOf.Haul) == null && !t.IsInAnyStorage())
+					{
+						result = false;
+						goto IL_0087;
+					}
 				}
-				if (this.map.designationManager.DesignationOn(t, DesignationDefOf.Haul) == null && !t.IsInAnyStorage())
-				{
-					return false;
-				}
+				result = ((byte)((!t.IsInValidBestStorage()) ? 1 : 0) != 0);
 			}
-			if (t.IsInValidBestStorage())
-			{
-				return false;
-			}
-			return true;
+			goto IL_0087;
+			IL_0087:
+			return result;
 		}
 
 		private void CheckAdd(Thing t)
@@ -187,21 +188,12 @@ namespace RimWorld
 				StringBuilder stringBuilder = new StringBuilder();
 				stringBuilder.AppendLine("======= All haulables (Count " + this.haulables.Count + ")");
 				int num = 0;
-				List<Thing>.Enumerator enumerator = this.haulables.GetEnumerator();
-				try
+				foreach (Thing haulable in this.haulables)
 				{
-					while (enumerator.MoveNext())
-					{
-						Thing current = enumerator.Current;
-						stringBuilder.AppendLine(current.ThingID);
-						num++;
-						if (num > 200)
-							break;
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					stringBuilder.AppendLine(haulable.ThingID);
+					num++;
+					if (num > 200)
+						break;
 				}
 				this.debugOutput = stringBuilder.ToString();
 			}

@@ -24,11 +24,7 @@ namespace Verse.AI
 		{
 			get
 			{
-				if (this.curStateInt == null)
-				{
-					return null;
-				}
-				return this.curStateInt.def;
+				return (this.curStateInt != null) ? this.curStateInt.def : null;
 			}
 		}
 
@@ -89,70 +85,85 @@ namespace Verse.AI
 
 		public bool TryStartMentalState(MentalStateDef stateDef, string reason = null, bool forceWake = false, bool causedByMood = false, Pawn otherPawn = null)
 		{
+			bool result;
 			if ((this.pawn.Spawned || this.pawn.IsCaravanMember()) && this.CurStateDef != stateDef && !this.pawn.Downed && (forceWake || this.pawn.Awake()))
 			{
 				if (TutorSystem.TutorialMode && this.pawn.Faction == Faction.OfPlayer)
 				{
-					return false;
+					result = false;
 				}
-				if ((this.pawn.IsColonist || this.pawn.HostFaction == Faction.OfPlayer) && stateDef.tale != null)
+				else if (!stateDef.Worker.StateCanOccur(this.pawn))
 				{
-					TaleRecorder.RecordTale(stateDef.tale, this.pawn);
+					result = false;
 				}
-				if (!stateDef.beginLetter.NullOrEmpty() && PawnUtility.ShouldSendNotificationAbout(this.pawn))
+				else
 				{
-					string label = "MentalBreakLetterLabel".Translate() + ": " + stateDef.beginLetterLabel;
-					string text = string.Format(stateDef.beginLetter, this.pawn.Label).AdjustedFor(this.pawn).CapitalizeFirst();
-					if (reason != null)
+					if ((this.pawn.IsColonist || this.pawn.HostFaction == Faction.OfPlayer) && stateDef.tale != null)
 					{
-						text = text + "\n\n" + "FinalStraw".Translate(reason);
+						TaleRecorder.RecordTale(stateDef.tale, this.pawn);
 					}
-					Find.LetterStack.ReceiveLetter(label, text, stateDef.beginLetterDef, (Thing)this.pawn, (string)null);
+					if (stateDef.IsExtreme && this.pawn.IsPlayerControlledCaravanMember())
+					{
+						Messages.Message("MessageCaravanMemberHasExtremeMentalBreak".Translate(), (WorldObject)this.pawn.GetCaravan(), MessageTypeDefOf.ThreatSmall);
+					}
+					this.pawn.records.Increment(RecordDefOf.TimesInMentalState);
+					if (this.pawn.Drafted)
+					{
+						this.pawn.drafter.Drafted = false;
+					}
+					MentalState mentalState = this.curStateInt = (MentalState)Activator.CreateInstance(stateDef.stateClass);
+					this.curStateInt.pawn = this.pawn;
+					this.curStateInt.def = stateDef;
+					this.curStateInt.causedByMood = causedByMood;
+					if (otherPawn != null)
+					{
+						((MentalState_SocialFighting)this.curStateInt).otherPawn = otherPawn;
+					}
+					if (this.pawn.needs.mood != null)
+					{
+						this.pawn.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
+					}
+					if (stateDef != null && stateDef.IsAggro && this.pawn.caller != null)
+					{
+						this.pawn.caller.Notify_InAggroMentalState();
+					}
+					if (this.curStateInt != null)
+					{
+						this.curStateInt.PostStart(reason);
+					}
+					if (this.pawn.CurJob != null)
+					{
+						this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+					}
+					if (this.pawn.Spawned)
+					{
+						this.pawn.Map.attackTargetsCache.UpdateTarget(this.pawn);
+					}
+					if (this.pawn.Spawned && forceWake && !this.pawn.Awake())
+					{
+						this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+					}
+					if (PawnUtility.ShouldSendNotificationAbout(this.pawn))
+					{
+						string text = mentalState.GetBeginLetterText();
+						if (!text.NullOrEmpty())
+						{
+							string label = "MentalBreakLetterLabel".Translate() + ": " + stateDef.beginLetterLabel;
+							if (reason != null)
+							{
+								text = text + "\n\n" + "FinalStraw".Translate(reason);
+							}
+							Find.LetterStack.ReceiveLetter(label, text, stateDef.beginLetterDef, (Thing)this.pawn, (string)null);
+						}
+					}
+					result = true;
 				}
-				if (stateDef.IsExtreme && this.pawn.IsPlayerControlledCaravanMember())
-				{
-					Messages.Message("MessageCaravanMemberHasExtremeMentalBreak".Translate(), (WorldObject)this.pawn.GetCaravan(), MessageSound.Negative);
-				}
-				this.pawn.records.Increment(RecordDefOf.TimesInMentalState);
-				if (this.pawn.Drafted)
-				{
-					this.pawn.drafter.Drafted = false;
-				}
-				this.curStateInt = (MentalState)Activator.CreateInstance(stateDef.stateClass);
-				this.curStateInt.pawn = this.pawn;
-				this.curStateInt.def = stateDef;
-				this.curStateInt.causedByMood = causedByMood;
-				if (otherPawn != null)
-				{
-					((MentalState_SocialFighting)this.curStateInt).otherPawn = otherPawn;
-				}
-				if (this.pawn.needs.mood != null)
-				{
-					this.pawn.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
-				}
-				if (stateDef != null && stateDef.IsAggro && this.pawn.caller != null)
-				{
-					this.pawn.caller.Notify_InAggroMentalState();
-				}
-				if (this.CurState != null)
-				{
-					this.CurState.PostStart(reason);
-				}
-				if (this.pawn.CurJob != null)
-				{
-					this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
-				}
-				if (this.pawn.Spawned)
-				{
-					this.pawn.Map.attackTargetsCache.UpdateTarget(this.pawn);
-				}
-				if (this.pawn.Spawned && forceWake && !this.pawn.Awake())
-				{
-					this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
-				}
-				return true;
+				goto IL_0344;
 			}
-			return false;
+			result = false;
+			goto IL_0344;
+			IL_0344:
+			return result;
 		}
 
 		public void Notify_DamageTaken(DamageInfo dinfo)

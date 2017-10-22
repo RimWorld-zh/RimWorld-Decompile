@@ -13,7 +13,7 @@ namespace Verse
 
 		private List<SpecialThingFilterDef> hiddenSpecialFilters;
 
-		private List<ThingDef> forceHiddenDefs;
+		private List<ThingDef> forceHiddenDefs = null;
 
 		private List<SpecialThingFilterDef> tempForceHiddenSpecialFilters;
 
@@ -111,11 +111,11 @@ namespace Verse
 			if ((this.suppressSmallVolumeTags == null || !this.suppressSmallVolumeTags.Contains(tDef)) && tDef.IsStuff)
 			{
 				num = (tDef.smallVolume ? 1 : 0);
-				goto IL_0030;
+				goto IL_0031;
 			}
 			num = 0;
-			goto IL_0030;
-			IL_0030:
+			goto IL_0031;
+			IL_0031:
 			bool flag = (byte)num != 0;
 			string text = tDef.description;
 			if (flag)
@@ -168,39 +168,40 @@ namespace Verse
 					}
 				}
 			}
-			if (num2 == 0)
-			{
-				return MultiCheckboxState.Off;
-			}
-			if (num == num2)
-			{
-				return MultiCheckboxState.On;
-			}
-			return MultiCheckboxState.Partial;
+			return (MultiCheckboxState)((num2 == 0) ? 1 : ((num != num2) ? 2 : 0));
 		}
 
 		private bool Visible(ThingDef td)
 		{
+			bool result;
 			if (td.menuHidden)
 			{
-				return false;
+				result = false;
 			}
-			if (this.forceHiddenDefs != null && this.forceHiddenDefs.Contains(td))
+			else if (this.forceHiddenDefs != null && this.forceHiddenDefs.Contains(td))
 			{
-				return false;
+				result = false;
 			}
-			if (this.parentFilter != null)
+			else
 			{
-				if (!this.parentFilter.Allows(td))
+				if (this.parentFilter != null)
 				{
-					return false;
+					if (!this.parentFilter.Allows(td))
+					{
+						result = false;
+						goto IL_007a;
+					}
+					if (this.parentFilter.IsAlwaysDisallowedDueToSpecialFilters(td))
+					{
+						result = false;
+						goto IL_007a;
+					}
 				}
-				if (this.parentFilter.IsAlwaysDisallowedDueToSpecialFilters(td))
-				{
-					return false;
-				}
+				result = true;
 			}
-			return true;
+			goto IL_007a;
+			IL_007a:
+			return result;
 		}
 
 		private bool Visible(TreeNode_ThingCategory node)
@@ -210,22 +211,30 @@ namespace Verse
 
 		private bool Visible(SpecialThingFilterDef filter)
 		{
+			bool result;
 			if (this.parentFilter != null && !this.parentFilter.Allows(filter))
 			{
-				return false;
+				result = false;
 			}
-			if (this.hiddenSpecialFilters == null)
+			else
 			{
-				this.CalculateHiddenSpecialFilters();
-			}
-			for (int i = 0; i < this.hiddenSpecialFilters.Count; i++)
-			{
-				if (this.hiddenSpecialFilters[i] == filter)
+				if (this.hiddenSpecialFilters == null)
 				{
-					return false;
+					this.CalculateHiddenSpecialFilters();
 				}
+				for (int i = 0; i < this.hiddenSpecialFilters.Count; i++)
+				{
+					if (this.hiddenSpecialFilters[i] == filter)
+						goto IL_004f;
+				}
+				result = true;
 			}
-			return true;
+			goto IL_0073;
+			IL_004f:
+			result = false;
+			goto IL_0073;
+			IL_0073:
+			return result;
 		}
 
 		private void CalculateHiddenSpecialFilters()

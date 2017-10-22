@@ -7,11 +7,11 @@ namespace Verse
 {
 	public class SimpleCurveView
 	{
-		private const float ResetZoomBuffer = 0.1f;
-
 		public Rect rect;
 
 		private Dictionary<object, float> debugInputValues = new Dictionary<object, float>();
+
+		private const float ResetZoomBuffer = 0.1f;
 
 		private static Rect identityRect = new Rect(0f, 0f, 1f, 1f);
 
@@ -21,20 +21,19 @@ namespace Verse
 			{
 				if (this.debugInputValues != null)
 				{
-					Dictionary<object, float>.ValueCollection.Enumerator enumerator = this.debugInputValues.Values.GetEnumerator();
-					try
+					using (Dictionary<object, float>.ValueCollection.Enumerator enumerator = this.debugInputValues.Values.GetEnumerator())
 					{
-						while (enumerator.MoveNext())
+						if (enumerator.MoveNext())
 						{
 							float val = enumerator.Current;
 							yield return val;
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
-					}
 				}
+				yield break;
+				IL_00d0:
+				/*Error near IL_00d1: Unexpected return in MoveNext()*/;
 			}
 		}
 

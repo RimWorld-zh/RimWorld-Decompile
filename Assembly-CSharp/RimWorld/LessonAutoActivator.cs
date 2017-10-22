@@ -9,6 +9,12 @@ namespace RimWorld
 {
 	public static class LessonAutoActivator
 	{
+		private static Dictionary<ConceptDef, float> opportunities = new Dictionary<ConceptDef, float>();
+
+		private static float timeSinceLastLesson = 10000f;
+
+		private static List<ConceptDef> alertingConcepts = new List<ConceptDef>();
+
 		private const float MapStartGracePeriod = 8f;
 
 		private const float KnowledgeDecayRate = 0.00015f;
@@ -20,12 +26,6 @@ namespace RimWorld
 		private const int CheckInterval = 15;
 
 		private const float MaxLessonInterval = 900f;
-
-		private static Dictionary<ConceptDef, float> opportunities = new Dictionary<ConceptDef, float>();
-
-		private static float timeSinceLastLesson = 10000f;
-
-		private static List<ConceptDef> alertingConcepts = new List<ConceptDef>();
 
 		private static float SecondsSinceLesson
 		{
@@ -183,37 +183,47 @@ namespace RimWorld
 
 		private static float GetDesire(ConceptDef conc)
 		{
+			float result;
 			if (PlayerKnowledgeDatabase.IsComplete(conc))
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (Find.Tutor.learningReadout.IsActive(conc))
+			else if (Find.Tutor.learningReadout.IsActive(conc))
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (Current.ProgramState != conc.gameMode)
+			else if (Current.ProgramState != conc.gameMode)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (conc.needsOpportunity && LessonAutoActivator.GetOpportunity(conc) < 0.10000000149011612)
+			else if (conc.needsOpportunity && LessonAutoActivator.GetOpportunity(conc) < 0.10000000149011612)
 			{
-				return 0f;
+				result = 0f;
 			}
-			float num = 0f;
-			num += conc.priority;
-			num = (float)(num + LessonAutoActivator.GetOpportunity(conc) / 100.0 * 60.0);
-			return (float)(num * (1.0 - PlayerKnowledgeDatabase.GetKnowledge(conc)));
+			else
+			{
+				float num = 0f;
+				num += conc.priority;
+				num = (float)(num + LessonAutoActivator.GetOpportunity(conc) / 100.0 * 60.0);
+				num = (result = (float)(num * (1.0 - PlayerKnowledgeDatabase.GetKnowledge(conc))));
+			}
+			return result;
 		}
 
 		private static float GetOpportunity(ConceptDef conc)
 		{
-			float result = default(float);
-			if (LessonAutoActivator.opportunities.TryGetValue(conc, out result))
+			float num = default(float);
+			float result;
+			if (LessonAutoActivator.opportunities.TryGetValue(conc, out num))
 			{
-				return result;
+				result = num;
 			}
-			LessonAutoActivator.opportunities[conc] = 0f;
-			return 0f;
+			else
+			{
+				LessonAutoActivator.opportunities[conc] = 0f;
+				result = 0f;
+			}
+			return result;
 		}
 
 		private static void TryInitiateLesson(ConceptDef conc)

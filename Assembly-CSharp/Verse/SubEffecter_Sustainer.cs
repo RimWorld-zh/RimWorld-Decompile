@@ -4,9 +4,9 @@ namespace Verse
 {
 	public class SubEffecter_Sustainer : SubEffecter
 	{
-		private int age;
+		private int age = 0;
 
-		private Sustainer sustainer;
+		private Sustainer sustainer = null;
 
 		public SubEffecter_Sustainer(SubEffecterDef def) : base(def)
 		{

@@ -26,11 +26,7 @@ namespace RimWorld
 
 		public override bool HandlesThingDef(ThingDef td)
 		{
-			if (td == ThingDefOf.Apparel_ShieldBelt)
-			{
-				return false;
-			}
-			return base.HandlesThingDef(td) && td.IsApparel && (td.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, null) < 0.15000000596046448 || td.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, null) < 0.15000000596046448);
+			return td != ThingDefOf.Apparel_ShieldBelt && base.HandlesThingDef(td) && td.IsApparel && (td.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, null) < 0.15000000596046448 || td.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, null) < 0.15000000596046448);
 		}
 
 		protected override float SelectionWeight(ThingDef thingDef)

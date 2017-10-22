@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using Verse;
@@ -26,16 +27,34 @@ namespace RimWorld.Planet
 
 		public override IEnumerable Regenerate()
 		{
-			foreach (object item in base.Regenerate())
+			IEnumerator enumerator = this._003CRegenerate_003E__BaseCallProxy0().GetEnumerator();
+			try
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					object result = enumerator.Current;
+					yield return result;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+			}
+			finally
+			{
+				IDisposable disposable;
+				IDisposable disposable2 = disposable = (enumerator as IDisposable);
+				if (disposable != null)
+				{
+					disposable2.Dispose();
+				}
 			}
 			Rand.PushState();
 			Rand.Seed = Find.World.info.Seed;
 			LayerSubMesh sunSubMesh = base.GetSubMesh(WorldMaterials.Sun);
 			WorldRendererUtility.PrintQuadTangentialToPlanet(Vector3.forward * 10f, 15f, 0f, sunSubMesh, true, false, true);
 			Rand.PopState();
-			base.FinalizeMesh(MeshParts.All, true);
+			base.FinalizeMesh(MeshParts.All);
+			yield break;
+			IL_0133:
+			/*Error near IL_0134: Unexpected return in MoveNext()*/;
 		}
 	}
 }

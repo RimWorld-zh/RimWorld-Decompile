@@ -1,5 +1,7 @@
+#define ENABLE_PROFILER
 using RimWorld;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -31,11 +33,7 @@ namespace Verse
 				sunShadowsViewRect.ClipInsideMap(this.map);
 				IntVec2 intVec = this.SectionCoordsAt(sunShadowsViewRect.BottomLeft);
 				IntVec2 intVec2 = this.SectionCoordsAt(sunShadowsViewRect.TopRight);
-				if (intVec2.x >= intVec.x && intVec2.z >= intVec.z)
-				{
-					return CellRect.FromLimits(intVec.x, intVec.z, intVec2.x, intVec2.z);
-				}
-				return CellRect.Empty;
+				return (intVec2.x >= intVec.x && intVec2.z >= intVec.z) ? CellRect.FromLimits(intVec.x, intVec.z, intVec2.x, intVec2.z) : CellRect.Empty;
 			}
 		}
 
@@ -136,35 +134,43 @@ namespace Verse
 
 		private bool TryUpdateSection(Section sect)
 		{
+			bool result;
 			if (sect.dirtyFlags == MapMeshFlag.None)
 			{
-				return false;
+				result = false;
 			}
-			for (int i = 0; i < MapMeshFlagUtility.allFlags.Count; i++)
+			else
 			{
-				MapMeshFlag mapMeshFlag = MapMeshFlagUtility.allFlags[i];
-				if ((sect.dirtyFlags & mapMeshFlag) != 0)
+				for (int i = 0; i < MapMeshFlagUtility.allFlags.Count; i++)
 				{
-					sect.RegenerateLayers(mapMeshFlag);
+					MapMeshFlag mapMeshFlag = MapMeshFlagUtility.allFlags[i];
+					if ((sect.dirtyFlags & mapMeshFlag) != 0)
+					{
+						sect.RegenerateLayers(mapMeshFlag);
+					}
 				}
+				sect.dirtyFlags = MapMeshFlag.None;
+				result = true;
 			}
-			sect.dirtyFlags = MapMeshFlag.None;
-			return true;
+			return result;
 		}
 
-		public void DrawMapMesh(SectionLayerPhaseDef phase)
+		public void DrawMapMesh()
 		{
 			CellRect currentViewRect = Find.CameraDriver.CurrentViewRect;
 			currentViewRect.minX -= 17;
 			currentViewRect.minZ -= 17;
-			CellRect.CellRectIterator iterator = this.VisibleSections.GetIterator();
+			CellRect visibleSections = this.VisibleSections;
+			Profiler.BeginSample("Draw sections");
+			CellRect.CellRectIterator iterator = visibleSections.GetIterator();
 			while (!iterator.Done())
 			{
 				IntVec3 current = iterator.Current;
 				Section section = this.sections[current.x, current.z];
-				section.DrawSection(phase, !currentViewRect.Contains(section.botLeft));
+				section.DrawSection(!currentViewRect.Contains(section.botLeft));
 				iterator.MoveNext();
 			}
+			Profiler.EndSample();
 		}
 
 		private IntVec2 SectionCoordsAt(IntVec3 loc)
@@ -249,22 +255,22 @@ namespace Verse
 
 		private CellRect GetSunShadowsViewRect(CellRect rect)
 		{
-			Vector2 vector = GenCelestial.CurShadowVector(this.map);
-			if (vector.x < 0.0)
+			GenCelestial.LightInfo lightSourceInfo = GenCelestial.GetLightSourceInfo(this.map, GenCelestial.LightType.Shadow);
+			if (lightSourceInfo.vector.x < 0.0)
 			{
-				rect.maxX -= Mathf.FloorToInt(vector.x);
+				rect.maxX -= Mathf.FloorToInt(lightSourceInfo.vector.x);
 			}
 			else
 			{
-				rect.minX -= Mathf.CeilToInt(vector.x);
+				rect.minX -= Mathf.CeilToInt(lightSourceInfo.vector.x);
 			}
-			if (vector.y < 0.0)
+			if (lightSourceInfo.vector.y < 0.0)
 			{
-				rect.maxZ -= Mathf.FloorToInt(vector.y);
+				rect.maxZ -= Mathf.FloorToInt(lightSourceInfo.vector.y);
 			}
 			else
 			{
-				rect.minZ -= Mathf.CeilToInt(vector.y);
+				rect.minZ -= Mathf.CeilToInt(lightSourceInfo.vector.y);
 			}
 			return rect;
 		}

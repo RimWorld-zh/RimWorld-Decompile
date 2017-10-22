@@ -11,15 +11,18 @@ namespace Verse
 			{
 				peMode = GenPath.ResolveClosestTouchPathMode(traveler, map, thing.Position);
 			}
+			bool result;
 			switch (peMode)
 			{
 			case PathEndMode.None:
 			{
-				return false;
+				result = false;
+				break;
 			}
 			case PathEndMode.Touch:
 			{
-				return true;
+				result = true;
+				break;
 			}
 			case PathEndMode.OnCell:
 			{
@@ -27,7 +30,8 @@ namespace Verse
 				{
 					if (thing.Position.GetRegion(map, RegionType.Set_Passable) == region)
 					{
-						return true;
+						result = true;
+						goto IL_0122;
 					}
 				}
 				else
@@ -36,28 +40,31 @@ namespace Verse
 					while (!iterator.Done())
 					{
 						if (iterator.Current.GetRegion(map, RegionType.Set_Passable) == region)
-						{
-							return true;
-						}
+							goto IL_00c2;
 						iterator.MoveNext();
 					}
 				}
-				return false;
+				result = false;
+				break;
 			}
 			case PathEndMode.InteractionCell:
 			{
-				if (thing.InteractionCell.GetRegion(map, RegionType.Set_Passable) == region)
-				{
-					return true;
-				}
-				return false;
+				result = ((byte)((thing.InteractionCell.GetRegion(map, RegionType.Set_Passable) == region) ? 1 : 0) != 0);
+				break;
 			}
 			default:
 			{
 				Log.Error("Unsupported PathEndMode: " + peMode);
-				return false;
+				result = false;
+				break;
 			}
 			}
+			goto IL_0122;
+			IL_00c2:
+			result = true;
+			goto IL_0122;
+			IL_0122:
+			return result;
 		}
 	}
 }

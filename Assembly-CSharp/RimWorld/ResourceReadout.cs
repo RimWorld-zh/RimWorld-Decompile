@@ -8,17 +8,17 @@ namespace RimWorld
 {
 	public class ResourceReadout
 	{
-		private const float LineHeightSimple = 24f;
-
-		private const float LineHeightCategorized = 24f;
-
-		private const float DistFromScreenBottom = 200f;
-
 		private Vector2 scrollPosition;
 
 		private float lastDrawnHeight;
 
 		private readonly List<ThingCategoryDef> RootThingCategories;
+
+		private const float LineHeightSimple = 24f;
+
+		private const float LineHeightCategorized = 24f;
+
+		private const float DistFromScreenBottom = 200f;
 
 		public ResourceReadout()
 		{
@@ -84,26 +84,17 @@ namespace RimWorld
 			GUI.BeginGroup(rect);
 			Text.Anchor = TextAnchor.MiddleLeft;
 			float num = 0f;
-			Dictionary<ThingDef, int>.Enumerator enumerator = Find.VisibleMap.resourceCounter.AllCountedAmounts.GetEnumerator();
-			try
+			foreach (KeyValuePair<ThingDef, int> allCountedAmount in Find.VisibleMap.resourceCounter.AllCountedAmounts)
 			{
-				while (enumerator.MoveNext())
+				if (allCountedAmount.Value > 0 || allCountedAmount.Key.resourceReadoutAlwaysShow)
 				{
-					KeyValuePair<ThingDef, int> current = enumerator.Current;
-					if (current.Value > 0 || current.Key.resourceReadoutAlwaysShow)
+					Rect rect2 = new Rect(0f, num, 999f, 24f);
+					if (rect2.yMax >= this.scrollPosition.y && rect2.y <= this.scrollPosition.y + outRectHeight)
 					{
-						Rect rect2 = new Rect(0f, num, 999f, 24f);
-						if (rect2.yMax >= this.scrollPosition.y && rect2.y <= this.scrollPosition.y + outRectHeight)
-						{
-							this.DrawResourceSimple(rect2, current.Key);
-						}
-						num = (float)(num + 24.0);
+						this.DrawResourceSimple(rect2, allCountedAmount.Key);
 					}
+					num = (float)(num + 24.0);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			Text.Anchor = TextAnchor.UpperLeft;
 			this.lastDrawnHeight = num;
@@ -123,8 +114,7 @@ namespace RimWorld
 		{
 			Rect rect = new Rect(x, y, 27f, 27f);
 			Color color = GUI.color;
-			GUI.color = thingDef.graphicData.color;
-			GUI.DrawTexture(rect, thingDef.uiIcon);
+			Widgets.ThingIcon(rect, thingDef);
 			GUI.color = color;
 			TooltipHandler.TipRegion(rect, new TipSignal((Func<string>)(() => thingDef.LabelCap + ": " + thingDef.description), thingDef.GetHashCode()));
 		}

@@ -22,26 +22,23 @@ namespace RimWorld
 
 		protected bool TryResolveParms(IncidentParms parms)
 		{
+			bool result;
 			if (!this.TryResolveParmsGeneral(parms))
 			{
-				return false;
+				result = false;
 			}
-			this.ResolveParmsPoints(parms);
-			return true;
+			else
+			{
+				this.ResolveParmsPoints(parms);
+				result = true;
+			}
+			return result;
 		}
 
 		protected virtual bool TryResolveParmsGeneral(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			if (!parms.spawnCenter.IsValid && !RCellFinder.TryFindRandomPawnEntryCell(out parms.spawnCenter, map, CellFinder.EdgeRoadChance_Neutral, (Predicate<IntVec3>)null))
-			{
-				return false;
-			}
-			if (parms.faction == null && !base.CandidateFactions(map, false).TryRandomElement<Faction>(out parms.faction) && !base.CandidateFactions(map, true).TryRandomElement<Faction>(out parms.faction))
-			{
-				return false;
-			}
-			return true;
+			return (byte)((parms.spawnCenter.IsValid || RCellFinder.TryFindRandomPawnEntryCell(out parms.spawnCenter, map, CellFinder.EdgeRoadChance_Neutral, (Predicate<IntVec3>)null)) ? ((parms.faction != null || base.CandidateFactions(map, false).TryRandomElement<Faction>(out parms.faction) || base.CandidateFactions(map, true).TryRandomElement<Faction>(out parms.faction)) ? 1 : 0) : 0) != 0;
 		}
 
 		protected virtual void ResolveParmsPoints(IncidentParms parms)
@@ -68,23 +65,14 @@ namespace RimWorld
 		protected List<Pawn> SpawnPawns(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(parms);
+			PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(parms, false);
 			List<Pawn> list = PawnGroupMakerUtility.GeneratePawns(this.PawnGroupKindDef, defaultPawnGroupMakerParms, false).ToList();
-			List<Pawn>.Enumerator enumerator = list.GetEnumerator();
-			try
+			foreach (Pawn item in list)
 			{
-				while (enumerator.MoveNext())
-				{
-					Pawn current = enumerator.Current;
-					IntVec3 loc = CellFinder.RandomClosewalkCellNear(parms.spawnCenter, map, 5, null);
-					GenSpawn.Spawn(current, loc, map);
-				}
-				return list;
+				IntVec3 loc = CellFinder.RandomClosewalkCellNear(parms.spawnCenter, map, 5, null);
+				GenSpawn.Spawn(item, loc, map);
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
+			return list;
 		}
 	}
 }

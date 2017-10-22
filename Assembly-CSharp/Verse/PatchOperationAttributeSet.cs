@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Xml;
 
 namespace Verse
@@ -9,20 +11,33 @@ namespace Verse
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			bool result = false;
-			foreach (object item in xml.SelectNodes(base.xpath))
+			IEnumerator enumerator = xml.SelectNodes(base.xpath).GetEnumerator();
+			try
 			{
-				XmlNode xmlNode = item as XmlNode;
-				if (xmlNode.Attributes[base.attribute] != null)
+				while (enumerator.MoveNext())
 				{
-					xmlNode.Attributes[base.attribute].Value = this.value;
+					object current = enumerator.Current;
+					XmlNode xmlNode = current as XmlNode;
+					if (xmlNode.Attributes[base.attribute] != null)
+					{
+						xmlNode.Attributes[base.attribute].Value = this.value;
+					}
+					else
+					{
+						XmlAttribute xmlAttribute = xmlNode.OwnerDocument.CreateAttribute(base.attribute);
+						xmlAttribute.Value = this.value;
+						xmlNode.Attributes.Append(xmlAttribute);
+					}
+					result = true;
 				}
-				else
+			}
+			finally
+			{
+				IDisposable disposable;
+				if ((disposable = (enumerator as IDisposable)) != null)
 				{
-					XmlAttribute xmlAttribute = xmlNode.OwnerDocument.CreateAttribute(base.attribute);
-					xmlAttribute.Value = this.value;
-					xmlNode.Attributes.Append(xmlAttribute);
+					disposable.Dispose();
 				}
-				result = true;
 			}
 			return result;
 		}

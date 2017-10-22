@@ -1,5 +1,6 @@
 using RimWorld;
 using System;
+using Verse.AI;
 
 namespace Verse
 {
@@ -11,11 +12,11 @@ namespace Verse
 
 		public float baseCommonality;
 
-		public MentalBreakIntensity intensity;
+		public MentalBreakIntensity intensity = MentalBreakIntensity.Extreme;
 
 		public TraitDef requiredTrait;
 
-		private MentalBreakWorker workerInt;
+		private MentalBreakWorker workerInt = null;
 
 		public MentalBreakWorker Worker
 		{

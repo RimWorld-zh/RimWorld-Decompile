@@ -11,7 +11,7 @@ namespace RimWorld
 
 		public int id;
 
-		private int uses;
+		private int uses = 0;
 
 		public int date = -1;
 
@@ -88,15 +88,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (!this.Unused)
-				{
-					return false;
-				}
-				if (this.def.type != TaleType.Expirable)
-				{
-					return false;
-				}
-				return (float)this.AgeTicks > this.def.expireDays * 60000.0;
+				return this.Unused && this.def.type == TaleType.Expirable && (float)this.AgeTicks > this.def.expireDays * 60000.0;
 			}
 		}
 
@@ -121,10 +113,6 @@ namespace RimWorld
 		public virtual bool Concerns(Thing th)
 		{
 			return false;
-		}
-
-		public virtual void PostRemove()
-		{
 		}
 
 		public virtual void ExposeData()
@@ -157,9 +145,11 @@ namespace RimWorld
 		{
 			if (this.def.rulePack != null)
 			{
-				for (int i = 0; i < this.def.rulePack.Rules.Count; i++)
+				int i = 0;
+				if (i < this.def.rulePack.Rules.Count)
 				{
 					yield return this.def.rulePack.Rules[i];
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			Vector2 location = Vector2.zero;
@@ -168,17 +158,7 @@ namespace RimWorld
 				location = Find.WorldGrid.LongLatOf(this.surroundings.tile);
 			}
 			yield return (Rule)new Rule_String("date", GenDate.DateFullStringAt(this.date, location));
-			if (this.surroundings != null)
-			{
-				foreach (Rule rule in this.surroundings.GetRules())
-				{
-					yield return rule;
-				}
-			}
-			foreach (Rule item in this.SpecialTextGenerationRules())
-			{
-				yield return item;
-			}
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		protected virtual IEnumerable<Rule> SpecialTextGenerationRules()

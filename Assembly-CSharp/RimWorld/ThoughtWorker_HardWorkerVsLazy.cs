@@ -6,28 +6,29 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentSocialStateInternal(Pawn p, Pawn other)
 		{
+			ThoughtState result;
 			if (!p.RaceProps.Humanlike)
 			{
-				return false;
+				result = false;
 			}
-			if (p.story.traits.DegreeOfTrait(TraitDefOf.Industriousness) <= 0)
+			else if (p.story.traits.DegreeOfTrait(TraitDefOf.Industriousness) <= 0)
 			{
-				return false;
+				result = false;
 			}
-			if (!other.RaceProps.Humanlike)
+			else if (!other.RaceProps.Humanlike)
 			{
-				return false;
+				result = false;
 			}
-			if (!RelationsUtility.PawnsKnowEachOther(p, other))
+			else if (!RelationsUtility.PawnsKnowEachOther(p, other))
 			{
-				return false;
+				result = false;
 			}
-			int num = other.story.traits.DegreeOfTrait(TraitDefOf.Industriousness);
-			if (num > 0)
+			else
 			{
-				return false;
+				int num = other.story.traits.DegreeOfTrait(TraitDefOf.Industriousness);
+				result = ((num <= 0) ? true : false);
 			}
-			return true;
+			return result;
 		}
 	}
 }

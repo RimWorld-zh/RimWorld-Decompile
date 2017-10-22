@@ -4,19 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Verse.Steam
 {
 	public static class Workshop
 	{
-		public const uint InstallInfoFolderNameMaxLength = 257u;
-
 		private static WorkshopItemHook uploadingHook;
 
 		private static UGCUpdateHandle_t curUpdateHandle;
 
-		private static WorkshopInteractStage curStage;
+		private static WorkshopInteractStage curStage = WorkshopInteractStage.None;
 
 		private static Callback<RemoteStoragePublishedFileSubscribed_t> subscribedCallback;
 
@@ -33,6 +32,29 @@ namespace Verse.Steam
 		private static UGCQueryHandle_t detailsQueryHandle;
 
 		private static int detailsQueryCount = -1;
+
+		public const uint InstallInfoFolderNameMaxLength = 257u;
+
+		[CompilerGenerated]
+		private static Callback<RemoteStoragePublishedFileSubscribed_t>.DispatchDelegate _003C_003Ef__mg_0024cache0;
+
+		[CompilerGenerated]
+		private static Callback<ItemInstalled_t>.DispatchDelegate _003C_003Ef__mg_0024cache1;
+
+		[CompilerGenerated]
+		private static Callback<RemoteStoragePublishedFileUnsubscribed_t>.DispatchDelegate _003C_003Ef__mg_0024cache2;
+
+		[CompilerGenerated]
+		private static CallResult<SubmitItemUpdateResult_t>.APIDispatchDelegate _003C_003Ef__mg_0024cache3;
+
+		[CompilerGenerated]
+		private static CallResult<CreateItemResult_t>.APIDispatchDelegate _003C_003Ef__mg_0024cache4;
+
+		[CompilerGenerated]
+		private static CallResult<SteamUGCRequestUGCDetailsResult_t>.APIDispatchDelegate _003C_003Ef__mg_0024cache5;
+
+		[CompilerGenerated]
+		private static CallResult<SubmitItemUpdateResult_t>.APIDispatchDelegate _003C_003Ef__mg_0024cache6;
 
 		public static WorkshopInteractStage CurStage
 		{
@@ -53,7 +75,7 @@ namespace Verse.Steam
 		{
 			if (Workshop.curStage != 0)
 			{
-				Messages.Message("UploadAlreadyInProgress".Translate(), MessageSound.RejectInput);
+				Messages.Message("UploadAlreadyInProgress".Translate(), MessageTypeDefOf.RejectInput);
 			}
 			else
 			{
@@ -195,7 +217,7 @@ namespace Verse.Steam
 			else
 			{
 				SteamUtility.OpenWorkshopPage(Workshop.uploadingHook.PublishedFileId);
-				Messages.Message("WorkshopUploadSucceeded".Translate(Workshop.uploadingHook.Name), MessageSound.Benefit);
+				Messages.Message("WorkshopUploadSucceeded".Translate(Workshop.uploadingHook.Name), MessageTypeDefOf.TaskCompletion);
 				if (Prefs.LogVerbose)
 				{
 					Log.Message("Workshop: Item submit result: " + result.m_eResult);
@@ -290,10 +312,12 @@ namespace Verse.Steam
 			uint numSub = SteamUGC.GetNumSubscribedItems();
 			PublishedFileId_t[] subbedItems = new PublishedFileId_t[numSub];
 			uint count = SteamUGC.GetSubscribedItems(subbedItems, numSub);
-			for (int i = 0; i < count; i++)
+			int i = 0;
+			if (i < count)
 			{
 				PublishedFileId_t pfid = subbedItems[i];
 				yield return pfid;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -325,34 +349,35 @@ namespace Verse.Steam
 
 		private static string ItemStatusString(PublishedFileId_t pfid)
 		{
+			string result;
 			if (pfid == PublishedFileId_t.Invalid)
 			{
-				return "[unpublished]";
-			}
-			string str = "[" + pfid + "] ";
-			ulong num = default(ulong);
-			string str2 = default(string);
-			uint num2 = default(uint);
-			if (SteamUGC.GetItemInstallInfo(pfid, out num, out str2, 257u, out num2))
-			{
-				str += "\n      installed";
-				str = str + "\n      folder=" + str2;
-				str = str + "\n      sizeOnDisk=" + ((float)((float)(double)num / 1024.0)).ToString("F2") + "Kb";
+				result = "[unpublished]";
 			}
 			else
 			{
-				str += "\n      not installed";
+				string str = "[" + pfid + "] ";
+				ulong num = default(ulong);
+				string str2 = default(string);
+				uint num2 = default(uint);
+				if (SteamUGC.GetItemInstallInfo(pfid, out num, out str2, 257u, out num2))
+				{
+					str += "\n      installed";
+					str = str + "\n      folder=" + str2;
+					str = str + "\n      sizeOnDisk=" + ((float)((float)(double)num / 1024.0)).ToString("F2") + "Kb";
+				}
+				else
+				{
+					str += "\n      not installed";
+				}
+				result = str;
 			}
-			return str;
+			return result;
 		}
 
 		private static bool IsOurAppId(AppId_t appId)
 		{
-			if (appId != SteamUtils.GetAppID())
-			{
-				return false;
-			}
-			return true;
+			return (byte)((!(appId != SteamUtils.GetAppID())) ? 1 : 0) != 0;
 		}
 	}
 }

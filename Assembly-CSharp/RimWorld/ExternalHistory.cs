@@ -17,9 +17,9 @@ namespace RimWorld
 
 		public string firstUploadDate = "?";
 
-		public int firstUploadTime;
+		public int firstUploadTime = 0;
 
-		public bool devMode;
+		public bool devMode = false;
 
 		public History history = new History();
 

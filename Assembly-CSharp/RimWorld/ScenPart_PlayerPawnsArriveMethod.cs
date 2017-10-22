@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -7,7 +8,7 @@ namespace RimWorld
 {
 	public class ScenPart_PlayerPawnsArriveMethod : ScenPart
 	{
-		private PlayerPawnsArriveMethod method;
+		private PlayerPawnsArriveMethod method = PlayerPawnsArriveMethod.Standing;
 
 		public override void ExposeData()
 		{
@@ -21,13 +22,26 @@ namespace RimWorld
 			if (Widgets.ButtonText(scenPartRect, this.method.ToStringHuman(), true, false, true))
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				foreach (int value in Enum.GetValues(typeof(PlayerPawnsArriveMethod)))
+				IEnumerator enumerator = Enum.GetValues(typeof(PlayerPawnsArriveMethod)).GetEnumerator();
+				try
 				{
-					PlayerPawnsArriveMethod localM = (PlayerPawnsArriveMethod)value;
-					list.Add(new FloatMenuOption(localM.ToStringHuman(), (Action)delegate
+					while (enumerator.MoveNext())
 					{
-						this.method = localM;
-					}, MenuOptionPriority.Default, null, null, 0f, null, null));
+						PlayerPawnsArriveMethod playerPawnsArriveMethod = (PlayerPawnsArriveMethod)enumerator.Current;
+						PlayerPawnsArriveMethod localM = playerPawnsArriveMethod;
+						list.Add(new FloatMenuOption(localM.ToStringHuman(), (Action)delegate
+						{
+							this.method = localM;
+						}, MenuOptionPriority.Default, null, null, 0f, null, null));
+					}
+				}
+				finally
+				{
+					IDisposable disposable;
+					if ((disposable = (enumerator as IDisposable)) != null)
+					{
+						disposable.Dispose();
+					}
 				}
 				Find.WindowStack.Add(new FloatMenu(list));
 			}
@@ -35,11 +49,7 @@ namespace RimWorld
 
 		public override string Summary(Scenario scen)
 		{
-			if (this.method == PlayerPawnsArriveMethod.DropPods)
-			{
-				return "ScenPart_ArriveInDropPods".Translate();
-			}
-			return (string)null;
+			return (this.method != PlayerPawnsArriveMethod.DropPods) ? null : "ScenPart_ArriveInDropPods".Translate();
 		}
 
 		public override void Randomize()
@@ -52,20 +62,11 @@ namespace RimWorld
 			if (Find.GameInitData != null)
 			{
 				List<List<Thing>> list = new List<List<Thing>>();
-				List<Pawn>.Enumerator enumerator = Find.GameInitData.startingPawns.GetEnumerator();
-				try
+				foreach (Pawn startingPawn in Find.GameInitData.startingPawns)
 				{
-					while (enumerator.MoveNext())
-					{
-						Pawn current = enumerator.Current;
-						List<Thing> list2 = new List<Thing>();
-						list2.Add(current);
-						list.Add(list2);
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					List<Thing> list2 = new List<Thing>();
+					list2.Add(startingPawn);
+					list.Add(list2);
 				}
 				List<Thing> list3 = new List<Thing>();
 				foreach (ScenPart allPart in Find.Scenario.AllParts)
@@ -73,30 +74,23 @@ namespace RimWorld
 					list3.AddRange(allPart.PlayerStartingThings());
 				}
 				int num = 0;
-				List<Thing>.Enumerator enumerator3 = list3.GetEnumerator();
-				try
+				foreach (Thing item in list3)
 				{
-					while (enumerator3.MoveNext())
+					if (item.def.CanHaveFaction)
 					{
-						Thing current3 = enumerator3.Current;
-						if (current3.def.CanHaveFaction)
-						{
-							current3.SetFactionDirect(Faction.OfPlayer);
-						}
-						list[num].Add(current3);
-						num++;
-						if (num >= list.Count)
-						{
-							num = 0;
-						}
+						item.SetFactionDirect(Faction.OfPlayer);
+					}
+					list[num].Add(item);
+					num++;
+					if (num >= list.Count)
+					{
+						num = 0;
 					}
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator3).Dispose();
-				}
+				IntVec3 playerStartSpot = MapGenerator.PlayerStartSpot;
+				List<List<Thing>> thingsGroups = list;
 				bool instaDrop = Find.GameInitData.QuickStarted || this.method != PlayerPawnsArriveMethod.DropPods;
-				DropPodUtility.DropThingGroupsNear(MapGenerator.PlayerStartSpot, map, list, 110, instaDrop, true, true);
+				DropPodUtility.DropThingGroupsNear(playerStartSpot, map, thingsGroups, 110, instaDrop, true, true, false);
 			}
 		}
 

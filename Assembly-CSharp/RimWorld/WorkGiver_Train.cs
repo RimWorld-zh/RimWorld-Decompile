@@ -11,51 +11,61 @@ namespace RimWorld
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			List<Pawn> pawnList = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
-			for (int i = 0; i < pawnList.Count; i++)
+			int i = 0;
+			if (i < pawnList.Count)
 			{
 				yield return (Thing)pawnList[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
-			if (pawn2 != null && pawn2.RaceProps.Animal)
+			Job result;
+			if (pawn2 == null || !pawn2.RaceProps.Animal)
 			{
-				if (pawn2.Faction != pawn.Faction)
-				{
-					return null;
-				}
-				if (Find.TickManager.TicksGame < pawn2.mindState.lastAssignedInteractTime + 15000)
-				{
-					JobFailReason.Is(WorkGiver_InteractAnimal.AnimalInteractedTooRecentlyTrans);
-					return null;
-				}
-				if (pawn2.training == null)
-				{
-					return null;
-				}
+				result = null;
+			}
+			else if (pawn2.Faction != pawn.Faction)
+			{
+				result = null;
+			}
+			else if (Find.TickManager.TicksGame < pawn2.mindState.lastAssignedInteractTime + 15000)
+			{
+				JobFailReason.Is(WorkGiver_InteractAnimal.AnimalInteractedTooRecentlyTrans);
+				result = null;
+			}
+			else if (pawn2.training == null)
+			{
+				result = null;
+			}
+			else
+			{
 				TrainableDef trainableDef = pawn2.training.NextTrainableToTrain();
 				if (trainableDef == null)
 				{
-					return null;
+					result = null;
 				}
-				if (!this.CanInteractWithAnimal(pawn, pawn2))
+				else if (!this.CanInteractWithAnimal(pawn, pawn2))
 				{
-					return null;
+					result = null;
 				}
-				if (pawn2.RaceProps.EatsFood && !base.HasFoodToInteractAnimal(pawn, pawn2))
+				else if (pawn2.RaceProps.EatsFood && !base.HasFoodToInteractAnimal(pawn, pawn2))
 				{
 					Job job = base.TakeFoodForAnimalInteractJob(pawn, pawn2);
 					if (job == null)
 					{
 						JobFailReason.Is(WorkGiver_InteractAnimal.NoUsableFoodTrans);
 					}
-					return job;
+					result = job;
 				}
-				return new Job(JobDefOf.Train, t);
+				else
+				{
+					result = new Job(JobDefOf.Train, t);
+				}
 			}
-			return null;
+			return result;
 		}
 	}
 }

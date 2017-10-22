@@ -60,45 +60,53 @@ namespace Verse
 			float num5 = line2V1.x - line2V2.x;
 			float num6 = num4 * line2V1.x + num5 * line2V1.z;
 			float num7 = num * num5 - num4 * num2;
+			bool result;
 			if (num7 == 0.0)
 			{
-				return false;
+				result = false;
 			}
-			float num8 = (num5 * num3 - num2 * num6) / num7;
-			float num9 = (num * num6 - num4 * num3) / num7;
-			if (num8 > line1V1.x && num8 > line1V2.x)
+			else
 			{
-				goto IL_017e;
+				float num8 = (num5 * num3 - num2 * num6) / num7;
+				float num9 = (num * num6 - num4 * num3) / num7;
+				if (num8 > line1V1.x && num8 > line1V2.x)
+				{
+					goto IL_0187;
+				}
+				if (num8 > line2V1.x && num8 > line2V2.x)
+				{
+					goto IL_0187;
+				}
+				if (num8 < line1V1.x && num8 < line1V2.x)
+				{
+					goto IL_0187;
+				}
+				if (num8 < line2V1.x && num8 < line2V2.x)
+				{
+					goto IL_0187;
+				}
+				if (num9 > line1V1.z && num9 > line1V2.z)
+				{
+					goto IL_0187;
+				}
+				if (num9 > line2V1.z && num9 > line2V2.z)
+				{
+					goto IL_0187;
+				}
+				if (num9 < line1V1.z && num9 < line1V2.z)
+				{
+					goto IL_0187;
+				}
+				if (num9 < line2V1.z && num9 < line2V2.z)
+					goto IL_0187;
+				result = true;
 			}
-			if (num8 > line2V1.x && num8 > line2V2.x)
-			{
-				goto IL_017e;
-			}
-			if (num8 < line1V1.x && num8 < line1V2.x)
-			{
-				goto IL_017e;
-			}
-			if (num8 < line2V1.x && num8 < line2V2.x)
-			{
-				goto IL_017e;
-			}
-			if (num9 > line1V1.z && num9 > line1V2.z)
-			{
-				goto IL_017e;
-			}
-			if (num9 > line2V1.z && num9 > line2V2.z)
-			{
-				goto IL_017e;
-			}
-			if (num9 < line1V1.z && num9 < line1V2.z)
-			{
-				goto IL_017e;
-			}
-			if (num9 < line2V1.z && num9 < line2V2.z)
-				goto IL_017e;
-			return true;
-			IL_017e:
-			return false;
+			goto IL_0197;
+			IL_0197:
+			return result;
+			IL_0187:
+			result = false;
+			goto IL_0197;
 		}
 
 		public static bool IntersectLineCircle(Vector2 center, float radius, Vector2 lineA, Vector2 lineB)
@@ -129,16 +137,17 @@ namespace Verse
 
 		public static Vector2 RegularPolygonVertexPosition(int polygonVertices, int vertexIndex)
 		{
+			Vector2 result;
 			if (vertexIndex >= 0 && vertexIndex < polygonVertices)
 			{
-				if (polygonVertices == 1)
-				{
-					return Vector2.zero;
-				}
-				return GenGeo.CalculatePolygonVertexPosition(polygonVertices, vertexIndex);
+				result = ((polygonVertices != 1) ? GenGeo.CalculatePolygonVertexPosition(polygonVertices, vertexIndex) : Vector2.zero);
 			}
-			Log.Warning("Vertex index out of bounds. polygonVertices=" + polygonVertices + " vertexIndex=" + vertexIndex);
-			return Vector2.zero;
+			else
+			{
+				Log.Warning("Vertex index out of bounds. polygonVertices=" + polygonVertices + " vertexIndex=" + vertexIndex);
+				result = Vector2.zero;
+			}
+			return result;
 		}
 
 		private static Vector2 CalculatePolygonVertexPosition(int polygonVertices, int vertexIndex)
@@ -147,6 +156,38 @@ namespace Verse
 			float num2 = num * (float)vertexIndex;
 			num2 = (float)(num2 + 3.1415927410125732);
 			return new Vector3(Mathf.Cos(num2), Mathf.Sin(num2));
+		}
+
+		public static Vector2 InverseQuadBilinear(Vector2 p, Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3)
+		{
+			float num = (p0 - p).Cross(p0 - p2);
+			float num2 = (float)(((p0 - p).Cross(p1 - p3) + (p1 - p).Cross(p0 - p2)) / 2.0);
+			float num3 = (p1 - p).Cross(p1 - p3);
+			float num4 = num2 * num2 - num * num3;
+			Vector2 result;
+			if (num4 < 0.0)
+			{
+				result = new Vector2(-1f, -1f);
+			}
+			else
+			{
+				num4 = Mathf.Sqrt(num4);
+				float num5;
+				if (Mathf.Abs((float)(num - 2.0 * num2 + num3)) < 9.9999997473787516E-05)
+				{
+					num5 = num / (num - num3);
+				}
+				else
+				{
+					float num6 = (float)((num - num2 + num4) / (num - 2.0 * num2 + num3));
+					float num7 = (float)((num - num2 - num4) / (num - 2.0 * num2 + num3));
+					num5 = ((!(Mathf.Abs((float)(num6 - 0.5)) < Mathf.Abs((float)(num7 - 0.5)))) ? num7 : num6);
+				}
+				float num8 = (float)((1.0 - num5) * (p0.x - p2.x) + num5 * (p1.x - p3.x));
+				float num9 = (float)((1.0 - num5) * (p0.y - p2.y) + num5 * (p1.y - p3.y));
+				result = ((!(Mathf.Abs(num8) < Mathf.Abs(num9))) ? new Vector2(num5, (float)(((1.0 - num5) * (p0.x - p.x) + num5 * (p1.x - p.x)) / num8)) : new Vector2(num5, (float)(((1.0 - num5) * (p0.y - p.y) + num5 * (p1.y - p.y)) / num9)));
+			}
+			return result;
 		}
 	}
 }

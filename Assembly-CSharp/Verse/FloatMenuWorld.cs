@@ -36,21 +36,21 @@ namespace Verse
 
 		private static bool StillValid(FloatMenuOption opt, List<FloatMenuOption> curOpts)
 		{
+			bool result;
 			if (opt.revalidateWorldClickTarget == null)
 			{
 				for (int i = 0; i < curOpts.Count; i++)
 				{
 					if (FloatMenuWorld.OptionsMatch(opt, curOpts[i]))
-					{
-						return true;
-					}
+						goto IL_0027;
 				}
 			}
 			else
 			{
 				if (!opt.revalidateWorldClickTarget.Spawned)
 				{
-					return false;
+					result = false;
+					goto IL_00d3;
 				}
 				Vector2 mousePos = opt.revalidateWorldClickTarget.ScreenPos();
 				mousePos.y = (float)UI.screenHeight - mousePos.y;
@@ -58,21 +58,24 @@ namespace Verse
 				for (int j = 0; j < list.Count; j++)
 				{
 					if (FloatMenuWorld.OptionsMatch(opt, list[j]))
-					{
-						return true;
-					}
+						goto IL_00b0;
 				}
 			}
-			return false;
+			result = false;
+			goto IL_00d3;
+			IL_00d3:
+			return result;
+			IL_0027:
+			result = true;
+			goto IL_00d3;
+			IL_00b0:
+			result = true;
+			goto IL_00d3;
 		}
 
 		private static bool OptionsMatch(FloatMenuOption a, FloatMenuOption b)
 		{
-			if (a.Label == b.Label)
-			{
-				return true;
-			}
-			return false;
+			return (byte)((a.Label == b.Label) ? 1 : 0) != 0;
 		}
 	}
 }

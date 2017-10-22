@@ -14,23 +14,15 @@ namespace Verse
 			Long = 3
 		}
 
-		private const float DistTouch = 4f;
-
-		private const float DistShort = 15f;
-
-		private const float DistMedium = 30f;
-
-		private const float DistLong = 50f;
-
 		public VerbCategory category = VerbCategory.Nonnative;
 
 		public Type verbClass = typeof(Verb);
 
-		public string label;
+		public string label = (string)null;
 
 		public bool isPrimary = true;
 
-		public float minRange;
+		public float minRange = 0f;
 
 		public float range = 1f;
 
@@ -40,7 +32,7 @@ namespace Verse
 
 		public float noiseRadius = 3f;
 
-		public bool hasStandardCommand;
+		public bool hasStandardCommand = false;
 
 		public bool targetable = true;
 
@@ -48,11 +40,11 @@ namespace Verse
 
 		public bool requireLineOfSight = true;
 
-		public bool mustCastOnOpenGround;
+		public bool mustCastOnOpenGround = false;
 
 		public bool forceNormalTimeSpeed = true;
 
-		public bool onlyManualCast;
+		public bool onlyManualCast = false;
 
 		public bool stopBurstWithoutLos = true;
 
@@ -60,33 +52,33 @@ namespace Verse
 
 		public float commonality = 1f;
 
-		public float warmupTime;
+		public float warmupTime = 0f;
 
-		public float defaultCooldownTime;
+		public float defaultCooldownTime = 0f;
 
-		public SoundDef soundCast;
+		public SoundDef soundCast = null;
 
-		public SoundDef soundCastTail;
+		public SoundDef soundCastTail = null;
 
-		public float muzzleFlashScale;
+		public SoundDef soundAiming;
 
-		public BodyPartGroupDef linkedBodyPartsGroup;
+		public float muzzleFlashScale = 0f;
 
-		public DamageDef meleeDamageDef;
+		public BodyPartGroupDef linkedBodyPartsGroup = null;
+
+		public DamageDef meleeDamageDef = null;
 
 		public int meleeDamageBaseAmount = 1;
 
 		public bool ai_IsWeapon = true;
 
-		public bool ai_IsIncendiary;
-
-		public bool ai_IsBuildingDestroyer;
+		public bool ai_IsBuildingDestroyer = false;
 
 		public float ai_AvoidFriendlyFireRadius;
 
-		public ThingDef projectileDef;
+		public ThingDef defaultProjectile;
 
-		public float forcedMissRadius;
+		public float forcedMissRadius = 0f;
 
 		public float accuracyTouch = 1f;
 
@@ -96,19 +88,23 @@ namespace Verse
 
 		public float accuracyLong = 1f;
 
+		public bool meleeShoot = false;
+
+		private const float DistTouch = 4f;
+
+		private const float DistShort = 15f;
+
+		private const float DistMedium = 30f;
+
+		private const float DistLong = 50f;
+
+		private const float MeleeGunfireWeighting = 0.25f;
+
 		public bool MeleeRange
 		{
 			get
 			{
 				return this.range < 1.1000000238418579;
-			}
-		}
-
-		public bool NeedsLineOfSight
-		{
-			get
-			{
-				return !this.projectileDef.projectile.flyOverhead;
 			}
 		}
 
@@ -120,6 +116,14 @@ namespace Verse
 			}
 		}
 
+		public bool LaunchesProjectile
+		{
+			get
+			{
+				return typeof(Verb_LaunchProjectile).IsAssignableFrom(this.verbClass);
+			}
+		}
+
 		public string AccuracySummaryString
 		{
 			get
@@ -128,63 +132,83 @@ namespace Verse
 			}
 		}
 
-		public float BaseSelectionWeight
+		public bool IsMeleeAttack
 		{
 			get
 			{
-				return this.AdjustedSelectionWeight(null, null, null);
+				return typeof(Verb_MeleeAttack).IsAssignableFrom(this.verbClass);
 			}
 		}
 
-		public int AdjustedMeleeDamageAmount(Verb ownerVerb, Pawn attacker, Thing equipment)
+		public float BaseMeleeSelectionWeight
 		{
-			float num = (ownerVerb == null || ownerVerb.ownerEquipment == null) ? ((float)this.meleeDamageBaseAmount) : ownerVerb.ownerEquipment.GetStatValue(StatDefOf.MeleeWeapon_DamageAmount, true);
+			get
+			{
+				return this.AdjustedMeleeSelectionWeight(null, null, null);
+			}
+		}
+
+		public float AdjustedMeleeDamageAmount(Verb ownerVerb, Pawn attacker, Thing equipment)
+		{
+			if ((ownerVerb == null) ? (!typeof(Verb_MeleeAttack).IsAssignableFrom(this.verbClass)) : (!(ownerVerb is Verb_MeleeAttack)))
+			{
+				Log.ErrorOnce(string.Format("Attempting to get melee damage for a non-melee verb {0}", this), 26181238);
+			}
+			float num = (ownerVerb == null || ownerVerb.tool == null) ? ((float)this.meleeDamageBaseAmount) : ownerVerb.tool.AdjustedMeleeDamageAmount(ownerVerb.ownerEquipment, this.meleeDamageDef);
 			if (attacker != null)
 			{
 				num *= ownerVerb.GetDamageFactorFor(attacker);
 			}
-			return Mathf.Max(1, Mathf.RoundToInt(num));
+			return num;
 		}
 
-		public float AdjustedSelectionWeight(Verb ownerVerb, Pawn attacker, Thing equipment)
+		private float AdjustedExpectedMeleeDamage(Verb ownerVerb, Pawn attacker, Thing equipment)
 		{
-			return (float)this.AdjustedMeleeDamageAmount(ownerVerb, attacker, equipment) * this.commonality;
+			return (float)((!this.IsMeleeAttack) ? ((!this.LaunchesProjectile || this.defaultProjectile == null) ? 0.0 : ((float)this.defaultProjectile.projectile.damageAmountBase)) : this.AdjustedMeleeDamageAmount(ownerVerb, attacker, equipment));
 		}
 
-		public int AdjustedCooldownTicks(Thing equipment)
+		public float AdjustedMeleeSelectionWeight(Verb ownerVerb, Pawn attacker, Thing equipment)
 		{
-			if (equipment != null)
-			{
-				if (this.MeleeRange)
-				{
-					return equipment.GetStatValue(StatDefOf.MeleeWeapon_Cooldown, true).SecondsToTicks();
-				}
-				return equipment.GetStatValue(StatDefOf.RangedWeapon_Cooldown, true).SecondsToTicks();
-			}
-			return this.defaultCooldownTime.SecondsToTicks();
+			float num = (float)(this.AdjustedExpectedMeleeDamage(ownerVerb, attacker, equipment) * this.commonality * ((ownerVerb.tool != null) ? ownerVerb.tool.commonality : 1.0));
+			return (float)((!this.IsMeleeAttack) ? ((!this.meleeShoot) ? 0.0 : (num * 0.25 / equipment.GetStatValue(StatDefOf.Weapon_Bulk, true))) : num);
+		}
+
+		public float AdjustedCooldown(Verb ownerVerb, Pawn attacker, Thing equipment)
+		{
+			return (ownerVerb.tool == null) ? ((equipment == null || this.MeleeRange) ? this.defaultCooldownTime : equipment.GetStatValue(StatDefOf.RangedWeapon_Cooldown, true)) : ownerVerb.tool.AdjustedCooldown(equipment);
+		}
+
+		public int AdjustedCooldownTicks(Verb ownerVerb, Pawn attacker, Thing equipment)
+		{
+			return this.AdjustedCooldown(ownerVerb, attacker, equipment).SecondsToTicks();
 		}
 
 		private float AdjustedAccuracy(RangeCategory cat, Thing equipment)
 		{
+			float statValue;
 			if (equipment == null)
 			{
 				switch (cat)
 				{
 				case RangeCategory.Touch:
 				{
-					return this.accuracyTouch;
+					statValue = this.accuracyTouch;
+					break;
 				}
 				case RangeCategory.Short:
 				{
-					return this.accuracyShort;
+					statValue = this.accuracyShort;
+					break;
 				}
 				case RangeCategory.Medium:
 				{
-					return this.accuracyMedium;
+					statValue = this.accuracyMedium;
+					break;
 				}
 				case RangeCategory.Long:
 				{
-					return this.accuracyLong;
+					statValue = this.accuracyLong;
+					break;
 				}
 				default:
 				{
@@ -192,31 +216,35 @@ namespace Verse
 				}
 				}
 			}
-			StatDef stat = null;
-			switch (cat)
+			else
 			{
-			case RangeCategory.Touch:
-			{
-				stat = StatDefOf.AccuracyTouch;
-				break;
+				StatDef stat = null;
+				switch (cat)
+				{
+				case RangeCategory.Touch:
+				{
+					stat = StatDefOf.AccuracyTouch;
+					break;
+				}
+				case RangeCategory.Short:
+				{
+					stat = StatDefOf.AccuracyShort;
+					break;
+				}
+				case RangeCategory.Medium:
+				{
+					stat = StatDefOf.AccuracyMedium;
+					break;
+				}
+				case RangeCategory.Long:
+				{
+					stat = StatDefOf.AccuracyLong;
+					break;
+				}
+				}
+				statValue = equipment.GetStatValue(stat, true);
 			}
-			case RangeCategory.Short:
-			{
-				stat = StatDefOf.AccuracyShort;
-				break;
-			}
-			case RangeCategory.Medium:
-			{
-				stat = StatDefOf.AccuracyMedium;
-				break;
-			}
-			case RangeCategory.Long:
-			{
-				stat = StatDefOf.AccuracyLong;
-				break;
-			}
-			}
-			return equipment.GetStatValue(stat, true);
+			return statValue;
 		}
 
 		public float GetHitChanceFactor(Thing equipment, float dist)
@@ -235,8 +263,13 @@ namespace Verse
 
 		public override string ToString()
 		{
-			string str = this.label.NullOrEmpty() ? ("range=" + this.range + ", projectile=" + ((this.projectileDef == null) ? "null" : this.projectileDef.defName)) : this.label;
+			string str = this.label.NullOrEmpty() ? ("range=" + this.range + ", defaultProjectile=" + this.defaultProjectile.ToStringSafe()) : this.label;
 			return "VerbProperties(" + str + ")";
+		}
+
+		public new VerbProperties MemberwiseClone()
+		{
+			return (VerbProperties)base.MemberwiseClone();
 		}
 	}
 }

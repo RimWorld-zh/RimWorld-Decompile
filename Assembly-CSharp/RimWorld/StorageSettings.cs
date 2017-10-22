@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class StorageSettings : IExposable
 	{
-		public IStoreSettingsParent owner;
+		public IStoreSettingsParent owner = null;
 
 		public ThingFilter filter;
 
@@ -83,19 +83,27 @@ namespace RimWorld
 
 		public bool AllowedToAccept(Thing t)
 		{
+			bool result;
 			if (!this.filter.Allows(t))
 			{
-				return false;
+				result = false;
 			}
-			if (this.owner != null)
+			else
 			{
-				StorageSettings parentStoreSettings = this.owner.GetParentStoreSettings();
-				if (parentStoreSettings != null && !parentStoreSettings.AllowedToAccept(t))
+				if (this.owner != null)
 				{
-					return false;
+					StorageSettings parentStoreSettings = this.owner.GetParentStoreSettings();
+					if (parentStoreSettings != null && !parentStoreSettings.AllowedToAccept(t))
+					{
+						result = false;
+						goto IL_0052;
+					}
 				}
+				result = true;
 			}
-			return true;
+			goto IL_0052;
+			IL_0052:
+			return result;
 		}
 
 		private void TryNotifyChanged()

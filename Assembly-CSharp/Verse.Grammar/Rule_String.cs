@@ -1,4 +1,4 @@
-using System;
+using System.Text.RegularExpressions;
 
 namespace Verse.Grammar
 {
@@ -6,11 +6,15 @@ namespace Verse.Grammar
 	{
 		private string output;
 
+		private float weight = 1f;
+
+		private static Regex pattern = new Regex("\r\n\t\t# hold on to your butts, this is gonna get weird\r\n\r\n\t\t^\r\n\t\t(?<keyword>[a-zA-Z0-9_]+)\t\t\t\t\t# keyword; roughly limited to standard C# identifier rules\r\n\t\t(\t\t\t\t\t\t\t\t\t\t\t# parameter list is optional, open the capture group so we can keep it or ignore it\r\n\t\t\t\\(\t\t\t\t\t\t\t\t\t\t# this is the actual parameter list opening\r\n\t\t\t\t(\t\t\t\t\t\t\t\t\t# unlimited number of parameter groups\r\n\t\t\t\t\t(?<paramname>[a-zA-Z0-9_]+)=\t# parameter name is similar\r\n\t\t\t\t\t(?<paramvalue>[^\\,\\)]*)\t\t\t# parameter value, however, allows everything except comma and closeparen!\r\n\t\t\t\t\t,?\t\t\t\t\t\t\t\t# comma can be used to separate blocks; it is also silently ignored if it's a trailing comma\r\n\t\t\t\t)*\r\n\t\t\t\\)\r\n\t\t)?\r\n\t\t->(?<output>.*)\t\t\t\t\t\t\t\t# output is anything-goes\r\n\t\t$\r\n\r\n\t\t", RegexOptions.IgnorePatternWhitespace);
+
 		public override float BaseSelectionWeight
 		{
 			get
 			{
-				return 1f;
+				return this.weight;
 			}
 		}
 
@@ -22,12 +26,33 @@ namespace Verse.Grammar
 
 		public Rule_String(string rawString)
 		{
-			string[] array = rawString.Split(new string[1]
+			Match match = Rule_String.pattern.Match(rawString);
+			if (!match.Success)
 			{
-				"->"
-			}, StringSplitOptions.None);
-			base.keyword = array[0].Trim();
-			this.output = array[1].Trim();
+				Log.Error(string.Format("Bad string pass when reading rule {0}", rawString));
+			}
+			else
+			{
+				base.keyword = match.Groups["keyword"].Value;
+				this.output = match.Groups["output"].Value;
+				for (int i = 0; i < match.Groups["paramname"].Captures.Count; i++)
+				{
+					string value = match.Groups["paramname"].Captures[i].Value;
+					string value2 = match.Groups["paramvalue"].Captures[i].Value;
+					if (value == "p")
+					{
+						this.weight = float.Parse(value2);
+					}
+					else if (value2.Length > 0 && value2[0] == '=')
+					{
+						base.AddConstantConstraint(value, value2.Substring(1));
+					}
+					else
+					{
+						Log.Error(string.Format("Unknown parameter {0} in rule {1}", value, rawString));
+					}
+				}
+			}
 		}
 
 		public override string Generate()

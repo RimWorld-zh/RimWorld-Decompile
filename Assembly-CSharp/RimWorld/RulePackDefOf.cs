@@ -33,10 +33,6 @@ namespace RimWorld
 
 		public static RulePackDef NamerWorld;
 
-		public static RulePackDef NamerFactionPlayerRandomized;
-
-		public static RulePackDef NamerFactionBasePlayerRandomized;
-
 		public static RulePackDef NamerTraderGeneral;
 
 		public static RulePackDef NamerScenario;
@@ -62,5 +58,25 @@ namespace RimWorld
 		public static RulePackDef ArtDescription_SarcophagusPlate;
 
 		public static RulePackDef SeedGenerator;
+
+		public static RulePackDef Combat_Hit;
+
+		public static RulePackDef Combat_Dodge;
+
+		public static RulePackDef Combat_Miss;
+
+		public static RulePackDef Combat_RangedFire;
+
+		public static RulePackDef Combat_RangedDamage;
+
+		public static RulePackDef Combat_RangedMiss;
+
+		public static RulePackDef Combat_ExplosionImpact;
+
+		public static RulePackDef Transition_Downed;
+
+		public static RulePackDef Transition_Died;
+
+		public static RulePackDef DamageEvent_Ceiling;
 	}
 }

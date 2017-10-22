@@ -6,13 +6,13 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public class ActiveTip
 	{
-		private const int TipMargin = 4;
-
 		public TipSignal signal;
 
-		public double firstTriggerTime;
+		public double firstTriggerTime = 0.0;
 
 		public int lastTriggerFrame;
+
+		private const int TipMargin = 4;
 
 		public static readonly Texture2D TooltipBGAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/TooltipBG", true);
 

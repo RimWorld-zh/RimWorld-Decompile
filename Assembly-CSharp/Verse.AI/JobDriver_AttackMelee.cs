@@ -1,12 +1,11 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse.AI
 {
 	public class JobDriver_AttackMelee : JobDriver
 	{
-		private int numMeleeAttacksMade;
+		private int numMeleeAttacksMade = 0;
 
 		public override void ExposeData()
 		{
@@ -14,27 +13,25 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.numMeleeAttacksMade, "numMeleeAttacksMade", 0, false);
 		}
 
+		public override bool TryMakePreToilReservations()
+		{
+			IAttackTarget attackTarget = base.job.targetA.Thing as IAttackTarget;
+			if (attackTarget != null)
+			{
+				base.pawn.Map.attackTargetReservationManager.Reserve(base.pawn, base.job, attackTarget);
+			}
+			return true;
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			yield return Toils_ReserveAttackTarget.TryReserve(TargetIndex.A);
 			yield return Toils_Misc.ThrowColonistAttackingMote(TargetIndex.A);
-			yield return Toils_Combat.FollowAndMeleeAttack(TargetIndex.A, (Action)delegate
-			{
-				Thing thing = ((_003CMakeNewToils_003Ec__Iterator1B5)/*Error near IL_005b: stateMachine*/)._003C_003Ef__this.CurJob.GetTarget(TargetIndex.A).Thing;
-				if (((_003CMakeNewToils_003Ec__Iterator1B5)/*Error near IL_005b: stateMachine*/)._003C_003Ef__this.pawn.meleeVerbs.TryMeleeAttack(thing, ((_003CMakeNewToils_003Ec__Iterator1B5)/*Error near IL_005b: stateMachine*/)._003C_003Ef__this.CurJob.verbToUse, false) && ((_003CMakeNewToils_003Ec__Iterator1B5)/*Error near IL_005b: stateMachine*/)._003C_003Ef__this.pawn.CurJob != null && ((_003CMakeNewToils_003Ec__Iterator1B5)/*Error near IL_005b: stateMachine*/)._003C_003Ef__this.pawn.jobs.curDriver == ((_003CMakeNewToils_003Ec__Iterator1B5)/*Error near IL_005b: stateMachine*/)._003C_003Ef__this)
-				{
-					((_003CMakeNewToils_003Ec__Iterator1B5)/*Error near IL_005b: stateMachine*/)._003C_003Ef__this.numMeleeAttacksMade++;
-					if (((_003CMakeNewToils_003Ec__Iterator1B5)/*Error near IL_005b: stateMachine*/)._003C_003Ef__this.numMeleeAttacksMade >= ((_003CMakeNewToils_003Ec__Iterator1B5)/*Error near IL_005b: stateMachine*/)._003C_003Ef__this.pawn.CurJob.maxNumMeleeAttacks)
-					{
-						((_003CMakeNewToils_003Ec__Iterator1B5)/*Error near IL_005b: stateMachine*/)._003C_003Ef__this.EndJobWith(JobCondition.Succeeded);
-					}
-				}
-			}).FailOnDespawnedOrNull(TargetIndex.A);
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override void Notify_PatherFailed()
 		{
-			if (base.CurJob.attackDoorIfTargetLost)
+			if (base.job.attackDoorIfTargetLost)
 			{
 				Thing thing = default(Thing);
 				using (PawnPath pawnPath = base.Map.pathFinder.FindPath(base.pawn.Position, base.TargetA.Cell, TraverseParms.For(base.pawn, Danger.Deadly, TraverseMode.PassDoors, false), PathEndMode.OnCell))
@@ -43,16 +40,16 @@ namespace Verse.AI
 					{
 						IntVec3 intVec = default(IntVec3);
 						thing = pawnPath.FirstBlockingBuilding(out intVec, base.pawn);
-						goto end_IL_004e;
+						goto end_IL_0050;
 					}
 					return;
-					end_IL_004e:;
+					end_IL_0050:;
 				}
 				if (thing != null)
 				{
-					base.CurJob.targetA = thing;
-					base.CurJob.maxNumMeleeAttacks = Rand.RangeInclusive(2, 5);
-					base.CurJob.expiryInterval = Rand.Range(2000, 4000);
+					base.job.targetA = thing;
+					base.job.maxNumMeleeAttacks = Rand.RangeInclusive(2, 5);
+					base.job.expiryInterval = Rand.Range(2000, 4000);
 					return;
 				}
 			}
@@ -61,7 +58,7 @@ namespace Verse.AI
 
 		public override bool IsContinuation(Job j)
 		{
-			return base.CurJob.GetTarget(TargetIndex.A) == j.GetTarget(TargetIndex.A);
+			return base.job.GetTarget(TargetIndex.A) == j.GetTarget(TargetIndex.A);
 		}
 	}
 }

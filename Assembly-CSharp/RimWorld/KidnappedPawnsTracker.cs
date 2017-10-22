@@ -8,13 +8,13 @@ namespace RimWorld
 {
 	public class KidnappedPawnsTracker : IExposable
 	{
-		private const int TryRecruitInterval = 15051;
-
-		private const float RecruitMTBDays = 30f;
-
 		private Faction faction;
 
 		private List<Pawn> kidnappedPawns = new List<Pawn>();
+
+		private const int TryRecruitInterval = 15051;
+
+		private const float RecruitMTBDays = 30f;
 
 		public List<Pawn> KidnappedPawnsListForReading
 		{

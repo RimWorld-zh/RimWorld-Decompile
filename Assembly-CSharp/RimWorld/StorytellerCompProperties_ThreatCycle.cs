@@ -12,6 +12,12 @@ namespace RimWorld
 
 		public float minDaysBetweenThreatBigs;
 
+		public float minDaysBeforeNonRaidThreatBig = 20f;
+
+		public IncidentCategory threatSmallCategory = IncidentCategory.ThreatSmall;
+
+		public IncidentCategory threatBigCategory = IncidentCategory.ThreatBig;
+
 		public float ThreatCycleTotalDays
 		{
 			get

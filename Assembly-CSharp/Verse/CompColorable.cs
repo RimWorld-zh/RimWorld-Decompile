@@ -6,17 +6,13 @@ namespace Verse
 	{
 		private Color color = Color.white;
 
-		private bool active;
+		private bool active = false;
 
 		public Color Color
 		{
 			get
 			{
-				if (!this.active)
-				{
-					return base.parent.def.graphicData.color;
-				}
-				return this.color;
+				return this.active ? this.color : base.parent.def.graphicData.color;
 			}
 			set
 			{

@@ -17,11 +17,7 @@ namespace RimWorld
 
 		public override float OpinionOffset()
 		{
-			if (this.ShouldDiscard)
-			{
-				return 0f;
-			}
-			return Mathf.Min(base.opinionOffset, base.def.maxCumulatedOpinionOffset);
+			return (float)((!this.ShouldDiscard) ? Mathf.Min(base.opinionOffset, base.def.maxCumulatedOpinionOffset) : 0.0);
 		}
 
 		public override void ThoughtInterval()
@@ -53,19 +49,29 @@ namespace RimWorld
 		{
 			showBubble = false;
 			List<Thought_Memory> memories = base.pawn.needs.mood.thoughts.memories.Memories;
-			for (int i = 0; i < memories.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (memories[i].def == base.def)
+				if (num < memories.Count)
 				{
-					Thought_MemorySocialCumulative thought_MemorySocialCumulative = (Thought_MemorySocialCumulative)memories[i];
-					if (thought_MemorySocialCumulative.OtherPawn() == base.otherPawn)
+					if (memories[num].def == base.def)
 					{
-						thought_MemorySocialCumulative.opinionOffset += base.opinionOffset;
-						return true;
+						Thought_MemorySocialCumulative thought_MemorySocialCumulative = (Thought_MemorySocialCumulative)memories[num];
+						if (thought_MemorySocialCumulative.OtherPawn() == base.otherPawn)
+						{
+							thought_MemorySocialCumulative.opinionOffset += base.opinionOffset;
+							result = true;
+							break;
+						}
 					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 	}
 }

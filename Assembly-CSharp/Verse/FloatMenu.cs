@@ -9,25 +9,15 @@ namespace Verse
 {
 	public class FloatMenu : Window
 	{
-		private const float OptionSpacing = -1f;
-
-		private const float MaxScreenHeightPercent = 0.9f;
-
-		private const float MinimumColumnWidth = 70f;
-
-		private const float FadeStartMouseDist = 5f;
-
-		private const float FadeFinishMouseDist = 100f;
-
-		public bool givesColonistOrders;
+		public bool givesColonistOrders = false;
 
 		public bool vanishIfMouseDistant = true;
 
 		protected List<FloatMenuOption> options;
 
-		private string title;
+		private string title = (string)null;
 
-		private bool needSelection;
+		private bool needSelection = false;
 
 		private Color baseColor = Color.white;
 
@@ -35,7 +25,17 @@ namespace Verse
 
 		private static readonly Vector2 TitleOffset = new Vector2(30f, -25f);
 
+		private const float OptionSpacing = -1f;
+
+		private const float MaxScreenHeightPercent = 0.9f;
+
+		private const float MinimumColumnWidth = 70f;
+
 		private static readonly Vector2 InitialPositionShift = new Vector2(4f, 0f);
+
+		private const float FadeStartMouseDist = 5f;
+
+		private const float FadeFinishMouseDist = 100f;
 
 		protected override float Margin
 		{
@@ -73,6 +73,7 @@ namespace Verse
 		{
 			get
 			{
+				float result;
 				if (this.UsingScrollbar)
 				{
 					float num = 0f;
@@ -88,9 +89,13 @@ namespace Verse
 					}
 					int columnCount = this.ColumnCount;
 					num2 += (float)columnCount * num;
-					return num2 / (float)columnCount;
+					result = num2 / (float)columnCount;
 				}
-				return this.MaxWindowHeight;
+				else
+				{
+					result = this.MaxWindowHeight;
+				}
+				return result;
 			}
 		}
 
@@ -139,19 +144,29 @@ namespace Verse
 			get
 			{
 				float num = 70f;
-				for (int i = 0; i < this.options.Count; i++)
+				int num2 = 0;
+				float result;
+				while (true)
 				{
-					float requiredWidth = this.options[i].RequiredWidth;
-					if (requiredWidth >= 300.0)
+					if (num2 < this.options.Count)
 					{
-						return 300f;
+						float requiredWidth = this.options[num2].RequiredWidth;
+						if (requiredWidth >= 300.0)
+						{
+							result = 300f;
+							break;
+						}
+						if (requiredWidth > num)
+						{
+							num = requiredWidth;
+						}
+						num2++;
+						continue;
 					}
-					if (requiredWidth > num)
-					{
-						num = requiredWidth;
-					}
+					result = Mathf.Round(num);
+					break;
 				}
-				return Mathf.Round(num);
+				return result;
 			}
 		}
 
@@ -183,28 +198,33 @@ namespace Verse
 		{
 			get
 			{
+				int result;
 				if (this.options == null)
 				{
-					return 1;
+					result = 1;
 				}
-				Text.Font = GameFont.Small;
-				int num = 1;
-				float num2 = 0f;
-				float maxWindowHeight = this.MaxWindowHeight;
-				for (int i = 0; i < this.options.Count; i++)
+				else
 				{
-					float requiredHeight = this.options[i].RequiredHeight;
-					if (num2 + requiredHeight + -1.0 > maxWindowHeight)
+					Text.Font = GameFont.Small;
+					int num = 1;
+					float num2 = 0f;
+					float maxWindowHeight = this.MaxWindowHeight;
+					for (int i = 0; i < this.options.Count; i++)
 					{
-						num2 = requiredHeight;
-						num++;
+						float requiredHeight = this.options[i].RequiredHeight;
+						if (num2 + requiredHeight + -1.0 > maxWindowHeight)
+						{
+							num2 = requiredHeight;
+							num++;
+						}
+						else
+						{
+							num2 = (float)(num2 + (requiredHeight + -1.0));
+						}
 					}
-					else
-					{
-						num2 = (float)(num2 + (requiredHeight + -1.0));
-					}
+					result = num;
 				}
-				return num;
+				return result;
 			}
 		}
 
@@ -212,11 +232,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.options.Count > 60)
-				{
-					return FloatMenuSizeMode.Tiny;
-				}
-				return FloatMenuSizeMode.Normal;
+				return (FloatMenuSizeMode)((this.options.Count <= 60) ? 1 : 2);
 			}
 		}
 

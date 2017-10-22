@@ -5,8 +5,6 @@ namespace Verse
 {
 	public static class ZoneColorUtility
 	{
-		private const float ZoneOpacity = 0.09f;
-
 		private static List<Color> growingZoneColors;
 
 		private static List<Color> storageZoneColors;
@@ -14,6 +12,8 @@ namespace Verse
 		private static int nextGrowingZoneColorIndex;
 
 		private static int nextStorageZoneColorIndex;
+
+		private const float ZoneOpacity = 0.09f;
 
 		static ZoneColorUtility()
 		{
@@ -60,20 +60,13 @@ namespace Verse
 		private static IEnumerable<Color> GrowingZoneColors()
 		{
 			yield return Color.Lerp(new Color(0f, 1f, 0f), Color.gray, 0.5f);
-			yield return Color.Lerp(new Color(1f, 1f, 0f), Color.gray, 0.5f);
-			yield return Color.Lerp(new Color(0.5f, 1f, 0f), Color.gray, 0.5f);
-			yield return Color.Lerp(new Color(1f, 1f, 0.5f), Color.gray, 0.5f);
-			yield return Color.Lerp(new Color(0.5f, 1f, 0.5f), Color.gray, 0.5f);
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		private static IEnumerable<Color> StorageZoneColors()
 		{
 			yield return Color.Lerp(new Color(1f, 0f, 0f), Color.gray, 0.5f);
-			yield return Color.Lerp(new Color(1f, 0f, 1f), Color.gray, 0.5f);
-			yield return Color.Lerp(new Color(0f, 0f, 1f), Color.gray, 0.5f);
-			yield return Color.Lerp(new Color(1f, 0f, 0.5f), Color.gray, 0.5f);
-			yield return Color.Lerp(new Color(0f, 0.5f, 1f), Color.gray, 0.5f);
-			yield return Color.Lerp(new Color(0.5f, 0f, 1f), Color.gray, 0.5f);
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

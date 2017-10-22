@@ -8,13 +8,15 @@ namespace Verse
 {
 	public class ThingWithComps : Thing
 	{
-		private List<ThingComp> comps = new List<ThingComp>();
+		private List<ThingComp> comps;
+
+		private static readonly List<ThingComp> EmptyCompsList = new List<ThingComp>();
 
 		public List<ThingComp> AllComps
 		{
 			get
 			{
-				return this.comps;
+				return (this.comps != null) ? this.comps : ThingWithComps.EmptyCompsList;
 			}
 		}
 
@@ -23,11 +25,7 @@ namespace Verse
 			get
 			{
 				CompColorable comp = this.GetComp<CompColorable>();
-				if (comp != null && comp.Active)
-				{
-					return comp.Color;
-				}
-				return base.DrawColor;
+				return (comp == null || !comp.Active) ? base.DrawColor : comp.Color;
 			}
 			set
 			{
@@ -40,9 +38,15 @@ namespace Verse
 			get
 			{
 				string text = GenLabel.ThingLabel(this);
-				for (int i = 0; i < this.comps.Count; i++)
+				if (this.comps != null)
 				{
-					text = this.comps[i].TransformLabel(text);
+					int num = 0;
+					int count = this.comps.Count;
+					while (num < count)
+					{
+						text = this.comps[num].TransformLabel(text);
+						num++;
+					}
 				}
 				return text;
 			}
@@ -56,49 +60,87 @@ namespace Verse
 
 		public T GetComp<T>() where T : ThingComp
 		{
-			for (int i = 0; i < this.comps.Count; i++)
+			T val;
+			if (this.comps != null)
 			{
-				T val = (T)(this.comps[i] as T);
-				if (val != null)
+				int num = 0;
+				int count = this.comps.Count;
+				while (num < count)
 				{
-					return val;
+					val = (T)(this.comps[num] as T);
+					if (val != null)
+						goto IL_0043;
+					num++;
 				}
 			}
-			return (T)null;
+			T result = (T)null;
+			goto IL_0063;
+			IL_0043:
+			result = val;
+			goto IL_0063;
+			IL_0063:
+			return result;
 		}
 
 		public IEnumerable<T> GetComps<T>() where T : ThingComp
 		{
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps == null)
+				yield break;
+			int i = 0;
+			T cT;
+			while (true)
 			{
-				T cT = (T)(this.comps[i] as T);
-				if (cT != null)
+				if (i < this.comps.Count)
 				{
-					yield return cT;
+					cT = (T)(this.comps[i] as T);
+					if (cT == null)
+					{
+						i++;
+						continue;
+					}
+					break;
 				}
+				yield break;
 			}
+			yield return cT;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public ThingComp GetCompByDef(CompProperties def)
 		{
-			for (int i = 0; i < this.comps.Count; i++)
+			int num;
+			if (this.comps != null)
 			{
-				if (this.comps[i].props == def)
+				num = 0;
+				int count = this.comps.Count;
+				while (num < count)
 				{
-					return this.comps[i];
+					if (this.comps[num].props == def)
+						goto IL_0038;
+					num++;
 				}
 			}
-			return null;
+			ThingComp result = null;
+			goto IL_005e;
+			IL_0038:
+			result = this.comps[num];
+			goto IL_005e;
+			IL_005e:
+			return result;
 		}
 
 		public void InitializeComps()
 		{
-			for (int i = 0; i < base.def.comps.Count; i++)
+			if (base.def.comps.Any())
 			{
-				ThingComp thingComp = (ThingComp)Activator.CreateInstance(base.def.comps[i].compClass);
-				thingComp.parent = this;
-				this.comps.Add(thingComp);
-				thingComp.Initialize(base.def.comps[i]);
+				this.comps = new List<ThingComp>();
+				for (int i = 0; i < base.def.comps.Count; i++)
+				{
+					ThingComp thingComp = (ThingComp)Activator.CreateInstance(base.def.comps[i].compClass);
+					thingComp.parent = this;
+					this.comps.Add(thingComp);
+					thingComp.Initialize(base.def.comps[i]);
+				}
 			}
 		}
 
@@ -109,18 +151,27 @@ namespace Verse
 			{
 				this.InitializeComps();
 			}
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps != null)
 			{
-				this.comps[i].PostExposeData();
+				for (int i = 0; i < this.comps.Count; i++)
+				{
+					this.comps[i].PostExposeData();
+				}
 			}
 		}
 
 		public void BroadcastCompSignal(string signal)
 		{
 			this.ReceiveCompSignal(signal);
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps != null)
 			{
-				this.comps[i].ReceiveCompSignal(signal);
+				int num = 0;
+				int count = this.comps.Count;
+				while (num < count)
+				{
+					this.comps[num].ReceiveCompSignal(signal);
+					num++;
+				}
 			}
 		}
 
@@ -131,9 +182,12 @@ namespace Verse
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps != null)
 			{
-				this.comps[i].PostSpawnSetup(respawningAfterLoad);
+				for (int i = 0; i < this.comps.Count; i++)
+				{
+					this.comps[i].PostSpawnSetup(respawningAfterLoad);
+				}
 			}
 		}
 
@@ -141,9 +195,12 @@ namespace Verse
 		{
 			Map map = base.Map;
 			base.DeSpawn();
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps != null)
 			{
-				this.comps[i].PostDeSpawn(map);
+				for (int i = 0; i < this.comps.Count; i++)
+				{
+					this.comps[i].PostDeSpawn(map);
+				}
 			}
 		}
 
@@ -151,32 +208,47 @@ namespace Verse
 		{
 			Map map = base.Map;
 			base.Destroy(mode);
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps != null)
 			{
-				this.comps[i].PostDestroy(mode, map);
+				for (int i = 0; i < this.comps.Count; i++)
+				{
+					this.comps[i].PostDestroy(mode, map);
+				}
 			}
 		}
 
 		public override void Tick()
 		{
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps != null)
 			{
-				this.comps[i].CompTick();
+				int num = 0;
+				int count = this.comps.Count;
+				while (num < count)
+				{
+					this.comps[num].CompTick();
+					num++;
+				}
 			}
 		}
 
 		public override void TickRare()
 		{
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps != null)
 			{
-				this.comps[i].CompTickRare();
+				int num = 0;
+				int count = this.comps.Count;
+				while (num < count)
+				{
+					this.comps[num].CompTickRare();
+					num++;
+				}
 			}
 		}
 
 		public override void PreApplyDamage(DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(dinfo, out absorbed);
-			if (!absorbed)
+			if (!absorbed && this.comps != null)
 			{
 				int num = 0;
 				while (num < this.comps.Count)
@@ -195,9 +267,12 @@ namespace Verse
 		public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
 			base.PostApplyDamage(dinfo, totalDamageDealt);
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps != null)
 			{
-				this.comps[i].PostPostApplyDamage(dinfo, totalDamageDealt);
+				for (int i = 0; i < this.comps.Count; i++)
+				{
+					this.comps[i].PostPostApplyDamage(dinfo, totalDamageDealt);
+				}
 			}
 		}
 
@@ -209,67 +284,98 @@ namespace Verse
 
 		protected void Comps_PostDraw()
 		{
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps != null)
 			{
-				this.comps[i].PostDraw();
+				for (int i = 0; i < this.comps.Count; i++)
+				{
+					this.comps[i].PostDraw();
+				}
 			}
 		}
 
 		public override void DrawExtraSelectionOverlays()
 		{
 			base.DrawExtraSelectionOverlays();
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps != null)
 			{
-				this.comps[i].PostDrawExtraSelectionOverlays();
+				for (int i = 0; i < this.comps.Count; i++)
+				{
+					this.comps[i].PostDrawExtraSelectionOverlays();
+				}
 			}
 		}
 
 		public override void Print(SectionLayer layer)
 		{
 			base.Print(layer);
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps != null)
 			{
-				this.comps[i].PostPrintOnto(layer);
+				for (int i = 0; i < this.comps.Count; i++)
+				{
+					this.comps[i].PostPrintOnto(layer);
+				}
 			}
 		}
 
 		public virtual void PrintForPowerGrid(SectionLayer layer)
 		{
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps != null)
 			{
-				this.comps[i].CompPrintForPowerGrid(layer);
+				for (int i = 0; i < this.comps.Count; i++)
+				{
+					this.comps[i].CompPrintForPowerGrid(layer);
+				}
 			}
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps != null)
 			{
-				foreach (Gizmo item in this.comps[i].CompGetGizmosExtra())
+				for (int i = 0; i < this.comps.Count; i++)
 				{
-					yield return item;
+					using (IEnumerator<Gizmo> enumerator = this.comps[i].CompGetGizmosExtra().GetEnumerator())
+					{
+						if (enumerator.MoveNext())
+						{
+							Gizmo com = enumerator.Current;
+							yield return com;
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
+					}
 				}
 			}
+			yield break;
+			IL_0116:
+			/*Error near IL_0117: Unexpected return in MoveNext()*/;
 		}
 
 		public override bool TryAbsorbStack(Thing other, bool respectStackLimit)
 		{
+			bool result;
 			if (!this.CanStackWith(other))
 			{
-				return false;
+				result = false;
 			}
-			int count = ThingUtility.TryAbsorbStackNumToTake(this, other, respectStackLimit);
-			for (int i = 0; i < this.comps.Count; i++)
+			else
 			{
-				this.comps[i].PreAbsorbStack(other, count);
+				int count = ThingUtility.TryAbsorbStackNumToTake(this, other, respectStackLimit);
+				if (this.comps != null)
+				{
+					for (int i = 0; i < this.comps.Count; i++)
+					{
+						this.comps[i].PreAbsorbStack(other, count);
+					}
+				}
+				result = base.TryAbsorbStack(other, respectStackLimit);
 			}
-			return base.TryAbsorbStack(other, respectStackLimit);
+			return result;
 		}
 
 		public override Thing SplitOff(int count)
 		{
 			Thing thing = base.SplitOff(count);
-			if (thing != null)
+			if (thing != null && this.comps != null)
 			{
 				for (int i = 0; i < this.comps.Count; i++)
 				{
@@ -281,18 +387,29 @@ namespace Verse
 
 		public override bool CanStackWith(Thing other)
 		{
+			bool result;
 			if (!base.CanStackWith(other))
 			{
-				return false;
+				result = false;
 			}
-			for (int i = 0; i < this.comps.Count; i++)
+			else
 			{
-				if (!this.comps[i].AllowStackWith(other))
+				if (this.comps != null)
 				{
-					return false;
+					for (int i = 0; i < this.comps.Count; i++)
+					{
+						if (!this.comps[i].AllowStackWith(other))
+							goto IL_003f;
+					}
 				}
+				result = true;
 			}
-			return true;
+			goto IL_0064;
+			IL_0064:
+			return result;
+			IL_003f:
+			result = false;
+			goto IL_0064;
 		}
 
 		public override string GetInspectString()
@@ -313,42 +430,54 @@ namespace Verse
 
 		protected string InspectStringPartsFromComps()
 		{
-			StringBuilder stringBuilder = new StringBuilder();
-			for (int i = 0; i < this.comps.Count; i++)
+			string result;
+			if (this.comps == null)
 			{
-				string text = this.comps[i].CompInspectStringExtra();
-				if (!text.NullOrEmpty())
-				{
-					if (Prefs.DevMode && char.IsWhiteSpace(text[text.Length - 1]))
-					{
-						Log.ErrorOnce(this.comps[i].GetType() + " CompInspectStringExtra ended with whitespace: " + text, 25612);
-						text = text.TrimEndNewlines();
-					}
-					if (stringBuilder.Length != 0)
-					{
-						stringBuilder.AppendLine();
-					}
-					stringBuilder.Append(text);
-				}
+				result = (string)null;
 			}
-			return stringBuilder.ToString();
+			else
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				for (int i = 0; i < this.comps.Count; i++)
+				{
+					string text = this.comps[i].CompInspectStringExtra();
+					if (!text.NullOrEmpty())
+					{
+						if (Prefs.DevMode && char.IsWhiteSpace(text[text.Length - 1]))
+						{
+							Log.ErrorOnce(this.comps[i].GetType() + " CompInspectStringExtra ended with whitespace: " + text, 25612);
+							text = text.TrimEndNewlines();
+						}
+						if (stringBuilder.Length != 0)
+						{
+							stringBuilder.AppendLine();
+						}
+						stringBuilder.Append(text);
+					}
+				}
+				result = stringBuilder.ToString();
+			}
+			return result;
 		}
 
 		public override string GetDescription()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append(base.GetDescription());
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps != null)
 			{
-				string descriptionPart = this.comps[i].GetDescriptionPart();
-				if (!descriptionPart.NullOrEmpty())
+				for (int i = 0; i < this.comps.Count; i++)
 				{
-					if (stringBuilder.Length > 0)
+					string descriptionPart = this.comps[i].GetDescriptionPart();
+					if (!descriptionPart.NullOrEmpty())
 					{
-						stringBuilder.AppendLine();
-						stringBuilder.AppendLine();
+						if (stringBuilder.Length > 0)
+						{
+							stringBuilder.AppendLine();
+							stringBuilder.AppendLine();
+						}
+						stringBuilder.Append(descriptionPart);
 					}
-					stringBuilder.Append(descriptionPart);
 				}
 			}
 			return stringBuilder.ToString();
@@ -356,24 +485,43 @@ namespace Verse
 
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn selPawn)
 		{
-			foreach (FloatMenuOption floatMenuOption in base.GetFloatMenuOptions(selPawn))
+			using (IEnumerator<FloatMenuOption> enumerator = this._003CGetFloatMenuOptions_003E__BaseCallProxy0(selPawn).GetEnumerator())
 			{
-				yield return floatMenuOption;
-			}
-			for (int i = 0; i < this.comps.Count; i++)
-			{
-				foreach (FloatMenuOption item in this.comps[i].CompFloatMenuOptions(selPawn))
+				if (enumerator.MoveNext())
 				{
-					yield return item;
+					FloatMenuOption o2 = enumerator.Current;
+					yield return o2;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
+			if (this.comps != null)
+			{
+				for (int i = 0; i < this.comps.Count; i++)
+				{
+					using (IEnumerator<FloatMenuOption> enumerator2 = this.comps[i].CompFloatMenuOptions(selPawn).GetEnumerator())
+					{
+						if (enumerator2.MoveNext())
+						{
+							FloatMenuOption o = enumerator2.Current;
+							yield return o;
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
+					}
+				}
+			}
+			yield break;
+			IL_01b6:
+			/*Error near IL_01b7: Unexpected return in MoveNext()*/;
 		}
 
 		public override void PreTraded(TradeAction action, Pawn playerNegotiator, ITrader trader)
 		{
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps != null)
 			{
-				this.comps[i].PrePreTraded(action, playerNegotiator, trader);
+				for (int i = 0; i < this.comps.Count; i++)
+				{
+					this.comps[i].PrePreTraded(action, playerNegotiator, trader);
+				}
 			}
 			base.PreTraded(action, playerNegotiator, trader);
 		}
@@ -381,18 +529,36 @@ namespace Verse
 		public override void PostGeneratedForTrader(TraderKindDef trader, int forTile, Faction forFaction)
 		{
 			base.PostGeneratedForTrader(trader, forTile, forFaction);
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps != null)
 			{
-				this.comps[i].PostPostGeneratedForTrader(trader, forTile, forFaction);
+				for (int i = 0; i < this.comps.Count; i++)
+				{
+					this.comps[i].PostPostGeneratedForTrader(trader, forTile, forFaction);
+				}
 			}
 		}
 
 		protected override void PostIngested(Pawn ingester)
 		{
 			base.PostIngested(ingester);
-			for (int i = 0; i < this.comps.Count; i++)
+			if (this.comps != null)
 			{
-				this.comps[i].PostIngested(ingester);
+				for (int i = 0; i < this.comps.Count; i++)
+				{
+					this.comps[i].PostIngested(ingester);
+				}
+			}
+		}
+
+		public override void Notify_SignalReceived(Signal signal)
+		{
+			base.Notify_SignalReceived(signal);
+			if (this.comps != null)
+			{
+				for (int i = 0; i < this.comps.Count; i++)
+				{
+					this.comps[i].Notify_SignalReceived(signal);
+				}
 			}
 		}
 	}

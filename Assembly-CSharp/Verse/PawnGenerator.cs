@@ -27,14 +27,15 @@ namespace Verse
 
 			public PawnGenerationStatus(Pawn pawn, List<Pawn> pawnsGeneratedInTheMeantime)
 			{
+				this = default(PawnGenerationStatus);
 				this.Pawn = pawn;
 				this.PawnsGeneratedInTheMeantime = pawnsGeneratedInTheMeantime;
 			}
 		}
 
-		public const int MaxStartMentalBreakThreshold = 40;
-
 		private static List<PawnGenerationStatus> pawnsBeingGenerated = new List<PawnGenerationStatus>();
+
+		public const float MaxStartMentalBreakThreshold = 0.4f;
 
 		private static SimpleCurve DefaultAgeGenerationCurve = new SimpleCurve
 		{
@@ -142,22 +143,44 @@ namespace Verse
 
 		public static Pawn GeneratePawn(PawnKindDef kindDef, Faction faction = null)
 		{
-			return PawnGenerator.GeneratePawn(new PawnGenerationRequest(kindDef, faction, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, false, null, default(float?), default(float?), default(Gender?), default(float?), (string)null));
+			return PawnGenerator.GeneratePawn(new PawnGenerationRequest(kindDef, faction, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null));
 		}
 
 		public static Pawn GeneratePawn(PawnGenerationRequest request)
+		{
+			try
+			{
+				return PawnGenerator.GeneratePawnInternal(request);
+			}
+			finally
+			{
+			}
+		}
+
+		private static Pawn GeneratePawnInternal(PawnGenerationRequest request)
 		{
 			request.EnsureNonNullFaction();
 			Pawn pawn = null;
 			if (!request.Newborn && !request.ForceGenerateNewPawn)
 			{
-				if (request.Inhabitant && request.Tile != -1)
+				if (request.ForceRedressWorldPawnIfFormerColonist)
+				{
+					IEnumerable<Pawn> validCandidatesToRedress = PawnGenerator.GetValidCandidatesToRedress(request);
+					if ((from x in validCandidatesToRedress
+					where PawnUtility.EverBeenColonistOrTameAnimal(x)
+					select x).TryRandomElementByWeight<Pawn>((Func<Pawn, float>)((Pawn x) => PawnGenerator.WorldPawnSelectionWeight(x)), out pawn))
+					{
+						PawnGenerator.RedressPawn(pawn, request);
+						Find.WorldPawns.RemovePawn(pawn);
+					}
+				}
+				if (pawn == null && request.Inhabitant && request.Tile != -1)
 				{
 					Settlement settlement = Find.WorldObjects.WorldObjectAt<Settlement>(request.Tile);
 					if (settlement != null && settlement.previouslyGeneratedInhabitants.Any())
 					{
-						IEnumerable<Pawn> validCandidatesToRedress = PawnGenerator.GetValidCandidatesToRedress(request);
-						if ((from x in validCandidatesToRedress
+						IEnumerable<Pawn> validCandidatesToRedress2 = PawnGenerator.GetValidCandidatesToRedress(request);
+						if ((from x in validCandidatesToRedress2
 						where settlement.previouslyGeneratedInhabitants.Contains(x)
 						select x).TryRandomElementByWeight<Pawn>((Func<Pawn, float>)((Pawn x) => PawnGenerator.WorldPawnSelectionWeight(x)), out pawn))
 						{
@@ -166,22 +189,24 @@ namespace Verse
 						}
 					}
 				}
-				if (pawn == null && Rand.Value < PawnGenerator.ChanceToRedressAnyWorldPawn())
+				if (pawn == null && Rand.Chance(PawnGenerator.ChanceToRedressAnyWorldPawn(request)))
 				{
-					IEnumerable<Pawn> validCandidatesToRedress2 = PawnGenerator.GetValidCandidatesToRedress(request);
-					if (validCandidatesToRedress2.TryRandomElementByWeight<Pawn>((Func<Pawn, float>)((Pawn x) => PawnGenerator.WorldPawnSelectionWeight(x)), out pawn))
+					IEnumerable<Pawn> validCandidatesToRedress3 = PawnGenerator.GetValidCandidatesToRedress(request);
+					if (validCandidatesToRedress3.TryRandomElementByWeight<Pawn>((Func<Pawn, float>)((Pawn x) => PawnGenerator.WorldPawnSelectionWeight(x)), out pawn))
 					{
 						PawnGenerator.RedressPawn(pawn, request);
 						Find.WorldPawns.RemovePawn(pawn);
 					}
 				}
 			}
+			Pawn result;
 			if (pawn == null)
 			{
 				pawn = PawnGenerator.GenerateNewNakedPawn(ref request);
 				if (pawn == null)
 				{
-					return null;
+					result = null;
+					goto IL_0247;
 				}
 				if (!request.Newborn)
 				{
@@ -200,13 +225,30 @@ namespace Verse
 			{
 				Find.Scenario.Notify_PawnGenerated(pawn, request.Context);
 			}
-			return pawn;
+			result = pawn;
+			goto IL_0247;
+			IL_0247:
+			return result;
 		}
 
 		public static void RedressPawn(Pawn pawn, PawnGenerationRequest request)
 		{
-			pawn.ChangeKind(request.KindDef);
-			PawnGenerator.GenerateGearFor(pawn, request);
+			try
+			{
+				pawn.ChangeKind(request.KindDef);
+				PawnGenerator.GenerateGearFor(pawn, request);
+				if (pawn.Faction != request.Faction)
+				{
+					pawn.SetFaction(request.Faction, null);
+				}
+				if (pawn.guest != null)
+				{
+					pawn.guest.SetGuestStatus(null, false);
+				}
+			}
+			finally
+			{
+			}
 		}
 
 		public static bool IsBeingGenerated(Pawn pawn)
@@ -216,70 +258,79 @@ namespace Verse
 
 		private static bool IsValidCandidateToRedress(Pawn pawn, PawnGenerationRequest request)
 		{
+			bool result;
 			if (pawn.def != request.KindDef.race)
 			{
-				return false;
+				result = false;
 			}
-			if (pawn.Faction != request.Faction)
+			else if (!request.WorldPawnFactionDoesntMatter && pawn.Faction != request.Faction)
 			{
-				return false;
+				result = false;
 			}
-			if (!request.AllowDead && (pawn.Dead || pawn.Destroyed))
+			else if (!request.AllowDead && (pawn.Dead || pawn.Destroyed))
 			{
-				return false;
+				result = false;
 			}
-			if (!request.AllowDowned && pawn.Downed)
+			else if (!request.AllowDowned && pawn.Downed)
 			{
-				return false;
+				result = false;
 			}
-			if (pawn.health.hediffSet.BleedRateTotal > 0.0010000000474974513)
+			else if (pawn.health.hediffSet.BleedRateTotal > 0.0010000000474974513)
 			{
-				return false;
+				result = false;
 			}
-			if (!request.CanGeneratePawnRelations && pawn.RaceProps.IsFlesh && pawn.relations.RelatedToAnyoneOrAnyoneRelatedToMe)
+			else if (!request.CanGeneratePawnRelations && pawn.RaceProps.IsFlesh && pawn.relations.RelatedToAnyoneOrAnyoneRelatedToMe)
 			{
-				return false;
+				result = false;
 			}
-			if (!request.AllowGay && pawn.RaceProps.Humanlike && pawn.story.traits.HasTrait(TraitDefOf.Gay))
+			else if (!request.AllowGay && pawn.RaceProps.Humanlike && pawn.story.traits.HasTrait(TraitDefOf.Gay))
 			{
-				return false;
+				result = false;
 			}
-			if ((object)request.Validator != null && !request.Validator(pawn))
+			else if ((object)request.Validator != null && !request.Validator(pawn))
 			{
-				return false;
+				result = false;
 			}
-			if (request.FixedBiologicalAge.HasValue && pawn.ageTracker.AgeBiologicalYearsFloat != request.FixedBiologicalAge)
+			else if (request.FixedBiologicalAge.HasValue && pawn.ageTracker.AgeBiologicalYearsFloat != request.FixedBiologicalAge)
 			{
-				return false;
+				result = false;
 			}
-			if (request.FixedChronologicalAge.HasValue && (float)pawn.ageTracker.AgeChronologicalYears != request.FixedChronologicalAge)
+			else if (request.FixedChronologicalAge.HasValue && (float)pawn.ageTracker.AgeChronologicalYears != request.FixedChronologicalAge)
 			{
-				return false;
+				result = false;
 			}
-			if (request.FixedGender.HasValue && pawn.gender != request.FixedGender)
+			else if (request.FixedGender.HasValue && pawn.gender != request.FixedGender)
 			{
-				return false;
+				result = false;
 			}
-			if (request.FixedLastName != null && ((NameTriple)pawn.Name).Last != request.FixedLastName)
+			else if (request.FixedLastName != null && ((NameTriple)pawn.Name).Last != request.FixedLastName)
 			{
-				return false;
+				result = false;
 			}
-			if (request.FixedMelanin.HasValue && pawn.story != null && pawn.story.melanin != request.FixedMelanin)
+			else if (request.FixedMelanin.HasValue && pawn.story != null && pawn.story.melanin != request.FixedMelanin)
 			{
-				return false;
+				result = false;
 			}
-			if (request.MustBeCapableOfViolence)
+			else
 			{
-				if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+				if (request.MustBeCapableOfViolence)
 				{
-					return false;
+					if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+					{
+						result = false;
+						goto IL_030e;
+					}
+					if (pawn.RaceProps.ToolUser && !pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
+					{
+						result = false;
+						goto IL_030e;
+					}
 				}
-				if (pawn.RaceProps.ToolUser && !pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
-				{
-					return false;
-				}
+				result = true;
 			}
-			return true;
+			goto IL_030e;
+			IL_030e:
+			return result;
 		}
 
 		private static Pawn GenerateNewNakedPawn(ref PawnGenerationRequest request)
@@ -302,12 +353,17 @@ namespace Verse
 					break;
 				}
 			}
+			Pawn result;
 			if (pawn == null)
 			{
 				Log.Error("Pawn generation error: " + text + " Too many tries (" + 100 + "), returning null. Generation request: " + request);
-				return null;
+				result = null;
 			}
-			return pawn;
+			else
+			{
+				result = pawn;
+			}
+			return result;
 		}
 
 		private static Pawn TryGenerateNewNakedPawn(ref PawnGenerationRequest request, out string error, bool ignoreScenarioRequirements)
@@ -347,7 +403,7 @@ namespace Verse
 				}
 				if (pawn.RaceProps.Humanlike)
 				{
-					pawn.story.melanin = ((!request.FixedMelanin.HasValue) ? PawnSkinColors.RandomMelanin() : request.FixedMelanin.Value);
+					pawn.story.melanin = ((!request.FixedMelanin.HasValue) ? PawnSkinColors.RandomMelanin(request.Faction) : request.FixedMelanin.Value);
 					pawn.story.crownType = (CrownType)((Rand.Value < 0.5) ? 1 : 2);
 					pawn.story.hairColor = PawnHairColors.RandomHairColor(pawn.story.SkinColor, pawn.ageTracker.AgeBiologicalYears);
 					PawnBioAndNameGenerator.GiveAppropriateBioAndNameTo(pawn, request.FixedLastName);
@@ -381,10 +437,10 @@ namespace Verse
 				{
 					if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 					{
-						goto IL_02ab;
+						goto IL_02bc;
 					}
 					if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
-						goto IL_02ab;
+						goto IL_02bc;
 				}
 				if (!ignoreScenarioRequirements && request.Context == PawnGenerationContext.PlayerStarter && !Find.Scenario.AllowPlayerStartingPawn(pawn))
 				{
@@ -407,10 +463,7 @@ namespace Verse
 					PawnGenerator.pawnsBeingGenerated[i].PawnsGeneratedInTheMeantime.Add(pawn);
 				}
 				return pawn;
-				IL_03a9:
-				Pawn result;
-				return result;
-				IL_02ab:
+				IL_02bc:
 				PawnGenerator.DiscardGeneratedPawn(pawn);
 				error = "Generated pawn incapable of violence.";
 				return null;
@@ -459,34 +512,27 @@ namespace Verse
 			select x;
 		}
 
-		private static float ChanceToRedressAnyWorldPawn()
+		private static float ChanceToRedressAnyWorldPawn(PawnGenerationRequest request)
 		{
 			int pawnsBySituationCount = Find.WorldPawns.GetPawnsBySituationCount(WorldPawnSituation.Free);
-			return Mathf.Min((float)(0.019999999552965164 + 0.0099999997764825821 * ((float)pawnsBySituationCount / 10.0)), 0.8f);
+			float num = Mathf.Min((float)(0.019999999552965164 + 0.0099999997764825821 * ((float)pawnsBySituationCount / 10.0)), 0.8f);
+			if (request.MinChanceToRedressWorldPawn.HasValue)
+			{
+				num = Mathf.Max(num, request.MinChanceToRedressWorldPawn.Value);
+			}
+			return num;
 		}
 
 		private static float WorldPawnSelectionWeight(Pawn p)
 		{
-			if (p.RaceProps.IsFlesh && !p.relations.everSeenByPlayer && p.relations.RelatedToAnyoneOrAnyoneRelatedToMe)
-			{
-				return 0.1f;
-			}
-			return 1f;
+			return (float)((!p.RaceProps.IsFlesh || p.relations.everSeenByPlayer || !p.relations.RelatedToAnyoneOrAnyoneRelatedToMe) ? 1.0 : 0.10000000149011612);
 		}
 
 		private static void GenerateGearFor(Pawn pawn, PawnGenerationRequest request)
 		{
-			ProfilerThreadCheck.BeginSample("GenerateGearFor");
-			ProfilerThreadCheck.BeginSample("GenerateStartingApparelFor");
 			PawnApparelGenerator.GenerateStartingApparelFor(pawn, request);
-			ProfilerThreadCheck.EndSample();
-			ProfilerThreadCheck.BeginSample("TryGenerateWeaponFor");
 			PawnWeaponGenerator.TryGenerateWeaponFor(pawn);
-			ProfilerThreadCheck.EndSample();
-			ProfilerThreadCheck.BeginSample("GenerateInventoryFor");
 			PawnInventoryGenerator.GenerateInventoryFor(pawn, request);
-			ProfilerThreadCheck.EndSample();
-			ProfilerThreadCheck.EndSample();
 		}
 
 		private static void GenerateInitialHediffs(Pawn pawn, PawnGenerationRequest request)
@@ -514,30 +560,16 @@ namespace Verse
 
 		private static void GenerateRandomAge(Pawn pawn, PawnGenerationRequest request)
 		{
-			int num;
 			if (request.FixedBiologicalAge.HasValue && request.FixedChronologicalAge.HasValue)
 			{
 				float? fixedBiologicalAge = request.FixedBiologicalAge;
-				if (fixedBiologicalAge.HasValue)
+				bool hasValue = fixedBiologicalAge.HasValue;
+				float? fixedChronologicalAge = request.FixedChronologicalAge;
+				if ((hasValue & fixedChronologicalAge.HasValue) && fixedBiologicalAge.GetValueOrDefault() > fixedChronologicalAge.GetValueOrDefault())
 				{
-					float? fixedChronologicalAge = request.FixedChronologicalAge;
-					if (fixedChronologicalAge.HasValue)
-					{
-						num = ((fixedBiologicalAge.Value > fixedChronologicalAge.Value) ? 1 : 0);
-						goto IL_0067;
-					}
+					Log.Warning("Tried to generate age for pawn " + pawn + ", but pawn generation request demands biological age (" + request.FixedBiologicalAge + ") to be greater than chronological age (" + request.FixedChronologicalAge + ").");
 				}
-				num = 0;
-				goto IL_0067;
 			}
-			goto IL_00be;
-			IL_0067:
-			if (num != 0)
-			{
-				Log.Warning("Tried to generate age for pawn " + pawn + ", but pawn generation request demands biological age (" + request.FixedBiologicalAge + ") to be greater than chronological age (" + request.FixedChronologicalAge + ").");
-			}
-			goto IL_00be;
-			IL_00be:
 			if (request.Newborn)
 			{
 				pawn.ageTracker.AgeBiologicalTicks = 0L;
@@ -548,21 +580,21 @@ namespace Verse
 			}
 			else
 			{
-				float num2 = 0f;
-				int num3 = 0;
+				float num = 0f;
+				int num2 = 0;
 				while (true)
 				{
-					num2 = ((pawn.RaceProps.ageGenerationCurve == null) ? ((!pawn.RaceProps.IsMechanoid) ? (Rand.ByCurve(PawnGenerator.DefaultAgeGenerationCurve, 200) * pawn.RaceProps.lifeExpectancy) : ((float)Rand.Range(0, 2500))) : ((float)Mathf.RoundToInt(Rand.ByCurve(pawn.RaceProps.ageGenerationCurve, 200))));
-					num3++;
-					if (num3 > 300)
+					num = ((pawn.RaceProps.ageGenerationCurve == null) ? ((!pawn.RaceProps.IsMechanoid) ? (Rand.ByCurve(PawnGenerator.DefaultAgeGenerationCurve, 200) * pawn.RaceProps.lifeExpectancy) : ((float)Rand.Range(0, 2500))) : ((float)Mathf.RoundToInt(Rand.ByCurve(pawn.RaceProps.ageGenerationCurve, 200))));
+					num2++;
+					if (num2 > 300)
 					{
 						Log.Error("Tried 300 times to generate age for " + pawn);
 						break;
 					}
-					if (!(num2 > (float)pawn.kindDef.maxGenerationAge) && !(num2 < (float)pawn.kindDef.minGenerationAge))
+					if (!(num > (float)pawn.kindDef.maxGenerationAge) && !(num < (float)pawn.kindDef.minGenerationAge))
 						break;
 				}
-				pawn.ageTracker.AgeBiologicalTicks = (long)(num2 * 3600000.0) + Rand.Range(0, 3600000);
+				pawn.ageTracker.AgeBiologicalTicks = (long)(num * 3600000.0) + Rand.Range(0, 3600000);
 			}
 			if (request.Newborn)
 			{
@@ -574,32 +606,32 @@ namespace Verse
 			}
 			else
 			{
-				int num4;
+				int num3;
 				if (request.CertainlyBeenInCryptosleep || Rand.Value < pawn.kindDef.backstoryCryptosleepCommonality)
 				{
 					float value = Rand.Value;
 					if (value < 0.699999988079071)
 					{
-						num4 = Rand.Range(0, 100);
+						num3 = Rand.Range(0, 100);
 					}
 					else if (value < 0.949999988079071)
 					{
-						num4 = Rand.Range(100, 1000);
+						num3 = Rand.Range(100, 1000);
 					}
 					else
 					{
 						int max = GenDate.Year(GenTicks.TicksAbs, 0f) - 2026 - pawn.ageTracker.AgeBiologicalYears;
-						num4 = Rand.Range(1000, max);
+						num3 = Rand.Range(1000, max);
 					}
 				}
 				else
 				{
-					num4 = 0;
+					num3 = 0;
 				}
 				int ticksAbs = GenTicks.TicksAbs;
-				long num5 = ticksAbs - pawn.ageTracker.AgeBiologicalTicks;
-				num5 -= (long)num4 * 3600000L;
-				pawn.ageTracker.BirthAbsTicks = num5;
+				long num4 = ticksAbs - pawn.ageTracker.AgeBiologicalTicks;
+				num4 -= (long)num3 * 3600000L;
+				pawn.ageTracker.BirthAbsTicks = num4;
 			}
 			if (pawn.ageTracker.AgeBiologicalTicks > pawn.ageTracker.AgeChronologicalTicks)
 			{
@@ -609,11 +641,7 @@ namespace Verse
 
 		public static int RandomTraitDegree(TraitDef traitDef)
 		{
-			if (traitDef.degreeDatas.Count == 1)
-			{
-				return traitDef.degreeDatas[0].degree;
-			}
-			return traitDef.degreeDatas.RandomElementByWeight((Func<TraitDegreeData, float>)((TraitDegreeData dd) => dd.Commonality)).degree;
+			return (traitDef.degreeDatas.Count != 1) ? traitDef.degreeDatas.RandomElementByWeight((Func<TraitDegreeData, float>)((TraitDegreeData dd) => dd.Commonality)).degree : traitDef.degreeDatas[0].degree;
 		}
 
 		private static void GenerateTraits(Pawn pawn, PawnGenerationRequest request)
@@ -673,15 +701,15 @@ namespace Verse
 								float breakThresholdExtreme = pawn.mindState.mentalBreaker.BreakThresholdExtreme;
 								breakThresholdExtreme += trait2.OffsetOfStat(StatDefOf.MentalBreakThreshold);
 								breakThresholdExtreme *= trait2.MultiplierOfStat(StatDefOf.MentalBreakThreshold);
-								if (!(breakThresholdExtreme > 40.0))
-									goto IL_04d9;
+								if (!(breakThresholdExtreme > 0.40000000596046448))
+									goto IL_04d8;
 								continue;
 							}
-							goto IL_04d9;
+							goto IL_04d8;
 						}
 					}
 					continue;
-					IL_04d9:
+					IL_04d8:
 					pawn.story.traits.GainTrait(trait2);
 				}
 			}
@@ -739,21 +767,12 @@ namespace Verse
 			where bs != null
 			select bs)
 			{
-				Dictionary<SkillDef, int>.Enumerator enumerator2 = item.skillGainsResolved.GetEnumerator();
-				try
+				foreach (KeyValuePair<SkillDef, int> item2 in item.skillGainsResolved)
 				{
-					while (enumerator2.MoveNext())
+					if (item2.Key == sk)
 					{
-						KeyValuePair<SkillDef, int> current2 = enumerator2.Current;
-						if (current2.Key == sk)
-						{
-							num += (float)current2.Value * Rand.Range(1f, 1.4f);
-						}
+						num += (float)item2.Value * Rand.Range(1f, 1.4f);
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
 				}
 			}
 			for (int i = 0; i < pawn.story.traits.allTraits.Count; i++)
@@ -798,6 +817,7 @@ namespace Verse
 				IEnumerable<Pawn> enumerable = from x in PawnsFinder.AllMapsAndWorld_AliveOrDead
 				where x.def == pawn.def
 				select x;
+				int num = 0;
 				foreach (Pawn item in enumerable)
 				{
 					if (item.Discarded)
@@ -806,6 +826,7 @@ namespace Verse
 					}
 					else
 					{
+						num++;
 						for (int i = 0; i < allDefsListForReading.Count; i++)
 						{
 							if (!(allDefsListForReading[i].generationChanceFactor <= 0.0))
@@ -815,27 +836,39 @@ namespace Verse
 						}
 					}
 				}
+				float num2 = 82f;
+				num2 = (float)(num2 + (float)num * 88.0);
 				PawnGenerationRequest localReq = request;
 				KeyValuePair<Pawn, PawnRelationDef> keyValuePair = list.RandomElementByWeightWithDefault((Func<KeyValuePair<Pawn, PawnRelationDef>, float>)delegate(KeyValuePair<Pawn, PawnRelationDef> x)
 				{
+					float result2;
 					if (!x.Value.familyByBloodRelation)
 					{
-						return 0f;
+						result2 = 0f;
 					}
-					return x.Value.generationChanceFactor * x.Value.Worker.GenerationChance(pawn, x.Key, localReq);
-				}, 82f);
+					else
+					{
+						float num4 = result2 = x.Value.generationChanceFactor * x.Value.Worker.GenerationChance(pawn, x.Key, localReq);
+					}
+					return result2;
+				}, num2);
 				if (keyValuePair.Key != null)
 				{
 					keyValuePair.Value.Worker.CreateRelation(pawn, keyValuePair.Key, ref request);
 				}
 				KeyValuePair<Pawn, PawnRelationDef> keyValuePair2 = list.RandomElementByWeightWithDefault((Func<KeyValuePair<Pawn, PawnRelationDef>, float>)delegate(KeyValuePair<Pawn, PawnRelationDef> x)
 				{
+					float result;
 					if (x.Value.familyByBloodRelation)
 					{
-						return 0f;
+						result = 0f;
 					}
-					return x.Value.generationChanceFactor * x.Value.Worker.GenerationChance(pawn, x.Key, localReq);
-				}, 82f);
+					else
+					{
+						float num3 = result = x.Value.generationChanceFactor * x.Value.Worker.GenerationChance(pawn, x.Key, localReq);
+					}
+					return result;
+				}, num2);
 				if (keyValuePair2.Key != null)
 				{
 					keyValuePair2.Value.Worker.CreateRelation(pawn, keyValuePair2.Key, ref request);

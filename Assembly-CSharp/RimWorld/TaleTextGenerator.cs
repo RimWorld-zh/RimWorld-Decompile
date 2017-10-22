@@ -12,14 +12,14 @@ namespace RimWorld
 		{
 			Rand.PushState();
 			Rand.Seed = seed;
-			string rootKeyword = (string)null;
+			string text = (string)null;
 			List<Rule> list = new List<Rule>();
 			list.AddRange(extraRules);
 			switch (purpose)
 			{
 			case TextGenerationPurpose.ArtDescription:
 			{
-				rootKeyword = "art_description_root";
+				text = "art_description_root";
 				if (tale != null && Rand.Value > 0.20000000298023224)
 				{
 					list.AddRange(RulePackDefOf.ArtDescriptionRoot_HasTale.Rules);
@@ -35,7 +35,7 @@ namespace RimWorld
 			}
 			case TextGenerationPurpose.ArtName:
 			{
-				rootKeyword = "art_name";
+				text = "art_name";
 				if (tale != null)
 				{
 					list.AddRange(tale.GetTextGenerationRules());
@@ -43,7 +43,10 @@ namespace RimWorld
 				break;
 			}
 			}
-			string result = GrammarResolver.Resolve(rootKeyword, list, (tale == null) ? "null_tale" : tale.def.defName);
+			string rootKeyword = text;
+			List<Rule> rawRules = list;
+			string debugLabel = (tale == null) ? "null_tale" : tale.def.defName;
+			string result = GrammarResolver.Resolve(rootKeyword, rawRules, null, debugLabel);
 			Rand.PopState();
 			return result;
 		}

@@ -8,13 +8,13 @@ namespace RimWorld
 {
 	public class Pawn_DrugPolicyTracker : IExposable
 	{
-		private const float DangerousDrugOverdoseSeverity = 0.5f;
-
 		public Pawn pawn;
 
 		private DrugPolicy curPolicy;
 
 		private List<DrugTakeRecord> drugTakeRecords = new List<DrugTakeRecord>();
+
+		private const float DangerousDrugOverdoseSeverity = 0.5f;
 
 		public DrugPolicy CurrentPolicy
 		{
@@ -39,35 +39,43 @@ namespace RimWorld
 		{
 			get
 			{
+				float result;
 				if (this.pawn.IsCaravanMember())
 				{
-					return Mathf.InverseLerp(6f, 22f, GenLocalDate.HourFloat(this.pawn));
+					result = Mathf.InverseLerp(6f, 22f, GenLocalDate.HourFloat(this.pawn));
 				}
-				if (this.pawn.timetable == null)
+				else if (this.pawn.timetable == null)
 				{
-					return GenLocalDate.DayPercent(this.pawn);
+					result = GenLocalDate.DayPercent(this.pawn);
 				}
-				float hoursPerDayNotSleeping = this.HoursPerDayNotSleeping;
-				if (hoursPerDayNotSleeping == 0.0)
+				else
 				{
-					return 1f;
-				}
-				float num = 0f;
-				int num2 = GenLocalDate.HourOfDay(this.pawn);
-				for (int num3 = 0; num3 < num2; num3++)
-				{
-					if (this.pawn.timetable.times[num3] != TimeAssignmentDefOf.Sleep)
+					float hoursPerDayNotSleeping = this.HoursPerDayNotSleeping;
+					if (hoursPerDayNotSleeping == 0.0)
 					{
-						num = (float)(num + 1.0);
+						result = 1f;
+					}
+					else
+					{
+						float num = 0f;
+						int num2 = GenLocalDate.HourOfDay(this.pawn);
+						for (int num3 = 0; num3 < num2; num3++)
+						{
+							if (this.pawn.timetable.times[num3] != TimeAssignmentDefOf.Sleep)
+							{
+								num = (float)(num + 1.0);
+							}
+						}
+						TimeAssignmentDef currentAssignment = this.pawn.timetable.CurrentAssignment;
+						if (currentAssignment != TimeAssignmentDefOf.Sleep)
+						{
+							float num4 = (float)((float)(Find.TickManager.TicksAbs % 2500) / 2500.0);
+							num += num4;
+						}
+						result = num / hoursPerDayNotSleeping;
 					}
 				}
-				TimeAssignmentDef currentAssignment = this.pawn.timetable.CurrentAssignment;
-				if (currentAssignment != TimeAssignmentDefOf.Sleep)
-				{
-					float num4 = (float)((float)(Find.TickManager.TicksAbs % 2500) / 2500.0);
-					num += num4;
-				}
-				return num / hoursPerDayNotSleeping;
+				return result;
 			}
 		}
 
@@ -75,19 +83,24 @@ namespace RimWorld
 		{
 			get
 			{
+				float result;
 				if (this.pawn.IsCaravanMember())
 				{
-					return 16f;
+					result = 16f;
 				}
-				int num = 0;
-				for (int i = 0; i < 24; i++)
+				else
 				{
-					if (this.pawn.timetable.times[i] != TimeAssignmentDefOf.Sleep)
+					int num = 0;
+					for (int i = 0; i < 24; i++)
 					{
-						num++;
+						if (this.pawn.timetable.times[i] != TimeAssignmentDefOf.Sleep)
+						{
+							num++;
+						}
 					}
+					result = (float)num;
 				}
-				return (float)num;
+				return result;
 			}
 		}
 
@@ -108,140 +121,160 @@ namespace RimWorld
 
 		public bool HasEverTaken(ThingDef drug)
 		{
+			bool result;
 			if (!drug.IsDrug)
 			{
 				Log.Warning(drug + " is not a drug.");
-				return false;
+				result = false;
 			}
-			return this.drugTakeRecords.Any((Predicate<DrugTakeRecord>)((DrugTakeRecord x) => x.drug == drug));
+			else
+			{
+				result = this.drugTakeRecords.Any((Predicate<DrugTakeRecord>)((DrugTakeRecord x) => x.drug == drug));
+			}
+			return result;
 		}
 
 		public bool AllowedToTakeScheduledEver(ThingDef thingDef)
 		{
+			bool result;
 			if (!thingDef.IsIngestible)
 			{
 				Log.Error(thingDef + " is not ingestible.");
-				return false;
+				result = false;
 			}
-			if (!thingDef.IsDrug)
+			else if (!thingDef.IsDrug)
 			{
 				Log.Error("AllowedToTakeScheduledEver on non-drug " + thingDef);
-				return false;
+				result = false;
 			}
-			DrugPolicyEntry drugPolicyEntry = this.CurrentPolicy[thingDef];
-			if (!drugPolicyEntry.allowScheduled)
+			else
 			{
-				return false;
+				DrugPolicyEntry drugPolicyEntry = this.CurrentPolicy[thingDef];
+				result = ((byte)(drugPolicyEntry.allowScheduled ? ((!thingDef.IsNonMedicalDrug || !this.pawn.IsTeetotaler()) ? 1 : 0) : 0) != 0);
 			}
-			if (thingDef.IsPleasureDrug && this.pawn.IsTeetotaler())
-			{
-				return false;
-			}
-			return true;
+			return result;
 		}
 
 		public bool AllowedToTakeScheduledNow(ThingDef thingDef)
 		{
+			bool result;
 			if (!thingDef.IsIngestible)
 			{
 				Log.Error(thingDef + " is not ingestible.");
-				return false;
+				result = false;
 			}
-			if (!thingDef.IsDrug)
+			else if (!thingDef.IsDrug)
 			{
 				Log.Error("AllowedToTakeScheduledEver on non-drug " + thingDef);
-				return false;
+				result = false;
 			}
-			if (!this.AllowedToTakeScheduledEver(thingDef))
+			else if (!this.AllowedToTakeScheduledEver(thingDef))
 			{
-				return false;
+				result = false;
 			}
-			DrugPolicyEntry drugPolicyEntry = this.CurrentPolicy[thingDef];
-			if (drugPolicyEntry.onlyIfMoodBelow < 1.0 && this.pawn.needs.mood != null && this.pawn.needs.mood.CurLevelPercentage >= drugPolicyEntry.onlyIfMoodBelow)
+			else
 			{
-				return false;
-			}
-			if (drugPolicyEntry.onlyIfJoyBelow < 1.0 && this.pawn.needs.joy != null && this.pawn.needs.joy.CurLevelPercentage >= drugPolicyEntry.onlyIfJoyBelow)
-			{
-				return false;
-			}
-			DrugTakeRecord drugTakeRecord = this.drugTakeRecords.Find((Predicate<DrugTakeRecord>)((DrugTakeRecord x) => x.drug == thingDef));
-			if (drugTakeRecord != null)
-			{
-				if (drugPolicyEntry.daysFrequency < 1.0)
+				DrugPolicyEntry drugPolicyEntry = this.CurrentPolicy[thingDef];
+				if (drugPolicyEntry.onlyIfMoodBelow < 1.0 && this.pawn.needs.mood != null && this.pawn.needs.mood.CurLevelPercentage >= drugPolicyEntry.onlyIfMoodBelow)
 				{
-					int num = Mathf.RoundToInt((float)(1.0 / drugPolicyEntry.daysFrequency));
-					if (drugTakeRecord.TimesTakenThisDay >= num)
-					{
-						return false;
-					}
+					result = false;
+				}
+				else if (drugPolicyEntry.onlyIfJoyBelow < 1.0 && this.pawn.needs.joy != null && this.pawn.needs.joy.CurLevelPercentage >= drugPolicyEntry.onlyIfJoyBelow)
+				{
+					result = false;
 				}
 				else
 				{
-					int num2 = Mathf.Abs(GenDate.DaysPassed - drugTakeRecord.LastTakenDays);
-					int num3 = Mathf.RoundToInt(drugPolicyEntry.daysFrequency);
-					if (num2 < num3)
+					DrugTakeRecord drugTakeRecord = this.drugTakeRecords.Find((Predicate<DrugTakeRecord>)((DrugTakeRecord x) => x.drug == thingDef));
+					if (drugTakeRecord != null)
 					{
-						return false;
+						if (drugPolicyEntry.daysFrequency < 1.0)
+						{
+							int num = Mathf.RoundToInt((float)(1.0 / drugPolicyEntry.daysFrequency));
+							if (drugTakeRecord.TimesTakenThisDay >= num)
+							{
+								result = false;
+								goto IL_01c1;
+							}
+						}
+						else
+						{
+							int num2 = Mathf.Abs(GenDate.DaysPassed - drugTakeRecord.LastTakenDays);
+							int num3 = Mathf.RoundToInt(drugPolicyEntry.daysFrequency);
+							if (num2 < num3)
+							{
+								result = false;
+								goto IL_01c1;
+							}
+						}
 					}
+					result = true;
 				}
 			}
-			return true;
+			goto IL_01c1;
+			IL_01c1:
+			return result;
 		}
 
 		public bool ShouldTryToTakeScheduledNow(ThingDef ingestible)
 		{
+			bool result;
 			if (!ingestible.IsDrug)
 			{
-				return false;
+				result = false;
 			}
-			if (!this.AllowedToTakeScheduledNow(ingestible))
+			else if (!this.AllowedToTakeScheduledNow(ingestible))
 			{
-				return false;
+				result = false;
 			}
-			Hediff firstHediffOfDef = this.pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.DrugOverdose, false);
-			if (firstHediffOfDef != null && firstHediffOfDef.Severity > 0.5 && this.CanCauseOverdose(ingestible))
+			else
 			{
-				int num = this.LastTicksWhenTakenDrugWhichCanCauseOverdose();
-				if (Find.TickManager.TicksGame - num < 1250)
+				Hediff firstHediffOfDef = this.pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.DrugOverdose, false);
+				if (firstHediffOfDef != null && firstHediffOfDef.Severity > 0.5 && this.CanCauseOverdose(ingestible))
 				{
-					return false;
-				}
-			}
-			DrugTakeRecord drugTakeRecord = this.drugTakeRecords.Find((Predicate<DrugTakeRecord>)((DrugTakeRecord x) => x.drug == ingestible));
-			if (drugTakeRecord == null)
-			{
-				return true;
-			}
-			DrugPolicyEntry drugPolicyEntry = this.CurrentPolicy[ingestible];
-			if (drugPolicyEntry.daysFrequency < 1.0)
-			{
-				int num2 = Mathf.RoundToInt((float)(1.0 / drugPolicyEntry.daysFrequency));
-				float num3 = (float)(1.0 / (float)(num2 + 1));
-				int num4 = 0;
-				float dayPercentNotSleeping = this.DayPercentNotSleeping;
-				for (int num5 = 0; num5 < num2; num5++)
-				{
-					if (dayPercentNotSleeping > (float)(num5 + 1) * num3 - num3 * 0.5)
+					int num = this.LastTicksWhenTakenDrugWhichCanCauseOverdose();
+					if (Find.TickManager.TicksGame - num < 1250)
 					{
-						num4++;
+						result = false;
+						goto IL_0201;
 					}
 				}
-				if (drugTakeRecord.TimesTakenThisDay >= num4)
+				DrugTakeRecord drugTakeRecord = this.drugTakeRecords.Find((Predicate<DrugTakeRecord>)((DrugTakeRecord x) => x.drug == ingestible));
+				if (drugTakeRecord == null)
 				{
-					return false;
+					result = true;
 				}
-				if (drugTakeRecord.TimesTakenThisDay != 0 && (float)(Find.TickManager.TicksGame - drugTakeRecord.lastTakenTicks) / (this.HoursPerDayNotSleeping * 2500.0) < 0.60000002384185791 * num3)
+				else
 				{
-					return false;
+					DrugPolicyEntry drugPolicyEntry = this.CurrentPolicy[ingestible];
+					if (drugPolicyEntry.daysFrequency < 1.0)
+					{
+						int num2 = Mathf.RoundToInt((float)(1.0 / drugPolicyEntry.daysFrequency));
+						float num3 = (float)(1.0 / (float)(num2 + 1));
+						int num4 = 0;
+						float dayPercentNotSleeping = this.DayPercentNotSleeping;
+						for (int num5 = 0; num5 < num2; num5++)
+						{
+							if (dayPercentNotSleeping > (float)(num5 + 1) * num3 - num3 * 0.5)
+							{
+								num4++;
+							}
+						}
+						result = ((byte)((drugTakeRecord.TimesTakenThisDay < num4) ? ((drugTakeRecord.TimesTakenThisDay == 0 || !((float)(Find.TickManager.TicksGame - drugTakeRecord.lastTakenTicks) / (this.HoursPerDayNotSleeping * 2500.0) < 0.60000002384185791 * num3)) ? 1 : 0) : 0) != 0);
+					}
+					else
+					{
+						float dayPercentNotSleeping2 = this.DayPercentNotSleeping;
+						Rand.PushState();
+						Rand.Seed = Gen.HashCombineInt(GenDate.DaysPassed, this.pawn.thingIDNumber);
+						bool flag = dayPercentNotSleeping2 >= Rand.Range(0.1f, 0.35f);
+						Rand.PopState();
+						result = flag;
+					}
 				}
-				return true;
 			}
-			float dayPercentNotSleeping2 = this.DayPercentNotSleeping;
-			Rand.PushState();
-			Rand.Seed = Gen.HashCombineInt(GenDate.DaysPassed, this.pawn.thingIDNumber);
-			bool result = dayPercentNotSleeping2 >= Rand.Range(0.1f, 0.35f);
-			Rand.PopState();
+			goto IL_0201;
+			IL_0201:
 			return result;
 		}
 
@@ -274,11 +307,7 @@ namespace RimWorld
 		private bool CanCauseOverdose(ThingDef drug)
 		{
 			CompProperties_Drug compProperties = drug.GetCompProperties<CompProperties_Drug>();
-			if (compProperties == null)
-			{
-				return false;
-			}
-			return compProperties.CanCauseOverdose;
+			return compProperties != null && compProperties.CanCauseOverdose;
 		}
 	}
 }

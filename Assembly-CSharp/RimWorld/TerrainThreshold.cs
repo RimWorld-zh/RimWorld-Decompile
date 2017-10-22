@@ -13,14 +13,24 @@ namespace RimWorld
 
 		public static TerrainDef TerrainAtValue(List<TerrainThreshold> threshes, float val)
 		{
-			for (int i = 0; i < threshes.Count; i++)
+			int num = 0;
+			TerrainDef result;
+			while (true)
 			{
-				if (threshes[i].min <= val && threshes[i].max >= val)
+				if (num < threshes.Count)
 				{
-					return threshes[i].terrain;
+					if (threshes[num].min <= val && threshes[num].max >= val)
+					{
+						result = threshes[num].terrain;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 	}
 }

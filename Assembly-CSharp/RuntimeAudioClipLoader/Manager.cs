@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEngine;
 using Verse;
@@ -63,6 +64,9 @@ namespace RuntimeAudioClipLoader
 
 		private static Dictionary<AudioClip, AudioDataLoadState> audioLoadState;
 
+		[CompilerGenerated]
+		private static ThreadStart _003C_003Ef__mg_0024cache0;
+
 		static Manager()
 		{
 			Manager.cache = new Dictionary<string, AudioClip>();
@@ -76,23 +80,31 @@ namespace RuntimeAudioClipLoader
 
 		public static AudioClip Load(string filePath, bool doStream = false, bool loadInBackground = true, bool useCache = true)
 		{
+			AudioClip result;
 			if (!Manager.IsSupportedFormat(filePath))
 			{
 				Debug.LogError("Could not load AudioClip at path '" + filePath + "' it's extensions marks unsupported format, supported formats are: " + string.Join(", ", Enum.GetNames(typeof(AudioFormat))));
-				return null;
+				result = null;
 			}
-			AudioClip audioClip = null;
-			if (useCache && Manager.cache.TryGetValue(filePath, out audioClip) && (UnityEngine.Object)audioClip)
+			else
 			{
-				return audioClip;
+				AudioClip audioClip = null;
+				if (useCache && Manager.cache.TryGetValue(filePath, out audioClip) && (UnityEngine.Object)audioClip)
+				{
+					result = audioClip;
+				}
+				else
+				{
+					StreamReader streamReader = new StreamReader(filePath);
+					audioClip = Manager.Load(streamReader.BaseStream, Manager.GetAudioFormat(filePath), filePath, doStream, loadInBackground, true);
+					if (useCache)
+					{
+						Manager.cache[filePath] = audioClip;
+					}
+					result = audioClip;
+				}
 			}
-			StreamReader streamReader = new StreamReader(filePath);
-			audioClip = Manager.Load(streamReader.BaseStream, Manager.GetAudioFormat(filePath), filePath, doStream, loadInBackground, true);
-			if (useCache)
-			{
-				Manager.cache[filePath] = audioClip;
-			}
-			return audioClip;
+			return result;
 		}
 
 		public static AudioClip Load(Stream dataStream, AudioFormat audioFormat, string unityAudioClipName, bool doStream = false, bool loadInBackground = true, bool diposeDataStreamIfNotNeeded = true)
@@ -117,43 +129,46 @@ namespace RuntimeAudioClipLoader
 					}));
 					Manager.SetAudioClipLoadType(audioInstance2, AudioClipLoadType.Streaming);
 					Manager.SetAudioClipLoadState(audioInstance2, AudioDataLoadState.Loaded);
-					return audioClip;
 				}
-				audioClip = (audioInstance2.audioClip = AudioClip.Create(unityAudioClipName, audioInstance2.samplesCount / audioInstance2.channels, audioInstance2.channels, audioInstance2.sampleRate, doStream));
-				if (diposeDataStreamIfNotNeeded)
+				else
 				{
-					audioInstance2.streamToDisposeOnceDone = dataStream;
-				}
-				Manager.SetAudioClipLoadType(audioInstance2, AudioClipLoadType.DecompressOnLoad);
-				Manager.SetAudioClipLoadState(audioInstance2, AudioDataLoadState.Loading);
-				if (loadInBackground)
-				{
-					Queue<AudioInstance> obj = Manager.deferredLoadQueue;
-					Monitor.Enter(obj);
-					try
+					audioClip = (audioInstance2.audioClip = AudioClip.Create(unityAudioClipName, audioInstance2.samplesCount / audioInstance2.channels, audioInstance2.channels, audioInstance2.sampleRate, doStream));
+					if (diposeDataStreamIfNotNeeded)
 					{
-						Manager.deferredLoadQueue.Enqueue(audioInstance2);
+						audioInstance2.streamToDisposeOnceDone = dataStream;
 					}
-					finally
+					Manager.SetAudioClipLoadType(audioInstance2, AudioClipLoadType.DecompressOnLoad);
+					Manager.SetAudioClipLoadState(audioInstance2, AudioDataLoadState.Loading);
+					if (loadInBackground)
 					{
-						Monitor.Exit(obj);
+						object obj = Manager.deferredLoadQueue;
+						Monitor.Enter(obj);
+						try
+						{
+							Manager.deferredLoadQueue.Enqueue(audioInstance2);
+						}
+						finally
+						{
+							Monitor.Exit(obj);
+						}
+						Manager.RunDeferredLoaderThread();
+						Manager.EnsureInstanceExists();
 					}
-					Manager.RunDeferredLoaderThread();
-					Manager.EnsureInstanceExists();
-					return audioClip;
+					else
+					{
+						audioInstance2.dataToSet = new float[audioInstance2.samplesCount];
+						audioInstance2.reader.Read(audioInstance2.dataToSet, 0, audioInstance2.dataToSet.Length);
+						audioInstance2.audioClip.SetData(audioInstance2.dataToSet, 0);
+						Manager.SetAudioClipLoadState(audioInstance2, AudioDataLoadState.Loaded);
+					}
 				}
-				audioInstance2.dataToSet = new float[audioInstance2.samplesCount];
-				audioInstance2.reader.Read(audioInstance2.dataToSet, 0, audioInstance2.dataToSet.Length);
-				audioInstance2.audioClip.SetData(audioInstance2.dataToSet, 0);
-				Manager.SetAudioClipLoadState(audioInstance2, AudioDataLoadState.Loaded);
-				return audioClip;
 			}
 			catch (Exception ex)
 			{
 				Manager.SetAudioClipLoadState(audioClip, AudioDataLoadState.Failed);
 				Debug.LogError("Could not load AudioClip named '" + unityAudioClipName + "', exception:" + ex);
-				return audioClip;
 			}
+			return audioClip;
 		}
 
 		private static void RunDeferredLoaderThread()
@@ -175,7 +190,7 @@ namespace RuntimeAudioClipLoader
 				if (!flag && num <= 0)
 					break;
 				num--;
-				Queue<AudioInstance> obj = Manager.deferredLoadQueue;
+				object obj = Manager.deferredLoadQueue;
 				Monitor.Enter(obj);
 				try
 				{
@@ -183,7 +198,7 @@ namespace RuntimeAudioClipLoader
 					if (flag)
 					{
 						audioInstance = Manager.deferredLoadQueue.Dequeue();
-						goto IL_0051;
+						goto IL_0055;
 					}
 				}
 				finally
@@ -191,7 +206,7 @@ namespace RuntimeAudioClipLoader
 					Monitor.Exit(obj);
 				}
 				continue;
-				IL_0051:
+				IL_0055:
 				num = 100000L;
 				try
 				{
@@ -205,7 +220,7 @@ namespace RuntimeAudioClipLoader
 						audioInstance.streamToDisposeOnceDone.Dispose();
 						audioInstance.streamToDisposeOnceDone = null;
 					}
-					Queue<AudioInstance> obj2 = Manager.deferredSetDataQueue;
+					object obj2 = Manager.deferredSetDataQueue;
 					Monitor.Enter(obj2);
 					try
 					{
@@ -219,7 +234,7 @@ namespace RuntimeAudioClipLoader
 				catch (Exception exception)
 				{
 					Debug.LogException(exception);
-					Queue<AudioInstance> obj3 = Manager.deferredSetFail;
+					object obj3 = Manager.deferredSetFail;
 					Monitor.Enter(obj3);
 					try
 					{
@@ -239,7 +254,7 @@ namespace RuntimeAudioClipLoader
 			bool flag = true;
 			for (; flag; audioInstance.audioClip.SetData(audioInstance.dataToSet, 0), Manager.SetAudioClipLoadState(audioInstance, AudioDataLoadState.Loaded), audioInstance.audioClip = null, audioInstance.dataToSet = null)
 			{
-				Queue<AudioInstance> obj = Manager.deferredSetDataQueue;
+				object obj = Manager.deferredSetDataQueue;
 				Monitor.Enter(obj);
 				try
 				{
@@ -256,7 +271,7 @@ namespace RuntimeAudioClipLoader
 				}
 				break;
 			}
-			Queue<AudioInstance> obj2 = Manager.deferredSetFail;
+			object obj2 = Manager.deferredSetFail;
 			Monitor.Enter(obj2);
 			try
 			{
@@ -329,13 +344,12 @@ namespace RuntimeAudioClipLoader
 			AudioFormat result = AudioFormat.unknown;
 			try
 			{
-				result = (AudioFormat)(int)Enum.Parse(typeof(AudioFormat), Manager.GetExtension(filePath), true);
-				return result;
+				result = (AudioFormat)Enum.Parse(typeof(AudioFormat), Manager.GetExtension(filePath), true);
 			}
 			catch
 			{
-				return result;
 			}
+			return result;
 		}
 
 		public static void ClearCache()

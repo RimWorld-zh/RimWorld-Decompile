@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,9 +5,9 @@ namespace Verse.Sound
 {
 	public class AudioSourcePoolWorld
 	{
-		private const int NumSourcesWorld = 32;
-
 		private List<AudioSource> sourcesWorld = new List<AudioSource>();
+
+		private const int NumSourcesWorld = 32;
 
 		public AudioSourcePoolWorld()
 		{
@@ -35,22 +34,13 @@ namespace Verse.Sound
 
 		public AudioSource GetSourceWorld()
 		{
-			List<AudioSource>.Enumerator enumerator = this.sourcesWorld.GetEnumerator();
-			try
+			foreach (AudioSource item in this.sourcesWorld)
 			{
-				while (enumerator.MoveNext())
+				if (!item.isPlaying)
 				{
-					AudioSource current = enumerator.Current;
-					if (!current.isPlaying)
-					{
-						SoundFilterUtility.DisableAllFiltersOn(current);
-						return current;
-					}
+					SoundFilterUtility.DisableAllFiltersOn(item);
+					return item;
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			return null;
 		}

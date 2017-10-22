@@ -7,7 +7,7 @@ namespace Verse.AI
 	{
 		protected float wanderRadius;
 
-		protected Func<Pawn, IntVec3, bool> wanderDestValidator;
+		protected Func<Pawn, IntVec3, bool> wanderDestValidator = null;
 
 		protected IntRange ticksBetweenWandersRange = new IntRange(20, 100);
 
@@ -30,22 +30,30 @@ namespace Verse.AI
 		{
 			bool nextMoveOrderIsWait = pawn.mindState.nextMoveOrderIsWait;
 			pawn.mindState.nextMoveOrderIsWait = !pawn.mindState.nextMoveOrderIsWait;
+			Job result;
 			if (nextMoveOrderIsWait)
 			{
 				Job job = new Job(JobDefOf.WaitWander);
 				job.expiryInterval = this.ticksBetweenWandersRange.RandomInRange;
-				return job;
+				result = job;
 			}
-			IntVec3 exactWanderDest = this.GetExactWanderDest(pawn);
-			if (!exactWanderDest.IsValid)
+			else
 			{
-				pawn.mindState.nextMoveOrderIsWait = false;
-				return null;
+				IntVec3 exactWanderDest = this.GetExactWanderDest(pawn);
+				if (!exactWanderDest.IsValid)
+				{
+					pawn.mindState.nextMoveOrderIsWait = false;
+					result = null;
+				}
+				else
+				{
+					Job job2 = new Job(JobDefOf.GotoWander, exactWanderDest);
+					pawn.Map.pawnDestinationReservationManager.Reserve(pawn, job2, exactWanderDest);
+					job2.locomotionUrgency = this.locomotionUrgency;
+					result = job2;
+				}
 			}
-			pawn.Map.pawnDestinationManager.ReserveDestinationFor(pawn, exactWanderDest);
-			Job job2 = new Job(JobDefOf.GotoWander, exactWanderDest);
-			job2.locomotionUrgency = this.locomotionUrgency;
-			return job2;
+			return result;
 		}
 
 		protected virtual IntVec3 GetExactWanderDest(Pawn pawn)

@@ -6,17 +6,16 @@ namespace Verse.AI
 	{
 		private const TargetIndex VictimInd = TargetIndex.A;
 
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve(base.job.GetTarget(TargetIndex.A), base.job, 1, -1, null);
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.EndOnDespawnedOrNull(TargetIndex.A, JobCondition.Succeeded);
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
 			yield return Toils_Combat.TrySetJobToUseAttackVerb();
-			Toil gotoCastPos = Toils_Combat.GotoCastPosition(TargetIndex.A, false);
-			yield return gotoCastPos;
-			Toil jumpIfCannotHit = Toils_Jump.JumpIfTargetNotHittable(TargetIndex.A, gotoCastPos);
-			yield return jumpIfCannotHit;
-			yield return Toils_Combat.CastVerb(TargetIndex.A, true);
-			yield return Toils_Jump.Jump(jumpIfCannotHit);
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

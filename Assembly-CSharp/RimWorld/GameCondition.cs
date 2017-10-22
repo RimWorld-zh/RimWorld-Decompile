@@ -12,7 +12,9 @@ namespace RimWorld
 
 		public int startTick;
 
-		public int duration = -1;
+		private int duration = -1;
+
+		private bool permanent;
 
 		protected Map Map
 		{
@@ -38,11 +40,27 @@ namespace RimWorld
 			}
 		}
 
+		public virtual float SkyGazeChanceFactor
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
+		public virtual float SkyGazeJoyGainFactor
+		{
+			get
+			{
+				return 1f;
+			}
+		}
+
 		public virtual bool Expired
 		{
 			get
 			{
-				return Find.TickManager.TicksGame > this.startTick + this.duration;
+				return !this.Permanent && Find.TickManager.TicksGame > this.startTick + this.Duration;
 			}
 		}
 
@@ -58,7 +76,21 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.duration - this.TicksPassed;
+				int result;
+				if (this.Permanent)
+				{
+					Log.ErrorOnce("Trying to get ticks left of a permanent condition.", 384767654);
+					result = 360000000;
+				}
+				else
+				{
+					result = this.Duration - this.TicksPassed;
+				}
+				return result;
+			}
+			set
+			{
+				this.Duration = this.TicksPassed + value;
 			}
 		}
 
@@ -66,14 +98,38 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.duration > 1000000000;
+				return this.permanent;
 			}
 			set
 			{
 				if (value)
 				{
-					this.duration = 2147483647;
+					this.duration = -1;
 				}
+				this.permanent = value;
+			}
+		}
+
+		public int Duration
+		{
+			get
+			{
+				int result;
+				if (this.Permanent)
+				{
+					Log.ErrorOnce("Trying to get duration of a permanent condition.", 100394867);
+					result = 360000000;
+				}
+				else
+				{
+					result = this.duration;
+				}
+				return result;
+			}
+			set
+			{
+				this.permanent = false;
+				this.duration = value;
 			}
 		}
 
@@ -103,6 +159,11 @@ namespace RimWorld
 			Scribe_Defs.Look<GameConditionDef>(ref this.def, "def");
 			Scribe_Values.Look<int>(ref this.startTick, "startTick", 0, false);
 			Scribe_Values.Look<int>(ref this.duration, "duration", 0, false);
+			Scribe_Values.Look<bool>(ref this.permanent, "permanent", false, false);
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			{
+				BackCompatibility.GameConditionPostLoadInit(this);
+			}
 		}
 
 		public virtual void GameConditionTick()
@@ -121,7 +182,7 @@ namespace RimWorld
 		{
 			if (this.def.endMessage != null)
 			{
-				Messages.Message(this.def.endMessage, MessageSound.Standard);
+				Messages.Message(this.def.endMessage, MessageTypeDefOf.NeutralEvent);
 			}
 			this.gameConditionManager.ActiveConditions.Remove(this);
 		}

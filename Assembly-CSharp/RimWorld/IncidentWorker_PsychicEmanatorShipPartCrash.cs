@@ -7,11 +7,7 @@ namespace RimWorld
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
 			Map map = (Map)target;
-			if (map.gameConditionManager.ConditionIsActive(GameConditionDefOf.PsychicDrone))
-			{
-				return false;
-			}
-			return base.CanFireNowSub(target);
+			return !map.gameConditionManager.ConditionIsActive(GameConditionDefOf.PsychicDrone) && base.CanFireNowSub(target);
 		}
 	}
 }

@@ -12,38 +12,40 @@ namespace RimWorld
 			return base.FactionCanBeGroupSource(f, map, desperate) && f.HostileTo(Faction.OfPlayer) && (desperate || (float)GenDate.DaysPassed >= f.def.earliestRaidDays);
 		}
 
-		public override bool TryExecute(IncidentParms parms)
+		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
-			if (!base.TryExecute(parms))
+			bool result;
+			if (!base.TryExecuteWorker(parms))
 			{
-				return false;
+				result = false;
 			}
-			Find.TickManager.slower.SignalForceNormalSpeedShort();
-			Find.StoryWatcher.statsRecord.numRaidsEnemy++;
-			return true;
+			else
+			{
+				Find.TickManager.slower.SignalForceNormalSpeedShort();
+				Find.StoryWatcher.statsRecord.numRaidsEnemy++;
+				result = true;
+			}
+			return result;
 		}
 
 		protected override bool TryResolveRaidFaction(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
+			bool result;
 			if (parms.faction != null)
 			{
-				return true;
+				result = true;
 			}
-			float maxPoints = parms.points;
-			if (maxPoints <= 0.0)
+			else
 			{
-				maxPoints = 999999f;
+				float num = parms.points;
+				if (num <= 0.0)
+				{
+					num = 999999f;
+				}
+				result = ((byte)((PawnGroupMakerUtility.TryGetRandomFactionForNormalPawnGroup(num, out parms.faction, (Predicate<Faction>)((Faction f) => this.FactionCanBeGroupSource(f, map, false)), true, true, true, true) || PawnGroupMakerUtility.TryGetRandomFactionForNormalPawnGroup(num, out parms.faction, (Predicate<Faction>)((Faction f) => this.FactionCanBeGroupSource(f, map, true)), true, true, true, true)) ? 1 : 0) != 0);
 			}
-			if (!(from f in Find.FactionManager.AllFactions
-			where this.FactionCanBeGroupSource(f, map, false) && maxPoints >= f.def.MinPointsToGenerateNormalPawnGroup()
-			select f).TryRandomElementByWeight<Faction>((Func<Faction, float>)((Faction f) => f.def.raidCommonality), out parms.faction) && !(from f in Find.FactionManager.AllFactions
-			where this.FactionCanBeGroupSource(f, map, true) && maxPoints >= f.def.MinPointsToGenerateNormalPawnGroup()
-			select f).TryRandomElementByWeight<Faction>((Func<Faction, float>)((Faction f) => f.def.raidCommonality), out parms.faction))
-			{
-				return false;
-			}
-			return true;
+			return result;
 		}
 
 		protected override void ResolveRaidPoints(IncidentParms parms)
@@ -105,7 +107,7 @@ namespace RimWorld
 
 		protected override LetterDef GetLetterDef()
 		{
-			return LetterDefOf.BadUrgent;
+			return LetterDefOf.ThreatBig;
 		}
 
 		protected override string GetRelatedPawnsInfoLetterText(IncidentParms parms)

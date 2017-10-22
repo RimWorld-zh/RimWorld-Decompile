@@ -1,13 +1,22 @@
+#define ENABLE_PROFILER
 using RimWorld;
 using RimWorld.Planet;
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Verse
 {
 	public class Root_Play : Root
 	{
 		public MusicManagerPlay musicManagerPlay;
+
+		[CompilerGenerated]
+		private static Action<Exception> _003C_003Ef__mg_0024cache0;
+
+		[CompilerGenerated]
+		private static Action<Exception> _003C_003Ef__mg_0024cache1;
 
 		public override void Start()
 		{
@@ -45,15 +54,20 @@ namespace Verse
 			{
 				try
 				{
+					Profiler.BeginSample("ShipCountdownUpdate()");
 					ShipCountdown.ShipCountdownUpdate();
+					Profiler.EndSample();
+					Profiler.BeginSample("Game.Update()");
 					Current.Game.UpdatePlay();
+					Profiler.EndSample();
+					Profiler.BeginSample("MusicUpdate()");
 					this.musicManagerPlay.MusicUpdate();
+					Profiler.EndSample();
 				}
 				catch (Exception e)
 				{
 					Log.Notify_Exception(e);
 					throw;
-					IL_0044:;
 				}
 			}
 		}

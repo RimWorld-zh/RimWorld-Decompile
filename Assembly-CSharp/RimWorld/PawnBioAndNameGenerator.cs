@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
@@ -19,6 +20,12 @@ namespace RimWorld
 
 		private const float ShuffledNicknameChance = 0.15f;
 
+		[CompilerGenerated]
+		private static Func<Backstory, float> _003C_003Ef__mg_0024cache0;
+
+		[CompilerGenerated]
+		private static Func<PawnBio, float> _003C_003Ef__mg_0024cache1;
+
 		public static void GiveAppropriateBioAndNameTo(Pawn pawn, string requiredLastName)
 		{
 			if ((Rand.Value < 0.25 || pawn.kindDef.factionLeader) && PawnBioAndNameGenerator.TryGiveSolidBioTo(pawn, requiredLastName))
@@ -29,28 +36,18 @@ namespace RimWorld
 		private static void GiveShuffledBioTo(Pawn pawn, FactionDef factionType, string requiredLastName)
 		{
 			pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(pawn, NameStyle.Full, requiredLastName);
-			PawnBioAndNameGenerator.SetBackstoryInSlot(pawn, BackstorySlot.Childhood, ref pawn.story.childhood, factionType);
+			PawnBioAndNameGenerator.FillBackstorySlotShuffled(pawn, BackstorySlot.Childhood, ref pawn.story.childhood, factionType);
 			if (pawn.ageTracker.AgeBiologicalYearsFloat >= 20.0)
 			{
-				PawnBioAndNameGenerator.SetBackstoryInSlot(pawn, BackstorySlot.Adulthood, ref pawn.story.adulthood, factionType);
+				PawnBioAndNameGenerator.FillBackstorySlotShuffled(pawn, BackstorySlot.Adulthood, ref pawn.story.adulthood, factionType);
 			}
 		}
 
-		private static void SetBackstoryInSlot(Pawn pawn, BackstorySlot slot, ref Backstory backstory, FactionDef factionType)
+		private static void FillBackstorySlotShuffled(Pawn pawn, BackstorySlot slot, ref Backstory backstory, FactionDef factionType)
 		{
-			if (!(from kvp in BackstoryDatabase.allBackstories.Where((Func<KeyValuePair<string, Backstory>, bool>)delegate(KeyValuePair<string, Backstory> kvp)
-			{
-				if (kvp.Value.shuffleable && kvp.Value.spawnCategories.Contains(factionType.backstoryCategory) && kvp.Value.slot == slot)
-				{
-					if (slot == BackstorySlot.Adulthood && kvp.Value.requiredWorkTags.OverlapsWithOnAnyWorkType(pawn.story.childhood.workDisables))
-					{
-						return false;
-					}
-					return true;
-				}
-				return false;
-			})
-			select kvp.Value).TryRandomElement<Backstory>(out backstory))
+			if (!(from kvp in BackstoryDatabase.allBackstories
+			where (byte)((kvp.Value.shuffleable && kvp.Value.spawnCategories.Contains(factionType.backstoryCategory) && kvp.Value.slot == slot) ? ((slot != BackstorySlot.Adulthood || !kvp.Value.requiredWorkTags.OverlapsWithOnAnyWorkType(pawn.story.childhood.workDisables)) ? 1 : 0) : 0) != 0
+			select kvp.Value).TryRandomElementByWeight<Backstory>(new Func<Backstory, float>(PawnBioAndNameGenerator.BackstorySelectionWeight), out backstory))
 			{
 				Log.Error("No shuffled " + slot + " found for " + pawn + " of " + factionType + ". Defaulting.");
 				backstory = (from kvp in BackstoryDatabase.allBackstories
@@ -62,25 +59,33 @@ namespace RimWorld
 		private static bool TryGiveSolidBioTo(Pawn pawn, string requiredLastName)
 		{
 			PawnBio pawnBio = PawnBioAndNameGenerator.TryGetRandomUnusedSolidBioFor(pawn.Faction.def.backstoryCategory, pawn.kindDef, pawn.gender, requiredLastName);
+			bool result;
 			if (pawnBio == null)
 			{
-				return false;
+				result = false;
 			}
-			if (pawnBio.name.First == "Tynan" && pawnBio.name.Last == "Sylvester" && Rand.Value < 0.5)
+			else
 			{
-				pawnBio = PawnBioAndNameGenerator.TryGetRandomUnusedSolidBioFor(pawn.Faction.def.backstoryCategory, pawn.kindDef, pawn.gender, requiredLastName);
+				if (pawnBio.name.First == "Tynan" && pawnBio.name.Last == "Sylvester" && Rand.Value < 0.5)
+				{
+					pawnBio = PawnBioAndNameGenerator.TryGetRandomUnusedSolidBioFor(pawn.Faction.def.backstoryCategory, pawn.kindDef, pawn.gender, requiredLastName);
+				}
+				if (pawnBio == null)
+				{
+					result = false;
+				}
+				else
+				{
+					pawn.Name = pawnBio.name;
+					pawn.story.childhood = pawnBio.childhood;
+					if (pawn.ageTracker.AgeBiologicalYearsFloat >= 20.0)
+					{
+						pawn.story.adulthood = pawnBio.adulthood;
+					}
+					result = true;
+				}
 			}
-			if (pawnBio == null)
-			{
-				return false;
-			}
-			pawn.Name = pawnBio.name;
-			pawn.story.childhood = pawnBio.childhood;
-			if (pawn.ageTracker.AgeBiologicalYearsFloat >= 20.0)
-			{
-				pawn.story.adulthood = pawnBio.adulthood;
-			}
-			return true;
+			return result;
 		}
 
 		private static PawnBio TryGetRandomUnusedSolidBioFor(string backstoryCategory, PawnKindDef kind, Gender gender, string requiredLastName)
@@ -94,52 +99,37 @@ namespace RimWorld
 					prefName = null;
 				}
 			}
-			SolidBioDatabase.allBios.Shuffle();
-			PawnBio pawnBio;
+			PawnBio result;
 			while (true)
 			{
-				pawnBio = SolidBioDatabase.allBios.FirstOrDefault((Func<PawnBio, bool>)delegate(PawnBio bio)
+				result = null;
+				if (SolidBioDatabase.allBios.Where((Func<PawnBio, bool>)delegate(PawnBio bio)
 				{
+					bool result2;
 					if (bio.gender != GenderPossibility.Either)
 					{
 						if (((gender == Gender.Male) ? bio.gender : GenderPossibility.Male) != 0)
 						{
-							return false;
+							result2 = false;
+							goto IL_0108;
 						}
 						if (gender == Gender.Female && bio.gender != GenderPossibility.Female)
 						{
-							return false;
+							result2 = false;
+							goto IL_0108;
 						}
 					}
-					if (!requiredLastName.NullOrEmpty() && bio.name.Last != requiredLastName)
-					{
-						return false;
-					}
-					if (prefName != null && !bio.name.Equals(prefName))
-					{
-						return false;
-					}
-					if (kind.factionLeader && !bio.pirateKing)
-					{
-						return false;
-					}
-					if (!bio.adulthood.spawnCategories.Contains(backstoryCategory))
-					{
-						return false;
-					}
-					if (bio.name.UsedThisGame)
-					{
-						return false;
-					}
-					return true;
-				});
-				if (pawnBio != null)
+					result2 = ((byte)((requiredLastName.NullOrEmpty() || !(bio.name.Last != requiredLastName)) ? ((prefName == null || bio.name.Equals(prefName)) ? ((!kind.factionLeader || bio.pirateKing) ? (bio.adulthood.spawnCategories.Contains(backstoryCategory) ? ((!bio.name.UsedThisGame) ? 1 : 0) : 0) : 0) : 0) : 0) != 0);
+					goto IL_0108;
+					IL_0108:
+					return result2;
+				}).TryRandomElementByWeight<PawnBio>(new Func<PawnBio, float>(PawnBioAndNameGenerator.BioSelectionWeight), out result))
 					break;
 				if (prefName == null)
 					break;
 				prefName = null;
 			}
-			return pawnBio;
+			return result;
 		}
 
 		public static NameTriple TryGetRandomUnusedSolidName(Gender gender, string requiredLastName = null)
@@ -157,32 +147,29 @@ namespace RimWorld
 			List<NameTriple> list = (gender != Gender.Male) ? PawnNameDatabaseSolid.GetListForGender(GenderPossibility.Female) : PawnNameDatabaseSolid.GetListForGender(GenderPossibility.Male);
 			float num = (float)(((float)listForGender.Count + 0.10000000149011612) / ((float)(listForGender.Count + list.Count) + 0.10000000149011612));
 			List<NameTriple> list2 = (!(Rand.Value < num)) ? list : listForGender;
+			NameTriple result;
 			if (list2.Count == 0)
 			{
 				Log.Error("Empty solid pawn name list for gender: " + gender + ".");
-				return null;
+				result = null;
 			}
-			if (nameTriple != null && list2.Contains(nameTriple))
+			else if (nameTriple != null && list2.Contains(nameTriple))
 			{
-				return nameTriple;
+				result = nameTriple;
 			}
-			list2.Shuffle();
-			return list2.Where((Func<NameTriple, bool>)delegate(NameTriple name)
+			else
 			{
-				if (requiredLastName != null && name.Last != requiredLastName)
-				{
-					return false;
-				}
-				if (name.UsedThisGame)
-				{
-					return false;
-				}
-				return true;
-			}).FirstOrDefault();
+				list2.Shuffle();
+				NameTriple nameTriple2 = result = (from name in list2
+				where (byte)((requiredLastName == null || !(name.Last != requiredLastName)) ? ((!name.UsedThisGame) ? 1 : 0) : 0) != 0
+				select name).FirstOrDefault();
+			}
+			return result;
 		}
 
 		public static Name GeneratePawnName(Pawn pawn, NameStyle style = NameStyle.Full, string forcedLastName = null)
 		{
+			Name result;
 			switch (style)
 			{
 			case NameStyle.Full:
@@ -190,38 +177,43 @@ namespace RimWorld
 				RulePackDef nameGenerator = pawn.RaceProps.GetNameGenerator(pawn.gender);
 				if (nameGenerator != null)
 				{
-					string name = NameGenerator.GenerateName(nameGenerator, (Predicate<string>)((string x) => !new NameSingle(x, false).UsedThisGame), false);
-					return new NameSingle(name, false);
+					string name = NameGenerator.GenerateName(nameGenerator, (Predicate<string>)((string x) => !new NameSingle(x, false).UsedThisGame), false, (string)null);
+					result = new NameSingle(name, false);
 				}
-				if (pawn.Faction != null && pawn.Faction.def.pawnNameMaker != null)
+				else if (pawn.Faction != null && pawn.Faction.def.pawnNameMaker != null)
 				{
 					string rawName = NameGenerator.GenerateName(pawn.Faction.def.pawnNameMaker, (Predicate<string>)delegate(string x)
 					{
 						NameTriple nameTriple4 = NameTriple.FromString(x);
 						nameTriple4.ResolveMissingPieces(forcedLastName);
 						return !nameTriple4.UsedThisGame;
-					}, false);
+					}, false, (string)null);
 					NameTriple nameTriple = NameTriple.FromString(rawName);
 					nameTriple.CapitalizeNick();
 					nameTriple.ResolveMissingPieces(forcedLastName);
-					return nameTriple;
+					result = nameTriple;
 				}
-				if (pawn.RaceProps.nameCategory != 0)
+				else if (pawn.RaceProps.nameCategory != 0)
 				{
 					if (Rand.Value < 0.5)
 					{
 						NameTriple nameTriple2 = PawnBioAndNameGenerator.TryGetRandomUnusedSolidName(pawn.gender, forcedLastName);
 						if (nameTriple2 != null)
 						{
-							return nameTriple2;
+							result = nameTriple2;
+							goto IL_01b4;
 						}
 					}
-					return PawnBioAndNameGenerator.GeneratePawnName_Shuffled(pawn, forcedLastName);
+					result = PawnBioAndNameGenerator.GeneratePawnName_Shuffled(pawn, forcedLastName);
 				}
-				Log.Error("No name making method for " + pawn);
-				NameTriple nameTriple3 = NameTriple.FromString(pawn.def.label);
-				nameTriple3.ResolveMissingPieces((string)null);
-				return nameTriple3;
+				else
+				{
+					Log.Error("No name making method for " + pawn);
+					NameTriple nameTriple3 = NameTriple.FromString(pawn.def.label);
+					nameTriple3.ResolveMissingPieces((string)null);
+					result = nameTriple3;
+				}
+				break;
 			}
 			case NameStyle.Numeric:
 			{
@@ -234,13 +226,17 @@ namespace RimWorld
 						break;
 					num++;
 				}
-				return new NameSingle(text, true);
+				result = new NameSingle(text, true);
+				break;
 			}
 			default:
 			{
 				throw new InvalidOperationException();
 			}
 			}
+			goto IL_01b4;
+			IL_01b4:
+			return result;
 		}
 
 		private static NameTriple GeneratePawnName_Shuffled(Pawn pawn, string forcedLastName = null)
@@ -286,6 +282,21 @@ namespace RimWorld
 					break;
 			}
 			return new NameTriple(name, nick, text);
+		}
+
+		private static float BackstorySelectionWeight(Backstory bs)
+		{
+			return PawnBioAndNameGenerator.WorkDisablesSelectionWeight(bs.workDisables);
+		}
+
+		private static float BioSelectionWeight(PawnBio bio)
+		{
+			return PawnBioAndNameGenerator.WorkDisablesSelectionWeight(bio.adulthood.workDisables & bio.childhood.workDisables);
+		}
+
+		private static float WorkDisablesSelectionWeight(WorkTags wt)
+		{
+			return (float)((((int)wt & 2) == 0) ? ((((int)wt & 4096) == 0) ? ((((int)wt & 32768) == 0) ? ((((int)wt & 128) == 0) ? 1.0 : 3.0) : 3.0) : 0.75) : 0.44999998807907104);
 		}
 	}
 }

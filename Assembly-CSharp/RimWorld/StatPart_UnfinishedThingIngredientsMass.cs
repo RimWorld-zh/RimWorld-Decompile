@@ -16,28 +16,29 @@ namespace RimWorld
 		public override string ExplanationPart(StatRequest req)
 		{
 			float mass = default(float);
-			if (this.TryGetValue(req, out mass))
-			{
-				return "StatsReport_IngredientsMass".Translate() + ": " + mass.ToStringMassOffset();
-			}
-			return (string)null;
+			return (!this.TryGetValue(req, out mass)) ? null : ("StatsReport_IngredientsMass".Translate() + ": " + mass.ToStringMassOffset());
 		}
 
 		private bool TryGetValue(StatRequest req, out float value)
 		{
 			UnfinishedThing unfinishedThing = req.Thing as UnfinishedThing;
+			bool result;
 			if (unfinishedThing == null)
 			{
 				value = 0f;
-				return false;
+				result = false;
 			}
-			float num = 0f;
-			for (int i = 0; i < unfinishedThing.ingredients.Count; i++)
+			else
 			{
-				num += unfinishedThing.ingredients[i].GetStatValue(StatDefOf.Mass, true) * (float)unfinishedThing.ingredients[i].stackCount;
+				float num = 0f;
+				for (int i = 0; i < unfinishedThing.ingredients.Count; i++)
+				{
+					num += unfinishedThing.ingredients[i].GetStatValue(StatDefOf.Mass, true) * (float)unfinishedThing.ingredients[i].stackCount;
+				}
+				value = num;
+				result = true;
 			}
-			value = num;
-			return true;
+			return result;
 		}
 	}
 }

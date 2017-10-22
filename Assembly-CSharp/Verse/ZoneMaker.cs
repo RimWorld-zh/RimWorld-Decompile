@@ -8,12 +8,9 @@ namespace Verse
 		{
 			if (cells != null)
 			{
+				foreach (IntVec3 item in cells)
 				{
-					foreach (IntVec3 item in cells)
-					{
-						z.AddCell(item);
-					}
-					return z;
+					z.AddCell(item);
 				}
 			}
 			return z;

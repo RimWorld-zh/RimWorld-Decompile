@@ -12,19 +12,19 @@ namespace RimWorld
 			Jetting = 2
 		}
 
+		private JetterState JState = JetterState.Resting;
+
+		private int WickTicksLeft = 0;
+
+		private int TicksUntilMove = 0;
+
+		protected Sustainer wickSoundSustainer = null;
+
+		protected Sustainer jetSoundSustainer = null;
+
 		private const int TicksBeforeBeginAccelerate = 25;
 
 		private const int TicksBetweenMoves = 3;
-
-		private JetterState JState;
-
-		private int WickTicksLeft;
-
-		private int TicksUntilMove;
-
-		protected Sustainer wickSoundSustainer;
-
-		protected Sustainer jetSoundSustainer;
 
 		public override void Tick()
 		{
@@ -50,6 +50,7 @@ namespace RimWorld
 
 		public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
+			base.PostApplyDamage(dinfo, totalDamageDealt);
 			if (!base.Destroyed && dinfo.Def.harmsHealth && this.JState == JetterState.Resting)
 			{
 				this.StartWick();
@@ -79,7 +80,7 @@ namespace RimWorld
 			if (!intVec.Walkable(base.Map) || base.Map.thingGrid.CellContains(intVec, ThingCategory.Pawn) || intVec.GetEdifice(base.Map) != null)
 			{
 				this.Destroy(DestroyMode.Vanish);
-				GenExplosion.DoExplosion(base.Position, base.Map, 2.9f, DamageDefOf.Bomb, null, null, null, null, null, 0f, 1, false, null, 0f, 1);
+				GenExplosion.DoExplosion(base.Position, base.Map, 2.9f, DamageDefOf.Bomb, null, -1, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 			}
 			else
 			{

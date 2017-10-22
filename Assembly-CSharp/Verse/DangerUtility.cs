@@ -1,63 +1,28 @@
 using RimWorld;
-using UnityEngine;
 
 namespace Verse
 {
 	public static class DangerUtility
 	{
-		private static Pawn directOrderingPawn;
-
-		private static int directOrderFrame = -1;
-
-		public static void NotifyDirectOrderingThisFrame(Pawn p)
-		{
-			DangerUtility.directOrderingPawn = p;
-			DangerUtility.directOrderFrame = Time.frameCount;
-		}
-
-		public static void DoneDirectOrdering()
-		{
-			DangerUtility.directOrderingPawn = null;
-		}
-
 		public static Danger NormalMaxDanger(this Pawn p)
 		{
-			if (p.CurJob != null && p.CurJob.playerForced)
-			{
-				return Danger.Deadly;
-			}
-			if (Time.frameCount != DangerUtility.directOrderFrame)
-			{
-				DangerUtility.directOrderingPawn = null;
-			}
-			if (DangerUtility.directOrderingPawn == p)
-			{
-				return Danger.Deadly;
-			}
-			if (p.Faction == Faction.OfPlayer)
-			{
-				if (p.health.hediffSet.HasTemperatureInjury(TemperatureInjuryStage.Minor) && GenTemperature.FactionOwnsPassableRoomInTemperatureRange(p.Faction, p.SafeTemperatureRange(), p.MapHeld))
-				{
-					return Danger.None;
-				}
-				return Danger.Some;
-			}
-			return Danger.Some;
+			return (Danger)((p.CurJob == null || !p.CurJob.playerForced) ? ((FloatMenuMakerMap.makingFor != p) ? ((p.Faction != Faction.OfPlayer) ? 2 : ((p.health.hediffSet.HasTemperatureInjury(TemperatureInjuryStage.Minor) && GenTemperature.FactionOwnsPassableRoomInTemperatureRange(p.Faction, p.SafeTemperatureRange(), p.MapHeld)) ? 1 : 2)) : 3) : 3);
 		}
 
 		public static Danger GetDangerFor(this IntVec3 c, Pawn p, Map map)
 		{
 			Map mapHeld = p.MapHeld;
-			if (mapHeld != null && mapHeld == map)
+			Danger result;
+			if (mapHeld == null || mapHeld != map)
+			{
+				result = Danger.None;
+			}
+			else
 			{
 				Region region = c.GetRegion(mapHeld, RegionType.Set_All);
-				if (region == null)
-				{
-					return Danger.None;
-				}
-				return region.DangerFor(p);
+				result = ((region == null) ? Danger.None : region.DangerFor(p));
 			}
-			return Danger.None;
+			return result;
 		}
 	}
 }

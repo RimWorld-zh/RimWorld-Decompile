@@ -6,32 +6,32 @@ namespace Verse.AI.Group
 	{
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
+			bool result;
 			if (signal.type == TriggerSignalType.PawnLost)
 			{
 				for (int i = 0; i < lord.ownedPawns.Count; i++)
 				{
 					Pawn p = lord.ownedPawns[i];
 					if (this.IsFightingSapper(p))
-					{
-						return false;
-					}
+						goto IL_0030;
 				}
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			goto IL_005b;
+			IL_005b:
+			return result;
+			IL_0030:
+			result = false;
+			goto IL_005b;
 		}
 
 		private bool IsFightingSapper(Pawn p)
 		{
-			if (!p.Downed && !p.InMentalState)
-			{
-				if (RaidStrategyWorker_ImmediateAttackSappers.CanBeSapper(p.kindDef))
-				{
-					return true;
-				}
-				return false;
-			}
-			return false;
+			return (byte)((!p.Downed && !p.InMentalState) ? (RaidStrategyWorker_ImmediateAttackSappers.CanBeSapper(p.kindDef) ? 1 : 0) : 0) != 0;
 		}
 	}
 }

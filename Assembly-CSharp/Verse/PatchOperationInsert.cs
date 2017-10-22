@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Xml;
 
 namespace Verse
@@ -18,24 +20,37 @@ namespace Verse
 		{
 			XmlNode node = this.value.node;
 			bool result = false;
-			foreach (object item in xml.SelectNodes(base.xpath))
+			IEnumerator enumerator = xml.SelectNodes(base.xpath).GetEnumerator();
+			try
 			{
-				result = true;
-				XmlNode xmlNode = item as XmlNode;
-				XmlNode parentNode = xmlNode.ParentNode;
-				if (this.order == Order.Append)
+				while (enumerator.MoveNext())
 				{
-					for (int i = 0; i < node.ChildNodes.Count; i++)
+					object current = enumerator.Current;
+					result = true;
+					XmlNode xmlNode = current as XmlNode;
+					XmlNode parentNode = xmlNode.ParentNode;
+					if (this.order == Order.Append)
 					{
-						parentNode.InsertAfter(parentNode.OwnerDocument.ImportNode(node.ChildNodes[i], true), xmlNode);
+						for (int i = 0; i < node.ChildNodes.Count; i++)
+						{
+							parentNode.InsertAfter(parentNode.OwnerDocument.ImportNode(node.ChildNodes[i], true), xmlNode);
+						}
+					}
+					else if (this.order == Order.Prepend)
+					{
+						for (int num = node.ChildNodes.Count - 1; num >= 0; num--)
+						{
+							parentNode.InsertBefore(parentNode.OwnerDocument.ImportNode(node.ChildNodes[num], true), xmlNode);
+						}
 					}
 				}
-				else if (this.order == Order.Prepend)
+			}
+			finally
+			{
+				IDisposable disposable;
+				if ((disposable = (enumerator as IDisposable)) != null)
 				{
-					for (int num = node.ChildNodes.Count - 1; num >= 0; num--)
-					{
-						parentNode.InsertBefore(parentNode.OwnerDocument.ImportNode(node.ChildNodes[num], true), xmlNode);
-					}
+					disposable.Dispose();
 				}
 			}
 			return result;

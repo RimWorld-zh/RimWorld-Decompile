@@ -16,6 +16,15 @@ namespace RimWorld
 			}
 		}
 
+		private bool PowerOn
+		{
+			get
+			{
+				CompPowerTrader comp = base.parent.GetComp<CompPowerTrader>();
+				return comp != null && comp.PowerOn;
+			}
+		}
+
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			if (!respawningAfterLoad)
@@ -26,20 +35,28 @@ namespace RimWorld
 
 		public override void CompTick()
 		{
-			if (!base.parent.Position.Fogged(base.parent.Map))
-			{
-				this.ticksUntilSpawn--;
-				this.CheckShouldSpawn();
-			}
+			this.TickInterval(1);
 		}
 
 		public override void CompTickRare()
 		{
-			if (!base.parent.Position.Fogged(base.parent.Map))
+			this.TickInterval(250);
+		}
+
+		private void TickInterval(int interval)
+		{
+			Hive hive = base.parent as Hive;
+			if (hive != null)
 			{
-				this.ticksUntilSpawn -= 250;
-				this.CheckShouldSpawn();
+				if (!hive.active)
+					return;
 			}
+			else if (base.parent.Position.Fogged(base.parent.Map))
+				return;
+			if (this.PropsSpawner.requiresPower && !this.PowerOn)
+				return;
+			this.ticksUntilSpawn -= interval;
+			this.CheckShouldSpawn();
 		}
 
 		private void CheckShouldSpawn()
@@ -65,14 +82,13 @@ namespace RimWorld
 						{
 							num += thingList[j].stackCount;
 							if (num >= this.PropsSpawner.spawnMaxAdjacent)
-							{
-								return false;
-							}
+								goto IL_0093;
 						}
 					}
 				}
 			}
 			IntVec3 center = default(IntVec3);
+			bool result;
 			if (this.TryFindSpawnCell(out center))
 			{
 				Thing thing = ThingMaker.MakeThing(this.PropsSpawner.thingToSpawn, null);
@@ -83,9 +99,22 @@ namespace RimWorld
 				{
 					t.SetForbidden(true, true);
 				}
-				return true;
+				if (this.PropsSpawner.showMessageIfOwned && base.parent.Faction == Faction.OfPlayer)
+				{
+					Messages.Message("MessageCompSpawnerSpawnedItem".Translate(this.PropsSpawner.thingToSpawn.label).CapitalizeFirst(), thing, MessageTypeDefOf.PositiveEvent);
+				}
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			goto IL_018e;
+			IL_018e:
+			return result;
+			IL_0093:
+			result = false;
+			goto IL_018e;
 		}
 
 		private bool TryFindSpawnCell(out IntVec3 result)
@@ -98,7 +127,7 @@ namespace RimWorld
 					if (edifice == null || !this.PropsSpawner.thingToSpawn.IsEdifice())
 					{
 						Building_Door building_Door = edifice as Building_Door;
-						if ((building_Door == null || building_Door.FreePassage) && GenSight.LineOfSight(base.parent.Position, item, base.parent.Map, false, null, 0, 0))
+						if ((building_Door == null || building_Door.FreePassage) && (base.parent.def.passability == Traversability.Impassable || GenSight.LineOfSight(base.parent.Position, item, base.parent.Map, false, null, 0, 0)))
 						{
 							bool flag = false;
 							List<Thing> thingList = item.GetThingList(base.parent.Map);
@@ -136,19 +165,24 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			if (Prefs.DevMode)
+			if (!Prefs.DevMode)
+				yield break;
+			yield return (Gizmo)new Command_Action
 			{
-				yield return (Gizmo)new Command_Action
+				defaultLabel = "DEBUG: Spawn " + this.PropsSpawner.thingToSpawn.label,
+				icon = TexCommand.DesirePower,
+				action = (Action)delegate
 				{
-					defaultLabel = "DEBUG: Spawn " + this.PropsSpawner.thingToSpawn.label,
-					icon = TexCommand.DesirePower,
-					action = (Action)delegate
-					{
-						((_003CCompGetGizmosExtra_003Ec__Iterator16B)/*Error near IL_0076: stateMachine*/)._003C_003Ef__this.TryDoSpawn();
-						((_003CCompGetGizmosExtra_003Ec__Iterator16B)/*Error near IL_0076: stateMachine*/)._003C_003Ef__this.ResetCountdown();
-					}
-				};
-			}
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0078: stateMachine*/)._0024this.TryDoSpawn();
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0078: stateMachine*/)._0024this.ResetCountdown();
+				}
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
+		}
+
+		public override string CompInspectStringExtra()
+		{
+			return (!this.PropsSpawner.writeTimeLeftToSpawn || (this.PropsSpawner.requiresPower && !this.PowerOn)) ? null : ("NextSpawnedItemIn".Translate(GenLabel.ThingLabel(this.PropsSpawner.thingToSpawn, null, this.PropsSpawner.spawnCount)) + ": " + this.ticksUntilSpawn.ToStringTicksToPeriod(true, false, true));
 		}
 	}
 }

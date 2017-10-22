@@ -9,22 +9,10 @@ namespace RimWorld
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
 			Map map = (Map)target;
-			if (!map.gameConditionManager.ConditionIsActive(GameConditionDefOf.PsychicDrone) && !map.gameConditionManager.ConditionIsActive(GameConditionDefOf.PsychicSoothe))
-			{
-				if (map.listerThings.ThingsOfDef(ThingDefOf.CrashedPsychicEmanatorShipPart).Count > 0)
-				{
-					return false;
-				}
-				if (map.mapPawns.FreeColonistsCount == 0)
-				{
-					return false;
-				}
-				return true;
-			}
-			return false;
+			return (byte)((!map.gameConditionManager.ConditionIsActive(GameConditionDefOf.PsychicDrone) && !map.gameConditionManager.ConditionIsActive(GameConditionDefOf.PsychicSoothe)) ? ((map.listerThings.ThingsOfDef(ThingDefOf.CrashedPsychicEmanatorShipPart).Count <= 0) ? ((map.mapPawns.FreeColonistsCount != 0) ? 1 : 0) : 0) : 0) != 0;
 		}
 
-		public override bool TryExecute(IncidentParms parms)
+		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			this.DoConditionAndLetter(map, Mathf.RoundToInt((float)(base.def.durationDays.RandomInRange * 60000.0)), map.mapPawns.FreeColonists.RandomElement().gender);

@@ -12,14 +12,21 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
-			foreach (string item in base.ConfigErrors(parentDef))
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0(parentDef).GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string e = enumerator.Current;
+					yield return e;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			if (!typeof(MapParent).IsAssignableFrom(parentDef.worldObjectClass))
-			{
-				yield return parentDef.defName + " has WorldObjectCompProperties_DefeatAllEnemiesQuest but it's not MapParent.";
-			}
+			if (typeof(MapParent).IsAssignableFrom(parentDef.worldObjectClass))
+				yield break;
+			yield return parentDef.defName + " has WorldObjectCompProperties_DefeatAllEnemiesQuest but it's not MapParent.";
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0115:
+			/*Error near IL_0116: Unexpected return in MoveNext()*/;
 		}
 	}
 }

@@ -19,10 +19,10 @@ namespace Verse
 
 		public virtual IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			if (this.compClass == null)
-			{
-				yield return parentDef.defName + " has CompProperties with null compClass.";
-			}
+			if (this.compClass != null)
+				yield break;
+			yield return parentDef.defName + " has CompProperties with null compClass.";
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public virtual void ResolveReferences(ThingDef parentDef)

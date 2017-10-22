@@ -54,43 +54,51 @@ namespace RimWorld
 		{
 			if (base.useMouseIcon)
 			{
-				string text = string.Empty;
+				string text = "";
 				if (!Input.GetKey(KeyCode.Mouse0))
 				{
 					Zone selectedZone = Find.Selector.SelectedZone;
 					text = ((selectedZone == null) ? "CreateNewZone".Translate(this.NewZoneLabel) : "ExpandOrCreateZone".Translate(selectedZone.label, this.NewZoneLabel));
 				}
-				GenUI.DrawMouseAttachment(base.icon, text);
+				GenUI.DrawMouseAttachment(base.icon, text, 0f);
 			}
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
+			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			if (c.Fogged(base.Map))
+			else if (c.Fogged(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			if (c.InNoZoneEdgeArea(base.Map))
+			else if (c.InNoZoneEdgeArea(base.Map))
 			{
-				return "TooCloseToMapEdge".Translate();
+				result = "TooCloseToMapEdge".Translate();
 			}
-			Zone zone = base.Map.zoneManager.ZoneAt(c);
-			if (zone != null && zone.GetType() != this.zoneTypeToPlace)
+			else
 			{
-				return false;
-			}
-			foreach (Thing item in base.Map.thingGrid.ThingsAt(c))
-			{
-				if (!item.def.CanOverlapZones)
+				Zone zone = base.Map.zoneManager.ZoneAt(c);
+				if (zone != null && zone.GetType() != this.zoneTypeToPlace)
 				{
-					return false;
+					result = false;
+				}
+				else
+				{
+					foreach (Thing item in base.Map.thingGrid.ThingsAt(c))
+					{
+						if (!item.def.CanOverlapZones)
+						{
+							return false;
+						}
+					}
+					result = true;
 				}
 			}
-			return true;
+			return result;
 		}
 
 		public override void DesignateMultiCell(IEnumerable<IntVec3> cells)

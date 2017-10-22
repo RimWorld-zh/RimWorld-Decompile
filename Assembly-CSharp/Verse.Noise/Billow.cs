@@ -15,7 +15,7 @@ namespace Verse.Noise
 
 		private double m_persistence = 0.5;
 
-		private int m_seed;
+		private int m_seed = 0;
 
 		public double Frequency
 		{

@@ -41,23 +41,13 @@ namespace RimWorld.Planet
 				}
 				else if (requiresNoEnemies)
 				{
-					HashSet<IAttackTarget>.Enumerator enumerator = map.attackTargetsCache.TargetsHostileToColony.GetEnumerator();
-					try
+					foreach (IAttackTarget item in map.attackTargetsCache.TargetsHostileToColony)
 					{
-						while (enumerator.MoveNext())
+						if (GenHostility.IsActiveThreatToPlayer(item))
 						{
-							IAttackTarget current = enumerator.Current;
-							if (!current.ThreatDisabled())
-							{
-								command_Settle.Disable("CommandSettleFailEnemies".Translate());
-								return command_Settle;
-							}
+							command_Settle.Disable("CommandSettleFailEnemies".Translate());
+							break;
 						}
-						return command_Settle;
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
 					}
 				}
 			}
@@ -72,7 +62,7 @@ namespace RimWorld.Planet
 			{
 				Find.WorldObjects.Remove(parent);
 			}
-			Messages.Message("MessageSettledInExistingMap".Translate(), (WorldObject)o, MessageSound.Benefit);
+			Messages.Message("MessageSettledInExistingMap".Translate(), (WorldObject)o, MessageTypeDefOf.PositiveEvent);
 			SettleInExistingMapUtility.tmpPlayerPawns.Clear();
 			SettleInExistingMapUtility.tmpPlayerPawns.AddRange(from x in map.mapPawns.AllPawnsSpawned
 			where x.Faction == Faction.OfPlayer || x.HostFaction == Faction.OfPlayer

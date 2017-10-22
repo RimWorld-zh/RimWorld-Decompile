@@ -9,14 +9,6 @@ namespace Verse.Sound
 
 		private SoundParams externalParams = new SoundParams();
 
-		public override Map Map
-		{
-			get
-			{
-				return this.info.Maker.Map;
-			}
-		}
-
 		public override float ParentStartRealTime
 		{
 			get
@@ -49,11 +41,11 @@ namespace Verse.Sound
 			}
 		}
 
-		protected override bool TestPlaying
+		public override SoundInfo Info
 		{
 			get
 			{
-				return this.info.testPlay;
+				return this.info;
 			}
 		}
 
@@ -63,46 +55,54 @@ namespace Verse.Sound
 
 		public static SampleOneShot TryMakeAndPlay(SubSoundDef def, AudioClip clip, SoundInfo info)
 		{
+			SampleOneShot result;
 			if ((double)info.pitchFactor <= 0.0001)
 			{
 				Log.ErrorOnce("Played sound with pitchFactor " + info.pitchFactor + ": " + def + ", " + info, 632321);
-				return null;
-			}
-			SampleOneShot sampleOneShot = new SampleOneShot(def);
-			sampleOneShot.info = info;
-			sampleOneShot.source = Find.SoundRoot.sourcePool.GetSource(def.onCamera);
-			if ((Object)sampleOneShot.source == (Object)null)
-			{
-				return null;
-			}
-			sampleOneShot.source.clip = clip;
-			sampleOneShot.source.volume = sampleOneShot.resolvedVolume * info.volumeFactor;
-			sampleOneShot.source.pitch = sampleOneShot.resolvedPitch * info.pitchFactor;
-			sampleOneShot.source.minDistance = sampleOneShot.subDef.distRange.TrueMin;
-			sampleOneShot.source.maxDistance = sampleOneShot.subDef.distRange.TrueMax;
-			if (!def.onCamera)
-			{
-				sampleOneShot.source.gameObject.transform.position = info.Maker.Cell.ToVector3ShiftedWithAltitude(0f);
-				sampleOneShot.source.minDistance = def.distRange.TrueMin;
-				sampleOneShot.source.maxDistance = def.distRange.TrueMax;
-				sampleOneShot.source.spatialBlend = 1f;
+				result = null;
 			}
 			else
 			{
-				sampleOneShot.source.spatialBlend = 0f;
+				SampleOneShot sampleOneShot = new SampleOneShot(def);
+				sampleOneShot.info = info;
+				sampleOneShot.source = Find.SoundRoot.sourcePool.GetSource(def.onCamera);
+				if ((Object)sampleOneShot.source == (Object)null)
+				{
+					result = null;
+				}
+				else
+				{
+					sampleOneShot.source.clip = clip;
+					sampleOneShot.source.volume = sampleOneShot.SanitizedVolume;
+					sampleOneShot.source.pitch = sampleOneShot.SanitizedPitch;
+					sampleOneShot.source.minDistance = sampleOneShot.subDef.distRange.TrueMin;
+					sampleOneShot.source.maxDistance = sampleOneShot.subDef.distRange.TrueMax;
+					if (!def.onCamera)
+					{
+						sampleOneShot.source.gameObject.transform.position = info.Maker.Cell.ToVector3ShiftedWithAltitude(0f);
+						sampleOneShot.source.minDistance = def.distRange.TrueMin;
+						sampleOneShot.source.maxDistance = def.distRange.TrueMax;
+						sampleOneShot.source.spatialBlend = 1f;
+					}
+					else
+					{
+						sampleOneShot.source.spatialBlend = 0f;
+					}
+					for (int i = 0; i < def.filters.Count; i++)
+					{
+						def.filters[i].SetupOn(sampleOneShot.source);
+					}
+					foreach (KeyValuePair<string, float> definedParameter in info.DefinedParameters)
+					{
+						sampleOneShot.externalParams[definedParameter.Key] = definedParameter.Value;
+					}
+					sampleOneShot.Update();
+					sampleOneShot.source.Play();
+					Find.SoundRoot.oneShotManager.TryAddPlayingOneShot(sampleOneShot);
+					result = sampleOneShot;
+				}
 			}
-			for (int i = 0; i < def.filters.Count; i++)
-			{
-				def.filters[i].SetupOn(sampleOneShot.source);
-			}
-			foreach (KeyValuePair<string, float> definedParameter in info.DefinedParameters)
-			{
-				sampleOneShot.externalParams[definedParameter.Key] = definedParameter.Value;
-			}
-			sampleOneShot.ApplyMappedParameters();
-			sampleOneShot.source.Play();
-			Find.SoundRoot.oneShotManager.TryAddPlayingOneShot(sampleOneShot);
-			return sampleOneShot;
+			return result;
 		}
 	}
 }

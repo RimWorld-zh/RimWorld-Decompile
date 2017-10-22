@@ -23,11 +23,7 @@ namespace RimWorld
 				{
 					thing = minifiedThing.InnerThing;
 				}
-				if (thing == null)
-				{
-					return null;
-				}
-				return thing.TryGetComp<CompArt>();
+				return (thing != null) ? thing.TryGetComp<CompArt>() : null;
 			}
 		}
 

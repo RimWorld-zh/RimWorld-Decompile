@@ -6,7 +6,7 @@ namespace Verse
 	{
 		public float averageInterval = 100f;
 
-		public Type eventClass;
+		public Type eventClass = null;
 
 		public void WeatherEventMakerTick(Map map, float strength)
 		{

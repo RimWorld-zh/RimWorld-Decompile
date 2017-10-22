@@ -7,6 +7,12 @@ namespace RimWorld
 {
 	public class Lesson_Note : Lesson
 	{
+		public ConceptDef def;
+
+		public bool doFadeIn = true;
+
+		private float expiryTime = 3.40282347E+38f;
+
 		private const float RectWidth = 500f;
 
 		private const float TextWidth = 432f;
@@ -20,12 +26,6 @@ namespace RimWorld
 		private const float ExpiryDuration = 2.1f;
 
 		private const float ExpiryFadeTime = 1.1f;
-
-		public ConceptDef def;
-
-		public bool doFadeIn = true;
-
-		private float expiryTime = 3.40282347E+38f;
 
 		public bool Expiring
 		{
@@ -91,10 +91,12 @@ namespace RimWorld
 				}
 			}
 			WindowStack windowStack = Find.WindowStack;
-			float shadowAlpha = alpha;
-			windowStack.ImmediateWindow(134706, mainRect, WindowLayer.Super, (Action)delegate
+			int iD = 134706;
+			Rect rect = mainRect;
+			WindowLayer layer = WindowLayer.Super;
+			Action doWindowFunc = (Action)delegate
 			{
-				Rect rect = mainRect.AtZero();
+				Rect rect2 = mainRect.AtZero();
 				Text.Font = GameFont.Small;
 				if (!this.Expiring)
 				{
@@ -104,11 +106,11 @@ namespace RimWorld
 				{
 					GUI.color = new Color(1f, 1f, 1f, alpha);
 				}
-				Widgets.DrawWindowBackgroundTutor(rect);
-				Rect rect2 = rect.ContractedBy(10f);
-				rect2.width = 432f;
-				Widgets.Label(rect2, this.def.HelpTextAdjusted);
-				Rect butRect = new Rect((float)(rect.xMax - 32.0 - 8.0), (float)(rect.y + 8.0), 32f, 32f);
+				Widgets.DrawWindowBackgroundTutor(rect2);
+				Rect rect3 = rect2.ContractedBy(10f);
+				rect3.width = 432f;
+				Widgets.Label(rect3, this.def.HelpTextAdjusted);
+				Rect butRect = new Rect((float)(rect2.xMax - 32.0 - 8.0), (float)(rect2.y + 8.0), 32f, 32f);
 				Texture2D tex = (!this.Expiring) ? TexButton.CloseXBig : Widgets.CheckboxOnTex;
 				if (Widgets.ButtonImage(butRect, tex, new Color(0.95f, 0.95f, 0.95f), new Color(0.8352941f, 0.6666667f, 0.274509817f)))
 				{
@@ -120,7 +122,10 @@ namespace RimWorld
 					this.CloseButtonClicked();
 				}
 				GUI.color = Color.white;
-			}, false, false, shadowAlpha);
+			};
+			bool doBackground = false;
+			float shadowAlpha = alpha;
+			windowStack.ImmediateWindow(iD, rect, layer, doWindowFunc, doBackground, false, shadowAlpha);
 		}
 
 		private void CloseButtonClicked()

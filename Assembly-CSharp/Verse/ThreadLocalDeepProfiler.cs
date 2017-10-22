@@ -56,22 +56,25 @@ namespace Verse
 			}
 		}
 
-		private const int MaxDepth = 50;
-
 		private Stack<Watcher> watchers = new Stack<Watcher>();
 
 		private static readonly string[] Prefixes;
+
+		private const int MaxDepth = 50;
 
 		static ThreadLocalDeepProfiler()
 		{
 			ThreadLocalDeepProfiler.Prefixes = new string[50];
 			for (int i = 0; i < 50; i++)
 			{
-				ThreadLocalDeepProfiler.Prefixes[i] = string.Empty;
+				ThreadLocalDeepProfiler.Prefixes[i] = "";
 				for (int num = 0; num < i; num++)
 				{
-					ref string val = ref ThreadLocalDeepProfiler.Prefixes[i];
-					val += " -";
+					string[] prefixes;
+					string[] obj = prefixes = ThreadLocalDeepProfiler.Prefixes;
+					int num2 = i;
+					int num3 = num2;
+					obj[num2] = prefixes[num3] + " -";
 				}
 			}
 		}

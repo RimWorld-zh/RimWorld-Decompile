@@ -10,54 +10,63 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Pawn meleeThreat = pawn.mindState.meleeThreat;
+			Job result;
 			if (meleeThreat == null)
 			{
-				return null;
+				result = null;
 			}
-			if (this.IsHunting(pawn, meleeThreat))
+			else if (this.IsHunting(pawn, meleeThreat))
 			{
-				return null;
+				result = null;
 			}
-			if (PawnUtility.PlayerForcedJobNowOrSoon(pawn))
+			else if (PawnUtility.PlayerForcedJobNowOrSoon(pawn))
 			{
-				return null;
+				result = null;
 			}
-			if (pawn.playerSettings != null && pawn.playerSettings.UsesConfigurableHostilityResponse && pawn.playerSettings.hostilityResponse != HostilityResponseMode.Attack)
+			else if (pawn.playerSettings != null && pawn.playerSettings.UsesConfigurableHostilityResponse && pawn.playerSettings.hostilityResponse != HostilityResponseMode.Attack)
 			{
-				return null;
+				result = null;
 			}
-			if (!pawn.mindState.MeleeThreatStillThreat)
+			else if (!pawn.mindState.MeleeThreatStillThreat)
 			{
 				pawn.mindState.meleeThreat = null;
-				return null;
+				result = null;
 			}
-			if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+			else if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 			{
-				return null;
+				result = null;
 			}
-			Job job = new Job(JobDefOf.AttackMelee, (Thing)meleeThreat);
-			job.maxNumMeleeAttacks = 1;
-			job.expiryInterval = 200;
-			return job;
+			else
+			{
+				Job job = new Job(JobDefOf.AttackMelee, (Thing)meleeThreat);
+				job.maxNumMeleeAttacks = 1;
+				job.expiryInterval = 200;
+				result = job;
+			}
+			return result;
 		}
 
 		private bool IsHunting(Pawn pawn, Pawn prey)
 		{
+			bool result;
 			if (pawn.CurJob == null)
 			{
-				return false;
+				result = false;
 			}
-			JobDriver_Hunt jobDriver_Hunt = pawn.jobs.curDriver as JobDriver_Hunt;
-			if (jobDriver_Hunt != null)
+			else
 			{
-				return jobDriver_Hunt.Victim == prey;
+				JobDriver_Hunt jobDriver_Hunt = pawn.jobs.curDriver as JobDriver_Hunt;
+				if (jobDriver_Hunt != null)
+				{
+					result = (jobDriver_Hunt.Victim == prey);
+				}
+				else
+				{
+					JobDriver_PredatorHunt jobDriver_PredatorHunt = pawn.jobs.curDriver as JobDriver_PredatorHunt;
+					result = (jobDriver_PredatorHunt != null && jobDriver_PredatorHunt.Prey == prey);
+				}
 			}
-			JobDriver_PredatorHunt jobDriver_PredatorHunt = pawn.jobs.curDriver as JobDriver_PredatorHunt;
-			if (jobDriver_PredatorHunt != null)
-			{
-				return jobDriver_PredatorHunt.Prey == prey;
-			}
-			return false;
+			return result;
 		}
 	}
 }

@@ -9,27 +9,7 @@ namespace Verse
 	{
 		public static bool IsDebugSpawnable(ThingDef def)
 		{
-			if (def.forceDebugSpawnable)
-			{
-				return true;
-			}
-			if (def.thingClass != typeof(Corpse) && !def.IsBlueprint && !def.IsFrame && def != ThingDefOf.ActiveDropPod && def.thingClass != typeof(MinifiedThing) && def.thingClass != typeof(UnfinishedThing) && !def.destroyOnDrop)
-			{
-				if (def.category != ThingCategory.Filth && def.category != ThingCategory.Item && def.category != ThingCategory.Plant && def.category != ThingCategory.Ethereal)
-				{
-					if (def.category == ThingCategory.Building && def.building.isNaturalRock)
-					{
-						return true;
-					}
-					if (def.category == ThingCategory.Building && def.designationCategory == null)
-					{
-						return true;
-					}
-					return false;
-				}
-				return true;
-			}
-			return false;
+			return (byte)(def.forceDebugSpawnable ? 1 : ((def.thingClass != typeof(Corpse) && !def.IsBlueprint && !def.IsFrame && def != ThingDefOf.ActiveDropPod && def.thingClass != typeof(MinifiedThing) && def.thingClass != typeof(UnfinishedThing) && !def.destroyOnDrop) ? ((def.category == ThingCategory.Filth || def.category == ThingCategory.Item || def.category == ThingCategory.Plant || def.category == ThingCategory.Ethereal) ? 1 : ((def.category == ThingCategory.Building && def.building.isNaturalRock) ? 1 : ((def.category == ThingCategory.Building && def.designationCategory == null) ? 1 : 0))) : 0)) != 0;
 		}
 
 		public static void DebugSpawn(ThingDef def, IntVec3 c, int stackCount = -1, bool direct = false)
@@ -76,18 +56,15 @@ namespace Verse
 			}
 			if (stackCount == 1)
 			{
+				foreach (ThingDef item2 in from def in DefDatabase<ThingDef>.AllDefs
+				where def.Minifiable
+				select def)
 				{
-					foreach (ThingDef item2 in from def in DefDatabase<ThingDef>.AllDefs
-					where def.Minifiable
-					select def)
+					ThingDef localDef2 = item2;
+					list.Add(new DebugMenuOption(localDef2.LabelCap + " (minified)", DebugMenuOptionMode.Tool, (Action)delegate()
 					{
-						ThingDef localDef2 = item2;
-						list.Add(new DebugMenuOption(localDef2.LabelCap + " (minified)", DebugMenuOptionMode.Tool, (Action)delegate()
-						{
-							DebugThingPlaceHelper.DebugSpawn(localDef2, UI.MouseCell(), stackCount, direct);
-						}));
-					}
-					return list;
+						DebugThingPlaceHelper.DebugSpawn(localDef2, UI.MouseCell(), stackCount, direct);
+					}));
 				}
 			}
 			return list;

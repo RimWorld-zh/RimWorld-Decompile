@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -123,30 +122,21 @@ namespace RimWorld
 				stringBuilder.AppendLine();
 			}
 			int num = 0;
-			Dictionary<SkillDef, int>.Enumerator enumerator = this.CurrentData.skillGains.GetEnumerator();
-			try
+			foreach (KeyValuePair<SkillDef, int> skillGain in this.CurrentData.skillGains)
 			{
-				while (enumerator.MoveNext())
+				if (skillGain.Value != 0)
 				{
-					KeyValuePair<SkillDef, int> current = enumerator.Current;
-					if (current.Value != 0)
+					string value = "    " + skillGain.Key.skillLabel.CapitalizeFirst() + ":   " + skillGain.Value.ToString("+##;-##");
+					if (num < count - 1)
 					{
-						string value = "    " + current.Key.skillLabel + ":   " + current.Value.ToString("+##;-##");
-						if (num < count - 1)
-						{
-							stringBuilder.AppendLine(value);
-						}
-						else
-						{
-							stringBuilder.Append(value);
-						}
-						num++;
+						stringBuilder.AppendLine(value);
 					}
+					else
+					{
+						stringBuilder.Append(value);
+					}
+					num++;
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			if (this.GetPermaThoughts().Any())
 			{
@@ -164,8 +154,8 @@ namespace RimWorld
 				for (int i = 0; i < currentData.statOffsets.Count; i++)
 				{
 					StatModifier statModifier = currentData.statOffsets[i];
-					string toStringAsOffset = statModifier.ToStringAsOffset;
-					string value2 = "    " + statModifier.stat.LabelCap + " " + toStringAsOffset;
+					string valueToStringAsOffset = statModifier.ValueToStringAsOffset;
+					string value2 = "    " + statModifier.stat.LabelCap + " " + valueToStringAsOffset;
 					if (i < currentData.statOffsets.Count - 1)
 					{
 						stringBuilder.AppendLine(value2);
@@ -207,13 +197,25 @@ namespace RimWorld
 		{
 			TraitDegreeData degree = this.CurrentData;
 			List<ThoughtDef> allThoughts = DefDatabase<ThoughtDef>.AllDefsListForReading;
-			for (int i = 0; i < allThoughts.Count; i++)
+			int i = 0;
+			while (true)
 			{
-				if (allThoughts[i].IsSituational && allThoughts[i].Worker is ThoughtWorker_AlwaysActive && allThoughts[i].requiredTraits != null && allThoughts[i].requiredTraits.Contains(this.def) && (!allThoughts[i].RequiresSpecificTraitsDegree || allThoughts[i].requiredTraitsDegree == degree.degree))
+				if (i < allThoughts.Count)
 				{
-					yield return allThoughts[i];
+					if (allThoughts[i].IsSituational && allThoughts[i].Worker is ThoughtWorker_AlwaysActive && allThoughts[i].requiredTraits != null && allThoughts[i].requiredTraits.Contains(this.def))
+					{
+						if (!allThoughts[i].RequiresSpecificTraitsDegree)
+							break;
+						if (allThoughts[i].requiredTraitsDegree == degree.degree)
+							break;
+					}
+					i++;
+					continue;
 				}
+				yield break;
 			}
+			yield return allThoughts[i];
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		private bool AllowsWorkType(WorkTypeDef workDef)
@@ -223,19 +225,31 @@ namespace RimWorld
 
 		public IEnumerable<WorkTypeDef> GetDisabledWorkTypes()
 		{
-			for (int j = 0; j < this.def.disabledWorkTypes.Count; j++)
+			int j = 0;
+			if (j < this.def.disabledWorkTypes.Count)
 			{
 				yield return this.def.disabledWorkTypes[j];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			List<WorkTypeDef> workTypeDefList = DefDatabase<WorkTypeDef>.AllDefsListForReading;
-			for (int i = 0; i < workTypeDefList.Count; i++)
+			int i = 0;
+			WorkTypeDef w;
+			while (true)
 			{
-				WorkTypeDef w = workTypeDefList[i];
-				if (!this.AllowsWorkType(w))
+				if (i < workTypeDefList.Count)
 				{
-					yield return w;
+					w = workTypeDefList[i];
+					if (this.AllowsWorkType(w))
+					{
+						i++;
+						continue;
+					}
+					break;
 				}
+				yield break;
 			}
+			yield return w;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

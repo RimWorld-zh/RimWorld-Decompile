@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -7,14 +6,14 @@ namespace RimWorld.BaseGen
 {
 	public class SymbolResolver_Stockpile : SymbolResolver
 	{
-		private const float FreeCellsFraction = 0.41f;
-
 		private List<IntVec3> cells = new List<IntVec3>();
+
+		private const float FreeCellsFraction = 0.41f;
 
 		public override void Resolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
-			if (rp.stockpileConcreteContents != null && rp.stockpileConcreteContents.Any())
+			if (rp.stockpileConcreteContents != null)
 			{
 				this.CalculateFreeCells(rp.rect, 0f);
 				int num = 0;
@@ -45,17 +44,22 @@ namespace RimWorld.BaseGen
 				}
 				else
 				{
-					this.CalculateFreeCells(rp.rect, 0.41f);
 					value = new ItemCollectionGeneratorParams
 					{
-						count = this.cells.Count,
-						techLevel = ((rp.faction == null) ? TechLevel.Spacer : rp.faction.def.techLevel)
+						techLevel = new TechLevel?((rp.faction == null) ? TechLevel.Spacer : rp.faction.def.techLevel)
 					};
 					if (itemCollectionGeneratorDef.Worker is ItemCollectionGenerator_Standard)
 					{
 						float? stockpileMarketValue = rp.stockpileMarketValue;
-						float num4 = value.totalMarketValue = ((!stockpileMarketValue.HasValue) ? Mathf.Min((float)((float)this.cells.Count * 120.0), 1800f) : stockpileMarketValue.Value);
+						float value2 = (!stockpileMarketValue.HasValue) ? Mathf.Min((float)((float)this.cells.Count * 120.0), 1800f) : stockpileMarketValue.Value;
+						value.totalMarketValue = new float?(value2);
 					}
+				}
+				int? count = value.count;
+				if (!count.HasValue)
+				{
+					this.CalculateFreeCells(rp.rect, 0.41f);
+					value.count = new int?(this.cells.Count);
 				}
 				ResolveParams resolveParams = rp;
 				resolveParams.itemCollectionGeneratorDef = itemCollectionGeneratorDef;

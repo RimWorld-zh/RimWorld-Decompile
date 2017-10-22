@@ -15,32 +15,32 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			if (GenDate.DaysPassed >= 2 && GenDate.DaysPassed <= 5)
+			AlertReport result;
+			if (GenDate.DaysPassed < 2 || GenDate.DaysPassed > 5)
+			{
+				result = false;
+			}
+			else
 			{
 				List<Map> maps = Find.Maps;
 				for (int i = 0; i < maps.Count; i++)
 				{
 					if (this.NeedDefenses(maps[i]))
-					{
-						return true;
-					}
+						goto IL_0043;
 				}
-				return false;
+				result = false;
 			}
-			return false;
+			goto IL_006c;
+			IL_0043:
+			result = true;
+			goto IL_006c;
+			IL_006c:
+			return result;
 		}
 
 		private bool NeedDefenses(Map map)
 		{
-			if (!map.IsPlayerHome)
-			{
-				return false;
-			}
-			if (map.listerBuildings.allBuildingsColonist.Any((Predicate<Building>)((Building b) => (b.def.building != null && (b.def.building.IsTurret || b.def.building.isTrap)) || b.def == ThingDefOf.Sandbags)))
-			{
-				return false;
-			}
-			return true;
+			return (byte)(map.IsPlayerHome ? ((map.mapPawns.AnyColonistSpawned || map.listerBuildings.allBuildingsColonist.Any()) ? ((!map.listerBuildings.allBuildingsColonist.Any((Predicate<Building>)((Building b) => (b.def.building != null && (b.def.building.IsTurret || b.def.building.isTrap)) || b.def == ThingDefOf.Sandbags))) ? 1 : 0) : 0) : 0) != 0;
 		}
 	}
 }

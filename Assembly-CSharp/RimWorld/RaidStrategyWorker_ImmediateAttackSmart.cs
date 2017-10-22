@@ -12,15 +12,7 @@ namespace RimWorld
 
 		public override bool CanUseWith(IncidentParms parms)
 		{
-			if (!base.CanUseWith(parms))
-			{
-				return false;
-			}
-			if (!parms.faction.def.canUseAvoidGrid)
-			{
-				return false;
-			}
-			return true;
+			return (byte)(base.CanUseWith(parms) ? (parms.faction.def.canUseAvoidGrid ? 1 : 0) : 0) != 0;
 		}
 	}
 }

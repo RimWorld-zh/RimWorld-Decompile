@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -12,27 +11,35 @@ namespace RimWorld
 
 		public static int Compare(ThingDef lhsTh, ThingDef rhsTh)
 		{
+			int result;
 			if (lhsTh.category != rhsTh.category)
 			{
-				return ((Enum)(object)lhsTh.category).CompareTo((object)rhsTh.category);
+				result = lhsTh.category.CompareTo(rhsTh.category);
 			}
-			float num = TransferableUIUtility.DefaultListOrderPriority(lhsTh);
-			float num2 = TransferableUIUtility.DefaultListOrderPriority(rhsTh);
-			if (num != num2)
+			else
 			{
-				return num.CompareTo(num2);
+				float num = TransferableUIUtility.DefaultListOrderPriority(lhsTh);
+				float num2 = TransferableUIUtility.DefaultListOrderPriority(rhsTh);
+				if (num != num2)
+				{
+					result = num.CompareTo(num2);
+				}
+				else
+				{
+					int num3 = 0;
+					if (!lhsTh.thingCategories.NullOrEmpty())
+					{
+						num3 = lhsTh.thingCategories[0].index;
+					}
+					int value = 0;
+					if (!rhsTh.thingCategories.NullOrEmpty())
+					{
+						value = rhsTh.thingCategories[0].index;
+					}
+					result = num3.CompareTo(value);
+				}
 			}
-			int num3 = 0;
-			if (!lhsTh.thingCategories.NullOrEmpty())
-			{
-				num3 = lhsTh.thingCategories[0].index;
-			}
-			int value = 0;
-			if (!rhsTh.thingCategories.NullOrEmpty())
-			{
-				value = rhsTh.thingCategories[0].index;
-			}
-			return num3.CompareTo(value);
+			return result;
 		}
 	}
 }

@@ -12,11 +12,7 @@ namespace Verse
 
 		public EffecterDef CurrentStateEffecter()
 		{
-			if (base.parent.CurStageIndex >= this.Props.severityIndices.min && (this.Props.severityIndices.max < 0 || base.parent.CurStageIndex <= this.Props.severityIndices.max))
-			{
-				return this.Props.stateEffecter;
-			}
-			return null;
+			return (base.parent.CurStageIndex < this.Props.severityIndices.min || (this.Props.severityIndices.max >= 0 && base.parent.CurStageIndex > this.Props.severityIndices.max)) ? null : this.Props.stateEffecter;
 		}
 	}
 }

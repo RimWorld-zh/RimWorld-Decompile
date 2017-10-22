@@ -8,14 +8,6 @@ namespace Verse
 {
 	public abstract class Letter : IExposable
 	{
-		public const float DrawWidth = 38f;
-
-		public const float DrawHeight = 30f;
-
-		private const float FallTime = 1f;
-
-		private const float FallDistance = 200f;
-
 		public LetterDef def;
 
 		public string label;
@@ -26,19 +18,19 @@ namespace Verse
 
 		public string debugInfo;
 
+		public const float DrawWidth = 38f;
+
+		public const float DrawHeight = 30f;
+
+		private const float FallTime = 1f;
+
+		private const float FallDistance = 200f;
+
 		public virtual bool StillValid
 		{
 			get
 			{
-				if (this.lookTarget.Thing != null && this.lookTarget.Thing.Destroyed)
-				{
-					return false;
-				}
-				if (this.lookTarget.WorldObject != null && !this.lookTarget.WorldObject.Spawned)
-				{
-					return false;
-				}
-				return true;
+				return (byte)((this.lookTarget.Thing == null || !this.lookTarget.Thing.Destroyed) ? ((this.lookTarget.WorldObject == null || this.lookTarget.WorldObject.Spawned) ? 1 : 0) : 0) != 0;
 			}
 		}
 

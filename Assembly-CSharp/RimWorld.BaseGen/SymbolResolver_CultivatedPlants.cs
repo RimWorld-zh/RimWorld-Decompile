@@ -46,7 +46,12 @@ namespace RimWorld.BaseGen
 		public static ThingDef DeterminePlantDef(CellRect rect)
 		{
 			Map map = BaseGen.globalSettings.map;
-			if (!(map.mapTemperature.OutdoorTemp < 0.0) && !(map.mapTemperature.OutdoorTemp > 58.0))
+			ThingDef result;
+			if (map.mapTemperature.OutdoorTemp < 0.0 || map.mapTemperature.OutdoorTemp > 58.0)
+			{
+				result = null;
+			}
+			else
 			{
 				float minFertility = 3.40282347E+38f;
 				bool flag = false;
@@ -61,20 +66,12 @@ namespace RimWorld.BaseGen
 					}
 					iterator.MoveNext();
 				}
-				if (!flag)
-				{
-					return null;
-				}
-				ThingDef result = default(ThingDef);
-				if ((from x in DefDatabase<ThingDef>.AllDefsListForReading
-				where x.category == ThingCategory.Plant && x.plant.Sowable && !x.plant.IsTree && x.plant.fertilityMin <= minFertility && x.plant.Harvestable
-				select x).TryRandomElement<ThingDef>(out result))
-				{
-					return result;
-				}
-				return null;
+				ThingDef thingDef = default(ThingDef);
+				result = (flag ? ((!(from x in DefDatabase<ThingDef>.AllDefsListForReading
+				where x.category == ThingCategory.Plant && x.plant.Sowable && !x.plant.IsTree && !x.plant.cavePlant && x.plant.fertilityMin <= minFertility && x.plant.Harvestable
+				select x).TryRandomElement<ThingDef>(out thingDef)) ? null : thingDef) : null);
 			}
-			return null;
+			return result;
 		}
 
 		private bool TryDestroyBlockingThingsAt(IntVec3 c)
@@ -82,23 +79,33 @@ namespace RimWorld.BaseGen
 			Map map = BaseGen.globalSettings.map;
 			SymbolResolver_CultivatedPlants.tmpThings.Clear();
 			SymbolResolver_CultivatedPlants.tmpThings.AddRange(c.GetThingList(map));
-			for (int i = 0; i < SymbolResolver_CultivatedPlants.tmpThings.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (!(SymbolResolver_CultivatedPlants.tmpThings[i] is Pawn) && !SymbolResolver_CultivatedPlants.tmpThings[i].def.destroyable)
+				if (num < SymbolResolver_CultivatedPlants.tmpThings.Count)
 				{
-					SymbolResolver_CultivatedPlants.tmpThings.Clear();
-					return false;
+					if (!(SymbolResolver_CultivatedPlants.tmpThings[num] is Pawn) && !SymbolResolver_CultivatedPlants.tmpThings[num].def.destroyable)
+					{
+						SymbolResolver_CultivatedPlants.tmpThings.Clear();
+						result = false;
+						break;
+					}
+					num++;
+					continue;
 				}
-			}
-			for (int j = 0; j < SymbolResolver_CultivatedPlants.tmpThings.Count; j++)
-			{
-				if (!(SymbolResolver_CultivatedPlants.tmpThings[j] is Pawn))
+				for (int i = 0; i < SymbolResolver_CultivatedPlants.tmpThings.Count; i++)
 				{
-					SymbolResolver_CultivatedPlants.tmpThings[j].Destroy(DestroyMode.Vanish);
+					if (!(SymbolResolver_CultivatedPlants.tmpThings[i] is Pawn))
+					{
+						SymbolResolver_CultivatedPlants.tmpThings[i].Destroy(DestroyMode.Vanish);
+					}
 				}
+				SymbolResolver_CultivatedPlants.tmpThings.Clear();
+				result = true;
+				break;
 			}
-			SymbolResolver_CultivatedPlants.tmpThings.Clear();
-			return true;
+			return result;
 		}
 	}
 }

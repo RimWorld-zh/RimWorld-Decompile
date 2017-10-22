@@ -20,6 +20,8 @@ namespace Verse
 
 		public static readonly Shader TransparentPostLight = ShaderDatabase.LoadShader("Map/TransparentPostLight");
 
+		public static readonly Shader TransparentPlant = ShaderDatabase.LoadShader("Map/TransparentPlant");
+
 		public static readonly Shader Mote = ShaderDatabase.LoadShader("Map/Mote");
 
 		public static readonly Shader MoteGlow = ShaderDatabase.LoadShader("Map/MoteGlow");
@@ -64,58 +66,77 @@ namespace Verse
 
 		public static Shader ShaderFromType(ShaderType sType)
 		{
+			Shader result;
 			switch (sType)
 			{
 			case ShaderType.Cutout:
 			{
-				return ShaderDatabase.Cutout;
+				result = ShaderDatabase.Cutout;
+				break;
 			}
 			case ShaderType.CutoutPlant:
 			{
-				return ShaderDatabase.CutoutPlant;
+				result = ShaderDatabase.CutoutPlant;
+				break;
 			}
 			case ShaderType.CutoutComplex:
 			{
-				return ShaderDatabase.CutoutComplex;
+				result = ShaderDatabase.CutoutComplex;
+				break;
 			}
 			case ShaderType.CutoutSkin:
 			{
-				return ShaderDatabase.CutoutSkin;
+				result = ShaderDatabase.CutoutSkin;
+				break;
 			}
 			case ShaderType.CutoutFlying:
 			{
-				return ShaderDatabase.CutoutFlying;
+				result = ShaderDatabase.CutoutFlying;
+				break;
 			}
 			case ShaderType.Transparent:
 			{
-				return ShaderDatabase.Transparent;
+				result = ShaderDatabase.Transparent;
+				break;
 			}
 			case ShaderType.MetaOverlay:
 			{
-				return ShaderDatabase.MetaOverlay;
+				result = ShaderDatabase.MetaOverlay;
+				break;
 			}
 			case ShaderType.Mote:
 			{
-				return ShaderDatabase.Mote;
+				result = ShaderDatabase.Mote;
+				break;
 			}
 			case ShaderType.MoteGlow:
 			{
-				return ShaderDatabase.MoteGlow;
+				result = ShaderDatabase.MoteGlow;
+				break;
 			}
 			case ShaderType.TransparentPostLight:
 			{
-				return ShaderDatabase.TransparentPostLight;
+				result = ShaderDatabase.TransparentPostLight;
+				break;
+			}
+			case ShaderType.TransparentPlant:
+			{
+				result = ShaderDatabase.TransparentPlant;
+				break;
 			}
 			case ShaderType.MoteWater:
 			{
-				return ShaderDatabase.MoteWater;
+				result = ShaderDatabase.MoteWater;
+				break;
 			}
 			default:
 			{
 				Log.ErrorOnce("Unknown ShaderType " + sType, 2766893);
-				return ShaderDatabase.DefaultShader;
+				result = ShaderDatabase.DefaultShader;
+				break;
 			}
 			}
+			return result;
 		}
 
 		public static Shader LoadShader(string shaderPath)
@@ -129,12 +150,17 @@ namespace Verse
 				ShaderDatabase.lookup[shaderPath] = (Shader)Resources.Load("Materials/" + shaderPath, typeof(Shader));
 			}
 			Shader shader = ShaderDatabase.lookup[shaderPath];
+			Shader result;
 			if ((Object)shader == (Object)null)
 			{
 				Log.Warning("Could not load shader " + shaderPath);
-				return ShaderDatabase.DefaultShader;
+				result = ShaderDatabase.DefaultShader;
 			}
-			return shader;
+			else
+			{
+				result = shader;
+			}
+			return result;
 		}
 	}
 }

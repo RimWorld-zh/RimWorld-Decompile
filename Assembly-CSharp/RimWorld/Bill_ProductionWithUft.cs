@@ -11,11 +11,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.BoundWorker == null)
-				{
-					return (string.Empty + base.StatusString).Trim();
-				}
-				return ("BoundWorkerIs".Translate(this.BoundWorker.NameStringShort) + base.StatusString).Trim();
+				return (this.BoundWorker != null) ? ("BoundWorkerIs".Translate(this.BoundWorker.NameStringShort) + base.StatusString).Trim() : ("" + base.StatusString).Trim();
 			}
 		}
 
@@ -23,39 +19,50 @@ namespace RimWorld
 		{
 			get
 			{
+				Pawn result;
 				if (this.boundUftInt == null)
 				{
-					return null;
+					result = null;
 				}
-				Pawn creator = this.boundUftInt.Creator;
-				if (creator != null && !creator.Downed && creator.HostFaction == null && !creator.Destroyed && creator.Spawned)
+				else
 				{
-					Thing thing = base.billStack.billGiver as Thing;
-					if (thing != null)
+					Pawn creator = this.boundUftInt.Creator;
+					if (creator == null || creator.Downed || creator.HostFaction != null || creator.Destroyed || !creator.Spawned)
 					{
-						WorkTypeDef workTypeDef = null;
-						List<WorkGiverDef> allDefsListForReading = DefDatabase<WorkGiverDef>.AllDefsListForReading;
-						int num = 0;
-						while (num < allDefsListForReading.Count)
-						{
-							if (allDefsListForReading[num].fixedBillGiverDefs == null || !allDefsListForReading[num].fixedBillGiverDefs.Contains(thing.def))
-							{
-								num++;
-								continue;
-							}
-							workTypeDef = allDefsListForReading[num].workType;
-							break;
-						}
-						if (workTypeDef != null && !creator.workSettings.WorkIsActive(workTypeDef))
-						{
-							this.boundUftInt = null;
-							return null;
-						}
+						this.boundUftInt = null;
+						result = null;
 					}
-					return creator;
+					else
+					{
+						Thing thing = base.billStack.billGiver as Thing;
+						if (thing != null)
+						{
+							WorkTypeDef workTypeDef = null;
+							List<WorkGiverDef> allDefsListForReading = DefDatabase<WorkGiverDef>.AllDefsListForReading;
+							int num = 0;
+							while (num < allDefsListForReading.Count)
+							{
+								if (allDefsListForReading[num].fixedBillGiverDefs == null || !allDefsListForReading[num].fixedBillGiverDefs.Contains(thing.def))
+								{
+									num++;
+									continue;
+								}
+								workTypeDef = allDefsListForReading[num].workType;
+								break;
+							}
+							if (workTypeDef != null && !creator.workSettings.WorkIsActive(workTypeDef))
+							{
+								this.boundUftInt = null;
+								result = null;
+								goto IL_0113;
+							}
+						}
+						result = creator;
+					}
 				}
-				this.boundUftInt = null;
-				return null;
+				goto IL_0113;
+				IL_0113:
+				return result;
 			}
 		}
 

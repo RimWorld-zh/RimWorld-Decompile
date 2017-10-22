@@ -1,3 +1,6 @@
+#define DEBUG
+using System.Diagnostics;
+
 namespace Verse.Noise
 {
 	public class Multiply : ModuleBase
@@ -14,6 +17,8 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
+			Debug.Assert(base.modules[0] != null);
+			Debug.Assert(base.modules[1] != null);
 			return base.modules[0].GetValue(x, y, z) * base.modules[1].GetValue(x, y, z);
 		}
 	}

@@ -5,7 +5,7 @@ namespace Verse
 {
 	public class CompAttachBase : ThingComp
 	{
-		public List<AttachableThing> attachments;
+		public List<AttachableThing> attachments = null;
 
 		public override void CompTick()
 		{
@@ -32,6 +32,7 @@ namespace Verse
 
 		public override string CompInspectStringExtra()
 		{
+			string result;
 			if (this.attachments != null)
 			{
 				StringBuilder stringBuilder = new StringBuilder();
@@ -39,24 +40,33 @@ namespace Verse
 				{
 					stringBuilder.AppendLine(this.attachments[i].InspectStringAddon);
 				}
-				return stringBuilder.ToString().TrimEndNewlines();
+				result = stringBuilder.ToString().TrimEndNewlines();
 			}
-			return (string)null;
+			else
+			{
+				result = (string)null;
+			}
+			return result;
 		}
 
 		public Thing GetAttachment(ThingDef def)
 		{
+			int i;
 			if (this.attachments != null)
 			{
-				for (int i = 0; i < this.attachments.Count; i++)
+				for (i = 0; i < this.attachments.Count; i++)
 				{
 					if (this.attachments[i].def == def)
-					{
-						return this.attachments[i];
-					}
+						goto IL_002c;
 				}
 			}
-			return null;
+			Thing result = null;
+			goto IL_005c;
+			IL_002c:
+			result = this.attachments[i];
+			goto IL_005c;
+			IL_005c:
+			return result;
 		}
 
 		public bool HasAttachment(ThingDef def)

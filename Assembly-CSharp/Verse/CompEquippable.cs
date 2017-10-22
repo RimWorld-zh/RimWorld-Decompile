@@ -5,7 +5,7 @@ namespace Verse
 {
 	public class CompEquippable : ThingComp, IVerbOwner
 	{
-		public VerbTracker verbTracker;
+		public VerbTracker verbTracker = null;
 
 		private Pawn Holder
 		{
@@ -35,7 +35,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.VerbTracker;
+				return this.verbTracker;
 			}
 		}
 
@@ -44,6 +44,14 @@ namespace Verse
 			get
 			{
 				return base.parent.def.Verbs;
+			}
+		}
+
+		public List<Tool> Tools
+		{
+			get
+			{
+				return base.parent.def.tools;
 			}
 		}
 
@@ -88,6 +96,11 @@ namespace Verse
 			{
 				allVerbs[i].Notify_EquipmentLost();
 			}
+		}
+
+		public string UniqueVerbOwnerID()
+		{
+			return base.parent.ThingID;
 		}
 	}
 }

@@ -4,13 +4,13 @@ using Verse;
 
 namespace RimWorld
 {
-	public class Building_Storage : Building, IStoreSettingsParent, ISlotGroupParent
+	public class Building_Storage : Building, ISlotGroupParent, IStoreSettingsParent
 	{
-		public SlotGroup slotGroup;
-
 		public StorageSettings settings;
 
-		private List<IntVec3> cachedOccupiedCells;
+		public SlotGroup slotGroup;
+
+		private List<IntVec3> cachedOccupiedCells = null;
 
 		public bool StorageTabVisible
 		{
@@ -47,10 +47,18 @@ namespace RimWorld
 
 		public virtual IEnumerable<IntVec3> AllSlotCells()
 		{
-			foreach (IntVec3 item in GenAdj.CellsOccupiedBy(this))
+			using (IEnumerator<IntVec3> enumerator = GenAdj.CellsOccupiedBy(this).GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					IntVec3 c = enumerator.Current;
+					yield return c;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_00bd:
+			/*Error near IL_00be: Unexpected return in MoveNext()*/;
 		}
 
 		public List<IntVec3> AllSlotCellsList()
@@ -114,25 +122,27 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return gizmo;
+				if (enumerator.MoveNext())
+				{
+					Gizmo g2 = enumerator.Current;
+					yield return g2;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			foreach (Gizmo item in StorageSettingsClipboard.CopyPasteGizmosFor(this.settings))
+			using (IEnumerator<Gizmo> enumerator2 = StorageSettingsClipboard.CopyPasteGizmosFor(this.settings).GetEnumerator())
 			{
-				yield return item;
+				if (enumerator2.MoveNext())
+				{
+					Gizmo g = enumerator2.Current;
+					yield return g;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-		}
-
-		virtual Map get_Map()
-		{
-			return base.Map;
-		}
-
-		Map ISlotGroupParent.get_Map()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_Map
-			return this.get_Map();
+			yield break;
+			IL_0156:
+			/*Error near IL_0157: Unexpected return in MoveNext()*/;
 		}
 	}
 }

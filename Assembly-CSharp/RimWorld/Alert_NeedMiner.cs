@@ -17,33 +17,43 @@ namespace RimWorld
 		public override AlertReport GetReport()
 		{
 			List<Map> maps = Find.Maps;
-			for (int i = 0; i < maps.Count; i++)
+			int num = 0;
+			AlertReport result;
+			while (true)
 			{
-				Map map = maps[i];
-				if (map.IsPlayerHome)
+				if (num < maps.Count)
 				{
-					Designation designation = (from d in map.designationManager.allDesignations
-					where d.def == DesignationDefOf.Mine
-					select d).FirstOrDefault();
-					if (designation != null)
+					Map map = maps[num];
+					if (map.IsPlayerHome)
 					{
-						bool flag = false;
-						foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
+						Designation designation = (from d in map.designationManager.allDesignations
+						where d.def == DesignationDefOf.Mine
+						select d).FirstOrDefault();
+						if (designation != null)
 						{
-							if (!item.Downed && item.workSettings != null && item.workSettings.GetPriority(WorkTypeDefOf.Mining) > 0)
+							bool flag = false;
+							foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
 							{
-								flag = true;
+								if (!item.Downed && item.workSettings != null && item.workSettings.GetPriority(WorkTypeDefOf.Mining) > 0)
+								{
+									flag = true;
+									break;
+								}
+							}
+							if (!flag)
+							{
+								result = AlertReport.CulpritIs(designation.target.Thing);
 								break;
 							}
 						}
-						if (!flag)
-						{
-							return AlertReport.CulpritIs(designation.target.Thing);
-						}
 					}
+					num++;
+					continue;
 				}
+				result = AlertReport.Inactive;
+				break;
 			}
-			return AlertReport.Inactive;
+			return result;
 		}
 	}
 }

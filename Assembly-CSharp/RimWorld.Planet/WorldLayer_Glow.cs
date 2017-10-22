@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,9 +14,24 @@ namespace RimWorld.Planet
 
 		public override IEnumerable Regenerate()
 		{
-			foreach (object item in base.Regenerate())
+			IEnumerator enumerator = this._003CRegenerate_003E__BaseCallProxy0().GetEnumerator();
+			try
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					object result = enumerator.Current;
+					yield return result;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+			}
+			finally
+			{
+				IDisposable disposable;
+				IDisposable disposable2 = disposable = (enumerator as IDisposable);
+				if (disposable != null)
+				{
+					disposable2.Dispose();
+				}
 			}
 			List<Vector3> tmpVerts;
 			List<int> tmpIndices;
@@ -23,7 +39,10 @@ namespace RimWorld.Planet
 			LayerSubMesh subMesh = base.GetSubMesh(WorldMaterials.PlanetGlow);
 			subMesh.verts.AddRange(tmpVerts);
 			subMesh.tris.AddRange(tmpIndices);
-			base.FinalizeMesh(MeshParts.All, true);
+			base.FinalizeMesh(MeshParts.All);
+			yield break;
+			IL_013b:
+			/*Error near IL_013c: Unexpected return in MoveNext()*/;
 		}
 	}
 }

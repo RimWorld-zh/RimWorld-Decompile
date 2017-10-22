@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -7,25 +6,29 @@ namespace RimWorld
 {
 	public class JobDriver_UseItem : JobDriver
 	{
+		private int useDuration = -1;
+
+		public override void ExposeData()
+		{
+			base.ExposeData();
+			Scribe_Values.Look<int>(ref this.useDuration, "useDuration", 0, false);
+		}
+
+		public override void Notify_Starting()
+		{
+			base.Notify_Starting();
+			this.useDuration = base.job.GetTarget(TargetIndex.A).Thing.TryGetComp<CompUsable>().Props.useDuration;
+		}
+
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve(base.job.targetA, base.job, 1, -1, null);
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-			Toil prepare = Toils_General.Wait(100);
-			prepare.WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
-			prepare.FailOnDespawnedNullOrForbidden(TargetIndex.A);
-			prepare.FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
-			yield return prepare;
-			yield return new Toil
-			{
-				initAction = (Action)delegate
-				{
-					Pawn actor = ((_003CMakeNewToils_003Ec__Iterator43)/*Error near IL_00c5: stateMachine*/)._003Cuse_003E__1.actor;
-					CompUsable compUsable = actor.CurJob.targetA.Thing.TryGetComp<CompUsable>();
-					compUsable.UsedBy(actor);
-				},
-				defaultCompleteMode = ToilCompleteMode.Instant
-			};
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

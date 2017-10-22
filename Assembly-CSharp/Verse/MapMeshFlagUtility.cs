@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Verse
@@ -10,11 +11,24 @@ namespace Verse
 		static MapMeshFlagUtility()
 		{
 			MapMeshFlagUtility.allFlags = new List<MapMeshFlag>();
-			foreach (int value in Enum.GetValues(typeof(MapMeshFlag)))
+			IEnumerator enumerator = Enum.GetValues(typeof(MapMeshFlag)).GetEnumerator();
+			try
 			{
-				if (value != 0)
+				while (enumerator.MoveNext())
 				{
-					MapMeshFlagUtility.allFlags.Add((MapMeshFlag)value);
+					MapMeshFlag mapMeshFlag = (MapMeshFlag)enumerator.Current;
+					if (mapMeshFlag != 0)
+					{
+						MapMeshFlagUtility.allFlags.Add(mapMeshFlag);
+					}
+				}
+			}
+			finally
+			{
+				IDisposable disposable;
+				if ((disposable = (enumerator as IDisposable)) != null)
+				{
+					disposable.Dispose();
 				}
 			}
 		}

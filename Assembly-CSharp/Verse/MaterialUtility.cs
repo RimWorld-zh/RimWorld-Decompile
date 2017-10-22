@@ -6,20 +6,12 @@ namespace Verse
 	{
 		public static Texture2D GetMaskTexture(this Material mat)
 		{
-			if (!mat.HasProperty(ShaderPropertyIDs.MaskTex))
-			{
-				return null;
-			}
-			return (Texture2D)mat.GetTexture(ShaderPropertyIDs.MaskTex);
+			return mat.HasProperty(ShaderPropertyIDs.MaskTex) ? ((Texture2D)mat.GetTexture(ShaderPropertyIDs.MaskTex)) : null;
 		}
 
 		public static Color GetColorTwo(this Material mat)
 		{
-			if (!mat.HasProperty(ShaderPropertyIDs.ColorTwo))
-			{
-				return Color.white;
-			}
-			return mat.GetColor(ShaderPropertyIDs.ColorTwo);
+			return mat.HasProperty(ShaderPropertyIDs.ColorTwo) ? mat.GetColor(ShaderPropertyIDs.ColorTwo) : Color.white;
 		}
 	}
 }

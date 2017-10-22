@@ -7,31 +7,39 @@ using Verse;
 
 namespace RimWorld
 {
-	public class Building_Grave : Building_Casket, IAssignableBuilding, IStoreSettingsParent
+	public class Building_Grave : Building_Casket, IStoreSettingsParent, IAssignableBuilding
 	{
-		private StorageSettings storageSettings;
+		private StorageSettings storageSettings = null;
 
-		private Graphic cachedGraphicFull;
+		private Graphic cachedGraphicFull = null;
 
-		public Pawn assignedPawn;
+		public Pawn assignedPawn = null;
 
 		public override Graphic Graphic
 		{
 			get
 			{
+				Graphic graphic;
 				if (this.HasCorpse)
 				{
 					if (base.def.building.fullGraveGraphicData == null)
 					{
-						return base.Graphic;
+						graphic = base.Graphic;
 					}
-					if (this.cachedGraphicFull == null)
+					else
 					{
-						this.cachedGraphicFull = base.def.building.fullGraveGraphicData.GraphicColoredFor(this);
+						if (this.cachedGraphicFull == null)
+						{
+							this.cachedGraphicFull = base.def.building.fullGraveGraphicData.GraphicColoredFor(this);
+						}
+						graphic = this.cachedGraphicFull;
 					}
-					return this.cachedGraphicFull;
 				}
-				return base.Graphic;
+				else
+				{
+					graphic = base.Graphic;
+				}
+				return graphic;
 			}
 		}
 
@@ -47,15 +55,25 @@ namespace RimWorld
 		{
 			get
 			{
-				for (int i = 0; i < base.innerContainer.Count; i++)
+				int num = 0;
+				Corpse result;
+				while (true)
 				{
-					Corpse corpse = base.innerContainer[i] as Corpse;
-					if (corpse != null)
+					if (num < base.innerContainer.Count)
 					{
-						return corpse;
+						Corpse corpse = base.innerContainer[num] as Corpse;
+						if (corpse != null)
+						{
+							result = corpse;
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = null;
+					break;
 				}
-				return null;
+				return result;
 			}
 		}
 
@@ -63,14 +81,19 @@ namespace RimWorld
 		{
 			get
 			{
+				IEnumerable<Pawn> result;
 				if (!base.Spawned)
 				{
-					return Enumerable.Empty<Pawn>();
+					result = Enumerable.Empty<Pawn>();
 				}
-				IEnumerable<Pawn> second = from Corpse x in base.Map.listerThings.ThingsInGroup(ThingRequestGroup.Corpse)
-				where x.InnerPawn.IsColonist
-				select x.InnerPawn;
-				return base.Map.mapPawns.FreeColonistsSpawned.Concat(second);
+				else
+				{
+					IEnumerable<Pawn> second = from Corpse x in base.Map.listerThings.ThingsInGroup(ThingRequestGroup.Corpse)
+					where x.InnerPawn.IsColonist
+					select x.InnerPawn;
+					result = base.Map.mapPawns.FreeColonistsSpawned.Concat(second);
+				}
+				return result;
 			}
 		}
 
@@ -78,10 +101,10 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.assignedPawn != null)
-				{
-					yield return this.assignedPawn;
-				}
+				if (this.assignedPawn == null)
+					yield break;
+				yield return this.assignedPawn;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -165,35 +188,46 @@ namespace RimWorld
 
 		public override bool Accepts(Thing thing)
 		{
+			bool result;
 			if (!base.Accepts(thing))
 			{
-				return false;
+				result = false;
 			}
-			if (this.HasCorpse)
+			else if (this.HasCorpse)
 			{
-				return false;
+				result = false;
 			}
-			if (this.assignedPawn != null)
+			else
 			{
-				Corpse corpse = thing as Corpse;
-				if (corpse == null)
+				if (this.assignedPawn != null)
 				{
-					return false;
+					Corpse corpse = thing as Corpse;
+					if (corpse == null)
+					{
+						result = false;
+						goto IL_0085;
+					}
+					if (corpse.InnerPawn != this.assignedPawn)
+					{
+						result = false;
+						goto IL_0085;
+					}
 				}
-				if (corpse.InnerPawn != this.assignedPawn)
+				else if (!this.storageSettings.AllowedToAccept(thing))
 				{
-					return false;
+					result = false;
+					goto IL_0085;
 				}
+				result = true;
 			}
-			else if (!this.storageSettings.AllowedToAccept(thing))
-			{
-				return false;
-			}
-			return true;
+			goto IL_0085;
+			IL_0085:
+			return result;
 		}
 
 		public override bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
 		{
+			bool result;
 			if (base.TryAcceptThing(thing, allowSpecialEffects))
 			{
 				Corpse corpse = thing as Corpse;
@@ -205,38 +239,54 @@ namespace RimWorld
 				{
 					base.Map.mapDrawer.MapMeshDirty(base.Position, MapMeshFlag.Things);
 				}
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return gizmo;
+				if (enumerator.MoveNext())
+				{
+					Gizmo g2 = enumerator.Current;
+					yield return g2;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			if (this.StorageTabVisible)
 			{
-				foreach (Gizmo item in StorageSettingsClipboard.CopyPasteGizmosFor(this.storageSettings))
+				using (IEnumerator<Gizmo> enumerator2 = StorageSettingsClipboard.CopyPasteGizmosFor(this.storageSettings).GetEnumerator())
 				{
-					yield return item;
+					if (enumerator2.MoveNext())
+					{
+						Gizmo g = enumerator2.Current;
+						yield return g;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
-			if (!this.HasCorpse)
+			if (this.HasCorpse)
+				yield break;
+			yield return (Gizmo)new Command_Action
 			{
-				yield return (Gizmo)new Command_Action
+				defaultLabel = "CommandGraveAssignColonistLabel".Translate(),
+				icon = ContentFinder<Texture2D>.Get("UI/Commands/AssignOwner", true),
+				defaultDesc = "CommandGraveAssignColonistDesc".Translate(),
+				action = (Action)delegate
 				{
-					defaultLabel = "CommandGraveAssignColonistLabel".Translate(),
-					icon = ContentFinder<Texture2D>.Get("UI/Commands/AssignOwner", true),
-					defaultDesc = "CommandGraveAssignColonistDesc".Translate(),
-					action = (Action)delegate
-					{
-						Find.WindowStack.Add(new Dialog_AssignBuildingOwner(((_003CGetGizmos_003Ec__Iterator159)/*Error near IL_01a7: stateMachine*/)._003C_003Ef__this));
-					},
-					hotKey = KeyBindingDefOf.Misc3
-				};
-			}
+					Find.WindowStack.Add(new Dialog_AssignBuildingOwner(((_003CGetGizmos_003Ec__Iterator1)/*Error near IL_01c5: stateMachine*/)._0024this));
+				},
+				hotKey = KeyBindingDefOf.Misc3
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0210:
+			/*Error near IL_0211: Unexpected return in MoveNext()*/;
 		}
 
 		public override string GetInspectString()

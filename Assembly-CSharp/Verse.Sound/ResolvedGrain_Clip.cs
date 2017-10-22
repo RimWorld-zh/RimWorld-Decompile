@@ -19,25 +19,22 @@ namespace Verse.Sound
 
 		public override bool Equals(object obj)
 		{
+			bool result;
 			if (obj == null)
 			{
-				return false;
+				result = false;
 			}
-			ResolvedGrain_Clip resolvedGrain_Clip = obj as ResolvedGrain_Clip;
-			if (resolvedGrain_Clip == null)
+			else
 			{
-				return false;
+				ResolvedGrain_Clip resolvedGrain_Clip = obj as ResolvedGrain_Clip;
+				result = (resolvedGrain_Clip != null && (Object)resolvedGrain_Clip.clip == (Object)this.clip);
 			}
-			return (Object)resolvedGrain_Clip.clip == (Object)this.clip;
+			return result;
 		}
 
 		public override int GetHashCode()
 		{
-			if ((Object)this.clip == (Object)null)
-			{
-				return 0;
-			}
-			return this.clip.GetHashCode();
+			return (!((Object)this.clip == (Object)null)) ? this.clip.GetHashCode() : 0;
 		}
 	}
 }

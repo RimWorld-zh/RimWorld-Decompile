@@ -2,6 +2,6 @@ namespace Verse
 {
 	public class StuffAppearanceDef : Def
 	{
-		public string pathPrefix;
+		public string pathPrefix = (string)null;
 	}
 }

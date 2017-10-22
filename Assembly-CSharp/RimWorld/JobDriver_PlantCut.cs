@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Verse.AI;
 
 namespace RimWorld
@@ -17,13 +16,9 @@ namespace RimWorld
 			}
 		}
 
-		protected override IEnumerable<Toil> MakeNewToils()
+		protected override Toil PlantWorkDoneToil()
 		{
-			foreach (Toil item in base.MakeNewToils())
-			{
-				yield return item;
-			}
-			yield return Toils_Interact.DestroyThing(TargetIndex.A);
+			return Toils_Interact.DestroyThing(TargetIndex.A);
 		}
 	}
 }

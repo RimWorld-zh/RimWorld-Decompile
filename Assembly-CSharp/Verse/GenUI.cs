@@ -1,6 +1,7 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Verse
@@ -26,6 +27,12 @@ namespace Verse
 
 		public const float HorizontalSliderHeight = 16f;
 
+		public static readonly Vector2 TradeableDrawSize = new Vector2(150f, 45f);
+
+		public static readonly Color MouseoverColor = new Color(0.3f, 0.7f, 0.9f);
+
+		public static readonly Vector2 MaxWinSize = new Vector2(1010f, 754f);
+
 		public const float SmallIconSize = 24f;
 
 		public const int RootGUIDepth = 50;
@@ -35,14 +42,6 @@ namespace Verse
 		private const float MouseIconSize = 32f;
 
 		private const float MouseIconOffset = 12f;
-
-		public const float PawnDirectClickRadius = 0.4f;
-
-		public static readonly Vector2 TradeableDrawSize = new Vector2(150f, 45f);
-
-		public static readonly Color MouseoverColor = new Color(0.3f, 0.7f, 0.9f);
-
-		public static readonly Vector2 MaxWinSize = new Vector2(1010f, 754f);
 
 		private static readonly Material MouseoverBracketMaterial = MaterialPool.MatFrom("UI/Overlays/MouseoverBracketTex", ShaderDatabase.MetaOverlay);
 
@@ -54,7 +53,18 @@ namespace Verse
 
 		private static readonly Vector2 PieceBarSize = new Vector2(100f, 17f);
 
+		public const float PawnDirectClickRadius = 0.4f;
+
 		private static List<Pawn> clickedPawns = new List<Pawn>();
+
+		[CompilerGenerated]
+		private static Comparison<Pawn> _003C_003Ef__mg_0024cache0;
+
+		[CompilerGenerated]
+		private static Comparison<Thing> _003C_003Ef__mg_0024cache1;
+
+		[CompilerGenerated]
+		private static Comparison<Pawn> _003C_003Ef__mg_0024cache2;
 
 		public static void SetLabelAlign(TextAnchor a)
 		{
@@ -68,13 +78,18 @@ namespace Verse
 
 		public static float BackgroundDarkAlphaForText()
 		{
+			float result;
 			if (Find.VisibleMap == null)
 			{
-				return 0f;
+				result = 0f;
 			}
-			float num = GenCelestial.CurCelestialSunGlow(Find.VisibleMap);
-			float num2 = (float)((Find.VisibleMap.Biome != BiomeDefOf.IceSheet) ? Mathf.Clamp01((float)(Find.VisibleMap.snowGrid.TotalDepth / 1000.0)) : 1.0);
-			return (float)(num * num2 * 0.40999999642372131);
+			else
+			{
+				float num = GenCelestial.CurCelestialSunGlow(Find.VisibleMap);
+				float num2 = (float)((Find.VisibleMap.Biome != BiomeDefOf.IceSheet) ? Mathf.Clamp01((float)(Find.VisibleMap.snowGrid.TotalDepth / 1000.0)) : 1.0);
+				result = (float)(num * num2 * 0.40999999642372131);
+			}
+			return result;
 		}
 
 		public static void DrawTextWinterShadow(Rect rect)
@@ -90,31 +105,39 @@ namespace Verse
 
 		public static float IconDrawScale(ThingDef tDef)
 		{
+			float result;
 			if (tDef.graphicData == null)
 			{
-				return 1f;
+				result = 1f;
 			}
-			if (tDef.iconDrawScale > 0.0)
+			else if (tDef.iconDrawScale > 0.0)
 			{
-				return tDef.iconDrawScale;
+				result = tDef.iconDrawScale;
 			}
-			float x = tDef.graphicData.drawSize.x;
-			IntVec2 size = tDef.Size;
-			if (x > (float)size.x)
+			else
 			{
-				float y = tDef.graphicData.drawSize.y;
-				IntVec2 size2 = tDef.Size;
-				if (y > (float)size2.z)
+				float x = tDef.graphicData.drawSize.x;
+				IntVec2 size = tDef.Size;
+				if (x > (float)size.x)
 				{
-					float num = tDef.graphicData.drawSize.x;
-					IntVec2 size3 = tDef.Size;
-					float a = num / (float)size3.x;
-					float num2 = tDef.graphicData.drawSize.y;
-					IntVec2 size4 = tDef.Size;
-					return Mathf.Min(a, num2 / (float)size4.z);
+					float y = tDef.graphicData.drawSize.y;
+					IntVec2 size2 = tDef.Size;
+					if (y > (float)size2.z)
+					{
+						float num = tDef.graphicData.drawSize.x;
+						IntVec2 size3 = tDef.Size;
+						float a = num / (float)size3.x;
+						float num2 = tDef.graphicData.drawSize.y;
+						IntVec2 size4 = tDef.Size;
+						result = Mathf.Min(a, num2 / (float)size4.z);
+						goto IL_00d5;
+					}
 				}
+				result = 1f;
 			}
-			return 1f;
+			goto IL_00d5;
+			IL_00d5:
+			return result;
 		}
 
 		public static void ErrorDialog(string message)
@@ -142,19 +165,29 @@ namespace Verse
 				GenUI.labelWidthCache.Clear();
 			}
 			float x = default(float);
+			float result;
 			if (GenUI.labelWidthCache.TryGetValue(s, out x))
 			{
-				return x;
+				result = x;
 			}
-			Vector2 vector = Text.CalcSize(s);
-			x = vector.x;
-			GenUI.labelWidthCache.Add(s, x);
-			return x;
+			else
+			{
+				Vector2 vector = Text.CalcSize(s);
+				x = vector.x;
+				GenUI.labelWidthCache.Add(s, x);
+				result = x;
+			}
+			return result;
 		}
 
 		public static Rect Rounded(this Rect r)
 		{
 			return new Rect((float)(int)r.x, (float)(int)r.y, (float)(int)r.width, (float)(int)r.height);
+		}
+
+		public static Vector2 Rounded(this Vector2 v)
+		{
+			return new Vector2((float)(int)v.x, (float)(int)v.y);
 		}
 
 		public static float DistFromRect(Rect r, Vector2 p)
@@ -176,20 +209,20 @@ namespace Verse
 			return Mathf.Sqrt(num * num + num2 * num2);
 		}
 
-		public static void DrawMouseAttachment(Texture2D iconTex, string text)
+		public static void DrawMouseAttachment(Texture2D iconTex, string text, float angle = 0f)
 		{
 			Vector2 mousePosition = Event.current.mousePosition;
 			float num = (float)(mousePosition.y + 12.0);
 			if ((UnityEngine.Object)iconTex != (UnityEngine.Object)null)
 			{
-				Rect position = new Rect((float)(mousePosition.x + 12.0), num, 32f, 32f);
-				GUI.DrawTexture(position, iconTex);
-				num += position.height;
+				Rect rect = new Rect((float)(mousePosition.x + 12.0), num, 32f, 32f);
+				Widgets.DrawTextureRotated(rect, iconTex, angle);
+				num += rect.height;
 			}
-			if (text != string.Empty)
+			if (text != "")
 			{
-				Rect rect = new Rect((float)(mousePosition.x + 12.0), num, 200f, 9999f);
-				Widgets.Label(rect, text);
+				Rect rect2 = new Rect((float)(mousePosition.x + 12.0), num, 200f, 9999f);
+				Widgets.Label(rect2, text);
 			}
 		}
 
@@ -232,18 +265,21 @@ namespace Verse
 		public static IEnumerable<LocalTargetInfo> TargetsAt(Vector3 clickPos, TargetingParameters clickParams, bool thingsOnly = false)
 		{
 			List<Thing> clickableList = GenUI.ThingsUnderMouse(clickPos, 0.8f, clickParams);
-			for (int i = 0; i < clickableList.Count; i++)
+			int i = 0;
+			if (i < clickableList.Count)
 			{
 				yield return clickableList[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (!thingsOnly)
-			{
-				IntVec3 cellTarg = UI.MouseCell();
-				if (cellTarg.InBounds(Find.VisibleMap) && clickParams.CanTarget(new TargetInfo(cellTarg, Find.VisibleMap, false)))
-				{
-					yield return cellTarg;
-				}
-			}
+			if (thingsOnly)
+				yield break;
+			IntVec3 cellTarg = UI.MouseCell();
+			if (!cellTarg.InBounds(Find.VisibleMap))
+				yield break;
+			if (!clickParams.CanTarget(new TargetInfo(cellTarg, Find.VisibleMap, false)))
+				yield break;
+			yield return cellTarg;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public static List<Thing> ThingsUnderMouse(Vector3 clickPos, float pawnWideClickRadius, TargetingParameters clickParams)
@@ -303,50 +339,27 @@ namespace Verse
 			Vector3 b2 = UI.MouseMapPosition();
 			float num = (a.DrawPos - b2).MagnitudeHorizontalSquared();
 			float num2 = (b.DrawPos - b2).MagnitudeHorizontalSquared();
-			if (num < num2)
-			{
-				return -1;
-			}
-			if (num == num2)
-			{
-				return 0;
-			}
-			return 1;
+			return (!(num < num2)) ? ((num != num2) ? 1 : 0) : (-1);
 		}
 
 		private static int CompareThingsByDrawAltitude(Thing A, Thing B)
 		{
-			if (A.def.Altitude < B.def.Altitude)
-			{
-				return 1;
-			}
-			if (A.def.Altitude == B.def.Altitude)
-			{
-				return 0;
-			}
-			return -1;
+			return (A.def.Altitude < B.def.Altitude) ? 1 : ((A.def.Altitude != B.def.Altitude) ? (-1) : 0);
 		}
 
 		public static int CurrentAdjustmentMultiplier()
 		{
-			if (KeyBindingDefOf.ModifierIncrement10x.IsDownEvent && KeyBindingDefOf.ModifierIncrement100x.IsDownEvent)
-			{
-				return 1000;
-			}
-			if (KeyBindingDefOf.ModifierIncrement100x.IsDownEvent)
-			{
-				return 100;
-			}
-			if (KeyBindingDefOf.ModifierIncrement10x.IsDownEvent)
-			{
-				return 10;
-			}
-			return 1;
+			return (!KeyBindingDefOf.ModifierIncrement10x.IsDownEvent || !KeyBindingDefOf.ModifierIncrement100x.IsDownEvent) ? ((!KeyBindingDefOf.ModifierIncrement100x.IsDownEvent) ? ((!KeyBindingDefOf.ModifierIncrement10x.IsDownEvent) ? 1 : 10) : 100) : 1000;
 		}
 
 		public static Rect GetInnerRect(this Rect rect)
 		{
 			return rect.ContractedBy(17f);
+		}
+
+		public static Rect ExpandedBy(this Rect rect, float margin)
+		{
+			return new Rect(rect.x - margin, rect.y - margin, (float)(rect.width + margin * 2.0), (float)(rect.height + margin * 2.0));
 		}
 
 		public static Rect ContractedBy(this Rect rect, float margin)

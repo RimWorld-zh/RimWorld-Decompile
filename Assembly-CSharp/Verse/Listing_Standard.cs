@@ -8,13 +8,13 @@ namespace Verse
 {
 	public class Listing_Standard : Listing
 	{
-		private const float DefSelectionLineHeight = 21f;
-
 		private GameFont font;
 
 		private List<Pair<Vector2, Vector2>> labelScrollbarPositions;
 
 		private List<Vector2> labelScrollbarPositionsSetThisFrame;
+
+		private const float DefSelectionLineHeight = 21f;
 
 		public Listing_Standard(GameFont font)
 		{
@@ -61,7 +61,7 @@ namespace Verse
 			if (flag)
 			{
 				Vector2 labelScrollbarPosition = this.GetLabelScrollbarPosition(base.curX, base.curY);
-				Widgets.LabelScrollable(rect, label, ref labelScrollbarPosition);
+				Widgets.LabelScrollable(rect, label, ref labelScrollbarPosition, false);
 				this.SetLabelScrollbarPosition(base.curX, base.curY, labelScrollbarPosition);
 			}
 			else
@@ -84,7 +84,7 @@ namespace Verse
 			base.Gap(base.verticalSpacing);
 		}
 
-		public bool RadioButton(string label, bool active, float tabIn = 0)
+		public bool RadioButton(string label, bool active, float tabIn = 0f)
 		{
 			float lineHeight = Text.LineHeight;
 			base.NewColumnIfNeeded(lineHeight);
@@ -163,14 +163,14 @@ namespace Verse
 			return result;
 		}
 
-		public void TextFieldNumeric<T>(ref T val, ref string buffer, float min = 0, float max = 1000000000) where T : struct
+		public void TextFieldNumeric<T>(ref T val, ref string buffer, float min = 0f, float max = 1E+09f) where T : struct
 		{
 			Rect rect = base.GetRect(Text.LineHeight);
 			Widgets.TextFieldNumeric<T>(rect, ref val, ref buffer, min, max);
 			base.Gap(base.verticalSpacing);
 		}
 
-		public void TextFieldNumericLabeled<T>(string label, ref int val, ref string buffer, float min = 0, float max = 1000000000)
+		public void TextFieldNumericLabeled<T>(string label, ref int val, ref string buffer, float min = 0f, float max = 1E+09f)
 		{
 			Rect rect = base.GetRect(Text.LineHeight);
 			Widgets.TextFieldNumericLabeled<int>(rect, label, ref val, ref buffer, min, max);
@@ -179,14 +179,14 @@ namespace Verse
 
 		public void IntRange(ref IntRange range, int min, int max)
 		{
-			Rect rect = base.GetRect(Text.LineHeight);
+			Rect rect = base.GetRect(28f);
 			Widgets.IntRange(rect, (int)base.CurHeight, ref range, min, max, (string)null, 0);
 			base.Gap(base.verticalSpacing);
 		}
 
 		public float Slider(float val, float min, float max)
 		{
-			Rect rect = base.GetRect(30f);
+			Rect rect = base.GetRect(22f);
 			float result = Widgets.HorizontalSlider(rect, val, min, max, false, (string)null, (string)null, (string)null, -1f);
 			base.Gap(base.verticalSpacing);
 			return result;
@@ -218,7 +218,7 @@ namespace Verse
 			base.Gap(base.verticalSpacing);
 		}
 
-		public void IntSetter(ref int val, int target, string label, float width = 42)
+		public void IntSetter(ref int val, int target, string label, float width = 42f)
 		{
 			Rect rect = base.GetRect(24f);
 			if (Widgets.ButtonText(rect, label, true, false, true))
@@ -231,19 +231,28 @@ namespace Verse
 
 		private Vector2 GetLabelScrollbarPosition(float x, float y)
 		{
+			Vector2 result;
+			int i;
 			if (this.labelScrollbarPositions == null)
 			{
-				return Vector2.zero;
+				result = Vector2.zero;
 			}
-			for (int i = 0; i < this.labelScrollbarPositions.Count; i++)
+			else
 			{
-				Vector2 first = this.labelScrollbarPositions[i].First;
-				if (first.x == x && first.y == y)
+				for (i = 0; i < this.labelScrollbarPositions.Count; i++)
 				{
-					return this.labelScrollbarPositions[i].Second;
+					Vector2 first = this.labelScrollbarPositions[i].First;
+					if (first.x == x && first.y == y)
+						goto IL_004e;
 				}
+				result = Vector2.zero;
 			}
-			return Vector2.zero;
+			goto IL_008a;
+			IL_008a:
+			return result;
+			IL_004e:
+			result = this.labelScrollbarPositions[i].Second;
+			goto IL_008a;
 		}
 
 		private void SetLabelScrollbarPosition(float x, float y, Vector2 scrollbarPosition)

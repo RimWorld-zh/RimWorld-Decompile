@@ -19,7 +19,7 @@ namespace RimWorld
 			base.PostSpawnSetup(respawningAfterLoad);
 			this.refuelableComp = base.parent.GetComp<CompRefuelable>();
 			this.breakdownableComp = base.parent.GetComp<CompBreakdownable>();
-			if (base.Props.basePowerConsumption < 0.0 && !base.parent.IsBrokenDown())
+			if (base.Props.basePowerConsumption < 0.0 && !base.parent.IsBrokenDown() && FlickUtility.WantsToBeOn(base.parent))
 			{
 				base.PowerOn = true;
 			}
@@ -35,21 +35,21 @@ namespace RimWorld
 		{
 			if (this.breakdownableComp != null && this.breakdownableComp.BrokenDown)
 			{
-				goto IL_005c;
+				goto IL_005d;
 			}
 			if (this.refuelableComp != null && !this.refuelableComp.HasFuel)
 			{
-				goto IL_005c;
+				goto IL_005d;
 			}
 			if (base.flickableComp != null && !base.flickableComp.SwitchIsOn)
 			{
-				goto IL_005c;
+				goto IL_005d;
 			}
 			if (!base.PowerOn)
-				goto IL_005c;
+				goto IL_005d;
 			base.PowerOutput = this.DesiredPowerOutput;
 			return;
-			IL_005c:
+			IL_005d:
 			base.PowerOutput = 0f;
 		}
 	}

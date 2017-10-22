@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -15,75 +14,88 @@ namespace RimWorld
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
-			List<StockGenerator>.Enumerator enumerator = this.stockGenerators.GetEnumerator();
-			try
+			foreach (StockGenerator stockGenerator in this.stockGenerators)
 			{
-				while (enumerator.MoveNext())
-				{
-					StockGenerator current = enumerator.Current;
-					current.ResolveReferences(this);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				stockGenerator.ResolveReferences(this);
 			}
 		}
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
-			}
-			List<StockGenerator>.Enumerator enumerator2 = this.stockGenerators.GetEnumerator();
-			try
-			{
-				while (enumerator2.MoveNext())
+				if (enumerator.MoveNext())
 				{
-					StockGenerator stock = enumerator2.Current;
-					foreach (string item2 in stock.ConfigErrors(this))
+					string err2 = enumerator.Current;
+					yield return err2;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+			}
+			foreach (StockGenerator stockGenerator in this.stockGenerators)
+			{
+				using (IEnumerator<string> enumerator3 = stockGenerator.ConfigErrors(this).GetEnumerator())
+				{
+					if (enumerator3.MoveNext())
 					{
-						yield return item2;
+						string err = enumerator3.Current;
+						yield return err;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
-			}
+			yield break;
+			IL_01c0:
+			/*Error near IL_01c1: Unexpected return in MoveNext()*/;
 		}
 
 		public bool WillTrade(ThingDef td)
 		{
-			for (int i = 0; i < this.stockGenerators.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (this.stockGenerators[i].HandlesThingDef(td))
+				if (num < this.stockGenerators.Count)
 				{
-					return true;
+					if (this.stockGenerators[num].HandlesThingDef(td))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public PriceType PriceTypeFor(ThingDef thingDef, TradeAction action)
 		{
+			PriceType result;
+			PriceType priceType = default(PriceType);
 			if (thingDef == ThingDefOf.Silver)
 			{
-				return PriceType.Undefined;
+				result = PriceType.Undefined;
 			}
-			if (action == TradeAction.PlayerBuys)
+			else
 			{
-				for (int i = 0; i < this.stockGenerators.Count; i++)
+				if (action == TradeAction.PlayerBuys)
 				{
-					PriceType result = default(PriceType);
-					if (this.stockGenerators[i].TryGetPriceType(thingDef, action, out result))
+					for (int i = 0; i < this.stockGenerators.Count; i++)
 					{
-						return result;
+						if (this.stockGenerators[i].TryGetPriceType(thingDef, action, out priceType))
+							goto IL_003d;
 					}
 				}
+				result = PriceType.Normal;
 			}
-			return PriceType.Normal;
+			goto IL_0062;
+			IL_0062:
+			return result;
+			IL_003d:
+			result = priceType;
+			goto IL_0062;
 		}
 	}
 }

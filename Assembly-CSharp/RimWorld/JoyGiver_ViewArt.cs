@@ -18,36 +18,50 @@ namespace RimWorld
 			{
 				JoyGiver_ViewArt.candidates.AddRange(pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.Art).Where((Func<Thing, bool>)delegate(Thing thing)
 				{
-					if (thing.Faction == Faction.OfPlayer && !thing.IsForbidden(pawn) && (allowedOutside || thing.Position.Roofed(thing.Map)) && pawn.CanReserveAndReach(thing, PathEndMode.Touch, Danger.None, 1, -1, null, false))
+					bool result;
+					if (thing.Faction != Faction.OfPlayer || thing.IsForbidden(pawn) || (!allowedOutside && !thing.Position.Roofed(thing.Map)) || !pawn.CanReserveAndReach(thing, PathEndMode.Touch, Danger.None, 1, -1, null, false) || !thing.IsPoliticallyProper(pawn))
+					{
+						result = false;
+					}
+					else
 					{
 						CompArt compArt = thing.TryGetComp<CompArt>();
 						if (compArt == null)
 						{
 							Log.Error("No CompArt on thing being considered for viewing: " + thing);
-							return false;
+							result = false;
 						}
-						if (compArt.CanShowArt && compArt.Props.canBeEnjoyedAsArt)
+						else if (!compArt.CanShowArt || !compArt.Props.canBeEnjoyedAsArt)
+						{
+							result = false;
+						}
+						else
 						{
 							Room room = thing.GetRoom(RegionType.Set_Passable);
 							if (room == null)
 							{
-								return false;
+								result = false;
 							}
-							if (room.Role != RoomRoleDefOf.Bedroom && room.Role != RoomRoleDefOf.Barracks && room.Role != RoomRoleDefOf.PrisonCell && room.Role != RoomRoleDefOf.PrisonBarracks && room.Role != RoomRoleDefOf.Hospital)
+							else
 							{
-								goto IL_0139;
+								if (room.Role != RoomRoleDefOf.Bedroom && room.Role != RoomRoleDefOf.Barracks && room.Role != RoomRoleDefOf.PrisonCell && room.Role != RoomRoleDefOf.PrisonBarracks && room.Role != RoomRoleDefOf.Hospital)
+								{
+									goto IL_0167;
+								}
+								if (pawn.ownership != null && pawn.ownership.OwnedRoom != null && pawn.ownership.OwnedRoom == room)
+								{
+									goto IL_0167;
+								}
+								result = false;
 							}
-							if (pawn.ownership != null && pawn.ownership.OwnedRoom != null && pawn.ownership.OwnedRoom == room)
-							{
-								goto IL_0139;
-							}
-							return false;
 						}
-						return false;
 					}
-					return false;
-					IL_0139:
-					return true;
+					goto IL_016e;
+					IL_0167:
+					result = true;
+					goto IL_016e;
+					IL_016e:
+					return result;
 				}));
 				Thing t = default(Thing);
 				if (!((IEnumerable<Thing>)JoyGiver_ViewArt.candidates).TryRandomElementByWeight<Thing>((Func<Thing, float>)((Thing target) => Mathf.Max(target.GetStatValue(StatDefOf.Beauty, true), 0.5f)), out t))
@@ -55,9 +69,6 @@ namespace RimWorld
 					return null;
 				}
 				return new Job(base.def.jobDef, t);
-				IL_00a2:
-				Job result;
-				return result;
 			}
 			finally
 			{

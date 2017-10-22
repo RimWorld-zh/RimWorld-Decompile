@@ -5,9 +5,9 @@ namespace Verse
 {
 	public class HediffGiver_Birthday : HediffGiver
 	{
-		public SimpleCurve ageFractionChanceCurve;
+		public SimpleCurve ageFractionChanceCurve = null;
 
-		public float averageSeverityPerDayBeforeGeneration;
+		public float averageSeverityPerDayBeforeGeneration = 0f;
 
 		private static List<Hediff> addedHediffs = new List<Hediff>();
 

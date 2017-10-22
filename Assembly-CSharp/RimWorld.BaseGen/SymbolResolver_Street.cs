@@ -101,12 +101,12 @@ namespace RimWorld.BaseGen
 				IntVec3 current = iterator.Current;
 				if (horizontal && SymbolResolver_Street.street[current.x - rect.minX])
 				{
-					goto IL_006f;
+					goto IL_0071;
 				}
 				if (!horizontal && SymbolResolver_Street.street[current.z - rect.minZ])
-					goto IL_006f;
+					goto IL_0071;
 				continue;
-				IL_006f:
+				IL_0071:
 				terrainGrid.SetTerrain(current, floorDef);
 			}
 		}
@@ -114,24 +114,17 @@ namespace RimWorld.BaseGen
 		private bool CausesStreet(IntVec3 c, TerrainDef floorDef)
 		{
 			Map map = BaseGen.globalSettings.map;
+			bool result;
 			if (!c.InBounds(map))
 			{
-				return false;
+				result = false;
 			}
-			Building edifice = c.GetEdifice(map);
-			if (edifice != null && edifice.def == ThingDefOf.Wall)
+			else
 			{
-				return true;
+				Building edifice = c.GetEdifice(map);
+				result = ((byte)((edifice != null && edifice.def == ThingDefOf.Wall) ? 1 : ((c.GetDoor(map) != null) ? 1 : ((c.GetTerrain(map) == floorDef) ? 1 : 0))) != 0);
 			}
-			if (c.GetDoor(map) != null)
-			{
-				return true;
-			}
-			if (c.GetTerrain(map) == floorDef)
-			{
-				return true;
-			}
-			return false;
+			return result;
 		}
 	}
 }

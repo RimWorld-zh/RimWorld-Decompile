@@ -12,19 +12,15 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Building_TurretGun : Building_Turret
 	{
-		private const int TryStartShootSomethingIntervalTicks = 10;
+		protected int burstCooldownTicksLeft = 0;
 
-		protected int burstCooldownTicksLeft;
-
-		protected int burstWarmupTicksLeft;
+		protected int burstWarmupTicksLeft = 0;
 
 		protected LocalTargetInfo currentTargetInt = LocalTargetInfo.Invalid;
 
-		public bool loaded;
-
 		private bool holdFire;
 
-		private Thing gunInt;
+		public Thing gun;
 
 		protected TurretTop top;
 
@@ -32,13 +28,15 @@ namespace RimWorld
 
 		protected CompMannable mannableComp;
 
+		private const int TryStartShootSomethingIntervalTicks = 10;
+
 		public static Material ForcedTargetLineMat = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, new Color(1f, 0.5f, 0.5f));
 
 		public CompEquippable GunCompEq
 		{
 			get
 			{
-				return this.Gun.TryGetComp<CompEquippable>();
+				return this.gun.TryGetComp<CompEquippable>();
 			}
 		}
 
@@ -70,7 +68,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (base.Faction == Faction.OfPlayer || this.MannedByColonist) && !this.MannedByNonColonist;
+				return this.mannableComp != null && (base.Faction == Faction.OfPlayer || this.MannedByColonist) && !this.MannedByNonColonist;
 			}
 		}
 
@@ -79,25 +77,6 @@ namespace RimWorld
 			get
 			{
 				return (base.Faction == Faction.OfPlayer || this.MannedByColonist) && !this.MannedByNonColonist;
-			}
-		}
-
-		public Thing Gun
-		{
-			get
-			{
-				if (this.gunInt == null)
-				{
-					this.gunInt = ThingMaker.MakeThing(base.def.building.turretGunDef, null);
-					List<Verb> allVerbs = this.gunInt.TryGetComp<CompEquippable>().AllVerbs;
-					for (int i = 0; i < allVerbs.Count; i++)
-					{
-						Verb verb = allVerbs[i];
-						verb.caster = this;
-						verb.castCompleteCallback = new Action(this.BurstComplete);
-					}
-				}
-				return this.gunInt;
 			}
 		}
 
@@ -129,6 +108,12 @@ namespace RimWorld
 			this.mannableComp = base.GetComp<CompMannable>();
 		}
 
+		public override void PostMake()
+		{
+			base.PostMake();
+			this.MakeGun();
+		}
+
 		public override void DeSpawn()
 		{
 			base.DeSpawn();
@@ -141,8 +126,18 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.burstCooldownTicksLeft, "burstCooldownTicksLeft", 0, false);
 			Scribe_Values.Look<int>(ref this.burstWarmupTicksLeft, "burstWarmupTicksLeft", 0, false);
 			Scribe_TargetInfo.Look(ref this.currentTargetInt, "currentTarget");
-			Scribe_Values.Look<bool>(ref this.loaded, "loaded", false, false);
 			Scribe_Values.Look<bool>(ref this.holdFire, "holdFire", false, false);
+			Scribe_Deep.Look<Thing>(ref this.gun, "gun", new object[0]);
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			{
+				BackCompatibility.TurretPostLoadInit(this);
+				this.UpdateGunVerbs();
+			}
+		}
+
+		public override bool ClaimableBy(Faction by)
+		{
+			return (byte)(base.ClaimableBy(by) ? ((this.mannableComp == null || this.mannableComp.ManningPawn == null) ? ((this.powerComp == null || !this.powerComp.PowerOn) ? 1 : 0) : 0) : 0) != 0;
 		}
 
 		public override void OrderAttack(LocalTargetInfo targ)
@@ -156,18 +151,25 @@ namespace RimWorld
 			}
 			else if ((targ.Cell - base.Position).LengthHorizontal < this.GunCompEq.PrimaryVerb.verbProps.minRange)
 			{
-				Messages.Message("MessageTargetBelowMinimumRange".Translate(), (Thing)this, MessageSound.RejectInput);
+				Messages.Message("MessageTargetBelowMinimumRange".Translate(), (Thing)this, MessageTypeDefOf.RejectInput);
 			}
 			else if ((targ.Cell - base.Position).LengthHorizontal > this.GunCompEq.PrimaryVerb.verbProps.range)
 			{
-				Messages.Message("MessageTargetBeyondMaximumRange".Translate(), (Thing)this, MessageSound.RejectInput);
+				Messages.Message("MessageTargetBeyondMaximumRange".Translate(), (Thing)this, MessageTypeDefOf.RejectInput);
 			}
-			else if (base.forcedTarget != targ)
+			else
 			{
-				base.forcedTarget = targ;
-				if (this.burstCooldownTicksLeft <= 0)
+				if (base.forcedTarget != targ)
 				{
-					this.TryStartShootSomething(false);
+					base.forcedTarget = targ;
+					if (this.burstCooldownTicksLeft <= 0)
+					{
+						this.TryStartShootSomething(false);
+					}
+				}
+				if (this.holdFire)
+				{
+					Messages.Message("MessageTurretWontFireBecauseHoldFire".Translate(base.def.label), (Thing)this, MessageTypeDefOf.RejectInput);
 				}
 			}
 		}
@@ -222,7 +224,7 @@ namespace RimWorld
 
 		protected void TryStartShootSomething(bool canBeginBurstImmediately)
 		{
-			if (!base.Spawned || (this.holdFire && this.CanToggleHoldFire) || (this.GunCompEq.PrimaryVerb.verbProps.projectileDef.projectile.flyOverhead && base.Map.roofGrid.Roofed(base.Position)))
+			if (!base.Spawned || (this.holdFire && this.CanToggleHoldFire) || (this.GunCompEq.PrimaryVerb.ProjectileFliesOverhead() && base.Map.roofGrid.Roofed(base.Position)))
 			{
 				this.ResetCurrentTarget();
 			}
@@ -270,59 +272,67 @@ namespace RimWorld
 			float range = this.GunCompEq.PrimaryVerb.verbProps.range;
 			float minRange = this.GunCompEq.PrimaryVerb.verbProps.minRange;
 			Building t = default(Building);
-			if (Rand.Value < 0.5 && this.GunCompEq.PrimaryVerb.verbProps.projectileDef.projectile.flyOverhead && faction.HostileTo(Faction.OfPlayer) && base.Map.listerBuildings.allBuildingsColonist.Where((Func<Building, bool>)delegate(Building x)
+			LocalTargetInfo result;
+			if (Rand.Value < 0.5 && this.GunCompEq.PrimaryVerb.ProjectileFliesOverhead() && faction.HostileTo(Faction.OfPlayer) && base.Map.listerBuildings.allBuildingsColonist.Where((Func<Building, bool>)delegate(Building x)
 			{
 				float num = (float)x.Position.DistanceToSquared(base.Position);
 				return num > minRange * minRange && num < range * range;
 			}).TryRandomElement<Building>(out t))
 			{
-				return (Thing)t;
+				result = (Thing)t;
 			}
-			TargetScanFlags targetScanFlags = TargetScanFlags.NeedThreat;
-			if (!this.GunCompEq.PrimaryVerb.verbProps.projectileDef.projectile.flyOverhead)
+			else
 			{
-				targetScanFlags = (TargetScanFlags)(byte)((int)targetScanFlags | 3);
-				targetScanFlags = (TargetScanFlags)(byte)((int)targetScanFlags | 64);
+				TargetScanFlags targetScanFlags = TargetScanFlags.NeedThreat;
+				if (!this.GunCompEq.PrimaryVerb.ProjectileFliesOverhead())
+				{
+					targetScanFlags = (TargetScanFlags)(byte)((int)targetScanFlags | 3);
+					targetScanFlags = (TargetScanFlags)(byte)((int)targetScanFlags | 64);
+				}
+				if (this.GunCompEq.PrimaryVerb.IsIncendiary())
+				{
+					targetScanFlags = (TargetScanFlags)(byte)((int)targetScanFlags | 16);
+				}
+				result = (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(attackTargetSearcher, new Predicate<Thing>(this.IsValidTarget), range, minRange, targetScanFlags);
 			}
-			if (this.GunCompEq.PrimaryVerb.verbProps.ai_IsIncendiary)
-			{
-				targetScanFlags = (TargetScanFlags)(byte)((int)targetScanFlags | 16);
-			}
-			return (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(attackTargetSearcher, new Predicate<Thing>(this.IsValidTarget), range, minRange, targetScanFlags);
+			return result;
 		}
 
 		private IAttackTargetSearcher TargSearcher()
 		{
-			if (this.mannableComp != null && this.mannableComp.MannedNow)
-			{
-				return this.mannableComp.ManningPawn;
-			}
-			return this;
+			return (IAttackTargetSearcher)((this.mannableComp == null || !this.mannableComp.MannedNow) ? ((object)this) : ((object)this.mannableComp.ManningPawn));
 		}
 
 		private bool IsValidTarget(Thing t)
 		{
 			Pawn pawn = t as Pawn;
+			bool result;
 			if (pawn != null)
 			{
-				if (this.GunCompEq.PrimaryVerb.verbProps.projectileDef.projectile.flyOverhead)
+				if (this.GunCompEq.PrimaryVerb.ProjectileFliesOverhead())
 				{
 					RoofDef roofDef = base.Map.roofGrid.RoofAt(t.Position);
 					if (roofDef != null && roofDef.isThickRoof)
 					{
-						return false;
+						result = false;
+						goto IL_00a4;
 					}
 				}
 				if (this.mannableComp == null)
 				{
-					return !GenAI.MachinesLike(base.Faction, pawn);
+					result = !GenAI.MachinesLike(base.Faction, pawn);
+					goto IL_00a4;
 				}
 				if (pawn.RaceProps.Animal && pawn.Faction == Faction.OfPlayer)
 				{
-					return false;
+					result = false;
+					goto IL_00a4;
 				}
 			}
-			return true;
+			result = true;
+			goto IL_00a4;
+			IL_00a4:
+			return result;
 		}
 
 		protected void BeginBurst()
@@ -341,7 +351,6 @@ namespace RimWorld
 			{
 				this.burstCooldownTicksLeft = this.GunCompEq.PrimaryVerb.verbProps.defaultCooldownTime.SecondsToTicks();
 			}
-			this.loaded = false;
 		}
 
 		public override string GetInspectString()
@@ -352,7 +361,7 @@ namespace RimWorld
 			{
 				stringBuilder.AppendLine(inspectString);
 			}
-			stringBuilder.AppendLine("GunInstalled".Translate() + ": " + this.Gun.Label);
+			stringBuilder.AppendLine("GunInstalled".Translate() + ": " + this.gun.Label);
 			if (this.GunCompEq.PrimaryVerb.verbProps.minRange > 0.0)
 			{
 				stringBuilder.AppendLine("MinimumRange".Translate() + ": " + this.GunCompEq.PrimaryVerb.verbProps.minRange.ToString("F0"));
@@ -361,11 +370,12 @@ namespace RimWorld
 			{
 				stringBuilder.AppendLine("CanFireIn".Translate() + ": " + this.burstCooldownTicksLeft.TicksToSecondsString());
 			}
-			if (base.def.building.turretShellDef != null)
+			CompChangeableProjectile compChangeableProjectile = this.gun.TryGetComp<CompChangeableProjectile>();
+			if (compChangeableProjectile != null)
 			{
-				if (this.loaded)
+				if (compChangeableProjectile.Loaded)
 				{
-					stringBuilder.AppendLine("ShellLoaded".Translate());
+					stringBuilder.AppendLine("ShellLoaded".Translate(compChangeableProjectile.LoadedShell.LabelCap));
 				}
 				else
 				{
@@ -412,9 +422,14 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return gizmo;
+				if (enumerator.MoveNext())
+				{
+					Gizmo c = enumerator.Current;
+					yield return c;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			if (this.CanSetForcedTarget)
 			{
@@ -426,6 +441,7 @@ namespace RimWorld
 					verb = this.GunCompEq.PrimaryVerb,
 					hotKey = KeyBindingDefOf.Misc4
 				};
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (base.forcedTarget.IsValid)
 			{
@@ -436,7 +452,7 @@ namespace RimWorld
 					icon = ContentFinder<Texture2D>.Get("UI/Commands/Halt", true),
 					action = (Action)delegate
 					{
-						((_003CGetGizmos_003Ec__Iterator148)/*Error near IL_01b6: stateMachine*/)._003C_003Ef__this.ResetForcedTarget();
+						((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_01cf: stateMachine*/)._0024this.ResetForcedTarget();
 						SoundDefOf.TickLow.PlayOneShotOnCamera(null);
 					}
 				};
@@ -446,26 +462,29 @@ namespace RimWorld
 				}
 				stop.hotKey = KeyBindingDefOf.Misc5;
 				yield return (Gizmo)stop;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (this.CanToggleHoldFire)
+			if (!this.CanToggleHoldFire)
+				yield break;
+			yield return (Gizmo)new Command_Toggle
 			{
-				yield return (Gizmo)new Command_Toggle
+				defaultLabel = "CommandHoldFire".Translate(),
+				defaultDesc = "CommandHoldFireDesc".Translate(),
+				icon = ContentFinder<Texture2D>.Get("UI/Commands/HoldFire", true),
+				hotKey = KeyBindingDefOf.Misc6,
+				toggleAction = (Action)delegate
 				{
-					defaultLabel = "CommandHoldFire".Translate(),
-					defaultDesc = "CommandHoldFireDesc".Translate(),
-					icon = ContentFinder<Texture2D>.Get("UI/Commands/HoldFire", true),
-					hotKey = KeyBindingDefOf.Misc6,
-					toggleAction = (Action)delegate
+					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_02ad: stateMachine*/)._0024this.holdFire = !((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_02ad: stateMachine*/)._0024this.holdFire;
+					if (((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_02ad: stateMachine*/)._0024this.holdFire)
 					{
-						((_003CGetGizmos_003Ec__Iterator148)/*Error near IL_028a: stateMachine*/)._003C_003Ef__this.holdFire = !((_003CGetGizmos_003Ec__Iterator148)/*Error near IL_028a: stateMachine*/)._003C_003Ef__this.holdFire;
-						if (((_003CGetGizmos_003Ec__Iterator148)/*Error near IL_028a: stateMachine*/)._003C_003Ef__this.holdFire)
-						{
-							((_003CGetGizmos_003Ec__Iterator148)/*Error near IL_028a: stateMachine*/)._003C_003Ef__this.ResetForcedTarget();
-						}
-					},
-					isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__Iterator148)/*Error near IL_02a1: stateMachine*/)._003C_003Ef__this.holdFire)
-				};
-			}
+						((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_02ad: stateMachine*/)._0024this.ResetForcedTarget();
+					}
+				},
+				isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_02c4: stateMachine*/)._0024this.holdFire)
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_02ff:
+			/*Error near IL_0300: Unexpected return in MoveNext()*/;
 		}
 
 		private void ResetForcedTarget()
@@ -482,6 +501,23 @@ namespace RimWorld
 		{
 			this.currentTargetInt = LocalTargetInfo.Invalid;
 			this.burstWarmupTicksLeft = 0;
+		}
+
+		public void MakeGun()
+		{
+			this.gun = ThingMaker.MakeThing(base.def.building.turretGunDef, null);
+			this.UpdateGunVerbs();
+		}
+
+		private void UpdateGunVerbs()
+		{
+			List<Verb> allVerbs = this.gun.TryGetComp<CompEquippable>().AllVerbs;
+			for (int i = 0; i < allVerbs.Count; i++)
+			{
+				Verb verb = allVerbs[i];
+				verb.caster = this;
+				verb.castCompleteCallback = new Action(this.BurstComplete);
+			}
 		}
 	}
 }

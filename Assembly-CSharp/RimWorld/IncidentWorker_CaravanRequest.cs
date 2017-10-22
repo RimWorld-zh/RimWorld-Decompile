@@ -8,15 +8,17 @@ namespace RimWorld
 {
 	public class IncidentWorker_CaravanRequest : IncidentWorker
 	{
+		private static readonly IntRange OfferDurationRange = new IntRange(10, 30);
+
 		private const float TravelBufferMultiple = 0.1f;
 
 		private const float TravelBufferAbsolute = 1f;
 
 		private const int MaxTileDistance = 36;
 
-		private static readonly IntRange OfferDurationRange = new IntRange(10, 30);
+		public static readonly IntRange BaseValueWantedRange = new IntRange(400, 3000);
 
-		private static readonly IntRange BaseValueWantedRange = new IntRange(400, 3000);
+		public static readonly FloatRange RewardMarketValueFactorRange = new FloatRange(1f, 2f);
 
 		private static readonly SimpleCurve ValueFactorFromWealthCurve = new SimpleCurve
 		{
@@ -36,121 +38,91 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
-			if (IncidentWorker_CaravanRequest.RandomNearbyTradeableSettlement(((Map)target).Tile) == null)
-			{
-				return false;
-			}
-			return base.CanFireNowSub(target);
+			return IncidentWorker_CaravanRequest.RandomNearbyTradeableSettlement(((Map)target).Tile) != null && base.CanFireNowSub(target);
 		}
 
-		public override bool TryExecute(IncidentParms parms)
+		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Settlement settlement = IncidentWorker_CaravanRequest.RandomNearbyTradeableSettlement(parms.target.Tile);
+			bool result;
 			if (settlement == null)
 			{
-				return false;
+				result = false;
 			}
-			CaravanRequestComp component = ((WorldObject)settlement).GetComponent<CaravanRequestComp>();
-			if (!this.GenerateCaravanRequest(component, (Map)parms.target))
+			else
 			{
-				return false;
+				CaravanRequestComp component = ((WorldObject)settlement).GetComponent<CaravanRequestComp>();
+				if (!this.GenerateCaravanRequest(component, (Map)parms.target))
+				{
+					result = false;
+				}
+				else
+				{
+					Find.LetterStack.ReceiveLetter("LetterLabelCaravanRequest".Translate(), "LetterCaravanRequest".Translate(settlement.Label, GenLabel.ThingLabel(component.requestThingDef, null, component.requestCount).CapitalizeFirst(), component.rewards[0].LabelCap, (component.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F0")), LetterDefOf.PositiveEvent, (WorldObject)settlement, (string)null);
+					result = true;
+				}
 			}
-			Find.LetterStack.ReceiveLetter("LetterLabelCaravanRequest".Translate(), "LetterCaravanRequest".Translate(settlement.Label, GenLabel.ThingLabel(component.requestThingDef, null, component.requestCount).CapitalizeFirst(), component.rewards[0].LabelCap, (component.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F0")), LetterDefOf.Good, (WorldObject)settlement, (string)null);
-			return true;
+			return result;
 		}
 
 		public bool GenerateCaravanRequest(CaravanRequestComp target, Map map)
 		{
 			int num = this.RandomOfferDuration(map.Tile, target.parent.Tile);
+			bool result;
 			if (num < 1)
 			{
-				return false;
+				result = false;
 			}
-			target.requestThingDef = IncidentWorker_CaravanRequest.RandomRequestedThingDef();
-			if (target.requestThingDef == null)
+			else
 			{
-				Log.Error("Attempted to create a caravan request, but couldn't find a valid request object");
-				return false;
+				target.requestThingDef = IncidentWorker_CaravanRequest.RandomRequestedThingDef();
+				if (target.requestThingDef == null)
+				{
+					Log.Error("Attempted to create a caravan request, but couldn't find a valid request object");
+					result = false;
+				}
+				else
+				{
+					target.requestCount = IncidentWorker_CaravanRequest.RandomRequestCount(target.requestThingDef, map);
+					target.rewards.ClearAndDestroyContents(DestroyMode.Vanish);
+					target.rewards.TryAdd(IncidentWorker_CaravanRequest.GenerateRewardFor(target.requestThingDef, target.requestCount, target.parent.Faction), true);
+					target.expiration = Find.TickManager.TicksGame + num;
+					result = true;
+				}
 			}
-			target.requestCount = IncidentWorker_CaravanRequest.RandomRequestCount(target.requestThingDef, map);
-			target.rewards.ClearAndDestroyContents(DestroyMode.Vanish);
-			target.rewards.TryAdd(IncidentWorker_CaravanRequest.GenerateRewardFor(target.requestThingDef, target.requestCount, target.parent.Faction), true);
-			target.expiration = Find.TickManager.TicksGame + num;
-			return true;
+			return result;
 		}
 
 		public static Settlement RandomNearbyTradeableSettlement(int originTile)
 		{
-			return Find.WorldObjects.Settlements.Where((Func<Settlement, bool>)delegate(Settlement settlement)
-			{
-				if (settlement.Visitable && ((WorldObject)settlement).GetComponent<CaravanRequestComp>() != null && !((WorldObject)settlement).GetComponent<CaravanRequestComp>().ActiveRequest)
-				{
-					return Find.WorldGrid.ApproxDistanceInTiles(originTile, settlement.Tile) < 36.0 && Find.WorldReachability.CanReach(originTile, settlement.Tile);
-				}
-				return false;
-			}).RandomElementWithFallback(null);
+			return (from settlement in Find.WorldObjects.Settlements
+			where settlement.Visitable && ((WorldObject)settlement).GetComponent<CaravanRequestComp>() != null && !((WorldObject)settlement).GetComponent<CaravanRequestComp>().ActiveRequest && Find.WorldGrid.ApproxDistanceInTiles(originTile, settlement.Tile) < 36.0 && Find.WorldReachability.CanReach(originTile, settlement.Tile)
+			select settlement).RandomElementWithFallback(null);
 		}
 
 		private static ThingDef RandomRequestedThingDef()
 		{
 			Func<ThingDef, bool> globalValidator = (Func<ThingDef, bool>)delegate(ThingDef td)
 			{
+				bool result;
 				if (td.BaseMarketValue / td.BaseMass < 5.0)
 				{
-					return false;
+					result = false;
 				}
-				if (!td.alwaysHaulable)
+				else if (!td.alwaysHaulable)
 				{
-					return false;
+					result = false;
 				}
-				CompProperties_Rottable compProperties = td.GetCompProperties<CompProperties_Rottable>();
-				if (compProperties != null && compProperties.daysToRotStart < 10.0)
+				else
 				{
-					return false;
+					CompProperties_Rottable compProperties = td.GetCompProperties<CompProperties_Rottable>();
+					result = ((byte)((compProperties == null || !(compProperties.daysToRotStart < 10.0)) ? ((td.ingestible == null || !td.ingestible.HumanEdible) ? ((td != ThingDefOf.Silver) ? (td.PlayerAcquirable ? 1 : 0) : 0) : 0) : 0) != 0);
 				}
-				if (td == ThingDefOf.Silver)
-				{
-					return false;
-				}
-				if (!td.PlayerAcquirable)
-				{
-					return false;
-				}
-				return true;
+				return result;
 			};
-			if (Rand.Value < 0.800000011920929)
-			{
-				ThingDef result = null;
-				if (DefDatabase<ThingDef>.AllDefs.Where((Func<ThingDef, bool>)delegate(ThingDef td)
-				{
-					int result3;
-					if ((td.IsWithinCategory(ThingCategoryDefOf.FoodMeals) || td.IsWithinCategory(ThingCategoryDefOf.PlantFoodRaw) || td.IsWithinCategory(ThingCategoryDefOf.PlantMatter) || td.IsWithinCategory(ThingCategoryDefOf.ResourcesRaw)) && td.BaseMarketValue < 4.0)
-					{
-						result3 = (globalValidator(td) ? 1 : 0);
-						goto IL_005f;
-					}
-					result3 = 0;
-					goto IL_005f;
-					IL_005f:
-					return (byte)result3 != 0;
-				}).TryRandomElement<ThingDef>(out result))
-				{
-					return result;
-				}
-			}
-			return DefDatabase<ThingDef>.AllDefs.Where((Func<ThingDef, bool>)delegate(ThingDef td)
-			{
-				int result2;
-				if ((td.IsWithinCategory(ThingCategoryDefOf.Medicine) || td.IsWithinCategory(ThingCategoryDefOf.Drugs) || td.IsWithinCategory(ThingCategoryDefOf.Weapons) || td.IsWithinCategory(ThingCategoryDefOf.Apparel) || td.IsWithinCategory(ThingCategoryDefOf.ResourcesRaw)) && td.BaseMarketValue >= 4.0)
-				{
-					result2 = (globalValidator(td) ? 1 : 0);
-					goto IL_006f;
-				}
-				result2 = 0;
-				goto IL_006f;
-				IL_006f:
-				return (byte)result2 != 0;
-			}).RandomElementWithFallback(null);
+			return (from td in DefDatabase<ThingDef>.AllDefs
+			where globalValidator(td)
+			select td).RandomElementWithFallback(null);
 		}
 
 		private static int RandomRequestCount(ThingDef thingDef, Map map)
@@ -158,17 +130,16 @@ namespace RimWorld
 			float num = (float)IncidentWorker_CaravanRequest.BaseValueWantedRange.RandomInRange;
 			float wealthTotal = map.wealthWatcher.WealthTotal;
 			num *= IncidentWorker_CaravanRequest.ValueFactorFromWealthCurve.Evaluate(wealthTotal);
-			return Mathf.Max(1, Mathf.RoundToInt(num / thingDef.BaseMarketValue));
+			return ThingUtility.RoundedResourceStackCount(Mathf.Max(1, Mathf.RoundToInt(num / thingDef.BaseMarketValue)));
 		}
 
 		private static Thing GenerateRewardFor(ThingDef thingDef, int quantity, Faction faction)
 		{
-			TechLevel techLevel = (faction != null) ? faction.def.techLevel : TechLevel.Spacer;
+			TechLevel value = (faction != null) ? faction.def.techLevel : TechLevel.Spacer;
 			ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
 			{
-				count = 1,
-				totalMarketValue = thingDef.BaseMarketValue * (float)quantity * Rand.Range(1f, 2f),
-				techLevel = techLevel,
+				totalMarketValue = new float?(thingDef.BaseMarketValue * (float)quantity * IncidentWorker_CaravanRequest.RewardMarketValueFactorRange.RandomInRange),
+				techLevel = new TechLevel?(value),
 				validator = (Predicate<ThingDef>)((ThingDef td) => td != thingDef)
 			};
 			return ItemCollectionGeneratorDefOf.CaravanRequestRewards.Worker.Generate(parms)[0];
@@ -183,11 +154,7 @@ namespace RimWorld
 			randomInRange = Mathf.Max(randomInRange, b);
 			int num3 = randomInRange;
 			IntRange offerDurationRange = IncidentWorker_CaravanRequest.OfferDurationRange;
-			if (num3 > offerDurationRange.max)
-			{
-				return -1;
-			}
-			return 60000 * randomInRange;
+			return (num3 <= offerDurationRange.max) ? (60000 * randomInRange) : (-1);
 		}
 	}
 }

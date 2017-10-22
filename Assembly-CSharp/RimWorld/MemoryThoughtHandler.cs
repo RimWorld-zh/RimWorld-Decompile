@@ -1,6 +1,7 @@
-using RimWorld.Planet;
+#define ENABLE_PROFILER
 using System;
 using System.Collections.Generic;
+using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld
@@ -45,11 +46,13 @@ namespace RimWorld
 
 		public void MemoryThoughtInterval()
 		{
+			Profiler.BeginSample("MemoryThoughtInterval()");
 			for (int i = 0; i < this.memories.Count; i++)
 			{
 				this.memories[i].ThoughtInterval();
 			}
 			this.RemoveExpiredMemories();
+			Profiler.EndSample();
 		}
 
 		private void RemoveExpiredMemories()
@@ -161,10 +164,6 @@ namespace RimWorld
 			{
 				Log.Warning("Tried to remove memory thought of def " + th.def.defName + " but it's not here.");
 			}
-			else if (th.otherPawn != null && th.otherPawn.IsWorldPawn())
-			{
-				Find.WorldPawns.DiscardIfUnimportant(th.otherPawn);
-			}
 		}
 
 		public int NumMemoriesInGroup(Thought_Memory group)
@@ -197,18 +196,21 @@ namespace RimWorld
 		{
 			while (true)
 			{
-				Thought_Memory thought_Memory = this.memories.Find((Predicate<Thought_Memory>)delegate(Thought_Memory x)
+				Thought_Memory thought_Memory = this.memories.Find((Predicate<Thought_Memory>)((Thought_Memory x) => (byte)((x.def == def) ? ((x.otherPawn == otherPawn) ? 1 : 0) : 0) != 0));
+				if (thought_Memory != null)
 				{
-					if (x.def != def)
-					{
-						return false;
-					}
-					if (x.otherPawn == otherPawn)
-					{
-						return true;
-					}
-					return false;
-				});
+					this.RemoveMemory(thought_Memory);
+					continue;
+				}
+				break;
+			}
+		}
+
+		public void RemoveMemoriesWhereOtherPawnIs(Pawn otherPawn)
+		{
+			while (true)
+			{
+				Thought_Memory thought_Memory = this.memories.Find((Predicate<Thought_Memory>)((Thought_Memory x) => x.otherPawn == otherPawn));
 				if (thought_Memory != null)
 				{
 					this.RemoveMemory(thought_Memory);
@@ -260,16 +262,31 @@ namespace RimWorld
 			}
 		}
 
-		public bool AnyMemoryConcerns(Pawn pawn)
+		public bool AnyMemoryConcerns(Pawn otherPawn)
 		{
-			for (int i = 0; i < this.memories.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (this.memories[i].otherPawn == pawn)
+				if (num < this.memories.Count)
 				{
-					return true;
+					if (this.memories[num].otherPawn == otherPawn)
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
+		}
+
+		public void Notify_PawnDiscarded(Pawn discarded)
+		{
+			this.RemoveMemoriesWhereOtherPawnIs(discarded);
 		}
 	}
 }

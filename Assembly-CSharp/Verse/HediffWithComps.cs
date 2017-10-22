@@ -44,12 +44,16 @@ namespace Verse
 					for (int i = 0; i < this.comps.Count; i++)
 					{
 						if (this.comps[i].CompShouldRemove)
-						{
-							return true;
-						}
+							goto IL_002b;
 					}
 				}
-				return base.ShouldRemove;
+				bool result = base.ShouldRemove;
+				goto IL_0055;
+				IL_002b:
+				result = true;
+				goto IL_0055;
+				IL_0055:
+				return result;
 			}
 		}
 
@@ -62,12 +66,16 @@ namespace Verse
 					for (int i = 0; i < this.comps.Count; i++)
 					{
 						if (this.comps[i].CompDisallowVisible())
-						{
-							return false;
-						}
+							goto IL_002b;
 					}
 				}
-				return base.Visible;
+				bool result = base.Visible;
+				goto IL_0055;
+				IL_002b:
+				result = false;
+				goto IL_0055;
+				IL_0055:
+				return result;
 			}
 		}
 
@@ -96,15 +104,25 @@ namespace Verse
 		{
 			get
 			{
-				for (int i = 0; i < this.comps.Count; i++)
+				int num = 0;
+				TextureAndColor result;
+				while (true)
 				{
-					TextureAndColor compStateIcon = this.comps[i].CompStateIcon;
-					if (compStateIcon.HasValue)
+					if (num < this.comps.Count)
 					{
-						return compStateIcon;
+						TextureAndColor compStateIcon = this.comps[num].CompStateIcon;
+						if (compStateIcon.HasValue)
+						{
+							result = compStateIcon;
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = TextureAndColor.None;
+					break;
 				}
-				return TextureAndColor.None;
+				return result;
 			}
 		}
 
@@ -115,6 +133,18 @@ namespace Verse
 				for (int i = 0; i < this.comps.Count; i++)
 				{
 					this.comps[i].CompPostPostAdd(dinfo);
+				}
+			}
+		}
+
+		public override void PostRemoved()
+		{
+			base.PostRemoved();
+			if (this.comps != null)
+			{
+				for (int i = 0; i < this.comps.Count; i++)
+				{
+					this.comps[i].CompPostPostRemoved();
 				}
 			}
 		}
@@ -162,15 +192,20 @@ namespace Verse
 
 		public override bool TryMergeWith(Hediff other)
 		{
+			bool result;
 			if (base.TryMergeWith(other))
 			{
 				for (int i = 0; i < this.comps.Count; i++)
 				{
 					this.comps[i].CompPostMerged(other);
 				}
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		public override void Notify_PawnDied()

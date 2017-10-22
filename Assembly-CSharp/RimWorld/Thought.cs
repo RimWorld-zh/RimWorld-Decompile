@@ -55,11 +55,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.CurStage.labelSocial != null)
-				{
-					return this.CurStage.labelSocial.CapitalizeFirst();
-				}
-				return this.LabelCap;
+				return (this.CurStage.labelSocial == null) ? this.LabelCap : this.CurStage.labelSocial.CapitalizeFirst();
 			}
 		}
 
@@ -68,11 +64,7 @@ namespace RimWorld
 			get
 			{
 				string description = this.CurStage.description;
-				if (description != null)
-				{
-					return description;
-				}
-				return this.def.description;
+				return (description == null) ? this.def.description : description;
 			}
 		}
 
@@ -80,15 +72,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if ((Object)this.def.Icon != (Object)null)
-				{
-					return this.def.Icon;
-				}
-				if (this.MoodOffset() > 0.0)
-				{
-					return Thought.DefaultGoodIcon;
-				}
-				return Thought.DefaultBadIcon;
+				return (!((Object)this.def.Icon != (Object)null)) ? ((!(this.MoodOffset() > 0.0)) ? Thought.DefaultBadIcon : Thought.DefaultGoodIcon) : this.def.Icon;
 			}
 		}
 
@@ -99,17 +83,22 @@ namespace RimWorld
 
 		public virtual float MoodOffset()
 		{
+			float result;
 			if (this.CurStage == null)
 			{
 				Log.Error("CurStage is null while ShouldDiscard is false on " + this.def.defName + " for " + this.pawn);
-				return 0f;
+				result = 0f;
 			}
-			float num = this.BaseMoodOffset;
-			if (this.def.effectMultiplyingStat != null)
+			else
 			{
-				num *= this.pawn.GetStatValue(this.def.effectMultiplyingStat, true);
+				float num = this.BaseMoodOffset;
+				if (this.def.effectMultiplyingStat != null)
+				{
+					num *= this.pawn.GetStatValue(this.def.effectMultiplyingStat, true);
+				}
+				result = num;
 			}
-			return num;
+			return result;
 		}
 
 		public virtual bool GroupsWith(Thought other)

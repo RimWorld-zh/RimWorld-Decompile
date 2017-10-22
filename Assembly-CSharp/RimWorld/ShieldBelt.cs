@@ -9,15 +9,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class ShieldBelt : Apparel
 	{
-		private const float MinDrawSize = 1.2f;
-
-		private const float MaxDrawSize = 1.55f;
-
-		private const float MaxDamagedJitterDist = 0.05f;
-
-		private const int JitterDurationTicks = 8;
-
-		private float energy;
+		private float energy = 0f;
 
 		private int ticksToReset = -1;
 
@@ -26,6 +18,14 @@ namespace RimWorld
 		private Vector3 impactAngleVect;
 
 		private int lastAbsorbDamageTick = -9999;
+
+		private const float MinDrawSize = 1.2f;
+
+		private const float MaxDrawSize = 1.55f;
+
+		private const float MaxDamagedJitterDist = 0.05f;
+
+		private const int JitterDurationTicks = 8;
 
 		private int StartingTicksToReset = 3200;
 
@@ -67,11 +67,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.ticksToReset > 0)
-				{
-					return ShieldState.Resetting;
-				}
-				return ShieldState.Active;
+				return (ShieldState)((this.ticksToReset > 0) ? 1 : 0);
 			}
 		}
 
@@ -80,27 +76,7 @@ namespace RimWorld
 			get
 			{
 				Pawn wearer = base.Wearer;
-				if (!wearer.Dead && !wearer.Downed)
-				{
-					if (wearer.IsPrisonerOfColony && (wearer.MentalStateDef == null || !wearer.MentalStateDef.IsAggro))
-					{
-						return false;
-					}
-					if (wearer.Drafted)
-					{
-						return true;
-					}
-					if (wearer.Faction.HostileTo(Faction.OfPlayer))
-					{
-						return true;
-					}
-					if (Find.TickManager.TicksGame < this.lastKeepDisplayTick + this.KeepDisplayingTicks)
-					{
-						return true;
-					}
-					return false;
-				}
-				return false;
+				return (byte)((wearer.Spawned && !wearer.Dead && !wearer.Downed) ? (wearer.InAggroMentalState ? 1 : (wearer.Drafted ? 1 : ((wearer.Faction.HostileTo(Faction.OfPlayer) && !wearer.IsPrisoner) ? 1 : ((Find.TickManager.TicksGame < this.lastKeepDisplayTick + this.KeepDisplayingTicks) ? 1 : 0)))) : 0) != 0;
 			}
 		}
 
@@ -114,13 +90,13 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetWornGizmos()
 		{
-			if (Find.Selector.SingleSelectedThing == base.Wearer)
+			if (Find.Selector.SingleSelectedThing != base.Wearer)
+				yield break;
+			yield return (Gizmo)new Gizmo_EnergyShieldStatus
 			{
-				yield return (Gizmo)new Gizmo_EnergyShieldStatus
-				{
-					shield = this
-				};
-			}
+				shield = this
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override float GetSpecialApparelScoreOffset()
@@ -159,19 +135,21 @@ namespace RimWorld
 			{
 				if (dinfo.Instigator != null && !dinfo.Instigator.Position.AdjacentTo8WayOrInside(base.Wearer.Position))
 				{
-					goto IL_0049;
+					goto IL_004b;
 				}
 				if (dinfo.Def.isExplosive)
-					goto IL_0049;
+					goto IL_004b;
 			}
-			return false;
-			IL_0049:
+			bool result = false;
+			goto IL_00ee;
+			IL_004b:
 			if (dinfo.Instigator != null)
 			{
 				AttachableThing attachableThing = dinfo.Instigator as AttachableThing;
 				if (attachableThing != null && attachableThing.parent == base.Wearer)
 				{
-					return false;
+					result = false;
+					goto IL_00ee;
 				}
 			}
 			this.energy -= (float)dinfo.Amount * this.EnergyLossPerDamage;
@@ -187,7 +165,10 @@ namespace RimWorld
 			{
 				this.AbsorbedDamage(dinfo);
 			}
-			return true;
+			result = true;
+			goto IL_00ee;
+			IL_00ee:
+			return result;
 		}
 
 		public void KeepDisplaying()

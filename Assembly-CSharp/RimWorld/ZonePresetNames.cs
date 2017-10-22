@@ -6,21 +6,26 @@ namespace RimWorld
 	{
 		public static string PresetName(this StorageSettingsPreset preset)
 		{
+			string result;
 			switch (preset)
 			{
 			case StorageSettingsPreset.DumpingStockpile:
 			{
-				return "DumpingStockpile".Translate();
+				result = "DumpingStockpile".Translate();
+				break;
 			}
 			case StorageSettingsPreset.DefaultStockpile:
 			{
-				return "Stockpile".Translate();
+				result = "Stockpile".Translate();
+				break;
 			}
 			default:
 			{
-				return "Zone".Translate();
+				result = "Zone".Translate();
+				break;
 			}
 			}
+			return result;
 		}
 	}
 }

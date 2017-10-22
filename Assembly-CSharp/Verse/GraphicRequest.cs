@@ -52,11 +52,7 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			if (!(obj is GraphicRequest))
-			{
-				return false;
-			}
-			return this.Equals((GraphicRequest)obj);
+			return obj is GraphicRequest && this.Equals((GraphicRequest)obj);
 		}
 
 		public bool Equals(GraphicRequest other)

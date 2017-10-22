@@ -7,6 +7,34 @@ namespace Verse
 {
 	public class CameraDriver : MonoBehaviour
 	{
+		public CameraShaker shaker = new CameraShaker();
+
+		private Camera cachedCamera = null;
+
+		private GameObject reverbDummy;
+
+		public CameraMapConfig config = new CameraMapConfig_Normal();
+
+		private Vector3 velocity;
+
+		private Vector3 rootPos;
+
+		private float rootSize;
+
+		private float desiredSize;
+
+		private Vector2 desiredDolly = Vector2.zero;
+
+		private Vector2 mouseDragVect = Vector2.zero;
+
+		private bool mouseCoveredByUI = false;
+
+		private float mouseTouchingScreenBottomEdgeStartTime = -1f;
+
+		private static int lastViewRectGetFrame = -1;
+
+		private static CellRect lastViewRect;
+
 		public const float MaxDeltaTime = 0.025f;
 
 		private const float ScreenDollyEdgeWidth = 20f;
@@ -39,34 +67,6 @@ namespace Verse
 
 		private const float ReverbDummyAltitude = 65f;
 
-		public CameraShaker shaker = new CameraShaker();
-
-		private Camera cachedCamera;
-
-		private GameObject reverbDummy;
-
-		public CameraMapConfig config = new CameraMapConfig_Normal();
-
-		private Vector3 velocity;
-
-		private Vector3 rootPos;
-
-		private float rootSize;
-
-		private float desiredSize;
-
-		private Vector2 desiredDolly = Vector2.zero;
-
-		private Vector2 mouseDragVect = Vector2.zero;
-
-		private bool mouseCoveredByUI;
-
-		private float mouseTouchingScreenBottomEdgeStartTime = -1f;
-
-		private static int lastViewRectGetFrame = -1;
-
-		private static CellRect lastViewRect;
-
 		private Camera MyCamera
 		{
 			get
@@ -83,11 +83,7 @@ namespace Verse
 		{
 			get
 			{
-				if (Screen.fullScreen)
-				{
-					return 6f;
-				}
-				return 20f;
+				return (float)((!Screen.fullScreen) ? 20.0 : 6.0);
 			}
 		}
 
@@ -95,23 +91,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.rootSize < 12.0)
-				{
-					return CameraZoomRange.Closest;
-				}
-				if (this.rootSize < 13.800000190734863)
-				{
-					return CameraZoomRange.Close;
-				}
-				if (this.rootSize < 42.0)
-				{
-					return CameraZoomRange.Middle;
-				}
-				if (this.rootSize < 57.0)
-				{
-					return CameraZoomRange.Far;
-				}
-				return CameraZoomRange.Furthest;
+				return (CameraZoomRange)((!(this.rootSize < 12.0)) ? ((this.rootSize < 13.800000190734863) ? 1 : ((!(this.rootSize < 42.0)) ? ((!(this.rootSize < 57.0)) ? 4 : 3) : 2)) : 0);
 			}
 		}
 
@@ -194,10 +174,8 @@ namespace Verse
 
 		public void OnPreRender()
 		{
-			if (!LongEventHandler.ShouldWaitForEvent && Find.VisibleMap != null && !WorldRendererUtility.WorldRenderedNow)
-			{
-				Find.VisibleMap.GenerateWaterMap();
-			}
+			if (LongEventHandler.ShouldWaitForEvent || Find.VisibleMap != null)
+				;
 		}
 
 		public void OnPreCull()
@@ -282,7 +260,11 @@ namespace Verse
 
 		public void Update()
 		{
-			if (!LongEventHandler.ShouldWaitForEvent && Find.VisibleMap != null)
+			if (LongEventHandler.ShouldWaitForEvent)
+			{
+				Current.SubcameraDriver.UpdatePositions(this.MyCamera);
+			}
+			else if (Find.VisibleMap != null)
 			{
 				Vector2 lhs = this.CalculateCurInputDollyVect();
 				if (lhs != Vector2.zero)
@@ -332,6 +314,7 @@ namespace Verse
 				this.rootSize += (float)(num * 0.40000000596046448);
 				this.shaker.Update();
 				this.ApplyPositionToGameObject();
+				Current.SubcameraDriver.UpdatePositions(this.MyCamera);
 				if (Find.VisibleMap != null)
 				{
 					RememberedCameraPos rememberedCameraPos = Find.VisibleMap.rememberedCameraPos;

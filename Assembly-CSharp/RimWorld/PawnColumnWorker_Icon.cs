@@ -87,11 +87,7 @@ namespace RimWorld
 		protected virtual Vector2 GetIconSize(Pawn pawn)
 		{
 			Texture2D iconFor = this.GetIconFor(pawn);
-			if ((Object)iconFor == (Object)null)
-			{
-				return Vector2.zero;
-			}
-			return new Vector2((float)iconFor.width, (float)iconFor.height);
+			return (!((Object)iconFor == (Object)null)) ? new Vector2((float)iconFor.width, (float)iconFor.height) : Vector2.zero;
 		}
 	}
 }

@@ -8,23 +8,32 @@ namespace RimWorld
 	{
 		protected override Job TryGiveJob(Pawn pawn)
 		{
+			Job result;
+			Thing thing;
 			if (!pawn.RaceProps.IsFlesh)
 			{
-				return null;
+				result = null;
 			}
-			for (int i = 0; i < 4; i++)
+			else
 			{
-				IntVec3 c = pawn.Position + GenAdj.CardinalDirections[i];
-				if (c.InBounds(pawn.Map))
+				for (int i = 0; i < 4; i++)
 				{
-					Thing thing = c.GetThingList(pawn.Map).Find((Predicate<Thing>)((Thing x) => x is Pawn && this.CanMarry(pawn, (Pawn)x)));
-					if (thing != null)
+					IntVec3 c = pawn.Position + GenAdj.CardinalDirections[i];
+					if (c.InBounds(pawn.Map))
 					{
-						return new Job(JobDefOf.MarryAdjacentPawn, thing);
+						thing = c.GetThingList(pawn.Map).Find((Predicate<Thing>)((Thing x) => x is Pawn && this.CanMarry(pawn, (Pawn)x)));
+						if (thing != null)
+							goto IL_00a0;
 					}
 				}
+				result = null;
 			}
-			return null;
+			goto IL_00ca;
+			IL_00ca:
+			return result;
+			IL_00a0:
+			result = new Job(JobDefOf.MarryAdjacentPawn, thing);
+			goto IL_00ca;
 		}
 
 		private bool CanMarry(Pawn pawn, Pawn toMarry)

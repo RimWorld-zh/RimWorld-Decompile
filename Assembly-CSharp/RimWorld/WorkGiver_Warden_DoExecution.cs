@@ -22,21 +22,29 @@ namespace RimWorld
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
+			Job result;
 			if (!base.ShouldTakeCareOfPrisoner(pawn, t))
 			{
-				return null;
+				result = null;
 			}
-			Pawn pawn2 = (Pawn)t;
-			if (pawn2.guest.interactionMode == PrisonerInteractionModeDefOf.Execution && pawn.CanReserve(t, 1, -1, null, false))
+			else
 			{
-				if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+				Pawn pawn2 = (Pawn)t;
+				if (pawn2.guest.interactionMode != PrisonerInteractionModeDefOf.Execution || !pawn.CanReserve(t, 1, -1, null, false))
+				{
+					result = null;
+				}
+				else if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 				{
 					JobFailReason.Is(WorkGiver_Warden_DoExecution.IncapableOfViolenceLowerTrans);
-					return null;
+					result = null;
 				}
-				return new Job(JobDefOf.PrisonerExecution, t);
+				else
+				{
+					result = new Job(JobDefOf.PrisonerExecution, t);
+				}
 			}
-			return null;
+			return result;
 		}
 	}
 }

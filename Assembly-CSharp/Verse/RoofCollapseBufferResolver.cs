@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -27,46 +26,28 @@ namespace Verse
 					stringBuilder.AppendLine();
 					stringBuilder.AppendLine("TheseThingsCrushed".Translate());
 					HashSet<string> hashSet = new HashSet<string>();
-					List<Thing>.Enumerator enumerator = roofCollapseBuffer.CrushedThingsForLetter.GetEnumerator();
-					try
+					foreach (Thing item2 in roofCollapseBuffer.CrushedThingsForLetter)
 					{
-						while (enumerator.MoveNext())
+						string item = item2.LabelShort.CapitalizeFirst();
+						if (item2.def.category == ThingCategory.Pawn)
 						{
-							Thing current = enumerator.Current;
-							string item = current.LabelShort.CapitalizeFirst();
-							if (current.def.category == ThingCategory.Pawn)
-							{
-								item = current.LabelCap;
-							}
-							if (!hashSet.Contains(item))
-							{
-								hashSet.Add(item);
-							}
+							item = item2.LabelCap;
+						}
+						if (!hashSet.Contains(item))
+						{
+							hashSet.Add(item);
 						}
 					}
-					finally
+					foreach (string item3 in hashSet)
 					{
-						((IDisposable)(object)enumerator).Dispose();
+						stringBuilder.AppendLine("    -" + item3);
 					}
-					HashSet<string>.Enumerator enumerator2 = hashSet.GetEnumerator();
-					try
-					{
-						while (enumerator2.MoveNext())
-						{
-							string current2 = enumerator2.Current;
-							stringBuilder.AppendLine("    -" + current2);
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator2).Dispose();
-					}
-					Find.LetterStack.ReceiveLetter("LetterLabelRoofCollapsed".Translate(), stringBuilder.ToString(), LetterDefOf.BadNonUrgent, new TargetInfo(roofCollapseBuffer.CellsMarkedToCollapse[0], this.map, false), (string)null);
+					Find.LetterStack.ReceiveLetter("LetterLabelRoofCollapsed".Translate(), stringBuilder.ToString(), LetterDefOf.NegativeEvent, new TargetInfo(roofCollapseBuffer.CellsMarkedToCollapse[0], this.map, false), (string)null);
 				}
 				else
 				{
 					string text = "RoofCollapsed".Translate();
-					Messages.Message(text, new TargetInfo(roofCollapseBuffer.CellsMarkedToCollapse[0], this.map, false), MessageSound.Negative);
+					Messages.Message(text, new TargetInfo(roofCollapseBuffer.CellsMarkedToCollapse[0], this.map, false), MessageTypeDefOf.NegativeHealthEvent);
 				}
 				roofCollapseBuffer.Clear();
 			}

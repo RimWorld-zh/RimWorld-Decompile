@@ -7,28 +7,33 @@ namespace Verse
 	{
 		public int productCount = 1;
 
+		public int targetCountAdjustment = 1;
+
 		public int workAmount = -1;
 
-		public StatDef workSpeedStat;
+		public StatDef workSpeedStat = null;
 
-		public StatDef efficiencyStat;
+		public StatDef efficiencyStat = null;
 
-		public ThingDef unfinishedThingDef;
+		public ThingDef unfinishedThingDef = null;
 
-		public ThingFilter defaultIngredientFilter;
+		public ThingFilter defaultIngredientFilter = null;
 
-		public List<SkillRequirement> skillRequirements;
+		public List<SkillRequirement> skillRequirements = null;
 
-		public SkillDef workSkill;
+		public SkillDef workSkill = null;
 
 		public float workSkillLearnPerTick = 1f;
 
-		public EffecterDef effectWorking;
+		public EffecterDef effectWorking = null;
 
-		public SoundDef soundWorking;
+		public SoundDef soundWorking = null;
 
-		public List<ThingDef> recipeUsers;
+		public List<ThingDef> recipeUsers = null;
 
-		public ResearchProjectDef researchPrerequisite;
+		public ResearchProjectDef researchPrerequisite = null;
+
+		[NoTranslate]
+		public List<string> factionPrerequisiteTags = null;
 	}
 }

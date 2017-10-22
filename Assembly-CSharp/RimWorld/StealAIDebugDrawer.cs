@@ -85,28 +85,33 @@ namespace RimWorld
 
 		private static float TotalMarketValueAround(IntVec3 center, Map map, int pawnsCount)
 		{
+			float result;
 			if (center.Impassable(map))
 			{
-				return 0f;
+				result = 0f;
 			}
-			float num = 0f;
-			StealAIDebugDrawer.tmpToSteal.Clear();
-			for (int num2 = 0; num2 < pawnsCount; num2++)
+			else
 			{
-				IntVec3 intVec = center + GenRadial.RadialPattern[num2];
-				if (!intVec.InBounds(map) || intVec.Impassable(map) || !GenSight.LineOfSight(center, intVec, map, false, null, 0, 0))
+				float num = 0f;
+				StealAIDebugDrawer.tmpToSteal.Clear();
+				for (int num2 = 0; num2 < pawnsCount; num2++)
 				{
-					intVec = center;
+					IntVec3 intVec = center + GenRadial.RadialPattern[num2];
+					if (!intVec.InBounds(map) || intVec.Impassable(map) || !GenSight.LineOfSight(center, intVec, map, false, null, 0, 0))
+					{
+						intVec = center;
+					}
+					Thing thing = default(Thing);
+					if (StealAIUtility.TryFindBestItemToSteal(intVec, map, 7f, out thing, (Pawn)null, StealAIDebugDrawer.tmpToSteal))
+					{
+						num += StealAIUtility.GetValue(thing);
+						StealAIDebugDrawer.tmpToSteal.Add(thing);
+					}
 				}
-				Thing thing = default(Thing);
-				if (StealAIUtility.TryFindBestItemToSteal(intVec, map, 7f, out thing, (Pawn)null, StealAIDebugDrawer.tmpToSteal))
-				{
-					num += StealAIUtility.GetValue(thing);
-					StealAIDebugDrawer.tmpToSteal.Add(thing);
-				}
+				StealAIDebugDrawer.tmpToSteal.Clear();
+				result = num;
 			}
-			StealAIDebugDrawer.tmpToSteal.Clear();
-			return num;
+			return result;
 		}
 
 		private static Lord FindHostileLord()
@@ -115,7 +120,7 @@ namespace RimWorld
 			List<Lord> lords = Find.VisibleMap.lordManager.lords;
 			for (int i = 0; i < lords.Count; i++)
 			{
-				if (lords[i].faction.HostileTo(Faction.OfPlayer) && (lord == null || lords[i].ownedPawns.Count > lord.ownedPawns.Count))
+				if (lords[i].faction != null && lords[i].faction.HostileTo(Faction.OfPlayer) && (lord == null || lords[i].ownedPawns.Count > lord.ownedPawns.Count))
 				{
 					lord = lords[i];
 				}

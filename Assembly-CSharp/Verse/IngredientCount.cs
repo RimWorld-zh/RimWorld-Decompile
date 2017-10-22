@@ -16,6 +16,14 @@ namespace Verse
 			}
 		}
 
+		public string Summary
+		{
+			get
+			{
+				return this.count + "x " + this.filter.Summary;
+			}
+		}
+
 		public int CountRequiredOfFor(ThingDef thingDef, RecipeDef recipe)
 		{
 			float num = recipe.IngredientValueGetter.ValuePerUnitOf(thingDef);
@@ -39,7 +47,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return "(" + this.count + "x " + this.filter.ToString() + ")";
+			return "(" + this.Summary + ")";
 		}
 	}
 }

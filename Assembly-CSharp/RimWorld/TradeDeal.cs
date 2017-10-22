@@ -24,14 +24,24 @@ namespace RimWorld
 		{
 			get
 			{
-				for (int i = 0; i < this.tradeables.Count; i++)
+				int num = 0;
+				Tradeable result;
+				while (true)
 				{
-					if (this.tradeables[i].ThingDef == ThingDefOf.Silver)
+					if (num < this.tradeables.Count)
 					{
-						return this.tradeables[i];
+						if (this.tradeables[num].ThingDef == ThingDefOf.Silver)
+						{
+							result = this.tradeables[num];
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = null;
+					break;
 				}
-				return null;
+				return result;
 			}
 		}
 
@@ -91,38 +101,46 @@ namespace RimWorld
 
 		private bool InSellablePosition(Thing t, out string reason)
 		{
+			bool result;
 			if (!t.Spawned)
 			{
 				reason = (string)null;
-				return false;
+				result = false;
 			}
-			if (t.Position.Fogged(t.Map))
+			else if (t.Position.Fogged(t.Map))
 			{
 				reason = (string)null;
-				return false;
+				result = false;
 			}
-			Room room = t.GetRoom(RegionType.Set_Passable);
-			if (room != null)
+			else
 			{
-				int num = GenRadial.NumCellsInRadius(6.9f);
-				for (int num2 = 0; num2 < num; num2++)
+				Room room = t.GetRoom(RegionType.Set_Passable);
+				if (room != null)
 				{
-					IntVec3 intVec = t.Position + GenRadial.RadialPattern[num2];
-					if (intVec.InBounds(t.Map) && intVec.GetRoom(t.Map, RegionType.Set_Passable) == room)
+					int num = GenRadial.NumCellsInRadius(6.9f);
+					for (int num2 = 0; num2 < num; num2++)
 					{
-						List<Thing> thingList = intVec.GetThingList(t.Map);
-						for (int i = 0; i < thingList.Count; i++)
+						IntVec3 intVec = t.Position + GenRadial.RadialPattern[num2];
+						if (intVec.InBounds(t.Map) && intVec.GetRoom(t.Map, RegionType.Set_Passable) == room)
 						{
-							if (thingList[i].PreventPlayerSellingThingsNearby(out reason))
+							List<Thing> thingList = intVec.GetThingList(t.Map);
+							for (int i = 0; i < thingList.Count; i++)
 							{
-								return false;
+								if (thingList[i].PreventPlayerSellingThingsNearby(out reason))
+									goto IL_00ce;
 							}
 						}
 					}
 				}
+				reason = (string)null;
+				result = true;
 			}
-			reason = (string)null;
-			return true;
+			goto IL_0101;
+			IL_0101:
+			return result;
+			IL_00ce:
+			result = false;
+			goto IL_0101;
 		}
 
 		private void AddToTradeables(Thing t, Transactor trans)
@@ -140,56 +158,43 @@ namespace RimWorld
 		public void UpdateCurrencyCount()
 		{
 			float num = 0f;
-			List<Tradeable>.Enumerator enumerator = this.tradeables.GetEnumerator();
-			try
+			foreach (Tradeable tradeable in this.tradeables)
 			{
-				while (enumerator.MoveNext())
+				if (!tradeable.IsCurrency)
 				{
-					Tradeable current = enumerator.Current;
-					if (!current.IsCurrency)
-					{
-						num += current.CurTotalSilverCost;
-					}
+					num += tradeable.CurTotalSilverCost;
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			this.SilverTradeable.ForceTo(-Mathf.RoundToInt(num));
 		}
 
 		public bool TryExecute(out bool actuallyTraded)
 		{
+			bool result;
 			if (this.SilverTradeable.CountPostDealFor(Transactor.Colony) < 0)
 			{
 				Find.WindowStack.WindowOfType<Dialog_Trade>().FlashSilver();
-				Messages.Message("MessageColonyCannotAfford".Translate(), MessageSound.RejectInput);
+				Messages.Message("MessageColonyCannotAfford".Translate(), MessageTypeDefOf.RejectInput);
 				actuallyTraded = false;
-				return false;
+				result = false;
 			}
-			this.UpdateCurrencyCount();
-			this.LimitCurrencyCountToTraderFunds();
-			actuallyTraded = false;
-			List<Tradeable>.Enumerator enumerator = this.tradeables.GetEnumerator();
-			try
+			else
 			{
-				while (enumerator.MoveNext())
+				this.UpdateCurrencyCount();
+				this.LimitCurrencyCountToTraderFunds();
+				actuallyTraded = false;
+				foreach (Tradeable tradeable in this.tradeables)
 				{
-					Tradeable current = enumerator.Current;
-					if (current.ActionToDo != 0)
+					if (tradeable.ActionToDo != 0)
 					{
 						actuallyTraded = true;
 					}
-					current.ResolveTrade();
+					tradeable.ResolveTrade();
 				}
+				this.Reset();
+				result = true;
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
-			this.Reset();
-			return true;
+			return result;
 		}
 
 		public bool DoesTraderHaveEnoughSilver()

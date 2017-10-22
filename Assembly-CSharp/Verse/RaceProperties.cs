@@ -7,11 +7,11 @@ namespace Verse
 {
 	public class RaceProperties
 	{
-		public Intelligence intelligence;
+		public Intelligence intelligence = Intelligence.Animal;
 
-		private FleshTypeDef fleshType;
+		private FleshTypeDef fleshType = null;
 
-		private ThingDef bloodDef;
+		private ThingDef bloodDef = null;
 
 		public bool hasGenders = true;
 
@@ -21,33 +21,33 @@ namespace Verse
 
 		public ThinkTreeDef thinkTreeConstant;
 
-		public PawnNameCategory nameCategory;
+		public PawnNameCategory nameCategory = PawnNameCategory.NoName;
 
-		public FoodTypeFlags foodType;
+		public FoodTypeFlags foodType = FoodTypeFlags.None;
 
-		public BodyDef body;
+		public BodyDef body = null;
 
 		public Type deathActionWorkerClass;
 
-		public List<AnimalBiomeRecord> wildBiomes;
+		public List<AnimalBiomeRecord> wildBiomes = null;
 
-		public SimpleCurve ageGenerationCurve;
+		public SimpleCurve ageGenerationCurve = null;
 
-		public bool makesFootprints;
+		public bool makesFootprints = false;
 
 		public int executionRange = 2;
 
 		public float lifeExpectancy = 10f;
 
-		public List<HediffGiverSetDef> hediffGiverSets;
+		public List<HediffGiverSetDef> hediffGiverSets = null;
 
-		public float petness;
+		public float petness = 0f;
 
-		public bool packAnimal;
+		public bool packAnimal = false;
 
-		public bool herdAnimal;
+		public bool herdAnimal = false;
 
-		public bool predator;
+		public bool predator = false;
 
 		public float maxPreyBodySize = 99999f;
 
@@ -55,31 +55,31 @@ namespace Verse
 
 		public float nuzzleMtbHours = -1f;
 
-		public float manhunterOnDamageChance;
+		public float manhunterOnDamageChance = 0f;
 
-		public float manhunterOnTameFailChance;
+		public float manhunterOnTameFailChance = 0f;
 
 		public bool canBePredatorPrey = true;
 
 		public float gestationPeriodDays = 10f;
 
-		public SimpleCurve litterSizeCurve;
+		public SimpleCurve litterSizeCurve = null;
 
 		public float mateMtbHours = 12f;
 
-		public List<string> untrainableTags;
+		public List<string> untrainableTags = null;
 
-		public List<string> trainableTags;
+		public List<string> trainableTags = null;
 
-		private TrainableIntelligenceDef trainableIntelligence;
+		private TrainableIntelligenceDef trainableIntelligence = null;
 
 		private RulePackDef nameGenerator;
 
 		private RulePackDef nameGeneratorFemale;
 
-		public float nameOnTameChance;
+		public float nameOnTameChance = 0f;
 
-		public float nameOnNuzzleChance;
+		public float nameOnNuzzleChance = 0f;
 
 		public float baseBodySize = 1f;
 
@@ -91,45 +91,45 @@ namespace Verse
 
 		public Color leatherColor = ColorLibrary.Leather;
 
-		public string leatherLabel;
+		public string leatherLabel = (string)null;
 
 		public float leatherCommonalityFactor = 1f;
 
 		public float leatherInsulation = 1.1f;
 
-		public List<StatModifier> leatherStatFactors;
+		public List<StatModifier> leatherStatFactors = null;
 
 		public float leatherMarketValueFactor = 1f;
 
-		public string meatLabel;
+		public string meatLabel = (string)null;
 
 		public Color meatColor = new ColorInt(141, 56, 52).ToColor;
 
-		public ThingDef useMeatFrom;
+		public ThingDef useMeatFrom = null;
 
-		public ThingDef useLeatherFrom;
+		public ThingDef useLeatherFrom = null;
 
-		public ShadowData specialShadowData;
+		public ShadowData specialShadowData = null;
 
 		public IntRange soundCallIntervalRange = new IntRange(2000, 4000);
 
-		public SoundDef soundMeleeHitPawn;
+		public SoundDef soundMeleeHitPawn = null;
 
-		public SoundDef soundMeleeHitBuilding;
+		public SoundDef soundMeleeHitBuilding = null;
 
-		public SoundDef soundMeleeMiss;
-
-		[Unsaved]
-		private DeathActionWorker deathActionWorkerInt;
+		public SoundDef soundMeleeMiss = null;
 
 		[Unsaved]
-		public ThingDef meatDef;
+		private DeathActionWorker deathActionWorkerInt = null;
 
 		[Unsaved]
-		public ThingDef leatherDef;
+		public ThingDef meatDef = null;
 
 		[Unsaved]
-		public ThingDef corpseDef;
+		public ThingDef leatherDef = null;
+
+		[Unsaved]
+		public ThingDef corpseDef = null;
 
 		public bool Humanlike
 		{
@@ -167,37 +167,45 @@ namespace Verse
 		{
 			get
 			{
+				float result;
 				switch (this.ResolvedDietCategory)
 				{
 				case DietCategory.NeverEats:
 				{
-					return 0.3f;
+					result = 0.3f;
+					break;
 				}
 				case DietCategory.Omnivorous:
 				{
-					return 0.3f;
+					result = 0.3f;
+					break;
 				}
 				case DietCategory.Carnivorous:
 				{
-					return 0.3f;
+					result = 0.3f;
+					break;
 				}
 				case DietCategory.Ovivorous:
 				{
-					return 0.4f;
+					result = 0.4f;
+					break;
 				}
 				case DietCategory.Herbivorous:
 				{
-					return 0.45f;
+					result = 0.45f;
+					break;
 				}
 				case DietCategory.Dendrovorous:
 				{
-					return 0.45f;
+					result = 0.45f;
+					break;
 				}
 				default:
 				{
 					throw new InvalidOperationException();
 				}
 				}
+				return result;
 			}
 		}
 
@@ -205,27 +213,7 @@ namespace Verse
 		{
 			get
 			{
-				if (!this.EatsFood)
-				{
-					return DietCategory.NeverEats;
-				}
-				if (this.Eats(FoodTypeFlags.Tree))
-				{
-					return DietCategory.Dendrovorous;
-				}
-				if (this.Eats(FoodTypeFlags.Meat))
-				{
-					if (!this.Eats(FoodTypeFlags.VegetableOrFruit) && !this.Eats(FoodTypeFlags.Plant))
-					{
-						return DietCategory.Carnivorous;
-					}
-					return DietCategory.Omnivorous;
-				}
-				if (this.Eats(FoodTypeFlags.AnimalProduct))
-				{
-					return DietCategory.Ovivorous;
-				}
-				return DietCategory.Herbivorous;
+				return (DietCategory)(this.EatsFood ? ((!this.Eats(FoodTypeFlags.Tree)) ? ((!this.Eats(FoodTypeFlags.Meat)) ? ((!this.Eats(FoodTypeFlags.AnimalProduct)) ? 1 : 3) : ((!this.Eats(FoodTypeFlags.VegetableOrFruit) && !this.Eats(FoodTypeFlags.Plant)) ? 5 : 4)) : 2) : 0);
 			}
 		}
 
@@ -245,11 +233,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.fleshType != null)
-				{
-					return this.fleshType;
-				}
-				return FleshTypeDefOf.Normal;
+				return (this.fleshType == null) ? FleshTypeDefOf.Normal : this.fleshType;
 			}
 		}
 
@@ -273,15 +257,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.bloodDef != null)
-				{
-					return this.bloodDef;
-				}
-				if (this.IsFlesh)
-				{
-					return ThingDefOf.FilthBlood;
-				}
-				return null;
+				return (this.bloodDef == null) ? ((!this.IsFlesh) ? null : ThingDefOf.FilthBlood) : this.bloodDef;
 			}
 		}
 
@@ -289,34 +265,18 @@ namespace Verse
 		{
 			get
 			{
-				if (this.trainableIntelligence == null)
-				{
-					return TrainableIntelligenceDefOf.Intermediate;
-				}
-				return this.trainableIntelligence;
+				return (this.trainableIntelligence != null) ? this.trainableIntelligence : TrainableIntelligenceDefOf.Intermediate;
 			}
 		}
 
 		public RulePackDef GetNameGenerator(Gender gender)
 		{
-			if (gender == Gender.Female && this.nameGeneratorFemale != null)
-			{
-				return this.nameGeneratorFemale;
-			}
-			return this.nameGenerator;
+			return (gender != Gender.Female || this.nameGeneratorFemale == null) ? this.nameGenerator : this.nameGeneratorFemale;
 		}
 
 		public bool WillAutomaticallyEat(Thing t)
 		{
-			if (t.def.ingestible == null)
-			{
-				return false;
-			}
-			if (!this.CanEverEat(t))
-			{
-				return false;
-			}
-			return true;
+			return (byte)((t.def.ingestible != null) ? (this.CanEverEat(t) ? 1 : 0) : 0) != 0;
 		}
 
 		public bool CanEverEat(Thing t)
@@ -326,28 +286,12 @@ namespace Verse
 
 		public bool CanEverEat(ThingDef t)
 		{
-			if (!this.EatsFood)
-			{
-				return false;
-			}
-			if (t.ingestible == null)
-			{
-				return false;
-			}
-			if (t.ingestible.preferability == FoodPreferability.Undefined)
-			{
-				return false;
-			}
-			return this.Eats(t.ingestible.foodType);
+			return this.EatsFood && t.ingestible != null && t.ingestible.preferability != 0 && this.Eats(t.ingestible.foodType);
 		}
 
 		public bool Eats(FoodTypeFlags food)
 		{
-			if (!this.EatsFood)
-			{
-				return false;
-			}
-			return (this.foodType & food) != FoodTypeFlags.None;
+			return this.EatsFood && (this.foodType & food) != FoodTypeFlags.None;
 		}
 
 		public void ResolveReferencesSpecial()
@@ -367,18 +311,22 @@ namespace Verse
 			if (this.soundMeleeHitPawn == null)
 			{
 				yield return "soundMeleeHitPawn is null";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.soundMeleeHitBuilding == null)
 			{
 				yield return "soundMeleeHitBuilding is null";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.soundMeleeMiss == null)
 			{
 				yield return "soundMeleeMiss is null";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.predator && !this.Eats(FoodTypeFlags.Meat))
 			{
 				yield return "predator but doesn't eat meat";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			for (int j = 0; j < this.lifeStageAges.Count; j++)
 			{
@@ -387,72 +335,61 @@ namespace Verse
 					if (this.lifeStageAges[i].minAge > this.lifeStageAges[j].minAge)
 					{
 						yield return "lifeStages minAges are not in ascending order";
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
 			}
 			if (this.litterSizeCurve != null)
 			{
-				foreach (string item in this.litterSizeCurve.ConfigErrors("litterSizeCurve"))
+				using (IEnumerator<string> enumerator = this.litterSizeCurve.ConfigErrors("litterSizeCurve").GetEnumerator())
 				{
-					yield return item;
+					if (enumerator.MoveNext())
+					{
+						string e = enumerator.Current;
+						yield return e;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
 			if (this.nameOnTameChance > 0.0 && this.nameGenerator == null)
 			{
 				yield return "can be named, but has no nameGenerator";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.Animal && this.wildness < 0.0)
 			{
 				yield return "is animal but wildness is not defined";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.useMeatFrom != null && this.useMeatFrom.category != ThingCategory.Pawn)
 			{
 				yield return "tries to use meat from non-pawn " + this.useMeatFrom;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.useMeatFrom != null && this.useMeatFrom.race.useMeatFrom != null)
 			{
 				yield return "tries to use meat from " + this.useMeatFrom + " which uses meat from " + this.useMeatFrom.race.useMeatFrom;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.useLeatherFrom != null && this.useLeatherFrom.category != ThingCategory.Pawn)
 			{
 				yield return "tries to use leather from non-pawn " + this.useLeatherFrom;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (this.useLeatherFrom != null && this.useLeatherFrom.race.useLeatherFrom != null)
-			{
-				yield return "tries to use leather from " + this.useLeatherFrom + " which uses leather from " + this.useLeatherFrom.race.useLeatherFrom;
-			}
+			if (this.useLeatherFrom == null)
+				yield break;
+			if (this.useLeatherFrom.race.useLeatherFrom == null)
+				yield break;
+			yield return "tries to use leather from " + this.useLeatherFrom + " which uses leather from " + this.useLeatherFrom.race.useLeatherFrom;
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_04d0:
+			/*Error near IL_04d1: Unexpected return in MoveNext()*/;
 		}
 
 		internal IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Race".Translate(), parentDef.LabelCap, 2000);
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Diet".Translate(), this.foodType.ToHumanString().CapitalizeFirst(), 0);
-			if (this.wildness >= 0.0)
-			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Wildness".Translate(), this.wildness.ToStringPercent(), 0)
-				{
-					overrideReportText = "WildnessExplanation".Translate()
-				};
-			}
-			if ((int)this.intelligence < 2)
-			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "TrainableIntelligence".Translate(), this.TrainableIntelligence.GetLabel().CapitalizeFirst(), 0);
-			}
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "StatsReport_LifeExpectancy".Translate(), this.lifeExpectancy.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Absolute), 0);
-			if ((int)this.intelligence < 2)
-			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "AnimalFilthRate".Translate(), ((float)(PawnUtility.AnimalFilthChancePerCell(parentDef, parentDef.race.baseBodySize) * 1000.0)).ToString("F2"), 0)
-				{
-					overrideReportText = "AnimalFilthRateExplanation".Translate(1000.ToString())
-				};
-			}
-			if (this.packAnimal)
-			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "PackAnimal".Translate(), "Yes".Translate(), 0)
-				{
-					overrideReportText = "PackAnimalExplanation".Translate()
-				};
-			}
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Race".Translate(), parentDef.LabelCap, 2000, "");
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

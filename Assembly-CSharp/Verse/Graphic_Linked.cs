@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class Graphic_Linked : Graphic
 	{
-		protected Graphic subGraphic;
+		protected Graphic subGraphic = null;
 
 		public virtual LinkDrawerType LinkerType
 		{
@@ -18,7 +18,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.subGraphic.MatSingle;
+				return MaterialAtlasPool.SubMaterialFromAtlas(this.subGraphic.MatSingle, LinkDirections.None);
 			}
 		}
 
@@ -44,6 +44,11 @@ namespace Verse
 			Printer_Plane.PrintPlane(layer, thing.TrueCenter(), new Vector2(1f, 1f), mat, 0f, false, null, null, 0.01f);
 		}
 
+		public override Material MatSingleFor(Thing thing)
+		{
+			return this.LinkedDrawMatFrom(thing, thing.Position);
+		}
+
 		protected Material LinkedDrawMatFrom(Thing parent, IntVec3 cell)
 		{
 			int num = 0;
@@ -64,11 +69,7 @@ namespace Verse
 
 		public virtual bool ShouldLinkWith(IntVec3 c, Thing parent)
 		{
-			if (!c.InBounds(parent.Map))
-			{
-				return ((int)parent.def.graphicData.linkFlags & 1) != 0;
-			}
-			return (parent.Map.linkGrid.LinkFlagsAt(c) & parent.def.graphicData.linkFlags) != LinkFlags.None;
+			return parent.Spawned && (c.InBounds(parent.Map) ? ((parent.Map.linkGrid.LinkFlagsAt(c) & parent.def.graphicData.linkFlags) != LinkFlags.None) : (((int)parent.def.graphicData.linkFlags & 1) != 0));
 		}
 	}
 }

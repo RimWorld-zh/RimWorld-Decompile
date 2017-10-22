@@ -13,48 +13,57 @@ namespace RimWorld.Planet
 		public static Vector3 PatherTweenedPosRoot(Caravan caravan)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
+			Vector3 result;
 			if (!caravan.Spawned)
 			{
-				return worldGrid.GetTileCenter(caravan.Tile);
+				result = worldGrid.GetTileCenter(caravan.Tile);
 			}
-			if (caravan.pather.Moving)
+			else if (caravan.pather.Moving)
 			{
 				float num = (float)(caravan.pather.IsNextTilePassable() ? (1.0 - caravan.pather.nextTileCostLeft / caravan.pather.nextTileCostTotal) : 0.0);
-				return worldGrid.GetTileCenter(caravan.pather.nextTile) * num + worldGrid.GetTileCenter(caravan.Tile) * (float)(1.0 - num);
+				result = worldGrid.GetTileCenter(caravan.pather.nextTile) * num + worldGrid.GetTileCenter(caravan.Tile) * (float)(1.0 - num);
 			}
-			return worldGrid.GetTileCenter(caravan.Tile);
+			else
+			{
+				result = worldGrid.GetTileCenter(caravan.Tile);
+			}
+			return result;
 		}
 
 		public static Vector3 CaravanCollisionPosOffsetFor(Caravan caravan)
 		{
+			Vector3 result;
 			if (!caravan.Spawned)
 			{
-				return Vector3.zero;
+				result = Vector3.zero;
 			}
-			bool flag = caravan.Spawned && caravan.pather.Moving;
-			float d = (float)(0.15000000596046448 * Find.WorldGrid.averageTileSize);
-			if (flag && caravan.pather.nextTile != caravan.pather.Destination)
+			else
 			{
-				if (CaravanTweenerUtility.DrawPosCollides(caravan))
+				bool flag = caravan.Spawned && caravan.pather.Moving;
+				float d = (float)(0.15000000596046448 * Find.WorldGrid.averageTileSize);
+				if (!flag || caravan.pather.nextTile == caravan.pather.Destination)
+				{
+					int num = (!flag) ? caravan.Tile : caravan.pather.nextTile;
+					int num2 = 0;
+					int vertexIndex = 0;
+					CaravanTweenerUtility.GetCaravansStandingAtOrAboutToStandAt(num, out num2, out vertexIndex, caravan);
+					result = ((num2 != 0) ? WorldRendererUtility.ProjectOnQuadTangentialToPlanet(Find.WorldGrid.GetTileCenter(num), GenGeo.RegularPolygonVertexPosition(num2, vertexIndex) * d) : Vector3.zero);
+				}
+				else if (CaravanTweenerUtility.DrawPosCollides(caravan))
 				{
 					Rand.PushState();
 					Rand.Seed = caravan.ID;
 					float f = Rand.Range(0f, 360f);
 					Rand.PopState();
 					Vector2 point = new Vector2(Mathf.Cos(f), Mathf.Sin(f)) * d;
-					return WorldRendererUtility.ProjectOnQuadTangentialToPlanet(CaravanTweenerUtility.PatherTweenedPosRoot(caravan), point);
+					result = WorldRendererUtility.ProjectOnQuadTangentialToPlanet(CaravanTweenerUtility.PatherTweenedPosRoot(caravan), point);
 				}
-				return Vector3.zero;
+				else
+				{
+					result = Vector3.zero;
+				}
 			}
-			int num = (!flag) ? caravan.Tile : caravan.pather.nextTile;
-			int num2 = 0;
-			int vertexIndex = 0;
-			CaravanTweenerUtility.GetCaravansStandingAtOrAboutToStandAt(num, out num2, out vertexIndex, caravan);
-			if (num2 == 0)
-			{
-				return Vector3.zero;
-			}
-			return WorldRendererUtility.ProjectOnQuadTangentialToPlanet(Find.WorldGrid.GetTileCenter(num), GenGeo.RegularPolygonVertexPosition(num2, vertexIndex) * d);
+			return result;
 		}
 
 		private static void GetCaravansStandingAtOrAboutToStandAt(int tile, out int caravansCount, out int caravansWithLowerIdCount, Caravan forCaravan)
@@ -68,12 +77,12 @@ namespace RimWorld.Planet
 				if (caravan.Tile != tile)
 				{
 					if (caravan.pather.Moving && caravan.pather.nextTile == caravan.pather.Destination && caravan.pather.Destination == tile)
-						goto IL_0087;
+						goto IL_008b;
 				}
 				else if (!caravan.pather.Moving)
-					goto IL_0087;
+					goto IL_008b;
 				continue;
-				IL_0087:
+				IL_008b:
 				caravansCount++;
 				if (caravan.ID < forCaravan.ID)
 				{
@@ -87,15 +96,25 @@ namespace RimWorld.Planet
 			Vector3 a = CaravanTweenerUtility.PatherTweenedPosRoot(caravan);
 			float num = (float)(Find.WorldGrid.averageTileSize * 0.20000000298023224);
 			List<Caravan> caravans = Find.WorldObjects.Caravans;
-			for (int i = 0; i < caravans.Count; i++)
+			int num2 = 0;
+			bool result;
+			while (true)
 			{
-				Caravan caravan2 = caravans[i];
-				if (caravan2 != caravan && Vector3.Distance(a, CaravanTweenerUtility.PatherTweenedPosRoot(caravan2)) < num)
+				if (num2 < caravans.Count)
 				{
-					return true;
+					Caravan caravan2 = caravans[num2];
+					if (caravan2 != caravan && Vector3.Distance(a, CaravanTweenerUtility.PatherTweenedPosRoot(caravan2)) < num)
+					{
+						result = true;
+						break;
+					}
+					num2++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 	}
 }

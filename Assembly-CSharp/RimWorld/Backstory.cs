@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -6,40 +5,41 @@ using Verse;
 
 namespace RimWorld
 {
+	[CaseInsensitiveXMLParsing]
 	public class Backstory
 	{
-		public string identifier;
+		public string identifier = (string)null;
 
 		public BackstorySlot slot;
 
-		private string title;
+		private string title = (string)null;
 
-		private string titleShort;
+		private string titleShort = (string)null;
 
-		public string baseDesc;
+		public string baseDesc = (string)null;
 
 		public Dictionary<string, int> skillGains = new Dictionary<string, int>();
 
 		public Dictionary<SkillDef, int> skillGainsResolved = new Dictionary<SkillDef, int>();
 
-		public WorkTags workDisables;
+		public WorkTags workDisables = WorkTags.None;
 
-		public WorkTags requiredWorkTags;
+		public WorkTags requiredWorkTags = WorkTags.None;
 
 		public List<string> spawnCategories = new List<string>();
 
 		[LoadAlias("bodyNameGlobal")]
-		public BodyType bodyTypeGlobal;
+		public BodyType bodyTypeGlobal = BodyType.Undefined;
 
 		[LoadAlias("bodyNameFemale")]
-		public BodyType bodyTypeFemale;
+		public BodyType bodyTypeFemale = BodyType.Undefined;
 
 		[LoadAlias("bodyNameMale")]
-		public BodyType bodyTypeMale;
+		public BodyType bodyTypeMale = BodyType.Undefined;
 
-		public List<TraitEntry> forcedTraits;
+		public List<TraitEntry> forcedTraits = null;
 
-		public List<TraitEntry> disallowedTraits;
+		public List<TraitEntry> disallowedTraits = null;
 
 		public bool shuffleable = true;
 
@@ -48,13 +48,22 @@ namespace RimWorld
 			get
 			{
 				List<WorkTypeDef> list = DefDatabase<WorkTypeDef>.AllDefsListForReading;
-				for (int i = 0; i < list.Count; i++)
+				int i = 0;
+				while (true)
 				{
-					if (!this.AllowsWorkType(list[i]))
+					if (i < list.Count)
 					{
-						yield return list[i];
+						if (this.AllowsWorkType(list[i]))
+						{
+							i++;
+							continue;
+						}
+						break;
 					}
+					yield break;
 				}
+				yield return list[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -63,13 +72,22 @@ namespace RimWorld
 			get
 			{
 				List<WorkGiverDef> list = DefDatabase<WorkGiverDef>.AllDefsListForReading;
-				for (int i = 0; i < list.Count; i++)
+				int i = 0;
+				while (true)
 				{
-					if (!this.AllowsWorkGiver(list[i]))
+					if (i < list.Count)
 					{
-						yield return list[i];
+						if (this.AllowsWorkGiver(list[i]))
+						{
+							i++;
+							continue;
+						}
+						break;
 					}
+					yield break;
 				}
+				yield return list[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -85,51 +103,62 @@ namespace RimWorld
 		{
 			get
 			{
-				if (!this.titleShort.NullOrEmpty())
-				{
-					return this.titleShort;
-				}
-				return this.title;
+				return this.titleShort.NullOrEmpty() ? this.title : this.titleShort;
 			}
 		}
 
 		public bool DisallowsTrait(TraitDef def, int degree)
 		{
+			bool result;
 			if (this.disallowedTraits == null)
 			{
-				return false;
+				result = false;
 			}
-			for (int i = 0; i < this.disallowedTraits.Count; i++)
+			else
 			{
-				if (this.disallowedTraits[i].def == def && this.disallowedTraits[i].degree == degree)
+				for (int i = 0; i < this.disallowedTraits.Count; i++)
 				{
-					return true;
+					if (this.disallowedTraits[i].def == def && this.disallowedTraits[i].degree == degree)
+						goto IL_0049;
 				}
+				result = false;
 			}
-			return false;
+			goto IL_006d;
+			IL_006d:
+			return result;
+			IL_0049:
+			result = true;
+			goto IL_006d;
 		}
 
 		public BodyType BodyTypeFor(Gender g)
 		{
+			BodyType result;
 			if (this.bodyTypeGlobal == BodyType.Undefined)
 			{
 				switch (g)
 				{
 				case Gender.None:
-					goto IL_0011;
+					goto IL_0012;
 				case Gender.Female:
 				{
-					return this.bodyTypeFemale;
+					result = this.bodyTypeFemale;
+					break;
 				}
 				default:
 				{
-					return this.bodyTypeMale;
+					result = this.bodyTypeMale;
+					break;
 				}
 				}
+				goto IL_003d;
 			}
-			goto IL_0011;
-			IL_0011:
-			return this.bodyTypeGlobal;
+			goto IL_0012;
+			IL_0012:
+			result = this.bodyTypeGlobal;
+			goto IL_003d;
+			IL_003d:
+			return result;
 		}
 
 		public string FullDescriptionFor(Pawn p)
@@ -144,17 +173,17 @@ namespace RimWorld
 				SkillDef skillDef = allDefsListForReading[i];
 				if (this.skillGainsResolved.ContainsKey(skillDef))
 				{
-					stringBuilder.AppendLine(skillDef.skillLabel + ":   " + this.skillGainsResolved[skillDef].ToString("+##;-##"));
+					stringBuilder.AppendLine(skillDef.skillLabel.CapitalizeFirst() + ":   " + this.skillGainsResolved[skillDef].ToString("+##;-##"));
 				}
 			}
 			stringBuilder.AppendLine();
 			foreach (WorkTypeDef disabledWorkType in this.DisabledWorkTypes)
 			{
-				stringBuilder.AppendLine(disabledWorkType.gerundLabel + " " + "DisabledLower".Translate());
+				stringBuilder.AppendLine(disabledWorkType.gerundLabel.CapitalizeFirst() + " " + "DisabledLower".Translate());
 			}
 			foreach (WorkGiverDef disabledWorkGiver in this.DisabledWorkGivers)
 			{
-				stringBuilder.AppendLine(disabledWorkGiver.workType.gerundLabel + " -> " + disabledWorkGiver.label + " " + "DisabledLower".Translate());
+				stringBuilder.AppendLine(disabledWorkGiver.workType.gerundLabel.CapitalizeFirst() + " -> " + disabledWorkGiver.label + " " + "DisabledLower".Translate());
 			}
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
@@ -216,18 +245,9 @@ namespace RimWorld
 			string s = this.title.Replace('-', ' ');
 			s = GenText.CapitalizedNoSpaces(s);
 			this.identifier = GenText.RemoveNonAlphanumeric(s) + num.ToString();
-			Dictionary<string, int>.Enumerator enumerator = this.skillGains.GetEnumerator();
-			try
+			foreach (KeyValuePair<string, int> skillGain in this.skillGains)
 			{
-				while (enumerator.MoveNext())
-				{
-					KeyValuePair<string, int> current = enumerator.Current;
-					this.skillGainsResolved.Add(DefDatabase<SkillDef>.GetNamed(current.Key, true), current.Value);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				this.skillGainsResolved.Add(DefDatabase<SkillDef>.GetNamed(skillGain.Key, true), skillGain.Value);
 			}
 			this.skillGains = null;
 		}
@@ -237,69 +257,69 @@ namespace RimWorld
 			if (this.title.NullOrEmpty())
 			{
 				yield return "null title, baseDesc is " + this.baseDesc;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.titleShort.NullOrEmpty())
 			{
 				yield return "null titleShort, baseDesc is " + this.baseDesc;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (((int)this.workDisables & 8) != 0 && this.spawnCategories.Contains("Raider"))
 			{
 				yield return "cannot do Violent work but can spawn as a raider";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.spawnCategories.Count == 0 && !ignoreNoSpawnCategories)
 			{
 				yield return "no spawn categories";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.spawnCategories.Count == 1 && this.spawnCategories[0] == "Trader")
 			{
 				yield return "only Trader spawn category";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (!this.baseDesc.NullOrEmpty())
 			{
 				if (char.IsWhiteSpace(this.baseDesc[0]))
 				{
 					yield return "baseDesc starts with whitepspace";
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 				if (char.IsWhiteSpace(this.baseDesc[this.baseDesc.Length - 1]))
 				{
 					yield return "baseDesc ends with whitespace";
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
-			if (Prefs.DevMode)
+			if (!Prefs.DevMode)
+				yield break;
+			foreach (KeyValuePair<SkillDef, int> item in this.skillGainsResolved)
 			{
-				Dictionary<SkillDef, int>.Enumerator enumerator = this.skillGainsResolved.GetEnumerator();
-				try
+				if (item.Key.IsDisabled(this.workDisables, this.DisabledWorkTypes))
 				{
-					while (enumerator.MoveNext())
-					{
-						KeyValuePair<SkillDef, int> kvp2 = enumerator.Current;
-						if (kvp2.Key.IsDisabled(this.workDisables, this.DisabledWorkTypes))
-						{
-							yield return "modifies skill " + kvp2.Key + " but also disables this skill";
-						}
-					}
+					yield return "modifies skill " + item.Key + " but also disables this skill";
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				finally
+			}
+			using (Dictionary<string, Backstory>.Enumerator enumerator2 = BackstoryDatabase.allBackstories.GetEnumerator())
+			{
+				while (true)
 				{
-					((IDisposable)(object)enumerator).Dispose();
-				}
-				Dictionary<string, Backstory>.Enumerator enumerator2 = BackstoryDatabase.allBackstories.GetEnumerator();
-				try
-				{
-					while (enumerator2.MoveNext())
+					if (enumerator2.MoveNext())
 					{
 						KeyValuePair<string, Backstory> kvp = enumerator2.Current;
 						if (kvp.Value != this && kvp.Value.identifier == this.identifier)
-						{
-							yield return "backstory identifier used more than once: " + this.identifier;
-						}
+							break;
+						continue;
 					}
+					yield break;
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
-				}
+				yield return "backstory identifier used more than once: " + this.identifier;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			IL_03f7:
+			/*Error near IL_03f8: Unexpected return in MoveNext()*/;
 		}
 
 		public void SetTitle(string newTitle)
@@ -314,11 +334,7 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			if (this.title.NullOrEmpty())
-			{
-				return "(NullTitleBackstory)";
-			}
-			return "(" + this.title + ")";
+			return (!this.title.NullOrEmpty()) ? ("(" + this.title + ")") : "(NullTitleBackstory)";
 		}
 
 		public override int GetHashCode()

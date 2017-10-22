@@ -7,35 +7,29 @@ namespace RimWorld
 	{
 		public static TraderCaravanRole GetTraderCaravanRole(this Pawn p)
 		{
-			if (p.kindDef == PawnKindDefOf.Slave)
-			{
-				return TraderCaravanRole.Chattel;
-			}
-			if (p.kindDef.trader)
-			{
-				return TraderCaravanRole.Trader;
-			}
-			if (p.kindDef.RaceProps.packAnimal)
-			{
-				return TraderCaravanRole.Carrier;
-			}
-			if (p.RaceProps.Animal)
-			{
-				return TraderCaravanRole.Chattel;
-			}
-			return TraderCaravanRole.Guard;
+			return (TraderCaravanRole)((p.kindDef != PawnKindDefOf.Slave) ? (p.kindDef.trader ? 1 : ((!p.kindDef.RaceProps.packAnimal) ? ((!p.RaceProps.Animal) ? 3 : 4) : 2)) : 4);
 		}
 
 		public static Pawn FindTrader(Lord lord)
 		{
-			for (int i = 0; i < lord.ownedPawns.Count; i++)
+			int num = 0;
+			Pawn result;
+			while (true)
 			{
-				if (lord.ownedPawns[i].GetTraderCaravanRole() == TraderCaravanRole.Trader)
+				if (num < lord.ownedPawns.Count)
 				{
-					return lord.ownedPawns[i];
+					if (lord.ownedPawns[num].GetTraderCaravanRole() == TraderCaravanRole.Trader)
+					{
+						result = lord.ownedPawns[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public static float GenerateGuardPoints()

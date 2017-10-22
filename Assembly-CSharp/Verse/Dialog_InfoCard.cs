@@ -30,15 +30,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.thing != null)
-				{
-					return this.thing.def;
-				}
-				if (this.worldObject != null)
-				{
-					return this.worldObject.def;
-				}
-				return this.def;
+				return (this.thing == null) ? ((this.worldObject == null) ? this.def : this.worldObject.def) : this.thing.def;
 			}
 		}
 
@@ -180,7 +172,7 @@ namespace Verse
 			}
 			else if (this.tab == InfoCardTab.Character)
 			{
-				CharacterCardUtility.DrawCharacterCard(cardRect, (Pawn)this.thing);
+				CharacterCardUtility.DrawCharacterCard(cardRect, (Pawn)this.thing, null, default(Rect));
 			}
 			else if (this.tab == InfoCardTab.Health)
 			{
@@ -195,20 +187,21 @@ namespace Verse
 
 		private string GetTitle()
 		{
+			string result;
 			if (this.thing != null)
 			{
-				return this.thing.LabelCapNoCount;
+				result = this.thing.LabelCapNoCount;
 			}
-			if (this.worldObject != null)
+			else if (this.worldObject != null)
 			{
-				return this.worldObject.LabelCap;
+				result = this.worldObject.LabelCap;
 			}
-			ThingDef thingDef = this.Def as ThingDef;
-			if (thingDef != null)
+			else
 			{
-				return GenLabel.ThingLabel(thingDef, this.stuff, 1).CapitalizeFirst();
+				ThingDef thingDef = this.Def as ThingDef;
+				result = ((thingDef == null) ? this.Def.LabelCap : GenLabel.ThingLabel(thingDef, this.stuff, 1).CapitalizeFirst());
 			}
-			return this.Def.LabelCap;
+			return result;
 		}
 	}
 }

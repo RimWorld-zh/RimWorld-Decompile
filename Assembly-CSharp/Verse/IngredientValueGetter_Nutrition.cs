@@ -4,11 +4,7 @@ namespace Verse
 	{
 		public override float ValuePerUnitOf(ThingDef t)
 		{
-			if (!t.IsNutritionGivingIngestible)
-			{
-				return 0f;
-			}
-			return t.ingestible.nutrition;
+			return (float)(t.IsNutritionGivingIngestible ? t.ingestible.nutrition : 0.0);
 		}
 
 		public override string BillRequirementsDescription(RecipeDef r, IngredientCount ing)

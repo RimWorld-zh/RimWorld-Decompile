@@ -6,29 +6,53 @@ namespace RimWorld
 {
 	public class WorkGiver_Flick : WorkGiver_Scanner
 	{
+		public override PathEndMode PathEndMode
+		{
+			get
+			{
+				return PathEndMode.Touch;
+			}
+		}
+
+		public override Danger MaxPathDanger(Pawn pawn)
+		{
+			return Danger.Deadly;
+		}
+
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			List<Designation> desList = pawn.Map.designationManager.allDesignations;
-			for (int i = 0; i < desList.Count; i++)
+			int i = 0;
+			while (true)
 			{
-				if (desList[i].def == DesignationDefOf.Flick)
+				if (i < desList.Count)
 				{
-					yield return desList[i].target.Thing;
+					if (desList[i].def != DesignationDefOf.Flick)
+					{
+						i++;
+						continue;
+					}
+					break;
 				}
+				yield break;
 			}
+			yield return desList[i].target.Thing;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
+			bool result;
 			if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Flick) == null)
 			{
-				return false;
+				result = false;
 			}
-			if (!pawn.CanReserveAndReach(t, PathEndMode.Touch, pawn.NormalMaxDanger(), 1, -1, null, forced))
+			else
 			{
-				return false;
+				LocalTargetInfo target = t;
+				result = ((byte)(pawn.CanReserve(target, 1, -1, null, forced) ? 1 : 0) != 0);
 			}
-			return true;
+			return result;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

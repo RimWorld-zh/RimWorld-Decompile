@@ -8,11 +8,11 @@ namespace Verse
 	{
 		[Description("If checked, this sound is a sustainer.\n\nSustainers are used for sounds with a defined beginning and end (as opposed to OneShots, which just fire at a given instant).\n\nThis value must match what the game expects from the SubSoundDef with this name.")]
 		[DefaultValue(false)]
-		public bool sustain;
+		public bool sustain = false;
 
 		[Description("When the sound is allowed to play: only when the map view is active, only when the world view is active, or always (map + world + main menu).")]
 		[DefaultValue(SoundContext.Any)]
-		public SoundContext context;
+		public SoundContext context = SoundContext.Any;
 
 		[Description("Event names for this sound. \n\nThe code will look up sounds to play them according to their name. If the code finds the event name it wants in this list, it will trigger this sound.\n\nThe Def name is also used as an event name.")]
 		public List<string> eventNames = new List<string>();
@@ -27,34 +27,34 @@ namespace Verse
 
 		[Description("If the system has to not play some instances of this sound because of maxVoices, this determines which ones are ignored.\n\nYou should use PrioritizeNewest for things like gunshots, so older still-playing samples are overridden by newer, more important ones.\n\nSustained sounds should usually prioritize nearest, so if a new fire starts burning nearby it can override a more distant one.")]
 		[DefaultValue(VoicePriorityMode.PrioritizeNewest)]
-		public VoicePriorityMode priorityMode;
+		public VoicePriorityMode priorityMode = VoicePriorityMode.PrioritizeNewest;
 
-		[DefaultValue("")]
 		[Description("The special sound slot this sound takes. If a sound with this slot is playing, new sounds in this slot will not play.\n\nOnly works for on-camera sounds.")]
-		public string slot = string.Empty;
+		[DefaultValue("")]
+		public string slot = "";
 
 		[LoadAlias("sustainerStartSound")]
 		[Description("The name of the SoundDef that will be played when this sustainer starts.")]
 		[DefaultValue("")]
-		public string sustainStartSound = string.Empty;
+		public string sustainStartSound = "";
 
 		[LoadAlias("sustainerStopSound")]
 		[Description("The name of the SoundDef that will be played when this sustainer ends.")]
 		[DefaultValue("")]
-		public string sustainStopSound = string.Empty;
+		public string sustainStopSound = "";
 
-		[DefaultValue(0f)]
 		[Description("After a sustainer is ended, the sound will fade out over this many real-time seconds.")]
-		public float sustainFadeoutTime;
+		[DefaultValue(0f)]
+		public float sustainFadeoutTime = 0f;
 
 		[Description("All the sounds that will play when this set is triggered.")]
 		public List<SubSoundDef> subSounds = new List<SubSoundDef>();
 
 		[Unsaved]
-		public bool isUndefined;
+		public bool isUndefined = false;
 
 		[Unsaved]
-		public Sustainer testSustainer;
+		public Sustainer testSustainer = null;
 
 		private static Dictionary<string, SoundDef> undefinedSoundDefs = new Dictionary<string, SoundDef>();
 
@@ -62,14 +62,24 @@ namespace Verse
 		{
 			get
 			{
-				for (int i = 0; i < this.subSounds.Count; i++)
+				int num = 0;
+				bool result;
+				while (true)
 				{
-					if (this.subSounds[i].onCamera)
+					if (num < this.subSounds.Count)
 					{
-						return true;
+						if (this.subSounds[num].onCamera)
+						{
+							result = true;
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = false;
+					break;
 				}
-				return false;
+				return result;
 			}
 		}
 
@@ -77,14 +87,24 @@ namespace Verse
 		{
 			get
 			{
-				for (int i = 0; i < this.subSounds.Count; i++)
+				int num = 0;
+				bool result;
+				while (true)
 				{
-					if (!this.subSounds[i].onCamera)
+					if (num < this.subSounds.Count)
 					{
-						return true;
+						if (!this.subSounds[num].onCamera)
+						{
+							result = true;
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = false;
+					break;
 				}
-				return false;
+				return result;
 			}
 		}
 
@@ -107,25 +127,30 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			if (this.slot != string.Empty && !this.HasSubSoundsOnCamera)
+			if (this.slot != "" && !this.HasSubSoundsOnCamera)
 			{
 				yield return "Sound slots only work for on-camera sounds.";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.HasSubSoundsInWorld && this.context != SoundContext.MapOnly)
 			{
 				yield return "Sounds with non-on-camera subsounds should use MapOnly context.";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.priorityMode == VoicePriorityMode.PrioritizeNewest && this.sustain)
 			{
 				yield return "PrioritizeNewest is not supported with sustainers.";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.maxVoices < 1)
 			{
 				yield return "Max voices is less than 1.";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (!this.sustain && (this.sustainStartSound != string.Empty || this.sustainStopSound != string.Empty))
+			if (!this.sustain && (this.sustainStartSound != "" || this.sustainStopSound != ""))
 			{
 				yield return "Sustainer start and end sounds only work with sounds defined as sustainers.";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (!this.sustain)
 			{
@@ -134,6 +159,7 @@ namespace Verse
 					if (this.subSounds[k].startDelayRange.TrueMax > 0.0010000000474974513)
 					{
 						yield return "startDelayRange is only supported on sustainers.";
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
 			}
@@ -147,6 +173,7 @@ namespace Verse
 						if (defs[j].eventNames[i] == base.defName)
 						{
 							yield return base.defName + " is also defined in the eventNames list for " + defs[j];
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
 				}
@@ -199,33 +226,43 @@ namespace Verse
 		public static SoundDef Named(string defName)
 		{
 			SoundDef namedSilentFail = DefDatabase<SoundDef>.GetNamedSilentFail(defName);
+			SoundDef result;
+			List<SoundDef> allDefsListForReading;
+			int i;
 			if (namedSilentFail != null)
 			{
-				return namedSilentFail;
+				result = namedSilentFail;
 			}
-			if (!Prefs.DevMode && SoundDef.undefinedSoundDefs.ContainsKey(defName))
+			else if (!Prefs.DevMode && SoundDef.undefinedSoundDefs.ContainsKey(defName))
 			{
-				return SoundDef.UndefinedDefNamed(defName);
+				result = SoundDef.UndefinedDefNamed(defName);
 			}
-			List<SoundDef> allDefsListForReading = DefDatabase<SoundDef>.AllDefsListForReading;
-			for (int i = 0; i < allDefsListForReading.Count; i++)
+			else
 			{
-				if (allDefsListForReading[i].eventNames.Count > 0)
+				allDefsListForReading = DefDatabase<SoundDef>.AllDefsListForReading;
+				for (i = 0; i < allDefsListForReading.Count; i++)
 				{
-					for (int j = 0; j < allDefsListForReading[i].eventNames.Count; j++)
+					if (allDefsListForReading[i].eventNames.Count > 0)
 					{
-						if (allDefsListForReading[i].eventNames[j] == defName)
+						for (int j = 0; j < allDefsListForReading[i].eventNames.Count; j++)
 						{
-							return allDefsListForReading[i];
+							if (allDefsListForReading[i].eventNames[j] == defName)
+								goto IL_008a;
 						}
 					}
 				}
+				if (DefDatabase<SoundDef>.DefCount == 0)
+				{
+					Log.Warning("Tried to get SoundDef named " + defName + ", but sound defs aren't loaded yet (is it a static variable initialized before play data?).");
+				}
+				result = SoundDef.UndefinedDefNamed(defName);
 			}
-			if (DefDatabase<SoundDef>.DefCount == 0)
-			{
-				Log.Warning("Tried to get SoundDef named " + defName + ", but sound defs aren't loaded yet (is it a static variable initialized before play data?).");
-			}
-			return SoundDef.UndefinedDefNamed(defName);
+			goto IL_00f3;
+			IL_00f3:
+			return result;
+			IL_008a:
+			result = allDefsListForReading[i];
+			goto IL_00f3;
 		}
 
 		private static SoundDef UndefinedDefNamed(string defName)

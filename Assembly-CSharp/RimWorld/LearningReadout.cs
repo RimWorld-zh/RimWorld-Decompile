@@ -10,6 +10,22 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class LearningReadout : IExposable
 	{
+		private List<ConceptDef> activeConcepts = new List<ConceptDef>();
+
+		private ConceptDef selectedConcept = null;
+
+		private bool showAllMode = false;
+
+		private float contentHeight = 0f;
+
+		private Vector2 scrollPosition = Vector2.zero;
+
+		private string searchString = "";
+
+		private float lastConceptActivateRealTime = -999f;
+
+		private ConceptDef mouseoverConcept;
+
 		private const float OuterMargin = 8f;
 
 		private const float InnerMargin = 7f;
@@ -19,22 +35,6 @@ namespace RimWorld
 		private const float InfoPaneWidth = 310f;
 
 		private const float OpenButtonSize = 24f;
-
-		private List<ConceptDef> activeConcepts = new List<ConceptDef>();
-
-		private ConceptDef selectedConcept;
-
-		private bool showAllMode;
-
-		private float contentHeight;
-
-		private Vector2 scrollPosition = Vector2.zero;
-
-		private string searchString = string.Empty;
-
-		private float lastConceptActivateRealTime = -999f;
-
-		private ConceptDef mouseoverConcept;
 
 		public static readonly Texture2D ProgressBarFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.745098054f, 0.6039216f, 0.2f));
 
@@ -68,14 +68,19 @@ namespace RimWorld
 
 		public bool TryActivateConcept(ConceptDef conc)
 		{
+			bool result;
 			if (this.activeConcepts.Contains(conc))
 			{
-				return false;
+				result = false;
 			}
-			this.activeConcepts.Add(conc);
-			SoundDefOf.LessonActivated.PlayOneShotOnCamera(null);
-			this.lastConceptActivateRealTime = RealTime.LastRealTime;
-			return true;
+			else
+			{
+				this.activeConcepts.Add(conc);
+				SoundDefOf.LessonActivated.PlayOneShotOnCamera(null);
+				this.lastConceptActivateRealTime = RealTime.LastRealTime;
+				result = true;
+			}
+			return result;
 		}
 
 		public bool IsActive(ConceptDef conc)
@@ -106,15 +111,20 @@ namespace RimWorld
 
 		private string FilterSearchStringInput(string input)
 		{
+			string result;
 			if (input == this.searchString)
 			{
-				return input;
+				result = input;
 			}
-			if (input.Length > 20)
+			else
 			{
-				input = input.Substring(0, 20);
+				if (input.Length > 20)
+				{
+					input = input.Substring(0, 20);
+				}
+				result = input;
 			}
-			return input;
+			return result;
 		}
 
 		public void LearningReadoutOnGUI()
@@ -164,7 +174,7 @@ namespace RimWorld
 					{
 						Rect rect4 = new Rect(0f, num2, (float)(viewRect.width - 20.0 - 2.0), 28f);
 						this.searchString = this.FilterSearchStringInput(Widgets.TextField(rect4, this.searchString));
-						if (this.searchString == string.Empty)
+						if (this.searchString == "")
 						{
 							GUI.color = new Color(0.6f, 0.6f, 0.6f, 1f);
 							Text.Anchor = TextAnchor.MiddleLeft;
@@ -177,23 +187,13 @@ namespace RimWorld
 						Rect butRect2 = new Rect((float)(viewRect.width - 20.0), (float)(num2 + 14.0 - 10.0), 20f, 20f);
 						if (Widgets.ButtonImage(butRect2, TexButton.CloseXSmall))
 						{
-							this.searchString = string.Empty;
+							this.searchString = "";
 							SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
 						}
 						num2 = (float)(rect4.yMax + 4.0);
 					}
-					object obj;
-					if (!this.showAllMode)
-					{
-						IEnumerable<ConceptDef> enumerable = this.activeConcepts;
-						obj = enumerable;
-					}
-					else
-					{
-						obj = DefDatabase<ConceptDef>.AllDefs;
-					}
-					IEnumerable<ConceptDef> enumerable2 = (IEnumerable<ConceptDef>)obj;
-					if (enumerable2.Any())
+					IEnumerable<ConceptDef> enumerable = this.showAllMode ? DefDatabase<ConceptDef>.AllDefs : this.activeConcepts;
+					if (enumerable.Any())
 					{
 						GUI.color = new Color(1f, 1f, 1f, 0.5f);
 						Widgets.DrawLineHorizontal(0f, num2, viewRect.width);
@@ -202,11 +202,11 @@ namespace RimWorld
 					}
 					if (this.showAllMode)
 					{
-						enumerable2 = from c in enumerable2
+						enumerable = from c in enumerable
 						orderby this.DisplayPriority(c) descending, c.label
 						select c;
 					}
-					foreach (ConceptDef item in enumerable2)
+					foreach (ConceptDef item in enumerable)
 					{
 						if (!item.TriggeredDirect)
 						{
@@ -252,7 +252,7 @@ namespace RimWorld
 
 		private bool MatchesSearchString(ConceptDef conc)
 		{
-			return this.searchString != string.Empty && conc.label.IndexOf(this.searchString, StringComparison.OrdinalIgnoreCase) >= 0;
+			return this.searchString != "" && conc.label.IndexOf(this.searchString, StringComparison.OrdinalIgnoreCase) >= 0;
 		}
 
 		private Rect DrawConceptListRow(float x, float y, float width, ConceptDef conc)

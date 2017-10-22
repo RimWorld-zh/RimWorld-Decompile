@@ -116,20 +116,25 @@ namespace Verse
 
 		public ModContentHolder<T> GetContentHolder<T>() where T : class
 		{
+			ModContentHolder<T> result;
 			if (typeof(T) == typeof(Texture2D))
 			{
-				return (ModContentHolder<T>)this.textures;
+				result = (ModContentHolder<T>)this.textures;
 			}
-			if (typeof(T) == typeof(AudioClip))
+			else if (typeof(T) == typeof(AudioClip))
 			{
-				return (ModContentHolder<T>)this.audioClips;
+				result = (ModContentHolder<T>)this.audioClips;
 			}
-			if (typeof(T) == typeof(string))
+			else if (typeof(T) == typeof(string))
 			{
-				return (ModContentHolder<T>)this.strings;
+				result = (ModContentHolder<T>)this.strings;
 			}
-			Log.Error("Mod lacks manager for asset type " + this.strings);
-			return null;
+			else
+			{
+				Log.Error("Mod lacks manager for asset type " + this.strings);
+				result = null;
+			}
+			return result;
 		}
 
 		public void ReloadContent()
@@ -147,24 +152,23 @@ namespace Verse
 		{
 			DeepProfiler.Start("Loading all defs");
 			List<LoadableXmlAsset> list = DirectXmlLoader.XmlAssetsInModFolder(this, "Defs/").ToList();
-			List<LoadableXmlAsset>.Enumerator enumerator = list.GetEnumerator();
-			try
+			foreach (LoadableXmlAsset item in list)
 			{
-				while (enumerator.MoveNext())
+				foreach (PatchOperation item2 in patches)
 				{
-					LoadableXmlAsset current = enumerator.Current;
-					foreach (PatchOperation item in patches)
-					{
-						item.Apply(current.xmlDoc);
-					}
+					item2.Apply(item.xmlDoc);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			for (int i = 0; i < list.Count; i++)
 			{
+				if (list[i] == null || list[i].xmlDoc == null || list[i].xmlDoc.DocumentElement == null)
+				{
+					Log.Error(string.Format("{0}: unknown parse failure", list[i].fullFolderPath + "/" + list[i].name));
+				}
+				else if (list[i].xmlDoc.DocumentElement.Name != "Defs")
+				{
+					Log.Error(string.Format("{0}: root element named {1}; should be named Defs", list[i].fullFolderPath + "/" + list[i].name, list[i].xmlDoc.DocumentElement.Name));
+				}
 				XmlInheritance.TryRegisterAllFrom(list[i], this);
 			}
 			XmlInheritance.Resolve();
@@ -172,9 +176,9 @@ namespace Verse
 			{
 				string relFolder = GenFilePaths.FolderPathRelativeToDefsFolder(list[j].fullFolderPath, this);
 				DefPackage defPackage = new DefPackage(list[j].name, relFolder);
-				foreach (Def item2 in DirectXmlLoader.AllDefsFromAsset(list[j]))
+				foreach (Def item3 in DirectXmlLoader.AllDefsFromAsset(list[j]))
 				{
-					defPackage.defs.Add(item2);
+					defPackage.defs.Add(item3);
 				}
 				this.defPackages.Add(defPackage);
 			}
@@ -184,14 +188,19 @@ namespace Verse
 		public IEnumerable<DefPackage> GetDefPackagesInFolder(string relFolder)
 		{
 			string path = Path.Combine(Path.Combine(this.RootDir, "Defs/"), relFolder);
+			IEnumerable<DefPackage> result;
 			if (!Directory.Exists(path))
 			{
-				return Enumerable.Empty<DefPackage>();
+				result = Enumerable.Empty<DefPackage>();
 			}
-			string fullPath = Path.GetFullPath(path);
-			return from x in this.defPackages
-			where x.GetFullFolderPath(this).StartsWith(fullPath)
-			select x;
+			else
+			{
+				string fullPath = Path.GetFullPath(path);
+				result = from x in this.defPackages
+				where x.GetFullFolderPath(this).StartsWith(fullPath)
+				select x;
+			}
+			return result;
 		}
 
 		public void AddDefPackage(DefPackage defPackage)

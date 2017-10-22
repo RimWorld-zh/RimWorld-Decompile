@@ -94,89 +94,147 @@ namespace Verse
 
 		public Designation DesignationOn(Thing t)
 		{
-			for (int i = 0; i < this.allDesignations.Count; i++)
+			int num = 0;
+			Designation result;
+			while (true)
 			{
-				Designation designation = this.allDesignations[i];
-				if (designation.target.Thing == t)
+				if (num < this.allDesignations.Count)
 				{
-					return designation;
+					Designation designation = this.allDesignations[num];
+					if (designation.target.Thing == t)
+					{
+						result = designation;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public Designation DesignationOn(Thing t, DesignationDef def)
 		{
+			Designation result;
+			Designation designation;
 			if (def.targetType == TargetType.Cell)
 			{
 				Log.Error("Designations of type " + def.defName + " are indexed by location only and you are trying to get one on a Thing.");
-				return null;
+				result = null;
 			}
-			for (int i = 0; i < this.allDesignations.Count; i++)
+			else
 			{
-				Designation designation = this.allDesignations[i];
-				if (designation.target.Thing == t && designation.def == def)
+				for (int i = 0; i < this.allDesignations.Count; i++)
 				{
-					return designation;
+					designation = this.allDesignations[i];
+					if (designation.target.Thing == t && designation.def == def)
+						goto IL_0061;
 				}
+				result = null;
 			}
-			return null;
+			goto IL_0085;
+			IL_0085:
+			return result;
+			IL_0061:
+			result = designation;
+			goto IL_0085;
 		}
 
 		public Designation DesignationAt(IntVec3 c, DesignationDef def)
 		{
+			Designation result;
+			Designation designation;
 			if (def.targetType == TargetType.Thing)
 			{
 				Log.Error("Designations of type " + def.defName + " are indexed by Thing only and you are trying to get one on a location.");
-				return null;
+				result = null;
 			}
-			for (int i = 0; i < this.allDesignations.Count; i++)
+			else
 			{
-				Designation designation = this.allDesignations[i];
-				if (designation.def == def && (!designation.target.HasThing || designation.target.Thing.Map == this.map) && designation.target.Cell == c)
+				for (int i = 0; i < this.allDesignations.Count; i++)
 				{
-					return designation;
+					designation = this.allDesignations[i];
+					if (designation.def == def && (!designation.target.HasThing || designation.target.Thing.Map == this.map) && designation.target.Cell == c)
+						goto IL_0090;
 				}
+				result = null;
 			}
-			return null;
+			goto IL_00b4;
+			IL_00b4:
+			return result;
+			IL_0090:
+			result = designation;
+			goto IL_00b4;
 		}
 
 		public IEnumerable<Designation> AllDesignationsOn(Thing t)
 		{
 			int count = this.allDesignations.Count;
-			for (int i = 0; i < count; i++)
+			int i = 0;
+			while (true)
 			{
-				if (this.allDesignations[i].target.Thing == t)
+				if (i < count)
 				{
-					yield return this.allDesignations[i];
+					if (this.allDesignations[i].target.Thing != t)
+					{
+						i++;
+						continue;
+					}
+					break;
 				}
+				yield break;
 			}
+			yield return this.allDesignations[i];
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public IEnumerable<Designation> AllDesignationsAt(IntVec3 c)
 		{
 			int count = this.allDesignations.Count;
-			for (int i = 0; i < count; i++)
+			int i = 0;
+			Designation des;
+			while (true)
 			{
-				Designation des = this.allDesignations[i];
-				if ((!des.target.HasThing || des.target.Thing.Map == this.map) && des.target.Cell == c)
+				if (i < count)
 				{
-					yield return des;
+					des = this.allDesignations[i];
+					if ((!des.target.HasThing || des.target.Thing.Map == this.map) && des.target.Cell == c)
+						break;
+					i++;
+					continue;
 				}
+				yield break;
 			}
+			yield return des;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public IEnumerable<Designation> SpawnedDesignationsOfDef(DesignationDef def)
 		{
 			int count = this.allDesignations.Count;
-			for (int i = 0; i < count; i++)
+			int i = 0;
+			Designation des;
+			while (true)
 			{
-				Designation des = this.allDesignations[i];
-				if (des.def == def && (!des.target.HasThing || des.target.Thing.Map == this.map))
+				if (i < count)
 				{
-					yield return des;
+					des = this.allDesignations[i];
+					if (des.def == def)
+					{
+						if (!des.target.HasThing)
+							break;
+						if (des.target.Thing.Map == this.map)
+							break;
+					}
+					i++;
+					continue;
 				}
+				yield break;
 			}
+			yield return des;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public void RemoveDesignation(Designation des)

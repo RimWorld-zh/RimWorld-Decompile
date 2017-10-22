@@ -23,14 +23,13 @@ namespace RimWorld
 
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			if (Rand.MTBEventOccurs(this.ShipChunkDropMTBDays, 60000f, 1000f))
-			{
-				IncidentDef def = IncidentDefOf.ShipChunkDrop;
-				if (def.TargetAllowed(target))
-				{
-					yield return new FiringIncident(def, this, this.GenerateParms(def.category, target));
-				}
-			}
+			if (!Rand.MTBEventOccurs(this.ShipChunkDropMTBDays, 60000f, 1000f))
+				yield break;
+			IncidentDef def = IncidentDefOf.ShipChunkDrop;
+			if (!def.Worker.CanFireNow(target))
+				yield break;
+			yield return new FiringIncident(def, this, this.GenerateParms(def.category, target));
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

@@ -15,33 +15,44 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
+			string result;
 			if (req.HasThing)
 			{
 				Room room = req.Thing.GetRoom(RegionType.Set_All);
 				if (room != null)
 				{
-					string str = (!room.PsychologicallyOutdoors) ? "Indoors".Translate() : "Outdoors".Translate();
-					return str + ": x" + this.OutdoorsFactor(req).ToStringPercent();
+					string str = (!this.ConsideredOutdoors(req)) ? "Indoors".Translate() : "Outdoors".Translate();
+					result = str + ": x" + this.OutdoorsFactor(req).ToStringPercent();
+					goto IL_006f;
 				}
 			}
-			return (string)null;
+			result = (string)null;
+			goto IL_006f;
+			IL_006f:
+			return result;
 		}
 
 		private float OutdoorsFactor(StatRequest req)
 		{
+			return (!this.ConsideredOutdoors(req)) ? this.factorIndoors : this.factorOutdoors;
+		}
+
+		private bool ConsideredOutdoors(StatRequest req)
+		{
+			bool result;
 			if (req.HasThing)
 			{
 				Room room = req.Thing.GetRoom(RegionType.Set_All);
 				if (room != null)
 				{
-					if (room.PsychologicallyOutdoors)
-					{
-						return this.factorOutdoors;
-					}
-					return this.factorIndoors;
+					result = ((byte)(room.OutdoorsForWork ? 1 : ((req.HasThing && req.Thing.Spawned && !req.Thing.Map.roofGrid.Roofed(req.Thing.Position)) ? 1 : 0)) != 0);
+					goto IL_008f;
 				}
 			}
-			return 1f;
+			result = false;
+			goto IL_008f;
+			IL_008f:
+			return result;
 		}
 	}
 }

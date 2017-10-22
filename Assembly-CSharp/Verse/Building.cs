@@ -9,7 +9,7 @@ namespace Verse
 {
 	public class Building : ThingWithComps
 	{
-		private Sustainer sustainerAmbient;
+		private Sustainer sustainerAmbient = null;
 
 		public CompPower PowerComp
 		{
@@ -173,7 +173,10 @@ namespace Verse
 			{
 				base.Draw();
 			}
-			base.Comps_PostDraw();
+			else
+			{
+				base.Comps_PostDraw();
+			}
 		}
 
 		public override void SetFaction(Faction newFaction, Pawn recruiter = null)
@@ -188,6 +191,7 @@ namespace Verse
 			{
 				base.Map.listerBuildingsRepairable.Notify_BuildingSpawned(this);
 				base.Map.listerBuildings.Add(this);
+				base.Map.mapDrawer.MapMeshDirty(base.Position, MapMeshFlag.PowerGrid, true, false);
 			}
 		}
 
@@ -228,43 +232,63 @@ namespace Verse
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return gizmo;
+				if (enumerator.MoveNext())
+				{
+					Gizmo c = enumerator.Current;
+					yield return c;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			if (base.def.Minifiable && base.Faction == Faction.OfPlayer)
 			{
 				yield return (Gizmo)InstallationDesignatorDatabase.DesignatorFor(base.def);
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			Command buildCopy = BuildCopyCommandUtility.BuildCopyCommand(base.def, base.Stuff);
-			if (buildCopy != null)
-			{
-				yield return (Gizmo)buildCopy;
-			}
+			if (buildCopy == null)
+				yield break;
+			yield return (Gizmo)buildCopy;
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0165:
+			/*Error near IL_0166: Unexpected return in MoveNext()*/;
 		}
 
 		public virtual bool ClaimableBy(Faction by)
 		{
-			if (!base.def.building.isNaturalRock && base.def.Claimable)
+			bool result;
+			if (base.def.building.isNaturalRock || !base.def.Claimable)
+			{
+				result = false;
+			}
+			else
 			{
 				if (base.Faction != null)
 				{
 					if (base.Faction == by)
 					{
-						return false;
+						result = false;
+						goto IL_00bf;
 					}
-					List<Pawn> list = base.Map.mapPawns.SpawnedPawnsInFaction(base.Faction);
-					for (int i = 0; i < list.Count; i++)
+					if (by == Faction.OfPlayer)
 					{
-						if (list[i].RaceProps.Humanlike && GenHostility.IsActiveThreat(list[i]))
+						List<Pawn> list = base.Map.mapPawns.SpawnedPawnsInFaction(base.Faction);
+						for (int i = 0; i < list.Count; i++)
 						{
-							return false;
+							if (list[i].RaceProps.Humanlike && GenHostility.IsActiveThreatToPlayer(list[i]))
+								goto IL_009e;
 						}
 					}
 				}
-				return true;
+				result = true;
 			}
-			return false;
+			goto IL_00bf;
+			IL_009e:
+			result = false;
+			goto IL_00bf;
+			IL_00bf:
+			return result;
 		}
 
 		public virtual ushort PathFindCostFor(Pawn p)

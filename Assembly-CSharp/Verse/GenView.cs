@@ -4,9 +4,9 @@ namespace Verse
 {
 	public static class GenView
 	{
-		private const int ViewRectMargin = 5;
-
 		private static CellRect viewRect;
+
+		private const int ViewRectMargin = 5;
 
 		public static bool ShouldSpawnMotesAt(this Vector3 loc, Map map)
 		{
@@ -15,17 +15,22 @@ namespace Verse
 
 		public static bool ShouldSpawnMotesAt(this IntVec3 loc, Map map)
 		{
+			bool result;
 			if (map != Find.VisibleMap)
 			{
-				return false;
+				result = false;
 			}
-			if (!loc.InBounds(map))
+			else if (!loc.InBounds(map))
 			{
-				return false;
+				result = false;
 			}
-			GenView.viewRect = Find.CameraDriver.CurrentViewRect;
-			GenView.viewRect = GenView.viewRect.ExpandedBy(5);
-			return GenView.viewRect.Contains(loc);
+			else
+			{
+				GenView.viewRect = Find.CameraDriver.CurrentViewRect;
+				GenView.viewRect = GenView.viewRect.ExpandedBy(5);
+				result = GenView.viewRect.Contains(loc);
+			}
+			return result;
 		}
 
 		public static Vector3 RandomPositionOnOrNearScreen()

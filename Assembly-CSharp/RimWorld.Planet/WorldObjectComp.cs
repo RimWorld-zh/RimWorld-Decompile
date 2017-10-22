@@ -17,6 +17,15 @@ namespace RimWorld.Planet
 			}
 		}
 
+		public bool ParentHasMap
+		{
+			get
+			{
+				MapParent mapParent = this.parent as MapParent;
+				return mapParent != null && mapParent.HasMap;
+			}
+		}
+
 		public virtual void Initialize(WorldObjectCompProperties props)
 		{
 			this.props = props;
@@ -32,6 +41,11 @@ namespace RimWorld.Planet
 		}
 
 		public virtual IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
+		{
+			yield break;
+		}
+
+		public virtual IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
 		{
 			yield break;
 		}

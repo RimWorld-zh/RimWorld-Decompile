@@ -11,7 +11,7 @@ namespace RimWorld
 
 		public ThingDef interactionMote;
 
-		public float socialFightBaseChance;
+		public float socialFightBaseChance = 0f;
 
 		public ThoughtDef initiatorThought;
 

@@ -19,66 +19,78 @@ namespace RimWorld
 		protected override IntVec3 GetFlagPosition(Pawn pawn)
 		{
 			Pawn defendee = this.GetDefendee(pawn);
-			if (!defendee.Spawned && defendee.CarriedBy == null)
-			{
-				return IntVec3.Invalid;
-			}
-			return defendee.PositionHeld;
+			return (!defendee.Spawned && defendee.CarriedBy == null) ? IntVec3.Invalid : defendee.PositionHeld;
 		}
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Pawn defendee = this.GetDefendee(pawn);
 			Pawn carriedBy = defendee.CarriedBy;
+			Job result;
 			if (carriedBy != null)
 			{
 				if (!pawn.CanReach((Thing)carriedBy, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
 				{
-					return null;
+					result = null;
+					goto IL_006f;
 				}
-				goto IL_0053;
+				goto IL_0062;
 			}
 			if (defendee.Spawned && pawn.CanReach((Thing)defendee, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn))
 			{
-				goto IL_0053;
+				goto IL_0062;
 			}
-			return null;
-			IL_0053:
-			return base.TryGiveJob(pawn);
+			result = null;
+			goto IL_006f;
+			IL_006f:
+			return result;
+			IL_0062:
+			result = base.TryGiveJob(pawn);
+			goto IL_006f;
 		}
 
 		protected override Thing FindAttackTarget(Pawn pawn)
 		{
+			Thing result;
 			if (this.attackMeleeThreatEvenIfNotHostile)
 			{
 				Pawn defendee = this.GetDefendee(pawn);
 				if (defendee.Spawned && !defendee.InMentalState && defendee.mindState.meleeThreat != null && defendee.mindState.meleeThreat != pawn && pawn.CanReach((Thing)defendee.mindState.meleeThreat, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
 				{
-					return defendee.mindState.meleeThreat;
+					result = defendee.mindState.meleeThreat;
+					goto IL_008b;
 				}
 			}
-			return base.FindAttackTarget(pawn);
+			result = base.FindAttackTarget(pawn);
+			goto IL_008b;
+			IL_008b:
+			return result;
 		}
 
 		protected override bool TryFindShootingPosition(Pawn pawn, out IntVec3 dest)
 		{
 			Verb verb = pawn.TryGetAttackVerb(!pawn.IsColonist);
+			bool result;
 			if (verb == null)
 			{
 				dest = IntVec3.Invalid;
-				return false;
+				result = false;
 			}
-			return CastPositionFinder.TryFindCastPosition(new CastPositionRequest
+			else
 			{
-				caster = pawn,
-				target = pawn.mindState.enemyTarget,
-				verb = verb,
-				maxRangeFromTarget = 9999f,
-				locus = this.GetDefendee(pawn).PositionHeld,
-				maxRangeFromLocus = this.GetFlagRadius(pawn),
-				wantCoverFromTarget = (verb.verbProps.range > 7.0),
-				maxRegionsRadius = 50
-			}, out dest);
+				result = CastPositionFinder.TryFindCastPosition(new CastPositionRequest
+				{
+					caster = pawn,
+					target = pawn.mindState.enemyTarget,
+					verb = verb,
+					maxRangeFromTarget = 9999f,
+					locus = this.GetDefendee(pawn).PositionHeld,
+					maxRangeFromLocus = this.GetFlagRadius(pawn),
+					wantCoverFromTarget = (verb.verbProps.range > 7.0),
+					maxRegionsRadius = 50
+				}, out dest);
+			}
+			return result;
 		}
 	}
 }

@@ -151,7 +151,7 @@ namespace Verse
 						this.dirtyCells.Add(cell);
 						if (DebugViewSettings.drawRegionDirties)
 						{
-							this.map.debugDrawer.FlashCell(cell, 0f, (string)null);
+							this.map.debugDrawer.FlashCell(cell, 0f, (string)null, 50);
 						}
 					}
 				}

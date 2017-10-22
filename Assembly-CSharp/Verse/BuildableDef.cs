@@ -7,33 +7,37 @@ namespace Verse
 {
 	public abstract class BuildableDef : Def
 	{
-		public List<StatModifier> statBases;
+		public List<StatModifier> statBases = null;
 
-		public Traversability passability;
+		public Traversability passability = Traversability.Standable;
 
-		public int pathCost;
+		public int pathCost = 0;
 
 		public bool pathCostIgnoreRepeat = true;
 
 		public float fertility = -1f;
 
-		public List<ThingCountClass> costList;
+		public List<ThingCountClass> costList = null;
 
 		public int costStuffCount = -1;
 
-		public List<StuffCategoryDef> stuffCategories;
+		public List<StuffCategoryDef> stuffCategories = null;
 
 		public TerrainAffordance terrainAffordanceNeeded = TerrainAffordance.Light;
 
-		public List<ThingDef> buildingPrerequisites;
+		public List<ThingDef> buildingPrerequisites = null;
 
-		public List<ResearchProjectDef> researchPrerequisites;
+		public List<ResearchProjectDef> researchPrerequisites = null;
 
-		public int placingDraggableDimensions;
+		public int constructionSkillPrerequisite = 0;
 
-		public EffecterDef repairEffect;
+		public int placingDraggableDimensions = 0;
 
-		public EffecterDef constructEffect;
+		public bool clearBuildingArea = true;
+
+		public EffecterDef repairEffect = null;
+
+		public EffecterDef constructEffect = null;
 
 		public Rot4 defaultPlacingRot = Rot4.North;
 
@@ -48,7 +52,7 @@ namespace Verse
 		[Unsaved]
 		public ThingDef frameDef;
 
-		public string uiIconPath;
+		public string uiIconPath = (string)null;
 
 		public AltitudeLayer altitudeLayer = AltitudeLayer.Item;
 
@@ -56,21 +60,28 @@ namespace Verse
 		public Texture2D uiIcon = BaseContent.BadTex;
 
 		[Unsaved]
-		public Graphic graphic = BaseContent.BadGraphic;
-
-		public bool menuHidden;
-
-		public float specialDisplayRadius;
-
-		public List<Type> placeWorkers;
-
-		[NoTranslate]
-		public DesignationCategoryDef designationCategory;
-
-		public KeyBindingDef designationHotKey;
+		public float uiIconAngle;
 
 		[Unsaved]
-		private List<PlaceWorker> placeWorkersInstantiatedInt;
+		public Graphic graphic = BaseContent.BadGraphic;
+
+		public bool menuHidden = false;
+
+		public float specialDisplayRadius = 0f;
+
+		public List<Type> placeWorkers = null;
+
+		[NoTranslate]
+		public DesignationCategoryDef designationCategory = null;
+
+		public KeyBindingDef designationHotKey = null;
+
+		public TechLevel minTechLevelToBuild = TechLevel.Undefined;
+
+		public TechLevel maxTechLevelToBuild = TechLevel.Undefined;
+
+		[Unsaved]
+		private List<PlaceWorker> placeWorkersInstantiatedInt = null;
 
 		public virtual IntVec2 Size
 		{
@@ -97,11 +108,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.graphic == null)
-				{
-					return null;
-				}
-				return this.graphic.MatSingle;
+				return (this.graphic != null) ? this.graphic.MatSingle : null;
 			}
 		}
 
@@ -117,42 +124,46 @@ namespace Verse
 		{
 			get
 			{
+				List<PlaceWorker> result;
 				if (this.placeWorkers == null)
 				{
-					return null;
+					result = null;
 				}
-				this.placeWorkersInstantiatedInt = new List<PlaceWorker>();
-				List<Type>.Enumerator enumerator = this.placeWorkers.GetEnumerator();
-				try
+				else
 				{
-					while (enumerator.MoveNext())
+					this.placeWorkersInstantiatedInt = new List<PlaceWorker>();
+					foreach (Type placeWorker in this.placeWorkers)
 					{
-						Type current = enumerator.Current;
-						this.placeWorkersInstantiatedInt.Add((PlaceWorker)Activator.CreateInstance(current));
+						this.placeWorkersInstantiatedInt.Add((PlaceWorker)Activator.CreateInstance(placeWorker));
 					}
+					result = this.placeWorkersInstantiatedInt;
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
-				}
-				return this.placeWorkersInstantiatedInt;
+				return result;
 			}
 		}
 
 		public bool ForceAllowPlaceOver(BuildableDef other)
 		{
+			bool result;
 			if (this.PlaceWorkers == null)
 			{
-				return false;
+				result = false;
 			}
-			for (int i = 0; i < this.PlaceWorkers.Count; i++)
+			else
 			{
-				if (this.PlaceWorkers[i].ForceAllowPlaceOver(other))
+				for (int i = 0; i < this.PlaceWorkers.Count; i++)
 				{
-					return true;
+					if (this.PlaceWorkers[i].ForceAllowPlaceOver(other))
+						goto IL_0032;
 				}
+				result = false;
 			}
-			return false;
+			goto IL_0056;
+			IL_0032:
+			result = true;
+			goto IL_0056;
+			IL_0056:
+			return result;
 		}
 
 		public override void PostLoad()
@@ -164,9 +175,19 @@ namespace Verse
 				{
 					this.uiIcon = ContentFinder<Texture2D>.Get(this.uiIconPath, true);
 				}
-				else if ((UnityEngine.Object)this.DrawMatSingle != (UnityEngine.Object)null && (UnityEngine.Object)this.DrawMatSingle != (UnityEngine.Object)BaseContent.BadMat)
+				else if (this.graphic != null)
 				{
-					this.uiIcon = (Texture2D)this.DrawMatSingle.mainTexture;
+					Graphic_Random graphic_Random = this.graphic as Graphic_Random;
+					Material material = (graphic_Random == null) ? this.graphic.MatAt(this.defaultPlacingRot, null) : graphic_Random.FirstSubgraphic().MatAt(this.defaultPlacingRot, null);
+					if ((UnityEngine.Object)material != (UnityEngine.Object)BaseContent.BadMat)
+					{
+						this.uiIcon = (Texture2D)material.mainTexture;
+						ThingDef thingDef = this as ThingDef;
+						if (thingDef != null && thingDef.rotatable && this.graphic.ShouldDrawRotated && this.defaultPlacingRot == Rot4.South)
+						{
+							this.uiIconAngle = 180f;
+						}
+					}
 				}
 			});
 		}
@@ -178,10 +199,18 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string error = enumerator.Current;
+					yield return error;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_00bd:
+			/*Error near IL_00be: Unexpected return in MoveNext()*/;
 		}
 
 		public override string ToString()

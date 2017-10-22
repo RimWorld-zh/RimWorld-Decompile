@@ -7,38 +7,50 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
+			ThoughtState result;
 			if (p.needs.space == null)
 			{
-				return ThoughtState.Inactive;
+				result = ThoughtState.Inactive;
 			}
-			Room room = p.GetRoom(RegionType.Set_Passable);
-			if (room != null && !room.PsychologicallyOutdoors)
+			else
 			{
-				switch (p.needs.space.CurCategory)
+				Room room = p.GetRoom(RegionType.Set_Passable);
+				if (room == null || room.PsychologicallyOutdoors)
 				{
-				case SpaceCategory.VeryCramped:
-				{
-					return ThoughtState.ActiveAtStage(0);
+					result = ThoughtState.Inactive;
 				}
-				case SpaceCategory.Cramped:
+				else
 				{
-					return ThoughtState.ActiveAtStage(1);
-				}
-				case SpaceCategory.Normal:
-				{
-					return ThoughtState.Inactive;
-				}
-				case SpaceCategory.Spacious:
-				{
-					return ThoughtState.ActiveAtStage(2);
-				}
-				default:
-				{
-					throw new InvalidOperationException("Unknown SpaceCategory");
-				}
+					switch (p.needs.space.CurCategory)
+					{
+					case SpaceCategory.VeryCramped:
+					{
+						result = ThoughtState.ActiveAtStage(0);
+						break;
+					}
+					case SpaceCategory.Cramped:
+					{
+						result = ThoughtState.ActiveAtStage(1);
+						break;
+					}
+					case SpaceCategory.Normal:
+					{
+						result = ThoughtState.Inactive;
+						break;
+					}
+					case SpaceCategory.Spacious:
+					{
+						result = ThoughtState.ActiveAtStage(2);
+						break;
+					}
+					default:
+					{
+						throw new InvalidOperationException("Unknown SpaceCategory");
+					}
+					}
 				}
 			}
-			return ThoughtState.Inactive;
+			return result;
 		}
 	}
 }

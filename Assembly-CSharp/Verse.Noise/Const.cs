@@ -2,7 +2,7 @@ namespace Verse.Noise
 {
 	public class Const : ModuleBase
 	{
-		private double m_value;
+		private double m_value = 0.0;
 
 		public double Value
 		{

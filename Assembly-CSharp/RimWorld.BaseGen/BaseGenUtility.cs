@@ -15,13 +15,9 @@ namespace RimWorld.BaseGen
 
 		public static ThingDef RandomCheapWallStuff(TechLevel techLevel, bool notVeryFlammable = false)
 		{
-			if (techLevel.IsNeolithicOrWorse())
-			{
-				return ThingDefOf.WoodLog;
-			}
-			return (from d in DefDatabase<ThingDef>.AllDefsListForReading
+			return (!techLevel.IsNeolithicOrWorse()) ? (from d in DefDatabase<ThingDef>.AllDefsListForReading
 			where BaseGenUtility.IsCheapWallStuff(d) && (!notVeryFlammable || d.BaseFlammability < 0.5)
-			select d).RandomElement();
+			select d).RandomElement() : ThingDefOf.WoodLog;
 		}
 
 		public static bool IsCheapWallStuff(ThingDef d)
@@ -29,15 +25,21 @@ namespace RimWorld.BaseGen
 			return d.IsStuff && d.stuffProps.CanMake(ThingDefOf.Wall) && d.BaseMarketValue / d.VolumePerUnit < 5.0;
 		}
 
+		public static ThingDef RandomHightechWallStuff()
+		{
+			return (!(Rand.Value < 0.15000000596046448)) ? ThingDefOf.Steel : ThingDefOf.Plasteel;
+		}
+
+		public static TerrainDef RandomHightechFloorDef()
+		{
+			return Rand.Element(TerrainDefOf.Concrete, TerrainDefOf.Concrete, TerrainDefOf.PavedTile, TerrainDefOf.PavedTile, TerrainDefOf.MetalTile);
+		}
+
 		public static TerrainDef RandomBasicFloorDef(Faction faction, bool allowCarpet = false)
 		{
-			if (allowCarpet && (faction == null || !faction.def.techLevel.IsNeolithicOrWorse()) && Rand.Chance(0.1f))
-			{
-				return (from x in DefDatabase<TerrainDef>.AllDefsListForReading
-				where x.IsCarpet
-				select x).RandomElement();
-			}
-			return Rand.Element(TerrainDefOf.MetalTile, TerrainDefOf.PavedTile, TerrainDefOf.WoodPlankFloor, TerrainDefOf.TileSandstone);
+			return (!allowCarpet || (faction != null && faction.def.techLevel.IsNeolithicOrWorse()) || !Rand.Chance(0.1f)) ? Rand.Element(TerrainDefOf.MetalTile, TerrainDefOf.PavedTile, TerrainDefOf.WoodPlankFloor, TerrainDefOf.TileSandstone) : (from x in DefDatabase<TerrainDef>.AllDefsListForReading
+			where x.IsCarpet
+			select x).RandomElement();
 		}
 
 		public static TerrainDef CorrespondingTerrainDef(ThingDef stuffDef, bool beautiful)
@@ -72,12 +74,34 @@ namespace RimWorld.BaseGen
 			return BaseGenUtility.CorrespondingTerrainDef(stuffDef, beautiful);
 		}
 
-		public static bool AnyDoorCardinalAdjacentTo(IntVec3 cell, Map map)
+		public static bool AnyDoorAdjacentCardinalTo(IntVec3 cell, Map map)
 		{
-			for (int i = 0; i < 4; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				IntVec3 c = cell + GenAdj.CardinalDirections[i];
-				if (c.InBounds(map) && c.GetDoor(map) != null)
+				if (num < 4)
+				{
+					IntVec3 c = cell + GenAdj.CardinalDirections[num];
+					if (c.InBounds(map) && c.GetDoor(map) != null)
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
+				}
+				result = false;
+				break;
+			}
+			return result;
+		}
+
+		public static bool AnyDoorAdjacentCardinalTo(CellRect rect, Map map)
+		{
+			foreach (IntVec3 item in rect.AdjacentCellsCardinal)
+			{
+				if (item.InBounds(map) && item.GetDoor(map) != null)
 				{
 					return true;
 				}
@@ -85,16 +109,10 @@ namespace RimWorld.BaseGen
 			return false;
 		}
 
-		public static bool AnyDoorCardinalAdjacentTo(CellRect rect, Map map)
+		public static ThingDef WallStuffAt(IntVec3 c, Map map)
 		{
-			foreach (IntVec3 edgeCell in rect.ExpandedBy(1).EdgeCells)
-			{
-				if (!rect.IsCorner(edgeCell) && edgeCell.InBounds(map) && edgeCell.GetDoor(map) != null)
-				{
-					return true;
-				}
-			}
-			return false;
+			Building edifice = c.GetEdifice(map);
+			return (edifice == null || edifice.def != ThingDefOf.Wall) ? null : edifice.Stuff;
 		}
 	}
 }

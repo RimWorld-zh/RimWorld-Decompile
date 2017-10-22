@@ -47,21 +47,12 @@ namespace Verse
 		{
 			CellIndices cellIndices = this.map.cellIndices;
 			this.zoneGrid = new Zone[cellIndices.NumGridCells];
-			List<Zone>.Enumerator enumerator = this.allZones.GetEnumerator();
-			try
+			foreach (Zone allZone in this.allZones)
 			{
-				while (enumerator.MoveNext())
+				foreach (IntVec3 item in allZone)
 				{
-					Zone current = enumerator.Current;
-					foreach (IntVec3 item in current)
-					{
-						this.zoneGrid[cellIndices.CellToIndex(item)] = current;
-					}
+					this.zoneGrid[cellIndices.CellToIndex(item)] = allZone;
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 
@@ -92,16 +83,26 @@ namespace Verse
 
 		public string NewZoneName(string nameBase)
 		{
-			for (int i = 1; i <= 1000; i++)
+			int num = 1;
+			string result;
+			while (true)
 			{
-				string cand = nameBase + " " + i;
-				if (!this.allZones.Any((Predicate<Zone>)((Zone z) => z.label == cand)))
+				if (num <= 1000)
 				{
-					return cand;
+					string cand = nameBase + " " + num;
+					if (!this.allZones.Any((Predicate<Zone>)((Zone z) => z.label == cand)))
+					{
+						result = cand;
+						break;
+					}
+					num++;
+					continue;
 				}
+				Log.Error("Ran out of zone names.");
+				result = "Zone X";
+				break;
 			}
-			Log.Error("Ran out of zone names.");
-			return "Zone X";
+			return result;
 		}
 
 		internal void Notify_NoZoneOverlapThingSpawned(Thing thing)

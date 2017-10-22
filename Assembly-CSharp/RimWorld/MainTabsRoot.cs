@@ -12,11 +12,7 @@ namespace RimWorld
 			get
 			{
 				MainTabWindow mainTabWindow = Find.WindowStack.WindowOfType<MainTabWindow>();
-				if (mainTabWindow == null)
-				{
-					return null;
-				}
-				return mainTabWindow.def;
+				return (mainTabWindow != null) ? mainTabWindow.def : null;
 			}
 		}
 

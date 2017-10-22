@@ -8,16 +8,6 @@ namespace Verse
 {
 	public struct ShotReport
 	{
-		public const float LayingDownHitChanceFactorMinDistance = 4.5f;
-
-		public const float HitChanceFactorIfLayingDown = 0.2f;
-
-		private const float NonPawnShooterHitFactorPerDistance = 0.96f;
-
-		private const float ExecutionMaxDistance = 3.9f;
-
-		private const float ExecutionFactor = 7.5f;
-
 		private TargetInfo target;
 
 		private float distance;
@@ -38,19 +28,34 @@ namespace Verse
 
 		private float forcedMissRadius;
 
+		public const float LayingDownHitChanceFactorMinDistance = 4.5f;
+
+		public const float HitChanceFactorIfLayingDown = 0.2f;
+
+		private const float NonPawnShooterHitFactorPerDistance = 0.96f;
+
+		private const float ExecutionMaxDistance = 3.9f;
+
+		private const float ExecutionFactor = 7.5f;
+
 		private float FactorFromPosture
 		{
 			get
 			{
+				float result;
 				if (this.target.HasThing)
 				{
 					Pawn pawn = this.target.Thing as Pawn;
 					if (((pawn != null) ? ((this.distance >= 4.5) ? pawn.GetPosture() : PawnPosture.Standing) : PawnPosture.Standing) != 0)
 					{
-						return 0.2f;
+						result = 0.2f;
+						goto IL_005d;
 					}
 				}
-				return 1f;
+				result = 1f;
+				goto IL_005d;
+				IL_005d:
+				return result;
 			}
 		}
 
@@ -58,15 +63,20 @@ namespace Verse
 		{
 			get
 			{
+				float result;
 				if (this.target.HasThing)
 				{
 					Pawn pawn = this.target.Thing as Pawn;
 					if (((pawn != null) ? ((this.distance <= 3.9000000953674316) ? pawn.GetPosture() : PawnPosture.Standing) : PawnPosture.Standing) != 0)
 					{
-						return 7.5f;
+						result = 7.5f;
+						goto IL_005d;
 					}
 				}
-				return 1f;
+				result = 1f;
+				goto IL_005d;
+				IL_005d:
+				return result;
 			}
 		}
 
@@ -74,11 +84,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.coveringGas != null)
-				{
-					return (float)(1.0 - this.coveringGas.gas.accuracyPenalty);
-				}
-				return 1f;
+				return (float)((this.coveringGas == null) ? 1.0 : (1.0 - this.coveringGas.gas.accuracyPenalty));
 			}
 		}
 

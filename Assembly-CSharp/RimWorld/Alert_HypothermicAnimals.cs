@@ -36,11 +36,7 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			if (!Prefs.DevMode)
-			{
-				return false;
-			}
-			return (Thing)this.HypothermicAnimals.FirstOrDefault();
+			return Prefs.DevMode ? ((Thing)this.HypothermicAnimals.FirstOrDefault()) : false;
 		}
 	}
 }

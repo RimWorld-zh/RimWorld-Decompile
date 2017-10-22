@@ -9,58 +9,83 @@ namespace RimWorld
 
 		private const float RidiculousFailChanceFromCatastrophic = 0.1f;
 
-		protected bool CheckSurgeryFail(Pawn surgeon, Pawn patient, List<Thing> ingredients, BodyPartRecord part)
+		private const float InspiredSurgeryFailChanceFactor = 0.1f;
+
+		private static readonly SimpleCurve MedicineMedicalPotencyToSurgeryChanceFactor = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0.7f),
+				true
+			},
+			{
+				new CurvePoint(1f, 1f),
+				true
+			},
+			{
+				new CurvePoint(2f, 1.3f),
+				true
+			}
+		};
+
+		protected bool CheckSurgeryFail(Pawn surgeon, Pawn patient, List<Thing> ingredients, BodyPartRecord part, Bill bill)
 		{
 			float num = 1f;
 			num *= surgeon.GetStatValue((!patient.RaceProps.IsMechanoid) ? StatDefOf.MedicalSurgerySuccessChance : StatDefOf.MechanoidOperationSuccessChance, true);
-			Room room = surgeon.GetRoom(RegionType.Set_Passable);
-			if (room != null && !patient.RaceProps.IsMechanoid)
+			if (patient.InBed())
 			{
-				num *= room.GetStat(RoomStatDefOf.SurgerySuccessChanceFactor);
+				num *= patient.CurrentBed().GetStatValue(StatDefOf.SurgerySuccessChanceFactor, true);
 			}
-			num *= this.GetAverageMedicalPotency(ingredients);
+			num *= Recipe_Surgery.MedicineMedicalPotencyToSurgeryChanceFactor.Evaluate(this.GetAverageMedicalPotency(ingredients, bill));
 			num *= base.recipe.surgerySuccessChanceFactor;
-			if (Rand.Value > num)
+			if (surgeon.InspirationDef == InspirationDefOf.InspiredSurgery && !patient.RaceProps.IsMechanoid)
 			{
-				if (Rand.Value < base.recipe.deathOnFailedSurgeryChance)
+				if (num < 1.0)
 				{
-					int num2 = 0;
-					while (!patient.Dead)
-					{
-						HealthUtility.GiveInjuriesOperationFailureRidiculous(patient);
-						num2++;
-						if (num2 > 300)
-						{
-							Log.Error("Could not kill patient.");
-							break;
-						}
-					}
+					num = (float)(1.0 - (1.0 - num) * 0.10000000149011612);
 				}
-				else if (Rand.Value < 0.5)
+				surgeon.mindState.inspirationHandler.EndInspiration(InspirationDefOf.InspiredSurgery);
+			}
+			bool result;
+			if (!Rand.Chance(num))
+			{
+				if (Rand.Chance(base.recipe.deathOnFailedSurgeryChance))
 				{
-					if (Rand.Value < 0.10000000149011612)
+					HealthUtility.GiveInjuriesOperationFailureCatastrophic(patient, part);
+					if (!patient.Dead)
 					{
-						Messages.Message("MessageMedicalOperationFailureRidiculous".Translate(surgeon.LabelShort, patient.LabelShort), (Thing)patient, MessageSound.SeriousAlert);
+						patient.Kill(default(DamageInfo?), null);
+					}
+					Messages.Message("MessageMedicalOperationFailureFatal".Translate(surgeon.LabelShort, patient.LabelShort, base.recipe.label), (Thing)patient, MessageTypeDefOf.NegativeHealthEvent);
+				}
+				else if (Rand.Chance(0.5f))
+				{
+					if (Rand.Chance(0.1f))
+					{
+						Messages.Message("MessageMedicalOperationFailureRidiculous".Translate(surgeon.LabelShort, patient.LabelShort), (Thing)patient, MessageTypeDefOf.NegativeHealthEvent);
 						HealthUtility.GiveInjuriesOperationFailureRidiculous(patient);
 					}
 					else
 					{
-						Messages.Message("MessageMedicalOperationFailureCatastrophic".Translate(surgeon.LabelShort, patient.LabelShort), (Thing)patient, MessageSound.SeriousAlert);
+						Messages.Message("MessageMedicalOperationFailureCatastrophic".Translate(surgeon.LabelShort, patient.LabelShort), (Thing)patient, MessageTypeDefOf.NegativeHealthEvent);
 						HealthUtility.GiveInjuriesOperationFailureCatastrophic(patient, part);
 					}
 				}
 				else
 				{
-					Messages.Message("MessageMedicalOperationFailureMinor".Translate(surgeon.LabelShort, patient.LabelShort), (Thing)patient, MessageSound.Negative);
+					Messages.Message("MessageMedicalOperationFailureMinor".Translate(surgeon.LabelShort, patient.LabelShort), (Thing)patient, MessageTypeDefOf.NegativeHealthEvent);
 					HealthUtility.GiveInjuriesOperationFailureMinor(patient, part);
 				}
 				if (!patient.Dead)
 				{
 					this.TryGainBotchedSurgeryThought(patient, surgeon);
 				}
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		private void TryGainBotchedSurgeryThought(Pawn patient, Pawn surgeon)
@@ -71,14 +96,17 @@ namespace RimWorld
 			}
 		}
 
-		private float GetAverageMedicalPotency(List<Thing> ingredients)
+		private float GetAverageMedicalPotency(List<Thing> ingredients, Bill bill)
 		{
-			if (ingredients.NullOrEmpty())
-			{
-				return 1f;
-			}
+			Bill_Medical bill_Medical = bill as Bill_Medical;
+			ThingDef thingDef = (bill_Medical == null) ? null : bill_Medical.consumedInitialMedicineDef;
 			int num = 0;
 			float num2 = 0f;
+			if (thingDef != null)
+			{
+				num++;
+				num2 += thingDef.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
+			}
 			for (int i = 0; i < ingredients.Count; i++)
 			{
 				Medicine medicine = ingredients[i] as Medicine;
@@ -88,11 +116,7 @@ namespace RimWorld
 					num2 += medicine.GetStatValue(StatDefOf.MedicalPotency, true) * (float)medicine.stackCount;
 				}
 			}
-			if (num == 0)
-			{
-				return 1f;
-			}
-			return num2 / (float)num;
+			return (float)((num != 0) ? (num2 / (float)num) : 1.0);
 		}
 	}
 }

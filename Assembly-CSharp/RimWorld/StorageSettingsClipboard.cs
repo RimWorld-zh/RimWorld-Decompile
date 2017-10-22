@@ -38,30 +38,14 @@ namespace RimWorld
 				icon = ContentFinder<Texture2D>.Get("UI/Commands/CopySettings", true),
 				defaultLabel = "CommandCopyZoneSettingsLabel".Translate(),
 				defaultDesc = "CommandCopyZoneSettingsDesc".Translate(),
-				action = (Action)delegate
+				action = (Action)delegate()
 				{
 					SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
-					StorageSettingsClipboard.Copy(((_003CCopyPasteGizmosFor_003Ec__Iterator14F)/*Error near IL_0076: stateMachine*/).s);
+					StorageSettingsClipboard.Copy(s);
 				},
 				hotKey = KeyBindingDefOf.Misc4
 			};
-			Command_Action paste = new Command_Action
-			{
-				icon = ContentFinder<Texture2D>.Get("UI/Commands/PasteSettings", true),
-				defaultLabel = "CommandPasteZoneSettingsLabel".Translate(),
-				defaultDesc = "CommandPasteZoneSettingsDesc".Translate(),
-				action = (Action)delegate
-				{
-					SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
-					StorageSettingsClipboard.PasteInto(((_003CCopyPasteGizmosFor_003Ec__Iterator14F)/*Error near IL_0100: stateMachine*/).s);
-				},
-				hotKey = KeyBindingDefOf.Misc5
-			};
-			if (!StorageSettingsClipboard.HasCopiedSettings)
-			{
-				paste.Disable((string)null);
-			}
-			yield return (Gizmo)paste;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

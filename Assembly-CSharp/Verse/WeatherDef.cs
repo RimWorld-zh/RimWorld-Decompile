@@ -7,23 +7,25 @@ namespace Verse
 	{
 		public IntRange durationRange = new IntRange(16000, 160000);
 
-		public bool repeatable;
+		public bool repeatable = false;
 
 		public Favorability favorability = Favorability.Neutral;
 
 		public FloatRange temperatureRange = new FloatRange(-999f, 999f);
 
-		public SimpleCurve commonalityRainfallFactor;
+		public SimpleCurve commonalityRainfallFactor = null;
 
-		public float rainRate;
+		public float rainRate = 0f;
 
-		public float snowRate;
+		public float snowRate = 0f;
 
 		public float windSpeedFactor = 1f;
 
 		public float moveSpeedMultiplier = 1f;
 
 		public float accuracyMultiplier = 1f;
+
+		public float perceivePriority;
 
 		public List<SoundDef> ambientSounds = new List<SoundDef>();
 
@@ -65,6 +67,7 @@ namespace Verse
 			if (this.skyColorsDay.saturation != 0.0 && this.skyColorsDusk.saturation != 0.0 && this.skyColorsNightMid.saturation != 0.0 && this.skyColorsNightEdge.saturation != 0.0)
 				yield break;
 			yield return "a sky color has saturation of 0";
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public static WeatherDef Named(string defName)

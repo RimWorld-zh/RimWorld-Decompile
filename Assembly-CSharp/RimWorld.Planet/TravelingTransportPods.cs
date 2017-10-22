@@ -7,13 +7,11 @@ namespace RimWorld.Planet
 {
 	public class TravelingTransportPods : WorldObject, IThingHolder
 	{
-		private const float TravelSpeed = 0.00025f;
-
 		public int destinationTile = -1;
 
 		public IntVec3 destinationCell = IntVec3.Invalid;
 
-		public PawnsArriveMode arriveMode;
+		public PawnsArriveMode arriveMode = PawnsArriveMode.Undecided;
 
 		public bool attackOnArrival;
 
@@ -24,6 +22,8 @@ namespace RimWorld.Planet
 		private int initialTile = -1;
 
 		private float traveledPct;
+
+		private const float TravelSpeed = 0.00025f;
 
 		private static List<Pawn> tmpPawns = new List<Pawn>();
 
@@ -59,16 +59,17 @@ namespace RimWorld.Planet
 			{
 				Vector3 start = this.Start;
 				Vector3 end = this.End;
+				float result;
 				if (start == end)
 				{
-					return 1f;
+					result = 1f;
 				}
-				float num = GenMath.SphericalDistance(start.normalized, end.normalized);
-				if (num == 0.0)
+				else
 				{
-					return 1f;
+					float num = GenMath.SphericalDistance(start.normalized, end.normalized);
+					result = (float)((num != 0.0) ? (0.00025000001187436283 / num) : 1.0);
 				}
-				return (float)(0.00025000001187436283 / num);
+				return result;
 			}
 		}
 
@@ -76,19 +77,29 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				for (int i = 0; i < this.pods.Count; i++)
+				int num = 0;
+				bool result;
+				while (true)
 				{
-					ThingOwner innerContainer = this.pods[i].innerContainer;
-					for (int j = 0; j < innerContainer.Count; j++)
+					if (num < this.pods.Count)
 					{
-						Pawn pawn = innerContainer[j] as Pawn;
-						if (pawn != null && CaravanUtility.IsOwner(pawn, base.Faction))
+						ThingOwner innerContainer = this.pods[num].innerContainer;
+						for (int i = 0; i < innerContainer.Count; i++)
 						{
-							return true;
+							Pawn pawn = innerContainer[i] as Pawn;
+							if (pawn != null && CaravanUtility.IsOwner(pawn, base.Faction))
+								goto IL_0047;
 						}
+						num++;
+						continue;
 					}
+					result = false;
+					break;
+					IL_0047:
+					result = true;
+					break;
 				}
-				return false;
+				return result;
 			}
 		}
 
@@ -96,19 +107,29 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				for (int i = 0; i < this.pods.Count; i++)
+				int num = 0;
+				bool result;
+				while (true)
 				{
-					ThingOwner innerContainer = this.pods[i].innerContainer;
-					for (int j = 0; j < innerContainer.Count; j++)
+					if (num < this.pods.Count)
 					{
-						Pawn pawn = innerContainer[j] as Pawn;
-						if (pawn != null && pawn.IsColonist && pawn.HostFaction == null)
+						ThingOwner innerContainer = this.pods[num].innerContainer;
+						for (int i = 0; i < innerContainer.Count; i++)
 						{
-							return true;
+							Pawn pawn = innerContainer[i] as Pawn;
+							if (pawn != null && pawn.IsColonist && pawn.HostFaction == null)
+								goto IL_004c;
 						}
+						num++;
+						continue;
 					}
+					result = false;
+					break;
+					IL_004c:
+					result = true;
+					break;
 				}
-				return false;
+				return result;
 			}
 		}
 
@@ -125,6 +146,7 @@ namespace RimWorld.Planet
 						if (p != null)
 						{
 							yield return p;
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
 				}
@@ -197,14 +219,24 @@ namespace RimWorld.Planet
 
 		public bool ContainsPawn(Pawn p)
 		{
-			for (int i = 0; i < this.pods.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (this.pods[i].innerContainer.Contains(p))
+				if (num < this.pods.Count)
 				{
-					return true;
+					if (this.pods[num].innerContainer.Contains(p))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		private void Arrived()
@@ -232,7 +264,7 @@ namespace RimWorld.Planet
 						}
 						this.RemoveAllPods();
 						Find.WorldObjects.Remove(this);
-						Messages.Message("MessageTransportPodsArrivedAndLost".Translate(), new GlobalTargetInfo(this.destinationTile), MessageSound.Negative);
+						Messages.Message("MessageTransportPodsArrivedAndLost".Translate(), new GlobalTargetInfo(this.destinationTile), MessageTypeDefOf.NegativeEvent);
 					}
 				}
 				else
@@ -242,7 +274,7 @@ namespace RimWorld.Planet
 					{
 						LongEventHandler.QueueLongEvent((Action)delegate
 						{
-							Map orGenerateMap = GetOrGenerateMapUtility.GetOrGenerateMap(mapParent.Tile, null);
+							Map orGenerateMap = GetOrGenerateMapUtility.GetOrGenerateMap(mapParent.Tile, mapParent.MapSizeGeneratedByTransportPodsArrival, null);
 							string extraMessagePart = (string)null;
 							if (mapParent.Faction != null && !mapParent.Faction.HostileTo(Faction.OfPlayer))
 							{
@@ -289,7 +321,7 @@ namespace RimWorld.Planet
 				IntVec3 c = default(IntVec3);
 				DropCellFinder.TryFindDropSpotNear(intVec, map, out c, false, true);
 				this.pods[i].parent = null;
-				DropPodUtility.MakeDropPodAt(c, map, this.pods[i]);
+				DropPodUtility.MakeDropPodAt(c, map, this.pods[i], false);
 			}
 			this.RemoveAllPods();
 			Find.WorldObjects.Remove(this);
@@ -298,7 +330,7 @@ namespace RimWorld.Planet
 			{
 				text = text + " " + extraMessagePart;
 			}
-			Messages.Message(text, new TargetInfo(intVec, map, false), MessageSound.Benefit);
+			Messages.Message(text, new TargetInfo(intVec, map, false), MessageTypeDefOf.TaskCompletion);
 		}
 
 		private void SpawnCaravanAtDestinationTile()
@@ -346,7 +378,7 @@ namespace RimWorld.Planet
 			Find.WorldObjects.Remove(this);
 			TravelingTransportPods.tmpPawns.Clear();
 			TravelingTransportPods.tmpContainedThings.Clear();
-			Messages.Message("MessageTransportPodsArrived".Translate(), (WorldObject)o, MessageSound.Benefit);
+			Messages.Message("MessageTransportPodsArrived".Translate(), (WorldObject)o, MessageTypeDefOf.TaskCompletion);
 		}
 
 		private void GivePodContentsToCaravan(Caravan caravan)
@@ -381,7 +413,7 @@ namespace RimWorld.Planet
 			this.RemoveAllPods();
 			Find.WorldObjects.Remove(this);
 			TravelingTransportPods.tmpContainedThings.Clear();
-			Messages.Message("MessageTransportPodsArrivedAndAddedToCaravan".Translate(), (WorldObject)caravan, MessageSound.Benefit);
+			Messages.Message("MessageTransportPodsArrivedAndAddedToCaravan".Translate(), (WorldObject)caravan, MessageTypeDefOf.TaskCompletion);
 		}
 
 		private void RemoveAllPawnsFromWorldPawns()
@@ -422,17 +454,6 @@ namespace RimWorld.Planet
 			{
 				outChildren.Add(this.pods[i]);
 			}
-		}
-
-		virtual IThingHolder get_ParentHolder()
-		{
-			return base.ParentHolder;
-		}
-
-		IThingHolder IThingHolder.get_ParentHolder()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
-			return this.get_ParentHolder();
 		}
 	}
 }

@@ -8,7 +8,7 @@ namespace RimWorld
 {
 	public class Dialog_AddPreferredName : Window
 	{
-		private string searchName = string.Empty;
+		private string searchName = "";
 
 		private string[] searchWords;
 
@@ -41,7 +41,7 @@ namespace RimWorld
 			if (text.Length < 20)
 			{
 				this.searchName = text;
-				this.searchWords = this.searchName.Replace("'", string.Empty).Split(' ');
+				this.searchWords = this.searchName.Replace("'", "").Split(' ');
 			}
 			listing_Standard.Gap(4f);
 			if (this.searchName.Length > 1)
@@ -64,30 +64,14 @@ namespace RimWorld
 
 		private bool FilterMatch(NameTriple n)
 		{
-			if (n.First == "Tynan" && n.Last == "Sylvester")
-			{
-				return false;
-			}
-			if (this.searchWords.Length == 0)
-			{
-				return false;
-			}
-			if (this.searchWords.Length == 1)
-			{
-				return n.Last.StartsWith(this.searchName, StringComparison.OrdinalIgnoreCase) || n.First.StartsWith(this.searchName, StringComparison.OrdinalIgnoreCase) || n.Nick.StartsWith(this.searchName, StringComparison.OrdinalIgnoreCase);
-			}
-			if (this.searchWords.Length == 2)
-			{
-				return n.First.EqualsIgnoreCase(this.searchWords[0]) && (n.Last.StartsWith(this.searchWords[1], StringComparison.OrdinalIgnoreCase) || n.Nick.StartsWith(this.searchWords[1], StringComparison.OrdinalIgnoreCase));
-			}
-			return false;
+			return (!(n.First == "Tynan") || !(n.Last == "Sylvester")) && this.searchWords.Length != 0 && ((this.searchWords.Length != 1) ? (this.searchWords.Length == 2 && n.First.EqualsIgnoreCase(this.searchWords[0]) && (n.Last.StartsWith(this.searchWords[1], StringComparison.OrdinalIgnoreCase) || n.Nick.StartsWith(this.searchWords[1], StringComparison.OrdinalIgnoreCase))) : (n.Last.StartsWith(this.searchName, StringComparison.OrdinalIgnoreCase) || n.First.StartsWith(this.searchName, StringComparison.OrdinalIgnoreCase) || n.Nick.StartsWith(this.searchName, StringComparison.OrdinalIgnoreCase)));
 		}
 
 		private void TryChooseName(NameTriple name)
 		{
 			if (this.AlreadyPreferred(name))
 			{
-				Messages.Message("MessageAlreadyPreferredName".Translate(), MessageSound.RejectInput);
+				Messages.Message("MessageAlreadyPreferredName".Translate(), MessageTypeDefOf.RejectInput);
 			}
 			else
 			{

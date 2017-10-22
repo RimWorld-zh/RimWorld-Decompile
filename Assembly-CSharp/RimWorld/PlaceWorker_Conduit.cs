@@ -5,25 +5,36 @@ namespace RimWorld
 {
 	public class PlaceWorker_Conduit : PlaceWorker
 	{
-		public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Thing thingToIgnore = null)
+		public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
-			List<Thing> thingList = loc.GetThingList(base.Map);
-			for (int i = 0; i < thingList.Count; i++)
+			List<Thing> thingList = loc.GetThingList(map);
+			int num = 0;
+			AcceptanceReport result;
+			while (true)
 			{
-				if (thingList[i].def.EverTransmitsPower)
+				if (num < thingList.Count)
 				{
-					return false;
-				}
-				if (thingList[i].def.entityDefToBuild != null)
-				{
-					ThingDef thingDef = thingList[i].def.entityDefToBuild as ThingDef;
-					if (thingDef != null && thingDef.EverTransmitsPower)
+					if (thingList[num].def.EverTransmitsPower)
 					{
-						return false;
+						result = false;
+						break;
 					}
+					if (thingList[num].def.entityDefToBuild != null)
+					{
+						ThingDef thingDef = thingList[num].def.entityDefToBuild as ThingDef;
+						if (thingDef != null && thingDef.EverTransmitsPower)
+						{
+							result = false;
+							break;
+						}
+					}
+					num++;
+					continue;
 				}
+				result = true;
+				break;
 			}
-			return true;
+			return result;
 		}
 	}
 }

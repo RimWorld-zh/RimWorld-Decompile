@@ -21,10 +21,10 @@ namespace RimWorld
 						{
 							ThingDef thingDef = recipeDef.products[k].thingDef;
 							if (thingDef.IsNutritionGivingIngestible && thingDef.ingestible.HumanEdible)
-								goto IL_0088;
+								goto IL_008c;
 						}
 						continue;
-						IL_0088:
+						IL_008c:
 						num++;
 						break;
 					}

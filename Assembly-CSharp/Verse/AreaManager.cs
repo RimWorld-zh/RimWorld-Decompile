@@ -7,11 +7,11 @@ namespace Verse
 {
 	public class AreaManager : IExposable
 	{
-		private const int MaxAllowedAreasPerMode = 5;
-
 		public Map map;
 
 		private List<Area> areas = new List<Area>();
+
+		private const int MaxAllowedAreasPerMode = 5;
 
 		public List<Area> AllAreas
 		{
@@ -95,13 +95,7 @@ namespace Verse
 			else
 			{
 				this.areas.Remove(area);
-				foreach (Pawn item in PawnsFinder.AllMapsAndWorld_Alive)
-				{
-					if (item.playerSettings != null)
-					{
-						item.playerSettings.Notify_AreaRemoved(area);
-					}
-				}
+				this.NotifyEveryoneAreaRemoved(area);
 				if (Designator_AreaAllowed.SelectedArea == area)
 				{
 					Designator_AreaAllowed.ClearSelectedArea();
@@ -111,27 +105,47 @@ namespace Verse
 
 		public Area GetLabeled(string s)
 		{
-			for (int i = 0; i < this.areas.Count; i++)
+			int num = 0;
+			Area result;
+			while (true)
 			{
-				if (this.areas[i].Label == s)
+				if (num < this.areas.Count)
 				{
-					return this.areas[i];
+					if (this.areas[num].Label == s)
+					{
+						result = this.areas[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public T Get<T>() where T : Area
 		{
-			for (int i = 0; i < this.areas.Count; i++)
+			int num = 0;
+			T result;
+			while (true)
 			{
-				T val = (T)(this.areas[i] as T);
-				if (val != null)
+				if (num < this.areas.Count)
 				{
-					return val;
+					T val = (T)(this.areas[num] as T);
+					if (val != null)
+					{
+						result = val;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = (T)null;
+				break;
 			}
-			return (T)null;
+			return result;
 		}
 
 		private void SortAreas()
@@ -147,6 +161,25 @@ namespace Verse
 			}
 		}
 
+		private void NotifyEveryoneAreaRemoved(Area area)
+		{
+			foreach (Pawn item in PawnsFinder.AllMapsAndWorld_Alive)
+			{
+				if (item.playerSettings != null)
+				{
+					item.playerSettings.Notify_AreaRemoved(area);
+				}
+			}
+		}
+
+		public void Notify_MapRemoved()
+		{
+			for (int i = 0; i < this.areas.Count; i++)
+			{
+				this.NotifyEveryoneAreaRemoved(this.areas[i]);
+			}
+		}
+
 		public bool CanMakeNewAllowed(AllowedAreaMode mode)
 		{
 			return (from a in this.areas
@@ -156,15 +189,20 @@ namespace Verse
 
 		public bool TryMakeNewAllowed(AllowedAreaMode mode, out Area_Allowed area)
 		{
+			bool result;
 			if (!this.CanMakeNewAllowed(mode))
 			{
 				area = null;
-				return false;
+				result = false;
 			}
-			area = new Area_Allowed(this, mode, (string)null);
-			this.areas.Add(area);
-			this.SortAreas();
-			return true;
+			else
+			{
+				area = new Area_Allowed(this, mode, (string)null);
+				this.areas.Add(area);
+				this.SortAreas();
+				result = true;
+			}
+			return result;
 		}
 	}
 }

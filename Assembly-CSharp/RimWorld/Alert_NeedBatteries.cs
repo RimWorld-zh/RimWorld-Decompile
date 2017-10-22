@@ -14,35 +14,29 @@ namespace RimWorld
 		public override AlertReport GetReport()
 		{
 			List<Map> maps = Find.Maps;
-			for (int i = 0; i < maps.Count; i++)
+			int num = 0;
+			AlertReport result;
+			while (true)
 			{
-				if (this.NeedBatteries(maps[i]))
+				if (num < maps.Count)
 				{
-					return true;
+					if (this.NeedBatteries(maps[num]))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		private bool NeedBatteries(Map map)
 		{
-			if (!map.IsPlayerHome)
-			{
-				return false;
-			}
-			if (map.listerBuildings.ColonistsHaveBuilding(ThingDefOf.Battery))
-			{
-				return false;
-			}
-			if (!map.listerBuildings.ColonistsHaveBuilding(ThingDefOf.SolarGenerator) && !map.listerBuildings.ColonistsHaveBuilding(ThingDefOf.WindTurbine))
-			{
-				return false;
-			}
-			if (map.listerBuildings.ColonistsHaveBuilding(ThingDefOf.GeothermalGenerator))
-			{
-				return false;
-			}
-			return true;
+			return (byte)(map.IsPlayerHome ? ((!map.listerBuildings.ColonistsHaveBuilding(ThingDefOf.Battery)) ? ((map.listerBuildings.ColonistsHaveBuilding(ThingDefOf.SolarGenerator) || map.listerBuildings.ColonistsHaveBuilding(ThingDefOf.WindTurbine)) ? ((!map.listerBuildings.ColonistsHaveBuilding(ThingDefOf.GeothermalGenerator)) ? 1 : 0) : 0) : 0) : 0) != 0;
 		}
 	}
 }

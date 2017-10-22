@@ -37,7 +37,6 @@ namespace RimWorld
 					curDriver3.layingDown = LayingDownState.LayingSurface;
 				}
 				curDriver3.asleep = false;
-				actor3.mindState.awokeVoluntarily = false;
 				if (actor3.mindState.applyBedThoughtsTick == 0)
 				{
 					actor3.mindState.applyBedThoughtsTick = Find.TickManager.TicksGame + Rand.Range(2500, 10000);
@@ -57,16 +56,27 @@ namespace RimWorld
 				actor2.GainComfortFromCellIfPossible();
 				if (!curDriver2.asleep)
 				{
-					if (canSleep && actor2.needs.rest.CurLevel < RestUtility.FallAsleepMaxLevel(actor2))
+					if (canSleep)
 					{
-						curDriver2.asleep = true;
+						if (actor2.needs.rest != null && actor2.needs.rest.CurLevel < RestUtility.FallAsleepMaxLevel(actor2))
+						{
+							goto IL_008f;
+						}
+						if (curJob.forceSleep)
+							goto IL_008f;
 					}
 				}
-				else if (!canSleep || actor2.needs.rest.CurLevel >= RestUtility.WakeThreshold(actor2))
+				else if (!canSleep)
 				{
 					curDriver2.asleep = false;
 				}
-				if (curDriver2.asleep && gainRestAndHealth)
+				else if ((actor2.needs.rest == null || actor2.needs.rest.CurLevel >= RestUtility.WakeThreshold(actor2)) && !curJob.forceSleep)
+				{
+					curDriver2.asleep = false;
+				}
+				goto IL_00f3;
+				IL_00f3:
+				if (curDriver2.asleep && gainRestAndHealth && actor2.needs.rest != null)
 				{
 					float num = (float)((building_Bed == null || !building_Bed.def.statBases.StatListContains(StatDefOf.BedRestEffectiveness)) ? 0.800000011920929 : building_Bed.GetStatValue(StatDefOf.BedRestEffectiveness, true));
 					float num2 = RestUtility.PawnHealthRestEffectivenessFactor(actor2);
@@ -100,10 +110,12 @@ namespace RimWorld
 				}
 				else if (lookForOtherJobs && actor2.IsHashIntervalTick(211))
 				{
-					actor2.mindState.awokeVoluntarily = true;
 					actor2.jobs.CheckForJobOverride();
-					actor2.mindState.awokeVoluntarily = false;
 				}
+				return;
+				IL_008f:
+				curDriver2.asleep = true;
+				goto IL_00f3;
 			};
 			layDown.defaultCompleteMode = ToilCompleteMode.Never;
 			if (hasBed)
@@ -114,10 +126,6 @@ namespace RimWorld
 			{
 				Pawn actor = layDown.actor;
 				JobDriver curDriver = actor.jobs.curDriver;
-				if (!actor.mindState.awokeVoluntarily && curDriver.asleep && !actor.Dead && actor.needs.rest != null && actor.needs.rest.CurLevel < RestUtility.FallAsleepMaxLevel(actor) && actor.needs.mood != null)
-				{
-					actor.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleepDisturbed, null);
-				}
 				if (actor.mindState.applyBedThoughtsOnLeave)
 				{
 					Toils_LayDown.ApplyBedThoughts(actor);

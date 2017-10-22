@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -31,21 +30,12 @@ namespace Verse
 			}
 			foreach (IntVec3 item2 in r)
 			{
-				List<Thing>.Enumerator enumerator3 = item2.GetThingList(map).ToList().GetEnumerator();
-				try
+				foreach (Thing item3 in item2.GetThingList(map).ToList())
 				{
-					while (enumerator3.MoveNext())
+					if (item3.def.destroyable)
 					{
-						Thing current3 = enumerator3.Current;
-						if (current3.def.destroyable)
-						{
-							current3.Destroy(DestroyMode.Vanish);
-						}
+						item3.Destroy(DestroyMode.Vanish);
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator3).Dispose();
 				}
 			}
 		}

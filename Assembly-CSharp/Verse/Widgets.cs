@@ -1,3 +1,4 @@
+#define ENABLE_PROFILER
 using RimWorld;
 using RimWorld.Planet;
 using System;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.Profiling;
 using Verse.Sound;
 
 namespace Verse
@@ -19,30 +21,6 @@ namespace Verse
 			Min = 1,
 			Max = 2
 		}
-
-		public const float CheckboxSize = 24f;
-
-		public const float RadioButtonSize = 24f;
-
-		private const int FillableBarBorderWidth = 3;
-
-		private const int MaxFillChangeArrowHeight = 16;
-
-		private const int FillChangeArrowWidth = 8;
-
-		private const float CloseButtonSize = 18f;
-
-		private const float CloseButtonMargin = 4f;
-
-		private const float SeparatorLabelHeight = 20f;
-
-		public const float ListSeparatorHeight = 25f;
-
-		public const float RangeControlIdealHeight = 31f;
-
-		private const float RangeSliderSize = 16f;
-
-		public const float InfoCardButtonSize = 24f;
 
 		public static readonly GUIStyle EmptyStyle;
 
@@ -58,6 +36,10 @@ namespace Verse
 
 		public static readonly Texture2D CheckboxPartialTex;
 
+		public const float CheckboxSize = 24f;
+
+		public const float RadioButtonSize = 24f;
+
 		private static readonly Texture2D RadioButOnTex;
 
 		private static readonly Texture2D RadioButOffTex;
@@ -65,6 +47,16 @@ namespace Verse
 		private static readonly Texture2D FillArrowTexRight;
 
 		private static readonly Texture2D FillArrowTexLeft;
+
+		private const int FillableBarBorderWidth = 3;
+
+		private const int MaxFillChangeArrowHeight = 16;
+
+		private const int FillChangeArrowWidth = 8;
+
+		private const float CloseButtonSize = 18f;
+
+		private const float CloseButtonMargin = 4f;
 
 		private static readonly Texture2D ShadowAtlas;
 
@@ -94,9 +86,19 @@ namespace Verse
 
 		private static readonly Color SeparatorLineColor;
 
+		private const float SeparatorLabelHeight = 20f;
+
+		public const float ListSeparatorHeight = 25f;
+
 		public static readonly Texture2D ButtonSubtleAtlas;
 
 		private static readonly Texture2D ButtonBarTex;
+
+		public const float RangeControlIdealHeight = 31f;
+
+		public const float RangeControlCompactHeight = 28f;
+
+		private const float RangeSliderSize = 16f;
 
 		private static readonly Color RangeControlTextColor;
 
@@ -112,7 +114,7 @@ namespace Verse
 
 		private static readonly Color WindowBGBorderColor;
 
-		private static readonly Color WindowBGFillColor;
+		public static readonly Color WindowBGFillColor;
 
 		private static readonly Color MenuSectionBGFillColor;
 
@@ -121,6 +123,16 @@ namespace Verse
 		private static readonly Color TutorWindowBGFillColor;
 
 		private static readonly Color TutorWindowBGBorderColor;
+
+		private static readonly Color OptionUnselectedBGFillColor;
+
+		private static readonly Color OptionUnselectedBGBorderColor;
+
+		private static readonly Color OptionSelectedBGFillColor;
+
+		private static readonly Color OptionSelectedBGBorderColor;
+
+		public const float InfoCardButtonSize = 24f;
 
 		static Widgets()
 		{
@@ -163,6 +175,10 @@ namespace Verse
 			Widgets.MenuSectionBGBorderColor = new ColorInt(135, 135, 135).ToColor;
 			Widgets.TutorWindowBGFillColor = new ColorInt(133, 85, 44).ToColor;
 			Widgets.TutorWindowBGBorderColor = new ColorInt(176, 139, 61).ToColor;
+			Widgets.OptionUnselectedBGFillColor = new Color(0.21f, 0.21f, 0.21f);
+			Widgets.OptionUnselectedBGBorderColor = Widgets.OptionUnselectedBGFillColor * 1.8f;
+			Widgets.OptionSelectedBGFillColor = new Color(0.32f, 0.28f, 0.21f);
+			Widgets.OptionSelectedBGBorderColor = Widgets.OptionSelectedBGFillColor * 1.8f;
 			Color color = new Color(1f, 1f, 1f, 0f);
 			Widgets.LineTexAA = new Texture2D(1, 3, TextureFormat.ARGB32, false);
 			Widgets.LineTexAA.name = "LineTexAA";
@@ -175,11 +191,14 @@ namespace Verse
 
 		public static void ThingIcon(Rect rect, Thing thing, float alpha = 1f)
 		{
+			thing = thing.GetInnerIfMinified();
 			GUI.color = thing.DrawColor;
+			float resolvedIconAngle = 0f;
 			Texture resolvedIcon;
 			if (!thing.def.uiIconPath.NullOrEmpty())
 			{
 				resolvedIcon = thing.def.uiIcon;
+				resolvedIconAngle = thing.def.uiIconAngle;
 			}
 			else if (thing is Pawn || thing is Corpse)
 			{
@@ -216,18 +235,18 @@ namespace Verse
 				color.a *= alpha;
 				GUI.color = color;
 			}
-			Widgets.ThingIconWorker(rect, thing.def, resolvedIcon);
+			Widgets.ThingIconWorker(rect, thing.def, resolvedIcon, resolvedIconAngle);
 			GUI.color = Color.white;
 		}
 
 		public static void ThingIcon(Rect rect, ThingDef thingDef)
 		{
 			GUI.color = thingDef.graphicData.color;
-			Widgets.ThingIconWorker(rect, thingDef, thingDef.uiIcon);
+			Widgets.ThingIconWorker(rect, thingDef, thingDef.uiIcon, thingDef.uiIconAngle);
 			GUI.color = Color.white;
 		}
 
-		private static void ThingIconWorker(Rect rect, ThingDef thingDef, Texture resolvedIcon)
+		private static void ThingIconWorker(Rect rect, ThingDef thingDef, Texture resolvedIcon, float resolvedIconAngle)
 		{
 			float num = GenUI.IconDrawScale(thingDef);
 			if (num != 1.0)
@@ -237,7 +256,7 @@ namespace Verse
 				rect.height *= num;
 				rect.center = center;
 			}
-			GUI.DrawTexture(rect, resolvedIcon);
+			Widgets.DrawTextureRotated(rect, resolvedIcon, resolvedIconAngle);
 		}
 
 		public static void DrawAltRect(Rect rect)
@@ -353,12 +372,27 @@ namespace Verse
 			GUI.Label(rect, label, Text.CurFontStyle);
 		}
 
-		public static void LabelScrollable(Rect rect, string label, ref Vector2 scrollbarPosition)
+		public static void LabelScrollable(Rect rect, string label, ref Vector2 scrollbarPosition, bool dontConsumeScrollEventsIfNoScrollbar = false)
 		{
 			Rect rect2 = new Rect(0f, 0f, (float)(rect.width - 16.0), Mathf.Max((float)(Text.CalcHeight(label, rect.width) + 10.0), rect.height));
-			Widgets.BeginScrollView(rect, ref scrollbarPosition, rect2, true);
+			bool flag = !dontConsumeScrollEventsIfNoScrollbar || Text.CalcHeight(label, rect.width) > rect.height;
+			if (flag)
+			{
+				Widgets.BeginScrollView(rect, ref scrollbarPosition, rect2, true);
+			}
+			else
+			{
+				GUI.BeginGroup(rect);
+			}
 			Widgets.Label(rect2, label);
-			Widgets.EndScrollView();
+			if (flag)
+			{
+				Widgets.EndScrollView();
+			}
+			else
+			{
+				GUI.EndGroup();
+			}
 		}
 
 		public static void Checkbox(Vector2 topLeft, ref bool checkOn, float size = 24f, bool disabled = false)
@@ -488,6 +522,7 @@ namespace Verse
 			}
 			Rect rect = new Rect(topLeft.x, topLeft.y, size, size);
 			MouseoverSounds.DoRegion(rect);
+			bool result;
 			if (Widgets.ButtonImage(rect, tex))
 			{
 				if (state == MultiCheckboxState.Off || state == MultiCheckboxState.Partial)
@@ -498,9 +533,13 @@ namespace Verse
 				{
 					SoundDefOf.CheckboxTurnedOff.PlayOneShotOnCamera(null);
 				}
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		public static bool RadioButton(Vector2 topLeft, bool chosen)
@@ -588,11 +627,7 @@ namespace Verse
 			Widgets.Label(rect, label);
 			Text.Anchor = anchor;
 			GUI.color = color;
-			if (active)
-			{
-				return Widgets.ButtonInvisible(rect, false);
-			}
-			return false;
+			return active && Widgets.ButtonInvisible(rect, false);
 		}
 
 		public static void DrawRectFast(Rect position, Color color, GUIContent content = null)
@@ -631,50 +666,54 @@ namespace Verse
 			Widgets.Label(rect, label);
 			Text.Anchor = anchor;
 			GUI.color = color;
-			if (active)
-			{
-				return Widgets.ButtonInvisible(rect, false);
-			}
-			return false;
+			return active && Widgets.ButtonInvisible(rect, false);
 		}
 
-		public static bool ButtonTextSubtle(Rect rect, string label, float barPercent = 0, float textLeftMargin = -1, SoundDef mouseoverSound = null)
+		public static bool ButtonTextSubtle(Rect rect, string label, float barPercent = 0f, float textLeftMargin = -1f, SoundDef mouseoverSound = null, Vector2 functionalSizeOffset = default(Vector2))
 		{
+			Rect rect2 = rect;
+			rect2.width += functionalSizeOffset.x;
+			rect2.height += functionalSizeOffset.y;
+			Profiler.BeginSample("ButtonTextSubtle");
 			bool flag = false;
-			if (Mouse.IsOver(rect))
+			if (Mouse.IsOver(rect2))
 			{
 				flag = true;
 				GUI.color = GenUI.MouseoverColor;
 			}
 			if (mouseoverSound != null)
 			{
-				MouseoverSounds.DoRegion(rect, mouseoverSound);
+				MouseoverSounds.DoRegion(rect2, mouseoverSound);
 			}
+			Profiler.BeginSample("atlas");
 			Widgets.DrawAtlas(rect, Widgets.ButtonSubtleAtlas);
+			Profiler.EndSample();
 			GUI.color = Color.white;
 			if (barPercent > 0.0010000000474974513)
 			{
-				Rect rect2 = rect.ContractedBy(1f);
-				Widgets.FillableBar(rect2, barPercent, Widgets.ButtonBarTex, null, false);
+				Rect rect3 = rect.ContractedBy(1f);
+				Widgets.FillableBar(rect3, barPercent, Widgets.ButtonBarTex, null, false);
 			}
-			Rect rect3 = new Rect(rect);
+			Rect rect4 = new Rect(rect);
 			if (textLeftMargin < 0.0)
 			{
 				textLeftMargin = (float)(rect.width * 0.15000000596046448);
 			}
-			rect3.x += textLeftMargin;
+			rect4.x += textLeftMargin;
 			if (flag)
 			{
-				rect3.x += 2f;
-				rect3.y -= 2f;
+				rect4.x += 2f;
+				rect4.y -= 2f;
 			}
 			Text.Anchor = TextAnchor.MiddleLeft;
 			Text.WordWrap = false;
 			Text.Font = GameFont.Small;
-			Widgets.Label(rect3, label);
+			Widgets.Label(rect4, label);
 			Text.Anchor = TextAnchor.UpperLeft;
 			Text.WordWrap = true;
-			return Widgets.ButtonInvisible(rect, false);
+			bool result = Widgets.ButtonInvisible(rect2, false);
+			Profiler.EndSample();
+			return result;
 		}
 
 		public static bool ButtonImage(Rect butRect, Texture2D tex)
@@ -714,14 +753,14 @@ namespace Verse
 			{
 				MouseoverSounds.DoRegion(butRect);
 			}
-			return GUI.Button(butRect, string.Empty, Widgets.EmptyStyle);
+			return GUI.Button(butRect, "", Widgets.EmptyStyle);
 		}
 
 		public static string TextField(Rect rect, string text)
 		{
 			if (text == null)
 			{
-				text = string.Empty;
+				text = "";
 			}
 			return GUI.TextField(rect, text, Text.CurTextFieldStyle);
 		}
@@ -729,18 +768,14 @@ namespace Verse
 		public static string TextField(Rect rect, string text, int maxLength, Regex inputValidator)
 		{
 			string text2 = Widgets.TextField(rect, text);
-			if (text2.Length <= maxLength && Outfit.ValidNameRegex.IsMatch(text2))
-			{
-				return text2;
-			}
-			return text;
+			return (text2.Length > maxLength || !inputValidator.IsMatch(text2)) ? text : text2;
 		}
 
 		public static string TextArea(Rect rect, string text, bool readOnly = false)
 		{
 			if (text == null)
 			{
-				text = string.Empty;
+				text = "";
 			}
 			return GUI.TextArea(rect, text, (!readOnly) ? Text.CurTextAreaStyle : Text.CurTextAreaReadOnlyStyle);
 		}
@@ -762,14 +797,10 @@ namespace Verse
 			Text.Anchor = TextAnchor.MiddleRight;
 			Widgets.Label(rect2, label);
 			Text.Anchor = anchor;
-			if (rect.height <= 30.0)
-			{
-				return Widgets.TextField(rect3, text);
-			}
-			return Widgets.TextArea(rect3, text, false);
+			return (!(rect.height <= 30.0)) ? Widgets.TextArea(rect3, text, false) : Widgets.TextField(rect3, text);
 		}
 
-		public static void TextFieldNumeric<T>(Rect rect, ref T val, ref string buffer, float min = 0, float max = 1000000000) where T : struct
+		public static void TextFieldNumeric<T>(Rect rect, ref T val, ref string buffer, float min = 0f, float max = 1E+09f) where T : struct
 		{
 			if (buffer == null)
 			{
@@ -846,55 +877,57 @@ namespace Verse
 
 		private static string ToStringTypedIn<T>(T val)
 		{
-			if (typeof(T) == typeof(float))
-			{
-				return ((float)(object)val).ToString("0.##########");
-			}
-			return val.ToString();
+			return (typeof(T) != typeof(float)) ? val.ToString() : ((float)(object)val).ToString("0.##########");
 		}
 
 		private static bool IsPartiallyOrFullyTypedNumber<T>(ref T val, string s, float min, float max)
 		{
-			if (s == string.Empty)
+			bool result;
+			if (s == "")
 			{
-				return true;
+				result = true;
 			}
-			if (s[0] == '-' && min >= 0.0)
+			else if (s[0] == '-' && min >= 0.0)
 			{
-				return false;
+				result = false;
 			}
-			if (s.Length > 1 && s[s.Length - 1] == '-')
+			else if (s.Length > 1 && s[s.Length - 1] == '-')
 			{
-				return false;
+				result = false;
 			}
-			if (s == "00")
+			else if (s == "00")
 			{
-				return false;
+				result = false;
 			}
-			if (s.Length > 12)
+			else if (s.Length > 12)
 			{
-				return false;
+				result = false;
 			}
-			if (typeof(T) == typeof(float))
+			else
 			{
-				int num = s.CharacterCount('.');
-				if (num <= 1 && s.ContainsOnlyCharacters("-.0123456789"))
+				if (typeof(T) == typeof(float))
 				{
-					return true;
+					int num = s.CharacterCount('.');
+					if (num <= 1 && s.ContainsOnlyCharacters("-.0123456789"))
+					{
+						result = true;
+						goto IL_00e6;
+					}
 				}
+				result = ((byte)(s.IsFullyTypedNumber<T>() ? 1 : 0) != 0);
 			}
-			if (s.IsFullyTypedNumber<T>())
-			{
-				return true;
-			}
-			return false;
+			goto IL_00e6;
+			IL_00e6:
+			return result;
 		}
 
 		private static bool IsFullyTypedNumber<T>(this string s)
 		{
-			if (s == string.Empty)
+			bool result;
+			if (s == "")
 			{
-				return false;
+				result = false;
+				goto IL_00df;
 			}
 			if (typeof(T) == typeof(float))
 			{
@@ -903,35 +936,47 @@ namespace Verse
 				{
 					if (!array[0].ContainsOnlyCharacters("-0123456789"))
 					{
-						return false;
+						result = false;
+						goto IL_00df;
 					}
-					if (array.Length == 2 && !array[1].ContainsOnlyCharacters("0123456789"))
+					if (array.Length == 2 && (array[1].Length == 0 || !array[1].ContainsOnlyCharacters("0123456789")))
 					{
-						return false;
+						result = false;
+						goto IL_00df;
 					}
-					goto IL_0082;
+					goto IL_00a6;
 				}
-				return false;
+				result = false;
+				goto IL_00df;
 			}
-			goto IL_0082;
-			IL_0082:
-			if (typeof(T) == typeof(int) && !s.ContainsOnlyCharacters("-0123456789"))
-			{
-				return false;
-			}
-			return true;
+			goto IL_00a6;
+			IL_00df:
+			return result;
+			IL_00a6:
+			result = ((byte)((typeof(T) != typeof(int) || s.ContainsOnlyCharacters("-0123456789")) ? 1 : 0) != 0);
+			goto IL_00df;
 		}
 
 		private static bool ContainsOnlyCharacters(this string s, string allowedChars)
 		{
-			for (int i = 0; i < s.Length; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (!allowedChars.Contains(s[i]))
+				if (num < s.Length)
 				{
-					return false;
+					if (!allowedChars.Contains(s[num]))
+					{
+						result = false;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = true;
+				break;
 			}
-			return true;
+			return result;
 		}
 
 		private static int CharacterCount(this string s, char c)
@@ -947,7 +992,7 @@ namespace Verse
 			return num;
 		}
 
-		public static void TextFieldNumericLabeled<T>(Rect rect, string label, ref T val, ref string buffer, float min = 0, float max = 1000000000) where T : struct
+		public static void TextFieldNumericLabeled<T>(Rect rect, string label, ref T val, ref string buffer, float min = 0f, float max = 1E+09f) where T : struct
 		{
 			Rect rect2 = rect.LeftHalf().Rounded();
 			Rect rect3 = rect.RightHalf().Rounded();
@@ -1070,7 +1115,7 @@ namespace Verse
 			return freq;
 		}
 
-		public static void FloatRange(Rect rect, int id, ref FloatRange range, float min = 0, float max = 1, string labelKey = null, ToStringStyle valueStyle = ToStringStyle.FloatTwo)
+		public static void FloatRange(Rect rect, int id, ref FloatRange range, float min = 0f, float max = 1f, string labelKey = null, ToStringStyle valueStyle = ToStringStyle.FloatTwo)
 		{
 			Rect rect2 = rect;
 			rect2.xMin += 8f;
@@ -1084,7 +1129,9 @@ namespace Verse
 			GameFont font = Text.Font;
 			Text.Font = GameFont.Tiny;
 			Text.Anchor = TextAnchor.UpperCenter;
-			Widgets.Label(rect2, text);
+			Rect rect3 = rect2;
+			rect3.yMin -= 2f;
+			Widgets.Label(rect3, text);
 			Text.Anchor = TextAnchor.UpperLeft;
 			Rect position = new Rect(rect2.x, (float)(rect2.yMax - 8.0 - 1.0), rect2.width, 2f);
 			GUI.DrawTexture(position, BaseContent.WhiteTex);
@@ -1177,7 +1224,9 @@ namespace Verse
 			GameFont font = Text.Font;
 			Text.Font = GameFont.Tiny;
 			Text.Anchor = TextAnchor.UpperCenter;
-			Widgets.Label(rect2, text);
+			Rect rect3 = rect2;
+			rect3.yMin -= 2f;
+			Widgets.Label(rect3, text);
 			Text.Anchor = TextAnchor.UpperLeft;
 			Rect position = new Rect(rect2.x, (float)(rect2.yMax - 8.0 - 1.0), rect2.width, 2f);
 			GUI.DrawTexture(position, BaseContent.WhiteTex);
@@ -1286,7 +1335,9 @@ namespace Verse
 			GameFont font = Text.Font;
 			Text.Font = GameFont.Tiny;
 			Text.Anchor = TextAnchor.UpperCenter;
-			Widgets.Label(rect2, label);
+			Rect rect3 = rect2;
+			rect3.yMin -= 2f;
+			Widgets.Label(rect3, label);
 			Text.Anchor = TextAnchor.UpperLeft;
 			Rect position = new Rect(rect2.x, (float)(rect2.yMax - 8.0 - 1.0), rect2.width, 2f);
 			GUI.DrawTexture(position, BaseContent.WhiteTex);
@@ -1367,7 +1418,7 @@ namespace Verse
 			Text.Font = font;
 		}
 
-		public static void FloatRangeWithTypeIn(Rect rect, int id, ref FloatRange fRange, float sliderMin = 0, float sliderMax = 1, ToStringStyle valueStyle = ToStringStyle.FloatTwo, string labelKey = null)
+		public static void FloatRangeWithTypeIn(Rect rect, int id, ref FloatRange fRange, float sliderMin = 0f, float sliderMax = 1f, ToStringStyle valueStyle = ToStringStyle.FloatTwo, string labelKey = null)
 		{
 			Rect rect2 = new Rect(rect)
 			{
@@ -1400,18 +1451,18 @@ namespace Verse
 			float.TryParse(Widgets.TextField(rect4, fRange.max.ToString()), out fRange.max);
 		}
 
-		public static void FillableBar(Rect rect, float fillPercent)
+		public static Rect FillableBar(Rect rect, float fillPercent)
 		{
-			Widgets.FillableBar(rect, fillPercent, Widgets.BarFullTexHor);
+			return Widgets.FillableBar(rect, fillPercent, Widgets.BarFullTexHor);
 		}
 
-		public static void FillableBar(Rect rect, float fillPercent, Texture2D fillTex)
+		public static Rect FillableBar(Rect rect, float fillPercent, Texture2D fillTex)
 		{
 			bool doBorder = rect.height > 15.0 && rect.width > 20.0;
-			Widgets.FillableBar(rect, fillPercent, fillTex, Widgets.DefaultBarBgTex, doBorder);
+			return Widgets.FillableBar(rect, fillPercent, fillTex, Widgets.DefaultBarBgTex, doBorder);
 		}
 
-		public static void FillableBar(Rect rect, float fillPercent, Texture2D fillTex, Texture2D bgTex, bool doBorder)
+		public static Rect FillableBar(Rect rect, float fillPercent, Texture2D fillTex, Texture2D bgTex, bool doBorder)
 		{
 			if (doBorder)
 			{
@@ -1422,8 +1473,10 @@ namespace Verse
 			{
 				GUI.DrawTexture(rect, bgTex);
 			}
+			Rect result = rect;
 			rect.width *= fillPercent;
 			GUI.DrawTexture(rect, fillTex);
+			return result;
 		}
 
 		public static void FillableBarLabeled(Rect rect, float fillPercent, int labelWidth, string label)
@@ -1503,7 +1556,7 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
-		public static void DrawMenuSection(Rect rect, bool drawTop = true)
+		public static void DrawMenuSection(Rect rect)
 		{
 			GUI.color = Widgets.MenuSectionBGFillColor;
 			GUI.DrawTexture(rect, BaseContent.WhiteTex);
@@ -1519,6 +1572,37 @@ namespace Verse
 			GUI.color = Widgets.TutorWindowBGBorderColor;
 			Widgets.DrawBox(rect, 1);
 			GUI.color = Color.white;
+		}
+
+		public static void DrawOptionUnselected(Rect rect)
+		{
+			GUI.color = Widgets.OptionUnselectedBGFillColor;
+			GUI.DrawTexture(rect, BaseContent.WhiteTex);
+			GUI.color = Widgets.OptionUnselectedBGBorderColor;
+			Widgets.DrawBox(rect, 1);
+			GUI.color = Color.white;
+		}
+
+		public static void DrawOptionSelected(Rect rect)
+		{
+			GUI.color = Widgets.OptionSelectedBGFillColor;
+			GUI.DrawTexture(rect, BaseContent.WhiteTex);
+			GUI.color = Widgets.OptionSelectedBGBorderColor;
+			Widgets.DrawBox(rect, 1);
+			GUI.color = Color.white;
+		}
+
+		public static void DrawOptionBackground(Rect rect, bool selected)
+		{
+			if (selected)
+			{
+				Widgets.DrawOptionSelected(rect);
+			}
+			else
+			{
+				Widgets.DrawOptionUnselected(rect);
+			}
+			Widgets.DrawHighlightIfMouseover(rect);
 		}
 
 		public static void DrawShadowAround(Rect rect)
@@ -1607,7 +1691,7 @@ namespace Verse
 			GUI.DrawTextureWithTexCoords(drawRect, tex, uvRect);
 		}
 
-		public static void ScrollHorizontal(Rect outRect, ref Vector2 scrollPosition, Rect viewRect, float ScrollWheelSpeed = 20)
+		public static void ScrollHorizontal(Rect outRect, ref Vector2 scrollPosition, Rect viewRect, float ScrollWheelSpeed = 20f)
 		{
 			if (Event.current.type == EventType.ScrollWheel && Mouse.IsOver(outRect))
 			{
@@ -1630,15 +1714,14 @@ namespace Verse
 
 		public static void BeginScrollView(Rect outRect, ref Vector2 scrollPosition, Rect viewRect, bool showScrollbars = true)
 		{
-			Vector2 vector = scrollPosition;
-			Vector2 vector2 = (!showScrollbars) ? GUI.BeginScrollView(outRect, scrollPosition, viewRect, GUIStyle.none, GUIStyle.none) : GUI.BeginScrollView(outRect, scrollPosition, viewRect);
-			Vector2 vector3 = (Event.current.type != 0) ? vector2 : vector;
-			if (Event.current.type == EventType.ScrollWheel && Mouse.IsOver(outRect))
+			if (showScrollbars)
 			{
-				vector3 += Event.current.delta * 40f;
-				Event.current.Use();
+				scrollPosition = GUI.BeginScrollView(outRect, scrollPosition, viewRect);
 			}
-			scrollPosition = vector3;
+			else
+			{
+				scrollPosition = GUI.BeginScrollView(outRect, scrollPosition, viewRect, GUIStyle.none, GUIStyle.none);
+			}
 		}
 
 		public static void EndScrollView()
@@ -1672,51 +1755,67 @@ namespace Verse
 		public static bool InfoCardButton(float x, float y, Thing thing)
 		{
 			IConstructible constructible = thing as IConstructible;
+			bool result;
 			if (constructible != null)
 			{
 				ThingDef thingDef = thing.def.entityDefToBuild as ThingDef;
-				if (thingDef != null)
-				{
-					return Widgets.InfoCardButton(x, y, thingDef, constructible.UIStuff());
-				}
-				return Widgets.InfoCardButton(x, y, thing.def.entityDefToBuild);
+				result = ((thingDef == null) ? Widgets.InfoCardButton(x, y, thing.def.entityDefToBuild) : Widgets.InfoCardButton(x, y, thingDef, constructible.UIStuff()));
 			}
-			if (Widgets.InfoCardButtonWorker(x, y))
+			else if (Widgets.InfoCardButtonWorker(x, y))
 			{
 				Find.WindowStack.Add(new Dialog_InfoCard(thing));
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		public static bool InfoCardButton(float x, float y, Def def)
 		{
+			bool result;
 			if (Widgets.InfoCardButtonWorker(x, y))
 			{
 				Find.WindowStack.Add(new Dialog_InfoCard(def));
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		public static bool InfoCardButton(float x, float y, ThingDef thingDef, ThingDef stuffDef)
 		{
+			bool result;
 			if (Widgets.InfoCardButtonWorker(x, y))
 			{
 				Find.WindowStack.Add(new Dialog_InfoCard(thingDef, stuffDef));
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		public static bool InfoCardButton(float x, float y, WorldObject worldObject)
 		{
+			bool result;
 			if (Widgets.InfoCardButtonWorker(x, y))
 			{
 				Find.WindowStack.Add(new Dialog_InfoCard(worldObject));
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		private static bool InfoCardButtonWorker(float x, float y)
@@ -1728,12 +1827,12 @@ namespace Verse
 			return result;
 		}
 
-		public static void DrawTextureFitted(Rect outerRect, Texture2D tex, float scale)
+		public static void DrawTextureFitted(Rect outerRect, Texture tex, float scale)
 		{
-			Widgets.DrawTextureFitted(outerRect, tex, scale, new Vector2((float)tex.width, (float)tex.height), new Rect(0f, 0f, 1f, 1f));
+			Widgets.DrawTextureFitted(outerRect, tex, scale, new Vector2((float)tex.width, (float)tex.height), new Rect(0f, 0f, 1f, 1f), 0f);
 		}
 
-		public static void DrawTextureFitted(Rect outerRect, Texture2D tex, float scale, Vector2 texProportions, Rect texCoords)
+		public static void DrawTextureFitted(Rect outerRect, Texture tex, float scale, Vector2 texProportions, Rect texCoords, float angle = 0f)
 		{
 			if (Event.current.type == EventType.Repaint)
 			{
@@ -1744,11 +1843,21 @@ namespace Verse
 				position.height *= num;
 				position.x = (float)(outerRect.x + outerRect.width / 2.0 - position.width / 2.0);
 				position.y = (float)(outerRect.y + outerRect.height / 2.0 - position.height / 2.0);
-				GUI.DrawTextureWithTexCoords(position, tex, texCoords);
+				if (angle == 0.0)
+				{
+					GUI.DrawTextureWithTexCoords(position, tex, texCoords);
+				}
+				else
+				{
+					Matrix4x4 matrix = GUI.matrix;
+					UI.RotateAroundPivot(angle, position.center);
+					GUI.DrawTextureWithTexCoords(position, tex, texCoords);
+					GUI.matrix = matrix;
+				}
 			}
 		}
 
-		public static void DrawTextureRotated(Vector2 center, Texture2D tex, float angle, float scale = 1f)
+		public static void DrawTextureRotated(Vector2 center, Texture tex, float angle, float scale = 1f)
 		{
 			float num = (float)tex.width * scale;
 			float num2 = (float)tex.height * scale;
@@ -1756,14 +1865,21 @@ namespace Verse
 			Widgets.DrawTextureRotated(rect, tex, angle);
 		}
 
-		public static void DrawTextureRotated(Rect rect, Texture2D tex, float angle)
+		public static void DrawTextureRotated(Rect rect, Texture tex, float angle)
 		{
 			if (Event.current.type == EventType.Repaint)
 			{
-				Matrix4x4 matrix = GUI.matrix;
-				UI.RotateAroundPivot(angle, rect.center);
-				GUI.DrawTexture(rect, tex);
-				GUI.matrix = matrix;
+				if (angle == 0.0)
+				{
+					GUI.DrawTexture(rect, tex);
+				}
+				else
+				{
+					Matrix4x4 matrix = GUI.matrix;
+					UI.RotateAroundPivot(angle, rect.center);
+					GUI.DrawTexture(rect, tex);
+					GUI.matrix = matrix;
+				}
 			}
 		}
 	}

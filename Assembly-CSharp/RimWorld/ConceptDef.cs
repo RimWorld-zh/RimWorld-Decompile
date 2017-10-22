@@ -7,17 +7,17 @@ namespace RimWorld
 	{
 		public float priority = 3.40282347E+38f;
 
-		public bool noteTeaches;
+		public bool noteTeaches = false;
 
-		public bool needsOpportunity;
+		public bool needsOpportunity = false;
 
 		public bool opportunityDecays = true;
 
 		public ProgramState gameMode = ProgramState.Playing;
 
-		private string helpText;
+		private string helpText = (string)null;
 
-		public List<string> highlightTags;
+		public List<string> highlightTags = null;
 
 		public bool TriggeredDirect
 		{
@@ -46,22 +46,33 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string str = enumerator.Current;
+					yield return str;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			if (this.priority > 9999999.0)
 			{
 				yield return "priority isn't set";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.helpText.NullOrEmpty())
 			{
 				yield return "no help text";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (this.TriggeredDirect && base.label.NullOrEmpty())
-			{
-				yield return "no label";
-			}
+			if (!this.TriggeredDirect)
+				yield break;
+			if (!base.label.NullOrEmpty())
+				yield break;
+			yield return "no label";
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0175:
+			/*Error near IL_0176: Unexpected return in MoveNext()*/;
 		}
 
 		public static ConceptDef Named(string defName)

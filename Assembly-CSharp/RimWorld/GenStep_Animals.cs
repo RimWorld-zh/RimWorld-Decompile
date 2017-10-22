@@ -15,7 +15,8 @@ namespace RimWorld
 					if (num < 10000)
 					{
 						IntVec3 loc = RCellFinder.RandomAnimalSpawnCell_MapGen(map);
-						map.wildSpawner.SpawnRandomWildAnimalAt(loc);
+						if (!map.wildSpawner.SpawnRandomWildAnimalAt(loc))
+							return;
 						continue;
 					}
 					break;

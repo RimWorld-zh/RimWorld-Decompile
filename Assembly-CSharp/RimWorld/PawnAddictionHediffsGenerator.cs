@@ -7,9 +7,9 @@ namespace RimWorld
 {
 	public static class PawnAddictionHediffsGenerator
 	{
-		private const int MaxAddictions = 3;
-
 		private static List<ThingDef> allDrugs = new List<ThingDef>();
+
+		private const int MaxAddictions = 3;
 
 		private static readonly FloatRange GeneratedAddictionSeverityRange = new FloatRange(0.6f, 1f);
 
@@ -46,18 +46,9 @@ namespace RimWorld
 						}
 						if (chemicalDef.onGeneratedAddictedEvents != null)
 						{
-							List<HediffGiver_Event>.Enumerator enumerator = chemicalDef.onGeneratedAddictedEvents.GetEnumerator();
-							try
+							foreach (HediffGiver_Event onGeneratedAddictedEvent in chemicalDef.onGeneratedAddictedEvents)
 							{
-								while (enumerator.MoveNext())
-								{
-									HediffGiver_Event current = enumerator.Current;
-									current.EventOccurred(pawn);
-								}
-							}
-							finally
-							{
-								((IDisposable)(object)enumerator).Dispose();
+								onGeneratedAddictedEvent.EventOccurred(pawn);
 							}
 						}
 						PawnAddictionHediffsGenerator.DoIngestionOutcomeDoers(pawn, chemicalDef);
@@ -71,11 +62,7 @@ namespace RimWorld
 
 		private static bool PossibleWithTechLevel(ChemicalDef chemical, Faction faction)
 		{
-			if (faction == null)
-			{
-				return true;
-			}
-			return PawnAddictionHediffsGenerator.allDrugs.Any((Predicate<ThingDef>)((ThingDef x) => x.GetCompProperties<CompProperties_Drug>().chemical == chemical && (int)x.techLevel <= (int)faction.def.techLevel));
+			return faction == null || PawnAddictionHediffsGenerator.allDrugs.Any((Predicate<ThingDef>)((ThingDef x) => x.GetCompProperties<CompProperties_Drug>().chemical == chemical && (int)x.techLevel <= (int)faction.def.techLevel));
 		}
 
 		private static void DoIngestionOutcomeDoers(Pawn pawn, ChemicalDef chemical)

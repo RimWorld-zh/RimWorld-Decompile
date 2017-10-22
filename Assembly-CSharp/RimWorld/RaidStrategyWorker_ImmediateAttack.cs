@@ -7,13 +7,18 @@ namespace RimWorld
 	{
 		public override LordJob MakeLordJob(IncidentParms parms, Map map)
 		{
+			LordJob result;
 			if (parms.faction.HostileTo(Faction.OfPlayer))
 			{
-				return new LordJob_AssaultColony(parms.faction, true, true, false, false, true);
+				result = new LordJob_AssaultColony(parms.faction, true, true, false, false, true);
 			}
-			IntVec3 fallbackLocation = default(IntVec3);
-			RCellFinder.TryFindRandomSpotJustOutsideColony(parms.spawnCenter, map, out fallbackLocation);
-			return new LordJob_AssistColony(parms.faction, fallbackLocation);
+			else
+			{
+				IntVec3 fallbackLocation = default(IntVec3);
+				RCellFinder.TryFindRandomSpotJustOutsideColony(parms.spawnCenter, map, out fallbackLocation);
+				result = new LordJob_AssistColony(parms.faction, fallbackLocation);
+			}
+			return result;
 		}
 	}
 }

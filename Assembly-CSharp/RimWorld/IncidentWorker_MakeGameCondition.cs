@@ -9,27 +9,35 @@ namespace RimWorld
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
 			GameConditionManager gameConditionManager = target.GameConditionManager;
+			bool result;
 			if (gameConditionManager == null)
 			{
 				Log.ErrorOnce(string.Format("Couldn't find condition manager for incident target {0}", target), 70849667);
-				return false;
+				result = false;
 			}
-			if (gameConditionManager.ConditionIsActive(base.def.gameCondition))
+			else if (gameConditionManager.ConditionIsActive(base.def.gameCondition))
 			{
-				return false;
+				result = false;
 			}
-			List<GameCondition> activeConditions = gameConditionManager.ActiveConditions;
-			for (int i = 0; i < activeConditions.Count; i++)
+			else
 			{
-				if (!base.def.gameCondition.CanCoexistWith(activeConditions[i].def))
+				List<GameCondition> activeConditions = gameConditionManager.ActiveConditions;
+				for (int i = 0; i < activeConditions.Count; i++)
 				{
-					return false;
+					if (!base.def.gameCondition.CanCoexistWith(activeConditions[i].def))
+						goto IL_0078;
 				}
+				result = true;
 			}
-			return true;
+			goto IL_0097;
+			IL_0097:
+			return result;
+			IL_0078:
+			result = false;
+			goto IL_0097;
 		}
 
-		public override bool TryExecute(IncidentParms parms)
+		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			GameConditionManager gameConditionManager = parms.target.GameConditionManager;
 			int duration = Mathf.RoundToInt((float)(base.def.durationDays.RandomInRange * 60000.0));

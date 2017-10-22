@@ -5,9 +5,9 @@ namespace RimWorld
 {
 	public class Mineable : Building
 	{
-		private const float YieldChanceOnNonMiningKill = 0.2f;
+		private float yieldPct = 0f;
 
-		private float yieldPct;
+		private const float YieldChanceOnNonMiningKill = 0.2f;
 
 		public override void ExposeData()
 		{
@@ -22,9 +22,7 @@ namespace RimWorld
 			{
 				if (base.def.building.mineableThing != null && base.def.building.mineableYieldWasteable && dinfo.Def == DamageDefOf.Mining && dinfo.Instigator != null && dinfo.Instigator is Pawn)
 				{
-					int num = Mathf.Min(dinfo.Amount, this.HitPoints);
-					float num2 = (float)num / (float)base.MaxHitPoints;
-					this.yieldPct += num2 * dinfo.Instigator.GetStatValue(StatDefOf.MiningYield, true);
+					this.Notify_TookMiningDamage(dinfo.Amount, (Pawn)dinfo.Instigator);
 				}
 				absorbed = false;
 			}
@@ -60,6 +58,13 @@ namespace RimWorld
 				thing.stackCount = num;
 				GenSpawn.Spawn(thing, base.Position, map);
 			}
+		}
+
+		public void Notify_TookMiningDamage(int amount, Pawn miner)
+		{
+			int num = Mathf.Min(amount, this.HitPoints);
+			float num2 = (float)num / (float)base.MaxHitPoints;
+			this.yieldPct += num2 * miner.GetStatValue(StatDefOf.MiningYield, true);
 		}
 	}
 }

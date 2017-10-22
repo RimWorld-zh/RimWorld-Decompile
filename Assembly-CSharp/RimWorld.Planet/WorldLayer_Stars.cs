@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using Verse;
@@ -6,17 +7,17 @@ namespace RimWorld.Planet
 {
 	public class WorldLayer_Stars : WorldLayer
 	{
+		private bool calculatedForStaticRotation = false;
+
+		private int calculatedForStartingTile = -1;
+
 		public const float DistanceToStars = 10f;
+
+		private static readonly FloatRange StarsDrawSize = new FloatRange(1f, 3.8f);
 
 		private const int StarsCount = 1500;
 
 		private const float DistToSunToReduceStarSize = 0.8f;
-
-		private bool calculatedForStaticRotation;
-
-		private int calculatedForStartingTile = -1;
-
-		private static readonly FloatRange StarsDrawSize = new FloatRange(1f, 3.8f);
 
 		protected override int Layer
 		{
@@ -46,40 +47,54 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.UseStaticRotation)
-				{
-					return Quaternion.identity;
-				}
-				return Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
+				return (!this.UseStaticRotation) ? Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace()) : Quaternion.identity;
 			}
 		}
 
 		public override IEnumerable Regenerate()
 		{
-			foreach (object item in base.Regenerate())
+			IEnumerator enumerator = this._003CRegenerate_003E__BaseCallProxy0().GetEnumerator();
+			try
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					object result = enumerator.Current;
+					yield return result;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+			}
+			finally
+			{
+				IDisposable disposable;
+				IDisposable disposable2 = disposable = (enumerator as IDisposable);
+				if (disposable != null)
+				{
+					disposable2.Dispose();
+				}
 			}
 			Rand.PushState();
 			Rand.Seed = Find.World.info.Seed;
 			for (int i = 0; i < 1500; i++)
 			{
-				Vector3 pointNormal = Rand.PointOnSphere;
-				Vector3 point = pointNormal * 10f;
+				Vector3 unitVector = Rand.UnitVector3;
+				Vector3 pos = unitVector * 10f;
 				LayerSubMesh subMesh = base.GetSubMesh(WorldMaterials.Stars);
-				float size = WorldLayer_Stars.StarsDrawSize.RandomInRange;
-				Vector3 sunVector = (!this.UseStaticRotation) ? Vector3.forward : GenCelestial.CurSunPositionInWorldSpace().normalized;
-				float dot = Vector3.Dot(pointNormal, sunVector);
-				if (dot > 0.800000011920929)
+				float num = WorldLayer_Stars.StarsDrawSize.RandomInRange;
+				Vector3 rhs = (!this.UseStaticRotation) ? Vector3.forward : GenCelestial.CurSunPositionInWorldSpace().normalized;
+				float num2 = Vector3.Dot(unitVector, rhs);
+				if (num2 > 0.800000011920929)
 				{
-					size *= GenMath.LerpDouble(0.8f, 1f, 1f, 0.35f, dot);
+					num *= GenMath.LerpDouble(0.8f, 1f, 1f, 0.35f, num2);
 				}
-				WorldRendererUtility.PrintQuadTangentialToPlanet(point, size, 0f, subMesh, true, true, true);
+				WorldRendererUtility.PrintQuadTangentialToPlanet(pos, num, 0f, subMesh, true, true, true);
 			}
 			this.calculatedForStartingTile = ((Find.GameInitData == null) ? (-1) : Find.GameInitData.startingTile);
 			this.calculatedForStaticRotation = this.UseStaticRotation;
 			Rand.PopState();
-			base.FinalizeMesh(MeshParts.All, true);
+			base.FinalizeMesh(MeshParts.All);
+			yield break;
+			IL_01f6:
+			/*Error near IL_01f7: Unexpected return in MoveNext()*/;
 		}
 	}
 }

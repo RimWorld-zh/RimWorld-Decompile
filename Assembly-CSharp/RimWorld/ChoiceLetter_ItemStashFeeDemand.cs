@@ -32,16 +32,16 @@ namespace RimWorld
 					action = (Action)delegate
 					{
 						int tile = default(int);
-						if (!TileFinder.TryFindNewSiteTile(out tile))
+						if (!TileFinder.TryFindNewSiteTile(out tile, 8, 30, false, true, -1))
 						{
-							Find.LetterStack.RemoveLetter(((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this);
+							Find.LetterStack.RemoveLetter(((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this);
 						}
 						else
 						{
-							Site o = IncidentWorker_QuestItemStash.CreateSite(tile, ((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this.sitePart, ((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this.siteDaysTimeout, ((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this.siteFaction, ((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this.items, ((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this.sitePartsKnown);
+							Site o = IncidentWorker_QuestItemStash.CreateSite(tile, ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.sitePart, ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.siteDaysTimeout, ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.siteFaction, ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.items, ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.sitePartsKnown);
 							CameraJumper.TryJumpAndSelect((WorldObject)o);
-							TradeUtility.LaunchSilver(((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this.map, ((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this.fee);
-							Find.LetterStack.RemoveLetter(((_003C_003Ec__Iterator19E)/*Error near IL_0044: stateMachine*/)._003C_003Ef__this);
+							TradeUtility.LaunchSilver(((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.map, ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.fee);
+							Find.LetterStack.RemoveLetter(((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this);
 						}
 					},
 					resolveTree = true
@@ -51,8 +51,7 @@ namespace RimWorld
 					accept.Disable("NeedSilverLaunchable".Translate(this.fee));
 				}
 				yield return accept;
-				yield return base.Reject;
-				yield return base.Postpone;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -60,19 +59,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (!base.StillValid)
-				{
-					return false;
-				}
-				if (this.alliedFaction.HostileTo(Faction.OfPlayer))
-				{
-					return false;
-				}
-				if (this.map != null && !Find.Maps.Contains(this.map))
-				{
-					return false;
-				}
-				return true;
+				return (byte)(base.StillValid ? ((!this.alliedFaction.HostileTo(Faction.OfPlayer)) ? ((this.map == null || Find.Maps.Contains(this.map)) ? 1 : 0) : 0) : 0) != 0;
 			}
 		}
 
@@ -111,17 +98,6 @@ namespace RimWorld
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
-		}
-
-		virtual IThingHolder get_ParentHolder()
-		{
-			return base.ParentHolder;
-		}
-
-		IThingHolder IThingHolder.get_ParentHolder()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
-			return this.get_ParentHolder();
 		}
 	}
 }

@@ -6,6 +6,8 @@ namespace RimWorld
 		Spring = 1,
 		Summer = 2,
 		Fall = 3,
-		Winter = 4
+		Winter = 4,
+		PermanentSummer = 5,
+		PermanentWinter = 6
 	}
 }

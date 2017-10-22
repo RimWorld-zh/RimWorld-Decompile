@@ -30,7 +30,7 @@ namespace RimWorld
 					ingester.health.AddHediff(addictionHediffDef, null, default(DamageInfo?));
 					if (PawnUtility.ShouldSendNotificationAbout(ingester))
 					{
-						Find.LetterStack.ReceiveLetter("LetterLabelNewlyAddicted".Translate(this.Props.chemical.label).CapitalizeFirst(), "LetterNewlyAddicted".Translate(ingester.LabelShort, this.Props.chemical.label).AdjustedFor(ingester).CapitalizeFirst(), LetterDefOf.BadNonUrgent, (Thing)ingester, (string)null);
+						Find.LetterStack.ReceiveLetter("LetterLabelNewlyAddicted".Translate(this.Props.chemical.label).CapitalizeFirst(), "LetterNewlyAddicted".Translate(ingester.LabelShort, this.Props.chemical.label).AdjustedFor(ingester).CapitalizeFirst(), LetterDefOf.NegativeEvent, (Thing)ingester, (string)null);
 					}
 					AddictionUtility.CheckDrugAddictionTeachOpportunity(ingester);
 				}
@@ -52,7 +52,7 @@ namespace RimWorld
 					HealthUtility.AdjustSeverity(ingester, HediffDefOf.DrugOverdose, num3 - num2);
 					if (ingester.Faction == Faction.OfPlayer)
 					{
-						Messages.Message("MessageAccidentalOverdose".Translate(ingester.LabelIndefinite(), base.parent.LabelNoCount).CapitalizeFirst(), MessageSound.Negative);
+						Messages.Message("MessageAccidentalOverdose".Translate(ingester.LabelIndefinite(), base.parent.LabelNoCount).CapitalizeFirst(), MessageTypeDefOf.NegativeHealthEvent);
 					}
 				}
 				else

@@ -4,7 +4,7 @@ using Verse;
 
 namespace RimWorld
 {
-	public class Zone_Stockpile : Zone, IStoreSettingsParent, ISlotGroupParent
+	public class Zone_Stockpile : Zone, ISlotGroupParent, IStoreSettingsParent
 	{
 		public StorageSettings settings;
 
@@ -84,18 +84,32 @@ namespace RimWorld
 		public override IEnumerable<InspectTabBase> GetInspectTabs()
 		{
 			yield return (InspectTabBase)Zone_Stockpile.StorageTab;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return gizmo;
+				if (enumerator.MoveNext())
+				{
+					Gizmo g2 = enumerator.Current;
+					yield return g2;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			foreach (Gizmo item in StorageSettingsClipboard.CopyPasteGizmosFor(this.settings))
+			using (IEnumerator<Gizmo> enumerator2 = StorageSettingsClipboard.CopyPasteGizmosFor(this.settings).GetEnumerator())
 			{
-				yield return item;
+				if (enumerator2.MoveNext())
+				{
+					Gizmo g = enumerator2.Current;
+					yield return g;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_0156:
+			/*Error near IL_0157: Unexpected return in MoveNext()*/;
 		}
 
 		public SlotGroup GetSlotGroup()
@@ -105,9 +119,11 @@ namespace RimWorld
 
 		public IEnumerable<IntVec3> AllSlotCells()
 		{
-			for (int i = 0; i < base.cells.Count; i++)
+			int i = 0;
+			if (i < base.cells.Count)
 			{
 				yield return base.cells[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -141,17 +157,6 @@ namespace RimWorld
 
 		public void Notify_LostThing(Thing newItem)
 		{
-		}
-
-		virtual Map get_Map()
-		{
-			return base.Map;
-		}
-
-		Map ISlotGroupParent.get_Map()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_Map
-			return this.get_Map();
 		}
 	}
 }

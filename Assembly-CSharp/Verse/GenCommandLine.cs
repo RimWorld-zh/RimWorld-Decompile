@@ -11,35 +11,54 @@ namespace Verse
 		{
 			string[] commandLineArgs = Environment.GetCommandLineArgs();
 			int num = 0;
-			while (num < commandLineArgs.Length)
+			bool result;
+			while (true)
 			{
-				if (((string.Compare(commandLineArgs[num], key, true) != 0) ? string.Compare(commandLineArgs[num], "-" + key, true) : 0) != 0)
+				if (num < commandLineArgs.Length)
 				{
-					num++;
-					continue;
+					if (((string.Compare(commandLineArgs[num], key, true) != 0) ? string.Compare(commandLineArgs[num], "-" + key, true) : 0) != 0)
+					{
+						num++;
+						continue;
+					}
+					result = true;
 				}
-				return true;
+				else
+				{
+					result = false;
+				}
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public static bool TryGetCommandLineArg(string key, out string value)
 		{
 			string[] commandLineArgs = Environment.GetCommandLineArgs();
-			for (int i = 0; i < commandLineArgs.Length; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (commandLineArgs[i].Contains('='))
+				if (num < commandLineArgs.Length)
 				{
-					string[] array = commandLineArgs[i].Split('=');
-					if (array.Length == 2 && (string.Compare(array[0], key, true) == 0 || string.Compare(array[0], "-" + key, true) == 0))
+					if (commandLineArgs[num].Contains('='))
 					{
-						value = array[1];
-						return true;
+						string[] array = commandLineArgs[num].Split('=');
+						if (array.Length == 2 && (string.Compare(array[0], key, true) == 0 || string.Compare(array[0], "-" + key, true) == 0))
+						{
+							value = array[1];
+							result = true;
+							break;
+						}
 					}
+					num++;
+					continue;
 				}
+				value = (string)null;
+				result = false;
+				break;
 			}
-			value = (string)null;
-			return false;
+			return result;
 		}
 
 		public static void Restart()
@@ -48,7 +67,7 @@ namespace Verse
 			{
 				string[] commandLineArgs = Environment.GetCommandLineArgs();
 				string text = commandLineArgs[0];
-				string text2 = string.Empty;
+				string text2 = "";
 				for (int i = 1; i < commandLineArgs.Length; i++)
 				{
 					if (!text2.NullOrEmpty())

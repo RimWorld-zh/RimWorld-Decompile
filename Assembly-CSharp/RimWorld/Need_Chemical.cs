@@ -21,15 +21,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.CurLevel > 0.30000001192092896)
-				{
-					return DrugDesireCategory.Satisfied;
-				}
-				if (this.CurLevel > 0.0099999997764825821)
-				{
-					return DrugDesireCategory.Desire;
-				}
-				return DrugDesireCategory.Withdrawal;
+				return (DrugDesireCategory)((!(this.CurLevel > 0.30000001192092896)) ? ((this.CurLevel > 0.0099999997764825821) ? 1 : 0) : 2);
 			}
 		}
 
@@ -55,15 +47,25 @@ namespace RimWorld
 			get
 			{
 				List<Hediff> hediffs = base.pawn.health.hediffSet.hediffs;
-				for (int i = 0; i < hediffs.Count; i++)
+				int num = 0;
+				Hediff_Addiction result;
+				while (true)
 				{
-					Hediff_Addiction hediff_Addiction = hediffs[i] as Hediff_Addiction;
-					if (hediff_Addiction != null && hediff_Addiction.def.causesNeed == base.def)
+					if (num < hediffs.Count)
 					{
-						return hediff_Addiction;
+						Hediff_Addiction hediff_Addiction = hediffs[num] as Hediff_Addiction;
+						if (hediff_Addiction != null && hediff_Addiction.def.causesNeed == base.def)
+						{
+							result = hediff_Addiction;
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = null;
+					break;
 				}
-				return null;
+				return result;
 			}
 		}
 

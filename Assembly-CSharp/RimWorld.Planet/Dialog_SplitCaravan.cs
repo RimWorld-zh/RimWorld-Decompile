@@ -14,10 +14,6 @@ namespace RimWorld.Planet
 			Items = 1
 		}
 
-		private const float TitleRectHeight = 40f;
-
-		private const float BottomAreaHeight = 55f;
-
 		private Caravan caravan;
 
 		private List<TransferableOneWay> transferables;
@@ -26,7 +22,7 @@ namespace RimWorld.Planet
 
 		private TransferableOneWayWidget itemsTransfer;
 
-		private Tab tab;
+		private Tab tab = Tab.Pawns;
 
 		private float lastSourceMassFlashTime = -9999f;
 
@@ -55,6 +51,10 @@ namespace RimWorld.Planet
 		private bool destDaysWorthOfFoodDirty = true;
 
 		private Pair<float, float> cachedDestDaysWorthOfFood;
+
+		private const float TitleRectHeight = 40f;
+
+		private const float BottomAreaHeight = 55f;
 
 		private readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
 
@@ -196,7 +196,7 @@ namespace RimWorld.Planet
 				this.tab = Tab.Items;
 			}, this.tab == Tab.Items));
 			inRect.yMin += 72f;
-			Widgets.DrawMenuSection(inRect, true);
+			Widgets.DrawMenuSection(inRect);
 			TabDrawer.DrawTabs(inRect, Dialog_SplitCaravan.tabsList);
 			inRect = inRect.ContractedBy(17f);
 			GUI.BeginGroup(inRect);
@@ -305,56 +305,66 @@ namespace RimWorld.Planet
 		private bool TrySplitCaravan()
 		{
 			List<Pawn> pawns = TransferableUtility.GetPawnsFromTransferables(this.transferables);
+			bool result;
 			if (!this.CheckForErrors(pawns))
 			{
-				return false;
+				result = false;
 			}
-			for (int i = 0; i < pawns.Count; i++)
+			else
 			{
-				CaravanInventoryUtility.MoveAllInventoryToSomeoneElse(pawns[i], this.caravan.PawnsListForReading, pawns);
-			}
-			Caravan caravan = (Caravan)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Caravan);
-			caravan.Tile = this.caravan.Tile;
-			caravan.SetFaction(this.caravan.Faction);
-			caravan.Name = CaravanNameGenerator.GenerateCaravanName(caravan);
-			Find.WorldObjects.Add(caravan);
-			for (int j = 0; j < pawns.Count; j++)
-			{
-				this.caravan.RemovePawn(pawns[j]);
-				caravan.AddPawn(pawns[j], true);
-			}
-			this.transferables.RemoveAll((Predicate<TransferableOneWay>)((TransferableOneWay x) => x.AnyThing is Pawn));
-			for (int k = 0; k < this.transferables.Count; k++)
-			{
-				TransferableUtility.TransferNoSplit(this.transferables[k].things, this.transferables[k].CountToTransfer, (Action<Thing, int>)delegate(Thing thing, int numToTake)
+				for (int i = 0; i < pawns.Count; i++)
 				{
-					Pawn ownerOf = CaravanInventoryUtility.GetOwnerOf(this.caravan, thing);
-					if (ownerOf == null)
+					CaravanInventoryUtility.MoveAllInventoryToSomeoneElse(pawns[i], this.caravan.PawnsListForReading, pawns);
+				}
+				Caravan caravan = (Caravan)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Caravan);
+				caravan.Tile = this.caravan.Tile;
+				caravan.SetFaction(this.caravan.Faction);
+				caravan.Name = CaravanNameGenerator.GenerateCaravanName(caravan);
+				Find.WorldObjects.Add(caravan);
+				for (int j = 0; j < pawns.Count; j++)
+				{
+					this.caravan.RemovePawn(pawns[j]);
+					caravan.AddPawn(pawns[j], true);
+				}
+				this.transferables.RemoveAll((Predicate<TransferableOneWay>)((TransferableOneWay x) => x.AnyThing is Pawn));
+				for (int k = 0; k < this.transferables.Count; k++)
+				{
+					TransferableUtility.TransferNoSplit(this.transferables[k].things, this.transferables[k].CountToTransfer, (Action<Thing, int>)delegate(Thing thing, int numToTake)
 					{
-						Log.Error("Error while splitting a caravan: Thing " + thing + " has no owner. Where did it come from then?");
-					}
-					else
-					{
-						CaravanInventoryUtility.MoveInventoryToSomeoneElse(ownerOf, thing, pawns, null, numToTake);
-					}
-				}, true, true);
+						Pawn ownerOf = CaravanInventoryUtility.GetOwnerOf(this.caravan, thing);
+						if (ownerOf == null)
+						{
+							Log.Error("Error while splitting a caravan: Thing " + thing + " has no owner. Where did it come from then?");
+						}
+						else
+						{
+							CaravanInventoryUtility.MoveInventoryToSomeoneElse(ownerOf, thing, pawns, null, numToTake);
+						}
+					}, true, true);
+				}
+				result = true;
 			}
-			return true;
+			return result;
 		}
 
 		private bool CheckForErrors(List<Pawn> pawns)
 		{
+			bool result;
 			if (!pawns.Any((Predicate<Pawn>)((Pawn x) => CaravanUtility.IsOwner(x, Faction.OfPlayer) && !x.Downed)))
 			{
-				Messages.Message("CaravanMustHaveAtLeastOneColonist".Translate(), (WorldObject)this.caravan, MessageSound.RejectInput);
-				return false;
+				Messages.Message("CaravanMustHaveAtLeastOneColonist".Translate(), (WorldObject)this.caravan, MessageTypeDefOf.RejectInput);
+				result = false;
 			}
-			if (!this.AnyNonDownedColonistLeftInSourceCaravan(pawns))
+			else if (!this.AnyNonDownedColonistLeftInSourceCaravan(pawns))
 			{
-				Messages.Message("SourceCaravanMustHaveAtLeastOneColonist".Translate(), (WorldObject)this.caravan, MessageSound.RejectInput);
-				return false;
+				Messages.Message("SourceCaravanMustHaveAtLeastOneColonist".Translate(), (WorldObject)this.caravan, MessageTypeDefOf.RejectInput);
+				result = false;
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
 		private void AddPawnsToTransferables()

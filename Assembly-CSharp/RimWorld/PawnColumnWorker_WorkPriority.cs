@@ -70,24 +70,34 @@ namespace RimWorld
 
 		private bool IsIncapableOfWholeWorkType(Pawn p, WorkTypeDef work)
 		{
-			for (int i = 0; i < work.workGiversByPriority.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				bool flag = true;
-				for (int j = 0; j < work.workGiversByPriority[i].requiredCapacities.Count; j++)
+				if (num < work.workGiversByPriority.Count)
 				{
-					PawnCapacityDef capacity = work.workGiversByPriority[i].requiredCapacities[j];
-					if (!p.health.capacities.CapableOf(capacity))
+					bool flag = true;
+					for (int i = 0; i < work.workGiversByPriority[num].requiredCapacities.Count; i++)
 					{
-						flag = false;
+						PawnCapacityDef capacity = work.workGiversByPriority[num].requiredCapacities[i];
+						if (!p.health.capacities.CapableOf(capacity))
+						{
+							flag = false;
+							break;
+						}
+					}
+					if (flag)
+					{
+						result = false;
 						break;
 					}
+					num++;
+					continue;
 				}
-				if (flag)
-				{
-					return false;
-				}
+				result = true;
+				break;
 			}
-			return true;
+			return result;
 		}
 
 		protected override Rect GetInteractableHeaderRect(Rect headerRect, PawnTable table)
@@ -102,15 +112,7 @@ namespace RimWorld
 
 		private float GetValueToCompare(Pawn pawn)
 		{
-			if (pawn.workSettings != null && pawn.workSettings.EverWork)
-			{
-				if (pawn.story != null && pawn.story.WorkTypeIsDisabled(base.def.workType))
-				{
-					return -1f;
-				}
-				return pawn.skills.AverageOfRelevantSkillsFor(base.def.workType);
-			}
-			return -2f;
+			return (float)((pawn.workSettings == null || !pawn.workSettings.EverWork) ? -2.0 : ((pawn.story == null || !pawn.story.WorkTypeIsDisabled(base.def.workType)) ? pawn.skills.AverageOfRelevantSkillsFor(base.def.workType) : -1.0));
 		}
 
 		private Rect GetLabelRect(Rect headerRect)
@@ -127,7 +129,7 @@ namespace RimWorld
 
 		protected override string GetHeaderTip(PawnTable table)
 		{
-			string str = base.def.workType.gerundLabel + "\n\n" + base.def.workType.description + "\n\n" + PawnColumnWorker_WorkPriority.SpecificWorkListString(base.def.workType);
+			string str = base.def.workType.gerundLabel.CapitalizeFirst() + "\n\n" + base.def.workType.description + "\n\n" + PawnColumnWorker_WorkPriority.SpecificWorkListString(base.def.workType);
 			str += "\n";
 			if (base.def.sortable)
 			{

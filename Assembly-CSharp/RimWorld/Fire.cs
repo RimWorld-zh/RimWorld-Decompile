@@ -1,6 +1,8 @@
+#define ENABLE_PROFILER
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 using Verse;
 using Verse.Sound;
 
@@ -8,6 +10,24 @@ namespace RimWorld
 {
 	public class Fire : AttachableThing, ISizeReporter
 	{
+		private int ticksSinceSpawn;
+
+		public float fireSize = 0.1f;
+
+		private int ticksSinceSpread;
+
+		private float flammabilityMax = 0.5f;
+
+		private int ticksUntilSmoke = 0;
+
+		private Sustainer sustainer = null;
+
+		private static List<Thing> flammableList = new List<Thing>();
+
+		private static int fireCount;
+
+		private static int lastFireCountUpdateTick;
+
 		public const float MinFireSize = 0.1f;
 
 		private const float MinSizeForSpark = 1f;
@@ -20,7 +40,7 @@ namespace RimWorld
 
 		private const float MinFireSizeToEmitSpark = 1f;
 
-		private const float MaxFireSize = 1.75f;
+		public const float MaxFireSize = 1.75f;
 
 		private const int TicksToBurnFloor = 7500;
 
@@ -31,6 +51,8 @@ namespace RimWorld
 		private const float MinSizeForIgniteMovables = 0.4f;
 
 		private const float FireBaseGrowthPerTick = 0.00055f;
+
+		private static readonly IntRange SmokeIntervalRange = new IntRange(130, 200);
 
 		private const int SmokeIntervalRandomAddon = 10;
 
@@ -48,35 +70,11 @@ namespace RimWorld
 
 		private const int FireCountParticlesOff = 15;
 
-		private int ticksSinceSpawn;
-
-		public float fireSize = 0.1f;
-
-		private int ticksSinceSpread;
-
-		private float flammabilityMax = 0.5f;
-
-		private int ticksUntilSmoke;
-
-		private Sustainer sustainer;
-
-		private static List<Thing> flammableList = new List<Thing>();
-
-		private static int fireCount;
-
-		private static int lastFireCountUpdateTick;
-
-		private static readonly IntRange SmokeIntervalRange = new IntRange(130, 200);
-
 		public override string Label
 		{
 			get
 			{
-				if (base.parent != null)
-				{
-					return "FireOn".Translate(base.parent.LabelCap);
-				}
-				return "Fire".Translate();
+				return (base.parent == null) ? "Fire".Translate() : "FireOn".Translate(base.parent.LabelCap);
 			}
 		}
 
@@ -177,6 +175,7 @@ namespace RimWorld
 			{
 				Log.ErrorOnce("Fire sustainer was null at " + base.Position, 917321);
 			}
+			Profiler.BeginSample("Spawn particles");
 			this.ticksUntilSmoke--;
 			if (this.ticksUntilSmoke <= 0)
 			{
@@ -186,6 +185,8 @@ namespace RimWorld
 			{
 				MoteMaker.ThrowMicroSparks(this.DrawPos, base.Map);
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("Spread");
 			if (this.fireSize > 1.0)
 			{
 				this.ticksSinceSpread++;
@@ -195,6 +196,7 @@ namespace RimWorld
 					this.ticksSinceSpread = 0;
 				}
 			}
+			Profiler.EndSample();
 			if (this.IsHashIntervalTick(150))
 			{
 				this.DoComplexCalcs();
@@ -227,9 +229,10 @@ namespace RimWorld
 		private void DoComplexCalcs()
 		{
 			bool flag = false;
+			Profiler.BeginSample("Determine flammability");
 			Fire.flammableList.Clear();
 			this.flammabilityMax = 0f;
-			if (!base.Position.GetTerrain(base.Map).HasTag("Water"))
+			if (!base.Position.GetTerrain(base.Map).extinguishesFire)
 			{
 				if (base.parent == null)
 				{
@@ -266,30 +269,38 @@ namespace RimWorld
 					this.flammabilityMax = base.parent.GetStatValue(StatDefOf.Flammability, true);
 				}
 			}
+			Profiler.EndSample();
 			if (this.flammabilityMax < 0.0099999997764825821)
 			{
 				this.Destroy(DestroyMode.Vanish);
 			}
 			else
 			{
+				Profiler.BeginSample("Do damage");
 				Thing thing2 = (base.parent == null) ? ((Fire.flammableList.Count <= 0) ? null : Fire.flammableList.RandomElement()) : base.parent;
 				if (thing2 != null && (!(this.fireSize < 0.40000000596046448) || thing2 == base.parent || thing2.def.category != ThingCategory.Pawn))
 				{
 					this.DoFireDamage(thing2);
 				}
+				Profiler.EndSample();
 				if (base.Spawned)
 				{
+					Profiler.BeginSample("Room heat");
 					float num = (float)(this.fireSize * 160.0);
 					if (flag)
 					{
 						num = (float)(num * 0.15000000596046448);
 					}
 					GenTemperature.PushHeat(base.Position, base.Map, num);
+					Profiler.EndSample();
+					Profiler.BeginSample("Snow clear");
 					if (Rand.Value < 0.40000000596046448)
 					{
 						float radius = (float)(this.fireSize * 3.0);
 						SnowUtility.AddSnowRadial(base.Position, base.Map, radius, (float)(0.0 - this.fireSize * 0.10000000149011612));
 					}
+					Profiler.EndSample();
+					Profiler.BeginSample("Grow/extinguish");
 					this.fireSize += (float)(0.00054999999701976776 * this.flammabilityMax * 150.0);
 					if (this.fireSize > 1.75)
 					{
@@ -299,6 +310,7 @@ namespace RimWorld
 					{
 						base.TakeDamage(new DamageInfo(DamageDefOf.Extinguish, 10, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
 					}
+					Profiler.EndSample();
 				}
 			}
 		}
@@ -320,21 +332,29 @@ namespace RimWorld
 
 		private bool VulnerableToRain()
 		{
+			bool result;
 			if (!base.Spawned)
 			{
-				return false;
+				result = false;
 			}
-			RoofDef roofDef = base.Map.roofGrid.RoofAt(base.Position);
-			if (roofDef == null)
+			else
 			{
-				return true;
+				RoofDef roofDef = base.Map.roofGrid.RoofAt(base.Position);
+				if (roofDef == null)
+				{
+					result = true;
+				}
+				else if (roofDef.isThickRoof)
+				{
+					result = false;
+				}
+				else
+				{
+					Thing edifice = base.Position.GetEdifice(base.Map);
+					result = (edifice != null && edifice.def.holdsRoof);
+				}
 			}
-			if (roofDef.isThickRoof)
-			{
-				return false;
-			}
-			Thing edifice = base.Position.GetEdifice(base.Map);
-			return edifice != null && edifice.def.holdsRoof;
+			return result;
 		}
 
 		private void DoFireDamage(Thing targ)
@@ -364,18 +384,6 @@ namespace RimWorld
 			}
 		}
 
-		public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
-		{
-			if (!base.Destroyed && dinfo.Def == DamageDefOf.Extinguish)
-			{
-				this.fireSize -= (float)((float)dinfo.Amount / 100.0);
-				if (this.fireSize <= 0.10000000149011612)
-				{
-					this.Destroy(DestroyMode.Vanish);
-				}
-			}
-		}
-
 		protected void TrySpread()
 		{
 			IntVec3 position = base.Position;
@@ -396,7 +404,7 @@ namespace RimWorld
 				{
 					CellRect startRect = CellRect.SingleCell(base.Position);
 					CellRect endRect = CellRect.SingleCell(position);
-					if (GenSight.LineOfSight(base.Position, position, base.Map, startRect, endRect))
+					if (GenSight.LineOfSight(base.Position, position, base.Map, startRect, endRect, null))
 					{
 						Spark spark = (Spark)GenSpawn.Spawn(ThingDefOf.Spark, base.Position, base.Map);
 						spark.Launch(this, position, null);

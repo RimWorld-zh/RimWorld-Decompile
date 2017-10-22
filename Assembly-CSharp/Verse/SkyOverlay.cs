@@ -5,9 +5,9 @@ namespace Verse
 {
 	public abstract class SkyOverlay
 	{
-		public Material worldOverlayMat;
+		public Material worldOverlayMat = null;
 
-		public Material screenOverlayMat;
+		public Material screenOverlayMat = null;
 
 		protected float worldOverlayPanSpeed1;
 
@@ -79,15 +79,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			if ((UnityEngine.Object)this.worldOverlayMat != (UnityEngine.Object)null)
-			{
-				return this.worldOverlayMat.name;
-			}
-			if ((UnityEngine.Object)this.screenOverlayMat != (UnityEngine.Object)null)
-			{
-				return this.screenOverlayMat.name;
-			}
-			return "NoOverlayOverlay";
+			return (!((UnityEngine.Object)this.worldOverlayMat != (UnityEngine.Object)null)) ? ((!((UnityEngine.Object)this.screenOverlayMat != (UnityEngine.Object)null)) ? "NoOverlayOverlay" : this.screenOverlayMat.name) : this.worldOverlayMat.name;
 		}
 	}
 }

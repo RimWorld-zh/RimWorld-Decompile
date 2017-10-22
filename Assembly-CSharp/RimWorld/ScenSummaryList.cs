@@ -8,11 +8,7 @@ namespace RimWorld
 		public static string SummaryWithList(Scenario scen, string tag, string intro)
 		{
 			string text = ScenSummaryList.SummaryList(scen, tag);
-			if (!text.NullOrEmpty())
-			{
-				return "\n" + intro + ":\n" + text;
-			}
-			return (string)null;
+			return text.NullOrEmpty() ? null : ("\n" + intro + ":\n" + text);
 		}
 
 		private static string SummaryList(Scenario scen, string tag)

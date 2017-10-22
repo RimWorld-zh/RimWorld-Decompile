@@ -19,6 +19,7 @@ namespace RimWorld
 				hotKey = KeyBindingDefOf.Misc4,
 				icon = ContentFinder<Texture2D>.Get("UI/Commands/LaunchReport", true)
 			};
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public void ShowReport()

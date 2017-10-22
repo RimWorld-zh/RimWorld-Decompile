@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -70,19 +69,11 @@ namespace Verse
 			}
 			int num = 0;
 			float num2 = 0f;
-			List<CachedTempInfo>.Enumerator enumerator2 = this.relevantTempInfoList.GetEnumerator();
-			try
+			foreach (CachedTempInfo relevantTempInfo in this.relevantTempInfoList)
 			{
-				while (enumerator2.MoveNext())
-				{
-					CachedTempInfo current2 = enumerator2.Current;
-					num += current2.numCells;
-					num2 += current2.temperature * (float)current2.numCells;
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
+				CachedTempInfo current2 = relevantTempInfo;
+				num += current2.numCells;
+				num2 += current2.temperature * (float)current2.numCells;
 			}
 			result = num2 / (float)num;
 			bool result2 = !this.relevantTempInfoList.NullOrEmpty();

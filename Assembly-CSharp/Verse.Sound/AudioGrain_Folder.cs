@@ -6,14 +6,22 @@ namespace Verse.Sound
 	public class AudioGrain_Folder : AudioGrain
 	{
 		[LoadAlias("clipPath")]
-		public string clipFolderPath = string.Empty;
+		public string clipFolderPath = "";
 
 		public override IEnumerable<ResolvedGrain> GetResolvedGrains()
 		{
-			foreach (AudioClip item in ContentFinder<AudioClip>.GetAllInFolder(this.clipFolderPath))
+			using (IEnumerator<AudioClip> enumerator = ContentFinder<AudioClip>.GetAllInFolder(this.clipFolderPath).GetEnumerator())
 			{
-				yield return (ResolvedGrain)new ResolvedGrain_Clip(item);
+				if (enumerator.MoveNext())
+				{
+					AudioClip folderClip = enumerator.Current;
+					yield return (ResolvedGrain)new ResolvedGrain_Clip(folderClip);
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_00c7:
+			/*Error near IL_00c8: Unexpected return in MoveNext()*/;
 		}
 	}
 }

@@ -1,11 +1,10 @@
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	public abstract class Designator_AreaBuildRoof : Designator
+	public class Designator_AreaBuildRoof : Designator
 	{
-		private DesignateMode mode;
-
 		public override int DraggableDimensions
 		{
 			get
@@ -22,43 +21,42 @@ namespace RimWorld
 			}
 		}
 
-		public Designator_AreaBuildRoof(DesignateMode mode)
+		public Designator_AreaBuildRoof()
 		{
-			this.mode = mode;
-			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.defaultLabel = "DesignatorAreaBuildRoofExpand".Translate();
+			base.defaultDesc = "DesignatorAreaBuildRoofExpandDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/BuildRoofArea", true);
+			base.hotKey = KeyBindingDefOf.Misc10;
+			base.soundDragSustain = SoundDefOf.DesignateDragAreaAdd;
+			base.soundDragChanged = SoundDefOf.DesignateDragAreaAddChanged;
+			base.soundSucceeded = SoundDefOf.DesignateAreaAdd;
 			base.useMouseIcon = true;
+			base.tutorTag = "AreaBuildRoofExpand";
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
+			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			if (c.Fogged(base.Map))
+			else if (c.Fogged(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			bool flag = ((Area)base.Map.areaManager.BuildRoof)[c];
-			if (this.mode == DesignateMode.Add)
+			else
 			{
-				return !flag;
+				bool flag = ((Area)base.Map.areaManager.BuildRoof)[c];
+				result = !flag;
 			}
-			return flag;
+			return result;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)
 		{
-			if (this.mode == DesignateMode.Add)
-			{
-				((Area)base.Map.areaManager.BuildRoof)[c] = true;
-				((Area)base.Map.areaManager.NoRoof)[c] = false;
-			}
-			else if (this.mode == DesignateMode.Remove)
-			{
-				((Area)base.Map.areaManager.BuildRoof)[c] = false;
-			}
+			((Area)base.Map.areaManager.BuildRoof)[c] = true;
+			((Area)base.Map.areaManager.NoRoof)[c] = false;
 		}
 
 		public override void SelectedUpdate()

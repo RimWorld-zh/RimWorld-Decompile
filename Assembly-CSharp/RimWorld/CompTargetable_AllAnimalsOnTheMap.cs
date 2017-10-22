@@ -10,12 +10,17 @@ namespace RimWorld
 			TargetingParameters targetingParameters = base.GetTargetingParameters();
 			targetingParameters.validator = (Predicate<TargetInfo>)delegate(TargetInfo targ)
 			{
+				bool result;
 				if (!base.BaseTargetValidator(targ.Thing))
 				{
-					return false;
+					result = false;
 				}
-				Pawn pawn = targ.Thing as Pawn;
-				return pawn != null && pawn.RaceProps.Animal;
+				else
+				{
+					Pawn pawn = targ.Thing as Pawn;
+					result = (pawn != null && pawn.RaceProps.Animal);
+				}
+				return result;
 			};
 			return targetingParameters;
 		}

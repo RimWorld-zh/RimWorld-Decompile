@@ -5,13 +5,13 @@ namespace Verse
 {
 	public sealed class SnowGrid : IExposable
 	{
-		public const float MaxDepth = 1f;
-
 		private Map map;
 
 		private float[] depthGrid;
 
-		private double totalDepth;
+		private double totalDepth = 0.0;
+
+		public const float MaxDepth = 1f;
 
 		internal float[] DepthGridDirect_Unsafe
 		{
@@ -37,23 +37,10 @@ namespace Verse
 
 		public void ExposeData()
 		{
-			string compressedString = (string)null;
-			if (Scribe.mode == LoadSaveMode.Saving)
+			MapExposeUtility.ExposeUshort(this.map, (Func<IntVec3, ushort>)((IntVec3 c) => SnowGrid.SnowFloatToShort(this.GetDepth(c))), (Action<IntVec3, ushort>)delegate(IntVec3 c, ushort val)
 			{
-				compressedString = GridSaveUtility.CompressedStringForShortGrid((Func<IntVec3, ushort>)((IntVec3 c) => SnowGrid.SnowFloatToShort(this.GetDepth(c))), this.map);
-			}
-			Scribe_Values.Look(ref compressedString, "depthGrid", (string)null, false);
-			if (Scribe.mode == LoadSaveMode.LoadingVars)
-			{
-				this.totalDepth = 0.0;
-				foreach (GridSaveUtility.LoadedGridShort item in GridSaveUtility.LoadedUShortGrid(compressedString, this.map))
-				{
-					GridSaveUtility.LoadedGridShort current = item;
-					ushort val = current.val;
-					this.depthGrid[this.map.cellIndices.CellToIndex(current.cell)] = SnowGrid.SnowShortToFloat(val);
-					this.totalDepth += (double)(int)val;
-				}
-			}
+				this.depthGrid[this.map.cellIndices.CellToIndex(c)] = SnowGrid.SnowShortToFloat(val);
+			}, "depthGrid");
 		}
 
 		private static ushort SnowFloatToShort(float depth)
@@ -71,25 +58,22 @@ namespace Verse
 		private bool CanHaveSnow(int ind)
 		{
 			Building building = this.map.edificeGrid[ind];
+			bool result;
 			if (building != null && !SnowGrid.CanCoexistWithSnow(building.def))
 			{
-				return false;
+				result = false;
 			}
-			TerrainDef terrainDef = this.map.terrainGrid.TerrainAt(ind);
-			if (terrainDef != null && !terrainDef.holdSnow)
+			else
 			{
-				return false;
+				TerrainDef terrainDef = this.map.terrainGrid.TerrainAt(ind);
+				result = ((byte)((terrainDef == null || terrainDef.holdSnow) ? 1 : 0) != 0);
 			}
-			return true;
+			return result;
 		}
 
 		public static bool CanCoexistWithSnow(ThingDef def)
 		{
-			if (def.category == ThingCategory.Building && def.Fillage == FillCategory.Full)
-			{
-				return false;
-			}
-			return true;
+			return (byte)((def.category != ThingCategory.Building || def.Fillage != FillCategory.Full) ? 1 : 0) != 0;
 		}
 
 		public void AddDepth(IntVec3 c, float depthToAdd)
@@ -158,11 +142,7 @@ namespace Verse
 
 		public float GetDepth(IntVec3 c)
 		{
-			if (!c.InBounds(this.map))
-			{
-				return 0f;
-			}
-			return this.depthGrid[this.map.cellIndices.CellToIndex(c)];
+			return (float)(c.InBounds(this.map) ? this.depthGrid[this.map.cellIndices.CellToIndex(c)] : 0.0);
 		}
 
 		public SnowCategory GetCategory(IntVec3 c)

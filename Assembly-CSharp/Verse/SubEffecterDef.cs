@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class SubEffecterDef
 	{
-		public Type subEffecterClass;
+		public Type subEffecterClass = null;
 
 		public IntRange burstCount = new IntRange(1, 1);
 
@@ -16,13 +16,13 @@ namespace Verse
 
 		public float positionLerpFactor = 0.5f;
 
-		public float positionRadius;
+		public float positionRadius = 0f;
 
-		public ThingDef moteDef;
+		public ThingDef moteDef = null;
 
 		public FloatRange angle = new FloatRange(0f, 360f);
 
-		public bool absoluteAngle;
+		public bool absoluteAngle = false;
 
 		public FloatRange speed = new FloatRange(0f, 0f);
 
@@ -34,11 +34,11 @@ namespace Verse
 
 		public FloatRange airTime = new FloatRange(999999f, 999999f);
 
-		public SoundDef soundDef;
+		public SoundDef soundDef = null;
 
-		public int intermittentSoundInterval = 50;
+		public IntRange intermittentSoundInterval = new IntRange(300, 600);
 
-		public int ticksBeforeSustainerStart;
+		public int ticksBeforeSustainerStart = 0;
 
 		public SubEffecter Spawn()
 		{

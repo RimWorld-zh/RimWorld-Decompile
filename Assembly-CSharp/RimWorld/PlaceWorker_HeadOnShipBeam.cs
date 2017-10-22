@@ -4,19 +4,20 @@ namespace RimWorld
 {
 	public class PlaceWorker_HeadOnShipBeam : PlaceWorker
 	{
-		public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Thing thingToIgnore = null)
+		public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
 			IntVec3 c = loc + rot.FacingCell * -1;
-			if (!c.InBounds(base.Map))
+			AcceptanceReport result;
+			if (!c.InBounds(map))
 			{
-				return false;
+				result = false;
 			}
-			Building edifice = c.GetEdifice(base.Map);
-			if (edifice != null && edifice.def == ThingDefOf.Ship_Beam)
+			else
 			{
-				return true;
+				Building edifice = c.GetEdifice(map);
+				result = ((edifice != null && edifice.def == ThingDefOf.Ship_Beam) ? true : "MustPlaceHeadOnShipBeam".Translate());
 			}
-			return "MustPlaceHeadOnShipBeam".Translate();
+			return result;
 		}
 	}
 }

@@ -10,8 +10,6 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class WorldTargeter
 	{
-		private const float BaseFeedbackTexSize = 0.8f;
-
 		private Func<GlobalTargetInfo, bool> action;
 
 		private bool canTargetTiles;
@@ -23,6 +21,8 @@ namespace RimWorld
 		private Action onUpdate;
 
 		private Func<GlobalTargetInfo, string> extraLabelGetter;
+
+		private const float BaseFeedbackTexSize = 0.8f;
 
 		public bool IsTargeting
 		{
@@ -133,42 +133,47 @@ namespace RimWorld
 
 		public bool IsTargetedNow(WorldObject o, List<WorldObject> worldObjectsUnderMouse = null)
 		{
+			bool result;
 			if (!this.IsTargeting)
 			{
-				return false;
+				result = false;
 			}
-			if (worldObjectsUnderMouse == null)
+			else
 			{
-				worldObjectsUnderMouse = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
+				if (worldObjectsUnderMouse == null)
+				{
+					worldObjectsUnderMouse = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
+				}
+				result = (worldObjectsUnderMouse.Any() && o == worldObjectsUnderMouse[0]);
 			}
-			if (worldObjectsUnderMouse.Any())
-			{
-				return o == worldObjectsUnderMouse[0];
-			}
-			return false;
+			return result;
 		}
 
 		private GlobalTargetInfo CurrentTargetUnderMouse()
 		{
+			GlobalTargetInfo result;
 			if (!this.IsTargeting)
 			{
-				return GlobalTargetInfo.Invalid;
+				result = GlobalTargetInfo.Invalid;
 			}
-			List<WorldObject> list = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
-			if (list.Any())
+			else
 			{
-				return list[0];
-			}
-			if (this.canTargetTiles)
-			{
-				int num = GenWorld.MouseTile(false);
-				if (num >= 0)
+				List<WorldObject> list = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
+				if (list.Any())
 				{
-					return new GlobalTargetInfo(num);
+					result = list[0];
 				}
-				return GlobalTargetInfo.Invalid;
+				else if (this.canTargetTiles)
+				{
+					int num = GenWorld.MouseTile(false);
+					result = ((num < 0) ? GlobalTargetInfo.Invalid : new GlobalTargetInfo(num));
+				}
+				else
+				{
+					result = GlobalTargetInfo.Invalid;
+				}
 			}
-			return GlobalTargetInfo.Invalid;
+			return result;
 		}
 	}
 }

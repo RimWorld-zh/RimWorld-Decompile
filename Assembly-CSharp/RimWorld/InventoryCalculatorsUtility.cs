@@ -7,25 +7,30 @@ namespace RimWorld
 	{
 		public static bool ShouldIgnoreInventoryOf(Pawn pawn, IgnorePawnsInventoryMode ignoreMode)
 		{
+			bool result;
 			switch (ignoreMode)
 			{
 			case IgnorePawnsInventoryMode.Ignore:
 			{
-				return true;
+				result = true;
+				break;
 			}
 			case IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload:
 			{
-				return pawn.Spawned && pawn.inventory.UnloadEverything;
+				result = (pawn.Spawned && pawn.inventory.UnloadEverything);
+				break;
 			}
 			case IgnorePawnsInventoryMode.DontIgnore:
 			{
-				return false;
+				result = false;
+				break;
 			}
 			default:
 			{
 				throw new NotImplementedException("IgnorePawnsInventoryMode");
 			}
 			}
+			return result;
 		}
 	}
 }

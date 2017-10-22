@@ -9,24 +9,12 @@ namespace RimWorld
 	{
 		public static bool IsCleanAndDroppable(Pawn pawn, BodyPartRecord part)
 		{
-			if (pawn.Dead)
-			{
-				return false;
-			}
-			if (pawn.RaceProps.Animal)
-			{
-				return false;
-			}
-			return part.def.spawnThingOnRemoved != null && MedicalRecipesUtility.IsClean(pawn, part);
+			return !pawn.Dead && !pawn.RaceProps.Animal && part.def.spawnThingOnRemoved != null && MedicalRecipesUtility.IsClean(pawn, part);
 		}
 
 		public static bool IsClean(Pawn pawn, BodyPartRecord part)
 		{
-			if (pawn.Dead)
-			{
-				return false;
-			}
-			return !(from x in pawn.health.hediffSet.hediffs
+			return !pawn.Dead && !(from x in pawn.health.hediffSet.hediffs
 			where x.Part == part
 			select x).Any();
 		}
@@ -40,11 +28,7 @@ namespace RimWorld
 
 		public static Thing SpawnNaturalPartIfClean(Pawn pawn, BodyPartRecord part, IntVec3 pos, Map map)
 		{
-			if (MedicalRecipesUtility.IsCleanAndDroppable(pawn, part))
-			{
-				return GenSpawn.Spawn(part.def.spawnThingOnRemoved, pos, map);
-			}
-			return null;
+			return (!MedicalRecipesUtility.IsCleanAndDroppable(pawn, part)) ? null : GenSpawn.Spawn(part.def.spawnThingOnRemoved, pos, map);
 		}
 
 		public static void SpawnThingsFromHediffs(Pawn pawn, BodyPartRecord part, IntVec3 pos, Map map)

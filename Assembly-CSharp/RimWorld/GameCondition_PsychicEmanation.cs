@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -11,7 +10,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.def.label + " (" + ((Enum)(object)this.gender).ToString().Translate().ToLower() + ")";
+				return base.def.label + " (" + this.gender.ToString().Translate().ToLower() + ")";
 			}
 		}
 

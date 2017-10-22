@@ -6,15 +6,15 @@ namespace Verse
 {
 	public class ThingCategoryDef : Def
 	{
-		public ThingCategoryDef parent;
+		public ThingCategoryDef parent = null;
 
 		[NoTranslate]
-		public string iconPath;
+		public string iconPath = (string)null;
 
-		public bool resourceReadoutRoot;
+		public bool resourceReadoutRoot = false;
 
 		[Unsaved]
-		public TreeNode_ThingCategory treeNode;
+		public TreeNode_ThingCategory treeNode = null;
 
 		[Unsaved]
 		public List<ThingCategoryDef> childCategories = new List<ThingCategoryDef>();
@@ -32,14 +32,10 @@ namespace Verse
 		{
 			get
 			{
-				if (this.parent != null)
-				{
-					yield return this.parent;
-					foreach (ThingCategoryDef parent2 in this.parent.Parents)
-					{
-						yield return parent2;
-					}
-				}
+				if (this.parent == null)
+					yield break;
+				yield return this.parent;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -48,22 +44,7 @@ namespace Verse
 			get
 			{
 				yield return this;
-				List<ThingCategoryDef>.Enumerator enumerator = this.childCategories.GetEnumerator();
-				try
-				{
-					while (enumerator.MoveNext())
-					{
-						ThingCategoryDef child = enumerator.Current;
-						foreach (ThingCategoryDef thisAndChildCategoryDef in child.ThisAndChildCategoryDefs)
-						{
-							yield return thisAndChildCategoryDef;
-						}
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
-				}
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -73,20 +54,19 @@ namespace Verse
 			{
 				foreach (ThingCategoryDef thisAndChildCategoryDef in this.ThisAndChildCategoryDefs)
 				{
-					List<ThingDef>.Enumerator enumerator2 = thisAndChildCategoryDef.childThingDefs.GetEnumerator();
-					try
+					using (List<ThingDef>.Enumerator enumerator2 = thisAndChildCategoryDef.childThingDefs.GetEnumerator())
 					{
-						while (enumerator2.MoveNext())
+						if (enumerator2.MoveNext())
 						{
 							ThingDef def = enumerator2.Current;
 							yield return def;
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
-					finally
-					{
-						((IDisposable)(object)enumerator2).Dispose();
-					}
 				}
+				yield break;
+				IL_0126:
+				/*Error near IL_0127: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -96,20 +76,19 @@ namespace Verse
 			{
 				foreach (ThingCategoryDef thisAndChildCategoryDef in this.ThisAndChildCategoryDefs)
 				{
-					List<SpecialThingFilterDef>.Enumerator enumerator2 = thisAndChildCategoryDef.childSpecialFilters.GetEnumerator();
-					try
+					using (List<SpecialThingFilterDef>.Enumerator enumerator2 = thisAndChildCategoryDef.childSpecialFilters.GetEnumerator())
 					{
-						while (enumerator2.MoveNext())
+						if (enumerator2.MoveNext())
 						{
 							SpecialThingFilterDef sf = enumerator2.Current;
 							yield return sf;
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
-					finally
-					{
-						((IDisposable)(object)enumerator2).Dispose();
-					}
 				}
+				yield break;
+				IL_0126:
+				/*Error near IL_0127: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -119,20 +98,19 @@ namespace Verse
 			{
 				foreach (ThingCategoryDef parent2 in this.Parents)
 				{
-					List<SpecialThingFilterDef>.Enumerator enumerator2 = parent2.childSpecialFilters.GetEnumerator();
-					try
+					using (List<SpecialThingFilterDef>.Enumerator enumerator2 = parent2.childSpecialFilters.GetEnumerator())
 					{
-						while (enumerator2.MoveNext())
+						if (enumerator2.MoveNext())
 						{
 							SpecialThingFilterDef filter = enumerator2.Current;
 							yield return filter;
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
-					finally
-					{
-						((IDisposable)(object)enumerator2).Dispose();
-					}
 				}
+				yield break;
+				IL_0126:
+				/*Error near IL_0127: Unexpected return in MoveNext()*/;
 			}
 		}
 

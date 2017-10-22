@@ -15,15 +15,15 @@ namespace Verse
 		{
 			get
 			{
-				if (Current.ProgramState != ProgramState.Playing && Find.GameInitData != null && Find.GameInitData.gameToLoad.NullOrEmpty())
-				{
-					return GenTicks.ConfiguredTicksAbsAtGameStart;
-				}
-				if (Current.Game != null && Find.TickManager != null)
-				{
-					return Find.TickManager.TicksAbs;
-				}
-				return 0;
+				return (Current.ProgramState == ProgramState.Playing || Find.GameInitData == null || !Find.GameInitData.gameToLoad.NullOrEmpty()) ? ((Current.Game != null && Find.TickManager != null) ? Find.TickManager.TicksAbs : 0) : GenTicks.ConfiguredTicksAbsAtGameStart;
+			}
+		}
+
+		public static int TicksGame
+		{
+			get
+			{
+				return (Current.Game != null && Find.TickManager != null) ? Find.TickManager.TicksGame : 0;
 			}
 		}
 
@@ -32,10 +32,23 @@ namespace Verse
 			get
 			{
 				GameInitData gameInitData = Find.GameInitData;
-				Vector2 vector = (gameInitData.startingTile < 0) ? Vector2.zero : Find.WorldGrid.LongLatOf(gameInitData.startingTile);
-				Twelfth twelfth = (gameInitData.startingSeason == Season.Undefined) ? ((gameInitData.startingTile < 0) ? Season.Summer.GetFirstTwelfth(0f) : TwelfthUtility.FindStartingWarmTwelfth(gameInitData.startingTile)) : gameInitData.startingSeason.GetFirstTwelfth(vector.y);
-				int num = (24 - GenDate.TimeZoneAt(vector.x)) % 24;
-				return 300000 * (int)twelfth + 2500 * (6 + num);
+				ConfiguredTicksAbsAtGameStartCache ticksAbsCache = Find.World.ticksAbsCache;
+				int num = default(int);
+				int result;
+				if (ticksAbsCache.TryGetCachedValue(gameInitData, out num))
+				{
+					result = num;
+				}
+				else
+				{
+					Vector2 vector = (gameInitData.startingTile < 0) ? Vector2.zero : Find.WorldGrid.LongLatOf(gameInitData.startingTile);
+					Twelfth twelfth = (gameInitData.startingSeason == Season.Undefined) ? ((gameInitData.startingTile < 0) ? Season.Summer.GetFirstTwelfth(0f) : TwelfthUtility.FindStartingWarmTwelfth(gameInitData.startingTile)) : gameInitData.startingSeason.GetFirstTwelfth(vector.y);
+					int num2 = (24 - GenDate.TimeZoneAt(vector.x)) % 24;
+					int num3 = 300000 * (int)twelfth + 2500 * (6 + num2);
+					ticksAbsCache.Cache(num3, gameInitData);
+					result = num3;
+				}
+				return result;
 			}
 		}
 

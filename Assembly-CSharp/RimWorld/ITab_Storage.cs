@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -7,17 +8,26 @@ namespace RimWorld
 {
 	public class ITab_Storage : ITab
 	{
-		private const float TopAreaHeight = 35f;
-
-		private Vector2 scrollPosition = default(Vector2);
+		private Vector2 scrollPosition;
 
 		private static readonly Vector2 WinSize = new Vector2(300f, 480f);
 
-		private IStoreSettingsParent SelStoreSettingsParent
+		protected virtual IStoreSettingsParent SelStoreSettingsParent
 		{
 			get
 			{
-				return (IStoreSettingsParent)base.SelObject;
+				Thing thing = base.SelObject as Thing;
+				IStoreSettingsParent result;
+				if (thing != null)
+				{
+					IStoreSettingsParent thingOrThingCompStoreSettingsParent = this.GetThingOrThingCompStoreSettingsParent(thing);
+					result = ((thingOrThingCompStoreSettingsParent == null) ? null : thingOrThingCompStoreSettingsParent);
+				}
+				else
+				{
+					result = (base.SelObject as IStoreSettingsParent);
+				}
+				return result;
 			}
 		}
 
@@ -26,6 +36,22 @@ namespace RimWorld
 			get
 			{
 				return this.SelStoreSettingsParent.StorageTabVisible;
+			}
+		}
+
+		protected virtual bool IsPrioritySettingVisible
+		{
+			get
+			{
+				return true;
+			}
+		}
+
+		private float TopAreaHeight
+		{
+			get
+			{
+				return (float)((!this.IsPrioritySettingVisible) ? 20 : 35);
 			}
 		}
 
@@ -45,34 +71,81 @@ namespace RimWorld
 			Vector2 winSize2 = ITab_Storage.WinSize;
 			Rect position = new Rect(0f, 0f, x, winSize2.y).ContractedBy(10f);
 			GUI.BeginGroup(position);
-			Text.Font = GameFont.Small;
-			Rect rect = new Rect(0f, 0f, 160f, 29f);
-			if (Widgets.ButtonText(rect, "Priority".Translate() + ": " + settings.Priority.Label(), true, false, true))
+			if (this.IsPrioritySettingVisible)
 			{
-				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				foreach (byte value in Enum.GetValues(typeof(StoragePriority)))
+				Text.Font = GameFont.Small;
+				Rect rect = new Rect(0f, 0f, 160f, (float)(this.TopAreaHeight - 6.0));
+				if (Widgets.ButtonText(rect, "Priority".Translate() + ": " + settings.Priority.Label(), true, false, true))
 				{
-					if (value != 0)
+					List<FloatMenuOption> list = new List<FloatMenuOption>();
+					IEnumerator enumerator = Enum.GetValues(typeof(StoragePriority)).GetEnumerator();
+					try
 					{
-						StoragePriority localPr = (StoragePriority)value;
-						list.Add(new FloatMenuOption(localPr.Label().CapitalizeFirst(), (Action)delegate
+						while (enumerator.MoveNext())
 						{
-							settings.Priority = localPr;
-						}, MenuOptionPriority.Default, null, null, 0f, null, null));
+							StoragePriority storagePriority = (StoragePriority)enumerator.Current;
+							if (storagePriority != 0)
+							{
+								StoragePriority localPr = storagePriority;
+								list.Add(new FloatMenuOption(localPr.Label().CapitalizeFirst(), (Action)delegate
+								{
+									settings.Priority = localPr;
+								}, MenuOptionPriority.Default, null, null, 0f, null, null));
+							}
+						}
 					}
+					finally
+					{
+						IDisposable disposable;
+						if ((disposable = (enumerator as IDisposable)) != null)
+						{
+							disposable.Dispose();
+						}
+					}
+					Find.WindowStack.Add(new FloatMenu(list));
 				}
-				Find.WindowStack.Add(new FloatMenu(list));
+				UIHighlighter.HighlightOpportunity(rect, "StoragePriority");
 			}
-			UIHighlighter.HighlightOpportunity(rect, "StoragePriority");
 			ThingFilter parentFilter = null;
 			if (selStoreSettingsParent.GetParentStoreSettings() != null)
 			{
 				parentFilter = selStoreSettingsParent.GetParentStoreSettings().filter;
 			}
-			Rect rect2 = new Rect(0f, 35f, position.width, (float)(position.height - 35.0));
+			Rect rect2 = new Rect(0f, this.TopAreaHeight, position.width, position.height - this.TopAreaHeight);
 			ThingFilterUI.DoThingFilterConfigWindow(rect2, ref this.scrollPosition, settings.filter, parentFilter, 8, (IEnumerable<ThingDef>)null, (IEnumerable<SpecialThingFilterDef>)null, (List<ThingDef>)null);
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.StorageTab, KnowledgeAmount.FrameDisplayed);
 			GUI.EndGroup();
+		}
+
+		protected IStoreSettingsParent GetThingOrThingCompStoreSettingsParent(Thing t)
+		{
+			IStoreSettingsParent storeSettingsParent = t as IStoreSettingsParent;
+			IStoreSettingsParent result;
+			if (storeSettingsParent != null)
+			{
+				result = storeSettingsParent;
+			}
+			else
+			{
+				ThingWithComps thingWithComps = t as ThingWithComps;
+				if (thingWithComps != null)
+				{
+					List<ThingComp> allComps = thingWithComps.AllComps;
+					for (int i = 0; i < allComps.Count; i++)
+					{
+						storeSettingsParent = (allComps[i] as IStoreSettingsParent);
+						if (storeSettingsParent != null)
+							goto IL_0047;
+					}
+				}
+				result = null;
+			}
+			goto IL_006a;
+			IL_006a:
+			return result;
+			IL_0047:
+			result = storeSettingsParent;
+			goto IL_006a;
 		}
 	}
 }

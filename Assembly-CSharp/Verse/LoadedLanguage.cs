@@ -10,11 +10,11 @@ namespace Verse
 	{
 		public string folderName;
 
-		public LanguageInfo info;
+		public LanguageInfo info = null;
 
 		private LanguageWorker workerInt;
 
-		private bool dataIsLoaded;
+		private bool dataIsLoaded = false;
 
 		public Texture2D icon = BaseContent.BadTex;
 
@@ -28,11 +28,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.info != null && !this.info.friendlyNameNative.NullOrEmpty())
-				{
-					return this.info.friendlyNameNative;
-				}
-				return this.folderName;
+				return (this.info != null && !this.info.friendlyNameNative.NullOrEmpty()) ? this.info.friendlyNameNative : this.folderName;
 			}
 		}
 
@@ -40,11 +36,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.info != null && !this.info.friendlyNameEnglish.NullOrEmpty())
-				{
-					return this.info.friendlyNameEnglish;
-				}
-				return this.folderName;
+				return (this.info != null && !this.info.friendlyNameEnglish.NullOrEmpty()) ? this.info.friendlyNameEnglish : this.folderName;
 			}
 		}
 
@@ -52,16 +44,28 @@ namespace Verse
 		{
 			get
 			{
-				foreach (ModContentPack runningMod in LoadedModManager.RunningMods)
+				using (IEnumerator<ModContentPack> enumerator = LoadedModManager.RunningMods.GetEnumerator())
 				{
-					string langDirPath = Path.Combine(runningMod.RootDir, "Languages");
-					string myDirPath = Path.Combine(langDirPath, this.folderName);
-					DirectoryInfo myDir = new DirectoryInfo(myDirPath);
-					if (myDir.Exists)
+					string myDirPath;
+					while (true)
 					{
-						yield return myDirPath;
+						if (enumerator.MoveNext())
+						{
+							ModContentPack mod = enumerator.Current;
+							string langDirPath = Path.Combine(mod.RootDir, "Languages");
+							myDirPath = Path.Combine(langDirPath, this.folderName);
+							DirectoryInfo myDir = new DirectoryInfo(myDirPath);
+							if (myDir.Exists)
+								break;
+							continue;
+						}
+						yield break;
 					}
+					yield return myDirPath;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
+				IL_010f:
+				/*Error near IL_0110: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -213,7 +217,6 @@ namespace Verse
 			{
 				Log.Warning("Exception loading from strings file " + file + ": " + ex);
 				return;
-				IL_003f:;
 			}
 			string text2 = file.FullName;
 			if (stringsTopDir != null)
@@ -230,18 +233,9 @@ namespace Verse
 			List<string> list2 = default(List<string>);
 			if (this.stringFiles.TryGetValue(text2, out list2))
 			{
-				List<string>.Enumerator enumerator2 = list.GetEnumerator();
-				try
+				foreach (string item2 in list)
 				{
-					while (enumerator2.MoveNext())
-					{
-						string current2 = enumerator2.Current;
-						list2.Add(current2);
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
+					list2.Add(item2);
 				}
 			}
 			else
@@ -272,18 +266,9 @@ namespace Verse
 				Log.Warning("Exception loading from translation file " + file + ": " + ex);
 				dictionary.Clear();
 			}
-			Dictionary<string, string>.Enumerator enumerator2 = dictionary.GetEnumerator();
-			try
+			foreach (KeyValuePair<string, string> item2 in dictionary)
 			{
-				while (enumerator2.MoveNext())
-				{
-					KeyValuePair<string, string> current2 = enumerator2.Current;
-					this.keyedReplacements.Add(current2.Key, current2.Value);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
+				this.keyedReplacements.Add(item2.Key, item2.Value);
 			}
 		}
 
@@ -315,12 +300,17 @@ namespace Verse
 			{
 				this.LoadData();
 			}
+			bool result;
 			if (!this.keyedReplacements.TryGetValue(key, out translated))
 			{
 				translated = key;
-				return false;
+				result = false;
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
 		public bool TryGetStringsFromFile(string fileName, out List<string> stringsList)
@@ -329,12 +319,17 @@ namespace Verse
 			{
 				this.LoadData();
 			}
+			bool result;
 			if (!this.stringFiles.TryGetValue(fileName, out stringsList))
 			{
 				stringsList = null;
-				return false;
+				result = false;
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
 		public void InjectIntoData()
@@ -343,18 +338,9 @@ namespace Verse
 			{
 				this.LoadData();
 			}
-			List<DefInjectionPackage>.Enumerator enumerator = this.defInjections.GetEnumerator();
-			try
+			foreach (DefInjectionPackage defInjection in this.defInjections)
 			{
-				while (enumerator.MoveNext())
-				{
-					DefInjectionPackage current = enumerator.Current;
-					current.InjectIntoDefs();
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				defInjection.InjectIntoDefs();
 			}
 			BackstoryTranslationUtility.LoadAndInjectBackstoryData(this);
 		}

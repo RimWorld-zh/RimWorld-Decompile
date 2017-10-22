@@ -12,9 +12,9 @@ namespace Verse
 			public ModuleBase noise;
 		}
 
-		private const float RockNoiseFreq = 0.005f;
+		public static List<RockNoise> rockNoises = null;
 
-		public static List<RockNoise> rockNoises;
+		private const float RockNoiseFreq = 0.005f;
 
 		public static void Init(Map map)
 		{

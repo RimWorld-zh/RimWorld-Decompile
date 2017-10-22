@@ -6,40 +6,30 @@ namespace Verse.AI
 {
 	public class JobDriver_Goto : JobDriver
 	{
+		public override bool TryMakePreToilReservations()
+		{
+			base.pawn.Map.pawnDestinationReservationManager.Reserve(base.pawn, base.job, base.job.targetA.Cell);
+			return true;
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			Toil gotoCell = Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
 			gotoCell.AddPreTickAction((Action)delegate
 			{
-				if (((_003CMakeNewToils_003Ec__Iterator1B2)/*Error near IL_0038: stateMachine*/)._003C_003Ef__this.CurJob.exitMapOnArrival && ((_003CMakeNewToils_003Ec__Iterator1B2)/*Error near IL_0038: stateMachine*/)._003C_003Ef__this.pawn.Map.exitMapGrid.IsExitCell(((_003CMakeNewToils_003Ec__Iterator1B2)/*Error near IL_0038: stateMachine*/)._003C_003Ef__this.pawn.Position))
+				if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003a: stateMachine*/)._0024this.job.exitMapOnArrival && ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003a: stateMachine*/)._0024this.pawn.Map.exitMapGrid.IsExitCell(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003a: stateMachine*/)._0024this.pawn.Position))
 				{
-					((_003CMakeNewToils_003Ec__Iterator1B2)/*Error near IL_0038: stateMachine*/)._003C_003Ef__this.TryExitMap();
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003a: stateMachine*/)._0024this.TryExitMap();
 				}
 			});
-			gotoCell.FailOn((Func<bool>)(() => ((_003CMakeNewToils_003Ec__Iterator1B2)/*Error near IL_004f: stateMachine*/)._003C_003Ef__this.CurJob.failIfCantJoinOrCreateCaravan && !CaravanExitMapUtility.CanExitMapAndJoinOrCreateCaravanNow(((_003CMakeNewToils_003Ec__Iterator1B2)/*Error near IL_004f: stateMachine*/)._003C_003Ef__this.pawn)));
+			gotoCell.FailOn((Func<bool>)(() => ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0051: stateMachine*/)._0024this.job.failIfCantJoinOrCreateCaravan && !CaravanExitMapUtility.CanExitMapAndJoinOrCreateCaravanNow(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0051: stateMachine*/)._0024this.pawn)));
 			yield return gotoCell;
-			yield return new Toil
-			{
-				initAction = (Action)delegate
-				{
-					if (((_003CMakeNewToils_003Ec__Iterator1B2)/*Error near IL_008a: stateMachine*/)._003C_003Ef__this.pawn.mindState != null && ((_003CMakeNewToils_003Ec__Iterator1B2)/*Error near IL_008a: stateMachine*/)._003C_003Ef__this.pawn.mindState.forcedGotoPosition == ((_003CMakeNewToils_003Ec__Iterator1B2)/*Error near IL_008a: stateMachine*/)._003C_003Ef__this.TargetA.Cell)
-					{
-						((_003CMakeNewToils_003Ec__Iterator1B2)/*Error near IL_008a: stateMachine*/)._003C_003Ef__this.pawn.mindState.forcedGotoPosition = IntVec3.Invalid;
-					}
-					if (((_003CMakeNewToils_003Ec__Iterator1B2)/*Error near IL_008a: stateMachine*/)._003C_003Ef__this.CurJob.exitMapOnArrival)
-					{
-						if (!((_003CMakeNewToils_003Ec__Iterator1B2)/*Error near IL_008a: stateMachine*/)._003C_003Ef__this.pawn.Position.OnEdge(((_003CMakeNewToils_003Ec__Iterator1B2)/*Error near IL_008a: stateMachine*/)._003C_003Ef__this.pawn.Map) && !((_003CMakeNewToils_003Ec__Iterator1B2)/*Error near IL_008a: stateMachine*/)._003C_003Ef__this.pawn.Map.exitMapGrid.IsExitCell(((_003CMakeNewToils_003Ec__Iterator1B2)/*Error near IL_008a: stateMachine*/)._003C_003Ef__this.pawn.Position))
-							return;
-						((_003CMakeNewToils_003Ec__Iterator1B2)/*Error near IL_008a: stateMachine*/)._003C_003Ef__this.TryExitMap();
-					}
-				},
-				defaultCompleteMode = ToilCompleteMode.Instant
-			};
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		private void TryExitMap()
 		{
-			if (base.CurJob.failIfCantJoinOrCreateCaravan && !CaravanExitMapUtility.CanExitMapAndJoinOrCreateCaravanNow(base.pawn))
+			if (base.job.failIfCantJoinOrCreateCaravan && !CaravanExitMapUtility.CanExitMapAndJoinOrCreateCaravanNow(base.pawn))
 				return;
 			base.pawn.ExitMap(true);
 		}

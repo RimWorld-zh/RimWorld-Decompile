@@ -83,12 +83,17 @@ namespace RimWorld
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_ThingCount scenPart_ThingCount = other as ScenPart_ThingCount;
+			bool result;
 			if (scenPart_ThingCount != null && base.GetType() == scenPart_ThingCount.GetType() && this.thingDef == scenPart_ThingCount.thingDef && this.stuff == scenPart_ThingCount.stuff && this.count >= 0 && scenPart_ThingCount.count >= 0)
 			{
 				this.count += scenPart_ThingCount.count;
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		protected virtual IEnumerable<ThingDef> PossibleThingDefs()

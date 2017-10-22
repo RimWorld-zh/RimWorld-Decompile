@@ -60,42 +60,50 @@ namespace Verse
 		{
 			int num = number % 10;
 			int num2 = number / 10 % 10;
+			string result;
 			if (num2 != 1)
 			{
 				switch (num)
 				{
 				case 1:
 				{
-					return number + "st";
+					result = number + "st";
+					goto IL_0084;
 				}
 				case 2:
 				{
-					return number + "nd";
+					result = number + "nd";
+					goto IL_0084;
 				}
 				case 3:
 				{
-					return number + "rd";
+					result = number + "rd";
+					goto IL_0084;
 				}
 				}
 			}
-			return number + "th";
+			result = number + "th";
+			goto IL_0084;
+			IL_0084:
+			return result;
 		}
 
-		public override string Pluralize(string str)
+		public override string Pluralize(string str, int count = -1)
 		{
+			string result;
 			if (str.NullOrEmpty())
 			{
-				return str;
+				result = str;
 			}
-			char c = str[str.Length - 1];
-			char c2 = (str.Length != 1) ? str[str.Length - 2] : '\0';
-			bool flag = char.IsLetter(c2) && "oaieuyOAIEUY".IndexOf(c2) >= 0;
-			bool flag2 = char.IsLetter(c2) && !flag;
-			if (c == 'y' && flag2)
+			else
 			{
-				return str.Substring(0, str.Length - 1) + "ies";
+				char c = str[str.Length - 1];
+				char c2 = (str.Length != 1) ? str[str.Length - 2] : '\0';
+				bool flag = char.IsLetter(c2) && "oaieuyOAIEUY".IndexOf(c2) >= 0;
+				bool flag2 = char.IsLetter(c2) && !flag;
+				result = ((c != 'y' || !flag2) ? (str + "s") : (str.Substring(0, str.Length - 1) + "ies"));
 			}
-			return str + "s";
+			return result;
 		}
 	}
 }

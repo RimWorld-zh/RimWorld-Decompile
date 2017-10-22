@@ -1,5 +1,3 @@
-using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +7,7 @@ namespace Verse
 	{
 		protected Section section;
 
-		public MapMeshFlag relevantChangeTypes;
+		public MapMeshFlag relevantChangeTypes = MapMeshFlag.None;
 
 		public List<LayerSubMesh> subMeshes = new List<LayerSubMesh>();
 
@@ -29,14 +27,6 @@ namespace Verse
 			}
 		}
 
-		public virtual SectionLayerPhaseDef Phase
-		{
-			get
-			{
-				return SectionLayerPhaseDefOf.Main;
-			}
-		}
-
 		public SectionLayer(Section section)
 		{
 			this.section = section;
@@ -44,25 +34,34 @@ namespace Verse
 
 		public LayerSubMesh GetSubMesh(Material material)
 		{
-			if ((UnityEngine.Object)material == (UnityEngine.Object)null)
+			LayerSubMesh result;
+			int i;
+			if ((Object)material == (Object)null)
 			{
-				return null;
+				result = null;
 			}
-			for (int i = 0; i < this.subMeshes.Count; i++)
+			else
 			{
-				if ((UnityEngine.Object)this.subMeshes[i].material == (UnityEngine.Object)material)
+				for (i = 0; i < this.subMeshes.Count; i++)
 				{
-					return this.subMeshes[i];
+					if ((Object)this.subMeshes[i].material == (Object)material)
+						goto IL_0038;
 				}
+				Mesh mesh = new Mesh();
+				if (UnityData.isEditor)
+				{
+					mesh.name = "SectionLayerSubMesh_" + base.GetType().Name + "_" + this.Map.Tile;
+				}
+				LayerSubMesh layerSubMesh = new LayerSubMesh(mesh, material);
+				this.subMeshes.Add(layerSubMesh);
+				result = layerSubMesh;
 			}
-			Mesh mesh = new Mesh();
-			if (UnityData.isEditor)
-			{
-				mesh.name = "SectionLayerSubMesh_" + base.GetType().Name + "_" + this.Map.Tile;
-			}
-			LayerSubMesh layerSubMesh = new LayerSubMesh(mesh, material);
-			this.subMeshes.Add(layerSubMesh);
-			return layerSubMesh;
+			goto IL_00cd;
+			IL_00cd:
+			return result;
+			IL_0038:
+			result = this.subMeshes[i];
+			goto IL_00cd;
 		}
 
 		protected void FinalizeMesh(MeshParts tags)
@@ -71,7 +70,7 @@ namespace Verse
 			{
 				if (this.subMeshes[i].verts.Count > 0)
 				{
-					this.subMeshes[i].FinalizeMesh(tags, false);
+					this.subMeshes[i].FinalizeMesh(tags);
 				}
 			}
 		}
@@ -96,18 +95,9 @@ namespace Verse
 
 		protected void ClearSubMeshes(MeshParts parts)
 		{
-			List<LayerSubMesh>.Enumerator enumerator = this.subMeshes.GetEnumerator();
-			try
+			foreach (LayerSubMesh subMesh in this.subMeshes)
 			{
-				while (enumerator.MoveNext())
-				{
-					LayerSubMesh current = enumerator.Current;
-					current.Clear(parts);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				subMesh.Clear(parts);
 			}
 		}
 	}

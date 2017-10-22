@@ -68,15 +68,7 @@ namespace Verse.Steam
 		{
 			get
 			{
-				if (this.PublishedFileId == PublishedFileId_t.Invalid)
-				{
-					return false;
-				}
-				if (this.steamAuthor == CSteamID.Nil)
-				{
-					return true;
-				}
-				return this.steamAuthor != SteamUser.GetSteamID();
+				return !(this.PublishedFileId == PublishedFileId_t.Invalid) && (this.steamAuthor == CSteamID.Nil || this.steamAuthor != SteamUser.GetSteamID());
 			}
 		}
 

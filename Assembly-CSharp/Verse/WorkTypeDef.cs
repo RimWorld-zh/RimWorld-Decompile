@@ -23,11 +23,11 @@ namespace Verse
 
 		public bool visible = true;
 
-		public int naturalPriority;
+		public int naturalPriority = 0;
 
-		public bool alwaysStartActive;
+		public bool alwaysStartActive = false;
 
-		public bool requireCapableColonist;
+		public bool requireCapableColonist = false;
 
 		public List<SkillDef> relevantSkills = new List<SkillDef>();
 
@@ -36,13 +36,21 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			foreach (string item in base.ConfigErrors())
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string e = enumerator.Current;
+					yield return e;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			if (this.naturalPriority >= 0 && this.naturalPriority <= 10000)
 				yield break;
 			yield return "naturalPriority is " + this.naturalPriority + ", but it must be between 0 and 10000";
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0120:
+			/*Error near IL_0121: Unexpected return in MoveNext()*/;
 		}
 
 		public override void ResolveReferences()

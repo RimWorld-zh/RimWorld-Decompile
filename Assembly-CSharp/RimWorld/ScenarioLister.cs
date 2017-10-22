@@ -10,18 +10,36 @@ namespace RimWorld
 		public static IEnumerable<Scenario> AllScenarios()
 		{
 			ScenarioLister.RecacheIfDirty();
-			foreach (ScenarioDef allDef in DefDatabase<ScenarioDef>.AllDefs)
+			using (IEnumerator<ScenarioDef> enumerator = DefDatabase<ScenarioDef>.AllDefs.GetEnumerator())
 			{
-				yield return allDef.scenario;
+				if (enumerator.MoveNext())
+				{
+					ScenarioDef scenDef = enumerator.Current;
+					yield return scenDef.scenario;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			foreach (Scenario item in ScenarioFiles.AllScenariosLocal)
+			using (IEnumerator<Scenario> enumerator2 = ScenarioFiles.AllScenariosLocal.GetEnumerator())
 			{
-				yield return item;
+				if (enumerator2.MoveNext())
+				{
+					Scenario scen2 = enumerator2.Current;
+					yield return scen2;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			foreach (Scenario item2 in ScenarioFiles.AllScenariosWorkshop)
+			using (IEnumerator<Scenario> enumerator3 = ScenarioFiles.AllScenariosWorkshop.GetEnumerator())
 			{
-				yield return item2;
+				if (enumerator3.MoveNext())
+				{
+					Scenario scen = enumerator3.Current;
+					yield return scen;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_01dd:
+			/*Error near IL_01de: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<Scenario> ScenariosInCategory(ScenarioCategory cat)
@@ -31,29 +49,47 @@ namespace RimWorld
 			{
 			case ScenarioCategory.FromDef:
 			{
-				foreach (ScenarioDef allDef in DefDatabase<ScenarioDef>.AllDefs)
+				using (IEnumerator<ScenarioDef> enumerator = DefDatabase<ScenarioDef>.AllDefs.GetEnumerator())
 				{
-					yield return allDef.scenario;
+					if (enumerator.MoveNext())
+					{
+						ScenarioDef scenDef = enumerator.Current;
+						yield return scenDef.scenario;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 				break;
 			}
 			case ScenarioCategory.CustomLocal:
 			{
-				foreach (Scenario item in ScenarioFiles.AllScenariosLocal)
+				using (IEnumerator<Scenario> enumerator2 = ScenarioFiles.AllScenariosLocal.GetEnumerator())
 				{
-					yield return item;
+					if (enumerator2.MoveNext())
+					{
+						Scenario scen2 = enumerator2.Current;
+						yield return scen2;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 				break;
 			}
 			case ScenarioCategory.SteamWorkshop:
 			{
-				foreach (Scenario item2 in ScenarioFiles.AllScenariosWorkshop)
+				using (IEnumerator<Scenario> enumerator3 = ScenarioFiles.AllScenariosWorkshop.GetEnumerator())
 				{
-					yield return item2;
+					if (enumerator3.MoveNext())
+					{
+						Scenario scen = enumerator3.Current;
+						yield return scen;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 				break;
 			}
 			}
+			yield break;
+			IL_0211:
+			/*Error near IL_0212: Unexpected return in MoveNext()*/;
 		}
 
 		public static bool ScenarioIsListedAnywhere(Scenario scen)

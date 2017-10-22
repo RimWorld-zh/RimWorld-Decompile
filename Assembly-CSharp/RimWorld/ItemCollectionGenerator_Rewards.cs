@@ -17,77 +17,101 @@ namespace RimWorld
 			public ThingDef stuff;
 		}
 
-		protected override ItemCollectionGeneratorParams RandomTestParams
-		{
-			get
-			{
-				ItemCollectionGeneratorParams randomTestParams = base.RandomTestParams;
-				randomTestParams.count = Rand.RangeInclusive(5, 8);
-				randomTestParams.totalMarketValue = Rand.Range(10000f, 20000f);
-				randomTestParams.techLevel = TechLevel.Transcendent;
-				return randomTestParams;
-			}
-		}
+		private const float SilverChance = 0.5f;
+
+		private const float SpecialRewardChance = 0.35f;
 
 		protected override void Generate(ItemCollectionGeneratorParams parms, List<Thing> outThings)
 		{
-			int count = parms.count;
-			float totalMarketValue = parms.totalMarketValue;
-			TechLevel techLevel = parms.techLevel;
+			int? count = parms.count;
+			int num = (!count.HasValue) ? Rand.RangeInclusive(1, 3) : count.Value;
+			float? totalMarketValue = parms.totalMarketValue;
+			float num2 = (!totalMarketValue.HasValue) ? Rand.Range(1500f, 4000f) : totalMarketValue.Value;
+			TechLevel? techLevel = parms.techLevel;
+			TechLevel techLevel2 = (!techLevel.HasValue) ? TechLevel.Spacer : techLevel.Value;
 			Predicate<ThingDef> validator = parms.validator;
-			for (int num = 0; num < count; num++)
+			for (int num3 = 0; num3 < num; num3++)
 			{
-				outThings.Add(this.GenerateReward(totalMarketValue / (float)count, techLevel, validator));
+				outThings.Add(this.GenerateReward(num2 / (float)num, techLevel2, validator));
 			}
 		}
 
 		private Thing GenerateReward(float value, TechLevel techLevel, Predicate<ThingDef> validator = null)
 		{
-			if (Rand.Value < 0.5)
+			Thing result;
+			ThingDef thingDef = default(ThingDef);
+			if (Rand.Chance(0.5f))
 			{
 				Thing thing = ThingMaker.MakeThing(ThingDefOf.Silver, null);
-				thing.stackCount = Mathf.Max(GenMath.RoundRandom(value), 1);
-				return thing;
+				thing.stackCount = ThingUtility.RoundedResourceStackCount(Mathf.Max(GenMath.RoundRandom(value), 1));
+				result = thing;
 			}
-			Option option2 = (from option in ItemCollectionGeneratorUtility.allGeneratableItems.Select((Func<ThingDef, Option>)delegate(ThingDef td)
+			else if (Rand.Chance(0.35f) && (from x in ItemCollectionGeneratorUtility.allGeneratableItems
+			where x.itemGeneratorTags != null && x.itemGeneratorTags.Contains(ItemCollectionGeneratorUtility.SpecialRewardTag) && Mathf.Abs((float)(1.0 - x.BaseMarketValue / value)) <= 0.34999999403953552
+			select x).TryRandomElement<ThingDef>(out thingDef))
 			{
-				if ((int)td.techLevel > (int)techLevel)
+				Thing thing2 = ThingMaker.MakeThing(thingDef, GenStuff.RandomStuffFor(thingDef));
+				CompQuality compQuality = thing2.TryGetComp<CompQuality>();
+				if (compQuality != null)
 				{
-					return null;
+					compQuality.SetQuality(QualityUtility.RandomBaseGenItemQuality(), ArtGenerationContext.Outsider);
 				}
-				if (!td.IsWithinCategory(ThingCategoryDefOf.Apparel) && !td.IsWithinCategory(ThingCategoryDefOf.Weapons) && !td.IsWithinCategory(ThingCategoryDefOf.Art) && (td.building == null || !td.Minifiable) && (td.tradeTags == null || !td.tradeTags.Contains("Exotic")))
-				{
-					return null;
-				}
-				if ((object)validator != null && !validator(td))
-				{
-					return null;
-				}
-				ThingDef stuff = null;
-				if (td.MadeFromStuff && !(from x in GenStuff.AllowedStuffsFor(td)
-				where (int)x.techLevel <= (int)techLevel
-				select x).TryRandomElementByWeight<ThingDef>((Func<ThingDef, float>)((ThingDef st) => st.stuffProps.commonality), out stuff))
-				{
-					return null;
-				}
-				Option option3 = new Option();
-				option3.thingDef = td;
-				option3.quality = ((!td.HasComp(typeof(CompQuality))) ? QualityCategory.Normal : QualityUtility.RandomQuality());
-				option3.stuff = stuff;
-				return option3;
-			})
-			where option != null
-			select option).MinBy((Func<Option, float>)delegate(Option option)
-			{
-				float value2 = StatDefOf.MarketValue.Worker.GetValue(StatRequest.For(option.thingDef, option.stuff, option.quality), true);
-				return Mathf.Abs(value - value2);
-			});
-			Thing thing2 = ThingMaker.MakeThing(option2.thingDef, option2.stuff);
-			if (option2.thingDef.HasComp(typeof(CompQuality)))
-			{
-				thing2.TryGetComp<CompQuality>().SetQuality(option2.quality, ArtGenerationContext.Outsider);
+				result = thing2;
 			}
-			return thing2;
+			else
+			{
+				Option option2 = (from option in ItemCollectionGeneratorUtility.allGeneratableItems.Select((Func<ThingDef, Option>)delegate(ThingDef td)
+				{
+					Option result2;
+					if ((int)td.techLevel > (int)techLevel)
+					{
+						result2 = null;
+					}
+					else if (td.itemGeneratorTags != null && td.itemGeneratorTags.Contains(ItemCollectionGeneratorUtility.SpecialRewardTag))
+					{
+						result2 = null;
+					}
+					else if (!td.IsWithinCategory(ThingCategoryDefOf.Apparel) && !td.IsWithinCategory(ThingCategoryDefOf.Weapons) && !td.IsWithinCategory(ThingCategoryDefOf.Art) && (td.building == null || !td.Minifiable) && (td.tradeTags == null || !td.tradeTags.Contains("Exotic")))
+					{
+						result2 = null;
+					}
+					else if ((object)validator != null && !validator(td))
+					{
+						result2 = null;
+					}
+					else
+					{
+						ThingDef stuff = null;
+						if (td.MadeFromStuff && !GenStuff.TryRandomStuffByCommonalityFor(td, out stuff, techLevel))
+						{
+							result2 = null;
+						}
+						else
+						{
+							Option option3 = new Option();
+							option3.thingDef = td;
+							option3.quality = ((!td.HasComp(typeof(CompQuality))) ? QualityCategory.Normal : QualityUtility.RandomQuality());
+							option3.stuff = stuff;
+							result2 = option3;
+						}
+					}
+					return result2;
+				})
+				where option != null
+				select option).MinBy((Func<Option, float>)delegate(Option option)
+				{
+					float value2 = StatDefOf.MarketValue.Worker.GetValue(StatRequest.For(option.thingDef, option.stuff, option.quality), true);
+					return Mathf.Abs(value - value2);
+				});
+				Thing thing3 = ThingMaker.MakeThing(option2.thingDef, option2.stuff);
+				CompQuality compQuality2 = thing3.TryGetComp<CompQuality>();
+				if (compQuality2 != null)
+				{
+					compQuality2.SetQuality(option2.quality, ArtGenerationContext.Outsider);
+				}
+				result = thing3;
+			}
+			return result;
 		}
 	}
 }

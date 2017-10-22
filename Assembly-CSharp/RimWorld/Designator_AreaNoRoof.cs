@@ -1,17 +1,12 @@
 using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	public abstract class Designator_AreaNoRoof : Designator
+	public class Designator_AreaNoRoof : Designator
 	{
-		private DesignateMode mode;
-
-		private static List<IntVec3> justRemovedCells = new List<IntVec3>();
-
 		private static List<IntVec3> justAddedCells = new List<IntVec3>();
-
-		private static List<Room> requestedRooms = new List<Room>();
 
 		public override int DraggableDimensions
 		{
@@ -29,81 +24,59 @@ namespace RimWorld
 			}
 		}
 
-		public Designator_AreaNoRoof(DesignateMode mode)
+		public Designator_AreaNoRoof()
 		{
-			this.mode = mode;
-			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
+			base.defaultLabel = "DesignatorAreaNoRoofExpand".Translate();
+			base.defaultDesc = "DesignatorAreaNoRoofExpandDesc".Translate();
+			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/NoRoofArea", true);
+			base.hotKey = KeyBindingDefOf.Misc5;
+			base.soundDragSustain = SoundDefOf.DesignateDragAreaAdd;
+			base.soundDragChanged = SoundDefOf.DesignateDragAreaAddChanged;
+			base.soundSucceeded = SoundDefOf.DesignateAreaAdd;
 			base.useMouseIcon = true;
 		}
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
+			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			if (c.Fogged(base.Map))
+			else if (c.Fogged(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			RoofDef roofDef = base.Map.roofGrid.RoofAt(c);
-			if (roofDef != null && roofDef.isThickRoof)
+			else
 			{
-				return "MessageNothingCanRemoveThickRoofs".Translate();
+				RoofDef roofDef = base.Map.roofGrid.RoofAt(c);
+				if (roofDef != null && roofDef.isThickRoof)
+				{
+					result = "MessageNothingCanRemoveThickRoofs".Translate();
+				}
+				else
+				{
+					bool flag = ((Area)base.Map.areaManager.NoRoof)[c];
+					result = !flag;
+				}
 			}
-			bool flag = ((Area)base.Map.areaManager.NoRoof)[c];
-			if (this.mode == DesignateMode.Add)
-			{
-				return !flag;
-			}
-			return flag;
+			return result;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)
 		{
-			if (this.mode == DesignateMode.Add)
-			{
-				((Area)base.Map.areaManager.NoRoof)[c] = true;
-				Designator_AreaNoRoof.justAddedCells.Add(c);
-			}
-			else if (this.mode == DesignateMode.Remove)
-			{
-				((Area)base.Map.areaManager.NoRoof)[c] = false;
-				Designator_AreaNoRoof.justRemovedCells.Add(c);
-			}
+			((Area)base.Map.areaManager.NoRoof)[c] = true;
+			Designator_AreaNoRoof.justAddedCells.Add(c);
 		}
 
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();
-			if (this.mode == DesignateMode.Add)
+			for (int i = 0; i < Designator_AreaNoRoof.justAddedCells.Count; i++)
 			{
-				for (int i = 0; i < Designator_AreaNoRoof.justAddedCells.Count; i++)
-				{
-					((Area)base.Map.areaManager.BuildRoof)[Designator_AreaNoRoof.justAddedCells[i]] = false;
-				}
-				Designator_AreaNoRoof.justAddedCells.Clear();
+				((Area)base.Map.areaManager.BuildRoof)[Designator_AreaNoRoof.justAddedCells[i]] = false;
 			}
-			else if (this.mode == DesignateMode.Remove)
-			{
-				for (int j = 0; j < Designator_AreaNoRoof.justRemovedCells.Count; j++)
-				{
-					IntVec3 intVec = Designator_AreaNoRoof.justRemovedCells[j];
-					Room room = intVec.GetRoom(base.Map, RegionType.Set_Passable);
-					if (room == null)
-					{
-						base.Map.autoBuildRoofAreaSetter.TryGenerateAreaOnImpassable(intVec);
-					}
-					else if (!Designator_AreaNoRoof.requestedRooms.Contains(room))
-					{
-						base.Map.autoBuildRoofAreaSetter.TryGenerateAreaFor(room);
-						Designator_AreaNoRoof.requestedRooms.Add(room);
-					}
-				}
-				Designator_AreaNoRoof.justRemovedCells.Clear();
-				Designator_AreaNoRoof.requestedRooms.Clear();
-			}
+			Designator_AreaNoRoof.justAddedCells.Clear();
 		}
 
 		public override void SelectedUpdate()

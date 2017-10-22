@@ -8,7 +8,7 @@ namespace RimWorld
 
 		public const string ScheduledOffSignal = "ScheduledOff";
 
-		private bool intAllowed;
+		private bool intAllowed = false;
 
 		public CompProperties_Schedule Props
 		{
@@ -61,11 +61,7 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			if (!this.Allowed)
-			{
-				return this.Props.offMessage;
-			}
-			return (string)null;
+			return this.Allowed ? null : this.Props.offMessage;
 		}
 	}
 }

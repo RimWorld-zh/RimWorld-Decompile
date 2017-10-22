@@ -1,5 +1,6 @@
 using RimWorld.Planet;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
@@ -21,35 +22,35 @@ namespace Verse
 					if (typeof(T) == typeof(LocalTargetInfo))
 					{
 						lookMode = LookMode.LocalTargetInfo;
-						goto IL_010e;
+						goto IL_0116;
 					}
 					if (typeof(T) == typeof(TargetInfo))
 					{
 						lookMode = LookMode.TargetInfo;
-						goto IL_010e;
+						goto IL_0116;
 					}
 					if (typeof(T) == typeof(GlobalTargetInfo))
 					{
 						lookMode = LookMode.GlobalTargetInfo;
-						goto IL_010e;
+						goto IL_0116;
 					}
 					if (typeof(Def).IsAssignableFrom(typeof(T)))
 					{
 						lookMode = LookMode.Def;
-						goto IL_010e;
+						goto IL_0116;
 					}
 					if (typeof(IExposable).IsAssignableFrom(typeof(T)) && !typeof(ILoadReferenceable).IsAssignableFrom(typeof(T)))
 					{
 						lookMode = LookMode.Deep;
-						goto IL_010e;
+						goto IL_0116;
 					}
 					Log.Error("LookList call with a list of " + typeof(T) + " must have lookMode set explicitly.");
 					return;
 				}
 				lookMode = LookMode.Value;
 			}
-			goto IL_010e;
-			IL_010e:
+			goto IL_0116;
+			IL_0116:
 			if (Scribe.EnterNode(label))
 			{
 				try
@@ -62,62 +63,53 @@ namespace Verse
 						}
 						else
 						{
-							List<T>.Enumerator enumerator = list.GetEnumerator();
-							try
+							foreach (T item7 in list)
 							{
-								while (enumerator.MoveNext())
+								switch (lookMode)
 								{
-									T current = enumerator.Current;
-									switch (lookMode)
-									{
-									case LookMode.Value:
-									{
-										T val = current;
-										Scribe_Values.Look<T>(ref val, "li", default(T), true);
-										break;
-									}
-									case LookMode.LocalTargetInfo:
-									{
-										LocalTargetInfo localTargetInfo = (LocalTargetInfo)(object)current;
-										Scribe_TargetInfo.Look(ref localTargetInfo, saveDestroyedThings, "li");
-										break;
-									}
-									case LookMode.TargetInfo:
-									{
-										TargetInfo targetInfo = (TargetInfo)(object)current;
-										Scribe_TargetInfo.Look(ref targetInfo, saveDestroyedThings, "li");
-										break;
-									}
-									case LookMode.GlobalTargetInfo:
-									{
-										GlobalTargetInfo globalTargetInfo = (GlobalTargetInfo)(object)current;
-										Scribe_TargetInfo.Look(ref globalTargetInfo, saveDestroyedThings, "li");
-										break;
-									}
-									case LookMode.Def:
-									{
-										Def def = (Def)(object)current;
-										Scribe_Defs.Look<Def>(ref def, "li");
-										break;
-									}
-									case LookMode.Deep:
-									{
-										T val2 = current;
-										Scribe_Deep.Look<T>(ref val2, saveDestroyedThings, "li", ctorArgs);
-										break;
-									}
-									case LookMode.Reference:
-									{
-										ILoadReferenceable loadReferenceable = (ILoadReferenceable)(object)current;
-										Scribe_References.Look<ILoadReferenceable>(ref loadReferenceable, "li", saveDestroyedThings);
-										break;
-									}
-									}
+								case LookMode.Value:
+								{
+									T val = item7;
+									Scribe_Values.Look<T>(ref val, "li", default(T), true);
+									break;
 								}
-							}
-							finally
-							{
-								((IDisposable)(object)enumerator).Dispose();
+								case LookMode.LocalTargetInfo:
+								{
+									LocalTargetInfo localTargetInfo = (LocalTargetInfo)(object)item7;
+									Scribe_TargetInfo.Look(ref localTargetInfo, saveDestroyedThings, "li");
+									break;
+								}
+								case LookMode.TargetInfo:
+								{
+									TargetInfo targetInfo = (TargetInfo)(object)item7;
+									Scribe_TargetInfo.Look(ref targetInfo, saveDestroyedThings, "li");
+									break;
+								}
+								case LookMode.GlobalTargetInfo:
+								{
+									GlobalTargetInfo globalTargetInfo = (GlobalTargetInfo)(object)item7;
+									Scribe_TargetInfo.Look(ref globalTargetInfo, saveDestroyedThings, "li");
+									break;
+								}
+								case LookMode.Def:
+								{
+									Def def = (Def)(object)item7;
+									Scribe_Defs.Look<Def>(ref def, "li");
+									break;
+								}
+								case LookMode.Deep:
+								{
+									T val2 = item7;
+									Scribe_Deep.Look<T>(ref val2, saveDestroyedThings, "li", ctorArgs);
+									break;
+								}
+								case LookMode.Reference:
+								{
+									ILoadReferenceable loadReferenceable = (ILoadReferenceable)(object)item7;
+									Scribe_References.Look<ILoadReferenceable>(ref loadReferenceable, "li", saveDestroyedThings);
+									break;
+								}
+								}
 							}
 						}
 					}
@@ -136,30 +128,69 @@ namespace Verse
 							case LookMode.Value:
 							{
 								list = new List<T>(curXmlParent.ChildNodes.Count);
-								foreach (XmlNode childNode in curXmlParent.ChildNodes)
+								IEnumerator enumerator2 = curXmlParent.ChildNodes.GetEnumerator();
+								try
 								{
-									T item = ScribeExtractor.ValueFromNode<T>(childNode, default(T));
-									list.Add(item);
+									while (enumerator2.MoveNext())
+									{
+										XmlNode subNode = (XmlNode)enumerator2.Current;
+										T item = ScribeExtractor.ValueFromNode<T>(subNode, default(T));
+										list.Add(item);
+									}
+								}
+								finally
+								{
+									IDisposable disposable;
+									if ((disposable = (enumerator2 as IDisposable)) != null)
+									{
+										disposable.Dispose();
+									}
 								}
 								break;
 							}
 							case LookMode.Deep:
 							{
 								list = new List<T>(curXmlParent.ChildNodes.Count);
-								foreach (XmlNode childNode2 in curXmlParent.ChildNodes)
+								IEnumerator enumerator3 = curXmlParent.ChildNodes.GetEnumerator();
+								try
 								{
-									T item2 = ScribeExtractor.SaveableFromNode<T>(childNode2, ctorArgs);
-									list.Add(item2);
+									while (enumerator3.MoveNext())
+									{
+										XmlNode subNode2 = (XmlNode)enumerator3.Current;
+										T item2 = ScribeExtractor.SaveableFromNode<T>(subNode2, ctorArgs);
+										list.Add(item2);
+									}
+								}
+								finally
+								{
+									IDisposable disposable2;
+									if ((disposable2 = (enumerator3 as IDisposable)) != null)
+									{
+										disposable2.Dispose();
+									}
 								}
 								break;
 							}
 							case LookMode.Def:
 							{
 								list = new List<T>(curXmlParent.ChildNodes.Count);
-								foreach (XmlNode childNode3 in curXmlParent.ChildNodes)
+								IEnumerator enumerator4 = curXmlParent.ChildNodes.GetEnumerator();
+								try
 								{
-									T item3 = ScribeExtractor.DefFromNodeUnsafe<T>(childNode3);
-									list.Add(item3);
+									while (enumerator4.MoveNext())
+									{
+										XmlNode subNode3 = (XmlNode)enumerator4.Current;
+										T item3 = ScribeExtractor.DefFromNodeUnsafe<T>(subNode3);
+										list.Add(item3);
+									}
+								}
+								finally
+								{
+									IDisposable disposable3;
+									if ((disposable3 = (enumerator4 as IDisposable)) != null)
+									{
+										disposable3.Dispose();
+									}
 								}
 								break;
 							}
@@ -167,12 +198,25 @@ namespace Verse
 							{
 								list = new List<T>(curXmlParent.ChildNodes.Count);
 								int num = 0;
-								foreach (XmlNode childNode4 in curXmlParent.ChildNodes)
+								IEnumerator enumerator5 = curXmlParent.ChildNodes.GetEnumerator();
+								try
 								{
-									LocalTargetInfo localTargetInfo2 = ScribeExtractor.LocalTargetInfoFromNode(childNode4, num.ToString(), LocalTargetInfo.Invalid);
-									T item4 = (T)(object)localTargetInfo2;
-									list.Add(item4);
-									num++;
+									while (enumerator5.MoveNext())
+									{
+										XmlNode node = (XmlNode)enumerator5.Current;
+										LocalTargetInfo localTargetInfo2 = ScribeExtractor.LocalTargetInfoFromNode(node, num.ToString(), LocalTargetInfo.Invalid);
+										T item4 = (T)(object)localTargetInfo2;
+										list.Add(item4);
+										num++;
+									}
+								}
+								finally
+								{
+									IDisposable disposable4;
+									if ((disposable4 = (enumerator5 as IDisposable)) != null)
+									{
+										disposable4.Dispose();
+									}
 								}
 								break;
 							}
@@ -180,12 +224,25 @@ namespace Verse
 							{
 								list = new List<T>(curXmlParent.ChildNodes.Count);
 								int num2 = 0;
-								foreach (XmlNode childNode5 in curXmlParent.ChildNodes)
+								IEnumerator enumerator6 = curXmlParent.ChildNodes.GetEnumerator();
+								try
 								{
-									TargetInfo targetInfo2 = ScribeExtractor.TargetInfoFromNode(childNode5, num2.ToString(), TargetInfo.Invalid);
-									T item5 = (T)(object)targetInfo2;
-									list.Add(item5);
-									num2++;
+									while (enumerator6.MoveNext())
+									{
+										XmlNode node2 = (XmlNode)enumerator6.Current;
+										TargetInfo targetInfo2 = ScribeExtractor.TargetInfoFromNode(node2, num2.ToString(), TargetInfo.Invalid);
+										T item5 = (T)(object)targetInfo2;
+										list.Add(item5);
+										num2++;
+									}
+								}
+								finally
+								{
+									IDisposable disposable5;
+									if ((disposable5 = (enumerator6 as IDisposable)) != null)
+									{
+										disposable5.Dispose();
+									}
 								}
 								break;
 							}
@@ -193,23 +250,49 @@ namespace Verse
 							{
 								list = new List<T>(curXmlParent.ChildNodes.Count);
 								int num3 = 0;
-								foreach (XmlNode childNode6 in curXmlParent.ChildNodes)
+								IEnumerator enumerator7 = curXmlParent.ChildNodes.GetEnumerator();
+								try
 								{
-									GlobalTargetInfo globalTargetInfo2 = ScribeExtractor.GlobalTargetInfoFromNode(childNode6, num3.ToString(), GlobalTargetInfo.Invalid);
-									T item6 = (T)(object)globalTargetInfo2;
-									list.Add(item6);
-									num3++;
+									while (enumerator7.MoveNext())
+									{
+										XmlNode node3 = (XmlNode)enumerator7.Current;
+										GlobalTargetInfo globalTargetInfo2 = ScribeExtractor.GlobalTargetInfoFromNode(node3, num3.ToString(), GlobalTargetInfo.Invalid);
+										T item6 = (T)(object)globalTargetInfo2;
+										list.Add(item6);
+										num3++;
+									}
+								}
+								finally
+								{
+									IDisposable disposable6;
+									if ((disposable6 = (enumerator7 as IDisposable)) != null)
+									{
+										disposable6.Dispose();
+									}
 								}
 								break;
 							}
 							case LookMode.Reference:
 							{
 								List<string> list2 = new List<string>(curXmlParent.ChildNodes.Count);
-								foreach (XmlNode childNode7 in curXmlParent.ChildNodes)
+								IEnumerator enumerator8 = curXmlParent.ChildNodes.GetEnumerator();
+								try
 								{
-									list2.Add(childNode7.InnerText);
+									while (enumerator8.MoveNext())
+									{
+										XmlNode xmlNode = (XmlNode)enumerator8.Current;
+										list2.Add(xmlNode.InnerText);
+									}
 								}
-								Scribe.loader.crossRefs.loadIDs.RegisterLoadIDListReadFromXml(list2, string.Empty);
+								finally
+								{
+									IDisposable disposable7;
+									if ((disposable7 = (enumerator8 as IDisposable)) != null)
+									{
+										disposable7.Dispose();
+									}
+								}
+								Scribe.loader.crossRefs.loadIDs.RegisterLoadIDListReadFromXml(list2, "");
 								break;
 							}
 							}
@@ -221,7 +304,7 @@ namespace Verse
 						{
 						case LookMode.Reference:
 						{
-							list = Scribe.loader.crossRefs.TakeResolvedRefList<T>(string.Empty);
+							list = Scribe.loader.crossRefs.TakeResolvedRefList<T>("");
 							break;
 						}
 						case LookMode.LocalTargetInfo:
@@ -305,19 +388,10 @@ namespace Verse
 					}
 					if (Scribe.mode == LoadSaveMode.Saving)
 					{
-						Dictionary<K, V>.Enumerator enumerator = dict.GetEnumerator();
-						try
+						foreach (KeyValuePair<K, V> item in dict)
 						{
-							while (enumerator.MoveNext())
-							{
-								KeyValuePair<K, V> current = enumerator.Current;
-								keysWorkingList.Add(current.Key);
-								valuesWorkingList.Add(current.Value);
-							}
-						}
-						finally
-						{
-							((IDisposable)(object)enumerator).Dispose();
+							keysWorkingList.Add(item.Key);
+							valuesWorkingList.Add(item.Value);
 						}
 					}
 					Scribe_Collections.Look<K>(ref keysWorkingList, "keys", keyLookMode, new object[0]);
@@ -338,12 +412,12 @@ namespace Verse
 					bool flag = keyLookMode == LookMode.Reference || valueLookMode == LookMode.Reference;
 					if (flag && Scribe.mode == LoadSaveMode.ResolvingCrossRefs)
 					{
-						goto IL_0116;
+						goto IL_0128;
 					}
 					if (!flag && Scribe.mode == LoadSaveMode.LoadingVars)
-						goto IL_0116;
-					goto IL_0277;
-					IL_0116:
+						goto IL_0128;
+					goto IL_0294;
+					IL_0128:
 					dict.Clear();
 					if (keysWorkingList == null)
 					{
@@ -379,8 +453,8 @@ namespace Verse
 							}
 						}
 					}
-					goto IL_0277;
-					IL_0277:
+					goto IL_0294;
+					IL_0294:
 					if (Scribe.mode == LoadSaveMode.PostLoadInit)
 					{
 						if (keysWorkingList != null)
@@ -417,18 +491,9 @@ namespace Verse
 			if (Scribe.mode == LoadSaveMode.Saving && valueHashSet != null)
 			{
 				list = new List<T>();
-				HashSet<T>.Enumerator enumerator = valueHashSet.GetEnumerator();
-				try
+				foreach (T item in valueHashSet)
 				{
-					while (enumerator.MoveNext())
-					{
-						T current = enumerator.Current;
-						list.Add(current);
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					list.Add(item);
 				}
 			}
 			Scribe_Collections.Look<T>(ref list, saveDestroyedThings, label, lookMode, new object[0]);
@@ -466,18 +531,9 @@ namespace Verse
 			if (Scribe.mode == LoadSaveMode.Saving && valueStack != null)
 			{
 				list = new List<T>();
-				Stack<T>.Enumerator enumerator = valueStack.GetEnumerator();
-				try
+				foreach (T item in valueStack)
 				{
-					while (enumerator.MoveNext())
-					{
-						T current = enumerator.Current;
-						list.Add(current);
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					list.Add(item);
 				}
 			}
 			Scribe_Collections.Look<T>(ref list, label, lookMode, new object[0]);

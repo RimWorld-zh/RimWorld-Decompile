@@ -34,6 +34,7 @@ namespace RimWorld
 					if (this.UsableIncidentsInCategory(IncidentCategory.AllyAssistance, target).TryRandomElementByWeight<IncidentDef>((Func<IncidentDef, float>)((IncidentDef d) => d.baseChance), out incident))
 					{
 						yield return new FiringIncident(incident, this, this.GenerateParms(incident.category, target));
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
 			}

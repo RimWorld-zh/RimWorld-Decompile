@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public abstract class CompHasGatherableBodyResource : ThingComp
 	{
-		protected float fullness;
+		protected float fullness = 0f;
 
 		protected abstract int GatherResourcesIntervalDays
 		{
@@ -39,11 +39,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (base.parent.Faction == null)
-				{
-					return false;
-				}
-				return true;
+				return (byte)((base.parent.Faction != null) ? 1 : 0) != 0;
 			}
 		}
 
@@ -51,11 +47,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (!this.Active)
-				{
-					return false;
-				}
-				return this.fullness >= 1.0;
+				return this.Active && this.fullness >= 1.0;
 			}
 		}
 

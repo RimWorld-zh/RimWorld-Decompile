@@ -5,11 +5,11 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class DebugMatsSpectrum
 	{
-		public const int MaterialCount = 100;
-
 		private static readonly Material[] spectrumMatsTranparent;
 
 		private static readonly Material[] spectrumMatsOpaque;
+
+		public const int MaterialCount = 100;
 
 		public static Color[] DebugSpectrum;
 

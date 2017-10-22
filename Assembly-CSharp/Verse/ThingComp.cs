@@ -125,6 +125,10 @@ namespace Verse
 		{
 		}
 
+		public virtual void Notify_SignalReceived(Signal signal)
+		{
+		}
+
 		public override string ToString()
 		{
 			return base.GetType().Name + "(parent=" + this.parent + " at=" + ((this.parent == null) ? IntVec3.Invalid : this.parent.Position) + ")";

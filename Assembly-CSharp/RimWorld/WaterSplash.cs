@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -17,18 +16,9 @@ namespace RimWorld
 					list.Add(item);
 				}
 			}
-			List<Thing>.Enumerator enumerator2 = list.GetEnumerator();
-			try
+			foreach (Thing item2 in list)
 			{
-				while (enumerator2.MoveNext())
-				{
-					Thing current2 = enumerator2.Current;
-					current2.Destroy(DestroyMode.Vanish);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
+				item2.Destroy(DestroyMode.Vanish);
 			}
 		}
 	}

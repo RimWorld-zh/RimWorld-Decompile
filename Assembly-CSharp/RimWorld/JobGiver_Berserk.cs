@@ -18,26 +18,34 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
+			Job result;
 			if (Rand.Value < 0.5)
 			{
 				Job job = new Job(JobDefOf.WaitCombat);
 				job.expiryInterval = 90;
-				return job;
+				result = job;
 			}
-			if (pawn.TryGetAttackVerb(false) == null)
+			else if (pawn.TryGetAttackVerb(false) == null)
 			{
-				return null;
+				result = null;
 			}
-			Pawn pawn2 = this.FindPawnTarget(pawn);
-			if (pawn2 != null)
+			else
 			{
-				Job job2 = new Job(JobDefOf.AttackMelee, (Thing)pawn2);
-				job2.maxNumMeleeAttacks = 1;
-				job2.expiryInterval = Rand.Range(420, 900);
-				job2.canBash = true;
-				return job2;
+				Pawn pawn2 = this.FindPawnTarget(pawn);
+				if (pawn2 != null)
+				{
+					Job job2 = new Job(JobDefOf.AttackMelee, (Thing)pawn2);
+					job2.maxNumMeleeAttacks = 1;
+					job2.expiryInterval = Rand.Range(420, 900);
+					job2.canBash = true;
+					result = job2;
+				}
+				else
+				{
+					result = null;
+				}
 			}
-			return null;
+			return result;
 		}
 
 		private Pawn FindPawnTarget(Pawn pawn)

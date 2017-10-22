@@ -7,11 +7,7 @@ namespace RimWorld
 		public static bool IsBrokenDown(this Thing t)
 		{
 			CompBreakdownable compBreakdownable = t.TryGetComp<CompBreakdownable>();
-			if (compBreakdownable != null)
-			{
-				return compBreakdownable.BrokenDown;
-			}
-			return false;
+			return compBreakdownable != null && compBreakdownable.BrokenDown;
 		}
 	}
 }

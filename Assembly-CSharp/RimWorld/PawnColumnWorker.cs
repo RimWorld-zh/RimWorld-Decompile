@@ -8,9 +8,9 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public abstract class PawnColumnWorker
 	{
-		protected const int DefaultCellHeight = 30;
-
 		public PawnColumnDef def;
+
+		protected const int DefaultCellHeight = 30;
 
 		private static readonly Texture2D SortingIcon = ContentFinder<Texture2D>.Get("UI/Icons/Sorting", true);
 
@@ -82,20 +82,25 @@ namespace RimWorld
 
 		public virtual int GetMinWidth(PawnTable table)
 		{
+			int result;
 			if (!this.def.label.NullOrEmpty())
 			{
 				Text.Font = this.DefaultHeaderFont;
 				Vector2 vector = Text.CalcSize(this.def.LabelCap);
-				int result = Mathf.CeilToInt(vector.x);
+				int num = Mathf.CeilToInt(vector.x);
 				Text.Font = GameFont.Small;
-				return result;
+				result = num;
 			}
-			if ((Object)this.def.HeaderIcon != (Object)null)
+			else if ((Object)this.def.HeaderIcon != (Object)null)
 			{
 				Vector2 headerIconSize = this.def.HeaderIconSize;
-				return Mathf.CeilToInt(headerIconSize.x);
+				result = Mathf.CeilToInt(headerIconSize.x);
 			}
-			return 1;
+			else
+			{
+				result = 1;
+			}
+			return result;
 		}
 
 		public virtual int GetMaxWidth(PawnTable table)
@@ -115,20 +120,25 @@ namespace RimWorld
 
 		public virtual int GetMinHeaderHeight(PawnTable table)
 		{
+			int result;
 			if (!this.def.label.NullOrEmpty())
 			{
 				Text.Font = this.DefaultHeaderFont;
 				Vector2 vector = Text.CalcSize(this.def.LabelCap);
-				int result = Mathf.CeilToInt(vector.y);
+				int num = Mathf.CeilToInt(vector.y);
 				Text.Font = GameFont.Small;
-				return result;
+				result = num;
 			}
-			if ((Object)this.def.HeaderIcon != (Object)null)
+			else if ((Object)this.def.HeaderIcon != (Object)null)
 			{
 				Vector2 headerIconSize = this.def.HeaderIconSize;
-				return Mathf.CeilToInt(headerIconSize.y);
+				result = Mathf.CeilToInt(headerIconSize.y);
 			}
-			return 0;
+			else
+			{
+				result = 0;
+			}
+			return result;
 		}
 
 		public virtual int Compare(Pawn a, Pawn b)

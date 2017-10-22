@@ -11,24 +11,28 @@ namespace Verse.Sound
 		[DefaultValue("UnnamedSubSoundDef")]
 		public string name = "UnnamedSubSoundDef";
 
-		[DefaultValue(false)]
 		[Description("Whether this sound plays on the camera or in the world.\n\nThis must match what the game expects from the sound Def with this name.")]
-		public bool onCamera;
-
 		[DefaultValue(false)]
+		public bool onCamera = false;
+
 		[Description("Whether to mute this subSound while the game is paused (either by the pausing in play or by opening a menu)")]
-		public bool muteWhenPaused;
+		[DefaultValue(false)]
+		public bool muteWhenPaused = false;
+
+		[Description("Whether this subSound's tempo should be affected by the current tick rate.")]
+		[DefaultValue(false)]
+		public bool tempoAffectedByGameSpeed;
 
 		[Description("The sound grains used for this sample. The game will choose one of these randomly when the sound plays. Sustainers choose one for each sample as it begins.")]
 		public List<AudioGrain> grains = new List<AudioGrain>();
 
-		[DefaultFloatRange(50f, 50f)]
 		[EditSliderRange(0f, 100f)]
 		[Description("This sound will play at a random volume inside this range.\n\nSustainers will choose a different random volume for each sample.")]
+		[DefaultFloatRange(50f, 50f)]
 		public FloatRange volumeRange = new FloatRange(50f, 50f);
 
-		[Description("This sound will play at a random pitch inside this range.\n\nSustainers will choose a different random pitch for each sample.")]
 		[EditSliderRange(0.05f, 2f)]
+		[Description("This sound will play at a random pitch inside this range.\n\nSustainers will choose a different random pitch for each sample.")]
 		[DefaultFloatRange(1f, 1f)]
 		public FloatRange pitchRange = FloatRange.One;
 
@@ -49,38 +53,38 @@ namespace Verse.Sound
 		[DefaultEmptyList(typeof(SoundFilter))]
 		public List<SoundFilter> filters = new List<SoundFilter>();
 
-		[DefaultFloatRange(0f, 0f)]
 		[Description("A range of possible times between when this sound is triggered and when it will actually start playing.")]
+		[DefaultFloatRange(0f, 0f)]
 		public FloatRange startDelayRange = FloatRange.Zero;
 
 		[Description("If true, each sample in the sustainer will be looped and ended only after sustainerLoopDurationRange. If not, the sounds will just play once and end after their own length.")]
 		[DefaultValue(true)]
 		public bool sustainLoop = true;
 
-		[DefaultFloatRange(9999f, 9999f)]
 		[EditSliderRange(0f, 10f)]
 		[Description("The range of durations that individual looped samples in the sustainer will have. Each sample ends after a time randomly chosen in this range.\n\nOnly used if the sustainer is looped.")]
+		[DefaultFloatRange(9999f, 9999f)]
 		public FloatRange sustainLoopDurationRange = new FloatRange(9999f, 9999f);
 
-		[DefaultFloatRange(0f, 0f)]
 		[EditSliderRange(-2f, 2f)]
 		[Description("The time between when one sample ends and the next starts.\n\nSet to negative if you wish samples to overlap.")]
 		[LoadAlias("sustainInterval")]
+		[DefaultFloatRange(0f, 0f)]
 		public FloatRange sustainIntervalRange = FloatRange.Zero;
 
+		[EditSliderRange(0f, 2f)]
 		[Description("The fade-in time of each sample. The sample will start at 0 volume and fade in over this number of seconds.")]
 		[DefaultValue(0f)]
-		[EditSliderRange(0f, 2f)]
-		public float sustainAttack;
+		public float sustainAttack = 0f;
 
-		[DefaultValue(true)]
 		[Description("Skip the attack on the first sustainer sample.")]
+		[DefaultValue(true)]
 		public bool sustainSkipFirstAttack = true;
 
-		[DefaultValue(0f)]
-		[Description("The fade-out time of each sample. At this number of seconds before the sample ends, it will start fading out. Its volume will be zero at the moment it finishes fading out.")]
 		[EditSliderRange(0f, 2f)]
-		public float sustainRelease;
+		[Description("The fade-out time of each sample. At this number of seconds before the sample ends, it will start fading out. Its volume will be zero at the moment it finishes fading out.")]
+		[DefaultValue(0f)]
+		public float sustainRelease = 0f;
 
 		[Unsaved]
 		public SoundDef parentDef;
@@ -89,13 +93,13 @@ namespace Verse.Sound
 		private List<ResolvedGrain> resolvedGrains = new List<ResolvedGrain>();
 
 		[Unsaved]
-		private ResolvedGrain lastPlayedResolvedGrain;
+		private ResolvedGrain lastPlayedResolvedGrain = null;
 
 		[Unsaved]
-		private int numToAvoid;
+		private int numToAvoid = 0;
 
 		[Unsaved]
-		private int distinctResolvedGrainsCount;
+		private int distinctResolvedGrainsCount = 0;
 
 		[Unsaved]
 		private Queue<ResolvedGrain> recentlyPlayedResolvedGrains = new Queue<ResolvedGrain>();
@@ -117,14 +121,14 @@ namespace Verse.Sound
 					if (sampleOneShot != null)
 					{
 						SoundSlotManager.Notify_Played(this.parentDef.slot, resolvedGrain_Clip.clip.length);
-						goto IL_00a6;
+						goto IL_00b6;
 					}
 					return;
 				}
-				goto IL_00a6;
+				goto IL_00b6;
 			}
 			return;
-			IL_00a6:
+			IL_00b6:
 			if (this.distinctResolvedGrainsCount > 1)
 			{
 				if (this.repeatMode == RepeatSelectMode.NeverLastHalf)
@@ -148,8 +152,8 @@ namespace Verse.Sound
 		public ResolvedGrain RandomizedResolvedGrain()
 		{
 			ResolvedGrain chosenGrain = null;
-			goto IL_000d;
-			IL_000d:
+			goto IL_000e;
+			IL_000e:
 			while (true)
 			{
 				chosenGrain = this.resolvedGrains.RandomElement();
@@ -171,8 +175,8 @@ namespace Verse.Sound
 				}
 			}
 			return chosenGrain;
-			IL_008f:
-			goto IL_000d;
+			IL_009d:
+			goto IL_000e;
 		}
 
 		public float RandomizedVolume()
@@ -186,21 +190,12 @@ namespace Verse.Sound
 			LongEventHandler.ExecuteWhenFinished((Action)delegate
 			{
 				this.resolvedGrains.Clear();
-				List<AudioGrain>.Enumerator enumerator = this.grains.GetEnumerator();
-				try
+				foreach (AudioGrain grain in this.grains)
 				{
-					while (enumerator.MoveNext())
+					foreach (ResolvedGrain resolvedGrain in grain.GetResolvedGrains())
 					{
-						AudioGrain current = enumerator.Current;
-						foreach (ResolvedGrain resolvedGrain in current.GetResolvedGrains())
-						{
-							this.resolvedGrains.Add(resolvedGrain);
-						}
+						this.resolvedGrains.Add(resolvedGrain);
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
 				}
 				this.distinctResolvedGrainsCount = this.resolvedGrains.Distinct().Count();
 				this.numToAvoid = Mathf.FloorToInt((float)((float)this.distinctResolvedGrainsCount / 2.0));
@@ -216,18 +211,21 @@ namespace Verse.Sound
 			if (this.resolvedGrains.Count == 0)
 			{
 				yield return "No grains resolved.";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.sustainAttack + this.sustainRelease > this.sustainLoopDurationRange.TrueMin)
 			{
 				yield return "Attack + release < min loop duration. Sustain samples will cut off.";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.distRange.min > this.distRange.max)
 			{
 				yield return "Dist range min/max are reversed.";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			List<SoundParameterMapping>.Enumerator enumerator = this.paramMappings.GetEnumerator();
-			try
+			using (List<SoundParameterMapping>.Enumerator enumerator = this.paramMappings.GetEnumerator())
 			{
+				Type neededFilter;
 				while (true)
 				{
 					if (enumerator.MoveNext())
@@ -237,26 +235,25 @@ namespace Verse.Sound
 						{
 							if (mapping.outParam != null)
 							{
-								Type neededFilter = mapping.outParam.NeededFilterType;
+								_003CConfigErrors_003Ec__Iterator0 _003CConfigErrors_003Ec__Iterator = (_003CConfigErrors_003Ec__Iterator0)/*Error near IL_01a0: stateMachine*/;
+								neededFilter = mapping.outParam.NeededFilterType;
 								if (neededFilter != null && !(from fil in this.filters
-								where fil.GetType() == ((_003CConfigErrors_003Ec__Iterator1DF)/*Error near IL_0197: stateMachine*/)._003CneededFilter_003E__2
+								where fil.GetType() == neededFilter
 								select fil).Any())
-								{
-									yield return "A parameter wants to modify the " + neededFilter.ToString() + " filter, but this sound doesn't have it.";
-								}
+									break;
 							}
 							continue;
 						}
-						break;
+						yield return "At least one parameter mapping is missing an in or out parameter.";
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 					yield break;
 				}
-				yield return "At least one parameter mapping is missing an in or out parameter.";
+				yield return "A parameter wants to modify the " + neededFilter.ToString() + " filter, but this sound doesn't have it.";
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
+			IL_0270:
+			/*Error near IL_0271: Unexpected return in MoveNext()*/;
 		}
 
 		public override string ToString()

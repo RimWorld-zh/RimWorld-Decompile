@@ -36,32 +36,22 @@ namespace RimWorld
 
 		protected ThingDef ChooseThingDef()
 		{
-			if (this.forcedDefToScatter != null)
-			{
-				return this.forcedDefToScatter;
-			}
-			return DefDatabase<ThingDef>.AllDefs.RandomElementByWeight((Func<ThingDef, float>)delegate(ThingDef d)
-			{
-				if (d.building == null)
-				{
-					return 0f;
-				}
-				return d.building.mineableScatterCommonality;
-			});
+			return (this.forcedDefToScatter == null) ? DefDatabase<ThingDef>.AllDefs.RandomElementByWeight((Func<ThingDef, float>)((ThingDef d) => (float)((d.building != null) ? d.building.mineableScatterCommonality : 0.0))) : this.forcedDefToScatter;
 		}
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
+			bool result;
 			if (base.NearUsedSpot(c, base.minSpacing))
 			{
-				return false;
+				result = false;
 			}
-			Building edifice = c.GetEdifice(map);
-			if (edifice != null && edifice.def.building.isNaturalRock)
+			else
 			{
-				return true;
+				Building edifice = c.GetEdifice(map);
+				result = ((byte)((edifice != null && edifice.def.building.isNaturalRock) ? 1 : 0) != 0);
 			}
-			return false;
+			return result;
 		}
 
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)

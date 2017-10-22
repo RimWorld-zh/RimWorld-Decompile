@@ -6,7 +6,7 @@ namespace Verse
 {
 	public class Command_Toggle : Command
 	{
-		public Func<bool> isActive;
+		public Func<bool> isActive = null;
 
 		public Action toggleAction;
 
@@ -18,11 +18,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.isActive())
-				{
-					return this.turnOffSound;
-				}
-				return this.turnOnSound;
+				return (!this.isActive()) ? this.turnOnSound : this.turnOffSound;
 			}
 		}
 
@@ -45,11 +41,7 @@ namespace Verse
 		public override bool InheritInteractionsFrom(Gizmo other)
 		{
 			Command_Toggle command_Toggle = other as Command_Toggle;
-			if (command_Toggle != null)
-			{
-				return command_Toggle.isActive() == this.isActive();
-			}
-			return false;
+			return command_Toggle != null && command_Toggle.isActive() == this.isActive();
 		}
 	}
 }

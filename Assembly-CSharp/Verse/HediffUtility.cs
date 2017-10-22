@@ -5,67 +5,79 @@ namespace Verse
 		public static T TryGetComp<T>(this Hediff hd) where T : HediffComp
 		{
 			HediffWithComps hediffWithComps = hd as HediffWithComps;
+			T result;
+			T val;
 			if (hediffWithComps == null)
 			{
-				return (T)null;
+				result = (T)null;
 			}
-			if (hediffWithComps.comps != null)
+			else
 			{
-				for (int i = 0; i < hediffWithComps.comps.Count; i++)
+				if (hediffWithComps.comps != null)
 				{
-					T val = (T)(hediffWithComps.comps[i] as T);
-					if (val != null)
+					for (int i = 0; i < hediffWithComps.comps.Count; i++)
 					{
-						return val;
+						val = (T)(hediffWithComps.comps[i] as T);
+						if (val != null)
+							goto IL_0050;
 					}
 				}
+				result = (T)null;
 			}
-			return (T)null;
+			goto IL_007a;
+			IL_007a:
+			return result;
+			IL_0050:
+			result = val;
+			goto IL_007a;
 		}
 
 		public static bool IsTended(this Hediff hd)
 		{
 			HediffWithComps hediffWithComps = hd as HediffWithComps;
+			bool result;
 			if (hediffWithComps == null)
 			{
-				return false;
+				result = false;
 			}
-			HediffComp_TendDuration hediffComp_TendDuration = hediffWithComps.TryGetComp<HediffComp_TendDuration>();
-			if (hediffComp_TendDuration == null)
+			else
 			{
-				return false;
+				HediffComp_TendDuration hediffComp_TendDuration = hediffWithComps.TryGetComp<HediffComp_TendDuration>();
+				result = (hediffComp_TendDuration != null && hediffComp_TendDuration.IsTended);
 			}
-			return hediffComp_TendDuration.IsTended;
+			return result;
 		}
 
 		public static bool IsOld(this Hediff hd)
 		{
 			HediffWithComps hediffWithComps = hd as HediffWithComps;
+			bool result;
 			if (hediffWithComps == null)
 			{
-				return false;
+				result = false;
 			}
-			HediffComp_GetsOld hediffComp_GetsOld = hediffWithComps.TryGetComp<HediffComp_GetsOld>();
-			if (hediffComp_GetsOld == null)
+			else
 			{
-				return false;
+				HediffComp_GetsOld hediffComp_GetsOld = hediffWithComps.TryGetComp<HediffComp_GetsOld>();
+				result = (hediffComp_GetsOld != null && hediffComp_GetsOld.IsOld);
 			}
-			return hediffComp_GetsOld.IsOld;
+			return result;
 		}
 
 		public static bool FullyImmune(this Hediff hd)
 		{
 			HediffWithComps hediffWithComps = hd as HediffWithComps;
+			bool result;
 			if (hediffWithComps == null)
 			{
-				return false;
+				result = false;
 			}
-			HediffComp_Immunizable hediffComp_Immunizable = hediffWithComps.TryGetComp<HediffComp_Immunizable>();
-			if (hediffComp_Immunizable == null)
+			else
 			{
-				return false;
+				HediffComp_Immunizable hediffComp_Immunizable = hediffWithComps.TryGetComp<HediffComp_Immunizable>();
+				result = (hediffComp_Immunizable != null && hediffComp_Immunizable.FullyImmune);
 			}
-			return hediffComp_Immunizable.FullyImmune;
+			return result;
 		}
 
 		public static bool CanHealFromTending(this Hediff_Injury hd)

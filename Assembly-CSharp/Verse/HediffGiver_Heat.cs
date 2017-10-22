@@ -79,7 +79,7 @@ namespace Verse
 						Find.TickManager.slower.SignalForceNormalSpeed();
 						if (MessagesRepeatAvoider.MessageShowAllowed("PawnBeingBurned", 60f))
 						{
-							Messages.Message("MessagePawnBeingBurned".Translate(pawn.LabelShort).CapitalizeFirst(), (Thing)pawn, MessageSound.SeriousAlert);
+							Messages.Message("MessagePawnBeingBurned".Translate(pawn.LabelShort).CapitalizeFirst(), (Thing)pawn, MessageTypeDefOf.ThreatSmall);
 						}
 					}
 					Lord lord = pawn.GetLord();

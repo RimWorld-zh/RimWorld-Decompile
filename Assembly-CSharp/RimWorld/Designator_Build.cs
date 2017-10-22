@@ -8,17 +8,17 @@ namespace RimWorld
 {
 	public class Designator_Build : Designator_Place
 	{
-		private const float DragPriceDrawNumberX = 29f;
-
 		protected BuildableDef entDef;
 
-		private ThingDef stuffDef;
+		private ThingDef stuffDef = null;
 
-		private bool writeStuff;
+		private bool writeStuff = false;
 
 		private static readonly Vector2 TerrainTextureCroppedSize = new Vector2(64f, 64f);
 
 		private static readonly Vector2 DragPriceDrawOffset = new Vector2(19f, 17f);
+
+		private const float DragPriceDrawNumberX = 29f;
 
 		public override BuildableDef PlacingDef
 		{
@@ -33,11 +33,7 @@ namespace RimWorld
 			get
 			{
 				ThingDef thingDef = this.entDef as ThingDef;
-				if (thingDef != null && this.writeStuff)
-				{
-					return GenLabel.ThingLabel(thingDef, this.stuffDef, 1);
-				}
-				return this.entDef.label;
+				return (thingDef == null || !this.writeStuff) ? this.entDef.label : GenLabel.ThingLabel(thingDef, this.stuffDef, 1);
 			}
 		}
 
@@ -53,11 +49,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.stuffDef != null)
-				{
-					return this.stuffDef.stuffProps.color;
-				}
-				return this.entDef.IconDrawColor;
+				return (this.stuffDef == null) ? this.entDef.IconDrawColor : this.stuffDef.stuffProps.color;
 			}
 		}
 
@@ -65,31 +57,48 @@ namespace RimWorld
 		{
 			get
 			{
+				bool result;
 				if (DebugSettings.godMode)
 				{
-					return true;
+					result = true;
 				}
-				if (this.entDef.researchPrerequisites != null)
+				else if (this.entDef.minTechLevelToBuild != 0 && (int)Faction.OfPlayer.def.techLevel < (int)this.entDef.minTechLevelToBuild)
 				{
-					for (int i = 0; i < this.entDef.researchPrerequisites.Count; i++)
+					result = false;
+				}
+				else if (this.entDef.maxTechLevelToBuild != 0 && (int)Faction.OfPlayer.def.techLevel > (int)this.entDef.maxTechLevelToBuild)
+				{
+					result = false;
+				}
+				else
+				{
+					if (this.entDef.researchPrerequisites != null)
 					{
-						if (!this.entDef.researchPrerequisites[i].IsFinished)
+						for (int i = 0; i < this.entDef.researchPrerequisites.Count; i++)
 						{
-							return false;
+							if (!this.entDef.researchPrerequisites[i].IsFinished)
+								goto IL_00b4;
 						}
 					}
-				}
-				if (this.entDef.buildingPrerequisites != null)
-				{
-					for (int j = 0; j < this.entDef.buildingPrerequisites.Count; j++)
+					if (this.entDef.buildingPrerequisites != null)
 					{
-						if (!base.Map.listerBuildings.ColonistsHaveBuilding(this.entDef.buildingPrerequisites[j]))
+						for (int j = 0; j < this.entDef.buildingPrerequisites.Count; j++)
 						{
-							return false;
+							if (!base.Map.listerBuildings.ColonistsHaveBuilding(this.entDef.buildingPrerequisites[j]))
+								goto IL_0116;
 						}
 					}
+					result = true;
 				}
-				return true;
+				goto IL_0140;
+				IL_00b4:
+				result = false;
+				goto IL_0140;
+				IL_0116:
+				result = false;
+				goto IL_0140;
+				IL_0140:
+				return result;
 			}
 		}
 
@@ -125,6 +134,7 @@ namespace RimWorld
 		{
 			this.entDef = entDef;
 			base.icon = entDef.uiIcon;
+			base.iconAngle = entDef.uiIconAngle;
 			base.hotKey = entDef.designationHotKey;
 			base.tutorTag = entDef.defName;
 			ThingDef thingDef = entDef as ThingDef;
@@ -204,35 +214,26 @@ namespace RimWorld
 				else
 				{
 					List<FloatMenuOption> list = new List<FloatMenuOption>();
-					Dictionary<ThingDef, int>.KeyCollection.Enumerator enumerator = base.Map.resourceCounter.AllCountedAmounts.Keys.GetEnumerator();
-					try
+					foreach (ThingDef key in base.Map.resourceCounter.AllCountedAmounts.Keys)
 					{
-						while (enumerator.MoveNext())
+						if (key.IsStuff && key.stuffProps.CanMake(thingDef) && (DebugSettings.godMode || base.Map.listerThings.ThingsOfDef(key).Count > 0))
 						{
-							ThingDef current = enumerator.Current;
-							if (current.IsStuff && current.stuffProps.CanMake(thingDef) && (DebugSettings.godMode || base.Map.listerThings.ThingsOfDef(current).Count > 0))
+							ThingDef localStuffDef = key;
+							string labelCap = localStuffDef.LabelCap;
+							FloatMenuOption floatMenuOption = new FloatMenuOption(labelCap, (Action)delegate()
 							{
-								ThingDef localStuffDef = current;
-								string labelCap = localStuffDef.LabelCap;
-								FloatMenuOption floatMenuOption = new FloatMenuOption(labelCap, (Action)delegate()
-								{
-									base.ProcessInput(ev);
-									Find.DesignatorManager.Select(this);
-									this.stuffDef = localStuffDef;
-									this.writeStuff = true;
-								}, MenuOptionPriority.Default, null, null, 0f, null, null);
-								floatMenuOption.tutorTag = "SelectStuff-" + thingDef.defName + "-" + localStuffDef.defName;
-								list.Add(floatMenuOption);
-							}
+								this._003CProcessInput_003E__BaseCallProxy0(ev);
+								Find.DesignatorManager.Select(this);
+								this.stuffDef = localStuffDef;
+								this.writeStuff = true;
+							}, MenuOptionPriority.Default, null, null, 0f, null, null);
+							floatMenuOption.tutorTag = "SelectStuff-" + thingDef.defName + "-" + localStuffDef.defName;
+							list.Add(floatMenuOption);
 						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
 					}
 					if (list.Count == 0)
 					{
-						Messages.Message("NoStuffsToBuildWith".Translate(), MessageSound.RejectInput);
+						Messages.Message("NoStuffsToBuildWith".Translate(), MessageTypeDefOf.RejectInput);
 					}
 					else
 					{
@@ -303,6 +304,15 @@ namespace RimWorld
 			{
 				this.stuffDef = null;
 			}
+			ThingDef thingDef = this.entDef as ThingDef;
+			if (thingDef != null)
+			{
+				Widgets.InfoCardButton((float)(width - 24.0 - 6.0), 6f, thingDef, this.stuffDef);
+			}
+			else
+			{
+				Widgets.InfoCardButton((float)(width - 24.0 - 6.0), 6f, this.entDef);
+			}
 			Text.Font = GameFont.Tiny;
 			List<ThingCountClass> list = this.entDef.CostListAdjusted(this.stuffDef, false);
 			for (int i = 0; i < list.Count; i++)
@@ -333,16 +343,13 @@ namespace RimWorld
 				Widgets.Label(new Rect(60f, (float)(curY + 2.0), width2, num), text);
 				curY += num;
 			}
-			ThingDef thingDef = this.entDef as ThingDef;
-			if (thingDef != null)
+			if (this.entDef.constructionSkillPrerequisite > 0)
 			{
-				Widgets.InfoCardButton(0f, curY, thingDef, this.stuffDef);
+				Text.Font = GameFont.Tiny;
+				Rect rect = new Rect(0f, (float)(curY + 2.0), width, 24f);
+				Widgets.Label(rect, string.Format("{0}: {1}", "ConstructionNeeded".Translate(), this.entDef.constructionSkillPrerequisite));
+				curY += 18f;
 			}
-			else
-			{
-				Widgets.InfoCardButton(0f, curY, this.entDef);
-			}
-			curY += 24f;
 		}
 
 		public void SetStuffDef(ThingDef stuffDef)

@@ -43,10 +43,10 @@ namespace RimWorld
 
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
-			if (tag == this.IncidentTag)
-			{
-				yield return this.incident.LabelCap;
-			}
+			if (!(tag == this.IncidentTag))
+				yield break;
+			yield return this.incident.LabelCap;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override void Randomize()
@@ -57,21 +57,13 @@ namespace RimWorld
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_IncidentBase scenPart_IncidentBase = other as ScenPart_IncidentBase;
-			if (scenPart_IncidentBase != null && scenPart_IncidentBase.Incident == this.incident)
-			{
-				return true;
-			}
-			return false;
+			return (byte)((scenPart_IncidentBase != null && scenPart_IncidentBase.Incident == this.incident) ? 1 : 0) != 0;
 		}
 
 		public override bool CanCoexistWith(ScenPart other)
 		{
 			ScenPart_IncidentBase scenPart_IncidentBase = other as ScenPart_IncidentBase;
-			if (scenPart_IncidentBase != null && scenPart_IncidentBase.Incident == this.incident)
-			{
-				return false;
-			}
-			return true;
+			return (byte)((scenPart_IncidentBase == null || scenPart_IncidentBase.Incident != this.incident) ? 1 : 0) != 0;
 		}
 
 		protected virtual IEnumerable<IncidentDef> RandomizableIncidents()

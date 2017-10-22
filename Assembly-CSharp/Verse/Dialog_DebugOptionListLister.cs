@@ -15,26 +15,31 @@ namespace Verse
 
 		protected override void DoListingItems()
 		{
-			List<DebugMenuOption>.Enumerator enumerator = this.options.GetEnumerator();
-			try
+			foreach (DebugMenuOption option in this.options)
 			{
-				while (enumerator.MoveNext())
+				DebugMenuOption current = option;
+				if (current.mode == DebugMenuOptionMode.Action)
 				{
-					DebugMenuOption current = enumerator.Current;
-					if (current.mode == DebugMenuOptionMode.Action)
-					{
-						base.DebugAction(current.label, current.method);
-					}
-					if (current.mode == DebugMenuOptionMode.Tool)
-					{
-						base.DebugToolMap(current.label, current.method);
-					}
+					base.DebugAction(current.label, current.method);
+				}
+				if (current.mode == DebugMenuOptionMode.Tool)
+				{
+					base.DebugToolMap(current.label, current.method);
 				}
 			}
-			finally
+		}
+
+		public static void ShowSimpleDebugMenu<T>(IEnumerable<T> elements, Func<T, string> label, Action<T> chosen)
+		{
+			List<DebugMenuOption> list = new List<DebugMenuOption>();
+			foreach (T item in elements)
 			{
-				((IDisposable)(object)enumerator).Dispose();
+				list.Add(new DebugMenuOption(label(item), DebugMenuOptionMode.Action, (Action)delegate()
+				{
+					chosen((T)item);
+				}));
 			}
+			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 	}
 }

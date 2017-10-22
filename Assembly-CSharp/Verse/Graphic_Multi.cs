@@ -18,7 +18,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.mats[2];
+				return this.MatFront;
 			}
 		}
 

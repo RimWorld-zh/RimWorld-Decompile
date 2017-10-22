@@ -5,11 +5,11 @@ namespace RimWorld
 {
 	public class GameCondition_ClimateCycle : GameCondition
 	{
+		private int ticksOffset = 0;
+
 		private const float PeriodYears = 4f;
 
 		private const float MaxTempOffset = 20f;
-
-		private int ticksOffset;
 
 		public override void Init()
 		{

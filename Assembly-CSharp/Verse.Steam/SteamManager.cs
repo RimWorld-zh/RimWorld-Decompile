@@ -9,7 +9,7 @@ namespace Verse.Steam
 	{
 		private static SteamAPIWarningMessageHook_t steamAPIWarningMessageHook;
 
-		private static bool initializedInt;
+		private static bool initializedInt = false;
 
 		public static bool Initialized
 		{
@@ -52,7 +52,6 @@ namespace Verse.Steam
 					Log.Error("[Steamworks.NET] Could not load [lib]steam_api.dll/so/dylib. It's likely not in the correct location. Refer to the README for more details.\n" + arg);
 					Application.Quit();
 					return;
-					IL_006c:;
 				}
 				SteamManager.initializedInt = SteamAPI.Init();
 				if (!SteamManager.initializedInt)

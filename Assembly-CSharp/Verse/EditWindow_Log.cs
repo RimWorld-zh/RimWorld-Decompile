@@ -6,6 +6,22 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public class EditWindow_Log : EditWindow
 	{
+		private static LogMessage selectedMessage = null;
+
+		private static Vector2 messagesScrollPosition;
+
+		private static Vector2 detailsScrollPosition;
+
+		private float listingViewHeight;
+
+		private static float detailsPaneHeight = 100f;
+
+		private bool borderDragging = false;
+
+		private static bool canAutoOpen = true;
+
+		public static bool wantsToOpen = false;
+
 		private const float CountWidth = 28f;
 
 		private const float Yinc = 25f;
@@ -19,22 +35,6 @@ namespace Verse
 		private const float TopAreaHeight = 26f;
 
 		private const float MessageMaxHeight = 30f;
-
-		private static LogMessage selectedMessage = null;
-
-		private static Vector2 messagesScrollPosition;
-
-		private static Vector2 detailsScrollPosition;
-
-		private float listingViewHeight;
-
-		private static float detailsPaneHeight = 100f;
-
-		private bool borderDragging;
-
-		private static bool canAutoOpen = true;
-
-		public static bool wantsToOpen = false;
 
 		private static readonly Texture2D AltMessageTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.17f, 0.17f, 0.17f, 0.85f));
 
@@ -135,12 +135,12 @@ namespace Verse
 			}
 			if (EditWindow_Log.canAutoOpen)
 			{
-				if (widgetRow.ButtonText("Auto-open is ON", string.Empty, true, false))
+				if (widgetRow.ButtonText("Auto-open is ON", "", true, false))
 				{
 					EditWindow_Log.canAutoOpen = false;
 				}
 			}
-			else if (widgetRow.ButtonText("Auto-open is OFF", string.Empty, true, false))
+			else if (widgetRow.ButtonText("Auto-open is OFF", "", true, false))
 			{
 				EditWindow_Log.canAutoOpen = true;
 			}

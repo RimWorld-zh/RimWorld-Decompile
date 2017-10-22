@@ -77,7 +77,6 @@ namespace Verse
 
 		private static bool CheckCollapseFlyingRoofAtAndAdjInternal(IntVec3 root, Map map, bool removalMode)
 		{
-			ProfilerThreadCheck.BeginSample("CheckCollapseFlyingRoofAtInternal()");
 			RoofCollapseBuffer roofCollapseBuffer = map.roofCollapseBuffer;
 			if (removalMode && roofCollapseBuffer.CellsMarkedToCollapse.Count > 0)
 			{
@@ -86,12 +85,12 @@ namespace Verse
 			for (int i = 0; i < 5; i++)
 			{
 				IntVec3 intVec = root + GenAdj.CardinalDirectionsAndInside[i];
-				if (intVec.InBounds(map) && intVec.Roofed(map) && !RoofCollapseCellsFinder.visitedCells.Contains(intVec) && !roofCollapseBuffer.IsMarkedToCollapse(intVec) && !RoofCollapseCellsFinder.ConnectsToRoofHolder(intVec, map))
+				if (intVec.InBounds(map) && intVec.Roofed(map) && !RoofCollapseCellsFinder.visitedCells.Contains(intVec) && !roofCollapseBuffer.IsMarkedToCollapse(intVec) && !RoofCollapseCellsFinder.ConnectsToRoofHolder(intVec, map, RoofCollapseCellsFinder.visitedCells))
 				{
 					map.floodFiller.FloodFill(intVec, (Predicate<IntVec3>)((IntVec3 x) => x.Roofed(map)), (Action<IntVec3>)delegate(IntVec3 x)
 					{
 						roofCollapseBuffer.MarkToCollapse(x);
-					}, false);
+					}, 2147483647, false, null);
 					if (removalMode)
 					{
 						for (int j = 0; j < roofCollapseBuffer.CellsMarkedToCollapse.Count; j++)
@@ -102,22 +101,21 @@ namespace Verse
 					}
 				}
 			}
-			ProfilerThreadCheck.EndSample();
 			return false;
 		}
 
-		private static bool ConnectsToRoofHolder(IntVec3 c, Map map)
+		public static bool ConnectsToRoofHolder(IntVec3 c, Map map, HashSet<IntVec3> visitedCells)
 		{
 			bool connected = false;
 			map.floodFiller.FloodFill(c, (Predicate<IntVec3>)((IntVec3 x) => x.Roofed(map) && !connected), (Action<IntVec3>)delegate(IntVec3 x)
 			{
-				if (RoofCollapseCellsFinder.visitedCells.Contains(x))
+				if (visitedCells.Contains(x))
 				{
 					connected = true;
 				}
 				else
 				{
-					RoofCollapseCellsFinder.visitedCells.Add(x);
+					visitedCells.Add(x);
 					int num = 0;
 					while (true)
 					{
@@ -137,7 +135,7 @@ namespace Verse
 					}
 					connected = true;
 				}
-			}, false);
+			}, 2147483647, false, null);
 			return connected;
 		}
 	}

@@ -65,12 +65,11 @@ namespace RimWorld
 				where t is Pawn
 				select t).Cast<Pawn>().ToList();
 				IEnumerable<Pawn> enumerable = from p in source
-				where p.RaceProps.Humanlike && p.GetLord() == null && p.Faction.def == FactionDefOf.SpacerHostile
+				where p.RaceProps.Humanlike && p.GetLord() == null && p.Faction == Faction.OfSpacerHostile
 				select p;
 				if (enumerable.Any())
 				{
-					Faction faction = Find.FactionManager.FirstFactionOfDef(FactionDefOf.SpacerHostile);
-					LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction, false, false, false, false, false), base.Map, enumerable);
+					LordMaker.MakeNewLord(Faction.OfSpacerHostile, new LordJob_AssaultColony(Faction.OfSpacerHostile, false, false, false, false, false), base.Map, enumerable);
 				}
 			}
 		}
@@ -78,26 +77,7 @@ namespace RimWorld
 		private IEnumerable<Building_AncientCryptosleepCasket> UnopenedCasketsInGroup()
 		{
 			yield return this;
-			if (this.groupID != -1)
-			{
-				List<Thing>.Enumerator enumerator = base.Map.listerThings.ThingsOfDef(ThingDefOf.AncientCryptosleepCasket).GetEnumerator();
-				try
-				{
-					while (enumerator.MoveNext())
-					{
-						Thing t = enumerator.Current;
-						Building_AncientCryptosleepCasket casket = t as Building_AncientCryptosleepCasket;
-						if (casket.groupID == this.groupID && !casket.contentsKnown)
-						{
-							yield return casket;
-						}
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
-				}
-			}
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

@@ -20,9 +20,22 @@ namespace Verse
 				MethodInfo getMethod = property.GetGetMethod();
 				IEnumerable enumerable = (IEnumerable)getMethod.Invoke(null, null);
 				list.Clear();
-				foreach (Def item3 in enumerable)
+				IEnumerator enumerator2 = enumerable.GetEnumerator();
+				try
 				{
-					list.Add(item3);
+					while (enumerator2.MoveNext())
+					{
+						Def item = (Def)enumerator2.Current;
+						list.Add(item);
+					}
+				}
+				finally
+				{
+					IDisposable disposable;
+					if ((disposable = (enumerator2 as IDisposable)) != null)
+					{
+						disposable.Dispose();
+					}
 				}
 				list.SortBy((Func<Def, string>)((Def d) => d.defName));
 				for (int i = 0; i < list.Count; i++)

@@ -7,42 +7,52 @@ namespace RimWorld
 {
 	public class GenStep_ItemStash : GenStep_Scatterer
 	{
-		private const int Radius = 3;
-
 		public List<ItemCollectionGeneratorDef> itemCollectionGeneratorDefs;
 
 		public FloatRange totalValueRange = new FloatRange(1000f, 2000f);
 
+		private const int Size = 7;
+
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
+			bool result;
 			if (!base.CanScatterAt(c, map))
 			{
-				return false;
+				result = false;
 			}
-			if (!c.SupportsStructureType(map, TerrainAffordance.Heavy))
+			else if (!c.SupportsStructureType(map, TerrainAffordance.Heavy))
 			{
-				return false;
+				result = false;
 			}
-			if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
+			else if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
 			{
-				return false;
+				result = false;
 			}
-			CellRect.CellRectIterator iterator = CellRect.CenteredOn(c, 3).GetIterator();
-			while (!iterator.Done())
+			else
 			{
-				if (iterator.Current.InBounds(map) && iterator.Current.GetEdifice(map) == null)
+				CellRect.CellRectIterator iterator = CellRect.CenteredOn(c, 7, 7).GetIterator();
+				while (!iterator.Done())
 				{
-					iterator.MoveNext();
-					continue;
+					if (iterator.Current.InBounds(map) && iterator.Current.GetEdifice(map) == null)
+					{
+						iterator.MoveNext();
+						continue;
+					}
+					goto IL_0084;
 				}
-				return false;
+				result = true;
 			}
-			return true;
+			goto IL_00a6;
+			IL_0084:
+			result = false;
+			goto IL_00a6;
+			IL_00a6:
+			return result;
 		}
 
 		protected override void ScatterAt(IntVec3 loc, Map map, int count = 1)
 		{
-			CellRect cellRect = CellRect.CenteredOn(loc, 3).ClipInsideMap(map);
+			CellRect cellRect = CellRect.CenteredOn(loc, 7, 7).ClipInsideMap(map);
 			ResolveParams resolveParams = new ResolveParams
 			{
 				rect = cellRect,

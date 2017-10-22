@@ -19,14 +19,24 @@ namespace RimWorld
 
 		public PawnCapacityDef MissingRequiredCapacity(Pawn pawn)
 		{
-			for (int i = 0; i < this.def.requiredCapacities.Count; i++)
+			int num = 0;
+			PawnCapacityDef result;
+			while (true)
 			{
-				if (!pawn.health.capacities.CapableOf(this.def.requiredCapacities[i]))
+				if (num < this.def.requiredCapacities.Count)
 				{
-					return this.def.requiredCapacities[i];
+					if (!pawn.health.capacities.CapableOf(this.def.requiredCapacities[num]))
+					{
+						result = this.def.requiredCapacities[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 	}
 }

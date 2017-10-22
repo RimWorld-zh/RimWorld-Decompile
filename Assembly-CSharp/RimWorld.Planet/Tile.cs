@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Verse;
 
 namespace RimWorld.Planet
 {
@@ -20,19 +21,23 @@ namespace RimWorld.Planet
 
 		public const int Invalid = -1;
 
-		public BiomeDef biome;
+		public BiomeDef biome = null;
 
 		public float elevation = 100f;
 
-		public Hilliness hilliness;
+		public Hilliness hilliness = Hilliness.Undefined;
 
 		public float temperature = 20f;
 
-		public float rainfall;
+		public float rainfall = 0f;
 
-		public List<RoadLink> roads;
+		public float swampiness;
 
-		public List<RiverLink> rivers;
+		public WorldFeature feature;
+
+		public List<RoadLink> roads = null;
+
+		public List<RiverLink> rivers = null;
 
 		public bool WaterCovered
 		{
@@ -60,7 +65,7 @@ namespace RimWorld.Planet
 
 		public override string ToString()
 		{
-			return "(" + this.biome + " elev=" + this.elevation + "m hill=" + this.hilliness + " temp=" + this.temperature + "°C rain=" + this.rainfall + "mm roads=" + ((this.roads != null) ? this.roads.Count : 0) + " rivers=" + ((this.rivers != null) ? this.rivers.Count : 0) + ")";
+			return "(" + this.biome + " elev=" + this.elevation + "m hill=" + this.hilliness + " temp=" + this.temperature + "°C rain=" + this.rainfall + "mm swampiness=" + this.swampiness.ToStringPercent() + " roads=" + ((this.roads != null) ? this.roads.Count : 0) + " rivers=" + ((this.rivers != null) ? this.rivers.Count : 0) + ")";
 		}
 	}
 }

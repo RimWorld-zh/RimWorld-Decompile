@@ -4,11 +4,11 @@ namespace Verse
 {
 	public abstract class Gizmo
 	{
-		public const float Height = 75f;
-
 		public bool disabled;
 
 		public string disabledReason;
+
+		public const float Height = 75f;
 
 		public abstract float Width
 		{

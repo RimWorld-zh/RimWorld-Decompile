@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.Sound;
 
@@ -10,6 +11,9 @@ namespace RimWorld
 		private static List<Sustainer> biomeAmbientSustainers = new List<Sustainer>();
 
 		private static Action recreateMapSustainers = new Action(AmbientSoundManager.RecreateMapSustainers);
+
+		[CompilerGenerated]
+		private static Action _003C_003Ef__mg_0024cache0;
 
 		private static bool WorldAmbientSoundCreated
 		{

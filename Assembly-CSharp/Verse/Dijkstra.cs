@@ -85,20 +85,18 @@ namespace Verse
 					}
 				}
 			}
-			Dictionary<T, float>.Enumerator enumerator3 = Dijkstra<T>.distances.GetEnumerator();
-			try
+			foreach (KeyValuePair<T, float> distance in Dijkstra<T>.distances)
 			{
-				while (enumerator3.MoveNext())
-				{
-					KeyValuePair<T, float> current3 = enumerator3.Current;
-					outDistances.Add(current3);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator3).Dispose();
+				outDistances.Add(distance);
 			}
 			Dijkstra<T>.distances.Clear();
+		}
+
+		public static void Run(T startingNode, Func<T, IEnumerable<T>> neighborsGetter, Func<T, T, float> distanceGetter, ref Dictionary<T, float> outDistances)
+		{
+			Dijkstra<T>.singleNodeList.Clear();
+			Dijkstra<T>.singleNodeList.Add(startingNode);
+			Dijkstra<T>.Run((IEnumerable<T>)Dijkstra<T>.singleNodeList, neighborsGetter, distanceGetter, ref outDistances);
 		}
 
 		public static void Run(IEnumerable<T> startingNodes, Func<T, IEnumerable<T>> neighborsGetter, Func<T, T, float> distanceGetter, ref Dictionary<T, float> outDistances)

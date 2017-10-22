@@ -6,6 +6,7 @@ namespace Verse.AI.Group
 	{
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
+			bool result;
 			if (signal.type == TriggerSignalType.PawnLost)
 			{
 				int num = 0;
@@ -17,11 +18,20 @@ namespace Verse.AI.Group
 						num++;
 						continue;
 					}
-					return false;
+					goto IL_0037;
 				}
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			goto IL_0062;
+			IL_0062:
+			return result;
+			IL_0037:
+			result = false;
+			goto IL_0062;
 		}
 	}
 }

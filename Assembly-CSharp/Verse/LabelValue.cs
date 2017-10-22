@@ -24,6 +24,7 @@ namespace Verse
 
 		public LabelValue(string label, string value)
 		{
+			this = default(LabelValue);
 			this.label = label;
 			this.value = value;
 		}

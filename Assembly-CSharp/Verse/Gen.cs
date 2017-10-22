@@ -1,5 +1,6 @@
 using RimWorld.Planet;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,11 +12,7 @@ namespace Verse
 		public static Vector3 TrueCenter(this Thing t)
 		{
 			Pawn pawn = t as Pawn;
-			if (pawn != null)
-			{
-				return pawn.Drawer.DrawPos;
-			}
-			return Gen.TrueCenter(t.Position, t.Rotation, t.def.size, t.def.Altitude);
+			return (pawn == null) ? Gen.TrueCenter(t.Position, t.Rotation, t.def.size, t.def.Altitude) : pawn.Drawer.DrawPos;
 		}
 
 		public static Vector3 TrueCenter(IntVec3 loc, Rot4 rotation, IntVec2 thingSize, float altitude)
@@ -104,7 +101,7 @@ namespace Verse
 		public static int GetBitCountOf(long lValue)
 		{
 			int num = 0;
-			while (lValue != 0L)
+			while (lValue != 0)
 			{
 				lValue &= lValue - 1;
 				num++;
@@ -115,19 +112,42 @@ namespace Verse
 		public static IEnumerable<T> GetAllSelectedItems<T>(this Enum value)
 		{
 			int valueAsInt = Convert.ToInt32(value);
-			foreach (object value2 in Enum.GetValues(typeof(T)))
+			IEnumerator enumerator = Enum.GetValues(typeof(T)).GetEnumerator();
+			try
 			{
-				int itemAsInt = Convert.ToInt32(value2);
-				if (itemAsInt == (valueAsInt & itemAsInt))
+				object item;
+				while (true)
 				{
-					yield return (T)value2;
+					if (enumerator.MoveNext())
+					{
+						item = enumerator.Current;
+						int itemAsInt = Convert.ToInt32(item);
+						if (itemAsInt == (valueAsInt & itemAsInt))
+							break;
+						continue;
+					}
+					yield break;
+				}
+				yield return (T)item;
+				/*Error: Unable to find new state assignment for yield return*/;
+			}
+			finally
+			{
+				IDisposable disposable;
+				IDisposable disposable2 = disposable = (enumerator as IDisposable);
+				if (disposable != null)
+				{
+					disposable2.Dispose();
 				}
 			}
+			IL_0110:
+			/*Error near IL_0111: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<T> YieldSingle<T>(T val)
 		{
 			yield return val;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public static string ToStringSafe<T>(this T obj)
@@ -139,18 +159,92 @@ namespace Verse
 			try
 			{
 				return obj.ToString();
-				IL_0024:
-				string result;
-				return result;
 			}
 			catch (Exception arg)
 			{
-				Log.Warning("Exception in ToString(): " + arg);
+				int num = 0;
+				bool flag = false;
+				try
+				{
+					num = obj.GetHashCode();
+					flag = true;
+				}
+				catch
+				{
+				}
+				if (flag)
+				{
+					Log.ErrorOnce("Exception in ToString(): " + arg, num ^ 1857461521);
+				}
+				else
+				{
+					Log.Error("Exception in ToString(): " + arg);
+				}
 				return "error";
-				IL_0045:
-				string result;
-				return result;
 			}
+		}
+
+		public static string ToStringSafeEnumerable(this IEnumerable enumerable)
+		{
+			if (enumerable == null)
+			{
+				return "null";
+			}
+			try
+			{
+				string text = "";
+				IEnumerator enumerator = enumerable.GetEnumerator();
+				try
+				{
+					while (enumerator.MoveNext())
+					{
+						object current = enumerator.Current;
+						if (text.Length > 0)
+						{
+							text += ", ";
+						}
+						text += current.ToStringSafe();
+					}
+				}
+				finally
+				{
+					IDisposable disposable;
+					if ((disposable = (enumerator as IDisposable)) != null)
+					{
+						disposable.Dispose();
+					}
+				}
+				return text;
+			}
+			catch (Exception arg)
+			{
+				int num = 0;
+				bool flag = false;
+				try
+				{
+					num = enumerable.GetHashCode();
+					flag = true;
+				}
+				catch
+				{
+				}
+				if (flag)
+				{
+					Log.ErrorOnce("Exception while enumerating: " + arg, num ^ 581736153);
+				}
+				else
+				{
+					Log.Error("Exception while enumerating: " + arg);
+				}
+				return "error";
+			}
+		}
+
+		public static void Swap<T>(ref T x, ref T y)
+		{
+			T val = y;
+			y = x;
+			x = val;
 		}
 
 		public static int HashCombine<T>(int seed, T obj)

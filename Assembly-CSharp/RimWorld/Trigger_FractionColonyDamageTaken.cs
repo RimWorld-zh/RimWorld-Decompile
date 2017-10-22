@@ -34,12 +34,17 @@ namespace RimWorld
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
+			bool result;
 			if (signal.type == TriggerSignalType.Tick)
 			{
 				float num = Mathf.Max((float)lord.initialColonyHealthTotal * this.desiredColonyDamageFraction, this.minDamage);
-				return lord.Map.damageWatcher.DamageTakenEver > this.Data.startColonyDamage + num;
+				result = (lord.Map.damageWatcher.DamageTakenEver > this.Data.startColonyDamage + num);
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 	}
 }

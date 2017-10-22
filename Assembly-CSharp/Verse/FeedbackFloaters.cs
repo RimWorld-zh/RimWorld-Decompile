@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -26,18 +25,9 @@ namespace Verse
 
 		public void FeedbackOnGUI()
 		{
-			List<FeedbackItem>.Enumerator enumerator = this.feeders.GetEnumerator();
-			try
+			foreach (FeedbackItem feeder in this.feeders)
 			{
-				while (enumerator.MoveNext())
-				{
-					FeedbackItem current = enumerator.Current;
-					current.FeedbackOnGUI();
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				feeder.FeedbackOnGUI();
 			}
 		}
 	}

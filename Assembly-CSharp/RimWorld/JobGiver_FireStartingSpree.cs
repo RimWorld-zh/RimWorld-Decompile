@@ -7,9 +7,9 @@ namespace RimWorld
 {
 	internal class JobGiver_FireStartingSpree : ThinkNode_JobGiver
 	{
-		private const float FireStartChance = 0.75f;
-
 		private IntRange waitTicks = new IntRange(80, 140);
+
+		private const float FireStartChance = 0.75f;
 
 		private static List<Thing> potentialTargets = new List<Thing>();
 
@@ -22,54 +22,67 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
+			Job result;
 			if (pawn.mindState.nextMoveOrderIsWait)
 			{
 				Job job = new Job(JobDefOf.WaitWander);
 				job.expiryInterval = this.waitTicks.RandomInRange;
 				pawn.mindState.nextMoveOrderIsWait = false;
-				return job;
+				result = job;
 			}
-			if (Rand.Value < 0.75)
+			else
 			{
-				Thing thing = this.TryFindRandomIgniteTarget(pawn);
-				if (thing != null)
+				if (Rand.Value < 0.75)
+				{
+					Thing thing = this.TryFindRandomIgniteTarget(pawn);
+					if (thing != null)
+					{
+						pawn.mindState.nextMoveOrderIsWait = true;
+						result = new Job(JobDefOf.Ignite, thing);
+						goto IL_00e6;
+					}
+				}
+				IntVec3 intVec = RCellFinder.RandomWanderDestFor(pawn, pawn.Position, 10f, null, Danger.Deadly);
+				if (intVec.IsValid)
 				{
 					pawn.mindState.nextMoveOrderIsWait = true;
-					return new Job(JobDefOf.Ignite, thing);
+					Job job2 = new Job(JobDefOf.GotoWander, intVec);
+					pawn.Map.pawnDestinationReservationManager.Reserve(pawn, job2, intVec);
+					result = job2;
+				}
+				else
+				{
+					result = null;
 				}
 			}
-			IntVec3 intVec = RCellFinder.RandomWanderDestFor(pawn, pawn.Position, 10f, null, Danger.Deadly);
-			if (intVec.IsValid)
-			{
-				pawn.mindState.nextMoveOrderIsWait = true;
-				pawn.Map.pawnDestinationManager.ReserveDestinationFor(pawn, intVec);
-				return new Job(JobDefOf.GotoWander, intVec);
-			}
-			return null;
+			goto IL_00e6;
+			IL_00e6:
+			return result;
 		}
 
 		private Thing TryFindRandomIgniteTarget(Pawn pawn)
 		{
 			Region region = default(Region);
+			Thing result;
 			if (!CellFinder.TryFindClosestRegionWith(pawn.GetRegion(RegionType.Set_Passable), TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), (Predicate<Region>)((Region candidateRegion) => !candidateRegion.IsForbiddenEntirely(pawn)), 100, out region, RegionType.Set_Passable))
 			{
-				return null;
+				result = null;
 			}
-			JobGiver_FireStartingSpree.potentialTargets.Clear();
-			List<Thing> allThings = region.ListerThings.AllThings;
-			for (int i = 0; i < allThings.Count; i++)
+			else
 			{
-				Thing thing = allThings[i];
-				if ((thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Plant) && thing.FlammableNow && !thing.IsBurning() && !thing.OccupiedRect().Contains(pawn.Position))
+				JobGiver_FireStartingSpree.potentialTargets.Clear();
+				List<Thing> allThings = region.ListerThings.AllThings;
+				for (int i = 0; i < allThings.Count; i++)
 				{
-					JobGiver_FireStartingSpree.potentialTargets.Add(thing);
+					Thing thing = allThings[i];
+					if ((thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Plant) && thing.FlammableNow && !thing.IsBurning() && !thing.OccupiedRect().Contains(pawn.Position))
+					{
+						JobGiver_FireStartingSpree.potentialTargets.Add(thing);
+					}
 				}
+				result = ((!JobGiver_FireStartingSpree.potentialTargets.NullOrEmpty()) ? JobGiver_FireStartingSpree.potentialTargets.RandomElement() : null);
 			}
-			if (JobGiver_FireStartingSpree.potentialTargets.NullOrEmpty())
-			{
-				return null;
-			}
-			return JobGiver_FireStartingSpree.potentialTargets.RandomElement();
+			return result;
 		}
 	}
 }

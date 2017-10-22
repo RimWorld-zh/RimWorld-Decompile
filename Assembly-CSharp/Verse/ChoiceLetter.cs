@@ -95,8 +95,9 @@ namespace Verse
 			DiaNode diaNode = new DiaNode(this.text);
 			diaNode.options.AddRange(this.Choices);
 			WindowStack windowStack = Find.WindowStack;
+			DiaNode nodeRoot = diaNode;
 			bool flag = this.radioMode;
-			windowStack.Add(new Dialog_NodeTree(diaNode, false, flag, this.title));
+			windowStack.Add(new Dialog_NodeTree(nodeRoot, false, flag, this.title));
 		}
 	}
 }

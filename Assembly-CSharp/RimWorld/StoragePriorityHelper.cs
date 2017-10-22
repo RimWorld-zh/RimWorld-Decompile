@@ -6,37 +6,46 @@ namespace RimWorld
 	{
 		public static string Label(this StoragePriority p)
 		{
+			string result;
 			switch (p)
 			{
 			case StoragePriority.Unstored:
 			{
-				return "StoragePriorityUnstored".Translate();
+				result = "StoragePriorityUnstored".Translate();
+				break;
 			}
 			case StoragePriority.Low:
 			{
-				return "StoragePriorityLow".Translate();
+				result = "StoragePriorityLow".Translate();
+				break;
 			}
 			case StoragePriority.Normal:
 			{
-				return "StoragePriorityNormal".Translate();
+				result = "StoragePriorityNormal".Translate();
+				break;
 			}
 			case StoragePriority.Preferred:
 			{
-				return "StoragePriorityPreferred".Translate();
+				result = "StoragePriorityPreferred".Translate();
+				break;
 			}
 			case StoragePriority.Important:
 			{
-				return "StoragePriorityImportant".Translate();
+				result = "StoragePriorityImportant".Translate();
+				break;
 			}
 			case StoragePriority.Critical:
 			{
-				return "StoragePriorityCritical".Translate();
+				result = "StoragePriorityCritical".Translate();
+				break;
 			}
 			default:
 			{
-				return "Unknown";
+				result = "Unknown";
+				break;
 			}
 			}
+			return result;
 		}
 	}
 }

@@ -22,10 +22,10 @@ namespace RimWorld
 
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
-			if (tag == "MapScatteredWith")
-			{
-				yield return GenLabel.ThingLabel(base.thingDef, base.stuff, base.count).CapitalizeFirst();
-			}
+			if (!(tag == "MapScatteredWith"))
+				yield break;
+			yield return GenLabel.ThingLabel(base.thingDef, base.stuff, base.count).CapitalizeFirst();
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

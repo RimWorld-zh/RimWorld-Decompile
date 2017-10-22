@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -51,7 +52,7 @@ namespace RimWorld
 				for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 				{
 					Pawn pawn = base.lord.ownedPawns[i];
-					if (pawn.equipment.Primary != null && pawn.equipment.Primary.def.Verbs[0].ai_IsBuildingDestroyer)
+					if (pawn.equipment.Primary != null && pawn.equipment.Primary.GetComp<CompEquippable>().AllVerbs.Any((Predicate<Verb>)((Verb verb) => verb.verbProps.ai_IsBuildingDestroyer)))
 					{
 						list.Add(pawn);
 					}

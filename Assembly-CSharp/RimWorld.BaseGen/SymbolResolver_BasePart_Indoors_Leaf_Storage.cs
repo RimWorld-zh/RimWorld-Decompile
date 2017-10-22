@@ -4,15 +4,7 @@ namespace RimWorld.BaseGen
 	{
 		public override bool CanResolve(ResolveParams rp)
 		{
-			if (!base.CanResolve(rp))
-			{
-				return false;
-			}
-			if (BaseGen.globalSettings.basePart_barracksResolved < BaseGen.globalSettings.minBarracks)
-			{
-				return false;
-			}
-			return true;
+			return (byte)(base.CanResolve(rp) ? ((BaseGen.globalSettings.basePart_barracksResolved >= BaseGen.globalSettings.minBarracks) ? 1 : 0) : 0) != 0;
 		}
 
 		public override void Resolve(ResolveParams rp)

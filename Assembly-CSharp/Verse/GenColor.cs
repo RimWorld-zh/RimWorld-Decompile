@@ -45,20 +45,25 @@ namespace Verse
 			{
 				hex = hex.Substring(1);
 			}
+			Color result;
 			if (hex.Length != 6 && hex.Length != 8)
 			{
 				Log.Error(hex + " is not a valid hex color.");
-				return Color.white;
+				result = Color.white;
 			}
-			int r = int.Parse(hex.Substring(0, 2), NumberStyles.HexNumber);
-			int g = int.Parse(hex.Substring(2, 2), NumberStyles.HexNumber);
-			int b = int.Parse(hex.Substring(4, 2), NumberStyles.HexNumber);
-			int a = 255;
-			if (hex.Length == 8)
+			else
 			{
-				a = int.Parse(hex.Substring(6, 2), NumberStyles.HexNumber);
+				int r = int.Parse(hex.Substring(0, 2), NumberStyles.HexNumber);
+				int g = int.Parse(hex.Substring(2, 2), NumberStyles.HexNumber);
+				int b = int.Parse(hex.Substring(4, 2), NumberStyles.HexNumber);
+				int a = 255;
+				if (hex.Length == 8)
+				{
+					a = int.Parse(hex.Substring(6, 2), NumberStyles.HexNumber);
+				}
+				result = GenColor.FromBytes(r, g, b, a);
 			}
-			return GenColor.FromBytes(r, g, b, a);
+			return result;
 		}
 	}
 }

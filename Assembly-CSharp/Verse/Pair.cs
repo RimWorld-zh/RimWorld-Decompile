@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Verse
 {
@@ -44,16 +45,12 @@ namespace Verse
 
 		public override bool Equals(object other)
 		{
-			if (!(other is Pair<T1, T2>))
-			{
-				return false;
-			}
-			return this.Equals((Pair<T1, T2>)other);
+			return other is Pair<T1, T2> && this.Equals((Pair<T1, T2>)other);
 		}
 
 		public bool Equals(Pair<T1, T2> other)
 		{
-			return this.first.Equals(other.first) && this.second.Equals(other.second);
+			return EqualityComparer<T1>.Default.Equals(this.first, other.first) && EqualityComparer<T2>.Default.Equals(this.second, other.second);
 		}
 
 		public static bool operator ==(Pair<T1, T2> lhs, Pair<T1, T2> rhs)

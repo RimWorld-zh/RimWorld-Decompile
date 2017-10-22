@@ -1,6 +1,7 @@
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -17,16 +18,6 @@ namespace RimWorld
 			Config = 2
 		}
 
-		private const float TitleRectHeight = 40f;
-
-		private const float BottomAreaHeight = 55f;
-
-		private const float ExitDirectionTitleHeight = 30f;
-
-		private const float MaxDaysWorthOfFoodToShowWarningDialog = 5f;
-
-		public const float MassLabelYOffset = 32f;
-
 		private Map map;
 
 		private bool reform;
@@ -34,6 +25,8 @@ namespace RimWorld
 		private Action onClosed;
 
 		private bool showEstTimeToDestinationButton;
+
+		private bool cancellingWillAbandon;
 
 		private bool thisWindowInstanceEverOpened;
 
@@ -43,7 +36,7 @@ namespace RimWorld
 
 		private TransferableOneWayWidget itemsTransfer;
 
-		private Tab tab;
+		private Tab tab = Tab.Pawns;
 
 		private float lastMassFlashTime = -9999f;
 
@@ -61,9 +54,19 @@ namespace RimWorld
 
 		private Pair<float, float> cachedDaysWorthOfFood;
 
+		private const float TitleRectHeight = 40f;
+
+		private const float BottomAreaHeight = 55f;
+
+		private const float ExitDirectionTitleHeight = 30f;
+
 		private readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
 
 		private readonly Vector2 ExitDirectionRadioSize = new Vector2(250f, 30f);
+
+		private const float MaxDaysWorthOfFoodToShowWarningDialog = 5f;
+
+		public const float MassLabelYOffset = 32f;
 
 		private static List<TabRecord> tabsList = new List<TabRecord>();
 
@@ -116,8 +119,10 @@ namespace RimWorld
 				if (this.massUsageDirty)
 				{
 					this.massUsageDirty = false;
+					List<TransferableOneWay> list = this.transferables;
+					IgnorePawnsInventoryMode ignoreInventory = IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload;
 					bool autoStripCorpses = this.AutoStripCorpses;
-					this.cachedMassUsage = CollectionsMassCalculator.MassUsageTransferables(this.transferables, IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload, false, autoStripCorpses);
+					this.cachedMassUsage = CollectionsMassCalculator.MassUsageTransferables(list, ignoreInventory, false, autoStripCorpses);
 				}
 				return this.cachedMassUsage;
 			}
@@ -178,21 +183,18 @@ namespace RimWorld
 						}
 					}
 				}
-				if (num == 0.0 && num2 == 0.0)
-				{
-					return false;
-				}
-				return num / (num + num2) >= 0.75;
+				return (num != 0.0 || num2 != 0.0) && num / (num + num2) >= 0.75;
 			}
 		}
 
-		public Dialog_FormCaravan(Map map, bool reform = false, Action onClosed = null, bool showEstTimeToDestinationButton = true)
+		public Dialog_FormCaravan(Map map, bool reform = false, Action onClosed = null, bool showEstTimeToDestinationButton = true, bool cancellingWillAbandon = false)
 		{
 			this.map = map;
 			this.reform = reform;
 			this.onClosed = onClosed;
 			this.showEstTimeToDestinationButton = showEstTimeToDestinationButton;
-			base.closeOnEscapeKey = true;
+			this.cancellingWillAbandon = cancellingWillAbandon;
+			base.closeOnEscapeKey = !reform;
 			base.forcePause = true;
 			base.absorbInputAroundWindow = true;
 		}
@@ -243,7 +245,7 @@ namespace RimWorld
 				}, this.tab == Tab.Config));
 			}
 			inRect.yMin += 72f;
-			Widgets.DrawMenuSection(inRect, true);
+			Widgets.DrawMenuSection(inRect);
 			TabDrawer.DrawTabs(inRect, Dialog_FormCaravan.tabsList);
 			inRect = inRect.ContractedBy(17f);
 			GUI.BeginGroup(inRect);
@@ -327,20 +329,26 @@ namespace RimWorld
 				}
 				else
 				{
-					string text = (string)null;
+					List<string> list = new List<string>();
 					Pair<float, float> daysWorthOfFood = this.DaysWorthOfFood;
 					if (daysWorthOfFood.First < 5.0)
 					{
-						text = ((!(daysWorthOfFood.First < 0.10000000149011612)) ? "DaysWorthOfFoodWarningDialog".Translate(daysWorthOfFood.First.ToString("0.#")) : "DaysWorthOfFoodWarningDialog_NoFood".Translate());
+						list.Add((!(daysWorthOfFood.First < 0.10000000149011612)) ? "DaysWorthOfFoodWarningDialog".Translate(daysWorthOfFood.First.ToString("0.#")) : "DaysWorthOfFoodWarningDialog_NoFood".Translate());
 					}
 					else if (this.MostFoodWillRotSoon)
 					{
-						text = "CaravanFoodWillRotSoonWarningDialog".Translate();
+						list.Add("CaravanFoodWillRotSoonWarningDialog".Translate());
 					}
-					if (!text.NullOrEmpty())
+					if (!TransferableUtility.GetPawnsFromTransferables(this.transferables).Any((Predicate<Pawn>)((Pawn pawn) => CaravanUtility.IsOwner(pawn, Faction.OfPlayer) && !pawn.skills.GetSkill(SkillDefOf.Social).TotallyDisabled)))
+					{
+						list.Add("CaravanIncapableOfSocial".Translate());
+					}
+					if (list.Count > 0)
 					{
 						if (this.CheckForErrors(TransferableUtility.GetPawnsFromTransferables(this.transferables)))
 						{
+							string text = string.Concat((from str in list
+							select str + "\n\n").ToArray()) + "CaravanAreYouSure".Translate();
 							Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(text, (Action)delegate
 							{
 								if (this.TryFormAndSendCaravan())
@@ -376,7 +384,7 @@ namespace RimWorld
 			float x7 = bottomButtonSize7.x;
 			Vector2 bottomButtonSize8 = this.BottomButtonSize;
 			Rect rect4 = new Rect((float)x6, y3, x7, bottomButtonSize8.y);
-			if (Widgets.ButtonText(rect4, "CancelButton".Translate(), true, false, true))
+			if (Widgets.ButtonText(rect4, (!this.cancellingWillAbandon) ? "CancelButton".Translate() : "AbandonButton".Translate(), true, false, true))
 			{
 				this.Close(true);
 			}
@@ -395,7 +403,7 @@ namespace RimWorld
 					List<Pawn> pawnsFromTransferables = TransferableUtility.GetPawnsFromTransferables(this.transferables);
 					if (!pawnsFromTransferables.Any((Predicate<Pawn>)((Pawn x) => CaravanUtility.IsOwner(x, Faction.OfPlayer) && !x.Downed)))
 					{
-						Messages.Message("CaravanMustHaveAtLeastOneColonist".Translate(), MessageSound.RejectInput);
+						Messages.Message("CaravanMustHaveAtLeastOneColonist".Translate(), MessageTypeDefOf.RejectInput);
 					}
 					else
 					{
@@ -474,62 +482,83 @@ namespace RimWorld
 		private bool DebugTryFormCaravanInstantly()
 		{
 			List<Pawn> pawnsFromTransferables = TransferableUtility.GetPawnsFromTransferables(this.transferables);
+			bool result;
 			if (!pawnsFromTransferables.Any((Predicate<Pawn>)((Pawn x) => CaravanUtility.IsOwner(x, Faction.OfPlayer))))
 			{
-				Messages.Message("CaravanMustHaveAtLeastOneColonist".Translate(), MessageSound.RejectInput);
-				return false;
+				Messages.Message("CaravanMustHaveAtLeastOneColonist".Translate(), MessageTypeDefOf.RejectInput);
+				result = false;
 			}
-			this.AddItemsFromTransferablesToRandomInventories(pawnsFromTransferables);
-			int currentTile = this.startingTile;
-			if (currentTile < 0)
+			else
 			{
-				currentTile = this.CurrentTile;
+				this.AddItemsFromTransferablesToRandomInventories(pawnsFromTransferables);
+				int currentTile = this.startingTile;
+				if (currentTile < 0)
+				{
+					currentTile = this.CurrentTile;
+				}
+				CaravanFormingUtility.FormAndCreateCaravan(pawnsFromTransferables, Faction.OfPlayer, this.CurrentTile, currentTile);
+				result = true;
 			}
-			CaravanFormingUtility.FormAndCreateCaravan(pawnsFromTransferables, Faction.OfPlayer, this.CurrentTile, currentTile);
-			return true;
+			return result;
 		}
 
 		private bool TryFormAndSendCaravan()
 		{
 			List<Pawn> pawnsFromTransferables = TransferableUtility.GetPawnsFromTransferables(this.transferables);
+			bool result;
 			if (!this.CheckForErrors(pawnsFromTransferables))
 			{
-				return false;
+				result = false;
 			}
-			Direction8Way direction8WayFromTo = Find.WorldGrid.GetDirection8WayFromTo(this.CurrentTile, this.startingTile);
-			IntVec3 intVec = default(IntVec3);
-			if (!this.TryFindExitSpot(pawnsFromTransferables, true, out intVec))
+			else
 			{
-				if (!this.TryFindExitSpot(pawnsFromTransferables, false, out intVec))
+				Direction8Way direction8WayFromTo = Find.WorldGrid.GetDirection8WayFromTo(this.CurrentTile, this.startingTile);
+				IntVec3 intVec = default(IntVec3);
+				if (!this.TryFindExitSpot(pawnsFromTransferables, true, out intVec))
 				{
-					Messages.Message("CaravanCouldNotFindExitSpot".Translate(direction8WayFromTo.LabelShort()), MessageSound.RejectInput);
-					return false;
+					if (!this.TryFindExitSpot(pawnsFromTransferables, false, out intVec))
+					{
+						Messages.Message("CaravanCouldNotFindExitSpot".Translate(direction8WayFromTo.LabelShort()), MessageTypeDefOf.RejectInput);
+						result = false;
+						goto IL_013b;
+					}
+					Messages.Message("CaravanCouldNotFindReachableExitSpot".Translate(direction8WayFromTo.LabelShort()), new GlobalTargetInfo(intVec, this.map, false), MessageTypeDefOf.CautionInput);
 				}
-				Messages.Message("CaravanCouldNotFindReachableExitSpot".Translate(direction8WayFromTo.LabelShort()), new GlobalTargetInfo(intVec, this.map, false), MessageSound.Negative);
+				IntVec3 meetingPoint = default(IntVec3);
+				if (!this.TryFindRandomPackingSpot(intVec, out meetingPoint))
+				{
+					Messages.Message("CaravanCouldNotFindPackingSpot".Translate(direction8WayFromTo.LabelShort()), new GlobalTargetInfo(intVec, this.map, false), MessageTypeDefOf.RejectInput);
+					result = false;
+				}
+				else
+				{
+					CaravanFormingUtility.StartFormingCaravan(pawnsFromTransferables, Faction.OfPlayer, this.transferables, meetingPoint, intVec, this.startingTile);
+					Messages.Message("CaravanFormationProcessStarted".Translate(), (Thing)pawnsFromTransferables[0], MessageTypeDefOf.PositiveEvent);
+					result = true;
+				}
 			}
-			IntVec3 meetingPoint = default(IntVec3);
-			if (!this.TryFindRandomPackingSpot(intVec, out meetingPoint))
-			{
-				Messages.Message("CaravanCouldNotFindPackingSpot".Translate(direction8WayFromTo.LabelShort()), new GlobalTargetInfo(intVec, this.map, false), MessageSound.RejectInput);
-				return false;
-			}
-			CaravanFormingUtility.StartFormingCaravan(pawnsFromTransferables, Faction.OfPlayer, this.transferables, meetingPoint, intVec, this.startingTile);
-			Messages.Message("CaravanFormationProcessStarted".Translate(), (Thing)pawnsFromTransferables[0], MessageSound.Benefit);
-			return true;
+			goto IL_013b;
+			IL_013b:
+			return result;
 		}
 
 		private bool TryReformCaravan()
 		{
 			List<Pawn> pawnsFromTransferables = TransferableUtility.GetPawnsFromTransferables(this.transferables);
+			bool result;
 			if (!this.CheckForErrors(pawnsFromTransferables))
 			{
-				return false;
+				result = false;
 			}
-			this.AddItemsFromTransferablesToRandomInventories(pawnsFromTransferables);
-			Caravan o = CaravanExitMapUtility.ExitMapAndCreateCaravan(pawnsFromTransferables, Faction.OfPlayer, this.CurrentTile);
-			this.map.info.parent.CheckRemoveMapNow();
-			Messages.Message("MessageReformedCaravan".Translate(), (WorldObject)o, MessageSound.Benefit);
-			return true;
+			else
+			{
+				this.AddItemsFromTransferablesToRandomInventories(pawnsFromTransferables);
+				Caravan o = CaravanExitMapUtility.ExitMapAndCreateCaravan(pawnsFromTransferables, Faction.OfPlayer, this.CurrentTile);
+				this.map.info.parent.CheckRemoveMapNow();
+				Messages.Message("MessageReformedCaravan".Translate(), (WorldObject)o, MessageTypeDefOf.TaskCompletion);
+				result = true;
+			}
+			return result;
 		}
 
 		private void AddItemsFromTransferablesToRandomInventories(List<Pawn> pawns)
@@ -582,115 +611,144 @@ namespace RimWorld
 
 		private bool CheckForErrors(List<Pawn> pawns)
 		{
+			bool result;
+			int i;
+			int countToTransfer;
 			if (!this.reform && this.startingTile < 0)
 			{
-				Messages.Message("NoExitDirectionForCaravanChosen".Translate(), MessageSound.RejectInput);
-				return false;
+				Messages.Message("NoExitDirectionForCaravanChosen".Translate(), MessageTypeDefOf.RejectInput);
+				result = false;
 			}
-			if (!pawns.Any((Predicate<Pawn>)((Pawn x) => CaravanUtility.IsOwner(x, Faction.OfPlayer) && !x.Downed)))
+			else if (!pawns.Any((Predicate<Pawn>)((Pawn x) => CaravanUtility.IsOwner(x, Faction.OfPlayer) && !x.Downed)))
 			{
-				Messages.Message("CaravanMustHaveAtLeastOneColonist".Translate(), MessageSound.RejectInput);
-				return false;
+				Messages.Message("CaravanMustHaveAtLeastOneColonist".Translate(), MessageTypeDefOf.RejectInput);
+				result = false;
 			}
-			if (!this.reform && this.MassUsage > this.MassCapacity)
+			else if (!this.reform && this.MassUsage > this.MassCapacity)
 			{
 				this.FlashMass();
-				Messages.Message("TooBigCaravanMassUsage".Translate(), MessageSound.RejectInput);
-				return false;
+				Messages.Message("TooBigCaravanMassUsage".Translate(), MessageTypeDefOf.RejectInput);
+				result = false;
 			}
-			Pawn pawn = pawns.Find((Predicate<Pawn>)((Pawn x) => !x.IsColonist && !pawns.Any((Predicate<Pawn>)((Pawn y) => y.IsColonist && y.CanReach((Thing)x, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn)))));
-			if (pawn != null)
+			else
 			{
-				Messages.Message("CaravanPawnIsUnreachable".Translate(pawn.LabelShort).CapitalizeFirst(), (Thing)pawn, MessageSound.RejectInput);
-				return false;
-			}
-			for (int i = 0; i < this.transferables.Count; i++)
-			{
-				if (this.transferables[i].ThingDef.category == ThingCategory.Item)
+				Pawn pawn = pawns.Find((Predicate<Pawn>)((Pawn x) => !x.IsColonist && !pawns.Any((Predicate<Pawn>)((Pawn y) => y.IsColonist && y.CanReach((Thing)x, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn)))));
+				if (pawn != null)
 				{
-					int countToTransfer = this.transferables[i].CountToTransfer;
-					int num = 0;
-					if (countToTransfer > 0)
+					Messages.Message("CaravanPawnIsUnreachable".Translate(pawn.LabelShort).CapitalizeFirst(), (Thing)pawn, MessageTypeDefOf.RejectInput);
+					result = false;
+				}
+				else
+				{
+					for (i = 0; i < this.transferables.Count; i++)
 					{
-						for (int j = 0; j < this.transferables[i].things.Count; j++)
+						if (this.transferables[i].ThingDef.category == ThingCategory.Item)
 						{
-							Thing t = this.transferables[i].things[j];
-							if (!t.Spawned || pawns.Any((Predicate<Pawn>)((Pawn x) => x.IsColonist && x.CanReach(t, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))))
+							countToTransfer = this.transferables[i].CountToTransfer;
+							int num = 0;
+							if (countToTransfer > 0)
 							{
-								num += t.stackCount;
-								if (num >= countToTransfer)
-									break;
+								for (int j = 0; j < this.transferables[i].things.Count; j++)
+								{
+									Thing t = this.transferables[i].things[j];
+									if (!t.Spawned || pawns.Any((Predicate<Pawn>)((Pawn x) => x.IsColonist && x.CanReach(t, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))))
+									{
+										num += t.stackCount;
+										if (num >= countToTransfer)
+											break;
+									}
+								}
+								if (num < countToTransfer)
+									goto IL_020f;
 							}
-						}
-						if (num < countToTransfer)
-						{
-							if (countToTransfer == 1)
-							{
-								Messages.Message("CaravanItemIsUnreachableSingle".Translate(this.transferables[i].ThingDef.label), MessageSound.RejectInput);
-							}
-							else
-							{
-								Messages.Message("CaravanItemIsUnreachableMulti".Translate(countToTransfer, this.transferables[i].ThingDef.label), MessageSound.RejectInput);
-							}
-							return false;
 						}
 					}
+					result = true;
 				}
 			}
-			return true;
+			goto IL_02b2;
+			IL_020f:
+			if (countToTransfer == 1)
+			{
+				Messages.Message("CaravanItemIsUnreachableSingle".Translate(this.transferables[i].ThingDef.label), MessageTypeDefOf.RejectInput);
+			}
+			else
+			{
+				Messages.Message("CaravanItemIsUnreachableMulti".Translate(countToTransfer, this.transferables[i].ThingDef.label), MessageTypeDefOf.RejectInput);
+			}
+			result = false;
+			goto IL_02b2;
+			IL_02b2:
+			return result;
 		}
 
 		private bool TryFindExitSpot(List<Pawn> pawns, bool reachableForEveryColonist, out IntVec3 spot)
 		{
+			bool result;
 			if (this.startingTile < 0)
 			{
 				Log.Error("Can't find exit spot because startingTile is not set.");
 				spot = IntVec3.Invalid;
-				return false;
+				result = false;
 			}
-			Predicate<IntVec3> validator = (Predicate<IntVec3>)((IntVec3 x) => !x.Fogged(this.map) && x.Standable(this.map));
-			Rot4 rotFromTo = Find.WorldGrid.GetRotFromTo(this.CurrentTile, this.startingTile);
-			if (reachableForEveryColonist)
+			else
 			{
-				return CellFinder.TryFindRandomEdgeCellWith((Predicate<IntVec3>)delegate(IntVec3 x)
+				Predicate<IntVec3> validator = (Predicate<IntVec3>)((IntVec3 x) => !x.Fogged(this.map) && x.Standable(this.map));
+				Rot4 rotFromTo = Find.WorldGrid.GetRotFromTo(this.CurrentTile, this.startingTile);
+				if (reachableForEveryColonist)
 				{
-					if (!validator(x))
+					result = CellFinder.TryFindRandomEdgeCellWith((Predicate<IntVec3>)delegate(IntVec3 x)
 					{
-						return false;
-					}
-					for (int j = 0; j < pawns.Count; j++)
-					{
-						if (pawns[j].IsColonist && !pawns[j].CanReach(x, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+						bool result2;
+						if (!validator(x))
 						{
-							return false;
+							result2 = false;
+						}
+						else
+						{
+							for (int j = 0; j < pawns.Count; j++)
+							{
+								if (pawns[j].IsColonist && !pawns[j].CanReach(x, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+									goto IL_0057;
+							}
+							result2 = true;
+						}
+						goto IL_007b;
+						IL_007b:
+						return result2;
+						IL_0057:
+						result2 = false;
+						goto IL_007b;
+					}, this.map, rotFromTo, CellFinder.EdgeRoadChance_Always, out spot);
+				}
+				else
+				{
+					IntVec3 intVec = IntVec3.Invalid;
+					int num = -1;
+					foreach (IntVec3 item in CellRect.WholeMap(this.map).GetEdgeCells(rotFromTo).InRandomOrder(null))
+					{
+						if (validator(item))
+						{
+							int num2 = 0;
+							for (int i = 0; i < pawns.Count; i++)
+							{
+								if (pawns[i].IsColonist && pawns[i].CanReach(item, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+								{
+									num2++;
+								}
+							}
+							if (num2 > num)
+							{
+								num = num2;
+								intVec = item;
+							}
 						}
 					}
-					return true;
-				}, this.map, rotFromTo, CellFinder.EdgeRoadChance_Always, out spot);
-			}
-			IntVec3 intVec = IntVec3.Invalid;
-			int num = -1;
-			foreach (IntVec3 item in CellRect.WholeMap(this.map).GetEdgeCells(rotFromTo).InRandomOrder(null))
-			{
-				if (validator(item))
-				{
-					int num2 = 0;
-					for (int i = 0; i < pawns.Count; i++)
-					{
-						if (pawns[i].IsColonist && pawns[i].CanReach(item, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
-						{
-							num2++;
-						}
-					}
-					if (num2 > num)
-					{
-						num = num2;
-						intVec = item;
-					}
+					spot = intVec;
+					result = intVec.IsValid;
 				}
 			}
-			spot = intVec;
-			return intVec.IsValid;
+			return result;
 		}
 
 		private bool TryFindRandomPackingSpot(IntVec3 exitSpot, out IntVec3 packingSpot)
@@ -705,14 +763,19 @@ namespace RimWorld
 					Dialog_FormCaravan.tmpPackingSpots.Add(list[i]);
 				}
 			}
+			bool result;
 			if (Dialog_FormCaravan.tmpPackingSpots.Any())
 			{
 				Thing thing = Dialog_FormCaravan.tmpPackingSpots.RandomElement();
 				Dialog_FormCaravan.tmpPackingSpots.Clear();
 				packingSpot = thing.Position;
-				return true;
+				result = true;
 			}
-			return RCellFinder.TryFindRandomSpotJustOutsideColony(exitSpot, this.map, out packingSpot);
+			else
+			{
+				result = RCellFinder.TryFindRandomSpotJustOutsideColony(exitSpot, this.map, out packingSpot);
+			}
+			return result;
 		}
 
 		private void AddPawnsToTransferables()

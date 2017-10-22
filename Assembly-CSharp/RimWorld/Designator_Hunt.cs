@@ -32,15 +32,7 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			if (!c.InBounds(base.Map))
-			{
-				return false;
-			}
-			if (!this.HuntablesInCell(c).Any())
-			{
-				return "MessageMustDesignateHuntable".Translate();
-			}
-			return true;
+			return c.InBounds(base.Map) ? (this.HuntablesInCell(c).Any() ? true : "MessageMustDesignateHuntable".Translate()) : false;
 		}
 
 		public override void DesignateSingleCell(IntVec3 loc)
@@ -54,11 +46,7 @@ namespace RimWorld
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Pawn pawn = t as Pawn;
-			if (pawn != null && pawn.def.race.Animal && pawn.Faction == null && base.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Hunt) == null)
-			{
-				return true;
-			}
-			return false;
+			return (pawn == null || !pawn.AnimalOrWildMan() || pawn.Faction != null || base.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Hunt) != null) ? false : true;
 		}
 
 		public override void DesignateThing(Thing t)
@@ -71,17 +59,13 @@ namespace RimWorld
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();
-			using (IEnumerator<PawnKindDef> enumerator = (from p in this.justDesignated
-			select p.kindDef).Distinct().GetEnumerator())
+			foreach (PawnKindDef item in (from p in this.justDesignated
+			select p.kindDef).Distinct())
 			{
-				PawnKindDef kind;
-				while (enumerator.MoveNext())
+				float num = (float)((item != PawnKindDefOf.WildMan) ? item.RaceProps.manhunterOnDamageChance : 0.5);
+				if (num > 0.20000000298023224)
 				{
-					kind = enumerator.Current;
-					if (kind.RaceProps.manhunterOnDamageChance > 0.20000000298023224)
-					{
-						Messages.Message("MessageAnimalsGoPsychoHunted".Translate(kind.label), (Thing)this.justDesignated.First((Func<Pawn, bool>)((Pawn x) => x.kindDef == kind)), MessageSound.Standard);
-					}
+					Messages.Message("MessageAnimalsGoPsychoHunted".Translate(item.GetLabelPlural(-1)), (Thing)this.justDesignated.First((Func<Pawn, bool>)((Pawn x) => x.kindDef == item)), MessageTypeDefOf.CautionInput);
 				}
 			}
 			this.justDesignated.Clear();
@@ -92,13 +76,22 @@ namespace RimWorld
 			if (!c.Fogged(base.Map))
 			{
 				List<Thing> thingList = c.GetThingList(base.Map);
-				for (int i = 0; i < thingList.Count; i++)
+				int i = 0;
+				while (true)
 				{
-					if (this.CanDesignateThing(thingList[i]).Accepted)
+					if (i < thingList.Count)
 					{
-						yield return (Pawn)thingList[i];
+						if (!this.CanDesignateThing(thingList[i]).Accepted)
+						{
+							i++;
+							continue;
+						}
+						break;
 					}
+					yield break;
 				}
+				yield return (Pawn)thingList[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 	}

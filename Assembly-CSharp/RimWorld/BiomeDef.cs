@@ -8,7 +8,7 @@ namespace RimWorld
 {
 	public class BiomeDef : Def
 	{
-		public Type workerClass;
+		public Type workerClass = typeof(BiomeWorker);
 
 		public bool implemented = true;
 
@@ -20,9 +20,9 @@ namespace RimWorld
 
 		public bool allowRivers = true;
 
-		public float animalDensity;
+		public float animalDensity = 0f;
 
-		public float plantDensity;
+		public float plantDensity = 0f;
 
 		public float diseaseMtbDays = 60f;
 
@@ -32,7 +32,13 @@ namespace RimWorld
 
 		public bool hasVirtualPlants = true;
 
-		public SimpleCurve pathCost;
+		public int pathCost_spring = 1650;
+
+		public int pathCost_summer = 1650;
+
+		public int pathCost_fall = 1650;
+
+		public int pathCost_winter = 27500;
 
 		public List<WeatherCommonalityRecord> baseWeatherCommonalities = new List<WeatherCommonalityRecord>();
 
@@ -53,13 +59,13 @@ namespace RimWorld
 		public string texture;
 
 		[Unsaved]
-		private Dictionary<PawnKindDef, float> cachedAnimalCommonalities;
+		private Dictionary<PawnKindDef, float> cachedAnimalCommonalities = null;
 
 		[Unsaved]
-		private Dictionary<ThingDef, float> cachedPlantCommonalities;
+		private Dictionary<ThingDef, float> cachedPlantCommonalities = null;
 
 		[Unsaved]
-		private Dictionary<IncidentDef, float> cachedDiseaseCommonalities;
+		private Dictionary<IncidentDef, float> cachedDiseaseCommonalities = null;
 
 		[Unsaved]
 		private Material cachedMat;
@@ -83,11 +89,13 @@ namespace RimWorld
 		{
 			get
 			{
+				Material result;
 				if ((UnityEngine.Object)this.cachedMat == (UnityEngine.Object)null)
 				{
 					if (this.texture.NullOrEmpty())
 					{
-						return null;
+						result = null;
+						goto IL_00b4;
 					}
 					if (this == BiomeDefOf.Ocean || this == BiomeDefOf.Lake)
 					{
@@ -103,7 +111,10 @@ namespace RimWorld
 					}
 					this.cachedMat.mainTexture = ContentFinder<Texture2D>.Get(this.texture, true);
 				}
-				return this.cachedMat;
+				result = this.cachedMat;
+				goto IL_00b4;
+				IL_00b4:
+				return result;
 			}
 		}
 
@@ -111,13 +122,25 @@ namespace RimWorld
 		{
 			get
 			{
-				foreach (ThingDef allDef in DefDatabase<ThingDef>.AllDefs)
+				using (IEnumerator<ThingDef> enumerator = DefDatabase<ThingDef>.AllDefs.GetEnumerator())
 				{
-					if (allDef.category == ThingCategory.Plant && this.CommonalityOfPlant(allDef) > 0.0)
+					ThingDef thingDef;
+					while (true)
 					{
-						yield return allDef;
+						if (enumerator.MoveNext())
+						{
+							thingDef = enumerator.Current;
+							if (thingDef.category == ThingCategory.Plant && this.CommonalityOfPlant(thingDef) > 0.0)
+								break;
+							continue;
+						}
+						yield break;
 					}
+					yield return thingDef;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
+				IL_00e3:
+				/*Error near IL_00e4: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -125,13 +148,25 @@ namespace RimWorld
 		{
 			get
 			{
-				foreach (PawnKindDef allDef in DefDatabase<PawnKindDef>.AllDefs)
+				using (IEnumerator<PawnKindDef> enumerator = DefDatabase<PawnKindDef>.AllDefs.GetEnumerator())
 				{
-					if (this.CommonalityOfAnimal(allDef) > 0.0)
+					PawnKindDef kindDef;
+					while (true)
 					{
-						yield return allDef;
+						if (enumerator.MoveNext())
+						{
+							kindDef = enumerator.Current;
+							if (this.CommonalityOfAnimal(kindDef) > 0.0)
+								break;
+							continue;
+						}
+						yield break;
 					}
+					yield return kindDef;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
+				IL_00d2:
+				/*Error near IL_00d3: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -158,12 +193,8 @@ namespace RimWorld
 					}
 				}
 			}
-			float result = default(float);
-			if (this.cachedAnimalCommonalities.TryGetValue(animalDef, out result))
-			{
-				return result;
-			}
-			return 0f;
+			float num = default(float);
+			return (float)((!this.cachedAnimalCommonalities.TryGetValue(animalDef, out num)) ? 0.0 : num);
 		}
 
 		public float CommonalityOfPlant(ThingDef plantDef)
@@ -189,12 +220,8 @@ namespace RimWorld
 					}
 				}
 			}
-			float result = default(float);
-			if (this.cachedPlantCommonalities.TryGetValue(plantDef, out result))
-			{
-				return result;
-			}
-			return 0f;
+			float num = default(float);
+			return (float)((!this.cachedPlantCommonalities.TryGetValue(plantDef, out num)) ? 0.0 : num);
 		}
 
 		public float CommonalityOfDisease(IncidentDef diseaseInc)
@@ -220,12 +247,8 @@ namespace RimWorld
 					}
 				}
 			}
-			float result = default(float);
-			if (this.cachedDiseaseCommonalities.TryGetValue(diseaseInc, out result))
-			{
-				return result;
-			}
-			return 0f;
+			float num = default(float);
+			return (float)((!this.cachedDiseaseCommonalities.TryGetValue(diseaseInc, out num)) ? 0.0 : num);
 		}
 
 		public bool IsPackAnimalAllowed(ThingDef pawn)

@@ -2,11 +2,11 @@ namespace RimWorld
 {
 	public struct ThoughtState
 	{
-		private const int InactiveIndex = -99999;
-
 		private int stageIndex;
 
 		private string reason;
+
+		private const int InactiveIndex = -99999;
 
 		public bool Active
 		{
@@ -77,11 +77,7 @@ namespace RimWorld
 
 		public static implicit operator ThoughtState(bool value)
 		{
-			if (value)
-			{
-				return ThoughtState.ActiveDefault;
-			}
-			return ThoughtState.Inactive;
+			return (!value) ? ThoughtState.Inactive : ThoughtState.ActiveDefault;
 		}
 	}
 }

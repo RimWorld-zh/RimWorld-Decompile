@@ -8,9 +8,9 @@ namespace RimWorld
 {
 	public class ScenPart_PermaGameCondition : ScenPart
 	{
-		public const string PermaGameConditionTag = "PermaGameCondition";
-
 		private GameConditionDef gameCondition;
+
+		public const string PermaGameConditionTag = "PermaGameCondition";
 
 		public override string Label
 		{
@@ -57,10 +57,10 @@ namespace RimWorld
 
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
-			if (tag == "PermaGameCondition")
-			{
-				yield return this.gameCondition.LabelCap + ": " + this.gameCondition.description;
-			}
+			if (!(tag == "PermaGameCondition"))
+				yield break;
+			yield return this.gameCondition.LabelCap + ": " + this.gameCondition.description;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override void GenerateIntoMap(Map map)
@@ -71,16 +71,17 @@ namespace RimWorld
 
 		public override bool CanCoexistWith(ScenPart other)
 		{
+			bool result;
 			if (this.gameCondition == null)
 			{
-				return true;
+				result = true;
 			}
-			ScenPart_PermaGameCondition scenPart_PermaGameCondition = other as ScenPart_PermaGameCondition;
-			if (scenPart_PermaGameCondition != null && !this.gameCondition.CanCoexistWith(scenPart_PermaGameCondition.gameCondition))
+			else
 			{
-				return false;
+				ScenPart_PermaGameCondition scenPart_PermaGameCondition = other as ScenPart_PermaGameCondition;
+				result = ((byte)((scenPart_PermaGameCondition == null || this.gameCondition.CanCoexistWith(scenPart_PermaGameCondition.gameCondition)) ? 1 : 0) != 0);
 			}
-			return true;
+			return result;
 		}
 	}
 }

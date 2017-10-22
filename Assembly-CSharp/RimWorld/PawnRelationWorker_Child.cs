@@ -6,11 +6,7 @@ namespace RimWorld
 	{
 		public override bool InRelation(Pawn me, Pawn other)
 		{
-			if (me == other)
-			{
-				return false;
-			}
-			return other.GetMother() == me || other.GetFather() == me;
+			return me != other && (other.GetMother() == me || other.GetFather() == me);
 		}
 
 		public override float GenerationChance(Pawn generated, Pawn other, PawnGenerationRequest request)

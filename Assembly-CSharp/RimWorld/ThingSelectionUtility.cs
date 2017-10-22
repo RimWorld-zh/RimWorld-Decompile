@@ -2,6 +2,7 @@ using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
@@ -15,30 +16,44 @@ namespace RimWorld
 
 		private static List<Pawn> tmpColonists = new List<Pawn>();
 
+		[CompilerGenerated]
+		private static Func<Pawn, bool> _003C_003Ef__mg_0024cache0;
+
+		[CompilerGenerated]
+		private static Func<Pawn, bool> _003C_003Ef__mg_0024cache1;
+
 		public static bool SelectableByMapClick(Thing t)
 		{
+			bool result;
 			if (!t.def.selectable)
 			{
-				return false;
+				result = false;
 			}
-			if (!t.Spawned)
+			else if (!t.Spawned)
 			{
-				return false;
+				result = false;
 			}
-			if (t.def.size.x == 1 && t.def.size.z == 1)
+			else if (t.def.size.x == 1 && t.def.size.z == 1)
 			{
-				return !t.Position.Fogged(t.Map);
+				result = !t.Position.Fogged(t.Map);
 			}
-			CellRect.CellRectIterator iterator = t.OccupiedRect().GetIterator();
-			while (!iterator.Done())
+			else
 			{
-				if (!iterator.Current.Fogged(t.Map))
+				CellRect.CellRectIterator iterator = t.OccupiedRect().GetIterator();
+				while (!iterator.Done())
 				{
-					return true;
+					if (!iterator.Current.Fogged(t.Map))
+						goto IL_009e;
+					iterator.MoveNext();
 				}
-				iterator.MoveNext();
+				result = false;
 			}
-			return false;
+			goto IL_00c0;
+			IL_00c0:
+			return result;
+			IL_009e:
+			result = true;
+			goto IL_00c0;
 		}
 
 		public static bool SelectableByHotkey(Thing t)
@@ -63,30 +78,44 @@ namespace RimWorld
 							if (ThingSelectionUtility.SelectableByMapClick(t) && !t.def.neverMultiSelect && !ThingSelectionUtility.yieldedThings.Contains(t))
 							{
 								yield return t;
-								ThingSelectionUtility.yieldedThings.Add(t);
+								/*Error: Unable to find new state assignment for yield return*/;
 							}
 						}
 					}
 				}
 			}
+			yield break;
+			IL_01ab:
+			/*Error near IL_01ac: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<Zone> MultiSelectableZonesInScreenRectDistinct(Rect rect)
 		{
 			CellRect mapRect = ThingSelectionUtility.GetMapRect(rect);
 			ThingSelectionUtility.yieldedZones.Clear();
-			foreach (IntVec3 item in mapRect)
+			using (IEnumerator<IntVec3> enumerator = mapRect.GetEnumerator())
 			{
-				if (item.InBounds(Find.VisibleMap))
+				Zone zone;
+				while (true)
 				{
-					Zone zone = item.GetZone(Find.VisibleMap);
-					if (zone != null && zone.IsMultiselectable && !ThingSelectionUtility.yieldedZones.Contains(zone))
+					if (enumerator.MoveNext())
 					{
-						yield return zone;
-						ThingSelectionUtility.yieldedZones.Add(zone);
+						IntVec3 c = enumerator.Current;
+						if (c.InBounds(Find.VisibleMap))
+						{
+							zone = c.GetZone(Find.VisibleMap);
+							if (zone != null && zone.IsMultiselectable && !ThingSelectionUtility.yieldedZones.Contains(zone))
+								break;
+						}
+						continue;
 					}
+					yield break;
 				}
+				yield return zone;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			IL_0150:
+			/*Error near IL_0151: Unexpected return in MoveNext()*/;
 		}
 
 		private static CellRect GetMapRect(Rect rect)
@@ -117,13 +146,13 @@ namespace RimWorld
 				{
 					if (!worldRenderedNow && Find.Selector.IsSelected(ThingSelectionUtility.tmpColonists[num2]))
 					{
-						goto IL_00b3;
+						goto IL_00ca;
 					}
 					if (worldRenderedNow && ThingSelectionUtility.tmpColonists[num2].IsCaravanMember() && Find.WorldSelector.IsSelected(ThingSelectionUtility.tmpColonists[num2].GetCaravan()))
-						goto IL_00b3;
+						goto IL_00ca;
 					num2--;
 					continue;
-					IL_00b3:
+					IL_00ca:
 					num = num2;
 					break;
 				}
@@ -151,12 +180,12 @@ namespace RimWorld
 				{
 					if (!worldRenderedNow && Find.Selector.IsSelected(ThingSelectionUtility.tmpColonists[i]))
 					{
-						goto IL_00a8;
+						goto IL_00bf;
 					}
 					if (worldRenderedNow && ThingSelectionUtility.tmpColonists[i].IsCaravanMember() && Find.WorldSelector.IsSelected(ThingSelectionUtility.tmpColonists[i].GetCaravan()))
-						goto IL_00a8;
+						goto IL_00bf;
 					continue;
-					IL_00a8:
+					IL_00bf:
 					num = i;
 					break;
 				}

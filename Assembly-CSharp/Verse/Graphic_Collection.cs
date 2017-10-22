@@ -25,6 +25,7 @@ namespace Verse
 			base.drawSize = req.drawSize;
 			List<Texture2D> list = (from x in ContentFinder<Texture2D>.GetAllInFolder(req.path)
 			where !x.name.EndsWith(Graphic_Single.MaskSuffix)
+			orderby x.name
 			select x).ToList();
 			if (list.NullOrEmpty())
 			{

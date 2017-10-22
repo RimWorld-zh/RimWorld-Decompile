@@ -62,11 +62,11 @@ namespace RimWorld.Planet
 			if (!this.settlement.Faction.HostileTo(Faction.OfPlayer))
 			{
 				this.settlement.Faction.SetHostileTo(Faction.OfPlayer, true);
-				Find.LetterStack.ReceiveLetter("LetterLabelCaravanEnteredEnemyBase".Translate(), "LetterCaravanEnteredEnemyBaseBecameHostile".Translate(caravan.Label, this.settlement.Label, this.settlement.Faction.Name).CapitalizeFirst(), LetterDefOf.Good, (Thing)t, (string)null);
+				Find.LetterStack.ReceiveLetter("LetterLabelCaravanEnteredEnemyBase".Translate(), "LetterCaravanEnteredEnemyBaseBecameHostile".Translate(caravan.Label, this.settlement.Label, this.settlement.Faction.Name).CapitalizeFirst(), LetterDefOf.NeutralEvent, (Thing)t, (string)null);
 			}
 			else
 			{
-				Find.LetterStack.ReceiveLetter("LetterLabelCaravanEnteredEnemyBase".Translate(), "LetterCaravanEnteredEnemyBase".Translate(caravan.Label, this.settlement.Label).CapitalizeFirst(), LetterDefOf.Good, (Thing)t, (string)null);
+				Find.LetterStack.ReceiveLetter("LetterLabelCaravanEnteredEnemyBase".Translate(), "LetterCaravanEnteredEnemyBase".Translate(caravan.Label, this.settlement.Label).CapitalizeFirst(), LetterDefOf.NeutralEvent, (Thing)t, (string)null);
 			}
 		}
 	}

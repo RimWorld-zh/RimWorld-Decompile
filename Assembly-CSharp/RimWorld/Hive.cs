@@ -8,14 +8,6 @@ namespace RimWorld
 {
 	public class Hive : ThingWithComps
 	{
-		private const int InitialPawnSpawnDelay = 420;
-
-		private const int PawnSpawnRadius = 4;
-
-		private const float MaxSpawnedPawnsPoints = 500f;
-
-		private const int InitialPawnsPoints = 200;
-
 		public bool active = true;
 
 		public int nextPawnSpawnTick = -1;
@@ -23,6 +15,16 @@ namespace RimWorld
 		private List<Pawn> spawnedPawns = new List<Pawn>();
 
 		private int ticksToSpawnInitialPawns = -1;
+
+		public bool canSpawnPawns = true;
+
+		private const int InitialPawnSpawnDelay = 420;
+
+		private const int PawnSpawnRadius = 4;
+
+		public const float MaxSpawnedPawnsPoints = 500f;
+
+		public const float InitialPawnsPoints = 200f;
 
 		private static readonly FloatRange PawnSpawnIntervalDays = new FloatRange(0.85f, 1.1f);
 
@@ -42,6 +44,7 @@ namespace RimWorld
 					return lord != null && lord.LordJob is LordJob_DefendAndExpandHive;
 				};
 				Pawn foundPawn = this.spawnedPawns.Find(hasDefendHiveLord);
+				Lord result;
 				if (base.Spawned)
 				{
 					if (foundPawn == null)
@@ -49,26 +52,40 @@ namespace RimWorld
 						RegionTraverser.BreadthFirstTraverse(this.GetRegion(RegionType.Set_Passable), (RegionEntryPredicate)((Region from, Region to) => true), (RegionProcessor)delegate(Region r)
 						{
 							List<Thing> list = r.ListerThings.ThingsOfDef(ThingDefOf.Hive);
-							for (int i = 0; i < list.Count; i++)
+							int num = 0;
+							bool result2;
+							while (true)
 							{
-								if (list[i] != this && list[i].Faction == base.Faction)
+								if (num < list.Count)
 								{
-									foundPawn = ((Hive)list[i]).spawnedPawns.Find(hasDefendHiveLord);
-									if (foundPawn != null)
+									if (list[num] != this && list[num].Faction == base.Faction)
 									{
-										return true;
+										foundPawn = ((Hive)list[num]).spawnedPawns.Find(hasDefendHiveLord);
+										if (foundPawn != null)
+										{
+											result2 = true;
+											break;
+										}
 									}
+									num++;
+									continue;
 								}
+								result2 = false;
+								break;
 							}
-							return false;
+							return result2;
 						}, 20, RegionType.Set_Passable);
 					}
 					if (foundPawn != null)
 					{
-						return foundPawn.GetLord();
+						result = foundPawn.GetLord();
+						goto IL_00bd;
 					}
 				}
-				return null;
+				result = null;
+				goto IL_00bd;
+				IL_00bd:
+				return result;
 			}
 		}
 
@@ -102,11 +119,14 @@ namespace RimWorld
 		private void SpawnInitialPawnsNow()
 		{
 			this.ticksToSpawnInitialPawns = -1;
-			while (this.SpawnedPawnsPoints < 200.0)
+			this.SpawnPawnsUntilPoints(200f);
+		}
+
+		public void SpawnPawnsUntilPoints(float points)
+		{
+			Pawn pawn = default(Pawn);
+			while (this.SpawnedPawnsPoints < points && this.TrySpawnPawn(out pawn))
 			{
-				Pawn pawn = default(Pawn);
-				if (!this.TrySpawnPawn(out pawn))
-					return;
 			}
 			this.CalculateNextPawnSpawnTick();
 		}
@@ -187,6 +207,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.nextPawnSpawnTick, "nextPawnSpawnTick", 0, false);
 			Scribe_Collections.Look<Pawn>(ref this.spawnedPawns, "spawnedPawns", LookMode.Reference, new object[0]);
 			Scribe_Values.Look<int>(ref this.ticksToSpawnInitialPawns, "ticksToSpawnInitialPawns", 0, false);
+			Scribe_Values.Look<bool>(ref this.canSpawnPawns, "canSpawnPawns", true, false);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
 				this.spawnedPawns.RemoveAll((Predicate<Pawn>)((Pawn x) => x == null));
@@ -223,62 +244,87 @@ namespace RimWorld
 
 		private bool TrySpawnPawn(out Pawn pawn)
 		{
-			List<PawnKindDef> list = new List<PawnKindDef>();
-			list.Add(PawnKindDefOf.Megascarab);
-			list.Add(PawnKindDefOf.Spelopede);
-			list.Add(PawnKindDefOf.Megaspider);
-			float curPoints = this.SpawnedPawnsPoints;
-			IEnumerable<PawnKindDef> source = from x in list
-			where curPoints + x.combatPower <= 500.0
-			select x;
-			PawnKindDef kindDef = default(PawnKindDef);
-			if (!source.TryRandomElement<PawnKindDef>(out kindDef))
+			bool result;
+			if (!this.canSpawnPawns)
 			{
 				pawn = null;
-				return false;
+				result = false;
 			}
-			pawn = PawnGenerator.GeneratePawn(kindDef, base.Faction);
-			GenSpawn.Spawn(pawn, CellFinder.RandomClosewalkCellNear(base.Position, base.Map, 4, null), base.Map);
-			this.spawnedPawns.Add(pawn);
-			Lord lord = this.Lord;
-			if (lord == null)
+			else
 			{
-				lord = this.CreateNewLord();
+				List<PawnKindDef> list = new List<PawnKindDef>();
+				list.Add(PawnKindDefOf.Megascarab);
+				list.Add(PawnKindDefOf.Spelopede);
+				list.Add(PawnKindDefOf.Megaspider);
+				float curPoints = this.SpawnedPawnsPoints;
+				IEnumerable<PawnKindDef> source = from x in list
+				where curPoints + x.combatPower <= 500.0
+				select x;
+				PawnKindDef kindDef = default(PawnKindDef);
+				if (!source.TryRandomElement<PawnKindDef>(out kindDef))
+				{
+					pawn = null;
+					result = false;
+				}
+				else
+				{
+					pawn = PawnGenerator.GeneratePawn(kindDef, base.Faction);
+					GenSpawn.Spawn(pawn, CellFinder.RandomClosewalkCellNear(base.Position, base.Map, 4, null), base.Map);
+					this.spawnedPawns.Add(pawn);
+					Lord lord = this.Lord;
+					if (lord == null)
+					{
+						lord = this.CreateNewLord();
+					}
+					lord.AddPawn(pawn);
+					result = true;
+				}
 			}
-			lord.AddPawn(pawn);
-			return true;
+			return result;
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return gizmo;
-			}
-			if (Prefs.DevMode)
-			{
-				yield return (Gizmo)new Command_Action
+				if (enumerator.MoveNext())
 				{
-					defaultLabel = "DEBUG: Spawn pawn",
-					icon = TexCommand.ReleaseAnimals,
-					action = (Action)delegate
-					{
-						Pawn pawn = default(Pawn);
-						((_003CGetGizmos_003Ec__Iterator160)/*Error near IL_00e5: stateMachine*/)._003C_003Ef__this.TrySpawnPawn(out pawn);
-					}
-				};
+					Gizmo g = enumerator.Current;
+					yield return g;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			if (!Prefs.DevMode)
+				yield break;
+			yield return (Gizmo)new Command_Action
+			{
+				defaultLabel = "DEBUG: Spawn pawn",
+				icon = TexCommand.ReleaseAnimals,
+				action = (Action)delegate
+				{
+					Pawn pawn = default(Pawn);
+					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00f4: stateMachine*/)._0024this.TrySpawnPawn(out pawn);
+				}
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_012f:
+			/*Error near IL_0130: Unexpected return in MoveNext()*/;
 		}
 
 		public override bool PreventPlayerSellingThingsNearby(out string reason)
 		{
+			bool result;
 			if (this.spawnedPawns.Count > 0 && this.spawnedPawns.Any((Predicate<Pawn>)((Pawn p) => !p.Downed)))
 			{
 				reason = base.def.label;
-				return true;
+				result = true;
 			}
-			reason = (string)null;
-			return false;
+			else
+			{
+				reason = (string)null;
+				result = false;
+			}
+			return result;
 		}
 
 		private Lord CreateNewLord()

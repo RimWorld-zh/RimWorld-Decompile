@@ -4,7 +4,7 @@ namespace RimWorld
 {
 	public class CompMaintainable : ThingComp
 	{
-		public int ticksSinceMaintain;
+		public int ticksSinceMaintain = 0;
 
 		public CompProperties_Maintainable Props
 		{
@@ -18,15 +18,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.ticksSinceMaintain < this.Props.ticksHealthy)
-				{
-					return MaintainableStage.Healthy;
-				}
-				if (this.ticksSinceMaintain < this.Props.ticksHealthy + this.Props.ticksNeedsMaintenance)
-				{
-					return MaintainableStage.NeedsMaintenance;
-				}
-				return MaintainableStage.Damaging;
+				return (MaintainableStage)((this.ticksSinceMaintain >= this.Props.ticksHealthy) ? ((this.ticksSinceMaintain < this.Props.ticksHealthy + this.Props.ticksNeedsMaintenance) ? 1 : 2) : 0);
 			}
 		}
 
@@ -54,21 +46,26 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
+			string result;
 			switch (this.CurStage)
 			{
 			case MaintainableStage.NeedsMaintenance:
 			{
-				return "DueForMaintenance".Translate();
+				result = "DueForMaintenance".Translate();
+				break;
 			}
 			case MaintainableStage.Damaging:
 			{
-				return "DeterioratingDueToLackOfMaintenance".Translate();
+				result = "DeterioratingDueToLackOfMaintenance".Translate();
+				break;
 			}
 			default:
 			{
-				return (string)null;
+				result = (string)null;
+				break;
 			}
 			}
+			return result;
 		}
 	}
 }

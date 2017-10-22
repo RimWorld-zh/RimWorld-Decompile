@@ -7,17 +7,17 @@ namespace RimWorld
 {
 	public class JobDriver_MarryAdjacentPawn : JobDriver
 	{
+		private int ticksLeftToMarry = 2500;
+
 		private const TargetIndex OtherFianceInd = TargetIndex.A;
 
 		private const int Duration = 2500;
-
-		private int ticksLeftToMarry = 2500;
 
 		private Pawn OtherFiance
 		{
 			get
 			{
-				return (Pawn)base.CurJob.GetTarget(TargetIndex.A).Thing;
+				return (Pawn)base.job.GetTarget(TargetIndex.A).Thing;
 			}
 		}
 
@@ -29,40 +29,35 @@ namespace RimWorld
 			}
 		}
 
+		public override bool TryMakePreToilReservations()
+		{
+			return true;
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);
-			this.FailOn((Func<bool>)(() => ((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0038: stateMachine*/)._003C_003Ef__this.OtherFiance.Drafted || !((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0038: stateMachine*/)._003C_003Ef__this.pawn.Position.AdjacentTo8WayOrInside(((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0038: stateMachine*/)._003C_003Ef__this.OtherFiance)));
+			this.FailOn((Func<bool>)(() => ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0039: stateMachine*/)._0024this.OtherFiance.Drafted || !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0039: stateMachine*/)._0024this.pawn.Position.AdjacentTo8WayOrInside(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0039: stateMachine*/)._0024this.OtherFiance)));
 			Toil marry = new Toil
 			{
 				initAction = (Action)delegate
 				{
-					((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_005b: stateMachine*/)._003C_003Ef__this.ticksLeftToMarry = 2500;
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_005c: stateMachine*/)._0024this.ticksLeftToMarry = 2500;
 				},
 				tickAction = (Action)delegate
 				{
-					((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0072: stateMachine*/)._003C_003Ef__this.ticksLeftToMarry--;
-					if (((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0072: stateMachine*/)._003C_003Ef__this.ticksLeftToMarry <= 0)
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0073: stateMachine*/)._0024this.ticksLeftToMarry--;
+					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0073: stateMachine*/)._0024this.ticksLeftToMarry <= 0)
 					{
-						((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0072: stateMachine*/)._003C_003Ef__this.ticksLeftToMarry = 0;
-						((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0072: stateMachine*/)._003C_003Ef__this.ReadyForNextToil();
+						((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0073: stateMachine*/)._0024this.ticksLeftToMarry = 0;
+						((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0073: stateMachine*/)._0024this.ReadyForNextToil();
 					}
 				},
 				defaultCompleteMode = ToilCompleteMode.Never
 			};
-			marry.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0095: stateMachine*/)._003C_003Ef__this.pawn.relations.DirectRelationExists(PawnRelationDefOf.Fiance, ((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_0095: stateMachine*/)._003C_003Ef__this.OtherFiance)));
+			marry.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0096: stateMachine*/)._0024this.pawn.relations.DirectRelationExists(PawnRelationDefOf.Fiance, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0096: stateMachine*/)._0024this.OtherFiance)));
 			yield return marry;
-			yield return new Toil
-			{
-				defaultCompleteMode = ToilCompleteMode.Instant,
-				initAction = (Action)delegate
-				{
-					if (((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_00dc: stateMachine*/)._003C_003Ef__this.pawn.thingIDNumber < ((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_00dc: stateMachine*/)._003C_003Ef__this.OtherFiance.thingIDNumber)
-					{
-						MarriageCeremonyUtility.Married(((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_00dc: stateMachine*/)._003C_003Ef__this.pawn, ((_003CMakeNewToils_003Ec__Iterator16)/*Error near IL_00dc: stateMachine*/)._003C_003Ef__this.OtherFiance);
-					}
-				}
-			};
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override void ExposeData()

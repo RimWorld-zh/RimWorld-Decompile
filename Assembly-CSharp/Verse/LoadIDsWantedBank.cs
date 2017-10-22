@@ -187,67 +187,87 @@ namespace Verse
 
 		public string Take<T>(string pathRelToParent, IExposable parent)
 		{
-			for (int i = 0; i < this.idsRead.Count; i++)
+			int num = 0;
+			string result;
+			while (true)
 			{
-				IdRecord idRecord = this.idsRead[i];
-				if (idRecord.parent == parent)
+				if (num < this.idsRead.Count)
 				{
-					IdRecord idRecord2 = this.idsRead[i];
-					if (idRecord2.pathRelToParent == pathRelToParent)
+					IdRecord idRecord = this.idsRead[num];
+					if (idRecord.parent == parent)
 					{
-						IdRecord idRecord3 = this.idsRead[i];
-						string targetLoadID = idRecord3.targetLoadID;
-						Type typeFromHandle = typeof(T);
-						IdRecord idRecord4 = this.idsRead[i];
-						if (typeFromHandle != idRecord4.targetType)
+						IdRecord idRecord2 = this.idsRead[num];
+						if (idRecord2.pathRelToParent == pathRelToParent)
 						{
-							object[] obj = new object[8]
+							IdRecord idRecord3 = this.idsRead[num];
+							string targetLoadID = idRecord3.targetLoadID;
+							Type typeFromHandle = typeof(T);
+							IdRecord idRecord4 = this.idsRead[num];
+							if (typeFromHandle != idRecord4.targetType)
 							{
-								"Trying to get load ID of object of type ",
-								typeof(T),
-								", but it was registered as ",
-								null,
-								null,
-								null,
-								null,
-								null
-							};
-							IdRecord idRecord5 = this.idsRead[i];
-							obj[3] = idRecord5.targetType;
-							obj[4] = ". pathRelToParent=";
-							obj[5] = pathRelToParent;
-							obj[6] = ", parent=";
-							obj[7] = parent.ToStringSafe<IExposable>();
-							Log.Error(string.Concat(obj));
+								object[] obj = new object[8]
+								{
+									"Trying to get load ID of object of type ",
+									typeof(T),
+									", but it was registered as ",
+									null,
+									null,
+									null,
+									null,
+									null
+								};
+								IdRecord idRecord5 = this.idsRead[num];
+								obj[3] = idRecord5.targetType;
+								obj[4] = ". pathRelToParent=";
+								obj[5] = pathRelToParent;
+								obj[6] = ", parent=";
+								obj[7] = parent.ToStringSafe<IExposable>();
+								Log.Error(string.Concat(obj));
+							}
+							this.idsRead.RemoveAt(num);
+							result = targetLoadID;
+							break;
 						}
-						this.idsRead.RemoveAt(i);
-						return targetLoadID;
 					}
+					num++;
+					continue;
 				}
+				Log.Error("Could not get load ID. We're asking for something which was never added during LoadingVars. pathRelToParent=" + pathRelToParent + ", parent=" + parent.ToStringSafe<IExposable>());
+				result = (string)null;
+				break;
 			}
-			Log.Error("Could not get load ID. We're asking for something which was never added during LoadingVars. pathRelToParent=" + pathRelToParent + ", parent=" + parent.ToStringSafe<IExposable>());
-			return (string)null;
+			return result;
 		}
 
 		public List<string> TakeList(string pathRelToParent, IExposable parent)
 		{
-			for (int i = 0; i < this.idListsRead.Count; i++)
+			int num = 0;
+			List<string> result;
+			while (true)
 			{
-				IdListRecord idListRecord = this.idListsRead[i];
-				if (idListRecord.parent == parent)
+				if (num < this.idListsRead.Count)
 				{
-					IdListRecord idListRecord2 = this.idListsRead[i];
-					if (idListRecord2.pathRelToParent == pathRelToParent)
+					IdListRecord idListRecord = this.idListsRead[num];
+					if (idListRecord.parent == parent)
 					{
-						IdListRecord idListRecord3 = this.idListsRead[i];
-						List<string> targetLoadIDs = idListRecord3.targetLoadIDs;
-						this.idListsRead.RemoveAt(i);
-						return targetLoadIDs;
+						IdListRecord idListRecord2 = this.idListsRead[num];
+						if (idListRecord2.pathRelToParent == pathRelToParent)
+						{
+							IdListRecord idListRecord3 = this.idListsRead[num];
+							List<string> targetLoadIDs = idListRecord3.targetLoadIDs;
+							this.idListsRead.RemoveAt(num);
+							result = targetLoadIDs;
+							break;
+						}
 					}
+					num++;
+					continue;
 				}
+				Log.Error("Could not get load IDs list. We're asking for something which was never added during LoadingVars. pathRelToParent=" + pathRelToParent + ", parent=" + parent.ToStringSafe());
+				result = new List<string>();
+				break;
 			}
-			Log.Error("Could not get load IDs list. We're asking for something which was never added during LoadingVars. pathRelToParent=" + pathRelToParent + ", parent=" + parent.ToStringSafe());
-			return new List<string>();
+			return result;
 		}
 	}
 }

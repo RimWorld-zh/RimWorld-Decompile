@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class Graphic_Single : Graphic
 	{
-		protected Material mat;
+		protected Material mat = null;
 
 		public static readonly string MaskSuffix = "_m";
 
@@ -44,11 +44,7 @@ namespace Verse
 		{
 			get
 			{
-				if (base.data != null && !base.data.drawRotated)
-				{
-					return false;
-				}
-				return true;
+				return (byte)((base.data == null || base.data.drawRotated) ? 1 : 0) != 0;
 			}
 		}
 

@@ -5,11 +5,12 @@ namespace RimWorld
 		Undefined = 0,
 		NeverForNutrition = 1,
 		DesperateOnly = 2,
-		RawBad = 3,
-		RawTasty = 4,
-		MealAwful = 5,
-		MealSimple = 6,
-		MealFine = 7,
-		MealLavish = 8
+		DesperateOnlyForHumanlikes = 3,
+		RawBad = 4,
+		RawTasty = 5,
+		MealAwful = 6,
+		MealSimple = 7,
+		MealFine = 8,
+		MealLavish = 9
 	}
 }

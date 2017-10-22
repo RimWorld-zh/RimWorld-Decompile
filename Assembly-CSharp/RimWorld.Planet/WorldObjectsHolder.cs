@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -22,6 +23,8 @@ namespace RimWorld.Planet
 		private List<MapParent> mapParents = new List<MapParent>();
 
 		private List<Site> sites = new List<Site>();
+
+		private List<PeaceTalks> peaceTalks = new List<PeaceTalks>();
 
 		private static List<WorldObject> tmpUnsavedWorldObjects = new List<WorldObject>();
 
@@ -99,6 +102,14 @@ namespace RimWorld.Planet
 			}
 		}
 
+		public List<PeaceTalks> PeaceTalks
+		{
+			get
+			{
+				return this.peaceTalks;
+			}
+		}
+
 		public int WorldObjectsCount
 		{
 			get
@@ -161,6 +172,7 @@ namespace RimWorld.Planet
 			}
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
+				this.worldObjects.RemoveAll((Predicate<WorldObject>)((WorldObject wo) => wo == null));
 				for (int i = 0; i < this.worldObjects.Count; i++)
 				{
 					this.worldObjects[i].SpawnSetup();
@@ -247,6 +259,10 @@ namespace RimWorld.Planet
 			{
 				this.sites.Add((Site)o);
 			}
+			if (o is PeaceTalks)
+			{
+				this.peaceTalks.Add((PeaceTalks)o);
+			}
 		}
 
 		private void RemoveFromCache(WorldObject o)
@@ -283,6 +299,10 @@ namespace RimWorld.Planet
 			{
 				this.sites.Remove((Site)o);
 			}
+			if (o is PeaceTalks)
+			{
+				this.peaceTalks.Remove((PeaceTalks)o);
+			}
 		}
 
 		private void Recache()
@@ -295,6 +315,7 @@ namespace RimWorld.Planet
 			this.routePlannerWaypoints.Clear();
 			this.mapParents.Clear();
 			this.sites.Clear();
+			this.peaceTalks.Clear();
 			for (int i = 0; i < this.worldObjects.Count; i++)
 			{
 				this.AddToCache(this.worldObjects[i]);
@@ -303,57 +324,106 @@ namespace RimWorld.Planet
 
 		public bool Contains(WorldObject o)
 		{
-			if (o == null)
-			{
-				return false;
-			}
-			if (o is Caravan)
-			{
-				return this.caravans.Contains((Caravan)o);
-			}
-			if (o is Settlement)
-			{
-				return this.settlements.Contains((Settlement)o);
-			}
-			return this.worldObjects.Contains(o);
+			return o != null && ((!(o is Caravan)) ? ((!(o is Settlement)) ? this.worldObjects.Contains(o) : this.settlements.Contains((Settlement)o)) : this.caravans.Contains((Caravan)o));
 		}
 
 		public IEnumerable<WorldObject> ObjectsAt(int tileID)
 		{
 			if (tileID >= 0)
 			{
-				for (int i = 0; i < this.worldObjects.Count; i++)
+				int i = 0;
+				while (true)
 				{
-					if (this.worldObjects[i].Tile == tileID)
+					if (i < this.worldObjects.Count)
 					{
-						yield return this.worldObjects[i];
+						if (this.worldObjects[i].Tile != tileID)
+						{
+							i++;
+							continue;
+						}
+						break;
 					}
+					yield break;
 				}
+				yield return this.worldObjects[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
 		public bool AnyWorldObjectAt(int tile)
 		{
-			for (int i = 0; i < this.worldObjects.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (this.worldObjects[i].Tile == tile)
+				if (num < this.worldObjects.Count)
 				{
-					return true;
+					if (this.worldObjects[num].Tile == tile)
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
-		public T WorldObjectAt<T>(int tile) where T : class
+		public bool AnyWorldObjectAt<T>(int tile) where T : WorldObject
 		{
-			for (int i = 0; i < this.worldObjects.Count; i++)
+			return this.WorldObjectAt<T>(tile) != null;
+		}
+
+		public T WorldObjectAt<T>(int tile) where T : WorldObject
+		{
+			int num = 0;
+			T result;
+			while (true)
 			{
-				if (this.worldObjects[i].Tile == tile && this.worldObjects[i] is T)
+				if (num < this.worldObjects.Count)
 				{
-					return (T)(((object)this.worldObjects[i]) as T);
+					if (this.worldObjects[num].Tile == tile && this.worldObjects[num] is T)
+					{
+						result = (T)(this.worldObjects[num] as T);
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = (T)null;
+				break;
 			}
-			return (T)null;
+			return result;
+		}
+
+		public bool AnyWorldObjectAt(int tile, WorldObjectDef def)
+		{
+			return this.WorldObjectAt(tile, def) != null;
+		}
+
+		public WorldObject WorldObjectAt(int tile, WorldObjectDef def)
+		{
+			int num = 0;
+			WorldObject result;
+			while (true)
+			{
+				if (num < this.worldObjects.Count)
+				{
+					if (this.worldObjects[num].Tile == tile && this.worldObjects[num].def == def)
+					{
+						result = this.worldObjects[num];
+						break;
+					}
+					num++;
+					continue;
+				}
+				result = null;
+				break;
+			}
+			return result;
 		}
 
 		public bool AnyFactionBaseAt(int tile)
@@ -363,14 +433,24 @@ namespace RimWorld.Planet
 
 		public FactionBase FactionBaseAt(int tile)
 		{
-			for (int i = 0; i < this.factionBases.Count; i++)
+			int num = 0;
+			FactionBase result;
+			while (true)
 			{
-				if (this.factionBases[i].Tile == tile)
+				if (num < this.factionBases.Count)
 				{
-					return this.factionBases[i];
+					if (this.factionBases[num].Tile == tile)
+					{
+						result = this.factionBases[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public bool AnySettlementAt(int tile)
@@ -380,14 +460,24 @@ namespace RimWorld.Planet
 
 		public Settlement SettlementAt(int tile)
 		{
-			for (int i = 0; i < this.settlements.Count; i++)
+			int num = 0;
+			Settlement result;
+			while (true)
 			{
-				if (this.settlements[i].Tile == tile)
+				if (num < this.settlements.Count)
 				{
-					return this.settlements[i];
+					if (this.settlements[num].Tile == tile)
+					{
+						result = this.settlements[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public bool AnyDestroyedFactionBaseAt(int tile)
@@ -397,14 +487,24 @@ namespace RimWorld.Planet
 
 		public DestroyedFactionBase DestroyedFactionBaseAt(int tile)
 		{
-			for (int i = 0; i < this.destroyedFactionBases.Count; i++)
+			int num = 0;
+			DestroyedFactionBase result;
+			while (true)
 			{
-				if (this.destroyedFactionBases[i].Tile == tile)
+				if (num < this.destroyedFactionBases.Count)
 				{
-					return this.destroyedFactionBases[i];
+					if (this.destroyedFactionBases[num].Tile == tile)
+					{
+						result = this.destroyedFactionBases[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public bool AnyMapParentAt(int tile)
@@ -414,14 +514,24 @@ namespace RimWorld.Planet
 
 		public MapParent MapParentAt(int tile)
 		{
-			for (int i = 0; i < this.mapParents.Count; i++)
+			int num = 0;
+			MapParent result;
+			while (true)
 			{
-				if (this.mapParents[i].Tile == tile)
+				if (num < this.mapParents.Count)
 				{
-					return this.mapParents[i];
+					if (this.mapParents[num].Tile == tile)
+					{
+						result = this.mapParents[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public bool AnyWorldObjectOfDefAt(WorldObjectDef def, int tile)
@@ -431,51 +541,104 @@ namespace RimWorld.Planet
 
 		public WorldObject WorldObjectOfDefAt(WorldObjectDef def, int tile)
 		{
-			for (int i = 0; i < this.worldObjects.Count; i++)
+			int num = 0;
+			WorldObject result;
+			while (true)
 			{
-				if (this.worldObjects[i].def == def && this.worldObjects[i].Tile == tile)
+				if (num < this.worldObjects.Count)
 				{
-					return this.worldObjects[i];
+					if (this.worldObjects[num].def == def && this.worldObjects[num].Tile == tile)
+					{
+						result = this.worldObjects[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public Caravan PlayerControlledCaravanAt(int tile)
 		{
-			for (int i = 0; i < this.caravans.Count; i++)
+			int num = 0;
+			Caravan result;
+			while (true)
 			{
-				if (this.caravans[i].Tile == tile && this.caravans[i].IsPlayerControlled)
+				if (num < this.caravans.Count)
 				{
-					return this.caravans[i];
+					if (this.caravans[num].Tile == tile && this.caravans[num].IsPlayerControlled)
+					{
+						result = this.caravans[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public bool AnySettlementAtOrAdjacent(int tile)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
-			for (int i = 0; i < this.settlements.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				if (worldGrid.IsNeighborOrSame(this.settlements[i].Tile, tile))
+				if (num < this.settlements.Count)
 				{
-					return true;
+					if (worldGrid.IsNeighborOrSame(this.settlements[num].Tile, tile))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public RoutePlannerWaypoint RoutePlannerWaypointAt(int tile)
 		{
-			for (int i = 0; i < this.routePlannerWaypoints.Count; i++)
+			int num = 0;
+			RoutePlannerWaypoint result;
+			while (true)
 			{
-				if (this.routePlannerWaypoints[i].Tile == tile)
+				if (num < this.routePlannerWaypoints.Count)
 				{
-					return this.routePlannerWaypoints[i];
+					if (this.routePlannerWaypoints[num].Tile == tile)
+					{
+						result = this.routePlannerWaypoints[num];
+						break;
+					}
+					num++;
+					continue;
+				}
+				result = null;
+				break;
+			}
+			return result;
+		}
+
+		public void GetPlayerControlledCaravansAt(int tile, List<Caravan> outCaravans)
+		{
+			outCaravans.Clear();
+			for (int i = 0; i < this.caravans.Count; i++)
+			{
+				Caravan caravan = this.caravans[i];
+				if (caravan.Tile == tile && caravan.IsPlayerControlled)
+				{
+					outCaravans.Add(caravan);
 				}
 			}
-			return null;
 		}
 	}
 }

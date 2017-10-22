@@ -6,8 +6,6 @@ namespace RimWorld
 {
 	public class MainButtonDef : Def
 	{
-		public const int ButtonHeight = 35;
-
 		public Type workerClass = typeof(MainButtonWorker_ToggleTab);
 
 		public Type tabWindowClass;
@@ -16,7 +14,7 @@ namespace RimWorld
 
 		public int order;
 
-		public KeyCode defaultHotKey;
+		public KeyCode defaultHotKey = KeyCode.None;
 
 		public bool canBeTutorDenied = true;
 
@@ -36,6 +34,8 @@ namespace RimWorld
 
 		[Unsaved]
 		private MainTabWindow tabWindowInt;
+
+		public const int ButtonHeight = 35;
 
 		public MainButtonWorker Worker
 		{

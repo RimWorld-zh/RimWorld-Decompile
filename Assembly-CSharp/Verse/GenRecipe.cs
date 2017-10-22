@@ -11,9 +11,10 @@ namespace Verse
 			float efficiency = (float)((recipeDef.efficiencyStat != null) ? worker.GetStatValue(recipeDef.efficiencyStat, true) : 1.0);
 			if (recipeDef.products != null)
 			{
-				for (int l = 0; l < recipeDef.products.Count; l++)
+				int k = 0;
+				if (k < recipeDef.products.Count)
 				{
-					ThingCountClass prod = recipeDef.products[l];
+					ThingCountClass prod = recipeDef.products[k];
 					ThingDef stuffDef = (!prod.thingDef.MadeFromStuff) ? null : dominantIngredient.def;
 					Thing product3 = ThingMaker.MakeThing(prod.thingDef, stuffDef);
 					product3.stackCount = Mathf.CeilToInt((float)prod.count * efficiency);
@@ -24,26 +25,27 @@ namespace Verse
 					CompIngredients ingredientsComp = product3.TryGetComp<CompIngredients>();
 					if (ingredientsComp != null)
 					{
-						for (int k = 0; k < ingredients.Count; k++)
+						for (int l = 0; l < ingredients.Count; l++)
 						{
-							ingredientsComp.RegisterIngredient(ingredients[k].def);
+							ingredientsComp.RegisterIngredient(ingredients[l].def);
 						}
 					}
 					CompFoodPoisonable foodPoisonable = product3.TryGetComp<CompFoodPoisonable>();
 					if (foodPoisonable != null)
 					{
-						float poisonChance = worker.GetStatValue(StatDefOf.FoodPoisonChance, true);
+						float num = worker.GetStatValue(StatDefOf.FoodPoisonChance, true);
 						Room room = worker.GetRoom(RegionType.Set_Passable);
 						if (room != null)
 						{
-							poisonChance *= room.GetStat(RoomStatDefOf.FoodPoisonChanceFactor);
+							num *= room.GetStat(RoomStatDefOf.FoodPoisonChanceFactor);
 						}
-						if (Rand.Value < poisonChance)
+						if (Rand.Value < num)
 						{
 							foodPoisonable.PoisonPercent = 1f;
 						}
 					}
 					yield return GenRecipe.PostProcessProduct(product3, recipeDef, worker);
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			if (recipeDef.specialProducts != null)
@@ -57,17 +59,27 @@ namespace Verse
 						{
 						case SpecialProductType.Butchery:
 						{
-							foreach (Thing item in ing.ButcherProducts(worker, efficiency))
+							using (IEnumerator<Thing> enumerator = ing.ButcherProducts(worker, efficiency).GetEnumerator())
 							{
-								yield return GenRecipe.PostProcessProduct(item, recipeDef, worker);
+								if (enumerator.MoveNext())
+								{
+									Thing product = enumerator.Current;
+									yield return GenRecipe.PostProcessProduct(product, recipeDef, worker);
+									/*Error: Unable to find new state assignment for yield return*/;
+								}
 							}
 							break;
 						}
 						case SpecialProductType.Smelted:
 						{
-							foreach (Thing item2 in ing.SmeltProducts(efficiency))
+							using (IEnumerator<Thing> enumerator2 = ing.SmeltProducts(efficiency).GetEnumerator())
 							{
-								yield return GenRecipe.PostProcessProduct(item2, recipeDef, worker);
+								if (enumerator2.MoveNext())
+								{
+									Thing product2 = enumerator2.Current;
+									yield return GenRecipe.PostProcessProduct(product2, recipeDef, worker);
+									/*Error: Unable to find new state assignment for yield return*/;
+								}
 							}
 							break;
 						}
@@ -75,6 +87,9 @@ namespace Verse
 					}
 				}
 			}
+			yield break;
+			IL_048a:
+			/*Error near IL_048b: Unexpected return in MoveNext()*/;
 		}
 
 		private static Thing PostProcessProduct(Thing product, RecipeDef recipeDef, Pawn worker)
@@ -87,7 +102,13 @@ namespace Verse
 					Log.Error(recipeDef + " needs workSkill because it creates a product with a quality.");
 				}
 				int level = worker.skills.GetSkill(recipeDef.workSkill).Level;
-				compQuality.SetQuality(QualityUtility.RandomCreationQuality(level), ArtGenerationContext.Colony);
+				QualityCategory qualityCategory = QualityUtility.RandomCreationQuality(level);
+				if (worker.InspirationDef == InspirationDefOf.InspiredArt && (product.def.IsArt || (product.def.minifiedDef != null && product.def.minifiedDef.IsArt)))
+				{
+					qualityCategory = qualityCategory.AddLevels(3);
+					worker.mindState.inspirationHandler.EndInspiration(InspirationDefOf.InspiredArt);
+				}
+				compQuality.SetQuality(qualityCategory, ArtGenerationContext.Colony);
 			}
 			CompArt compArt = product.TryGetComp<CompArt>();
 			if (compArt != null)

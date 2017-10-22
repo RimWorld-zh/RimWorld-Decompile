@@ -14,25 +14,33 @@ namespace RimWorld
 			GenDraw.DrawFieldEdges(cellRect.Cells.ToList(), Color.white);
 		}
 
-		public override AcceptanceReport AllowsPlacing(BuildableDef def, IntVec3 center, Rot4 rot, Thing thingToIgnore = null)
+		public override AcceptanceReport AllowsPlacing(BuildableDef def, IntVec3 center, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
 			CellRect cellRect = GenAdj.OccupiedRect(center, rot, def.Size);
 			cellRect = cellRect.ExpandedBy(1);
 			CellRect.CellRectIterator iterator = cellRect.GetIterator();
-			while (!iterator.Done())
+			AcceptanceReport result;
+			while (true)
 			{
-				IntVec3 current = iterator.Current;
-				List<Thing> list = base.Map.thingGrid.ThingsListAt(current);
-				for (int i = 0; i < list.Count; i++)
+				if (!iterator.Done())
 				{
-					if (((list[i] != thingToIgnore) ? list[i].def.passability : Traversability.Standable) != 0)
+					IntVec3 current = iterator.Current;
+					List<Thing> list = map.thingGrid.ThingsListAt(current);
+					for (int i = 0; i < list.Count; i++)
 					{
-						return "MustPlaceAdjacentStandable".Translate();
+						if (((list[i] != thingToIgnore) ? list[i].def.passability : Traversability.Standable) != 0)
+							goto IL_006b;
 					}
+					iterator.MoveNext();
+					continue;
 				}
-				iterator.MoveNext();
+				result = true;
+				break;
+				IL_006b:
+				result = "MustPlaceAdjacentStandable".Translate();
+				break;
 			}
-			return true;
+			return result;
 		}
 	}
 }

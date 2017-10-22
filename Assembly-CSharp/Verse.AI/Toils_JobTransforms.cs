@@ -9,7 +9,7 @@ namespace Verse.AI
 	{
 		private static List<IntVec3> yieldedIngPlaceCells = new List<IntVec3>();
 
-		public static Toil ExtractNextTargetFromQueue(TargetIndex ind)
+		public static Toil ExtractNextTargetFromQueue(TargetIndex ind, bool failIfCountFromQueueTooBig = true)
 		{
 			Toil toil = new Toil();
 			toil.initAction = (Action)delegate()
@@ -19,13 +19,36 @@ namespace Verse.AI
 				List<LocalTargetInfo> targetQueue = curJob.GetTargetQueue(ind);
 				if (!targetQueue.NullOrEmpty())
 				{
-					curJob.SetTarget(ind, targetQueue[0]);
-					targetQueue.RemoveAt(0);
-					if (!curJob.countQueue.NullOrEmpty())
+					if (failIfCountFromQueueTooBig && !curJob.countQueue.NullOrEmpty() && targetQueue[0].HasThing && curJob.countQueue[0] > targetQueue[0].Thing.stackCount)
 					{
-						curJob.count = curJob.countQueue[0];
-						curJob.countQueue.RemoveAt(0);
+						actor.jobs.curDriver.EndJobWith(JobCondition.Incompletable);
 					}
+					else
+					{
+						curJob.SetTarget(ind, targetQueue[0]);
+						targetQueue.RemoveAt(0);
+						if (!curJob.countQueue.NullOrEmpty())
+						{
+							curJob.count = curJob.countQueue[0];
+							curJob.countQueue.RemoveAt(0);
+						}
+					}
+				}
+			};
+			return toil;
+		}
+
+		public static Toil ClearQueue(TargetIndex ind)
+		{
+			Toil toil = new Toil();
+			toil.initAction = (Action)delegate()
+			{
+				Pawn actor = toil.actor;
+				Job curJob = actor.jobs.curJob;
+				List<LocalTargetInfo> targetQueue = curJob.GetTargetQueue(ind);
+				if (!targetQueue.NullOrEmpty())
+				{
+					targetQueue.Clear();
 				}
 			};
 			return toil;
@@ -46,27 +69,47 @@ namespace Verse.AI
 
 		private static IEnumerable<IntVec3> IngredientPlaceCellsInOrder(IBillGiver billGiver)
 		{
+			_003CIngredientPlaceCellsInOrder_003Ec__Iterator0 _003CIngredientPlaceCellsInOrder_003Ec__Iterator = (_003CIngredientPlaceCellsInOrder_003Ec__Iterator0)/*Error near IL_0038: stateMachine*/;
 			Toils_JobTransforms.yieldedIngPlaceCells.Clear();
 			IntVec3 interactCell = ((Thing)billGiver).InteractionCell;
-			foreach (IntVec3 item in from c in billGiver.IngredientStackCells
-			orderby (c - ((_003CIngredientPlaceCellsInOrder_003Ec__Iterator1BC)/*Error near IL_0053: stateMachine*/)._003CinteractCell_003E__0).LengthHorizontalSquared
-			select c)
+			using (IEnumerator<IntVec3> enumerator = (from c in billGiver.IngredientStackCells
+			orderby (c - interactCell).LengthHorizontalSquared
+			select c).GetEnumerator())
 			{
-				Toils_JobTransforms.yieldedIngPlaceCells.Add(item);
-				yield return item;
-			}
-			for (int i = 0; i < 200; i++)
-			{
-				IntVec3 c2 = interactCell + GenRadial.RadialPattern[i];
-				if (!Toils_JobTransforms.yieldedIngPlaceCells.Contains(c2))
+				if (enumerator.MoveNext())
 				{
-					Building ed = c2.GetEdifice(billGiver.Map);
-					if (((ed == null) ? SurfaceType.Item : ((ed.def.passability != Traversability.Impassable) ? SurfaceType.Item : ed.def.surfaceType)) != 0)
-					{
-						yield return c2;
-					}
+					IntVec3 c3 = enumerator.Current;
+					Toils_JobTransforms.yieldedIngPlaceCells.Add(c3);
+					yield return c3;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
+			int i = 0;
+			IntVec3 c2;
+			while (true)
+			{
+				if (i < 200)
+				{
+					c2 = interactCell + GenRadial.RadialPattern[i];
+					if (!Toils_JobTransforms.yieldedIngPlaceCells.Contains(c2))
+					{
+						Building ed = c2.GetEdifice(billGiver.Map);
+						if (ed == null)
+							break;
+						if (ed.def.passability != Traversability.Impassable)
+							break;
+						if (ed.def.surfaceType != 0)
+							break;
+					}
+					i++;
+					continue;
+				}
+				yield break;
+			}
+			yield return c2;
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_020b:
+			/*Error near IL_020c: Unexpected return in MoveNext()*/;
 		}
 
 		public static Toil SetTargetToIngredientPlaceCell(TargetIndex billGiverInd, TargetIndex carryItemInd, TargetIndex cellTargetInd)
@@ -130,6 +173,13 @@ namespace Verse.AI
 					curJob.SetTarget(ind, (Thing)null);
 				}
 			};
+			return toil;
+		}
+
+		public static Toil SucceedOnNoTargetInQueue(TargetIndex ind)
+		{
+			Toil toil = new Toil();
+			toil.EndOnNoTargetInQueue(ind, JobCondition.Succeeded);
 			return toil;
 		}
 	}

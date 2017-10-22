@@ -29,6 +29,7 @@ namespace RimWorld
 
 		public override bool SelectedUseOption(Pawn p)
 		{
+			bool result;
 			if (this.PlayerChoosesTarget)
 			{
 				Find.Targeter.BeginTargeting(this.GetTargetingParameters(), (Action<LocalTargetInfo>)delegate(LocalTargetInfo t)
@@ -36,10 +37,14 @@ namespace RimWorld
 					this.target = t.Thing;
 					base.parent.GetComp<CompUsable>().TryStartUseJob(p);
 				}, p, null, null);
-				return true;
+				result = true;
 			}
-			this.target = null;
-			return false;
+			else
+			{
+				this.target = null;
+				result = false;
+			}
+			return result;
 		}
 
 		public override void DoEffect(Pawn usedBy)
@@ -65,15 +70,29 @@ namespace RimWorld
 
 		public bool BaseTargetValidator(Thing t)
 		{
+			bool result;
 			if (this.Props.psychicSensitiveTargetsOnly)
 			{
 				Pawn pawn = t as Pawn;
 				if (pawn != null && pawn.GetStatValue(StatDefOf.PsychicSensitivity, true) <= 0.0)
 				{
-					return false;
+					result = false;
+					goto IL_007f;
 				}
 			}
-			return true;
+			if (this.Props.fleshCorpsesOnly)
+			{
+				Corpse corpse = t as Corpse;
+				if (corpse != null && !corpse.InnerPawn.RaceProps.IsFlesh)
+				{
+					result = false;
+					goto IL_007f;
+				}
+			}
+			result = true;
+			goto IL_007f;
+			IL_007f:
+			return result;
 		}
 	}
 }

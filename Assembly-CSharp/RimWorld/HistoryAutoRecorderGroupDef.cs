@@ -6,11 +6,11 @@ namespace RimWorld
 {
 	public class HistoryAutoRecorderGroupDef : Def
 	{
-		public string graphLabelY = "Value";
-
-		public bool useFixedScale;
+		public bool useFixedScale = false;
 
 		public Vector2 fixedScale = default(Vector2);
+
+		public bool integersOnly = false;
 
 		public List<HistoryAutoRecorderDef> historyAutoRecorderDefs = new List<HistoryAutoRecorderDef>();
 

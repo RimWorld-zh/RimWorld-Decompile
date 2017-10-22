@@ -9,7 +9,7 @@ namespace RimWorld
 {
 	public class Page_ScenarioEditor : Page
 	{
-		private Scenario curScen;
+		private Scenario curScen = null;
 
 		private Vector2 infoScrollPosition = Vector2.zero;
 
@@ -17,7 +17,7 @@ namespace RimWorld
 
 		private bool seedIsValid = true;
 
-		private bool editMode;
+		private bool editMode = false;
 
 		public override string PageTitle
 		{
@@ -130,7 +130,7 @@ namespace RimWorld
 					AcceptanceReport acceptanceReport = this.curScen.TryUploadReport();
 					if (!acceptanceReport.Accepted)
 					{
-						Messages.Message(acceptanceReport.Reason, MessageSound.RejectInput);
+						Messages.Message(acceptanceReport.Reason, MessageTypeDefOf.RejectInput);
 					}
 					else
 					{
@@ -163,12 +163,12 @@ namespace RimWorld
 					}
 					if (num > allPart.def.maxUses)
 					{
-						Messages.Message("TooMany".Translate(allPart.def.maxUses) + ": " + allPart.def.label, MessageSound.RejectInput);
+						Messages.Message("TooMany".Translate(allPart.def.maxUses) + ": " + allPart.def.label, MessageTypeDefOf.RejectInput);
 						return false;
 					}
 					if (allPart != allPart2 && !allPart.CanCoexistWith(allPart2))
 					{
-						Messages.Message("Incompatible".Translate() + ": " + allPart.def.label + ", " + allPart2.def.label, MessageSound.RejectInput);
+						Messages.Message("Incompatible".Translate() + ": " + allPart.def.label + ", " + allPart2.def.label, MessageTypeDefOf.RejectInput);
 						return false;
 					}
 				}
@@ -196,20 +196,25 @@ namespace RimWorld
 
 		protected override bool CanDoNext()
 		{
+			bool result;
 			if (!base.CanDoNext())
 			{
-				return false;
+				result = false;
 			}
-			if (this.curScen == null)
+			else if (this.curScen == null)
 			{
-				return false;
+				result = false;
 			}
-			if (!Page_ScenarioEditor.CheckAllPartsCompatible(this.curScen))
+			else if (!Page_ScenarioEditor.CheckAllPartsCompatible(this.curScen))
 			{
-				return false;
+				result = false;
 			}
-			Page_SelectScenario.BeginScenarioConfiguration(this.curScen, this);
-			return true;
+			else
+			{
+				Page_SelectScenario.BeginScenarioConfiguration(this.curScen, this);
+				result = true;
+			}
+			return result;
 		}
 	}
 }

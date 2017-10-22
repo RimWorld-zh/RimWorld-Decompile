@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse.Sound
@@ -13,25 +12,21 @@ namespace Verse.Sound
 		{
 			get
 			{
+				float result;
 				if (this.reporters.Count == 0)
 				{
-					return this.testSize;
+					result = this.testSize;
 				}
-				float num = 0f;
-				List<ISizeReporter>.Enumerator enumerator = this.reporters.GetEnumerator();
-				try
+				else
 				{
-					while (enumerator.MoveNext())
+					float num = 0f;
+					foreach (ISizeReporter reporter in this.reporters)
 					{
-						ISizeReporter current = enumerator.Current;
-						num += current.CurrentSize();
+						num += reporter.CurrentSize();
 					}
-					return num;
+					result = num;
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
-				}
+				return result;
 			}
 		}
 

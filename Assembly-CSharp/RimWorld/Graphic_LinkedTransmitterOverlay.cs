@@ -15,15 +15,7 @@ namespace RimWorld
 
 		public override bool ShouldLinkWith(IntVec3 c, Thing parent)
 		{
-			if (!c.InBounds(parent.Map))
-			{
-				return false;
-			}
-			if (parent.Map.powerNetGrid.TransmittedPowerNetAt(c) != null)
-			{
-				return true;
-			}
-			return false;
+			return (byte)(c.InBounds(parent.Map) ? ((parent.Map.powerNetGrid.TransmittedPowerNetAt(c) != null) ? 1 : 0) : 0) != 0;
 		}
 
 		public override void Print(SectionLayer layer, Thing parent)
@@ -32,7 +24,7 @@ namespace RimWorld
 			while (!iterator.Done())
 			{
 				IntVec3 current = iterator.Current;
-				Vector3 center = current.ToVector3ShiftedWithAltitude(AltitudeLayer.WorldDataOverlay);
+				Vector3 center = current.ToVector3ShiftedWithAltitude(AltitudeLayer.MapDataOverlay);
 				Printer_Plane.PrintPlane(layer, center, new Vector2(1f, 1f), base.LinkedDrawMatFrom(parent, current), 0f, false, null, null, 0.01f);
 				iterator.MoveNext();
 			}

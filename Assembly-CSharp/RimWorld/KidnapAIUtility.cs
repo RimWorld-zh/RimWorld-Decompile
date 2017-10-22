@@ -9,56 +9,47 @@ namespace RimWorld
 	{
 		public static bool TryFindGoodKidnapVictim(Pawn kidnapper, float maxDist, out Pawn victim, List<Thing> disallowed = null)
 		{
-			if (kidnapper.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) && kidnapper.Map.reachability.CanReachMapEdge(kidnapper.Position, TraverseParms.For(kidnapper, Danger.Some, TraverseMode.ByPawn, false)))
+			bool result;
+			if (!kidnapper.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) || !kidnapper.Map.reachability.CanReachMapEdge(kidnapper.Position, TraverseParms.For(kidnapper, Danger.Some, TraverseMode.ByPawn, false)))
+			{
+				victim = null;
+				result = false;
+			}
+			else
 			{
 				Predicate<Thing> validator = (Predicate<Thing>)delegate(Thing t)
 				{
 					Pawn pawn = t as Pawn;
-					if (!pawn.RaceProps.Humanlike)
-					{
-						return false;
-					}
-					if (!pawn.Downed)
-					{
-						return false;
-					}
-					if (pawn.Faction != Faction.OfPlayer)
-					{
-						return false;
-					}
-					if (!pawn.Faction.HostileTo(kidnapper.Faction))
-					{
-						return false;
-					}
-					if (!kidnapper.CanReserve((Thing)pawn, 1, -1, null, false))
-					{
-						return false;
-					}
-					if (disallowed != null && disallowed.Contains(pawn))
-					{
-						return false;
-					}
-					return true;
+					return (byte)(pawn.RaceProps.Humanlike ? (pawn.Downed ? ((pawn.Faction == Faction.OfPlayer) ? (pawn.Faction.HostileTo(kidnapper.Faction) ? (kidnapper.CanReserve((Thing)pawn, 1, -1, null, false) ? ((disallowed == null || !disallowed.Contains(pawn)) ? 1 : 0) : 0) : 0) : 0) : 0) : 0) != 0;
 				};
 				victim = (Pawn)GenClosest.ClosestThingReachable(kidnapper.Position, kidnapper.Map, ThingRequest.ForGroup(ThingRequestGroup.Pawn), PathEndMode.OnCell, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Some, false), maxDist, validator, null, 0, -1, false, RegionType.Set_Passable, false);
-				return victim != null;
+				result = (victim != null);
 			}
-			victim = null;
-			return false;
+			return result;
 		}
 
 		public static Pawn ReachableWoundedGuest(Pawn searcher)
 		{
 			List<Pawn> list = searcher.Map.mapPawns.SpawnedPawnsInFaction(searcher.Faction);
-			for (int i = 0; i < list.Count; i++)
+			int num = 0;
+			Pawn result;
+			while (true)
 			{
-				Pawn pawn = list[i];
-				if (pawn.guest != null && !pawn.IsPrisoner && pawn.Downed && searcher.CanReserveAndReach((Thing)pawn, PathEndMode.OnCell, Danger.Some, 1, -1, null, false))
+				if (num < list.Count)
 				{
-					return pawn;
+					Pawn pawn = list[num];
+					if (pawn.guest != null && !pawn.IsPrisoner && pawn.Downed && searcher.CanReserveAndReach((Thing)pawn, PathEndMode.OnCell, Danger.Some, 1, -1, null, false))
+					{
+						result = pawn;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 	}
 }

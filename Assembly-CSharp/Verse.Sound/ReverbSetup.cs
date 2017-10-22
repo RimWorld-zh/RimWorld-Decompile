@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,13 +7,13 @@ namespace Verse.Sound
 {
 	public class ReverbSetup
 	{
-		public float dryLevel;
+		public float dryLevel = 0f;
 
-		public float room;
+		public float room = 0f;
 
-		public float roomHF;
+		public float roomHF = 0f;
 
-		public float roomLF;
+		public float roomLF = 0f;
 
 		public float decayTime = 1f;
 
@@ -20,9 +21,9 @@ namespace Verse.Sound
 
 		public float reflectionsLevel = -10000f;
 
-		public float reflectionsDelay;
+		public float reflectionsDelay = 0f;
 
-		public float reverbLevel;
+		public float reverbLevel = 0f;
 
 		public float reverbDelay = 0.04f;
 
@@ -39,15 +40,28 @@ namespace Verse.Sound
 			if (widgetRow.ButtonText("Setup from preset...", "Set up the reverb filter from a preset.", true, false))
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				foreach (int value in Enum.GetValues(typeof(AudioReverbPreset)))
+				IEnumerator enumerator = Enum.GetValues(typeof(AudioReverbPreset)).GetEnumerator();
+				try
 				{
-					if (value != 27)
+					while (enumerator.MoveNext())
 					{
-						AudioReverbPreset localPreset = (AudioReverbPreset)value;
-						list.Add(new FloatMenuOption(((Enum)(object)(AudioReverbPreset)value).ToString(), (Action)delegate
+						AudioReverbPreset audioReverbPreset = (AudioReverbPreset)enumerator.Current;
+						if (audioReverbPreset != AudioReverbPreset.User)
 						{
-							this.SetupAs(localPreset);
-						}, MenuOptionPriority.Default, null, null, 0f, null, null));
+							AudioReverbPreset localPreset = audioReverbPreset;
+							list.Add(new FloatMenuOption(audioReverbPreset.ToString(), (Action)delegate
+							{
+								this.SetupAs(localPreset);
+							}, MenuOptionPriority.Default, null, null, 0f, null, null));
+						}
+					}
+				}
+				finally
+				{
+					IDisposable disposable;
+					if ((disposable = (enumerator as IDisposable)) != null)
+					{
+						disposable.Dispose();
 					}
 				}
 				Find.WindowStack.Add(new FloatMenu(list));

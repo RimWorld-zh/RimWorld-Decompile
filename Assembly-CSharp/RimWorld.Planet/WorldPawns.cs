@@ -1,26 +1,34 @@
+#define ENABLE_PROFILER
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld.Planet
 {
 	public class WorldPawns : IExposable
 	{
+		private HashSet<Pawn> pawnsAlive = new HashSet<Pawn>();
+
+		private HashSet<Pawn> pawnsMothballed = new HashSet<Pawn>();
+
+		private HashSet<Pawn> pawnsDead = new HashSet<Pawn>();
+
+		private HashSet<Pawn> pawnsForcefullyKeptAsWorldPawns = new HashSet<Pawn>();
+
+		public WorldPawnGC gc = new WorldPawnGC();
+
+		private Stack<Pawn> pawnsBeingDiscarded = new Stack<Pawn>();
+
 		private const float PctOfHumanlikesAlwaysKept = 0.1f;
 
 		private const float PctOfUnnamedColonyAnimalsAlwaysKept = 0.05f;
 
 		private const int TendIntervalTicks = 7500;
 
-		private HashSet<Pawn> pawnsAlive = new HashSet<Pawn>();
-
-		private HashSet<Pawn> pawnsDead = new HashSet<Pawn>();
-
-		private HashSet<Pawn> pawnsForcefullyKeptAsWorldPawns = new HashSet<Pawn>();
-
-		private Stack<Pawn> pawnsBeingDiscarded = new Stack<Pawn>();
+		private const int MothballUpdateInterval = 15000;
 
 		private static List<Pawn> tmpPawnsToTick = new List<Pawn>();
 
@@ -30,7 +38,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return this.pawnsAlive.Concat(this.pawnsDead);
+				return this.AllPawnsAlive.Concat(this.AllPawnsDead);
 			}
 		}
 
@@ -38,7 +46,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return this.pawnsAlive;
+				return this.pawnsAlive.Concat(this.pawnsMothballed);
 			}
 		}
 
@@ -47,6 +55,14 @@ namespace RimWorld.Planet
 			get
 			{
 				return this.pawnsDead;
+			}
+		}
+
+		public HashSet<Pawn> ForcefullyKeptPawns
+		{
+			get
+			{
+				return this.pawnsForcefullyKeptAsWorldPawns;
 			}
 		}
 
@@ -63,41 +79,56 @@ namespace RimWorld.Planet
 				}
 			}
 			WorldPawns.tmpPawnsToTick.Clear();
-			WorldPawns.tmpPawnsToRemove.Clear();
-			HashSet<Pawn>.Enumerator enumerator = this.pawnsDead.GetEnumerator();
-			try
+			if (Find.TickManager.TicksGame % 15000 == 0)
 			{
-				while (enumerator.MoveNext())
-				{
-					Pawn current = enumerator.Current;
-					if (current.Discarded)
-					{
-						Log.Error("World pawn " + current + " has been discarded while still being a world pawn. This should never happen, because discard destroy mode means that the pawn is no longer managed by anything. Pawn should have been removed from the world first.");
-						WorldPawns.tmpPawnsToRemove.Add(current);
-					}
-				}
+				this.DoMothballProcessing();
 			}
-			finally
+			WorldPawns.tmpPawnsToRemove.Clear();
+			foreach (Pawn item in this.pawnsDead)
 			{
-				((IDisposable)(object)enumerator).Dispose();
+				if (item.Discarded)
+				{
+					Log.Error("World pawn " + item + " has been discarded while still being a world pawn. This should never happen, because discard destroy mode means that the pawn is no longer managed by anything. Pawn should have been removed from the world first.");
+					WorldPawns.tmpPawnsToRemove.Add(item);
+				}
 			}
 			for (int j = 0; j < WorldPawns.tmpPawnsToRemove.Count; j++)
 			{
 				this.pawnsDead.Remove(WorldPawns.tmpPawnsToRemove[j]);
 			}
 			WorldPawns.tmpPawnsToRemove.Clear();
+			Profiler.BeginSample("WorldPawnGCTick");
+			try
+			{
+				this.gc.WorldPawnGCTick();
+			}
+			catch (Exception arg)
+			{
+				Log.Error("Error in WorldPawnGCTick(): " + arg);
+			}
+			Profiler.EndSample();
 		}
 
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Pawn>(ref this.pawnsForcefullyKeptAsWorldPawns, true, "pawnsForcefullyKeptAsWorldPawns", LookMode.Reference);
 			Scribe_Collections.Look<Pawn>(ref this.pawnsAlive, "pawnsAlive", LookMode.Deep);
+			Scribe_Collections.Look<Pawn>(ref this.pawnsMothballed, "pawnsMothballed", LookMode.Deep);
 			Scribe_Collections.Look<Pawn>(ref this.pawnsDead, true, "pawnsDead", LookMode.Deep);
+			Scribe_Deep.Look<WorldPawnGC>(ref this.gc, "gc", new object[0]);
+			if (this.pawnsMothballed == null)
+			{
+				this.pawnsMothballed = new HashSet<Pawn>();
+			}
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			{
+				BackCompatibility.WorldPawnPostLoadInit(this);
+			}
 		}
 
 		public bool Contains(Pawn p)
 		{
-			return this.pawnsAlive.Contains(p) || this.pawnsDead.Contains(p);
+			return this.pawnsAlive.Contains(p) || this.pawnsMothballed.Contains(p) || this.pawnsDead.Contains(p);
 		}
 
 		public void PassToWorld(Pawn pawn, PawnDiscardDecideMode discardMode = PawnDiscardDecideMode.Decide)
@@ -117,18 +148,15 @@ namespace RimWorld.Planet
 					Log.Error("Tried to pass a discarded pawn " + pawn + " to world with discardMode=Keep. Discarded pawns should never be stored in WorldPawns.");
 					discardMode = PawnDiscardDecideMode.Decide;
 				}
+				if (pawn.pather != null)
+				{
+					PawnComponentsUtility.RemoveComponentsOnDespawned(pawn);
+				}
 				switch (discardMode)
 				{
 				case PawnDiscardDecideMode.Decide:
 				{
-					if (this.ShouldKeep(pawn))
-					{
-						this.AddPawn(pawn);
-					}
-					else
-					{
-						this.DiscardPawn(pawn);
-					}
+					this.AddPawn(pawn);
 					break;
 				}
 				case PawnDiscardDecideMode.KeepForever:
@@ -139,7 +167,7 @@ namespace RimWorld.Planet
 				}
 				case PawnDiscardDecideMode.Discard:
 				{
-					this.DiscardPawn(pawn);
+					this.DiscardPawn(pawn, false);
 					break;
 				}
 				}
@@ -152,42 +180,26 @@ namespace RimWorld.Planet
 			{
 				Log.Error("Tried to remove pawn " + p + " from " + base.GetType() + ", but it's not here.");
 			}
+			this.gc.CancelGCPass();
+			if (this.pawnsMothballed.Contains(p))
+			{
+				p.TickMothballed(Find.TickManager.TicksGame % 15000);
+			}
 			this.pawnsAlive.Remove(p);
+			this.pawnsMothballed.Remove(p);
 			this.pawnsDead.Remove(p);
 			this.pawnsForcefullyKeptAsWorldPawns.Remove(p);
 		}
 
+		public void RemoveAndDiscardPawnViaGC(Pawn p)
+		{
+			this.RemovePawn(p);
+			this.DiscardPawn(p, true);
+		}
+
 		public WorldPawnSituation GetSituation(Pawn p)
 		{
-			if (!this.Contains(p))
-			{
-				return WorldPawnSituation.None;
-			}
-			if (!p.Dead && !p.Destroyed)
-			{
-				if (PawnUtility.IsFactionLeader(p))
-				{
-					return WorldPawnSituation.FactionLeader;
-				}
-				if (PawnUtility.IsKidnappedPawn(p))
-				{
-					return WorldPawnSituation.Kidnapped;
-				}
-				if (p.IsCaravanMember())
-				{
-					return WorldPawnSituation.CaravanMember;
-				}
-				if (PawnUtility.IsTravelingInTransportPodWorldObject(p))
-				{
-					return WorldPawnSituation.InTravelingTransportPod;
-				}
-				if (PawnUtility.ForSaleBySettlement(p))
-				{
-					return WorldPawnSituation.ForSaleBySettlement;
-				}
-				return WorldPawnSituation.Free;
-			}
-			return WorldPawnSituation.Dead;
+			return (WorldPawnSituation)(this.Contains(p) ? ((p.Dead || p.Destroyed) ? 2 : ((!PawnUtility.IsFactionLeader(p)) ? ((!PawnUtility.IsKidnappedPawn(p)) ? ((!p.IsCaravanMember()) ? ((!PawnUtility.IsTravelingInTransportPodWorldObject(p)) ? ((!PawnUtility.ForSaleBySettlement(p)) ? 1 : 7) : 6) : 5) : 4) : 3)) : 0);
 		}
 
 		public IEnumerable<Pawn> GetPawnsBySituation(WorldPawnSituation situation)
@@ -200,60 +212,26 @@ namespace RimWorld.Planet
 		public int GetPawnsBySituationCount(WorldPawnSituation situation)
 		{
 			int num = 0;
-			HashSet<Pawn>.Enumerator enumerator = this.pawnsAlive.GetEnumerator();
-			try
+			foreach (Pawn item in this.pawnsAlive)
 			{
-				while (enumerator.MoveNext())
+				if (this.GetSituation(item) == situation)
 				{
-					Pawn current = enumerator.Current;
-					if (this.GetSituation(current) == situation)
-					{
-						num++;
-					}
+					num++;
 				}
 			}
-			finally
+			foreach (Pawn item2 in this.pawnsDead)
 			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
-			HashSet<Pawn>.Enumerator enumerator2 = this.pawnsDead.GetEnumerator();
-			try
-			{
-				while (enumerator2.MoveNext())
+				if (this.GetSituation(item2) == situation)
 				{
-					Pawn current2 = enumerator2.Current;
-					if (this.GetSituation(current2) == situation)
-					{
-						num++;
-					}
+					num++;
 				}
-				return num;
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
-			}
+			return num;
 		}
 
 		private bool ShouldAutoTendTo(Pawn pawn)
 		{
 			return !pawn.Dead && !pawn.Destroyed && pawn.IsHashIntervalTick(7500) && !pawn.IsCaravanMember() && !PawnUtility.IsTravelingInTransportPodWorldObject(pawn);
-		}
-
-		public void DiscardIfUnimportant(Pawn pawn)
-		{
-			if (!pawn.Discarded)
-			{
-				if (!this.Contains(pawn))
-				{
-					Log.Warning(pawn + " is not a world pawn.");
-				}
-				else if (!this.ShouldKeep(pawn))
-				{
-					this.RemovePawn(pawn);
-					this.DiscardPawn(pawn);
-				}
-			}
 		}
 
 		public bool IsBeingDiscarded(Pawn p)
@@ -263,11 +241,105 @@ namespace RimWorld.Planet
 
 		public void Notify_PawnDestroyed(Pawn p)
 		{
-			if (this.pawnsAlive.Contains(p))
+			if (!this.pawnsAlive.Contains(p) && !this.pawnsMothballed.Contains(p))
+				return;
+			this.pawnsAlive.Remove(p);
+			this.pawnsMothballed.Remove(p);
+			this.pawnsDead.Add(p);
+		}
+
+		private bool ShouldMothball(Pawn p)
+		{
+			return this.DefPreventingMothball(p) == null && !p.IsCaravanMember() && !PawnUtility.IsTravelingInTransportPodWorldObject(p);
+		}
+
+		private HediffDef DefPreventingMothball(Pawn p)
+		{
+			List<Hediff> hediffs = p.health.hediffSet.hediffs;
+			int num = 0;
+			HediffDef result;
+			while (true)
 			{
-				this.pawnsAlive.Remove(p);
+				if (num < hediffs.Count)
+				{
+					if (!hediffs[num].def.AlwaysAllowMothball && !hediffs[num].IsOld())
+					{
+						result = hediffs[num].def;
+						break;
+					}
+					num++;
+					continue;
+				}
+				result = null;
+				break;
+			}
+			return result;
+		}
+
+		private void AddPawn(Pawn p)
+		{
+			this.gc.CancelGCPass();
+			if (p.Dead || p.Destroyed)
+			{
 				this.pawnsDead.Add(p);
 			}
+			else
+			{
+				this.pawnsAlive.Add(p);
+			}
+			p.Notify_PassedToWorld();
+		}
+
+		private void DiscardPawn(Pawn p, bool silentlyRemoveReferences = false)
+		{
+			this.pawnsBeingDiscarded.Push(p);
+			try
+			{
+				if (!p.Destroyed)
+				{
+					p.Destroy(DestroyMode.Vanish);
+				}
+				if (!p.Discarded)
+				{
+					p.Discard(silentlyRemoveReferences);
+				}
+			}
+			finally
+			{
+				this.pawnsBeingDiscarded.Pop();
+			}
+		}
+
+		private void DoMothballProcessing()
+		{
+			WorldPawns.tmpPawnsToTick.AddRange(this.pawnsMothballed);
+			for (int i = 0; i < WorldPawns.tmpPawnsToTick.Count; i++)
+			{
+				WorldPawns.tmpPawnsToTick[i].TickMothballed(15000);
+			}
+			WorldPawns.tmpPawnsToTick.Clear();
+			WorldPawns.tmpPawnsToTick.AddRange(this.pawnsAlive);
+			for (int j = 0; j < WorldPawns.tmpPawnsToTick.Count; j++)
+			{
+				Pawn pawn = WorldPawns.tmpPawnsToTick[j];
+				if (this.ShouldMothball(pawn))
+				{
+					this.pawnsAlive.Remove(pawn);
+					this.pawnsMothballed.Add(pawn);
+				}
+			}
+			WorldPawns.tmpPawnsToTick.Clear();
+		}
+
+		public void DebugRunMothballProcessing()
+		{
+			this.DoMothballProcessing();
+			Log.Message(string.Format("World pawn mothball run complete"));
+		}
+
+		public void UnpinAllForcefullyKeptPawns()
+		{
+			this.pawnsForcefullyKeptAsWorldPawns.Clear();
 		}
 
 		public void LogWorldPawns()
@@ -275,6 +347,7 @@ namespace RimWorld.Planet
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("======= World Pawns =======");
 			stringBuilder.AppendLine("Count: " + this.AllPawnsAliveOrDead.Count());
+			stringBuilder.AppendLine(string.Format("(Live: {0} - Mothballed: {1} - Dead: {2}; {3} forcefully kept)", this.pawnsAlive.Count, this.pawnsMothballed.Count, this.pawnsDead.Count, this.pawnsForcefullyKeptAsWorldPawns.Count));
 			WorldPawnSituation[] array = (WorldPawnSituation[])Enum.GetValues(typeof(WorldPawnSituation));
 			for (int i = 0; i < array.Length; i++)
 			{
@@ -296,135 +369,41 @@ namespace RimWorld.Planet
 			Log.Message(stringBuilder.ToString());
 		}
 
-		private bool ShouldKeep(Pawn pawn)
+		public void LogWorldPawnMothballPrevention()
 		{
-			if (pawn.Discarded)
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.AppendLine("======= World Pawns Mothball Prevention =======");
+			stringBuilder.AppendLine(string.Format("Count: {0}", this.pawnsAlive.Count()));
+			int num = 0;
+			Dictionary<HediffDef, int> dictionary = new Dictionary<HediffDef, int>();
+			foreach (Pawn item in this.pawnsAlive)
 			{
-				return false;
-			}
-			if (pawn.records.GetAsInt(RecordDefOf.TimeAsColonistOrColonyAnimal) > 0)
-			{
-				if (pawn.RaceProps.Humanlike || (pawn.Name != null && !pawn.Name.Numerical))
+				HediffDef hediffDef = this.DefPreventingMothball(item);
+				if (hediffDef == null)
 				{
-					return true;
+					num++;
 				}
-				if (Rand.ChanceSeeded(0.05f, pawn.thingIDNumber ^ 47342224))
+				else
 				{
-					return true;
-				}
-			}
-			if (pawn.records.GetAsInt(RecordDefOf.TimeAsPrisoner) > 0)
-			{
-				return true;
-			}
-			if (!pawn.Corpse.DestroyedOrNull())
-			{
-				return true;
-			}
-			if (PawnGenerator.IsBeingGenerated(pawn))
-			{
-				return true;
-			}
-			if (this.pawnsForcefullyKeptAsWorldPawns.Contains(pawn))
-			{
-				return true;
-			}
-			if (!pawn.Dead && !pawn.Destroyed && pawn.RaceProps.Humanlike)
-			{
-				Rand.PushState();
-				Rand.Seed = pawn.thingIDNumber * 681;
-				bool flag = Rand.Chance(0.1f);
-				Rand.PopState();
-				if (flag)
-				{
-					return true;
+					if (!dictionary.ContainsKey(hediffDef))
+					{
+						dictionary[hediffDef] = 0;
+					}
+					Dictionary<HediffDef, int> dictionary2;
+					HediffDef key;
+					(dictionary2 = dictionary)[key = hediffDef] = dictionary2[key] + 1;
 				}
 			}
-			if (PawnUtility.IsFactionLeader(pawn))
+			stringBuilder.AppendLine(string.Format("Will be mothballed: {0}", num));
+			stringBuilder.AppendLine();
+			stringBuilder.AppendLine("Reasons to avoid mothballing:");
+			foreach (KeyValuePair<HediffDef, int> item2 in from kvp in dictionary
+			orderby kvp.Value descending
+			select kvp)
 			{
-				return true;
+				stringBuilder.AppendLine(string.Format("{0}: {1}", item2.Value, item2.Key));
 			}
-			if (PawnUtility.IsKidnappedPawn(pawn))
-			{
-				return true;
-			}
-			if (pawn.IsCaravanMember())
-			{
-				return true;
-			}
-			if (PawnUtility.IsTravelingInTransportPodWorldObject(pawn))
-			{
-				return true;
-			}
-			if (PawnUtility.ForSaleBySettlement(pawn))
-			{
-				return true;
-			}
-			if (Current.ProgramState == ProgramState.Playing)
-			{
-				if (Find.PlayLog.AnyEntryConcerns(pawn))
-				{
-					return true;
-				}
-				if (Find.TaleManager.AnyTaleConcerns(pawn))
-				{
-					return true;
-				}
-			}
-			foreach (Pawn item in PawnsFinder.AllMapsAndWorld_Alive)
-			{
-				if (item.needs.mood != null && item.needs.mood.thoughts.memories.AnyMemoryConcerns(pawn))
-				{
-					return true;
-				}
-			}
-			if (!pawn.RaceProps.Animal && pawn.RaceProps.IsFlesh && pawn.relations.RelatedPawns.Any((Func<Pawn, bool>)((Pawn x) => x.relations.everSeenByPlayer)))
-			{
-				return true;
-			}
-			return false;
-		}
-
-		private void AddPawn(Pawn p)
-		{
-			if (p.Dead || p.Destroyed)
-			{
-				this.pawnsDead.Add(p);
-			}
-			else
-			{
-				this.pawnsAlive.Add(p);
-			}
-			if ((p.Faction == null || p.Faction.IsPlayer) && p.RaceProps.Humanlike && !p.Dead && this.GetSituation(p) == WorldPawnSituation.Free)
-			{
-				bool tryMedievalOrBetter = p.Faction != null && (int)p.Faction.def.techLevel >= 3;
-				Faction newFaction = default(Faction);
-				if (Find.FactionManager.TryGetRandomNonColonyHumanlikeFaction(out newFaction, tryMedievalOrBetter, false))
-				{
-					p.SetFaction(newFaction, null);
-				}
-			}
-			p.ClearMind(false);
-		}
-
-		private void DiscardPawn(Pawn p)
-		{
-			this.pawnsBeingDiscarded.Push(p);
-			try
-			{
-				if (!p.Destroyed)
-				{
-					p.Destroy(DestroyMode.Vanish);
-				}
-				if (!p.Discarded)
-				{
-					p.Discard();
-				}
-			}
-			finally
-			{
-				this.pawnsBeingDiscarded.Pop();
-			}
+			Log.Message(stringBuilder.ToString());
 		}
 	}
 }

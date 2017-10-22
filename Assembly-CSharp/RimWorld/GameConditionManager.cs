@@ -24,11 +24,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.map == null)
-				{
-					return null;
-				}
-				return Find.World.gameConditionManager;
+				return (this.map != null) ? Find.World.gameConditionManager : null;
 			}
 		}
 
@@ -91,35 +87,47 @@ namespace RimWorld
 
 		public GameCondition GetActiveCondition(GameConditionDef def)
 		{
-			for (int i = 0; i < this.activeConditions.Count; i++)
+			int num = 0;
+			GameCondition result;
+			while (true)
 			{
-				if (def == this.activeConditions[i].def)
+				if (num < this.activeConditions.Count)
 				{
-					return this.activeConditions[i];
+					if (def == this.activeConditions[num].def)
+					{
+						result = this.activeConditions[num];
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = ((this.Parent == null) ? null : this.Parent.GetActiveCondition(def));
+				break;
 			}
-			if (this.Parent != null)
-			{
-				return this.Parent.GetActiveCondition(def);
-			}
-			return null;
+			return result;
 		}
 
 		public T GetActiveCondition<T>() where T : GameCondition
 		{
-			for (int i = 0; i < this.activeConditions.Count; i++)
+			int num = 0;
+			T result;
+			while (true)
 			{
-				T val = (T)(this.activeConditions[i] as T);
-				if (val != null)
+				if (num < this.activeConditions.Count)
 				{
-					return val;
+					T val = (T)(this.activeConditions[num] as T);
+					if (val != null)
+					{
+						result = val;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = ((this.Parent == null) ? ((T)null) : this.Parent.GetActiveCondition<T>());
+				break;
 			}
-			if (this.Parent != null)
-			{
-				return this.Parent.GetActiveCondition<T>();
-			}
-			return (T)null;
+			return result;
 		}
 
 		public float TotalHeightAt(float width)
@@ -179,11 +187,7 @@ namespace RimWorld
 			SkyTarget value = default(SkyTarget);
 			float num = 0f;
 			this.AggregateSkyTargetWorker(ref value, ref num);
-			if (num == 0.0)
-			{
-				return default(SkyTarget?);
-			}
-			return new SkyTarget?(value);
+			return (num != 0.0) ? new SkyTarget?(value) : default(SkyTarget?);
 		}
 
 		private void AggregateSkyTargetWorker(ref SkyTarget total, ref float lfTotal)
@@ -262,38 +266,35 @@ namespace RimWorld
 
 		internal bool AllowEnjoyableOutsideNow(out GameConditionDef reason)
 		{
-			for (int i = 0; i < this.activeConditions.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				GameCondition gameCondition = this.activeConditions[i];
-				if (!gameCondition.AllowEnjoyableOutsideNow())
+				if (num < this.activeConditions.Count)
 				{
-					reason = gameCondition.def;
-					return false;
+					GameCondition gameCondition = this.activeConditions[num];
+					if (!gameCondition.AllowEnjoyableOutsideNow())
+					{
+						reason = gameCondition.def;
+						result = false;
+						break;
+					}
+					num++;
+					continue;
 				}
+				reason = null;
+				result = (this.Parent == null || this.Parent.AllowEnjoyableOutsideNow(out reason));
+				break;
 			}
-			reason = null;
-			if (this.Parent != null)
-			{
-				return this.Parent.AllowEnjoyableOutsideNow(out reason);
-			}
-			return true;
+			return result;
 		}
 
 		public string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			List<GameCondition>.Enumerator enumerator = this.activeConditions.GetEnumerator();
-			try
+			foreach (GameCondition activeCondition in this.activeConditions)
 			{
-				while (enumerator.MoveNext())
-				{
-					GameCondition current = enumerator.Current;
-					stringBuilder.AppendLine(Scribe.saver.DebugOutputFor(current));
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				stringBuilder.AppendLine(Scribe.saver.DebugOutputFor(activeCondition));
 			}
 			return stringBuilder.ToString();
 		}

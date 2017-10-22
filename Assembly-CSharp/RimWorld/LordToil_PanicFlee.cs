@@ -41,15 +41,7 @@ namespace RimWorld
 
 		private bool HasFleeingDuty(Pawn pawn)
 		{
-			if (pawn.mindState.duty == null)
-			{
-				return false;
-			}
-			if (pawn.mindState.duty.def != DutyDefOf.ExitMapRandom && pawn.mindState.duty.def != DutyDefOf.Steal && pawn.mindState.duty.def != DutyDefOf.Kidnap)
-			{
-				return false;
-			}
-			return true;
+			return (byte)((pawn.mindState.duty != null) ? ((pawn.mindState.duty.def == DutyDefOf.ExitMapRandom || pawn.mindState.duty.def == DutyDefOf.Steal || pawn.mindState.duty.def == DutyDefOf.Kidnap) ? 1 : 0) : 0) != 0;
 		}
 	}
 }

@@ -7,7 +7,7 @@ namespace Verse
 	{
 		private Map map;
 
-		private string compressedString;
+		private byte[] compressedData;
 
 		public CompressibilityDecider compressibilityDecider;
 
@@ -18,14 +18,14 @@ namespace Verse
 
 		public void ExposeData()
 		{
-			Scribe_Values.Look<string>(ref this.compressedString, "compressedThingMap", (string)null, false);
+			DataExposeUtility.ByteArray(ref this.compressedData, "compressedThingMap");
 		}
 
 		public void BuildCompressedString()
 		{
 			this.compressibilityDecider = new CompressibilityDecider(this.map);
 			this.compressibilityDecider.DetermineReferences();
-			this.compressedString = GridSaveUtility.CompressedStringForShortGrid(new Func<IntVec3, ushort>(this.HashValueForSquare), this.map);
+			this.compressedData = MapSerializeUtility.SerializeUshort(this.map, new Func<IntVec3, ushort>(this.HashValueForSquare));
 		}
 
 		private ushort HashValueForSquare(IntVec3 curSq)
@@ -59,26 +59,27 @@ namespace Verse
 					thingDefsByShortHash.Add(allDef.shortHash, allDef);
 				}
 			}
-			foreach (GridSaveUtility.LoadedGridShort item in GridSaveUtility.LoadedUShortGrid(this.compressedString, this.map))
+			List<Thing> loadables = new List<Thing>();
+			MapSerializeUtility.LoadUshort(this.compressedData, this.map, (Action<IntVec3, ushort>)delegate(IntVec3 c, ushort val)
 			{
-				GridSaveUtility.LoadedGridShort gridThing = item;
-				if (gridThing.val != 0)
+				if (val != 0)
 				{
 					ThingDef def = null;
 					try
 					{
-						def = thingDefsByShortHash[gridThing.val];
+						def = thingDefsByShortHash[val];
 					}
 					catch (KeyNotFoundException)
 					{
-						Log.Error("Map compressor decompression error: No thingDef with short hash " + gridThing.val + ". Adding as null to dictionary.");
-						thingDefsByShortHash.Add(gridThing.val, null);
+						Log.Error("Map compressor decompression error: No thingDef with short hash " + val + ". Adding as null to dictionary.");
+						thingDefsByShortHash.Add(val, null);
 					}
-					Thing th = ThingMaker.MakeThing(def, null);
-					th.SetPositionDirect(gridThing.cell);
-					yield return th;
+					Thing thing = ThingMaker.MakeThing(def, null);
+					thing.SetPositionDirect(c);
+					loadables.Add(thing);
 				}
-			}
+			});
+			return loadables;
 		}
 	}
 }

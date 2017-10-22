@@ -100,18 +100,18 @@ namespace RimWorld
 				{
 					this.Named(this.curName);
 					this.NamedSecond(this.curSecondName);
-					Messages.Message(this.gainedNameMessageKey.Translate(this.curName, this.curSecondName), MessageSound.Benefit);
+					Messages.Message(this.gainedNameMessageKey.Translate(this.curName, this.curSecondName), MessageTypeDefOf.TaskCompletion);
 				}
 				else
 				{
 					this.Named(this.curName);
-					Messages.Message(this.gainedNameMessageKey.Translate(this.curName), MessageSound.Benefit);
+					Messages.Message(this.gainedNameMessageKey.Translate(this.curName), MessageTypeDefOf.TaskCompletion);
 				}
 				Find.WindowStack.TryRemove(this, true);
 			}
 			else
 			{
-				Messages.Message(this.invalidNameMessageKey.Translate(), MessageSound.RejectInput);
+				Messages.Message(this.invalidNameMessageKey.Translate(), MessageTypeDefOf.RejectInput);
 			}
 			Event.current.Use();
 		}

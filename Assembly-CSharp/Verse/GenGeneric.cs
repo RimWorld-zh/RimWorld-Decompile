@@ -59,26 +59,33 @@ namespace Verse
 			{
 				throw new ArgumentException("The Def needs to be a GenericTypeDefinition", "Def");
 			}
+			Type type2;
 			if (Def.IsInterface)
 			{
 				Type[] interfaces = type.GetInterfaces();
 				for (int i = 0; i < interfaces.Length; i++)
 				{
-					Type type2 = interfaces[i];
+					type2 = interfaces[i];
 					if (type2.IsGenericType && type2.GetGenericTypeDefinition() == Def)
-					{
-						return type2;
-					}
+						goto IL_0075;
 				}
 			}
-			for (Type type3 = type; type3 != null; type3 = type3.BaseType)
+			Type type3;
+			for (type3 = type; type3 != null; type3 = type3.BaseType)
 			{
 				if (type3.IsGenericType && type3.GetGenericTypeDefinition() == Def)
-				{
-					return type3;
-				}
+					goto IL_00ad;
 			}
-			return null;
+			Type result = null;
+			goto IL_00cd;
+			IL_00cd:
+			return result;
+			IL_00ad:
+			result = type3;
+			goto IL_00cd;
+			IL_0075:
+			result = type2;
+			goto IL_00cd;
 		}
 	}
 }

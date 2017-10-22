@@ -8,9 +8,9 @@ namespace RimWorld
 {
 	public class ScenPart_DisallowBuilding : ScenPart_Rule
 	{
-		private const string DisallowBuildingTag = "DisallowBuilding";
-
 		private ThingDef building;
+
+		private const string DisallowBuildingTag = "DisallowBuilding";
 
 		protected override void ApplyRule()
 		{
@@ -24,10 +24,10 @@ namespace RimWorld
 
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
-			if (tag == "DisallowBuilding")
-			{
-				yield return this.building.LabelCap;
-			}
+			if (!(tag == "DisallowBuilding"))
+				yield break;
+			yield return this.building.LabelCap;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override void ExposeData()
@@ -64,11 +64,7 @@ namespace RimWorld
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_DisallowBuilding scenPart_DisallowBuilding = other as ScenPart_DisallowBuilding;
-			if (scenPart_DisallowBuilding != null && scenPart_DisallowBuilding.building == this.building)
-			{
-				return true;
-			}
-			return false;
+			return (byte)((scenPart_DisallowBuilding != null && scenPart_DisallowBuilding.building == this.building) ? 1 : 0) != 0;
 		}
 
 		protected virtual IEnumerable<ThingDef> PossibleBuildingDefs()
@@ -81,12 +77,7 @@ namespace RimWorld
 		private IEnumerable<ThingDef> RandomizableBuildingDefs()
 		{
 			yield return ThingDefOf.Wall;
-			yield return ThingDefOf.TurretGun;
-			yield return ThingDefOf.OrbitalTradeBeacon;
-			yield return ThingDefOf.Battery;
-			yield return ThingDefOf.TrapDeadfall;
-			yield return ThingDefOf.Cooler;
-			yield return ThingDefOf.Heater;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

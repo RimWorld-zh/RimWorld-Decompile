@@ -8,13 +8,13 @@ namespace Verse
 {
 	public abstract class Designator : Command
 	{
-		protected bool useMouseIcon;
+		protected bool useMouseIcon = false;
 
-		public SoundDef soundDragSustain;
+		public SoundDef soundDragSustain = null;
 
-		public SoundDef soundDragChanged;
+		public SoundDef soundDragChanged = null;
 
-		protected SoundDef soundSucceeded;
+		protected SoundDef soundSucceeded = null;
 
 		protected SoundDef soundFailed = SoundDefOf.DesignateFailed;
 
@@ -60,15 +60,20 @@ namespace Verse
 		{
 			get
 			{
+				string result;
 				if (base.tutorTag == null)
 				{
-					return (string)null;
+					result = (string)null;
 				}
-				if (this.cachedTutorTagSelect == null)
+				else
 				{
-					this.cachedTutorTagSelect = "SelectDesignator-" + base.tutorTag;
+					if (this.cachedTutorTagSelect == null)
+					{
+						this.cachedTutorTagSelect = "SelectDesignator-" + base.tutorTag;
+					}
+					result = this.cachedTutorTagSelect;
 				}
-				return this.cachedTutorTagSelect;
+				return result;
 			}
 		}
 
@@ -76,15 +81,20 @@ namespace Verse
 		{
 			get
 			{
+				string result;
 				if (base.tutorTag == null)
 				{
-					return (string)null;
+					result = (string)null;
 				}
-				if (this.cachedTutorTagDesignate == null)
+				else
 				{
-					this.cachedTutorTagDesignate = "Designate-" + base.tutorTag;
+					if (this.cachedTutorTagDesignate == null)
+					{
+						this.cachedTutorTagDesignate = "Designate-" + base.tutorTag;
+					}
+					result = this.cachedTutorTagDesignate;
 				}
-				return this.cachedTutorTagDesignate;
+				return result;
 			}
 		}
 
@@ -107,11 +117,7 @@ namespace Verse
 
 		protected bool CheckCanInteract()
 		{
-			if (TutorSystem.TutorialMode && !TutorSystem.AllowAction(this.TutorTagSelect))
-			{
-				return false;
-			}
-			return true;
+			return (byte)((!TutorSystem.TutorialMode || TutorSystem.AllowAction(this.TutorTagSelect)) ? 1 : 0) != 0;
 		}
 
 		public override void ProcessInput(Event ev)
@@ -139,20 +145,13 @@ namespace Verse
 		{
 			if (TutorSystem.TutorialMode && !TutorSystem.AllowAction(new EventPack(this.TutorTagDesignate, cells)))
 				return;
-			bool flag = false;
 			bool somethingSucceeded = false;
 			foreach (IntVec3 item in cells)
 			{
-				AcceptanceReport acceptanceReport = this.CanDesignateCell(item);
-				if (acceptanceReport.Accepted)
+				if (this.CanDesignateCell(item).Accepted)
 				{
 					this.DesignateSingleCell(item);
 					somethingSucceeded = true;
-				}
-				else if (!flag)
-				{
-					Messages.Message(acceptanceReport.Reason, MessageSound.RejectInput);
-					flag = true;
 				}
 			}
 			this.Finalize(somethingSucceeded);
@@ -195,7 +194,7 @@ namespace Verse
 			}
 			if (Find.DesignatorManager.Dragger.FailureReason != null)
 			{
-				Messages.Message(Find.DesignatorManager.Dragger.FailureReason, MessageSound.RejectInput);
+				Messages.Message(Find.DesignatorManager.Dragger.FailureReason, MessageTypeDefOf.RejectInput);
 			}
 		}
 
@@ -209,8 +208,9 @@ namespace Verse
 			return this.Desc;
 		}
 
-		public virtual Texture2D IconReverseDesignating(Thing t)
+		public virtual Texture2D IconReverseDesignating(Thing t, out float angle)
 		{
+			angle = base.iconAngle;
 			return base.icon;
 		}
 
@@ -218,7 +218,7 @@ namespace Verse
 		{
 			if (this.useMouseIcon)
 			{
-				GenUI.DrawMouseAttachment(base.icon, string.Empty);
+				GenUI.DrawMouseAttachment(base.icon, "", base.iconAngle);
 			}
 		}
 

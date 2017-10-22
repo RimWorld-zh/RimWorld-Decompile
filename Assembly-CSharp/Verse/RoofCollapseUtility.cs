@@ -12,19 +12,29 @@ namespace Verse
 		{
 			CellIndices cellIndices = map.cellIndices;
 			Building[] innerArray = map.edificeGrid.InnerArray;
-			for (int i = 0; i < RoofCollapseUtility.RoofSupportRadialCellsCount; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				IntVec3 c2 = c + GenRadial.RadialPattern[i];
-				if (c2.InBounds(map))
+				if (num < RoofCollapseUtility.RoofSupportRadialCellsCount)
 				{
-					Building building = innerArray[cellIndices.CellToIndex(c2)];
-					if (building != null && building.def.holdsRoof)
+					IntVec3 c2 = c + GenRadial.RadialPattern[num];
+					if (c2.InBounds(map))
 					{
-						return true;
+						Building building = innerArray[cellIndices.CellToIndex(c2)];
+						if (building != null && building.def.holdsRoof)
+						{
+							result = true;
+							break;
+						}
 					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		public static bool ConnectedToRoofHolder(IntVec3 c, Map map, bool assumeRoofAtRoot)
@@ -50,7 +60,7 @@ namespace Verse
 					return;
 				}
 				connected = true;
-			}, false);
+			}, 2147483647, false, null);
 			return connected;
 		}
 	}

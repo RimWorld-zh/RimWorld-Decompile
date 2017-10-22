@@ -16,11 +16,7 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			if (req.HasThing && StatPart_WorkTableOutdoors.Applies(req.Thing))
-			{
-				return "Outdoors".Translate() + ": x" + 0.8f.ToStringPercent();
-			}
-			return (string)null;
+			return (!req.HasThing || !StatPart_WorkTableOutdoors.Applies(req.Thing)) ? null : ("Outdoors".Translate() + ": x" + 0.8f.ToStringPercent());
 		}
 
 		public static bool Applies(Thing t)
@@ -30,16 +26,21 @@ namespace RimWorld
 
 		public static bool Applies(ThingDef def, Map map, IntVec3 c)
 		{
-			if (def.building != null && def.building.workSpeedPenaltyOutdoors)
+			bool result;
+			if (def.building == null || !def.building.workSpeedPenaltyOutdoors)
 			{
-				if (map == null)
-				{
-					return false;
-				}
-				Room room = c.GetRoom(map, RegionType.Set_All);
-				return room != null && room.PsychologicallyOutdoors;
+				result = false;
 			}
-			return false;
+			else if (map == null)
+			{
+				result = false;
+			}
+			else
+			{
+				Room room = c.GetRoom(map, RegionType.Set_All);
+				result = (room != null && room.PsychologicallyOutdoors);
+			}
+			return result;
 		}
 	}
 }

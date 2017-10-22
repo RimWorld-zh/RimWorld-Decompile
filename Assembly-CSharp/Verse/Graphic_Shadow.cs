@@ -19,15 +19,18 @@ namespace Verse
 			this.shadowMesh = ShadowMeshPool.GetShadowMesh(shadowInfo);
 		}
 
-		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing)
+		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			if ((UnityEngine.Object)this.shadowMesh != (UnityEngine.Object)null && thingDef != null && this.shadowInfo != null)
 			{
 				if (Find.VisibleMap != null && loc.ToIntVec3().InBounds(Find.VisibleMap) && Find.VisibleMap.roofGrid.Roofed(loc.ToIntVec3()))
 					return;
-				Vector3 position = loc + this.shadowInfo.offset;
-				position.y = Altitudes.AltitudeFor(AltitudeLayer.Shadows);
-				Graphics.DrawMesh(this.shadowMesh, position, rot.AsQuat, MatBases.SunShadowFade, 0);
+				if (DebugViewSettings.drawShadows)
+				{
+					Vector3 position = loc + this.shadowInfo.offset;
+					position.y = Altitudes.AltitudeFor(AltitudeLayer.Shadows);
+					Graphics.DrawMesh(this.shadowMesh, position, rot.AsQuat, MatBases.SunShadowFade, 0);
+				}
 			}
 		}
 

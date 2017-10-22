@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
@@ -6,11 +6,11 @@ namespace RimWorld
 {
 	public class AutoUndrafter : IExposable
 	{
-		private const int UndraftDelay = 5000;
-
 		private Pawn pawn;
 
 		private int lastNonWaitingTick;
+
+		private const int UndraftDelay = 5000;
 
 		public AutoUndrafter(Pawn pawn)
 		{
@@ -24,38 +24,59 @@ namespace RimWorld
 
 		public void AutoUndraftTick()
 		{
-			if (Find.TickManager.TicksGame % 100 == 0)
+			if (Find.TickManager.TicksGame % 100 != 0)
+				return;
+			if (!this.pawn.Drafted)
+				return;
+			if (this.pawn.jobs.curJob != null && this.pawn.jobs.curJob.def != JobDefOf.WaitCombat)
 			{
-				if (!this.pawn.drafter.Drafted)
-				{
-					this.lastNonWaitingTick = Find.TickManager.TicksGame;
-				}
-				else
-				{
-					if (this.pawn.jobs.curJob != null && this.pawn.jobs.curJob.def != JobDefOf.WaitCombat)
-					{
-						this.lastNonWaitingTick = Find.TickManager.TicksGame;
-					}
-					if (this.ShouldAutoUndraft())
-					{
-						this.pawn.drafter.Drafted = false;
-						this.lastNonWaitingTick = Find.TickManager.TicksGame;
-					}
-				}
+				goto IL_0063;
 			}
+			if (this.AnyHostilePreventingAutoUndraft())
+				goto IL_0063;
+			goto IL_0075;
+			IL_0075:
+			if (this.ShouldAutoUndraft())
+			{
+				this.pawn.drafter.Drafted = false;
+			}
+			return;
+			IL_0063:
+			this.lastNonWaitingTick = Find.TickManager.TicksGame;
+			goto IL_0075;
+		}
+
+		public void Notify_Drafted()
+		{
+			this.lastNonWaitingTick = Find.TickManager.TicksGame;
 		}
 
 		private bool ShouldAutoUndraft()
 		{
-			if (Find.TickManager.TicksGame - this.lastNonWaitingTick < 5000)
+			return (byte)((Find.TickManager.TicksGame - this.lastNonWaitingTick >= 5000) ? ((!this.AnyHostilePreventingAutoUndraft()) ? 1 : 0) : 0) != 0;
+		}
+
+		private bool AnyHostilePreventingAutoUndraft()
+		{
+			List<IAttackTarget> potentialTargetsFor = this.pawn.Map.attackTargetsCache.GetPotentialTargetsFor(this.pawn);
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				return false;
+				if (num < potentialTargetsFor.Count)
+				{
+					if (GenHostility.IsActiveThreatToPlayer(potentialTargetsFor[num]))
+					{
+						result = true;
+						break;
+					}
+					num++;
+					continue;
+				}
+				result = false;
+				break;
 			}
-			if (this.pawn.Map.attackTargetsCache.GetPotentialTargetsFor(this.pawn).Any((Predicate<IAttackTarget>)((IAttackTarget x) => !x.ThreatDisabled())))
-			{
-				return false;
-			}
-			return true;
+			return result;
 		}
 	}
 }

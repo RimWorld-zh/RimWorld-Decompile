@@ -48,26 +48,23 @@ namespace RimWorld
 		{
 			get
 			{
+				bool result;
 				if (!base.Active)
 				{
-					return false;
+					result = false;
 				}
-				Pawn pawn = base.parent as Pawn;
-				if (pawn != null && !pawn.ageTracker.CurLifeStage.shearable)
+				else
 				{
-					return false;
+					Pawn pawn = base.parent as Pawn;
+					result = ((byte)((pawn == null || pawn.ageTracker.CurLifeStage.shearable) ? 1 : 0) != 0);
 				}
-				return true;
+				return result;
 			}
 		}
 
 		public override string CompInspectStringExtra()
 		{
-			if (!this.Active)
-			{
-				return (string)null;
-			}
-			return "WoolGrowth".Translate() + ": " + base.Fullness.ToStringPercent();
+			return this.Active ? ("WoolGrowth".Translate() + ": " + base.Fullness.ToStringPercent()) : null;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -53,59 +54,31 @@ namespace RimWorld
 
 		public override void Randomize()
 		{
-			this.stat = this.RandomizableStats().RandomElement();
+			this.stat = (from d in DefDatabase<StatDef>.AllDefs
+			where d.scenarioRandomizable
+			select d).RandomElement();
 			this.factor = GenMath.RoundedHundredth(Rand.Range(0.1f, 3f));
 		}
 
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_StatFactor scenPart_StatFactor = other as ScenPart_StatFactor;
+			bool result;
 			if (scenPart_StatFactor != null && scenPart_StatFactor.stat == this.stat)
 			{
 				this.factor *= scenPart_StatFactor.factor;
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		public float GetStatFactor(StatDef stat)
 		{
-			if (stat == this.stat)
-			{
-				return this.factor;
-			}
-			return 1f;
-		}
-
-		private IEnumerable<StatDef> RandomizableStats()
-		{
-			yield return StatDefOf.ComfyTemperatureMax;
-			yield return StatDefOf.ComfyTemperatureMin;
-			yield return StatDefOf.ConstructSuccessChance;
-			yield return StatDefOf.ConstructionSpeed;
-			yield return StatDefOf.DeteriorationRate;
-			yield return StatDefOf.Flammability;
-			yield return StatDefOf.GlobalLearningFactor;
-			yield return StatDefOf.PlantHarvestYield;
-			yield return StatDefOf.MedicalTendSpeed;
-			yield return StatDefOf.ImmunityGainSpeed;
-			yield return StatDefOf.MarketValue;
-			yield return StatDefOf.MaxHitPoints;
-			yield return StatDefOf.MentalBreakThreshold;
-			yield return StatDefOf.MiningSpeed;
-			yield return StatDefOf.MoveSpeed;
-			yield return StatDefOf.PsychicSensitivity;
-			yield return StatDefOf.ResearchSpeed;
-			yield return StatDefOf.ShootingAccuracy;
-			yield return StatDefOf.MedicalSurgerySuccessChance;
-			yield return StatDefOf.RecruitPrisonerChance;
-			yield return StatDefOf.TameAnimalChance;
-			yield return StatDefOf.TrainAnimalChance;
-			yield return StatDefOf.MeleeWeapon_DamageAmount;
-			yield return StatDefOf.RangedWeapon_Cooldown;
-			yield return StatDefOf.WorkSpeedGlobal;
-			yield return StatDefOf.WorkToMake;
-			yield return StatDefOf.WorkToBuild;
+			return (float)((stat != this.stat) ? 1.0 : this.factor);
 		}
 	}
 }

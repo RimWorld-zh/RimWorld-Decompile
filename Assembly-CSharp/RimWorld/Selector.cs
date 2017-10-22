@@ -11,13 +11,13 @@ namespace RimWorld
 {
 	public class Selector
 	{
-		private const float PawnSelectRadius = 1f;
-
-		private const int MaxNumSelected = 80;
-
 		public DragBox dragBox = new DragBox();
 
 		private List<object> selected = new List<object>();
+
+		private const float PawnSelectRadius = 1f;
+
+		private const int MaxNumSelected = 80;
 
 		private bool ShiftIsHeld
 		{
@@ -47,15 +47,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.selected.Count != 1)
-				{
-					return null;
-				}
-				if (this.selected[0] is Thing)
-				{
-					return (Thing)this.selected[0];
-				}
-				return null;
+				return (this.selected.Count == 1) ? ((!(this.selected[0] is Thing)) ? null : ((Thing)this.selected[0])) : null;
 			}
 		}
 
@@ -63,11 +55,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.selected.Count == 0)
-				{
-					return null;
-				}
-				return this.selected[0];
+				return (this.selected.Count != 0) ? this.selected[0] : null;
 			}
 		}
 
@@ -75,11 +63,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.selected.Count != 1)
-				{
-					return null;
-				}
-				return this.selected[0];
+				return (this.selected.Count == 1) ? this.selected[0] : null;
 			}
 		}
 
@@ -95,11 +79,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.selected.Count == 0)
-				{
-					return null;
-				}
-				return this.selected[0] as Zone;
+				return (this.selected.Count != 0) ? (this.selected[0] as Zone) : null;
 			}
 			set
 			{
@@ -348,19 +328,10 @@ namespace RimWorld
 								if (!func(arg4) && !func((Predicate<Thing>)((Thing t) => t.def.selectable)))
 								{
 									List<Zone> list3 = ThingSelectionUtility.MultiSelectableZonesInScreenRectDistinct(this.dragBox.ScreenRect).ToList();
-									List<Zone>.Enumerator enumerator = list3.GetEnumerator();
-									try
+									foreach (Zone item2 in list3)
 									{
-										while (enumerator.MoveNext())
-										{
-											Zone current = enumerator.Current;
-											selectedSomething = true;
-											this.Select(current, true, true);
-										}
-									}
-									finally
-									{
-										((IDisposable)(object)enumerator).Dispose();
+										selectedSomething = true;
+										this.Select(item2, true, true);
 									}
 									if (!selectedSomething)
 									{
@@ -381,8 +352,9 @@ namespace RimWorld
 			if (colonistOrCorpse != null && colonistOrCorpse.Spawned)
 			{
 				yield return (object)colonistOrCorpse;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			else if (UI.MouseCell().InBounds(Find.VisibleMap))
+			if (UI.MouseCell().InBounds(Find.VisibleMap))
 			{
 				TargetingParameters selectParams = new TargetingParameters
 				{
@@ -395,24 +367,26 @@ namespace RimWorld
 				List<Thing> selectableList = GenUI.ThingsUnderMouse(UI.MouseMapPosition(), 1f, selectParams);
 				if (selectableList.Count > 0 && selectableList[0] is Pawn && (selectableList[0].DrawPos - UI.MouseMapPosition()).MagnitudeHorizontal() < 0.40000000596046448)
 				{
-					for (int j = selectableList.Count - 1; j >= 0; j--)
+					for (int num = selectableList.Count - 1; num >= 0; num--)
 					{
-						Thing t = selectableList[j];
-						if (t.def.category == ThingCategory.Pawn && (t.DrawPos - UI.MouseMapPosition()).MagnitudeHorizontal() > 0.40000000596046448)
+						Thing thing = selectableList[num];
+						if (thing.def.category == ThingCategory.Pawn && (thing.DrawPos - UI.MouseMapPosition()).MagnitudeHorizontal() > 0.40000000596046448)
 						{
-							selectableList.Remove(t);
+							selectableList.Remove(thing);
 						}
 					}
 				}
-				for (int i = 0; i < selectableList.Count; i++)
+				int i = 0;
+				if (i < selectableList.Count)
 				{
 					yield return (object)selectableList[i];
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 				Zone z = Find.VisibleMap.zoneManager.ZoneAt(UI.MouseCell());
-				if (z != null)
-				{
-					yield return (object)z;
-				}
+				if (z == null)
+					yield break;
+				yield return (object)z;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -425,13 +399,14 @@ namespace RimWorld
 				if (ThingSelectionUtility.SelectableByMapClick(t))
 				{
 					yield return (object)t;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			Zone z = map.zoneManager.ZoneAt(c);
-			if (z != null)
-			{
-				yield return (object)z;
-			}
+			if (z == null)
+				yield break;
+			yield return (object)z;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		private void SelectUnderMouse()
@@ -494,21 +469,12 @@ namespace RimWorld
 							}
 							else
 							{
-								List<object>.Enumerator enumerator = list.GetEnumerator();
-								try
+								foreach (object item in list)
 								{
-									while (enumerator.MoveNext())
+									if (this.selected.Contains(item))
 									{
-										object current = enumerator.Current;
-										if (this.selected.Contains(current))
-										{
-											this.Deselect(current);
-										}
+										this.Deselect(item);
 									}
-								}
-								finally
-								{
-									((IDisposable)(object)enumerator).Dispose();
 								}
 							}
 						}
@@ -578,7 +544,12 @@ namespace RimWorld
 					IEnumerable enumerable2 = ThingSelectionUtility.MultiSelectableThingsInScreenRectDistinct(rect);
 					Predicate<Thing> predicate = (Predicate<Thing>)delegate(Thing t)
 					{
-						if (t.def == clickedThing.def && t.Faction == clickedThing.Faction && !this.IsSelected(t))
+						bool result;
+						if (t.def != clickedThing.def || t.Faction != clickedThing.Faction || this.IsSelected(t))
+						{
+							result = false;
+						}
+						else
 						{
 							Pawn pawn = clickedThing as Pawn;
 							if (pawn != null)
@@ -586,22 +557,39 @@ namespace RimWorld
 								Pawn pawn2 = t as Pawn;
 								if (pawn2.RaceProps != pawn.RaceProps)
 								{
-									return false;
+									result = false;
+									goto IL_0097;
 								}
 								if (pawn2.HostFaction != pawn.HostFaction)
 								{
-									return false;
+									result = false;
+									goto IL_0097;
 								}
 							}
-							return true;
+							result = true;
 						}
-						return false;
+						goto IL_0097;
+						IL_0097:
+						return result;
 					};
-					foreach (Thing item2 in enumerable2)
+					IEnumerator enumerator2 = enumerable2.GetEnumerator();
+					try
 					{
-						if (predicate(item2))
+						while (enumerator2.MoveNext())
 						{
-							this.Select(item2, true, true);
+							Thing obj2 = (Thing)enumerator2.Current;
+							if (predicate(obj2))
+							{
+								this.Select(obj2, true, true);
+							}
+						}
+					}
+					finally
+					{
+						IDisposable disposable;
+						if ((disposable = (enumerator2 as IDisposable)) != null)
+						{
+							disposable.Dispose();
 						}
 					}
 				}
@@ -610,8 +598,7 @@ namespace RimWorld
 
 		private static void AutoOrderToCell(Pawn pawn, IntVec3 dest)
 		{
-			List<FloatMenuOption>.Enumerator enumerator = FloatMenuMakerMap.ChoicesAtFor(dest.ToVector3Shifted(), pawn).GetEnumerator();
-			try
+			using (List<FloatMenuOption>.Enumerator enumerator = FloatMenuMakerMap.ChoicesAtFor(dest.ToVector3Shifted(), pawn).GetEnumerator())
 			{
 				FloatMenuOption current;
 				while (true)
@@ -626,10 +613,6 @@ namespace RimWorld
 					return;
 				}
 				current.Chosen(true);
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 	}

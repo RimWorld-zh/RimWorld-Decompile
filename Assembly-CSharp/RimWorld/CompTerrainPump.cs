@@ -109,17 +109,17 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			if (Prefs.DevMode)
+			if (!Prefs.DevMode)
+				yield break;
+			yield return (Gizmo)new Command_Action
 			{
-				yield return (Gizmo)new Command_Action
+				defaultLabel = "DEBUG: Progress 1 day",
+				action = (Action)delegate
 				{
-					defaultLabel = "DEBUG: Progress 1 day",
-					action = (Action)delegate
-					{
-						((_003CCompGetGizmosExtra_003Ec__Iterator16E)/*Error near IL_004c: stateMachine*/)._003C_003Ef__this.progressTicks += 60000;
-					}
-				};
-			}
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_004e: stateMachine*/)._0024this.progressTicks += 60000;
+				}
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

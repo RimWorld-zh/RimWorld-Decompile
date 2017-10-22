@@ -17,11 +17,7 @@ namespace RimWorld
 				{
 					this.initialBlueprintsCount = this.ConstructionNeeders().Count();
 				}
-				if (this.initialBlueprintsCount == 0)
-				{
-					return 1f;
-				}
-				return (float)(1.0 - (float)this.ConstructionNeeders().Count() / (float)this.initialBlueprintsCount);
+				return (float)((this.initialBlueprintsCount != 0) ? (1.0 - (float)this.ConstructionNeeders().Count() / (float)this.initialBlueprintsCount) : 1.0);
 			}
 		}
 

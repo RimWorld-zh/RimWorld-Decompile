@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Xml;
 
@@ -10,21 +9,12 @@ namespace Verse
 
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
-			List<PatchOperation>.Enumerator enumerator = this.operations.GetEnumerator();
-			try
+			foreach (PatchOperation operation in this.operations)
 			{
-				while (enumerator.MoveNext())
+				if (!operation.Apply(xml))
 				{
-					PatchOperation current = enumerator.Current;
-					if (!current.Apply(xml))
-					{
-						return false;
-					}
+					return false;
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			return true;
 		}

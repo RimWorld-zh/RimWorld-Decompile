@@ -7,27 +7,17 @@ namespace RimWorld
 {
 	public static class GenPlantReproduction
 	{
+		private const float CavePlantsDensity = 0.5f;
+
 		public static Plant TryReproduceFrom(IntVec3 source, ThingDef plantDef, SeedTargFindMode mode, Map map)
 		{
 			IntVec3 dest = default(IntVec3);
-			if (!GenPlantReproduction.TryFindReproductionDestination(source, plantDef, mode, map, out dest))
-			{
-				return null;
-			}
-			return GenPlantReproduction.TryReproduceInto(dest, plantDef, map);
+			return GenPlantReproduction.TryFindReproductionDestination(source, plantDef, mode, map, out dest) ? GenPlantReproduction.TryReproduceInto(dest, plantDef, map) : null;
 		}
 
 		public static Plant TryReproduceInto(IntVec3 dest, ThingDef plantDef, Map map)
 		{
-			if (!plantDef.CanEverPlantAt(dest, map))
-			{
-				return null;
-			}
-			if (!GenPlant.SnowAllowsPlanting(dest, map))
-			{
-				return null;
-			}
-			return (Plant)GenSpawn.Spawn(plantDef, dest, map);
+			return plantDef.CanEverPlantAt(dest, map) ? (GenPlant.SnowAllowsPlanting(dest, map) ? ((Plant)GenSpawn.Spawn(plantDef, dest, map)) : null) : null;
 		}
 
 		public static bool TryFindReproductionDestination(IntVec3 source, ThingDef plantDef, SeedTargFindMode mode, Map map, out IntVec3 foundCell)
@@ -50,6 +40,11 @@ namespace RimWorld
 				radius = 40f;
 				break;
 			}
+			case SeedTargFindMode.Cave:
+			{
+				radius = plantDef.plant.WildClusterRadiusActual;
+				break;
+			}
 			}
 			int num = 0;
 			int num2 = 0;
@@ -62,7 +57,7 @@ namespace RimWorld
 				{
 					IntVec3 c2 = new IntVec3(j, 0, i);
 					Plant plant = c2.GetPlant(map);
-					if (plant != null)
+					if (plant != null && (mode != SeedTargFindMode.Cave || plant.def.plant.cavePlant))
 					{
 						num++;
 						if (plant.def == plantDef)
@@ -73,54 +68,51 @@ namespace RimWorld
 					num3 += c2.GetTerrain(map).fertility;
 				}
 			}
-			float num4 = num3 * map.Biome.plantDensity;
-			bool flag = (float)num > num4;
-			if ((float)num > num4 * 1.25)
+			float num4 = (float)((mode != SeedTargFindMode.Cave) ? map.Biome.plantDensity : 0.5);
+			float num5 = num3 * num4;
+			bool flag = (float)num > num5;
+			bool result;
+			if ((float)num > num5 * 1.25)
 			{
 				foundCell = IntVec3.Invalid;
-				return false;
+				result = false;
 			}
-			if (mode != 0)
+			else
 			{
-				BiomeDef curBiome = map.Biome;
-				float num5 = curBiome.AllWildPlants.Sum((Func<ThingDef, float>)((ThingDef pd) => curBiome.CommonalityOfPlant(pd)));
-				float num6 = curBiome.CommonalityOfPlant(plantDef) / num5;
-				float num7 = curBiome.CommonalityOfPlant(plantDef) * plantDef.plant.wildCommonalityMaxFraction / num5;
-				float num8 = num4 * num7;
-				if ((float)num2 > num8)
+				if (mode != 0 && mode != SeedTargFindMode.Cave)
 				{
-					foundCell = IntVec3.Invalid;
-					return false;
+					BiomeDef curBiome = map.Biome;
+					float num6 = curBiome.AllWildPlants.Sum((Func<ThingDef, float>)((ThingDef pd) => curBiome.CommonalityOfPlant(pd)));
+					float num7 = curBiome.CommonalityOfPlant(plantDef) / num6;
+					float num8 = curBiome.CommonalityOfPlant(plantDef) * plantDef.plant.wildCommonalityMaxFraction / num6;
+					float num9 = num5 * num8;
+					if ((float)num2 > num9)
+					{
+						foundCell = IntVec3.Invalid;
+						result = false;
+						goto IL_02fa;
+					}
+					float num10 = num5 * num7;
+					bool flag2 = (float)num2 < num10 * 0.5;
+					if (flag && !flag2)
+					{
+						foundCell = IntVec3.Invalid;
+						result = false;
+						goto IL_02fa;
+					}
 				}
-				float num9 = num4 * num6;
-				bool flag2 = (float)num2 < num9 * 0.5;
-				if (flag && !flag2)
-				{
-					foundCell = IntVec3.Invalid;
-					return false;
-				}
+				Predicate<IntVec3> validator = (Predicate<IntVec3>)((IntVec3 c) => (byte)(plantDef.CanEverPlantAt(c, map) ? ((!plantDef.plant.cavePlant || GenPlantReproduction.GoodRoofForCavePlantReproduction(c, map)) ? (GenPlant.SnowAllowsPlanting(c, map) ? (source.InHorDistOf(c, radius) ? (GenSight.LineOfSight(source, c, map, true, null, 0, 0) ? 1 : 0) : 0) : 0) : 0) : 0) != 0);
+				result = CellFinder.TryFindRandomCellNear(source, map, Mathf.CeilToInt(radius), validator, out foundCell);
 			}
-			Predicate<IntVec3> validator = (Predicate<IntVec3>)delegate(IntVec3 c)
-			{
-				if (!plantDef.CanEverPlantAt(c, map))
-				{
-					return false;
-				}
-				if (!GenPlant.SnowAllowsPlanting(c, map))
-				{
-					return false;
-				}
-				if (!source.InHorDistOf(c, radius))
-				{
-					return false;
-				}
-				if (!GenSight.LineOfSight(source, c, map, true, null, 0, 0))
-				{
-					return false;
-				}
-				return true;
-			};
-			return CellFinder.TryFindRandomCellNear(source, map, Mathf.CeilToInt(radius), validator, out foundCell);
+			goto IL_02fa;
+			IL_02fa:
+			return result;
+		}
+
+		public static bool GoodRoofForCavePlantReproduction(IntVec3 c, Map map)
+		{
+			RoofDef roof = c.GetRoof(map);
+			return roof != null && roof.isNatural;
 		}
 	}
 }

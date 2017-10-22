@@ -8,10 +8,6 @@ namespace Verse
 {
 	public sealed class Room
 	{
-		private const int RegionCountHuge = 60;
-
-		private const int MaxRegionsToAssignRoomRole = 36;
-
 		public sbyte mapIndex = (sbyte)(-1);
 
 		private RoomGroup groupInt;
@@ -39,6 +35,10 @@ namespace Verse
 		public int newOrReusedRoomGroupIndex = -1;
 
 		private static int nextRoomID;
+
+		private const int RegionCountHuge = 60;
+
+		private const int MaxRegionsToAssignRoomRole = 36;
 
 		private static readonly Color PrisonFieldColor = new Color(1f, 0.7f, 0.2f);
 
@@ -192,15 +192,15 @@ namespace Verse
 		{
 			get
 			{
-				if (!this.TouchesMapEdge && this.OpenRoofCount <= 300)
-				{
-					if (this.Group.AnyRoomTouchesMapEdge && (float)this.OpenRoofCount / (float)this.CellCount >= 0.5)
-					{
-						return true;
-					}
-					return false;
-				}
-				return true;
+				return (byte)((this.OpenRoofCount > 300) ? 1 : ((this.Group.AnyRoomTouchesMapEdge && (float)this.OpenRoofCount / (float)this.CellCount >= 0.5) ? 1 : 0)) != 0;
+			}
+		}
+
+		public bool OutdoorsForWork
+		{
+			get
+			{
+				return (byte)((this.OpenRoofCount > 100 || (float)this.OpenRoofCount > (float)this.CellCount * 0.25) ? 1 : 0) != 0;
 			}
 		}
 
@@ -231,11 +231,19 @@ namespace Verse
 			{
 				for (int i = 0; i < this.regions.Count; i++)
 				{
-					foreach (IntVec3 cell in this.regions[i].Cells)
+					using (IEnumerator<IntVec3> enumerator = this.regions[i].Cells.GetEnumerator())
 					{
-						yield return cell;
+						if (enumerator.MoveNext())
+						{
+							IntVec3 c = enumerator.Current;
+							yield return c;
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
 					}
 				}
+				yield break;
+				IL_0104:
+				/*Error near IL_0105: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -245,16 +253,23 @@ namespace Verse
 			{
 				foreach (IntVec3 cell in this.Cells)
 				{
-					for (int i = 0; i < 8; i++)
+					int i = 0;
+					while (i < 8)
 					{
 						IntVec3 prospective = cell + GenAdj.AdjacentCells[i];
 						Region region = (cell + GenAdj.AdjacentCells[i]).GetRegion(this.Map, RegionType.Set_Passable);
-						if (region == null || region.Room != this)
+						if (region != null && region.Room == this)
 						{
-							yield return prospective;
+							i++;
+							continue;
 						}
+						yield return prospective;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
+				yield break;
+				IL_0163:
+				/*Error near IL_0164: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -285,18 +300,17 @@ namespace Verse
 							}
 						}
 					}
-					if (firstOwner != null)
+					if (firstOwner == null)
+						yield break;
+					if (secondOwner == null)
 					{
-						if (secondOwner == null)
-						{
-							yield return firstOwner;
-						}
-						else if (LovePartnerRelationUtility.LovePartnerRelationExists(firstOwner, secondOwner))
-						{
-							yield return firstOwner;
-							yield return secondOwner;
-						}
+						yield return firstOwner;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
+					if (!LovePartnerRelationUtility.LovePartnerRelationExists(firstOwner, secondOwner))
+						yield break;
+					yield return firstOwner;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 		}
@@ -306,14 +320,24 @@ namespace Verse
 			get
 			{
 				List<Thing> things = this.ContainedAndAdjacentThings;
-				for (int i = 0; i < things.Count; i++)
+				int i = 0;
+				Building_Bed bed;
+				while (true)
 				{
-					Building_Bed bed = things[i] as Building_Bed;
-					if (bed != null)
+					if (i < things.Count)
 					{
-						yield return bed;
+						bed = (things[i] as Building_Bed);
+						if (bed == null)
+						{
+							i++;
+							continue;
+						}
+						break;
 					}
+					yield break;
 				}
+				yield return bed;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -321,11 +345,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.regions.Count == 0)
-				{
-					return false;
-				}
-				return this.regions[0].AnyCell.Fogged(this.Map);
+				return this.regions.Count != 0 && this.regions[0].AnyCell.Fogged(this.Map);
 			}
 		}
 
@@ -451,14 +471,11 @@ namespace Verse
 
 		public void Notify_RoomShapeOrContainedBedsChanged()
 		{
-			ProfilerThreadCheck.BeginSample("RoomChanged");
 			this.cachedCellCount = -1;
 			this.cachedOpenRoofCount = -1;
 			if (Current.ProgramState == ProgramState.Playing && !this.Fogged)
 			{
-				ProfilerThreadCheck.BeginSample("RoofGenerationRequest");
 				this.Map.autoBuildRoofAreaSetter.TryGenerateAreaFor(this);
-				ProfilerThreadCheck.EndSample();
 			}
 			this.isPrisonCell = false;
 			if (Building_Bed.RoomCanBePrisonCell(this))
@@ -484,7 +501,6 @@ namespace Verse
 			this.lastChangeTick = Find.TickManager.TicksGame;
 			this.statsAndRoleDirty = true;
 			FacilitiesUtility.NotifyFacilitiesAboutChangedLOSBlockers(this.regions);
-			ProfilerThreadCheck.EndSample();
 		}
 
 		public void DecrementMapIndex()
@@ -505,11 +521,7 @@ namespace Verse
 			{
 				this.UpdateRoomStatsAndRole();
 			}
-			if (this.stats == null)
-			{
-				return roomStat.defaultScore;
-			}
-			return this.stats[roomStat];
+			return (this.stats != null) ? this.stats[roomStat] : roomStat.defaultScore;
 		}
 
 		public RoomStatScoreStage GetStatScoreStage(RoomStatDef stat)

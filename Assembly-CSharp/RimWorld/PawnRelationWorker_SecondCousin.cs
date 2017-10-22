@@ -6,36 +6,45 @@ namespace RimWorld
 	{
 		public override bool InRelation(Pawn me, Pawn other)
 		{
+			bool result;
 			if (me == other)
 			{
-				return false;
+				result = false;
 			}
-			PawnRelationWorker worker = PawnRelationDefOf.GranduncleOrGrandaunt.Worker;
-			Pawn mother = other.GetMother();
-			if (mother != null)
+			else
 			{
-				if (mother.GetMother() != null && worker.InRelation(me, mother.GetMother()))
+				PawnRelationWorker worker = PawnRelationDefOf.GranduncleOrGrandaunt.Worker;
+				Pawn mother = other.GetMother();
+				if (mother != null)
 				{
-					goto IL_005b;
+					if (mother.GetMother() != null && worker.InRelation(me, mother.GetMother()))
+					{
+						goto IL_0062;
+					}
+					if (mother.GetFather() != null && worker.InRelation(me, mother.GetFather()))
+						goto IL_0062;
 				}
-				if (mother.GetFather() != null && worker.InRelation(me, mother.GetFather()))
-					goto IL_005b;
-			}
-			Pawn father = other.GetFather();
-			if (father != null)
-			{
-				if (father.GetMother() != null && worker.InRelation(me, father.GetMother()))
+				Pawn father = other.GetFather();
+				if (father != null)
 				{
-					goto IL_00a4;
+					if (father.GetMother() != null && worker.InRelation(me, father.GetMother()))
+					{
+						goto IL_00b3;
+					}
+					if (father.GetFather() != null && worker.InRelation(me, father.GetFather()))
+						goto IL_00b3;
 				}
-				if (father.GetFather() != null && worker.InRelation(me, father.GetFather()))
-					goto IL_00a4;
+				result = false;
 			}
-			return false;
-			IL_005b:
-			return true;
-			IL_00a4:
-			return true;
+			goto IL_00c3;
+			IL_00b3:
+			result = true;
+			goto IL_00c3;
+			IL_00c3:
+			return result;
+			IL_0062:
+			result = true;
+			goto IL_00c3;
 		}
 	}
 }

@@ -9,11 +9,7 @@ namespace RimWorld
 			get
 			{
 				ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
-				if (currentProj == null)
-				{
-					return 0f;
-				}
-				return currentProj.ProgressPercent;
+				return (float)((currentProj != null) ? currentProj.ProgressPercent : 0.0);
 			}
 		}
 	}

@@ -7,7 +7,7 @@ namespace RimWorld
 {
 	public abstract class Blueprint : ThingWithComps, IConstructible
 	{
-		private static List<Thing> tmpAdjacentThings = new List<Thing>();
+		private static List<CompSpawnerMechanoidsOnDamaged> tmpCrashedShipParts = new List<CompSpawnerMechanoidsOnDamaged>();
 
 		public override string Label
 		{
@@ -46,43 +46,66 @@ namespace RimWorld
 		public virtual bool TryReplaceWithSolidThing(Pawn workerPawn, out Thing createdThing, out bool jobEnded)
 		{
 			jobEnded = false;
+			bool result;
 			if (this.FirstBlockingThing(workerPawn, null, false) != null)
 			{
 				workerPawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 				jobEnded = true;
 				createdThing = null;
-				return false;
+				result = false;
 			}
-			Thing thing = this.FirstBlockingThing(null, null, false);
-			if (thing != null)
+			else
 			{
-				Log.Error(workerPawn + " tried to replace blueprint " + this.ToString() + " at " + base.Position + " with solid thing, but it is blocked by " + thing + " at " + thing.Position);
-				if (thing != workerPawn)
+				Thing thing = this.FirstBlockingThing(null, null, false);
+				if (thing != null)
 				{
-					createdThing = null;
-					return false;
+					Log.Error(workerPawn + " tried to replace blueprint " + this.ToString() + " at " + base.Position + " with solid thing, but it is blocked by " + thing + " at " + thing.Position);
+					if (thing != workerPawn)
+					{
+						createdThing = null;
+						result = false;
+						goto IL_0201;
+					}
 				}
-			}
-			createdThing = this.MakeSolidThing();
-			Map map = base.Map;
-			GenAdjFast.AdjacentThings8Way(this, Blueprint.tmpAdjacentThings);
-			GenSpawn.WipeExistingThings(base.Position, base.Rotation, createdThing.def, map, DestroyMode.Deconstruct);
-			if (!base.Destroyed)
-			{
-				this.Destroy(DestroyMode.Vanish);
-			}
-			createdThing.SetFactionDirect(workerPawn.Faction);
-			GenSpawn.Spawn(createdThing, base.Position, map, base.Rotation, false);
-			for (int i = 0; i < Blueprint.tmpAdjacentThings.Count; i++)
-			{
-				Building_CrashedShipPart building_CrashedShipPart = Blueprint.tmpAdjacentThings[i] as Building_CrashedShipPart;
-				if (building_CrashedShipPart != null)
+				createdThing = this.MakeSolidThing();
+				Map map = base.Map;
+				CellRect cellRect = this.OccupiedRect();
+				GenSpawn.WipeExistingThings(base.Position, base.Rotation, createdThing.def, map, DestroyMode.Deconstruct);
+				if (!base.Destroyed)
 				{
-					building_CrashedShipPart.Notify_AdjacentBlueprintReplacedWithSolidThing(workerPawn);
+					this.Destroy(DestroyMode.Vanish);
 				}
+				createdThing.SetFactionDirect(workerPawn.Faction);
+				GenSpawn.Spawn(createdThing, base.Position, map, base.Rotation, false);
+				Blueprint.tmpCrashedShipParts.Clear();
+				CellRect.CellRectIterator iterator = cellRect.ExpandedBy(3).GetIterator();
+				while (!iterator.Done())
+				{
+					if (iterator.Current.InBounds(map))
+					{
+						List<Thing> thingList = iterator.Current.GetThingList(map);
+						for (int i = 0; i < thingList.Count; i++)
+						{
+							CompSpawnerMechanoidsOnDamaged compSpawnerMechanoidsOnDamaged = thingList[i].TryGetComp<CompSpawnerMechanoidsOnDamaged>();
+							if (compSpawnerMechanoidsOnDamaged != null)
+							{
+								Blueprint.tmpCrashedShipParts.Add(compSpawnerMechanoidsOnDamaged);
+							}
+						}
+					}
+					iterator.MoveNext();
+				}
+				Blueprint.tmpCrashedShipParts.RemoveDuplicates();
+				for (int j = 0; j < Blueprint.tmpCrashedShipParts.Count; j++)
+				{
+					Blueprint.tmpCrashedShipParts[j].Notify_BlueprintReplacedWithSolidThingNearby(workerPawn);
+				}
+				Blueprint.tmpCrashedShipParts.Clear();
+				result = true;
 			}
-			Blueprint.tmpAdjacentThings.Clear();
-			return true;
+			goto IL_0201;
+			IL_0201:
+			return result;
 		}
 
 		protected abstract Thing MakeSolidThing();
@@ -93,44 +116,62 @@ namespace RimWorld
 
 		public Thing BlockingHaulableOnTop()
 		{
+			Thing result;
+			Thing thing;
 			if (base.def.entityDefToBuild.passability == Traversability.Standable)
 			{
-				return null;
+				result = null;
 			}
-			CellRect.CellRectIterator iterator = this.OccupiedRect().GetIterator();
-			while (!iterator.Done())
+			else
 			{
-				List<Thing> thingList = iterator.Current.GetThingList(base.Map);
-				for (int i = 0; i < thingList.Count; i++)
+				CellRect.CellRectIterator iterator = this.OccupiedRect().GetIterator();
+				while (!iterator.Done())
 				{
-					Thing thing = thingList[i];
-					if (thing.def.EverHaulable)
+					List<Thing> thingList = iterator.Current.GetThingList(base.Map);
+					for (int i = 0; i < thingList.Count; i++)
 					{
-						return thing;
+						thing = thingList[i];
+						if (thing.def.EverHaulable)
+							goto IL_0069;
 					}
+					iterator.MoveNext();
 				}
-				iterator.MoveNext();
+				result = null;
 			}
-			return null;
+			goto IL_00a0;
+			IL_00a0:
+			return result;
+			IL_0069:
+			result = thing;
+			goto IL_00a0;
 		}
 
 		public Thing FirstBlockingThing(Pawn pawnToIgnore = null, Thing thingToIgnore = null, bool haulableOnly = false)
 		{
 			CellRect.CellRectIterator iterator = this.OccupiedRect().GetIterator();
-			while (!iterator.Done())
+			Thing result;
+			while (true)
 			{
-				List<Thing> thingList = iterator.Current.GetThingList(base.Map);
-				for (int i = 0; i < thingList.Count; i++)
+				Thing thing;
+				if (!iterator.Done())
 				{
-					Thing thing = thingList[i];
-					if ((!haulableOnly || thing.def.EverHaulable) && GenConstruct.BlocksFramePlacement(this, thing) && thing != pawnToIgnore && thing != thingToIgnore)
+					List<Thing> thingList = iterator.Current.GetThingList(base.Map);
+					for (int i = 0; i < thingList.Count; i++)
 					{
-						return thing;
+						thing = thingList[i];
+						if ((!haulableOnly || thing.def.EverHaulable) && GenConstruct.BlocksFramePlacement(this, thing) && thing != pawnToIgnore && thing != thingToIgnore)
+							goto IL_0073;
 					}
+					iterator.MoveNext();
+					continue;
 				}
-				iterator.MoveNext();
+				result = null;
+				break;
+				IL_0073:
+				result = thing;
+				break;
 			}
-			return null;
+			return result;
 		}
 
 		public override string GetInspectString()

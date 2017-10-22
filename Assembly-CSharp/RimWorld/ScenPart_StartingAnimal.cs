@@ -8,7 +8,7 @@ namespace RimWorld
 {
 	public class ScenPart_StartingAnimal : ScenPart
 	{
-		private PawnKindDef animalKind;
+		private PawnKindDef animalKind = null;
 
 		private int count = 1;
 
@@ -95,10 +95,10 @@ namespace RimWorld
 
 		public override IEnumerable<string> GetSummaryListEntries(string tag)
 		{
-			if (tag == "PlayerStartsWith")
-			{
-				yield return this.CurrentAnimalLabel().CapitalizeFirst() + " x" + this.count;
-			}
+			if (!(tag == "PlayerStartsWith"))
+				yield break;
+			yield return this.CurrentAnimalLabel().CapitalizeFirst() + " x" + this.count;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override void Randomize()
@@ -118,17 +118,23 @@ namespace RimWorld
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_StartingAnimal scenPart_StartingAnimal = other as ScenPart_StartingAnimal;
+			bool result;
 			if (scenPart_StartingAnimal != null && scenPart_StartingAnimal.animalKind == this.animalKind)
 			{
 				this.count += scenPart_StartingAnimal.count;
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
 		public override IEnumerable<Thing> PlayerStartingThings()
 		{
-			for (int i = 0; i < this.count; i++)
+			int i = 0;
+			if (i < this.count)
 			{
 				PawnKindDef kind = (this.animalKind == null) ? this.RandomPets().RandomElementByWeight((Func<PawnKindDef, float>)((PawnKindDef td) => td.RaceProps.petness)) : this.animalKind;
 				Pawn animal = PawnGenerator.GeneratePawn(kind, Faction.OfPlayer);
@@ -138,13 +144,14 @@ namespace RimWorld
 				}
 				if (Rand.Value < this.bondToRandomPlayerPawnChance)
 				{
-					Pawn col = Find.GameInitData.startingPawns.RandomElement();
-					if (!col.story.traits.HasTrait(TraitDefOf.Psychopath))
+					Pawn pawn = Find.GameInitData.startingPawns.RandomElement();
+					if (!pawn.story.traits.HasTrait(TraitDefOf.Psychopath))
 					{
-						col.relations.AddDirectRelation(PawnRelationDefOf.Bond, animal);
+						pawn.relations.AddDirectRelation(PawnRelationDefOf.Bond, animal);
 					}
 				}
 				yield return (Thing)animal;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 	}

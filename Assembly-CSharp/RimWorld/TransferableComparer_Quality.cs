@@ -9,12 +9,8 @@ namespace RimWorld
 
 		private int GetValueFor(Transferable t)
 		{
-			QualityCategory result = default(QualityCategory);
-			if (!t.AnyThing.TryGetQuality(out result))
-			{
-				return -1;
-			}
-			return (int)result;
+			QualityCategory qualityCategory = default(QualityCategory);
+			return t.AnyThing.TryGetQuality(out qualityCategory) ? ((int)qualityCategory) : (-1);
 		}
 	}
 }

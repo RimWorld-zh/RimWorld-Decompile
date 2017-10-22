@@ -5,9 +5,9 @@ namespace RimWorld
 {
 	public class MusicManagerEntry
 	{
-		private const string SourceGameObjectName = "MusicAudioSourceDummy";
-
 		private AudioSource audioSource;
+
+		private const string SourceGameObjectName = "MusicAudioSourceDummy";
 
 		private float CurVolume
 		{
@@ -17,13 +17,21 @@ namespace RimWorld
 			}
 		}
 
+		public float CurSanitizedVolume
+		{
+			get
+			{
+				return AudioSourceUtility.GetSanitizedVolume(this.CurVolume, "MusicManagerEntry");
+			}
+		}
+
 		public void MusicManagerEntryUpdate()
 		{
 			if ((Object)this.audioSource == (Object)null || !this.audioSource.isPlaying)
 			{
 				this.StartPlaying();
 			}
-			this.audioSource.volume = this.CurVolume;
+			this.audioSource.volume = this.CurSanitizedVolume;
 		}
 
 		private void StartPlaying()
@@ -46,7 +54,7 @@ namespace RimWorld
 				this.audioSource.bypassReverbZones = true;
 				this.audioSource.priority = 0;
 				this.audioSource.clip = SongDefOf.EntrySong.clip;
-				this.audioSource.volume = this.CurVolume;
+				this.audioSource.volume = this.CurSanitizedVolume;
 				this.audioSource.loop = true;
 				this.audioSource.spatialBlend = 0f;
 				this.audioSource.Play();

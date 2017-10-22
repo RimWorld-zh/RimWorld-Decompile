@@ -7,41 +7,50 @@ namespace Verse
 	{
 		public static Color ToUnityColor(this SimpleColor color)
 		{
+			Color result;
 			switch (color)
 			{
 			case SimpleColor.White:
 			{
-				return Color.white;
+				result = Color.white;
+				break;
 			}
 			case SimpleColor.Red:
 			{
-				return Color.red;
+				result = Color.red;
+				break;
 			}
 			case SimpleColor.Green:
 			{
-				return Color.green;
+				result = Color.green;
+				break;
 			}
 			case SimpleColor.Blue:
 			{
-				return Color.blue;
+				result = Color.blue;
+				break;
 			}
 			case SimpleColor.Magenta:
 			{
-				return Color.magenta;
+				result = Color.magenta;
+				break;
 			}
 			case SimpleColor.Yellow:
 			{
-				return Color.yellow;
+				result = Color.yellow;
+				break;
 			}
 			case SimpleColor.Cyan:
 			{
-				return Color.cyan;
+				result = Color.cyan;
+				break;
 			}
 			default:
 			{
 				throw new ArgumentException();
 			}
 			}
+			return result;
 		}
 	}
 }

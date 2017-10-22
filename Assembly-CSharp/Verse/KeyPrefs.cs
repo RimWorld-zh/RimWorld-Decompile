@@ -35,26 +35,17 @@ namespace Verse
 			Dictionary<string, KeyBindingData> dictionary = DirectXmlLoader.ItemFromXmlFile<Dictionary<string, KeyBindingData>>(GenFilePaths.KeyPrefsFilePath, true);
 			KeyPrefs.data = new KeyPrefsData();
 			KeyPrefs.unresolvedBindings = new Dictionary<string, KeyBindingData>();
-			Dictionary<string, KeyBindingData>.Enumerator enumerator = dictionary.GetEnumerator();
-			try
+			foreach (KeyValuePair<string, KeyBindingData> item in dictionary)
 			{
-				while (enumerator.MoveNext())
+				KeyBindingDef namedSilentFail = DefDatabase<KeyBindingDef>.GetNamedSilentFail(item.Key);
+				if (namedSilentFail != null)
 				{
-					KeyValuePair<string, KeyBindingData> current = enumerator.Current;
-					KeyBindingDef namedSilentFail = DefDatabase<KeyBindingDef>.GetNamedSilentFail(current.Key);
-					if (namedSilentFail != null)
-					{
-						KeyPrefs.data.keyPrefs[namedSilentFail] = current.Value;
-					}
-					else
-					{
-						KeyPrefs.unresolvedBindings[current.Key] = current.Value;
-					}
+					KeyPrefs.data.keyPrefs[namedSilentFail] = item.Value;
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				else
+				{
+					KeyPrefs.unresolvedBindings[item.Key] = item.Value;
+				}
 			}
 			if (flag)
 			{
@@ -73,37 +64,19 @@ namespace Verse
 			try
 			{
 				Dictionary<string, KeyBindingData> dictionary = new Dictionary<string, KeyBindingData>();
-				Dictionary<KeyBindingDef, KeyBindingData>.Enumerator enumerator = KeyPrefs.data.keyPrefs.GetEnumerator();
-				try
+				foreach (KeyValuePair<KeyBindingDef, KeyBindingData> keyPref in KeyPrefs.data.keyPrefs)
 				{
-					while (enumerator.MoveNext())
+					dictionary[keyPref.Key.defName] = keyPref.Value;
+				}
+				foreach (KeyValuePair<string, KeyBindingData> unresolvedBinding in KeyPrefs.unresolvedBindings)
+				{
+					try
 					{
-						KeyValuePair<KeyBindingDef, KeyBindingData> current = enumerator.Current;
-						dictionary[current.Key.defName] = current.Value;
+						dictionary.Add(unresolvedBinding.Key, unresolvedBinding.Value);
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
-				}
-				Dictionary<string, KeyBindingData>.Enumerator enumerator2 = KeyPrefs.unresolvedBindings.GetEnumerator();
-				try
-				{
-					while (enumerator2.MoveNext())
+					catch (ArgumentException)
 					{
-						KeyValuePair<string, KeyBindingData> current2 = enumerator2.Current;
-						try
-						{
-							dictionary.Add(current2.Key, current2.Value);
-						}
-						catch (ArgumentException)
-						{
-						}
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
 				}
 				XDocument xDocument = new XDocument();
 				XElement content = DirectXmlSaver.XElementFromObject(dictionary, typeof(KeyPrefsData));

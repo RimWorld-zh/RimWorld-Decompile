@@ -6,13 +6,13 @@ namespace RimWorld
 {
 	public class Need_Food : Need
 	{
+		private int lastNonStarvingTick = -99999;
+
 		private const float BaseFoodFallPerTick = 2.66666666E-05f;
 
-		private const float MalnutritionSeverityPerDay = 0.17f;
+		private const float BaseMalnutritionSeverityPerDay = 0.17f;
 
-		private const float MalnutritionSeverityPerInterval = 0.00113333331f;
-
-		private int lastNonStarvingTick = -99999;
+		private const float BaseMalnutritionSeverityPerInterval = 0.00113333331f;
 
 		public bool Starving
 		{
@@ -50,19 +50,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (base.CurLevelPercentage <= 0.0)
-				{
-					return HungerCategory.Starving;
-				}
-				if (base.CurLevelPercentage < this.PercentageThreshUrgentlyHungry)
-				{
-					return HungerCategory.UrgentlyHungry;
-				}
-				if (base.CurLevelPercentage < this.PercentageThreshHungry)
-				{
-					return HungerCategory.Hungry;
-				}
-				return HungerCategory.Fed;
+				return (HungerCategory)((!(base.CurLevelPercentage <= 0.0)) ? ((!(base.CurLevelPercentage < this.PercentageThreshUrgentlyHungry)) ? ((base.CurLevelPercentage < this.PercentageThreshHungry) ? 1 : 0) : 2) : 3);
 			}
 		}
 
@@ -110,17 +98,7 @@ namespace RimWorld
 		{
 			get
 			{
-				float num = base.pawn.ageTracker.CurLifeStage.hungerRateFactor * base.pawn.RaceProps.baseHungerRate;
-				List<Hediff> hediffs = base.pawn.health.hediffSet.hediffs;
-				for (int i = 0; i < hediffs.Count; i++)
-				{
-					HediffStage curStage = hediffs[i].CurStage;
-					if (curStage != null)
-					{
-						num *= curStage.hungerRateFactor;
-					}
-				}
-				return num;
+				return base.pawn.ageTracker.CurLifeStage.hungerRateFactor * base.pawn.RaceProps.baseHungerRate * base.pawn.health.hediffSet.HungerRateFactor;
 			}
 		}
 
@@ -129,6 +107,14 @@ namespace RimWorld
 			get
 			{
 				return Mathf.Max(0, Find.TickManager.TicksGame - this.lastNonStarvingTick);
+			}
+		}
+
+		private float MalnutritionSeverityPerInterval
+		{
+			get
+			{
+				return (float)(0.0011333333095535636 * Mathf.Lerp(0.8f, 1.2f, Rand.ValueSeeded(base.pawn.thingIDNumber ^ 2551674)));
 			}
 		}
 
@@ -144,29 +130,36 @@ namespace RimWorld
 
 		private float FoodFallPerTickAssumingCategory(HungerCategory cat)
 		{
+			float result;
 			switch (cat)
 			{
 			case HungerCategory.Fed:
 			{
-				return (float)(2.6666666599339806E-05 * this.HungerRate);
+				result = (float)(2.6666666599339806E-05 * this.HungerRate);
+				break;
 			}
 			case HungerCategory.Hungry:
 			{
-				return (float)(2.6666666599339806E-05 * this.HungerRate * 0.5);
+				result = (float)(2.6666666599339806E-05 * this.HungerRate * 0.5);
+				break;
 			}
 			case HungerCategory.UrgentlyHungry:
 			{
-				return (float)(2.6666666599339806E-05 * this.HungerRate * 0.25);
+				result = (float)(2.6666666599339806E-05 * this.HungerRate * 0.25);
+				break;
 			}
 			case HungerCategory.Starving:
 			{
-				return (float)(2.6666666599339806E-05 * this.HungerRate * 0.15000000596046448);
+				result = (float)(2.6666666599339806E-05 * this.HungerRate * 0.15000000596046448);
+				break;
 			}
 			default:
 			{
-				return 999f;
+				result = 999f;
+				break;
 			}
 			}
+			return result;
 		}
 
 		public override void NeedInterval()
@@ -183,11 +176,11 @@ namespace RimWorld
 			{
 				if (this.Starving)
 				{
-					HealthUtility.AdjustSeverity(base.pawn, HediffDefOf.Malnutrition, 0.00113333331f);
+					HealthUtility.AdjustSeverity(base.pawn, HediffDefOf.Malnutrition, this.MalnutritionSeverityPerInterval);
 				}
 				else
 				{
-					HealthUtility.AdjustSeverity(base.pawn, HediffDefOf.Malnutrition, -0.00113333331f);
+					HealthUtility.AdjustSeverity(base.pawn, HediffDefOf.Malnutrition, (float)(0.0 - this.MalnutritionSeverityPerInterval));
 				}
 			}
 		}

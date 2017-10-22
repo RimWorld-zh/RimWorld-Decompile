@@ -11,33 +11,29 @@ namespace RimWorld
 	{
 		private Pawn pawn;
 
-		private Area areaAllowedInt;
+		private Area areaAllowedInt = null;
 
 		public int joinTick = -1;
 
-		public Pawn master;
+		public Pawn master = null;
 
 		public bool followDrafted = true;
 
 		public bool followFieldwork = true;
 
-		public bool animalsReleased;
+		public bool animalsReleased = false;
 
 		public MedicalCareCategory medCare = MedicalCareCategory.NoMeds;
 
 		public HostilityResponseMode hostilityResponse = HostilityResponseMode.Flee;
 
-		public bool selfTend;
+		public bool selfTend = false;
 
 		public Area EffectiveAreaRestrictionInPawnCurrentMap
 		{
 			get
 			{
-				if (this.areaAllowedInt != null && this.areaAllowedInt.Map != this.pawn.MapHeld)
-				{
-					return null;
-				}
-				return this.EffectiveAreaRestriction;
+				return (this.areaAllowedInt == null || this.areaAllowedInt.Map == this.pawn.MapHeld) ? this.EffectiveAreaRestriction : null;
 			}
 		}
 
@@ -45,11 +41,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (!this.RespectsAllowedArea)
-				{
-					return null;
-				}
-				return this.areaAllowedInt;
+				return this.RespectsAllowedArea ? this.areaAllowedInt : null;
 			}
 		}
 
@@ -69,11 +61,23 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.pawn.GetLord() != null)
-				{
-					return false;
-				}
-				return this.pawn.Faction == Faction.OfPlayer && this.pawn.HostFaction == null;
+				return this.pawn.GetLord() == null && this.pawn.Faction == Faction.OfPlayer && this.pawn.HostFaction == null;
+			}
+		}
+
+		public bool RespectsMaster
+		{
+			get
+			{
+				return this.master != null && this.pawn.Faction == Faction.OfPlayer && this.master.Faction == this.pawn.Faction;
+			}
+		}
+
+		public Pawn RespectedMaster
+		{
+			get
+			{
+				return (!this.RespectsMaster) ? null : this.master;
 			}
 		}
 
@@ -114,32 +118,34 @@ namespace RimWorld
 
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			if (this.pawn.Drafted && PawnUtility.SpawnedMasteredPawns(this.pawn).Any((Func<Pawn, bool>)((Pawn p) => p.training.IsCompleted(TrainableDefOf.Release))))
+			if (!this.pawn.Drafted)
+				yield break;
+			if (!PawnUtility.SpawnedMasteredPawns(this.pawn).Any((Func<Pawn, bool>)((Pawn p) => p.training.IsCompleted(TrainableDefOf.Release))))
+				yield break;
+			yield return (Gizmo)new Command_Toggle
 			{
-				yield return (Gizmo)new Command_Toggle
+				defaultLabel = "CommandReleaseAnimalsLabel".Translate(),
+				defaultDesc = "CommandReleaseAnimalsDesc".Translate(),
+				icon = TexCommand.ReleaseAnimals,
+				hotKey = KeyBindingDefOf.Misc7,
+				isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00ca: stateMachine*/)._0024this.animalsReleased),
+				toggleAction = (Action)delegate
 				{
-					defaultLabel = "CommandReleaseAnimalsLabel".Translate(),
-					defaultDesc = "CommandReleaseAnimalsDesc".Translate(),
-					icon = TexCommand.ReleaseAnimals,
-					hotKey = KeyBindingDefOf.Misc7,
-					isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__IteratorE6)/*Error near IL_00c8: stateMachine*/)._003C_003Ef__this.animalsReleased),
-					toggleAction = (Action)delegate
+					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00e1: stateMachine*/)._0024this.animalsReleased = !((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00e1: stateMachine*/)._0024this.animalsReleased;
+					if (((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00e1: stateMachine*/)._0024this.animalsReleased)
 					{
-						((_003CGetGizmos_003Ec__IteratorE6)/*Error near IL_00df: stateMachine*/)._003C_003Ef__this.animalsReleased = !((_003CGetGizmos_003Ec__IteratorE6)/*Error near IL_00df: stateMachine*/)._003C_003Ef__this.animalsReleased;
-						if (((_003CGetGizmos_003Ec__IteratorE6)/*Error near IL_00df: stateMachine*/)._003C_003Ef__this.animalsReleased)
+						foreach (Pawn item in PawnUtility.SpawnedMasteredPawns(((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00e1: stateMachine*/)._0024this.pawn))
 						{
-							foreach (Pawn item in PawnUtility.SpawnedMasteredPawns(((_003CGetGizmos_003Ec__IteratorE6)/*Error near IL_00df: stateMachine*/)._003C_003Ef__this.pawn))
+							if (item.caller != null)
 							{
-								if (item.caller != null)
-								{
-									item.caller.Notify_Released();
-								}
-								item.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+								item.caller.Notify_Released();
 							}
+							item.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
 						}
 					}
-				};
-			}
+				}
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public void Notify_FactionChanged()

@@ -6,24 +6,21 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
+			ThoughtState result;
 			if (p.Downed)
 			{
-				return ThoughtState.Inactive;
+				result = ThoughtState.Inactive;
 			}
-			if (p.HostFaction != null)
+			else if (p.HostFaction != null)
 			{
-				return ThoughtState.Inactive;
+				result = ThoughtState.Inactive;
 			}
-			float num = (float)((float)p.needs.mood.recentMemory.TicksSinceOutdoors / 60000.0);
-			if (num < 2.5)
+			else
 			{
-				return ThoughtState.Inactive;
+				float num = (float)((float)p.needs.mood.recentMemory.TicksSinceOutdoors / 60000.0);
+				result = ((!(num < 2.5)) ? ((!(num < 7.5)) ? ThoughtState.ActiveAtStage(1) : ThoughtState.ActiveAtStage(0)) : ThoughtState.Inactive);
 			}
-			if (num < 7.5)
-			{
-				return ThoughtState.ActiveAtStage(0);
-			}
-			return ThoughtState.ActiveAtStage(1);
+			return result;
 		}
 	}
 }

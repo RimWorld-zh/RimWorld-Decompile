@@ -57,7 +57,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return InspectPaneUtility.PaneSize;
+				return InspectPaneUtility.PaneSizeFor(this);
 			}
 		}
 
@@ -81,14 +81,12 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				float num = (float)UI.screenHeight;
-				Vector2 paneSize = InspectPaneUtility.PaneSize;
-				float num2 = num - paneSize.y;
+				float num = (float)((float)UI.screenHeight - 165.0);
 				if (Current.ProgramState == ProgramState.Playing)
 				{
-					num2 = (float)(num2 - 35.0);
+					num = (float)(num - 35.0);
 				}
-				return num2;
+				return num;
 			}
 		}
 
@@ -136,15 +134,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.NumSelectedObjects == 1)
-				{
-					return Find.WorldSelector.SingleSelectedObject.GetInspectTabs();
-				}
-				if (this.NumSelectedObjects == 0 && this.SelectedTile >= 0)
-				{
-					return WorldInspectPane.TileTabs;
-				}
-				return Enumerable.Empty<InspectTabBase>();
+				return (this.NumSelectedObjects != 1) ? ((this.NumSelectedObjects != 0 || this.SelectedTile < 0) ? Enumerable.Empty<InspectTabBase>() : WorldInspectPane.TileTabs) : Find.WorldSelector.SingleSelectedObject.GetInspectTabs();
 			}
 		}
 
@@ -202,15 +192,7 @@ namespace RimWorld.Planet
 
 		public string GetLabel(Rect rect)
 		{
-			if (this.NumSelectedObjects > 0)
-			{
-				return WorldInspectPaneUtility.AdjustedLabelFor(this.Selected, rect);
-			}
-			if (this.SelectedTile >= 0)
-			{
-				return Find.WorldGrid[this.SelectedTile].biome.LabelCap;
-			}
-			return "error";
+			return (this.NumSelectedObjects <= 0) ? ((this.SelectedTile < 0) ? "error" : Find.WorldGrid[this.SelectedTile].biome.LabelCap) : WorldInspectPaneUtility.AdjustedLabelFor(this.Selected, rect);
 		}
 
 		public void SelectNextInCell()
@@ -236,10 +218,7 @@ namespace RimWorld.Planet
 			}
 			else if (this.SelectedTile >= 0)
 			{
-				GUI.BeginGroup(rect);
-				float num = 0f;
-				InspectPaneFiller.DrawInspectString(this.TileInspectString, ref num);
-				GUI.EndGroup();
+				InspectPaneFiller.DrawInspectString(this.TileInspectString, rect);
 			}
 		}
 

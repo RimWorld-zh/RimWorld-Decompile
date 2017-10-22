@@ -11,14 +11,24 @@ namespace RimWorld
 			get
 			{
 				List<Caravan> caravans = Find.WorldObjects.Caravans;
-				for (int i = 0; i < caravans.Count; i++)
+				int num = 0;
+				Caravan result;
+				while (true)
 				{
-					if (caravans[i].IsPlayerControlled && caravans[i].ImmobilizedByMass)
+					if (num < caravans.Count)
 					{
-						return caravans[i];
+						if (caravans[num].IsPlayerControlled && caravans[num].ImmobilizedByMass)
+						{
+							result = caravans[num];
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = null;
+					break;
 				}
-				return null;
+				return result;
 			}
 		}
 

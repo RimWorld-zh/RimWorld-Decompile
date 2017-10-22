@@ -19,6 +19,22 @@ namespace RimWorld
 
 		private const float SapperChance = 0.5f;
 
+		private static readonly SimpleCurve PrisonBreakMTBFactorForDaysSincePrisonBreak = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 2f),
+				true
+			},
+			{
+				new CurvePoint(2f, 1.5f),
+				true
+			},
+			{
+				new CurvePoint(6f, 1f),
+				true
+			}
+		};
+
 		private static HashSet<Room> participatingRooms = new HashSet<Room>();
 
 		private static List<Pawn> allEscapingPrisoners = new List<Pawn>();
@@ -29,48 +45,46 @@ namespace RimWorld
 
 		public static float InitiatePrisonBreakMtbDays(Pawn pawn)
 		{
+			float result;
 			if (!pawn.Awake())
 			{
-				return -1f;
+				result = -1f;
 			}
-			if (!PrisonBreakUtility.CanParticipateInPrisonBreak(pawn))
+			else if (!PrisonBreakUtility.CanParticipateInPrisonBreak(pawn))
 			{
-				return -1f;
+				result = -1f;
 			}
-			Room room = pawn.GetRoom(RegionType.Set_Passable);
-			if (room != null && room.isPrisonCell)
+			else
 			{
-				float num = 45f;
-				return num / Mathf.Min(pawn.health.capacities.GetLevel(PawnCapacityDefOf.Moving), 1f);
+				Room room = pawn.GetRoom(RegionType.Set_Passable);
+				if (room == null || !room.isPrisonCell)
+				{
+					result = -1f;
+				}
+				else
+				{
+					float num = 45f;
+					num /= Mathf.Clamp(pawn.health.capacities.GetLevel(PawnCapacityDefOf.Moving), 0.01f, 1f);
+					if (pawn.guest.everParticipatedInPrisonBreak)
+					{
+						float x = (float)((float)(Find.TickManager.TicksGame - pawn.guest.lastPrisonBreakTicks) / 60000.0);
+						num *= PrisonBreakUtility.PrisonBreakMTBFactorForDaysSincePrisonBreak.Evaluate(x);
+					}
+					result = num;
+				}
 			}
-			return -1f;
+			return result;
 		}
 
 		public static bool CanParticipateInPrisonBreak(Pawn pawn)
 		{
-			if (pawn.Downed)
-			{
-				return false;
-			}
-			if (!pawn.IsPrisoner)
-			{
-				return false;
-			}
-			if (PrisonBreakUtility.IsPrisonBreaking(pawn))
-			{
-				return false;
-			}
-			return true;
+			return (byte)((!pawn.Downed) ? (pawn.IsPrisoner ? ((!PrisonBreakUtility.IsPrisonBreaking(pawn)) ? 1 : 0) : 0) : 0) != 0;
 		}
 
 		public static bool IsPrisonBreaking(Pawn pawn)
 		{
 			Lord lord = pawn.GetLord();
-			if (lord != null && lord.LordJob is LordJob_PrisonBreak)
-			{
-				return true;
-			}
-			return false;
+			return lord != null && lord.LordJob is LordJob_PrisonBreak;
 		}
 
 		public static void StartPrisonBreak(Pawn initiator)
@@ -94,18 +108,9 @@ namespace RimWorld
 				sapperThingID = initiator.thingIDNumber;
 			}
 			PrisonBreakUtility.allEscapingPrisoners.Clear();
-			HashSet<Room>.Enumerator enumerator2 = PrisonBreakUtility.participatingRooms.GetEnumerator();
-			try
+			foreach (Room participatingRoom in PrisonBreakUtility.participatingRooms)
 			{
-				while (enumerator2.MoveNext())
-				{
-					Room current2 = enumerator2.Current;
-					PrisonBreakUtility.StartPrisonBreakIn(current2, PrisonBreakUtility.allEscapingPrisoners, sapperThingID, PrisonBreakUtility.participatingRooms);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
+				PrisonBreakUtility.StartPrisonBreakIn(participatingRoom, PrisonBreakUtility.allEscapingPrisoners, sapperThingID, PrisonBreakUtility.participatingRooms);
 			}
 			PrisonBreakUtility.participatingRooms.Clear();
 			if (PrisonBreakUtility.allEscapingPrisoners.Any())
@@ -119,21 +124,12 @@ namespace RimWorld
 		{
 			Room room = initiator.GetRoom(RegionType.Set_Passable);
 			PrisonBreakUtility.tmpToRemove.Clear();
-			HashSet<Room>.Enumerator enumerator = participatingRooms.GetEnumerator();
-			try
+			foreach (Room item in participatingRooms)
 			{
-				while (enumerator.MoveNext())
+				if (item != room && !(Rand.Value < 0.5))
 				{
-					Room current = enumerator.Current;
-					if (current != room && !(Rand.Value < 0.5))
-					{
-						PrisonBreakUtility.tmpToRemove.Add(current);
-					}
+					PrisonBreakUtility.tmpToRemove.Add(item);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 			for (int i = 0; i < PrisonBreakUtility.tmpToRemove.Count; i++)
 			{
@@ -148,21 +144,12 @@ namespace RimWorld
 			PrisonBreakUtility.AddPrisonersFrom(room, PrisonBreakUtility.escapingPrisonersGroup);
 			if (PrisonBreakUtility.escapingPrisonersGroup.Any())
 			{
-				HashSet<Room>.Enumerator enumerator = participatingRooms.GetEnumerator();
-				try
+				foreach (Room item in participatingRooms)
 				{
-					while (enumerator.MoveNext())
+					if (item != room && PrisonBreakUtility.RoomsAreCloseToEachOther(room, item))
 					{
-						Room current = enumerator.Current;
-						if (current != room && PrisonBreakUtility.RoomsAreCloseToEachOther(room, current))
-						{
-							PrisonBreakUtility.AddPrisonersFrom(current, PrisonBreakUtility.escapingPrisonersGroup);
-						}
+						PrisonBreakUtility.AddPrisonersFrom(item, PrisonBreakUtility.escapingPrisonersGroup);
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
 				}
 				IntVec3 exitPoint = default(IntVec3);
 				IntVec3 groupUpLoc = default(IntVec3);
@@ -180,6 +167,8 @@ namespace RimWorld
 						{
 							pawn.jobs.CheckForJobOverride();
 						}
+						pawn.guest.everParticipatedInPrisonBreak = true;
+						pawn.guest.lastPrisonBreakTicks = Find.TickManager.TicksGame;
 						outAllEscapingPrisoners.Add(pawn);
 					}
 					PrisonBreakUtility.escapingPrisonersGroup.Clear();
@@ -189,22 +178,13 @@ namespace RimWorld
 
 		private static void AddPrisonersFrom(Room room, List<Pawn> outEscapingPrisoners)
 		{
-			List<Thing>.Enumerator enumerator = room.ContainedAndAdjacentThings.GetEnumerator();
-			try
+			foreach (Thing containedAndAdjacentThing in room.ContainedAndAdjacentThings)
 			{
-				while (enumerator.MoveNext())
+				Pawn pawn = containedAndAdjacentThing as Pawn;
+				if (pawn != null && PrisonBreakUtility.CanParticipateInPrisonBreak(pawn))
 				{
-					Thing current = enumerator.Current;
-					Pawn pawn = current as Pawn;
-					if (pawn != null && PrisonBreakUtility.CanParticipateInPrisonBreak(pawn))
-					{
-						outEscapingPrisoners.Add(pawn);
-					}
+					outEscapingPrisoners.Add(pawn);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 
@@ -240,13 +220,16 @@ namespace RimWorld
 		{
 			IntVec3 anyCell = a.Regions[0].AnyCell;
 			IntVec3 anyCell2 = b.Regions[0].AnyCell;
+			bool result;
 			if (a.Map != b.Map)
 			{
-				return false;
+				result = false;
+				goto IL_00b2;
 			}
 			if (!anyCell.WithinRegions(anyCell2, a.Map, 18, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false), RegionType.Set_Passable))
 			{
-				return false;
+				result = false;
+				goto IL_00b2;
 			}
 			using (PawnPath pawnPath = a.Map.pathFinder.FindPath(anyCell, anyCell2, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false), PathEndMode.OnCell))
 			{
@@ -255,10 +238,9 @@ namespace RimWorld
 					return false;
 				}
 				return pawnPath.NodesLeftCount < 24;
-				IL_0099:
-				bool result;
-				return result;
 			}
+			IL_00b2:
+			return result;
 		}
 
 		private static void SendPrisonBreakLetter(List<Pawn> escapingPrisoners)
@@ -268,7 +250,7 @@ namespace RimWorld
 			{
 				stringBuilder.AppendLine("    " + escapingPrisoners[i].LabelShort);
 			}
-			Find.LetterStack.ReceiveLetter("LetterLabelPrisonBreak".Translate(), "LetterPrisonBreak".Translate(stringBuilder.ToString().TrimEndNewlines()), LetterDefOf.BadUrgent, (Thing)PrisonBreakUtility.allEscapingPrisoners[0], (string)null);
+			Find.LetterStack.ReceiveLetter("LetterLabelPrisonBreak".Translate(), "LetterPrisonBreak".Translate(stringBuilder.ToString().TrimEndNewlines()), LetterDefOf.ThreatBig, (Thing)PrisonBreakUtility.allEscapingPrisoners[0], (string)null);
 		}
 	}
 }

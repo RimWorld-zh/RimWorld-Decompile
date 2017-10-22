@@ -7,7 +7,7 @@ namespace RimWorld
 	{
 		public static void PlayImpactSound(Thing hitThing, ImpactSoundTypeDef ist, Map map)
 		{
-			if (ist != null)
+			if (ist != null && (!ist.playOnlyIfHitPawn || hitThing is Pawn))
 			{
 				if (map == null)
 				{

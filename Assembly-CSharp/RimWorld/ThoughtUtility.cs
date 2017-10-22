@@ -92,28 +92,36 @@ namespace RimWorld
 
 		public static bool IsSituationalThoughtNullifiedByHediffs(ThoughtDef def, Pawn pawn)
 		{
+			bool result;
 			if (def.IsMemory)
 			{
-				return false;
+				result = false;
 			}
-			float num = 0f;
-			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
-			for (int i = 0; i < hediffs.Count; i++)
+			else
 			{
-				HediffStage curStage = hediffs[i].CurStage;
-				if (curStage != null && curStage.pctConditionalThoughtsNullified > num)
+				float num = 0f;
+				List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
+				for (int i = 0; i < hediffs.Count; i++)
 				{
-					num = curStage.pctConditionalThoughtsNullified;
+					HediffStage curStage = hediffs[i].CurStage;
+					if (curStage != null && curStage.pctConditionalThoughtsNullified > num)
+					{
+						num = curStage.pctConditionalThoughtsNullified;
+					}
+				}
+				if (num == 0.0)
+				{
+					result = false;
+				}
+				else
+				{
+					Rand.PushState();
+					Rand.Seed = pawn.thingIDNumber * 31 + def.index * 139;
+					bool flag = Rand.Value < num;
+					Rand.PopState();
+					result = flag;
 				}
 			}
-			if (num == 0.0)
-			{
-				return false;
-			}
-			Rand.PushState();
-			Rand.Seed = pawn.thingIDNumber * 31 + def.index * 139;
-			bool result = Rand.Value < num;
-			Rand.PopState();
 			return result;
 		}
 
@@ -124,12 +132,16 @@ namespace RimWorld
 				for (int i = 0; i < def.nullifyingOwnTales.Count; i++)
 				{
 					if (Find.TaleManager.GetLatestTale(def.nullifyingOwnTales[i], pawn) != null)
-					{
-						return true;
-					}
+						goto IL_0031;
 				}
 			}
-			return false;
+			bool result = false;
+			goto IL_0056;
+			IL_0031:
+			result = true;
+			goto IL_0056;
+			IL_0056:
+			return result;
 		}
 
 		public static void RemovePositiveBedroomThoughts(Pawn pawn)
@@ -143,7 +155,6 @@ namespace RimWorld
 
 		public static bool CanGetThought(Pawn pawn, ThoughtDef def)
 		{
-			ProfilerThreadCheck.BeginSample("CanGetThought()");
 			try
 			{
 				if (!def.validWhileDespawned && !pawn.Spawned && !def.IsMemory)
@@ -194,7 +205,6 @@ namespace RimWorld
 			}
 			finally
 			{
-				ProfilerThreadCheck.EndSample();
 			}
 			return true;
 		}

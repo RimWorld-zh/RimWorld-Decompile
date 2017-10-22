@@ -27,47 +27,52 @@ namespace RimWorld
 					}
 				}
 			}
+			Thing result;
 			if (!GatherItemsForCaravanUtility.neededItems.Any())
 			{
-				return null;
+				result = null;
 			}
-			Predicate<Thing> validator = (Predicate<Thing>)((Thing x) => GatherItemsForCaravanUtility.neededItems.Contains(x) && p.CanReserve(x, 1, -1, null, false));
-			Thing result = GenClosest.ClosestThingReachable(p.Position, p.Map, ThingRequest.ForGroup(ThingRequestGroup.HaulableEver), PathEndMode.Touch, TraverseParms.For(p, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
-			GatherItemsForCaravanUtility.neededItems.Clear();
+			else
+			{
+				Thing thing = GenClosest.ClosestThingReachable(p.Position, p.Map, ThingRequest.ForGroup(ThingRequestGroup.HaulableEver), PathEndMode.Touch, TraverseParms.For(p, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, (Predicate<Thing>)((Thing x) => GatherItemsForCaravanUtility.neededItems.Contains(x) && p.CanReserve(x, 1, -1, null, false)), null, 0, -1, false, RegionType.Set_Passable, false);
+				GatherItemsForCaravanUtility.neededItems.Clear();
+				result = thing;
+			}
 			return result;
 		}
 
 		public static int CountLeftToTransfer(Pawn pawn, TransferableOneWay transferable, Lord lord)
 		{
-			if (transferable.CountToTransfer > 0 && transferable.HasAnyThing)
-			{
-				return Mathf.Max(transferable.CountToTransfer - GatherItemsForCaravanUtility.TransferableCountHauledByOthers(pawn, transferable, lord), 0);
-			}
-			return 0;
+			return (transferable.CountToTransfer > 0 && transferable.HasAnyThing) ? Mathf.Max(transferable.CountToTransfer - GatherItemsForCaravanUtility.TransferableCountHauledByOthers(pawn, transferable, lord), 0) : 0;
 		}
 
 		private static int TransferableCountHauledByOthers(Pawn pawn, TransferableOneWay transferable, Lord lord)
 		{
+			int result;
 			if (!transferable.HasAnyThing)
 			{
 				Log.Warning("Can't determine transferable count hauled by others because transferable has 0 things.");
-				return 0;
+				result = 0;
 			}
-			List<Pawn> allPawnsSpawned = lord.Map.mapPawns.AllPawnsSpawned;
-			int num = 0;
-			for (int i = 0; i < allPawnsSpawned.Count; i++)
+			else
 			{
-				Pawn pawn2 = allPawnsSpawned[i];
-				if (pawn2 != pawn && pawn2.CurJob != null && pawn2.CurJob.def == JobDefOf.PrepareCaravan_GatherItems && pawn2.CurJob.lord == lord)
+				List<Pawn> allPawnsSpawned = lord.Map.mapPawns.AllPawnsSpawned;
+				int num = 0;
+				for (int i = 0; i < allPawnsSpawned.Count; i++)
 				{
-					Thing toHaul = ((JobDriver_PrepareCaravan_GatherItems)pawn2.jobs.curDriver).ToHaul;
-					if (transferable.things.Contains(toHaul) || TransferableUtility.TransferAsOne(transferable.AnyThing, toHaul))
+					Pawn pawn2 = allPawnsSpawned[i];
+					if (pawn2 != pawn && pawn2.CurJob != null && pawn2.CurJob.def == JobDefOf.PrepareCaravan_GatherItems && pawn2.CurJob.lord == lord)
 					{
-						num += toHaul.stackCount;
+						Thing toHaul = ((JobDriver_PrepareCaravan_GatherItems)pawn2.jobs.curDriver).ToHaul;
+						if (transferable.things.Contains(toHaul) || TransferableUtility.TransferAsOne(transferable.AnyThing, toHaul))
+						{
+							num += toHaul.stackCount;
+						}
 					}
 				}
+				result = num;
 			}
-			return num;
+			return result;
 		}
 	}
 }

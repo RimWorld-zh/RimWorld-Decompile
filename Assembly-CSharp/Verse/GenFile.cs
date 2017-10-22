@@ -14,36 +14,50 @@ namespace Verse
 		public static string TextFromResourceFile(string filePath)
 		{
 			TextAsset textAsset = Resources.Load("Text/" + filePath) as TextAsset;
+			string result;
 			if ((Object)textAsset == (Object)null)
 			{
 				Log.Message("Found no text asset in resources at " + filePath);
-				return (string)null;
+				result = (string)null;
 			}
-			return GenFile.GetTextWithoutBOM(textAsset);
+			else
+			{
+				result = GenFile.GetTextWithoutBOM(textAsset);
+			}
+			return result;
 		}
 
 		public static string GetTextWithoutBOM(TextAsset textAsset)
 		{
-			string text = (string)null;
+			string result = (string)null;
 			using (MemoryStream stream = new MemoryStream(textAsset.bytes))
 			{
 				using (StreamReader streamReader = new StreamReader(stream, true))
 				{
-					return streamReader.ReadToEnd();
+					result = streamReader.ReadToEnd();
 				}
 			}
+			return result;
 		}
 
 		public static IEnumerable<string> LinesFromFile(string filePath)
 		{
 			string rawText = GenFile.TextFromResourceFile(filePath);
-			foreach (string item in GenText.LinesFromString(rawText))
+			using (IEnumerator<string> enumerator = GenText.LinesFromString(rawText).GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string line = enumerator.Current;
+					yield return line;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
+			yield break;
+			IL_00ce:
+			/*Error near IL_00cf: Unexpected return in MoveNext()*/;
 		}
 
-		public static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
+		public static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool useLinuxLineEndings = false)
 		{
 			DirectoryInfo directoryInfo = new DirectoryInfo(sourceDirName);
 			DirectoryInfo[] directories = directoryInfo.GetDirectories();
@@ -60,8 +74,18 @@ namespace Verse
 			for (int i = 0; i < files.Length; i++)
 			{
 				FileInfo fileInfo = files[i];
-				string destFileName = Path.Combine(destDirName, fileInfo.Name);
-				fileInfo.CopyTo(destFileName, false);
+				string text = Path.Combine(destDirName, fileInfo.Name);
+				if (useLinuxLineEndings && (fileInfo.Extension == ".sh" || fileInfo.Extension == ".txt"))
+				{
+					if (!File.Exists(text))
+					{
+						File.WriteAllText(text, File.ReadAllText(fileInfo.FullName).Replace("\r\n", "\n").Replace("\r", "\n"));
+					}
+				}
+				else
+				{
+					fileInfo.CopyTo(text, false);
+				}
 			}
 			if (copySubDirs)
 			{
@@ -70,7 +94,7 @@ namespace Verse
 				{
 					DirectoryInfo directoryInfo2 = array2[j];
 					string destDirName2 = Path.Combine(destDirName, directoryInfo2.Name);
-					GenFile.DirectoryCopy(directoryInfo2.FullName, destDirName2, copySubDirs);
+					GenFile.DirectoryCopy(directoryInfo2.FullName, destDirName2, copySubDirs, useLinuxLineEndings);
 				}
 			}
 		}

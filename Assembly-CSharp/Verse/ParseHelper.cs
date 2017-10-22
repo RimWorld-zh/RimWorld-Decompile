@@ -49,7 +49,6 @@ namespace Verse
 					try
 					{
 						return Enum.Parse(itemType, str);
-						IL_0138:;
 					}
 					catch (ArgumentException innerException)
 					{
@@ -57,7 +56,6 @@ namespace Verse
 						str2 += GenText.StringFromEnumerable(Enum.GetValues(itemType));
 						ArgumentException ex = new ArgumentException(str2, innerException);
 						throw ex;
-						IL_0186:;
 					}
 				}
 				if (itemType == typeof(Type))
@@ -77,9 +75,9 @@ namespace Verse
 				{
 					string[] array = str.Split('.');
 					string methodName = array[array.Length - 1];
-					string empty = string.Empty;
-					empty = ((array.Length != 3) ? array[0] : (array[0] + "." + array[1]));
-					Type typeInAnyAssembly2 = GenTypes.GetTypeInAnyAssembly(empty);
+					string text = "";
+					text = ((array.Length != 3) ? array[0] : (array[0] + "." + array[1]));
+					Type typeInAnyAssembly2 = GenTypes.GetTypeInAnyAssembly(text);
 					MethodInfo method = typeInAnyAssembly2.GetMethods().First((Func<MethodInfo, bool>)((MethodInfo m) => m.Name == methodName));
 					return (Action)Delegate.CreateDelegate(typeof(Action), method);
 				}
@@ -189,17 +187,11 @@ namespace Verse
 					}
 				}
 				throw new ArgumentException("Trying to parse to unknown data type " + itemType.Name + ". Content is '" + str + "'.");
-				IL_06f7:
-				object result;
-				return result;
 			}
 			catch (Exception innerException2)
 			{
 				ArgumentException ex2 = new ArgumentException("Exception parsing " + itemType + " from \"" + str + "\"", innerException2);
 				throw ex2;
-				IL_0735:
-				object result;
-				return result;
 			}
 		}
 
@@ -229,16 +221,16 @@ namespace Verse
 			if (array.Length == 1)
 			{
 				x = (y = Convert.ToSingle(array[0]));
-				goto IL_0077;
+				goto IL_007c;
 			}
 			if (array.Length == 2)
 			{
 				x = Convert.ToSingle(array[0]);
 				y = Convert.ToSingle(array[1]);
-				goto IL_0077;
+				goto IL_007c;
 			}
 			throw new InvalidOperationException();
-			IL_0077:
+			IL_007c:
 			return new Vector2(x, y);
 		}
 

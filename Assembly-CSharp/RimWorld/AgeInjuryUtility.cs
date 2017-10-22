@@ -36,6 +36,7 @@ namespace RimWorld
 							if (Rand.Value < agb.ageFractionChanceCurve.Evaluate(ageFractionOfLifeExpectancy))
 							{
 								yield return agb;
+								/*Error: Unable to find new state assignment for yield return*/;
 							}
 						}
 					}
@@ -73,7 +74,7 @@ namespace RimWorld
 							pawn.health.AddHediff(hediff_MissingPart, bodyPartRecord, default(DamageInfo?));
 							if (pawn.RaceProps.Humanlike && (bodyPartRecord.def == BodyPartDefOf.LeftLeg || bodyPartRecord.def == BodyPartDefOf.RightLeg) && Rand.Chance(0.5f))
 							{
-								RecipeDefOf.InstallPegLeg.Worker.ApplyOnPawn(pawn, bodyPartRecord, null, AgeInjuryUtility.emptyIngredientsList);
+								RecipeDefOf.InstallPegLeg.Worker.ApplyOnPawn(pawn, bodyPartRecord, null, AgeInjuryUtility.emptyIngredientsList, null);
 							}
 						}
 						else
@@ -106,33 +107,40 @@ namespace RimWorld
 
 		private static DamageDef RandomOldInjuryDamageType(bool allowFrostbite)
 		{
+			DamageDef result;
 			switch (Rand.RangeInclusive(0, 3 + (allowFrostbite ? 1 : 0)))
 			{
 			case 0:
 			{
-				return DamageDefOf.Bullet;
+				result = DamageDefOf.Bullet;
+				break;
 			}
 			case 1:
 			{
-				return DamageDefOf.Scratch;
+				result = DamageDefOf.Scratch;
+				break;
 			}
 			case 2:
 			{
-				return DamageDefOf.Bite;
+				result = DamageDefOf.Bite;
+				break;
 			}
 			case 3:
 			{
-				return DamageDefOf.Stab;
+				result = DamageDefOf.Stab;
+				break;
 			}
 			case 4:
 			{
-				return DamageDefOf.Frostbite;
+				result = DamageDefOf.Frostbite;
+				break;
 			}
 			default:
 			{
 				throw new Exception();
 			}
 			}
+			return result;
 		}
 
 		public static void LogOldInjuryCalculations()
@@ -164,18 +172,9 @@ namespace RimWorld
 				if (pawn.ageTracker.AgeBiologicalYears >= 40)
 				{
 					stringBuilder.AppendLine(pawn.Name + " age " + pawn.ageTracker.AgeBiologicalYears);
-					List<Hediff>.Enumerator enumerator2 = pawn.health.hediffSet.hediffs.GetEnumerator();
-					try
+					foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
 					{
-						while (enumerator2.MoveNext())
-						{
-							Hediff current2 = enumerator2.Current;
-							stringBuilder.AppendLine(" - " + current2);
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator2).Dispose();
+						stringBuilder.AppendLine(" - " + hediff);
 					}
 				}
 				Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Discard);

@@ -65,8 +65,6 @@ namespace Verse.AI
 			}
 		}
 
-		private const int SampleCount = 11;
-
 		private Map map;
 
 		private Region[] regionGrid;
@@ -97,6 +95,8 @@ namespace Verse.AI
 
 		private Dictionary<RegionLink, IntVec3> linkTargetCells = new Dictionary<RegionLink, IntVec3>();
 
+		private const int SampleCount = 11;
+
 		private static int[] pathCostSamples = new int[11];
 
 		private static List<int> tmpCellIndices = new List<int>();
@@ -125,131 +125,131 @@ namespace Verse.AI
 			this.linkTargetCells.Clear();
 			this.queue.Clear();
 			this.minPathCosts.Clear();
-			HashSet<Region>.Enumerator enumerator = destRegions.GetEnumerator();
-			try
+			foreach (Region item in destRegions)
 			{
-				while (enumerator.MoveNext())
+				int minPathCost = this.RegionMedianPathCost(item);
+				for (int i = 0; i < item.links.Count; i++)
 				{
-					Region current = enumerator.Current;
-					int minPathCost = this.RegionMedianPathCost(current);
-					for (int i = 0; i < current.links.Count; i++)
+					RegionLink regionLink = item.links[i];
+					if (regionLink.GetOtherRegion(item).type.Passable())
 					{
-						RegionLink regionLink = current.links[i];
-						if (regionLink.GetOtherRegion(current).type.Passable())
+						int num = this.RegionLinkDistance(this.destinationCell, regionLink, minPathCost);
+						int num2 = default(int);
+						if (this.distances.TryGetValue(regionLink, out num2))
 						{
-							int num = this.RegionLinkDistance(this.destinationCell, regionLink, minPathCost);
-							int num2 = default(int);
-							if (this.distances.TryGetValue(regionLink, out num2))
-							{
-								if (num < num2)
-								{
-									this.linkTargetCells[regionLink] = this.GetLinkTargetCell(this.destinationCell, regionLink);
-								}
-								num = Math.Min(num2, num);
-							}
-							else
+							if (num < num2)
 							{
 								this.linkTargetCells[regionLink] = this.GetLinkTargetCell(this.destinationCell, regionLink);
 							}
-							this.distances[regionLink] = num;
-						}
-					}
-					this.GetPreciseRegionLinkDistances(current, destination, this.preciseRegionLinkDistances);
-					for (int j = 0; j < this.preciseRegionLinkDistances.Count; j++)
-					{
-						Pair<RegionLink, int> pair = this.preciseRegionLinkDistances[j];
-						RegionLink first = pair.First;
-						int num3 = this.distances[first];
-						int num4;
-						if (pair.Second > num3)
-						{
-							this.distances[first] = pair.Second;
-							num4 = pair.Second;
+							num = Math.Min(num2, num);
 						}
 						else
 						{
-							num4 = num3;
+							this.linkTargetCells[regionLink] = this.GetLinkTargetCell(this.destinationCell, regionLink);
 						}
-						this.queue.Push(new RegionLinkQueueEntry(current, first, num4, num4));
+						this.distances[regionLink] = num;
 					}
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				this.GetPreciseRegionLinkDistances(item, destination, this.preciseRegionLinkDistances);
+				for (int j = 0; j < this.preciseRegionLinkDistances.Count; j++)
+				{
+					Pair<RegionLink, int> pair = this.preciseRegionLinkDistances[j];
+					RegionLink first = pair.First;
+					int num3 = this.distances[first];
+					int num4;
+					if (pair.Second > num3)
+					{
+						this.distances[first] = pair.Second;
+						num4 = pair.Second;
+					}
+					else
+					{
+						num4 = num3;
+					}
+					this.queue.Push(new RegionLinkQueueEntry(item, first, num4, num4));
+				}
 			}
 		}
 
 		public int GetRegionDistance(Region region, out RegionLink minLink)
 		{
+			int result;
+			RegionLinkQueueEntry regionLinkQueueEntry;
 			if (this.regionMinLink.TryGetValue(region.id, out minLink))
 			{
-				return this.distances[minLink];
+				result = this.distances[minLink];
 			}
-			while (this.queue.Count != 0)
+			else
 			{
-				RegionLinkQueueEntry regionLinkQueueEntry = this.queue.Pop();
-				int num = this.distances[regionLinkQueueEntry.Link];
-				Region otherRegion;
-				int num2;
-				if (regionLinkQueueEntry.Cost == num)
+				while (this.queue.Count != 0)
 				{
-					otherRegion = regionLinkQueueEntry.Link.GetOtherRegion(regionLinkQueueEntry.From);
-					if (otherRegion != null && otherRegion.valid)
+					regionLinkQueueEntry = this.queue.Pop();
+					int num = this.distances[regionLinkQueueEntry.Link];
+					Region otherRegion;
+					int num2;
+					if (regionLinkQueueEntry.Cost == num)
 					{
-						num2 = 0;
-						if (otherRegion.portal != null)
+						otherRegion = regionLinkQueueEntry.Link.GetOtherRegion(regionLinkQueueEntry.From);
+						if (otherRegion != null && otherRegion.valid)
 						{
-							num2 = PathFinder.GetBuildingCost(otherRegion.portal, this.traverseParms, this.traverseParms.pawn);
-							if (num2 != 2147483647)
+							num2 = 0;
+							if (otherRegion.portal != null)
 							{
-								num2 += this.OctileDistance(1, 0);
-								goto IL_00ca;
+								num2 = PathFinder.GetBuildingCost(otherRegion.portal, this.traverseParms, this.traverseParms.pawn);
+								if (num2 != 2147483647)
+								{
+									num2 += this.OctileDistance(1, 0);
+									goto IL_00d8;
+								}
+								continue;
 							}
-							continue;
+							goto IL_00d8;
 						}
-						goto IL_00ca;
 					}
-				}
-				continue;
-				IL_00ca:
-				int minPathCost = this.RegionMedianPathCost(otherRegion);
-				for (int i = 0; i < otherRegion.links.Count; i++)
-				{
-					RegionLink regionLink = otherRegion.links[i];
-					if (regionLink != regionLinkQueueEntry.Link && regionLink.GetOtherRegion(otherRegion).type.Passable())
+					continue;
+					IL_00d8:
+					int minPathCost = this.RegionMedianPathCost(otherRegion);
+					for (int i = 0; i < otherRegion.links.Count; i++)
 					{
-						int val = (otherRegion.portal == null) ? this.RegionLinkDistance(regionLinkQueueEntry.Link, regionLink, minPathCost) : num2;
-						val = Math.Max(val, 1);
-						int num3 = num + val;
-						int estimatedPathCost = this.MinimumRegionLinkDistance(this.destinationCell, regionLink) + num3;
-						int num4 = default(int);
-						if (this.distances.TryGetValue(regionLink, out num4))
+						RegionLink regionLink = otherRegion.links[i];
+						if (regionLink != regionLinkQueueEntry.Link && regionLink.GetOtherRegion(otherRegion).type.Passable())
 						{
-							if (num3 < num4)
+							int val = (otherRegion.portal == null) ? this.RegionLinkDistance(regionLinkQueueEntry.Link, regionLink, minPathCost) : num2;
+							val = Math.Max(val, 1);
+							int num3 = num + val;
+							int estimatedPathCost = this.MinimumRegionLinkDistance(this.destinationCell, regionLink) + num3;
+							int num4 = default(int);
+							if (this.distances.TryGetValue(regionLink, out num4))
 							{
-								this.distances[regionLink] = num3;
+								if (num3 < num4)
+								{
+									this.distances[regionLink] = num3;
+									this.queue.Push(new RegionLinkQueueEntry(otherRegion, regionLink, num3, estimatedPathCost));
+								}
+							}
+							else
+							{
+								this.distances.Add(regionLink, num3);
 								this.queue.Push(new RegionLinkQueueEntry(otherRegion, regionLink, num3, estimatedPathCost));
 							}
 						}
-						else
-						{
-							this.distances.Add(regionLink, num3);
-							this.queue.Push(new RegionLinkQueueEntry(otherRegion, regionLink, num3, estimatedPathCost));
-						}
 					}
-				}
-				if (!this.regionMinLink.ContainsKey(otherRegion.id))
-				{
-					this.regionMinLink.Add(otherRegion.id, regionLinkQueueEntry.Link);
-					if (otherRegion == region)
+					if (!this.regionMinLink.ContainsKey(otherRegion.id))
 					{
-						minLink = regionLinkQueueEntry.Link;
-						return regionLinkQueueEntry.Cost;
+						this.regionMinLink.Add(otherRegion.id, regionLinkQueueEntry.Link);
+						if (otherRegion == region)
+							goto IL_022e;
 					}
 				}
+				result = 10000;
 			}
-			return 10000;
+			goto IL_0262;
+			IL_0262:
+			return result;
+			IL_022e:
+			minLink = regionLinkQueueEntry.Link;
+			result = regionLinkQueueEntry.Cost;
+			goto IL_0262;
 		}
 
 		public int GetRegionBestDistances(Region region, out RegionLink bestLink, out RegionLink secondBestLink, out int secondBestCost)
@@ -272,24 +272,29 @@ namespace Verse.AI
 
 		public int RegionMedianPathCost(Region region)
 		{
-			int result = default(int);
-			if (this.minPathCosts.TryGetValue(region, out result))
+			int num = default(int);
+			int result;
+			if (this.minPathCosts.TryGetValue(region, out num))
 			{
-				return result;
+				result = num;
 			}
-			bool ignoreAllowedAreaCost = this.allowedArea != null && region.OverlapWith(this.allowedArea) != AreaOverlap.None;
-			CellIndices cellIndices = this.map.cellIndices;
-			Rand.PushState();
-			Rand.Seed = cellIndices.CellToIndex(region.extentsClose.CenterCell) * (region.links.Count + 1);
-			for (int i = 0; i < 11; i++)
+			else
 			{
-				RegionCostCalculator.pathCostSamples[i] = this.GetCellCostFast(cellIndices.CellToIndex(region.RandomCell), ignoreAllowedAreaCost);
+				bool ignoreAllowedAreaCost = this.allowedArea != null && region.OverlapWith(this.allowedArea) != AreaOverlap.None;
+				CellIndices cellIndices = this.map.cellIndices;
+				Rand.PushState();
+				Rand.Seed = cellIndices.CellToIndex(region.extentsClose.CenterCell) * (region.links.Count + 1);
+				for (int i = 0; i < 11; i++)
+				{
+					RegionCostCalculator.pathCostSamples[i] = this.GetCellCostFast(cellIndices.CellToIndex(region.RandomCell), ignoreAllowedAreaCost);
+				}
+				Rand.PopState();
+				Array.Sort(RegionCostCalculator.pathCostSamples);
+				int num2 = RegionCostCalculator.pathCostSamples[4];
+				this.minPathCosts[region] = num2;
+				result = num2;
 			}
-			Rand.PopState();
-			Array.Sort(RegionCostCalculator.pathCostSamples);
-			int num = RegionCostCalculator.pathCostSamples[4];
-			this.minPathCosts[region] = num;
-			return num;
+			return result;
 		}
 
 		private int GetCellCostFast(int index, bool ignoreAllowedAreaCost = false)
@@ -413,11 +418,7 @@ namespace Verse.AI
 
 		private IEnumerable<int> PreciseRegionLinkDistancesNeighborsGetter(int node, Region region)
 		{
-			if (this.regionGrid[node] != null && this.regionGrid[node] == region)
-			{
-				return this.PathableNeighborIndices(node);
-			}
-			return null;
+			return (this.regionGrid[node] != null && this.regionGrid[node] == region) ? this.PathableNeighborIndices(node) : null;
 		}
 
 		private float PreciseRegionLinkDistancesDistanceGetter(int a, int b)

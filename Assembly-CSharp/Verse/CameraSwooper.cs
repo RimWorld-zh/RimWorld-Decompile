@@ -5,11 +5,11 @@ namespace Verse
 {
 	public class CameraSwooper
 	{
-		public bool Swooping;
+		public bool Swooping = false;
 
-		private bool SwoopingTo;
+		private bool SwoopingTo = false;
 
-		private float TimeSinceSwoopStart;
+		private float TimeSinceSwoopStart = 0f;
 
 		private Vector3 FinalOffset;
 

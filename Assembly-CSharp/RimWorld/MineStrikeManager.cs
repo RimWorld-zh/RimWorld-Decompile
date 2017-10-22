@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Verse;
@@ -7,9 +6,9 @@ namespace RimWorld
 {
 	public class MineStrikeManager : IExposable
 	{
-		private const int RecentStrikeIgnoreRadius = 12;
-
 		private List<StrikeRecord> strikeRecords = new List<StrikeRecord>();
+
+		private const int RecentStrikeIgnoreRadius = 12;
 
 		private static readonly int RadialVisibleCells = GenRadial.NumCellsInRadius(5.9f);
 
@@ -28,7 +27,7 @@ namespace RimWorld
 					if (intVec.InBounds(miner.Map))
 					{
 						Building edifice = intVec.GetEdifice(miner.Map);
-						if (edifice != null && edifice.def != justMinedDef && this.MineableIsWorthLetter(edifice.def) && !this.AlreadyVisibleNearby(intVec, miner.Map, edifice.def) && !this.RecentlyStruck(intVec, edifice.def))
+						if (edifice != null && edifice.def != justMinedDef && MineStrikeManager.MineableIsValuable(edifice.def) && !this.AlreadyVisibleNearby(intVec, miner.Map, edifice.def) && !this.RecentlyStruck(intVec, edifice.def))
 						{
 							StrikeRecord item = new StrikeRecord
 							{
@@ -37,7 +36,7 @@ namespace RimWorld
 								ticksGame = Find.TickManager.TicksGame
 							};
 							this.strikeRecords.Add(item);
-							Messages.Message("StruckMineable".Translate(edifice.def.label), (Thing)edifice, MessageSound.Benefit);
+							Messages.Message("StruckMineable".Translate(edifice.def.label), (Thing)edifice, MessageTypeDefOf.PositiveEvent);
 							TaleRecorder.RecordTale(TaleDefOf.StruckMineable, miner, edifice);
 						}
 					}
@@ -48,64 +47,81 @@ namespace RimWorld
 		public bool AlreadyVisibleNearby(IntVec3 center, Map map, ThingDef mineableDef)
 		{
 			CellRect cellRect = CellRect.CenteredOn(center, 1);
-			for (int i = 1; i < MineStrikeManager.RadialVisibleCells; i++)
+			int num = 1;
+			bool result;
+			while (true)
 			{
-				IntVec3 c = center + GenRadial.RadialPattern[i];
-				if (c.InBounds(map) && !c.Fogged(map) && !cellRect.Contains(c))
+				if (num < MineStrikeManager.RadialVisibleCells)
 				{
-					Building edifice = c.GetEdifice(map);
-					if (edifice != null && edifice.def == mineableDef)
+					IntVec3 c = center + GenRadial.RadialPattern[num];
+					if (c.InBounds(map) && !c.Fogged(map) && !cellRect.Contains(c))
 					{
-						return true;
+						Building edifice = c.GetEdifice(map);
+						if (edifice != null && edifice.def == mineableDef)
+						{
+							result = true;
+							break;
+						}
 					}
+					num++;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
 		private bool RecentlyStruck(IntVec3 cell, ThingDef def)
 		{
-			for (int num = this.strikeRecords.Count - 1; num >= 0; num--)
+			int num = this.strikeRecords.Count - 1;
+			bool result;
+			while (true)
 			{
-				if (this.strikeRecords[num].Expired)
+				if (num >= 0)
 				{
-					this.strikeRecords.RemoveAt(num);
-				}
-				else
-				{
-					StrikeRecord strikeRecord = this.strikeRecords[num];
-					if (strikeRecord.def == def)
+					if (this.strikeRecords[num].Expired)
 					{
-						StrikeRecord strikeRecord2 = this.strikeRecords[num];
-						if (strikeRecord2.cell.InHorDistOf(cell, 12f))
+						this.strikeRecords.RemoveAt(num);
+					}
+					else
+					{
+						StrikeRecord strikeRecord = this.strikeRecords[num];
+						if (strikeRecord.def == def)
 						{
-							return true;
+							StrikeRecord strikeRecord2 = this.strikeRecords[num];
+							if (strikeRecord2.cell.InHorDistOf(cell, 12f))
+							{
+								result = true;
+								break;
+							}
 						}
 					}
+					num--;
+					continue;
 				}
+				result = false;
+				break;
 			}
-			return false;
+			return result;
 		}
 
-		private bool MineableIsWorthLetter(ThingDef mineableDef)
+		public static bool MineableIsValuable(ThingDef mineableDef)
 		{
 			return mineableDef.mineable && mineableDef.building.mineableThing.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)mineableDef.building.mineableYield > 10.0;
+		}
+
+		public static bool MineableIsVeryValuable(ThingDef mineableDef)
+		{
+			return mineableDef.mineable && mineableDef.building.mineableThing.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)mineableDef.building.mineableYield > 100.0;
 		}
 
 		public string DebugStrikeRecords()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			List<StrikeRecord>.Enumerator enumerator = this.strikeRecords.GetEnumerator();
-			try
+			foreach (StrikeRecord strikeRecord in this.strikeRecords)
 			{
-				while (enumerator.MoveNext())
-				{
-					stringBuilder.AppendLine(enumerator.Current.ToString());
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				stringBuilder.AppendLine(strikeRecord.ToString());
 			}
 			return stringBuilder.ToString();
 		}

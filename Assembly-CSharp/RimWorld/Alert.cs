@@ -8,6 +8,16 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public abstract class Alert
 	{
+		protected AlertPriority defaultPriority = AlertPriority.Medium;
+
+		protected string defaultLabel;
+
+		protected string defaultExplanation;
+
+		protected float lastBellTime = -1000f;
+
+		private AlertBounce alertBounce = null;
+
 		public const float Width = 154f;
 
 		private const float TextWidth = 148f;
@@ -17,16 +27,6 @@ namespace RimWorld
 		private const float ItemPeekWidth = 30f;
 
 		public const float InfoRectWidth = 330f;
-
-		protected AlertPriority defaultPriority;
-
-		protected string defaultLabel;
-
-		protected string defaultExplanation;
-
-		protected float lastBellTime = -1000f;
-
-		private AlertBounce alertBounce;
 
 		private static readonly Texture2D AlertBGTex = SolidColorMaterials.NewSolidColorTexture(Color.white);
 

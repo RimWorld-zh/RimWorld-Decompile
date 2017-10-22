@@ -24,12 +24,17 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.specificNeedsTabForPawn != null && !this.specificNeedsTabForPawn.Destroyed)
+				float result;
+				if (this.specificNeedsTabForPawn == null || this.specificNeedsTabForPawn.Destroyed)
+				{
+					result = 0f;
+				}
+				else
 				{
 					Vector2 size = NeedsCardUtility.GetSize(this.specificNeedsTabForPawn);
-					return size.x;
+					result = size.x;
 				}
-				return 0f;
+				return result;
 			}
 		}
 

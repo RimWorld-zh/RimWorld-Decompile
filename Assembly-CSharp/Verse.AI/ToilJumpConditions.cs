@@ -40,11 +40,7 @@ namespace Verse.AI
 			return toil.JumpIf((Func<bool>)delegate()
 			{
 				Thing thing = toil.actor.jobs.curJob.GetTarget(ind).Thing;
-				if (!((Area)toil.actor.Map.areaManager.Home)[thing.Position])
-				{
-					return true;
-				}
-				return false;
+				return (byte)((!((Area)toil.actor.Map.areaManager.Home)[thing.Position]) ? 1 : 0) != 0;
 			}, jumpToil);
 		}
 	}

@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class FeedbackItem_FoodGain : FeedbackItem
 	{
-		protected int Amount;
+		protected int Amount = 0;
 
 		public FeedbackItem_FoodGain(Vector2 ScreenPos, int Amount) : base(ScreenPos)
 		{

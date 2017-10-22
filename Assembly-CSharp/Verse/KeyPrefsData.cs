@@ -28,6 +28,7 @@ namespace Verse
 		public bool SetBinding(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot, KeyCode keyCode)
 		{
 			KeyBindingData keyBindingData = default(KeyBindingData);
+			bool result;
 			if (this.keyPrefs.TryGetValue(keyDef, out keyBindingData))
 			{
 				switch (slot)
@@ -35,60 +36,94 @@ namespace Verse
 				case KeyPrefs.BindingSlot.A:
 				{
 					keyBindingData.keyBindingA = keyCode;
-					break;
+					goto IL_006d;
 				}
 				case KeyPrefs.BindingSlot.B:
 				{
 					keyBindingData.keyBindingB = keyCode;
-					break;
+					goto IL_006d;
 				}
 				default:
 				{
-					Log.Error("Tried to set a key binding for \"" + keyDef.LabelCap + "\" on a nonexistent slot: " + ((Enum)(object)slot).ToString());
-					return false;
+					Log.Error("Tried to set a key binding for \"" + keyDef.LabelCap + "\" on a nonexistent slot: " + slot.ToString());
+					result = false;
+					break;
 				}
 				}
-				return true;
 			}
-			Log.Error("Key not found in keyprefs: \"" + keyDef.LabelCap + "\"");
-			return false;
+			else
+			{
+				Log.Error("Key not found in keyprefs: \"" + keyDef.LabelCap + "\"");
+				result = false;
+			}
+			goto IL_0096;
+			IL_0096:
+			return result;
+			IL_006d:
+			result = true;
+			goto IL_0096;
 		}
 
 		public KeyCode GetBoundKeyCode(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			KeyBindingData keyBindingData = default(KeyBindingData);
+			KeyCode result;
 			if (!this.keyPrefs.TryGetValue(keyDef, out keyBindingData))
 			{
 				Log.Error("Key not found in keyprefs: \"" + keyDef.LabelCap + "\"");
-				return KeyCode.None;
+				result = KeyCode.None;
 			}
-			switch (slot)
+			else
 			{
-			case KeyPrefs.BindingSlot.A:
-			{
-				return keyBindingData.keyBindingA;
+				switch (slot)
+				{
+				case KeyPrefs.BindingSlot.A:
+				{
+					result = keyBindingData.keyBindingA;
+					break;
+				}
+				case KeyPrefs.BindingSlot.B:
+				{
+					result = keyBindingData.keyBindingB;
+					break;
+				}
+				default:
+				{
+					throw new InvalidOperationException();
+				}
+				}
 			}
-			case KeyPrefs.BindingSlot.B:
-			{
-				return keyBindingData.keyBindingB;
-			}
-			default:
-			{
-				throw new InvalidOperationException();
-			}
-			}
+			return result;
 		}
 
 		private IEnumerable<KeyBindingDef> ConflictingBindings(KeyBindingDef keyDef, KeyCode code)
 		{
-			foreach (KeyBindingDef allDef in DefDatabase<KeyBindingDef>.AllDefs)
+			using (IEnumerator<KeyBindingDef> enumerator = DefDatabase<KeyBindingDef>.AllDefs.GetEnumerator())
 			{
-				KeyBindingData prefData;
-				if (allDef != keyDef && (allDef.category == keyDef.category || keyDef.category.checkForConflicts.Contains(allDef.category)) && this.keyPrefs.TryGetValue(allDef, out prefData) && (prefData.keyBindingA == code || prefData.keyBindingB == code))
+				KeyBindingDef def;
+				while (true)
 				{
-					yield return allDef;
+					if (enumerator.MoveNext())
+					{
+						_003CConflictingBindings_003Ec__Iterator0 _003CConflictingBindings_003Ec__Iterator = (_003CConflictingBindings_003Ec__Iterator0)/*Error near IL_005a: stateMachine*/;
+						def = enumerator.Current;
+						KeyBindingData prefData;
+						if (def != keyDef && ((def.category == keyDef.category && def.category.selfConflicting) || keyDef.category.checkForConflicts.Contains(def.category) || (keyDef.extraConflictTags != null && def.extraConflictTags != null && keyDef.extraConflictTags.Any((Predicate<string>)((string tag) => def.extraConflictTags.Contains(tag))))) && this.keyPrefs.TryGetValue(def, out prefData))
+						{
+							if (prefData.keyBindingA == code)
+								break;
+							if (prefData.keyBindingB == code)
+								break;
+						}
+						continue;
+					}
+					yield break;
 				}
+				yield return def;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			IL_01f1:
+			/*Error near IL_01f2: Unexpected return in MoveNext()*/;
 		}
 
 		public void EraseConflictingBindingsForKeyCode(KeyBindingDef keyDef, KeyCode keyCode, Action<KeyBindingDef> callBackOnErase = null)
@@ -124,20 +159,11 @@ namespace Verse
 		public KeyPrefsData Clone()
 		{
 			KeyPrefsData keyPrefsData = new KeyPrefsData();
-			Dictionary<KeyBindingDef, KeyBindingData>.Enumerator enumerator = this.keyPrefs.GetEnumerator();
-			try
+			foreach (KeyValuePair<KeyBindingDef, KeyBindingData> keyPref in this.keyPrefs)
 			{
-				while (enumerator.MoveNext())
-				{
-					KeyValuePair<KeyBindingDef, KeyBindingData> current = enumerator.Current;
-					keyPrefsData.keyPrefs[current.Key] = new KeyBindingData(current.Value.keyBindingA, current.Value.keyBindingB);
-				}
-				return keyPrefsData;
+				keyPrefsData.keyPrefs[keyPref.Key] = new KeyBindingData(keyPref.Value.keyBindingA, keyPref.Value.keyBindingB);
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
+			return keyPrefsData;
 		}
 
 		public void ErrorCheck()

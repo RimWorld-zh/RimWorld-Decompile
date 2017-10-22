@@ -28,52 +28,48 @@ namespace RimWorld
 			{
 				bool flag = a.relations.Any();
 				bool flag2 = b.relations.Any();
+				int result;
 				if (flag != flag2)
 				{
-					return flag2.CompareTo(flag);
+					result = flag2.CompareTo(flag);
 				}
-				if (flag && flag2)
+				else
 				{
-					float num = -3.40282347E+38f;
-					for (int i = 0; i < a.relations.Count; i++)
+					if (flag && flag2)
 					{
-						if (a.relations[i].importance > num)
+						float num = -3.40282347E+38f;
+						for (int i = 0; i < a.relations.Count; i++)
 						{
-							num = a.relations[i].importance;
+							if (a.relations[i].importance > num)
+							{
+								num = a.relations[i].importance;
+							}
+						}
+						float num2 = -3.40282347E+38f;
+						for (int j = 0; j < b.relations.Count; j++)
+						{
+							if (b.relations[j].importance > num2)
+							{
+								num2 = b.relations[j].importance;
+							}
+						}
+						if (num != num2)
+						{
+							result = num2.CompareTo(num);
+							goto IL_0144;
 						}
 					}
-					float num2 = -3.40282347E+38f;
-					for (int j = 0; j < b.relations.Count; j++)
-					{
-						if (b.relations[j].importance > num2)
-						{
-							num2 = b.relations[j].importance;
-						}
-					}
-					if (num != num2)
-					{
-						return num2.CompareTo(num);
-					}
+					result = ((a.opinionOfOtherPawn == b.opinionOfOtherPawn) ? a.otherPawn.thingIDNumber.CompareTo(b.otherPawn.thingIDNumber) : b.opinionOfOtherPawn.CompareTo(a.opinionOfOtherPawn));
 				}
-				if (a.opinionOfOtherPawn != b.opinionOfOtherPawn)
-				{
-					return b.opinionOfOtherPawn.CompareTo(a.opinionOfOtherPawn);
-				}
-				return a.otherPawn.thingIDNumber.CompareTo(b.otherPawn.thingIDNumber);
+				goto IL_0144;
+				IL_0144:
+				return result;
 			}
 		}
-
-		private const float TopPadding = 20f;
-
-		private const float RowTopPadding = 3f;
-
-		private const float RowLeftRightPadding = 5f;
 
 		private static Vector2 listScrollPosition = Vector2.zero;
 
 		private static float listScrollViewHeight = 0f;
-
-		private static Vector2 logScrollPosition = Vector2.zero;
 
 		private static bool showAllRelations;
 
@@ -81,19 +77,23 @@ namespace RimWorld
 
 		private static Pawn cachedForPawn;
 
+		private const float TopPadding = 20f;
+
 		private static readonly Color RelationLabelColor = new Color(0.6f, 0.6f, 0.6f);
 
 		private static readonly Color PawnLabelColor = new Color(0.9f, 0.9f, 0.9f, 1f);
 
 		private static readonly Color HighlightColor = new Color(0.5f, 0.5f, 0.5f, 1f);
 
+		private const float RowTopPadding = 3f;
+
+		private const float RowLeftRightPadding = 5f;
+
 		private static CachedSocialTabEntryComparer CachedEntriesComparer = new CachedSocialTabEntryComparer();
 
 		private static HashSet<Pawn> tmpCached = new HashSet<Pawn>();
 
 		private static HashSet<Pawn> tmpToCache = new HashSet<Pawn>();
-
-		private static List<Pair<string, int>> logStrings = new List<Pair<string, int>>();
 
 		public static void DrawSocialCard(Rect rect, Pawn pawn)
 		{
@@ -115,7 +115,7 @@ namespace RimWorld
 				SocialCardUtility.DrawDebugOptions(rect6, pawn);
 			}
 			SocialCardUtility.DrawRelationsAndOpinions(rect3, pawn);
-			SocialCardUtility.DrawInteractionsLog(rect5, pawn);
+			InteractionCardUtility.DrawInteractionsLog(rect5, pawn, Find.PlayLog.AllEntries, 12);
 			GUI.EndGroup();
 		}
 
@@ -163,23 +163,14 @@ namespace RimWorld
 			{
 				SocialCardUtility.tmpCached.Add(SocialCardUtility.cachedEntries[j].otherPawn);
 			}
-			HashSet<Pawn>.Enumerator enumerator2 = SocialCardUtility.tmpToCache.GetEnumerator();
-			try
+			foreach (Pawn item in SocialCardUtility.tmpToCache)
 			{
-				while (enumerator2.MoveNext())
+				if (!SocialCardUtility.tmpCached.Contains(item))
 				{
-					Pawn current2 = enumerator2.Current;
-					if (!SocialCardUtility.tmpCached.Contains(current2))
-					{
-						CachedSocialTabEntry cachedSocialTabEntry = new CachedSocialTabEntry();
-						cachedSocialTabEntry.otherPawn = current2;
-						SocialCardUtility.cachedEntries.Add(cachedSocialTabEntry);
-					}
+					CachedSocialTabEntry cachedSocialTabEntry = new CachedSocialTabEntry();
+					cachedSocialTabEntry.otherPawn = item;
+					SocialCardUtility.cachedEntries.Add(cachedSocialTabEntry);
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
 			}
 			SocialCardUtility.tmpCached.Clear();
 			SocialCardUtility.tmpToCache.Clear();
@@ -192,15 +183,7 @@ namespace RimWorld
 
 		private static bool ShouldShowPawnRelations(Pawn pawn, Pawn selPawnForSocialInfo)
 		{
-			if (SocialCardUtility.showAllRelations)
-			{
-				return true;
-			}
-			if (pawn.relations.everSeenByPlayer)
-			{
-				return true;
-			}
-			return false;
+			return (byte)(SocialCardUtility.showAllRelations ? 1 : (pawn.relations.everSeenByPlayer ? 1 : 0)) != 0;
 		}
 
 		private static void RecacheEntry(CachedSocialTabEntry entry, Pawn selPawnForSocialInfo)
@@ -227,16 +210,21 @@ namespace RimWorld
 			GUI.color = Color.white;
 			Rect outRect = new Rect(0f, 0f, rect.width, rect.height);
 			Rect viewRect = new Rect(0f, 0f, (float)(rect.width - 16.0), SocialCardUtility.listScrollViewHeight);
+			Rect rect2 = rect;
+			if (viewRect.height > outRect.height)
+			{
+				rect2.width -= 16f;
+			}
 			Widgets.BeginScrollView(outRect, ref SocialCardUtility.listScrollPosition, viewRect, true);
 			float num = 0f;
 			float y = SocialCardUtility.listScrollPosition.y;
 			float num2 = SocialCardUtility.listScrollPosition.y + outRect.height;
 			for (int i = 0; i < SocialCardUtility.cachedEntries.Count; i++)
 			{
-				float rowHeight = SocialCardUtility.GetRowHeight(SocialCardUtility.cachedEntries[i], viewRect.width, selPawnForSocialInfo);
+				float rowHeight = SocialCardUtility.GetRowHeight(SocialCardUtility.cachedEntries[i], rect2.width, selPawnForSocialInfo);
 				if (num > y - rowHeight && num < num2)
 				{
-					SocialCardUtility.DrawPawnRow(num, viewRect.width, SocialCardUtility.cachedEntries[i], selPawnForSocialInfo);
+					SocialCardUtility.DrawPawnRow(num, rect2.width, SocialCardUtility.cachedEntries[i], selPawnForSocialInfo);
 				}
 				num += rowHeight;
 			}
@@ -244,8 +232,8 @@ namespace RimWorld
 			{
 				GUI.color = Color.gray;
 				Text.Anchor = TextAnchor.UpperCenter;
-				Rect rect2 = new Rect(0f, 0f, viewRect.width, 30f);
-				Widgets.Label(rect2, "NoRelationships".Translate());
+				Rect rect3 = new Rect(0f, 0f, rect2.width, 30f);
+				Widgets.Label(rect3, "NoRelationships".Translate());
 				Text.Anchor = TextAnchor.UpperLeft;
 			}
 			if (Event.current.type == EventType.Layout)
@@ -274,7 +262,7 @@ namespace RimWorld
 				{
 					if (otherPawn.Dead)
 					{
-						Messages.Message("MessageCantSelectDeadPawn".Translate(otherPawn.LabelShort).CapitalizeFirst(), MessageSound.RejectInput);
+						Messages.Message("MessageCantSelectDeadPawn".Translate(otherPawn.LabelShort).CapitalizeFirst(), MessageTypeDefOf.RejectInput);
 					}
 					else if (otherPawn.SpawnedOrAnyParentSpawned || otherPawn.IsCaravanMember())
 					{
@@ -282,7 +270,7 @@ namespace RimWorld
 					}
 					else
 					{
-						Messages.Message("MessageCantSelectOffMapPawn".Translate(otherPawn.LabelShort).CapitalizeFirst(), MessageSound.RejectInput);
+						Messages.Message("MessageCantSelectOffMapPawn".Translate(otherPawn.LabelShort).CapitalizeFirst(), MessageTypeDefOf.RejectInput);
 					}
 				}
 				else if (Find.GameInitData.startingPawns.Contains(otherPawn))
@@ -393,85 +381,63 @@ namespace RimWorld
 
 		private static Color OpinionLabelColor(int opinion)
 		{
-			if (Mathf.Abs(opinion) < 10)
-			{
-				return Color.gray;
-			}
-			if (opinion < 0)
-			{
-				return Color.red;
-			}
-			return Color.green;
+			return (Mathf.Abs(opinion) >= 10) ? ((opinion >= 0) ? Color.green : Color.red) : Color.gray;
 		}
 
 		private static string GetPawnLabel(Pawn pawn)
 		{
-			if (pawn.Name != null)
-			{
-				return pawn.Name.ToStringFull;
-			}
-			return pawn.LabelCapNoCount;
+			return (pawn.Name == null) ? pawn.LabelCapNoCount : pawn.Name.ToStringFull;
 		}
 
 		public static string GetPawnSituationLabel(Pawn pawn, Pawn fromPOV)
 		{
+			string result;
 			if (pawn.Dead)
 			{
-				return "Dead".Translate();
+				result = "Dead".Translate();
 			}
-			if (pawn.Destroyed)
+			else if (pawn.Destroyed)
 			{
-				return "Missing".Translate();
+				result = "Missing".Translate();
 			}
-			if (PawnUtility.IsKidnappedPawn(pawn))
+			else if (PawnUtility.IsKidnappedPawn(pawn))
 			{
-				return "Kidnapped".Translate();
+				result = "Kidnapped".Translate();
 			}
-			if (pawn.kindDef == PawnKindDefOf.Slave)
+			else if (pawn.kindDef == PawnKindDefOf.Slave)
 			{
-				return "Slave".Translate();
+				result = "Slave".Translate();
 			}
-			if (PawnUtility.IsFactionLeader(pawn))
+			else if (PawnUtility.IsFactionLeader(pawn))
 			{
-				return "FactionLeader".Translate();
+				result = "FactionLeader".Translate();
 			}
-			Faction faction = pawn.Faction;
-			if (faction != fromPOV.Faction)
+			else
 			{
-				if (faction != null && fromPOV.Faction != null)
-				{
-					if (!faction.HostileTo(fromPOV.Faction))
-					{
-						return "Neutral".Translate() + ", " + faction.Name;
-					}
-					return "Hostile".Translate() + ", " + faction.Name;
-				}
-				return "Neutral".Translate();
+				Faction faction = pawn.Faction;
+				result = ((faction == fromPOV.Faction) ? "" : ((faction == null || fromPOV.Faction == null) ? "Neutral".Translate() : (faction.HostileTo(fromPOV.Faction) ? ("Hostile".Translate() + ", " + faction.Name) : ("Neutral".Translate() + ", " + faction.Name))));
 			}
-			return string.Empty;
+			return result;
 		}
 
 		private static string GetRelationsString(CachedSocialTabEntry entry, Pawn selPawnForSocialInfo)
 		{
-			string text = string.Empty;
+			string text = "";
+			string result;
 			if (entry.relations.Count == 0)
 			{
-				if (entry.opinionOfOtherPawn < -20)
-				{
-					return "Rival".Translate();
-				}
-				if (entry.opinionOfOtherPawn > 20)
-				{
-					return "Friend".Translate();
-				}
-				return "Acquaintance".Translate();
+				result = ((entry.opinionOfOtherPawn >= -20) ? ((entry.opinionOfOtherPawn <= 20) ? "Acquaintance".Translate() : "Friend".Translate()) : "Rival".Translate());
 			}
-			for (int i = 0; i < entry.relations.Count; i++)
+			else
 			{
-				PawnRelationDef pawnRelationDef = entry.relations[i];
-				text = (text.NullOrEmpty() ? pawnRelationDef.GetGenderSpecificLabelCap(entry.otherPawn) : (text + ", " + pawnRelationDef.GetGenderSpecificLabel(entry.otherPawn)));
+				for (int i = 0; i < entry.relations.Count; i++)
+				{
+					PawnRelationDef pawnRelationDef = entry.relations[i];
+					text = (text.NullOrEmpty() ? pawnRelationDef.GetGenderSpecificLabelCap(entry.otherPawn) : (text + ", " + pawnRelationDef.GetGenderSpecificLabel(entry.otherPawn)));
+				}
+				result = text;
 			}
-			return text;
+			return result;
 		}
 
 		private static string GetPawnRowTooltip(CachedSocialTabEntry entry, Pawn selPawnForSocialInfo)
@@ -503,56 +469,6 @@ namespace RimWorld
 				stringBuilder.Append("(debug) RomanceChanceFactor: " + selPawnForSocialInfo.relations.SecondaryRomanceChanceFactor(entry.otherPawn).ToString("F2"));
 			}
 			return stringBuilder.ToString();
-		}
-
-		private static void DrawInteractionsLog(Rect rect, Pawn pawn)
-		{
-			float width = (float)(rect.width - 26.0 - 3.0);
-			List<PlayLogEntry> allEntries = Find.PlayLog.AllEntries;
-			SocialCardUtility.logStrings.Clear();
-			float num = 0f;
-			int num2 = 0;
-			for (int i = 0; i < allEntries.Count; i++)
-			{
-				if (allEntries[i].Concerns(pawn))
-				{
-					string text = allEntries[i].ToGameStringFromPOV(pawn);
-					SocialCardUtility.logStrings.Add(new Pair<string, int>(text, i));
-					num += Mathf.Max(26f, Text.CalcHeight(text, width));
-					num2++;
-					if (num2 >= 12)
-						break;
-				}
-			}
-			Rect viewRect = new Rect(0f, 0f, (float)(rect.width - 16.0), num);
-			Widgets.BeginScrollView(rect, ref SocialCardUtility.logScrollPosition, viewRect, true);
-			float num3 = 0f;
-			for (int j = 0; j < SocialCardUtility.logStrings.Count; j++)
-			{
-				string first = SocialCardUtility.logStrings[j].First;
-				PlayLogEntry entry = allEntries[SocialCardUtility.logStrings[j].Second];
-				if (entry.Age > 7500)
-				{
-					GUI.color = new Color(1f, 1f, 1f, 0.5f);
-				}
-				float num4 = Mathf.Max(26f, Text.CalcHeight(first, width));
-				if ((UnityEngine.Object)entry.Icon != (UnityEngine.Object)null)
-				{
-					Rect position = new Rect(0f, num3, 26f, 26f);
-					GUI.DrawTexture(position, entry.Icon);
-				}
-				Rect rect2 = new Rect(29f, num3, width, num4);
-				Widgets.DrawHighlightIfMouseover(rect2);
-				Widgets.Label(rect2, first);
-				TooltipHandler.TipRegion(rect2, (Func<string>)(() => entry.GetTipString()), 613261 + j * 611);
-				if (Widgets.ButtonInvisible(rect2, false))
-				{
-					entry.ClickedFromPOV(pawn);
-				}
-				GUI.color = Color.white;
-				num3 += num4;
-			}
-			GUI.EndScrollView();
 		}
 
 		private static void DrawDebugOptions(Rect rect, Pawn pawn)
@@ -611,43 +527,29 @@ namespace RimWorld
 						where x.RaceProps.Humanlike
 						orderby (x.Faction != null) ? x.Faction.loadID : (-1)
 						select x;
-						using (IEnumerator<Pawn> enumerator2 = orderedEnumerable2.GetEnumerator())
+						foreach (Pawn item in orderedEnumerable2)
 						{
-							Pawn c;
-							while (enumerator2.MoveNext())
+							if (item != pawn)
 							{
-								c = enumerator2.Current;
-								if (c != pawn)
+								stringBuilder3.AppendLine();
+								stringBuilder3.AppendLine(item.LabelShort + " (" + item.KindLabel + ", " + item.gender + ", age: " + item.ageTracker.AgeBiologicalYears + ", compat: " + pawn.relations.CompatibilityWith(item).ToString("F2") + ", attr: " + pawn.relations.SecondaryRomanceChanceFactor(item).ToStringPercent("F0") + "):");
+								List<InteractionDef> list2 = (from x in DefDatabase<InteractionDef>.AllDefs
+								where x.Worker.RandomSelectionWeight(pawn, item) > 0.0
+								orderby x.Worker.RandomSelectionWeight(pawn, item) descending
+								select x).ToList();
+								float num12 = list2.Sum((Func<InteractionDef, float>)((InteractionDef x) => x.Worker.RandomSelectionWeight(pawn, item)));
+								foreach (InteractionDef item2 in list2)
 								{
-									stringBuilder3.AppendLine();
-									stringBuilder3.AppendLine(c.LabelShort + " (" + c.KindLabel + ", " + c.gender + ", age: " + c.ageTracker.AgeBiologicalYears + ", compat: " + pawn.relations.CompatibilityWith(c).ToString("F2") + ", attr: " + pawn.relations.SecondaryRomanceChanceFactor(c).ToStringPercent("F0") + "):");
-									List<InteractionDef> list2 = (from x in DefDatabase<InteractionDef>.AllDefs
-									where x.Worker.RandomSelectionWeight(pawn, c) > 0.0
-									orderby x.Worker.RandomSelectionWeight(pawn, c) descending
-									select x).ToList();
-									float num12 = list2.Sum((Func<InteractionDef, float>)((InteractionDef x) => x.Worker.RandomSelectionWeight(pawn, c)));
-									List<InteractionDef>.Enumerator enumerator3 = list2.GetEnumerator();
-									try
+									float f = item.interactions.SocialFightChance(item2, pawn);
+									float f2 = item2.Worker.RandomSelectionWeight(pawn, item) / num12;
+									stringBuilder3.AppendLine("  " + item2.defName + ": " + f2.ToStringPercent() + " (fight chance: " + f.ToStringPercent("F2") + ")");
+									if (item2 == InteractionDefOf.RomanceAttempt)
 									{
-										while (enumerator3.MoveNext())
-										{
-											InteractionDef current2 = enumerator3.Current;
-											float f = c.interactions.SocialFightChance(current2, pawn);
-											float f2 = current2.Worker.RandomSelectionWeight(pawn, c) / num12;
-											stringBuilder3.AppendLine("  " + current2.defName + ": " + f2.ToStringPercent() + " (fight chance: " + f.ToStringPercent("F2") + ")");
-											if (current2 == InteractionDefOf.RomanceAttempt)
-											{
-												stringBuilder3.AppendLine("    success chance: " + ((InteractionWorker_RomanceAttempt)current2.Worker).SuccessChance(pawn, c).ToStringPercent());
-											}
-											else if (current2 == InteractionDefOf.MarriageProposal)
-											{
-												stringBuilder3.AppendLine("    acceptance chance: " + ((InteractionWorker_MarriageProposal)current2.Worker).AcceptanceChance(pawn, c).ToStringPercent());
-											}
-										}
+										stringBuilder3.AppendLine("    success chance: " + ((InteractionWorker_RomanceAttempt)item2.Worker).SuccessChance(pawn, item).ToStringPercent());
 									}
-									finally
+									else if (item2 == InteractionDefOf.MarriageProposal)
 									{
-										((IDisposable)(object)enumerator3).Dispose();
+										stringBuilder3.AppendLine("    acceptance chance: " + ((InteractionWorker_MarriageProposal)item2.Worker).AcceptanceChance(pawn, item).ToStringPercent());
 									}
 								}
 							}

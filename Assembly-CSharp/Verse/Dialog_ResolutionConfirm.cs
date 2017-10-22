@@ -4,8 +4,6 @@ namespace Verse
 {
 	public class Dialog_ResolutionConfirm : Window
 	{
-		private const float RevertTime = 10f;
-
 		private float startTime;
 
 		private IntVec2 oldRes;
@@ -13,6 +11,8 @@ namespace Verse
 		private bool oldFullscreen;
 
 		private float oldUIScale;
+
+		private const float RevertTime = 10f;
 
 		private float TimeUntilRevert
 		{

@@ -31,29 +31,20 @@ namespace RimWorld
 					});
 				}
 			}
-			List<Resolution>.Enumerator enumerator = list.GetEnumerator();
-			try
+			foreach (Resolution item in list)
 			{
-				while (enumerator.MoveNext())
+				if (base.listing.ButtonText(Dialog_Options.ResToString(item.width, item.height), (string)null))
 				{
-					Resolution current = enumerator.Current;
-					if (base.listing.ButtonText(Dialog_Options.ResToString(current.width, current.height), (string)null))
+					if (!ResolutionUtility.UIScaleSafeWithResolution(Prefs.UIScale, item.width, item.height))
 					{
-						if (!ResolutionUtility.UIScaleSafeWithResolution(Prefs.UIScale, current.width, current.height))
-						{
-							Messages.Message("MessageScreenResTooSmallForUIScale".Translate(), MessageSound.RejectInput);
-						}
-						else
-						{
-							Find.WindowStack.TryRemove(this, true);
-							ResolutionUtility.SafeSetResolution(current);
-						}
+						Messages.Message("MessageScreenResTooSmallForUIScale".Translate(), MessageTypeDefOf.RejectInput);
+					}
+					else
+					{
+						Find.WindowStack.TryRemove(this, true);
+						ResolutionUtility.SafeSetResolution(item);
 					}
 				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
 			}
 		}
 	}

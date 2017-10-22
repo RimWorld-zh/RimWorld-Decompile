@@ -2,7 +2,7 @@ namespace Verse
 {
 	public class HediffGiver_RandomAgeCurved : HediffGiver
 	{
-		public SimpleCurve ageFractionMtbDaysCurve;
+		public SimpleCurve ageFractionMtbDaysCurve = null;
 
 		public override void OnIntervalPassed(Pawn pawn, Hediff cause)
 		{

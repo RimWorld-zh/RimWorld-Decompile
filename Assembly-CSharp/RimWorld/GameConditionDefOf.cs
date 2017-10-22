@@ -22,5 +22,7 @@ namespace RimWorld
 		public static GameConditionDef VolcanicWinter;
 
 		public static GameConditionDef ToxicFallout;
+
+		public static GameConditionDef Aurora;
 	}
 }

@@ -7,15 +7,15 @@ namespace RimWorld
 {
 	public class JobDriver_TendPatient : JobDriver
 	{
-		private const int BaseTendDuration = 600;
-
 		private bool usesMedicine;
+
+		private const int BaseTendDuration = 600;
 
 		protected Thing MedicineUsed
 		{
 			get
 			{
-				return base.CurJob.targetB.Thing;
+				return base.job.targetB.Thing;
 			}
 		}
 
@@ -23,7 +23,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (Pawn)base.CurJob.targetA.Thing;
+				return (Pawn)base.job.targetA.Thing;
 			}
 		}
 
@@ -39,75 +39,56 @@ namespace RimWorld
 			this.usesMedicine = (this.MedicineUsed != null);
 		}
 
+		public override bool TryMakePreToilReservations()
+		{
+			return (byte)(base.pawn.Reserve((Thing)this.Deliveree, base.job, 1, -1, null) ? ((!this.usesMedicine || base.pawn.Reserve(this.MedicineUsed, base.job, 1, -1, null)) ? 1 : 0) : 0) != 0;
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
+			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0052: stateMachine*/;
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 			this.FailOn((Func<bool>)delegate
 			{
-				if (!WorkGiver_Tend.GoodLayingStatusForTend(((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0058: stateMachine*/)._003C_003Ef__this.Deliveree, ((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0058: stateMachine*/)._003C_003Ef__this.pawn))
+				bool result;
+				if (!WorkGiver_Tend.GoodLayingStatusForTend(_003CMakeNewToils_003Ec__Iterator._0024this.Deliveree, _003CMakeNewToils_003Ec__Iterator._0024this.pawn))
 				{
-					return true;
+					result = true;
 				}
-				if (((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0058: stateMachine*/)._003C_003Ef__this.MedicineUsed != null)
+				else
 				{
-					if (((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0058: stateMachine*/)._003C_003Ef__this.Deliveree.playerSettings == null)
+					if (_003CMakeNewToils_003Ec__Iterator._0024this.MedicineUsed != null)
 					{
-						return true;
+						if (_003CMakeNewToils_003Ec__Iterator._0024this.Deliveree.playerSettings == null)
+						{
+							result = true;
+							goto IL_0116;
+						}
+						if (!_003CMakeNewToils_003Ec__Iterator._0024this.Deliveree.playerSettings.medCare.AllowsMedicine(_003CMakeNewToils_003Ec__Iterator._0024this.MedicineUsed.def))
+						{
+							result = true;
+							goto IL_0116;
+						}
 					}
-					if (!((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0058: stateMachine*/)._003C_003Ef__this.Deliveree.playerSettings.medCare.AllowsMedicine(((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0058: stateMachine*/)._003C_003Ef__this.MedicineUsed.def))
-					{
-						return true;
-					}
+					result = ((byte)((_003CMakeNewToils_003Ec__Iterator._0024this.pawn == _003CMakeNewToils_003Ec__Iterator._0024this.Deliveree && (_003CMakeNewToils_003Ec__Iterator._0024this.pawn.playerSettings == null || !_003CMakeNewToils_003Ec__Iterator._0024this.pawn.playerSettings.selfTend)) ? 1 : 0) != 0);
 				}
-				if (((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0058: stateMachine*/)._003C_003Ef__this.pawn == ((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0058: stateMachine*/)._003C_003Ef__this.Deliveree && (((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0058: stateMachine*/)._003C_003Ef__this.pawn.playerSettings == null || !((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0058: stateMachine*/)._003C_003Ef__this.pawn.playerSettings.selfTend))
-				{
-					return true;
-				}
-				return false;
+				goto IL_0116;
+				IL_0116:
+				return result;
 			});
-			this.AddEndCondition((Func<JobCondition>)delegate
-			{
-				if (HealthAIUtility.ShouldBeTendedNow(((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0070: stateMachine*/)._003C_003Ef__this.Deliveree))
-				{
-					return JobCondition.Ongoing;
-				}
-				return JobCondition.Succeeded;
-			});
+			base.AddEndCondition((Func<JobCondition>)(() => (JobCondition)(HealthAIUtility.ShouldBeTendedNow(_003CMakeNewToils_003Ec__Iterator._0024this.Deliveree) ? 1 : 2)));
 			this.FailOnAggroMentalState(TargetIndex.A);
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			Toil reserveMedicine = null;
 			if (this.usesMedicine)
 			{
-				Toil reserveMedicine = Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null).FailOnDespawnedNullOrForbidden(TargetIndex.B);
+				reserveMedicine = Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null).FailOnDespawnedNullOrForbidden(TargetIndex.B);
 				yield return reserveMedicine;
-				yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.ClosestTouch).FailOnDespawnedNullOrForbidden(TargetIndex.B);
-				yield return Toils_Tend.PickupMedicine(TargetIndex.B, this.Deliveree).FailOnDestroyedOrNull(TargetIndex.B);
-				yield return Toils_Haul.CheckForGetOpportunityDuplicate(reserveMedicine, TargetIndex.B, TargetIndex.None, true, null);
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			PathEndMode interactionCell = (PathEndMode)((this.Deliveree == base.pawn) ? 1 : 4);
 			Toil gotoToil = Toils_Goto.GotoThing(TargetIndex.A, interactionCell);
 			yield return gotoToil;
-			int duration = (int)(1.0 / base.pawn.GetStatValue(StatDefOf.MedicalTendSpeed, true) * 600.0);
-			yield return Toils_General.Wait(duration).FailOnCannotTouch(TargetIndex.A, interactionCell).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f).PlaySustainerOrSound(SoundDefOf.Interact_Tend);
-			yield return Toils_Tend.FinalizeTend(this.Deliveree);
-			if (this.usesMedicine)
-			{
-				yield return new Toil
-				{
-					initAction = (Action)delegate
-					{
-						if (((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0253: stateMachine*/)._003C_003Ef__this.MedicineUsed.DestroyedOrNull() && Medicine.GetMedicineCountToFullyHeal(((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0253: stateMachine*/)._003C_003Ef__this.Deliveree) > 0)
-						{
-							Thing thing = HealthAIUtility.FindBestMedicine(((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0253: stateMachine*/)._003C_003Ef__this.pawn, ((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0253: stateMachine*/)._003C_003Ef__this.Deliveree);
-							if (thing != null)
-							{
-								((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0253: stateMachine*/)._003C_003Ef__this.CurJob.targetB = thing;
-								((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0253: stateMachine*/)._003C_003Ef__this.JumpToToil(((_003CMakeNewToils_003Ec__Iterator19)/*Error near IL_0253: stateMachine*/)._003CreserveMedicine_003E__0);
-							}
-						}
-					}
-				};
-			}
-			yield return Toils_Jump.Jump(gotoToil);
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

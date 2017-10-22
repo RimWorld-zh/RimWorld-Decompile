@@ -8,78 +8,89 @@ namespace RimWorld
 {
 	public abstract class IncidentWorker_Ambush : IncidentWorker
 	{
-		protected abstract List<Pawn> GeneratePawns(IIncidentTarget target, float points, int tile);
+		protected abstract List<Pawn> GeneratePawns(IncidentParms parms);
 
 		protected virtual void PostProcessGeneratedPawnsAfterSpawning(List<Pawn> generatedPawns)
 		{
 		}
 
-		protected virtual LordJob CreateLordJob(List<Pawn> generatedPawns, out Faction faction)
+		protected virtual LordJob CreateLordJob(List<Pawn> generatedPawns, IncidentParms parms)
 		{
-			faction = null;
 			return null;
 		}
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
-			if (target is Map)
-			{
-				return true;
-			}
-			return CaravanIncidentUtility.CanFireIncidentWhichWantsToGenerateMapAt(target.Tile);
+			return target is Map || CaravanIncidentUtility.CanFireIncidentWhichWantsToGenerateMapAt(target.Tile);
 		}
 
-		public override bool TryExecute(IncidentParms parms)
+		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
+			bool result;
 			if (parms.target is Map)
 			{
-				return this.DoExecute(parms);
+				result = this.DoExecute(parms);
 			}
-			LongEventHandler.QueueLongEvent((Action)delegate()
+			else
 			{
-				this.DoExecute(parms);
-			}, "GeneratingMapForNewEncounter", false, null);
-			return true;
+				LongEventHandler.QueueLongEvent((Action)delegate()
+				{
+					this.DoExecute(parms);
+				}, "GeneratingMapForNewEncounter", false, null);
+				result = true;
+			}
+			return result;
 		}
 
 		private bool DoExecute(IncidentParms parms)
 		{
 			Map map = parms.target as Map;
 			IntVec3 invalid = IntVec3.Invalid;
+			bool result;
 			if (map != null && !CellFinder.TryFindRandomEdgeCellWith((Predicate<IntVec3>)((IntVec3 x) => x.Standable(map) && map.reachability.CanReachColony(x)), map, CellFinder.EdgeRoadChance_Hostile, out invalid))
 			{
-				return false;
-			}
-			List<Pawn> list = this.GeneratePawns(parms.target, parms.points, parms.target.Tile);
-			bool flag = false;
-			if (map == null)
-			{
-				map = CaravanIncidentUtility.SetupCaravanAttackMap((Caravan)parms.target, list);
-				flag = true;
+				result = false;
 			}
 			else
 			{
-				for (int i = 0; i < list.Count; i++)
+				List<Pawn> list = this.GeneratePawns(parms);
+				if (!list.Any())
 				{
-					IntVec3 loc = CellFinder.RandomSpawnCellForPawnNear(invalid, map, 4);
-					GenSpawn.Spawn(list[i], loc, map, Rot4.Random, false);
+					result = false;
+				}
+				else
+				{
+					bool flag = false;
+					if (map == null)
+					{
+						map = CaravanIncidentUtility.SetupCaravanAttackMap((Caravan)parms.target, list);
+						flag = true;
+					}
+					else
+					{
+						for (int i = 0; i < list.Count; i++)
+						{
+							IntVec3 loc = CellFinder.RandomSpawnCellForPawnNear(invalid, map, 4);
+							GenSpawn.Spawn(list[i], loc, map, Rot4.Random, false);
+						}
+					}
+					this.PostProcessGeneratedPawnsAfterSpawning(list);
+					LordJob lordJob = this.CreateLordJob(list, parms);
+					if (lordJob != null)
+					{
+						LordMaker.MakeNewLord(parms.faction, lordJob, map, list);
+					}
+					this.SendAmbushLetter(list[0], parms);
+					if (flag)
+					{
+						Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+					}
+					result = true;
 				}
 			}
-			this.PostProcessGeneratedPawnsAfterSpawning(list);
-			Faction faction = default(Faction);
-			LordJob lordJob = this.CreateLordJob(list, out faction);
-			if (lordJob != null && list.Any())
-			{
-				LordMaker.MakeNewLord(faction, lordJob, map, list);
-			}
-			this.SendAmbushLetter(list[0], faction);
-			if (flag)
-			{
-				Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
-			}
-			return true;
+			return result;
 		}
 
-		protected abstract void SendAmbushLetter(Pawn anyPawn, Faction enemyFaction);
+		protected abstract void SendAmbushLetter(Pawn anyPawn, IncidentParms parms);
 	}
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using Verse;
 
@@ -89,14 +90,24 @@ namespace RimWorld.Planet
 			listing_Standard.LabelDouble("Rainfall".Translate(), selTile.rainfall.ToString("F0") + "mm");
 			listing_Standard.LabelDouble("AnimalsCanGrazeNow".Translate(), (!VirtualPlantsUtility.EnvironmentAllowsEatingVirtualPlantsNowAt(selTileID)) ? "No".Translate() : "Yes".Translate());
 			listing_Standard.GapLine(12f);
+			listing_Standard.LabelDouble("AverageDiseaseFrequency".Translate(), string.Format("{0} {1}", ((float)(60.0 / selTile.biome.diseaseMtbDays)).ToString("F1"), "PerYear".Translate()));
 			Listing_Standard obj2 = listing_Standard;
 			string leftLabel2 = "TimeZone".Translate();
 			Vector2 vector2 = Find.WorldGrid.LongLatOf(selTileID);
 			obj2.LabelDouble(leftLabel2, GenDate.TimeZoneAt(vector2.x).ToStringWithSign());
+			StringBuilder stringBuilder = new StringBuilder();
 			Rot4 rot = Find.World.CoastDirectionAt(selTileID);
 			if (rot.IsValid)
 			{
-				listing_Standard.LabelDouble(string.Empty, ("HasCoast" + rot.ToString()).Translate());
+				stringBuilder.AppendWithComma(("HasCoast" + rot.ToString()).Translate());
+			}
+			if (Find.World.HasCaves(selTileID))
+			{
+				stringBuilder.AppendWithComma("HasCaves".Translate());
+			}
+			if (stringBuilder.Length > 0)
+			{
+				listing_Standard.LabelDouble("SpecialFeatures".Translate(), stringBuilder.ToString().CapitalizeFirst());
 			}
 			if (Prefs.DevMode)
 			{

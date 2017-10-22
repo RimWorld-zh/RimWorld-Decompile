@@ -5,13 +5,13 @@ namespace RimWorld
 {
 	public class CompDeepDrill : ThingComp
 	{
-		private const float ResourceLumpWork = 14000f;
-
 		private CompPowerTrader powerComp;
 
-		private float lumpProgress;
+		private float lumpProgress = 0f;
 
-		private float lumpYieldPct;
+		private float lumpYieldPct = 0f;
+
+		private const float ResourceLumpWork = 14000f;
 
 		public float ProgressToNextLumpPercent
 		{
@@ -63,42 +63,48 @@ namespace RimWorld
 			{
 				Log.Error("Drill tried to ProduceLump but couldn't.");
 			}
+			if (!this.ResourcesPresent())
+			{
+				Messages.Message("DeepDrillExhausted".Translate(), (Thing)base.parent, MessageTypeDefOf.TaskCompletion);
+			}
 		}
 
 		public bool TryGetNextResource(out ThingDef resDef, out int countPresent, out IntVec3 cell)
 		{
-			for (int i = 0; i < 9; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				IntVec3 intVec = base.parent.Position + GenRadial.RadialPattern[i];
-				if (intVec.InBounds(base.parent.Map))
+				if (num < 9)
 				{
-					ThingDef thingDef = base.parent.Map.deepResourceGrid.ThingDefAt(intVec);
-					if (thingDef != null)
+					IntVec3 intVec = base.parent.Position + GenRadial.RadialPattern[num];
+					if (intVec.InBounds(base.parent.Map))
 					{
-						resDef = thingDef;
-						countPresent = base.parent.Map.deepResourceGrid.CountAt(intVec);
-						cell = intVec;
-						return true;
+						ThingDef thingDef = base.parent.Map.deepResourceGrid.ThingDefAt(intVec);
+						if (thingDef != null)
+						{
+							resDef = thingDef;
+							countPresent = base.parent.Map.deepResourceGrid.CountAt(intVec);
+							cell = intVec;
+							result = true;
+							break;
+						}
 					}
+					num++;
+					continue;
 				}
+				resDef = null;
+				countPresent = 0;
+				cell = IntVec3.Invalid;
+				result = false;
+				break;
 			}
-			resDef = null;
-			countPresent = 0;
-			cell = IntVec3.Invalid;
-			return false;
+			return result;
 		}
 
 		public bool CanDrillNow()
 		{
-			if (this.powerComp != null && !this.powerComp.PowerOn)
-			{
-				return false;
-			}
-			if (!this.ResourcesPresent())
-			{
-				return false;
-			}
-			return true;
+			return (byte)((this.powerComp == null || this.powerComp.PowerOn) ? (this.ResourcesPresent() ? 1 : 0) : 0) != 0;
 		}
 
 		public bool ResourcesPresent()
@@ -114,11 +120,7 @@ namespace RimWorld
 			ThingDef thingDef = default(ThingDef);
 			int num = default(int);
 			IntVec3 intVec = default(IntVec3);
-			if (this.TryGetNextResource(out thingDef, out num, out intVec))
-			{
-				return "ResourceBelow".Translate() + ": " + thingDef.label + "\n" + "ProgressToNextLump".Translate() + ": " + this.ProgressToNextLumpPercent.ToStringPercent("F0");
-			}
-			return "ResourceBelow".Translate() + ": " + "NothingLower".Translate();
+			return (!this.TryGetNextResource(out thingDef, out num, out intVec)) ? ("ResourceBelow".Translate() + ": " + "NothingLower".Translate()) : ("ResourceBelow".Translate() + ": " + thingDef.label + "\n" + "ProgressToNextLump".Translate() + ": " + this.ProgressToNextLumpPercent.ToStringPercent("F0"));
 		}
 	}
 }

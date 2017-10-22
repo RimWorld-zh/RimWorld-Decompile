@@ -30,20 +30,26 @@ namespace RimWorld
 
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c)
 		{
+			bool result;
 			if (!((Area)pawn.Map.areaManager.NoRoof)[c])
 			{
-				return false;
+				result = false;
 			}
-			if (!c.Roofed(pawn.Map))
+			else if (!c.Roofed(pawn.Map))
 			{
-				return false;
+				result = false;
 			}
-			ReservationLayerDef ceiling = ReservationLayerDefOf.Ceiling;
-			if (!pawn.CanReserveAndReach(c, PathEndMode.ClosestTouch, pawn.NormalMaxDanger(), 1, -1, ceiling, false))
+			else if (c.IsForbidden(pawn))
 			{
-				return false;
+				result = false;
 			}
-			return true;
+			else
+			{
+				LocalTargetInfo target = c;
+				ReservationLayerDef ceiling = ReservationLayerDefOf.Ceiling;
+				result = ((byte)(pawn.CanReserve(target, 1, -1, ceiling, false) ? 1 : 0) != 0);
+			}
+			return result;
 		}
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 c)
@@ -55,23 +61,33 @@ namespace RimWorld
 		{
 			IntVec3 cell = t.Cell;
 			int num = 0;
-			for (int i = 0; i < 8; i++)
+			int num2 = 0;
+			float result;
+			while (true)
 			{
-				IntVec3 c = cell + GenAdj.AdjacentCells[i];
-				if (c.InBounds(t.Map))
+				if (num2 < 8)
 				{
-					Building edifice = c.GetEdifice(t.Map);
-					if (edifice != null && edifice.def.holdsRoof)
+					IntVec3 c = cell + GenAdj.AdjacentCells[num2];
+					if (c.InBounds(t.Map))
 					{
-						return -60f;
+						Building edifice = c.GetEdifice(t.Map);
+						if (edifice != null && edifice.def.holdsRoof)
+						{
+							result = -60f;
+							break;
+						}
+						if (c.Roofed(pawn.Map))
+						{
+							num++;
+						}
 					}
-					if (c.Roofed(pawn.Map))
-					{
-						num++;
-					}
+					num2++;
+					continue;
 				}
+				result = (float)(-Mathf.Min(num, 3));
+				break;
 			}
-			return (float)(-Mathf.Min(num, 3));
+			return result;
 		}
 	}
 }

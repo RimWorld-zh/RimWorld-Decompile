@@ -5,11 +5,11 @@ namespace RimWorld
 {
 	public class CompProperties_Drug : CompProperties
 	{
-		public ChemicalDef chemical;
+		public ChemicalDef chemical = null;
 
-		public float addictiveness;
+		public float addictiveness = 0f;
 
-		public float minToleranceToAddict;
+		public float minToleranceToAddict = 0f;
 
 		public float existingAddictionSeverityOffset = 0.1f;
 
@@ -17,11 +17,11 @@ namespace RimWorld
 
 		public FloatRange overdoseSeverityOffset = FloatRange.Zero;
 
-		public float largeOverdoseChance;
+		public float largeOverdoseChance = 0f;
 
-		public bool isCombatEnhancingDrug;
+		public bool isCombatEnhancingDrug = false;
 
-		public float listOrder;
+		public float listOrder = 0f;
 
 		public bool Addictive
 		{
@@ -46,26 +46,42 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			foreach (string item in base.ConfigErrors(parentDef))
+			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0(parentDef).GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					string e = enumerator.Current;
+					yield return e;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			if (this.Addictive && this.chemical == null)
-			{
-				yield return "addictive but chemical is null";
-			}
+			if (!this.Addictive)
+				yield break;
+			if (this.chemical != null)
+				yield break;
+			yield return "addictive but chemical is null";
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0106:
+			/*Error near IL_0107: Unexpected return in MoveNext()*/;
 		}
 
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			foreach (StatDrawEntry item in base.SpecialDisplayStats())
+			using (IEnumerator<StatDrawEntry> enumerator = this._003CSpecialDisplayStats_003E__BaseCallProxy1().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					StatDrawEntry s = enumerator.Current;
+					yield return s;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			if (this.Addictive)
-			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Addictiveness".Translate(), this.addictiveness.ToStringPercent(), 0);
-			}
+			if (!this.Addictive)
+				yield break;
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Addictiveness".Translate(), this.addictiveness.ToStringPercent(), 0, "");
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0117:
+			/*Error near IL_0118: Unexpected return in MoveNext()*/;
 		}
 	}
 }

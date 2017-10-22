@@ -51,7 +51,7 @@ namespace RimWorld.BaseGen
 									found = true;
 									foundDest = x;
 								}
-							}, true);
+							}, 2147483647, true, null);
 							if (found)
 							{
 								this.ReconstructPathAndDestroyWalls(foundDest, room, rp);
@@ -110,19 +110,7 @@ namespace RimWorld.BaseGen
 		{
 			Map map = BaseGen.globalSettings.map;
 			Building edifice = c.GetEdifice(map);
-			if (this.IsWallOrRock(edifice))
-			{
-				return true;
-			}
-			if (!canPathThroughNonStandable && !c.Standable(map))
-			{
-				return false;
-			}
-			if (!c.Impassable(map))
-			{
-				return true;
-			}
-			return false;
+			return (byte)(this.IsWallOrRock(edifice) ? 1 : ((canPathThroughNonStandable || c.Standable(map)) ? ((!c.Impassable(map)) ? 1 : 0) : 0)) != 0;
 		}
 
 		private bool IsWallOrRock(Building b)

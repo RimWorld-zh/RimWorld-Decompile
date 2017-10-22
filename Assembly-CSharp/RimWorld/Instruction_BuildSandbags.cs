@@ -15,22 +15,13 @@ namespace RimWorld
 			{
 				int num = 0;
 				int num2 = 0;
-				List<IntVec3>.Enumerator enumerator = this.sandbagCells.GetEnumerator();
-				try
+				foreach (IntVec3 sandbagCell in this.sandbagCells)
 				{
-					while (enumerator.MoveNext())
+					if (TutorUtility.BuildingOrBlueprintOrFrameCenterExists(sandbagCell, base.Map, ThingDefOf.Sandbags))
 					{
-						IntVec3 current = enumerator.Current;
-						if (TutorUtility.BuildingOrBlueprintOrFrameCenterExists(current, base.Map, ThingDefOf.Sandbags))
-						{
-							num2++;
-						}
-						num++;
+						num2++;
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					num++;
 				}
 				return (float)num2 / (float)num;
 			}
@@ -100,11 +91,7 @@ namespace RimWorld
 
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
-			if (ep.Tag == "Designate-Sandbags")
-			{
-				return TutorUtility.EventCellsAreWithin(ep, this.sandbagCells);
-			}
-			return base.AllowAction(ep);
+			return (!(ep.Tag == "Designate-Sandbags")) ? base.AllowAction(ep) : TutorUtility.EventCellsAreWithin(ep, this.sandbagCells);
 		}
 	}
 }

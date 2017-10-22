@@ -1,3 +1,5 @@
+#define ENABLE_PROFILER
+using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 
@@ -27,16 +29,27 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			if (pawn.CurJob != null && pawn.CurrentBed() != null && pawn.Awake() && pawn.needs.joy != null)
+			Job result;
+			if (pawn.CurJob == null || pawn.CurrentBed() == null || !pawn.Awake() || pawn.needs.joy == null)
+			{
+				result = null;
+			}
+			else
 			{
 				float curLevel = pawn.needs.joy.CurLevel;
 				if (curLevel > 0.5)
 				{
-					return null;
+					result = null;
 				}
-				return base.TryGiveJob(pawn);
+				else
+				{
+					Profiler.BeginSample("GetFunWhileInBed");
+					Job job = base.TryGiveJob(pawn);
+					Profiler.EndSample();
+					result = job;
+				}
 			}
-			return null;
+			return result;
 		}
 	}
 }

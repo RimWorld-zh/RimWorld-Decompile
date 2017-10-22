@@ -21,11 +21,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (this.innerContainer.Count == 0)
-				{
-					return null;
-				}
-				return this.innerContainer[0];
+				return (this.innerContainer.Count != 0) ? this.innerContainer[0] : null;
 			}
 			set
 			{
@@ -71,6 +67,15 @@ namespace RimWorld
 			this.innerContainer = new ThingOwner<Thing>(this, true, LookMode.Deep);
 		}
 
+		public override void Tick()
+		{
+			base.Tick();
+			if (this.InnerThing is Building_Battery)
+			{
+				this.innerContainer.ThingOwnerTick(true);
+			}
+		}
+
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.innerContainer;
@@ -102,11 +107,7 @@ namespace RimWorld
 		public override bool CanStackWith(Thing other)
 		{
 			MinifiedThing minifiedThing = other as MinifiedThing;
-			if (minifiedThing == null)
-			{
-				return false;
-			}
-			return base.CanStackWith(other) && this.InnerThing.CanStackWith(minifiedThing.InnerThing);
+			return minifiedThing != null && base.CanStackWith(other) && this.InnerThing.CanStackWith(minifiedThing.InnerThing);
 		}
 
 		public override void ExposeData()
@@ -116,6 +117,11 @@ namespace RimWorld
 			{
 				this
 			});
+		}
+
+		public override string GetDescription()
+		{
+			return this.InnerThing.GetDescription();
 		}
 
 		public override void DrawExtraSelectionOverlays()
@@ -134,14 +140,14 @@ namespace RimWorld
 			{
 				this.crateFrontGraphic = GraphicDatabase.Get<Graphic_Single>("Things/Item/Minified/CrateFront", ShaderDatabase.Cutout, this.GetMinifiedDrawSize(this.InnerThing.def.size.ToVector2(), 1.1f) * 1.16f, Color.white);
 			}
-			this.crateFrontGraphic.DrawFromDef(drawLoc + Altitudes.AltIncVect * 0.1f, Rot4.North, null);
+			this.crateFrontGraphic.DrawFromDef(drawLoc + Altitudes.AltIncVect * 0.1f, Rot4.North, null, 0f);
 			if (this.Graphic is Graphic_Single)
 			{
-				this.Graphic.Draw(drawLoc, Rot4.North, this);
+				this.Graphic.Draw(drawLoc, Rot4.North, this, 0f);
 			}
 			else
 			{
-				this.Graphic.Draw(drawLoc, Rot4.South, this);
+				this.Graphic.Draw(drawLoc, Rot4.South, this, 0f);
 			}
 		}
 
@@ -150,12 +156,12 @@ namespace RimWorld
 			bool spawned = base.Spawned;
 			Map map = base.Map;
 			base.Destroy(mode);
-			InstallBlueprintUtility.CancelBlueprintsFor(this);
-			if (mode == DestroyMode.Deconstruct)
+			if (this.InnerThing != null)
 			{
-				SoundDef.Named("BuildingDeconstructed").PlayOneShot(new TargetInfo(base.Position, base.Map, false));
-				if (spawned)
+				InstallBlueprintUtility.CancelBlueprintsFor(this);
+				if (mode == DestroyMode.Deconstruct && spawned)
 				{
+					SoundDef.Named("BuildingDeconstructed").PlayOneShot(new TargetInfo(base.Position, map, false));
 					GenLeaving.DoLeavingsFor(this.InnerThing, map, mode, this.OccupiedRect());
 				}
 			}
@@ -169,11 +175,19 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return gizmo;
+				if (enumerator.MoveNext())
+				{
+					Gizmo c = enumerator.Current;
+					yield return c;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			yield return (Gizmo)InstallationDesignatorDatabase.DesignatorFor(base.def);
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_00eb:
+			/*Error near IL_00ec: Unexpected return in MoveNext()*/;
 		}
 
 		public override string GetInspectString()
@@ -186,22 +200,7 @@ namespace RimWorld
 		private Vector2 GetMinifiedDrawSize(Vector2 drawSize, float maxSideLength)
 		{
 			float num = maxSideLength / Mathf.Max(drawSize.x, drawSize.y);
-			if (num >= 1.0)
-			{
-				return drawSize;
-			}
-			return drawSize * num;
-		}
-
-		virtual IThingHolder get_ParentHolder()
-		{
-			return base.ParentHolder;
-		}
-
-		IThingHolder IThingHolder.get_ParentHolder()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
-			return this.get_ParentHolder();
+			return (!(num >= 1.0)) ? (drawSize * num) : drawSize;
 		}
 	}
 }

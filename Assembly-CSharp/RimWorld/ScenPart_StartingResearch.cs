@@ -29,14 +29,9 @@ namespace RimWorld
 
 		private IEnumerable<ResearchProjectDef> NonRedundantResearchProjects()
 		{
-			return DefDatabase<ResearchProjectDef>.AllDefs.Where((Func<ResearchProjectDef, bool>)delegate(ResearchProjectDef d)
-			{
-				if (d.tags != null && Find.Scenario.playerFaction.factionDef.startingResearchTags != null)
-				{
-					return !d.tags.Any((Predicate<string>)((string tag) => Find.Scenario.playerFaction.factionDef.startingResearchTags.Contains(tag)));
-				}
-				return true;
-			});
+			return from d in DefDatabase<ResearchProjectDef>.AllDefs
+			where d.tags == null || Find.Scenario.playerFaction.factionDef.startingResearchTags == null || !d.tags.Any((Predicate<string>)((string tag) => Find.Scenario.playerFaction.factionDef.startingResearchTags.Contains(tag)))
+			select d;
 		}
 
 		public override void ExposeData()

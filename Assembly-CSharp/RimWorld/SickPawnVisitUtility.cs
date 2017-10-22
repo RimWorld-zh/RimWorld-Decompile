@@ -14,12 +14,8 @@ namespace RimWorld
 			IEnumerable<Pawn> source = from x in pawn.Map.mapPawns.FreeColonistsSpawned
 			where SickPawnVisitUtility.CanVisit(pawn, x, maxPatientJoy)
 			select x;
-			Pawn result = default(Pawn);
-			if (!source.TryRandomElementByWeight<Pawn>((Func<Pawn, float>)((Pawn x) => SickPawnVisitUtility.VisitChanceScore(pawn, x)), out result))
-			{
-				return null;
-			}
-			return result;
+			Pawn pawn2 = default(Pawn);
+			return source.TryRandomElementByWeight<Pawn>((Func<Pawn, float>)((Pawn x) => SickPawnVisitUtility.VisitChanceScore(pawn, x)), out pawn2) ? pawn2 : null;
 		}
 
 		public static bool CanVisit(Pawn pawn, Pawn sick, JoyCategory maxPatientJoy)
@@ -31,60 +27,73 @@ namespace RimWorld
 		{
 			Predicate<Thing> validator = (Predicate<Thing>)delegate(Thing x)
 			{
+				bool result;
 				if (!x.def.building.isSittable)
 				{
-					return false;
+					result = false;
 				}
-				if (x.IsForbidden(forPawn))
+				else if (x.IsForbidden(forPawn))
 				{
-					return false;
+					result = false;
 				}
-				if (!GenSight.LineOfSight(x.Position, nearPawn.Position, nearPawn.Map, false, null, 0, 0))
+				else if (!GenSight.LineOfSight(x.Position, nearPawn.Position, nearPawn.Map, false, null, 0, 0))
 				{
-					return false;
+					result = false;
 				}
-				if (!forPawn.CanReserve(x, 1, -1, null, false))
+				else if (!forPawn.CanReserve(x, 1, -1, null, false))
 				{
-					return false;
+					result = false;
 				}
-				if (x.def.rotatable)
+				else
 				{
-					float num = GenGeo.AngleDifferenceBetween(x.Rotation.AsAngle, (nearPawn.Position - x.Position).AngleFlat);
-					if (num > 95.0)
+					if (x.def.rotatable)
 					{
-						return false;
+						float num = GenGeo.AngleDifferenceBetween(x.Rotation.AsAngle, (nearPawn.Position - x.Position).AngleFlat);
+						if (num > 95.0)
+						{
+							result = false;
+							goto IL_00e4;
+						}
 					}
+					result = true;
 				}
-				return true;
+				goto IL_00e4;
+				IL_00e4:
+				return result;
 			};
 			return GenClosest.ClosestThingReachable(nearPawn.Position, nearPawn.Map, ThingRequest.ForGroup(ThingRequestGroup.BuildingArtificial), PathEndMode.OnCell, TraverseParms.For(forPawn, Danger.Deadly, TraverseMode.ByPawn, false), 2.2f, validator, null, 0, 5, false, RegionType.Set_Passable, false);
 		}
 
 		private static bool AboutToRecover(Pawn pawn)
 		{
+			bool result;
 			if (pawn.Downed)
 			{
-				return false;
+				result = false;
 			}
-			if (!HealthAIUtility.ShouldSeekMedicalRestUrgent(pawn) && !HealthAIUtility.ShouldSeekMedicalRest(pawn))
+			else if (!HealthAIUtility.ShouldSeekMedicalRestUrgent(pawn) && !HealthAIUtility.ShouldSeekMedicalRest(pawn))
 			{
-				return true;
+				result = true;
 			}
-			if (HealthAIUtility.HasTendedImmunizableNonInjuryNonMissingPartHediff(pawn))
+			else if (pawn.health.hediffSet.HasTendedImmunizableNotImmuneHediff())
 			{
-				return false;
+				result = false;
 			}
-			float num = 0f;
-			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
-			for (int i = 0; i < hediffs.Count; i++)
+			else
 			{
-				Hediff_Injury hediff_Injury = hediffs[i] as Hediff_Injury;
-				if (hediff_Injury != null && (hediff_Injury.CanHealFromTending() || hediff_Injury.CanHealNaturally() || hediff_Injury.Bleeding))
+				float num = 0f;
+				List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
+				for (int i = 0; i < hediffs.Count; i++)
 				{
-					num += hediff_Injury.Severity;
+					Hediff_Injury hediff_Injury = hediffs[i] as Hediff_Injury;
+					if (hediff_Injury != null && (hediff_Injury.CanHealFromTending() || hediff_Injury.CanHealNaturally() || hediff_Injury.Bleeding))
+					{
+						num += hediff_Injury.Severity;
+					}
 				}
+				result = (num < 8.0 * pawn.RaceProps.baseHealthScale);
 			}
-			return num < 8.0 * pawn.RaceProps.baseHealthScale;
+			return result;
 		}
 
 		private static float VisitChanceScore(Pawn pawn, Pawn sick)

@@ -47,11 +47,7 @@ namespace RimWorld
 		private Designation GetSlaughterDesignation(Pawn pawn)
 		{
 			Map mapHeld = pawn.MapHeld;
-			if (mapHeld == null)
-			{
-				return null;
-			}
-			return mapHeld.designationManager.DesignationOn(pawn, DesignationDefOf.Slaughter);
+			return (mapHeld != null) ? mapHeld.designationManager.DesignationOn(pawn, DesignationDefOf.Slaughter) : null;
 		}
 	}
 }

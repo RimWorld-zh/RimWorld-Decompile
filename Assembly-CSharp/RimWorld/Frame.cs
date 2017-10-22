@@ -10,12 +10,8 @@ using Verse.Sound;
 namespace RimWorld
 {
 	[StaticConstructorOnStartup]
-	public class Frame : Building, IConstructible, IThingHolder
+	public class Frame : Building, IThingHolder, IConstructible
 	{
-		protected const float UnderfieldOverdrawFactor = 1.15f;
-
-		protected const float CenterOverdrawFactor = 0.5f;
-
 		public ThingOwner resourceContainer;
 
 		public float workDone;
@@ -23,6 +19,12 @@ namespace RimWorld
 		private Material cachedCornerMat;
 
 		private Material cachedTileMat;
+
+		protected const float UnderfieldOverdrawFactor = 1.15f;
+
+		protected const float CenterOverdrawFactor = 0.5f;
+
+		private const int LongConstructionProjectThreshold = 10000;
 
 		private static readonly Material UnderfieldMat = MaterialPool.MatFrom("Things/Building/BuildingFrame/Underfield", ShaderDatabase.Transparent);
 
@@ -61,11 +63,7 @@ namespace RimWorld
 			get
 			{
 				string text = base.def.entityDefToBuild.label + "FrameLabelExtra".Translate();
-				if (base.Stuff != null)
-				{
-					return base.Stuff.label + " " + text;
-				}
-				return text;
+				return (base.Stuff == null) ? text : (base.Stuff.label + " " + text);
 			}
 		}
 
@@ -73,6 +71,8 @@ namespace RimWorld
 		{
 			get
 			{
+				ThingDef thingDef;
+				Color result;
 				if (!base.def.MadeFromStuff)
 				{
 					List<ThingCountClass> costList = base.def.entityDefToBuild.costList;
@@ -80,16 +80,23 @@ namespace RimWorld
 					{
 						for (int i = 0; i < costList.Count; i++)
 						{
-							ThingDef thingDef = costList[i].thingDef;
+							thingDef = costList[i].thingDef;
 							if (thingDef.IsStuff && thingDef.stuffProps.color != Color.white)
-							{
-								return thingDef.stuffProps.color;
-							}
+								goto IL_0064;
 						}
 					}
-					return new Color(0.6f, 0.6f, 0.6f);
+					result = new Color(0.6f, 0.6f, 0.6f);
 				}
-				return base.DrawColor;
+				else
+				{
+					result = base.DrawColor;
+				}
+				goto IL_00ad;
+				IL_00ad:
+				return result;
+				IL_0064:
+				result = thingDef.stuffProps.color;
+				goto IL_00ad;
 			}
 		}
 
@@ -97,15 +104,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (base.Stuff != null && base.Stuff.stuffProps.constructEffect != null)
-				{
-					return base.Stuff.stuffProps.constructEffect;
-				}
-				if (base.def.entityDefToBuild.constructEffect != null)
-				{
-					return base.def.entityDefToBuild.constructEffect;
-				}
-				return EffecterDefOf.ConstructMetal;
+				return (base.Stuff == null || base.Stuff.stuffProps.constructEffect == null) ? ((base.def.entityDefToBuild.constructEffect == null) ? EffecterDefOf.ConstructMetal : base.def.entityDefToBuild.constructEffect) : base.Stuff.stuffProps.constructEffect;
 			}
 		}
 
@@ -182,7 +181,7 @@ namespace RimWorld
 
 		public void CompleteConstruction(Pawn worker)
 		{
-			this.resourceContainer.Clear();
+			this.resourceContainer.ClearAndDestroyContents(DestroyMode.Vanish);
 			Map map = base.Map;
 			this.Destroy(DestroyMode.Vanish);
 			if (this.GetStatValue(StatDefOf.WorkToBuild, true) > 150.0 && base.def.entityDefToBuild is ThingDef && ((ThingDef)base.def.entityDefToBuild).category == ThingCategory.Building)
@@ -216,34 +215,30 @@ namespace RimWorld
 			else
 			{
 				map.terrainGrid.SetTerrain(base.Position, (TerrainDef)base.def.entityDefToBuild);
+				FilthMaker.RemoveAllFilth(base.Position, map);
 			}
 			if (thingDef != null && (thingDef.passability == Traversability.Impassable || thingDef.Fillage == FillCategory.Full) && (thing == null || !(thing is Building_Door)))
 			{
 				foreach (IntVec3 item in GenAdj.CellsOccupiedBy(base.Position, base.Rotation, base.def.Size))
 				{
-					List<Thing>.Enumerator enumerator2 = map.thingGrid.ThingsAt(item).ToList().GetEnumerator();
-					try
+					foreach (Thing item2 in map.thingGrid.ThingsAt(item).ToList())
 					{
-						while (enumerator2.MoveNext())
+						if (item2 is Plant)
 						{
-							Thing current2 = enumerator2.Current;
-							if (current2 is Plant)
-							{
-								current2.Destroy(DestroyMode.KillFinalize);
-							}
-							else if (current2.def.category == ThingCategory.Item || current2 is Pawn)
-							{
-								GenPlace.TryMoveThing(current2, current2.Position, current2.Map);
-							}
+							item2.Destroy(DestroyMode.KillFinalize);
 						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator2).Dispose();
+						else if (item2.def.category == ThingCategory.Item || item2 is Pawn)
+						{
+							GenPlace.TryMoveThing(item2, item2.Position, item2.Map);
+						}
 					}
 				}
 			}
 			worker.records.Increment(RecordDefOf.ThingsConstructed);
+			if (thing != null && thing.GetStatValue(StatDefOf.WorkToBuild, true) >= 10000.0)
+			{
+				TaleRecorder.RecordTale(TaleDefOf.CompletedLongConstructionProject, worker, thing.def);
+			}
 		}
 
 		public void FailConstruction(Pawn worker)
@@ -266,7 +261,7 @@ namespace RimWorld
 			MoteMaker.ThrowText(this.DrawPos, map, "TextMote_ConstructionFail".Translate(), 6f);
 			if (base.Faction == Faction.OfPlayer && this.WorkToMake > 1400.0)
 			{
-				Messages.Message("MessageConstructionFailed".Translate(this.Label, worker.LabelShort), new TargetInfo(base.Position, map, false), MessageSound.Negative);
+				Messages.Message("MessageConstructionFailed".Translate(this.Label, worker.LabelShort), new TargetInfo(base.Position, map, false), MessageTypeDefOf.NegativeEvent);
 			}
 		}
 
@@ -354,15 +349,22 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			foreach (Gizmo gizmo in base.GetGizmos())
+			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return gizmo;
+				if (enumerator.MoveNext())
+				{
+					Gizmo c = enumerator.Current;
+					yield return c;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			Command buildCopy = BuildCopyCommandUtility.BuildCopyCommand(base.def.entityDefToBuild, base.Stuff);
-			if (buildCopy != null)
-			{
-				yield return (Gizmo)buildCopy;
-			}
+			if (buildCopy == null)
+				yield break;
+			yield return (Gizmo)buildCopy;
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0112:
+			/*Error near IL_0113: Unexpected return in MoveNext()*/;
 		}
 
 		public override string GetInspectString()
@@ -385,17 +387,6 @@ namespace RimWorld
 			}
 			stringBuilder.Append("WorkLeft".Translate() + ": " + this.WorkLeft.ToStringWorkAmount());
 			return stringBuilder.ToString();
-		}
-
-		virtual IThingHolder get_ParentHolder()
-		{
-			return base.ParentHolder;
-		}
-
-		IThingHolder IThingHolder.get_ParentHolder()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
-			return this.get_ParentHolder();
 		}
 	}
 }

@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
@@ -23,23 +21,14 @@ namespace RimWorld
 					}
 					num += num2;
 				}
-				HashSet<Building>.Enumerator enumerator2 = this.map.listerBuildings.allBuildingsColonistCombatTargets.GetEnumerator();
-				try
+				foreach (Building allBuildingsColonistCombatTarget in this.map.listerBuildings.allBuildingsColonistCombatTargets)
 				{
-					while (enumerator2.MoveNext())
+					if (allBuildingsColonistCombatTarget.def.building != null && allBuildingsColonistCombatTarget.def.building.IsTurret)
 					{
-						Building current2 = enumerator2.Current;
-						if (current2.def.building != null && current2.def.building.IsTurret)
-						{
-							num = (float)(num + 0.30000001192092896);
-						}
+						num = (float)(num + 0.30000001192092896);
 					}
-					return num;
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
-				}
+				return num;
 			}
 		}
 

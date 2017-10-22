@@ -9,11 +9,11 @@ namespace RimWorld.Planet
 	{
 		private List<int> nodes = new List<int>(128);
 
-		private float totalCostInt;
+		private float totalCostInt = 0f;
 
 		private int curNodeIndex;
 
-		public bool inUse;
+		public bool inUse = false;
 
 		public bool Found
 		{
@@ -125,15 +125,7 @@ namespace RimWorld.Planet
 
 		public override string ToString()
 		{
-			if (!this.Found)
-			{
-				return "WorldPath(not found)";
-			}
-			if (!this.inUse)
-			{
-				return "WorldPath(not in use)";
-			}
-			return "WorldPath(nodeCount= " + this.nodes.Count + ((this.nodes.Count <= 0) ? string.Empty : (" first=" + this.FirstNode + " last=" + this.LastNode)) + " cost=" + this.totalCostInt + " )";
+			return this.Found ? (this.inUse ? ("WorldPath(nodeCount= " + this.nodes.Count + ((this.nodes.Count <= 0) ? "" : (" first=" + this.FirstNode + " last=" + this.LastNode)) + " cost=" + this.totalCostInt + " )") : "WorldPath(not in use)") : "WorldPath(not found)";
 		}
 
 		public void DrawPath(Caravan pathingCaravan)

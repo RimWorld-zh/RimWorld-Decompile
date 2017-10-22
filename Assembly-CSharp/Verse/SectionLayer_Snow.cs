@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Verse
@@ -37,13 +36,13 @@ namespace Verse
 			{
 				SectionLayerGeometryMaker_Solid.MakeBaseGeometry(base.section, subMesh, AltitudeLayer.Terrain);
 			}
+			subMesh.Clear(MeshParts.Colors);
 			float[] depthGridDirect_Unsafe = base.Map.snowGrid.DepthGridDirect_Unsafe;
 			CellRect cellRect = base.section.CellRect;
 			IntVec3 size = base.Map.Size;
 			int num = size.z - 1;
 			IntVec3 size2 = base.Map.Size;
 			int num2 = size2.x - 1;
-			subMesh.colors = new List<Color32>(subMesh.mesh.vertexCount);
 			bool flag = false;
 			CellIndices cellIndices = base.Map.cellIndices;
 			for (int i = cellRect.minX; i <= cellRect.maxX; i++)
@@ -89,7 +88,7 @@ namespace Verse
 			if (flag)
 			{
 				subMesh.disabled = false;
-				subMesh.FinalizeMesh(MeshParts.Colors, false);
+				subMesh.FinalizeMesh(MeshParts.Colors);
 			}
 			else
 			{

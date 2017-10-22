@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using Verse;
 using Verse.AI;
 
 namespace RimWorld
@@ -11,28 +9,19 @@ namespace RimWorld
 
 		private const TargetIndex WatchTargetInd = TargetIndex.B;
 
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve(base.job.GetTarget(TargetIndex.A), base.job, 1, -1, null);
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			if (base.CurJob.GetTarget(TargetIndex.A).HasThing)
+			if (base.job.GetTarget(TargetIndex.A).HasThing)
 			{
 				this.EndOnDespawnedOrNull(TargetIndex.A, JobCondition.Incompletable);
 			}
-			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
 			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
-			yield return new Toil
-			{
-				tickAction = (Action)delegate
-				{
-					((_003CMakeNewToils_003Ec__Iterator17)/*Error near IL_00a6: stateMachine*/)._003C_003Ef__this.pawn.Drawer.rotator.FaceCell(((_003CMakeNewToils_003Ec__Iterator17)/*Error near IL_00a6: stateMachine*/)._003C_003Ef__this.CurJob.GetTarget(TargetIndex.B).Cell);
-					((_003CMakeNewToils_003Ec__Iterator17)/*Error near IL_00a6: stateMachine*/)._003C_003Ef__this.pawn.GainComfortFromCellIfPossible();
-					if (((_003CMakeNewToils_003Ec__Iterator17)/*Error near IL_00a6: stateMachine*/)._003C_003Ef__this.pawn.IsHashIntervalTick(100))
-					{
-						((_003CMakeNewToils_003Ec__Iterator17)/*Error near IL_00a6: stateMachine*/)._003C_003Ef__this.pawn.jobs.CheckForJobOverride();
-					}
-				},
-				defaultCompleteMode = ToilCompleteMode.Never,
-				handlingFacing = true
-			};
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

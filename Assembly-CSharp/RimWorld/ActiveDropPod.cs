@@ -7,7 +7,7 @@ namespace RimWorld
 {
 	public class ActiveDropPod : Thing, IActiveDropPod, IThingHolder
 	{
-		public int age;
+		public int age = 0;
 
 		private ActiveDropPodInfo contents;
 
@@ -57,16 +57,26 @@ namespace RimWorld
 
 		public override void Tick()
 		{
-			this.age++;
-			if (this.age > this.contents.openDelay)
+			if (this.contents != null)
 			{
-				this.PodOpen();
+				this.contents.innerContainer.ThingOwnerTick(true);
+				if (base.Spawned)
+				{
+					this.age++;
+					if (this.age > this.contents.openDelay)
+					{
+						this.PodOpen();
+					}
+				}
 			}
 		}
 
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
-			this.contents.innerContainer.ClearAndDestroyContents(DestroyMode.Vanish);
+			if (this.contents != null)
+			{
+				this.contents.innerContainer.ClearAndDestroyContents(DestroyMode.Vanish);
+			}
 			Map map = base.Map;
 			base.Destroy(mode);
 			if (mode == DestroyMode.KillFinalize)
@@ -116,17 +126,6 @@ namespace RimWorld
 			}
 			SoundDef.Named("DropPodOpen").PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 			this.Destroy(DestroyMode.Vanish);
-		}
-
-		virtual IThingHolder get_ParentHolder()
-		{
-			return base.ParentHolder;
-		}
-
-		IThingHolder IThingHolder.get_ParentHolder()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
-			return this.get_ParentHolder();
 		}
 	}
 }

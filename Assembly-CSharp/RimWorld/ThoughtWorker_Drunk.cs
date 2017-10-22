@@ -6,28 +6,29 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentSocialStateInternal(Pawn p, Pawn other)
 		{
+			ThoughtState result;
 			if (!p.RaceProps.Humanlike)
 			{
-				return false;
+				result = false;
 			}
-			if (!p.IsTeetotaler())
+			else if (!p.IsTeetotaler())
 			{
-				return false;
+				result = false;
 			}
-			if (!other.RaceProps.Humanlike)
+			else if (!other.RaceProps.Humanlike)
 			{
-				return false;
+				result = false;
 			}
-			if (!RelationsUtility.PawnsKnowEachOther(p, other))
+			else if (!RelationsUtility.PawnsKnowEachOther(p, other))
 			{
-				return false;
+				result = false;
 			}
-			Hediff firstHediffOfDef = other.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.AlcoholHigh, false);
-			if (firstHediffOfDef != null && firstHediffOfDef.Visible)
+			else
 			{
-				return true;
+				Hediff firstHediffOfDef = other.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.AlcoholHigh, false);
+				result = ((firstHediffOfDef != null && firstHediffOfDef.Visible) ? true : false);
 			}
-			return false;
+			return result;
 		}
 	}
 }

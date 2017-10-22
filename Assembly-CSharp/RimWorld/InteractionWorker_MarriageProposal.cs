@@ -16,34 +16,42 @@ namespace RimWorld
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
 			DirectPawnRelation directRelation = initiator.relations.GetDirectRelation(PawnRelationDefOf.Lover, recipient);
+			float result;
 			if (directRelation == null)
 			{
-				return 0f;
+				result = 0f;
 			}
-			Pawn spouse = recipient.GetSpouse();
-			Pawn spouse2 = initiator.GetSpouse();
-			if (spouse != null && !spouse.Dead)
+			else
 			{
-				goto IL_004e;
+				Pawn spouse = recipient.GetSpouse();
+				Pawn spouse2 = initiator.GetSpouse();
+				if (spouse != null && !spouse.Dead)
+				{
+					goto IL_0054;
+				}
+				if (spouse2 != null && !spouse2.Dead)
+					goto IL_0054;
+				float num = 0.4f;
+				int ticksGame = Find.TickManager.TicksGame;
+				float value = (float)((float)(ticksGame - directRelation.startTicks) / 60000.0);
+				num *= Mathf.InverseLerp(0f, 60f, value);
+				num *= Mathf.InverseLerp(0f, 60f, (float)initiator.relations.OpinionOf(recipient));
+				if (recipient.relations.OpinionOf(initiator) < 0)
+				{
+					num = (float)(num * 0.30000001192092896);
+				}
+				if (initiator.gender == Gender.Female)
+				{
+					num = (float)(num * 0.20000000298023224);
+				}
+				result = num;
 			}
-			if (spouse2 != null && !spouse2.Dead)
-				goto IL_004e;
-			float num = 0.4f;
-			int ticksGame = Find.TickManager.TicksGame;
-			float value = (float)((float)(ticksGame - directRelation.startTicks) / 60000.0);
-			num *= Mathf.InverseLerp(0f, 60f, value);
-			num *= Mathf.InverseLerp(0f, 60f, (float)initiator.relations.OpinionOf(recipient));
-			if (recipient.relations.OpinionOf(initiator) < 0)
-			{
-				num = (float)(num * 0.30000001192092896);
-			}
-			if (initiator.gender == Gender.Female)
-			{
-				num = (float)(num * 0.20000000298023224);
-			}
-			return num;
-			IL_004e:
-			return 0f;
+			goto IL_00f5;
+			IL_00f5:
+			return result;
+			IL_0054:
+			result = 0f;
+			goto IL_00f5;
 		}
 
 		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks)
@@ -96,13 +104,13 @@ namespace RimWorld
 			if (accepted)
 			{
 				label = "LetterLabelAcceptedProposal".Translate();
-				textLetterDef = LetterDefOf.Good;
+				textLetterDef = LetterDefOf.PositiveEvent;
 				stringBuilder.AppendLine("LetterAcceptedProposal".Translate(initiator, recipient));
 			}
 			else
 			{
 				label = "LetterLabelRejectedProposal".Translate();
-				textLetterDef = LetterDefOf.BadNonUrgent;
+				textLetterDef = LetterDefOf.NegativeEvent;
 				stringBuilder.AppendLine("LetterRejectedProposal".Translate(initiator, recipient));
 				if (brokeUp)
 				{

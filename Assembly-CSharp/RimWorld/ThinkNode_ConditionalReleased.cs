@@ -1,4 +1,5 @@
 using Verse;
+using Verse.AI;
 
 namespace RimWorld
 {
@@ -6,7 +7,7 @@ namespace RimWorld
 	{
 		protected override bool Satisfied(Pawn pawn)
 		{
-			return pawn.guest != null && pawn.guest.released;
+			return pawn.guest != null && pawn.guest.Released;
 		}
 	}
 }

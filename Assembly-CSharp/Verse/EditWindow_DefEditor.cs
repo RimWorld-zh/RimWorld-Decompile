@@ -4,10 +4,6 @@ namespace Verse
 {
 	internal class EditWindow_DefEditor : EditWindow
 	{
-		private const float TopAreaHeight = 16f;
-
-		private const float ExtraScrollHeight = 200f;
-
 		public Def def;
 
 		private float viewHeight;
@@ -15,6 +11,10 @@ namespace Verse
 		private Vector2 scrollPosition = default(Vector2);
 
 		private float labelColumnWidth = 140f;
+
+		private const float TopAreaHeight = 16f;
+
+		private const float ExtraScrollHeight = 200f;
 
 		public override Vector2 InitialSize
 		{

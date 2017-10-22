@@ -13,14 +13,16 @@ namespace RimWorld
 		{
 			ItemCollectionGenerator_Apparel.apparel.Clear();
 			ItemCollectionGenerator_Apparel.apparel.AddRange(from x in ItemCollectionGeneratorUtility.allGeneratableItems
-			where x.IsApparel
+			where x.IsApparel && (x.itemGeneratorTags == null || !x.itemGeneratorTags.Contains(ItemCollectionGeneratorUtility.SpecialRewardTag))
 			select x);
 		}
 
 		protected override IEnumerable<ThingDef> AllowedDefs(ItemCollectionGeneratorParams parms)
 		{
+			TechLevel? techLevel2 = parms.techLevel;
+			TechLevel techLevel = (!techLevel2.HasValue) ? TechLevel.Spacer : techLevel2.Value;
 			return from x in ItemCollectionGenerator_Apparel.apparel
-			where (int)x.techLevel <= (int)parms.techLevel
+			where (int)x.techLevel <= (int)techLevel
 			select x;
 		}
 	}

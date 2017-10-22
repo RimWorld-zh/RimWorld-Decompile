@@ -53,30 +53,32 @@ namespace RimWorld
 
 		public bool TryStartIgnite(Thing target)
 		{
+			bool result;
 			if (this.IgniteVerb == null)
 			{
 				Log.ErrorOnce(this.pawn + " tried to ignite " + target + " but has no ignite verb.", 76453432);
-				return false;
+				result = false;
 			}
-			if (this.pawn.stances.FullBodyBusy)
+			else
 			{
-				return false;
+				result = (!this.pawn.stances.FullBodyBusy && this.IgniteVerb.TryStartCastOn(target, false, true));
 			}
-			return this.IgniteVerb.TryStartCastOn(target, false, true);
+			return result;
 		}
 
 		public bool TryBeatFire(Fire targetFire)
 		{
+			bool result;
 			if (this.BeatFireVerb == null)
 			{
 				Log.ErrorOnce(this.pawn + " tried to beat fire " + targetFire + " but has no beat fire verb.", 935137531);
-				return false;
+				result = false;
 			}
-			if (this.pawn.stances.FullBodyBusy)
+			else
 			{
-				return false;
+				result = (!this.pawn.stances.FullBodyBusy && this.BeatFireVerb.TryStartCastOn((Thing)targetFire, false, true));
 			}
-			return this.BeatFireVerb.TryStartCastOn((Thing)targetFire, false, true);
+			return result;
 		}
 
 		public void ExposeData()
@@ -93,13 +95,11 @@ namespace RimWorld
 		{
 			if ((int)this.pawn.RaceProps.intelligence >= 1)
 			{
-				UniqueIDsManager uniqueIDsManager = Find.World.uniqueIDsManager;
+				UniqueIDsManager uniqueIDsManager = Find.UniqueIDsManager;
 				this.beatFireVerb = new Verb_BeatFire();
-				this.beatFireVerb.loadID = uniqueIDsManager.GetNextVerbID();
 				if (!this.pawn.RaceProps.IsMechanoid)
 				{
 					this.igniteVerb = new Verb_Ignite();
-					this.igniteVerb.loadID = uniqueIDsManager.GetNextVerbID();
 				}
 				this.UpdateVerbsLinksAndProps();
 			}
@@ -111,11 +111,13 @@ namespace RimWorld
 			{
 				this.beatFireVerb.caster = this.pawn;
 				this.beatFireVerb.verbProps = NativeVerbPropertiesDatabase.VerbWithCategory(VerbCategory.BeatFire);
+				this.beatFireVerb.loadID = VerbUtility.GenerateBeatFireLoadId(this.pawn);
 			}
 			if (this.igniteVerb != null)
 			{
 				this.igniteVerb.caster = this.pawn;
 				this.igniteVerb.verbProps = NativeVerbPropertiesDatabase.VerbWithCategory(VerbCategory.Ignite);
+				this.igniteVerb.loadID = VerbUtility.GenerateIgniteLoadId(this.pawn);
 			}
 		}
 	}

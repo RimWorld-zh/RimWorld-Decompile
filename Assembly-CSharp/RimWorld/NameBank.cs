@@ -19,13 +19,22 @@ namespace RimWorld
 		{
 			get
 			{
-				for (int j = 0; j < NameBank.numGenders; j++)
+				int j = 0;
+				int i;
+				while (true)
 				{
-					for (int i = 0; i < NameBank.numSlots; i++)
+					if (j < NameBank.numGenders)
 					{
-						yield return this.names[j, i];
+						i = 0;
+						if (i < NameBank.numSlots)
+							break;
+						j++;
+						continue;
 					}
+					yield break;
 				}
+				yield return this.names[j, i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -50,34 +59,16 @@ namespace RimWorld
 				group x by x into g
 				where g.Count() > 1
 				select g.Key).ToList();
-				List<string>.Enumerator enumerator2 = list.GetEnumerator();
-				try
+				foreach (string item in list)
 				{
-					while (enumerator2.MoveNext())
+					Log.Error("Duplicated name: " + item);
+				}
+				foreach (string item2 in allNameList)
+				{
+					if (item2.Trim() != item2)
 					{
-						string current2 = enumerator2.Current;
-						Log.Error("Duplicated name: " + current2);
+						Log.Error("Trimmable whitespace on name: [" + item2 + "]");
 					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
-				}
-				List<string>.Enumerator enumerator3 = allNameList.GetEnumerator();
-				try
-				{
-					while (enumerator3.MoveNext())
-					{
-						string current3 = enumerator3.Current;
-						if (current3.Trim() != current3)
-						{
-							Log.Error("Trimmable whitespace on name: [" + current3 + "]");
-						}
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator3).Dispose();
 				}
 			}
 		}
@@ -104,24 +95,35 @@ namespace RimWorld
 		{
 			List<string> list = this.NamesFor(slot, gender);
 			int num = 0;
+			string result;
+			string text;
 			if (list.Count == 0)
 			{
 				Log.Error("Name list for gender=" + gender + " slot=" + slot + " is empty.");
-				return "Errorname";
+				result = "Errorname";
 			}
-			string text;
-			while (true)
+			else
 			{
-				text = list.RandomElement();
-				if (!NameUseChecker.NameWordIsUsed(text))
+				while (true)
 				{
-					return text;
-				}
-				num++;
-				if (num > 50)
+					text = list.RandomElement();
+					if (NameUseChecker.NameWordIsUsed(text))
+					{
+						num++;
+						if (num <= 50)
+							continue;
+						goto IL_0084;
+					}
 					break;
+				}
+				result = text;
 			}
-			return text;
+			goto IL_0091;
+			IL_0091:
+			return result;
+			IL_0084:
+			result = text;
+			goto IL_0091;
 		}
 	}
 }

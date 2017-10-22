@@ -33,7 +33,7 @@ namespace Verse
 				{
 				}
 				ILoadReferenceable loadReferenceable = default(ILoadReferenceable);
-				if (this.allObjectsByLoadID.TryGetValue(reffable.GetUniqueLoadID(), out loadReferenceable))
+				if (this.allObjectsByLoadID.TryGetValue(text, out loadReferenceable))
 				{
 					Log.Error("Cannot register " + reffable.GetType() + " " + text2 + ", (id=" + text + " in loaded object directory. Id already used by " + loadReferenceable.GetType() + " " + loadReferenceable.ToString() + ".");
 					return;
@@ -67,31 +67,37 @@ namespace Verse
 
 		public T ObjectWithLoadID<T>(string loadID)
 		{
-			if (!loadID.NullOrEmpty() && !(loadID == "null"))
+			T result;
+			if (loadID.NullOrEmpty() || loadID == "null")
+			{
+				result = default(T);
+			}
+			else
 			{
 				ILoadReferenceable loadReferenceable = default(ILoadReferenceable);
 				if (this.allObjectsByLoadID.TryGetValue(loadID, out loadReferenceable))
 				{
 					if (loadReferenceable == null)
 					{
-						return default(T);
+						result = default(T);
+						goto IL_0131;
 					}
 					try
 					{
 						return (T)loadReferenceable;
-						IL_0055:;
 					}
 					catch (Exception ex)
 					{
 						Log.Error("Exception getting object with load id " + loadID + " of type " + typeof(T) + ". What we loaded was " + loadReferenceable.ToStringSafe<ILoadReferenceable>() + ". Exception:\n" + ex);
 						return default(T);
-						IL_00ba:;
 					}
 				}
 				Log.Warning("Could not resolve reference to object with loadID " + loadID + " of type " + typeof(T) + ". Was it compressed away, destroyed, had no ID number, or not saved/loaded right? curParent=" + Scribe.loader.curParent.ToStringSafe<IExposable>() + " curPathRelToParent=" + Scribe.loader.curPathRelToParent);
-				return default(T);
+				result = default(T);
 			}
-			return default(T);
+			goto IL_0131;
+			IL_0131:
+			return result;
 		}
 	}
 }

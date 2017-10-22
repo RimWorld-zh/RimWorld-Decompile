@@ -24,14 +24,14 @@ namespace Verse
 		PawnState = 19,
 		Blueprint = 20,
 		MoteOverhead = 21,
-		FlyingItem = 22,
-		Gas = 23,
+		Gas = 22,
+		Skyfaller = 23,
 		Weather = 24,
 		LightingOverlay = 25,
 		VisEffects = 26,
 		FogOfWar = 27,
 		WorldClipper = 28,
-		WorldDataOverlay = 29,
+		MapDataOverlay = 29,
 		MetaOverlays = 30,
 		_Count = 31
 	}

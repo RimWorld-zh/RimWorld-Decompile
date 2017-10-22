@@ -8,9 +8,11 @@ namespace RimWorld
 {
 	public class Bill_Medical : Bill
 	{
-		private BodyPartRecord part;
+		private BodyPartRecord part = null;
 
 		private int partIndex = -1;
+
+		public ThingDef consumedInitialMedicineDef;
 
 		public override bool CheckIngredientsIfSociallyProper
 		{
@@ -24,11 +26,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if (base.recipe.targetsBodyPart && !base.recipe.Worker.GetPartsToApplyOn(this.GiverPawn, base.recipe).Contains(this.part))
-				{
-					return false;
-				}
-				return true;
+				return (byte)((!base.recipe.targetsBodyPart || base.recipe.Worker.GetPartsToApplyOn(this.GiverPawn, base.recipe).Contains(this.part)) ? 1 : 0) != 0;
 			}
 		}
 
@@ -105,11 +103,7 @@ namespace RimWorld
 
 		public override bool ShouldDoNow()
 		{
-			if (base.suspended)
-			{
-				return false;
-			}
-			return true;
+			return (byte)((!base.suspended) ? 1 : 0) != 0;
 		}
 
 		public override void Notify_IterationCompleted(Pawn billDoer, List<Thing> ingredients)
@@ -118,7 +112,7 @@ namespace RimWorld
 			if (this.CompletableEver)
 			{
 				Pawn giverPawn = this.GiverPawn;
-				base.recipe.Worker.ApplyOnPawn(giverPawn, this.Part, billDoer, ingredients);
+				base.recipe.Worker.ApplyOnPawn(giverPawn, this.Part, billDoer, ingredients, this);
 				if (giverPawn.RaceProps.IsFlesh)
 				{
 					giverPawn.records.Increment(RecordDefOf.OperationsReceived);
@@ -131,6 +125,7 @@ namespace RimWorld
 		public override void Notify_DoBillStarted(Pawn billDoer)
 		{
 			base.Notify_DoBillStarted(billDoer);
+			this.consumedInitialMedicineDef = null;
 			if (!this.GiverPawn.Dead && base.recipe.anesthetize && HealthUtility.TryAnesthetize(this.GiverPawn))
 			{
 				List<ThingStackPartClass> placedThings = billDoer.CurJob.placedThings;
@@ -150,6 +145,7 @@ namespace RimWorld
 				}
 				base.recipe.Worker.ConsumeIngredient(placedThings[num].thing.SplitOff(1), base.recipe, billDoer.MapHeld);
 				placedThings[num].Count--;
+				this.consumedInitialMedicineDef = placedThings[num].thing.def;
 				if (!placedThings[num].thing.Destroyed && placedThings[num].Count > 0)
 					return;
 				placedThings.RemoveAt(num);
@@ -160,6 +156,7 @@ namespace RimWorld
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.partIndex, "partIndex", 0, false);
+			Scribe_Defs.Look<ThingDef>(ref this.consumedInitialMedicineDef, "consumedInitialMedicineDef");
 			if (Scribe.mode == LoadSaveMode.ResolvingCrossRefs)
 			{
 				if (this.partIndex < 0)

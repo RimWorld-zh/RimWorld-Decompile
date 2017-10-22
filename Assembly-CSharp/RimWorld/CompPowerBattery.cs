@@ -7,18 +7,25 @@ namespace RimWorld
 {
 	public class CompPowerBattery : CompPower
 	{
-		private float storedEnergy;
+		private float storedEnergy = 0f;
+
+		private const float SelfDischargingWatts = 5f;
 
 		public float AmountCanAccept
 		{
 			get
 			{
+				float result;
 				if (base.parent.IsBrokenDown())
 				{
-					return 0f;
+					result = 0f;
 				}
-				CompProperties_Battery props = this.Props;
-				return (props.storedEnergyMax - this.storedEnergy) / props.efficiency;
+				else
+				{
+					CompProperties_Battery props = this.Props;
+					result = (props.storedEnergyMax - this.storedEnergy) / props.efficiency;
+				}
+				return result;
 			}
 		}
 
@@ -55,6 +62,12 @@ namespace RimWorld
 			{
 				this.storedEnergy = props.storedEnergyMax;
 			}
+		}
+
+		public override void CompTick()
+		{
+			base.CompTick();
+			this.DrawPower(Mathf.Min((float)(5.0 * CompPower.WattsToWattDaysPerTick), this.storedEnergy));
 		}
 
 		public void AddEnergy(float amount)
@@ -104,34 +117,38 @@ namespace RimWorld
 			string text;
 			string text2 = text = "PowerBatteryStored".Translate() + ": " + this.storedEnergy.ToString("F0") + " / " + props.storedEnergyMax.ToString("F0") + " Wd";
 			text2 = text + "\n" + "PowerBatteryEfficiency".Translate() + ": " + ((float)(props.efficiency * 100.0)).ToString("F0") + "%";
+			if (this.storedEnergy > 0.0)
+			{
+				text = text2;
+				text2 = text + "\n" + "SelfDischarging".Translate() + ": " + 5f.ToString("F0") + " W";
+			}
 			return text2 + "\n" + base.CompInspectStringExtra();
 		}
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			foreach (Gizmo item in base.CompGetGizmosExtra())
+			using (IEnumerator<Gizmo> enumerator = this._003CCompGetGizmosExtra_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					Gizmo c = enumerator.Current;
+					yield return c;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
-			if (Prefs.DevMode)
+			if (!Prefs.DevMode)
+				yield break;
+			yield return (Gizmo)new Command_Action
 			{
-				yield return (Gizmo)new Command_Action
+				defaultLabel = "DEBUG: Fill",
+				action = (Action)delegate
 				{
-					defaultLabel = "DEBUG: Fill",
-					action = (Action)delegate
-					{
-						((_003CCompGetGizmosExtra_003Ec__IteratorB3)/*Error near IL_00d9: stateMachine*/)._003C_003Ef__this.SetStoredEnergyPct(1f);
-					}
-				};
-				yield return (Gizmo)new Command_Action
-				{
-					defaultLabel = "DEBUG: Empty",
-					action = (Action)delegate
-					{
-						((_003CCompGetGizmosExtra_003Ec__IteratorB3)/*Error near IL_0123: stateMachine*/)._003C_003Ef__this.SetStoredEnergyPct(0f);
-					}
-				};
-			}
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_00e8: stateMachine*/)._0024this.SetStoredEnergyPct(1f);
+				}
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0175:
+			/*Error near IL_0176: Unexpected return in MoveNext()*/;
 		}
 	}
 }

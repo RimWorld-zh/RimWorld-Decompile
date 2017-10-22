@@ -8,31 +8,33 @@ namespace RimWorld.Planet
 	{
 		public static string AdjustedLabelFor(List<WorldObject> worldObjects, Rect rect)
 		{
-			if (worldObjects.Count == 1)
-			{
-				return worldObjects[0].LabelCap;
-			}
-			if (WorldInspectPaneUtility.AllLabelsAreSame(worldObjects))
-			{
-				return worldObjects[0].LabelCap + " x" + worldObjects.Count;
-			}
-			return "VariousLabel".Translate();
+			return (worldObjects.Count != 1) ? ((!WorldInspectPaneUtility.AllLabelsAreSame(worldObjects)) ? "VariousLabel".Translate() : (worldObjects[0].LabelCap + " x" + worldObjects.Count)) : worldObjects[0].LabelCap;
 		}
 
 		private static bool AllLabelsAreSame(List<WorldObject> worldObjects)
 		{
-			for (int i = 0; i < worldObjects.Count; i++)
+			int num = 0;
+			bool result;
+			while (true)
 			{
-				string labelCap = worldObjects[i].LabelCap;
-				for (int j = i + 1; j < worldObjects.Count; j++)
+				if (num < worldObjects.Count)
 				{
-					if (labelCap != worldObjects[j].LabelCap)
+					string labelCap = worldObjects[num].LabelCap;
+					for (int i = num + 1; i < worldObjects.Count; i++)
 					{
-						return false;
+						if (labelCap != worldObjects[i].LabelCap)
+							goto IL_0037;
 					}
+					num++;
+					continue;
 				}
+				result = true;
+				break;
+				IL_0037:
+				result = false;
+				break;
 			}
-			return true;
+			return result;
 		}
 	}
 }

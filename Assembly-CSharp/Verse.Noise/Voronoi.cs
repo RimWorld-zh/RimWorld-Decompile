@@ -8,9 +8,9 @@ namespace Verse.Noise
 
 		private double m_frequency = 1.0;
 
-		private int m_seed;
+		private int m_seed = 0;
 
-		private bool m_distance;
+		private bool m_distance = false;
 
 		public double Displacement
 		{

@@ -1,14 +1,13 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
-	public class Building_Casket : Building, IOpenable, IThingHolder
+	public class Building_Casket : Building, IThingHolder, IOpenable
 	{
-		protected ThingOwner innerContainer;
+		protected ThingOwner innerContainer = null;
 
-		protected bool contentsKnown;
+		protected bool contentsKnown = false;
 
 		public bool HasAnyContents
 		{
@@ -90,18 +89,26 @@ namespace RimWorld
 
 		public override bool ClaimableBy(Faction fac)
 		{
+			bool result;
 			if (this.innerContainer.Any)
 			{
 				for (int i = 0; i < this.innerContainer.Count; i++)
 				{
 					if (this.innerContainer[i].Faction == fac)
-					{
-						return true;
-					}
+						goto IL_0031;
 				}
-				return false;
+				result = false;
 			}
-			return base.ClaimableBy(fac);
+			else
+			{
+				result = base.ClaimableBy(fac);
+			}
+			goto IL_0062;
+			IL_0062:
+			return result;
+			IL_0031:
+			result = true;
+			goto IL_0062;
 		}
 
 		public virtual bool Accepts(Thing thing)
@@ -111,29 +118,37 @@ namespace RimWorld
 
 		public virtual bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
 		{
+			bool result;
 			if (!this.Accepts(thing))
 			{
-				return false;
-			}
-			bool flag = false;
-			if (thing.holdingOwner != null)
-			{
-				thing.holdingOwner.TryTransferToContainer(thing, this.innerContainer, thing.stackCount, true);
-				flag = true;
+				result = false;
 			}
 			else
 			{
-				flag = this.innerContainer.TryAdd(thing, true);
-			}
-			if (flag)
-			{
-				if (thing.Faction != null && thing.Faction.IsPlayer)
+				bool flag = false;
+				if (thing.holdingOwner != null)
 				{
-					this.contentsKnown = true;
+					thing.holdingOwner.TryTransferToContainer(thing, this.innerContainer, thing.stackCount, true);
+					flag = true;
 				}
-				return true;
+				else
+				{
+					flag = this.innerContainer.TryAdd(thing, true);
+				}
+				if (flag)
+				{
+					if (thing.Faction != null && thing.Faction.IsPlayer)
+					{
+						this.contentsKnown = true;
+					}
+					result = true;
+				}
+				else
+				{
+					result = false;
+				}
 			}
-			return false;
+			return result;
 		}
 
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
@@ -151,18 +166,9 @@ namespace RimWorld
 							list.Add(pawn);
 						}
 					}
-					List<Pawn>.Enumerator enumerator2 = list.GetEnumerator();
-					try
+					foreach (Pawn item2 in list)
 					{
-						while (enumerator2.MoveNext())
-						{
-							Pawn current2 = enumerator2.Current;
-							HealthUtility.DamageUntilDowned(current2);
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator2).Dispose();
+						HealthUtility.DamageUntilDowned(item2);
 					}
 				}
 				this.EjectContents();
@@ -186,17 +192,6 @@ namespace RimWorld
 				text += "\n";
 			}
 			return text + "CasketContains".Translate() + ": " + str;
-		}
-
-		virtual IThingHolder get_ParentHolder()
-		{
-			return base.ParentHolder;
-		}
-
-		IThingHolder IThingHolder.get_ParentHolder()
-		{
-			//ILSpy generated this explicit interface implementation from .override directive in get_ParentHolder
-			return this.get_ParentHolder();
 		}
 	}
 }

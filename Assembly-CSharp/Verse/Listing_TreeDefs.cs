@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -102,7 +103,7 @@ namespace Verse
 		private void ExtraInfoText(TreeNode_Editor node, WidgetRow widgetRow)
 		{
 			string extraInfoText = node.ExtraInfoText;
-			if (extraInfoText != string.Empty)
+			if (extraInfoText != "")
 			{
 				if (extraInfoText == "null")
 				{
@@ -119,7 +120,7 @@ namespace Verse
 
 		protected void NodeLabelLeft(TreeNode_Editor node, int indentLevel)
 		{
-			string tipText = string.Empty;
+			string tipText = "";
 			if (node.owningField != null)
 			{
 				DescriptionAttribute[] array = (DescriptionAttribute[])node.owningField.GetCustomAttributes(typeof(DescriptionAttribute), true);
@@ -135,29 +136,20 @@ namespace Verse
 		{
 			List<Type> list = baseType.InstantiableDescendantsAndSelf().ToList();
 			List<FloatMenuOption> list2 = new List<FloatMenuOption>();
-			List<Type>.Enumerator enumerator = list.GetEnumerator();
-			try
+			foreach (Type item in list)
 			{
-				while (enumerator.MoveNext())
+				Type creatingType = item;
+				Action action = (Action)delegate()
 				{
-					Type current = enumerator.Current;
-					Type creatingType = current;
-					Action action = (Action)delegate()
+					owningNode.SetOpen(-1, true);
+					object obj = (creatingType != typeof(string)) ? Activator.CreateInstance(creatingType) : "";
+					addAction(obj);
+					if (owningNode != null)
 					{
-						owningNode.SetOpen(-1, true);
-						object obj = (creatingType != typeof(string)) ? Activator.CreateInstance(creatingType) : string.Empty;
-						addAction(obj);
-						if (owningNode != null)
-						{
-							owningNode.RebuildChildNodes();
-						}
-					};
-					list2.Add(new FloatMenuOption(current.ToString(), action, MenuOptionPriority.Default, null, null, 0f, null, null));
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+						owningNode.RebuildChildNodes();
+					}
+				};
+				list2.Add(new FloatMenuOption(item.ToString(), action, MenuOptionPriority.Default, null, null, 0f, null, null));
 			}
 			Find.WindowStack.Add(new FloatMenu(list2));
 		}
@@ -177,7 +169,7 @@ namespace Verse
 				string text2 = text = (string)obj;
 				if (text == null)
 				{
-					text = string.Empty;
+					text = "";
 				}
 				string b = text;
 				text = Widgets.TextField(rect, text);
@@ -227,13 +219,26 @@ namespace Verse
 				if (Widgets.ButtonText(rect, obj.ToString(), true, false, true))
 				{
 					List<FloatMenuOption> list = new List<FloatMenuOption>();
-					foreach (object value2 in Enum.GetValues(objectType))
+					IEnumerator enumerator = Enum.GetValues(objectType).GetEnumerator();
+					try
 					{
-						object localVal = value2;
-						list.Add(new FloatMenuOption(value2.ToString(), (Action)delegate()
+						while (enumerator.MoveNext())
 						{
-							node.Value = localVal;
-						}, MenuOptionPriority.Default, null, null, 0f, null, null));
+							object current = enumerator.Current;
+							object localVal = current;
+							list.Add(new FloatMenuOption(current.ToString(), (Action)delegate()
+							{
+								node.Value = localVal;
+							}, MenuOptionPriority.Default, null, null, 0f, null, null));
+						}
+					}
+					finally
+					{
+						IDisposable disposable;
+						if ((disposable = (enumerator as IDisposable)) != null)
+						{
+							disposable.Dispose();
+						}
 					}
 					Find.WindowStack.Add(new FloatMenu(list));
 				}

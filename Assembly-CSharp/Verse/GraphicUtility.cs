@@ -8,42 +8,45 @@ namespace Verse
 		public static Graphic ExtractInnerGraphicFor(this Graphic outerGraphic, Thing thing)
 		{
 			Graphic_Random graphic_Random = outerGraphic as Graphic_Random;
-			if (graphic_Random != null)
-			{
-				return graphic_Random.SubGraphicFor(thing);
-			}
-			return outerGraphic;
+			return (graphic_Random == null) ? outerGraphic : graphic_Random.SubGraphicFor(thing);
 		}
 
 		public static Graphic_Linked WrapLinked(Graphic subGraphic, LinkDrawerType linkDrawerType)
 		{
+			Graphic_Linked result;
 			switch (linkDrawerType)
 			{
 			case LinkDrawerType.None:
 			{
-				return null;
+				result = null;
+				break;
 			}
 			case LinkDrawerType.Basic:
 			{
-				return new Graphic_Linked(subGraphic);
+				result = new Graphic_Linked(subGraphic);
+				break;
 			}
 			case LinkDrawerType.CornerFiller:
 			{
-				return new Graphic_LinkedCornerFiller(subGraphic);
+				result = new Graphic_LinkedCornerFiller(subGraphic);
+				break;
 			}
 			case LinkDrawerType.Transmitter:
 			{
-				return new Graphic_LinkedTransmitter(subGraphic);
+				result = new Graphic_LinkedTransmitter(subGraphic);
+				break;
 			}
 			case LinkDrawerType.TransmitterOverlay:
 			{
-				return new Graphic_LinkedTransmitterOverlay(subGraphic);
+				result = new Graphic_LinkedTransmitterOverlay(subGraphic);
+				break;
 			}
 			default:
 			{
 				throw new ArgumentException();
 			}
 			}
+			return result;
 		}
 	}
 }

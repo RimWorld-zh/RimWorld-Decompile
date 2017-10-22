@@ -10,15 +10,23 @@ namespace RimWorld
 	{
 		public static bool EverTradeable(ThingDef def)
 		{
+			bool result;
 			if (def.tradeability == Tradeability.Never)
 			{
-				return false;
+				result = false;
 			}
-			if ((def.category == ThingCategory.Item || def.category == ThingCategory.Pawn) && def.GetStatValueAbstract(StatDefOf.MarketValue, null) > 0.0)
+			else
 			{
-				return true;
+				if ((def.category == ThingCategory.Item || def.category == ThingCategory.Pawn) && def.GetStatValueAbstract(StatDefOf.MarketValue, null) > 0.0)
+				{
+					result = true;
+					goto IL_0051;
+				}
+				result = false;
 			}
-			return false;
+			goto IL_0051;
+			IL_0051:
+			return result;
 		}
 
 		public static void SpawnDropPod(IntVec3 dropSpot, Map map, Thing t)
@@ -26,7 +34,7 @@ namespace RimWorld
 			ActiveDropPodInfo activeDropPodInfo = new ActiveDropPodInfo();
 			activeDropPodInfo.SingleContainedThing = t;
 			activeDropPodInfo.leaveSlag = false;
-			DropPodUtility.MakeDropPodAt(dropSpot, map, activeDropPodInfo);
+			DropPodUtility.MakeDropPodAt(dropSpot, map, activeDropPodInfo, false);
 		}
 
 		public static IEnumerable<Thing> AllLaunchableThings(Map map)
@@ -44,71 +52,71 @@ namespace RimWorld
 						{
 							yieldedThings.Add(t);
 							yield return t;
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
 				}
 			}
+			yield break;
+			IL_01fb:
+			/*Error near IL_01fc: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<Pawn> AllSellableColonyPawns(Map map)
 		{
-			List<Pawn>.Enumerator enumerator = map.mapPawns.PrisonersOfColonySpawned.GetEnumerator();
-			try
+			foreach (Pawn item in map.mapPawns.PrisonersOfColonySpawned)
 			{
-				while (enumerator.MoveNext())
+				if (item.guest.PrisonerIsSecure)
 				{
-					Pawn p2 = enumerator.Current;
-					if (p2.guest.PrisonerIsSecure)
-					{
-						yield return p2;
-					}
+					yield return item;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
-			finally
+			using (List<Pawn>.Enumerator enumerator2 = map.mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer).GetEnumerator())
 			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
-			List<Pawn>.Enumerator enumerator2 = map.mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer).GetEnumerator();
-			try
-			{
-				while (enumerator2.MoveNext())
+				Pawn p;
+				while (true)
 				{
-					Pawn p = enumerator2.Current;
-					if (p.RaceProps.Animal && p.HostFaction == null && !p.InMentalState && !p.Downed && map.mapTemperature.SeasonAndOutdoorTemperatureAcceptableFor(p.def))
+					if (enumerator2.MoveNext())
 					{
-						yield return p;
+						p = enumerator2.Current;
+						if (p.RaceProps.Animal && p.HostFaction == null && !p.InMentalState && !p.Downed && map.mapTemperature.SeasonAndOutdoorTemperatureAcceptableFor(p.def))
+							break;
+						continue;
 					}
+					yield break;
 				}
+				yield return p;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator2).Dispose();
-			}
+			IL_01d0:
+			/*Error near IL_01d1: Unexpected return in MoveNext()*/;
 		}
 
 		public static Thing ThingFromStockToMergeWith(ITrader trader, Thing thing)
 		{
+			Thing result;
 			if (thing is Pawn)
 			{
-				return null;
+				result = null;
 			}
-			foreach (Thing good in trader.Goods)
+			else
 			{
-				if (TransferableUtility.TransferAsOne(good, thing))
+				foreach (Thing good in trader.Goods)
 				{
-					return good;
+					if (TransferableUtility.TransferAsOne(good, thing))
+					{
+						return good;
+					}
 				}
+				result = null;
 			}
-			return null;
+			return result;
 		}
 
 		public static bool TradeableNow(Thing t)
 		{
-			if (t.IsNotFresh())
-			{
-				return false;
-			}
-			return true;
+			return (byte)((!t.IsNotFresh()) ? 1 : 0) != 0;
 		}
 
 		public static void LaunchThingsOfType(ThingDef resDef, int debt, Map map, TradeShip trader)
@@ -128,15 +136,15 @@ namespace RimWorld
 								if (item2.def == resDef)
 								{
 									thing = item2;
-									goto IL_00c6;
+									goto IL_00d8;
 								}
 							}
 						}
 					}
-					goto IL_00c6;
+					goto IL_00d8;
 				}
 				return;
-				IL_00c6:
+				IL_00d8:
 				if (thing != null)
 				{
 					int num = Math.Min(debt, thing.stackCount);

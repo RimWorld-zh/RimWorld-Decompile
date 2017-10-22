@@ -13,18 +13,19 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			if (base.pawn.Position != base.CurJob.GetTarget(TargetIndex.A).Cell)
-			{
-				return base.GetReport();
-			}
-			return "ReportCowering".Translate();
+			return (base.pawn.CurJob == base.job && !(base.pawn.Position != base.job.GetTarget(TargetIndex.A).Cell)) ? "ReportCowering".Translate() : base.GetReport();
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			foreach (Toil item in base.MakeNewToils())
+			using (IEnumerator<Toil> enumerator = this._003CMakeNewToils_003E__BaseCallProxy0().GetEnumerator())
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					Toil toil = enumerator.Current;
+					yield return toil;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 			yield return new Toil
 			{
@@ -32,12 +33,15 @@ namespace RimWorld
 				defaultDuration = 1200,
 				tickAction = (Action)delegate
 				{
-					if (((_003CMakeNewToils_003Ec__Iterator2C)/*Error near IL_00d7: stateMachine*/)._003C_003Ef__this.pawn.IsHashIntervalTick(35) && SelfDefenseUtility.ShouldStartFleeing(((_003CMakeNewToils_003Ec__Iterator2C)/*Error near IL_00d7: stateMachine*/)._003C_003Ef__this.pawn))
+					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00e6: stateMachine*/)._0024this.pawn.IsHashIntervalTick(35) && SelfDefenseUtility.ShouldStartFleeing(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00e6: stateMachine*/)._0024this.pawn))
 					{
-						((_003CMakeNewToils_003Ec__Iterator2C)/*Error near IL_00d7: stateMachine*/)._003C_003Ef__this.EndJobWith(JobCondition.InterruptForced);
+						((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00e6: stateMachine*/)._0024this.EndJobWith(JobCondition.InterruptForced);
 					}
 				}
 			};
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0121:
+			/*Error near IL_0122: Unexpected return in MoveNext()*/;
 		}
 	}
 }

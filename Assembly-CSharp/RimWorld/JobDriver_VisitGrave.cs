@@ -10,7 +10,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (Building_Grave)base.CurJob.GetTarget(TargetIndex.A).Thing;
+				return (Building_Grave)base.job.GetTarget(TargetIndex.A).Thing;
 			}
 		}
 
@@ -25,8 +25,18 @@ namespace RimWorld
 					num *= room.GetStat(RoomStatDefOf.GraveVisitingJoyGainFactor);
 				}
 				base.pawn.GainComfortFromCellIfPossible();
+				Pawn pawn = base.pawn;
 				float extraJoyGainFactor = num;
-				JoyUtility.JoyTickCheckEnd(base.pawn, JoyTickFullJoyAction.EndJob, extraJoyGainFactor);
+				JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.EndJob, extraJoyGainFactor);
+			};
+		}
+
+		public override object[] TaleParameters()
+		{
+			return new object[2]
+			{
+				base.pawn,
+				(this.Grave.Corpse == null) ? null : this.Grave.Corpse.InnerPawn
 			};
 		}
 	}

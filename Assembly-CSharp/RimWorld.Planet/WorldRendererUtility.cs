@@ -9,15 +9,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (Find.World == null)
-				{
-					return WorldRenderMode.None;
-				}
-				if (Current.ProgramState == ProgramState.Playing && Find.VisibleMap == null)
-				{
-					return WorldRenderMode.Planet;
-				}
-				return Find.World.renderer.wantedMode;
+				return (Find.World != null) ? ((Current.ProgramState == ProgramState.Playing && Find.VisibleMap == null) ? WorldRenderMode.Planet : Find.World.renderer.wantedMode) : WorldRenderMode.None;
 			}
 		}
 
@@ -115,7 +107,7 @@ namespace RimWorld.Planet
 
 		public static void GetTangentsToPlanet(Vector3 pos, out Vector3 first, out Vector3 second, bool randomizeRotation = false)
 		{
-			Vector3 upwards = (!randomizeRotation) ? Vector3.up : Rand.PointOnSphere;
+			Vector3 upwards = (!randomizeRotation) ? Vector3.up : Rand.UnitVector3;
 			Quaternion rotation = Quaternion.LookRotation(pos.normalized, upwards);
 			first = rotation * Vector3.up;
 			second = rotation * Vector3.right;
@@ -146,6 +138,13 @@ namespace RimWorld.Planet
 			subMesh.uvs.Add(new Vector2(num3, num4 + num2));
 			subMesh.uvs.Add(new Vector2(num3 + num, num4 + num2));
 			subMesh.uvs.Add(new Vector2(num3 + num, num4));
+		}
+
+		public static bool HiddenBehindTerrainNow(Vector3 pos)
+		{
+			Vector3 normalized = pos.normalized;
+			Vector3 currentlyLookingAtPointOnSphere = Find.WorldCameraDriver.CurrentlyLookingAtPointOnSphere;
+			return Vector3.Angle(normalized, currentlyLookingAtPointOnSphere) > 73.0;
 		}
 	}
 }

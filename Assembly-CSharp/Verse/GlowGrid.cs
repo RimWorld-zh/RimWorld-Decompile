@@ -1,11 +1,24 @@
-using System;
+#define ENABLE_PROFILER
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Verse
 {
 	public sealed class GlowGrid
 	{
+		private Map map;
+
+		public Color32[] glowGrid;
+
+		public Color32[] glowGridNoCavePlants;
+
+		private bool glowGridDirty = false;
+
+		private HashSet<CompGlower> litGlowers = new HashSet<CompGlower>();
+
+		private List<IntVec3> initialGlowerLocs = new List<IntVec3>();
+
 		public const int AlphaOfNotOverlit = 0;
 
 		public const int AlphaOfOverlit = 1;
@@ -18,20 +31,11 @@ namespace Verse
 
 		private const float MaxGameGlowFromNonOverlitGroundLights = 0.5f;
 
-		private Map map;
-
-		public Color32[] glowGrid;
-
-		private bool glowGridDirty;
-
-		private HashSet<CompGlower> litGlowers = new HashSet<CompGlower>();
-
-		private List<IntVec3> initialGlowerLocs = new List<IntVec3>();
-
 		public GlowGrid(Map map)
 		{
 			this.map = map;
 			this.glowGrid = new Color32[map.cellIndices.NumGridCells];
+			this.glowGridNoCavePlants = new Color32[map.cellIndices.NumGridCells];
 		}
 
 		public Color32 VisualGlowAt(IntVec3 c)
@@ -39,44 +43,45 @@ namespace Verse
 			return this.glowGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
-		public float GameGlowAt(IntVec3 c)
+		public float GameGlowAt(IntVec3 c, bool ignoreCavePlants = false)
 		{
 			float num = 0f;
+			float result;
 			if (!this.map.roofGrid.Roofed(c))
 			{
 				num = this.map.skyManager.CurSkyGlow;
 				if (num == 1.0)
 				{
-					return num;
+					result = num;
+					goto IL_00d7;
 				}
 			}
-			Color32 color = this.glowGrid[this.map.cellIndices.CellToIndex(c)];
+			Color32[] array = (!ignoreCavePlants) ? this.glowGrid : this.glowGridNoCavePlants;
+			Color32 color = array[this.map.cellIndices.CellToIndex(c)];
 			if (color.a == 1)
 			{
-				return 1f;
+				result = 1f;
 			}
-			float b = (float)((float)(color.r + color.g + color.b) / 3.0 / 255.0 * 3.5999999046325684);
-			b = Mathf.Min(0.5f, b);
-			return Mathf.Max(num, b);
+			else
+			{
+				float b = (float)((float)(color.r + color.g + color.b) / 3.0 / 255.0 * 3.5999999046325684);
+				b = Mathf.Min(0.5f, b);
+				result = Mathf.Max(num, b);
+			}
+			goto IL_00d7;
+			IL_00d7:
+			return result;
 		}
 
 		public PsychGlow PsychGlowAt(IntVec3 c)
 		{
-			float glow = this.GameGlowAt(c);
+			float glow = this.GameGlowAt(c, false);
 			return GlowGrid.PsychGlowAtGlow(glow);
 		}
 
 		public static PsychGlow PsychGlowAtGlow(float glow)
 		{
-			if (glow > 0.89999997615814209)
-			{
-				return PsychGlow.Overlit;
-			}
-			if (glow > 0.30000001192092896)
-			{
-				return PsychGlow.Lit;
-			}
-			return PsychGlow.Dark;
+			return (PsychGlow)((!(glow > 0.89999997615814209)) ? ((glow > 0.30000001192092896) ? 1 : 0) : 2);
 		}
 
 		public void RegisterGlower(CompGlower newGlow)
@@ -114,20 +119,12 @@ namespace Verse
 		{
 			if (Current.ProgramState == ProgramState.Playing)
 			{
+				Profiler.BeginSample("RecalculateAllGlow");
 				if (this.initialGlowerLocs != null)
 				{
-					List<IntVec3>.Enumerator enumerator = this.initialGlowerLocs.GetEnumerator();
-					try
+					foreach (IntVec3 initialGlowerLoc in this.initialGlowerLocs)
 					{
-						while (enumerator.MoveNext())
-						{
-							IntVec3 current = enumerator.Current;
-							this.MarkGlowGridDirty(current);
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
+						this.MarkGlowGridDirty(initialGlowerLoc);
 					}
 					this.initialGlowerLocs = null;
 				}
@@ -135,20 +132,17 @@ namespace Verse
 				for (int num = 0; num < numGridCells; num++)
 				{
 					this.glowGrid[num] = new Color32((byte)0, (byte)0, (byte)0, (byte)0);
+					this.glowGridNoCavePlants[num] = new Color32((byte)0, (byte)0, (byte)0, (byte)0);
 				}
-				HashSet<CompGlower>.Enumerator enumerator2 = this.litGlowers.GetEnumerator();
-				try
+				foreach (CompGlower litGlower in this.litGlowers)
 				{
-					while (enumerator2.MoveNext())
+					this.map.glowFlooder.AddFloodGlowFor(litGlower, this.glowGrid);
+					if (litGlower.parent.def.category != ThingCategory.Plant || !litGlower.parent.def.plant.cavePlant)
 					{
-						CompGlower current2 = enumerator2.Current;
-						this.map.glowFlooder.AddFloodGlowFor(current2);
+						this.map.glowFlooder.AddFloodGlowFor(litGlower, this.glowGridNoCavePlants);
 					}
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator2).Dispose();
-				}
+				Profiler.EndSample();
 			}
 		}
 	}

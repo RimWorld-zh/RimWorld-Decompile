@@ -6,6 +6,7 @@ namespace Verse
 	{
 		public static void MakeBaseGeometry(Section section, LayerSubMesh sm, AltitudeLayer altitudeLayer)
 		{
+			sm.Clear(MeshParts.Verts | MeshParts.Tris);
 			CellRect cellRect = new CellRect(section.botLeft.x, section.botLeft.z, 17, 17);
 			cellRect.ClipInsideMap(section.map);
 			float y = Altitudes.AltitudeFor(altitudeLayer);
@@ -56,7 +57,7 @@ namespace Verse
 				sm.tris.Add(num2 + 8);
 				num2 += 9;
 			}
-			sm.FinalizeMesh(MeshParts.Verts | MeshParts.Tris, false);
+			sm.FinalizeMesh(MeshParts.Verts | MeshParts.Tris);
 		}
 	}
 }

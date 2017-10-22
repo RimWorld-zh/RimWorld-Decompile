@@ -1,17 +1,22 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Verse
 {
 	public static class GenRadial
 	{
-		private const int RadialPatternCount = 10000;
-
 		public static IntVec3[] ManualRadialPattern;
 
 		public static IntVec3[] RadialPattern;
 
 		private static float[] RadialPatternRadii;
+
+		private const int RadialPatternCount = 10000;
+
+		private static List<IntVec3> tmpCells;
+
+		private static bool working;
 
 		public static float MaxRadialPatternRadius
 		{
@@ -26,6 +31,8 @@ namespace Verse
 			GenRadial.ManualRadialPattern = new IntVec3[49];
 			GenRadial.RadialPattern = new IntVec3[10000];
 			GenRadial.RadialPatternRadii = new float[10000];
+			GenRadial.tmpCells = new List<IntVec3>();
+			GenRadial.working = false;
 			GenRadial.SetupManualRadialPattern();
 			GenRadial.SetupRadialPattern();
 		}
@@ -97,15 +104,7 @@ namespace Verse
 			{
 				float num = (float)A.LengthHorizontalSquared;
 				float num2 = (float)B.LengthHorizontalSquared;
-				if (num < num2)
-				{
-					return -1;
-				}
-				if (num == num2)
-				{
-					return 0;
-				}
-				return 1;
+				return (!(num < num2)) ? ((num != num2) ? 1 : 0) : (-1);
 			});
 			for (int k = 0; k < 10000; k++)
 			{
@@ -116,48 +115,64 @@ namespace Verse
 
 		public static int NumCellsToFillForRadius_ManualRadialPattern(int radius)
 		{
+			int result;
 			switch (radius)
 			{
 			case 0:
 			{
-				return 1;
+				result = 1;
+				break;
 			}
 			case 1:
 			{
-				return 9;
+				result = 9;
+				break;
 			}
 			case 2:
 			{
-				return 21;
+				result = 21;
+				break;
 			}
 			case 3:
 			{
-				return 37;
+				result = 37;
+				break;
 			}
 			default:
 			{
 				Log.Error("NumSquares radius error");
-				return 0;
+				result = 0;
+				break;
 			}
 			}
+			return result;
 		}
 
 		public static int NumCellsInRadius(float radius)
 		{
+			int result;
+			int i;
 			if (radius >= GenRadial.MaxRadialPatternRadius)
 			{
 				Log.Error("Not enough squares to get to radius " + radius + ". Max is " + GenRadial.MaxRadialPatternRadius);
-				return 10000;
+				result = 10000;
 			}
-			float num = (float)(radius + 1.4012984643248171E-45);
-			for (int i = 0; i < 10000; i++)
+			else
 			{
-				if (GenRadial.RadialPatternRadii[i] > num)
+				float num = (float)(radius + 1.4012984643248171E-45);
+				for (i = 0; i < 10000; i++)
 				{
-					return i;
+					if (GenRadial.RadialPatternRadii[i] > num)
+						goto IL_006b;
 				}
+				result = 10000;
 			}
-			return 10000;
+			goto IL_008d;
+			IL_006b:
+			result = i;
+			goto IL_008d;
+			IL_008d:
+			return result;
 		}
 
 		public static float RadiusOfNumCells(int numCells)
@@ -168,18 +183,22 @@ namespace Verse
 		public static IEnumerable<IntVec3> RadialPatternInRadius(float radius)
 		{
 			int numSquares = GenRadial.NumCellsInRadius(radius);
-			for (int i = 0; i < numSquares; i++)
+			int i = 0;
+			if (i < numSquares)
 			{
 				yield return GenRadial.RadialPattern[i];
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
 		public static IEnumerable<IntVec3> RadialCellsAround(IntVec3 center, float radius, bool useCenter)
 		{
 			int numSquares = GenRadial.NumCellsInRadius(radius);
-			for (int i = (!useCenter) ? 1 : 0; i < numSquares; i++)
+			int i = (!useCenter) ? 1 : 0;
+			if (i < numSquares)
 			{
 				yield return GenRadial.RadialPattern[i] + center;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -193,7 +212,8 @@ namespace Verse
 				if (cell.InBounds(map))
 				{
 					List<Thing> thingList = cell.GetThingList(map);
-					for (int i = 0; i < thingList.Count; i++)
+					int i = 0;
+					while (i < thingList.Count)
 					{
 						Thing t = thingList[i];
 						if (t.def.size.x > 1 && t.def.size.z > 1)
@@ -205,14 +225,59 @@ namespace Verse
 							if (!returnedThings.Contains(t))
 							{
 								returnedThings.Add(t);
-								goto IL_014a;
+								goto IL_014f;
 							}
+							i++;
 							continue;
 						}
-						goto IL_014a;
-						IL_014a:
+						goto IL_014f;
+						IL_014f:
 						yield return t;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
+				}
+			}
+		}
+
+		public static void ProcessEquidistantCells(IntVec3 center, float radius, Func<List<IntVec3>, bool> processor, Map map = null)
+		{
+			if (GenRadial.working)
+			{
+				Log.Error("Nested calls to ProcessEquidistantCells() are not allowed.");
+			}
+			else
+			{
+				GenRadial.tmpCells.Clear();
+				GenRadial.working = true;
+				try
+				{
+					float num = -1f;
+					int num2 = GenRadial.NumCellsInRadius(radius);
+					for (int num3 = 0; num3 < num2; num3++)
+					{
+						IntVec3 intVec = center + GenRadial.RadialPattern[num3];
+						if (map == null || intVec.InBounds(map))
+						{
+							float num4 = (float)intVec.DistanceToSquared(center);
+							if (Mathf.Abs(num4 - num) > 9.9999997473787516E-05)
+							{
+								if (GenRadial.tmpCells.Any() && processor(GenRadial.tmpCells))
+									return;
+								num = num4;
+								GenRadial.tmpCells.Clear();
+							}
+							GenRadial.tmpCells.Add(intVec);
+						}
+					}
+					if (GenRadial.tmpCells.Any())
+					{
+						processor(GenRadial.tmpCells);
+					}
+				}
+				finally
+				{
+					GenRadial.tmpCells.Clear();
+					GenRadial.working = false;
 				}
 			}
 		}

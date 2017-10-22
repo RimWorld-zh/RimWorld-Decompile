@@ -238,11 +238,7 @@ namespace RimWorld
 					this.cachedPawns.Sort((Comparison<Pawn>)delegate(Pawn a, Pawn b)
 					{
 						int num2 = this.sortByColumn.Worker.Compare(b, a);
-						if (num2 == 0)
-						{
-							return b.Label.CompareTo(a.Label);
-						}
-						return num2;
+						return (num2 != 0) ? num2 : b.Label.CompareTo(a.Label);
 					});
 				}
 				else
@@ -250,11 +246,7 @@ namespace RimWorld
 					this.cachedPawns.Sort((Comparison<Pawn>)delegate(Pawn a, Pawn b)
 					{
 						int num = this.sortByColumn.Worker.Compare(a, b);
-						if (num == 0)
-						{
-							return a.Label.CompareTo(b.Label);
-						}
-						return num;
+						return (num != 0) ? num : a.Label.CompareTo(b.Label);
 					});
 				}
 			}
@@ -356,11 +348,8 @@ namespace RimWorld
 								if (num5 > 0.0)
 								{
 									List<float> list;
-									List<float> obj = list = this.cachedColumnWidths;
 									int index;
-									int index2 = index = l;
-									float num7 = list[index];
-									obj[index2] = num7 + num5;
+									(list = this.cachedColumnWidths)[index = l] = list[index] + num5;
 									usedWidth += num5;
 								}
 							}
@@ -425,11 +414,8 @@ namespace RimWorld
 							if (num4 > 0.0)
 							{
 								List<float> list;
-								List<float> obj = list = this.cachedColumnWidths;
 								int index;
-								int index2 = index = k;
-								float num6 = list[index];
-								obj[index2] = num6 + num4;
+								(list = this.cachedColumnWidths)[index = k] = list[index] + num4;
 								usedWidth += num4;
 							}
 						}
@@ -484,11 +470,8 @@ namespace RimWorld
 			for (int i = 0; i < this.cachedColumnWidths.Count; i++)
 			{
 				List<float> list;
-				List<float> obj = list = this.cachedColumnWidths;
 				int index;
-				int index2 = index = i;
-				float num = list[index];
-				obj[index2] = num - toSubtract * this.cachedColumnWidths[i] / totalUsedWidth;
+				(list = this.cachedColumnWidths)[index = i] = list[index] - toSubtract * this.cachedColumnWidths[i] / totalUsedWidth;
 			}
 		}
 
@@ -502,11 +485,8 @@ namespace RimWorld
 			for (int j = 0; j < this.columns.Count; j++)
 			{
 				List<float> list;
-				List<float> obj = list = this.cachedColumnWidths;
 				int index;
-				int index2 = index = j;
-				float num2 = list[index];
-				obj[index2] = num2 + toDistribute * Mathf.Max(this.GetOptimalWidth(this.columns[j]), 1f) / num;
+				(list = this.cachedColumnWidths)[index = j] = list[index] + toDistribute * Mathf.Max(this.GetOptimalWidth(this.columns[j]), 1f) / num;
 			}
 		}
 

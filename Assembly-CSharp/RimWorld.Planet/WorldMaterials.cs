@@ -6,12 +6,6 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public static class WorldMaterials
 	{
-		private const float TempRange = 50f;
-
-		private const float ElevationMax = 5000f;
-
-		private const float RainfallMax = 5000f;
-
 		public static readonly Material WorldTerrain;
 
 		public static readonly Material WorldIce;
@@ -26,11 +20,15 @@ namespace RimWorld.Planet
 
 		public static readonly Material Roads;
 
+		public static int DebugTileRenderQueue;
+
 		public static int WorldObjectRenderQueue;
+
+		public static int WorldLineRenderQueue;
 
 		public static int DynamicObjectRenderQueue;
 
-		public static int WorldLineRenderQueue;
+		public static int FeatureNameRenderQueue;
 
 		public static readonly Material MouseTile;
 
@@ -64,13 +62,19 @@ namespace RimWorld.Planet
 
 		private static readonly Color[] FertilitySpectrum;
 
+		private const float TempRange = 50f;
+
 		private static Material[] matsTemperature;
 
 		private static readonly Color[] TemperatureSpectrum;
 
+		private const float ElevationMax = 5000f;
+
 		private static Material[] matsElevation;
 
 		private static readonly Color[] ElevationSpectrum;
+
+		private const float RainfallMax = 5000f;
 
 		private static Material[] matsRainfall;
 
@@ -94,9 +98,11 @@ namespace RimWorld.Planet
 			WorldMaterials.Rivers = MatLoader.LoadMat("World/Rivers", 3530);
 			WorldMaterials.RiversBorder = MatLoader.LoadMat("World/RiversBorder", 3520);
 			WorldMaterials.Roads = MatLoader.LoadMat("World/Roads", 3540);
+			WorldMaterials.DebugTileRenderQueue = 3510;
 			WorldMaterials.WorldObjectRenderQueue = 3550;
-			WorldMaterials.DynamicObjectRenderQueue = 3600;
 			WorldMaterials.WorldLineRenderQueue = 3590;
+			WorldMaterials.DynamicObjectRenderQueue = 3600;
+			WorldMaterials.FeatureNameRenderQueue = 3610;
 			WorldMaterials.MouseTile = MaterialPool.MatFrom("World/MouseTile", ShaderDatabase.WorldOverlayAdditive, 3560);
 			WorldMaterials.SelectedTile = MaterialPool.MatFrom("World/SelectedTile", ShaderDatabase.WorldOverlayAdditive, 3560);
 			WorldMaterials.CurrentMapTile = MaterialPool.MatFrom("World/CurrentMapTile", ShaderDatabase.WorldOverlayTransparent, 3560);

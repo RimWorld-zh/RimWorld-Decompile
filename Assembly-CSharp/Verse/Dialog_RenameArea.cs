@@ -14,16 +14,8 @@ namespace Verse
 
 		protected override AcceptanceReport NameIsValid(string name)
 		{
-			AcceptanceReport result = base.NameIsValid(name);
-			if (!result.Accepted)
-			{
-				return result;
-			}
-			if (this.area.Map.areaManager.AllAreas.Any((Predicate<Area>)((Area a) => a.Label == name)))
-			{
-				return "NameIsInUse".Translate();
-			}
-			return true;
+			AcceptanceReport acceptanceReport = base.NameIsValid(name);
+			return acceptanceReport.Accepted ? ((!this.area.Map.areaManager.AllAreas.Any((Predicate<Area>)((Area a) => a.Label == name))) ? true : "NameIsInUse".Translate()) : acceptanceReport;
 		}
 
 		protected override void SetName(string name)

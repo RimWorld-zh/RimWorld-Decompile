@@ -1,4 +1,6 @@
+#define ENABLE_PROFILER
 using System.Collections.Generic;
+using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 
@@ -6,7 +8,15 @@ namespace RimWorld
 {
 	public abstract class WorkGiver_Grower : WorkGiver_Scanner
 	{
-		protected static ThingDef wantedPlantDef;
+		protected static ThingDef wantedPlantDef = null;
+
+		public override bool AllowUnreachable
+		{
+			get
+			{
+				return true;
+			}
+		}
 
 		protected virtual bool ExtraRequirements(IPlantToGrowSettable settable, Pawn pawn)
 		{
@@ -15,6 +25,7 @@ namespace RimWorld
 
 		public override IEnumerable<IntVec3> PotentialWorkCellsGlobal(Pawn pawn)
 		{
+			Profiler.BeginSample("Grow find cell");
 			Danger maxDanger = pawn.NormalMaxDanger();
 			List<Building> bList = pawn.Map.listerBuildings.allBuildingsColonist;
 			for (int k = 0; k < bList.Count; k++)
@@ -23,10 +34,10 @@ namespace RimWorld
 				if (b != null && this.ExtraRequirements(b, pawn) && !b.IsForbidden(pawn) && pawn.CanReach((Thing)b, PathEndMode.OnCell, maxDanger, false, TraverseMode.ByPawn) && !b.IsBurning())
 				{
 					CellRect.CellRectIterator cri = b.OccupiedRect().GetIterator();
-					while (!cri.Done())
+					if (!cri.Done())
 					{
 						yield return cri.Current;
-						cri.MoveNext();
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 					WorkGiver_Grower.wantedPlantDef = null;
 				}
@@ -44,25 +55,24 @@ namespace RimWorld
 					}
 					else if (this.ExtraRequirements(growZone, pawn) && !growZone.ContainsStaticFire && pawn.CanReach(growZone.Cells[0], PathEndMode.OnCell, maxDanger, false, TraverseMode.ByPawn))
 					{
-						for (int i = 0; i < growZone.cells.Count; i++)
+						int i = 0;
+						if (i < growZone.cells.Count)
 						{
 							yield return growZone.cells[i];
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
 						WorkGiver_Grower.wantedPlantDef = null;
 					}
 				}
 			}
 			WorkGiver_Grower.wantedPlantDef = null;
+			Profiler.EndSample();
 		}
 
 		public static ThingDef CalculateWantedPlantDef(IntVec3 c, Map map)
 		{
 			IPlantToGrowSettable plantToGrowSettable = c.GetPlantToGrowSettable(map);
-			if (plantToGrowSettable == null)
-			{
-				return null;
-			}
-			return plantToGrowSettable.GetPlantDefToGrow();
+			return (plantToGrowSettable != null) ? plantToGrowSettable.GetPlantDefToGrow() : null;
 		}
 	}
 }

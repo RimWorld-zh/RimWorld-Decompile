@@ -15,10 +15,10 @@ namespace RimWorld
 		public static List<RoomOutline> GenerateRoomOutlines(CellRect initialRect, Map map, int divisionsCount, int finalRoomsCount, int maxRoomCells, int minTotalRoomsNonWallCellsCount)
 		{
 			int num = 0;
-			List<RoomOutline> list;
+			List<RoomOutline> result;
 			while (true)
 			{
-				list = RoomOutlinesGenerator.GenerateRoomOutlines(initialRect, map, divisionsCount, finalRoomsCount, maxRoomCells);
+				List<RoomOutline> list = RoomOutlinesGenerator.GenerateRoomOutlines(initialRect, map, divisionsCount, finalRoomsCount, maxRoomCells);
 				int num2 = 0;
 				for (int i = 0; i < list.Count; i++)
 				{
@@ -26,13 +26,18 @@ namespace RimWorld
 				}
 				if (num2 >= minTotalRoomsNonWallCellsCount)
 				{
-					return list;
+					result = list;
 				}
-				num++;
-				if (num > 15)
-					break;
+				else
+				{
+					num++;
+					if (num <= 15)
+						continue;
+					result = list;
+				}
+				break;
 			}
-			return list;
+			return result;
 		}
 
 		public static List<RoomOutline> GenerateRoomOutlines(CellRect initialRect, Map map, int divisionsCount, int finalRoomsCount, int maxRoomCells)

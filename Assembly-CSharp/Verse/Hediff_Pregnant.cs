@@ -8,13 +8,13 @@ namespace Verse
 {
 	public class Hediff_Pregnant : HediffWithComps
 	{
+		public Pawn father;
+
 		private const int MiscarryCheckInterval = 1000;
 
 		private const float MTBMiscarryStarvingDays = 0.5f;
 
 		private const float MTBMiscarryWoundedDays = 0.5f;
-
-		public Pawn father;
 
 		public float GestationProgress
 		{
@@ -62,7 +62,7 @@ namespace Verse
 				{
 					if (this.Visible && PawnUtility.ShouldSendNotificationAbout(base.pawn))
 					{
-						Messages.Message("MessageMiscarriedStarvation".Translate(base.pawn.LabelIndefinite()).CapitalizeFirst(), (Thing)base.pawn, MessageSound.Negative);
+						Messages.Message("MessageMiscarriedStarvation".Translate(base.pawn.LabelIndefinite()).CapitalizeFirst(), (Thing)base.pawn, MessageTypeDefOf.NegativeHealthEvent);
 					}
 					this.Miscarry();
 					return;
@@ -71,7 +71,7 @@ namespace Verse
 				{
 					if (this.Visible && PawnUtility.ShouldSendNotificationAbout(base.pawn))
 					{
-						Messages.Message("MessageMiscarriedPoorHealth".Translate(base.pawn.LabelIndefinite()).CapitalizeFirst(), (Thing)base.pawn, MessageSound.Negative);
+						Messages.Message("MessageMiscarriedPoorHealth".Translate(base.pawn.LabelIndefinite()).CapitalizeFirst(), (Thing)base.pawn, MessageTypeDefOf.NegativeHealthEvent);
 					}
 					this.Miscarry();
 					return;
@@ -82,7 +82,7 @@ namespace Verse
 			{
 				if (this.Visible && PawnUtility.ShouldSendNotificationAbout(base.pawn))
 				{
-					Messages.Message("MessageGaveBirth".Translate(base.pawn.LabelIndefinite()).CapitalizeFirst(), (Thing)base.pawn, MessageSound.Benefit);
+					Messages.Message("MessageGaveBirth".Translate(base.pawn.LabelIndefinite()).CapitalizeFirst(), (Thing)base.pawn, MessageTypeDefOf.PositiveEvent);
 				}
 				Hediff_Pregnant.DoBirthSpawn(base.pawn, this.father);
 				base.pawn.health.RemoveHediff(this);
@@ -101,7 +101,7 @@ namespace Verse
 			{
 				num = 1;
 			}
-			PawnGenerationRequest request = new PawnGenerationRequest(mother.kindDef, mother.Faction, PawnGenerationContext.NonPlayer, -1, false, true, false, false, true, false, 1f, false, true, true, false, false, null, default(float?), default(float?), default(Gender?), default(float?), (string)null);
+			PawnGenerationRequest request = new PawnGenerationRequest(mother.kindDef, mother.Faction, PawnGenerationContext.NonPlayer, -1, false, true, false, false, true, false, 1f, false, true, true, false, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
 			Pawn pawn = null;
 			for (int num2 = 0; num2 < num; num2++)
 			{
@@ -125,6 +125,7 @@ namespace Verse
 				{
 					Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Discard);
 				}
+				TaleRecorder.RecordTale(TaleDefOf.GaveBirth, mother, pawn);
 			}
 			if (mother.Spawned)
 			{

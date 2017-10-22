@@ -121,7 +121,7 @@ namespace Verse
 				}
 				if (subMesh.verts.Count > 0)
 				{
-					subMesh.FinalizeMesh(MeshParts.Verts | MeshParts.Tris | MeshParts.Colors, false);
+					subMesh.FinalizeMesh(MeshParts.Verts | MeshParts.Tris | MeshParts.Colors);
 					float num2 = Mathf.Max(15f, 15f);
 					Vector3 size2 = subMesh.mesh.bounds.size;
 					size2.x += (float)(2.0 * num2 + 2.0);

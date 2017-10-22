@@ -6,6 +6,7 @@ namespace Verse
 		KillFinalize = 1,
 		Deconstruct = 2,
 		FailConstruction = 3,
-		Cancel = 4
+		Cancel = 4,
+		Refund = 5
 	}
 }

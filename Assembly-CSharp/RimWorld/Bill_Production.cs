@@ -16,21 +16,17 @@ namespace RimWorld
 
 		public BillStoreModeDef storeMode = BillStoreModeDefOf.BestStockpile;
 
-		public bool pauseWhenSatisfied;
+		public bool pauseWhenSatisfied = false;
 
 		public int unpauseWhenYouHave = 5;
 
-		public bool paused;
+		public bool paused = false;
 
 		protected override string StatusString
 		{
 			get
 			{
-				if (this.paused)
-				{
-					return " " + "Paused".Translate();
-				}
-				return string.Empty;
+				return (!this.paused) ? "" : (" " + "Paused".Translate());
 			}
 		}
 
@@ -46,19 +42,25 @@ namespace RimWorld
 		{
 			get
 			{
+				string result;
 				if (this.repeatMode == BillRepeatModeDefOf.Forever)
 				{
-					return "Forever".Translate();
+					result = "Forever".Translate();
+					goto IL_00a8;
 				}
 				if (this.repeatMode == BillRepeatModeDefOf.RepeatCount)
 				{
-					return this.repeatCount.ToString() + "x";
+					result = this.repeatCount.ToString() + "x";
+					goto IL_00a8;
 				}
 				if (this.repeatMode == BillRepeatModeDefOf.TargetCount)
 				{
-					return base.recipe.WorkerCounter.CountProducts(this).ToString() + "/" + this.targetCount.ToString();
+					result = base.recipe.WorkerCounter.CountProducts(this).ToString() + "/" + this.targetCount.ToString();
+					goto IL_00a8;
 				}
 				throw new InvalidOperationException();
+				IL_00a8:
+				return result;
 			}
 		}
 
@@ -101,17 +103,21 @@ namespace RimWorld
 			{
 				this.paused = false;
 			}
+			bool result;
 			if (base.suspended)
 			{
-				return false;
+				result = false;
+				goto IL_00e8;
 			}
 			if (this.repeatMode == BillRepeatModeDefOf.Forever)
 			{
-				return true;
+				result = true;
+				goto IL_00e8;
 			}
 			if (this.repeatMode == BillRepeatModeDefOf.RepeatCount)
 			{
-				return this.repeatCount > 0;
+				result = (this.repeatCount > 0);
+				goto IL_00e8;
 			}
 			if (this.repeatMode == BillRepeatModeDefOf.TargetCount)
 			{
@@ -124,13 +130,12 @@ namespace RimWorld
 				{
 					this.paused = false;
 				}
-				if (this.paused)
-				{
-					return false;
-				}
-				return num < this.targetCount;
+				result = (!this.paused && num < this.targetCount);
+				goto IL_00e8;
 			}
 			throw new InvalidOperationException();
+			IL_00e8:
+			return result;
 		}
 
 		public override void Notify_IterationCompleted(Pawn billDoer, List<Thing> ingredients)
@@ -143,7 +148,7 @@ namespace RimWorld
 				}
 				if (this.repeatCount == 0)
 				{
-					Messages.Message("MessageBillComplete".Translate(this.LabelCap), (Thing)base.billStack.billGiver, MessageSound.Benefit);
+					Messages.Message("MessageBillComplete".Translate(this.LabelCap), (Thing)base.billStack.billGiver, MessageTypeDefOf.TaskCompletion);
 				}
 			}
 		}
@@ -159,7 +164,7 @@ namespace RimWorld
 			{
 				Find.WindowStack.Add(new Dialog_BillConfig(this, ((Thing)base.billStack.billGiver).Position));
 			}
-			if (widgetRow.ButtonText(this.repeatMode.GetLabel().PadRight(20), (string)null, true, false))
+			if (widgetRow.ButtonText(this.repeatMode.LabelCap.PadRight(20), (string)null, true, false))
 			{
 				BillRepeatModeUtility.MakeConfigFloatMenu(this);
 			}

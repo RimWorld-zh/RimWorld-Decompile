@@ -9,7 +9,7 @@ namespace Verse
 
 		private List<Thing>[] listsByGroup;
 
-		public ListerThingsUse use;
+		public ListerThingsUse use = ListerThingsUse.Undefined;
 
 		private static readonly List<Thing> EmptyList = new List<Thing>();
 
@@ -40,21 +40,22 @@ namespace Verse
 
 		public List<Thing> ThingsMatching(ThingRequest req)
 		{
+			List<Thing> result;
 			if (req.singleDef != null)
 			{
-				List<Thing> result = default(List<Thing>);
-				if (!this.listsByDef.TryGetValue(req.singleDef, out result))
-				{
-					return ListerThings.EmptyList;
-				}
-				return result;
+				List<Thing> list = default(List<Thing>);
+				result = (this.listsByDef.TryGetValue(req.singleDef, out list) ? list : ListerThings.EmptyList);
+				goto IL_007e;
 			}
 			if (req.group != 0)
 			{
-				List<Thing> list = this.listsByGroup[(uint)req.group];
-				return list ?? ListerThings.EmptyList;
+				List<Thing> list2 = this.listsByGroup[(uint)req.group];
+				result = (list2 ?? ListerThings.EmptyList);
+				goto IL_007e;
 			}
 			throw new InvalidOperationException("Invalid ThingRequest " + req);
+			IL_007e:
+			return result;
 		}
 
 		public bool Contains(Thing t)
@@ -109,19 +110,7 @@ namespace Verse
 
 		public static bool EverListable(ThingDef def, ListerThingsUse use)
 		{
-			if (def.category == ThingCategory.Mote && (!def.drawGUIOverlay || use == ListerThingsUse.Region))
-			{
-				return false;
-			}
-			if (def.category == ThingCategory.Projectile && use == ListerThingsUse.Region)
-			{
-				return false;
-			}
-			if (def.category == ThingCategory.Gas)
-			{
-				return false;
-			}
-			return true;
+			return (byte)((def.category != ThingCategory.Mote || (def.drawGUIOverlay && use != ListerThingsUse.Region)) ? ((def.category != ThingCategory.Projectile || use != ListerThingsUse.Region) ? ((def.category != ThingCategory.Gas) ? 1 : 0) : 0) : 0) != 0;
 		}
 	}
 }

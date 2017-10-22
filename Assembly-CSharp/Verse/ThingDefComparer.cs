@@ -8,15 +8,7 @@ namespace Verse
 
 		public bool Equals(ThingDef x, ThingDef y)
 		{
-			if (x == null && y == null)
-			{
-				return true;
-			}
-			if (x != null && y != null)
-			{
-				return x.shortHash == y.shortHash;
-			}
-			return false;
+			return (x == null && y == null) || (x != null && y != null && x.shortHash == y.shortHash);
 		}
 
 		public int GetHashCode(ThingDef obj)

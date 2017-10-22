@@ -8,29 +8,37 @@ namespace Verse
 		public static int GetPostArmorDamage(Pawn pawn, int amountInt, BodyPartRecord part, DamageDef damageDef)
 		{
 			float num = (float)amountInt;
+			int result;
 			if (damageDef.armorCategory == null)
 			{
-				return amountInt;
+				result = amountInt;
 			}
-			StatDef deflectionStat = damageDef.armorCategory.deflectionStat;
-			if (pawn.apparel != null)
+			else
 			{
-				List<Apparel> wornApparel = pawn.apparel.WornApparel;
-				for (int i = 0; i < wornApparel.Count; i++)
+				StatDef deflectionStat = damageDef.armorCategory.deflectionStat;
+				if (pawn.apparel != null)
 				{
-					Apparel apparel = wornApparel[i];
-					if (apparel.def.apparel.CoversBodyPart(part))
+					List<Apparel> wornApparel = pawn.apparel.WornApparel;
+					for (int i = 0; i < wornApparel.Count; i++)
 					{
-						ArmorUtility.ApplyArmor(ref num, apparel.GetStatValue(deflectionStat, true), apparel, damageDef);
-						if (num < 0.0010000000474974513)
+						Apparel apparel = wornApparel[i];
+						if (apparel.def.apparel.CoversBodyPart(part))
 						{
-							return 0;
+							ArmorUtility.ApplyArmor(ref num, apparel.GetStatValue(deflectionStat, true), apparel, damageDef);
+							if (num < 0.0010000000474974513)
+								goto IL_0083;
 						}
 					}
 				}
+				ArmorUtility.ApplyArmor(ref num, pawn.GetStatValue(deflectionStat, true), null, damageDef);
+				result = GenMath.RoundRandom(num);
 			}
-			ArmorUtility.ApplyArmor(ref num, pawn.GetStatValue(deflectionStat, true), null, damageDef);
-			return GenMath.RoundRandom(num);
+			goto IL_00bd;
+			IL_0083:
+			result = 0;
+			goto IL_00bd;
+			IL_00bd:
+			return result;
 		}
 
 		private static void ApplyArmor(ref float damAmount, float armorRating, Thing armorThing, DamageDef damageDef)

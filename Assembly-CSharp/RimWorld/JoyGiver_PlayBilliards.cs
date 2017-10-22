@@ -15,27 +15,31 @@ namespace RimWorld
 
 		protected override Job TryGivePlayJob(Pawn pawn, Thing t)
 		{
-			if (!JoyGiver_PlayBilliards.ThingHasStandableSpaceOnAllSides(t))
-			{
-				return null;
-			}
-			return new Job(base.def.jobDef, t);
+			return JoyGiver_PlayBilliards.ThingHasStandableSpaceOnAllSides(t) ? new Job(base.def.jobDef, t) : null;
 		}
 
 		public static bool ThingHasStandableSpaceOnAllSides(Thing t)
 		{
 			CellRect cellRect = t.OccupiedRect();
 			CellRect.CellRectIterator iterator = cellRect.ExpandedBy(1).GetIterator();
-			while (!iterator.Done())
+			bool result;
+			while (true)
 			{
-				IntVec3 current = iterator.Current;
-				if (!cellRect.Contains(current) && !current.Standable(t.Map))
+				if (!iterator.Done())
 				{
-					return false;
+					IntVec3 current = iterator.Current;
+					if (!cellRect.Contains(current) && !current.Standable(t.Map))
+					{
+						result = false;
+						break;
+					}
+					iterator.MoveNext();
+					continue;
 				}
-				iterator.MoveNext();
+				result = true;
+				break;
 			}
-			return true;
+			return result;
 		}
 	}
 }

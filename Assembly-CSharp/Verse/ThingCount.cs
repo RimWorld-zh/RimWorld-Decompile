@@ -42,21 +42,12 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			if (!(obj is ThingCount))
-			{
-				return false;
-			}
-			return this.Equals((ThingCount)obj);
+			return obj is ThingCount && this.Equals((ThingCount)obj);
 		}
 
 		public bool Equals(ThingCount other)
 		{
 			return this == other;
-		}
-
-		public override int GetHashCode()
-		{
-			return Gen.HashCombine(this.count, this.thingDef);
 		}
 
 		public static bool operator ==(ThingCount a, ThingCount b)
@@ -67,6 +58,11 @@ namespace Verse
 		public static bool operator !=(ThingCount a, ThingCount b)
 		{
 			return !(a == b);
+		}
+
+		public override int GetHashCode()
+		{
+			return Gen.HashCombine(this.count, this.thingDef);
 		}
 	}
 }

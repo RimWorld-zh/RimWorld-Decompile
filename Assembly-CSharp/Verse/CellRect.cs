@@ -8,7 +8,7 @@ namespace Verse
 {
 	public struct CellRect : IEquatable<CellRect>
 	{
-		public struct Enumerator : IEnumerator, IDisposable, IEnumerator<IntVec3>
+		public struct Enumerator : IEnumerator<IntVec3>, IEnumerator, IDisposable
 		{
 			private CellRect ir;
 
@@ -39,10 +39,6 @@ namespace Verse
 				this.z = ir.minZ;
 			}
 
-			void IDisposable.Dispose()
-			{
-			}
-
 			public bool MoveNext()
 			{
 				this.x++;
@@ -51,17 +47,17 @@ namespace Verse
 					this.x = this.ir.minX;
 					this.z++;
 				}
-				if (this.z > this.ir.maxZ)
-				{
-					return false;
-				}
-				return true;
+				return (byte)((this.z <= this.ir.maxZ) ? 1 : 0) != 0;
 			}
 
 			public void Reset()
 			{
 				this.x = this.ir.minX - 1;
 				this.z = this.ir.minZ;
+			}
+
+			void IDisposable.Dispose()
+			{
 			}
 		}
 
@@ -126,6 +122,14 @@ namespace Verse
 			}
 		}
 
+		public bool IsEmpty
+		{
+			get
+			{
+				return this.Width <= 0 || this.Height <= 0;
+			}
+		}
+
 		public int Area
 		{
 			get
@@ -138,11 +142,11 @@ namespace Verse
 		{
 			get
 			{
-				return this.maxX - this.minX + 1;
+				return (this.minX <= this.maxX) ? (this.maxX - this.minX + 1) : 0;
 			}
 			set
 			{
-				this.maxX = this.minX + value - 1;
+				this.maxX = this.minX + Mathf.Max(value, 0) - 1;
 			}
 		}
 
@@ -150,11 +154,23 @@ namespace Verse
 		{
 			get
 			{
-				return this.maxZ - this.minZ + 1;
+				return (this.minZ <= this.maxZ) ? (this.maxZ - this.minZ + 1) : 0;
 			}
 			set
 			{
-				this.maxZ = this.minZ + value - 1;
+				this.maxZ = this.minZ + Mathf.Max(value, 0) - 1;
+			}
+		}
+
+		public IEnumerable<IntVec3> Corners
+		{
+			get
+			{
+				if (!this.IsEmpty)
+				{
+					yield return new IntVec3(this.minX, 0, this.minZ);
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
 			}
 		}
 
@@ -202,7 +218,7 @@ namespace Verse
 		{
 			get
 			{
-				return new Vector3(Rand.Range((float)this.minX, (float)this.maxX), 0f, Rand.Range((float)this.minZ, (float)this.maxZ));
+				return new Vector3(Rand.Range((float)this.minX, (float)((float)this.maxX + 1.0)), 0f, Rand.Range((float)this.minZ, (float)((float)this.maxZ + 1.0)));
 			}
 		}
 
@@ -210,13 +226,22 @@ namespace Verse
 		{
 			get
 			{
-				for (int z = this.minZ; z <= this.maxZ; z++)
+				int z = this.minZ;
+				int x;
+				while (true)
 				{
-					for (int x = this.minX; x <= this.maxX; x++)
+					if (z <= this.maxZ)
 					{
-						yield return new IntVec3(x, 0, z);
+						x = this.minX;
+						if (x <= this.maxX)
+							break;
+						z++;
+						continue;
 					}
+					yield break;
 				}
+				yield return new IntVec3(x, 0, z);
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -224,13 +249,22 @@ namespace Verse
 		{
 			get
 			{
-				for (int z = this.minZ; z <= this.maxZ; z++)
+				int z = this.minZ;
+				int x;
+				while (true)
 				{
-					for (int x = this.minX; x <= this.maxX; x++)
+					if (z <= this.maxZ)
 					{
-						yield return new IntVec2(x, z);
+						x = this.minX;
+						if (x <= this.maxX)
+							break;
+						z++;
+						continue;
 					}
+					yield break;
 				}
+				yield return new IntVec2(x, z);
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -238,26 +272,36 @@ namespace Verse
 		{
 			get
 			{
-				int x4 = this.minX;
-				int z4 = this.minZ;
-				for (; x4 <= this.maxX; x4++)
+				if (!this.IsEmpty)
 				{
-					yield return new IntVec3(x4, 0, z4);
-				}
-				x4--;
-				for (z4++; z4 <= this.maxZ; z4++)
-				{
-					yield return new IntVec3(x4, 0, z4);
-				}
-				z4--;
-				for (x4--; x4 >= this.minX; x4--)
-				{
-					yield return new IntVec3(x4, 0, z4);
-				}
-				x4++;
-				for (z4--; z4 > this.minZ; z4--)
-				{
-					yield return new IntVec3(x4, 0, z4);
+					int x4 = this.minX;
+					int z4 = this.minZ;
+					if (x4 <= this.maxX)
+					{
+						yield return new IntVec3(x4, 0, z4);
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
+					x4--;
+					z4++;
+					if (z4 <= this.maxZ)
+					{
+						yield return new IntVec3(x4, 0, z4);
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
+					z4--;
+					x4--;
+					if (x4 >= this.minX)
+					{
+						yield return new IntVec3(x4, 0, z4);
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
+					x4++;
+					z4--;
+					if (z4 > this.minZ)
+					{
+						yield return new IntVec3(x4, 0, z4);
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
 			}
 		}
@@ -266,15 +310,29 @@ namespace Verse
 		{
 			get
 			{
-				if (this.Area == 0)
+				return (this.Area != 0) ? ((this.Area == 1) ? 1 : (this.Width * 2 + (this.Height - 2) * 2)) : 0;
+			}
+		}
+
+		public IEnumerable<IntVec3> AdjacentCellsCardinal
+		{
+			get
+			{
+				if (!this.IsEmpty)
 				{
-					return 0;
+					int x = this.minX;
+					if (x <= this.maxX)
+					{
+						yield return new IntVec3(x, 0, this.minZ - 1);
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
+					int z = this.minZ;
+					if (z <= this.maxZ)
+					{
+						yield return new IntVec3(this.minX - 1, 0, z);
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
-				if (this.Area == 1)
-				{
-					return 1;
-				}
-				return this.Width * 2 + (this.Height - 2) * 2;
 			}
 		}
 
@@ -289,6 +347,16 @@ namespace Verse
 		public CellRectIterator GetIterator()
 		{
 			return new CellRectIterator(this);
+		}
+
+		public static bool operator ==(CellRect lhs, CellRect rhs)
+		{
+			return lhs.Equals(rhs);
+		}
+
+		public static bool operator !=(CellRect lhs, CellRect rhs)
+		{
+			return !(lhs == rhs);
 		}
 
 		public static CellRect WholeMap(Map map)
@@ -332,6 +400,18 @@ namespace Verse
 			};
 		}
 
+		public static CellRect CenteredOn(IntVec3 center, int width, int height)
+		{
+			CellRect result = new CellRect
+			{
+				minX = center.x - width / 2,
+				minZ = center.z - height / 2
+			};
+			result.maxX = result.minX + width - 1;
+			result.maxZ = result.minZ + height - 1;
+			return result;
+		}
+
 		public static CellRect SingleCell(IntVec3 c)
 		{
 			return new CellRect(c.x, c.z, 1, 1);
@@ -349,12 +429,12 @@ namespace Verse
 					int num2 = this.maxZ;
 					IntVec3 size2 = map.Size;
 					result = ((num2 < size2.z) ? 1 : 0);
-					goto IL_004a;
+					goto IL_004b;
 				}
 			}
 			result = 0;
-			goto IL_004a;
-			IL_004a:
+			goto IL_004b;
+			IL_004b:
 			return (byte)result != 0;
 		}
 
@@ -365,26 +445,31 @@ namespace Verse
 			return this == rhs;
 		}
 
+		public bool Overlaps(CellRect other)
+		{
+			return !this.IsEmpty && !other.IsEmpty && this.minX <= other.maxX && this.maxX >= other.minX && this.maxZ >= other.minZ && this.minZ <= other.maxZ;
+		}
+
 		public bool IsOnEdge(IntVec3 c)
 		{
 			if (c.x == this.minX && c.z >= this.minZ && c.z <= this.maxZ)
 			{
-				goto IL_00dd;
+				goto IL_00de;
 			}
 			if (c.x == this.maxX && c.z >= this.minZ && c.z <= this.maxZ)
 			{
-				goto IL_00dd;
+				goto IL_00de;
 			}
 			if (c.z == this.minZ && c.x >= this.minX && c.x <= this.maxX)
 			{
-				goto IL_00dd;
+				goto IL_00de;
 			}
 			int result = (c.z == this.maxZ && c.x >= this.minX && c.x <= this.maxX) ? 1 : 0;
-			goto IL_00de;
-			IL_00dd:
-			result = 1;
-			goto IL_00de;
+			goto IL_00df;
 			IL_00de:
+			result = 1;
+			goto IL_00df;
+			IL_00df:
 			return (byte)result != 0;
 		}
 
@@ -392,23 +477,23 @@ namespace Verse
 		{
 			if (c.x == this.minX && c.z == this.minZ)
 			{
-				goto IL_0092;
+				goto IL_0093;
 			}
 			if (c.x == this.maxX && c.z == this.minZ)
 			{
-				goto IL_0092;
+				goto IL_0093;
 			}
 			if (c.x == this.minX && c.z == this.maxZ)
 			{
-				goto IL_0092;
+				goto IL_0093;
 			}
 			int result = (c.x == this.maxX && c.z == this.maxZ) ? 1 : 0;
-			goto IL_0093;
-			IL_0093:
+			goto IL_0094;
+			IL_0094:
 			return (byte)result != 0;
-			IL_0092:
+			IL_0093:
 			result = 1;
-			goto IL_0093;
+			goto IL_0094;
 		}
 
 		public CellRect ClipInsideMap(Map map)
@@ -466,113 +551,68 @@ namespace Verse
 
 		public float ClosestDistSquaredTo(IntVec3 c)
 		{
-			if (this.Contains(c))
-			{
-				return 0f;
-			}
-			if (c.x < this.minX)
-			{
-				if (c.z < this.minZ)
-				{
-					return (float)(c - new IntVec3(this.minX, 0, this.minZ)).LengthHorizontalSquared;
-				}
-				if (c.z > this.maxZ)
-				{
-					return (float)(c - new IntVec3(this.minX, 0, this.maxZ)).LengthHorizontalSquared;
-				}
-				return (float)((this.minX - c.x) * (this.minX - c.x));
-			}
-			if (c.x > this.maxX)
-			{
-				if (c.z < this.minZ)
-				{
-					return (float)(c - new IntVec3(this.maxX, 0, this.minZ)).LengthHorizontalSquared;
-				}
-				if (c.z > this.maxZ)
-				{
-					return (float)(c - new IntVec3(this.maxX, 0, this.maxZ)).LengthHorizontalSquared;
-				}
-				return (float)((c.x - this.maxX) * (c.x - this.maxX));
-			}
-			if (c.z < this.minZ)
-			{
-				return (float)((this.minZ - c.z) * (this.minZ - c.z));
-			}
-			return (float)((c.z - this.maxZ) * (c.z - this.maxZ));
+			return (float)((!this.Contains(c)) ? ((c.x >= this.minX) ? ((c.x <= this.maxX) ? ((c.z >= this.minZ) ? ((float)((c.z - this.maxZ) * (c.z - this.maxZ))) : ((float)((this.minZ - c.z) * (this.minZ - c.z)))) : ((c.z >= this.minZ) ? ((c.z <= this.maxZ) ? ((float)((c.x - this.maxX) * (c.x - this.maxX))) : ((float)(c - new IntVec3(this.maxX, 0, this.maxZ)).LengthHorizontalSquared)) : ((float)(c - new IntVec3(this.maxX, 0, this.minZ)).LengthHorizontalSquared))) : ((c.z >= this.minZ) ? ((c.z <= this.maxZ) ? ((float)((this.minX - c.x) * (this.minX - c.x))) : ((float)(c - new IntVec3(this.minX, 0, this.maxZ)).LengthHorizontalSquared)) : ((float)(c - new IntVec3(this.minX, 0, this.minZ)).LengthHorizontalSquared))) : 0.0);
 		}
 
 		public IntVec3 ClosestCellTo(IntVec3 c)
 		{
-			if (this.Contains(c))
-			{
-				return c;
-			}
-			if (c.x < this.minX)
-			{
-				if (c.z < this.minZ)
-				{
-					return new IntVec3(this.minX, 0, this.minZ);
-				}
-				if (c.z > this.maxZ)
-				{
-					return new IntVec3(this.minX, 0, this.maxZ);
-				}
-				return new IntVec3(this.minX, 0, c.z);
-			}
-			if (c.x > this.maxX)
-			{
-				if (c.z < this.minZ)
-				{
-					return new IntVec3(this.maxX, 0, this.minZ);
-				}
-				if (c.z > this.maxZ)
-				{
-					return new IntVec3(this.maxX, 0, this.maxZ);
-				}
-				return new IntVec3(this.maxX, 0, c.z);
-			}
-			if (c.z < this.minZ)
-			{
-				return new IntVec3(c.x, 0, this.minZ);
-			}
-			return new IntVec3(c.x, 0, this.maxZ);
+			return (!this.Contains(c)) ? ((c.x >= this.minX) ? ((c.x <= this.maxX) ? ((c.z >= this.minZ) ? new IntVec3(c.x, 0, this.maxZ) : new IntVec3(c.x, 0, this.minZ)) : ((c.z >= this.minZ) ? ((c.z <= this.maxZ) ? new IntVec3(this.maxX, 0, c.z) : new IntVec3(this.maxX, 0, this.maxZ)) : new IntVec3(this.maxX, 0, this.minZ))) : ((c.z >= this.minZ) ? ((c.z <= this.maxZ) ? new IntVec3(this.minX, 0, c.z) : new IntVec3(this.minX, 0, this.maxZ)) : new IntVec3(this.minX, 0, this.minZ))) : c;
 		}
 
 		public IEnumerable<IntVec3> GetEdgeCells(Rot4 dir)
 		{
 			if (dir == Rot4.North)
 			{
-				for (int x2 = this.minX; x2 <= this.maxX; x2++)
+				int x2 = this.minX;
+				if (x2 <= this.maxX)
 				{
 					yield return new IntVec3(x2, 0, this.maxZ);
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			else if (dir == Rot4.South)
 			{
-				for (int x = this.minX; x <= this.maxX; x++)
+				int x = this.minX;
+				if (x <= this.maxX)
 				{
 					yield return new IntVec3(x, 0, this.minZ);
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			else if (dir == Rot4.West)
 			{
-				for (int z2 = this.minZ; z2 <= this.maxZ; z2++)
+				int z2 = this.minZ;
+				if (z2 <= this.maxZ)
 				{
 					yield return new IntVec3(this.minX, 0, z2);
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			else if (dir == Rot4.East)
 			{
-				for (int z = this.minZ; z <= this.maxZ; z++)
+				int z = this.minZ;
+				if (z <= this.maxZ)
 				{
 					yield return new IntVec3(this.maxX, 0, z);
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 		}
 
 		public bool TryFindRandomInnerRectTouchingEdge(IntVec2 size, out CellRect rect, Predicate<CellRect> predicate = null)
 		{
-			if (this.Width >= size.x && this.Height >= size.z)
+			bool result;
+			if (this.Width < size.x || this.Height < size.z)
+			{
+				rect = CellRect.Empty;
+				result = false;
+			}
+			else if (size.x <= 0 || size.z <= 0 || this.IsEmpty)
+			{
+				rect = CellRect.Empty;
+				result = false;
+			}
+			else
 			{
 				CellRect cellRect = this;
 				cellRect.maxX -= size.x - 1;
@@ -580,22 +620,75 @@ namespace Verse
 				IntVec3 intVec = default(IntVec3);
 				if (cellRect.EdgeCells.Where((Func<IntVec3, bool>)delegate(IntVec3 x)
 				{
+					bool result2;
 					if ((object)predicate == null)
 					{
-						return true;
+						result2 = true;
 					}
-					CellRect obj = new CellRect(x.x, x.z, size.x, size.z);
-					return predicate(obj);
+					else
+					{
+						CellRect obj = new CellRect(x.x, x.z, size.x, size.z);
+						result2 = predicate(obj);
+					}
+					return result2;
 				}).TryRandomElement<IntVec3>(out intVec))
 				{
 					rect = new CellRect(intVec.x, intVec.z, size.x, size.z);
-					return true;
+					result = true;
 				}
-				rect = CellRect.Empty;
-				return false;
+				else
+				{
+					rect = CellRect.Empty;
+					result = false;
+				}
 			}
-			rect = CellRect.Empty;
-			return false;
+			return result;
+		}
+
+		public bool TryFindRandomInnerRect(IntVec2 size, out CellRect rect, Predicate<CellRect> predicate = null)
+		{
+			bool result;
+			if (this.Width < size.x || this.Height < size.z)
+			{
+				rect = CellRect.Empty;
+				result = false;
+			}
+			else if (size.x <= 0 || size.z <= 0 || this.IsEmpty)
+			{
+				rect = CellRect.Empty;
+				result = false;
+			}
+			else
+			{
+				CellRect cellRect = this;
+				cellRect.maxX -= size.x - 1;
+				cellRect.maxZ -= size.z - 1;
+				IntVec3 intVec = default(IntVec3);
+				if (cellRect.Cells.Where((Func<IntVec3, bool>)delegate(IntVec3 x)
+				{
+					bool result2;
+					if ((object)predicate == null)
+					{
+						result2 = true;
+					}
+					else
+					{
+						CellRect obj = new CellRect(x.x, x.z, size.x, size.z);
+						result2 = predicate(obj);
+					}
+					return result2;
+				}).TryRandomElement<IntVec3>(out intVec))
+				{
+					rect = new CellRect(intVec.x, intVec.z, size.x, size.z);
+					result = true;
+				}
+				else
+				{
+					rect = CellRect.Empty;
+					result = false;
+				}
+			}
+			return result;
 		}
 
 		public CellRect ExpandedBy(int dist)
@@ -611,6 +704,11 @@ namespace Verse
 		public CellRect ContractedBy(int dist)
 		{
 			return this.ExpandedBy(-dist);
+		}
+
+		public int IndexOf(IntVec3 location)
+		{
+			return location.x - this.minX + (location.z - this.minZ) * this.Width;
 		}
 
 		public void DebugDraw()
@@ -659,26 +757,12 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			if (!(obj is CellRect))
-			{
-				return false;
-			}
-			return this.Equals((CellRect)obj);
+			return obj is CellRect && this.Equals((CellRect)obj);
 		}
 
 		public bool Equals(CellRect other)
 		{
 			return this.minX == other.minX && this.maxX == other.maxX && this.minZ == other.minZ && this.maxZ == other.maxZ;
-		}
-
-		public static bool operator ==(CellRect lhs, CellRect rhs)
-		{
-			return lhs.Equals(rhs);
-		}
-
-		public static bool operator !=(CellRect lhs, CellRect rhs)
-		{
-			return !(lhs == rhs);
 		}
 	}
 }

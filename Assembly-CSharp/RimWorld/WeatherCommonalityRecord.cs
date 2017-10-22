@@ -7,7 +7,7 @@ namespace RimWorld
 	{
 		public WeatherDef weather;
 
-		public float commonality;
+		public float commonality = 0f;
 
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
 		{

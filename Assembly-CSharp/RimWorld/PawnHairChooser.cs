@@ -17,64 +17,81 @@ namespace RimWorld
 
 		private static float HairChoiceLikelihoodFor(HairDef hair, Pawn pawn)
 		{
+			float result;
 			if (pawn.gender == Gender.None)
 			{
-				return 100f;
+				result = 100f;
 			}
-			if (pawn.gender == Gender.Male)
+			else
 			{
-				switch (hair.hairGender)
+				if (pawn.gender == Gender.Male)
 				{
-				case HairGender.Female:
+					switch (hair.hairGender)
+					{
+					case HairGender.Female:
+					{
+						result = 1f;
+						goto IL_0120;
+					}
+					case HairGender.FemaleUsually:
+					{
+						result = 5f;
+						goto IL_0120;
+					}
+					case HairGender.MaleUsually:
+					{
+						result = 30f;
+						goto IL_0120;
+					}
+					case HairGender.Male:
+					{
+						result = 70f;
+						goto IL_0120;
+					}
+					case HairGender.Any:
+					{
+						result = 60f;
+						goto IL_0120;
+					}
+					}
+				}
+				if (pawn.gender == Gender.Female)
 				{
-					return 1f;
+					switch (hair.hairGender)
+					{
+					case HairGender.Female:
+					{
+						result = 70f;
+						goto IL_0120;
+					}
+					case HairGender.FemaleUsually:
+					{
+						result = 30f;
+						goto IL_0120;
+					}
+					case HairGender.MaleUsually:
+					{
+						result = 5f;
+						goto IL_0120;
+					}
+					case HairGender.Male:
+					{
+						result = 1f;
+						goto IL_0120;
+					}
+					case HairGender.Any:
+					{
+						result = 60f;
+						goto IL_0120;
+					}
+					}
 				}
-				case HairGender.FemaleUsually:
-				{
-					return 5f;
-				}
-				case HairGender.MaleUsually:
-				{
-					return 30f;
-				}
-				case HairGender.Male:
-				{
-					return 70f;
-				}
-				case HairGender.Any:
-				{
-					return 60f;
-				}
-				}
+				Log.Error("Unknown hair likelihood for " + hair + " with " + pawn);
+				result = 0f;
 			}
-			if (pawn.gender == Gender.Female)
-			{
-				switch (hair.hairGender)
-				{
-				case HairGender.Female:
-				{
-					return 70f;
-				}
-				case HairGender.FemaleUsually:
-				{
-					return 30f;
-				}
-				case HairGender.MaleUsually:
-				{
-					return 5f;
-				}
-				case HairGender.Male:
-				{
-					return 1f;
-				}
-				case HairGender.Any:
-				{
-					return 60f;
-				}
-				}
-			}
-			Log.Error("Unknown hair likelihood for " + hair + " with " + pawn);
-			return 0f;
+			goto IL_0120;
+			IL_0120:
+			return result;
 		}
 	}
 }

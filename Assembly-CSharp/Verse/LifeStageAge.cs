@@ -8,15 +8,15 @@ namespace Verse
 	{
 		public LifeStageDef def;
 
-		public float minAge;
+		public float minAge = 0f;
 
-		public SoundDef soundCall;
+		public SoundDef soundCall = null;
 
-		public SoundDef soundAngry;
+		public SoundDef soundAngry = null;
 
-		public SoundDef soundWounded;
+		public SoundDef soundWounded = null;
 
-		public SoundDef soundDeath;
+		public SoundDef soundDeath = null;
 
 		private static readonly Texture2D VeryYoungIcon = ContentFinder<Texture2D>.Get("UI/Icons/LifeStage/VeryYoung", true);
 
@@ -26,21 +26,18 @@ namespace Verse
 
 		public Texture2D GetIcon(Pawn forPawn)
 		{
+			Texture2D result;
 			if ((Object)this.def.iconTex != (Object)null)
 			{
-				return this.def.iconTex;
+				result = this.def.iconTex;
 			}
-			int count = forPawn.RaceProps.lifeStageAges.Count;
-			int num = forPawn.RaceProps.lifeStageAges.IndexOf(this);
-			if (num == count - 1)
+			else
 			{
-				return LifeStageAge.AdultIcon;
+				int count = forPawn.RaceProps.lifeStageAges.Count;
+				int num = forPawn.RaceProps.lifeStageAges.IndexOf(this);
+				result = ((num != count - 1) ? ((num != 0) ? LifeStageAge.YoungIcon : LifeStageAge.VeryYoungIcon) : LifeStageAge.AdultIcon);
 			}
-			if (num == 0)
-			{
-				return LifeStageAge.VeryYoungIcon;
-			}
-			return LifeStageAge.YoungIcon;
+			return result;
 		}
 	}
 }

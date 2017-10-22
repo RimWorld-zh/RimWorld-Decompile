@@ -43,13 +43,13 @@ namespace RimWorld.Planet
 				if (this.mapParent.def == WorldObjectDefOf.Ambush)
 				{
 					Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
-					Find.LetterStack.ReceiveLetter("LetterLabelCaravanEnteredAmbushMap".Translate(), "LetterCaravanEnteredAmbushMap".Translate(caravan.Label).CapitalizeFirst(), LetterDefOf.Good, (Thing)t, (string)null);
+					Find.LetterStack.ReceiveLetter("LetterLabelCaravanEnteredAmbushMap".Translate(), "LetterCaravanEnteredAmbushMap".Translate(caravan.Label).CapitalizeFirst(), LetterDefOf.NeutralEvent, (Thing)t, (string)null);
 				}
 				else
 				{
 					if (!caravan.IsPlayerControlled && this.mapParent.Faction != Faction.OfPlayer)
 						return;
-					Messages.Message("MessageCaravanEnteredWorldObject".Translate(caravan.Label, this.mapParent.Label).CapitalizeFirst(), (Thing)t, MessageSound.Benefit);
+					Messages.Message("MessageCaravanEnteredWorldObject".Translate(caravan.Label, this.mapParent.Label).CapitalizeFirst(), (Thing)t, MessageTypeDefOf.TaskCompletion);
 				}
 			}
 		}

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -7,30 +8,30 @@ namespace RimWorld
 {
 	public class IncidentWorker_Ambush_EnemyFaction : IncidentWorker_Ambush
 	{
-		private Faction randomFaction;
-
-		protected override List<Pawn> GeneratePawns(IIncidentTarget target, float points, int tile)
+		protected override List<Pawn> GeneratePawns(IncidentParms parms)
 		{
-			this.randomFaction = Find.FactionManager.RandomEnemyFaction(false, false, true);
-			PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
-			pawnGroupMakerParms.tile = tile;
-			pawnGroupMakerParms.generateFightersOnly = true;
-			pawnGroupMakerParms.faction = this.randomFaction;
-			pawnGroupMakerParms.points = points;
-			return PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, pawnGroupMakerParms, true).ToList();
-		}
-
-		protected override LordJob CreateLordJob(List<Pawn> generatedPawns, out Faction faction)
-		{
-			LordJob_AssaultColony result = new LordJob_AssaultColony(this.randomFaction, true, false, false, false, true);
-			faction = this.randomFaction;
-			this.randomFaction = null;
+			List<Pawn> result;
+			if (!PawnGroupMakerUtility.TryGetRandomFactionForNormalPawnGroup(parms.points, out parms.faction, (Predicate<Faction>)null, false, false, false, true))
+			{
+				result = new List<Pawn>();
+			}
+			else
+			{
+				PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(parms, false);
+				defaultPawnGroupMakerParms.generateFightersOnly = true;
+				result = PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, defaultPawnGroupMakerParms, true).ToList();
+			}
 			return result;
 		}
 
-		protected override void SendAmbushLetter(Pawn anyPawn, Faction enemyFaction)
+		protected override LordJob CreateLordJob(List<Pawn> generatedPawns, IncidentParms parms)
 		{
-			base.SendStandardLetter((Thing)anyPawn, enemyFaction.def.pawnsPlural, enemyFaction.Name);
+			return new LordJob_AssaultColony(parms.faction, true, false, false, false, true);
+		}
+
+		protected override void SendAmbushLetter(Pawn anyPawn, IncidentParms parms)
+		{
+			base.SendStandardLetter((Thing)anyPawn, parms.faction.def.pawnsPlural, parms.faction.Name);
 		}
 	}
 }

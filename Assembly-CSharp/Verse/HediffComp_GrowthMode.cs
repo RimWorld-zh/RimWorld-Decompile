@@ -11,7 +11,7 @@ namespace Verse
 
 		private const float GrowthModeChangeMtbDays = 100f;
 
-		public HediffGrowthMode growthMode;
+		public HediffGrowthMode growthMode = HediffGrowthMode.Growing;
 
 		private float severityPerDayGrowingRandomFactor = 1f;
 
@@ -60,25 +60,30 @@ namespace Verse
 
 		protected override float SeverityChangePerDay()
 		{
+			float result;
 			switch (this.growthMode)
 			{
 			case HediffGrowthMode.Growing:
 			{
-				return this.Props.severityPerDayGrowing * this.severityPerDayGrowingRandomFactor;
+				result = this.Props.severityPerDayGrowing * this.severityPerDayGrowingRandomFactor;
+				break;
 			}
 			case HediffGrowthMode.Stable:
 			{
-				return 0f;
+				result = 0f;
+				break;
 			}
 			case HediffGrowthMode.Remission:
 			{
-				return this.Props.severityPerDayRemission * this.severityPerDayRemissionRandomFactor;
+				result = this.Props.severityPerDayRemission * this.severityPerDayRemissionRandomFactor;
+				break;
 			}
 			default:
 			{
 				throw new NotImplementedException("GrowthMode");
 			}
 			}
+			return result;
 		}
 
 		private void ChangeGrowthMode()
@@ -92,17 +97,17 @@ namespace Verse
 				{
 				case HediffGrowthMode.Growing:
 				{
-					Messages.Message("DiseaseGrowthModeChanged_Growing".Translate(base.Pawn.LabelShort, base.Def.label), (Thing)base.Pawn, MessageSound.SeriousAlert);
+					Messages.Message("DiseaseGrowthModeChanged_Growing".Translate(base.Pawn.LabelShort, base.Def.label), (Thing)base.Pawn, MessageTypeDefOf.NegativeHealthEvent);
 					break;
 				}
 				case HediffGrowthMode.Stable:
 				{
-					Messages.Message("DiseaseGrowthModeChanged_Stable".Translate(base.Pawn.LabelShort, base.Def.label), (Thing)base.Pawn, MessageSound.Standard);
+					Messages.Message("DiseaseGrowthModeChanged_Stable".Translate(base.Pawn.LabelShort, base.Def.label), (Thing)base.Pawn, MessageTypeDefOf.NeutralEvent);
 					break;
 				}
 				case HediffGrowthMode.Remission:
 				{
-					Messages.Message("DiseaseGrowthModeChanged_Remission".Translate(base.Pawn.LabelShort, base.Def.label), (Thing)base.Pawn, MessageSound.Benefit);
+					Messages.Message("DiseaseGrowthModeChanged_Remission".Translate(base.Pawn.LabelShort, base.Def.label), (Thing)base.Pawn, MessageTypeDefOf.PositiveEvent);
 					break;
 				}
 				}
@@ -113,7 +118,7 @@ namespace Verse
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append(base.CompDebugString());
-			stringBuilder.AppendLine("severity: " + base.parent.Severity.ToString("F3") + ((!(base.parent.Severity >= base.Def.maxSeverity)) ? string.Empty : " (reached max)"));
+			stringBuilder.AppendLine("severity: " + base.parent.Severity.ToString("F3") + ((!(base.parent.Severity >= base.Def.maxSeverity)) ? "" : " (reached max)"));
 			stringBuilder.AppendLine("severityPerDayGrowingRandomFactor: " + this.severityPerDayGrowingRandomFactor.ToString("0.##"));
 			stringBuilder.AppendLine("severityPerDayRemissionRandomFactor: " + this.severityPerDayRemissionRandomFactor.ToString("0.##"));
 			return stringBuilder.ToString();

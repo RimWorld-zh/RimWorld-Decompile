@@ -7,9 +7,9 @@ namespace RimWorld
 {
 	public class JobGiver_TakeCombatEnhancingDrug : ThinkNode_JobGiver
 	{
-		private const int TakeEveryTicks = 20000;
-
 		private bool onlyIfInDanger;
+
+		private const int TakeEveryTicks = 20000;
 
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -20,51 +20,63 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
+			Job result;
 			if (pawn.IsTeetotaler())
 			{
-				return null;
+				result = null;
 			}
-			if (Find.TickManager.TicksGame - pawn.mindState.lastTakeCombatEnhancingDrugTick < 20000)
+			else if (Find.TickManager.TicksGame - pawn.mindState.lastTakeCombatEnhancingDrugTick < 20000)
 			{
-				return null;
+				result = null;
 			}
-			Thing thing = this.FindCombatEnhancingDrug(pawn);
-			if (thing == null)
+			else
 			{
-				return null;
-			}
-			if (this.onlyIfInDanger)
-			{
-				Lord lord = pawn.GetLord();
-				if (lord == null)
+				Thing thing = this.FindCombatEnhancingDrug(pawn);
+				if (thing == null)
 				{
-					if (!this.HarmedRecently(pawn))
-					{
-						return null;
-					}
+					result = null;
 				}
 				else
 				{
-					int num = 0;
-					int num2 = Mathf.Clamp(lord.ownedPawns.Count / 2, 1, 4);
-					for (int i = 0; i < lord.ownedPawns.Count; i++)
+					if (this.onlyIfInDanger)
 					{
-						if (this.HarmedRecently(lord.ownedPawns[i]))
+						Lord lord = pawn.GetLord();
+						if (lord == null)
 						{
-							num++;
-							if (num >= num2)
-								break;
+							if (!this.HarmedRecently(pawn))
+							{
+								result = null;
+								goto IL_011b;
+							}
+						}
+						else
+						{
+							int num = 0;
+							int num2 = Mathf.Clamp(lord.ownedPawns.Count / 2, 1, 4);
+							for (int i = 0; i < lord.ownedPawns.Count; i++)
+							{
+								if (this.HarmedRecently(lord.ownedPawns[i]))
+								{
+									num++;
+									if (num >= num2)
+										break;
+								}
+							}
+							if (num < num2)
+							{
+								result = null;
+								goto IL_011b;
+							}
 						}
 					}
-					if (num < num2)
-					{
-						return null;
-					}
+					Job job = new Job(JobDefOf.Ingest, thing);
+					job.count = 1;
+					result = job;
 				}
 			}
-			Job job = new Job(JobDefOf.Ingest, thing);
-			job.count = 1;
-			return job;
+			goto IL_011b;
+			IL_011b:
+			return result;
 		}
 
 		private bool HarmedRecently(Pawn pawn)
@@ -74,16 +86,26 @@ namespace RimWorld
 
 		private Thing FindCombatEnhancingDrug(Pawn pawn)
 		{
-			for (int i = 0; i < pawn.inventory.innerContainer.Count; i++)
+			int num = 0;
+			Thing result;
+			while (true)
 			{
-				Thing thing = pawn.inventory.innerContainer[i];
-				CompDrug compDrug = thing.TryGetComp<CompDrug>();
-				if (compDrug != null && compDrug.Props.isCombatEnhancingDrug)
+				if (num < pawn.inventory.innerContainer.Count)
 				{
-					return thing;
+					Thing thing = pawn.inventory.innerContainer[num];
+					CompDrug compDrug = thing.TryGetComp<CompDrug>();
+					if (compDrug != null && compDrug.Props.isCombatEnhancingDrug)
+					{
+						result = thing;
+						break;
+					}
+					num++;
+					continue;
 				}
+				result = null;
+				break;
 			}
-			return null;
+			return result;
 		}
 	}
 }

@@ -5,6 +5,8 @@ namespace Verse
 		ByPawn = 0,
 		PassDoors = 1,
 		NoPassClosedDoors = 2,
-		PassAllDestroyableThings = 3
+		PassAllDestroyableThings = 3,
+		NoPassClosedDoorsOrWater = 4,
+		PassAllDestroyableThingsNotWater = 5
 	}
 }

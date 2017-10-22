@@ -33,7 +33,7 @@ namespace Verse.Steam
 			}
 			else
 			{
-				string text = string.Empty;
+				string text = "";
 				if (curStage != 0)
 				{
 					text += curStage.GetLabel();

@@ -10,52 +10,59 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			IntVec3 c = default(IntVec3);
+			Job result;
 			if (this.ShouldStartEscaping(pawn) && RCellFinder.TryFindBestExitSpot(pawn, out c, TraverseMode.ByPawn))
 			{
-				if (!pawn.guest.released)
+				if (!pawn.guest.Released)
 				{
-					Messages.Message("MessagePrisonerIsEscaping".Translate(pawn.NameStringShort), (Thing)pawn, MessageSound.SeriousAlert);
+					Messages.Message("MessagePrisonerIsEscaping".Translate(pawn.NameStringShort), (Thing)pawn, MessageTypeDefOf.ThreatSmall);
 				}
 				Job job = new Job(JobDefOf.Goto, c);
 				job.exitMapOnArrival = true;
-				return job;
+				result = job;
 			}
-			return null;
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
 
 		private bool ShouldStartEscaping(Pawn pawn)
 		{
-			if (pawn.guest.IsPrisoner && pawn.guest.HostFaction == Faction.OfPlayer && pawn.guest.PrisonerIsSecure)
+			bool result;
+			if (!pawn.guest.IsPrisoner || pawn.guest.HostFaction != Faction.OfPlayer || !pawn.guest.PrisonerIsSecure)
+			{
+				result = false;
+			}
+			else
 			{
 				Room room = pawn.GetRoom(RegionType.Set_Passable);
 				if (room.TouchesMapEdge)
 				{
-					return true;
+					result = true;
 				}
-				bool found = false;
-				RegionTraverser.BreadthFirstTraverse(room.Regions[0], (RegionEntryPredicate)delegate(Region from, Region reg)
+				else
 				{
-					if (reg.portal != null && !reg.portal.FreePassage)
+					bool found = false;
+					RegionTraverser.BreadthFirstTraverse(room.Regions[0], (RegionEntryPredicate)((Region from, Region reg) => (byte)((reg.portal == null || reg.portal.FreePassage) ? 1 : 0) != 0), (RegionProcessor)delegate(Region reg)
 					{
-						return false;
-					}
-					return true;
-				}, (RegionProcessor)delegate(Region reg)
-				{
-					if (reg.Room.TouchesMapEdge)
-					{
-						found = true;
-						return true;
-					}
-					return false;
-				}, 25, RegionType.Set_Passable);
-				if (found)
-				{
-					return true;
+						bool result2;
+						if (reg.Room.TouchesMapEdge)
+						{
+							found = true;
+							result2 = true;
+						}
+						else
+						{
+							result2 = false;
+						}
+						return result2;
+					}, 25, RegionType.Set_Passable);
+					result = ((byte)(found ? 1 : 0) != 0);
 				}
-				return false;
 			}
-			return false;
+			return result;
 		}
 	}
 }

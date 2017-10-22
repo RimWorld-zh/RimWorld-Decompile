@@ -9,15 +9,15 @@ namespace RimWorld.Planet
 {
 	public class WorldSelector
 	{
-		private const int MaxNumSelected = 80;
-
-		private const float MaxDragBoxDiagonalToSelectTile = 30f;
-
 		public WorldDragBox dragBox = new WorldDragBox();
 
 		private List<WorldObject> selected = new List<WorldObject>();
 
 		public int selectedTile = -1;
+
+		private const int MaxNumSelected = 80;
+
+		private const float MaxDragBoxDiagonalToSelectTile = 30f;
 
 		private bool ShiftIsHeld
 		{
@@ -39,11 +39,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.selected.Count != 1)
-				{
-					return null;
-				}
-				return this.selected[0];
+				return (this.selected.Count == 1) ? this.selected[0] : null;
 			}
 		}
 
@@ -51,11 +47,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if (this.selected.Count == 0)
-				{
-					return null;
-				}
-				return this.selected[0];
+				return (this.selected.Count != 0) ? this.selected[0] : null;
 			}
 		}
 
@@ -260,6 +252,7 @@ namespace RimWorld.Planet
 		public IEnumerable<WorldObject> SelectableObjectsUnderMouse(out bool clickedDirectlyOnCaravan, out bool usedColonistBar)
 		{
 			Vector2 mousePositionOnUIInverted = UI.MousePositionOnUIInverted;
+			IEnumerable<WorldObject> result;
 			if (Current.ProgramState == ProgramState.Playing)
 			{
 				Caravan caravan = Find.ColonistBar.CaravanMemberCaravanAt(mousePositionOnUIInverted);
@@ -267,7 +260,8 @@ namespace RimWorld.Planet
 				{
 					clickedDirectlyOnCaravan = true;
 					usedColonistBar = true;
-					return Gen.YieldSingle((WorldObject)caravan);
+					result = Gen.YieldSingle((WorldObject)caravan);
+					goto IL_00e4;
 				}
 			}
 			List<WorldObject> list = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
@@ -285,18 +279,33 @@ namespace RimWorld.Planet
 				}
 			}
 			usedColonistBar = false;
-			return list;
+			result = list;
+			goto IL_00e4;
+			IL_00e4:
+			return result;
 		}
 
 		public static IEnumerable<WorldObject> SelectableObjectsAt(int tileID)
 		{
-			foreach (WorldObject item in Find.WorldObjects.ObjectsAt(tileID))
+			using (IEnumerator<WorldObject> enumerator = Find.WorldObjects.ObjectsAt(tileID).GetEnumerator())
 			{
-				if (item.SelectableNow)
+				WorldObject o;
+				while (true)
 				{
-					yield return item;
+					if (enumerator.MoveNext())
+					{
+						o = enumerator.Current;
+						if (o.SelectableNow)
+							break;
+						continue;
+					}
+					yield break;
 				}
+				yield return o;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			IL_00d2:
+			/*Error near IL_00d3: Unexpected return in MoveNext()*/;
 		}
 
 		private void SelectUnderMouse(bool canSelectTile = true)
@@ -350,21 +359,12 @@ namespace RimWorld.Planet
 					}
 					else
 					{
-						List<WorldObject>.Enumerator enumerator = list.GetEnumerator();
-						try
+						foreach (WorldObject item in list)
 						{
-							while (enumerator.MoveNext())
+							if (this.selected.Contains(item))
 							{
-								WorldObject current = enumerator.Current;
-								if (this.selected.Contains(current))
-								{
-									this.Deselect(current);
-								}
+								this.Deselect(item);
 							}
-						}
-						finally
-						{
-							((IDisposable)(object)enumerator).Dispose();
 						}
 					}
 				}

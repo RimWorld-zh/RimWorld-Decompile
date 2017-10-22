@@ -8,8 +8,6 @@ namespace Verse
 {
 	public class Dialog_PawnTableTest : Window
 	{
-		private const int TableTitleHeight = 30;
-
 		private PawnColumnDef singleColumn;
 
 		private PawnTable pawnTableMin;
@@ -17,6 +15,8 @@ namespace Verse
 		private PawnTable pawnTableOptimal;
 
 		private PawnTable pawnTableMax;
+
+		private const int TableTitleHeight = 30;
 
 		public override Vector2 InitialSize
 		{

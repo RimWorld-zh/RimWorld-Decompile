@@ -35,16 +35,17 @@ namespace RimWorld
 		public static bool WantsToBeOn(Thing t)
 		{
 			CompFlickable compFlickable = t.TryGetComp<CompFlickable>();
+			bool result;
 			if (compFlickable != null && !compFlickable.SwitchIsOn)
 			{
-				return false;
+				result = false;
 			}
-			CompSchedule compSchedule = t.TryGetComp<CompSchedule>();
-			if (compSchedule != null && !compSchedule.Allowed)
+			else
 			{
-				return false;
+				CompSchedule compSchedule = t.TryGetComp<CompSchedule>();
+				result = ((byte)((compSchedule == null || compSchedule.Allowed) ? 1 : 0) != 0);
 			}
-			return true;
+			return result;
 		}
 	}
 }

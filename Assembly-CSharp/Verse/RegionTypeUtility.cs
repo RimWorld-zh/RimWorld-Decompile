@@ -16,27 +16,35 @@ namespace Verse
 
 		public static RegionType GetExpectedRegionType(this IntVec3 c, Map map)
 		{
+			RegionType result;
 			if (!c.InBounds(map))
 			{
-				return RegionType.None;
+				result = RegionType.None;
 			}
-			if (c.GetDoor(map) != null)
+			else if (c.GetDoor(map) != null)
 			{
-				return RegionType.Portal;
+				result = RegionType.Portal;
 			}
-			if (c.Walkable(map))
+			else if (c.Walkable(map))
 			{
-				return RegionType.Normal;
+				result = RegionType.Normal;
 			}
-			List<Thing> thingList = c.GetThingList(map);
-			for (int i = 0; i < thingList.Count; i++)
+			else
 			{
-				if (thingList[i].def.Fillage == FillCategory.Full)
+				List<Thing> thingList = c.GetThingList(map);
+				for (int i = 0; i < thingList.Count; i++)
 				{
-					return RegionType.None;
+					if (thingList[i].def.Fillage == FillCategory.Full)
+						goto IL_0061;
 				}
+				result = RegionType.ImpassableFreeAirExchange;
 			}
-			return RegionType.ImpassableFreeAirExchange;
+			goto IL_0080;
+			IL_0061:
+			result = RegionType.None;
+			goto IL_0080;
+			IL_0080:
+			return result;
 		}
 
 		public static RegionType GetRegionType(this IntVec3 c, Map map)

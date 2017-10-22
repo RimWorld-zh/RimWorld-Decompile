@@ -6,12 +6,17 @@ namespace RimWorld
 {
 	public class StatWorker_MeleeDPS : StatWorker
 	{
+		public override bool IsDisabledFor(Thing thing)
+		{
+			return base.IsDisabledFor(thing) || StatDefOf.MeleeHitChance.Worker.IsDisabledFor(thing);
+		}
+
 		public override float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
 		{
 			return this.GetMeleeDamage(req, applyPostProcess) * this.GetMeleeHitChance(req, applyPostProcess) / this.GetMeleeCooldown(req, applyPostProcess);
 		}
 
-		public override string GetExplanation(StatRequest req, ToStringNumberSense numberSense)
+		public override string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("StatsReport_MeleeDPSExplanation".Translate());
@@ -24,7 +29,9 @@ namespace RimWorld
 			stringBuilder.AppendLine();
 			stringBuilder.AppendLine("StatsReport_MeleeHitChance".Translate());
 			stringBuilder.AppendLine();
-			stringBuilder.Append(this.GetMeleeHitChanceExplanation(req));
+			stringBuilder.AppendLine(StatDefOf.MeleeHitChance.Worker.GetExplanationUnfinalized(req, StatDefOf.MeleeHitChance.toStringNumberSense).TrimEndNewlines().Indented());
+			stringBuilder.AppendLine();
+			stringBuilder.Append(StatDefOf.MeleeHitChance.Worker.GetExplanationFinalizePart(req, StatDefOf.MeleeHitChance.toStringNumberSense, this.GetMeleeHitChance(req, true)).Indented());
 			return stringBuilder.ToString();
 		}
 
@@ -36,87 +43,86 @@ namespace RimWorld
 		private float GetMeleeDamage(StatRequest req, bool applyPostProcess = true)
 		{
 			Pawn pawn = req.Thing as Pawn;
+			float result;
 			if (pawn != null)
 			{
 				List<VerbEntry> updatedAvailableVerbsList = pawn.meleeVerbs.GetUpdatedAvailableVerbsList();
 				if (updatedAvailableVerbsList.Count == 0)
 				{
-					return 0f;
+					result = 0f;
 				}
-				float num = 0f;
-				for (int i = 0; i < updatedAvailableVerbsList.Count; i++)
+				else
 				{
-					num += updatedAvailableVerbsList[i].SelectionWeight;
+					float num = 0f;
+					for (int i = 0; i < updatedAvailableVerbsList.Count; i++)
+					{
+						num += updatedAvailableVerbsList[i].SelectionWeight;
+					}
+					float num2 = 0f;
+					for (int j = 0; j < updatedAvailableVerbsList.Count; j++)
+					{
+						VerbEntry verbEntry = updatedAvailableVerbsList[j];
+						ThingWithComps ownerEquipment = verbEntry.verb.ownerEquipment;
+						float num3 = num2;
+						float num4 = updatedAvailableVerbsList[j].SelectionWeight / num;
+						VerbEntry verbEntry2 = updatedAvailableVerbsList[j];
+						VerbProperties verbProps = verbEntry2.verb.verbProps;
+						VerbEntry verbEntry3 = updatedAvailableVerbsList[j];
+						num2 = num3 + num4 * verbProps.AdjustedMeleeDamageAmount(verbEntry3.verb, pawn, ownerEquipment);
+					}
+					result = num2;
 				}
-				float num2 = 0f;
-				for (int j = 0; j < updatedAvailableVerbsList.Count; j++)
-				{
-					VerbEntry verbEntry = updatedAvailableVerbsList[j];
-					ThingWithComps ownerEquipment = verbEntry.verb.ownerEquipment;
-					float num3 = num2;
-					float num4 = updatedAvailableVerbsList[j].SelectionWeight / num;
-					VerbEntry verbEntry2 = updatedAvailableVerbsList[j];
-					VerbProperties verbProps = verbEntry2.verb.verbProps;
-					VerbEntry verbEntry3 = updatedAvailableVerbsList[j];
-					num2 = num3 + num4 * (float)verbProps.AdjustedMeleeDamageAmount(verbEntry3.verb, pawn, ownerEquipment);
-				}
-				return num2;
 			}
-			return 0f;
+			else
+			{
+				result = 0f;
+			}
+			return result;
 		}
 
 		private float GetMeleeHitChance(StatRequest req, bool applyPostProcess = true)
 		{
-			if (req.HasThing)
-			{
-				return req.Thing.GetStatValue(StatDefOf.MeleeHitChance, applyPostProcess);
-			}
-			return req.Def.GetStatValueAbstract(StatDefOf.MeleeHitChance, null);
+			return (!req.HasThing) ? req.Def.GetStatValueAbstract(StatDefOf.MeleeHitChance, null) : req.Thing.GetStatValue(StatDefOf.MeleeHitChance, applyPostProcess);
 		}
 
 		private float GetMeleeCooldown(StatRequest req, bool applyPostProcess = true)
 		{
 			Pawn pawn = req.Thing as Pawn;
+			float result;
 			if (pawn != null)
 			{
 				List<VerbEntry> updatedAvailableVerbsList = pawn.meleeVerbs.GetUpdatedAvailableVerbsList();
 				if (updatedAvailableVerbsList.Count == 0)
 				{
-					return 1f;
+					result = 1f;
 				}
-				float num = 0f;
-				for (int i = 0; i < updatedAvailableVerbsList.Count; i++)
+				else
 				{
-					num += updatedAvailableVerbsList[i].SelectionWeight;
+					float num = 0f;
+					for (int i = 0; i < updatedAvailableVerbsList.Count; i++)
+					{
+						num += updatedAvailableVerbsList[i].SelectionWeight;
+					}
+					float num2 = 0f;
+					for (int j = 0; j < updatedAvailableVerbsList.Count; j++)
+					{
+						VerbEntry verbEntry = updatedAvailableVerbsList[j];
+						ThingWithComps ownerEquipment = verbEntry.verb.ownerEquipment;
+						float num3 = num2;
+						float num4 = updatedAvailableVerbsList[j].SelectionWeight / num;
+						VerbEntry verbEntry2 = updatedAvailableVerbsList[j];
+						VerbProperties verbProps = verbEntry2.verb.verbProps;
+						VerbEntry verbEntry3 = updatedAvailableVerbsList[j];
+						num2 = num3 + num4 * (float)verbProps.AdjustedCooldownTicks(verbEntry3.verb, pawn, ownerEquipment);
+					}
+					result = (float)(num2 / 60.0);
 				}
-				float num2 = 0f;
-				for (int j = 0; j < updatedAvailableVerbsList.Count; j++)
-				{
-					VerbEntry verbEntry = updatedAvailableVerbsList[j];
-					ThingWithComps ownerEquipment = verbEntry.verb.ownerEquipment;
-					float num3 = num2;
-					float num4 = updatedAvailableVerbsList[j].SelectionWeight / num;
-					VerbEntry verbEntry2 = updatedAvailableVerbsList[j];
-					num2 = num3 + num4 * (float)verbEntry2.verb.verbProps.AdjustedCooldownTicks(ownerEquipment);
-				}
-				return (float)(num2 / 60.0);
 			}
-			return 1f;
-		}
-
-		private string GetMeleeHitChanceExplanation(StatRequest req)
-		{
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.AppendLine(StatDefOf.MeleeHitChance.Worker.GetExplanation(req, StatDefOf.MeleeHitChance.toStringNumberSense));
-			StatDefOf.MeleeHitChance.Worker.FinalizeExplanation(stringBuilder, req, StatDefOf.MeleeHitChance.toStringNumberSense, this.GetMeleeHitChance(req, true));
-			StringBuilder stringBuilder2 = new StringBuilder();
-			string[] array = stringBuilder.ToString().Split('\n');
-			for (int i = 0; i < array.Length; i++)
+			else
 			{
-				stringBuilder2.Append("  ");
-				stringBuilder2.AppendLine(array[i]);
+				result = 1f;
 			}
-			return stringBuilder2.ToString();
+			return result;
 		}
 	}
 }

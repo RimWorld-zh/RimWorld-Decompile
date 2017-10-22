@@ -161,9 +161,9 @@ namespace RimWorld.Planet
 			Rect rect = new Rect((float)(rowRect.width - 24.0), (float)((rowRect.height - 24.0) / 2.0), 24f, 24f);
 			if (Widgets.ButtonImage(rect, CaravanPeopleAndItemsTabUtility.AbandonButtonTex))
 			{
-				CaravanPawnsAndItemsAbandonUtility.TryAbandonViaInterface(t, caravan);
+				CaravanAbandonOrBanishUtility.TryAbandonOrBanishViaInterface(t, caravan);
 			}
-			TooltipHandler.TipRegion(rect, (Func<string>)(() => CaravanPawnsAndItemsAbandonUtility.GetAbandonButtonTooltip(t, caravan, false)), Gen.HashCombineInt(t.GetHashCode(), 1383004931));
+			TooltipHandler.TipRegion(rect, (Func<string>)(() => CaravanAbandonOrBanishUtility.GetAbandonOrBanishButtonTooltip(t, caravan, false)), Gen.HashCombineInt(t.GetHashCode(), 1383004931));
 		}
 
 		private static void DoAbandonSpecificCountButton(Rect rowRect, Thing t, Caravan caravan)
@@ -171,9 +171,9 @@ namespace RimWorld.Planet
 			Rect rect = new Rect((float)(rowRect.width - 24.0), (float)((rowRect.height - 24.0) / 2.0), 24f, 24f);
 			if (Widgets.ButtonImage(rect, CaravanPeopleAndItemsTabUtility.AbandonSpecificCountButtonTex))
 			{
-				CaravanPawnsAndItemsAbandonUtility.TryAbandonSpecificCountViaInterface(t, caravan);
+				CaravanAbandonOrBanishUtility.TryAbandonSpecificCountViaInterface(t, caravan);
 			}
-			TooltipHandler.TipRegion(rect, (Func<string>)(() => CaravanPawnsAndItemsAbandonUtility.GetAbandonButtonTooltip(t, caravan, true)), Gen.HashCombineInt(t.GetHashCode(), 1163428609));
+			TooltipHandler.TipRegion(rect, (Func<string>)(() => CaravanAbandonOrBanishUtility.GetAbandonOrBanishButtonTooltip(t, caravan, true)), Gen.HashCombineInt(t.GetHashCode(), 1163428609));
 		}
 
 		public static void DoOpenSpecificTabButton(Rect rowRect, Pawn p, ref Pawn specificTabForPawn)
@@ -297,7 +297,7 @@ namespace RimWorld.Planet
 				Rect rect6 = new Rect((float)(rect4.xMax + 4.0), 0f, 300f, 30f);
 				Text.Anchor = TextAnchor.MiddleLeft;
 				Text.WordWrap = false;
-				Widgets.Label(rect6, thing.LabelCap);
+				Widgets.Label(rect6, thing.LabelCap.Truncate(rect6.width, null));
 				Text.Anchor = TextAnchor.UpperLeft;
 				Text.WordWrap = true;
 			}
@@ -306,7 +306,7 @@ namespace RimWorld.Planet
 
 		public static void TryDrawMass(Thing thing, Rect rect)
 		{
-			float mass = thing.GetInnerIfMinified().GetStatValue(StatDefOf.Mass, true) * (float)thing.stackCount;
+			float mass = thing.GetStatValue(StatDefOf.Mass, true) * (float)thing.stackCount;
 			GUI.color = TransferableOneWayWidget.ItemMassColor;
 			Text.Anchor = TextAnchor.MiddleLeft;
 			Text.WordWrap = false;

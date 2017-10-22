@@ -16,13 +16,18 @@ namespace Verse
 		public static bool TryGetAttribute<T>(this MemberInfo memberInfo, out T customAttribute) where T : Attribute
 		{
 			object obj = ((IEnumerable<object>)memberInfo.GetCustomAttributes(typeof(T), true)).FirstOrDefault<object>();
+			bool result;
 			if (obj == null)
 			{
 				customAttribute = (T)null;
-				return false;
+				result = false;
 			}
-			customAttribute = (T)obj;
-			return true;
+			else
+			{
+				customAttribute = (T)obj;
+				result = true;
+			}
+			return result;
 		}
 	}
 }

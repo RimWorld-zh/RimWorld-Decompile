@@ -18,7 +18,7 @@ namespace RimWorld
 			{
 				rectToDefend = CellRect.SingleCell(map.Center);
 			}
-			Faction faction = (map.ParentFaction != null && map.ParentFaction != Faction.OfPlayer) ? map.ParentFaction : Find.FactionManager.RandomEnemyFaction(false, false, true);
+			Faction faction = (map.ParentFaction != null && map.ParentFaction != Faction.OfPlayer) ? map.ParentFaction : Find.FactionManager.RandomEnemyFaction(false, false, true, TechLevel.Undefined);
 			ResolveParams resolveParams = new ResolveParams
 			{
 				rect = this.GetOutpostRect(rectToDefend, map),
@@ -56,11 +56,7 @@ namespace RimWorld
 			IntVec3 size2 = map.Size;
 			CellRect mapRect = new CellRect(0, 0, x2, size2.z);
 			GenStep_Outpost.possibleRects.RemoveAll((Predicate<CellRect>)((CellRect x) => !x.FullyContainedWithin(mapRect)));
-			if (GenStep_Outpost.possibleRects.Any())
-			{
-				return GenStep_Outpost.possibleRects.RandomElement();
-			}
-			return rectToDefend;
+			return (!GenStep_Outpost.possibleRects.Any()) ? rectToDefend : GenStep_Outpost.possibleRects.RandomElement();
 		}
 	}
 }

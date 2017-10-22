@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -6,35 +7,76 @@ namespace RimWorld
 {
 	public class Pawn_RecordsTracker : IExposable
 	{
-		private const int UpdateTimeRecordsIntervalTicks = 80;
-
-		private Pawn pawn;
+		public Pawn pawn;
 
 		private DefMap<RecordDef, float> records = new DefMap<RecordDef, float>();
+
+		private double storyRelevance = 0.0;
+
+		private Battle battleActive = null;
+
+		private int battleExitTick = 0;
+
+		private float storyRelevanceBonus = 0f;
+
+		private const int UpdateTimeRecordsIntervalTicks = 80;
+
+		private const float StoryRelevanceBonusRange = 100f;
+
+		private const float StoryRelevanceMultiplierPerYear = 0.2f;
+
+		public float StoryRelevance
+		{
+			get
+			{
+				return (float)this.storyRelevance + this.storyRelevanceBonus;
+			}
+		}
+
+		public Battle BattleActive
+		{
+			get
+			{
+				return (this.battleExitTick < Find.TickManager.TicksGame) ? null : this.battleActive;
+			}
+		}
 
 		public Pawn_RecordsTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
+			Rand.PushState();
+			Rand.Seed = pawn.thingIDNumber * 681;
+			this.storyRelevanceBonus = Rand.Range(0f, 100f);
+			Rand.PopState();
 		}
 
 		public void RecordsTick()
 		{
 			if (!this.pawn.Dead && this.pawn.IsHashIntervalTick(80))
 			{
-				List<RecordDef> allDefsListForReading = DefDatabase<RecordDef>.AllDefsListForReading;
-				for (int i = 0; i < allDefsListForReading.Count; i++)
+				this.RecordsTickUpdate(80);
+				this.battleActive = this.BattleActive;
+			}
+		}
+
+		public void RecordsTickMothballed(int interval)
+		{
+			this.RecordsTickUpdate(interval);
+		}
+
+		private void RecordsTickUpdate(int interval)
+		{
+			List<RecordDef> allDefsListForReading = DefDatabase<RecordDef>.AllDefsListForReading;
+			for (int i = 0; i < allDefsListForReading.Count; i++)
+			{
+				if (allDefsListForReading[i].type == RecordType.Time && allDefsListForReading[i].Worker.ShouldMeasureTimeNow(this.pawn))
 				{
-					if (allDefsListForReading[i].type == RecordType.Time && allDefsListForReading[i].Worker.ShouldMeasureTimeNow(this.pawn))
-					{
-						DefMap<RecordDef, float> defMap;
-						DefMap<RecordDef, float> obj = defMap = this.records;
-						RecordDef def;
-						RecordDef def2 = def = allDefsListForReading[i];
-						float num = defMap[def];
-						obj[def2] = (float)(num + 80.0);
-					}
+					DefMap<RecordDef, float> defMap;
+					RecordDef def;
+					(defMap = this.records)[def = allDefsListForReading[i]] = defMap[def] + (float)interval;
 				}
 			}
+			this.storyRelevance *= Math.Pow(0.20000000298023224, (double)(0 * interval));
 		}
 
 		public void Increment(RecordDef def)
@@ -58,11 +100,8 @@ namespace RimWorld
 			else if (def.type == RecordType.Float)
 			{
 				DefMap<RecordDef, float> defMap;
-				DefMap<RecordDef, float> obj = defMap = this.records;
 				RecordDef def2;
-				RecordDef def3 = def2 = def;
-				float num = defMap[def2];
-				obj[def3] = num + value;
+				(defMap = this.records)[def2 = def] = defMap[def2] + value;
 			}
 			else
 			{
@@ -73,11 +112,7 @@ namespace RimWorld
 		public float GetValue(RecordDef def)
 		{
 			float num = this.records[def];
-			if (((def.type != RecordType.Int) ? def.type : RecordType.Time) != 0)
-			{
-				return num;
-			}
-			return Mathf.Round(num);
+			return (((def.type != RecordType.Int) ? def.type : RecordType.Time) != 0) ? num : Mathf.Round(num);
 		}
 
 		public int GetAsInt(RecordDef def)
@@ -85,9 +120,29 @@ namespace RimWorld
 			return Mathf.RoundToInt(this.records[def]);
 		}
 
+		public void AccumulateStoryEvent(StoryEventDef def)
+		{
+			this.storyRelevance += (double)def.importance;
+		}
+
+		public void EnterBattle(Battle battle)
+		{
+			this.battleActive = battle;
+			this.battleExitTick = Find.TickManager.TicksGame + 5000;
+			Log.Message(string.Format("Pawn {0} entering battle {1}", this.pawn, battle));
+		}
+
 		public void ExposeData()
 		{
+			this.battleActive = this.BattleActive;
 			Scribe_Deep.Look<DefMap<RecordDef, float>>(ref this.records, "records", new object[0]);
+			Scribe_Values.Look<double>(ref this.storyRelevance, "storyRelevance", 0.0, false);
+			Scribe_References.Look<Battle>(ref this.battleActive, "battleActive", false);
+			Scribe_Values.Look<int>(ref this.battleExitTick, "battleExitTick", 0, false);
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+			{
+				BackCompatibility.RecordsTrackerPostLoadInit(this);
+			}
 		}
 	}
 }

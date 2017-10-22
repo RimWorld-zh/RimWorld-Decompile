@@ -1,16 +1,11 @@
 using RimWorld;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Verse
 {
 	public class Dialog_NodeTree : Window
 	{
-		private const float InteractivityDelay = 0.5f;
-
-		private const float TitleHeight = 36f;
-
 		private Vector2 scrollPosition;
 
 		protected string title;
@@ -22,6 +17,10 @@ namespace Verse
 		private float makeInteractiveAtTime;
 
 		public Color screenFillColor = Color.clear;
+
+		private const float InteractivityDelay = 0.5f;
+
+		private const float TitleHeight = 36f;
 
 		private float optTotalHeight;
 
@@ -51,7 +50,6 @@ namespace Verse
 			if (delayInteractivity)
 			{
 				this.makeInteractiveAtTime = (float)(Time.realtimeSinceStartup + 0.5);
-				base.closeOnEscapeKey = false;
 			}
 			base.soundAppear = SoundDefOf.CommsWindow_Open;
 			base.soundClose = SoundDefOf.CommsWindow_Close;
@@ -105,10 +103,6 @@ namespace Verse
 
 		protected void DrawNode(Rect rect)
 		{
-			if (this.InteractiveNow)
-			{
-				base.closeOnEscapeKey = true;
-			}
 			GUI.BeginGroup(rect);
 			Text.Font = GameFont.Small;
 			Rect outRect = new Rect(0f, 0f, rect.width, rect.height - this.optTotalHeight);
@@ -135,18 +129,9 @@ namespace Verse
 
 		public void GotoNode(DiaNode node)
 		{
-			List<DiaOption>.Enumerator enumerator = node.options.GetEnumerator();
-			try
+			foreach (DiaOption option in node.options)
 			{
-				while (enumerator.MoveNext())
-				{
-					DiaOption current = enumerator.Current;
-					current.dialog = this;
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				option.dialog = this;
 			}
 			this.curNode = node;
 		}

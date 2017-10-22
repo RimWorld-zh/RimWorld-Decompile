@@ -7,6 +7,11 @@ namespace RimWorld
 {
 	public class BillStack : IExposable
 	{
+		[Unsaved]
+		public IBillGiver billGiver = null;
+
+		private List<Bill> bills = new List<Bill>();
+
 		public const int MaxCount = 15;
 
 		private const float TopAreaHeight = 35f;
@@ -14,11 +19,6 @@ namespace RimWorld
 		private const float BillInterfaceSpacing = 6f;
 
 		private const float ExtraViewHeight = 60f;
-
-		[Unsaved]
-		public IBillGiver billGiver;
-
-		private List<Bill> bills = new List<Bill>();
 
 		public List<Bill> Bills
 		{
@@ -48,14 +48,24 @@ namespace RimWorld
 		{
 			get
 			{
-				for (int i = 0; i < this.Count; i++)
+				int num = 0;
+				Bill result;
+				while (true)
 				{
-					if (this.bills[i].ShouldDoNow())
+					if (num < this.Count)
 					{
-						return this.bills[i];
+						if (this.bills[num].ShouldDoNow())
+						{
+							result = this.bills[num];
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = null;
+					break;
 				}
-				return null;
+				return result;
 			}
 		}
 
@@ -63,14 +73,24 @@ namespace RimWorld
 		{
 			get
 			{
-				for (int i = 0; i < this.Count; i++)
+				int num = 0;
+				bool result;
+				while (true)
 				{
-					if (this.bills[i].ShouldDoNow())
+					if (num < this.Count)
 					{
-						return true;
+						if (this.bills[num].ShouldDoNow())
+						{
+							result = true;
+							break;
+						}
+						num++;
+						continue;
 					}
+					result = false;
+					break;
 				}
-				return false;
+				return result;
 			}
 		}
 

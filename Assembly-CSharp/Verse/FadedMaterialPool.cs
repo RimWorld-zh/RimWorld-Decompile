@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -20,11 +21,7 @@ namespace Verse
 
 			public override bool Equals(object obj)
 			{
-				if (obj != null && obj is FadedMatRequest)
-				{
-					return this.Equals((FadedMatRequest)obj);
-				}
-				return false;
+				return obj != null && obj is FadedMatRequest && this.Equals((FadedMatRequest)obj);
 			}
 
 			public bool Equals(FadedMatRequest other)
@@ -63,9 +60,9 @@ namespace Verse
 			}
 		}
 
-		private const int NumFadeSteps = 30;
-
 		private static Dictionary<FadedMatRequest, Material> cachedMats = new Dictionary<FadedMatRequest, Material>(FadedMatRequestComparer.Instance);
+
+		private const int NumFadeSteps = 30;
 
 		public static int TotalMaterialCount
 		{
@@ -75,39 +72,34 @@ namespace Verse
 			}
 		}
 
-		public static int TotalMaterialBytes
+		public static long TotalMaterialBytes
 		{
 			get
 			{
-				int num = 0;
-				Dictionary<FadedMatRequest, Material>.Enumerator enumerator = FadedMaterialPool.cachedMats.GetEnumerator();
-				try
+				long num = 0L;
+				foreach (KeyValuePair<FadedMatRequest, Material> cachedMat in FadedMaterialPool.cachedMats)
 				{
-					while (enumerator.MoveNext())
-					{
-						num += Profiler.GetRuntimeMemorySize(enumerator.Current.Value);
-					}
-					return num;
+					num += Profiler.GetRuntimeMemorySizeLong(cachedMat.Value);
 				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
-				}
+				return num;
 			}
 		}
 
 		public static Material FadedVersionOf(Material sourceMat, float alpha)
 		{
 			int num = FadedMaterialPool.IndexFromAlpha(alpha);
+			Material result;
 			switch (num)
 			{
 			case 0:
 			{
-				return BaseContent.ClearMat;
+				result = BaseContent.ClearMat;
+				break;
 			}
 			case 29:
 			{
-				return sourceMat;
+				result = sourceMat;
+				break;
 			}
 			default:
 			{
@@ -119,9 +111,11 @@ namespace Verse
 					material.color = new Color(1f, 1f, 1f, (float)((float)FadedMaterialPool.IndexFromAlpha(alpha) / 30.0));
 					FadedMaterialPool.cachedMats.Add(key, material);
 				}
-				return material;
+				result = material;
+				break;
 			}
 			}
+			return result;
 		}
 
 		private static int IndexFromAlpha(float alpha)

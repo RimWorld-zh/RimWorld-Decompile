@@ -20,13 +20,6 @@ namespace RimWorld.Planet
 			Rand.RandomizeStateFromTime();
 		}
 
-		public override void GenerateFromScribe(string seed)
-		{
-			Rand.Seed = GenText.StableStringHash(seed);
-			this.GenerateAncientRoads();
-			Rand.RandomizeStateFromTime();
-		}
-
 		private void GenerateAncientRoads()
 		{
 			Find.WorldPathGrid.RecalculateAllPerceivedPathCosts(Season.Spring.GetMiddleYearPct(0f));
@@ -41,18 +34,9 @@ namespace RimWorld.Planet
 					{
 						break;
 					}
-					List<int>.Enumerator enumerator = list[i].GetEnumerator();
-					try
+					foreach (int item in list[i])
 					{
-						while (enumerator.MoveNext())
-						{
-							int current = enumerator.Current;
-							used.Add(current);
-						}
-					}
-					finally
-					{
-						((IDisposable)(object)enumerator).Dispose();
+						used.Add(item);
 					}
 					for (int j = 0; j < list[i].Count - 1; j++)
 					{

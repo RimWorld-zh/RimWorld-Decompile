@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Verse.AI
 {
 	public class ThinkNode_ForbidOutsideFlagRadius : ThinkNode_Priority
@@ -15,18 +13,22 @@ namespace Verse.AI
 
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
-			if (this.maxDistToSquadFlag > 0.0)
+			try
 			{
-				if (jobParams.maxDistToSquadFlag > 0.0)
+				if (this.maxDistToSquadFlag > 0.0)
 				{
-					jobParams.maxDistToSquadFlag = Mathf.Min(jobParams.maxDistToSquadFlag, this.maxDistToSquadFlag);
+					if (pawn.mindState.maxDistToSquadFlag > 0.0)
+					{
+						Log.Error("Squad flag was not reset properly; raiders may behave strangely");
+					}
+					pawn.mindState.maxDistToSquadFlag = this.maxDistToSquadFlag;
 				}
-				else
-				{
-					jobParams.maxDistToSquadFlag = this.maxDistToSquadFlag;
-				}
+				return base.TryIssueJobPackage(pawn, jobParams);
 			}
-			return base.TryIssueJobPackage(pawn, jobParams);
+			finally
+			{
+				pawn.mindState.maxDistToSquadFlag = -1f;
+			}
 		}
 	}
 }

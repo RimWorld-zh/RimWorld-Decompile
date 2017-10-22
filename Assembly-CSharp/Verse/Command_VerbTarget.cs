@@ -12,11 +12,7 @@ namespace Verse
 		{
 			get
 			{
-				if (this.verb.ownerEquipment != null)
-				{
-					return this.verb.ownerEquipment.DrawColor;
-				}
-				return base.IconDrawColor;
+				return (this.verb.ownerEquipment == null) ? base.IconDrawColor : this.verb.ownerEquipment.DrawColor;
 			}
 		}
 

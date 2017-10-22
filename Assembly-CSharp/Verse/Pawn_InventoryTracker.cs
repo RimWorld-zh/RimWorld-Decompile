@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	public class Pawn_InventoryTracker : IExposable, IThingHolder
+	public class Pawn_InventoryTracker : IThingHolder, IExposable
 	{
 		public Pawn pawn;
 
@@ -49,11 +49,14 @@ namespace Verse
 		{
 			get
 			{
+				ThingStackPart result;
+				int j;
+				int num;
 				if (this.innerContainer.Count == 0)
 				{
-					return default(ThingStackPart);
+					result = default(ThingStackPart);
 				}
-				if (this.pawn.drugs != null && this.pawn.drugs.CurrentPolicy != null)
+				else if (this.pawn.drugs != null && this.pawn.drugs.CurrentPolicy != null)
 				{
 					DrugPolicy currentPolicy = this.pawn.drugs.CurrentPolicy;
 					Pawn_InventoryTracker.tmpDrugsToKeep.Clear();
@@ -64,13 +67,11 @@ namespace Verse
 							Pawn_InventoryTracker.tmpDrugsToKeep.Add(new ThingCount(currentPolicy[i].drug, currentPolicy[i].takeToInventory));
 						}
 					}
-					for (int j = 0; j < this.innerContainer.Count; j++)
+					for (j = 0; j < this.innerContainer.Count; j++)
 					{
 						if (!this.innerContainer[j].def.IsDrug)
-						{
-							return new ThingStackPart(this.innerContainer[j], this.innerContainer[j].stackCount);
-						}
-						int num = -1;
+							goto IL_00d8;
+						num = -1;
 						int num2 = 0;
 						while (num2 < Pawn_InventoryTracker.tmpDrugsToKeep.Count)
 						{
@@ -83,18 +84,29 @@ namespace Verse
 							break;
 						}
 						if (num < 0)
-						{
-							return new ThingStackPart(this.innerContainer[j], this.innerContainer[j].stackCount);
-						}
+							goto IL_0164;
 						if (this.innerContainer[j].stackCount > Pawn_InventoryTracker.tmpDrugsToKeep[num].Count)
-						{
-							return new ThingStackPart(this.innerContainer[j], this.innerContainer[j].stackCount - Pawn_InventoryTracker.tmpDrugsToKeep[num].Count);
-						}
+							goto IL_01ba;
 						Pawn_InventoryTracker.tmpDrugsToKeep[num] = new ThingCount(Pawn_InventoryTracker.tmpDrugsToKeep[num].ThingDef, Pawn_InventoryTracker.tmpDrugsToKeep[num].Count - this.innerContainer[j].stackCount);
 					}
-					return default(ThingStackPart);
+					result = default(ThingStackPart);
 				}
-				return new ThingStackPart(this.innerContainer[0], this.innerContainer[0].stackCount);
+				else
+				{
+					result = new ThingStackPart(this.innerContainer[0], this.innerContainer[0].stackCount);
+				}
+				goto IL_0298;
+				IL_0164:
+				result = new ThingStackPart(this.innerContainer[j], this.innerContainer[j].stackCount);
+				goto IL_0298;
+				IL_00d8:
+				result = new ThingStackPart(this.innerContainer[j], this.innerContainer[j].stackCount);
+				goto IL_0298;
+				IL_0298:
+				return result;
+				IL_01ba:
+				result = new ThingStackPart(this.innerContainer[j], this.innerContainer[j].stackCount - Pawn_InventoryTracker.tmpDrugsToKeep[num].Count);
+				goto IL_0298;
 			}
 		}
 

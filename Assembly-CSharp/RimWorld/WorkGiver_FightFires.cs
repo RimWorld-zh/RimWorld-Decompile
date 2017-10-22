@@ -27,54 +27,68 @@ namespace RimWorld
 			}
 		}
 
+		public override Danger MaxPathDanger(Pawn pawn)
+		{
+			return Danger.Deadly;
+		}
+
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Fire fire = t as Fire;
+			bool result;
 			if (fire == null)
 			{
-				return false;
-			}
-			Pawn pawn2 = fire.parent as Pawn;
-			if (pawn2 != null)
-			{
-				if (pawn2 == pawn)
-				{
-					return false;
-				}
-				if ((pawn2.Faction == pawn.Faction || pawn2.HostFaction == pawn.Faction || pawn2.HostFaction == pawn.HostFaction) && !((Area)pawn.Map.areaManager.Home)[fire.Position] && IntVec3Utility.ManhattanDistanceFlat(pawn.Position, pawn2.Position) > 15)
-				{
-					return false;
-				}
-				if (!pawn.CanReach((Thing)pawn2, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
-				{
-					return false;
-				}
+				result = false;
 			}
 			else
 			{
-				if (pawn.story.WorkTagIsDisabled(WorkTags.Firefighting))
+				Pawn pawn2 = fire.parent as Pawn;
+				if (pawn2 != null)
 				{
-					return false;
+					if (pawn2 == pawn)
+					{
+						result = false;
+						goto IL_0183;
+					}
+					if ((pawn2.Faction == pawn.Faction || pawn2.HostFaction == pawn.Faction || pawn2.HostFaction == pawn.HostFaction) && !((Area)pawn.Map.areaManager.Home)[fire.Position] && IntVec3Utility.ManhattanDistanceFlat(pawn.Position, pawn2.Position) > 15)
+					{
+						result = false;
+						goto IL_0183;
+					}
+					if (!pawn.CanReach((Thing)pawn2, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+					{
+						result = false;
+						goto IL_0183;
+					}
 				}
-				if (!((Area)pawn.Map.areaManager.Home)[fire.Position])
+				else
 				{
-					JobFailReason.Is(WorkGiver_FixBrokenDownBuilding.NotInHomeAreaTrans);
-					return false;
+					if (pawn.story.WorkTagIsDisabled(WorkTags.Firefighting))
+					{
+						result = false;
+						goto IL_0183;
+					}
+					if (!((Area)pawn.Map.areaManager.Home)[fire.Position])
+					{
+						JobFailReason.Is(WorkGiver_FixBrokenDownBuilding.NotInHomeAreaTrans);
+						result = false;
+						goto IL_0183;
+					}
 				}
-				if (!pawn.CanReach(fire.Position, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+				if ((pawn.Position - fire.Position).LengthHorizontalSquared > 225)
 				{
-					return false;
+					LocalTargetInfo target = (Thing)fire;
+					if (!pawn.CanReserve(target, 1, -1, null, forced))
+					{
+						result = false;
+						goto IL_0183;
+					}
 				}
+				result = ((byte)((!WorkGiver_FightFires.FireIsBeingHandled(fire, pawn)) ? 1 : 0) != 0);
 			}
-			if ((pawn.Position - fire.Position).LengthHorizontalSquared > 225 && !pawn.CanReserve((Thing)fire, 1, -1, null, forced))
-			{
-				return false;
-			}
-			if (WorkGiver_FightFires.FireIsBeingHandled(fire, pawn))
-			{
-				return false;
-			}
-			return true;
+			goto IL_0183;
+			IL_0183:
+			return result;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -84,12 +98,17 @@ namespace RimWorld
 
 		public static bool FireIsBeingHandled(Fire f, Pawn potentialHandler)
 		{
+			bool result;
 			if (!f.Spawned)
 			{
-				return false;
+				result = false;
 			}
-			Pawn pawn = f.Map.reservationManager.FirstReserverWhoseReservationsRespects((Thing)f, potentialHandler);
-			return pawn != null && pawn.Position.InHorDistOf(f.Position, 5f);
+			else
+			{
+				Pawn pawn = f.Map.reservationManager.FirstRespectedReserver((Thing)f, potentialHandler);
+				result = (pawn != null && pawn.Position.InHorDistOf(f.Position, 5f));
+			}
+			return result;
 		}
 	}
 }

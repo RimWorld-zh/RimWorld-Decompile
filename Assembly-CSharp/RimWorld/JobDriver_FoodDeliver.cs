@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -7,19 +6,19 @@ namespace RimWorld
 {
 	public class JobDriver_FoodDeliver : JobDriver
 	{
-		private const TargetIndex FoodSourceInd = TargetIndex.A;
-
-		private const TargetIndex DelivereeInd = TargetIndex.B;
-
 		private bool usingNutrientPasteDispenser;
 
 		private bool eatingFromInventory;
+
+		private const TargetIndex FoodSourceInd = TargetIndex.A;
+
+		private const TargetIndex DelivereeInd = TargetIndex.B;
 
 		private Pawn Deliveree
 		{
 			get
 			{
-				return (Pawn)base.CurJob.targetB.Thing;
+				return (Pawn)base.job.targetB.Thing;
 			}
 		}
 
@@ -32,11 +31,7 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			if (base.CurJob.GetTarget(TargetIndex.A).Thing is Building_NutrientPasteDispenser)
-			{
-				return base.CurJob.def.reportString.Replace("TargetA", ThingDefOf.MealNutrientPaste.label).Replace("TargetB", ((Pawn)(Thing)base.CurJob.targetB).LabelShort);
-			}
-			return base.GetReport();
+			return (!(base.job.GetTarget(TargetIndex.A).Thing is Building_NutrientPasteDispenser) || this.Deliveree == null) ? base.GetReport() : base.job.def.reportString.Replace("TargetA", ThingDefOf.MealNutrientPaste.label).Replace("TargetB", this.Deliveree.LabelShort);
 		}
 
 		public override void Notify_Starting()
@@ -46,58 +41,26 @@ namespace RimWorld
 			this.eatingFromInventory = (base.pawn.inventory != null && base.pawn.inventory.Contains(base.TargetThingA));
 		}
 
+		public override bool TryMakePreToilReservations()
+		{
+			return base.pawn.Reserve((Thing)this.Deliveree, base.job, 1, -1, null);
+		}
+
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			yield return Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
+			this.FailOnDespawnedOrNull(TargetIndex.B);
 			if (this.eatingFromInventory)
 			{
 				yield return Toils_Misc.TakeItemFromInventoryToCarrier(base.pawn, TargetIndex.A);
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			else if (this.usingNutrientPasteDispenser)
+			if (this.usingNutrientPasteDispenser)
 			{
 				yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell).FailOnForbidden(TargetIndex.A);
-				yield return Toils_Ingest.TakeMealFromDispenser(TargetIndex.A, base.pawn);
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			else
-			{
-				yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
-				yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnForbidden(TargetIndex.A);
-				yield return Toils_Ingest.PickupIngestible(TargetIndex.A, this.Deliveree);
-			}
-			Toil toil = new Toil
-			{
-				initAction = (Action)delegate
-				{
-					Pawn actor = ((_003CMakeNewToils_003Ec__Iterator4B)/*Error near IL_0159: stateMachine*/)._003Ctoil_003E__0.actor;
-					Job curJob = actor.jobs.curJob;
-					actor.pather.StartPath(curJob.targetC, PathEndMode.OnCell);
-				},
-				defaultCompleteMode = ToilCompleteMode.PatherArrival
-			};
-			toil.FailOnDestroyedNullOrForbidden(TargetIndex.B);
-			toil.AddFailCondition((Func<bool>)delegate
-			{
-				Pawn pawn = (Pawn)((_003CMakeNewToils_003Ec__Iterator4B)/*Error near IL_0189: stateMachine*/)._003Ctoil_003E__0.actor.jobs.curJob.targetB.Thing;
-				if (!pawn.IsPrisonerOfColony)
-				{
-					return true;
-				}
-				if (!pawn.guest.CanBeBroughtFood)
-				{
-					return true;
-				}
-				return false;
-			});
-			yield return toil;
-			yield return new Toil
-			{
-				initAction = (Action)delegate
-				{
-					Thing thing = default(Thing);
-					((_003CMakeNewToils_003Ec__Iterator4B)/*Error near IL_01c3: stateMachine*/)._003C_003Ef__this.pawn.carryTracker.TryDropCarriedThing(((_003CMakeNewToils_003Ec__Iterator4B)/*Error near IL_01c3: stateMachine*/)._003Ctoil_003E__1.actor.jobs.curJob.targetC.Cell, ThingPlaceMode.Direct, out thing, (Action<Thing, int>)null);
-				},
-				defaultCompleteMode = ToilCompleteMode.Instant
-			};
+			yield return Toils_Reserve.Reserve(TargetIndex.A, 1, -1, null);
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

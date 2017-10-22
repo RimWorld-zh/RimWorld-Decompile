@@ -45,7 +45,7 @@ namespace RimWorld
 				select x).RandomElementByWeight((Func<Faction, float>)((Faction x) => x.def.baseSelectionWeight));
 				FactionBase factionBase = (FactionBase)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);
 				factionBase.SetFaction(faction3);
-				factionBase.Tile = TileFinder.RandomFactionBaseTileFor(faction3, false);
+				factionBase.Tile = TileFinder.RandomFactionBaseTileFor(faction3, false, null);
 				factionBase.Name = FactionBaseNameGenerator.GenerateFactionBaseName(factionBase);
 				Find.WorldObjects.Add(factionBase);
 			}
@@ -53,21 +53,16 @@ namespace RimWorld
 
 		public static void EnsureRequiredEnemies(Faction player)
 		{
-			using (IEnumerator<FactionDef> enumerator = DefDatabase<FactionDef>.AllDefs.GetEnumerator())
+			foreach (FactionDef allDef in DefDatabase<FactionDef>.AllDefs)
 			{
-				FactionDef facDef;
-				while (enumerator.MoveNext())
+				if (allDef.mustStartOneEnemy && Find.World.factionManager.AllFactions.Any((Func<Faction, bool>)((Faction f) => f.def == allDef)) && !Find.World.factionManager.AllFactions.Any((Func<Faction, bool>)((Faction f) => f.def == allDef && f.HostileTo(player))))
 				{
-					facDef = enumerator.Current;
-					if (facDef.mustStartOneEnemy && Find.World.factionManager.AllFactions.Any((Func<Faction, bool>)((Faction f) => f.def == facDef)) && !Find.World.factionManager.AllFactions.Any((Func<Faction, bool>)((Faction f) => f.def == facDef && f.HostileTo(player))))
-					{
-						Faction faction = (from f in Find.World.factionManager.AllFactions
-						where f.def == facDef
-						select f).RandomElement();
-						float goodwillChange = (float)((0.0 - (faction.GoodwillWith(player) + 100.0)) * Rand.Range(0.8f, 0.9f));
-						faction.AffectGoodwillWith(player, goodwillChange);
-						faction.SetHostileTo(player, true);
-					}
+					Faction faction = (from f in Find.World.factionManager.AllFactions
+					where f.def == allDef
+					select f).RandomElement();
+					float goodwillChange = (float)((0.0 - (faction.GoodwillWith(player) + 100.0)) * Rand.Range(0.8f, 0.9f));
+					faction.AffectGoodwillWith(player, goodwillChange);
+					faction.SetHostileTo(player, true);
 				}
 			}
 		}
@@ -81,7 +76,7 @@ namespace RimWorld
 		{
 			Faction faction = new Faction();
 			faction.def = facDef;
-			faction.loadID = Find.World.uniqueIDsManager.GetNextFactionID();
+			faction.loadID = Find.UniqueIDsManager.GetNextFactionID();
 			faction.colorFromSpectrum = FactionGenerator.NewRandomColorFromSpectrum(faction);
 			if (!facDef.isPlayer)
 			{
@@ -92,27 +87,19 @@ namespace RimWorld
 				else
 				{
 					faction.Name = NameGenerator.GenerateName(facDef.factionNameMaker, from fac in Find.FactionManager.AllFactionsVisible
-					select fac.Name, false);
+					select fac.Name, false, (string)null);
 				}
 			}
-			List<Faction>.Enumerator enumerator = Find.FactionManager.AllFactionsListForReading.GetEnumerator();
-			try
+			faction.centralMelanin = Rand.Value;
+			foreach (Faction item in Find.FactionManager.AllFactionsListForReading)
 			{
-				while (enumerator.MoveNext())
-				{
-					Faction current = enumerator.Current;
-					faction.TryMakeInitialRelationsWith(current);
-				}
-			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
+				faction.TryMakeInitialRelationsWith(item);
 			}
 			if (!facDef.hidden && !facDef.isPlayer)
 			{
 				FactionBase factionBase = (FactionBase)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);
 				factionBase.SetFaction(faction);
-				factionBase.Tile = TileFinder.RandomFactionBaseTileFor(faction, false);
+				factionBase.Tile = TileFinder.RandomFactionBaseTileFor(faction, false, null);
 				factionBase.Name = FactionBaseNameGenerator.GenerateFactionBaseName(factionBase);
 				Find.WorldObjects.Add(factionBase);
 			}

@@ -23,18 +23,9 @@ namespace RimWorld
 			get
 			{
 				StringBuilder stringBuilder = new StringBuilder();
-				List<QueuedIncident>.Enumerator enumerator = this.queuedIncidents.GetEnumerator();
-				try
+				foreach (QueuedIncident queuedIncident in this.queuedIncidents)
 				{
-					while (enumerator.MoveNext())
-					{
-						QueuedIncident current = enumerator.Current;
-						stringBuilder.AppendLine(current.ToString() + " (in " + (current.FireTick - Find.TickManager.TicksGame).ToString() + " ticks)");
-					}
-				}
-				finally
-				{
-					((IDisposable)(object)enumerator).Dispose();
+					stringBuilder.AppendLine(queuedIncident.ToString() + " (in " + (queuedIncident.FireTick - Find.TickManager.TicksGame).ToString() + " ticks)");
 				}
 				return stringBuilder.ToString();
 			}
@@ -42,19 +33,18 @@ namespace RimWorld
 
 		public IEnumerator GetEnumerator()
 		{
-			List<QueuedIncident>.Enumerator enumerator = this.queuedIncidents.GetEnumerator();
-			try
+			using (List<QueuedIncident>.Enumerator enumerator = this.queuedIncidents.GetEnumerator())
 			{
-				while (enumerator.MoveNext())
+				if (enumerator.MoveNext())
 				{
 					QueuedIncident inc = enumerator.Current;
 					yield return (object)inc;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
-			finally
-			{
-				((IDisposable)(object)enumerator).Dispose();
-			}
+			yield break;
+			IL_00b8:
+			/*Error near IL_00b9: Unexpected return in MoveNext()*/;
 		}
 
 		public void Clear()

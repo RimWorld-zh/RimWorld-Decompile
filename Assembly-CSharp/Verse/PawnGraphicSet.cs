@@ -8,27 +8,27 @@ namespace Verse
 	{
 		public Pawn pawn;
 
-		public Graphic nakedGraphic;
+		public Graphic nakedGraphic = null;
 
-		public Graphic rottingGraphic;
+		public Graphic rottingGraphic = null;
 
-		public Graphic dessicatedGraphic;
+		public Graphic dessicatedGraphic = null;
 
-		public Graphic packGraphic;
+		public Graphic packGraphic = null;
 
 		public DamageFlasher flasher;
 
-		public Graphic headGraphic;
+		public Graphic headGraphic = null;
 
-		public Graphic desiccatedHeadGraphic;
+		public Graphic desiccatedHeadGraphic = null;
 
-		public Graphic skullGraphic;
+		public Graphic skullGraphic = null;
 
-		public Graphic headStumpGraphic;
+		public Graphic headStumpGraphic = null;
 
-		public Graphic desiccatedHeadStumpGraphic;
+		public Graphic desiccatedHeadStumpGraphic = null;
 
-		public Graphic hairGraphic;
+		public Graphic hairGraphic = null;
 
 		public List<ApparelGraphicRecord> apparelGraphics = new List<ApparelGraphicRecord>();
 
@@ -50,16 +50,21 @@ namespace Verse
 		{
 			get
 			{
+				GraphicMeshSet result;
 				if (this.pawn.story.crownType == CrownType.Average)
 				{
-					return MeshPool.humanlikeHairSetAverage;
+					result = MeshPool.humanlikeHairSetAverage;
 				}
-				if (this.pawn.story.crownType == CrownType.Narrow)
+				else if (this.pawn.story.crownType == CrownType.Narrow)
 				{
-					return MeshPool.humanlikeHairSetNarrow;
+					result = MeshPool.humanlikeHairSetNarrow;
 				}
-				Log.Error("Unknown crown type: " + this.pawn.story.crownType);
-				return MeshPool.humanlikeHairSetAverage;
+				else
+				{
+					Log.Error("Unknown crown type: " + this.pawn.story.crownType);
+					result = MeshPool.humanlikeHairSetAverage;
+				}
+				return result;
 			}
 		}
 
@@ -79,7 +84,7 @@ namespace Verse
 				switch (bodyCondition)
 				{
 				case RotDrawMode.Rotting:
-					goto IL_0063;
+					goto IL_0065;
 				case RotDrawMode.Fresh:
 				{
 					this.cachedMatsBodyBase.Add(this.nakedGraphic.MatAt(facing, null));
@@ -88,7 +93,7 @@ namespace Verse
 				default:
 				{
 					if (this.dessicatedGraphic == null)
-						goto IL_0063;
+						goto IL_0065;
 					if (bodyCondition == RotDrawMode.Dessicated)
 					{
 						this.cachedMatsBodyBase.Add(this.dessicatedGraphic.MatAt(facing, null));
@@ -96,10 +101,10 @@ namespace Verse
 					break;
 				}
 				}
-				goto IL_009f;
+				goto IL_00a1;
 			}
-			goto IL_0134;
-			IL_009f:
+			goto IL_0139;
+			IL_00a1:
 			for (int i = 0; i < this.apparelGraphics.Count; i++)
 			{
 				ApparelGraphicRecord apparelGraphicRecord = this.apparelGraphics[i];
@@ -114,11 +119,11 @@ namespace Verse
 					}
 				}
 			}
-			goto IL_0134;
-			IL_0063:
+			goto IL_0139;
+			IL_0065:
 			this.cachedMatsBodyBase.Add(this.rottingGraphic.MatAt(facing, null));
-			goto IL_009f;
-			IL_0134:
+			goto IL_00a1;
+			IL_0139:
 			return this.cachedMatsBodyBase;
 		}
 

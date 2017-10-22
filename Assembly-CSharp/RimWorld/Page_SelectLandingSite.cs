@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -90,28 +89,35 @@ namespace RimWorld
 
 		protected override bool CanDoNext()
 		{
+			bool result;
 			if (!base.CanDoNext())
 			{
-				return false;
+				result = false;
 			}
-			int selectedTile = Find.WorldInterface.SelectedTile;
-			if (selectedTile < 0)
+			else
 			{
-				Messages.Message("MustSelectLandingSite".Translate(), MessageSound.RejectInput);
-				return false;
+				int selectedTile = Find.WorldInterface.SelectedTile;
+				if (selectedTile < 0)
+				{
+					Messages.Message("MustSelectLandingSite".Translate(), MessageTypeDefOf.RejectInput);
+					result = false;
+				}
+				else
+				{
+					StringBuilder stringBuilder = new StringBuilder();
+					if (!TileFinder.IsValidTileForNewSettlement(selectedTile, stringBuilder))
+					{
+						Messages.Message(stringBuilder.ToString(), MessageTypeDefOf.RejectInput);
+						result = false;
+					}
+					else
+					{
+						Tile tile = Find.WorldGrid[selectedTile];
+						result = ((byte)(TutorSystem.AllowAction("ChooseBiome-" + tile.biome.defName + "-" + tile.hilliness.ToString()) ? 1 : 0) != 0);
+					}
+				}
 			}
-			StringBuilder stringBuilder = new StringBuilder();
-			if (!TileFinder.IsValidTileForNewSettlement(selectedTile, stringBuilder))
-			{
-				Messages.Message(stringBuilder.ToString(), MessageSound.RejectInput);
-				return false;
-			}
-			Tile tile = Find.WorldGrid[selectedTile];
-			if (!TutorSystem.AllowAction("ChooseBiome-" + tile.biome.defName + "-" + ((Enum)(object)tile.hilliness).ToString()))
-			{
-				return false;
-			}
-			return true;
+			return result;
 		}
 
 		protected override void DoNext()
@@ -131,26 +137,21 @@ namespace RimWorld
 			Vector2 bottomButSize2 = Page.BottomButSize;
 			float num6 = (float)(num5 * bottomButSize2.y + 10.0 * (float)(num2 + 1));
 			Rect rect = new Rect((float)(((float)UI.screenWidth - num4) / 2.0), (float)((float)UI.screenHeight - num6 - 4.0), num4, num6);
-			if (Find.WindowStack.IsOpen<WorldInspectPane>())
+			WorldInspectPane worldInspectPane = Find.WindowStack.WindowOfType<WorldInspectPane>();
+			if (worldInspectPane != null && rect.x < InspectPaneUtility.PaneWidthFor(worldInspectPane) + 4.0)
 			{
-				float x = rect.x;
-				Vector2 paneSize = InspectPaneUtility.PaneSize;
-				if (x < paneSize.x + 4.0)
-				{
-					Vector2 paneSize2 = InspectPaneUtility.PaneSize;
-					rect.x = (float)(paneSize2.x + 4.0);
-				}
+				rect.x = (float)(InspectPaneUtility.PaneWidthFor(worldInspectPane) + 4.0);
 			}
 			Widgets.DrawWindowBackground(rect);
 			float num7 = (float)(rect.xMin + 10.0);
 			float num8 = (float)(rect.yMin + 10.0);
 			Text.Font = GameFont.Small;
-			float x2 = num7;
+			float x = num7;
 			float y = num8;
 			Vector2 bottomButSize3 = Page.BottomButSize;
-			float x3 = bottomButSize3.x;
+			float x2 = bottomButSize3.x;
 			Vector2 bottomButSize4 = Page.BottomButSize;
-			if (Widgets.ButtonText(new Rect(x2, y, x3, bottomButSize4.y), "Back".Translate(), true, false, true) && this.CanDoBack())
+			if (Widgets.ButtonText(new Rect(x, y, x2, bottomButSize4.y), "Back".Translate(), true, false, true) && this.CanDoBack())
 			{
 				this.DoBack();
 			}
@@ -159,12 +160,12 @@ namespace RimWorld
 			num7 = (float)(num9 + (bottomButSize5.x + 10.0));
 			if (!TutorSystem.TutorialMode)
 			{
-				float x4 = num7;
+				float x3 = num7;
 				float y2 = num8;
 				Vector2 bottomButSize6 = Page.BottomButSize;
-				float x5 = bottomButSize6.x;
+				float x4 = bottomButSize6.x;
 				Vector2 bottomButSize7 = Page.BottomButSize;
-				if (Widgets.ButtonText(new Rect(x4, y2, x5, bottomButSize7.y), "Advanced".Translate(), true, false, true))
+				if (Widgets.ButtonText(new Rect(x3, y2, x4, bottomButSize7.y), "Advanced".Translate(), true, false, true))
 				{
 					Find.WindowStack.Add(new Dialog_AdvancedGameConfig(Find.WorldInterface.SelectedTile));
 				}
@@ -172,12 +173,12 @@ namespace RimWorld
 				Vector2 bottomButSize8 = Page.BottomButSize;
 				num7 = (float)(num10 + (bottomButSize8.x + 10.0));
 			}
-			float x6 = num7;
+			float x5 = num7;
 			float y3 = num8;
 			Vector2 bottomButSize9 = Page.BottomButSize;
-			float x7 = bottomButSize9.x;
+			float x6 = bottomButSize9.x;
 			Vector2 bottomButSize10 = Page.BottomButSize;
-			if (Widgets.ButtonText(new Rect(x6, y3, x7, bottomButSize10.y), "SelectRandomSite".Translate(), true, false, true))
+			if (Widgets.ButtonText(new Rect(x5, y3, x6, bottomButSize10.y), "SelectRandomSite".Translate(), true, false, true))
 			{
 				SoundDefOf.Click.PlayOneShotOnCamera(null);
 				Find.WorldInterface.SelectedTile = TileFinder.RandomStartingTile();
@@ -193,24 +194,24 @@ namespace RimWorld
 				Vector2 bottomButSize12 = Page.BottomButSize;
 				num8 = (float)(num12 + (bottomButSize12.y + 10.0));
 			}
-			float x8 = num7;
+			float x7 = num7;
 			float y4 = num8;
 			Vector2 bottomButSize13 = Page.BottomButSize;
-			float x9 = bottomButSize13.x;
+			float x8 = bottomButSize13.x;
 			Vector2 bottomButSize14 = Page.BottomButSize;
-			if (Widgets.ButtonText(new Rect(x8, y4, x9, bottomButSize14.y), "WorldFactionsTab".Translate(), true, false, true))
+			if (Widgets.ButtonText(new Rect(x7, y4, x8, bottomButSize14.y), "WorldFactionsTab".Translate(), true, false, true))
 			{
 				Find.WindowStack.Add(new Dialog_FactionDuringLanding());
 			}
 			float num13 = num7;
 			Vector2 bottomButSize15 = Page.BottomButSize;
 			num7 = (float)(num13 + (bottomButSize15.x + 10.0));
-			float x10 = num7;
+			float x9 = num7;
 			float y5 = num8;
 			Vector2 bottomButSize16 = Page.BottomButSize;
-			float x11 = bottomButSize16.x;
+			float x10 = bottomButSize16.x;
 			Vector2 bottomButSize17 = Page.BottomButSize;
-			if (Widgets.ButtonText(new Rect(x10, y5, x11, bottomButSize17.y), "Next".Translate(), true, false, true) && this.CanDoNext())
+			if (Widgets.ButtonText(new Rect(x9, y5, x10, bottomButSize17.y), "Next".Translate(), true, false, true) && this.CanDoNext())
 			{
 				this.DoNext();
 			}

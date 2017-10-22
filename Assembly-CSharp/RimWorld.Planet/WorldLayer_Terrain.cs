@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,9 +16,24 @@ namespace RimWorld.Planet
 
 		public override IEnumerable Regenerate()
 		{
-			foreach (object item in base.Regenerate())
+			IEnumerator enumerator = this._003CRegenerate_003E__BaseCallProxy0().GetEnumerator();
+			try
 			{
-				yield return item;
+				if (enumerator.MoveNext())
+				{
+					object result = enumerator.Current;
+					yield return result;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+			}
+			finally
+			{
+				IDisposable disposable;
+				IDisposable disposable2 = disposable = (enumerator as IDisposable);
+				if (disposable != null)
+				{
+					disposable2.Dispose();
+				}
 			}
 			World world = Find.World;
 			WorldGrid grid = world.grid;
@@ -26,61 +42,102 @@ namespace RimWorld.Planet
 			List<int> tileIDToVerts_offsets = grid.tileIDToVerts_offsets;
 			List<Vector3> verts = grid.verts;
 			this.triangleIndexToTileID.Clear();
-			foreach (object item2 in this.CalculateInterpolatedVerticesParams())
+			IEnumerator enumerator2 = this.CalculateInterpolatedVerticesParams().GetEnumerator();
+			try
 			{
-				yield return item2;
+				if (enumerator2.MoveNext())
+				{
+					object result3 = enumerator2.Current;
+					yield return result3;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+			}
+			finally
+			{
+				IDisposable disposable;
+				IDisposable disposable3 = disposable = (enumerator2 as IDisposable);
+				if (disposable != null)
+				{
+					disposable3.Dispose();
+				}
 			}
 			int colorsAndUVsIndex = 0;
-			for (int j = 0; j < tilesCount; j++)
+			for (int num = 0; num < tilesCount; num++)
 			{
-				Tile tile = tiles[j];
+				Tile tile = tiles[num];
 				BiomeDef biome = tile.biome;
-				int subMeshIndex;
-				LayerSubMesh subMesh = base.GetSubMesh(biome.DrawMaterial, out subMeshIndex);
-				while (subMeshIndex >= this.triangleIndexToTileID.Count)
+				int num2 = default(int);
+				LayerSubMesh subMesh = base.GetSubMesh(biome.DrawMaterial, out num2);
+				while (num2 >= this.triangleIndexToTileID.Count)
 				{
 					this.triangleIndexToTileID.Add(new List<int>());
 				}
-				int startVertIndex = subMesh.verts.Count;
-				int vertIndex = 0;
-				int oneAfterLastVert = (j + 1 >= tileIDToVerts_offsets.Count) ? verts.Count : tileIDToVerts_offsets[j + 1];
-				for (int i = tileIDToVerts_offsets[j]; i < oneAfterLastVert; i++)
+				int count = subMesh.verts.Count;
+				int num3 = 0;
+				int num4 = (num + 1 >= tileIDToVerts_offsets.Count) ? verts.Count : tileIDToVerts_offsets[num + 1];
+				for (int num5 = tileIDToVerts_offsets[num]; num5 < num4; num5++)
 				{
-					subMesh.verts.Add(verts[i]);
+					subMesh.verts.Add(verts[num5]);
 					subMesh.uvs.Add(this.elevationValues[colorsAndUVsIndex]);
 					colorsAndUVsIndex++;
-					if (i < oneAfterLastVert - 2)
+					if (num5 < num4 - 2)
 					{
-						subMesh.tris.Add(startVertIndex + vertIndex + 2);
-						subMesh.tris.Add(startVertIndex + vertIndex + 1);
-						subMesh.tris.Add(startVertIndex);
-						this.triangleIndexToTileID[subMeshIndex].Add(j);
+						subMesh.tris.Add(count + num3 + 2);
+						subMesh.tris.Add(count + num3 + 1);
+						subMesh.tris.Add(count);
+						this.triangleIndexToTileID[num2].Add(num);
 					}
-					vertIndex++;
+					num3++;
 				}
 			}
-			base.FinalizeMesh(MeshParts.All, true);
-			foreach (object item3 in this.RegenerateMeshColliders())
+			base.FinalizeMesh(MeshParts.All);
+			IEnumerator enumerator3 = this.RegenerateMeshColliders().GetEnumerator();
+			try
 			{
-				yield return item3;
+				if (enumerator3.MoveNext())
+				{
+					object result2 = enumerator3.Current;
+					yield return result2;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+			}
+			finally
+			{
+				IDisposable disposable;
+				IDisposable disposable4 = disposable = (enumerator3 as IDisposable);
+				if (disposable != null)
+				{
+					disposable4.Dispose();
+				}
 			}
 			this.elevationValues.Clear();
 			this.elevationValues.TrimExcess();
+			yield break;
+			IL_043c:
+			/*Error near IL_043d: Unexpected return in MoveNext()*/;
 		}
 
 		public int GetTileIDFromRayHit(RaycastHit hit)
 		{
 			int num = 0;
 			int count = this.meshCollidersInOrder.Count;
-			while (num < count)
+			int result;
+			while (true)
 			{
-				if ((Object)this.meshCollidersInOrder[num] == (Object)hit.collider)
+				if (num < count)
 				{
-					return this.triangleIndexToTileID[num][hit.triangleIndex];
+					if ((UnityEngine.Object)this.meshCollidersInOrder[num] == (UnityEngine.Object)hit.collider)
+					{
+						result = this.triangleIndexToTileID[num][hit.triangleIndex];
+						break;
+					}
+					num++;
+					continue;
 				}
-				num++;
+				result = -1;
+				break;
 			}
-			return -1;
+			return result;
 		}
 
 		private IEnumerable RegenerateMeshColliders()
@@ -90,15 +147,17 @@ namespace RimWorld.Planet
 			MeshCollider[] components = gameObject.GetComponents<MeshCollider>();
 			for (int j = 0; j < components.Length; j++)
 			{
-				MeshCollider component = components[j];
-				Object.Destroy(component);
+				MeshCollider obj = components[j];
+				UnityEngine.Object.Destroy(obj);
 			}
-			for (int i = 0; i < base.subMeshes.Count; i++)
+			int i = 0;
+			if (i < base.subMeshes.Count)
 			{
 				MeshCollider comp = gameObject.AddComponent<MeshCollider>();
 				comp.sharedMesh = base.subMeshes[i].mesh;
 				this.meshCollidersInOrder.Add(comp);
 				yield return (object)null;
+				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -113,65 +172,74 @@ namespace RimWorld.Planet
 			List<int> tileIDToNeighbors_offsets = grid.tileIDToNeighbors_offsets;
 			List<int> tileIDToNeighbors_values = grid.tileIDToNeighbors_values;
 			List<Tile> tiles = grid.tiles;
-			for (int l = 0; l < tilesCount; l++)
+			int i = 0;
+			while (true)
 			{
-				Tile tile = tiles[l];
-				float elevation = tile.elevation;
-				int oneAfterLastNeighbor = (l + 1 >= tileIDToNeighbors_offsets.Count) ? tileIDToNeighbors_values.Count : tileIDToNeighbors_offsets[l + 1];
-				int oneAfterLastVert = (l + 1 >= tilesCount) ? verts.Count : tileIDToVerts_offsets[l + 1];
-				for (int k = tileIDToVerts_offsets[l]; k < oneAfterLastVert; k++)
+				if (i < tilesCount)
 				{
-					Vector3 elevationVal = new Vector3
+					Tile tile = tiles[i];
+					float elevation = tile.elevation;
+					int oneAfterLastNeighbor = (i + 1 >= tileIDToNeighbors_offsets.Count) ? tileIDToNeighbors_values.Count : tileIDToNeighbors_offsets[i + 1];
+					int oneAfterLastVert = (i + 1 >= tilesCount) ? verts.Count : tileIDToVerts_offsets[i + 1];
+					for (int num = tileIDToVerts_offsets[i]; num < oneAfterLastVert; num++)
 					{
-						x = elevation
-					};
-					bool isCoast = false;
-					for (int j = tileIDToNeighbors_offsets[l]; j < oneAfterLastNeighbor; j++)
-					{
-						int oneAfterLastNeighVert = (tileIDToNeighbors_values[j] + 1 >= tileIDToVerts_offsets.Count) ? verts.Count : tileIDToVerts_offsets[tileIDToNeighbors_values[j] + 1];
-						int i = tileIDToVerts_offsets[tileIDToNeighbors_values[j]];
-						while (i < oneAfterLastNeighVert)
+						Vector3 item = new Vector3
 						{
-							if (!(verts[i] == verts[k]))
+							x = elevation
+						};
+						bool flag = false;
+						for (int num2 = tileIDToNeighbors_offsets[i]; num2 < oneAfterLastNeighbor; num2++)
+						{
+							int num3 = (tileIDToNeighbors_values[num2] + 1 >= tileIDToVerts_offsets.Count) ? verts.Count : tileIDToVerts_offsets[tileIDToNeighbors_values[num2] + 1];
+							int num4 = tileIDToVerts_offsets[tileIDToNeighbors_values[num2]];
+							while (num4 < num3)
 							{
-								i++;
-								continue;
-							}
-							Tile neigh = tiles[tileIDToNeighbors_values[j]];
-							if (!isCoast)
-							{
-								if (neigh.elevation >= 0.0 && elevation <= 0.0)
+								if (!(verts[num4] == verts[num]))
 								{
-									goto IL_02e4;
+									num4++;
+									continue;
 								}
-								if (neigh.elevation <= 0.0 && elevation >= 0.0)
-									goto IL_02e4;
-								if (neigh.elevation > elevationVal.x)
+								Tile tile2 = tiles[tileIDToNeighbors_values[num2]];
+								if (!flag)
 								{
-									elevationVal.x = neigh.elevation;
+									if (tile2.elevation >= 0.0 && elevation <= 0.0)
+									{
+										goto IL_02a0;
+									}
+									if (tile2.elevation <= 0.0 && elevation >= 0.0)
+										goto IL_02a0;
+									if (tile2.elevation > item.x)
+									{
+										item.x = tile2.elevation;
+									}
 								}
+								break;
+								IL_02a0:
+								flag = true;
+								break;
 							}
-							break;
-							IL_02e4:
-							isCoast = true;
-							break;
 						}
+						if (flag)
+						{
+							item.x = 0f;
+						}
+						if ((UnityEngine.Object)tile.biome.DrawMaterial.shader != (UnityEngine.Object)ShaderDatabase.WorldOcean && item.x < 0.0)
+						{
+							item.x = 0f;
+						}
+						this.elevationValues.Add(item);
 					}
-					if (isCoast)
+					if (i % 1000 != 0)
 					{
-						elevationVal.x = 0f;
+						i++;
+						continue;
 					}
-					if ((Object)tile.biome.DrawMaterial.shader != (Object)ShaderDatabase.WorldOcean && elevationVal.x < 0.0)
-					{
-						elevationVal.x = 0f;
-					}
-					this.elevationValues.Add(elevationVal);
+					break;
 				}
-				if (l % 1000 == 0)
-				{
-					yield return (object)null;
-				}
+				yield break;
 			}
+			yield return (object)null;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}
 }

@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Xml;
 
 namespace Verse
@@ -10,20 +12,33 @@ namespace Verse
 		{
 			XmlNode node = this.value.node;
 			bool result = false;
-			foreach (object item in xml.SelectNodes(base.xpath))
+			IEnumerator enumerator = xml.SelectNodes(base.xpath).GetEnumerator();
+			try
 			{
-				XmlNode xmlNode = item as XmlNode;
-				XmlNode xmlNode2 = xmlNode["modExtensions"];
-				if (xmlNode2 == null)
+				while (enumerator.MoveNext())
 				{
-					xmlNode2 = xmlNode.OwnerDocument.CreateElement("modExtensions");
-					xmlNode.AppendChild(xmlNode2);
+					object current = enumerator.Current;
+					XmlNode xmlNode = current as XmlNode;
+					XmlNode xmlNode2 = xmlNode["modExtensions"];
+					if (xmlNode2 == null)
+					{
+						xmlNode2 = xmlNode.OwnerDocument.CreateElement("modExtensions");
+						xmlNode.AppendChild(xmlNode2);
+					}
+					for (int i = 0; i < node.ChildNodes.Count; i++)
+					{
+						xmlNode2.AppendChild(xmlNode.OwnerDocument.ImportNode(node.ChildNodes[i], true));
+					}
+					result = true;
 				}
-				for (int i = 0; i < node.ChildNodes.Count; i++)
+			}
+			finally
+			{
+				IDisposable disposable;
+				if ((disposable = (enumerator as IDisposable)) != null)
 				{
-					xmlNode2.AppendChild(xmlNode.OwnerDocument.ImportNode(node.ChildNodes[i], true));
+					disposable.Dispose();
 				}
-				result = true;
 			}
 			return result;
 		}

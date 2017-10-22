@@ -12,15 +12,15 @@ namespace RimWorld
 
 		private const float IntervalDeviation = 15f;
 
-		private float intervalDays;
+		private float intervalDays = 0f;
 
-		private bool repeat;
+		private bool repeat = false;
 
 		private string intervalDaysBuffer;
 
-		private float occurTick;
+		private float occurTick = 0f;
 
-		private bool isFinished;
+		private bool isFinished = false;
 
 		protected override string IncidentTag
 		{
@@ -72,8 +72,7 @@ namespace RimWorld
 		protected override IEnumerable<IncidentDef> RandomizableIncidents()
 		{
 			yield return IncidentDefOf.Eclipse;
-			yield return IncidentDefOf.ToxicFallout;
-			yield return IncidentDefOf.SolarFlare;
+			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
 		public override void PostGameStart()

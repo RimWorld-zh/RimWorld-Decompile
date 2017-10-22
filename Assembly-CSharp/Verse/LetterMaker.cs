@@ -14,15 +14,20 @@ namespace Verse
 
 		public static ChoiceLetter MakeLetter(string label, string text, LetterDef def)
 		{
+			ChoiceLetter result;
 			if (!typeof(ChoiceLetter).IsAssignableFrom(def.letterClass))
 			{
 				Log.Error(def + " is not a choice letter.");
-				return null;
+				result = null;
 			}
-			ChoiceLetter choiceLetter = (ChoiceLetter)LetterMaker.MakeLetter(def);
-			choiceLetter.label = label;
-			choiceLetter.text = text;
-			return choiceLetter;
+			else
+			{
+				ChoiceLetter choiceLetter = (ChoiceLetter)LetterMaker.MakeLetter(def);
+				choiceLetter.label = label;
+				choiceLetter.text = text;
+				result = choiceLetter;
+			}
+			return result;
 		}
 
 		public static ChoiceLetter MakeLetter(string label, string text, LetterDef def, GlobalTargetInfo lookTarget)
