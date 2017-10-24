@@ -11,7 +11,7 @@ namespace Verse
 
 		private List<Rule> cachedRules = null;
 
-		public List<Rule> Rules
+		public List<Rule> RulesPlusIncludes
 		{
 			get
 			{
@@ -26,11 +26,19 @@ namespace Verse
 					{
 						for (int i = 0; i < this.include.Count; i++)
 						{
-							this.cachedRules.AddRange(this.include[i].Rules);
+							this.cachedRules.AddRange(this.include[i].RulesPlusIncludes);
 						}
 					}
 				}
 				return this.cachedRules;
+			}
+		}
+
+		public List<Rule> RulesImmediate
+		{
+			get
+			{
+				return this.rulePack.Rules;
 			}
 		}
 

@@ -1019,13 +1019,17 @@ namespace Verse
 			});
 			base.DebugToolMapForPawns("Tool: Surgery fail minor", (Action<Pawn>)delegate(Pawn p)
 			{
-				BodyPartRecord bodyPartRecord2 = p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined).RandomElement();
+				BodyPartRecord bodyPartRecord2 = (from x in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined)
+				where !x.def.isConceptual
+				select x).RandomElement();
 				Log.Message("part is " + bodyPartRecord2);
 				HealthUtility.GiveInjuriesOperationFailureMinor(p, bodyPartRecord2);
 			});
 			base.DebugToolMapForPawns("Tool: Surgery fail catastrophic", (Action<Pawn>)delegate(Pawn p)
 			{
-				BodyPartRecord bodyPartRecord = p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined).RandomElement();
+				BodyPartRecord bodyPartRecord = (from x in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined)
+				where !x.def.isConceptual
+				select x).RandomElement();
 				Log.Message("part is " + bodyPartRecord);
 				HealthUtility.GiveInjuriesOperationFailureCatastrophic(p, bodyPartRecord);
 			});

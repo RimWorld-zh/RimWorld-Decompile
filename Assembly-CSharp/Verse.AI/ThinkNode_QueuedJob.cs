@@ -22,7 +22,7 @@ namespace Verse.AI
 				{
 					pawn.jobs.DebugLogEvent("   Returning queued job: " + queuedJob2.job);
 				}
-				result = new ThinkResult(queuedJob2.job, this, queuedJob2.tag, false);
+				result = new ThinkResult(queuedJob2.job, this, queuedJob2.tag, true);
 			}
 			else
 			{

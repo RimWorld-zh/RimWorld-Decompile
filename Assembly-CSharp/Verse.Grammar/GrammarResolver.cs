@@ -2,6 +2,7 @@ using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Verse.Grammar
 {
@@ -86,6 +87,8 @@ namespace Verse.Grammar
 
 		private const int LoopsLimit = 1000;
 
+		private static Regex Spaces = new Regex(" +([ ,.])");
+
 		private static bool LogOn
 		{
 			get
@@ -106,29 +109,69 @@ namespace Verse.Grammar
 			list.Add(new RuleEntry(rule));
 		}
 
-		public static string Resolve(string rootKeyword, List<Rule> rawRules, Dictionary<string, string> constants = null, string debugLabel = null)
+		public static string Resolve(string rootKeyword, GrammarRequest request, string debugLabel = null)
 		{
 			GrammarResolver.rules.Clear();
 			GrammarResolver.rulePool.Clear();
-			for (int i = 0; i < rawRules.Count; i++)
+			List<Rule> list = request.GetRules();
+			if (list != null)
 			{
-				GrammarResolver.AddRule(rawRules[i]);
+				for (int i = 0; i < list.Count; i++)
+				{
+					GrammarResolver.AddRule(list[i]);
+				}
 			}
-			for (int j = 0; j < RulePackDefOf.GlobalUtility.Rules.Count; j++)
-			{
-				GrammarResolver.AddRule(RulePackDefOf.GlobalUtility.Rules[j]);
-			}
-			GrammarResolver.loopCount = 0;
 			if (GrammarResolver.LogOn)
 			{
 				GrammarResolver.logSb = new StringBuilder();
-				if (constants != null)
+			}
+			List<RulePackDef> includes = request.GetIncludes();
+			if (includes != null)
+			{
+				HashSet<RulePackDef> hashSet = new HashSet<RulePackDef>();
+				List<RulePackDef> list2 = new List<RulePackDef>(includes);
+				if (GrammarResolver.LogOn)
 				{
-					GrammarResolver.logSb.AppendLine("Constants:");
-					foreach (KeyValuePair<string, string> item in constants)
+					GrammarResolver.logSb.AppendLine("Includes:");
+				}
+				while (list2.Count > 0)
+				{
+					RulePackDef rulePackDef = list2[list2.Count - 1];
+					list2.RemoveLast();
+					if (!hashSet.Contains(rulePackDef))
 					{
-						GrammarResolver.logSb.AppendLine(string.Format("  {0}: {1}", item.Key, item.Value));
+						if (GrammarResolver.LogOn)
+						{
+							GrammarResolver.logSb.AppendLine(string.Format("  {0}", rulePackDef.defName));
+						}
+						hashSet.Add(rulePackDef);
+						foreach (Rule item in rulePackDef.RulesImmediate)
+						{
+							GrammarResolver.AddRule(item);
+						}
+						if (!rulePackDef.include.NullOrEmpty())
+						{
+							list2.AddRange(rulePackDef.include);
+						}
 					}
+				}
+				if (GrammarResolver.LogOn)
+				{
+					GrammarResolver.logSb.AppendLine();
+				}
+			}
+			for (int j = 0; j < RulePackDefOf.GlobalUtility.RulesPlusIncludes.Count; j++)
+			{
+				GrammarResolver.AddRule(RulePackDefOf.GlobalUtility.RulesPlusIncludes[j]);
+			}
+			GrammarResolver.loopCount = 0;
+			Dictionary<string, string> constants = request.GetConstants();
+			if (GrammarResolver.LogOn && constants != null)
+			{
+				GrammarResolver.logSb.AppendLine("Constants:");
+				foreach (KeyValuePair<string, string> item2 in constants)
+				{
+					GrammarResolver.logSb.AppendLine(string.Format("  {0}: {1}", item2.Key, item2.Value));
 				}
 			}
 			string text = "err";
@@ -145,6 +188,7 @@ namespace Verse.Grammar
 				}
 			}
 			text = GenText.CapitalizeSentences(Find.ActiveLanguageWorker.PostProcessed(text));
+			text = GrammarResolver.Spaces.Replace(text, (MatchEvaluator)((Match match) => match.Groups[1].Value));
 			if (GrammarResolver.LogOn)
 			{
 				Log.Message(GrammarResolver.logSb.ToString().Trim());

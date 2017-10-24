@@ -243,17 +243,17 @@ namespace RimWorld
 			toil.initAction = (Action)delegate()
 			{
 				Pawn actor2 = toil.actor;
-				Thing thing3 = actor2.CurJob.GetTarget(ingestibleInd).Thing;
-				if (!thing3.IngestibleNow)
+				Thing thing4 = actor2.CurJob.GetTarget(ingestibleInd).Thing;
+				if (!thing4.IngestibleNow)
 				{
 					chewer.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 				}
 				else
 				{
-					actor2.jobs.curDriver.ticksLeftThisToil = Mathf.RoundToInt((float)thing3.def.ingestible.baseIngestTicks * durationMultiplier);
-					if (thing3.Spawned)
+					actor2.jobs.curDriver.ticksLeftThisToil = Mathf.RoundToInt((float)thing4.def.ingestible.baseIngestTicks * durationMultiplier);
+					if (thing4.Spawned)
 					{
-						thing3.Map.physicalInteractionReservationManager.Reserve(chewer, actor2.CurJob, thing3);
+						thing4.Map.physicalInteractionReservationManager.Reserve(chewer, actor2.CurJob, thing4);
 					}
 				}
 			};
@@ -263,9 +263,17 @@ namespace RimWorld
 				{
 					toil.actor.rotationTracker.FaceCell(chewer.Position);
 				}
-				else if (eatSurfaceInd != 0)
+				else
 				{
-					toil.actor.rotationTracker.FaceCell(toil.actor.CurJob.GetTarget(eatSurfaceInd).Cell);
+					Thing thing3 = toil.actor.CurJob.GetTarget(ingestibleInd).Thing;
+					if (thing3 != null && thing3.Spawned)
+					{
+						toil.actor.rotationTracker.FaceCell(thing3.Position);
+					}
+					else if (eatSurfaceInd != 0 && toil.actor.CurJob.GetTarget(eatSurfaceInd).IsValid)
+					{
+						toil.actor.rotationTracker.FaceCell(toil.actor.CurJob.GetTarget(eatSurfaceInd).Cell);
+					}
 				}
 				toil.actor.GainComfortFromCellIfPossible();
 			};

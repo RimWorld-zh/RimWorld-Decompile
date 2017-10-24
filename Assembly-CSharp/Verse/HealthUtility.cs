@@ -178,9 +178,11 @@ namespace Verse
 
 		private static void GiveRandomSurgeryInjuries(Pawn p, int totalDamage, BodyPartRecord operatedPart)
 		{
-			IEnumerable<BodyPartRecord> source = (operatedPart != null) ? (from pa in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined)
+			IEnumerable<BodyPartRecord> source = (operatedPart != null) ? (from x in p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined)
+			where !x.def.isConceptual
+			select x into pa
 			where pa == operatedPart || pa.parent == operatedPart || (operatedPart != null && operatedPart.parent == pa)
-			select pa) : p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined);
+			select pa) : p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined).Where((Func<BodyPartRecord, bool>)((BodyPartRecord x) => !x.def.isConceptual));
 			source = from x in source
 			where HealthUtility.GetMinHealthOfPartsWeWantToAvoidDestroying(x, p) >= 2.0
 			select x;

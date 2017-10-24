@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using UnityEngine;
 using Verse.Grammar;
 
 namespace Verse
@@ -8,6 +8,14 @@ namespace Verse
 		private RulePackDef transitionDef;
 
 		private Pawn subject;
+
+		private Pawn initiator;
+
+		private HediffDef culpritHediffDef;
+
+		private BodyPartDef culpritHediffTargetDef;
+
+		private BodyPartDef culpritTargetDef;
 
 		private string SubjectName
 		{
@@ -21,15 +29,30 @@ namespace Verse
 		{
 		}
 
-		public BattleLogEntry_StateTransition(Pawn subject, RulePackDef transitionDef)
+		public BattleLogEntry_StateTransition(Pawn subject, RulePackDef transitionDef, Pawn initiator, Hediff culpritHediff, BodyPartDef culpritTargetDef)
 		{
 			this.subject = subject;
 			this.transitionDef = transitionDef;
+			this.initiator = initiator;
+			if (culpritHediff != null)
+			{
+				this.culpritHediffDef = culpritHediff.def;
+				if (culpritHediff.Part != null)
+				{
+					this.culpritHediffTargetDef = culpritHediff.Part.def;
+				}
+			}
+			this.culpritTargetDef = culpritTargetDef;
 		}
 
 		public override bool Concerns(Thing t)
 		{
-			return t == this.subject;
+			return t == this.subject || t == this.initiator;
+		}
+
+		public override Texture2D IconFromPOV(Thing pov)
+		{
+			return (pov == null || pov == this.subject) ? LogEntry.Skull : ((pov != this.initiator) ? null : LogEntry.SkullTarget);
 		}
 
 		public override string ToGameStringFromPOV(Thing pov)
@@ -44,10 +67,26 @@ namespace Verse
 			{
 				Rand.PushState();
 				Rand.Seed = base.randSeed;
-				List<Rule> list = new List<Rule>();
-				list.AddRange(GrammarUtility.RulesForPawn("subject", this.subject));
-				list.AddRange(this.transitionDef.Rules);
-				string text = GrammarResolver.Resolve("logentry", list, null, "state transition");
+				GrammarRequest request = default(GrammarRequest);
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("subject", this.subject));
+				request.Includes.Add(this.transitionDef);
+				if (this.initiator != null)
+				{
+					request.Rules.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiator));
+				}
+				if (this.culpritHediffDef != null)
+				{
+					request.Rules.AddRange(GrammarUtility.RulesForDef("culpritHediff", this.culpritHediffDef));
+				}
+				if (this.culpritHediffTargetDef != null)
+				{
+					request.Rules.AddRange(GrammarUtility.RulesForDef("culpritHediff_target", this.culpritHediffTargetDef));
+				}
+				if (this.culpritTargetDef != null)
+				{
+					request.Rules.AddRange(GrammarUtility.RulesForDef("culpritHediff_originaltarget", this.culpritTargetDef));
+				}
+				string text = GrammarResolver.Resolve("logentry", request, "state transition");
 				Rand.PopState();
 				result = text;
 			}
@@ -59,6 +98,10 @@ namespace Verse
 			base.ExposeData();
 			Scribe_Defs.Look<RulePackDef>(ref this.transitionDef, "transitionDef");
 			Scribe_References.Look<Pawn>(ref this.subject, "subject", true);
+			Scribe_References.Look<Pawn>(ref this.initiator, "initiator", true);
+			Scribe_Defs.Look<HediffDef>(ref this.culpritHediffDef, "culpritHediffDef");
+			Scribe_Defs.Look<BodyPartDef>(ref this.culpritHediffTargetDef, "culpritHediffTargetDef");
+			Scribe_Defs.Look<BodyPartDef>(ref this.culpritTargetDef, "culpritTargetDef");
 		}
 
 		public override string ToString()

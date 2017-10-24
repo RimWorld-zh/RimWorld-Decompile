@@ -505,7 +505,7 @@ namespace Verse
 				if (this.pawn.Spawned)
 				{
 					TaleRecorder.RecordTale(TaleDefOf.Downed, this.pawn, (!dinfo.HasValue) ? null : (dinfo.Value.Instigator as Pawn), (!dinfo.HasValue) ? null : dinfo.Value.Weapon);
-					Find.BattleLog.Add(new BattleLogEntry_StateTransition(this.pawn, RulePackDefOf.Transition_Downed));
+					Find.BattleLog.Add(new BattleLogEntry_StateTransition(this.pawn, RulePackDefOf.Transition_Downed, (!dinfo.HasValue) ? null : (dinfo.Value.Instigator as Pawn), hediff, (!dinfo.HasValue) ? null : dinfo.Value.HitPart.def));
 				}
 			}
 		}

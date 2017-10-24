@@ -83,7 +83,21 @@ namespace RimWorld
 
 		public override bool TryMakePreToilReservations()
 		{
-			return true;
+			bool result;
+			if (base.pawn.Faction != null && !(this.IngestibleSource is Building_NutrientPasteDispenser))
+			{
+				Thing ingestibleSource = this.IngestibleSource;
+				int num = FoodUtility.WillIngestStackCountOf(base.pawn, ingestibleSource.def);
+				if (num >= ingestibleSource.stackCount && ingestibleSource.Spawned && !base.pawn.Reserve(ingestibleSource, base.job, 1, -1, null))
+				{
+					result = false;
+					goto IL_0082;
+				}
+			}
+			result = true;
+			goto IL_0082;
+			IL_0082:
+			return result;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -162,6 +176,7 @@ namespace RimWorld
 				}
 			};
 			toil.defaultCompleteMode = ToilCompleteMode.Instant;
+			toil.atomicWithPrevious = true;
 			return toil;
 		}
 

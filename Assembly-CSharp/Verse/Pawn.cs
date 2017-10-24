@@ -1257,7 +1257,7 @@ namespace Verse
 			}
 			if (flag)
 			{
-				Find.BattleLog.Add(new BattleLogEntry_StateTransition(this, RulePackDefOf.Transition_Died));
+				Find.BattleLog.Add(new BattleLogEntry_StateTransition(this, this.RaceProps.DeathActionWorker.DeathRules, (!dinfo.HasValue) ? null : (dinfo.Value.Instigator as Pawn), exactCulprit, (!dinfo.HasValue) ? null : dinfo.Value.HitPart.def));
 			}
 			this.health.surgeryBills.Clear();
 			if (this.apparel != null)

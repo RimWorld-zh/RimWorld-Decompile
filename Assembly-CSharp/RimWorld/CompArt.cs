@@ -207,7 +207,7 @@ namespace RimWorld
 				Log.Error("Did CompArt.GenerateImageDescription without initializing art: " + base.parent);
 				this.InitializeArt(ArtGenerationContext.Outsider);
 			}
-			return this.taleRef.GenerateText(TextGenerationPurpose.ArtDescription, this.Props.descriptionMaker.Rules);
+			return this.taleRef.GenerateText(TextGenerationPurpose.ArtDescription, this.Props.descriptionMaker.RulesPlusIncludes);
 		}
 
 		private string GenerateTitle()
@@ -217,7 +217,7 @@ namespace RimWorld
 				Log.Error("Did CompArt.GenerateTitle without initializing art: " + base.parent);
 				this.InitializeArt(ArtGenerationContext.Outsider);
 			}
-			return GenText.CapitalizeAsTitle(this.taleRef.GenerateText(TextGenerationPurpose.ArtName, this.Props.nameMaker.Rules));
+			return GenText.CapitalizeAsTitle(this.taleRef.GenerateText(TextGenerationPurpose.ArtName, this.Props.nameMaker.RulesPlusIncludes));
 		}
 	}
 }

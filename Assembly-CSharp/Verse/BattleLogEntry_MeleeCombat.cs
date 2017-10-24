@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Verse.Grammar;
 
 namespace Verse
@@ -88,6 +89,11 @@ namespace Verse
 			throw new NotImplementedException();
 		}
 
+		public override Texture2D IconFromPOV(Thing pov)
+		{
+			return (!this.damagedParts.NullOrEmpty()) ? ((pov == null || pov == this.recipient) ? LogEntry.Blood : ((pov != this.initiator) ? null : LogEntry.BloodTarget)) : null;
+		}
+
 		public override string ToGameStringFromPOV(Thing pov)
 		{
 			string result;
@@ -100,33 +106,32 @@ namespace Verse
 			{
 				Rand.PushState();
 				Rand.Seed = base.randSeed;
-				List<Rule> list = new List<Rule>();
-				list.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiator));
-				list.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipient));
-				list.AddRange(this.outcomeRuleDef.Rules);
-				list.AddRange(this.maneuverRuleDef.Rules);
+				GrammarRequest request = default(GrammarRequest);
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiator));
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipient));
+				request.Includes.Add(this.outcomeRuleDef);
+				request.Includes.Add(this.maneuverRuleDef);
 				if (!this.toolLabel.NullOrEmpty())
 				{
-					list.Add(new Rule_String("tool_label", this.toolLabel));
+					request.Rules.Add(new Rule_String("tool_label", this.toolLabel));
 				}
 				if (this.implementType != null && !this.implementType.implementOwnerRuleName.NullOrEmpty())
 				{
 					if (this.ownerEquipmentDef != null)
 					{
-						list.AddRange(GrammarUtility.RulesForDef(this.implementType.implementOwnerRuleName, this.ownerEquipmentDef));
+						request.Rules.AddRange(GrammarUtility.RulesForDef(this.implementType.implementOwnerRuleName, this.ownerEquipmentDef));
 					}
 					else if (this.ownerHediffDef != null)
 					{
-						list.AddRange(GrammarUtility.RulesForDef(this.implementType.implementOwnerRuleName, this.ownerHediffDef));
+						request.Rules.AddRange(GrammarUtility.RulesForDef(this.implementType.implementOwnerRuleName, this.ownerHediffDef));
 					}
 				}
-				Dictionary<string, string> dictionary = new Dictionary<string, string>();
 				if (this.implementType != null && !this.implementType.implementOwnerTypeValue.NullOrEmpty())
 				{
-					dictionary["implementOwnerType"] = this.implementType.implementOwnerTypeValue;
+					request.Constants["implementOwnerType"] = this.implementType.implementOwnerTypeValue;
 				}
-				list.AddRange(PlayLogEntryUtility.RulesForDamagedParts("recipient_part", this.damagedParts, this.damagedPartsDestroyed, dictionary));
-				string text = GrammarResolver.Resolve("logentry", list, dictionary, "combat interaction");
+				request.Rules.AddRange(PlayLogEntryUtility.RulesForDamagedParts("recipient_part", this.damagedParts, this.damagedPartsDestroyed, request.Constants));
+				string text = GrammarResolver.Resolve("logentry", request, "combat interaction");
 				Rand.PopState();
 				result = text;
 			}

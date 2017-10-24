@@ -77,6 +77,10 @@ namespace RimWorld
 
 		public static RulePackDef Transition_Died;
 
+		public static RulePackDef Transition_DiedExplosive;
+
 		public static RulePackDef DamageEvent_Ceiling;
+
+		public static RulePackDef DamageEvent_Fire;
 	}
 }

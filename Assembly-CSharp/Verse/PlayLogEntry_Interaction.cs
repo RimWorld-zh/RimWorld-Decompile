@@ -16,14 +16,6 @@ namespace Verse
 
 		private List<RulePackDef> extraSentencePacks = null;
 
-		public override Texture2D Icon
-		{
-			get
-			{
-				return this.intDef.Symbol;
-			}
-		}
-
 		private string InitiatorName
 		{
 			get
@@ -72,6 +64,11 @@ namespace Verse
 			throw new NotImplementedException();
 		}
 
+		public override Texture2D IconFromPOV(Thing pov)
+		{
+			return this.intDef.Symbol;
+		}
+
 		public override string ToGameStringFromPOV(Thing pov)
 		{
 			string result;
@@ -84,28 +81,28 @@ namespace Verse
 			{
 				Rand.PushState();
 				Rand.Seed = base.randSeed;
-				List<Rule> list = new List<Rule>();
+				GrammarRequest request = default(GrammarRequest);
 				string text;
 				if (pov == this.initiator)
 				{
-					list.AddRange(this.intDef.logRulesInitiator.Rules);
-					list.AddRange(GrammarUtility.RulesForPawn("me", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
-					list.AddRange(GrammarUtility.RulesForPawn("other", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
-					text = GrammarResolver.Resolve("logentry", list, null, "interaction from initiator");
+					request.Rules.AddRange(this.intDef.logRulesInitiator.Rules);
+					request.Rules.AddRange(GrammarUtility.RulesForPawn("me", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
+					request.Rules.AddRange(GrammarUtility.RulesForPawn("other", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
+					text = GrammarResolver.Resolve("logentry", request, "interaction from initiator");
 				}
 				else if (pov == this.recipient)
 				{
 					if (this.intDef.logRulesRecipient != null)
 					{
-						list.AddRange(this.intDef.logRulesRecipient.Rules);
+						request.Rules.AddRange(this.intDef.logRulesRecipient.Rules);
 					}
 					else
 					{
-						list.AddRange(this.intDef.logRulesInitiator.Rules);
+						request.Rules.AddRange(this.intDef.logRulesInitiator.Rules);
 					}
-					list.AddRange(GrammarUtility.RulesForPawn("me", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
-					list.AddRange(GrammarUtility.RulesForPawn("other", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
-					text = GrammarResolver.Resolve("logentry", list, null, "interaction from recipient");
+					request.Rules.AddRange(GrammarUtility.RulesForPawn("me", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
+					request.Rules.AddRange(GrammarUtility.RulesForPawn("other", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
+					text = GrammarResolver.Resolve("logentry", request, "interaction from recipient");
 				}
 				else
 				{
@@ -116,11 +113,11 @@ namespace Verse
 				{
 					for (int i = 0; i < this.extraSentencePacks.Count; i++)
 					{
-						list.Clear();
-						list.AddRange(this.extraSentencePacks[i].Rules);
-						list.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
-						list.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
-						text = text + " " + GrammarResolver.Resolve(this.extraSentencePacks[i].Rules[0].keyword, list, null, "extraSentencePack");
+						request.Clear();
+						request.Includes.Add(this.extraSentencePacks[i]);
+						request.Rules.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
+						request.Rules.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
+						text = text + " " + GrammarResolver.Resolve(this.extraSentencePacks[i].RulesPlusIncludes[0].keyword, request, "extraSentencePack");
 					}
 				}
 				Rand.PopState();

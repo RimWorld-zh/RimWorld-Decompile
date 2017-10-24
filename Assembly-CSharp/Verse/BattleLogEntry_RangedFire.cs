@@ -1,6 +1,5 @@
 using RimWorld;
 using System;
-using System.Collections.Generic;
 using Verse.Grammar;
 
 namespace Verse
@@ -18,6 +17,8 @@ namespace Verse
 		private ThingDef weaponDef;
 
 		private ThingDef projectileDef;
+
+		private bool burst;
 
 		private string InitiatorName
 		{
@@ -39,7 +40,7 @@ namespace Verse
 		{
 		}
 
-		public BattleLogEntry_RangedFire(Thing initiator, Thing target, ThingDef weaponDef, ThingDef projectileDef)
+		public BattleLogEntry_RangedFire(Thing initiator, Thing target, ThingDef weaponDef, ThingDef projectileDef, bool burst)
 		{
 			if (initiator is Pawn)
 			{
@@ -59,6 +60,7 @@ namespace Verse
 			}
 			this.weaponDef = weaponDef;
 			this.projectileDef = projectileDef;
+			this.burst = burst;
 		}
 
 		public override bool Concerns(Thing t)
@@ -95,35 +97,40 @@ namespace Verse
 			{
 				Rand.PushState();
 				Rand.Seed = base.randSeed;
-				List<Rule> list = new List<Rule>();
-				list.AddRange(RulePackDefOf.Combat_RangedFire.Rules);
-				Dictionary<string, string> dictionary = new Dictionary<string, string>();
+				GrammarRequest request = new GrammarRequest
+				{
+					Includes = 
+					{
+						RulePackDefOf.Combat_RangedFire
+					}
+				};
 				if (this.initiatorPawn != null)
 				{
-					list.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiatorPawn));
+					request.Rules.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiatorPawn));
 				}
 				else if (this.initiatorThing != null)
 				{
-					list.AddRange(GrammarUtility.RulesForDef("initiator", this.initiatorThing));
+					request.Rules.AddRange(GrammarUtility.RulesForDef("initiator", this.initiatorThing));
 				}
 				else
 				{
-					dictionary["initiator_missing"] = "True";
+					request.Constants["initiator_missing"] = "True";
 				}
 				if (this.recipientPawn != null)
 				{
-					list.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipientPawn));
+					request.Rules.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipientPawn));
 				}
 				else if (this.recipientThing != null)
 				{
-					list.AddRange(GrammarUtility.RulesForDef("recipient", this.recipientThing));
+					request.Rules.AddRange(GrammarUtility.RulesForDef("recipient", this.recipientThing));
 				}
 				else
 				{
-					dictionary["recipient_missing"] = "True";
+					request.Constants["recipient_missing"] = "True";
 				}
-				list.AddRange(PlayLogEntryUtility.RulesForOptionalWeapon("weapon", this.weaponDef, this.projectileDef));
-				string text = GrammarResolver.Resolve("logentry", list, dictionary, "ranged fire");
+				request.Rules.AddRange(PlayLogEntryUtility.RulesForOptionalWeapon("weapon", this.weaponDef, this.projectileDef));
+				request.Constants["burst"] = this.burst.ToString();
+				string text = GrammarResolver.Resolve("logentry", request, "ranged fire");
 				Rand.PopState();
 				result = text;
 			}
@@ -139,6 +146,7 @@ namespace Verse
 			Scribe_Defs.Look<ThingDef>(ref this.recipientThing, "recipientThing");
 			Scribe_Defs.Look<ThingDef>(ref this.weaponDef, "weaponDef");
 			Scribe_Defs.Look<ThingDef>(ref this.projectileDef, "projectileDef");
+			Scribe_Values.Look<bool>(ref this.burst, "burst", false, false);
 		}
 
 		public override string ToString()

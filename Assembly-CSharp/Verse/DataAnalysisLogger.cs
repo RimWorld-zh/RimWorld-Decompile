@@ -735,8 +735,8 @@ namespace Verse
 				{
 					DataAnalysisLogger.CreateDamagedDestroyedMenu((Action<Action<List<BodyPartDef>, List<bool>>>)delegate(Action<List<BodyPartDef>, List<bool>> bodyPartCreator)
 					{
-						StringBuilder stringBuilder5 = new StringBuilder();
-						for (int m = 0; m < 100; m++)
+						StringBuilder stringBuilder7 = new StringBuilder();
+						for (int num = 0; num < 100; num++)
 						{
 							Pair<ManeuverDef, RulePackDef> maneuverresult2;
 							ManeuverDef maneuver = maneuverresult2.First;
@@ -749,13 +749,13 @@ namespace Verse
 							{
 								rulePackDef = results.RandomElement();
 							}
-							List<BodyPartDef> list6 = null;
-							List<bool> list7 = null;
+							List<BodyPartDef> list8 = null;
+							List<bool> list9 = null;
 							if (rulePackDef == RulePackDefOf.Combat_Hit)
 							{
-								list6 = new List<BodyPartDef>();
-								list7 = new List<bool>();
-								bodyPartCreator(list6, list7);
+								list8 = new List<BodyPartDef>();
+								list9 = new List<bool>();
+								bodyPartCreator(list8, list9);
 							}
 							Pair<ThingDef, Tool> pair = (from ttp in (from td in DefDatabase<ThingDef>.AllDefsListForReading
 							where td.IsMeleeWeapon && !td.tools.NullOrEmpty()
@@ -764,88 +764,135 @@ namespace Verse
 							where ttp.Second.capacities.Contains(maneuver.requiredCapacity)
 							select ttp).RandomElement();
 							BattleLogEntry_MeleeCombat battleLogEntry_MeleeCombat = new BattleLogEntry_MeleeCombat(rulePackDef, maneuver.combatLogRules, CombatLogTester.GenerateRandom(), CombatLogTester.GenerateRandom(), ImplementOwnerTypeDefOf.Weapon, pair.Second.label, pair.First, null);
-							battleLogEntry_MeleeCombat.FillTargets(list6, list7);
+							battleLogEntry_MeleeCombat.FillTargets(list8, list9);
 							battleLogEntry_MeleeCombat.Debug_OverrideTicks(Rand.Int);
-							stringBuilder5.AppendLine(battleLogEntry_MeleeCombat.ToGameStringFromPOV(null));
+							stringBuilder7.AppendLine(battleLogEntry_MeleeCombat.ToGameStringFromPOV(null));
 						}
-						Log.Message(stringBuilder5.ToString());
+						Log.Message(stringBuilder7.ToString());
 					});
 				});
 				list.Add(item);
 			}
-			list.Add(new DebugMenuOption("Ranged fire", DebugMenuOptionMode.Action, (Action)delegate()
+			int rf;
+			for (rf = 0; rf < 2; rf++)
 			{
-				StringBuilder stringBuilder4 = new StringBuilder();
-				for (int l = 0; l < 100; l++)
+				list.Add(new DebugMenuOption((rf != 0) ? "Ranged fire burst" : "Ranged fire singleshot", DebugMenuOptionMode.Action, (Action)delegate()
 				{
-					ThingDef thingDef = (from td in DefDatabase<ThingDef>.AllDefsListForReading
-					where td.IsRangedWeapon
-					select td).RandomElement();
-					bool flag = Rand.Value < 0.20000000298023224;
-					bool flag2 = !flag && Rand.Value < 0.949999988079071;
-					BattleLogEntry_RangedFire battleLogEntry_RangedFire = new BattleLogEntry_RangedFire(CombatLogTester.GenerateRandom(), (!flag) ? CombatLogTester.GenerateRandom() : null, (!flag2) ? thingDef : null, null);
-					battleLogEntry_RangedFire.Debug_OverrideTicks(Rand.Int);
-					stringBuilder4.AppendLine(battleLogEntry_RangedFire.ToGameStringFromPOV(null));
-				}
-				Log.Message(stringBuilder4.ToString());
-			}));
+					StringBuilder stringBuilder6 = new StringBuilder();
+					for (int n = 0; n < 100; n++)
+					{
+						ThingDef thingDef = (from td in DefDatabase<ThingDef>.AllDefsListForReading
+						where td.IsRangedWeapon
+						select td).RandomElement();
+						bool flag = Rand.Value < 0.20000000298023224;
+						bool flag2 = !flag && Rand.Value < 0.949999988079071;
+						BattleLogEntry_RangedFire battleLogEntry_RangedFire = new BattleLogEntry_RangedFire(CombatLogTester.GenerateRandom(), (!flag) ? CombatLogTester.GenerateRandom() : null, (!flag2) ? thingDef : null, null, rf != 0);
+						battleLogEntry_RangedFire.Debug_OverrideTicks(Rand.Int);
+						stringBuilder6.AppendLine(battleLogEntry_RangedFire.ToGameStringFromPOV(null));
+					}
+					Log.Message(stringBuilder6.ToString());
+				}));
+			}
 			list.Add(new DebugMenuOption("Ranged impact hit", DebugMenuOptionMode.Action, (Action)delegate()
 			{
 				DataAnalysisLogger.CreateDamagedDestroyedMenu((Action<Action<List<BodyPartDef>, List<bool>>>)delegate(Action<List<BodyPartDef>, List<bool>> bodyPartCreator)
 				{
-					StringBuilder stringBuilder3 = new StringBuilder();
-					for (int k = 0; k < 100; k++)
+					StringBuilder stringBuilder5 = new StringBuilder();
+					for (int m = 0; m < 100; m++)
 					{
 						ThingDef weaponDef3 = (from td in DefDatabase<ThingDef>.AllDefsListForReading
 						where td.IsRangedWeapon
 						select td).RandomElement();
-						List<BodyPartDef> list4 = new List<BodyPartDef>();
-						List<bool> list5 = new List<bool>();
-						bodyPartCreator(list4, list5);
-						Pawn pawn = CombatLogTester.GenerateRandom();
-						BattleLogEntry_RangedImpact battleLogEntry_RangedImpact3 = new BattleLogEntry_RangedImpact(CombatLogTester.GenerateRandom(), pawn, pawn, weaponDef3, null);
-						battleLogEntry_RangedImpact3.FillTargets(list4, list5);
+						List<BodyPartDef> list6 = new List<BodyPartDef>();
+						List<bool> list7 = new List<bool>();
+						bodyPartCreator(list6, list7);
+						Pawn pawn2 = CombatLogTester.GenerateRandom();
+						BattleLogEntry_RangedImpact battleLogEntry_RangedImpact3 = new BattleLogEntry_RangedImpact(CombatLogTester.GenerateRandom(), pawn2, pawn2, weaponDef3, null);
+						battleLogEntry_RangedImpact3.FillTargets(list6, list7);
 						battleLogEntry_RangedImpact3.Debug_OverrideTicks(Rand.Int);
-						stringBuilder3.AppendLine(battleLogEntry_RangedImpact3.ToGameStringFromPOV(null));
+						stringBuilder5.AppendLine(battleLogEntry_RangedImpact3.ToGameStringFromPOV(null));
 					}
-					Log.Message(stringBuilder3.ToString());
+					Log.Message(stringBuilder5.ToString());
 				});
 			}));
 			list.Add(new DebugMenuOption("Ranged impact miss", DebugMenuOptionMode.Action, (Action)delegate()
 			{
-				StringBuilder stringBuilder2 = new StringBuilder();
-				for (int j = 0; j < 100; j++)
+				StringBuilder stringBuilder4 = new StringBuilder();
+				for (int l = 0; l < 100; l++)
 				{
 					ThingDef weaponDef2 = (from td in DefDatabase<ThingDef>.AllDefsListForReading
 					where td.IsRangedWeapon
 					select td).RandomElement();
 					BattleLogEntry_RangedImpact battleLogEntry_RangedImpact2 = new BattleLogEntry_RangedImpact(CombatLogTester.GenerateRandom(), null, CombatLogTester.GenerateRandom(), weaponDef2, null);
 					battleLogEntry_RangedImpact2.Debug_OverrideTicks(Rand.Int);
-					stringBuilder2.AppendLine(battleLogEntry_RangedImpact2.ToGameStringFromPOV(null));
+					stringBuilder4.AppendLine(battleLogEntry_RangedImpact2.ToGameStringFromPOV(null));
 				}
-				Log.Message(stringBuilder2.ToString());
+				Log.Message(stringBuilder4.ToString());
 			}));
 			list.Add(new DebugMenuOption("Ranged impact hit incorrect", DebugMenuOptionMode.Action, (Action)delegate()
 			{
 				DataAnalysisLogger.CreateDamagedDestroyedMenu((Action<Action<List<BodyPartDef>, List<bool>>>)delegate(Action<List<BodyPartDef>, List<bool>> bodyPartCreator)
 				{
-					StringBuilder stringBuilder = new StringBuilder();
-					for (int i = 0; i < 100; i++)
+					StringBuilder stringBuilder3 = new StringBuilder();
+					for (int k = 0; k < 100; k++)
 					{
 						ThingDef weaponDef = (from td in DefDatabase<ThingDef>.AllDefsListForReading
 						where td.IsRangedWeapon
 						select td).RandomElement();
-						List<BodyPartDef> list2 = new List<BodyPartDef>();
-						List<bool> list3 = new List<bool>();
-						bodyPartCreator(list2, list3);
+						List<BodyPartDef> list4 = new List<BodyPartDef>();
+						List<bool> list5 = new List<bool>();
+						bodyPartCreator(list4, list5);
 						BattleLogEntry_RangedImpact battleLogEntry_RangedImpact = new BattleLogEntry_RangedImpact(CombatLogTester.GenerateRandom(), CombatLogTester.GenerateRandom(), CombatLogTester.GenerateRandom(), weaponDef, null);
-						battleLogEntry_RangedImpact.FillTargets(list2, list3);
+						battleLogEntry_RangedImpact.FillTargets(list4, list5);
 						battleLogEntry_RangedImpact.Debug_OverrideTicks(Rand.Int);
-						stringBuilder.AppendLine(battleLogEntry_RangedImpact.ToGameStringFromPOV(null));
+						stringBuilder3.AppendLine(battleLogEntry_RangedImpact.ToGameStringFromPOV(null));
 					}
-					Log.Message(stringBuilder.ToString());
+					Log.Message(stringBuilder3.ToString());
 				});
 			}));
+			foreach (RulePackDef item3 in from def in DefDatabase<RulePackDef>.AllDefsListForReading
+			where def.defName.Contains("Transition") && !def.defName.Contains("Include")
+			select def)
+			{
+				list.Add(new DebugMenuOption(item3.defName, DebugMenuOptionMode.Action, (Action)delegate
+				{
+					StringBuilder stringBuilder2 = new StringBuilder();
+					for (int j = 0; j < 100; j++)
+					{
+						Pawn pawn = CombatLogTester.GenerateRandom();
+						Pawn initiator = CombatLogTester.GenerateRandom();
+						BodyPartRecord partRecord = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined).RandomElement();
+						BattleLogEntry_StateTransition battleLogEntry_StateTransition = new BattleLogEntry_StateTransition(pawn, item3, initiator, HediffMaker.MakeHediff(DefDatabase<HediffDef>.AllDefsListForReading.RandomElement(), pawn, partRecord), DefDatabase<BodyPartDef>.AllDefsListForReading.RandomElement());
+						battleLogEntry_StateTransition.Debug_OverrideTicks(Rand.Int);
+						stringBuilder2.AppendLine(battleLogEntry_StateTransition.ToGameStringFromPOV(null));
+					}
+					Log.Message(stringBuilder2.ToString());
+				}));
+			}
+			foreach (RulePackDef item4 in from def in DefDatabase<RulePackDef>.AllDefsListForReading
+			where def.defName.Contains("DamageEvent") && !def.defName.Contains("Include")
+			select def)
+			{
+				list.Add(new DebugMenuOption(item4.defName, DebugMenuOptionMode.Action, (Action)delegate()
+				{
+					DataAnalysisLogger.CreateDamagedDestroyedMenu((Action<Action<List<BodyPartDef>, List<bool>>>)delegate(Action<List<BodyPartDef>, List<bool>> bodyPartCreator)
+					{
+						StringBuilder stringBuilder = new StringBuilder();
+						for (int i = 0; i < 100; i++)
+						{
+							List<BodyPartDef> list2 = new List<BodyPartDef>();
+							List<bool> list3 = new List<bool>();
+							bodyPartCreator(list2, list3);
+							Pawn recipient = CombatLogTester.GenerateRandom();
+							BattleLogEntry_DamageTaken battleLogEntry_DamageTaken = new BattleLogEntry_DamageTaken(recipient, item4);
+							battleLogEntry_DamageTaken.FillTargets(list2, list3);
+							battleLogEntry_DamageTaken.Debug_OverrideTicks(Rand.Int);
+							stringBuilder.AppendLine(battleLogEntry_DamageTaken.ToGameStringFromPOV(null));
+						}
+						Log.Message(stringBuilder.ToString());
+					});
+				}));
+			}
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 
@@ -1137,6 +1184,28 @@ namespace Verse
 				stringBuilder.AppendLine(string.Format("{0} {1}: {2}", workToBuild(item), (item.building == null) ? "" : " B", item));
 			}
 			Log.Message(stringBuilder.ToString());
+		}
+
+		public static void DoLog_DefLabels()
+		{
+			List<DebugMenuOption> list = new List<DebugMenuOption>();
+			foreach (Type item2 in from def in GenDefDatabase.AllDefTypesWithDatabases()
+			orderby def.Name
+			select def)
+			{
+				DebugMenuOption item = new DebugMenuOption(item2.Name, DebugMenuOptionMode.Action, (Action)delegate
+				{
+					IEnumerable source = (IEnumerable)GenGeneric.GetStaticPropertyOnGenericType(typeof(DefDatabase<>), item2, "AllDefs");
+					StringBuilder stringBuilder = new StringBuilder();
+					foreach (Def item in source.Cast<Def>())
+					{
+						stringBuilder.AppendLine(item.label);
+					}
+					Log.Message(stringBuilder.ToString());
+				});
+				list.Add(item);
+			}
+			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 	}
 }

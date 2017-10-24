@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{61AA2D5B-C4E5-4601-9B47-F2B06B9F5213}</ProjectGuid>
+    <ProjectGuid>{52E21EE9-17CD-4512-9517-70B054F59044}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
@@ -2630,6 +2630,7 @@
     <Compile Include="Verse.AI\TouchPathEndModeUtility.cs" />
     <Compile Include="Verse.AI\WanderRoomUtility.cs" />
     <Compile Include="Verse.AI\WanderUtility.cs" />
+    <Compile Include="Verse.Grammar\GrammarRequest.cs" />
     <Compile Include="Verse.Grammar\GrammarResolver.cs" />
     <Compile Include="Verse.Grammar\GrammarUtility.cs" />
     <Compile Include="Verse.Grammar\Rule.cs" />
@@ -2923,6 +2924,7 @@
     <Compile Include="Verse\DataExposeUtility.cs" />
     <Compile Include="Verse\DataSerializeUtility.cs" />
     <Compile Include="Verse\DeathActionWorker.cs" />
+    <Compile Include="Verse\DeathActionWorker_Simple.cs" />
     <Compile Include="Verse\DebugCell.cs" />
     <Compile Include="Verse\DebugCellDrawer.cs" />
     <Compile Include="Verse\DebugInputLogger.cs" />

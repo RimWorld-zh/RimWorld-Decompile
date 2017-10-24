@@ -27,13 +27,13 @@ namespace RimWorld
 					if (randomCell.InBounds(pawn.Map))
 					{
 						edifice = randomCell.GetEdifice(pawn.Map);
-						if (edifice != null && TrashUtility.ShouldTrashBuilding(pawn, edifice) && GenSight.LineOfSight(pawn.Position, randomCell, pawn.Map, false, null, 0, 0))
-							goto IL_00ab;
+						if (edifice != null && TrashUtility.ShouldTrashBuilding(pawn, edifice, false) && GenSight.LineOfSight(pawn.Position, randomCell, pawn.Map, false, null, 0, 0))
+							goto IL_00ac;
 						if (flag)
 						{
 							plant = randomCell.GetPlant(pawn.Map);
 							if (plant != null && TrashUtility.ShouldTrashPlant(pawn, plant) && GenSight.LineOfSight(pawn.Position, randomCell, pawn.Map, false, null, 0, 0))
-								goto IL_0137;
+								goto IL_0138;
 						}
 						if (DebugViewSettings.drawDestSearch && Find.VisibleMap == pawn.Map)
 						{
@@ -43,23 +43,23 @@ namespace RimWorld
 				}
 				result = null;
 			}
-			goto IL_01c9;
-			IL_01c9:
+			goto IL_01ca;
+			IL_01ca:
 			return result;
-			IL_00ab:
+			IL_00ac:
 			if (DebugViewSettings.drawDestSearch && Find.VisibleMap == pawn.Map)
 			{
 				Find.VisibleMap.debugDrawer.FlashCell(randomCell, 1f, "trash bld", 50);
 			}
 			result = TrashUtility.TrashJob(pawn, edifice);
-			goto IL_01c9;
-			IL_0137:
+			goto IL_01ca;
+			IL_0138:
 			if (DebugViewSettings.drawDestSearch && Find.VisibleMap == pawn.Map)
 			{
 				Find.VisibleMap.debugDrawer.FlashCell(randomCell, 0.5f, "trash plant", 50);
 			}
 			result = TrashUtility.TrashJob(pawn, plant);
-			goto IL_01c9;
+			goto IL_01ca;
 		}
 	}
 }

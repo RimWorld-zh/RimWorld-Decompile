@@ -9,4 +9,4 @@ using System.Security.Permissions;
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.DisableOptimizations | DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
 [assembly: RuntimeCompatibility(WrapNonExceptionThrows = true)]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
-[assembly: AssemblyVersion("0.18.6501.33104")]
+[assembly: AssemblyVersion("0.18.6505.24525")]

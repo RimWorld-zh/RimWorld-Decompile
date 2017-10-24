@@ -26,6 +26,12 @@ namespace Verse
 			}
 		}
 
+		public override void WarmupComplete()
+		{
+			base.WarmupComplete();
+			Find.BattleLog.Add(new BattleLogEntry_RangedFire(base.caster as Pawn, (!base.currentTarget.HasThing) ? null : base.currentTarget.Thing, (base.ownerEquipment == null) ? null : base.ownerEquipment.def, this.Projectile, this.ShotsPerBurst > 1));
+		}
+
 		protected override bool TryCastShot()
 		{
 			bool result;
@@ -58,15 +64,14 @@ namespace Verse
 								comp.Notify_ProjectileLaunched();
 							}
 						}
-						Thing thing = base.caster;
-						Thing thing2 = base.ownerEquipment;
+						Thing launcher = base.caster;
+						Thing equipment = base.ownerEquipment;
 						CompMannable compMannable = base.caster.TryGetComp<CompMannable>();
 						if (compMannable != null && compMannable.ManningPawn != null)
 						{
-							thing = compMannable.ManningPawn;
-							thing2 = base.caster;
+							launcher = compMannable.ManningPawn;
+							equipment = base.caster;
 						}
-						Find.BattleLog.Add(new BattleLogEntry_RangedFire(thing as Pawn, (!base.currentTarget.HasThing) ? null : base.currentTarget.Thing, thing2.def, projectile));
 						Vector3 drawPos = base.caster.DrawPos;
 						Projectile projectile2 = (Projectile)GenSpawn.Spawn(projectile, shootLine.Source, base.caster.Map);
 						projectile2.FreeIntercept = (base.canFreeInterceptNow && !projectile2.def.projectile.flyOverhead);
@@ -93,9 +98,9 @@ namespace Verse
 									{
 										projectile2.InterceptWalls = true;
 									}
-									projectile2.Launch(thing, drawPos, c, thing2, null);
+									projectile2.Launch(launcher, drawPos, c, equipment, null);
 									result = true;
-									goto IL_0550;
+									goto IL_0511;
 								}
 							}
 						}
@@ -115,7 +120,7 @@ namespace Verse
 							{
 								projectile2.InterceptWalls = true;
 							}
-							projectile2.Launch(thing, drawPos, shootLine.Dest, thing2, base.currentTarget.Thing);
+							projectile2.Launch(launcher, drawPos, shootLine.Dest, equipment, base.currentTarget.Thing);
 							result = true;
 						}
 						else
@@ -133,9 +138,9 @@ namespace Verse
 									{
 										projectile2.InterceptWalls = true;
 									}
-									projectile2.Launch(thing, drawPos, randomCoverToMissInto, thing2, null);
+									projectile2.Launch(launcher, drawPos, randomCoverToMissInto, equipment, null);
 									result = true;
-									goto IL_0550;
+									goto IL_0511;
 								}
 							}
 							if (DebugViewSettings.drawShooting)
@@ -148,19 +153,19 @@ namespace Verse
 							}
 							if (base.currentTarget.Thing != null)
 							{
-								projectile2.Launch(thing, drawPos, base.currentTarget, thing2, null);
+								projectile2.Launch(launcher, drawPos, base.currentTarget, equipment, null);
 							}
 							else
 							{
-								projectile2.Launch(thing, drawPos, shootLine.Dest, thing2, null);
+								projectile2.Launch(launcher, drawPos, shootLine.Dest, equipment, null);
 							}
 							result = true;
 						}
 					}
 				}
 			}
-			goto IL_0550;
-			IL_0550:
+			goto IL_0511;
+			IL_0511:
 			return result;
 		}
 

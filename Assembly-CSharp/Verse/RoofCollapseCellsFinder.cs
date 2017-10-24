@@ -93,11 +93,16 @@ namespace Verse
 					}, 2147483647, false, null);
 					if (removalMode)
 					{
-						for (int j = 0; j < roofCollapseBuffer.CellsMarkedToCollapse.Count; j++)
+						List<IntVec3> cellsMarkedToCollapse = roofCollapseBuffer.CellsMarkedToCollapse;
+						for (int num = cellsMarkedToCollapse.Count - 1; num >= 0; num--)
 						{
-							map.roofGrid.SetRoof(roofCollapseBuffer.CellsMarkedToCollapse[j], null);
+							RoofDef roofDef = map.roofGrid.RoofAt(cellsMarkedToCollapse[num]);
+							if (roofDef != null && roofDef.VanishOnCollapse)
+							{
+								map.roofGrid.SetRoof(cellsMarkedToCollapse[num], null);
+								cellsMarkedToCollapse.RemoveAt(num);
+							}
 						}
-						roofCollapseBuffer.Clear();
 					}
 				}
 			}

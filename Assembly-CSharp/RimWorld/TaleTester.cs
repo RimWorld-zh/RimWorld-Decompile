@@ -76,27 +76,27 @@ namespace RimWorld
 			{
 			case 0:
 			{
-				list.AddRange(RulePackDefOf.ArtName_Sculpture.Rules);
+				list.AddRange(RulePackDefOf.ArtName_Sculpture.RulesPlusIncludes);
 				break;
 			}
 			case 1:
 			{
-				list.AddRange(RulePackDefOf.ArtName_WeaponMelee.Rules);
+				list.AddRange(RulePackDefOf.ArtName_WeaponMelee.RulesPlusIncludes);
 				break;
 			}
 			case 2:
 			{
-				list.AddRange(RulePackDefOf.ArtName_WeaponGun.Rules);
+				list.AddRange(RulePackDefOf.ArtName_WeaponGun.RulesPlusIncludes);
 				break;
 			}
 			case 3:
 			{
-				list.AddRange(RulePackDefOf.ArtName_Furniture.Rules);
+				list.AddRange(RulePackDefOf.ArtName_Furniture.RulesPlusIncludes);
 				break;
 			}
 			case 4:
 			{
-				list.AddRange(RulePackDefOf.ArtName_SarcophagusPlate.Rules);
+				list.AddRange(RulePackDefOf.ArtName_SarcophagusPlate.RulesPlusIncludes);
 				break;
 			}
 			}
@@ -110,27 +110,27 @@ namespace RimWorld
 			{
 			case 0:
 			{
-				list.AddRange(RulePackDefOf.ArtDescription_Sculpture.Rules);
+				list.AddRange(RulePackDefOf.ArtDescription_Sculpture.RulesPlusIncludes);
 				break;
 			}
 			case 1:
 			{
-				list.AddRange(RulePackDefOf.ArtDescription_WeaponMelee.Rules);
+				list.AddRange(RulePackDefOf.ArtDescription_WeaponMelee.RulesPlusIncludes);
 				break;
 			}
 			case 2:
 			{
-				list.AddRange(RulePackDefOf.ArtDescription_WeaponGun.Rules);
+				list.AddRange(RulePackDefOf.ArtDescription_WeaponGun.RulesPlusIncludes);
 				break;
 			}
 			case 3:
 			{
-				list.AddRange(RulePackDefOf.ArtDescription_Furniture.Rules);
+				list.AddRange(RulePackDefOf.ArtDescription_Furniture.RulesPlusIncludes);
 				break;
 			}
 			case 4:
 			{
-				list.AddRange(RulePackDefOf.ArtDescription_SarcophagusPlate.Rules);
+				list.AddRange(RulePackDefOf.ArtDescription_SarcophagusPlate.RulesPlusIncludes);
 				break;
 			}
 			}

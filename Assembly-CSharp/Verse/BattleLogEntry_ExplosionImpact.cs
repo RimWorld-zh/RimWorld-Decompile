@@ -19,6 +19,8 @@ namespace Verse
 
 		private ThingDef projectileDef;
 
+		private DamageDef damageDef;
+
 		private List<BodyPartDef> damagedParts;
 
 		private List<bool> damagedPartsDestroyed;
@@ -43,7 +45,7 @@ namespace Verse
 		{
 		}
 
-		public BattleLogEntry_ExplosionImpact(Thing initiator, Thing recipient, ThingDef weaponDef, ThingDef projectileDef)
+		public BattleLogEntry_ExplosionImpact(Thing initiator, Thing recipient, ThingDef weaponDef, ThingDef projectileDef, DamageDef damageDef)
 		{
 			if (initiator is Pawn)
 			{
@@ -63,6 +65,7 @@ namespace Verse
 			}
 			this.weaponDef = weaponDef;
 			this.projectileDef = projectileDef;
+			this.damageDef = damageDef;
 		}
 
 		public void FillTargets(List<BodyPartDef> recipientParts, List<bool> recipientPartsDestroyed)
@@ -97,40 +100,48 @@ namespace Verse
 		{
 			Rand.PushState();
 			Rand.Seed = base.randSeed;
-			List<Rule> list = new List<Rule>();
-			list.AddRange(RulePackDefOf.Combat_ExplosionImpact.Rules);
-			Dictionary<string, string> dictionary = new Dictionary<string, string>();
+			GrammarRequest request = new GrammarRequest
+			{
+				Includes = 
+				{
+					RulePackDefOf.Combat_ExplosionImpact
+				}
+			};
 			if (this.initiatorPawn != null)
 			{
-				list.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiatorPawn));
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiatorPawn));
 			}
 			else if (this.initiatorThing != null)
 			{
-				list.AddRange(GrammarUtility.RulesForDef("initiator", this.initiatorThing));
+				request.Rules.AddRange(GrammarUtility.RulesForDef("initiator", this.initiatorThing));
 			}
 			else
 			{
-				dictionary["initiator_missing"] = "True";
+				request.Constants["initiator_missing"] = "True";
 			}
 			if (this.recipientPawn != null)
 			{
-				list.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipientPawn));
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipientPawn));
 			}
 			else if (this.recipientThing != null)
 			{
-				list.AddRange(GrammarUtility.RulesForDef("recipient", this.recipientThing));
+				request.Rules.AddRange(GrammarUtility.RulesForDef("recipient", this.recipientThing));
 			}
 			else
 			{
-				dictionary["recipient_missing"] = "True";
+				request.Constants["recipient_missing"] = "True";
 			}
-			list.AddRange(PlayLogEntryUtility.RulesForOptionalWeapon("weapon", this.weaponDef, this.projectileDef));
-			if (this.projectileDef != null && this.projectileDef.projectile.damageDef != null && this.projectileDef.projectile.damageDef.combatLogRules != null)
+			request.Rules.AddRange(PlayLogEntryUtility.RulesForOptionalWeapon("weapon", this.weaponDef, this.projectileDef));
+			if (this.projectileDef != null)
 			{
-				list.AddRange(this.projectileDef.projectile.damageDef.combatLogRules.Rules);
+				request.Rules.AddRange(GrammarUtility.RulesForDef("projectile", this.projectileDef));
 			}
-			list.AddRange(PlayLogEntryUtility.RulesForDamagedParts("recipient_part", this.damagedParts, this.damagedPartsDestroyed, dictionary));
-			string result = GrammarResolver.Resolve("logentry", list, dictionary, "ranged explosion");
+			if (this.damageDef != null && this.damageDef.combatLogRules != null)
+			{
+				request.Includes.Add(this.damageDef.combatLogRules);
+			}
+			request.Rules.AddRange(PlayLogEntryUtility.RulesForDamagedParts("recipient_part", this.damagedParts, this.damagedPartsDestroyed, request.Constants));
+			string result = GrammarResolver.Resolve("logentry", request, "ranged explosion");
 			Rand.PopState();
 			return result;
 		}
@@ -144,6 +155,7 @@ namespace Verse
 			Scribe_Defs.Look<ThingDef>(ref this.recipientThing, "recipientThing");
 			Scribe_Defs.Look<ThingDef>(ref this.weaponDef, "weaponDef");
 			Scribe_Defs.Look<ThingDef>(ref this.projectileDef, "projectileDef");
+			Scribe_Defs.Look<DamageDef>(ref this.damageDef, "damageDef");
 			Scribe_Collections.Look<BodyPartDef>(ref this.damagedParts, "damagedParts", LookMode.Def, new object[0]);
 			Scribe_Collections.Look<bool>(ref this.damagedPartsDestroyed, "damagedPartsDestroyed", LookMode.Value, new object[0]);
 		}

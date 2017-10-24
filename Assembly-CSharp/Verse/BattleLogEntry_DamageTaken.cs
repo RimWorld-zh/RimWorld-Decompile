@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 using Verse.Grammar;
 
 namespace Verse
@@ -47,6 +48,11 @@ namespace Verse
 			CameraJumper.TryJumpAndSelect((Thing)this.recipientPawn);
 		}
 
+		public override Texture2D IconFromPOV(Thing pov)
+		{
+			return LogEntry.Blood;
+		}
+
 		public override string ToGameStringFromPOV(Thing pov)
 		{
 			string result;
@@ -59,12 +65,16 @@ namespace Verse
 			{
 				Rand.PushState();
 				Rand.Seed = base.randSeed;
-				List<Rule> list = new List<Rule>();
-				list.AddRange(this.ruleDef.Rules);
-				list.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipientPawn));
-				Dictionary<string, string> constants = new Dictionary<string, string>();
-				list.AddRange(PlayLogEntryUtility.RulesForDamagedParts("recipient_part", this.damagedParts, this.damagedPartsDestroyed, constants));
-				string text = GrammarResolver.Resolve("logentry", list, constants, "damage taken");
+				GrammarRequest request = new GrammarRequest
+				{
+					Includes = 
+					{
+						this.ruleDef
+					}
+				};
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipientPawn));
+				request.Rules.AddRange(PlayLogEntryUtility.RulesForDamagedParts("recipient_part", this.damagedParts, this.damagedPartsDestroyed, request.Constants));
+				string text = GrammarResolver.Resolve("logentry", request, "damage taken");
 				Rand.PopState();
 				result = text;
 			}

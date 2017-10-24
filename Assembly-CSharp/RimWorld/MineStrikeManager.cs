@@ -108,12 +108,12 @@ namespace RimWorld
 
 		public static bool MineableIsValuable(ThingDef mineableDef)
 		{
-			return mineableDef.mineable && mineableDef.building.mineableThing.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)mineableDef.building.mineableYield > 10.0;
+			return mineableDef.mineable && mineableDef.building.mineableThing != null && mineableDef.building.mineableThing.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)mineableDef.building.mineableYield > 10.0;
 		}
 
 		public static bool MineableIsVeryValuable(ThingDef mineableDef)
 		{
-			return mineableDef.mineable && mineableDef.building.mineableThing.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)mineableDef.building.mineableYield > 100.0;
+			return mineableDef.mineable && mineableDef.building.mineableThing != null && mineableDef.building.mineableThing.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)mineableDef.building.mineableYield > 100.0;
 		}
 
 		public string DebugStrikeRecords()

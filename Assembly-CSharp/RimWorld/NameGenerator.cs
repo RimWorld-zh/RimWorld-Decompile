@@ -16,6 +16,13 @@ namespace RimWorld
 		public static string GenerateName(RulePackDef rootPack, Predicate<string> validator = null, bool appendNumberIfNameUsed = false, string rootKeyword = null)
 		{
 			string text = (string)null;
+			GrammarRequest request = new GrammarRequest
+			{
+				Includes = 
+				{
+					rootPack
+				}
+			};
 			string result;
 			if (appendNumberIfNameUsed)
 			{
@@ -24,7 +31,7 @@ namespace RimWorld
 					int num = 0;
 					while (num < 5)
 					{
-						text = GenText.ToTitleCaseSmart(GrammarResolver.Resolve((rootKeyword == null) ? rootPack.Rules[0].keyword : rootKeyword, rootPack.Rules, null, (string)null));
+						text = GenText.ToTitleCaseSmart(GrammarResolver.Resolve((rootKeyword == null) ? rootPack.RulesPlusIncludes[0].keyword : rootKeyword, request, (string)null));
 						if (i != 0)
 						{
 							text = text + " " + (i + 1);
@@ -34,36 +41,36 @@ namespace RimWorld
 							num++;
 							continue;
 						}
-						goto IL_0076;
+						goto IL_0085;
 					}
 				}
-				result = GenText.ToTitleCaseSmart(GrammarResolver.Resolve((rootKeyword == null) ? rootPack.Rules[0].keyword : rootKeyword, rootPack.Rules, null, (string)null));
+				result = GenText.ToTitleCaseSmart(GrammarResolver.Resolve((rootKeyword == null) ? rootPack.RulesPlusIncludes[0].keyword : rootKeyword, request, (string)null));
 			}
 			else
 			{
 				int num2 = 0;
 				while (num2 < 150)
 				{
-					text = GenText.ToTitleCaseSmart(GrammarResolver.Resolve((rootKeyword == null) ? rootPack.Rules[0].keyword : rootKeyword, rootPack.Rules, null, (string)null));
+					text = GenText.ToTitleCaseSmart(GrammarResolver.Resolve((rootKeyword == null) ? rootPack.RulesPlusIncludes[0].keyword : rootKeyword, request, (string)null));
 					if ((object)validator != null && !validator(text))
 					{
 						num2++;
 						continue;
 					}
-					goto IL_0117;
+					goto IL_011c;
 				}
 				Log.Error("Could not get new name (rule pack: " + rootPack + ")");
 				result = text;
 			}
-			goto IL_014e;
-			IL_014e:
+			goto IL_0155;
+			IL_0155:
 			return result;
-			IL_0117:
+			IL_011c:
 			result = text;
-			goto IL_014e;
-			IL_0076:
+			goto IL_0155;
+			IL_0085:
 			result = text;
-			goto IL_014e;
+			goto IL_0155;
 		}
 	}
 }

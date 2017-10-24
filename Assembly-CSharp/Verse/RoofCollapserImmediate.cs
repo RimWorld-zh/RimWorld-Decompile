@@ -166,7 +166,7 @@ namespace Verse
 				{
 					FilthMaker.MakeFilth(c, map, roofDef.filthLeaving, 1);
 				}
-				if (!roofDef.isThickRoof)
+				if (roofDef.VanishOnCollapse)
 				{
 					map.roofGrid.SetRoof(c, null);
 				}

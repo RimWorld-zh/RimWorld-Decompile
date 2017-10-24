@@ -222,7 +222,7 @@ namespace Verse
 					BattleLogEntry_ExplosionImpact battleLogEntry_ExplosionImpact = null;
 					if (t is Pawn)
 					{
-						battleLogEntry_ExplosionImpact = new BattleLogEntry_ExplosionImpact(explosion.instigator, t, explosion.weapon, explosion.projectile);
+						battleLogEntry_ExplosionImpact = new BattleLogEntry_ExplosionImpact(explosion.instigator, t, explosion.weapon, explosion.projectile, this.def);
 						Find.BattleLog.Add(battleLogEntry_ExplosionImpact);
 					}
 					t.TakeDamage(dinfo).InsertIntoLog(battleLogEntry_ExplosionImpact);

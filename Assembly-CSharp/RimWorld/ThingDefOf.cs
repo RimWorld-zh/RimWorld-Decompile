@@ -289,6 +289,8 @@ namespace RimWorld
 
 		public static ThingDef Mote_DustPuff;
 
+		public static ThingDef Mote_TornadoDustPuff;
+
 		public static ThingDef Mote_TempRoof;
 
 		public static ThingDef Mote_HealingCross;

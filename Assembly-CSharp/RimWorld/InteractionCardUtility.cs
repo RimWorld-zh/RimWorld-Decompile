@@ -41,10 +41,11 @@ namespace RimWorld
 					GUI.color = new Color(1f, 1f, 1f, 0.5f);
 				}
 				float num4 = Mathf.Max(26f, Text.CalcHeight(first, width));
-				if ((UnityEngine.Object)entry.Icon != (UnityEngine.Object)null)
+				Texture2D texture2D = entry.IconFromPOV(pawn);
+				if ((UnityEngine.Object)texture2D != (UnityEngine.Object)null)
 				{
 					Rect position = new Rect(0f, num3, 26f, 26f);
-					GUI.DrawTexture(position, entry.Icon);
+					GUI.DrawTexture(position, texture2D);
 				}
 				Rect rect2 = new Rect(29f, num3, width, num4);
 				Widgets.DrawHighlightIfMouseover(rect2);

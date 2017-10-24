@@ -12,41 +12,38 @@ namespace RimWorld
 		{
 			Rand.PushState();
 			Rand.Seed = seed;
-			string text = (string)null;
-			List<Rule> list = new List<Rule>();
-			list.AddRange(extraRules);
+			string rootKeyword = (string)null;
+			GrammarRequest request = default(GrammarRequest);
+			request.Rules.AddRange(extraRules);
 			switch (purpose)
 			{
 			case TextGenerationPurpose.ArtDescription:
 			{
-				text = "art_description_root";
+				rootKeyword = "art_description_root";
 				if (tale != null && Rand.Value > 0.20000000298023224)
 				{
-					list.AddRange(RulePackDefOf.ArtDescriptionRoot_HasTale.Rules);
-					list.AddRange(tale.GetTextGenerationRules());
+					request.Includes.Add(RulePackDefOf.ArtDescriptionRoot_HasTale);
+					request.Rules.AddRange(tale.GetTextGenerationRules());
 				}
 				else
 				{
-					list.AddRange(RulePackDefOf.ArtDescriptionRoot_Taleless.Rules);
-					list.AddRange(RulePackDefOf.TalelessImages.Rules);
+					request.Includes.Add(RulePackDefOf.ArtDescriptionRoot_Taleless);
+					request.Includes.Add(RulePackDefOf.TalelessImages);
 				}
-				list.AddRange(RulePackDefOf.ArtDescriptionUtility_Global.Rules);
+				request.Includes.Add(RulePackDefOf.ArtDescriptionUtility_Global);
 				break;
 			}
 			case TextGenerationPurpose.ArtName:
 			{
-				text = "art_name";
+				rootKeyword = "art_name";
 				if (tale != null)
 				{
-					list.AddRange(tale.GetTextGenerationRules());
+					request.Rules.AddRange(tale.GetTextGenerationRules());
 				}
 				break;
 			}
 			}
-			string rootKeyword = text;
-			List<Rule> rawRules = list;
-			string debugLabel = (tale == null) ? "null_tale" : tale.def.defName;
-			string result = GrammarResolver.Resolve(rootKeyword, rawRules, null, debugLabel);
+			string result = GrammarResolver.Resolve(rootKeyword, request, (tale == null) ? "null_tale" : tale.def.defName);
 			Rand.PopState();
 			return result;
 		}

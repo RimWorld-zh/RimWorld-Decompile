@@ -31,6 +31,8 @@ namespace Verse.AI
 
 		public TargetIndex rotateToFace = TargetIndex.A;
 
+		private int nextToilIndex = -1;
+
 		public LayingDownState layingDown = LayingDownState.NotLaying;
 
 		public bool asleep;
@@ -200,6 +202,7 @@ namespace Verse.AI
 			Scribe_Values.Look<LayingDownState>(ref this.layingDown, "layingDown", LayingDownState.NotLaying, false);
 			Scribe_Values.Look<bool>(ref this.asleep, "asleep", false, false);
 			Scribe_Values.Look<float>(ref this.uninstallWorkLeft, "uninstallWorkLeft", 0f, false);
+			Scribe_Values.Look<int>(ref this.nextToilIndex, "nextToilIndex", -1, false);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
 				this.SetupToils();
@@ -330,7 +333,15 @@ namespace Verse.AI
 				{
 					this.CurToil.Cleanup();
 				}
-				this.curToilIndex++;
+				if (this.nextToilIndex >= 0)
+				{
+					this.curToilIndex = this.nextToilIndex;
+					this.nextToilIndex = -1;
+				}
+				else
+				{
+					this.curToilIndex++;
+				}
 				this.wantBeginNextToil = false;
 				if (!this.HaveCurToil)
 				{
@@ -451,7 +462,7 @@ namespace Verse.AI
 
 		private void SetNextToil(Toil to)
 		{
-			this.curToilIndex = this.toils.IndexOf(to) - 1;
+			this.nextToilIndex = this.toils.IndexOf(to);
 		}
 
 		public void JumpToToil(Toil to)

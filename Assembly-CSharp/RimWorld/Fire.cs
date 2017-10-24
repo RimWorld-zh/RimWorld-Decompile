@@ -369,9 +369,11 @@ namespace RimWorld
 			Pawn pawn = targ as Pawn;
 			if (pawn != null)
 			{
+				BattleLogEntry_DamageTaken battleLogEntry_DamageTaken = new BattleLogEntry_DamageTaken(pawn, RulePackDefOf.DamageEvent_Fire);
+				Find.BattleLog.Add(battleLogEntry_DamageTaken);
 				DamageInfo dinfo = new DamageInfo(DamageDefOf.Flame, num, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
 				dinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
-				targ.TakeDamage(dinfo);
+				targ.TakeDamage(dinfo).InsertIntoLog(battleLogEntry_DamageTaken);
 				Apparel apparel = default(Apparel);
 				if (pawn.apparel != null && ((IEnumerable<Apparel>)pawn.apparel.WornApparel).TryRandomElement<Apparel>(out apparel))
 				{

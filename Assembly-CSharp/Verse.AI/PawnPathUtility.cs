@@ -30,7 +30,7 @@ namespace Verse.AI
 				{
 					building = null;
 					intVec = IntVec3.Invalid;
-					for (num = nodesReversed.Count - 2; num >= 1; num--)
+					for (num = nodesReversed.Count - 2; num >= 0; num--)
 					{
 						edifice = nodesReversed[num].GetEdifice(pawn.Map);
 						if (edifice != null)

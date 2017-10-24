@@ -3,25 +3,26 @@ using UnityEngine;
 
 namespace Verse
 {
+	[StaticConstructorOnStartup]
 	public abstract class LogEntry : IExposable
 	{
 		protected int ticksAbs = -1;
 
 		protected int randSeed = 0;
 
+		public static readonly Texture2D Blood = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/Blood", true);
+
+		public static readonly Texture2D BloodTarget = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/BloodTarget", true);
+
+		public static readonly Texture2D Skull = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/Skull", true);
+
+		public static readonly Texture2D SkullTarget = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/SkullTarget", true);
+
 		public int Age
 		{
 			get
 			{
 				return Find.TickManager.TicksAbs - this.ticksAbs;
-			}
-		}
-
-		public virtual Texture2D Icon
-		{
-			get
-			{
-				return null;
 			}
 		}
 
@@ -43,6 +44,11 @@ namespace Verse
 
 		public virtual void ClickedFromPOV(Thing pov)
 		{
+		}
+
+		public virtual Texture2D IconFromPOV(Thing pov)
+		{
+			return null;
 		}
 
 		public virtual string GetTipString()

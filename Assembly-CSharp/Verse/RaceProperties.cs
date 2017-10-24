@@ -221,9 +221,16 @@ namespace Verse
 		{
 			get
 			{
-				if (this.deathActionWorkerInt == null && this.deathActionWorkerClass != null)
+				if (this.deathActionWorkerInt == null)
 				{
-					this.deathActionWorkerInt = (DeathActionWorker)Activator.CreateInstance(this.deathActionWorkerClass);
+					if (this.deathActionWorkerClass != null)
+					{
+						this.deathActionWorkerInt = (DeathActionWorker)Activator.CreateInstance(this.deathActionWorkerClass);
+					}
+					else
+					{
+						this.deathActionWorkerInt = new DeathActionWorker_Simple();
+					}
 				}
 				return this.deathActionWorkerInt;
 			}

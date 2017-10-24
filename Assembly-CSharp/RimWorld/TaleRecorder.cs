@@ -36,7 +36,7 @@ namespace RimWorld
 				if (DebugViewSettings.logTaleRecording)
 				{
 					Log.Message(string.Format("Tale {0} from {1}, targets {2}:\n{3}", (!flag) ? "recorded" : "ignored", def, GenText.ToCommaList(from arg in args
-					select arg.ToStringSafe(), true), TaleTextGenerator.GenerateTextFromTale(TextGenerationPurpose.ArtDescription, tale, Rand.Int, RulePackDefOf.ArtDescription_Sculpture.Rules)));
+					select arg.ToStringSafe(), true), TaleTextGenerator.GenerateTextFromTale(TextGenerationPurpose.ArtDescription, tale, Rand.Int, RulePackDefOf.ArtDescription_Sculpture.RulesPlusIncludes)));
 				}
 				if (!flag)
 				{

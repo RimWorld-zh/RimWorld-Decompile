@@ -1,6 +1,7 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Verse.Grammar;
 
 namespace Verse
@@ -105,62 +106,66 @@ namespace Verse
 			}
 		}
 
+		public override Texture2D IconFromPOV(Thing pov)
+		{
+			return (!this.damagedParts.NullOrEmpty()) ? ((pov == null || pov == this.recipientPawn) ? LogEntry.Blood : ((pov != this.initiatorPawn) ? null : LogEntry.BloodTarget)) : null;
+		}
+
 		public override string ToGameStringFromPOV(Thing pov)
 		{
 			Rand.PushState();
 			Rand.Seed = base.randSeed;
-			List<Rule> list = new List<Rule>();
+			GrammarRequest request = default(GrammarRequest);
 			if (this.recipientPawn != null || this.recipientThing != null)
 			{
-				list.AddRange(RulePackDefOf.Combat_RangedDamage.Rules);
+				request.Includes.Add(RulePackDefOf.Combat_RangedDamage);
 			}
 			else
 			{
-				list.AddRange(RulePackDefOf.Combat_RangedMiss.Rules);
+				request.Includes.Add(RulePackDefOf.Combat_RangedMiss);
 			}
-			Dictionary<string, string> dictionary = new Dictionary<string, string>();
 			if (this.initiatorPawn != null)
 			{
-				list.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiatorPawn));
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiatorPawn));
 			}
 			else if (this.initiatorThing != null)
 			{
-				list.AddRange(GrammarUtility.RulesForDef("initiator", this.initiatorThing));
+				request.Rules.AddRange(GrammarUtility.RulesForDef("initiator", this.initiatorThing));
 			}
 			else
 			{
-				dictionary["initiator_missing"] = "True";
+				request.Constants["initiator_missing"] = "True";
 			}
 			if (this.recipientPawn != null)
 			{
-				list.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipientPawn));
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipientPawn));
 			}
 			else if (this.recipientThing != null)
 			{
-				list.AddRange(GrammarUtility.RulesForDef("recipient", this.recipientThing));
+				request.Rules.AddRange(GrammarUtility.RulesForDef("recipient", this.recipientThing));
 			}
 			else
 			{
-				dictionary["recipient_missing"] = "True";
+				request.Constants["recipient_missing"] = "True";
 			}
 			if (this.originalTargetPawn != this.recipientPawn || this.originalTargetThing != this.recipientThing)
 			{
 				if (this.originalTargetPawn != null)
 				{
-					list.AddRange(GrammarUtility.RulesForPawn("originalTarget", this.originalTargetPawn));
+					request.Rules.AddRange(GrammarUtility.RulesForPawn("originalTarget", this.originalTargetPawn));
 				}
 				else if (this.originalTargetThing != null)
 				{
-					list.AddRange(GrammarUtility.RulesForDef("originalTarget", this.originalTargetThing));
+					request.Rules.AddRange(GrammarUtility.RulesForDef("originalTarget", this.originalTargetThing));
 				}
 				else
 				{
-					dictionary["originalTarget_missing"] = "True";
+					request.Constants["originalTarget_missing"] = "True";
 				}
 			}
-			list.AddRange(PlayLogEntryUtility.RulesForOptionalWeapon("weapon", this.weaponDef, this.projectileDef));
-			list.AddRange(PlayLogEntryUtility.RulesForDamagedParts("recipient_part", this.damagedParts, this.damagedPartsDestroyed, dictionary));
-			string result = GrammarResolver.Resolve("logentry", list, dictionary, "ranged damage");
+			request.Rules.AddRange(PlayLogEntryUtility.RulesForOptionalWeapon("weapon", this.weaponDef, this.projectileDef));
+			request.Rules.AddRange(PlayLogEntryUtility.RulesForDamagedParts("recipient_part", this.damagedParts, this.damagedPartsDestroyed, request.Constants));
+			string result = GrammarResolver.Resolve("logentry", request, "ranged damage");
 			Rand.PopState();
 			return result;
 		}

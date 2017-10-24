@@ -44,7 +44,7 @@ namespace Verse
 					enumerable = enumerable.Concat(dinfo.HitPart.parent);
 				}
 				enumerable = from target in enumerable
-				where target != dinfo.HitPart && target.depth == BodyPartDepth.Outside && !pawn.health.hediffSet.PartIsMissing(target)
+				where target != dinfo.HitPart && !target.def.isConceptual && target.depth == BodyPartDepth.Outside && !pawn.health.hediffSet.PartIsMissing(target)
 				select target;
 				BodyPartRecord bodyPartRecord2 = enumerable.RandomElementWithFallback(null);
 				if (bodyPartRecord2 == null)

@@ -51,6 +51,8 @@ namespace Verse
 
 		public AddedBodyPartProps addedPartProps = null;
 
+		public string labelNoun = (string)null;
+
 		private bool alwaysAllowMothballCached = false;
 
 		private bool alwaysAllowMothball;

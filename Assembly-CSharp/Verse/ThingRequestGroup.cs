@@ -39,7 +39,6 @@ namespace Verse
 		AffectsSky = 34,
 		PsychicDroneEmanator = 35,
 		WindSource = 36,
-		AlwaysFlee = 37,
-		WildAnimalsFlee = 38
+		AlwaysFlee = 37
 	}
 }

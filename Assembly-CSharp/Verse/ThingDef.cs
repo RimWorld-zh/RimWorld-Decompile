@@ -86,8 +86,6 @@ namespace Verse
 
 		public bool alwaysFlee;
 
-		public bool wildAnimalsFlee;
-
 		public List<Tool> tools;
 
 		public GraphicData graphicData = null;

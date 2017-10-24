@@ -224,11 +224,6 @@ namespace Verse
 				result = def.alwaysFlee;
 				break;
 			}
-			case ThingRequestGroup.WildAnimalsFlee:
-			{
-				result = def.wildAnimalsFlee;
-				break;
-			}
 			case ThingRequestGroup.Fire:
 			{
 				result = typeof(Fire).IsAssignableFrom(def.thingClass);

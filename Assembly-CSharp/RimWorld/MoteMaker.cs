@@ -171,6 +171,20 @@ namespace RimWorld
 			}
 		}
 
+		public static void ThrowTornadoDustPuff(Vector3 loc, Map map, float scale, Color color)
+		{
+			if (loc.ShouldSpawnMotesAt(map) && !map.moteCounter.SaturatedLowPriority)
+			{
+				MoteThrown moteThrown = (MoteThrown)ThingMaker.MakeThing(ThingDefOf.Mote_TornadoDustPuff, null);
+				moteThrown.Scale = (float)(1.8999999761581421 * scale);
+				moteThrown.rotationRate = (float)Rand.Range(-60, 60);
+				moteThrown.exactPosition = loc;
+				moteThrown.instanceColor = color;
+				moteThrown.SetVelocity((float)Rand.Range(0, 360), Rand.Range(0.6f, 0.75f));
+				GenSpawn.Spawn(moteThrown, loc.ToIntVec3(), map);
+			}
+		}
+
 		public static void ThrowSmoke(Vector3 loc, Map map, float size)
 		{
 			if (loc.ShouldSpawnMotesAt(map) && !map.moteCounter.SaturatedLowPriority)

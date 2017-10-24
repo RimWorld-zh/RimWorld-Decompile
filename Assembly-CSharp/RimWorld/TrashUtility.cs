@@ -36,30 +36,35 @@ namespace RimWorld
 			goto IL_00ee;
 		}
 
-		public static bool ShouldTrashBuilding(Pawn pawn, Building b)
+		public static bool ShouldTrashBuilding(Pawn pawn, Building b, bool attackAllInert = false)
 		{
 			bool result;
 			if (!b.def.useHitPoints)
 			{
 				result = false;
+				goto IL_00de;
 			}
-			else
+			if (b.def.building.isInert && !attackAllInert)
 			{
-				if (b.def.building.isInert || b.def.building.isTrap)
-				{
-					int num = GenLocalDate.HourOfDay(pawn) / 3;
-					int specialSeed = b.GetHashCode() * 612361 ^ pawn.GetHashCode() * 391 ^ num * 734273247;
-					if (!Rand.ChanceSeeded(0.008f, specialSeed))
-					{
-						result = false;
-						goto IL_00d8;
-					}
-				}
-				result = ((byte)((!b.def.building.isTrap || !((Building_Trap)b).Armed) ? ((TrashUtility.CanTrash(pawn, b) && pawn.HostileTo(b)) ? 1 : 0) : 0) != 0);
+				goto IL_0048;
 			}
-			goto IL_00d8;
-			IL_00d8:
+			if (b.def.building.isTrap)
+				goto IL_0048;
+			goto IL_008c;
+			IL_0048:
+			int num = GenLocalDate.HourOfDay(pawn) / 3;
+			int specialSeed = b.GetHashCode() * 612361 ^ pawn.GetHashCode() * 391 ^ num * 734273247;
+			if (!Rand.ChanceSeeded(0.008f, specialSeed))
+			{
+				result = false;
+				goto IL_00de;
+			}
+			goto IL_008c;
+			IL_00de:
 			return result;
+			IL_008c:
+			result = ((byte)((!b.def.building.isTrap || !((Building_Trap)b).Armed) ? ((TrashUtility.CanTrash(pawn, b) && pawn.HostileTo(b)) ? 1 : 0) : 0) != 0);
+			goto IL_00de;
 		}
 
 		private static bool CanTrash(Pawn pawn, Thing t)

@@ -22,7 +22,6 @@ namespace RimWorld
 		{
 			Job result;
 			Job job;
-			Job job2;
 			if (pawn.playerSettings != null && pawn.playerSettings.UsesConfigurableHostilityResponse)
 			{
 				result = null;
@@ -41,34 +40,21 @@ namespace RimWorld
 				}
 				if (pawn.RaceProps.Animal && pawn.Faction == null)
 				{
-					List<Thing> list2 = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.WildAnimalsFlee);
-					for (int j = 0; j < list2.Count; j++)
+					Job job2 = this.FleeLargeFireJob(pawn);
+					if (job2 != null)
 					{
-						if (pawn.Position.InHorDistOf(list2[j].Position, 18f))
-						{
-							job2 = this.FleeJob(pawn, list2[j]);
-							if (job2 != null)
-								goto IL_0115;
-						}
-					}
-					Job job3 = this.FleeLargeFireJob(pawn);
-					if (job3 != null)
-					{
-						result = job3;
-						goto IL_0152;
+						result = job2;
+						goto IL_00d3;
 					}
 				}
 				result = null;
 			}
-			goto IL_0152;
-			IL_0152:
+			goto IL_00d3;
+			IL_00d3:
 			return result;
 			IL_007e:
 			result = job;
-			goto IL_0152;
-			IL_0115:
-			result = job2;
-			goto IL_0152;
+			goto IL_00d3;
 		}
 
 		private Job FleeJob(Pawn pawn, Thing danger)

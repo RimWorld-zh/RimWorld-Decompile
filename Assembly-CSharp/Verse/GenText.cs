@@ -119,7 +119,13 @@ namespace Verse
 
 		public static string RandomSeedString()
 		{
-			return GrammarResolver.Resolve("seed", RulePackDefOf.SeedGenerator.Rules, null, (string)null).ToLower();
+			return GrammarResolver.Resolve("seed", new GrammarRequest
+			{
+				Includes = 
+				{
+					RulePackDefOf.SeedGenerator
+				}
+			}, (string)null).ToLower();
 		}
 
 		public static string WithoutVowels(string s)

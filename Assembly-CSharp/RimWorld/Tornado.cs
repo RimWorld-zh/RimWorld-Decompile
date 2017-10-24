@@ -39,6 +39,8 @@ namespace RimWorld
 
 		private const float BaseDamage = 30f;
 
+		private const int SpawnMoteEveryTicks = 4;
+
 		private static readonly IntRange DurationTicks = new IntRange(2700, 10080);
 
 		private const float CellsPerSecond = 1.7f;
@@ -55,7 +57,9 @@ namespace RimWorld
 
 		private const int FadeOutTicks = 120;
 
-		private static readonly Material TornadoMaterial = MaterialPool.MatFrom("Things/Ethereal/Tornado", ShaderDatabase.Transparent);
+		private const float MaxMidOffset = 4f;
+
+		private static readonly Material TornadoMaterial = MaterialPool.MatFrom("Things/Ethereal/Tornado", ShaderDatabase.Transparent, MapMaterialRenderQueues.Tornado);
 
 		private static readonly FloatRange PartsDistanceFromCenter = new FloatRange(1f, 10f);
 
@@ -126,10 +130,10 @@ namespace RimWorld
 					}
 					this.direction += (float)((float)Tornado.directionNoise.GetValue((double)Find.TickManager.TicksAbs, (float)(base.thingIDNumber % 500) * 1000.0, 0.0) * 0.77999997138977051);
 					this.realPosition = this.realPosition.Moved(this.direction, 0.0283333343f);
-					IntVec3 c = new Vector3(this.realPosition.x, 0f, this.realPosition.y).ToIntVec3();
-					if (c.InBounds(base.Map))
+					IntVec3 intVec = new Vector3(this.realPosition.x, 0f, this.realPosition.y).ToIntVec3();
+					if (intVec.InBounds(base.Map))
 					{
-						base.Position = new Vector3(this.realPosition.x, 0f, this.realPosition.y).ToIntVec3();
+						base.Position = intVec;
 						if (this.IsHashIntervalTick(15))
 						{
 							this.DamageCloseThings();
@@ -147,6 +151,14 @@ namespace RimWorld
 								Messages.Message("MessageTornadoDissipated".Translate(), new TargetInfo(base.Position, base.Map, false), MessageTypeDefOf.PositiveEvent);
 							}
 						}
+						if (this.IsHashIntervalTick(4))
+						{
+							float num = Rand.Range(0.6f, 1f);
+							MoteMaker.ThrowTornadoDustPuff(new Vector3(this.realPosition.x, 0f, this.realPosition.y)
+							{
+								y = Altitudes.AltitudeFor(AltitudeLayer.MoteOverhead)
+							} + Vector3Utility.RandomHorizontalOffset(1.5f), base.Map, Rand.Range(1.5f, 3f), new Color(num, num, num));
+						}
 					}
 					else
 					{
@@ -161,9 +173,9 @@ namespace RimWorld
 		{
 			Rand.PushState();
 			Rand.Seed = base.thingIDNumber;
-			for (int i = 0; i < 150; i++)
+			for (int i = 0; i < 180; i++)
 			{
-				this.DrawTornadoPart(Tornado.PartsDistanceFromCenter.RandomInRange, Rand.Range(0f, 360f), Rand.Range(0.9f, 1.1f), Rand.Range(0.9f, 1f));
+				this.DrawTornadoPart(Tornado.PartsDistanceFromCenter.RandomInRange, Rand.Range(0f, 360f), Rand.Range(0.9f, 1.1f), Rand.Range(0.52f, 0.88f));
 			}
 			Rand.PopState();
 		}
@@ -177,7 +189,7 @@ namespace RimWorld
 			Vector2 vector = this.realPosition.Moved(num3, this.AdjustedDistanceFromCenter(distanceFromCenter));
 			vector.y += (float)(distanceFromCenter * 4.0);
 			vector.y += Tornado.ZOffsetBias;
-			Vector3 pos = new Vector3(vector.x, Altitudes.AltitudeFor(AltitudeLayer.Weather), vector.y);
+			Vector3 a = new Vector3(vector.x, (float)(Altitudes.AltitudeFor(AltitudeLayer.Weather) + 0.046875 * Rand.Range(0f, 1f)), vector.y);
 			float num4 = (float)(distanceFromCenter * 3.0);
 			float num5 = 1f;
 			if (num3 > 270.0)
@@ -190,10 +202,13 @@ namespace RimWorld
 			}
 			FloatRange partsDistanceFromCenter = Tornado.PartsDistanceFromCenter;
 			float num6 = Mathf.Min((float)(distanceFromCenter / (partsDistanceFromCenter.max + 2.0)), 1f);
-			float a = Mathf.Max((float)(1.0 - num6), 0f) * num5 * this.FadeInOutFactor;
-			Color value = new Color(colorMultiplier, colorMultiplier, colorMultiplier, a);
+			float d = Mathf.InverseLerp(0.18f, 0.4f, num6);
+			Vector3 a2 = new Vector3((float)(Mathf.Sin((float)((float)ticksGame / 1000.0 + (float)(base.thingIDNumber * 10))) * 4.0), 0f, 0f);
+			a += a2 * d;
+			float a3 = Mathf.Max((float)(1.0 - num6), 0f) * num5 * this.FadeInOutFactor;
+			Color value = new Color(colorMultiplier, colorMultiplier, colorMultiplier, a3);
 			Tornado.matPropertyBlock.SetColor(ShaderPropertyIDs.Color, value);
-			Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.Euler(0f, num3, 0f), new Vector3(num4, 1f, num4));
+			Matrix4x4 matrix = Matrix4x4.TRS(a, Quaternion.Euler(0f, num3, 0f), new Vector3(num4, 1f, num4));
 			Graphics.DrawMesh(MeshPool.plane10, matrix, Tornado.TornadoMaterial, 0, null, 0, Tornado.matPropertyBlock);
 		}
 

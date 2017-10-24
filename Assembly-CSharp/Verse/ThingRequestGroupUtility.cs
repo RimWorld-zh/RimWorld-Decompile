@@ -199,11 +199,6 @@ namespace Verse
 				result = false;
 				break;
 			}
-			case ThingRequestGroup.WildAnimalsFlee:
-			{
-				result = false;
-				break;
-			}
 			default:
 			{
 				throw new ArgumentException("group");

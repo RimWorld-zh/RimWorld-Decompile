@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -83,6 +84,29 @@ namespace Verse
 				KeyBindingData keyBindingData = default(KeyBindingData);
 				return KeyPrefs.KeyPrefsData.keyPrefs.TryGetValue(this, out keyBindingData) && (Input.GetKey(keyBindingData.keyBindingA) || Input.GetKey(keyBindingData.keyBindingB));
 			}
+		}
+
+		public KeyCode GetDefaultKeyCode(KeyPrefs.BindingSlot slot)
+		{
+			KeyCode result;
+			switch (slot)
+			{
+			case KeyPrefs.BindingSlot.A:
+			{
+				result = this.defaultKeyCodeA;
+				break;
+			}
+			case KeyPrefs.BindingSlot.B:
+			{
+				result = this.defaultKeyCodeB;
+				break;
+			}
+			default:
+			{
+				throw new InvalidOperationException();
+			}
+			}
+			return result;
 		}
 
 		public static KeyBindingDef Named(string name)
